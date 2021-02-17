@@ -2,34 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFDF3C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 19:28:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 669A7C4332B
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 19:44:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2A8864E45
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 19:28:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A54664E4A
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 19:44:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232900AbhBQT1t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Feb 2021 14:27:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55242 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233033AbhBQT1i (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Feb 2021 14:27:38 -0500
-Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S233807AbhBQToF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Feb 2021 14:44:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27935 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233715AbhBQTnt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Feb 2021 14:43:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1613590943;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=EJM1EJb2IlVcsAafjc8DDTue6Vq84muOSo4iOsYZMrA=;
+        b=MP4kxDUT+AiE/YVBjbLkN3dOcOVUt9+RAvqqqCwcDUbw5bXLbdsiSRhmlfufpivkDAlilp
+        ghN72T75smg+Vy444mBbtUkIraVTFRBYRnlmfm6bD69yWwgBZaPAUoZTrkj06jkM88e65o
+        mxYucoPa90o7vKH+M1LSCbERt5EO5SU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-224--D2yc6o0M--F1RjNWsSPDQ-1; Wed, 17 Feb 2021 14:42:19 -0500
+X-MC-Unique: -D2yc6o0M--F1RjNWsSPDQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7A05264E3E;
-        Wed, 17 Feb 2021 19:26:55 +0000 (UTC)
-Date:   Wed, 17 Feb 2021 14:26:53 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     john.p.donnelly@oracle.com,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AAA6107ACE3;
+        Wed, 17 Feb 2021 19:42:16 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-114-123.rdu2.redhat.com [10.10.114.123])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 94AD25C276;
+        Wed, 17 Feb 2021 19:42:12 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+        id E191E220BCF; Wed, 17 Feb 2021 14:42:11 -0500 (EST)
+Date:   Wed, 17 Feb 2021 14:42:11 -0500
+From:   Vivek Goyal <vgoyal@redhat.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     john.p.donnelly@oracle.com,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
         Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
@@ -53,32 +72,38 @@ Cc:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH v3 1/1] kernel/crash_core: Add crashkernel=auto for
  vmcore creation
-Message-ID: <20210217142653.0fcd9ce3@gandalf.local.home>
-In-Reply-To: <77fcb8e8-c3ec-6161-14a8-c142e02a9061@oracle.com>
+Message-ID: <20210217194211.GC31184@redhat.com>
 References: <20210211180814.69708-1-saeed.mirzamohammadi@oracle.com>
-        <77fcb8e8-c3ec-6161-14a8-c142e02a9061@oracle.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+ <77fcb8e8-c3ec-6161-14a8-c142e02a9061@oracle.com>
+ <20210217142653.0fcd9ce3@gandalf.local.home>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210217142653.0fcd9ce3@gandalf.local.home>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 17 Feb 2021 12:40:43 -0600
-john.p.donnelly@oracle.com wrote:
-
-> Hello.
+On Wed, Feb 17, 2021 at 02:26:53PM -0500, Steven Rostedt wrote:
+> On Wed, 17 Feb 2021 12:40:43 -0600
+> john.p.donnelly@oracle.com wrote:
 > 
-> Ping.
+> > Hello.
+> > 
+> > Ping.
+> > 
+> > Can we get this reviewed and staged ?
+> > 
+> > Thank you.
 > 
-> Can we get this reviewed and staged ?
+> Andrew,
 > 
-> Thank you.
+> Seems you are the only one pushing patches in for kexec/crash. Is this
+> maintained by anyone?
 
-Andrew,
+Dave Young and Baoquan He still maintain kexec/kdump stuff, AFAIK. I
+don't get time to look into this stuff now a days. 
 
-Seems you are the only one pushing patches in for kexec/crash. Is this
-maintained by anyone?
+Vivek
 
--- Steve
