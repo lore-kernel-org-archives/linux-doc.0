@@ -2,89 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01FA2C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 08:15:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4ABEC433E6
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 09:11:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9C1B64DE9
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 08:15:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9424C64E4A
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 09:11:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231937AbhBQIPH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Feb 2021 03:15:07 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40462 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231927AbhBQION (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Feb 2021 03:14:13 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1613549607; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
+        id S231984AbhBQJLe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Feb 2021 04:11:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56430 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231590AbhBQJLc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Feb 2021 04:11:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1613553005;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=mZOJ/UPZVM5QafRw9G6/ddz8ni+BbKdndoGQZhCbKHc=;
-        b=g7fyRnyh8hvQSOAK41MnNTxYRy1Axsl3WryU6jpMDE2UlxQKdd/vUjPJcEo+cGFAceE7kR
-        smDZN6XkiGwEpXmRmqckxsXa1jzZzGi9yEB1ebtDmjeb2cw9adilSR/1RdyjHnSDlyaWI7
-        u+ywtCLsev6QS0bQSM84Vy0ESjVGNCM=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id CE6FEB923;
-        Wed, 17 Feb 2021 08:13:26 +0000 (UTC)
-Date:   Wed, 17 Feb 2021 09:13:24 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     Mike Kravetz <mike.kravetz@oracle.com>
-Cc:     Muchun Song <songmuchun@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v15 4/8] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-Message-ID: <YCzQJIeI+dj9vphw@dhcp22.suse.cz>
-References: <CAMZfGtXgVUvCejpxu1o5WDvmQ7S88rWqGi3DAGM6j5NHJgtdcg@mail.gmail.com>
- <YCpN38i75olgispI@dhcp22.suse.cz>
- <CAMZfGtUXJTaMo36aB4nTFuYFy3qfWW69o=4uUo-FjocO8obDgw@mail.gmail.com>
- <CAMZfGtWT8CJ-QpVofB2X-+R7GE7sMa40eiAJm6PyD0ji=FzBYQ@mail.gmail.com>
- <YCpmlGuoTakPJs1u@dhcp22.suse.cz>
- <CAMZfGtWd_ZaXtiEdMKhpnAHDw5CTm-CSPSXW+GfKhyX5qQK=Og@mail.gmail.com>
- <YCp04NVBZpZZ5k7G@dhcp22.suse.cz>
- <CAMZfGtV8-yJa_eGYtSXc0YY8KhYpgUo=pfj6TZ9zMo8fbz8nWA@mail.gmail.com>
- <YCqhDZ0EAgvCz+wX@dhcp22.suse.cz>
- <29cdbd0f-dbc2-1a72-15b7-55f81000fa9e@oracle.com>
+        bh=RFusShBhS4qAoH9QAhjf7bQvV8GQfYBBL88bdpAsQow=;
+        b=QPdvjnnP1R+9gDV+zmUc4lsAfj3h4fAdrT00RlaRS239TPavBbmoHfvl0eSd8kSaWWkVqS
+        kFnkyIURfm7E+iCTCynmhm2oniGo+xt8Sw+7SaTZgsoZKxcAVNm4zj312tN5mifd5jyFhS
+        SVKa7RioOiS9Ht0JqBy59sjImoK4WHc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-599-8jQz2_2HM-mUSQwRkBX7UA-1; Wed, 17 Feb 2021 04:10:03 -0500
+X-MC-Unique: 8jQz2_2HM-mUSQwRkBX7UA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C3E81020C20;
+        Wed, 17 Feb 2021 09:10:01 +0000 (UTC)
+Received: from [10.36.114.178] (ovpn-114-178.ams2.redhat.com [10.36.114.178])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DF16660C62;
+        Wed, 17 Feb 2021 09:09:58 +0000 (UTC)
+Subject: Re: [RFC PATCH] mm, oom: introduce vm.sacrifice_hugepage_on_oom
+To:     Eiichi Tsukata <eiichi.tsukata@nutanix.com>, corbet@lwn.net,
+        mike.kravetz@oracle.com, mcgrof@kernel.org, keescook@chromium.org,
+        yzaikin@google.com, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org
+Cc:     felipe.franciosi@nutanix.com
+References: <20210216030713.79101-1-eiichi.tsukata@nutanix.com>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <dc18e98e-2467-bb36-7f78-d7003d9aa5f9@redhat.com>
+Date:   Wed, 17 Feb 2021 10:09:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <29cdbd0f-dbc2-1a72-15b7-55f81000fa9e@oracle.com>
+In-Reply-To: <20210216030713.79101-1-eiichi.tsukata@nutanix.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 16-02-21 11:44:34, Mike Kravetz wrote:
-[...]
-> If we are not going to do the allocations under the lock, then we will need
-> to either preallocate or take the workqueue approach.
+On 16.02.21 04:07, Eiichi Tsukata wrote:
+> Hugepages can be preallocated to avoid unpredictable allocation latency.
+> If we run into 4k page shortage, the kernel can trigger OOM even though
+> there were free hugepages. When OOM is triggered by user address page
+> fault handler, we can use oom notifier to free hugepages in user space
+> but if it's triggered by memory allocation for kernel, there is no way
+> to synchronously handle it in user space.
+> 
+> This patch introduces a new sysctl vm.sacrifice_hugepage_on_oom. If
+> enabled, it first tries to free a hugepage if available before invoking
+> the oom-killer. The default value is disabled not to change the current
+> behavior.
 
-We can still drop the lock temporarily right? As we already do before
-calling destroy_compound_gigantic_page...
+In addition to the other comments, some more thoughts:
+
+What if you're low on kernel memory but you end up freeing huge pages 
+residing in ZONE_MOVABLE? IOW, this is not zone aware.
 
 -- 
-Michal Hocko
-SUSE Labs
+Thanks,
+
+David / dhildenb
+
