@@ -2,78 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46CD8C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 07:32:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 391FBC433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 07:56:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F248E64E28
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 07:32:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D805D64E3E
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 07:56:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231682AbhBQHcb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Feb 2021 02:32:31 -0500
-Received: from mga05.intel.com ([192.55.52.43]:62797 "EHLO mga05.intel.com"
+        id S229885AbhBQHzq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Feb 2021 02:55:46 -0500
+Received: from mx2.suse.de ([195.135.220.15]:46792 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231515AbhBQHcb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Feb 2021 02:32:31 -0500
-IronPort-SDR: F6OQHdEUrnEZZp8n2xoJmVfhvaBnQuXjLk5UyEDr0NTi9QL3tNBRsps8C5Lq4YnClSesWHG4+i
- nl2ysRvLDO7w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9897"; a="267977757"
-X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="267977757"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 23:30:42 -0800
-IronPort-SDR: 69tXmDL9lkx0z/px0P1VfkdwnlW9srEkubwldGWVkNw5AkrenN577WTq2HmmPiFbp4IvsGG8Gl
- 1zh96fmfclKg==
-X-IronPort-AV: E=Sophos;i="5.81,184,1610438400"; 
-   d="scan'208";a="439262663"
-Received: from gna-dev.igk.intel.com (HELO localhost) ([10.102.80.34])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Feb 2021 23:30:37 -0800
-References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com> <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com> <YCwFBNa2npYcEIQ+@kroah.com>
-User-agent: mu4e 1.4.13; emacs 26.3
-From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Savo Novakovic <savox.novakovic@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: Re: [PATCH v1 01/12] gna: add driver module
-In-reply-to: <YCwFBNa2npYcEIQ+@kroah.com>
-Date:   Wed, 17 Feb 2021 08:30:33 +0100
-Message-ID: <85ft1v2lt2.fsf@linux.intel.com>
+        id S230145AbhBQHzo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 17 Feb 2021 02:55:44 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1613548497; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=gV9fZi9ZMQ+85uUDSdhfOUqQJXrOLRcNGETfioChCIo=;
+        b=fGyy949Ey1/r5PfLdWvT48bbwagETLGHHIof00DMOaYAhUEMwJv1QqqV1rvjgU4ZUZmblV
+        UgA2dJVd1ZoiOnSYhb2q8XXUqeLsTbZTlq6cVMc8q+PIzFdT48yr8sZQwcLx459lfWBV7f
+        31IbdgWOdajHXR4L8jJmQrKUZfz3OEc=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id E9544AF45;
+        Wed, 17 Feb 2021 07:54:56 +0000 (UTC)
+Date:   Wed, 17 Feb 2021 08:54:55 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     David Rientjes <rientjes@google.com>
+Cc:     Eiichi Tsukata <eiichi.tsukata@nutanix.com>, corbet@lwn.net,
+        mike.kravetz@oracle.com, mcgrof@kernel.org, keescook@chromium.org,
+        yzaikin@google.com, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        felipe.franciosi@nutanix.com
+Subject: Re: [RFC PATCH] mm, oom: introduce vm.sacrifice_hugepage_on_oom
+Message-ID: <YCzLz0QmwYLfqvu0@dhcp22.suse.cz>
+References: <20210216030713.79101-1-eiichi.tsukata@nutanix.com>
+ <YCt+cVvWPbWvt2rG@dhcp22.suse.cz>
+ <b821f4de-3260-f6e2-469f-65ccfa699bb7@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b821f4de-3260-f6e2-469f-65ccfa699bb7@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue 16-02-21 13:53:12, David Rientjes wrote:
+> On Tue, 16 Feb 2021, Michal Hocko wrote:
+[...]
+> > Overall, I am not really happy about this feature even when above is
+> > fixed, but let's hear more the actual problem first.
+> 
+> Shouldn't this behavior be possible as an oomd plugin instead, perhaps 
+> triggered by psi?  I'm not sure if oomd is intended only to kill something 
+> (oomkilld? lol) or if it can be made to do sysadmin level behavior, such 
+> as shrinking the hugetlb pool, to solve the oom condition.
 
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+It should be under control of an admin who knows what the pool is
+preallocated for and whether a decrease (e.g. a temporal one) is
+tolerable.
+ 
+> If so, it seems like we want to do this at the absolute last minute.  In 
+> other words, reclaim has failed to free memory by other means so we would 
+> like to shrink the hugetlb pool.  (It's the reason why it's implemented as 
+> a predecessor to oom as opposed to part of reclaim in general.)
+> 
+> Do we have the ability to suppress the oom killer until oomd has a chance 
+> to react in this scenario?
 
-> On Tue, Feb 16, 2021 at 05:05:14PM +0100, Maciej Kwapulinski wrote:
->> --- /dev/null
->> +++ b/drivers/misc/gna/gna_driver.c
->> @@ -0,0 +1,65 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +// Copyright(c) 2017-2021 Intel Corporation
->> +
->> +#define pr_fmt(fmt) KBUILD_MODNAME " " fmt
->
-> You are a driver, you should never need a pr_* call, so this should not
-> be needed.  You should always just use dev_* instead.
->
+We don't and I do not think we want to bind the kernel oom behavior to
+any userspace process. We have extensively discussed things like this in
+the past IIRC.
 
-Hi Greg and all other Reviewers.
-
-Thank You for all the comments so far.
-
-I'm starting preparing PATCH v2 series based on them.
-I'll also answer comments individually where need arises.
-
-regards,
-Maciej
+-- 
+Michal Hocko
+SUSE Labs
