@@ -2,146 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D56E7C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 10:18:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F2BFC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 10:50:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8AA4364E63
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 10:18:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DBCA664E42
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 10:50:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232242AbhBQKSG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Feb 2021 05:18:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51004 "EHLO
+        id S230064AbhBQKuv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Feb 2021 05:50:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58000 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232318AbhBQKRv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Feb 2021 05:17:51 -0500
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10D4AC061756;
-        Wed, 17 Feb 2021 02:17:11 -0800 (PST)
-Received: by mail-pg1-x52d.google.com with SMTP id o38so8178937pgm.9;
-        Wed, 17 Feb 2021 02:17:11 -0800 (PST)
+        with ESMTP id S229720AbhBQKus (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Feb 2021 05:50:48 -0500
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF5D2C061574;
+        Wed, 17 Feb 2021 02:50:07 -0800 (PST)
+Received: by mail-pj1-x1031.google.com with SMTP id fy5so1231609pjb.5;
+        Wed, 17 Feb 2021 02:50:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=uUihTefjqIAmQxqDsY7sGc4WNgB25pgmkvLnHk+zr0M=;
-        b=Y40G0VIe6PsED4Mk/qur99QANAUuV3Si698lAW1MFXTXudUdXB3VomSUvUjNntQhFI
-         73ON+2fifvwUH8oMmTeH1s5qxt8c0E+wSXtBtjZDU0HSwPn+6M4NtitmQBqnz/pW0k3K
-         1LtkIj5oJTwVFUw5dwfvhnXyUmk5Noye4cQlw7m3UnwG6J9CY98ce+ZL04Cl1yveKRlv
-         N7jl+8UcSNQ1+evsCUOni2Y0/4VpJg89OkFyjEnzgw9a0jT++8rk3iNoTdABpr3KRm7K
-         NitU0idyJq2iGrQ1YvQav7hJq45FMQzZClthXmmD9wtNEBSmoPUA0/7jNFrIY969bObL
-         oMXQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=fXkbLQATOKndDvfr5Qj7u/6zI0+WmDIYmlBTAHrdBJI=;
+        b=Re5WaqAlVW/yYnQMKI1D7aRaPmDFeZ0xnry8HD//r2RAYzhy9Gtuv9cDaPKRltcqpr
+         pjq1efKzduQz2XnpF2s2gdqtaJCU7TlzYf3NokXArovSHkDOsIDCYONvDYPJfueQH16F
+         8+aMBjuJnGU/edQgLa/+hEkI6/NUUbOvK2aZ0icNXEvLgnkwO5XpDOzFxtP5UQ/pxJ3t
+         rKEfJI8p7pgNl+Bg6Wg/xej1sVzWaasgaoTIbR/FgJg3/SS7FFImrxpvo4cDSeOaLKsP
+         s3PS8C+gS+tEe25IAjTZPI3gb6QOVpPnLJqusLnDDHQS1dx4zf7T0KO1LZbEFXDuYsVG
+         jL6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uUihTefjqIAmQxqDsY7sGc4WNgB25pgmkvLnHk+zr0M=;
-        b=Qk4sXdJtgL4shHwNtxOa+VQNlb3wpevwR6yiSv+sjMtqUSGWqaLwFpODym20yUBQQf
-         KsUTSE6XvDDQjwDf0LSQM2hMpnbZW0/WQXM+swYY1T8ABgXyc4NyXbS0XeaQnkTJl7LS
-         cwbAdPIDzECZQTfTjLY8pEinSIh1d5PVAR7XWvMp9gmHckb9/A/aWU5LrF5dUJm/TVk0
-         DGk6z4zvHVya1RiNMXEWznjDFpbtwVI2ZLpgtzLmGopL2spBG5DlXoFKIorHiizRC5w+
-         KWnDzbNZDXs5ylrKjqBNA1naLw+1CdN9/B8/6cOoSLqfKkDiFdP49vnnomaFUU7YhaWC
-         3DfA==
-X-Gm-Message-State: AOAM5326wTgkqblAdLyPf46tVMu8c5NcWXdWXeumzX8XcKkFd000rQe9
-        3RvGAoq3rU4BUKhz4pDuQnAvDMsI1rQ9x2R6kfg=
-X-Google-Smtp-Source: ABdhPJzayHVcbJMk5xLETWxUGMZ9+zU5JUZjBIhFAzTFO4cx477pSIWb8CULht8zMIZXDp7K7kK9vl5ngin2x/pbQ0w=
-X-Received: by 2002:a63:3d0:: with SMTP id 199mr23377851pgd.4.1613557030577;
- Wed, 17 Feb 2021 02:17:10 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=fXkbLQATOKndDvfr5Qj7u/6zI0+WmDIYmlBTAHrdBJI=;
+        b=bzsyifd5ERCYPwLRoukMOrg6Ccr+NV4qAIDqzxGkT5WOK0jGYDJH4ft80+IbsRg+CF
+         0jxFbTABUUIr69ueL9qVJYAcjla2cRVWOdl50eYmGEDWAKygf7WzyIQEBvx/PFMpGWg8
+         wEl9yN9PJc+NEyO6NuByKfoYFTC7AiD17EdTiRJlgVjnySTVkEJwftuAO/qkbxPSBAWf
+         BCQq51qri0A6HqcnnwE5OlX15fUKXXTU4RxzyhCWXf7scbGfzUBtoh8Ecwwo8B3/94f9
+         1QavUBBIhTv2Hs7sH7aif2hJaAinEIr5jpsFNpIWzW9Hpp0E3I1xc8z+3rybUtUv9c8S
+         xXPw==
+X-Gm-Message-State: AOAM5316bUJTLbgLLycKLd3i9Xfkkt3WZWdXCqmvwtlARb7QPFdpVWEV
+        v49rhQKn2ClZMN5YEiKpM5o=
+X-Google-Smtp-Source: ABdhPJyUuNLPIvFuTkno50Z8KunBg8GLSaabHpi5Wb+v6bVPPax/PEVJbocspeMf5EIGu0YuhIqq1Q==
+X-Received: by 2002:a17:90a:4606:: with SMTP id w6mr8742831pjg.205.1613559007197;
+        Wed, 17 Feb 2021 02:50:07 -0800 (PST)
+Received: from localhost (89.208.244.53.16clouds.com. [89.208.244.53])
+        by smtp.gmail.com with ESMTPSA id u22sm2053238pfn.62.2021.02.17.02.50.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Feb 2021 02:50:06 -0800 (PST)
+Date:   Wed, 17 Feb 2021 18:50:04 +0800
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        rric@kernel.org, helgaas@kernel.org, wsa@kernel.org,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] Documentation: devres: Add
+ pcim_alloc_irq_vectors()
+Message-ID: <20210217105004.GA766103@nuc8i5>
+References: <20210216160249.749799-1-zhengdejin5@gmail.com>
+ <20210216160249.749799-3-zhengdejin5@gmail.com>
+ <YCv8nCX0ZdAb+CHm@rocinante>
 MIME-Version: 1.0
-References: <20210216224455.1504008-1-drew@beagleboard.org> <20210216224455.1504008-4-drew@beagleboard.org>
-In-Reply-To: <20210216224455.1504008-4-drew@beagleboard.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 17 Feb 2021 12:16:54 +0200
-Message-ID: <CAHp75Vdp58uCVS2Gw3pQ7wVatHHcFrHB53-ynybxcAcJ2bUKpg@mail.gmail.com>
-Subject: Re: [PATCH v6 3/3] docs/pinctrl: document debugfs files
-To:     Drew Fustini <drew@beagleboard.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Jason Kridner <jkridner@beagleboard.org>,
-        Robert Nelson <robertcnelson@beagleboard.org>,
-        Joe Perches <joe@perches.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YCv8nCX0ZdAb+CHm@rocinante>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 17, 2021 at 12:45 AM Drew Fustini <drew@beagleboard.org> wrote:
+On Tue, Feb 16, 2021 at 06:10:52PM +0100, Krzysztof Wilczyński wrote:
+> Hi Dejin,
+> 
+> Thank you again for all the work here!
+> 
+> > Add pcim_alloc_irq_vectors(), a device-managed version of
+> > pci_alloc_irq_vectors(). introducing this function can simplify
+> > the error handling path in many drivers.
+> 
+> The second sentence should most likely start with a capital letter.
+> 
+> Having said that, people might ask - how does it simplify the error
+> handling path?
+> 
+> You might have to back this with a line of two to explain how does the
+> change achieved that, so that when someone looks at the commit message
+> it would be clear what the benefits of the change were.
 >
-> Document debugfs directories and files created for pinctrl subsystem.
+Hi Krzysztof,
 
-Thanks for doing this!
-I won't bikeshed now because it's about debugfs anyway, so
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+The device-managed function is a conventional concept that every developer
+knows. So don't worry about this. And I really can't explain its operation
+mechanism to you in a sentence or two. If you are really interested, you
+can read the relevant code.
 
-> Suggested-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Signed-off-by: Drew Fustini <drew@beagleboard.org>
-> ---
->  Documentation/driver-api/pinctl.rst | 37 +++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
->
-> diff --git a/Documentation/driver-api/pinctl.rst b/Documentation/driver-api/pinctl.rst
-> index 3d2deaf48841..37bc3bd64cd8 100644
-> --- a/Documentation/driver-api/pinctl.rst
-> +++ b/Documentation/driver-api/pinctl.rst
-> @@ -1428,3 +1428,40 @@ on the pins defined by group B::
->  The above has to be done from process context. The reservation of the pins
->  will be done when the state is activated, so in effect one specific pin
->  can be used by different functions at different times on a running system.
-> +
-> +
-> +Debugfs files
-> +=============
-> +These files are created in ``/sys/kernel/debug/pinctrl``:
-> +
-> +- ``pinctrl-devices``: prints each pin controller device along with columns to
-> +  indicate support for pinmux and pinconf
-> +
-> +- ``pinctrl-handles``: iterate through the list of pin controller handles and
-> +  print the corresponding pinmux maps
-> +
-> +- ``pinctrl-maps``: print all pinctrl maps
-> +
-> +A sub-directory is created inside of ``/sys/kernel/debug/pinctrl`` for each pin
-> +controller device containing these files:
-> +
-> +- ``pins``: prints a line for each pin registered on the pin controller. The
-> +  pinctrl driver may add additional information such as register contents.
-> +
-> +- ``gpio-ranges``: print ranges that map gpio lines to pins on the controller
-> +
-> +- ``pingroups``: print all pin groups registered on the pin controller
-> +
-> +- ``pinconf-pins``: print pin config settings for each pin
-> +
-> +- ``pinconf-groups``: print pin config settings per pin group
-> +
-> +- ``pinmux-functions``: print each pin function along with the pin groups that
-> +  map to the pin function
-> +
-> +- ``pinmux-pins``: iterate through all pins and print mux owner, gpio owner
-> +  and if the pin is a hog
-> +
-> +- ``pinmux-select``: write to this file to activate a pin function and group::
-> +
-> +        echo "<function-name group-name>" > pinmux-select
-> --
-> 2.25.1
->
+I think it is meaningless to add a lot of explanations of general
+concepts in the commit comments. Maybe it will be better let us put more
+energy and time on the code.
 
+BR,
+Dejin
 
---
-With Best Regards,
-Andy Shevchenko
+> Reviewed-by: Krzysztof Wilczyński <kw@linux.com>
+> 
+> Krzysztof
