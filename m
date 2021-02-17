@@ -2,182 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FBBBC433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 11:43:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB0E7C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 12:31:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2454864DDA
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 11:43:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A50F64E33
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Feb 2021 12:31:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231838AbhBQLni (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Feb 2021 06:43:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41122 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231637AbhBQLnc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Feb 2021 06:43:32 -0500
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC11EC06178C;
-        Wed, 17 Feb 2021 03:40:18 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id z15so8240628pfc.3;
-        Wed, 17 Feb 2021 03:40:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=645THBJSX2gD2j8qlDKgO7ipMGXMkXchUslhmTUGCSo=;
-        b=f7LuYmoiqK+h+c4JOKA5/5O/NUjR1n1RFFecrkqaL5USPvrCHPNree9C6uJu1seq/S
-         tHV3xXzOj7boCXHXKyvlYsNQ52f4biaTldoeqQx24X5Z2K7uxJdrybICrBjN736ibs/W
-         v7vbddMvG2+WTjILLvmKLzyb5LKeXHrqeESRmc606sIgXu4TORzes+RY+V9H8euym8hR
-         x8yhqs6CgBkhhtUgtohQJ0qkklvzRX69yVmTZSqfbTdtpSblSPdMLl0JCE1bc2gYWNrC
-         FUMiVuMPyUT7CL56zfFuoQRtFxB0jVvGAK0jEgzAGZ7sbrp/CG9hk0rBfr8196lrQyLj
-         l1Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=645THBJSX2gD2j8qlDKgO7ipMGXMkXchUslhmTUGCSo=;
-        b=qSa9+zqLU3bu0Vpe/1dEaKDtW6QkZtdJaW2kz2cT9kdxkd0ZkGdnIKAhxcrhndXN98
-         R9Gyp7x6fc3ZXIlxChDQWh0L4d5bEcnIE0WH9rL5MEd2pCMsMergw7JTeO4JhVxeJO0L
-         DeaUu/P9a79xHQ2MJKZD6HaqLPOZTMGCPpx7lmdBhiDSNOAjHanMqWTeMj4WJ0Ed6/rA
-         7r4NUnjIyf0XHcK8XudfQ8oCJ1EoDvCjrGjhK2agwb2iUKGT50w0cMTd5P04wd2TsZWl
-         LAOSYrOL9nqR7u2yidWaXRp9AfIkL53AR8BBxwDtFZZI6qKv/9Lm8TJb9t/miFVQv5fP
-         CRWg==
-X-Gm-Message-State: AOAM530etrAeXYMy0D1dIVPQQSc+dZ7MxSD6cpicQ0r+8U0JkJaiVd8c
-        MmWb595I7twtvgSBaOn1DCo=
-X-Google-Smtp-Source: ABdhPJzMUXObPeYAJTsYVaU5Q5UdOBH3zomQSroHpD5o3nnkv4SvHp+sL9tHYOW1Afc88wB25YlwrQ==
-X-Received: by 2002:a05:6a00:787:b029:1da:643b:6d41 with SMTP id g7-20020a056a000787b02901da643b6d41mr24735094pfu.31.1613562017723;
-        Wed, 17 Feb 2021 03:40:17 -0800 (PST)
-Received: from localhost (89.208.244.53.16clouds.com. [89.208.244.53])
-        by smtp.gmail.com with ESMTPSA id c18sm2255853pgm.88.2021.02.17.03.40.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Feb 2021 03:40:17 -0800 (PST)
-Date:   Wed, 17 Feb 2021 19:40:14 +0800
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
-        rric@kernel.org, helgaas@kernel.org, wsa@kernel.org,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/4] i2c: designware: Use the correct name of
- device-managed function
-Message-ID: <20210217114014.GB766103@nuc8i5>
-References: <20210216160249.749799-1-zhengdejin5@gmail.com>
- <20210216160249.749799-4-zhengdejin5@gmail.com>
- <YCwE2cf9X/Gd6lWy@rocinante>
+        id S231752AbhBQMby (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Feb 2021 07:31:54 -0500
+Received: from mx2.suse.de ([195.135.220.15]:32790 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231336AbhBQMby (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 17 Feb 2021 07:31:54 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1613565067; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qCkWcaAIuGTOOzMzdQxcjrBbYQwzwohyHCld2DLzlo4=;
+        b=hh+tsDg+FIBbpUSHQMfb7zlfE5pOiF3gulNxaSo443OCHghvQqPq7Vr2xB1AfHk9jN9nWu
+        ndNZVR3Nh9don4KIexkJuV39C/FVEAPTC+fbJCaLUR6yjDzxXs0TL7+5+icb//OfeGbmGS
+        5/ddq8XqsIY0aKRw4Tq5/mPjWD63Ct0=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 40A7BB9E4;
+        Wed, 17 Feb 2021 12:31:07 +0000 (UTC)
+Date:   Wed, 17 Feb 2021 13:31:06 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Eiichi Tsukata <eiichi.tsukata@nutanix.com>
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "yzaikin@google.com" <yzaikin@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        Felipe Franciosi <felipe@nutanix.com>
+Subject: Re: [RFC PATCH] mm, oom: introduce vm.sacrifice_hugepage_on_oom
+Message-ID: <YC0MiqwCGp90Oj4N@dhcp22.suse.cz>
+References: <20210216030713.79101-1-eiichi.tsukata@nutanix.com>
+ <YCt+cVvWPbWvt2rG@dhcp22.suse.cz>
+ <bb3508e7-48d1-fa1b-f1a0-7f42be55ed9c@oracle.com>
+ <YCzMVa5QSyUtlmnI@dhcp22.suse.cz>
+ <D66DC6A7-C708-4888-8FCF-E4EB0F90ED48@nutanix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YCwE2cf9X/Gd6lWy@rocinante>
+In-Reply-To: <D66DC6A7-C708-4888-8FCF-E4EB0F90ED48@nutanix.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 16, 2021 at 06:46:01PM +0100, Krzysztof Wilczyński wrote:
-Hi Krzysztof,
-> Hi Dejin,
+On Wed 17-02-21 10:42:24, Eiichi Tsukata wrote:
+> Hi All,
 > 
-> Thank you for all the changes, looks good!
+> Firstly, thank you for your careful review and attention to my patch
+> (and apologies for top-posting!).  Let me first explain why our use
+> case requires hugetlb over THP and then elaborate on the difficulty we
+> have to maintain the correct number of hugepages in the pool, finally
+> concluding with why the proposed approach would help us. Hopefully you
+> can extend it to other use cases and justify the proposal.
 > 
-> You could improve the subject line, as it is very vague - what is the
-> new function name more correct?  Was the other and/or the previous one
-> not correct?  Seems like you are correcting a typo of sorts, rather than
-> introducing a new function in this file.
->
-If you have read the following commit comments, As you know, the
-pci_alloc_irq_vectors() is not a real device-managed function. But
-in some specific cases, it will act as an device-managed function.
-Such naming will cause controversy, So In the case of need device-managed,
-should be used pcim_alloc_irq_vectors(), an explicit device-managed
-function. So the subject name is "Use the correct name of device-managed function".
+> We use Linux to operate a KVM-based hypervisor. Using hugepages to
+> back VM memory significantly increases performance and density. Each
+> VM incurs a 4k regular page overhead which can vary drastically even
+> at runtime (eg. depending on network traffic). In addition, the
+> software doesn't know upfront if users will power on one large VM or
+> several small VMs.
+> 
+> To manage the varying balance of 4k pages vs. hugepages, we originally
+> leveraged THP. However, constant fragmentation due to VM power cycles,
+> the varying overhead I mentioned above, and other operations like
+> reconfiguration of NIC RX buffers resulted in two problems:
+> 1) There were no guarantees hugepages would be used; and
+> 2) Constant memory compaction incurred a measurable overhead.
+> 
+> Having a userspace service managing hugetlb gave us significant
+> performance advantages and much needed determinism. It chooses when to
+> try and create more hugepages as well as how many hugepages to go
+> after. Elements like how many hugepages it actually gets, combined
+> with what operations are happening on the host, allow our service to
+> make educated decisions about when to compact memory, drop caches, and
+> retry growing (or shrinking) the pool.
 
-> > Use the new function pcim_alloc_irq_vectors() to allocate IRQ vectors,
-> > the pcim_alloc_irq_vectors() function, an explicit device-managed
-> > version of pci_alloc_irq_vectors(). If pcim_enable_device() has been
-> > called before, then pci_alloc_irq_vectors() is actually
-> > a device-managed function. It is used here as a device-managed
-> > function, So replace it with pcim_alloc_irq_vectors().
-> 
-> The commit is good, but it could use some polish, so to speak.
-> 
-> A few suggestions to think about:
-> 
->   - What are we adding and/or changing, and why
->   - Why is using pcim_alloc_irq_vectors(), which is part
->     of the managed devices framework, a better alternative
->     to the pci_alloc_irq_vectors()
->   - And finally why this change allowed us to remove the
->     pci_free_irq_vectors()
-> 
-These are all explained by the device-managed function mechanism.
+OK, thanks for the clarification. Just to make sure I understand. This
+means that you are pro-activelly and optimistically pre-allocate hugetlb
+pages even when there is no immediate need for those, right?
 
-> > At the same time, simplify the error handling path.
-> 
-> The change simplifies the error handling path, how?  A line of two which
-> explains how it has been achieved might help should someone reads the
-> commit message in the future.
-> 
-To put it simply, if the driver probe fail, the device-managed function
-mechanism will automatically call pcim_release(), then the pci_free_irq_vectors()
-will be executed. For details, please see the relevant code.
+> But that comes with a challenge: despite listening on cgroup for
+> pressure notifications (which happen from those runtime events we do
+> not control),
 
-> [...]
-> >  	if (controller->setup) {
-> >  		r = controller->setup(pdev, controller);
-> > -		if (r) {
-> > -			pci_free_irq_vectors(pdev);
-> > +		if (r)
-> >  			return r;
-> > -		}
-> >  	}
-> >  
-> >  	i2c_dw_adjust_bus_speed(dev);
-> > @@ -246,10 +244,8 @@ static int i2c_dw_pci_probe(struct pci_dev *pdev,
-> >  		i2c_dw_acpi_configure(&pdev->dev);
-> >  
-> >  	r = i2c_dw_validate_speed(dev);
-> > -	if (r) {
-> > -		pci_free_irq_vectors(pdev);
-> > +	if (r)
-> >  		return r;
-> > -	}
-> >  
-> >  	i2c_dw_configure(dev);
-> >  
-> > @@ -269,10 +265,8 @@ static int i2c_dw_pci_probe(struct pci_dev *pdev,
-> >  	adap->nr = controller->bus_num;
-> >  
-> >  	r = i2c_dw_probe(dev);
-> > -	if (r) {
-> > -		pci_free_irq_vectors(pdev);
-> > +	if (r)
-> >  		return r;
-> > -	}
-> >  
-> >  	pm_runtime_set_autosuspend_delay(&pdev->dev, 1000);
-> >  	pm_runtime_use_autosuspend(&pdev->dev);
-> > @@ -292,7 +286,6 @@ static void i2c_dw_pci_remove(struct pci_dev *pdev)
-> >  
-> >  	i2c_del_adapter(&dev->adapter);
-> >  	devm_free_irq(&pdev->dev, dev->irq, dev);
-> > -	pci_free_irq_vectors(pdev);
-> 
-> If pcim_release() is called should the pci_driver's probe callback fail,
-Yes, you guessed right.
+We do also have global pressure (PSI) counters. Have you tried to look
+into those and try to back off even when the situation becomes critical?
 
-> and I assume that this is precisely the case, then all of the above make
-> sense in the view of using pcim_alloc_irq_vectors().
+> the service is not guaranteed to sacrifice hugepages
+> fast enough and that causes an OOM. The killer will normally take out
+> a VM even if there are plenty of unused hugepages and that's obviously
+> disruptive for users. For us, free hugepages are almost always expendable.
 > 
-> Reviewed-by: Krzysztof Wilczyński <kw@linux.com>
+> For the bloat cases which are predictable, a memory management service
+> can adjust the hugepage pool size ahead of time. But it can be hard to
+> anticipate all scenarios, and some can be very volatile. Having a
+> failsafe mechanism as proposed in this patch offers invaluable
+> protection when things are missed.
 > 
-> Krzysztof
+> The proposal solves this problem by sacrificing hugepages inline even
+> when the pressure comes from kernel allocations. The userspace service
+> can later readjust the pool size without being under pressure. Given
+> this is configurable, and defaults to being off, we thought it would
+> be a nice addition to the kernel and appreciated by other users that
+> may have similar requirements.
 
-BR,
-Dejin
+Thanks for your usecase description. It helped me to understand what you
+are doing and how this can be really useful for your particular setup.
+This is really a very specific situation from my POV. I am not yet sure
+this is generic enough to warrant for a yet another tunable. One thing
+you can do [1] is to
+hook into oom notifiers interface (register_oom_notifier) and release
+pages from the callback. Why is that batter than a global tunable?
+For one thing you can make the implementation tailored to your specific
+usecase. As the review feedback has shown this would be more tricky to
+be done in a general case. Unlike a generic solution it would allow you
+to coordinate with your userspace if you need. Would something like that
+work for you?
+
+---
+[1] and I have to say I hate myself for suggesting that because I was
+really hoping this interface would go away. But the reality disagrees so
+I gave up on that goal...
+-- 
+Michal Hocko
+SUSE Labs
