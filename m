@@ -2,121 +2,128 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6070C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 03:22:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C86C8C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 03:31:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6838164E3E
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 03:22:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7772A64E45
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 03:31:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229812AbhBRDWJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Feb 2021 22:22:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44636 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229953AbhBRDWI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Feb 2021 22:22:08 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7189FC061756
-        for <linux-doc@vger.kernel.org>; Wed, 17 Feb 2021 19:21:28 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id k13so317517pfh.13
-        for <linux-doc@vger.kernel.org>; Wed, 17 Feb 2021 19:21:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=f/0vhCGqZobTKO2GQ0rt7p/n6rY/SemZLd3m5aOtodk=;
-        b=h0gF7phehAUTclXF2zVnETIMlzuvMwmxARNGTmSM+Z0oVQYO2ZiGZ2fYxXloP2Wefh
-         eiFU1xGX9kzQClc5v/M9WK0hNnnUqV0LyJGnrM8CzOjgpNV99bETQEgTAjASLw8UUsTm
-         7JiiIHk0V9YyIGAB2M3VOgjQepP4J2CXidVZff4FJM6FxMd1z2pxQqeMnzD/HuEBa9/A
-         kZ2C8tVLrZYZxOjlQu9VqndlyWQ31DJOOqrDu2CoKFAYdbvpPEXHWnulixaCWAAtcPAg
-         V4HdAWwV+x2JqXpy6poASde1FyRVpl0+/R/rAU1MkQSZ36vNLcmAqbB9Kgg+p5VWSCk4
-         nb1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=f/0vhCGqZobTKO2GQ0rt7p/n6rY/SemZLd3m5aOtodk=;
-        b=W0O9Eoa1vLaY15r2AQx3POjwHQ4DkZbngWN40Htk6yP75HrkZ9FADjSaV6SDN8cVDU
-         8ltba6euoivkP0wszrJ5UU8mHO/uS+AwOvmW/ai94TBxm2EoOjhRY7sFmcy4cVazAc4l
-         J/2L36iQxwsaNzF6qiZETWWJuRfqez21M+FqJttf3no48IB6Msl5VjVLsNruVDPSCtkV
-         vF1vk41LDMnUcXwVhUu8qVzXKMoJhnjHqSe9rMeXtGqKUHhk3cPZOs0+7FhRZsRkBjVe
-         UGR62JoKwiu7YCZmvQK+MXy7s6KDu8YBPrYD040fkt4A4alfCM1V558jP0QFx2Bak1Mm
-         +D6w==
-X-Gm-Message-State: AOAM5304wGXMc9Ckqkd/gR3NFYHxVyJ3DTwDbXK8qK8JmE2MFZtoxyWm
-        PsjpiyRlQDGb+CEsEMdgW7iPtUxs6oIG3PWpPAP3ew==
-X-Google-Smtp-Source: ABdhPJxemWnjMzG9prnGjQpuiQZv7eNL3cXQ1QRp1RDJ+Dv1Mmwfo7xhdP96xrBLDow3RIJUpuVpgB3LqTBT3h+jY5Y=
-X-Received: by 2002:aa7:9790:0:b029:1d8:263e:cc9b with SMTP id
- o16-20020aa797900000b02901d8263ecc9bmr2488898pfp.2.1613618487969; Wed, 17 Feb
- 2021 19:21:27 -0800 (PST)
+        id S229924AbhBRDas (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Feb 2021 22:30:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54244 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230063AbhBRDar (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Feb 2021 22:30:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1613618960;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=DoMp21k95Jp6kwK2dHRqLcGVCEPrre4aoDuTP2Iaam4=;
+        b=FNsZAVT7etptOIR9ZJRtaI9PSD21EKKLc31tCiXw0bfcTmlwqy3jVzCCZT3gb/c0gJAlN4
+        Cfx3i1CxAMwZNWxCkVNqcm/dW+EXH4klrxDnZ5k7mQ5uEulY8uDIiI0riqtp2CFGYv10A8
+        PCGhwZbPivITLh+HW6A222GKwzM1i/0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-51wJf5h3NYaw5muEIpHCEg-1; Wed, 17 Feb 2021 22:29:15 -0500
+X-MC-Unique: 51wJf5h3NYaw5muEIpHCEg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78CB51005501;
+        Thu, 18 Feb 2021 03:29:12 +0000 (UTC)
+Received: from localhost (ovpn-12-112.pek2.redhat.com [10.72.12.112])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id D3E14100164C;
+        Thu, 18 Feb 2021 03:29:08 +0000 (UTC)
+Date:   Thu, 18 Feb 2021 11:29:06 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Chen Zhou <chenzhou10@huawei.com>
+Cc:     mingo@redhat.com, tglx@linutronix.de, rppt@kernel.org,
+        dyoung@redhat.com, catalin.marinas@arm.com, will@kernel.org,
+        nsaenzjulienne@suse.de, corbet@lwn.net, John.P.donnelly@oracle.com,
+        prabhakar.pkin@gmail.com, horms@verge.net.au, robh+dt@kernel.org,
+        arnd@arndb.de, james.morse@arm.com, xiexiuqi@huawei.com,
+        guohanjun@huawei.com, huawei.libin@huawei.com,
+        wangkefeng.wang@huawei.com, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v14 01/11] x86: kdump: replace the hard-coded alignment
+ with macro CRASH_ALIGN
+Message-ID: <20210218032607.GD2871@MiWiFi-R3L-srv>
+References: <20210130071025.65258-1-chenzhou10@huawei.com>
+ <20210130071025.65258-2-chenzhou10@huawei.com>
 MIME-Version: 1.0
-References: <CAMZfGtXgVUvCejpxu1o5WDvmQ7S88rWqGi3DAGM6j5NHJgtdcg@mail.gmail.com>
- <YCpN38i75olgispI@dhcp22.suse.cz> <CAMZfGtUXJTaMo36aB4nTFuYFy3qfWW69o=4uUo-FjocO8obDgw@mail.gmail.com>
- <CAMZfGtWT8CJ-QpVofB2X-+R7GE7sMa40eiAJm6PyD0ji=FzBYQ@mail.gmail.com>
- <YCpmlGuoTakPJs1u@dhcp22.suse.cz> <CAMZfGtWd_ZaXtiEdMKhpnAHDw5CTm-CSPSXW+GfKhyX5qQK=Og@mail.gmail.com>
- <YCp04NVBZpZZ5k7G@dhcp22.suse.cz> <CAMZfGtV8-yJa_eGYtSXc0YY8KhYpgUo=pfj6TZ9zMo8fbz8nWA@mail.gmail.com>
- <YCqhDZ0EAgvCz+wX@dhcp22.suse.cz> <29cdbd0f-dbc2-1a72-15b7-55f81000fa9e@oracle.com>
- <YCzQJIeI+dj9vphw@dhcp22.suse.cz> <f956c39a-6043-6d0e-9f4c-6013f54c2768@oracle.com>
-In-Reply-To: <f956c39a-6043-6d0e-9f4c-6013f54c2768@oracle.com>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 18 Feb 2021 11:20:51 +0800
-Message-ID: <CAMZfGtWVSWN0dL+2Dm=7bPSNFyomTQYEijCdd_ThXvArsA04ug@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v15 4/8] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-To:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Michal Hocko <mhocko@suse.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210130071025.65258-2-chenzhou10@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 18, 2021 at 9:00 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
->
-> On 2/17/21 12:13 AM, Michal Hocko wrote:
-> > On Tue 16-02-21 11:44:34, Mike Kravetz wrote:
-> > [...]
-> >> If we are not going to do the allocations under the lock, then we will need
-> >> to either preallocate or take the workqueue approach.
-> >
-> > We can still drop the lock temporarily right? As we already do before
-> > calling destroy_compound_gigantic_page...
-> >
->
-> Yes we can.  I forgot about that.
->
-> Actually, very little of what update_and_free_page does needs to be done
-> under the lock.  Perhaps, just decrementing the global count and clearing
-> the destructor so PageHuge() is no longer true.
+On 01/30/21 at 03:10pm, Chen Zhou wrote:
+> Move CRASH_ALIGN to header asm/kexec.h for later use. Besides, the
+> alignment of crash kernel regions in x86 is 16M(CRASH_ALIGN), but
+> function reserve_crashkernel() also used 1M alignment. So just
+> replace hard-coded alignment 1M with macro CRASH_ALIGN.
+> 
+> Suggested-by: Dave Young <dyoung@redhat.com>
+> Suggested-by: Baoquan He <bhe@redhat.com>
+> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
+> ---
+>  arch/x86/include/asm/kexec.h | 3 +++
+>  arch/x86/kernel/setup.c      | 5 +----
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/kexec.h b/arch/x86/include/asm/kexec.h
+> index 6802c59e8252..be18dc7ae51f 100644
+> --- a/arch/x86/include/asm/kexec.h
+> +++ b/arch/x86/include/asm/kexec.h
+> @@ -18,6 +18,9 @@
+>  
+>  # define KEXEC_CONTROL_CODE_MAX_SIZE	2048
+>  
+> +/* 16M alignment for crash kernel regions */
+> +#define CRASH_ALIGN		SZ_16M
+> +
+>  #ifndef __ASSEMBLY__
+>  
+>  #include <linux/string.h>
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index 3412c4595efd..da769845597d 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -390,9 +390,6 @@ static void __init memblock_x86_reserve_range_setup_data(void)
+>  
+>  #ifdef CONFIG_KEXEC_CORE
+>  
+> -/* 16M alignment for crash kernel regions */
+> -#define CRASH_ALIGN		SZ_16M
+> -
+>  /*
+>   * Keep the crash kernel below this limit.
+>   *
+> @@ -510,7 +507,7 @@ static void __init reserve_crashkernel(void)
+>  	} else {
+>  		unsigned long long start;
+>  
+> -		start = memblock_phys_alloc_range(crash_size, SZ_1M, crash_base,
+> +		start = memblock_phys_alloc_range(crash_size, CRASH_ALIGN, crash_base,
+>  						  crash_base + crash_size);
 
-Right. I have another question about using GFP flags. Michal
-suggested using GFP_KERNEL instead of GFP_ATOMIC to
-save reserve memory. From your last email, you suggested
-using non-blocking allocation GFP flags (perhaps GFP_NOWAIT).
+Looks good to me, thx.
 
-Hi Mike and Michal,
+Acked-by: Baoquan He <bhe@redhat.com>
 
-What is the consensus we finally reached? Thanks.
+>  		if (start != crash_base) {
+>  			pr_info("crashkernel reservation failed - memory is in use.\n");
+> -- 
+> 2.20.1
+> 
+
