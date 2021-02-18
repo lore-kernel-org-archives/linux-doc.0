@@ -2,262 +2,491 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9100FC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1BD1C433E6
 	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 14:42:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 39BB764E85
+	by mail.kernel.org (Postfix) with ESMTP id 9699D64E3E
 	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 14:42:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231863AbhBROlR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Feb 2021 09:41:17 -0500
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:44116 "EHLO
-        mx0b-002c1b01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231610AbhBRMYH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Feb 2021 07:24:07 -0500
-Received: from pps.filterd (m0127842.ppops.net [127.0.0.1])
-        by mx0b-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 11IC90Wj001227;
-        Thu, 18 Feb 2021 04:22:40 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=qV6HYeyWC8H3czOYoUAvNwwXHM/KUyEiBkalj6UvpO0=;
- b=EylsoqbuZYyYF3pabRJIEAVYV5slyCYpTgUwgrbMuQv+3pD3Fau4O1E+xwNjwl63CqYp
- 2k5z5N+MgiH3zaamJPGmoqpdWf1/ongkTO3lKD4nLcr5tAHnerHAlvT4Q8Pjh+LZrdXj
- KrcZ4RMZ0Q3F8ELMNlgrOkiUGliwqKz09qs0QiauUth6CZxw4GFRS12+dcPlXLVHuYr5
- xHtgyTBvFE8vtdlGpilzXIjd8KjwN0ivjkvx3Giab0FJ9FtnNw/j43O75p5w/EXvlIE+
- M1K433cp8d8EFT/dLYITW0wbTY/Mc/Tq9UDuiZ4NDyalCqdDQj9jPLsaoPbQhokKCKFl sw== 
-Received: from nam11-bn8-obe.outbound.protection.outlook.com (mail-bn8nam11lp2172.outbound.protection.outlook.com [104.47.58.172])
-        by mx0b-002c1b01.pphosted.com with ESMTP id 36peyn2vqk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 18 Feb 2021 04:22:40 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gll8vk/HHnzhGrVIr4CgapPScTSDaw+J4y4itq3BufxBPJHjcsUDMcmBm/sntOKq/ab5UvMsP2eexdIJowLDoxz7srLDsKTKd/EwZhFqMkVhNvAWVOgOdpK5LEYdwKFbbxou+bHbMOz1g9WA96ngL/ErDTxA0KG7aq+oa9cc1FSt1xliqEydMTuX3hbewOi27QX23xWC8c26nQuM84sF1gJJS3yebTA9obhCXB/eeliOI/CvYljPhPeHsfAM3+fznsptlzOUtXgMBCtmnK8NON9NYTlW6XIzkxScsbStsPK56ThFFfU4epDnoA8slsvKiNOydgwdBynOuepQIXqSmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qV6HYeyWC8H3czOYoUAvNwwXHM/KUyEiBkalj6UvpO0=;
- b=kXZCZXM8TgxdDutxLBt62S3WkM6nf3syP55aH5Pu9t3hMqMHWOLtgHtNMAOnZtRMXBdDuedHxGIz/civX4Zkq0Axa1ITC5gVHQn2ETmIGg3U0hav1rwUkhk29jb+XA5UkZRuNpXLCIMzShXiduWJXTlwuvAX/qUD/+K6iMKchluoFcQM5aJtet44+ty6slE2DYdq1gLHBYZNQI8/574Obr5ypx7nbtbpByskspAMZcOnM3WYZo4OjdsfQgnHL1TpKA5+3igVcF5Dn5/W2abBffBbDJvVIviWN4ylzXmc994Dvih8qZ8xHmMsLs8AkaJ+j+foo5PTTUxITTUqRo0BkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from DM6PR02MB6250.namprd02.prod.outlook.com (2603:10b6:5:1f5::26)
- by DM6PR02MB4106.namprd02.prod.outlook.com (2603:10b6:5:9f::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25; Thu, 18 Feb
- 2021 12:22:37 +0000
-Received: from DM6PR02MB6250.namprd02.prod.outlook.com
- ([fe80::6059:b0b7:ce3e:cb7e]) by DM6PR02MB6250.namprd02.prod.outlook.com
- ([fe80::6059:b0b7:ce3e:cb7e%6]) with mapi id 15.20.3846.039; Thu, 18 Feb 2021
- 12:22:37 +0000
-From:   Eiichi Tsukata <eiichi.tsukata@nutanix.com>
-To:     Michal Hocko <mhocko@suse.com>
-CC:     Mike Kravetz <mike.kravetz@oracle.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "mcgrof@kernel.org" <mcgrof@kernel.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "yzaikin@google.com" <yzaikin@google.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-        Felipe Franciosi <felipe@nutanix.com>,
-        "shakeelb@google.com" <shakeelb@google.com>
-Subject: Re: [RFC PATCH] mm, oom: introduce vm.sacrifice_hugepage_on_oom
-Thread-Topic: [RFC PATCH] mm, oom: introduce vm.sacrifice_hugepage_on_oom
-Thread-Index: AQHXBBDlHFjialWl9UGQ+pFSTaCvrqpabtKAgADvpICAAJ5jgIAALiuAgAAeYACAAY/1AA==
-Date:   Thu, 18 Feb 2021 12:22:37 +0000
-Message-ID: <99FF105C-1AAB-40F3-9C13-7BDA23AD89D9@nutanix.com>
-References: <20210216030713.79101-1-eiichi.tsukata@nutanix.com>
- <YCt+cVvWPbWvt2rG@dhcp22.suse.cz>
- <bb3508e7-48d1-fa1b-f1a0-7f42be55ed9c@oracle.com>
- <YCzMVa5QSyUtlmnI@dhcp22.suse.cz>
- <D66DC6A7-C708-4888-8FCF-E4EB0F90ED48@nutanix.com>
- <YC0MiqwCGp90Oj4N@dhcp22.suse.cz>
-In-Reply-To: <YC0MiqwCGp90Oj4N@dhcp22.suse.cz>
-Accept-Language: ja-JP, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3608.120.23.2.4)
-authentication-results: suse.com; dkim=none (message not signed)
- header.d=none;suse.com; dmarc=none action=none header.from=nutanix.com;
-x-originating-ip: [114.159.158.19]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 207337e0-3c6a-43ea-c6e9-08d8d407e10b
-x-ms-traffictypediagnostic: DM6PR02MB4106:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR02MB4106CC2A14E3F174EA1C92F380859@DM6PR02MB4106.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: sRLpYy+J47fDZIgmvLkqvc2jzA7yZW++gxfOa3a1Sm5AZPhFyi4tWFU3VB0S5Y4J+OxxbtZySvzSRUKpoGvCepe5ni1CgDNA9CCfcNKs5jyjbmTwylebPjqnOWBUPb1CzSTQoFzNO4S8YaN+rLiwkJl9xjvnwptNmArmb3R/785SszxqO697Vu6ihYDtQtncrtWaNQOV29RJcDDORXpM/hGvdQzkGru13cRZfF17cFviMeVA3EIEqlNoDFtQ1YK1h+ZCvUGBLjQE89El46UwN//GoFU+dVnpb3oSF2TJH1ApBir0M75fk5IMXK7vX38c5VC7cGJVNT4O1chXqQ9BLJ2W9o5VDAXloQE6nx+nG4NiZ9NrUt9PsiM/MFKjWURJn32RG9ThWgXx8Oks2u2S3Gal3w3ieRKFODGe7YJ95XTI5L+1AdhH1/WBiYu3iKvXtl5SOwx7Sv1govRPJWiCIaHd+iNBnG0a6f9njav3KQAopztOvcR3FHKxERbgPtmLxYSa3NYy8tQRwlWyl+7zhtRpMg6mLEHStYHgfEKTQihe9nF/OmiUSdOHhZxkadcvWaAQsH20DNnXeqjWn0XN7w==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR02MB6250.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(396003)(39860400002)(366004)(136003)(376002)(83380400001)(6486002)(66446008)(6506007)(8676002)(7416002)(64756008)(36756003)(4326008)(2906002)(478600001)(66476007)(2616005)(44832011)(26005)(54906003)(66946007)(5660300002)(66556008)(86362001)(6916009)(186003)(6512007)(76116006)(316002)(91956017)(33656002)(53546011)(8936002)(71200400001)(45980500001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?Vmfwy75FD7uVL6sF/P8uZ/gLx87fD37q+Kw5ijQDPCu7bOhCUrbtFWzum/dl?=
- =?us-ascii?Q?NETdZ5bhbpOXEeRmH5vSO/mal3EfMNldGE5FDLVxK5R2IW0iSm+KI67gwWKm?=
- =?us-ascii?Q?qw/9tS+2KywydIJyDxpO/lhi1dA7/Mo1M0MEZP3Y+DVh4k2ebSF926hc59AP?=
- =?us-ascii?Q?d9ovufoAFz/C0WMq2tqMhFmWlOquftLtCBJmbuxk9DIdX6R6iyh7X57PoFzI?=
- =?us-ascii?Q?nqvJEjiNs0l09LvdKqEvCzmzTz6y/yvL2xhgxh0WWamC7Htd4mA4P7Eabtw6?=
- =?us-ascii?Q?2sxUjqbRvPQLUyavDL3Eul7CbuPRRN1wUw1HJEf1DT3drpR+EcLFbFioirHp?=
- =?us-ascii?Q?reb59PXjWgTVqeVP1byfpnAednV0qCU5iQZMX6EJyPpJUp2QwUYuT3VdXLyw?=
- =?us-ascii?Q?2Vfbnn3Qy6I0fM0uGD5Jd443JRDODjwdCvqU7VSUNpQmesFBq7ZLIcXBGSlC?=
- =?us-ascii?Q?peb8BgPLvYiUJWeHYT0/xBzSx9wLksNQAoTiswZ1l0wHKfsorFHMND6RftAN?=
- =?us-ascii?Q?6iL8dc25FuYvkgmTixI0y0bvtdusQDGWDGrD71iZ3BkNjMAN6XVT8isnNV8Q?=
- =?us-ascii?Q?/Pg7g2KOOrFACrkh3Kv1giYB1wXKriIQlCS8f5r+8w+8tJp3Ym+mNYNt0Eh2?=
- =?us-ascii?Q?rUU1tSYAedwLjD1K+doHN8Wt+UgcyTZt2tXZrS5BxTI0MyrP6lY+mGzbE8mB?=
- =?us-ascii?Q?gQELRZy9OUkQzp+Mn+cOg23xUbB6QPiLrJwpqDN5JVCNKKHgReWsBB+dzoV3?=
- =?us-ascii?Q?ilguiOwlNznsShfX/Wll6NHK9Qw8ZBEcQFDa83ndneM5GTrEWzWvc014GuF5?=
- =?us-ascii?Q?ttz90QBdxpFG08ZEasp7CUIaBD28/fjdPz3WTgIVXZmvrNDK43wEHUnZoPUS?=
- =?us-ascii?Q?Fw0I2mOiYBsLAEqHEmA6yFvhB9tfC6FF/CbJ7xnP6MIm26mf4FYGJtqQfghA?=
- =?us-ascii?Q?U34SYROBrMQpl25zLdqk4SOqCFrWDDPp+L2bcGMADgl3w2imO46GiSXWjhtV?=
- =?us-ascii?Q?w//K3V8uijcq/u3XduNjNDgKUY3yz2piMI5C0ZlxleXUkA+knOteNWKOyOTF?=
- =?us-ascii?Q?tUhA8DEL1I/c4kGHH5Kt3bWE+gLpooizlAr/tvVSXKwUFTpuybXk+DRlkDes?=
- =?us-ascii?Q?6cs/q0STrvT/qZcRsGunClk2QZbMs2dMhtAIWcWH2q11AVvRIJp6U+MXAMfK?=
- =?us-ascii?Q?R3lEhrNhwyc7Xuqissu4lhW3yr33vphJRJl4dxADvqYhZpM1IvVSSNk5o139?=
- =?us-ascii?Q?3GoshpYq39hKyA2Q1B1xgV19KJAz9OblHOehXNae0/u2Nxss/BmjHtsO6xHr?=
- =?us-ascii?Q?rhKF27xoGQBGwuEvOiL6p6Tz?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <B2B3AD51813AFE4A8E509158CEE22435@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR02MB6250.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 207337e0-3c6a-43ea-c6e9-08d8d407e10b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Feb 2021 12:22:37.7800
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Y9EJdkkrLnmJ3O5D1ewWFvTQzhVEGgcmtiy/RUdiE2LkviLEWc8cCCkvqwRQ7LWjQroiSI2uTRUGGaUZPnYWNw4BTDHOR/JELI7Rc8Au1b8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB4106
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-02-18_05:2021-02-18,2021-02-18 signatures=0
-X-Proofpoint-Spam-Reason: safe
+        id S231302AbhBROly (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Feb 2021 09:41:54 -0500
+Received: from smtp.outgoing.loopia.se ([93.188.3.37]:56054 "EHLO
+        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232405AbhBRM4h (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Feb 2021 07:56:37 -0500
+Received: from s807.loopia.se (localhost [127.0.0.1])
+        by s807.loopia.se (Postfix) with ESMTP id B7BC110D1E14
+        for <linux-doc@vger.kernel.org>; Thu, 18 Feb 2021 12:53:23 +0100 (CET)
+Received: from s645.loopia.se (unknown [172.22.191.5])
+        by s807.loopia.se (Postfix) with ESMTP id 988242E27599;
+        Thu, 18 Feb 2021 12:53:23 +0100 (CET)
+Received: from s470.loopia.se (unknown [172.22.191.5])
+        by s645.loopia.se (Postfix) with ESMTP id 7BC4C1579F65;
+        Thu, 18 Feb 2021 12:53:23 +0100 (CET)
+X-Virus-Scanned: amavisd-new at amavis.loopia.se
+Received: from s630.loopia.se ([172.22.191.6])
+        by s470.loopia.se (s470.loopia.se [172.22.190.10]) (amavisd-new, port 10024)
+        with UTF8LMTP id 3QocaL6aW7_B; Thu, 18 Feb 2021 12:53:22 +0100 (CET)
+X-Loopia-Auth: user
+X-Loopia-User: carl@hgsystem.se
+X-Loopia-Originating-IP: 94.234.46.141
+Received: from localhost.localdomain (c-5eea2e8d-74736162.cust.telenor.se [94.234.46.141])
+        (Authenticated sender: carl@hgsystem.se)
+        by s630.loopia.se (Postfix) with ESMTPSA id 5EDBA13B9372;
+        Thu, 18 Feb 2021 12:53:21 +0100 (CET)
+From:   Erik Rosen <erik.rosen@metormote.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>
+Cc:     Erik Rosen <erik.rosen@metormote.com>
+Subject: [PATCH v3 2/2] hwmon: (pmbus/stpddc60) Add ST STPDDC60 pmbus driver
+Date:   Thu, 18 Feb 2021 12:52:49 +0100
+Message-Id: <20210218115249.28513-3-erik.rosen@metormote.com>
+X-Mailer: git-send-email 2.11.0 (Apple Git-81)
+In-Reply-To: <20210218115249.28513-1-erik.rosen@metormote.com>
+References: <20210218115249.28513-1-erik.rosen@metormote.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Michal
+Add hardware monitoring support for ST STPDDC60 Unversal Digital
+Multicell Controller.
 
-> On Feb 17, 2021, at 21:31, Michal Hocko <mhocko@suse.com> wrote:
->=20
-> On Wed 17-02-21 10:42:24, Eiichi Tsukata wrote:
->> Hi All,
->>=20
->> Firstly, thank you for your careful review and attention to my patch
->> (and apologies for top-posting!).  Let me first explain why our use
->> case requires hugetlb over THP and then elaborate on the difficulty we
->> have to maintain the correct number of hugepages in the pool, finally
->> concluding with why the proposed approach would help us. Hopefully you
->> can extend it to other use cases and justify the proposal.
->>=20
->> We use Linux to operate a KVM-based hypervisor. Using hugepages to
->> back VM memory significantly increases performance and density. Each
->> VM incurs a 4k regular page overhead which can vary drastically even
->> at runtime (eg. depending on network traffic). In addition, the
->> software doesn't know upfront if users will power on one large VM or
->> several small VMs.
->>=20
->> To manage the varying balance of 4k pages vs. hugepages, we originally
->> leveraged THP. However, constant fragmentation due to VM power cycles,
->> the varying overhead I mentioned above, and other operations like
->> reconfiguration of NIC RX buffers resulted in two problems:
->> 1) There were no guarantees hugepages would be used; and
->> 2) Constant memory compaction incurred a measurable overhead.
->>=20
->> Having a userspace service managing hugetlb gave us significant
->> performance advantages and much needed determinism. It chooses when to
->> try and create more hugepages as well as how many hugepages to go
->> after. Elements like how many hugepages it actually gets, combined
->> with what operations are happening on the host, allow our service to
->> make educated decisions about when to compact memory, drop caches, and
->> retry growing (or shrinking) the pool.
->=20
-> OK, thanks for the clarification. Just to make sure I understand. This
-> means that you are pro-activelly and optimistically pre-allocate hugetlb
-> pages even when there is no immediate need for those, right?
+Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
+---
+ Documentation/hwmon/index.rst    |   1 +
+ Documentation/hwmon/stpddc60.rst |  90 +++++++++++
+ MAINTAINERS                      |   7 +
+ drivers/hwmon/pmbus/Kconfig      |  10 ++
+ drivers/hwmon/pmbus/Makefile     |   2 +
+ drivers/hwmon/pmbus/stpddc60.c   | 248 +++++++++++++++++++++++++++++++
+ 6 files changed, 358 insertions(+)
+ create mode 100644 Documentation/hwmon/stpddc60.rst
+ create mode 100644 drivers/hwmon/pmbus/stpddc60.c
 
-Right, but this is not a "pre-allocation just in case". We need to
-know how many hugepages are available for VM memory upfront. That
-allows us to plan for disaster scenarios where a host goes down and we
-need to restart VMs in other hosts. In addition, going from zero to
-TBs worth of hugepages may take a long time and makes VM power on
-times too slow. Of course in bloat conditions we could lose hugepages
-we pre-allocated, but our placement models can react to that.
-
-
->=20
->> But that comes with a challenge: despite listening on cgroup for
->> pressure notifications (which happen from those runtime events we do
->> not control),
->=20
-> We do also have global pressure (PSI) counters. Have you tried to look
-> into those and try to back off even when the situation becomes critical?
-
-Yes. PSI counters help us to some extent. But we've found that in some case=
-s
-OOM can happen before we observe memory pressure if memory bloat occurred
-rapidly. The proposed failsafe mechanism can cover even such a situation.
-Also, as I mentioned in commit message, oom notifiers doesn't work if OOM
-is triggered by memory allocation for kernel.
-
->=20
->> the service is not guaranteed to sacrifice hugepages
->> fast enough and that causes an OOM. The killer will normally take out
->> a VM even if there are plenty of unused hugepages and that's obviously
->> disruptive for users. For us, free hugepages are almost always expendabl=
-e.
->>=20
->> For the bloat cases which are predictable, a memory management service
->> can adjust the hugepage pool size ahead of time. But it can be hard to
->> anticipate all scenarios, and some can be very volatile. Having a
->> failsafe mechanism as proposed in this patch offers invaluable
->> protection when things are missed.
->>=20
->> The proposal solves this problem by sacrificing hugepages inline even
->> when the pressure comes from kernel allocations. The userspace service
->> can later readjust the pool size without being under pressure. Given
->> this is configurable, and defaults to being off, we thought it would
->> be a nice addition to the kernel and appreciated by other users that
->> may have similar requirements.
->=20
-> Thanks for your usecase description. It helped me to understand what you
-> are doing and how this can be really useful for your particular setup.
-> This is really a very specific situation from my POV. I am not yet sure
-> this is generic enough to warrant for a yet another tunable. One thing
-> you can do [1] is to
-> hook into oom notifiers interface (register_oom_notifier) and release
-> pages from the callback. Why is that batter than a global tunable?
-> For one thing you can make the implementation tailored to your specific
-> usecase. As the review feedback has shown this would be more tricky to
-> be done in a general case. Unlike a generic solution it would allow you
-> to coordinate with your userspace if you need. Would something like that
-> work for you?
-
-Thanks for your suggestion. Implementing our own oom handler using
-register_oom_notifier in out-of-tree kernel module is actually one of our
-options. The intention of this RFC patch is to share the idea and know
-the needs from other users who may have similar requirements.
-
-As for the implementation, I'm considering to make the behavior of
-sacrifice_hugepage() corresponds to decrementing vm.nr_hugepages param.
-Of course any suggestions are always welcome.
-
-Eiichi
-
->=20
-> ---
-> [1] and I have to say I hate myself for suggesting that because I was
-> really hoping this interface would go away. But the reality disagrees so
-> I gave up on that goal...
-> --=20
-> Michal Hocko
-> SUSE Labs
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index fcb870ce6286..94b4fcf182cd 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -169,6 +169,7 @@ Hardware Monitoring Kernel Drivers
+    smsc47m192
+    smsc47m1
+    sparx5-temp
++   stpddc60
+    tc654
+    tc74
+    thmc50
+diff --git a/Documentation/hwmon/stpddc60.rst b/Documentation/hwmon/stpddc60.rst
+new file mode 100644
+index 000000000000..7f7ce7f7871b
+--- /dev/null
++++ b/Documentation/hwmon/stpddc60.rst
+@@ -0,0 +1,90 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Kernel driver stpddc60
++======================
++
++Supported chips:
++
++  * ST STPDDC60
++
++    Prefix: 'stpddc60', 'bmr481'
++
++    Addresses scanned: -
++
++    Datasheet: https://flexpowermodules.com/documents/fpm-techspec-bmr481
++
++Author: Erik Rosen <erik.rosen@metormote.com>
++
++
++Description
++-----------
++
++This driver supports hardware monitoring for ST STPDDC60 controller chip and
++compatible modules.
++
++The driver is a client driver to the core PMBus driver. Please see
++Documentation/hwmon/pmbus.rst and Documentation.hwmon/pmbus-core for details
++on PMBus client drivers.
++
++
++Usage Notes
++-----------
++
++This driver does not auto-detect devices. You will have to instantiate the
++devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
++details.
++
++The vout under- and over-voltage limits are set in relation to the commanded
++output voltage as a positive or negative offset in the interval 50mV to 400mV
++in 50mV steps. This means that the absolute values of the limits will change
++when the commanded output voltage changes. Also, care should be taken when
++writing to those limits since in the worst case the commanded output voltage
++could change at the same time as the limit is written to, wich will lead to
++unpredictable results.
++
++
++Platform data support
++---------------------
++
++The driver supports standard PMBus driver platform data.
++
++
++Sysfs entries
++-------------
++
++The following attributes are supported. Vin, iout, pout and temp limits
++are read-write; all other attributes are read-only.
++
++======================= ========================================================
++in1_label		"vin"
++in1_input		Measured input voltage.
++in1_lcrit		Critical minimum input voltage.
++in1_crit		Critical maximum input voltage.
++in1_lcrit_alarm		Input voltage critical low alarm.
++in1_crit_alarm		Input voltage critical high alarm.
++
++in2_label		"vout1"
++in2_input		Measured output voltage.
++in2_lcrit		Critical minimum output voltage.
++in2_crit		Critical maximum output voltage.
++in2_lcrit_alarm		Critical output voltage critical low alarm.
++in2_crit_alarm		Critical output voltage critical high alarm.
++
++curr1_label		"iout1"
++curr1_input		Measured output current.
++curr1_max		Maximum output current.
++curr1_max_alarm		Output current high alarm.
++curr1_crit		Critical maximum output current.
++curr1_crit_alarm	Output current critical high alarm.
++
++power1_label		"pout1"
++power1_input		Measured output power.
++power1_crit		Critical maximum output power.
++power1_crit_alarm	Output power critical high alarm.
++
++temp1_input		Measured maximum temperature of all phases.
++temp1_max		Maximum temperature limit.
++temp1_max_alarm		High temperature alarm.
++temp1_crit		Critical maximum temperature limit.
++temp1_crit_alarm	Critical maximum temperature alarm.
++======================= ========================================================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 992fe3b0900a..e4c696f8eabe 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16819,6 +16819,13 @@ L:	linux-i2c@vger.kernel.org
+ S:	Maintained
+ F:	drivers/i2c/busses/i2c-stm32*
+ 
++ST STPDDC60 DRIVER
++M:	Daniel Nilsson <daniel.nilsson@flex.com>
++L:	linux-hwmon@vger.kernel.org
++S:	Maintained
++F:	Documentation/hwmon/stpddc60.rst
++F:	drivers/hwmon/pmbus/stpddc60.c
++
+ ST VL53L0X ToF RANGER(I2C) IIO DRIVER
+ M:	Song Qiang <songqiang1304521@gmail.com>
+ L:	linux-iio@vger.kernel.org
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index 03606d4298a4..b2becdd84b11 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -247,6 +247,16 @@ config SENSORS_Q54SJ108A2
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called q54sj108a2.
+ 
++config SENSORS_STPDDC60
++	tristate "ST STPDDC60"
++	help
++	  If you say yes here you get hardware monitoring support for ST
++	  STPDDC60 Universal Digital Multicell Controller, as well as for
++	  Flex BMR481.
++
++	  This driver can also be built as a module. If so, the module will
++	  be called stpddc60.
++
+ config SENSORS_TPS40422
+ 	tristate "TI TPS40422"
+ 	help
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+index 6a4ba0fdc1db..ef468806238c 100644
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -28,9 +28,11 @@ obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
+ obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
+ obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
+ obj-$(CONFIG_SENSORS_Q54SJ108A2)	+= q54sj108a2.o
++obj-$(CONFIG_SENSORS_STPDDC60)	+= stpddc60.o
+ obj-$(CONFIG_SENSORS_TPS40422)	+= tps40422.o
+ obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
+ obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
+ obj-$(CONFIG_SENSORS_UCD9200)	+= ucd9200.o
+ obj-$(CONFIG_SENSORS_XDPE122)	+= xdpe12284.o
+ obj-$(CONFIG_SENSORS_ZL6100)	+= zl6100.o
++
+diff --git a/drivers/hwmon/pmbus/stpddc60.c b/drivers/hwmon/pmbus/stpddc60.c
+new file mode 100644
+index 000000000000..3e6709542b63
+--- /dev/null
++++ b/drivers/hwmon/pmbus/stpddc60.c
+@@ -0,0 +1,248 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Hardware monitoring driver for the STPDDC60 controller
++ *
++ * Copyright (c) 2021 Flextronics International Sweden AB.
++ */
++
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/err.h>
++#include <linux/i2c.h>
++#include <linux/pmbus.h>
++#include "pmbus.h"
++
++#define STPDDC60_MFR_READ_VOUT		0xd2
++#define STPDDC60_MFR_OV_LIMIT_OFFSET	0xe5
++#define STPDDC60_MFR_UV_LIMIT_OFFSET	0xe6
++
++static const struct i2c_device_id stpddc60_id[] = {
++	{"stpddc60", 0},
++	{"bmr481", 0},
++	{}
++};
++MODULE_DEVICE_TABLE(i2c, stpddc60_id);
++
++static struct pmbus_driver_info stpddc60_info = {
++	.pages = 1,
++	.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
++		| PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
++		| PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
++		| PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
++		| PMBUS_HAVE_POUT,
++};
++
++/*
++ * Calculate the closest absolute offset between commanded vout value
++ * and limit value in steps of 50mv in the range 0 (50mv) to 7 (400mv).
++ * Return 0 if the upper limit is lower than vout or if the lower limit
++ * is higher than vout.
++ */
++static u8 stpddc60_get_offset(int vout, u16 limit, bool over)
++{
++	int offset;
++	long v, l;
++
++	v = 250 + (vout - 1) * 5; /* Convert VID to mv */
++	l = (limit * 1000L) >> 8; /* Convert LINEAR to mv */
++
++	if (over == (l < v))
++		return 0;
++
++	offset = DIV_ROUND_CLOSEST(abs(l - v), 50);
++
++	if (offset > 0)
++		offset--;
++
++	return clamp_val(offset, 0, 7);
++}
++
++/*
++ * Adjust the linear format word to use the given fixed exponent.
++ */
++static u16 stpddc60_adjust_linear(u16 word, s16 fixed)
++{
++	s16 e, m, d;
++
++	e = ((s16)word) >> 11;
++	m = ((s16)((word & 0x7ff) << 5)) >> 5;
++	d = e - fixed;
++
++	if (d >= 0)
++		m <<= d;
++	else
++		m >>= -d;
++
++	return clamp_val(m, 0, 0x3ff) | ((fixed << 11) & 0xf800);
++}
++
++/*
++ * The VOUT_COMMAND register uses the VID format but the vout alarm limit
++ * registers use the LINEAR format so we override VOUT_MODE here to force
++ * LINEAR format for all registers.
++ */
++static int stpddc60_read_byte_data(struct i2c_client *client, int page, int reg)
++{
++	int ret;
++
++	if (page > 0)
++		return -ENXIO;
++
++	switch (reg) {
++	case PMBUS_VOUT_MODE:
++		ret = 0x18;
++		break;
++	default:
++		ret = -ENODATA;
++		break;
++	}
++
++	return ret;
++}
++
++/*
++ * The vout related registers return values in LINEAR11 format when LINEAR16
++ * is expected. Clear the top 5 bits to set the exponent part to zero to
++ * convert the value to LINEAR16 format.
++ */
++static int stpddc60_read_word_data(struct i2c_client *client, int page,
++				   int phase, int reg)
++{
++	int ret;
++
++	if (page > 0)
++		return -ENXIO;
++
++	switch (reg) {
++	case PMBUS_READ_VOUT:
++		ret = pmbus_read_word_data(client, page, phase,
++					   STPDDC60_MFR_READ_VOUT);
++		if (ret < 0)
++			return ret;
++		ret &= 0x7ff;
++		break;
++	case PMBUS_VOUT_OV_FAULT_LIMIT:
++	case PMBUS_VOUT_UV_FAULT_LIMIT:
++		ret = pmbus_read_word_data(client, page, phase, reg);
++		if (ret < 0)
++			return ret;
++		ret &= 0x7ff;
++		break;
++	default:
++		ret = -ENODATA;
++		break;
++	}
++
++	return ret;
++}
++
++/*
++ * The vout under- and over-voltage limits are set as an offset relative to
++ * the commanded vout voltage. The vin, iout, pout and temp limits must use
++ * the same fixed exponent the chip uses to encode the data when read.
++ */
++static int stpddc60_write_word_data(struct i2c_client *client, int page,
++				    int reg, u16 word)
++{
++	int ret;
++	u8 offset;
++
++	if (page > 0)
++		return -ENXIO;
++
++	switch (reg) {
++	case PMBUS_VOUT_OV_FAULT_LIMIT:
++		ret = pmbus_read_word_data(client, page, 0xff,
++					   PMBUS_VOUT_COMMAND);
++		if (ret < 0)
++			return ret;
++		offset = stpddc60_get_offset(ret, word, true);
++		ret = pmbus_write_byte_data(client, page,
++					    STPDDC60_MFR_OV_LIMIT_OFFSET,
++					    offset);
++		break;
++	case PMBUS_VOUT_UV_FAULT_LIMIT:
++		ret = pmbus_read_word_data(client, page, 0xff,
++					   PMBUS_VOUT_COMMAND);
++		if (ret < 0)
++			return ret;
++		offset = stpddc60_get_offset(ret, word, false);
++		ret = pmbus_write_byte_data(client, page,
++					    STPDDC60_MFR_UV_LIMIT_OFFSET,
++					    offset);
++		break;
++	case PMBUS_VIN_OV_FAULT_LIMIT:
++	case PMBUS_VIN_UV_FAULT_LIMIT:
++	case PMBUS_OT_FAULT_LIMIT:
++	case PMBUS_OT_WARN_LIMIT:
++	case PMBUS_IOUT_OC_FAULT_LIMIT:
++	case PMBUS_IOUT_OC_WARN_LIMIT:
++	case PMBUS_POUT_OP_FAULT_LIMIT:
++		ret = pmbus_read_word_data(client, page, 0xff, reg);
++		if (ret < 0)
++			return ret;
++		word = stpddc60_adjust_linear(word, ret >> 11);
++		ret = pmbus_write_word_data(client, page, reg, word);
++		break;
++	default:
++		ret = -ENODATA;
++		break;
++	}
++
++	return ret;
++}
++
++static int stpddc60_probe(struct i2c_client *client)
++{
++	int status;
++	u8 device_id[I2C_SMBUS_BLOCK_MAX + 1];
++	const struct i2c_device_id *mid;
++	struct pmbus_driver_info *info = &stpddc60_info;
++
++	if (!i2c_check_functionality(client->adapter,
++				     I2C_FUNC_SMBUS_READ_BYTE_DATA
++				     | I2C_FUNC_SMBUS_BLOCK_DATA))
++		return -ENODEV;
++
++	status = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, device_id);
++	if (status < 0) {
++		dev_err(&client->dev, "Failed to read Manufacturer Model\n");
++		return status;
++	}
++	for (mid = stpddc60_id; mid->name[0]; mid++) {
++		if (!strncasecmp(mid->name, device_id, strlen(mid->name)))
++			break;
++	}
++	if (!mid->name[0]) {
++		dev_err(&client->dev, "Unsupported device\n");
++		return -ENODEV;
++	}
++
++	info->read_byte_data = stpddc60_read_byte_data;
++	info->read_word_data = stpddc60_read_word_data;
++	info->write_word_data = stpddc60_write_word_data;
++
++	status = pmbus_do_probe(client, info);
++	if (status < 0)
++		return status;
++
++	pmbus_set_update(client, PMBUS_VOUT_OV_FAULT_LIMIT, true);
++	pmbus_set_update(client, PMBUS_VOUT_UV_FAULT_LIMIT, true);
++
++	return 0;
++}
++
++static struct i2c_driver stpddc60_driver = {
++	.driver = {
++		   .name = "stpddc60",
++		   },
++	.probe_new = stpddc60_probe,
++	.id_table = stpddc60_id,
++};
++
++module_i2c_driver(stpddc60_driver);
++
++MODULE_AUTHOR("Erik Rosen <erik.rosen@metormote.com>");
++MODULE_DESCRIPTION("PMBus driver for ST STPDDC60");
++MODULE_LICENSE("GPL");
+-- 
+2.20.1
 
