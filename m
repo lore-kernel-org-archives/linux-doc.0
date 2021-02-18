@@ -2,139 +2,167 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCB25C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 04:15:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A37EC433E9
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 04:23:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C1F064DFF
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 04:15:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E49F064E28
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 04:23:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230122AbhBREPx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Feb 2021 23:15:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20252 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229983AbhBREPt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Feb 2021 23:15:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1613621662;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=emJvmHO6K5DoKcle3XfGbvke6XPq47tbyoxFu4GbpOg=;
-        b=V1fJCLTJID2aqb8rKZWsbM8F0gf4muNo4JH3DlgXN92NN5ZJ6+9bhv3Bmhcm7lO6RI1vQY
-        sY842zaD8wLlyBOnkVLqcpnTI9Nnzhzox8b7RHKdJPSMI6uBy7Jhk7fq4c5Wxxhuep0Rif
-        5uYbI1BSp2p6Yj2QK9FJHrU99jsHwSA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-wauykghLNGe1NIrrLr8z8Q-1; Wed, 17 Feb 2021 23:14:18 -0500
-X-MC-Unique: wauykghLNGe1NIrrLr8z8Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 334E11020C22;
-        Thu, 18 Feb 2021 04:14:15 +0000 (UTC)
-Received: from localhost (ovpn-12-112.pek2.redhat.com [10.72.12.112])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id C7E7A10016F0;
-        Thu, 18 Feb 2021 04:14:10 +0000 (UTC)
-Date:   Thu, 18 Feb 2021 12:14:07 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Chen Zhou <chenzhou10@huawei.com>
-Cc:     mingo@redhat.com, tglx@linutronix.de, rppt@kernel.org,
-        dyoung@redhat.com, catalin.marinas@arm.com, will@kernel.org,
-        nsaenzjulienne@suse.de, corbet@lwn.net, John.P.donnelly@oracle.com,
-        prabhakar.pkin@gmail.com, horms@verge.net.au, robh+dt@kernel.org,
-        arnd@arndb.de, james.morse@arm.com, xiexiuqi@huawei.com,
-        guohanjun@huawei.com, huawei.libin@huawei.com,
-        wangkefeng.wang@huawei.com, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v14 04/11] x86: kdump: move xen_pv_domain() check and
- insert_resource() to setup_arch()
-Message-ID: <20210218041259.GG2871@MiWiFi-R3L-srv>
-References: <20210130071025.65258-1-chenzhou10@huawei.com>
- <20210130071025.65258-5-chenzhou10@huawei.com>
+        id S230154AbhBREXe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Feb 2021 23:23:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57732 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230186AbhBREXc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Feb 2021 23:23:32 -0500
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com [IPv6:2607:f8b0:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB325C061786
+        for <linux-doc@vger.kernel.org>; Wed, 17 Feb 2021 20:22:51 -0800 (PST)
+Received: by mail-ot1-x32c.google.com with SMTP id o10so737550ote.13
+        for <linux-doc@vger.kernel.org>; Wed, 17 Feb 2021 20:22:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cilium-io.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=U8oY3+hBS7HKyq1cNaFZMy0hOHTWoFPax0mpOWicnEg=;
+        b=sVa5znoA+n13GOYmUbAL0Merg4RRzMzSXBlV0Iel4bRWHFTkjYz+rK+bnUHUV8MqAL
+         hYKO/CSpKG5JFKd9VHIXtcfobS/i6tGzgqedtrjG1tHq9sSAM/sV5hns2rf2ZAtwIQWj
+         B6FBlxY0VNR4+uxxlZyGbFKaRVzIExLLWpbndogLJAlJ3w2Xg6FCt+ofchZ+yfs6FbYi
+         WFbnRylUi/kyxDPAAE2fScW4fn0lBf3v+KeY/EyhA09PX5Ixhc3IiEj2BxdYQUB7gMJR
+         w04RaDZsuf11PsCQdC2CkUMvomnaf7jCS7waXhrYHBICkJJwZ4x39XZ8zAy1SQs+15NU
+         jBpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=U8oY3+hBS7HKyq1cNaFZMy0hOHTWoFPax0mpOWicnEg=;
+        b=oNDwdXULUNewQ/kBBFtGdRJseRHeCtHke1beYmqsxBbwamKsOf/vt2/ha8H12ORL9j
+         NNtqe01VdfhUvlxLdsCs0r/2N6azePsJKtVRuAYhA0naKWI6e2XexbZk+4rLHgZo9b2J
+         rQllm9Fp15Nut766q2tLIt0T0yCsfbEfdIy9HNxgGgMi3h0XJWPpQF52XNj3O5RpB1Wr
+         V5sY76d1eM3KZIiu6ShBXFnidr2balkqXSngeXxuENe/67kcUAKxaCc1ohEM2glR+RIo
+         XqJmW8T7UqNdf1CaS+P8epbKEKN3JcHNFf52OsO+PpOiOEeAmovMV5ecn3R/srhoEr0K
+         vLrA==
+X-Gm-Message-State: AOAM532UNukKQ7UeM8tq1jMExydxitBibODweE1wlcy+TqiUxXiowyH3
+        Hfa67x2iLt6Rv8J2sWyek1w/R50aJFR9CsawHd1WRw==
+X-Google-Smtp-Source: ABdhPJzgAr61Ally+5+Wz2l53uNAG1MM31KgN8aAurrCxAimEPIZlJwMf5uxDIKMe+sdOZ6BZcUiFhZd5dN0ErOVb8Q=
+X-Received: by 2002:a9d:480f:: with SMTP id c15mr1696507otf.55.1613622171042;
+ Wed, 17 Feb 2021 20:22:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210130071025.65258-5-chenzhou10@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <20210217010821.1810741-1-joe@wand.net.nz> <871rdewqf2.fsf@meer.lwn.net>
+In-Reply-To: <871rdewqf2.fsf@meer.lwn.net>
+From:   Joe Stringer <joe@cilium.io>
+Date:   Wed, 17 Feb 2021 20:22:33 -0800
+Message-ID: <CADa=RyzDXeJeW7jAVce0zfGX2zN5ZcAv5nwYsX7EtAz=bgZYkg@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 00/17] Improve BPF syscall command documentation
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     bpf@vger.kernel.org, Joe Stringer <joe@cilium.io>,
+        linux-man@vger.kernel.org, Networking <netdev@vger.kernel.org>,
+        mtk.manpages@gmail.com, ast@kernel.org, brianvv@google.com,
+        Daniel Borkmann <daniel@iogearbox.net>, daniel@zonque.org,
+        john.fastabend@gmail.com, ppenkov@google.com,
+        Quentin Monnet <quentin@isovalent.com>, sean@mess.org,
+        yhs@fb.com, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/30/21 at 03:10pm, Chen Zhou wrote:
-> We will make the functions reserve_crashkernel() as generic, the
-> xen_pv_domain() check in reserve_crashkernel() is relevant only to
-> x86, the same as insert_resource() in reserve_crashkernel[_low]().
-> So move xen_pv_domain() check and insert_resource() to setup_arch()
-> to keep them in x86.
-> 
-> Suggested-by: Mike Rapoport <rppt@kernel.org>
-> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
-> Tested-by: John Donnelly <John.p.donnelly@oracle.com>
-> ---
->  arch/x86/kernel/setup.c | 19 +++++++++++--------
->  1 file changed, 11 insertions(+), 8 deletions(-)
-> 
-> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
-> index 086a04235be4..5d676efc32f6 100644
-> --- a/arch/x86/kernel/setup.c
-> +++ b/arch/x86/kernel/setup.c
-> @@ -454,7 +454,6 @@ static int __init reserve_crashkernel_low(void)
->  
->  	crashk_low_res.start = low_base;
->  	crashk_low_res.end   = low_base + low_size - 1;
-> -	insert_resource(&iomem_resource, &crashk_low_res);
->  #endif
->  	return 0;
->  }
-> @@ -478,11 +477,6 @@ static void __init reserve_crashkernel(void)
->  		high = true;
->  	}
->  
-> -	if (xen_pv_domain()) {
-> -		pr_info("Ignoring crashkernel for a Xen PV domain\n");
-> -		return;
-> -	}
-> -
->  	/* 0 means: find the address automatically */
->  	if (!crash_base) {
->  		/*
-> @@ -529,7 +523,6 @@ static void __init reserve_crashkernel(void)
->  
->  	crashk_res.start = crash_base;
->  	crashk_res.end   = crash_base + crash_size - 1;
-> -	insert_resource(&iomem_resource, &crashk_res);
->  }
->  #else
->  static void __init reserve_crashkernel(void)
-> @@ -1151,7 +1144,17 @@ void __init setup_arch(char **cmdline_p)
->  	 * Reserve memory for crash kernel after SRAT is parsed so that it
->  	 * won't consume hotpluggable memory.
->  	 */
-> -	reserve_crashkernel();
-> +	if (xen_pv_domain())
-> +		pr_info("Ignoring crashkernel for a Xen PV domain\n");
-> +	else {
-> +		reserve_crashkernel();
-> +#ifdef CONFIG_KEXEC_CORE
-> +		if (crashk_res.end > crashk_res.start)
-> +			insert_resource(&iomem_resource, &crashk_res);
-> +		if (crashk_low_res.end > crashk_low_res.start)
-> +			insert_resource(&iomem_resource, &crashk_low_res);
-> +#endif
+On Wed, Feb 17, 2021 at 9:32 AM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> [CC += linux-doc]
+>
+> Joe Stringer <joe@wand.net.nz> writes:
+>
+> > From: Joe Stringer <joe@cilium.io>
+> >
+> > The state of bpf(2) manual pages today is not exactly ideal. For the
+> > most part, it was written several years ago and has not kept up with the
+> > pace of development in the kernel tree. For instance, out of a total of
+> > ~35 commands to the BPF syscall available today, when I pull the
+> > kernel-man-pages tree today I find just 6 documented commands: The very
+> > basics of map interaction and program load.
+> >
+> > In contrast, looking at bpf-helpers(7), I am able today to run one
+> > command[0] to fetch API documentation of the very latest eBPF helpers
+> > that have been added to the kernel. This documentation is up to date
+> > because kernel maintainers enforce documenting the APIs as part of
+> > the feature submission process. As far as I can tell, we rely on manual
+> > synchronization from the kernel tree to the kernel-man-pages tree to
+> > distribute these more widely, so all locations may not be completely up
+> > to date. That said, the documentation does in fact exist in the first
+> > place which is a major initial hurdle to overcome.
+> >
+> > Given the relative success of the process around bpf-helpers(7) to
+> > encourage developers to document their user-facing changes, in this
+> > patch series I explore applying this technique to bpf(2) as well.
+>
+> So I am totally in favor of improving the BPF docs, this is great work.
+>
+> That said, I am a bit less thrilled about creating a new, parallel
+> documentation-build system in the kernel.  I don't think that BPF is so
+> special that it needs to do its own thing here.
+>
+> If you started that way, you'd get the whole existing build system for
+> free.  You would also have started down a path that could, some bright
+> shining day, lead to this kind of documentation for *all* of our system
+> calls.  That would be a huge improvement in how we do things.
+>
+> The troff output would still need implementation, but we'd like to have
+> that anyway.  We used to create man pages for internal kernel APIs; that
+> was lost in the sphinx transition and hasn't been a priority since
+> people haven't been screaming, but it could still be nice to have it
+> back.
+>
+> So...could I ask you to have a look at doing this within the kernel's
+> docs system instead of in addition to it?  Even if it means digging into
+> scripts/kernel-doc, which isn't all that high on my list of Fun Things
+> To Do either?  I'm willing to try to help, and maybe we can get some
+> other assistance too - I'm ever the optimist.
 
-Acked-by: Baoquan He <bhe@redhat.com>
+Hey Jon, thanks for the feedback. Absolutely, what you say makes
+sense. The intent here wasn't to come up with something new. Based on
+your prompt from this email (and a quick look at your KR '19
+presentation), I'm hearing a few observations:
+* Storing the documentation in the code next to the things that
+contributors edit is a reasonable approach to documentation of this
+kind.
+* This series currently proposes adding some new Makefile
+infrastructure. However, good use of the "kernel-doc" sphinx directive
++ "DOC: " incantations in the header should be able to achieve the
+same without adding such dedicated build system logic to the tree.
+* The changes in patch 16 here extended Documentation/bpf/index.rst,
+but to assist in improving the overall kernel documentation
+organisation / hierarchy, you would prefer to instead introduce a
+dedicated Documentation/userspace-api/bpf/ directory where the bpf
+uAPI portions can be documented.
 
-> +	}
->  
->  	memblock_find_dma_reserve();
->  
-> -- 
-> 2.20.1
-> 
+From the above, there's a couple of clear actionable items I can look
+into for a series v2 which should tidy things up.
 
+In addition to this, today the bpf helpers documentation is built
+through the bpftool build process as well as the runtime bpf
+selftests, mostly as a way to ensure that the API documentation
+conforms to a particular style, which then assists with the generation
+of ReStructured Text and troff output. I can probably simplify the
+make infrastructure involved in triggering the bpf docs build for bpf
+subsystem developers and maintainers. I think there's likely still
+interest from bpf folks to keep that particular dependency in the
+selftests like today and even extend it to include this new
+Documentation, so that we don't either introduce text that fails
+against the parser or in some other way break the parser. Whether that
+validation is done by scripts/kernel-doc or scripts/bpf_helpers_doc.py
+doesn't make a big difference to me, other than I have zero experience
+with Perl. My first impressions are that the bpf_helpers_doc.py is
+providing stricter formatting requirements than what "DOC: " +
+kernel-doc would provide, so my baseline inclination would be to keep
+those patches to enhance that script and use that for the validation
+side (help developers with stronger linting feedback), then use
+kernel-doc for the actual html docs generation side, which would help
+to satisfy your concern around duplication of the documentation build
+systems.
+
+Cheers,
+Joe
