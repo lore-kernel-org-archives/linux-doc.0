@@ -2,98 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1189AC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 17:56:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F63C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 19:19:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCF5064EAE
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 17:56:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 182D464E6F
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 19:19:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233914AbhBRRzy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Feb 2021 12:55:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58036 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234461AbhBRRhq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Feb 2021 12:37:46 -0500
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BC91C0613D6;
-        Thu, 18 Feb 2021 09:37:05 -0800 (PST)
-Received: by mail-pg1-x52b.google.com with SMTP id 75so1551465pgf.13;
-        Thu, 18 Feb 2021 09:37:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Xmf6pTNe7mQQ+6NHgcE8bVS8WWzHYXysNcfphF1I+24=;
-        b=Y/8D/DbfQgqs+GHwMjEuxhzZCU1naE54M6ECflXmCALxpIV0AXdNrz2eQRDpXtFki5
-         URJgtKjb+/zCNsyyRv0sKQ0oom1VGKhXLAcENdEsQUj2CslkwXOWuuTg77O8rgBXUsSI
-         E4Xchs1spLREWPvvEip4Oi5pDq7yhTMQNsRiN3apzSRM1/4DTDz/tIktS4oZbFyc0P6P
-         S2eThA6pR6nCXcCgq2GMoJNSAlJb5h+v7ae7/diE2HF8Zbp2e1E/S3iNJihZ+3tvY30c
-         WRSxxvxRC5rdr4NUsysZfIRYrmF+YZfEb+g5w9TUPRZERGZjnj6SCn9FcUl+PG6LWKsv
-         AHjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Xmf6pTNe7mQQ+6NHgcE8bVS8WWzHYXysNcfphF1I+24=;
-        b=OSMp6MJeHwIzmpHgJECGsySokMsDqPAHE8bnaG6c3GeN9qcT61Gc0sfeGU0oelEHZO
-         xiqb8F6TlsIk/ZF5TLoY6XE67qsC+9iCm+SiEHgcEFDvLwjKS/8Hr2FCcdkeXHiRkzhr
-         Tg2fpQ4tP/fY4DrsCrGUaMhX/oR+6+8gmY57EA6KFts+GutgNFGkCJYwgnjW0kngQhwC
-         KhM+jqqeWKJJKiES9U8YcZQ2Jnz8sPyEdlmlRUE1RchaeWM24xlD4xrZwQHw/nnM+m7a
-         IAb/GwPRyuisu+01pNHRYaF6Jllt2MpurDFFVQhInDRKwMzNTMycRNgvYVeUwcmWvPu+
-         mA6w==
-X-Gm-Message-State: AOAM530mq2/kNzZO7XIimp/LbA6Q2HpFRdiBel98mV0xiuhuWrIbn84F
-        wmYMx8IJoqKB77VhsZdBY/5xhkrXJszfFoZ2tIHQiCGr
-X-Google-Smtp-Source: ABdhPJy4lZs5G/uRY3utOJ/evT/TjcNbVyBZZnGu2g4ZS/e5JLu4FJZrG5lr3f0fi0KTZHNrPiA6ykLIfp5gBvcV464=
-X-Received: by 2002:a05:6a00:7c7:b029:1de:80cd:46b8 with SMTP id
- n7-20020a056a0007c7b02901de80cd46b8mr5427816pfu.63.1613669825077; Thu, 18 Feb
- 2021 09:37:05 -0800 (PST)
+        id S231840AbhBRTSi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Feb 2021 14:18:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43219 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232845AbhBRSiI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Feb 2021 13:38:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1613673402;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=UBpV2feeWENB3qElu2PwsYXbdkCfp22tg+Z0/Rz/zOU=;
+        b=W7/84RYCrsETDwwZzzxLMIZCmYHJYZOx/P8VMVHH3WejulgPf3L2NZA1sYHyU1EAH683V5
+        RVqm0HTAw4Tq93ldMWjmvQf4+rpjpvVll+GjPeGZD7SSIeP5tSUvxI2AF0AOJG5fK2uS7a
+        /4bjNt+WqEx366WsVtfh4FTYm2EeRPE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-91-m9ybSTmxMbm61LJCzsjAGw-1; Thu, 18 Feb 2021 13:36:38 -0500
+X-MC-Unique: m9ybSTmxMbm61LJCzsjAGw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA5BD107ACE3;
+        Thu, 18 Feb 2021 18:36:36 +0000 (UTC)
+Received: from prarit.bos.redhat.com (prarit-guest.7a2m.lab.eng.bos.redhat.com [10.16.222.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id D53A218F0A;
+        Thu, 18 Feb 2021 18:36:35 +0000 (UTC)
+Subject: Re: [PATCH] pci-driver: Add driver load messages
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Leon Romanovsky <leon@kernel.org>, bhelgaas@google.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-pci@vger.kernel.org, mstowe@redhat.com
+References: <20210126151259.GA2886142@bjorn-Precision-5520>
+From:   Prarit Bhargava <prarit@redhat.com>
+Message-ID: <dea3517c-8f2f-9a18-81d2-ab6468354040@redhat.com>
+Date:   Thu, 18 Feb 2021 13:36:35 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20210216201813.60394-1-xie.he.0141@gmail.com> <YC4sB9OCl5mm3JAw@unreal>
- <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com> <YC5DVTHHd6OOs459@unreal>
-In-Reply-To: <YC5DVTHHd6OOs459@unreal>
-From:   Xie He <xie.he.0141@gmail.com>
-Date:   Thu, 18 Feb 2021 09:36:54 -0800
-Message-ID: <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
-Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB frames
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Linux X25 <linux-x25@vger.kernel.org>,
-        Linux Kernel Network Developers <netdev@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Martin Schiller <ms@dev.tdt.de>,
-        Krzysztof Halasa <khc@pm.waw.pl>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210126151259.GA2886142@bjorn-Precision-5520>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 18, 2021 at 2:37 AM Leon Romanovsky <leon@kernel.org> wrote:
->
-> It is not me who didn't explain, it is you who didn't want to write clear
-> comment that describes the headroom size without need of "3 - 1".
 
-Why do I need to write unnecessary comments when "3 - 1" and the
-current comment already explains everything?
 
-> So in current situation, you added two things: comment and assignment.
-> Both of them aren't serve their goals.
+On 1/26/21 10:12 AM, Bjorn Helgaas wrote:
+> Hi Prarit,
+> 
+> On Tue, Jan 26, 2021 at 09:05:23AM -0500, Prarit Bhargava wrote:
+>> On 1/26/21 8:53 AM, Leon Romanovsky wrote:
+>>> On Tue, Jan 26, 2021 at 08:42:12AM -0500, Prarit Bhargava wrote:
+>>>> On 1/26/21 8:14 AM, Leon Romanovsky wrote:
+>>>>> On Tue, Jan 26, 2021 at 07:54:46AM -0500, Prarit Bhargava wrote:
+>>>>>>   Leon Romanovsky <leon@kernel.org> wrote:
+>>>>>>> On Mon, Jan 25, 2021 at 02:41:38PM -0500, Prarit Bhargava wrote:
+>>>>>>>> There are two situations where driver load messages are helpful.
+>>>>>>>>
+>>>>>>>> 1) Some drivers silently load on devices and debugging driver or system
+>>>>>>>> failures in these cases is difficult.  While some drivers (networking
+>>>>>>>> for example) may not completely initialize when the PCI driver probe() function
+>>>>>>>> has returned, it is still useful to have some idea of driver completion.
+>>>>>>>
+>>>>>>> Sorry, probably it is me, but I don't understand this use case.
+>>>>>>> Are you adding global to whole kernel command line boot argument to debug
+>>>>>>> what and when?
+>>>>>>>
+>>>>>>> During boot:
+>>>>>>> If device success, you will see it in /sys/bus/pci/[drivers|devices]/*.
+>>>>>>> If device fails, you should get an error from that device (fix the
+>>>>>>> device to return an error), or something immediately won't work and
+>>>>>>> you won't see it in sysfs.
+>>>>>>
+>>>>>> What if there is a panic during boot?  There's no way to get to sysfs.
+>>>>>> That's the case where this is helpful.
+>>>>>
+>>>>> How? If you have kernel panic, it means you have much more worse problem
+>>>>> than not-supported device. If kernel panic was caused by the driver, you
+>>>>> will see call trace related to it. If kernel panic was caused by
+>>>>> something else, supported/not supported won't help here.
+>>>>
+>>>> I still have no idea *WHICH* device it was that the panic occurred on.
+>>>
+>>> The kernel panic is printed from the driver. There is one driver loaded
+>>> for all same PCI devices which are probed without relation to their
+>>> number.>
+>>> If you have host with ten same cards, you will see one driver and this
+>>> is where the problem and not in supported/not-supported device.
+>>
+>> That's true, but you can also have different cards loading the same driver.
+>> See, for example, any PCI_IDs list in a driver.
+>>
+>> For example,
+>>
+>> 10:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3008 [Fury] (rev 02)
+>> 20:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3108 [Invader] (rev 02)
+>>
+>> Both load the megaraid driver and have different profiles within the
+>> driver.  I have no idea which one actually panicked until removing
+>> one card.
+>>
+>> It's MUCH worse when debugging new hardware and getting a panic
+>> from, for example, the uncore code which binds to a PCI mapped
+>> device.  One device might work and the next one doesn't.  And then
+>> you can multiply that by seeing *many* panics at once and trying to
+>> determine if the problem was on one specific socket, die, or core.
+> 
+> Would a dev_panic() interface that identified the device and driver
+> help with this?
+> 
 
-Why?
+^^ the more I look at this problem, the more a dev_panic() that would output a
+device specific message at panic time is what I really need.
 
-> Your comment doesn't explain
-> enough and needs extra help
+> For driver_load_messages, it doesn't seem necessarily PCI-specific.
+> If we want a message like that, maybe it could be in
+> driver_probe_device() or similar?  There are already a few pr_debug()
+> calls in that path.  There are some enabled by initcall_debug that
+> include the return value from the probe; would those be close to what
+> you're looking for?
 
-Why? My comment already explains everything.
+I took a look at those, and unfortunately they do not meet my requirements.
+Ultimately, at panic time, I need to know that a driver was loaded on a device
+at a specific location in the PCI space.
 
-> and your assignment is useless without
-> comment.
+The driver_probe_device() pr_debug calls tell me the location and the driver,
+but not anything to uniquely identify the device (ie, the PCI vendor and device
+IDs).
 
-My assignment is already very clear with my current comment. My
-comment explains very clearly what this assignment means.
+It sounds like you've had some thoughts about a dev_panic() implementation.
+Care to share them with me?  I'm more than willing to implement it but just want
+to get your more experienced view of what is needed.
+
+P.
+
+> 
+> Bjorn
+> 
+
