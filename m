@@ -2,105 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7F29C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 14:41:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB43DC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 14:42:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8585B64E85
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 14:41:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CC7E64EAE
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 14:42:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231751AbhBROlF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Feb 2021 09:41:05 -0500
-Received: from smtp.outgoing.loopia.se ([93.188.3.37]:33394 "EHLO
-        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232506AbhBRML2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Feb 2021 07:11:28 -0500
-Received: from s807.loopia.se (localhost [127.0.0.1])
-        by s807.loopia.se (Postfix) with ESMTP id 8AA4B6FD6F8
-        for <linux-doc@vger.kernel.org>; Thu, 18 Feb 2021 12:53:17 +0100 (CET)
-Received: from s500.loopia.se (unknown [172.22.191.5])
-        by s807.loopia.se (Postfix) with ESMTP id 6B1A92E275A0;
-        Thu, 18 Feb 2021 12:53:17 +0100 (CET)
-Received: from s476.loopia.se (unknown [172.22.191.6])
-        by s500.loopia.se (Postfix) with ESMTP id 5D5BC1E32E76;
-        Thu, 18 Feb 2021 12:53:17 +0100 (CET)
-X-Virus-Scanned: amavisd-new at amavis.loopia.se
-Received: from s630.loopia.se ([172.22.191.6])
-        by s476.loopia.se (s476.loopia.se [172.22.190.16]) (amavisd-new, port 10024)
-        with LMTP id rprKM0USkGVl; Thu, 18 Feb 2021 12:53:16 +0100 (CET)
-X-Loopia-Auth: user
-X-Loopia-User: carl@hgsystem.se
-X-Loopia-Originating-IP: 94.234.46.141
-Received: from localhost.localdomain (c-5eea2e8d-74736162.cust.telenor.se [94.234.46.141])
-        (Authenticated sender: carl@hgsystem.se)
-        by s630.loopia.se (Postfix) with ESMTPSA id 1BDA413B939F;
-        Thu, 18 Feb 2021 12:53:15 +0100 (CET)
-From:   Erik Rosen <erik.rosen@metormote.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>
-Cc:     Erik Rosen <erik.rosen@metormote.com>
-Subject: [PATCH v3 1/2] hwmon: (pmbus) Add pmbus_set_update() function to set update flag
-Date:   Thu, 18 Feb 2021 12:52:48 +0100
-Message-Id: <20210218115249.28513-2-erik.rosen@metormote.com>
-X-Mailer: git-send-email 2.11.0 (Apple Git-81)
-In-Reply-To: <20210218115249.28513-1-erik.rosen@metormote.com>
-References: <20210218115249.28513-1-erik.rosen@metormote.com>
+        id S229876AbhBROlY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Feb 2021 09:41:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50752 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233143AbhBRMjz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Feb 2021 07:39:55 -0500
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F04C061756
+        for <linux-doc@vger.kernel.org>; Thu, 18 Feb 2021 04:39:11 -0800 (PST)
+Received: by mail-wr1-x433.google.com with SMTP id 7so2848309wrz.0
+        for <linux-doc@vger.kernel.org>; Thu, 18 Feb 2021 04:39:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=b4Hk9Xkt4Q3LlvCihgo4WN89RwASW9sNa4+yXZPWHPw=;
+        b=e2wBy1MEwC/GnkPUKP18oTIaZeV+3cuJQuXXon38Nat/uZM3dk0R0b47WOIe0tSJDk
+         5rqG7MssU6N82c00g4XY/bDJNn2rOyyoq2l7UaVohob9V0PgKH4ng+CoWaekt5KnzBXf
+         9vFYK65ZKg0hp8mEF4FBAv0A5XJy0Ga3q8wVA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=b4Hk9Xkt4Q3LlvCihgo4WN89RwASW9sNa4+yXZPWHPw=;
+        b=PGF5Ol6apyF9nDrgj/mqHgmeUl1AF5UP53ZxJYTZtbaF9Vr7hW2Uk05Y0S5HnWM+S/
+         V2HeYJkxBWDfiXpWv+kz6ILHrUk4fJ0Kto2pebQptQAApXJFXcq45PZgpq/iEJFMmZzw
+         rnMChjgZgThBPbBtMrDT0JDqXnpUAUgmTC4yJcYizf0d9MXpW9Yp/p3tPQVj8Dvs7/Ps
+         ZzEGfyA0zrNIyKhweSvCl/nH3g1iNqu/3Yjq0LC8Z9jnobQ+/mkZMeBq+riVP4gnQBNs
+         idlZP6NgB735HzbjWPTLO6/K+Akt/4Z/gBtK3qQLTUj/Y481v2z58N3l5wS0NxCvmPt2
+         XuSg==
+X-Gm-Message-State: AOAM531jXrQl+2hBELA+lN/NdUBvHf3MhfU1YtSpJujuttPryEQb3FRo
+        i8SjncoCLflxDwkGRgiyCwEIyQ==
+X-Google-Smtp-Source: ABdhPJwUakPH1ZbGEB2SO4sHsjmVQffVAVDx0FvlBYPTCQdYSSxqg/qebMbkRC6RmykPuzbcG3Ur4g==
+X-Received: by 2002:adf:fb51:: with SMTP id c17mr4302952wrs.145.1613651950397;
+        Thu, 18 Feb 2021 04:39:10 -0800 (PST)
+Received: from localhost ([2620:10d:c093:400::4:f7e9])
+        by smtp.gmail.com with ESMTPSA id z63sm7641374wme.8.2021.02.18.04.39.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Feb 2021 04:39:09 -0800 (PST)
+Date:   Thu, 18 Feb 2021 12:39:09 +0000
+From:   Chris Down <chris@chrisdown.name>
+To:     Eiichi Tsukata <eiichi.tsukata@nutanix.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mcgrof@kernel.org" <mcgrof@kernel.org>,
+        "keescook@chromium.org" <keescook@chromium.org>,
+        "yzaikin@google.com" <yzaikin@google.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+        Felipe Franciosi <felipe@nutanix.com>,
+        "shakeelb@google.com" <shakeelb@google.com>
+Subject: Re: [RFC PATCH] mm, oom: introduce vm.sacrifice_hugepage_on_oom
+Message-ID: <YC5f7SalbXhemwV7@chrisdown.name>
+References: <20210216030713.79101-1-eiichi.tsukata@nutanix.com>
+ <YCt+cVvWPbWvt2rG@dhcp22.suse.cz>
+ <bb3508e7-48d1-fa1b-f1a0-7f42be55ed9c@oracle.com>
+ <YCzMVa5QSyUtlmnI@dhcp22.suse.cz>
+ <D66DC6A7-C708-4888-8FCF-E4EB0F90ED48@nutanix.com>
+ <YC0MiqwCGp90Oj4N@dhcp22.suse.cz>
+ <99FF105C-1AAB-40F3-9C13-7BDA23AD89D9@nutanix.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <99FF105C-1AAB-40F3-9C13-7BDA23AD89D9@nutanix.com>
+User-Agent: Mutt/2.0.5 (da5e3282) (2021-01-21)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For the STPDDC60 chip, the vout alarm-limits are represented as an offset
-relative to the commanded output voltage. This means that the limits are
-dynamic and must not be cached by the pmbus driver. This patch adds a
-pmbus_set_sensor() function to pmbus_core to be able to set the update flag
-on selected sensors after auto-detection of limit attributes.
+Eiichi Tsukata writes:
+>>> But that comes with a challenge: despite listening on cgroup for
+>>> pressure notifications (which happen from those runtime events we do
+>>> not control),
+>>
+>> We do also have global pressure (PSI) counters. Have you tried to look
+>> into those and try to back off even when the situation becomes critical?
+>
+>Yes. PSI counters help us to some extent. But we've found that in some cases
+>OOM can happen before we observe memory pressure if memory bloat occurred
+>rapidly. The proposed failsafe mechanism can cover even such a situation.
+>Also, as I mentioned in commit message, oom notifiers doesn't work if OOM
+>is triggered by memory allocation for kernel.
 
-Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
----
- drivers/hwmon/pmbus/pmbus.h      |  1 +
- drivers/hwmon/pmbus/pmbus_core.c | 11 +++++++++++
- 2 files changed, 12 insertions(+)
-
-diff --git a/drivers/hwmon/pmbus/pmbus.h b/drivers/hwmon/pmbus/pmbus.h
-index 4c30ec89f5bf..3968924f8533 100644
---- a/drivers/hwmon/pmbus/pmbus.h
-+++ b/drivers/hwmon/pmbus/pmbus.h
-@@ -475,6 +475,7 @@ extern const struct regulator_ops pmbus_regulator_ops;
- /* Function declarations */
- 
- void pmbus_clear_cache(struct i2c_client *client);
-+void pmbus_set_update(struct i2c_client *client, u8 reg, bool update);
- int pmbus_set_page(struct i2c_client *client, int page, int phase);
- int pmbus_read_word_data(struct i2c_client *client, int page, int phase,
- 			 u8 reg);
-diff --git a/drivers/hwmon/pmbus/pmbus_core.c b/drivers/hwmon/pmbus/pmbus_core.c
-index 192442b3b7a2..a8f910826a18 100644
---- a/drivers/hwmon/pmbus/pmbus_core.c
-+++ b/drivers/hwmon/pmbus/pmbus_core.c
-@@ -141,6 +141,17 @@ void pmbus_clear_cache(struct i2c_client *client)
- }
- EXPORT_SYMBOL_GPL(pmbus_clear_cache);
- 
-+void pmbus_set_update(struct i2c_client *client, u8 reg, bool update)
-+{
-+	struct pmbus_data *data = i2c_get_clientdata(client);
-+	struct pmbus_sensor *sensor;
-+
-+	for (sensor = data->sensors; sensor; sensor = sensor->next)
-+		if (sensor->reg == reg)
-+			sensor->update = update;
-+}
-+EXPORT_SYMBOL_GPL(pmbus_set_update);
-+
- int pmbus_set_page(struct i2c_client *client, int page, int phase)
- {
- 	struct pmbus_data *data = i2c_get_clientdata(client);
--- 
-2.20.1
-
+Hmm, do you have free swap? Without it, we can trivially go from fine to OOM in 
+a totally binary fashion. As long as there's some swap space available, there 
+should be a clear period where pressure is rising prior to OOM.
