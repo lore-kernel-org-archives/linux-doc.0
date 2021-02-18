@@ -2,93 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C40CC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 17:55:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1189AC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 17:56:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D664564E79
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 17:55:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BCF5064EAE
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 17:56:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234631AbhBRRzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Feb 2021 12:55:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34888 "EHLO
+        id S233914AbhBRRzy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Feb 2021 12:55:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231824AbhBRPuL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Feb 2021 10:50:11 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3326CC0613D6;
-        Thu, 18 Feb 2021 07:49:29 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id z68so1403861pgz.0;
-        Thu, 18 Feb 2021 07:49:29 -0800 (PST)
+        with ESMTP id S234461AbhBRRhq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Feb 2021 12:37:46 -0500
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BC91C0613D6;
+        Thu, 18 Feb 2021 09:37:05 -0800 (PST)
+Received: by mail-pg1-x52b.google.com with SMTP id 75so1551465pgf.13;
+        Thu, 18 Feb 2021 09:37:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Q7ZqDu74I7s4QHSiTCiGk48DBodjMdCaiE76tGdwtC4=;
-        b=nrHlxG8InwSr9OaqWtoOCZuwk4cda9K9cRCy3lymuWuM7wIyMzUkqsNycN8AAQ0m6Q
-         fcQNLJKBoTtKMdiSrZN90o4s24veiXOTGSUeaIAqKaHEDC9+TwzR88oKyWgk63kDyAvR
-         cEJMGmZgayF3NJ5sSiuaG481q6tV1v5mt9NlZL1vKZwU1tUMCljT4wfWCarEXmNJuUeV
-         WQGqRLREORM1uraQPJ71fSXQSqW28ElzrnmtXeaUm0cAoUWiMw2GX67RfSpEtF5vHLKf
-         kvB2B5i6uquhYMxm8cTmpHwuonokJ1mSuY00c0BYxrCtSYpSl0MhBSkvavOqTLyItczl
-         EDcQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Xmf6pTNe7mQQ+6NHgcE8bVS8WWzHYXysNcfphF1I+24=;
+        b=Y/8D/DbfQgqs+GHwMjEuxhzZCU1naE54M6ECflXmCALxpIV0AXdNrz2eQRDpXtFki5
+         URJgtKjb+/zCNsyyRv0sKQ0oom1VGKhXLAcENdEsQUj2CslkwXOWuuTg77O8rgBXUsSI
+         E4Xchs1spLREWPvvEip4Oi5pDq7yhTMQNsRiN3apzSRM1/4DTDz/tIktS4oZbFyc0P6P
+         S2eThA6pR6nCXcCgq2GMoJNSAlJb5h+v7ae7/diE2HF8Zbp2e1E/S3iNJihZ+3tvY30c
+         WRSxxvxRC5rdr4NUsysZfIRYrmF+YZfEb+g5w9TUPRZERGZjnj6SCn9FcUl+PG6LWKsv
+         AHjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Q7ZqDu74I7s4QHSiTCiGk48DBodjMdCaiE76tGdwtC4=;
-        b=USx1ZMmliW11GjwTgwbGKg7keTiv3PwcxrZT1HGybkHpnV79qMXR38sGUEmEzd0AMl
-         xx16GKV/KgZ+RB5MeOiTGM3tyrXdIUEpPa1C9YLqPIC7oUlF4t0Lcvp/gJXu0j9bCSjP
-         qRUSgyR7xSp5ya34Min8jrvCkfCbkiXF3wx2m46PFJPcmGwRTeqWn276IArXqFcJDVde
-         jwjnSp332dtjLlJ9LfgAkJ6B+/Ur2oa7XNfL9OJEadbxOtDwgsKyWthG7JtkPWNl4XiV
-         rIm+lCB/2nUgePiVbYDIMjh/DnMgvWRBB3fNtxHOarJ6iuM7n1/0NfvXsi/Qorj7U+cU
-         liWQ==
-X-Gm-Message-State: AOAM531Hsioj1C4Z37bAtE5j1ScNJqE9gdh6DvYW+9pUs5PWWlunYjz6
-        IQWbLh7eT0kQbq5jBwx2Ozw=
-X-Google-Smtp-Source: ABdhPJw7ZT2AO0U4ahlqJkQn5M2yWku9+GvK34RXuC/8ZNyZ8K8EzDOpzVTUiEYMpySrnPWNivZXLg==
-X-Received: by 2002:a05:6a00:8f:b029:1e8:6975:395e with SMTP id c15-20020a056a00008fb02901e86975395emr4858185pfj.55.1613663368791;
-        Thu, 18 Feb 2021 07:49:28 -0800 (PST)
-Received: from localhost (185.212.56.4.16clouds.com. [185.212.56.4])
-        by smtp.gmail.com with ESMTPSA id v1sm5869261pjh.29.2021.02.18.07.49.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Feb 2021 07:49:28 -0800 (PST)
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     corbet@lwn.net, linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>
-Subject: [PATCH v1] Documentation: devres: add missing entry for pcim_set_mwi()
-Date:   Thu, 18 Feb 2021 23:49:20 +0800
-Message-Id: <20210218154920.799515-1-zhengdejin5@gmail.com>
-X-Mailer: git-send-email 2.25.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Xmf6pTNe7mQQ+6NHgcE8bVS8WWzHYXysNcfphF1I+24=;
+        b=OSMp6MJeHwIzmpHgJECGsySokMsDqPAHE8bnaG6c3GeN9qcT61Gc0sfeGU0oelEHZO
+         xiqb8F6TlsIk/ZF5TLoY6XE67qsC+9iCm+SiEHgcEFDvLwjKS/8Hr2FCcdkeXHiRkzhr
+         Tg2fpQ4tP/fY4DrsCrGUaMhX/oR+6+8gmY57EA6KFts+GutgNFGkCJYwgnjW0kngQhwC
+         KhM+jqqeWKJJKiES9U8YcZQ2Jnz8sPyEdlmlRUE1RchaeWM24xlD4xrZwQHw/nnM+m7a
+         IAb/GwPRyuisu+01pNHRYaF6Jllt2MpurDFFVQhInDRKwMzNTMycRNgvYVeUwcmWvPu+
+         mA6w==
+X-Gm-Message-State: AOAM530mq2/kNzZO7XIimp/LbA6Q2HpFRdiBel98mV0xiuhuWrIbn84F
+        wmYMx8IJoqKB77VhsZdBY/5xhkrXJszfFoZ2tIHQiCGr
+X-Google-Smtp-Source: ABdhPJy4lZs5G/uRY3utOJ/evT/TjcNbVyBZZnGu2g4ZS/e5JLu4FJZrG5lr3f0fi0KTZHNrPiA6ykLIfp5gBvcV464=
+X-Received: by 2002:a05:6a00:7c7:b029:1de:80cd:46b8 with SMTP id
+ n7-20020a056a0007c7b02901de80cd46b8mr5427816pfu.63.1613669825077; Thu, 18 Feb
+ 2021 09:37:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210216201813.60394-1-xie.he.0141@gmail.com> <YC4sB9OCl5mm3JAw@unreal>
+ <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com> <YC5DVTHHd6OOs459@unreal>
+In-Reply-To: <YC5DVTHHd6OOs459@unreal>
+From:   Xie He <xie.he.0141@gmail.com>
+Date:   Thu, 18 Feb 2021 09:36:54 -0800
+Message-ID: <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
+Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB frames
+To:     Leon Romanovsky <leon@kernel.org>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Linux X25 <linux-x25@vger.kernel.org>,
+        Linux Kernel Network Developers <netdev@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Martin Schiller <ms@dev.tdt.de>,
+        Krzysztof Halasa <khc@pm.waw.pl>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pcim_set_mwi() should be documented in devres.rst.
-So add the missing entry.
+On Thu, Feb 18, 2021 at 2:37 AM Leon Romanovsky <leon@kernel.org> wrote:
+>
+> It is not me who didn't explain, it is you who didn't want to write clear
+> comment that describes the headroom size without need of "3 - 1".
 
-Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
----
- Documentation/driver-api/driver-model/devres.rst | 1 +
- 1 file changed, 1 insertion(+)
+Why do I need to write unnecessary comments when "3 - 1" and the
+current comment already explains everything?
 
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index cd8b6e657b94..164c9cddc6d2 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -382,6 +382,7 @@ PCI
-   devm_pci_remap_cfg_resource()	: ioremap PCI configuration space resource
-   pcim_enable_device()		: after success, all PCI ops become managed
-   pcim_pin_device()		: keep PCI device enabled after release
-+  pcim_set_mwi()                : enables memory-write-invalidate PCI transaction
- 
- PHY
-   devm_usb_get_phy()
--- 
-2.25.0
+> So in current situation, you added two things: comment and assignment.
+> Both of them aren't serve their goals.
 
+Why?
+
+> Your comment doesn't explain
+> enough and needs extra help
+
+Why? My comment already explains everything.
+
+> and your assignment is useless without
+> comment.
+
+My assignment is already very clear with my current comment. My
+comment explains very clearly what this assignment means.
