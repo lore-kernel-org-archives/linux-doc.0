@@ -2,154 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45DEEC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 17:55:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C40CC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 17:55:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F154464E79
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 17:55:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D664564E79
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 17:55:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230397AbhBRRzQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Feb 2021 12:55:16 -0500
-Received: from mga14.intel.com ([192.55.52.115]:5039 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231173AbhBRPjS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Feb 2021 10:39:18 -0500
-IronPort-SDR: 7/ID0Oep/tvTT7ZFHj3+5fi6r+ksqIYRcdw5CWOqrRfmGt2QV13rXq6Q0cdWO9q9WMdaCAKB6L
- FAr4YPivEKXA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="182743191"
-X-IronPort-AV: E=Sophos;i="5.81,187,1610438400"; 
-   d="scan'208";a="182743191"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2021 07:35:26 -0800
-IronPort-SDR: Jf9QAV+Q8Uj40xLFxyt+iyEzDFTa+gsXAj7hC4bl3PYJgAqhZ97tw0QErHi6WLmqoGB29Vd+0B
- R7hoI5aI5ehQ==
-X-IronPort-AV: E=Sophos;i="5.81,187,1610438400"; 
-   d="scan'208";a="378440303"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Feb 2021 07:35:23 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lClKq-005yoo-6T; Thu, 18 Feb 2021 17:35:20 +0200
-Date:   Thu, 18 Feb 2021 17:35:20 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dejin Zheng <zhengdejin5@gmail.com>
-Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        mika.westerberg@linux.intel.com, rric@kernel.org,
-        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/4] i2c: designware: Use the correct name of
- device-managed function
-Message-ID: <YC6JONTb8QdREZ1h@smile.fi.intel.com>
-References: <20210218150458.798347-1-zhengdejin5@gmail.com>
- <20210218150458.798347-4-zhengdejin5@gmail.com>
+        id S234631AbhBRRzY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Feb 2021 12:55:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34888 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231824AbhBRPuL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Feb 2021 10:50:11 -0500
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3326CC0613D6;
+        Thu, 18 Feb 2021 07:49:29 -0800 (PST)
+Received: by mail-pg1-x532.google.com with SMTP id z68so1403861pgz.0;
+        Thu, 18 Feb 2021 07:49:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q7ZqDu74I7s4QHSiTCiGk48DBodjMdCaiE76tGdwtC4=;
+        b=nrHlxG8InwSr9OaqWtoOCZuwk4cda9K9cRCy3lymuWuM7wIyMzUkqsNycN8AAQ0m6Q
+         fcQNLJKBoTtKMdiSrZN90o4s24veiXOTGSUeaIAqKaHEDC9+TwzR88oKyWgk63kDyAvR
+         cEJMGmZgayF3NJ5sSiuaG481q6tV1v5mt9NlZL1vKZwU1tUMCljT4wfWCarEXmNJuUeV
+         WQGqRLREORM1uraQPJ71fSXQSqW28ElzrnmtXeaUm0cAoUWiMw2GX67RfSpEtF5vHLKf
+         kvB2B5i6uquhYMxm8cTmpHwuonokJ1mSuY00c0BYxrCtSYpSl0MhBSkvavOqTLyItczl
+         EDcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Q7ZqDu74I7s4QHSiTCiGk48DBodjMdCaiE76tGdwtC4=;
+        b=USx1ZMmliW11GjwTgwbGKg7keTiv3PwcxrZT1HGybkHpnV79qMXR38sGUEmEzd0AMl
+         xx16GKV/KgZ+RB5MeOiTGM3tyrXdIUEpPa1C9YLqPIC7oUlF4t0Lcvp/gJXu0j9bCSjP
+         qRUSgyR7xSp5ya34Min8jrvCkfCbkiXF3wx2m46PFJPcmGwRTeqWn276IArXqFcJDVde
+         jwjnSp332dtjLlJ9LfgAkJ6B+/Ur2oa7XNfL9OJEadbxOtDwgsKyWthG7JtkPWNl4XiV
+         rIm+lCB/2nUgePiVbYDIMjh/DnMgvWRBB3fNtxHOarJ6iuM7n1/0NfvXsi/Qorj7U+cU
+         liWQ==
+X-Gm-Message-State: AOAM531Hsioj1C4Z37bAtE5j1ScNJqE9gdh6DvYW+9pUs5PWWlunYjz6
+        IQWbLh7eT0kQbq5jBwx2Ozw=
+X-Google-Smtp-Source: ABdhPJw7ZT2AO0U4ahlqJkQn5M2yWku9+GvK34RXuC/8ZNyZ8K8EzDOpzVTUiEYMpySrnPWNivZXLg==
+X-Received: by 2002:a05:6a00:8f:b029:1e8:6975:395e with SMTP id c15-20020a056a00008fb02901e86975395emr4858185pfj.55.1613663368791;
+        Thu, 18 Feb 2021 07:49:28 -0800 (PST)
+Received: from localhost (185.212.56.4.16clouds.com. [185.212.56.4])
+        by smtp.gmail.com with ESMTPSA id v1sm5869261pjh.29.2021.02.18.07.49.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Feb 2021 07:49:28 -0800 (PST)
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     corbet@lwn.net, linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>
+Subject: [PATCH v1] Documentation: devres: add missing entry for pcim_set_mwi()
+Date:   Thu, 18 Feb 2021 23:49:20 +0800
+Message-Id: <20210218154920.799515-1-zhengdejin5@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210218150458.798347-4-zhengdejin5@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 18, 2021 at 11:04:57PM +0800, Dejin Zheng wrote:
-> Use the new function pcim_alloc_irq_vectors() to allocate IRQ vectors,
-> the pcim_alloc_irq_vectors() function, an explicit device-managed version
-> of pci_alloc_irq_vectors(). If pcim_enable_device() has been called
-> before, then pci_alloc_irq_vectors() is actually a device-managed
-> function. It is used here as a device-managed function, So replace it
-> with pcim_alloc_irq_vectors(). At the same time, Remove the
-> pci_free_irq_vectors() function to simplify the error handling path.
-> the freeing resources will take automatically when device is gone.
+The pcim_set_mwi() should be documented in devres.rst.
+So add the missing entry.
 
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-One side note below.
+Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
+---
+ Documentation/driver-api/driver-model/devres.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-> Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
-> ---
-> v3 -> v4:
-> 	- add some commit comments.
-> v2 -> v3:
-> 	- simplify the error handling path.
-> v1 -> v2:
-> 	- Modify some commit messages.
->  drivers/i2c/busses/i2c-designware-pcidrv.c | 15 ++++-----------
->  1 file changed, 4 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/i2c/busses/i2c-designware-pcidrv.c b/drivers/i2c/busses/i2c-designware-pcidrv.c
-> index 55c83a7a24f3..620b41e373b6 100644
-> --- a/drivers/i2c/busses/i2c-designware-pcidrv.c
-> +++ b/drivers/i2c/busses/i2c-designware-pcidrv.c
-> @@ -219,7 +219,7 @@ static int i2c_dw_pci_probe(struct pci_dev *pdev,
->  	if (!dev)
->  		return -ENOMEM;
->  
-> -	r = pci_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
-> +	r = pcim_alloc_irq_vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
->  	if (r < 0)
->  		return r;
->  
-> @@ -234,10 +234,8 @@ static int i2c_dw_pci_probe(struct pci_dev *pdev,
->  
->  	if (controller->setup) {
->  		r = controller->setup(pdev, controller);
-> -		if (r) {
-> -			pci_free_irq_vectors(pdev);
-> +		if (r)
->  			return r;
-> -		}
->  	}
->  
->  	i2c_dw_adjust_bus_speed(dev);
-> @@ -246,10 +244,8 @@ static int i2c_dw_pci_probe(struct pci_dev *pdev,
->  		i2c_dw_acpi_configure(&pdev->dev);
->  
->  	r = i2c_dw_validate_speed(dev);
-> -	if (r) {
-> -		pci_free_irq_vectors(pdev);
-> +	if (r)
->  		return r;
-> -	}
->  
->  	i2c_dw_configure(dev);
->  
-> @@ -269,10 +265,8 @@ static int i2c_dw_pci_probe(struct pci_dev *pdev,
->  	adap->nr = controller->bus_num;
->  
->  	r = i2c_dw_probe(dev);
-> -	if (r) {
-> -		pci_free_irq_vectors(pdev);
-> +	if (r)
->  		return r;
-> -	}
->  
->  	pm_runtime_set_autosuspend_delay(&pdev->dev, 1000);
->  	pm_runtime_use_autosuspend(&pdev->dev);
-> @@ -292,7 +286,6 @@ static void i2c_dw_pci_remove(struct pci_dev *pdev)
->  
->  	i2c_del_adapter(&dev->adapter);
->  	devm_free_irq(&pdev->dev, dev->irq, dev);
-> -	pci_free_irq_vectors(pdev);
-
-I'm wondering if we need explicit devm_free_irq() call now. If we don't, it can
-be cleaned up in the separate change with a motivation that we got to device
-managed PCI IRQ allocation and thus the ordering will be correct (needs a
-double check!).
-
->  }
->  
->  /* work with hotplug and coldplug */
-> -- 
-> 2.25.0
-> 
-
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index cd8b6e657b94..164c9cddc6d2 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -382,6 +382,7 @@ PCI
+   devm_pci_remap_cfg_resource()	: ioremap PCI configuration space resource
+   pcim_enable_device()		: after success, all PCI ops become managed
+   pcim_pin_device()		: keep PCI device enabled after release
++  pcim_set_mwi()                : enables memory-write-invalidate PCI transaction
+ 
+ PHY
+   devm_usb_get_phy()
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.25.0
 
