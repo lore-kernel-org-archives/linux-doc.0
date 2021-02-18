@@ -2,59 +2,60 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B089C433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3B07C43381
 	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 17:55:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 004A464EB1
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 17:55:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84CBD64EB3
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Feb 2021 17:55:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229765AbhBRRyX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Feb 2021 12:54:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53644 "EHLO
+        id S232453AbhBRRyr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Feb 2021 12:54:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230219AbhBRPFq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Feb 2021 10:05:46 -0500
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6F98C06178A;
-        Thu, 18 Feb 2021 07:05:05 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id k13so1444440pfh.13;
-        Thu, 18 Feb 2021 07:05:05 -0800 (PST)
+        with ESMTP id S230253AbhBRPF4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Feb 2021 10:05:56 -0500
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE55EC06178C;
+        Thu, 18 Feb 2021 07:05:14 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id a9so1398069plh.8;
+        Thu, 18 Feb 2021 07:05:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Q6JzUvbHZRHZd4ZQ75NBM4QAoNuZQMHHQcSNWn9QvA4=;
-        b=kqdz24IEELGBD6Xwjwkfk8x2Kth0atGo/+z5qaF4+NPcwPkDl8x9AzNCOwdtoUWSP6
-         fC/xvJH7grhIB4PcPhO6dhualq4Hts37AS9lAsNQ93hzcdt/LTLHjf1nhcQ3EdYR0O2r
-         wzTGpFp7fpH+oWHn5XgX/lQfwVEm4MbBA8Ym8p3KONLnhN6ZoiVj8OVX1jzl1LfXjJek
-         eW7QPkW+TAZUivhY09BerzQaE7j6JaaOf/LwCX9VVFBXl6EQ1iCEnvuLyMxzAlrTEWXS
-         772MaL3ECEaCxIRZ8jv5tRrbhkn9OByODs9+mWWbrhp4bZtUWNWO/hFOmu4nNrTNP838
-         DM1Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=HfgXzYXBFwpw+FA5Ggd2qrGjrZ5TTWoL87obfP5C5Z4=;
+        b=CLxBnnZ/XGe8XizunrAEYHH/T2/Xxla3oEBSreJJ2McBImlbrrDvpShhSI+cHjC+Ev
+         h/FB9VfT+I2YGR6mimtwVc27IIWRy8OOhz5rwy9iv3YhiYr29TriWVSwCuFNYCSDLPO9
+         c9fNi/Is3b66Elfj93H6aDmDoKDIo9SU5DVoJszmoLETTSs/lYhQI9OP1mlva46QfUhy
+         8Fe7rE05S88cu1r/WsjgS5oUP7gNO28nRAgJg3de9GUZtZqbnBpprZ+7oEA23OPxPqcb
+         hBmxJSynmc9ZY/oErjFBTgNIKafbMAcB5zOg4GNrJoo1OoRkeBX091bMZcATPP7HpYxs
+         5+Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Q6JzUvbHZRHZd4ZQ75NBM4QAoNuZQMHHQcSNWn9QvA4=;
-        b=MT4tlFqpPOJgtwDvQYx36NDD07x7lYlVuNFEEjZqREP/7tAETXhRdhtC8ftyukjQS7
-         3L32h4ovIyFxsCjBnI+syWV8rGC8u9I99jcyAfU+W+J7gLexOB/ve6tE7ZOYbFZC0Naa
-         E8OEn6r4hvUraURKV8NsE5cw7vcae7EeC75S0eAJpQ+DS1j+FERymcTLLvf3vOg0Pg0n
-         nhbCVkc9dcyfQ/ayc1k+kqkxaVO3CsAxus7yKRAdmfSUzEjqqF/pWGr1HXJ4sUDAqVBY
-         ddPdHLM3QpsxOf6wS8ccsLu2aT41YOCgN9FfeL4KrCzIy4xza9eATgUTs4Q3poVYVKIS
-         jWWw==
-X-Gm-Message-State: AOAM5318bttiolT2qXTzAUbtKPKyaZ8A+8gHRwHw1d9fF6TLMNCu1We7
-        MbrASKPl3Bf3DyKdP/aRwDI=
-X-Google-Smtp-Source: ABdhPJyHfO8HbKQRE4fnLpa6R8PgqgfAwdUyVq4kbKdk3c/plDFgCfDlJ4z/UaYzkflgyZ1Fw2MpSA==
-X-Received: by 2002:a63:1648:: with SMTP id 8mr4426357pgw.392.1613660705220;
-        Thu, 18 Feb 2021 07:05:05 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=HfgXzYXBFwpw+FA5Ggd2qrGjrZ5TTWoL87obfP5C5Z4=;
+        b=YP1nUChvuWDak3DWTAEzrk0qfQwg+Sg3OTgEEyZGIGqUflw3vS4QvjvwcYtcFoKldZ
+         yFQ/EkLywGDnY9XrTTdKYcjW2Pj5eB1k0FDOexjtocHk4IDYZt71zWA9JEOLJo6HfaLf
+         JjlkjbK6WYEK07BbxKWD3n7I/8nIj6WzDYPQMsPjDHyjs0RChCr8ao6LjjDEm3WZsoA7
+         zNzEQ+Z+y+wLlasGxMnRNIftMXdSMjo//boaL4ZIl6XgoF6UiDYMPHWmGkPJNTVQIBK2
+         uuxgAUaC5E1eRrpDsKz2D81AZl7kIKdU3H8DRt9XWNhbJ6V0t1j4Sr4uoZ08oKApmT26
+         0rkg==
+X-Gm-Message-State: AOAM532oV9apscKgbUxdKjn/tVkTUeM4+cRczN4A9w0K/16jcDgS1VWa
+        KwosfYvjvU805cB1T1h+lD4=
+X-Google-Smtp-Source: ABdhPJwUypqcCpt7WO55p8G28pXwLg5n3cdnovDqmB9PqASguOiNz44al5oQnLB+ybL2ZWp2b/0qnA==
+X-Received: by 2002:a17:90b:3689:: with SMTP id mj9mr4394617pjb.99.1613660714315;
+        Thu, 18 Feb 2021 07:05:14 -0800 (PST)
 Received: from localhost (185.212.56.4.16clouds.com. [185.212.56.4])
-        by smtp.gmail.com with ESMTPSA id r23sm6396270pgl.42.2021.02.18.07.05.04
+        by smtp.gmail.com with ESMTPSA id k31sm6026624pgi.5.2021.02.18.07.05.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Feb 2021 07:05:04 -0800 (PST)
+        Thu, 18 Feb 2021 07:05:13 -0800 (PST)
 From:   Dejin Zheng <zhengdejin5@gmail.com>
 To:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
         andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
@@ -62,49 +63,45 @@ To:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
         linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
         linux-pci@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>
-Subject: [PATCH v4 0/4] Introduce pcim_alloc_irq_vectors()
-Date:   Thu, 18 Feb 2021 23:04:54 +0800
-Message-Id: <20210218150458.798347-1-zhengdejin5@gmail.com>
+Subject: [PATCH v4 2/4] Documentation: devres: Add pcim_alloc_irq_vectors()
+Date:   Thu, 18 Feb 2021 23:04:56 +0800
+Message-Id: <20210218150458.798347-3-zhengdejin5@gmail.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20210218150458.798347-1-zhengdejin5@gmail.com>
+References: <20210218150458.798347-1-zhengdejin5@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce pcim_alloc_irq_vectors(), a device-managed version of
-pci_alloc_irq_vectors(), In some i2c drivers, If pcim_enable_device()
-has been called before, then pci_alloc_irq_vectors() is actually a
-device-managed function. It is used as a device-managed function, So
-replace it with pcim_alloc_irq_vectors().
+Add pcim_alloc_irq_vectors(), a device-managed version of
+pci_alloc_irq_vectors(). introducing this function can simplify
+the error handling path in many drivers.
 
-Changelog
----------
+Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
+---
 v3 -> v4:
-	- add some commit comments for patch 3
+	- No change
 v2 -> v3:
-	- Add some commit comments for replace some codes in
-	  pcim_release() by pci_free_irq_vectors().
-	- Simplify the error handling path in i2c designware
-	  driver.
+	- No change
 v1 -> v2:
-	- Use pci_free_irq_vectors() to replace some code in
-	  pcim_release().
 	- Modify some commit messages.
+ Documentation/driver-api/driver-model/devres.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-Dejin Zheng (4):
-  PCI: Introduce pcim_alloc_irq_vectors()
-  Documentation: devres: Add pcim_alloc_irq_vectors()
-  i2c: designware: Use the correct name of device-managed function
-  i2c: thunderx: Use the correct name of device-managed function
-
- .../driver-api/driver-model/devres.rst        |  1 +
- drivers/i2c/busses/i2c-designware-pcidrv.c    | 15 +++------
- drivers/i2c/busses/i2c-thunderx-pcidrv.c      |  2 +-
- drivers/pci/pci.c                             | 33 ++++++++++++++++---
- include/linux/pci.h                           |  3 ++
- 5 files changed, 38 insertions(+), 16 deletions(-)
-
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
+index cd8b6e657b94..a52f65b6352f 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -380,6 +380,7 @@ PCI
+   devm_pci_alloc_host_bridge()  : managed PCI host bridge allocation
+   devm_pci_remap_cfgspace()	: ioremap PCI configuration space
+   devm_pci_remap_cfg_resource()	: ioremap PCI configuration space resource
++  pcim_alloc_irq_vectors()      : managed IRQ vectors allocation
+   pcim_enable_device()		: after success, all PCI ops become managed
+   pcim_pin_device()		: keep PCI device enabled after release
+ 
 -- 
 2.25.0
 
