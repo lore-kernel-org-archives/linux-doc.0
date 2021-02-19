@@ -2,96 +2,186 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11C54C433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 11:21:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D632C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 12:02:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C9C5264E77
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 11:21:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4425E64ED7
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 12:02:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230459AbhBSLV0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Feb 2021 06:21:26 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34470 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229804AbhBSLUH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Feb 2021 06:20:07 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2CCB464E77;
-        Fri, 19 Feb 2021 11:19:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1613733566;
-        bh=YFg4Atmp59pHQeT8wPbE/amvEYcgx1e0rb0E2V1wsVI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CPQwToA/EWAwk27hMnWle2hs4utfQvNVMPw1h0h7/qLa3RjmZqFsCUAdKuqBxjEjQ
-         yTmpuyV5C1bZEZQHFpRr9SB0d0dXuaxrfTED3E+DWTQkP+ntQDhgehhhqn386QsGP2
-         jvBtwfPVRF2KLV5Eb8ylf6V3hxPOgqwlaMGC0A4x3kIIYgf0W2/JwEu8rDFAxC4pkf
-         /ZUAcJKvqdHgfoB+rrUqCCEgeHPPjZ3R3edCI71vugtkZCWJxwKPSEiw6or/YaBQ5v
-         13BOdBO1SlfmZGzpTXR2pi72xB9WzPoMd1wYX4BrvU6mncI2DbMS8rkJPmgOB4qcKM
-         JLBnXKeqdc3/w==
-Date:   Fri, 19 Feb 2021 12:19:20 +0100
-From:   Robert Richter <rric@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Dejin Zheng <zhengdejin5@gmail.com>, corbet@lwn.net,
-        jarkko.nikula@linux.intel.com, mika.westerberg@linux.intel.com,
-        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org, kw@linux.com,
+        id S231169AbhBSMCm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Feb 2021 07:02:42 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:58145 "EHLO
+        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230505AbhBSMB4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 07:01:56 -0500
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailnew.west.internal (Postfix) with ESMTP id 30236803;
+        Fri, 19 Feb 2021 07:01:09 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute7.internal (MEProxy); Fri, 19 Feb 2021 07:01:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-type:content-transfer-encoding; s=fm2; bh=
+        KCoEIq3hXzFEDXTWDHOvgZWOU83J4ZazWlcxgY4hZb8=; b=XTdfsDcu1xOd0B8l
+        WNF/LiHKwDHvEPIlMCFysawWKyjzeBpBplIO6HUKEWbX3nVNy4hYjTfl9O+O4qIG
+        w2XFLDjqdFOy05i2jynh3LDq8aOF8JbK0+GEvKLImcgXx5gtlN+DJjWow5+ZEBcl
+        NFz6ZirPGOT+ySb1Yl9lcfPZVxKIlfnBzHsBw0AB2tcuQ845hKGy6Q7EzD7dKqWY
+        CmzPl/co6yNirNXPtMHbY2ZWmDg3lUQlRsoO3bGbicpIKq47XfshPLQYbC/PaZmG
+        cejD3SuxUdztTmeMeZgxiQHWjBEleZxHmuMf0741jtD+wPJ6f6LJxAatYSb/Qwii
+        XBvOtQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; bh=KCoEIq3hXzFEDXTWDHOvgZWOU83J4ZazWlcxgY4hZ
+        b8=; b=j/jaPfjEYwSnvWd675dMNqnSaMxrauZXMYai3Y7J0lFYQgFKNse0zBjKx
+        dYqDWK3fWp0SjXOgQMjRRGkMw3Op3nP4s0Gw3AufT9QzJieRcIKi9daoCnhQpfO1
+        HBGAwOPxJv/GJlXh63EBAPDV7M/r4g2ADVoq0TWbLeFflj2/BdUydXFPog08qsoD
+        bJElkqz4ymfKpvYUmWBfCEoXnj3+Qav6MF/0hIaobqJo9wqMSxFwxOVC/TyCXz5k
+        RrZ+hcIuUAPRoctuL0O9sLFZge2georQJQpzfr4zDR2zVAw3W9qeW2wO6+Y7o+yd
+        vfBzmWo/uT3gvTzqz5AdWfB01/zqw==
+X-ME-Sender: <xms:hKgvYLPvLgv0gXT_dAB5jeWZdyKNTnRryv80L7cIkRpczeG1BnGcYg>
+    <xme:hKgvYByBIc4elxc32fl1wTPXg-vuXL6uSl9H411i2W5why2BNoVng9HIQ86KrEGpX
+    7XanM5a5fpT-xK5sWc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjeeigdefgecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
+    keeknecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:hKgvYAtFekc3cf9HwA4AbxJ4a7Zl3ARcm5DgeB9CKkMFAGLT2HmZLA>
+    <xmx:hKgvYMZMZg0DOJ91y3o_kX6CbCZhtyPGqEaM8wUT_k-iPD1R_6Ru6w>
+    <xmx:hKgvYH0Hu0uC3TcdhHaSQXFpga5O2h-RGO_Omg4qFA7Mx1ihOmnUqg>
+    <xmx:hKgvYHv-wHfuomdJ6x8_iX0Hbi_6UJXvX0jdieXxlJY3TyXK-_fUtrB0OYA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 71DEC108005C;
+        Fri, 19 Feb 2021 07:01:08 -0500 (EST)
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>
+Cc:     dri-devel@lists.freedesktop.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Maxime Ripard <mripard@kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] Introduce pcim_alloc_irq_vectors()
-Message-ID: <YC+euDIrR5apkAqp@rric.localdomain>
-References: <20210216160249.749799-1-zhengdejin5@gmail.com>
- <YC41HD422Mjh1IZK@rric.localdomain>
- <YC5zVHnRog3EX0rl@smile.fi.intel.com>
+Subject: [PATCH v3 11/11] drm/todo: Remove the drm_atomic_state todo item
+Date:   Fri, 19 Feb 2021 13:00:31 +0100
+Message-Id: <20210219120032.260676-11-maxime@cerno.tech>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210219120032.260676-1-maxime@cerno.tech>
+References: <20210219120032.260676-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YC5zVHnRog3EX0rl@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 18.02.21 16:01:56, Andy Shevchenko wrote:
-> The problem this series solves is an imbalanced API.
+Only planes' prepare_fb and cleanup_fb, and encoders' atomic_check and
+atomic_mode_set hooks remain with an object state and not the global
+drm_atomic_state.
 
-This (added) API is bloated and incomplete. It adds functions without
-benefit, the only is to have a single pcim alloc function in addition
-to the pairing of alloc/free functions. I agree, it is hard to detect
-which parts are released if pcim_enable_device() is used.
+prepare_fb and cleanup_fb operate by design on a given state and
+depending on the calling site can operate on either the old or new
+state, so it doesn't really make much sense to convert them.
 
-Additional, you need to go through pcim_release() to add other
-pcim_*() functions for everything else that is released there.
-Otherwise that new API is still incomplete. But this adds another
-bunch of useless functions.
+The encoders' atomic_check and atomic_mode_set operate on the CRTC and
+connector state connected to them since encoders don't have a state of
+their own. Without those state pointers, we would need to get the CRTC
+through the drm_connector_state crtc pointer.
 
-> Christoph IIRC was clear that if we want to use PCI IRQ allocation API the
-> caller must know what's going on. Hiding this behind the scenes is not good.
-> And this series unhides that.
+However, in order to get the drm_connector_state pointer, we would need
+to get the connector itself and while usually we have a single connector
+connected to the encoder, we can't really get it from the encoder at
+the moment since it could be behind any number of bridges.
 
-IMO, this is more a documentation issue. pcim_enable_device() must be
-better documented and list all enable/alloc functions that are going
-to be released out of the box later.
+While this could be addressed by (for example) listing all the
+connectors and finding the one that has the encoder as its source, it
+feels like an unnecessary rework for something that is slowly getting
+replaced by bridges.
 
-Even better, make sure everything is managed and thus all of a pci_dev
-is released, no matter how it was setup (this could even already be
-the case).
+Since all the users that matter have been converted, let's remove the
+TODO item.
 
-In addition you could implement a static code checker.
+Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-> Also, you may go and clean up all pci_free_irq_vectors() when
-> pcim_enable_device() is called, but I guess you will get painful process and
-> rejection in a pile of cases.
+---
 
-Why should something be rejected if it is not correctly freed?
+Changes from v1:
+  - New patch
+---
+ Documentation/gpu/todo.rst | 46 --------------------------------------
+ 1 file changed, 46 deletions(-)
 
-Even if pci_free_irq_vectors() is called, pcim_release() will not
-complain if it was already freed before. So using
-pci_free_irq_vectors() is ok even in conjunction with
-pcim_enable_device().
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index f872d3d33218..0631b9b323d5 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -459,52 +459,6 @@ Contact: Emil Velikov, respective driver maintainers
+ 
+ Level: Intermediate
+ 
+-Plumb drm_atomic_state all over
+--------------------------------
+-
+-Currently various atomic functions take just a single or a handful of
+-object states (eg. plane state). While that single object state can
+-suffice for some simple cases, we often have to dig out additional
+-object states for dealing with various dependencies between the individual
+-objects or the hardware they represent. The process of digging out the
+-additional states is rather non-intuitive and error prone.
+-
+-To fix that most functions should rather take the overall
+-drm_atomic_state as one of their parameters. The other parameters
+-would generally be the object(s) we mainly want to interact with.
+-
+-For example, instead of
+-
+-.. code-block:: c
+-
+-   int (*atomic_check)(struct drm_plane *plane, struct drm_plane_state *state);
+-
+-we would have something like
+-
+-.. code-block:: c
+-
+-   int (*atomic_check)(struct drm_plane *plane, struct drm_atomic_state *state);
+-
+-The implementation can then trivially gain access to any required object
+-state(s) via drm_atomic_get_plane_state(), drm_atomic_get_new_plane_state(),
+-drm_atomic_get_old_plane_state(), and their equivalents for
+-other object types.
+-
+-Additionally many drivers currently access the object->state pointer
+-directly in their commit functions. That is not going to work if we
+-eg. want to allow deeper commit pipelines as those pointers could
+-then point to the states corresponding to a future commit instead of
+-the current commit we're trying to process. Also non-blocking commits
+-execute locklessly so there are serious concerns with dereferencing
+-the object->state pointers without holding the locks that protect them.
+-Use of drm_atomic_get_new_plane_state(), drm_atomic_get_old_plane_state(),
+-etc. avoids these problems as well since they relate to a specific
+-commit via the passed in drm_atomic_state.
+-
+-Contact: Ville Syrjälä, Daniel Vetter
+-
+-Level: Intermediate
+-
+ Use struct dma_buf_map throughout codebase
+ ------------------------------------------
+ 
+-- 
+2.29.2
 
-In the end, let's make sure everything is released in pci_dev if it is
-managed and document this.
-
-Thanks,
-
--Robert
