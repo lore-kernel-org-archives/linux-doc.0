@@ -2,78 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3550C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 18:29:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D4B0C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 18:40:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85FD064DA8
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 18:29:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DE9E664DFD
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 18:40:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229612AbhBSS3g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Feb 2021 13:29:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38370 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229587AbhBSS3e (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 13:29:34 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7280BC061574;
-        Fri, 19 Feb 2021 10:28:54 -0800 (PST)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 12CE5372;
-        Fri, 19 Feb 2021 18:28:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 12CE5372
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1613759334; bh=n3p+IX/s+VfEyw21LgCGvV7L1okdca73+xJRAZxNUqc=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=OzM8h9qyyqsB2Y7SVNULu8jAY5pt4IAJeVmU8/XB/1S1Xu5m0PynXWQZzy8xC4Gaq
-         tkBdqQX7Gosss101txq5HFpS1KGuX11hpNNoN2z2B8n7mq7/6HyEOoZ/LXKpn7SdRj
-         R52NaS+Zb9VPall4Aqv/zU8wp8VJp/Uvyp08yQPaYsgJoXr8ZewCRUgTRkExMiYURP
-         cNccbKA/sEJOBpfHjqyQ64rJ6WjxJyuHvKGpfFZeFwAPI9dRK+Faj2JoyuOFQmEhCj
-         iqP577lS8FVzef+ZSaWtVohl82K5c4ZvMAVpW5m+LgJg3+IRBnK/Ie7vEz4uU76oE0
-         ODhEH6+/UAIjw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     hjh <huangjianghui@uniontech.com>
-Cc:     Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] [PATCH] Documentation/translations: Translate
- sound/hd-audio/controls.rst into Chinese
-In-Reply-To: <20210219144856.27362-1-huangjianghui@uniontech.com>
-References: <20210219144856.27362-1-huangjianghui@uniontech.com>
-Date:   Fri, 19 Feb 2021 11:28:53 -0700
-Message-ID: <874ki7oqsa.fsf@meer.lwn.net>
+        id S229765AbhBSSkb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Feb 2021 13:40:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48278 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229524AbhBSSka (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Feb 2021 13:40:30 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 27AF964E4B;
+        Fri, 19 Feb 2021 18:39:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613759989;
+        bh=S4xflVDdqs14NUYJblRv311L9/zeoAUjGFAeSE+5qz4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=sRvq4du1RfoBvJgImESRmT4onzhEzDVKmXZxbrYi1+EooL7DdVMeQH9I0Hbga8Gw5
+         6gKLyH5lfnHd8PGM/VgG1uiOKANfBQuplHWDL5kpERgm20Zm/Roq/VZn0I9XcxDW9T
+         qT/SvTfhnTCgAvHcR71mOQ1gpm+AehndfYmpi9foXl4QJTcaK1CNl6N/By+9bTctx1
+         nNo09Zmfq1h1jlrWFIenrHrRBZJEalXvGjStHrtfq6iLffj0oOcswRNlIMHzV37+hA
+         rxSiFp2Wd+eDWfFVKb9dc3KE9aZ634ruMBpXWOnhWuF1mX8MtBBpndWC0Ter/ghZWc
+         pzFNiVVfLSXBw==
+Date:   Fri, 19 Feb 2021 10:39:48 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Xie He <xie.he.0141@gmail.com>
+Cc:     Leon Romanovsky <leon@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Linux X25 <linux-x25@vger.kernel.org>,
+        Linux Kernel Network Developers <netdev@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Martin Schiller <ms@dev.tdt.de>,
+        Krzysztof Halasa <khc@pm.waw.pl>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB
+ frames
+Message-ID: <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <CAJht_EPPMhB0JTtjWtMcGbRYNiZwJeMLWSC5hS6WhWuw5FgZtg@mail.gmail.com>
+References: <20210216201813.60394-1-xie.he.0141@gmail.com>
+        <YC4sB9OCl5mm3JAw@unreal>
+        <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com>
+        <YC5DVTHHd6OOs459@unreal>
+        <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
+        <YC7GHgYfGmL2wVRR@unreal>
+        <CAJht_EPZ7rVFd-XD6EQD2VJTDtmZZv0HuZvii+7=yhFgVz68VQ@mail.gmail.com>
+        <CAJht_EPPMhB0JTtjWtMcGbRYNiZwJeMLWSC5hS6WhWuw5FgZtg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-hjh <huangjianghui@uniontech.com> writes:
+On Thu, 18 Feb 2021 12:23:28 -0800 Xie He wrote:
+> On Thu, Feb 18, 2021 at 12:06 PM Xie He <xie.he.0141@gmail.com> wrote:
+> >
+> > On Thu, Feb 18, 2021 at 11:55 AM Leon Romanovsky <leon@kernel.org> wrote:  
+> > >
+> > > This is how we write code, we use defines instead of constant numbers,
+> > > comments to describe tricky parts and assign already preprocessed result.
+> > >
+> > > There is nothing I can do If you don't like or don't want to use Linux kernel
+> > > style.  
+> >
+> > So what is your suggestion exactly? Use defines or write comments?
+> >
+> > As I understand, you want to replace the "3 - 1" with "2", and then
+> > write comments to explain that this "2" is the result of "3 - 1".
+> >
+> > Why do you want to do this? You are doing useless things and you force
+> > readers of this code to think about useless things.
+> >
+> > You said this was "Linux kernel style"? Why? Which sentence of the
+> > Linux kernel style guide suggests your way is better than my way?  
+> 
+> Nevermind, if you *really* want me to replace this "3 - 1" with "2"
+> and explain in the comment that the "2" is a result of "3 - 1". I'll
+> do this. I admit this is a style issue. So it is hard to argue and
+> reach an agreement. Just reply with a request and I'll make the
+> change. However I'm not able to agree with you in my heart.
 
-> Signed-off-by: hjh <huangjianghui@uniontech.com>
-> ---
->  .../zh_CN/sound/hd-audio/controls.txt         | 117 ++++++++++++++++++
->  1 file changed, 117 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/controls.txt
+Not entirely sure what the argument is about but adding constants would
+certainly help.
 
-Thanks for working to improve the documentation.
-
-When you add a new file, you need to put it into an index.rst file
-somewhere so that it gets built with the rest of the kernel docs.
-
-As for *which* index.rst...I kind of wonder how you chose that document,
-in particular, to translate?  If we want to start translating the sound
-documentation, I think it would be better to start with the top-level
-page and build the structure downward.  So can I please ask you to start
-in Documentation/translations/zh_CN/sound, with some sort of basic
-index.rst file there, then add onto it from there?
-
-Thanks,
-
-jon
+More fundamentally IDK if we can make such a fundamental change here.
+When users upgrade from older kernel are all their scripts going to
+work the same? Won't they have to bring the new netdev up?
