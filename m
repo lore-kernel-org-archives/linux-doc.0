@@ -2,101 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4D8FC433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 15:35:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C770C433E9
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 15:46:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8C29864E67
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 15:35:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8FE164E46
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 15:46:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229498AbhBSPfH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Feb 2021 10:35:07 -0500
-Received: from mail.hallyn.com ([178.63.66.53]:51598 "EHLO mail.hallyn.com"
+        id S230014AbhBSPqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Feb 2021 10:46:34 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45688 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229824AbhBSPfE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Feb 2021 10:35:04 -0500
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-        id 679722BF; Fri, 19 Feb 2021 09:34:14 -0600 (CST)
-Date:   Fri, 19 Feb 2021 09:34:14 -0600
-From:   "Serge E. Hallyn" <serge@hallyn.com>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     "Serge E. Hallyn" <serge@hallyn.com>,
-        James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
-Subject: Re: [PATCH v28 07/12] landlock: Support filesystem access-control
-Message-ID: <20210219153414.GA18061@mail.hallyn.com>
-References: <20210202162710.657398-1-mic@digikod.net>
- <20210202162710.657398-8-mic@digikod.net>
- <20210210193624.GA29893@mail.hallyn.com>
- <aeba97b6-37cd-4870-0a40-3e7aa84ebd36@digikod.net>
+        id S229959AbhBSPqZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Feb 2021 10:46:25 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AE5AC64E46;
+        Fri, 19 Feb 2021 15:45:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613749540;
+        bh=N4kwTHQ5ETlfn2hxyzF8UDx5W5fNe+tnVx+GjwtOP6M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MRkk6KiJsmsavZwpVvzz5nsz978ZzU/lc46ua697r5zasUloRybA58p6EyFGfn0m4
+         CXORUKsEAUI78yhAHFqAnGfxJJxiyFIcInbgm65vSPGN++wzMGBtC5lsBDPQA+kf1t
+         Qrg7LsUBLeqJncsWAGdNS8e6opCGWIXCXvZMbqp3+MVz654HRnXFQJmVNyxT09c9Lr
+         GVVBP/OnLr3Si+0nU3c7PNnArxfbAq5gkl8uxPjS74+BRjOD/iQxl3Okz3OR/vcicS
+         r+9XadiE96b1pDeRG2c2+mXSUn8kQy94Ud3AotZBAqyBn+fRFu1slpTVSlKIv6fW4C
+         eNdfnTOUVQwVQ==
+Date:   Fri, 19 Feb 2021 16:45:34 +0100
+From:   Robert Richter <rric@kernel.org>
+To:     Dejin Zheng <zhengdejin5@gmail.com>
+Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 4/4] i2c: thunderx: Use the correct name of
+ device-managed function
+Message-ID: <YC/dHum90mM6aldt@rric.localdomain>
+References: <20210218150458.798347-1-zhengdejin5@gmail.com>
+ <20210218150458.798347-5-zhengdejin5@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aeba97b6-37cd-4870-0a40-3e7aa84ebd36@digikod.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210218150458.798347-5-zhengdejin5@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 10, 2021 at 09:17:25PM +0100, Mickaël Salaün wrote:
+On 18.02.21 23:04:58, Dejin Zheng wrote:
+> Use the new function pcim_alloc_irq_vectors() to allocate IRQ vectors,
+> the pcim_alloc_irq_vectors() function, an explicit device-managed version
+> of pci_alloc_irq_vectors(). If pcim_enable_device() has been called
+> before, then pci_alloc_irq_vectors() is actually a device-managed
+> function. It is used here as a device-managed function, So replace it
+> with pcim_alloc_irq_vectors().
 > 
-> On 10/02/2021 20:36, Serge E. Hallyn wrote:
-> > On Tue, Feb 02, 2021 at 05:27:05PM +0100, Mickaël Salaün wrote:
-> >> From: Mickaël Salaün <mic@linux.microsoft.com>
-> >>
-> >> Thanks to the Landlock objects and ruleset, it is possible to identify
-> >> inodes according to a process's domain.  To enable an unprivileged
-> > 
-> > This throws me off a bit.  "identify inodes according to a process's domain".
-> > What exactly does it mean?  "identify" how ?
-> 
-> A domain is a set of rules (i.e. layers of rulesets) enforced on a set
-> of threads. Inodes are tagged per domain (i.e. not system-wide) and
-> actions are restricted thanks to these tags, which form rules. It means
-> that the created access-controls are scoped to a set of threads.
+> Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
 
-Thanks, that's helpful.  To me it would be much clearer if you used the word
-'tagged' :
+The title of this patch suggests there was something incorrect before
+and this is a fix, which it isn't. Please reword.
 
-  Using the Landlock objects and ruleset, it is possible to tag inodes
-  according to a process's domain.
+Thanks,
 
-> >> process to express a file hierarchy, it first needs to open a directory
-> >> (or a file) and pass this file descriptor to the kernel through
-> >> landlock_add_rule(2).  When checking if a file access request is
-> >> allowed, we walk from the requested dentry to the real root, following
-> >> the different mount layers.  The access to each "tagged" inodes are
-> >> collected according to their rule layer level, and ANDed to create
-> >> access to the requested file hierarchy.  This makes possible to identify
-> >> a lot of files without tagging every inodes nor modifying the
-> >> filesystem, while still following the view and understanding the user
-> >> has from the filesystem.
-> >>
-> >> Add a new ARCH_EPHEMERAL_INODES for UML because it currently does not
-> >> keep the same struct inodes for the same inodes whereas these inodes are
-> >> in use.
-> > 
-> > -serge
-> > 
+-Robert
