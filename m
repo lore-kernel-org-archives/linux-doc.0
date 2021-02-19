@@ -2,103 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D77D7C433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 14:01:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC80FC433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 14:13:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9DB5E64EB7
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 14:01:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 95D1E64EB7
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 14:13:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229998AbhBSOBu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Feb 2021 09:01:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37230 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbhBSOBt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 09:01:49 -0500
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71D3EC061756
-        for <linux-doc@vger.kernel.org>; Fri, 19 Feb 2021 06:01:09 -0800 (PST)
-Received: by mail-qt1-x834.google.com with SMTP id f17so3932744qth.7
-        for <linux-doc@vger.kernel.org>; Fri, 19 Feb 2021 06:01:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Uy9+p8EYLZ+2upxXdnXYCqgGljKcN5wTbKwGZwnqinY=;
-        b=I5flSyH/gLTP7kfpLHlSgh5tXtA+Jh1EsK+6uIgyy09vUXp0IZUoyofNXle2UG8+9x
-         6bQcZMjTHGSnCjsIADBeVZNPoafr3TSU4gbVUKm8tx7gxct5TAh1oqibAjgx2ny24Qlv
-         nA8b7dO5wJoNvKGJUaq5YdpKB1knNz20AuCjHXqPKjX/HXDnk9GUA8KprUxsiW5TqfOU
-         9o+5AHrQgpJl5wOCAeVJMcNlnBgpfbhD2hv2/vQ80bpHkUbm4gdpFUasgTAZI9JejzbF
-         hWMAig8ep9wZI5JeASo7p/0n5GOB7qV6LVTspTVmRmVoA3TvIzBilhfwzcUDD73XF8lP
-         SRsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Uy9+p8EYLZ+2upxXdnXYCqgGljKcN5wTbKwGZwnqinY=;
-        b=K2C/c6XInpiOPHtl4CjqXFhjEIj9LpJr7wailnlLjgE5ovSTi1vKcHxD1ESCY20eVB
-         K6O6hSF6e8Zq9TK73RDPr5+wMTmSVGN8ZoN65CZGVSEzNuY4a6a3BIrvWqbYDstWECEK
-         Y8rWeMnHM94ftZDSSjnqVuysEsOuge3cqHGWkGaq9SDasjSZK4ris3HwBHwU3dX4bbCJ
-         6hQuHJomKTBPzQHRLe+6mdvcx68ixy0mUoFjGjbAewvOu3aao5R5XwdjWpA8wHNV2rXU
-         KvteForW+7+TAKOT0FcUK+1O9j0M2Y8VoRK+7REIB9SXh+FM4dI4aztao2jXSGqmq3qL
-         jzhA==
-X-Gm-Message-State: AOAM531nYK+I8NXftFpUjW4ws/EQ36rf5fgpD7wU2cu4ZbcfeeOOi/UR
-        PMbVas5Gp4tr3md4SFJYKksi0Q==
-X-Google-Smtp-Source: ABdhPJwvDnWgEME/UBp5mpDqS0tmSE99XXBjYe+mDgcmjGaB5orYQxdcs7Ze95f3nVqD5XVW9Zc5qg==
-X-Received: by 2002:a05:622a:306:: with SMTP id q6mr8969998qtw.15.1613743266418;
-        Fri, 19 Feb 2021 06:01:06 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
-        by smtp.gmail.com with ESMTPSA id 14sm5338161qtx.84.2021.02.19.06.01.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Feb 2021 06:01:05 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1lD6LB-00CPnQ-2t; Fri, 19 Feb 2021 10:01:05 -0400
-Date:   Fri, 19 Feb 2021 10:01:05 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Christoph Hellwig <hch@infradead.org>
-Cc:     Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org,
-        nouveau@lists.freedesktop.org, bskeggs@redhat.com,
-        akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kvm-ppc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, jhubbard@nvidia.com,
-        rcampbell@nvidia.com, jglisse@redhat.com, daniel@ffwll.ch
-Subject: Re: [PATCH v2 1/4] hmm: Device exclusive memory access
-Message-ID: <20210219140105.GE2643399@ziepe.ca>
-References: <20210219020750.16444-1-apopple@nvidia.com>
- <20210219020750.16444-2-apopple@nvidia.com>
- <20210219094741.GA641389@infradead.org>
+        id S229808AbhBSONP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Feb 2021 09:13:15 -0500
+Received: from mx2.suse.de ([195.135.220.15]:60188 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229799AbhBSONJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Feb 2021 09:13:09 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1613743942; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=E+USPRqgN/Kvs1vKcFSGjJ866vTEg0TvC4G84Ip+KFg=;
+        b=VVGs6Gzbps3TiRPDVnJniqgF440MGZD562bPBpZzHg+L/83JMZABxDLxLUuNh8RyIQ5FX+
+        5do62w8Y5b3/gjk2YbNAJXSAyXbdysChF7Ep7U6HlDVLE96BgnFmUfYI6DzRGzStyPuCh6
+        /UscW72CNfGAS+2RP13mtY4I8/woSKg=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id A889FABAE;
+        Fri, 19 Feb 2021 14:12:22 +0000 (UTC)
+Date:   Fri, 19 Feb 2021 15:12:21 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        osalvador@suse.de, song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com, joao.m.martins@oracle.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap pages associated
+ with each HugeTLB page
+Message-ID: <YC/HRTq1MRaDWn7O@dhcp22.suse.cz>
+References: <20210219104954.67390-1-songmuchun@bytedance.com>
+ <20210219104954.67390-5-songmuchun@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210219094741.GA641389@infradead.org>
+In-Reply-To: <20210219104954.67390-5-songmuchun@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 19, 2021 at 09:47:41AM +0000, Christoph Hellwig wrote:
-
-> > diff --git a/include/linux/hmm.h b/include/linux/hmm.h
-> > index 866a0fa104c4..5d28ff6d4d80 100644
-> > +++ b/include/linux/hmm.h
-> > @@ -109,6 +109,10 @@ struct hmm_range {
-> >   */
-> >  int hmm_range_fault(struct hmm_range *range);
-> >  
-> > +int hmm_exclusive_range(struct mm_struct *mm, unsigned long start,
-> > +			unsigned long end, struct page **pages);
-> > +vm_fault_t hmm_remove_exclusive_entry(struct vm_fault *vmf);
+On Fri 19-02-21 18:49:49, Muchun Song wrote:
+> When we free a HugeTLB page to the buddy allocator, we should allocate
+> the vmemmap pages associated with it. But we may cannot allocate vmemmap
+> pages when the system is under memory pressure, in this case, we just
+> refuse to free the HugeTLB page instead of looping forever trying to
+> allocate the pages. This changes some behavior (list below) on some
+> corner cases.
 > 
-> Can we avoid the hmm naming for new code (we should probably also kill
-> it off for the existing code)?
+>  1) Failing to free a huge page triggered by the user (decrease nr_pages).
+> 
+>     Need try again later by the user.
+> 
+>  2) Failing to free a surplus huge page when freed by the application.
+> 
+>     Try again later when freeing a huge page next time.
 
-Yes please, I'd prefer it if hmm.c was just the special page walker
-and not a grab bag of unrelated things
+This means that surplus pages can accumulate right? This should be
+rather unlikely because one released huge page could then be reused for
+normal allocations - including vmemmap. Unlucky timing might still end
+up in the accumulation though. Not something critical though.
 
-Is there is a more natural place to put this in the mm for this idea?
+>  3) Failing to dissolve a free huge page on ZONE_MOVABLE via
+>     offline_pages().
+> 
+>     This is a bit unfortunate if we have plenty of ZONE_MOVABLE memory
+>     but are low on kernel memory. For example, migration of huge pages
+>     would still work, however, dissolving the free page does not work.
+>     This is a corner cases. When the system is that much under memory
+>     pressure, offlining/unplug can be expected to fail.
 
-Jason
+Please mention that this is unfortunate because it prevents from the
+memory offlining which shouldn't happen for movable zones. People
+depending on the memory hotplug and movable zone should carefuly
+consider whether savings on unmovable memory are worth losing their
+hotplug functionality in some situations.
+
+>  4) Failing to dissolve a huge page on CMA/ZONE_MOVABLE via
+>     alloc_contig_range() - once we have that handling in place. Mainly
+>     affects CMA and virtio-mem.
+
+What about hugetlb page poisoning on HW failure (resp. soft offlining)?
+
+> 
+>     Similar to 3). virito-mem will handle migration errors gracefully.
+>     CMA might be able to fallback on other free areas within the CMA
+>     region.
+> 
+> We do not want to use GFP_ATOMIC to allocate vmemmap pages. Because it
+> grants access to memory reserves and we do not think it is reasonable
+> to use memory reserves. We use GFP_KERNEL in alloc_huge_page_vmemmap().
+
+This likely needs more context around. Maybe something like
+"
+Vmemmap pages are allocated from the page freeing context. In order for
+those allocations to be not disruptive (e.g. trigger oom killer)
+__GFP_NORETRY is used. hugetlb_lock is dropped for the allocation
+because a non sleeping allocation would be too fragile and it could fail
+too easily under memory pressure. GFP_ATOMIC or other modes to access
+memory reserves is not used because we want to prevent consuming
+reserves under heavy hugetlb freeing.
+"
+
+I haven't gone through the patch in a great detail yet, from a high
+level POV it looks good although the counter changes and reshuffling
+seems little wild. That requires a more detailed look I do not have time
+for right now. Mike would be much better for that anywya ;)
+
+I do not see any check for an atomic context in free_huge_page path. I
+have suggested to replace in_task by in_atomic check (with a gotcha that
+the later doesn't work without preempt_count but there is a work to
+address that).
+-- 
+Michal Hocko
+SUSE Labs
