@@ -2,172 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DB78C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 14:37:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE8E2C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 14:40:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2324264EB3
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 14:37:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8219464DA8
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 14:40:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230477AbhBSOhX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Feb 2021 09:37:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44786 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231132AbhBSOhP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 09:37:15 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3D4BC061574;
-        Fri, 19 Feb 2021 06:36:34 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id cl8so3810109pjb.0;
-        Fri, 19 Feb 2021 06:36:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=O7ionRp1ZXY9IYkwj7KvTSuR30BkQ1bSGX68omoJKK0=;
-        b=dsczfc2hrIrRhMQivoGf1eEDCs+l0usQ197IIlpx8FruhL3GtfZF1U99hQjXs866+c
-         s5MyrfANo5j/yY/179tALVh8p2q+MuCBnEhvMj6+6Bt/r3URTDtFrSEbayK4LcYPGa5F
-         mEBGEBjCBykmVTmZ13jj2xVWz78DwbIY7AaDvL+8WHBGALS/w8SVDfMYKyltAnF6hcWq
-         oq5xbVkROKrfH6l+kM8BYtTLOIppaSFFhuGtzaowr0xyqtNSin+vkIx7VX+QKssx5yJt
-         Zbru3FdJ/qT8LPMv5cJFkyu6Cl8kp+5nzhmK9FqqoEnAZVloaDofnnb+pxxYg+Dkxfj+
-         CJYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=O7ionRp1ZXY9IYkwj7KvTSuR30BkQ1bSGX68omoJKK0=;
-        b=NzQB5Tm5GmRBnEmYY4AzHCqpq4gW38SgLm0MJlhaQIdgC9f3iwPm6kf2AMaTXvTK6d
-         cN791xldXlfE+mMjDJJcqqFk/Kt954C2KxbETUgHZyR7nNBcW/4fIkklTbaglTkeLDNW
-         MDCZMZuJzoXE/K44ycUGmAoQseSCFPDM2dLlcyjY98vHcm7XNvw+bMpUmw0gU0FzNsO2
-         LDczkrGdGZ/MnsWbvrhDtMePNf4QnNYbwzde1iUNaRoQpiUqLEq4bqTFSkzdJHjcHERN
-         oS59U/eRZaeAPsQcJiAfcN085yKt4XGWQbwS0+6x6NZeIyu6q126u+VmlRYGOxGyisRt
-         sNcQ==
-X-Gm-Message-State: AOAM533jKKtTPNd792pNK1wopUYelQthAtao2af9Crdr3HhScqMMbdEq
-        eGincJZz4Qw5TXvu5dg346I/ol6zlIX0TfMVolC8yVCp5yyImQ==
-X-Google-Smtp-Source: ABdhPJxrTA0lztIb7xlyyu35/+p99yEb7EYJ9tqucNlAPtN+to9iDaASOxnOSTGROXOkZgIa43SRRXPo5vBSUF60D1Y=
-X-Received: by 2002:a17:90a:c84:: with SMTP id v4mr9737822pja.228.1613745394346;
- Fri, 19 Feb 2021 06:36:34 -0800 (PST)
+        id S230309AbhBSOkw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Feb 2021 09:40:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34178 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230228AbhBSOkw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Feb 2021 09:40:52 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CEAE964D9A;
+        Fri, 19 Feb 2021 14:40:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613745611;
+        bh=kPDjLkzDqMQC2vYnKBAO3peQT2EGftnLubeGjVNTazY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Wy8z45n22on2rIUpYib4h1RONCNZ0Lhp7CCAja3deSrtesd5CicxIZFccVlomnsXX
+         knSZv2Ee1Ho+PlOq7RUnxoUUYauFqixsGZsB1yAGwGn/gQ3IrQDc9r9NeNRuaVkwQc
+         Y7c8sVqsTumDnFm4kFixmrBwHvOijrOzaZbNhGA/at6MKrRa5x1QAe86rex+hP6o4w
+         aVggxOgpRYmAaKQc15R9QlXkwS1UUu4jWVdav7HSErguV7+KqICAaxuYx/ZYQcknqF
+         qLPuAC0anFVrGsj7M14esR5r2iBQbV6Kpe5aepyHYcyKRhP5bX0ih9e8+aoG+rtrZp
+         xBKzQzr3YqeDQ==
+Date:   Fri, 19 Feb 2021 15:40:05 +0100
+From:   Robert Richter <rric@kernel.org>
+To:     Dejin Zheng <zhengdejin5@gmail.com>
+Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] PCI: Introduce pcim_alloc_irq_vectors()
+Message-ID: <YC/NxfsQn2RKkrp8@rric.localdomain>
+References: <20210218150458.798347-1-zhengdejin5@gmail.com>
+ <20210218150458.798347-2-zhengdejin5@gmail.com>
 MIME-Version: 1.0
-References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
- <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com>
- <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com> <85blcgw5v6.fsf@linux.intel.com>
-In-Reply-To: <85blcgw5v6.fsf@linux.intel.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 19 Feb 2021 16:36:18 +0200
-Message-ID: <CAHp75VfvHGPC8bvDUDt0ge9dh-YEnH8ob5xV6iPQwODjWETqPg@mail.gmail.com>
-Subject: Re: [PATCH v1 01/12] gna: add driver module
-To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Savo Novakovic <savox.novakovic@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210218150458.798347-2-zhengdejin5@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 19, 2021 at 3:21 PM Maciej Kwapulinski
-<maciej.kwapulinski@linux.intel.com> wrote:
-> Andy Shevchenko <andy.shevchenko@gmail.com> writes:
-> > On Tue, Feb 16, 2021 at 6:11 PM Maciej Kwapulinski
-> > <maciej.kwapulinski@linux.intel.com> wrote:
-> >>
-> ....
-> >> +err_clear_master:
-> >> +       pci_clear_master(pcidev);
-> >> +err_release_regions:
-> >> +       pci_release_regions(pcidev);
-> >> +end:
-> >> +       dev_err(&pcidev->dev, "gna probe failed with %d\n", ret);
-> >> +       return ret;
-> >
-> > These are all completely redundant.
-> >
->
-> following is refactor of gna_probe(), but without pci_release_regions(),
-> smatch (v7fcfe259) produces warning:
->   drivers/misc/gna/gna_device.c:78 gna_probe() warn: 'pcidev' not
->   released on lines: 56,65.
+On 18.02.21 23:04:55, Dejin Zheng wrote:
+> Introduce pcim_alloc_irq_vectors(), a device-managed version of
+> pci_alloc_irq_vectors(). Introducing this function can simplify
+> the error handling path in many drivers.
+> 
+> And use pci_free_irq_vectors() to replace some code in pcim_release(),
+> they are equivalent, and no functional change. It is more explicit
+> that pcim_alloc_irq_vectors() is a device-managed function.
+> 
+> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
+> ---
+> v3 -> v4:
+> 	- No change
+> v2 -> v3:
+> 	- Add some commit comments for replace some codes in
+> 	  pcim_release() by pci_free_irq_vectors().
+> v1 -> v2:
+> 	- Use pci_free_irq_vectors() to replace some code in
+> 	  pcim_release().
+> 	- Modify some commit messages.
+> 
+>  drivers/pci/pci.c   | 33 +++++++++++++++++++++++++++++----
+>  include/linux/pci.h |  3 +++
+>  2 files changed, 32 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index b67c4327d307..db799d089c85 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -1969,10 +1969,7 @@ static void pcim_release(struct device *gendev, void *res)
+>  	struct pci_devres *this = res;
+>  	int i;
+>  
+> -	if (dev->msi_enabled)
+> -		pci_disable_msi(dev);
+> -	if (dev->msix_enabled)
+> -		pci_disable_msix(dev);
+> +	pci_free_irq_vectors(dev);
+>  
+>  	for (i = 0; i < DEVICE_COUNT_RESOURCE; i++)
+>  		if (this->region_mask & (1 << i))
+> @@ -2054,6 +2051,34 @@ void pcim_pin_device(struct pci_dev *pdev)
+>  }
+>  EXPORT_SYMBOL(pcim_pin_device);
+>  
+> +/**
+> + * pcim_alloc_irq_vectors - a device-managed pci_alloc_irq_vectors()
+> + * @dev:		PCI device to operate on
+> + * @min_vecs:		minimum number of vectors required (must be >= 1)
+> + * @max_vecs:		maximum (desired) number of vectors
+> + * @flags:		flags or quirks for the allocation
+> + *
+> + * Return the number of vectors allocated, (which might be smaller than
+> + * @max_vecs) if successful, or a negative error code on error. If less
+> + * than @min_vecs interrupt vectors are available for @dev the function
+> + * will fail with -ENOSPC.
+> + *
+> + * It depends on calling pcim_enable_device() to make IRQ resources
+> + * manageable.
+> + */
+> +int pcim_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+> +				unsigned int max_vecs, unsigned int flags)
+> +{
+> +	struct pci_devres *dr;
+> +
+> +	dr = find_pci_dr(dev);
+> +	if (!dr || !dr->enabled)
+> +		return -EINVAL;
+> +
+> +	return pci_alloc_irq_vectors(dev, min_vecs, max_vecs, flags);
+> +}
+> +EXPORT_SYMBOL(pcim_alloc_irq_vectors);
 
-Then the tool is mistaken.
+If it is just about having a pcim-* counterpart why not just an inline
+function like the one below.
 
-> here's the code refactored:
->
-> int gna_probe(struct pci_dev *pcidev, const struct pci_device_id *pci_id)
-> {
->         struct gna_private *gna_priv;
->         int ret;
->
->         ret = pcim_enable_device(pcidev);
->         if (ret) {
->                 dev_err(&pcidev->dev, "pci device can't be enabled\n");
->                 return ret;
->         }
->
->         ret = pci_request_regions(pcidev, GNA_DRV_NAME);
->         if (ret)
->                 return ret;
->
->         ret = pci_set_dma_mask(pcidev, DMA_BIT_MASK(64));
->         if (ret) {
->                 dev_err(&pcidev->dev, "pci_set_dma_mask returned error %d\n", ret);
->                 return ret;
->         }
->
->         pci_set_master(pcidev);
->
->         /* init gna device */
->         gna_priv = devm_kzalloc(&pcidev->dev, sizeof(*gna_priv), GFP_KERNEL);
->         if (!gna_priv) {
->                 //pci_release_regions(pcidev);
->                 return -ENOMEM;                 // line 56
->         }
->         /* Map BAR0 */
->         gna_priv->bar0.iostart = pci_resource_start(pcidev, 0);
->         gna_priv->bar0.iosize = pci_resource_len(pcidev, 0);
->         gna_priv->bar0.mem_addr = pcim_iomap(pcidev, 0, 0);
->         if (!gna_priv->bar0.mem_addr) {
->                 //pci_release_regions(pcidev);
->                 dev_err(&pcidev->dev, "could not map BAR 0\n");
->                 return -EINVAL;               // line 65
->         }
->
->         dev_dbg(&pcidev->dev, "bar0 io start: 0x%llx\n", (unsigned long long)gna_priv->bar0.iostart);
->         dev_dbg(&pcidev->dev, "bar0 io size: %llu\n", (unsigned long long)gna_priv->bar0.iosize);
->         dev_dbg(&pcidev->dev, "bar0 memory address: %p\n", gna_priv->bar0.mem_addr);
->
->         ret = gna_dev_init(gna_priv, pcidev, pci_id);
->         if (ret) {
->                 dev_err(&pcidev->dev, "could not initialize gna private structure\n");
->                 return ret;
->         }
->
->         return 0;
-> }
->
-> I've also added 'noinline' directive to pci_release_regions(), to see if
-> it is called by the core code on "rmmod gna", but can't see the call.
->
-> Is the smatch tool that causes problems here?
-> Do You suggest other way to handle the problem?
+> +
+>  /*
+>   * pcibios_add_device - provide arch specific hooks when adding device dev
+>   * @dev: the PCI device being added
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 86c799c97b77..d75ba85ddfc5 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -1818,6 +1818,9 @@ pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+>  					      NULL);
+>  }
+>  
+> +int pcim_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+> +				unsigned int max_vecs, unsigned int flags);
+> +
 
-File a bug against that tool.
+static inline int pcim_alloc_irq_vectors(struct pci_dev *dev,
+	unsigned int min_vecs, unsigned int max_vecs, unsigned int flags)
+{
+	if (!pci_is_managed(dev, min_vecs, max_vecs, flags))
+		return -EINVAL;
 
-Before you are doing v2, I would suggest you to go thru all comments
-and address them. Above "refactored" code doesn't even have a half of
-the comments I gave being addressed. If you have concerns, please,
-reply to the review email with a specific excerpt as a context.
+	return pci_alloc_irq_vectors(dev, min_vecs, max_vecs, flags);
+}
 
--- 
-With Best Regards,
-Andy Shevchenko
+All those stub functions with EXPORT_SYMBOLS etc. could be dropped
+then.
+
+With some macro magic added a list of functions could easily being
+created that are already managed but just need a pcim* counterpart.
+
+-Robert
+
+>  /* Include architecture-dependent settings and functions */
+>  
+>  #include <asm/pci.h>
+> -- 
+> 2.25.0
+> 
