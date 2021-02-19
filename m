@@ -2,137 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6137FC433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 13:54:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D77D7C433E6
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 14:01:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36E4C64EBD
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 13:54:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9DB5E64EB7
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 14:01:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230196AbhBSNx6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Feb 2021 08:53:58 -0500
-Received: from mga09.intel.com ([134.134.136.24]:64464 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230177AbhBSNxv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Feb 2021 08:53:51 -0500
-IronPort-SDR: rgeTPppgYXTdSDu3AekE3jDHvYWRaxXYgGRdWWsCcaM9OGYuFAVDVQ2nH8H6J+TRu/gJ1TYzQZ
- 0EMhq3XPfIhA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9899"; a="183960797"
-X-IronPort-AV: E=Sophos;i="5.81,189,1610438400"; 
-   d="scan'208";a="183960797"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2021 05:52:05 -0800
-IronPort-SDR: EK5Wgt/62jce1ymNozB9AcLEBud6htWOyYNWoERO8THhqspUe0CsaFjRRSoEWukDrsRVFVcpjq
- L+uCGTd68/zg==
-X-IronPort-AV: E=Sophos;i="5.81,189,1610438400"; 
-   d="scan'208";a="378874125"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2021 05:52:02 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lD6CN-006DxP-8c; Fri, 19 Feb 2021 15:51:59 +0200
-Date:   Fri, 19 Feb 2021 15:51:59 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Robert Richter <rric@kernel.org>
-Cc:     Dejin Zheng <zhengdejin5@gmail.com>, corbet@lwn.net,
-        jarkko.nikula@linux.intel.com, mika.westerberg@linux.intel.com,
-        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org, kw@linux.com,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/4] Introduce pcim_alloc_irq_vectors()
-Message-ID: <YC/CfxHM2RMZLejc@smile.fi.intel.com>
-References: <20210216160249.749799-1-zhengdejin5@gmail.com>
- <YC41HD422Mjh1IZK@rric.localdomain>
- <YC5zVHnRog3EX0rl@smile.fi.intel.com>
- <YC+euDIrR5apkAqp@rric.localdomain>
+        id S229998AbhBSOBu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Feb 2021 09:01:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37230 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229636AbhBSOBt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 09:01:49 -0500
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71D3EC061756
+        for <linux-doc@vger.kernel.org>; Fri, 19 Feb 2021 06:01:09 -0800 (PST)
+Received: by mail-qt1-x834.google.com with SMTP id f17so3932744qth.7
+        for <linux-doc@vger.kernel.org>; Fri, 19 Feb 2021 06:01:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Uy9+p8EYLZ+2upxXdnXYCqgGljKcN5wTbKwGZwnqinY=;
+        b=I5flSyH/gLTP7kfpLHlSgh5tXtA+Jh1EsK+6uIgyy09vUXp0IZUoyofNXle2UG8+9x
+         6bQcZMjTHGSnCjsIADBeVZNPoafr3TSU4gbVUKm8tx7gxct5TAh1oqibAjgx2ny24Qlv
+         nA8b7dO5wJoNvKGJUaq5YdpKB1knNz20AuCjHXqPKjX/HXDnk9GUA8KprUxsiW5TqfOU
+         9o+5AHrQgpJl5wOCAeVJMcNlnBgpfbhD2hv2/vQ80bpHkUbm4gdpFUasgTAZI9JejzbF
+         hWMAig8ep9wZI5JeASo7p/0n5GOB7qV6LVTspTVmRmVoA3TvIzBilhfwzcUDD73XF8lP
+         SRsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Uy9+p8EYLZ+2upxXdnXYCqgGljKcN5wTbKwGZwnqinY=;
+        b=K2C/c6XInpiOPHtl4CjqXFhjEIj9LpJr7wailnlLjgE5ovSTi1vKcHxD1ESCY20eVB
+         K6O6hSF6e8Zq9TK73RDPr5+wMTmSVGN8ZoN65CZGVSEzNuY4a6a3BIrvWqbYDstWECEK
+         Y8rWeMnHM94ftZDSSjnqVuysEsOuge3cqHGWkGaq9SDasjSZK4ris3HwBHwU3dX4bbCJ
+         6hQuHJomKTBPzQHRLe+6mdvcx68ixy0mUoFjGjbAewvOu3aao5R5XwdjWpA8wHNV2rXU
+         KvteForW+7+TAKOT0FcUK+1O9j0M2Y8VoRK+7REIB9SXh+FM4dI4aztao2jXSGqmq3qL
+         jzhA==
+X-Gm-Message-State: AOAM531nYK+I8NXftFpUjW4ws/EQ36rf5fgpD7wU2cu4ZbcfeeOOi/UR
+        PMbVas5Gp4tr3md4SFJYKksi0Q==
+X-Google-Smtp-Source: ABdhPJwvDnWgEME/UBp5mpDqS0tmSE99XXBjYe+mDgcmjGaB5orYQxdcs7Ze95f3nVqD5XVW9Zc5qg==
+X-Received: by 2002:a05:622a:306:: with SMTP id q6mr8969998qtw.15.1613743266418;
+        Fri, 19 Feb 2021 06:01:06 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-142-162-115-133.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.162.115.133])
+        by smtp.gmail.com with ESMTPSA id 14sm5338161qtx.84.2021.02.19.06.01.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Feb 2021 06:01:05 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1lD6LB-00CPnQ-2t; Fri, 19 Feb 2021 10:01:05 -0400
+Date:   Fri, 19 Feb 2021 10:01:05 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     Alistair Popple <apopple@nvidia.com>, linux-mm@kvack.org,
+        nouveau@lists.freedesktop.org, bskeggs@redhat.com,
+        akpm@linux-foundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, kvm-ppc@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, jhubbard@nvidia.com,
+        rcampbell@nvidia.com, jglisse@redhat.com, daniel@ffwll.ch
+Subject: Re: [PATCH v2 1/4] hmm: Device exclusive memory access
+Message-ID: <20210219140105.GE2643399@ziepe.ca>
+References: <20210219020750.16444-1-apopple@nvidia.com>
+ <20210219020750.16444-2-apopple@nvidia.com>
+ <20210219094741.GA641389@infradead.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YC+euDIrR5apkAqp@rric.localdomain>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20210219094741.GA641389@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 19, 2021 at 12:19:20PM +0100, Robert Richter wrote:
-> On 18.02.21 16:01:56, Andy Shevchenko wrote:
-> > The problem this series solves is an imbalanced API.
+On Fri, Feb 19, 2021 at 09:47:41AM +0000, Christoph Hellwig wrote:
+
+> > diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+> > index 866a0fa104c4..5d28ff6d4d80 100644
+> > +++ b/include/linux/hmm.h
+> > @@ -109,6 +109,10 @@ struct hmm_range {
+> >   */
+> >  int hmm_range_fault(struct hmm_range *range);
+> >  
+> > +int hmm_exclusive_range(struct mm_struct *mm, unsigned long start,
+> > +			unsigned long end, struct page **pages);
+> > +vm_fault_t hmm_remove_exclusive_entry(struct vm_fault *vmf);
 > 
-> This (added) API is bloated and incomplete. It adds functions without
-> benefit, the only is to have a single pcim alloc function in addition
-> to the pairing of alloc/free functions. I agree, it is hard to detect
-> which parts are released if pcim_enable_device() is used.
+> Can we avoid the hmm naming for new code (we should probably also kill
+> it off for the existing code)?
 
-No, this API solves the above mentioned problem (what makes so special about
-pci_free_irq_vectors() that it should be present?) Why do we have pcim_iomap*()
-variations and not the rest?
+Yes please, I'd prefer it if hmm.c was just the special page walker
+and not a grab bag of unrelated things
 
-The PCIm API is horrible in the sense of being used properly. Yes, I know how
-it works and I was trying to help with that, the problem is that people didn't
-and don't get how it works and stream of patches like the ones that add
-pci_free_irq_vectors() are coming.
+Is there is a more natural place to put this in the mm for this idea?
 
-> Additional, you need to go through pcim_release() to add other
-> pcim_*() functions for everything else that is released there.
-> Otherwise that new API is still incomplete.
-
-True. And here is the part that most annoying right now.
-Btw, I never saw you fought against these small clean ups here and there, that
-*add* explicit calls to freeing resources. Also I haven't noticed anybody
-trying to correct documentation.
-
-This series is a step to a right direction.
-
-> But this adds another
-> bunch of useless functions.
-
-Wrong. This is quite useful to have balanced APIs. How many patches you have
-seen related to the PCIm imbalanced APIs? I could tell from my experience, I
-saw plenty and each time I'm trying to explain how it works people don't easily
-get.
-
-> > Christoph IIRC was clear that if we want to use PCI IRQ allocation API the
-> > caller must know what's going on. Hiding this behind the scenes is not good.
-> > And this series unhides that.
-> 
-> IMO, this is more a documentation issue. pcim_enable_device() must be
-> better documented and list all enable/alloc functions that are going
-> to be released out of the box later.
-> 
-> Even better, make sure everything is managed and thus all of a pci_dev
-> is released, no matter how it was setup (this could even already be
-> the case).
-> 
-> In addition you could implement a static code checker.
-
-It's open source, why should we do that and not what we are proposing here?
-Propose your ideas and we will discuss the patches, right?
-
-> > Also, you may go and clean up all pci_free_irq_vectors() when
-> > pcim_enable_device() is called, but I guess you will get painful process and
-> > rejection in a pile of cases.
-> 
-> Why should something be rejected if it is not correctly freed?
-
-Why it's not correctly freed? The function is idempotent.
-
-> Even if pci_free_irq_vectors() is called, pcim_release() will not
-> complain if it was already freed before. So using
-> pci_free_irq_vectors() is ok even in conjunction with
-> pcim_enable_device().
-
-No, it's not okay from API namespace / semantics perspective.
-
-> In the end, let's make sure everything is released in pci_dev if it is
-> managed and document this.
-
-Feel free to submit a patch!
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Jason
