@@ -2,186 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D632C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 12:02:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63C1DC433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 13:23:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4425E64ED7
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 12:02:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 123E964EB3
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 13:23:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231169AbhBSMCm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Feb 2021 07:02:42 -0500
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:58145 "EHLO
-        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230505AbhBSMB4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 07:01:56 -0500
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailnew.west.internal (Postfix) with ESMTP id 30236803;
-        Fri, 19 Feb 2021 07:01:09 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Fri, 19 Feb 2021 07:01:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-type:content-transfer-encoding; s=fm2; bh=
-        KCoEIq3hXzFEDXTWDHOvgZWOU83J4ZazWlcxgY4hZb8=; b=XTdfsDcu1xOd0B8l
-        WNF/LiHKwDHvEPIlMCFysawWKyjzeBpBplIO6HUKEWbX3nVNy4hYjTfl9O+O4qIG
-        w2XFLDjqdFOy05i2jynh3LDq8aOF8JbK0+GEvKLImcgXx5gtlN+DJjWow5+ZEBcl
-        NFz6ZirPGOT+ySb1Yl9lcfPZVxKIlfnBzHsBw0AB2tcuQ845hKGy6Q7EzD7dKqWY
-        CmzPl/co6yNirNXPtMHbY2ZWmDg3lUQlRsoO3bGbicpIKq47XfshPLQYbC/PaZmG
-        cejD3SuxUdztTmeMeZgxiQHWjBEleZxHmuMf0741jtD+wPJ6f6LJxAatYSb/Qwii
-        XBvOtQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:in-reply-to:message-id:mime-version:references
-        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; bh=KCoEIq3hXzFEDXTWDHOvgZWOU83J4ZazWlcxgY4hZ
-        b8=; b=j/jaPfjEYwSnvWd675dMNqnSaMxrauZXMYai3Y7J0lFYQgFKNse0zBjKx
-        dYqDWK3fWp0SjXOgQMjRRGkMw3Op3nP4s0Gw3AufT9QzJieRcIKi9daoCnhQpfO1
-        HBGAwOPxJv/GJlXh63EBAPDV7M/r4g2ADVoq0TWbLeFflj2/BdUydXFPog08qsoD
-        bJElkqz4ymfKpvYUmWBfCEoXnj3+Qav6MF/0hIaobqJo9wqMSxFwxOVC/TyCXz5k
-        RrZ+hcIuUAPRoctuL0O9sLFZge2georQJQpzfr4zDR2zVAw3W9qeW2wO6+Y7o+yd
-        vfBzmWo/uT3gvTzqz5AdWfB01/zqw==
-X-ME-Sender: <xms:hKgvYLPvLgv0gXT_dAB5jeWZdyKNTnRryv80L7cIkRpczeG1BnGcYg>
-    <xme:hKgvYByBIc4elxc32fl1wTPXg-vuXL6uSl9H411i2W5why2BNoVng9HIQ86KrEGpX
-    7XanM5a5fpT-xK5sWc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjeeigdefgecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepjeeugfegkeffgfeuvedtvddufffhjeffjeejvddvudduteehhfefhfefgeei
-    keeknecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:hKgvYAtFekc3cf9HwA4AbxJ4a7Zl3ARcm5DgeB9CKkMFAGLT2HmZLA>
-    <xmx:hKgvYMZMZg0DOJ91y3o_kX6CbCZhtyPGqEaM8wUT_k-iPD1R_6Ru6w>
-    <xmx:hKgvYH0Hu0uC3TcdhHaSQXFpga5O2h-RGO_Omg4qFA7Mx1ihOmnUqg>
-    <xmx:hKgvYHv-wHfuomdJ6x8_iX0Hbi_6UJXvX0jdieXxlJY3TyXK-_fUtrB0OYA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 71DEC108005C;
-        Fri, 19 Feb 2021 07:01:08 -0500 (EST)
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>
-Cc:     dri-devel@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Maxime Ripard <mripard@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v3 11/11] drm/todo: Remove the drm_atomic_state todo item
-Date:   Fri, 19 Feb 2021 13:00:31 +0100
-Message-Id: <20210219120032.260676-11-maxime@cerno.tech>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210219120032.260676-1-maxime@cerno.tech>
-References: <20210219120032.260676-1-maxime@cerno.tech>
+        id S229804AbhBSNXJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Feb 2021 08:23:09 -0500
+Received: from mga02.intel.com ([134.134.136.20]:47395 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229636AbhBSNXI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Feb 2021 08:23:08 -0500
+IronPort-SDR: loKQ7QdP5Aw12qRDC7FBheez+Y0EyMlDg3jaoNlJhDeqZNnG8j8g7HDWMPehnRNwyXoVZ/fPxt
+ 4n52d00IhSSw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9899"; a="170967301"
+X-IronPort-AV: E=Sophos;i="5.81,189,1610438400"; 
+   d="scan'208";a="170967301"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2021 05:21:21 -0800
+IronPort-SDR: 3q8hi1rFIVObABHTdIvXWQsb7hE6eyKB8Ko885U9Tjr4mUp0S+fE5oX8095Rq5u6jmpnDVWmlF
+ iD9uZ9AMe0gQ==
+X-IronPort-AV: E=Sophos;i="5.81,189,1610438400"; 
+   d="scan'208";a="386910992"
+Received: from gna-dev.igk.intel.com (HELO localhost) ([10.102.80.34])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2021 05:21:19 -0800
+References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com> <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com> <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com>
+User-agent: mu4e 1.4.13; emacs 26.3
+From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+        Savo Novakovic <savox.novakovic@intel.com>,
+        Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Subject: Re: [PATCH v1 01/12] gna: add driver module
+In-reply-to: <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com>
+Date:   Fri, 19 Feb 2021 14:21:17 +0100
+Message-ID: <85blcgw5v6.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Only planes' prepare_fb and cleanup_fb, and encoders' atomic_check and
-atomic_mode_set hooks remain with an object state and not the global
-drm_atomic_state.
 
-prepare_fb and cleanup_fb operate by design on a given state and
-depending on the calling site can operate on either the old or new
-state, so it doesn't really make much sense to convert them.
+Andy Shevchenko <andy.shevchenko@gmail.com> writes:
 
-The encoders' atomic_check and atomic_mode_set operate on the CRTC and
-connector state connected to them since encoders don't have a state of
-their own. Without those state pointers, we would need to get the CRTC
-through the drm_connector_state crtc pointer.
+> On Tue, Feb 16, 2021 at 6:11 PM Maciej Kwapulinski
+> <maciej.kwapulinski@linux.intel.com> wrote:
+>>
+....
+>> +err_clear_master:
+>> +       pci_clear_master(pcidev);
+>> +err_release_regions:
+>> +       pci_release_regions(pcidev);
+>> +end:
+>> +       dev_err(&pcidev->dev, "gna probe failed with %d\n", ret);
+>> +       return ret;
+>
+> These are all completely redundant.
+>
 
-However, in order to get the drm_connector_state pointer, we would need
-to get the connector itself and while usually we have a single connector
-connected to the encoder, we can't really get it from the encoder at
-the moment since it could be behind any number of bridges.
+following is refactor of gna_probe(), but without pci_release_regions(),
+smatch (v7fcfe259) produces warning:
+  drivers/misc/gna/gna_device.c:78 gna_probe() warn: 'pcidev' not
+  released on lines: 56,65.
 
-While this could be addressed by (for example) listing all the
-connectors and finding the one that has the encoder as its source, it
-feels like an unnecessary rework for something that is slowly getting
-replaced by bridges.
+here's the code refactored:
 
-Since all the users that matter have been converted, let's remove the
-TODO item.
+int gna_probe(struct pci_dev *pcidev, const struct pci_device_id *pci_id)
+{
+	struct gna_private *gna_priv;
+	int ret;
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+	ret = pcim_enable_device(pcidev);
+	if (ret) {
+		dev_err(&pcidev->dev, "pci device can't be enabled\n");
+		return ret;
+	}
 
----
+	ret = pci_request_regions(pcidev, GNA_DRV_NAME);
+	if (ret)
+		return ret;
 
-Changes from v1:
-  - New patch
----
- Documentation/gpu/todo.rst | 46 --------------------------------------
- 1 file changed, 46 deletions(-)
+	ret = pci_set_dma_mask(pcidev, DMA_BIT_MASK(64));
+	if (ret) {
+		dev_err(&pcidev->dev, "pci_set_dma_mask returned error %d\n", ret);
+		return ret;
+	}
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index f872d3d33218..0631b9b323d5 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -459,52 +459,6 @@ Contact: Emil Velikov, respective driver maintainers
- 
- Level: Intermediate
- 
--Plumb drm_atomic_state all over
---------------------------------
--
--Currently various atomic functions take just a single or a handful of
--object states (eg. plane state). While that single object state can
--suffice for some simple cases, we often have to dig out additional
--object states for dealing with various dependencies between the individual
--objects or the hardware they represent. The process of digging out the
--additional states is rather non-intuitive and error prone.
--
--To fix that most functions should rather take the overall
--drm_atomic_state as one of their parameters. The other parameters
--would generally be the object(s) we mainly want to interact with.
--
--For example, instead of
--
--.. code-block:: c
--
--   int (*atomic_check)(struct drm_plane *plane, struct drm_plane_state *state);
--
--we would have something like
--
--.. code-block:: c
--
--   int (*atomic_check)(struct drm_plane *plane, struct drm_atomic_state *state);
--
--The implementation can then trivially gain access to any required object
--state(s) via drm_atomic_get_plane_state(), drm_atomic_get_new_plane_state(),
--drm_atomic_get_old_plane_state(), and their equivalents for
--other object types.
--
--Additionally many drivers currently access the object->state pointer
--directly in their commit functions. That is not going to work if we
--eg. want to allow deeper commit pipelines as those pointers could
--then point to the states corresponding to a future commit instead of
--the current commit we're trying to process. Also non-blocking commits
--execute locklessly so there are serious concerns with dereferencing
--the object->state pointers without holding the locks that protect them.
--Use of drm_atomic_get_new_plane_state(), drm_atomic_get_old_plane_state(),
--etc. avoids these problems as well since they relate to a specific
--commit via the passed in drm_atomic_state.
--
--Contact: Ville Syrjälä, Daniel Vetter
--
--Level: Intermediate
--
- Use struct dma_buf_map throughout codebase
- ------------------------------------------
- 
--- 
-2.29.2
+	pci_set_master(pcidev);
 
+	/* init gna device */
+	gna_priv = devm_kzalloc(&pcidev->dev, sizeof(*gna_priv), GFP_KERNEL);
+	if (!gna_priv) {
+		//pci_release_regions(pcidev);
+		return -ENOMEM;                 // line 56
+	}
+	/* Map BAR0 */
+	gna_priv->bar0.iostart = pci_resource_start(pcidev, 0);
+	gna_priv->bar0.iosize = pci_resource_len(pcidev, 0);
+	gna_priv->bar0.mem_addr = pcim_iomap(pcidev, 0, 0);
+	if (!gna_priv->bar0.mem_addr) {
+		//pci_release_regions(pcidev);
+		dev_err(&pcidev->dev, "could not map BAR 0\n");
+		return -EINVAL;               // line 65
+	}
+
+	dev_dbg(&pcidev->dev, "bar0 io start: 0x%llx\n", (unsigned long long)gna_priv->bar0.iostart);
+	dev_dbg(&pcidev->dev, "bar0 io size: %llu\n", (unsigned long long)gna_priv->bar0.iosize);
+	dev_dbg(&pcidev->dev, "bar0 memory address: %p\n", gna_priv->bar0.mem_addr);
+
+	ret = gna_dev_init(gna_priv, pcidev, pci_id);
+	if (ret) {
+		dev_err(&pcidev->dev, "could not initialize gna private structure\n");
+		return ret;
+	}
+
+	return 0;
+}
+
+I've also added 'noinline' directive to pci_release_regions(), to see if
+it is called by the core code on "rmmod gna", but can't see the call.
+
+Is the smatch tool that causes problems here?
+Do You suggest other way to handle the problem?
