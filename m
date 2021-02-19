@@ -2,151 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F7A0C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 10:56:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11C54C433E6
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 11:21:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EFBB164EB1
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 10:56:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C9C5264E77
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 11:21:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230140AbhBSK4a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Feb 2021 05:56:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53272 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230079AbhBSKyR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 05:54:17 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F721C0617A9
-        for <linux-doc@vger.kernel.org>; Fri, 19 Feb 2021 02:53:43 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id w18so10006plc.12
-        for <linux-doc@vger.kernel.org>; Fri, 19 Feb 2021 02:53:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=yUS9qNpkZbJSnIup5wcCJPaYw6pSjle5WwxW0514c70=;
-        b=lwq4w0mNryxcojF1AHwzPzs/dz5mdKgGkbf7trkVA1vm92+chl3bthuADEito25Ba3
-         y6A3UHQmXzxnCiLm4Dms8CVG1fD4zTmnVnTFkMsV0Ibon8eCOz+WrM5bdJg++DygMUv2
-         WIuEl4P59gqZ5+K/Lyw80O9nhHivuU14jAec6CTD480EPu/muFtYKuZ2yXSFDf1N0hE7
-         Hum2QFGypeRwjrcnvPe6fsu3EI8e3/D9k4cle1OfWr3wrJx+iISqtj/RdAbeao7eZD+v
-         tIB5iU3v/K1FoNAWfKzPx5EPZYVxzhoi0oFXJTw/xO7VcBDn9r2wgeqrqDACsluSwoTc
-         V2pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=yUS9qNpkZbJSnIup5wcCJPaYw6pSjle5WwxW0514c70=;
-        b=Oc9uj5gSlykdZIAOM0WGjj++cbCeucyhndBhUp2HtxLMm+Jezzb84OHKekkJmAthgh
-         ExOasWqmkFIDr77OwMOFubHxEguusYOFsdrWPbWn1aNUynjS6ighzNbAChcUEHmGlZjk
-         rcl0ox9817V+jCgAZyQRuJzzgS/J+ggyS+bUJh7VNlxa/RpgXaglwu0LqdD7dAmITP/W
-         i6F753OrrcdxRr9+Pb63mb0h8cf9TCUeewSNc4kpn0PpFRW49GeZuRvBMDq/QZTVlzSS
-         ckchziRpkSsrFgLQ6pmmkDiSjvD7IBV3tTOzAqCHXf3sAKy9ipT4ApfxuI/ppZueXqzU
-         FmDQ==
-X-Gm-Message-State: AOAM530R6T85nw0dZa7gxosEPCMp6+wHAOrmoV7rM2zXeFEaAJoniR1j
-        Fg/oB6/K1pBro0AsvY+vkL0Lgg==
-X-Google-Smtp-Source: ABdhPJyB5WZMeDWoyUkjPOMlachVxvvFod144fxl8bbB0lmthUAShtFzj3K5VoXcb0cR5XGI9WC6WQ==
-X-Received: by 2002:a17:902:e989:b029:e2:8c9d:78ba with SMTP id f9-20020a170902e989b02900e28c9d78bamr1281160plb.81.1613732022712;
-        Fri, 19 Feb 2021 02:53:42 -0800 (PST)
-Received: from localhost.localdomain ([139.177.225.250])
-        by smtp.gmail.com with ESMTPSA id x1sm9662193pgj.37.2021.02.19.02.53.31
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 19 Feb 2021 02:53:42 -0800 (PST)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
-        david@redhat.com, naoya.horiguchi@nec.com,
-        joao.m.martins@oracle.com
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org,
-        Muchun Song <songmuchun@bytedance.com>,
-        Miaohe Lin <linmiaohe@huawei.com>
-Subject: [PATCH v16 9/9] mm: hugetlb: optimize the code with the help of the compiler
-Date:   Fri, 19 Feb 2021 18:49:54 +0800
-Message-Id: <20210219104954.67390-10-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.21.0 (Apple Git-122)
-In-Reply-To: <20210219104954.67390-1-songmuchun@bytedance.com>
-References: <20210219104954.67390-1-songmuchun@bytedance.com>
+        id S230459AbhBSLV0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Feb 2021 06:21:26 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34470 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229804AbhBSLUH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Feb 2021 06:20:07 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2CCB464E77;
+        Fri, 19 Feb 2021 11:19:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613733566;
+        bh=YFg4Atmp59pHQeT8wPbE/amvEYcgx1e0rb0E2V1wsVI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=CPQwToA/EWAwk27hMnWle2hs4utfQvNVMPw1h0h7/qLa3RjmZqFsCUAdKuqBxjEjQ
+         yTmpuyV5C1bZEZQHFpRr9SB0d0dXuaxrfTED3E+DWTQkP+ntQDhgehhhqn386QsGP2
+         jvBtwfPVRF2KLV5Eb8ylf6V3hxPOgqwlaMGC0A4x3kIIYgf0W2/JwEu8rDFAxC4pkf
+         /ZUAcJKvqdHgfoB+rrUqCCEgeHPPjZ3R3edCI71vugtkZCWJxwKPSEiw6or/YaBQ5v
+         13BOdBO1SlfmZGzpTXR2pi72xB9WzPoMd1wYX4BrvU6mncI2DbMS8rkJPmgOB4qcKM
+         JLBnXKeqdc3/w==
+Date:   Fri, 19 Feb 2021 12:19:20 +0100
+From:   Robert Richter <rric@kernel.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Dejin Zheng <zhengdejin5@gmail.com>, corbet@lwn.net,
+        jarkko.nikula@linux.intel.com, mika.westerberg@linux.intel.com,
+        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org, kw@linux.com,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/4] Introduce pcim_alloc_irq_vectors()
+Message-ID: <YC+euDIrR5apkAqp@rric.localdomain>
+References: <20210216160249.749799-1-zhengdejin5@gmail.com>
+ <YC41HD422Mjh1IZK@rric.localdomain>
+ <YC5zVHnRog3EX0rl@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YC5zVHnRog3EX0rl@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-When the "struct page size" crosses page boundaries we cannot
-make use of this feature. Let free_vmemmap_pages_per_hpage()
-return zero if that is the case, most of the functions can be
-optimized away.
+On 18.02.21 16:01:56, Andy Shevchenko wrote:
+> The problem this series solves is an imbalanced API.
 
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
----
- include/linux/hugetlb.h | 3 ++-
- mm/hugetlb_vmemmap.c    | 7 +++++++
- mm/hugetlb_vmemmap.h    | 6 ++++++
- 3 files changed, 15 insertions(+), 1 deletion(-)
+This (added) API is bloated and incomplete. It adds functions without
+benefit, the only is to have a single pcim alloc function in addition
+to the pairing of alloc/free functions. I agree, it is hard to detect
+which parts are released if pcim_enable_device() is used.
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index caeef778526a..8d684edc3bf9 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -882,7 +882,8 @@ extern bool hugetlb_free_vmemmap_enabled;
- 
- static inline bool is_hugetlb_free_vmemmap_enabled(void)
- {
--	return hugetlb_free_vmemmap_enabled;
-+	return hugetlb_free_vmemmap_enabled &&
-+	       is_power_of_2(sizeof(struct page));
- }
- #else
- static inline bool is_hugetlb_free_vmemmap_enabled(void)
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 33e42678abe3..1ba1ef45c48c 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -265,6 +265,13 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
- 	BUILD_BUG_ON(__NR_USED_SUBPAGE >=
- 		     RESERVE_VMEMMAP_SIZE / sizeof(struct page));
- 
-+	/*
-+	 * The compiler can help us to optimize this function to null
-+	 * when the size of the struct page is not power of 2.
-+	 */
-+	if (!is_power_of_2(sizeof(struct page)))
-+		return;
-+
- 	if (!hugetlb_free_vmemmap_enabled)
- 		return;
- 
-diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-index cb2bef8f9e73..29aaaf7b741e 100644
---- a/mm/hugetlb_vmemmap.h
-+++ b/mm/hugetlb_vmemmap.h
-@@ -21,6 +21,12 @@ void hugetlb_vmemmap_init(struct hstate *h);
-  */
- static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
- {
-+	/*
-+	 * This check aims to let the compiler help us optimize the code as
-+	 * much as possible.
-+	 */
-+	if (!is_power_of_2(sizeof(struct page)))
-+		return 0;
- 	return h->nr_free_vmemmap_pages;
- }
- #else
--- 
-2.11.0
+Additional, you need to go through pcim_release() to add other
+pcim_*() functions for everything else that is released there.
+Otherwise that new API is still incomplete. But this adds another
+bunch of useless functions.
 
+> Christoph IIRC was clear that if we want to use PCI IRQ allocation API the
+> caller must know what's going on. Hiding this behind the scenes is not good.
+> And this series unhides that.
+
+IMO, this is more a documentation issue. pcim_enable_device() must be
+better documented and list all enable/alloc functions that are going
+to be released out of the box later.
+
+Even better, make sure everything is managed and thus all of a pci_dev
+is released, no matter how it was setup (this could even already be
+the case).
+
+In addition you could implement a static code checker.
+
+> Also, you may go and clean up all pci_free_irq_vectors() when
+> pcim_enable_device() is called, but I guess you will get painful process and
+> rejection in a pile of cases.
+
+Why should something be rejected if it is not correctly freed?
+
+Even if pci_free_irq_vectors() is called, pcim_release() will not
+complain if it was already freed before. So using
+pci_free_irq_vectors() is ok even in conjunction with
+pcim_enable_device().
+
+In the end, let's make sure everything is released in pci_dev if it is
+managed and document this.
+
+Thanks,
+
+-Robert
