@@ -2,112 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2187BC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 20:29:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0827CC433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 22:59:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D7CC264EBF
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 20:29:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B62DD64E86
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 22:59:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229989AbhBSU3E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Feb 2021 15:29:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229658AbhBSU3D (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 15:29:03 -0500
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D394C061786;
-        Fri, 19 Feb 2021 12:28:23 -0800 (PST)
-Received: by mail-pg1-x535.google.com with SMTP id o63so5635630pgo.6;
-        Fri, 19 Feb 2021 12:28:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=s4EqFO0bHbbTwpYb76+dNzJNfpMa1CvcusLleWdgGeU=;
-        b=FjbQtzavC+F6wFZFWqI/3sC7jEEjVbmpIItbY6mJdmalBiaERgiiTrttCFz6vibxqB
-         ACzjaHvFiyT4LhlkZXHDFX41AvRRqzGRm3kyo1oP9dnjhEUCN9+yTn0tk0KmGQfRFPxi
-         jSZ37aKyRXYnmrKrgVTxKRxeH/Y9G0gUepagvWzflo/A5CDWZcUaWf0+VE43qvrFfTtj
-         LoMrthb51/s29XZifhv+MklYAlO4isQtEC3eDKR8ACfPCkLi9en75RqU3qVDUlMA+Tcg
-         tXP5A6V7wIiqhECOAnBYymtn7F5J6yo/veej9rXon1y7MbY6zXYRTDvoSS7WRVJxGnrY
-         +EzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s4EqFO0bHbbTwpYb76+dNzJNfpMa1CvcusLleWdgGeU=;
-        b=rV6dcjRepkmEwbQvXgLzs2px9KvUSSyL8fspuQtK/+/1XL4Miy3S1Cs6dFZRdqmdyu
-         r3sZLoT1Zbz0uV/TViooxn4SPRJcBZdgH+59tCSv1d7eQgIu2xEN6dxLw21fc48LvLUF
-         oipwqgdIPU/WvqbS8qWfkw7eu/MWroY3hP3YBGXIB9FqVrt8nSUmSw8WuBmVSNMVPpS0
-         MQDPN3nHTdJQsyfJGe48Kriz0fiEGm936T9/43zhI+RoiKmP/NaAxAjf20F+H9oInJjX
-         gC6ZUqwP/x+Vw6tVEt5IBVEN5M1v+oRGH4w4lXyhR1S1rkhyROPi5HD6DS6jIRtgZ2nl
-         7irQ==
-X-Gm-Message-State: AOAM532+azrM5zw3Aj//9kOBSeXAIJP56L5hNJ82Hs5qd9bz32trgR9M
-        AKsYkDQ0AO4pPOnFeveliDVx7eFNPppjWbaJqXUyLsXpEWQ=
-X-Google-Smtp-Source: ABdhPJzJPzoRjCcfakTT18WRUTXj85l7X9izRxh5eUWA6sishY22bISBIHuRsK9jJeYlc21Ds0rZjaijFpndyVVH3jk=
-X-Received: by 2002:a65:56c6:: with SMTP id w6mr10005007pgs.368.1613766503127;
- Fri, 19 Feb 2021 12:28:23 -0800 (PST)
+        id S229553AbhBSW6v convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Feb 2021 17:58:51 -0500
+Received: from mga03.intel.com ([134.134.136.65]:32209 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229515AbhBSW6v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Feb 2021 17:58:51 -0500
+IronPort-SDR: FKInaeRuTzRqKWUyS6NR7/DhL+mfDbvfRSaFYhPnZNVrvhj2dOk3RKDGKMoHINIQlb/S+gkV/M
+ XilhL0N4TY2A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9900"; a="184044714"
+X-IronPort-AV: E=Sophos;i="5.81,191,1610438400"; 
+   d="scan'208";a="184044714"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2021 14:57:04 -0800
+IronPort-SDR: 6ZGvPb5zOmo1LHc3Zhdomz6dsl5PlnzLiY94jlUlJY2IoeGfJl8KqwworlmgiUgED1y2GEQCXx
+ pvFR3/wRjZyQ==
+X-IronPort-AV: E=Sophos;i="5.81,191,1610438400"; 
+   d="scan'208";a="440458360"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2021 14:57:04 -0800
+Date:   Fri, 19 Feb 2021 14:59:40 -0800
+From:   Jacob Pan <jacob.jun.pan@linux.intel.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Driver Review <linux-drivers-review@eclists.intel.com>,
+        iommu@eclists.intel.com, Yi Liu <yi.l.liu@intel.com>,
+        Raj Ashok <ashok.raj@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>,
+        Lu Baolu <baolu.lu@linux.intel.com>, Wu Hao <hao.wu@intel.com>,
+        Yi Sun <yi.y.sun@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
+        jacob.jun.pan@linux.intel.com
+Subject: Re: [PATCH v4 01/16] docs: Document IO Address Space ID (IOASID)
+ APIs
+Message-ID: <20210219145940.0ad35b08@jacob-builder>
+In-Reply-To: <87im6op1bp.fsf@meer.lwn.net>
+References: <1613683288-89552-1-git-send-email-jacob.jun.pan@linux.intel.com>
+        <1613683288-89552-2-git-send-email-jacob.jun.pan@linux.intel.com>
+        <87im6op1bp.fsf@meer.lwn.net>
+Organization: OTC
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20210216201813.60394-1-xie.he.0141@gmail.com> <YC4sB9OCl5mm3JAw@unreal>
- <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com>
- <YC5DVTHHd6OOs459@unreal> <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
- <YC7GHgYfGmL2wVRR@unreal> <CAJht_EPZ7rVFd-XD6EQD2VJTDtmZZv0HuZvii+7=yhFgVz68VQ@mail.gmail.com>
- <CAJht_EPPMhB0JTtjWtMcGbRYNiZwJeMLWSC5hS6WhWuw5FgZtg@mail.gmail.com> <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-In-Reply-To: <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
-From:   Xie He <xie.he.0141@gmail.com>
-Date:   Fri, 19 Feb 2021 12:28:12 -0800
-Message-ID: <CAJht_EOru3pW6AHN4QVjiaERpLSfg-0G0ZEaqU_hkhX1acv0HQ@mail.gmail.com>
-Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB frames
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     Leon Romanovsky <leon@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Linux X25 <linux-x25@vger.kernel.org>,
-        Linux Kernel Network Developers <netdev@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Martin Schiller <ms@dev.tdt.de>,
-        Krzysztof Halasa <khc@pm.waw.pl>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 19, 2021 at 10:39 AM Jakub Kicinski <kuba@kernel.org> wrote:
->
-> Not entirely sure what the argument is about but adding constants would
-> certainly help.
+Hi Jon,
 
-Leon wants me to replace this:
+On Fri, 19 Feb 2021 07:41:14 -0700, Jonathan Corbet <corbet@lwn.net> wrote:
 
-dev->needed_headroom = 3 - 1;
+> Jacob Pan <jacob.jun.pan@linux.intel.com> writes:
+> 
+> > IOASID is used to identify address spaces that can be targeted by device
+> > DMA. It is a system-wide resource that is essential to its many users.
+> > This document is an attempt to help developers from all vendors navigate
+> > the APIs. At this time, ARM SMMU and Intel’s Scalable IO Virtualization
+> > (SIOV) enabled platforms are the primary users of IOASID. Examples of
+> > how SIOV components interact with the IOASID APIs are provided.
+> >
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: linux-doc@vger.kernel.org
+> > Cc: Randy Dunlap <rdunlap@infradead.org>
+> > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+> > Signed-off-by: Wu Hao <hao.wu@intel.com>
+> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
+> > ---
+> >  Documentation/driver-api/ioasid.rst | 696 ++++++++++++++++++++++++++++
+> >  1 file changed, 696 insertions(+)
+> >  create mode 100644 Documentation/driver-api/ioasid.rst  
+> 
+> A detail, but an important one: you need to add this new file to
+> index.rst so it gets built as part of the kernel docs.
+> 
+will do for this and the cgroup one. thanks!
 
-with this:
+> Thanks,
+> 
+> jon
 
-/* 2 is the result of 3 - 1 */
-dev->needed_headroom = 2;
 
-But I don't feel his way is better than my way.
+Thanks,
 
-> More fundamentally IDK if we can make such a fundamental change here.
-> When users upgrade from older kernel are all their scripts going to
-> work the same? Won't they have to bring the new netdev up?
-
-Yes, this patch will break backward compatibility. Users with old
-scripts will find them no longer working.
-
-However, it's hard for me to find a better way to solve the problem
-described in the commit message.
-
-So I sent this as an RFC to see what people think about this. (Martin
-Schiller seems to be OK with this.)
-
-I think users who don't use scripts can adapt quickly and users who
-use scripts can also trivally fix their scripts.
-
-Actually many existing commits in the kernel also (more or less) cause
-some user-visible changes. But I admit this patch is a really big
-change.
+Jacob
