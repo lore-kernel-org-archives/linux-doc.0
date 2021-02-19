@@ -2,268 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 038C8C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 09:49:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E336DC433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 10:48:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A91E764EC0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 09:49:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A494964EBD
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 10:48:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229828AbhBSJte (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Feb 2021 04:49:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39670 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229636AbhBSJta (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 04:49:30 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2147CC061786;
-        Fri, 19 Feb 2021 01:48:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=ZI0RLkKXb+MTh0o6tijJ0vZsP4VuwukuwPULbyVK0mQ=; b=aYlimAFS+2sygyQngCLjEk9f5x
-        0pEI9OFxZfCtaaeKB13nLxYUu4zvXmV0lDajMqRUzu9Fvpow+hMUrjS+a4AHeOOm3IrbhakGPgfpn
-        61wibgPfFl0Qz28R5vXOrRfnI8Suo9j3lNM5Hrh781KfWrQ9fNIBPO65IeheJhkMgfy6f7TjjHzcF
-        7lc3IUTVHAMhzUlp17Hk51ia8PEStjOvmxozV9TNRIPeJYQJAHZmZI36IYH8HHtTNa7ez5hm8Xhip
-        jgD8cGtVcG62iiYBFywTr8VHhKdDUBX7hP5NCnjT5jnVXIVib6izttVigeC6oNafx+KBkILaniIj9
-        AOgRJhNg==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lD2Nx-002iIr-C7; Fri, 19 Feb 2021 09:47:45 +0000
-Date:   Fri, 19 Feb 2021 09:47:41 +0000
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Alistair Popple <apopple@nvidia.com>
-Cc:     linux-mm@kvack.org, nouveau@lists.freedesktop.org,
-        bskeggs@redhat.com, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-ppc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        jhubbard@nvidia.com, rcampbell@nvidia.com, jglisse@redhat.com,
-        jgg@nvidia.com, hch@infradead.org, daniel@ffwll.ch
-Subject: Re: [PATCH v2 1/4] hmm: Device exclusive memory access
-Message-ID: <20210219094741.GA641389@infradead.org>
-References: <20210219020750.16444-1-apopple@nvidia.com>
- <20210219020750.16444-2-apopple@nvidia.com>
+        id S229681AbhBSKsf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Feb 2021 05:48:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20632 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229535AbhBSKsd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 05:48:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1613731624;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=B/+AiInwMmJVizsS16te2eSr4y8I9kEMenZeJ0/mh6o=;
+        b=E3wP6CnG0l521NmyaaXnwvPc/x4fS17wqEyAzvaOw9oQOEKen3VfpMwwkasSRMxdf8HHYg
+        6ciyvEJBxF9wxf1b1UW4N2G2aaOqItmNvNlSwIDNM1Ro1q49Fmud22NiALHSbFOKmWNRHE
+        Dzmjxk0siR5whcR/p+q3Q6DOki3GYno=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-23-GzT0t4zPMGm7QLnhRZPU6A-1; Fri, 19 Feb 2021 05:46:57 -0500
+X-MC-Unique: GzT0t4zPMGm7QLnhRZPU6A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A83A874980;
+        Fri, 19 Feb 2021 10:46:55 +0000 (UTC)
+Received: from warthog.procyon.org.uk (ovpn-119-68.rdu2.redhat.com [10.10.119.68])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id E29DB19D9D;
+        Fri, 19 Feb 2021 10:46:53 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+Subject: [PATCH] watch_queue: rectify kernel-doc for init_watch()
+From:   David Howells <dhowells@redhat.com>
+To:     jarkko@kernel.org
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>, keyrings@vger.kernel.org,
+        linux-kernel@vger.kernel.org, corbet@lwn.net,
+        mchehab+huawei@kernel.org, linux-doc@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Date:   Fri, 19 Feb 2021 10:46:53 +0000
+Message-ID: <161373161298.2157082.10755433120775444271.stgit@warthog.procyon.org.uk>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210219020750.16444-2-apopple@nvidia.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
->  			page = migration_entry_to_page(swpent);
->  		else if (is_device_private_entry(swpent))
->  			page = device_private_entry_to_page(swpent);
-> +		else if (is_device_exclusive_entry(swpent))
-> +			page = device_exclusive_entry_to_page(swpent);
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 
->  			page = migration_entry_to_page(swpent);
->  		else if (is_device_private_entry(swpent))
->  			page = device_private_entry_to_page(swpent);
-> +		else if (is_device_exclusive_entry(swpent))
-> +			page = device_exclusive_entry_to_page(swpent);
+The command './scripts/kernel-doc -none kernel/watch_queue.c'
+reported a mismatch in the kernel-doc of init_watch().
 
->  		if (is_device_private_entry(entry))
->  			page = device_private_entry_to_page(entry);
-> +
-> +		if (is_device_exclusive_entry(entry))
-> +			page = device_exclusive_entry_to_page(entry);
+Rectify the kernel-doc, such that no issues remain for watch_queue.c.
 
-Any chance we can come up with a clever scheme to avoid all this
-boilerplate code (and maybe also what it gets compiled to)?
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Signed-off-by: David Howells <dhowells@redhat.com>
+Link: https://lore.kernel.org/lkml/20210125161409.8478-1-lukas.bulwahn@gmail.com
+---
 
-> diff --git a/include/linux/hmm.h b/include/linux/hmm.h
-> index 866a0fa104c4..5d28ff6d4d80 100644
-> --- a/include/linux/hmm.h
-> +++ b/include/linux/hmm.h
-> @@ -109,6 +109,10 @@ struct hmm_range {
->   */
->  int hmm_range_fault(struct hmm_range *range);
->  
-> +int hmm_exclusive_range(struct mm_struct *mm, unsigned long start,
-> +			unsigned long end, struct page **pages);
-> +vm_fault_t hmm_remove_exclusive_entry(struct vm_fault *vmf);
+ kernel/watch_queue.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Can we avoid the hmm naming for new code (we should probably also kill
-it off for the existing code)?
+diff --git a/kernel/watch_queue.c b/kernel/watch_queue.c
+index 0ef8f65bd2d7..9c9eb20dd2c5 100644
+--- a/kernel/watch_queue.c
++++ b/kernel/watch_queue.c
+@@ -413,7 +413,7 @@ static void put_watch(struct watch *watch)
+ }
+ 
+ /**
+- * init_watch_queue - Initialise a watch
++ * init_watch - Initialise a watch
+  * @watch: The watch to initialise.
+  * @wqueue: The queue to assign.
+  *
 
-> +#define free_swap_and_cache(e) ({(is_migration_entry(e) || is_device_private_entry(e) \
-> +					|| is_device_exclusive_entry(e)); })
-> +#define swapcache_prepare(e) ({(is_migration_entry(e) || is_device_private_entry(e) \
-> +					|| is_device_exclusive_entry(e)); })
 
-Can you turn these into properly formatted inline functions?  As-is this
-becomes pretty unreadable.
-
-> +static inline void make_device_exclusive_entry_read(swp_entry_t *entry)
-> +{
-> +	*entry = swp_entry(SWP_DEVICE_EXCLUSIVE_READ, swp_offset(*entry));
-> +}
-
-s/make_device_exclusive_entry_read/mark_device_exclusive_entry_readable/
-??
-
-> +
-> +static inline swp_entry_t make_device_exclusive_entry(struct page *page, bool write)
-> +{
-> +	return swp_entry(write ? SWP_DEVICE_EXCLUSIVE_WRITE : SWP_DEVICE_EXCLUSIVE_READ,
-> +			 page_to_pfn(page));
-> +}
-
-I'd split this into two helpers, which is easier to follow and avoids
-the pointlessly overlong lines.
-
-> +static inline bool is_device_exclusive_entry(swp_entry_t entry)
-> +{
-> +	int type = swp_type(entry);
-> +	return type == SWP_DEVICE_EXCLUSIVE_READ || type == SWP_DEVICE_EXCLUSIVE_WRITE;
-> +}
-
-Another overly long line.  I also wouldn't bother with the local
-variable:
-
-	return swp_type(entry) == SWP_DEVICE_EXCLUSIVE_READ ||
-		swp_type(entry) == SWP_DEVICE_EXCLUSIVE_WRITE;
-		
-
-> +static inline bool is_write_device_exclusive_entry(swp_entry_t entry)
-> +{
-> +	return swp_type(entry) == SWP_DEVICE_EXCLUSIVE_WRITE;
-> +}
-
-Or reuse these kind of helpers..
-
-> +
-> +static inline unsigned long device_exclusive_entry_to_pfn(swp_entry_t entry)
-> +{
-> +	return swp_offset(entry);
-> +}
-> +
-> +static inline struct page *device_exclusive_entry_to_page(swp_entry_t entry)
-> +{
-> +	return pfn_to_page(swp_offset(entry));
-> +}
-
-I'd rather open code these two, and as a prep patch also kill off the
-equivalents for the migration and device private entries, which would
-actually clean up a lot of the mess mentioned in my first comment above.
-
-> +static int hmm_exclusive_skip(unsigned long start,
-> +		      unsigned long end,
-> +		      __always_unused int depth,
-> +		      struct mm_walk *walk)
-> +{
-> +	struct hmm_exclusive_walk *hmm_exclusive_walk = walk->private;
-> +	unsigned long addr;
-> +
-> +	for (addr = start; addr < end; addr += PAGE_SIZE)
-> +		hmm_exclusive_walk->pages[hmm_exclusive_walk->npages++] = NULL;
-> +
-> +	return 0;
-> +}
-
-Wouldn't pre-zeroing the array be simpler and more efficient?
-
-> +int hmm_exclusive_range(struct mm_struct *mm, unsigned long start,
-> +			unsigned long end, struct page **pages)
-> +{
-> +	struct hmm_exclusive_walk hmm_exclusive_walk = { .pages = pages, .npages = 0 };
-> +	int i;
-> +
-> +	/* Collect and lock candidate pages */
-> +	walk_page_range(mm, start, end, &hmm_exclusive_walk_ops, &hmm_exclusive_walk);
-
-Please avoid the overly long lines.
-
-But more importantly:  Unless I'm missing something obvious this
-walk_page_range call just open codes get_user_pages_fast, why can't you
-use that?
-
-> +#if defined(CONFIG_ARCH_ENABLE_THP_MIGRATION) || defined(CONFIG_HUGETLB)
-> +		if (PageTransHuge(page)) {
-> +			VM_BUG_ON_PAGE(1, page);
-> +			continue;
-> +		}
-> +#endif
-
-Doesn't PageTransHuge always return false for that case?  If not
-shouldn't we make sure it does?
-
-> +
-> +		pte = pte_mkold(mk_pte(page, READ_ONCE(vma->vm_page_prot)));
-> +		if (pte_swp_soft_dirty(*pvmw.pte))
-> +			pte = pte_mksoft_dirty(pte);
-> +
-> +		entry = pte_to_swp_entry(*pvmw.pte);
-> +		if (pte_swp_uffd_wp(*pvmw.pte))
-> +			pte = pte_mkuffd_wp(pte);
-> +		else if (is_write_device_exclusive_entry(entry))
-> +			pte = maybe_mkwrite(pte_mkdirty(pte), vma);
-> +
-> +		set_pte_at(vma->vm_mm, pvmw.address, pvmw.pte, pte);
-> +
-> +		/*
-> +		 * No need to take a page reference as one was already
-> +		 * created when the swap entry was made.
-> +		 */
-> +		if (PageAnon(page))
-> +			page_add_anon_rmap(page, vma, pvmw.address, false);
-> +		else
-> +			page_add_file_rmap(page, false);
-> +
-> +		if (vma->vm_flags & VM_LOCKED)
-> +			mlock_vma_page(page);
-> +
-> +		/*
-> +		 * No need to invalidate - it was non-present before. However
-> +		 * secondary CPUs may have mappings that need invalidating.
-> +		 */
-> +		update_mmu_cache(vma, pvmw.address, pvmw.pte);
-
-It would be nice to split out the body of this loop into a helper.
-
-> +				if (!is_device_private_entry(entry) &&
-> +					!is_device_exclusive_entry(entry))
-
-The normal style for this would be:
-
-				if (!is_device_private_entry(entry) &&
-				    !is_device_exclusive_entry(entry))
-
-> -		if (!is_device_private_entry(entry))
-> +		if (!is_device_private_entry(entry) && !is_device_exclusive_entry(entry))
-
-Plase split this into two lines.
-
-> @@ -216,6 +219,7 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk *pvmw)
->  	}
->  	if (!map_pte(pvmw))
->  		goto next_pte;
-> +
->  	while (1) {
->  		if (check_pte(pvmw))
->  			return true;
-
-Spurious whitespace change.
-
-> -	if (IS_ENABLED(CONFIG_MIGRATION) && (flags & TTU_MIGRATION) &&
-> +	if (IS_ENABLED(CONFIG_MIGRATION) && (flags & (TTU_MIGRATION | TTU_EXCLUSIVE)) &&
-
-Please split this into two lines.
-
->  	    is_zone_device_page(page) && !is_device_private_page(page))
->  		return true;
->  
-> @@ -1591,6 +1591,33 @@ static bool try_to_unmap_one(struct page *page, struct vm_area_struct *vma,
->  			/* We have to invalidate as we cleared the pte */
->  			mmu_notifier_invalidate_range(mm, address,
->  						      address + PAGE_SIZE);
-> +		} else if (flags & TTU_EXCLUSIVE) {
-
-try_to_unmap_one has turned into a monster.  A little refactoring to
-split it into managable pieces would be nice.
