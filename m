@@ -2,200 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 982BFC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 19:03:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2187BC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 20:29:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4469564EB4
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 19:03:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D7CC264EBF
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 20:29:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229726AbhBSTDu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Feb 2021 14:03:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45654 "EHLO
+        id S229989AbhBSU3E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Feb 2021 15:29:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229620AbhBSTDs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 14:03:48 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFE14C061574;
-        Fri, 19 Feb 2021 11:03:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=eQRc2hVweb9hW0U8/mfMxGsY5GwShDfUkREH/4Ybsf4=; b=o14JEMvMVJp6U2Yde53xvkmB5H
-        Sr3DZjZBhSij+WxewYeQLgg+oCv03f7wpMkRxYbvkaiuqHfReW1rLG++eegVtlty3hm0cjleO1cpy
-        oJ9jzzyBgkpLiNS8M/MM/Bgqv8P5/vpJmF8Qg21gwKNb+d6UN2nS3pscO7aHbCxlIoK/u2Umj3jix
-        yeRDJIIml5xqxWPYxVAEvD6qgxDyPuln/ejvkzUXOGcwXwqIEN6JWzxkVe/dz83u8/+DdI11OILhc
-        jvaidLJbypjw8NAUXCGl1UIuuC0l48I9jIZvyZGG3HmLqJafyULiiLLfUKrIMvH/09jU87qJRIXM/
-        kSfKRrWA==;
-Received: from [2601:1c0:6280:3f0::d05b]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1lDB3D-0004Le-Ib; Fri, 19 Feb 2021 19:02:51 +0000
-Subject: Re: [RFC 2/2] cgroup: sev: Miscellaneous cgroup documentation.
-To:     Vipin Sharma <vipinsh@google.com>, tj@kernel.org,
-        thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
-        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
-        frankja@linux.ibm.com, borntraeger@de.ibm.com
-Cc:     corbet@lwn.net, seanjc@google.com, vkuznets@redhat.com,
-        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        gingell@google.com, rientjes@google.com, dionnaglaze@google.com,
-        kvm@vger.kernel.org, x86@kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210218195549.1696769-1-vipinsh@google.com>
- <20210218195549.1696769-3-vipinsh@google.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <71092e0e-5c72-924b-c848-8ae9a589f6b0@infradead.org>
-Date:   Fri, 19 Feb 2021 11:02:41 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        with ESMTP id S229658AbhBSU3D (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 15:29:03 -0500
+Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D394C061786;
+        Fri, 19 Feb 2021 12:28:23 -0800 (PST)
+Received: by mail-pg1-x535.google.com with SMTP id o63so5635630pgo.6;
+        Fri, 19 Feb 2021 12:28:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=s4EqFO0bHbbTwpYb76+dNzJNfpMa1CvcusLleWdgGeU=;
+        b=FjbQtzavC+F6wFZFWqI/3sC7jEEjVbmpIItbY6mJdmalBiaERgiiTrttCFz6vibxqB
+         ACzjaHvFiyT4LhlkZXHDFX41AvRRqzGRm3kyo1oP9dnjhEUCN9+yTn0tk0KmGQfRFPxi
+         jSZ37aKyRXYnmrKrgVTxKRxeH/Y9G0gUepagvWzflo/A5CDWZcUaWf0+VE43qvrFfTtj
+         LoMrthb51/s29XZifhv+MklYAlO4isQtEC3eDKR8ACfPCkLi9en75RqU3qVDUlMA+Tcg
+         tXP5A6V7wIiqhECOAnBYymtn7F5J6yo/veej9rXon1y7MbY6zXYRTDvoSS7WRVJxGnrY
+         +EzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=s4EqFO0bHbbTwpYb76+dNzJNfpMa1CvcusLleWdgGeU=;
+        b=rV6dcjRepkmEwbQvXgLzs2px9KvUSSyL8fspuQtK/+/1XL4Miy3S1Cs6dFZRdqmdyu
+         r3sZLoT1Zbz0uV/TViooxn4SPRJcBZdgH+59tCSv1d7eQgIu2xEN6dxLw21fc48LvLUF
+         oipwqgdIPU/WvqbS8qWfkw7eu/MWroY3hP3YBGXIB9FqVrt8nSUmSw8WuBmVSNMVPpS0
+         MQDPN3nHTdJQsyfJGe48Kriz0fiEGm936T9/43zhI+RoiKmP/NaAxAjf20F+H9oInJjX
+         gC6ZUqwP/x+Vw6tVEt5IBVEN5M1v+oRGH4w4lXyhR1S1rkhyROPi5HD6DS6jIRtgZ2nl
+         7irQ==
+X-Gm-Message-State: AOAM532+azrM5zw3Aj//9kOBSeXAIJP56L5hNJ82Hs5qd9bz32trgR9M
+        AKsYkDQ0AO4pPOnFeveliDVx7eFNPppjWbaJqXUyLsXpEWQ=
+X-Google-Smtp-Source: ABdhPJzJPzoRjCcfakTT18WRUTXj85l7X9izRxh5eUWA6sishY22bISBIHuRsK9jJeYlc21Ds0rZjaijFpndyVVH3jk=
+X-Received: by 2002:a65:56c6:: with SMTP id w6mr10005007pgs.368.1613766503127;
+ Fri, 19 Feb 2021 12:28:23 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210218195549.1696769-3-vipinsh@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210216201813.60394-1-xie.he.0141@gmail.com> <YC4sB9OCl5mm3JAw@unreal>
+ <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com>
+ <YC5DVTHHd6OOs459@unreal> <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
+ <YC7GHgYfGmL2wVRR@unreal> <CAJht_EPZ7rVFd-XD6EQD2VJTDtmZZv0HuZvii+7=yhFgVz68VQ@mail.gmail.com>
+ <CAJht_EPPMhB0JTtjWtMcGbRYNiZwJeMLWSC5hS6WhWuw5FgZtg@mail.gmail.com> <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+From:   Xie He <xie.he.0141@gmail.com>
+Date:   Fri, 19 Feb 2021 12:28:12 -0800
+Message-ID: <CAJht_EOru3pW6AHN4QVjiaERpLSfg-0G0ZEaqU_hkhX1acv0HQ@mail.gmail.com>
+Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB frames
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Leon Romanovsky <leon@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Linux X25 <linux-x25@vger.kernel.org>,
+        Linux Kernel Network Developers <netdev@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Martin Schiller <ms@dev.tdt.de>,
+        Krzysztof Halasa <khc@pm.waw.pl>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Fri, Feb 19, 2021 at 10:39 AM Jakub Kicinski <kuba@kernel.org> wrote:
+>
+> Not entirely sure what the argument is about but adding constants would
+> certainly help.
 
-On 2/18/21 11:55 AM, Vipin Sharma wrote:
-> Documentation of miscellaneous cgroup controller. This new controller is
-> used to track and limit usage of scalar resources.
-> 
-> Signed-off-by: Vipin Sharma <vipinsh@google.com>
-> Reviewed-by: David Rientjes <rientjes@google.com>
-> ---
->  Documentation/admin-guide/cgroup-v1/misc.rst |  1 +
->  Documentation/admin-guide/cgroup-v2.rst      | 64 +++++++++++++++++++-
->  2 files changed, 63 insertions(+), 2 deletions(-)
->  create mode 100644 Documentation/admin-guide/cgroup-v1/misc.rst
-> 
-> diff --git a/Documentation/admin-guide/cgroup-v1/misc.rst b/Documentation/admin-guide/cgroup-v1/misc.rst
-> new file mode 100644
-> index 000000000000..8e9e9311daeb
-> --- /dev/null
-> +++ b/Documentation/admin-guide/cgroup-v1/misc.rst
-> @@ -0,0 +1 @@
-> +/Documentation/admin-guide/cgroup-v2.rst
-What is the purpose of this (above) file?
+Leon wants me to replace this:
 
-> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-> index 1de8695c264b..1a41a3623b9b 100644
-> --- a/Documentation/admin-guide/cgroup-v2.rst
-> +++ b/Documentation/admin-guide/cgroup-v2.rst
-> @@ -63,8 +63,11 @@ v1 is available under :ref:`Documentation/admin-guide/cgroup-v1/index.rst <cgrou
->         5-7-1. RDMA Interface Files
->       5-8. HugeTLB
->         5.8-1. HugeTLB Interface Files
-> -     5-8. Misc
-> -       5-8-1. perf_event
-> +     5-9. Misc
-> +       5.9-1 Miscellaneous cgroup Interface Files
-> +       5.9-2 Migration and Ownership
-> +     5-10. Others
-> +       5-10-1. perf_event
->       5-N. Non-normative information
->         5-N-1. CPU controller root cgroup process behaviour
->         5-N-2. IO controller root cgroup process behaviour
-> @@ -2161,6 +2164,63 @@ HugeTLB Interface Files
->  	generated on this file reflects only the local events.
->  
->  Misc
-> +--------------
-> +
-> +The Miscellaneous cgroup provides the resource allocation and tracking
-> +mechanism for the scalar resources which cannot be abstracted like the other
-> +cgroup resources. Controller is enabled by the CONFIG_CGROUP_MISC config
-> +option.
-> +
-> +The first two resources added to the miscellaneous controller are Secure
-> +Encrypted Virtualization (SEV) ASIDs and SEV - Encrypted State (SEV-ES) ASIDs.
-> +These limited ASIDs are used for encrypting virtual machines memory on the AMD
-> +platform.
-> +
-> +Misc Interface Files
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +Miscellaneous controller provides 3 interface files:
-> +
-> +  misc.capacity
-> +        A read-only flat-keyed file shown only in the root cgroup.  It shows
-> +        miscellaneous scalar resources available on the platform along with
-> +        their quantities::
-> +	  $ cat misc.capacity
-> +	  sev 50
-> +	  sev_es 10
-> +
-> +  misc.current
-> +        A read-only flat-keyed file shown in the non-root cgroups.  It shows
-> +        the current usage of the resources in the cgroup and its children.::
-> +	  $ cat misc.current
-> +	  sev 3
-> +	  sev_es 0
-> +
-> +  misc.max
-> +        A read-write flat-keyed file shown in the non root cgroups. Allowed
-> +        maximum usage of the resources in the cgroup and its children.::
-> +	  $ cat misc.max
-> +	  sev max
-> +	  sev_es 4
-> +
-> +	Limit can be set by::
-> +	  # echo sev 1 > misc.max
-> +
-> +	Limit can be set to max by::
-> +	  # echo sev max > misc.max
-> +
-> +        Limits can be set more than the capacity value in the misc.capacity
+dev->needed_headroom = 3 - 1;
 
-                             higher than
+with this:
 
-> +        file.
-> +
-> +Migration and Ownership
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +A miscellaneous scalar resource is charged to the cgroup in which it is used
-> +first, and stays charged to that cgroup until that resource is freed. Migrating
-> +a process to a different cgroup do not move the charge to the destination
+/* 2 is the result of 3 - 1 */
+dev->needed_headroom = 2;
 
-                                   does
+But I don't feel his way is better than my way.
 
-> +cgroup where the process has moved.
-> +
-> +Others
->  ----
+> More fundamentally IDK if we can make such a fundamental change here.
+> When users upgrade from older kernel are all their scripts going to
+> work the same? Won't they have to bring the new netdev up?
 
-That underline is too short for "Others".
+Yes, this patch will break backward compatibility. Users with old
+scripts will find them no longer working.
 
->  
->  perf_event
-> 
+However, it's hard for me to find a better way to solve the problem
+described in the commit message.
 
-Try building this doc file, please.
+So I sent this as an RFC to see what people think about this. (Martin
+Schiller seems to be OK with this.)
 
-next-20210219/Documentation/admin-guide/cgroup-v2.rst:2196: WARNING: Unexpected indentation.
-next-20210219/Documentation/admin-guide/cgroup-v2.rst:2203: WARNING: Unexpected indentation.
-next-20210219/Documentation/admin-guide/cgroup-v2.rst:2210: WARNING: Unexpected indentation.
-next-20210219/Documentation/admin-guide/cgroup-v2.rst:2232: WARNING: Title underline too short.
+I think users who don't use scripts can adapt quickly and users who
+use scripts can also trivally fix their scripts.
 
-Others
-----
-next-20210219/Documentation/admin-guide/cgroup-v2.rst:2232: WARNING: Title underline too short.
-
-
-I think that the first 3 warnings are due to missing a blank line after ::
-or they could have something to do with mixed tabs and spaces in the misc.*
-properties descriptions.
-
-
-thanks.
--- 
-~Randy
-
+Actually many existing commits in the kernel also (more or less) cause
+some user-visible changes. But I admit this patch is a really big
+change.
