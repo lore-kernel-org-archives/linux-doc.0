@@ -2,189 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70014C433DB
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Feb 2021 04:22:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55FA8C433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Feb 2021 06:28:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3585664E24
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Feb 2021 04:22:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 14DFD64EE0
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Feb 2021 06:28:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229844AbhBTEVy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Feb 2021 23:21:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51534 "EHLO
+        id S229645AbhBTG2d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Feb 2021 01:28:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229796AbhBTEVx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 23:21:53 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C618C061574
-        for <linux-doc@vger.kernel.org>; Fri, 19 Feb 2021 20:21:13 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id j1so3331643pgh.4
-        for <linux-doc@vger.kernel.org>; Fri, 19 Feb 2021 20:21:12 -0800 (PST)
+        with ESMTP id S229483AbhBTG2d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Feb 2021 01:28:33 -0500
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD640C061574;
+        Fri, 19 Feb 2021 22:27:52 -0800 (PST)
+Received: by mail-io1-xd29.google.com with SMTP id u8so7966789ior.13;
+        Fri, 19 Feb 2021 22:27:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mklg+AYwKzafXeovf7IuFZZrAWcs0LMC3PrPd1tFTKU=;
-        b=12b7zh+2/tZORGhOPLBBGI1aC17iBV3qsfujetE2XOCQYGg56u4ElUYrHBoKbS5uuc
-         jO3TCUFl/u8EdF5/kbZtA9RAFu2qywWZJg5tFL4Zx6Mo8+LxP5OZtio585fA619DKjJ+
-         ktz7rSrKj1Je+nCBS7ttc5v2CMIqcb8xniDRheJ9NnFjuuNVIGbS2fUAcHlI7juzx31J
-         kjJqPpW/Ryy0ikHGt904ok0oRJbarKGIlf3Yr7DuzgJL+wSZPrR8zRAaBa/0MjmIMxKt
-         sCiDfxX9HN9h9LVSSW0pC+z19hvhXpFVDJUPrU0gTEuE9eWoh49+bAMQYodtQW3CnFVP
-         SvhQ==
+        bh=cbhfHHRIUaZy8yAJGu8fLFh9WOmxHPl60f50bXM7zwo=;
+        b=HRXdEKtvf9vgz47G1cFkpU6z5Ea5Es/FYQdYNgksGTbBybgWgmNmEkp4rUNyeQZCoF
+         j6O3IUwc75w4wBH7Mh1bZt9eDpgg2aqGR6cesxUI0p9xbwSq/zffQ8GHbt2PuYoJrk6I
+         W7yvIBxQ3dSb7b1UItfnH1RnIHgJZDWLvBXP30LSV+PFE8SGhHTTyCS+JISfl4fC/79b
+         EV3286239qCeESz+SfqysFOcyp5r7GCJw1NOaS/cl0qQnsmI/MoScMoTyO6SqpgiQLmT
+         rscaBLSg2JhOjzaTEn4t++VDAds0L0ho3+jeNtiVleoC8BVL+AmKMc/vp6GCrX+urqBl
+         PPVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mklg+AYwKzafXeovf7IuFZZrAWcs0LMC3PrPd1tFTKU=;
-        b=OFK0c3ZC/K6VicNy5nXqeKcV0OL5fgtfX4WNTbm8saVVaGfaavt07+/JOM87N8MKvY
-         /99tOt7Smhi3KHMPs4j1OCJNmjht9NyvMmuNwzOyfVB+IT3gC1WVvCv6qT1mbeoB/64i
-         U6sKBvyZGkwwf6nGBsx++PjXqcLzi5h2Lp+7RU5lhYf1gpZ5FNeul3zQsTWYz4acuHKG
-         JzD2S87Rm7GfbLRLVxE1yotMPV63gN6rt4JoEjSdOilC+BWj+mNhRDwlQepYnp96Cu3o
-         PwxE8Y1K+T5f9Qlp+QAlEOhLuruXLCiaQnEHQuP4U855lG6owulma6Pw15o6vp+8zswu
-         6s5Q==
-X-Gm-Message-State: AOAM533ZJW3YuU9TVdAukFntyv4K3b61pQ4FSwk4g0PJ5eCKVgwipEZw
-        566uh97AlIdjJfeY0M1lPtnPEGfdTmjEHecUd7g8lQ==
-X-Google-Smtp-Source: ABdhPJzHovR+Dqry8e8TbF1nft1zNiAj/LjO/P0dMklt0n5mDlaBx7myVp+4tffX6GW6uG3XzrCZ0MNMiYeL7UoKw0Q=
-X-Received: by 2002:aa7:910c:0:b029:1ed:ef1:81b with SMTP id
- 12-20020aa7910c0000b02901ed0ef1081bmr10564219pfh.49.1613794872318; Fri, 19
- Feb 2021 20:21:12 -0800 (PST)
+        bh=cbhfHHRIUaZy8yAJGu8fLFh9WOmxHPl60f50bXM7zwo=;
+        b=Zw2q+ts/WTKJWA55LWuuoxssoF1Uj9iocuCKi1a8LTyh3x0z8uVRQadnOWCwmhNL1a
+         a+0D9WCxrtQMECoX1kJeQWFWh2cGJotZoLPI9/rOQ4IgCYdyCCbJ2WOTcO5yu1FJNA3c
+         GR1CY/8OMoGovSfZu7xMaio2PlmKf6riz/aj1TFl8w+0I6DigL0sUSLS1ApHiSbMuV8C
+         6Jy4vkNXhdgylUo6A7iOlBFPq6nBH3LawW912BSXzv1MJFFr8UPPR/qbqGiZSBTImp+i
+         eoCa3VJCTCd4yRPaHa3mi0ayuryhc6Hb8A/k990eXNd74gTQTO3vm4P7W/xky0DP4aTC
+         KGLg==
+X-Gm-Message-State: AOAM533FJ025fLmsCA4U9vokFzgyJy5lPB/ctt+l+43bAAbHmAQiPRBt
+        H3h9qhDcZeuk4Pd6Aw3vHNCkM0kD6RnrLQkzB8w=
+X-Google-Smtp-Source: ABdhPJx1RfWuVeA2Vy5Otxd772m3nvFKCMmiiHWZ/qHRV3FMId+h+cZs0K/hWTNXSAQ3KtWeZysSnHoTexLEyyMZJc8=
+X-Received: by 2002:a5e:8f49:: with SMTP id x9mr7220367iop.189.1613802472221;
+ Fri, 19 Feb 2021 22:27:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20210219104954.67390-1-songmuchun@bytedance.com>
- <20210219104954.67390-5-songmuchun@bytedance.com> <YC/HRTq1MRaDWn7O@dhcp22.suse.cz>
-In-Reply-To: <YC/HRTq1MRaDWn7O@dhcp22.suse.cz>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Sat, 20 Feb 2021 12:20:36 +0800
-Message-ID: <CAMZfGtW-j=WizTckEWZNB2OSPkz662Vjr79Fb0he9tMD+bnT3Q@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-To:     Michal Hocko <mhocko@suse.com>
+References: <20210217145625.14006-1-yashsri421@gmail.com>
+In-Reply-To: <20210217145625.14006-1-yashsri421@gmail.com>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Sat, 20 Feb 2021 07:27:41 +0100
+Message-ID: <CAKXUXMx+DEh6Mso_dxA1-NbYZaugUQ9JBfjb4+yyouw2AFPdfA@mail.gmail.com>
+Subject: Re: [RFC] scripts: kernel-doc: fix array element capture in
+ pointer-to-func parsing
+To:     Aditya Srivastava <yashsri421@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 19, 2021 at 10:12 PM Michal Hocko <mhocko@suse.com> wrote:
+On Wed, Feb 17, 2021 at 3:56 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
 >
-> On Fri 19-02-21 18:49:49, Muchun Song wrote:
-> > When we free a HugeTLB page to the buddy allocator, we should allocate
-> > the vmemmap pages associated with it. But we may cannot allocate vmemmap
-> > pages when the system is under memory pressure, in this case, we just
-> > refuse to free the HugeTLB page instead of looping forever trying to
-> > allocate the pages. This changes some behavior (list below) on some
-> > corner cases.
-> >
-> >  1) Failing to free a huge page triggered by the user (decrease nr_pages).
-> >
-> >     Need try again later by the user.
-> >
-> >  2) Failing to free a surplus huge page when freed by the application.
-> >
-> >     Try again later when freeing a huge page next time.
+> Currently, kernel-doc causes an unexpected error when array element (i.e.,
+> "type (*foo[bar])(args)") is present as pointer parameter in
+> pointer-to-function parsing.
 >
-> This means that surplus pages can accumulate right? This should be
-> rather unlikely because one released huge page could then be reused for
-> normal allocations - including vmemmap. Unlucky timing might still end
-> up in the accumulation though. Not something critical though.
-
-Agree.
-
+> For e.g., running kernel-doc -none on kernel/gcov/gcc_4_7.c causes this
+> error:
+> "Use of uninitialized value $param in regexp compilation at ...", in
+> combination with:
+> "warning: Function parameter or member '' not described in 'gcov_info'"
 >
-> >  3) Failing to dissolve a free huge page on ZONE_MOVABLE via
-> >     offline_pages().
-> >
-> >     This is a bit unfortunate if we have plenty of ZONE_MOVABLE memory
-> >     but are low on kernel memory. For example, migration of huge pages
-> >     would still work, however, dissolving the free page does not work.
-> >     This is a corner cases. When the system is that much under memory
-> >     pressure, offlining/unplug can be expected to fail.
+> Here, the parameter parsing does not take into account the presence of
+> array element (i.e. square brackets) in $param.
 >
-> Please mention that this is unfortunate because it prevents from the
-> memory offlining which shouldn't happen for movable zones. People
-> depending on the memory hotplug and movable zone should carefuly
-> consider whether savings on unmovable memory are worth losing their
-> hotplug functionality in some situations.
-
-Make sense. I will mention this in the change log. Thanks.
-
+> Provide a simple fix by adding square brackets in the regex, responsible
+> for capturing $param.
 >
-> >  4) Failing to dissolve a huge page on CMA/ZONE_MOVABLE via
-> >     alloc_contig_range() - once we have that handling in place. Mainly
-> >     affects CMA and virtio-mem.
+> A quick evaluation, by running 'kernel-doc -none' on entire kernel-tree,
+> reveals that no additional warning or error has been added or removed by
+> the fix.
 >
-> What about hugetlb page poisoning on HW failure (resp. soft offlining)?
-
-If the HW poisoned hugetlb page failed to be dissolved, the page
-will go back to the free list with PG_HWPoison set. But the page
-will not be used, because we will check whether the page is HW
-poisoned when it is dequeued from the free list. If so, we will skip
-this page.
-
+> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> ---
+> * Applies perfectly over next-20210217
 >
-> >
-> >     Similar to 3). virito-mem will handle migration errors gracefully.
-> >     CMA might be able to fallback on other free areas within the CMA
-> >     region.
-> >
-> > We do not want to use GFP_ATOMIC to allocate vmemmap pages. Because it
-> > grants access to memory reserves and we do not think it is reasonable
-> > to use memory reserves. We use GFP_KERNEL in alloc_huge_page_vmemmap().
->
-> This likely needs more context around. Maybe something like
-> "
-> Vmemmap pages are allocated from the page freeing context. In order for
-> those allocations to be not disruptive (e.g. trigger oom killer)
-> __GFP_NORETRY is used. hugetlb_lock is dropped for the allocation
-> because a non sleeping allocation would be too fragile and it could fail
-> too easily under memory pressure. GFP_ATOMIC or other modes to access
-> memory reserves is not used because we want to prevent consuming
-> reserves under heavy hugetlb freeing.
-> "
 
-Thanks. I will use this to the change log.
+Aditya, Jonathan,
 
->
-> I haven't gone through the patch in a great detail yet, from a high
-> level POV it looks good although the counter changes and reshuffling
-> seems little wild. That requires a more detailed look I do not have time
-> for right now. Mike would be much better for that anywya ;)
+I have tested this change with:
 
-Yeah. Hope Mike will review this (I believe he is good at this area).
+git ls-files | xargs ./scripts/kernel-doc -none 2>&1 | tee kernel-doc-output
 
->
-> I do not see any check for an atomic context in free_huge_page path. I
-> have suggested to replace in_task by in_atomic check (with a gotcha that
-> the later doesn't work without preempt_count but there is a work to
-> address that).
+Applied the patch, and re-ran that command and compared the diff.
 
-Sorry. I forgot it. I will replace in_task with in_atomic in the next version.
-Thanks for your suggestions.
+First, I observed that ./scripts/kernel-doc is not fully deterministic
+on my machine, although I could not really pinpoint it to the exact
+reason where that comes in.
 
-> --
-> Michal Hocko
-> SUSE Labs
+Secondly, more importantly, the relevant diff affected by this patch is:
+
+< Use of uninitialized value $param in regexp compilation at
+./scripts/kernel-doc line 1559, <IN_FILE> line 308.
+< Use of uninitialized value $actual in substitution (s///) at
+./scripts/kernel-doc line 1523, <IN_FILE> line 308.
+< Use of uninitialized value $actual in substitution (s///) at
+./scripts/kernel-doc line 1523, <IN_FILE> line 308.
+< Use of uninitialized value $param in substitution (s///) at
+./scripts/kernel-doc line 1617, <IN_FILE> line 308.
+< Use of uninitialized value $param in hash element at
+./scripts/kernel-doc line 1651, <IN_FILE> line 308.
+< Use of uninitialized value $param in pattern match (m//) at
+./scripts/kernel-doc line 1651, <IN_FILE> line 308.
+< Use of uninitialized value $param in hash element at
+./scripts/kernel-doc line 1652, <IN_FILE> line 308.
+< Use of uninitialized value $param in pattern match (m//) at
+./scripts/kernel-doc line 1654, <IN_FILE> line 308.
+< Use of uninitialized value $param in concatenation (.) or string at
+./scripts/kernel-doc line 1655, <IN_FILE> line 308.
+< drivers/net/wireless/broadcom/brcm80211/brcmfmac/fweh.h:308:
+warning: Function parameter or member '' not described in
+'brcmf_fweh_info'
+< Use of uninitialized value $param in hash element at
+./scripts/kernel-doc line 1672, <IN_FILE> line 308.
+
+
+< Use of uninitialized value $param in regexp compilation at
+./scripts/kernel-doc line 1559, <IN_FILE> line 96.
+< Use of uninitialized value $actual in substitution (s///) at
+./scripts/kernel-doc line 1523, <IN_FILE> line 96.
+< Use of uninitialized value $actual in substitution (s///) at
+./scripts/kernel-doc line 1523, <IN_FILE> line 96.
+< Use of uninitialized value $param in substitution (s///) at
+./scripts/kernel-doc line 1617, <IN_FILE> line 96.
+< Use of uninitialized value $param in hash element at
+./scripts/kernel-doc line 1651, <IN_FILE> line 96.
+< Use of uninitialized value $param in pattern match (m//) at
+./scripts/kernel-doc line 1651, <IN_FILE> line 96.
+< Use of uninitialized value $param in hash element at
+./scripts/kernel-doc line 1652, <IN_FILE> line 96.
+< Use of uninitialized value $param in pattern match (m//) at
+./scripts/kernel-doc line 1654, <IN_FILE> line 96.
+< Use of uninitialized value $param in concatenation (.) or string at
+./scripts/kernel-doc line 1655, <IN_FILE> line 96.
+< kernel/gcov/gcc_4_7.c:96: warning: Function parameter or member ''
+not described in 'gcov_info'
+< Use of uninitialized value $param in hash element at
+./scripts/kernel-doc line 1672, <IN_FILE> line 96.
+
+So, I can confirm that the mentioned issue is really resolved with
+this patch, and that deserves a tag:
+
+Tested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+
+Thanks, Aditya. When can we expect the next patch for ./scripts/kernel-doc?
+
+Looking forward to running the next test :)
+
+Lukas
