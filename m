@@ -2,98 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0827CC433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 22:59:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3933C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Feb 2021 03:23:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B62DD64E86
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Feb 2021 22:59:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D5C764EDE
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Feb 2021 03:23:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229553AbhBSW6v convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Feb 2021 17:58:51 -0500
-Received: from mga03.intel.com ([134.134.136.65]:32209 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229515AbhBSW6v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Feb 2021 17:58:51 -0500
-IronPort-SDR: FKInaeRuTzRqKWUyS6NR7/DhL+mfDbvfRSaFYhPnZNVrvhj2dOk3RKDGKMoHINIQlb/S+gkV/M
- XilhL0N4TY2A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9900"; a="184044714"
-X-IronPort-AV: E=Sophos;i="5.81,191,1610438400"; 
-   d="scan'208";a="184044714"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2021 14:57:04 -0800
-IronPort-SDR: 6ZGvPb5zOmo1LHc3Zhdomz6dsl5PlnzLiY94jlUlJY2IoeGfJl8KqwworlmgiUgED1y2GEQCXx
- pvFR3/wRjZyQ==
-X-IronPort-AV: E=Sophos;i="5.81,191,1610438400"; 
-   d="scan'208";a="440458360"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Feb 2021 14:57:04 -0800
-Date:   Fri, 19 Feb 2021 14:59:40 -0800
-From:   Jacob Pan <jacob.jun.pan@linux.intel.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Driver Review <linux-drivers-review@eclists.intel.com>,
-        iommu@eclists.intel.com, Yi Liu <yi.l.liu@intel.com>,
-        Raj Ashok <ashok.raj@intel.com>,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        Lu Baolu <baolu.lu@linux.intel.com>, Wu Hao <hao.wu@intel.com>,
-        Yi Sun <yi.y.sun@intel.com>, Dave Jiang <dave.jiang@intel.com>,
-        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-        jacob.jun.pan@linux.intel.com
-Subject: Re: [PATCH v4 01/16] docs: Document IO Address Space ID (IOASID)
- APIs
-Message-ID: <20210219145940.0ad35b08@jacob-builder>
-In-Reply-To: <87im6op1bp.fsf@meer.lwn.net>
-References: <1613683288-89552-1-git-send-email-jacob.jun.pan@linux.intel.com>
-        <1613683288-89552-2-git-send-email-jacob.jun.pan@linux.intel.com>
-        <87im6op1bp.fsf@meer.lwn.net>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S229796AbhBTDXn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Feb 2021 22:23:43 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:12626 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229767AbhBTDXn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Feb 2021 22:23:43 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DjDHp62tKz1695N;
+        Sat, 20 Feb 2021 11:21:26 +0800 (CST)
+Received: from [10.174.176.191] (10.174.176.191) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.498.0; Sat, 20 Feb 2021 11:22:48 +0800
+Subject: Re: [PATCH v14 09/11] x86, arm64: Add ARCH_WANT_RESERVE_CRASH_KERNEL
+ config
+To:     Baoquan He <bhe@redhat.com>
+References: <20210130071025.65258-1-chenzhou10@huawei.com>
+ <20210130071025.65258-10-chenzhou10@huawei.com>
+ <20210218083428.GK2871@MiWiFi-R3L-srv>
+CC:     <mingo@redhat.com>, <tglx@linutronix.de>, <rppt@kernel.org>,
+        <dyoung@redhat.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
+        <nsaenzjulienne@suse.de>, <corbet@lwn.net>,
+        <John.P.donnelly@oracle.com>, <prabhakar.pkin@gmail.com>,
+        <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
+        <james.morse@arm.com>, <xiexiuqi@huawei.com>,
+        <guohanjun@huawei.com>, <huawei.libin@huawei.com>,
+        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <785d0e3c-9540-44b3-0682-877510007977@huawei.com>
+Date:   Sat, 20 Feb 2021 11:22:47 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+In-Reply-To: <20210218083428.GK2871@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.176.191]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
-
-On Fri, 19 Feb 2021 07:41:14 -0700, Jonathan Corbet <corbet@lwn.net> wrote:
-
-> Jacob Pan <jacob.jun.pan@linux.intel.com> writes:
-> 
-> > IOASID is used to identify address spaces that can be targeted by device
-> > DMA. It is a system-wide resource that is essential to its many users.
-> > This document is an attempt to help developers from all vendors navigate
-> > the APIs. At this time, ARM SMMU and Intel’s Scalable IO Virtualization
-> > (SIOV) enabled platforms are the primary users of IOASID. Examples of
-> > how SIOV components interact with the IOASID APIs are provided.
-> >
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: linux-doc@vger.kernel.org
-> > Cc: Randy Dunlap <rdunlap@infradead.org>
-> > Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-> > Signed-off-by: Wu Hao <hao.wu@intel.com>
-> > Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
-> > ---
-> >  Documentation/driver-api/ioasid.rst | 696 ++++++++++++++++++++++++++++
-> >  1 file changed, 696 insertions(+)
-> >  create mode 100644 Documentation/driver-api/ioasid.rst  
-> 
-> A detail, but an important one: you need to add this new file to
-> index.rst so it gets built as part of the kernel docs.
-> 
-will do for this and the cgroup one. thanks!
-
-> Thanks,
-> 
-> jon
 
 
-Thanks,
+On 2021/2/18 16:35, Baoquan He wrote:
+> On 01/30/21 at 03:10pm, Chen Zhou wrote:
+>> We make the functions reserve_crashkernel[_low]() as generic for
+>> x86 and arm64. Since reserve_crashkernel[_low]() implementations
+>> are quite similar on other architectures as well, we can have more
+>> users of this later.
+>>
+>> So have CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL in arch/Kconfig and
+>> select this by X86 and ARM64.
+> This looks much better with the help of
+> CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL. And please take off the
+> 'Suggested-by' tag from me, I just don't like the old CONFIG_X86 and
+> CONFIG_ARM64 ifdeffery way in v13, Mike suggested this ARCH_WANT_
+> option.
+OK, i will delete this.
+>
+> And the two dummy function reserve_crashkernel() in x86 and arm64 looks
+> not so good, but I don't have better idea. Maybe add
+> CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL iddeffery in the call site of
+> reserve_crashkernel() in each ARCH? Or just leave with it for now if no
+> other people has concern or suggestion about it.
+>
+> Anyway, ack this one.
+>
+> Acked-by: Baoquan He <bhe@redhat.com>
+>
+> Thanks
+> Baoquan
+>
+>
+>> Suggested-by: Mike Rapoport <rppt@kernel.org>
+>> Suggested-by: Baoquan He <bhe@redhat.com>
+>> Signed-off-by: Chen Zhou <chenzhou10@huawei.com>
+>> ---
+>>  arch/Kconfig        | 3 +++
+>>  arch/arm64/Kconfig  | 1 +
+>>  arch/x86/Kconfig    | 2 ++
+>>  kernel/crash_core.c | 7 ++-----
+>>  4 files changed, 8 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/arch/Kconfig b/arch/Kconfig
+>> index 24862d15f3a3..0ca1ff5bb157 100644
+>> --- a/arch/Kconfig
+>> +++ b/arch/Kconfig
+>> @@ -24,6 +24,9 @@ config KEXEC_ELF
+>>  config HAVE_IMA_KEXEC
+>>  	bool
+>>  
+>> +config ARCH_WANT_RESERVE_CRASH_KERNEL
+>> +	bool
+>> +
+>>  config SET_FS
+>>  	bool
+>>  
+>> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+>> index f39568b28ec1..09365c7ff469 100644
+>> --- a/arch/arm64/Kconfig
+>> +++ b/arch/arm64/Kconfig
+>> @@ -82,6 +82,7 @@ config ARM64
+>>  	select ARCH_WANT_FRAME_POINTERS
+>>  	select ARCH_WANT_HUGE_PMD_SHARE if ARM64_4K_PAGES || (ARM64_16K_PAGES && !ARM64_VA_BITS_36)
+>>  	select ARCH_WANT_LD_ORPHAN_WARN
+>> +	select ARCH_WANT_RESERVE_CRASH_KERNEL if KEXEC_CORE
+>>  	select ARCH_HAS_UBSAN_SANITIZE_ALL
+>>  	select ARM_AMBA
+>>  	select ARM_ARCH_TIMER
+>> diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+>> index 21f851179ff0..e6926fcb4a40 100644
+>> --- a/arch/x86/Kconfig
+>> +++ b/arch/x86/Kconfig
+>> @@ -12,6 +12,7 @@ config X86_32
+>>  	depends on !64BIT
+>>  	# Options that are inherently 32-bit kernel only:
+>>  	select ARCH_WANT_IPC_PARSE_VERSION
+>> +	select ARCH_WANT_RESERVE_CRASH_KERNEL if KEXEC_CORE
+>>  	select CLKSRC_I8253
+>>  	select CLONE_BACKWARDS
+>>  	select GENERIC_VDSO_32
+>> @@ -28,6 +29,7 @@ config X86_64
+>>  	select ARCH_HAS_GIGANTIC_PAGE
+>>  	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
+>>  	select ARCH_USE_CMPXCHG_LOCKREF
+>> +	select ARCH_WANT_RESERVE_CRASH_KERNEL if KEXEC_CORE
+>>  	select HAVE_ARCH_SOFT_DIRTY
+>>  	select MODULES_USE_ELF_RELA
+>>  	select NEED_DMA_MAP_STATE
+>> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+>> index 8479be270c0b..2c5783985db5 100644
+>> --- a/kernel/crash_core.c
+>> +++ b/kernel/crash_core.c
+>> @@ -320,9 +320,7 @@ int __init parse_crashkernel_low(char *cmdline,
+>>   * --------- Crashkernel reservation ------------------------------
+>>   */
+>>  
+>> -#ifdef CONFIG_KEXEC_CORE
+>> -
+>> -#if defined(CONFIG_X86) || defined(CONFIG_ARM64)
+>> +#ifdef CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL
+>>  static int __init reserve_crashkernel_low(void)
+>>  {
+>>  #ifdef CONFIG_64BIT
+>> @@ -450,8 +448,7 @@ void __init reserve_crashkernel(void)
+>>  	crashk_res.start = crash_base;
+>>  	crashk_res.end   = crash_base + crash_size - 1;
+>>  }
+>> -#endif
+>> -#endif /* CONFIG_KEXEC_CORE */
+>> +#endif /* CONFIG_ARCH_WANT_RESERVE_CRASH_KERNEL */
+>>  
+>>  Elf_Word *append_elf_note(Elf_Word *buf, char *name, unsigned int type,
+>>  			  void *data, size_t data_len)
+>> -- 
+>> 2.20.1
+>>
+> .
+>
 
-Jacob
