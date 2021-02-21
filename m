@@ -2,102 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_03_06,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEFFBC433E6
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 20:19:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DC7EC433DB
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 20:38:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF33864E61
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 20:19:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF98F64E86
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 20:38:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230253AbhBUUTG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 Feb 2021 15:19:06 -0500
-Received: from mout.gmx.net ([212.227.15.19]:48833 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230174AbhBUUTF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 21 Feb 2021 15:19:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1613938631;
-        bh=cFGcwB+oIMoQD2nm971NYoY7QQ0QXu1e9XPHJAzwb7k=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=GOZwDesgWdfw4DZi7UV0SSNxWXqWTaptbzoRgQq/dOd+ZSmTmVKCJj5Zm9l0x7Uks
-         ZFDoacsmwJQMbMZImrM3XVv7ODwsjhmvAQaWact2YeTIQG8k+NmIC1CAXjYP8YOpYA
-         xzTn2vTksJsdIuiDFDno8FDV3C94wNqyAUagcA44=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([83.52.229.153]) by mail.gmx.net
- (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1MplXz-1ldI6c2LhF-00qEN2; Sun, 21 Feb 2021 21:17:11 +0100
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>, Shuah Khan <shuah@kernel.org>
-Cc:     John Wood <john.wood@gmx.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: [PATCH v3 8/8] MAINTAINERS: Add a new entry for the Brute LSM
-Date:   Sun, 21 Feb 2021 16:49:19 +0100
-Message-Id: <20210221154919.68050-9-john.wood@gmx.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210221154919.68050-1-john.wood@gmx.com>
-References: <20210221154919.68050-1-john.wood@gmx.com>
+        id S231313AbhBUUih (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 21 Feb 2021 15:38:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56270 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230280AbhBUUih (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Feb 2021 15:38:37 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95EDEC061574;
+        Sun, 21 Feb 2021 12:37:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=TodMQhTq+cGVVOCaD81EhvMNZtfQt3L+a/bV5YenmcA=; b=iErmknlTcb1M7IRQXgT7TBPyaO
+        HSbSyds3TPXzWMgvu9MopiUz5HPxmmbw2d7UvJrSOLBQOzz9pEQNYJdtyaJuX1MbfBd5u059mn9k9
+        MdupbdNr4jSeVlQD7kVqELaqVmduU8KegPUIxqtNWZb6qoLD6z+pcMl6MUvlYwrgremIlMMocf4JW
+        jVKX2d8seEIwUUcCAicqDqUEeJ84rpZ6lBOzwUa5BlDU8rs25zkak0hm7cW8Y7Xj+RKliYz+lAvXw
+        tgZXyzTEuX5BGYG8BzqFLdLoLpGuSE65A0PRAvOMK2GIV4Fat8WWpCr8DNCnFibrqmYOQUa3XRgNP
+        lCo8DIeA==;
+Received: from [2601:1c0:6280:3f0::d05b]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1lDvUH-0000HV-J4; Sun, 21 Feb 2021 20:37:53 +0000
+Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to
+ control state component support
+To:     "Bae, Chang Seok" <chang.seok.bae@intel.com>
+Cc:     Borislav Petkov <bp@suse.de>, "luto@kernel.org" <luto@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Brown, Len" <len.brown@intel.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "Liu, Jing2" <jing2.liu@intel.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20210221185637.19281-1-chang.seok.bae@intel.com>
+ <20210221185637.19281-23-chang.seok.bae@intel.com>
+ <cb6151cf-8f71-2275-c757-098d163f87ff@infradead.org>
+ <4862AEE9-1819-43A7-BF95-C02DB6E2D06D@intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <40a65a30-ce41-6a51-50f4-34a0b0b1ef6f@infradead.org>
+Date:   Sun, 21 Feb 2021 12:37:46 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:A9lV3V9nsLMCf5CmMu6k/qVFGT1BkfgTJJSixdrK1IpFF6pUB7/
- peNPmEQle3ecEnl7Bk6MLydWlFKHNCF7Fzm8lkP9Vv5TR7vuedJis7NBbrz6WXPwAMNmtnC
- zdnbYQ9+zGzQlaSIt4JlxwSK4lg/pdpElRrY/c203DLGnQFE16MLhZdE1jJmWGAWY6TqxYD
- ZrIGTZhAjXr/UJ9yfMS3w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MM733bPvwtU=:tsjxnsOkeC5P2GMTGa4ajS
- XPH1WOi3gOxUnh1Zk8XgsE/gheE3qzBqu0wpZdjzHwOJoUaHitd6jn6B711VuRlq1t0Xsn4Kq
- gZReMFfirnCNVrL+UVzx9SmD7Vrfa6fuJtPIk3VOe8kPu+1Ac7PKZ/h46FvNEJEJPmTVeOFVE
- 9nlqNuPKlH4Z/31jN8j5BbUvJIphjMr3KQ7fPIQP2znm8K90lBUR5/AAPhC07jrkgxaUKO/2a
- SH3WtcrX+J7xPY7mgPGCCNwz4Lp4o2zXhv2Zx9LAxZpnS+xFBhQYaHTg07LrQAK7B7QPMtkc3
- Pxanl08Z700pqccI4ALdspjqtUrpMQMUtFLdKZ9p1+ZGDqwk14jQVGqafsQp50GnqKm/yFoaT
- TH8ST0/kDC831b6BvHkitx/iqhmDQvVljGqlXWqSCF/+Z+nZSfgWZa/taJB6Ot0fFicNvuJ7s
- gE8wtxOm/n1anWlGPhqmeBSeiudrcIF8kT2H/Q4PbMXus3Wqzwxe7cCC0HCJYCMlCpaaC32dC
- RAkgqEGi39VdLlsvLpc5bk/BMzyks7B0+IP4VPO1ewId0lxytyAqNxx/Y1hOA5dkiPO7of2Fg
- iproAeTELRRF+4dqU2JL/FSKlAuSDcGIT6jXN6X8IQFf30Dsv07dYYOJxf9N49EpsVZOVxeLL
- dx621j4LVw52JkTVToYVOVSd0fXvx4JQgaU/AYdv9/in3rTz9GUfu6pnYb7p7aAPcy2Q+DICM
- CZQJCaDuFg5vvxlecRE/mOkApyK3r3ZuMF5b53xforWIxLPTW+3JVXTGtfHxyuYyH17XZ+M5y
- TWO54IvBjlu1APw3zoqqDHC3we1y5f33bhLhp7TrWRgUVKL2Q0JYTTXvf7XCtb5cdZhN0oIJ7
- PBo417v0KOadm/NriYTg==
+In-Reply-To: <4862AEE9-1819-43A7-BF95-C02DB6E2D06D@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to maintain the code for the Brute LSM add a new entry to the
-maintainers list.
+On 2/21/21 12:10 PM, Bae, Chang Seok wrote:
+> On Feb 21, 2021, at 11:30, Randy Dunlap <rdunlap@infradead.org> wrote:
+>> Can we tell people (in this Doc file) where to look up the values that can be
+>> used in xstate.enable and xstate.disable?
+> 
+> Perhaps add something like this with the change below:
+>     “See comment before function fpu__init_parse_early_param() in
+>      arch/x86/kernel/fpu/init.c."
 
-Signed-off-by: John Wood <john.wood@gmx.com>
-=2D--
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
+Hi,
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index bfc1b86e3e73..a88327198474 100644
-=2D-- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3760,6 +3760,13 @@ L:	netdev@vger.kernel.org
- S:	Supported
- F:	drivers/net/ethernet/brocade/bna/
+I was thinking more along the lines of where can I find the value
+0x60000 or BIT(22) or BIT(19), for example and see what they mean,
+even though it will likely be some abbreviation.
 
-+BRUTE SECURITY MODULE
-+M:	John Wood <john.wood@gmx.com>
-+S:	Maintained
-+F:	Documentation/admin-guide/LSM/Brute.rst
-+F:	security/brute/
-+F:	tools/testing/selftests/brute/
-+
- BSG (block layer generic sg v4 driver)
- M:	FUJITA Tomonori <fujita.tomonori@lab.ntt.co.jp>
- L:	linux-scsi@vger.kernel.org
-=2D-
-2.25.1
+
+> /*
+>  * The kernel parameter "xstate.enable='mask'" and "xstate.disable='mask'" have a
+>  * mask value in a subset of XFEATURE_MASK_CONFIGURABLE.
+>  *
+>  * The longest parameter is 22 octal number characters with '0' prefix and an extra
+>  * '\0' for termination.
+>  */
+> #define MAX_XSTATE_MASK_CHARS   24
+> 
+> /**
+>  * fpu__init_parse_early_param() - parse the xstate kernel parameters
+>  *
+>  * Parse them early because fpu__init_system() is executed before
+>  * parse_early_param().
+>  */
+> static void __init fpu__init_parse_early_param(void)
+
+thanks.
+-- 
+~Randy
 
