@@ -2,95 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96DA9C433DB
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 19:14:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADDC4C433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 19:31:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 652CF64E00
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 19:14:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70E6D64DF2
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 19:31:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230213AbhBUTO1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 Feb 2021 14:14:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38368 "EHLO
+        id S230081AbhBUTbF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 21 Feb 2021 14:31:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229956AbhBUTOZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Feb 2021 14:14:25 -0500
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BA21C061574;
-        Sun, 21 Feb 2021 11:13:45 -0800 (PST)
-Received: by mail-pf1-x431.google.com with SMTP id m6so5233145pfk.1;
-        Sun, 21 Feb 2021 11:13:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9okeHahnxkQIyczL5QktCGq4Y0Vq91gH7S23ae5Xnxo=;
-        b=ZVyvhv+PO5zERn53QqLCYhRDu/Jd831HCK2eVChketfdSpEZbSeL1z/aaPFo2vnvR+
-         25NrSf2RBYEw/2jgb4TzsEuXAuu0CgdBWBjN6/FZbldIgnVbOryelwcts9SMGC2vXrcK
-         nrEVbWyHLo6uUnSK8iUnIZ0qBiEKU7OkcysTCPwkxe4FZjdTyHw7514agzy/ZflykECN
-         /K4zIxWGiNMo0ShlxNA1tnKhp+hJjjwVUsbfV3ozj3/iZ7l3MZBbTutwzg0dCEAjjXnL
-         zixXdaV7BfjAZPNbYxmY9kiBshChyxJ0Vbn6VARZHR5TLWr8ZfVX6OTTMePxbFhNOnSr
-         VzFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9okeHahnxkQIyczL5QktCGq4Y0Vq91gH7S23ae5Xnxo=;
-        b=GwU45pWVDHxpBJQbTXEafiXMvWbcB6mXWDor05nKrRKBiNIPSxEqUVPeq52HQYOoC2
-         2TtvhX3Bm11LO0KXXxK76l9eORFASCC0dbQBE6/1udaUfaELtrTaU0xA1FUEyT9a+x0T
-         ujiK7dmc2LRHP5Jee7hYRdwsiO/sA1TArO8vCQQTISTz9t4tsrAm8u5mD0bvZ4aKZsY6
-         bgn5kzuPED79iZgxAX7w6YIoeV7kp4ViuIIznZdonY+sVy1dLdvCZGbttsDKnwQpo548
-         eUeMm5Koefrhe993GZUkQ+AlC5hUBtk4NJ6nw/m4YlOkfKBLlQHCq+yuWXZjfkmS6PSu
-         rxeA==
-X-Gm-Message-State: AOAM530+eqV5ZTK6WbZikV7y3OTHbVKeioQWYQbal55pdkuI+p7hkpKI
-        iYzP5QpYmgFFQvmXx56ufxZRaehT125JDQ+J5ZA=
-X-Google-Smtp-Source: ABdhPJwlEj7b5dtHO9WJKEVfnpgQJ3refQ75n3pGOhZHvQB6zRYMTGIwDLxZYVibZjwv3uNwrpLW2Bu5QHmXRaifhQI=
-X-Received: by 2002:a65:56c6:: with SMTP id w6mr17014227pgs.368.1613934824969;
- Sun, 21 Feb 2021 11:13:44 -0800 (PST)
+        with ESMTP id S229956AbhBUTa6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Feb 2021 14:30:58 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E352C061574;
+        Sun, 21 Feb 2021 11:30:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=VSMHLHDB7pBRPWsMCPY4560P/deR5lUq0uveRSDWdaA=; b=c6OzXVJOwVR/jqpy4S0SXjhCTW
+        fqL/ClLdHlKhcuBHDnYMdZoL+s3mGgrXJXWrrTuo9WHKHI4cmmFUZrSnebANRMPeISmEbvrOYqj4w
+        nacRc+x+bPe6kVOWoBGCcIRPfiFPT8Y7QPQf73QkUlBRGVuAgC2n/IyHdcD0/4tr4Db5A3NOW62d9
+        urdKCWiiEAA+B44cRVda9F5cyqKbTpVAb5UBI0rdJOB021apJ7zgtbCw8tM/EdT+cVVuDZG9/NubK
+        /oizGz4tgYoI+dhtZQL7XuTcoTCWT+vqfSw6/LtfclschpiTBeHdDLghnicQvKQqXXLRThbOVVcpU
+        5MDrKYAA==;
+Received: from [2601:1c0:6280:3f0::d05b]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1lDuQp-0005FX-Mn; Sun, 21 Feb 2021 19:30:16 +0000
+Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to
+ control state component support
+To:     "Chang S. Bae" <chang.seok.bae@intel.com>, bp@suse.de,
+        luto@kernel.org, tglx@linutronix.de, mingo@kernel.org,
+        x86@kernel.org
+Cc:     len.brown@intel.com, dave.hansen@intel.com, jing2.liu@intel.com,
+        ravi.v.shankar@intel.com, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20210221185637.19281-1-chang.seok.bae@intel.com>
+ <20210221185637.19281-23-chang.seok.bae@intel.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <cb6151cf-8f71-2275-c757-098d163f87ff@infradead.org>
+Date:   Sun, 21 Feb 2021 11:30:09 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210216201813.60394-1-xie.he.0141@gmail.com> <YC4sB9OCl5mm3JAw@unreal>
- <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com>
- <YC5DVTHHd6OOs459@unreal> <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
- <YC7GHgYfGmL2wVRR@unreal> <CAJht_EPZ7rVFd-XD6EQD2VJTDtmZZv0HuZvii+7=yhFgVz68VQ@mail.gmail.com>
- <CAJht_EPPMhB0JTtjWtMcGbRYNiZwJeMLWSC5hS6WhWuw5FgZtg@mail.gmail.com>
- <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <CAJht_EOru3pW6AHN4QVjiaERpLSfg-0G0ZEaqU_hkhX1acv0HQ@mail.gmail.com> <YDIAIwLVQK0P4EQW@unreal>
-In-Reply-To: <YDIAIwLVQK0P4EQW@unreal>
-From:   Xie He <xie.he.0141@gmail.com>
-Date:   Sun, 21 Feb 2021 11:13:34 -0800
-Message-ID: <CAJht_ENK=X1hXhM2qkwZW6xoFwMB5R+iS0GSnsXR3EERd+S35g@mail.gmail.com>
-Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB frames
-To:     Leon Romanovsky <leon@kernel.org>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Linux X25 <linux-x25@vger.kernel.org>,
-        Linux Kernel Network Developers <netdev@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Martin Schiller <ms@dev.tdt.de>,
-        Krzysztof Halasa <khc@pm.waw.pl>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210221185637.19281-23-chang.seok.bae@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 20, 2021 at 10:39 PM Leon Romanovsky <leon@kernel.org> wrote:
->
-> > Yes, this patch will break backward compatibility. Users with old
-> > scripts will find them no longer working.
->
-> Did you search in debian/fedora code repositories to see if such scripts exist
-> as part of any distro package?
+On 2/21/21 10:56 AM, Chang S. Bae wrote:
+> "xstate.disable=0x60000" will disable AMX on a system that has AMX compiled
+> into XFEATURE_MASK_USER_ENABLED.
+> 
+> "xstate.enable=0x60000" will enable AMX on a system that does NOT have AMX
+> compiled into XFEATURE_MASK_USER_ENABLED (assuming the kernel is new enough
+> to support this feature).
+> 
+> Rename XFEATURE_MASK_USER_SUPPORTED to XFEATURE_MASK_USER_ENABLED to be
+> aligned with the new parameters.
+> 
+> While this cmdline is currently enabled only for AMX, it is intended to be
+> easily enabled to be useful for future XSAVE-enabled features.
+> 
 
-I just tried to search in Debian and Fedora packages but didn't seem
-to find anything related.
+Hi,
+Can we tell people (in this Doc file) where to look up the values that can be
+used in xstate.enable and xstate.disable?
 
-I searched "hdlc" and "x25". The only things I can find are "AX.25"
-related things. But "AX.25" is not related to "X.25".
+thanks.
 
-I guess a script that brings a network interface up might not be very
-useful? So we might not be able to find it in public repositories.
+> Signed-off-by: Chang S. Bae <chang.seok.bae@intel.com>
+> Reviewed-by: Len Brown <len.brown@intel.com>
+> Cc: x86@kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> ---
+> Changes from v3:
+> * Fixed a few typos. (Randy Dunlap)
+> 
+> Changes from v2:
+> * Changed the kernel tainted when any unknown state is enabled. (Andy
+>   Lutomirski)
+> * Simplified the cmdline handling.
+> * Edited the changelog.
+> 
+> Changes from v1:
+> * Renamed the user state mask define (Andy Lutomirski and Dave Hansen)
+> * Changed the error message (Dave Hansen)
+> * Fixed xfeatures_mask_user()
+> * Rebased the upstream kernel (5.10) -- revived the param parse function
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 15 +++++
+>  arch/x86/include/asm/fpu/types.h              |  6 ++
+>  arch/x86/include/asm/fpu/xstate.h             | 24 +++----
+>  arch/x86/kernel/fpu/init.c                    | 65 +++++++++++++++++--
+>  4 files changed, 93 insertions(+), 17 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index a10b545c2070..ec79f63979a4 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -6014,6 +6014,21 @@
+>  			which allow the hypervisor to 'idle' the guest on lock
+>  			contention.
+>  
+> +	xstate.enable=	[X86-64]
+> +	xstate.disable=	[X86-64]
+> +			The kernel is compiled with a default xstate bitmask --
+> +			enabling it to use the XSAVE hardware to efficiently
+> +			save and restore thread states on context switch.
+> +			xstate.enable allows adding to that default mask at
+> +			boot-time without recompiling the kernel just to support
+> +			the new thread state. (Note that the kernel will ignore
+> +			any bits in the mask that do not correspond to features
+> +			that are actually available in CPUID.)  xstate.disable
+> +			allows clearing bits in the default mask, forcing the
+> +			kernel to forget that it supports the specified thread
+> +			state. When a bit set for both, the kernel takes
+> +			xstate.disable as a priority.
+> +
+>  	xirc2ps_cs=	[NET,PCMCIA]
+>  			Format:
+>  			<irq>,<irq_mask>,<io>,<full_duplex>,<do_sound>,<lockup_hack>[,<irq2>[,<irq3>[,<irq4>]]]
+
+
+
+-- 
+~Randy
+
