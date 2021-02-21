@@ -2,415 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_03_06,
-	DKIM_SIGNED,DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20258C433DB
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 19:46:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE2E9C433DB
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 20:12:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC4DB64E4B
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 19:46:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8494B64EB2
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 20:12:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230423AbhBUTpm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 Feb 2021 14:45:42 -0500
-Received: from mout.gmx.net ([212.227.17.22]:45125 "EHLO mout.gmx.net"
+        id S230514AbhBUULa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 21 Feb 2021 15:11:30 -0500
+Received: from mga01.intel.com ([192.55.52.88]:36289 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230231AbhBUTpi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 21 Feb 2021 14:45:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1613936629;
-        bh=BUrFkJRdMorIGyPHZ/sn3asqSQHApToumYQiv4PUyts=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=MpjfSnW4Pdc6QJtPINJLEsVea0SRtIGpuviSdtdc3miwxV3/yp4JCmQA9C7G6NhUw
-         o27m6SvIUyJED65B/tI5yeW4OFb4Iz+SHqdcBC5fuTcGHvfPrOc+27h0EIeCQIMTIo
-         otPxDGcdo30AI3WvbY7vzClqsvYMVzv6sGKleW0M=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([83.52.229.153]) by mail.gmx.net
- (mrgmx104 [212.227.17.174]) with ESMTPSA (Nemesis) id
- 1Mf078-1lkDBn0ZfW-00gYb0; Sun, 21 Feb 2021 20:43:49 +0100
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>, Shuah Khan <shuah@kernel.org>
-Cc:     John Wood <john.wood@gmx.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: [PATCH v3 7/8] Documentation: Add documentation for the Brute LSM
-Date:   Sun, 21 Feb 2021 16:49:18 +0100
-Message-Id: <20210221154919.68050-8-john.wood@gmx.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210221154919.68050-1-john.wood@gmx.com>
-References: <20210221154919.68050-1-john.wood@gmx.com>
+        id S230296AbhBUUL3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 21 Feb 2021 15:11:29 -0500
+IronPort-SDR: UUnD0qBygHVs0evIPv8R4JsqWwbKyhZE4YQW7lQzE6HjOY9VTovXrqxTTdPb71ZaBlvDOH6K84
+ dZIRf1h/IGuA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9902"; a="203650032"
+X-IronPort-AV: E=Sophos;i="5.81,195,1610438400"; 
+   d="scan'208";a="203650032"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2021 12:10:47 -0800
+IronPort-SDR: H7c7ASgMlfeNA6jgRBCJTvrpAzWAvn+rX//5JwJuGCFgynCt7tORnKEWjaQ+dK0xZK++JqoaMF
+ zo8JhtA2c0ug==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,195,1610438400"; 
+   d="scan'208";a="389406093"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+  by fmsmga008.fm.intel.com with ESMTP; 21 Feb 2021 12:10:47 -0800
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Sun, 21 Feb 2021 12:10:46 -0800
+Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Sun, 21 Feb 2021 12:10:46 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2
+ via Frontend Transport; Sun, 21 Feb 2021 12:10:46 -0800
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.101)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2106.2; Sun, 21 Feb 2021 12:10:45 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JninqtzPYnERi6kzgMHgQ7J4mfioveS0ek+2Wjv8h2jpA5bByVaQgrHHSwSC9ZSUdgmhDoxhR2EtI1zLnabvQVk4aMj0vfO1NnpTlVDtLutsU2YbCbqq1145mBQorzQhIZFN8RngWZ04A63OmKPNCJAl6KQ5i4RVgvkZOC1XURmMgI7KY6t2FGdkRMeDpmD73Cf/MErs3tm9jJ3L9fbDS/b35kY1UlxpYToVpETJH5+o4MGznOUlCDPTiSNrlBh4eJugcwX/0SBXJSyETND2e7hMXNWflhmeQ537corLAVhVZ2bmwSNhTKcLKZgS565EFF5NhruvVq46OtAzXjpMwg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LJ4k7SMhHbtCxP7XrR92LgJ6nEvXLF+f5QgkbDF57uY=;
+ b=F8yY4PdPHVjCT0xvtw/eDXdfzi0xkrkuLDVj0vFkNjoLjsb2ZX5TPJVZdVsEB3AZREPv+HRq2spAbjqZqAY9sAhZal07ougTmvzUijgu9WWEvqwfR+uMH+hFnpbnhfaZPOH7O2V0Ejv/Zi6vxeKQrJC9kU2De4MVf8SLAoNsYzyGdi6ZYhZcvtOE2Ffn59uvWZFSzJ29IY+7IRg/73WTSXLx7mFxhWEzjoZ63nbE3H7scF75mZ84fajygrH8z7kgzj4sEfWMSe4l00otiiYlFom7pHuGqZCfwNjxo3MnPZfTdZiPz6TQsxCLSu3jnaS6FkAB/VevIAm98C6xx38a3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LJ4k7SMhHbtCxP7XrR92LgJ6nEvXLF+f5QgkbDF57uY=;
+ b=DxBIzLWh2ZA/daqYQXVdGXYw39e1CRA/NpYFfgde7vSOGs6FT+UkFpF4Hz8IwHnb+t0Qe5hTZSH0idFDc36Rlh3v89q5741ngPSaTxaG2zL8RU/aw9w0VDC2IrBiILxV6rnNb6TU3WL6PQRpKZRX6NJrE7854ufUooNVIrkC1K0=
+Received: from PH0PR11MB4855.namprd11.prod.outlook.com (2603:10b6:510:41::12)
+ by PH0PR11MB4838.namprd11.prod.outlook.com (2603:10b6:510:40::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.31; Sun, 21 Feb
+ 2021 20:10:42 +0000
+Received: from PH0PR11MB4855.namprd11.prod.outlook.com
+ ([fe80::78e6:b455:ce90:fcb0]) by PH0PR11MB4855.namprd11.prod.outlook.com
+ ([fe80::78e6:b455:ce90:fcb0%6]) with mapi id 15.20.3868.029; Sun, 21 Feb 2021
+ 20:10:42 +0000
+From:   "Bae, Chang Seok" <chang.seok.bae@intel.com>
+To:     Randy Dunlap <rdunlap@infradead.org>
+CC:     Borislav Petkov <bp@suse.de>, "luto@kernel.org" <luto@kernel.org>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
+        "mingo@kernel.org" <mingo@kernel.org>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "Brown, Len" <len.brown@intel.com>,
+        "Hansen, Dave" <dave.hansen@intel.com>,
+        "Liu, Jing2" <jing2.liu@intel.com>,
+        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to
+ control state component support
+Thread-Topic: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to
+ control state component support
+Thread-Index: AQHXCIQDF1tCJs9EdEy5ci27evx3Pqpi/uaAgAALU4A=
+Date:   Sun, 21 Feb 2021 20:10:42 +0000
+Message-ID: <4862AEE9-1819-43A7-BF95-C02DB6E2D06D@intel.com>
+References: <20210221185637.19281-1-chang.seok.bae@intel.com>
+ <20210221185637.19281-23-chang.seok.bae@intel.com>
+ <cb6151cf-8f71-2275-c757-098d163f87ff@infradead.org>
+In-Reply-To: <cb6151cf-8f71-2275-c757-098d163f87ff@infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3608.120.23.2.4)
+authentication-results: infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=none action=none header.from=intel.com;
+x-originating-ip: [73.189.248.82]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2570b18c-fc4c-4904-e904-08d8d6a4c417
+x-ms-traffictypediagnostic: PH0PR11MB4838:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <PH0PR11MB4838872D976CA1B14FB939E9D8829@PH0PR11MB4838.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: rNpKE1EO1+e4mHbBkNhLPgouX96MARYCsstucp9sVIGM2YVywGlk4KhG3kRHdYigOB9rk1ooX5BbMS3ZJOCc8EyJDPDT3NqBiEeQGIpQje5kIiOBL6FKxtMdIdmOTvQJlQioBEwtNJs9Ca7n4hqblxxkXOC+cjHmiifVNRj+g/lKZW9Fhk7ii4oMEHJV1HeZsBr9q8P8DldobDsqJEzG9AwwUqXz2cJzcrn/3oPr9s7db1Wk8UnnuvFe0nI/iCn5Iab9Ke3P++1KDxjl5BE9VeHpl+TfiXZjrat2kB86Fe4mVdVvckH1a+ftOTSjkmUwZSHKjFGlVcT2rW7o/OGcl8GUEx6sUdZ1xzwGfqxv4VrkVh2Eit5IQgHd0tkrbqKhZ+Ulk+ToqUEKrQKZumnhboHYrSCYRl/TZVUlEjVhfRyVu9TSZmB+ZyB+M/K/TqGJx90oru3mpWpG3PrqKrb7/lhX/gwqlzKcQjNXPHzoaVCaex2iTvSwAbfhdwU+nc+6vgIjvxXbDBz1UJ6cnmqZnXV586v97UYLh5iVUhSTwchbcx8geyZI0SJ2cUlmCzl3IyECvzdONtw3DbIRXRX/hA==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB4855.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(346002)(396003)(366004)(136003)(376002)(2616005)(54906003)(478600001)(6486002)(71200400001)(66476007)(66556008)(26005)(8936002)(91956017)(4744005)(6916009)(66446008)(53546011)(66946007)(8676002)(6512007)(33656002)(76116006)(6506007)(186003)(64756008)(36756003)(316002)(2906002)(86362001)(5660300002)(4326008)(45980500001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: =?utf-8?B?eTliUkorNFV1UUlaaG9QdExwV0hNWUdXbXFUTVordndXWVpURlRmVWJpSUFR?=
+ =?utf-8?B?WDJmUm5yTExSNzRSa3kyZnd4U1ZUK0svb21LOVkyL0svYzV2dmNidTVWaXVS?=
+ =?utf-8?B?dUxQaFRkdnp4K252YWp2ejU2L2FlZWVxUktzM0xoVHl5TDlWYkpJeE9RV01H?=
+ =?utf-8?B?OWpnY2tpeHYwcnh1VTh2UGhXWFhaczAyNFdmU2FyMktLbXYyd1JjTmw4VGlE?=
+ =?utf-8?B?TTJvSHBScnV0UWR6UEJjRkFwRWlVSWg3WVh4UHBvNkJsU1FWb1lMSC9qRHlq?=
+ =?utf-8?B?YllJcDEwckt3UEtxa1NpbnlCNGtvQWljTjJ2bDNXVGUvRzR4Z3ljQ2xwUnow?=
+ =?utf-8?B?TWhleXJXUXV6ZlQxdUpSOFlESVNWUW1ncklQbnBzSkF0dnQwQnVVWGQ4TzZV?=
+ =?utf-8?B?NnUxYW8zMnFqTWgwYzI0djRLQjRDRzVUeHlPTytsMEw4cE85MVdvN2VjdGVU?=
+ =?utf-8?B?aEpDM25mOGowNXdJb1Zxbmd3OWhyVDA3YzBsQWord1FMOGxZYW52WVJiQ3Vy?=
+ =?utf-8?B?aGVvQXEwWDVVaFhXdk1NaUNQOCtXTG44SzBVK25LR005UDdLKzJ6dm51V0dt?=
+ =?utf-8?B?NHlTSG1MSHA3NjJQMGdWay9pYlNjWndPK0lYN2h6NjA0OGcvMUZ4VnVkYk5p?=
+ =?utf-8?B?ZWZvazV3emFoVnA0TVhaUTJkczdCNWlIRVZkWSt5cytBSEdZTHdzZThhenR1?=
+ =?utf-8?B?OUxheDIyQUVIZmdoaDBVNFFBKzlEQm4vYkNIMm9KdnlMcTBaZlZJWEl0dnBV?=
+ =?utf-8?B?dTJIVExpNDJBS2ZibFJVeWZIVm9RbVV0bDJOc3NSbzJkYmdlZWNvdlhscU02?=
+ =?utf-8?B?aG1LSFpDR3dyZTNoelRSU0xic2lGemU5dFRaMkFsWDdrM2RTeDZyQU1lOXRF?=
+ =?utf-8?B?V2swdzhpY0wzd1JiUUs1a3poeno5QkZVdkV4WXQzNzVlcEZMcVY4cGtHajlv?=
+ =?utf-8?B?UWl3dHA2TUkrNExpYko4VFhlZXB6SDVpSW1xcFBlSVhLRnlRcWkzajFWalVz?=
+ =?utf-8?B?bTg4eVRxWTZjajhhZzZ1UmVtNHpOelN3TWRycW9hYytXNUtnaCtXRVovNXlS?=
+ =?utf-8?B?b0RtdWdkVlFVVDZ3cG8vNHl0NWk2RHNlYjUybS9KZlNZclE4a1BzSDdZN1FZ?=
+ =?utf-8?B?U01XdjVVRGJVODBRdDA2N1RpTXdZQ01EMmlldUdKaEE3dTV0Q0pGcE9UWkdZ?=
+ =?utf-8?B?NDVZcFp3QlZna3haa0p5K1g2UVlTNHlUQWE1ZGl1QkdvNzc1cjJqdVVBakZZ?=
+ =?utf-8?B?UGhOQUIwVlB2RkZWVEJWbmtMTmR0M091TWcrY3N0S21uQ2NpSDlpNTBOMWs4?=
+ =?utf-8?B?UXMybTJvNUJXZEF1ZEdHUUQvZndodXBTcWNxQTFRTnhNYllGTXBBc2w1WG5G?=
+ =?utf-8?B?aXE2NmxtL0lqNmE3cjR4YmoraEp3YnJNWG15cGJOSDcvRU14VWVacnhuRitn?=
+ =?utf-8?B?VDRJZ2RPaVowTXg4ZWcrblo4UVZHR3l1UytxNWtmOUtwN05nRHVzOHM4SHRJ?=
+ =?utf-8?B?VVNoRGpIMFFRdTlzaHhHN2lMUXlwa2RUd2tnRTY0amJxelQxMjhycFVHYzlW?=
+ =?utf-8?B?VXUwTkZydnp2R05CL3NVZ29RN2ZoRzd6MVhmSmpqbko5RExBTVlQYmY0cUR0?=
+ =?utf-8?B?Uk42OFpXVlg3bDhyeTNveitaTkk2My9sSXpFYXR4MWJDWDJuaVhhTVhIN29m?=
+ =?utf-8?B?d0xIbTVpeUxScXBCd2kvdG5Ma2hld1RaMFZJa2NueGcxeXlUbExsZ21UZ2c1?=
+ =?utf-8?Q?YZ0W+nw51SkB3OS6H/57242ptg739EVaK08xuqD?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D0DD153AB7347D4882ADAF16E383220B@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:44uOoH+ZPMBDkREQ24fRDZfnWoDYdq7Pmn8oC2iWxTUnJyLPgaL
- qzIAyklS1rNWnmf4P9ixGM9SFMU6LZhaE2eGjyKnD+DO3fYqBUbKhGfQxRvn27+XrYhDuWD
- PuQNTPXJKaiJ2Tpcha+Wq7JfYhyEDCT1g2hMPjRKBibnqrOz6ijZqd9xzC1y68wFvzEMk/B
- Yen2bDH9LqJyGqLOuJUlw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ocJtB21G5YE=:ymNwAd/gaQEDs1s7C1Hm1o
- NWLbzvCS7tq3pMLp2JKCjqVNcVZO7XNeYy0T/iA8dXAqisXVWkJlybr9pk3iIFbSndDo35yWA
- gAf6LnnPEtN2pPnN5CAvIipa48xOV/5nh/Us8fbMDiDLyIt6E6EeaaYshpFtAAqtAFezFUX5m
- KRXfjnOWeGX5DkAH+YhEm63oNA9IPj+wMs6IxaZImnhd+4XYoZfMYljp8gLdQpkXleWvF/2Le
- CLojitpjbSv49ZVB3+U+iu/yYsWQXtJ8/2k6nZ9eCEOyUzNslaYe6roWkQBVzuPAMawvnEFxK
- xAhZ9HZ4uPB8atvukoWa3nvRC07ewseF2a+7gC9gTi/Re888zzMCrZPcw9/Yi1Z9AkmGlEpCA
- fJSFLhH64dXAB+Tz2XEa3yE2vYEY9yZw0QSCi/tXl3fGQA9eQtjwVqxVBpRqvHsKojTUDiVO8
- E7JdDv5TnkUTg0F9ktqB0YaSPsl7zD3AHrx4cgp2cqruItbl8a35wvkL5WJi+Sk4YqblSjxVw
- e5vNzb4vdY4wtFSC4yKkligjJelDWAZ5k3fBTqAhXET5oXvV1xwRCBYk0ge62DznaaMsMuM0K
- QFAFD37W7gb8E94i9VlWzSQpsg5jlg/4M8eSTK+a92Rj1sfxTEo77IdClEQw9cLV7AflFwnNr
- TzttWJEFHGqKWqW5BSzIYMclZhmeOLHMzqCgjv5ecDR6uyBw3KWLlo5Xk7JPc4jXTQP5jXilK
- 96Ar0C6qIUqPurjVPkG3KHeICXeFdJ3PN1RXuUQdxDjTe4JkFzgIkhoB++r9ySdyi5lNnUxhO
- YUMStKPRUUH/E076UPkBL03Sz76uUA2miTRZnPMh7m6oVhr+x0MfAdxSu3QPh+dlqPvG14oFi
- 9+SaQK9UeJw+9x58nX7g==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB4855.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2570b18c-fc4c-4904-e904-08d8d6a4c417
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Feb 2021 20:10:42.4672
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: c9IjmLNCJmKqPkO7dG70BENEi4FRVkXJ32IORKoaQVMPWiZ56xg2gzGCKMIYlkLlfu/et9+6KkS5ePxO8UIccO+fuUvZMWGHsNVC/U2vehY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4838
+X-OriginatorOrg: intel.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add some info detailing what is the Brute LSM, its motivation, weak
-points of existing implementations, proposed solutions, enabling,
-disabling and self-tests.
-
-Signed-off-by: John Wood <john.wood@gmx.com>
-=2D--
- Documentation/admin-guide/LSM/Brute.rst | 224 ++++++++++++++++++++++++
- Documentation/admin-guide/LSM/index.rst |   1 +
- security/brute/Kconfig                  |   3 +-
- 3 files changed, 227 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/admin-guide/LSM/Brute.rst
-
-diff --git a/Documentation/admin-guide/LSM/Brute.rst b/Documentation/admin=
--guide/LSM/Brute.rst
-new file mode 100644
-index 000000000000..485966a610bb
-=2D-- /dev/null
-+++ b/Documentation/admin-guide/LSM/Brute.rst
-@@ -0,0 +1,224 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+Brute: Fork brute force attack detection and mitigation LSM
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Attacks against vulnerable userspace applications with the purpose to bre=
-ak ASLR
-+or bypass canaries traditionally use some level of brute force with the h=
-elp of
-+the fork system call. This is possible since when creating a new process =
-using
-+fork its memory contents are the same as those of the parent process (the
-+process that called the fork system call). So, the attacker can test the =
-memory
-+infinite times to find the correct memory values or the correct memory ad=
-dresses
-+without worrying about crashing the application.
-+
-+Based on the above scenario it would be nice to have this detected and
-+mitigated, and this is the goal of this implementation. Specifically the
-+following attacks are expected to be detected:
-+
-+1.- Launching (fork()/exec()) a setuid/setgid process repeatedly until a
-+    desirable memory layout is got (e.g. Stack Clash).
-+2.- Connecting to an exec()ing network daemon (e.g. xinetd) repeatedly un=
-til a
-+    desirable memory layout is got (e.g. what CTFs do for simple network
-+    service).
-+3.- Launching processes without exec() (e.g. Android Zygote) and exposing=
- state
-+    to attack a sibling.
-+4.- Connecting to a fork()ing network daemon (e.g. apache) repeatedly unt=
-il the
-+    previously shared memory layout of all the other children is exposed =
-(e.g.
-+    kind of related to HeartBleed).
-+
-+In each case, a privilege boundary has been crossed:
-+
-+Case 1: setuid/setgid process
-+Case 2: network to local
-+Case 3: privilege changes
-+Case 4: network to local
-+
-+So, what really needs to be detected are fork/exec brute force attacks th=
-at
-+cross any of the commented bounds.
-+
-+
-+Other implementations
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+The public version of grsecurity, as a summary, is based on the idea of d=
-elaying
-+the fork system call if a child died due to some fatal signal (SIGSEGV, S=
-IGBUS,
-+SIGKILL or SIGILL). This has some issues:
-+
-+Bad practices
-+-------------
-+
-+Adding delays to the kernel is, in general, a bad idea.
-+
-+Scenarios not detected (false negatives)
-+----------------------------------------
-+
-+This protection acts only when the fork system call is called after a chi=
-ld has
-+crashed. So, it would still be possible for an attacker to fork a big amo=
-unt of
-+children (in the order of thousands), then probe all of them, and finally=
- wait
-+the protection time before repeating the steps.
-+
-+Moreover, this method is based on the idea that the protection doesn't ac=
-t if
-+the parent crashes. So, it would still be possible for an attacker to for=
-k a
-+process and probe itself. Then, fork the child process and probe itself a=
-gain.
-+This way, these steps can be repeated infinite times without any mitigati=
-on.
-+
-+Scenarios detected (false positives)
-+------------------------------------
-+
-+Scenarios where an application rarely fails for reasons unrelated to a re=
-al
-+attack.
-+
-+
-+This implementation
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+The main idea behind this implementation is to improve the existing ones
-+focusing on the weak points annotated before. Basically, the adopted solu=
-tion is
-+to detect a fast crash rate instead of only one simple crash and to detec=
-t both
-+the crash of parent and child processes. Also, fine tune the detection fo=
-cusing
-+on privilege boundary crossing. And finally, as a mitigation method, kill=
- all
-+the offending tasks involved in the attack instead of using delays.
-+
-+To achieve this goal, and going into more details, this implementation is=
- based
-+on the use of some statistical data shared across all the processes that =
-can
-+have the same memory contents. Or in other words, a statistical data shar=
-ed
-+between all the fork hierarchy processes after an execve system call.
-+
-+The purpose of these statistics is, basically, collect all the necessary =
-info
-+to compute the application crash period in order to detect an attack. Thi=
-s crash
-+period is the time between the execve system call and the first fault or =
-the
-+time between two consecutive faults, but this has a drawback. If an appli=
-cation
-+crashes twice in a short period of time for some reason unrelated to a re=
-al
-+attack, a false positive will be triggered. To avoid this scenario the
-+exponential moving average (EMA) is used. This way, the application crash=
- period
-+will be a value that is not prone to change due to spurious data and foll=
-ows the
-+real crash period.
-+
-+To detect a brute force attack it is necessary that the statistics shared=
- by all
-+the fork hierarchy processes be updated in every fatal crash and the most
-+important data to update is the application crash period.
-+
-+There are two types of brute force attacks that need to be detected. The =
-first
-+one is an attack that happens through the fork system call and the second=
- one is
-+an attack that happens through the execve system call. The first type use=
-s the
-+statistics shared by all the fork hierarchy processes, but the second typ=
-e
-+cannot use this statistical data due to these statistics dissapear when t=
-he
-+involved tasks finished. In this last scenario the attack info should be =
-tracked
-+by the statistics of a higher fork hierarchy (the hierarchy that contains=
- the
-+process that forks before the execve system call).
-+
-+Moreover, these two attack types have two variants. A slow brute force at=
-tack
-+that is detected if a maximum number of faults per fork hierarchy is reac=
-hed and
-+a fast brute force attack that is detected if the application crash perio=
-d falls
-+below a certain threshold.
-+
-+Exponential moving average (EMA)
-+--------------------------------
-+
-+This kind of average defines a weight (between 0 and 1) for the new value=
- to add
-+and applies the remainder of the weight to the current average value. Thi=
-s way,
-+some spurious data will not excessively modify the average and only if th=
-e new
-+values are persistent, the moving average will tend towards them.
-+
-+Mathematically the application crash period's EMA can be expressed as fol=
-lows:
-+
-+period_ema =3D period * weight + period_ema * (1 - weight)
-+
-+Related to the attack detection, the EMA must guarantee that not many cra=
-shes
-+are needed. To demonstrate this, the scenario where an application has be=
-en
-+running without any crashes for a month will be used.
-+
-+The period's EMA can be written now as:
-+
-+period_ema[i] =3D period[i] * weight + period_ema[i - 1] * (1 - weight)
-+
-+If the new crash periods have insignificant values related to the first c=
-rash
-+period (a month in this case), the formula can be rewritten as:
-+
-+period_ema[i] =3D period_ema[i - 1] * (1 - weight)
-+
-+And by extension:
-+
-+period_ema[i - 1] =3D period_ema[i - 2] * (1 - weight)
-+period_ema[i - 2] =3D period_ema[i - 3] * (1 - weight)
-+period_ema[i - 3] =3D period_ema[i - 4] * (1 - weight)
-+
-+So, if the substitution is made:
-+
-+period_ema[i] =3D period_ema[i - 1] * (1 - weight)
-+period_ema[i] =3D period_ema[i - 2] * pow((1 - weight) , 2)
-+period_ema[i] =3D period_ema[i - 3] * pow((1 - weight) , 3)
-+period_ema[i] =3D period_ema[i - 4] * pow((1 - weight) , 4)
-+
-+And in a more generic form:
-+
-+period_ema[i] =3D period_ema[i - n] * pow((1 - weight) , n)
-+
-+Where n represents the number of iterations to obtain an EMA value. Or in=
- other
-+words, the number of crashes to detect an attack.
-+
-+So, if we isolate the number of crashes:
-+
-+period_ema[i] / period_ema[i - n] =3D pow((1 - weight), n)
-+log(period_ema[i] / period_ema[i - n]) =3D log(pow((1 - weight), n))
-+log(period_ema[i] / period_ema[i - n]) =3D n * log(1 - weight)
-+n =3D log(period_ema[i] / period_ema[i - n]) / log(1 - weight)
-+
-+Then, in the commented scenario (an application has been running without =
-any
-+crashes for a month), the approximate number of crashes to detect an atta=
-ck
-+(using the implementation values for the weight and the crash period thre=
-shold)
-+is:
-+
-+weight =3D 7 / 10
-+crash_period_threshold =3D 30 seconds
-+
-+n =3D log(crash_period_threshold / seconds_per_month) / log(1 - weight)
-+n =3D log(30 / (30 * 24 * 3600)) / log(1 - 0.7)
-+n =3D 9.44
-+
-+So, with 10 crashes for this scenario an attack will be detected. If thes=
-e steps
-+are repeated for different scenarios and the results are collected:
-+
-+1 month without any crashes ----> 9.44 crashes to detect an attack
-+1 year without any crashes -----> 11.50 crashes to detect an attack
-+10 years without any crashes ---> 13.42 crashes to detect an attack
-+
-+However, this computation has a drawback. The first data added to the EMA=
- not
-+obtains a real average showing a trend. So the solution is simple, the EM=
-A needs
-+a minimum number of data to be able to be interpreted. This way, the case=
- where
-+a few first faults are fast enough followed by no crashes is avoided.
-+
-+Per system enabling/disabling
-+-----------------------------
-+
-+This feature can be enabled at build time using the CONFIG_SECURITY_FORK_=
-BRUTE
-+option or using the visual config application under the following menu:
-+
-+Security options  --->  Fork brute force attack detection and mitigation
-+
-+Also, at boot time, this feature can be disable too, by changing the "lsm=
-=3D" boot
-+parameter.
-+
-+Kernel selftests
-+----------------
-+
-+To validate all the expectations about this implementation, there is a se=
-t of
-+selftests. This tests cover fork/exec brute force attacks crossing the fo=
-llowing
-+privilege boundaries:
-+
-+1.- setuid process
-+2.- privilege changes
-+3.- network to local
-+
-+Also, there are some tests to check that fork/exec brute force attacks wi=
-thout
-+crossing any privilege boundariy already commented doesn't trigger the de=
-tection
-+and mitigation stage.
-+
-+To build the tests:
-+make -C tools/testing/selftests/ TARGETS=3Dbrute
-+
-+To run the tests:
-+make -C tools/testing/selftests TARGETS=3Dbrute run_tests
-+
-+To package the tests:
-+make -C tools/testing/selftests TARGETS=3Dbrute gen_tar
-diff --git a/Documentation/admin-guide/LSM/index.rst b/Documentation/admin=
--guide/LSM/index.rst
-index a6ba95fbaa9f..1f68982bb330 100644
-=2D-- a/Documentation/admin-guide/LSM/index.rst
-+++ b/Documentation/admin-guide/LSM/index.rst
-@@ -41,6 +41,7 @@ subdirectories.
-    :maxdepth: 1
-
-    apparmor
-+   Brute
-    LoadPin
-    SELinux
-    Smack
-diff --git a/security/brute/Kconfig b/security/brute/Kconfig
-index 1bd2df1e2dec..334d7e88d27f 100644
-=2D-- a/security/brute/Kconfig
-+++ b/security/brute/Kconfig
-@@ -7,6 +7,7 @@ config SECURITY_FORK_BRUTE
- 	  vulnerable userspace processes. The detection method is based on
- 	  the application crash period and as a mitigation procedure all the
- 	  offending tasks are killed. Like capabilities, this security module
--	  stacks with other LSMs.
-+	  stacks with other LSMs. Further information can be found in
-+	  Documentation/admin-guide/LSM/Brute.rst.
-
- 	  If you are unsure how to answer this question, answer N.
-=2D-
-2.25.1
-
+T24gRmViIDIxLCAyMDIxLCBhdCAxMTozMCwgUmFuZHkgRHVubGFwIDxyZHVubGFwQGluZnJhZGVh
+ZC5vcmc+IHdyb3RlOg0KPiBDYW4gd2UgdGVsbCBwZW9wbGUgKGluIHRoaXMgRG9jIGZpbGUpIHdo
+ZXJlIHRvIGxvb2sgdXAgdGhlIHZhbHVlcyB0aGF0IGNhbiBiZQ0KPiB1c2VkIGluIHhzdGF0ZS5l
+bmFibGUgYW5kIHhzdGF0ZS5kaXNhYmxlPw0KDQpQZXJoYXBzIGFkZCBzb21ldGhpbmcgbGlrZSB0
+aGlzIHdpdGggdGhlIGNoYW5nZSBiZWxvdzoNCiAgICDigJxTZWUgY29tbWVudCBiZWZvcmUgZnVu
+Y3Rpb24gZnB1X19pbml0X3BhcnNlX2Vhcmx5X3BhcmFtKCkgaW4NCiAgICAgYXJjaC94ODYva2Vy
+bmVsL2ZwdS9pbml0LmMuIg0KDQovKg0KICogVGhlIGtlcm5lbCBwYXJhbWV0ZXIgInhzdGF0ZS5l
+bmFibGU9J21hc2snIiBhbmQgInhzdGF0ZS5kaXNhYmxlPSdtYXNrJyIgaGF2ZSBhDQogKiBtYXNr
+IHZhbHVlIGluIGEgc3Vic2V0IG9mIFhGRUFUVVJFX01BU0tfQ09ORklHVVJBQkxFLg0KICoNCiAq
+IFRoZSBsb25nZXN0IHBhcmFtZXRlciBpcyAyMiBvY3RhbCBudW1iZXIgY2hhcmFjdGVycyB3aXRo
+ICcwJyBwcmVmaXggYW5kIGFuIGV4dHJhDQogKiAnXDAnIGZvciB0ZXJtaW5hdGlvbi4NCiAqLw0K
+I2RlZmluZSBNQVhfWFNUQVRFX01BU0tfQ0hBUlMgICAyNA0KDQovKioNCiAqIGZwdV9faW5pdF9w
+YXJzZV9lYXJseV9wYXJhbSgpIC0gcGFyc2UgdGhlIHhzdGF0ZSBrZXJuZWwgcGFyYW1ldGVycw0K
+ICoNCiAqIFBhcnNlIHRoZW0gZWFybHkgYmVjYXVzZSBmcHVfX2luaXRfc3lzdGVtKCkgaXMgZXhl
+Y3V0ZWQgYmVmb3JlDQogKiBwYXJzZV9lYXJseV9wYXJhbSgpLg0KICovDQpzdGF0aWMgdm9pZCBf
+X2luaXQgZnB1X19pbml0X3BhcnNlX2Vhcmx5X3BhcmFtKHZvaWQpDQoNClRoYW5rcywNCkNoYW5n
+DQoNCg==
