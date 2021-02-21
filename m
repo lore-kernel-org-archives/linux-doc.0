@@ -2,104 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DC7EC433DB
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 20:38:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4633C433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 21:42:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF98F64E86
-	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 20:38:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9185560295
+	for <linux-doc@archiver.kernel.org>; Sun, 21 Feb 2021 21:42:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231313AbhBUUih (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 Feb 2021 15:38:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56270 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230280AbhBUUih (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Feb 2021 15:38:37 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95EDEC061574;
-        Sun, 21 Feb 2021 12:37:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=TodMQhTq+cGVVOCaD81EhvMNZtfQt3L+a/bV5YenmcA=; b=iErmknlTcb1M7IRQXgT7TBPyaO
-        HSbSyds3TPXzWMgvu9MopiUz5HPxmmbw2d7UvJrSOLBQOzz9pEQNYJdtyaJuX1MbfBd5u059mn9k9
-        MdupbdNr4jSeVlQD7kVqELaqVmduU8KegPUIxqtNWZb6qoLD6z+pcMl6MUvlYwrgremIlMMocf4JW
-        jVKX2d8seEIwUUcCAicqDqUEeJ84rpZ6lBOzwUa5BlDU8rs25zkak0hm7cW8Y7Xj+RKliYz+lAvXw
-        tgZXyzTEuX5BGYG8BzqFLdLoLpGuSE65A0PRAvOMK2GIV4Fat8WWpCr8DNCnFibrqmYOQUa3XRgNP
-        lCo8DIeA==;
-Received: from [2601:1c0:6280:3f0::d05b]
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1lDvUH-0000HV-J4; Sun, 21 Feb 2021 20:37:53 +0000
-Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to
- control state component support
-To:     "Bae, Chang Seok" <chang.seok.bae@intel.com>
-Cc:     Borislav Petkov <bp@suse.de>, "luto@kernel.org" <luto@kernel.org>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "mingo@kernel.org" <mingo@kernel.org>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "Brown, Len" <len.brown@intel.com>,
-        "Hansen, Dave" <dave.hansen@intel.com>,
-        "Liu, Jing2" <jing2.liu@intel.com>,
-        "Shankar, Ravi V" <ravi.v.shankar@intel.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20210221185637.19281-1-chang.seok.bae@intel.com>
- <20210221185637.19281-23-chang.seok.bae@intel.com>
- <cb6151cf-8f71-2275-c757-098d163f87ff@infradead.org>
- <4862AEE9-1819-43A7-BF95-C02DB6E2D06D@intel.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <40a65a30-ce41-6a51-50f4-34a0b0b1ef6f@infradead.org>
-Date:   Sun, 21 Feb 2021 12:37:46 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S230389AbhBUVmU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 21 Feb 2021 16:42:20 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:12197 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230174AbhBUVmU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Feb 2021 16:42:20 -0500
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DkJcV6GNdzlNC8;
+        Mon, 22 Feb 2021 05:39:38 +0800 (CST)
+Received: from SWX921481.china.huawei.com (10.126.202.172) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 22 Feb 2021 05:41:27 +0800
+From:   Barry Song <song.bao.hua@hisilicon.com>
+To:     <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <jan.kiszka@siemens.com>, <kbingham@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linuxarm@openeuler.org>,
+        Barry Song <song.bao.hua@hisilicon.com>
+Subject: [PATCH] scripts/gdb: document lx_current is only supported by x86
+Date:   Mon, 22 Feb 2021 10:35:27 +1300
+Message-ID: <20210221213527.22076-1-song.bao.hua@hisilicon.com>
+X-Mailer: git-send-email 2.21.0.windows.1
 MIME-Version: 1.0
-In-Reply-To: <4862AEE9-1819-43A7-BF95-C02DB6E2D06D@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.126.202.172]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/21/21 12:10 PM, Bae, Chang Seok wrote:
-> On Feb 21, 2021, at 11:30, Randy Dunlap <rdunlap@infradead.org> wrote:
->> Can we tell people (in this Doc file) where to look up the values that can be
->> used in xstate.enable and xstate.disable?
-> 
-> Perhaps add something like this with the change below:
->     “See comment before function fpu__init_parse_early_param() in
->      arch/x86/kernel/fpu/init.c."
+lx_current depends on the per_cpu current_task which exists on x86 only:
 
-Hi,
+arch$ git grep current_task | grep -i per_cpu
+x86/include/asm/current.h:DECLARE_PER_CPU(struct task_struct *, current_task);
+x86/kernel/cpu/common.c:DEFINE_PER_CPU(struct task_struct *, current_task) ____cacheline_aligned =
+x86/kernel/cpu/common.c:EXPORT_PER_CPU_SYMBOL(current_task);
+x86/kernel/cpu/common.c:DEFINE_PER_CPU(struct task_struct *, current_task) = &init_task;
+x86/kernel/cpu/common.c:EXPORT_PER_CPU_SYMBOL(current_task);
+x86/kernel/smpboot.c:	per_cpu(current_task, cpu) = idle;
 
-I was thinking more along the lines of where can I find the value
-0x60000 or BIT(22) or BIT(19), for example and see what they mean,
-even though it will likely be some abbreviation.
+On other architectures, lx_current() will lead to a python exception:
+(gdb) p $lx_current().pid
+Python Exception <class 'gdb.error'> No symbol "current_task" in current context.:
+Error occurred in Python: No symbol "current_task" in current context.
 
+To avoid more people struggling and wasting time in other architectures,
+document it.
 
-> /*
->  * The kernel parameter "xstate.enable='mask'" and "xstate.disable='mask'" have a
->  * mask value in a subset of XFEATURE_MASK_CONFIGURABLE.
->  *
->  * The longest parameter is 22 octal number characters with '0' prefix and an extra
->  * '\0' for termination.
->  */
-> #define MAX_XSTATE_MASK_CHARS   24
-> 
-> /**
->  * fpu__init_parse_early_param() - parse the xstate kernel parameters
->  *
->  * Parse them early because fpu__init_system() is executed before
->  * parse_early_param().
->  */
-> static void __init fpu__init_parse_early_param(void)
+Cc: Jan Kiszka <jan.kiszka@siemens.com>
+Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+---
+ Documentation/dev-tools/gdb-kernel-debugging.rst |  2 +-
+ scripts/gdb/linux/cpus.py                        | 10 ++++++++--
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-thanks.
+diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/dev-tools/gdb-kernel-debugging.rst
+index 4756f6b3a04e..1586901b683c 100644
+--- a/Documentation/dev-tools/gdb-kernel-debugging.rst
++++ b/Documentation/dev-tools/gdb-kernel-debugging.rst
+@@ -114,7 +114,7 @@ Examples of using the Linux-provided gdb helpers
+     [     0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+     ....
+ 
+-- Examine fields of the current task struct::
++- Examine fields of the current task struct(supported by x86 only)::
+ 
+     (gdb) p $lx_current().pid
+     $1 = 4998
+diff --git a/scripts/gdb/linux/cpus.py b/scripts/gdb/linux/cpus.py
+index 008e62f3190d..f382762509d3 100644
+--- a/scripts/gdb/linux/cpus.py
++++ b/scripts/gdb/linux/cpus.py
+@@ -156,6 +156,13 @@ Note that VAR has to be quoted as string."""
+ 
+ PerCpu()
+ 
++def get_current_task(cpu):
++    if utils.is_target_arch("x86"):
++         var_ptr = gdb.parse_and_eval("&current_task")
++         return per_cpu(var_ptr, cpu).dereference()
++    else:
++        raise gdb.GdbError("Sorry, obtaining the current task is not yet "
++                           "supported with this arch")
+ 
+ class LxCurrentFunc(gdb.Function):
+     """Return current task.
+@@ -167,8 +174,7 @@ number. If CPU is omitted, the CPU of the current context is used."""
+         super(LxCurrentFunc, self).__init__("lx_current")
+ 
+     def invoke(self, cpu=-1):
+-        var_ptr = gdb.parse_and_eval("&current_task")
+-        return per_cpu(var_ptr, cpu).dereference()
++        return get_current_task(cpu)
+ 
+ 
+ LxCurrentFunc()
 -- 
-~Randy
+2.25.1
 
