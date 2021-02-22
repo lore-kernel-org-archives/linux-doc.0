@@ -2,76 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67AB7C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 09:53:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B950BC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 10:32:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1468264EB4
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 09:53:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7633164E12
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 10:32:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230270AbhBVJxv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 04:53:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51858 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230044AbhBVJxu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Feb 2021 04:53:50 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5CA8864E2F;
-        Mon, 22 Feb 2021 09:53:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1613987588;
-        bh=BBG3yknKL0hoGSOg1hNme7zrwWCbVtcVbJuDn0H9qRo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2va3FjJtSZQupCjTYVzMxAyUZVVUbxhp9YPh7MLb2J8qpkpWPJQkQsuAXiQgnH5CW
-         Y5PLKhfUqtCh3HifYAoGZ5ytxKRb7Wch2FiOaymmYibhqwjnJQjGZyPk4u2oZHrHeP
-         QivH9UJCqqPRIVf9GwsBgmnDCZ9JQ/cBjnUJGlW4=
-Date:   Mon, 22 Feb 2021 10:53:06 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Adrian Catangiu <acatan@amazon.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        qemu-devel@nongnu.org, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, graf@amazon.com, rdunlap@infradead.org,
-        arnd@arndb.de, ebiederm@xmission.com, rppt@kernel.org,
-        0x7f454c46@gmail.com, borntraeger@de.ibm.com, Jason@zx2c4.com,
-        jannh@google.com, w@1wt.eu, colmmacc@amazon.com, luto@kernel.org,
-        tytso@mit.edu, ebiggers@kernel.org, dwmw@amazon.co.uk,
-        bonzini@gnu.org, sblbir@amazon.com, raduweis@amazon.com,
-        corbet@lwn.net, mst@redhat.com, mhocko@kernel.org,
-        rafael@kernel.org, pavel@ucw.cz, mpe@ellerman.id.au,
-        areber@redhat.com, ovzxemul@gmail.com, avagin@gmail.com,
-        ptikhomirov@virtuozzo.com, gil@azul.com, asmehra@redhat.com,
-        dgunigun@redhat.com, vijaysun@ca.ibm.com, oridgar@gmail.com,
-        ghammer@redhat.com
-Subject: Re: [PATCH v6 1/2] drivers/misc: sysgenid: add system generation id
- driver
-Message-ID: <YDN/AvsplZ7R8OTR@kroah.com>
-References: <1613986886-29493-1-git-send-email-acatan@amazon.com>
- <1613986886-29493-2-git-send-email-acatan@amazon.com>
+        id S230264AbhBVKca (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 05:32:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36250 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230211AbhBVKc3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 05:32:29 -0500
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62BDCC06174A
+        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 02:31:49 -0800 (PST)
+Received: by mail-pj1-x102e.google.com with SMTP id gm18so3404357pjb.1
+        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 02:31:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8UWh8jduGRGu0Lvsdl9eBlyqHKjBe0P0nAH4NaZ9DMc=;
+        b=CJhQTg5ewgzZcnE2MhOHrzTbe0C5iEgOrytZGTuvGqjQI+Uw34/pbKAhYfv55ZbEQ+
+         3k1GnYlHjK3NlkzleMwne0BnkjHisb1fCE5MYMfn2irYh+FIKK5ZeBhC1r/gr4ou+UsQ
+         9C2upnSbHxCxznvPzFE1kIpgGUj7irS2BkklgdS3tSc5tHC4pXnPdWSCPGnbaaJGIjZk
+         z/n8oOfCDpuoEI15EjK00iptRmFy5EsufKXUlVyopdACbYxxWNCbmWSqyS0QQZL39Rj/
+         K04D7A6saCRLnu+QLw3fVe/ammJfGSl6OwbFU82JpozB+uMI0V6xEqmTjXu8gGmgwe8c
+         P3wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8UWh8jduGRGu0Lvsdl9eBlyqHKjBe0P0nAH4NaZ9DMc=;
+        b=rNRgYxn+q2h/vQPH+b9QXNo5xGOh1FVM0mnrFq6z5a3/ZkD+r/IzoDGX5N5vl7YVcx
+         8XT8H+zS4BzgS5iKRZkv37MFi1cNKReD5udP6d2Ub4DVBNmVhAL2YVX88QICgPIjlXRY
+         XEj62kdti68GrvA5Exrvze9WCXTn1pbeBahIObFLnMcw0MkMEtuIftFLMb/GA4yD3895
+         j9AyEESNtx4Od6JnFZhPDOg3F+CGXk8EPMotrDPT6Zdx1eiBadh2xOMAOIKm6eLwrNNy
+         1dZf/NVeMmFNHnm5KwjTZFxBY1fRlTyfO+yDwahkw2+RlQ5CVj7wn3ZgDfCtNMsnwVHr
+         YaYQ==
+X-Gm-Message-State: AOAM531cFZX2seTEeirIhBrsrUyIj6EzUt5OPwbPAN1v3OF652mS3av/
+        47eQ4rwIksG/jDzfgGof7C0RLv/AmJYQMplRPqT4Hg==
+X-Google-Smtp-Source: ABdhPJxeUlmz8zPz9b/j2QjskVoGdhyZlrSI7oyLSmQ0kLy48DqKvUv7uDS1x5dDFWskiPN5ixGvTOLh0b8L9NlGn5M=
+X-Received: by 2002:a17:90a:f18d:: with SMTP id bv13mr1625214pjb.13.1613989908932;
+ Mon, 22 Feb 2021 02:31:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1613986886-29493-2-git-send-email-acatan@amazon.com>
+References: <20210219104954.67390-1-songmuchun@bytedance.com>
+ <20210219104954.67390-5-songmuchun@bytedance.com> <YC/HRTq1MRaDWn7O@dhcp22.suse.cz>
+ <CAMZfGtW-j=WizTckEWZNB2OSPkz662Vjr79Fb0he9tMD+bnT3Q@mail.gmail.com> <YDN4hhhINcn69CeV@dhcp22.suse.cz>
+In-Reply-To: <YDN4hhhINcn69CeV@dhcp22.suse.cz>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Mon, 22 Feb 2021 18:31:12 +0800
+Message-ID: <CAMZfGtWt3uYcCv5htRkOncJnh=4eiGXzpKsV7-Gj40m-BXcUrw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap
+ pages associated with each HugeTLB page
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 22, 2021 at 11:41:25AM +0200, Adrian Catangiu wrote:
-> The driver also generates a `SYSGENID=%u` uevent containing the new
-> system generation counter/id value every time it changes. Unlike the
-> filesystem interface, the uevent has no synchronization guarantees
-> therefore it should not be used by any sensitive system components.
+On Mon, Feb 22, 2021 at 5:25 PM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Sat 20-02-21 12:20:36, Muchun Song wrote:
+> > On Fri, Feb 19, 2021 at 10:12 PM Michal Hocko <mhocko@suse.com> wrote:
+> [...]
+> > > What about hugetlb page poisoning on HW failure (resp. soft offlining)?
+> >
+> > If the HW poisoned hugetlb page failed to be dissolved, the page
+> > will go back to the free list with PG_HWPoison set. But the page
+> > will not be used, because we will check whether the page is HW
+> > poisoned when it is dequeued from the free list. If so, we will skip
+> > this page.
+>
+> Can this lead to an under provisioned pool then? Or is there a new
+> hugetlb allocated to replace the poisoned one?
 
-No, please no.  It is not ok to start sending random uevents all the
-time to userspace for individual drivers like this.  Especially for a
-misc device.
+Actually, no page will be allocated. Your concern is right. But without
+this patch, the result does not change. e.g. The HW poisoned page
+can fail to be dissolved when h->free_huge_pages is equal to
+h->resv_huge_pages. But no one seems to have reported this issue so
+far. Maybe this behavior needs improvement in the feature.
 
-As you say "has no synchromization guarantees", then why use it at all?
-
-Please drop it.
-
-thanks,
-
-greg k-h
+>
+> --
+> Michal Hocko
+> SUSE Labs
