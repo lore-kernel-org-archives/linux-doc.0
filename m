@@ -2,76 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F948C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 11:00:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45C7DC433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 11:07:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7C6764E3F
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 11:00:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 028E964E5C
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 11:07:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230131AbhBVLAq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 06:00:46 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34444 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230211AbhBVLAj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Feb 2021 06:00:39 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9226C64E3F;
-        Mon, 22 Feb 2021 10:59:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1613991599;
-        bh=DS6RXMGaxoqu6/MMmgkarIZRU3g0QdBsNAYVTDAcCJE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NytykporKIyVErVx1qYP8i/9pmmjPsp+vznWXECMJ7UP4MbQeRpJSNw59kGFaXyMk
-         i9qefnYaxGZTF0NAWSfL2wc3UtuIf6W2cd/hHg0GRTVS3CAVz6YR64wNcwGnVPOaFy
-         P3059WYIkN1UOCHBSe3TkknPIeonZ81opm4Z1UtKguPEm58ljIzlp58YgRJ7i5yNlG
-         lTUdP6TY10liaAGPDDudHeBFV4RiVkAG8RVzZNpkkQoi5QTyTNOwIO8t6rqnpxrdwx
-         9Xp5sCFBhcSWyrvHHRkib9OhUaT4/7yd4O6UvMPhPGXYjX9tgKqWGMHK4XXDmxSAmK
-         aQQehILAHbOmQ==
-Date:   Mon, 22 Feb 2021 11:59:53 +0100
-From:   Robert Richter <rric@kernel.org>
-To:     Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-Cc:     Dejin Zheng <zhengdejin5@gmail.com>, corbet@lwn.net,
-        jarkko.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
-        mika.westerberg@linux.intel.com, helgaas@kernel.org,
-        wsa@kernel.org, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] PCI: Introduce pcim_alloc_irq_vectors()
-Message-ID: <YDOOqX1zS1SzEhWR@rric.localdomain>
-References: <20210218150458.798347-1-zhengdejin5@gmail.com>
- <20210218150458.798347-2-zhengdejin5@gmail.com>
- <YC/NxfsQn2RKkrp8@rric.localdomain>
- <YC/PoOOgRVHa1HIH@rric.localdomain>
- <YC/kNnkusVHg8S0H@rocinante>
+        id S230318AbhBVLHA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 06:07:00 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:59274 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230315AbhBVLG6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 06:06:58 -0500
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8243D344;
+        Mon, 22 Feb 2021 12:06:09 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1613991969;
+        bh=G5i5yHdBw/r30i6OGm9771V2dodofqqfJfxOb5Hwa14=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=tFrSXmDqqFWkH+SDCXFObMcmF61c0dMXVYOosxIgJ+9aWcRkU6CmG4IujQ7Y0p9RO
+         mGG6R1v/u8CBZU/o7bkPNrTdUskI1HPXXJiAvwLR6b4hyGCCmhW0Jz0F2I24dVlA1D
+         pm5RpPfiXB+5iaoCrI+b5DCca7BJMrzo5M0+xFjg=
+Reply-To: kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH] scripts/gdb: document lx_current is only supported by x86
+To:     Barry Song <song.bao.hua@hisilicon.com>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, jan.kiszka@siemens.com
+Cc:     linux-kernel@vger.kernel.org, linuxarm@openeuler.org
+References: <20210221213527.22076-1-song.bao.hua@hisilicon.com>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ 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
+ WZw01QYHU/GUV/zHJSFk
+Organization: Ideas on Board
+Message-ID: <eac66671-f083-379a-c7b0-04b783e32d63@ideasonboard.com>
+Date:   Mon, 22 Feb 2021 11:06:06 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210221213527.22076-1-song.bao.hua@hisilicon.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YC/kNnkusVHg8S0H@rocinante>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 19.02.21 17:15:50, Krzysztof Wilczyński wrote:
-> Hi Robert,
+Hi Barry
+
+On 21/02/2021 21:35, Barry Song wrote:
+> lx_current depends on the per_cpu current_task which exists on x86 only:
 > 
-> [...]
-> > Obiously this is meant here:
-> > 
-> > 	if (!pci_is_managed(dev))
-> [...]
+> arch$ git grep current_task | grep -i per_cpu
+> x86/include/asm/current.h:DECLARE_PER_CPU(struct task_struct *, current_task);
+> x86/kernel/cpu/common.c:DEFINE_PER_CPU(struct task_struct *, current_task) ____cacheline_aligned =
+> x86/kernel/cpu/common.c:EXPORT_PER_CPU_SYMBOL(current_task);
+> x86/kernel/cpu/common.c:DEFINE_PER_CPU(struct task_struct *, current_task) = &init_task;
+> x86/kernel/cpu/common.c:EXPORT_PER_CPU_SYMBOL(current_task);
+> x86/kernel/smpboot.c:	per_cpu(current_task, cpu) = idle;
 > 
-> A question to improve my understanding for future reference.  Was the
-> previous approach of checking for "enabled" flag from struct pci_devres
-> was not a good choice here?
+> On other architectures, lx_current() will lead to a python exception:
+> (gdb) p $lx_current().pid
+> Python Exception <class 'gdb.error'> No symbol "current_task" in current context.:
+> Error occurred in Python: No symbol "current_task" in current context.
+> 
+> To avoid more people struggling and wasting time in other architectures,
+> document it.
+> 
+> Cc: Jan Kiszka <jan.kiszka@siemens.com>
+> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+> ---
+>  Documentation/dev-tools/gdb-kernel-debugging.rst |  2 +-
+>  scripts/gdb/linux/cpus.py                        | 10 ++++++++--
+>  2 files changed, 9 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/dev-tools/gdb-kernel-debugging.rst
+> index 4756f6b3a04e..1586901b683c 100644
+> --- a/Documentation/dev-tools/gdb-kernel-debugging.rst
+> +++ b/Documentation/dev-tools/gdb-kernel-debugging.rst
+> @@ -114,7 +114,7 @@ Examples of using the Linux-provided gdb helpers
+>      [     0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+>      ....
+>  
+> -- Examine fields of the current task struct::
+> +- Examine fields of the current task struct(supported by x86 only)::
+>  
+>      (gdb) p $lx_current().pid
+>      $1 = 4998
+> diff --git a/scripts/gdb/linux/cpus.py b/scripts/gdb/linux/cpus.py
+> index 008e62f3190d..f382762509d3 100644
+> --- a/scripts/gdb/linux/cpus.py
+> +++ b/scripts/gdb/linux/cpus.py
+> @@ -156,6 +156,13 @@ Note that VAR has to be quoted as string."""
+>  
+>  PerCpu()
+>  
+> +def get_current_task(cpu):
+> +    if utils.is_target_arch("x86"):
+> +         var_ptr = gdb.parse_and_eval("&current_task")
+> +         return per_cpu(var_ptr, cpu).dereference()
+> +    else:
+> +        raise gdb.GdbError("Sorry, obtaining the current task is not yet "
+> +                           "supported with this arch")
 
-Initially this was meant to just show the idea.
+I've wondered in the past how we should handle the architecture specific
+layers.
 
-After careful review I don't see this additional check is required as
-once the pci dev is managed, it will be always released with
-pcim_release().
+Perhaps we need to have an interface of functionality to implement on
+each architecture so that we can create a per-arch set of helpers.
 
--Robert
+or break it up into arch specific subdirs at least...
+
+
+>  class LxCurrentFunc(gdb.Function):
+>      """Return current task.
+> @@ -167,8 +174,7 @@ number. If CPU is omitted, the CPU of the current context is used."""
+>          super(LxCurrentFunc, self).__init__("lx_current")
+>  
+>      def invoke(self, cpu=-1):
+> -        var_ptr = gdb.parse_and_eval("&current_task")
+> -        return per_cpu(var_ptr, cpu).dereference()
+> +        return get_current_task(cpu)
+>  
+
+And then perhaps we simply shouldn't even expose commands which can not
+be supported on those architectures?
+
+Is it easy to disable this command if it's not supportable on the
+architecture?
+
+Presumably you are working on non-x86, have you investigated adding this
+support for your architecture (arm/arm64?)?
+
+The fact you have run the command implies it would be useful for you ?
+
+
+>  LxCurrentFunc()
+> 
+
+
+-- 
+Regards
+--
+Kieran
