@@ -2,112 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12D46C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 10:52:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D611AC433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 10:57:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD98A64E57
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 10:52:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 954EB64E4B
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 10:57:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230295AbhBVKvp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 05:51:45 -0500
-Received: from mx2.suse.de ([195.135.220.15]:45744 "EHLO mx2.suse.de"
+        id S230175AbhBVK46 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 05:56:58 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33804 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230270AbhBVKvo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Feb 2021 05:51:44 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 5B719AFE1;
-        Mon, 22 Feb 2021 10:51:02 +0000 (UTC)
-Date:   Mon, 22 Feb 2021 11:50:56 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-Message-ID: <20210222105051.GA23063@linux>
-References: <20210219104954.67390-1-songmuchun@bytedance.com>
- <20210219104954.67390-5-songmuchun@bytedance.com>
- <YC/HRTq1MRaDWn7O@dhcp22.suse.cz>
- <CAMZfGtW-j=WizTckEWZNB2OSPkz662Vjr79Fb0he9tMD+bnT3Q@mail.gmail.com>
- <YDN4hhhINcn69CeV@dhcp22.suse.cz>
- <CAMZfGtWt3uYcCv5htRkOncJnh=4eiGXzpKsV7-Gj40m-BXcUrw@mail.gmail.com>
+        id S230155AbhBVK4z (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Feb 2021 05:56:55 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 45FD164E04;
+        Mon, 22 Feb 2021 10:56:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1613991374;
+        bh=uSVdmI9SQTwSZXaLlJZF+IlVbzuQCLdI9sABiZ1LT4M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hS4u2mjbYejeR+K2OGXcDXc7+9Tg8cQRwjWXVUTVlvpPKqv0vHQ9JhNYc2/ufIM2F
+         ud8EJ3IHU1zS8bBAHR+dntl+X+XG+3JVLWDSuzxN3A8+FPeWwHk4Xe7Supun1DRC1P
+         dzk8lkYNQ+HuMtTLm8v3kUJx8m7/fDoOMigi94mxIy6j6A2DY1QJL8k0hCkCrwU9wv
+         5JZ0TiPcs99Jb+9C082qvRNd8wmX6+f7+Ex2OdJ80SvCGn6S639jMTpKrv/KMWUEkG
+         1qKuK9mAI84zEQ7tzu2W7RSRd2i+LgEOqSh2E95K2WTEV9YXcGXQC6uB44KjM6juAh
+         /hVXdmED1dWkQ==
+Date:   Mon, 22 Feb 2021 11:56:08 +0100
+From:   Robert Richter <rric@kernel.org>
+To:     Dejin Zheng <zhengdejin5@gmail.com>
+Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] PCI: Introduce pcim_alloc_irq_vectors()
+Message-ID: <YDONyMSHO9FDeY69@rric.localdomain>
+References: <20210218150458.798347-1-zhengdejin5@gmail.com>
+ <20210218150458.798347-2-zhengdejin5@gmail.com>
+ <YC/NxfsQn2RKkrp8@rric.localdomain>
+ <20210219164649.GA814637@nuc8i5>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMZfGtWt3uYcCv5htRkOncJnh=4eiGXzpKsV7-Gj40m-BXcUrw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210219164649.GA814637@nuc8i5>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 22, 2021 at 06:31:12PM +0800, Muchun Song wrote:
-> On Mon, Feb 22, 2021 at 5:25 PM Michal Hocko <mhocko@suse.com> wrote:
-> >
-> > On Sat 20-02-21 12:20:36, Muchun Song wrote:
-> > > On Fri, Feb 19, 2021 at 10:12 PM Michal Hocko <mhocko@suse.com> wrote:
-> > [...]
-> > > > What about hugetlb page poisoning on HW failure (resp. soft offlining)?
-> > >
-> > > If the HW poisoned hugetlb page failed to be dissolved, the page
-> > > will go back to the free list with PG_HWPoison set. But the page
-> > > will not be used, because we will check whether the page is HW
-> > > poisoned when it is dequeued from the free list. If so, we will skip
-> > > this page.
+On 20.02.21 00:46:49, Dejin Zheng wrote:
+> > On 18.02.21 23:04:55, Dejin Zheng wrote:
 
-Not really. If the huge page is dissolved, we will take the page out of the
-the freelist. See take_page_off_buddy in memory_failure_hugetlb.
+> > > +	if (!dr || !dr->enabled)
+> here checks whether the pci device is enabled.
 
-In an ideal world, we should inspect that page in free_pages_prepare(),
-remove the HPWpoisoned page and process the others, without letting that
-page hit Buddy.
-And not only for hugetlb, but for any higher order page.
-See how memory_failure() happily disengage itself when it finds a higher
-order page.
-It does it because we have the premise that once that page hits Buddy,
-it will stay there as the check_new_page guards us.
-But this has been proofed to be quite a weak measure, as compaction does
-not performs such a check, and so the page can sneak in.
+What is the purpose of this? The device "is_managed" or not.
 
-I fixed that for soft-offline, and for memory-failure in some cases, but more
-needs to be done and is it in my TODO list.
-
-> > Can this lead to an under provisioned pool then? Or is there a new
-> > hugetlb allocated to replace the poisoned one?
-> 
-> Actually, no page will be allocated. Your concern is right. But without
-> this patch, the result does not change. e.g. The HW poisoned page
-> can fail to be dissolved when h->free_huge_pages is equal to
-> h->resv_huge_pages. But no one seems to have reported this issue so
-> far. Maybe this behavior needs improvement in the feature.
-
-Yes, something to improve.
-I shall have a look.
-
--- 
-Oscar Salvador
-SUSE L3
+-Robert
