@@ -2,143 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92148C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 17:50:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1CF2C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 18:10:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68B9C64E57
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 17:50:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CD2764D8F
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 18:10:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230379AbhBVRuT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 12:50:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45758 "EHLO
+        id S230124AbhBVSKW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 13:10:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50264 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230110AbhBVRuR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 12:50:17 -0500
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D8ACC061786;
-        Mon, 22 Feb 2021 09:49:37 -0800 (PST)
-Received: by mail-il1-x131.google.com with SMTP id z18so11571111ile.9;
-        Mon, 22 Feb 2021 09:49:37 -0800 (PST)
+        with ESMTP id S231241AbhBVSKW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 13:10:22 -0500
+Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C59C06174A
+        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 10:09:42 -0800 (PST)
+Received: by mail-io1-xd2f.google.com with SMTP id s24so14225074iob.6
+        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 10:09:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=eqp0KUt/ON1evnwg7CU4+QUDw8az+ViCzd56I6hP/Wc=;
-        b=W17mcyu+YOndPMVtSKrSjmwfrfs98z6akzj1XstFlB4wcHb5nrYJdnxodFanCSu3QQ
-         uP04tCRq7c4Nu+b1z8GiH4LGAyuCwJObCqkUeRCsGU+Hw+Pjr0mCFSpjYFFjaWeK7kiR
-         zJi088KY8ot5bLnMehAk2zCCyOmL+qgjD3uHNZ8jzuBL5Uh4EpQxO32wv6jq/R53E3ty
-         mw9s/eP0GduKhzhcHQcgswaWNPvN/f+Qb5PA5ZuDNIW/l4HMaXero8T3UsRa4Zuq/7Dg
-         cpbGQZ/66xnKT2Wbu3ZAGQ+PEN/e0bJZrN3BP+rU6Zqt2bnJbp50mUSPqKBMuSmZEklC
-         eBeA==
+        bh=+giKpRbegYYfbOyat5lyHFg99I4++GstldCObu1z82w=;
+        b=GaaRmKxeR67OQoVmLXevbUUsL9qxK17fXoTFCZ3PIEa+MXI9+9xXs7/8pwsf3YpVTv
+         tB2y/vkcDrZZpGKHyDG3XqsxEC97QJwO8ite2CqH+c9q3z1PINPHRE4nhjoqx7lM7/yd
+         S+t+5ZQrpKOZ7e3xESmEs213W11mdN+LZiej9iZufgiOXlgW3x9Gqs34YbuisGQmO2uW
+         5xbs/BgCxHFIq9O+vB3O4Uu9d4s5PxzaR52IK8Ooh8y0DWn2a7S9s9qjxG4TrxeaBfGB
+         3M5PEQvSeelfNwZOCWbo7aqgei24aQio3GY4bFQRrEv9CtQbwhpvrHsZiuYwuo1DlY3v
+         dMyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=eqp0KUt/ON1evnwg7CU4+QUDw8az+ViCzd56I6hP/Wc=;
-        b=LXgIGX9HZesmbGOaEcYcm2AL6YuDrcsoz68FcL6imxasS+6cmuATGvS/DcS7nZZpuv
-         4vlB+XCSQdsPxgHBzh9icIBeep3RyfX5jxtqFvZE1HvzphLQ409eAELhu2J2aJakVI7F
-         WLGUfdYARvEtKDl6Fwx7KqXZcGuZHlMkiQsCGPDiFwXrVXE74YRMj+DuGOuLR2zfRwki
-         km/pCguZfTIECr7B22BlMyBfelbfhBggtQk3p2jbSfTIJcr2xdzLkp5mBJKyBexl26d1
-         2KDrymlalPH7Ajgv00N/nhfzPch1SrUW8fqpnYYFoE5OGRmrdHGUKy95MUXZj6f2CZcp
-         qZDQ==
-X-Gm-Message-State: AOAM532j8DxYo7InwYIMVJpPYNgv7g3gW604sK2itG1iOC8Kng4DwPrP
-        TLcJstmlP5ACKI0vy9hV/k7Ku/xhJ7I7bkk3ApggG1b9xvo=
-X-Google-Smtp-Source: ABdhPJwUGwWSiB2iumLh8m38uhK4i36vjVoxsNoogiIB2dUxtXDyAjHGi0LAlIOPCHJivSlOoqBD3SODfTONl2rsS6E=
-X-Received: by 2002:a05:6e02:1aa8:: with SMTP id l8mr15940426ilv.251.1614016176735;
- Mon, 22 Feb 2021 09:49:36 -0800 (PST)
+        bh=+giKpRbegYYfbOyat5lyHFg99I4++GstldCObu1z82w=;
+        b=BpTQWh+O2V44K7meNWnAPWZ3g2I4TWrcLO84kThg/xgXdZaZjH5s0aiX1h0YZbaq7s
+         tCfzStyJXqrgTdctefYZfHa6dFlz9gmV18Fu/Zyr6QTyL2RlBSWAhd4EtdMTou0G6oaC
+         ElKFBdVouvqvdgtQvoXA1ZynN7vs9TkrvrSw1AThFSciwZrZWZXhjNe++Oxdfnx0VgM9
+         SjDP64fZ8OHVY5Pdpfzq+/4FvPNqu8MPYDRLanArMhwC0vOy8odhadq4oUprgFuPCv7Y
+         6F+yR/EcU2db91TmewXBlmJxtLOprMB1zHYeDAQKNaZyGKqymA25RdbGwHnjrgdBnT09
+         7mtg==
+X-Gm-Message-State: AOAM532pWhBxGNoXkiw+63InRkejDcpU9EEVc8Y0JOeGSU6JRqPo9ErM
+        AwFjCv6bAsXsO6UfN50i6REBaehm+rjRvFMldKO0yNNfFIdNdw==
+X-Google-Smtp-Source: ABdhPJwu/x3We4/pQ4Y4FXmVZq+ZxyPHRck/C5c6TTZLxn+mTRU0uSshu5w3Vt5KSr+xiwXgT883A/jM2ipmN0cmvYk=
+X-Received: by 2002:a05:6602:314b:: with SMTP id m11mr2852611ioy.158.1614017381531;
+ Mon, 22 Feb 2021 10:09:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20210222160347.23410-1-yashsri421@gmail.com>
-In-Reply-To: <20210222160347.23410-1-yashsri421@gmail.com>
+References: <5933570a-7768-26b2-40d0-1acac999d9f6@gmail.com>
+In-Reply-To: <5933570a-7768-26b2-40d0-1acac999d9f6@gmail.com>
 From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Mon, 22 Feb 2021 18:49:25 +0100
-Message-ID: <CAKXUXMz-2TC2oYX2K4ZJOaXpFfaL8e1J87GBj0o-+t_X74Ypyw@mail.gmail.com>
-Subject: Re: [RFC] scripts: kernel-doc: fix typedef support for struct parsing
-To:     Aditya Srivastava <yashsri421@gmail.com>
+Date:   Mon, 22 Feb 2021 19:09:30 +0100
+Message-ID: <CAKXUXMzBACaZzGkoF772y0pySc+UKyK_iW967nJkJTtVc93+LA@mail.gmail.com>
+Subject: Re: Investigating parsing error for struct/union
+To:     Aditya <yashsri421@gmail.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 22, 2021 at 5:03 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
+On Mon, Feb 22, 2021 at 6:27 PM Aditya <yashsri421@gmail.com> wrote:
 >
-> There are files in kernel, which use 'typedef struct' syntax for defining
-stylistic:
-s/in kernel/in the kernel tree/
-s/defining struct/defining some struct/
-> struct. For eg, include/linux/zstd.h, drivers/scsi/megaraid/mega_common.h,
-> etc.
-
-stylistic:
-s/For eg/E.g./ or
-s/For eg/For example/
-
-semantically:
-It makes much more sense to name how many occurrences of this pattern
-exist in the kernel tree within how many files in order to get a good
-impression on the use of that pattern within the kernel tree.
-
-
-> However, kernel-doc still does not support it, causing a parsing error.
+> Hi Jonathan, Lukas
 >
-> For eg, running scripts/kernel-doc -none on include/linux/zstd.h emits:
-> "error: Cannot parse struct or union!"
+> While investigating "error: Cannot parse struct or union!", I
+> discovered few more patterns causing this error:
+> 1) A large part of this error(~80%) occurs due to the presence of one
+> or more lines(such as '#define' lines) between commented code and
+> struct declaration.
 >
-
-semantically:
-Drop the example and turn the two sentences above into one.
-
-> Add support for parsing it.
+> For e.g., in include/linux/platform_data/apds990x.h:
 >
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
->  scripts/kernel-doc | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
+> /**
+>  * struct apds990x_chip_factors - defines effect of the cover window
+>  * @ga: Total glass attenuation
+>  * @cf1: clear channel factor 1 for raw to lux conversion
+>  * @irf1: IR channel factor 1 for raw to lux conversion
+>  * @cf2: clear channel factor 2 for raw to lux conversion
+>  * @irf2: IR channel factor 2 for raw to lux conversion
+>  * @df: device factor for conversion formulas
+>  *
+>  * Structure for tuning ALS calculation to match with environment.
+>  * Values depend on the material above the sensor and the sensor
+>  * itself. If the GA is zero, driver will use uncovered sensor default
+> values
+>  * format: decimal value * APDS_PARAM_SCALE except df which is plain
+> integer.
+>  */
+> #define APDS_PARAM_SCALE 4096
+> struct apds990x_chip_factors {
+>         int ga;
+>         int cf1;
+>         int irf1;
+>         int cf2;
+>         int irf2;
+>         int df;
+> };
 >
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index 8b5bc7bf4bb8..46e904dc3f87 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -1201,12 +1201,20 @@ sub dump_union($$) {
->  sub dump_struct($$) {
->      my $x = shift;
->      my $file = shift;
-> +    my $decl_type;
-> +    my $members;
->
->      if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
-> -       my $decl_type = $1;
-> +       $decl_type = $1;
->         $declaration_name = $2;
-> -       my $members = $3;
-> +       $members = $3;
-> +    } elsif ($x =~ /typedef\s+(struct|union)\s*\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*\s*(\w*)\s*;/) {
-> +       $decl_type = $1;
-> +       $declaration_name = $3;
-> +       $members = $2;
-> +    }
 >
 
-Could you put the common expression parts into meaningful variables to
-avoid repeating yourself in the two pattern matching expressions?
+Aditya, I independently made a similar observation and noted this
+issue in my personal notes, which will serve for a cleanup patch
+series, as follows:
 
-Other than that, it looks good to me.
+"SKIP DEFINITIONS" Feature:
+
+The kernel-doc should proceed the code, and the required definition of
+data structures should stay close to the function in between the
+kernel-doc comment and the function definition.
+
+Let kernel-doc know to skip certain definitions; the actual definition
+documented will follow directly after the skipped definitions.
+
+E.g.,
+
+include/linux/cgroup.h:450: task_css_set_check: SKIP DEFINITIONS
+(struct mutex cgroup_mutex; spinlock_t css_set_lock)
+include/linux/hid-sensor-hub.h:174:
+sensor_hub_input_attr_get_raw_value: SKIP DEFINITIONS (enum
+sensor_hub_read_flags)
+
+I have not thought about a good syntax for that:
+
+maybe something like:
+/**
+* foo - description
+*
+* @arg: description
+*
+* ::skip: struct bar, enum blub, define MACRO
+*/
+
+where "::" serves as some annotation to instruct kernel-doc
+
+> 2) If struct does not contain any members, for e.g., in
+> include/linux/xz.h:
+>
+> /**
+>  * struct xz_dec - Opaque type to hold the XZ decoder state
+>  */
+> struct xz_dec;
+>
+> Here, it causes error as the curly braces and members expected by the
+> regex, are absent.
+> This kind of use has also been made in include/linux/zstd.h:
+>
+> /**
+>  * struct ZSTD_DDict - a digested dictionary to be used for decompression
+>  */
+> typedef struct ZSTD_DDict_s ZSTD_DDict;
+>
+>
+> 3) Different Syntax than expected. For e.g.:
+>     a) struct xyz struct_name {} syntax. This syntax has been used in
+> arch/arm/mach-omap2/omap_hwmod_common_data.c file
+>     b) "static __maybe_unused const struct st_sensors_platform_data
+> default_press_pdata = {" in drivers/iio/pressure/st_pressure.h.
+> This kind of syntax has also been used in
+> drivers/iio/accel/st_accel.h, and drivers/iio/gyro/st_gyro.h
+>
+> I wanted to take your opinion if we should extend support for any of
+> these syntax, causing the error. If not, perhaps we can make the
+> documentation a bit clear, atleast for (1), which causes most of these
+> errors; so as to not include any lines between comment and struct
+> declaration.
+>
+> What do you think?
+>
+
+I certainly appreciate it if you could work on that SKIP_DEFINITION
+feature, once we agreed on some first syntax for this feature.
 
 Lukas
-
-> +    if ($members) {
->         if ($identifier ne $declaration_name) {
->             print STDERR "${file}:$.: warning: expecting prototype for $decl_type $identifier. Prototype was for $decl_type $declaration_name instead\n";
->             return;
-> --
-> 2.17.1
->
