@@ -2,108 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E155CC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 21:41:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2647AC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 21:50:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B19CA64DFD
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 21:41:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E8EA264DFD
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 21:50:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232006AbhBVVlN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 16:41:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39070 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231640AbhBVVkr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 16:40:47 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9C84C061786;
-        Mon, 22 Feb 2021 13:40:05 -0800 (PST)
+        id S231640AbhBVVuG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 16:50:06 -0500
+Received: from ms.lwn.net ([45.79.88.28]:35356 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231638AbhBVVuD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Feb 2021 16:50:03 -0500
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 875E930D;
-        Mon, 22 Feb 2021 21:40:05 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 875E930D
+        by ms.lwn.net (Postfix) with ESMTPSA id C2E6E2B7;
+        Mon, 22 Feb 2021 21:49:22 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C2E6E2B7
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1614030005; bh=EFM1k3V9bO7Y53Xdrp5AG/ja+u+SEr6m8EZGNNYAocA=;
+        t=1614030562; bh=LI0igz6UiDc/29dq3FBY3h2eeJZSsHGdbEzGXRqvy48=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=LblIRwbmGR0JwwL06ujLz65nEyig0pcLcQSCTe5cXiD8cpjKM+if4EwV8W/FVrR5K
-         9Nzcgfwh0+r3yGzfWLj3zxVMqll1x8GDwzoXJfMNWmVRzszh1WWryqvEkkTGcxW58t
-         xa7F8hXK+ZGNCvA28hSV+9njhkCUz1PoOwv06AWH6D5ujZqg7s41JIdzmlmDCScFvx
-         cJ+zvVxkXttFBr1lPttyBv2Sp8DgrzjCsjboHmDSTCpvqsAtLLf4yBZJd4EPRaCpAx
-         /CkdcPHJ0qWFONaTSyceBKFacD8ZEbFfY2wytr1xJ/f2DNQ5kzwV08wynccIkoL+0y
-         WJwPfa/z7Eavw==
+        b=Fc2xp0ZMrKMRKm4vboOuKamjVFkoQZbwKDiwa7XAwRqXjXg6PEERQhujpKg8t6/ZK
+         iwLGcwSqd6cSuDAYavpFZwCQiUV1IEcjHu/3B9lqsCmkR7SDNxAChr/C9hKb7xRGU0
+         h8uJuyUyKuD6YurZiXmp3Uk0MyepiOjTzP//r9ksEGc2/nVV2YfSUNpgSLiHdcisBS
+         cwtlarf8zPk0fHcWoaYpBDLDkvNGmtXwsD/qH8WavqRH1aqH/DosO+rKU4Abdc9sbg
+         vnUumT8Dyjr+P3J3CPB3dafuGarbcrU9v1L4e8U395d59pjgIEXA0grqR1eN8VjCE6
+         rTvrl1fzFGEwQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Aditya Srivastava <yashsri421@gmail.com>
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [RFC] scripts: kernel-doc: fix typedef support for struct parsing
-In-Reply-To: <20210222160347.23410-1-yashsri421@gmail.com>
-References: <20210222160347.23410-1-yashsri421@gmail.com>
-Date:   Mon, 22 Feb 2021 14:40:04 -0700
-Message-ID: <875z2jlr2j.fsf@meer.lwn.net>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Aditya <yashsri421@gmail.com>
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: Investigating parsing error for struct/union
+In-Reply-To: <CAKXUXMzBACaZzGkoF772y0pySc+UKyK_iW967nJkJTtVc93+LA@mail.gmail.com>
+References: <5933570a-7768-26b2-40d0-1acac999d9f6@gmail.com>
+ <CAKXUXMzBACaZzGkoF772y0pySc+UKyK_iW967nJkJTtVc93+LA@mail.gmail.com>
+Date:   Mon, 22 Feb 2021 14:49:22 -0700
+Message-ID: <8735xnlqn1.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Aditya Srivastava <yashsri421@gmail.com> writes:
+Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
 
-> There are files in kernel, which use 'typedef struct' syntax for defining
-> struct. For eg, include/linux/zstd.h, drivers/scsi/megaraid/mega_common.h,
-> etc.
-> However, kernel-doc still does not support it, causing a parsing error.
+> Aditya, I independently made a similar observation and noted this
+> issue in my personal notes, which will serve for a cleanup patch
+> series, as follows:
 >
-> For eg, running scripts/kernel-doc -none on include/linux/zstd.h emits:
-> "error: Cannot parse struct or union!"
+> "SKIP DEFINITIONS" Feature:
 >
-> Add support for parsing it.
+> The kernel-doc should proceed the code, and the required definition of
+> data structures should stay close to the function in between the
+> kernel-doc comment and the function definition.
 >
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
->  scripts/kernel-doc | 12 ++++++++++--
->  1 file changed, 10 insertions(+), 2 deletions(-)
+> Let kernel-doc know to skip certain definitions; the actual definition
+> documented will follow directly after the skipped definitions.
 >
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index 8b5bc7bf4bb8..46e904dc3f87 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -1201,12 +1201,20 @@ sub dump_union($$) {
->  sub dump_struct($$) {
->      my $x = shift;
->      my $file = shift;
-> +    my $decl_type;
-> +    my $members;
->  
->      if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
-> -	my $decl_type = $1;
-> +	$decl_type = $1;
->  	$declaration_name = $2;
-> -	my $members = $3;
-> +	$members = $3;
-> +    } elsif ($x =~ /typedef\s+(struct|union)\s*\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*\s*(\w*)\s*;/) {
+> E.g.,
+>
+> include/linux/cgroup.h:450: task_css_set_check: SKIP DEFINITIONS
+> (struct mutex cgroup_mutex; spinlock_t css_set_lock)
+> include/linux/hid-sensor-hub.h:174:
+> sensor_hub_input_attr_get_raw_value: SKIP DEFINITIONS (enum
+> sensor_hub_read_flags)
+>
+> I have not thought about a good syntax for that:
+>
+> maybe something like:
+> /**
+> * foo - description
+> *
+> * @arg: description
+> *
+> * ::skip: struct bar, enum blub, define MACRO
+> */
+>
+> where "::" serves as some annotation to instruct kernel-doc
 
-So this isn't your fault, but these regexes are really getting out of
-hand.  I would *really* like to see some effort made into making this
-code more understandable / maintainable as we tweak this stuff.  So:
+Honestly, we will never get that sort of annotation into the source
+without encountering substantial pushback, and it will also be hard to
+keep them up to date.  I don't see that as being the right path forward.
 
- - Splitting out the common part, as suggested by Lukas, would be really
-   useful.  That would also avoid the problem of only occurrence being
-   edited the next tine we add a new qualifier.
+The better solution, for now, would be to just insist that the kerneldoc
+comments be next to the thing they are describing, and to submit patches
+fixing these issues to the appropriate maintainers.  Mauro and others
+have been doing a fair amount of that already.
 
- - Splitting out other subsections of the regex and giving them symbolic
-   names would also help.
-
- - We really could use some comments before these branches saying what
-   they are doing; it is *not* obvious from the code.
-
-See what I'm getting at here?
+It might also be nice to make scripts/kernel-doc smarter so that it can
+handle any degree of separation between the comment and the
+declaration.  But that would complicate an already gnarly script for
+(IMO) relatively little gain.
 
 Thanks,
 
