@@ -2,64 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 611E5C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 19:20:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D990C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 20:57:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1763364D74
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 19:20:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3883564E25
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 20:57:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233052AbhBVTUD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 14:20:03 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50580 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233019AbhBVTQa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Feb 2021 14:16:30 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id 68DAE64E34;
-        Mon, 22 Feb 2021 19:12:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614021122;
-        bh=G24lkVZVKnzhjatbfa5GOgRODOmt2kodcbWzPOCC0YA=;
-        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-        b=qKw3LVIaR4O2J4PSYEoJM9Q+WZDeb0hOTBT+39V+rm3IUugGD0Is9esR/63o97Bz2
-         lWtRghuleZiubpPpg0zuC42rVlGgLFlsIIA4KMxfykid7aGlv9wtCVWFg8Vxu+7TzA
-         /dtW9k9tXeWNEI304w3osTlisoAV4XcIIw0jEahdxHcTzkGsOv/SCgD+QWI5Afib1J
-         iZqJOK6gF5tVldns5+3VxCVAQjdZQp5IUh8thJTJGDx5WkGH4mBsNZUo4kMGDQFP4f
-         EQJFc/uqCKDsk9icmckV/uYF72TRKo3jHpmOI/SCSauSPPj3Xcd7Jj/2rmXpQdD93c
-         hTrAxBQX+vuQw==
-Subject: Re: [GIT PULL] Documentation for 5.12
-From:   pr-tracker-bot@kernel.org
-In-Reply-To: <87lfbpjb8t.fsf@meer.lwn.net>
-References: <87lfbpjb8t.fsf@meer.lwn.net>
-X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
-X-PR-Tracked-Message-Id: <87lfbpjb8t.fsf@meer.lwn.net>
-X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.12
-X-PR-Tracked-Commit-Id: 3c2e0a489da6a7c48ad67a246c7a287fcb4a4607
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 0e63a5c6ba9679a903f95b10827f74fe183017fa
-Message-Id: <161402112240.16114.12683254551153024412.pr-tracker-bot@kernel.org>
-Date:   Mon, 22 Feb 2021 19:12:02 +0000
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-kernel@vger.org, linux-doc@vger.kernel.org
+        id S230163AbhBVU4v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 15:56:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57886 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230006AbhBVU4t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 15:56:49 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 177F2C061574;
+        Mon, 22 Feb 2021 12:56:09 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 18C4A30D;
+        Mon, 22 Feb 2021 20:56:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 18C4A30D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1614027366; bh=vMLcCi4PrG8SXWx7/K5Xu2YTts+/CmoqiQsCqcA47l8=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=q+hDG9flwz7SORD9vBTR30R0M1+UuM5Ldk4ebZQHNM2Efmxknb4em4cz3ZJ3iP+qC
+         JODD+4CJ10OkpyAFmQBcso5Qo0xZNyQ4RdZGGVQl1KsxZcDPla6x21VD8P27K1xbqg
+         o+rngdd08ppH/vrns8Xzkmsx1ao92CD+wk/3+mqq0wSwja3D91k67D3G5MuPCUSAJ/
+         dBacFNY99Z2CGNAKLt8gZ1Ql3p8xIiAi7WoElxGBS/SwVy5EYM8YKunRFvLxwAaymS
+         IQGnJtgerSmx94xtYi9tmTa7/dvpbWfQ4LHg9V60wNRGwqq3+rkEbwmIfmLiNrrLmN
+         ijPmxlvhjiHbQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH -next] Documentation: proc.rst: add more about the 6
+ fields in loadavg
+In-Reply-To: <20210222034729.22350-1-rdunlap@infradead.org>
+References: <20210222034729.22350-1-rdunlap@infradead.org>
+Date:   Mon, 22 Feb 2021 13:56:05 -0700
+Message-ID: <87k0qzlt3u.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The pull request you sent on Mon, 15 Feb 2021 14:02:10 -0700:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> git://git.lwn.net/linux.git tags/docs-5.12
+> Address Jon's feedback on the previous patch by adding info about
+> field separators in the /proc/loadavg file.
+>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> ---
+>  Documentation/filesystems/proc.rst |    4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> --- linux-next-20210219.orig/Documentation/filesystems/proc.rst
+> +++ linux-next-20210219/Documentation/filesystems/proc.rst
+> @@ -691,6 +691,10 @@ files are there, and which are missing.
+>                  number of processes currently runnable (running or on ready queue);
+>                  total number of processes in system;
+>                  last pid created.
+> +                All fields are separated by one space except "number of
+> +                processes currently runnable" and "total number of processes
+> +                in system", which are separated by a slash ('/'). Example:
+> +                  0.61 0.61 0.55 3/828 22084
+>   locks        Kernel locks
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/0e63a5c6ba9679a903f95b10827f74fe183017fa
+Applied, thanks.
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+jon
