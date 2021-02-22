@@ -2,116 +2,289 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B950BC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 10:32:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE0DC43381
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 10:48:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7633164E12
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 10:32:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFDA864E40
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 10:48:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230264AbhBVKca (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 05:32:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36250 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230211AbhBVKc3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 05:32:29 -0500
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62BDCC06174A
-        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 02:31:49 -0800 (PST)
-Received: by mail-pj1-x102e.google.com with SMTP id gm18so3404357pjb.1
-        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 02:31:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8UWh8jduGRGu0Lvsdl9eBlyqHKjBe0P0nAH4NaZ9DMc=;
-        b=CJhQTg5ewgzZcnE2MhOHrzTbe0C5iEgOrytZGTuvGqjQI+Uw34/pbKAhYfv55ZbEQ+
-         3k1GnYlHjK3NlkzleMwne0BnkjHisb1fCE5MYMfn2irYh+FIKK5ZeBhC1r/gr4ou+UsQ
-         9C2upnSbHxCxznvPzFE1kIpgGUj7irS2BkklgdS3tSc5tHC4pXnPdWSCPGnbaaJGIjZk
-         z/n8oOfCDpuoEI15EjK00iptRmFy5EsufKXUlVyopdACbYxxWNCbmWSqyS0QQZL39Rj/
-         K04D7A6saCRLnu+QLw3fVe/ammJfGSl6OwbFU82JpozB+uMI0V6xEqmTjXu8gGmgwe8c
-         P3wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8UWh8jduGRGu0Lvsdl9eBlyqHKjBe0P0nAH4NaZ9DMc=;
-        b=rNRgYxn+q2h/vQPH+b9QXNo5xGOh1FVM0mnrFq6z5a3/ZkD+r/IzoDGX5N5vl7YVcx
-         8XT8H+zS4BzgS5iKRZkv37MFi1cNKReD5udP6d2Ub4DVBNmVhAL2YVX88QICgPIjlXRY
-         XEj62kdti68GrvA5Exrvze9WCXTn1pbeBahIObFLnMcw0MkMEtuIftFLMb/GA4yD3895
-         j9AyEESNtx4Od6JnFZhPDOg3F+CGXk8EPMotrDPT6Zdx1eiBadh2xOMAOIKm6eLwrNNy
-         1dZf/NVeMmFNHnm5KwjTZFxBY1fRlTyfO+yDwahkw2+RlQ5CVj7wn3ZgDfCtNMsnwVHr
-         YaYQ==
-X-Gm-Message-State: AOAM531cFZX2seTEeirIhBrsrUyIj6EzUt5OPwbPAN1v3OF652mS3av/
-        47eQ4rwIksG/jDzfgGof7C0RLv/AmJYQMplRPqT4Hg==
-X-Google-Smtp-Source: ABdhPJxeUlmz8zPz9b/j2QjskVoGdhyZlrSI7oyLSmQ0kLy48DqKvUv7uDS1x5dDFWskiPN5ixGvTOLh0b8L9NlGn5M=
-X-Received: by 2002:a17:90a:f18d:: with SMTP id bv13mr1625214pjb.13.1613989908932;
- Mon, 22 Feb 2021 02:31:48 -0800 (PST)
+        id S229990AbhBVKro (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 05:47:44 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15265 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230117AbhBVKri (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 05:47:38 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B60338ba00000>; Mon, 22 Feb 2021 02:46:56 -0800
+Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 22 Feb
+ 2021 10:46:53 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     Christoph Hellwig <hch@infradead.org>
+CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
+        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <jhubbard@nvidia.com>, <rcampbell@nvidia.com>,
+        <jglisse@redhat.com>, <jgg@nvidia.com>, <daniel@ffwll.ch>
+Subject: Re: [PATCH v2 1/4] hmm: Device exclusive memory access
+Date:   Mon, 22 Feb 2021 21:46:51 +1100
+Message-ID: <67252432.xGUjY6W94y@nvdebian>
+In-Reply-To: <20210219094741.GA641389@infradead.org>
+References: <20210219020750.16444-1-apopple@nvidia.com> <20210219020750.16444-2-apopple@nvidia.com> <20210219094741.GA641389@infradead.org>
 MIME-Version: 1.0
-References: <20210219104954.67390-1-songmuchun@bytedance.com>
- <20210219104954.67390-5-songmuchun@bytedance.com> <YC/HRTq1MRaDWn7O@dhcp22.suse.cz>
- <CAMZfGtW-j=WizTckEWZNB2OSPkz662Vjr79Fb0he9tMD+bnT3Q@mail.gmail.com> <YDN4hhhINcn69CeV@dhcp22.suse.cz>
-In-Reply-To: <YDN4hhhINcn69CeV@dhcp22.suse.cz>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Mon, 22 Feb 2021 18:31:12 +0800
-Message-ID: <CAMZfGtWt3uYcCv5htRkOncJnh=4eiGXzpKsV7-Gj40m-BXcUrw@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1613990816; bh=WSELGhqP+NOSudWxdZmSn1jCecQ9LfJU/HOyyjATzQk=;
+        h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+         MIME-Version:Content-Transfer-Encoding:Content-Type:
+         X-Originating-IP:X-ClientProxiedBy;
+        b=AsDH1KFt7q2fn1GQH1bGZsfxPuP6PWniyR68l2YMD7Q3Cfbq5uK+p+mMUtOfNCzHP
+         a+hSdF72Kju84oKrEh0gg6e8rGRcP4SODxDcOyS/1SQNOgR82RHgMN4+muzfJRKteX
+         TZjWkSDKTi+eWBm5dbyv/oZyE95BVowqo+OXcexYvpYnlUsHqC93D9hf3z7vCcYpXg
+         beQX9uq28IHVckKy1BtFiOs2mBRghniAdXwhBHNF2E6SUF7HvL5sLv5fN7c9Krbh1R
+         iMHvxXCUtmJre53wnpmserXyNhCq0cnsUNF+34d7gdgVUyWwc2BnUqJO0ARndiY3DG
+         gOBglEpWEttmA==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 22, 2021 at 5:25 PM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Sat 20-02-21 12:20:36, Muchun Song wrote:
-> > On Fri, Feb 19, 2021 at 10:12 PM Michal Hocko <mhocko@suse.com> wrote:
-> [...]
-> > > What about hugetlb page poisoning on HW failure (resp. soft offlining)?
-> >
-> > If the HW poisoned hugetlb page failed to be dissolved, the page
-> > will go back to the free list with PG_HWPoison set. But the page
-> > will not be used, because we will check whether the page is HW
-> > poisoned when it is dequeued from the free list. If so, we will skip
-> > this page.
->
-> Can this lead to an under provisioned pool then? Or is there a new
-> hugetlb allocated to replace the poisoned one?
+On Friday, 19 February 2021 8:47:41 PM AEDT Christoph Hellwig wrote:
+> >  			page = migration_entry_to_page(swpent);
+> >  		else if (is_device_private_entry(swpent))
+> >  			page = device_private_entry_to_page(swpent);
+> > +		else if (is_device_exclusive_entry(swpent))
+> > +			page = device_exclusive_entry_to_page(swpent);
+> 
+> >  			page = migration_entry_to_page(swpent);
+> >  		else if (is_device_private_entry(swpent))
+> >  			page = device_private_entry_to_page(swpent);
+> > +		else if (is_device_exclusive_entry(swpent))
+> > +			page = device_exclusive_entry_to_page(swpent);
+> 
+> >  		if (is_device_private_entry(entry))
+> >  			page = device_private_entry_to_page(entry);
+> > +
+> > +		if (is_device_exclusive_entry(entry))
+> > +			page = device_exclusive_entry_to_page(entry);
+> 
+> Any chance we can come up with a clever scheme to avoid all this
+> boilerplate code (and maybe also what it gets compiled to)?
 
-Actually, no page will be allocated. Your concern is right. But without
-this patch, the result does not change. e.g. The HW poisoned page
-can fail to be dissolved when h->free_huge_pages is equal to
-h->resv_huge_pages. But no one seems to have reported this issue so
-far. Maybe this behavior needs improvement in the feature.
+If I open code the entry_to_page() functions as suggested below then these 
+simplify down to single if statements like so:
 
+                if (is_migration_entry(entry) ||
+                    is_device_private_entry(entry) ||
+                    is_device_exclusive_entry(entry))
+                        page = pfn_to_page(swp_offset(entry));
+
+I could simplify further by hiding that in a single static inline like so:
+
+static inline bool is_special_entry(swp_entry_t entry)
+{
+	return is_migration_entry(entry) ||
+			is_device_private_entry(entry) ||
+          is_device_exclusive_entry(entry);
+}
+
+My only concern with doing that is these entries can't *always* be treated the 
+same so it might make it too easy to overlook the subtle differences.
+
+> > diff --git a/include/linux/hmm.h b/include/linux/hmm.h
+> > index 866a0fa104c4..5d28ff6d4d80 100644
+> > --- a/include/linux/hmm.h
+> > +++ b/include/linux/hmm.h
+> > @@ -109,6 +109,10 @@ struct hmm_range {
+> >   */
+> >  int hmm_range_fault(struct hmm_range *range);
+> >  
+> > +int hmm_exclusive_range(struct mm_struct *mm, unsigned long start,
+> > +			unsigned long end, struct page **pages);
+> > +vm_fault_t hmm_remove_exclusive_entry(struct vm_fault *vmf);
+> 
+> Can we avoid the hmm naming for new code (we should probably also kill
+> it off for the existing code)?
+
+Sure. I ended up stuffing it in there for the moment because I didn't know of 
+any other "obvious" spot to put it. How about these for names:
+
+int make_device_exclusive_range(struct mm_struct *mm, unsigned long start,
+			unsigned long end, struct page **pages);
+vm_fault_t remove_device_exclusive_entry(struct vm_fault *vmf);
+
+I am open to any alternative naming suggestions though.
+
+> > +#define free_swap_and_cache(e) ({(is_migration_entry(e) || 
+is_device_private_entry(e) \
+> > +					|| is_device_exclusive_entry(e)); })
+> > +#define swapcache_prepare(e) ({(is_migration_entry(e) || 
+is_device_private_entry(e) \
+> > +					|| is_device_exclusive_entry(e)); })
+> Can you turn these into properly formatted inline functions?  As-is this
+> becomes pretty unreadable.
+
+Ok, if I add a is_special_entry() function as suggested above these could just 
+use that.
+ 
+> > +static inline void make_device_exclusive_entry_read(swp_entry_t *entry)
+> > +{
+> > +	*entry = swp_entry(SWP_DEVICE_EXCLUSIVE_READ, swp_offset(*entry));
+> > +}
+> 
+> s/make_device_exclusive_entry_read/mark_device_exclusive_entry_readable/
+> ??
+
+See my next comment.
+
+> > +
+> > +static inline swp_entry_t make_device_exclusive_entry(struct page *page, 
+bool write)
+> > +{
+> > +	return swp_entry(write ? SWP_DEVICE_EXCLUSIVE_WRITE : 
+SWP_DEVICE_EXCLUSIVE_READ,
+> > +			 page_to_pfn(page));
+> > +}
+> 
+> I'd split this into two helpers, which is easier to follow and avoids
+> the pointlessly overlong lines.
+
+I assume you mean separate read and write functions instead of using the write 
+flag?
+
+These are based on the existing device private functions which themselves 
+looked to be based on the migration entry functions. It would be good to keep 
+these consistent so when making the changes above I would also refactor the 
+existing make_device_private_entry() and make_migration_entry() functions to 
+match as well.
+
+As a test I tried refactoring the migration entry functions into the below and 
+it seemed to make things a bit easier to follow if not a little verbose:
+
+static inline int is_writable_migration_entry(swp_entry_t entry);
+static inline swp_entry_t make_readable_migration_entry(pgoff_t offset);
+static inline swp_entry_t make_writable_migration_entry(pgoff_t offset);
+static inline int is_migration_entry(swp_entry_t entry);
+
+So I can do that along with the same refactoring of device private accessor 
+functions as a prep patch if that seems reasonable?
+
+> > +static inline bool is_device_exclusive_entry(swp_entry_t entry)
+> > +{
+> > +	int type = swp_type(entry);
+> > +	return type == SWP_DEVICE_EXCLUSIVE_READ || type == 
+SWP_DEVICE_EXCLUSIVE_WRITE;
+> > +}
+> 
+> Another overly long line.  I also wouldn't bother with the local
+> variable:
+> 
+> 	return swp_type(entry) == SWP_DEVICE_EXCLUSIVE_READ ||
+> 		swp_type(entry) == SWP_DEVICE_EXCLUSIVE_WRITE;
+> 		
+> 
+> > +static inline bool is_write_device_exclusive_entry(swp_entry_t entry)
+> > +{
+> > +	return swp_type(entry) == SWP_DEVICE_EXCLUSIVE_WRITE;
+> > +}
+> 
+> Or reuse these kind of helpers..
 >
-> --
-> Michal Hocko
-> SUSE Labs
+> > +
+> > +static inline unsigned long device_exclusive_entry_to_pfn(swp_entry_t 
+entry)
+> > +{
+> > +	return swp_offset(entry);
+> > +}
+> > +
+> > +static inline struct page *device_exclusive_entry_to_page(swp_entry_t 
+entry)
+> > +{
+> > +	return pfn_to_page(swp_offset(entry));
+> > +}
+> 
+> I'd rather open code these two, and as a prep patch also kill off the
+> equivalents for the migration and device private entries, which would
+> actually clean up a lot of the mess mentioned in my first comment above.
+
+Ok, I have just tried doing that and it ends up being more concise and 
+accurate so I'll add it to the series. 
+
+> > +static int hmm_exclusive_skip(unsigned long start,
+> > +		      unsigned long end,
+> > +		      __always_unused int depth,
+> > +		      struct mm_walk *walk)
+> > +{
+> > +	struct hmm_exclusive_walk *hmm_exclusive_walk = walk->private;
+> > +	unsigned long addr;
+> > +
+> > +	for (addr = start; addr < end; addr += PAGE_SIZE)
+> > +		hmm_exclusive_walk->pages[hmm_exclusive_walk->npages++] = NULL;
+> > +
+> > +	return 0;
+> > +}
+> 
+> Wouldn't pre-zeroing the array be simpler and more efficient?
+
+Good point. I had other code here but I didn't need it and should have just 
+removed what was left.
+
+> > +int hmm_exclusive_range(struct mm_struct *mm, unsigned long start,
+> > +			unsigned long end, struct page **pages)
+> > +{
+> > +	struct hmm_exclusive_walk hmm_exclusive_walk = { .pages = pages, 
+.npages = 0 };
+> > +	int i;
+> > +
+> > +	/* Collect and lock candidate pages */
+> > +	walk_page_range(mm, start, end, &hmm_exclusive_walk_ops, 
+&hmm_exclusive_walk);
+> 
+> Please avoid the overly long lines.
+> 
+> But more importantly:  Unless I'm missing something obvious this
+> walk_page_range call just open codes get_user_pages_fast, why can't you
+> use that?
+
+Good idea, you aren't missing anything although I don't think 
+get_user_pages_fast() will work as the driver needs to be able to operate on a 
+remote mm_struct. 
+
+But something like get_user_pages_remote() would work better than open-coding 
+it.
+
+> > +#if defined(CONFIG_ARCH_ENABLE_THP_MIGRATION) || defined(CONFIG_HUGETLB)
+> > +		if (PageTransHuge(page)) {
+> > +			VM_BUG_ON_PAGE(1, page);
+> > +			continue;
+> > +		}
+> > +#endif
+> 
+> Doesn't PageTransHuge always return false for that case?  If not
+> shouldn't we make sure it does?
+
+Right, this is probably an overly defensive check so I'll remove it.
+
+[snip - will address code format/structure suggestions]
+
+> 
+> try_to_unmap_one has turned into a monster.  A little refactoring to
+> split it into managable pieces would be nice.
+> 
+
+Agreed, adding this it did seem a little unwieldy. I will see if I can do a 
+bit of refactoring for the next version.
+
+ - Alistair
+
+
+
