@@ -2,462 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B97BCC433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 22:58:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D107C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 23:57:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 77E8E64E41
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 22:58:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E78F664E3F
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 23:57:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232335AbhBVW6P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 17:58:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55626 "EHLO
+        id S231688AbhBVX4w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 18:56:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232088AbhBVW6O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 17:58:14 -0500
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BF2BC06174A
-        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 14:57:34 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id d11so3721351plo.8
-        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 14:57:34 -0800 (PST)
+        with ESMTP id S231669AbhBVX4v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 18:56:51 -0500
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F20D2C061786
+        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 15:56:10 -0800 (PST)
+Received: by mail-pj1-x1029.google.com with SMTP id cx11so641781pjb.4
+        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 15:56:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=z4xYZ6jQf9oLEWd3BGRZvnbMhWeW4hg4cnZWjyO7mu0=;
-        b=bS4zkhAHUoJTdMiuc18xUiGbJQALVznui47PaQ1uGbh5BlEC5emicTHCgvU1F8X7Iz
-         ko+FEPje+dbUN8BfVLvLEs/3/cKhoNjcTCNLWR8oSzZHIElXV438LBlavydHP+zxE2Z7
-         0Dci3Ed83ggEqhZ+mqLd1UsyHcqyF8HX2mveKIv6ezLDA5ez2R4oizKCBED3spPOd3tD
-         5hl/qFs0HqmMiANR1x+Mt9JVfY3+GgDRGcSFjdqR7uc+vJXYYdlwFNHNjN18S6H3MPQl
-         lysZsjOnYttbIzy02IMU99YmpG2rreEWF5+kn0SeKCs0F2xRNq/qKo5jQy5WETcUEHdJ
-         FRJA==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
+        bh=pCRKupgV6bVPqQhAPHwvcUajc+P2j/PXt//zx6xPAlk=;
+        b=aMoo0kknjIPmHPXzfPjSOvGRNxRUM/3mrnpeDehO70ESbHURf0pgopTpZCMDDPElJA
+         /yu/UBiOekRlpYKIqSOYPYESfWJwlipecKkGxVGpzUuWWwWhDmfVEiqvFrqzyHkPdNjo
+         4Oxeq8L7k+E2R/lRrQR4bDAuDaqdEBFHosqQvnf0DxzTtehAhnKuwgkyh/GIznxE3VZ6
+         Nu+2BBkEVWSRwJNkutiY6uhCynI642xx95U8Nofxymy75kecqNhJjuu4QQQlXW3ORjvD
+         dmg2kUmDqcZbr1qHeF8TmLa/jb0xi0eRaTDQGDbc/rALtCMFOZvPCze3zQrkgtwnpt1p
+         Mm5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=z4xYZ6jQf9oLEWd3BGRZvnbMhWeW4hg4cnZWjyO7mu0=;
-        b=lhGR7xS6B8Fi/8gEdnrvOTTxKOQXo/2caJVa8pi2zB8ezBvg0K2bSqLcCNIyXXkD5g
-         +cM6rH6PvCm0k9UwN0ImweYgLMNDAhNtTClTYWAse9yM8WzPpZZuTmY8YOrcbjQAjo5a
-         ++ZMDK8XoSNv/bE9cBNESGptOgyE86CT+0pbecE53dfUp/m9TFYVhK7fSCOvj0dbvjXp
-         ZQtWPHVm8KUXQZ9Um4KQfmY/wmbbJ3bImHsTNtsD0/SLDBjMS+4kdCIADuLO/QNzL9MB
-         eMnfYONtvaq8TpOFWQ0wtWuiMHm/Abo0AXnO7zF/yb+2sJQ1twQHsKO0nIRe2fx3p1EY
-         oHyg==
-X-Gm-Message-State: AOAM533ucjczeT2t67DXj+dPDBLu/BNNb8RD3IC8pGGTo825WW67/KJY
-        hfkhZDZQf4sS7mAviTRpO2hSTK3zd9l52A==
-X-Google-Smtp-Source: ABdhPJy6sdK3b0BwfIgMyRkJn/8WQWq1cWuDWy0D36eqcoBoz2hTE4YI5LNTHElJ5B0e8JMQe0XEZw==
-X-Received: by 2002:a17:90a:ab17:: with SMTP id m23mr25238924pjq.0.1614034653844;
-        Mon, 22 Feb 2021 14:57:33 -0800 (PST)
-Received: from xps15 (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
-        by smtp.gmail.com with ESMTPSA id b18sm20728987pfi.173.2021.02.22.14.57.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Feb 2021 14:57:33 -0800 (PST)
-Date:   Mon, 22 Feb 2021 15:57:31 -0700
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Mike Leach <mike.leach@linaro.org>
-Cc:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-        linux-doc@vger.kernel.org, suzuki.poulose@arm.com,
-        gregkh@linuxfoundation.org, alexander.shishkin@linux.intel.com,
-        yabinc@google.com, corbet@lwn.net, linux-kernel@vger.kernel.org,
-        tingwei@codeaurora.org, leo.yan@linaro.org
-Subject: Re: [PATCH v4 03/10] coresight: config: Add configuration and
- feature generic functions
-Message-ID: <20210222225731.GB3237327@xps15>
-References: <20210128170936.9222-1-mike.leach@linaro.org>
- <20210128170936.9222-4-mike.leach@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:cc;
+        bh=pCRKupgV6bVPqQhAPHwvcUajc+P2j/PXt//zx6xPAlk=;
+        b=I5hoZ+JonY9Au3Js4eQjXHQMFCbXd+tICNaSs8q/5mMwP6vfTDUHg8RSy2Ofo9/XhY
+         Q8k9S9NUl8CtIeEqv7eqoTFr95MYK9V4RX7C+dBDMs4OtRsWNg6vt9F6EMGoKufc/89i
+         Ov8BW+sLnJeM8eayeTl82mIRl1QEXrMN7YCm9h6KaJUuqd1acMM7RNF49QgdyB3KyzXM
+         p9c8B8r/jmtZdDbU2OPLNpc5DNOggDMu6Q8ZFF7hI2fUOdnwHkiKdv1xsztKHTcucRTG
+         /AjFiDxlVZzP3k83E1icfLRSQ7ImbJ2S9xmRW6SVS0gYPUz56I/4fB8+26Uv08C6SsDp
+         nGbA==
+X-Gm-Message-State: AOAM532kSsOCJcceXqXFUnr4luILg3i48z5egHs47QAJkWR+DgX4ozS/
+        ixgglZ9HeFfowkWrwoiPiR9bLULVEZDuE/13ot09WA==
+X-Received: by 2002:a17:902:c14b:b029:e4:16d0:6808 with SMTP id
+ 11-20020a170902c14bb02900e416d06808mt215597plj.69.1614038170018; Mon, 22 Feb
+ 2021 15:56:10 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210128170936.9222-4-mike.leach@linaro.org>
+References: <20210208155315.1367371-1-kaleshsingh@google.com>
+In-Reply-To: <20210208155315.1367371-1-kaleshsingh@google.com>
+From:   Kalesh Singh <kaleshsingh@google.com>
+Date:   Mon, 22 Feb 2021 18:55:59 -0500
+Message-ID: <CAC_TJve-vJPHfc7k-JuueoyCkKskv6ThVkrXzDA0rX85M4A82g@mail.gmail.com>
+Subject: Re: [PATCH v6 1/2] procfs: Allow reading fdinfo with PTRACE_MODE_READ
+Cc:     Jann Horn <jannh@google.com>,
+        Jeffrey Vander Stoep <jeffv@google.com>,
+        Kees Cook <keescook@chromium.org>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Cc: Android Kernel" <kernel-team@android.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        NeilBrown <neilb@suse.de>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Michel Lespinasse <walken@google.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Andrei Vagin <avagin@gmail.com>,
+        Yafang Shao <laoar.shao@gmail.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 28, 2021 at 05:09:29PM +0000, Mike Leach wrote:
-> Adds a set of generic support functions that allow devices to set and save
-> features values on the device, and enable and disable configurations.
-> 
-> Additional functions for other common operations including feature
-> reset.
-> 
-> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+On Mon, Feb 8, 2021 at 10:53 AM Kalesh Singh <kaleshsingh@google.com> wrote:
+>
+> Android captures per-process system memory state when certain low memory
+> events (e.g a foreground app kill) occur, to identify potential memory
+> hoggers. In order to measure how much memory a process actually consumes,
+> it is necessary to include the DMA buffer sizes for that process in the
+> memory accounting. Since the handle to DMA buffers are raw FDs, it is
+> important to be able to identify which processes have FD references to
+> a DMA buffer.
+>
+> Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
+> /proc/<pid>/fdinfo -- both are only readable by the process owner,
+> as follows:
+>   1. Do a readlink on each FD.
+>   2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD.
+>   3. stat the file to get the dmabuf inode number.
+>   4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
+>
+> Accessing other processes' fdinfo requires root privileges. This limits
+> the use of the interface to debugging environments and is not suitable
+> for production builds.  Granting root privileges even to a system process
+> increases the attack surface and is highly undesirable.
+>
+> Since fdinfo doesn't permit reading process memory and manipulating
+> process state, allow accessing fdinfo under PTRACE_MODE_READ_FSCRED.
+>
+> Suggested-by: Jann Horn <jannh@google.com>
+> Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
 > ---
->  drivers/hwtracing/coresight/Makefile          |   2 +-
->  .../hwtracing/coresight/coresight-config.c    | 245 ++++++++++++++++++
->  .../hwtracing/coresight/coresight-config.h    |  14 +-
->  .../hwtracing/coresight/coresight-syscfg.c    |   5 +-
->  4 files changed, 262 insertions(+), 4 deletions(-)
->  create mode 100644 drivers/hwtracing/coresight/coresight-config.c
-> 
-> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-> index 4ce854c434b1..daad9f103a78 100644
-> --- a/drivers/hwtracing/coresight/Makefile
-> +++ b/drivers/hwtracing/coresight/Makefile
-> @@ -4,7 +4,7 @@
->  #
->  obj-$(CONFIG_CORESIGHT) += coresight.o
->  coresight-y := coresight-core.o  coresight-etm-perf.o coresight-platform.o \
-> -		coresight-sysfs.o coresight-syscfg.o
-> +		coresight-sysfs.o coresight-syscfg.o coresight-config.o
->  obj-$(CONFIG_CORESIGHT_LINK_AND_SINK_TMC) += coresight-tmc.o
->  coresight-tmc-y := coresight-tmc-core.o coresight-tmc-etf.o \
->  		      coresight-tmc-etr.o
-> diff --git a/drivers/hwtracing/coresight/coresight-config.c b/drivers/hwtracing/coresight/coresight-config.c
-> new file mode 100644
-> index 000000000000..6cc4b213d9b6
-> --- /dev/null
-> +++ b/drivers/hwtracing/coresight/coresight-config.c
-> @@ -0,0 +1,245 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright(C) 2020 Linaro Limited. All rights reserved.
-> + * Author: Mike Leach <mike.leach@linaro.org>
-> + */
-> +
-> +#include <linux/sysfs.h>
-> +#include "coresight-config.h"
-> +#include "coresight-priv.h"
-> +
-> +/*
-> + * Write the value held in the register structure into the driver internal memory
-> + * location.
-> + */
-> +static void cscfg_set_reg(struct cscfg_reg_csdev *reg)
-> +{
-> +	u32 *p_val32 = (u32 *)reg->drv_store;
-> +	u32 tmp32 = reg->value.val32;
-> +
-> +	if (reg->value.type & CS_CFG_REG_TYPE_VAL_64BIT) {
-> +		*((u64 *)reg->drv_store) = reg->value.val64;
-> +		return;
-> +	}
-> +
-> +	if (reg->value.type & CS_CFG_REG_TYPE_VAL_MASK) {
-> +		tmp32 = *p_val32;
-> +		tmp32 &= ~reg->value.mask32;
-> +		tmp32 |= reg->value.val32 & reg->value.mask32;
-> +	}
-> +	*p_val32 = tmp32;
-> +}
-> +
-> +/*
-> + * Read the driver value into the reg if this is marked as one we want to save.
-> + */
-> +static void cscfg_save_reg(struct cscfg_reg_csdev *reg)
-> +{
-> +	if (!(reg->value.type & CS_CFG_REG_TYPE_VAL_SAVE))
-> +		return;
-> +	if (reg->value.type & CS_CFG_REG_TYPE_VAL_64BIT)
-> +		reg->value.val64 = *(u64 *)(reg->drv_store);
-> +	else
-> +		reg->value.val32 = *(u32 *)(reg->drv_store);
-> +}
-> +
-> +static void cscfg_init_reg_param(struct cscfg_parameter_csdev *param_csdev,
-> +				 struct cscfg_reg_csdev *reg_csdev)
-> +{
-> +	param_csdev->reg = reg_csdev;
+> Changes in v2:
+>   - Update patch description
 
-This is the link between registers and parameters... Very important and very
-easy to miss.  I'm not use how the situation can be improved other than adding a
-comment to highlight the dependency. 
+Hi all,
 
-> +	param_csdev->val64 = reg_csdev->value.type & CS_CFG_REG_TYPE_VAL_64BIT;
-> +
-> +	if (param_csdev->val64)
-> +		param_csdev->reg->value.val64 = param_csdev->current_value;
-> +	else
-> +		param_csdev->reg->value.val32 = (u32)param_csdev->current_value;
-> +}
-> +
-> +/* set values into the driver locations referenced in cscfg_reg_csdev */
-> +static int cscfg_set_on_enable(struct cscfg_feature_csdev *feat)
-> +{
-> +	int i;
-> +
-> +	spin_lock(feat->csdev_spinlock);
-> +	for (i = 0; i < feat->nr_regs; i++)
-> +		cscfg_set_reg(&feat->regs[i]);
-> +	spin_unlock(feat->csdev_spinlock);
-> +	dev_dbg(&feat->csdev->dev, "Feature %s: %s", feat->desc->name, "set on enable");
-> +	return 0;
-> +}
-> +
-> +/* copy back values from the driver locations referenced in cscfg_reg_csdev */
-> +static void cscfg_save_on_disable(struct cscfg_feature_csdev *feat)
-
-static void cscfg_save_on_disable(struct cscfg_feature_csdev *feat_csdev)
-
-To be modified throughout the patchset. 
-
-
-> +{
-> +	int i;
-> +
-> +	spin_lock(feat->csdev_spinlock);
-> +	for (i = 0; i < feat->nr_regs; i++)
-> +		cscfg_save_reg(&feat->regs[i]);
-> +	spin_unlock(feat->csdev_spinlock);
-> +	dev_dbg(&feat->csdev->dev, "Feature %s: %s", feat->desc->name, "save on disable");
-> +}
-> +
-> +/* default reset - restore default values */
-> +void cscfg_reset_feat(struct cscfg_feature_csdev *feat)
-> +{
-> +	struct cscfg_parameter_csdev *param_csdev;
-> +	struct cscfg_regval_desc *reg_desc;
-> +	struct cscfg_reg_csdev *reg_csdev;
-> +	int i;
-> +
-> +	/*
-> +	 * set the default values for all parameters and regs from the
-> +	 * relevant static descriptors.
-> +	 */
-> +	for (i = 0; i < feat->nr_params; i++)
-> +		feat->params[i].current_value = feat->desc->params[i].value;
-> +
-> +	for (i = 0; i < feat->nr_regs; i++) {
-> +		reg_desc = &feat->desc->regs[i];
-> +		reg_csdev = &feat->regs[i];
-> +		reg_csdev->value.type = reg_desc->type;
-> +
-> +		/* check if reg set from a parameter otherwise desc default */
-> +		if (reg_desc->type & CS_CFG_REG_TYPE_VAL_PARAM) {
-> +			/* for param, reg_desc->val32 is an index */
-
-Overloading reg_desc->val32 into an index will make maintenance of this code
-impossible.  Please see if there is a way to make that more intuitive.
-
-> +			param_csdev = &feat->params[reg_desc->val32];
-> +			cscfg_init_reg_param(param_csdev, reg_csdev);
-> +		} else
-> +			reg_csdev->value.val64 = reg_desc->val64;
-
-Very subtle how 32 bit values and mask are also handle by the above line.
-Probably worth a comment.
-
-> +	}
-> +}
-> +
-> +static int cscfg_update_presets(struct cscfg_config_csdev *cfg, int preset)
-
-static int cscfg_update_presets(struct cscfg_config_csdev *cfg_csdev, ...
-
-And throughout the patchset.
-
-> +{
-> +	int i, j, line_offset = 0, val_idx = 0, max_idx;
-> +	struct cscfg_parameter_csdev *param;
-> +	struct cscfg_feature_csdev *feat;
-> +	const char *name;
-> +	u64 val;
-> +
-> +	if (preset > cfg->desc->nr_presets)
-> +		return -EINVAL;
-
-A preset < 0 should also be treated as an error.
-
-> +	/*
-> +	 * Go through the array of features, assigning preset values to
-> +	 * feature parameters in the order they appear.
-> +	 * There should be precisely the same number of preset values as the
-> +	 * sum of number of parameters over all the features - but we will
-> +	 * ensure there is no overrun.
-> +	 */
-> +	line_offset = (preset-1) * cfg->desc->nr_total_params;
-
-        line_offset = (preset - 1) * cfg->desc->nr_total_params; 
-
-> +	max_idx = cfg->desc->nr_total_params;
-> +	for (i = 0; i < cfg->nr_feat; i++) {
-> +		feat = cfg->feats[i];
-> +		if (!feat->nr_params)
-> +			continue;
-> +
-> +		for (j = 0; j < feat->nr_params; j++) {
-> +			param = &feat->params[j];
-> +			name = feat->desc->params[j].name;
-> +			val = cfg->desc->presets[line_offset + val_idx++];
-> +			if (param->val64) {
-> +				dev_dbg(&cfg->csdev->dev,
-> +					"set param %s (%lld)", name, val);
-> +				param->reg->value.val64 = val;
-> +			} else {
-> +				param->reg->value.val32 = (u32)val;
-> +				dev_dbg(&cfg->csdev->dev,
-> +					"set param %s (%d)", name, (u32)val);
-> +			}
-> +			if (val_idx >= max_idx)
-> +				break;
-> +		}
-> +
-> +		/* don't overrun the preset array line */
-> +		if (val_idx >= max_idx)
-> +			break;
-> +	}
-> +	return 0;
-> +}
-> +
-> +/*
-> + * if we are not using a preset, then need to update the feature params
-> + * with current values.
-> + */
-> +static int cscfg_update_curr_params(struct cscfg_config_csdev *cfg)
-> +{
-> +	int i, j;
-> +	struct cscfg_feature_csdev *feat;
-> +	struct cscfg_parameter_csdev *param;
-> +	const char *name;
-> +	u64 val;
-> +
-> +	for (i = 0; i < cfg->nr_feat; i++) {
-> +		feat = cfg->feats[i];
-> +		if (!feat->nr_params)
-> +			continue;
-> +		for (j = 0; j < feat->nr_params; j++) {
-> +			param = &feat->params[j];
-> +			name = feat->desc->params[j].name;
-> +			val = param->current_value;
-> +			if (param->val64) {
-> +				dev_dbg(&cfg->csdev->dev,
-> +					"set param %s (%lld)", name, val);
-> +				param->reg->value.val64 = val;
-> +			} else {
-> +				param->reg->value.val32 = (u32)val;
-> +				dev_dbg(&cfg->csdev->dev,
-> +					"set param %s (%d)", name, (u32)val);
-> +			}
-> +		}
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int cscfg_prog_config(struct cscfg_config_csdev *cfg, bool enable)
-> +{
-> +	int i, err = 0;
-> +	struct cscfg_feature_csdev *feat;
-> +	struct coresight_device *csdev;
-> +
-> +	for (i = 0; i < cfg->nr_feat; i++) {
-> +		feat = cfg->feats[i];
-> +		csdev = feat->csdev;
-> +		dev_dbg(&csdev->dev, "cfg %s;  %s feature:%s", cfg->desc->name,
-> +			enable ? "enable" : "disable", feat->desc->name);
-> +
-> +		if (enable)
-> +			err = cscfg_set_on_enable(feat);
-> +		else
-> +			cscfg_save_on_disable(feat);
-> +
-> +		if (err)
-> +			break;
-> +	}
-> +	return err;
-> +}
-> +
-> +/**
-> + * Enable configuration for the device.
-> + *
-> + * @cfg:	config_csdev to set.
-> + * @preset:	preset values to use - 0 for default.
-> + */
-> +int cscfg_csdev_enable_config(struct cscfg_config_csdev *cfg, int preset)
-> +{
-> +	int err = 0;
-> +
-> +	if (preset)
-> +		err = cscfg_update_presets(cfg, preset);
-> +	else
-> +		err = cscfg_update_curr_params(cfg);
-> +	if (!err)
-> +		err = cscfg_prog_config(cfg, true);
-> +	if (!err)
-> +		cfg->enabled = true;
-> +	return err;
-> +}
-> +
-> +void cscfg_csdev_disable_config(struct cscfg_config_csdev *cfg)
-> +{
-> +	if (cfg->enabled) {
-> +		cscfg_prog_config(cfg, false);
-> +		cfg->enabled = false;
-> +	}
-> +}
-> diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
-> index 75ecdecf7013..9d66e0071f38 100644
-> --- a/drivers/hwtracing/coresight/coresight-config.h
-> +++ b/drivers/hwtracing/coresight/coresight-config.h
-> @@ -53,7 +53,10 @@ struct cscfg_parameter_desc {
->  };
->  
->  /**
-> - * Representation of register value.
-> + * Representation of register value and a descriptor of register usage.
-> + *
-> + * Used as a descriptor in the feature descriptors.
-> + * Used as a value in when in a feature loading into a csdev.
-
-Please move this to patch 01.
-
->   *
->   * Supports full 64 bit register value, or 32 bit value with optional mask
->   * value.
-> @@ -262,4 +265,13 @@ struct cscfg_csdev_feat_ops {
->  			 struct cscfg_feature_csdev *feat);
->  };
->  
-> +/* coresight config helper functions*/
-> +
-> +/* enable / disable config on a device - called with appropriate locks set.*/
-> +int cscfg_csdev_enable_config(struct cscfg_config_csdev *cfg, int preset);
-> +void cscfg_csdev_disable_config(struct cscfg_config_csdev *cfg);
-> +
-> +/* reset a feature to default values */
-> +void cscfg_reset_feat(struct cscfg_feature_csdev *feat);
-> +
->  #endif /* _CORESIGHT_CORESIGHT_CONFIG_H */
-> diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
-> index c04cea0c1db2..4b8e4e35e3e7 100644
-> --- a/drivers/hwtracing/coresight/coresight-syscfg.c
-> +++ b/drivers/hwtracing/coresight/coresight-syscfg.c
-> @@ -198,14 +198,15 @@ static int cscfg_load_feat_csdev(struct coresight_device *csdev,
->  	if (!feat_csdev)
->  		return -ENOMEM;
->  
-> -	/* load the feature into the device - may modify default ops*/
-> +	/* load the feature into the device */
-
-The right comment should be added in patch 02 and not changed without code to
-sustain it.
-
-A rigorous and consistent naming convention is of prime importance in this
-patch.  Otherwise I think it is holding together well.
-
-More comments tomorrow.
+Kindly requesting maintainers to take a look at this patch set.
 
 Thanks,
-Mathieu 
-
->  	err = ops->load_feat(csdev, feat_csdev);
->  	if (err)
->  		return err;
->  
-> -	/* add to internal csdev feature list */
-> +	/* add to internal csdev feature list & initialise using reset call */
->  	mutex_lock(&cscfg_csdev_mutex);
->  	list_add(&feat_csdev->node, &csdev->feature_csdev_list);
-> +	cscfg_reset_feat(feat_csdev);
->  	mutex_unlock(&cscfg_csdev_mutex);
->  
->  	return 0;
-> -- 
-> 2.17.1
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+Kalesh
+>
+>  fs/proc/base.c |  4 ++--
+>  fs/proc/fd.c   | 15 ++++++++++++++-
+>  2 files changed, 16 insertions(+), 3 deletions(-)
+>
+> diff --git a/fs/proc/base.c b/fs/proc/base.c
+> index b3422cda2a91..a37f9de7103f 100644
+> --- a/fs/proc/base.c
+> +++ b/fs/proc/base.c
+> @@ -3160,7 +3160,7 @@ static const struct pid_entry tgid_base_stuff[] = {
+>         DIR("task",       S_IRUGO|S_IXUGO, proc_task_inode_operations, proc_task_operations),
+>         DIR("fd",         S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_operations),
+>         DIR("map_files",  S_IRUSR|S_IXUSR, proc_map_files_inode_operations, proc_map_files_operations),
+> -       DIR("fdinfo",     S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdinfo_operations),
+> +       DIR("fdinfo",     S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdinfo_operations),
+>         DIR("ns",         S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_operations),
+>  #ifdef CONFIG_NET
+>         DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_operations),
+> @@ -3504,7 +3504,7 @@ static const struct inode_operations proc_tid_comm_inode_operations = {
+>   */
+>  static const struct pid_entry tid_base_stuff[] = {
+>         DIR("fd",        S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_operations),
+> -       DIR("fdinfo",    S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdinfo_operations),
+> +       DIR("fdinfo",    S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdinfo_operations),
+>         DIR("ns",        S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_operations),
+>  #ifdef CONFIG_NET
+>         DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_operations),
+> diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+> index cb51763ed554..585e213301f9 100644
+> --- a/fs/proc/fd.c
+> +++ b/fs/proc/fd.c
+> @@ -6,6 +6,7 @@
+>  #include <linux/fdtable.h>
+>  #include <linux/namei.h>
+>  #include <linux/pid.h>
+> +#include <linux/ptrace.h>
+>  #include <linux/security.h>
+>  #include <linux/file.h>
+>  #include <linux/seq_file.h>
+> @@ -72,6 +73,18 @@ static int seq_show(struct seq_file *m, void *v)
+>
+>  static int seq_fdinfo_open(struct inode *inode, struct file *file)
+>  {
+> +       bool allowed = false;
+> +       struct task_struct *task = get_proc_task(inode);
+> +
+> +       if (!task)
+> +               return -ESRCH;
+> +
+> +       allowed = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
+> +       put_task_struct(task);
+> +
+> +       if (!allowed)
+> +               return -EACCES;
+> +
+>         return single_open(file, seq_show, inode);
+>  }
+>
+> @@ -307,7 +320,7 @@ static struct dentry *proc_fdinfo_instantiate(struct dentry *dentry,
+>         struct proc_inode *ei;
+>         struct inode *inode;
+>
+> -       inode = proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUSR);
+> +       inode = proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUGO);
+>         if (!inode)
+>                 return ERR_PTR(-ENOENT);
+>
+> --
+> 2.30.0.478.g8a0d178c01-goog
+>
