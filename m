@@ -2,181 +2,243 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1CF2C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 18:10:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55635C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 18:52:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6CD2764D8F
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 18:10:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F2EB464E20
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 18:52:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230124AbhBVSKW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 13:10:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50264 "EHLO
+        id S231543AbhBVSwK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 13:52:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231241AbhBVSKW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 13:10:22 -0500
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C59C06174A
-        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 10:09:42 -0800 (PST)
-Received: by mail-io1-xd2f.google.com with SMTP id s24so14225074iob.6
-        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 10:09:42 -0800 (PST)
+        with ESMTP id S231624AbhBVSvj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 13:51:39 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19568C06174A
+        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 10:50:59 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id o22so299685pjs.1
+        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 10:50:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+giKpRbegYYfbOyat5lyHFg99I4++GstldCObu1z82w=;
-        b=GaaRmKxeR67OQoVmLXevbUUsL9qxK17fXoTFCZ3PIEa+MXI9+9xXs7/8pwsf3YpVTv
-         tB2y/vkcDrZZpGKHyDG3XqsxEC97QJwO8ite2CqH+c9q3z1PINPHRE4nhjoqx7lM7/yd
-         S+t+5ZQrpKOZ7e3xESmEs213W11mdN+LZiej9iZufgiOXlgW3x9Gqs34YbuisGQmO2uW
-         5xbs/BgCxHFIq9O+vB3O4Uu9d4s5PxzaR52IK8Ooh8y0DWn2a7S9s9qjxG4TrxeaBfGB
-         3M5PEQvSeelfNwZOCWbo7aqgei24aQio3GY4bFQRrEv9CtQbwhpvrHsZiuYwuo1DlY3v
-         dMyw==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=fWSnGOHQRw22BUkFu0CDCL0FRSrSJcNTmBm1h9SVnDQ=;
+        b=jsxlSAjMjBVR/+KtLcVPGhKoV4qJ83UNQAH23qgvxynIJTgK43UTjb04xUVrrrrmIP
+         DStorzSYehs5boEAg28nk+UbwRTsCnEZyalte0WxW/H2nH9WQZn2J5ZeaPgwAf7yMmK7
+         gizTdNxNOvBFY26HLNnvusjh1l3wqIIiMSz9xCTYYIy2LwEOId/qmJ+zVVmJqWQLxXW2
+         opr/aaEEvvKv3KXZs01EKiHIZ4oAnHM99G00tSRev6F2G0YQ/gGhmo21Rhpsdh66vA+r
+         JKY/Hlco1IFJ0IznpsGZ51adgsTUai/piX0aYZQcyG4xJqvuXzq/VmXjT9z61Nk5re9l
+         r+RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+giKpRbegYYfbOyat5lyHFg99I4++GstldCObu1z82w=;
-        b=BpTQWh+O2V44K7meNWnAPWZ3g2I4TWrcLO84kThg/xgXdZaZjH5s0aiX1h0YZbaq7s
-         tCfzStyJXqrgTdctefYZfHa6dFlz9gmV18Fu/Zyr6QTyL2RlBSWAhd4EtdMTou0G6oaC
-         ElKFBdVouvqvdgtQvoXA1ZynN7vs9TkrvrSw1AThFSciwZrZWZXhjNe++Oxdfnx0VgM9
-         SjDP64fZ8OHVY5Pdpfzq+/4FvPNqu8MPYDRLanArMhwC0vOy8odhadq4oUprgFuPCv7Y
-         6F+yR/EcU2db91TmewXBlmJxtLOprMB1zHYeDAQKNaZyGKqymA25RdbGwHnjrgdBnT09
-         7mtg==
-X-Gm-Message-State: AOAM532pWhBxGNoXkiw+63InRkejDcpU9EEVc8Y0JOeGSU6JRqPo9ErM
-        AwFjCv6bAsXsO6UfN50i6REBaehm+rjRvFMldKO0yNNfFIdNdw==
-X-Google-Smtp-Source: ABdhPJwu/x3We4/pQ4Y4FXmVZq+ZxyPHRck/C5c6TTZLxn+mTRU0uSshu5w3Vt5KSr+xiwXgT883A/jM2ipmN0cmvYk=
-X-Received: by 2002:a05:6602:314b:: with SMTP id m11mr2852611ioy.158.1614017381531;
- Mon, 22 Feb 2021 10:09:41 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=fWSnGOHQRw22BUkFu0CDCL0FRSrSJcNTmBm1h9SVnDQ=;
+        b=LNi6vN5/brrszDoH5VaiQXRlGY7BxWchk/1l4Nxf64My4Xz2SC2WnYdZF0/OG6fIMu
+         P31ImdFmLjmpox6DWgTMTxS4bIaSKUDZluxmOovjIFSjHobl4I0JoOoPIqBNNT7AZdSt
+         sbDnnsPx1n4IE6LZw3XEvdqX8utP5AJX644hBESnH0NhrwBoqvFz7yrJiXJVgXHftFrZ
+         Esse5TBmUDT4ddDsBtGu5wpKTV/Tc/FVRw48V1RMNYjrov2OeFew9wmcEB3m02g87C2W
+         0i4fwkKoDe5jDNhmdkPioOBSVbcfENiSDdOnjmnRuf0Xr1byXpNMt8peT9mU2oyW0tdR
+         I0MQ==
+X-Gm-Message-State: AOAM532UrCJIEgH7svRKTdEBmRojgvcjH32dzOXGYWkKkiW95GiawVwc
+        mhwu5U89U87S9DAli0HHwfTQgbMwGq0oxw==
+X-Google-Smtp-Source: ABdhPJxe3vfkvSEYm86oMzbeoUg9ThSJpfuio7psJ0LK+eXIWNzqLMP78vlcpVlkmHQ3M7gGzqSv3w==
+X-Received: by 2002:a17:90a:114f:: with SMTP id d15mr23788815pje.1.1614019858365;
+        Mon, 22 Feb 2021 10:50:58 -0800 (PST)
+Received: from xps15 (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+        by smtp.gmail.com with ESMTPSA id s16sm9261450pfs.39.2021.02.22.10.50.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Feb 2021 10:50:57 -0800 (PST)
+Date:   Mon, 22 Feb 2021 11:50:55 -0700
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Mike Leach <mike.leach@linaro.org>
+Cc:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        linux-doc@vger.kernel.org, suzuki.poulose@arm.com,
+        yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
+        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 01/10] coresight: syscfg: Initial coresight system
+ configuration
+Message-ID: <20210222185055.GA3239381@xps15>
+References: <20210128170936.9222-1-mike.leach@linaro.org>
+ <20210128170936.9222-2-mike.leach@linaro.org>
 MIME-Version: 1.0
-References: <5933570a-7768-26b2-40d0-1acac999d9f6@gmail.com>
-In-Reply-To: <5933570a-7768-26b2-40d0-1acac999d9f6@gmail.com>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Mon, 22 Feb 2021 19:09:30 +0100
-Message-ID: <CAKXUXMzBACaZzGkoF772y0pySc+UKyK_iW967nJkJTtVc93+LA@mail.gmail.com>
-Subject: Re: Investigating parsing error for struct/union
-To:     Aditya <yashsri421@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210128170936.9222-2-mike.leach@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 22, 2021 at 6:27 PM Aditya <yashsri421@gmail.com> wrote:
->
-> Hi Jonathan, Lukas
->
-> While investigating "error: Cannot parse struct or union!", I
-> discovered few more patterns causing this error:
-> 1) A large part of this error(~80%) occurs due to the presence of one
-> or more lines(such as '#define' lines) between commented code and
-> struct declaration.
->
-> For e.g., in include/linux/platform_data/apds990x.h:
->
-> /**
->  * struct apds990x_chip_factors - defines effect of the cover window
->  * @ga: Total glass attenuation
->  * @cf1: clear channel factor 1 for raw to lux conversion
->  * @irf1: IR channel factor 1 for raw to lux conversion
->  * @cf2: clear channel factor 2 for raw to lux conversion
->  * @irf2: IR channel factor 2 for raw to lux conversion
->  * @df: device factor for conversion formulas
->  *
->  * Structure for tuning ALS calculation to match with environment.
->  * Values depend on the material above the sensor and the sensor
->  * itself. If the GA is zero, driver will use uncovered sensor default
-> values
->  * format: decimal value * APDS_PARAM_SCALE except df which is plain
-> integer.
->  */
-> #define APDS_PARAM_SCALE 4096
-> struct apds990x_chip_factors {
->         int ga;
->         int cf1;
->         int irf1;
->         int cf2;
->         int irf2;
->         int df;
-> };
->
->
+On Thu, Jan 28, 2021 at 05:09:27PM +0000, Mike Leach wrote:
+> Creates an system management API to allow complex configurations and
+> features to be programmed into a CoreSight infrastructure.
+> 
+> A feature is defined as a programming set for a device or class of
+> devices.
+> 
+> A configuration is a set of features across the system that are enabled
+> for a trace session.
+> 
+> The API will manage system wide configuration, and allow complex
+> programmed features to be added to individual device instances, and
+> provide for system wide configuration selection on trace capture
+> operations.
+> 
+> This patch creates the initial data object and the initial API for
+> loading configurations and features.
+> 
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> ---
+>  drivers/hwtracing/coresight/Makefile          |   2 +-
+>  .../hwtracing/coresight/coresight-config.h    | 167 +++++++++++++++
+>  drivers/hwtracing/coresight/coresight-core.c  |  12 +-
+>  .../hwtracing/coresight/coresight-etm-perf.c  |   2 +-
+>  .../hwtracing/coresight/coresight-etm-perf.h  |   2 +-
+>  .../hwtracing/coresight/coresight-syscfg.c    | 197 ++++++++++++++++++
+>  .../hwtracing/coresight/coresight-syscfg.h    |  54 +++++
+>  7 files changed, 432 insertions(+), 4 deletions(-)
+>  create mode 100644 drivers/hwtracing/coresight/coresight-config.h
+>  create mode 100644 drivers/hwtracing/coresight/coresight-syscfg.c
+>  create mode 100644 drivers/hwtracing/coresight/coresight-syscfg.h
+> 
+> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
+> index f20e357758d1..4ce854c434b1 100644
+> --- a/drivers/hwtracing/coresight/Makefile
+> +++ b/drivers/hwtracing/coresight/Makefile
+> @@ -4,7 +4,7 @@
+>  #
+>  obj-$(CONFIG_CORESIGHT) += coresight.o
+>  coresight-y := coresight-core.o  coresight-etm-perf.o coresight-platform.o \
+> -		coresight-sysfs.o
+> +		coresight-sysfs.o coresight-syscfg.o
+>  obj-$(CONFIG_CORESIGHT_LINK_AND_SINK_TMC) += coresight-tmc.o
+>  coresight-tmc-y := coresight-tmc-core.o coresight-tmc-etf.o \
+>  		      coresight-tmc-etr.o
+> diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
+> new file mode 100644
+> index 000000000000..3fedf8ab3cee
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-config.h
+> @@ -0,0 +1,167 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2020 Linaro Limited, All rights reserved.
+> + * Author: Mike Leach <mike.leach@linaro.org>
+> + */
+> +
+> +#ifndef _CORESIGHT_CORESIGHT_CONFIG_H
+> +#define _CORESIGHT_CORESIGHT_CONFIG_H
+> +
+> +#include <linux/coresight.h>
+> +#include <linux/types.h>
+> +
+> +/* CoreSight Configuration Management - component and system wide configuration */
+> +
+> +/*
+> + * Register type flags for register value descriptor:
+> + * describe how the value is interpreted, and handled.
+> + */
+> +#define CS_CFG_REG_TYPE_STD		0x80	/* reg is standard reg */
+> +#define CS_CFG_REG_TYPE_RESOURCE	0x40	/* reg is a resource */
+> +#define CS_CFG_REG_TYPE_VAL_PARAM	0x08	/* reg value uses param */
+> +#define CS_CFG_REG_TYPE_VAL_MASK	0x04	/* reg value bit masked */
+> +#define CS_CFG_REG_TYPE_VAL_64BIT	0x02	/* reg value 64 bit */
+> +#define CS_CFG_REG_TYPE_VAL_SAVE	0x01	/* reg value save on disable */
+> +
+> +/*
+> + * flags defining what device class a feature will match to when processing a
+> + * system configuration - used by config data and devices.
+> + */
+> +#define	CS_CFG_MATCH_CLASS_SRC_ALL	0x0001	/* match any source */
+> +#define CS_CFG_MATCH_CLASS_SRC_ETM4	0x0002	/* match any ETMv4 device */
+> +
+> +/* flags defining device instance matching - used in config match desc data. */
+> +#define CS_CFG_MATCH_INST_ANY		0x80000000 /* any instance of a class */
+> +
+> +/*
+> + * Limit number of presets in a configuration
+> + * This is related to the number of bits (4) we use to select the preset on
+> + * the perf command line. Preset 0 is always none selected.
+> + * See PMU_FORMAT_ATTR(preset, "config:0-3") in coresight-etm-perf.c
+> + */
+> +#define CS_CFG_CONFIG_PRESET_MAX 15
+> +
+> +/**
+> + * Parameter descriptor for a device feature.
+> + *
+> + * @name:  Name of parameter.
+> + * @value: Initial or default value.
+> + */
+> +struct cscfg_parameter_desc {
+> +	const char *name;
+> +	u64 value;
+> +};
+> +
+> +/**
+> + * Representation of register value.
+> + *
+> + * Supports full 64 bit register value, or 32 bit value with optional mask
+> + * value.
+> + *
+> + * @type:	define register usage and interpretation.
+> + * @offset:	the address offset for register in the hardware device (per device specification).
+> + * @hw_info:	optional hardware device type specific information. (ETM / CTI specific etc)
+> + * @val64:	64 bit value.
+> + * @val32:	32 bit value.
+> + * @mask32:	32 bit mask when using 32 bit value to access device register.
+> + */
+> +struct cscfg_regval_desc {
+> +	struct {
+> +		u32 type:8;
+> +		u32 offset:12;
+> +		u32 hw_info:12;
+> +	};
+> +	union {
+> +		u64 val64;
+> +		struct {
+> +			u32 val32;
+> +			u32 mask32;
+> +		};
+> +	};
+> +};
+> +
+> +/**
+> + * Device feature descriptor - combination of registers and parameters to
+> + * program a device to implement a specific complex function.
+> + *
+> + * @name:	feature name.
+> + * @brief:	brief description of the feature.
+> + * @item:	List entry.
+> + * @match_flags: matching information if loading into a device
+> + * @nr_params:  number of parameters used.
+> + * @params:	array of parameters used.
+> + * @nr_regs:	number of registers used.
+> + * @reg:	array of registers used.
+> + */
+> +struct cscfg_feature_desc {
+> +	const char *name;
+> +	const char *brief;
+> +	struct list_head item;
+> +	u32 match_flags;
+> +	int nr_params;
+> +	struct cscfg_parameter_desc *params;
 
-Aditya, I independently made a similar observation and noted this
-issue in my personal notes, which will serve for a cleanup patch
-series, as follows:
+	struct cscfg_parameter_desc *params_desc;
 
-"SKIP DEFINITIONS" Feature:
+> +	int nr_regs;
+> +	struct cscfg_regval_desc *regs;
 
-The kernel-doc should proceed the code, and the required definition of
-data structures should stay close to the function in between the
-kernel-doc comment and the function definition.
+        struct cscfg_regval_desc *regs_desc;
 
-Let kernel-doc know to skip certain definitions; the actual definition
-documented will follow directly after the skipped definitions.
+That way I know exactly what I'm looking at when I see something like the
+following in patch 03:
 
-E.g.,
+        reg_desc = &feat->desc->regs[i];
 
-include/linux/cgroup.h:450: task_css_set_check: SKIP DEFINITIONS
-(struct mutex cgroup_mutex; spinlock_t css_set_lock)
-include/linux/hid-sensor-hub.h:174:
-sensor_hub_input_attr_get_raw_value: SKIP DEFINITIONS (enum
-sensor_hub_read_flags)
-
-I have not thought about a good syntax for that:
-
-maybe something like:
-/**
-* foo - description
-*
-* @arg: description
-*
-* ::skip: struct bar, enum blub, define MACRO
-*/
-
-where "::" serves as some annotation to instruct kernel-doc
-
-> 2) If struct does not contain any members, for e.g., in
-> include/linux/xz.h:
->
-> /**
->  * struct xz_dec - Opaque type to hold the XZ decoder state
->  */
-> struct xz_dec;
->
-> Here, it causes error as the curly braces and members expected by the
-> regex, are absent.
-> This kind of use has also been made in include/linux/zstd.h:
->
-> /**
->  * struct ZSTD_DDict - a digested dictionary to be used for decompression
->  */
-> typedef struct ZSTD_DDict_s ZSTD_DDict;
->
->
-> 3) Different Syntax than expected. For e.g.:
->     a) struct xyz struct_name {} syntax. This syntax has been used in
-> arch/arm/mach-omap2/omap_hwmod_common_data.c file
->     b) "static __maybe_unused const struct st_sensors_platform_data
-> default_press_pdata = {" in drivers/iio/pressure/st_pressure.h.
-> This kind of syntax has also been used in
-> drivers/iio/accel/st_accel.h, and drivers/iio/gyro/st_gyro.h
->
-> I wanted to take your opinion if we should extend support for any of
-> these syntax, causing the error. If not, perhaps we can make the
-> documentation a bit clear, atleast for (1), which causes most of these
-> errors; so as to not include any lines between comment and struct
-> declaration.
->
-> What do you think?
->
-
-I certainly appreciate it if you could work on that SKIP_DEFINITION
-feature, once we agreed on some first syntax for this feature.
-
-Lukas
