@@ -2,73 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74401C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 03:48:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 06E1EC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 05:06:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 409B164EDB
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 03:48:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BEB0064E61
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 05:06:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229949AbhBVDsR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 21 Feb 2021 22:48:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34794 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229889AbhBVDsQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 21 Feb 2021 22:48:16 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7832DC061574;
-        Sun, 21 Feb 2021 19:47:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=KAQyq0oIW/PNfyRqIr8/3EgF6hdr+7f6n/lL9tisUcw=; b=mTni6IvL5Kv0TZZv8wk5n+gIpt
-        +Q9+amPF/vgezh6rpnM75dgrCASncHDZQvdRd7kdmO1/Z5nb83XJchxNuL5zv2VcqhmkTNphNhpj+
-        kT1L/enxaG37yC7MTWCTleI5eSziKsbMBW34Nt1OJUFxfugElJAHlECOo+gYC9rDNnE6M4hT/8/FE
-        jewrf2vhkwX7eTZ7s7exsLYFu8cxkKzmG8prV6zzm2+fJXl3JBeIGj/aBxs/9ke6c2v2CB2catAGY
-        eGYEKIuQbnKNfdkfmIJ+8xnGAiEJJUHvKPQXwv6Gb2Pj20kwe6twldnYg8DEa1V8cHBFDYeMhzJcc
-        vK4Qtgtg==;
-Received: from [2601:1c0:6280:3f0::d05b] (helo=merlin.infradead.org)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1lE2C5-00046q-Vw; Mon, 22 Feb 2021 03:47:34 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        id S230090AbhBVFGk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 00:06:40 -0500
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:46850 "EHLO
+        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229487AbhBVFGj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 00:06:39 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R101e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0UP9fL7J_1613970355;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UP9fL7J_1613970355)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Mon, 22 Feb 2021 13:05:56 +0800
+Subject: Re: [PATCH] doc: use KCFLAGS instead of EXTRA_CFLAGS to pass flags
+ from command line
+To:     Masahiro Yamada <masahiroy@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH -next] Documentation: proc.rst: add more about the 6 fields in loadavg
-Date:   Sun, 21 Feb 2021 19:47:29 -0800
-Message-Id: <20210222034729.22350-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+Cc:     Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Harry Wei <harryxiyou@gmail.com>, Jyri Sarha <jsarha@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20210221152524.197693-1-masahiroy@kernel.org>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <b1d148cf-5264-54c7-1b6a-b0b4a5e866a1@linux.alibaba.com>
+Date:   Mon, 22 Feb 2021 13:05:54 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20210221152524.197693-1-masahiroy@kernel.org>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Address Jon's feedback on the previous patch by adding info about
-field separators in the /proc/loadavg file.
+Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/filesystems/proc.rst |    4 ++++
- 1 file changed, 4 insertions(+)
 
---- linux-next-20210219.orig/Documentation/filesystems/proc.rst
-+++ linux-next-20210219/Documentation/filesystems/proc.rst
-@@ -691,6 +691,10 @@ files are there, and which are missing.
-                 number of processes currently runnable (running or on ready queue);
-                 total number of processes in system;
-                 last pid created.
-+                All fields are separated by one space except "number of
-+                processes currently runnable" and "total number of processes
-+                in system", which are separated by a slash ('/'). Example:
-+                  0.61 0.61 0.55 3/828 22084
-  locks        Kernel locks
-  meminfo      Memory info
-  misc         Miscellaneous
+在 2021/2/21 下午11:25, Masahiro Yamada 写道:
+> You should use KCFLAGS to pass additional compiler flags from the
+> command line. Using EXTRA_CFLAGS is wrong.
+> 
+> EXTRA_CFLAGS is supposed to specify flags applied only to the current
+> Makefile (and now deprecated in favor of ccflags-y).
+> 
+> It is still used in arch/mips/kvm/Makefile (and possibly in external
+> modules too). Passing EXTRA_CFLAGS from the command line overwrites
+> it and breaks the build.
+> 
+> I also fixed drivers/gpu/drm/tilcdc/Makefile because commit 816175dd1fd7
+> ("drivers/gpu/drm/tilcdc: Makefile, only -Werror when no -W* in
+> EXTRA_CFLAGS") was based on the same misunderstanding.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+> ---
+> 
+>  Documentation/process/4.Coding.rst                            | 2 +-
+>  Documentation/process/submit-checklist.rst                    | 2 +-
+>  Documentation/translations/it_IT/process/4.Coding.rst         | 2 +-
+>  Documentation/translations/it_IT/process/submit-checklist.rst | 2 +-
+>  Documentation/translations/zh_CN/process/4.Coding.rst         | 2 +-
+>  drivers/gpu/drm/tilcdc/Makefile                               | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
+> 
