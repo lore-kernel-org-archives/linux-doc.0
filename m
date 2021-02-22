@@ -2,106 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21D70C433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 12:25:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D61C43381
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 15:17:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF7FB64F02
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 12:25:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52BB964E83
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 15:17:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230496AbhBVMZX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 07:25:23 -0500
-Received: from mx.kolabnow.com ([95.128.36.40]:22444 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231267AbhBVMYF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Feb 2021 07:24:05 -0500
-X-Greylist: delayed 507 seconds by postgrey-1.27 at vger.kernel.org; Mon, 22 Feb 2021 07:24:01 EST
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTP id 04947AAD;
-        Mon, 22 Feb 2021 13:13:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        message-id:references:in-reply-to:subject:subject:from:from:date
-        :date:content-transfer-encoding:content-type:content-type
-        :mime-version:received:received:received; s=dkim20160331; t=
-        1613996015; x=1615810416; bh=su6lN/wfDzpqvIMHiCSOa35nXcRiEiL67qu
-        Y39rTeko=; b=bM0Y5l8y5eb5/KPO2JNE8jFtVjv6yO7e2++iJoOYhuf0nbqsWPU
-        lpLCwWbqoUAQa2xzqBhJTanYdzMxcEFlm04tWblVBSTwH+RatT44DmjjNpgKzipQ
-        SWwTK+lhtFB1FkRL9m+7aNNnGrJcjqQeW1aQNdeLqHM89QRAqUxPw/bolSmzWf+x
-        6JcwYfBjUBTJDLCyFwKdU3LQjYeBZoptDj7AesXuMTY5aOyJJhi/5PhjBdK4CqRe
-        eKUo49vLEMq7KdA4oQc3XJyot+sQegPgyrBP8XGIkH6mUkceehlDfieXeBwBXP9P
-        3TEPVNanoWPGj6mpwBHONwrGS69y6VLSVCbW8BeuNd1kpyf960OMa+HnaDO3wMP1
-        M5UkqYqqePqb4hnKkQ6gvROcM2TK1yRojKFETbtDe3LkpJU1cU02YD8L5pXRzYbM
-        RVxmQOQKuf9GEJLlNd1E6cvarxQ6qzHQfzU1KcUea/YDVOPbVnmbxHYl3wHjz/TU
-        RN6qXa495mCEc4rd9gzFcfqQKaYBz+9qgpotD9EZ/5amflvn4GOCpcvm7DHf54N2
-        Puy5M4GwIfOZK/EfnJehegp4xh4pz6SLY0W7FgJfwNFr8p2d2/pyRDzVPmCynmrd
-        vsYCyvzJeZiuUJX7J4jGXx/OjpzObu8raySiv+Q00CfwB49uhhbbYHAE=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out001.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id AdfDJeDEk9-6; Mon, 22 Feb 2021 13:13:35 +0100 (CET)
-Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
-        by ext-mx-out001.mykolab.com (Postfix) with ESMTPS id 0D0F35ED;
-        Mon, 22 Feb 2021 13:13:34 +0100 (CET)
-Received: from int-subm002.mykolab.com (unknown [10.9.37.2])
-        by int-mx003.mykolab.com (Postfix) with ESMTPS id 81279A4C;
-        Mon, 22 Feb 2021 13:13:32 +0100 (CET)
+        id S231161AbhBVPRD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 10:17:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40058 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231404AbhBVPPX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 10:15:23 -0500
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71B34C061574;
+        Mon, 22 Feb 2021 07:14:19 -0800 (PST)
+Received: by mail-lj1-x232.google.com with SMTP id e17so58914240ljl.8;
+        Mon, 22 Feb 2021 07:14:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=hq2/gvw9RtoaQB1TB4erX0u+6dSXoT0qR4ybLmvRHog=;
+        b=J8ZPYlqPoWUSAZrJqGyUKqmxz97aSVUyQh0z+7l0YNAJ8roetNbI3bgQBXY2VWxHCI
+         9GtXreYDeWnhC47FBlDciZpwVy8ZhkW5iHFmO6geR05L76gllbnp/oQWkRjP4sEbvUKr
+         nFBcl7D+6ixsqOnjGvLi7p5zGnzPhkUpK7Ojvnoe0u+ugdn6eo7aIRiuzbSlKlAtK6XY
+         UaqEKxcvUhc0PsQpFTmqmGAu522CbIkOcBp8BTsPLC5GOdRlO+RxMUMbh6JjiFmKfvc7
+         6o2qaU2j48cgs3RqaxvtiXOpB20mlaqnJ4gEkCO8X/0OCDPEr3uTKJsL91igY4ET1WXL
+         nabQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=hq2/gvw9RtoaQB1TB4erX0u+6dSXoT0qR4ybLmvRHog=;
+        b=Eef+H+OOhtjog13moESnyMZkY4ZXxlxac+z2S6PBYbaHzJxzY6nTpxuNBEo1zSmR3T
+         p/kWHFgvMWLNYG1gbbcnCumKR2UjpbCJkp1gQ0fjr4fohWidngWIf7k/TZ3szolWd20O
+         /uePLciJ1zAr+15cLxFq/65+wWdO3eKmXpNv3aXZDGs+vxPfZZ22s6DnwjQ21tPjeKiD
+         LSQOBCAxRo2m9Rlkw0XPNTiItXjdSo5+70iE1I6MNy0LRHOd8Zn4MZ7XnUy65YyLK5hC
+         3h32SbMa68nBvEPeSc/TLyyeP914f9wqa0p/XgRLwlGj/5tmCb1tSqK4QcIWLLAZn1pB
+         Jasw==
+X-Gm-Message-State: AOAM530lTiUfZ5GaVdcIplpsHoNWuJ6aeZ0lzMXC+v53Zg5zJh0BBJTB
+        5NFQ5US7YnQBLdKoE/u4yNw=
+X-Google-Smtp-Source: ABdhPJyVoh2nz4TTvTVYRiKOXHcdcmJ0zW4Zt6T3Rif/FkAR+cNVhnQKSr3OUx9SH3ib6N50kFfXPQ==
+X-Received: by 2002:a05:651c:338:: with SMTP id b24mr14177795ljp.157.1614006858048;
+        Mon, 22 Feb 2021 07:14:18 -0800 (PST)
+Received: from localhost ([104.193.8.209])
+        by smtp.gmail.com with ESMTPSA id x6sm734695lfn.114.2021.02.22.07.14.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Feb 2021 07:14:17 -0800 (PST)
+Date:   Mon, 22 Feb 2021 23:14:15 +0800
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     Robert Richter <rric@kernel.org>
+Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] PCI: Introduce pcim_alloc_irq_vectors()
+Message-ID: <20210222151415.GA896979@nuc8i5>
+References: <20210218150458.798347-1-zhengdejin5@gmail.com>
+ <20210218150458.798347-2-zhengdejin5@gmail.com>
+ <YC/NxfsQn2RKkrp8@rric.localdomain>
+ <20210219164649.GA814637@nuc8i5>
+ <YDONyMSHO9FDeY69@rric.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 22 Feb 2021 13:13:30 +0100
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Harry Wei <harryxiyou@gmail.com>, Jyri Sarha <jsarha@ti.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc: use KCFLAGS instead of EXTRA_CFLAGS to pass flags
- from command line
-In-Reply-To: <20210221152524.197693-1-masahiroy@kernel.org>
-References: <20210221152524.197693-1-masahiroy@kernel.org>
-Message-ID: <d3f3b273ff2ac78e5cecc10789ffd2da@vaga.pv.it>
-X-Sender: federico.vaga@vaga.pv.it
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YDONyMSHO9FDeY69@rric.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-02-21 16:25, Masahiro Yamada wrote:
-> You should use KCFLAGS to pass additional compiler flags from the
-> command line. Using EXTRA_CFLAGS is wrong.
+On Mon, Feb 22, 2021 at 11:56:08AM +0100, Robert Richter wrote:
+> On 20.02.21 00:46:49, Dejin Zheng wrote:
+> > > On 18.02.21 23:04:55, Dejin Zheng wrote:
 > 
-> EXTRA_CFLAGS is supposed to specify flags applied only to the current
-> Makefile (and now deprecated in favor of ccflags-y).
+> > > > +	if (!dr || !dr->enabled)
+> > here checks whether the pci device is enabled.
 > 
-> It is still used in arch/mips/kvm/Makefile (and possibly in external
-> modules too). Passing EXTRA_CFLAGS from the command line overwrites
-> it and breaks the build.
-> 
-> I also fixed drivers/gpu/drm/tilcdc/Makefile because commit 
-> 816175dd1fd7
-> ("drivers/gpu/drm/tilcdc: Makefile, only -Werror when no -W* in
-> EXTRA_CFLAGS") was based on the same misunderstanding.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
-> 
->  Documentation/process/4.Coding.rst                            | 2 +-
->  Documentation/process/submit-checklist.rst                    | 2 +-
->  Documentation/translations/it_IT/process/4.Coding.rst         | 2 +-
->  Documentation/translations/it_IT/process/submit-checklist.rst | 2 +-
->  Documentation/translations/zh_CN/process/4.Coding.rst         | 2 +-
->  drivers/gpu/drm/tilcdc/Makefile                               | 2 +-
->  6 files changed, 6 insertions(+), 6 deletions(-)
+> What is the purpose of this? The device "is_managed" or not.
+>
+The device is managed or not by check whether "dr" is NULL. And
+check the "dr->enabled" is for the PCI device enable. I think it
+may not make sense to apply for irq vectors when PCI device is not
+enabled.
 
-Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
+PCI device enable by call pci_enable_device() function, this function
+initialize device before it's used by a driver. Ask low-level code
+to enable I/O and memory. Wake up the device if it was suspended.
 
--- 
-Federico Vaga
-http://www.federicovaga.it/
+So I think it might be better to return to failure when it is found
+the PCI device is not enabled in the pcim_alloc_irq_vectors() function.
+It can facilitate developers to find problems as soon as possible.
+
+BR,
+Dejin
+> -Robert
