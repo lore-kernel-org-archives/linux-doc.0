@@ -2,104 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81D61C43381
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 15:17:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 645A8C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 16:05:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 52BB964E83
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 15:17:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3714464E61
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 16:05:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231161AbhBVPRD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 10:17:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40058 "EHLO
+        id S231194AbhBVQF0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 11:05:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231404AbhBVPPX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 10:15:23 -0500
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71B34C061574;
-        Mon, 22 Feb 2021 07:14:19 -0800 (PST)
-Received: by mail-lj1-x232.google.com with SMTP id e17so58914240ljl.8;
-        Mon, 22 Feb 2021 07:14:19 -0800 (PST)
+        with ESMTP id S231555AbhBVQFJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 11:05:09 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 848B8C061793;
+        Mon, 22 Feb 2021 08:03:55 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id kr16so8875351pjb.2;
+        Mon, 22 Feb 2021 08:03:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=hq2/gvw9RtoaQB1TB4erX0u+6dSXoT0qR4ybLmvRHog=;
-        b=J8ZPYlqPoWUSAZrJqGyUKqmxz97aSVUyQh0z+7l0YNAJ8roetNbI3bgQBXY2VWxHCI
-         9GtXreYDeWnhC47FBlDciZpwVy8ZhkW5iHFmO6geR05L76gllbnp/oQWkRjP4sEbvUKr
-         nFBcl7D+6ixsqOnjGvLi7p5zGnzPhkUpK7Ojvnoe0u+ugdn6eo7aIRiuzbSlKlAtK6XY
-         UaqEKxcvUhc0PsQpFTmqmGAu522CbIkOcBp8BTsPLC5GOdRlO+RxMUMbh6JjiFmKfvc7
-         6o2qaU2j48cgs3RqaxvtiXOpB20mlaqnJ4gEkCO8X/0OCDPEr3uTKJsL91igY4ET1WXL
-         nabQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=g/df7huNH6MfWEYwBa1KL4hvVPRnxd7sYN0b7qrS+Eo=;
+        b=YP9xzY8apNP3InqG+PM1WTiqx1/NMTiW4Hjvdj2gSAg9FlQ8zEwFWKnqERvnc5D267
+         eB3iLEJYcvnfae/4iFq6m9bZpvBfg2nFHXDZzIGNkWp7nFxrZm66AJVldpKP/Rn2G+CF
+         z5nbRNt/5Sh6XRXpq56MxX0Vnl5/6+v5S5QBL7k3kWamaW8TcDRxcwU2n3QJmFkMFwiM
+         3XE+nR2lW9wTN6306HphrG78dAExYFAv8nzY3GkeyBLVuem0Fahpzn/ryDcQmb/Vdo8+
+         uDhGPvIf6hTom85/o7UMA4EFIdoYLupLV0yyPA97EShNNOm7iOqOxNWG0FLj1PRmGYyw
+         aSfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=hq2/gvw9RtoaQB1TB4erX0u+6dSXoT0qR4ybLmvRHog=;
-        b=Eef+H+OOhtjog13moESnyMZkY4ZXxlxac+z2S6PBYbaHzJxzY6nTpxuNBEo1zSmR3T
-         p/kWHFgvMWLNYG1gbbcnCumKR2UjpbCJkp1gQ0fjr4fohWidngWIf7k/TZ3szolWd20O
-         /uePLciJ1zAr+15cLxFq/65+wWdO3eKmXpNv3aXZDGs+vxPfZZ22s6DnwjQ21tPjeKiD
-         LSQOBCAxRo2m9Rlkw0XPNTiItXjdSo5+70iE1I6MNy0LRHOd8Zn4MZ7XnUy65YyLK5hC
-         3h32SbMa68nBvEPeSc/TLyyeP914f9wqa0p/XgRLwlGj/5tmCb1tSqK4QcIWLLAZn1pB
-         Jasw==
-X-Gm-Message-State: AOAM530lTiUfZ5GaVdcIplpsHoNWuJ6aeZ0lzMXC+v53Zg5zJh0BBJTB
-        5NFQ5US7YnQBLdKoE/u4yNw=
-X-Google-Smtp-Source: ABdhPJyVoh2nz4TTvTVYRiKOXHcdcmJ0zW4Zt6T3Rif/FkAR+cNVhnQKSr3OUx9SH3ib6N50kFfXPQ==
-X-Received: by 2002:a05:651c:338:: with SMTP id b24mr14177795ljp.157.1614006858048;
-        Mon, 22 Feb 2021 07:14:18 -0800 (PST)
-Received: from localhost ([104.193.8.209])
-        by smtp.gmail.com with ESMTPSA id x6sm734695lfn.114.2021.02.22.07.14.16
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=g/df7huNH6MfWEYwBa1KL4hvVPRnxd7sYN0b7qrS+Eo=;
+        b=IK2a90YIlEMI7Xsi9iRKjgjgY9wB5kSFmd4PgdVKtb2EngntE6Q+ZuV0z7xOv8snys
+         3yu6v1pl5UeDusWP2FYINZeoBk7T5cJrx7P3WkCvaIJjDsBpYucVj32Vimt5uHHEjwNS
+         n4L/DVuAU+/lLKrEcRs5CDQfp2hsKn+5fEOsh8atM1st73ahO9SwqIJ6uhI4zzs6ZAJ5
+         u0DJYkfYx8zdkUCZMqaol7ZzOoDO0/WpSvDD9MxvB0x3tKZt9NdVpi2wpG0YCV6leUp/
+         Csur2ow4TJQWEnczZbjb3dx9OHV4oX4mHWQqn+pkABWtg82fRktSE2DA+ku5YrgQRb39
+         q4FA==
+X-Gm-Message-State: AOAM530C6LThdc8MHsOUOjxdFQsa8LIvyqVySiC9LUBtwLftt2I96uaA
+        mGX0yw9aMo7gGH6qru48e9I=
+X-Google-Smtp-Source: ABdhPJwVZA8/60TITCfjuud2smvskuBah0kv6QccJazhIC+JGnxqinDyG7ls9VFb59+lMsi/UtNr/A==
+X-Received: by 2002:a17:902:6949:b029:e3:1ee9:6bfd with SMTP id k9-20020a1709026949b02900e31ee96bfdmr23241817plt.66.1614009835024;
+        Mon, 22 Feb 2021 08:03:55 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:600d:a089:d92b:2fcb:b6a3:bcc0])
+        by smtp.googlemail.com with ESMTPSA id s18sm18541728pjr.14.2021.02.22.08.03.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Feb 2021 07:14:17 -0800 (PST)
-Date:   Mon, 22 Feb 2021 23:14:15 +0800
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     Robert Richter <rric@kernel.org>
-Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
-        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] PCI: Introduce pcim_alloc_irq_vectors()
-Message-ID: <20210222151415.GA896979@nuc8i5>
-References: <20210218150458.798347-1-zhengdejin5@gmail.com>
- <20210218150458.798347-2-zhengdejin5@gmail.com>
- <YC/NxfsQn2RKkrp8@rric.localdomain>
- <20210219164649.GA814637@nuc8i5>
- <YDONyMSHO9FDeY69@rric.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YDONyMSHO9FDeY69@rric.localdomain>
+        Mon, 22 Feb 2021 08:03:54 -0800 (PST)
+From:   Aditya Srivastava <yashsri421@gmail.com>
+To:     corbet@lwn.net
+Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [RFC] scripts: kernel-doc: fix typedef support for struct parsing
+Date:   Mon, 22 Feb 2021 21:33:47 +0530
+Message-Id: <20210222160347.23410-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Feb 22, 2021 at 11:56:08AM +0100, Robert Richter wrote:
-> On 20.02.21 00:46:49, Dejin Zheng wrote:
-> > > On 18.02.21 23:04:55, Dejin Zheng wrote:
-> 
-> > > > +	if (!dr || !dr->enabled)
-> > here checks whether the pci device is enabled.
-> 
-> What is the purpose of this? The device "is_managed" or not.
->
-The device is managed or not by check whether "dr" is NULL. And
-check the "dr->enabled" is for the PCI device enable. I think it
-may not make sense to apply for irq vectors when PCI device is not
-enabled.
+There are files in kernel, which use 'typedef struct' syntax for defining
+struct. For eg, include/linux/zstd.h, drivers/scsi/megaraid/mega_common.h,
+etc.
+However, kernel-doc still does not support it, causing a parsing error.
 
-PCI device enable by call pci_enable_device() function, this function
-initialize device before it's used by a driver. Ask low-level code
-to enable I/O and memory. Wake up the device if it was suspended.
+For eg, running scripts/kernel-doc -none on include/linux/zstd.h emits:
+"error: Cannot parse struct or union!"
 
-So I think it might be better to return to failure when it is found
-the PCI device is not enabled in the pcim_alloc_irq_vectors() function.
-It can facilitate developers to find problems as soon as possible.
+Add support for parsing it.
 
-BR,
-Dejin
-> -Robert
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+ scripts/kernel-doc | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 8b5bc7bf4bb8..46e904dc3f87 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1201,12 +1201,20 @@ sub dump_union($$) {
+ sub dump_struct($$) {
+     my $x = shift;
+     my $file = shift;
++    my $decl_type;
++    my $members;
+ 
+     if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
+-	my $decl_type = $1;
++	$decl_type = $1;
+ 	$declaration_name = $2;
+-	my $members = $3;
++	$members = $3;
++    } elsif ($x =~ /typedef\s+(struct|union)\s*\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*\s*(\w*)\s*;/) {
++	$decl_type = $1;
++	$declaration_name = $3;
++	$members = $2;
++    }
+ 
++    if ($members) {
+ 	if ($identifier ne $declaration_name) {
+ 	    print STDERR "${file}:$.: warning: expecting prototype for $decl_type $identifier. Prototype was for $decl_type $declaration_name instead\n";
+ 	    return;
+-- 
+2.17.1
+
