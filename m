@@ -2,111 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D36C7C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 08:57:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F7C2C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 09:27:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 84DCA64DD3
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 08:57:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BAA1364E2F
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 09:27:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229961AbhBVI5z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 03:57:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44182 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229953AbhBVI5r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 03:57:47 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54B93C061574;
-        Mon, 22 Feb 2021 00:57:07 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id n10so9815028pgl.10;
-        Mon, 22 Feb 2021 00:57:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=asA/ItuewNg3IaZAJfPBjAM64gPw1m4pIHql4x7Kuio=;
-        b=IWTV9+HGz0K2zdIVzHNUcTh6DWCQ3j1Wny8OfWn7zXAKSXh9LTxGlBLqxgYe/nQHQT
-         ugNg+KPj7JloYQIiJjOsC1THr2+DX8oPRU1FrBdE4LPsGYVpr733MCBBw0pR0TcjSKbG
-         Qv1EooV7Nl0lE+srKk6wuEo3ctOfOvubtJyU0pK+4iz4ESjLttuijI3t2w8OxQgzyyVC
-         EMwgaPxr6umSDdLr0oq8bOZpGv+X5mrqaXk1hDynpBR5xQrPw0P2JrpEjuVG26HIK7Yb
-         XK0kB3RTIv3MHZELpzMusTykJGAbnJC3h5+LOVkvWZh/ZBlXminZ8dbH4A/SwjYxAqIE
-         2f/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=asA/ItuewNg3IaZAJfPBjAM64gPw1m4pIHql4x7Kuio=;
-        b=q6JTdKl8Txx4IttCRVbeEVeoz6Eq9xE7LOkNrQJUFwi12TbjAw3Hw8uLAgFkOL+JOV
-         4kf0DikrylLy/BRHCNV0laRqzsBey8mUeUKP3O0s3WjDi3l45pA1oAysXpOe6ebcrcu1
-         vfWRkXjM6otMXvdSk+TfZBCA1h1WaXZxkLpNsiNL7gtF4CWHM0WoDlkgdF36M+boxUXU
-         yd4anCMre7a2xt3pAzo/rbWzv2jcRc8a4QCS9g01EvFMMI7nSneuy8b4sppajUkiJ5AK
-         Lm7D7nWWY9Ot8uz33As/z0ncJWsdaJjz9mEXkOkcdNBgVZB+8zMMEBK+P8/1KaET+sE9
-         EqTw==
-X-Gm-Message-State: AOAM530LHZDT5PqKtfKfe62cWpL6dFOD10rjLEHzv8xyAzxSrGjxGDR3
-        55xsc/BqEloktnIo7dPg6vWEAk6UEC+TuZxwfvM=
-X-Google-Smtp-Source: ABdhPJyFar9hcVrJw5G6ESx551HbJp+wWd1Ee9awynL0SbxLrNk71STdxQuORgAGTEhKmOtcAIJxfy8ptPZYJm8MMmk=
-X-Received: by 2002:aa7:9ad2:0:b029:1e5:f0e6:2fcd with SMTP id
- x18-20020aa79ad20000b02901e5f0e62fcdmr21221070pfp.4.1613984226945; Mon, 22
- Feb 2021 00:57:06 -0800 (PST)
+        id S229996AbhBVJ0r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 04:26:47 -0500
+Received: from mx2.suse.de ([195.135.220.15]:59220 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230218AbhBVJ0O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Feb 2021 04:26:14 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1613985927; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UahR2KSk7VlBZc3dTRORhVfUx0fNuikYUhL9eaPGX7U=;
+        b=fdt1pIsDWxpYh/9cEIqlC5GwlO0EdIF1ZtDcVKC44TP72vfj4m7lrgFpLv0Z188/YoB8XD
+        xzzyjQZQKyXvUjBhUPQBCOw6LHVFSs0URwuGj7QClp1QfzHFcQE5RGLVinrSWgPT9F9oZA
+        ef3B0M0lGkb4nF24pGHRdCEoARo9HFw=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 7EFEDACCF;
+        Mon, 22 Feb 2021 09:25:27 +0000 (UTC)
+Date:   Mon, 22 Feb 2021 10:25:26 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [External] Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap
+ pages associated with each HugeTLB page
+Message-ID: <YDN4hhhINcn69CeV@dhcp22.suse.cz>
+References: <20210219104954.67390-1-songmuchun@bytedance.com>
+ <20210219104954.67390-5-songmuchun@bytedance.com>
+ <YC/HRTq1MRaDWn7O@dhcp22.suse.cz>
+ <CAMZfGtW-j=WizTckEWZNB2OSPkz662Vjr79Fb0he9tMD+bnT3Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210216201813.60394-1-xie.he.0141@gmail.com> <YC4sB9OCl5mm3JAw@unreal>
- <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com>
- <YC5DVTHHd6OOs459@unreal> <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
- <YC7GHgYfGmL2wVRR@unreal> <CAJht_EPZ7rVFd-XD6EQD2VJTDtmZZv0HuZvii+7=yhFgVz68VQ@mail.gmail.com>
- <CAJht_EPPMhB0JTtjWtMcGbRYNiZwJeMLWSC5hS6WhWuw5FgZtg@mail.gmail.com>
- <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <CAJht_EOru3pW6AHN4QVjiaERpLSfg-0G0ZEaqU_hkhX1acv0HQ@mail.gmail.com> <906d8114f1965965749f1890680f2547@dev.tdt.de>
-In-Reply-To: <906d8114f1965965749f1890680f2547@dev.tdt.de>
-From:   Xie He <xie.he.0141@gmail.com>
-Date:   Mon, 22 Feb 2021 00:56:56 -0800
-Message-ID: <CAJht_EPBJhhdCBoon=WMuPBk-sxaeYOq3veOpAd2jq5kFqQHBg@mail.gmail.com>
-Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB frames
-To:     Martin Schiller <ms@dev.tdt.de>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
-        Leon Romanovsky <leon@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Linux X25 <linux-x25@vger.kernel.org>,
-        Linux Kernel Network Developers <netdev@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Krzysztof Halasa <khc@pm.waw.pl>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtW-j=WizTckEWZNB2OSPkz662Vjr79Fb0he9tMD+bnT3Q@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 21, 2021 at 11:14 PM Martin Schiller <ms@dev.tdt.de> wrote:
->
-> I'm not really happy with this change because it breaks compatibility.
-> We then suddenly have 2 interfaces; the X.25 routings are to be set via
-> the "new" hdlc<x>_x25 interfaces instead of the hdlc<x> interfaces.
->
-> I currently just don't have a nicer solution to fix this queueing
-> problem either. On the other hand, since the many years we have been
-> using the current state, I have never noticed any problems with
-> discarded frames. So it might be more a theoretical problem than a
-> practical one.
+On Sat 20-02-21 12:20:36, Muchun Song wrote:
+> On Fri, Feb 19, 2021 at 10:12 PM Michal Hocko <mhocko@suse.com> wrote:
+[...]
+> > What about hugetlb page poisoning on HW failure (resp. soft offlining)?
+> 
+> If the HW poisoned hugetlb page failed to be dissolved, the page
+> will go back to the free list with PG_HWPoison set. But the page
+> will not be used, because we will check whether the page is HW
+> poisoned when it is dequeued from the free list. If so, we will skip
+> this page.
 
-This problem becomes very serious when we use AF_PACKET sockets,
-because the majority of frames would be dropped by the hardware
-driver, which significantly impacts transmission speed. What I am
-really doing is to enable adequate support for AF_PACKET sockets,
-allowing users to use the bare (raw) LAPB protocol. If we take this
-into consideration, this problem is no longer just a theoretical
-problem, but a real practical issue.
+Can this lead to an underprovisioned pool then? Or is there a new
+hugetlb allocated to replace the poisoned one?
 
-If we don't want to break backward compatibility, there is another option:
-We can create a new API for the HDLC subsystem for stopping/restarting
-the TX queue, and replace all HDLC hardware drivers' netif_stop_queue
-and netif_wake_queue calls with calls to this new API. This new API
-would then call hdlc_x25 to stop/restart its internal queue.
-
-But this option would require modifying all HDLC hardware drivers'
-code, and frankly, not all HDLC hardware drivers' developers care
-about running X.25 protocols on their hardware. So this would cause
-both hardware driver instabilities and confusion for hardware driver
-developers.
+-- 
+Michal Hocko
+SUSE Labs
