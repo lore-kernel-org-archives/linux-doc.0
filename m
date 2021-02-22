@@ -2,113 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 645A8C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 16:05:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 254E3C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 17:28:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3714464E61
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 16:05:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E42F664F07
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Feb 2021 17:28:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231194AbhBVQF0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 11:05:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50868 "EHLO
+        id S230139AbhBVR2J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 12:28:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231555AbhBVQFJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 11:05:09 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 848B8C061793;
-        Mon, 22 Feb 2021 08:03:55 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id kr16so8875351pjb.2;
-        Mon, 22 Feb 2021 08:03:55 -0800 (PST)
+        with ESMTP id S230335AbhBVR2H (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 12:28:07 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5B0DC061786
+        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 09:27:26 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id e9so8163706plh.3
+        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 09:27:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=g/df7huNH6MfWEYwBa1KL4hvVPRnxd7sYN0b7qrS+Eo=;
-        b=YP9xzY8apNP3InqG+PM1WTiqx1/NMTiW4Hjvdj2gSAg9FlQ8zEwFWKnqERvnc5D267
-         eB3iLEJYcvnfae/4iFq6m9bZpvBfg2nFHXDZzIGNkWp7nFxrZm66AJVldpKP/Rn2G+CF
-         z5nbRNt/5Sh6XRXpq56MxX0Vnl5/6+v5S5QBL7k3kWamaW8TcDRxcwU2n3QJmFkMFwiM
-         3XE+nR2lW9wTN6306HphrG78dAExYFAv8nzY3GkeyBLVuem0Fahpzn/ryDcQmb/Vdo8+
-         uDhGPvIf6hTom85/o7UMA4EFIdoYLupLV0yyPA97EShNNOm7iOqOxNWG0FLj1PRmGYyw
-         aSfA==
+        h=to:cc:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=edcfb6u/1BZN0KQqup+/d7AkLC2yW/srYObkME7xBZw=;
+        b=WQVEROLZ/gB3RzKmDk5qFHfwaGxNwkrLQN0J/bFqnSSFzhuAy7x3pFQ8jlpZ7ZD3ll
+         TYTuE+x07gkfKrYoip61kR6eR3uu4Wxb25u2EgUU3KjsdJSo81W0gkD89mH3YV0QN6c5
+         BDPzjqP8LWC1LAHsgBOtphwnuEYAeOG6voZZZid1mVyW5WO5pRWCu8Sk1cz4Qnli7JiC
+         BDojUO+Y8W4HB0HJZ3uyfo+V6wm5dLemqjwcOUW810l/I1BuckNRdziovy4rAf4fSy70
+         W3n+G06fQd+woOgHozPIl14hD98+AV/5hmbzfRtdPpzF/yiOzLff6qLXLYLrBFEQbqEK
+         4+3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=g/df7huNH6MfWEYwBa1KL4hvVPRnxd7sYN0b7qrS+Eo=;
-        b=IK2a90YIlEMI7Xsi9iRKjgjgY9wB5kSFmd4PgdVKtb2EngntE6Q+ZuV0z7xOv8snys
-         3yu6v1pl5UeDusWP2FYINZeoBk7T5cJrx7P3WkCvaIJjDsBpYucVj32Vimt5uHHEjwNS
-         n4L/DVuAU+/lLKrEcRs5CDQfp2hsKn+5fEOsh8atM1st73ahO9SwqIJ6uhI4zzs6ZAJ5
-         u0DJYkfYx8zdkUCZMqaol7ZzOoDO0/WpSvDD9MxvB0x3tKZt9NdVpi2wpG0YCV6leUp/
-         Csur2ow4TJQWEnczZbjb3dx9OHV4oX4mHWQqn+pkABWtg82fRktSE2DA+ku5YrgQRb39
-         q4FA==
-X-Gm-Message-State: AOAM530C6LThdc8MHsOUOjxdFQsa8LIvyqVySiC9LUBtwLftt2I96uaA
-        mGX0yw9aMo7gGH6qru48e9I=
-X-Google-Smtp-Source: ABdhPJwVZA8/60TITCfjuud2smvskuBah0kv6QccJazhIC+JGnxqinDyG7ls9VFb59+lMsi/UtNr/A==
-X-Received: by 2002:a17:902:6949:b029:e3:1ee9:6bfd with SMTP id k9-20020a1709026949b02900e31ee96bfdmr23241817plt.66.1614009835024;
-        Mon, 22 Feb 2021 08:03:55 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:600d:a089:d92b:2fcb:b6a3:bcc0])
-        by smtp.googlemail.com with ESMTPSA id s18sm18541728pjr.14.2021.02.22.08.03.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Feb 2021 08:03:54 -0800 (PST)
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     corbet@lwn.net
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [RFC] scripts: kernel-doc: fix typedef support for struct parsing
-Date:   Mon, 22 Feb 2021 21:33:47 +0530
-Message-Id: <20210222160347.23410-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=edcfb6u/1BZN0KQqup+/d7AkLC2yW/srYObkME7xBZw=;
+        b=O3BRBOtJNuGTNHxe+jy5lqSiva+7AUMUST1uvgFYMKxh2RDF8FT9swz60CzSWnHyWA
+         KVfZTP8+x+1vCRCrTmYf/Jv0/FgPTRFmFLzWhd6foVabUSluIwq6Di358DUYVzWGNEq9
+         IN/6ZwGHb56/7SNl98sGM1N7MBaqXg2SOMyo1UQbHEi/23OQTe2j6WSwRHB8QmD9Z4Gp
+         viHEmjaPUp0xTRNRrCd5jFdwrsnmLErFjjMFp1Sl7uhCRTNGcZGywcmo2hPlVERjACXM
+         7Zpc6SjK+xxJ3hWszOVdAIDFYBg9Q1jEQX3fUjp0WgSAo7kXaWt9zXPAVj0+EG3fc7Ru
+         p33g==
+X-Gm-Message-State: AOAM531dZlLCycE6JaXM5QyEtBJwFDc4IcMei4233aAVupnmtx4tcP+R
+        /+8Jonpcw6LdzvzGHMNdKFjjKdxXAAllYg==
+X-Google-Smtp-Source: ABdhPJw1d2qboOMWAmrZuuWgFSfoPCLXsgUVeus6Kk6uLUbaq1hUf8xWFoLVJw58F2c0YmFPKhm8kw==
+X-Received: by 2002:a17:902:b48b:b029:e3:7808:aab4 with SMTP id y11-20020a170902b48bb02900e37808aab4mr23021419plr.54.1614014845604;
+        Mon, 22 Feb 2021 09:27:25 -0800 (PST)
+Received: from ?IPv6:2405:201:600d:a089:d92b:2fcb:b6a3:bcc0? ([2405:201:600d:a089:d92b:2fcb:b6a3:bcc0])
+        by smtp.gmail.com with ESMTPSA id n1sm18662545pgn.94.2021.02.22.09.27.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 22 Feb 2021 09:27:25 -0800 (PST)
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>, corbet@lwn.net
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org
+From:   Aditya <yashsri421@gmail.com>
+Subject: Investigating parsing error for struct/union
+Message-ID: <5933570a-7768-26b2-40d0-1acac999d9f6@gmail.com>
+Date:   Mon, 22 Feb 2021 22:57:18 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are files in kernel, which use 'typedef struct' syntax for defining
-struct. For eg, include/linux/zstd.h, drivers/scsi/megaraid/mega_common.h,
-etc.
-However, kernel-doc still does not support it, causing a parsing error.
+Hi Jonathan, Lukas
 
-For eg, running scripts/kernel-doc -none on include/linux/zstd.h emits:
-"error: Cannot parse struct or union!"
+While investigating "error: Cannot parse struct or union!", I
+discovered few more patterns causing this error:
+1) A large part of this error(~80%) occurs due to the presence of one
+or more lines(such as '#define' lines) between commented code and
+struct declaration.
 
-Add support for parsing it.
+For e.g., in include/linux/platform_data/apds990x.h:
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
- scripts/kernel-doc | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+/**
+ * struct apds990x_chip_factors - defines effect of the cover window
+ * @ga: Total glass attenuation
+ * @cf1: clear channel factor 1 for raw to lux conversion
+ * @irf1: IR channel factor 1 for raw to lux conversion
+ * @cf2: clear channel factor 2 for raw to lux conversion
+ * @irf2: IR channel factor 2 for raw to lux conversion
+ * @df: device factor for conversion formulas
+ *
+ * Structure for tuning ALS calculation to match with environment.
+ * Values depend on the material above the sensor and the sensor
+ * itself. If the GA is zero, driver will use uncovered sensor default
+values
+ * format: decimal value * APDS_PARAM_SCALE except df which is plain
+integer.
+ */
+#define APDS_PARAM_SCALE 4096
+struct apds990x_chip_factors {
+	int ga;
+	int cf1;
+	int irf1;
+	int cf2;
+	int irf2;
+	int df;
+};
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 8b5bc7bf4bb8..46e904dc3f87 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1201,12 +1201,20 @@ sub dump_union($$) {
- sub dump_struct($$) {
-     my $x = shift;
-     my $file = shift;
-+    my $decl_type;
-+    my $members;
- 
-     if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
--	my $decl_type = $1;
-+	$decl_type = $1;
- 	$declaration_name = $2;
--	my $members = $3;
-+	$members = $3;
-+    } elsif ($x =~ /typedef\s+(struct|union)\s*\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*\s*(\w*)\s*;/) {
-+	$decl_type = $1;
-+	$declaration_name = $3;
-+	$members = $2;
-+    }
- 
-+    if ($members) {
- 	if ($identifier ne $declaration_name) {
- 	    print STDERR "${file}:$.: warning: expecting prototype for $decl_type $identifier. Prototype was for $decl_type $declaration_name instead\n";
- 	    return;
--- 
-2.17.1
 
+2) If struct does not contain any members, for e.g., in
+include/linux/xz.h:
+
+/**
+ * struct xz_dec - Opaque type to hold the XZ decoder state
+ */
+struct xz_dec;
+
+Here, it causes error as the curly braces and members expected by the
+regex, are absent.
+This kind of use has also been made in include/linux/zstd.h:
+
+/**
+ * struct ZSTD_DDict - a digested dictionary to be used for decompression
+ */
+typedef struct ZSTD_DDict_s ZSTD_DDict;
+
+
+3) Different Syntax than expected. For e.g.:
+    a) struct xyz struct_name {} syntax. This syntax has been used in
+arch/arm/mach-omap2/omap_hwmod_common_data.c file
+    b) "static __maybe_unused const struct st_sensors_platform_data
+default_press_pdata = {" in drivers/iio/pressure/st_pressure.h.
+This kind of syntax has also been used in
+drivers/iio/accel/st_accel.h, and drivers/iio/gyro/st_gyro.h
+
+I wanted to take your opinion if we should extend support for any of
+these syntax, causing the error. If not, perhaps we can make the
+documentation a bit clear, atleast for (1), which causes most of these
+errors; so as to not include any lines between comment and struct
+declaration.
+
+What do you think?
+
+Thanks
+Aditya
