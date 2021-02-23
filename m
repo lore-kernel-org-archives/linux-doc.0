@@ -2,41 +2,39 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43374C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 22:35:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96765C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 22:36:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1BC3064E22
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 22:35:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 604A764E3F
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 22:36:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232631AbhBWWfT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 17:35:19 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:12642 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232453AbhBWWc7 (ORCPT
+        id S232675AbhBWWfl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 17:35:41 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:12568 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232384AbhBWWc7 (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 17:32:59 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DlYf45Jcqz16BrH;
-        Wed, 24 Feb 2021 06:30:20 +0800 (CST)
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DlYdV2rLnzMcwR;
+        Wed, 24 Feb 2021 06:29:50 +0800 (CST)
 Received: from SWX921481.china.huawei.com (10.126.200.133) by
  DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 24 Feb 2021 06:31:49 +0800
+ 14.3.498.0; Wed, 24 Feb 2021 06:31:44 +0800
 From:   Barry Song <song.bao.hua@hisilicon.com>
 To:     <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
         <jan.kiszka@siemens.com>, <kbingham@kernel.org>
 CC:     <linux-kernel@vger.kernel.org>, <linuxarm@openeuler.org>,
         <linux-arm-kernel@lists.infradead.org>,
         Barry Song <song.bao.hua@hisilicon.com>
-Subject: [PATCH v2 2/2] scripts/gdb: add lx_current support for arm64
-Date:   Wed, 24 Feb 2021 11:25:40 +1300
-Message-ID: <20210223222540.9120-3-song.bao.hua@hisilicon.com>
+Subject: [PATCH v2 0/2] scripts/gdb: clarify the platforms supporting lx_current and add arm64 support
+Date:   Wed, 24 Feb 2021 11:25:38 +1300
+Message-ID: <20210223222540.9120-1-song.bao.hua@hisilicon.com>
 X-Mailer: git-send-email 2.21.0.windows.1
-In-Reply-To: <20210223222540.9120-1-song.bao.hua@hisilicon.com>
-References: <20210223222540.9120-1-song.bao.hua@hisilicon.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -46,69 +44,18 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-arm64 uses SP_EL0 to save the current task_struct address. While running
-in EL0, SP_EL0 is clobbered by userspace. So if the upper bit is not 1
-(not TTBR1), the current address is invalid. This patch checks the upper
-bit of SP_EL0, if the upper bit is 1, lx_current() of arm64 will return
-the derefrence of current task. Otherwise, lx_current() will tell users
-they are running in userspace(EL0).
+lx_current depends on per_cpu current_task variable which exists on x86 only.
+so it actually works on x86 only. the 1st patch documents this clearly; the
+2nd patch adds support for arm64.
 
-While arm64 is running in EL0, it is actually pointless to print current
-task as the memory of kernel space is not accessible in EL0.
+Barry Song (2):
+  scripts/gdb: document lx_current is only supported by x86
+  scripts/gdb: add lx_current support for arm64
 
-Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
----
- Documentation/dev-tools/gdb-kernel-debugging.rst |  2 +-
- scripts/gdb/linux/cpus.py                        | 13 +++++++++++++
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ .../dev-tools/gdb-kernel-debugging.rst        |  2 +-
+ scripts/gdb/linux/cpus.py                     | 23 +++++++++++++++++--
+ 2 files changed, 22 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/dev-tools/gdb-kernel-debugging.rst
-index 1586901b683c..8e0f1fe8d17a 100644
---- a/Documentation/dev-tools/gdb-kernel-debugging.rst
-+++ b/Documentation/dev-tools/gdb-kernel-debugging.rst
-@@ -114,7 +114,7 @@ Examples of using the Linux-provided gdb helpers
-     [     0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
-     ....
- 
--- Examine fields of the current task struct(supported by x86 only)::
-+- Examine fields of the current task struct(supported by x86 and arm64 only)::
- 
-     (gdb) p $lx_current().pid
-     $1 = 4998
-diff --git a/scripts/gdb/linux/cpus.py b/scripts/gdb/linux/cpus.py
-index f382762509d3..15fc4626d236 100644
---- a/scripts/gdb/linux/cpus.py
-+++ b/scripts/gdb/linux/cpus.py
-@@ -16,6 +16,9 @@ import gdb
- from linux import tasks, utils
- 
- 
-+task_type = utils.CachedType("struct task_struct")
-+
-+
- MAX_CPUS = 4096
- 
- 
-@@ -157,9 +160,19 @@ Note that VAR has to be quoted as string."""
- PerCpu()
- 
- def get_current_task(cpu):
-+    task_ptr_type = task_type.get_type().pointer()
-+
-     if utils.is_target_arch("x86"):
-          var_ptr = gdb.parse_and_eval("&current_task")
-          return per_cpu(var_ptr, cpu).dereference()
-+    elif utils.is_target_arch("aarch64"):
-+         current_task_addr = gdb.parse_and_eval("$SP_EL0")
-+         if((current_task_addr >> 63) != 0):
-+             current_task = current_task_addr.cast(task_ptr_type)
-+             return current_task.dereference()
-+         else:
-+             raise gdb.GdbError("Sorry, obtaining the current task is not allowed "
-+                                "while running in userspace(EL0)")
-     else:
-         raise gdb.GdbError("Sorry, obtaining the current task is not yet "
-                            "supported with this arch")
 -- 
 2.25.1
 
