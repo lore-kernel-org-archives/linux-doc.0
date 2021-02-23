@@ -2,121 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.6 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF59AC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 15:42:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8867C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 17:45:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F6CB64E61
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 15:42:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9BEEA64EC1
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 17:45:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233188AbhBWPmR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 10:42:17 -0500
-Received: from mx2.suse.de ([195.135.220.15]:35408 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233101AbhBWPmQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Feb 2021 10:42:16 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id A7C06AF5A;
-        Tue, 23 Feb 2021 15:41:32 +0000 (UTC)
-Date:   Tue, 23 Feb 2021 16:41:28 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        id S233720AbhBWRo6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 12:44:58 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:39636 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233148AbhBWRo4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 12:44:56 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11NHeVhb176420;
+        Tue, 23 Feb 2021 17:43:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2020-01-29; bh=IyUlhk3AQQFwYAAWr8SNBNU6VGlgvbB1uytdVra3niw=;
+ b=ND1wUxekMtD4MuhCkV3V9qeoilWF8eys357ctXWavxlvEu13VVSqJSxveEtIie9YN6wQ
+ 5XPBgE1KGO7OXwUC3WF8tF410ym6QcQ6eq6lV/T5CgZuSyEu0I0YHTCFmQF8HFAkzol8
+ TyOFbitxpEv5N6X/014mrdEg2gd7EwrLQowf7GQIFvsMbBmkrjRr+rQA3hR67Cw9dXR/
+ BvNuMZPmfynGSzA2vEh+6QqflKNGozP5Ihw2VAj3ZOf5RFn2hIE4GFtnVM4xPU3hkdWI
+ oOr4dNZoBOCLb8DpNd/Awuxwqw60VaSn5tYICdCsZLFm5+gAvHU0CAq1SNQEbWbUSd1p NQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2120.oracle.com with ESMTP id 36ugq3f4k8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 23 Feb 2021 17:43:17 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11NHeR1V096692;
+        Tue, 23 Feb 2021 17:43:16 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by aserp3030.oracle.com with ESMTP id 36v9m4w9xs-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 23 Feb 2021 17:43:16 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11NHedQK097929;
+        Tue, 23 Feb 2021 17:43:15 GMT
+Received: from ca-dev112.us.oracle.com (ca-dev112.us.oracle.com [10.147.25.63])
+        by aserp3030.oracle.com with ESMTP id 36v9m4w9vs-1;
+        Tue, 23 Feb 2021 17:43:15 +0000
+From:   Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+Cc:     saeed.mirzamohammadi@oracle.com,
+        John Donnelly <john.p.donnelly@oracle.com>,
+        Dave Young <dyoung@redhat.com>, Baoquan He <bhe@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-Message-ID: <20210223154128.GA21082@localhost.localdomain>
-References: <20210219104954.67390-1-songmuchun@bytedance.com>
- <20210219104954.67390-5-songmuchun@bytedance.com>
- <13a5363c-6af4-1e1f-9a18-972ca18278b5@oracle.com>
- <20210223092740.GA1998@linux>
- <CAMZfGtVRSBkKe=tKAKLY8dp_hywotq3xL+EJZNjXuSKt3HK3bQ@mail.gmail.com>
- <20210223104957.GA3844@linux>
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        YiFei Zhu <yifeifz2@illinois.edu>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v4 1/1] kernel/crash_core: Add crashkernel=auto for vmcore creation
+Date:   Tue, 23 Feb 2021 09:41:50 -0800
+Message-Id: <20210223174153.72802-1-saeed.mirzamohammadi@oracle.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210223104957.GA3844@linux>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9904 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0
+ malwarescore=0 spamscore=0 mlxscore=0 suspectscore=0 priorityscore=1501
+ clxscore=1011 impostorscore=0 lowpriorityscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102230148
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 23, 2021 at 11:50:05AM +0100, Oscar Salvador wrote:
-> > CPU0:                           CPU1:
-> >                                 set_compound_page_dtor(HUGETLB_PAGE_DTOR);
-> > memory_failure_hugetlb
-> >   get_hwpoison_page
-> >     __get_hwpoison_page
-> >       get_page_unless_zero
-> >                                 put_page_testzero()
-> > 
-> > Maybe this can happen. But it is a very corner case. If we want to
-> > deal with this. We can put_page_testzero() first and then
-> > set_compound_page_dtor(HUGETLB_PAGE_DTOR).
-> 
-> I have to check further, but it looks like this could actually happen.
-> Handling this with VM_BUG_ON is wrong, because memory_failure/soft_offline are
-> entitled to increase the refcount of the page.
-> 
-> AFAICS,
-> 
->  CPU0:                                    CPU1:
->                                           set_compound_page_dtor(HUGETLB_PAGE_DTOR);
->  memory_failure_hugetlb
->    get_hwpoison_page
->      __get_hwpoison_page
->        get_page_unless_zero
->                                           put_page_testzero()
->         identify_page_state
->          me_huge_page
-> 
-> I think we can reach me_huge_page with either refcount = 1 or refcount =2,
-> depending whether put_page_testzero has been issued.
-> 
-> For now, I would not re-enqueue the page if put_page_testzero == false.
-> I have to see how this can be handled gracefully.
+This adds crashkernel=auto feature to configure reserved memory for
+vmcore creation. CONFIG_CRASH_AUTO_STR is defined to be set for
+different kernel distributions and different archs based on their
+needs.
 
-I took a brief look.
-It is not really your patch fault. Hugetlb <-> memory-failure synchronization is
-a bit odd, it definitely needs improvment.
+Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+Signed-off-by: John Donnelly <john.p.donnelly@oracle.com>
+Tested-by: John Donnelly <john.p.donnelly@oracle.com>
+---
+ Documentation/admin-guide/kdump/kdump.rst     |  3 ++-
+ .../admin-guide/kernel-parameters.txt         |  6 ++++++
+ arch/Kconfig                                  | 20 +++++++++++++++++++
+ kernel/crash_core.c                           |  7 +++++++
+ 4 files changed, 35 insertions(+), 1 deletion(-)
 
-The thing is, we can have different scenarios here.
-E.g: by the time we return from put_page_testzero, we might have refcount ==
-0 and PageHWPoison, or refcount == 1 PageHWPoison.
-
-The former will let a user get a page from the pool and get a sigbus
-when it faults in the page, and the latter will be even more odd as we
-will have a self-refcounted page in the free pool (and hwpoisoned).
-
-As I said, it is not this patchset fault. I just made me realize this
-problem.
-
-I have to think some more about this.
-
+diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+index 75a9dd98e76e..ae030111e22a 100644
+--- a/Documentation/admin-guide/kdump/kdump.rst
++++ b/Documentation/admin-guide/kdump/kdump.rst
+@@ -285,7 +285,8 @@ This would mean:
+     2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+     3) if the RAM size is larger than 2G, then reserve 128M
+ 
+-
++Or you can use crashkernel=auto to choose the crash kernel memory size
++based on the recommended configuration set for each arch.
+ 
+ Boot into System Kernel
+ =======================
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 9e3cdb271d06..a5deda5c85fe 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -747,6 +747,12 @@
+ 			a memory unit (amount[KMG]). See also
+ 			Documentation/admin-guide/kdump/kdump.rst for an example.
+ 
++	crashkernel=auto
++			[KNL] This parameter will set the reserved memory for
++			the crash kernel based on the value of the CRASH_AUTO_STR
++			that is the best effort estimation for each arch. See also
++			arch/Kconfig for further details.
++
+ 	crashkernel=size[KMG],high
+ 			[KNL, X86-64] range could be above 4G. Allow kernel
+ 			to allocate physical memory region from top, so could
+diff --git a/arch/Kconfig b/arch/Kconfig
+index 24862d15f3a3..23d047548772 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -14,6 +14,26 @@ menu "General architecture-dependent options"
+ config CRASH_CORE
+ 	bool
+ 
++config CRASH_AUTO_STR
++	string "Memory reserved for crash kernel"
++	depends on CRASH_CORE
++	default "1G-64G:128M,64G-1T:256M,1T-:512M"
++	help
++	  This configures the reserved memory dependent
++	  on the value of System RAM. The syntax is:
++	  crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
++	              range=start-[end]
++
++	  For example:
++	      crashkernel=512M-2G:64M,2G-:128M
++
++	  This would mean:
++
++	      1) if the RAM is smaller than 512M, then don't reserve anything
++	         (this is the "rescue" case)
++	      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
++	      3) if the RAM size is larger than 2G, then reserve 128M
++
+ config KEXEC_CORE
+ 	select CRASH_CORE
+ 	bool
+diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+index 825284baaf46..90f9e4bb6704 100644
+--- a/kernel/crash_core.c
++++ b/kernel/crash_core.c
+@@ -7,6 +7,7 @@
+ #include <linux/crash_core.h>
+ #include <linux/utsname.h>
+ #include <linux/vmalloc.h>
++#include <linux/kexec.h>
+ 
+ #include <asm/page.h>
+ #include <asm/sections.h>
+@@ -250,6 +251,12 @@ static int __init __parse_crashkernel(char *cmdline,
+ 	if (suffix)
+ 		return parse_crashkernel_suffix(ck_cmdline, crash_size,
+ 				suffix);
++#ifdef CONFIG_CRASH_AUTO_STR
++	if (strncmp(ck_cmdline, "auto", 4) == 0) {
++		ck_cmdline = CONFIG_CRASH_AUTO_STR;
++		pr_info("Using crashkernel=auto, the size chosen is a best effort estimation.\n");
++	}
++#endif
+ 	/*
+ 	 * if the commandline contains a ':', then that's the extended
+ 	 * syntax -- if not, it must be the classic syntax
 -- 
-Oscar Salvador
-SUSE L3
+2.27.0
+
