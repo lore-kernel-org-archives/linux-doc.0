@@ -2,136 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 927C1C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 10:51:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08723C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 11:14:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5026F64E4B
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 10:51:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A39E564E32
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 11:14:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231326AbhBWKvE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 05:51:04 -0500
-Received: from mx2.suse.de ([195.135.220.15]:54528 "EHLO mx2.suse.de"
+        id S232139AbhBWLOa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 06:14:30 -0500
+Received: from smtp.asem.it ([151.1.184.197]:59424 "EHLO smtp.asem.it"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232033AbhBWKuw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Feb 2021 05:50:52 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id A75CCAC69;
-        Tue, 23 Feb 2021 10:50:10 +0000 (UTC)
-Date:   Tue, 23 Feb 2021 11:50:05 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-Message-ID: <20210223104957.GA3844@linux>
-References: <20210219104954.67390-1-songmuchun@bytedance.com>
- <20210219104954.67390-5-songmuchun@bytedance.com>
- <13a5363c-6af4-1e1f-9a18-972ca18278b5@oracle.com>
- <20210223092740.GA1998@linux>
- <CAMZfGtVRSBkKe=tKAKLY8dp_hywotq3xL+EJZNjXuSKt3HK3bQ@mail.gmail.com>
+        id S232346AbhBWLO3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Feb 2021 06:14:29 -0500
+Received: from webmail.asem.it
+        by asem.it (smtp.asem.it)
+        (SecurityGateway 6.5.2)
+        with ESMTP id SG000823976.MSG 
+        for <linux-doc@vger.kernel.org>; Tue, 23 Feb 2021 12:13:44 +0100S
+Received: from ASAS044.asem.intra (172.16.16.44) by ASAS044.asem.intra
+ (172.16.16.44) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 23
+ Feb 2021 12:13:43 +0100
+Received: from flavio-x.asem.intra (172.16.17.208) by ASAS044.asem.intra
+ (172.16.16.44) with Microsoft SMTP Server id 15.1.1979.3 via Frontend
+ Transport; Tue, 23 Feb 2021 12:13:43 +0100
+From:   Flavio Suligoi <f.suligoi@asem.it>
+To:     Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>
+CC:     <linux-watchdog@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, Flavio Suligoi <f.suligoi@asem.it>
+Subject: [PATCH] docs: watchdog: fix obsolete include file reference in pcwd
+Date:   Tue, 23 Feb 2021 12:13:24 +0100
+Message-ID: <20210223111324.309285-1-f.suligoi@asem.it>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMZfGtVRSBkKe=tKAKLY8dp_hywotq3xL+EJZNjXuSKt3HK3bQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-SGHeloLookup-Result: pass smtp.helo=webmail.asem.it (ip=172.16.16.44)
+X-SGSPF-Result: none (smtp.asem.it)
+X-SGOP-RefID: str=0001.0A782F18.6034E368.004B,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0 (_st=1 _vt=0 _iwf=0)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 23, 2021 at 06:27:07PM +0800, Muchun Song wrote:
-> > > > +
-> > > > +   if (alloc_huge_page_vmemmap(h, page)) {
-> > > > +           int zeroed;
-> > > > +
-> > > > +           spin_lock(&hugetlb_lock);
-> > > > +           INIT_LIST_HEAD(&page->lru);
-> > > > +           set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
-> > > > +           h->nr_huge_pages++;
-> > > > +           h->nr_huge_pages_node[nid]++;
-> >
-> > I think prep_new_huge_page() does this for us?
-> 
-> Actually, there are some differences. e.g. prep_new_huge_page()
-> will reset hugetlb cgroup and ClearHPageFreed, but we do not need
-> them here. And prep_new_huge_page will acquire and release
-> the hugetlb_lock. But here we also need hold the lock to update
-> the surplus counter and enqueue the page to the free list.
-> So I do not think reuse prep_new_huge_page is a good idea.
+The file linux/pcwd.h is not more present in the kernel
+sources. Its information is now moved into the file:
 
-I see, I missed that.
+include/uapi/linux/watchdog.h
 
-> > Can this actually happen? AFAIK, page landed in update_and_free_page should be
-> > zero refcounted, then we increase the reference, and I cannot see how the
-> > reference might have changed in the meantime.
-> 
-> I am not sure whether other modules get the page and then put the
-> page. I see gather_surplus_pages does the same thing. So I copied
-> from there. I try to look at the memory_failure routine.
-> 
-> 
-> CPU0:                           CPU1:
->                                 set_compound_page_dtor(HUGETLB_PAGE_DTOR);
-> memory_failure_hugetlb
->   get_hwpoison_page
->     __get_hwpoison_page
->       get_page_unless_zero
->                                 put_page_testzero()
-> 
-> Maybe this can happen. But it is a very corner case. If we want to
-> deal with this. We can put_page_testzero() first and then
-> set_compound_page_dtor(HUGETLB_PAGE_DTOR).
+Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+---
+ Documentation/watchdog/pcwd-watchdog.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I have to check further, but it looks like this could actually happen.
-Handling this with VM_BUG_ON is wrong, because memory_failure/soft_offline are
-entitled to increase the refcount of the page.
-
-AFAICS,
-
- CPU0:                                    CPU1:
-                                          set_compound_page_dtor(HUGETLB_PAGE_DTOR);
- memory_failure_hugetlb
-   get_hwpoison_page
-     __get_hwpoison_page
-       get_page_unless_zero
-                                          put_page_testzero()
-        identify_page_state
-         me_huge_page
-
-I think we can reach me_huge_page with either refcount = 1 or refcount =2,
-depending whether put_page_testzero has been issued.
-
-For now, I would not re-enqueue the page if put_page_testzero == false.
-I have to see how this can be handled gracefully.
-
-
-
+diff --git a/Documentation/watchdog/pcwd-watchdog.rst b/Documentation/watchdog/pcwd-watchdog.rst
+index 405e2a370082..151505c856f6 100644
+--- a/Documentation/watchdog/pcwd-watchdog.rst
++++ b/Documentation/watchdog/pcwd-watchdog.rst
+@@ -47,7 +47,7 @@ Documentation and Driver by Ken Hollis <kenji@bitgate.com>
+ 	WDIOC_GETSTATUS
+ 		This returns the status of the card, with the bits of
+ 		WDIOF_* bitwise-anded into the value.  (The comments
+-		are in linux/pcwd.h)
++		are in include/uapi/linux/watchdog.h)
+ 
+ 	WDIOC_GETBOOTSTATUS
+ 		This returns the status of the card that was reported
 -- 
-Oscar Salvador
-SUSE L3
+2.25.1
+
