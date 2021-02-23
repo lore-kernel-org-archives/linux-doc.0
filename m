@@ -2,77 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA63DC433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 06:05:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 026C8C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 06:10:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D96464E4D
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 06:05:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 685C864E4D
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 06:10:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230417AbhBWGFI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 01:05:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33968 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230223AbhBWGFI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 01:05:08 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 065EDC061574;
-        Mon, 22 Feb 2021 22:04:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=AEaIQi2veuBQwf4XS7youG5ABqjrt94dxMm7ycd6j8Q=; b=yr4TIbtQTCu8boueDH4UkQX4e2
-        XS8PP67uNf8PPevKETIXm9kLdaB5S//pVsHm1XOx6GV1qc61vlGYWCCejWJ1rOzE1gf8iX+7Sqwu9
-        I3LoPciKXqUUJ8SouyZ9XiBKJzkmBUhyDYnafVSrP8wUgQIIhtv3EjVmavwhUVKJpO6o4Dx97McuL
-        uFp5XwMbrjzyqggcFA867TvSR8CeX1Dy/lj9VRBzeTL4tuA8dFXO/sIlVocnvpcKkaoTcbo9TkGAo
-        WQbdb4Emf/W1TzGVZqYL9pbEfWO6+LxlJtK2gTZ3wGQ/h/VTHd2LtVZegc2R6ySulquo1iZgKWMBF
-        bgEJwv6g==;
-Received: from [2601:1c0:6280:3f0::d05b] (helo=merlin.infradead.org)
-        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1lEQo3-0005fq-Oh; Tue, 23 Feb 2021 06:04:24 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH -next] docs: proc.rst: fix indentation warning
-Date:   Mon, 22 Feb 2021 22:04:18 -0800
-Message-Id: <20210223060418.21443-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        id S230232AbhBWGKi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 01:10:38 -0500
+Received: from foss.arm.com ([217.140.110.172]:59710 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229949AbhBWGKi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Feb 2021 01:10:38 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 409E7ED1;
+        Mon, 22 Feb 2021 22:09:52 -0800 (PST)
+Received: from [192.168.0.130] (unknown [172.31.20.19])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 368173F73D;
+        Mon, 22 Feb 2021 22:09:47 -0800 (PST)
+Subject: Re: [PATCH] Documentation/features: mark BATCHED_UNMAP_TLB_FLUSH
+ doesn't apply to ARM64
+To:     Barry Song <song.bao.hua@hisilicon.com>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
+        linux-mm@kvack.org
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linuxarm@openeuler.org, Mel Gorman <mgorman@suse.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>
+References: <20210223003230.11976-1-song.bao.hua@hisilicon.com>
+From:   Anshuman Khandual <anshuman.khandual@arm.com>
+Message-ID: <09dd1026-9e3f-b9be-b5a5-82771642348d@arm.com>
+Date:   Tue, 23 Feb 2021 11:40:09 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210223003230.11976-1-song.bao.hua@hisilicon.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix indentation snafu in proc.rst as reported by Stephen.
 
-next-20210219/Documentation/filesystems/proc.rst:697: WARNING: Unexpected indentation.
 
-Fixes: 93ea4a0b8fce ("Documentation: proc.rst: add more about the 6 fields in loadavg")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
----
-shame on me.
+On 2/23/21 6:02 AM, Barry Song wrote:
+> BATCHED_UNMAP_TLB_FLUSH is used on x86 to do batched tlb shootdown by
+> sending one IPI to TLB flush all entries after unmapping pages rather
+> than sending an IPI to flush each individual entry.
+> On arm64, tlb shootdown is done by hardware. Flush instructions are
+> innershareable. The local flushes are limited to the boot (1 per CPU)
+> and when a task is getting a new ASID.
 
- Documentation/filesystems/proc.rst |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Is there any previous discussion around this ?
 
---- linux-next-20210219.orig/Documentation/filesystems/proc.rst
-+++ linux-next-20210219/Documentation/filesystems/proc.rst
-@@ -694,7 +694,7 @@ files are there, and which are missing.
-                 All fields are separated by one space except "number of
-                 processes currently runnable" and "total number of processes
-                 in system", which are separated by a slash ('/'). Example:
--                  0.61 0.61 0.55 3/828 22084
-+                0.61 0.61 0.55 3/828 22084
-  locks        Kernel locks
-  meminfo      Memory info
-  misc         Miscellaneous
+> So marking this feature as "TODO" is not proper. ".." isn't good as
+> well. So this patch adds a "N/A" for this kind of features which are
+> not needed on some architectures.
+> 
+> Cc: Mel Gorman <mgorman@suse.de>
+> Cc: Andy Lutomirski <luto@kernel.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+> ---
+>  Documentation/features/arch-support.txt        | 1 +
+>  Documentation/features/vm/TLB/arch-support.txt | 2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/features/arch-support.txt b/Documentation/features/arch-support.txt
+> index d22a1095e661..118ae031840b 100644
+> --- a/Documentation/features/arch-support.txt
+> +++ b/Documentation/features/arch-support.txt
+> @@ -8,4 +8,5 @@ The meaning of entries in the tables is:
+>      | ok |  # feature supported by the architecture
+>      |TODO|  # feature not yet supported by the architecture
+>      | .. |  # feature cannot be supported by the hardware
+> +    | N/A|  # feature doesn't apply to the architecture
+
+NA might be better here. s/doesn't apply/not applicable/ in order to match NA.
+Still wondering if NA is really needed when there is already ".." ? Regardless
+either way should be fine.
+
+>  
+> diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
+> index 30f75a79ce01..0d070f9f98d8 100644
+> --- a/Documentation/features/vm/TLB/arch-support.txt
+> +++ b/Documentation/features/vm/TLB/arch-support.txt
+> @@ -9,7 +9,7 @@
+>      |       alpha: | TODO |
+>      |         arc: | TODO |
+>      |         arm: | TODO |
+> -    |       arm64: | TODO |
+> +    |       arm64: | N/A  |
+>      |         c6x: |  ..  |
+>      |        csky: | TODO |
+>      |       h8300: |  ..  |
+> 
