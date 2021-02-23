@@ -2,140 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F8D0C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 06:20:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C74AC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 07:42:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D223564DA1
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 06:20:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9BD864D5D
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 07:42:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231527AbhBWGUP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 01:20:15 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:4632 "EHLO
-        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230349AbhBWGUL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 01:20:11 -0500
-Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.55])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Dl83k2cfyzYBlD;
-        Tue, 23 Feb 2021 14:17:38 +0800 (CST)
-Received: from dggemi712-chm.china.huawei.com (10.3.20.111) by
- DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Tue, 23 Feb 2021 14:19:03 +0800
-Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
- dggemi712-chm.china.huawei.com (10.3.20.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Tue, 23 Feb 2021 14:19:03 +0800
-Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
- dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.2106.006;
- Tue, 23 Feb 2021 14:19:03 +0800
-From:   "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
-To:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        id S231742AbhBWHmr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 02:42:47 -0500
+Received: from lizzard.sbs.de ([194.138.37.39]:42180 "EHLO lizzard.sbs.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231942AbhBWHmq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Feb 2021 02:42:46 -0500
+X-Greylist: delayed 651 seconds by postgrey-1.27 at vger.kernel.org; Tue, 23 Feb 2021 02:42:45 EST
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+        by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 11N7Qj0l023503
+        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 23 Feb 2021 08:26:45 +0100
+Received: from [167.87.244.56] ([167.87.244.56])
+        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 11N7Qhl4015837;
+        Tue, 23 Feb 2021 08:26:44 +0100
+Subject: Re: [PATCH] scripts/gdb: document lx_current is only supported by x86
+To:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
         "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>
-CC:     "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
-        Mel Gorman <mgorman@suse.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
-Subject: RE: [Linuxarm]  Re: [PATCH] Documentation/features: mark
- BATCHED_UNMAP_TLB_FLUSH doesn't apply to ARM64
-Thread-Topic: [Linuxarm]  Re: [PATCH] Documentation/features: mark
- BATCHED_UNMAP_TLB_FLUSH doesn't apply to ARM64
-Thread-Index: AQHXCXw6OdGSogcGZ0yLlSm/gfAbZqpku/6AgACFGrA=
-Date:   Tue, 23 Feb 2021 06:19:03 +0000
-Message-ID: <808ef1de466a4d9990bf69199dd59944@hisilicon.com>
-References: <20210223003230.11976-1-song.bao.hua@hisilicon.com>
- <09dd1026-9e3f-b9be-b5a5-82771642348d@arm.com>
-In-Reply-To: <09dd1026-9e3f-b9be-b5a5-82771642348d@arm.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.126.201.86]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linuxarm@openeuler.org" <linuxarm@openeuler.org>
+References: <20210221213527.22076-1-song.bao.hua@hisilicon.com>
+ <eac66671-f083-379a-c7b0-04b783e32d63@ideasonboard.com>
+ <eb48406902a84282a400846607e7a37a@hisilicon.com>
+From:   Jan Kiszka <jan.kiszka@siemens.com>
+Message-ID: <940e936d-d35b-105c-201c-8f2126222d15@siemens.com>
+Date:   Tue, 23 Feb 2021 08:26:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+In-Reply-To: <eb48406902a84282a400846607e7a37a@hisilicon.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5zaHVtYW4gS2hhbmR1
-YWwgW21haWx0bzphbnNodW1hbi5raGFuZHVhbEBhcm0uY29tXQ0KPiBTZW50OiBUdWVzZGF5LCBG
-ZWJydWFyeSAyMywgMjAyMSA3OjEwIFBNDQo+IFRvOiBTb25nIEJhbyBIdWEgKEJhcnJ5IFNvbmcp
-IDxzb25nLmJhby5odWFAaGlzaWxpY29uLmNvbT47IGNvcmJldEBsd24ubmV0Ow0KPiBsaW51eC1k
-b2NAdmdlci5rZXJuZWwub3JnOyBha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnOyBsaW51eC1tbUBr
-dmFjay5vcmcNCj4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZzsgbGlu
-dXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsNCj4gbGludXhhcm1Ab3BlbmV1bGVyLm9yZzsgTWVs
-IEdvcm1hbiA8bWdvcm1hbkBzdXNlLmRlPjsgQW5keSBMdXRvbWlyc2tpDQo+IDxsdXRvQGtlcm5l
-bC5vcmc+OyBDYXRhbGluIE1hcmluYXMgPGNhdGFsaW4ubWFyaW5hc0Bhcm0uY29tPjsgV2lsbCBE
-ZWFjb24NCj4gPHdpbGxAa2VybmVsLm9yZz4NCj4gU3ViamVjdDogW0xpbnV4YXJtXSBSZTogW1BB
-VENIXSBEb2N1bWVudGF0aW9uL2ZlYXR1cmVzOiBtYXJrDQo+IEJBVENIRURfVU5NQVBfVExCX0ZM
-VVNIIGRvZXNuJ3QgYXBwbHkgdG8gQVJNNjQNCj4gDQo+IA0KPiANCj4gT24gMi8yMy8yMSA2OjAy
-IEFNLCBCYXJyeSBTb25nIHdyb3RlOg0KPiA+IEJBVENIRURfVU5NQVBfVExCX0ZMVVNIIGlzIHVz
-ZWQgb24geDg2IHRvIGRvIGJhdGNoZWQgdGxiIHNob290ZG93biBieQ0KPiA+IHNlbmRpbmcgb25l
-IElQSSB0byBUTEIgZmx1c2ggYWxsIGVudHJpZXMgYWZ0ZXIgdW5tYXBwaW5nIHBhZ2VzIHJhdGhl
-cg0KPiA+IHRoYW4gc2VuZGluZyBhbiBJUEkgdG8gZmx1c2ggZWFjaCBpbmRpdmlkdWFsIGVudHJ5
-Lg0KPiA+IE9uIGFybTY0LCB0bGIgc2hvb3Rkb3duIGlzIGRvbmUgYnkgaGFyZHdhcmUuIEZsdXNo
-IGluc3RydWN0aW9ucyBhcmUNCj4gPiBpbm5lcnNoYXJlYWJsZS4gVGhlIGxvY2FsIGZsdXNoZXMg
-YXJlIGxpbWl0ZWQgdG8gdGhlIGJvb3QgKDEgcGVyIENQVSkNCj4gPiBhbmQgd2hlbiBhIHRhc2sg
-aXMgZ2V0dGluZyBhIG5ldyBBU0lELg0KPiANCj4gSXMgdGhlcmUgYW55IHByZXZpb3VzIGRpc2N1
-c3Npb24gYXJvdW5kIHRoaXMgPw0KDQpJIGNvcGllZCB0aGUgZGVjbGFyYXRpb24gb2YgbG9jYWwg
-Zmx1c2hlcyBmcm9tOg0KDQoiQVJNNjQgTGludXgga2VybmVsIGlzIFNNUC1hd2FyZSAobm8gcG9z
-c2liaWxpdHkgdG8gYnVpbGQgb25seSBmb3IgVVApLg0KTW9zdCBvZiB0aGUgZmx1c2ggaW5zdHJ1
-Y3Rpb25zIGFyZSBpbm5lcnNoYXJlYWJsZS4gVGhlIGxvY2FsIGZsdXNoZXMgYXJlDQpsaW1pdGVk
-IHRvIHRoZSBib290ICgxIHBlciBDUFUpIGFuZCB3aGVuIGEgdGFzayBpcyBnZXR0aW5nIGEgbmV3
-IEFTSUMuIg0KDQpodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3Byb2plY3QveGVuLWRldmVs
-L3BhdGNoLzE0NjE3NTYxNzMtMTAzMDAtMS1naXQtc2VuZC1lbWFpbC1qdWxpZW4uZ3JhbGxAYXJt
-LmNvbS8NCg0KSSBhbSBub3Qgc3VyZSBpZiBnZXR0aW5nIGEgbmV3IGFzaWQgYW5kIHRoZSBib290
-IGFyZSB0aGUgb25seSB0d28NCmNhc2VzIG9mIGxvY2FsIGZsdXNoZXMgd2hpbGUgSSB0aGluayB0
-aGlzIGlzIHByb2JhYmx5IHRydWUuDQoNCkJ1dCBldmVuIHdlIGZpbmQgbW9yZSBjb3JuZXIgY2Fz
-ZXMsIGhhcmRseSB0aGUgdHJlbmQgYXJtNjQgZG9lc24ndA0KbmVlZCBCQVRDSEVEX1VOTUFQX1RM
-Ql9GTFVTSCB3aWxsIGJlIGNoYW5nZWQuDQoNCj4gDQo+ID4gU28gbWFya2luZyB0aGlzIGZlYXR1
-cmUgYXMgIlRPRE8iIGlzIG5vdCBwcm9wZXIuICIuLiIgaXNuJ3QgZ29vZCBhcw0KPiA+IHdlbGwu
-IFNvIHRoaXMgcGF0Y2ggYWRkcyBhICJOL0EiIGZvciB0aGlzIGtpbmQgb2YgZmVhdHVyZXMgd2hp
-Y2ggYXJlDQo+ID4gbm90IG5lZWRlZCBvbiBzb21lIGFyY2hpdGVjdHVyZXMuDQo+ID4NCj4gPiBD
-YzogTWVsIEdvcm1hbiA8bWdvcm1hbkBzdXNlLmRlPg0KPiA+IENjOiBBbmR5IEx1dG9taXJza2kg
-PGx1dG9Aa2VybmVsLm9yZz4NCj4gPiBDYzogQ2F0YWxpbiBNYXJpbmFzIDxjYXRhbGluLm1hcmlu
-YXNAYXJtLmNvbT4NCj4gPiBDYzogV2lsbCBEZWFjb24gPHdpbGxAa2VybmVsLm9yZz4NCj4gPiBT
-aWduZWQtb2ZmLWJ5OiBCYXJyeSBTb25nIDxzb25nLmJhby5odWFAaGlzaWxpY29uLmNvbT4NCj4g
-PiAtLS0NCj4gPiAgRG9jdW1lbnRhdGlvbi9mZWF0dXJlcy9hcmNoLXN1cHBvcnQudHh0ICAgICAg
-ICB8IDEgKw0KPiA+ICBEb2N1bWVudGF0aW9uL2ZlYXR1cmVzL3ZtL1RMQi9hcmNoLXN1cHBvcnQu
-dHh0IHwgMiArLQ0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxl
-dGlvbigtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZmVhdHVyZXMvYXJj
-aC1zdXBwb3J0LnR4dA0KPiBiL0RvY3VtZW50YXRpb24vZmVhdHVyZXMvYXJjaC1zdXBwb3J0LnR4
-dA0KPiA+IGluZGV4IGQyMmExMDk1ZTY2MS4uMTE4YWUwMzE4NDBiIDEwMDY0NA0KPiA+IC0tLSBh
-L0RvY3VtZW50YXRpb24vZmVhdHVyZXMvYXJjaC1zdXBwb3J0LnR4dA0KPiA+ICsrKyBiL0RvY3Vt
-ZW50YXRpb24vZmVhdHVyZXMvYXJjaC1zdXBwb3J0LnR4dA0KPiA+IEBAIC04LDQgKzgsNSBAQCBU
-aGUgbWVhbmluZyBvZiBlbnRyaWVzIGluIHRoZSB0YWJsZXMgaXM6DQo+ID4gICAgICB8IG9rIHwg
-ICMgZmVhdHVyZSBzdXBwb3J0ZWQgYnkgdGhlIGFyY2hpdGVjdHVyZQ0KPiA+ICAgICAgfFRPRE98
-ICAjIGZlYXR1cmUgbm90IHlldCBzdXBwb3J0ZWQgYnkgdGhlIGFyY2hpdGVjdHVyZQ0KPiA+ICAg
-ICAgfCAuLiB8ICAjIGZlYXR1cmUgY2Fubm90IGJlIHN1cHBvcnRlZCBieSB0aGUgaGFyZHdhcmUN
-Cj4gPiArICAgIHwgTi9BfCAgIyBmZWF0dXJlIGRvZXNuJ3QgYXBwbHkgdG8gdGhlIGFyY2hpdGVj
-dHVyZQ0KPiANCj4gTkEgbWlnaHQgYmUgYmV0dGVyIGhlcmUuIHMvZG9lc24ndCBhcHBseS9ub3Qg
-YXBwbGljYWJsZS8gaW4gb3JkZXIgdG8gbWF0Y2ggTkEuDQo+IFN0aWxsIHdvbmRlcmluZyBpZiBO
-QSBpcyByZWFsbHkgbmVlZGVkIHdoZW4gdGhlcmUgaXMgYWxyZWFkeSAiLi4iID8gUmVnYXJkbGVz
-cw0KPiBlaXRoZXIgd2F5IHNob3VsZCBiZSBmaW5lLg0KDQpJIGRvbid0IHRoaW5rICIuLiIgaXMg
-cHJvcGVyIGhlcmUuICIuLiIgbWVhbnMgaGFyZHdhcmUgZG9lc24ndCBzdXBwb3J0DQp0aGUgZmVh
-dHVyZS4gQnV0IGhlcmUgaXQgaXMganVzdCBvcHBvc2l0ZSwgYXJtNjQgaGFzIHRoZSBoYXJkd2Fy
-ZQ0Kc3VwcG9ydCBvZiB0bGIgc2hvb3Rkb3duIHJhdGhlciB0aGFuIGRlcGVuZGluZyBvbiBhIHNv
-ZnR3YXJlIElQSS4NCg0KPiANCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2Zl
-YXR1cmVzL3ZtL1RMQi9hcmNoLXN1cHBvcnQudHh0DQo+IGIvRG9jdW1lbnRhdGlvbi9mZWF0dXJl
-cy92bS9UTEIvYXJjaC1zdXBwb3J0LnR4dA0KPiA+IGluZGV4IDMwZjc1YTc5Y2UwMS4uMGQwNzBm
-OWY5OGQ4IDEwMDY0NA0KPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vZmVhdHVyZXMvdm0vVExCL2Fy
-Y2gtc3VwcG9ydC50eHQNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2ZlYXR1cmVzL3ZtL1RMQi9h
-cmNoLXN1cHBvcnQudHh0DQo+ID4gQEAgLTksNyArOSw3IEBADQo+ID4gICAgICB8ICAgICAgIGFs
-cGhhOiB8IFRPRE8gfA0KPiA+ICAgICAgfCAgICAgICAgIGFyYzogfCBUT0RPIHwNCj4gPiAgICAg
-IHwgICAgICAgICBhcm06IHwgVE9ETyB8DQo+ID4gLSAgICB8ICAgICAgIGFybTY0OiB8IFRPRE8g
-fA0KPiA+ICsgICAgfCAgICAgICBhcm02NDogfCBOL0EgIHwNCj4gPiAgICAgIHwgICAgICAgICBj
-Nng6IHwgIC4uICB8DQo+ID4gICAgICB8ICAgICAgICBjc2t5OiB8IFRPRE8gfA0KPiA+ICAgICAg
-fCAgICAgICBoODMwMDogfCAgLi4gIHwNCj4gPg0KVGhhbmtzDQpCYXJyeQ0KDQo=
+On 22.02.21 22:18, Song Bao Hua (Barry Song) wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Kieran Bingham [mailto:kieran.bingham@ideasonboard.com]
+>> Sent: Tuesday, February 23, 2021 12:06 AM
+>> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>; corbet@lwn.net;
+>> linux-doc@vger.kernel.org; jan.kiszka@siemens.com
+>> Cc: linux-kernel@vger.kernel.org; linuxarm@openeuler.org
+>> Subject: Re: [PATCH] scripts/gdb: document lx_current is only supported by x86
+>>
+>> Hi Barry
+>>
+>> On 21/02/2021 21:35, Barry Song wrote:
+>>> lx_current depends on the per_cpu current_task which exists on x86 only:
+>>>
+>>> arch$ git grep current_task | grep -i per_cpu
+>>> x86/include/asm/current.h:DECLARE_PER_CPU(struct task_struct *,
+>> current_task);
+>>> x86/kernel/cpu/common.c:DEFINE_PER_CPU(struct task_struct *, current_task)
+>> ____cacheline_aligned =
+>>> x86/kernel/cpu/common.c:EXPORT_PER_CPU_SYMBOL(current_task);
+>>> x86/kernel/cpu/common.c:DEFINE_PER_CPU(struct task_struct *, current_task)
+>> = &init_task;
+>>> x86/kernel/cpu/common.c:EXPORT_PER_CPU_SYMBOL(current_task);
+>>> x86/kernel/smpboot.c:	per_cpu(current_task, cpu) = idle;
+>>>
+>>> On other architectures, lx_current() will lead to a python exception:
+>>> (gdb) p $lx_current().pid
+>>> Python Exception <class 'gdb.error'> No symbol "current_task" in current
+>> context.:
+>>> Error occurred in Python: No symbol "current_task" in current context.
+>>>
+>>> To avoid more people struggling and wasting time in other architectures,
+>>> document it.
+>>>
+>>> Cc: Jan Kiszka <jan.kiszka@siemens.com>
+>>> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+>>> ---
+>>>  Documentation/dev-tools/gdb-kernel-debugging.rst |  2 +-
+>>>  scripts/gdb/linux/cpus.py                        | 10 ++++++++--
+>>>  2 files changed, 9 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst
+>> b/Documentation/dev-tools/gdb-kernel-debugging.rst
+>>> index 4756f6b3a04e..1586901b683c 100644
+>>> --- a/Documentation/dev-tools/gdb-kernel-debugging.rst
+>>> +++ b/Documentation/dev-tools/gdb-kernel-debugging.rst
+>>> @@ -114,7 +114,7 @@ Examples of using the Linux-provided gdb helpers
+>>>      [     0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff]
+>> reserved
+>>>      ....
+>>>
+>>> -- Examine fields of the current task struct::
+>>> +- Examine fields of the current task struct(supported by x86 only)::
+>>>
+>>>      (gdb) p $lx_current().pid
+>>>      $1 = 4998
+>>> diff --git a/scripts/gdb/linux/cpus.py b/scripts/gdb/linux/cpus.py
+>>> index 008e62f3190d..f382762509d3 100644
+>>> --- a/scripts/gdb/linux/cpus.py
+>>> +++ b/scripts/gdb/linux/cpus.py
+>>> @@ -156,6 +156,13 @@ Note that VAR has to be quoted as string."""
+>>>
+>>>  PerCpu()
+>>>
+>>> +def get_current_task(cpu):
+>>> +    if utils.is_target_arch("x86"):
+>>> +         var_ptr = gdb.parse_and_eval("&current_task")
+>>> +         return per_cpu(var_ptr, cpu).dereference()
+>>> +    else:
+>>> +        raise gdb.GdbError("Sorry, obtaining the current task is not yet "
+>>> +                           "supported with this arch")
+>>
+>> I've wondered in the past how we should handle the architecture specific
+>> layers.
+>>
+>> Perhaps we need to have an interface of functionality to implement on
+>> each architecture so that we can create a per-arch set of helpers.
+>>
+>> or break it up into arch specific subdirs at least...
+>>
+>>
+>>>  class LxCurrentFunc(gdb.Function):
+>>>      """Return current task.
+>>> @@ -167,8 +174,7 @@ number. If CPU is omitted, the CPU of the current context
+>> is used."""
+>>>          super(LxCurrentFunc, self).__init__("lx_current")
+>>>
+>>>      def invoke(self, cpu=-1):
+>>> -        var_ptr = gdb.parse_and_eval("&current_task")
+>>> -        return per_cpu(var_ptr, cpu).dereference()
+>>> +        return get_current_task(cpu)
+>>>
+>>
+>> And then perhaps we simply shouldn't even expose commands which can not
+>> be supported on those architectures?
+> 
+> I feel it is better to tell users this function is not supported on its arch
+> than simply hiding the function.
+> 
+> If we hide it, users still have many chances to try it as they have got
+> information of lx_current from google or somewhere.
+> They will try, if it turns out the lx_current is not in the list and an
+> error like  "invalid data type for function to be called", they will
+> probably suspect their gdb/python environment is not set up correctly,
+> and continue to waste time in checking their environment. 
+> Finally they figure out this function is not supported by its arch so it is
+> not exposed. But they have wasted a couple of hours before knowing that.
+> 
+> It seems it is more friendly to directly tell users this is not supported
+> on its arch explicitly and clearly than reporting a "invalid data type
+> for function to be called.
+> 
+>>
+>> Is it easy to disable this command if it's not supportable on the
+>> architecture?
+>>
+> 
+> TBH, I'm not a python expert. I don't know how to do that in an elegant
+> way :-)  on the other hand, it seems lx_current isn’t a command like
+> lx-dmesg. Lx_current is actually similar with lx_per_cpu, we use gdb's
+> print(p) command to show its content.
+> 
+>> Presumably you are working on non-x86, have you investigated adding this
+>> support for your architecture (arm/arm64?)?
+> 
+> Yes. I've thought about it. But It would be quite trivial to bring up
+> this function on arm64.
+> 
+> arch/arm64/include/asm/current.h:
+> static __always_inline struct task_struct *get_current(void)
+> {
+> 	unsigned long sp_el0;
+> 
+> 	asm ("mrs %0, sp_el0" : "=r" (sp_el0));
+> 
+> 	return (struct task_struct *)sp_el0;
+> }
+> 
+> We have to read a special register named sp_el0 and convert it to
+> task_struct while we are running in kernel mode. In gdb I can do
+> it by:
+> (gdb)p/x $SP_EL0
+> $20 = 0xffffffc011492400
+> (gdb)p ((struct task_struct *0xffffffc011492400))->pid
+> $21 = 0
+> 
+> What is more complex is that if we are running in user mode(EL0), this
+> register doesn't describe current task any more. so we have to
+> differentiate the modes of processor and make sure it only returns
+> current task while we are running in EL1(processor's kernel mode).
+
+Is all information needed for this available via gdb?
+
+> 
+>>
+>> The fact you have run the command implies it would be useful for you ?
+>>
+> 
+> Yes. I think it is a common requirement to get current task. lx_current
+> convenience function can help everyone. Since there is a document saying
+> this command exists, everyone using scripts/gdb would like to try it
+> I guess.
+> 
+> The simplest way would be adding current_task per_cpu variable for other
+> arch, but I believe hardly arch maintainers will accept it as its only
+> benefit is bringing up the lx_current. So 99.9% no maintainer wants it.
+> 
+> Thus, for the time being, I moved to just stop people from wasting time
+> like what I had done with a couple of hours.
+> 
+
+I agree with the warning, also as potential motivation to add support
+for other archs.
+
+Jan
+
+-- 
+Siemens AG, T RDA IOT
+Corporate Competence Center Embedded Linux
