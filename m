@@ -2,230 +2,138 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18F82C43381
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 12:05:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25709C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 12:26:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D808664DE8
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 12:05:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DF1B664E57
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 12:26:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232556AbhBWMF0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 07:05:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56211 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232869AbhBWMDM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 07:03:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614081705;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xYiJ0mpq+DNmuke6gplH0L/qFhGMbAEVJh8dW/65qpQ=;
-        b=U5R7D5dsywuqCiR2LRJollCL4wgQh8L7hqhGNvLr7ytsdAYD4e5kSSakJeLLmIZ1VweTu3
-        nwzwg897NfKtKeS4DV8LRIypFU2zVHLo3w+8qaDJ4EIZUAZugiM095lyfrnR9ypaP4LFAP
-        Q50zU93f6rMS4gQvMXS5jkoVtj/w9dw=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-YvSlXqEyOb6Y-CsnkL28nQ-1; Tue, 23 Feb 2021 07:01:41 -0500
-X-MC-Unique: YvSlXqEyOb6Y-CsnkL28nQ-1
-Received: by mail-il1-f197.google.com with SMTP id s4so10038033ilv.23
-        for <linux-doc@vger.kernel.org>; Tue, 23 Feb 2021 04:01:40 -0800 (PST)
+        id S232417AbhBWM0Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 07:26:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59032 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232378AbhBWM0W (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 07:26:22 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B80FC061574;
+        Tue, 23 Feb 2021 04:25:42 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id o38so12240437pgm.9;
+        Tue, 23 Feb 2021 04:25:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=QnraGrfKJNAuzXXyF+P/lQ9nJ4NmJUsr8wDqFM+qAdc=;
+        b=B9tYIJ2ZtbhgYOYSgV9nO9ytK8kpwudwBaeVFnSQ3bmwKMBArML1cHY5cSkMAbJ1D0
+         TKMn0OAFMu3skyau7AoAYsNyPXHtK1grug4tyTE2tk4gjf0IQ7xzCQqknj87CexzDG4x
+         CSWg/T75EO3q89ggpk8KMpY7v8xiWtJZfBun2/yydEpO+mlh/Gxcq8VVDhJEebx7iEOZ
+         1dyCKp9T9Vn9t0gInjqMmwUw12rdfN5X/IMN25wIs8t8O9UmM9z8fUdjVBz+mrWjmBK+
+         rpzvkcVvIj3pOe3ASDwekn7Nm1A+WGjWa3wRU0I2DVx/4Xz2E4Lkobg0IL8EvvkW9yLz
+         oDBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xYiJ0mpq+DNmuke6gplH0L/qFhGMbAEVJh8dW/65qpQ=;
-        b=rofezoVzk0+yzC+0XFPDJzMrG0nNc2cVvaIjbPUplpeyPYaoCLizd5CMPZF1FIsYB/
-         YehkpOR3Gzconx8kpxPeXPyRU+BPre6cfGTW4FJ2axQcGvQe4my9PIZehGvaiRSR86XR
-         6Y0InUYPdImLYoWvz2fIMDscy55crTbJiT5ooyfKVop35CL3QHXbMfCJWYwGoCiFb2Fr
-         iP0XPsiIKLGXFrJEHrj7WdmU+kRNo8ceOmRr4uOCMEkxr+dp7Dq+WahS2CvNbrb+YW4p
-         u2hQZme4BxSRiD+19x87c6d8Yv6/dYkLGchtjA64+FVtklMtKdJYxrUUgON3/S1BTbUO
-         fmPA==
-X-Gm-Message-State: AOAM533Dv0woVLKgwwSKY/v1V3kYDAslL5XxpPrAEfwJZyxLowZsNiDe
-        bYKr8jgyu67aLFtMnAuVVQE9dfsytEYS1fOFOziJnHXCTbFXozc+hCDhLiN8zqboQyF2gxY2rBo
-        R1PzG+V03dx2lhbSZ7KnQAtF1Jk8cBJtot/iE
-X-Received: by 2002:a5d:9d58:: with SMTP id k24mr19798868iok.125.1614081700142;
-        Tue, 23 Feb 2021 04:01:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwNLvAXSafwGqdZZFaTas0FLihFOGhvMjRK0amYkWnxpwHA1TTYtvZMCONGJXqw7T0ab8jEDMBQlOBa/v0ffw4=
-X-Received: by 2002:a5d:9d58:: with SMTP id k24mr19798848iok.125.1614081699952;
- Tue, 23 Feb 2021 04:01:39 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=QnraGrfKJNAuzXXyF+P/lQ9nJ4NmJUsr8wDqFM+qAdc=;
+        b=PKHtcJAwRkIqEoAMLm7NfxiPhpQEVdPcGsRWOhsri2uIikqSZlPlihnBUVhWByv8vS
+         bE8zT/m3bvMCi/bVmGMjSI0Bdf9RGJGceljr1m6frDAUqpEjeiUJ7U61n/kkS26lPJu0
+         +/QFnKvSXhIBxO7hwenh6S9aieUaLAU4CoXLvHFwZim6G3Z5jkqa/s78olOpDoQn7j4D
+         zjLtWXD6g0hypXJglzXLPSZvcAQTFLwdfMAbd1PCF85oKPLVuaR9FgQr3efeJZaTqqXu
+         9KEmUgW4oN39rkDfsVt4ZzWRgaZwldzSdTFYSToxsOcKIqFP3bgN/ACikZAichapIQPr
+         uEug==
+X-Gm-Message-State: AOAM5316T9P8Sn3iQAjdcvWYXIRkIDRlyjrEJO//TTDRTXpXuDTGJkgj
+        ZG3d5WDjxJ/DAnFDT2Q0AMI=
+X-Google-Smtp-Source: ABdhPJzaWSkZQ3bMSfxPGDzMRFmrkTy+76NiJP/lU1IrVVIMzlFFlSFM97ne2LmTLQPR3q70RC8qng==
+X-Received: by 2002:a63:c343:: with SMTP id e3mr2971411pgd.8.1614083142017;
+        Tue, 23 Feb 2021 04:25:42 -0800 (PST)
+Received: from ?IPv6:2405:201:600d:a089:71c8:9c21:1a6d:84ab? ([2405:201:600d:a089:71c8:9c21:1a6d:84ab])
+        by smtp.gmail.com with ESMTPSA id h3sm21156348pgm.67.2021.02.23.04.25.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Feb 2021 04:25:41 -0800 (PST)
+Subject: Re: [RFC] scripts: kernel-doc: fix typedef support for struct parsing
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     lukas.bulwahn@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+References: <20210222160347.23410-1-yashsri421@gmail.com>
+ <875z2jlr2j.fsf@meer.lwn.net>
+From:   Aditya <yashsri421@gmail.com>
+Message-ID: <19d41289-cf8e-881d-cc0d-9c7e193db242@gmail.com>
+Date:   Tue, 23 Feb 2021 17:55:36 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210211180814.69708-1-saeed.mirzamohammadi@oracle.com> <20210218020203.GC2871@MiWiFi-R3L-srv>
-In-Reply-To: <20210218020203.GC2871@MiWiFi-R3L-srv>
-From:   Kairui Song <kasong@redhat.com>
-Date:   Tue, 23 Feb 2021 20:01:28 +0800
-Message-ID: <CACPcB9d7-kJR7OG2OrLcAhFhiMO26PB82Uv9bK9FkCfH__zWZQ@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] kernel/crash_core: Add crashkernel=auto for vmcore creation
-To:     Baoquan He <bhe@redhat.com>
-Cc:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
-        linux-doc@vger.kernel.org,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        John Donnelly <john.p.donnelly@oracle.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        kexec@lists.infradead.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        YiFei Zhu <yifeifz2@illinois.edu>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <875z2jlr2j.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 18, 2021 at 10:03 AM Baoquan He <bhe@redhat.com> wrote:
->
-> On 02/11/21 at 10:08am, Saeed Mirzamohammadi wrote:
-> > This adds crashkernel=auto feature to configure reserved memory for
-> > vmcore creation. CONFIG_CRASH_AUTO_STR is defined to be set for
-> > different kernel distributions and different archs based on their
-> > needs.
-> >
-> > Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-> > Signed-off-by: John Donnelly <john.p.donnelly@oracle.com>
-> > Tested-by: John Donnelly <john.p.donnelly@oracle.com>
-> > ---
-> >  Documentation/admin-guide/kdump/kdump.rst     |  3 ++-
-> >  .../admin-guide/kernel-parameters.txt         |  6 +++++
-> >  arch/Kconfig                                  | 24 +++++++++++++++++++
-> >  kernel/crash_core.c                           |  7 ++++++
-> >  4 files changed, 39 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-> > index 2da65fef2a1c..e55cdc404c6b 100644
-> > --- a/Documentation/admin-guide/kdump/kdump.rst
-> > +++ b/Documentation/admin-guide/kdump/kdump.rst
-> > @@ -285,7 +285,8 @@ This would mean:
-> >      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
-> >      3) if the RAM size is larger than 2G, then reserve 128M
-> >
-> > -
-> > +Or you can use crashkernel=auto to choose the crash kernel memory size
-> > +based on the recommended configuration set for each arch.
-> >
-> >  Boot into System Kernel
-> >  =======================
-> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > index 7d4e523646c3..aa2099465458 100644
-> > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > @@ -736,6 +736,12 @@
-> >                       a memory unit (amount[KMG]). See also
-> >                       Documentation/admin-guide/kdump/kdump.rst for an example.
-> >
-> > +     crashkernel=auto
-> > +                     [KNL] This parameter will set the reserved memory for
-> > +                     the crash kernel based on the value of the CRASH_AUTO_STR
-> > +                     that is the best effort estimation for each arch. See also
-> > +                     arch/Kconfig for further details.
-> > +
-> >       crashkernel=size[KMG],high
-> >                       [KNL, X86-64] range could be above 4G. Allow kernel
-> >                       to allocate physical memory region from top, so could
-> > diff --git a/arch/Kconfig b/arch/Kconfig
-> > index af14a567b493..f87c88ffa2f8 100644
-> > --- a/arch/Kconfig
-> > +++ b/arch/Kconfig
-> > @@ -14,6 +14,30 @@ menu "General architecture-dependent options"
-> >  config CRASH_CORE
-> >       bool
-> >
-> > +if CRASH_CORE
-> > +
-> > +config CRASH_AUTO_STR
-> > +     string "Memory reserved for crash kernel"
-> > +     depends on CRASH_CORE
-> > +     default "1G-64G:128M,64G-1T:256M,1T-:512M"
-> > +     help
-> > +       This configures the reserved memory dependent
-> > +       on the value of System RAM. The syntax is:
-> > +       crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
-> > +                   range=start-[end]
-> > +
-> > +       For example:
-> > +           crashkernel=512M-2G:64M,2G-:128M
-> > +
-> > +       This would mean:
-> > +
-> > +           1) if the RAM is smaller than 512M, then don't reserve anything
-> > +              (this is the "rescue" case)
-> > +           2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
-> > +           3) if the RAM size is larger than 2G, then reserve 128M
-> > +
-> > +endif # CRASH_CORE
->
-> Wondering if this CRASH_CORE ifdeffery is a little redundent here
-> since CRASH_CORE dependency has been added. Except of this, I like this
-> patch. As we discussed in private threads, we can try to push it into
-> mainline and continue improving later.
->
+On 23/2/21 3:10 am, Jonathan Corbet wrote:
+> Aditya Srivastava <yashsri421@gmail.com> writes:
+> 
+>> There are files in kernel, which use 'typedef struct' syntax for defining
+>> struct. For eg, include/linux/zstd.h, drivers/scsi/megaraid/mega_common.h,
+>> etc.
+>> However, kernel-doc still does not support it, causing a parsing error.
+>>
+>> For eg, running scripts/kernel-doc -none on include/linux/zstd.h emits:
+>> "error: Cannot parse struct or union!"
+>>
+>> Add support for parsing it.
+>>
+>> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+>> ---
+>>  scripts/kernel-doc | 12 ++++++++++--
+>>  1 file changed, 10 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+>> index 8b5bc7bf4bb8..46e904dc3f87 100755
+>> --- a/scripts/kernel-doc
+>> +++ b/scripts/kernel-doc
+>> @@ -1201,12 +1201,20 @@ sub dump_union($$) {
+>>  sub dump_struct($$) {
+>>      my $x = shift;
+>>      my $file = shift;
+>> +    my $decl_type;
+>> +    my $members;
+>>  
+>>      if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
+>> -	my $decl_type = $1;
+>> +	$decl_type = $1;
+>>  	$declaration_name = $2;
+>> -	my $members = $3;
+>> +	$members = $3;
+>> +    } elsif ($x =~ /typedef\s+(struct|union)\s*\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*\s*(\w*)\s*;/) {
+> 
+> So this isn't your fault, but these regexes are really getting out of
+> hand.  I would *really* like to see some effort made into making this
+> code more understandable / maintainable as we tweak this stuff.  So:
+> 
+>  - Splitting out the common part, as suggested by Lukas, would be really
+>    useful.  That would also avoid the problem of only occurrence being
+>    edited the next tine we add a new qualifier.
+> 
+>  - Splitting out other subsections of the regex and giving them symbolic
+>    names would also help.
+> 
+>  - We really could use some comments before these branches saying what
+>    they are doing; it is *not* obvious from the code.
+> 
+> See what I'm getting at here?
+> 
+Yep.
+Thanks for the feedback Lukas and Jonathan. I'll get back with a v2
+for the patch.
 
-I believe "if CRASH_CORE" is not needed as it already "depends on
-CRASH_CORE", tested with CRASH_CORE=y or 'not set', it just works.
-
-> > +
-> >  config KEXEC_CORE
-> >       select CRASH_CORE
-> >       bool
-> > diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> > index 106e4500fd53..ab0a2b4b1ffa 100644
-> > --- a/kernel/crash_core.c
-> > +++ b/kernel/crash_core.c
-> > @@ -7,6 +7,7 @@
-> >  #include <linux/crash_core.h>
-> >  #include <linux/utsname.h>
-> >  #include <linux/vmalloc.h>
-> > +#include <linux/kexec.h>
-> >
-> >  #include <asm/page.h>
-> >  #include <asm/sections.h>
-> > @@ -250,6 +251,12 @@ static int __init __parse_crashkernel(char *cmdline,
-> >       if (suffix)
-> >               return parse_crashkernel_suffix(ck_cmdline, crash_size,
-> >                               suffix);
-> > +#ifdef CONFIG_CRASH_AUTO_STR
-> > +     if (strncmp(ck_cmdline, "auto", 4) == 0) {
-> > +             ck_cmdline = CONFIG_CRASH_AUTO_STR;
-> > +             pr_info("Using crashkernel=auto, the size chosen is a best effort estimation.\n");
-> > +     }
-> > +#endif
-> >       /*
-> >        * if the commandline contains a ':', then that's the extended
-> >        * syntax -- if not, it must be the classic syntax
-> > --
-> > 2.27.0
-> >
->
->
-> _______________________________________________
-> kexec mailing list
-> kexec@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/kexec
->
-
-
--- 
-Best Regards,
-Kairui Song
-
+Thanks
+Aditya
