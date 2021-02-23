@@ -2,147 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72BEAC433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 22:35:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43374C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 22:35:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47D6164E3F
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 22:35:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1BC3064E22
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 22:35:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232412AbhBWWfG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 17:35:06 -0500
-Received: from mx2.suse.de ([195.135.220.15]:45930 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232454AbhBWWdA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Feb 2021 17:33:00 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 569EBACE5;
-        Tue, 23 Feb 2021 22:32:04 +0000 (UTC)
-Date:   Tue, 23 Feb 2021 23:31:57 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Subject: Re: [External] Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-Message-ID: <20210223223157.GA2740@localhost.localdomain>
-References: <20210219104954.67390-1-songmuchun@bytedance.com>
- <20210219104954.67390-5-songmuchun@bytedance.com>
- <13a5363c-6af4-1e1f-9a18-972ca18278b5@oracle.com>
- <20210223092740.GA1998@linux>
- <CAMZfGtVRSBkKe=tKAKLY8dp_hywotq3xL+EJZNjXuSKt3HK3bQ@mail.gmail.com>
- <20210223104957.GA3844@linux>
- <20210223154128.GA21082@localhost.localdomain>
+        id S232631AbhBWWfT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 17:35:19 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:12642 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232453AbhBWWc7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 17:32:59 -0500
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DlYf45Jcqz16BrH;
+        Wed, 24 Feb 2021 06:30:20 +0800 (CST)
+Received: from SWX921481.china.huawei.com (10.126.200.133) by
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 24 Feb 2021 06:31:49 +0800
+From:   Barry Song <song.bao.hua@hisilicon.com>
+To:     <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+        <jan.kiszka@siemens.com>, <kbingham@kernel.org>
+CC:     <linux-kernel@vger.kernel.org>, <linuxarm@openeuler.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        Barry Song <song.bao.hua@hisilicon.com>
+Subject: [PATCH v2 2/2] scripts/gdb: add lx_current support for arm64
+Date:   Wed, 24 Feb 2021 11:25:40 +1300
+Message-ID: <20210223222540.9120-3-song.bao.hua@hisilicon.com>
+X-Mailer: git-send-email 2.21.0.windows.1
+In-Reply-To: <20210223222540.9120-1-song.bao.hua@hisilicon.com>
+References: <20210223222540.9120-1-song.bao.hua@hisilicon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210223154128.GA21082@localhost.localdomain>
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.126.200.133]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 23, 2021 at 04:41:28PM +0100, Oscar Salvador wrote:
-> On Tue, Feb 23, 2021 at 11:50:05AM +0100, Oscar Salvador wrote:
-> > > CPU0:                           CPU1:
-> > >                                 set_compound_page_dtor(HUGETLB_PAGE_DTOR);
-> > > memory_failure_hugetlb
-> > >   get_hwpoison_page
-> > >     __get_hwpoison_page
-> > >       get_page_unless_zero
-> > >                                 put_page_testzero()
-> > > 
-> > > Maybe this can happen. But it is a very corner case. If we want to
-> > > deal with this. We can put_page_testzero() first and then
-> > > set_compound_page_dtor(HUGETLB_PAGE_DTOR).
-> > 
-> > I have to check further, but it looks like this could actually happen.
-> > Handling this with VM_BUG_ON is wrong, because memory_failure/soft_offline are
-> > entitled to increase the refcount of the page.
-> > 
-> > AFAICS,
-> > 
-> >  CPU0:                                    CPU1:
-> >                                           set_compound_page_dtor(HUGETLB_PAGE_DTOR);
-> >  memory_failure_hugetlb
-> >    get_hwpoison_page
-> >      __get_hwpoison_page
-> >        get_page_unless_zero
-> >                                           put_page_testzero()
-> >         identify_page_state
-> >          me_huge_page
-> > 
-> > I think we can reach me_huge_page with either refcount = 1 or refcount =2,
-> > depending whether put_page_testzero has been issued.
-> > 
-> > For now, I would not re-enqueue the page if put_page_testzero == false.
-> > I have to see how this can be handled gracefully.
-> 
-> I took a brief look.
-> It is not really your patch fault. Hugetlb <-> memory-failure synchronization is
-> a bit odd, it definitely needs improvment.
-> 
-> The thing is, we can have different scenarios here.
-> E.g: by the time we return from put_page_testzero, we might have refcount ==
-> 0 and PageHWPoison, or refcount == 1 PageHWPoison.
-> 
-> The former will let a user get a page from the pool and get a sigbus
-> when it faults in the page, and the latter will be even more odd as we
-> will have a self-refcounted page in the free pool (and hwpoisoned).
-> 
-> As I said, it is not this patchset fault. I just made me realize this
-> problem.
-> 
-> I have to think some more about this.
+arm64 uses SP_EL0 to save the current task_struct address. While running
+in EL0, SP_EL0 is clobbered by userspace. So if the upper bit is not 1
+(not TTBR1), the current address is invalid. This patch checks the upper
+bit of SP_EL0, if the upper bit is 1, lx_current() of arm64 will return
+the derefrence of current task. Otherwise, lx_current() will tell users
+they are running in userspace(EL0).
 
-I have been thinking more about this.
-memory failure events can occur at any time, and we might not be in a
-position where we can handle gracefully the error, meaning that the page
-might end up in non desirable state.
+While arm64 is running in EL0, it is actually pointless to print current
+task as the memory of kernel space is not accessible in EL0.
 
-E.g: we could flag the page right before enqueing it.
+Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+---
+ Documentation/dev-tools/gdb-kernel-debugging.rst |  2 +-
+ scripts/gdb/linux/cpus.py                        | 13 +++++++++++++
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-I still think that VM_BUG_ON should go, as the refcount can be perfectly
-increased by memory-failure/soft_offline handlers, so BUGing there does
-not make much sense.
-
-One think we could do is to check the state of the page we want to
-retrieve from the free hugepage pool.
-We should discard any HWpoisoned ones, and dissolve them.
-
-The thing is, memory-failure/soft_offline should allocate a new hugepage
-for the free pool, so keep the pool stable.
-Something like [1].
-
-Anyway, this is orthogonal to this patch, and something I will work on
-soon.
-
-[1] https://lore.kernel.org/linux-mm/20210222135137.25717-2-osalvador@suse.de/T/#u
-
+diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst b/Documentation/dev-tools/gdb-kernel-debugging.rst
+index 1586901b683c..8e0f1fe8d17a 100644
+--- a/Documentation/dev-tools/gdb-kernel-debugging.rst
++++ b/Documentation/dev-tools/gdb-kernel-debugging.rst
+@@ -114,7 +114,7 @@ Examples of using the Linux-provided gdb helpers
+     [     0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+     ....
+ 
+-- Examine fields of the current task struct(supported by x86 only)::
++- Examine fields of the current task struct(supported by x86 and arm64 only)::
+ 
+     (gdb) p $lx_current().pid
+     $1 = 4998
+diff --git a/scripts/gdb/linux/cpus.py b/scripts/gdb/linux/cpus.py
+index f382762509d3..15fc4626d236 100644
+--- a/scripts/gdb/linux/cpus.py
++++ b/scripts/gdb/linux/cpus.py
+@@ -16,6 +16,9 @@ import gdb
+ from linux import tasks, utils
+ 
+ 
++task_type = utils.CachedType("struct task_struct")
++
++
+ MAX_CPUS = 4096
+ 
+ 
+@@ -157,9 +160,19 @@ Note that VAR has to be quoted as string."""
+ PerCpu()
+ 
+ def get_current_task(cpu):
++    task_ptr_type = task_type.get_type().pointer()
++
+     if utils.is_target_arch("x86"):
+          var_ptr = gdb.parse_and_eval("&current_task")
+          return per_cpu(var_ptr, cpu).dereference()
++    elif utils.is_target_arch("aarch64"):
++         current_task_addr = gdb.parse_and_eval("$SP_EL0")
++         if((current_task_addr >> 63) != 0):
++             current_task = current_task_addr.cast(task_ptr_type)
++             return current_task.dereference()
++         else:
++             raise gdb.GdbError("Sorry, obtaining the current task is not allowed "
++                                "while running in userspace(EL0)")
+     else:
+         raise gdb.GdbError("Sorry, obtaining the current task is not yet "
+                            "supported with this arch")
 -- 
-Oscar Salvador
-SUSE L3
+2.25.1
+
