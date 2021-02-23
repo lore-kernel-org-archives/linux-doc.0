@@ -2,189 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80C90C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 13:58:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF7C4C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 14:15:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4073C64E4D
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 13:58:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9B8164E60
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 14:15:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231152AbhBWN5s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 08:57:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38886 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231627AbhBWN5r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 08:57:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614088580;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=GOo1vUxJ9YG42QlygaavCVxD9K0kv9RH3YQXV8ODgCI=;
-        b=iQnhrMgqBP91Y8tz2UhR+1EycAqTMZUhTTWiVItOoBaPDRLZlZ0/CMVS6TF6onZM12jYVy
-        2wj53cYdLolAU5vWb/3gu78PXPwOBzkEIjMWiZ06oVf7PrzXZGRVr5cMqbwZeT/j8ZDYr1
-        iYfG8cK8evT3h0dB60KM1NXT0iA0BcI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-gclij8pZMj6Y9GQVdCSEcw-1; Tue, 23 Feb 2021 08:56:16 -0500
-X-MC-Unique: gclij8pZMj6Y9GQVdCSEcw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF2A9801978;
-        Tue, 23 Feb 2021 13:56:12 +0000 (UTC)
-Received: from localhost (ovpn-12-213.pek2.redhat.com [10.72.12.213])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0296360CFB;
-        Tue, 23 Feb 2021 13:56:07 +0000 (UTC)
-Date:   Tue, 23 Feb 2021 21:56:05 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
-        Kairui Song <kasong@redhat.com>
-Cc:     linux-doc@vger.kernel.org,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        John Donnelly <john.p.donnelly@oracle.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        kexec@lists.infradead.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        YiFei Zhu <yifeifz2@illinois.edu>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Rapoport <rppt@kernel.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>
-Subject: Re: [PATCH v3 1/1] kernel/crash_core: Add crashkernel=auto for
- vmcore creation
-Message-ID: <20210223135605.GA3553@MiWiFi-R3L-srv>
-References: <20210211180814.69708-1-saeed.mirzamohammadi@oracle.com>
- <20210218020203.GC2871@MiWiFi-R3L-srv>
- <CACPcB9d7-kJR7OG2OrLcAhFhiMO26PB82Uv9bK9FkCfH__zWZQ@mail.gmail.com>
+        id S231717AbhBWOPT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 09:15:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54150 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230512AbhBWOPT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 09:15:19 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFAA2C06174A;
+        Tue, 23 Feb 2021 06:14:38 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id g20so9914076plo.2;
+        Tue, 23 Feb 2021 06:14:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NAz5oGVYcUWKWj7ilIWYVUpvhPjHG2laaguLjZqRP8o=;
+        b=cW/jOvMCKFQNYCq1j9v30T1KmflQyKkOVNBaIhjMLQ2FuLE5mIOvfEzb9iWvhabInL
+         uVCstuo4vjdgCZbn2RuSdKKmpzbJb68U9o6gIPYVABWjOJcG/ckPXO0Ej5i1K1z6zpBR
+         SVasaDOe32gqzWtJexnI3+P5/sjuIZNakjayOJ94n9zTljy353qMcXZCLV0RC4YhERds
+         LXebOSOeG26/0WO07oVoj94zAUI7FrtbXFriIulENxwG+YjKcedMaV+t6Pzi0/ja6Aw/
+         VgCS0PFg8o/IXlT/xe0aAa5cpHBTThF8N+tlbaaXOZM6KKSMKhMjZLjel/xHHtu8onpO
+         KC5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NAz5oGVYcUWKWj7ilIWYVUpvhPjHG2laaguLjZqRP8o=;
+        b=bB2BKG6CFT+AD4kG0NDQQr3W8M9kEg9E/ZCxEmjyUajvg/Eyc7zDwAdWA2Jo+ozCPG
+         pdAbd4ypBfGSbPOJsDO8Kt3Ojt7Rkda0AIyAHq/N5X1iyWCg7EZxJLUXsNusb5n8EII8
+         eTBF66iVbidRdSHjDHZQecDLgI34tk92u6GPy4OEOa3HOMax8sB2akqOBawwDDE98IkK
+         B5W6JtB2xNOXoWziMxM/FosG7FSddzD1AJJpNKhTSaw8cbqxTutREgSTGwlCi4JvT8z4
+         EeORZqmNAiviOlZHYWd/CA6xe7kp1fDHLy7KgwkJuNqmGsDVGBK9f3IoVFxTZSDI9C52
+         iBzA==
+X-Gm-Message-State: AOAM5306fyvoQAkDKzxWPt0LcDkx2pmdeo0XllJIaglEHWereFtagcZM
+        mAUjD1/VZwf2KTMUg2WJlPI=
+X-Google-Smtp-Source: ABdhPJwpDlSLX1F3x2EWuFTajfJwbY6ANFjv4aE/YYdaLn/W+WR+mid7xsWJE8V0pQOt9GEUQodqLg==
+X-Received: by 2002:a17:90b:1494:: with SMTP id js20mr11740149pjb.224.1614089678426;
+        Tue, 23 Feb 2021 06:14:38 -0800 (PST)
+Received: from localhost (89.208.244.53.16clouds.com. [89.208.244.53])
+        by smtp.gmail.com with ESMTPSA id 187sm15015544pfd.6.2021.02.23.06.14.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Feb 2021 06:14:37 -0800 (PST)
+Date:   Tue, 23 Feb 2021 22:14:35 +0800
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     Robert Richter <rric@kernel.org>
+Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] PCI: Introduce pcim_alloc_irq_vectors()
+Message-ID: <20210223141435.GA912403@nuc8i5>
+References: <20210218150458.798347-1-zhengdejin5@gmail.com>
+ <20210218150458.798347-2-zhengdejin5@gmail.com>
+ <YC/NxfsQn2RKkrp8@rric.localdomain>
+ <20210219164649.GA814637@nuc8i5>
+ <YDONyMSHO9FDeY69@rric.localdomain>
+ <20210222151415.GA896979@nuc8i5>
+ <YDS2rkJu7PTJJiZr@rric.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACPcB9d7-kJR7OG2OrLcAhFhiMO26PB82Uv9bK9FkCfH__zWZQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <YDS2rkJu7PTJJiZr@rric.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02/23/21 at 08:01pm, Kairui Song wrote:
-> On Thu, Feb 18, 2021 at 10:03 AM Baoquan He <bhe@redhat.com> wrote:
-> >
-> > On 02/11/21 at 10:08am, Saeed Mirzamohammadi wrote:
-...
-> > > diff --git a/arch/Kconfig b/arch/Kconfig
-> > > index af14a567b493..f87c88ffa2f8 100644
-> > > --- a/arch/Kconfig
-> > > +++ b/arch/Kconfig
-> > > @@ -14,6 +14,30 @@ menu "General architecture-dependent options"
-> > >  config CRASH_CORE
-> > >       bool
+On Tue, Feb 23, 2021 at 09:02:54AM +0100, Robert Richter wrote:
+> On 22.02.21 23:14:15, Dejin Zheng wrote:
+> > On Mon, Feb 22, 2021 at 11:56:08AM +0100, Robert Richter wrote:
+> > > On 20.02.21 00:46:49, Dejin Zheng wrote:
+> > > > > On 18.02.21 23:04:55, Dejin Zheng wrote:
+> > > 
+> > > > > > +	if (!dr || !dr->enabled)
+> > > > here checks whether the pci device is enabled.
+> > > 
+> > > What is the purpose of this? The device "is_managed" or not.
 > > >
-> > > +if CRASH_CORE
-> > > +
-> > > +config CRASH_AUTO_STR
-> > > +     string "Memory reserved for crash kernel"
-> > > +     depends on CRASH_CORE
-> > > +     default "1G-64G:128M,64G-1T:256M,1T-:512M"
-> > > +     help
-> > > +       This configures the reserved memory dependent
-> > > +       on the value of System RAM. The syntax is:
-> > > +       crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
-> > > +                   range=start-[end]
-> > > +
-> > > +       For example:
-> > > +           crashkernel=512M-2G:64M,2G-:128M
-> > > +
-> > > +       This would mean:
-> > > +
-> > > +           1) if the RAM is smaller than 512M, then don't reserve anything
-> > > +              (this is the "rescue" case)
-> > > +           2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
-> > > +           3) if the RAM size is larger than 2G, then reserve 128M
-> > > +
-> > > +endif # CRASH_CORE
-> >
-> > Wondering if this CRASH_CORE ifdeffery is a little redundent here
-> > since CRASH_CORE dependency has been added. Except of this, I like this
-> > patch. As we discussed in private threads, we can try to push it into
-> > mainline and continue improving later.
-> >
+> > The device is managed or not by check whether "dr" is NULL. And
+> > check the "dr->enabled" is for the PCI device enable. I think it
+> > may not make sense to apply for irq vectors when PCI device is not
+> > enabled.
 > 
-> I believe "if CRASH_CORE" is not needed as it already "depends on
-> CRASH_CORE", tested with CRASH_CORE=y or 'not set', it just works.
+> I don't see how a disabled device affects in any way the release of
+> the irq vectors during device removal. dr is always non-null in case
+> the device is managed, a check isn't needed for that.
+>
+Yes, the disabled device does not affect release irq vectors, But
+the disabled device affects apply for irq vectors, It is wrong to apply
+for the irq vectors when the device is not enabled. Add this check can
+facilitate developers to find problems as soon as possible.
 
-Thanks for testing and confirmation, Kairui.
-
-Saeed, can you post a v4 with CRASH_CORE ifdeffery removed? Maybe this
-week?
-
-Thanks
-Baoquan
-
-> 
-> > > +
-> > >  config KEXEC_CORE
-> > >       select CRASH_CORE
-> > >       bool
-> > > diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> > > index 106e4500fd53..ab0a2b4b1ffa 100644
-> > > --- a/kernel/crash_core.c
-> > > +++ b/kernel/crash_core.c
-> > > @@ -7,6 +7,7 @@
-> > >  #include <linux/crash_core.h>
-> > >  #include <linux/utsname.h>
-> > >  #include <linux/vmalloc.h>
-> > > +#include <linux/kexec.h>
-> > >
-> > >  #include <asm/page.h>
-> > >  #include <asm/sections.h>
-> > > @@ -250,6 +251,12 @@ static int __init __parse_crashkernel(char *cmdline,
-> > >       if (suffix)
-> > >               return parse_crashkernel_suffix(ck_cmdline, crash_size,
-> > >                               suffix);
-> > > +#ifdef CONFIG_CRASH_AUTO_STR
-> > > +     if (strncmp(ck_cmdline, "auto", 4) == 0) {
-> > > +             ck_cmdline = CONFIG_CRASH_AUTO_STR;
-> > > +             pr_info("Using crashkernel=auto, the size chosen is a best effort estimation.\n");
-> > > +     }
-> > > +#endif
-> > >       /*
-> > >        * if the commandline contains a ':', then that's the extended
-> > >        * syntax -- if not, it must be the classic syntax
-> > > --
-> > > 2.27.0
-> > >
-> >
-> >
-> > _______________________________________________
-> > kexec mailing list
-> > kexec@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/kexec
-> >
-> 
-> 
-> -- 
-> Best Regards,
-> Kairui Song
-> 
-
+> -Robert
