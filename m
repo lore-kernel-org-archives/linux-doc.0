@@ -2,106 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 026C8C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 06:10:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F8D0C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 06:20:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 685C864E4D
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 06:10:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D223564DA1
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 06:20:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230232AbhBWGKi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 01:10:38 -0500
-Received: from foss.arm.com ([217.140.110.172]:59710 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229949AbhBWGKi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Feb 2021 01:10:38 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 409E7ED1;
-        Mon, 22 Feb 2021 22:09:52 -0800 (PST)
-Received: from [192.168.0.130] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 368173F73D;
-        Mon, 22 Feb 2021 22:09:47 -0800 (PST)
-Subject: Re: [PATCH] Documentation/features: mark BATCHED_UNMAP_TLB_FLUSH
- doesn't apply to ARM64
-To:     Barry Song <song.bao.hua@hisilicon.com>, corbet@lwn.net,
-        linux-doc@vger.kernel.org, akpm@linux-foundation.org,
-        linux-mm@kvack.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linuxarm@openeuler.org, Mel Gorman <mgorman@suse.de>,
+        id S231527AbhBWGUP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 01:20:15 -0500
+Received: from szxga01-in.huawei.com ([45.249.212.187]:4632 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230349AbhBWGUL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 01:20:11 -0500
+Received: from DGGEMM404-HUB.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Dl83k2cfyzYBlD;
+        Tue, 23 Feb 2021 14:17:38 +0800 (CST)
+Received: from dggemi712-chm.china.huawei.com (10.3.20.111) by
+ DGGEMM404-HUB.china.huawei.com (10.3.20.212) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Tue, 23 Feb 2021 14:19:03 +0800
+Received: from dggemi761-chm.china.huawei.com (10.1.198.147) by
+ dggemi712-chm.china.huawei.com (10.3.20.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2106.2; Tue, 23 Feb 2021 14:19:03 +0800
+Received: from dggemi761-chm.china.huawei.com ([10.9.49.202]) by
+ dggemi761-chm.china.huawei.com ([10.9.49.202]) with mapi id 15.01.2106.006;
+ Tue, 23 Feb 2021 14:19:03 +0800
+From:   "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>
+To:     Anshuman Khandual <anshuman.khandual@arm.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-mm@kvack.org" <linux-mm@kvack.org>
+CC:     "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linuxarm@openeuler.org" <linuxarm@openeuler.org>,
+        Mel Gorman <mgorman@suse.de>,
         Andy Lutomirski <luto@kernel.org>,
         Catalin Marinas <catalin.marinas@arm.com>,
         Will Deacon <will@kernel.org>
+Subject: RE: [Linuxarm]  Re: [PATCH] Documentation/features: mark
+ BATCHED_UNMAP_TLB_FLUSH doesn't apply to ARM64
+Thread-Topic: [Linuxarm]  Re: [PATCH] Documentation/features: mark
+ BATCHED_UNMAP_TLB_FLUSH doesn't apply to ARM64
+Thread-Index: AQHXCXw6OdGSogcGZ0yLlSm/gfAbZqpku/6AgACFGrA=
+Date:   Tue, 23 Feb 2021 06:19:03 +0000
+Message-ID: <808ef1de466a4d9990bf69199dd59944@hisilicon.com>
 References: <20210223003230.11976-1-song.bao.hua@hisilicon.com>
-From:   Anshuman Khandual <anshuman.khandual@arm.com>
-Message-ID: <09dd1026-9e3f-b9be-b5a5-82771642348d@arm.com>
-Date:   Tue, 23 Feb 2021 11:40:09 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210223003230.11976-1-song.bao.hua@hisilicon.com>
-Content-Type: text/plain; charset=utf-8
+ <09dd1026-9e3f-b9be-b5a5-82771642348d@arm.com>
+In-Reply-To: <09dd1026-9e3f-b9be-b5a5-82771642348d@arm.com>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.126.201.86]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2/23/21 6:02 AM, Barry Song wrote:
-> BATCHED_UNMAP_TLB_FLUSH is used on x86 to do batched tlb shootdown by
-> sending one IPI to TLB flush all entries after unmapping pages rather
-> than sending an IPI to flush each individual entry.
-> On arm64, tlb shootdown is done by hardware. Flush instructions are
-> innershareable. The local flushes are limited to the boot (1 per CPU)
-> and when a task is getting a new ASID.
-
-Is there any previous discussion around this ?
-
-> So marking this feature as "TODO" is not proper. ".." isn't good as
-> well. So this patch adds a "N/A" for this kind of features which are
-> not needed on some architectures.
-> 
-> Cc: Mel Gorman <mgorman@suse.de>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
-> ---
->  Documentation/features/arch-support.txt        | 1 +
->  Documentation/features/vm/TLB/arch-support.txt | 2 +-
->  2 files changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/features/arch-support.txt b/Documentation/features/arch-support.txt
-> index d22a1095e661..118ae031840b 100644
-> --- a/Documentation/features/arch-support.txt
-> +++ b/Documentation/features/arch-support.txt
-> @@ -8,4 +8,5 @@ The meaning of entries in the tables is:
->      | ok |  # feature supported by the architecture
->      |TODO|  # feature not yet supported by the architecture
->      | .. |  # feature cannot be supported by the hardware
-> +    | N/A|  # feature doesn't apply to the architecture
-
-NA might be better here. s/doesn't apply/not applicable/ in order to match NA.
-Still wondering if NA is really needed when there is already ".." ? Regardless
-either way should be fine.
-
->  
-> diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
-> index 30f75a79ce01..0d070f9f98d8 100644
-> --- a/Documentation/features/vm/TLB/arch-support.txt
-> +++ b/Documentation/features/vm/TLB/arch-support.txt
-> @@ -9,7 +9,7 @@
->      |       alpha: | TODO |
->      |         arc: | TODO |
->      |         arm: | TODO |
-> -    |       arm64: | TODO |
-> +    |       arm64: | N/A  |
->      |         c6x: |  ..  |
->      |        csky: | TODO |
->      |       h8300: |  ..  |
-> 
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5zaHVtYW4gS2hhbmR1
+YWwgW21haWx0bzphbnNodW1hbi5raGFuZHVhbEBhcm0uY29tXQ0KPiBTZW50OiBUdWVzZGF5LCBG
+ZWJydWFyeSAyMywgMjAyMSA3OjEwIFBNDQo+IFRvOiBTb25nIEJhbyBIdWEgKEJhcnJ5IFNvbmcp
+IDxzb25nLmJhby5odWFAaGlzaWxpY29uLmNvbT47IGNvcmJldEBsd24ubmV0Ow0KPiBsaW51eC1k
+b2NAdmdlci5rZXJuZWwub3JnOyBha3BtQGxpbnV4LWZvdW5kYXRpb24ub3JnOyBsaW51eC1tbUBr
+dmFjay5vcmcNCj4gQ2M6IGxpbnV4LWFybS1rZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZzsgbGlu
+dXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsNCj4gbGludXhhcm1Ab3BlbmV1bGVyLm9yZzsgTWVs
+IEdvcm1hbiA8bWdvcm1hbkBzdXNlLmRlPjsgQW5keSBMdXRvbWlyc2tpDQo+IDxsdXRvQGtlcm5l
+bC5vcmc+OyBDYXRhbGluIE1hcmluYXMgPGNhdGFsaW4ubWFyaW5hc0Bhcm0uY29tPjsgV2lsbCBE
+ZWFjb24NCj4gPHdpbGxAa2VybmVsLm9yZz4NCj4gU3ViamVjdDogW0xpbnV4YXJtXSBSZTogW1BB
+VENIXSBEb2N1bWVudGF0aW9uL2ZlYXR1cmVzOiBtYXJrDQo+IEJBVENIRURfVU5NQVBfVExCX0ZM
+VVNIIGRvZXNuJ3QgYXBwbHkgdG8gQVJNNjQNCj4gDQo+IA0KPiANCj4gT24gMi8yMy8yMSA2OjAy
+IEFNLCBCYXJyeSBTb25nIHdyb3RlOg0KPiA+IEJBVENIRURfVU5NQVBfVExCX0ZMVVNIIGlzIHVz
+ZWQgb24geDg2IHRvIGRvIGJhdGNoZWQgdGxiIHNob290ZG93biBieQ0KPiA+IHNlbmRpbmcgb25l
+IElQSSB0byBUTEIgZmx1c2ggYWxsIGVudHJpZXMgYWZ0ZXIgdW5tYXBwaW5nIHBhZ2VzIHJhdGhl
+cg0KPiA+IHRoYW4gc2VuZGluZyBhbiBJUEkgdG8gZmx1c2ggZWFjaCBpbmRpdmlkdWFsIGVudHJ5
+Lg0KPiA+IE9uIGFybTY0LCB0bGIgc2hvb3Rkb3duIGlzIGRvbmUgYnkgaGFyZHdhcmUuIEZsdXNo
+IGluc3RydWN0aW9ucyBhcmUNCj4gPiBpbm5lcnNoYXJlYWJsZS4gVGhlIGxvY2FsIGZsdXNoZXMg
+YXJlIGxpbWl0ZWQgdG8gdGhlIGJvb3QgKDEgcGVyIENQVSkNCj4gPiBhbmQgd2hlbiBhIHRhc2sg
+aXMgZ2V0dGluZyBhIG5ldyBBU0lELg0KPiANCj4gSXMgdGhlcmUgYW55IHByZXZpb3VzIGRpc2N1
+c3Npb24gYXJvdW5kIHRoaXMgPw0KDQpJIGNvcGllZCB0aGUgZGVjbGFyYXRpb24gb2YgbG9jYWwg
+Zmx1c2hlcyBmcm9tOg0KDQoiQVJNNjQgTGludXgga2VybmVsIGlzIFNNUC1hd2FyZSAobm8gcG9z
+c2liaWxpdHkgdG8gYnVpbGQgb25seSBmb3IgVVApLg0KTW9zdCBvZiB0aGUgZmx1c2ggaW5zdHJ1
+Y3Rpb25zIGFyZSBpbm5lcnNoYXJlYWJsZS4gVGhlIGxvY2FsIGZsdXNoZXMgYXJlDQpsaW1pdGVk
+IHRvIHRoZSBib290ICgxIHBlciBDUFUpIGFuZCB3aGVuIGEgdGFzayBpcyBnZXR0aW5nIGEgbmV3
+IEFTSUMuIg0KDQpodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL3Byb2plY3QveGVuLWRldmVs
+L3BhdGNoLzE0NjE3NTYxNzMtMTAzMDAtMS1naXQtc2VuZC1lbWFpbC1qdWxpZW4uZ3JhbGxAYXJt
+LmNvbS8NCg0KSSBhbSBub3Qgc3VyZSBpZiBnZXR0aW5nIGEgbmV3IGFzaWQgYW5kIHRoZSBib290
+IGFyZSB0aGUgb25seSB0d28NCmNhc2VzIG9mIGxvY2FsIGZsdXNoZXMgd2hpbGUgSSB0aGluayB0
+aGlzIGlzIHByb2JhYmx5IHRydWUuDQoNCkJ1dCBldmVuIHdlIGZpbmQgbW9yZSBjb3JuZXIgY2Fz
+ZXMsIGhhcmRseSB0aGUgdHJlbmQgYXJtNjQgZG9lc24ndA0KbmVlZCBCQVRDSEVEX1VOTUFQX1RM
+Ql9GTFVTSCB3aWxsIGJlIGNoYW5nZWQuDQoNCj4gDQo+ID4gU28gbWFya2luZyB0aGlzIGZlYXR1
+cmUgYXMgIlRPRE8iIGlzIG5vdCBwcm9wZXIuICIuLiIgaXNuJ3QgZ29vZCBhcw0KPiA+IHdlbGwu
+IFNvIHRoaXMgcGF0Y2ggYWRkcyBhICJOL0EiIGZvciB0aGlzIGtpbmQgb2YgZmVhdHVyZXMgd2hp
+Y2ggYXJlDQo+ID4gbm90IG5lZWRlZCBvbiBzb21lIGFyY2hpdGVjdHVyZXMuDQo+ID4NCj4gPiBD
+YzogTWVsIEdvcm1hbiA8bWdvcm1hbkBzdXNlLmRlPg0KPiA+IENjOiBBbmR5IEx1dG9taXJza2kg
+PGx1dG9Aa2VybmVsLm9yZz4NCj4gPiBDYzogQ2F0YWxpbiBNYXJpbmFzIDxjYXRhbGluLm1hcmlu
+YXNAYXJtLmNvbT4NCj4gPiBDYzogV2lsbCBEZWFjb24gPHdpbGxAa2VybmVsLm9yZz4NCj4gPiBT
+aWduZWQtb2ZmLWJ5OiBCYXJyeSBTb25nIDxzb25nLmJhby5odWFAaGlzaWxpY29uLmNvbT4NCj4g
+PiAtLS0NCj4gPiAgRG9jdW1lbnRhdGlvbi9mZWF0dXJlcy9hcmNoLXN1cHBvcnQudHh0ICAgICAg
+ICB8IDEgKw0KPiA+ICBEb2N1bWVudGF0aW9uL2ZlYXR1cmVzL3ZtL1RMQi9hcmNoLXN1cHBvcnQu
+dHh0IHwgMiArLQ0KPiA+ICAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMSBkZWxl
+dGlvbigtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZmVhdHVyZXMvYXJj
+aC1zdXBwb3J0LnR4dA0KPiBiL0RvY3VtZW50YXRpb24vZmVhdHVyZXMvYXJjaC1zdXBwb3J0LnR4
+dA0KPiA+IGluZGV4IGQyMmExMDk1ZTY2MS4uMTE4YWUwMzE4NDBiIDEwMDY0NA0KPiA+IC0tLSBh
+L0RvY3VtZW50YXRpb24vZmVhdHVyZXMvYXJjaC1zdXBwb3J0LnR4dA0KPiA+ICsrKyBiL0RvY3Vt
+ZW50YXRpb24vZmVhdHVyZXMvYXJjaC1zdXBwb3J0LnR4dA0KPiA+IEBAIC04LDQgKzgsNSBAQCBU
+aGUgbWVhbmluZyBvZiBlbnRyaWVzIGluIHRoZSB0YWJsZXMgaXM6DQo+ID4gICAgICB8IG9rIHwg
+ICMgZmVhdHVyZSBzdXBwb3J0ZWQgYnkgdGhlIGFyY2hpdGVjdHVyZQ0KPiA+ICAgICAgfFRPRE98
+ICAjIGZlYXR1cmUgbm90IHlldCBzdXBwb3J0ZWQgYnkgdGhlIGFyY2hpdGVjdHVyZQ0KPiA+ICAg
+ICAgfCAuLiB8ICAjIGZlYXR1cmUgY2Fubm90IGJlIHN1cHBvcnRlZCBieSB0aGUgaGFyZHdhcmUN
+Cj4gPiArICAgIHwgTi9BfCAgIyBmZWF0dXJlIGRvZXNuJ3QgYXBwbHkgdG8gdGhlIGFyY2hpdGVj
+dHVyZQ0KPiANCj4gTkEgbWlnaHQgYmUgYmV0dGVyIGhlcmUuIHMvZG9lc24ndCBhcHBseS9ub3Qg
+YXBwbGljYWJsZS8gaW4gb3JkZXIgdG8gbWF0Y2ggTkEuDQo+IFN0aWxsIHdvbmRlcmluZyBpZiBO
+QSBpcyByZWFsbHkgbmVlZGVkIHdoZW4gdGhlcmUgaXMgYWxyZWFkeSAiLi4iID8gUmVnYXJkbGVz
+cw0KPiBlaXRoZXIgd2F5IHNob3VsZCBiZSBmaW5lLg0KDQpJIGRvbid0IHRoaW5rICIuLiIgaXMg
+cHJvcGVyIGhlcmUuICIuLiIgbWVhbnMgaGFyZHdhcmUgZG9lc24ndCBzdXBwb3J0DQp0aGUgZmVh
+dHVyZS4gQnV0IGhlcmUgaXQgaXMganVzdCBvcHBvc2l0ZSwgYXJtNjQgaGFzIHRoZSBoYXJkd2Fy
+ZQ0Kc3VwcG9ydCBvZiB0bGIgc2hvb3Rkb3duIHJhdGhlciB0aGFuIGRlcGVuZGluZyBvbiBhIHNv
+ZnR3YXJlIElQSS4NCg0KPiANCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2Zl
+YXR1cmVzL3ZtL1RMQi9hcmNoLXN1cHBvcnQudHh0DQo+IGIvRG9jdW1lbnRhdGlvbi9mZWF0dXJl
+cy92bS9UTEIvYXJjaC1zdXBwb3J0LnR4dA0KPiA+IGluZGV4IDMwZjc1YTc5Y2UwMS4uMGQwNzBm
+OWY5OGQ4IDEwMDY0NA0KPiA+IC0tLSBhL0RvY3VtZW50YXRpb24vZmVhdHVyZXMvdm0vVExCL2Fy
+Y2gtc3VwcG9ydC50eHQNCj4gPiArKysgYi9Eb2N1bWVudGF0aW9uL2ZlYXR1cmVzL3ZtL1RMQi9h
+cmNoLXN1cHBvcnQudHh0DQo+ID4gQEAgLTksNyArOSw3IEBADQo+ID4gICAgICB8ICAgICAgIGFs
+cGhhOiB8IFRPRE8gfA0KPiA+ICAgICAgfCAgICAgICAgIGFyYzogfCBUT0RPIHwNCj4gPiAgICAg
+IHwgICAgICAgICBhcm06IHwgVE9ETyB8DQo+ID4gLSAgICB8ICAgICAgIGFybTY0OiB8IFRPRE8g
+fA0KPiA+ICsgICAgfCAgICAgICBhcm02NDogfCBOL0EgIHwNCj4gPiAgICAgIHwgICAgICAgICBj
+Nng6IHwgIC4uICB8DQo+ID4gICAgICB8ICAgICAgICBjc2t5OiB8IFRPRE8gfA0KPiA+ICAgICAg
+fCAgICAgICBoODMwMDogfCAgLi4gIHwNCj4gPg0KVGhhbmtzDQpCYXJyeQ0KDQo=
