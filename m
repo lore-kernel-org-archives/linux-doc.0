@@ -2,107 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF7C4C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 14:15:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF59AC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 15:42:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9B8164E60
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 14:15:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F6CB64E61
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 15:42:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231717AbhBWOPT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 09:15:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54150 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230512AbhBWOPT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 09:15:19 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFAA2C06174A;
-        Tue, 23 Feb 2021 06:14:38 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id g20so9914076plo.2;
-        Tue, 23 Feb 2021 06:14:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=NAz5oGVYcUWKWj7ilIWYVUpvhPjHG2laaguLjZqRP8o=;
-        b=cW/jOvMCKFQNYCq1j9v30T1KmflQyKkOVNBaIhjMLQ2FuLE5mIOvfEzb9iWvhabInL
-         uVCstuo4vjdgCZbn2RuSdKKmpzbJb68U9o6gIPYVABWjOJcG/ckPXO0Ej5i1K1z6zpBR
-         SVasaDOe32gqzWtJexnI3+P5/sjuIZNakjayOJ94n9zTljy353qMcXZCLV0RC4YhERds
-         LXebOSOeG26/0WO07oVoj94zAUI7FrtbXFriIulENxwG+YjKcedMaV+t6Pzi0/ja6Aw/
-         VgCS0PFg8o/IXlT/xe0aAa5cpHBTThF8N+tlbaaXOZM6KKSMKhMjZLjel/xHHtu8onpO
-         KC5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NAz5oGVYcUWKWj7ilIWYVUpvhPjHG2laaguLjZqRP8o=;
-        b=bB2BKG6CFT+AD4kG0NDQQr3W8M9kEg9E/ZCxEmjyUajvg/Eyc7zDwAdWA2Jo+ozCPG
-         pdAbd4ypBfGSbPOJsDO8Kt3Ojt7Rkda0AIyAHq/N5X1iyWCg7EZxJLUXsNusb5n8EII8
-         eTBF66iVbidRdSHjDHZQecDLgI34tk92u6GPy4OEOa3HOMax8sB2akqOBawwDDE98IkK
-         B5W6JtB2xNOXoWziMxM/FosG7FSddzD1AJJpNKhTSaw8cbqxTutREgSTGwlCi4JvT8z4
-         EeORZqmNAiviOlZHYWd/CA6xe7kp1fDHLy7KgwkJuNqmGsDVGBK9f3IoVFxTZSDI9C52
-         iBzA==
-X-Gm-Message-State: AOAM5306fyvoQAkDKzxWPt0LcDkx2pmdeo0XllJIaglEHWereFtagcZM
-        mAUjD1/VZwf2KTMUg2WJlPI=
-X-Google-Smtp-Source: ABdhPJwpDlSLX1F3x2EWuFTajfJwbY6ANFjv4aE/YYdaLn/W+WR+mid7xsWJE8V0pQOt9GEUQodqLg==
-X-Received: by 2002:a17:90b:1494:: with SMTP id js20mr11740149pjb.224.1614089678426;
-        Tue, 23 Feb 2021 06:14:38 -0800 (PST)
-Received: from localhost (89.208.244.53.16clouds.com. [89.208.244.53])
-        by smtp.gmail.com with ESMTPSA id 187sm15015544pfd.6.2021.02.23.06.14.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Feb 2021 06:14:37 -0800 (PST)
-Date:   Tue, 23 Feb 2021 22:14:35 +0800
-From:   Dejin Zheng <zhengdejin5@gmail.com>
-To:     Robert Richter <rric@kernel.org>
-Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
-        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/4] PCI: Introduce pcim_alloc_irq_vectors()
-Message-ID: <20210223141435.GA912403@nuc8i5>
-References: <20210218150458.798347-1-zhengdejin5@gmail.com>
- <20210218150458.798347-2-zhengdejin5@gmail.com>
- <YC/NxfsQn2RKkrp8@rric.localdomain>
- <20210219164649.GA814637@nuc8i5>
- <YDONyMSHO9FDeY69@rric.localdomain>
- <20210222151415.GA896979@nuc8i5>
- <YDS2rkJu7PTJJiZr@rric.localdomain>
+        id S233188AbhBWPmR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 10:42:17 -0500
+Received: from mx2.suse.de ([195.135.220.15]:35408 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233101AbhBWPmQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Feb 2021 10:42:16 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id A7C06AF5A;
+        Tue, 23 Feb 2021 15:41:32 +0000 (UTC)
+Date:   Tue, 23 Feb 2021 16:41:28 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [External] Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap
+ pages associated with each HugeTLB page
+Message-ID: <20210223154128.GA21082@localhost.localdomain>
+References: <20210219104954.67390-1-songmuchun@bytedance.com>
+ <20210219104954.67390-5-songmuchun@bytedance.com>
+ <13a5363c-6af4-1e1f-9a18-972ca18278b5@oracle.com>
+ <20210223092740.GA1998@linux>
+ <CAMZfGtVRSBkKe=tKAKLY8dp_hywotq3xL+EJZNjXuSKt3HK3bQ@mail.gmail.com>
+ <20210223104957.GA3844@linux>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YDS2rkJu7PTJJiZr@rric.localdomain>
+In-Reply-To: <20210223104957.GA3844@linux>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 23, 2021 at 09:02:54AM +0100, Robert Richter wrote:
-> On 22.02.21 23:14:15, Dejin Zheng wrote:
-> > On Mon, Feb 22, 2021 at 11:56:08AM +0100, Robert Richter wrote:
-> > > On 20.02.21 00:46:49, Dejin Zheng wrote:
-> > > > > On 18.02.21 23:04:55, Dejin Zheng wrote:
-> > > 
-> > > > > > +	if (!dr || !dr->enabled)
-> > > > here checks whether the pci device is enabled.
-> > > 
-> > > What is the purpose of this? The device "is_managed" or not.
-> > >
-> > The device is managed or not by check whether "dr" is NULL. And
-> > check the "dr->enabled" is for the PCI device enable. I think it
-> > may not make sense to apply for irq vectors when PCI device is not
-> > enabled.
+On Tue, Feb 23, 2021 at 11:50:05AM +0100, Oscar Salvador wrote:
+> > CPU0:                           CPU1:
+> >                                 set_compound_page_dtor(HUGETLB_PAGE_DTOR);
+> > memory_failure_hugetlb
+> >   get_hwpoison_page
+> >     __get_hwpoison_page
+> >       get_page_unless_zero
+> >                                 put_page_testzero()
+> > 
+> > Maybe this can happen. But it is a very corner case. If we want to
+> > deal with this. We can put_page_testzero() first and then
+> > set_compound_page_dtor(HUGETLB_PAGE_DTOR).
 > 
-> I don't see how a disabled device affects in any way the release of
-> the irq vectors during device removal. dr is always non-null in case
-> the device is managed, a check isn't needed for that.
->
-Yes, the disabled device does not affect release irq vectors, But
-the disabled device affects apply for irq vectors, It is wrong to apply
-for the irq vectors when the device is not enabled. Add this check can
-facilitate developers to find problems as soon as possible.
+> I have to check further, but it looks like this could actually happen.
+> Handling this with VM_BUG_ON is wrong, because memory_failure/soft_offline are
+> entitled to increase the refcount of the page.
+> 
+> AFAICS,
+> 
+>  CPU0:                                    CPU1:
+>                                           set_compound_page_dtor(HUGETLB_PAGE_DTOR);
+>  memory_failure_hugetlb
+>    get_hwpoison_page
+>      __get_hwpoison_page
+>        get_page_unless_zero
+>                                           put_page_testzero()
+>         identify_page_state
+>          me_huge_page
+> 
+> I think we can reach me_huge_page with either refcount = 1 or refcount =2,
+> depending whether put_page_testzero has been issued.
+> 
+> For now, I would not re-enqueue the page if put_page_testzero == false.
+> I have to see how this can be handled gracefully.
 
-> -Robert
+I took a brief look.
+It is not really your patch fault. Hugetlb <-> memory-failure synchronization is
+a bit odd, it definitely needs improvment.
+
+The thing is, we can have different scenarios here.
+E.g: by the time we return from put_page_testzero, we might have refcount ==
+0 and PageHWPoison, or refcount == 1 PageHWPoison.
+
+The former will let a user get a page from the pool and get a sigbus
+when it faults in the page, and the latter will be even more odd as we
+will have a self-refcounted page in the free pool (and hwpoisoned).
+
+As I said, it is not this patchset fault. I just made me realize this
+problem.
+
+I have to think some more about this.
+
+-- 
+Oscar Salvador
+SUSE L3
