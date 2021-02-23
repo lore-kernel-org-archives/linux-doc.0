@@ -2,317 +2,569 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9BA5C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 02:05:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EAE26C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 05:37:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5879564E4D
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 02:05:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB38D61493
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 05:37:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231451AbhBWCFl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 21:05:41 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:34902 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231383AbhBWCFi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 21:05:38 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11N2098D043260;
-        Tue, 23 Feb 2021 02:03:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : to : cc :
- references : from : message-id : date : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=NN8RbRB2jv2ytPx9Xq0vOQkN+I2SFlfEfc4oV+fRNx8=;
- b=XpAp2PYhABZWsmiO6h4MRZK3NzjhdkAlVV0zDtNqW7eo2Eaf7zZxL5FJOAKIaWMyULC/
- 9Nc2+io2R/IwWxAnc/PV6bAD7lw9seIwfada2o1Y2Ukc4VZG3ibZjqubjNQttB5iskzx
- Eyru9xIUUi49BinodZMcBDOg8Ct5lwF3k1jY1aYgKY8B9O3mU2+q5R+0IDCvzvLgt9P/
- SCEgB6E20kfeQhObudhpQcNXzr94rYpTpD4vKCvX8+A0N5KrMmfua2OUaRFxOJlSnx3Y
- NAnN0C0PixAi2jiylH+oLRbAVyyCE872MK/Ambjqr1e+KJGdJMnZV0ngAsbp9vPsdfRP sw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2130.oracle.com with ESMTP id 36vr62011a-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 23 Feb 2021 02:03:33 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11N205sw020128;
-        Tue, 23 Feb 2021 02:03:33 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2169.outbound.protection.outlook.com [104.47.57.169])
-        by userp3020.oracle.com with ESMTP id 36uc6r3ska-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 23 Feb 2021 02:03:32 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MBi8mW43UlXI6KfTpqxXJFemiB+r8gkeDEewFFaco5adSewDyifaRwTLr5xsT8iR4uBh/tcztL6DCBc/NsCA6AZx4utVAs4Bs4OZyICDEeGQR2th5lttzGJa+7KWHF8UjYV7czzisDdGYfOUXgu69X8RjP9Zlq2UjWIVspPz2/eBxsNM9sqOUGGvlhYGIEuGRULRRAHS1rPuSbUX3c2+wDd5zR3L9JfScbE6sQoJ4Osl/Y+m4cfSeR/pWpkBjebFwxsFUvZUujs2XJzhxp4BH9Pp1Vi2CYZIL8vUu9xT4380L0qFQ3JWlS/teWPV/LBC+yCRhrQi0x0KsHopl9/Fig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NN8RbRB2jv2ytPx9Xq0vOQkN+I2SFlfEfc4oV+fRNx8=;
- b=MZLzrDjrkIKjKregoMV3uxdd2ecxMw9VRxf+gEV6VsH5BEDdq+VF+RFp9xb61wzu6xub/dh3gfDjo8GfAO9MomOVFI44oKHDK+cZatQ8UXgM3bnbAhtJ6pW4WtiU1I/SA60bHT+yQZWebPumzBQtslCSpa38UxpenvvRB+td7obkykAkE7zfSV3CVRk2htKLd9p/NXfznzOVCsiKAQv4GbQNSKhs9m3eIZbG8x6yh8NLepDKKOcO/0ZlBgEnMQrmDLbAnE2oa0KU6fq54exDSoBhzrsoqkWdVzxM8ijo9yYCg1Q9dvg6GmbLspFtNgxptGtKu/ehwh5dAPZwkRlihw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
+        id S230437AbhBWFhO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 00:37:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56238 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230144AbhBWFhL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 00:37:11 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63FB7C061786
+        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 21:36:31 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id p5so4285709plo.4
+        for <linux-doc@vger.kernel.org>; Mon, 22 Feb 2021 21:36:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NN8RbRB2jv2ytPx9Xq0vOQkN+I2SFlfEfc4oV+fRNx8=;
- b=NXKN1rakWRyAZcqPS/AvYsQ/D6W+SnTc6cgHd435fTCD5eARoVwPNh3flqTFxhtc0NLdrTjam9B8dv4cCOUAyhMKe6CekUuBaoON9/t3dMtGKXe8k8R6Fg/HL7Bh5fOG4dT49C9Zq3P1wa7cfPqtbxtUjZFvGExfNLBTcRqRpuM=
-Received: from CO1PR10MB4722.namprd10.prod.outlook.com (2603:10b6:303:9e::12)
- by CO1PR10MB4531.namprd10.prod.outlook.com (2603:10b6:303:6c::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.30; Tue, 23 Feb
- 2021 02:03:30 +0000
-Received: from CO1PR10MB4722.namprd10.prod.outlook.com
- ([fe80::50a1:9424:e4df:af22]) by CO1PR10MB4722.namprd10.prod.outlook.com
- ([fe80::50a1:9424:e4df:af22%4]) with mapi id 15.20.3868.033; Tue, 23 Feb 2021
- 02:03:30 +0000
-Subject: Re: [PATCH v3 1/1] kernel/crash_core: Add crashkernel=auto for vmcore
- creation
-To:     Baoquan He <bhe@redhat.com>,
-        Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-Cc:     Dave Young <dyoung@redhat.com>, Vivek Goyal <vgoyal@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        YiFei Zhu <yifeifz2@illinois.edu>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        John Donnelly <john.p.donnelly@oracle.com>
-References: <20210211180814.69708-1-saeed.mirzamohammadi@oracle.com>
- <20210218020203.GC2871@MiWiFi-R3L-srv>
-From:   john.p.donnelly@oracle.com
-Message-ID: <fcb8e523-e639-1a71-d59d-53b98260ae88@oracle.com>
-Date:   Mon, 22 Feb 2021 20:03:13 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.1
-In-Reply-To: <20210218020203.GC2871@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [47.220.66.60]
-X-ClientProxiedBy: LO4P123CA0377.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:18e::22) To CO1PR10MB4722.namprd10.prod.outlook.com
- (2603:10b6:303:9e::12)
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=aYv0eQvZ2yLg52Ysz8rEXt1oFGhcA0fO7nVu09GhKJo=;
+        b=VattKy++i+crfizvJnT73A/PHg1AtsrF5LZKhRwrP1CZNswQmtI1W9/4DUf8jf6i2G
+         zEMSevQvsTShQLwkFgFPZYH90PTBzEgydaZt4L5P+QCclNIA/apqgEpKRAQ76OK57B8x
+         MTfWZrGzOMGawr83aStTDvgb5GT7Y5hwhEUhAWPS2umyeZu/mr5nPyN+aHgaCWO/w51j
+         SVj12JJohl6IjYxMyCFVaAQQHQf0wS9Wnj1SW/j1ojzvSs16Nd/Y+tyqJK4/JFdfpdpr
+         y5hsC7AwbQsZ0H8bJ/pGjOHX+7SRS8gI7N9sVSl67fLMxAFt5SDNPI4GO2UJpyCQkBri
+         iLZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=aYv0eQvZ2yLg52Ysz8rEXt1oFGhcA0fO7nVu09GhKJo=;
+        b=K8QHiJe/MZ18cxZuvXeXkVkNey9UPeYwisJ0UrvW98BpswdVGiZLZP8paFL/lUt/fd
+         7NwuA8XNkt68cMSfNO7mLtmne+JqycZyOi3GceQS8aePOtdhWL4BH+ZM+4kNuvi9MIMf
+         cJOrdJ39ZZU4db1jGM41pprcIVkV7SS4cqqMo/SBGN6LIieyMHUjffXg7neJash5y7zK
+         AJwvOsJdsdM3eTGyrtwGAVfl6tKqzMpdGIw/8SpZ60hkC47418F/RvEJX9+g9c4Rah/f
+         hEeME1EzYNAcs0T4XLYPsbGn7KGRuJTukO/DomRr4FuwkIG9z5Oj525WiyiOHpMJlcDs
+         w83g==
+X-Gm-Message-State: AOAM5318izrrorL1rCWtAgvzDDwH0tDzti2GdrT6A6cgX1941rlIj0Xc
+        7l2+GpUBe7hMmiTOJ+IkOAEF0MC3VlZvkrm8QX5KeQ==
+X-Google-Smtp-Source: ABdhPJwgy93EhnypmyOsAuzu+K13tuFOTwwVMC+wgLV+s9q0JC7Q5wYzJvFv7InURvV6eIQwIvRUymiZpeNaJcG+gQk=
+X-Received: by 2002:a17:902:9341:b029:e1:7b4e:57a8 with SMTP id
+ g1-20020a1709029341b02900e17b4e57a8mr25102009plp.34.1614058590565; Mon, 22
+ Feb 2021 21:36:30 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from dhcp-10-175-0-180.vpn.oracle.com (47.220.66.60) by LO4P123CA0377.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:18e::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.29 via Frontend Transport; Tue, 23 Feb 2021 02:03:20 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9be85162-72c6-432a-a21e-08d8d79f373b
-X-MS-TrafficTypeDiagnostic: CO1PR10MB4531:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO1PR10MB45310474A3B61DF495FA0966C7809@CO1PR10MB4531.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Uy5PNOMznq9gGtVqKq0zEqUxLsrZyCZliIDVa7UyuyJ/d4Rpcvf6P3ZoBOgjBmv1MCJXs1aGZf+EFpOwMrqHlBwwLbKXgiQQJ6ByvWhCcx4nsD9Xap6kAVtIaKKtyiiY4IqgXbrbkTazTYkQReb+1Ro+PQRqpb1hoTz4T0I0AzSyTB6Qg6h7THa1jUkQfowoAZW15OQQMlyWnZH/BYBvIRAVR+mh88rn+e0NwMJXHkrjSfk28adBUUPZg1ruNzwANQz1FMy+TgLqj7Oaz1QiR1Y54QkJ0bqEF5PKHadWULxf8GpWG2hLaNpX8YbCoewZ89tMso40bzcSTCTPj8jCnL4YC/Ol/sCIit9ZaLsmHxtdWRkNB1F5NWyhxBhvpXVA/nA9yrvudNnEMKS6NRONeMbr+PBx/2Fa0GEe/zFySpWqu4DGf95Iz9e5PR/NpUMBQCtk2ncWP//BPqDDGTwma0CVzioLABUEiyv+io1PF58gW8TzzUdwiljsXmHaz++65cxsgSn0qZbOf713gcTntVbx+nCkVo4xyjqKtmBrKlEAmn9Wz6zbzPxwQ5UMrKfqCgLEDzE8on9aBgZR2iRNWw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR10MB4722.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(346002)(39860400002)(366004)(396003)(376002)(136003)(16526019)(9686003)(53546011)(8936002)(86362001)(26005)(8676002)(186003)(66556008)(5660300002)(7696005)(66476007)(36756003)(31696002)(110136005)(956004)(316002)(2906002)(31686004)(2616005)(83380400001)(6486002)(107886003)(7416002)(4326008)(66946007)(6666004)(478600001)(54906003)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RWc5NktvVWZEYlpha0RwS2p1Z1RqemgrdGxEMUF4UU5VRFllbnRCTUxOMTJr?=
- =?utf-8?B?SGh3MnV1NkVqSXp1bmQrb3JrbUpBTzhoMGFveXdVOXdSYjJ6K3lmLzdoMFZr?=
- =?utf-8?B?TFlmK0Y0RlhERHlOdEY5enZDakV5clZrVnZsQTh2TENDUUo4ODNKRTJyak1H?=
- =?utf-8?B?YTM2eDEza1BhRm9CdjdhTGpMUDFybGw2NDU0YnI2WS9KTjNEYUtDSWNPV0Q3?=
- =?utf-8?B?Y3BFaUEvZFB0a1lWTFJDNmFWR0dTSDd6dFVMVUUvejRaZ0VzcHlhcWc5OXMx?=
- =?utf-8?B?UlNJNWErZXZ0dWxzR1doN1JzWjRxM0I4algyUGhRK0JOejdHU2U4TjdmOFov?=
- =?utf-8?B?dlhqVlpqNkptM1VWb2dMdWtPVk5iQ3JMdDc5VTAzNkkxN1RydmM2bzB2eWFF?=
- =?utf-8?B?bWNzT0l5MURKSFQrMllNcEo2UVJHdEtYanpMSTVkc3Ryd3NMSG5QSEtrZ0xy?=
- =?utf-8?B?WlJ0TzFUdWF5R25wRTV0emdNMXRrOHh4WFp1RWllTTg0MXNYc0NOR09xK2E0?=
- =?utf-8?B?RHhGV0YwdE4xNzVaNTFtUUR6OWxnRW5TLzdDS215Rm1SczViNjVKSk5LNExX?=
- =?utf-8?B?cjJ4WEppcWN5eVFMWVFNd3cxODRGU1JJZ2Y3UlJQczZLU1h5MmNXc0VHajBJ?=
- =?utf-8?B?aTQwNGh0TlUwQ2MrTS9DbkVYczRvYzFyK3BZWUhoTlViV2xTZTk1dG1DaXZy?=
- =?utf-8?B?YThrTzJscTIwZkNaVG14cUdmR1Mva0JKK2YyYm5aUEtKZ0kxNCsxVS9VNWdr?=
- =?utf-8?B?UDNibFgzSFRFcDdLL3hKa3kyVkFjUVU4TGlNdXBEeFV4b3RlYVEwWGNLaXZR?=
- =?utf-8?B?YUZJeHpYSEpSbXhvei95NU5vM2plUlMySzgxRU5JZnNqVUxYTVpLdkhmaW9I?=
- =?utf-8?B?RHkwaDVSamhzdXd3ME9QVnhTdldYTm1uaEtOR1RvRGFvVnpNaEhqaks1L09I?=
- =?utf-8?B?T2UyMjd1aEl0Q1FvaHdWb09hOWhvNU90VWJvL1B1bUJFYWxRd0tRd0RlTXcz?=
- =?utf-8?B?dTZsY0FCRjg5TDV6eWM1cVAyYlpTR3JiUVRrMUZKeVdLUEpqZUIydWg4Wlhj?=
- =?utf-8?B?TEpxZFkxUDV5Qm0ranBTQ05GSXRGcjZ1ZUFtOHpuUDJkNCtlcUJPdGthdmJi?=
- =?utf-8?B?OE0wZkhjaENvd0hLSXdpNkpWckZhV29kVWpJRytKeC9HVnZVaWl3VXJtK3dx?=
- =?utf-8?B?QlYwM254UHhmTytFTnpndW9UdDVYWWtIZDhYbndBVHRDbHlqTy9tSCtoTU1r?=
- =?utf-8?B?UXhoN2hnQlRNQVg4eUdDL0dnc2xob2NTdnpodjc1TmJDZ2VRSDBtS0tWZ3Q3?=
- =?utf-8?B?cDYzdkYwUm1HbjFxbVdMWkRid1QreEthQ2pOS2tOWVViN3pReHRYUkhhWjZu?=
- =?utf-8?B?Sng5Rk44eHkxK2k5akhsV251STVuY3h5YUttSXByLzdPTFpBRzNUMW1Wd3NK?=
- =?utf-8?B?aGVoWDBGMkFJTTQwUVJvQkpVK2hxenpDSmNiSTFpSW42YXFicndTbHI5REk3?=
- =?utf-8?B?VHhZYk1Ybis2WGdHdHQvemp3WWZGUEx3NTFKU3pzYjhyNjNpVGN5b2JYeWFn?=
- =?utf-8?B?RDk2UVJobWJhd2NGUGNBSlhneFdVazA3aVI0SjZkUElFZ2pRTFlOUzduZmYw?=
- =?utf-8?B?VnBhSy8zaDR2d3Z5Vjg3SDJoTTk2d3BaZjZHUUh0V2IwaUNVMGYreXcwOE4z?=
- =?utf-8?B?NmRxUHl5N1JXU0lMeTNRM1JYamZ5TFhrZmFpblNLSmtJWUFvRGphMVpUdStr?=
- =?utf-8?Q?8xCNOT+YQYuq2z+j8Lxn4oP567fRw+8GBggx73B?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9be85162-72c6-432a-a21e-08d8d79f373b
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR10MB4722.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2021 02:03:30.2338
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rOBxE48IfuIs51aFtUg9IfZMqepBHWGCtGzkFALHQ8+KimXbDkDQdERk48fJHTiPWuZ+dnm/ZJhmsqjg3GuewAcWreYsEoZ7enPW9Sb/gXQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4531
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9903 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 spamscore=0
- mlxlogscore=999 adultscore=0 bulkscore=0 malwarescore=0 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102230013
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9903 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 bulkscore=0
- clxscore=1015 mlxlogscore=999 lowpriorityscore=0 phishscore=0
- impostorscore=0 adultscore=0 mlxscore=0 priorityscore=1501 malwarescore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102230013
+References: <20210219104954.67390-1-songmuchun@bytedance.com>
+ <20210219104954.67390-5-songmuchun@bytedance.com> <13a5363c-6af4-1e1f-9a18-972ca18278b5@oracle.com>
+In-Reply-To: <13a5363c-6af4-1e1f-9a18-972ca18278b5@oracle.com>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Tue, 23 Feb 2021 13:35:53 +0800
+Message-ID: <CAMZfGtVeJ7Vs-K3ChqLfWkWYpHvZZ-jnBKo67ague50be-MSbQ@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap
+ pages associated with each HugeTLB page
+To:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/17/21 8:02 PM, Baoquan He wrote:
-> On 02/11/21 at 10:08am, Saeed Mirzamohammadi wrote:
->> This adds crashkernel=auto feature to configure reserved memory for
->> vmcore creation. CONFIG_CRASH_AUTO_STR is defined to be set for
->> different kernel distributions and different archs based on their
->> needs.
->>
->> Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
->> Signed-off-by: John Donnelly <john.p.donnelly@oracle.com>
->> Tested-by: John Donnelly <john.p.donnelly@oracle.com>
->> ---
->>   Documentation/admin-guide/kdump/kdump.rst     |  3 ++-
->>   .../admin-guide/kernel-parameters.txt         |  6 +++++
->>   arch/Kconfig                                  | 24 +++++++++++++++++++
->>   kernel/crash_core.c                           |  7 ++++++
->>   4 files changed, 39 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
->> index 2da65fef2a1c..e55cdc404c6b 100644
->> --- a/Documentation/admin-guide/kdump/kdump.rst
->> +++ b/Documentation/admin-guide/kdump/kdump.rst
->> @@ -285,7 +285,8 @@ This would mean:
->>       2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
->>       3) if the RAM size is larger than 2G, then reserve 128M
->>   
->> -
->> +Or you can use crashkernel=auto to choose the crash kernel memory size
->> +based on the recommended configuration set for each arch.
->>   
->>   Boot into System Kernel
->>   =======================
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index 7d4e523646c3..aa2099465458 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -736,6 +736,12 @@
->>   			a memory unit (amount[KMG]). See also
->>   			Documentation/admin-guide/kdump/kdump.rst for an example.
->>   
->> +	crashkernel=auto
->> +			[KNL] This parameter will set the reserved memory for
->> +			the crash kernel based on the value of the CRASH_AUTO_STR
->> +			that is the best effort estimation for each arch. See also
->> +			arch/Kconfig for further details.
->> +
->>   	crashkernel=size[KMG],high
->>   			[KNL, X86-64] range could be above 4G. Allow kernel
->>   			to allocate physical memory region from top, so could
->> diff --git a/arch/Kconfig b/arch/Kconfig
->> index af14a567b493..f87c88ffa2f8 100644
->> --- a/arch/Kconfig
->> +++ b/arch/Kconfig
->> @@ -14,6 +14,30 @@ menu "General architecture-dependent options"
->>   config CRASH_CORE
->>   	bool
->>   
->> +if CRASH_CORE
->> +
->> +config CRASH_AUTO_STR
->> +	string "Memory reserved for crash kernel"
->> +	depends on CRASH_CORE
->> +	default "1G-64G:128M,64G-1T:256M,1T-:512M"
->> +	help
->> +	  This configures the reserved memory dependent
->> +	  on the value of System RAM. The syntax is:
->> +	  crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
->> +	              range=start-[end]
->> +
->> +	  For example:
->> +	      crashkernel=512M-2G:64M,2G-:128M
->> +
->> +	  This would mean:
->> +
->> +	      1) if the RAM is smaller than 512M, then don't reserve anything
->> +	         (this is the "rescue" case)
->> +	      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
->> +	      3) if the RAM size is larger than 2G, then reserve 128M
->> +
->> +endif # CRASH_CORE
-> 
-> Wondering if this CRASH_CORE ifdeffery is a little redundent here
-> since CRASH_CORE dependency has been added. Except of this, I like this
-> patch. As we discussed in private threads, we can try to push it into
-> mainline and continue improving later.
+On Tue, Feb 23, 2021 at 8:01 AM Mike Kravetz <mike.kravetz@oracle.com> wrote:
+>
+> On 2/19/21 2:49 AM, Muchun Song wrote:
+> > When we free a HugeTLB page to the buddy allocator, we should allocate
+> > the vmemmap pages associated with it. But we may cannot allocate vmemmap
+> > pages when the system is under memory pressure, in this case, we just
+> > refuse to free the HugeTLB page instead of looping forever trying to
+> > allocate the pages. This changes some behavior (list below) on some
+> > corner cases.
+>
+> Thank you for listing changes in behavior and possible side effects of
+> not being able to allocate vmemmmap and free huge page to buddy!
+>
+> I will not repeat Michal's comment about the check for an atomic context
+> in free_huge_page path.
+>
+> >
+> >  1) Failing to free a huge page triggered by the user (decrease nr_pages).
+> >
+> >     Need try again later by the user.
+> >
+> >  2) Failing to free a surplus huge page when freed by the application.
+> >
+> >     Try again later when freeing a huge page next time.
+> >
+> >  3) Failing to dissolve a free huge page on ZONE_MOVABLE via
+> >     offline_pages().
+> >
+> >     This is a bit unfortunate if we have plenty of ZONE_MOVABLE memory
+> >     but are low on kernel memory. For example, migration of huge pages
+> >     would still work, however, dissolving the free page does not work.
+> >     This is a corner cases. When the system is that much under memory
+> >     pressure, offlining/unplug can be expected to fail.
+> >
+> >  4) Failing to dissolve a huge page on CMA/ZONE_MOVABLE via
+> >     alloc_contig_range() - once we have that handling in place. Mainly
+> >     affects CMA and virtio-mem.
+> >
+> >     Similar to 3). virito-mem will handle migration errors gracefully.
+> >     CMA might be able to fallback on other free areas within the CMA
+> >     region.
+> >
+> > We do not want to use GFP_ATOMIC to allocate vmemmap pages. Because it
+> > grants access to memory reserves and we do not think it is reasonable
+> > to use memory reserves. We use GFP_KERNEL in alloc_huge_page_vmemmap().
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > ---
+> >  Documentation/admin-guide/mm/hugetlbpage.rst |  8 +++
+> >  include/linux/mm.h                           |  2 +
+> >  mm/hugetlb.c                                 | 81 ++++++++++++++++++++--------
+> >  mm/hugetlb_vmemmap.c                         | 22 ++++++++
+> >  mm/hugetlb_vmemmap.h                         |  6 +++
+> >  mm/sparse-vmemmap.c                          | 75 +++++++++++++++++++++++++-
+> >  6 files changed, 171 insertions(+), 23 deletions(-)
+> >
+> > diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
+> > index f7b1c7462991..fb8f649e5635 100644
+> > --- a/Documentation/admin-guide/mm/hugetlbpage.rst
+> > +++ b/Documentation/admin-guide/mm/hugetlbpage.rst
+> > @@ -60,6 +60,10 @@ HugePages_Surp
+> >          the pool above the value in ``/proc/sys/vm/nr_hugepages``. The
+> >          maximum number of surplus huge pages is controlled by
+> >          ``/proc/sys/vm/nr_overcommit_hugepages``.
+> > +     Note: When the feature of freeing unused vmemmap pages associated
+> > +     with each hugetlb page is enabled, the number of the surplus huge
+>
+> Small wording change:
+>
+>         with each hugetlb page is enabled, the number of surplus huge
 
-Hi,
+Thanks. I will update this.
 
-Are we good to move forward with this and apply it now?
+>
+> > +     pages may be temporarily larger than the maximum number of surplus
+> > +     huge pages when the system is under memory pressure.
+> >  Hugepagesize
+> >       is the default hugepage size (in Kb).
+> >  Hugetlb
+> > @@ -80,6 +84,10 @@ returned to the huge page pool when freed by a task.  A user with root
+> >  privileges can dynamically allocate more or free some persistent huge pages
+> >  by increasing or decreasing the value of ``nr_hugepages``.
+> >
+> > +Note: When the feature of freeing unused vmemmap pages associated with each
+> > +hugetlb page is enabled, we can failed to free the huge pages triggered by
+>
+> Small wording change:
+>
+>    hugetlb page is enabled, we can fail to free the huge pages triggered by
 
-Dave Young acked it.
+Thanks. I will update this.
 
-Thank you,
+>
+> > +the user when ths system is under memory pressure.  Please try again later.
+> > +
+> >  Pages that are used as huge pages are reserved inside the kernel and cannot
+> >  be used for other purposes.  Huge pages cannot be swapped out under
+> >  memory pressure.
+> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > index d7dddf334779..33c5911afe18 100644
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+> > @@ -2981,6 +2981,8 @@ static inline void print_vma_addr(char *prefix, unsigned long rip)
+> >
+> >  void vmemmap_remap_free(unsigned long start, unsigned long end,
+> >                       unsigned long reuse);
+> > +int vmemmap_remap_alloc(unsigned long start, unsigned long end,
+> > +                     unsigned long reuse, gfp_t gfp_mask);
+> >
+> >  void *sparse_buffer_alloc(unsigned long size);
+> >  struct page * __populate_section_memmap(unsigned long pfn,
+> > diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> > index 4cfca27c6d32..bcf856974c48 100644
+> > --- a/mm/hugetlb.c
+> > +++ b/mm/hugetlb.c
+> > @@ -1305,37 +1305,68 @@ static inline void destroy_compound_gigantic_page(struct page *page,
+> >                                               unsigned int order) { }
+> >  #endif
+> >
+> > -static void update_and_free_page(struct hstate *h, struct page *page)
+> > +static int update_and_free_page(struct hstate *h, struct page *page)
+> > +     __releases(&hugetlb_lock) __acquires(&hugetlb_lock)
+> >  {
+> >       int i;
+> > +     int nid = page_to_nid(page);
+> >
+> >       if (hstate_is_gigantic(h) && !gigantic_page_runtime_supported())
+> > -             return;
+> > +             return 0;
+> >
+> >       h->nr_huge_pages--;
+> > -     h->nr_huge_pages_node[page_to_nid(page)]--;
+> > +     h->nr_huge_pages_node[nid]--;
+> > +     VM_BUG_ON_PAGE(hugetlb_cgroup_from_page(page), page);
+> > +     VM_BUG_ON_PAGE(hugetlb_cgroup_from_page_rsvd(page), page);
+> > +     set_compound_page_dtor(page, NULL_COMPOUND_DTOR);
+> > +     set_page_refcounted(page);
+>
+> I think you added the set_page_refcounted() because the huge page will
+> appear as just a compound page without a reference after dropping the
+> hugetlb lock?
 
-John.
+Right.
 
-(Note - I am currently not on any vger.kernel.org dlist at the moment so 
-please cc me ).
+> It might be better to set the reference before modifying
+> the destructor.  Otherwise, page scanning code could find the non-hugetlb
+> compound page with no reference.  I could not find any code where this
+> would be a problem, but I think it would be safer to set the reference
+> first.
 
+Make sense to me. It is better to set the refcount first.
 
+>
+> > +     spin_unlock(&hugetlb_lock);
+>
+> I really like the way this code is structured.  It is much simpler than
+> previous versions with retries or workqueue.  There is nothing wrong with
+> always dropping the lock here.  However, I wonder if we should think about
+> optimizing for the case where this feature is not enabled and we are not
+> freeing a 1G huge page.  I suspect this will be the most common case for
+> some time, and there is no need to drop the lock in this case.
+>
+> Please do not change the code based on my comment.  I just wanted to bring
+> this up for thought.
 
-> 
-> 
->> +
->>   config KEXEC_CORE
->>   	select CRASH_CORE
->>   	bool
->> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
->> index 106e4500fd53..ab0a2b4b1ffa 100644
->> --- a/kernel/crash_core.c
->> +++ b/kernel/crash_core.c
->> @@ -7,6 +7,7 @@
->>   #include <linux/crash_core.h>
->>   #include <linux/utsname.h>
->>   #include <linux/vmalloc.h>
->> +#include <linux/kexec.h>
->>   
->>   #include <asm/page.h>
->>   #include <asm/sections.h>
->> @@ -250,6 +251,12 @@ static int __init __parse_crashkernel(char *cmdline,
->>   	if (suffix)
->>   		return parse_crashkernel_suffix(ck_cmdline, crash_size,
->>   				suffix);
->> +#ifdef CONFIG_CRASH_AUTO_STR
->> +	if (strncmp(ck_cmdline, "auto", 4) == 0) {
->> +		ck_cmdline = CONFIG_CRASH_AUTO_STR;
->> +		pr_info("Using crashkernel=auto, the size chosen is a best effort estimation.\n");
->> +	}
->> +#endif
->>   	/*
->>   	 * if the commandline contains a ':', then that's the extended
->>   	 * syntax -- if not, it must be the classic syntax
->> -- 
->> 2.27.0
->>
-> 
+At least make sense to me. It may take a long time to free a 1G
+huge page. Dropping the lock may be a good choice. But I also
+want to listen to Oscar and Michal's opinion on this.
 
+>
+> Is it as simple as checking?
+>         if (free_vmemmap_pages_per_hpage(h) || hstate_is_gigantic(h))
+>                 spin_unlock(&hugetlb_lock);
+
+>
+>         /* before return */
+>         if (free_vmemmap_pages_per_hpage(h) || hstate_is_gigantic(h))
+>                 spin_lock(&hugetlb_lock);
+>
+> > +
+> > +     if (alloc_huge_page_vmemmap(h, page)) {
+> > +             int zeroed;
+> > +
+> > +             spin_lock(&hugetlb_lock);
+> > +             INIT_LIST_HEAD(&page->lru);
+> > +             set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
+> > +             h->nr_huge_pages++;
+> > +             h->nr_huge_pages_node[nid]++;
+> > +
+> > +             /*
+> > +              * If we cannot allocate vmemmap pages, just refuse to free the
+> > +              * page and put the page back on the hugetlb free list and treat
+> > +              * as a surplus page.
+> > +              */
+> > +             h->surplus_huge_pages++;
+> > +             h->surplus_huge_pages_node[nid]++;
+> > +
+> > +             /*
+> > +              * This page is now managed by the hugetlb allocator and has
+> > +              * no users -- drop the last reference.
+> > +              */
+> > +             zeroed = put_page_testzero(page);
+> > +             VM_BUG_ON_PAGE(!zeroed, page);
+> > +             arch_clear_hugepage_flags(page);
+> > +             enqueue_huge_page(h, page);
+> > +
+> > +             return -ENOMEM;
+> > +     }
+> > +
+> >       for (i = 0; i < pages_per_huge_page(h); i++) {
+> >               page[i].flags &= ~(1 << PG_locked | 1 << PG_error |
+> >                               1 << PG_referenced | 1 << PG_dirty |
+> >                               1 << PG_active | 1 << PG_private |
+> >                               1 << PG_writeback);
+> >       }
+> > -     VM_BUG_ON_PAGE(hugetlb_cgroup_from_page(page), page);
+> > -     VM_BUG_ON_PAGE(hugetlb_cgroup_from_page_rsvd(page), page);
+> > -     set_compound_page_dtor(page, NULL_COMPOUND_DTOR);
+> > -     set_page_refcounted(page);
+> >       if (hstate_is_gigantic(h)) {
+> > -             /*
+> > -              * Temporarily drop the hugetlb_lock, because
+> > -              * we might block in free_gigantic_page().
+> > -              */
+> > -             spin_unlock(&hugetlb_lock);
+> >               destroy_compound_gigantic_page(page, huge_page_order(h));
+> >               free_gigantic_page(page, huge_page_order(h));
+> > -             spin_lock(&hugetlb_lock);
+> >       } else {
+> >               __free_pages(page, huge_page_order(h));
+> >       }
+> > +
+> > +     spin_lock(&hugetlb_lock);
+> > +
+> > +     return 0;
+> >  }
+> >
+> >  struct hstate *size_to_hstate(unsigned long size)
+> > @@ -1403,9 +1434,9 @@ static void __free_huge_page(struct page *page)
+> >       } else if (h->surplus_huge_pages_node[nid]) {
+> >               /* remove the page from active list */
+> >               list_del(&page->lru);
+> > -             update_and_free_page(h, page);
+> >               h->surplus_huge_pages--;
+> >               h->surplus_huge_pages_node[nid]--;
+> > +             update_and_free_page(h, page);
+> >       } else {
+> >               arch_clear_hugepage_flags(page);
+> >               enqueue_huge_page(h, page);
+> > @@ -1693,6 +1724,7 @@ static int free_pool_huge_page(struct hstate *h, nodemask_t *nodes_allowed,
+> >                       struct page *page =
+> >                               list_entry(h->hugepage_freelists[node].next,
+> >                                         struct page, lru);
+> > +                     ClearHPageFreed(page);
+>
+> Quick question.  Is this change directly related to the vmemmap changes,
+> or is it a cleanup that you noticed?
+
+Just a cleanup. Maybe there should be a separate patch for this.
+
+>
+> >                       list_del(&page->lru);
+> >                       h->free_huge_pages--;
+> >                       h->free_huge_pages_node[node]--;
+> > @@ -1700,8 +1732,7 @@ static int free_pool_huge_page(struct hstate *h, nodemask_t *nodes_allowed,
+> >                               h->surplus_huge_pages--;
+> >                               h->surplus_huge_pages_node[node]--;
+> >                       }
+> > -                     update_and_free_page(h, page);
+> > -                     ret = 1;
+> > +                     ret = !update_and_free_page(h, page);
+> >                       break;
+> >               }
+> >       }
+> > @@ -1714,10 +1745,14 @@ static int free_pool_huge_page(struct hstate *h, nodemask_t *nodes_allowed,
+> >   * nothing for in-use hugepages and non-hugepages.
+> >   * This function returns values like below:
+> >   *
+> > - *  -EBUSY: failed to dissolved free hugepages or the hugepage is in-use
+> > - *          (allocated or reserved.)
+> > - *       0: successfully dissolved free hugepages or the page is not a
+> > - *          hugepage (considered as already dissolved)
+> > + *  -ENOMEM: failed to allocate vmemmap pages to free the freed hugepages
+> > + *           when the system is under memory pressure and the feature of
+> > + *           freeing unused vmemmap pages associated with each hugetlb page
+> > + *           is enabled.
+> > + *  -EBUSY:  failed to dissolved free hugepages or the hugepage is in-use
+> > + *           (allocated or reserved.)
+> > + *       0:  successfully dissolved free hugepages or the page is not a
+> > + *           hugepage (considered as already dissolved)
+> >   */
+> >  int dissolve_free_huge_page(struct page *page)
+> >  {
+> > @@ -1768,12 +1803,14 @@ int dissolve_free_huge_page(struct page *page)
+> >                       SetPageHWPoison(page);
+> >                       ClearPageHWPoison(head);
+> >               }
+> > +             ClearHPageFreed(page);
+> >               list_del(&head->lru);
+> >               h->free_huge_pages--;
+> >               h->free_huge_pages_node[nid]--;
+> >               h->max_huge_pages--;
+> > -             update_and_free_page(h, head);
+> > -             rc = 0;
+> > +             rc = update_and_free_page(h, head);
+> > +             if (rc)
+> > +                     h->max_huge_pages++;
+>
+> Since update_and_free_page failed, the number of surplus pages was
+> incremented.  Surplus pages are the number of pages greater than
+> max_huge_pages.  Since we are incrementing max_huge_pages, we should
+> decrement (undo) the addition to surplus_huge_pages and
+> surplus_huge_pages_node[nid].  So, I think we want
+>                         h->surplus_huge_pages--;
+>                         h->surplus_huge_pages_node[nid]--;
+> here as well.
+
+You are right. Thanks for reminding me of this.
+
+>
+> >       }
+> >  out:
+> >       spin_unlock(&hugetlb_lock);
+>
+> In previous version of this patch series, we discussed and refined the
+> vmemmap manipulation routines below.  They still look good to me.
+>
+> In general, I like the approach taken in this patch.  Hopefully, others
+> will comment and we can move the series forward.
+> --
+> Mike Kravetz
+>
+> > diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
+> > index 0209b736e0b4..29a3380f3b20 100644
+> > --- a/mm/hugetlb_vmemmap.c
+> > +++ b/mm/hugetlb_vmemmap.c
+> > @@ -198,6 +198,28 @@ static inline unsigned long free_vmemmap_pages_size_per_hpage(struct hstate *h)
+> >       return (unsigned long)free_vmemmap_pages_per_hpage(h) << PAGE_SHIFT;
+> >  }
+> >
+> > +int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
+> > +{
+> > +     unsigned long vmemmap_addr = (unsigned long)head;
+> > +     unsigned long vmemmap_end, vmemmap_reuse;
+> > +
+> > +     if (!free_vmemmap_pages_per_hpage(h))
+> > +             return 0;
+> > +
+> > +     vmemmap_addr += RESERVE_VMEMMAP_SIZE;
+> > +     vmemmap_end = vmemmap_addr + free_vmemmap_pages_size_per_hpage(h);
+> > +     vmemmap_reuse = vmemmap_addr - PAGE_SIZE;
+> > +     /*
+> > +      * The pages which the vmemmap virtual address range [@vmemmap_addr,
+> > +      * @vmemmap_end) are mapped to are freed to the buddy allocator, and
+> > +      * the range is mapped to the page which @vmemmap_reuse is mapped to.
+> > +      * When a HugeTLB page is freed to the buddy allocator, previously
+> > +      * discarded vmemmap pages must be allocated and remapping.
+> > +      */
+> > +     return vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
+> > +                                GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
+> > +}
+> > +
+> >  void free_huge_page_vmemmap(struct hstate *h, struct page *head)
+> >  {
+> >       unsigned long vmemmap_addr = (unsigned long)head;
+> > diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
+> > index 6923f03534d5..e5547d53b9f5 100644
+> > --- a/mm/hugetlb_vmemmap.h
+> > +++ b/mm/hugetlb_vmemmap.h
+> > @@ -11,8 +11,14 @@
+> >  #include <linux/hugetlb.h>
+> >
+> >  #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> > +int alloc_huge_page_vmemmap(struct hstate *h, struct page *head);
+> >  void free_huge_page_vmemmap(struct hstate *h, struct page *head);
+> >  #else
+> > +static inline int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
+> > +{
+> > +     return 0;
+> > +}
+> > +
+> >  static inline void free_huge_page_vmemmap(struct hstate *h, struct page *head)
+> >  {
+> >  }
+> > diff --git a/mm/sparse-vmemmap.c b/mm/sparse-vmemmap.c
+> > index d3076a7a3783..60fc6cd6cd23 100644
+> > --- a/mm/sparse-vmemmap.c
+> > +++ b/mm/sparse-vmemmap.c
+> > @@ -40,7 +40,8 @@
+> >   * @remap_pte:               called for each lowest-level entry (PTE).
+> >   * @reuse_page:              the page which is reused for the tail vmemmap pages.
+> >   * @reuse_addr:              the virtual address of the @reuse_page page.
+> > - * @vmemmap_pages:   the list head of the vmemmap pages that can be freed.
+> > + * @vmemmap_pages:   the list head of the vmemmap pages that can be freed
+> > + *                   or is mapped from.
+> >   */
+> >  struct vmemmap_remap_walk {
+> >       void (*remap_pte)(pte_t *pte, unsigned long addr,
+> > @@ -237,6 +238,78 @@ void vmemmap_remap_free(unsigned long start, unsigned long end,
+> >       free_vmemmap_page_list(&vmemmap_pages);
+> >  }
+> >
+> > +static void vmemmap_restore_pte(pte_t *pte, unsigned long addr,
+> > +                             struct vmemmap_remap_walk *walk)
+> > +{
+> > +     pgprot_t pgprot = PAGE_KERNEL;
+> > +     struct page *page;
+> > +     void *to;
+> > +
+> > +     BUG_ON(pte_page(*pte) != walk->reuse_page);
+> > +
+> > +     page = list_first_entry(walk->vmemmap_pages, struct page, lru);
+> > +     list_del(&page->lru);
+> > +     to = page_to_virt(page);
+> > +     copy_page(to, (void *)walk->reuse_addr);
+> > +
+> > +     set_pte_at(&init_mm, addr, pte, mk_pte(page, pgprot));
+> > +}
+> > +
+> > +static int alloc_vmemmap_page_list(unsigned long start, unsigned long end,
+> > +                                gfp_t gfp_mask, struct list_head *list)
+> > +{
+> > +     unsigned long nr_pages = (end - start) >> PAGE_SHIFT;
+> > +     int nid = page_to_nid((struct page *)start);
+> > +     struct page *page, *next;
+> > +
+> > +     while (nr_pages--) {
+> > +             page = alloc_pages_node(nid, gfp_mask, 0);
+> > +             if (!page)
+> > +                     goto out;
+> > +             list_add_tail(&page->lru, list);
+> > +     }
+> > +
+> > +     return 0;
+> > +out:
+> > +     list_for_each_entry_safe(page, next, list, lru)
+> > +             __free_pages(page, 0);
+> > +     return -ENOMEM;
+> > +}
+> > +
+> > +/**
+> > + * vmemmap_remap_alloc - remap the vmemmap virtual address range [@start, end)
+> > + *                    to the page which is from the @vmemmap_pages
+> > + *                    respectively.
+> > + * @start:   start address of the vmemmap virtual address range that we want
+> > + *           to remap.
+> > + * @end:     end address of the vmemmap virtual address range that we want to
+> > + *           remap.
+> > + * @reuse:   reuse address.
+> > + * @gpf_mask:        GFP flag for allocating vmemmap pages.
+> > + */
+> > +int vmemmap_remap_alloc(unsigned long start, unsigned long end,
+> > +                     unsigned long reuse, gfp_t gfp_mask)
+> > +{
+> > +     LIST_HEAD(vmemmap_pages);
+> > +     struct vmemmap_remap_walk walk = {
+> > +             .remap_pte      = vmemmap_restore_pte,
+> > +             .reuse_addr     = reuse,
+> > +             .vmemmap_pages  = &vmemmap_pages,
+> > +     };
+> > +
+> > +     /* See the comment in the vmemmap_remap_free(). */
+> > +     BUG_ON(start - reuse != PAGE_SIZE);
+> > +
+> > +     might_sleep_if(gfpflags_allow_blocking(gfp_mask));
+> > +
+> > +     if (alloc_vmemmap_page_list(start, end, gfp_mask, &vmemmap_pages))
+> > +             return -ENOMEM;
+> > +
+> > +     vmemmap_remap_range(reuse, end, &walk);
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >  /*
+> >   * Allocate a block of memory to be used to back the virtual memory map
+> >   * or to back the page tables that are used to create the mapping.
+> >
