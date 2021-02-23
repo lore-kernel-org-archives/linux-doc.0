@@ -2,65 +2,29 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E1CEC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 10:28:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 927C1C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 10:51:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F01664E57
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 10:28:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5026F64E4B
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 10:51:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230472AbhBWK23 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 05:28:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33802 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230429AbhBWK2Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 05:28:25 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C79CC061574
-        for <linux-doc@vger.kernel.org>; Tue, 23 Feb 2021 02:27:45 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id d16so687393plg.0
-        for <linux-doc@vger.kernel.org>; Tue, 23 Feb 2021 02:27:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PsAlBEioJWPlE/SfmIRHP8CqLqTdFtcrzccsM5cB+R0=;
-        b=Ys/7GJocBf6sJ4nFA3vG4a8OX6mw+NdBaUqZ12DWzrV3fZccA3R4QYfl3pLfZPTFTc
-         36b47Oq/dFpsrhWFkqM1lnReccu6RUOyMP8EQSEA4RQW7hHWsVs5XExtJw4q2djMEBP7
-         oH2lkscq41McTnJskdNFbT3LcWlovKmlUnG55WZo1nX9InAPpRIRDewHJITEbGXxS+W8
-         QJ1Jl0LrGvEf4yht4eLQKVZooAiGg0HSpZJsQotql2FReOt2Ab1bY37Tuyt7x/pDPBnO
-         P2XYO5w7gVCunLge1+dYnKJWht7vv4xAJLZiy6xSQc7dWTrcBw6cMAhH7q2R/deehLib
-         5i0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PsAlBEioJWPlE/SfmIRHP8CqLqTdFtcrzccsM5cB+R0=;
-        b=RtDKLyYaGh9IEqoUzzxtSpVl9MXRAEOgzF21GlhZghALfjVAeBNT97b3r+T6mYKqz7
-         F/mXzGj0awWh6pBT4jJI+UXYkRpA8dsICBTUsgTDcQxPtsF9wp9qvy6X72BNoN90pMp/
-         fBflj0mT4a9XTdLIwMwKIQOwaMgB37C4Bc1GLwCL8+2f9BSiTX462N9LtW0ve8ssLcEs
-         hlIXLHkLzjBIx0O6XAAM24Pn0hPxjhwqewmWsrGqrHis8h5P0q2koIwsVbcaAbSKAbB6
-         o6q9BcY7zjx48tuS6TsCyb8UJ6vt6zL0EBKCVhhxjQZ8gU782pSQqbOJcJL0Mvj+qSSV
-         G0PQ==
-X-Gm-Message-State: AOAM531pz6ZvolfDe4VLEDK0AyMwZG/taEiht6OAiKGJqiJgYd2muHUJ
-        ElKj1ZhCyBybrbfmZpvONRb41QD+54fRQxnqN0q3Sw==
-X-Google-Smtp-Source: ABdhPJzoTOm14qBpXTrTOy4tiMVrs/RUpxAE2Rzm0OLejTjzGP7Zp5z6bsLhSG9DlKlA1aw3h9BenJT+PO3lsTYt9hQ=
-X-Received: by 2002:a17:90a:f18d:: with SMTP id bv13mr7273299pjb.13.1614076064700;
- Tue, 23 Feb 2021 02:27:44 -0800 (PST)
-MIME-Version: 1.0
-References: <20210219104954.67390-1-songmuchun@bytedance.com>
- <20210219104954.67390-5-songmuchun@bytedance.com> <13a5363c-6af4-1e1f-9a18-972ca18278b5@oracle.com>
- <20210223092740.GA1998@linux>
-In-Reply-To: <20210223092740.GA1998@linux>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Tue, 23 Feb 2021 18:27:07 +0800
-Message-ID: <CAMZfGtVRSBkKe=tKAKLY8dp_hywotq3xL+EJZNjXuSKt3HK3bQ@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap
- pages associated with each HugeTLB page
-To:     Oscar Salvador <osalvador@suse.de>
+        id S231326AbhBWKvE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 05:51:04 -0500
+Received: from mx2.suse.de ([195.135.220.15]:54528 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232033AbhBWKuw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Feb 2021 05:50:52 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id A75CCAC69;
+        Tue, 23 Feb 2021 10:50:10 +0000 (UTC)
+Date:   Tue, 23 Feb 2021 11:50:05 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
@@ -77,153 +41,97 @@ Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
         Michal Hocko <mhocko@suse.com>,
         "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
         David Hildenbrand <david@redhat.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
         <naoya.horiguchi@nec.com>,
         Joao Martins <joao.m.martins@oracle.com>,
         Xiongchun duan <duanxiongchun@bytedance.com>,
         linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linux Memory Management List <linux-mm@kvack.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [External] Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap
+ pages associated with each HugeTLB page
+Message-ID: <20210223104957.GA3844@linux>
+References: <20210219104954.67390-1-songmuchun@bytedance.com>
+ <20210219104954.67390-5-songmuchun@bytedance.com>
+ <13a5363c-6af4-1e1f-9a18-972ca18278b5@oracle.com>
+ <20210223092740.GA1998@linux>
+ <CAMZfGtVRSBkKe=tKAKLY8dp_hywotq3xL+EJZNjXuSKt3HK3bQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtVRSBkKe=tKAKLY8dp_hywotq3xL+EJZNjXuSKt3HK3bQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 23, 2021 at 5:28 PM Oscar Salvador <osalvador@suse.de> wrote:
->
-> On Mon, Feb 22, 2021 at 04:00:27PM -0800, Mike Kravetz wrote:
-> > > -static void update_and_free_page(struct hstate *h, struct page *page)
-> > > +static int update_and_free_page(struct hstate *h, struct page *page)
-> > > +   __releases(&hugetlb_lock) __acquires(&hugetlb_lock)
-> > >  {
-> > >     int i;
-> > > +   int nid = page_to_nid(page);
-> > >
-> > >     if (hstate_is_gigantic(h) && !gigantic_page_runtime_supported())
-> > > -           return;
-> > > +           return 0;
-> > >
-> > >     h->nr_huge_pages--;
-> > > -   h->nr_huge_pages_node[page_to_nid(page)]--;
-> > > +   h->nr_huge_pages_node[nid]--;
-> > > +   VM_BUG_ON_PAGE(hugetlb_cgroup_from_page(page), page);
-> > > +   VM_BUG_ON_PAGE(hugetlb_cgroup_from_page_rsvd(page), page);
-> > > +   set_compound_page_dtor(page, NULL_COMPOUND_DTOR);
-> > > +   set_page_refcounted(page);
+On Tue, Feb 23, 2021 at 06:27:07PM +0800, Muchun Song wrote:
+> > > > +
+> > > > +   if (alloc_huge_page_vmemmap(h, page)) {
+> > > > +           int zeroed;
+> > > > +
+> > > > +           spin_lock(&hugetlb_lock);
+> > > > +           INIT_LIST_HEAD(&page->lru);
+> > > > +           set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
+> > > > +           h->nr_huge_pages++;
+> > > > +           h->nr_huge_pages_node[nid]++;
 > >
-> > I think you added the set_page_refcounted() because the huge page will
-> > appear as just a compound page without a reference after dropping the
-> > hugetlb lock?  It might be better to set the reference before modifying
-> > the destructor.  Otherwise, page scanning code could find the non-hugetlb
-> > compound page with no reference.  I could not find any code where this
-> > would be a problem, but I think it would be safer to set the reference
-> > first.
->
-> But we already had set_page_refcounted() before this patchset there.
-> Are the worries only because we drop the lock? AFAICS, the "page-scanning"
-> problem could have happened before as well?
-> Although, what does page scanning mean in this context?
->
-> I am not opposed to move it above, but I would like to understand the concern
-> here.
->
-> >
-> > > +   spin_unlock(&hugetlb_lock);
-> >
-> > I really like the way this code is structured.  It is much simpler than
-> > previous versions with retries or workqueue.  There is nothing wrong with
-> > always dropping the lock here.  However, I wonder if we should think about
-> > optimizing for the case where this feature is not enabled and we are not
-> > freeing a 1G huge page.  I suspect this will be the most common case for
-> > some time, and there is no need to drop the lock in this case.
-> >
-> > Please do not change the code based on my comment.  I just wanted to bring
-> > this up for thought.
-> >
-> > Is it as simple as checking?
-> >         if (free_vmemmap_pages_per_hpage(h) || hstate_is_gigantic(h))
-> >                 spin_unlock(&hugetlb_lock);
-> >
-> >         /* before return */
-> >         if (free_vmemmap_pages_per_hpage(h) || hstate_is_gigantic(h))
-> >                 spin_lock(&hugetlb_lock);
->
-> AFAIK, we at least need the hstate_is_gigantic? Comment below says that
-> free_gigantic_page might block, so we need to drop the lock.
-> And I am fine with the change overall.
->
-> Unless I am missing something, we should not need to drop the lock unless
-> we need to allocate vmemmap pages (apart from gigantic pages).
->
-> >
-> > > +
-> > > +   if (alloc_huge_page_vmemmap(h, page)) {
-> > > +           int zeroed;
-> > > +
-> > > +           spin_lock(&hugetlb_lock);
-> > > +           INIT_LIST_HEAD(&page->lru);
-> > > +           set_compound_page_dtor(page, HUGETLB_PAGE_DTOR);
-> > > +           h->nr_huge_pages++;
-> > > +           h->nr_huge_pages_node[nid]++;
->
-> I think prep_new_huge_page() does this for us?
+> > I think prep_new_huge_page() does this for us?
+> 
+> Actually, there are some differences. e.g. prep_new_huge_page()
+> will reset hugetlb cgroup and ClearHPageFreed, but we do not need
+> them here. And prep_new_huge_page will acquire and release
+> the hugetlb_lock. But here we also need hold the lock to update
+> the surplus counter and enqueue the page to the free list.
+> So I do not think reuse prep_new_huge_page is a good idea.
 
-Actually, there are some differences. e.g. prep_new_huge_page()
-will reset hugetlb cgroup and ClearHPageFreed, but we do not need
-them here. And prep_new_huge_page will acquire and release
-the hugetlb_lock. But here we also need hold the lock to update
-the surplus counter and enqueue the page to the free list.
-So I do not think reuse prep_new_huge_page is a good idea.
+I see, I missed that.
 
->
-> > > +
-> > > +           /*
-> > > +            * If we cannot allocate vmemmap pages, just refuse to free the
-> > > +            * page and put the page back on the hugetlb free list and treat
-> > > +            * as a surplus page.
-> > > +            */
-> > > +           h->surplus_huge_pages++;
-> > > +           h->surplus_huge_pages_node[nid]++;
-> > > +
-> > > +           /*
-> > > +            * This page is now managed by the hugetlb allocator and has
-> > > +            * no users -- drop the last reference.
-> > > +            */
-> > > +           zeroed = put_page_testzero(page);
-> > > +           VM_BUG_ON_PAGE(!zeroed, page);
->
-> Can this actually happen? AFAIK, page landed in update_and_free_page should be
-> zero refcounted, then we increase the reference, and I cannot see how the
-> reference might have changed in the meantime.
+> > Can this actually happen? AFAIK, page landed in update_and_free_page should be
+> > zero refcounted, then we increase the reference, and I cannot see how the
+> > reference might have changed in the meantime.
+> 
+> I am not sure whether other modules get the page and then put the
+> page. I see gather_surplus_pages does the same thing. So I copied
+> from there. I try to look at the memory_failure routine.
+> 
+> 
+> CPU0:                           CPU1:
+>                                 set_compound_page_dtor(HUGETLB_PAGE_DTOR);
+> memory_failure_hugetlb
+>   get_hwpoison_page
+>     __get_hwpoison_page
+>       get_page_unless_zero
+>                                 put_page_testzero()
+> 
+> Maybe this can happen. But it is a very corner case. If we want to
+> deal with this. We can put_page_testzero() first and then
+> set_compound_page_dtor(HUGETLB_PAGE_DTOR).
 
-I am not sure whether other modules get the page and then put the
-page. I see gather_surplus_pages does the same thing. So I copied
-from there. I try to look at the memory_failure routine.
+I have to check further, but it looks like this could actually happen.
+Handling this with VM_BUG_ON is wrong, because memory_failure/soft_offline are
+entitled to increase the refcount of the page.
+
+AFAICS,
+
+ CPU0:                                    CPU1:
+                                          set_compound_page_dtor(HUGETLB_PAGE_DTOR);
+ memory_failure_hugetlb
+   get_hwpoison_page
+     __get_hwpoison_page
+       get_page_unless_zero
+                                          put_page_testzero()
+        identify_page_state
+         me_huge_page
+
+I think we can reach me_huge_page with either refcount = 1 or refcount =2,
+depending whether put_page_testzero has been issued.
+
+For now, I would not re-enqueue the page if put_page_testzero == false.
+I have to see how this can be handled gracefully.
 
 
-CPU0:                           CPU1:
-                                set_compound_page_dtor(HUGETLB_PAGE_DTOR);
-memory_failure_hugetlb
-  get_hwpoison_page
-    __get_hwpoison_page
-      get_page_unless_zero
-                                put_page_testzero()
 
-Maybe this can happen. But it is a very corner case. If we want to
-deal with this. We can put_page_testzero() first and then
-set_compound_page_dtor(HUGETLB_PAGE_DTOR).
-
->
-> I am all for catching corner cases, but not sure how realistic this is.
-> Moreover, if we __ever__ get there, things can get nasty.
->
-> We basically will have an in-use page in the free hugetlb pool, so corruption
-> will happen. At that point, a plain BUG_ON might be better.
->
-> But as I said, I do not think we need that.
->
-> I yet need to look further, but what I have seen so far looks good.
->
-> --
-> Oscar Salvador
-> SUSE L3
+-- 
+Oscar Salvador
+SUSE L3
