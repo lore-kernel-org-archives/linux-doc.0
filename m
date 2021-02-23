@@ -2,233 +2,75 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C74AC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 07:42:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 03550C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 08:04:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B9BD864D5D
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 07:42:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9A71064DAF
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 08:04:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231742AbhBWHmr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 02:42:47 -0500
-Received: from lizzard.sbs.de ([194.138.37.39]:42180 "EHLO lizzard.sbs.de"
+        id S232136AbhBWID4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 03:03:56 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40122 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231942AbhBWHmq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Feb 2021 02:42:46 -0500
-X-Greylist: delayed 651 seconds by postgrey-1.27 at vger.kernel.org; Tue, 23 Feb 2021 02:42:45 EST
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-        by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 11N7Qj0l023503
-        (version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 23 Feb 2021 08:26:45 +0100
-Received: from [167.87.244.56] ([167.87.244.56])
-        by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 11N7Qhl4015837;
-        Tue, 23 Feb 2021 08:26:44 +0100
-Subject: Re: [PATCH] scripts/gdb: document lx_current is only supported by x86
-To:     "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxarm@openeuler.org" <linuxarm@openeuler.org>
-References: <20210221213527.22076-1-song.bao.hua@hisilicon.com>
- <eac66671-f083-379a-c7b0-04b783e32d63@ideasonboard.com>
- <eb48406902a84282a400846607e7a37a@hisilicon.com>
-From:   Jan Kiszka <jan.kiszka@siemens.com>
-Message-ID: <940e936d-d35b-105c-201c-8f2126222d15@siemens.com>
-Date:   Tue, 23 Feb 2021 08:26:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S232147AbhBWIDl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Feb 2021 03:03:41 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C976264DAF;
+        Tue, 23 Feb 2021 08:02:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614067381;
+        bh=jPx4LV2bldX3/+xhN+fFDKFW8lIjZrChpQM5Wnm09qQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=YAQTMxw9sO/cekq6q7hkeSF9CuLk9KpT6pOH/OQcYRvwNWGOAIi5b4stdL9qLr2FJ
+         MAr2cxJ0XMh0jyNPWgJ4yjgqLP2i9WHzk9zdRSw8u/xl+run4OV9mA2bCsdOAkyuyW
+         M22hTM3begRWf8Uh731HentmfuP09gIg7wBoioqIRmuSnHX9YIuRBn2hcbXPF7JX/r
+         mXDlG+3r59M5d+g79YGJmNUuRToBeYO6Ybfza7C1EQIlkVrsGxoO9rnfpWBDdWiKDP
+         O+unDD0TL7w4MxTYAtSpkHl4F0zSxVAJRGDVtAWCDaXn/8KLPhC8ml/iZhlkRltpdY
+         75p+g2z6DMmkw==
+Date:   Tue, 23 Feb 2021 09:02:54 +0100
+From:   Robert Richter <rric@kernel.org>
+To:     Dejin Zheng <zhengdejin5@gmail.com>
+Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] PCI: Introduce pcim_alloc_irq_vectors()
+Message-ID: <YDS2rkJu7PTJJiZr@rric.localdomain>
+References: <20210218150458.798347-1-zhengdejin5@gmail.com>
+ <20210218150458.798347-2-zhengdejin5@gmail.com>
+ <YC/NxfsQn2RKkrp8@rric.localdomain>
+ <20210219164649.GA814637@nuc8i5>
+ <YDONyMSHO9FDeY69@rric.localdomain>
+ <20210222151415.GA896979@nuc8i5>
 MIME-Version: 1.0
-In-Reply-To: <eb48406902a84282a400846607e7a37a@hisilicon.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210222151415.GA896979@nuc8i5>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 22.02.21 22:18, Song Bao Hua (Barry Song) wrote:
-> 
-> 
->> -----Original Message-----
->> From: Kieran Bingham [mailto:kieran.bingham@ideasonboard.com]
->> Sent: Tuesday, February 23, 2021 12:06 AM
->> To: Song Bao Hua (Barry Song) <song.bao.hua@hisilicon.com>; corbet@lwn.net;
->> linux-doc@vger.kernel.org; jan.kiszka@siemens.com
->> Cc: linux-kernel@vger.kernel.org; linuxarm@openeuler.org
->> Subject: Re: [PATCH] scripts/gdb: document lx_current is only supported by x86
->>
->> Hi Barry
->>
->> On 21/02/2021 21:35, Barry Song wrote:
->>> lx_current depends on the per_cpu current_task which exists on x86 only:
->>>
->>> arch$ git grep current_task | grep -i per_cpu
->>> x86/include/asm/current.h:DECLARE_PER_CPU(struct task_struct *,
->> current_task);
->>> x86/kernel/cpu/common.c:DEFINE_PER_CPU(struct task_struct *, current_task)
->> ____cacheline_aligned =
->>> x86/kernel/cpu/common.c:EXPORT_PER_CPU_SYMBOL(current_task);
->>> x86/kernel/cpu/common.c:DEFINE_PER_CPU(struct task_struct *, current_task)
->> = &init_task;
->>> x86/kernel/cpu/common.c:EXPORT_PER_CPU_SYMBOL(current_task);
->>> x86/kernel/smpboot.c:	per_cpu(current_task, cpu) = idle;
->>>
->>> On other architectures, lx_current() will lead to a python exception:
->>> (gdb) p $lx_current().pid
->>> Python Exception <class 'gdb.error'> No symbol "current_task" in current
->> context.:
->>> Error occurred in Python: No symbol "current_task" in current context.
->>>
->>> To avoid more people struggling and wasting time in other architectures,
->>> document it.
->>>
->>> Cc: Jan Kiszka <jan.kiszka@siemens.com>
->>> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
->>> ---
->>>  Documentation/dev-tools/gdb-kernel-debugging.rst |  2 +-
->>>  scripts/gdb/linux/cpus.py                        | 10 ++++++++--
->>>  2 files changed, 9 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/Documentation/dev-tools/gdb-kernel-debugging.rst
->> b/Documentation/dev-tools/gdb-kernel-debugging.rst
->>> index 4756f6b3a04e..1586901b683c 100644
->>> --- a/Documentation/dev-tools/gdb-kernel-debugging.rst
->>> +++ b/Documentation/dev-tools/gdb-kernel-debugging.rst
->>> @@ -114,7 +114,7 @@ Examples of using the Linux-provided gdb helpers
->>>      [     0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff]
->> reserved
->>>      ....
->>>
->>> -- Examine fields of the current task struct::
->>> +- Examine fields of the current task struct(supported by x86 only)::
->>>
->>>      (gdb) p $lx_current().pid
->>>      $1 = 4998
->>> diff --git a/scripts/gdb/linux/cpus.py b/scripts/gdb/linux/cpus.py
->>> index 008e62f3190d..f382762509d3 100644
->>> --- a/scripts/gdb/linux/cpus.py
->>> +++ b/scripts/gdb/linux/cpus.py
->>> @@ -156,6 +156,13 @@ Note that VAR has to be quoted as string."""
->>>
->>>  PerCpu()
->>>
->>> +def get_current_task(cpu):
->>> +    if utils.is_target_arch("x86"):
->>> +         var_ptr = gdb.parse_and_eval("&current_task")
->>> +         return per_cpu(var_ptr, cpu).dereference()
->>> +    else:
->>> +        raise gdb.GdbError("Sorry, obtaining the current task is not yet "
->>> +                           "supported with this arch")
->>
->> I've wondered in the past how we should handle the architecture specific
->> layers.
->>
->> Perhaps we need to have an interface of functionality to implement on
->> each architecture so that we can create a per-arch set of helpers.
->>
->> or break it up into arch specific subdirs at least...
->>
->>
->>>  class LxCurrentFunc(gdb.Function):
->>>      """Return current task.
->>> @@ -167,8 +174,7 @@ number. If CPU is omitted, the CPU of the current context
->> is used."""
->>>          super(LxCurrentFunc, self).__init__("lx_current")
->>>
->>>      def invoke(self, cpu=-1):
->>> -        var_ptr = gdb.parse_and_eval("&current_task")
->>> -        return per_cpu(var_ptr, cpu).dereference()
->>> +        return get_current_task(cpu)
->>>
->>
->> And then perhaps we simply shouldn't even expose commands which can not
->> be supported on those architectures?
-> 
-> I feel it is better to tell users this function is not supported on its arch
-> than simply hiding the function.
-> 
-> If we hide it, users still have many chances to try it as they have got
-> information of lx_current from google or somewhere.
-> They will try, if it turns out the lx_current is not in the list and an
-> error like  "invalid data type for function to be called", they will
-> probably suspect their gdb/python environment is not set up correctly,
-> and continue to waste time in checking their environment. 
-> Finally they figure out this function is not supported by its arch so it is
-> not exposed. But they have wasted a couple of hours before knowing that.
-> 
-> It seems it is more friendly to directly tell users this is not supported
-> on its arch explicitly and clearly than reporting a "invalid data type
-> for function to be called.
-> 
->>
->> Is it easy to disable this command if it's not supportable on the
->> architecture?
->>
-> 
-> TBH, I'm not a python expert. I don't know how to do that in an elegant
-> way :-)  on the other hand, it seems lx_current isn’t a command like
-> lx-dmesg. Lx_current is actually similar with lx_per_cpu, we use gdb's
-> print(p) command to show its content.
-> 
->> Presumably you are working on non-x86, have you investigated adding this
->> support for your architecture (arm/arm64?)?
-> 
-> Yes. I've thought about it. But It would be quite trivial to bring up
-> this function on arm64.
-> 
-> arch/arm64/include/asm/current.h:
-> static __always_inline struct task_struct *get_current(void)
-> {
-> 	unsigned long sp_el0;
-> 
-> 	asm ("mrs %0, sp_el0" : "=r" (sp_el0));
-> 
-> 	return (struct task_struct *)sp_el0;
-> }
-> 
-> We have to read a special register named sp_el0 and convert it to
-> task_struct while we are running in kernel mode. In gdb I can do
-> it by:
-> (gdb)p/x $SP_EL0
-> $20 = 0xffffffc011492400
-> (gdb)p ((struct task_struct *0xffffffc011492400))->pid
-> $21 = 0
-> 
-> What is more complex is that if we are running in user mode(EL0), this
-> register doesn't describe current task any more. so we have to
-> differentiate the modes of processor and make sure it only returns
-> current task while we are running in EL1(processor's kernel mode).
+On 22.02.21 23:14:15, Dejin Zheng wrote:
+> On Mon, Feb 22, 2021 at 11:56:08AM +0100, Robert Richter wrote:
+> > On 20.02.21 00:46:49, Dejin Zheng wrote:
+> > > > On 18.02.21 23:04:55, Dejin Zheng wrote:
+> > 
+> > > > > +	if (!dr || !dr->enabled)
+> > > here checks whether the pci device is enabled.
+> > 
+> > What is the purpose of this? The device "is_managed" or not.
+> >
+> The device is managed or not by check whether "dr" is NULL. And
+> check the "dr->enabled" is for the PCI device enable. I think it
+> may not make sense to apply for irq vectors when PCI device is not
+> enabled.
 
-Is all information needed for this available via gdb?
+I don't see how a disabled device affects in any way the release of
+the irq vectors during device removal. dr is always non-null in case
+the device is managed, a check isn't needed for that.
 
-> 
->>
->> The fact you have run the command implies it would be useful for you ?
->>
-> 
-> Yes. I think it is a common requirement to get current task. lx_current
-> convenience function can help everyone. Since there is a document saying
-> this command exists, everyone using scripts/gdb would like to try it
-> I guess.
-> 
-> The simplest way would be adding current_task per_cpu variable for other
-> arch, but I believe hardly arch maintainers will accept it as its only
-> benefit is bringing up the lx_current. So 99.9% no maintainer wants it.
-> 
-> Thus, for the time being, I moved to just stop people from wasting time
-> like what I had done with a couple of hours.
-> 
-
-I agree with the warning, also as potential motivation to add support
-for other archs.
-
-Jan
-
--- 
-Siemens AG, T RDA IOT
-Corporate Competence Center Embedded Linux
+-Robert
