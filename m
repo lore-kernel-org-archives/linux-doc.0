@@ -2,138 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25709C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 12:26:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80C90C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 13:58:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF1B664E57
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 12:26:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4073C64E4D
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 13:58:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232417AbhBWM0Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 07:26:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59032 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232378AbhBWM0W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 07:26:22 -0500
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B80FC061574;
-        Tue, 23 Feb 2021 04:25:42 -0800 (PST)
-Received: by mail-pg1-x52f.google.com with SMTP id o38so12240437pgm.9;
-        Tue, 23 Feb 2021 04:25:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QnraGrfKJNAuzXXyF+P/lQ9nJ4NmJUsr8wDqFM+qAdc=;
-        b=B9tYIJ2ZtbhgYOYSgV9nO9ytK8kpwudwBaeVFnSQ3bmwKMBArML1cHY5cSkMAbJ1D0
-         TKMn0OAFMu3skyau7AoAYsNyPXHtK1grug4tyTE2tk4gjf0IQ7xzCQqknj87CexzDG4x
-         CSWg/T75EO3q89ggpk8KMpY7v8xiWtJZfBun2/yydEpO+mlh/Gxcq8VVDhJEebx7iEOZ
-         1dyCKp9T9Vn9t0gInjqMmwUw12rdfN5X/IMN25wIs8t8O9UmM9z8fUdjVBz+mrWjmBK+
-         rpzvkcVvIj3pOe3ASDwekn7Nm1A+WGjWa3wRU0I2DVx/4Xz2E4Lkobg0IL8EvvkW9yLz
-         oDBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QnraGrfKJNAuzXXyF+P/lQ9nJ4NmJUsr8wDqFM+qAdc=;
-        b=PKHtcJAwRkIqEoAMLm7NfxiPhpQEVdPcGsRWOhsri2uIikqSZlPlihnBUVhWByv8vS
-         bE8zT/m3bvMCi/bVmGMjSI0Bdf9RGJGceljr1m6frDAUqpEjeiUJ7U61n/kkS26lPJu0
-         +/QFnKvSXhIBxO7hwenh6S9aieUaLAU4CoXLvHFwZim6G3Z5jkqa/s78olOpDoQn7j4D
-         zjLtWXD6g0hypXJglzXLPSZvcAQTFLwdfMAbd1PCF85oKPLVuaR9FgQr3efeJZaTqqXu
-         9KEmUgW4oN39rkDfsVt4ZzWRgaZwldzSdTFYSToxsOcKIqFP3bgN/ACikZAichapIQPr
-         uEug==
-X-Gm-Message-State: AOAM5316T9P8Sn3iQAjdcvWYXIRkIDRlyjrEJO//TTDRTXpXuDTGJkgj
-        ZG3d5WDjxJ/DAnFDT2Q0AMI=
-X-Google-Smtp-Source: ABdhPJzaWSkZQ3bMSfxPGDzMRFmrkTy+76NiJP/lU1IrVVIMzlFFlSFM97ne2LmTLQPR3q70RC8qng==
-X-Received: by 2002:a63:c343:: with SMTP id e3mr2971411pgd.8.1614083142017;
-        Tue, 23 Feb 2021 04:25:42 -0800 (PST)
-Received: from ?IPv6:2405:201:600d:a089:71c8:9c21:1a6d:84ab? ([2405:201:600d:a089:71c8:9c21:1a6d:84ab])
-        by smtp.gmail.com with ESMTPSA id h3sm21156348pgm.67.2021.02.23.04.25.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Feb 2021 04:25:41 -0800 (PST)
-Subject: Re: [RFC] scripts: kernel-doc: fix typedef support for struct parsing
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     lukas.bulwahn@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20210222160347.23410-1-yashsri421@gmail.com>
- <875z2jlr2j.fsf@meer.lwn.net>
-From:   Aditya <yashsri421@gmail.com>
-Message-ID: <19d41289-cf8e-881d-cc0d-9c7e193db242@gmail.com>
-Date:   Tue, 23 Feb 2021 17:55:36 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S231152AbhBWN5s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 08:57:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38886 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231627AbhBWN5r (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 08:57:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1614088580;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=GOo1vUxJ9YG42QlygaavCVxD9K0kv9RH3YQXV8ODgCI=;
+        b=iQnhrMgqBP91Y8tz2UhR+1EycAqTMZUhTTWiVItOoBaPDRLZlZ0/CMVS6TF6onZM12jYVy
+        2wj53cYdLolAU5vWb/3gu78PXPwOBzkEIjMWiZ06oVf7PrzXZGRVr5cMqbwZeT/j8ZDYr1
+        iYfG8cK8evT3h0dB60KM1NXT0iA0BcI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-322-gclij8pZMj6Y9GQVdCSEcw-1; Tue, 23 Feb 2021 08:56:16 -0500
+X-MC-Unique: gclij8pZMj6Y9GQVdCSEcw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF2A9801978;
+        Tue, 23 Feb 2021 13:56:12 +0000 (UTC)
+Received: from localhost (ovpn-12-213.pek2.redhat.com [10.72.12.213])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0296360CFB;
+        Tue, 23 Feb 2021 13:56:07 +0000 (UTC)
+Date:   Tue, 23 Feb 2021 21:56:05 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+        Kairui Song <kasong@redhat.com>
+Cc:     linux-doc@vger.kernel.org,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Ingo Molnar <mingo@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        John Donnelly <john.p.donnelly@oracle.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        kexec@lists.infradead.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        YiFei Zhu <yifeifz2@illinois.edu>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Rapoport <rppt@kernel.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>
+Subject: Re: [PATCH v3 1/1] kernel/crash_core: Add crashkernel=auto for
+ vmcore creation
+Message-ID: <20210223135605.GA3553@MiWiFi-R3L-srv>
+References: <20210211180814.69708-1-saeed.mirzamohammadi@oracle.com>
+ <20210218020203.GC2871@MiWiFi-R3L-srv>
+ <CACPcB9d7-kJR7OG2OrLcAhFhiMO26PB82Uv9bK9FkCfH__zWZQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <875z2jlr2j.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACPcB9d7-kJR7OG2OrLcAhFhiMO26PB82Uv9bK9FkCfH__zWZQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 23/2/21 3:10 am, Jonathan Corbet wrote:
-> Aditya Srivastava <yashsri421@gmail.com> writes:
+On 02/23/21 at 08:01pm, Kairui Song wrote:
+> On Thu, Feb 18, 2021 at 10:03 AM Baoquan He <bhe@redhat.com> wrote:
+> >
+> > On 02/11/21 at 10:08am, Saeed Mirzamohammadi wrote:
+...
+> > > diff --git a/arch/Kconfig b/arch/Kconfig
+> > > index af14a567b493..f87c88ffa2f8 100644
+> > > --- a/arch/Kconfig
+> > > +++ b/arch/Kconfig
+> > > @@ -14,6 +14,30 @@ menu "General architecture-dependent options"
+> > >  config CRASH_CORE
+> > >       bool
+> > >
+> > > +if CRASH_CORE
+> > > +
+> > > +config CRASH_AUTO_STR
+> > > +     string "Memory reserved for crash kernel"
+> > > +     depends on CRASH_CORE
+> > > +     default "1G-64G:128M,64G-1T:256M,1T-:512M"
+> > > +     help
+> > > +       This configures the reserved memory dependent
+> > > +       on the value of System RAM. The syntax is:
+> > > +       crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
+> > > +                   range=start-[end]
+> > > +
+> > > +       For example:
+> > > +           crashkernel=512M-2G:64M,2G-:128M
+> > > +
+> > > +       This would mean:
+> > > +
+> > > +           1) if the RAM is smaller than 512M, then don't reserve anything
+> > > +              (this is the "rescue" case)
+> > > +           2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+> > > +           3) if the RAM size is larger than 2G, then reserve 128M
+> > > +
+> > > +endif # CRASH_CORE
+> >
+> > Wondering if this CRASH_CORE ifdeffery is a little redundent here
+> > since CRASH_CORE dependency has been added. Except of this, I like this
+> > patch. As we discussed in private threads, we can try to push it into
+> > mainline and continue improving later.
+> >
 > 
->> There are files in kernel, which use 'typedef struct' syntax for defining
->> struct. For eg, include/linux/zstd.h, drivers/scsi/megaraid/mega_common.h,
->> etc.
->> However, kernel-doc still does not support it, causing a parsing error.
->>
->> For eg, running scripts/kernel-doc -none on include/linux/zstd.h emits:
->> "error: Cannot parse struct or union!"
->>
->> Add support for parsing it.
->>
->> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
->> ---
->>  scripts/kernel-doc | 12 ++++++++++--
->>  1 file changed, 10 insertions(+), 2 deletions(-)
->>
->> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
->> index 8b5bc7bf4bb8..46e904dc3f87 100755
->> --- a/scripts/kernel-doc
->> +++ b/scripts/kernel-doc
->> @@ -1201,12 +1201,20 @@ sub dump_union($$) {
->>  sub dump_struct($$) {
->>      my $x = shift;
->>      my $file = shift;
->> +    my $decl_type;
->> +    my $members;
->>  
->>      if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
->> -	my $decl_type = $1;
->> +	$decl_type = $1;
->>  	$declaration_name = $2;
->> -	my $members = $3;
->> +	$members = $3;
->> +    } elsif ($x =~ /typedef\s+(struct|union)\s*\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*\s*(\w*)\s*;/) {
-> 
-> So this isn't your fault, but these regexes are really getting out of
-> hand.  I would *really* like to see some effort made into making this
-> code more understandable / maintainable as we tweak this stuff.  So:
-> 
->  - Splitting out the common part, as suggested by Lukas, would be really
->    useful.  That would also avoid the problem of only occurrence being
->    edited the next tine we add a new qualifier.
-> 
->  - Splitting out other subsections of the regex and giving them symbolic
->    names would also help.
-> 
->  - We really could use some comments before these branches saying what
->    they are doing; it is *not* obvious from the code.
-> 
-> See what I'm getting at here?
-> 
-Yep.
-Thanks for the feedback Lukas and Jonathan. I'll get back with a v2
-for the patch.
+> I believe "if CRASH_CORE" is not needed as it already "depends on
+> CRASH_CORE", tested with CRASH_CORE=y or 'not set', it just works.
+
+Thanks for testing and confirmation, Kairui.
+
+Saeed, can you post a v4 with CRASH_CORE ifdeffery removed? Maybe this
+week?
 
 Thanks
-Aditya
+Baoquan
+
+> 
+> > > +
+> > >  config KEXEC_CORE
+> > >       select CRASH_CORE
+> > >       bool
+> > > diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> > > index 106e4500fd53..ab0a2b4b1ffa 100644
+> > > --- a/kernel/crash_core.c
+> > > +++ b/kernel/crash_core.c
+> > > @@ -7,6 +7,7 @@
+> > >  #include <linux/crash_core.h>
+> > >  #include <linux/utsname.h>
+> > >  #include <linux/vmalloc.h>
+> > > +#include <linux/kexec.h>
+> > >
+> > >  #include <asm/page.h>
+> > >  #include <asm/sections.h>
+> > > @@ -250,6 +251,12 @@ static int __init __parse_crashkernel(char *cmdline,
+> > >       if (suffix)
+> > >               return parse_crashkernel_suffix(ck_cmdline, crash_size,
+> > >                               suffix);
+> > > +#ifdef CONFIG_CRASH_AUTO_STR
+> > > +     if (strncmp(ck_cmdline, "auto", 4) == 0) {
+> > > +             ck_cmdline = CONFIG_CRASH_AUTO_STR;
+> > > +             pr_info("Using crashkernel=auto, the size chosen is a best effort estimation.\n");
+> > > +     }
+> > > +#endif
+> > >       /*
+> > >        * if the commandline contains a ':', then that's the extended
+> > >        * syntax -- if not, it must be the classic syntax
+> > > --
+> > > 2.27.0
+> > >
+> >
+> >
+> > _______________________________________________
+> > kexec mailing list
+> > kexec@lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/kexec
+> >
+> 
+> 
+> -- 
+> Best Regards,
+> Kairui Song
+> 
+
