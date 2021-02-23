@@ -2,172 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FF35C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 18:23:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58E06C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 18:25:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 355B464E61
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 18:23:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1991B64E77
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 18:25:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233210AbhBWSW7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 13:22:59 -0500
-Received: from mout.gmx.net ([212.227.17.21]:50059 "EHLO mout.gmx.net"
+        id S233222AbhBWSZY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 13:25:24 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49710 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233955AbhBWSWy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Feb 2021 13:22:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1614104458;
-        bh=LNGMe6Cvd1XCSfu9VVHlx9YQUG5vihvHCmqx0hhKPV0=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=b8eXfWIkdfI9dqA57yi3nGbosdYSBUNJDMhOcRw2GHPH+dmOh5uC1J/Hp31YZAjcV
-         +zRAAeXdyMj0KmiFei6nCtQHfCM5Kjz0ZWIZHdOnf66PLP8B3Ebx3ej/ZKOlI4U0zF
-         l4jmOUDGQowruQpseoLGbz41Ek7Tdms7Lld9j6/c=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([83.52.229.153]) by mail.gmx.net (mrgmx105
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1N4Qwg-1lwA162sXW-011Tar; Tue, 23
- Feb 2021 19:20:58 +0100
-Date:   Tue, 23 Feb 2021 19:20:54 +0100
-From:   John Wood <john.wood@gmx.com>
-To:     Randy Dunlap <rdunlap@infradead.org>,
-        Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>, Shuah Khan <shuah@kernel.org>
-Cc:     John Wood <john.wood@gmx.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 3/8] securtiy/brute: Detect a brute force attack
-Message-ID: <20210223182054.GB3068@ubuntu>
-References: <20210221154919.68050-1-john.wood@gmx.com>
- <20210221154919.68050-4-john.wood@gmx.com>
- <f4fd9e44-539e-279e-a3a6-8af39f863f73@infradead.org>
+        id S233133AbhBWSZX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Feb 2021 13:25:23 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1614104677; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=XbjS8vUMSKt77z3E7DlvrJ60e+qrAIbjzGDe/XybRK8=;
+        b=WV9e18U9LOLZfXySyD6DPWQ9kGd89w1u7ieLGsL1hwOeS9bYjIYC+DSsJUtANPV0TjZU9M
+        +9r5xp23/mpAPOBjX50BU5akyn/t/Ayowi4aRfL14Hy9dC3BbUeJXjTSyxB6TLbWPG3wfA
+        xEpW7VGe2tt/oXGuKvCTZjNt3yxwcBM=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id D0FF7AE55;
+        Tue, 23 Feb 2021 18:24:36 +0000 (UTC)
+Date:   Tue, 23 Feb 2021 19:24:33 +0100
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     Vipin Sharma <vipinsh@google.com>
+Cc:     tj@kernel.org, thomas.lendacky@amd.com, brijesh.singh@amd.com,
+        jon.grimm@amd.com, eric.vantassell@amd.com, pbonzini@redhat.com,
+        hannes@cmpxchg.org, frankja@linux.ibm.com, borntraeger@de.ibm.com,
+        corbet@lwn.net, seanjc@google.com, vkuznets@redhat.com,
+        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        gingell@google.com, rientjes@google.com, dionnaglaze@google.com,
+        kvm@vger.kernel.org, x86@kernel.org, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC 0/2] cgroup: New misc cgroup controller
+Message-ID: <YDVIYQhZ6ArGsr3n@blackbook>
+References: <20210218195549.1696769-1-vipinsh@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="wVuyn8fuAPNhRfeX"
 Content-Disposition: inline
-In-Reply-To: <f4fd9e44-539e-279e-a3a6-8af39f863f73@infradead.org>
-X-Provags-ID: V03:K1:HHPCxdrBHvji0o9LTCCMJdtyWfbj8bwS0V/XvyVAe4PUGRQrPFi
- klx54ZU4/Kz8iqglnyYer/wrmY6B2QFNcz3TwL3MDj8RvYaldC6XSITmO5dUCfIrdrMohTo
- q8QYCfWxasXAEaxuB7y2CmOvutmjLtvoutB4OsnMqkBvznmJ3nUxH9O1WTh0r/Xfbci76VB
- IJGnOEZOmOX102WUkuolA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:z5dm1mICMC0=:e0YCvR3+cDEyUvDDJkEqGc
- XPksfhcj1y8ui+NpkMjrwFGhmx4HdXtYLDypP8CJLb1ZOc4Bdnu6udfgRmBjX64c8O8ad/osG
- fEgpg8RFAf4woOA2xtMffDyeBMoURSSLARclBQMmkhFxa2Kg1pZje3uGnJkVW1IBKVPiM8wgd
- JhWWDvUvfA3ThI6EetU8e2gc3WYNs4+puN6544+RJsESWnzDxzPupqdEOEsU9BxFqvJCoA69+
- zCJPNmW8lD0u+aPARsZ1rnZM7vQDztTy4QUDpNZu0eHMPIgc5WTaYyRwattiaR7gJzhQpZCAe
- G0y1jupIrMlWOgbiVuHYnO3xObLnNAglVUYLFOk/CwEACVMpzOFB+NNe4Xww51CNRhDZfONfz
- TAvv30M/p1UEzYIsFi0Rp2YFblKrzmEQ14DtOLuCF86NfnJFCVWEG3Imb3x5JkegnqEbTmG6R
- cmmqLiDcd5s8sxALXU1H2gvSRMZKUGFYyRxSSGuLBs+h7gkx24wpx2uRWludOfmJ0E/DMrdx1
- jlaeB1Pjqv5pnlFVwQ8gVCu3lJ1rC24wxmGPbnm39azsjtTxAM2UsKXbBKrKMhD3PaBC3WUlt
- luE6+2hCXoZcrM07zqyJIxjgj4klpwhETczxys3cXhXdMXRFAOlnc6TKZfciIJJ/msAnNxldB
- B15BapT7mte9IT2E49dGmGA/7N5KJCFTaiIDB8S0PcwALpnOyvU+MuowahyPfCC+Sl+IG6syg
- nibnJkQRZ5xZQS0J+hIk7MXZ1iK4am/qmviGBwxctJJl1IkJrL9epVg1OHf2yi0o+eJl20iK/
- KKNmrUQHOOBSW+gCv88i5h1WeSS2U8TVhkz2kv1UmB0iWct6p8DA8KTfdPV/tnWwphLRWW6Uu
- +GW/Zbu3UM/Ra/8q7TFQ==
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210218195549.1696769-1-vipinsh@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
 
-On Sun, Feb 21, 2021 at 06:47:16PM -0800, Randy Dunlap wrote:
-> Hi--
->
-> scripts/kernel-doc does not like these items to be marked
-> as being in kernel-doc notation. scripts/kernel-doc does not
-> recognize them as one of: struct, union, enum, typedef, so it
-> defaults to trying to interpret these as functions, and then
-> says:
->
-> (I copied these blocks to my test megatest.c source file.)
->
->
-> ../src/megatest.c:1214: warning: cannot understand function prototype: '=
-const u64 BRUTE_EMA_WEIGHT_NUMERATOR =3D 7; '
-> ../src/megatest.c:1219: warning: cannot understand function prototype: '=
-const u64 BRUTE_EMA_WEIGHT_DENOMINATOR =3D 10; '
-> ../src/megatest.c:1228: warning: cannot understand function prototype: '=
-const unsigned char BRUTE_MAX_FAULTS =3D 200; '
-> ../src/megatest.c:1239: warning: cannot understand function prototype: '=
-const unsigned char BRUTE_MIN_FAULTS =3D 5; '
-> ../src/megatest.c:1249: warning: cannot understand function prototype: '=
-const u64 BRUTE_CRASH_PERIOD_THRESHOLD =3D 30000; '
->
->
-> On 2/21/21 7:49 AM, John Wood wrote:
-> >
-> > +/**
-> > + * brute_stats_ptr_lock - Lock to protect the brute_stats structure p=
-ointer.
-> > + */
-> > +static DEFINE_RWLOCK(brute_stats_ptr_lock);
->
-> > +/**
-> > + * BRUTE_EMA_WEIGHT_NUMERATOR - Weight's numerator of EMA.
-> > + */
-> > +static const u64 BRUTE_EMA_WEIGHT_NUMERATOR =3D 7;
->
-> > +/**
-> > + * BRUTE_EMA_WEIGHT_DENOMINATOR - Weight's denominator of EMA.
-> > + */
-> > +static const u64 BRUTE_EMA_WEIGHT_DENOMINATOR =3D 10;
->
-> > +/**
-> > + * BRUTE_MAX_FAULTS - Maximum number of faults.
-> > + *
-> > + * If a brute force attack is running slowly for a long time, the app=
-lication
-> > + * crash period's EMA is not suitable for the detection. This type of=
- attack
-> > + * must be detected using a maximum number of faults.
-> > + */
-> > +static const unsigned char BRUTE_MAX_FAULTS =3D 200;
->
-> > +/**
-> > + * BRUTE_MIN_FAULTS - Minimum number of faults.
-> > + *
-> > + * The application crash period's EMA cannot be used until a minimum =
-number of
-> > + * data has been applied to it. This constraint allows getting a tren=
-d when this
-> > + * moving average is used. Moreover, it avoids the scenario where an =
-application
-> > + * fails quickly from execve system call due to reasons unrelated to =
-a real
-> > + * attack.
-> > + */
-> > +static const unsigned char BRUTE_MIN_FAULTS =3D 5;
->
-> > +/**
-> > + * BRUTE_CRASH_PERIOD_THRESHOLD - Application crash period threshold.
-> > + *
-> > + * The units are expressed in milliseconds.
-> > + *
-> > + * A fast brute force attack is detected when the application crash p=
-eriod falls
-> > + * below this threshold.
-> > + */
-> > +static const u64 BRUTE_CRASH_PERIOD_THRESHOLD =3D 30000;
->
-> Basically we don't support scalars in kernel-doc notation...
+--wVuyn8fuAPNhRfeX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-So, to keep it commented it would be better to use a normal comment block?
+Hello.
 
-/*
- * Documentation here
- */
+On Thu, Feb 18, 2021 at 11:55:47AM -0800, Vipin Sharma <vipinsh@google.com> wrote:
+> This patch is creating a new misc cgroup controller for allocation and
+> tracking of resources which are not abstract like other cgroup
+> controllers.
+Please don't refer to this as "allocation" anywhere, that has a specific
+meaning (see Resource Distribution Models in
+Documentation/admin-gruide/cgroup-v2.rst).
 
-What do you think?
+> This controller was initially proposed as encryption_id but after
+> the feedbacks, it is now changed to misc cgroup.
+> https://lore.kernel.org/lkml/20210108012846.4134815-2-vipinsh@google.com/
+Interesting generalization. I wonder what else could fit under this as
+well. (It resembles pids controller on the cover.)
 
-Thanks,
-John Wood
+> Please provide any feedback for this RFC or if it is good for
+> merging then I can send a patch for merging.
+A new controller is added exposed with v1 attributes. I'm not convinced
+it is desirable to change the frozen v1 controllers' API? (And therefore
+promote it as well.)
 
-> --
-> ~Randy
->
+Beware, bikeshedding. The name is very non-descriptive, potentially
+suggesting catch-all semantics. It'd deserve a further thought. My idea
+would be limit(s) or counter controller.
+
+
+My few cents here (and some more in reply to the patch),
+Michal
+
+--wVuyn8fuAPNhRfeX
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAmA1SF0ACgkQia1+riC5
+qSjyug/+JnqIiM/q5Fq9IapQYcrjFfqbXe/ULrbJurWNM7N1IY/PQQd6XKqXv+GH
+bjV7UZCa8Rr+TWaVx4/dw7HycGzwCpxVGZ3afm1R2KujhucRR6x3Jfu3al08HASh
+tyALCpp7s7bKb1b3ehnq6vEonsEinSbiXYHl4iWXN8EL2Kl/bQNOq1qqshLUMNGL
+1WXuvfM0seMziFSh/BogVLx77yzInWj1Q4nE19yWYWh2go+CcZjTSAFc2uJn0fWn
+DIMvt4QaXNEOrr1nyLqSJWR3WVl8OGTx7jec9u9IGmLDT1cmXLM7cEpSuRxEW8KQ
+A7Dd2NBQ0foZsUFC8N+mWqpDMKAUP9ZG4KIplBubWJittkd4MIcpoBReO6DVdHzM
+Zc6IdpCON8+kYVGaHSswOkx30BdIEeTf8wmIywkkDRQcrHS6fYO8QqqThzsfcWiD
+uWIvZMDqu9X4LqPctqCkr/Aw8goAW764Q35xABYonDIUhJfZfcdR7sRFZrIdl3xk
++UmPWynRCXJ5/XIj4Trm4H/AvwOR2zX8NywuoGF9r8tfHcBR8gqwtMyg8un4eEcG
+jroaVCayT9ZJI+49XV7qvZNaF+yg8GL0EDimIl7r0m5vi157AGxWhH7jfOFlbN6Q
+JFP5/0x+ZIssTiTuytqRC+cE+j3Jl1LVZ+MZjz68btbTckO83Y8=
+=WGjH
+-----END PGP SIGNATURE-----
+
+--wVuyn8fuAPNhRfeX--
