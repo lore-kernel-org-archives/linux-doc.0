@@ -4,93 +4,81 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B0D4C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 00:39:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECC75C433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 01:56:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 39E8E64E4A
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 00:39:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B271D64E41
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 01:56:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230178AbhBWAjV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Feb 2021 19:39:21 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:12936 "EHLO
-        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230001AbhBWAjU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 19:39:20 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Dl0W56pYMzjQB5;
-        Tue, 23 Feb 2021 08:37:21 +0800 (CST)
-Received: from SWX921481.china.huawei.com (10.126.201.86) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 23 Feb 2021 08:38:32 +0800
-From:   Barry Song <song.bao.hua@hisilicon.com>
-To:     <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
-        <akpm@linux-foundation.org>, <linux-mm@kvack.org>
-CC:     <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linuxarm@openeuler.org>,
-        Barry Song <song.bao.hua@hisilicon.com>,
-        Mel Gorman <mgorman@suse.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>
-Subject: [PATCH] Documentation/features: mark BATCHED_UNMAP_TLB_FLUSH doesn't apply to ARM64
-Date:   Tue, 23 Feb 2021 13:32:30 +1300
-Message-ID: <20210223003230.11976-1-song.bao.hua@hisilicon.com>
-X-Mailer: git-send-email 2.21.0.windows.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.126.201.86]
-X-CFilter-Loop: Reflected
+        id S230434AbhBWB4O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Feb 2021 20:56:14 -0500
+Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:57062 "EHLO
+        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230318AbhBWB4M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Feb 2021 20:56:12 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R131e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=joseph.qi@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0UPJc3nw_1614045328;
+Received: from localhost(mailfrom:joseph.qi@linux.alibaba.com fp:SMTPD_---0UPJc3nw_1614045328)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Tue, 23 Feb 2021 09:55:29 +0800
+From:   Joseph Qi <joseph.qi@linux.alibaba.com>
+To:     Paolo Valente <paolo.valente@linaro.org>,
+        Jens Axboe <axboe@kernel.dk>
+Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH] block/bfq: update comments and default value in docs for fifo_expire
+Date:   Tue, 23 Feb 2021 09:55:28 +0800
+Message-Id: <1614045328-87234-1-git-send-email-joseph.qi@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-BATCHED_UNMAP_TLB_FLUSH is used on x86 to do batched tlb shootdown by
-sending one IPI to TLB flush all entries after unmapping pages rather
-than sending an IPI to flush each individual entry.
-On arm64, tlb shootdown is done by hardware. Flush instructions are
-innershareable. The local flushes are limited to the boot (1 per CPU)
-and when a task is getting a new ASID.
-So marking this feature as "TODO" is not proper. ".." isn't good as
-well. So this patch adds a "N/A" for this kind of features which are
-not needed on some architectures.
+Correct the comments since bfq_fifo_expire[0] is for async request,
+while bfq_fifo_expire[1] is for sync request.
+Also update docs, according the source code, the default
+fifo_expire_async is 250ms, and fifo_expire_sync is 125ms.
 
-Cc: Mel Gorman <mgorman@suse.de>
-Cc: Andy Lutomirski <luto@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Will Deacon <will@kernel.org>
-Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+Signed-off-by: Joseph Qi <joseph.qi@linux.alibaba.com>
 ---
- Documentation/features/arch-support.txt        | 1 +
- Documentation/features/vm/TLB/arch-support.txt | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ Documentation/block/bfq-iosched.rst | 4 ++--
+ block/bfq-iosched.c                 | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/features/arch-support.txt b/Documentation/features/arch-support.txt
-index d22a1095e661..118ae031840b 100644
---- a/Documentation/features/arch-support.txt
-+++ b/Documentation/features/arch-support.txt
-@@ -8,4 +8,5 @@ The meaning of entries in the tables is:
-     | ok |  # feature supported by the architecture
-     |TODO|  # feature not yet supported by the architecture
-     | .. |  # feature cannot be supported by the hardware
-+    | N/A|  # feature doesn't apply to the architecture
+diff --git a/Documentation/block/bfq-iosched.rst b/Documentation/block/bfq-iosched.rst
+index 19d4d15..66c5a4e 100644
+--- a/Documentation/block/bfq-iosched.rst
++++ b/Documentation/block/bfq-iosched.rst
+@@ -430,13 +430,13 @@ fifo_expire_async
+ -----------------
  
-diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
-index 30f75a79ce01..0d070f9f98d8 100644
---- a/Documentation/features/vm/TLB/arch-support.txt
-+++ b/Documentation/features/vm/TLB/arch-support.txt
-@@ -9,7 +9,7 @@
-     |       alpha: | TODO |
-     |         arc: | TODO |
-     |         arm: | TODO |
--    |       arm64: | TODO |
-+    |       arm64: | N/A  |
-     |         c6x: |  ..  |
-     |        csky: | TODO |
-     |       h8300: |  ..  |
+ This parameter is used to set the timeout of asynchronous requests. Default
+-value of this is 248ms.
++value of this is 250ms.
+ 
+ fifo_expire_sync
+ ----------------
+ 
+ This parameter is used to set the timeout of synchronous requests. Default
+-value of this is 124ms. In case to favor synchronous requests over asynchronous
++value of this is 125ms. In case to favor synchronous requests over asynchronous
+ one, this value should be decreased relative to fifo_expire_async.
+ 
+ low_latency
+diff --git a/block/bfq-iosched.c b/block/bfq-iosched.c
+index b398dde..2baa10b 100644
+--- a/block/bfq-iosched.c
++++ b/block/bfq-iosched.c
+@@ -160,7 +160,7 @@
+ BFQ_BFQQ_FNS(softrt_update);
+ #undef BFQ_BFQQ_FNS						\
+ 
+-/* Expiration time of sync (0) and async (1) requests, in ns. */
++/* Expiration time of async (0) and sync (1) requests, in ns. */
+ static const u64 bfq_fifo_expire[2] = { NSEC_PER_SEC / 4, NSEC_PER_SEC / 8 };
+ 
+ /* Maximum backwards seek (magic number lifted from CFQ), in KiB. */
 -- 
-2.25.1
+1.8.3.1
 
