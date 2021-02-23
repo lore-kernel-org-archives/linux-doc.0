@@ -2,75 +2,45 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E8C7C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 11:36:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6E04C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 12:01:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D972A64E22
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 11:36:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 73D2764E60
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 12:01:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230459AbhBWLgV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 06:36:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48260 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230429AbhBWLgU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 06:36:20 -0500
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0E2AC061574;
-        Tue, 23 Feb 2021 03:35:40 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id o38so12171418pgm.9;
-        Tue, 23 Feb 2021 03:35:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ZXknYZa22rU4H1Kyhm91bekSW7PvKMTDIpqNkOqobg0=;
-        b=CVmm/41qEVa8VkqYO/9hoDhX1BID2L/663fz5V7U+F4AZkVdnGavR376wsVaYXywWv
-         GwaxEEG7ONNBS3a2yM1x56LTm3nuDPq1uFXJjz0zHD7LJfVpMhzcT/0am1a+pSHHe8fp
-         DMdjnmnXYq/+FU0IzTGSoyNWULwftomnuO9VsI7U2rVxA8toBCTlAb/uEHd2CHyVKwdy
-         yAF6dHL5Tz+nkNM+q84Fg82BhD42/Q6znMcw1086F25m89CGXK5YgSGhwwpzwIqGJLs9
-         HBg/GBQ4EU49gd5yXsMj3njGJKQrWmLmha8gigkWuwTDoxh9iAUlhW91D7SmlKhP//CT
-         3C6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ZXknYZa22rU4H1Kyhm91bekSW7PvKMTDIpqNkOqobg0=;
-        b=s0eSH+p+9tCk6X2x1VwQG85UfWlUjmB/bfAJsrt6fdyrB1BJ2Wug4Nz1taGSCMmTlG
-         yjEzg7umUpMr2Fl5Y0NLazQfIpTc8owKVvxhubd7E8oGnI2y6HTdQ92g1HnEL7ROPYZb
-         +NNu2iyST9u+Qq3NlUoNczio+MslAe4ebqsfYVdWNqRcpv0jxgu5kjKCYwiZENc9X2zc
-         WwfOZ9ZBA9dF6g7/jgTTMY1nGBrPgDkEAZ3N06iEdfzCPs85/k7nziP8rTllWgYOxflW
-         p7j7aa0ct1P9ei0Gw48TBAme6aAdoH9f38+TwM2YbuY6WMp3stfbkm6LI/LgpvOVbyhm
-         TnXA==
-X-Gm-Message-State: AOAM533gdijYW0Q1bUHIie0finOVXyLK8bL1x8fm4EUv7eb6o1bu6Qh0
-        PSCmUycBM6sx83CKhrX3hqa+aIvgKdRMNA==
-X-Google-Smtp-Source: ABdhPJx9a0hukooQl+z13/uQEycH7Ffx7KnAqyXf1sCpbyl4sm/4sgSImvbkUxroEOUNSBqVplDsIw==
-X-Received: by 2002:a63:f953:: with SMTP id q19mr3171093pgk.125.1614080139936;
-        Tue, 23 Feb 2021 03:35:39 -0800 (PST)
-Received: from ?IPv6:2405:201:600d:a089:71c8:9c21:1a6d:84ab? ([2405:201:600d:a089:71c8:9c21:1a6d:84ab])
-        by smtp.gmail.com with ESMTPSA id b7sm21630037pfp.139.2021.02.23.03.35.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Feb 2021 03:35:39 -0800 (PST)
-Subject: Re: [RFC] scripts: kernel-doc: fix array element capture in
- pointer-to-func parsing
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     lukas.bulwahn@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20210217145625.14006-1-yashsri421@gmail.com>
- <878s7flrdf.fsf@meer.lwn.net>
-From:   Aditya <yashsri421@gmail.com>
-Message-ID: <1e4c4108-feb4-9ab6-7c1c-13200658470c@gmail.com>
-Date:   Tue, 23 Feb 2021 17:05:34 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S232578AbhBWMAh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 07:00:37 -0500
+Received: from mx2.suse.de ([195.135.220.15]:40378 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232845AbhBWL6Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Feb 2021 06:58:24 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 3E215AC1D;
+        Tue, 23 Feb 2021 11:57:40 +0000 (UTC)
+Subject: Re: [PATCH] docs: reporting-issues.rst: explain how to decode stack
+ traces
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sasha Levin <sashal@kernel.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Damian Tometzki <linux@tometzki.de>
+References: <20210215172857.382285-1-linux@leemhuis.info>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <aedcc7df-b30b-ebfe-9654-c2c572889d3f@suse.cz>
+Date:   Tue, 23 Feb 2021 12:57:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <878s7flrdf.fsf@meer.lwn.net>
+In-Reply-To: <20210215172857.382285-1-linux@leemhuis.info>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -78,36 +48,18 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 23/2/21 3:03 am, Jonathan Corbet wrote:
-> Aditya Srivastava <yashsri421@gmail.com> writes:
-> 
->> Currently, kernel-doc causes an unexpected error when array element (i.e.,
->> "type (*foo[bar])(args)") is present as pointer parameter in
->> pointer-to-function parsing.
->>
->> For e.g., running kernel-doc -none on kernel/gcov/gcc_4_7.c causes this
->> error:
->> "Use of uninitialized value $param in regexp compilation at ...", in
->> combination with:
->> "warning: Function parameter or member '' not described in 'gcov_info'"
-> 
-> In the future, please quote error messages from the kernel verbatim.
-> You can trim irrelevant stuff before or after, but please do not edit
-> them in this way.  That helps me to understand what you are fixing, and
-> is also useful for anybody else who might be searching for a solution to
-> the same problem.
-> 
->> Here, the parameter parsing does not take into account the presence of
->> array element (i.e. square brackets) in $param.
->>
->> Provide a simple fix by adding square brackets in the regex, responsible
-[]
->> -- 
-> 
-> ...meanwhile, I have applied this one, thanks.
-> 
+On 2/15/21 6:28 PM, Thorsten Leemhuis wrote:
+> Replace placeholder text about decoding stack traces with a section that
+> properly describes what a typical user should do these days. To make
+> it works for them, add a paragraph in an earlier section to ensure
+> people build their kernels with everything that's needed to decode stack
+> traces later.
 
-Thanks Jonathan! Will keep this in mind..
+Looks good!
 
-Thanks
-Aditya
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> Reviewed-by: Qais Yousef <qais.yousef@arm.com>
+
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
+
+Thanks!
