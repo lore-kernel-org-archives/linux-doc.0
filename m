@@ -2,166 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E725C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 07:51:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3C7DC433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 08:33:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20A1764ED1
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 07:51:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9639F64EDB
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 08:33:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232847AbhBXHvh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Feb 2021 02:51:37 -0500
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:36562 "EHLO
-        smtp-fw-4101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233695AbhBXHva (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 02:51:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1614153089; x=1645689089;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   in-reply-to:content-transfer-encoding;
-  bh=DXdAXbodLJFLCACHgM3UuUQ3p+oQUqas3URxarIcAkE=;
-  b=mMNdKlxaExpMO2Ctz9N/56LPn07ocvRLGHt9HEAignd8c04/yX89lIHG
-   DmWuQZcVvWyO3H7nVK+jlsT2L0X5d80wSGdcErxnEC85eifAkkt+Y6iwd
-   RxzKjoqHemv4Mi1Ho/UAWTvHc0iuwQm52IXG6hDoMKm/KCFc4RZeHFHgW
-   I=;
-X-IronPort-AV: E=Sophos;i="5.81,202,1610409600"; 
-   d="scan'208";a="87490840"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2b-81e76b79.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP; 24 Feb 2021 07:50:35 +0000
-Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-        by email-inbound-relay-2b-81e76b79.us-west-2.amazon.com (Postfix) with ESMTPS id 8B170A1C18;
-        Wed, 24 Feb 2021 07:50:32 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.162.228) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 24 Feb 2021 07:50:14 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
-        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
-        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v24 11/14] Documentation: Add documents for DAMON
-Date:   Wed, 24 Feb 2021 08:49:55 +0100
-Message-ID: <20210224074955.20173-1-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
+        id S234468AbhBXIc7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Feb 2021 03:32:59 -0500
+Received: from mx2.suse.de ([195.135.220.15]:44288 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232563AbhBXIcj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Feb 2021 03:32:39 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id F39D9AF3E;
+        Wed, 24 Feb 2021 08:31:55 +0000 (UTC)
+Date:   Wed, 24 Feb 2021 09:31:49 +0100
+From:   Oscar Salvador <osalvador@suse.de>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Gleixner <tglx@linutronix.de>, mingo@redhat.com,
+        bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, viro@zeniv.linux.org.uk,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>
+Subject: Re: [External] Re: [PATCH v16 4/9] mm: hugetlb: alloc the vmemmap
+ pages associated with each HugeTLB page
+Message-ID: <20210224083145.GA14894@linux>
+References: <20210219104954.67390-1-songmuchun@bytedance.com>
+ <20210219104954.67390-5-songmuchun@bytedance.com>
+ <13a5363c-6af4-1e1f-9a18-972ca18278b5@oracle.com>
+ <20210223092740.GA1998@linux>
+ <CAMZfGtVRSBkKe=tKAKLY8dp_hywotq3xL+EJZNjXuSKt3HK3bQ@mail.gmail.com>
+ <20210223104957.GA3844@linux>
+ <20210223154128.GA21082@localhost.localdomain>
+ <20210223223157.GA2740@localhost.localdomain>
+ <CAMZfGtUBMzAgPVgm=9wgJg+yytxwSGOK_BVOw93RPLb3_tFS_g@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210204153150.15948-12-sjpark@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.43.162.228]
-X-ClientProxiedBy: EX13D21UWA003.ant.amazon.com (10.43.160.184) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtUBMzAgPVgm=9wgJg+yytxwSGOK_BVOw93RPLb3_tFS_g@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 4 Feb 2021 16:31:47 +0100 SeongJae Park <sjpark@amazon.com> wrote:
+On Wed, Feb 24, 2021 at 11:47:49AM +0800, Muchun Song wrote:
+> I have been looking at the dequeue_huge_page_node_exact().
+> If a PageHWPoison huge page is in the free pool list, the page will
+> not be allocated to the user. The PageHWPoison huge page
+> will be skip in the dequeue_huge_page_node_exact().
 
-> From: SeongJae Park <sjpark@amazon.de>
-> 
-> This commit adds documents for DAMON under
-> `Documentation/admin-guide/mm/damon/` and `Documentation/vm/damon/`.
-> 
-> Signed-off-by: SeongJae Park <sjpark@amazon.de>
-> ---
->  Documentation/admin-guide/mm/damon/guide.rst | 159 ++++++++++
->  Documentation/admin-guide/mm/damon/index.rst |  15 +
->  Documentation/admin-guide/mm/damon/plans.rst |  29 ++
->  Documentation/admin-guide/mm/damon/start.rst |  97 ++++++
->  Documentation/admin-guide/mm/damon/usage.rst | 304 +++++++++++++++++++
->  Documentation/admin-guide/mm/index.rst       |   1 +
->  Documentation/vm/damon/api.rst               |  20 ++
->  Documentation/vm/damon/design.rst            | 166 ++++++++++
->  Documentation/vm/damon/eval.rst              | 232 ++++++++++++++
->  Documentation/vm/damon/faq.rst               |  58 ++++
->  Documentation/vm/damon/index.rst             |  31 ++
->  Documentation/vm/index.rst                   |   1 +
->  12 files changed, 1113 insertions(+)
->  create mode 100644 Documentation/admin-guide/mm/damon/guide.rst
->  create mode 100644 Documentation/admin-guide/mm/damon/index.rst
->  create mode 100644 Documentation/admin-guide/mm/damon/plans.rst
->  create mode 100644 Documentation/admin-guide/mm/damon/start.rst
->  create mode 100644 Documentation/admin-guide/mm/damon/usage.rst
->  create mode 100644 Documentation/vm/damon/api.rst
->  create mode 100644 Documentation/vm/damon/design.rst
->  create mode 100644 Documentation/vm/damon/eval.rst
->  create mode 100644 Documentation/vm/damon/faq.rst
->  create mode 100644 Documentation/vm/damon/index.rst
-> 
-[...]
-> diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-> new file mode 100644
-> index 000000000000..32436cf853c7
-> --- /dev/null
-> +++ b/Documentation/admin-guide/mm/damon/usage.rst
-> @@ -0,0 +1,304 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +===============
-> +Detailed Usages
-> +===============
-> +
-> +DAMON provides below three interfaces for different users.
-> +
-> +- *DAMON user space tool.*
-> +  This is for privileged people such as system administrators who want a
-> +  just-working human-friendly interface.  Using this, users can use the DAMONâ€™s
-> +  major features in a human-friendly way.  It may not be highly tuned for
-> +  special cases, though.  It supports only virtual address spaces monitoring.
-> +- *debugfs interface.*
-> +  This is for privileged user space programmers who want more optimized use of
-> +  DAMON.  Using this, users can use DAMONâ€™s major features by reading
-> +  from and writing to special debugfs files.  Therefore, you can write and use
-> +  your personalized DAMON debugfs wrapper programs that reads/writes the
-> +  debugfs files instead of you.  The DAMON user space tool is also a reference
-> +  implementation of such programs.  It supports only virtual address spaces
-> +  monitoring.
-> +- *Kernel Space Programming Interface.*
-> +  This is for kernel space programmers.  Using this, users can utilize every
-> +  feature of DAMON most flexibly and efficiently by writing kernel space
-> +  DAMON application programs for you.  You can even extend DAMON for various
-> +  address spaces.
-> +
-> +This document does not describe the kernel space programming interface in
-> +detail.  For that, please refer to the :doc:`/vm/damon/api`.
-> +
-> +
-> +DAMON User Space Tool
-> +=====================
+Yes, now I see where the problem lies.
 
-This version of the patchset doesn't introduce the user space tool source code,
-so putting the detailed usage here might make no sense.  I will remove this
-section in the next version.  If you will review this patch, please skip this
-section.
-[...]
-> +
-> +debugfs Interface
-> +=================
+hugetlb_no_page()->..->dequeue_huge_page_node_exact() will fail if the only
+page in the pool is hwpoisoned, as expected.
+Then alloc_buddy_huge_page_with_mpol() will be tried, but since surplus_huge_pages
+counter is stale, we will fail there.
+That relates to the problem Mike pointed out, that we should decrease again the
+surplus_huge_pages.
 
-But, this section will not be removed.  Please review.
+I think hwpoisoned pages should not be in the free pool though.
+Probably we want to take them off when we notice we have one:
+e.g: dequeue_huge_page_node_exact could place the page in another list 
+and place it back in case it was unpoisoned.
 
-[...]
+But anyway, that has nothing to do with this (apart from the surplus problem).
 
-
-Thanks,
-SeongJae Park
+-- 
+Oscar Salvador
+SUSE L3
