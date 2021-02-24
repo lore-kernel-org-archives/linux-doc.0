@@ -2,147 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D990C433E9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 562EEC4332D
 	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1B1164EFA
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D3B964EFA
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232672AbhBXOmR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Feb 2021 09:42:17 -0500
-Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:23954 "EHLO
-        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232662AbhBXNcH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 08:32:07 -0500
+        id S233502AbhBXOmo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Feb 2021 09:42:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43012 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236991AbhBXNcZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 08:32:25 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 005B5C06178C;
+        Wed, 24 Feb 2021 05:30:10 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id w18so1184568plc.12;
+        Wed, 24 Feb 2021 05:30:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1614173524; x=1645709524;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   mime-version;
-  bh=XgvjsOMBy0W2i8h9nrIbreu3UIpB0UjjUMV8skAtoL0=;
-  b=udqcbbUYxbyau3hJAdgoCmvFBAwbVD2mX1s8jzEPGg1/01bS+IUztZSt
-   3OCzRlW421Sa3gUPQRXaay2mkSRrBKmQjfGff3zmJ5kcYdhoGbVbKRa2K
-   SsO2Dy3CErN4C7LW3ovCDNoGX+Tqyy/xiptI6VdnFAPUfMB2/Ksw/V1VM
-   Y=;
-X-IronPort-AV: E=Sophos;i="5.81,203,1610409600"; 
-   d="scan'208";a="91700011"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com) ([10.43.8.2])
-  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 24 Feb 2021 13:30:46 +0000
-Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
-        by email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com (Postfix) with ESMTPS id 5DD37A1900;
-        Wed, 24 Feb 2021 13:30:43 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.207) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Wed, 24 Feb 2021 13:30:26 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     SeongJae Park <sjpark@amazon.com>
-CC:     <akpm@linux-foundation.org>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
-        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
-        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v24 00/14] Subject: Introduce Data Access MONitor (DAMON)
-Date:   Wed, 24 Feb 2021 14:30:05 +0100
-Message-ID: <20210224133005.9265-1-sjpark@amazon.com>
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=qfRfzFAwrIoV1GXQkJdn6bloQGW/Oh86EcITr8l8t7o=;
+        b=SZoAHANGnhmCzJHG1dCPjNAO/11Ivn7BKBvM+XcDvW+Cc2H5L+epyrPF+ywHodcFyV
+         +vKe5obmeeRtNmM/z4AekygbVJU7JW8hQsTuG/9DHJSQjXi9aV0DukKRjQwwbH7CiQk+
+         afpA0OzYsOGeYlF4/QzCj2SAAv56Ux6QRAM6tIEShVwD+v1WjM2kW/1wgKjpy6ebXDMo
+         U8igCoWCGv+luVMNG9zdre/woqzpuh88dHoUpG3qHirNr/GGngN+F59zyitkRyFrQpRP
+         BN/9qwOdBGFgkgC43FJxUR9k0yG1BWXVtyhvhJqoVOi08QGQFbOvpm/MOSFyD4W+Ebij
+         uh1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=qfRfzFAwrIoV1GXQkJdn6bloQGW/Oh86EcITr8l8t7o=;
+        b=PLJ23WZPb82UqxCGMuBl5CA6/Cj6uaIv+OY4VdcMSk3mW5f5az2f/XkGP/F264sJW4
+         5USb/Hcs8PSDasLCwQToQtAwrsM0Iy0I/I6bX3igL+xBOkhCpjc5ZDpqbBt+UflnSlF+
+         iSkoQ/FIGIQGK2Pm5hGxhQ5bUATZffZD0UXm3K1IxRXJNA5e8jTtJT6uCA3ONAEzRnVT
+         QgUdkQQClSHe7YUqqXH4xTMunJl19Tg/UPJ5OL5AqifXbmge3KGgeDrGEhIkKMW7mq0w
+         wI8N2yATq52FCVJU9rfUq2SvEHzfgJAYbGDbGQSuOkuR1rFT4pO0XyQ7UAaOup45/6Y8
+         a/Uw==
+X-Gm-Message-State: AOAM530TvugkR7IN64E2fuDMUH5SEEhtpK2MxzeRA6tglr93YFsuvJcR
+        inYCVRCQWDZem/EmjZmQQROwZvGS73uR7B4m
+X-Google-Smtp-Source: ABdhPJxIPjwG9lM4N5J/rrkK6hFq/627Aqe0h8jJPpIfPt26lVSWCEX1mKKxaUKytjrY5nrJyS2xbw==
+X-Received: by 2002:a17:902:9f8b:b029:e0:a90:b62 with SMTP id g11-20020a1709029f8bb02900e00a900b62mr32736085plq.70.1614173410483;
+        Wed, 24 Feb 2021 05:30:10 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:600d:a089:5c4:262b:be36:c819])
+        by smtp.googlemail.com with ESMTPSA id p11sm2809756pjb.31.2021.02.24.05.30.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Feb 2021 05:30:10 -0800 (PST)
+From:   Aditya Srivastava <yashsri421@gmail.com>
+To:     corbet@lwn.net
+Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: [RFC v2] scripts: kernel-doc: fix typedef support for struct/union parsing
+Date:   Wed, 24 Feb 2021 19:00:02 +0530
+Message-Id: <20210224133002.13503-1-yashsri421@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210204153150.15948-1-sjpark@amazon.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.160.207]
-X-ClientProxiedBy: EX13D23UWC001.ant.amazon.com (10.43.162.196) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+In-Reply-To: <875z2jlr2j.fsf@meer.lwn.net>
+References: <875z2jlr2j.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 4 Feb 2021 16:31:36 +0100 SeongJae Park <sjpark@amazon.com> wrote:
+Currently, there are 447 files in the kernel tree, which use 'typedef
+struct/union' syntax for defining some struct/union. In total, there
+are ~1290 such occurrences in the kernel tree.
 
-> From: SeongJae Park <sjpark@amazon.de>
-> 
-[...]
-> 
-> Introduction
-> ============
-> 
-> DAMON is a data access monitoring framework for the Linux kernel.  The core
-> mechanisms of DAMON called 'region based sampling' and 'adaptive regions
-> adjustment' (refer to 'mechanisms.rst' in the 11th patch of this patchset for
-> the detail) make it
-> 
->  - accurate (The monitored information is useful for DRAM level memory
->    management. It might not appropriate for Cache-level accuracy, though.),
->  - light-weight (The monitoring overhead is low enough to be applied online
->    while making no impact on the performance of the target workloads.), and
->  - scalable (the upper-bound of the instrumentation overhead is controllable
->    regardless of the size of target workloads.).
-> 
-> Using this framework, therefore, several memory management mechanisms such as
-> reclamation and THP can be optimized to aware real data access patterns.
-> Experimental access pattern aware memory management optimization works that
-> incurring high instrumentation overhead will be able to have another try.
-> 
-> Though DAMON is for kernel subsystems, it can be easily exposed to the user
-> space by writing a DAMON-wrapper kernel subsystem.  Then, user space users who
-> have some special workloads will be able to write personalized tools or
-> applications for deeper understanding and specialized optimizations of their
-> systems.
-> 
+However, kernel-doc does not support it currently, and running
+scripts/kernel-doc -none on include/linux/zstd.h emits:
+"error: Cannot parse struct or union!"
 
-I realized I didn't introduce a good, intuitive example use case of DAMON for
-profiling so far, though DAMON is not for only profiling.  One straightforward
-and realistic usage of DAMON as a profiling tool would be recording the
-monitoring results with callstack and visualize those by timeline together.
+Add support for parsing struct/union following this syntax.
 
-For example, below link shows that visualization for a realistic workload,
-namely 'fft' in SPLASH-2X benchmark suite.  From that, you can know there are
-three memory access bursting phases in the workload and
-'FFT1DOnce.cons::prop.2()' looks responsible for the first and second hot
-phase, while 'Transpose()' is responsible for the last one.  Now the programmer
-can take a deep look in the functions and optimize the code (e.g., adding
-madvise() or mlock() calls).
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+Changes in v2:
+- Split recurring regex into multiple variables
+- Modify commit message
 
-    https://damonitor.github.io/temporal/damon_callstack.png
+ scripts/kernel-doc | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
 
-We used the approach for 'mlock()'-based optimization of a range of other
-realistic benchmark workloads.  The optimized versions achieved up to about
-2.5x performance improvement under memory pressure[1].
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 8b5bc7bf4bb8..68df17877384 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1201,12 +1201,23 @@ sub dump_union($$) {
+ sub dump_struct($$) {
+     my $x = shift;
+     my $file = shift;
++    my $decl_type;
++    my $members;
++    my $type = qr{struct|union};
++    # For capturing struct/union definition body, i.e. "{members*}qualifiers*"
++    my $definition_body = qr{\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*};
+ 
+-    if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
+-	my $decl_type = $1;
++    if ($x =~ /($type)\s+(\w+)\s*$definition_body/) {
++	$decl_type = $1;
+ 	$declaration_name = $2;
+-	my $members = $3;
++	$members = $3;
++    } elsif ($x =~ /typedef\s+($type)\s*$definition_body\s*(\w+)\s*;/) {
++	$decl_type = $1;
++	$declaration_name = $3;
++	$members = $2;
++    }
+ 
++    if ($members) {
+ 	if ($identifier ne $declaration_name) {
+ 	    print STDERR "${file}:$.: warning: expecting prototype for $decl_type $identifier. Prototype was for $decl_type $declaration_name instead\n";
+ 	    return;
+-- 
+2.17.1
 
-Note: I made the uppermost two figures in above 'fft' visualization (working
-set size and access frequency of each memory region by time) via the DAMON user
-space tool[2], while the lowermost one (callstack by time) is made using perf
-and speedscope[3].  We have no descent and totally automated tool for that yet
-(will be implemented soon, maybe under perf as a perf-script[4]), but you could
-reproduce that with below commands.
-
-    $ # run the workload
-    $ sudo damo record $(pidof <your_workload>) &
-    $ sudo perf record -g $(pidof <your_workload>)
-    $ # after your workload finished (you should also finish perf on your own)
-    $ damo report wss --sortby time --plot wss.pdf
-    $ damo report heats --heatmap freq.pdf
-    $ sudo perf script | speedscope -
-    $ # open wss.pdf and freq.pdf with our favorite pdf viewer
-
-[1] https://linuxplumbersconf.org/event/4/contributions/548/attachments/311/590/damon_ksummit19.pdf
-[2] https://lore.kernel.org/linux-mm/20201215115448.25633-8-sjpark@amazon.com/
-[3] https://www.speedscope.app/
-[4] https://lore.kernel.org/linux-mm/20210107120729.22328-1-sjpark@amazon.com/
