@@ -2,87 +2,175 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F35DC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 16:02:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00217C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 16:14:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D580164EDB
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 16:02:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B201764E6C
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 16:14:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233755AbhBXQBX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Feb 2021 11:01:23 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:59566 "EHLO mail.skyhub.de"
+        id S232363AbhBXQOJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Feb 2021 11:14:09 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57924 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236097AbhBXPrj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Feb 2021 10:47:39 -0500
-Received: from zn.tnic (p200300ec2f0d1800cad8e5da06da911c.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:1800:cad8:e5da:6da:911c])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D228F1EC059E;
-        Wed, 24 Feb 2021 16:46:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1614181587;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=36T8wR8RkREAtMyi7OwBQLF0p/1Nxb5cuq+n9mB82xI=;
-        b=DtOwMOR+E8erJ8gp/miNJrfzSv9FznjWXX562vpNmmpo257kD5q4vI7otYauDWfMEfqWFD
-        bFqjQHqBzU4OpgpvXoSLYc+oGGF3lAyLM3IJDFWh9m5UBt5ocfajJbknQ8aH8WERaNKO/A
-        b1f1GzORz3h18jWXzI5TGUZQkLZ9Jic=
-Date:   Wed, 24 Feb 2021 16:46:24 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v21 05/26] x86/fpu/xstate: Introduce CET MSR and XSAVES
- supervisor states
-Message-ID: <20210224154624.GD20344@zn.tnic>
-References: <20210217222730.15819-1-yu-cheng.yu@intel.com>
- <20210217222730.15819-6-yu-cheng.yu@intel.com>
- <20210224153457.GC20344@zn.tnic>
- <6e644e1d-7034-20f1-4850-336b143ba01c@intel.com>
+        id S234059AbhBXQFF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Feb 2021 11:05:05 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 77C4264E6C;
+        Wed, 24 Feb 2021 16:04:11 +0000 (UTC)
+Date:   Wed, 24 Feb 2021 16:04:08 +0000
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     Chen Zhou <chenzhou10@huawei.com>
+Cc:     mingo@redhat.com, tglx@linutronix.de, rppt@kernel.org,
+        dyoung@redhat.com, bhe@redhat.com, will@kernel.org,
+        nsaenzjulienne@suse.de, corbet@lwn.net, John.P.donnelly@oracle.com,
+        bhsharma@redhat.com, prabhakar.pkin@gmail.com, horms@verge.net.au,
+        robh+dt@kernel.org, arnd@arndb.de, james.morse@arm.com,
+        xiexiuqi@huawei.com, guohanjun@huawei.com, huawei.libin@huawei.com,
+        wangkefeng.wang@huawei.com, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kexec@lists.infradead.org
+Subject: Re: [PATCH v14 08/11] arm64: kdump: reimplement crashkernel=X
+Message-ID: <20210224160408.GC28965@arm.com>
+References: <20210130071025.65258-1-chenzhou10@huawei.com>
+ <20210130071025.65258-9-chenzhou10@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6e644e1d-7034-20f1-4850-336b143ba01c@intel.com>
+In-Reply-To: <20210130071025.65258-9-chenzhou10@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 24, 2021 at 07:42:05AM -0800, Yu, Yu-cheng wrote:
-> Ah, got it.  I will add some leading zeros.  Thanks!
+On Sat, Jan 30, 2021 at 03:10:22PM +0800, Chen Zhou wrote:
+> There are following issues in arm64 kdump:
+> 1. We use crashkernel=X to reserve crashkernel below 4G, which
+> will fail when there is no enough low memory.
+> 2. If reserving crashkernel above 4G, in this case, crash dump
+> kernel will boot failure because there is no low memory available
+> for allocation.
+> 
+> To solve these issues, change the behavior of crashkernel=X and
+> introduce crashkernel=X,[high,low]. crashkernel=X tries low allocation
+> in DMA zone, and fall back to high allocation if it fails.
+> We can also use "crashkernel=X,high" to select a region above DMA zone,
+> which also tries to allocate at least 256M in DMA zone automatically.
+> "crashkernel=Y,low" can be used to allocate specified size low memory.
+> 
+> Another minor change, there may be two regions reserved for crash
+> dump kernel, in order to distinct from the high region and make no
+> effect to the use of existing kexec-tools, rename the low region as
+> "Crash kernel (low)".
 
-And vertical alignment.
+I think we discussed this but I don't remember the conclusion. Is this
+only renamed conditionally so that we don't break current kexec-tools?
+
+IOW, assuming that the full crashkernel region is reserved below 4GB,
+does the "(low)" suffix still appear or it's only if a high region is
+additionally reserved?
+
+> diff --git a/arch/arm64/include/asm/kexec.h b/arch/arm64/include/asm/kexec.h
+> index 3f6ecae0bc68..f0caed0cb5e1 100644
+> --- a/arch/arm64/include/asm/kexec.h
+> +++ b/arch/arm64/include/asm/kexec.h
+> @@ -96,6 +96,10 @@ static inline void crash_prepare_suspend(void) {}
+>  static inline void crash_post_resume(void) {}
+>  #endif
+>  
+> +#ifdef CONFIG_KEXEC_CORE
+> +extern void __init reserve_crashkernel(void);
+> +#endif
+
+Why not have this in some generic header?
+
+> diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
+> index c18aacde8bb0..69c592c546de 100644
+> --- a/arch/arm64/kernel/setup.c
+> +++ b/arch/arm64/kernel/setup.c
+> @@ -238,7 +238,18 @@ static void __init request_standard_resources(void)
+>  		    kernel_data.end <= res->end)
+>  			request_resource(res, &kernel_data);
+>  #ifdef CONFIG_KEXEC_CORE
+> -		/* Userspace will find "Crash kernel" region in /proc/iomem. */
+> +		/*
+> +		 * Userspace will find "Crash kernel" or "Crash kernel (low)"
+> +		 * region in /proc/iomem.
+> +		 * In order to distinct from the high region and make no effect
+> +		 * to the use of existing kexec-tools, rename the low region as
+> +		 * "Crash kernel (low)".
+> +		 */
+> +		if (crashk_low_res.end && crashk_low_res.start >= res->start &&
+> +				crashk_low_res.end <= res->end) {
+> +			crashk_low_res.name = "Crash kernel (low)";
+> +			request_resource(res, &crashk_low_res);
+> +		}
+>  		if (crashk_res.end && crashk_res.start >= res->start &&
+>  		    crashk_res.end <= res->end)
+>  			request_resource(res, &crashk_res);
+
+My reading of the new generic reserve_crashkernel() is that
+crashk_low_res will only be populated if crask_res is above 4GB. If
+that's correct, I'm fine with the renaming here since current systems
+would not get a renamed low reservation (as long as they don't change
+the kernel cmdline).
+
+> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+> index 912f64f505f7..d20f5c444ebf 100644
+> --- a/arch/arm64/mm/init.c
+> +++ b/arch/arm64/mm/init.c
+> @@ -35,6 +35,7 @@
+>  #include <asm/fixmap.h>
+>  #include <asm/kasan.h>
+>  #include <asm/kernel-pgtable.h>
+> +#include <asm/kexec.h>
+>  #include <asm/memory.h>
+>  #include <asm/numa.h>
+>  #include <asm/sections.h>
+> @@ -61,66 +62,11 @@ EXPORT_SYMBOL(memstart_addr);
+>   */
+>  phys_addr_t arm64_dma_phys_limit __ro_after_init;
+>  
+> -#ifdef CONFIG_KEXEC_CORE
+> -/*
+> - * reserve_crashkernel() - reserves memory for crash kernel
+> - *
+> - * This function reserves memory area given in "crashkernel=" kernel command
+> - * line parameter. The memory reserved is used by dump capture kernel when
+> - * primary kernel is crashing.
+> - */
+> +#ifndef CONFIG_KEXEC_CORE
+>  static void __init reserve_crashkernel(void)
+>  {
+[...]
+>  }
+> +#endif
+
+Can we not have the dummy reserve_crashkernel() in the generic code as
+well and avoid the #ifndef here?
+
+>  #ifdef CONFIG_CRASH_DUMP
+>  static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
+> @@ -446,6 +392,14 @@ void __init bootmem_init(void)
+>  	 * reserved, so do it here.
+>  	 */
+>  	reserve_crashkernel();
+> +#ifdef CONFIG_KEXEC_CORE
+> +	/*
+> +	 * The low region is intended to be used for crash dump kernel devices,
+> +	 * just mark the low region as "nomap" simply.
+> +	 */
+> +	if (crashk_low_res.end)
+> +		memblock_mark_nomap(crashk_low_res.start, resource_size(&crashk_low_res));
+> +#endif
+
+Do we do something similar for crashk_res?
+
+Also, I can see we call crash_exclude_mem_range() only for crashk_res.
+Do we need to do this for crashk_low_res as well?
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Catalin
