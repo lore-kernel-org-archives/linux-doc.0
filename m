@@ -2,106 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CED43C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D990C433E9
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 886BE64EF1
+	by mail.kernel.org (Postfix) with ESMTP id B1B1164EFA
 	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231414AbhBXOl6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Feb 2021 09:41:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39966 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236431AbhBXNUm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 08:20:42 -0500
-Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99C97C06121E
-        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 05:18:45 -0800 (PST)
-Received: by mail-oo1-xc35.google.com with SMTP id l5so495364ooj.7
-        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 05:18:45 -0800 (PST)
+        id S232672AbhBXOmR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Feb 2021 09:42:17 -0500
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:23954 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232662AbhBXNcH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 08:32:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2QMkH64M8As4l+KSDTQdK+u4M5qrIN7PaZOHlR51wic=;
-        b=QmN0FsJYiPxmCNa2Tha1APhsUK8o/7UaZLHeTlgpjASwj19luMRyZbWjrLxbXnOWSq
-         QX3Widqm0McOoSM3HTXHxcQmOE55BROws/lIjp65Idz5F6TUFsQCip3AEZUVrDi4802W
-         a1DgYxiomsD1lW1EmR4QuPaF4FxC5XnzYOdkw7NhBJMriRHA9/xsyO/aNXKB4gX+Akwl
-         XZDq3lTBz1baGF2HPr2Zj2AtovQtHjgyajNkzw0upFslmhr/BtBhrG2tOL3fl4ZgMHp+
-         eyKWP2uXQHTgp4Q/AvKzKs1YWSL4aGdSzROSCh8GqzzcYz7IiSTyQg3cPlVOLhACAypy
-         MH3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2QMkH64M8As4l+KSDTQdK+u4M5qrIN7PaZOHlR51wic=;
-        b=AF732cZZp7cfHVUn2Tt2MVKeELbft8ZAn0JjIK6Ux0s6qcd9MR84gqId0+xMbAxzOY
-         Y0riIefvelfW4OfsZhyqFJ8s58wWXKKylzu2Cnb522jU6/YG2V2roPnj38Z9/V56bv1A
-         yGE4mTF1lqsHCutKKlsRGhf3yo564QdqpnnrvXWs6olNHdkJkM54LAnJAyoQAF+/eBme
-         6Qfyl0u1NHuYdSFZvOPZyJA5IvglmxoqXXQjYfwLRrGS5yI1PQfz2ZmizOFjM5PCJrqQ
-         5XNPanAUqS4OMYzrJDfmKrdGnFdwlZ6Xdqv3w2shUsUmZvRIa4E97XfXbKiI/3R3EyyD
-         S5xQ==
-X-Gm-Message-State: AOAM533mPhqWBOIVIULcm17P2hJMy0s7DJ0vkaPTP5V1qnD/px2oS52x
-        xgb+60xHrjYF1bzsYpP2bLAZQQ==
-X-Google-Smtp-Source: ABdhPJzZENaJ/w4FIbF/u86i6KIgI4boKlF8cypFxWZArBN+CEJ43ycBpfR7AD/CKXEZpGzOO2u34Q==
-X-Received: by 2002:a4a:c44:: with SMTP id n4mr23749084ooe.62.1614172725035;
-        Wed, 24 Feb 2021 05:18:45 -0800 (PST)
-Received: from winterfell.papolivre.org (winterfell.papolivre.org. [198.58.116.17])
-        by smtp.gmail.com with ESMTPSA id b21sm380149oot.34.2021.02.24.05.18.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 05:18:44 -0800 (PST)
-Received: from localhost (unknown [IPv6:2001:1284:f016:4cfd:27e0:441e:870:6787])
-        by winterfell.papolivre.org (Postfix) with ESMTPSA id 7BFBE1C2F43;
-        Wed, 24 Feb 2021 10:18:43 -0300 (-03)
-From:   Antonio Terceiro <antonio.terceiro@linaro.org>
-To:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jiong Wang <jiong.wang@netronome.com>
-Subject: [PATCH] Documentation: cgroup-v2: fix path to example BPF program
-Date:   Wed, 24 Feb 2021 10:16:31 -0300
-Message-Id: <20210224131631.349287-1-antonio.terceiro@linaro.org>
-X-Mailer: git-send-email 2.30.1
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1614173524; x=1645709524;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   mime-version;
+  bh=XgvjsOMBy0W2i8h9nrIbreu3UIpB0UjjUMV8skAtoL0=;
+  b=udqcbbUYxbyau3hJAdgoCmvFBAwbVD2mX1s8jzEPGg1/01bS+IUztZSt
+   3OCzRlW421Sa3gUPQRXaay2mkSRrBKmQjfGff3zmJ5kcYdhoGbVbKRa2K
+   SsO2Dy3CErN4C7LW3ovCDNoGX+Tqyy/xiptI6VdnFAPUfMB2/Ksw/V1VM
+   Y=;
+X-IronPort-AV: E=Sophos;i="5.81,203,1610409600"; 
+   d="scan'208";a="91700011"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 24 Feb 2021 13:30:46 +0000
+Received: from EX13D31EUA001.ant.amazon.com (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+        by email-inbound-relay-2a-d0be17ee.us-west-2.amazon.com (Postfix) with ESMTPS id 5DD37A1900;
+        Wed, 24 Feb 2021 13:30:43 +0000 (UTC)
+Received: from u3f2cd687b01c55.ant.amazon.com (10.43.160.207) by
+ EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 24 Feb 2021 13:30:26 +0000
+From:   SeongJae Park <sjpark@amazon.com>
+To:     SeongJae Park <sjpark@amazon.com>
+CC:     <akpm@linux-foundation.org>, <Jonathan.Cameron@Huawei.com>,
+        <aarcange@redhat.com>, <acme@kernel.org>,
+        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
+        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
+        <brendanhiggins@google.com>, <cai@lca.pw>,
+        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
+        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
+        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
+        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
+        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
+        <namhyung@kernel.org>, <peterz@infradead.org>,
+        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
+        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
+        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
+        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
+        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
+        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
+        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v24 00/14] Subject: Introduce Data Access MONitor (DAMON)
+Date:   Wed, 24 Feb 2021 14:30:05 +0100
+Message-ID: <20210224133005.9265-1-sjpark@amazon.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210204153150.15948-1-sjpark@amazon.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.43.160.207]
+X-ClientProxiedBy: EX13D23UWC001.ant.amazon.com (10.43.162.196) To
+ EX13D31EUA001.ant.amazon.com (10.43.165.15)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This file has been moved into the "progs" subdirectory in
-bd4aed0ee73ca873bef3cb3ec746dd796f03df28, together with all test BPF
-programs.
+On Thu, 4 Feb 2021 16:31:36 +0100 SeongJae Park <sjpark@amazon.com> wrote:
 
-Signed-off-by: Antonio Terceiro <antonio.terceiro@linaro.org>
-Cc: Tejun Heo <tj@kernel.org>
-Cc: Zefan Li <lizefan.x@bytedance.com>
-Cc: Johannes Weiner <hannes@cmpxchg.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Jiong Wang <jiong.wang@netronome.com>
----
- Documentation/admin-guide/cgroup-v2.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> From: SeongJae Park <sjpark@amazon.de>
+> 
+[...]
+> 
+> Introduction
+> ============
+> 
+> DAMON is a data access monitoring framework for the Linux kernel.  The core
+> mechanisms of DAMON called 'region based sampling' and 'adaptive regions
+> adjustment' (refer to 'mechanisms.rst' in the 11th patch of this patchset for
+> the detail) make it
+> 
+>  - accurate (The monitored information is useful for DRAM level memory
+>    management. It might not appropriate for Cache-level accuracy, though.),
+>  - light-weight (The monitoring overhead is low enough to be applied online
+>    while making no impact on the performance of the target workloads.), and
+>  - scalable (the upper-bound of the instrumentation overhead is controllable
+>    regardless of the size of target workloads.).
+> 
+> Using this framework, therefore, several memory management mechanisms such as
+> reclamation and THP can be optimized to aware real data access patterns.
+> Experimental access pattern aware memory management optimization works that
+> incurring high instrumentation overhead will be able to have another try.
+> 
+> Though DAMON is for kernel subsystems, it can be easily exposed to the user
+> space by writing a DAMON-wrapper kernel subsystem.  Then, user space users who
+> have some special workloads will be able to write personalized tools or
+> applications for deeper understanding and specialized optimizations of their
+> systems.
+> 
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index c513eafaddea..befe9425d028 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2094,7 +2094,7 @@ If the program returns 0, the attempt fails with -EPERM, otherwise
- it succeeds.
- 
- An example of BPF_CGROUP_DEVICE program may be found in the kernel
--source tree in the tools/testing/selftests/bpf/dev_cgroup.c file.
-+source tree in the tools/testing/selftests/bpf/progs/dev_cgroup.c file.
- 
- 
- RDMA
--- 
-2.30.1
+I realized I didn't introduce a good, intuitive example use case of DAMON for
+profiling so far, though DAMON is not for only profiling.  One straightforward
+and realistic usage of DAMON as a profiling tool would be recording the
+monitoring results with callstack and visualize those by timeline together.
 
+For example, below link shows that visualization for a realistic workload,
+namely 'fft' in SPLASH-2X benchmark suite.  From that, you can know there are
+three memory access bursting phases in the workload and
+'FFT1DOnce.cons::prop.2()' looks responsible for the first and second hot
+phase, while 'Transpose()' is responsible for the last one.  Now the programmer
+can take a deep look in the functions and optimize the code (e.g., adding
+madvise() or mlock() calls).
+
+    https://damonitor.github.io/temporal/damon_callstack.png
+
+We used the approach for 'mlock()'-based optimization of a range of other
+realistic benchmark workloads.  The optimized versions achieved up to about
+2.5x performance improvement under memory pressure[1].
+
+Note: I made the uppermost two figures in above 'fft' visualization (working
+set size and access frequency of each memory region by time) via the DAMON user
+space tool[2], while the lowermost one (callstack by time) is made using perf
+and speedscope[3].  We have no descent and totally automated tool for that yet
+(will be implemented soon, maybe under perf as a perf-script[4]), but you could
+reproduce that with below commands.
+
+    $ # run the workload
+    $ sudo damo record $(pidof <your_workload>) &
+    $ sudo perf record -g $(pidof <your_workload>)
+    $ # after your workload finished (you should also finish perf on your own)
+    $ damo report wss --sortby time --plot wss.pdf
+    $ damo report heats --heatmap freq.pdf
+    $ sudo perf script | speedscope -
+    $ # open wss.pdf and freq.pdf with our favorite pdf viewer
+
+[1] https://linuxplumbersconf.org/event/4/contributions/548/attachments/311/590/damon_ksummit19.pdf
+[2] https://lore.kernel.org/linux-mm/20201215115448.25633-8-sjpark@amazon.com/
+[3] https://www.speedscope.app/
+[4] https://lore.kernel.org/linux-mm/20210107120729.22328-1-sjpark@amazon.com/
