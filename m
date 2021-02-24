@@ -2,142 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41E5EC43217
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D60C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 16:01:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1798B64EC8
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2F1E64EDD
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 16:01:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235219AbhBXOoO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Feb 2021 09:44:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55890 "EHLO
+        id S232475AbhBXQBM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Feb 2021 11:01:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232866AbhBXOcj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 09:32:39 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75AA5C0617AA
-        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 06:29:41 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id p2so2717628edm.12
-        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 06:29:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Fe5/olgfveUojycGixqF6BS2+ojcBTB3YCOAzL6RO7Q=;
-        b=Jw7+yHHwZXDEOT/Z8WdeeO0m9MBaekSxUfGnRvfXGPRDXzXNvqccJ2ZPDlk6XTrEAs
-         AyBYvV5u9WmMQnuOjFEBMSzmyn7pwq0UVS8bIY1MRGlDlnj4ddwLiq0FOcAJkURoufQh
-         NiSUqIRLb5hfvqhuMVQOBVkzAKa7d/cYM7c50=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Fe5/olgfveUojycGixqF6BS2+ojcBTB3YCOAzL6RO7Q=;
-        b=SpdECCGPU+fxyIGdQDSkoOJlhufsgG0k98DyoWnYFJr5zVpEIczv/h9AjurLu0OK2j
-         uSf7THDiEl6Dv23julJfb/Pomlo2czXW2Ait62P1W9LHl/FFdD7fGrEFYcZ9L7dlnf1/
-         1MA5mQeajtdIF9me1AgQbXLymxkvLEApQm9Ig32WBN3wgX4gYCOOJrdwDF3QYwLYbAak
-         RwZ/7g2CDeT9DkRvKRdIoCI8B8FdECW+wT5xdGXBIZ+ZDglN+E172ufjBHwoSI6rIM41
-         gEoVe1EzumkwzoVNNBAqMjndSg4ntcgXPC4w7Zyi7uBVFh63mCL0fE3plgGLo4Me6DAv
-         zdIw==
-X-Gm-Message-State: AOAM532tjHJdt0j4yPre3+5VbOUb0VnFEKclQ2oppstTmIAp6bJZE/QY
-        9UXATOIjYjZ4GbOgQ/6mQCroCw==
-X-Google-Smtp-Source: ABdhPJypy0SKjnQgBwkVrlOlDrnYTdrK5GRRpGBD/91eIBS2VhxcB1efmoMTDHGBz4l1QW+Yo9tzpw==
-X-Received: by 2002:a05:6402:13ce:: with SMTP id a14mr1435555edx.365.1614176980283;
-        Wed, 24 Feb 2021 06:29:40 -0800 (PST)
-Received: from prevas-ravi.prevas.se ([80.208.71.141])
-        by smtp.gmail.com with ESMTPSA id f1sm1493651ejt.21.2021.02.24.06.29.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 06:29:40 -0800 (PST)
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-To:     linux-kernel@vger.kernel.org
-Cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        with ESMTP id S231274AbhBXPgI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 10:36:08 -0500
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21330C061786;
+        Wed, 24 Feb 2021 07:35:01 -0800 (PST)
+Received: from zn.tnic (p200300ec2f0d1800cad8e5da06da911c.dip0.t-ipconnect.de [IPv6:2003:ec:2f0d:1800:cad8:e5da:6da:911c])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id E7B071EC059E;
+        Wed, 24 Feb 2021 16:34:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1614180899;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=/uJb+CugCxZSQUf2FuIWyTbep6Ia1H3jI84SFaxyhw8=;
+        b=g15qgOUyEATYclyqm0SXIr/lZQRAmKe+KRgwywS0gTeOvIMNDng/GQNY4CFW5Kl1dKILle
+        oIoqGn6Qq6iSko7NfmUeUntU7oa+PCUqiEZAMKevWNOkWbzkHYJhra8M1Uuli6KS4LRXON
+        +KeHJcSC6fnFYw2qKrTefLylBVr+GvE=
+Date:   Wed, 24 Feb 2021 16:34:57 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Peter Zijlstra <peterz@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: [PATCH/RFC 2/2] modules: add CONFIG_MODPROBE_PATH
-Date:   Wed, 24 Feb 2021 15:29:09 +0100
-Message-Id: <20210224142909.2092914-3-linux@rasmusvillemoes.dk>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210224142909.2092914-1-linux@rasmusvillemoes.dk>
-References: <20210224142909.2092914-1-linux@rasmusvillemoes.dk>
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v21 05/26] x86/fpu/xstate: Introduce CET MSR and XSAVES
+ supervisor states
+Message-ID: <20210224153457.GC20344@zn.tnic>
+References: <20210217222730.15819-1-yu-cheng.yu@intel.com>
+ <20210217222730.15819-6-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210217222730.15819-6-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Allow the developer to specifiy the initial value of the
-modprobe_path[] string. This can be used to set it to the empty string
-initially, thus effectively disabling request_module() during early
-boot until userspace writes a new value via the
-/proc/sys/kernel/modprobe interface. [1]
+On Wed, Feb 17, 2021 at 02:27:09PM -0800, Yu-cheng Yu wrote:
+> diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+> index 546d6ecf0a35..fae6b3ea1f6d 100644
+> --- a/arch/x86/include/asm/msr-index.h
+> +++ b/arch/x86/include/asm/msr-index.h
+> @@ -933,4 +933,23 @@
+>  #define MSR_VM_IGNNE                    0xc0010115
+>  #define MSR_VM_HSAVE_PA                 0xc0010117
+>  
+> +/* Control-flow Enforcement Technology MSRs */
+> +#define MSR_IA32_U_CET		0x6a0 /* user mode cet setting */
+> +#define MSR_IA32_S_CET		0x6a2 /* kernel mode cet setting */
+> +#define CET_SHSTK_EN		BIT_ULL(0)
+> +#define CET_WRSS_EN		BIT_ULL(1)
+> +#define CET_ENDBR_EN		BIT_ULL(2)
+> +#define CET_LEG_IW_EN		BIT_ULL(3)
+> +#define CET_NO_TRACK_EN		BIT_ULL(4)
+> +#define CET_SUPPRESS_DISABLE	BIT_ULL(5)
+> +#define CET_RESERVED		(BIT_ULL(6) | BIT_ULL(7) | BIT_ULL(8) | BIT_ULL(9))
+> +#define CET_SUPPRESS		BIT_ULL(10)
+> +#define CET_WAIT_ENDBR		BIT_ULL(11)
+> +
+> +#define MSR_IA32_PL0_SSP	0x6a4 /* kernel shadow stack pointer */
+> +#define MSR_IA32_PL1_SSP	0x6a5 /* ring-1 shadow stack pointer */
+> +#define MSR_IA32_PL2_SSP	0x6a6 /* ring-2 shadow stack pointer */
+> +#define MSR_IA32_PL3_SSP	0x6a7 /* user shadow stack pointer */
+> +#define MSR_IA32_INT_SSP_TAB	0x6a8 /* exception shadow stack table */
 
-When building a custom kernel (often for an embedded target), it's
-normal to build everything into the kernel that is needed for booting,
-and indeed the initramfs often contains no modules at all, so every
-such request_module() done before userspace init has mounted the real
-rootfs is a waste of time.
+When you look at the formatting in that file and the MSR numbers in it, what
+stops you from formatting your addition the same way?
 
-This is particularly useful when combined with the previous patch,
-which allowed the initramfs to be unpacked asynchronously - for that
-to work, it had to make any usermodehelper call wait for the unpacking
-to finish before attempting to invoke the userspace helper. By
-eliminating all such (known-to-be-futile) calls of usermodehelper, the
-initramfs unpacking and the {device,late}_initcalls can proceed in
-parallel for much longer.
-
-[1] __request_module() already has an early -ENOENT return when
-modprobe_path is the empty string.
-
-Signed-off-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
----
- init/Kconfig  | 12 ++++++++++++
- kernel/kmod.c |  2 +-
- 2 files changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/init/Kconfig b/init/Kconfig
-index ba8bd5256980..e3f61e15445d 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -2272,6 +2272,18 @@ config MODULE_ALLOW_MISSING_NAMESPACE_IMPORTS
- 
- 	  If unsure, say N.
- 
-+config MODPROBE_PATH
-+	string "Path to modprobe binary"
-+	default "/sbin/modprobe"
-+	help
-+	  When kernel code requests a module, it does so by calling
-+	  the "modprobe" userspace utility. This option allows you to
-+	  set the path where that binary is found. This can be changed
-+	  at runtime via the sysctl file
-+	  /proc/sys/kernel/modprobe. Setting this to the empty string
-+	  removes the kernel's ability to request modules (but
-+	  userspace can still load modules explicitly).
-+
- config TRIM_UNUSED_KSYMS
- 	bool "Trim unused exported kernel symbols"
- 	depends on BROKEN
-diff --git a/kernel/kmod.c b/kernel/kmod.c
-index 3cd075ce2a1e..b717134ebe17 100644
---- a/kernel/kmod.c
-+++ b/kernel/kmod.c
-@@ -58,7 +58,7 @@ static DECLARE_WAIT_QUEUE_HEAD(kmod_wq);
- /*
- 	modprobe_path is set via /proc/sys.
- */
--char modprobe_path[KMOD_PATH_LEN] = "/sbin/modprobe";
-+char modprobe_path[KMOD_PATH_LEN] = CONFIG_MODPROBE_PATH;
- 
- static void free_modprobe_argv(struct subprocess_info *info)
- {
 -- 
-2.29.2
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
