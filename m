@@ -2,124 +2,425 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 562EEC4332D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7081DC433E6
 	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D3B964EFA
+	by mail.kernel.org (Postfix) with ESMTP id 4CBE464E7A
 	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233502AbhBXOmo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Feb 2021 09:42:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43012 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236991AbhBXNcZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 08:32:25 -0500
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 005B5C06178C;
-        Wed, 24 Feb 2021 05:30:10 -0800 (PST)
-Received: by mail-pl1-x62f.google.com with SMTP id w18so1184568plc.12;
-        Wed, 24 Feb 2021 05:30:10 -0800 (PST)
+        id S234165AbhBXOnP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Feb 2021 09:43:15 -0500
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:43711 "EHLO
+        smtp-fw-6001.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236769AbhBXNqi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 08:46:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=qfRfzFAwrIoV1GXQkJdn6bloQGW/Oh86EcITr8l8t7o=;
-        b=SZoAHANGnhmCzJHG1dCPjNAO/11Ivn7BKBvM+XcDvW+Cc2H5L+epyrPF+ywHodcFyV
-         +vKe5obmeeRtNmM/z4AekygbVJU7JW8hQsTuG/9DHJSQjXi9aV0DukKRjQwwbH7CiQk+
-         afpA0OzYsOGeYlF4/QzCj2SAAv56Ux6QRAM6tIEShVwD+v1WjM2kW/1wgKjpy6ebXDMo
-         U8igCoWCGv+luVMNG9zdre/woqzpuh88dHoUpG3qHirNr/GGngN+F59zyitkRyFrQpRP
-         BN/9qwOdBGFgkgC43FJxUR9k0yG1BWXVtyhvhJqoVOi08QGQFbOvpm/MOSFyD4W+Ebij
-         uh1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=qfRfzFAwrIoV1GXQkJdn6bloQGW/Oh86EcITr8l8t7o=;
-        b=PLJ23WZPb82UqxCGMuBl5CA6/Cj6uaIv+OY4VdcMSk3mW5f5az2f/XkGP/F264sJW4
-         5USb/Hcs8PSDasLCwQToQtAwrsM0Iy0I/I6bX3igL+xBOkhCpjc5ZDpqbBt+UflnSlF+
-         iSkoQ/FIGIQGK2Pm5hGxhQ5bUATZffZD0UXm3K1IxRXJNA5e8jTtJT6uCA3ONAEzRnVT
-         QgUdkQQClSHe7YUqqXH4xTMunJl19Tg/UPJ5OL5AqifXbmge3KGgeDrGEhIkKMW7mq0w
-         wI8N2yATq52FCVJU9rfUq2SvEHzfgJAYbGDbGQSuOkuR1rFT4pO0XyQ7UAaOup45/6Y8
-         a/Uw==
-X-Gm-Message-State: AOAM530TvugkR7IN64E2fuDMUH5SEEhtpK2MxzeRA6tglr93YFsuvJcR
-        inYCVRCQWDZem/EmjZmQQROwZvGS73uR7B4m
-X-Google-Smtp-Source: ABdhPJxIPjwG9lM4N5J/rrkK6hFq/627Aqe0h8jJPpIfPt26lVSWCEX1mKKxaUKytjrY5nrJyS2xbw==
-X-Received: by 2002:a17:902:9f8b:b029:e0:a90:b62 with SMTP id g11-20020a1709029f8bb02900e00a900b62mr32736085plq.70.1614173410483;
-        Wed, 24 Feb 2021 05:30:10 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:600d:a089:5c4:262b:be36:c819])
-        by smtp.googlemail.com with ESMTPSA id p11sm2809756pjb.31.2021.02.24.05.30.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 05:30:10 -0800 (PST)
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     corbet@lwn.net
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [RFC v2] scripts: kernel-doc: fix typedef support for struct/union parsing
-Date:   Wed, 24 Feb 2021 19:00:02 +0530
-Message-Id: <20210224133002.13503-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <875z2jlr2j.fsf@meer.lwn.net>
-References: <875z2jlr2j.fsf@meer.lwn.net>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1614174390; x=1645710390;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=qkxlZHYSuW0uj3CmrGOCQGXxaMSVLtWvtFUpmQxIi2g=;
+  b=Vc0g2dfki9HRr2MiCBozSW6FZyReB1viHNW7jYHee0tk5+TmJMUHKhsv
+   3jR66xMzh4HbTCU8ivI+GrFuKCCxEHG2P1DYItP80L9z2DghHPWTh3mpn
+   Ggl7xrBakoikC0LGj+aR9kFCIPzdTBQixF1iniV0VCsw4i9VFsjwIR38A
+   M=;
+X-IronPort-AV: E=Sophos;i="5.81,203,1610409600"; 
+   d="scan'208";a="91706228"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO email-inbound-relay-1a-715bee71.us-east-1.amazon.com) ([10.43.8.2])
+  by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP; 24 Feb 2021 13:45:32 +0000
+Received: from EX13MTAUWC001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+        by email-inbound-relay-1a-715bee71.us-east-1.amazon.com (Postfix) with ESMTPS id 2623DA2E61;
+        Wed, 24 Feb 2021 13:45:14 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 24 Feb 2021 13:45:13 +0000
+Received: from Alexanders-MacBook-Air.local (10.43.161.39) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 24 Feb 2021 13:45:05 +0000
+Subject: Re: [PATCH v7 1/2] drivers/misc: sysgenid: add system generation id
+ driver
+To:     "Michael S. Tsirkin" <mst@redhat.com>,
+        Adrian Catangiu <acatan@amazon.com>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>,
+        <linux-s390@vger.kernel.org>, <gregkh@linuxfoundation.org>,
+        <rdunlap@infradead.org>, <arnd@arndb.de>, <ebiederm@xmission.com>,
+        <rppt@kernel.org>, <0x7f454c46@gmail.com>,
+        <borntraeger@de.ibm.com>, <Jason@zx2c4.com>, <jannh@google.com>,
+        <w@1wt.eu>, <colmmacc@amazon.com>, <luto@kernel.org>,
+        <tytso@mit.edu>, <ebiggers@kernel.org>, <dwmw@amazon.co.uk>,
+        <bonzini@gnu.org>, <sblbir@amazon.com>, <raduweis@amazon.com>,
+        <corbet@lwn.net>, <mhocko@kernel.org>, <rafael@kernel.org>,
+        <pavel@ucw.cz>, <mpe@ellerman.id.au>, <areber@redhat.com>,
+        <ovzxemul@gmail.com>, <avagin@gmail.com>,
+        <ptikhomirov@virtuozzo.com>, <gil@azul.com>, <asmehra@redhat.com>,
+        <dgunigun@redhat.com>, <vijaysun@ca.ibm.com>, <oridgar@gmail.com>,
+        <ghammer@redhat.com>
+References: <1614156452-17311-1-git-send-email-acatan@amazon.com>
+ <1614156452-17311-2-git-send-email-acatan@amazon.com>
+ <20210224040516-mutt-send-email-mst@kernel.org>
+From:   Alexander Graf <graf@amazon.com>
+Message-ID: <d63146a9-a3f8-14ea-2b16-cb5b3fe7aecf@amazon.com>
+Date:   Wed, 24 Feb 2021 14:45:03 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <20210224040516-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+X-Originating-IP: [10.43.161.39]
+X-ClientProxiedBy: EX13D22UWC003.ant.amazon.com (10.43.162.250) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Content-Type: text/plain; charset="windows-1252"; format="flowed"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, there are 447 files in the kernel tree, which use 'typedef
-struct/union' syntax for defining some struct/union. In total, there
-are ~1290 such occurrences in the kernel tree.
 
-However, kernel-doc does not support it currently, and running
-scripts/kernel-doc -none on include/linux/zstd.h emits:
-"error: Cannot parse struct or union!"
+On 24.02.21 10:19, Michael S. Tsirkin wrote:
+> =
 
-Add support for parsing struct/union following this syntax.
+> On Wed, Feb 24, 2021 at 10:47:31AM +0200, Adrian Catangiu wrote:
+>> - Background and problem
+>>
+>> The System Generation ID feature is required in virtualized or
+>> containerized environments by applications that work with local copies
+>> or caches of world-unique data such as random values, uuids,
+>> monotonically increasing counters, etc.
+>> Such applications can be negatively affected by VM or container
+>> snapshotting when the VM or container is either cloned or returned to
+>> an earlier point in time.
+>>
+>> Furthermore, simply finding out about a system generation change is
+>> only the starting point of a process to renew internal states of
+>> possibly multiple applications across the system. This process requires
+>> a standard interface that applications can rely on and through which
+>> orchestration can be easily done.
+>>
+>> - Solution
+>>
+>> The System Generation ID is meant to help in these scenarios by
+>> providing a monotonically increasing u32 counter that changes each time
+>> the VM or container is restored from a snapshot.
+>>
+>> The `sysgenid` driver exposes a monotonic incremental System Generation
+>> u32 counter via a char-dev filesystem interface accessible
+>> through `/dev/sysgenid`. It provides synchronous and asynchronous SysGen
+>> counter update notifications, as well as counter retrieval and
+>> confirmation mechanisms.
+>> The counter starts from zero when the driver is initialized and
+>> monotonically increments every time the system generation changes.
+>>
+>> Userspace applications or libraries can (a)synchronously consume the
+>> system generation counter through the provided filesystem interface, to
+>> make any necessary internal adjustments following a system generation
+>> update.
+>>
+>> The provided filesystem interface operations can be used to build a
+>> system level safe workflow that guest software can follow to protect
+>> itself from negative system snapshot effects.
+>>
+>> The `sysgenid` driver exports the `void sysgenid_bump_generation()`
+>> symbol which can be used by backend drivers to drive system generation
+>> changes based on hardware events.
+>> System generation changes can also be driven by userspace software
+>> through a dedicated driver ioctl.
+>>
+>> **Please note**, SysGenID alone does not guarantee complete snapshot
+>> safety to applications using it. A certain workflow needs to be
+>> followed at the system level, in order to make the system
+>> snapshot-resilient. Please see the "Snapshot Safety Prerequisites"
+>> section in the included documentation.
+>>
+>> Signed-off-by: Adrian Catangiu <acatan@amazon.com>
+>> ---
+>>   Documentation/misc-devices/sysgenid.rst            | 229 +++++++++++++=
+++
+>>   Documentation/userspace-api/ioctl/ioctl-number.rst |   1 +
+>>   MAINTAINERS                                        |   8 +
+>>   drivers/misc/Kconfig                               |  15 +
+>>   drivers/misc/Makefile                              |   1 +
+>>   drivers/misc/sysgenid.c                            | 322 +++++++++++++=
+++++++++
+>>   include/uapi/linux/sysgenid.h                      |  18 ++
+>>   7 files changed, 594 insertions(+)
+>>   create mode 100644 Documentation/misc-devices/sysgenid.rst
+>>   create mode 100644 drivers/misc/sysgenid.c
+>>   create mode 100644 include/uapi/linux/sysgenid.h
+>>
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
-Changes in v2:
-- Split recurring regex into multiple variables
-- Modify commit message
+[...]
 
- scripts/kernel-doc | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+>> +``ioctl()``:
+>> +  The driver also adds support for waiting on open file descriptors
+>> +  that haven't acknowledged a generation counter update, as well as a
+>> +  mechanism for userspace to *trigger* a generation update:
+>> +
+>> +  - SYSGENID_SET_WATCHER_TRACKING: takes a bool argument to set tracking
+>> +    status for current file descriptor. When watcher tracking is
+>> +    enabled, the driver tracks this file descriptor as an independent
+>> +    *watcher*. The driver keeps accounting of how many watchers have
+>> +    confirmed the latest Sys-Gen-Id counter and how many of them are
+>> +    *outdated*; an outdated watcher is a *tracked* open file descriptor
+>> +    that has lived through a Sys-Gen-Id change but has not yet confirmed
+>> +    the new generation counter.
+>> +    Software that wants to be waited on by the system while it adjusts
+>> +    to generation changes, should turn tracking on. The sysgenid driver
+>> +    then keeps track of it and can block system-level adjustment process
+>> +    until the software has finished adjusting and confirmed it through a
+>> +    ``write()``.
+>> +    Tracking is disabled by default and file descriptors need to
+>> +    explicitly opt-in using this IOCTL.
+>> +  - SYSGENID_WAIT_WATCHERS: blocks until there are no more *outdated*
+>> +    tracked watchers or, if a ``timeout`` argument is provided, until
+>> +    the timeout expires.
+>> +    If the current caller is *outdated* or a generation change happens
+>> +    while waiting (thus making current caller *outdated*), the ioctl
+>> +    returns ``-EINTR`` to signal the user to handle event and retry.
+>> +  - SYSGENID_TRIGGER_GEN_UPDATE: triggers a generation counter incremen=
+t.
+>> +    It takes a ``minimum-generation`` argument which represents the
+>> +    minimum value the generation counter will be set to. For example if
+>> +    current generation is ``5`` and ``SYSGENID_TRIGGER_GEN_UPDATE(8)``
+>> +    is called, the generation counter will increment to ``8``.
+> =
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 8b5bc7bf4bb8..68df17877384 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1201,12 +1201,23 @@ sub dump_union($$) {
- sub dump_struct($$) {
-     my $x = shift;
-     my $file = shift;
-+    my $decl_type;
-+    my $members;
-+    my $type = qr{struct|union};
-+    # For capturing struct/union definition body, i.e. "{members*}qualifiers*"
-+    my $definition_body = qr{\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*};
- 
--    if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
--	my $decl_type = $1;
-+    if ($x =~ /($type)\s+(\w+)\s*$definition_body/) {
-+	$decl_type = $1;
- 	$declaration_name = $2;
--	my $members = $3;
-+	$members = $3;
-+    } elsif ($x =~ /typedef\s+($type)\s*$definition_body\s*(\w+)\s*;/) {
-+	$decl_type = $1;
-+	$declaration_name = $3;
-+	$members = $2;
-+    }
- 
-+    if ($members) {
- 	if ($identifier ne $declaration_name) {
- 	    print STDERR "${file}:$.: warning: expecting prototype for $decl_type $identifier. Prototype was for $decl_type $declaration_name instead\n";
- 	    return;
--- 
-2.17.1
+> And what if it's 9?
+
+Then it becomes 10. The hint only tells you what the smallest version =
+
+the system is matching against is.
+
+The only thing I have a slight concern over here is an overflow. What if =
+
+my generation id is 0x7fffffff? For starters, it'd probably be better to =
+
+treat the counter as ulong so it matches the atomic_t, no?
+
+But then you would still have the same situation, just with a wrap to 0 =
+
+instead of a wrap to negative. I guess the answer is "users of this API =
+
+will not get a guarantee that the counters are monotonically increasing. =
+
+They have to check for !=3D instead of < or >".
+
+> =
+
+>> +    This IOCTL can only be used by processes with CAP_CHECKPOINT_RESTORE
+>> +    or CAP_SYS_ADMIN capabilities.
+>> +
+>> +``mmap()``:
+>> +  The driver supports ``PROT_READ, MAP_SHARED`` mmaps of a single page
+>> +  in size. The first 4 bytes of the mapped page will contain an
+>> +  up-to-date u32 copy of the system generation counter.
+>> +  The mapped memory can be used as a low-latency generation counter
+>> +  probe mechanism in critical sections.
+>> +  The mmap() interface is targeted at libraries or code that needs to
+>> +  check for generation changes in-line, where an event loop is not
+>> +  available or read()/write() syscalls are too expensive.
+>> +  In such cases, logic can be added in-line with the sensitive code to
+>> +  check and trigger on-demand/just-in-time readjustments when changes
+>> +  are detected on the memory mapped generation counter.
+>> +  Users of this interface that plan to lazily adjust should not enable
+>> +  watcher tracking, since waiting on them doesn't make sense.
+>> +
+>> +``close()``:
+>> +  Removes the file descriptor as a system generation counter *watcher*.
+>> +
+>> +Snapshot Safety Prerequisites
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+>> +
+>> +If VM, container or other system-level snapshots happen asynchronously,
+>> +at arbitrary times during an active workload there is no practical way
+>> +to ensure that in-flight local copies or caches of world-unique data
+>> +such as random values, secrets, UUIDs, etc are properly scrubbed and
+>> +regenerated.
+>> +The challenge stems from the fact that the categorization of data as
+>> +snapshot-sensitive is only known to the software working with it, and
+>> +this software has no logical control over the moment in time when an
+>> +external system snapshot occurs.
+>> +
+>> +Let's take an OpenSSL session token for example. Even if the library
+>> +code is made 100% snapshot-safe, meaning the library guarantees that
+>> +the session token is unique (any snapshot that happened during the
+>> +library call did not duplicate or leak the token), the token is still
+>> +vulnerable to snapshot events while it transits the various layers of
+>> +the library caller, then the various layers of the OS before leaving
+>> +the system.
+>> +
+>> +To catch a secret while it's in-flight, we'd have to validate system
+>> +generation at every layer, every step of the way. Even if that would
+>> +be deemed the right solution, it would be a long road and a whole
+>> +universe to patch before we get there.
+>> +
+>> +Bottom line is we don't have a way to track all of these in-flight
+>> +secrets and dynamically scrub them from existence with snapshot
+>> +events happening arbitrarily.
+> =
+
+> Above should try harder to explan what are the things that need to be
+> scrubbed and why. For example, I personally don't really know what is
+> the OpenSSL session token example and what makes it vulnerable. I guess
+> snapshots can attack each other?
+> =
+
+> =
+
+> =
+
+> =
+
+> Here's a simple example of a workflow that submits transactions
+> to a database and wants to avoid duplicate transactions.
+> This does not require overseer magic. It does however require
+> a correct genid from hypervisor, so no mmap tricks work.
+> =
+
+> =
+
+> =
+
+>          int genid, oldgenid;
+>          read(&genid);
+> start:
+>          oldgenid =3D genid;
+>          transid =3D submit transaction
+>          read(&genid);
+>          if (genid !=3D oldgenid) {
+>                          revert transaction (transid);
+>                          goto start:
+>          }
+
+I'm not sure I fully follow. For starters, if this is a VM local =
+
+database, I don't think you'd care about the genid. If it's a remote =
+
+database, your connection would get dropped already at the point when =
+
+you clone/resume, because TCP and your connection state machine will get =
+
+really confused when you suddenly have a different IP address or two =
+
+consumers of the same stream :).
+
+But for the sake of the argument, let's assume you can have a =
+
+connectionless database connection that maintains its own connection =
+
+uniqueness logic. That database connector would need to understand how =
+
+to abort the connection (and thus the transaction!) when the generation =
+
+changes. And that's logic you would do with the read/write/notify =
+
+mechanism. So your main loop would check for reads on the genid fd and =
+
+after sending a connection termination, notify the overlord that it's =
+
+safe to use the VM now.
+
+The OpenSSL case (with mmap) is for libraries that are stateless and can =
+
+not guarantee that they receive a genid notification event timely.
+
+Since you asked, this is mainly important for the PRNG. Imagine an https =
+
+server. You create a snapshot. You resume from that snapshot. OpenSSL is =
+
+fully initialized with a user space PRNG randomness pool that it =
+
+considers safe to consume. However, that means your first connection =
+
+after resume will be 100% predictable randomness wise.
+
+The mmap mechanism allows the PRNG to reseed after a genid change. =
+
+Because we don't have an event mechanism for this code path, that can =
+
+happen minutes after the resume. But that's ok, we "just" have to ensure =
+
+that nobody is consuming secret data at the point of the snapshot.
+
+> =
+
+> =
+
+> =
+
+> =
+
+> =
+
+> =
+
+>> +Simplifyng assumption - safety prerequisite
+>> +-------------------------------------------
+>> +
+>> +**Control the snapshot flow**, disallow snapshots coming at arbitrary
+>> +moments in the workload lifetime.
+>> +
+>> +Use a system-level overseer entity that quiesces the system before
+>> +snapshot, and post-snapshot-resume oversees that software components
+>> +have readjusted to new environment, to the new generation. Only after,
+>> +will the overseer un-quiesce the system and allow active workloads.
+>> +
+>> +Software components can choose whether they want to be tracked and
+>> +waited on by the overseer by using the ``SYSGENID_SET_WATCHER_TRACKING``
+>> +IOCTL.
+>> +
+>> +The sysgenid framework standardizes the API for system software to
+>> +find out about needing to readjust and at the same time provides a
+>> +mechanism for the overseer entity to wait for everyone to be done, the
+>> +system to have readjusted, so it can un-quiesce.
+>> +
+>> +Example snapshot-safe workflow
+>> +------------------------------
+>> +
+>> +1) Before taking a snapshot, quiesce the VM/container/system. Exactly
+>> +   how this is achieved is very workload-specific, but the general
+>> +   description is to get all software to an expected state where their
+>> +   event loops dry up and they are effectively quiesced.
+> =
+
+> If you have ability to do this by communicating with
+> all processes e.g. through a unix domain socket,
+> why do you need the rest of the stuff in the kernel?
+> Quescing is a harder problem than waking up.
+
+That depends. Think of a typical VM workload. Let's take the web server =
+
+example again. You can preboot the full VM and snapshot it as is. As =
+
+long as you don't allow any incoming connections, you can guarantee that =
+
+the system is "quiesced" well enough for the snapshot.
+
+This is really what this bullet point is about. The point is that you're =
+
+not consuming randomness you can't reseed asynchronously (see the above =
+
+OpenSSL PRNG example).
+
+
+Alex
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
 
