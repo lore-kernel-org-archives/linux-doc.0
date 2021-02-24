@@ -6,21 +6,21 @@ X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5790C43331
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6C4C432C3
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 937C964E7A
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3D92464E7A
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234915AbhBXOnn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Feb 2021 09:43:43 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55242 "EHLO mail.kernel.org"
+        id S235410AbhBXOoT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Feb 2021 09:44:19 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39394 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235653AbhBXOVf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Feb 2021 09:21:35 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C928564ED6;
-        Wed, 24 Feb 2021 14:19:44 +0000 (UTC)
-Date:   Wed, 24 Feb 2021 14:19:42 +0000
+        id S236819AbhBXOgj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Feb 2021 09:36:39 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A0882614A5;
+        Wed, 24 Feb 2021 14:35:50 +0000 (UTC)
+Date:   Wed, 24 Feb 2021 14:35:48 +0000
 From:   Catalin Marinas <catalin.marinas@arm.com>
 To:     Chen Zhou <chenzhou10@huawei.com>
 Cc:     mingo@redhat.com, tglx@linutronix.de, rppt@kernel.org,
@@ -32,42 +32,38 @@ Cc:     mingo@redhat.com, tglx@linutronix.de, rppt@kernel.org,
         wangkefeng.wang@huawei.com, linux-doc@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         kexec@lists.infradead.org
-Subject: Re: [PATCH v14 01/11] x86: kdump: replace the hard-coded alignment
- with macro CRASH_ALIGN
-Message-ID: <20210224141939.GA28965@arm.com>
+Subject: Re: [PATCH v14 02/11] x86: kdump: make the lower bound of crash
+ kernel reservation consistent
+Message-ID: <20210224143547.GB28965@arm.com>
 References: <20210130071025.65258-1-chenzhou10@huawei.com>
- <20210130071025.65258-2-chenzhou10@huawei.com>
+ <20210130071025.65258-3-chenzhou10@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210130071025.65258-2-chenzhou10@huawei.com>
+In-Reply-To: <20210130071025.65258-3-chenzhou10@huawei.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Jan 30, 2021 at 03:10:15PM +0800, Chen Zhou wrote:
-> Move CRASH_ALIGN to header asm/kexec.h for later use. Besides, the
-> alignment of crash kernel regions in x86 is 16M(CRASH_ALIGN), but
-> function reserve_crashkernel() also used 1M alignment. So just
-> replace hard-coded alignment 1M with macro CRASH_ALIGN.
-[...]
-> @@ -510,7 +507,7 @@ static void __init reserve_crashkernel(void)
->  	} else {
->  		unsigned long long start;
+On Sat, Jan 30, 2021 at 03:10:16PM +0800, Chen Zhou wrote:
+> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> index da769845597d..27470479e4a3 100644
+> --- a/arch/x86/kernel/setup.c
+> +++ b/arch/x86/kernel/setup.c
+> @@ -439,7 +439,8 @@ static int __init reserve_crashkernel_low(void)
+>  			return 0;
+>  	}
 >  
-> -		start = memblock_phys_alloc_range(crash_size, SZ_1M, crash_base,
-> +		start = memblock_phys_alloc_range(crash_size, CRASH_ALIGN, crash_base,
->  						  crash_base + crash_size);
->  		if (start != crash_base) {
->  			pr_info("crashkernel reservation failed - memory is in use.\n");
+> -	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, 0, CRASH_ADDR_LOW_MAX);
+> +	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, CRASH_ALIGN,
+> +			CRASH_ADDR_LOW_MAX);
+>  	if (!low_base) {
+>  		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+>  		       (unsigned long)(low_size >> 20));
 
-There is a small functional change here for x86. Prior to this patch,
-crash_base passed by the user on the command line is allowed to be 1MB
-aligned. With this patch, such reservation will fail.
-
-Is the current behaviour a bug in the current x86 code or it does allow
-1MB-aligned reservations?
+Is there any reason why the lower bound can't be 0 in all low cases
+here? (Sorry if it's been already discussed, I lost track)
 
 -- 
 Catalin
