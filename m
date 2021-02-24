@@ -2,661 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DEDAC433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 23:38:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14BE2C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 01:55:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D02A64FBF
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Feb 2021 23:38:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D177D64DB1
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 01:55:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232892AbhBWXhX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 18:37:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60988 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232787AbhBWXcA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 18:32:00 -0500
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7A32C06178B
-        for <linux-doc@vger.kernel.org>; Tue, 23 Feb 2021 15:30:34 -0800 (PST)
-Received: by mail-qv1-xf30.google.com with SMTP id dr7so214133qvb.1
-        for <linux-doc@vger.kernel.org>; Tue, 23 Feb 2021 15:30:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kLDoGgiKBnh3s28kzBs894Jkp2BR4ldzvnFw/nD5V+U=;
-        b=Fez6bjN5Dc72LSiZfN1f5FNTl9jVLb4O6mksJ3g/RR9llJREDeyMCOfFWogT4sDLT3
-         DAoUP0OGChMPJ07VJT8psR8z0MtuOT6XVdAc9Ik7MZbQQ38EEHTXjk6lKbmF5RsUYJ0x
-         pU4vFXCqoghfXsz8BCZTLpsjENiWpiNmtH5eltNWv/+NEjIYyrzw16kEqBHUrF7zAKUg
-         8SF+LqBDJFjcFr4Q3Q0CGeEVI7pTEJ5SlPZwH16t0tfowHvVWOLuVTh1BjGLc2l63jDx
-         oAu5NDRK9Ok/uPmxkgptGUsiKVZ8NLzZQsGJ30aymFCAnZBTFq1yDURWqd3ubRIGkb8+
-         RoJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=kLDoGgiKBnh3s28kzBs894Jkp2BR4ldzvnFw/nD5V+U=;
-        b=KPNOFk+Q5B0/kDJFC/DTCB9XPCyvfAFPt2xT9IIakowyaVWKg1KHm443Zzatayt5G/
-         WzmdbBo6cv2HV1CIhUaTB0+tvv4+ZjONkT/r0n3C4VwCC+jSKPpe37nX0z+AA9MommLX
-         R5AbC1TNGmHYv5RTjOVlTh/u95e/nkqBp5iJ5ihqokwETC2les55Ub+ss6JkldA01J/k
-         C3WG9JzTT/EjkSYm6PAQ2v5z+8Ze7LSBJLavePP/EF7ih0L06tWWMgSMIpgj8tGG5NQD
-         gmJy83/STzIx44VXviItnQw09cwNkFSnCEABVmmI/n39O5kWy6F4tSkOIJmuTusal48o
-         mBYg==
-X-Gm-Message-State: AOAM533F5oJT66dozppjReEPas5wfIwOcKGM2musfvFfoUXqVUrZw6ws
-        LBnfQIqvSCgdZh0uMxegokWhLEdI2dovroNg
-X-Google-Smtp-Source: ABdhPJx33/4QM8r5zScVQ2hMfydCwoX8ipmj7n5KYD+XaUEN8fiCLufJ4YS79iw/kbvGF1gM3eM8lA==
-X-Received: by 2002:a0c:c583:: with SMTP id a3mr27986636qvj.15.1614123033194;
-        Tue, 23 Feb 2021 15:30:33 -0800 (PST)
-Received: from localhost.localdomain ([189.120.76.30])
-        by smtp.googlemail.com with ESMTPSA id o3sm223980qke.132.2021.02.23.15.30.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Feb 2021 15:30:32 -0800 (PST)
-From:   Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
-To:     linux-doc@vger.kernel.org, corbet@lwn.net
-Cc:     Igor Matheus Andrade Torrente <igormtorrente@gmail.com>,
-        rdunlap@infradead.org, mchehab+huawei@kernel.org,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] docs: convert dax.txt to rst
-Date:   Tue, 23 Feb 2021 20:30:08 -0300
-Message-Id: <20210223233008.74833-1-igormtorrente@gmail.com>
-X-Mailer: git-send-email 2.30.0
+        id S232245AbhBXBzx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 20:55:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39679 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232156AbhBXBzw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 20:55:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1614131665;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=rWPPiQSh37awcZCREt3lwojOaGUPEOwun1dmgRBC6Vs=;
+        b=hvAKwbZfuYajQutFQE+lZrOZoYf672Q7MSbxOwbW0aHYti65VKih+cZFCiIEAA+jVTw/lX
+        5VwjZwb/ynqEiz9aBxESor43ZoEwh8AISuyIhVgIoWjvp6eW8YcO9U39mJJsRiPakv3LSh
+        Oa5EMpmcILqLQjSWbljCWcVc4CEBrrs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-536-MQOuF6gEPE2c03M4-uyOBg-1; Tue, 23 Feb 2021 20:54:20 -0500
+X-MC-Unique: MQOuF6gEPE2c03M4-uyOBg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2E0B1005501;
+        Wed, 24 Feb 2021 01:54:16 +0000 (UTC)
+Received: from localhost (ovpn-12-189.pek2.redhat.com [10.72.12.189])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 9091D2C01F;
+        Wed, 24 Feb 2021 01:54:12 +0000 (UTC)
+Date:   Wed, 24 Feb 2021 09:54:10 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     john.p.donnelly@oracle.com, Dave Young <dyoung@redhat.com>,
+        Vivek Goyal <vgoyal@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        YiFei Zhu <yifeifz2@illinois.edu>,
+        Josh Poimboeuf <jpoimboe@redhat.com>,
+        Mike Rapoport <rppt@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Sami Tolvanen <samitolvanen@google.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/1] kernel/crash_core: Add crashkernel=auto for
+ vmcore creation
+Message-ID: <20210224015410.GB3553@MiWiFi-R3L-srv>
+References: <20210211180814.69708-1-saeed.mirzamohammadi@oracle.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210211180814.69708-1-saeed.mirzamohammadi@oracle.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change the file extension and add the rst constructs to integrate this
-doc to the documentation infrastructure and take advantage of rst
-features.
+On 02/11/21 at 10:08am, Saeed Mirzamohammadi wrote:
+> This adds crashkernel=auto feature to configure reserved memory for
+> vmcore creation. CONFIG_CRASH_AUTO_STR is defined to be set for
+> different kernel distributions and different archs based on their
+> needs.
+> 
+> Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
+> Signed-off-by: John Donnelly <john.p.donnelly@oracle.com>
+> Tested-by: John Donnelly <john.p.donnelly@oracle.com>
+> ---
+>  Documentation/admin-guide/kdump/kdump.rst     |  3 ++-
+>  .../admin-guide/kernel-parameters.txt         |  6 +++++
+>  arch/Kconfig                                  | 24 +++++++++++++++++++
+>  kernel/crash_core.c                           |  7 ++++++
+>  4 files changed, 39 insertions(+), 1 deletion(-)
 
-Signed-off-by: Igor Matheus Andrade Torrente <igormtorrente@gmail.com>
----
- Documentation/filesystems/dax.rst   | 291 ++++++++++++++++++++++++++++
- Documentation/filesystems/dax.txt   | 257 ------------------------
- Documentation/filesystems/index.rst |   1 +
- 3 files changed, 292 insertions(+), 257 deletions(-)
- create mode 100644 Documentation/filesystems/dax.rst
- delete mode 100644 Documentation/filesystems/dax.txt
+Acked-by: Baoquan He <bhe@redhat.com>
 
-diff --git a/Documentation/filesystems/dax.rst b/Documentation/filesystems/dax.rst
-new file mode 100644
-index 000000000000..9a1b8fd9e82b
---- /dev/null
-+++ b/Documentation/filesystems/dax.rst
-@@ -0,0 +1,291 @@
-+=======================
-+Direct Access for files
-+=======================
-+
-+Motivation
-+----------
-+
-+The page cache is usually used to buffer reads and writes to files.
-+It is also used to provide the pages which are mapped into userspace
-+by a call to mmap.
-+
-+For block devices that are memory-like, the page cache pages would be
-+unnecessary copies of the original storage.  The `DAX` code removes the
-+extra copy by performing reads and writes directly to the storage device.
-+For file mappings, the storage device is mapped directly into userspace.
-+
-+
-+Usage
-+-----
-+
-+If you have a block device which supports `DAX`, you can make a filesystem
-+on it as usual.  The `DAX` code currently only supports files with a block
-+size equal to your kernel's `PAGE_SIZE`, so you may need to specify a block
-+size when creating the filesystem.
-+
-+Currently 3 filesystems support `DAX`: ext2, ext4 and xfs.  Enabling `DAX` on them
-+is different.
-+
-+Enabling DAX on ext2
-+--------------------
-+
-+When mounting the filesystem, use the ``-o dax`` option on the command line or
-+add 'dax' to the options in ``/etc/fstab``.  This works to enable `DAX` on all files
-+within the filesystem.  It is equivalent to the ``-o dax=always`` behavior below.
-+
-+
-+Enabling DAX on xfs and ext4
-+----------------------------
-+
-+Summary
-+-------
-+
-+ 1. There exists an in-kernel file access mode flag `S_DAX` that corresponds to
-+    the statx flag `STATX_ATTR_DAX`.  See the manpage for statx(2) for details
-+    about this access mode.
-+
-+ 2. There exists a persistent flag `FS_XFLAG_DAX` that can be applied to regular
-+    files and directories. This advisory flag can be set or cleared at any
-+    time, but doing so does not immediately affect the `S_DAX` state.
-+
-+ 3. If the persistent `FS_XFLAG_DAX` flag is set on a directory, this flag will
-+    be inherited by all regular files and subdirectories that are subsequently
-+    created in this directory. Files and subdirectories that exist at the time
-+    this flag is set or cleared on the parent directory are not modified by
-+    this modification of the parent directory.
-+
-+ 4. There exist dax mount options which can override `FS_XFLAG_DAX` in the
-+    setting of the `S_DAX` flag.  Given underlying storage which supports `DAX` the
-+    following hold:
-+
-+    ``-o dax=inode``  means "follow `FS_XFLAG_DAX`" and is the default.
-+
-+    ``-o dax=never``  means "never set `S_DAX`, ignore `FS_XFLAG_DAX`."
-+
-+    ``-o dax=always`` means "always set `S_DAX` ignore `FS_XFLAG_DAX`."
-+
-+    ``-o dax``      is a legacy option which is an alias for ``dax=always``.
-+
-+    .. warning::
-+
-+      The option ``-o dax`` may be removed in the future so ``-o dax=always`` is
-+      the preferred method for specifying this behavior.
-+
-+    .. note::
-+
-+      Modifications to and the inheritance behavior of `FS_XFLAG_DAX` remain
-+      the same even when the filesystem is mounted with a dax option.  However,
-+      in-core inode state (`S_DAX`) will be overridden until the filesystem is
-+      remounted with dax=inode and the inode is evicted from kernel memory.
-+
-+ 5. The `S_DAX` policy can be changed via:
-+
-+    a) Setting the parent directory `FS_XFLAG_DAX` as needed before files are
-+       created
-+
-+    b) Setting the appropriate dax="foo" mount option
-+
-+    c) Changing the `FS_XFLAG_DAX` flag on existing regular files and
-+       directories.  This has runtime constraints and limitations that are
-+       described in 6) below.
-+
-+ 6. When changing the `S_DAX` policy via toggling the persistent `FS_XFLAG_DAX`
-+    flag, the change to existing regular files won't take effect until the
-+    files are closed by all processes.
-+
-+
-+Details
-+-------
-+
-+There are 2 per-file dax flags.  One is a persistent inode setting (`FS_XFLAG_DAX`)
-+and the other is a volatile flag indicating the active state of the feature
-+(`S_DAX`).
-+
-+`FS_XFLAG_DAX` is preserved within the filesystem.  This persistent config
-+setting can be set, cleared and/or queried using the `FS_IOC_FS`[`GS`]`ETXATTR` ioctl
-+(see ioctl_xfs_fsgetxattr(2)) or an utility such as 'xfs_io'.
-+
-+New files and directories automatically inherit `FS_XFLAG_DAX` from
-+their parent directory **when created**.  Therefore, setting `FS_XFLAG_DAX` at
-+directory creation time can be used to set a default behavior for an entire
-+sub-tree.
-+
-+To clarify inheritance, here are 3 examples:
-+
-+Example A:
-+
-+.. code-block:: shell
-+
-+  mkdir -p a/b/c
-+  xfs_io -c 'chattr +x' a
-+  mkdir a/b/c/d
-+  mkdir a/e
-+
-+  ------[outcome]------
-+
-+  dax: a,e
-+  no dax: b,c,d
-+
-+Example B:
-+
-+.. code-block:: shell
-+
-+  mkdir a
-+  xfs_io -c 'chattr +x' a
-+  mkdir -p a/b/c/d
-+
-+  ------[outcome]------
-+
-+  dax: a,b,c,d
-+  no dax:
-+
-+Example C:
-+
-+.. code-block:: shell
-+
-+  mkdir -p a/b/c
-+  xfs_io -c 'chattr +x' c
-+  mkdir a/b/c/d
-+
-+  ------[outcome]------
-+
-+  dax: c,d
-+  no dax: a,b
-+
-+The current enabled state (`S_DAX`) is set when a file inode is instantiated in
-+memory by the kernel.  It is set based on the underlying media support, the
-+value of `FS_XFLAG_DAX` and the filesystem's dax mount option.
-+
-+statx can be used to query `S_DAX`.
-+
-+.. note::
-+
-+  That only regular files will ever have `S_DAX` set and therefore statx
-+  will never indicate that `S_DAX` is set on directories.
-+
-+Setting the `FS_XFLAG_DAX` flag (specifically or through inheritance) occurs even
-+if the underlying media does not support dax and/or the filesystem is
-+overridden with a mount option.
-+
-+
-+Implementation Tips for Block Driver Writers
-+--------------------------------------------
-+
-+To support `DAX` in your block driver, implement the 'direct_access'
-+block device operation.  It is used to translate the sector number
-+(expressed in units of 512-byte sectors) to a page frame number (pfn)
-+that identifies the physical page for the memory.  It also returns a
-+kernel virtual address that can be used to access the memory.
-+
-+The direct_access method takes a 'size' parameter that indicates the
-+number of bytes being requested.  The function should return the number
-+of bytes that can be contiguously accessed at that offset.  It may also
-+return a negative errno if an error occurs.
-+
-+In order to support this method, the storage must be byte-accessible by
-+the CPU at all times.  If your device uses paging techniques to expose
-+a large amount of memory through a smaller window, then you cannot
-+implement direct_access.  Equally, if your device can occasionally
-+stall the CPU for an extended period, you should also not attempt to
-+implement direct_access.
-+
-+These block devices may be used for inspiration:
-+- brd: RAM backed block device driver
-+- dcssblk: s390 dcss block device driver
-+- pmem: NVDIMM persistent memory driver
-+
-+
-+Implementation Tips for Filesystem Writers
-+------------------------------------------
-+
-+Filesystem support consists of:
-+
-+* Adding support to mark inodes as being `DAX` by setting the `S_DAX` flag in
-+  i_flags
-+* Implementing ->read_iter and ->write_iter operations which use
-+  :c:func:`dax_iomap_rw()` when inode has `S_DAX` flag set
-+* Implementing an mmap file operation for `DAX` files which sets the
-+  `VM_MIXEDMAP` and `VM_HUGEPAGE` flags on the `VMA`, and setting the vm_ops to
-+  include handlers for fault, pmd_fault, page_mkwrite, pfn_mkwrite. These
-+  handlers should probably call :c:func:`dax_iomap_fault()` passing the
-+  appropriate fault size and iomap operations.
-+* Calling :c:func:`iomap_zero_range()` passing appropriate iomap operations
-+  instead of :c:func:`block_truncate_page()` for `DAX` files
-+* Ensuring that there is sufficient locking between reads, writes,
-+  truncates and page faults
-+
-+The iomap handlers for allocating blocks must make sure that allocated blocks
-+are zeroed out and converted to written extents before being returned to avoid
-+exposure of uninitialized data through mmap.
-+
-+These filesystems may be used for inspiration:
-+
-+.. seealso::
-+
-+  ext2: see Documentation/filesystems/ext2.rst
-+
-+.. seealso::
-+
-+  xfs:  see Documentation/admin-guide/xfs.rst
-+
-+.. seealso::
-+
-+  ext4: see Documentation/filesystems/ext4/
-+
-+
-+Handling Media Errors
-+---------------------
-+
-+The libnvdimm subsystem stores a record of known media error locations for
-+each pmem block device (in gendisk->badblocks). If we fault at such location,
-+or one with a latent error not yet discovered, the application can expect
-+to receive a `SIGBUS`. Libnvdimm also allows clearing of these errors by simply
-+writing the affected sectors (through the pmem driver, and if the underlying
-+NVDIMM supports the clear_poison DSM defined by ACPI).
-+
-+Since `DAX` IO normally doesn't go through the ``driver/bio`` path, applications or
-+sysadmins have an option to restore the lost data from a prior ``backup/inbuilt``
-+redundancy in the following ways:
-+
-+1. Delete the affected file, and restore from a backup (sysadmin route):
-+   This will free the filesystem blocks that were being used by the file,
-+   and the next time they're allocated, they will be zeroed first, which
-+   happens through the driver, and will clear bad sectors.
-+
-+2. Truncate or hole-punch the part of the file that has a bad-block (at least
-+   an entire aligned sector has to be hole-punched, but not necessarily an
-+   entire filesystem block).
-+
-+These are the two basic paths that allow `DAX` filesystems to continue operating
-+in the presence of media errors. More robust error recovery mechanisms can be
-+built on top of this in the future, for example, involving redundancy/mirroring
-+provided at the block layer through DM, or additionally, at the filesystem
-+level. These would have to rely on the above two tenets, that error clearing
-+can happen either by sending an IO through the driver, or zeroing (also through
-+the driver).
-+
-+
-+Shortcomings
-+------------
-+
-+Even if the kernel or its modules are stored on a filesystem that supports
-+`DAX` on a block device that supports `DAX`, they will still be copied into RAM.
-+
-+The DAX code does not work correctly on architectures which have virtually
-+mapped caches such as ARM, MIPS and SPARC.
-+
-+Calling :c:func:`get_user_pages()` on a range of user memory that has been
-+mmaped from a `DAX` file will fail when there are no 'struct page' to describe
-+those pages.  This problem has been addressed in some device drivers
-+by adding optional struct page support for pages under the control of
-+the driver (see `CONFIG_NVDIMM_PFN` in ``drivers/nvdimm`` for an example of
-+how to do this). In the non struct page cases `O_DIRECT` reads/writes to
-+those memory ranges from a non-`DAX` file will fail 
-+
-+
-+.. note::
-+
-+  `O_DIRECT` reads/writes _of a `DAX` file do work, it is the memory that
-+  is being accessed that is key here).  Other things that will not work in
-+  the non struct page case include RDMA, :c:func:`sendfile()` and
-+  :c:func:`splice()`.
-diff --git a/Documentation/filesystems/dax.txt b/Documentation/filesystems/dax.txt
-deleted file mode 100644
-index e03c20564f3a..000000000000
---- a/Documentation/filesystems/dax.txt
-+++ /dev/null
-@@ -1,257 +0,0 @@
--Direct Access for files
-------------------------
--
--Motivation
------------
--
--The page cache is usually used to buffer reads and writes to files.
--It is also used to provide the pages which are mapped into userspace
--by a call to mmap.
--
--For block devices that are memory-like, the page cache pages would be
--unnecessary copies of the original storage.  The DAX code removes the
--extra copy by performing reads and writes directly to the storage device.
--For file mappings, the storage device is mapped directly into userspace.
--
--
--Usage
-------
--
--If you have a block device which supports DAX, you can make a filesystem
--on it as usual.  The DAX code currently only supports files with a block
--size equal to your kernel's PAGE_SIZE, so you may need to specify a block
--size when creating the filesystem.
--
--Currently 3 filesystems support DAX: ext2, ext4 and xfs.  Enabling DAX on them
--is different.
--
--Enabling DAX on ext2
-------------------------------
--
--When mounting the filesystem, use the "-o dax" option on the command line or
--add 'dax' to the options in /etc/fstab.  This works to enable DAX on all files
--within the filesystem.  It is equivalent to the '-o dax=always' behavior below.
--
--
--Enabling DAX on xfs and ext4
------------------------------
--
--Summary
---------
--
-- 1. There exists an in-kernel file access mode flag S_DAX that corresponds to
--    the statx flag STATX_ATTR_DAX.  See the manpage for statx(2) for details
--    about this access mode.
--
-- 2. There exists a persistent flag FS_XFLAG_DAX that can be applied to regular
--    files and directories. This advisory flag can be set or cleared at any
--    time, but doing so does not immediately affect the S_DAX state.
--
-- 3. If the persistent FS_XFLAG_DAX flag is set on a directory, this flag will
--    be inherited by all regular files and subdirectories that are subsequently
--    created in this directory. Files and subdirectories that exist at the time
--    this flag is set or cleared on the parent directory are not modified by
--    this modification of the parent directory.
--
-- 4. There exist dax mount options which can override FS_XFLAG_DAX in the
--    setting of the S_DAX flag.  Given underlying storage which supports DAX the
--    following hold:
--
--    "-o dax=inode"  means "follow FS_XFLAG_DAX" and is the default.
--
--    "-o dax=never"  means "never set S_DAX, ignore FS_XFLAG_DAX."
--
--    "-o dax=always" means "always set S_DAX ignore FS_XFLAG_DAX."
--
--    "-o dax"        is a legacy option which is an alias for "dax=always".
--		    This may be removed in the future so "-o dax=always" is
--		    the preferred method for specifying this behavior.
--
--    NOTE: Modifications to and the inheritance behavior of FS_XFLAG_DAX remain
--    the same even when the filesystem is mounted with a dax option.  However,
--    in-core inode state (S_DAX) will be overridden until the filesystem is
--    remounted with dax=inode and the inode is evicted from kernel memory.
--
-- 5. The S_DAX policy can be changed via:
--
--    a) Setting the parent directory FS_XFLAG_DAX as needed before files are
--       created
--
--    b) Setting the appropriate dax="foo" mount option
--
--    c) Changing the FS_XFLAG_DAX flag on existing regular files and
--       directories.  This has runtime constraints and limitations that are
--       described in 6) below.
--
-- 6. When changing the S_DAX policy via toggling the persistent FS_XFLAG_DAX
--    flag, the change to existing regular files won't take effect until the
--    files are closed by all processes.
--
--
--Details
---------
--
--There are 2 per-file dax flags.  One is a persistent inode setting (FS_XFLAG_DAX)
--and the other is a volatile flag indicating the active state of the feature
--(S_DAX).
--
--FS_XFLAG_DAX is preserved within the filesystem.  This persistent config
--setting can be set, cleared and/or queried using the FS_IOC_FS[GS]ETXATTR ioctl
--(see ioctl_xfs_fsgetxattr(2)) or an utility such as 'xfs_io'.
--
--New files and directories automatically inherit FS_XFLAG_DAX from
--their parent directory _when_ _created_.  Therefore, setting FS_XFLAG_DAX at
--directory creation time can be used to set a default behavior for an entire
--sub-tree.
--
--To clarify inheritance, here are 3 examples:
--
--Example A:
--
--mkdir -p a/b/c
--xfs_io -c 'chattr +x' a
--mkdir a/b/c/d
--mkdir a/e
--
--	dax: a,e
--	no dax: b,c,d
--
--Example B:
--
--mkdir a
--xfs_io -c 'chattr +x' a
--mkdir -p a/b/c/d
--
--	dax: a,b,c,d
--	no dax:
--
--Example C:
--
--mkdir -p a/b/c
--xfs_io -c 'chattr +x' c
--mkdir a/b/c/d
--
--	dax: c,d
--	no dax: a,b
--
--
--The current enabled state (S_DAX) is set when a file inode is instantiated in
--memory by the kernel.  It is set based on the underlying media support, the
--value of FS_XFLAG_DAX and the filesystem's dax mount option.
--
--statx can be used to query S_DAX.  NOTE that only regular files will ever have
--S_DAX set and therefore statx will never indicate that S_DAX is set on
--directories.
--
--Setting the FS_XFLAG_DAX flag (specifically or through inheritance) occurs even
--if the underlying media does not support dax and/or the filesystem is
--overridden with a mount option.
--
--
--
--Implementation Tips for Block Driver Writers
----------------------------------------------
--
--To support DAX in your block driver, implement the 'direct_access'
--block device operation.  It is used to translate the sector number
--(expressed in units of 512-byte sectors) to a page frame number (pfn)
--that identifies the physical page for the memory.  It also returns a
--kernel virtual address that can be used to access the memory.
--
--The direct_access method takes a 'size' parameter that indicates the
--number of bytes being requested.  The function should return the number
--of bytes that can be contiguously accessed at that offset.  It may also
--return a negative errno if an error occurs.
--
--In order to support this method, the storage must be byte-accessible by
--the CPU at all times.  If your device uses paging techniques to expose
--a large amount of memory through a smaller window, then you cannot
--implement direct_access.  Equally, if your device can occasionally
--stall the CPU for an extended period, you should also not attempt to
--implement direct_access.
--
--These block devices may be used for inspiration:
--- brd: RAM backed block device driver
--- dcssblk: s390 dcss block device driver
--- pmem: NVDIMM persistent memory driver
--
--
--Implementation Tips for Filesystem Writers
--------------------------------------------
--
--Filesystem support consists of
--- adding support to mark inodes as being DAX by setting the S_DAX flag in
--  i_flags
--- implementing ->read_iter and ->write_iter operations which use dax_iomap_rw()
--  when inode has S_DAX flag set
--- implementing an mmap file operation for DAX files which sets the
--  VM_MIXEDMAP and VM_HUGEPAGE flags on the VMA, and setting the vm_ops to
--  include handlers for fault, pmd_fault, page_mkwrite, pfn_mkwrite. These
--  handlers should probably call dax_iomap_fault() passing the appropriate
--  fault size and iomap operations.
--- calling iomap_zero_range() passing appropriate iomap operations instead of
--  block_truncate_page() for DAX files
--- ensuring that there is sufficient locking between reads, writes,
--  truncates and page faults
--
--The iomap handlers for allocating blocks must make sure that allocated blocks
--are zeroed out and converted to written extents before being returned to avoid
--exposure of uninitialized data through mmap.
--
--These filesystems may be used for inspiration:
--- ext2: see Documentation/filesystems/ext2.rst
--- ext4: see Documentation/filesystems/ext4/
--- xfs:  see Documentation/admin-guide/xfs.rst
--
--
--Handling Media Errors
-----------------------
--
--The libnvdimm subsystem stores a record of known media error locations for
--each pmem block device (in gendisk->badblocks). If we fault at such location,
--or one with a latent error not yet discovered, the application can expect
--to receive a SIGBUS. Libnvdimm also allows clearing of these errors by simply
--writing the affected sectors (through the pmem driver, and if the underlying
--NVDIMM supports the clear_poison DSM defined by ACPI).
--
--Since DAX IO normally doesn't go through the driver/bio path, applications or
--sysadmins have an option to restore the lost data from a prior backup/inbuilt
--redundancy in the following ways:
--
--1. Delete the affected file, and restore from a backup (sysadmin route):
--   This will free the filesystem blocks that were being used by the file,
--   and the next time they're allocated, they will be zeroed first, which
--   happens through the driver, and will clear bad sectors.
--
--2. Truncate or hole-punch the part of the file that has a bad-block (at least
--   an entire aligned sector has to be hole-punched, but not necessarily an
--   entire filesystem block).
--
--These are the two basic paths that allow DAX filesystems to continue operating
--in the presence of media errors. More robust error recovery mechanisms can be
--built on top of this in the future, for example, involving redundancy/mirroring
--provided at the block layer through DM, or additionally, at the filesystem
--level. These would have to rely on the above two tenets, that error clearing
--can happen either by sending an IO through the driver, or zeroing (also through
--the driver).
--
--
--Shortcomings
--------------
--
--Even if the kernel or its modules are stored on a filesystem that supports
--DAX on a block device that supports DAX, they will still be copied into RAM.
--
--The DAX code does not work correctly on architectures which have virtually
--mapped caches such as ARM, MIPS and SPARC.
--
--Calling get_user_pages() on a range of user memory that has been mmaped
--from a DAX file will fail when there are no 'struct page' to describe
--those pages.  This problem has been addressed in some device drivers
--by adding optional struct page support for pages under the control of
--the driver (see CONFIG_NVDIMM_PFN in drivers/nvdimm for an example of
--how to do this). In the non struct page cases O_DIRECT reads/writes to
--those memory ranges from a non-DAX file will fail (note that O_DIRECT
--reads/writes _of a DAX file_ do work, it is the memory that is being
--accessed that is key here).  Other things that will not work in the
--non struct page case include RDMA, sendfile() and splice().
-diff --git a/Documentation/filesystems/index.rst b/Documentation/filesystems/index.rst
-index 1f76b1cb3348..6235326f6421 100644
---- a/Documentation/filesystems/index.rst
-+++ b/Documentation/filesystems/index.rst
-@@ -76,6 +76,7 @@ Documentation for filesystem implementations.
-    coda
-    configfs
-    cramfs
-+   dax
-    debugfs
-    dlmfs
-    ecryptfs
--- 
-2.30.0
+> 
+> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+> index 2da65fef2a1c..e55cdc404c6b 100644
+> --- a/Documentation/admin-guide/kdump/kdump.rst
+> +++ b/Documentation/admin-guide/kdump/kdump.rst
+> @@ -285,7 +285,8 @@ This would mean:
+>      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+>      3) if the RAM size is larger than 2G, then reserve 128M
+>  
+> -
+> +Or you can use crashkernel=auto to choose the crash kernel memory size
+> +based on the recommended configuration set for each arch.
+>  
+>  Boot into System Kernel
+>  =======================
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 7d4e523646c3..aa2099465458 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -736,6 +736,12 @@
+>  			a memory unit (amount[KMG]). See also
+>  			Documentation/admin-guide/kdump/kdump.rst for an example.
+>  
+> +	crashkernel=auto
+> +			[KNL] This parameter will set the reserved memory for
+> +			the crash kernel based on the value of the CRASH_AUTO_STR
+> +			that is the best effort estimation for each arch. See also
+> +			arch/Kconfig for further details.
+> +
+>  	crashkernel=size[KMG],high
+>  			[KNL, X86-64] range could be above 4G. Allow kernel
+>  			to allocate physical memory region from top, so could
+> diff --git a/arch/Kconfig b/arch/Kconfig
+> index af14a567b493..f87c88ffa2f8 100644
+> --- a/arch/Kconfig
+> +++ b/arch/Kconfig
+> @@ -14,6 +14,30 @@ menu "General architecture-dependent options"
+>  config CRASH_CORE
+>  	bool
+>  
+> +if CRASH_CORE
+> +
+> +config CRASH_AUTO_STR
+> +	string "Memory reserved for crash kernel"
+> +	depends on CRASH_CORE
+> +	default "1G-64G:128M,64G-1T:256M,1T-:512M"
+> +	help
+> +	  This configures the reserved memory dependent
+> +	  on the value of System RAM. The syntax is:
+> +	  crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
+> +	              range=start-[end]
+> +
+> +	  For example:
+> +	      crashkernel=512M-2G:64M,2G-:128M
+> +
+> +	  This would mean:
+> +
+> +	      1) if the RAM is smaller than 512M, then don't reserve anything
+> +	         (this is the "rescue" case)
+> +	      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+> +	      3) if the RAM size is larger than 2G, then reserve 128M
+> +
+> +endif # CRASH_CORE
+> +
+>  config KEXEC_CORE
+>  	select CRASH_CORE
+>  	bool
+> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
+> index 106e4500fd53..ab0a2b4b1ffa 100644
+> --- a/kernel/crash_core.c
+> +++ b/kernel/crash_core.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/crash_core.h>
+>  #include <linux/utsname.h>
+>  #include <linux/vmalloc.h>
+> +#include <linux/kexec.h>
+>  
+>  #include <asm/page.h>
+>  #include <asm/sections.h>
+> @@ -250,6 +251,12 @@ static int __init __parse_crashkernel(char *cmdline,
+>  	if (suffix)
+>  		return parse_crashkernel_suffix(ck_cmdline, crash_size,
+>  				suffix);
+> +#ifdef CONFIG_CRASH_AUTO_STR
+> +	if (strncmp(ck_cmdline, "auto", 4) == 0) {
+> +		ck_cmdline = CONFIG_CRASH_AUTO_STR;
+> +		pr_info("Using crashkernel=auto, the size chosen is a best effort estimation.\n");
+> +	}
+> +#endif
+>  	/*
+>  	 * if the commandline contains a ':', then that's the extended
+>  	 * syntax -- if not, it must be the classic syntax
+> -- 
+> 2.27.0
+> 
 
