@@ -2,88 +2,238 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88552C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 22:20:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0083C433E6
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 22:44:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D74960233
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 22:20:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8759764F06
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 22:44:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234364AbhBXWTr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Feb 2021 17:19:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43508 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234346AbhBXWTq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 17:19:46 -0500
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 504CEC061756
-        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 14:19:06 -0800 (PST)
-Received: by mail-ej1-x62f.google.com with SMTP id lr13so5553503ejb.8
-        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 14:19:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=esgHPFAXtJraAFZeVMnbgtLoIpVTIBSPXC2kaE9EIyo=;
-        b=Bk62oPLB6TXDuzwnMS2NVq6cZU2EJ+AgM1xn5jV+9BsuyYK0qKJTJ/1QjllD0IpCIx
-         C0+vR8F8imu7znz7XfUVRtxSj6vyCbzzt8h7YyWqTTT8M88zCKOKkfMeCKTG8Pdj5Ljw
-         2AgNFO6k0WOlAPxrmeYAKCUVW2ktlwKBGt5JE=
+        id S235614AbhBXWno (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Feb 2021 17:43:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55660 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235475AbhBXWnh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 17:43:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1614206529;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=7loNY6a/CYvNtMJopL3QUeRwqTiWCpARGe5VL/q/8gs=;
+        b=PgRL9zUgUEx2Y6UNAxqZ3EIlqc1bwxTKkwc5W0mL+ugBE3aB3vrE8I0ca2h1LOQPjKCqtd
+        Hl1dRuv34ztev2/IUMNZMmOP9jXYqkqHQPCAJR3sFzyFrmziY5LeP7DjDKkoVnqtsTp/Cv
+        Vzz7iVsPAGQH0J0o+cBz+1hq7Nj+uus=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-265-AB9k3j22PhWA307oEsDXbA-1; Wed, 24 Feb 2021 17:42:07 -0500
+X-MC-Unique: AB9k3j22PhWA307oEsDXbA-1
+Received: by mail-ej1-f69.google.com with SMTP id mm18so1533199ejb.7
+        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 14:42:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=esgHPFAXtJraAFZeVMnbgtLoIpVTIBSPXC2kaE9EIyo=;
-        b=sOwC0f2srJ1iUh2YoARZ5nboaurYmEZw50WOzAZ1BhKu8hriBw2frY+1ST+eTzVt4+
-         tz7M5OlV8M65/W/BMZ8YHnHrdMUGHfoH5R+DH0TmF6WCjOIY7nC3FBmM9AnjWBvbUraU
-         tJRWUlbhbf3Arxyc+xUyu90MTre4FGQDw7H9DMMO6yxzzQzyuxWhFIFW9jliyF2Myqmg
-         jbPtcRJibCXTH0h9F8Np04Z83T2Amu00wZi8tdv7n+xwksbmW6OsAWWtMKHGBA7ZwPpp
-         pElwMUFFFcJUqbq2fYMHOV7n4CFyQvrnxBgJ58zQYF/yJlr2wlB3/MaKZ7CoQ2ykkybO
-         Jwsg==
-X-Gm-Message-State: AOAM530et5iD3h85G04t0RpW5orK2mguOg7NV3ZVackYB9isDjO/e6CH
-        yIwRIJKm0AMGKfhce4UtAm83Mg==
-X-Google-Smtp-Source: ABdhPJxjiD5KAeODBCv+FcuEH0jO8vVbYzDx7TZOo87cBVxKIdxa0Yg5W3ud56iHmkQMwwQ8RBhiPQ==
-X-Received: by 2002:a17:906:32d1:: with SMTP id k17mr33393373ejk.141.1614205144864;
-        Wed, 24 Feb 2021 14:19:04 -0800 (PST)
-Received: from [192.168.1.149] ([80.208.71.141])
-        by smtp.gmail.com with ESMTPSA id t19sm1987576ejs.122.2021.02.24.14.19.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Feb 2021 14:19:04 -0800 (PST)
-Subject: Re: [PATCH/RFC 0/2] background initramfs unpacking, and
- CONFIG_MODPROBE_PATH
-To:     linux-kernel@vger.kernel.org
-Cc:     Luis Chamberlain <mcgrof@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>
-References: <20210224142909.2092914-1-linux@rasmusvillemoes.dk>
-From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Message-ID: <e240d10c-2c81-d3f2-9973-5527297db8de@rasmusvillemoes.dk>
-Date:   Wed, 24 Feb 2021 23:19:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=7loNY6a/CYvNtMJopL3QUeRwqTiWCpARGe5VL/q/8gs=;
+        b=SNsmzr0DOucRJmUBbCqBGNUWTZ+3OPtnc0fJHrJtRbGgw60GEGCk6DXTNtMfhBdJ0O
+         NfiDhSYjcNZiQrKxu+8TeMBreyp/n+HGrit+K7BZsiKtqbihbM6454ZMjSP69EenjVfS
+         mW7pumBXLyWBbvRxFP6WKYuUgFECLJ98LNsgBiupG/0WE1NB6Gcp45uO8eXAHsMjqSn/
+         D52UjeyBJW8QqvP0AvPJQb0bJc0Roa5uJc+7QiyTT5r0fOuJfu97KrJh6l/hzgpiPq6f
+         Xdy5m5UYxk40WV2c/nw6gaDWy0uxS5p8W1gDAm5O6CoNgsBEBWw5TpdgqTMOfDTCS90c
+         RYxA==
+X-Gm-Message-State: AOAM5309zBjdpjod49Z1otjeh0UWEvddMDdhhZ4eT8QphAbH1IA0hPai
+        /T4hKyu2OXJBYZTj/ySajHFpUy1hDhcexAOq1Ruo5cIcv25mvqjhpXJEAOwQj2CP88gorCmbA9J
+        j9yn2IGYUsCNwCYcVYQAi
+X-Received: by 2002:aa7:c905:: with SMTP id b5mr45131edt.161.1614206525814;
+        Wed, 24 Feb 2021 14:42:05 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxX6wHCinOs4mbPbm2b7t4ZXywkzoSCLQSDAz3ddGk0HJEmKYxvUxfEaGzcRz0oxz/i60stnA==
+X-Received: by 2002:aa7:c905:: with SMTP id b5mr45085edt.161.1614206525568;
+        Wed, 24 Feb 2021 14:42:05 -0800 (PST)
+Received: from redhat.com (212.116.168.114.static.012.net.il. [212.116.168.114])
+        by smtp.gmail.com with ESMTPSA id w24sm2387595edv.67.2021.02.24.14.42.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Feb 2021 14:42:04 -0800 (PST)
+Date:   Wed, 24 Feb 2021 17:41:59 -0500
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     Alexander Graf <graf@amazon.com>
+Cc:     Adrian Catangiu <acatan@amazon.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
+        kvm@vger.kernel.org, linux-s390@vger.kernel.org,
+        gregkh@linuxfoundation.org, rdunlap@infradead.org, arnd@arndb.de,
+        ebiederm@xmission.com, rppt@kernel.org, 0x7f454c46@gmail.com,
+        borntraeger@de.ibm.com, Jason@zx2c4.com, jannh@google.com,
+        w@1wt.eu, colmmacc@amazon.com, luto@kernel.org, tytso@mit.edu,
+        ebiggers@kernel.org, dwmw@amazon.co.uk, bonzini@gnu.org,
+        sblbir@amazon.com, raduweis@amazon.com, corbet@lwn.net,
+        mhocko@kernel.org, rafael@kernel.org, pavel@ucw.cz,
+        mpe@ellerman.id.au, areber@redhat.com, ovzxemul@gmail.com,
+        avagin@gmail.com, ptikhomirov@virtuozzo.com, gil@azul.com,
+        asmehra@redhat.com, dgunigun@redhat.com, vijaysun@ca.ibm.com,
+        oridgar@gmail.com, ghammer@redhat.com
+Subject: Re: [PATCH v7 1/2] drivers/misc: sysgenid: add system generation id
+ driver
+Message-ID: <20210224173205-mutt-send-email-mst@kernel.org>
+References: <1614156452-17311-1-git-send-email-acatan@amazon.com>
+ <1614156452-17311-2-git-send-email-acatan@amazon.com>
+ <20210224040516-mutt-send-email-mst@kernel.org>
+ <d63146a9-a3f8-14ea-2b16-cb5b3fe7aecf@amazon.com>
 MIME-Version: 1.0
-In-Reply-To: <20210224142909.2092914-1-linux@rasmusvillemoes.dk>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d63146a9-a3f8-14ea-2b16-cb5b3fe7aecf@amazon.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 24/02/2021 15.29, Rasmus Villemoes wrote:
-> These two patches are independent, but better-together.
+On Wed, Feb 24, 2021 at 02:45:03PM +0100, Alexander Graf wrote:
+> > Above should try harder to explan what are the things that need to be
+> > scrubbed and why. For example, I personally don't really know what is
+> > the OpenSSL session token example and what makes it vulnerable. I guess
+> > snapshots can attack each other?
+> > 
+> > 
+> > 
+> > 
+> > Here's a simple example of a workflow that submits transactions
+> > to a database and wants to avoid duplicate transactions.
+> > This does not require overseer magic. It does however require
+> > a correct genid from hypervisor, so no mmap tricks work.
+> > 
+> > 
+> > 
+> >          int genid, oldgenid;
+> >          read(&genid);
+> > start:
+> >          oldgenid = genid;
+> >          transid = submit transaction
+> >          read(&genid);
+> >          if (genid != oldgenid) {
+> >                          revert transaction (transid);
+> >                          goto start:
+> >          }
+> 
+> I'm not sure I fully follow. For starters, if this is a VM local database, I
+> don't think you'd care about the genid. If it's a remote database, your
+> connection would get dropped already at the point when you clone/resume,
+> because TCP and your connection state machine will get really confused when
+> you suddenly have a different IP address or two consumers of the same stream
+> :).
+>
+> But for the sake of the argument, let's assume you can have a connectionless
+> database connection that maintains its own connection uniqueness logic.
 
-kernel test robot says I'll have to add a 0/2 patch:
+Right. E.g. not uncommon with REST APIs. They survive disconnect easily
+and use cookies or such.
 
-linux/initrd.h: grow an include guard
+> That
+> database connector would need to understand how to abort the connection (and
+> thus the transaction!) when the generation changes.
 
-[because defining a macro a second time with the same contents is ok, so
-is doing another extern declaration, but a trivial static inline
-definition can't be repeated sigh]
+the point is that instead of all that you discover transaction as
+a duplicate and revert it.
+
+
+> And that's logic you
+> would do with the read/write/notify mechanism. So your main loop would check
+> for reads on the genid fd and after sending a connection termination, notify
+> the overlord that it's safe to use the VM now.
+> 
+> The OpenSSL case (with mmap) is for libraries that are stateless and can not
+> guarantee that they receive a genid notification event timely.
+> 
+> Since you asked, this is mainly important for the PRNG. Imagine an https
+> server. You create a snapshot. You resume from that snapshot. OpenSSL is
+> fully initialized with a user space PRNG randomness pool that it considers
+> safe to consume. However, that means your first connection after resume will
+> be 100% predictable randomness wise.
+
+I wonder whether something similar is possible here. I.e. use the secret
+to encrypt stuff but check the gen ID before actually sending data.
+If it changed re-encrypt. Hmm?
+
+> 
+> The mmap mechanism allows the PRNG to reseed after a genid change. Because
+> we don't have an event mechanism for this code path, that can happen minutes
+> after the resume. But that's ok, we "just" have to ensure that nobody is
+> consuming secret data at the point of the snapshot.
+
+
+Something I am still not clear on is whether it's really important to
+skip the system call here. If not I think it's prudent to just stick
+to read for now, I think there's a slightly lower chance that
+it will get misused. mmap which gives you a laggy gen id value
+really seems like it would be hard to use correctly.
+
+
+> > 
+> > 
+> > 
+> > 
+> > 
+> > 
+> > > +Simplifyng assumption - safety prerequisite
+> > > +-------------------------------------------
+> > > +
+> > > +**Control the snapshot flow**, disallow snapshots coming at arbitrary
+> > > +moments in the workload lifetime.
+> > > +
+> > > +Use a system-level overseer entity that quiesces the system before
+> > > +snapshot, and post-snapshot-resume oversees that software components
+> > > +have readjusted to new environment, to the new generation. Only after,
+> > > +will the overseer un-quiesce the system and allow active workloads.
+> > > +
+> > > +Software components can choose whether they want to be tracked and
+> > > +waited on by the overseer by using the ``SYSGENID_SET_WATCHER_TRACKING``
+> > > +IOCTL.
+> > > +
+> > > +The sysgenid framework standardizes the API for system software to
+> > > +find out about needing to readjust and at the same time provides a
+> > > +mechanism for the overseer entity to wait for everyone to be done, the
+> > > +system to have readjusted, so it can un-quiesce.
+> > > +
+> > > +Example snapshot-safe workflow
+> > > +------------------------------
+> > > +
+> > > +1) Before taking a snapshot, quiesce the VM/container/system. Exactly
+> > > +   how this is achieved is very workload-specific, but the general
+> > > +   description is to get all software to an expected state where their
+> > > +   event loops dry up and they are effectively quiesced.
+> > 
+> > If you have ability to do this by communicating with
+> > all processes e.g. through a unix domain socket,
+> > why do you need the rest of the stuff in the kernel?
+> > Quescing is a harder problem than waking up.
+> 
+> That depends. Think of a typical VM workload. Let's take the web server
+> example again. You can preboot the full VM and snapshot it as is. As long as
+> you don't allow any incoming connections, you can guarantee that the system
+> is "quiesced" well enough for the snapshot.
+
+Well you can use a firewall or such to block incoming packets,
+but I am not at all sure that means e.g. all socket buffers
+are empty.
+
+
+> This is really what this bullet point is about. The point is that you're not
+> consuming randomness you can't reseed asynchronously (see the above OpenSSL
+> PRNG example).
+> 
+> 
+> Alex
+> 
+> 
+> 
+> Amazon Development Center Germany GmbH
+> Krausenstr. 38
+> 10117 Berlin
+> Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+> Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+> Sitz: Berlin
+> Ust-ID: DE 289 237 879
+> 
+> 
+
