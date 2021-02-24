@@ -2,125 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3525AC433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 19:53:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E645C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 22:13:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E567D64F03
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 19:53:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45DD960233
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 22:13:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234644AbhBXTxR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Feb 2021 14:53:17 -0500
-Received: from mga11.intel.com ([192.55.52.93]:56215 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232392AbhBXTxQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Feb 2021 14:53:16 -0500
-IronPort-SDR: DT67NmJxOc44P4KRo695ALANGfG2/Bi+mPFp3Ienf2hc5iGT7zgL6V0kfqZDgABtxDoT5zYWrP
- +fBQKfoyMjaA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9905"; a="181865671"
-X-IronPort-AV: E=Sophos;i="5.81,203,1610438400"; 
-   d="scan'208";a="181865671"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2021 11:52:34 -0800
-IronPort-SDR: yXEcVzW98djE749wmWJeznbw7y/eWDKIg2JFChUy2uVPACaW3lKFTSPh+w1NRB+Semm7HIGoQg
- 1PmH0DR7BcFQ==
-X-IronPort-AV: E=Sophos;i="5.81,203,1610438400"; 
-   d="scan'208";a="431800681"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.35.50]) ([10.212.35.50])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2021 11:52:33 -0800
-Subject: Re: [PATCH v21 06/26] x86/cet: Add control-protection fault handler
-To:     Borislav Petkov <bp@alien8.de>, Andy Lutomirski <luto@kernel.org>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S230121AbhBXWNr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Feb 2021 17:13:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42218 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229535AbhBXWNq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 17:13:46 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99C6CC061574
+        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 14:13:05 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id p2so4441151edm.12
+        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 14:13:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=UApUAr5aUTGGANGV03dJ/EdX6/gNj/uFRxv6Z3ZwiG0=;
+        b=G6HRa4tFcZ0icwERNU3bqShT2VGAE/aZGrPJoUnJL5qp74veH/6YOuZuvIKcykMntc
+         JnmPUMoTcSxU/MmG51Xe8HDAO8lJNMd91/F+awStb+fncySkfGCR2mwee5a1i3tVX4bI
+         y76QGMcKJHpiYN+N/Gg8UnLbdqNurSaNJxaeA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=UApUAr5aUTGGANGV03dJ/EdX6/gNj/uFRxv6Z3ZwiG0=;
+        b=RkBRjnTTDceEAuulKHgnBP44cw7L3VnoeL2OiSrRynks7MhDUl0QFjlhhjw468RRqo
+         N59aF9mecLKy1R3wcEzS2XNUDC2D1DYg903jpEZ24e97fM+Jet80xpP9mJrt0Ltivgvr
+         fptuVuDwCqlD+vooltrmnY7MERWBwhfYBTWGGJI1njnCj+sWAxKMZc8R8BtIBYi93Te9
+         OHd6jJCw4D/aBTWCMVhx+4mkaiU4lFOr00AX9d2iTf1XzuEqOUWoINWP3ggrZeJUgkL+
+         KTVZW5pK3QZtMrb7XX5iURHb3c39nqUmcWQGSUGKvTsYYt2eCc+UXOzLXaUXOAi/9jFz
+         RnhQ==
+X-Gm-Message-State: AOAM531nCGP+ZD2uzX2E+bi37nZ/Z4lbINzU1p6OqMfKp6LECQtIe3/w
+        LvylOWtSQpBvj7ge5tnMw9Si+Q==
+X-Google-Smtp-Source: ABdhPJw31JmQb2U9hxnSi1tck9ojUKV8GQUw8l1du2a/V8uNEtS3qLmPrUahlUzGXGZnhyIVyExpxw==
+X-Received: by 2002:a05:6402:1151:: with SMTP id g17mr35223342edw.48.1614204783891;
+        Wed, 24 Feb 2021 14:13:03 -0800 (PST)
+Received: from [192.168.1.149] ([80.208.71.141])
+        by smtp.gmail.com with ESMTPSA id lu26sm404186ejb.33.2021.02.24.14.13.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Feb 2021 14:13:03 -0800 (PST)
+Subject: Re: [PATCH/RFC 1/2] init/initramfs.c: allow asynchronous unpacking
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-References: <20210217222730.15819-1-yu-cheng.yu@intel.com>
- <20210217222730.15819-7-yu-cheng.yu@intel.com>
- <20210224161343.GE20344@zn.tnic>
- <32ac05ef-b50b-c947-095d-bc31a42947a3@intel.com>
- <20210224165332.GF20344@zn.tnic>
- <db493c76-2a67-5f53-29a0-8333facac0f5@intel.com>
- <20210224192044.GH20344@zn.tnic>
- <CALCETrXKteS9K=OOgsCvBU4in_3zcYccqF9hh2=OdCJPknvB8Q@mail.gmail.com>
- <20210224194204.GI20344@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <c8077be0-f61f-d84d-fcd1-13c5ba482a38@intel.com>
-Date:   Wed, 24 Feb 2021 11:52:33 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Peter Zijlstra <peterz@infradead.org>
+References: <20210224142909.2092914-1-linux@rasmusvillemoes.dk>
+ <20210224142909.2092914-2-linux@rasmusvillemoes.dk>
+ <CAHk-=wgw1Eg9kDGUiEY6EL+6dTC8tVqAhstvcmUBgrF5hdoApQ@mail.gmail.com>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <8ccfae21-c72a-f00e-8ec1-56ed809e3295@rasmusvillemoes.dk>
+Date:   Wed, 24 Feb 2021 23:13:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210224194204.GI20344@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAHk-=wgw1Eg9kDGUiEY6EL+6dTC8tVqAhstvcmUBgrF5hdoApQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/24/2021 11:42 AM, Borislav Petkov wrote:
-> On Wed, Feb 24, 2021 at 11:30:34AM -0800, Andy Lutomirski wrote:
->> On Wed, Feb 24, 2021 at 11:20 AM Borislav Petkov <bp@alien8.de> wrote:
->>>
->>> On Wed, Feb 24, 2021 at 09:56:13AM -0800, Yu, Yu-cheng wrote:
->>>> No.  Maybe I am doing too much.  The GP fault sets si_addr to zero, for
->>>> example.  So maybe do the same here?
->>>
->>> No, you're looking at this from the wrong angle. This is going to be
->>> user-visible and the moment it gets upstream, it is cast in stone.
->>>
->>> So the whole use case of what luserspace needs to do or is going to do
->>> or wants to do on a SEGV_CPERR, needs to be described, agreed upon by
->>> people etc before it goes out. And thus clarified whether the address
->>> gets copied out or not.
+On 24/02/2021 18.17, Linus Torvalds wrote:
+> On Wed, Feb 24, 2021 at 6:29 AM Rasmus Villemoes
+> <linux@rasmusvillemoes.dk> wrote:
 >>
->> I vote 0.  The address is in ucontext->gregs[REG_RIP] [0] regardless.
->> Why do we need to stick a copy somewhere else?
->>
->> [0] or however it's spelled.  i can never remember.
+>> So add an initramfs_async= kernel parameter, allowing the main init
+>> process to proceed to handling device_initcall()s without waiting for
+>> populate_rootfs() to finish.
 > 
-> Fine with me. Let's have this documented in the manpage and then we can
-> move forward with this.
-> 
-> Thx.
-> 
+> Hmm. This is why we have the whole "async_schedule()" thing (mostly
+> used for things like disk spin-up etc). Is there some reason you
+> didn't use that infrastructure?
 
-The man page at https://man7.org/linux/man-pages/man2/sigaction.2.html says,
+Mostly because I completely forgot it existed, it's not an API you
+stumble upon in every other source file.
 
-SIGILL, SIGFPE, SIGSEGV, SIGBUS, and SIGTRAP fill in si_addr with the 
-address of the fault.
+I guess I could use that, but it would look very much like what I have
+now - there'd still be some function to call to make sure the initramfs
+is ready, only that would then do async_synchronize() instead of
+wait_for_completion().
 
-But it is not entirely true.
+Is there some fundamental reason something like this shouldn't be
+doable? Are there places other than the usermodehelper and firmware
+loading (and obviously right-before-opening /dev/console and exec'ing
+/init) that would need to be taught about this?
 
-I will send a patch to update it, and another patch for the si_code.
-
---
-Yu-cheng
+Rasmus
