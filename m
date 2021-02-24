@@ -2,203 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DECE0C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 02:08:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52B8BC433E9
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 03:12:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E33C64EB6
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 02:08:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EED6064E6B
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 03:12:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231872AbhBXCIr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Feb 2021 21:08:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44065 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229954AbhBXCIn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Feb 2021 21:08:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614132436;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=LdBX1usnZ8DORWQSdKhftp19ZlKzEc7iUOkDPD+x3mA=;
-        b=biDxDm3Y5YcjXFkGTyIgmH7vXzkOUVF6M5pR9pTAA7RRE/YzLntNeBw7d9jeRMm8qvh4dT
-        QGrF/6KAaPs4IT/HvUKGHk6GrZH5VPRva4ceHiIHI5ciyLVJUDCxQ+PxNCnJckUMNvkBcL
-        tkJwgGFEOcnc1M54NFJkhB+EsHOUvzo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-300-75PnVOfLOiWJj979R0zp9A-1; Tue, 23 Feb 2021 21:07:14 -0500
-X-MC-Unique: 75PnVOfLOiWJj979R0zp9A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC45C835E22;
-        Wed, 24 Feb 2021 02:07:10 +0000 (UTC)
-Received: from localhost (ovpn-12-189.pek2.redhat.com [10.72.12.189])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id E97F260C43;
-        Wed, 24 Feb 2021 02:07:06 +0000 (UTC)
-Date:   Wed, 24 Feb 2021 10:07:04 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     John Donnelly <john.p.donnelly@oracle.com>,
-        Dave Young <dyoung@redhat.com>,
-        Vivek Goyal <vgoyal@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Ingo Molnar <mingo@kernel.org>,
-        "Steven Rostedt (VMware)" <rostedt@goodmis.org>,
-        YiFei Zhu <yifeifz2@illinois.edu>,
-        Josh Poimboeuf <jpoimboe@redhat.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Sami Tolvanen <samitolvanen@google.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/1] kernel/crash_core: Add crashkernel=auto for
- vmcore creation
-Message-ID: <20210224020704.GD3553@MiWiFi-R3L-srv>
-References: <20210223174153.72802-1-saeed.mirzamohammadi@oracle.com>
+        id S229952AbhBXDMn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Feb 2021 22:12:43 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:46986 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232086AbhBXDMl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Feb 2021 22:12:41 -0500
+Received: from LAPTOP-O8VTVVS6.localdomain (unknown [112.20.111.70])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr_L3wzVgo00OAA--.18095S2;
+        Wed, 24 Feb 2021 11:11:52 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Yanteng Si <siyanteng01@gmail.com>, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, Huacai Chen <chenhuacai@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v2 0/5] docs/zh_CN:add riscv translation
+Date:   Wed, 24 Feb 2021 11:11:44 +0800
+Message-Id: <20210224031149.15179-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210223174153.72802-1-saeed.mirzamohammadi@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9Dxr_L3wzVgo00OAA--.18095S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7JF47ur48AF15Wr45Jw1fJFb_yoWkWFX_Ar
+        1kJrWUAryUJFyxtFW8Gr1UJryUAF40gryDJF1Uta4DGw17Gr1UJw1DXw1kXw1UJr45Ary5
+        Kr1kXr1xJrnrJjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUb4xFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+        6F4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r
+        xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
+        6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
+        0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8
+        GwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r
+        1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij
+        64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr
+        0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4U
+        MIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JU-miiUUU
+        UU=
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02/23/21 at 09:41am, Saeed Mirzamohammadi wrote:
-> This adds crashkernel=auto feature to configure reserved memory for
-> vmcore creation. CONFIG_CRASH_AUTO_STR is defined to be set for
-> different kernel distributions and different archs based on their
-> needs.
-> 
-> Signed-off-by: Saeed Mirzamohammadi <saeed.mirzamohammadi@oracle.com>
-> Signed-off-by: John Donnelly <john.p.donnelly@oracle.com>
-> Tested-by: John Donnelly <john.p.donnelly@oracle.com>
+This series of patches translates all documents in the Doc/riscv directory.
 
-Looks good, thx.
+v1->v2:
 
-Acked-by: Baoquan He <bhe@redhat.com>
+Modify the cover letter: remove some content from the tail;
 
-By the way, please provide changelog in the future. That can help people
-know better what's happened during patch reviewing and evolution.
+Yanteng Si(5):
+docs/zh_CN:add riscv boot-image-header.rst translation
+docs/zh_CN: add riscv features.rst translation
+docs/zh_CN: add riscv patch-acceptance.rst translation
+docs/zh_CN: add riscv pmu.rst translation
+docs/zh_CN: add riscv index.rst translation
 
-Thanks
-Baoquan
-
-> ---
->  Documentation/admin-guide/kdump/kdump.rst     |  3 ++-
->  .../admin-guide/kernel-parameters.txt         |  6 ++++++
->  arch/Kconfig                                  | 20 +++++++++++++++++++
->  kernel/crash_core.c                           |  7 +++++++
->  4 files changed, 35 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-> index 75a9dd98e76e..ae030111e22a 100644
-> --- a/Documentation/admin-guide/kdump/kdump.rst
-> +++ b/Documentation/admin-guide/kdump/kdump.rst
-> @@ -285,7 +285,8 @@ This would mean:
->      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
->      3) if the RAM size is larger than 2G, then reserve 128M
->  
-> -
-> +Or you can use crashkernel=auto to choose the crash kernel memory size
-> +based on the recommended configuration set for each arch.
->  
->  Boot into System Kernel
->  =======================
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 9e3cdb271d06..a5deda5c85fe 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -747,6 +747,12 @@
->  			a memory unit (amount[KMG]). See also
->  			Documentation/admin-guide/kdump/kdump.rst for an example.
->  
-> +	crashkernel=auto
-> +			[KNL] This parameter will set the reserved memory for
-> +			the crash kernel based on the value of the CRASH_AUTO_STR
-> +			that is the best effort estimation for each arch. See also
-> +			arch/Kconfig for further details.
-> +
->  	crashkernel=size[KMG],high
->  			[KNL, X86-64] range could be above 4G. Allow kernel
->  			to allocate physical memory region from top, so could
-> diff --git a/arch/Kconfig b/arch/Kconfig
-> index 24862d15f3a3..23d047548772 100644
-> --- a/arch/Kconfig
-> +++ b/arch/Kconfig
-> @@ -14,6 +14,26 @@ menu "General architecture-dependent options"
->  config CRASH_CORE
->  	bool
->  
-> +config CRASH_AUTO_STR
-> +	string "Memory reserved for crash kernel"
-> +	depends on CRASH_CORE
-> +	default "1G-64G:128M,64G-1T:256M,1T-:512M"
-> +	help
-> +	  This configures the reserved memory dependent
-> +	  on the value of System RAM. The syntax is:
-> +	  crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset]
-> +	              range=start-[end]
-> +
-> +	  For example:
-> +	      crashkernel=512M-2G:64M,2G-:128M
-> +
-> +	  This would mean:
-> +
-> +	      1) if the RAM is smaller than 512M, then don't reserve anything
-> +	         (this is the "rescue" case)
-> +	      2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
-> +	      3) if the RAM size is larger than 2G, then reserve 128M
-> +
->  config KEXEC_CORE
->  	select CRASH_CORE
->  	bool
-> diff --git a/kernel/crash_core.c b/kernel/crash_core.c
-> index 825284baaf46..90f9e4bb6704 100644
-> --- a/kernel/crash_core.c
-> +++ b/kernel/crash_core.c
-> @@ -7,6 +7,7 @@
->  #include <linux/crash_core.h>
->  #include <linux/utsname.h>
->  #include <linux/vmalloc.h>
-> +#include <linux/kexec.h>
->  
->  #include <asm/page.h>
->  #include <asm/sections.h>
-> @@ -250,6 +251,12 @@ static int __init __parse_crashkernel(char *cmdline,
->  	if (suffix)
->  		return parse_crashkernel_suffix(ck_cmdline, crash_size,
->  				suffix);
-> +#ifdef CONFIG_CRASH_AUTO_STR
-> +	if (strncmp(ck_cmdline, "auto", 4) == 0) {
-> +		ck_cmdline = CONFIG_CRASH_AUTO_STR;
-> +		pr_info("Using crashkernel=auto, the size chosen is a best effort estimation.\n");
-> +	}
-> +#endif
->  	/*
->  	 * if the commandline contains a ':', then that's the extended
->  	 * syntax -- if not, it must be the classic syntax
-> -- 
-> 2.27.0
-> 
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+dcumentation/translations/zh_CN/riscv/boot-image-header.rst |  67
+++++++++++++++++++++++++++++++++++++++++
+ Documentation/translations/zh_CN/riscv/features.rst          |  11
++++++++
+ Documentation/translations/zh_CN/riscv/index.rst             |  29
+++++++++++++++++++
+ Documentation/translations/zh_CN/riscv/patch-acceptance.rst  |  32
+++++++++++++++++++++
+ Documentation/translations/zh_CN/riscv/pmu.rst               | 233
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 372 insertions(+)
 
