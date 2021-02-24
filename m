@@ -7,64 +7,67 @@ X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DE84C43603
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:42:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CED43C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E2D2664F06
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:42:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 886BE64EF1
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Feb 2021 14:44:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234689AbhBXOlm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Feb 2021 09:41:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40398 "EHLO
+        id S231414AbhBXOl6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Feb 2021 09:41:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235410AbhBXNT4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 08:19:56 -0500
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com [IPv6:2607:f8b0:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F7EEC061356
-        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 05:18:39 -0800 (PST)
-Received: by mail-ot1-x32e.google.com with SMTP id s107so2068264otb.8
-        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 05:18:39 -0800 (PST)
+        with ESMTP id S236431AbhBXNUm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 08:20:42 -0500
+Received: from mail-oo1-xc35.google.com (mail-oo1-xc35.google.com [IPv6:2607:f8b0:4864:20::c35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99C97C06121E
+        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 05:18:45 -0800 (PST)
+Received: by mail-oo1-xc35.google.com with SMTP id l5so495364ooj.7
+        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 05:18:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=COjV3N0ToYDZxDDGk/b79HOkWGjdIOUR0bjGwTUhLI4=;
-        b=FoyWNq//WVhTJNg+Cpr51IOfa9z17QiYZLALQW0f/kG6rg+oBWmK3JxCAJZ83J2RgC
-         Gy+UAXdqSurDT79Kfau4ONhRWfhcCqVYaig1RGeSpRc2KuOotWRre+69+f55OBION/Ru
-         fzbfF4XxgqNCsvPhBRhQdj0L7E27w0s3qGUto3G/kIdmOBfdV7XhXyWrsXvMR/BZ1Bn7
-         FN940rXOjKL/zHPmYPTYoCr6HeV57nFjHuIk/9BDHeYq8YDXPq746ZK+f1wpnwP9RQ4q
-         XpeyLxjGb2r/Bf+o7pIRfcUeFZ4zm05V7lsgpw37owDcW6DypcDt9hn0buW++QNLbS4h
-         GCIA==
+        bh=2QMkH64M8As4l+KSDTQdK+u4M5qrIN7PaZOHlR51wic=;
+        b=QmN0FsJYiPxmCNa2Tha1APhsUK8o/7UaZLHeTlgpjASwj19luMRyZbWjrLxbXnOWSq
+         QX3Widqm0McOoSM3HTXHxcQmOE55BROws/lIjp65Idz5F6TUFsQCip3AEZUVrDi4802W
+         a1DgYxiomsD1lW1EmR4QuPaF4FxC5XnzYOdkw7NhBJMriRHA9/xsyO/aNXKB4gX+Akwl
+         XZDq3lTBz1baGF2HPr2Zj2AtovQtHjgyajNkzw0upFslmhr/BtBhrG2tOL3fl4ZgMHp+
+         eyKWP2uXQHTgp4Q/AvKzKs1YWSL4aGdSzROSCh8GqzzcYz7IiSTyQg3cPlVOLhACAypy
+         MH3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=COjV3N0ToYDZxDDGk/b79HOkWGjdIOUR0bjGwTUhLI4=;
-        b=XwkM/evVhuhUVpaWS+1mvwe7FuLZKlW6o8xuGWAPeZWqV/0de7R3JLQgMjDl80ondD
-         /agSeVXSdPXKe+FHKD2PabFtGsC7XbicHRZ7NEDx3kvPag5MEovJT2Ia3F0SwUMMhop8
-         QCLZf6/MWXnermTZwsaXTmo4iwKdfljlRLddFRM12Tw8FjwmWc8B/S+LdPUwoESTiqgM
-         B5txaCFJNSHmzkaN3IkbFDKS0Ce5BSOyHmyk84V4RP2iFjJ4qQqS4KLGZSBI0o2zkxlM
-         XJ47wvo3MU+JBYb7OwJAm2fYY9ZMyf/4FrjZWF7frvFbbJr5fAAoDErqGjQtPGY9Yadp
-         DBXQ==
-X-Gm-Message-State: AOAM533ACH01fHg+lfZNzcQ/xDaN9Vq3Be3vt7G4uCV97TvyFIwBFHgL
-        F5SPrKR7tGnRhlauE89/XDqSpUhjVGl2mkH1FFY=
-X-Google-Smtp-Source: ABdhPJwSvAWrC7SF1Ki0wbLNl8L/MA7aKQkO20w/rnGGKFIGkAu5rn/ynt6NDxGrgRQ3Xu9C9k5rgg==
-X-Received: by 2002:a9d:5cc3:: with SMTP id r3mr1089483oti.0.1614172718548;
-        Wed, 24 Feb 2021 05:18:38 -0800 (PST)
-Received: from winterfell.papolivre.org (winterfell.papolivre.org. [2600:3c00::f03c:91ff:fe69:3960])
-        by smtp.gmail.com with ESMTPSA id b21sm380069oot.34.2021.02.24.05.18.38
+        bh=2QMkH64M8As4l+KSDTQdK+u4M5qrIN7PaZOHlR51wic=;
+        b=AF732cZZp7cfHVUn2Tt2MVKeELbft8ZAn0JjIK6Ux0s6qcd9MR84gqId0+xMbAxzOY
+         Y0riIefvelfW4OfsZhyqFJ8s58wWXKKylzu2Cnb522jU6/YG2V2roPnj38Z9/V56bv1A
+         yGE4mTF1lqsHCutKKlsRGhf3yo564QdqpnnrvXWs6olNHdkJkM54LAnJAyoQAF+/eBme
+         6Qfyl0u1NHuYdSFZvOPZyJA5IvglmxoqXXQjYfwLRrGS5yI1PQfz2ZmizOFjM5PCJrqQ
+         5XNPanAUqS4OMYzrJDfmKrdGnFdwlZ6Xdqv3w2shUsUmZvRIa4E97XfXbKiI/3R3EyyD
+         S5xQ==
+X-Gm-Message-State: AOAM533mPhqWBOIVIULcm17P2hJMy0s7DJ0vkaPTP5V1qnD/px2oS52x
+        xgb+60xHrjYF1bzsYpP2bLAZQQ==
+X-Google-Smtp-Source: ABdhPJzZENaJ/w4FIbF/u86i6KIgI4boKlF8cypFxWZArBN+CEJ43ycBpfR7AD/CKXEZpGzOO2u34Q==
+X-Received: by 2002:a4a:c44:: with SMTP id n4mr23749084ooe.62.1614172725035;
+        Wed, 24 Feb 2021 05:18:45 -0800 (PST)
+Received: from winterfell.papolivre.org (winterfell.papolivre.org. [198.58.116.17])
+        by smtp.gmail.com with ESMTPSA id b21sm380149oot.34.2021.02.24.05.18.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 05:18:38 -0800 (PST)
+        Wed, 24 Feb 2021 05:18:44 -0800 (PST)
 Received: from localhost (unknown [IPv6:2001:1284:f016:4cfd:27e0:441e:870:6787])
-        by winterfell.papolivre.org (Postfix) with ESMTPSA id 580871C2F43;
-        Wed, 24 Feb 2021 10:18:37 -0300 (-03)
+        by winterfell.papolivre.org (Postfix) with ESMTPSA id 7BFBE1C2F43;
+        Wed, 24 Feb 2021 10:18:43 -0300 (-03)
 From:   Antonio Terceiro <antonio.terceiro@linaro.org>
-To:     linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+To:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH] Documentation: kselftest: fix path to test module files
-Date:   Wed, 24 Feb 2021 10:06:05 -0300
-Message-Id: <20210224130605.347728-1-antonio.terceiro@linaro.org>
+Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jiong Wang <jiong.wang@netronome.com>
+Subject: [PATCH] Documentation: cgroup-v2: fix path to example BPF program
+Date:   Wed, 24 Feb 2021 10:16:31 -0300
+Message-Id: <20210224131631.349287-1-antonio.terceiro@linaro.org>
 X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -72,31 +75,33 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The top-level kselftest directory is not called kselftest, but
-selftests.
+This file has been moved into the "progs" subdirectory in
+bd4aed0ee73ca873bef3cb3ec746dd796f03df28, together with all test BPF
+programs.
 
 Signed-off-by: Antonio Terceiro <antonio.terceiro@linaro.org>
-Cc: Shuah Khan <shuah@kernel.org>
+Cc: Tejun Heo <tj@kernel.org>
+Cc: Zefan Li <lizefan.x@bytedance.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>
 Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Jiong Wang <jiong.wang@netronome.com>
 ---
- Documentation/dev-tools/kselftest.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/admin-guide/cgroup-v2.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/dev-tools/kselftest.rst b/Documentation/dev-tools/kselftest.rst
-index a901def730d9..dcefee707ccd 100644
---- a/Documentation/dev-tools/kselftest.rst
-+++ b/Documentation/dev-tools/kselftest.rst
-@@ -239,8 +239,8 @@ using a shell script test runner.  ``kselftest/module.sh`` is designed
- to facilitate this process.  There is also a header file provided to
- assist writing kernel modules that are for use with kselftest:
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index c513eafaddea..befe9425d028 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2094,7 +2094,7 @@ If the program returns 0, the attempt fails with -EPERM, otherwise
+ it succeeds.
  
--- ``tools/testing/kselftest/kselftest_module.h``
--- ``tools/testing/kselftest/kselftest/module.sh``
-+- ``tools/testing/selftests/kselftest_module.h``
-+- ``tools/testing/selftests/kselftest/module.sh``
+ An example of BPF_CGROUP_DEVICE program may be found in the kernel
+-source tree in the tools/testing/selftests/bpf/dev_cgroup.c file.
++source tree in the tools/testing/selftests/bpf/progs/dev_cgroup.c file.
  
- How to use
- ----------
+ 
+ RDMA
 -- 
 2.30.1
 
