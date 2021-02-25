@@ -7,68 +7,57 @@ X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FE5EC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 16:55:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AC42C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 18:27:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 23EDA64F19
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 16:55:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B2D9064F21
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 18:27:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232644AbhBYQzk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Feb 2021 11:55:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56350 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233814AbhBYQyI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 11:54:08 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6814EC061756;
-        Thu, 25 Feb 2021 08:53:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=ysyh0gCxVYwTqrOSb7HcOyTTk7+WIfYlDiJJKsaPQH0=; b=rwEtspEnD1gLgieFNTr1IzwMcY
-        kX8wrFzDT0biKQuamhEUbg7ixJCY9sxXNCnV5TpT61yI0p8dQQvCNI0b0H9Go+8NIVYZk/NYz4DI1
-        IY7/ma6ja1jEgmWtB9Y/fgJrCIx0aMfVrCD2J4QKKh8bW2xESGj065Xme6sEIlM/rof5cFUiThFnn
-        Rjy6dldB7DLeH3sA/cPTvg53r7NdtGvsbwK0UDWDcEttxlSb88cTYhiFQbBKbvaL6JRUVx60GmQW8
-        mtNfJ/eigDYMHrZ32XGjKQk/jHxO0naeaFPoQkkM83CJ0Qf22+n4Retp5SGw12Ps4JCw+pgj00RZD
-        NUcXZnvg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lFJsE-00Avfq-JK; Thu, 25 Feb 2021 16:52:23 +0000
-Date:   Thu, 25 Feb 2021 16:52:22 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Timur Tabi <timur@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Marco Elver <elver@google.com>
-Subject: Re: [PATCH] printk: clarify the documentation for plain pointer
- printing
-Message-ID: <20210225165222.GA2858050@casper.infradead.org>
-References: <20210225164639.27212-1-vbabka@suse.cz>
+        id S230459AbhBYS1R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Feb 2021 13:27:17 -0500
+Received: from ms.lwn.net ([45.79.88.28]:34608 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230166AbhBYS1R (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Feb 2021 13:27:17 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id A79E76D6;
+        Thu, 25 Feb 2021 18:26:35 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A79E76D6
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1614277595; bh=bUQncvD/3vtCnEnGcjbOS2DrgvpDXQ2TxaxApV80onY=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=by0elyzU8gYcl2P6kSwoeEDbjoIxP6ZNQSo5anORth5HqlRRpPldNwQPOaqvoJ9F4
+         mwQ/Poq4hkSQ9GWvwivQrgyr6U6ucbEF4y8PatZMBNoc0LmYpK/YzoIBg/eG0UfHXv
+         6N/uXWyqru5ch3xHQh7rjnJXxI4bXCAWZAN9xdj3nRWGy0byY/ANvXia0JVqVz7srQ
+         kEa9xag4wNAgDOyOFdKqypUEFsBeV3b0FCm7d40ZVsYGkr2I0hy3Aqjf8dnwVURdpj
+         WwqZhC0GWIUMxo2ySF/yxBFg94e2ulhNdky0iEOF0xmwHF2AbBx+S0iYACJsv2Ni29
+         IOtu/uGkUucEw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] Documentation: features: remove c6x references
+In-Reply-To: <20210225142841.3385428-1-arnd@kernel.org>
+References: <20210225142841.3385428-1-arnd@kernel.org>
+Date:   Thu, 25 Feb 2021 11:26:35 -0700
+Message-ID: <87tuq0c8bo.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210225164639.27212-1-vbabka@suse.cz>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 25, 2021 at 05:46:39PM +0100, Vlastimil Babka wrote:
-> We have several modifiers for plain pointers (%p, %px and %pK) and now also
-> the no_hash_pointers boot parameter. The documentation should help to choose
-> which variant to use. Importantly, we should discourage %px in favour of %p
-> (with the new boot parameter when debugging), and stress that %pK should be
-> only used for procfs and similar files, not dmesg buffer. This patch clarifies
-> the documentation in that regard.
-> 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+Arnd Bergmann <arnd@kernel.org> writes:
 
-Really nice job.
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The references to arch/c6x are obsolete now that the architecture
+> is gone. Remove them.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+Both applied, thanks.
+
+jon
