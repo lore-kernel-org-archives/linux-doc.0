@@ -2,256 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E90DC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 10:26:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC0F1C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 10:38:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BC7B164F0C
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 10:26:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A21F64EC8
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 10:38:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235294AbhBYK0G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Feb 2021 05:26:06 -0500
-Received: from mail-dm6nam12on2111.outbound.protection.outlook.com ([40.107.243.111]:52189
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S235383AbhBYKWG (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Feb 2021 05:22:06 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e7ML6x8u55j0370K8o887xHft4qLwjOsE8Sg1iOYeJmUMc9bkS6ZTnq4F8pAopILEJf3BSEhc8CudJenAiBxgm/oZpxXdgldRkYo2Q2xcMHUUvXtm9d5BI9bYhLuPBveprOk4zD37uSRV0ZiINAe3uPCKSyGNFvffrtw70eIotoMh9+aa7QJ5ftTxteRJbZ7atV7RYkCW6qEHdRfhrwTlC4MsRnwrsnLWRGGe263jv62Sd8UTqgUm2NvJ8lhGTJlOv5R/yuc+WaNzBNCeermU44TGDAdrtxkq/fIaM3WjGCWBB2cJBC7BfWSvpnXzH2L2wGyTNH/3i+Bwo7rtjNm+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VkyHSHJRLQ6fQ93jdlCevffJIJ0yFPw8wMPrS9lW6e8=;
- b=n9g+gDmq53RgaouaTBi5YuWIkxLp/2A+OGE7zoPKpgKwNMYu8jkv7d4YtIS7FseHyKjE9DM4Qf9lC2934kap12whY1d7EPxKhACXySNbvn7rSiBz7H0SBM1iEL/H/w8PrVKpB/8Cx1d91EoOsrjDcfA2v/hRzIcjW/m/CspPA5KIuPH6T5NAUY5nu1O60jh6iIWxbya0Z4v1cfXRacZiLgTS6/4qpmXA+moU35hQtYrKPbE5gNYETap9uvhwg2bab0nb/tjgCtLXILxxMKg8LevUd9mIQiJHIShSsBvRgTW+pl2Vdj64247HmD7bodqy8GIBKLkJg77rlWtVEh+uHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VkyHSHJRLQ6fQ93jdlCevffJIJ0yFPw8wMPrS9lW6e8=;
- b=m9G7dRayJ5S9emXf/biTV89dqA5ymKHWoKZv4xggH8C0jRmAel3JUqI0fCaLn4O8TrWkCyWThxzXOcCbigq86NX2CeuMn93xffsjJJbM0Z38Neo3CYzRJN/jZaY2bCixTjIJ1z9NaZZzPV8Y3cA00sP3yfpfe3kTkeyhBZ/S0Ts=
-Authentication-Results: jms.id.au; dkim=none (message not signed)
- header.d=none;jms.id.au; dmarc=none action=none
- header.from=os.amperecomputing.com;
-Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
- MWHPR01MB2320.prod.exchangelabs.com (2603:10b6:300:26::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3890.19; Thu, 25 Feb 2021 10:19:48 +0000
-Received: from MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::682c:4e20:b53d:e660]) by MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::682c:4e20:b53d:e660%7]) with mapi id 15.20.3890.019; Thu, 25 Feb 2021
- 10:19:48 +0000
-From:   Quan Nguyen <quan@os.amperecomputing.com>
-To:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org
-Cc:     Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-Subject: [PATCH 4/4] docs: hwmon: (smpro-hwmon) Add documentation
-Date:   Thu, 25 Feb 2021 17:18:54 +0700
-Message-Id: <20210225101854.13896-5-quan@os.amperecomputing.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210225101854.13896-1-quan@os.amperecomputing.com>
-References: <20210225101854.13896-1-quan@os.amperecomputing.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [118.69.219.201]
-X-ClientProxiedBy: HK0PR01CA0061.apcprd01.prod.exchangelabs.com
- (2603:1096:203:a6::25) To MW2PR0102MB3482.prod.exchangelabs.com
- (2603:10b6:302:c::32)
+        id S233743AbhBYKic (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Feb 2021 05:38:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51988 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233964AbhBYKfy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 05:35:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1614249266;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=NA0XhNNgXWdKWddYRBJjHOR9CD09LFOv4oAxt+/QKh8=;
+        b=fpVtCn5ZWCa3P0c6VyphnlLZeZcxUwHgc+WO6+kg4v98ZQhtmvjBQrARQsLKRDcMqq4oBy
+        0UOLIbAjQmcOfVGBQ2IsJViDCjH88iEtYfBNX5XrdyBKJJgTwmycg2zAEaompRFyosGcJh
+        2UJ12p4F1IYGgjTdASxFkKh02smKl6M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464-yrGz6ss2PRqE8fSc9ob9ug-1; Thu, 25 Feb 2021 05:34:21 -0500
+X-MC-Unique: yrGz6ss2PRqE8fSc9ob9ug-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6854B19611A2;
+        Thu, 25 Feb 2021 10:34:18 +0000 (UTC)
+Received: from [10.36.114.58] (ovpn-114-58.ams2.redhat.com [10.36.114.58])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 658C619801;
+        Thu, 25 Feb 2021 10:34:14 +0000 (UTC)
+Subject: Re: [PATCH 2/3] Documentation: riscv: Add documentation that
+ describes the VM layout
+To:     Alexandre Ghiti <alex@ghiti.fr>, Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org
+References: <20210225080453.1314-1-alex@ghiti.fr>
+ <20210225080453.1314-3-alex@ghiti.fr>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <5279e97c-3841-717c-2a16-c249a61573f9@redhat.com>
+Date:   Thu, 25 Feb 2021 11:34:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from hcm-sw-17.amperecomputing.com (118.69.219.201) by HK0PR01CA0061.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::25) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19 via Frontend Transport; Thu, 25 Feb 2021 10:19:44 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1ab4e49c-b88b-4df0-449b-08d8d976e0e0
-X-MS-TrafficTypeDiagnostic: MWHPR01MB2320:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR01MB2320EC37841A6670C6E00E61F29E9@MWHPR01MB2320.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lUCuUvIM30g3mwLe1T9vaRHx6rptcuFQndXn4vE5Czaax2cSdQwItqX0wRcUVI9rOzJaT9zk/9Thk242RXc57rlrEIQw43X+H+FaYRdLF3mlUp7fLf1z4gQZfgjlQP/34Z1deN1dw8Tz5dIDBMLso9cjra2ZQwcACJznsDPfAaVoW4JdnCgaPRZbIm/TovHCujyR7T5XAenGibf3/Ek5o6I41XFCPv2op/F9tu3CFwGBu1LoTJ4D//VhLpYGa6xCs2/84xO/LhkVEVyrFRWvH1A2wwSWsa0nFe9O23J1VK9bfygRbp9c105vz7e9+V83Z0L94ZHM8QVJWqmnkkoCM0MRI9G4dZQ3SD5I2cmuZOxtnXO3Pthfikh3/AdJx4SQyLdJnan7CxfoOIUBWY6Ynkdv0J5VRFet9FB/HmBHX45YfTkpzJ9BRG9puUrQBYa/EOt70/IzKSiMBeqGDGLUMkhu9pKDm6gTjsUmWUcpXVSNeMzRaXAS+8Z2ryJkvttvnJBIc1WAJ1baBAQnKoCaRYWvmvNy6H0rhfYSNKGi7RyRc14qngXH0yQJDIHlXewZ
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR0102MB3482.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(346002)(136003)(39830400003)(366004)(956004)(2616005)(66556008)(6512007)(6666004)(107886003)(110136005)(66946007)(66476007)(52116002)(8936002)(921005)(316002)(86362001)(26005)(2906002)(1076003)(5660300002)(6486002)(186003)(4326008)(6506007)(16526019)(8676002)(7416002)(478600001)(54906003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?QXdLhvg9zUOq17n2zoeMrdvwz2RfE8hy56C9eAZDFcSYR7zxuZpbLG+Nkcun?=
- =?us-ascii?Q?i3T3j7SPk83aViPG8gUTv6Wyh2bkZzdtZaSS76pbDBWfPuzdLYi9U0X1RPzx?=
- =?us-ascii?Q?IMUiLQoKlYaAJsmtEQAMwzTwF1HQC9zBiyR8INBXzB++pP32cdot8JESV0LY?=
- =?us-ascii?Q?TQ72NBsiQxhnWtTCHmbRTq1c4t9OQc6a4k9P96bgqbzo1XxYsWTgWtuerARz?=
- =?us-ascii?Q?JOlZdyeYPVEHT7T7W8LcfBJA5ZEhSBEiVC0kvH+ST1aWYTzPqBQ8Q72016cT?=
- =?us-ascii?Q?X1B143s0hp7/1FosBj/Oa3r8H7ihiPU8qBDG3pZvD4+l4xS43DyOHr6bcKo1?=
- =?us-ascii?Q?8vBJaMlZYpPcb5hpaODTVuykOM5pBCvZxt9HSlUOpIb78hdgbkBHbPIhQnGM?=
- =?us-ascii?Q?nByR7q5ieFeK8COiQVUpYYj7OigfnZH3WttLOL/HhZDtZDLPzOf3ol6cwEV0?=
- =?us-ascii?Q?r2IlMj+Zf+ND8I8Bklyv61lYYxKL+gcLFtm8zAAU73OBHQjIGAs5KpqqPC1f?=
- =?us-ascii?Q?14yXk3DSkuV7p1n45nHcDjnZ5bMgTMHDZ1zV5IlQs0760G46HdJV57Ietrqf?=
- =?us-ascii?Q?iNJLvO2A6TFaxVQCkQcTF24NssZeRKFp4f+d17pYGfpUuaMMDpalkmHR9wUy?=
- =?us-ascii?Q?//SmXd1Qa/63su/q66aOaBMstvo7YmiLxijHFKEtOr5EMfqdcS2c0p2/WVIO?=
- =?us-ascii?Q?Pju3tZUtAg9z5J/+/EdHhkq0hzpzb8Al2a6MCzaPaX8rPPk83dGZyPFBhFqu?=
- =?us-ascii?Q?UjgjWaZL9b7hp/DmPlZxkMke3kH/aQn1KDQcr1N8xl8iuZMejsxcv5Ok3rOq?=
- =?us-ascii?Q?bisoCnvUlTlM/vTv9AyZbBAvUduEgKtAGvHHFX7xO8RKd+hJ+pk9UPcDPCrV?=
- =?us-ascii?Q?RghPLyMEnp1lmot4trU2VLf4EecbUoP2LaX6HUKcIcBwcWXD1hTuG+ME/sbq?=
- =?us-ascii?Q?oE4TA5K2R4ylLTEbWmoj+dnhyQHdT0423ZjIHaeVTW1fgnfKZbxHfZ1p5M8a?=
- =?us-ascii?Q?mjQJOQ368h0yQkRh1EPogSip0PshkMXpSVzaTx1lXJcMoMZMhbiGztAYmn0f?=
- =?us-ascii?Q?ad5lSJkVzwoq7ndOECFn6MAExZWzhflOusMu6KDFGBQjLeIOvpoFG1mpcRHJ?=
- =?us-ascii?Q?ZlcqItRjSDow7re/p2Q12iRh8quTgl8c9iE/sbRNEUJD0tGvNChQ9AYv2n7i?=
- =?us-ascii?Q?EZgvh0TDWiFiomp/T10CYwlDLOeL9g67MF9ONuhbOZcOUh7Ffa4T5Q8wf0xQ?=
- =?us-ascii?Q?zWF1rFrDHjIyx52JV28Ws/9quVXWVJrL9dc43gmeqA8d1IQdRqYYe8P26whi?=
- =?us-ascii?Q?AUPVO2+3G9tDQLIy+zx82Z5M?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1ab4e49c-b88b-4df0-449b-08d8d976e0e0
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2021 10:19:48.0054
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Mi+jbV/dfW7UmwL4kLOazqWWtBh+R2g/WK7bBxqbeBWIJHAMk4n9ZcPCaOI10eMs1ABs3cwwsDUMot/gjQcL0BO/Md2Ny4P2kfqMvXTBSIQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR01MB2320
+In-Reply-To: <20210225080453.1314-3-alex@ghiti.fr>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add documentation for the Ampere(R)'s Altra(R) SMpro hwmon driver.
+                  |            |                  |         |> + 
+ffffffc000000000 | -256    GB | ffffffc7ffffffff |   32 GB | kasan
+> +   ffffffcefee00000 | -196    GB | ffffffcefeffffff |    2 MB | fixmap
+> +   ffffffceff000000 | -196    GB | ffffffceffffffff |   16 MB | PCI io
+> +   ffffffcf00000000 | -196    GB | ffffffcfffffffff |    4 GB | vmemmap
+> +   ffffffd000000000 | -192    GB | ffffffdfffffffff |   64 GB | vmalloc/ioremap space
+> +   ffffffe000000000 | -128    GB | ffffffff7fffffff |  126 GB | direct mapping of all physical memory
 
-Signed-off-by: Thu Nguyen <thu@os.amperecomputing.com>
-Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
----
- Documentation/hwmon/index.rst       |   1 +
- Documentation/hwmon/smpro-hwmon.rst | 100 ++++++++++++++++++++++++++++
- 2 files changed, 101 insertions(+)
- create mode 100644 Documentation/hwmon/smpro-hwmon.rst
+^ So you could never ever have more than 126 GB, correct?
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 8d5a2df1ecb6..b48a980ed08b 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -164,6 +164,7 @@ Hardware Monitoring Kernel Drivers
-    sis5595
-    sl28cpld
-    smm665
-+   smpro-hwmon
-    smsc47b397
-    smsc47m192
-    smsc47m1
-diff --git a/Documentation/hwmon/smpro-hwmon.rst b/Documentation/hwmon/smpro-hwmon.rst
-new file mode 100644
-index 000000000000..d546b90982e5
---- /dev/null
-+++ b/Documentation/hwmon/smpro-hwmon.rst
-@@ -0,0 +1,100 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver Ampere(R)'s Altra(R) SMpro hwmon
-+==============================================
-+
-+Supported chips:
-+
-+  * Ampere(R) Altra(R)
-+
-+    Prefix: 'smpro'
-+
-+    Reference: Altra SoC BMC Interface Specification
-+
-+Author: Thu Nguyen <thu@os.amperecomputing.com>
-+
-+Description
-+-----------
-+This driver supports hardware monitoring for Ampere(R) Altra(R) SoC's based on the
-+SMpro co-processor (SMpro).
-+The following sensor types are supported by the driver:
-+
-+  * temperature
-+  * voltage
-+  * current
-+  * power
-+
-+The SMpro interface provides the registers to query the various sensors and
-+their values which are then exported to userspace by this driver.
-+
-+Usage Notes
-+-----------
-+
-+SMpro hwmon driver creates two sysfs files for each sensor.
-+
-+* File ``<sensor_type><idx>_label`` reports the sensor label.
-+* File ``<sensor_type><idx>_input`` returns the sensor value.
-+
-+The sysfs files are allocated in the SMpro root fs folder.
-+There is one root folder for each SMpro instance.
-+
-+When the SoC is turned off, the driver is failed to read the registers.
-+It returns TIMEDOUT Error(-110) for the read sensors.
-+
-+Sysfs entries
-+-------------
-+
-+The following sysfs files are supported:
-+
-+* Ampere(R) Altra(R):
-+
-+===============    =============   ======= ===============================================
-+Name        Unit        Perm    Description
-+temp1_input     mili Celsius     RO    SoC temperature
-+temp2_input     mili Celsius     RO    Highest temperature reported by the SoC VRDs
-+temp3_input     mili Celsius     RO    Highest temperature reported by the DIMM VRDs
-+temp4_input     mili Celsius     RO    Highest temperature reported by the Core VRDs
-+temp5_input     mili Celsius     RO    Highest temperature of DIMM Channel 0 to 3
-+temp6_input     mili Celsius     RO    Temperature of DIMM0 on CH0
-+temp7_input     mili Celsius     RO    Temperature of DIMM0 on CH1
-+temp8_input     mili Celsius     RO    Temperature of DIMM0 on CH2
-+temp9_input     mili Celsius     RO    Temperature of DIMM0 on CH3
-+temp10_input     mili Celsius     RO    Highest temperature of DIMM Channel 4 to 7
-+temp11_input     mili Celsius     RO    Temperature of DIMM0 on CH4
-+temp12_input     mili Celsius     RO    Temperature of DIMM0 on CH5
-+temp13_input     mili Celsius     RO    Temperature of DIMM0 on CH6
-+temp14_input     mili Celsius     RO    Temperature of DIMM0 on CH7
-+temp15_input     mili Celsius     RO    MEM HOT Threshold
-+temp16_input     mili Celsius     RO    SoC VRD HOT Threshold
-+temp17_input     mili Celsius     RO    Highest temperature reported by the RCA VRD
-+in0_input     mili Volt     RO    Core voltage
-+in1_input     mili Volt     RO    SoC voltage
-+in2_input     mili Volt     RO    DIMM VRD1 voltage
-+in3_input     mili Volt     RO    DIMM VRD2 voltage
-+in4_input     mili Volt     RO    Maximum voltage of DIMM VRD1 and VRD2
-+in5_input     mili Volt     RO    RCA VRD voltage
-+cur1_input     mili Ampere     RO    Core VRD current
-+cur2_input     mili Ampere     RO    SoC VRD current
-+cur3_input     mili Ampere     RO    DIMM VRD1 current
-+cur4_input     mili Ampere     RO    DIMM VRD2 current
-+cur5_input     mili Ampere     RO    RCA VRD current
-+power1_input     nano Wat     RO    Core VRD power
-+power2_input     nano Wat     RO    SoC VRD power
-+power3_input     nano Wat     RO    DIMM VRD1 power
-+power4_input     nano Wat     RO    DIMM VRD2 power
-+power5_input     nano Wat     RO    CPU VRD power, total of SoC and Core VRD power
-+power6_input     nano Wat     RO    Total of DIMM VRD1 and VRD2 power
-+power7_input     nano Wat     RO    RCA VRD power
-+power8_input     nano Wat     RO    Socket TDP
-+===============    =============   ======= ===============================================
-+
-+Example::
-+
-+    # cat in0_input
-+    830
-+    # cat temp1_input
-+    37000
-+    # cat curr1_input
-+    9000
-+    # cat power5_input
-+    19500000
+I assume that's nothing new.
+
 -- 
-2.28.0
+Thanks,
+
+David / dhildenb
 
