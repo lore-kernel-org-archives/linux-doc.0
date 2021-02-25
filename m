@@ -2,169 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70761C433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 04:58:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61D50C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 06:10:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3ADC164EDD
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 04:58:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C2E264EC4
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 06:10:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235270AbhBYE6a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Feb 2021 23:58:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44120 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234833AbhBYE6W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Feb 2021 23:58:22 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DE51C061786
-        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 20:57:42 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id n10so2985318pgl.10
-        for <linux-doc@vger.kernel.org>; Wed, 24 Feb 2021 20:57:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=GCPvH/ftBaPKrIrg1SrRaA28WOD5QZfwlnEHwgccJos=;
-        b=qcnZZYCJi98bpluIA+Q6PbpZt/DTsw6UAEq6IRMRd1PNOsFM6BO9kPihfoQQQb87Rx
-         fsrwNx3FnRYOVp90fuaDu9oOIAHKQZ5JRcw5J4/+z10kW3ty+3KpTL1AUzSuEpCF/9CX
-         c2ODR7C0MZAeApvSVIMhXxFEE4oO34Tfc3p1nBRDx/buMluyiYYrdFtAv9BTvjIwkNuL
-         P7AGSBh/JZKXRr05hZuaMm7Vp/wH9GiJkDriIApAxmnd3CcoDOrjpj0FWSALeojZv+P/
-         0JAirMem5/JvDvQ14shHJRy+NVY7k2H+KT9Fep2BLYxsIHztz/JM1LZDgnAXK8U1qVJf
-         fFAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=GCPvH/ftBaPKrIrg1SrRaA28WOD5QZfwlnEHwgccJos=;
-        b=pdbT+25GNqnidvn64nG+O6HGDy+HNCq5ePsvLbCf3IyAOlPgy0PyAeZIiH5gN/eUOu
-         6XPcOxWoLn2u0hsksqgoki4LGIRJCSMLMffaX+yDMQkgqBl4333GcjdNZuUmHsvY9+sb
-         PqUnq5iSb1iIUYCaLQuP93dnppgGIRwIU9cX+pMo6xdqLXO7/5hT6C8SZR6RsJI3n7aG
-         6KYlPkzRJAlyB/JUrAWfB435+o41gWyQyJ/j88UAPCaVfgqU8ON3njCzRSzIivMXkj3z
-         uNIz5Rd5MaQHxYm2cC+bQ9zbXLBDNsnf32eaDthlRQt999jJfGvw/wdB6Zn9+lThhDQX
-         lXlw==
-X-Gm-Message-State: AOAM530YOguH/5lU9hmZATIVxuSJ8Mqa9Cm9zVbggP/u/gaqrPv39fed
-        rf6l10fmCzGOLTgriJ0ClffpEA==
-X-Google-Smtp-Source: ABdhPJzHz+X6qOY/Ap20Mg+cl6p/k3veTQ4izjUkq9XK8Lc2iDiGHMlEOejfq7dwuBVVLuLS+3zY+w==
-X-Received: by 2002:aa7:9dd1:0:b029:1ed:bee2:c65e with SMTP id g17-20020aa79dd10000b02901edbee2c65emr1483923pfq.5.1614229061213;
-        Wed, 24 Feb 2021 20:57:41 -0800 (PST)
-Received: from google.com ([2620:0:1008:10:9474:84b:e7ae:d5fc])
-        by smtp.gmail.com with ESMTPSA id v129sm4399042pfc.110.2021.02.24.20.57.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Feb 2021 20:57:40 -0800 (PST)
-Date:   Wed, 24 Feb 2021 20:57:36 -0800
-From:   Vipin Sharma <vipinsh@google.com>
-To:     Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-        thomas.lendacky@amd.com
-Cc:     tj@kernel.org, brijesh.singh@amd.com, jon.grimm@amd.com,
-        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
-        frankja@linux.ibm.com, borntraeger@de.ibm.com, corbet@lwn.net,
-        seanjc@google.com, vkuznets@redhat.com, wanpengli@tencent.com,
-        jmattson@google.com, joro@8bytes.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, gingell@google.com,
-        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC 1/2] cgroup: sev: Add misc cgroup controller
-Message-ID: <YDcuQFMbe5MaatBe@google.com>
-References: <20210218195549.1696769-1-vipinsh@google.com>
- <20210218195549.1696769-2-vipinsh@google.com>
- <YDVIdycgk8XL0Zgx@blackbook>
+        id S234796AbhBYGKZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Feb 2021 01:10:25 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:12836 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233067AbhBYGKF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 01:10:05 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 11P64BSS003479;
+        Thu, 25 Feb 2021 01:09:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=8dL06oBDHYCje9bYWS5Rem0wcTfIqAwbRpVgC9rQgPE=;
+ b=K+4xpZJmW0/kHS/VEq0hPeJ16S6YptCVCAQmXpDw4gGCxPhODJNsXq86CBVLq6KViLjt
+ Mc+XqdJT+a72R6Q4QA8tTAWrlzssfeiDdmtEpB9gGvqB6jCQKRCIapEiXH0a+0MPMrMG
+ G2vHfgL57zo/BiWFdwDwhfDO2ZXyNXTnxxs5wEXAkLAuqghMGbo32nTxkK7mDqgT3NVg
+ Jsvp7RhpcQv38IasbuDiEsV+pXBmSoGFsQ9iqJHEnPkgCveducPnUqZldg6h4Ba9cjLs
+ nUjiv/8N1m/9KWLahCkSUs3FS+MkbHvUxAwAGf8akh94+vZxT9gNyPNSEN4BfGQiuuYQ HQ== 
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 36wmfx0bja-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 25 Feb 2021 01:09:15 -0500
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11P679R5007495;
+        Thu, 25 Feb 2021 06:09:13 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+        by ppma04ams.nl.ibm.com with ESMTP id 36tt28c5sc-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 25 Feb 2021 06:09:13 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com [9.149.105.59])
+        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 11P69BeE30409170
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 25 Feb 2021 06:09:11 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 4459EA4051;
+        Thu, 25 Feb 2021 06:09:11 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id A9CCFA404D;
+        Thu, 25 Feb 2021 06:09:10 +0000 (GMT)
+Received: from ozlabs.au.ibm.com (unknown [9.192.253.14])
+        by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Thu, 25 Feb 2021 06:09:10 +0000 (GMT)
+Received: from intelligence.ibm.com (unknown [9.206.205.112])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by ozlabs.au.ibm.com (Postfix) with ESMTPSA id 026F560242;
+        Thu, 25 Feb 2021 17:09:07 +1100 (AEDT)
+From:   Andrew Donnellan <ajd@linux.ibm.com>
+To:     linuxppc-dev@lists.ozlabs.org
+Cc:     linux-doc@vger.kernel.org, mchehab+huawei@kernel.org,
+        corbet@lwn.net
+Subject: [PATCH] docs: powerpc: Fix tables in syscall64-abi.rst
+Date:   Thu, 25 Feb 2021 17:08:57 +1100
+Message-Id: <20210225060857.16083-1-ajd@linux.ibm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YDVIdycgk8XL0Zgx@blackbook>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-02-25_01:2021-02-24,2021-02-25 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ impostorscore=0 mlxlogscore=999 clxscore=1011 adultscore=0 malwarescore=0
+ lowpriorityscore=0 phishscore=0 mlxscore=0 spamscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102250052
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 23, 2021 at 07:24:55PM +0100, Michal Koutný wrote:
-> On Thu, Feb 18, 2021 at 11:55:48AM -0800, Vipin Sharma <vipinsh@google.com> wrote:
-> > --- a/arch/x86/kvm/svm/sev.c
-> > +++ b/arch/x86/kvm/svm/sev.c
-> > [...]
-> > +#ifndef CONFIG_KVM_AMD_SEV
-> > +/*
-> > + * When this config is not defined, SEV feature is not supported and APIs in
-> > + * this file are not used but this file still gets compiled into the KVM AMD
-> > + * module.
-> I'm not familiar with the layout of KVM/SEV compile targets but wouldn't
-> it be simpler to exclude whole svm/sev.c when !CONFIG_KVM_AMD_SEV?
-> 
+Commit 209b44c804c ("docs: powerpc: syscall64-abi.rst: fix a malformed
+table") attempted to fix the formatting of tables in syscall64-abi.rst, but
+inadvertently changed some register names.
 
-Tom,
-Is there any plan to exclude sev.c compilation if CONFIG_KVM_AMD_SEV is
-not set?
+Redo the tables with the correct register names, and while we're here,
+clean things up to separate the registers into different rows and add
+headings.
 
-> > +++ b/kernel/cgroup/misc.c
-> > [...]
-> > +/**
-> > + * misc_cg_set_capacity() - Set the capacity of the misc cgroup res.
-> > + * @type: Type of the misc res.
-> > + * @capacity: Supported capacity of the misc res on the host.
-> > + *
-> > + * If capacity is 0 then the charging a misc cgroup fails for that type.
-> > + *
-> > + * The caller must serialize invocations on the same resource.
-> > + *
-> > + * Context: Process context.
-> > + * Return:
-> > + * * %0 - Successfully registered the capacity.
-> > + * * %-EINVAL - If @type is invalid.
-> > + * * %-EBUSY - If current usage is more than the capacity.
-> When is this function supposed to be called? At boot only or is this
-> meant for some kind of hot unplug functionality too?
-> 
+Fixes: 209b44c804c ("docs: powerpc: syscall64-abi.rst: fix a malformed table")
+Signed-off-by: Andrew Donnellan <ajd@linux.ibm.com>
+---
+ Documentation/powerpc/syscall64-abi.rst | 51 ++++++++++++++++---------
+ 1 file changed, 32 insertions(+), 19 deletions(-)
 
-This function is meant for hot unplug functionality too.
+diff --git a/Documentation/powerpc/syscall64-abi.rst b/Documentation/powerpc/syscall64-abi.rst
+index cf9b2857c72a..dabee3729e5a 100644
+--- a/Documentation/powerpc/syscall64-abi.rst
++++ b/Documentation/powerpc/syscall64-abi.rst
+@@ -46,25 +46,38 @@ stack frame LR and CR save fields are not used.
+ 
+ Register preservation rules
+ ---------------------------
+-Register preservation rules match the ELF ABI calling sequence with the
+-following differences:
+-
+-+------------------------------------------------------------------------+
+-|        For the sc instruction, differences with the ELF ABI		 |
+-+--------------+--------------+------------------------------------------+
+-| r0           | Volatile     | (System call number.)			 |
+-| rr3          | Volatile     | (Parameter 1, and return value.)	 |
+-| rr4-r8       | Volatile     | (Parameters 2-6.)			 |
+-| rcr0         | Volatile     | (cr0.SO is the return error condition.)	 |
+-| rcr1, cr5-7  | Nonvolatile  |						 |
+-| rlr          | Nonvolatile  |						 |
+-+--------------+--------------+------------------------------------------+
+-|      For the scv 0 instruction, differences with the ELF ABI		 |
+-+--------------+--------------+------------------------------------------+
+-| r0           | Volatile     | (System call number.)			 |
+-| r3           | Volatile     | (Parameter 1, and return value.)	 |
+-| r4-r8        | Volatile     | (Parameters 2-6.)			 |
+-+--------------+--------------+------------------------------------------+
++Register preservation rules match the ELF ABI calling sequence with some
++differences.
++
++For the sc instruction, the differences from the ELF ABI are as follows:
++
+++--------------+--------------------+-----------------------------------------+
++| Register     | Preservation Rules | Purpose                                 |
+++==============+====================+=========================================+
++| r0           | Volatile           | (System call number.)                   |
+++--------------+--------------------+-----------------------------------------+
++| r3           | Volatile           | (Parameter 1, and return value.)        |
+++--------------+--------------------+-----------------------------------------+
++| r4-r8        | Volatile           | (Parameters 2-6.)                       |
+++--------------+--------------------+-----------------------------------------+
++| cr0          | Volatile           | (cr0.SO is the return error condition.) |
+++--------------+--------------------+-----------------------------------------+
++| cr1, cr5-7   | Nonvolatile        |                                         |
+++--------------+--------------------+-----------------------------------------+
++| lr           | Nonvolatile        |                                         |
+++--------------+--------------------+-----------------------------------------+
++
++For the scv 0 instruction, the differences from the ELF ABI are as follows:
++
+++--------------+--------------------+-----------------------------------------+
++| Register     | Preservation Rules | Purpose                                 |
+++==============+====================+=========================================+
++| r0           | Volatile           | (System call number.)                   |
+++--------------+--------------------+-----------------------------------------+
++| r3           | Volatile           | (Parameter 1, and return value.)        |
+++--------------+--------------------+-----------------------------------------+
++| r4-r8        | Volatile           | (Parameters 2-6.)                       |
+++--------------+--------------------+-----------------------------------------+
+ 
+ All floating point and vector data registers as well as control and status
+ registers are nonvolatile.
+-- 
+2.20.1
 
-> > +int misc_cg_try_charge(enum misc_res_type type, struct misc_cg **cg,
-> > +		       unsigned int amount)
-> > [...]
-> > +		new_usage = atomic_add_return(amount, &res->usage);
-> > +		if (new_usage > res->max ||
-> > +		    new_usage > misc_res_capacity[type]) {
-> > +			ret = -EBUSY;
-> I'm not sure the user of this resource accounting will always be able to
-> interpret EBUSY returned from depths of the subsystem.
-> See what's done in pids controller in order to give some useful
-> information about why operation failed.
-
-Just to be on the same page are you talking about adding an events file
-like in pids?
-
-> 
-> > +			goto err_charge;
-> > +		}
-> > +
-> > +		// First one to charge gets a reference.
-> > +		if (new_usage == amount)
-> > +			css_get(&i->css);
-> 1) Use the /* comment */ style.
-> 2) You pin the whole path from task_cg up to root (on the first charge).
-> That's unnecessary since children reference their parents.
-> Also why do you get the reference only for the first charger? While it
-> may work, it seems too convoluted to me.
-> It'd be worth documenting what the caller can expect wrt to ref count of
-> the returned misc_cg.
-
-Suppose a user charges 5 resources in a single charge call but uncharges
-them in 5 separate calls one by one. I cannot take reference on every
-charge and put the reference for every uncharge as it is not guaranteed
-to have equal number of charge-uncharge pairs and we will end up with
-the wrong ref count.
-
-However, if I take reference at the first charge and remove reference at
-last uncharge then I can keep the ref count in correct sync.
-
-I can rewrite if condition to (new_usage == amount && task_cg == i)
-this will avoid pinning whole path up to the root. I was thinking that
-original code was simpler, clearly I was wrong.
-
-Thanks
-Vipin
