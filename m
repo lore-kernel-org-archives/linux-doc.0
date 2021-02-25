@@ -5,159 +5,232 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A035C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 08:10:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05CF6C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 09:14:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C5F0F64E4D
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 08:10:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A243564EDB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 09:14:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235570AbhBYIKR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Feb 2021 03:10:17 -0500
-Received: from relay12.mail.gandi.net ([217.70.178.232]:50345 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235646AbhBYIJo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 03:09:44 -0500
-Received: from localhost.localdomain (35.161.185.81.rev.sfr.net [81.185.161.35])
-        (Authenticated sender: alex@ghiti.fr)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id D4AB9200006;
-        Thu, 25 Feb 2021 08:08:34 +0000 (UTC)
-From:   Alexandre Ghiti <alex@ghiti.fr>
+        id S236223AbhBYJOR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Feb 2021 04:14:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41924 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234905AbhBYJML (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 04:12:11 -0500
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0749C06178B
+        for <linux-doc@vger.kernel.org>; Thu, 25 Feb 2021 01:11:30 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:bd01:18f7:df2b:b765])
+        by andre.telenet-ops.be with bizsmtp
+        id ZMBS2400Z3wXKmD01MBTUz; Thu, 25 Feb 2021 10:11:27 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lFCgA-001asd-Hp; Thu, 25 Feb 2021 10:11:26 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lFCgA-002sUX-0P; Thu, 25 Feb 2021 10:11:26 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
 To:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
-        linux-mm@kvack.org
-Cc:     Alexandre Ghiti <alex@ghiti.fr>, Anup Patel <anup@brainfault.org>
-Subject: [PATCH 3/3] riscv: Prepare ptdump for vm layout dynamic addresses
-Date:   Thu, 25 Feb 2021 03:04:53 -0500
-Message-Id: <20210225080453.1314-4-alex@ghiti.fr>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210225080453.1314-1-alex@ghiti.fr>
-References: <20210225080453.1314-1-alex@ghiti.fr>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] docs: driver-model: Remove obsolete device class documentation
+Date:   Thu, 25 Feb 2021 10:11:24 +0100
+Message-Id: <20210225091124.686078-1-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a preparatory patch for sv48 support that will introduce
-dynamic PAGE_OFFSET.
+None of this is valid since v2.5.69.
 
-Dynamic PAGE_OFFSET implies that all zones (vmalloc, vmemmap, fixaddr...)
-whose addresses depend on PAGE_OFFSET become dynamic and can't be used
-to statically initialize the array used by ptdump to identify the
-different zones of the vm layout.
-
-Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
-Reviewed-by: Anup Patel <anup@brainfault.org>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 ---
- arch/riscv/mm/ptdump.c | 67 ++++++++++++++++++++++++++++++++++--------
- 1 file changed, 55 insertions(+), 12 deletions(-)
+I started updating the document, until I realized that all of the
+typedefs, structures, functions, defines, and sysfs layout have been
+renamed, changed, or removed.  So I think it's better (for an expert in
+the field) to start from scratch.
+---
+ .../driver-api/driver-model/class.rst         | 149 ------------------
+ .../driver-api/driver-model/index.rst         |   1 -
+ 2 files changed, 150 deletions(-)
+ delete mode 100644 Documentation/driver-api/driver-model/class.rst
 
-diff --git a/arch/riscv/mm/ptdump.c b/arch/riscv/mm/ptdump.c
-index ace74dec7492..aa1b3bce61ab 100644
---- a/arch/riscv/mm/ptdump.c
-+++ b/arch/riscv/mm/ptdump.c
-@@ -58,29 +58,52 @@ struct ptd_mm_info {
- 	unsigned long end;
- };
+diff --git a/Documentation/driver-api/driver-model/class.rst b/Documentation/driver-api/driver-model/class.rst
+deleted file mode 100644
+index fff55b80e86a54a4..0000000000000000
+--- a/Documentation/driver-api/driver-model/class.rst
++++ /dev/null
+@@ -1,149 +0,0 @@
+-==============
+-Device Classes
+-==============
+-
+-Introduction
+-~~~~~~~~~~~~
+-A device class describes a type of device, like an audio or network
+-device. The following device classes have been identified:
+-
+-<Insert List of Device Classes Here>
+-
+-
+-Each device class defines a set of semantics and a programming interface
+-that devices of that class adhere to. Device drivers are the
+-implementation of that programming interface for a particular device on
+-a particular bus.
+-
+-Device classes are agnostic with respect to what bus a device resides
+-on.
+-
+-
+-Programming Interface
+-~~~~~~~~~~~~~~~~~~~~~
+-The device class structure looks like::
+-
+-
+-  typedef int (*devclass_add)(struct device *);
+-  typedef void (*devclass_remove)(struct device *);
+-
+-See the kerneldoc for the struct class.
+-
+-A typical device class definition would look like::
+-
+-  struct device_class input_devclass = {
+-        .name		= "input",
+-        .add_device	= input_add_device,
+-	.remove_device	= input_remove_device,
+-  };
+-
+-Each device class structure should be exported in a header file so it
+-can be used by drivers, extensions and interfaces.
+-
+-Device classes are registered and unregistered with the core using::
+-
+-  int devclass_register(struct device_class * cls);
+-  void devclass_unregister(struct device_class * cls);
+-
+-
+-Devices
+-~~~~~~~
+-As devices are bound to drivers, they are added to the device class
+-that the driver belongs to. Before the driver model core, this would
+-typically happen during the driver's probe() callback, once the device
+-has been initialized. It now happens after the probe() callback
+-finishes from the core.
+-
+-The device is enumerated in the class. Each time a device is added to
+-the class, the class's devnum field is incremented and assigned to the
+-device. The field is never decremented, so if the device is removed
+-from the class and re-added, it will receive a different enumerated
+-value.
+-
+-The class is allowed to create a class-specific structure for the
+-device and store it in the device's class_data pointer.
+-
+-There is no list of devices in the device class. Each driver has a
+-list of devices that it supports. The device class has a list of
+-drivers of that particular class. To access all of the devices in the
+-class, iterate over the device lists of each driver in the class.
+-
+-
+-Device Drivers
+-~~~~~~~~~~~~~~
+-Device drivers are added to device classes when they are registered
+-with the core. A driver specifies the class it belongs to by setting
+-the struct device_driver::devclass field.
+-
+-
+-sysfs directory structure
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-There is a top-level sysfs directory named 'class'.
+-
+-Each class gets a directory in the class directory, along with two
+-default subdirectories::
+-
+-        class/
+-        `-- input
+-            |-- devices
+-            `-- drivers
+-
+-
+-Drivers registered with the class get a symlink in the drivers/ directory
+-that points to the driver's directory (under its bus directory)::
+-
+-   class/
+-   `-- input
+-       |-- devices
+-       `-- drivers
+-           `-- usb:usb_mouse -> ../../../bus/drivers/usb_mouse/
+-
+-
+-Each device gets a symlink in the devices/ directory that points to the
+-device's directory in the physical hierarchy::
+-
+-   class/
+-   `-- input
+-       |-- devices
+-       |   `-- 1 -> ../../../root/pci0/00:1f.0/usb_bus/00:1f.2-1:0/
+-       `-- drivers
+-
+-
+-Exporting Attributes
+-~~~~~~~~~~~~~~~~~~~~
+-
+-::
+-
+-  struct devclass_attribute {
+-        struct attribute        attr;
+-        ssize_t (*show)(struct device_class *, char * buf, size_t count, loff_t off);
+-        ssize_t (*store)(struct device_class *, const char * buf, size_t count, loff_t off);
+-  };
+-
+-Class drivers can export attributes using the DEVCLASS_ATTR macro that works
+-similarly to the DEVICE_ATTR macro for devices. For example, a definition
+-like this::
+-
+-  static DEVCLASS_ATTR(debug,0644,show_debug,store_debug);
+-
+-is equivalent to declaring::
+-
+-  static devclass_attribute devclass_attr_debug;
+-
+-The bus driver can add and remove the attribute from the class's
+-sysfs directory using::
+-
+-  int devclass_create_file(struct device_class *, struct devclass_attribute *);
+-  void devclass_remove_file(struct device_class *, struct devclass_attribute *);
+-
+-In the example above, the file will be named 'debug' in placed in the
+-class's directory in sysfs.
+-
+-
+-Interfaces
+-~~~~~~~~~~
+-There may exist multiple mechanisms for accessing the same device of a
+-particular class type. Device interfaces describe these mechanisms.
+-
+-When a device is added to a device class, the core attempts to add it
+-to every interface that is registered with the device class.
+diff --git a/Documentation/driver-api/driver-model/index.rst b/Documentation/driver-api/driver-model/index.rst
+index 755016422269fb6e..4831bdd92e5cd42a 100644
+--- a/Documentation/driver-api/driver-model/index.rst
++++ b/Documentation/driver-api/driver-model/index.rst
+@@ -7,7 +7,6 @@ Driver Model
  
-+enum address_markers_idx {
-+#ifdef CONFIG_KASAN
-+	KASAN_SHADOW_START_NR,
-+	KASAN_SHADOW_END_NR,
-+#endif
-+	FIXMAP_START_NR,
-+	FIXMAP_END_NR,
-+	PCI_IO_START_NR,
-+	PCI_IO_END_NR,
-+#ifdef CONFIG_SPARSEMEM_VMEMMAP
-+	VMEMMAP_START_NR,
-+	VMEMMAP_END_NR,
-+#endif
-+	VMALLOC_START_NR,
-+	VMALLOC_END_NR,
-+	PAGE_OFFSET_NR,
-+	MODULES_MAPPING_NR,
-+	KERNEL_MAPPING_NR,
-+	END_OF_SPACE_NR
-+};
-+
- static struct addr_marker address_markers[] = {
- #ifdef CONFIG_KASAN
--	{KASAN_SHADOW_START,	"Kasan shadow start"},
--	{KASAN_SHADOW_END,	"Kasan shadow end"},
-+	{0, "Kasan shadow start"},
-+	{0, "Kasan shadow end"},
- #endif
--	{FIXADDR_START,		"Fixmap start"},
--	{FIXADDR_TOP,		"Fixmap end"},
--	{PCI_IO_START,		"PCI I/O start"},
--	{PCI_IO_END,		"PCI I/O end"},
-+	{0, "Fixmap start"},
-+	{0, "Fixmap end"},
-+	{0, "PCI I/O start"},
-+	{0, "PCI I/O end"},
- #ifdef CONFIG_SPARSEMEM_VMEMMAP
--	{VMEMMAP_START,		"vmemmap start"},
--	{VMEMMAP_END,		"vmemmap end"},
-+	{0, "vmemmap start"},
-+	{0, "vmemmap end"},
- #endif
--	{VMALLOC_START,		"vmalloc() area"},
--	{VMALLOC_END,		"vmalloc() end"},
--	{PAGE_OFFSET,		"Linear mapping"},
-+	{0, "vmalloc() area"},
-+	{0, "vmalloc() end"},
-+	{0, "Linear mapping"},
-+	{0, "Modules mapping"},
-+	{0, "Kernel mapping (kernel, BPF)"},
- 	{-1, NULL},
- };
- 
- static struct ptd_mm_info kernel_ptd_info = {
- 	.mm		= &init_mm,
- 	.markers	= address_markers,
--	.base_addr	= KERN_VIRT_START,
-+	.base_addr	= 0,
- 	.end		= ULONG_MAX,
- };
- 
-@@ -335,6 +358,26 @@ static int ptdump_init(void)
- {
- 	unsigned int i, j;
- 
-+#ifdef CONFIG_KASAN
-+	address_markers[KASAN_SHADOW_START_NR].start_address = KASAN_SHADOW_START;
-+	address_markers[KASAN_SHADOW_END_NR].start_address = KASAN_SHADOW_END;
-+#endif
-+	address_markers[FIXMAP_START_NR].start_address = FIXADDR_START;
-+	address_markers[FIXMAP_END_NR].start_address = FIXADDR_TOP;
-+	address_markers[PCI_IO_START_NR].start_address = PCI_IO_START;
-+	address_markers[PCI_IO_END_NR].start_address = PCI_IO_END;
-+#ifdef CONFIG_SPARSEMEM_VMEMMAP
-+	address_markers[VMEMMAP_START_NR].start_address = VMEMMAP_START;
-+	address_markers[VMEMMAP_END_NR].start_address = VMEMMAP_END;
-+#endif
-+	address_markers[VMALLOC_START_NR].start_address = VMALLOC_START;
-+	address_markers[VMALLOC_END_NR].start_address = VMALLOC_END;
-+	address_markers[PAGE_OFFSET_NR].start_address = PAGE_OFFSET;
-+	address_markers[MODULES_MAPPING_NR].start_address = MODULES_VADDR;
-+	address_markers[KERNEL_MAPPING_NR].start_address = kernel_virt_addr;
-+
-+	kernel_ptd_info.base_addr = KERN_VIRT_START;
-+
- 	for (i = 0; i < ARRAY_SIZE(pg_level); i++)
- 		for (j = 0; j < ARRAY_SIZE(pte_bits); j++)
- 			pg_level[i].mask |= pte_bits[j].mask;
+    binding
+    bus
+-   class
+    design-patterns
+    device
+    devres
 -- 
-2.20.1
+2.25.1
 
