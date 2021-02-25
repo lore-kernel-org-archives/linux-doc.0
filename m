@@ -2,126 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFCABC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 14:51:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6FE5C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 15:46:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CE0B64EF5
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 14:51:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E41764F19
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 15:46:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230174AbhBYOvZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Feb 2021 09:51:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58202 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231326AbhBYOvW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 09:51:22 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2401EC061786;
-        Thu, 25 Feb 2021 06:50:42 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id f8so3312232plg.5;
-        Thu, 25 Feb 2021 06:50:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ICxR1l/7KZSqo36Cd5u0xbdSpjciCk+ekMLVc8kZuio=;
-        b=nE6FMH8tBWhfqZypIJmxC5ZJEacdZdRTQGVNDmCmx4YJNFIJcmYMWDXn4VIoeXDo13
-         jzFLbi7t95uHfCk9Zv/FVCJYJ9P3c9i45qgjJF5H6TMlNeSOS/rjfcjl+iAMX1c/KfXr
-         gN8kryvUYUs9lcMEWRgh9xYg2aIcHAKCEZ+UmAg0OCflDlScn4y97eDbrJ53NnNzKhjk
-         n6OcnXDpC0hMsFZhOH7nG/divlVa8I7xzQQoSQNKaZXL9XQFc+ffpVH1w4kSyg+xoi1S
-         kzUc7+XH2zRKkg3tY8a3bzPgUzTkog0aMj1J5UuS7hDRSKQ25zDHXyyanhBNF0qnQuRi
-         Racw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=ICxR1l/7KZSqo36Cd5u0xbdSpjciCk+ekMLVc8kZuio=;
-        b=crO7Nzl1GLu7BbCOfo4T4luowQVnJx+fzo9ZfRUPoGJHjCohVmYzipFACbJzmKpHmY
-         KsxWTQswmpNWGu4jEa5oR7nu3eXfJxKJf8MqbrFwTPEp78XZrQ9n3CiubK02mbVdz+6p
-         LQfIGyLm/midH5QvJ6NQ0tfXDuSjOVfT0b1ACUsnxXTe6x99qewN0KKmFNjZ5MPj/HJo
-         d7XCUscLncviWTS2YqH1lIN1VLX2K3d7AmLkA9mKX//WA9mE5vqGBWTZl1FKm2Ac0OQY
-         hqZtAfbV5kBDuPQ3ovO24IEeUceWAeLsBjN1UHZV+wIfs/t12WinEggi0Ls4W3lfKcZD
-         Z+eg==
-X-Gm-Message-State: AOAM533jLbZYU5HaLBMISYoWzbApReEmzjCCsXdt+RJnKn15sHfUqNJN
-        EiwjY57I7XnG5vz9KQf5JqI=
-X-Google-Smtp-Source: ABdhPJy0xwfu4LfbRHmB35h3GPFN6CKqur6cB8K9GM7y1x9Cw1fj+2bpbHW0NMjS52DUc2zE6Yc3bw==
-X-Received: by 2002:a17:902:f688:b029:da:a817:1753 with SMTP id l8-20020a170902f688b02900daa8171753mr3410714plg.76.1614264641504;
-        Thu, 25 Feb 2021 06:50:41 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:600d:a089:7d05:ce5c:6c16:3c9f])
-        by smtp.googlemail.com with ESMTPSA id x2sm6389082pfi.220.2021.02.25.06.50.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Feb 2021 06:50:40 -0800 (PST)
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     corbet@lwn.net
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [RFC v3] scripts: kernel-doc: fix typedef support for struct/union parsing
-Date:   Thu, 25 Feb 2021 20:20:33 +0530
-Message-Id: <20210225145033.11431-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CAKXUXMzHPnM=ie06ZGuFXyJ7RcRjYomjyASbp3ND9-Mb2Es+2w@mail.gmail.com>
-References: <CAKXUXMzHPnM=ie06ZGuFXyJ7RcRjYomjyASbp3ND9-Mb2Es+2w@mail.gmail.com>
+        id S232446AbhBYPq4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Feb 2021 10:46:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26793 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233087AbhBYPq3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 10:46:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1614267902;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=R6q+Q5NQOXbRifBC8SSR9ugXbvqn66/46WmsQY9vYlk=;
+        b=JEA+IFz8Nlu/+uCL5bFNCEhXiBB5xYbAV3MkKWd/MlZ4oODqoV3fBftB0N9guzPrwVLGUP
+        gIfiaVdZKsHYCkhvFXMolVbt8NFqIiH52YVO/1l2v0t3xu7TDe9rCnODZRYp2JyJLP4GUK
+        8x+gSDJR1nQo+MQM9xT5TSVDIzmszm4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-1nkb0a5vOVKmgZhXqpt6CA-1; Thu, 25 Feb 2021 10:44:56 -0500
+X-MC-Unique: 1nkb0a5vOVKmgZhXqpt6CA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E857C19611A8;
+        Thu, 25 Feb 2021 15:44:53 +0000 (UTC)
+Received: from localhost (ovpn-12-80.pek2.redhat.com [10.72.12.80])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 547E45D767;
+        Thu, 25 Feb 2021 15:44:49 +0000 (UTC)
+Date:   Thu, 25 Feb 2021 23:44:46 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     Catalin Marinas <catalin.marinas@arm.com>
+Cc:     Chen Zhou <chenzhou10@huawei.com>, mingo@redhat.com,
+        tglx@linutronix.de, rppt@kernel.org, dyoung@redhat.com,
+        will@kernel.org, nsaenzjulienne@suse.de, corbet@lwn.net,
+        John.P.donnelly@oracle.com, prabhakar.pkin@gmail.com,
+        horms@verge.net.au, robh+dt@kernel.org, arnd@arndb.de,
+        james.morse@arm.com, xiexiuqi@huawei.com, guohanjun@huawei.com,
+        huawei.libin@huawei.com, wangkefeng.wang@huawei.com,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kexec@lists.infradead.org
+Subject: Re: [PATCH v14 02/11] x86: kdump: make the lower bound of crash
+ kernel reservation consistent
+Message-ID: <20210225154446.GI3553@MiWiFi-R3L-srv>
+References: <20210130071025.65258-1-chenzhou10@huawei.com>
+ <20210130071025.65258-3-chenzhou10@huawei.com>
+ <20210224143547.GB28965@arm.com>
+ <20210225070717.GG3553@MiWiFi-R3L-srv>
+ <20210225144237.GA23418@arm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210225144237.GA23418@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, there are ~1290 occurrences in 447 files in the kernel tree
-'typedef struct/union' syntax for defining some struct/union. However,
-kernel-doc currently does not support that syntax. Of the ~1290
-occurrences, there are four occurrences in ./include/linux/zstd.h with
-typedef struct/union syntax and a preceding kernel-doc; all other
-occurrences have no preceding kernel-doc.
+On 02/25/21 at 02:42pm, Catalin Marinas wrote:
+> On Thu, Feb 25, 2021 at 03:08:46PM +0800, Baoquan He wrote:
+> > On 02/24/21 at 02:35pm, Catalin Marinas wrote:
+> > > On Sat, Jan 30, 2021 at 03:10:16PM +0800, Chen Zhou wrote:
+> > > > diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> > > > index da769845597d..27470479e4a3 100644
+> > > > --- a/arch/x86/kernel/setup.c
+> > > > +++ b/arch/x86/kernel/setup.c
+> > > > @@ -439,7 +439,8 @@ static int __init reserve_crashkernel_low(void)
+> > > >  			return 0;
+> > > >  	}
+> > > >  
+> > > > -	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, 0, CRASH_ADDR_LOW_MAX);
+> > > > +	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, CRASH_ALIGN,
+> > > > +			CRASH_ADDR_LOW_MAX);
+> > > >  	if (!low_base) {
+> > > >  		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+> > > >  		       (unsigned long)(low_size >> 20));
+> > > 
+> > > Is there any reason why the lower bound can't be 0 in all low cases
+> > > here? (Sorry if it's been already discussed, I lost track)
+> > 
+> > Seems like a good question.
+> > 
+> > This reserve_crashkernel_low(), paired with reserve_crashkernel_high(), is
+> > used to reserve memory under 4G so that kdump kernel owns memory for dma
+> > buffer allocation. In that case, kernel usually is loaded in high
+> > memory. In x86_64, kernel loading need be aligned to 16M because of
+> > CONFIG_PHYSICAL_START, please see commit 32105f7fd8faa7b ("x86: find
+> > offset for crashkernel reservation automatically"). But for crashkernel
+> > low memory, there seems to be no reason to ask for 16M alignment, if
+> > it's taken as dma buffer memory.
+> > 
+> > So we can make a different alignment for low memory only, e.g 2M. But
+> > 16M alignment consistent with crashkernel,high is also fine to me. The
+> > only affect is smaller alignment can increase the possibility of
+> > crashkernel low reservation.
+> 
+> I don't mind the 16M alignment in both low and high base. But is there
+> any reason that the lower bound (third argument) cannot be 0 in both
+> reserve_crashkernel() (the low attempt) and reserve_crashkernel_low()
+> cases? The comment in reserve_crashkernel() only talks about the 4G
+> upper bound but not why we need a 16M lower bound.
 
-Add support for parsing struct/union following this syntax.
+Ah, sorry, I must have mixed this one with the alignment of fixed
+memory region reservation in patch 1 when considering comments.
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
-Changes in v3:
-- Modify commit message
+Hmm, in x86 we always have memory reserved in low 1M, lower bound
+being 0 or 16M (kernel alignment) doesn't make difference on crashkernel
+low reservation. But for crashkernel reservation, the reason should be
+kernel loading alignment being 16M, please see commit 32105f7fd8faa7b
+("x86: find offset for crashkernel reservation automatically").
 
-Changes in v2:
-- Split recurring regex into multiple variables
-- Modify commit message
+So, for crashkernel low, keeping lower bound as 0 looks good to me, the
+only reason is just as patch log tells. And it can skip the unnecessary
+memblock searching under 16M since it will always fail, even though it
+won't matter much. Or changing it to CRASH_ALIGN as this patch is doing,
+and adding code comment, is also fine to me.
 
- scripts/kernel-doc | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 8b5bc7bf4bb8..68df17877384 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1201,12 +1201,23 @@ sub dump_union($$) {
- sub dump_struct($$) {
-     my $x = shift;
-     my $file = shift;
-+    my $decl_type;
-+    my $members;
-+    my $type = qr{struct|union};
-+    # For capturing struct/union definition body, i.e. "{members*}qualifiers*"
-+    my $definition_body = qr{\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*};
- 
--    if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
--	my $decl_type = $1;
-+    if ($x =~ /($type)\s+(\w+)\s*$definition_body/) {
-+	$decl_type = $1;
- 	$declaration_name = $2;
--	my $members = $3;
-+	$members = $3;
-+    } elsif ($x =~ /typedef\s+($type)\s*$definition_body\s*(\w+)\s*;/) {
-+	$decl_type = $1;
-+	$declaration_name = $3;
-+	$members = $2;
-+    }
- 
-+    if ($members) {
- 	if ($identifier ne $declaration_name) {
- 	    print STDERR "${file}:$.: warning: expecting prototype for $decl_type $identifier. Prototype was for $decl_type $declaration_name instead\n";
- 	    return;
--- 
-2.17.1
+Thanks
+Baoquan
 
