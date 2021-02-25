@@ -2,257 +2,255 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-24.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15D22C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 13:28:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6812BC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 13:36:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BED6064F14
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 13:28:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0D21464F03
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 13:36:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232296AbhBYN2I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Feb 2021 08:28:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39846 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232631AbhBYNZw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 08:25:52 -0500
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5642C06178C
-        for <linux-doc@vger.kernel.org>; Thu, 25 Feb 2021 05:25:03 -0800 (PST)
-Received: by mail-pj1-x1031.google.com with SMTP id t9so3491537pjl.5
-        for <linux-doc@vger.kernel.org>; Thu, 25 Feb 2021 05:25:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=K4J3haDAJ7QJxoTpvySgVqpHEf8e816X1dBjkdT55lc=;
-        b=xzL7ucVJKMK+qpeLfm8I6lhRkoSlwlpw8ddroBi3q6hnKTwLYxiJTtYwk3lBkfvtbY
-         A+VFYTsuv/FPipAdgEbBS9qXQtMRmjiQzCb77SlKMKNjEcmz4XOePQrFjxYKeU6oQ1mo
-         8Q6zMgdDOrjuCjcjXpR4o/OVz6ZAB9t6KHuI2N8ps14i9kPw+jmvNNWBRIK0gPx3iJU4
-         yaQPanNFGZ+GVcgtECKzN2pvomGMGFY8gYpFTQEdmNGGNGw7dGqEXu+mQ0+p95h6xbCI
-         MZSOaw/JGxMyFQGpSAQHTBSMAPHb8CHtyNpdMRAOA8yCvybXyydIj59vbo5vqxaZ2zzM
-         HO/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=K4J3haDAJ7QJxoTpvySgVqpHEf8e816X1dBjkdT55lc=;
-        b=kI0ekUFVRUdHJzWhDZBwnN8Tm82Wb+jLYshtVqPzRX6HH93/IMRSgFW+8EcTi7OVQH
-         5DNcdrYEpewek7+cfOL6kF62ZoYRJwiE25tXhRfdDPyce4d3/HrHGcpeAEnFxpLTqIdl
-         +Qha8cHzDnzEP5vB/rPbJ08GWXqlodqyfQAMvYl82RvKdeMQeS1DygzVnS43EZgRUUZS
-         Klh6kzj8Q7P2VauQ9epwQ2f/YHcOUY3oUIScOVKeXqJbNAL/f5sRgS6SzGT6XeRONgDC
-         qX4E+ufXD1Yb8uLRx+TOFwiBR0zyzfRq8zH8XRfQ83dZY37UKjvlCI2d7bpflF4hzcjU
-         qSQw==
-X-Gm-Message-State: AOAM531WyRulroYLoXhpa3XZ8lq4UpafIL7wtgq9/6aPJzfUtYZEPXU8
-        t9DK7NnPns/FSRpTgDID5kPPhA==
-X-Google-Smtp-Source: ABdhPJxB2OmbGU+4eJj1lcXMayr0DmEtTShSi9vY80Pf69MDNlG5F7jwZmSMlcWQY0ie6n5UzOl53w==
-X-Received: by 2002:a17:90b:3783:: with SMTP id mz3mr3449157pjb.88.1614259503262;
-        Thu, 25 Feb 2021 05:25:03 -0800 (PST)
-Received: from localhost.localdomain ([139.177.225.236])
-        by smtp.gmail.com with ESMTPSA id x190sm6424676pfx.166.2021.02.25.05.24.52
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Feb 2021 05:25:02 -0800 (PST)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
-        david@redhat.com, naoya.horiguchi@nec.com,
-        joao.m.martins@oracle.com
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org,
-        Muchun Song <songmuchun@bytedance.com>,
-        Miaohe Lin <linmiaohe@huawei.com>
-Subject: [PATCH v17 8/9] mm: hugetlb: gather discrete indexes of tail page
-Date:   Thu, 25 Feb 2021 21:21:29 +0800
-Message-Id: <20210225132130.26451-9-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.21.0 (Apple Git-122)
-In-Reply-To: <20210225132130.26451-1-songmuchun@bytedance.com>
-References: <20210225132130.26451-1-songmuchun@bytedance.com>
+        id S229596AbhBYNgi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Feb 2021 08:36:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37976 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229644AbhBYNge (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Feb 2021 08:36:34 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A8B4C64EFA;
+        Thu, 25 Feb 2021 13:35:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614260152;
+        bh=mukqVMzWgwgxxOpP5S6Onp0pDuX0uvFGOvM+gmG71qM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HMlYwmruCYPePp2XORRzR/Nt7DEoC1FWQniwV5saNBMd+hyP0MsEz2f9MWi5e54Vc
+         yE+cSSloud8B+PysIyUBPskmkCOzVRV7qTOYRGGpzmQyX7Z2BN2OydWnN3IycJpsr7
+         hNz/BKkjzIri+Ym8fGJAL5tH7pTxiN6Q6ghHA5n68G4wVeUopS1sef26SMlAc3VmoD
+         51/93ENX3qjXwdh99zyZsCPrlZHxFE92fuw8577TJrI9/eUMK5FA5xGKAcZBKlezeO
+         CBrhqXe7t4koy1QMtdipzQDW1/zzDi966IHqYG72xdGsnfzw3LX1HePI6Si7itOgQL
+         p5g4qw9+Esd0w==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lFGo1-001hNx-Us; Thu, 25 Feb 2021 14:35:49 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: add a subsystem profile documentation
+Date:   Thu, 25 Feb 2021 14:35:49 +0100
+Message-Id: <5a6ee216653295b409e6e1e3868cbf0e30d05b08.1614260135.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-For HugeTLB page, there are more metadata to save in the struct page.
-But the head struct page cannot meet our needs, so we have to abuse
-other tail struct page to store the metadata. In order to avoid
-conflicts caused by subsequent use of more tail struct pages, we can
-gather these discrete indexes of tail struct page. In this case, it
-will be easier to add a new tail page index later.
+Document the basic policies of the media subsystem profile.
 
-There are only (RESERVE_VMEMMAP_SIZE / sizeof(struct page)) struct
-page structs that can be used when CONFIG_HUGETLB_PAGE_FREE_VMEMMAP,
-so add a BUILD_BUG_ON to catch invalid usage of the tail struct page.
-
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
-Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/hugetlb.h        | 24 ++++++++++++++++++++++--
- include/linux/hugetlb_cgroup.h | 19 +++++++++++--------
- mm/hugetlb.c                   |  6 +++---
- mm/hugetlb_vmemmap.c           |  8 ++++++++
- 4 files changed, 44 insertions(+), 13 deletions(-)
+ Documentation/driver-api/media/index.rst      |   2 +
+ .../media/maintainer-entry-profile.rst        | 159 ++++++++++++++++++
+ .../maintainer/maintainer-entry-profile.rst   |   1 +
+ 3 files changed, 162 insertions(+)
+ create mode 100644 Documentation/driver-api/media/maintainer-entry-profile.rst
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index a4d80f7263fc..c70421e26189 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -28,6 +28,26 @@ typedef struct { unsigned long pd; } hugepd_t;
- #include <linux/shm.h>
- #include <asm/tlbflush.h>
+diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
+index c140692454b1..2ad71dfa8828 100644
+--- a/Documentation/driver-api/media/index.rst
++++ b/Documentation/driver-api/media/index.rst
+@@ -28,6 +28,8 @@ Please see:
+     :maxdepth: 5
+     :numbered:
  
-+/*
-+ * For HugeTLB page, there are more metadata to save in the struct page. But
-+ * the head struct page cannot meet our needs, so we have to abuse other tail
-+ * struct page to store the metadata. In order to avoid conflicts caused by
-+ * subsequent use of more tail struct pages, we gather these discrete indexes
-+ * of tail struct page here.
-+ */
-+enum {
-+	SUBPAGE_INDEX_SUBPOOL = 1,	/* reuse page->private */
-+#ifdef CONFIG_CGROUP_HUGETLB
-+	SUBPAGE_INDEX_CGROUP,		/* reuse page->private */
-+	SUBPAGE_INDEX_CGROUP_RSVD,	/* reuse page->private */
-+	__MAX_CGROUP_SUBPAGE_INDEX = SUBPAGE_INDEX_CGROUP_RSVD,
-+#endif
-+#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-+	SUBPAGE_INDEX_HWPOISON,		/* reuse page->private */
-+#endif
-+	__NR_USED_SUBPAGE,
-+};
++    maintainer-entry-profile
 +
- struct hugepage_subpool {
- 	spinlock_t lock;
- 	long count;
-@@ -607,13 +627,13 @@ extern unsigned int default_hstate_idx;
-  */
- static inline struct hugepage_subpool *hugetlb_page_subpool(struct page *hpage)
- {
--	return (struct hugepage_subpool *)(hpage+1)->private;
-+	return (void *)page_private(hpage + SUBPAGE_INDEX_SUBPOOL);
- }
- 
- static inline void hugetlb_set_page_subpool(struct page *hpage,
- 					struct hugepage_subpool *subpool)
- {
--	set_page_private(hpage+1, (unsigned long)subpool);
-+	set_page_private(hpage + SUBPAGE_INDEX_SUBPOOL, (unsigned long)subpool);
- }
- 
- static inline struct hstate *hstate_file(struct file *f)
-diff --git a/include/linux/hugetlb_cgroup.h b/include/linux/hugetlb_cgroup.h
-index 2ad6e92f124a..54ec689e3c9c 100644
---- a/include/linux/hugetlb_cgroup.h
-+++ b/include/linux/hugetlb_cgroup.h
-@@ -21,15 +21,16 @@ struct hugetlb_cgroup;
- struct resv_map;
- struct file_region;
- 
-+#ifdef CONFIG_CGROUP_HUGETLB
- /*
-  * Minimum page order trackable by hugetlb cgroup.
-  * At least 4 pages are necessary for all the tracking information.
-- * The second tail page (hpage[2]) is the fault usage cgroup.
-- * The third tail page (hpage[3]) is the reservation usage cgroup.
-+ * The second tail page (hpage[SUBPAGE_INDEX_CGROUP]) is the fault
-+ * usage cgroup. The third tail page (hpage[SUBPAGE_INDEX_CGROUP_RSVD])
-+ * is the reservation usage cgroup.
-  */
--#define HUGETLB_CGROUP_MIN_ORDER	2
-+#define HUGETLB_CGROUP_MIN_ORDER order_base_2(__MAX_CGROUP_SUBPAGE_INDEX + 1)
- 
--#ifdef CONFIG_CGROUP_HUGETLB
- enum hugetlb_memory_event {
- 	HUGETLB_MAX,
- 	HUGETLB_NR_MEMORY_EVENTS,
-@@ -66,9 +67,9 @@ __hugetlb_cgroup_from_page(struct page *page, bool rsvd)
- 	if (compound_order(page) < HUGETLB_CGROUP_MIN_ORDER)
- 		return NULL;
- 	if (rsvd)
--		return (struct hugetlb_cgroup *)page[3].private;
-+		return (void *)page_private(page + SUBPAGE_INDEX_CGROUP_RSVD);
- 	else
--		return (struct hugetlb_cgroup *)page[2].private;
-+		return (void *)page_private(page + SUBPAGE_INDEX_CGROUP);
- }
- 
- static inline struct hugetlb_cgroup *hugetlb_cgroup_from_page(struct page *page)
-@@ -90,9 +91,11 @@ static inline int __set_hugetlb_cgroup(struct page *page,
- 	if (compound_order(page) < HUGETLB_CGROUP_MIN_ORDER)
- 		return -1;
- 	if (rsvd)
--		page[3].private = (unsigned long)h_cg;
-+		set_page_private(page + SUBPAGE_INDEX_CGROUP_RSVD,
-+				 (unsigned long)h_cg);
- 	else
--		page[2].private = (unsigned long)h_cg;
-+		set_page_private(page + SUBPAGE_INDEX_CGROUP,
-+				 (unsigned long)h_cg);
- 	return 0;
- }
- 
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 4d192ba183f9..31518b39f18d 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -1312,7 +1312,7 @@ static inline void hwpoison_subpage_deliver(struct hstate *h, struct page *head)
- 	if (!PageHWPoison(head) || !free_vmemmap_pages_per_hpage(h))
- 		return;
- 
--	page = head + page_private(head + 4);
-+	page = head + page_private(head + SUBPAGE_INDEX_HWPOISON);
- 
- 	/*
- 	 * Move PageHWPoison flag from head page to the raw error page,
-@@ -1331,7 +1331,7 @@ static inline void hwpoison_subpage_set(struct hstate *h, struct page *head,
- 		return;
- 
- 	if (free_vmemmap_pages_per_hpage(h)) {
--		set_page_private(head + 4, page - head);
-+		set_page_private(head + SUBPAGE_INDEX_HWPOISON, page - head);
- 	} else if (page != head) {
- 		/*
- 		 * Move PageHWPoison flag from head page to the raw error page,
-@@ -1347,7 +1347,7 @@ static inline void hwpoison_subpage_clear(struct hstate *h, struct page *head)
- 	if (!PageHWPoison(head) || !free_vmemmap_pages_per_hpage(h))
- 		return;
- 
--	set_page_private(head + 4, 0);
-+	set_page_private(head + SUBPAGE_INDEX_HWPOISON, 0);
- }
- #else
- static inline void hwpoison_subpage_deliver(struct hstate *h, struct page *head)
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index b65f0d5189bd..33e42678abe3 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -257,6 +257,14 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
- 	unsigned int nr_pages = pages_per_huge_page(h);
- 	unsigned int vmemmap_pages;
- 
-+	/*
-+	 * There are only (RESERVE_VMEMMAP_SIZE / sizeof(struct page)) struct
-+	 * page structs that can be used when CONFIG_HUGETLB_PAGE_FREE_VMEMMAP,
-+	 * so add a BUILD_BUG_ON to catch invalid usage of the tail struct page.
-+	 */
-+	BUILD_BUG_ON(__NR_USED_SUBPAGE >=
-+		     RESERVE_VMEMMAP_SIZE / sizeof(struct page));
+     v4l2-core
+     dtv-core
+     rc-core
+diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+new file mode 100644
+index 000000000000..6393c1181757
+--- /dev/null
++++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+@@ -0,0 +1,159 @@
++Media Subsystem Profile
++=======================
 +
- 	if (!hugetlb_free_vmemmap_enabled)
- 		return;
- 
++Overview
++--------
++
++The media subsystem covers support for a variety of devices: stream
++capture, analog and digital TV, cameras, remote controllers, HDMI CEC
++and media pipeline control.
++
++It covers, mainly, the contents of those directories:
++
++  - drivers/media
++  - drivers/staging/media
++  - Documentation/media
++  - include/media
++
++Both media userspace and Kernel APIs are documented and should be kept in
++sync with the API changes. It means that all patches that add new
++features to the subsystem should also bring changes to the corresponding
++API files.
++
++Due to the size and wide scope of the media subsystem, media's
++maintainership model is to have sub-maintainers that have a broad
++knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
++task to review the patches, providing feedback to users if the patches are
++following the subsystem rules and are properly using the media kernel and
++userspace APIs.
++
++Patches for the media subsystem should be sent to the media mailing list
++at linux-media@vger.kernel.org as plain text only e-mail. Emails with
++HTML will be automatically rejected by the mail server. It could be wise
++to also copy the sub-maintainer(s).
++
++Media's workflow is heavily based on Patchwork, meaning that, once a patch
++is submitted, it should appear at:
++
++   - https://patchwork.linuxtv.org/project/linux-media/list/
++
++If it doesn't automatically appear there after a few minutes, then
++probably something got wrong on your submission. Please check if the
++email is in plain text only and if your emailer is not mangling with
++whitespaces before complaining or submitting them again.
++
++Sub-maintainers
+++++++++++++++++
++
++At the media subsystem, we have a group of experienced developers that
++are responsible for doing the code reviews at the drivers (called
++sub-maintainers), and another senior developer responsible for the
++subsystem as a hole. For core changes, whenever possible, multiple
++media (sub-)maintainers do the review.
++
++The sub-maintainers work on specific areas of the subsystem, as
++described below:
++
++Digital TV:
++  Sean Young <sean@mess.org>
++
++HDMI CEC:
++  Hans Verkuil <hverkuil@xs4all.nl>
++
++Media controller drivers:
++  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++
++Remote Controllers:
++  Sean Young <sean@mess.org>
++
++Sensor drivers:
++  Sakari Ailus <sakari.ailus@linux.intel.com>
++
++V4L2 drivers:
++  Hans Verkuil <hverkuil@xs4all.nl>
++
++Submit Checklist Addendum
++-------------------------
++
++Patches that change the Open Firmware/Device Tree bindings should be
++reviewed by the Device Tree maintainers. So, DT maintainers should be
++c/c when those are submitted.
++
++There is a set of compliance tools at https://git.linuxtv.org/v4l-utils.git/
++that should be used in order to check if the drivers are properly
++implementing the media APIs.
++
++Those tests need to pass before the patches go upstream.
++
++Also, please notice that we build the Kernel with::
++
++	make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=check_script
++
++Where the check script is::
++
++	#!/bin/bash
++	/devel/smatch/smatch -p=kernel $@ >&2
++	/devel/sparse/sparse $@ >&2
++
++Be sure to not introduce new warnings on your patches without a
++very good reason.
++
++Style Cleanup Patches
+++++++++++++++++++++++
++
++Style-cleanups are welcome when they come together with other changes
++at the files where the style changes will affect.
++
++We may accept pure standalone style-cleanups, but they should ideally
++be one patch for the hole subsystem (if the cleanup is low volume),
++or at least be grouped per directory. So, for example, if you're doing
++big cleanup change set at drivers under drivers/media, please send a single
++patch for all drivers under drivers/media/pci, another one for
++drivers/media/usb and so on.
++
++Coding Style Addendum
+++++++++++++++++++++++
++
++Media development uses checkpatch on strict mode to verify the code style,
++e. g.::
++
++	$ ./script/checkpatch.pl --strict
++
++Please notice that the goal here is to improve code readability. On a few
++cases, checkpatch may actually point to something that would look worse.
++
++So, you should use good send sense here, being prepared to justify any
++coding style decision.
++
++Please also notice that, on some cases, when you fix one issue, you may
++receive warnings about lines longer than 80 columns. It is fine to have
++longer lines if this means that other warnings will be fixed by that.
++
++Yet, if you're having more than 80 columns on a line, please consider
++simplifying the code - if too indented - or to use shorter names for
++variables.
++
++Key Cycle Dates
++---------------
++
++New submissions can be sent at any time, but if they intend to hit the
++next merge window they should be sent before -rc5, and ideally stabilized
++in the linux-media branch by -rc6.
++
++Review Cadence
++--------------
++
++Provided that your patch is at https://patchwork.linuxtv.org, it should
++be sooner or later handled, so you don't need to re-submit a patch.
++
++Except for bug fixes, we don't usually add new patches to the development
++tree between -rc6 and the next -rc1.
++
++Please notice that the media subsystem is a high traffic one, so it
++could take a while for us to be able to review your patches. Feel free
++to ping if you don't get a feedback in a couple of weeks or to ask
++other developers to publicly add Reviewed-by and, more importantly,
++Tested-by tags.
++
++Please note that we expect a detailed description for Tested-by,
++identifying what boards were used at the test and what it was tested.
+diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+index b7a627d6c97d..5d5cc3acdf85 100644
+--- a/Documentation/maintainer/maintainer-entry-profile.rst
++++ b/Documentation/maintainer/maintainer-entry-profile.rst
+@@ -102,3 +102,4 @@ to do something different in the near future.
+    ../doc-guide/maintainer-profile
+    ../nvdimm/maintainer-entry-profile
+    ../riscv/patch-acceptance
++   ../driver-api/media/maintainer-entry-profile
 -- 
-2.11.0
+2.29.2
 
