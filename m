@@ -2,90 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC0F1C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 10:38:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44402C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 11:48:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A21F64EC8
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 10:38:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F2AF164F13
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 11:48:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233743AbhBYKic (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Feb 2021 05:38:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51988 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233964AbhBYKfy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 05:35:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614249266;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=NA0XhNNgXWdKWddYRBJjHOR9CD09LFOv4oAxt+/QKh8=;
-        b=fpVtCn5ZWCa3P0c6VyphnlLZeZcxUwHgc+WO6+kg4v98ZQhtmvjBQrARQsLKRDcMqq4oBy
-        0UOLIbAjQmcOfVGBQ2IsJViDCjH88iEtYfBNX5XrdyBKJJgTwmycg2zAEaompRFyosGcJh
-        2UJ12p4F1IYGgjTdASxFkKh02smKl6M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-yrGz6ss2PRqE8fSc9ob9ug-1; Thu, 25 Feb 2021 05:34:21 -0500
-X-MC-Unique: yrGz6ss2PRqE8fSc9ob9ug-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6854B19611A2;
-        Thu, 25 Feb 2021 10:34:18 +0000 (UTC)
-Received: from [10.36.114.58] (ovpn-114-58.ams2.redhat.com [10.36.114.58])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 658C619801;
-        Thu, 25 Feb 2021 10:34:14 +0000 (UTC)
-Subject: Re: [PATCH 2/3] Documentation: riscv: Add documentation that
- describes the VM layout
-To:     Alexandre Ghiti <alex@ghiti.fr>, Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
-        linux-mm@kvack.org
-References: <20210225080453.1314-1-alex@ghiti.fr>
- <20210225080453.1314-3-alex@ghiti.fr>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <5279e97c-3841-717c-2a16-c249a61573f9@redhat.com>
-Date:   Thu, 25 Feb 2021 11:34:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S232103AbhBYLsx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Feb 2021 06:48:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47320 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229886AbhBYLsw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 06:48:52 -0500
+Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com [IPv6:2607:f8b0:4864:20::d36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F0D6C061756;
+        Thu, 25 Feb 2021 03:48:12 -0800 (PST)
+Received: by mail-io1-xd36.google.com with SMTP id a7so5499176iok.12;
+        Thu, 25 Feb 2021 03:48:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=p3L7usN+5cmsXeKGLPgVIQPUIqxaAXKtFSZCm0zZ0Hk=;
+        b=oBf6vlDmlJBTEeO9ygLoHlDgg7UVVuSXuYc28Nfjg9q3yy/TtXuxWvEJadtVpbFh5a
+         tAvKfmgZWO3/LL4wKLwoNl3XrJLB37efdjaupMxFg1k5Ml3I5OutcnzyMrO+MV/GBDNb
+         IKSz5lN4anDRqaG99BrmoKRBE0xfPRdOBVuhZ+C6QxKJvbLLRCpbvG6YRvqIAhpk3Z3v
+         kyIIHSwXAMFOp8pKoI5Lpz5NY2Vk/WQvtVWs8Yt1QzSdotjyPRIswtg+2z3RiOPlf1EX
+         XeKwg9J41LWqHHn/f57g74uR4zXAvZxF3xI4oBcZnDGZtCa2+oQyk6Ur0X5ziG6wRKbV
+         PJtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p3L7usN+5cmsXeKGLPgVIQPUIqxaAXKtFSZCm0zZ0Hk=;
+        b=K3Mv81viEFVC1VHOoWpHaGZ4kjd0egCFhVMzAwWYKnEgQM6VdRXe/+LGm5EVhFgUuV
+         jZAe02phsO7Qwl5B6nKVdk2GLzCfWq8vG/0bFX8d3d8dGwgl1xkCnNSP2swQTNRMpuEj
+         6MUcVjwMq9Z6JzhzOWyhiRs5QSyZwaBdOihYfeM9H2eDvyM3z3b6BAhBYr2F7rNcUk+B
+         mIFkt1mLH3ar4m171XGE3H9aN1LkzqS+phAE5WnTBCPFx6GxAMqXuD7hUMTNjU7yKkx0
+         VnIDj7H3AwM8fc6CJN77ebbbsAf3whQyR8zhHRXaFK7+zsywVHtlD528WKH5Y0Oab5dL
+         w+mg==
+X-Gm-Message-State: AOAM5329slfm7u4cv0GPnwemUDWO3v0J6QzWfydFA6I+zx4ueEHkVICE
+        hg/JKBY41wzT6VjGwCz0xaBTOcxTRmOyTmV2ShTfb6g98gKJYw==
+X-Google-Smtp-Source: ABdhPJw/f34MGRY1uPbeITLqjNsfPAa1w+m4HVjyP0Iido2zkqPagHTuhMpIKQSevXUSvu1nuowj0WnT6tPoA7uB/J8=
+X-Received: by 2002:a6b:b452:: with SMTP id d79mr2218002iof.183.1614253691517;
+ Thu, 25 Feb 2021 03:48:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210225080453.1314-3-alex@ghiti.fr>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <875z2jlr2j.fsf@meer.lwn.net> <20210224133002.13503-1-yashsri421@gmail.com>
+In-Reply-To: <20210224133002.13503-1-yashsri421@gmail.com>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Thu, 25 Feb 2021 12:48:00 +0100
+Message-ID: <CAKXUXMzHPnM=ie06ZGuFXyJ7RcRjYomjyASbp3ND9-Mb2Es+2w@mail.gmail.com>
+Subject: Re: [RFC v2] scripts: kernel-doc: fix typedef support for
+ struct/union parsing
+To:     Aditya Srivastava <yashsri421@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-                  |            |                  |         |> + 
-ffffffc000000000 | -256    GB | ffffffc7ffffffff |   32 GB | kasan
-> +   ffffffcefee00000 | -196    GB | ffffffcefeffffff |    2 MB | fixmap
-> +   ffffffceff000000 | -196    GB | ffffffceffffffff |   16 MB | PCI io
-> +   ffffffcf00000000 | -196    GB | ffffffcfffffffff |    4 GB | vmemmap
-> +   ffffffd000000000 | -192    GB | ffffffdfffffffff |   64 GB | vmalloc/ioremap space
-> +   ffffffe000000000 | -128    GB | ffffffff7fffffff |  126 GB | direct mapping of all physical memory
+On Wed, Feb 24, 2021 at 2:30 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
+>
+> Currently, there are 447 files in the kernel tree, which use 'typedef
+> struct/union' syntax for defining some struct/union. In total, there
+> are ~1290 such occurrences in the kernel tree.
+>
+> However, kernel-doc does not support it currently, and running
+> scripts/kernel-doc -none on emits:
+> "error: Cannot parse struct or union!"
+>
 
-^ So you could never ever have more than 126 GB, correct?
+I will help rephrasing it more precisely:
 
-I assume that's nothing new.
+Currently, there are ~1290 occurrences in 447 files in the kernel tree
+'typedef struct/union' syntax for defining some struct/union. However,
+kernel-doc currently does not support that syntax. Of the ~1290
+occurrences, there are four occurrences in ./include/linux/zstd.h with
+typedef struct/union syntax and a preceding kernel-doc; all other
+occurrences have no preceding kernel-doc.
 
--- 
-Thanks,
+Add support for parsing struct/union following this syntax.
 
-David / dhildenb
 
+
+I also tested it; here is my quick diff of "git ls-files | xargs
+./scripts/kernel-doc -none 2>&1" before and after patch application:
+
+< include/linux/zstd.h:154: error: Cannot parse struct or union!
+< include/linux/zstd.h:171: error: Cannot parse struct or union!
+< include/linux/zstd.h:181: error: Cannot parse struct or union!
+18857d18853
+< include/linux/zstd.h:936: error: Cannot parse struct or union!
+
+
+So, again:
+
+Tested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+
+Aditya, can you please pick up my rephrasing and send out a v3.
+
+
+Lukas
