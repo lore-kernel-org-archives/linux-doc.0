@@ -2,110 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F748C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 07:27:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55D84C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 08:06:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CC02B64E90
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 07:27:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F3FE764EBA
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 08:06:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232465AbhBYH1I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Feb 2021 02:27:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23807 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229566AbhBYH04 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 02:26:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614237928;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=4wcRvtsO4y5OfAp6pyfE1ewYb2DKBqCK08OK1qyG89Y=;
-        b=UWORBS0NNGEJe4aN9NSpCHmKn1c3+d04t7LvPOfS5Eh/pq2fpxURIc6U35f+YvmMfbPIuX
-        C+M9YbBOACo4xxD6W1AjQVOemGIKnBbDepd4L+4u2mwGzTeEe8mzlojvRtLpNPSdZrMne8
-        VQ0MyErpbznASjCCDvJQ9IxNreoGB04=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-Y81AmIhhOfeVfOt5M0EZOQ-1; Thu, 25 Feb 2021 02:25:24 -0500
-X-MC-Unique: Y81AmIhhOfeVfOt5M0EZOQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A501D186DD22;
-        Thu, 25 Feb 2021 07:25:21 +0000 (UTC)
-Received: from localhost (ovpn-12-51.pek2.redhat.com [10.72.12.51])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FB8510023B1;
-        Thu, 25 Feb 2021 07:25:17 +0000 (UTC)
-Date:   Thu, 25 Feb 2021 15:25:15 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Catalin Marinas <catalin.marinas@arm.com>, ebiederm@xmission.com
-Cc:     Chen Zhou <chenzhou10@huawei.com>, mingo@redhat.com,
-        tglx@linutronix.de, rppt@kernel.org, dyoung@redhat.com,
-        will@kernel.org, nsaenzjulienne@suse.de, corbet@lwn.net,
-        John.P.donnelly@oracle.com, prabhakar.pkin@gmail.com,
-        horms@verge.net.au, robh+dt@kernel.org, arnd@arndb.de,
-        james.morse@arm.com, xiexiuqi@huawei.com, guohanjun@huawei.com,
-        huawei.libin@huawei.com, wangkefeng.wang@huawei.com,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kexec@lists.infradead.org
-Subject: Re: [PATCH v14 01/11] x86: kdump: replace the hard-coded alignment
- with macro CRASH_ALIGN
-Message-ID: <20210225072426.GH3553@MiWiFi-R3L-srv>
-References: <20210130071025.65258-1-chenzhou10@huawei.com>
- <20210130071025.65258-2-chenzhou10@huawei.com>
- <20210224141939.GA28965@arm.com>
+        id S233387AbhBYIGA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Feb 2021 03:06:00 -0500
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:41463 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231335AbhBYIF7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 03:05:59 -0500
+X-Originating-IP: 81.185.161.35
+Received: from localhost.localdomain (35.161.185.81.rev.sfr.net [81.185.161.35])
+        (Authenticated sender: alex@ghiti.fr)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 8449C240013;
+        Thu, 25 Feb 2021 08:05:05 +0000 (UTC)
+From:   Alexandre Ghiti <alex@ghiti.fr>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org
+Cc:     Alexandre Ghiti <alex@ghiti.fr>
+Subject: [PATCH 0/3] Move kernel mapping outside the linear mapping
+Date:   Thu, 25 Feb 2021 03:04:50 -0500
+Message-Id: <20210225080453.1314-1-alex@ghiti.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210224141939.GA28965@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 02/24/21 at 02:19pm, Catalin Marinas wrote:
-> On Sat, Jan 30, 2021 at 03:10:15PM +0800, Chen Zhou wrote:
-> > Move CRASH_ALIGN to header asm/kexec.h for later use. Besides, the
-> > alignment of crash kernel regions in x86 is 16M(CRASH_ALIGN), but
-> > function reserve_crashkernel() also used 1M alignment. So just
-> > replace hard-coded alignment 1M with macro CRASH_ALIGN.
-> [...]
-> > @@ -510,7 +507,7 @@ static void __init reserve_crashkernel(void)
-> >  	} else {
-> >  		unsigned long long start;
-> >  
-> > -		start = memblock_phys_alloc_range(crash_size, SZ_1M, crash_base,
-> > +		start = memblock_phys_alloc_range(crash_size, CRASH_ALIGN, crash_base,
-> >  						  crash_base + crash_size);
-> >  		if (start != crash_base) {
-> >  			pr_info("crashkernel reservation failed - memory is in use.\n");
-> 
-> There is a small functional change here for x86. Prior to this patch,
-> crash_base passed by the user on the command line is allowed to be 1MB
-> aligned. With this patch, such reservation will fail.
-> 
-> Is the current behaviour a bug in the current x86 code or it does allow
-> 1MB-aligned reservations?
+I decided to split sv48 support in small series to ease the review.
 
-Hmm, you are right. Here we should keep 1MB alignment as is because
-users specify the address and size, their intention should be respected.
-The 1MB alignment for fixed memory region reservation was introduced in
-below commit, but it doesn't tell what is Eric's request at that time, I
-guess it meant respecting users' specifying.
+This patchset pushes the kernel mapping (modules and BPF too) to the last
+4GB of the 64bit address space, this allows to:
+- implement relocatable kernel (that will come later in another
+  patchset) that requires to move the kernel mapping out of the linear
+  mapping to avoid to copy the kernel at a different physical address.
+- have a single kernel that is not relocatable (and then that avoids the
+  performance penalty imposed by PIC kernel) for both sv39 and sv48.
 
-commit 44280733e71ad15377735b42d8538c109c94d7e3
-Author: Yinghai Lu <yinghai@kernel.org>
-Date:   Sun Nov 22 17:18:49 2009 -0800
+The first patch implements this behaviour, the second patch introduces a
+documentation that describes the virtual address space layout of the 64bit
+kernel and the last patch is taken from my sv48 series where I simply added
+the dump of the modules/kernel/BPF mapping.
 
-    x86: Change crash kernel to reserve via reserve_early()
-    
-    use find_e820_area()/reserve_early() instead.
-    
-    -v2: address Eric's request, to restore original semantics.
-         will fail, if the provided address can not be used.
+I removed the Reviewed-by on the first patch since it changed enough from
+last time and deserves a second look.
+
+Alexandre Ghiti (3):
+  riscv: Move kernel mapping outside of linear mapping
+  Documentation: riscv: Add documentation that describes the VM layout
+  riscv: Prepare ptdump for vm layout dynamic addresses
+
+ Documentation/riscv/index.rst       |  1 +
+ Documentation/riscv/vm-layout.rst   | 61 ++++++++++++++++++++++
+ arch/riscv/boot/loader.lds.S        |  3 +-
+ arch/riscv/include/asm/page.h       | 18 ++++++-
+ arch/riscv/include/asm/pgtable.h    | 37 +++++++++----
+ arch/riscv/include/asm/set_memory.h |  1 +
+ arch/riscv/kernel/head.S            |  3 +-
+ arch/riscv/kernel/module.c          |  6 +--
+ arch/riscv/kernel/setup.c           |  3 ++
+ arch/riscv/kernel/vmlinux.lds.S     |  3 +-
+ arch/riscv/mm/fault.c               | 13 +++++
+ arch/riscv/mm/init.c                | 81 +++++++++++++++++++++++------
+ arch/riscv/mm/kasan_init.c          |  9 ++++
+ arch/riscv/mm/physaddr.c            |  2 +-
+ arch/riscv/mm/ptdump.c              | 67 +++++++++++++++++++-----
+ 15 files changed, 258 insertions(+), 50 deletions(-)
+ create mode 100644 Documentation/riscv/vm-layout.rst
+
+-- 
+2.20.1
 
