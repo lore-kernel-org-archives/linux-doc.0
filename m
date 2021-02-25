@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E314DC433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 13:28:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50889C433E9
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 13:28:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8FF8F64F13
+	by mail.kernel.org (Postfix) with ESMTP id EEFDF64F0F
 	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 13:28:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232538AbhBYN2G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Feb 2021 08:28:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39814 "EHLO
+        id S231439AbhBYN2J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Feb 2021 08:28:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232600AbhBYNZo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 08:25:44 -0500
-Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FD9EC061223
-        for <linux-doc@vger.kernel.org>; Thu, 25 Feb 2021 05:24:52 -0800 (PST)
-Received: by mail-pg1-x532.google.com with SMTP id o38so3757321pgm.9
-        for <linux-doc@vger.kernel.org>; Thu, 25 Feb 2021 05:24:52 -0800 (PST)
+        with ESMTP id S229613AbhBYN0R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 08:26:17 -0500
+Received: from mail-pl1-x62c.google.com (mail-pl1-x62c.google.com [IPv6:2607:f8b0:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07B10C0617A7
+        for <linux-doc@vger.kernel.org>; Thu, 25 Feb 2021 05:25:15 -0800 (PST)
+Received: by mail-pl1-x62c.google.com with SMTP id e9so3192736plh.3
+        for <linux-doc@vger.kernel.org>; Thu, 25 Feb 2021 05:25:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=XMtr9FkjUja9fNTQt0RC29vFN9iD9O5NxbdKTLOUbHg=;
-        b=WQ6NC+BZ2eXNnTn47JK0Qk5kLQqh47dMzoSBcJZqeZCDdQDNPBIiOTt0SB94juo103
-         T7EkflDcGMAoQSTwPusNn0Ge3Pk6VUyQFuz407gbmIf00e9Wk7X7AUs8Rcfz4wvQxItL
-         x9+F0wPQTbilTR7NqUXMem9G4ntPbyjGzMQAREObWngkkACYiOPL/D0X1H+xEYOM9EnZ
-         EhWMNyQ556etNLBAk1KDJaPPBQmjjT1wpyzlCOmCacmo3sGOjYEcIr2bvZ4rnpbg21RX
-         P43xfTTcaEZmdE8D16tqqxvj7J0gKY+XLut9H9+5gvzCatMg5Kxdnl/C79Cpzi8jibkH
-         bzMw==
+        bh=8ALjwDjgfUCiRRnXNhxLFUeqrygsVEGlc9yJ4oh1b9U=;
+        b=r7vMI9nuwloCcNdm4J58arhY9tNRTBqTiQSwQJBN59w7gi4btn70OWjmOooR0x6thC
+         lZhEGaY9aNmJQZxZoxHZOGD/5p+pk9/pjZ72jo8ld/ETlJm5E+kC2LnLvFvaFXPaa3Wp
+         xmADPF4HQynTcJwZ9lWHOB8ulgRkiBQDARs8rhVrkVEBHMHpazOEP2PHjcFDY5rtuxu2
+         Q0aIyo5WPKczq+9RJPndJLumrbzv6BD9p4wJfjIbvdGArSZ5n4k60QgERyD/gOSQacwM
+         T8NcZlacEJrFiyXHItA+/S7jmjuO/bkegFQPahWMxQl+VMVmfIJQb44E2R6jP5qYWQ9x
+         KdGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XMtr9FkjUja9fNTQt0RC29vFN9iD9O5NxbdKTLOUbHg=;
-        b=J89iq88b3CGmi/mMowqaHTmTl0eMjoIOeoSMbQD9RAXejqLWghStS9VXS2FODf0fxe
-         ksL0ivR0DTA0uzDp6Y3B4XBSpAM69q/N5FpmzstiMe1vvbrU4SzzS/A3FjMjxyleh5sT
-         AO+t/gBhab+4uZbbTF0hDsbyVJA22YIaAyrBIGONyBUg6gCQFv1xYdxEMEWoaq2/8W3q
-         s91AtqoRnQedyj5Pgv+SMVEH6BXI2mrC9oB0HU9PecrRgK6IfsoK1mvKhMd/bewID8x5
-         owk5l+zCrk3hkBdaoKazuONCW1ph8Qkry61YHL/9N1zYIppMXnbxnR5nHRNl+PBiIqJc
-         Iq7w==
-X-Gm-Message-State: AOAM532KMZZor+6EKBS4bDBslTAOOqaVAoovr/NuCF9tsWQIaNec3H4F
-        2YXkazlUM5FQduTrXEIJ9stthA==
-X-Google-Smtp-Source: ABdhPJz2UOugiz4Kv0LuAfkbkqxCNr5UJuhJ0CvwRpQRIblrWmKWiQorW9EeyEns7fRbuDCI690LHA==
-X-Received: by 2002:a63:9811:: with SMTP id q17mr3005582pgd.238.1614259492014;
-        Thu, 25 Feb 2021 05:24:52 -0800 (PST)
+        bh=8ALjwDjgfUCiRRnXNhxLFUeqrygsVEGlc9yJ4oh1b9U=;
+        b=QnHjgBvqnK7SYSsMPM4JBWOmWVZp3XMo2gDgiumLKlwngyE0LgCGsck8+QvS+PK7oh
+         l/ghaJ1AnEyReR/RZQl44FZZBHh7YcLYsdrHTcQZMsUbuWVnKKftgO3xQ1XvNqUUxviK
+         ca/Hv5wtp4+rXqaG+YqTDquPPshgXJHNvdOu88LhdVjQ3GmnSAFqGkfViH6/WOo16+3C
+         ySOhPJ4bsIhzacCfuNqbBThxfCQfN7dolF93rQOXoc9qzWa0gc1xH8THe6osVvMp8BnA
+         6vU9ov5oMoLyFhLkXBhoplFloHrp05xR+9LQsEtwAb8E/9qrJpjwbzfv6myLX4Sx7j1D
+         nXQg==
+X-Gm-Message-State: AOAM531KkfUGLfuiLtSSuoIcimmD89EKY4+aaFE3wNgFooFahLyBZmoo
+        KXHv+gwMQLXR3AxRCZxmJpo6+A==
+X-Google-Smtp-Source: ABdhPJwodtMHyxCaWlFm4HG/tefNqA2c4tpqqCz0R5x4J0cuYwd0UrCSIiS6CvzL8+BRIkAnfUbndg==
+X-Received: by 2002:a17:90a:4a8c:: with SMTP id f12mr3327933pjh.71.1614259514605;
+        Thu, 25 Feb 2021 05:25:14 -0800 (PST)
 Received: from localhost.localdomain ([139.177.225.236])
-        by smtp.gmail.com with ESMTPSA id x190sm6424676pfx.166.2021.02.25.05.24.41
+        by smtp.gmail.com with ESMTPSA id x190sm6424676pfx.166.2021.02.25.05.25.03
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 25 Feb 2021 05:24:51 -0800 (PST)
+        Thu, 25 Feb 2021 05:25:14 -0800 (PST)
 From:   Muchun Song <songmuchun@bytedance.com>
 To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
         mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
@@ -72,9 +72,9 @@ Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
         linux-fsdevel@vger.kernel.org,
         Muchun Song <songmuchun@bytedance.com>,
         Miaohe Lin <linmiaohe@huawei.com>
-Subject: [PATCH v17 7/9] mm: hugetlb: introduce nr_free_vmemmap_pages in the struct hstate
-Date:   Thu, 25 Feb 2021 21:21:28 +0800
-Message-Id: <20210225132130.26451-8-songmuchun@bytedance.com>
+Subject: [PATCH v17 9/9] mm: hugetlb: optimize the code with the help of the compiler
+Date:   Thu, 25 Feb 2021 21:21:30 +0800
+Message-Id: <20210225132130.26451-10-songmuchun@bytedance.com>
 X-Mailer: git-send-email 2.21.0 (Apple Git-122)
 In-Reply-To: <20210225132130.26451-1-songmuchun@bytedance.com>
 References: <20210225132130.26451-1-songmuchun@bytedance.com>
@@ -84,117 +84,69 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-All the infrastructure is ready, so we introduce nr_free_vmemmap_pages
-field in the hstate to indicate how many vmemmap pages associated with
-a HugeTLB page that can be freed to buddy allocator. And initialize it
-in the hugetlb_vmemmap_init(). This patch is actual enablement of the
-feature.
+When the "struct page size" crosses page boundaries we cannot
+make use of this feature. Let free_vmemmap_pages_per_hpage()
+return zero if that is the case, most of the functions can be
+optimized away.
 
 Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
 Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
+Reviewed-by: Oscar Salvador <osalvador@suse.de>
 ---
- include/linux/hugetlb.h |  3 +++
- mm/hugetlb.c            |  1 +
- mm/hugetlb_vmemmap.c    | 25 +++++++++++++++++++++++++
- mm/hugetlb_vmemmap.h    | 10 ++++++----
- 4 files changed, 35 insertions(+), 4 deletions(-)
+ include/linux/hugetlb.h | 3 ++-
+ mm/hugetlb_vmemmap.c    | 7 +++++++
+ mm/hugetlb_vmemmap.h    | 6 ++++++
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
 diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 78934e9aeab6..a4d80f7263fc 100644
+index c70421e26189..333dd0479fc2 100644
 --- a/include/linux/hugetlb.h
 +++ b/include/linux/hugetlb.h
-@@ -560,6 +560,9 @@ struct hstate {
- 	unsigned int nr_huge_pages_node[MAX_NUMNODES];
- 	unsigned int free_huge_pages_node[MAX_NUMNODES];
- 	unsigned int surplus_huge_pages_node[MAX_NUMNODES];
-+#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-+	unsigned int nr_free_vmemmap_pages;
-+#endif
- #ifdef CONFIG_CGROUP_HUGETLB
- 	/* cgroup control files */
- 	struct cftype cgroup_files_dfl[7];
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index bccb6907833f..4d192ba183f9 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -3312,6 +3312,7 @@ void __init hugetlb_add_hstate(unsigned int order)
- 	h->next_nid_to_free = first_memory_node;
- 	snprintf(h->name, HSTATE_NAME_LEN, "hugepages-%lukB",
- 					huge_page_size(h)/1024);
-+	hugetlb_vmemmap_init(h);
+@@ -880,7 +880,8 @@ extern bool hugetlb_free_vmemmap_enabled;
  
- 	parsed_hstate = h;
+ static inline bool is_hugetlb_free_vmemmap_enabled(void)
+ {
+-	return hugetlb_free_vmemmap_enabled;
++	return hugetlb_free_vmemmap_enabled &&
++	       is_power_of_2(sizeof(struct page));
  }
+ #else
+ static inline bool is_hugetlb_free_vmemmap_enabled(void)
 diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 7807ed6678e0..b65f0d5189bd 100644
+index 33e42678abe3..1ba1ef45c48c 100644
 --- a/mm/hugetlb_vmemmap.c
 +++ b/mm/hugetlb_vmemmap.c
-@@ -251,3 +251,28 @@ void free_huge_page_vmemmap(struct hstate *h, struct page *head)
- 	 */
- 	vmemmap_remap_free(vmemmap_addr, vmemmap_end, vmemmap_reuse);
- }
-+
-+void __init hugetlb_vmemmap_init(struct hstate *h)
-+{
-+	unsigned int nr_pages = pages_per_huge_page(h);
-+	unsigned int vmemmap_pages;
-+
-+	if (!hugetlb_free_vmemmap_enabled)
+@@ -265,6 +265,13 @@ void __init hugetlb_vmemmap_init(struct hstate *h)
+ 	BUILD_BUG_ON(__NR_USED_SUBPAGE >=
+ 		     RESERVE_VMEMMAP_SIZE / sizeof(struct page));
+ 
++	/*
++	 * The compiler can help us to optimize this function to null
++	 * when the size of the struct page is not power of 2.
++	 */
++	if (!is_power_of_2(sizeof(struct page)))
 +		return;
 +
-+	vmemmap_pages = (nr_pages * sizeof(struct page)) >> PAGE_SHIFT;
-+	/*
-+	 * The head page and the first tail page are not to be freed to buddy
-+	 * allocator, the other pages will map to the first tail page, so they
-+	 * can be freed.
-+	 *
-+	 * Could RESERVE_VMEMMAP_NR be greater than @vmemmap_pages? It is true
-+	 * on some architectures (e.g. aarch64). See Documentation/arm64/
-+	 * hugetlbpage.rst for more details.
-+	 */
-+	if (likely(vmemmap_pages > RESERVE_VMEMMAP_NR))
-+		h->nr_free_vmemmap_pages = vmemmap_pages - RESERVE_VMEMMAP_NR;
-+
-+	pr_info("can free %d vmemmap pages for %s\n", h->nr_free_vmemmap_pages,
-+		h->name);
-+}
+ 	if (!hugetlb_free_vmemmap_enabled)
+ 		return;
+ 
 diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-index a37771b0b82a..cb2bef8f9e73 100644
+index cb2bef8f9e73..29aaaf7b741e 100644
 --- a/mm/hugetlb_vmemmap.h
 +++ b/mm/hugetlb_vmemmap.h
-@@ -13,17 +13,15 @@
- #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
- int alloc_huge_page_vmemmap(struct hstate *h, struct page *head);
- void free_huge_page_vmemmap(struct hstate *h, struct page *head);
-+void hugetlb_vmemmap_init(struct hstate *h);
- 
- /*
-  * How many vmemmap pages associated with a HugeTLB page that can be freed
-  * to the buddy allocator.
-- *
-- * Todo: Returns zero for now, which means the feature is disabled. We will
-- * enable it once all the infrastructure is there.
+@@ -21,6 +21,12 @@ void hugetlb_vmemmap_init(struct hstate *h);
   */
  static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
  {
--	return 0;
-+	return h->nr_free_vmemmap_pages;
++	/*
++	 * This check aims to let the compiler help us optimize the code as
++	 * much as possible.
++	 */
++	if (!is_power_of_2(sizeof(struct page)))
++		return 0;
+ 	return h->nr_free_vmemmap_pages;
  }
  #else
- static inline int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
-@@ -35,6 +33,10 @@ static inline void free_huge_page_vmemmap(struct hstate *h, struct page *head)
- {
- }
- 
-+static inline void hugetlb_vmemmap_init(struct hstate *h)
-+{
-+}
-+
- static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
- {
- 	return 0;
 -- 
 2.11.0
 
