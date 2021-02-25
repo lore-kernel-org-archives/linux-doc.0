@@ -2,315 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25A30C432C3
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 16:44:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70C92C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 16:48:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F058B64F03
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 16:44:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F68D64F1C
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 16:48:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233524AbhBYQoo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Feb 2021 11:44:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54176 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233491AbhBYQn6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 11:43:58 -0500
-Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com [IPv6:2607:f8b0:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88507C0617AA;
-        Thu, 25 Feb 2021 08:42:52 -0800 (PST)
-Received: by mail-ot1-x329.google.com with SMTP id g8so2639613otk.4;
-        Thu, 25 Feb 2021 08:42:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:subject:to:cc:references:from:autocrypt:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=vF7Sr8k6T1GIk11C2IVF7kon90r3481y7roC0/ZPwhg=;
-        b=mAu36UQooRjl3tsctsIBh3jB6R1Omw0/dQOmKEBz636LJYpvPWvb+oUAfDIb2eMc0w
-         cM798f5Bm/1ykvy5GOLMqOylxHPJbGLFkgzGwuGOHwfr72lEIA69PUqgWUmeMFvVQUYC
-         iLu1H73SkK6v7Pkiey/XHSDOQjyZS+YrptvLyt8rLIl2M2oqWw21Hv5jWc3qruJtbiJk
-         gHM7e3o4c849feRLbbhICd7rxeiwdNJl+788qCO9qN2qrMW5KiaTRm69d/os0JyYcxyu
-         kPf+ZwpX5dyn/i5iy09DAQ14RF+LQ2PPXNxiCA+nRuyPBhYY88yuF/SbBv1Gfx0P/ias
-         gsOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=vF7Sr8k6T1GIk11C2IVF7kon90r3481y7roC0/ZPwhg=;
-        b=Zsk4BK4WlCekvwptQ0sXEy9s8bUxQ2xX0YrXW6nHV2KKw6J3QZpk4uk4tWlTWHJ/w5
-         ztjt5TXon0ymwSQf3r7ka4ue8A/7E94qwCLkOrlbFEiSEPmsFjJYXXqpzMmvWHPAxXhP
-         A2+/2r9b474gS1IHorcVbFuWowrWi/JSYVOjAEhxBRcyzGavITmQmX0ArbiSUXegO+p8
-         2+cPD6Uo3q9sBKQzzTp8s/X73MFR/smF4OfL5dHc9+TLQN3FMT4JVpRygsW19Y/Mo+Sz
-         OdQ09jO2nzluNr59T9e9zEMRP9p4XTDKD/gykd78+WqY2ktSsiVcdr7wIORks62fwWoo
-         aT/g==
-X-Gm-Message-State: AOAM530dtxuOQIhDHa4VhoK2DPpWKe/O18I/w05S+TB1fRE9ci7I0HVG
-        YAc0DBFE90ybf969IY6ua0A=
-X-Google-Smtp-Source: ABdhPJwbI7qWysZeUMz3ZE0h5wFCF7D78MHpK9XO1djLaiz1MMmG9BHm8+5LkrNLp5Ppq8T+j25VRw==
-X-Received: by 2002:a9d:1465:: with SMTP id h92mr2936956oth.141.1614271371869;
-        Thu, 25 Feb 2021 08:42:51 -0800 (PST)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id u15sm995990oiu.28.2021.02.25.08.42.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Feb 2021 08:42:51 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Subject: Re: [PATCH 4/4] docs: hwmon: (smpro-hwmon) Add documentation
-To:     Quan Nguyen <quan@os.amperecomputing.com>,
-        Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org
-Cc:     Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-References: <20210225101854.13896-1-quan@os.amperecomputing.com>
- <20210225101854.13896-5-quan@os.amperecomputing.com>
-From:   Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-Message-ID: <00d6d57e-86a4-bd61-335c-3ff42c0dc1f7@roeck-us.net>
-Date:   Thu, 25 Feb 2021 08:42:48 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S229548AbhBYQsf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Feb 2021 11:48:35 -0500
+Received: from mx2.suse.de ([195.135.220.15]:50230 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233844AbhBYQrb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Feb 2021 11:47:31 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 4DB91AC1D;
+        Thu, 25 Feb 2021 16:46:47 +0000 (UTC)
+From:   Vlastimil Babka <vbabka@suse.cz>
+To:     Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Timur Tabi <timur@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Marco Elver <elver@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Vlastimil Babka <vbabka@suse.cz>
+Subject: [PATCH] printk: clarify the documentation for plain pointer printing
+Date:   Thu, 25 Feb 2021 17:46:39 +0100
+Message-Id: <20210225164639.27212-1-vbabka@suse.cz>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-In-Reply-To: <20210225101854.13896-5-quan@os.amperecomputing.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/25/21 2:18 AM, Quan Nguyen wrote:
-> Add documentation for the Ampere(R)'s Altra(R) SMpro hwmon driver.
-> 
-> Signed-off-by: Thu Nguyen <thu@os.amperecomputing.com>
-> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
-> ---
->  Documentation/hwmon/index.rst       |   1 +
->  Documentation/hwmon/smpro-hwmon.rst | 100 ++++++++++++++++++++++++++++
->  2 files changed, 101 insertions(+)
->  create mode 100644 Documentation/hwmon/smpro-hwmon.rst
-> 
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index 8d5a2df1ecb6..b48a980ed08b 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -164,6 +164,7 @@ Hardware Monitoring Kernel Drivers
->     sis5595
->     sl28cpld
->     smm665
-> +   smpro-hwmon
+We have several modifiers for plain pointers (%p, %px and %pK) and now also
+the no_hash_pointers boot parameter. The documentation should help to choose
+which variant to use. Importantly, we should discourage %px in favour of %p
+(with the new boot parameter when debugging), and stress that %pK should be
+only used for procfs and similar files, not dmesg buffer. This patch clarifies
+the documentation in that regard.
 
-"hwmon" seems a bit redundant here.
+Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+---
+ Documentation/core-api/printk-formats.rst | 26 ++++++++++++++++++++++-
+ lib/vsprintf.c                            |  7 ++++--
+ 2 files changed, 30 insertions(+), 3 deletions(-)
 
->     smsc47b397
->     smsc47m192
->     smsc47m1
-> diff --git a/Documentation/hwmon/smpro-hwmon.rst b/Documentation/hwmon/smpro-hwmon.rst
-> new file mode 100644
-> index 000000000000..d546b90982e5
-> --- /dev/null
-> +++ b/Documentation/hwmon/smpro-hwmon.rst
-> @@ -0,0 +1,100 @@
-> +.. SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +Kernel driver Ampere(R)'s Altra(R) SMpro hwmon
-> +==============================================
-> +
-> +Supported chips:
-> +
-> +  * Ampere(R) Altra(R)
-> +
-> +    Prefix: 'smpro'
-> +
-> +    Reference: Altra SoC BMC Interface Specification
-> +
-> +Author: Thu Nguyen <thu@os.amperecomputing.com>
-> +
-> +Description
-> +-----------
-> +This driver supports hardware monitoring for Ampere(R) Altra(R) SoC's based on the
-> +SMpro co-processor (SMpro).
-> +The following sensor types are supported by the driver:
-> +
-> +  * temperature
-> +  * voltage
-> +  * current
-> +  * power
-> +
-> +The SMpro interface provides the registers to query the various sensors and
-> +their values which are then exported to userspace by this driver.
-> +
-> +Usage Notes
-> +-----------
-> +
-> +SMpro hwmon driver creates two sysfs files for each sensor.
-> +
-> +* File ``<sensor_type><idx>_label`` reports the sensor label.
-> +* File ``<sensor_type><idx>_input`` returns the sensor value.
-> +
-> +The sysfs files are allocated in the SMpro root fs folder.
-> +There is one root folder for each SMpro instance.
-> +
-> +When the SoC is turned off, the driver is failed to read the registers.
-> +It returns TIMEDOUT Error(-110) for the read sensors.
-> +
-
-Maybe better something like
-
-When the SoC is turned off, the driver will fail to read registers
-and return -ETIMEDOUT.
-
-Can that indeed happen ? That seems to be highly undesirable.
-
-> +Sysfs entries
-> +-------------
-> +
-> +The following sysfs files are supported:
-> +
-> +* Ampere(R) Altra(R):
-> +
-> +===============    =============   ======= ===============================================
-> +Name        Unit        Perm    Description
-> +temp1_input     mili Celsius     RO    SoC temperature
-
-s/mili/milli/ throughout
-
-> +temp2_input     mili Celsius     RO    Highest temperature reported by the SoC VRDs
-> +temp3_input     mili Celsius     RO    Highest temperature reported by the DIMM VRDs
-> +temp4_input     mili Celsius     RO    Highest temperature reported by the Core VRDs
-
-What does "highest" stand for here ? Is it the _current_ highest
-temperature, added up by the hardware/firmware, or is it the historic
-highest temperature ? Historic data should be reported as tempX_highest.
-
-> +temp5_input     mili Celsius     RO    Highest temperature of DIMM Channel 0 to 3
-
-drop; reported individually.
-
-> +temp6_input     mili Celsius     RO    Temperature of DIMM0 on CH0
-> +temp7_input     mili Celsius     RO    Temperature of DIMM0 on CH1
-> +temp8_input     mili Celsius     RO    Temperature of DIMM0 on CH2
-> +temp9_input     mili Celsius     RO    Temperature of DIMM0 on CH3
-> +temp10_input     mili Celsius     RO    Highest temperature of DIMM Channel 4 to 7
-
-drop; reported individually.
-
-> +temp11_input     mili Celsius     RO    Temperature of DIMM0 on CH4
-> +temp12_input     mili Celsius     RO    Temperature of DIMM0 on CH5
-> +temp13_input     mili Celsius     RO    Temperature of DIMM0 on CH6
-> +temp14_input     mili Celsius     RO    Temperature of DIMM0 on CH7
-> +temp15_input     mili Celsius     RO    MEM HOT Threshold
-> +temp16_input     mili Celsius     RO    SoC VRD HOT Threshold
-
-Report as tempX_max or tempX_crit, as appropriate (eg temp2_max or
-temp2_crit for SoC VRD HOT Threshold). If there is a single threshold
-temperature for all DIMMs, report the same limit value for all DIMM
-temperature sensors.
-
-> +temp17_input     mili Celsius     RO    Highest temperature reported by the RCA VRD
-
-Same question about "highest" as above. Either "highest" is
-inappropriate, or there are multiple RCA VRDs and only the
-highest temperature of those is reported (which should be
-explicitly stated).
-
-> +in0_input     mili Volt     RO    Core voltage
-> +in1_input     mili Volt     RO    SoC voltage
-> +in2_input     mili Volt     RO    DIMM VRD1 voltage
-> +in3_input     mili Volt     RO    DIMM VRD2 voltage
-> +in4_input     mili Volt     RO    Maximum voltage of DIMM VRD1 and VRD2
-
-drop; reported individually.
-
-> +in5_input     mili Volt     RO    RCA VRD voltage
-> +cur1_input     mili Ampere     RO    Core VRD current
-> +cur2_input     mili Ampere     RO    SoC VRD current
-> +cur3_input     mili Ampere     RO    DIMM VRD1 current
-> +cur4_input     mili Ampere     RO    DIMM VRD2 current
-> +cur5_input     mili Ampere     RO    RCA VRD current
-> +power1_input     nano Wat     RO    Core VRD power
-
-Expected scale is micro-Watt.
-
-> +power2_input     nano Wat     RO    SoC VRD power
-> +power3_input     nano Wat     RO    DIMM VRD1 power
-> +power4_input     nano Wat     RO    DIMM VRD2 power
-> +power5_input     nano Wat     RO    CPU VRD power, total of SoC and Core VRD power
-
-drop
-
-> +power6_input     nano Wat     RO    Total of DIMM VRD1 and VRD2 power
-
-drop
-
-> +power7_input     nano Wat     RO    RCA VRD power
-> +power8_input     nano Wat     RO    Socket TDP
-
-Report as max attribute
-
-> +===============    =============   ======= ===============================================
-> +
-> +Example::
-> +
-> +    # cat in0_input
-> +    830
-> +    # cat temp1_input
-> +    37000
-> +    # cat curr1_input
-> +    9000
-> +    # cat power5_input
-> +    19500000
-> 
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index 160e710d992f..6724adf58082 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -79,7 +79,19 @@ Pointers printed without a specifier extension (i.e unadorned %p) are
+ hashed to prevent leaking information about the kernel memory layout. This
+ has the added benefit of providing a unique identifier. On 64-bit machines
+ the first 32 bits are zeroed. The kernel will print ``(ptrval)`` until it
+-gathers enough entropy. If you *really* want the address see %px below.
++gathers enough entropy.
++
++When possible, use specialised modifiers such as %pS or %pB (described below)
++to avoid the need of providing an unhashed address that has to be interpreted
++post-hoc. If not possible, and the aim of printing the address is to provide
++more information for debugging, use %p and boot the kernel with the
++``no_hash_pointers`` parameter during debugging, which will print all %p
++addresses unmodified. If you *really* always want the unmodified address, see
++%px below.
++
++If (and only if) you are printing addresses as a content of a virtual file in
++e.g. procfs or sysfs (using e.g. seq_printf(), not printk()) read by a
++userspace process, use the %pK modifier described below instead of %p or %px.
+ 
+ Error Pointers
+ --------------
+@@ -139,6 +151,11 @@ For printing kernel pointers which should be hidden from unprivileged
+ users. The behaviour of %pK depends on the kptr_restrict sysctl - see
+ Documentation/admin-guide/sysctl/kernel.rst for more details.
+ 
++This modifier is *only* intended when producing content of a file read by
++userspace from e.g. procfs or sysfs, not for dmesg. Please refer to the
++section about %p above for discussion about how to manage hashing pointers
++in printk().
++
+ Unmodified Addresses
+ --------------------
+ 
+@@ -153,6 +170,13 @@ equivalent to %lx (or %lu). %px is preferred because it is more uniquely
+ grep'able. If in the future we need to modify the way the kernel handles
+ printing pointers we will be better equipped to find the call sites.
+ 
++Before using %px, consider if using %p is sufficient together with enabling the
++``no_hash_pointers`` kernel parameter during debugging sessions (see the %p
++description above). One valid scenario for %px might be printing information
++immediately before a panic, which prevents any sensitive information to be
++exploited anyway, and with %px there would be no need to reproduce the panic
++with no_hash_pointers.
++
+ Pointer Differences
+ -------------------
+ 
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 41ddc353ebb8..c4dc971e5ca5 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -2186,7 +2186,9 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
+  *       Implements a "recursive vsnprintf".
+  *       Do not use this feature without some mechanism to verify the
+  *       correctness of the format string and va_list arguments.
+- * - 'K' For a kernel pointer that should be hidden from unprivileged users
++ * - 'K' For a kernel pointer that should be hidden from unprivileged users.
++ *       Use only for procfs, sysfs and similar files, not printk(); please
++ *       read the documentation (path below) first.
+  * - 'NF' For a netdev_features_t
+  * - 'h[CDN]' For a variable-length buffer, it prints it as a hex string with
+  *            a certain separator (' ' by default):
+@@ -2225,7 +2227,8 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
+  *		Without an option prints the full name of the node
+  *		f full name
+  *		P node name, including a possible unit address
+- * - 'x' For printing the address. Equivalent to "%lx".
++ * - 'x' For printing the address unmodified. Equivalent to "%lx".
++ *       Please read the documentation (path below) before using!
+  * - '[ku]s' For a BPF/tracing related format specifier, e.g. used out of
+  *           bpf_trace_printk() where [ku] prefix specifies either kernel (k)
+  *           or user (u) memory to probe, and:
+-- 
+2.30.1
 
