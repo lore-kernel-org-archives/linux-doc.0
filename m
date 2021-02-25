@@ -7,73 +7,69 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25136C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 20:10:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F40A3C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 20:12:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF1E064F28
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 20:10:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD9F464DF3
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Feb 2021 20:12:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233860AbhBYUKS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Feb 2021 15:10:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42078 "EHLO
+        id S231721AbhBYUMD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Feb 2021 15:12:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42466 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233743AbhBYUKR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 15:10:17 -0500
+        with ESMTP id S229993AbhBYUMC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 15:12:02 -0500
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DD8AC061574;
-        Thu, 25 Feb 2021 12:09:37 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 115F7C06174A;
+        Thu, 25 Feb 2021 12:11:22 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 3EFDC2C1;
-        Thu, 25 Feb 2021 20:09:35 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3EFDC2C1
+        by ms.lwn.net (Postfix) with ESMTPSA id BE2E57DE;
+        Thu, 25 Feb 2021 20:11:21 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BE2E57DE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1614283775; bh=eamGHQqfFKFIt3F2dJcpYXGTGQYPLSSArF/d6nsrqBI=;
+        t=1614283881; bh=x+UiLAWpiYh0JD6ayrWflGl7JaEf/FYymNi0YrQd/yI=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=q+8lFvoxPuQgBWLF7iC/BJjOOrr3jc1kYz2wxI0csNbg7zAs2stlHxtSR681ir+HD
-         ZzMFNW2KOGcczgTqvvw/5SQHfs2INL0lSjD8x5XD8ED/9dViIwz3eUMR96dnWCdmMJ
-         3DuwiLtPCy2CpL9Wrjupc2k/+VV2mAjHh7S9tG9LCOodaviQmiuN6zdO/G3HduqjDA
-         1rUNtHm/DsKxAoeeaHkGc09WMGpKQ8lFuJQIrtkQIpi2WFWpIvNcbPSjgkKeX5QA4E
-         HpeWqk9ZCZ4G+XlAWOvXPqJynx9OuLkkNGr22iAVt7foh8cr9y6RZQMMet2WBrs7A+
-         jG+yZKR1XQEgA==
+        b=rg/v8AsQN0nMNsV9KO33qUv48CzJKIGJsMW+J00ZYp0zUbuhM3A9HBV08CkRx4cEE
+         CvarbNPxZhHtVHK4/25TaqqsDks8jDj7M4MAKvIjIxq6UqTJ6dqFBP8zgxxIaijGtH
+         BYaaV1EFzbOezQH4fdhUdX5Q/X3pWVOBVjatdJgXwy6JErlH099MkzRPGauPqzvWoW
+         vOqyq+oyMDz+PJRGYKkVrztgaRus8D22sv8dbJ9t1T+69qX8/tXaiIDw8/qCXL8Pml
+         Zb1tacAxoN2vF4TLbXWA+kxKmh6o0Fj4YRf9cJluDH0/fnnLCA2k1t2AFr7xTuRu75
+         EfETD6Npv4Yyg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Antonio Terceiro <antonio.terceiro@linaro.org>,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jiong Wang <jiong.wang@netronome.com>
-Subject: Re: [PATCH] Documentation: cgroup-v2: fix path to example BPF program
-In-Reply-To: <20210224131631.349287-1-antonio.terceiro@linaro.org>
-References: <20210224131631.349287-1-antonio.terceiro@linaro.org>
-Date:   Thu, 25 Feb 2021 13:09:34 -0700
-Message-ID: <87zgzrc3k1.fsf@meer.lwn.net>
+To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH -next] docs: proc.rst: fix indentation warning
+In-Reply-To: <20210223060418.21443-1-rdunlap@infradead.org>
+References: <20210223060418.21443-1-rdunlap@infradead.org>
+Date:   Thu, 25 Feb 2021 13:11:21 -0700
+Message-ID: <87v9afc3h2.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Antonio Terceiro <antonio.terceiro@linaro.org> writes:
+Randy Dunlap <rdunlap@infradead.org> writes:
 
-> This file has been moved into the "progs" subdirectory in
-> bd4aed0ee73ca873bef3cb3ec746dd796f03df28, together with all test BPF
-> programs.
+> Fix indentation snafu in proc.rst as reported by Stephen.
 >
-> Signed-off-by: Antonio Terceiro <antonio.terceiro@linaro.org>
-> Cc: Tejun Heo <tj@kernel.org>
-> Cc: Zefan Li <lizefan.x@bytedance.com>
-> Cc: Johannes Weiner <hannes@cmpxchg.org>
+> next-20210219/Documentation/filesystems/proc.rst:697: WARNING: Unexpected indentation.
+>
+> Fixes: 93ea4a0b8fce ("Documentation: proc.rst: add more about the 6 fields in loadavg")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Jiong Wang <jiong.wang@netronome.com>
+> Cc: linux-doc@vger.kernel.org
 > ---
->  Documentation/admin-guide/cgroup-v2.rst | 2 +-
+> shame on me.
+>
+>  Documentation/filesystems/proc.rst |    2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks.  I did fix the changelog to include a Fixes: tag with
-the commit listed in the proper format.
-
-Thanks,
+Applied, thanks.
 
 jon
