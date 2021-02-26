@@ -2,311 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17876C433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 07:20:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A29F7C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 07:33:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C310E64EE3
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 07:20:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BF6760231
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 07:33:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230144AbhBZHUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 02:20:31 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:13821 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230141AbhBZHUY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 02:20:24 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B6038a0f60000>; Thu, 25 Feb 2021 23:19:18 -0800
-Received: from localhost (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 26 Feb
- 2021 07:19:17 +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <jhubbard@nvidia.com>,
-        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <jgg@nvidia.com>,
-        <hch@infradead.org>, <daniel@ffwll.ch>,
-        Alistair Popple <apopple@nvidia.com>
-Subject: [PATCH v3 8/8] nouveau/svm: Implement atomic SVM access
-Date:   Fri, 26 Feb 2021 18:18:32 +1100
-Message-ID: <20210226071832.31547-9-apopple@nvidia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210226071832.31547-1-apopple@nvidia.com>
-References: <20210226071832.31547-1-apopple@nvidia.com>
+        id S229586AbhBZHdy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 02:33:54 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:13380 "EHLO
+        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229599AbhBZHdh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 02:33:37 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Dn1YD6c9mz7pS1;
+        Fri, 26 Feb 2021 15:31:12 +0800 (CST)
+Received: from [10.174.176.191] (10.174.176.191) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 26 Feb 2021 15:32:44 +0800
+Subject: Re: [PATCH v14 02/11] x86: kdump: make the lower bound of crash
+ kernel reservation consistent
+To:     Baoquan He <bhe@redhat.com>,
+        Catalin Marinas <catalin.marinas@arm.com>
+References: <20210130071025.65258-1-chenzhou10@huawei.com>
+ <20210130071025.65258-3-chenzhou10@huawei.com>
+ <20210224143547.GB28965@arm.com> <20210225070717.GG3553@MiWiFi-R3L-srv>
+ <20210225144237.GA23418@arm.com> <20210225154446.GI3553@MiWiFi-R3L-srv>
+CC:     <mingo@redhat.com>, <tglx@linutronix.de>, <rppt@kernel.org>,
+        <dyoung@redhat.com>, <will@kernel.org>, <nsaenzjulienne@suse.de>,
+        <corbet@lwn.net>, <John.P.donnelly@oracle.com>,
+        <prabhakar.pkin@gmail.com>, <horms@verge.net.au>,
+        <robh+dt@kernel.org>, <arnd@arndb.de>, <james.morse@arm.com>,
+        <xiexiuqi@huawei.com>, <guohanjun@huawei.com>,
+        <huawei.libin@huawei.com>, <wangkefeng.wang@huawei.com>,
+        <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <d844360b-35c4-d9e8-12c2-2e6bac9ad911@huawei.com>
+Date:   Fri, 26 Feb 2021 15:32:43 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1614323958; bh=ap8KZiG4+pTr6g8hee17vVJL0B2lv0WjvaUCFNUjExQ=;
-        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-         References:MIME-Version:Content-Transfer-Encoding:Content-Type:
-         X-Originating-IP:X-ClientProxiedBy;
-        b=D4ArNarDS2CGeu6I5qnEg006ruCsBD/hYcE3GVt6BFN4nmq3w6S/fV+gS0rl2u4EO
-         ai/m/WxXSPcJjduHNJWKJ2owCiIsJeLJ319mDmJkQVXwEezGI4UPlsYE7/RMefwbEW
-         6bUYI7AZ4ZZgPFqm7H7nyKTpjqT4IlvxR6pISJ9uRra76oQTRlEuLbJag53i5P4jU8
-         m1UKuZXxkzVHULn0VIhSByIeu8+wVO8Y1jm7pXgbTwcG0fMQ3elXT99BI3aBZetykX
-         Mpzc9TIWxW0W92x05keE0tSwLr5nJI0snaAEC/RLMrfg8/wnd1NoE+24xnQrsQX4M3
-         XN3g1eNH4qcaw==
+In-Reply-To: <20210225154446.GI3553@MiWiFi-R3L-srv>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.176.191]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some NVIDIA GPUs do not support direct atomic access to system memory
-via PCIe. Instead this must be emulated by granting the GPU exclusive
-access to the memory. This is achieved by replacing CPU page table
-entries with special swap entries that fault on userspace access.
 
-The driver then grants the GPU permission to update the page undergoing
-atomic access via the GPU page tables. When CPU access to the page is
-required a CPU fault is raised which calls into the device driver via
-MMU notifiers to revoke the atomic access. The original page table
-entries are then restored allowing CPU access to proceed.
 
-Signed-off-by: Alistair Popple <apopple@nvidia.com>
----
- drivers/gpu/drm/nouveau/include/nvif/if000c.h |  1 +
- drivers/gpu/drm/nouveau/nouveau_svm.c         | 88 ++++++++++++++++---
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |  1 +
- .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |  6 ++
- 4 files changed, 83 insertions(+), 13 deletions(-)
+On 2021/2/25 23:44, Baoquan He wrote:
+> On 02/25/21 at 02:42pm, Catalin Marinas wrote:
+>> On Thu, Feb 25, 2021 at 03:08:46PM +0800, Baoquan He wrote:
+>>> On 02/24/21 at 02:35pm, Catalin Marinas wrote:
+>>>> On Sat, Jan 30, 2021 at 03:10:16PM +0800, Chen Zhou wrote:
+>>>>> diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+>>>>> index da769845597d..27470479e4a3 100644
+>>>>> --- a/arch/x86/kernel/setup.c
+>>>>> +++ b/arch/x86/kernel/setup.c
+>>>>> @@ -439,7 +439,8 @@ static int __init reserve_crashkernel_low(void)
+>>>>>  			return 0;
+>>>>>  	}
+>>>>>  
+>>>>> -	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, 0, CRASH_ADDR_LOW_MAX);
+>>>>> +	low_base = memblock_phys_alloc_range(low_size, CRASH_ALIGN, CRASH_ALIGN,
+>>>>> +			CRASH_ADDR_LOW_MAX);
+>>>>>  	if (!low_base) {
+>>>>>  		pr_err("Cannot reserve %ldMB crashkernel low memory, please try smaller size.\n",
+>>>>>  		       (unsigned long)(low_size >> 20));
+>>>> Is there any reason why the lower bound can't be 0 in all low cases
+>>>> here? (Sorry if it's been already discussed, I lost track)
+>>> Seems like a good question.
+>>>
+>>> This reserve_crashkernel_low(), paired with reserve_crashkernel_high(), is
+>>> used to reserve memory under 4G so that kdump kernel owns memory for dma
+>>> buffer allocation. In that case, kernel usually is loaded in high
+>>> memory. In x86_64, kernel loading need be aligned to 16M because of
+>>> CONFIG_PHYSICAL_START, please see commit 32105f7fd8faa7b ("x86: find
+>>> offset for crashkernel reservation automatically"). But for crashkernel
+>>> low memory, there seems to be no reason to ask for 16M alignment, if
+>>> it's taken as dma buffer memory.
+>>>
+>>> So we can make a different alignment for low memory only, e.g 2M. But
+>>> 16M alignment consistent with crashkernel,high is also fine to me. The
+>>> only affect is smaller alignment can increase the possibility of
+>>> crashkernel low reservation.
+>> I don't mind the 16M alignment in both low and high base. But is there
+>> any reason that the lower bound (third argument) cannot be 0 in both
+>> reserve_crashkernel() (the low attempt) and reserve_crashkernel_low()
+>> cases? The comment in reserve_crashkernel() only talks about the 4G
+>> upper bound but not why we need a 16M lower bound.
+> Ah, sorry, I must have mixed this one with the alignment of fixed
+> memory region reservation in patch 1 when considering comments.
+>
+> Hmm, in x86 we always have memory reserved in low 1M, lower bound
+> being 0 or 16M (kernel alignment) doesn't make difference on crashkernel
+> low reservation. But for crashkernel reservation, the reason should be
+> kernel loading alignment being 16M, please see commit 32105f7fd8faa7b
+> ("x86: find offset for crashkernel reservation automatically").
+Sorry, i didn't mention in the commit message about this.
 
-diff --git a/drivers/gpu/drm/nouveau/include/nvif/if000c.h b/drivers/gpu/dr=
-m/nouveau/include/nvif/if000c.h
-index d6dd40f21eed..9c7ff56831c5 100644
---- a/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-+++ b/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-@@ -77,6 +77,7 @@ struct nvif_vmm_pfnmap_v0 {
- #define NVIF_VMM_PFNMAP_V0_APER                           0x00000000000000=
-f0ULL
- #define NVIF_VMM_PFNMAP_V0_HOST                           0x00000000000000=
-00ULL
- #define NVIF_VMM_PFNMAP_V0_VRAM                           0x00000000000000=
-10ULL
-+#define NVIF_VMM_PFNMAP_V0_A				  0x0000000000000004ULL
- #define NVIF_VMM_PFNMAP_V0_W                              0x00000000000000=
-02ULL
- #define NVIF_VMM_PFNMAP_V0_V                              0x00000000000000=
-01ULL
- #define NVIF_VMM_PFNMAP_V0_NONE                           0x00000000000000=
-00ULL
-diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouvea=
-u/nouveau_svm.c
-index cd7b47c946cf..630c4a7bcb55 100644
---- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -35,6 +35,7 @@
- #include <linux/sched/mm.h>
- #include <linux/sort.h>
- #include <linux/hmm.h>
-+#include <linux/rmap.h>
-=20
- struct nouveau_svm {
- 	struct nouveau_drm *drm;
-@@ -421,9 +422,9 @@ nouveau_svm_fault_cmp(const void *a, const void *b)
- 		return ret;
- 	if ((ret =3D (s64)fa->addr - fb->addr))
- 		return ret;
--	/*XXX: atomic? */
--	return (fa->access =3D=3D 0 || fa->access =3D=3D 3) -
--	       (fb->access =3D=3D 0 || fb->access =3D=3D 3);
-+	/* Atomic access (2) has highest priority */
-+	return (-1*(fa->access =3D=3D 2) + (fa->access =3D=3D 0 || fa->access =3D=
-=3D 3)) -
-+	       (-1*(fb->access =3D=3D 2) + (fb->access =3D=3D 0 || fb->access =3D=
-=3D 3));
- }
-=20
- static void
-@@ -555,10 +556,58 @@ static void nouveau_hmm_convert_pfn(struct nouveau_dr=
-m *drm,
- 		args->p.phys[0] |=3D NVIF_VMM_PFNMAP_V0_W;
- }
-=20
-+static int nouveau_atomic_range_fault(struct nouveau_svmm *svmm,
-+			       struct nouveau_drm *drm,
-+			       struct nouveau_pfnmap_args *args, u32 size,
-+			       unsigned long hmm_flags, struct mm_struct *mm)
-+{
-+	struct page *page;
-+	unsigned long start =3D args->p.addr;
-+	struct vm_area_struct *vma;
-+	int ret =3D 0;
-+
-+	mmap_read_lock(mm);
-+	vma =3D find_vma_intersection(mm, start, start + size);
-+	if (!vma || !(vma->vm_flags & VM_WRITE)) {
-+		ret =3D -EPERM;
-+		goto out;
-+	}
-+
-+	make_device_exclusive_range(mm, start, start + PAGE_SIZE, &page);
-+	if (!page) {
-+		ret =3D -EINVAL;
-+		goto out;
-+	}
-+
-+	/* Map the page on the GPU. */
-+	args->p.page =3D 12;
-+	args->p.size =3D PAGE_SIZE;
-+	args->p.addr =3D start;
-+	args->p.phys[0] =3D page_to_phys(page) |
-+		NVIF_VMM_PFNMAP_V0_V |
-+		NVIF_VMM_PFNMAP_V0_W |
-+		NVIF_VMM_PFNMAP_V0_A |
-+		NVIF_VMM_PFNMAP_V0_HOST;
-+
-+	mutex_lock(&svmm->mutex);
-+	svmm->vmm->vmm.object.client->super =3D true;
-+	ret =3D nvif_object_ioctl(&svmm->vmm->vmm.object, args, size, NULL);
-+	svmm->vmm->vmm.object.client->super =3D false;
-+	mutex_unlock(&svmm->mutex);
-+
-+	set_page_dirty(page);
-+	unlock_page(page);
-+	put_page(page);
-+
-+out:
-+	mmap_read_unlock(mm);
-+	return ret;
-+}
-+
- static int nouveau_range_fault(struct nouveau_svmm *svmm,
- 			       struct nouveau_drm *drm,
- 			       struct nouveau_pfnmap_args *args, u32 size,
--			       unsigned long hmm_flags,
-+			       unsigned long hmm_flags, int atomic,
- 			       struct svm_notifier *notifier)
- {
- 	unsigned long timeout =3D
-@@ -608,12 +657,18 @@ static int nouveau_range_fault(struct nouveau_svmm *s=
-vmm,
- 		break;
- 	}
-=20
--	nouveau_hmm_convert_pfn(drm, &range, args);
-+	if (atomic) {
-+		mutex_unlock(&svmm->mutex);
-+		ret =3D nouveau_atomic_range_fault(svmm, drm, args,
-+						size, hmm_flags, mm);
-+	} else {
-+		nouveau_hmm_convert_pfn(drm, &range, args);
-=20
--	svmm->vmm->vmm.object.client->super =3D true;
--	ret =3D nvif_object_ioctl(&svmm->vmm->vmm.object, args, size, NULL);
--	svmm->vmm->vmm.object.client->super =3D false;
--	mutex_unlock(&svmm->mutex);
-+		svmm->vmm->vmm.object.client->super =3D true;
-+		ret =3D nvif_object_ioctl(&svmm->vmm->vmm.object, args, size, NULL);
-+		svmm->vmm->vmm.object.client->super =3D false;
-+		mutex_unlock(&svmm->mutex);
-+	}
-=20
- out:
- 	mmu_interval_notifier_remove(&notifier->notifier);
-@@ -637,7 +692,7 @@ nouveau_svm_fault(struct nvif_notify *notify)
- 	unsigned long hmm_flags;
- 	u64 inst, start, limit;
- 	int fi, fn;
--	int replay =3D 0, ret;
-+	int replay =3D 0, atomic =3D 0, ret;
-=20
- 	/* Parse available fault buffer entries into a cache, and update
- 	 * the GET pointer so HW can reuse the entries.
-@@ -718,12 +773,15 @@ nouveau_svm_fault(struct nvif_notify *notify)
- 		/*
- 		 * Determine required permissions based on GPU fault
- 		 * access flags.
--		 * XXX: atomic?
- 		 */
- 		switch (buffer->fault[fi]->access) {
- 		case 0: /* READ. */
- 			hmm_flags =3D HMM_PFN_REQ_FAULT;
- 			break;
-+		case 2: /* ATOMIC. */
-+			hmm_flags =3D HMM_PFN_REQ_FAULT | HMM_PFN_REQ_WRITE;
-+			atomic =3D true;
-+			break;
- 		case 3: /* PREFETCH. */
- 			hmm_flags =3D 0;
- 			break;
-@@ -740,7 +798,7 @@ nouveau_svm_fault(struct nvif_notify *notify)
-=20
- 		notifier.svmm =3D svmm;
- 		ret =3D nouveau_range_fault(svmm, svm->drm, &args.i,
--					sizeof(args), hmm_flags, &notifier);
-+			sizeof(args), hmm_flags, atomic, &notifier);
- 		mmput(mm);
-=20
- 		limit =3D args.i.p.addr + args.i.p.size;
-@@ -760,7 +818,11 @@ nouveau_svm_fault(struct nvif_notify *notify)
- 			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_V)) ||
- 			    (buffer->fault[fi]->access !=3D 0 /* READ. */ &&
- 			     buffer->fault[fi]->access !=3D 3 /* PREFETCH. */ &&
--			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_W)))
-+			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_W)) ||
-+			    (buffer->fault[fi]->access !=3D 0 /* READ. */ &&
-+			     buffer->fault[fi]->access !=3D 1 /* WRITE. */ &&
-+			     buffer->fault[fi]->access !=3D 3 /* PREFETCH. */ &&
-+			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_A)))
- 				break;
- 		}
-=20
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h b/drivers/gpu/dr=
-m/nouveau/nvkm/subdev/mmu/vmm.h
-index a2b179568970..f6188aa9171c 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-@@ -178,6 +178,7 @@ void nvkm_vmm_unmap_region(struct nvkm_vmm *, struct nv=
-km_vma *);
- #define NVKM_VMM_PFN_APER                                 0x00000000000000=
-f0ULL
- #define NVKM_VMM_PFN_HOST                                 0x00000000000000=
-00ULL
- #define NVKM_VMM_PFN_VRAM                                 0x00000000000000=
-10ULL
-+#define NVKM_VMM_PFN_A					  0x0000000000000004ULL
- #define NVKM_VMM_PFN_W                                    0x00000000000000=
-02ULL
- #define NVKM_VMM_PFN_V                                    0x00000000000000=
-01ULL
- #define NVKM_VMM_PFN_NONE                                 0x00000000000000=
-00ULL
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c b/drivers/g=
-pu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-index 236db5570771..f02abd9cb4dd 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-@@ -88,6 +88,9 @@ gp100_vmm_pgt_pfn(struct nvkm_vmm *vmm, struct nvkm_mmu_p=
-t *pt,
- 		if (!(*map->pfn & NVKM_VMM_PFN_W))
- 			data |=3D BIT_ULL(6); /* RO. */
-=20
-+		if (!(*map->pfn & NVKM_VMM_PFN_A))
-+			data |=3D BIT_ULL(7); /* Atomic disable. */
-+
- 		if (!(*map->pfn & NVKM_VMM_PFN_VRAM)) {
- 			addr =3D *map->pfn >> NVKM_VMM_PFN_ADDR_SHIFT;
- 			addr =3D dma_map_page(dev, pfn_to_page(addr), 0,
-@@ -322,6 +325,9 @@ gp100_vmm_pd0_pfn(struct nvkm_vmm *vmm, struct nvkm_mmu=
-_pt *pt,
- 		if (!(*map->pfn & NVKM_VMM_PFN_W))
- 			data |=3D BIT_ULL(6); /* RO. */
-=20
-+		if (!(*map->pfn & NVKM_VMM_PFN_A))
-+			data |=3D BIT_ULL(7); /* Atomic disable. */
-+
- 		if (!(*map->pfn & NVKM_VMM_PFN_VRAM)) {
- 			addr =3D *map->pfn >> NVKM_VMM_PFN_ADDR_SHIFT;
- 			addr =3D dma_map_page(dev, pfn_to_page(addr), 0,
---=20
-2.20.1
+We discussed about this and the CRASH_ALIGN sounds better, so just use CRASH_ALIGN.
+https://lkml.org/lkml/2020/9/4/82
+
+Thanks,
+Chen Zhou
+>
+> So, for crashkernel low, keeping lower bound as 0 looks good to me, the
+> only reason is just as patch log tells. And it can skip the unnecessary
+> memblock searching under 16M since it will always fail, even though it
+> won't matter much. Or changing it to CRASH_ALIGN as this patch is doing,
+> and adding code comment, is also fine to me.
+>
+> Thanks
+> Baoquan
+>
+> .
+>
 
