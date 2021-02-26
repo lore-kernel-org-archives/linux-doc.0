@@ -3,72 +3,128 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84542C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 09:16:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2494C433E6
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 09:39:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2EA5864EF0
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 09:16:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 436BB64F17
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 09:39:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230273AbhBZJQD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 04:16:03 -0500
-Received: from mx2.suse.de ([195.135.220.15]:45686 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230347AbhBZJOE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Feb 2021 04:14:04 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1614330798; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=NpmD/XyqdVk2IjO45iWPEf2k/UHGXha3vB3YpbyX1Z8=;
-        b=X0+bUqcflQ+ezhQYdOg3TH+dvESbYpmFuaUu49HKp1zP3i2u5fCjGHdUpL6+4udFWQbOUL
-        HwR5aQ03Wozlqts8958vRBGcyEYQm9vxg44uLcMN/wowtoZHCYxVf/lDa7I6Kdiu0r0fCI
-        FxgVwooJeM1jvkv4RH0hGqcokvU5vhs=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id F134CAC6E;
-        Fri, 26 Feb 2021 09:13:17 +0000 (UTC)
-Date:   Fri, 26 Feb 2021 10:13:17 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Timur Tabi <timur@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Marco Elver <elver@google.com>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH] printk: clarify the documentation for plain pointer
- printing
-Message-ID: <YDi7rQKR/rQinyTH@alley>
-References: <20210225164639.27212-1-vbabka@suse.cz>
+        id S229989AbhBZJjO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 04:39:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45608 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230001AbhBZJjL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 04:39:11 -0500
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26A0EC061574;
+        Fri, 26 Feb 2021 01:38:31 -0800 (PST)
+Received: by mail-pj1-x102b.google.com with SMTP id d2so5757571pjs.4;
+        Fri, 26 Feb 2021 01:38:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zPJxlvDtqyS+QVulOcRddj9Qq62vU/rkbUisQE4o2V8=;
+        b=UBJJEceql1d/vuTPvNuSeQPwIKFdI4tM1iC/6Um9d7d1TeInPATInyvQ6w7FVqBgZQ
+         A2tDUzL7uzjVQzeEd/9yTNWQ7vj/Mb3lAPx2ygqidht6DmG6ys24Wo57CQvfBkUCuOUF
+         TfD4DsZJCyhnHQm8l53gXO90THkIDTtnUHXf8OObtHfetF7aWku5lHlBoB8oJGI4opR7
+         53yPZRuq1wDObpb85lhfAa6xBPf47D28ukEs9BBwmM89A5gwLu2SlJZIO6XAJldIO+aj
+         ErRobQmFosUeF0Yy0vwXJlqgZKhcJH6Y7JupgHFJ+oB9Tfoozb0CoBt8E5zijT4nWopc
+         qsow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zPJxlvDtqyS+QVulOcRddj9Qq62vU/rkbUisQE4o2V8=;
+        b=oCIiIWJ/6cpEMU7ON9xaXr8Ii8FXjcXoxlnO36vs/Y974GQb1huzavd3zSK1cToJyZ
+         VLv3EBdF49XVjS72npPS/Fi+YzPcGq9/LupbgauNi7X1ERCg05reVafiS/6KLQ1LFf6T
+         oV0H+2sB5uprzE7hT9oDcOBJejVpy7tS7ogOUkwB4urzWwq+LGPvmyjtTp50kGGUVMDE
+         tMEJPIeTvVxSPXGMZF2JV1b+2xzH6PRQh1KD9BdhnDbO6JbdA7NKOc7FxfsLiKMt0hWu
+         T8xCBadF0BNYLVIJB17wff6lEkAmsb8H+B8NPJ76UFIW1imtcw9uRTXxx0WP1MXpANbG
+         vvIg==
+X-Gm-Message-State: AOAM530s7Qy/FY1163sH07bujBWJMkYltgB4Tr/PTyDEHFP05/8+HMu7
+        v4UeSJ1IoViblsFavB4wcLA=
+X-Google-Smtp-Source: ABdhPJxn1at9tHb3fbqBCb35cWozOLn/ktt9MhDH3+IDPw7urhhpsmoSL1D/qIsPxttvfeW0T5NJfw==
+X-Received: by 2002:a17:902:b781:b029:e4:545d:77 with SMTP id e1-20020a170902b781b02900e4545d0077mr2259006pls.59.1614332310589;
+        Fri, 26 Feb 2021 01:38:30 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:9004:6adb:2468:cd7e:b0b6:7857])
+        by smtp.gmail.com with ESMTPSA id n1sm8548833pgi.78.2021.02.26.01.38.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Feb 2021 01:38:29 -0800 (PST)
+From:   Dwaipayan Ray <dwaipayanray1@gmail.com>
+To:     joe@perches.com, corbet@lwn.net, mchehab@kernel.org
+Cc:     lukas.bulwahn@gmail.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>
+Subject: [PATCH v8 0/3] checkpatch: add verbose mode 
+Date:   Fri, 26 Feb 2021 15:08:24 +0530
+Message-Id: <20210226093827.12700-1-dwaipayanray1@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210225164639.27212-1-vbabka@suse.cz>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 2021-02-25 17:46:39, Vlastimil Babka wrote:
-> We have several modifiers for plain pointers (%p, %px and %pK) and now also
-> the no_hash_pointers boot parameter. The documentation should help to choose
-> which variant to use. Importantly, we should discourage %px in favour of %p
-> (with the new boot parameter when debugging), and stress that %pK should be
-> only used for procfs and similar files, not dmesg buffer. This patch clarifies
-> the documentation in that regard.
-> 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+Add a new verbose mode to checkpatch. The verbose test
+descriptions are read from the new checkpatch documentation
+file at `Documentation/dev-tools/checkpatch.rst`, which
+is also added by this series.
 
-Nice!
+The verbose mode is optional and can be enabled by the
+flag -v or --verbose.
 
-Reviewed-by: Petr Mladek <pmladek@suse.com>
+The documentation file is only parsed by checkpatch.pl
+if the verbose mode is enabled. The verbose mode can
+not be used together with the --terse option.
 
-Best Regards,
-Petr
+Changes in v8:
+- Remove custom table of contents from checkpatch rst
+
+Changes in v7:
+- Add color coding support to --list-types option
+
+Changes in v6:
+- Allow using verbose mode with --list-types option
+
+Changes in v5:
+- Change the reference format to use absolute links.
+- Print verbose descriptions only for the first time
+  a message type is encountered.
+
+Changes in v4:
+- Change the type description format
+- Group the message types by usage
+- Make handling of --terse with --verbose simpler
+
+Changes in v3:
+- Simplify documentation file parsing in checkpatch
+- Document a total of 33 message types for checkpatch
+
+Changes in v2:
+- Use .rst Field Lists to specify the type descriptions.
+- Add a few more type descriptions to documentation.
+
+Dwaipayan Ray (2):
+  docs: add documentation for checkpatch
+  checkpatch: add verbose mode
+
+Lukas Bulwahn (1):
+  MAINTAINERS: clarify responsibility for checkpatch documentation
+
+ Documentation/dev-tools/checkpatch.rst | 513 +++++++++++++++++++++++++
+ Documentation/dev-tools/index.rst      |   1 +
+ MAINTAINERS                            |   9 +
+ scripts/checkpatch.pl                  | 133 ++++++-
+ 4 files changed, 636 insertions(+), 20 deletions(-)
+ create mode 100644 Documentation/dev-tools/checkpatch.rst
+
+-- 
+2.30.0
+
