@@ -2,117 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 752FFC433E9
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 09:40:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95387C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 09:49:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22CE964EEE
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 09:40:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45C0164ED5
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 09:49:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230434AbhBZJkX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 04:40:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230194AbhBZJjc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 04:39:32 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0093BC061788;
-        Fri, 26 Feb 2021 01:38:47 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id t29so5883763pfg.11;
-        Fri, 26 Feb 2021 01:38:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=J0JCxRwK/cVF01edZZLT5Wj+Rr/9cd4HuWjSUBop7vU=;
-        b=Q5H0AZJTL1NSQGD7LnRILO+s/R0FFXQzHQBSHMRLI6O9gW2U5wMXdyQtJWYmEP6Vtw
-         UOgyAb6NQz6CFU12TsYsfJ5T+fXSjZULazZfmx8DVPXi32RUHeKpmKY81aYQzubmnGtv
-         wwmaK1dNv2CDfPxTqz1WgKar9J3bKWYUuKGztfKNB5WdQu+38JrdfRZQjrVG6hCv6MgZ
-         6QZyn9jLMvUddMF9deJAwcLDIgdX/4XaUo5NXaDhg5Z8sPjgFbIklodv9hM25g7qOh1F
-         M/UQZ4QOz/6w0NHS2vdWM/vAKVI4Cogzqx8S+DxhJCWDny5BHPstxIF36NFatGtFdAGH
-         7cJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=J0JCxRwK/cVF01edZZLT5Wj+Rr/9cd4HuWjSUBop7vU=;
-        b=bluVjZ5JAuR4v9YIVgDpLxlgwB3D2Xc/t7iKvtO3utlOW96IjagLuC1flvJeRlsYtO
-         dX0ktZ5rl60IXM7VUOwrJQustUW7RZL7zXOCwj/rCVrzePPnzkY650giN8hL/3jXks+G
-         t/VtXlKxBSJsvj1tXDnWVbSW2tKltmvmHt1DQN7L6brNi9C2zytEn9NNA2JyG4T+AC96
-         KZJKvG6ta8xM4+Hh4vlgc7aA/H4V227gCzZKG6AOHRuHjjjbelWmeaCpfKZe+Ds8OF3G
-         3AnlosxtDbdSnpegZv+m0+c658kVH1CZnTg+ZiNDylJf+U2BicmUw1lDs6GIuDTzuIGt
-         VBFw==
-X-Gm-Message-State: AOAM532ki4/lpMou3aVvBpLbfdlXRyeQegm/GVa+WWtQrbJj499kT3ff
-        F/RVDr4yx7VX/nem7FDeMVU=
-X-Google-Smtp-Source: ABdhPJxQtiuvKwP1IU33GuRG5bLiQh02WQ5ZBlGfKG82cdoz0yv2PpI0englQ2YmAzvh/Nww++M9NA==
-X-Received: by 2002:a62:bd05:0:b029:1ab:6d2:5edf with SMTP id a5-20020a62bd050000b02901ab06d25edfmr2347975pff.32.1614332327499;
-        Fri, 26 Feb 2021 01:38:47 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:9004:6adb:2468:cd7e:b0b6:7857])
-        by smtp.gmail.com with ESMTPSA id n1sm8548833pgi.78.2021.02.26.01.38.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 01:38:47 -0800 (PST)
-From:   Dwaipayan Ray <dwaipayanray1@gmail.com>
-To:     joe@perches.com, corbet@lwn.net, mchehab@kernel.org
-Cc:     lukas.bulwahn@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>
-Subject: [PATCH v8 3/3] MAINTAINERS: clarify responsibility for checkpatch documentation
-Date:   Fri, 26 Feb 2021 15:08:27 +0530
-Message-Id: <20210226093827.12700-4-dwaipayanray1@gmail.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210226093827.12700-1-dwaipayanray1@gmail.com>
-References: <20210226093827.12700-1-dwaipayanray1@gmail.com>
+        id S230377AbhBZJta (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 04:49:30 -0500
+Received: from mga03.intel.com ([134.134.136.65]:41195 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230292AbhBZJtZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Feb 2021 04:49:25 -0500
+IronPort-SDR: Uo81ltxHP9kJPszsP06w/KvOs6C4MZqEkrYdbPPNs0g9j4uo07eN94IKhe+jpRGdQeZZKh60wb
+ u46xK2wMurpg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9906"; a="185882641"
+X-IronPort-AV: E=Sophos;i="5.81,208,1610438400"; 
+   d="scan'208";a="185882641"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 01:48:44 -0800
+IronPort-SDR: wz3J5nREN8FYG6yk1HK8EEoVt29n6/JZczKHTIWeO8OxURIh1jbT9iYeCVcg14crLCDixbjY2U
+ 87Pimi4qa0EQ==
+X-IronPort-AV: E=Sophos;i="5.81,208,1610438400"; 
+   d="scan'208";a="365793283"
+Received: from ciparjol-mobl.amr.corp.intel.com (HELO khuang2-desk.gar.corp.intel.com) ([10.255.230.175])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 01:48:42 -0800
+From:   Kai Huang <kai.huang@intel.com>
+To:     kvm@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     pbonzini@redhat.com, corbet@lwn.net,
+        Kai Huang <kai.huang@intel.com>
+Subject: [PATCH] KVM: Documentation: Fix index for KVM_CAP_PPC_DAWR1
+Date:   Fri, 26 Feb 2021 22:48:32 +1300
+Message-Id: <20210226094832.380394-1-kai.huang@intel.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+It should be 7.23 instead of 7.22, which has already been taken by
+KVM_CAP_X86_BUS_LOCK_EXIT.
 
-As discussed, Dwaipayan and Lukas take the responsibility for maintaining
-the checkpatch documentation that is currently being built up.
-
-To be sure that the checkpatch maintainers and the corresponding
-documentation maintainers can keep the content synchronized, add them as
-reviewers to the counterpart.
-
-Link: https://lore.kernel.org/lkml/bcee822d1934772f47702ee257bc735c8f467088.camel@perches.com/
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
+Signed-off-by: Kai Huang <kai.huang@intel.com>
 ---
- MAINTAINERS | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ Documentation/virt/kvm/api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 16ada1a4b751..6b48b79ba284 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4181,9 +4181,18 @@ X:	drivers/char/tpm/
- CHECKPATCH
- M:	Andy Whitcroft <apw@canonical.com>
- M:	Joe Perches <joe@perches.com>
-+R:	Dwaipayan Ray <dwaipayanray1@gmail.com>
-+R:	Lukas Bulwahn <lukas.bulwahn@gmail.com>
- S:	Maintained
- F:	scripts/checkpatch.pl
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index aed52b0fc16e..9639fe1e5cae 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -6217,7 +6217,7 @@ the bus lock vm exit can be preempted by a higher priority VM exit, the exit
+ notifications to userspace can be KVM_EXIT_BUS_LOCK or other reasons.
+ KVM_RUN_BUS_LOCK flag is used to distinguish between them.
  
-+CHECKPATCH DOCUMENTATION
-+M:	Dwaipayan Ray <dwaipayanray1@gmail.com>
-+M:	Lukas Bulwahn <lukas.bulwahn@gmail.com>
-+R:	Joe Perches <joe@perches.com>
-+S:	Maintained
-+F:	Documentation/dev-tools/checkpatch.rst
-+
- CHINESE DOCUMENTATION
- M:	Harry Wei <harryxiyou@gmail.com>
- M:	Alex Shi <alex.shi@linux.alibaba.com>
+-7.22 KVM_CAP_PPC_DAWR1
++7.23 KVM_CAP_PPC_DAWR1
+ ----------------------
+ 
+ :Architectures: ppc
 -- 
-2.30.0
+2.29.2
 
