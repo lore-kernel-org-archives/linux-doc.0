@@ -2,150 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE35C43381
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 16:25:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE037C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 16:39:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7362A64EF6
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 16:25:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8984664F0E
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 16:39:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230041AbhBZQY4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 11:24:56 -0500
-Received: from mga01.intel.com ([192.55.52.88]:12400 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230022AbhBZQYz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Feb 2021 11:24:55 -0500
-IronPort-SDR: RESG+ueW1J3GLWWFDgPPpalNgLFwFtjG3LZiKMeO2nxkrQ6ZFmytkEwKf9NxJw3y72SmiNdY2f
- uU0xqyVlEB5w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="205457859"
-X-IronPort-AV: E=Sophos;i="5.81,208,1610438400"; 
-   d="scan'208";a="205457859"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 08:23:07 -0800
-IronPort-SDR: ntFgGzsWwrCyDkuti811a99kOYPGX0R4MIVYZc60jEYPKH3BATJSEO3mAZeKKvYyyGkyVEU+aw
- 3689bu+XTFkA==
-X-IronPort-AV: E=Sophos;i="5.81,208,1610438400"; 
-   d="scan'208";a="382060060"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 08:23:05 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lFftO-008OTZ-3y; Fri, 26 Feb 2021 18:23:02 +0200
-Date:   Fri, 26 Feb 2021 18:23:02 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dejin Zheng <zhengdejin5@gmail.com>
-Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        mika.westerberg@linux.intel.com, rric@kernel.org,
-        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] PCI: Introduce pcim_alloc_irq_vectors()
-Message-ID: <YDkgZoscLyOnc5l6@smile.fi.intel.com>
-References: <20210226155056.1068534-1-zhengdejin5@gmail.com>
- <20210226155056.1068534-2-zhengdejin5@gmail.com>
+        id S230083AbhBZQjk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 11:39:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51202 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229849AbhBZQjj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 11:39:39 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E87BC06174A;
+        Fri, 26 Feb 2021 08:38:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=nm4khSh0bKFhxk1r0BlEoBUvtSkHO0c2Y7hbZV61JR8=; b=nPSju8JU7vBXX3kruXvSLHeziZ
+        S8lINxs+syQf2YVCw1PsLv6zWiMerA8fUzIr1OWQ2gmSr9K0NxAufT7PRSz4JWbrrte0vcVRzGs1W
+        RYwzdFet7yL9rHFVKoiTudDleqPpMpS1gyPQwrh1ge1kHRJhwkC9Eq5CJu8FcfqC1levS426zLOy+
+        ehcge+yrnqszaAQ1MlLtq0thbKAghv65XXqSGVm78IK9K+rPplNxcZiMB/xpvJqmUQiJcD3mnAeKy
+        KGAKL9JPjMu4kY8Womd9svGt6cxn23O6fQEWR0qlPRVdy1I8A1/4OGdk+jX0Gnd+O2WjKajAkk1E+
+        pfcp1zGA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lFg8c-00CFL1-5a; Fri, 26 Feb 2021 16:38:47 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id B57223011F0;
+        Fri, 26 Feb 2021 17:38:44 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id A0ED720BC9288; Fri, 26 Feb 2021 17:38:44 +0100 (CET)
+Date:   Fri, 26 Feb 2021 17:38:44 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Juergen Gross <jgross@suse.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        paulmck@kernel.org, mhocko@suse.com,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 3/3] kernel/smp: add more data to CSD lock debugging
+Message-ID: <YDkkFBerBlW5uUBS@hirez.programming.kicks-ass.net>
+References: <20210226112521.8641-1-jgross@suse.com>
+ <20210226112521.8641-4-jgross@suse.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210226155056.1068534-2-zhengdejin5@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20210226112521.8641-4-jgross@suse.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 26, 2021 at 11:50:53PM +0800, Dejin Zheng wrote:
-> Introduce pcim_alloc_irq_vectors(), a device-managed version of
-> pci_alloc_irq_vectors(). Introducing this function can simplify
-> the error handling path in many drivers.
-> 
-> And use pci_free_irq_vectors() to replace some code in pcim_release(),
-> they are equivalent, and no functional change. It is more explicit
-> that pcim_alloc_irq_vectors() is a device-managed function.
 
-Thanks!
+I hate all of this, but if this will finally catch the actual problem,
+we can then revert all this, so sure.
 
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Also, I think this will conflict with the patches from Nadav that I have
+queued:
 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
-> ---
-> v4 -> v5:
-> 	- Remove the check of enable device in pcim_alloc_irq_vectors()
-> 	  and make it as a static line function.
-> v3 -> v4:
-> 	- No change
-> v2 -> v3:
-> 	- Add some commit comments for replace some codes in
-> 	  pcim_release() by pci_free_irq_vectors().
-> v1 -> v2:
-> 	- Use pci_free_irq_vectors() to replace some code in
-> 	  pcim_release().
-> 	- Modify some commit messages.
-> 
->  drivers/pci/pci.c   |  5 +----
->  include/linux/pci.h | 24 ++++++++++++++++++++++++
->  2 files changed, 25 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 16a17215f633..fecfdc0add2f 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -1969,10 +1969,7 @@ static void pcim_release(struct device *gendev, void *res)
->  	struct pci_devres *this = res;
->  	int i;
->  
-> -	if (dev->msi_enabled)
-> -		pci_disable_msi(dev);
-> -	if (dev->msix_enabled)
-> -		pci_disable_msix(dev);
-> +	pci_free_irq_vectors(dev);
->  
->  	for (i = 0; i < DEVICE_COUNT_RESOURCE; i++)
->  		if (this->region_mask & (1 << i))
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 86c799c97b77..5cafd7d65fd7 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -1818,6 +1818,30 @@ pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
->  					      NULL);
->  }
->  
-> +/**
-> + * pcim_alloc_irq_vectors - a device-managed pci_alloc_irq_vectors()
-> + * @dev:		PCI device to operate on
-> + * @min_vecs:		minimum number of vectors required (must be >= 1)
-> + * @max_vecs:		maximum (desired) number of vectors
-> + * @flags:		flags or quirks for the allocation
-> + *
-> + * Return the number of vectors allocated, (which might be smaller than
-> + * @max_vecs) if successful, or a negative error code on error. If less
-> + * than @min_vecs interrupt vectors are available for @dev the function
-> + * will fail with -ENOSPC.
-> + *
-> + * It depends on calling pcim_enable_device() to make IRQ resources
-> + * manageable.
-> + */
-> +static inline int
-> +pcim_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
-> +			unsigned int max_vecs, unsigned int flags)
+  https://lkml.kernel.org/r/20210220231712.2475218-1-namit@vmware.com
+
+which I'll be pushing to tip/x86/mm once -rc1 happens.
+
+On Fri, Feb 26, 2021 at 12:25:21PM +0100, Juergen Gross wrote:
+
+> +static void __smp_call_single_queue_debug(int cpu, struct llist_node *node)
 > +{
-> +	if (!pci_is_managed(dev))
-> +		return -EINVAL;
-> +	return pci_alloc_irq_vectors(dev, min_vecs, max_vecs, flags);
-> +}
+> +	unsigned int this_cpu = smp_processor_id();
+> +	struct cfd_seq_local *seq = this_cpu_ptr(&cfd_seq_local);
+> +	struct call_function_data *cfd = this_cpu_ptr(&cfd_data);
+> +	struct cfd_percpu *pcpu = per_cpu_ptr(cfd->pcpu, cpu);
 > +
->  /* Include architecture-dependent settings and functions */
+> +	cfd_seq_store(pcpu->seq_queue, this_cpu, cpu, CFD_SEQ_QUEUE);
+> +	if (llist_add(node, &per_cpu(call_single_queue, cpu))) {
+> +		cfd_seq_store(pcpu->seq_ipi, this_cpu, cpu, CFD_SEQ_IPI);
+> +		cfd_seq_store(seq->ping, this_cpu, cpu, CFD_SEQ_PING);
+> +		send_call_function_single_ipi(cpu);
+> +		cfd_seq_store(seq->pinged, this_cpu, cpu, CFD_SEQ_PINGED);
+> +	} else {
+> +		cfd_seq_store(pcpu->seq_noipi, this_cpu, cpu, CFD_SEQ_NOIPI);
+> +	}
+> +}
+>  #else
+> +#define cfd_seq_store(var, src, dst, type)
+> +
+>  static void csd_lock_record(call_single_data_t *csd)
+>  {
+>  }
+> @@ -290,6 +396,19 @@ static DEFINE_PER_CPU_SHARED_ALIGNED(call_single_data_t, csd_data);
 >  
->  #include <asm/pci.h>
-> -- 
-> 2.25.0
-> 
+>  void __smp_call_single_queue(int cpu, struct llist_node *node)
+>  {
+> +#ifdef CONFIG_CSD_LOCK_WAIT_DEBUG
+> +	if (static_branch_unlikely(&csdlock_debug_extended)) {
+> +		unsigned int type;
+> +
+> +		type = CSD_TYPE(container_of(node, call_single_data_t,
+> +					     node.llist));
+> +		if (type == CSD_TYPE_SYNC || type == CSD_TYPE_ASYNC) {
+> +			__smp_call_single_queue_debug(cpu, node);
+> +			return;
+> +		}
+> +	}
+> +#endif
 
--- 
-With Best Regards,
-Andy Shevchenko
+This is a bit weird, might as well put it in generic_exec_single()
+because there you still know the type matches.
 
 
+> @@ -712,12 +840,21 @@ static void smp_call_function_many_cond(const struct cpumask *mask,
+>  		csd->node.src = smp_processor_id();
+>  		csd->node.dst = cpu;
+>  #endif
+> -		if (llist_add(&csd->node.llist, &per_cpu(call_single_queue, cpu)))
+> +		cfd_seq_store(pcpu->seq_queue, this_cpu, cpu, CFD_SEQ_QUEUE);
+> +		if (llist_add(&csd->node.llist, &per_cpu(call_single_queue, cpu))) {
+>  			__cpumask_set_cpu(cpu, cfd->cpumask_ipi);
+> +			cfd_seq_store(pcpu->seq_ipi, this_cpu, cpu, CFD_SEQ_IPI);
+> +		} else {
+> +			cfd_seq_store(pcpu->seq_noipi, this_cpu, cpu, CFD_SEQ_NOIPI);
+> +		}
+>  	}
+>  
+>  	/* Send a message to all CPUs in the map */
+> +	cfd_seq_store(this_cpu_ptr(&cfd_seq_local)->ping, this_cpu,
+> +		      CFD_SEQ_NOCPU, CFD_SEQ_PING);
+>  	arch_send_call_function_ipi_mask(cfd->cpumask_ipi);
+> +	cfd_seq_store(this_cpu_ptr(&cfd_seq_local)->pinged, this_cpu,
+> +		      CFD_SEQ_NOCPU, CFD_SEQ_PINGED);
+
+Too bad we can't share with the single case, a well.
