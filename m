@@ -2,72 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	INCLUDES_PULL_REQUEST,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E058CC433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 18:31:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30A02C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 18:54:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8F41664F27
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 18:31:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D3B4164ED5
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 18:54:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230164AbhBZSbn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 13:31:43 -0500
-Received: from mga01.intel.com ([192.55.52.88]:24447 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229967AbhBZSbm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Feb 2021 13:31:42 -0500
-IronPort-SDR: 5SEavgwx7D6PmT+zkhHEcOe/MStSkl+Q6sJlMyXd6J2iZbQvAxDwAbfytF8YZnPGWltee20yrn
- 9c7bXNeMy9MQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="205502798"
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; 
-   d="scan'208";a="205502798"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 10:29:46 -0800
-IronPort-SDR: XduxGCmDmR6LTHB5zJHhF2YIG2jOE4ipOdQHfDupRL0Bde6Q+/XFfs/1n7j+l+PnPXzWjKMTIu
- xtshLmL9tlAg==
-X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; 
-   d="scan'208";a="405078296"
-Received: from gna-dev.igk.intel.com (HELO localhost) ([10.102.80.34])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 10:29:43 -0800
-References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com> <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com> <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com>
-User-agent: mu4e 1.4.13; emacs 26.3
-From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Savo Novakovic <savox.novakovic@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: Re: [PATCH v1 01/12] gna: add driver module
-In-reply-to: <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com>
-Date:   Fri, 26 Feb 2021 19:29:39 +0100
-Message-ID: <85tupysmwc.fsf@linux.intel.com>
+        id S229622AbhBZSyq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 13:54:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51864 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229598AbhBZSyq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 13:54:46 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2FC8C061574;
+        Fri, 26 Feb 2021 10:54:05 -0800 (PST)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5BAA32ED;
+        Fri, 26 Feb 2021 18:54:05 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5BAA32ED
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1614365645; bh=07qo+f5FyVdCDPdARO4iRb+hdwhOO6h7yOzWMm94L40=;
+        h=From:To:Cc:Subject:Date:From;
+        b=fw74H5J7vNcSuTJYxnmY4/wbzEyCw2GBKS8psk8Grnngdc+74L7CUGVRaVe9KDNrO
+         lw3i43GsogvHHye8hHq3/UYZAtHCjKv7YjlyrqCWtSh8HZFqAewrF8+r8623NV/ivU
+         5z5QnUtE5nqj6iiSmURy47X8I6HbjuQ11Sq7h+NwPd7FvYT6/AiqU80NOCUqVoAmOk
+         6lvXi+/jFOQWqHw0gpadikkfk9ihfOdT68hNhUyEQowkyt+iZlF352sGJOJptvjtJT
+         CQL60CJA4KHCi6rD+9gKmduILzwp6nRpDCkQVqK7zTmcXLneTnrFq4D7Zth5ulwLqJ
+         irNJJ7H4FedXg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [GIT PULL] Documentation fixes for 5.12
+Date:   Fri, 26 Feb 2021 11:54:04 -0700
+Message-ID: <87blc68xtf.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The following changes since commit 3c2e0a489da6a7c48ad67a246c7a287fcb4a4607:
 
-Andy Shevchenko <andy.shevchenko@gmail.com> writes:
+  docs: kernel-hacking: be more civil (2021-02-11 10:00:40 -0700)
 
-> On Tue, Feb 16, 2021 at 6:11 PM Maciej Kwapulinski
-> <maciej.kwapulinski@linux.intel.com> wrote:
->>
-....
->> +#define GNA_DRV_VER    "1.2.0"
->
-> Nowadays the version is the Git SHA sum.
->
+are available in the Git repository at:
 
-right, "version" is present in about 7% of all modules
+  git://git.lwn.net/linux.git tags/docs-5.12-2
 
-do You mean version should be skipped over (automatically generated)
-srcversion field? or maybe You suggest any (better) technique?
+for you to fetch changes up to f37a15ea8db022373a2cb6d1a6004c65c2b7f17e:
+
+  docs: proc.rst: fix indentation warning (2021-02-25 13:11:00 -0700)
+
+----------------------------------------------------------------
+A handful of late-arriving documentation fixes, nothing all that notable.
+
+----------------------------------------------------------------
+Aditya Srivastava (1):
+      scripts: kernel-doc: fix array element capture in pointer-to-func par=
+sing
+
+Andrew Donnellan (1):
+      docs: powerpc: Fix tables in syscall64-abi.rst
+
+Antonio Terceiro (1):
+      Documentation: cgroup-v2: fix path to example BPF program
+
+Arnd Bergmann (2):
+      Documentation: features: remove c6x references
+      Documentation: features: refresh feature list
+
+Masahiro Yamada (1):
+      doc: use KCFLAGS instead of EXTRA_CFLAGS to pass flags from command l=
+ine
+
+Matthew Wilcox (1):
+      Fix unaesthetic indentation
+
+Michael Wei=C3=9F (1):
+      docs: ABI: testing: ima_policy: Fixed missing bracket
+
+Randy Dunlap (2):
+      Documentation: proc.rst: add more about the 6 fields in loadavg
+      docs: proc.rst: fix indentation warning
+
+ Documentation/ABI/testing/ima_policy               |  2 +-
+ Documentation/admin-guide/cgroup-v2.rst            |  2 +-
+ Documentation/conf.py                              |  3 +-
+ .../features/core/cBPF-JIT/arch-support.txt        |  1 -
+ .../features/core/eBPF-JIT/arch-support.txt        |  1 -
+ .../core/generic-idle-thread/arch-support.txt      |  1 -
+ .../features/core/jump-labels/arch-support.txt     |  1 -
+ .../features/core/tracehook/arch-support.txt       |  1 -
+ .../features/debug/KASAN/arch-support.txt          |  1 -
+ .../debug/debug-vm-pgtable/arch-support.txt        |  1 -
+ .../debug/gcov-profile-all/arch-support.txt        |  3 +-
+ Documentation/features/debug/kcov/arch-support.txt |  1 -
+ Documentation/features/debug/kgdb/arch-support.txt |  1 -
+ .../features/debug/kmemleak/arch-support.txt       |  3 +-
+ .../debug/kprobes-on-ftrace/arch-support.txt       |  3 +-
+ .../features/debug/kprobes/arch-support.txt        |  3 +-
+ .../features/debug/kretprobes/arch-support.txt     |  3 +-
+ .../features/debug/optprobes/arch-support.txt      |  1 -
+ .../features/debug/stackprotector/arch-support.txt |  1 -
+ .../features/debug/uprobes/arch-support.txt        |  3 +-
+ .../debug/user-ret-profiler/arch-support.txt       |  1 -
+ .../features/io/dma-contiguous/arch-support.txt    |  1 -
+ .../locking/cmpxchg-local/arch-support.txt         |  1 -
+ .../features/locking/lockdep/arch-support.txt      |  1 -
+ .../locking/queued-rwlocks/arch-support.txt        |  1 -
+ .../locking/queued-spinlocks/arch-support.txt      |  1 -
+ .../features/perf/kprobes-event/arch-support.txt   |  3 +-
+ .../features/perf/perf-regs/arch-support.txt       |  3 +-
+ .../features/perf/perf-stackdump/arch-support.txt  |  3 +-
+ .../sched/membarrier-sync-core/arch-support.txt    |  1 -
+ .../features/sched/numa-balancing/arch-support.txt |  3 +-
+ .../seccomp/seccomp-filter/arch-support.txt        |  1 -
+ .../time/arch-tick-broadcast/arch-support.txt      |  1 -
+ .../features/time/clockevents/arch-support.txt     |  1 -
+ .../time/context-tracking/arch-support.txt         |  1 -
+ .../features/time/irq-time-acct/arch-support.txt   |  1 -
+ .../features/time/virt-cpuacct/arch-support.txt    |  1 -
+ .../features/vm/ELF-ASLR/arch-support.txt          |  1 -
+ .../features/vm/PG_uncached/arch-support.txt       |  1 -
+ Documentation/features/vm/THP/arch-support.txt     |  1 -
+ Documentation/features/vm/TLB/arch-support.txt     |  1 -
+ .../features/vm/huge-vmap/arch-support.txt         |  1 -
+ .../features/vm/ioremap_prot/arch-support.txt      |  1 -
+ .../features/vm/pte_special/arch-support.txt       |  1 -
+ Documentation/filesystems/proc.rst                 |  4 ++
+ Documentation/powerpc/syscall64-abi.rst            | 51 ++++++++++++++----=
+----
+ Documentation/process/4.Coding.rst                 |  2 +-
+ Documentation/process/submit-checklist.rst         |  2 +-
+ .../translations/it_IT/process/4.Coding.rst        |  2 +-
+ .../it_IT/process/submit-checklist.rst             |  2 +-
+ .../translations/zh_CN/process/4.Coding.rst        |  2 +-
+ drivers/gpu/drm/tilcdc/Makefile                    |  2 +-
+ scripts/kernel-doc                                 |  2 +-
+ 53 files changed, 56 insertions(+), 81 deletions(-)
