@@ -2,108 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24055C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 14:24:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFA6DC433E9
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 14:30:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFE3964ED5
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 14:24:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 72C6D64E28
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 14:30:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230144AbhBZOYp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 09:24:45 -0500
-Received: from mx2.suse.de ([195.135.220.15]:56710 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230125AbhBZOYi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Feb 2021 09:24:38 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1614349429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=EZ8keW/MmYo/ENSptctxMrJ/qqagf2xtsHbib8YaQAw=;
-        b=LSycJx2ivWEdJJgeje1f3n3MzxIWq9i+1H14zarEBVnqfjsRyrE1qdgTZ8NRjn2eZHcbOM
-        XyLdocTAt8/EyLAHtETrPeE/SklJq3eKUO2b+f5R8AKF6x5kuJ09iEfrJeDvX7XVPiq1ra
-        t+e3m83qhS/4gCKyc9EfHgyaAdxWen4=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 5A13EAE30;
-        Fri, 26 Feb 2021 14:23:49 +0000 (UTC)
-Date:   Fri, 26 Feb 2021 15:23:42 +0100
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     Vipin Sharma <vipinsh@google.com>
-Cc:     thomas.lendacky@amd.com, tj@kernel.org, brijesh.singh@amd.com,
-        jon.grimm@amd.com, eric.vantassell@amd.com, pbonzini@redhat.com,
-        hannes@cmpxchg.org, frankja@linux.ibm.com, borntraeger@de.ibm.com,
-        corbet@lwn.net, seanjc@google.com, vkuznets@redhat.com,
-        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        gingell@google.com, rientjes@google.com, dionnaglaze@google.com,
-        kvm@vger.kernel.org, x86@kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC 1/2] cgroup: sev: Add misc cgroup controller
-Message-ID: <YDkEbv9u3OBNpk6f@blackbook>
-References: <20210218195549.1696769-1-vipinsh@google.com>
- <20210218195549.1696769-2-vipinsh@google.com>
- <YDVIdycgk8XL0Zgx@blackbook>
- <YDcuQFMbe5MaatBe@google.com>
- <YDdzcfLxsCeYxLNG@blackbook>
- <YDf6bpSxX6I5xdqZ@google.com>
+        id S230106AbhBZOaX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 09:30:23 -0500
+Received: from mxout70.expurgate.net ([91.198.224.70]:41345 "EHLO
+        mxout70.expurgate.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229949AbhBZOaW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 09:30:22 -0500
+X-Greylist: delayed 450 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Feb 2021 09:30:20 EST
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.92)
+        (envelope-from <ms@dev.tdt.de>)
+        id 1lFdzG-000FB0-Ps; Fri, 26 Feb 2021 15:20:58 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ms@dev.tdt.de>)
+        id 1lFdzF-000PO6-IK; Fri, 26 Feb 2021 15:20:57 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id B884A240041;
+        Fri, 26 Feb 2021 15:20:56 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id 12F2E240040;
+        Fri, 26 Feb 2021 15:20:56 +0100 (CET)
+Received: from mail.dev.tdt.de (localhost [IPv6:::1])
+        by mail.dev.tdt.de (Postfix) with ESMTP id 7E2A4200E1;
+        Fri, 26 Feb 2021 15:20:55 +0100 (CET)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="0cdvV5m4yIkS6Bx1"
-Content-Disposition: inline
-In-Reply-To: <YDf6bpSxX6I5xdqZ@google.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 26 Feb 2021 15:20:55 +0100
+From:   Martin Schiller <ms@dev.tdt.de>
+To:     Xie He <xie.he.0141@gmail.com>
+Cc:     Jakub Kicinski <kuba@kernel.org>,
+        Leon Romanovsky <leon@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Linux X25 <linux-x25@vger.kernel.org>,
+        Linux Kernel Network Developers <netdev@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Krzysztof Halasa <khc@pm.waw.pl>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB frames
+Organization: TDT AG
+In-Reply-To: <CAJht_EPBJhhdCBoon=WMuPBk-sxaeYOq3veOpAd2jq5kFqQHBg@mail.gmail.com>
+References: <20210216201813.60394-1-xie.he.0141@gmail.com>
+ <YC4sB9OCl5mm3JAw@unreal>
+ <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com>
+ <YC5DVTHHd6OOs459@unreal>
+ <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
+ <YC7GHgYfGmL2wVRR@unreal>
+ <CAJht_EPZ7rVFd-XD6EQD2VJTDtmZZv0HuZvii+7=yhFgVz68VQ@mail.gmail.com>
+ <CAJht_EPPMhB0JTtjWtMcGbRYNiZwJeMLWSC5hS6WhWuw5FgZtg@mail.gmail.com>
+ <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <CAJht_EOru3pW6AHN4QVjiaERpLSfg-0G0ZEaqU_hkhX1acv0HQ@mail.gmail.com>
+ <906d8114f1965965749f1890680f2547@dev.tdt.de>
+ <CAJht_EPBJhhdCBoon=WMuPBk-sxaeYOq3veOpAd2jq5kFqQHBg@mail.gmail.com>
+Message-ID: <e1750da4179aca52960703890e985af3@dev.tdt.de>
+X-Sender: ms@dev.tdt.de
+User-Agent: Roundcube Webmail/1.3.16
+X-purgate-type: clean
+X-purgate: clean
+X-purgate-ID: 151534::1614349258-000052FF-44B5BAFB/0/0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 2021-02-22 09:56, Xie He wrote:
+> On Sun, Feb 21, 2021 at 11:14 PM Martin Schiller <ms@dev.tdt.de> wrote:
+>> 
+>> I'm not really happy with this change because it breaks compatibility.
+>> We then suddenly have 2 interfaces; the X.25 routings are to be set 
+>> via
+>> the "new" hdlc<x>_x25 interfaces instead of the hdlc<x> interfaces.
+>> 
+>> I currently just don't have a nicer solution to fix this queueing
+>> problem either. On the other hand, since the many years we have been
+>> using the current state, I have never noticed any problems with
+>> discarded frames. So it might be more a theoretical problem than a
+>> practical one.
+> 
+> This problem becomes very serious when we use AF_PACKET sockets,
+> because the majority of frames would be dropped by the hardware
+> driver, which significantly impacts transmission speed. What I am
+> really doing is to enable adequate support for AF_PACKET sockets,
+> allowing users to use the bare (raw) LAPB protocol. If we take this
+> into consideration, this problem is no longer just a theoretical
+> problem, but a real practical issue.
 
---0cdvV5m4yIkS6Bx1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I have now had a look at it. It works as expected.
+I just wonder if it would not be more appropriate to call
+the lapb_register() already in x25_hdlc_open(), so that the layer2
+(lapb) can already "work" before the hdlc<x>_x25 interface is up.
 
-On Thu, Feb 25, 2021 at 11:28:46AM -0800, Vipin Sharma <vipinsh@google.com> wrote:
-> My approach here is that it is the responsibility of the caller to:
-> 1. Check the return value and proceed accordingly.
-> 2. Ideally, let all of the usage be 0 before deactivating this resource
->    by setting capacity to 0
-If the calling side can ensure itself that no new units of the resource
-are used from that moment on, then it can work this way -- but describe
-that in misc_cg_set_capacity() comment.
 
-> Is the above change good?
-I think both alternatives would work. But the latter (as I see it now)
-would mandate dependency on CONFIG_CGROUP or it'd have to double the
-similar logic itself. So maybe keeping the caller responsible explicitly
-is simpler from this POV.
+Also, I have a hard time assessing if such a wrap is really enforceable.
+Unfortunately I have no idea how many users there actually are.
 
-> Will there be any objection to extra information?
-IMO it's unnecessary (stating this just for consistency reasons), no
-strong opinion.
 
-Michal
-
---0cdvV5m4yIkS6Bx1
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAmA5BGsACgkQia1+riC5
-qSgTGRAAoZ8UZQoAOpamNp2/t/ZoGBQlc2u+5XDs9tPI1LzW7tJ3hNNitPkhB+aC
-oh7SiaI8f6LkAqKPRjKsZwPi1oXJUHjaf9T7Vf8HF+CfmahqQBDI+iR3tHO2GDw8
-Fn8GabyVuBtFQn8XDHmINeiYkXhTn4IGBO0VO1vrYkZrUSOoE4uIfIRz+8thfpeh
-vigJRDm+DTSyNX1klJlfe3li8UHgK282Hf/C2EqXmpMULCdTcrxmsayzh9UgONjX
-6ElaMeFSjYIPyYZUFlkwGYmXZ6Kfk0Z+HTm6D+/1nIIuvFImr5u7lY6ssxIb5BhG
-VDuJDoIGZp+H7MvB1yRhPnygltT1JkRbi1EDpX5q8HDtFn05h/opFWU5A1leAh6U
-mVwn1i6VZ7DEtyqEaCI8iyRLqCK86+fr4W0q9i5QzG5YzddlHqv9QZkF8mPJL5aj
-ng008bFSfGliYdIoqmTeHYho+K6hgSVT6W+Sf5bUb0P2w8vWKPwJiFiYlBtitdv/
-gReKLtnFUAzHV+w2J7loq0ZbrPAQhdqzHrJo1zpQsByTed0q/Nby8MM3OKk3vmFo
-RjxxF7cLao8PIsud76c8LnwkLe3tqLjaXeUYeIKlLdrTjOJeSBjfUEx0nhywg88R
-CDTzmts8VVbqWyhBmyuxSmgxYLWdcyX/XZlVexBZotGpGDk6ZWI=
-=uKkz
------END PGP SIGNATURE-----
-
---0cdvV5m4yIkS6Bx1--
+> 
+> If we don't want to break backward compatibility, there is another 
+> option:
+> We can create a new API for the HDLC subsystem for stopping/restarting
+> the TX queue, and replace all HDLC hardware drivers' netif_stop_queue
+> and netif_wake_queue calls with calls to this new API. This new API
+> would then call hdlc_x25 to stop/restart its internal queue.
+> 
+> But this option would require modifying all HDLC hardware drivers'
+> code, and frankly, not all HDLC hardware drivers' developers care
+> about running X.25 protocols on their hardware. So this would cause
+> both hardware driver instabilities and confusion for hardware driver
+> developers.
