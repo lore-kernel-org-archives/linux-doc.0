@@ -2,84 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03E0FC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 05:35:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A5E0C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 06:22:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2ABF64EDC
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 05:35:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CC45664E02
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 06:22:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229845AbhBZFf1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 00:35:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50020 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229823AbhBZFfZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 00:35:25 -0500
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC19C06174A
-        for <linux-doc@vger.kernel.org>; Thu, 25 Feb 2021 21:34:45 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id f8so4707297plg.5
-        for <linux-doc@vger.kernel.org>; Thu, 25 Feb 2021 21:34:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=E/72ukQbxYFbVDYN4+VjF6J8sjswQu6JBy9Ss0as/qU=;
-        b=vhgwHnFNT/68Ayu7hro0UxDnpQReFVDyOPHPkE0/XUKxwK8kZmaS8R7kq78Q0Us743
-         SGyU1Ac82gfd9zr8RCIdEyGBwS8c3kH02NmTGHzjn5GDNSilpugoe7ewdOfrVZYp3f5o
-         KCrdW3pjxtOhhuf0z8v9/TPAHxjTxrjwpNfLKxVt23zoDOYQmQYzPke+//rhUDzRBwRe
-         IcG6lgAJBcZ+jlCmERdKj0dUfL/aSHZbET2IsyHTFFBYbWsztxywU5PIj9jPqxRmStMe
-         wL/0YzryIUBLtuWKpuvp9HlAybL+dAc49h8aLMdSl8ki/dfYVqmmxrGmG6pCfCOJaCNv
-         EXkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=E/72ukQbxYFbVDYN4+VjF6J8sjswQu6JBy9Ss0as/qU=;
-        b=bb0hC5z50PneMN4eegNKXSPetfRxc4UtX0W+gOJxE1Jy6LbRy2Qo5GUcQIYkAmw69k
-         9TEXcJauTQ9EQDKjiGfpnH61nhi1Qjr6bpHY0/jUNr52BHJdw/Ulj9vWYm4XT91rr1O2
-         7zsQs5qbaY+Wbp9nLBMK6PRpeSMbR3PbYiP6SMRgb4xPk3d5RYPd+XOs8hInY8V+Zib0
-         4b15EpiRE5tIOODom3IaVkS3P93/nQDW7rb5H53aKrVnY9ofyS4f9jI8hkAqhacpxEN5
-         AyYYWaBklqsEG/b6RtKyI+K9og9roKCK79/9In1bpm1BKLa2HEp/im+hsuaQMwKZO6RF
-         STKQ==
-X-Gm-Message-State: AOAM530P6vMsN0XoEmdrJtLyhZKUm80nxNBFWaWwVVHSX4x9XzAQk6WS
-        st1ogTLuSqojLDBZhSuzPiClKA==
-X-Google-Smtp-Source: ABdhPJzW1IJ4S3iG3hcraE3lyy9TjHQW8d0WKS43o1bxGTLqIkJbTOvVQByksy5Oj08iXyZRZy7qjg==
-X-Received: by 2002:a17:903:2491:b029:e4:16d6:e0a4 with SMTP id p17-20020a1709032491b02900e416d6e0a4mr1704912plw.64.1614317684998;
-        Thu, 25 Feb 2021 21:34:44 -0800 (PST)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id h3sm7631695pgm.67.2021.02.25.21.34.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Feb 2021 21:34:44 -0800 (PST)
-Date:   Thu, 25 Feb 2021 21:34:44 -0800 (PST)
-X-Google-Original-Date: Thu, 25 Feb 2021 21:34:10 PST (-0800)
-Subject:     Re: [PATCH 2/2] Documentation: features: refresh feature list
+        id S229586AbhBZGWZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 01:22:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60890 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229556AbhBZGWY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Feb 2021 01:22:24 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B902564E02;
+        Fri, 26 Feb 2021 06:21:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614320503;
+        bh=BX4ANU+deMF/gCnboQiDGoO4O8tphEU0zGUoRnCR8+g=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=qfHHydEIR/PrCEjFmvW05eOKcqgxnIKVRlNys0hmd4Jt6eF4++8eqlDkNDxD8fMb7
+         z9uFv19hoTaovxU4em4pKiE/pnRtfkxl+Od1tBuqagziI9T7rTErCnaDEtPlyaiPLU
+         SlXlvcZCqdeHj+zE5MfwcqLUwvG4NiEBiM3xrXnoQ59mPLoY3iFTRm+r4i0KULpw2V
+         T4jamGddsxz0q0TNA60vkOYo/tJWe4AWQgCWoj/68JBPzCtlP0esZmvOZVuhaN51WO
+         PRZyjsEEfQqRJAM1cTQmxTlGjW+L2V3MeCXFP4gYjw5wQ4h7NtLN7GBDdGF06i3+ie
+         VZuhpgLH/pU2Q==
+Received: by mail-lj1-f177.google.com with SMTP id a17so9367370ljq.2;
+        Thu, 25 Feb 2021 22:21:42 -0800 (PST)
+X-Gm-Message-State: AOAM531njM7/3G+CoNMyvivOhGJOYIQjXZ0gW2EMaNFQC2G2a2l9MYSY
+        yOVzlex3ZjNRugfjkgxc4ejOjm2o8YiVjL7WnVw=
+X-Google-Smtp-Source: ABdhPJz6GQ02m5yKncjhLrHyBdN+zIU3XRAYgog6pHcVmxWLyha3SvidqvgQS/WKsUsg1QE4UoT+9SSgSw5aoCdPnI4=
+X-Received: by 2002:a2e:919a:: with SMTP id f26mr793595ljg.508.1614320500903;
+ Thu, 25 Feb 2021 22:21:40 -0800 (PST)
+MIME-Version: 1.0
+References: <20210225142841.3385428-1-arnd@kernel.org> <20210225142841.3385428-2-arnd@kernel.org>
 In-Reply-To: <20210225142841.3385428-2-arnd@kernel.org>
-CC:     corbet@lwn.net, Arnd Bergmann <arnd@arndb.de>,
+From:   Guo Ren <guoren@kernel.org>
+Date:   Fri, 26 Feb 2021 14:21:29 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTQriSy2rLHkvJ+YwHtyBE3BwneZQ-FqwSUzLjSRc9gRcA@mail.gmail.com>
+Message-ID: <CAJF2gTQriSy2rLHkvJ+YwHtyBE3BwneZQ-FqwSUzLjSRc9gRcA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] Documentation: features: refresh feature list
+To:     Arnd Bergmann <arnd@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>,
         Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, guoren@kernel.org,
-        tsbogend@alpha.franken.de, tangyouling@loongson.cn,
-        suxingxing@loongson.cn, ralf@linux-mips.org,
-        david.daney@cavium.com, yangtiezhu@loongson.cn, ayan@wavecomp.com,
-        penberg@kernel.org, mhiramat@kernel.org, me@packi.ch,
-        zong.li@sifive.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Youling Tang <tangyouling@loongson.cn>,
+        Xingxing Su <suxingxing@loongson.cn>,
+        Ralf Baechle <ralf@linux-mips.org>,
+        David Daney <david.daney@cavium.com>,
+        Tiezhu Yang <yangtiezhu@loongson.cn>,
+        Archer Yan <ayan@wavecomp.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        =?UTF-8?Q?Patrick_St=C3=A4hlin?= <me@packi.ch>,
+        Zong Li <zong.li@sifive.com>, linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
         linux-csky@vger.kernel.org
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     arnd@kernel.org
-Message-ID: <mhng-dba4c3e2-9d1f-4e1d-8b9a-f19eb9bf519a@palmerdabbelt-glaptop>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 25 Feb 2021 06:27:18 PST (-0800), arnd@kernel.org wrote:
+Thx Arnd,
+
+I'm very glad to see C-SKY & RISC-V features updated.
+
+Signed-off-by: Guo Ren <guoren@kernel.org>
+
+On Thu, Feb 25, 2021 at 10:29 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>
 > From: Arnd Bergmann <arnd@arndb.de>
 >
 > Run the update script to document the recent feature additions
@@ -92,14 +90,6 @@ On Thu, 25 Feb 2021 06:27:18 PST (-0800), arnd@kernel.org wrote:
 > Fixes: 829adda597fe ("riscv: Add KPROBES_ON_FTRACE supported")
 > Fixes: c22b0bcb1dd0 ("riscv: Add kprobes supported")
 > Fixes: dcdc7a53a890 ("RISC-V: Implement ptrace regs and stack API")
-
-For the RISC-V stuff
-
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
-
-Thanks!
-
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
 >  Documentation/features/debug/gcov-profile-all/arch-support.txt  | 2 +-
@@ -244,3 +234,13 @@ Thanks!
 >      |        s390: |  ok  |
 >      |          sh: |  ..  |
 >      |       sparc: | TODO |
+> --
+> 2.29.2
+>
+
+
+-- 
+Best Regards
+ Guo Ren
+
+ML: https://lore.kernel.org/linux-csky/
