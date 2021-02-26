@@ -2,139 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C702C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 18:12:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E058CC433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 18:31:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DD0764F17
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 18:12:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F41664F27
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 18:31:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229967AbhBZSMr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 13:12:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54080 "EHLO mail.kernel.org"
+        id S230164AbhBZSbn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 13:31:43 -0500
+Received: from mga01.intel.com ([192.55.52.88]:24447 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229823AbhBZSMq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Feb 2021 13:12:46 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A88D064F0D;
-        Fri, 26 Feb 2021 18:12:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614363125;
-        bh=Hq9nQud27ajZQKgTqLPDkKCQ20aGL8YgtoWSdS1bxYM=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=H83hjdZwUr1CQdNx1CJmo9ueIjpSgNEYT57R8TgZxWrrFwhGasx5iLpy9YxoKuhfE
-         oABEeeGWg3um4I5Egd0Eqg7l33rNI08U0jEn84L2A/r8ZMmEpHGJBbG/Sr/Nj3j3km
-         ynMoqGeWYHsRPY9L77510BozuadAFnzlgcUVXEWk1lRPCqj4DMipgFfRuF+9nLPc6i
-         QfvLUB0BEYgjvNPn0zqQNo8afVDexqYZZAZYUR8H/KVDgO6WkRbMqw9kFsI4WC21rT
-         AxGdFDFhFUM8P7cTf8WL0gdPa231ywseFR2N0msr4zLUxdUhclrNxwEmBEmcTkmoRt
-         H9VYLTZyqvlZQ==
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id 62F263522FAD; Fri, 26 Feb 2021 10:12:05 -0800 (PST)
-Date:   Fri, 26 Feb 2021 10:12:05 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, mhocko@suse.com,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 3/3] kernel/smp: add more data to CSD lock debugging
-Message-ID: <20210226181205.GZ2743@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20210226112521.8641-1-jgross@suse.com>
- <20210226112521.8641-4-jgross@suse.com>
- <YDkkFBerBlW5uUBS@hirez.programming.kicks-ass.net>
+        id S229967AbhBZSbm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Feb 2021 13:31:42 -0500
+IronPort-SDR: 5SEavgwx7D6PmT+zkhHEcOe/MStSkl+Q6sJlMyXd6J2iZbQvAxDwAbfytF8YZnPGWltee20yrn
+ 9c7bXNeMy9MQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="205502798"
+X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; 
+   d="scan'208";a="205502798"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 10:29:46 -0800
+IronPort-SDR: XduxGCmDmR6LTHB5zJHhF2YIG2jOE4ipOdQHfDupRL0Bde6Q+/XFfs/1n7j+l+PnPXzWjKMTIu
+ xtshLmL9tlAg==
+X-IronPort-AV: E=Sophos;i="5.81,209,1610438400"; 
+   d="scan'208";a="405078296"
+Received: from gna-dev.igk.intel.com (HELO localhost) ([10.102.80.34])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 10:29:43 -0800
+References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com> <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com> <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com>
+User-agent: mu4e 1.4.13; emacs 26.3
+From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+        Savo Novakovic <savox.novakovic@intel.com>,
+        Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Subject: Re: [PATCH v1 01/12] gna: add driver module
+In-reply-to: <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com>
+Date:   Fri, 26 Feb 2021 19:29:39 +0100
+Message-ID: <85tupysmwc.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YDkkFBerBlW5uUBS@hirez.programming.kicks-ass.net>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 26, 2021 at 05:38:44PM +0100, Peter Zijlstra wrote:
-> 
-> I hate all of this, but if this will finally catch the actual problem,
-> we can then revert all this, so sure.
 
-OK, I will bite...  What exactly do you hate about it?
+Andy Shevchenko <andy.shevchenko@gmail.com> writes:
 
-							Thanx, Paul
+> On Tue, Feb 16, 2021 at 6:11 PM Maciej Kwapulinski
+> <maciej.kwapulinski@linux.intel.com> wrote:
+>>
+....
+>> +#define GNA_DRV_VER    "1.2.0"
+>
+> Nowadays the version is the Git SHA sum.
+>
 
-> Also, I think this will conflict with the patches from Nadav that I have
-> queued:
-> 
->   https://lkml.kernel.org/r/20210220231712.2475218-1-namit@vmware.com
-> 
-> which I'll be pushing to tip/x86/mm once -rc1 happens.
-> 
-> On Fri, Feb 26, 2021 at 12:25:21PM +0100, Juergen Gross wrote:
-> 
-> > +static void __smp_call_single_queue_debug(int cpu, struct llist_node *node)
-> > +{
-> > +	unsigned int this_cpu = smp_processor_id();
-> > +	struct cfd_seq_local *seq = this_cpu_ptr(&cfd_seq_local);
-> > +	struct call_function_data *cfd = this_cpu_ptr(&cfd_data);
-> > +	struct cfd_percpu *pcpu = per_cpu_ptr(cfd->pcpu, cpu);
-> > +
-> > +	cfd_seq_store(pcpu->seq_queue, this_cpu, cpu, CFD_SEQ_QUEUE);
-> > +	if (llist_add(node, &per_cpu(call_single_queue, cpu))) {
-> > +		cfd_seq_store(pcpu->seq_ipi, this_cpu, cpu, CFD_SEQ_IPI);
-> > +		cfd_seq_store(seq->ping, this_cpu, cpu, CFD_SEQ_PING);
-> > +		send_call_function_single_ipi(cpu);
-> > +		cfd_seq_store(seq->pinged, this_cpu, cpu, CFD_SEQ_PINGED);
-> > +	} else {
-> > +		cfd_seq_store(pcpu->seq_noipi, this_cpu, cpu, CFD_SEQ_NOIPI);
-> > +	}
-> > +}
-> >  #else
-> > +#define cfd_seq_store(var, src, dst, type)
-> > +
-> >  static void csd_lock_record(call_single_data_t *csd)
-> >  {
-> >  }
-> > @@ -290,6 +396,19 @@ static DEFINE_PER_CPU_SHARED_ALIGNED(call_single_data_t, csd_data);
-> >  
-> >  void __smp_call_single_queue(int cpu, struct llist_node *node)
-> >  {
-> > +#ifdef CONFIG_CSD_LOCK_WAIT_DEBUG
-> > +	if (static_branch_unlikely(&csdlock_debug_extended)) {
-> > +		unsigned int type;
-> > +
-> > +		type = CSD_TYPE(container_of(node, call_single_data_t,
-> > +					     node.llist));
-> > +		if (type == CSD_TYPE_SYNC || type == CSD_TYPE_ASYNC) {
-> > +			__smp_call_single_queue_debug(cpu, node);
-> > +			return;
-> > +		}
-> > +	}
-> > +#endif
-> 
-> This is a bit weird, might as well put it in generic_exec_single()
-> because there you still know the type matches.
-> 
-> 
-> > @@ -712,12 +840,21 @@ static void smp_call_function_many_cond(const struct cpumask *mask,
-> >  		csd->node.src = smp_processor_id();
-> >  		csd->node.dst = cpu;
-> >  #endif
-> > -		if (llist_add(&csd->node.llist, &per_cpu(call_single_queue, cpu)))
-> > +		cfd_seq_store(pcpu->seq_queue, this_cpu, cpu, CFD_SEQ_QUEUE);
-> > +		if (llist_add(&csd->node.llist, &per_cpu(call_single_queue, cpu))) {
-> >  			__cpumask_set_cpu(cpu, cfd->cpumask_ipi);
-> > +			cfd_seq_store(pcpu->seq_ipi, this_cpu, cpu, CFD_SEQ_IPI);
-> > +		} else {
-> > +			cfd_seq_store(pcpu->seq_noipi, this_cpu, cpu, CFD_SEQ_NOIPI);
-> > +		}
-> >  	}
-> >  
-> >  	/* Send a message to all CPUs in the map */
-> > +	cfd_seq_store(this_cpu_ptr(&cfd_seq_local)->ping, this_cpu,
-> > +		      CFD_SEQ_NOCPU, CFD_SEQ_PING);
-> >  	arch_send_call_function_ipi_mask(cfd->cpumask_ipi);
-> > +	cfd_seq_store(this_cpu_ptr(&cfd_seq_local)->pinged, this_cpu,
-> > +		      CFD_SEQ_NOCPU, CFD_SEQ_PINGED);
-> 
-> Too bad we can't share with the single case, a well.
+right, "version" is present in about 7% of all modules
+
+do You mean version should be skipped over (automatically generated)
+srcversion field? or maybe You suggest any (better) technique?
