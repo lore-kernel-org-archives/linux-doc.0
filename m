@@ -2,92 +2,221 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84C20C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 10:22:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89CABC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 10:32:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2497E64ED2
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 10:22:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32E7164F13
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 10:32:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230045AbhBZKWm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 05:22:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54994 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230362AbhBZKWj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 05:22:39 -0500
-Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A84C061574
-        for <linux-doc@vger.kernel.org>; Fri, 26 Feb 2021 02:21:58 -0800 (PST)
-Received: by mail-io1-xd31.google.com with SMTP id s24so9111407iob.6
-        for <linux-doc@vger.kernel.org>; Fri, 26 Feb 2021 02:21:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=BXuN/OhxLOmuaTvPo1WVoYs9rPWwpwpRK9bD5YtTbxw=;
-        b=sVoNMIIsZ776rwWAnr8L8GdvZDCzUg03yC42iOm0Z6DeoOlP0NB36bLz/RzHXbdGlF
-         YnDNujXlXA4UKCUXumklH2ADESPGAlS/dmSl/7tN+etJZjTqgxeTkfM6dR2x7agNThCv
-         rWpIx//iN7rnjn1R8A688uHAR9wqno8poMG33exGhHNaJ9jJMOfZDEo6DH/NDA6Gr88u
-         sP+2USWyYC+O1ydYU2Q+nw0KONLfiLXuvnSMmHQt9kdTRx160klMuNCm+N5W1t0/z8CM
-         U8vFlgYZQ3ZMLSTcyoGmqhbZiY1KdkmhIvC6/HU93nCSCZYQF/px3rb0UDznNRPy531U
-         aTFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=BXuN/OhxLOmuaTvPo1WVoYs9rPWwpwpRK9bD5YtTbxw=;
-        b=OlzsMmRvZppNlocAeW2VIg1j1zDJnPeyExAIEcbHlz0PfmwyEj/rBG7kZ9NqS8NZIB
-         VTFGi1URlvEt0j/Ks6g7NBY+0ZzfGXhpMAON0bXjLX9H7SmEEpIKbe9r/yXEXl/jCkkF
-         7rIDFYaGPQ+A0xMWnYfbccks+mWb409eZQVk1FtzurutR0xjhHN0iDwEgHM1mOHW4aSG
-         cgGLYrhgArBWC0cwyhFrd3LSHXvyXufJl3J7TEqr2IMvlI31zYndVcB8MRCkdyRyS+8c
-         9SOFKQYVCpMp0baj1b1GoBbtxFFUglr/GmndyhbBy5j7kzUyOVCvkgW3t7fZVDS6FCwU
-         DDgw==
-X-Gm-Message-State: AOAM533Sr7TIpBHN7LLDy+MH4UlYe4FqQyVpgqTFaSj4IDuD+EoGdBF2
-        wBmyOtQ5HZ+qSd99Z6136ttBI99dKKnMRdCjhJo=
-X-Google-Smtp-Source: ABdhPJxHg/mCi+jiPGWb2f9Y4GoIjLJjCng9e51bf04oXLvrgft9yXBzLnHgEXmvmYXGGx0Xq1rjsXtlj+QRqfUnuyk=
-X-Received: by 2002:a02:866d:: with SMTP id e100mr2140392jai.139.1614334918103;
- Fri, 26 Feb 2021 02:21:58 -0800 (PST)
+        id S231126AbhBZKcP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 05:32:15 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:12584 "EHLO
+        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230493AbhBZKb6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 05:31:58 -0500
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Dn5Vb42nhzMfKd;
+        Fri, 26 Feb 2021 18:29:11 +0800 (CST)
+Received: from [10.174.176.191] (10.174.176.191) by
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 26 Feb 2021 18:31:07 +0800
+Subject: Re: [PATCH v14 08/11] arm64: kdump: reimplement crashkernel=X
+To:     Catalin Marinas <catalin.marinas@arm.com>, <bhe@redhat.com>
+References: <20210130071025.65258-1-chenzhou10@huawei.com>
+ <20210130071025.65258-9-chenzhou10@huawei.com>
+ <20210224160408.GC28965@arm.com>
+CC:     <mingo@redhat.com>, <tglx@linutronix.de>, <rppt@kernel.org>,
+        <dyoung@redhat.com>, <will@kernel.org>, <nsaenzjulienne@suse.de>,
+        <corbet@lwn.net>, <John.P.donnelly@oracle.com>,
+        <bhsharma@redhat.com>, <prabhakar.pkin@gmail.com>,
+        <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
+        <james.morse@arm.com>, <xiexiuqi@huawei.com>,
+        <guohanjun@huawei.com>, <huawei.libin@huawei.com>,
+        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>
+From:   chenzhou <chenzhou10@huawei.com>
+Message-ID: <94cc9191-4eff-355f-ff02-1c5da416960e@huawei.com>
+Date:   Fri, 26 Feb 2021 18:31:06 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.7.1
 MIME-Version: 1.0
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Fri, 26 Feb 2021 11:21:47 +0100
-Message-ID: <CAKXUXMzstVLAj7KBHxOdW4BYBg_paDOdJfutx4rPYxU+jfcKUg@mail.gmail.com>
-Subject: Yet another kernel-doc parsing issue
-To:     Aditya Srivastava <yashsri421@gmail.com>
-Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210224160408.GC28965@arm.com>
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.176.191]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Aditya,
-
-here is another example of expressions that kernel-doc cannot properly parse:
-
-include/rdma/ib_cm.h:571: warning: cannot understand function
-prototype: 'const char *__attribute_const__ ibcm_reject_msg(int
-reason); '
-include/rdma/iw_cm.h:224: warning: cannot understand function
-prototype: 'const char *__attribute_const__ iwcm_reject_msg(int
-reason); '
-include/rdma/rdma_cm.h:348: warning: cannot understand function
-prototype: 'const char *__attribute_const__ rdma_reject_msg(struct
-rdma_cm_id *id,                                                 int
-reason); '
-
-It is probably easy to extend the current patterns of attributes in
-kernel-doc by just __attribute_const__, but that is of course only a
-quick hotfix for kernel-doc. You can start with that.
-
-But maybe you can come up with a better general solution? I see that
-there are multiple tools in the kernel that need to maintain a list of
-attributes for their internal C parsers, maybe you find a way to
-refactor them that they share a common file for recording the valid
-and supported attributes.
 
 
-Best regards,
+On 2021/2/25 0:04, Catalin Marinas wrote:
+> On Sat, Jan 30, 2021 at 03:10:22PM +0800, Chen Zhou wrote:
+>> There are following issues in arm64 kdump:
+>> 1. We use crashkernel=X to reserve crashkernel below 4G, which
+>> will fail when there is no enough low memory.
+>> 2. If reserving crashkernel above 4G, in this case, crash dump
+>> kernel will boot failure because there is no low memory available
+>> for allocation.
+>>
+>> To solve these issues, change the behavior of crashkernel=X and
+>> introduce crashkernel=X,[high,low]. crashkernel=X tries low allocation
+>> in DMA zone, and fall back to high allocation if it fails.
+>> We can also use "crashkernel=X,high" to select a region above DMA zone,
+>> which also tries to allocate at least 256M in DMA zone automatically.
+>> "crashkernel=Y,low" can be used to allocate specified size low memory.
+>>
+>> Another minor change, there may be two regions reserved for crash
+>> dump kernel, in order to distinct from the high region and make no
+>> effect to the use of existing kexec-tools, rename the low region as
+>> "Crash kernel (low)".
+> I think we discussed this but I don't remember the conclusion. Is this
+> only renamed conditionally so that we don't break current kexec-tools?
+Yes.
+>
+> IOW, assuming that the full crashkernel region is reserved below 4GB,
+> does the "(low)" suffix still appear or it's only if a high region is
+> additionally reserved?
+Suffix "low" only appear if a high region is additionally reserved.
+>
+>> diff --git a/arch/arm64/include/asm/kexec.h b/arch/arm64/include/asm/kexec.h
+>> index 3f6ecae0bc68..f0caed0cb5e1 100644
+>> --- a/arch/arm64/include/asm/kexec.h
+>> +++ b/arch/arm64/include/asm/kexec.h
+>> @@ -96,6 +96,10 @@ static inline void crash_prepare_suspend(void) {}
+>>  static inline void crash_post_resume(void) {}
+>>  #endif
+>>  
+>> +#ifdef CONFIG_KEXEC_CORE
+>> +extern void __init reserve_crashkernel(void);
+>> +#endif
+> Why not have this in some generic header?
+>
+>> diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
+>> index c18aacde8bb0..69c592c546de 100644
+>> --- a/arch/arm64/kernel/setup.c
+>> +++ b/arch/arm64/kernel/setup.c
+>> @@ -238,7 +238,18 @@ static void __init request_standard_resources(void)
+>>  		    kernel_data.end <= res->end)
+>>  			request_resource(res, &kernel_data);
+>>  #ifdef CONFIG_KEXEC_CORE
+>> -		/* Userspace will find "Crash kernel" region in /proc/iomem. */
+>> +		/*
+>> +		 * Userspace will find "Crash kernel" or "Crash kernel (low)"
+>> +		 * region in /proc/iomem.
+>> +		 * In order to distinct from the high region and make no effect
+>> +		 * to the use of existing kexec-tools, rename the low region as
+>> +		 * "Crash kernel (low)".
+>> +		 */
+>> +		if (crashk_low_res.end && crashk_low_res.start >= res->start &&
+>> +				crashk_low_res.end <= res->end) {
+>> +			crashk_low_res.name = "Crash kernel (low)";
+>> +			request_resource(res, &crashk_low_res);
+>> +		}
+>>  		if (crashk_res.end && crashk_res.start >= res->start &&
+>>  		    crashk_res.end <= res->end)
+>>  			request_resource(res, &crashk_res);
+> My reading of the new generic reserve_crashkernel() is that
+> crashk_low_res will only be populated if crask_res is above 4GB. If
+> that's correct, I'm fine with the renaming here since current systems
+> would not get a renamed low reservation (as long as they don't change
+> the kernel cmdline).
+>
+>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
+>> index 912f64f505f7..d20f5c444ebf 100644
+>> --- a/arch/arm64/mm/init.c
+>> +++ b/arch/arm64/mm/init.c
+>> @@ -35,6 +35,7 @@
+>>  #include <asm/fixmap.h>
+>>  #include <asm/kasan.h>
+>>  #include <asm/kernel-pgtable.h>
+>> +#include <asm/kexec.h>
+>>  #include <asm/memory.h>
+>>  #include <asm/numa.h>
+>>  #include <asm/sections.h>
+>> @@ -61,66 +62,11 @@ EXPORT_SYMBOL(memstart_addr);
+>>   */
+>>  phys_addr_t arm64_dma_phys_limit __ro_after_init;
+>>  
+>> -#ifdef CONFIG_KEXEC_CORE
+>> -/*
+>> - * reserve_crashkernel() - reserves memory for crash kernel
+>> - *
+>> - * This function reserves memory area given in "crashkernel=" kernel command
+>> - * line parameter. The memory reserved is used by dump capture kernel when
+>> - * primary kernel is crashing.
+>> - */
+>> +#ifndef CONFIG_KEXEC_CORE
+>>  static void __init reserve_crashkernel(void)
+>>  {
+> [...]
+>>  }
+>> +#endif
+> Can we not have the dummy reserve_crashkernel() in the generic code as
+> well and avoid the #ifndef here?
+You mean put the dummy reserve_crashkernel() and the relate function declaration in some generic header?
+ 
+Baoquan also mentioned about this.
+Now all the arch that support kdump have the dummy reserve_crashkernel() and
+function declaration, such as arm/arm64/ppc/s390..
 
-Lukas
+But currently different arch may have different CONFIG and different function declaration about this,
+for example,
+
+for s390,
+static void __init reserve_crashkernel(void)
+{                  
+#ifdef CONFIG_CRASH_DUMP
+...
+#endif        
+}
+
+for ppc,
+#ifdef CONFIG_KEXEC_CORE
+extern void reserve_crashkernel(void);
+#else
+static inline void reserve_crashkernel(void) { ; }
+#endif
+
+If we move these to generic header we need think about:
+1. the related config in different arch
+2. function declaration(static/non static)
+
+As Baoquan said in patch 9, how about leave with it for now and i try to solve this later?
+
+>
+>>  #ifdef CONFIG_CRASH_DUMP
+>>  static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
+>> @@ -446,6 +392,14 @@ void __init bootmem_init(void)
+>>  	 * reserved, so do it here.
+>>  	 */
+>>  	reserve_crashkernel();
+>> +#ifdef CONFIG_KEXEC_CORE
+>> +	/*
+>> +	 * The low region is intended to be used for crash dump kernel devices,
+>> +	 * just mark the low region as "nomap" simply.
+>> +	 */
+>> +	if (crashk_low_res.end)
+>> +		memblock_mark_nomap(crashk_low_res.start, resource_size(&crashk_low_res));
+>> +#endif
+> Do we do something similar for crashk_res?
+Not. In the primary kernel(production kernel), we need to use crashk_res memory for crash kernel
+elf core header, initrd...
+
+Different with this, the crashk_low_res is only for crash dump kernel devices.
+>
+> Also, I can see we call crash_exclude_mem_range() only for crashk_res.
+> Do we need to do this for crashk_low_res as well?
+You are right, i missed about this. Will do in next version.
+
+Thanks,
+Chen Zhou
+>
+
