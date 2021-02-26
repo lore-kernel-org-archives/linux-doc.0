@@ -2,115 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7C7AC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 13:05:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24055C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 14:24:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83CA164EF6
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 13:05:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CFE3964ED5
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 14:24:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230083AbhBZNEv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 08:04:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45704 "EHLO mail.kernel.org"
+        id S230144AbhBZOYp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 09:24:45 -0500
+Received: from mx2.suse.de ([195.135.220.15]:56710 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230079AbhBZNEj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Feb 2021 08:04:39 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 32C5F64EE2;
-        Fri, 26 Feb 2021 13:03:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1614344639;
-        bh=ZiJl8DpWEVCvIAtlfcxEMZ4oXLoAHaJv04eh0CYE7d0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=0ml3fDh2uFY/AjFC4lthT/HDZ5Erk4mxqDdTIeSgPurDjrs59TOBDrcccL2Jm6kpG
-         L45u7ZKpIcpRsrKRLwvbznTMT3RGKEGZ61K83V+IXy5uCszoRL96WhwekWnqt5iZxs
-         iEMtOPFVEno5yP8A6ssdBpAGY2IeiPl2YoiY6H3Q=
-Date:   Fri, 26 Feb 2021 14:03:55 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Savo Novakovic <savox.novakovic@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: Re: [PATCH v1 01/12] gna: add driver module
-Message-ID: <YDjxu+0zvz3zsRb3@kroah.com>
-References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
- <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com>
- <YCwFBNa2npYcEIQ+@kroah.com>
- <85wnuvrnml.fsf@linux.intel.com>
+        id S230125AbhBZOYi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Feb 2021 09:24:38 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1614349429; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=EZ8keW/MmYo/ENSptctxMrJ/qqagf2xtsHbib8YaQAw=;
+        b=LSycJx2ivWEdJJgeje1f3n3MzxIWq9i+1H14zarEBVnqfjsRyrE1qdgTZ8NRjn2eZHcbOM
+        XyLdocTAt8/EyLAHtETrPeE/SklJq3eKUO2b+f5R8AKF6x5kuJ09iEfrJeDvX7XVPiq1ra
+        t+e3m83qhS/4gCKyc9EfHgyaAdxWen4=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 5A13EAE30;
+        Fri, 26 Feb 2021 14:23:49 +0000 (UTC)
+Date:   Fri, 26 Feb 2021 15:23:42 +0100
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     Vipin Sharma <vipinsh@google.com>
+Cc:     thomas.lendacky@amd.com, tj@kernel.org, brijesh.singh@amd.com,
+        jon.grimm@amd.com, eric.vantassell@amd.com, pbonzini@redhat.com,
+        hannes@cmpxchg.org, frankja@linux.ibm.com, borntraeger@de.ibm.com,
+        corbet@lwn.net, seanjc@google.com, vkuznets@redhat.com,
+        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        gingell@google.com, rientjes@google.com, dionnaglaze@google.com,
+        kvm@vger.kernel.org, x86@kernel.org, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC 1/2] cgroup: sev: Add misc cgroup controller
+Message-ID: <YDkEbv9u3OBNpk6f@blackbook>
+References: <20210218195549.1696769-1-vipinsh@google.com>
+ <20210218195549.1696769-2-vipinsh@google.com>
+ <YDVIdycgk8XL0Zgx@blackbook>
+ <YDcuQFMbe5MaatBe@google.com>
+ <YDdzcfLxsCeYxLNG@blackbook>
+ <YDf6bpSxX6I5xdqZ@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="0cdvV5m4yIkS6Bx1"
 Content-Disposition: inline
-In-Reply-To: <85wnuvrnml.fsf@linux.intel.com>
+In-Reply-To: <YDf6bpSxX6I5xdqZ@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 26, 2021 at 01:59:14PM +0100, Maciej Kwapulinski wrote:
-> 
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
-> 
-> > On Tue, Feb 16, 2021 at 05:05:14PM +0100, Maciej Kwapulinski wrote:
-> ....
-> >> --- /dev/null
-> >> +++ b/drivers/misc/gna/gna_driver.h
-> >> @@ -0,0 +1,41 @@
-> >> +/* SPDX-License-Identifier: GPL-2.0-only */
-> >> +/* Copyright(c) 2017-2021 Intel Corporation */
-> >> +
-> >> +#ifndef __GNA_DRIVER_H__
-> >> +#define __GNA_DRIVER_H__
-> >> +
-> >> +#include <linux/kernel.h>
-> >> +#include <linux/mutex.h>
-> >> +#include <linux/types.h>
-> >> +
-> >> +#define GNA_DRV_NAME	"gna"
-> >
-> > Way too generic, no one knows what "gna" is.
-> >
-> 
-> "intel gna" is much more verbose in search engines.
-> As we do not (plan to) have more "gna" drivers, is the following ok?:
-> 
-> intel-gna
-> 
-> the change would imply the following:
-> 
-> prompt$ lspci -s 00:00.3 -vvvv
-> 00:00.3 System peripheral: Intel Corporation Device 3190 (rev 03)
-> 	Subsystem: Intel Corporation Device 2072
->   ....
-> 	Kernel driver in use: intel-gna
-> 	Kernel modules: gna
-> 
-> is it ok?
 
-Why not intel-gna as the kernel module as well?
+--0cdvV5m4yIkS6Bx1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-> also, how about the interface to library (it's part of one of next patches)?:
-> prompt$ file /dev/gna0
-> /dev/gna0: character special (235/0)
-> 
-> can "gna" stay intact here?
+On Thu, Feb 25, 2021 at 11:28:46AM -0800, Vipin Sharma <vipinsh@google.com> wrote:
+> My approach here is that it is the responsibility of the caller to:
+> 1. Check the return value and proceed accordingly.
+> 2. Ideally, let all of the usage be 0 before deactivating this resource
+>    by setting capacity to 0
+If the calling side can ensure itself that no new units of the resource
+are used from that moment on, then it can work this way -- but describe
+that in misc_cg_set_capacity() comment.
 
-Again, I have no idea what "gna" is, so you might want to pick something
-more descriptive?
+> Is the above change good?
+I think both alternatives would work. But the latter (as I see it now)
+would mandate dependency on CONFIG_CGROUP or it'd have to double the
+similar logic itself. So maybe keeping the caller responsible explicitly
+is simpler from this POV.
 
-> I'm pointing this out, because gna exists on the market for a while and
-> changing the above may have some impact we'd like to avoid.
+> Will there be any objection to extra information?
+IMO it's unnecessary (stating this just for consistency reasons), no
+strong opinion.
 
-If it exists but Linux does not support it, how would anyone know about
-it?  :)
+Michal
 
-Please use real terms where possible.
+--0cdvV5m4yIkS6Bx1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-thanks,
+-----BEGIN PGP SIGNATURE-----
 
-greg k-h
+iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAmA5BGsACgkQia1+riC5
+qSgTGRAAoZ8UZQoAOpamNp2/t/ZoGBQlc2u+5XDs9tPI1LzW7tJ3hNNitPkhB+aC
+oh7SiaI8f6LkAqKPRjKsZwPi1oXJUHjaf9T7Vf8HF+CfmahqQBDI+iR3tHO2GDw8
+Fn8GabyVuBtFQn8XDHmINeiYkXhTn4IGBO0VO1vrYkZrUSOoE4uIfIRz+8thfpeh
+vigJRDm+DTSyNX1klJlfe3li8UHgK282Hf/C2EqXmpMULCdTcrxmsayzh9UgONjX
+6ElaMeFSjYIPyYZUFlkwGYmXZ6Kfk0Z+HTm6D+/1nIIuvFImr5u7lY6ssxIb5BhG
+VDuJDoIGZp+H7MvB1yRhPnygltT1JkRbi1EDpX5q8HDtFn05h/opFWU5A1leAh6U
+mVwn1i6VZ7DEtyqEaCI8iyRLqCK86+fr4W0q9i5QzG5YzddlHqv9QZkF8mPJL5aj
+ng008bFSfGliYdIoqmTeHYho+K6hgSVT6W+Sf5bUb0P2w8vWKPwJiFiYlBtitdv/
+gReKLtnFUAzHV+w2J7loq0ZbrPAQhdqzHrJo1zpQsByTed0q/Nby8MM3OKk3vmFo
+RjxxF7cLao8PIsud76c8LnwkLe3tqLjaXeUYeIKlLdrTjOJeSBjfUEx0nhywg88R
+CDTzmts8VVbqWyhBmyuxSmgxYLWdcyX/XZlVexBZotGpGDk6ZWI=
+=uKkz
+-----END PGP SIGNATURE-----
+
+--0cdvV5m4yIkS6Bx1--
