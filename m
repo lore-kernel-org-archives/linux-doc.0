@@ -7,48 +7,48 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1A67C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 04:33:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 20AAAC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 04:39:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 56D9064EB7
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 04:33:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C878064EE4
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 04:39:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229556AbhBZEcv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Feb 2021 23:32:51 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:45639 "EHLO
+        id S229556AbhBZEjJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Feb 2021 23:39:09 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:47241 "EHLO
         out5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229498AbhBZEcv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 23:32:51 -0500
+        by vger.kernel.org with ESMTP id S229508AbhBZEjJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Feb 2021 23:39:09 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailout.nyi.internal (Postfix) with ESMTP id B432C5C00DF;
-        Thu, 25 Feb 2021 23:32:04 -0500 (EST)
+        by mailout.nyi.internal (Postfix) with ESMTP id 8BD3F5C0101;
+        Thu, 25 Feb 2021 23:38:22 -0500 (EST)
 Received: from imap1 ([10.202.2.51])
-  by compute6.internal (MEProxy); Thu, 25 Feb 2021 23:32:04 -0500
+  by compute6.internal (MEProxy); Thu, 25 Feb 2021 23:38:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
         mime-version:message-id:in-reply-to:references:date:from:to:cc
-        :subject:content-type:content-transfer-encoding; s=fm1; bh=RpaLH
-        6U6sC/sBvLp4itaZpJK/4LXih1+3tVMcIIOd+o=; b=bxufQnnIJq9IadW+iu09f
-        In+wXkyHGkhx3zboLANLWyWoekGcxwBYveGousuLGpM1oyY0NOTbJTN60ZCrlFYA
-        B3do2Ssryf5hxvj2AuFZRdnIlrpUwblLlgVywBRFyws9mfGgpNtPYyyLrT1AgIHO
-        P0vzemSmeoGHo9KggOqL6X5riBBYo/suwTQqO1Cu5aeSV6XXdlHTnFEYKhXCHKVC
-        v6ILxTdXDaxCWL7L7cnE0aYOTdU6JNsFI0/ysF6N1M/S7UVt1XCu9dL6Cd0SrVQ0
-        zTXmO+rOqw4ZRbnb28MmoovkW2ALCrV4/mwIdXosERzBKcTRjLL0QzSVzVdjlgMO
-        A==
+        :subject:content-type:content-transfer-encoding; s=fm1; bh=6EFJc
+        xOTQ6BxgtvuZy6c2PuNinD+r67jrckxNx3wuy0=; b=Ic+N2Z5zJZA6e0300xNGX
+        nW0FYHaWkq7Ft6h8Pf/i4t/CRlaVIDQJv7kvED8medYXmhvkm1Es+je224Y9atDV
+        /iYZFPb3HrB2g9jLSzU83DbDETgJm6SuBBKf1Uz8kF2nlB1zKOytmx0VeCoGOcoS
+        L1S7lh4gFqFnndUwg1PvAUubXKnAKmVhF0Cvl5ub5szYxIFpN2eaGVZ2THW/W/Id
+        /p7fTpsK/21Oa/mBA7HK3rAcNdAJKhLlMLXXRzYs1su62YgHZs7aQTH+zC8sRE6r
+        hgzkqhtoscdK1zNiXqTr3epuJjCLyVOdZ4aRjDaJXS8i4ZArB9mjnAAnhZBo3gM6
+        g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-transfer-encoding:content-type
         :date:from:in-reply-to:message-id:mime-version:references
         :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm2; bh=RpaLH6U6sC/sBvLp4itaZpJK/4LXih1+3tVMcIIOd
-        +o=; b=ESTgt555fVASpRxKx9BT+tu9MAiM2nKB6AjZFQsNrv+1xUgt4hkv0W5co
-        hsHYBg3K9deqpR2Fw8rbYCZrY+4DngMtRw8nmC5VoVQjhmylXuuylCF9QI7l6hRO
-        jO+ll52I93LpcAXvkipdmpYa2ICtb4CrOysebCR5D76h6S/GoG9Dm5oas/X33G5y
-        SgZ3T0pm7P1Mjl/MQ7J7pR2+y/t8HI+IbPMV/WTbUsdXDJvP7KoDZqnhQxc9cd7F
-        0pZLuPRhZS1N69pW3wYRXR2hkbDnta4Lb4/jil88QtUq5U8P+tcvG4SrAt6VkPHL
-        5jBo3n2F34fRaHQkilUsjawFKNRzg==
-X-ME-Sender: <xms:wnk4YGsFeipUYa5sFznMUvS5x72mFEqrXjzLzCM9gtke-ap0LK6bsw>
-    <xme:wnk4YLeMbMcF96hORRyBAG4IX4fECQleI3l8h6GJ_zXRWE13VYGWpockCNmHXTmVz
-    aPgqkZdrAHfpk1DBXw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrledtgdejfecutefuodetggdotefrodftvf
+        :x-sasl-enc; s=fm2; bh=6EFJcxOTQ6BxgtvuZy6c2PuNinD+r67jrckxNx3wu
+        y0=; b=jdCT8jUR8SfKi9tWHLF13mMjig7MNgHqH0cVteBhy4tvh4t9tKUw+To4R
+        xhA44TcYWprUH1dJz42GDm8TtQ/KH5VHpGXaO+cGZ4jh6KbF6QE9f7f0hJTVzcTZ
+        a8y+vcDt8cpwx5p/j76Nj5wxSqzpHfCmK5jtwi4LhN55Bx3gnp00+uhCh4/tmOQc
+        aheGvKMsMWePLMrndb5iZSVmB5K0Qz+lVyC/yRAeNrgxSgYhEvbSIGvrCi3X4Xjs
+        5zF/XmXAaPIaLN6hQpDMdq74PjKA0EluYuPPq8VPBN5X/dxWaYayEOVFkL/ojjPo
+        QBJf+5Pu/xX5q2InYEdiCOrKYPjOA==
+X-ME-Sender: <xms:PHs4YFCEf2d6qKgekh4KOpLlirfHWsiEMzNpwLwXPzaPQC66U4ybTA>
+    <xme:PHs4YDhS4UNcBFPRqvMp3OiVAqrHg794Et99edjafFtsTHJE-RDRxNwkVZtFO9IjJ
+    oV0Rn1ByvhZXQ92zlY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrledtgdejgecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
     fjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdflihgr
@@ -56,20 +56,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrledtgdejfecutefuodetggdote
     enucggtffrrghtthgvrhhnpeefteegkeevfeethffgudehgedvueduvdeifedvvdelhfef
     heekteefueektdefjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
     hlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhm
-X-ME-Proxy: <xmx:wnk4YBysuNEVtVJdMhQjYqtIgP_GBlkQt6M6ml3edQRyNNaLuppyRw>
-    <xmx:wnk4YBPc9WxSWaWh73j_AWu2lEdjrpSzTAlwA5RDAnVLE9G1RbcxJw>
-    <xmx:wnk4YG-KL-CzNusQe5LGo2EtsdKxWf2eC5m1IOXjviqyeFT1lQY8UQ>
-    <xmx:xHk4YNkAnuMVjwocJmMX3DYS7Y2lP9kvoPTDvIuYXTkv0WgiwlI8NA>
+X-ME-Proxy: <xmx:PHs4YAmqzqmqyc_OXYeuOjil5dTYitc8x9AJfGHMoZzbg8E_usBfRg>
+    <xmx:PHs4YPzn8czqE1uknZXbbFuiiiN0qm_6h3VV3r74256E8xXVe2fv1A>
+    <xmx:PHs4YKTy_znhZ0C7omNHz38qJaeKhhHCPwEeCy6mbmhJswxFSQ4oFA>
+    <xmx:Pns4YHKYgZ8jLYZGg4NFhgWrtTIju0RYqCElKV6Ag_KQAYTtJKuxHw>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 34B7C130005D; Thu, 25 Feb 2021 23:32:02 -0500 (EST)
+        id AD73D130005D; Thu, 25 Feb 2021 23:38:20 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.5.0-alpha0-141-gf094924a34-fm-20210210.001-gf094924a
 Mime-Version: 1.0
-Message-Id: <521d672a-c3d7-4739-aa0b-e1363394a4b6@www.fastmail.com>
-In-Reply-To: <20210225184136.4526-3-siyanteng@loongson.cn>
+Message-Id: <69ead859-ec9f-499b-a148-38af97d26da7@www.fastmail.com>
+In-Reply-To: <20210225184136.4526-2-siyanteng@loongson.cn>
 References: <20210225184136.4526-1-siyanteng@loongson.cn>
- <20210225184136.4526-3-siyanteng@loongson.cn>
-Date:   Fri, 26 Feb 2021 12:31:41 +0800
+ <20210225184136.4526-2-siyanteng@loongson.cn>
+Date:   Fri, 26 Feb 2021 12:38:00 +0800
 From:   "Jiaxun Yang" <jiaxun.yang@flygoat.com>
 To:     "Yanteng Si" <siyanteng@loongson.cn>,
         "Jonathan Corbet" <corbet@lwn.net>
@@ -77,7 +77,7 @@ Cc:     "Alex Shi" <alex.shi@linux.alibaba.com>,
         "Harry Wei" <harryxiyou@gmail.com>,
         "yanteng si" <siyanteng01@gmail.com>, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, "Huacai Chen" <chenhuacai@gmail.com>
-Subject: =?UTF-8?Q?Re:_[PATCH_v3_2/4]_docs/zh=5FCN:_add_riscv_patch-acceptance.rs?=
+Subject: =?UTF-8?Q?Re:_[PATCH_v3_1/4]_docs/zh=5FCN:add_riscv_boot-image-header.rs?=
  =?UTF-8?Q?t_translation?=
 Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -88,124 +88,154 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 
 On Fri, Feb 26, 2021, at 2:41 AM, Yanteng Si wrote:
-> This patch translates Documentation/riscv/patch-acceptance.rst into Ch=
-ineae.
+> This patch translates Documentation/riscv/boot-image-header.rst intoCh=
+inese.
 >=20
 > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 > Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
 > ---
->  .../zh_CN/riscv/patch-acceptance.rst          | 32 ++++++++++++++++++=
+>  .../zh_CN/riscv/boot-image-header.rst         | 67 ++++++++++++++++++=
 +
->  1 file changed, 32 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/riscv/patch-accep=
-tance.rst
+>  1 file changed, 67 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/riscv/boot-image-=
+header.rst
 >=20
 > diff --git=20
-> a/Documentation/translations/zh_CN/riscv/patch-acceptance.rst=20
-> b/Documentation/translations/zh_CN/riscv/patch-acceptance.rst
+> a/Documentation/translations/zh_CN/riscv/boot-image-header.rst=20
+> b/Documentation/translations/zh_CN/riscv/boot-image-header.rst
 > new file mode 100644
-> index 000000000000..75446871559f
+> index 000000000000..fadfe08d03d5
 > --- /dev/null
-> +++ b/Documentation/translations/zh_CN/riscv/patch-acceptance.rst
-> @@ -0,0 +1,32 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
+> +++ b/Documentation/translations/zh_CN/riscv/boot-image-header.rst
+> @@ -0,0 +1,67 @@
 > +.. include:: ../disclaimer-zh_CN.rst
 > +
-> +:Original: :doc:`../../../riscv/patch-acceptance`
+> +:Original: :doc:`../../../riscv/boot-image-header`
 > +:Translator: Yanteng Si <siyanteng@loongson.cn>
 > +
-> +.. _cn_riscv_patch-acceptance:
+> +.. _cn_boot-image-header.rst:
 > +
 > +
-> +arch/riscv =E5=BC=80=E5=8F=91=E8=80=85=E7=BB=B4=E6=8A=A4=E6=8C=87=E5=8D=
-=97
 > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D
+=3D=3D=3D
+> +RISC-V Linux=E5=90=AF=E5=8A=A8=E9=95=9C=E5=83=8F=E6=96=87=E4=BB=B6=E5=
+=A4=B4
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D
 > +
-> +=E6=A6=82=E8=BF=B0
-> +----
-> +RISC-V=E6=8C=87=E4=BB=A4=E9=9B=86=E4=BD=93=E7=B3=BB=E7=BB=93=E6=9E=84=
-=E6=98=AF=E5=85=AC=E5=BC=80=E5=BC=80=E5=8F=91=E7=9A=84=EF=BC=9A
-> +=E6=AD=A3=E5=9C=A8=E8=BF=9B=E8=A1=8C=E7=9A=84=E8=8D=89=E6=A1=88=E5=8F=
-=AF=E4=BE=9B=E6=89=80=E6=9C=89=E4=BA=BA=E6=9F=A5=E7=9C=8B=E5=92=8C=E6=B5=
-=8B=E8=AF=95=E5=AE=9E=E7=8E=B0=E3=80=82=E6=96=B0=E6=A8=A1=E5=9D=97=E6=88=
-=96=E8=80=85=E6=89=A9=E5=B1=95=E8=8D=89=E6=A1=88=E5=8F=AF=E8=83=BD=E4=BC=
-=9A=E5=9C=A8=E5=BC=80=E5=8F=91=E8=BF=87=E7=A8=8B=E4=B8=AD=E5=8F=91
-> +=E7=94=9F=E6=9B=B4=E6=94=B9---=E6=9C=89=E6=97=B6=E4=BB=A5=E4=B8=8D=E5=
-=85=BC=E5=AE=B9=E7=9A=84=E6=96=B9=E5=BC=8F=E5=AF=B9=E4=BB=A5=E5=89=8D=E7=
-=9A=84=E8=8D=89=E6=A1=88=E8=BF=9B=E8=A1=8C=E6=9B=B4=E6=94=B9=E3=80=82=E8=
-=BF=99=E7=A7=8D=E7=81=B5=E6=B4=BB=E6=80=A7=E5=8F=AF=E8=83=BD=E4=BC=9A=E7=
-=BB=99RISC-V Linux
-> +=E7=BB=B4=E6=8A=A4=E8=80=85=E5=B8=A6=E6=9D=A5=E6=8C=91=E6=88=98=E3=80=
-=82Linux=E5=BC=80=E5=8F=91=E8=BF=87=E7=A8=8B=E6=9B=B4=E5=96=9C=E6=AC=A2=E7=
-=BB=8F=E8=BF=87=E8=89=AF=E5=A5=BD=E6=A3=80=E6=9F=A5=E5=92=8C=E6=B5=8B=E8=
-=AF=95=E7=9A=84=E4=BB=A3=E7=A0=81=EF=BC=8C=E8=80=8C=E4=B8=8D=E6=98=AF=E8=
-=AF=95=E9=AA=8C=E4=BB=A3=E7=A0=81=E3=80=82=E6=88=91
-> +=E4=BB=AC=E5=B8=8C=E6=9C=9B=E6=8E=A8=E5=B9=BF=E5=90=8C=E6=A0=B7=E7=9A=
-=84=E8=A7=84=E5=88=99=E5=88=B0=E5=8D=B3=E5=B0=86=E8=A2=AB=E5=86=85=E6=A0=
-=B8=E5=90=88=E5=B9=B6=E7=9A=84RISC-V=E7=9B=B8=E5=85=B3=E4=BB=A3=E7=A0=81=
-=E3=80=82
+> +:Author: Atish Patra <atish.patra@wdc.com>
+> +:Date:   20 May 2019
 > +
-> +=E6=8F=90=E4=BA=A4=E8=A1=A5=E9=81=97=E6=B8=85=E5=8D=95
+> +=E6=AD=A4=E6=96=87=E6=A1=A3=E4=BB=85=E6=8F=8F=E8=BF=B0RISC-V Linux =E5=
+=90=AF=E5=8A=A8=E6=96=87=E4=BB=B6=E5=A4=B4=E7=9A=84=E8=AF=A6=E6=83=85=E3=
+=80=82
+> +
+> +TODO:
+> +  =E5=86=99=E4=B8=80=E4=B8=AA=E5=AE=8C=E6=95=B4=E7=9A=84=E5=90=AF=E5=8A=
+=A8=E6=8C=87=E5=8D=97=E3=80=82
+> +
+> +=E5=9C=A8=E8=A7=A3=E5=8E=8B=E5=90=8E=E7=9A=84Linux=E5=86=85=E6=A0=B8=E9=
+=95=9C=E5=83=8F=E4=B8=AD=E5=AD=98=E5=9C=A8=E4=BB=A5=E4=B8=8B64=E5=AD=97=E8=
+=8A=82=E7=9A=84=E6=96=87=E4=BB=B6=E5=A4=B4::
+> +
+> +	u32 code0;		  /* Executable code */
+> +	u32 code1;		  /* Executable code */
+> +	u64 text_offset;	  /* Image load offset, little endian */
+> +	u64 image_size;		  /* Effective Image size, little endian */
+> +	u64 flags;		  /* kernel flags, little endian */
+> +	u32 version;		  /* Version of this header */
+> +	u32 res1 =3D 0;		  /* Reserved */
+> +	u64 res2 =3D 0;		  /* Reserved */
+> +	u64 magic =3D 0x5643534952; /* Magic number, little endian, "RISCV" =
+*/
+> +	u32 magic2 =3D 0x05435352;  /* Magic number 2, little endian, "RSC\x=
+05"=20
+> */
+> +	u32 res3;		  /* Reserved for PE COFF offset */
+> +
+> +=E8=BF=99=E7=A7=8D=E5=A4=B4=E6=A0=BC=E5=BC=8F=E4=B8=8EPE/COFF=E6=96=87=
+=E4=BB=B6=E5=A4=B4=E5=85=BC=E5=AE=B9=EF=BC=8C=E5=B9=B6=E5=9C=A8=E5=BE=88=
+=E5=A4=A7=E7=A8=8B=E5=BA=A6=E4=B8=8A=E5=8F=97=E5=88=B0ARM64=E6=96=87=E4=BB=
+=B6=E5=A4=B4=E7=9A=84=E5=90=AF=E5=8F=91=E3=80=82=E5=9B=A0=E6=AD=A4=EF=BC=
+=8CARM64
+> +=E5=92=8CRISC-V=E6=96=87=E4=BB=B6=E5=A4=B4=E5=8F=AF=E4=BB=A5=E5=9C=A8=
+=E6=9C=AA=E6=9D=A5=E5=90=88=E5=B9=B6=E4=B8=BA=E4=B8=80=E4=B8=AA=E5=85=B1=
+=E5=90=8C=E7=9A=84=E5=A4=B4=E3=80=82
+> +
+> +=E6=B3=A8=E6=84=8F
+> +=3D=3D=3D=3D
+> +
+> +- =E5=B0=86=E6=9D=A5=E4=B9=9F=E5=8F=AF=E4=BB=A5=E5=A4=8D=E7=94=A8=E8=BF=
+=99=E4=B8=AA=E6=96=87=E4=BB=B6=E5=A4=B4=EF=BC=8C=E7=94=A8=E6=9D=A5=E5=AF=
+=B9RISC-V=E7=9A=84EFI=E6=A1=A9=E6=8F=90=E4=BE=9B=E6=94=AF=E6=8C=81=E3=80=
+=82=E4=B8=BA=E4=BA=86=E4=BD=BF=E5=86=85=E6=A0=B8=E9=95=9C=E5=83=8F=E5=A6=
+=82=E5=90=8C=E4=B8=80=E4=B8=AA
+> +  EFI=E5=BA=94=E7=94=A8=E7=A8=8B=E5=BA=8F=E4=B8=80=E6=A0=B7=E5=8A=A0=E8=
+=BD=BD=EF=BC=8CEFI=E8=A7=84=E8=8C=83=E4=B8=AD=E8=A7=84=E5=AE=9A=E5=9C=A8=
+=E5=86=85=E6=A0=B8=E9=95=9C=E5=83=8F=E7=9A=84=E5=BC=80=E5=A7=8B=E9=9C=80=
+=E8=A6=81PE/COFF=E9=95=9C=E5=83=8F=E6=96=87=E4=BB=B6=E5=A4=B4=E3=80=82=E4=
+=B8=BA=E4=BA=86
+> +  =E6=94=AF=E6=8C=81EFI=E6=A1=A9=EF=BC=8C=E5=BA=94=E8=AF=A5=E7=94=A8=E2=
+=80=9CMZ=E2=80=9D=E9=AD=94=E6=9C=AF=E5=AD=97=E7=AC=A6=E6=9B=BF=E6=8D=A2=E6=
+=8E=89code0=EF=BC=8C=E5=B9=B6=E4=B8=94res3=EF=BC=88=E5=81=8F=E7=A7=BB=E9=
+=87=8F=E6=9C=AA0x3c=EF=BC=89=E5=BA=94=E6=8C=87=E5=90=91PE/COFF
+=E4=B8=BA0x3c -> =E4=B8=BA 0x3c?
+Also I'd prefer not to translate stub as it already become a well known =
+noun.
 
-^=E9=99=84=E5=8A=A0=E7=9A=84=E6=8F=90=E4=BA=A4=E6=A3=80=E6=9F=A5=E5=8D=95=
-=EF=BC=9F
-
-Addendum means additional part to the regular patch submition check list=
-.
-
-> +-------------------------
-> +=E5=A6=82=E6=9E=9CRISC-V=E5=9F=BA=E9=87=91=E4=BC=9A=E5=B0=86=E8=BF=99=
-=E4=BA=9B=E6=A8=A1=E5=9D=97=E6=88=96=E6=89=A9=E5=B1=95=E7=9A=84=E8=A7=84=
-=E8=8C=83=E5=88=97=E4=B8=BA=E2=80=9C=E5=86=BB=E7=BB=93=E2=80=9D=E6=88=96=
-=E2=80=9C=E5=B7=B2=E6=89=B9=E5=87=86=E2=80=9D=EF=BC=8C=E5=88=99=E6=88=91=
-=E4=BB=AC=E4=BB=85=E6=8E=A5=E5=8F=97=E6=96=B0=E6=A8=A1=E5=9D=97
-> +=E6=88=96=E6=89=A9=E5=B1=95=E7=9A=84=E8=A1=A5=E4=B8=81=E3=80=82 =EF=BC=
-=88=E7=88=B1=E5=A5=BD=E8=80=85=E5=BD=93=E7=84=B6=E5=8F=AF=E4=BB=A5=E7=BB=
-=B4=E6=8A=A4=E8=87=AA=E5=B7=B1=E7=9A=84Linux=E5=86=85
-^ such expression seems bogus in Chinese, should be
-=E6=88=91=E4=BB=AC=E4=BB=85=E6=8E=A5=E5=8F=97=E7=9B=B8=E5=85=B3=E6=A0=87=
-=E5=87=86=E5=B7=B2=E7=BB=8F=E8=A2=ABRISC-V=E5=9F=BA=E9=87=91=E4=BC=9A=E6=
-=A0=87=E5=87=86=E4=B8=BA=E2=80=9C=E5=B7=B2=E6=89=B9=E5=87=86=E2=80=9D=E6=
-=88=96=E2=80=9C=E5=B7=B2=E5=86=BB=E7=BB=93=E2=80=9D=E7=9A=84=E6=89=A9=E5=
-=B1=95=E6=88=96=E6=A8=A1=E5=9D=97=E7=9A=84=E8=A1=A5=E4=B8=81=E3=80=82
-
-=E6=A0=B8=E6=A0=91=EF=BC=8C=E5=85=B6=E4=B8=AD=E5=8C=85=E5=90=AB=E6=89=80=
-=E9=9C=80=E4=BB=A3=E7=A0=81=E6=89=A9=E5=B1=95=E8=8D=89=E6=A1=88
-> +=E7=9A=84=E4=BB=A3=E7=A0=81=E3=80=82=EF=BC=89
-=E7=88=B1=E5=A5=BD=E8=80=85 means hobbiest, I'd prefer =E5=BC=80=E5=8F=91=
-=E8=80=85 over =E7=88=B1=E5=A5=BD=E8=80=85=EF=BC=8C as it's exactly Deve=
-loper means.
+> +  =E6=96=87=E4=BB=B6=E5=A4=B4=E7=9A=84=E5=85=B6=E4=BD=99=E9=83=A8=E5=88=
+=86.
+> +
+> +- =E8=A1=A8=E7=A4=BA=E6=96=87=E4=BB=B6=E5=A4=B4=E7=9A=84=E7=89=88=E6=9C=
+=AC=E5=8F=B7=E7=9A=84bit=E4=BD=8D=E5=9F=9F
+Drop bit
 
 > +
-> +=E6=AD=A4=E5=A4=96=EF=BC=8CRISC-V=E8=A7=84=E8=8C=83=E5=85=81=E8=AE=B8=
-=E7=88=B1=E5=A5=BD=E8=80=85=E5=88=9B=E5=BB=BA=E8=87=AA=E5=B7=B1=E7=9A=84=
-=E8=87=AA=E5=AE=9A=E4=B9=89=E6=89=A9=E5=B1=95=E3=80=82=E8=BF=99=E4=BA=9B=
-=E8=87=AA=E5=AE=9A=E4=B9=89=E6=8B=93=E5=B1=95=E4=B8=8D=E9=9C=80=E8=A6=81=
-=E9=80=9A=E8=BF=87RISC-V
-> +=E5=9F=BA=E9=87=91=E4=BC=9A=E7=9A=84=E4=BB=BB=E4=BD=95=E5=AE=A1=E6=A0=
-=B8=E6=88=96=E6=89=B9=E5=87=86=E3=80=82=E4=B8=BA=E4=BA=86=E9=81=BF=E5=85=
-=8D=E5=B0=86=E7=88=B1=E5=A5=BD=E8=80=85=E4=B8=80=E4=BA=9B=E7=89=B9=E5=88=
-=AB=E7=9A=84RISC-V=E6=8B=93=E5=B1=95=E6=B7=BB=E5=8A=A0=E8=BF=9B=E5=86=85=
-=E6=A0=B8=E4=BB=A3=E7=A0=81=E5=B8=A6=E6=9D=A5
-> +=E7=9A=84=E7=BB=B4=E6=8A=A4=E5=A4=8D=E6=9D=82=E6=80=A7=E5=92=8C=E5=AF=
-=B9=E6=80=A7=E8=83=BD=E7=9A=84=E6=BD=9C=E5=9C=A8=E5=BD=B1=E5=93=8D=EF=BC=
-=8C=E6=88=91=E4=BB=AC=E5=B0=86=E5=8F=AA=E6=8E=A5=E5=8F=97RISC-V=E5=9F=BA=
-=E9=87=91=E4=BC=9A=E6=AD=A3=E5=BC=8F=E5=86=BB=E7=BB=93=E6=88=96=E6=89=B9=
-=E5=87=86=E7=9A=84=E7=9A=84=E6=89=A9=E5=B1=95
-> +=E8=A1=A5=E4=B8=81=E3=80=82=EF=BC=88=E7=88=B1=E5=A5=BD=E8=80=85=E5=BD=
-=93=E7=84=B6=E5=8F=AF=E4=BB=A5=E7=BB=B4=E6=8A=A4=E8=87=AA=E5=B7=B1=E7=9A=
-=84Linux=E5=86=85=E6=A0=B8=E6=A0=91=EF=BC=8C=E5=85=B6=E4=B8=AD=E5=8C=85=E5=
-=90=AB=E4=BB=96=E4=BB=AC=E6=83=B3=E8=A6=81=E7=9A=84=E4=BB=BB=E4=BD=95=E8=
-=87=AA=E5=AE=9A=E4=B9=89=E6=89=A9=E5=B1=95
-> +=E7=9A=84=E4=BB=A3=E7=A0=81=E3=80=82=EF=BC=89
-Again, implementer means those who are implementing their own RISC-V cor=
-e design.
-s/=E7=88=B1=E5=A5=BD=E8=80=85/=E5=AE=9E=E6=96=BD=E8=80=85 or =E6=89=A7=E8=
-=A1=8C=E8=80=85 =E5=AE=9E=E7=8E=B0=E8=80=85=EF=BC=9F
+> +	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +	Bits 0:15   =E6=AC=A1=E8=A6=81  =E7=89=88=E6=9C=AC
+> +	Bits 16:31  =E4=B8=BB=E8=A6=81  =E7=89=88=E6=9C=AC
+> +	=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +  =E8=BF=99=E4=BF=9D=E6=8C=81=E4=BA=86=E6=96=B0=E6=97=A7=E7=89=88=E6=9C=
+=AC=E4=B9=8B=E9=97=B4=E7=9A=84=E5=85=BC=E5=AE=B9=E6=80=A7=E3=80=82
+> +  =E5=BD=93=E5=89=8D=E7=89=88=E6=9C=AC=E8=A2=AB=E5=AE=9A=E4=B9=89=E4=B8=
+=BA0.2=E3=80=82
+> +
+> +- =E4=BB=8E=E7=89=88=E6=9C=AC0.2=E5=BC=80=E5=A7=8B=EF=BC=8C=E7=BB=93=E6=
+=9E=84=E4=BD=93=E6=88=90=E5=91=98=E2=80=9Cmagic=E2=80=9D=E5=B0=B1=E5=B7=B2=
+=E7=BB=8F=E8=A2=AB=E5=BC=83=E7=94=A8=EF=BC=8C=E5=9C=A8=E4=B9=8B=E5=90=8E=
+=E7=9A=84=E7=89=88=E6=9C=AC=E4=B8=AD=EF=BC=8C=E5=8F=AF=E8=83=BD=E4=BC=9A=
+=E7=A7=BB=E9=99=A4=E6=8E=89=E5=AE=83=E3=80=82
+> +  =E6=9C=80=E5=88=9D=EF=BC=8C=E8=AF=A5=E6=88=90=E5=91=98=E5=BA=94=E8=AF=
+=A5=E4=B8=8EARM64=E5=A4=B4=E7=9A=84=E2=80=9Cmagic=E2=80=9D=E6=88=90=E5=91=
+=98=E5=8C=B9=E9=85=8D=EF=BC=8C=E4=BD=86=E9=81=97=E6=86=BE=E7=9A=84=E6=98=
+=AF=E5=B9=B6=E6=B2=A1=E6=9C=89=E3=80=82
+> +  =E2=80=9Cmagic2=E2=80=9D=E6=88=90=E5=91=98=E4=BB=A3=E6=9B=BF=E2=80=9C=
+magic=E2=80=9D=E6=88=90=E5=91=98=E4=B8=8EARM64=E5=A4=B4=E7=9B=B8=E5=8C=B9=
+=E9=85=8D=E3=80=82
+> +
+> +- =E5=9C=A8=E5=BD=93=E5=89=8D=E7=9A=84=E6=96=87=E4=BB=B6=E5=A4=B4=EF=BC=
+=8C=E6=A0=87=E5=BF=97=E4=BD=8D=E5=9F=9F=E5=8F=AA=E5=89=A9=E4=B8=8B=E4=BA=
+=86=E4=B8=80=E4=B8=AA=E3=80=82
+=E5=89=A9=E4=B8=8B=E4=BA=86=E4=B8=80=E4=B8=AA=E4=BD=8D
 
-thanks
+> +
+> +	=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +	Bit 0  =E5=86=85=E6=A0=B8=E5=AD=97=E8=8A=82=E5=BA=8F=E3=80=821 if BE=
+, 0 if LE.
+> +	=3D=3D=3D=3D=3D  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +- =E5=AF=B9=E4=BA=8E=E5=BC=95=E5=AF=BC=E5=8A=A0=E8=BD=BD=E7=A8=8B=E5=BA=
+=8F=E5=8A=A0=E8=BD=BD=E5=86=85=E6=A0=B8=E6=98=A0=E5=83=8F=E6=9D=A5=E8=AF=
+=B4=EF=BC=8Cimage_size=E6=88=90=E5=91=98=E6=98=AF=E5=BC=BA=E5=88=B6=E6=80=
+=A7=E8=A6=81=E5=86=99=E8=BF=9B=E6=96=87=E4=BB=B6=E5=A4=B4=E7=9A=84=EF=BC=
+=8C=E5=90=A6=E5=88=99=E5=B0=86=E5=BC=95
+> +  =E5=AF=BC=E5=A4=B1=E8=B4=A5=E3=80=82
+Image size =E6=88=90=E5=91=98=E5=AF=B9=E5=BC=95=E5=AF=BC=E5=8A=A0=E8=BD=BD=
+=E7=A8=8B=E5=BA=8F(or =E5=8A=A0=E8=BD=BD=E5=99=A8=EF=BC=9F) =E8=80=8C=E8=
+=A8=80=E6=98=AF=E5=BF=85=E9=A1=BB=E7=9A=84=E3=80=82
 
 > --=20
 > 2.25.1
