@@ -2,39 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_RED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8402C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 13:01:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7C7AC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 13:05:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 897AC64D9F
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 13:01:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 83CA164EF6
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 13:05:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230155AbhBZNBJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 08:01:09 -0500
-Received: from mga05.intel.com ([192.55.52.43]:63566 "EHLO mga05.intel.com"
+        id S230083AbhBZNEv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 08:04:51 -0500
+Received: from mail.kernel.org ([198.145.29.99]:45704 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229835AbhBZNBI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Feb 2021 08:01:08 -0500
-IronPort-SDR: MKk+sjI6fkDf+qwPixYK9Uo0PiLGiPBrkvJHdM7xbBixYwUfKDBUqQd904N1s9bjFQMdW78qGT
- PWHuMg7nerLQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9906"; a="270843598"
-X-IronPort-AV: E=Sophos;i="5.81,208,1610438400"; 
-   d="scan'208";a="270843598"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 04:59:20 -0800
-IronPort-SDR: X1WOlhR3tq4jzAbAxzM37x9Ymi08+8tb1Aek+KRk5QedTqLUquA8ZW8F4+q8QosPOQqZ/QkWIe
- 9+WtZgWqzZZw==
-X-IronPort-AV: E=Sophos;i="5.81,208,1610438400"; 
-   d="scan'208";a="404893045"
-Received: from gna-dev.igk.intel.com (HELO localhost) ([10.102.80.34])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 04:59:17 -0800
-References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com> <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com> <YCwFBNa2npYcEIQ+@kroah.com>
-User-agent: mu4e 1.4.13; emacs 26.3
-From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        id S230079AbhBZNEj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Feb 2021 08:04:39 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 32C5F64EE2;
+        Fri, 26 Feb 2021 13:03:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1614344639;
+        bh=ZiJl8DpWEVCvIAtlfcxEMZ4oXLoAHaJv04eh0CYE7d0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=0ml3fDh2uFY/AjFC4lthT/HDZ5Erk4mxqDdTIeSgPurDjrs59TOBDrcccL2Jm6kpG
+         L45u7ZKpIcpRsrKRLwvbznTMT3RGKEGZ61K83V+IXy5uCszoRL96WhwekWnqt5iZxs
+         iEMtOPFVEno5yP8A6ssdBpAGY2IeiPl2YoiY6H3Q=
+Date:   Fri, 26 Feb 2021 14:03:55 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
         Derek Kiernan <derek.kiernan@xilinx.com>,
         Dragan Cvetic <dragan.cvetic@xilinx.com>,
@@ -43,62 +39,78 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
         Savo Novakovic <savox.novakovic@intel.com>,
         Jianxun Zhang <jianxun.zhang@linux.intel.com>
 Subject: Re: [PATCH v1 01/12] gna: add driver module
-In-reply-to: <YCwFBNa2npYcEIQ+@kroah.com>
-Date:   Fri, 26 Feb 2021 13:59:14 +0100
-Message-ID: <85wnuvrnml.fsf@linux.intel.com>
+Message-ID: <YDjxu+0zvz3zsRb3@kroah.com>
+References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
+ <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com>
+ <YCwFBNa2npYcEIQ+@kroah.com>
+ <85wnuvrnml.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <85wnuvrnml.fsf@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Fri, Feb 26, 2021 at 01:59:14PM +0100, Maciej Kwapulinski wrote:
+> 
+> Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+> 
+> > On Tue, Feb 16, 2021 at 05:05:14PM +0100, Maciej Kwapulinski wrote:
+> ....
+> >> --- /dev/null
+> >> +++ b/drivers/misc/gna/gna_driver.h
+> >> @@ -0,0 +1,41 @@
+> >> +/* SPDX-License-Identifier: GPL-2.0-only */
+> >> +/* Copyright(c) 2017-2021 Intel Corporation */
+> >> +
+> >> +#ifndef __GNA_DRIVER_H__
+> >> +#define __GNA_DRIVER_H__
+> >> +
+> >> +#include <linux/kernel.h>
+> >> +#include <linux/mutex.h>
+> >> +#include <linux/types.h>
+> >> +
+> >> +#define GNA_DRV_NAME	"gna"
+> >
+> > Way too generic, no one knows what "gna" is.
+> >
+> 
+> "intel gna" is much more verbose in search engines.
+> As we do not (plan to) have more "gna" drivers, is the following ok?:
+> 
+> intel-gna
+> 
+> the change would imply the following:
+> 
+> prompt$ lspci -s 00:00.3 -vvvv
+> 00:00.3 System peripheral: Intel Corporation Device 3190 (rev 03)
+> 	Subsystem: Intel Corporation Device 2072
+>   ....
+> 	Kernel driver in use: intel-gna
+> 	Kernel modules: gna
+> 
+> is it ok?
 
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
+Why not intel-gna as the kernel module as well?
 
-> On Tue, Feb 16, 2021 at 05:05:14PM +0100, Maciej Kwapulinski wrote:
-....
->> --- /dev/null
->> +++ b/drivers/misc/gna/gna_driver.h
->> @@ -0,0 +1,41 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/* Copyright(c) 2017-2021 Intel Corporation */
->> +
->> +#ifndef __GNA_DRIVER_H__
->> +#define __GNA_DRIVER_H__
->> +
->> +#include <linux/kernel.h>
->> +#include <linux/mutex.h>
->> +#include <linux/types.h>
->> +
->> +#define GNA_DRV_NAME	"gna"
->
-> Way too generic, no one knows what "gna" is.
->
+> also, how about the interface to library (it's part of one of next patches)?:
+> prompt$ file /dev/gna0
+> /dev/gna0: character special (235/0)
+> 
+> can "gna" stay intact here?
 
-"intel gna" is much more verbose in search engines.
-As we do not (plan to) have more "gna" drivers, is the following ok?:
+Again, I have no idea what "gna" is, so you might want to pick something
+more descriptive?
 
-intel-gna
+> I'm pointing this out, because gna exists on the market for a while and
+> changing the above may have some impact we'd like to avoid.
 
-the change would imply the following:
+If it exists but Linux does not support it, how would anyone know about
+it?  :)
 
-prompt$ lspci -s 00:00.3 -vvvv
-00:00.3 System peripheral: Intel Corporation Device 3190 (rev 03)
-	Subsystem: Intel Corporation Device 2072
-  ....
-	Kernel driver in use: intel-gna
-	Kernel modules: gna
+Please use real terms where possible.
 
-is it ok?
+thanks,
 
-also, how about the interface to library (it's part of one of next patches)?:
-prompt$ file /dev/gna0
-/dev/gna0: character special (235/0)
-
-can "gna" stay intact here?
-
-I'm pointing this out, because gna exists on the market for a while and
-changing the above may have some impact we'd like to avoid.
-
->
-....
+greg k-h
