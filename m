@@ -2,60 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D2F3C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 16:05:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABE35C43381
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 16:25:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F0FF64EF0
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 16:05:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7362A64EF6
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 16:25:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230134AbhBZQFC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 11:05:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43794 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229915AbhBZQFB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 11:05:01 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9749BC06174A;
-        Fri, 26 Feb 2021 08:04:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=cN1OGMv5NyfZ7fEgBVYVHch3nvdLpsq8DiEjUx9WM+0=; b=oxw7f+zA5HuIUzZ7Yqvqizi8xB
-        xX6Gxe5cpSd4R4jb1dE1xo2kl15c5/1Pb4TYBaTDHtTm/L1LnudbOpOUTjzNG5o7l6JJlGyAKJge4
-        bSOVrHQW1SlCFBN6grnJ6zDXGtSLnOfgw5BdWZaLmEG5spqkmid8PYONGaNErnfkJfwE8R+8woHC2
-        UsddLqPP9i3nWSE574r/wuYTch6sx1oOCaOeKb8pY9O9D6rM5v36hzn/Fs/QaabR5Iiv+7t+pwSjP
-        Ap/ZEuk/1xi5tjiyPvNrLnL6O1lmVe4tq3PbnYa99UZSP+PBq8MWiXvlgB8F3x3NV2mTKRzETOFPW
-        oqV6Qs3g==;
-Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lFfaY-00CDKy-Ir; Fri, 26 Feb 2021 16:03:43 +0000
-Date:   Fri, 26 Feb 2021 16:03:34 +0000
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Alistair Popple <apopple@nvidia.com>
-Cc:     linux-mm@kvack.org, nouveau@lists.freedesktop.org,
-        bskeggs@redhat.com, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, jhubbard@nvidia.com,
-        rcampbell@nvidia.com, jglisse@redhat.com, jgg@nvidia.com,
-        hch@infradead.org, daniel@ffwll.ch
-Subject: Re: [PATCH v3 4/8] mm/rmap: Split migration into its own function
-Message-ID: <20210226160334.GD2907711@infradead.org>
-References: <20210226071832.31547-1-apopple@nvidia.com>
- <20210226071832.31547-5-apopple@nvidia.com>
+        id S230041AbhBZQY4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 11:24:56 -0500
+Received: from mga01.intel.com ([192.55.52.88]:12400 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230022AbhBZQYz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Feb 2021 11:24:55 -0500
+IronPort-SDR: RESG+ueW1J3GLWWFDgPPpalNgLFwFtjG3LZiKMeO2nxkrQ6ZFmytkEwKf9NxJw3y72SmiNdY2f
+ uU0xqyVlEB5w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9907"; a="205457859"
+X-IronPort-AV: E=Sophos;i="5.81,208,1610438400"; 
+   d="scan'208";a="205457859"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 08:23:07 -0800
+IronPort-SDR: ntFgGzsWwrCyDkuti811a99kOYPGX0R4MIVYZc60jEYPKH3BATJSEO3mAZeKKvYyyGkyVEU+aw
+ 3689bu+XTFkA==
+X-IronPort-AV: E=Sophos;i="5.81,208,1610438400"; 
+   d="scan'208";a="382060060"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2021 08:23:05 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lFftO-008OTZ-3y; Fri, 26 Feb 2021 18:23:02 +0200
+Date:   Fri, 26 Feb 2021 18:23:02 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dejin Zheng <zhengdejin5@gmail.com>
+Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        mika.westerberg@linux.intel.com, rric@kernel.org,
+        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/4] PCI: Introduce pcim_alloc_irq_vectors()
+Message-ID: <YDkgZoscLyOnc5l6@smile.fi.intel.com>
+References: <20210226155056.1068534-1-zhengdejin5@gmail.com>
+ <20210226155056.1068534-2-zhengdejin5@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210226071832.31547-5-apopple@nvidia.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20210226155056.1068534-2-zhengdejin5@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Nice cleanup!
+On Fri, Feb 26, 2021 at 11:50:53PM +0800, Dejin Zheng wrote:
+> Introduce pcim_alloc_irq_vectors(), a device-managed version of
+> pci_alloc_irq_vectors(). Introducing this function can simplify
+> the error handling path in many drivers.
+> 
+> And use pci_free_irq_vectors() to replace some code in pcim_release(),
+> they are equivalent, and no functional change. It is more explicit
+> that pcim_alloc_irq_vectors() is a device-managed function.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Thanks!
+
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
+> ---
+> v4 -> v5:
+> 	- Remove the check of enable device in pcim_alloc_irq_vectors()
+> 	  and make it as a static line function.
+> v3 -> v4:
+> 	- No change
+> v2 -> v3:
+> 	- Add some commit comments for replace some codes in
+> 	  pcim_release() by pci_free_irq_vectors().
+> v1 -> v2:
+> 	- Use pci_free_irq_vectors() to replace some code in
+> 	  pcim_release().
+> 	- Modify some commit messages.
+> 
+>  drivers/pci/pci.c   |  5 +----
+>  include/linux/pci.h | 24 ++++++++++++++++++++++++
+>  2 files changed, 25 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 16a17215f633..fecfdc0add2f 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -1969,10 +1969,7 @@ static void pcim_release(struct device *gendev, void *res)
+>  	struct pci_devres *this = res;
+>  	int i;
+>  
+> -	if (dev->msi_enabled)
+> -		pci_disable_msi(dev);
+> -	if (dev->msix_enabled)
+> -		pci_disable_msix(dev);
+> +	pci_free_irq_vectors(dev);
+>  
+>  	for (i = 0; i < DEVICE_COUNT_RESOURCE; i++)
+>  		if (this->region_mask & (1 << i))
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 86c799c97b77..5cafd7d65fd7 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -1818,6 +1818,30 @@ pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+>  					      NULL);
+>  }
+>  
+> +/**
+> + * pcim_alloc_irq_vectors - a device-managed pci_alloc_irq_vectors()
+> + * @dev:		PCI device to operate on
+> + * @min_vecs:		minimum number of vectors required (must be >= 1)
+> + * @max_vecs:		maximum (desired) number of vectors
+> + * @flags:		flags or quirks for the allocation
+> + *
+> + * Return the number of vectors allocated, (which might be smaller than
+> + * @max_vecs) if successful, or a negative error code on error. If less
+> + * than @min_vecs interrupt vectors are available for @dev the function
+> + * will fail with -ENOSPC.
+> + *
+> + * It depends on calling pcim_enable_device() to make IRQ resources
+> + * manageable.
+> + */
+> +static inline int
+> +pcim_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+> +			unsigned int max_vecs, unsigned int flags)
+> +{
+> +	if (!pci_is_managed(dev))
+> +		return -EINVAL;
+> +	return pci_alloc_irq_vectors(dev, min_vecs, max_vecs, flags);
+> +}
+> +
+>  /* Include architecture-dependent settings and functions */
+>  
+>  #include <asm/pci.h>
+> -- 
+> 2.25.0
+> 
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
