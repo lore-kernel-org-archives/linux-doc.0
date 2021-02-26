@@ -2,210 +2,64 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 893F0C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 22:22:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58192C433E6
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 22:24:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1FF8E64F0D
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 22:22:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 20FC264F46
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 22:24:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230139AbhBZWWO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 17:22:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39956 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230128AbhBZWWI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 17:22:08 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37683C06178C
-        for <linux-doc@vger.kernel.org>; Fri, 26 Feb 2021 14:21:26 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id c19so6812797pjq.3
-        for <linux-doc@vger.kernel.org>; Fri, 26 Feb 2021 14:21:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=beagleboard-org.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=GxUJ2qExrQAW6kSkLGo88Wd6gDhve8/UVNS1OlhAqCM=;
-        b=wy501qCfbVvyRLwgj7bVOh4004Z2e57xZzkdNRzB7tS3bQiSn04n1o9x9zwTz75oAp
-         4+YRm15oO2K10rZtAcFgO1lG4NGqduAd7SBPIdvvT/oOAZWuhpjSmWoQ5tej4Ruo0u89
-         zk61XmxDzxaCbjT/msMZVEFdSU0MmUirSmGKJ3jb2wCmman6P33jNo/644DpL1khGlSY
-         Kwh1nhwU37RlX47DdDmerIzC7wpG6bzzCTyIHcmTHuLsF/+omQgIA0H/7f4d8ITTfRRc
-         L0qSFvCMC39uVpiyrH6vfZ84cp04z+F31i8BM/H3v/Ao+CSd8L1+oeY7hpz6dwEL2PAq
-         qiwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GxUJ2qExrQAW6kSkLGo88Wd6gDhve8/UVNS1OlhAqCM=;
-        b=KJZ4i/tOW5WJRhQlKrMc02a3meBUpMeJxbCF3UGoSTBC//QJrmsN4/Btj/xqwkpNSa
-         8lIAB3HkB1q3t5TOUr9sdoKLdo3mdF+HDDVEJWQdsmuWT3np5wo5dxcG435rEdJ70Ifm
-         z2pSmIh7cyd29focgT6I0WbvZjSZr0K6JQ+sQBGmLhecl+4eA1eZa1mEjnkcxFeDIIkZ
-         u0lS2M5t8Xb+VEgMMEH7XSljYnEw/Loat1xlotc0eX8WhCEObExLFM5zsGxtvY8A1Cvo
-         PrlV43c7/9xP2xPdfoXX9SRw3eDqjgUDJFPk7hBY7gVxqbjNGQjw0BDoo2DPf/UsbHBq
-         aVeA==
-X-Gm-Message-State: AOAM532CojkYwoIcIdqmfcxidCwKBNwuxqTsuQ6Qp85iB8m4UoYzjgjH
-        F+9txWo5qsq6dJAOaAKJBAti+A==
-X-Google-Smtp-Source: ABdhPJzHYx1FA+WzPEILaSnpStbn+KLDFFqqQwKb0RK7vOWCoE/V0dyx7sm1xylslGzGWpkLV/3Q+g==
-X-Received: by 2002:a17:903:30c3:b029:e3:c391:6ccd with SMTP id s3-20020a17090330c3b02900e3c3916ccdmr4943630plc.53.1614378085658;
-        Fri, 26 Feb 2021 14:21:25 -0800 (PST)
-Received: from x1 ([2601:1c0:4701:ae70:6aa6:aac2:3a17:e4e7])
-        by smtp.gmail.com with ESMTPSA id u1sm6615772pfn.209.2021.02.26.14.21.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Feb 2021 14:21:25 -0800 (PST)
-Date:   Fri, 26 Feb 2021 14:21:22 -0800
-From:   Drew Fustini <drew@beagleboard.org>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tony Lindgren <tony@atomide.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Jason Kridner <jkridner@beagleboard.org>,
-        Robert Nelson <robertcnelson@beagleboard.org>,
-        Joe Perches <joe@perches.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 0/3] pinctrl: pinmux: Add pinmux-select debugfs file
-Message-ID: <20210226222122.GA725305@x1>
-References: <20210220202750.117421-1-drew@beagleboard.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210220202750.117421-1-drew@beagleboard.org>
+        id S230049AbhBZWYi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 17:24:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:56042 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229996AbhBZWYg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Feb 2021 17:24:36 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id A7F3F64EC8;
+        Fri, 26 Feb 2021 22:23:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614378235;
+        bh=VEmOKrtc5TGBfhDVCfeBY7ofIC7lRH0rx6DqYvgZeR8=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=mVyLdcRsWYrblhS3GzS0AjyPx4U48bnALtTvCr7Tsq96Tr1WXdSq86JgqBHwlLZNc
+         w3nGiMQoiUrW9tHNkbgKY+ACuHwQlf/9HG1m55xnz4TEe1MllydjEBV7tF5633cGsu
+         28PqgDKHg17Qy3JX7QxWDo5TPZH7/tUwCP5XNoerkrYVqnIyn+91P08CO6nj5zZ2yd
+         TvkNCrqR0Wl8OR9hCdtsP9kQaRDawq8jjTHVUInbhRY2krSoaPbkJzkU6OR9ygDd7E
+         xPhFJYQGWAn4BOlbLt8IJsN87WgypthZz1mnxxxptkmVyCnVSzfByYizNFQ0FbhsaH
+         4VuZWoNftIw9w==
+Subject: Re: [GIT PULL] Documentation fixes for 5.12
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <87blc68xtf.fsf@meer.lwn.net>
+References: <87blc68xtf.fsf@meer.lwn.net>
+X-PR-Tracked-List-Id: <linux-doc.vger.kernel.org>
+X-PR-Tracked-Message-Id: <87blc68xtf.fsf@meer.lwn.net>
+X-PR-Tracked-Remote: git://git.lwn.net/linux.git tags/docs-5.12-2
+X-PR-Tracked-Commit-Id: f37a15ea8db022373a2cb6d1a6004c65c2b7f17e
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 3fb6d0e00efc958d01c2f109c8453033a2d96796
+Message-Id: <161437823565.23821.5516656633036808087.pr-tracker-bot@kernel.org>
+Date:   Fri, 26 Feb 2021 22:23:55 +0000
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Feb 20, 2021 at 12:27:47PM -0800, Drew Fustini wrote:
-> This series first converts the debugfs files in the pinctrl subsystem to
-> octal permissions and then adds a new debugfs file "pinmux-select".
-> 
-> Group name and function name can be written to "pinmux-select" which
-> will cause the pin function for the specified group to be activated on
-> the pin controller.
-> 
-> The final patch in this series documents the debugfs files for pinctrl.
-> 
-> Notes for PATCH v8:
-> - add 'Reviewed-by:' from Geert Uytterhoeven for pinmux-select patch
-> - add 'Tested-by:' from Geert Uytterhoeven for pinmux-select patch
-> - change pinmux-select format to '<group-name function-name>' based on
->   feedback from Geert
-> - rephrase parts of documentation per Geert's comments
-> 
-> Notes for PATCH v7:
-> - add 'Reviewed-by:' from Andy Shevchenko for pinmux-select patch
-> - add 'Reviewed-by:' from Andy Shevchenko for documentation patch
-> - add 'Reviewed-by:' from Tony Lindgren to all patches
-> - change order of '#include <linux/ctype.h>' per Andy's suggestion
-> - change PINMUX_SELECT_MAX back to 128 as I had accidentally changed it
->   to 50 and Andy pointed this out.
-> - grammer fixes as suggested by Andy
-> - rework assignment of fsel and ret from pinmux_func_name_to_selector()
-> - rework assignment of gsel and ret from pinctrl_get_group_selector()
-> 
-> Notes for PATCH v6:
-> - add 'Suggested-by:' for Joe Perches to octal permissions patch
-> - add 'Reviewed-by:' from Andy and Geert to octal permissions patch
-> - reword example in the pinmux-select patch per Andy's advice
-> - indent the example output per Andy's advice
-> - remove usage error messages as Andy advised it is too verbose
-> - return -ENOMEM when write is too big for the input buffer per Andy's advice
-> - handle whitespace before, in between, and after the function name and
->   group name as suggested by Andy
-> - rename free_buf to exit_free_buf per Andy's advice
-> - add documentation patch to series which documents the debugfs files
->   for the pinctrl subsystem including the new pinmux-select file
-> 
-> Notes for PATCH v5:
-> - convert permissions from symbolic to octal for debugfs_create_file()
->   calls in core.c that Joe Perches pointed out I had missed
-> - Linus W: please let me know if I should break this series apart as you
->   already applied an earlier version of octal conversion patch today [1]
-> - switch from sscanf() to just pointing to function name and group name
->   inside of the buffer. This also avoids having to allocate additional
->   buffers for fname and gname. Geert and Andy highlighted this security
->   issue and Andy suggested code to use instead of sscanf().
-> - switch from devm_kfree() to kfree() after Dan Carpenter warned me
-> - remove .read from pinmux_select_ops per Geert since it is write only
-> - add usage format to error when unable find fname or gname in buffer
-> 
-> Notes for PATCH v4:
-> - correct the commit message in the second patch to reference function
->   and group name instead of integer selectors. Apologies for not fixing
->   that in v3
-> - fix typos in cover letter
-> 
-> Notes for PATCH v3:
-> - add Suggested-by: Andy Shevchenko to the "pinctrl: use to octal
->   permissions for debugfs files" patch
-> - change the octal permissions from 0400 to 0444 to correctly match the
->   symbolic permissions (thanks to Joe Perches and Geert Uytterhoeven)
-> - note that S_IFREG flag is added to the mode in __debugfs_create_file()
->   (thanks to Andy for highlighting this and Joe for suggesting I should
->   add a note to the commit message)
-> - fix order of the goto labels so that the buffers are freed correctly
->   as suggested by Dan Carpenter
-> - move from devm_kzalloc() to kzalloc() as the buffers are only used
->   inside the pinmux_select() function and not related to the lifetime
->   of the pin controller device (thanks to Andy for pointing this out)
-> - correct the pinmux-select example in commit message to use the
->   function and group name instead of selector (thanks to Geert)
-> 
-> Notes for PATCH v2:
-> - create patch series that includes patch to switch all the debugfs
->   files in pinctrl subsystem over to octal permission
-> - write function name and group name, instead of error-prone selector
->   numbers, to the 'pinmux-select' file
-> - switch from static to dynamic allocation for the kernel buffer filled
->   by strncpy_from_user()
-> - look up function selector from function name using
->   pinmux_func_name_to_selector()
-> - validate group name with get_function_groups() and match_string()
-> - look up selector for group name with pinctrl_get_group_selector()
-> 
-> Notes for PATCH v1:
-> - posted seperate patch to switch all the debugfs files in pinctrl
->   subsystem over to octal permission
-> - there is no existing documentation for any of the debugfs enteries for
->   pinctrl, so it seemed to have a bigger scope than just this patch. I
->   also noticed that rst documentation is confusingly named "pinctl" (no
->   'r') and started thread about that [2]. Linus suggested chaning that
->   to 'pin-control'. Thus I am planning a seperate documentation patch
->   series where the file is renamed, references changed and a section on
->   the pinctrl debugfs files is added.
-> 
-> Notes for RFC v2 [3]:
-> - rename debugfs file "pinmux-set" to "pinmux-select"
-> - renmae pinmux_set_write() to pinmux_select()
-> - switch from memdup_user_nul() to strncpy_from_user()
-> - switch from pr_warn() to dev_err()
-> 
-> [1] https://lore.kernel.org/linux-gpio/20210126044742.87602-1-drew@beagleboard.org/
-> [2] https://lore.kernel.org/linux-gpio/20210126050817.GA187797@x1/
-> [3] https://lore.kernel.org/linux-gpio/20210123064909.466225-1-drew@beagleboard.org/
-> 
-> Drew Fustini (3):
->   pinctrl: use to octal permissions for debugfs files
->   pinctrl: pinmux: Add pinmux-select debugfs file
->   docs/pinctrl: document debugfs files
-> 
->  Documentation/driver-api/pinctl.rst |  37 ++++++++++
->  drivers/pinctrl/core.c              |  12 ++--
->  drivers/pinctrl/pinconf.c           |   4 +-
->  drivers/pinctrl/pinmux.c            | 106 +++++++++++++++++++++++++++-
->  4 files changed, 149 insertions(+), 10 deletions(-)
-> 
-> -- 
-> 2.25.1
-> 
+The pull request you sent on Fri, 26 Feb 2021 11:54:04 -0700:
 
-Does any have any additional feedback for any of the patches in this
-series?
+> git://git.lwn.net/linux.git tags/docs-5.12-2
+
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/3fb6d0e00efc958d01c2f109c8453033a2d96796
 
 Thank you!
-DRew
 
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
