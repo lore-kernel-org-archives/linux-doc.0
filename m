@@ -2,225 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.6 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D94EC433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 10:44:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65398C433E6
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 11:26:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D23C664EAF
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 10:44:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 19CC164F1B
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 11:26:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231222AbhBZKoT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 05:44:19 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:12954 "EHLO
-        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231219AbhBZKoC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 05:44:02 -0500
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Dn5nK5TKZzjRDC;
-        Fri, 26 Feb 2021 18:41:57 +0800 (CST)
-Received: from [10.174.176.191] (10.174.176.191) by
- DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 26 Feb 2021 18:43:08 +0800
-Subject: Re: [PATCH v14 08/11] arm64: kdump: reimplement crashkernel=X
-To:     Catalin Marinas <catalin.marinas@arm.com>, <bhe@redhat.com>
-References: <20210130071025.65258-1-chenzhou10@huawei.com>
- <20210130071025.65258-9-chenzhou10@huawei.com>
- <20210224160408.GC28965@arm.com>
- <94cc9191-4eff-355f-ff02-1c5da416960e@huawei.com>
-CC:     <mingo@redhat.com>, <tglx@linutronix.de>, <rppt@kernel.org>,
-        <dyoung@redhat.com>, <will@kernel.org>, <nsaenzjulienne@suse.de>,
-        <corbet@lwn.net>, <John.P.donnelly@oracle.com>,
-        <bhsharma@redhat.com>, <prabhakar.pkin@gmail.com>,
-        <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
-        <james.morse@arm.com>, <xiexiuqi@huawei.com>,
-        <guohanjun@huawei.com>, <huawei.libin@huawei.com>,
-        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>
-From:   chenzhou <chenzhou10@huawei.com>
-Message-ID: <4722d365-154b-d3bb-3897-92f229e8e84f@huawei.com>
-Date:   Fri, 26 Feb 2021 18:43:07 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+        id S230450AbhBZL0T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 06:26:19 -0500
+Received: from mx2.suse.de ([195.135.220.15]:60100 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230223AbhBZL0Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Feb 2021 06:26:16 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1614338729; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=9Aoj+mD0sR1IiIwitK9WRvyR8NQutn4XWYPCWVLCqsI=;
+        b=se13TZjCsJkvolVSSUHJ1dT0RmMc6nn/5/qGqYPLloh7TX8Wsyv8zRL72Q61AdxNVSUxZX
+        gwaxQM5+L2d1uGeyY3YyX6X5hiWJETal8n6tjoF1naex4qJK4jy8yl8N5qDYvPI3c5Fgi8
+        Pd0SAU0kc1Gwt8Jx9CLYX8zD4rYH3vs=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id BA73DAFF9;
+        Fri, 26 Feb 2021 11:25:29 +0000 (UTC)
+From:   Juergen Gross <jgross@suse.com>
+To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     paulmck@kernel.org, mhocko@suse.com,
+        Juergen Gross <jgross@suse.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH 1/3] kernel/smp: add boot parameter for controlling CSD lock debugging
+Date:   Fri, 26 Feb 2021 12:25:19 +0100
+Message-Id: <20210226112521.8641-2-jgross@suse.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210226112521.8641-1-jgross@suse.com>
+References: <20210226112521.8641-1-jgross@suse.com>
 MIME-Version: 1.0
-In-Reply-To: <94cc9191-4eff-355f-ff02-1c5da416960e@huawei.com>
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.176.191]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Currently CSD lock debugging can be switched on and off via a kernel
+config option only. Unfortunately there is at least one problem with
+CSD lock handling pending for about 2 years now, which has been seen
+in different environments (mostly when running virtualized under KVM
+or Xen, at least once on bare metal). Multiple attempts to catch this
+issue have finally led to introduction of CSD lock debug code, but
+this code is not in use in most distros as it has some impact on
+performance.
 
+In order to be able to ship kernels with CONFIG_CSD_LOCK_WAIT_DEBUG
+enabled even for production use, add a boot parameter for switching
+the debug functionality on. This will reduce any performance impact
+of the debug coding to a bare minimum when not being used.
 
-On 2021/2/26 18:31, chenzhou wrote:
->
-> On 2021/2/25 0:04, Catalin Marinas wrote:
->> On Sat, Jan 30, 2021 at 03:10:22PM +0800, Chen Zhou wrote:
->>> There are following issues in arm64 kdump:
->>> 1. We use crashkernel=X to reserve crashkernel below 4G, which
->>> will fail when there is no enough low memory.
->>> 2. If reserving crashkernel above 4G, in this case, crash dump
->>> kernel will boot failure because there is no low memory available
->>> for allocation.
->>>
->>> To solve these issues, change the behavior of crashkernel=X and
->>> introduce crashkernel=X,[high,low]. crashkernel=X tries low allocation
->>> in DMA zone, and fall back to high allocation if it fails.
->>> We can also use "crashkernel=X,high" to select a region above DMA zone,
->>> which also tries to allocate at least 256M in DMA zone automatically.
->>> "crashkernel=Y,low" can be used to allocate specified size low memory.
->>>
->>> Another minor change, there may be two regions reserved for crash
->>> dump kernel, in order to distinct from the high region and make no
->>> effect to the use of existing kexec-tools, rename the low region as
->>> "Crash kernel (low)".
->> I think we discussed this but I don't remember the conclusion. Is this
->> only renamed conditionally so that we don't break current kexec-tools?
-> Yes.
->> IOW, assuming that the full crashkernel region is reserved below 4GB,
->> does the "(low)" suffix still appear or it's only if a high region is
->> additionally reserved?
-> Suffix "low" only appear if a high region is additionally reserved.
->>> diff --git a/arch/arm64/include/asm/kexec.h b/arch/arm64/include/asm/kexec.h
->>> index 3f6ecae0bc68..f0caed0cb5e1 100644
->>> --- a/arch/arm64/include/asm/kexec.h
->>> +++ b/arch/arm64/include/asm/kexec.h
->>> @@ -96,6 +96,10 @@ static inline void crash_prepare_suspend(void) {}
->>>  static inline void crash_post_resume(void) {}
->>>  #endif
->>>  
->>> +#ifdef CONFIG_KEXEC_CORE
->>> +extern void __init reserve_crashkernel(void);
->>> +#endif
->> Why not have this in some generic header?
->>
->>> diff --git a/arch/arm64/kernel/setup.c b/arch/arm64/kernel/setup.c
->>> index c18aacde8bb0..69c592c546de 100644
->>> --- a/arch/arm64/kernel/setup.c
->>> +++ b/arch/arm64/kernel/setup.c
->>> @@ -238,7 +238,18 @@ static void __init request_standard_resources(void)
->>>  		    kernel_data.end <= res->end)
->>>  			request_resource(res, &kernel_data);
->>>  #ifdef CONFIG_KEXEC_CORE
->>> -		/* Userspace will find "Crash kernel" region in /proc/iomem. */
->>> +		/*
->>> +		 * Userspace will find "Crash kernel" or "Crash kernel (low)"
->>> +		 * region in /proc/iomem.
->>> +		 * In order to distinct from the high region and make no effect
->>> +		 * to the use of existing kexec-tools, rename the low region as
->>> +		 * "Crash kernel (low)".
->>> +		 */
->>> +		if (crashk_low_res.end && crashk_low_res.start >= res->start &&
->>> +				crashk_low_res.end <= res->end) {
->>> +			crashk_low_res.name = "Crash kernel (low)";
->>> +			request_resource(res, &crashk_low_res);
->>> +		}
->>>  		if (crashk_res.end && crashk_res.start >= res->start &&
->>>  		    crashk_res.end <= res->end)
->>>  			request_resource(res, &crashk_res);
->> My reading of the new generic reserve_crashkernel() is that
->> crashk_low_res will only be populated if crask_res is above 4GB. If
->> that's correct, I'm fine with the renaming here since current systems
->> would not get a renamed low reservation (as long as they don't change
->> the kernel cmdline).
->>
->>> diff --git a/arch/arm64/mm/init.c b/arch/arm64/mm/init.c
->>> index 912f64f505f7..d20f5c444ebf 100644
->>> --- a/arch/arm64/mm/init.c
->>> +++ b/arch/arm64/mm/init.c
->>> @@ -35,6 +35,7 @@
->>>  #include <asm/fixmap.h>
->>>  #include <asm/kasan.h>
->>>  #include <asm/kernel-pgtable.h>
->>> +#include <asm/kexec.h>
->>>  #include <asm/memory.h>
->>>  #include <asm/numa.h>
->>>  #include <asm/sections.h>
->>> @@ -61,66 +62,11 @@ EXPORT_SYMBOL(memstart_addr);
->>>   */
->>>  phys_addr_t arm64_dma_phys_limit __ro_after_init;
->>>  
->>> -#ifdef CONFIG_KEXEC_CORE
->>> -/*
->>> - * reserve_crashkernel() - reserves memory for crash kernel
->>> - *
->>> - * This function reserves memory area given in "crashkernel=" kernel command
->>> - * line parameter. The memory reserved is used by dump capture kernel when
->>> - * primary kernel is crashing.
->>> - */
->>> +#ifndef CONFIG_KEXEC_CORE
->>>  static void __init reserve_crashkernel(void)
->>>  {
->> [...]
->>>  }
->>> +#endif
->> Can we not have the dummy reserve_crashkernel() in the generic code as
->> well and avoid the #ifndef here?
-> You mean put the dummy reserve_crashkernel() and the relate function declaration in some generic header?
->  
-> Baoquan also mentioned about this.
-> Now all the arch that support kdump have the dummy reserve_crashkernel() and
-> function declaration, such as arm/arm64/ppc/s390..
->
-> But currently different arch may have different CONFIG and different function declaration about this,
-> for example,
->
-> for s390,
-> static void __init reserve_crashkernel(void)
-> {                  
-> #ifdef CONFIG_CRASH_DUMP
-> ...
-> #endif        
-> }
->
-> for ppc,
-> #ifdef CONFIG_KEXEC_CORE
-> extern void reserve_crashkernel(void);
-> #else
-> static inline void reserve_crashkernel(void) { ; }
-> #endif
->
-> If we move these to generic header we need think about:
-> 1. the related config in different arch
-> 2. function declaration(static/non static)
->
-> As Baoquan said in patch 9, how about leave with it for now and i try to solve this later?
->
->>>  #ifdef CONFIG_CRASH_DUMP
->>>  static int __init early_init_dt_scan_elfcorehdr(unsigned long node,
->>> @@ -446,6 +392,14 @@ void __init bootmem_init(void)
->>>  	 * reserved, so do it here.
->>>  	 */
->>>  	reserve_crashkernel();
->>> +#ifdef CONFIG_KEXEC_CORE
->>> +	/*
->>> +	 * The low region is intended to be used for crash dump kernel devices,
->>> +	 * just mark the low region as "nomap" simply.
->>> +	 */
->>> +	if (crashk_low_res.end)
->>> +		memblock_mark_nomap(crashk_low_res.start, resource_size(&crashk_low_res));
->>> +#endif
->> Do we do something similar for crashk_res?
-> Not. In the primary kernel(production kernel), we need to use crashk_res memory for crash kernel
-> elf core header, initrd...
+Signed-off-by: Juergen Gross <jgross@suse.com>
+---
+ .../admin-guide/kernel-parameters.txt         |  6 +++
+ kernel/smp.c                                  | 38 +++++++++++++++++--
+ 2 files changed, 40 insertions(+), 4 deletions(-)
 
-Sorry, missed one comma after crash kernel.
-Not. In the primary kernel(production kernel), we need to use crashk_res memory for crash kernel,
-elf core header, initrd and so on.
-
-
->
-> Different with this, the crashk_low_res is only for crash dump kernel devices.
->> Also, I can see we call crash_exclude_mem_range() only for crashk_res.
->> Do we need to do this for crashk_low_res as well?
-> You are right, i missed about this. Will do in next version.
->
-> Thanks,
-> Chen Zhou
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index bab6a8b01202..af9749b866c2 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -784,6 +784,12 @@
+ 	cs89x0_media=	[HW,NET]
+ 			Format: { rj45 | aui | bnc }
+ 
++	csdlock_debug=	[KNL] Enable debug add-ons of cross-cpu function call
++			handling. When switched on additional debug data is
++			printed to the console in case a hanging cpu is
++			detected and that cpu is pinged again in order to try
++			to resolve the hang situation.
++
+ 	dasd=		[HW,NET]
+ 			See header of drivers/s390/block/dasd_devmap.c.
+ 
+diff --git a/kernel/smp.c b/kernel/smp.c
+index aeb0adfa0606..d5f0b21ab55e 100644
+--- a/kernel/smp.c
++++ b/kernel/smp.c
+@@ -24,6 +24,7 @@
+ #include <linux/sched/clock.h>
+ #include <linux/nmi.h>
+ #include <linux/sched/debug.h>
++#include <linux/jump_label.h>
+ 
+ #include "smpboot.h"
+ #include "sched/smp.h"
+@@ -102,6 +103,20 @@ void __init call_function_init(void)
+ 
+ #ifdef CONFIG_CSD_LOCK_WAIT_DEBUG
+ 
++static DEFINE_STATIC_KEY_FALSE(csdlock_debug_enabled);
++
++static int __init csdlock_debug(char *str)
++{
++	unsigned int val = 0;
++
++	get_option(&str, &val);
++	if (val)
++		static_branch_enable(&csdlock_debug_enabled);
++
++	return 0;
++}
++early_param("csdlock_debug", csdlock_debug);
++
+ static DEFINE_PER_CPU(call_single_data_t *, cur_csd);
+ static DEFINE_PER_CPU(smp_call_func_t, cur_csd_func);
+ static DEFINE_PER_CPU(void *, cur_csd_info);
+@@ -110,7 +125,7 @@ static DEFINE_PER_CPU(void *, cur_csd_info);
+ static atomic_t csd_bug_count = ATOMIC_INIT(0);
+ 
+ /* Record current CSD work for current CPU, NULL to erase. */
+-static void csd_lock_record(call_single_data_t *csd)
++static void __csd_lock_record(call_single_data_t *csd)
+ {
+ 	if (!csd) {
+ 		smp_mb(); /* NULL cur_csd after unlock. */
+@@ -125,7 +140,13 @@ static void csd_lock_record(call_single_data_t *csd)
+ 		  /* Or before unlock, as the case may be. */
+ }
+ 
+-static __always_inline int csd_lock_wait_getcpu(call_single_data_t *csd)
++static __always_inline void csd_lock_record(call_single_data_t *csd)
++{
++	if (static_branch_unlikely(&csdlock_debug_enabled))
++		__csd_lock_record(csd);
++}
++
++static int csd_lock_wait_getcpu(call_single_data_t *csd)
+ {
+ 	unsigned int csd_type;
+ 
+@@ -140,7 +161,7 @@ static __always_inline int csd_lock_wait_getcpu(call_single_data_t *csd)
+  * the CSD_TYPE_SYNC/ASYNC types provide the destination CPU,
+  * so waiting on other types gets much less information.
+  */
+-static __always_inline bool csd_lock_wait_toolong(call_single_data_t *csd, u64 ts0, u64 *ts1, int *bug_id)
++static bool csd_lock_wait_toolong(call_single_data_t *csd, u64 ts0, u64 *ts1, int *bug_id)
+ {
+ 	int cpu = -1;
+ 	int cpux;
+@@ -204,7 +225,7 @@ static __always_inline bool csd_lock_wait_toolong(call_single_data_t *csd, u64 t
+  * previous function call. For multi-cpu calls its even more interesting
+  * as we'll have to ensure no other cpu is observing our csd.
+  */
+-static __always_inline void csd_lock_wait(call_single_data_t *csd)
++static void __csd_lock_wait(call_single_data_t *csd)
+ {
+ 	int bug_id = 0;
+ 	u64 ts0, ts1;
+@@ -218,6 +239,15 @@ static __always_inline void csd_lock_wait(call_single_data_t *csd)
+ 	smp_acquire__after_ctrl_dep();
+ }
+ 
++static __always_inline void csd_lock_wait(call_single_data_t *csd)
++{
++	if (static_branch_unlikely(&csdlock_debug_enabled)) {
++		__csd_lock_wait(csd);
++		return;
++	}
++
++	smp_cond_load_acquire(&csd->node.u_flags, !(VAL & CSD_FLAG_LOCK));
++}
+ #else
+ static void csd_lock_record(call_single_data_t *csd)
+ {
+-- 
+2.26.2
 
