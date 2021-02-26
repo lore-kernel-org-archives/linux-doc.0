@@ -2,128 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B079C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 15:39:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 415C9C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 15:52:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0889B64EC4
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 15:39:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 03B2164EE7
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 15:52:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230018AbhBZPjv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 10:39:51 -0500
-Received: from out01.mta.xmission.com ([166.70.13.231]:59482 "EHLO
-        out01.mta.xmission.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229571AbhBZPju (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 10:39:50 -0500
-Received: from in02.mta.xmission.com ([166.70.13.52])
-        by out01.mta.xmission.com with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1lFfCV-000SD1-1a; Fri, 26 Feb 2021 08:38:43 -0700
-Received: from ip68-227-160-95.om.om.cox.net ([68.227.160.95] helo=fess.xmission.com)
-        by in02.mta.xmission.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <ebiederm@xmission.com>)
-        id 1lFfCU-000gGq-17; Fri, 26 Feb 2021 08:38:42 -0700
-From:   ebiederm@xmission.com (Eric W. Biederman)
-To:     chenzhou <chenzhou10@huawei.com>
-Cc:     Baoquan He <bhe@redhat.com>,
-        Catalin Marinas <catalin.marinas@arm.com>, <mingo@redhat.com>,
-        <tglx@linutronix.de>, <rppt@kernel.org>, <dyoung@redhat.com>,
-        <will@kernel.org>, <nsaenzjulienne@suse.de>, <corbet@lwn.net>,
-        <John.P.donnelly@oracle.com>, <prabhakar.pkin@gmail.com>,
-        <horms@verge.net.au>, <robh+dt@kernel.org>, <arnd@arndb.de>,
-        <james.morse@arm.com>, <xiexiuqi@huawei.com>,
-        <guohanjun@huawei.com>, <huawei.libin@huawei.com>,
-        <wangkefeng.wang@huawei.com>, <linux-doc@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <kexec@lists.infradead.org>
-References: <20210130071025.65258-1-chenzhou10@huawei.com>
-        <20210130071025.65258-2-chenzhou10@huawei.com>
-        <20210224141939.GA28965@arm.com>
-        <20210225072426.GH3553@MiWiFi-R3L-srv>
-        <121fa1e6-f1a3-d47f-bb1d-baaacf96fddc@huawei.com>
-Date:   Fri, 26 Feb 2021 09:38:37 -0600
-In-Reply-To: <121fa1e6-f1a3-d47f-bb1d-baaacf96fddc@huawei.com> (chenzhou's
-        message of "Fri, 26 Feb 2021 14:45:25 +0800")
-Message-ID: <m14khykfeq.fsf@fess.ebiederm.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+        id S229598AbhBZPvr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 10:51:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40910 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229566AbhBZPvr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 10:51:47 -0500
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDCB9C06174A;
+        Fri, 26 Feb 2021 07:51:03 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id g20so5519646plo.2;
+        Fri, 26 Feb 2021 07:51:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ktT+GdjKKyhRnZ7kpXgzw67KpCbIpEYpAT6oM+VedEY=;
+        b=fHgyPyB96G0xA0bQbvkeXRwcSfe6c8XVo/mlI4Kemqq4FNnAUU+IUcRsVmHbSrS5ny
+         AwedSc9S8V2RRlSrRghYX4gCWKmYBGyIvT/9QcdAM0nfkhaca+ImPuctX7G1i1Euiiql
+         23mtqXVkIUeqv8pt3MqDctEw7q7LaCFO18dAqYEfY2EmHcH8zt6P3hkUT09hHA9/JVSw
+         kWINUz9iGcLJ5vpQzA0PTOr1vbbvkCm+K/DZmefv64A0WaIyrCFQGhFzzX0er82wPDaP
+         uMCA0CivbUFJf/Ftz7iwZI0ZHwCxq4j/10K46//QE6JYfX3Mjibhq0o7dsV4cEPr7nRV
+         L4gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ktT+GdjKKyhRnZ7kpXgzw67KpCbIpEYpAT6oM+VedEY=;
+        b=S2p+Pqs6inFasWb2QWYe1BE3E338gsyBJMdjveVQ5ndge0rZ/2YVMUdBWs/1TFeeAN
+         A1BcmlCnlqPEcMkCNC2a4F/uVdjnbYouOtxH5n/WB4+NtpNUJ0DtFG6uuazRcRi7C/eh
+         84iB8yLpgK7UoYDZaWoKbyJkmDAMvJ0P01pvPdzIvz3rjPwlzLpGLDPt0PQixCvcAA4W
+         g92Lpx+MKwRp7HTn+QJO3m8jPt5RR3vSDLSruKLyt2F/OqRyI9lnwPrCCwwxK2ZAL94X
+         atRiPPi2N5H9mgSHxSpH2WSo5IVsq0uxImWlIkKmoSBv+8vC2L7baH/N7Da2dg99Z+wG
+         HXhw==
+X-Gm-Message-State: AOAM531AfCzjaZCSEMraOGyiDVDwr+NSWNo2Z8qtw/puNCxd69k5a300
+        gLAU65C0HkwSlu+bzB6qU4M2GmlQq/f5PQ==
+X-Google-Smtp-Source: ABdhPJxrcTnOpWUnrcIrBUe+18eX21/3H+bCBon0eEyG86paYlNkLEy6NrGgoh8sWUBj8xosAz8Xog==
+X-Received: by 2002:a17:90a:4611:: with SMTP id w17mr4257481pjg.122.1614354663524;
+        Fri, 26 Feb 2021 07:51:03 -0800 (PST)
+Received: from localhost (89.208.244.53.16clouds.com. [89.208.244.53])
+        by smtp.gmail.com with ESMTPSA id n11sm9157293pgm.30.2021.02.26.07.51.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Feb 2021 07:51:03 -0800 (PST)
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        rric@kernel.org, bhelgaas@google.com, wsa@kernel.org,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-pci@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Dejin Zheng <zhengdejin5@gmail.com>
+Subject: [PATCH v5 0/4] Introduce pcim_alloc_irq_vectors()
+Date:   Fri, 26 Feb 2021 23:50:52 +0800
+Message-Id: <20210226155056.1068534-1-zhengdejin5@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-XM-SPF: eid=1lFfCU-000gGq-17;;;mid=<m14khykfeq.fsf@fess.ebiederm.org>;;;hst=in02.mta.xmission.com;;;ip=68.227.160.95;;;frm=ebiederm@xmission.com;;;spf=neutral
-X-XM-AID: U2FsdGVkX19FonAfyXHc11Z6qU3W8XfsdQm1v4+5X8w=
-X-SA-Exim-Connect-IP: 68.227.160.95
-X-SA-Exim-Mail-From: ebiederm@xmission.com
-Subject: Re: [PATCH v14 01/11] x86: kdump: replace the hard-coded alignment with macro CRASH_ALIGN
-X-SA-Exim-Version: 4.2.1 (built Sat, 08 Feb 2020 21:53:50 +0000)
-X-SA-Exim-Scanned: Yes (on in02.mta.xmission.com)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-chenzhou <chenzhou10@huawei.com> writes:
+Introduce pcim_alloc_irq_vectors(), a device-managed version of
+pci_alloc_irq_vectors(), In some i2c drivers, If pcim_enable_device()
+has been called before, then pci_alloc_irq_vectors() is actually a
+device-managed function. It is used as a device-managed function, So
+replace it with pcim_alloc_irq_vectors().
 
-> On 2021/2/25 15:25, Baoquan He wrote:
->> On 02/24/21 at 02:19pm, Catalin Marinas wrote:
->>> On Sat, Jan 30, 2021 at 03:10:15PM +0800, Chen Zhou wrote:
->>>> Move CRASH_ALIGN to header asm/kexec.h for later use. Besides, the
->>>> alignment of crash kernel regions in x86 is 16M(CRASH_ALIGN), but
->>>> function reserve_crashkernel() also used 1M alignment. So just
->>>> replace hard-coded alignment 1M with macro CRASH_ALIGN.
->>> [...]
->>>> @@ -510,7 +507,7 @@ static void __init reserve_crashkernel(void)
->>>>  	} else {
->>>>  		unsigned long long start;
->>>>  
->>>> -		start = memblock_phys_alloc_range(crash_size, SZ_1M, crash_base,
->>>> +		start = memblock_phys_alloc_range(crash_size, CRASH_ALIGN, crash_base,
->>>>  						  crash_base + crash_size);
->>>>  		if (start != crash_base) {
->>>>  			pr_info("crashkernel reservation failed - memory is in use.\n");
->>> There is a small functional change here for x86. Prior to this patch,
->>> crash_base passed by the user on the command line is allowed to be 1MB
->>> aligned. With this patch, such reservation will fail.
->>>
->>> Is the current behaviour a bug in the current x86 code or it does allow
->>> 1MB-aligned reservations?
->> Hmm, you are right. Here we should keep 1MB alignment as is because
->> users specify the address and size, their intention should be respected.
->> The 1MB alignment for fixed memory region reservation was introduced in
->> below commit, but it doesn't tell what is Eric's request at that time, I
->> guess it meant respecting users' specifying.
+Changelog
+---------
+v4 -> v5:
+	- Remove the check of enable device in pcim_alloc_irq_vectors()
+	  and make it as a static line function.
+	- Modify the subject name in patch 3 and patch 4.
+v3 -> v4:
+	- add some commit comments for patch 3
+v2 -> v3:
+	- Add some commit comments for replace some codes in
+	  pcim_release() by pci_free_irq_vectors().
+	- Simplify the error handling path in i2c designware
+	  driver.
+v1 -> v2:
+	- Use pci_free_irq_vectors() to replace some code in
+	  pcim_release().
+	- Modify some commit messages.
 
+Dejin Zheng (4):
+  PCI: Introduce pcim_alloc_irq_vectors()
+  Documentation: devres: Add pcim_alloc_irq_vectors()
+  i2c: designware: Use pcim_alloc_irq_vectors() to allocate IRQ vectors
+  i2c: thunderx: Use pcim_alloc_irq_vectors() to allocate IRQ vectors
 
-> I think we could make the alignment unified. Why is the alignment system reserved and
-> user specified different? Besides, there is no document about the 1MB alignment.
-> How about adding the alignment size(16MB) in doc  if user specified
-> start address as arm64 does.
+ .../driver-api/driver-model/devres.rst        |  1 +
+ drivers/i2c/busses/i2c-designware-pcidrv.c    | 15 ++++--------
+ drivers/i2c/busses/i2c-thunderx-pcidrv.c      |  2 +-
+ drivers/pci/pci.c                             |  5 +---
+ include/linux/pci.h                           | 24 +++++++++++++++++++
+ 5 files changed, 31 insertions(+), 16 deletions(-)
 
-Looking at what the code is doing.  Attempting to reserve a crash region
-at the location the user specified.  Adding unnecessary alignment
-constraints is totally broken. 
+-- 
+2.25.0
 
-I am not even certain enforcing a 1MB alignment makes sense.  I suspect
-it was added so that we don't accidentally reserve low memory on x86.
-Frankly I am not even certain that makes sense.
-
-Now in practice there might be an argument for 2MB alignment that goes
-with huge page sizes on x86.  But until someone finds that there are
-actual problems with 1MB alignment I would not touch it.
-
-The proper response to something that isn't documented and confusing is
-not to arbitrarily change it and risk breaking users.  Especially in
-this case where it is clear that adding additional alignment is total
-nonsense.  The proper response to something that isn't clear and
-documented is to dig in and document it, or to leave it alone and let it
-be the next persons problem.
-
-In this case there is no reason for changing this bit of code.
-All CRASH_ALIGN is about is a default alignment when none is specified.
-It is not a functional requirement but just something so that things
-come out nicely.
-
-
-Eric
