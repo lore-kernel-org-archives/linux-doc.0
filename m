@@ -2,123 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFA6DC433E9
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 14:30:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46987C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 15:23:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72C6D64E28
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 14:30:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA5E464EC4
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Feb 2021 15:23:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230106AbhBZOaX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Feb 2021 09:30:23 -0500
-Received: from mxout70.expurgate.net ([91.198.224.70]:41345 "EHLO
-        mxout70.expurgate.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229949AbhBZOaW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 09:30:22 -0500
-X-Greylist: delayed 450 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Feb 2021 09:30:20 EST
-Received: from [127.0.0.1] (helo=localhost)
-        by relay.expurgate.net with smtp (Exim 4.92)
-        (envelope-from <ms@dev.tdt.de>)
-        id 1lFdzG-000FB0-Ps; Fri, 26 Feb 2021 15:20:58 +0100
-Received: from [195.243.126.94] (helo=securemail.tdt.de)
-        by relay.expurgate.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ms@dev.tdt.de>)
-        id 1lFdzF-000PO6-IK; Fri, 26 Feb 2021 15:20:57 +0100
-Received: from securemail.tdt.de (localhost [127.0.0.1])
-        by securemail.tdt.de (Postfix) with ESMTP id B884A240041;
-        Fri, 26 Feb 2021 15:20:56 +0100 (CET)
-Received: from mail.dev.tdt.de (unknown [10.2.4.42])
-        by securemail.tdt.de (Postfix) with ESMTP id 12F2E240040;
-        Fri, 26 Feb 2021 15:20:56 +0100 (CET)
-Received: from mail.dev.tdt.de (localhost [IPv6:::1])
-        by mail.dev.tdt.de (Postfix) with ESMTP id 7E2A4200E1;
-        Fri, 26 Feb 2021 15:20:55 +0100 (CET)
+        id S230099AbhBZPXG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Feb 2021 10:23:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34774 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229989AbhBZPXE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Feb 2021 10:23:04 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AB6BC061574;
+        Fri, 26 Feb 2021 07:22:23 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id f8so5467137plg.5;
+        Fri, 26 Feb 2021 07:22:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=N+8bSP4jmKRK45sk0elNZOZAzDCg0/KrbuIhk6AYYpI=;
+        b=of6GrdclCGu6wWKR3lfeZTkk193cw4Pc/er951ZhLuVJbFJ+Q4X8ib+ietQkvWsuEg
+         V7Mn/cpu1wKOZpPuAIlLcXKCu142LRz0FezFPS+CZkcmjOYofO1MpCdPmS+3hqb1k0pE
+         Tq3VHW7wcuTh4y1GeinZeoFlSRqFhwbrvxoFNdcHE8/6AhjOss2yS+ltfOxQ8for4sr1
+         xfqqFbK4IUnq2ZiKZNXlNY1VjmWsKbmHrXk84zvGxhgqw7P2janJ4zGkhN4bXXNjo5II
+         TrXvgZW0/JxUebyaCNZKD0YM/N3mnvxTYMZQKN29/MVecbOnHIF9SX1SUQqHEFO9hn9z
+         sB/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=N+8bSP4jmKRK45sk0elNZOZAzDCg0/KrbuIhk6AYYpI=;
+        b=JLTasXmVvehLKnj49qjNbFZYDzxfoF4MVQnCaHmIvJ6beYlb8+6C9RxklQyGGVFop/
+         CDvt623ZP7F0cgpLikfZjkUCxPaFBVOhmFAzIaYo3ATot8P+Fp5rcPYMfu3U6JZsk0q/
+         SiaPz7zkUfQMWdy6q6zEKWPPgTgP+dbaHIAIFJJ8g0N7MCETwBTR5fhkVMRBmQEYu/Fw
+         ZphGeCe3ePFMNeWeRZ56eIiYg8CcvJoBcHkaiit/NZ/lIJuzzWY6aZfcHw+6xohsWEWe
+         NmX1aeHuJc/v08355F2ZyYXKKngJdEcw0+9nIN4vnydYuOLgn2xm03b3+oiVPSigWaiC
+         gsVQ==
+X-Gm-Message-State: AOAM532JUqVXP9lV0w3o4PCPQUdnZ8cAQZ7FtMtslJgEtPQ32Fyi7NSx
+        SQJy3pRYLGJdhcJQsXzscKh1NrZ1pOGh4g==
+X-Google-Smtp-Source: ABdhPJxhJNQFy77Bza8Jh3C1dv53eJTpmV0dwial77CDPlDY1jQvGL2YNRo4nRBr0bPrIAP1L7+nbw==
+X-Received: by 2002:a17:90a:13c1:: with SMTP id s1mr3878764pjf.60.1614352942649;
+        Fri, 26 Feb 2021 07:22:22 -0800 (PST)
+Received: from localhost (89.208.244.53.16clouds.com. [89.208.244.53])
+        by smtp.gmail.com with ESMTPSA id gm13sm9401596pjb.47.2021.02.26.07.22.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Feb 2021 07:22:22 -0800 (PST)
+Date:   Fri, 26 Feb 2021 23:22:20 +0800
+From:   Dejin Zheng <zhengdejin5@gmail.com>
+To:     Robert Richter <rric@kernel.org>
+Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        bhelgaas@google.com, wsa@kernel.org, linux-doc@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] PCI: Introduce pcim_alloc_irq_vectors()
+Message-ID: <20210226152220.GA1053401@nuc8i5>
+References: <20210218150458.798347-1-zhengdejin5@gmail.com>
+ <20210218150458.798347-2-zhengdejin5@gmail.com>
+ <YC/NxfsQn2RKkrp8@rric.localdomain>
+ <20210219164649.GA814637@nuc8i5>
+ <YDONyMSHO9FDeY69@rric.localdomain>
+ <20210222151415.GA896979@nuc8i5>
+ <YDS2rkJu7PTJJiZr@rric.localdomain>
+ <20210223141435.GA912403@nuc8i5>
+ <YDdvAYLckBHi7qSe@rric.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Fri, 26 Feb 2021 15:20:55 +0100
-From:   Martin Schiller <ms@dev.tdt.de>
-To:     Xie He <xie.he.0141@gmail.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
-        Leon Romanovsky <leon@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Linux X25 <linux-x25@vger.kernel.org>,
-        Linux Kernel Network Developers <netdev@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Krzysztof Halasa <khc@pm.waw.pl>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB frames
-Organization: TDT AG
-In-Reply-To: <CAJht_EPBJhhdCBoon=WMuPBk-sxaeYOq3veOpAd2jq5kFqQHBg@mail.gmail.com>
-References: <20210216201813.60394-1-xie.he.0141@gmail.com>
- <YC4sB9OCl5mm3JAw@unreal>
- <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com>
- <YC5DVTHHd6OOs459@unreal>
- <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
- <YC7GHgYfGmL2wVRR@unreal>
- <CAJht_EPZ7rVFd-XD6EQD2VJTDtmZZv0HuZvii+7=yhFgVz68VQ@mail.gmail.com>
- <CAJht_EPPMhB0JTtjWtMcGbRYNiZwJeMLWSC5hS6WhWuw5FgZtg@mail.gmail.com>
- <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <CAJht_EOru3pW6AHN4QVjiaERpLSfg-0G0ZEaqU_hkhX1acv0HQ@mail.gmail.com>
- <906d8114f1965965749f1890680f2547@dev.tdt.de>
- <CAJht_EPBJhhdCBoon=WMuPBk-sxaeYOq3veOpAd2jq5kFqQHBg@mail.gmail.com>
-Message-ID: <e1750da4179aca52960703890e985af3@dev.tdt.de>
-X-Sender: ms@dev.tdt.de
-User-Agent: Roundcube Webmail/1.3.16
-X-purgate-type: clean
-X-purgate: clean
-X-purgate-ID: 151534::1614349258-000052FF-44B5BAFB/0/0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YDdvAYLckBHi7qSe@rric.localdomain>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-02-22 09:56, Xie He wrote:
-> On Sun, Feb 21, 2021 at 11:14 PM Martin Schiller <ms@dev.tdt.de> wrote:
->> 
->> I'm not really happy with this change because it breaks compatibility.
->> We then suddenly have 2 interfaces; the X.25 routings are to be set 
->> via
->> the "new" hdlc<x>_x25 interfaces instead of the hdlc<x> interfaces.
->> 
->> I currently just don't have a nicer solution to fix this queueing
->> problem either. On the other hand, since the many years we have been
->> using the current state, I have never noticed any problems with
->> discarded frames. So it might be more a theoretical problem than a
->> practical one.
+On Thu, Feb 25, 2021 at 10:33:53AM +0100, Robert Richter wrote:
+> On 23.02.21 22:14:35, Dejin Zheng wrote:
+> > On Tue, Feb 23, 2021 at 09:02:54AM +0100, Robert Richter wrote:
+> > > On 22.02.21 23:14:15, Dejin Zheng wrote:
+> > > > On Mon, Feb 22, 2021 at 11:56:08AM +0100, Robert Richter wrote:
+> > > > > On 20.02.21 00:46:49, Dejin Zheng wrote:
+> > > > > > > On 18.02.21 23:04:55, Dejin Zheng wrote:
+> > > > > 
+> > > > > > > > +	if (!dr || !dr->enabled)
+> > > > > > here checks whether the pci device is enabled.
+> > > > > 
+> > > > > What is the purpose of this? The device "is_managed" or not.
+> > > > >
+> > > > The device is managed or not by check whether "dr" is NULL. And
+> > > > check the "dr->enabled" is for the PCI device enable. I think it
+> > > > may not make sense to apply for irq vectors when PCI device is not
+> > > > enabled.
+> > > 
+> > > I don't see how a disabled device affects in any way the release of
+> > > the irq vectors during device removal. dr is always non-null in case
+> > > the device is managed, a check isn't needed for that.
+> > >
+> > Yes, the disabled device does not affect release irq vectors, But
+> > the disabled device affects apply for irq vectors, It is wrong to apply
+> > for the irq vectors when the device is not enabled.
 > 
-> This problem becomes very serious when we use AF_PACKET sockets,
-> because the majority of frames would be dropped by the hardware
-> driver, which significantly impacts transmission speed. What I am
-> really doing is to enable adequate support for AF_PACKET sockets,
-> allowing users to use the bare (raw) LAPB protocol. If we take this
-> into consideration, this problem is no longer just a theoretical
-> problem, but a real practical issue.
-
-I have now had a look at it. It works as expected.
-I just wonder if it would not be more appropriate to call
-the lapb_register() already in x25_hdlc_open(), so that the layer2
-(lapb) can already "work" before the hdlc<x>_x25 interface is up.
-
-
-Also, I have a hard time assessing if such a wrap is really enforceable.
-Unfortunately I have no idea how many users there actually are.
-
-
+> What is the scenario you have in mind here? What does happen then?
+> The typical use case is to pcim_enable_device() it and then add the
+> irq vectors. It is always enabled then.
 > 
-> If we don't want to break backward compatibility, there is another 
-> option:
-> We can create a new API for the HDLC subsystem for stopping/restarting
-> the TX queue, and replace all HDLC hardware drivers' netif_stop_queue
-> and netif_wake_queue calls with calls to this new API. This new API
-> would then call hdlc_x25 to stop/restart its internal queue.
+> Even if the device could wrongly be disabled, it does not affect the
+> device's release.
 > 
-> But this option would require modifying all HDLC hardware drivers'
-> code, and frankly, not all HDLC hardware drivers' developers care
-> about running X.25 protocols on their hardware. So this would cause
-> both hardware driver instabilities and confusion for hardware driver
-> developers.
+> Also, how is this related to pcim? There isn't a check in
+> pci_alloc_irq_vectors() either for that case. 
+> 
+> > Add this check can
+> > facilitate developers to find problems as soon as possible.
+> 
+> No, there are many ways to shoot yourself in the foot. We cannot add
+> checks here and there for this, esp. at runtime. If there is a valid
+> reason that the device must always be enabled and we cannot assume
+> this is the case, then we could add a WARN_ON(). But I doubt that.
+>
+Robert, You are right, I will remove the enable check. Thanks!
+
+BR,
+Dejin
+> -Robert
