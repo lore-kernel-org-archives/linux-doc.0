@@ -8,29 +8,29 @@ X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FD76C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Feb 2021 17:51:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27D09C433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Feb 2021 18:07:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 568CF64E84
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Feb 2021 17:51:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F02F064E46
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Feb 2021 18:07:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230188AbhB0RvW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 Feb 2021 12:51:22 -0500
-Received: from mout.gmx.net ([212.227.17.22]:56111 "EHLO mout.gmx.net"
+        id S230215AbhB0SG6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 Feb 2021 13:06:58 -0500
+Received: from mout.gmx.net ([212.227.17.20]:46827 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230228AbhB0RtT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 27 Feb 2021 12:49:19 -0500
+        id S230063AbhB0SFa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 27 Feb 2021 13:05:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1614448044;
-        bh=f9979xLEL4tmv6pKlArL8pZAWWrdLIZBJP+PfwGW+EA=;
+        s=badeba3b8450; t=1614448958;
+        bh=BUrFkJRdMorIGyPHZ/sn3asqSQHApToumYQiv4PUyts=;
         h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=PEfpJSrWfW5OtMBJy/Ndrlp0r9WTHCiowDVwsBHDbp8IN62jgDgdltM0uA/bw7zLm
-         bb6K2LtyFrHHP8eGnuWykAUc8C1KUzDxQj2azyHNsn3N1cmF8fgHVzDPA+Ru1ziIG5
-         JU3abbPUR75d2O5M15iPh25zV/FX+DkLHUUhrUQA=
+        b=c0FOR6fPgbSK7rkVNiSmZ1Z5GAnqKXApxUUhTg9gNC/PnTWd9gdZpxJT9NOIEzwji
+         CtwIM7QG6S1SHUQrpfa8zBRDYzakki+jYq8ztI6PElYh3llNXkjJfCeegLLzHsjieh
+         FnaE6SPuRD6akUDTTZmwG1k/gBrKTiZVgoL0Vb6Y=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
 Received: from localhost.localdomain ([83.52.229.153]) by mail.gmx.net
  (mrgmx104 [212.227.17.174]) with ESMTPSA (Nemesis) id
- 1MY6Cb-1lJUaB3DxN-00YTBq; Sat, 27 Feb 2021 18:19:10 +0100
+ 1MK3Rm-1lW4u01oEg-00LZ4l; Sat, 27 Feb 2021 19:02:38 +0100
 From:   John Wood <john.wood@gmx.com>
 To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
         Randy Dunlap <rdunlap@infradead.org>,
@@ -43,283 +43,375 @@ Cc:     John Wood <john.wood@gmx.com>,
         linux-security-module@vger.kernel.org,
         linux-kselftest@vger.kernel.org,
         kernel-hardening@lists.openwall.com
-Subject: [PATCH v5 5/8] security/brute: Mitigate a brute force attack
-Date:   Sat, 27 Feb 2021 16:30:10 +0100
-Message-Id: <20210227153013.6747-6-john.wood@gmx.com>
+Subject: [PATCH v5 7/8] Documentation: Add documentation for the Brute LSM
+Date:   Sat, 27 Feb 2021 16:30:12 +0100
+Message-Id: <20210227153013.6747-8-john.wood@gmx.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210227153013.6747-1-john.wood@gmx.com>
 References: <20210227153013.6747-1-john.wood@gmx.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:N9BKOY8hiGdBPHnQMaciOAbJcMHRrfanbEh/6b//IXbA/ZK30Qt
- GWzzwDIpksnfdMGLROP0Qf+owHixm9rLyGW74QMTaex4gWWyZjhWKmwR4tu9Flz8A7R6iZA
- zzyRVmqA5xFj6Wy4pIEYA4iNGQF5Wg1U6IDEm9x4hxidxG/nGRHMauakmZWTaOlgCY0KyC0
- 0j9kLkRX8qItyZF2WBicQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:kvcM7v1RJB8=:ZyWtjmJNago9BQpB3FrNaa
- 01Dl5EuDzCn/gy4qjeOE226hZlLr0IXrnSPiOB3ZqlVc+NPS5CaSGggIaGDJaFVVc6q4x2LXH
- ToSIUu9hrXJiyRCvogCq0V4rL+a54ahUJbT74tBNSCNVnvpdTDFfebeMRKmmHGfbs1ZqTnb5/
- V9eCa06h3G8fMPgyyHYptzCDGdsmoLp3afBBMcM8j0RG1XKRvUfbBDz52hS4C4FmU69GUpLmV
- 0H0CQyPhaWwrt9nh/PDPXH0NyTXfNMoJbcHGANy9kXxwQsyqUWp9R1OoPq0ZqUZLBli+zu6RW
- tMiBAxG6t1vGJUlSP5hZ24OxsfGWGDUXyrvDs5QJYxzUcRSH4+tG+u/uSX2mEUj2JSZZLE5dx
- m6p6LKKgSLC3sVDT3fX2LEXmd6PFS30jfaX/5/UrXqeASmmPW/NPfyFxBLtUFRVJWbZ268PeD
- aHJn0W5ExfOBuVrQ5pEXg+U9Co8q2VLuWBty/HS7spUmyVeBgEjqUILyjmLrbEwaUbVKMWEVb
- SY9LHkwchacf1QCrwdnDb6gq/QXP+rI8bipu4XLdGFq2Yt7iCqR3imN4j2ojdnghoGDxXTz3t
- s2Emzqb63vATDdLlSx9fSMmpARpiwFh6fHddig+r4up8x41+LwIEafeuZgMqkpn5ibaN4VzgT
- FBVoZXaG6M198wJtALpICKQ09csWEEnzJ9q2INRF9uh6CrW0Hh1QLbWy2HI4cPcabJsylj/u6
- dIt1vim6+8AM6TIGO6aqjgQSewA8hioT5o7bZWGeug6Ai6YwQnyz/tZRxB0HOGVAHB4Nn6vWn
- CDOn+yi+QOol8d0DFC4ReLg1X5C99m54qR4AmmJOWVEuk3lzJ3USIe8lUb61F6q3qdHAALli3
- 5Oy13eklyEMNaoYzU0BQ==
+X-Provags-ID: V03:K1:lgDBTFtAnDfrXI03PXITKePnX0sTM5BOZYhusvycVNJ9anmZQAq
+ E6XNkOyHnOXbG/h0J1S0fdEDTnagZ455otTbtEb9+V84gaRrWdRcarSJ1TPpLHg47mXeVOm
+ HU/OYKZdwKPVLAuSMpwAl7mlySnDq7/twkbgZeoA+MInl5IcifzHaws+RmBwGRIPbZROz81
+ 9EPxlJ24Wk22cFiYm/8kQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:9QeVEX4n87I=:53y8CTzNX4HW2oPzSES8ZS
+ WNsNyzo8B7ARXI9hxOjDyQeaeUOt29cWYp0jwrlkBlfu0klk/xRhz/uJ9DFr9dSD31uZLdcbO
+ ZmNElXOHeZ08ux+MZoD5Z91OkMMUegMZL5RyDbAoWmyekmI0sCAdj+w/nBJ4ncyd3jHxE9x/y
+ zrglSeXRImn63dU2DiQxbXkQKDszmxUnmL+xcUTohC0FPyO4Kug1HaOUI4Ix9gq9xFXFZh/G8
+ +kJabTgHhtavMx0UqltdELBJ4TYL6cUSkka5hjjW15FIFDINqETLybfTMajbZxlFB5D/fCwMT
+ JvPhkbrQCuURpNyrSLrUu+94A29Pcg1OL1+sW0PwWO9R507nOP4nA6Ln7vHaafNs0GO2bap5L
+ fozEOR/9yQ+NIH1k9aNp9NEsC4JVbLXDJkqENwZ4B+aJxXud9DfXsay2i3Qnc52oB4VWMQBAX
+ rwA3Dfg8kZ9OHKPJAigivD54HDKncujhpsEMwXXihANG8+t9iW/8sDEQrdZQd9OdY5zTQxnxa
+ sT0/HSAzZFnhKT2dGI/zGSP/Wb0AeaK3Jk9n6Vu8em+073tW1nF+jBiHqDZqVw9yqzyZrRHwU
+ ywWe6j+WIgOXQB6tGG5+IIGHRE/Eh+iCUskq1shc8TwkW8vy6Ve8yv4LOvG7IHy6VSZZHXYaw
+ uWwklSXU/oxixowL4/GGrzzRfniui8qIfSMH7Y6zT14i1vJ/pF0ctFK29rqjPV6Q49xziQljL
+ ak98beAkvqlyi9xlchTW1zeOCPuQ99mp+lNxmi7rxWC3jLUVh5VjIydYevWwjphReEOhlSKn+
+ x+BNwS/su9TlPh2ArbEOy2s39T+au1pDa2J/zveArlhZC52b+KjrTyAFGuivJJG92pOuxs2Og
+ DslPyd93rQmZ76lDA4Ig==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In order to mitigate a brute force attack all the offending tasks involved
-in the attack must be killed. In other words, it is necessary to kill all
-the tasks that share the fork and/or exec statistical data related to the
-attack. Moreover, if the attack happens through the fork system call, the
-processes that have the same group_leader that the current task (the task
-that has crashed) must be avoided since they are in the path to be killed.
-
-When the SIGKILL signal is sent to the offending tasks, the function
-"brute_kill_offending_tasks" will be called in a recursive way from the
-task_fatal_signal LSM hook due to a small crash period. So, to avoid kill
-again the same tasks due to a recursive call of this function, it is
-necessary to disable the attack detection for the involved hierarchies.
-
-To disable the attack detection, set to zero the last crash timestamp and
-avoid to compute the application crash period in this case.
+Add some info detailing what is the Brute LSM, its motivation, weak
+points of existing implementations, proposed solutions, enabling,
+disabling and self-tests.
 
 Signed-off-by: John Wood <john.wood@gmx.com>
 =2D--
- security/brute/brute.c | 141 ++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 132 insertions(+), 9 deletions(-)
+ Documentation/admin-guide/LSM/Brute.rst | 224 ++++++++++++++++++++++++
+ Documentation/admin-guide/LSM/index.rst |   1 +
+ security/brute/Kconfig                  |   3 +-
+ 3 files changed, 227 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/admin-guide/LSM/Brute.rst
 
-diff --git a/security/brute/brute.c b/security/brute/brute.c
-index 0a99cd4c3303..48b07d923ec7 100644
-=2D-- a/security/brute/brute.c
-+++ b/security/brute/brute.c
-@@ -22,6 +22,7 @@
- #include <linux/math64.h>
- #include <linux/netdevice.h>
- #include <linux/path.h>
-+#include <linux/pid.h>
- #include <linux/printk.h>
- #include <linux/refcount.h>
- #include <linux/rwlock.h>
-@@ -64,7 +65,7 @@ struct brute_cred {
-  * @lock: Lock to protect the brute_stats structure.
-  * @refc: Reference counter.
-  * @faults: Number of crashes.
-- * @jiffies: Last crash timestamp.
-+ * @jiffies: Last crash timestamp. If zero, the attack detection is disab=
-led.
-  * @period: Crash period's moving average.
-  * @saved_cred: Saved credentials.
-  * @network: Network activity flag.
-@@ -566,6 +567,125 @@ static inline void print_fork_attack_running(void)
- 	pr_warn("Fork brute force attack detected [%s]\n", current->comm);
- }
+diff --git a/Documentation/admin-guide/LSM/Brute.rst b/Documentation/admin=
+-guide/LSM/Brute.rst
+new file mode 100644
+index 000000000000..485966a610bb
+=2D-- /dev/null
++++ b/Documentation/admin-guide/LSM/Brute.rst
+@@ -0,0 +1,224 @@
++.. SPDX-License-Identifier: GPL-2.0
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Brute: Fork brute force attack detection and mitigation LSM
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++Attacks against vulnerable userspace applications with the purpose to bre=
+ak ASLR
++or bypass canaries traditionally use some level of brute force with the h=
+elp of
++the fork system call. This is possible since when creating a new process =
+using
++fork its memory contents are the same as those of the parent process (the
++process that called the fork system call). So, the attacker can test the =
+memory
++infinite times to find the correct memory values or the correct memory ad=
+dresses
++without worrying about crashing the application.
++
++Based on the above scenario it would be nice to have this detected and
++mitigated, and this is the goal of this implementation. Specifically the
++following attacks are expected to be detected:
++
++1.- Launching (fork()/exec()) a setuid/setgid process repeatedly until a
++    desirable memory layout is got (e.g. Stack Clash).
++2.- Connecting to an exec()ing network daemon (e.g. xinetd) repeatedly un=
+til a
++    desirable memory layout is got (e.g. what CTFs do for simple network
++    service).
++3.- Launching processes without exec() (e.g. Android Zygote) and exposing=
+ state
++    to attack a sibling.
++4.- Connecting to a fork()ing network daemon (e.g. apache) repeatedly unt=
+il the
++    previously shared memory layout of all the other children is exposed =
+(e.g.
++    kind of related to HeartBleed).
++
++In each case, a privilege boundary has been crossed:
++
++Case 1: setuid/setgid process
++Case 2: network to local
++Case 3: privilege changes
++Case 4: network to local
++
++So, what really needs to be detected are fork/exec brute force attacks th=
+at
++cross any of the commented bounds.
++
++
++Other implementations
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++The public version of grsecurity, as a summary, is based on the idea of d=
+elaying
++the fork system call if a child died due to some fatal signal (SIGSEGV, S=
+IGBUS,
++SIGKILL or SIGILL). This has some issues:
++
++Bad practices
++-------------
++
++Adding delays to the kernel is, in general, a bad idea.
++
++Scenarios not detected (false negatives)
++----------------------------------------
++
++This protection acts only when the fork system call is called after a chi=
+ld has
++crashed. So, it would still be possible for an attacker to fork a big amo=
+unt of
++children (in the order of thousands), then probe all of them, and finally=
+ wait
++the protection time before repeating the steps.
++
++Moreover, this method is based on the idea that the protection doesn't ac=
+t if
++the parent crashes. So, it would still be possible for an attacker to for=
+k a
++process and probe itself. Then, fork the child process and probe itself a=
+gain.
++This way, these steps can be repeated infinite times without any mitigati=
+on.
++
++Scenarios detected (false positives)
++------------------------------------
++
++Scenarios where an application rarely fails for reasons unrelated to a re=
+al
++attack.
++
++
++This implementation
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++The main idea behind this implementation is to improve the existing ones
++focusing on the weak points annotated before. Basically, the adopted solu=
+tion is
++to detect a fast crash rate instead of only one simple crash and to detec=
+t both
++the crash of parent and child processes. Also, fine tune the detection fo=
+cusing
++on privilege boundary crossing. And finally, as a mitigation method, kill=
+ all
++the offending tasks involved in the attack instead of using delays.
++
++To achieve this goal, and going into more details, this implementation is=
+ based
++on the use of some statistical data shared across all the processes that =
+can
++have the same memory contents. Or in other words, a statistical data shar=
+ed
++between all the fork hierarchy processes after an execve system call.
++
++The purpose of these statistics is, basically, collect all the necessary =
+info
++to compute the application crash period in order to detect an attack. Thi=
+s crash
++period is the time between the execve system call and the first fault or =
+the
++time between two consecutive faults, but this has a drawback. If an appli=
+cation
++crashes twice in a short period of time for some reason unrelated to a re=
+al
++attack, a false positive will be triggered. To avoid this scenario the
++exponential moving average (EMA) is used. This way, the application crash=
+ period
++will be a value that is not prone to change due to spurious data and foll=
+ows the
++real crash period.
++
++To detect a brute force attack it is necessary that the statistics shared=
+ by all
++the fork hierarchy processes be updated in every fatal crash and the most
++important data to update is the application crash period.
++
++There are two types of brute force attacks that need to be detected. The =
+first
++one is an attack that happens through the fork system call and the second=
+ one is
++an attack that happens through the execve system call. The first type use=
+s the
++statistics shared by all the fork hierarchy processes, but the second typ=
+e
++cannot use this statistical data due to these statistics dissapear when t=
+he
++involved tasks finished. In this last scenario the attack info should be =
+tracked
++by the statistics of a higher fork hierarchy (the hierarchy that contains=
+ the
++process that forks before the execve system call).
++
++Moreover, these two attack types have two variants. A slow brute force at=
+tack
++that is detected if a maximum number of faults per fork hierarchy is reac=
+hed and
++a fast brute force attack that is detected if the application crash perio=
+d falls
++below a certain threshold.
++
++Exponential moving average (EMA)
++--------------------------------
++
++This kind of average defines a weight (between 0 and 1) for the new value=
+ to add
++and applies the remainder of the weight to the current average value. Thi=
+s way,
++some spurious data will not excessively modify the average and only if th=
+e new
++values are persistent, the moving average will tend towards them.
++
++Mathematically the application crash period's EMA can be expressed as fol=
+lows:
++
++period_ema =3D period * weight + period_ema * (1 - weight)
++
++Related to the attack detection, the EMA must guarantee that not many cra=
+shes
++are needed. To demonstrate this, the scenario where an application has be=
+en
++running without any crashes for a month will be used.
++
++The period's EMA can be written now as:
++
++period_ema[i] =3D period[i] * weight + period_ema[i - 1] * (1 - weight)
++
++If the new crash periods have insignificant values related to the first c=
+rash
++period (a month in this case), the formula can be rewritten as:
++
++period_ema[i] =3D period_ema[i - 1] * (1 - weight)
++
++And by extension:
++
++period_ema[i - 1] =3D period_ema[i - 2] * (1 - weight)
++period_ema[i - 2] =3D period_ema[i - 3] * (1 - weight)
++period_ema[i - 3] =3D period_ema[i - 4] * (1 - weight)
++
++So, if the substitution is made:
++
++period_ema[i] =3D period_ema[i - 1] * (1 - weight)
++period_ema[i] =3D period_ema[i - 2] * pow((1 - weight) , 2)
++period_ema[i] =3D period_ema[i - 3] * pow((1 - weight) , 3)
++period_ema[i] =3D period_ema[i - 4] * pow((1 - weight) , 4)
++
++And in a more generic form:
++
++period_ema[i] =3D period_ema[i - n] * pow((1 - weight) , n)
++
++Where n represents the number of iterations to obtain an EMA value. Or in=
+ other
++words, the number of crashes to detect an attack.
++
++So, if we isolate the number of crashes:
++
++period_ema[i] / period_ema[i - n] =3D pow((1 - weight), n)
++log(period_ema[i] / period_ema[i - n]) =3D log(pow((1 - weight), n))
++log(period_ema[i] / period_ema[i - n]) =3D n * log(1 - weight)
++n =3D log(period_ema[i] / period_ema[i - n]) / log(1 - weight)
++
++Then, in the commented scenario (an application has been running without =
+any
++crashes for a month), the approximate number of crashes to detect an atta=
+ck
++(using the implementation values for the weight and the crash period thre=
+shold)
++is:
++
++weight =3D 7 / 10
++crash_period_threshold =3D 30 seconds
++
++n =3D log(crash_period_threshold / seconds_per_month) / log(1 - weight)
++n =3D log(30 / (30 * 24 * 3600)) / log(1 - 0.7)
++n =3D 9.44
++
++So, with 10 crashes for this scenario an attack will be detected. If thes=
+e steps
++are repeated for different scenarios and the results are collected:
++
++1 month without any crashes ----> 9.44 crashes to detect an attack
++1 year without any crashes -----> 11.50 crashes to detect an attack
++10 years without any crashes ---> 13.42 crashes to detect an attack
++
++However, this computation has a drawback. The first data added to the EMA=
+ not
++obtains a real average showing a trend. So the solution is simple, the EM=
+A needs
++a minimum number of data to be able to be interpreted. This way, the case=
+ where
++a few first faults are fast enough followed by no crashes is avoided.
++
++Per system enabling/disabling
++-----------------------------
++
++This feature can be enabled at build time using the CONFIG_SECURITY_FORK_=
+BRUTE
++option or using the visual config application under the following menu:
++
++Security options  --->  Fork brute force attack detection and mitigation
++
++Also, at boot time, this feature can be disable too, by changing the "lsm=
+=3D" boot
++parameter.
++
++Kernel selftests
++----------------
++
++To validate all the expectations about this implementation, there is a se=
+t of
++selftests. This tests cover fork/exec brute force attacks crossing the fo=
+llowing
++privilege boundaries:
++
++1.- setuid process
++2.- privilege changes
++3.- network to local
++
++Also, there are some tests to check that fork/exec brute force attacks wi=
+thout
++crossing any privilege boundariy already commented doesn't trigger the de=
+tection
++and mitigation stage.
++
++To build the tests:
++make -C tools/testing/selftests/ TARGETS=3Dbrute
++
++To run the tests:
++make -C tools/testing/selftests TARGETS=3Dbrute run_tests
++
++To package the tests:
++make -C tools/testing/selftests TARGETS=3Dbrute gen_tar
+diff --git a/Documentation/admin-guide/LSM/index.rst b/Documentation/admin=
+-guide/LSM/index.rst
+index a6ba95fbaa9f..1f68982bb330 100644
+=2D-- a/Documentation/admin-guide/LSM/index.rst
++++ b/Documentation/admin-guide/LSM/index.rst
+@@ -41,6 +41,7 @@ subdirectories.
+    :maxdepth: 1
 
-+/**
-+ * brute_disabled() - Test if the brute force attack detection is disable=
-d.
-+ * @stats: Statistical data shared by all the fork hierarchy processes.
-+ *
-+ * The brute force attack detection enabling/disabling is based on the la=
-st
-+ * crash timestamp. A zero timestamp indicates that this feature is disab=
-led. A
-+ * timestamp greater than zero indicates that the attack detection is ena=
-bled.
-+ *
-+ * The statistical data shared by all the fork hierarchy processes cannot=
- be
-+ * NULL.
-+ *
-+ * It's mandatory to disable interrupts before acquiring the brute_stats:=
-:lock
-+ * since the task_free hook can be called from an IRQ context during the
-+ * execution of the task_fatal_signal hook.
-+ *
-+ * Context: Must be called with interrupts disabled and brute_stats_ptr_l=
-ock
-+ *          held.
-+ * Return: True if the brute force attack detection is disabled. False
-+ *         otherwise.
-+ */
-+static bool brute_disabled(struct brute_stats *stats)
-+{
-+	bool disabled;
-+
-+	spin_lock(&stats->lock);
-+	disabled =3D !stats->jiffies;
-+	spin_unlock(&stats->lock);
-+
-+	return disabled;
-+}
-+
-+/**
-+ * brute_disable() - Disable the brute force attack detection.
-+ * @stats: Statistical data shared by all the fork hierarchy processes.
-+ *
-+ * To disable the brute force attack detection it is only necessary to se=
-t the
-+ * last crash timestamp to zero. A zero timestamp indicates that this fea=
-ture is
-+ * disabled. A timestamp greater than zero indicates that the attack dete=
-ction
-+ * is enabled.
-+ *
-+ * The statistical data shared by all the fork hierarchy processes cannot=
- be
-+ * NULL.
-+ *
-+ * Context: Must be called with interrupts disabled and brute_stats_ptr_l=
-ock
-+ *          and brute_stats::lock held.
-+ */
-+static inline void brute_disable(struct brute_stats *stats)
-+{
-+	stats->jiffies =3D 0;
-+}
-+
-+/**
-+ * enum brute_attack_type - Brute force attack type.
-+ * @BRUTE_ATTACK_TYPE_FORK: Attack that happens through the fork system c=
-all.
-+ * @BRUTE_ATTACK_TYPE_EXEC: Attack that happens through the execve system=
- call.
-+ */
-+enum brute_attack_type {
-+	BRUTE_ATTACK_TYPE_FORK,
-+	BRUTE_ATTACK_TYPE_EXEC,
-+};
-+
-+/**
-+ * brute_kill_offending_tasks() - Kill the offending tasks.
-+ * @attack_type: Brute force attack type.
-+ * @stats: Statistical data shared by all the fork hierarchy processes.
-+ *
-+ * When a brute force attack is detected all the offending tasks involved=
- in the
-+ * attack must be killed. In other words, it is necessary to kill all the=
- tasks
-+ * that share the same statistical data. Moreover, if the attack happens =
-through
-+ * the fork system call, the processes that have the same group_leader th=
-at the
-+ * current task must be avoided since they are in the path to be killed.
-+ *
-+ * When the SIGKILL signal is sent to the offending tasks, this function =
-will be
-+ * called again from the task_fatal_signal hook due to a small crash peri=
-od. So,
-+ * to avoid kill again the same tasks due to a recursive call of this fun=
-ction,
-+ * it is necessary to disable the attack detection for this fork hierarch=
-y.
-+ *
-+ * The statistical data shared by all the fork hierarchy processes cannot=
- be
-+ * NULL.
-+ *
-+ * It's mandatory to disable interrupts before acquiring the brute_stats:=
-:lock
-+ * since the task_free hook can be called from an IRQ context during the
-+ * execution of the task_fatal_signal hook.
-+ *
-+ * Context: Must be called with interrupts disabled and tasklist_lock and
-+ *          brute_stats_ptr_lock held.
-+ */
-+static void brute_kill_offending_tasks(enum brute_attack_type attack_type=
-,
-+				       struct brute_stats *stats)
-+{
-+	struct task_struct *p;
-+	struct brute_stats **p_stats;
-+
-+	spin_lock(&stats->lock);
-+
-+	if (attack_type =3D=3D BRUTE_ATTACK_TYPE_FORK &&
-+	    refcount_read(&stats->refc) =3D=3D 1) {
-+		spin_unlock(&stats->lock);
-+		return;
-+	}
-+
-+	brute_disable(stats);
-+	spin_unlock(&stats->lock);
-+
-+	for_each_process(p) {
-+		if (attack_type =3D=3D BRUTE_ATTACK_TYPE_FORK &&
-+		    p->group_leader =3D=3D current->group_leader)
-+			continue;
-+
-+		p_stats =3D brute_stats_ptr(p);
-+		if (*p_stats !=3D stats)
-+			continue;
-+
-+		do_send_sig_info(SIGKILL, SEND_SIG_PRIV, p, PIDTYPE_PID);
-+		pr_warn_ratelimited("Offending process %d [%s] killed\n",
-+				    p->pid, p->comm);
-+	}
-+}
-+
- /**
-  * brute_manage_fork_attack() - Manage a fork brute force attack.
-  * @stats: Statistical data shared by all the fork hierarchy processes.
-@@ -581,8 +701,8 @@ static inline void print_fork_attack_running(void)
-  * since the task_free hook can be called from an IRQ context during the
-  * execution of the task_fatal_signal hook.
-  *
-- * Context: Must be called with interrupts disabled and brute_stats_ptr_l=
-ock
-- *          held.
-+ * Context: Must be called with interrupts disabled and tasklist_lock and
-+ *          brute_stats_ptr_lock held.
-  * Return: The last crash timestamp before updating it.
-  */
- static u64 brute_manage_fork_attack(struct brute_stats *stats, u64 now)
-@@ -590,8 +710,10 @@ static u64 brute_manage_fork_attack(struct brute_stat=
-s *stats, u64 now)
- 	u64 last_fork_crash;
+    apparmor
++   Brute
+    LoadPin
+    SELinux
+    Smack
+diff --git a/security/brute/Kconfig b/security/brute/Kconfig
+index 1bd2df1e2dec..334d7e88d27f 100644
+=2D-- a/security/brute/Kconfig
++++ b/security/brute/Kconfig
+@@ -7,6 +7,7 @@ config SECURITY_FORK_BRUTE
+ 	  vulnerable userspace processes. The detection method is based on
+ 	  the application crash period and as a mitigation procedure all the
+ 	  offending tasks are killed. Like capabilities, this security module
+-	  stacks with other LSMs.
++	  stacks with other LSMs. Further information can be found in
++	  Documentation/admin-guide/LSM/Brute.rst.
 
- 	last_fork_crash =3D brute_update_crash_period(stats, now);
--	if (brute_attack_running(stats))
-+	if (brute_attack_running(stats)) {
- 		print_fork_attack_running();
-+		brute_kill_offending_tasks(BRUTE_ATTACK_TYPE_FORK, stats);
-+	}
-
- 	return last_fork_crash;
- }
-@@ -778,8 +900,10 @@ static void brute_manage_exec_attack(struct brute_sta=
-ts *stats, u64 now,
- 	if (fork_period =3D=3D exec_period)
- 		return;
-
--	if (brute_attack_running(exec_stats))
-+	if (brute_attack_running(exec_stats)) {
- 		print_exec_attack_running(exec_stats);
-+		brute_kill_offending_tasks(BRUTE_ATTACK_TYPE_EXEC, exec_stats);
-+	}
- }
-
- /**
-@@ -895,10 +1019,9 @@ static void brute_task_fatal_signal(const kernel_sig=
-info_t *siginfo)
- 	read_lock(&tasklist_lock);
- 	read_lock_irqsave(&brute_stats_ptr_lock, flags);
-
--	if (WARN(!*stats, "No statistical data\n"))
--		goto unlock;
--
--	if (!brute_threat_model_supported(siginfo, *stats))
-+	if (WARN(!*stats, "No statistical data\n") ||
-+	    brute_disabled(*stats) ||
-+	    !brute_threat_model_supported(siginfo, *stats))
- 		goto unlock;
-
- 	last_fork_crash =3D brute_manage_fork_attack(*stats, now);
+ 	  If you are unsure how to answer this question, answer N.
 =2D-
 2.25.1
 
