@@ -2,262 +2,615 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_SANE_1,WEIRD_QUOTING
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D37FAC433E0
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Feb 2021 05:41:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B928C433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Feb 2021 06:36:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D7E964E01
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Feb 2021 05:41:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4716264E21
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Feb 2021 06:36:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230075AbhB1Fli (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Feb 2021 00:41:38 -0500
-Received: from m32-153.88.com ([43.250.32.153]:27570 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229610AbhB1Flh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 28 Feb 2021 00:41:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=0IU7nk0PizpZ4XbzXVCT1R/Ord9WSB/qSGb5z
-        ijQaxk=; b=bPwkt3MSkziHkjko5zVM0QjobxFUxlxO2qmsATXT6IMtQ16U0phTy
-        dEjTQHSOuSJgJs4WukvWEYMf9AcCnUdHQBjC/3TQ/Eyo5wYfp7c8MxtWrVU7jXge
-        TBbAcp3ANeeFJs+ony4a2ulL6OtUnYwMYG8VEP0cQfaXpN9pQAqbZs=
-Received: from mipc (unknown [120.238.248.239])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAXoiLTLDtgnC4OAA--.28932S2;
-        Sun, 28 Feb 2021 13:40:37 +0800 (CST)
-Date:   Sun, 28 Feb 2021 13:40:35 +0800
-From:   Wu XiangCheng <bobwxc@email.cn>
-To:     alex.shi@linux.alibaba.com
-Cc:     harryxiyou@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: [PATCH v2 8/9] docs/zh_CN: Improve zh_CN/process/7.AdvancedTopics
-Message-ID: <9e36fadfc1852b92c5dfe921bd446bc2c8e69aa9.1614488009.git.bobwxc@email.cn>
-References: <cover.1614488009.git.bobwxc@email.cn>
+        id S230422AbhB1GgW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Feb 2021 01:36:22 -0500
+Received: from mga09.intel.com ([134.134.136.24]:58906 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230415AbhB1GgR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 28 Feb 2021 01:36:17 -0500
+IronPort-SDR: Ekm0uY9IRW3tZlvAwP5aHdkycw3BNmrs4+iI/ImZ6I2hbZmeMOhIPdWGjxej7ZkF3yMifL+4x3
+ eBi1QttHpmEg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9908"; a="186323892"
+X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; 
+   d="scan'208";a="186323892"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2021 22:33:09 -0800
+IronPort-SDR: jsNOyT7QMIz0ZuXZh7tFfksP+Bp2QdUH3k8ISyKop50HKE2zIlaqHZahAwEQdW7cNI24iEUzvT
+ Pi2CNVNUXk/A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,211,1610438400"; 
+   d="scan'208";a="517029698"
+Received: from otc-wp-03.jf.intel.com ([10.54.39.79])
+  by orsmga004.jf.intel.com with ESMTP; 27 Feb 2021 22:33:09 -0800
+From:   Jacob Pan <jacob.jun.pan@linux.intel.com>
+To:     LKML <linux-kernel@vger.kernel.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        "Lu Baolu" <baolu.lu@linux.intel.com>,
+        David Woodhouse <dwmw2@infradead.org>,
+        iommu@lists.linux-foundation.org, cgroups@vger.kernel.org,
+        Tejun Heo <tj@kernel.org>, Li Zefan <lizefan@huawei.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Jean-Philippe Brucker <jean-philippe@linaro.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Eric Auger <eric.auger@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Raj Ashok <ashok.raj@intel.com>,
+        "Tian, Kevin" <kevin.tian@intel.com>, Yi Liu <yi.l.liu@intel.com>,
+        Wu Hao <hao.wu@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        linux-doc@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH V4 01/18] docs: Document IO Address Space ID (IOASID) APIs
+Date:   Sat, 27 Feb 2021 14:01:09 -0800
+Message-Id: <1614463286-97618-2-git-send-email-jacob.jun.pan@linux.intel.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
+References: <1614463286-97618-1-git-send-email-jacob.jun.pan@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1614488009.git.bobwxc@email.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgAXoiLTLDtgnC4OAA--.28932S2
-X-Coremail-Antispam: 1UD129KBjvAXoW3ZF1UZr1UCr1kGw1UXrW8Zwb_yoW8ArW3Go
-        WYka1Sqw1kJ3y2qa1Ygws5GF9rurnYkF4fAws8GFnxAF1UGw1Fv3WkXrsxZrn093s0kF15
-        J3yrGFWfWF45AFy3n29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUU537k0a2IF6F4UM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
-        0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
-        IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vE
-        x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
-        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
-        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41l42xK82IYc2Ij64vIr41l42
-        xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
-        14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIx
-        kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAF
-        wI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
-        4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0zR_Oz3U
-        UUUU=
-X-Originating-IP: [120.238.248.239]
-X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Improve language and grammar of zh_CN/process/7.AdvancedTopics.rst
+IOASID is used to identify address spaces that can be targeted by device
+DMA. It is a system-wide resource that is essential to its many users.
+This document is an attempt to help developers from all vendors navigate
+the APIs. At this time, ARM SMMU and Intel’s Scalable IO Virtualization
+(SIOV) enabled platforms are the primary users of IOASID. Examples of
+how SIOV components interact with the IOASID APIs are provided.
 
-Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
+Signed-off-by: Wu Hao <hao.wu@intel.com>
+Signed-off-by: Jacob Pan <jacob.jun.pan@linux.intel.com>
 ---
- .../zh_CN/process/7.AdvancedTopics.rst        | 121 ++++++++++--------
- 1 file changed, 65 insertions(+), 56 deletions(-)
+ Documentation/driver-api/index.rst  |   1 +
+ Documentation/driver-api/ioasid.rst | 510 ++++++++++++++++++++++++++++
+ 2 files changed, 511 insertions(+)
+ create mode 100644 Documentation/driver-api/ioasid.rst
 
-diff --git a/Documentation/translations/zh_CN/process/7.AdvancedTopics.rst b/Documentation/translations/zh_CN/process/7.AdvancedTopics.rst
-index 2f0ef750746f..00a7f87e1b9c 100644
---- a/Documentation/translations/zh_CN/process/7.AdvancedTopics.rst
-+++ b/Documentation/translations/zh_CN/process/7.AdvancedTopics.rst
-@@ -1,7 +1,14 @@
- .. include:: ../disclaimer-zh_CN.rst
- 
- :Original: :ref:`Documentation/process/7.AdvancedTopics.rst <development_advancedtopics>`
--:Translator: Alex Shi <alex.shi@linux.alibaba.com>
+diff --git a/Documentation/driver-api/index.rst b/Documentation/driver-api/index.rst
+index 2456d0a97ed8..baeec308cf2c 100644
+--- a/Documentation/driver-api/index.rst
++++ b/Documentation/driver-api/index.rst
+@@ -37,6 +37,7 @@ available subsections can be seen below.
+    pci/index
+    spi
+    i2c
++   ioasid
+    ipmb
+    ipmi
+    i3c/index
+diff --git a/Documentation/driver-api/ioasid.rst b/Documentation/driver-api/ioasid.rst
+new file mode 100644
+index 000000000000..f3ed5bf43fa6
+--- /dev/null
++++ b/Documentation/driver-api/ioasid.rst
+@@ -0,0 +1,510 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. ioasid:
 +
-+:Translator:
++=====================
++ IO Address Space ID
++=====================
 +
-+ 时奎亮 Alex Shi <alex.shi@linux.alibaba.com>
++IOASIDs are used to identify virtual address spaces that DMA requests can
++target. It is a generic name for PCIe Process Address ID (PASID) or
++SubstreamID defined by ARM's SMMU.
 +
-+:校译:
++The primary use cases for IOASIDs are Shared Virtual Address (SVA) and
++IO Virtual Address (IOVA) when multiple address spaces per device are
++desired. Due to hardware architectural differences the requirements for
++IOASID management can vary in terms of namespace, state management, and
++virtualization usages.
 +
-+ 吴想成 Wu XiangCheng <bobwxc@email.cn>
- 
- .. _cn_development_advancedtopics:
- 
-@@ -15,110 +22,112 @@
- ---------------
- 
- 内核使用分布式版本控制始于2002年初，当时Linus首次开始使用专有的Bitkeeper应用
--程序。虽然bitkeeper存在争议，但它所体现的软件版本管理方法却肯定不是。分布式
--版本控制可以立即加速内核开发项目。在当前的时代，有几种免费的比特保持器替代品。
--无论好坏，内核项目都将Git作为其选择的工具。
-+程序。虽然BitKeeper存在争议，但它所体现的软件版本管理方法却肯定不是。分布式
-+版本控制可以立即加速内核开发项目。现在有好几种免费的BitKeeper替代品。
-+但无论好坏，内核项目都已经选择了Git作为其工具。
- 
--使用Git管理补丁可以使开发人员的生活更加轻松，尤其是随着补丁数量的增加。Git
--也有其粗糙的边缘和一定的危险，它是一个年轻和强大的工具，仍然在其开发人员完善
-+使用Git管理补丁可以使开发人员的生活更加轻松，尤其是随着补丁数量的增长。Git
-+也有其粗糙的边角和一定的危险性，它是一个年轻和强大的工具，仍然在其开发人员完善
- 中。本文档不会试图教会读者如何使用git；这会是个巨长的文档。相反，这里的重点
--将是Git如何特别适合内核开发过程。想要加快Git的开发人员可以在以下网站上找到
--更多信息：
-+将是Git如何特别适合内核开发过程。想要加快用Git速度的开发人员可以在以下网站上
-+找到更多信息：
- 
- 	https://git-scm.com/
- 
- 	https://www.kernel.org/pub/software/scm/git/docs/user-manual.html
- 
--在尝试使用它使补丁可供其他人使用之前，第一要务是阅读上述站点，对Git的工作
--方式有一个扎实的了解。使用Git的开发人员应该能够获得主线存储库的副本，探索
--修订历史，提交对树的更改，使用分支等。了解Git用于重写历史的工具（如Rebase）
--也很有用。Git有自己的术语和概念；Git的新用户应该了解refs、远程分支、索引、
--快进合并、推拉、分离头等。一开始可能有点吓人，但这些概念不难通过一点学习来
-+同时网上也能找到各种各样的教程。
++The IOASID subsystem consists of three components:
 +
-+在尝试使用它生成补丁供他人使用之前，第一要务是阅读上述网页，对Git的工作
-+方式有一个扎实的了解。使用Git的开发人员应能进行拉取主线存储库的副本，查询
-+修订历史，提交对树的更改，使用分支等操作。了解Git用于重写历史的工具（如rebase）
-+也很有用。Git有自己的术语和概念；Git的新用户应该了解引用、远程分支、索引、
-+快进合并、推拉、游离头等。一开始可能有点吓人，但这些概念不难通过一点学习来
- 理解。
- 
- 使用git生成通过电子邮件提交的补丁是提高速度的一个很好的练习。
- 
--当您准备好开始安装Git树供其他人查看时，您当然需要一个可以从中提取的服务器。
--如果您有一个可以访问Internet的系统，那么使用git守护进程设置这样的服务器相
--对简单。否则，免费的公共托管网站（例如github）开始出现在网络上。成熟的开发
--人员可以在kernel.org上获得一个帐户，但这些帐户并不容易找到；有关更多信息，
--请参阅 https://kernel.org/faq/
-+当您准备好开始建立Git树供其他人查看时，无疑需要一个可以从中拉取的服务器。
-+如果您有一个可以访问因特网的系统，那么使用git-daemon设置这样的服务器相
-+对简单。同时，免费的公共托管网站（例如github）也开始出现在网络上。成熟的开发
-+人员可以在kernel.org上获得一个帐户，但这些帐户并不容易得到；更多有关信息，
-+请参阅 https://kernel.org/faq/ 。
- 
- 正常的Git工作流程涉及到许多分支的使用。每一条开发线都可以分为单独的“主题
--分支”，并独立维护。Git的分支机构很便宜，没有理由不免费使用它们。而且，在
--任何情况下，您都不应该在任何您打算让其他人从中受益的分支中进行开发。应该
--小心地创建公开可用的分支；当它们处于完整的形式并准备好运行时(而不是之前），
-+分支”，并独立维护。Git的分支很容易使用，没有理由不使用它们。而且，在
-+任何情况下，您都不应该在任何您打算让其他人从中拉取的分支中进行开发。应该
-+小心地创建公开可用的分支；当开发分支处于完整状态并已准备好时(而不是之前）才
- 合并开发分支的补丁。
- 
- Git提供了一些强大的工具，可以让您重写开发历史。一个不方便的补丁（比如说，
- 一个打破二分法的补丁，或者有其他一些明显的缺陷）可以在适当的位置修复，或者
--完全从历史中消失。一个补丁系列可以被重写，就好像它是在今天的主线之上写的
-+完全从历史中消失。一个补丁系列可以被重写，就好像它是在今天的主线上写的
- 一样，即使你已经花了几个月的时间在写它。可以透明地将更改从一个分支转移到另
- 一个分支。等等。明智地使用git修改历史的能力可以帮助创建问题更少的干净补丁集。
- 
--然而，过度使用这种能力可能会导致其他问题，而不仅仅是对创建完美项目历史的
--简单痴迷。重写历史将重写该历史中包含的更改，将经过测试（希望）的内核树变
--为未经测试的内核树。但是，除此之外，如果开发人员没有对项目历史的共享视图，
-+然而，过度使用这种功能可能会导致其他问题，而不仅仅是对创建完美项目历史的
-+简单痴迷。重写历史将重写该历史中包含的更改，将经过测试（希望如此）的内核树
-+变为未经测试的内核树。除此之外，如果开发人员没有共享项目历史，
- 他们就无法轻松地协作；如果您重写了其他开发人员拉入他们存储库的历史，您将
- 使这些开发人员的生活更加困难。因此，这里有一个简单的经验法则：被导出到其他
--人的历史在此后通常被认为是不可变的。
-+地方的历史在此后通常被认为是不可变的。
- 
- 因此，一旦将一组更改推送到公开可用的服务器上，就不应该重写这些更改。如果您
--尝试强制进行不会导致快进合并（即不共享同一历史记录的更改）的更改，Git将尝
--试强制执行此规则。可以重写此检查，有时可能需要重写导出的树。在树之间移动变
--更集以避免Linux-next中的冲突就是一个例子。但这种行为应该是罕见的。这就是为
-+尝试强制进行无法快进合并的更改（即不共享同一历史记录的更改），Git将尝
-+试强制执行此规则。这可能覆盖检查，有时甚至需要重写导出的树。在树之间移动变
-+更集以避免linux-next中的冲突就是一个例子。但这种行为应该是罕见的。这就是为
- 什么开发应该在私有分支中进行（必要时可以重写）并且只有在公共分支处于合理的
--高级状态时才转移到公共分支中的原因之一。
-+较新状态时才转移到公共分支中的原因之一。
- 
- 当主线（或其他一组变更所基于的树）前进时，很容易与该树合并以保持领先地位。
- 对于一个私有的分支，rebasing 可能是一个很容易跟上另一棵树的方法，但是一旦
--一棵树被导出到全世界，rebasing就不是一个选项。一旦发生这种情况，就必须进行
-+一棵树被导出到外界，rebasing就不可取了。一旦发生这种情况，就必须进行
- 完全合并（merge）。合并有时是很有意义的，但是过于频繁的合并会不必要地扰乱
--历史。在这种情况下，建议的技术是不经常合并，通常只在特定的发布点（如主线-rc
-+历史。在这种情况下建议的做法是不要频繁合并，通常只在特定的发布点（如主线-rc
- 发布）合并。如果您对特定的更改感到紧张，则可以始终在私有分支中执行测试合并。
--在这种情况下，git rerere 工具很有用；它记住合并冲突是如何解决的，这样您就
-+在这种情况下，git “rerere”工具很有用；它能记住合并冲突是如何解决的，这样您就
- 不必重复相同的工作。
- 
- 关于Git这样的工具的一个最大的反复抱怨是：补丁从一个存储库到另一个存储库的
- 大量移动使得很容易陷入错误建议的变更中，这些变更避开审查雷达进入主线。当内
--核开发人员看到这种情况发生时，他们往往会感到不高兴；在Git树上放置未查看或
--主题外的补丁可能会影响您将来获取树的能力。引用Linus:
-+核开发人员看到这种情况发生时，他们往往会感到不高兴；在Git树上放置未审阅或
-+主题外的补丁可能会影响您将来让树被拉取的能力。引用Linus的话:
- 
- ::
- 
--        你可以给我发补丁，但要我从你哪里取一个Git补丁，我需要知道你知道
--        你在做什么，我需要能够相信事情而不去检查每个个人改变。
-+   你可以给我发补丁，但当我从你那里拉取一个Git补丁时，我需要知道你清楚
-+   自己在做什么，我需要能够相信事情而 *无需* 手动检查每个单独的更改。
- 
- （http://lwn.net/articles/224135/）。
- 
- 为了避免这种情况，请确保给定分支中的所有补丁都与相关主题紧密相关；“驱动程序
- 修复”分支不应更改核心内存管理代码。而且，最重要的是，不要使用Git树来绕过
--审查过程。不时的将树的摘要发布到相关的列表中，当时间合适时，请求
--Linux-next 中包含该树。
-+审查过程。不时的将树的摘要发布到相关的列表中，在合适时候请求linux-next
-+中包含该树。
- 
--如果其他人开始发送补丁以包含到您的树中，不要忘记查看它们。还要确保您维护正确
--的作者信息； ``git am`` 工具在这方面做得最好，但是如果它通过第三方转发给您，
--您可能需要在补丁中添加“From：”行。
-+如果其他人开始发送补丁以包含到您的树中，不要忘记审阅它们。还要确保您维护正确
-+的作者信息； git “am”工具在这方面做得最好，但是如果补丁通过第三方转发给您，
-+您可能需要在补丁中添加“From:”行。
- 
--请求pull操作时，请务必提供所有相关信息：树的位置、要拉的分支以及拉操作将导致
--的更改。在这方面，git request pull 命令非常有用；它将按照其他开发人员的预期
--格式化请求，并检查以确保您记住了将这些更改推送到公共服务器。
-+请求拉取时，请务必提供所有相关信息：树的位置、要拉取的分支以及拉取将导致
-+的更改。在这方面 git request-pull 命令非常有用；它将按照其他开发人员的期望
-+格式化请求，并检查以确保您已记得将这些更改推送到公共服务器。
- 
--审查补丁
-+审阅补丁
- --------
- 
--一些读者当然会反对将本节与“高级主题”放在一起，因为即使是刚开始的内核开发人员
--也应该检查补丁。当然，学习如何在内核环境中编程没有比查看其他人发布的代码更好
--的方法了。此外，审阅者永远供不应求；通过查看代码，您可以对整个流程做出重大贡献。
-+一些读者显然会反对将本节与“高级主题”放在一起，因为即使是刚开始的内核开发人员
-+也应该审阅补丁。当然，没有比查看其他人发布的代码更好的方法来学习如何在内核环境
-+中编程了。此外，审阅者永远供不应求；通过审阅代码，您可以对整个流程做出重大贡献。
- 
--审查代码可能是一个令人生畏的前景，特别是对于一个新的内核开发人员来说，他们
-+审查代码可能是一副令人生畏的图景，特别是对一个新的内核开发人员来说，他们
- 可能会对公开询问代码感到紧张，而这些代码是由那些有更多经验的人发布的。不过，
--即使是最有经验的开发人员编写的代码也可以得到改进。也许对评审员（所有评审员）
--最好的建议是：把评审评论当成问题而不是批评。询问“在这条路径中如何释放锁？”
-+即使是最有经验的开发人员编写的代码也可以得到改进。也许对（所有）审阅者
-+最好的建议是：把审阅评论当成问题而不是批评。询问“在这条路径中如何释放锁？”
- 总是比说“这里的锁是错误的”更好。
- 
--不同的开发人员将从不同的角度审查代码。一些主要关注的是编码样式以及代码行是
--否有尾随空格。其他人将主要关注补丁作为一个整体实现的变更是否对内核有好处。
--然而，其他人会检查是否存在锁定问题、堆栈使用过度、可能的安全问题、在其他
-+不同的开发人员将从不同的角度审查代码。部分人会主要关注代码风格以及代码行是
-+否有尾随空格。其他人会主要关注补丁作为一个整体实现的变更是否对内核有好处。
-+同时也有人会检查是否存在锁问题、堆栈使用过度、可能的安全问题、在其他
- 地方发现的代码重复、足够的文档、对性能的不利影响、用户空间ABI更改等。所有
--类型的检查，如果它们导致更好的代码进入内核，都是受欢迎和值得的。
-+类型的检查，只要它们能引导更好的代码进入内核，都是受欢迎和值得的。
++- IOASID core: provides APIs for allocation, pool management,
++  notifications and refcounting.
++- IOASID user:  provides user allocation interface via /dev/ioasid
++- IOASID cgroup controller: manage resource distribution.
++  (Documentation/admin-guide/cgroup-v1/ioasids.rst)
++
++This document covers the features supported by the IOASID core APIs.
++Vendor-specific use cases are also illustrated with Intel's VT-d
++based platforms as the first example. The term PASID and IOASID are used
++interchangeably throughout this document.
++
++.. contents:: :local:
++
++Glossary
++========
++PASID - Process Address Space ID
++
++IOVA - IO Virtual Address
++
++IOASID - IO Address Space ID (generic term for PCIe PASID and
++SubstreamID in SMMU)
++
++SVA/SVM - Shared Virtual Addressing/Memory
++
++gSVA - Guest Shared Virtual Addressing
++
++gIOVA - Guest IO Virtual Addressing
++
++ENQCMD - Instruction to submit work to shared workqueues. Refer
++to "Intel X86 ISA for efficient workqueue submission" [1]
++
++DSA - Intel Data Streaming Accelerator [2]
++
++VDCM - Virtual Device Composition Module [3]
++
++SIOV - Intel Scalable IO Virtualization
++
++DWQ - Dedicated Work Queue
++
++SWQ - Shared Work Queue
++
++1. https://software.intel.com/sites/default/files/managed/c5/15/architecture-instruction-set-extensions-programming-reference.pdf
++
++2. https://01.org/blogs/2019/introducing-intel-data-streaming-accelerator
++
++3. https://software.intel.com/en-us/download/intel-data-streaming-accelerator-preliminary-architecture-specification
++
++
++Key Concepts
++============
++
++IOASID Set
++----------
++An IOASID set is a group of IOASIDs allocated from the system-wide
++IOASID pool. Refer to section "IOASID Set Level APIs" for more details.
++
++IOASID set is particularly useful for guest SVA where each guest could
++have its own IOASID set for security and efficiency reasons.
++
++Guest IOASID
++------------------
++IOASID used by the guest, identifies a guest IOVA space or a guest VA
++space per guest process.
++
++Host IOASID
++-----------------
++IOASID used by the host either for bare metal SVA or as the backing of a
++guest IOASID.
++
++Bind/Unbind
++-----------
++Refer to the process where mappings among IOASID, page tables, and devices
++are established/demolished. This usually involes setting up an entry of
++the IOMMU's per device PASID table with a given PGD.
++
++IOASID Set Private ID (SPID)
++----------------------------
++Each IOASID set has a private namespace of SPIDs. An SPID maps to a
++single system-wide IOASID. Conversely, each IOASID may be associated
++with an alias ID, local to the IOASID set, named SPID.
++SPIDs can be used as guest IOASIDs where each guest could do
++IOASID allocation from its own pool/set and map them to host physical
++IOASIDs. SPIDs are particularly useful for supporting live migration
++where decoupling guest and host physical resources are necessary. Guest
++to Host PASID mapping can be torn down and re-established. Storing the
++mapping inside the kernel also provides lookup service.
++
++For example, two VMs can both allocate guest PASID/SPID #101 but map to
++different host PASIDs #201 and #202 respectively as shown in the
++diagram below.
++::
++
++ .------------------.    .------------------.
++ |   VM 1           |    |   VM 2           |
++ |                  |    |                  |
++ |------------------|    |------------------|
++ | GPASID/SPID 101  |    | GPASID/SPID 101  |
++ '------------------'    -------------------'     Guest
++ __________|______________________|____________________
++           |                      |               Host
++           v                      v
++ .------------------.    .------------------.
++ | Host IOASID 201  |    | Host IOASID 202  |
++ '------------------'    '------------------'
++ |   IOASID set 1   |    |   IOASID set 2   |
++ '------------------'    '------------------'
++
++Guest PASID is treated as IOASID set private ID (SPID) within an
++IOASID set, mappings between guest and host IOASIDs are stored in the
++set for inquiry.
++
++Theory of Operation
++===================
++
++States
++------
++IOASID has four states as illustrated in the diagram below.
++::
++
++   BIND/UNBIND, WQ PROG/CLEAR⁴
++   -----------------------------.
++                                |
++   ALLOC/FREE                   |
++   ------------.                |
++               |                |
++   +-------+   v    +-------+   v     +----------+
++   | FREE  |<======>| IDLE¹ |<=======>| ACTIVE²  |
++   +-------+        +-------+         +----------+
++      ^                                    |
++      |           +---------------+        |
++      '===========| FREE PENDING³ |<======='
++                  +---------------+  ^
++   FREE                              |
++   ----------------------------------'
++   ¹ Allocated but not used
++   ² Used by device drivers, IOMMU, or CPU, each user holds a reference
++   ³ Waiting for all users drop their refcount before returning IOASID
++     back to the pool
++   ⁴ Device drivers obtain refcount after programs workqueue with IOASID.
++     Release the refcount after clearing the workqueue.
++     Similarly, the IOMMU driver can also get/put IOASID refcount during
++     bind/unbind.
++
++Notifications
++-------------
++Depending on the hardware architecture, an IOASID can be programmed into
++CPU, IOMMU, or devices for DMA related activity. The synchronization among them
++is based on events notifications which follows a publisher-subscriber pattern.
++
++Events
++~~~~~~
++Notification events are pertinent to individual IOASIDs, they can be
++one of the following::
++
++ - ALLOC
++ - FREE
++ - BIND
++ - UNBIND
++
++Besides calling ioasid_notify() directly with explicit events, notifications
++can also be sent by the IOASID core as a by-product of calling the following
++APIs::
++
++ - ioasisd_free()        /* emits IOASID_FREE */
++ - ioasid_detach_spid()  /* emits IOASID_UNBIND */
++ - ioasid_attach_spid()  /* emits IOASID_BIND */
++
++Ordering
++~~~~~~~~
++Ordering of notification events is supported by the IOASID core as the
++following (from high to low)::
++
++ - CPU
++ - IOMMU
++ - DEVICE
++
++Subscribers of IOASID events are responsible for registering their
++notification blocks according to the priorities.
++
++The above order applies to all events. For example, if UNBIND event is
++issued when a guest IOASID is freed due to exceptions. All active DMA
++sources should be quiesced before tearing down other hardware contexts
++associated with the IOASID in the system. This is necessary to reduce
++the churn in handling faults. The notification order ensures that vCPU
++is stopped before IOMMU and devices. KVM x86 code registers notification
++block with priority IOASID_PRIO_CPU and VDCM code registers notification
++block with priority IOASID_PRIO_DEVICE, IOASID core ensures the CPU
++handlers are called before the DEVICE handlers.
++
++It is the caller's responsibility to avoid chained notifications in the
++atomic notification handlers. i.e. ioasid_detach_spid() cannot be called
++inside the IOASID_FREE atomic handlers due to spinlocks held by the
++caller of the notifier. However, ioasid_detach_spid() can be called from
++deferred work. See Atomicity section for details.
++
++Level Sensitivity
++~~~~~~~~~~~~~~~~~
++For each IOASID state transition, IOASID core ensures that there is
++only one notification sent. This resembles level triggered interrupt
++where a single interrupt is raised during a state transition.
++For example, if ioasid_free() is called twice by a user before the
++IOASID is reclaimed, IOASID core will only send out a single
++IOASID_NOTIFY_FREE event. Similarly, for IOASID_NOTIFY_BIND/UNBIND
++events, which is only sent out once when a SPID is attached/detached.
++
++Scopes
++~~~~~~
++There are two types of notifiers in IOASID core: system-wide and
++ioasid_set-wide (one notifier chain per ioasid_set).
++
++System-wide notifier is catering for users that need to handle all the
++IOASIDs in the system. E.g. The IOMMU driver.
++
++Per ioasid_set notifier can be used by VM specific components such as
++KVM. After all, each KVM instance only cares about IOASIDs within its
++own set/guest. The following flags are used to distinguish the scopes::
++
++ #define IOASID_NOTIFY_FLAG_ALL BIT(0)
++ #define IOASID_NOTIFY_FLAG_SET BIT(1)
++
++For example, on VT-d platform both KVM and VDCM shall register notifier
++block on the IOASID set such that *only* events from the matching VM
++are received.
++
++If KVM attempts to register a notifier block before the IOASID set is
++created using the MM token, the notifier block will be placed on a
++pending list inside IOASID core. Once the token matching IOASID set
++is created, IOASID will register the notifier block automatically.
++IOASID core does not replay events for the existing IOASIDs in the
++set. For IOASID set of MM type, notification blocks can be registered
++on empty sets only. This is to avoid lost events.
++
++IOMMU driver shall register notifier block on global chain, e.g. ::
++
++ static struct notifier_block pasid_nb_vtd = {
++	.notifier_call = pasid_status_change_vtd,
++	.priority      = IOASID_PRIO_IOMMU,
++ };
++
++Atomicity
++~~~~~~~~~
++IOASID notifiers are atomic due to spinlocks used inside the IOASID
++core. For tasks that cannot be completed in the notifier handler,
++async work to be completed in order must be submitted to the ordered
++workqueue provided by the IOASID core. This will ensure the order w.r.t.
++the work items submitted by other users of the same event.
++
++It is the caller's responsibility to avoid chained notifications in the
++atomic notification handlers. e.g. ioasid_detach_spid() cannot be called
++inside the IOASID_FREE atomic handlers due to spinlocks held by the
++caller of the notifier. However, ioasid_detach_spid() can be called from
++deferred work.
++
++Reference counting
++------------------
++IOASID life cycle management is based on reference counting. Users of
++IOASID who intend to align its context with the life cycle need to hold
++references of the IOASID. An IOASID will not be returned to the pool
++for re-allocation until all its references are dropped. Calling ioasid_free()
++will mark the IOASID as FREE_PENDING if the IOASID has outstanding
++references. No new references can be taken by ioasid_get() once an
++IOASID is in the FREE_PENDING state. ioasid_free() can be called
++multiple times without an error until all refs are dropped.
++
++ioasid_put() decrements and tests refcount of the IOASID. If refcount
++is 0, ioasid will be freed. The IOASID will be returned to the pool and
++available for new allocations. Note that ioasid_put() can be called by
++the IOASID_FREE event handler where the subscriber can drop the last
++refcount that ends the free pending state.
++
++Event notifications are used to inform users of IOASID status change.
++IOASID_FREE or UNBIND events prompt users to drop their references after
++clearing its context.
++
++For example, on VT-d platform when an IOASID is freed, teardown
++actions are performed on CPU (KVM), device driver (VDCM), and the IOMMU
++driver. To quiesce vCPU for work submission, KVM notifier handler must
++be called before VDCM handler. Therefore, KVM and VDCM shall monitor
++notification events IOASID_UNBIND.
++
++Namespaces
++----------
++IOASIDs are limited system resources that default to 20 bits in
++size. Each device can have its own PASID table for security reasons.
++Theoretically the namespace can be per device also.
++
++However IOASID namespace is system-wide for two reasons:
++- Simplicity
++- Sharing resources of a single device to multiple VMs.
++
++Take VT-d as an example, VT-d supports shared workqueue and ENQCMD[1]
++where one IOASID could be used to submit work on multiple devices that
++are shared with other VMs. This requires IOASID to be
++system-wide. This is also the reason why guests must use an
++emulated virtual command interface to allocate IOASID from the host.
++
++Life cycle
++----------
++This section covers the IOASID life cycle management for both bare-metal
++and guest usages. In bare-metal SVA, MMU notifier is directly hooked
++up with the IOMMU driver. By leveraging the .release() function, the
++IOASID life cycle can be made to match the process address space (MM)
++life cycle.
++
++However, guest MMU notifier is not available to the host IOMMU driver,
++when guest MM terminates unexpectedly, the events have to go through
++VFIO and IOMMU UAPI to reach host IOMMU driver. There are also more
++parties involved in guest SVA, e.g. on Intel VT-d platform, IOASIDs
++are used by IOMMU driver, KVM, VDCM, and VFIO.
++
++At the highlevel, there are following four patterns:
++
++1.   ALLOC -> FREE
++2.   ALLOC -> BIND -> DMA Activity -> UNBIND -> FREE
++3.   ALLOC -> BIND -> FREE
++4.   ALLOC -> BIND -> DMA Activity -> FREE
++
++The first two are normal cases, 3 and 4 are exceptions due to user
++process misbehaving.
++
++Exception handling can be complex when there are lots of IOASID
++consumers involved but the pattern is common and quite simple. When an
++IOASID in active state is being freed, IOASID core will notify all
++users to perform clean up. Each IOASID user performs cleanup and drop
++the reference at the end. When reference count drops to 0, IOASID will
++be reclaimed and ready to be allocated again.
++
++Cleanup can be either done in the atomic notifier handler or as queued
++work to the common ordered IOASID workqueue to be performed asynchronously.
++The highlevel flow is the following::
++
++  Free Req¹ -> Notify users -> Cleanup -> Drop reference -> Reclaim
++
++Notes:
++¹ Free one IOASID or free all IOASID within a set
++
++The following table shows how events are used on Intel VT-d platform.
++::
++
++  --------------------------------------------------------------------------
++  Events     |Publishers       | Subscribers
++  -----------+-----------------+--------------------------------------------
++  ALLOC      |/dev/ioasid      | None
++  -----------+-----------------+--------------------------------------------
++  FREE       |/dev/ioasid      | IOMMU (VT-d driver)¹
++  -----------+-----------------+-----------------------------------------------
++  BIND       |IOMMU            | KVM, VDCM
++  -----------+-----------------+-----------------------------------------------
++  UNBIND     |IOMMU²           | KVM, VDCM
++  -----------+--------------------------------------------------------------
++
++  ¹ IOASID core issues FREE events if the IOASID is in the ACTIVE state. IOMMU
++    driver calls ioasid_detach_spid() which issues UNBIND event outside atomic
++    notifier handler.
++  ² Only *one* BIND/UBIND event is issued per bind/unbind cycle. For multiple
++    devices bound to the same PASID, BIND event is issued for the first device
++    bind, UNBDIN event is issued for the last device unbind. Faults must be
++    tolerated between the first and last device unbind. Under normal
++    circumstances, faults are not expected in that the teardown process shall
++    stop DMA activities prior to unbind.
++
++The number of IOASIDs allocated in the ioasid_set serves as the refcount
++of the set, this ensures the life cycle alignment of the set and its
++IOASIDs.
++
++API Implementation
++==================
++To get the IOASID APIs, users must #include <linux/ioasid.h>. These APIs
++serve the following functionalities:
++
++  - IOASID allocation/freeing
++  - Group management in the form of ioasid_set
++  - Private data storage and lookup
++  - Reference counting
++  - Event notification in case of a state change
++
++Custom allocator APIs
++---------------------
++
++IOASIDs are allocated for both host and guest SVA/IOVA usage. However,
++allocators can be different. For example, on VT-d guest PASID
++allocation must be performed via a virtual command interface which is
++emulated by VMM.
++
++IOASID core has the notion of "custom allocator" such that guest can
++register virtual command allocator that precedes the default one.
++::
++
++ int ioasid_register_allocator(struct ioasid_allocator_ops *allocator);
++
++ void ioasid_unregister_allocator(struct ioasid_allocator_ops *allocator);
++
++IOASID Set Level APIs
++---------------------
++For use cases such as guest SVA it is necessary to manage IOASIDs at
++ioasid_set level. For example, VMs may allocate multiple IOASIDs for
++guest process address sharing (vSVA). It is imperative to enforce
++VM-IOASID ownership such that a malicious guest cannot target DMA
++traffic outside its own IOASIDs, or free an active IOASID that belongs
++to another VM.
++
++The IOASID set APIs serve the following purposes:
++
++ - Ownership/permission enforcement
++ - Take collective actions, e.g. free an entire set
++ - Event notifications within a set
++ - Look up a set based on token
++ - Quota enforcement (TBD, contingent upon ioasids cgroup)
++
++Each IOASID set is created with a token, which can be one of the
++following token types::
++
++ - IOASID_SET_TYPE_NONE (Arbitrary u64 value)
++ - IOASID_SET_TYPE_MM (Set token is a mm_struct)
++
++The explicit MM token type is useful when multiple users of an IOASID
++set under the same process need to communicate about their shared IOASIDs.
++E.g. An IOASID set created by VFIO for one guest can be associated
++with the KVM instance for the same guest since they share a common mm_struct.
++A token must be unique within its type.
++
++::
++
++ struct ioasid_set *ioasid_alloc_set(void *token, ioasid_t quota, u32 type)
++
++ int ioasid_set_for_each_ioasid(struct ioasid_set *set,
++                                void (*fn)(ioasid_t id, void *data),
++                                void *data)
++
++ struct ioasid_set *ioasid_find_mm_set(struct mm_struct *token)
++
++ void ioasid_free_all_in_set(struct ioasid_set *set)
++
++Individual IOASID APIs
++----------------------
++Once an ioasid_set is created, IOASIDs can be allocated from the set.
++Within the IOASID set namespace, set private ID (SPID) is supported. In
++the VM use case, SPID can be used for storing guest PASID.
++
++::
++
++ ioasid_t ioasid_alloc(struct ioasid_set *set, ioasid_t min, ioasid_t max,
++                       void *private);
++
++ int ioasid_get(struct ioasid_set *set, ioasid_t ioasid);
++
++ void ioasid_put(struct ioasid_set *set, ioasid_t ioasid);
++
++ int ioasid_get_locked(struct ioasid_set *set, ioasid_t ioasid);
++
++ void ioasid_put_locked(struct ioasid_set *set, ioasid_t ioasid);
++
++ void *ioasid_find(struct ioasid_set *set, ioasid_t ioasid,
++                   bool (*getter)(void *));
++
++ ioasid_t ioasid_find_by_spid(struct ioasid_set *set, ioasid_t spid,
++ bool get)
++
++ int ioasid_attach_data(struct ioasid_set *set, ioasid_t ioasid,
++                        void *data);
++ int ioasid_attach_spid(struct ioasid_set *set, ioasid_t ioasid,
++                        ioasid_t spid);
++
++
++Notification APIs
++-----------------
++An IOASID may have multiple users, each user may have hardware context
++associated with an IOASID. When the status of an IOASID changes,
++e.g. an IOASID is being freed, users need to be notified such that the
++associated hardware context can be cleared, flushed, and drained.
++
++::
++
++ int ioasid_register_notifier(struct ioasid_set *set, struct
++                              notifier_block *nb)
++
++ void ioasid_unregister_notifier(struct ioasid_set *set,
++                                 struct notifier_block *nb)
++
++ int ioasid_register_notifier_mm(struct mm_struct *mm, struct
++                                 notifier_block *nb)
++
++ void ioasid_unregister_notifier_mm(struct mm_struct *mm, struct
++                                    notifier_block *nb)
++
++ int ioasid_notify(ioasid_t ioasid, enum ioasid_notify_val cmd,
++                   unsigned int flags)
++
++"_mm" flavor of the ioasid_register_notifier() APIs are used when
++an IOASID user need to listen to the IOASID events belong to a
++process but without the knowledge of the associated ioasid_set.
 -- 
-2.20.1
+2.25.1
 
