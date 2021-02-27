@@ -2,77 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FE62C433DB
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Feb 2021 18:49:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB1D1C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Feb 2021 20:53:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF3D7614A7
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Feb 2021 18:49:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A82FE64E60
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Feb 2021 20:53:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229999AbhB0Ssx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 Feb 2021 13:48:53 -0500
-Received: from mout.gmx.net ([212.227.15.18]:32995 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230041AbhB0Sss (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 27 Feb 2021 13:48:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1614451609;
-        bh=J/2b6NEYhEHBGcmytB/YTbgIH5/VXzloVXnWUStq1M4=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=As5Uu47gsXR4tZZ/erDuXq1HoXroXexuc0bzMPjp3SRoSnF2xg6b4VtERW6j56FXD
-         bTAuRqTXtaWYCpoRoe1jXRPa2fki1tRn4WfOKhnFx/OnqN+9zPGEmTBwoq6or2LJXj
-         NTRLbXC8asAWglMxFpX4/tu129ohhO++8Ff87ki4=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([83.52.229.153]) by mail.gmx.net (mrgmx004
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1M4JqV-1lGLay0mkT-000OCf; Sat, 27
- Feb 2021 19:46:49 +0100
-Date:   Sat, 27 Feb 2021 19:46:46 +0100
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>, Shuah Khan <shuah@kernel.org>
-Cc:     John Wood <john.wood@gmx.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
+        id S230070AbhB0Uwz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 Feb 2021 15:52:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44370 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230060AbhB0Uwy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Feb 2021 15:52:54 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B1DDC061756
+        for <linux-doc@vger.kernel.org>; Sat, 27 Feb 2021 12:52:14 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id w18so8583072pfu.9
+        for <linux-doc@vger.kernel.org>; Sat, 27 Feb 2021 12:52:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=iCzhTX7/J8HDQ1NmWTMdWfXjqfGCQtFahBty74znwas=;
+        b=bhR2WP0pAVjerTSc3Rgc0a6ag6fD1FIwlK5OasyrGOmEs5qUpPYQHB2tOjhkS6+fc2
+         859p06Z6DP1gtVh6ncx1lDLCHFguWhixSY8MaYQ84AzHci6WffISq2cKUg/5pkw9Yhyt
+         ZfSmHTVP36H8PoLttcRMKsITjjZ+ldS55n1gqqvTSfwBP5UIcoadqmtvT7N8MuWb7aUB
+         FErkDr7cMDHUDvQebKhHbGCpYuinji9Pf+dLIM1Y1/t9/OCV6VRAd49iY1yhQE12boGg
+         opXZ+4SMwMnt58d0NLxBfgNSa1pEiaNuCINUqgM2yXoO3z6BfdlUoCzo3BlOow2Hxq+9
+         Y2BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=iCzhTX7/J8HDQ1NmWTMdWfXjqfGCQtFahBty74znwas=;
+        b=e+6J7wz1Ia/fJitN706CpIjTeSL+FB7cfkUU/eHHUfqneAVg8Ka663upDbQgQyQRIn
+         2jmq2G38exMqpYrbX0llY7nqeOAGFoxltfZAcZMHLit/60l0JAkC7VT2vzCd0dkL/7BB
+         Gk4Qe7vWQLfGv6b0XOQxpugmQ9RcUyZsHUs9PpPH5G8yGWAyxhTlRbh9PZApccbrB/o+
+         BoEh807hfqMkUTDSlOABjTrB9JTvSvbw8W7EbYZzR5Krn9J0LIxAECz81Axqh7Y+0bFI
+         kQ0TPqvfKaEveKJNbzD4DMdLKksgV4olbq3BD5pS+YVpjUJcfFHn1Pb45XDD5LPEPQXT
+         NSww==
+X-Gm-Message-State: AOAM530Av7Pn+agwlZTDgY313Zcq/DmvlHxyWC2+7MkM7A+Uo2CYy8K8
+        Pdmi+9jeEd/KkFeXHKbhwp4/1A==
+X-Google-Smtp-Source: ABdhPJwIUTl7xvSqFvF7pALtDLpFq8SMPiddit6YCRp3lTejTLgNoH4UqOhZFykBAvPKRzFw3aE6bQ==
+X-Received: by 2002:a63:2110:: with SMTP id h16mr8015755pgh.441.1614459133593;
+        Sat, 27 Feb 2021 12:52:13 -0800 (PST)
+Received: from xps15 (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+        by smtp.gmail.com with ESMTPSA id 192sm10432202pfx.193.2021.02.27.12.52.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Feb 2021 12:52:12 -0800 (PST)
+Date:   Sat, 27 Feb 2021 13:52:09 -0700
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Mike Leach <mike.leach@linaro.org>
+Cc:     linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Coresight ML <coresight@lists.linaro.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "Suzuki K. Poulose" <suzuki.poulose@arm.com>,
+        Yabin Cui <yabinc@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Tingwei Zhang <tingwei@codeaurora.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: Re: [PATCH v4 0/8] Fork brute force attack mitigation
-Message-ID: <20210227184646.GB9641@ubuntu>
-References: <20210227150956.6022-1-john.wood@gmx.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 02/10] coresight: syscfg: Add registration and feature
+ loading for cs devices
+Message-ID: <20210227205209.GA3631443@xps15>
+References: <20210128170936.9222-1-mike.leach@linaro.org>
+ <20210128170936.9222-3-mike.leach@linaro.org>
+ <20210219184313.GA3065106@xps15>
+ <CAJ9a7Vhh5xdbmMgcTLjU3qJEg2nbZoZ5j2HqvenwNGoqo+54Rw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210227150956.6022-1-john.wood@gmx.com>
-X-Provags-ID: V03:K1:SJwNcWrWbYXbNCBYNMBy4exbK5hFoif3xaEWjQVjyL073jTJhl6
- WObAEsvgABv/Fhh2/eqdE2Yj1+f2Sy4NaFZy9u+weiugOqPHWEGwcKC+oeGiaTxa7v9oUYO
- efv+ggc3tpOSjd0Ukjo8zJ3YkoQKxlkeiHGMxOBpik+G1FmYnsHevV7VSVwLtvtSqLVsHcb
- NGHwE8ljEiVLTL2jngk0w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ShESOMNlNjI=:naVNAx9F4lNCq5p0LzpgrA
- P5Ojg/56wmthBB1B8JsfIbPJwp+GQJzKgoOU0zDkT+88VXLssYwLL28EYy5CwQsikmEN6b5Kp
- xY0lyyTp6W+vBVkwMtZPcfhOMCSXno4vviqRkpNhouohAW9sbN5Eu33UvkMqmKE74LIiNJI7+
- GqdTQfbeVQLttM6tTWJV69qQVfcTEKddPAA/FR5MzuHmCj+2iDTnf0e956bd6FZkawxOhawa+
- YSJPE8dG4yHLIx5QpEeBTkU62xMPsFVuykAKu+lF+7fagY0UA9RL9WAe/3zASzqj+T7VBbPFX
- OkxqCW11Uwky5kR+/RUH19WbTTG0FUGVfGEbQKpo5Uw5yHZt7kGZO7dnBcJqnsmGNkWNqV2xl
- ljoQCnL3aqx+JBtNF9e6wwbGOM52yh65C53kR+shnuhCo6wW7cgft3SYlvyz0dVliOeZglm9J
- xdSS0M6o5iAUAyRtU7VW+wOEmGZTxj90YssvM41LutFqADVscf3ttkoBLck5j4P1ypbhhJqhH
- PjinG64J/eQJiKGxFB+HeUl3J0AEXfQSghKMEIHoq/+05i/BPQ9+rjx8+3tJO5g0oAXpF7wvN
- 5OI8LlsgMLH3jsqvqLaCl9ua/XFizmAnngrAznO0YY6rNbuOuifgXYV6/um1+9xxoJEKtJQXN
- mAf7goEq62024sRaQO01Qnnu6TbGG9JKUXtineSquDDuu9FZno9AXvVTH20bGGWCPkRRpmKJH
- H4k6bQ1dzuLXSguZ99a7dS3M4U/EYnND7QrfUGe0d2tdo89zNZhk7T0QDKAtIEbX+5NE7DQin
- ixcbhgpya7o75m1xch2fy97K1xu/of92BHukKUaQT6eabYfOZAqOhm6MiQ/rcmnVfysl0VJKy
- 9JwtKnOzt0io9AsCnWVA==
+In-Reply-To: <CAJ9a7Vhh5xdbmMgcTLjU3qJEg2nbZoZ5j2HqvenwNGoqo+54Rw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Sorry. Drop this patch serie.
+On Fri, Feb 26, 2021 at 07:14:32PM +0000, Mike Leach wrote:
+> Hi Mathieu,
+> 
+> On Fri, 19 Feb 2021 at 18:43, Mathieu Poirier
+> <mathieu.poirier@linaro.org> wrote:
+> >
+> > [...]
+> >
+> > > +/**
+> > > + * List entry for Coresight devices that are registered as supporting complex
+> > > + * config operations.
+> > > + *
+> > > + * @csdev:   The registered device.
+> > > + * @match_info: The matching type information.
+> > > + * @ops:     Operations supported by the registered device.
+> > > + * @item:    list entry.
+> > > + */
+> > > +struct cscfg_csdev_register {
+> > > +     struct coresight_device *csdev;
+> > > +     struct cscfg_match_desc match_info;
+> > > +     struct cscfg_csdev_feat_ops ops;
+> > > +     struct list_head item;
+> > > +};
+> >
+> > I would call this structure cscfg_registered_csdev and move it to
+> > coresight-config.h.  That way it is consistent with cscfg_config_csdev and
+> > cscfg_feature_csdev and located all in the same file.
+> >
+> 
+> I was trying to separate structures that are used to define
+> configurations and features, with those that are used to manage the
+> same. Hence, most things in coresight_config.h define configurations,
+> or their device loaded instance equivalents, and things in
+> coresight_syscfg.h are management items. I am happy to change the name
+> but would prefer is stay in coresight_syscfg.h
 
-Thanks,
-John Wood
+Ok
+
+> 
+> Thanks
+> 
+> Mike
+> 
