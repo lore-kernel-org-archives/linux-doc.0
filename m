@@ -2,286 +2,248 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89173C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Feb 2021 11:14:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 707A0C433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Feb 2021 15:12:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 408A364DF2
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Feb 2021 11:14:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3617364EDC
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Feb 2021 15:12:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229912AbhB0LOU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 Feb 2021 06:14:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34606 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229863AbhB0LOU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Feb 2021 06:14:20 -0500
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com [IPv6:2607:f8b0:4864:20::d2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 039C3C06174A;
-        Sat, 27 Feb 2021 03:13:39 -0800 (PST)
-Received: by mail-io1-xd2d.google.com with SMTP id f20so12448057ioo.10;
-        Sat, 27 Feb 2021 03:13:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wxWe96tg9L0gLfWuwtSgIPZWbI4zsrE6k/GHICo+2wo=;
-        b=FehCN4w/80GZabbXZyksYgsHIh+Y3IwjDE+rbezyBLqsA/38m6vwryWTYTm2Moqmc9
-         AzPY3kalMBzHpgEl93gAceAx86EcRsKxMygMxULjhAcObDtyVCXd8cFilUmF8AN4t80M
-         i+HzbCQVilvPKDJ7jVE/WzXk0mQO5aHRSc6ikYvc/EnqIFsQzU7ezLGn7uJNOzS4Futv
-         Q5g8DnJFHqqvvu66LqekrbTowuwV7e4MwIDMW4cIYewWtnXg13Xy+hvIKhANlSpt0rbR
-         SC4+Tfa4DKPzgzKfWzV61XTismRFPbsoIrtfco4mxG5hV338O1FRpKJmwpCwZXcnstEX
-         +cww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wxWe96tg9L0gLfWuwtSgIPZWbI4zsrE6k/GHICo+2wo=;
-        b=h0ae6n6h3lN/0IL+8HNwATR8Y21lVvF279nHeCuIg4oK43ggtDkCUkDMhmBzbrQnjX
-         5XByo/sr3qJjIk4zbz5eJvRCp4r0kLu02PMfS97Q/LJCtSzuiV1A8LoUXe/0gvE1g2f9
-         oEfoVuKEFvXtWCn4DPGCfw1SOJHACEQFy5Nk+4ekB5Hn0nVUvyppYjoVeahK+O7Wav5B
-         PBIPM8Fk6G0lMZlUSdsyADTY6DsHJ/SOMqQawOmrZB8kG8uP0bjrgEMAd+NCN2u4cYW3
-         IC07Th0PCU2bPAZcnA1InBnKukElIauA8Iv1XMEbd0AKXs7ZZLzEQQmibQzVPfXRn0iB
-         BSgA==
-X-Gm-Message-State: AOAM532WGAtUoJOS+GTEWyMPcJil/UeYo2IRgfpzH+IYQpmlPe0bWYx4
-        6lM1qVvc1q7CBJUiQVuatyv545UScIV6xQUaPnw=
-X-Google-Smtp-Source: ABdhPJwdTIm6gLs7ToV79kETlNfvUCLt7ooDLR2EpOtDNpTLkADt2dt1gDdCG1Jcu50ygs7xmUzQick0eYDYDiepW3g=
-X-Received: by 2002:a6b:fc16:: with SMTP id r22mr6208311ioh.102.1614424419121;
- Sat, 27 Feb 2021 03:13:39 -0800 (PST)
-MIME-Version: 1.0
-References: <67c1aa1e5f29ef0cb4127e6303a5ffa1a391afc2.1614260439.git.mchehab+huawei@kernel.org>
-In-Reply-To: <67c1aa1e5f29ef0cb4127e6303a5ffa1a391afc2.1614260439.git.mchehab+huawei@kernel.org>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Sat, 27 Feb 2021 12:13:28 +0100
-Message-ID: <CAKXUXMwviRBB_xnuBLRFRhg6eBXKjMakQLaAfqQiQEsACJjfRw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: add a subsystem profile documentation
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        id S230107AbhB0PMa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 Feb 2021 10:12:30 -0500
+Received: from mout.gmx.net ([212.227.15.18]:53947 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229953AbhB0PM3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 27 Feb 2021 10:12:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1614438619;
+        bh=e+NzEQ0zUqFHpSiO6bYhm/QEn9aj/OszjJyG6A3hpJo=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=Dk5GBllLvbfhkEUcK/ofWBH8eKcQ3rBr9gKQqSyih1p5DUMl4KveCghi0qbvOfyV9
+         2lAWq6ET3V6jP+RlQEi6iJJCx80sYdMrb3NGfutO0W/g4xBv0quM/F79qh+p+w2zbD
+         F8vBpgmgksK8EcZF7bZvTy6QZ8TPP+NjdZXgJXxo=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([83.52.229.153]) by mail.gmx.net
+ (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 1MvK4Z-1m79x40AyH-00rFK1; Sat, 27 Feb 2021 16:10:19 +0100
+From:   John Wood <john.wood@gmx.com>
+To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>, Shuah Khan <shuah@kernel.org>
+Cc:     John Wood <john.wood@gmx.com>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: [PATCH v4 0/8] Fork brute force attack mitigation
+Date:   Sat, 27 Feb 2021 16:09:48 +0100
+Message-Id: <20210227150956.6022-1-john.wood@gmx.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:JUDWVnh+062iEY4yBjLXziakNvl1rxXf20M4ttvZZLbM8Fh8LzW
+ 7Z1lgLNMD2zhexjJUex72ZQDux/N6pbSie9AHjJ6fFjLrgKVDGuK79Ym/Bgebxq0HFWW54x
+ /MzwRP/2sndoF4DJz9GWplztRp+uxp2U7N47EzXMjYbuYo4QFiQFX/GnBDVhae4EJHf8Q64
+ iFT5IusG50HN+0pOsQBxQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:M2qAs66kCN0=:6UREdrllMK1XmD2NwllGwg
+ n4GTD9SFTibaAH47paVJ/BPBydQasPzXcdNg1ciyy/E1Z9N0gsfQ17WYsK5gk668XR5FuPmyK
+ kt9HWgIK9zZTRkwGj0Y2lPxiu/4KRHS8VuJgLbFrl86eNKeaozvIkV+NGRsKVYQSpHH/1PJx+
+ gF8k8VtDb7yslEvbvSP/wIjNS3LvzyGUswLAFCQC/fLsg7TX62R5u9BoBSI9cWHZefp9JOglS
+ ICV5BMm+QQR4tCcIwR/dpyCza7EET4VqkgDBMlL26syVd3fbhjg+ZYyjAtSxQdUIgkEAjHUXY
+ mv6JyC1pZmD+uXKriRm5OinDc1oTk0Npg4v1jsyAa+4EcZwiRMQxm8w9rEYCTqg1JMwi7gvgT
+ lVt5Femwg/hFr/8AIQaT3+COmecsHukN0xuQbJOT5Nhdl6rm6bpVDlwHmh8qVqsYJvwYidNZO
+ fp3Tg/7xlfxTi3vgmOGC6wwss6PQovkbfrOuZ1voOYQ468syHKCVMXD4CUsA7Nv72K3jsFCCM
+ jALkNWWSpWmUem7cVdltcU7pmFE4MrEInPWlavmuf4T+eJuiefZ5N34Prdw5x2DO+mbI5BGBr
+ V9tGHrOzUQdnxlGI32EwUSckfmiXxLwHWIL0SHDCamqAbT9kkrOJGIcB0L1Bx4LgyBKuO5rxV
+ VeKKmh3cUp9iAbuyWt8gOygV1nw2YrmWaTH2CHQMVeRS1ug9FRHLPwlQvmANKGzmEQ+X+YV8K
+ EqHgXhuYRKxn3BTNPAxnyvFK/M/dYZDCKRZ9lII9vJJC+Q04BYcGAGRGuFB3g+RbWFhf8DzVI
+ 5V8fOYL47VjJKfX3oFB41qlxXWlyJC53S8MIkejk3DR3+vl+OoKuvrQhhwSE9bxLb/AoLrQfV
+ hn6IxJwmOPY5SH2PLOig==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 25, 2021 at 2:41 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Document the basic policies of the media subsystem profile.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->
-> v2: fix the Documentation/*/media directories
->
->
->  Documentation/driver-api/media/index.rst      |   2 +
->  .../media/maintainer-entry-profile.rst        | 161 ++++++++++++++++++
->  .../maintainer/maintainer-entry-profile.rst   |   1 +
->  3 files changed, 164 insertions(+)
->  create mode 100644 Documentation/driver-api/media/maintainer-entry-profile.rst
->
-> diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
-> index c140692454b1..2ad71dfa8828 100644
-> --- a/Documentation/driver-api/media/index.rst
-> +++ b/Documentation/driver-api/media/index.rst
-> @@ -28,6 +28,8 @@ Please see:
->      :maxdepth: 5
->      :numbered:
->
-> +    maintainer-entry-profile
-> +
->      v4l2-core
->      dtv-core
->      rc-core
-> diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> new file mode 100644
-> index 000000000000..6318be833bfb
-> --- /dev/null
-> +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-> @@ -0,0 +1,161 @@
-> +Media Subsystem Profile
-> +=======================
-> +
-> +Overview
-> +--------
-> +
-> +The media subsystem covers support for a variety of devices: stream
-> +capture, analog and digital TV, cameras, remote controllers, HDMI CEC
-> +and media pipeline control.
-> +
-> +It covers, mainly, the contents of those directories:
-> +
-> +  - drivers/media
-> +  - drivers/staging/media
-> +  - Documentation/admin-guide/media
-> +  - Documentation/driver-api/media
-> +  - Documentation/userspace-api/media
-> +  - include/media
-> +
-> +Both media userspace and Kernel APIs are documented and should be kept in
-> +sync with the API changes. It means that all patches that add new
-> +features to the subsystem should also bring changes to the corresponding
-> +API files.
-> +
-> +Due to the size and wide scope of the media subsystem, media's
-> +maintainership model is to have sub-maintainers that have a broad
-> +knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
-> +task to review the patches, providing feedback to users if the patches are
-> +following the subsystem rules and are properly using the media kernel and
-> +userspace APIs.
-> +
-> +Patches for the media subsystem should be sent to the media mailing list
-> +at linux-media@vger.kernel.org as plain text only e-mail. Emails with
-> +HTML will be automatically rejected by the mail server. It could be wise
-> +to also copy the sub-maintainer(s).
-> +
-> +Media's workflow is heavily based on Patchwork, meaning that, once a patch
-> +is submitted, it should appear at:
-> +
-> +   - https://patchwork.linuxtv.org/project/linux-media/list/
-> +
-> +If it doesn't automatically appear there after a few minutes, then
-> +probably something got wrong on your submission. Please check if the
-> +email is in plain text only and if your emailer is not mangling with
-> +whitespaces before complaining or submitting them again.
-> +
-> +Sub-maintainers
-> ++++++++++++++++
-> +
-> +At the media subsystem, we have a group of experienced developers that
-> +are responsible for doing the code reviews at the drivers (called
-> +sub-maintainers), and another senior developer responsible for the
-> +subsystem as a hole. For core changes, whenever possible, multiple
-> +media (sub-)maintainers do the review.
-> +
-> +The sub-maintainers work on specific areas of the subsystem, as
-> +described below:
-> +
-> +Digital TV:
-> +  Sean Young <sean@mess.org>
-> +
-> +HDMI CEC:
-> +  Hans Verkuil <hverkuil@xs4all.nl>
-> +
-> +Media controller drivers:
-> +  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> +
-> +Remote Controllers:
-> +  Sean Young <sean@mess.org>
-> +
-> +Sensor drivers:
-> +  Sakari Ailus <sakari.ailus@linux.intel.com>
-> +
-> +V4L2 drivers:
-> +  Hans Verkuil <hverkuil@xs4all.nl>
-> +
-> +Submit Checklist Addendum
-> +-------------------------
-> +
-> +Patches that change the Open Firmware/Device Tree bindings should be
-> +reviewed by the Device Tree maintainers. So, DT maintainers should be
-> +c/c when those are submitted.
-> +
-> +There is a set of compliance tools at https://git.linuxtv.org/v4l-utils.git/
-> +that should be used in order to check if the drivers are properly
-> +implementing the media APIs.
-> +
-> +Those tests need to pass before the patches go upstream.
-> +
-> +Also, please notice that we build the Kernel with::
-> +
-> +       make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=check_script
-> +
-> +Where the check script is::
-> +
-> +       #!/bin/bash
-> +       /devel/smatch/smatch -p=kernel $@ >&2
-> +       /devel/sparse/sparse $@ >&2
-> +
-> +Be sure to not introduce new warnings on your patches without a
-> +very good reason.
-> +
-> +Style Cleanup Patches
-> ++++++++++++++++++++++
-> +
-> +Style-cleanups are welcome when they come together with other changes
-> +at the files where the style changes will affect.
-> +
-> +We may accept pure standalone style-cleanups, but they should ideally
-> +be one patch for the hole subsystem (if the cleanup is low volume),
-> +or at least be grouped per directory. So, for example, if you're doing
-> +big cleanup change set at drivers under drivers/media, please send a single
-> +patch for all drivers under drivers/media/pci, another one for
-> +drivers/media/usb and so on.
-> +
-> +Coding Style Addendum
-> ++++++++++++++++++++++
-> +
-> +Media development uses checkpatch on strict mode to verify the code style,
-> +e. g.::
-> +
-> +       $ ./script/checkpatch.pl --strict
+Attacks against vulnerable userspace applications with the purpose to brea=
+k
+ASLR or bypass canaries traditionally use some level of brute force with
+the help of the fork system call. This is possible since when creating a
+new process using fork its memory contents are the same as those of the
+parent process (the process that called the fork system call). So, the
+attacker can test the memory infinite times to find the correct memory
+values or the correct memory addresses without worrying about crashing the
+application.
 
-Just a typo: script -> scripts
+Based on the above scenario it would be nice to have this detected and
+mitigated, and this is the goal of this patch serie. Specifically the
+following attacks are expected to be detected:
 
-> +
-> +Please notice that the goal here is to improve code readability. On a few
-> +cases, checkpatch may actually point to something that would look worse.
-> +
-> +So, you should use good send sense here, being prepared to justify any
-> +coding style decision.
-> +
-> +Please also notice that, on some cases, when you fix one issue, you may
-> +receive warnings about lines longer than 80 columns. It is fine to have
-> +longer lines if this means that other warnings will be fixed by that.
-> +
-> +Yet, if you're having more than 80 columns on a line, please consider
-> +simplifying the code - if too indented - or to use shorter names for
-> +variables.
-> +
-> +Key Cycle Dates
-> +---------------
-> +
-> +New submissions can be sent at any time, but if they intend to hit the
-> +next merge window they should be sent before -rc5, and ideally stabilized
-> +in the linux-media branch by -rc6.
-> +
-> +Review Cadence
-> +--------------
-> +
-> +Provided that your patch is at https://patchwork.linuxtv.org, it should
-> +be sooner or later handled, so you don't need to re-submit a patch.
-> +
-> +Except for bug fixes, we don't usually add new patches to the development
-> +tree between -rc6 and the next -rc1.
-> +
-> +Please notice that the media subsystem is a high traffic one, so it
-> +could take a while for us to be able to review your patches. Feel free
-> +to ping if you don't get a feedback in a couple of weeks or to ask
-> +other developers to publicly add Reviewed-by and, more importantly,
-> +Tested-by tags.
-> +
-> +Please note that we expect a detailed description for Tested-by,
-> +identifying what boards were used at the test and what it was tested.
-> diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-> index b7a627d6c97d..5d5cc3acdf85 100644
-> --- a/Documentation/maintainer/maintainer-entry-profile.rst
-> +++ b/Documentation/maintainer/maintainer-entry-profile.rst
-> @@ -102,3 +102,4 @@ to do something different in the near future.
->     ../doc-guide/maintainer-profile
->     ../nvdimm/maintainer-entry-profile
->     ../riscv/patch-acceptance
-> +   ../driver-api/media/maintainer-entry-profile
-> --
-> 2.29.2
->
->
+1.- Launching (fork()/exec()) a setuid/setgid process repeatedly until a
+    desirable memory layout is got (e.g. Stack Clash).
+2.- Connecting to an exec()ing network daemon (e.g. xinetd) repeatedly
+    until a desirable memory layout is got (e.g. what CTFs do for simple
+    network service).
+3.- Launching processes without exec() (e.g. Android Zygote) and exposing
+    state to attack a sibling.
+4.- Connecting to a fork()ing network daemon (e.g. apache) repeatedly unti=
+l
+    the previously shared memory layout of all the other children is
+    exposed (e.g. kind of related to HeartBleed).
+
+In each case, a privilege boundary has been crossed:
+
+Case 1: setuid/setgid process
+Case 2: network to local
+Case 3: privilege changes
+Case 4: network to local
+
+So, what will really be detected are fork/exec brute force attacks that
+cross any of the commented bounds.
+
+The implementation details and comparison against other existing
+implementations can be found in the "Documentation" patch.
+
+This v4 version has changed a lot from the v2. Basically the application
+crash period is now compute on an on-going basis using an exponential
+moving average (EMA), a detection of a brute force attack through the
+"execve" system call has been added and the crossing of the commented
+privilege bounds are taken into account. Also, the fine tune has also been
+removed and now, all this kind of attacks are detected without
+administrator intervention.
+
+In the v2 version Kees Cook suggested to study if the statistical data
+shared by all the fork hierarchy processes can be tracked in some other
+way. Specifically the question was if this info can be hold by the family
+hierarchy of the mm struct. After studying this hierarchy I think it is no=
+t
+suitable for the Brute LSM since they are totally copied on fork() and in
+this case we want that they are shared. So I leave this road.
+
+So, knowing all this information I will explain now the different patches:
+
+The 1/8 patch defines a new LSM hook to get the fatal signal of a task.
+This will be useful during the attack detection phase.
+
+The 2/8 patch defines a new LSM and manages the statistical data shared by
+all the fork hierarchy processes.
+
+The 3/8 patch detects a fork/exec brute force attack.
+
+The 4/8 patch narrows the detection taken into account the privilege
+boundary crossing.
+
+The 5/8 patch mitigates a brute force attack.
+
+The 6/8 patch adds self-tests to validate the Brute LSM expectations.
+
+The 7/8 patch adds the documentation to explain this implementation.
+
+The 8/8 patch updates the maintainers file.
+
+This patch serie is a task of the KSPP [1] and can also be accessed from m=
+y
+github tree [2] in the "brute_v4" branch.
+
+[1] https://github.com/KSPP/linux/issues/39
+[2] https://github.com/johwood/linux/
+
+The previous versions can be found in:
+
+RFC
+https://lore.kernel.org/kernel-hardening/20200910202107.3799376-1-keescook=
+@chromium.org/
+
+Version 2
+https://lore.kernel.org/kernel-hardening/20201025134540.3770-1-john.wood@g=
+mx.com/
+
+Version 3
+https://lore.kernel.org/lkml/20210221154919.68050-1-john.wood@gmx.com/
+
+Changelog RFC -> v2
+=2D------------------
+- Rename this feature with a more suitable name (Jann Horn, Kees Cook).
+- Convert the code to an LSM (Kees Cook).
+- Add locking  to avoid data races (Jann Horn).
+- Add a new LSM hook to get the fatal signal of a task (Jann Horn, Kees
+  Cook).
+- Add the last crashes timestamps list to avoid false positives in the
+  attack detection (Jann Horn).
+- Use "period" instead of "rate" (Jann Horn).
+- Other minor changes suggested (Jann Horn, Kees Cook).
+
+Changelog v2 -> v3
+=2D-----------------
+- Compute the application crash period on an on-going basis (Kees Cook).
+- Detect a brute force attack through the execve system call (Kees Cook).
+- Detect an slow brute force attack (Randy Dunlap).
+- Fine tuning the detection taken into account privilege boundary crossing
+  (Kees Cook).
+- Taken into account only fatal signals delivered by the kernel (Kees
+  Cook).
+- Remove the sysctl attributes to fine tuning the detection (Kees Cook).
+- Remove the prctls to allow per process enabling/disabling (Kees Cook).
+- Improve the documentation (Kees Cook).
+- Fix some typos in the documentation (Randy Dunlap).
+- Add self-test to validate the expectations (Kees Cook).
+
+Changelog v3 -> v4
+=2D-----------------
+- Fix all the warnings shown by the tool "scripts/kernel-doc" (Randy
+  Dunlap).
+
+Any constructive comments are welcome.
+Thanks.
+
+John Wood (8):
+  security: Add LSM hook at the point where a task gets a fatal signal
+  security/brute: Define a LSM and manage statistical data
+  securtiy/brute: Detect a brute force attack
+  security/brute: Fine tuning the attack detection
+  security/brute: Mitigate a brute force attack
+  selftests/brute: Add tests for the Brute LSM
+  Documentation: Add documentation for the Brute LSM
+  MAINTAINERS: Add a new entry for the Brute LSM
+
+ Documentation/admin-guide/LSM/Brute.rst  |  224 +++++
+ Documentation/admin-guide/LSM/index.rst  |    1 +
+ MAINTAINERS                              |    7 +
+ include/linux/lsm_hook_defs.h            |    1 +
+ include/linux/lsm_hooks.h                |    4 +
+ include/linux/security.h                 |    4 +
+ kernel/signal.c                          |    1 +
+ security/Kconfig                         |   11 +-
+ security/Makefile                        |    4 +
+ security/brute/Kconfig                   |   13 +
+ security/brute/Makefile                  |    2 +
+ security/brute/brute.c                   | 1102 ++++++++++++++++++++++
+ security/security.c                      |    5 +
+ tools/testing/selftests/Makefile         |    1 +
+ tools/testing/selftests/brute/.gitignore |    2 +
+ tools/testing/selftests/brute/Makefile   |    5 +
+ tools/testing/selftests/brute/config     |    1 +
+ tools/testing/selftests/brute/exec.c     |   44 +
+ tools/testing/selftests/brute/test.c     |  507 ++++++++++
+ tools/testing/selftests/brute/test.sh    |  226 +++++
+ 20 files changed, 2160 insertions(+), 5 deletions(-)
+ create mode 100644 Documentation/admin-guide/LSM/Brute.rst
+ create mode 100644 security/brute/Kconfig
+ create mode 100644 security/brute/Makefile
+ create mode 100644 security/brute/brute.c
+ create mode 100644 tools/testing/selftests/brute/.gitignore
+ create mode 100644 tools/testing/selftests/brute/Makefile
+ create mode 100644 tools/testing/selftests/brute/config
+ create mode 100644 tools/testing/selftests/brute/exec.c
+ create mode 100644 tools/testing/selftests/brute/test.c
+ create mode 100755 tools/testing/selftests/brute/test.sh
+
+=2D-
+2.25.1
+
