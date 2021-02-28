@@ -2,291 +2,483 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCB1AC433E6
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Feb 2021 23:16:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA588C433DB
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Feb 2021 23:19:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9E79164E61
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Feb 2021 23:16:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7ED1564E62
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Feb 2021 23:19:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230412AbhB1XQy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Feb 2021 18:16:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41946 "EHLO
+        id S230486AbhB1XTp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Feb 2021 18:19:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230461AbhB1XQx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Feb 2021 18:16:53 -0500
-Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [IPv6:2001:df5:b000:5::4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05053C061756
-        for <linux-doc@vger.kernel.org>; Sun, 28 Feb 2021 15:16:12 -0800 (PST)
-Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id 1D670891AF;
-        Mon,  1 Mar 2021 12:07:18 +1300 (NZDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
-        s=mail181024; t=1614553638;
-        bh=mTm99MPkc+6dS7pISgrAnkJH72py1xCk7Vkk6ktc3EU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=a9j2RyeJrnhMOjj5G1DP57GC2bonpTQBEI9sm0XmDXY6GO1zpmtq2ITdw9r90Vzf/
-         SOnqvVtPLcFU2j8I66E6I0TQ4J24csYrFWerFgOuchBn9hQrhBS7MdZ+jHAF3ZRYrW
-         EMqBWWsteDw0Pv4UyAhcZj12l8x7leMPqfIqCUryFL87/e5g0/pLlywlI0hhEP5RGb
-         nCC//Q1e8JrrS+r2dTvuEoR8lBC1a3gC9t3VSo6W4Wf2+qBs2Lqm7+BsecJRGAy3A/
-         o4S6nAuo9EvCdJaz8lFO14d7tdbRDkZyyedqOjheweVYnrEPOlfOARIfBHqa3rlKIA
-         kH0rK6Q0LcsVA==
-Received: from smtp (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
-        id <B603c22250002>; Mon, 01 Mar 2021 12:07:17 +1300
-Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.20])
-        by smtp (Postfix) with ESMTP id 0165113EF08;
-        Mon,  1 Mar 2021 12:07:28 +1300 (NZDT)
-Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
-        id 8D7DF283985; Mon,  1 Mar 2021 12:07:17 +1300 (NZDT)
-From:   Chris Packham <chris.packham@alliedtelesis.co.nz>
-To:     robh+dt@kernel.org, jdelvare@suse.com, linux@roeck-us.net
-Cc:     devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Chris Packham <chris.packham@alliedtelesis.co.nz>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 2/2] hwmon: (pmbus): Add driver for Infineon IR36021
-Date:   Mon,  1 Mar 2021 12:07:14 +1300
-Message-Id: <20210228230714.26578-3-chris.packham@alliedtelesis.co.nz>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210228230714.26578-1-chris.packham@alliedtelesis.co.nz>
-References: <20210228230714.26578-1-chris.packham@alliedtelesis.co.nz>
+        with ESMTP id S230371AbhB1XTo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Feb 2021 18:19:44 -0500
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37ED7C06174A
+        for <linux-doc@vger.kernel.org>; Sun, 28 Feb 2021 15:19:04 -0800 (PST)
+Received: by mail-pj1-x1035.google.com with SMTP id c19so9851301pjq.3
+        for <linux-doc@vger.kernel.org>; Sun, 28 Feb 2021 15:19:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=us9+mymX7jX6azGLgvg8D7ife9PX0I0CSa9deFoFZGQ=;
+        b=TIJfcUaQubsnwrvHZlA9Tc/PcrVtGFmOoTDvei6RyKElHoSZ1XOeBHrdL1XVb3Ukoe
+         dGPUda0jdf3eBKjabwJda/AQod5cs71qq6rRYQHa+ASflHACfwv4g4DxOpcutgzKDW62
+         s/9mcXolm0ks1BRyIV5dcrNQfC9LT5Gug9VE/c9lu46T8nGbG2UrnkwePpz0xkJpQlO7
+         y28aZ4gakMO3SJF9idKl0dtyit/803xgYgRK+5ug4G8E6rHXqohB2IHI5qHC/gwCb73R
+         fYczWZqYnzQfKBRYiXvvPt6m2l0nb8oNt6x4OblmNpb0iiSurXGg7L9XAssaEMYNx44L
+         WVvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=us9+mymX7jX6azGLgvg8D7ife9PX0I0CSa9deFoFZGQ=;
+        b=rBfM5KaN2vqax4J41MPOWuegfVBilsLC/OLigoG9fXZbbCC8tnGHRoTyxjCeglvukI
+         dwPYBn4531PSQoAbUMclNY/UJLMT0Hnaeo2Rarijc/VbaEWYAxypJAPOyV5pYP58dSMW
+         keXg/6/MJPeihAEpov1Li7cLazTGk9H9NJcSlLK5fUMSoGI2/trBgdAR9RIiqwGWomEf
+         8Cr7CMGKG/czvU5da+TkpFiFYP1rcghKTmFCOGWev2NBRCGdVSM2QiDRnASoM+zxu0z5
+         8j1Eg7Jn3soi/6IcjLELE815MdKfVCrYli5c4bKDQxC9otPPQZGI7WDKvn1zRROOamkk
+         t9UA==
+X-Gm-Message-State: AOAM53137d2By9zu/b8qr4wRPW7AIQ4NfTUx/EWCoZqPoJXM/tRgzkSP
+        0pc6cJqYkGyZt5ghuVCepGY7uMdruDI4qw==
+X-Google-Smtp-Source: ABdhPJxQlN2Q+imrmG0j/9WjSZT0yiD0GHnvT+U9VuV1i33lM0w/q0exxd+yYwtPCyJWufbvYPzhgQ==
+X-Received: by 2002:a17:902:e810:b029:de:45bf:1232 with SMTP id u16-20020a170902e810b02900de45bf1232mr12902884plg.59.1614554343572;
+        Sun, 28 Feb 2021 15:19:03 -0800 (PST)
+Received: from xps15 (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+        by smtp.gmail.com with ESMTPSA id ge16sm2052294pjb.43.2021.02.28.15.19.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Feb 2021 15:19:02 -0800 (PST)
+Date:   Sun, 28 Feb 2021 16:19:00 -0700
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Mike Leach <mike.leach@linaro.org>
+Cc:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        linux-doc@vger.kernel.org, suzuki.poulose@arm.com,
+        yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
+        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 07/10] coresight: etm4x: Add complex configuration
+ handlers to etmv4
+Message-ID: <20210228231900.GB3631443@xps15>
+References: <20210128170936.9222-1-mike.leach@linaro.org>
+ <20210128170936.9222-8-mike.leach@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-SEG-SpamProfiler-Analysis: v=2.3 cv=C7uXNjH+ c=1 sm=1 tr=0 a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=IkcTkHD0fZMA:10 a=dESyimp9J3IA:10 a=bUQKSiCPAAAA:8 a=eFSOPmDLR39FoRlrkAYA:9 a=QEXdDO2ut3YA:10 a=-fHZXUhsFbuwFN3fwQAr:22
-X-SEG-SpamProfiler-Score: 0
-x-atlnz-ls: pat
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210128170936.9222-8-mike.leach@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The IR36021 is a dual=E2=80=90loop digital multi=E2=80=90phase buck contr=
-oller.
+On Thu, Jan 28, 2021 at 05:09:33PM +0000, Mike Leach wrote:
+> Adds in handlers to allow the ETMv4 to use the complex configuration
+> support. Features and configurations can be loaded and selected in the
+> device.
+> 
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> ---
+>  drivers/hwtracing/coresight/Makefile          |   3 +-
+>  .../hwtracing/coresight/coresight-etm4x-cfg.c | 184 ++++++++++++++++++
+>  .../hwtracing/coresight/coresight-etm4x-cfg.h |  29 +++
+>  .../coresight/coresight-etm4x-core.c          |  38 +++-
+>  .../coresight/coresight-etm4x-sysfs.c         |   3 +
+>  5 files changed, 254 insertions(+), 3 deletions(-)
+>  create mode 100644 drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+>  create mode 100644 drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+> 
+> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
+> index daad9f103a78..ea544206204d 100644
+> --- a/drivers/hwtracing/coresight/Makefile
+> +++ b/drivers/hwtracing/coresight/Makefile
+> @@ -16,7 +16,8 @@ obj-$(CONFIG_CORESIGHT_SOURCE_ETM3X) += coresight-etm3x.o
+>  coresight-etm3x-y := coresight-etm3x-core.o coresight-etm-cp14.o \
+>  		     coresight-etm3x-sysfs.o
+>  obj-$(CONFIG_CORESIGHT_SOURCE_ETM4X) += coresight-etm4x.o
+> -coresight-etm4x-y := coresight-etm4x-core.o coresight-etm4x-sysfs.o
+> +coresight-etm4x-y := coresight-etm4x-core.o coresight-etm4x-sysfs.o \
+> +			coresight-etm4x-cfg.o
+>  obj-$(CONFIG_CORESIGHT_STM) += coresight-stm.o
+>  obj-$(CONFIG_CORESIGHT_CPU_DEBUG) += coresight-cpu-debug.o
+>  obj-$(CONFIG_CORESIGHT_CATU) += coresight-catu.o
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> new file mode 100644
+> index 000000000000..f237a8d02360
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> @@ -0,0 +1,184 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright(C) 2020 Linaro Limited. All rights reserved.
+> + * Author: Mike Leach <mike.leach@linaro.org>
+> + */
+> +
+> +#include "coresight-etm4x.h"
+> +#include "coresight-etm4x-cfg.h"
+> +#include "coresight-priv.h"
+> +#include "coresight-syscfg.h"
+> +
+> +/**
+> + * etm4_cfg_map_reg_offset - validate and map the register offset into a
+> + *			     location in the driver config struct.
+> + *
+> + * Limits the number of registers that can be accessed and programmed in
+> + * features, to those which are used to control the trace capture parameters.
+> + *
+> + * Omits or limits access to those which the driver must use exclusively.
+> + *
+> + * Invalid offsets will result in fail code return and feature load failure.
+> + *
+> + * @drvdata:	driver data to map into.
+> + * @reg:	register to map.
+> + * @offset:	device offset for the register
+> + */
+> +static int etm4_cfg_map_reg_offset(struct etmv4_drvdata *drvdata,
+> +				   struct cscfg_reg_csdev *reg, u32 offset)
+> +{
+> +	int err = -EINVAL, idx;
+> +	struct etmv4_config *drvcfg = &drvdata->config;
+> +	u32 off_mask;
+> +
+> +#define CHECKREG(cval, elem) \
+> +	{ \
+> +		if (offset == cval) { \
+> +			reg->drv_store = &drvcfg->elem; \
+> +			err = 0; \
+> +			break; \
+> +		} \
+> +	}
+> +
+> +#define CHECKREGIDX(cval, elem, off_idx, mask)	\
+> +	{ \
+> +		if (mask == cval) { \
+> +			reg->drv_store = &drvcfg->elem[off_idx]; \
+> +			err = 0; \
+> +			break; \
+> +		} \
+> +	}
+> +
+> +	if (((offset >= TRCEVENTCTL0R) && (offset <= TRCVIPCSSCTLR)) ||
+> +	    ((offset >= TRCSEQRSTEVR) && (offset <= TRCEXTINSELR)) ||
+> +	    ((offset >= TRCCIDCCTLR0) && (offset <= TRCVMIDCCTLR1))) {
+> +		do {
+> +			CHECKREG(TRCEVENTCTL0R, eventctrl0);
+> +			CHECKREG(TRCEVENTCTL1R, eventctrl1);
+> +			CHECKREG(TRCSTALLCTLR, stall_ctrl);
+> +			CHECKREG(TRCTSCTLR, ts_ctrl);
+> +			CHECKREG(TRCSYNCPR, syncfreq);
+> +			CHECKREG(TRCCCCTLR, ccctlr);
+> +			CHECKREG(TRCBBCTLR, bb_ctrl);
+> +			CHECKREG(TRCVICTLR, vinst_ctrl);
+> +			CHECKREG(TRCVIIECTLR, viiectlr);
+> +			CHECKREG(TRCVISSCTLR, vissctlr);
+> +			CHECKREG(TRCVIPCSSCTLR, vipcssctlr);
+> +			CHECKREG(TRCSEQRSTEVR, seq_rst);
+> +			CHECKREG(TRCSEQSTR, seq_state);
+> +			CHECKREG(TRCEXTINSELR, ext_inp);
+> +			CHECKREG(TRCCIDCCTLR0, ctxid_mask0);
+> +			CHECKREG(TRCCIDCCTLR1, ctxid_mask1);
+> +			CHECKREG(TRCVMIDCCTLR0, vmid_mask0);
+> +			CHECKREG(TRCVMIDCCTLR1, vmid_mask1);
+> +		} while (0);
+> +	} else if ((offset & GENMASK(11, 4)) == TRCSEQEVRn(0)) {
+> +		/* sequencer state control registers */
+> +		idx = (offset & GENMASK(3, 0)) / 4;
+> +		if (idx < ETM_MAX_SEQ_STATES) {
+> +			reg->drv_store = &drvcfg->seq_ctrl[idx];
+> +			err = 0;
+> +		}
+> +	} else if ((offset >= TRCSSCCRn(0)) && (offset <= TRCSSPCICRn(7))) {
+> +		/* 32 bit, 8 off indexed register sets */
+> +		idx = (offset & GENMASK(4, 0)) / 4;
+> +		off_mask =  (offset & GENMASK(11, 5));
+> +		do {
+> +			CHECKREGIDX(TRCSSCCRn(0), ss_ctrl, idx, off_mask);
+> +			CHECKREGIDX(TRCSSCSRn(0), ss_status, idx, off_mask);
+> +			CHECKREGIDX(TRCSSPCICRn(0), ss_pe_cmp, idx, off_mask);
+> +		} while (0);
+> +	} else if ((offset >= TRCCIDCVRn(0)) && (offset <= TRCVMIDCVRn(7))) {
+> +		/* 64 bit, 8 off indexed register sets */
+> +		idx = (offset & GENMASK(5, 0)) / 8;
+> +		off_mask = (offset & GENMASK(11, 6));
+> +		do {
+> +			CHECKREGIDX(TRCCIDCVRn(0), ctxid_pid, idx, off_mask);
+> +			CHECKREGIDX(TRCVMIDCVRn(0), vmid_val, idx, off_mask);
+> +		} while (0);
+> +	} else if ((offset >= TRCRSCTLRn(2)) &&
+> +		   (offset <= TRCRSCTLRn((ETM_MAX_RES_SEL - 1)))) {
+> +		/* 32 bit resource selection regs, 32 off, skip fixed 0,1 */
+> +		idx = (offset & GENMASK(6, 0)) / 4;
+> +		if (idx < ETM_MAX_RES_SEL) {
+> +			reg->drv_store = &drvcfg->res_ctrl[idx];
+> +			err = 0;
+> +		}
+> +	} else if ((offset >= TRCACVRn(0)) &&
+> +		   (offset <= TRCACATRn((ETM_MAX_SINGLE_ADDR_CMP - 1)))) {
+> +		/* 64 bit addr cmp regs, 16 off */
+> +		idx = (offset & GENMASK(6, 0)) / 8;
+> +		off_mask = offset & GENMASK(11, 7);
+> +		do {
+> +			CHECKREGIDX(TRCACVRn(0), addr_val, idx, off_mask);
+> +			CHECKREGIDX(TRCACATRn(0), addr_acc, idx, off_mask);
+> +		} while (0);
+> +	} else if ((offset >= TRCCNTRLDVRn(0)) &&
+> +		   (offset <= TRCCNTVRn((ETMv4_MAX_CNTR - 1)))) {
+> +		/* 32 bit counter regs, 4 off (ETMv4_MAX_CNTR - 1) */
+> +		idx = (offset &  GENMASK(3, 0)) / 4;
+> +		off_mask = offset &  GENMASK(11, 4);
+> +		do {
+> +			CHECKREGIDX(TRCCNTRLDVRn(0), cntrldvr, idx, off_mask);
+> +			CHECKREGIDX(TRCCNTCTLRn(0), cntr_ctrl, idx, off_mask);
+> +			CHECKREGIDX(TRCCNTVRn(0), cntr_val, idx, off_mask);
+> +		} while (0);
+> +	}
+> +	return err;
+> +}
+> +
+> +/**
+> + * etm4_cfg_load_feature - load a feature into a device instance.
+> + *
+> + * @csdev:	An ETMv4 CoreSight device.
+> + * @feat:	The feature to be loaded.
+> + *
+> + * The function will load a feature instance into the device, checking that
+> + * the register definitions are valid for the device.
+> + *
+> + * Parameter and register definitions will be converted into internal
+> + * structures that are used to set the values in the driver when the
+> + * feature is enabled for the device.
+> + *
+> + * The feature spinlock pointer is initialised to the same spinlock
+> + * that the driver uses to protect the internal register values.
+> + */
+> +static int etm4_cfg_load_feature(struct coresight_device *csdev,
+> +				 struct cscfg_feature_csdev *feat)
+> +{
+> +	struct device *dev = csdev->dev.parent;
+> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev);
+> +	const struct cscfg_feature_desc *feat_desc = feat->desc;
+> +	u32 offset;
+> +	int i = 0, err = 0;
+> +
+> +	/*
+> +	 * essential we set the device spinlock - this is used in the generic
+> +	 * programming routines when copying values into the drvdata structures
+> +	 * via the pointers setup in etm4_cfg_map_reg_offset().
+> +	 */
+> +	feat->csdev_spinlock = &drvdata->spinlock;
+> +
+> +	/* process the register descriptions */
+> +	for (i = 0; i < feat->nr_regs && !err; i++) {
+> +		offset = feat_desc->regs[i].offset;
+> +		err = etm4_cfg_map_reg_offset(drvdata, &feat->regs[i], offset);
+> +	}
+> +	return err;
+> +}
+> +
+> +/* match information when loading configurations */
+> +#define CS_CFG_ETM4_MATCH_FLAGS	(CS_CFG_MATCH_CLASS_SRC_ALL | \
+> +					 CS_CFG_MATCH_CLASS_SRC_ETM4)
 
-Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
----
- Documentation/hwmon/index.rst   |  1 +
- Documentation/hwmon/ir36021.rst | 62 +++++++++++++++++++++++++
- drivers/hwmon/pmbus/Kconfig     |  9 ++++
- drivers/hwmon/pmbus/Makefile    |  1 +
- drivers/hwmon/pmbus/ir36021.c   | 81 +++++++++++++++++++++++++++++++++
- 5 files changed, 154 insertions(+)
- create mode 100644 Documentation/hwmon/ir36021.rst
- create mode 100644 drivers/hwmon/pmbus/ir36021.c
+Here the indentation is correct but not when the patch is applied.  Have another
+look on your side but don't worry about it if things are aligned.
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rs=
-t
-index 8d5a2df1ecb6..b34894403c2b 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -77,6 +77,7 @@ Hardware Monitoring Kernel Drivers
-    intel-m10-bmc-hwmon
-    ir35221
-    ir38064
-+   ir36021
-    isl68137
-    it87
-    jc42
-diff --git a/Documentation/hwmon/ir36021.rst b/Documentation/hwmon/ir3602=
-1.rst
-new file mode 100644
-index 000000000000..36ef8d518b81
---- /dev/null
-+++ b/Documentation/hwmon/ir36021.rst
-@@ -0,0 +1,62 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver ir36021
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+
-+Supported chips:
-+
-+  * Infineon IR36021
-+
-+    Prefix: ir36021
-+    Addresses scanned: -
-+
-+    Datasheet: Publicly available at the Infineon website
-+      https://www.infineon.com/dgdl/ir36021.pdf?fileId=3D5546d462533600a=
-4015355d0aa2d1775
-+
-+Authors:
-+      - Chris Packham <chris.packham@alliedtelesis.co.nz>
-+
-+Description
-+-----------
-+
-+The IR36021 is a dual=E2=80=90loop digital multi=E2=80=90phase buck cont=
-roller designed for
-+point of load applications.
-+
-+Usage Notes
-+-----------
-+
-+This driver does not probe for PMBus devices. You will have to instantia=
-te
-+devices explicitly.
-+
-+Sysfs attributes
-+----------------
-+
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-+curr1_label             "iin"
-+curr1_input             Measured input current
-+curr1_alarm             Input fault alarm
-+
-+curr2_label             "iout1"
-+curr2_input             Measured output current
-+curr2_alarm             Output over-current alarm
-+
-+in1_label               "vin"
-+in1_input               Measured input voltage
-+in1_alarm               Input under-voltage alarm
-+
-+in2_label               "vout1"
-+in2_input               Measured output voltage
-+in2_alarm               Output over-voltage alarm
-+
-+power1_label            "pin"
-+power1_input            Measured input power
-+power1_alarm            Input under-voltage alarm
-+
-+power2_label            "pout1"
-+power2_input            Measured output power
-+
-+temp1_input             Measured temperature
-+temp1_alarm             Temperature alarm
-+
-+temp2_input             Measured other loop temperature
-+temp2_alarm             Temperature alarm
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 32d2fc850621..ee8c27b3b83d 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -84,6 +84,15 @@ config SENSORS_IR35221
- 	  This driver can also be built as a module. If so, the module will
- 	  be called ir35221.
-=20
-+config SENSORS_IR36021
-+	tristate "Infineon IR36021"
-+	help
-+	  If you say yes here you get hardware monitoring support for Infineon
-+	  IR36021.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called ir36021.
-+
- config SENSORS_IR38064
- 	tristate "Infineon IR38064"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index 6a4ba0fdc1db..685a6bc2b15f 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -11,6 +11,7 @@ obj-$(CONFIG_SENSORS_BEL_PFE)	+=3D bel-pfe.o
- obj-$(CONFIG_SENSORS_IBM_CFFPS)	+=3D ibm-cffps.o
- obj-$(CONFIG_SENSORS_INSPUR_IPSPS) +=3D inspur-ipsps.o
- obj-$(CONFIG_SENSORS_IR35221)	+=3D ir35221.o
-+obj-$(CONFIG_SENSORS_IR36021)	+=3D ir36021.o
- obj-$(CONFIG_SENSORS_IR38064)	+=3D ir38064.o
- obj-$(CONFIG_SENSORS_IRPS5401)	+=3D irps5401.o
- obj-$(CONFIG_SENSORS_ISL68137)	+=3D isl68137.o
-diff --git a/drivers/hwmon/pmbus/ir36021.c b/drivers/hwmon/pmbus/ir36021.=
-c
-new file mode 100644
-index 000000000000..99b5c7311afd
---- /dev/null
-+++ b/drivers/hwmon/pmbus/ir36021.c
-@@ -0,0 +1,81 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+/*
-+ * Hardware monitoring driver for Infineon IR36021
-+ *
-+ * Copyright (c) 2021 Allied Telesis
-+ */
-+#include <linux/err.h>
-+#include <linux/i2c.h>
-+#include <linux/init.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include "pmbus.h"
-+
-+static struct pmbus_driver_info ir36021_info =3D {
-+	.pages =3D 1,
-+	.format[PSC_VOLTAGE_IN] =3D linear,
-+	.format[PSC_VOLTAGE_OUT] =3D linear,
-+	.format[PSC_CURRENT_IN] =3D linear,
-+	.format[PSC_CURRENT_OUT] =3D linear,
-+	.format[PSC_POWER] =3D linear,
-+	.format[PSC_TEMPERATURE] =3D linear,
-+	.func[0] =3D PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT
-+		| PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT
-+		| PMBUS_HAVE_PIN | PMBUS_HAVE_POUT
-+		| PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2
-+		| PMBUS_HAVE_STATUS_TEMP,
-+};
-+
-+static int ir36021_probe(struct i2c_client *client,
-+			 const struct i2c_device_id *id)
-+{
-+	u8 buf[I2C_SMBUS_BLOCK_MAX];
-+	int ret;
-+
-+	if (!i2c_check_functionality(client->adapter,
-+				     I2C_FUNC_SMBUS_READ_BYTE_DATA
-+				     | I2C_FUNC_SMBUS_READ_WORD_DATA
-+				     | I2C_FUNC_SMBUS_READ_BLOCK_DATA))
-+		return -ENODEV;
-+
-+	ret =3D i2c_smbus_read_i2c_block_data(client, PMBUS_MFR_MODEL, 2, buf);
-+	if (ret < 0) {
-+		dev_err(&client->dev, "Failed to read PMBUS_MFR_MODEL\n");
-+		return ret;
-+	}
-+	if (ret !=3D 2 || !(buf[0] =3D=3D 0x01 || buf[1] =3D=3D 0x2d)) {
-+		dev_err(&client->dev, "MFR_MODEL unrecognised\n");
-+		return -ENODEV;
-+	}
-+
-+	return pmbus_do_probe(client, id, &ir36021_info);
-+}
-+
-+static const struct i2c_device_id ir36021_id[] =3D {
-+	{ "ir36021", 0 },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(i2c, ir36021_id);
-+
-+static const struct of_device_id __maybe_unused ir36021_of_id[] =3D {
-+	{ .compatible =3D "infineon,ir36021" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, ir36021_of_id);
-+
-+static struct i2c_driver ir36021_driver =3D {
-+	.class =3D I2C_CLASS_HWMON,
-+	.driver =3D {
-+		.name =3D "ir36021",
-+		.of_match_table =3D of_match_ptr(ir36021_of_id),
-+	},
-+	.probe =3D ir36021_probe,
-+	.remove =3D pmbus_do_remove,
-+	.id_table =3D ir36021_id,
-+};
-+
-+module_i2c_driver(ir36021_driver);
-+
-+MODULE_AUTHOR("Chris Packham <chris.packham@alliedtelesis.co.nz>");
-+MODULE_DESCRIPTION("PMBus driver for Infineon IR36021");
-+MODULE_LICENSE("GPL");
---=20
-2.30.0
+> +
+> +int etm4_cscfg_register(struct coresight_device *csdev, const char *dev_name)
+> +{
+> +	struct cscfg_match_desc cfg_info;
+> +	struct cscfg_csdev_feat_ops ops;
+> +
+> +	cfg_info.match_flags = CS_CFG_ETM4_MATCH_FLAGS;
+> +
+> +	ops.load_feat = &etm4_cfg_load_feature;
+> +
+> +	return cscfg_register_csdev(csdev, &cfg_info, &ops);
+> +}
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.h b/drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+> new file mode 100644
+> index 000000000000..9e279c5da55d
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+> @@ -0,0 +1,29 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
+> + */
+> +
+> +#ifndef _CORESIGHT_CORESIGHT_ETM4X_CFG_H
+> +#define _CORESIGHT_CORESIGHT_ETM4X_CFG_H
 
+Shouldn't that be "_CORESIGHT_ETM4X_CFG_H" ?  The same denomination was used for
+coresight-config.h but not coresight-syscfg.h...
+
+> +
+> +#include "coresight-config.h"
+> +#include "coresight-etm4x.h"
+> +
+> +/* ETMv4 specific config defines */
+> +
+> +/* resource IDs */
+> +
+> +#define ETM4_CFG_RES_CTR	0x001
+> +#define ETM4_CFG_RES_CMP	0x002
+> +#define ETM4_CFG_RES_CMP_PAIR0	0x003
+> +#define ETM4_CFG_RES_CMP_PAIR1	0x004
+> +#define ETM4_CFG_RES_SEL	0x005
+> +#define ETM4_CFG_RES_SEL_PAIR0	0x006
+> +#define ETM4_CFG_RES_SEL_PAIR1	0x007
+> +#define ETM4_CFG_RES_SEQ	0x008
+> +#define ETM4_CFG_RES_TS		0x009
+> +#define ETM4_CFG_RES_MASK	0x00F
+
+These are used in patch 08, please move them there.
+
+> +
+> +int etm4_cscfg_register(struct coresight_device *csdev, const char *dev_name);
+> +
+> +#endif /* _CORESIGHT_CORESIGHT_ETM4X_CFG_H */
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> index 473ab7480a36..5e501ce244dd 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> @@ -38,6 +38,8 @@
+>  
+>  #include "coresight-etm4x.h"
+>  #include "coresight-etm-perf.h"
+> +#include "coresight-etm4x-cfg.h"
+> +#include "coresight-syscfg.h"
+>  
+>  static int boot_enable;
+>  module_param(boot_enable, int, 0444);
+> @@ -491,12 +493,15 @@ static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
+>  	return ret;
+>  }
+>  
+> -static int etm4_parse_event_config(struct etmv4_drvdata *drvdata,
+> +static int etm4_parse_event_config(struct coresight_device *csdev,
+>  				   struct perf_event *event)
+>  {
+>  	int ret = 0;
+> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+>  	struct etmv4_config *config = &drvdata->config;
+>  	struct perf_event_attr *attr = &event->attr;
+> +	unsigned long cfg_id;
+> +	int preset;
+>
+
+Ok
+  
+>  	if (!attr) {
+>  		ret = -EINVAL;
+> @@ -554,6 +559,20 @@ static int etm4_parse_event_config(struct etmv4_drvdata *drvdata,
+>  		/* bit[12], Return stack enable bit */
+>  		config->cfg |= BIT(12);
+>  
+> +	/*
+> +	 * Set any selected configuration and preset.
+> +	 *
+> +	 * This extracts the values of PMU_FORMAT_ATTR(configid) and PMU_FORMAT_ATTR(preset)
+> +	 * in the perf attributes defined in coresight-etm-perf.c.
+> +	 * configid uses bits 63:32 of attr->config2, preset uses bits 3:0 of attr->config.
+> +	 * A zero configid means no configuration active, preset = 0 means no preset selected.
+> +	 */
+> +	if (attr->config2 & GENMASK_ULL(63, 32)) {
+> +		cfg_id = (u32)(attr->config2 >> 32);
+> +		preset = attr->config & 0xF;
+> +		ret = cscfg_csdev_enable_active_config(csdev, cfg_id, preset);
+> +	}
+> +
+
+Ok
+
+>  out:
+>  	return ret;
+>  }
+> @@ -570,7 +589,7 @@ static int etm4_enable_perf(struct coresight_device *csdev,
+>  	}
+>  
+>  	/* Configure the tracer based on the session's specifics */
+> -	ret = etm4_parse_event_config(drvdata, event);
+> +	ret = etm4_parse_event_config(csdev, event);
+>  	if (ret)
+>  		goto out;
+>  	/* And enable it */
+> @@ -701,11 +720,18 @@ static int etm4_disable_perf(struct coresight_device *csdev,
+>  	u32 control;
+>  	struct etm_filters *filters = event->hw.addr_filters;
+>  	struct etmv4_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+> +	struct perf_event_attr *attr = &event->attr;
+>  
+>  	if (WARN_ON_ONCE(drvdata->cpu != smp_processor_id()))
+>  		return -EINVAL;
+>  
+>  	etm4_disable_hw(drvdata);
+> +	/*
+> +	 * The config_id occupies bits 63:32 of the config2 perf event attr
+> +	 * field. If this is non-zero then we will have enabled a config.
+> +	 */
+> +	if (attr->config2 & GENMASK_ULL(63, 32))
+> +		cscfg_csdev_disable_active_config(csdev);
+
+Ok
+
+>  
+>  	/*
+>  	 * Check if the start/stop logic was active when the unit was stopped.
+> @@ -1815,6 +1841,13 @@ static int etm4_probe(struct device *dev, void __iomem *base, u32 etm_pid)
+>  		return ret;
+>  	}
+>  
+> +	/* register with config infrastructure & load any current features */
+> +	ret = etm4_cscfg_register(drvdata->csdev, dev_name(dev));
+> +	if (ret) {
+> +		coresight_unregister(drvdata->csdev);
+> +		return ret;
+> +	}
+> +
+>  	etmdrvdata[drvdata->cpu] = drvdata;
+>  
+>  	dev_info(&drvdata->csdev->dev, "CPU%d: ETM v%d.%d initialized\n",
+> @@ -1902,6 +1935,7 @@ static int __exit etm4_remove_dev(struct etmv4_drvdata *drvdata)
+>  
+>  	cpus_read_unlock();
+>  
+> +	cscfg_unregister_csdev(drvdata->csdev);
+>  	coresight_unregister(drvdata->csdev);
+>  
+>  	return 0;
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+> index b646d53a3133..cf2a51113436 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
+> @@ -9,6 +9,7 @@
+>  #include <linux/sysfs.h>
+>  #include "coresight-etm4x.h"
+>  #include "coresight-priv.h"
+> +#include "coresight-syscfg.h"
+>  
+>  static int etm4_set_mode_exclude(struct etmv4_drvdata *drvdata, bool exclude)
+>  {
+> @@ -269,6 +270,8 @@ static ssize_t reset_store(struct device *dev,
+>  
+>  	spin_unlock(&drvdata->spinlock);
+>  
+> +	cscfg_csdev_reset_feats(to_coresight_device(dev));
+> +
+
+Other than the cosmetic comments above, this patch is fine.
+
+Thanks,
+Mathieu
+
+>  	return size;
+>  }
+>  static DEVICE_ATTR_WO(reset);
+> -- 
+> 2.17.1
+> 
