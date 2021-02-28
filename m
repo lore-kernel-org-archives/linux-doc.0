@@ -2,255 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F2C2C433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 03:10:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4C5DC433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 03:11:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6DA364E20
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 03:10:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7E47464E21
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 03:11:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231574AbhCADKl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Feb 2021 22:10:41 -0500
-Received: from regular1.263xmail.com ([211.150.70.198]:43858 "EHLO
-        regular1.263xmail.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231535AbhCADKl (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Feb 2021 22:10:41 -0500
-Received: from localhost (unknown [192.168.167.16])
-        by regular1.263xmail.com (Postfix) with ESMTP id F045A758;
-        Mon,  1 Mar 2021 11:03:49 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED4: 1
-X-ANTISPAM-LEVEL: 2
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-Received: from localhost.localdomain (unknown [113.57.152.160])
-        by smtp.263.net (postfix) whith ESMTP id P32471T140679485314816S1614567829728328_;
-        Mon, 01 Mar 2021 11:03:50 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <fdc79934985dc38ad1287372d729838c>
-X-RL-SENDER: huangjianghui@uniontech.com
-X-SENDER: huangjianghui@uniontech.com
-X-LOGIN-NAME: huangjianghui@uniontech.com
-X-FST-TO: corbet@lwn.net
-X-SENDER-IP: 113.57.152.160
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-From:   hjh <huangjianghui@uniontech.com>
+        id S231535AbhCADLm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Feb 2021 22:11:42 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:52576 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231947AbhCADLk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 28 Feb 2021 22:11:40 -0500
+Received: from LAPTOP-O8VTVVS6.localdomain (unknown [112.20.111.70])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxH_E9WzxgXRASAA--.6017S3;
+        Mon, 01 Mar 2021 11:10:55 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] PATCH Documentation translations:translate sound/hd-audio/controls to chinese
-Date:   Mon,  1 Mar 2021 11:03:49 +0800
-Message-Id: <20210301030349.37275-1-huangjianghui@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Harry Wei <harryxiyou@gmail.com>,
+        Yanteng Si <siyanteng01@gmail.com>, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, Huacai Chen <chenhuacai@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v4 1/4] docs/zh_CN:add riscv boot-image-header.rst translation
+Date:   Mon,  1 Mar 2021 03:10:51 +0800
+Message-Id: <20210228191054.6048-2-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210228191054.6048-1-siyanteng@loongson.cn>
+References: <20210228191054.6048-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9DxH_E9WzxgXRASAA--.6017S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxGF17CrWDZw1UGrW7GryrCrg_yoW5tF4Dpw
+        1qgrWxG3WxJry7Ar1Ikr17XF43JF4rW3W7C3WxW342yr4Yqr98Kw1rtr90g347GFyIyF9x
+        Xrs0kw13CryYvw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPG14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2jI8I6cxK6x804I0_JFv_Gryl82xGYIkIc2x262
+        80x7IE14v26r18M28IrcIa0xkI8VCY1x0267AKxVWUCVW8JwA2ocxC64kIII0Yj41l84x0
+        c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2
+        IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E
+        87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0V
+        AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1l
+        Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErc
+        IFxwCY02Avz4vE14v_Gr4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l
+        x2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14
+        v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IY
+        x2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87
+        Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIF
+        yTuYvjfUn3kuDUUUU
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: hjh <huangjianghui@uniontech.com>
----
- Documentation/translations/zh_CN/index.rst    |   1 +
- .../zh_CN/sound/hd-audio/controls.rst         | 109 ++++++++++++++++++
- .../zh_CN/sound/hd-audio/index.rst            |  17 +++
- .../translations/zh_CN/sound/index.rst        |  26 +++++
- 4 files changed, 153 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/controls.rst
- create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/index.rst
- create mode 100644 Documentation/translations/zh_CN/sound/index.rst
+This patch translates Documentation/riscv/boot-image-header.rst intoChinese.
 
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index be6f11176200..2767dacfe86d 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -20,6 +20,7 @@
-    process/index
-    filesystems/index
-    arm64/index
-+   sound/index
- 
- 目录和表格
- ----------
-diff --git a/Documentation/translations/zh_CN/sound/hd-audio/controls.rst b/Documentation/translations/zh_CN/sound/hd-audio/controls.rst
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
+---
+ .../zh_CN/riscv/boot-image-header.rst         | 67 +++++++++++++++++++
+ 1 file changed, 67 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/riscv/boot-image-header.rst
+
+diff --git a/Documentation/translations/zh_CN/riscv/boot-image-header.rst b/Documentation/translations/zh_CN/riscv/boot-image-header.rst
 new file mode 100644
-index 000000000000..662bacc5a45f
+index 000000000000..241bf9c1bcbe
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/sound/hd-audio/controls.rst
-@@ -0,0 +1,109 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+Chinese translated version of Documentation/sound/hd-audio/controls.rst
-+
-+If you have any comment or update to the content, please contact the
-+original document maintainer directly.  However, if you have a problem
-+communicating in English you can also ask the Chinese maintainer for
-+help.  Contact the Chinese maintainer if this translation is outdated
-+or if there is a problem with the translation.
-+
-+Chinese maintainer: Huang Jianghui <huangjianghui@uniontech.com>
-+---------------------------------------------------------------------
-+.. include:: ../../disclaimer-zh_CN.rst
-+以下为正文
-+---------------------------------------------------------------------
-+======================================
-+高清音频编解码器特定混音器控件
-+======================================
-+
-+
-+此文件解释特定于编解码器的混音器控件.
-+
-+瑞昱编解码器
-+------------
-+
-+声道模式
-+  这是一个用于更改环绕声道设置的枚举控件,仅在环绕声道打开时显示出现。
-+  它给出要使用的通道数:"2ch","4ch","6ch"，和"8ch"。根据配置，这还控
-+  制多I/O插孔的插孔重分配。
-+
-+自动静音模式
-+  这是一个枚举控件，用于更改耳机和线路输出插孔的自动静音行为。如果内
-+  置扬声器、耳机和/或线路输出插孔在机器上可用，则显示该控件。当只有
-+  耳机或者线路输出的时候，它给出”禁用“和”启用“状态。当启用后，插孔插
-+  入后扬声器会自动静音。
-+
-+  当耳机和线路输出插孔都存在时，它给出”禁用“、”仅扬声器“和”线路输出+扬
-+  声器“。当”仅扬声器“被选择，插入耳机或者线路输出插孔可使扬声器静音，
-+  但不会使线路输出静音。当线路输出+扬声器被选择，插入耳机插孔会同时使扬
-+  声器和线路输出静音。
-+
-+
-+矽玛特编解码器
-+--------------
-+
-+模拟环回
-+   此控件启用/禁用模拟环回电路。只有在编解码器提示中将”lookback“设置为真
-+   时才会出现(见HD-Audio.txt)。请注意，在某些编解码器上，模拟环回和正常
-+   PCM播放是独占的,即当此选项打开时，您将听不到任何PCM流。
-+
-+交换中置/低频
-+   交换中置和低频通道顺序，通常情况下，左侧对应中置，右侧对应低频,启动此
-+   项后，左边低频，右边中置。
-+
-+耳机作为线路输出
-+   当此控制开启时，将耳机视为线路输出插孔。也就是说，耳机不会自动静音其他
-+   线路输出，没有耳机放大器被设置到引脚上。
-+
-+麦克风插口模式、线路插孔模式等
-+   这些枚举控制输入插孔引脚的方向和偏置。根据插孔类型，它可以设置为”麦克风
-+   输入“和”线路输入“以确定输入偏置,或者当引脚是环绕声道的多I/O插孔时，它
-+   可以设置为”线路输出“。
-+
-+
-+威盛编解码器
-+------------
-+
-+智能5.1
-+   一个枚举控件，用于为环绕输出重新分配多个I/O插孔的任务。当它打开时，相应
-+   的输入插孔（通常是线路输入和麦克风输入）被切换为环绕和中央低频输出插孔。
-+
-+独立耳机
-+   启用此枚举控制时，耳机输出从单个流（第三个PCM，如hw:0,2）而不是主流路由。
-+   如果耳机DAC与侧边或中央低频通道DAC共享，则DAC将自动切换到耳机。
-+
-+环回混合
-+   一个用于确定是否启动了模拟环回路由的枚举控件。当它启用后，模拟环回路由到
-+   前置通道。同样，耳机与扬声器输出也采用相同的路径。作为一个副作用，当设置
-+   此模式后，单个音量控制将不再适用于耳机和扬声器，因为只有一个DAC连接到混
-+   音器小部件。
-+
-+动态电源控制
-+   此控件决定是否启动每个插孔的动态电源控制检测。启用时，根据插孔的插入情况
-+   动态更改组件的电源状态（D0/D3）以节省电量消耗。但是，如果您的系统没有提
-+   供正确的插孔检测，这将无法工作;在这种情况下，请关闭此控件。
-+
-+插孔检测
-+   此控件仅为VT1708编解码器提供，它不会为每个插孔插拔提供适当的未请求事件。
-+   当此控件打开，驱动将轮询插孔检测，以便耳机自动静音可以工作，而关闭此控
-+   件将降低功耗。
-+
-+
-+科胜讯编解码器
-+--------------
-+
-+自动静音模式
-+   见瑞昱解码器
-+
-+
-+
-+模拟编解码器
-+------------
-+
-+通道模式
-+   这是一个用于更改环绕声道设置的枚举控件,仅在环绕声道可用时显示。它提供了能
-+   被使用的通道数:”2ch“、”4ch“和”6ch“。根据配置，这还控制多I/O插孔的插孔重
-+   分配。
-+
-+独立耳机
-+   启动此枚举控制后，耳机输出从单个流（第三个PCM，如hw:0,2）而不是主流路由。
-diff --git a/Documentation/translations/zh_CN/sound/hd-audio/index.rst b/Documentation/translations/zh_CN/sound/hd-audio/index.rst
-new file mode 100644
-index 000000000000..c287aad51066
---- /dev/null
-+++ b/Documentation/translations/zh_CN/sound/hd-audio/index.rst
-@@ -0,0 +1,17 @@
-+.. include:: ../../disclaimer-zh_CN.rst
-+
-+:Original: :doc:`../../../../sound/hd-audio/index`
-+:Translator: Huang Jianghui <huangjianghui@uniontech.com>
-+
-+
-+高清音频
-+========
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   notes
-+   models
-+   controls
-+   dp-mst
-+   realtek-pc-beep
-diff --git a/Documentation/translations/zh_CN/sound/index.rst b/Documentation/translations/zh_CN/sound/index.rst
-new file mode 100644
-index 000000000000..42d86b361e42
---- /dev/null
-+++ b/Documentation/translations/zh_CN/sound/index.rst
-@@ -0,0 +1,26 @@
++++ b/Documentation/translations/zh_CN/riscv/boot-image-header.rst
+@@ -0,0 +1,67 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: :doc:`../../../sound/index`
-+:Translator: Huang Jianghui <huangjianghui@uniontech.com>
++:Original: :doc:`../../../riscv/boot-image-header`
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_boot-image-header.rst:
 +
 +
-+====================
-+Linux 声音子系统文档
-+====================
++==========================
++RISC-V Linux启动镜像文件头
++==========================
 +
-+.. toctree::
-+   :maxdepth: 2
++:Author: Atish Patra <atish.patra@wdc.com>
++:Date:   20 May 2019
 +
-+   kernel-api/index
-+   designs/index
-+   soc/index
-+   alsa-configuration
-+   hd-audio/index
-+   cards/index
++此文档仅描述RISC-V Linux 启动文件头的详情。
 +
-+.. only::  subproject and html
++TODO:
++  写一个完整的启动指南。
 +
-+   Indices
-+   =======
++在解压后的Linux内核镜像中存在以下64字节的文件头::
 +
-+   * :ref:`genindex`
++	u32 code0;		  /* Executable code */
++	u32 code1;		  /* Executable code */
++	u64 text_offset;	  /* Image load offset, little endian */
++	u64 image_size;		  /* Effective Image size, little endian */
++	u64 flags;		  /* kernel flags, little endian */
++	u32 version;		  /* Version of this header */
++	u32 res1 = 0;		  /* Reserved */
++	u64 res2 = 0;		  /* Reserved */
++	u64 magic = 0x5643534952; /* Magic number, little endian, "RISCV" */
++	u32 magic2 = 0x05435352;  /* Magic number 2, little endian, "RSC\x05" */
++	u32 res3;		  /* Reserved for PE COFF offset */
++
++这种头格式与PE/COFF文件头兼容，并在很大程度上受到ARM64文件头的启发。因此，ARM64
++和RISC-V文件头可以在未来合并为一个共同的头。
++
++注意
++====
++
++- 将来也可以复用这个文件头，用来对RISC-V的EFI桩提供支持。为了使内核镜像如同一个
++  EFI应用程序一样加载，EFI规范中规定在内核镜像的开始需要PE/COFF镜像文件头。为了
++  支持EFI桩，应该用“MZ”魔术字符替换掉code0，并且res3（偏移量未0x3c）应指向PE/COFF
++  文件头的其余部分.
++
++- 表示文件头版本号的Drop-bit位域
++
++	==========  ==========
++	Bits 0:15   次要  版本
++	Bits 16:31  主要  版本
++	==========  ==========
++
++  这保持了新旧版本之间的兼容性。
++  当前版本被定义为0.2。
++
++- 从版本0.2开始，结构体成员“magic”就已经被弃用，在之后的版本中，可能会移除掉它。
++  最初，该成员应该与ARM64头的“magic”成员匹配，但遗憾的是并没有。
++  “magic2”成员代替“magic”成员与ARM64头相匹配。
++
++- 在当前的文件头，标志位域只剩下了一个位。
++
++	=====  ==============================
++	Bit 0  内核字节序。1 if BE, 0 if LE.
++	=====  ==============================
++
++- 对于引导加载程序加载内核映像来说，image_size成员对引导加载程序而言是必须的，否
++  则将引导失败。
 -- 
-2.20.1
-
-
+2.25.1
 
