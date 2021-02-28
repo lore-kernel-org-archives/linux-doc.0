@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4C5DC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99F02C433DB
 	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 03:11:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E47464E21
+	by mail.kernel.org (Postfix) with ESMTP id 69D5164E0F
 	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 03:11:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231535AbhCADLm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Feb 2021 22:11:42 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:52576 "EHLO loongson.cn"
+        id S231950AbhCADLl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Feb 2021 22:11:41 -0500
+Received: from mail.loongson.cn ([114.242.206.163]:52552 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231947AbhCADLk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S231535AbhCADLk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Sun, 28 Feb 2021 22:11:40 -0500
 Received: from LAPTOP-O8VTVVS6.localdomain (unknown [112.20.111.70])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxH_E9WzxgXRASAA--.6017S3;
-        Mon, 01 Mar 2021 11:10:55 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxH_E9WzxgXRASAA--.6017S2;
+        Mon, 01 Mar 2021 11:10:54 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
@@ -30,120 +30,65 @@ Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
         realpuyuwang@gmail.com, Huacai Chen <chenhuacai@gmail.com>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v4 1/4] docs/zh_CN:add riscv boot-image-header.rst translation
-Date:   Mon,  1 Mar 2021 03:10:51 +0800
-Message-Id: <20210228191054.6048-2-siyanteng@loongson.cn>
+Subject: [PATCH v4 0/4] docs/zh_CN:add riscv translation
+Date:   Mon,  1 Mar 2021 03:10:50 +0800
+Message-Id: <20210228191054.6048-1-siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210228191054.6048-1-siyanteng@loongson.cn>
-References: <20210228191054.6048-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxH_E9WzxgXRASAA--.6017S3
-X-Coremail-Antispam: 1UD129KBjvJXoWxGF17CrWDZw1UGrW7GryrCrg_yoW5tF4Dpw
-        1qgrWxG3WxJry7Ar1Ikr17XF43JF4rW3W7C3WxW342yr4Yqr98Kw1rtr90g347GFyIyF9x
-        Xrs0kw13CryYvw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUPG14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2jI8I6cxK6x804I0_JFv_Gryl82xGYIkIc2x262
-        80x7IE14v26r18M28IrcIa0xkI8VCY1x0267AKxVWUCVW8JwA2ocxC64kIII0Yj41l84x0
-        c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2
-        IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E
-        87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0V
-        AKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr1l
-        Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErc
-        IFxwCY02Avz4vE14v_Gr4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l
-        x2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14
-        v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IY
-        x2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87
-        Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIF
-        yTuYvjfUn3kuDUUUU
+X-CM-TRANSID: AQAAf9DxH_E9WzxgXRASAA--.6017S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7JF47ur48ArWrZw43uF45ZFb_yoWkJwc_Ar
+        1kJrWUAry7JF9rtFW8Gr1UJryUCF40q34DJF1Ut34DGw47Gr1UJw1DXrn7Xw1UJr45Ary5
+        Kr1kXryxJrnrJjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbVkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M280x2IEY4vE77IFxVWUZVW8XwA2ocxC64kIII0Yj4
+        1l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0
+        I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r4UJVWxJr1l84ACjc
+        xK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+        FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr
+        0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
+        x2IErcIFxwCY02Avz4vE14v_Gr4l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr
+        0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY
+        17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcV
+        C0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVW3JVWrJr1lIxAI
+        cVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kf
+        nxnUUI43ZEXa7VUb2g4DUUUUU==
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch translates Documentation/riscv/boot-image-header.rst intoChinese.
+This series of patches translates all documents in the Doc/riscv directory.
+
+v1->v2:
+
+Modify the cover letter: remove some content from the tail;
+
+v2->v3
+
+remove features.rst
+todos ----> 待办事项
+
+v3->v4
+
+Fixed some sick sentences.
+
+Yanteng Si(4):
+docs/zh_CN:add riscv boot-image-header.rst translation
+docs/zh_CN: add riscv patch-acceptance.rst translation
+docs/zh_CN: add riscv pmu.rst translation
+docs/zh_CN: add riscv index.rst translation
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
 ---
- .../zh_CN/riscv/boot-image-header.rst         | 67 +++++++++++++++++++
- 1 file changed, 67 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/riscv/boot-image-header.rst
-
-diff --git a/Documentation/translations/zh_CN/riscv/boot-image-header.rst b/Documentation/translations/zh_CN/riscv/boot-image-header.rst
-new file mode 100644
-index 000000000000..241bf9c1bcbe
---- /dev/null
-+++ b/Documentation/translations/zh_CN/riscv/boot-image-header.rst
-@@ -0,0 +1,67 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :doc:`../../../riscv/boot-image-header`
-+:Translator: Yanteng Si <siyanteng@loongson.cn>
-+
-+.. _cn_boot-image-header.rst:
-+
-+
-+==========================
-+RISC-V Linux启动镜像文件头
-+==========================
-+
-+:Author: Atish Patra <atish.patra@wdc.com>
-+:Date:   20 May 2019
-+
-+此文档仅描述RISC-V Linux 启动文件头的详情。
-+
-+TODO:
-+  写一个完整的启动指南。
-+
-+在解压后的Linux内核镜像中存在以下64字节的文件头::
-+
-+	u32 code0;		  /* Executable code */
-+	u32 code1;		  /* Executable code */
-+	u64 text_offset;	  /* Image load offset, little endian */
-+	u64 image_size;		  /* Effective Image size, little endian */
-+	u64 flags;		  /* kernel flags, little endian */
-+	u32 version;		  /* Version of this header */
-+	u32 res1 = 0;		  /* Reserved */
-+	u64 res2 = 0;		  /* Reserved */
-+	u64 magic = 0x5643534952; /* Magic number, little endian, "RISCV" */
-+	u32 magic2 = 0x05435352;  /* Magic number 2, little endian, "RSC\x05" */
-+	u32 res3;		  /* Reserved for PE COFF offset */
-+
-+这种头格式与PE/COFF文件头兼容，并在很大程度上受到ARM64文件头的启发。因此，ARM64
-+和RISC-V文件头可以在未来合并为一个共同的头。
-+
-+注意
-+====
-+
-+- 将来也可以复用这个文件头，用来对RISC-V的EFI桩提供支持。为了使内核镜像如同一个
-+  EFI应用程序一样加载，EFI规范中规定在内核镜像的开始需要PE/COFF镜像文件头。为了
-+  支持EFI桩，应该用“MZ”魔术字符替换掉code0，并且res3（偏移量未0x3c）应指向PE/COFF
-+  文件头的其余部分.
-+
-+- 表示文件头版本号的Drop-bit位域
-+
-+	==========  ==========
-+	Bits 0:15   次要  版本
-+	Bits 16:31  主要  版本
-+	==========  ==========
-+
-+  这保持了新旧版本之间的兼容性。
-+  当前版本被定义为0.2。
-+
-+- 从版本0.2开始，结构体成员“magic”就已经被弃用，在之后的版本中，可能会移除掉它。
-+  最初，该成员应该与ARM64头的“magic”成员匹配，但遗憾的是并没有。
-+  “magic2”成员代替“magic”成员与ARM64头相匹配。
-+
-+- 在当前的文件头，标志位域只剩下了一个位。
-+
-+	=====  ==============================
-+	Bit 0  内核字节序。1 if BE, 0 if LE.
-+	=====  ==============================
-+
-+- 对于引导加载程序加载内核映像来说，image_size成员对引导加载程序而言是必须的，否
-+  则将引导失败。
--- 
-2.25.1
+dcumentation/translations/zh_CN/riscv/boot-image-header.rst |  67
+++++++++++++++++++++++++++++++++++++++++
+ Documentation/translations/zh_CN/riscv/index.rst             |  29
+++++++++++++++++++
+ Documentation/translations/zh_CN/riscv/patch-acceptance.rst  |  32
+++++++++++++++++++++
+ Documentation/translations/zh_CN/riscv/pmu.rst               | 233
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 361 insertions(+)
 
