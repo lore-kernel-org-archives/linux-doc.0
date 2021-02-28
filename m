@@ -5,57 +5,57 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA588C433DB
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Feb 2021 23:19:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4586EC433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Feb 2021 23:26:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7ED1564E62
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Feb 2021 23:19:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0327764E09
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Feb 2021 23:26:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230486AbhB1XTp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Feb 2021 18:19:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42568 "EHLO
+        id S231247AbhB1X0O (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Feb 2021 18:26:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230371AbhB1XTo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Feb 2021 18:19:44 -0500
-Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37ED7C06174A
-        for <linux-doc@vger.kernel.org>; Sun, 28 Feb 2021 15:19:04 -0800 (PST)
-Received: by mail-pj1-x1035.google.com with SMTP id c19so9851301pjq.3
-        for <linux-doc@vger.kernel.org>; Sun, 28 Feb 2021 15:19:04 -0800 (PST)
+        with ESMTP id S230420AbhB1X0M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Feb 2021 18:26:12 -0500
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3322C06174A
+        for <linux-doc@vger.kernel.org>; Sun, 28 Feb 2021 15:25:30 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id g20so8776601plo.2
+        for <linux-doc@vger.kernel.org>; Sun, 28 Feb 2021 15:25:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=us9+mymX7jX6azGLgvg8D7ife9PX0I0CSa9deFoFZGQ=;
-        b=TIJfcUaQubsnwrvHZlA9Tc/PcrVtGFmOoTDvei6RyKElHoSZ1XOeBHrdL1XVb3Ukoe
-         dGPUda0jdf3eBKjabwJda/AQod5cs71qq6rRYQHa+ASflHACfwv4g4DxOpcutgzKDW62
-         s/9mcXolm0ks1BRyIV5dcrNQfC9LT5Gug9VE/c9lu46T8nGbG2UrnkwePpz0xkJpQlO7
-         y28aZ4gakMO3SJF9idKl0dtyit/803xgYgRK+5ug4G8E6rHXqohB2IHI5qHC/gwCb73R
-         fYczWZqYnzQfKBRYiXvvPt6m2l0nb8oNt6x4OblmNpb0iiSurXGg7L9XAssaEMYNx44L
-         WVvQ==
+        bh=76O2c9N4y3dGLWw3Sw/w77yY9Cj/HXfeulU3Y99AsYg=;
+        b=Hsd694dJnM2/tTs4mJqSJKXIriAGtm4xdmjTMi3y11CX3L2lmVlOgMZW0pQghSjtut
+         rd5c63MmioIlfRz2u1FFcZkJnBicMqXiMeZZBwkef7P9tRHARMocWIJ0eo0IzyvhV5Va
+         qaU80aFAs1SIsK7srgoP+up8YBYtn9sAh5JWcISwLdbcEpcOVRiG8SoCVklYJJ15cPsU
+         lCnW9DMthlf2UHOdEO+4FPX9Lsv4WXRN/EZzfI5aTZpa8pIsuyPu29JesGBRUc9y/+dW
+         Db4PqHCl2R6gOWF5RfOiymdXrtDrBR0KuNbcphHlTfAsqTaFea7R87LDz+wlFnzdFMra
+         NW9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=us9+mymX7jX6azGLgvg8D7ife9PX0I0CSa9deFoFZGQ=;
-        b=rBfM5KaN2vqax4J41MPOWuegfVBilsLC/OLigoG9fXZbbCC8tnGHRoTyxjCeglvukI
-         dwPYBn4531PSQoAbUMclNY/UJLMT0Hnaeo2Rarijc/VbaEWYAxypJAPOyV5pYP58dSMW
-         keXg/6/MJPeihAEpov1Li7cLazTGk9H9NJcSlLK5fUMSoGI2/trBgdAR9RIiqwGWomEf
-         8Cr7CMGKG/czvU5da+TkpFiFYP1rcghKTmFCOGWev2NBRCGdVSM2QiDRnASoM+zxu0z5
-         8j1Eg7Jn3soi/6IcjLELE815MdKfVCrYli5c4bKDQxC9otPPQZGI7WDKvn1zRROOamkk
-         t9UA==
-X-Gm-Message-State: AOAM53137d2By9zu/b8qr4wRPW7AIQ4NfTUx/EWCoZqPoJXM/tRgzkSP
-        0pc6cJqYkGyZt5ghuVCepGY7uMdruDI4qw==
-X-Google-Smtp-Source: ABdhPJxQlN2Q+imrmG0j/9WjSZT0yiD0GHnvT+U9VuV1i33lM0w/q0exxd+yYwtPCyJWufbvYPzhgQ==
-X-Received: by 2002:a17:902:e810:b029:de:45bf:1232 with SMTP id u16-20020a170902e810b02900de45bf1232mr12902884plg.59.1614554343572;
-        Sun, 28 Feb 2021 15:19:03 -0800 (PST)
+        bh=76O2c9N4y3dGLWw3Sw/w77yY9Cj/HXfeulU3Y99AsYg=;
+        b=FaCm7jm82nclmsiVVQB4ioC8n/AdWClIPIAtubNKIk0eS0hMlIkfEsYk+m/pIjMpvL
+         vRfrlo/ufLYQgjhtEk0Qbj3rS4KWKByZN2I18c8tqOvTOB2k35Y1tLuP/99XBBT1LFGu
+         jhy37Dljw6gL4LehW2oTo6sJoAqQvaRin6hSf40365NbLxWXQko8iJ65CPI/LxfutALr
+         VXnoVyFk7wpUVGcCNnGiZkR+FEoGB7B1ZXo5GybJMDfhzn9JXTN+tWnFMpJNvE7p2li8
+         OgJmVNYBjt4YajnhtjLShqptWImYJKoC8kFxM3EX78QnGKM+dMmoyXexyd1zaIMoTdQ8
+         UPlQ==
+X-Gm-Message-State: AOAM530NOXqcelzuLGyCqD3qctxfXBNTHhBcIV2NhdNyQNPVGjMFp3y+
+        uYLyDyduDAAaS4VgZt0Pb5ntIQ==
+X-Google-Smtp-Source: ABdhPJxVVRI5YPPCbv5R1Hah/Ft1wK1lom7spiCJ7CKr7ReQKKgxDaBDfsBoADyBeabHlPv/wqfI9Q==
+X-Received: by 2002:a17:90a:ce03:: with SMTP id f3mr14320931pju.195.1614554730101;
+        Sun, 28 Feb 2021 15:25:30 -0800 (PST)
 Received: from xps15 (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
-        by smtp.gmail.com with ESMTPSA id ge16sm2052294pjb.43.2021.02.28.15.19.01
+        by smtp.gmail.com with ESMTPSA id 1sm2580356pfh.90.2021.02.28.15.25.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Feb 2021 15:19:02 -0800 (PST)
-Date:   Sun, 28 Feb 2021 16:19:00 -0700
+        Sun, 28 Feb 2021 15:25:29 -0800 (PST)
+Date:   Sun, 28 Feb 2021 16:25:27 -0700
 From:   Mathieu Poirier <mathieu.poirier@linaro.org>
 To:     Mike Leach <mike.leach@linaro.org>
 Cc:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
@@ -63,422 +63,304 @@ Cc:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
         yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
         alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
         gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 07/10] coresight: etm4x: Add complex configuration
- handlers to etmv4
-Message-ID: <20210228231900.GB3631443@xps15>
+Subject: Re: [PATCH v4 08/10] coresight: config: Add preloaded configurations
+Message-ID: <20210228232527.GC3631443@xps15>
 References: <20210128170936.9222-1-mike.leach@linaro.org>
- <20210128170936.9222-8-mike.leach@linaro.org>
+ <20210128170936.9222-9-mike.leach@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210128170936.9222-8-mike.leach@linaro.org>
+In-Reply-To: <20210128170936.9222-9-mike.leach@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Jan 28, 2021 at 05:09:33PM +0000, Mike Leach wrote:
-> Adds in handlers to allow the ETMv4 to use the complex configuration
-> support. Features and configurations can be loaded and selected in the
-> device.
+On Thu, Jan 28, 2021 at 05:09:34PM +0000, Mike Leach wrote:
+> Preload set of configurations.
+> 
+> This patch creates a small set of preloaded configurations and features
+> that are available immediately after coresight has been initialised.
+> 
+> The current set provides a strobing feature for ETMv4, that creates a
+> periodic sampling of trace by switching trace generation on and off
+> using counters in the ETM.
+> 
+> A configuration called "autofdo" is also provided that uses the 'strobing'
+> feature and provides a couple of preset values, selectable on the perf
+> command line.
 > 
 > Signed-off-by: Mike Leach <mike.leach@linaro.org>
 > ---
 >  drivers/hwtracing/coresight/Makefile          |   3 +-
->  .../hwtracing/coresight/coresight-etm4x-cfg.c | 184 ++++++++++++++++++
->  .../hwtracing/coresight/coresight-etm4x-cfg.h |  29 +++
->  .../coresight/coresight-etm4x-core.c          |  38 +++-
->  .../coresight/coresight-etm4x-sysfs.c         |   3 +
->  5 files changed, 254 insertions(+), 3 deletions(-)
->  create mode 100644 drivers/hwtracing/coresight/coresight-etm4x-cfg.c
->  create mode 100644 drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+>  .../hwtracing/coresight/coresight-cfg-afdo.c  | 154 ++++++++++++++++++
+>  .../coresight/coresight-cfg-preload.c         |  25 +++
+>  .../coresight/coresight-cfg-preload.h         |  11 ++
+>  drivers/hwtracing/coresight/coresight-core.c  |   6 +
+>  .../hwtracing/coresight/coresight-syscfg.h    |   1 +
+>  6 files changed, 199 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/hwtracing/coresight/coresight-cfg-afdo.c
+>  create mode 100644 drivers/hwtracing/coresight/coresight-cfg-preload.c
+>  create mode 100644 drivers/hwtracing/coresight/coresight-cfg-preload.h
 > 
 > diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-> index daad9f103a78..ea544206204d 100644
+> index ea544206204d..2707bfef1b76 100644
 > --- a/drivers/hwtracing/coresight/Makefile
 > +++ b/drivers/hwtracing/coresight/Makefile
-> @@ -16,7 +16,8 @@ obj-$(CONFIG_CORESIGHT_SOURCE_ETM3X) += coresight-etm3x.o
->  coresight-etm3x-y := coresight-etm3x-core.o coresight-etm-cp14.o \
->  		     coresight-etm3x-sysfs.o
->  obj-$(CONFIG_CORESIGHT_SOURCE_ETM4X) += coresight-etm4x.o
-> -coresight-etm4x-y := coresight-etm4x-core.o coresight-etm4x-sysfs.o
-> +coresight-etm4x-y := coresight-etm4x-core.o coresight-etm4x-sysfs.o \
-> +			coresight-etm4x-cfg.o
->  obj-$(CONFIG_CORESIGHT_STM) += coresight-stm.o
->  obj-$(CONFIG_CORESIGHT_CPU_DEBUG) += coresight-cpu-debug.o
->  obj-$(CONFIG_CORESIGHT_CATU) += coresight-catu.o
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> @@ -4,7 +4,8 @@
+>  #
+>  obj-$(CONFIG_CORESIGHT) += coresight.o
+>  coresight-y := coresight-core.o  coresight-etm-perf.o coresight-platform.o \
+> -		coresight-sysfs.o coresight-syscfg.o coresight-config.o
+> +		coresight-sysfs.o coresight-syscfg.o coresight-config.o \
+> +		coresight-cfg-preload.o coresight-cfg-afdo.o
+>  obj-$(CONFIG_CORESIGHT_LINK_AND_SINK_TMC) += coresight-tmc.o
+>  coresight-tmc-y := coresight-tmc-core.o coresight-tmc-etf.o \
+>  		      coresight-tmc-etr.o
+> diff --git a/drivers/hwtracing/coresight/coresight-cfg-afdo.c b/drivers/hwtracing/coresight/coresight-cfg-afdo.c
 > new file mode 100644
-> index 000000000000..f237a8d02360
+> index 000000000000..ff69fb3f4434
 > --- /dev/null
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
-> @@ -0,0 +1,184 @@
+> +++ b/drivers/hwtracing/coresight/coresight-cfg-afdo.c
+> @@ -0,0 +1,154 @@
 > +// SPDX-License-Identifier: GPL-2.0
 > +/*
 > + * Copyright(C) 2020 Linaro Limited. All rights reserved.
 > + * Author: Mike Leach <mike.leach@linaro.org>
 > + */
 > +
-> +#include "coresight-etm4x.h"
-> +#include "coresight-etm4x-cfg.h"
-> +#include "coresight-priv.h"
-> +#include "coresight-syscfg.h"
-> +
-> +/**
-> + * etm4_cfg_map_reg_offset - validate and map the register offset into a
-> + *			     location in the driver config struct.
-> + *
-> + * Limits the number of registers that can be accessed and programmed in
-> + * features, to those which are used to control the trace capture parameters.
-> + *
-> + * Omits or limits access to those which the driver must use exclusively.
-> + *
-> + * Invalid offsets will result in fail code return and feature load failure.
-> + *
-> + * @drvdata:	driver data to map into.
-> + * @reg:	register to map.
-> + * @offset:	device offset for the register
-> + */
-> +static int etm4_cfg_map_reg_offset(struct etmv4_drvdata *drvdata,
-> +				   struct cscfg_reg_csdev *reg, u32 offset)
-> +{
-> +	int err = -EINVAL, idx;
-> +	struct etmv4_config *drvcfg = &drvdata->config;
-> +	u32 off_mask;
-> +
-> +#define CHECKREG(cval, elem) \
-> +	{ \
-> +		if (offset == cval) { \
-> +			reg->drv_store = &drvcfg->elem; \
-> +			err = 0; \
-> +			break; \
-> +		} \
-> +	}
-> +
-> +#define CHECKREGIDX(cval, elem, off_idx, mask)	\
-> +	{ \
-> +		if (mask == cval) { \
-> +			reg->drv_store = &drvcfg->elem[off_idx]; \
-> +			err = 0; \
-> +			break; \
-> +		} \
-> +	}
-> +
-> +	if (((offset >= TRCEVENTCTL0R) && (offset <= TRCVIPCSSCTLR)) ||
-> +	    ((offset >= TRCSEQRSTEVR) && (offset <= TRCEXTINSELR)) ||
-> +	    ((offset >= TRCCIDCCTLR0) && (offset <= TRCVMIDCCTLR1))) {
-> +		do {
-> +			CHECKREG(TRCEVENTCTL0R, eventctrl0);
-> +			CHECKREG(TRCEVENTCTL1R, eventctrl1);
-> +			CHECKREG(TRCSTALLCTLR, stall_ctrl);
-> +			CHECKREG(TRCTSCTLR, ts_ctrl);
-> +			CHECKREG(TRCSYNCPR, syncfreq);
-> +			CHECKREG(TRCCCCTLR, ccctlr);
-> +			CHECKREG(TRCBBCTLR, bb_ctrl);
-> +			CHECKREG(TRCVICTLR, vinst_ctrl);
-> +			CHECKREG(TRCVIIECTLR, viiectlr);
-> +			CHECKREG(TRCVISSCTLR, vissctlr);
-> +			CHECKREG(TRCVIPCSSCTLR, vipcssctlr);
-> +			CHECKREG(TRCSEQRSTEVR, seq_rst);
-> +			CHECKREG(TRCSEQSTR, seq_state);
-> +			CHECKREG(TRCEXTINSELR, ext_inp);
-> +			CHECKREG(TRCCIDCCTLR0, ctxid_mask0);
-> +			CHECKREG(TRCCIDCCTLR1, ctxid_mask1);
-> +			CHECKREG(TRCVMIDCCTLR0, vmid_mask0);
-> +			CHECKREG(TRCVMIDCCTLR1, vmid_mask1);
-> +		} while (0);
-> +	} else if ((offset & GENMASK(11, 4)) == TRCSEQEVRn(0)) {
-> +		/* sequencer state control registers */
-> +		idx = (offset & GENMASK(3, 0)) / 4;
-> +		if (idx < ETM_MAX_SEQ_STATES) {
-> +			reg->drv_store = &drvcfg->seq_ctrl[idx];
-> +			err = 0;
-> +		}
-> +	} else if ((offset >= TRCSSCCRn(0)) && (offset <= TRCSSPCICRn(7))) {
-> +		/* 32 bit, 8 off indexed register sets */
-> +		idx = (offset & GENMASK(4, 0)) / 4;
-> +		off_mask =  (offset & GENMASK(11, 5));
-> +		do {
-> +			CHECKREGIDX(TRCSSCCRn(0), ss_ctrl, idx, off_mask);
-> +			CHECKREGIDX(TRCSSCSRn(0), ss_status, idx, off_mask);
-> +			CHECKREGIDX(TRCSSPCICRn(0), ss_pe_cmp, idx, off_mask);
-> +		} while (0);
-> +	} else if ((offset >= TRCCIDCVRn(0)) && (offset <= TRCVMIDCVRn(7))) {
-> +		/* 64 bit, 8 off indexed register sets */
-> +		idx = (offset & GENMASK(5, 0)) / 8;
-> +		off_mask = (offset & GENMASK(11, 6));
-> +		do {
-> +			CHECKREGIDX(TRCCIDCVRn(0), ctxid_pid, idx, off_mask);
-> +			CHECKREGIDX(TRCVMIDCVRn(0), vmid_val, idx, off_mask);
-> +		} while (0);
-> +	} else if ((offset >= TRCRSCTLRn(2)) &&
-> +		   (offset <= TRCRSCTLRn((ETM_MAX_RES_SEL - 1)))) {
-> +		/* 32 bit resource selection regs, 32 off, skip fixed 0,1 */
-> +		idx = (offset & GENMASK(6, 0)) / 4;
-> +		if (idx < ETM_MAX_RES_SEL) {
-> +			reg->drv_store = &drvcfg->res_ctrl[idx];
-> +			err = 0;
-> +		}
-> +	} else if ((offset >= TRCACVRn(0)) &&
-> +		   (offset <= TRCACATRn((ETM_MAX_SINGLE_ADDR_CMP - 1)))) {
-> +		/* 64 bit addr cmp regs, 16 off */
-> +		idx = (offset & GENMASK(6, 0)) / 8;
-> +		off_mask = offset & GENMASK(11, 7);
-> +		do {
-> +			CHECKREGIDX(TRCACVRn(0), addr_val, idx, off_mask);
-> +			CHECKREGIDX(TRCACATRn(0), addr_acc, idx, off_mask);
-> +		} while (0);
-> +	} else if ((offset >= TRCCNTRLDVRn(0)) &&
-> +		   (offset <= TRCCNTVRn((ETMv4_MAX_CNTR - 1)))) {
-> +		/* 32 bit counter regs, 4 off (ETMv4_MAX_CNTR - 1) */
-> +		idx = (offset &  GENMASK(3, 0)) / 4;
-> +		off_mask = offset &  GENMASK(11, 4);
-> +		do {
-> +			CHECKREGIDX(TRCCNTRLDVRn(0), cntrldvr, idx, off_mask);
-> +			CHECKREGIDX(TRCCNTCTLRn(0), cntr_ctrl, idx, off_mask);
-> +			CHECKREGIDX(TRCCNTVRn(0), cntr_val, idx, off_mask);
-> +		} while (0);
-> +	}
-> +	return err;
-> +}
-> +
-> +/**
-> + * etm4_cfg_load_feature - load a feature into a device instance.
-> + *
-> + * @csdev:	An ETMv4 CoreSight device.
-> + * @feat:	The feature to be loaded.
-> + *
-> + * The function will load a feature instance into the device, checking that
-> + * the register definitions are valid for the device.
-> + *
-> + * Parameter and register definitions will be converted into internal
-> + * structures that are used to set the values in the driver when the
-> + * feature is enabled for the device.
-> + *
-> + * The feature spinlock pointer is initialised to the same spinlock
-> + * that the driver uses to protect the internal register values.
-> + */
-> +static int etm4_cfg_load_feature(struct coresight_device *csdev,
-> +				 struct cscfg_feature_csdev *feat)
-> +{
-> +	struct device *dev = csdev->dev.parent;
-> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev);
-> +	const struct cscfg_feature_desc *feat_desc = feat->desc;
-> +	u32 offset;
-> +	int i = 0, err = 0;
-> +
-> +	/*
-> +	 * essential we set the device spinlock - this is used in the generic
-> +	 * programming routines when copying values into the drvdata structures
-> +	 * via the pointers setup in etm4_cfg_map_reg_offset().
-> +	 */
-> +	feat->csdev_spinlock = &drvdata->spinlock;
-> +
-> +	/* process the register descriptions */
-> +	for (i = 0; i < feat->nr_regs && !err; i++) {
-> +		offset = feat_desc->regs[i].offset;
-> +		err = etm4_cfg_map_reg_offset(drvdata, &feat->regs[i], offset);
-> +	}
-> +	return err;
-> +}
-> +
-> +/* match information when loading configurations */
-> +#define CS_CFG_ETM4_MATCH_FLAGS	(CS_CFG_MATCH_CLASS_SRC_ALL | \
-> +					 CS_CFG_MATCH_CLASS_SRC_ETM4)
-
-Here the indentation is correct but not when the patch is applied.  Have another
-look on your side but don't worry about it if things are aligned.
-
-> +
-> +int etm4_cscfg_register(struct coresight_device *csdev, const char *dev_name)
-> +{
-> +	struct cscfg_match_desc cfg_info;
-> +	struct cscfg_csdev_feat_ops ops;
-> +
-> +	cfg_info.match_flags = CS_CFG_ETM4_MATCH_FLAGS;
-> +
-> +	ops.load_feat = &etm4_cfg_load_feature;
-> +
-> +	return cscfg_register_csdev(csdev, &cfg_info, &ops);
-> +}
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.h b/drivers/hwtracing/coresight/coresight-etm4x-cfg.h
-> new file mode 100644
-> index 000000000000..9e279c5da55d
-> --- /dev/null
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.h
-> @@ -0,0 +1,29 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
-> + */
-> +
-> +#ifndef _CORESIGHT_CORESIGHT_ETM4X_CFG_H
-> +#define _CORESIGHT_CORESIGHT_ETM4X_CFG_H
-
-Shouldn't that be "_CORESIGHT_ETM4X_CFG_H" ?  The same denomination was used for
-coresight-config.h but not coresight-syscfg.h...
-
-> +
 > +#include "coresight-config.h"
-> +#include "coresight-etm4x.h"
-> +
-> +/* ETMv4 specific config defines */
-> +
-> +/* resource IDs */
-> +
-> +#define ETM4_CFG_RES_CTR	0x001
-> +#define ETM4_CFG_RES_CMP	0x002
-> +#define ETM4_CFG_RES_CMP_PAIR0	0x003
-> +#define ETM4_CFG_RES_CMP_PAIR1	0x004
-> +#define ETM4_CFG_RES_SEL	0x005
-> +#define ETM4_CFG_RES_SEL_PAIR0	0x006
-> +#define ETM4_CFG_RES_SEL_PAIR1	0x007
-> +#define ETM4_CFG_RES_SEQ	0x008
-> +#define ETM4_CFG_RES_TS		0x009
-> +#define ETM4_CFG_RES_MASK	0x00F
-
-These are used in patch 08, please move them there.
-
-> +
-> +int etm4_cscfg_register(struct coresight_device *csdev, const char *dev_name);
-> +
-> +#endif /* _CORESIGHT_CORESIGHT_ETM4X_CFG_H */
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> index 473ab7480a36..5e501ce244dd 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> @@ -38,6 +38,8 @@
->  
->  #include "coresight-etm4x.h"
->  #include "coresight-etm-perf.h"
 > +#include "coresight-etm4x-cfg.h"
+> +
+> +/* preload configurations and features */
+> +
+> +/* preload in features for ETMv4 */
+> +
+> +/* strobe feature */
+> +static struct cscfg_parameter_desc strobe_params[] = {
+> +	{
+> +		.name = "window",
+> +		.value = 5000,
+> +	},
+> +	{
+> +		.name = "period",
+> +		.value = 10000,
+> +	},
+> +};
+> +
+> +static struct cscfg_regval_desc strobe_regs[] = {
+> +	/* resource selectors */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCRSCTLRn(2),
+> +		.hw_info = ETM4_CFG_RES_SEL,
+> +		.val32 = 0x20001,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCRSCTLRn(3),
+> +		.hw_info = ETM4_CFG_RES_SEQ,
+> +		.val32 = 0x20002,
+> +	},
+> +	/* strobe window counter 0 - reload from param 0 */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE | CS_CFG_REG_TYPE_VAL_SAVE,
+> +		.offset = TRCCNTVRn(0),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE | CS_CFG_REG_TYPE_VAL_PARAM,
+> +		.offset = TRCCNTRLDVRn(0),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +		.val32 = 0,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCCNTCTLRn(0),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +		.val32 = 0x10001,
+> +	},
+> +	/* strobe period counter 1 - reload from param 1 */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE | CS_CFG_REG_TYPE_VAL_SAVE,
+> +		.offset = TRCCNTVRn(1),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE | CS_CFG_REG_TYPE_VAL_PARAM,
+> +		.offset = TRCCNTRLDVRn(1),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +		.val32 = 1,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCCNTCTLRn(1),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +		.val32 = 0x8102,
+> +	},
+> +	/* sequencer */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCSEQEVRn(0),
+> +		.hw_info = ETM4_CFG_RES_SEQ,
+> +		.val32 = 0x0081,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCSEQEVRn(1),
+> +		.hw_info = ETM4_CFG_RES_SEQ,
+> +		.val32 = 0x0000,
+> +	},
+> +	/* view-inst */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_STD | CS_CFG_REG_TYPE_VAL_MASK,
+> +		.offset = TRCVICTLR,
+> +		.val32 = 0x0003,
+> +		.mask32 = 0x0003,
+> +	},
+> +	/* end of regs */
+> +};
+> +
+> +struct cscfg_feature_desc strobe = {
+> +	.name = "strobing",
+> +	.brief = "Generate periodic trace capture windows.\n"
+> +	"parameter \'window\': a number of CPU cycles (W)\n"
+> +	"parameter \'period\': trace enabled for W cycles every period x W cycles\n",
+> +	.match_flags = CS_CFG_MATCH_CLASS_SRC_ETM4,
+> +	.nr_params = ARRAY_SIZE(strobe_params),
+> +	.params = strobe_params,
+> +	.nr_regs = ARRAY_SIZE(strobe_regs),
+> +	.regs = strobe_regs,
+> +};
+> +
+> +/* create an autofdo configuration */
+> +
+> +/* we will provide 9 sets of preset parameter values */
+> +#define AFDO_NR_PRESETS		9
+> +/* the total number of parameters in used features */
+> +#define AFDO_NR_PARAM_SUM	ARRAY_SIZE(strobe_params)
+> +
+> +#define AFDO_MATCH_STROBING (CS_CFG_MATCH_INST_ANY | CS_CFG_MATCH_CLASS_SRC_ETM4)
+> +
+> +static struct cscfg_config_feat_ref afdo_refs[] = {
+> +	{
+> +		.name = "strobing",
+> +		.match = {
+> +			.match_flags = AFDO_MATCH_STROBING,
+> +		},
+> +	},
+> +};
+> +
+> +/*
+> + * set of presets leaves strobing window constant while varying period to allow
+> + * experimentation with mark / space ratios for various workloads
+> + */
+> +static u64 afdo_presets[AFDO_NR_PRESETS][AFDO_NR_PARAM_SUM] = {
+> +	{ 5000, 2 },
+> +	{ 5000, 4 },
+> +	{ 5000, 8 },
+> +	{ 5000, 16 },
+> +	{ 5000, 64 },
+> +	{ 5000, 128 },
+> +	{ 5000, 512 },
+> +	{ 5000, 1024 },
+> +	{ 5000, 4096 },
+> +};
+> +
+> +struct cscfg_config_desc afdo = {
+> +	.name = "autofdo",
+> +	.brief = "Setup ETMs with strobing for autofdo\n"
+> +	"Supplied presets allow experimentation with mark-space ratio for various loads\n",
+> +	.nr_refs = ARRAY_SIZE(afdo_refs),
+> +	.refs = afdo_refs,
+> +	.nr_presets = AFDO_NR_PRESETS,
+> +	.nr_total_params = AFDO_NR_PARAM_SUM,
+> +	.presets = &afdo_presets[0][0],
+> +};
+> diff --git a/drivers/hwtracing/coresight/coresight-cfg-preload.c b/drivers/hwtracing/coresight/coresight-cfg-preload.c
+> new file mode 100644
+> index 000000000000..c7ec5cbdd990
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-cfg-preload.c
+> @@ -0,0 +1,25 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright(C) 2020 Linaro Limited. All rights reserved.
+> + * Author: Mike Leach <mike.leach@linaro.org>
+> + */
+> +
+> +#include "coresight-cfg-preload.h"
+> +#include "coresight-config.h"
 > +#include "coresight-syscfg.h"
->  
->  static int boot_enable;
->  module_param(boot_enable, int, 0444);
-> @@ -491,12 +493,15 @@ static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
->  	return ret;
->  }
->  
-> -static int etm4_parse_event_config(struct etmv4_drvdata *drvdata,
-> +static int etm4_parse_event_config(struct coresight_device *csdev,
->  				   struct perf_event *event)
->  {
->  	int ret = 0;
-> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
->  	struct etmv4_config *config = &drvdata->config;
->  	struct perf_event_attr *attr = &event->attr;
-> +	unsigned long cfg_id;
-> +	int preset;
->
-
-Ok
-  
->  	if (!attr) {
->  		ret = -EINVAL;
-> @@ -554,6 +559,20 @@ static int etm4_parse_event_config(struct etmv4_drvdata *drvdata,
->  		/* bit[12], Return stack enable bit */
->  		config->cfg |= BIT(12);
->  
-> +	/*
-> +	 * Set any selected configuration and preset.
-> +	 *
-> +	 * This extracts the values of PMU_FORMAT_ATTR(configid) and PMU_FORMAT_ATTR(preset)
-> +	 * in the perf attributes defined in coresight-etm-perf.c.
-> +	 * configid uses bits 63:32 of attr->config2, preset uses bits 3:0 of attr->config.
-> +	 * A zero configid means no configuration active, preset = 0 means no preset selected.
-> +	 */
-> +	if (attr->config2 & GENMASK_ULL(63, 32)) {
-> +		cfg_id = (u32)(attr->config2 >> 32);
-> +		preset = attr->config & 0xF;
-> +		ret = cscfg_csdev_enable_active_config(csdev, cfg_id, preset);
-> +	}
+> +
+> +static struct cscfg_feature_desc *preload_feats[] = {
+> +	&strobe,
+> +	0
+> +};
+> +
+> +static struct cscfg_config_desc *preload_cfgs[] = {
+> +	&afdo,
+> +	0
+> +};
 > +
 
-Ok
+Perfect - thanks for making the change.
 
->  out:
->  	return ret;
->  }
-> @@ -570,7 +589,7 @@ static int etm4_enable_perf(struct coresight_device *csdev,
->  	}
->  
->  	/* Configure the tracer based on the session's specifics */
-> -	ret = etm4_parse_event_config(drvdata, event);
-> +	ret = etm4_parse_event_config(csdev, event);
->  	if (ret)
->  		goto out;
->  	/* And enable it */
-> @@ -701,11 +720,18 @@ static int etm4_disable_perf(struct coresight_device *csdev,
->  	u32 control;
->  	struct etm_filters *filters = event->hw.addr_filters;
->  	struct etmv4_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-> +	struct perf_event_attr *attr = &event->attr;
->  
->  	if (WARN_ON_ONCE(drvdata->cpu != smp_processor_id()))
->  		return -EINVAL;
->  
->  	etm4_disable_hw(drvdata);
-> +	/*
-> +	 * The config_id occupies bits 63:32 of the config2 perf event attr
-> +	 * field. If this is non-zero then we will have enabled a config.
-> +	 */
-> +	if (attr->config2 & GENMASK_ULL(63, 32))
-> +		cscfg_csdev_disable_active_config(csdev);
-
-Ok
-
->  
->  	/*
->  	 * Check if the start/stop logic was active when the unit was stopped.
-> @@ -1815,6 +1841,13 @@ static int etm4_probe(struct device *dev, void __iomem *base, u32 etm_pid)
->  		return ret;
->  	}
->  
-> +	/* register with config infrastructure & load any current features */
-> +	ret = etm4_cscfg_register(drvdata->csdev, dev_name(dev));
-> +	if (ret) {
-> +		coresight_unregister(drvdata->csdev);
-> +		return ret;
-> +	}
-> +
->  	etmdrvdata[drvdata->cpu] = drvdata;
->  
->  	dev_info(&drvdata->csdev->dev, "CPU%d: ETM v%d.%d initialized\n",
-> @@ -1902,6 +1935,7 @@ static int __exit etm4_remove_dev(struct etmv4_drvdata *drvdata)
->  
->  	cpus_read_unlock();
->  
-> +	cscfg_unregister_csdev(drvdata->csdev);
->  	coresight_unregister(drvdata->csdev);
->  
->  	return 0;
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> index b646d53a3133..cf2a51113436 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> @@ -9,6 +9,7 @@
->  #include <linux/sysfs.h>
->  #include "coresight-etm4x.h"
->  #include "coresight-priv.h"
-> +#include "coresight-syscfg.h"
->  
->  static int etm4_set_mode_exclude(struct etmv4_drvdata *drvdata, bool exclude)
->  {
-> @@ -269,6 +270,8 @@ static ssize_t reset_store(struct device *dev,
->  
->  	spin_unlock(&drvdata->spinlock);
->  
-> +	cscfg_csdev_reset_feats(to_coresight_device(dev));
-> +
-
-Other than the cosmetic comments above, this patch is fine.
-
-Thanks,
 Mathieu
 
->  	return size;
->  }
->  static DEVICE_ATTR_WO(reset);
+> +/* preload called with mutex locked */
+> +int cscfg_preload(void)
+> +{
+> +	return cscfg_load_config_sets(preload_cfgs, preload_feats);
+> +}
+> diff --git a/drivers/hwtracing/coresight/coresight-cfg-preload.h b/drivers/hwtracing/coresight/coresight-cfg-preload.h
+> new file mode 100644
+> index 000000000000..fc4ac7faa93d
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-cfg-preload.h
+> @@ -0,0 +1,11 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright(C) 2020 Linaro Limited. All rights reserved.
+> + * Author: Mike Leach <mike.leach@linaro.org>
+> + */
+> +
+> +/* declare preloaded configurations and features */
+> +
+> +/* from coresight-cfg-afdo.c */
+> +extern struct cscfg_feature_desc strobe;
+> +extern struct cscfg_config_desc afdo;
+> diff --git a/drivers/hwtracing/coresight/coresight-core.c b/drivers/hwtracing/coresight/coresight-core.c
+> index 6bd41de46648..633ddcffc6c7 100644
+> --- a/drivers/hwtracing/coresight/coresight-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-core.c
+> @@ -1744,9 +1744,15 @@ static int __init coresight_init(void)
+>  
+>  	/* initialise the coresight syscfg API */
+>  	ret = cscfg_init();
+> +	if (ret)
+> +		goto exit_perf_close;
+> +
+> +	/* preload builtin configurations */
+> +	ret = cscfg_preload();
+>  	if (!ret)
+>  		return 0;
+>  
+> +exit_perf_close:
+>  	etm_perf_exit();
+>  exit_bus_unregister:
+>  	bus_unregister(&coresight_bustype);
+> diff --git a/drivers/hwtracing/coresight/coresight-syscfg.h b/drivers/hwtracing/coresight/coresight-syscfg.h
+> index 301e26e1e98f..a8a6b21315d8 100644
+> --- a/drivers/hwtracing/coresight/coresight-syscfg.h
+> +++ b/drivers/hwtracing/coresight/coresight-syscfg.h
+> @@ -47,6 +47,7 @@ struct cscfg_csdev_register {
+>  /* internal core operations for cscfg */
+>  int __init cscfg_init(void);
+>  void __exit cscfg_exit(void);
+> +int cscfg_preload(void);
+>  
+>  /* syscfg manager external API */
+>  int cscfg_load_config_sets(struct cscfg_config_desc **cfg_descs,
 > -- 
 > 2.17.1
 > 
