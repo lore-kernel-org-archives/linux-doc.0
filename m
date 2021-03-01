@@ -2,253 +2,262 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-24.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55CE2C433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 09:32:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF755C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 09:37:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 16A6564E22
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 09:32:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC1C464E22
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 09:37:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233961AbhCAJbx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 04:31:53 -0500
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:56269 "EHLO
-        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233892AbhCAJbw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 04:31:52 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R141e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UPy7CVs_1614591065;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UPy7CVs_1614591065)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 01 Mar 2021 17:31:06 +0800
-Subject: Re: [PATCH] PATCH Documentation translations:translate
- sound/hd-audio/controls to chinese
-To:     hjh <huangjianghui@uniontech.com>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210301030349.37275-1-huangjianghui@uniontech.com>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <e752113b-a7b8-cc9a-326a-2939afa14823@linux.alibaba.com>
-Date:   Mon, 1 Mar 2021 17:31:04 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+        id S233898AbhCAJhH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 04:37:07 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47930 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233450AbhCAJgk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Mar 2021 04:36:40 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8468964E22;
+        Mon,  1 Mar 2021 09:35:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614591358;
+        bh=hM6PL/eEob0VBviZfLCb/eQ0FYABIviOpBFNfEdlK6Y=;
+        h=From:To:Cc:Subject:Date:From;
+        b=gLQfU9e4rhEG7ebimw+t0fBPptsmjHYC6ju7FM2bVRsDDzya3VImhZTg5zYZAQbBP
+         ql16bxWY5Y7tJrvR48weThQnMmKYtra3C82bJp9yx8x0ltZuYD+v2azO9uF9hpEcOL
+         jyx3RgyRdvPPPl2VWTXbJjCoNnjFH0w691wrzh9o1O3IKERG7QcSwr6cpZelCUipbp
+         vDsrxMAxlidiRAnPjley5Y2zSbXePQluTxfDheKp7gNwCFopEF6vQCl1MDqbvRnrRb
+         8nfCF5aHYs/UbydU/NQko84uO9Kv/LcPso2hQd0cpVLYDmmYBbyOgQCvcZhKK2ahC6
+         viL3O0vuSiusQ==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lGey3-00022u-US; Mon, 01 Mar 2021 10:35:55 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v3] media: add a subsystem profile documentation
+Date:   Mon,  1 Mar 2021 10:35:54 +0100
+Message-Id: <bbe8dc3119b21317616535b7062811968a89b85e.1614591312.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210301030349.37275-1-huangjianghui@uniontech.com>
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Document the basic policies of the media subsystem profile.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+v3: address a few nitpicks from Randy and Lukas
+v2: fix the Documentation/*/media directories
 
 
-在 2021/3/1 上午11:03, hjh 写道:
-> Signed-off-by: hjh <huangjianghui@uniontech.com>
-> ---
->  Documentation/translations/zh_CN/index.rst    |   1 +
->  .../zh_CN/sound/hd-audio/controls.rst         | 109 ++++++++++++++++++
->  .../zh_CN/sound/hd-audio/index.rst            |  17 +++
->  .../translations/zh_CN/sound/index.rst        |  26 +++++
->  4 files changed, 153 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/controls.rst
->  create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/index.rst
->  create mode 100644 Documentation/translations/zh_CN/sound/index.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-> index be6f11176200..2767dacfe86d 100644
-> --- a/Documentation/translations/zh_CN/index.rst
-> +++ b/Documentation/translations/zh_CN/index.rst
-> @@ -20,6 +20,7 @@
->     process/index
->     filesystems/index
->     arm64/index
-> +   sound/index
->  
->  目录和表格
->  ----------
-> diff --git a/Documentation/translations/zh_CN/sound/hd-audio/controls.rst b/Documentation/translations/zh_CN/sound/hd-audio/controls.rst
-> new file mode 100644
-> index 000000000000..662bacc5a45f
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/sound/hd-audio/controls.rst
-> @@ -0,0 +1,109 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +Chinese translated version of Documentation/sound/hd-audio/controls.rst
-> +
-> +If you have any comment or update to the content, please contact the
-> +original document maintainer directly.  However, if you have a problem
-> +communicating in English you can also ask the Chinese maintainer for
-> +help.  Contact the Chinese maintainer if this translation is outdated
-> +or if there is a problem with the translation.
+ Documentation/driver-api/media/index.rst      |   2 +
+ .../media/maintainer-entry-profile.rst        | 161 ++++++++++++++++++
+ .../maintainer/maintainer-entry-profile.rst   |   1 +
+ 3 files changed, 164 insertions(+)
+ create mode 100644 Documentation/driver-api/media/maintainer-entry-profile.rst
 
-with the disclaimer file, this info could be removed.
+diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
+index c140692454b1..2ad71dfa8828 100644
+--- a/Documentation/driver-api/media/index.rst
++++ b/Documentation/driver-api/media/index.rst
+@@ -28,6 +28,8 @@ Please see:
+     :maxdepth: 5
+     :numbered:
+ 
++    maintainer-entry-profile
++
+     v4l2-core
+     dtv-core
+     rc-core
+diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+new file mode 100644
+index 000000000000..b3c4effbb1cf
+--- /dev/null
++++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+@@ -0,0 +1,161 @@
++Media Subsystem Profile
++=======================
++
++Overview
++--------
++
++The media subsystem covers support for a variety of devices: stream
++capture, analog and digital TV, cameras, remote controllers, HDMI CEC
++and media pipeline control.
++
++It covers, mainly, the contents of those directories:
++
++  - drivers/media
++  - drivers/staging/media
++  - Documentation/admin-guide/media
++  - Documentation/driver-api/media
++  - Documentation/userspace-api/media
++  - include/media
++
++Both media userspace and Kernel APIs are documented and should be kept in
++sync with the API changes. It means that all patches that add new
++features to the subsystem should also bring changes to the corresponding
++API files.
++
++Due to the size and wide scope of the media subsystem, media's
++maintainership model is to have sub-maintainers that have a broad
++knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
++task to review the patches, providing feedback to users if the patches are
++following the subsystem rules and are properly using the media kernel and
++userspace APIs.
++
++Patches for the media subsystem should be sent to the media mailing list
++at linux-media@vger.kernel.org as plain text only e-mail. Emails with
++HTML will be automatically rejected by the mail server. It could be wise
++to also copy the sub-maintainer(s).
++
++Media's workflow is heavily based on Patchwork, meaning that, once a patch
++is submitted, it should appear at:
++
++   - https://patchwork.linuxtv.org/project/linux-media/list/
++
++If it doesn't automatically appear there after a few minutes, then
++probably something got wrong on your submission. Please check if the
++email is in plain text only and if your emailer is not mangling with
++whitespaces before complaining or submitting them again.
++
++Sub-maintainers
+++++++++++++++++
++
++At the media subsystem, we have a group of experienced developers that
++are responsible for doing the code reviews at the drivers (called
++sub-maintainers), and another senior developer responsible for the
++subsystem as a hole. For core changes, whenever possible, multiple
++media (sub-)maintainers do the review.
++
++The sub-maintainers work on specific areas of the subsystem, as
++described below:
++
++Digital TV:
++  Sean Young <sean@mess.org>
++
++HDMI CEC:
++  Hans Verkuil <hverkuil@xs4all.nl>
++
++Media controller drivers:
++  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++
++Remote Controllers:
++  Sean Young <sean@mess.org>
++
++Sensor drivers:
++  Sakari Ailus <sakari.ailus@linux.intel.com>
++
++V4L2 drivers:
++  Hans Verkuil <hverkuil@xs4all.nl>
++
++Submit Checklist Addendum
++-------------------------
++
++Patches that change the Open Firmware/Device Tree bindings should be
++reviewed by the Device Tree maintainers. So, DT maintainers should be
++Cc:ed when those are submitted.
++
++There is a set of compliance tools at https://git.linuxtv.org/v4l-utils.git/
++that should be used in order to check if the drivers are properly
++implementing the media APIs.
++
++Those tests need to pass before the patches go upstream.
++
++Also, please notice that we build the Kernel with::
++
++	make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=check_script
++
++Where the check script is::
++
++	#!/bin/bash
++	/devel/smatch/smatch -p=kernel $@ >&2
++	/devel/sparse/sparse $@ >&2
++
++Be sure to not introduce new warnings on your patches without a
++very good reason.
++
++Style Cleanup Patches
+++++++++++++++++++++++
++
++Style cleanups are welcome when they come together with other changes
++at the files where the style changes will affect.
++
++We may accept pure standalone style cleanups, but they should ideally
++be one patch for the whole subsystem (if the cleanup is low volume),
++or at least be grouped per directory. So, for example, if you're doing a
++big cleanup change set at drivers under drivers/media, please send a single
++patch for all drivers under drivers/media/pci, another one for
++drivers/media/usb and so on.
++
++Coding Style Addendum
+++++++++++++++++++++++
++
++Media development uses checkpatch on strict mode to verify the code style,
++e.g.::
++
++	$ ./scripts/checkpatch.pl --strict
++
++Please notice that the goal here is to improve code readability. On a few
++cases, checkpatch may actually point to something that would look worse.
++
++So, you should use good send sense here, being prepared to justify any
++coding style decision.
++
++Please also notice that, on some cases, when you fix one issue, you may
++receive warnings about lines longer than 80 columns. It is fine to have
++longer lines if this means that other warnings will be fixed by that.
++
++Yet, if you're having more than 80 columns on a line, please consider
++simplifying the code - if too indented - or to use shorter names for
++variables.
++
++Key Cycle Dates
++---------------
++
++New submissions can be sent at any time, but if they intend to hit the
++next merge window they should be sent before -rc5, and ideally stabilized
++in the linux-media branch by -rc6.
++
++Review Cadence
++--------------
++
++Provided that your patch is at https://patchwork.linuxtv.org, it should
++be sooner or later handled, so you don't need to re-submit a patch.
++
++Except for bug fixes, we don't usually add new patches to the development
++tree between -rc6 and the next -rc1.
++
++Please notice that the media subsystem is a high traffic one, so it
++could take a while for us to be able to review your patches. Feel free
++to ping if you don't get a feedback in a couple of weeks or to ask
++other developers to publicly add Reviewed-by and, more importantly,
++Tested-by tags.
++
++Please note that we expect a detailed description for Tested-by,
++identifying what boards were used at the test and what it was tested.
+diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+index b7a627d6c97d..5d5cc3acdf85 100644
+--- a/Documentation/maintainer/maintainer-entry-profile.rst
++++ b/Documentation/maintainer/maintainer-entry-profile.rst
+@@ -102,3 +102,4 @@ to do something different in the near future.
+    ../doc-guide/maintainer-profile
+    ../nvdimm/maintainer-entry-profile
+    ../riscv/patch-acceptance
++   ../driver-api/media/maintainer-entry-profile
+-- 
+2.29.2
 
-> +
-> +Chinese maintainer: Huang Jianghui <huangjianghui@uniontech.com>
 
-We call us translator，译者。
-
-Others looks fine for me.
-
-Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
-
-Thanks
-Alex
-
-> +---------------------------------------------------------------------
-> +.. include:: ../../disclaimer-zh_CN.rst
-> +以下为正文
-> +---------------------------------------------------------------------
-> +======================================
-> +高清音频编解码器特定混音器控件
-> +======================================
-> +
-> +
-> +此文件解释特定于编解码器的混音器控件.
-> +
-> +瑞昱编解码器
-> +------------
-> +
-> +声道模式
-> +  这是一个用于更改环绕声道设置的枚举控件,仅在环绕声道打开时显示出现。
-> +  它给出要使用的通道数:"2ch","4ch","6ch"，和"8ch"。根据配置，这还控
-> +  制多I/O插孔的插孔重分配。
-> +
-> +自动静音模式
-> +  这是一个枚举控件，用于更改耳机和线路输出插孔的自动静音行为。如果内
-> +  置扬声器、耳机和/或线路输出插孔在机器上可用，则显示该控件。当只有
-> +  耳机或者线路输出的时候，它给出”禁用“和”启用“状态。当启用后，插孔插
-> +  入后扬声器会自动静音。
-> +
-> +  当耳机和线路输出插孔都存在时，它给出”禁用“、”仅扬声器“和”线路输出+扬
-> +  声器“。当”仅扬声器“被选择，插入耳机或者线路输出插孔可使扬声器静音，
-> +  但不会使线路输出静音。当线路输出+扬声器被选择，插入耳机插孔会同时使扬
-> +  声器和线路输出静音。
-> +
-> +
-> +矽玛特编解码器
-> +--------------
-> +
-> +模拟环回
-> +   此控件启用/禁用模拟环回电路。只有在编解码器提示中将”lookback“设置为真
-> +   时才会出现(见HD-Audio.txt)。请注意，在某些编解码器上，模拟环回和正常
-> +   PCM播放是独占的,即当此选项打开时，您将听不到任何PCM流。
-> +
-> +交换中置/低频
-> +   交换中置和低频通道顺序，通常情况下，左侧对应中置，右侧对应低频,启动此
-> +   项后，左边低频，右边中置。
-> +
-> +耳机作为线路输出
-> +   当此控制开启时，将耳机视为线路输出插孔。也就是说，耳机不会自动静音其他
-> +   线路输出，没有耳机放大器被设置到引脚上。
-> +
-> +麦克风插口模式、线路插孔模式等
-> +   这些枚举控制输入插孔引脚的方向和偏置。根据插孔类型，它可以设置为”麦克风
-> +   输入“和”线路输入“以确定输入偏置,或者当引脚是环绕声道的多I/O插孔时，它
-> +   可以设置为”线路输出“。
-> +
-> +
-> +威盛编解码器
-> +------------
-> +
-> +智能5.1
-> +   一个枚举控件，用于为环绕输出重新分配多个I/O插孔的任务。当它打开时，相应
-> +   的输入插孔（通常是线路输入和麦克风输入）被切换为环绕和中央低频输出插孔。
-> +
-> +独立耳机
-> +   启用此枚举控制时，耳机输出从单个流（第三个PCM，如hw:0,2）而不是主流路由。
-> +   如果耳机DAC与侧边或中央低频通道DAC共享，则DAC将自动切换到耳机。
-> +
-> +环回混合
-> +   一个用于确定是否启动了模拟环回路由的枚举控件。当它启用后，模拟环回路由到
-> +   前置通道。同样，耳机与扬声器输出也采用相同的路径。作为一个副作用，当设置
-> +   此模式后，单个音量控制将不再适用于耳机和扬声器，因为只有一个DAC连接到混
-> +   音器小部件。
-> +
-> +动态电源控制
-> +   此控件决定是否启动每个插孔的动态电源控制检测。启用时，根据插孔的插入情况
-> +   动态更改组件的电源状态（D0/D3）以节省电量消耗。但是，如果您的系统没有提
-> +   供正确的插孔检测，这将无法工作;在这种情况下，请关闭此控件。
-> +
-> +插孔检测
-> +   此控件仅为VT1708编解码器提供，它不会为每个插孔插拔提供适当的未请求事件。
-> +   当此控件打开，驱动将轮询插孔检测，以便耳机自动静音可以工作，而关闭此控
-> +   件将降低功耗。
-> +
-> +
-> +科胜讯编解码器
-> +--------------
-> +
-> +自动静音模式
-> +   见瑞昱解码器
-> +
-> +
-> +
-> +模拟编解码器
-> +------------
-> +
-> +通道模式
-> +   这是一个用于更改环绕声道设置的枚举控件,仅在环绕声道可用时显示。它提供了能
-> +   被使用的通道数:”2ch“、”4ch“和”6ch“。根据配置，这还控制多I/O插孔的插孔重
-> +   分配。
-> +
-> +独立耳机
-> +   启动此枚举控制后，耳机输出从单个流（第三个PCM，如hw:0,2）而不是主流路由。
-> diff --git a/Documentation/translations/zh_CN/sound/hd-audio/index.rst b/Documentation/translations/zh_CN/sound/hd-audio/index.rst
-> new file mode 100644
-> index 000000000000..c287aad51066
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/sound/hd-audio/index.rst
-> @@ -0,0 +1,17 @@
-> +.. include:: ../../disclaimer-zh_CN.rst
-> +
-> +:Original: :doc:`../../../../sound/hd-audio/index`
-> +:Translator: Huang Jianghui <huangjianghui@uniontech.com>
-> +
-> +
-> +高清音频
-> +========
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   notes
-> +   models
-> +   controls
-> +   dp-mst
-> +   realtek-pc-beep
-> diff --git a/Documentation/translations/zh_CN/sound/index.rst b/Documentation/translations/zh_CN/sound/index.rst
-> new file mode 100644
-> index 000000000000..42d86b361e42
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/sound/index.rst
-> @@ -0,0 +1,26 @@
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :doc:`../../../sound/index`
-> +:Translator: Huang Jianghui <huangjianghui@uniontech.com>
-> +
-> +
-> +====================
-> +Linux 声音子系统文档
-> +====================
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   kernel-api/index
-> +   designs/index
-> +   soc/index
-> +   alsa-configuration
-> +   hd-audio/index
-> +   cards/index
-> +
-> +.. only::  subproject and html
-> +
-> +   Indices
-> +   =======
-> +
-> +   * :ref:`genindex`
-> 
