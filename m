@@ -2,146 +2,65 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56AAEC433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 21:21:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FFF9C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 21:30:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22959600EF
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 21:21:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74F2460232
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 21:30:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233180AbhCAVUa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 16:20:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42132 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243413AbhCAVRR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 16:17:17 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66DC2C061756;
-        Mon,  1 Mar 2021 13:16:37 -0800 (PST)
+        id S235189AbhCAV37 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 16:29:59 -0500
+Received: from ms.lwn.net ([45.79.88.28]:40948 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S244095AbhCAVXf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Mar 2021 16:23:35 -0500
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0FF272BA;
-        Mon,  1 Mar 2021 21:16:37 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0FF272BA
+        by ms.lwn.net (Postfix) with ESMTPSA id D0AC22BA;
+        Mon,  1 Mar 2021 21:22:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D0AC22BA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1614633397; bh=BOWU4MDyFiQdWXRrrAYTjnx7MFERL9dM25+L03zaDSs=;
+        t=1614633770; bh=VCRXVUkenSuHp0KioD8Z4ZPbBAR1shgvy7q8YJn2q0k=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=G9TjIVOv72Tjp95UywWF5oB5lRoL8UHnQo73OhMdPx8WBlss0uCCU6OU2ZQkByZ08
-         Sy/BqyVSeGYFnXMSy13M1cI5+WmmIU4AorsePF99JGl9i7HfXSLe7FVSoLLZg+neBU
-         2lbL65P+aWC8KBz6qJBglL6XfzTxyAI930oXQEiUQFFLC219nmgLFVwvQOGP828gul
-         o9jISFsa/s98nm1aT3z+qZiobga/wUzhVKtqpEpxfoTPYzpvpFMFsXi4iHQMX6ijcF
-         Q9QChpB0FX+TwynXD+mQF7v4knQpWAP38Y/uREOiv3wIKo7zpmrXKwULUHZEzVBfYG
-         DiwUK78oEEAUg==
+        b=AWsbF5Zp6mmMuhNJAGxIO6wrmTXjReoBnZFoUWdYSjhr7Z/lRGTR1VHPc70H1BzGZ
+         sSLc+ZvLZ9vfWrkOFqm5wUZtB+v062cHD0JC1omOaeZHMngCEE2dc3yzxwNFybL/Ne
+         TytJlgh28uO/XMZg3WCIKdyHedKM559wqLswH7Y5aZGe8F6R2A+llWrPzQ7kzPBwp/
+         BSbbpkUc+MuQEd5zt24S2op5lcDt+RekHRapzsECCwgFoqvqp2n9MmmScEiwJRAm+9
+         fRA96d+s0MSAe0WkEQGwlGdtfgoFI8JEhCexcRbq/BNYCch6NJehO8YE7RFtzaQQnU
+         frm6rX7C+wcuQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     hjh <huangjianghui@uniontech.com>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PATCH Documentation translations:translate
- sound/hd-audio/controls to chinese
-In-Reply-To: <20210301122019.80234-1-huangjianghui@uniontech.com>
-References: <20210301122019.80234-1-huangjianghui@uniontech.com>
-Date:   Mon, 01 Mar 2021 14:16:36 -0700
-Message-ID: <8735xe4lsb.fsf@meer.lwn.net>
+To:     Dwaipayan Ray <dwaipayanray1@gmail.com>, joe@perches.com,
+        mchehab@kernel.org
+Cc:     lukas.bulwahn@gmail.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>
+Subject: Re: [PATCH v8 0/3] checkpatch: add verbose mode
+In-Reply-To: <20210226093827.12700-1-dwaipayanray1@gmail.com>
+References: <20210226093827.12700-1-dwaipayanray1@gmail.com>
+Date:   Mon, 01 Mar 2021 14:22:49 -0700
+Message-ID: <87tupu36xi.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-hjh <huangjianghui@uniontech.com> writes:
+Dwaipayan Ray <dwaipayanray1@gmail.com> writes:
 
-> Signed-off-by: hjh <huangjianghui@uniontech.com>
-> ---
->  Documentation/translations/zh_CN/index.rst    |   1 +
->  .../zh_CN/sound/hd-audio/controls.rst         | 102 ++++++++++++++++++
->  .../zh_CN/sound/hd-audio/index.rst            |  17 +++
->  .../translations/zh_CN/sound/index.rst        |  26 +++++
->  4 files changed, 146 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/contr=
-ols.rst
->  create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/index=
-.rst
->  create mode 100644 Documentation/translations/zh_CN/sound/index.rst
+> Add a new verbose mode to checkpatch. The verbose test
+> descriptions are read from the new checkpatch documentation
+> file at `Documentation/dev-tools/checkpatch.rst`, which
+> is also added by this series.
 
-So you have sent me two versions of this in the last 24 hours with no
-indication of what has changed or why I should prefer one over the
-other.  Always include that information (under the "---" line) when you
-send updated versions.
-
-It looks like you got a Reviewed-by tag from Alex on the other version,
-but that doesn't appear here; why?
-
-[...]
-
-> diff --git a/Documentation/translations/zh_CN/sound/hd-audio/index.rst b/=
-Documentation/translations/zh_CN/sound/hd-audio/index.rst
-> new file mode 100644
-> index 000000000000..c287aad51066
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/sound/hd-audio/index.rst
-> @@ -0,0 +1,17 @@
-> +.. include:: ../../disclaimer-zh_CN.rst
-> +
-> +:Original: :doc:`../../../../sound/hd-audio/index`
-> +:Translator: Huang Jianghui <huangjianghui@uniontech.com>
-> +
-> +
-> +=E9=AB=98=E6=B8=85=E9=9F=B3=E9=A2=91
-> +=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   notes
-> +   models
-> +   controls
-> +   dp-mst
-> +   realtek-pc-beep
-
-So you list a bunch of files here, but most of them are not added in
-your patch.  That will, of course, break the docs build.
-
-> diff --git a/Documentation/translations/zh_CN/sound/index.rst b/Documenta=
-tion/translations/zh_CN/sound/index.rst
-> new file mode 100644
-> index 000000000000..42d86b361e42
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/sound/index.rst
-> @@ -0,0 +1,26 @@
-
-Similarly, including the index.rst file at this level is good, but...
-
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :doc:`../../../sound/index`
-> +:Translator: Huang Jianghui <huangjianghui@uniontech.com>
-> +
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +Linux =E5=A3=B0=E9=9F=B3=E5=AD=90=E7=B3=BB=E7=BB=9F=E6=96=87=E6=A1=A3
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   kernel-api/index
-> +   designs/index
-> +   soc/index
-> +   alsa-configuration
-> +   hd-audio/index
-> +   cards/index
-
-What are all of these files?
-
-Please fix these issues and make sure that the docs build runs correctly
-before resubmitting.
+So I can certainly take the doc change, as requested.  Remind me,
+though...should I apply the whole set, or will the checkpatch changes go
+via another path?
 
 Thanks,
 
