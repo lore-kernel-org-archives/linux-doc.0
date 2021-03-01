@@ -2,310 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4468C433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 16:56:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 559F5C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:04:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A6AE9650BD
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 16:56:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A7766513E
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:04:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235277AbhCAQz2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 11:55:28 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:39879 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234148AbhCAQwD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 11:52:03 -0500
-Received: from FRIBB15 ([84.62.17.44]) by mrelayeu.kundenserver.de (mreue009
- [212.227.15.167]) with ESMTPSA (Nemesis) id 1MoNy4-1laiM12j0K-00opkm; Mon, 01
- Mar 2021 17:49:17 +0100
-From:   "Johannes Freyberger" <Johannes@Freyberger.de>
-To:     <ruslan.bilovol@gmail.com>
-Cc:     <balbi@kernel.org>, <corbet@lwn.net>, <gregkh@linuxfoundation.org>,
-        <gschmottlach@gmail.com>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 0/8] USB Audio Gadget part 2: Feedback endpoint, Volume/Mute support
-Date:   Mon, 1 Mar 2021 17:49:16 +0100
-Message-ID: <002f01d70eba$d1b365a0$751a30e0$@Freyberger.de>
+        id S235944AbhCARD4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 12:03:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43556 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236559AbhCARCt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 12:02:49 -0500
+Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFC8BC06178C;
+        Mon,  1 Mar 2021 09:00:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description;
+        bh=AzpNt39AFo/zFqTeQtEuxgVZwQBuuvW7GOPciez3kew=; b=w4/uov0eFOQxmK3pB5PzL2hON0
+        Pq7OCZUFkyg4XpDXC60PcWhbpVN7Ye1CYqQy4LyJlPZA6DsexZEQO3KVxTuwbrDgYzhbSpZItQdGO
+        6lcLIBToBjLXTRuqJj1YJiqJ7RGsYG3TmSZ/B545cEM3TJj8RgGICZ2RpITDEHisPa23NWx4YsEgC
+        so7v3obP9JBAtuF74xrzuZArKyusF1T88MQQSVR4TNFuXy/CDhWX+syYg4nAXGb8Oj3TaXJcoGoo5
+        N/D0YvdCkO6SQSHWP+9K5KmX4kxPdhohPFQcLBR14Uk6sDoC9F2bIT5+R5E8yVqNQ5P0j0/Lz1RFn
+        HuIJzbeA==;
+Received: from [2601:1c0:6280:3f0::3ba4]
+        by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1lGltw-0005FN-B3; Mon, 01 Mar 2021 17:00:08 +0000
+Subject: Re: [PATCH] docs: sphinx: Fix couple of spellings in the file
+ rstFlatTable.py
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210301124136.11602-1-unixbhaskar@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <15d1c699-28bb-38ca-0e2b-1b7a3c92024b@infradead.org>
+Date:   Mon, 1 Mar 2021 09:00:05 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
+In-Reply-To: <20210301124136.11602-1-unixbhaskar@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AdcOt3r//gS6ofvdQq+9nU3AjE/rOg==
-Content-Language: de
-X-Provags-ID: V03:K1:v9xVgU/EbrblPbGe0hie//MyhZyjEtNfVSVOsu5t1vpScHoOmB4
- Od1ftIOiJU9qxp0Xd2E3Fi0feJutvjDptVa0xBFwpq3o+f20ieJMsCkoRqwzTlTVyfXEjwe
- lF35/7InNg1oHw16mYNaJkJxWK0n9Ka9aAFEMvZSZlcE3KYrPkGJqURrra/1FyqFkLOFuzI
- uSscD0mIfe5R9jSn0sNtA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:l/iXmPrCb4s=:LxGvaYbuu6M82e3I6Efcik
- vYuS4OCCtestn62OGjbDNie9k0f5eb1Ed0cJ9BVHRzzqPvbnePQPwc9AIAky3gKfQ10JlnHP+
- z0s8Sh4x88IZgE/hyFaTrI10psHTDH2atc6tyzSQ0dHvUGmkRxqGGLWXk9YRxXVc7Lj4EuqFR
- xgEn64Ad3+bphHZtLvxGCELpqteEMZctqIDx7OF9+OCxJ499SCczNn5GMGkdNg0/9C4/5J6Hx
- LBdRc6eAuUpYWPS5Ar9sNAEWOowEACiIZLBpB7LBI/BtJ3YergV/+9zPygsadMjX6AWe0xGEm
- +XaWvvKLRvSercbLoAjpLA1CYOAl40pCqv3RgmJ/eXEqFrIS8ldoAx8FCvU1IUFHqh7ybockG
- M9YOZdiGbxH+A030BWqfPqzrdbaZPUDWv1mFY89KC9gRHXGiAjzM4Se6eHQt9iH5H+kXy8nzF
- F35sS2Aayw==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Ruslan,
+On 3/1/21 4:41 AM, Bhaskar Chowdhury wrote:
+> 
+> 
+> s/automaticly/automatically/
+> s/buidler/builder/
+> 
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> ---
+>  Documentation/sphinx/rstFlatTable.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/sphinx/rstFlatTable.py b/Documentation/sphinx/rstFlatTable.py
+> index 2019a55f6b18..386c435e479c 100755
+> --- a/Documentation/sphinx/rstFlatTable.py
+> +++ b/Documentation/sphinx/rstFlatTable.py
+> @@ -22,7 +22,7 @@ u"""
+> 
+>      * *auto span* rightmost cell of a table row over the missing cells on the
+>        right side of that table-row.  With Option ``:fill-cells:`` this behavior
+> -      can changed from *auto span* to *auto fill*, which automaticly inserts
+> +      can changed from *auto span* to *auto fill*, which automatically inserts
 
-thanks for all your efforts to make the USB Audio Gadget work in Win10 using
-UAC2. Meanwhile I managed to apply and compile your previous modifications
-and now my Raspberry PI shows up in the Windows Device Manager as a valid
-UAC2 audio device. Unfortunately it still doesn't work to transfer any audio
-as it seems the audio endpoints or the topology is not working. I checked it
-with some tools and found one providing some information on the USB part
-(it's called UVCview.exe and is part of the Windows Driver Kit). Here's the
-output which I hope can give some hints on the problems still existing in
-this driver:
+	 can be changed
 
-          ---===>Device Information<===---
-English product name: "Linux USB Audio Gadget"
+>        (empty) cells instead of spanning the last cell.
+> 
+>      Options:
+> @@ -171,7 +171,7 @@ class ListTableBuilder(object):
+>          for colwidth in colwidths:
+>              colspec = nodes.colspec(colwidth=colwidth)
+>              # FIXME: It seems, that the stub method only works well in the
+> -            # absence of rowspan (observed by the html buidler, the docutils-xml
+> +            # absence of rowspan (observed by the html builder, the docutils-xml
+>              # build seems OK).  This is not extraordinary, because there exists
+>              # no table directive (except *this* flat-table) which allows to
+>              # define coexistent of rowspan and stubs (there was no use-case
+> --
+> 2.26.2
+> 
 
-ConnectionStatus:                  
-Current Config Value:              0x01  -> Device Bus Speed: High
-Device Address:                    0x0F
-Open Pipes:                           0
-*!*ERROR:  No open pipes!
 
-          ===>Device Descriptor<===
-bLength:                           0x12
-bDescriptorType:                   0x01
-bcdUSB:                          0x0200
-bDeviceClass:                      0xEF  -> This is a Multi-interface
-Function Code Device
-bDeviceSubClass:                   0x02  -> This is the Common Class Sub
-Class
-bDeviceProtocol:                   0x01  -> This is the Interface
-Association Descriptor protocol
-bMaxPacketSize0:                   0x40 = (64) Bytes
-idVendor:                        0x1D6B = The Linux Foundation
-idProduct:                       0x0101
-bcdDevice:                       0x0510
-iManufacturer:                     0x01
-     English (United States)  "Linux 5.10.17-v7l-R3LAY_TEST+ with
-fe980000.usb"
-iProduct:                          0x02
-     English (United States)  "Linux USB Audio Gadget"
-iSerialNumber:                     0x00
-bNumConfigurations:                0x01
-
-          ===>Configuration Descriptor<===
-bLength:                           0x09
-bDescriptorType:                   0x02
-wTotalLength:                    0x00E2  -> Validated
-bNumInterfaces:                    0x03
-bConfigurationValue:               0x01
-iConfiguration:                    0x00
-bmAttributes:                      0xC0  -> Bus Powered
-MaxPower:                          0x01 =   2 mA
-
-          ===>IAD Descriptor<===
-bLength:                           0x08
-bDescriptorType:                   0x0B
-bFirstInterface:                   0x00
-bInterfaceCount:                   0x03
-bFunctionClass:                    0x01  -> Audio Interface Class
-bFunctionSubClass:                 0x00
-*!*CAUTION:    This appears to be an invalid bFunctionSubClass
-bFunctionProtocol:                 0x20
-iFunction:                         0x04
-     English (United States)  "R3lay PI"
-
-          ===>Interface Descriptor<===
-bLength:                           0x09
-bDescriptorType:                   0x04
-bInterfaceNumber:                  0x00
-bAlternateSetting:                 0x00
-bNumEndpoints:                     0x00
-bInterfaceClass:                   0x01  -> Audio Interface Class
-bInterfaceSubClass:                0x01  -> Audio Control Interface SubClass
-bInterfaceProtocol:                0x20
-CAUTION:  This may be an invalid bInterfaceProtocol
-iInterface:                        0x05
-     English (United States)  "Topology Control"
-
-          ===>Audio Control Interface Header Descriptor<===
-bLength:                           0x09
-bDescriptorType:                   0x24
-bDescriptorSubtype:                0x01
-bcdADC:                          0x0200
-wTotalLength:                    0x5308
-bInCollection:                     0x00
-
-          ===>Descriptor Hex Dump<===
-bLength:                           0x08
-bDescriptorType:                   0x24
-08 24 0A 06 01 01 00 06 
-
-          ===>Descriptor Hex Dump<===
-bLength:                           0x08
-bDescriptorType:                   0x24
-08 24 0A 05 01 01 00 07 
-
-          ===>Descriptor Hex Dump<===
-bLength:                           0x11
-bDescriptorType:                   0x24
-11 24 02 01 01 01 00 05 02 03 00 00 00 00 03 00 
-08 
-
-          ===>Descriptor Hex Dump<===
-bLength:                           0x11
-bDescriptorType:                   0x24
-11 24 02 02 00 02 00 06 02 03 00 00 00 00 03 00 
-09 
-
-          ===>Descriptor Hex Dump<===
-bLength:                           0x0C
-bDescriptorType:                   0x24
-0C 24 03 04 01 01 00 02 06 03 00 0A 
-
-          ===>Descriptor Hex Dump<===
-bLength:                           0x0C
-bDescriptorType:                   0x24
-0C 24 03 03 00 03 00 01 05 03 00 0B 
-
-          ===>Interface Descriptor<===
-bLength:                           0x09
-bDescriptorType:                   0x04
-bInterfaceNumber:                  0x01
-bAlternateSetting:                 0x00
-bNumEndpoints:                     0x00
-bInterfaceClass:                   0x01  -> Audio Interface Class
-bInterfaceSubClass:                0x02  -> Audio Streaming Interface
-SubClass
-bInterfaceProtocol:                0x20
-CAUTION:  This may be an invalid bInterfaceProtocol
-iInterface:                        0x0C
-     English (United States)  "Playback Inactive"
-
-          ===>Interface Descriptor<===
-bLength:                           0x09
-bDescriptorType:                   0x04
-bInterfaceNumber:                  0x01
-bAlternateSetting:                 0x01
-bNumEndpoints:                     0x02
-bInterfaceClass:                   0x01  -> Audio Interface Class
-bInterfaceSubClass:                0x02  -> Audio Streaming Interface
-SubClass
-bInterfaceProtocol:                0x20
-CAUTION:  This may be an invalid bInterfaceProtocol
-iInterface:                        0x0D
-     English (United States)  "Playback Active"
-
-          ===>Descriptor Hex Dump<===
-bLength:                           0x10
-bDescriptorType:                   0x24
-10 24 01 01 00 01 01 00 00 00 02 03 00 00 00 00 
-
-          ===>Audio Streaming Format Type Descriptor<===
-bLength:                           0x06
-bDescriptorType:                   0x24
-bDescriptorSubtype:                0x02
-bFormatType:                       0x01
-bNrChannels:                       0x02
-bSubframeSize:                     0x10
-bBitResolution:                    0x07
-bSamFreqType:                      0x05
-tSamFreq[1]:                   0x380501 (3671297 Hz)
-tSamFreq[2]:                   0x080401 (525313 Hz)
-tSamFreq[3]:                   0x000125 (293 Hz)
-tSamFreq[4]:                   0x000000 (0 Hz)
-tSamFreq[5]:                   0x050700 (329472 Hz)
-
-          ===>Endpoint Descriptor<===
-bLength:                           0x07
-bDescriptorType:                   0x05
-bEndpointAddress:                  0x01  -> Direction: OUT - EndpointID: 1
-bmAttributes:                      0x05  -> Isochronous Transfer Type
-                   Synchronization Type = Asynchronous
-Bulk Transfer Type
-wMaxPacketSize:                  0x0138 = 1 transactions per microframe,
-0x138 max bytes
-bInterval:                         0x04
-
-          ===>Descriptor Hex Dump<===
-bLength:                           0x08
-bDescriptorType:                   0x25
-08 25 01 00 00 00 00 00 
-
-          ===>Endpoint Descriptor<===
-bLength:                           0x07
-bDescriptorType:                   0x05
-bEndpointAddress:                  0x81  -> Direction: IN - EndpointID: 1
-bmAttributes:                      0x11  -> Isochronous Transfer Type
-                   Synchronization Type = No Synchronization
-Bulk Transfer Type
-wMaxPacketSize:                  0x0004 = 1 transactions per microframe,
-0x04 max bytes
-bInterval:                         0x04
-
-          ===>Interface Descriptor<===
-bLength:                           0x09
-bDescriptorType:                   0x04
-bInterfaceNumber:                  0x02
-bAlternateSetting:                 0x00
-bNumEndpoints:                     0x00
-bInterfaceClass:                   0x01  -> Audio Interface Class
-bInterfaceSubClass:                0x02  -> Audio Streaming Interface
-SubClass
-bInterfaceProtocol:                0x20
-CAUTION:  This may be an invalid bInterfaceProtocol
-iInterface:                        0x0E
-     English (United States)  "Capture Inactive"
-
-          ===>Interface Descriptor<===
-bLength:                           0x09
-bDescriptorType:                   0x04
-bInterfaceNumber:                  0x02
-bAlternateSetting:                 0x01
-bNumEndpoints:                     0x01
-bInterfaceClass:                   0x01  -> Audio Interface Class
-bInterfaceSubClass:                0x02  -> Audio Streaming Interface
-SubClass
-bInterfaceProtocol:                0x20
-CAUTION:  This may be an invalid bInterfaceProtocol
-iInterface:                        0x0F
-     English (United States)  "Capture Active"
-
-          ===>Descriptor Hex Dump<===
-bLength:                           0x10
-bDescriptorType:                   0x24
-10 24 01 04 00 01 01 00 00 00 02 03 00 00 00 00 
-
-          ===>Audio Streaming Format Type Descriptor<===
-bLength:                           0x06
-bDescriptorType:                   0x24
-bDescriptorSubtype:                0x02
-bFormatType:                       0x01
-bNrChannels:                       0x02
-bSubframeSize:                     0x10
-bBitResolution:                    0x07
-bSamFreqType:                      0x05
-tSamFreq[1]:                   0xC40582 (12846466 Hz)
-tSamFreq[2]:                   0x080400 (525312 Hz)
-tSamFreq[3]:                   0x000125 (293 Hz)
-tSamFreq[4]:                   0x000000 (0 Hz)
-tSamFreq[5]:                   0x000000 (0 Hz)
-
-          ===>Endpoint Descriptor<===
-bLength:                           0x07
-bDescriptorType:                   0x05
-bEndpointAddress:                  0x82  -> Direction: IN - EndpointID: 2
-bmAttributes:                      0x05  -> Isochronous Transfer Type
-                   Synchronization Type = Asynchronous
-Bulk Transfer Type
-wMaxPacketSize:                  0x00C4 = 1 transactions per microframe,
-0xC4 max bytes
-bInterval:                         0x04
-
-          ===>Descriptor Hex Dump<===
-bLength:                           0x08
-bDescriptorType:                   0x25
-08 25 01 00 00 00 00 00
+-- 
+~Randy
 
