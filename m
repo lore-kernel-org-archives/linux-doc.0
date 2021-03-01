@@ -2,459 +2,362 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 047A9C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 21:35:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62083C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 21:37:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C279760231
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 21:35:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 232D6600CC
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 21:37:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238844AbhCAVfa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 16:35:30 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46316 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239135AbhCAVab (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Mar 2021 16:30:31 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0638F600CC;
-        Mon,  1 Mar 2021 21:29:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614634188;
-        bh=DyGkTtrfMtNNtz1J0TDvvNwAyu1a25IQc+lTh+rKt04=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KDp8ts9A7Vic6WDyOeR09EGQMf1la9qH1SNJsJKHl2RhNeIESVEm4Q9nYLayaxa2L
-         +VrKZnbabrYDeGJFuufIGFKKQiIQUHcWtD0zhIrmfWs19JnebKJWKpahtDrRE6QD9q
-         DBz91szz4az4FXX2nT/iWAUYqwxZ9o1y3xUDv0gKAfh6/sg1UYUJgSapjtvGxzcZ0S
-         V3vBmLVm6NkGJhj1RvHrGCRdmDZr+DZcM/gFh6+bUKdnGzmaVAhy6qSo8kPZU3t7u7
-         ZNM/L1eb1yBkHdcCdpLDhWvVCIzaK5Lq7osd1lVtCnUYjt52KrOTWdGDgkUxzYlOUO
-         A6kx/5Bp4MMzg==
-Date:   Mon, 1 Mar 2021 23:29:29 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Sumit Garg <sumit.garg@linaro.org>
-Cc:     jarkko.sakkinen@linux.intel.com, zohar@linux.ibm.com,
-        jejb@linux.ibm.com, dhowells@redhat.com, jens.wiklander@linaro.org,
-        corbet@lwn.net, jmorris@namei.org, serge@hallyn.com,
-        casey@schaufler-ca.com, janne.karhunen@gmail.com,
-        daniel.thompson@linaro.org, Markus.Wamser@mixed-mode.de,
-        lhinds@redhat.com, erpalmer@us.ibm.com, a.fatoum@pengutronix.de,
-        keyrings@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        op-tee@lists.trustedfirmware.org
-Subject: Re: [PATCH v9 2/4] KEYS: trusted: Introduce TEE based Trusted Keys
-Message-ID: <YD1cuceo+D86k5aB@kernel.org>
-References: <20210301131127.793707-1-sumit.garg@linaro.org>
- <20210301131127.793707-3-sumit.garg@linaro.org>
+        id S237656AbhCAVhL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 16:37:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45920 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237993AbhCAVfE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 16:35:04 -0500
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68AF9C061756;
+        Mon,  1 Mar 2021 13:34:23 -0800 (PST)
+Received: by mail-ot1-x330.google.com with SMTP id h10so7310950otm.1;
+        Mon, 01 Mar 2021 13:34:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HhG4rx0c+91LEIH+qR6RUNaHVNddgYArf242XPm3m3I=;
+        b=TLPlCvv7mipFOgDdtuQYva3KVH/7Nyr7w5kNK0kqoF62qjVBG2oYj9l42gJkPUgSCg
+         QZvX/gxXVXjEATlE1XdZn0rRcNBDF4SDqpbbf7UqgwAdeHxKsWtreNyF+5V3A2WUWxpc
+         q9yUx0GTuuRbwgz7WfMDDtN3ZGmGhs3H6y2cu9pPgr6TK6GrQ0Sb3VjGMfB349z078kn
+         sBUCghaYrk1edGmiRBKUNhchjd/285xwUmcsP+Qup6gPZkB4uhmpHkLvPDBSCdtjh4sF
+         j4KLG+bvmPykP7N3TPAjZ7oJdR0w2jZhJscEML34odvoO+oV/8oYDn71fwHZpcyYtdcz
+         Xjnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HhG4rx0c+91LEIH+qR6RUNaHVNddgYArf242XPm3m3I=;
+        b=FpwAecnfdd366Gm40rw94u49FdXqbv4pVOZFxqo/i2vb6y95HTK9B2vjzTHSVUexve
+         ETBvD0jkBIVc9czhBHxf78Dw+gN9ocOKMz2vcdo+M4yK9xKv0Bl4JRGETEHsnNLl4kth
+         ZuSw5iZt1KqXNNJXy4kbw3zE1nMXtEatfyrpFvGGuTXsYyAYO9sCej+z5bgE7dKByg12
+         zHdXQY/nEs0edCpbRsA8bZugf4e30hFqgXYtf1lKjpeCyiTsz/Su8ezYsJoUopQcM3MO
+         TFwLsATmIjkmddlc6N0pq10oBDkNy4LZ4u82aRkLGT+XOWbvfzecnws7emYgb3BYfRBd
+         +IRg==
+X-Gm-Message-State: AOAM531EWyH5kiarmpZrSXcpQPIthYzmt/GbpUoZdcYomqkHf+062SuO
+        CKNumhfB8JA+O5SXlpHI8m8iufHWnWH7aVE8+LYYMw9JWRi/xwkE
+X-Google-Smtp-Source: ABdhPJyydZtffSv5+Wnv+dZFJc+0pWvWdVBBAHhFflSlXJ0QmxYPBVWgWsjiAjNpGuURs4rjqTKR28eWoDIKLZ1ik+E=
+X-Received: by 2002:a9d:6012:: with SMTP id h18mr15104225otj.336.1614634462595;
+ Mon, 01 Mar 2021 13:34:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210301131127.793707-3-sumit.garg@linaro.org>
+References: <002f01d70eba$d1b365a0$751a30e0$@Freyberger.de>
+In-Reply-To: <002f01d70eba$d1b365a0$751a30e0$@Freyberger.de>
+From:   Ruslan Bilovol <ruslan.bilovol@gmail.com>
+Date:   Mon, 1 Mar 2021 23:34:09 +0200
+Message-ID: <CAB=otbQLO451REYQg3ZAR+bwAFaX5VFfz9_fVGvY3yGGxEWsaA@mail.gmail.com>
+Subject: Re: [PATCH 0/8] USB Audio Gadget part 2: Feedback endpoint,
+ Volume/Mute support
+To:     Johannes Freyberger <Johannes@freyberger.de>
+Cc:     Felipe Balbi <balbi@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Glenn Schmottlach <gschmottlach@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linux USB <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 01, 2021 at 06:41:25PM +0530, Sumit Garg wrote:
-> Add support for TEE based trusted keys where TEE provides the functionality
-> to seal and unseal trusted keys using hardware unique key.
-> 
-> Refer to Documentation/staging/tee.rst for detailed information about TEE.
-> 
-> Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
-> Tested-by: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Hi Johannes,
 
-Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
+On Mon, Mar 1, 2021 at 6:49 PM Johannes Freyberger
+<Johannes@freyberger.de> wrote:
+>
+> Hi Ruslan,
+>
+> thanks for all your efforts to make the USB Audio Gadget work in Win10 using
+> UAC2. Meanwhile I managed to apply and compile your previous modifications
+> and now my Raspberry PI shows up in the Windows Device Manager as a valid
+> UAC2 audio device. Unfortunately it still doesn't work to transfer any audio
+> as it seems the audio endpoints or the topology is not working.
 
-/Jarkko
+Are you testing my previous version of the patches on some older kernel?
 
-> ---
->  include/keys/trusted_tee.h                |  16 ++
->  security/keys/trusted-keys/Makefile       |   1 +
->  security/keys/trusted-keys/trusted_core.c |   4 +
->  security/keys/trusted-keys/trusted_tee.c  | 317 ++++++++++++++++++++++
->  4 files changed, 338 insertions(+)
->  create mode 100644 include/keys/trusted_tee.h
->  create mode 100644 security/keys/trusted-keys/trusted_tee.c
-> 
-> diff --git a/include/keys/trusted_tee.h b/include/keys/trusted_tee.h
-> new file mode 100644
-> index 000000000000..151be25a979e
-> --- /dev/null
-> +++ b/include/keys/trusted_tee.h
-> @@ -0,0 +1,16 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (C) 2019-2021 Linaro Ltd.
-> + *
-> + * Author:
-> + * Sumit Garg <sumit.garg@linaro.org>
-> + */
-> +
-> +#ifndef __TEE_TRUSTED_KEY_H
-> +#define __TEE_TRUSTED_KEY_H
-> +
-> +#include <keys/trusted-type.h>
-> +
-> +extern struct trusted_key_ops trusted_key_tee_ops;
-> +
-> +#endif
-> diff --git a/security/keys/trusted-keys/Makefile b/security/keys/trusted-keys/Makefile
-> index 49e3bcfe704f..347021d5d1f9 100644
-> --- a/security/keys/trusted-keys/Makefile
-> +++ b/security/keys/trusted-keys/Makefile
-> @@ -7,3 +7,4 @@ obj-$(CONFIG_TRUSTED_KEYS) += trusted.o
->  trusted-y += trusted_core.o
->  trusted-y += trusted_tpm1.o
->  trusted-y += trusted_tpm2.o
-> +trusted-$(CONFIG_TEE) += trusted_tee.o
-> diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/trusted-keys/trusted_core.c
-> index 0db86b44605d..ec3a066a4b42 100644
-> --- a/security/keys/trusted-keys/trusted_core.c
-> +++ b/security/keys/trusted-keys/trusted_core.c
-> @@ -8,6 +8,7 @@
->  
->  #include <keys/user-type.h>
->  #include <keys/trusted-type.h>
-> +#include <keys/trusted_tee.h>
->  #include <keys/trusted_tpm.h>
->  #include <linux/capability.h>
->  #include <linux/err.h>
-> @@ -29,6 +30,9 @@ static const struct trusted_key_source trusted_key_sources[] = {
->  #if defined(CONFIG_TCG_TPM)
->  	{ "tpm", &trusted_key_tpm_ops },
->  #endif
-> +#if defined(CONFIG_TEE)
-> +	{ "tee", &trusted_key_tee_ops },
-> +#endif
->  };
->  
->  DEFINE_STATIC_CALL_NULL(trusted_key_init, *trusted_key_sources[0].ops->init);
-> diff --git a/security/keys/trusted-keys/trusted_tee.c b/security/keys/trusted-keys/trusted_tee.c
-> new file mode 100644
-> index 000000000000..62983d98a252
-> --- /dev/null
-> +++ b/security/keys/trusted-keys/trusted_tee.c
-> @@ -0,0 +1,317 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (C) 2019-2021 Linaro Ltd.
-> + *
-> + * Author:
-> + * Sumit Garg <sumit.garg@linaro.org>
-> + */
-> +
-> +#include <linux/err.h>
-> +#include <linux/key-type.h>
-> +#include <linux/slab.h>
-> +#include <linux/string.h>
-> +#include <linux/tee_drv.h>
-> +#include <linux/uuid.h>
-> +
-> +#include <keys/trusted_tee.h>
-> +
-> +#define DRIVER_NAME "trusted-key-tee"
-> +
-> +/*
-> + * Get random data for symmetric key
-> + *
-> + * [out]     memref[0]        Random data
-> + */
-> +#define TA_CMD_GET_RANDOM	0x0
-> +
-> +/*
-> + * Seal trusted key using hardware unique key
-> + *
-> + * [in]      memref[0]        Plain key
-> + * [out]     memref[1]        Sealed key datablob
-> + */
-> +#define TA_CMD_SEAL		0x1
-> +
-> +/*
-> + * Unseal trusted key using hardware unique key
-> + *
-> + * [in]      memref[0]        Sealed key datablob
-> + * [out]     memref[1]        Plain key
-> + */
-> +#define TA_CMD_UNSEAL		0x2
-> +
-> +/**
-> + * struct trusted_key_tee_private - TEE Trusted key private data
-> + * @dev:		TEE based Trusted key device.
-> + * @ctx:		TEE context handler.
-> + * @session_id:		Trusted key TA session identifier.
-> + * @shm_pool:		Memory pool shared with TEE device.
-> + */
-> +struct trusted_key_tee_private {
-> +	struct device *dev;
-> +	struct tee_context *ctx;
-> +	u32 session_id;
-> +	struct tee_shm *shm_pool;
-> +};
-> +
-> +static struct trusted_key_tee_private pvt_data;
-> +
-> +/*
-> + * Have the TEE seal(encrypt) the symmetric key
-> + */
-> +static int trusted_tee_seal(struct trusted_key_payload *p, char *datablob)
-> +{
-> +	int ret;
-> +	struct tee_ioctl_invoke_arg inv_arg;
-> +	struct tee_param param[4];
-> +	struct tee_shm *reg_shm_in = NULL, *reg_shm_out = NULL;
-> +
-> +	memset(&inv_arg, 0, sizeof(inv_arg));
-> +	memset(&param, 0, sizeof(param));
-> +
-> +	reg_shm_in = tee_shm_register(pvt_data.ctx, (unsigned long)p->key,
-> +				      p->key_len, TEE_SHM_DMA_BUF |
-> +				      TEE_SHM_KERNEL_MAPPED);
-> +	if (IS_ERR(reg_shm_in)) {
-> +		dev_err(pvt_data.dev, "key shm register failed\n");
-> +		return PTR_ERR(reg_shm_in);
-> +	}
-> +
-> +	reg_shm_out = tee_shm_register(pvt_data.ctx, (unsigned long)p->blob,
-> +				       sizeof(p->blob), TEE_SHM_DMA_BUF |
-> +				       TEE_SHM_KERNEL_MAPPED);
-> +	if (IS_ERR(reg_shm_out)) {
-> +		dev_err(pvt_data.dev, "blob shm register failed\n");
-> +		ret = PTR_ERR(reg_shm_out);
-> +		goto out;
-> +	}
-> +
-> +	inv_arg.func = TA_CMD_SEAL;
-> +	inv_arg.session = pvt_data.session_id;
-> +	inv_arg.num_params = 4;
-> +
-> +	param[0].attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT;
-> +	param[0].u.memref.shm = reg_shm_in;
-> +	param[0].u.memref.size = p->key_len;
-> +	param[0].u.memref.shm_offs = 0;
-> +	param[1].attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT;
-> +	param[1].u.memref.shm = reg_shm_out;
-> +	param[1].u.memref.size = sizeof(p->blob);
-> +	param[1].u.memref.shm_offs = 0;
-> +
-> +	ret = tee_client_invoke_func(pvt_data.ctx, &inv_arg, param);
-> +	if ((ret < 0) || (inv_arg.ret != 0)) {
-> +		dev_err(pvt_data.dev, "TA_CMD_SEAL invoke err: %x\n",
-> +			inv_arg.ret);
-> +		ret = -EFAULT;
-> +	} else {
-> +		p->blob_len = param[1].u.memref.size;
-> +	}
-> +
-> +out:
-> +	if (reg_shm_out)
-> +		tee_shm_free(reg_shm_out);
-> +	if (reg_shm_in)
-> +		tee_shm_free(reg_shm_in);
-> +
-> +	return ret;
-> +}
-> +
-> +/*
-> + * Have the TEE unseal(decrypt) the symmetric key
-> + */
-> +static int trusted_tee_unseal(struct trusted_key_payload *p, char *datablob)
-> +{
-> +	int ret;
-> +	struct tee_ioctl_invoke_arg inv_arg;
-> +	struct tee_param param[4];
-> +	struct tee_shm *reg_shm_in = NULL, *reg_shm_out = NULL;
-> +
-> +	memset(&inv_arg, 0, sizeof(inv_arg));
-> +	memset(&param, 0, sizeof(param));
-> +
-> +	reg_shm_in = tee_shm_register(pvt_data.ctx, (unsigned long)p->blob,
-> +				      p->blob_len, TEE_SHM_DMA_BUF |
-> +				      TEE_SHM_KERNEL_MAPPED);
-> +	if (IS_ERR(reg_shm_in)) {
-> +		dev_err(pvt_data.dev, "blob shm register failed\n");
-> +		return PTR_ERR(reg_shm_in);
-> +	}
-> +
-> +	reg_shm_out = tee_shm_register(pvt_data.ctx, (unsigned long)p->key,
-> +				       sizeof(p->key), TEE_SHM_DMA_BUF |
-> +				       TEE_SHM_KERNEL_MAPPED);
-> +	if (IS_ERR(reg_shm_out)) {
-> +		dev_err(pvt_data.dev, "key shm register failed\n");
-> +		ret = PTR_ERR(reg_shm_out);
-> +		goto out;
-> +	}
-> +
-> +	inv_arg.func = TA_CMD_UNSEAL;
-> +	inv_arg.session = pvt_data.session_id;
-> +	inv_arg.num_params = 4;
-> +
-> +	param[0].attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT;
-> +	param[0].u.memref.shm = reg_shm_in;
-> +	param[0].u.memref.size = p->blob_len;
-> +	param[0].u.memref.shm_offs = 0;
-> +	param[1].attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT;
-> +	param[1].u.memref.shm = reg_shm_out;
-> +	param[1].u.memref.size = sizeof(p->key);
-> +	param[1].u.memref.shm_offs = 0;
-> +
-> +	ret = tee_client_invoke_func(pvt_data.ctx, &inv_arg, param);
-> +	if ((ret < 0) || (inv_arg.ret != 0)) {
-> +		dev_err(pvt_data.dev, "TA_CMD_UNSEAL invoke err: %x\n",
-> +			inv_arg.ret);
-> +		ret = -EFAULT;
-> +	} else {
-> +		p->key_len = param[1].u.memref.size;
-> +	}
-> +
-> +out:
-> +	if (reg_shm_out)
-> +		tee_shm_free(reg_shm_out);
-> +	if (reg_shm_in)
-> +		tee_shm_free(reg_shm_in);
-> +
-> +	return ret;
-> +}
-> +
-> +/*
-> + * Have the TEE generate random symmetric key
-> + */
-> +static int trusted_tee_get_random(unsigned char *key, size_t key_len)
-> +{
-> +	int ret;
-> +	struct tee_ioctl_invoke_arg inv_arg;
-> +	struct tee_param param[4];
-> +	struct tee_shm *reg_shm = NULL;
-> +
-> +	memset(&inv_arg, 0, sizeof(inv_arg));
-> +	memset(&param, 0, sizeof(param));
-> +
-> +	reg_shm = tee_shm_register(pvt_data.ctx, (unsigned long)key, key_len,
-> +				   TEE_SHM_DMA_BUF | TEE_SHM_KERNEL_MAPPED);
-> +	if (IS_ERR(reg_shm)) {
-> +		dev_err(pvt_data.dev, "key shm register failed\n");
-> +		return PTR_ERR(reg_shm);
-> +	}
-> +
-> +	inv_arg.func = TA_CMD_GET_RANDOM;
-> +	inv_arg.session = pvt_data.session_id;
-> +	inv_arg.num_params = 4;
-> +
-> +	param[0].attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT;
-> +	param[0].u.memref.shm = reg_shm;
-> +	param[0].u.memref.size = key_len;
-> +	param[0].u.memref.shm_offs = 0;
-> +
-> +	ret = tee_client_invoke_func(pvt_data.ctx, &inv_arg, param);
-> +	if ((ret < 0) || (inv_arg.ret != 0)) {
-> +		dev_err(pvt_data.dev, "TA_CMD_GET_RANDOM invoke err: %x\n",
-> +			inv_arg.ret);
-> +		ret = -EFAULT;
-> +	} else {
-> +		ret = param[0].u.memref.size;
-> +	}
-> +
-> +	tee_shm_free(reg_shm);
-> +
-> +	return ret;
-> +}
-> +
-> +static int optee_ctx_match(struct tee_ioctl_version_data *ver, const void *data)
-> +{
-> +	if (ver->impl_id == TEE_IMPL_ID_OPTEE)
-> +		return 1;
-> +	else
-> +		return 0;
-> +}
-> +
-> +static int trusted_key_probe(struct device *dev)
-> +{
-> +	struct tee_client_device *rng_device = to_tee_client_device(dev);
-> +	int ret;
-> +	struct tee_ioctl_open_session_arg sess_arg;
-> +
-> +	memset(&sess_arg, 0, sizeof(sess_arg));
-> +
-> +	pvt_data.ctx = tee_client_open_context(NULL, optee_ctx_match, NULL,
-> +					       NULL);
-> +	if (IS_ERR(pvt_data.ctx))
-> +		return -ENODEV;
-> +
-> +	memcpy(sess_arg.uuid, rng_device->id.uuid.b, TEE_IOCTL_UUID_LEN);
-> +	sess_arg.clnt_login = TEE_IOCTL_LOGIN_REE_KERNEL;
-> +	sess_arg.num_params = 0;
-> +
-> +	ret = tee_client_open_session(pvt_data.ctx, &sess_arg, NULL);
-> +	if ((ret < 0) || (sess_arg.ret != 0)) {
-> +		dev_err(dev, "tee_client_open_session failed, err: %x\n",
-> +			sess_arg.ret);
-> +		ret = -EINVAL;
-> +		goto out_ctx;
-> +	}
-> +	pvt_data.session_id = sess_arg.session;
-> +
-> +	ret = register_key_type(&key_type_trusted);
-> +	if (ret < 0)
-> +		goto out_sess;
-> +
-> +	pvt_data.dev = dev;
-> +
-> +	return 0;
-> +
-> +out_sess:
-> +	tee_client_close_session(pvt_data.ctx, pvt_data.session_id);
-> +out_ctx:
-> +	tee_client_close_context(pvt_data.ctx);
-> +
-> +	return ret;
-> +}
-> +
-> +static int trusted_key_remove(struct device *dev)
-> +{
-> +	unregister_key_type(&key_type_trusted);
-> +	tee_client_close_session(pvt_data.ctx, pvt_data.session_id);
-> +	tee_client_close_context(pvt_data.ctx);
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct tee_client_device_id trusted_key_id_table[] = {
-> +	{UUID_INIT(0xf04a0fe7, 0x1f5d, 0x4b9b,
-> +		   0xab, 0xf7, 0x61, 0x9b, 0x85, 0xb4, 0xce, 0x8c)},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(tee, trusted_key_id_table);
-> +
-> +static struct tee_client_driver trusted_key_driver = {
-> +	.id_table	= trusted_key_id_table,
-> +	.driver		= {
-> +		.name		= DRIVER_NAME,
-> +		.bus		= &tee_bus_type,
-> +		.probe		= trusted_key_probe,
-> +		.remove		= trusted_key_remove,
-> +	},
-> +};
-> +
-> +static int trusted_tee_init(void)
-> +{
-> +	return driver_register(&trusted_key_driver.driver);
-> +}
-> +
-> +static void trusted_tee_exit(void)
-> +{
-> +	driver_unregister(&trusted_key_driver.driver);
-> +}
-> +
-> +struct trusted_key_ops trusted_key_tee_ops = {
-> +	.migratable = 0, /* non-migratable */
-> +	.init = trusted_tee_init,
-> +	.seal = trusted_tee_seal,
-> +	.unseal = trusted_tee_unseal,
-> +	.get_random = trusted_tee_get_random,
-> +	.exit = trusted_tee_exit,
-> +};
-> -- 
-> 2.25.1
-> 
-> 
+Just for records - these two patch sets (part 1 and part 2) are based on Greg's
+usb-next branch (commit b5a12546e779d4f5586f58e60e0ef5070a833a64 which
+is based on v5.11-rc5 tag). I retested them today with a BBB board and it works
+fine under Win 10. Also I rebased these two patchsets today against latest
+Greg's usb-next branch which is now Linus's v5.12-rc1 tag and again it works
+fine under Win10 - both Volume/Mute controls and audio streaming.
+
+These patches have been tested previously on Raspberry PI 4 running v5.9
+and v5.10 stable kernels. The only issues I've seen were because of
+Raspberry's DWC2 DMA issue in the driver that I described in this cover letter.
+However if you disable volume/mute controls, it won't affect you.
+
+> I checked it
+> with some tools and found one providing some information on the USB part
+> (it's called UVCview.exe and is part of the Windows Driver Kit). Here's the
+> output which I hope can give some hints on the problems still existing in
+> this driver:
+
+From the output below I see UAC2 descriptors are completely screwed up
+(or UVCview.exe doesn't show them correctly). Windows is very strict to
+the descriptors and doesn't allow devices to start in case of any issues.
+So if it appears as a valid UAC2 device in Device Manager, most likely
+UVCview.exe doesn't decode UAC2 descriptors well.
+
+Could you please also apply these patches to the latest kernel (v5.12-rc1)
+and test?
+
+Thanks,
+Ruslan
+
+>
+>           ---===>Device Information<===---
+> English product name: "Linux USB Audio Gadget"
+>
+> ConnectionStatus:
+> Current Config Value:              0x01  -> Device Bus Speed: High
+> Device Address:                    0x0F
+> Open Pipes:                           0
+> *!*ERROR:  No open pipes!
+>
+>           ===>Device Descriptor<===
+> bLength:                           0x12
+> bDescriptorType:                   0x01
+> bcdUSB:                          0x0200
+> bDeviceClass:                      0xEF  -> This is a Multi-interface
+> Function Code Device
+> bDeviceSubClass:                   0x02  -> This is the Common Class Sub
+> Class
+> bDeviceProtocol:                   0x01  -> This is the Interface
+> Association Descriptor protocol
+> bMaxPacketSize0:                   0x40 = (64) Bytes
+> idVendor:                        0x1D6B = The Linux Foundation
+> idProduct:                       0x0101
+> bcdDevice:                       0x0510
+> iManufacturer:                     0x01
+>      English (United States)  "Linux 5.10.17-v7l-R3LAY_TEST+ with
+> fe980000.usb"
+> iProduct:                          0x02
+>      English (United States)  "Linux USB Audio Gadget"
+> iSerialNumber:                     0x00
+> bNumConfigurations:                0x01
+>
+>           ===>Configuration Descriptor<===
+> bLength:                           0x09
+> bDescriptorType:                   0x02
+> wTotalLength:                    0x00E2  -> Validated
+> bNumInterfaces:                    0x03
+> bConfigurationValue:               0x01
+> iConfiguration:                    0x00
+> bmAttributes:                      0xC0  -> Bus Powered
+> MaxPower:                          0x01 =   2 mA
+>
+>           ===>IAD Descriptor<===
+> bLength:                           0x08
+> bDescriptorType:                   0x0B
+> bFirstInterface:                   0x00
+> bInterfaceCount:                   0x03
+> bFunctionClass:                    0x01  -> Audio Interface Class
+> bFunctionSubClass:                 0x00
+> *!*CAUTION:    This appears to be an invalid bFunctionSubClass
+> bFunctionProtocol:                 0x20
+> iFunction:                         0x04
+>      English (United States)  "R3lay PI"
+>
+>           ===>Interface Descriptor<===
+> bLength:                           0x09
+> bDescriptorType:                   0x04
+> bInterfaceNumber:                  0x00
+> bAlternateSetting:                 0x00
+> bNumEndpoints:                     0x00
+> bInterfaceClass:                   0x01  -> Audio Interface Class
+> bInterfaceSubClass:                0x01  -> Audio Control Interface SubClass
+> bInterfaceProtocol:                0x20
+> CAUTION:  This may be an invalid bInterfaceProtocol
+> iInterface:                        0x05
+>      English (United States)  "Topology Control"
+>
+>           ===>Audio Control Interface Header Descriptor<===
+> bLength:                           0x09
+> bDescriptorType:                   0x24
+> bDescriptorSubtype:                0x01
+> bcdADC:                          0x0200
+> wTotalLength:                    0x5308
+> bInCollection:                     0x00
+>
+>           ===>Descriptor Hex Dump<===
+> bLength:                           0x08
+> bDescriptorType:                   0x24
+> 08 24 0A 06 01 01 00 06
+>
+>           ===>Descriptor Hex Dump<===
+> bLength:                           0x08
+> bDescriptorType:                   0x24
+> 08 24 0A 05 01 01 00 07
+>
+>           ===>Descriptor Hex Dump<===
+> bLength:                           0x11
+> bDescriptorType:                   0x24
+> 11 24 02 01 01 01 00 05 02 03 00 00 00 00 03 00
+> 08
+>
+>           ===>Descriptor Hex Dump<===
+> bLength:                           0x11
+> bDescriptorType:                   0x24
+> 11 24 02 02 00 02 00 06 02 03 00 00 00 00 03 00
+> 09
+>
+>           ===>Descriptor Hex Dump<===
+> bLength:                           0x0C
+> bDescriptorType:                   0x24
+> 0C 24 03 04 01 01 00 02 06 03 00 0A
+>
+>           ===>Descriptor Hex Dump<===
+> bLength:                           0x0C
+> bDescriptorType:                   0x24
+> 0C 24 03 03 00 03 00 01 05 03 00 0B
+>
+>           ===>Interface Descriptor<===
+> bLength:                           0x09
+> bDescriptorType:                   0x04
+> bInterfaceNumber:                  0x01
+> bAlternateSetting:                 0x00
+> bNumEndpoints:                     0x00
+> bInterfaceClass:                   0x01  -> Audio Interface Class
+> bInterfaceSubClass:                0x02  -> Audio Streaming Interface
+> SubClass
+> bInterfaceProtocol:                0x20
+> CAUTION:  This may be an invalid bInterfaceProtocol
+> iInterface:                        0x0C
+>      English (United States)  "Playback Inactive"
+>
+>           ===>Interface Descriptor<===
+> bLength:                           0x09
+> bDescriptorType:                   0x04
+> bInterfaceNumber:                  0x01
+> bAlternateSetting:                 0x01
+> bNumEndpoints:                     0x02
+> bInterfaceClass:                   0x01  -> Audio Interface Class
+> bInterfaceSubClass:                0x02  -> Audio Streaming Interface
+> SubClass
+> bInterfaceProtocol:                0x20
+> CAUTION:  This may be an invalid bInterfaceProtocol
+> iInterface:                        0x0D
+>      English (United States)  "Playback Active"
+>
+>           ===>Descriptor Hex Dump<===
+> bLength:                           0x10
+> bDescriptorType:                   0x24
+> 10 24 01 01 00 01 01 00 00 00 02 03 00 00 00 00
+>
+>           ===>Audio Streaming Format Type Descriptor<===
+> bLength:                           0x06
+> bDescriptorType:                   0x24
+> bDescriptorSubtype:                0x02
+> bFormatType:                       0x01
+> bNrChannels:                       0x02
+> bSubframeSize:                     0x10
+> bBitResolution:                    0x07
+> bSamFreqType:                      0x05
+> tSamFreq[1]:                   0x380501 (3671297 Hz)
+> tSamFreq[2]:                   0x080401 (525313 Hz)
+> tSamFreq[3]:                   0x000125 (293 Hz)
+> tSamFreq[4]:                   0x000000 (0 Hz)
+> tSamFreq[5]:                   0x050700 (329472 Hz)
+>
+>           ===>Endpoint Descriptor<===
+> bLength:                           0x07
+> bDescriptorType:                   0x05
+> bEndpointAddress:                  0x01  -> Direction: OUT - EndpointID: 1
+> bmAttributes:                      0x05  -> Isochronous Transfer Type
+>                    Synchronization Type = Asynchronous
+> Bulk Transfer Type
+> wMaxPacketSize:                  0x0138 = 1 transactions per microframe,
+> 0x138 max bytes
+> bInterval:                         0x04
+>
+>           ===>Descriptor Hex Dump<===
+> bLength:                           0x08
+> bDescriptorType:                   0x25
+> 08 25 01 00 00 00 00 00
+>
+>           ===>Endpoint Descriptor<===
+> bLength:                           0x07
+> bDescriptorType:                   0x05
+> bEndpointAddress:                  0x81  -> Direction: IN - EndpointID: 1
+> bmAttributes:                      0x11  -> Isochronous Transfer Type
+>                    Synchronization Type = No Synchronization
+> Bulk Transfer Type
+> wMaxPacketSize:                  0x0004 = 1 transactions per microframe,
+> 0x04 max bytes
+> bInterval:                         0x04
+>
+>           ===>Interface Descriptor<===
+> bLength:                           0x09
+> bDescriptorType:                   0x04
+> bInterfaceNumber:                  0x02
+> bAlternateSetting:                 0x00
+> bNumEndpoints:                     0x00
+> bInterfaceClass:                   0x01  -> Audio Interface Class
+> bInterfaceSubClass:                0x02  -> Audio Streaming Interface
+> SubClass
+> bInterfaceProtocol:                0x20
+> CAUTION:  This may be an invalid bInterfaceProtocol
+> iInterface:                        0x0E
+>      English (United States)  "Capture Inactive"
+>
+>           ===>Interface Descriptor<===
+> bLength:                           0x09
+> bDescriptorType:                   0x04
+> bInterfaceNumber:                  0x02
+> bAlternateSetting:                 0x01
+> bNumEndpoints:                     0x01
+> bInterfaceClass:                   0x01  -> Audio Interface Class
+> bInterfaceSubClass:                0x02  -> Audio Streaming Interface
+> SubClass
+> bInterfaceProtocol:                0x20
+> CAUTION:  This may be an invalid bInterfaceProtocol
+> iInterface:                        0x0F
+>      English (United States)  "Capture Active"
+>
+>           ===>Descriptor Hex Dump<===
+> bLength:                           0x10
+> bDescriptorType:                   0x24
+> 10 24 01 04 00 01 01 00 00 00 02 03 00 00 00 00
+>
+>           ===>Audio Streaming Format Type Descriptor<===
+> bLength:                           0x06
+> bDescriptorType:                   0x24
+> bDescriptorSubtype:                0x02
+> bFormatType:                       0x01
+> bNrChannels:                       0x02
+> bSubframeSize:                     0x10
+> bBitResolution:                    0x07
+> bSamFreqType:                      0x05
+> tSamFreq[1]:                   0xC40582 (12846466 Hz)
+> tSamFreq[2]:                   0x080400 (525312 Hz)
+> tSamFreq[3]:                   0x000125 (293 Hz)
+> tSamFreq[4]:                   0x000000 (0 Hz)
+> tSamFreq[5]:                   0x000000 (0 Hz)
+>
+>           ===>Endpoint Descriptor<===
+> bLength:                           0x07
+> bDescriptorType:                   0x05
+> bEndpointAddress:                  0x82  -> Direction: IN - EndpointID: 2
+> bmAttributes:                      0x05  -> Isochronous Transfer Type
+>                    Synchronization Type = Asynchronous
+> Bulk Transfer Type
+> wMaxPacketSize:                  0x00C4 = 1 transactions per microframe,
+> 0xC4 max bytes
+> bInterval:                         0x04
+>
+>           ===>Descriptor Hex Dump<===
+> bLength:                           0x08
+> bDescriptorType:                   0x25
+> 08 25 01 00 00 00 00 00
+>
