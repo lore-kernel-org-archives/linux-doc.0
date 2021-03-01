@@ -2,112 +2,293 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_06_12,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B93F9C433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 03:11:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 181A1C433E6
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 04:01:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9137564DAF
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 03:11:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E00BD64EB2
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 04:01:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231947AbhCADLo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Feb 2021 22:11:44 -0500
-Received: from mail.loongson.cn ([114.242.206.163]:52598 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231951AbhCADLm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 28 Feb 2021 22:11:42 -0500
-Received: from LAPTOP-O8VTVVS6.localdomain (unknown [112.20.111.70])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9DxH_E9WzxgXRASAA--.6017S4;
-        Mon, 01 Mar 2021 11:10:57 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Yanteng Si <siyanteng01@gmail.com>, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, Huacai Chen <chenhuacai@gmail.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v4 2/4] docs/zh_CN: add riscv patch-acceptance.rst translation
-Date:   Mon,  1 Mar 2021 03:10:52 +0800
-Message-Id: <20210228191054.6048-3-siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210228191054.6048-1-siyanteng@loongson.cn>
-References: <20210228191054.6048-1-siyanteng@loongson.cn>
+        id S232308AbhCAEAs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Feb 2021 23:00:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45652 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232297AbhCAEAo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Feb 2021 23:00:44 -0500
+Received: from gate2.alliedtelesis.co.nz (gate2.alliedtelesis.co.nz [IPv6:2001:df5:b000:5::4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88358C06178A
+        for <linux-doc@vger.kernel.org>; Sun, 28 Feb 2021 20:00:03 -0800 (PST)
+Received: from svr-chch-seg1.atlnz.lc (mmarshal3.atlnz.lc [10.32.18.43])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by gate2.alliedtelesis.co.nz (Postfix) with ESMTPS id ED1DD891B0;
+        Mon,  1 Mar 2021 17:00:00 +1300 (NZDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alliedtelesis.co.nz;
+        s=mail181024; t=1614571200;
+        bh=PdC1wdxmwveNliFbUuKcuyKf0Ntx+S/1vIQeIopw2QU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=ajyyIGPzJt5bz6CdBy6kUwXK8/YEqJaqoFSxF+c9S2P6V8fCB1ryzWGiQwfw/fCXU
+         wX5YNqaX6CPIPz+H+2wz0oj6e0O4U8t3HgzEeglh0SGN7crCtIT/pXIhdSekUNJRUU
+         O0YDitPrIzFtpQ3M8e+pY49SAqC+h3qc6NjbKIH6yD9noNrXQswX8mJIsJD3gVZHjl
+         Sx/kEd+VSk+gqJ+rB9VjNrPb9Y8eTM0QAbqB+1yvjX5aNZOY58FxBoQjAnMM+iub8/
+         gz1pKmcRuXeMe0EYm3WRj51bTNX07Tl5rRWjKGU+QOKdqVIBqS/sOdyKtdHQi7QGj3
+         ecyVx3IEBuLBA==
+Received: from smtp (Not Verified[10.32.16.33]) by svr-chch-seg1.atlnz.lc with Trustwave SEG (v8,2,6,11305)
+        id <B603c66c00003>; Mon, 01 Mar 2021 17:00:00 +1300
+Received: from chrisp-dl.ws.atlnz.lc (chrisp-dl.ws.atlnz.lc [10.33.22.20])
+        by smtp (Postfix) with ESMTP id E5B0713EF08;
+        Mon,  1 Mar 2021 17:00:10 +1300 (NZDT)
+Received: by chrisp-dl.ws.atlnz.lc (Postfix, from userid 1030)
+        id 71847283985; Mon,  1 Mar 2021 17:00:00 +1300 (NZDT)
+From:   Chris Packham <chris.packham@alliedtelesis.co.nz>
+To:     robh+dt@kernel.org, jdelvare@suse.com, linux@roeck-us.net
+Cc:     devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Chris Packham <chris.packham@alliedtelesis.co.nz>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v2 2/2] hwmon: (pmbus): Add driver for Infineon IR36021
+Date:   Mon,  1 Mar 2021 16:59:54 +1300
+Message-Id: <20210301035954.16713-3-chris.packham@alliedtelesis.co.nz>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210301035954.16713-1-chris.packham@alliedtelesis.co.nz>
+References: <20210301035954.16713-1-chris.packham@alliedtelesis.co.nz>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9DxH_E9WzxgXRASAA--.6017S4
-X-Coremail-Antispam: 1UD129KBjvJXoWxZFWxGw45CFWDtryDCr1rJFb_yoW5Jw4xpr
-        ZagrySgF18A342kw1fKr17JrWUJF4rW3ya9ws7J3s3tr1kJr4vqFWDJ3yayFyag34ruFyU
-        Z348uFyUCa47AaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUPC14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2jI8I6cxK6x804I0_JFv_Gryl82xGYIkIc2x262
-        80x7IE14v26r15M28IrcIa0xkI8VCY1x0267AKxVW8JVW5JwA2ocxC64kIII0Yj41l84x0
-        c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2
-        IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2
-        z280aVCY1x0267AKxVWxJr0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2
-        IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4U
-        McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I64
-        8v4I1lc2xSY4AK67AK6r48MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
-        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
-        AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0
-        cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
-        80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
-        43ZEXa7VUUPCztUUUUU==
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+Content-Transfer-Encoding: quoted-printable
+X-SEG-SpamProfiler-Analysis: v=2.3 cv=C7uXNjH+ c=1 sm=1 tr=0 a=KLBiSEs5mFS1a/PbTCJxuA==:117 a=IkcTkHD0fZMA:10 a=dESyimp9J3IA:10 a=bUQKSiCPAAAA:8 a=eFSOPmDLR39FoRlrkAYA:9 a=QEXdDO2ut3YA:10 a=-fHZXUhsFbuwFN3fwQAr:22
+X-SEG-SpamProfiler-Score: 0
+x-atlnz-ls: pat
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch translates Documentation/riscv/patch-acceptance.rst into Chineae.
+The IR36021 is a dual=E2=80=90loop digital multi=E2=80=90phase buck contr=
+oller.
 
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
+Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
 ---
- .../zh_CN/riscv/patch-acceptance.rst          | 31 +++++++++++++++++++
- 1 file changed, 31 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/riscv/patch-acceptance.rst
+Changes in v2:
+- update against latest kernel for pmbus API changes
+- avoid double negation
 
-diff --git a/Documentation/translations/zh_CN/riscv/patch-acceptance.rst b/Documentation/translations/zh_CN/riscv/patch-acceptance.rst
+ Documentation/hwmon/index.rst   |  1 +
+ Documentation/hwmon/ir36021.rst | 62 ++++++++++++++++++++++++++
+ drivers/hwmon/pmbus/Kconfig     |  9 ++++
+ drivers/hwmon/pmbus/Makefile    |  1 +
+ drivers/hwmon/pmbus/ir36021.c   | 79 +++++++++++++++++++++++++++++++++
+ 5 files changed, 152 insertions(+)
+ create mode 100644 Documentation/hwmon/ir36021.rst
+ create mode 100644 drivers/hwmon/pmbus/ir36021.c
+
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rs=
+t
+index 8d5a2df1ecb6..b34894403c2b 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -77,6 +77,7 @@ Hardware Monitoring Kernel Drivers
+    intel-m10-bmc-hwmon
+    ir35221
+    ir38064
++   ir36021
+    isl68137
+    it87
+    jc42
+diff --git a/Documentation/hwmon/ir36021.rst b/Documentation/hwmon/ir3602=
+1.rst
 new file mode 100644
-index 000000000000..9fd1c8216763
+index 000000000000..36ef8d518b81
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/riscv/patch-acceptance.rst
-@@ -0,0 +1,31 @@
++++ b/Documentation/hwmon/ir36021.rst
+@@ -0,0 +1,62 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+.. include:: ../disclaimer-zh_CN.rst
++Kernel driver ir36021
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
-+:Original: :doc:`../../../riscv/patch-acceptance`
-+:Translator: Yanteng Si <siyanteng@loongson.cn>
++Supported chips:
 +
-+.. _cn_riscv_patch-acceptance:
++  * Infineon IR36021
 +
++    Prefix: ir36021
++    Addresses scanned: -
 +
-+arch/riscv 开发者维护指南
-+=========================
++    Datasheet: Publicly available at the Infineon website
++      https://www.infineon.com/dgdl/ir36021.pdf?fileId=3D5546d462533600a=
+4015355d0aa2d1775
 +
-+概述
-+----
-+RISC-V指令集体系结构是公开开发的：
-+正在进行的草案可供所有人查看和测试实现。新模块或者扩展草案可能会在开发过程中发
-+生更改---有时以不兼容的方式对以前的草案进行更改。这种灵活性可能会给RISC-V Linux
-+维护者带来挑战。Linux开发过程更喜欢经过良好检查和测试的代码，而不是试验代码。我
-+们希望推广同样的规则到即将被内核合并的RISC-V相关代码。
++Authors:
++      - Chris Packham <chris.packham@alliedtelesis.co.nz>
 +
-+附加的提交检查单
++Description
++-----------
++
++The IR36021 is a dual=E2=80=90loop digital multi=E2=80=90phase buck cont=
+roller designed for
++point of load applications.
++
++Usage Notes
++-----------
++
++This driver does not probe for PMBus devices. You will have to instantia=
+te
++devices explicitly.
++
++Sysfs attributes
 +----------------
-+我们仅接受相关标准已经被RISC-V基金会标准为“已批准”或“已冻结”的扩展或模块的补丁。
-+（开发者当然可以维护自己的Linux内核树，其中包含所需代码扩展草案的代码。）
 +
-+此外，RISC-V规范允许爱好者创建自己的自定义扩展。这些自定义拓展不需要通过RISC-V
-+基金会的任何审核或批准。为了避免将爱好者一些特别的RISC-V拓展添加进内核代码带来
-+的维护复杂性和对性能的潜在影响，我们将只接受RISC-V基金会正式冻结或批准的的扩展
-+补丁。（开发者当然可以维护自己的Linux内核树，其中包含他们想要的任何自定义扩展
-+的代码。）
--- 
-2.25.1
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
++curr1_label             "iin"
++curr1_input             Measured input current
++curr1_alarm             Input fault alarm
++
++curr2_label             "iout1"
++curr2_input             Measured output current
++curr2_alarm             Output over-current alarm
++
++in1_label               "vin"
++in1_input               Measured input voltage
++in1_alarm               Input under-voltage alarm
++
++in2_label               "vout1"
++in2_input               Measured output voltage
++in2_alarm               Output over-voltage alarm
++
++power1_label            "pin"
++power1_input            Measured input power
++power1_alarm            Input under-voltage alarm
++
++power2_label            "pout1"
++power2_input            Measured output power
++
++temp1_input             Measured temperature
++temp1_alarm             Temperature alarm
++
++temp2_input             Measured other loop temperature
++temp2_alarm             Temperature alarm
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index 32d2fc850621..ee8c27b3b83d 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -84,6 +84,15 @@ config SENSORS_IR35221
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called ir35221.
+=20
++config SENSORS_IR36021
++	tristate "Infineon IR36021"
++	help
++	  If you say yes here you get hardware monitoring support for Infineon
++	  IR36021.
++
++	  This driver can also be built as a module. If so, the module will
++	  be called ir36021.
++
+ config SENSORS_IR38064
+ 	tristate "Infineon IR38064"
+ 	help
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+index 6a4ba0fdc1db..685a6bc2b15f 100644
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -11,6 +11,7 @@ obj-$(CONFIG_SENSORS_BEL_PFE)	+=3D bel-pfe.o
+ obj-$(CONFIG_SENSORS_IBM_CFFPS)	+=3D ibm-cffps.o
+ obj-$(CONFIG_SENSORS_INSPUR_IPSPS) +=3D inspur-ipsps.o
+ obj-$(CONFIG_SENSORS_IR35221)	+=3D ir35221.o
++obj-$(CONFIG_SENSORS_IR36021)	+=3D ir36021.o
+ obj-$(CONFIG_SENSORS_IR38064)	+=3D ir38064.o
+ obj-$(CONFIG_SENSORS_IRPS5401)	+=3D irps5401.o
+ obj-$(CONFIG_SENSORS_ISL68137)	+=3D isl68137.o
+diff --git a/drivers/hwmon/pmbus/ir36021.c b/drivers/hwmon/pmbus/ir36021.=
+c
+new file mode 100644
+index 000000000000..4767e39cc965
+--- /dev/null
++++ b/drivers/hwmon/pmbus/ir36021.c
+@@ -0,0 +1,79 @@
++// SPDX-License-Identifier: GPL-2.0+
++/*
++ * Hardware monitoring driver for Infineon IR36021
++ *
++ * Copyright (c) 2021 Allied Telesis
++ */
++#include <linux/err.h>
++#include <linux/i2c.h>
++#include <linux/init.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include "pmbus.h"
++
++static struct pmbus_driver_info ir36021_info =3D {
++	.pages =3D 1,
++	.format[PSC_VOLTAGE_IN] =3D linear,
++	.format[PSC_VOLTAGE_OUT] =3D linear,
++	.format[PSC_CURRENT_IN] =3D linear,
++	.format[PSC_CURRENT_OUT] =3D linear,
++	.format[PSC_POWER] =3D linear,
++	.format[PSC_TEMPERATURE] =3D linear,
++	.func[0] =3D PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT
++		| PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT
++		| PMBUS_HAVE_PIN | PMBUS_HAVE_POUT
++		| PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2
++		| PMBUS_HAVE_STATUS_TEMP,
++};
++
++static int ir36021_probe(struct i2c_client *client)
++{
++	u8 buf[I2C_SMBUS_BLOCK_MAX];
++	int ret;
++
++	if (!i2c_check_functionality(client->adapter,
++				     I2C_FUNC_SMBUS_READ_BYTE_DATA
++				     | I2C_FUNC_SMBUS_READ_WORD_DATA
++				     | I2C_FUNC_SMBUS_READ_BLOCK_DATA))
++		return -ENODEV;
++
++	ret =3D i2c_smbus_read_i2c_block_data(client, PMBUS_MFR_MODEL, 2, buf);
++	if (ret < 0) {
++		dev_err(&client->dev, "Failed to read PMBUS_MFR_MODEL\n");
++		return ret;
++	}
++	if (ret !=3D 2 || buf[0] !=3D 0x01 || buf[1] !=3D 0x2d) {
++		dev_err(&client->dev, "MFR_MODEL unrecognised\n");
++		return -ENODEV;
++	}
++
++	return pmbus_do_probe(client, &ir36021_info);
++}
++
++static const struct i2c_device_id ir36021_id[] =3D {
++	{ "ir36021", 0 },
++	{},
++};
++MODULE_DEVICE_TABLE(i2c, ir36021_id);
++
++static const struct of_device_id __maybe_unused ir36021_of_id[] =3D {
++	{ .compatible =3D "infineon,ir36021" },
++	{},
++};
++MODULE_DEVICE_TABLE(of, ir36021_of_id);
++
++static struct i2c_driver ir36021_driver =3D {
++	.class =3D I2C_CLASS_HWMON,
++	.driver =3D {
++		.name =3D "ir36021",
++		.of_match_table =3D of_match_ptr(ir36021_of_id),
++	},
++	.probe_new =3D ir36021_probe,
++	.id_table =3D ir36021_id,
++};
++
++module_i2c_driver(ir36021_driver);
++
++MODULE_AUTHOR("Chris Packham <chris.packham@alliedtelesis.co.nz>");
++MODULE_DESCRIPTION("PMBus driver for Infineon IR36021");
++MODULE_LICENSE("GPL");
+--=20
+2.30.0
 
