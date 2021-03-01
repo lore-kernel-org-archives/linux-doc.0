@@ -2,118 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48307C433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 11:47:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A244DC433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 12:14:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 196FA64E07
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 11:47:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6523164E38
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 12:14:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234179AbhCALrv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 06:47:51 -0500
-Received: from mga04.intel.com ([192.55.52.120]:54863 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233740AbhCALrm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Mar 2021 06:47:42 -0500
-IronPort-SDR: qlNWS0oKCRMWD43KYmirCrUXq8wuQiV7QS2ur6BF5rk+P6fKPBG+7nhi/niUXEpAAnySU/1CTI
- W1snxK8lEQ4A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9909"; a="183993225"
-X-IronPort-AV: E=Sophos;i="5.81,215,1610438400"; 
-   d="scan'208";a="183993225"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 03:45:55 -0800
-IronPort-SDR: +qsS9ziWSi/M4gUtKn77TpHPPy2eHBU/uQJPUaJt9R21JbMKH/S1540cAJSatP+XSDdKl5wfKH
- dNAgEygDqsLA==
-X-IronPort-AV: E=Sophos;i="5.81,215,1610438400"; 
-   d="scan'208";a="397689816"
-Received: from gna-dev.igk.intel.com (HELO localhost) ([10.102.80.34])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 03:45:53 -0800
-References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com> <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com> <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com> <85ft1fjhws.fsf@linux.intel.com> <YDzAY8j6R87BFFI/@kroah.com> <85czwjjh3b.fsf@linux.intel.com> <85a6rnjgys.fsf@linux.intel.com> <YDzF7sGvshN2SG5Q@kroah.com>
-User-agent: mu4e 1.4.13; emacs 26.3
-From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Savo Novakovic <savox.novakovic@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: Re: [PATCH v1 01/12] gna: add driver module
-In-reply-to: <YDzF7sGvshN2SG5Q@kroah.com>
-Date:   Mon, 01 Mar 2021 12:45:51 +0100
-Message-ID: <857dmrjdw0.fsf@linux.intel.com>
+        id S233330AbhCAMOx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 07:14:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38618 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233429AbhCAMOr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 07:14:47 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1734FC061788;
+        Mon,  1 Mar 2021 04:14:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=I5VnGAaPxZ0y2ywJ0sQMfHrbJRwx3BFwKw9Ug1bzDd8=; b=PCA1Ce/XsJA09ZivVvyVlxo0RN
+        RYEsoAuPxwIKJ2Xnvvy2vKMxwuN2vtSd+mp/xx83U9BAke+uHJdhWmUmDRSAPAPnF1xGgW9y4AhAy
+        33GWt/MxYyfQoCkJzIiUon76k9ARKbyvxfHjaMQ/tgfVoDQzDESvIWtTp8blGEUepP1IB9qVsRxdx
+        1YhRK0E7QT14vtzqyyHh0VfZd84Nay7uCBEpNBmvn8TbXlqk1v0p+d30/M/xgbGgn+OYm2hbM51gP
+        YKAiZmFwPbRxmm1Ah63LHnZ8wsL35lQ51sOCw5s39QqR5xZ3cugRTaQV8iEfEMUELJqntdRwFaw6u
+        1zkSRBvw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lGhQk-00Fgq1-Pw; Mon, 01 Mar 2021 12:13:51 +0000
+Date:   Mon, 1 Mar 2021 12:13:42 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Pintu Kumar <pintu@codeaurora.org>
+Cc:     linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, jaewon31.kim@samsung.com,
+        yuzhao@google.com, shakeelb@google.com, guro@fb.com,
+        mchehab+huawei@kernel.org, xi.fengfei@h3c.com,
+        lokeshgidra@google.com, hannes@cmpxchg.org, nigupta@nvidia.com,
+        famzheng@amazon.com, andrew.a.klychkov@gmail.com,
+        bigeasy@linutronix.de, ping.ping@gmail.com, vbabka@suse.cz,
+        yzaikin@google.com, keescook@chromium.org, mcgrof@kernel.org,
+        corbet@lwn.net, pintu.ping@gmail.com
+Subject: Re: [PATCH] mm: introduce clear all vm events counters
+Message-ID: <20210301121342.GP2723601@casper.infradead.org>
+References: <1614595766-7640-1-git-send-email-pintu@codeaurora.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1614595766-7640-1-git-send-email-pintu@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Mar 01, 2021 at 04:19:26PM +0530, Pintu Kumar wrote:
+> +EXPORT_SYMBOL_GPL(clear_all_vm_events);
 
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
-
-> On Mon, Mar 01, 2021 at 11:39:23AM +0100, Maciej Kwapulinski wrote:
->> 
->> Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com> writes:
->> 
->> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
->> >
->> >> On Mon, Mar 01, 2021 at 11:18:59AM +0100, Maciej Kwapulinski wrote:
->> >>> 
->> >>> Andy Shevchenko <andy.shevchenko@gmail.com> writes:
->> >>> 
->> >>> > On Tue, Feb 16, 2021 at 6:11 PM Maciej Kwapulinski
->> >>> > <maciej.kwapulinski@linux.intel.com> wrote:
->> >>> >>
->> >>> ....
->> >>> >> +static int __init gna_drv_init(void)
->> >>> >> +{
->> >>> >> +       int ret;
->> >>> >> +
->> >>> >> +       mutex_init(&gna_drv_priv.lock);
->> >>> >> +
->> >>> >> +       gna_class = class_create(THIS_MODULE, "gna");
->> >>> >> +       if (IS_ERR(gna_class)) {
->> >>> >> +               pr_err("class device create failed\n");
->> >>> >> +               return PTR_ERR(gna_class);
->> >>> >> +       }
->> >>> >> +       gna_class->devnode = gna_devnode;
->> >>> >> +
->> >>> >> +       ret = pci_register_driver(&gna_driver);
->> >>> >
->> >>> > Is it possible to decouple a PCI glue driver from the class as many
->> >>> > other existing examples are doing?
->> >>> >
->> >>> 
->> >>> I see many pci drivers (including staging) that do have it glued though.
->> >>> 
->> >>> Examples are:
->> >>> 1. "static int __init kp2000_pcie_init(void)" (commit on May 20 09:34:11
->> >>> 2019)
->> >>> 2. "static int __init hl_init(void)" (commit on Mon Feb 18 09:46:43 2019)
->> >>> 
->> >>> Please give me more details.
->> >>
->> >> Never use a staging driver for any type of example, _EXECPT_ for a bad
->> >> one.  There's a reason the code is in staging and not in the "real" part
->> >> of the kernel.
->> >
->> > ok.
->> >
->> > another one (1) is not staging..
->> 
->> I meant "static int __init hl_init(void)" is not staging one....
->
-> Still doesn't mean it is a good thing to do.  Again, why isn't this
-> driver just using the misc driver interface instead?  It's much simpler
-> to use and should work just fine for this tiny driver, instead of having
-> to create a custom class just for it.
->
-
-ok
+What module uses this function?
