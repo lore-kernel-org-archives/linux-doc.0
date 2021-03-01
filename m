@@ -2,40 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 171EFC433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 10:23:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12CEFC4332B
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 10:23:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C089064E37
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 10:23:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D1B8B601FE
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 10:23:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232604AbhCAKXI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 05:23:08 -0500
-Received: from mga06.intel.com ([134.134.136.31]:26261 "EHLO mga06.intel.com"
+        id S233710AbhCAKXU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 05:23:20 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60238 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233313AbhCAKVt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Mar 2021 05:21:49 -0500
-IronPort-SDR: cERMtcsdVXwyqafQ2AUBEQFvaSJFC0VUbJ6N5ovHWBUYBZ0iKntvwRePKEPMfTD9av3a2JPk6P
- QajQMsj+916Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9909"; a="247828628"
-X-IronPort-AV: E=Sophos;i="5.81,215,1610438400"; 
-   d="scan'208";a="247828628"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 02:19:04 -0800
-IronPort-SDR: qkiqLn92VcK9pLwqBFRZw4prmGsPifCqoo3A9wibuT20R1mnWgt5pvRUnFYtG1lvOPItd3cQRG
- M+keLe/OZiPw==
-X-IronPort-AV: E=Sophos;i="5.81,215,1610438400"; 
-   d="scan'208";a="444109927"
-Received: from gna-dev.igk.intel.com (HELO localhost) ([10.102.80.34])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 02:19:01 -0800
-References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com> <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com> <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com>
-User-agent: mu4e 1.4.13; emacs 26.3
-From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S232598AbhCAKXL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Mar 2021 05:23:11 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C50DE64E13;
+        Mon,  1 Mar 2021 10:22:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1614594150;
+        bh=cXpAgN4LikCvbKoWKcp8iBPz7XpWuUo9aOcmE7Nu8Ps=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=E2oUweW1E1knpm3/rH0BBQEGcc5mipD7kWYJOFPI7F5JCyW9+zVLQrrbZLHQu2VB2
+         B7Pd6M8wqL2IR70lVqSL9Bdpyz+yJO798HbX6G/4QX+DDSFvXzaVlUCzMx0yhz2dy7
+         4zOFwzwCvruIO5kbi8S5xCDZszIrHyuT3h5rPK1o=
+Date:   Mon, 1 Mar 2021 11:22:27 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
         Arnd Bergmann <arnd@arndb.de>,
         Jonathan Corbet <corbet@lwn.net>,
         Derek Kiernan <derek.kiernan@xilinx.com>,
@@ -46,46 +42,59 @@ Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Savo Novakovic <savox.novakovic@intel.com>,
         Jianxun Zhang <jianxun.zhang@linux.intel.com>
 Subject: Re: [PATCH v1 01/12] gna: add driver module
-In-reply-to: <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com>
-Date:   Mon, 01 Mar 2021 11:18:59 +0100
-Message-ID: <85ft1fjhws.fsf@linux.intel.com>
+Message-ID: <YDzAY8j6R87BFFI/@kroah.com>
+References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
+ <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com>
+ <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com>
+ <85ft1fjhws.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <85ft1fjhws.fsf@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Mar 01, 2021 at 11:18:59AM +0100, Maciej Kwapulinski wrote:
+> 
+> Andy Shevchenko <andy.shevchenko@gmail.com> writes:
+> 
+> > On Tue, Feb 16, 2021 at 6:11 PM Maciej Kwapulinski
+> > <maciej.kwapulinski@linux.intel.com> wrote:
+> >>
+> ....
+> >> +static int __init gna_drv_init(void)
+> >> +{
+> >> +       int ret;
+> >> +
+> >> +       mutex_init(&gna_drv_priv.lock);
+> >> +
+> >> +       gna_class = class_create(THIS_MODULE, "gna");
+> >> +       if (IS_ERR(gna_class)) {
+> >> +               pr_err("class device create failed\n");
+> >> +               return PTR_ERR(gna_class);
+> >> +       }
+> >> +       gna_class->devnode = gna_devnode;
+> >> +
+> >> +       ret = pci_register_driver(&gna_driver);
+> >
+> > Is it possible to decouple a PCI glue driver from the class as many
+> > other existing examples are doing?
+> >
+> 
+> I see many pci drivers (including staging) that do have it glued though.
+> 
+> Examples are:
+> 1. "static int __init kp2000_pcie_init(void)" (commit on May 20 09:34:11
+> 2019)
+> 2. "static int __init hl_init(void)" (commit on Mon Feb 18 09:46:43 2019)
+> 
+> Please give me more details.
 
-Andy Shevchenko <andy.shevchenko@gmail.com> writes:
+Never use a staging driver for any type of example, _EXECPT_ for a bad
+one.  There's a reason the code is in staging and not in the "real" part
+of the kernel.
 
-> On Tue, Feb 16, 2021 at 6:11 PM Maciej Kwapulinski
-> <maciej.kwapulinski@linux.intel.com> wrote:
->>
-....
->> +static int __init gna_drv_init(void)
->> +{
->> +       int ret;
->> +
->> +       mutex_init(&gna_drv_priv.lock);
->> +
->> +       gna_class = class_create(THIS_MODULE, "gna");
->> +       if (IS_ERR(gna_class)) {
->> +               pr_err("class device create failed\n");
->> +               return PTR_ERR(gna_class);
->> +       }
->> +       gna_class->devnode = gna_devnode;
->> +
->> +       ret = pci_register_driver(&gna_driver);
->
-> Is it possible to decouple a PCI glue driver from the class as many
-> other existing examples are doing?
->
+thanks,
 
-I see many pci drivers (including staging) that do have it glued though.
-
-Examples are:
-1. "static int __init kp2000_pcie_init(void)" (commit on May 20 09:34:11
-2019)
-2. "static int __init hl_init(void)" (commit on Mon Feb 18 09:46:43 2019)
-
-Please give me more details.
+greg k-h
