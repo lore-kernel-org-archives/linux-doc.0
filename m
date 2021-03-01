@@ -2,140 +2,237 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A54D3C433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 15:53:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EFCFC433E6
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 15:54:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 46E64600CD
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 15:53:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C105F64DE5
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 15:54:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237460AbhCAPxa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 10:53:30 -0500
-Received: from mail.skyhub.de ([5.9.137.197]:44432 "EHLO mail.skyhub.de"
+        id S237408AbhCAPya (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 10:54:30 -0500
+Received: from mx2.suse.de ([195.135.220.15]:59152 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237394AbhCAPx3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Mar 2021 10:53:29 -0500
-Received: from zn.tnic (p200300ec2f03de000c49bde6bf5f8ea0.dip0.t-ipconnect.de [IPv6:2003:ec:2f03:de00:c49:bde6:bf5f:8ea0])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 89E871EC0105;
-        Mon,  1 Mar 2021 16:52:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1614613963;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=a4oJdFpxQg9VwC++9PZ/n66EH9Uyg5uXgGcU17/8q6g=;
-        b=P2oo+rDN9qTQYwJH3/qzEiUUhEZuT5Y2oGLpKajp7d9lOdwBvDV86OTX1BSAcVyL/bZ1Jb
-        z4xpMqdSczHw4fudawj7lpdSOAH1N9atj52HxDhaTyftc+XA2ELNMoXMa8aCjo0PWqBeO4
-        N6kITEOCjeOLapteI23oeWqaRg1tXXM=
-Date:   Mon, 1 Mar 2021 16:52:34 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v21 08/26] x86/mm: Introduce _PAGE_COW
-Message-ID: <20210301155234.GF6699@zn.tnic>
-References: <20210217222730.15819-1-yu-cheng.yu@intel.com>
- <20210217222730.15819-9-yu-cheng.yu@intel.com>
+        id S236976AbhCAPyV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Mar 2021 10:54:21 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1614614009; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=OcjGeDJsaOlZSOonGO0gViD9xFKUF60zr38tbIGqMi8=;
+        b=au6P4/4ZowAK4XuRO9GKvJh/qwj0SKJyt3phXIi0FnwMYKXpSh1MwWlP4yP/j3w3vqj+NX
+        +91VfjZhENHGCVeqh4HxLWcbJxLE/EbWXo7KsBpugAZ5ObhAijRYJmcittGRNrz0j1vPKK
+        81hZFfd2UD552n3/cvrHle7uOH97W5k=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 0B416AF54;
+        Mon,  1 Mar 2021 15:53:29 +0000 (UTC)
+Subject: Re: [PATCH 3/3] kernel/smp: add more data to CSD lock debugging
+To:     Peter Zijlstra <peterz@infradead.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        mhocko@suse.com, Jonathan Corbet <corbet@lwn.net>
+References: <20210226112521.8641-1-jgross@suse.com>
+ <20210226112521.8641-4-jgross@suse.com>
+ <YDkkFBerBlW5uUBS@hirez.programming.kicks-ass.net>
+ <20210226181205.GZ2743@paulmck-ThinkPad-P72>
+ <YDlirwTWMmZ3g0ts@hirez.programming.kicks-ass.net>
+ <20210301000704.GF2696@paulmck-ThinkPad-P72>
+ <YD0MI1Cye+YbOov3@hirez.programming.kicks-ass.net>
+From:   =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+Message-ID: <6bc3d90d-f369-e91d-01f7-b83a48e9721d@suse.com>
+Date:   Mon, 1 Mar 2021 16:53:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210217222730.15819-9-yu-cheng.yu@intel.com>
+In-Reply-To: <YD0MI1Cye+YbOov3@hirez.programming.kicks-ass.net>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="IrTmO1r3scoj1XUriJDXLrx9PBJQkGD8q"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Feb 17, 2021 at 02:27:12PM -0800, Yu-cheng Yu wrote:
-> @@ -182,7 +206,7 @@ static inline int pud_young(pud_t pud)
->  
->  static inline int pte_write(pte_t pte)
->  {
-> -	return pte_flags(pte) & _PAGE_RW;
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--IrTmO1r3scoj1XUriJDXLrx9PBJQkGD8q
+Content-Type: multipart/mixed; boundary="24nUpPKwB1EtvNEJdf1xnLF1mL3Euf0F8";
+ protected-headers="v1"
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+To: Peter Zijlstra <peterz@infradead.org>,
+ "Paul E. McKenney" <paulmck@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, mhocko@suse.com,
+ Jonathan Corbet <corbet@lwn.net>
+Message-ID: <6bc3d90d-f369-e91d-01f7-b83a48e9721d@suse.com>
+Subject: Re: [PATCH 3/3] kernel/smp: add more data to CSD lock debugging
+References: <20210226112521.8641-1-jgross@suse.com>
+ <20210226112521.8641-4-jgross@suse.com>
+ <YDkkFBerBlW5uUBS@hirez.programming.kicks-ass.net>
+ <20210226181205.GZ2743@paulmck-ThinkPad-P72>
+ <YDlirwTWMmZ3g0ts@hirez.programming.kicks-ass.net>
+ <20210301000704.GF2696@paulmck-ThinkPad-P72>
+ <YD0MI1Cye+YbOov3@hirez.programming.kicks-ass.net>
+In-Reply-To: <YD0MI1Cye+YbOov3@hirez.programming.kicks-ass.net>
 
-Put here a comment along the lines of:
+--24nUpPKwB1EtvNEJdf1xnLF1mL3Euf0F8
+Content-Type: multipart/mixed;
+ boundary="------------9EA8299CC1DFCE5F117CD5E0"
+Content-Language: en-US
 
-	/*
-	 * Shadow stack pages are always writable - but not by normal
-	 * instructions but only by shadow stack operations. Therefore, the
-	 * W=0, D=1 test.
-	 */
+This is a multi-part message in MIME format.
+--------------9EA8299CC1DFCE5F117CD5E0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-to make it clear what this means.
+On 01.03.21 16:45, Peter Zijlstra wrote:
+> On Sun, Feb 28, 2021 at 04:07:04PM -0800, Paul E. McKenney wrote:
+>> On Fri, Feb 26, 2021 at 10:05:51PM +0100, Peter Zijlstra wrote:
+>>> On Fri, Feb 26, 2021 at 10:12:05AM -0800, Paul E. McKenney wrote:
+>>>> On Fri, Feb 26, 2021 at 05:38:44PM +0100, Peter Zijlstra wrote:
+>>>>>
+>>>>> I hate all of this, but if this will finally catch the actual probl=
+em,
+>>>>> we can then revert all this, so sure.
+>>>>
+>>>> OK, I will bite...  What exactly do you hate about it?
+>>>
+>>> It's ugly and messy. We're basically commiting a debug session. Norma=
+lly
+>>> gunk like this is done in private trees, then we find the problem and=
 
-> +	return (pte_flags(pte) & _PAGE_RW) || pte_shstk(pte);
->  }
->  
->  static inline int pte_huge(pte_t pte)
-> @@ -314,6 +338,24 @@ static inline pte_t pte_clear_flags(pte_t pte, pteval_t clear)
->  	return native_make_pte(v & ~clear);
->  }
->  
-> +static inline pte_t pte_make_cow(pte_t pte)
+>>> fix that and crap like this never sees the light of day.
+>>
+>> Is your hatred due to the presence of debug code at all, or a belief t=
+hat
+>> this code is unlikely to be useful in any subsequent IPI-related bug h=
+unt?
+>=20
+> The clutter, mostly I think. There's a lot of debug sprinkled about.
 
-pte_mkcow like the rest of the "pte_mkX" functions.
+I agree.
 
-And below too, for the other newly added pXd_make_* helpers.
-
-
->  static inline pmd_t pmd_mkdirty(pmd_t pmd)
->  {
-> -	return pmd_set_flags(pmd, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
-> +	pmdval_t dirty = _PAGE_DIRTY;
-> +
-> +	/* Avoid creating (HW)Dirty=1, Write=0 PMDs */
-> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pmd_flags(pmd) & _PAGE_RW))
-
-						      !(pmd_write(pmd))
-
-> +		dirty = _PAGE_COW;
-> +
-> +	return pmd_set_flags(pmd, dirty | _PAGE_SOFT_DIRTY);
-> +}
-
-...
-
->  static inline pud_t pud_mkdirty(pud_t pud)
->  {
-> -	return pud_set_flags(pud, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
-> +	pudval_t dirty = _PAGE_DIRTY;
-> +
-> +	/* Avoid creating (HW)Dirty=1, Write=0 PUDs */
-> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pud_flags(pud) & _PAGE_RW))
-
-						      !(pud_write(pud))
+In case we are able to identify the root cause of the problem I think
+it would be no problem to revert this patch and put a comment into smp.c
+naming the commit-id of this patch and what it was good for. This will
+enable future bug hunters to make use of the patch without spoiling the
+code for others.
 
 
--- 
-Regards/Gruss,
-    Boris.
+Juergen
 
-https://people.kernel.org/tglx/notes-about-netiquette
+
+--------------9EA8299CC1DFCE5F117CD5E0
+Content-Type: application/pgp-keys;
+ name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: attachment;
+ filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOBy=
+cWx
+w3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJvedYm8O=
+f8Z
+d621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y=
+9bf
+IhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xq=
+G7/
+377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR=
+3Jv
+c3MgPGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsEFgIDA=
+QIe
+AQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4FUGNQH2lvWAUy+dnyT=
+hpw
+dtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3TyevpB0CA3dbBQp0OW0fgCetToGIQrg0=
+MbD
+1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u+6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbv=
+oPH
+Z8SlM4KWm8rG+lIkGurqqu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v=
+5QL
++qHI3EIPtyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVyZ=
+2Vu
+IEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJCAcDAgEGFQgCC=
+QoL
+BBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4RF7HoZhPVPogNVbC4YA6lW7Dr=
+Wf0
+teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz78X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC=
+/nu
+AFVGy+67q2DH8As3KPu0344TBDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0Lh=
+ITT
+d9jLzdDad1pQSToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLm=
+XBK
+7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkMnQfvUewRz=
+80h
+SnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMBAgAjBQJTjHDXAhsDBwsJC=
+AcD
+AgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJn=
+FOX
+gMLdBQgBlVPO3/D9R8LtF9DBAFPNhlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1=
+jnD
+kfJZr6jrbjgyoZHiw/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0=
+N51
+N5JfVRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwPOoE+l=
+otu
+fe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK/1xMI3/+8jbO0tsn1=
+tqS
+EUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuZGU+wsB5BBMBAgAjBQJTjHDrA=
+hsD
+BwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3=
+g3O
+ZUEBmDHVVbqMtzwlmNC4k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5=
+dM7
+wRqzgJpJwK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu5=
+D+j
+LRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzBTNh30FVKK1Evm=
+V2x
+AKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37IoN1EblHI//x/e2AaIHpzK5h88N=
+Eaw
+QsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpW=
+nHI
+s98ndPUDpnoxWQugJ6MpMncr0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZR=
+wgn
+BC5mVM6JjQ5xDk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNV=
+bVF
+LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mmwe0icXKLk=
+pEd
+IXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0Iv3OOImwTEe4co3c1mwARA=
+QAB
+wsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMvQ/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEw=
+Tbe
+8YFsw2V/Buv6Z4Mysln3nQK5ZadD534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1=
+vJz
+Q1fOU8lYFpZXTXIHb+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8=
+VGi
+wXvTyJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqcsuylW=
+svi
+uGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5BjR/i1DG86lem3iBDX=
+zXs
+ZDn8R38=3D
+=3D2wuH
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------9EA8299CC1DFCE5F117CD5E0--
+
+--24nUpPKwB1EtvNEJdf1xnLF1mL3Euf0F8--
+
+--IrTmO1r3scoj1XUriJDXLrx9PBJQkGD8q
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmA9DfcFAwAAAAAACgkQsN6d1ii/Ey8B
+uAf/eU2Fj12h0CGjfpINuiLbz8YKvSkQG3F0KgW53USFYA/LEnrqQQ8+R9PS2ElqZiRi6zmNumuL
+bgxRD/dPss/G6neN4w7W4fkdW2Fj/II+PstUBkj36bqYZ79oLHZOf2OjPnq/26h2v4NoPdctFgp2
+1rWvt6IXzzrjI6L6i7umJAEHmrOHP+UVFgy2IM9lr7TOYwlxVilzIj6kWEGKc9Ad2vjoAP9ZVPTf
+9XVvYq77r4VpabZ/qc59hv5I1R2/bSqdJd2Xfw/9PNk7/kPxBYKXNdwJuD0iToosy2Ibp504Xo6i
+InK0Em8wUXgiQA8E6DoiHXQtxbWH6l405q3uQkCvUw==
+=q/F+
+-----END PGP SIGNATURE-----
+
+--IrTmO1r3scoj1XUriJDXLrx9PBJQkGD8q--
