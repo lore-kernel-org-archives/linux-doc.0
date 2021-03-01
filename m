@@ -2,119 +2,230 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF7B0C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 10:47:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 001CCC433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 10:50:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AFDEC64E13
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 10:47:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9A8964E62
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 10:50:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234685AbhCAKrJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 05:47:09 -0500
-Received: from mail.kernel.org ([198.145.29.99]:38744 "EHLO mail.kernel.org"
+        id S234764AbhCAKuz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 05:50:55 -0500
+Received: from m42-2.mailgun.net ([69.72.42.2]:64639 "EHLO m42-2.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234655AbhCAKqu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Mar 2021 05:46:50 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 36DA664DB2;
-        Mon,  1 Mar 2021 10:46:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1614595569;
-        bh=HXw4HIPStfhGkLrnF2qRO0EDkKdkyxdus6C11B++ZeY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HvCnCWIv0qBLLsPtph+iQ5qZOzuWRXTUvnJ0lEYbBQhgHV0MCeX7JYUHDSk+khZY6
-         9HaVmUgs5pltmAROF8lTYunXVqj8ismHvdSVzfDqSJv7JPYBMVAS9KjJAbKP2WJ6ZX
-         RwiWpvPnGRN/eexHOW5AA5Bnt7Z+/l0bfRx+I1z0=
-Date:   Mon, 1 Mar 2021 11:46:06 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Savo Novakovic <savox.novakovic@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: Re: [PATCH v1 01/12] gna: add driver module
-Message-ID: <YDzF7sGvshN2SG5Q@kroah.com>
-References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com>
- <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com>
- <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com>
- <85ft1fjhws.fsf@linux.intel.com>
- <YDzAY8j6R87BFFI/@kroah.com>
- <85czwjjh3b.fsf@linux.intel.com>
- <85a6rnjgys.fsf@linux.intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <85a6rnjgys.fsf@linux.intel.com>
+        id S234765AbhCAKux (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Mar 2021 05:50:53 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1614595833; h=Message-Id: Date: Subject: Cc: To: From:
+ Sender; bh=Z6iFUxoiBsHFARzbI4gTg2kb9vnADIPjoZSG+52+ZEA=; b=hsxomhVMpcx1Q+cqqjg5Hq193X1x55ofjLNxmBjWFSdUGoki5ccwOH3oraUpy5JT6WmsmJwi
+ 0uWnaqQ3vw/D3BMzuZQRK9dt8Ko3qemVaRgFI0u0vFPBfeeE8jOn5yoSNhg5lUCsFemFoc4y
+ N9C0KtzlR2z3KP1ogBv9wGDD8Ac=
+X-Mailgun-Sending-Ip: 69.72.42.2
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 603cc6f016ba7452010130f6 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 01 Mar 2021 10:50:24
+ GMT
+Sender: pintu=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 1FB1CC43465; Mon,  1 Mar 2021 10:50:22 +0000 (UTC)
+Received: from blr-ubuntu-498.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: pintu)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id DE0E3C433CA;
+        Mon,  1 Mar 2021 10:50:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org DE0E3C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=pintu@codeaurora.org
+From:   Pintu Kumar <pintu@codeaurora.org>
+To:     linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, jaewon31.kim@samsung.com,
+        yuzhao@google.com, shakeelb@google.com, guro@fb.com,
+        mchehab+huawei@kernel.org, xi.fengfei@h3c.com,
+        pintu@codeaurora.org, lokeshgidra@google.com, hannes@cmpxchg.org,
+        nigupta@nvidia.com, famzheng@amazon.com,
+        andrew.a.klychkov@gmail.com, bigeasy@linutronix.de,
+        ping.ping@gmail.com, vbabka@suse.cz, yzaikin@google.com,
+        keescook@chromium.org, mcgrof@kernel.org, corbet@lwn.net
+Cc:     pintu.ping@gmail.com
+Subject: [PATCH] mm: introduce clear all vm events counters
+Date:   Mon,  1 Mar 2021 16:19:26 +0530
+Message-Id: <1614595766-7640-1-git-send-email-pintu@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 01, 2021 at 11:39:23AM +0100, Maciej Kwapulinski wrote:
-> 
-> Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com> writes:
-> 
-> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> writes:
-> >
-> >> On Mon, Mar 01, 2021 at 11:18:59AM +0100, Maciej Kwapulinski wrote:
-> >>> 
-> >>> Andy Shevchenko <andy.shevchenko@gmail.com> writes:
-> >>> 
-> >>> > On Tue, Feb 16, 2021 at 6:11 PM Maciej Kwapulinski
-> >>> > <maciej.kwapulinski@linux.intel.com> wrote:
-> >>> >>
-> >>> ....
-> >>> >> +static int __init gna_drv_init(void)
-> >>> >> +{
-> >>> >> +       int ret;
-> >>> >> +
-> >>> >> +       mutex_init(&gna_drv_priv.lock);
-> >>> >> +
-> >>> >> +       gna_class = class_create(THIS_MODULE, "gna");
-> >>> >> +       if (IS_ERR(gna_class)) {
-> >>> >> +               pr_err("class device create failed\n");
-> >>> >> +               return PTR_ERR(gna_class);
-> >>> >> +       }
-> >>> >> +       gna_class->devnode = gna_devnode;
-> >>> >> +
-> >>> >> +       ret = pci_register_driver(&gna_driver);
-> >>> >
-> >>> > Is it possible to decouple a PCI glue driver from the class as many
-> >>> > other existing examples are doing?
-> >>> >
-> >>> 
-> >>> I see many pci drivers (including staging) that do have it glued though.
-> >>> 
-> >>> Examples are:
-> >>> 1. "static int __init kp2000_pcie_init(void)" (commit on May 20 09:34:11
-> >>> 2019)
-> >>> 2. "static int __init hl_init(void)" (commit on Mon Feb 18 09:46:43 2019)
-> >>> 
-> >>> Please give me more details.
-> >>
-> >> Never use a staging driver for any type of example, _EXECPT_ for a bad
-> >> one.  There's a reason the code is in staging and not in the "real" part
-> >> of the kernel.
-> >
-> > ok.
-> >
-> > another one (1) is not staging..
-> 
-> I meant "static int __init hl_init(void)" is not staging one....
+At times there is a need to regularly monitor vm counters while we
+reproduce some issue, or it could be as simple as gathering some system
+statistics when we run some scenario and every time we like to start from
+beginning.
+The current steps are:
+Dump /proc/vmstat
+Run some scenario
+Dump /proc/vmstat again
+Generate some data or graph
+reboot and repeat again
 
-Still doesn't mean it is a good thing to do.  Again, why isn't this
-driver just using the misc driver interface instead?  It's much simpler
-to use and should work just fine for this tiny driver, instead of having
-to create a custom class just for it.
+So, each time we wanted to capture fresh data a reboot is required.
 
-thanks,
+Thus, in this patch I introduce a way to clear/reset all vm counters to 0
+without rebooting the system.
+With this patch the steps can be:
+Dump /proc/vmstat
+Run some scenario
+Dump /proc/vmstat again
+Generate some data or graph
+Do: echo 1 > /proc/sys/vm/clear_all_vm_events
+Then repeat again
 
-greg k-h
+Thus, when 1 is written to this file, it resets all the vm counters present
+under /proc/vmstat to its default value or zero.
+The next time when you read /proc/vmstat, each node is filled with default
+or current value.
+
+There could be few other use cases where this can be useful.
+
+Signed-off-by: Pintu Kumar <pintu@codeaurora.org>
+Signed-off-by: Pintu Agarwal <ping.ping@gmail.com>
+---
+ Documentation/admin-guide/sysctl/vm.rst |  8 ++++++++
+ include/linux/vmstat.h                  |  7 +++++++
+ kernel/sysctl.c                         |  9 +++++++++
+ mm/vmstat.c                             | 26 ++++++++++++++++++++++++++
+ 4 files changed, 50 insertions(+)
+
+diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+index e35a3f2..54382ab 100644
+--- a/Documentation/admin-guide/sysctl/vm.rst
++++ b/Documentation/admin-guide/sysctl/vm.rst
+@@ -26,6 +26,7 @@ Currently, these files are in /proc/sys/vm:
+ 
+ - admin_reserve_kbytes
+ - block_dump
++- clear_all_vm_events
+ - compact_memory
+ - compaction_proactiveness
+ - compact_unevictable_allowed
+@@ -112,6 +113,13 @@ block_dump
+ block_dump enables block I/O debugging when set to a nonzero value. More
+ information on block I/O debugging is in Documentation/admin-guide/laptops/laptop-mode.rst.
+ 
++clear_all_vm_events
++===================
++
++When 1 is written to this file, it resets all the vm counters present under
++/proc/vmstat to its default value or zeros.
++The next time when you read /proc/vmstat, each node is filled with default or
++current value.
+ 
+ compact_memory
+ ==============
+diff --git a/include/linux/vmstat.h b/include/linux/vmstat.h
+index 773135f..8ab9be5 100644
+--- a/include/linux/vmstat.h
++++ b/include/linux/vmstat.h
+@@ -11,6 +11,8 @@
+ #include <linux/mmdebug.h>
+ 
+ extern int sysctl_stat_interval;
++extern int sysctl_clearvmevents_handler(struct ctl_table *table, int write,
++	void __user *buffer, size_t *length, loff_t *ppos);
+ 
+ #ifdef CONFIG_NUMA
+ #define ENABLE_NUMA_STAT   1
+@@ -83,6 +85,8 @@ static inline void count_vm_events(enum vm_event_item item, long delta)
+ 
+ extern void all_vm_events(unsigned long *);
+ 
++extern void clear_all_vm_events(void);
++
+ extern void vm_events_fold_cpu(int cpu);
+ 
+ #else
+@@ -103,6 +107,9 @@ static inline void __count_vm_events(enum vm_event_item item, long delta)
+ static inline void all_vm_events(unsigned long *ret)
+ {
+ }
++static inline void clear_all_vm_events(void)
++{
++}
+ static inline void vm_events_fold_cpu(int cpu)
+ {
+ }
+diff --git a/kernel/sysctl.c b/kernel/sysctl.c
+index c9fbdd8..25299a4 100644
+--- a/kernel/sysctl.c
++++ b/kernel/sysctl.c
+@@ -200,6 +200,8 @@ static int min_extfrag_threshold;
+ static int max_extfrag_threshold = 1000;
+ #endif
+ 
++static int sysctl_clear_vm_events;
++
+ #endif /* CONFIG_SYSCTL */
+ 
+ #if defined(CONFIG_BPF_SYSCALL) && defined(CONFIG_SYSCTL)
+@@ -2891,6 +2893,13 @@ static struct ctl_table vm_table[] = {
+ 
+ #endif /* CONFIG_COMPACTION */
+ 	{
++		.procname	= "clear_all_vm_events",
++		.data		= &sysctl_clear_vm_events,
++		.maxlen		= sizeof(int),
++		.mode		= 0200,
++		.proc_handler	= sysctl_clearvmevents_handler,
++	},
++	{
+ 		.procname	= "min_free_kbytes",
+ 		.data		= &min_free_kbytes,
+ 		.maxlen		= sizeof(min_free_kbytes),
+diff --git a/mm/vmstat.c b/mm/vmstat.c
+index f894216..26b8f81 100644
+--- a/mm/vmstat.c
++++ b/mm/vmstat.c
+@@ -136,6 +136,32 @@ void all_vm_events(unsigned long *ret)
+ }
+ EXPORT_SYMBOL_GPL(all_vm_events);
+ 
++void clear_all_vm_events(void)
++{
++	int cpu;
++
++	for_each_online_cpu(cpu) {
++		struct vm_event_state *this = &per_cpu(vm_event_states, cpu);
++		int sz = NR_VM_EVENT_ITEMS * sizeof(unsigned long);
++
++		memset(this->event, 0, sz);
++	}
++}
++EXPORT_SYMBOL_GPL(clear_all_vm_events);
++
++/*
++ * This is the node to reset all vm events in /proc/vmstat
++ * via /proc/sys/vm/clear_all_vm_events
++ */
++int sysctl_clearvmevents_handler(struct ctl_table *table, int write,
++	void __user *buffer, size_t *length, loff_t *ppos)
++{
++	if (write)
++		clear_all_vm_events();
++
++	return 0;
++}
++
+ /*
+  * Fold the foreign cpu events into our own.
+  *
+-- 
+Qualcomm India Private Limited, on behalf of Qualcomm Innovation Center, Inc.,
+is a member of Code Aurora Forum, a Linux Foundation Collaborative Project.
+
