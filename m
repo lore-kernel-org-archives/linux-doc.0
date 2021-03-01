@@ -2,181 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75129C433E9
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 10:14:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 171EFC433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 10:23:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1C2E664E54
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 10:14:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C089064E37
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 10:23:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231591AbhCAKOr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 05:14:47 -0500
-Received: from mx2.suse.de ([195.135.220.15]:42686 "EHLO mx2.suse.de"
+        id S232604AbhCAKXI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 05:23:08 -0500
+Received: from mga06.intel.com ([134.134.136.31]:26261 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231821AbhCAKOe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Mar 2021 05:14:34 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1614593627; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9Aoj+mD0sR1IiIwitK9WRvyR8NQutn4XWYPCWVLCqsI=;
-        b=nXYjCK1s2AgFRAsXIK3Dzn7Sf/Z82SdalAN4KduEWnqs5fBAX+o9RuYjWb5uY/ifp22ZHe
-        B5vAiOOiv5r0ZMlJHws00iwMY7iK5tuIqO1Ov5efEnCF4gC0R8DgR05t8jxETqzmYO4dyD
-        wWBl5Fbkvi8kvYtooWx8nIhnyr91M+0=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 647B5AF35;
-        Mon,  1 Mar 2021 10:13:47 +0000 (UTC)
-From:   Juergen Gross <jgross@suse.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     paulmck@kernel.org, mhocko@suse.com, peterz@infradead.org,
-        Juergen Gross <jgross@suse.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v2 1/3] kernel/smp: add boot parameter for controlling CSD lock debugging
-Date:   Mon,  1 Mar 2021 11:13:34 +0100
-Message-Id: <20210301101336.7797-2-jgross@suse.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210301101336.7797-1-jgross@suse.com>
-References: <20210301101336.7797-1-jgross@suse.com>
+        id S233313AbhCAKVt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Mar 2021 05:21:49 -0500
+IronPort-SDR: cERMtcsdVXwyqafQ2AUBEQFvaSJFC0VUbJ6N5ovHWBUYBZ0iKntvwRePKEPMfTD9av3a2JPk6P
+ QajQMsj+916Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9909"; a="247828628"
+X-IronPort-AV: E=Sophos;i="5.81,215,1610438400"; 
+   d="scan'208";a="247828628"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 02:19:04 -0800
+IronPort-SDR: qkiqLn92VcK9pLwqBFRZw4prmGsPifCqoo3A9wibuT20R1mnWgt5pvRUnFYtG1lvOPItd3cQRG
+ M+keLe/OZiPw==
+X-IronPort-AV: E=Sophos;i="5.81,215,1610438400"; 
+   d="scan'208";a="444109927"
+Received: from gna-dev.igk.intel.com (HELO localhost) ([10.102.80.34])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2021 02:19:01 -0800
+References: <20210216160525.5028-1-maciej.kwapulinski@linux.intel.com> <20210216160525.5028-2-maciej.kwapulinski@linux.intel.com> <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com>
+User-agent: mu4e 1.4.13; emacs 26.3
+From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+        Savo Novakovic <savox.novakovic@intel.com>,
+        Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Subject: Re: [PATCH v1 01/12] gna: add driver module
+In-reply-to: <CAHp75Vep0Fm1k_7gJcozk4t316QmUgt5Qe3PauwDg=py5VnHfQ@mail.gmail.com>
+Date:   Mon, 01 Mar 2021 11:18:59 +0100
+Message-ID: <85ft1fjhws.fsf@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently CSD lock debugging can be switched on and off via a kernel
-config option only. Unfortunately there is at least one problem with
-CSD lock handling pending for about 2 years now, which has been seen
-in different environments (mostly when running virtualized under KVM
-or Xen, at least once on bare metal). Multiple attempts to catch this
-issue have finally led to introduction of CSD lock debug code, but
-this code is not in use in most distros as it has some impact on
-performance.
 
-In order to be able to ship kernels with CONFIG_CSD_LOCK_WAIT_DEBUG
-enabled even for production use, add a boot parameter for switching
-the debug functionality on. This will reduce any performance impact
-of the debug coding to a bare minimum when not being used.
+Andy Shevchenko <andy.shevchenko@gmail.com> writes:
 
-Signed-off-by: Juergen Gross <jgross@suse.com>
----
- .../admin-guide/kernel-parameters.txt         |  6 +++
- kernel/smp.c                                  | 38 +++++++++++++++++--
- 2 files changed, 40 insertions(+), 4 deletions(-)
+> On Tue, Feb 16, 2021 at 6:11 PM Maciej Kwapulinski
+> <maciej.kwapulinski@linux.intel.com> wrote:
+>>
+....
+>> +static int __init gna_drv_init(void)
+>> +{
+>> +       int ret;
+>> +
+>> +       mutex_init(&gna_drv_priv.lock);
+>> +
+>> +       gna_class = class_create(THIS_MODULE, "gna");
+>> +       if (IS_ERR(gna_class)) {
+>> +               pr_err("class device create failed\n");
+>> +               return PTR_ERR(gna_class);
+>> +       }
+>> +       gna_class->devnode = gna_devnode;
+>> +
+>> +       ret = pci_register_driver(&gna_driver);
+>
+> Is it possible to decouple a PCI glue driver from the class as many
+> other existing examples are doing?
+>
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index bab6a8b01202..af9749b866c2 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -784,6 +784,12 @@
- 	cs89x0_media=	[HW,NET]
- 			Format: { rj45 | aui | bnc }
- 
-+	csdlock_debug=	[KNL] Enable debug add-ons of cross-cpu function call
-+			handling. When switched on additional debug data is
-+			printed to the console in case a hanging cpu is
-+			detected and that cpu is pinged again in order to try
-+			to resolve the hang situation.
-+
- 	dasd=		[HW,NET]
- 			See header of drivers/s390/block/dasd_devmap.c.
- 
-diff --git a/kernel/smp.c b/kernel/smp.c
-index aeb0adfa0606..d5f0b21ab55e 100644
---- a/kernel/smp.c
-+++ b/kernel/smp.c
-@@ -24,6 +24,7 @@
- #include <linux/sched/clock.h>
- #include <linux/nmi.h>
- #include <linux/sched/debug.h>
-+#include <linux/jump_label.h>
- 
- #include "smpboot.h"
- #include "sched/smp.h"
-@@ -102,6 +103,20 @@ void __init call_function_init(void)
- 
- #ifdef CONFIG_CSD_LOCK_WAIT_DEBUG
- 
-+static DEFINE_STATIC_KEY_FALSE(csdlock_debug_enabled);
-+
-+static int __init csdlock_debug(char *str)
-+{
-+	unsigned int val = 0;
-+
-+	get_option(&str, &val);
-+	if (val)
-+		static_branch_enable(&csdlock_debug_enabled);
-+
-+	return 0;
-+}
-+early_param("csdlock_debug", csdlock_debug);
-+
- static DEFINE_PER_CPU(call_single_data_t *, cur_csd);
- static DEFINE_PER_CPU(smp_call_func_t, cur_csd_func);
- static DEFINE_PER_CPU(void *, cur_csd_info);
-@@ -110,7 +125,7 @@ static DEFINE_PER_CPU(void *, cur_csd_info);
- static atomic_t csd_bug_count = ATOMIC_INIT(0);
- 
- /* Record current CSD work for current CPU, NULL to erase. */
--static void csd_lock_record(call_single_data_t *csd)
-+static void __csd_lock_record(call_single_data_t *csd)
- {
- 	if (!csd) {
- 		smp_mb(); /* NULL cur_csd after unlock. */
-@@ -125,7 +140,13 @@ static void csd_lock_record(call_single_data_t *csd)
- 		  /* Or before unlock, as the case may be. */
- }
- 
--static __always_inline int csd_lock_wait_getcpu(call_single_data_t *csd)
-+static __always_inline void csd_lock_record(call_single_data_t *csd)
-+{
-+	if (static_branch_unlikely(&csdlock_debug_enabled))
-+		__csd_lock_record(csd);
-+}
-+
-+static int csd_lock_wait_getcpu(call_single_data_t *csd)
- {
- 	unsigned int csd_type;
- 
-@@ -140,7 +161,7 @@ static __always_inline int csd_lock_wait_getcpu(call_single_data_t *csd)
-  * the CSD_TYPE_SYNC/ASYNC types provide the destination CPU,
-  * so waiting on other types gets much less information.
-  */
--static __always_inline bool csd_lock_wait_toolong(call_single_data_t *csd, u64 ts0, u64 *ts1, int *bug_id)
-+static bool csd_lock_wait_toolong(call_single_data_t *csd, u64 ts0, u64 *ts1, int *bug_id)
- {
- 	int cpu = -1;
- 	int cpux;
-@@ -204,7 +225,7 @@ static __always_inline bool csd_lock_wait_toolong(call_single_data_t *csd, u64 t
-  * previous function call. For multi-cpu calls its even more interesting
-  * as we'll have to ensure no other cpu is observing our csd.
-  */
--static __always_inline void csd_lock_wait(call_single_data_t *csd)
-+static void __csd_lock_wait(call_single_data_t *csd)
- {
- 	int bug_id = 0;
- 	u64 ts0, ts1;
-@@ -218,6 +239,15 @@ static __always_inline void csd_lock_wait(call_single_data_t *csd)
- 	smp_acquire__after_ctrl_dep();
- }
- 
-+static __always_inline void csd_lock_wait(call_single_data_t *csd)
-+{
-+	if (static_branch_unlikely(&csdlock_debug_enabled)) {
-+		__csd_lock_wait(csd);
-+		return;
-+	}
-+
-+	smp_cond_load_acquire(&csd->node.u_flags, !(VAL & CSD_FLAG_LOCK));
-+}
- #else
- static void csd_lock_record(call_single_data_t *csd)
- {
--- 
-2.26.2
+I see many pci drivers (including staging) that do have it glued though.
 
+Examples are:
+1. "static int __init kp2000_pcie_init(void)" (commit on May 20 09:34:11
+2019)
+2. "static int __init hl_init(void)" (commit on Mon Feb 18 09:46:43 2019)
+
+Please give me more details.
