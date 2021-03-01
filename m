@@ -2,88 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC545C433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 12:43:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 10343C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 12:44:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 89F9C64E31
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 12:43:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CBB5464E31
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 12:44:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235108AbhCAMnk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 07:43:40 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48700 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235105AbhCAMni (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Mar 2021 07:43:38 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D7ECE64E31;
-        Mon,  1 Mar 2021 12:42:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614602577;
-        bh=dkHBbBE+JY13Jb5tzmDmGMXEzWaZdXecvhBxHseKjcA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=RD50p5cN9MF2AnyITW08DvxoHm1Dq5jphMR9sn3nZuC0ggKZdt2AvoR6IZZqC2gZS
-         eumrea+n2N4hsDphhXpQ4Vdzge4TCfzcyTNIO36InzNFJUXnz8X3Iq3b716mrj6tBb
-         wBI2MrSQMe2+vB2a8DEeonoTfXDop11rG+Z5fWJCc32bSzwdrW3OCbzxnbI4fDvdGI
-         S6rtSwKU67xAzJRjqK06+JjQlkVg5cUsJ7muDLRH+rGKkSEWz/DzQ17mf3CiB9ioVu
-         Y+pg+FJI2bYOZKDm/qsUk3xS06xxkPmjXut4PR4uDUz4re6XT7dyjhX0tJOPuAyzZD
-         FKJlj0WbY7DdA==
-Date:   Mon, 1 Mar 2021 13:42:52 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Jonathan Corbet <corbet@lwn.net>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] media: add a subsystem profile documentation
-Message-ID: <20210301134252.3d165cce@coco.lan>
-In-Reply-To: <20210301103133.GK3@valkosipuli.retiisi.eu>
-References: <bbe8dc3119b21317616535b7062811968a89b85e.1614591312.git.mchehab+huawei@kernel.org>
-        <20210301103133.GK3@valkosipuli.retiisi.eu>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S235101AbhCAMog (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 07:44:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44988 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234995AbhCAMof (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 07:44:35 -0500
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0D3BC061756;
+        Mon,  1 Mar 2021 04:43:54 -0800 (PST)
+Received: by mail-qv1-xf36.google.com with SMTP id dj14so410747qvb.1;
+        Mon, 01 Mar 2021 04:43:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=C04ypYxERhliPvMoWcsTnuHO+a7l/cXwZ/KEzieBKkQ=;
+        b=utNEGGbEbBR5UrfH2veFzik8HZe8Hnj/6uAMTHNa5xILiWXZOzcA0oNXy3+SvzjCYo
+         CTQ/mRNFQkjmZZ38wqe6ocOTPrtljzZF3MOiS9LZIe4oQzWVvfUyE8Wr+3tVFHZfy6YK
+         fFjWFZSQGIzAZ+mVVrdHg5z53MDBonHfR5m5uQIsRSIKu1wafupYgN8tVg52Z+pRqxHL
+         Hm7RzuWqs2VwwXLpsEgNXWiVtHFN4usYJcha3b55EVwYGB/kneAIF6pJ5bUjzjO13bTA
+         WqJaEc+Jk2LKjw/rdP2R+76mmCbYgfs/p2ejILRhez/nQjPdknb5otXU1vuvcTNsRtlr
+         +WCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=C04ypYxERhliPvMoWcsTnuHO+a7l/cXwZ/KEzieBKkQ=;
+        b=mxVJvWpBRsPccOepV4wEe2HDEaamXfQErqQ2rhuhLWBn5felgxqE83zYINSbvtsht+
+         /BGwUTbjPxBRhyGz0Lfb4/Ek0NbqAdl3A1KapTbHH4+oxgrGm+Khjf/+VGpWA2oDZ2Q/
+         iLm/vLZwUzERxaYxbjXNF9R6m/eAU2IvHxV9ybsGnsESiccomzvgtEX96F9hlQsu3Ox3
+         tqUzm32ghHYfF1Z6xsEW71LvR+4sRjBMLn7V2+2CfYo2q0YmWxH8PuMkrXDeAX3MXpVK
+         8QvrG5YsaZwVSxSP78oMaRkE6uR5mUmzX79h/DWufFdb3mLOt3n+6BLbnNh9Z64VpnZN
+         r+aA==
+X-Gm-Message-State: AOAM530TpM2QFzjUBiqEgUo7reruOZCHnrMdvQwfPEHLBCtE5xtQBVDl
+        Pvm2ZyXLNS5mebeKSGEOGB8=
+X-Google-Smtp-Source: ABdhPJz8tvFt8lapkOzODyleso3eRYVd84fZ/pm++bGw6oOGYAi4YlUD8FcwIyvEioxLazvKo2c0qA==
+X-Received: by 2002:a0c:a0c6:: with SMTP id c64mr2576614qva.57.1614602634147;
+        Mon, 01 Mar 2021 04:43:54 -0800 (PST)
+Received: from localhost.localdomain ([138.199.13.198])
+        by smtp.gmail.com with ESMTPSA id y1sm12327345qkf.55.2021.03.01.04.43.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Mar 2021 04:43:53 -0800 (PST)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] docs: sphinx: Fix couple of spellings in the file rstFlatTable.py
+Date:   Mon,  1 Mar 2021 18:11:36 +0530
+Message-Id: <20210301124136.11602-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Mon, 1 Mar 2021 12:31:34 +0200
-Sakari Ailus <sakari.ailus@iki.fi> escreveu:
-
-> > +Sensor drivers:
-> > +  Sakari Ailus <sakari.ailus@linux.intel.com>  
-> 
-> Could you add me:
-> 
-> v4l2-async, v4l2-fwnode, v4l2-flash-led-class.
-
-Adding in v5:
-
-	v4l2-async, v4l2-fwnode, v4l2-flash-led-class and Sensor drivers:
-	  Sakari Ailus <sakari.ailus@linux.intel.com>
 
 
-> 
-> ISP drivers are generally complicated; I wonder if it should be me, Laurent
-> and Hans. It'd be nice to add ISPs, too.
+s/automaticly/automatically/
+s/buidler/builder/
 
-Not sure how to add ISP. I mean, we're actually splitting the drivers
-per API usage. Probably the main part of mapping an ISP into V4L would
-be as codec drivers, but other drivers could be doing something else.
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ Documentation/sphinx/rstFlatTable.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Suggestions?
+diff --git a/Documentation/sphinx/rstFlatTable.py b/Documentation/sphinx/rstFlatTable.py
+index 2019a55f6b18..386c435e479c 100755
+--- a/Documentation/sphinx/rstFlatTable.py
++++ b/Documentation/sphinx/rstFlatTable.py
+@@ -22,7 +22,7 @@ u"""
 
+     * *auto span* rightmost cell of a table row over the missing cells on the
+       right side of that table-row.  With Option ``:fill-cells:`` this behavior
+-      can changed from *auto span* to *auto fill*, which automaticly inserts
++      can changed from *auto span* to *auto fill*, which automatically inserts
+       (empty) cells instead of spanning the last cell.
 
-> 
+     Options:
+@@ -171,7 +171,7 @@ class ListTableBuilder(object):
+         for colwidth in colwidths:
+             colspec = nodes.colspec(colwidth=colwidth)
+             # FIXME: It seems, that the stub method only works well in the
+-            # absence of rowspan (observed by the html buidler, the docutils-xml
++            # absence of rowspan (observed by the html builder, the docutils-xml
+             # build seems OK).  This is not extraordinary, because there exists
+             # no table directive (except *this* flat-table) which allows to
+             # define coexistent of rowspan and stubs (there was no use-case
+--
+2.26.2
 
-> If the order is reversed, that could be expressed fairly neatly.
-
-
-Thanks,
-Mauro
