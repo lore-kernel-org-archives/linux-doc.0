@@ -7,81 +7,76 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D6A7C433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 22:29:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37AE4C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 23:13:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 593FA601FF
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 22:29:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F241E60201
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 23:13:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236955AbhCAW3S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 17:29:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57274 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242715AbhCAW1t (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 17:27:49 -0500
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AACEC061756;
-        Mon,  1 Mar 2021 14:27:09 -0800 (PST)
+        id S236268AbhCAXE5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 18:04:57 -0500
+Received: from ms.lwn.net ([45.79.88.28]:45348 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240226AbhCAWbX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Mar 2021 17:31:23 -0500
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 0E7752B8;
-        Mon,  1 Mar 2021 22:27:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0E7752B8
+        by ms.lwn.net (Postfix) with ESMTPSA id 848A12C4;
+        Mon,  1 Mar 2021 22:29:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 848A12C4
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1614637629; bh=rSSHnGhzEii1/rrLqGEGh+jMY3cTA7tX064ieLAcReM=;
+        t=1614637755; bh=IYpxAgImicoAB1RFYUiRMNAXttIJP9xmnbwf82RXiS8=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=BCLK8l8mBa4gQl2fv8ggTv4uI+/XfCCIEno1aunjEvT2P89j7iK9en1AaDJYCJtCV
-         ejjCEXlv2DiAiJ7hhwdIvZTyHO3Kf/aCs0hzo1kDbk+V9Ez+MgkcEob6/mv0TvOTOh
-         ehtAOS/dMVhKP9nvKaJc1dD5FLd67giB1XQMybTuQ6/+UIRfeOQ9AYVUSgS8rjFD4Z
-         xAzfrr0oDcYEyxktC0vZkHQsfKpTuYLlHILExhsM3xD1a71NG7xMlTenW5L++VNxro
-         Ahk7m9OTjjSaHxeGAQSAf+EDDH29wEv8T0kMaeaIj+aXeaT6y/WrJaYwZmr270zNoc
-         iJ7e8EpZZogxA==
+        b=T3PzFUiFQihYhyauqoTtF9S8w/HUHprInsNF+UArKChZWwlJtHE8hfsZQTPG3JrW+
+         9l18ywSMh4rW/sni6d6CySD0zKkUPCPDcbC9p1Ou1+Hj+ddr1Ky1kgaWRKZhkZWaAb
+         YixSusHuqEEMNteTGGLGr4xSDmOXglg/FBg6xIgp0XnThzBY74cYLqobn5vk5Rnaf/
+         vkP4GFNiB3iqwai3OfpPyjDx+xOrN6jgvm39kpXjjQDgMDXTOACXB9Ou3YsmevIrfp
+         w+o5Bqqaw7jGryoa4Fhl7iE8Gl8ScinPQxwaxZr5iQfYsTsRlRM5aS1BQoj1gtk7H7
+         lsk6RrvpHiG+A==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>
-Subject: Re: [PATCH 1/2] fs: eventpoll: fix comments & kernel-doc notation
-In-Reply-To: <20210210042526.23174-1-rdunlap@infradead.org>
-References: <20210210042526.23174-1-rdunlap@infradead.org>
-Date:   Mon, 01 Mar 2021 15:27:08 -0700
-Message-ID: <87im6a1pdv.fsf@meer.lwn.net>
+To:     Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc:     Ard Biesheuvel <ardb@kernel.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Heinrich Schuchardt <xypron.glpk@gmx.de>
+Subject: Re: [PATCH 1/1] docs: arm: /chosen node parameters
+In-Reply-To: <20210206084120.43305-1-xypron.glpk@gmx.de>
+References: <20210206084120.43305-1-xypron.glpk@gmx.de>
+Date:   Mon, 01 Mar 2021 15:29:15 -0700
+Message-ID: <87eegy1pac.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+Heinrich Schuchardt <xypron.glpk@gmx.de> writes:
 
-> Use the documented kernel-doc format for function Return: descriptions.
-> Begin constant values in kernel-doc comments with '%'.
+> Add missing items to table of parameters set in the /chosen node by the EFI
+> stub.
 >
-> Remove kernel-doc "/**" from 2 functions that are not documented with
-> kernel-doc notation.
->
-> Fix typos, punctuation, & grammar.
->
-> Also fix a few kernel-doc warnings:
->
-> ../fs/eventpoll.c:1883: warning: Function parameter or member 'ep' not described in 'ep_loop_check_proc'
-> ../fs/eventpoll.c:1883: warning: Excess function parameter 'priv' description in 'ep_loop_check_proc'
-> ../fs/eventpoll.c:1932: warning: Function parameter or member 'ep' not described in 'ep_loop_check'
-> ../fs/eventpoll.c:1932: warning: Excess function parameter 'from' description in 'ep_loop_check'
->
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
+> Signed-off-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
 > ---
-> Jon: Al says that he is OK with one of you merging this fs/
->      (only comments) patch.
+>  Documentation/arm/uefi.rst | 7 +++++++
+>  1 file changed, 7 insertions(+)
 >
->  fs/eventpoll.c |   52 +++++++++++++++++++++++------------------------
->  1 file changed, 26 insertions(+), 26 deletions(-)
+> diff --git a/Documentation/arm/uefi.rst b/Documentation/arm/uefi.rst
+> index f732f957421f..9b0b5e458a1e 100644
+> --- a/Documentation/arm/uefi.rst
+> +++ b/Documentation/arm/uefi.rst
+> @@ -64,4 +64,11 @@ linux,uefi-mmap-desc-size   32-bit   Size in bytes of each entry in the UEFI
+>                                       memory map.
+>
+>  linux,uefi-mmap-desc-ver    32-bit   Version of the mmap descriptor format.
+> +
+> +linux,initrd-start          64-bit   Physical start address of an initrd
+> +
+> +linux,initrd-end            64-bit   Physical end address of an initrd
+> +
+> +kaslr-seed                  64-bit   Entropy used to randomize the kernel image
+> +                                     base address location.
+>  ==========================  ======   ===========================================
 
-Both patches applied, thanks.
+Applied, thanks.
 
 jon
