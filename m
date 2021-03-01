@@ -2,109 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D22BC433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 06:58:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BA63C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 07:18:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A94A964E38
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 06:58:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E828264E40
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 07:18:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232097AbhCAG6a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 01:58:30 -0500
-Received: from mxout70.expurgate.net ([194.37.255.70]:44897 "EHLO
-        mxout70.expurgate.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231956AbhCAG6Z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 01:58:25 -0500
-Received: from [127.0.0.1] (helo=localhost)
-        by relay.expurgate.net with smtp (Exim 4.90)
-        (envelope-from <ms@dev.tdt.de>)
-        id 1lGcTk-000Dkk-Ny; Mon, 01 Mar 2021 07:56:28 +0100
-Received: from [195.243.126.94] (helo=securemail.tdt.de)
-        by relay.expurgate.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90)
-        (envelope-from <ms@dev.tdt.de>)
-        id 1lGcTj-0004Jb-C3; Mon, 01 Mar 2021 07:56:27 +0100
-Received: from securemail.tdt.de (localhost [127.0.0.1])
-        by securemail.tdt.de (Postfix) with ESMTP id C1593240041;
-        Mon,  1 Mar 2021 07:56:26 +0100 (CET)
-Received: from mail.dev.tdt.de (unknown [10.2.4.42])
-        by securemail.tdt.de (Postfix) with ESMTP id 15BEC240040;
-        Mon,  1 Mar 2021 07:56:26 +0100 (CET)
-Received: from mail.dev.tdt.de (localhost [IPv6:::1])
-        by mail.dev.tdt.de (Postfix) with ESMTP id A23972018D;
-        Mon,  1 Mar 2021 07:56:25 +0100 (CET)
+        id S232404AbhCAHSa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 02:18:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59496 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232125AbhCAHS3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 02:18:29 -0500
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 369D9C06174A;
+        Sun, 28 Feb 2021 23:17:49 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id g20so9299263plo.2;
+        Sun, 28 Feb 2021 23:17:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=gONCc0ixoRKjPUJ0zP8hmFkWFvyDxygh0qJOWZmcFdU=;
+        b=N/8qgwXtE/G/fdawu/Fmb4mJBx6ezmXyU21jAUzWM6K/79Lrri652nxJ472KigfrE/
+         VURa7PizmidkddaH4izsdfcMqcr5v6p2X3pFUDQegRATUcnZO/lMjJzs6cjCBlSFo+jt
+         r7ZsPHlSVhYG8ejRDtmG+UT4Epzy/QzbTxFLB9U0U8TiiI5nQPHxz4PLaY9WXATtFRIQ
+         ftr1hyefCK1dsRM+ko6czzc1Kx3N8isfrl2h+t5brWYvS6lqplvSn89WHL2bfFvxfvN6
+         Gu3mzywhSyX2AGEtW/n+Egp/qJzvKrlwXmSwPuBNPI7GcyxW6lVq4yIyJ/HT9cCULa/n
+         y5Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=gONCc0ixoRKjPUJ0zP8hmFkWFvyDxygh0qJOWZmcFdU=;
+        b=nIqIRrco1we0BQMkpbXMuyuCNvpPpjQzJfDf7Yl7/jwQ72MGtUvVjIdYKFTJfFCtEd
+         mXcdFsu8ecRpH09Tp/WBuboA8cbVwVGa1efa2UN8aKzYANi4IeCxpHyrXDELPWAFOtT2
+         wXutXKOMy3/FaW9WMuULOdPTqUBOnb7vXQPoFCshwpFY3HzSP8DW1sAdgDnP8M9rL6Fy
+         Uvx4kVHqzGSsSGoXrS801maBw9gcM6+04BTQxZtwWanGpw0ng2H+EdiKClWdKizh3fwX
+         rSiGCf6Og0nLIJAhskZrrGXUbJWrhwCV9zyIhmLGb9KYybiay0DsjLoA67yfulsxHaFB
+         c+UQ==
+X-Gm-Message-State: AOAM533W6g3bNnGdK8AZOIzQx1thBh+gJ3xtCMAT0Wh6qifZ8OmGE0EP
+        9Q+3RXkYBUUnU8TrkvYhHjY=
+X-Google-Smtp-Source: ABdhPJwsIHRc09CGc3LHIDlq4x0PhiyRF7geKl4Fls4ZybTN+ojHynqyozoqUa+9wweO0267NYAUoQ==
+X-Received: by 2002:a17:902:8d95:b029:e2:c956:f085 with SMTP id v21-20020a1709028d95b02900e2c956f085mr14054151plo.35.1614583068826;
+        Sun, 28 Feb 2021 23:17:48 -0800 (PST)
+Received: from google.com ([2409:10:2e40:5100:b0d4:9de6:fcfc:43a8])
+        by smtp.gmail.com with ESMTPSA id u129sm16185037pfu.219.2021.02.28.23.17.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Feb 2021 23:17:48 -0800 (PST)
+Date:   Mon, 1 Mar 2021 16:17:42 +0900
+From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>,
+        "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 6/7] dma-iommu: implement ->alloc_noncontiguous
+Message-ID: <YDyVFi26RPz5RrJB@google.com>
+References: <20210202095110.1215346-1-hch@lst.de>
+ <20210202095110.1215346-7-hch@lst.de>
+ <CAAFQd5BXAWeB2h4RvqsF1q8ip-Rhew80c7y1_og22-x3rS8KOQ@mail.gmail.com>
+ <20210216084947.GA23897@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 01 Mar 2021 07:56:25 +0100
-From:   Martin Schiller <ms@dev.tdt.de>
-To:     Xie He <xie.he.0141@gmail.com>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
-        Leon Romanovsky <leon@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Linux X25 <linux-x25@vger.kernel.org>,
-        Linux Kernel Network Developers <netdev@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Krzysztof Halasa <khc@pm.waw.pl>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB frames
-Organization: TDT AG
-In-Reply-To: <CAJht_ENP3Y98jgj1peGa3fGpQ-qPaF=1gtyYwMcawRFW_UCpeA@mail.gmail.com>
-References: <20210216201813.60394-1-xie.he.0141@gmail.com>
- <YC4sB9OCl5mm3JAw@unreal>
- <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com>
- <YC5DVTHHd6OOs459@unreal>
- <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
- <YC7GHgYfGmL2wVRR@unreal>
- <CAJht_EPZ7rVFd-XD6EQD2VJTDtmZZv0HuZvii+7=yhFgVz68VQ@mail.gmail.com>
- <CAJht_EPPMhB0JTtjWtMcGbRYNiZwJeMLWSC5hS6WhWuw5FgZtg@mail.gmail.com>
- <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <CAJht_EOru3pW6AHN4QVjiaERpLSfg-0G0ZEaqU_hkhX1acv0HQ@mail.gmail.com>
- <906d8114f1965965749f1890680f2547@dev.tdt.de>
- <CAJht_EPBJhhdCBoon=WMuPBk-sxaeYOq3veOpAd2jq5kFqQHBg@mail.gmail.com>
- <e1750da4179aca52960703890e985af3@dev.tdt.de>
- <CAJht_ENP3Y98jgj1peGa3fGpQ-qPaF=1gtyYwMcawRFW_UCpeA@mail.gmail.com>
-Message-ID: <ff200b159ef358494a922a676cbef8a6@dev.tdt.de>
-X-Sender: ms@dev.tdt.de
-User-Agent: Roundcube Webmail/1.3.16
-X-purgate-type: clean
-X-purgate: clean
-X-purgate-ID: 151534::1614581788-0000B5A4-DEECE876/0/0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210216084947.GA23897@lst.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-02-27 00:03, Xie He wrote:
-> On Fri, Feb 26, 2021 at 6:21 AM Martin Schiller <ms@dev.tdt.de> wrote:
->> 
->> I have now had a look at it. It works as expected.
->> I just wonder if it would not be more appropriate to call
->> the lapb_register() already in x25_hdlc_open(), so that the layer2
->> (lapb) can already "work" before the hdlc<x>_x25 interface is up.
+On (21/02/16 09:49), Christoph Hellwig wrote:
+> > When working on the videobuf2 integration with Sergey I noticed that
+> > we always pass 0 as DMA attrs here, which removes the ability for
+> > drivers to use DMA_ATTR_ALLOC_SINGLE_PAGES.
+> > 
+> > It's quite important from a system stability point of view, because by
+> > default the iommu_dma allocator would prefer big order allocations for
+> > TLB locality reasons. For many devices, though, it doesn't really
+> > affect the performance, because of random access patterns, so single
+> > pages are good enough and reduce the risk of allocation failures or
+> > latency due to fragmentation.
+> > 
+> > Do you think we could add the attrs parameter to the
+> > dma_alloc_noncontiguous() API?
 > 
-> I think it's better not to keep LAPB running unless hdlc<x>_x25 is up.
-> If I am the user, I would expect that when I change the X.25 interface
-> to the DOWN state, the LAPB protocol would be completely stopped and
-> the LAPB layer would not generate any new frames anymore (even if the
-> other side wants to connect), and when I change the X.25 interface
-> back to the UP state, it would be a fresh new start for the LAPB
-> protocol.
-> 
->> Also, I have a hard time assessing if such a wrap is really 
->> enforceable.
-> 
-> Sorry. I don't understand what you mean. What "wrap" are you referring 
-> to?
+> Yes, we could probably do that.
 
-I mean the change from only one hdlc<x> interface to both hdlc<x> and
-hdlc<x>_x25.
+I can cook a patch, unless somebody is already looking into it.
 
-I can't estimate how many users are out there and how their setup looks
-like.
-
-> 
->> Unfortunately I have no idea how many users there actually are.
+	-ss
