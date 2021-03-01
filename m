@@ -7,45 +7,46 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12835C433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 22:25:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D6A7C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 22:29:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CCEA66023C
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 22:25:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 593FA601FF
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 22:29:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238303AbhCAWY3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 17:24:29 -0500
-Received: from ms.lwn.net ([45.79.88.28]:44642 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238227AbhCAWVo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Mar 2021 17:21:44 -0500
+        id S236955AbhCAW3S (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 17:29:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57274 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242715AbhCAW1t (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 17:27:49 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AACEC061756;
+        Mon,  1 Mar 2021 14:27:09 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 2EDFD2B8;
-        Mon,  1 Mar 2021 22:20:19 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2EDFD2B8
+        by ms.lwn.net (Postfix) with ESMTPSA id 0E7752B8;
+        Mon,  1 Mar 2021 22:27:09 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0E7752B8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1614637219; bh=6kRXwwaxFEtPBa+C5CSasyDpYyVF5qD9hdXkfVgVeXI=;
+        t=1614637629; bh=rSSHnGhzEii1/rrLqGEGh+jMY3cTA7tX064ieLAcReM=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=HFhIv/ZvlhGFAT/a30UXqSg9wUcPZasMSutNqiCS6J06QYRRNvlzsQuHK+bdEtnGG
-         /d8q4wYAWlGCiO+T2R9DCQAWbyPQvYpCSwc/EA/epIYecotE/zfLjEOFQtfSW6UcUM
-         e3RNsQhdxMrZhGXo4+z5rS8NsQMGbbKKjQvrrJ9c4HFM53xuZR4RMp+eDOMqPZ2wVX
-         VjuUae5KG1YpYtsrhqQgdSMglx62qGjQsJKJvyZ/3/tGx8lTQ2RUSnYkGg3fCw5nV0
-         zCry3YVpCp417qtegcv1hKsmoEz+0acu/3T8U9ytg6vL+nJqg6HNt2oE+UTpLLTZLs
-         OORMeC6oW8Wdg==
+        b=BCLK8l8mBa4gQl2fv8ggTv4uI+/XfCCIEno1aunjEvT2P89j7iK9en1AaDJYCJtCV
+         ejjCEXlv2DiAiJ7hhwdIvZTyHO3Kf/aCs0hzo1kDbk+V9Ez+MgkcEob6/mv0TvOTOh
+         ehtAOS/dMVhKP9nvKaJc1dD5FLd67giB1XQMybTuQ6/+UIRfeOQ9AYVUSgS8rjFD4Z
+         xAzfrr0oDcYEyxktC0vZkHQsfKpTuYLlHILExhsM3xD1a71NG7xMlTenW5L++VNxro
+         Ahk7m9OTjjSaHxeGAQSAf+EDDH29wEv8T0kMaeaIj+aXeaT6y/WrJaYwZmr270zNoc
+         iJ7e8EpZZogxA==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Andrey Vagin <avagin@openvz.org>,
-        Serge Hallyn <serge@hallyn.com>,
-        "Eric W . Biederman" <ebiederm@xmission.com>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] Documentation: ioctl: add entry for nsfs.h
-In-Reply-To: <20210210182248.18101-1-rdunlap@infradead.org>
-References: <20210210182248.18101-1-rdunlap@infradead.org>
-Date:   Mon, 01 Mar 2021 15:20:18 -0700
-Message-ID: <87mtvm1pp9.fsf@meer.lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>
+Subject: Re: [PATCH 1/2] fs: eventpoll: fix comments & kernel-doc notation
+In-Reply-To: <20210210042526.23174-1-rdunlap@infradead.org>
+References: <20210210042526.23174-1-rdunlap@infradead.org>
+Date:   Mon, 01 Mar 2021 15:27:08 -0700
+Message-ID: <87im6a1pdv.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -54,27 +55,33 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Randy Dunlap <rdunlap@infradead.org> writes:
 
-> All userspace ioctls major/magic number should be documented in
-> Documentation/userspace-api/ioctl/ioctl-number.rst, so add
-> the entry for <linux/nsfs.h>.
+> Use the documented kernel-doc format for function Return: descriptions.
+> Begin constant values in kernel-doc comments with '%'.
+>
+> Remove kernel-doc "/**" from 2 functions that are not documented with
+> kernel-doc notation.
+>
+> Fix typos, punctuation, & grammar.
+>
+> Also fix a few kernel-doc warnings:
+>
+> ../fs/eventpoll.c:1883: warning: Function parameter or member 'ep' not described in 'ep_loop_check_proc'
+> ../fs/eventpoll.c:1883: warning: Excess function parameter 'priv' description in 'ep_loop_check_proc'
+> ../fs/eventpoll.c:1932: warning: Function parameter or member 'ep' not described in 'ep_loop_check'
+> ../fs/eventpoll.c:1932: warning: Excess function parameter 'from' description in 'ep_loop_check'
 >
 > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Andrey Vagin <avagin@openvz.org>
-> Cc: Serge Hallyn <serge@hallyn.com>
-> Cc: Eric W. Biederman <ebiederm@xmission.com>
-> Cc: linux-doc@vger.kernel.org
 > Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: Alexander Viro <viro@zeniv.linux.org.uk>
 > ---
-> Feel free to modify the patch as needed.
+> Jon: Al says that he is OK with one of you merging this fs/
+>      (only comments) patch.
 >
-> Probably don't need to backport:
-> # Fixes: 6786741dbf99 ("nsfs: add ioctl to get an owning user namespace for ns file descriptor")
->
->  Documentation/userspace-api/ioctl/ioctl-number.rst |    1 +
->  1 file changed, 1 insertion(+)
+>  fs/eventpoll.c |   52 +++++++++++++++++++++++------------------------
+>  1 file changed, 26 insertions(+), 26 deletions(-)
 
-Applied (rather belatedly, sorry).
-
-Thanks,
+Both patches applied, thanks.
 
 jon
