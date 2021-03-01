@@ -2,172 +2,112 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00DF6C433E9
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:56:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0132CC433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:56:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BF37165135
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:56:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C8C3E64E86
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:56:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238802AbhCARzt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 12:55:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54036 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238468AbhCARtg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 12:49:36 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0359C0617A7
-        for <linux-doc@vger.kernel.org>; Mon,  1 Mar 2021 09:47:52 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id o6so22394pjf.5
-        for <linux-doc@vger.kernel.org>; Mon, 01 Mar 2021 09:47:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=k3Lzi2uN/Y9F/XcvNTQPp0C3tT032B+1lln6fkGmxQM=;
-        b=W6Y3xeLEBEydaudB2OKXdlRNkLkCmUgOSSaspm8H1hRvaOqBKzWqjGHnGL8h21eDor
-         1+nzgqgsPmXt6thWpsj1DvCRf2Fvb2KINTGcPzZM1KApedY2Dxed/XS3byNczNPrDRNk
-         UTFi2KeqBDJGV7iauQ0xLPRQWYFCRZu2dAomE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=k3Lzi2uN/Y9F/XcvNTQPp0C3tT032B+1lln6fkGmxQM=;
-        b=otWNLQK9y7HLKyNcsHLdUleNtheWL0bK4u7jHapzh4JbBofY8ssIKLUG80jQonJJi7
-         jIvBp9oZWbIyWjb88W8GSLRwXyt4DlCKOlPrcsxlSVYq9cFZjAj8DbHWrox4+bjBTJza
-         Ae853JHkOTsGV5HXKlYWKjZlsOhie2HFZK8yeGCiJjDkhTWZb1m6CN/nI4faSH2mfEBq
-         lFMQboPRq8Ma3ULbhmhURT6+KxOWlkBq+KCkh/o4ybVaMcxH0R98RPh7anJ4yzhjiJ6Z
-         N73JxdGqef9tZFZ1Vx10U7BWQ9xHOJqPiBjJa/gvoca3X19IrQtxmp3TC4Slg6O2vIzN
-         l1mw==
-X-Gm-Message-State: AOAM531kTy9Xkf+C5XR2Y3gCuIFGLW4m8LY/8ejxn2Us39gYWniz9rjW
-        pHuaYfMfKtcqDRAw0akjMBj91Q==
-X-Google-Smtp-Source: ABdhPJzwFouF0rR1bCQLTwJzasePHVhOOCTepYinWvJ45raB0eARzkIWO56P0a8cra6XYVFiUl4zdw==
-X-Received: by 2002:a17:902:bd0a:b029:e0:612:ad38 with SMTP id p10-20020a170902bd0ab02900e00612ad38mr17389147pls.30.1614620872137;
-        Mon, 01 Mar 2021 09:47:52 -0800 (PST)
-Received: from smtp.gmail.com ([2620:15c:202:201:3c20:df33:e36:93df])
-        by smtp.gmail.com with ESMTPSA id y202sm19071325pfb.153.2021.03.01.09.47.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Mar 2021 09:47:51 -0800 (PST)
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Baoquan He <bhe@redhat.com>, Dave Young <dyoung@redhat.com>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Jessica Yu <jeyu@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
-        kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-        Petr Mladek <pmladek@suse.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Vivek Goyal <vgoyal@redhat.com>
-Subject: [PATCH 0/7] Add build ID to stacktraces
-Date:   Mon,  1 Mar 2021 09:47:42 -0800
-Message-Id: <20210301174749.1269154-1-swboyd@chromium.org>
-X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
+        id S232796AbhCAR4C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 12:56:02 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13231 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237826AbhCARuJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 12:50:09 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B603d29280000>; Mon, 01 Mar 2021 09:49:28 -0800
+Received: from HKMAIL103.nvidia.com (10.18.16.12) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 1 Mar
+ 2021 17:49:25 +0000
+Received: from HKMAIL102.nvidia.com (10.18.16.11) by HKMAIL103.nvidia.com
+ (10.18.16.12) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 1 Mar
+ 2021 17:47:21 +0000
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.170)
+ by HKMAIL102.nvidia.com (10.18.16.11) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2 via Frontend Transport; Mon, 1 Mar 2021 17:47:21 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=J3BLx1NwkfjoWIgHuViB661XrnhFZW9QwJeOAhPmDkAH5WbM2/QfRs6gXPS/bMAyNj25f9XnfZ9B1x5kCieE0FkXpHWeMQ5JRUr+GSPt2MTNSljVnLoR11VIljLVHkbT8ghjmXABDMU83hf7i5B4L5qx2s948XnjPXMcmJl56n+W/GMQxlz9OzPlr/mEp2imS3pXpJJ1MIlScKSsiPp172ePFeDtQZEgVkozdS+0YDSrmkNhnv+lQw8iDyaIIQn4bpOP6pCpUvao+1n5YT7uwxbcNfKOqyRkEnmzbvIHHxc3+tgsxJxc7YVk2UhoN7Eatf3gU0efnScBURJZYzs+4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5odiawRgo/h9QED/AAgw1st4fjqiXTxejdJ0ivrCaj8=;
+ b=fV51jIrY1lLPh8EeL1inYD7jyIzSx6WtVphGYDmGTatj2kY/q1Q067jZFPwv2dmin8DQ8QLTXNx4MTqn3NTpGNbc8IkgLlAM9BpYGoXomHY1msgitQRaaL//Y9ijotbIiieC63ujT+yJbIn15gTBHWD/Az/zBcfU0tPZxyvDOLTfdjqEvCLrthelLWwcL/EAkqsgh228YKBUlxkns1v/rQ5BAi3DycqCL26MdAZkyu1AEFKBHtMhPclGsy1tx75O+qjKUT5JzGpKkeISlXKeFZqsVcCq5YkpnX9w9A3lrs8AgZqhIrO1BPQJnfD4ME9KANGi6pHNks0vSO5J94kw9A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB3833.namprd12.prod.outlook.com (2603:10b6:5:1cf::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19; Mon, 1 Mar
+ 2021 17:47:18 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3890.026; Mon, 1 Mar 2021
+ 17:47:18 +0000
+Date:   Mon, 1 Mar 2021 13:47:16 -0400
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Alistair Popple <apopple@nvidia.com>
+CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
+        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <jhubbard@nvidia.com>,
+        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <hch@infradead.org>,
+        <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 2/8] mm/swapops: Rework swap entry manipulation code
+Message-ID: <20210301174716.GQ4247@nvidia.com>
+References: <20210226071832.31547-1-apopple@nvidia.com>
+ <20210226071832.31547-3-apopple@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20210226071832.31547-3-apopple@nvidia.com>
+X-ClientProxiedBy: MN2PR05CA0036.namprd05.prod.outlook.com
+ (2603:10b6:208:c0::49) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.162.115.133) by MN2PR05CA0036.namprd05.prod.outlook.com (2603:10b6:208:c0::49) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.9 via Frontend Transport; Mon, 1 Mar 2021 17:47:18 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lGmdY-0033nk-Tk; Mon, 01 Mar 2021 13:47:16 -0400
+X-Header: ProcessedBy-CMR-outbound
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1614620968; bh=5odiawRgo/h9QED/AAgw1st4fjqiXTxejdJ0ivrCaj8=;
+        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+         From:To:CC:Subject:Message-ID:References:Content-Type:
+         Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+         X-MS-Exchange-MessageSentRepresentingType:X-Header;
+        b=kre8DYUFi+RGqqUnUhPEXEZJNztxb2Ic7yj6yf1FxuVlD6SAmuagNp5YAGwmXyklr
+         k6IjSzTIAZ+4Ecw0ndesyLUutiCkCFye4RgUvmxxFm8aZ8ZMWioBg3LRYbnIv6hbgJ
+         WUB/unbX5gyQ9RyD4D4MwZpo6tMM1i1+zcN/rubLss2gR3DLbQGLyaZQtd2PMg/pTd
+         jkdmBu1GRtlf4O5Ba1iGOjamkZrWFvY4bwKJG/ipHcmnXg1HT3ccdf1H1UPmkgGALU
+         YECkJTbBFHVXsYg4qhe0nCrjUdzVHcleylAd5XPOowgQ2cpXn8s25Lb6ocZ0Pn06pU
+         S3qIAwyCLs6XQ==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series adds the kernel's build ID to the stacktrace header printed
-in oops messages, warnings, etc. and the build ID for any module that
-appears in the stacktrace after the module name. The goal is to make the
-stacktrace more self-contained and descriptive by including the relevant
-build IDs in the kernel logs when something goes wrong. This can be used
-by post processing tools like script/decode_stacktrace.sh and kernel
-developers to easily locate the debug info associated with a kernel
-crash and line up what line and file things started falling apart at.
-
-This also includes a patch to make the buildid.c file use more const
-arguments and consolidate logic into buildid.c from kdump. These are
-left to the end as they were mostly cleanup patches. I don't know who
-exactly maintains this so I guess Andrew is the best option to merge all
-this code.
-
-Here's an example lkdtm stacktrace
-
- WARNING: CPU: 4 PID: 3255 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x28/0x30 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
- Modules linked in: lkdtm rfcomm algif_hash algif_skcipher af_alg xt_cgroup uinput xt_MASQUERADE
- CPU: 4 PID: 3255 Comm: bash Not tainted 5.11 #3 aa23f7a1231c229de205662d5a9e0d4c580f19a1
- Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
- pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=--)
- pc : lkdtm_WARNING+0x28/0x30 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
- lr : lkdtm_do_action+0x24/0x40 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
- sp : ffffffc0134fbca0
- x29: ffffffc0134fbca0 x28: ffffff92d53ba240
- x27: 0000000000000000 x26: 0000000000000000
- x25: 0000000000000000 x24: ffffffe3622352c0
- x23: 0000000000000020 x22: ffffffe362233366
- x21: ffffffe3622352e0 x20: ffffffc0134fbde0
- x19: 0000000000000008 x18: 0000000000000000
- x17: ffffff929b6536fc x16: 0000000000000000
- x15: 0000000000000000 x14: 0000000000000012
- x13: ffffffe380ed892c x12: ffffffe381d05068
- x11: 0000000000000000 x10: 0000000000000000
- x9 : 0000000000000001 x8 : ffffffe362237000
- x7 : aaaaaaaaaaaaaaaa x6 : 0000000000000000
- x5 : 0000000000000000 x4 : 0000000000000001
- x3 : 0000000000000008 x2 : ffffff93fef25a70
- x1 : ffffff93fef15788 x0 : ffffffe3622352e0
- Call trace:
-  lkdtm_WARNING+0x28/0x30 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
-  direct_entry+0x16c/0x1b4 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
-  full_proxy_write+0x74/0xa4
-  vfs_write+0xec/0x2e8
-  ksys_write+0x84/0xf0
-  __arm64_sys_write+0x24/0x30
-  el0_svc_common+0xf4/0x1c0
-  do_el0_svc_compat+0x28/0x3c
-  el0_svc_compat+0x10/0x1c
-  el0_sync_compat_handler+0xa8/0xcc
-  el0_sync_compat+0x178/0x180
- ---[ end trace 3d95032303e59e68 ]---
-
-Cc: Alexei Starovoitov <ast@kernel.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Baoquan He <bhe@redhat.com>
-Cc: Dave Young <dyoung@redhat.com>
-Cc: Evan Green <evgreen@chromium.org>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>
-Cc: Jessica Yu <jeyu@kernel.org>
-Cc: Jiri Olsa <jolsa@kernel.org>
-Cc: <kexec@lists.infradead.org>
-Cc: <linux-doc@vger.kernel.org>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Vivek Goyal <vgoyal@redhat.com>
-
-Stephen Boyd (7):
-  buildid: Add method to get running kernel's build ID
-  dump_stack: Add vmlinux build ID to stack traces
-  buildid: Add API to parse build ID out of buffer
-  module: Parse and stash build ID on insertion
-  printk: Make %pS and friends print module build ID
-  buildid: Mark some arguments const
-  kdump: Use vmlinux_build_id() to simplify
-
- Documentation/core-api/printk-formats.rst |  6 ++
- include/linux/buildid.h                   |  4 +
- include/linux/kallsyms.h                  |  6 +-
- include/linux/module.h                    |  6 +-
- kernel/crash_core.c                       | 46 ++----------
- kernel/kallsyms.c                         | 45 ++++++++----
- kernel/module.c                           | 24 +++++-
- lib/buildid.c                             | 89 +++++++++++++++++++----
- lib/dump_stack.c                          |  5 +-
- 9 files changed, 157 insertions(+), 74 deletions(-)
+On Fri, Feb 26, 2021 at 06:18:26PM +1100, Alistair Popple wrote:
+> Both migration and device private pages use special swap entries which
+> are manipluated by a range of inline functions. The arguments to these
+> are somewhat inconsitent so rework them to remove flag type arguments
+> and to make the arguments similar for both a read and write entry
+> creation.
+> 
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> ---
+>  include/linux/swapops.h | 56 ++++++++++++++++++++++-------------------
+>  mm/debug_vm_pgtable.c   | 12 ++++-----
+>  mm/hmm.c                |  2 +-
+>  mm/huge_memory.c        | 26 +++++++++++++------
+>  mm/hugetlb.c            | 10 +++++---
+>  mm/memory.c             | 10 +++++---
+>  mm/migrate.c            | 26 ++++++++++++++-----
+>  mm/mprotect.c           | 10 +++++---
+>  mm/rmap.c               | 10 +++++---
+>  9 files changed, 100 insertions(+), 62 deletions(-)
 
 
-base-commit: fe07bfda2fb9cdef8a4d4008a409bb02f35f1bd8
--- 
-https://chromeos.dev
-
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
