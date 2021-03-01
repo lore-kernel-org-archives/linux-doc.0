@@ -7,34 +7,34 @@ X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EAB0C433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 08:38:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D355AC433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 08:39:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 43FA264DE8
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 08:38:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A824064DEF
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 08:39:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233348AbhCAIip (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 03:38:45 -0500
-Received: from out30-44.freemail.mail.aliyun.com ([115.124.30.44]:44921 "EHLO
-        out30-44.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233335AbhCAIii (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 03:38:38 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04420;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0UPxZHnC_1614587862;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UPxZHnC_1614587862)
+        id S233327AbhCAIjQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 03:39:16 -0500
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:38594 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233339AbhCAIiu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 03:38:50 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R411e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0UPwsoVo_1614587843;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UPwsoVo_1614587843)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Mon, 01 Mar 2021 16:37:42 +0800
-Subject: Re: [PATCH v2 1/9] docs/zh_CN: Improve zh_CN/process/index.rst
+          Mon, 01 Mar 2021 16:37:23 +0800
+Subject: Re: [PATCH v2 0/9] docs/zh_CN: Improve language in zh_CN/process/
 To:     Wu XiangCheng <bobwxc@email.cn>
-Cc:     harryxiyou@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org
+Cc:     Harry Wei <harryxiyou@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
 References: <cover.1614488009.git.bobwxc@email.cn>
- <bf7d8e474ea3332a8595f46619b427b1ebbcb791.1614488009.git.bobwxc@email.cn>
 From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <4cbfdc6e-1fca-fa12-e169-14f9b74c7039@linux.alibaba.com>
-Date:   Mon, 1 Mar 2021 16:37:41 +0800
+Message-ID: <7df50b3b-9990-a816-0f45-e7324a490106@linux.alibaba.com>
+Date:   Mon, 1 Mar 2021 16:37:22 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
  Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <bf7d8e474ea3332a8595f46619b427b1ebbcb791.1614488009.git.bobwxc@email.cn>
+In-Reply-To: <cover.1614488009.git.bobwxc@email.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -44,40 +44,49 @@ X-Mailing-List: linux-doc@vger.kernel.org
 Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
 
 在 2021/2/28 下午1:37, Wu XiangCheng 写道:
-> Improve language and grammar of zh_CN/process/index.rst
+> Hi all,
 > 
-> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-> ---
->  Documentation/translations/zh_CN/process/index.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+> This set of patchs aims to polish context, improve on fluency, idiomatic
+> and grammar in some files in zh_CN/process/, and synchronize them with 
+> original files. Some structure modifications need to rewrite the whole 
+> sentences, so here are a lot of changes.
 > 
-> diff --git a/Documentation/translations/zh_CN/process/index.rst b/Documentation/translations/zh_CN/process/index.rst
-> index 8051a7b322c5..39e9c88fbaa6 100644
-> --- a/Documentation/translations/zh_CN/process/index.rst
-> +++ b/Documentation/translations/zh_CN/process/index.rst
-> @@ -13,11 +13,11 @@
->  与Linux 内核社区一起工作
->  ========================
->  
-> -那么你想成为Linux内核开发人员？ 欢迎！ 不但从技术意义上讲有很多关于内核的知识
-> -需要学，而且了解我们社区的工作方式也很重要。 阅读这些文章可以让您以更轻松地,
-> -麻烦最少的方式将更改合并到内核。
-> +你想成为Linux内核开发人员吗？欢迎之至！在学习许多关于内核的技术知识的同时，
-> +了解我们社区的工作方式也很重要。阅读这些文档可以让您以更轻松的、麻烦更少的
-> +方式将更改合并到内核。
->  
-> -以下是每位开发人员应阅读的基本指南。
-> +以下是每位开发人员都应阅读的基本指南：
->  
->  .. toctree::
->     :maxdepth: 1
-> @@ -47,7 +47,7 @@
->     management-style
->     embargoed-hardware-issues
->  
-> -这些是一些总体技术指南，由于缺乏更好的地方，现在已经放在这里
-> +这些是一些总体性技术指南，由于不大好分类而放在这里：
->  
->  .. toctree::
->     :maxdepth: 1
+> * V0
+> ** Add [Patch 1/9] ~ [Patch 5/9] 
+> 
+> * V1
+> ** Add [Patch 6/9] ~ [Patch 9/9]
+> ** Modified [Patch 1/9] ~ [Patch 5/9] under Alex Shi's suggestions.
+>    Previous discussions see:
+>      <https://lore.kernel.org/linux-doc/20210219090947.GA15328@mipc/>
+> 
+> * V2
+> ** Modified [Patch 6/9] ~ [Patch 9/9] under Alex Shi's suggestions.
+>    Previous discussions see:
+>      <https://lore.kernel.org/linux-doc/cover.1614162064.git.bobwxc@email.cn/>
+> ** No other new change.
+> 
+> Thanks!
+> 
+> Wu XiangCheng (9):
+>   docs/zh_CN: Improve zh_CN/process/index.rst
+>   docs/zh_CN: Improve zh_CN/process/1.Intro.rst
+>   docs/zh_CN: Improve zh_CN/process/2.Process.rst
+>   docs/zh_CN: Improve zh_CN/process/3.Early-stage.rst
+>   docs/zh_CN: Improve zh_CN/process/4.Coding.rst
+>   docs/zh_CN: Improve zh_CN/process/5.Posting.rst
+>   docs/zh_CN: Improve zh_CN/process/6.Followthrough
+>   docs/zh_CN: Improve zh_CN/process/7.AdvancedTopics
+>   docs/zh_CN: Improve zh_CN/process/8.Conclusion.rst
+> 
+>  .../translations/zh_CN/process/1.Intro.rst    | 155 +++++----
+>  .../translations/zh_CN/process/2.Process.rst  | 319 +++++++++---------
+>  .../zh_CN/process/3.Early-stage.rst           | 131 +++----
+>  .../translations/zh_CN/process/4.Coding.rst   | 262 +++++++-------
+>  .../translations/zh_CN/process/5.Posting.rst  | 223 ++++++------
+>  .../zh_CN/process/6.Followthrough.rst         | 141 ++++----
+>  .../zh_CN/process/7.AdvancedTopics.rst        | 121 ++++---
+>  .../zh_CN/process/8.Conclusion.rst            |  57 ++--
+>  .../translations/zh_CN/process/index.rst      |  10 +-
+>  9 files changed, 739 insertions(+), 680 deletions(-)
 > 
