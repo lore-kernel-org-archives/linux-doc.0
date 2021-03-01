@@ -2,82 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45810C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 15:47:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A54D3C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 15:53:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EE61164DDE
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 15:47:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 46E64600CD
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 15:53:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237137AbhCAPq6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 10:46:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55962 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236819AbhCAPq4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 10:46:56 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AFC4C061756;
-        Mon,  1 Mar 2021 07:46:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=fGQP+mV2y92qkbpjMBXPSQ03FtN3LiZq6yfm+Qczok4=; b=eINfi8rePq0BOqcbnRkDRGaTUU
-        j/qrilFBjLOCeVw+dDK6ymE27NlfTD4qj5PiC9OpEr92WRQhvK5mhl7EptC4VPBADqYyJ1mXMTKWZ
-        uD7r9jykhVFHBsqVynWGVz581McsTNLQ+uvh9G6q5zpYKTulcgADr2pUFmQpLcVHECdoVk7fVZKDq
-        abk3z4yLDVmB5v1h+3UvRwB/nnF/QT3CirQbrsTFT5WpID+C1WeE6KYyEbWFpdyvIAdJjCTxvqFCH
-        H4ASfBxiccWVlcOowbbH4SA0XB89kiH0ckEJtrbNWWglMNnrcCMPhVHWdrVW5ByJo4+gjFEIZcCe2
-        qjFREMYg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lGkjs-00FuI6-5F; Mon, 01 Mar 2021 15:45:49 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        id S237460AbhCAPxa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 10:53:30 -0500
+Received: from mail.skyhub.de ([5.9.137.197]:44432 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237394AbhCAPx3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 1 Mar 2021 10:53:29 -0500
+Received: from zn.tnic (p200300ec2f03de000c49bde6bf5f8ea0.dip0.t-ipconnect.de [IPv6:2003:ec:2f03:de00:c49:bde6:bf5f:8ea0])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id B8346301959;
-        Mon,  1 Mar 2021 16:45:39 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id A9A3620C80E0E; Mon,  1 Mar 2021 16:45:39 +0100 (CET)
-Date:   Mon, 1 Mar 2021 16:45:39 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     Juergen Gross <jgross@suse.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, mhocko@suse.com,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 3/3] kernel/smp: add more data to CSD lock debugging
-Message-ID: <YD0MI1Cye+YbOov3@hirez.programming.kicks-ass.net>
-References: <20210226112521.8641-1-jgross@suse.com>
- <20210226112521.8641-4-jgross@suse.com>
- <YDkkFBerBlW5uUBS@hirez.programming.kicks-ass.net>
- <20210226181205.GZ2743@paulmck-ThinkPad-P72>
- <YDlirwTWMmZ3g0ts@hirez.programming.kicks-ass.net>
- <20210301000704.GF2696@paulmck-ThinkPad-P72>
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 89E871EC0105;
+        Mon,  1 Mar 2021 16:52:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1614613963;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=a4oJdFpxQg9VwC++9PZ/n66EH9Uyg5uXgGcU17/8q6g=;
+        b=P2oo+rDN9qTQYwJH3/qzEiUUhEZuT5Y2oGLpKajp7d9lOdwBvDV86OTX1BSAcVyL/bZ1Jb
+        z4xpMqdSczHw4fudawj7lpdSOAH1N9atj52HxDhaTyftc+XA2ELNMoXMa8aCjo0PWqBeO4
+        N6kITEOCjeOLapteI23oeWqaRg1tXXM=
+Date:   Mon, 1 Mar 2021 16:52:34 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v21 08/26] x86/mm: Introduce _PAGE_COW
+Message-ID: <20210301155234.GF6699@zn.tnic>
+References: <20210217222730.15819-1-yu-cheng.yu@intel.com>
+ <20210217222730.15819-9-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210301000704.GF2696@paulmck-ThinkPad-P72>
+In-Reply-To: <20210217222730.15819-9-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 28, 2021 at 04:07:04PM -0800, Paul E. McKenney wrote:
-> On Fri, Feb 26, 2021 at 10:05:51PM +0100, Peter Zijlstra wrote:
-> > On Fri, Feb 26, 2021 at 10:12:05AM -0800, Paul E. McKenney wrote:
-> > > On Fri, Feb 26, 2021 at 05:38:44PM +0100, Peter Zijlstra wrote:
-> > > > 
-> > > > I hate all of this, but if this will finally catch the actual problem,
-> > > > we can then revert all this, so sure.
-> > > 
-> > > OK, I will bite...  What exactly do you hate about it?
-> > 
-> > It's ugly and messy. We're basically commiting a debug session. Normally
-> > gunk like this is done in private trees, then we find the problem and
-> > fix that and crap like this never sees the light of day.
-> 
-> Is your hatred due to the presence of debug code at all, or a belief that
-> this code is unlikely to be useful in any subsequent IPI-related bug hunt?
+On Wed, Feb 17, 2021 at 02:27:12PM -0800, Yu-cheng Yu wrote:
+> @@ -182,7 +206,7 @@ static inline int pud_young(pud_t pud)
+>  
+>  static inline int pte_write(pte_t pte)
+>  {
+> -	return pte_flags(pte) & _PAGE_RW;
 
-The clutter, mostly I think. There's a lot of debug sprinkled about.
+Put here a comment along the lines of:
+
+	/*
+	 * Shadow stack pages are always writable - but not by normal
+	 * instructions but only by shadow stack operations. Therefore, the
+	 * W=0, D=1 test.
+	 */
+
+to make it clear what this means.
+
+> +	return (pte_flags(pte) & _PAGE_RW) || pte_shstk(pte);
+>  }
+>  
+>  static inline int pte_huge(pte_t pte)
+> @@ -314,6 +338,24 @@ static inline pte_t pte_clear_flags(pte_t pte, pteval_t clear)
+>  	return native_make_pte(v & ~clear);
+>  }
+>  
+> +static inline pte_t pte_make_cow(pte_t pte)
+
+pte_mkcow like the rest of the "pte_mkX" functions.
+
+And below too, for the other newly added pXd_make_* helpers.
+
+
+>  static inline pmd_t pmd_mkdirty(pmd_t pmd)
+>  {
+> -	return pmd_set_flags(pmd, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
+> +	pmdval_t dirty = _PAGE_DIRTY;
+> +
+> +	/* Avoid creating (HW)Dirty=1, Write=0 PMDs */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pmd_flags(pmd) & _PAGE_RW))
+
+						      !(pmd_write(pmd))
+
+> +		dirty = _PAGE_COW;
+> +
+> +	return pmd_set_flags(pmd, dirty | _PAGE_SOFT_DIRTY);
+> +}
+
+...
+
+>  static inline pud_t pud_mkdirty(pud_t pud)
+>  {
+> -	return pud_set_flags(pud, _PAGE_DIRTY | _PAGE_SOFT_DIRTY);
+> +	pudval_t dirty = _PAGE_DIRTY;
+> +
+> +	/* Avoid creating (HW)Dirty=1, Write=0 PUDs */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pud_flags(pud) & _PAGE_RW))
+
+						      !(pud_write(pud))
+
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
