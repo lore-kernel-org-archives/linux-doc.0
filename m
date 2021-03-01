@@ -2,99 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 559F5C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:04:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E2925C43381
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:10:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2A7766513E
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:04:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C165265197
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:10:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235944AbhCARD4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 12:03:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43556 "EHLO
+        id S236986AbhCARJs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 12:09:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236559AbhCARCt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 12:02:49 -0500
+        with ESMTP id S237402AbhCARIP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 12:08:15 -0500
 Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1231::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFC8BC06178C;
-        Mon,  1 Mar 2021 09:00:10 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76F81C06178A;
+        Mon,  1 Mar 2021 09:07:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=AzpNt39AFo/zFqTeQtEuxgVZwQBuuvW7GOPciez3kew=; b=w4/uov0eFOQxmK3pB5PzL2hON0
-        Pq7OCZUFkyg4XpDXC60PcWhbpVN7Ye1CYqQy4LyJlPZA6DsexZEQO3KVxTuwbrDgYzhbSpZItQdGO
-        6lcLIBToBjLXTRuqJj1YJiqJ7RGsYG3TmSZ/B545cEM3TJj8RgGICZ2RpITDEHisPa23NWx4YsEgC
-        so7v3obP9JBAtuF74xrzuZArKyusF1T88MQQSVR4TNFuXy/CDhWX+syYg4nAXGb8Oj3TaXJcoGoo5
-        N/D0YvdCkO6SQSHWP+9K5KmX4kxPdhohPFQcLBR14Uk6sDoC9F2bIT5+R5E8yVqNQ5P0j0/Lz1RFn
-        HuIJzbeA==;
-Received: from [2601:1c0:6280:3f0::3ba4]
+        d=infradead.org; s=merlin.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=S9ngvRlZtXf9VEt5DT/R9Al/YBoa50u8y8yRC5/eV3I=; b=DvRBJz9kin5uzPMV/NRyHhC0rI
+        9Gg0FQgbtkHERwtTR2bCEGI/e54MTjeSd8b/hrXp98bMFZTcp3k4pCtIO/4h4huFXa9LRxdVFL2ys
+        F8gMhjpzgjWZN9GAGqcizX9hN4IIaBrAwEzifE/ctLfiJXLSgATDLmaYHcUInSiYOsxTVz84rP5xI
+        50hvL61tjgE0PRPn1+9rqJNbGOu67CKo3ViuCzIUuoFGxwXmo3/3FElmLhPLmYrVnLh/mX9vnRKT0
+        ubudCUviIAg1aJV38q+iC2vzeDyNhcp/C5IHmr+323TaWt0NFivB6rVOsxBZaKq46/qIj66w8yh/O
+        fbW6DGZw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
         by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1lGltw-0005FN-B3; Mon, 01 Mar 2021 17:00:08 +0000
-Subject: Re: [PATCH] docs: sphinx: Fix couple of spellings in the file
- rstFlatTable.py
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, corbet@lwn.net,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210301124136.11602-1-unixbhaskar@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <15d1c699-28bb-38ca-0e2b-1b7a3c92024b@infradead.org>
-Date:   Mon, 1 Mar 2021 09:00:05 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id 1lGm12-0006Aw-Av; Mon, 01 Mar 2021 17:07:28 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A23CE3003E1;
+        Mon,  1 Mar 2021 18:07:24 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 942022059E7A6; Mon,  1 Mar 2021 18:07:24 +0100 (CET)
+Date:   Mon, 1 Mar 2021 18:07:24 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Juergen Gross <jgross@suse.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        paulmck@kernel.org, mhocko@suse.com,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2 3/3] kernel/smp: add more data to CSD lock debugging
+Message-ID: <YD0fTLnQTQ7/M7fx@hirez.programming.kicks-ass.net>
+References: <20210301101336.7797-1-jgross@suse.com>
+ <20210301101336.7797-4-jgross@suse.com>
 MIME-Version: 1.0
-In-Reply-To: <20210301124136.11602-1-unixbhaskar@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210301101336.7797-4-jgross@suse.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/1/21 4:41 AM, Bhaskar Chowdhury wrote:
+On Mon, Mar 01, 2021 at 11:13:36AM +0100, Juergen Gross wrote:
+> In order to help identifying problems with IPI handling and remote
+> function execution add some more data to IPI debugging code.
 > 
+> There have been multiple reports of cpus looping long times (many
+> seconds) in smp_call_function_many() waiting for another cpu executing
+> a function like tlb flushing. Most of these reports have been for
+> cases where the kernel was running as a guest on top of KVM or Xen
+> (there are rumours of that happening under VMWare, too, and even on
+> bare metal).
 > 
-> s/automaticly/automatically/
-> s/buidler/builder/
+> Finding the root cause hasn't been successful yet, even after more than
+> 2 years of chasing this bug by different developers.
 > 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> Commit 35feb60474bf4f7 ("kernel/smp: Provide CSD lock timeout
+> diagnostics") tried to address this by adding some debug code and by
+> issuing another IPI when a hang was detected. This helped mitigating
+> the problem (the repeated IPI unlocks the hang), but the root cause is
+> still unknown.
+> 
+> Current available data suggests that either an IPI wasn't sent when it
+> should have been, or that the IPI didn't result in the target cpu
+> executing the queued function (due to the IPI not reaching the cpu,
+> the IPI handler not being called, or the handler not seeing the queued
+> request).
+> 
+> Try to add more diagnostic data by introducing a global atomic counter
+> which is being incremented when doing critical operations (before and
+> after queueing a new request, when sending an IPI, and when dequeueing
+> a request). The counter value is stored in percpu variables which can
+> be printed out when a hang is detected.
+> 
+> The data of the last event (consisting of sequence counter, source
+> cpu, target cpu, and event type) is stored in a global variable. When
+> a new event is to be traced, the data of the last event is stored in
+> the event related percpu location and the global data is updated with
+> the new event's data. This allows to track two events in one data
+> location: one by the value of the event data (the event before the
+> current one), and one by the location itself (the current event).
+> 
+> A typical printout with a detected hang will look like this:
+> 
+> csd: Detected non-responsive CSD lock (#1) on CPU#1, waiting 5000000003 ns for CPU#06 scf_handler_1+0x0/0x50(0xffffa2a881bb1410).
+> 	csd: CSD lock (#1) handling prior scf_handler_1+0x0/0x50(0xffffa2a8813823c0) request.
+>         csd: cnt(00008cc): ffff->0000 dequeue (src cpu 0 == empty)
+>         csd: cnt(00008cd): ffff->0006 idle
+>         csd: cnt(0003668): 0001->0006 queue
+>         csd: cnt(0003669): 0001->0006 ipi
+>         csd: cnt(0003e0f): 0007->000a queue
+>         csd: cnt(0003e10): 0001->ffff ping
+>         csd: cnt(0003e71): 0003->0000 ping
+>         csd: cnt(0003e72): ffff->0006 gotipi
+>         csd: cnt(0003e73): ffff->0006 handle
+>         csd: cnt(0003e74): ffff->0006 dequeue (src cpu 0 == empty)
+>         csd: cnt(0003e7f): 0004->0006 ping
+>         csd: cnt(0003e80): 0001->ffff pinged
+>         csd: cnt(0003eb2): 0005->0001 noipi
+>         csd: cnt(0003eb3): 0001->0006 queue
+>         csd: cnt(0003eb4): 0001->0006 noipi
+>         csd: cnt now: 0003f00
+> 
+> The idea is to print only relevant entries. Those are all events which
+> are associated with the hang (so sender side events for the source cpu
+> of the hanging request, and receiver side events for the target cpu),
+> and the related events just before those (for adding data needed to
+> identify a possible race). Printing all available data would be
+> possible, but this would add large amounts of data printed on larger
+> configurations.
+> 
+> Signed-off-by: Juergen Gross <jgross@suse.com>
+> Tested-by: Paul E. McKenney <paulmck@kernel.org>
 > ---
->  Documentation/sphinx/rstFlatTable.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/sphinx/rstFlatTable.py b/Documentation/sphinx/rstFlatTable.py
-> index 2019a55f6b18..386c435e479c 100755
-> --- a/Documentation/sphinx/rstFlatTable.py
-> +++ b/Documentation/sphinx/rstFlatTable.py
-> @@ -22,7 +22,7 @@ u"""
-> 
->      * *auto span* rightmost cell of a table row over the missing cells on the
->        right side of that table-row.  With Option ``:fill-cells:`` this behavior
-> -      can changed from *auto span* to *auto fill*, which automaticly inserts
-> +      can changed from *auto span* to *auto fill*, which automatically inserts
+> V2:
+> - add automatic data deciphering and sorting of entries
+> - add new trace point for leaving flush_smp_call_function_queue()
+> - add information when finding an empty call_single_queue
 
-	 can be changed
+They do not apply on top of these:
 
->        (empty) cells instead of spanning the last cell.
-> 
->      Options:
-> @@ -171,7 +171,7 @@ class ListTableBuilder(object):
->          for colwidth in colwidths:
->              colspec = nodes.colspec(colwidth=colwidth)
->              # FIXME: It seems, that the stub method only works well in the
-> -            # absence of rowspan (observed by the html buidler, the docutils-xml
-> +            # absence of rowspan (observed by the html builder, the docutils-xml
->              # build seems OK).  This is not extraordinary, because there exists
->              # no table directive (except *this* flat-table) which allows to
->              # define coexistent of rowspan and stubs (there was no use-case
-> --
-> 2.26.2
-> 
+  https://lkml.kernel.org/r/20210220231712.2475218-2-namit@vmware.com
 
+:-/
 
--- 
-~Randy
+> @@ -290,6 +476,19 @@ static DEFINE_PER_CPU_SHARED_ALIGNED(call_single_data_t, csd_data);
+>  
+>  void __smp_call_single_queue(int cpu, struct llist_node *node)
+>  {
+> +#ifdef CONFIG_CSD_LOCK_WAIT_DEBUG
+> +	if (static_branch_unlikely(&csdlock_debug_extended)) {
+> +		unsigned int type;
+> +
+> +		type = CSD_TYPE(container_of(node, call_single_data_t,
+> +					     node.llist));
+> +		if (type == CSD_TYPE_SYNC || type == CSD_TYPE_ASYNC) {
+> +			__smp_call_single_queue_debug(cpu, node);
+> +			return;
+> +		}
+> +	}
+> +#endif
+
+This really ought to be in generic_exec_single(), because there we know
+the type matches.
+
 
