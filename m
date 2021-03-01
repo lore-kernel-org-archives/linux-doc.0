@@ -2,176 +2,310 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05D50C43603
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 16:15:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4468C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 16:56:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB4C164D90
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 16:15:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A6AE9650BD
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 16:56:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237652AbhCAQPB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 11:15:01 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:10662 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237535AbhCAQME (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 11:12:04 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B603d12160002>; Mon, 01 Mar 2021 08:11:02 -0800
-Received: from HKMAIL102.nvidia.com (10.18.16.11) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 1 Mar
- 2021 16:10:59 +0000
-Received: from HKMAIL101.nvidia.com (10.18.16.10) by HKMAIL102.nvidia.com
- (10.18.16.11) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 1 Mar
- 2021 16:10:54 +0000
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.106)
- by HKMAIL101.nvidia.com (10.18.16.10) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2 via Frontend Transport; Mon, 1 Mar 2021 16:10:53 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iIvfkYIldJFlB2bF9iVlVjYBgyx3WuWo60Tnp/Kz5ulnafHnu521giNPp005sUWEs31Nn3OSJBoAVz0R6yMBicmj7UvaVacJP9KLqNXCTcuwdSCsCKnNzqc58AJyWB6u62gaIwunOU34J+69ttCrwdF4O9bngupVyBlF8hBMwzZp0unZNZuYMCOJIZ51ZM8TAPIDJPYskgD1YofW5YNN1Dpc2D1FXgcRdshOT80IlpayuhJ5oFdj3pRZ6027DhpHiAvUUrjRDk8hgla6w2dyPdYGL4lTg9YSM0guw8qqq57bl7bQUYUtIknPswdJ8sBAS1CUPcjIviRWcPjAIrcx2w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GVgJyOzesM6AuTpgAxp4tGR/vGa6dnCRQWH6QFebQWQ=;
- b=SUUiJQhWku40N/hWDe5iTtnaZcFF5XsrcKzdmpW+OeBiIuzlEx6UKW9ztbOkFKIEjIiTld023V+ANc2zMzF5lheF+ECT6r+IrLrfZFe047jMBmnz/mJNxgim5TeIwjwC3oStQQ6SFUIctBpzkO6aVhrVJXWbgPWpUb6/6QJFkyot4hgndVGa+PmCaXFLxsoKxOHjohS/g6ia7UWPPwe2pse/gfFNloQPpA0vHywrNho/rPDIxF4vt/mwJGhRO1lKUMBghLDqzBl0rkoIAxwvYI+0Z0oo4nVMyhpFIv9ww2XUlgDWhGS1RXZGTBCFarBZdpMEwDjrHQbyKS6Yu4cGWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB3739.namprd12.prod.outlook.com (2603:10b6:5:1c4::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.22; Mon, 1 Mar
- 2021 16:10:51 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3890.026; Mon, 1 Mar 2021
- 16:10:51 +0000
-Date:   Mon, 1 Mar 2021 12:10:49 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Alistair Popple <apopple@nvidia.com>
-CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <jhubbard@nvidia.com>,
-        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <hch@infradead.org>,
-        <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 3/8] mm/rmap: Split try_to_munlock from try_to_unmap
-Message-ID: <20210301161049.GJ4247@nvidia.com>
-References: <20210226071832.31547-1-apopple@nvidia.com>
- <20210226071832.31547-4-apopple@nvidia.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20210226071832.31547-4-apopple@nvidia.com>
-X-ClientProxiedBy: BL1PR13CA0158.namprd13.prod.outlook.com
- (2603:10b6:208:2bd::13) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+        id S235277AbhCAQz2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 11:55:28 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:39879 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234148AbhCAQwD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 11:52:03 -0500
+Received: from FRIBB15 ([84.62.17.44]) by mrelayeu.kundenserver.de (mreue009
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1MoNy4-1laiM12j0K-00opkm; Mon, 01
+ Mar 2021 17:49:17 +0100
+From:   "Johannes Freyberger" <Johannes@Freyberger.de>
+To:     <ruslan.bilovol@gmail.com>
+Cc:     <balbi@kernel.org>, <corbet@lwn.net>, <gregkh@linuxfoundation.org>,
+        <gschmottlach@gmail.com>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH 0/8] USB Audio Gadget part 2: Feedback endpoint, Volume/Mute support
+Date:   Mon, 1 Mar 2021 17:49:16 +0100
+Message-ID: <002f01d70eba$d1b365a0$751a30e0$@Freyberger.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.115.133) by BL1PR13CA0158.namprd13.prod.outlook.com (2603:10b6:208:2bd::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.9 via Frontend Transport; Mon, 1 Mar 2021 16:10:50 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lGl8D-0032CY-C1; Mon, 01 Mar 2021 12:10:49 -0400
-X-Header: ProcessedBy-CMR-outbound
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1614615062; bh=GVgJyOzesM6AuTpgAxp4tGR/vGa6dnCRQWH6QFebQWQ=;
-        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
-         From:To:CC:Subject:Message-ID:References:Content-Type:
-         Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-         X-MS-Exchange-MessageSentRepresentingType:X-Header;
-        b=YS4YDlR5gI45XNcgZrRPC4haxzCo+qdJEB3GKWryFlod8PfutFipT8HmRj7hlcN81
-         3b8f4faXlmGhZoQEd7yUvTvQe11b6eKb25dZB67C1C+iJGWvZQGXXh1Tb3ByW0nvnM
-         384GgTA54dt7POC40CS7Eo3B6Afw21aEafWsVruiJH+x95LbbGy/OBq5fJ+TFR6988
-         ikBUDL1yqe3Jz5SkLO3woY0mStNDl7/cMsVjR4O3Oq1sGiB8DK3z1YR/ESs9p1PEkF
-         +n2vq8qK83YXOwdsaIpS6Ho8qk2hP12/Keyixo/8MZPznJvZDgXi95Tg4nm00oc/+q
-         aP2ncZfW9MLMw==
+Content-Type: text/plain;
+        charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AdcOt3r//gS6ofvdQq+9nU3AjE/rOg==
+Content-Language: de
+X-Provags-ID: V03:K1:v9xVgU/EbrblPbGe0hie//MyhZyjEtNfVSVOsu5t1vpScHoOmB4
+ Od1ftIOiJU9qxp0Xd2E3Fi0feJutvjDptVa0xBFwpq3o+f20ieJMsCkoRqwzTlTVyfXEjwe
+ lF35/7InNg1oHw16mYNaJkJxWK0n9Ka9aAFEMvZSZlcE3KYrPkGJqURrra/1FyqFkLOFuzI
+ uSscD0mIfe5R9jSn0sNtA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:l/iXmPrCb4s=:LxGvaYbuu6M82e3I6Efcik
+ vYuS4OCCtestn62OGjbDNie9k0f5eb1Ed0cJ9BVHRzzqPvbnePQPwc9AIAky3gKfQ10JlnHP+
+ z0s8Sh4x88IZgE/hyFaTrI10psHTDH2atc6tyzSQ0dHvUGmkRxqGGLWXk9YRxXVc7Lj4EuqFR
+ xgEn64Ad3+bphHZtLvxGCELpqteEMZctqIDx7OF9+OCxJ499SCczNn5GMGkdNg0/9C4/5J6Hx
+ LBdRc6eAuUpYWPS5Ar9sNAEWOowEACiIZLBpB7LBI/BtJ3YergV/+9zPygsadMjX6AWe0xGEm
+ +XaWvvKLRvSercbLoAjpLA1CYOAl40pCqv3RgmJ/eXEqFrIS8ldoAx8FCvU1IUFHqh7ybockG
+ M9YOZdiGbxH+A030BWqfPqzrdbaZPUDWv1mFY89KC9gRHXGiAjzM4Se6eHQt9iH5H+kXy8nzF
+ F35sS2Aayw==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 26, 2021 at 06:18:27PM +1100, Alistair Popple wrote:
-> The behaviour of try_to_unmap_one() is difficult to follow because it
-> performs different operations based on a fairly large set of flags used
-> in different combinations.
-> 
-> TTU_MUNLOCK is one such flag. However it is exclusively used by
-> try_to_munlock() which specifies no other flags. Therefore rather than
-> overload try_to_unmap_one() with unrelated behaviour split this out into
-> it's own function and remove the flag.
-> 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> 
-> 
-> Given the comments on not needing to hold mmap_lock it was not 100% clear
-> to me if it is safe to check vma->vma_flags & VM_LOCKED and if re-checking
-> under the ptl was significant. I left the extra check in case it was, but
-> it seems one of the checks is redunant as either the first check is racey
-> or the second check is unneccsary.
+Hi Ruslan,
 
-The rmap doesn't hold the mmap_lock so I think both of these cases are
-racey.
+thanks for all your efforts to make the USB Audio Gadget work in Win10 using
+UAC2. Meanwhile I managed to apply and compile your previous modifications
+and now my Raspberry PI shows up in the Windows Device Manager as a valid
+UAC2 audio device. Unfortunately it still doesn't work to transfer any audio
+as it seems the audio endpoints or the topology is not working. I checked it
+with some tools and found one providing some information on the USB part
+(it's called UVCview.exe and is part of the Windows Driver Kit). Here's the
+output which I hope can give some hints on the problems still existing in
+this driver:
 
-eg 
+          ---===>Device Information<===---
+English product name: "Linux USB Audio Gadget"
 
-apply_vma_lock_flags()
+ConnectionStatus:                  
+Current Config Value:              0x01  -> Device Bus Speed: High
+Device Address:                    0x0F
+Open Pipes:                           0
+*!*ERROR:  No open pipes!
 
-	vma = find_vma(current->mm, start);
-	if (!vma || vma->vm_start > start)
-		return -ENOMEM;
+          ===>Device Descriptor<===
+bLength:                           0x12
+bDescriptorType:                   0x01
+bcdUSB:                          0x0200
+bDeviceClass:                      0xEF  -> This is a Multi-interface
+Function Code Device
+bDeviceSubClass:                   0x02  -> This is the Common Class Sub
+Class
+bDeviceProtocol:                   0x01  -> This is the Interface
+Association Descriptor protocol
+bMaxPacketSize0:                   0x40 = (64) Bytes
+idVendor:                        0x1D6B = The Linux Foundation
+idProduct:                       0x0101
+bcdDevice:                       0x0510
+iManufacturer:                     0x01
+     English (United States)  "Linux 5.10.17-v7l-R3LAY_TEST+ with
+fe980000.usb"
+iProduct:                          0x02
+     English (United States)  "Linux USB Audio Gadget"
+iSerialNumber:                     0x00
+bNumConfigurations:                0x01
 
-	prev = vma->vm_prev;
-	if (start > vma->vm_start)
-		prev = vma;
+          ===>Configuration Descriptor<===
+bLength:                           0x09
+bDescriptorType:                   0x02
+wTotalLength:                    0x00E2  -> Validated
+bNumInterfaces:                    0x03
+bConfigurationValue:               0x01
+iConfiguration:                    0x00
+bmAttributes:                      0xC0  -> Bus Powered
+MaxPower:                          0x01 =   2 mA
 
-	for (nstart = start ; ; ) {
-		vm_flags_t newflags = vma->vm_flags & VM_LOCKED_CLEAR_MASK;
+          ===>IAD Descriptor<===
+bLength:                           0x08
+bDescriptorType:                   0x0B
+bFirstInterface:                   0x00
+bInterfaceCount:                   0x03
+bFunctionClass:                    0x01  -> Audio Interface Class
+bFunctionSubClass:                 0x00
+*!*CAUTION:    This appears to be an invalid bFunctionSubClass
+bFunctionProtocol:                 0x20
+iFunction:                         0x04
+     English (United States)  "R3lay PI"
 
-		newflags |= flags;
- [...]
-mlock_fixup()
-	/*
-	 * vm_flags is protected by the mmap_lock held in write mode.
-	 * It's okay if try_to_unmap_one unmaps a page just after we
-	 * set VM_LOCKED, populate_vma_page_range will bring it back.
-	 */
+          ===>Interface Descriptor<===
+bLength:                           0x09
+bDescriptorType:                   0x04
+bInterfaceNumber:                  0x00
+bAlternateSetting:                 0x00
+bNumEndpoints:                     0x00
+bInterfaceClass:                   0x01  -> Audio Interface Class
+bInterfaceSubClass:                0x01  -> Audio Control Interface SubClass
+bInterfaceProtocol:                0x20
+CAUTION:  This may be an invalid bInterfaceProtocol
+iInterface:                        0x05
+     English (United States)  "Topology Control"
 
-	if (lock)
-		vma->vm_flags = newflags;
-	else
-               	vma->vm_flags &= VM_LOCKED_CLEAR_MASK;
+          ===>Audio Control Interface Header Descriptor<===
+bLength:                           0x09
+bDescriptorType:                   0x24
+bDescriptorSubtype:                0x01
+bcdADC:                          0x0200
+wTotalLength:                    0x5308
+bInCollection:                     0x00
 
-Which is only done under the mmap_sem
+          ===>Descriptor Hex Dump<===
+bLength:                           0x08
+bDescriptorType:                   0x24
+08 24 0A 06 01 01 00 06 
 
-> +static bool try_to_munlock_one(struct page *page, struct vm_area_struct *vma,
-> +		     unsigned long address, void *arg)
-> +{
-> +	struct page_vma_mapped_walk pvmw = {
-> +		.page = page,
-> +		.vma = vma,
-> +		.address = address,
-> +	};
-> +	bool ret = true;
-> +
-> +	/* munlock has nothing to gain from examining un-locked vmas */
-> +	if (!(vma->vm_flags & VM_LOCKED))
-> +		return true;
+          ===>Descriptor Hex Dump<===
+bLength:                           0x08
+bDescriptorType:                   0x24
+08 24 0A 05 01 01 00 07 
 
-The mmap_sem can't be obtained in the rmap walkers due to lock
-ordering, the various rmap locks are nested under the mmap_sem
+          ===>Descriptor Hex Dump<===
+bLength:                           0x11
+bDescriptorType:                   0x24
+11 24 02 01 01 01 00 05 02 03 00 00 00 00 03 00 
+08 
 
-So, when reading data that is not locked it should be written as:
+          ===>Descriptor Hex Dump<===
+bLength:                           0x11
+bDescriptorType:                   0x24
+11 24 02 02 00 02 00 06 02 03 00 00 00 00 03 00 
+09 
 
-   READ_ONCE(vma->vm_flags) & VM_LOCKED
+          ===>Descriptor Hex Dump<===
+bLength:                           0x0C
+bDescriptorType:                   0x24
+0C 24 03 04 01 01 00 02 06 03 00 0A 
 
-> +	while (page_vma_mapped_walk(&pvmw)) {
-> +		/*
-> +		 * If the page is mlock()d, we cannot swap it out.
-> +		 * If it's recently referenced (perhaps page_referenced
-> +		 * skipped over this mm) then we should reactivate it.
-> +		 */
-> +		if (vma->vm_flags & VM_LOCKED) {
+          ===>Descriptor Hex Dump<===
+bLength:                           0x0C
+bDescriptorType:                   0x24
+0C 24 03 03 00 03 00 01 05 03 00 0B 
 
-And since we write the data without holding the PTLs this looks
-pointless, unless there is some other VM_LOCKED manipulation
+          ===>Interface Descriptor<===
+bLength:                           0x09
+bDescriptorType:                   0x04
+bInterfaceNumber:                  0x01
+bAlternateSetting:                 0x00
+bNumEndpoints:                     0x00
+bInterfaceClass:                   0x01  -> Audio Interface Class
+bInterfaceSubClass:                0x02  -> Audio Streaming Interface
+SubClass
+bInterfaceProtocol:                0x20
+CAUTION:  This may be an invalid bInterfaceProtocol
+iInterface:                        0x0C
+     English (United States)  "Playback Inactive"
 
-Jason
+          ===>Interface Descriptor<===
+bLength:                           0x09
+bDescriptorType:                   0x04
+bInterfaceNumber:                  0x01
+bAlternateSetting:                 0x01
+bNumEndpoints:                     0x02
+bInterfaceClass:                   0x01  -> Audio Interface Class
+bInterfaceSubClass:                0x02  -> Audio Streaming Interface
+SubClass
+bInterfaceProtocol:                0x20
+CAUTION:  This may be an invalid bInterfaceProtocol
+iInterface:                        0x0D
+     English (United States)  "Playback Active"
+
+          ===>Descriptor Hex Dump<===
+bLength:                           0x10
+bDescriptorType:                   0x24
+10 24 01 01 00 01 01 00 00 00 02 03 00 00 00 00 
+
+          ===>Audio Streaming Format Type Descriptor<===
+bLength:                           0x06
+bDescriptorType:                   0x24
+bDescriptorSubtype:                0x02
+bFormatType:                       0x01
+bNrChannels:                       0x02
+bSubframeSize:                     0x10
+bBitResolution:                    0x07
+bSamFreqType:                      0x05
+tSamFreq[1]:                   0x380501 (3671297 Hz)
+tSamFreq[2]:                   0x080401 (525313 Hz)
+tSamFreq[3]:                   0x000125 (293 Hz)
+tSamFreq[4]:                   0x000000 (0 Hz)
+tSamFreq[5]:                   0x050700 (329472 Hz)
+
+          ===>Endpoint Descriptor<===
+bLength:                           0x07
+bDescriptorType:                   0x05
+bEndpointAddress:                  0x01  -> Direction: OUT - EndpointID: 1
+bmAttributes:                      0x05  -> Isochronous Transfer Type
+                   Synchronization Type = Asynchronous
+Bulk Transfer Type
+wMaxPacketSize:                  0x0138 = 1 transactions per microframe,
+0x138 max bytes
+bInterval:                         0x04
+
+          ===>Descriptor Hex Dump<===
+bLength:                           0x08
+bDescriptorType:                   0x25
+08 25 01 00 00 00 00 00 
+
+          ===>Endpoint Descriptor<===
+bLength:                           0x07
+bDescriptorType:                   0x05
+bEndpointAddress:                  0x81  -> Direction: IN - EndpointID: 1
+bmAttributes:                      0x11  -> Isochronous Transfer Type
+                   Synchronization Type = No Synchronization
+Bulk Transfer Type
+wMaxPacketSize:                  0x0004 = 1 transactions per microframe,
+0x04 max bytes
+bInterval:                         0x04
+
+          ===>Interface Descriptor<===
+bLength:                           0x09
+bDescriptorType:                   0x04
+bInterfaceNumber:                  0x02
+bAlternateSetting:                 0x00
+bNumEndpoints:                     0x00
+bInterfaceClass:                   0x01  -> Audio Interface Class
+bInterfaceSubClass:                0x02  -> Audio Streaming Interface
+SubClass
+bInterfaceProtocol:                0x20
+CAUTION:  This may be an invalid bInterfaceProtocol
+iInterface:                        0x0E
+     English (United States)  "Capture Inactive"
+
+          ===>Interface Descriptor<===
+bLength:                           0x09
+bDescriptorType:                   0x04
+bInterfaceNumber:                  0x02
+bAlternateSetting:                 0x01
+bNumEndpoints:                     0x01
+bInterfaceClass:                   0x01  -> Audio Interface Class
+bInterfaceSubClass:                0x02  -> Audio Streaming Interface
+SubClass
+bInterfaceProtocol:                0x20
+CAUTION:  This may be an invalid bInterfaceProtocol
+iInterface:                        0x0F
+     English (United States)  "Capture Active"
+
+          ===>Descriptor Hex Dump<===
+bLength:                           0x10
+bDescriptorType:                   0x24
+10 24 01 04 00 01 01 00 00 00 02 03 00 00 00 00 
+
+          ===>Audio Streaming Format Type Descriptor<===
+bLength:                           0x06
+bDescriptorType:                   0x24
+bDescriptorSubtype:                0x02
+bFormatType:                       0x01
+bNrChannels:                       0x02
+bSubframeSize:                     0x10
+bBitResolution:                    0x07
+bSamFreqType:                      0x05
+tSamFreq[1]:                   0xC40582 (12846466 Hz)
+tSamFreq[2]:                   0x080400 (525312 Hz)
+tSamFreq[3]:                   0x000125 (293 Hz)
+tSamFreq[4]:                   0x000000 (0 Hz)
+tSamFreq[5]:                   0x000000 (0 Hz)
+
+          ===>Endpoint Descriptor<===
+bLength:                           0x07
+bDescriptorType:                   0x05
+bEndpointAddress:                  0x82  -> Direction: IN - EndpointID: 2
+bmAttributes:                      0x05  -> Isochronous Transfer Type
+                   Synchronization Type = Asynchronous
+Bulk Transfer Type
+wMaxPacketSize:                  0x00C4 = 1 transactions per microframe,
+0xC4 max bytes
+bInterval:                         0x04
+
+          ===>Descriptor Hex Dump<===
+bLength:                           0x08
+bDescriptorType:                   0x25
+08 25 01 00 00 00 00 00
+
