@@ -2,92 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12BCAC433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:20:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A172C43381
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:56:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D901C65201
-	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:20:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DCC0065055
+	for <linux-doc@archiver.kernel.org>; Mon,  1 Mar 2021 17:56:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237918AbhCARTv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 1 Mar 2021 12:19:51 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48350 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237327AbhCARPt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 1 Mar 2021 12:15:49 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F41164F95;
-        Mon,  1 Mar 2021 16:45:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614617154;
-        bh=BgEBO1YfcoTcNSvVv4L2rDo6/saPOBPSddSbNh3hoeg=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=RAimudY26B/q7zpn7QUYAmgQGiBDhOU28tUGaSwdmUodjYeIgpTimn5H2s/giTjUG
-         1PhAMZo01o7fWuo5sXj9PPCAg0ybYMNI2R4EdJARnLqD5jZocOxQJbhCvSODTIOxz6
-         A3LD5LXeCL2Y3rvq+zFsLomQI4imt076IzaeoQdXHT4tQQzn5dAnW+Pnj2lJKOxoCs
-         gmdMCioWMTytDkTpxgzDspUVUhBCLzg4aRH6iMsS1Ve8/OnmjR9vuYSocHkeKEjAeg
-         VoNuJ+pmwtqfYOFhPRPxp0vS+WcEQv+aT6MxZmpeNE4G5dBJPiaIKsn4hNmMOpTWku
-         p3BBz/Gulyk7A==
-Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
-        id C1E4735225E7; Mon,  1 Mar 2021 08:45:53 -0800 (PST)
-Date:   Mon, 1 Mar 2021 08:45:53 -0800
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     =?iso-8859-1?Q?J=FCrgen_Gro=DF?= <jgross@suse.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        mhocko@suse.com, Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH 3/3] kernel/smp: add more data to CSD lock debugging
-Message-ID: <20210301164553.GI2696@paulmck-ThinkPad-P72>
-Reply-To: paulmck@kernel.org
-References: <20210226112521.8641-1-jgross@suse.com>
- <20210226112521.8641-4-jgross@suse.com>
- <YDkkFBerBlW5uUBS@hirez.programming.kicks-ass.net>
- <20210226181205.GZ2743@paulmck-ThinkPad-P72>
- <YDlirwTWMmZ3g0ts@hirez.programming.kicks-ass.net>
- <20210301000704.GF2696@paulmck-ThinkPad-P72>
- <YD0MI1Cye+YbOov3@hirez.programming.kicks-ass.net>
- <6bc3d90d-f369-e91d-01f7-b83a48e9721d@suse.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+        id S235412AbhCARzz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 1 Mar 2021 12:55:55 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13209 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238631AbhCARuJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 12:50:09 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B603d29230000>; Mon, 01 Mar 2021 09:49:23 -0800
+Received: from HKMAIL103.nvidia.com (10.18.16.12) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 1 Mar
+ 2021 17:49:20 +0000
+Received: from HKMAIL103.nvidia.com (10.18.16.12) by HKMAIL103.nvidia.com
+ (10.18.16.12) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 1 Mar
+ 2021 17:46:46 +0000
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.108)
+ by HKMAIL103.nvidia.com (10.18.16.12) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2 via Frontend Transport; Mon, 1 Mar 2021 17:46:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EFVbnwnrw8qnly/zwDwfbu+B94qDVwSg3iuERtvKOGPh4Y22OMfahxfI9Ie74AvbWF1cwwWy/2Cj7tOcC0VaQUp7KB9Vd6mbI8x+LC2TGzspQMPlZ+XdlDeUyiJk69DJnftqYvmclYhrBGled0gZKsftrOTLi/fiO5N3S6IKPxu73MJ3pfZHJiDvCXcoF6R+orT/fEScVedMvxudcNLDQg2shcxfxPre+ViaV7YoEWhUd7t7Kuu7Kw/k7zGCy8vEVgjOT3fMUrvq1ibbZdxMGO//DhFbC85uCnK+B+aUxeunzv8M7PifAiLwQoKfjXUx4m0iMIahWfewzYK23SffMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Y8pdUlkTt7laEoofqh+gCwYtoAFeW/XvvLozoOUJdds=;
+ b=IVoNxQsXijD7eGHGmSHm2UfKhgfr11UZ35gle62wNb/GyVSL7V4Sj9+Dl3t/RQZ2Ux0vmxjriE0Z9W1JmpU2TK/7R6zy1kV0fVtotjmRcYFhEM8ChXKQpoYrNFImoEYAQo10kOW/ZZvJH75HYXZ3JRO+hcDtmt8UlA6fazqpR0dDgqsnzGDLm4rHrm+AeAF1bMXXGiW97ydj17jLuWBRuaoZ4ay/xSO34x5zJehXPjRxXe/pySQvytUsdW++LPgAF332jW8oT954iJuM3ObEMC7c+LGUs61X3Y50emCCprRy7cpeUrXk3kIC6HJ/11Hk2hxmTh5nF6cJhTL5X+1KrA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB3833.namprd12.prod.outlook.com (2603:10b6:5:1cf::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19; Mon, 1 Mar
+ 2021 17:46:43 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3890.026; Mon, 1 Mar 2021
+ 17:46:43 +0000
+Date:   Mon, 1 Mar 2021 13:46:42 -0400
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Alistair Popple <apopple@nvidia.com>
+CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
+        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <jhubbard@nvidia.com>,
+        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <hch@infradead.org>,
+        <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 1/8] mm: Remove special swap entry functions
+Message-ID: <20210301174642.GP4247@nvidia.com>
+References: <20210226071832.31547-1-apopple@nvidia.com>
+ <20210226071832.31547-2-apopple@nvidia.com>
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6bc3d90d-f369-e91d-01f7-b83a48e9721d@suse.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210226071832.31547-2-apopple@nvidia.com>
+X-ClientProxiedBy: BL0PR0102CA0061.prod.exchangelabs.com
+ (2603:10b6:208:25::38) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.162.115.133) by BL0PR0102CA0061.prod.exchangelabs.com (2603:10b6:208:25::38) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19 via Frontend Transport; Mon, 1 Mar 2021 17:46:43 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lGmd0-0033mo-3R; Mon, 01 Mar 2021 13:46:42 -0400
+X-Header: ProcessedBy-CMR-outbound
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1614620963; bh=Y8pdUlkTt7laEoofqh+gCwYtoAFeW/XvvLozoOUJdds=;
+        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+         From:To:CC:Subject:Message-ID:References:Content-Type:
+         Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+         X-MS-Exchange-MessageSentRepresentingType:X-Header;
+        b=WQek7+9WJID/D6OIMheZEoOPDcWZGUB5ZPAr6KaS7u8L9vDATkZMXw5QBb4cV4wJ5
+         i1Fs1mBiT0/wKq7K+3SJ3e+x2Oj353Rh9acmIyg8whhpOPl2UiyiXKrZ0ppddJsCwd
+         wtW2k7cZy9GEYxh4c0wKaFoJ0qfsgg3XRYNzjhRQjSLYd3jvDbgL9A2+TdgShRCzNk
+         JLaAA6z/HVfn1lJz2LdyJNRTycw7yntrOgdwqJIFD3An5xh9AEO8heby/yOZE4OcGw
+         AmTK9kotlxGE41E7tqbBe9EM4esvk3ACNAyFCP5MbbpEs1CHImbQ2EIOHj60JN2c1h
+         On9fWJPWy2Z5A==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 01, 2021 at 04:53:27PM +0100, Jürgen Groß wrote:
-> On 01.03.21 16:45, Peter Zijlstra wrote:
-> > On Sun, Feb 28, 2021 at 04:07:04PM -0800, Paul E. McKenney wrote:
-> > > On Fri, Feb 26, 2021 at 10:05:51PM +0100, Peter Zijlstra wrote:
-> > > > On Fri, Feb 26, 2021 at 10:12:05AM -0800, Paul E. McKenney wrote:
-> > > > > On Fri, Feb 26, 2021 at 05:38:44PM +0100, Peter Zijlstra wrote:
-> > > > > > 
-> > > > > > I hate all of this, but if this will finally catch the actual problem,
-> > > > > > we can then revert all this, so sure.
-> > > > > 
-> > > > > OK, I will bite...  What exactly do you hate about it?
-> > > > 
-> > > > It's ugly and messy. We're basically commiting a debug session. Normally
-> > > > gunk like this is done in private trees, then we find the problem and
-> > > > fix that and crap like this never sees the light of day.
-> > > 
-> > > Is your hatred due to the presence of debug code at all, or a belief that
-> > > this code is unlikely to be useful in any subsequent IPI-related bug hunt?
-> > 
-> > The clutter, mostly I think. There's a lot of debug sprinkled about.
+On Fri, Feb 26, 2021 at 06:18:25PM +1100, Alistair Popple wrote:
+> Remove the migration and device private entry_to_page() and
+> entry_to_pfn() inline functions and instead open code them directly.
+> This results in shorter code which is easier to understand.
 > 
-> I agree.
-> 
-> In case we are able to identify the root cause of the problem I think
-> it would be no problem to revert this patch and put a comment into smp.c
-> naming the commit-id of this patch and what it was good for. This will
-> enable future bug hunters to make use of the patch without spoiling the
-> code for others.
+> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> ---
+>  arch/s390/mm/pgtable.c  |  2 +-
+>  fs/proc/task_mmu.c      | 23 +++++++------------
+>  include/linux/swap.h    |  4 ++--
+>  include/linux/swapops.h | 51 ++++-------------------------------------
+>  mm/hmm.c                |  5 ++--
+>  mm/memcontrol.c         |  2 +-
+>  mm/memory.c             | 10 ++++----
+>  mm/migrate.c            |  6 ++---
+>  mm/page_vma_mapped.c    |  6 ++---
+>  9 files changed, 30 insertions(+), 79 deletions(-)
 
-Works for me!
+I wish you could come up with a more descriptive word that special
+here
 
-							Thanx, Paul
+What I understand is this is true when the swap_offset is a pfn?
+
+> -static inline struct page *migration_entry_to_page(swp_entry_t entry)
+> -{
+> -	struct page *p = pfn_to_page(swp_offset(entry));
+> -	/*
+> -	 * Any use of migration entries may only occur while the
+> -	 * corresponding page is locked
+> -	 */
+> -	BUG_ON(!PageLocked(compound_head(p)));
+> -	return p;
+
+And this constraint has been completely lost?
+
+A comment in front of the is_special_entry explaining all the rule
+would help alot
+
+Transformation looks fine otherwise
+
+Jason
