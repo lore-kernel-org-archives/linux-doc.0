@@ -2,41 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 822B5C43332
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5E83C43331
 	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6291660241
+	by mail.kernel.org (Postfix) with ESMTP id 80D9664F1E
 	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580363AbhCBSCU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 13:02:20 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:10019 "EHLO
+        id S1580367AbhCBSCX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 13:02:23 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:11982 "EHLO
         hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1837778AbhCBI6o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 03:58:44 -0500
+        with ESMTP id S1837925AbhCBJNK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 04:13:10 -0500
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B603dfe1b0005>; Tue, 02 Mar 2021 00:58:03 -0800
+        id <B603e017d0000>; Tue, 02 Mar 2021 01:12:29 -0800
 Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 2 Mar
- 2021 08:58:00 +0000
+ 2021 09:12:26 +0000
 From:   Alistair Popple <apopple@nvidia.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <jhubbard@nvidia.com>,
-        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <hch@infradead.org>,
-        <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 5/8] mm: Device exclusive memory access
-Date:   Tue, 2 Mar 2021 19:57:58 +1100
-Message-ID: <2758096.Z30Q8iEM0t@nvdebian>
-In-Reply-To: <20210302000559.GA763995@nvidia.com>
-References: <20210226071832.31547-1-apopple@nvidia.com> <20210226071832.31547-6-apopple@nvidia.com> <20210302000559.GA763995@nvidia.com>
+To:     Ralph Campbell <rcampbell@nvidia.com>
+CC:     "linux-mm@kvack.org" <linux-mm@kvack.org>,
+        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
+        "bskeggs@redhat.com" <bskeggs@redhat.com>,
+        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "John Hubbard" <jhubbard@nvidia.com>,
+        "jglisse@redhat.com" <jglisse@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        "hch@infradead.org" <hch@infradead.org>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 6/8] mm: Selftests for exclusive device memory
+Date:   Tue, 2 Mar 2021 20:12:24 +1100
+Message-ID: <4866160.ulnvbvOQiP@nvdebian>
+In-Reply-To: <MN2PR12MB43440D6E37E35DAF962F556EC29A9@MN2PR12MB4344.namprd12.prod.outlook.com>
+References: <20210226071832.31547-1-apopple@nvidia.com> <20210226071832.31547-7-apopple@nvidia.com> <MN2PR12MB43440D6E37E35DAF962F556EC29A9@MN2PR12MB4344.namprd12.prod.outlook.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -44,95 +50,74 @@ X-Originating-IP: [172.20.145.6]
 X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
  HQMAIL107.nvidia.com (172.20.187.13)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1614675483; bh=yLtSrsIkgQVvx8r7tJAFizCDR8BcQxGt7zMk4zLhM4s=;
+        t=1614676349; bh=FeQHtfi4mCSWbQH0/aD7Oy3q/R8JrFmF5liDHR+wnLk=;
         h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
          MIME-Version:Content-Transfer-Encoding:Content-Type:
          X-Originating-IP:X-ClientProxiedBy;
-        b=R3aeuCco4uXjfOdbmbpC/jx/pN15IAgta990Q0RpPpMoq66arG6yFvILVjoMOXbIv
-         uARzcp6pASuz3soKv+5AvjG14rVHQHBSMF2hD10YiweFuGaGyCALW8qxKabfuzWNAo
-         SpHa4cFWhd0KxgrFleqLLCXNSFRPLSliBo9VLNG55m0i2cTLJB+WYHqygM6N3BVKz4
-         tvFJHnH/slrCoxC3e7LI2QO8G+qZQwAvqQu/1/NesiPauF/h9obFBhz1LxskOnUN6n
-         H9KJl1shHnQqPuImOwJ3YVJzkSjbfzKavrbByo1MFY7BJK5fdCo2FHrzNJPJIQzBzo
-         IFk4kMULO88TQ==
+        b=HEiZZh4DK3KNf5gTFX02zJnM2b4ou/jDcSzCQDNZpPUD1j+uXhbse5auYqfmiU7Ec
+         YXvVqk1kNu+9JT6l7F02Id1OMF+U0wEmNbvQu+/A3fXdEze7YxM7ab4F6YYYKwV/Fg
+         Dm4znbewQozpm7A3c+OLIY1ia2ne7u3sRgRh+vejOiSB6QgLd6BMQm44HQa9cMzZFo
+         k5ZNYwLJtxHXK1Cy2RXvbbUDWH1IntCrq79+XEho9Uqe5MtS3waXVyOSNZ7GIWALM8
+         B+++XLu/MiXh8eoRa+xCczpfPLRtfclfNcVGwwZ6yWPMbfL6KvN2XP1foQfzlXEZuJ
+         iqBU0ylYO9AMQ==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tuesday, 2 March 2021 11:05:59 AM AEDT Jason Gunthorpe wrote:
-> On Fri, Feb 26, 2021 at 06:18:29PM +1100, Alistair Popple wrote:
+On Tuesday, 2 March 2021 10:14:56 AM AEDT Ralph Campbell wrote:
+> > From: Alistair Popple <apopple@nvidia.com>
+> > Sent: Thursday, February 25, 2021 11:19 PM
+> > To: linux-mm@kvack.org; nouveau@lists.freedesktop.org;
+> > bskeggs@redhat.com; akpm@linux-foundation.org
+> > Cc: linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; dri-
+> > devel@lists.freedesktop.org; John Hubbard <jhubbard@nvidia.com>; Ralph
+> > Campbell <rcampbell@nvidia.com>; jglisse@redhat.com; Jason Gunthorpe
+> > <jgg@nvidia.com>; hch@infradead.org; daniel@ffwll.ch; Alistair Popple
+> > <apopple@nvidia.com>
+> > Subject: [PATCH v3 6/8] mm: Selftests for exclusive device memory
+> > 
+> > Adds some selftests for exclusive device memory.
+> > 
+> > Signed-off-by: Alistair Popple <apopple@nvidia.com>
 > 
-> > +/**
-> > + * make_device_exclusive_range() - Mark a range for exclusive use by a 
-device
-> > + * @mm: mm_struct of assoicated target process
-> > + * @start: start of the region to mark for exclusive device access
-> > + * @end: end address of region
-> > + * @pages: returns the pages which were successfully mark for exclusive 
-acces
-> > + *
-> > + * Returns: number of pages successfully marked for exclusive access
-> > + *
-> > + * This function finds the ptes mapping page(s) to the given address 
-range and
-> > + * replaces them with special swap entries preventing userspace CPU 
-access. On
-> > + * fault these entries are replaced with the original mapping after 
-calling MMU
-> > + * notifiers.
-> > + */
-> > +int make_device_exclusive_range(struct mm_struct *mm, unsigned long 
-start,
-> > +				unsigned long end, struct page **pages)
+> One minor nit below, but you can add
+
+Thanks Ralph. Will fix that.
+
+> Tested-by: Ralph Campbell <rcampbell@nvidia.com>
+> Reviewed-by: Ralph Campbell <rcampbell@nvidia.com>
+> 
+> > +static int dmirror_exclusive(struct dmirror *dmirror,
+> > +			     struct hmm_dmirror_cmd *cmd)
 > > +{
-> > +	long npages = (end - start) >> PAGE_SHIFT;
-> > +	long i;
+> > +	unsigned long start, end, addr;
+> > +	unsigned long size = cmd->npages << PAGE_SHIFT;
+> > +	struct mm_struct *mm = dmirror->notifier.mm;
+> > +	struct page *pages[64];
+> > +	struct dmirror_bounce bounce;
+> > +	unsigned long next;
+> > +	int ret;
 > > +
-> > +	npages = get_user_pages_remote(mm, start, npages,
-> > +				       FOLL_GET | FOLL_WRITE | FOLL_SPLIT_PMD,
-> > +				       pages, NULL, NULL);
-> > +	for (i = 0; i < npages; i++) {
-> > +		if (!trylock_page(pages[i])) {
-> > +			put_page(pages[i]);
-> > +			pages[i] = NULL;
-> > +			continue;
-> > +		}
+> > +	start = cmd->addr;
+> > +	end = start + size;
+> > +	if (end < start)
+> > +		return -EINVAL;
 > > +
-> > +		if (!try_to_protect(pages[i])) {
+> > +	/* Since the mm is for the mirrored process, get a reference first. */
+> > +	if (!mmget_not_zero(mm))
+> > +		return -EINVAL;
+> > +
+> > +	mmap_read_lock(mm);
+> > +	for (addr = start; addr < end; addr = next) {
+> > +		int i, mapped;
+> > +
+> > +		if (end < addr + (64 << PAGE_SHIFT))
+> > +			next = end;
+> > +		else
+> > +			next = addr + (64 << PAGE_SHIFT);
 > 
-> Isn't this racy? get_user_pages returns the ptes at an instant in
-> time, they could have already been changed to something else?
-
-Right. On it's own this does not guarantee that the page is mapped at the 
-given location, only that a mapping won't get established without an mmu 
-notifier callback to clear the swap entry.
-
-The intent was a driver could use HMM or some other mechanism to keep PTEs 
-synchronised if required. However I just looked at patch 8 in the series again 
-and it appears I got this wrong when converting from the old migration 
-approach:
-
-+               mutex_unlock(&svmm->mutex);
-+               ret = nouveau_atomic_range_fault(svmm, drm, args,
-+                                               size, hmm_flags, mm);
-
-The mutex needs to be unlocked after the range fault to ensure the PTE hasn't 
-changed. But this ends up being a problem because try_to_protect() calls 
-notifiers which need to take that mutex and hence deadlocks.
-
-> I would think you'd want to switch to the swap entry atomically under
-> th PTLs?
-
-That is one approach, but the reuse of get_user_pages() to walk the page 
-tables and fault/gather the pages is a nice simplification and adding a new 
-FOLL flag/mode to atomically swap entries doesn't seem right.
-
-However try_to_protect() scans the PTEs again under the PTL so checking the 
-mapping of interest actually gets replaced during the rmap walk seems like a 
-reasonable solution. Thanks for the comments.
-
- - Alistair
-
-> Jason
+> I suggest using ARRAY_SIZE(pages) instead of '64' to make the meaning clear.
+> 
 > 
 
 
