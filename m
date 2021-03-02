@@ -2,316 +2,212 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50071C4332B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 486A2C433E9
 	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:06:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2E02F64F1F
+	by mail.kernel.org (Postfix) with ESMTP id 0D40E60241
 	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:06:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1574972AbhCBSA2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 13:00:28 -0500
-Received: from mx2.suse.de ([195.135.220.15]:33194 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1577298AbhCBF6P (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Mar 2021 00:58:15 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1614664637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=TDvHHd/gikOxM/MJWGDnIm0BfH4rm4LBDExO96tuCuo=;
-        b=k5QHmBGjOYziFgDIT5QaKcsrH7Pu8AC131hB1VoEL0AuDQp6d0rZm1n6+o2880oLb59GAV
-        LyoUs/BfKB3T27IqR3qRxveIh0JKCJzcutiN/TlsyDvyeTCP86zeo15uYKof+58oDcHTep
-        mKu/NDsybmhIKbc71Yn/lfuudnnRHPA=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id C4654AC24;
-        Tue,  2 Mar 2021 05:57:16 +0000 (UTC)
-Subject: Re: [PATCH v2 3/3] kernel/smp: add more data to CSD lock debugging
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        paulmck@kernel.org, mhocko@suse.com,
-        Jonathan Corbet <corbet@lwn.net>
-References: <20210301101336.7797-1-jgross@suse.com>
- <20210301101336.7797-4-jgross@suse.com>
- <YD0fTLnQTQ7/M7fx@hirez.programming.kicks-ass.net>
-From:   =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Message-ID: <ef5e569c-4dc3-4a69-e173-e372ccf9a994@suse.com>
-Date:   Tue, 2 Mar 2021 06:57:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S1580264AbhCBSAQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 13:00:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37886 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1577109AbhCBFnn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 00:43:43 -0500
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C7A7C06178A
+        for <linux-doc@vger.kernel.org>; Mon,  1 Mar 2021 21:32:08 -0800 (PST)
+Received: by mail-pf1-x430.google.com with SMTP id j12so13067983pfj.12
+        for <linux-doc@vger.kernel.org>; Mon, 01 Mar 2021 21:32:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=beagleboard-org.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BsfiHbpQP+TSXIfkDJGb4cbPsfZUec9NMz5sB3wHRO4=;
+        b=1VjViXMmSxR0ahyq/suTyrNWx+Azwd49IJk5m31/Iw4xJOOfPtU/Mvm0c3N5JHcaCv
+         ZvGC76QttogapkJ0wDYjzm14MP8C+ZX8pxrtzvDb/jke3VSFPhrXACcFcutaQvfprg0o
+         9ZGDygkWOhw2PzzbtI2l3emF7ldQqFyrrpdrhRuGwTNPe1DdfnhsyWJ1cbDHvpTcX44/
+         YBtIOJV6uW9nbM+exwil+3a17yQiHAViNbhYPNgiXAz8zSSMb63fjSz+umI+xXgVHBrG
+         Jv2onVkvmTeRB75Gvm5JVY6TyA038DZSuZaVfc2guU4rHn3FzBsei+qC+VDQ34A9zMSb
+         mv3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BsfiHbpQP+TSXIfkDJGb4cbPsfZUec9NMz5sB3wHRO4=;
+        b=hJtEBX11FUhJtv59iss50+hwc1X8dLq8/HwGJsUvl6xInvXzCRJF9UkYx4IsKwUiqh
+         wffWPUPVgiJ72rcVi7egJ9ZA7Wv4wG6juN5pswzbQYsdt25E8vNKJqx8gA2d0xGJ7cG3
+         1+49wnxg9fTFlKZ7GARRgQqUrA/fHR8I9cYbaRPHPT+2ywZakfmfHGi62KmkmzmfZ4xa
+         KNrm4K9reICeent1+Zxs+L1edXTi1w0GrlBltMUnUk3q6gxWCdYxwCpdT/HdQoq65EKC
+         4eQCAMuos4xHom7H78ZgaPvlIwoeRMHYUYIxBsFa3kswdtNF/ad/9viuXK1vSFtlmV/Q
+         w3vw==
+X-Gm-Message-State: AOAM5304iCjIivzgc2iSTQcmKkCFsY1Ki8uiQl4YAcHC+UbiED8jzb9w
+        ntWrRD5F1SUtyQhwoCUFlcvxeQ==
+X-Google-Smtp-Source: ABdhPJwG58aaHnVBSNSE72hdsvrq00R2y2UXE+UEukB2S6ZAllQmupPpwNYfd8TyquRh1WxBen3l9A==
+X-Received: by 2002:aa7:8b48:0:b029:1ec:a315:bdbd with SMTP id i8-20020aa78b480000b02901eca315bdbdmr1880500pfd.51.1614663127524;
+        Mon, 01 Mar 2021 21:32:07 -0800 (PST)
+Received: from x1.hsd1.or.comcast.net ([2601:1c0:4701:ae70:37ab:7b44:a136:e385])
+        by smtp.gmail.com with ESMTPSA id o129sm17929757pgo.27.2021.03.01.21.32.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Mar 2021 21:32:06 -0800 (PST)
+From:   Drew Fustini <drew@beagleboard.org>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tony Lindgren <tony@atomide.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Jason Kridner <jkridner@beagleboard.org>,
+        Robert Nelson <robertcnelson@beagleboard.org>,
+        Joe Perches <joe@perches.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Drew Fustini <drew@beagleboard.org>
+Subject: [PATCH v9 0/4] pinctrl: pinmux: Add pinmux-select debugfs file
+Date:   Mon,  1 Mar 2021 21:30:55 -0800
+Message-Id: <20210302053059.1049035-1-drew@beagleboard.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YD0fTLnQTQ7/M7fx@hirez.programming.kicks-ass.net>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="lhltUXodeXb2iGkPzUmMCyH4GI87eaL1r"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---lhltUXodeXb2iGkPzUmMCyH4GI87eaL1r
-Content-Type: multipart/mixed; boundary="y5F3YsYXl0Av0Y5rb8AghPxudnz11Wrly";
- protected-headers="v1"
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- paulmck@kernel.org, mhocko@suse.com, Jonathan Corbet <corbet@lwn.net>
-Message-ID: <ef5e569c-4dc3-4a69-e173-e372ccf9a994@suse.com>
-Subject: Re: [PATCH v2 3/3] kernel/smp: add more data to CSD lock debugging
-References: <20210301101336.7797-1-jgross@suse.com>
- <20210301101336.7797-4-jgross@suse.com>
- <YD0fTLnQTQ7/M7fx@hirez.programming.kicks-ass.net>
-In-Reply-To: <YD0fTLnQTQ7/M7fx@hirez.programming.kicks-ass.net>
+This series first converts the debugfs files in the pinctrl subsystem to
+octal permissions and then adds a new debugfs file "pinmux-select".
 
---y5F3YsYXl0Av0Y5rb8AghPxudnz11Wrly
-Content-Type: multipart/mixed;
- boundary="------------8BB1B64EBF68E5C5455B1DD1"
-Content-Language: en-US
+Group name and function name can be written to "pinmux-select" which
+will cause the pin function for the specified group to be activated on
+the pin controller.
 
-This is a multi-part message in MIME format.
---------------8BB1B64EBF68E5C5455B1DD1
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+This series also renames documentation from pinctl to pin-control and
+adds documentation for the pinctrl debugfs files.
 
-On 01.03.21 18:07, Peter Zijlstra wrote:
-> On Mon, Mar 01, 2021 at 11:13:36AM +0100, Juergen Gross wrote:
->> In order to help identifying problems with IPI handling and remote
->> function execution add some more data to IPI debugging code.
->>
->> There have been multiple reports of cpus looping long times (many
->> seconds) in smp_call_function_many() waiting for another cpu executing=
+Notes for PATCH v9:
+- rename pinctl.rst documentation to pin-control.rst per discussion
+  with Linus W.
 
->> a function like tlb flushing. Most of these reports have been for
->> cases where the kernel was running as a guest on top of KVM or Xen
->> (there are rumours of that happening under VMWare, too, and even on
->> bare metal).
->>
->> Finding the root cause hasn't been successful yet, even after more tha=
-n
->> 2 years of chasing this bug by different developers.
->>
->> Commit 35feb60474bf4f7 ("kernel/smp: Provide CSD lock timeout
->> diagnostics") tried to address this by adding some debug code and by
->> issuing another IPI when a hang was detected. This helped mitigating
->> the problem (the repeated IPI unlocks the hang), but the root cause is=
+Notes for PATCH v8:
+- add 'Reviewed-by:' from Geert Uytterhoeven for pinmux-select patch
+- add 'Tested-by:' from Geert Uytterhoeven for pinmux-select patch
+- change pinmux-select format to '<group-name function-name>' based on
+  feedback from Geert
+- rephrase parts of documentation per Geert's comments
 
->> still unknown.
->>
->> Current available data suggests that either an IPI wasn't sent when it=
+Notes for PATCH v7:
+- add 'Reviewed-by:' from Andy Shevchenko for pinmux-select patch
+- add 'Reviewed-by:' from Andy Shevchenko for documentation patch
+- add 'Reviewed-by:' from Tony Lindgren to all patches
+- change order of '#include <linux/ctype.h>' per Andy's suggestion
+- change PINMUX_SELECT_MAX back to 128 as I had accidentally changed it
+  to 50 and Andy pointed this out.
+- grammer fixes as suggested by Andy
+- rework assignment of fsel and ret from pinmux_func_name_to_selector()
+- rework assignment of gsel and ret from pinctrl_get_group_selector()
 
->> should have been, or that the IPI didn't result in the target cpu
->> executing the queued function (due to the IPI not reaching the cpu,
->> the IPI handler not being called, or the handler not seeing the queued=
+Notes for PATCH v6:
+- add 'Suggested-by:' for Joe Perches to octal permissions patch
+- add 'Reviewed-by:' from Andy and Geert to octal permissions patch
+- reword example in the pinmux-select patch per Andy's advice
+- indent the example output per Andy's advice
+- remove usage error messages as Andy advised it is too verbose
+- return -ENOMEM when write is too big for the input buffer per Andy's advice
+- handle whitespace before, in between, and after the function name and
+  group name as suggested by Andy
+- rename free_buf to exit_free_buf per Andy's advice
+- add documentation patch to series which documents the debugfs files
+  for the pinctrl subsystem including the new pinmux-select file
 
->> request).
->>
->> Try to add more diagnostic data by introducing a global atomic counter=
+Notes for PATCH v5:
+- convert permissions from symbolic to octal for debugfs_create_file()
+  calls in core.c that Joe Perches pointed out I had missed
+- Linus W: please let me know if I should break this series apart as you
+  already applied an earlier version of octal conversion patch today [1]
+- switch from sscanf() to just pointing to function name and group name
+  inside of the buffer. This also avoids having to allocate additional
+  buffers for fname and gname. Geert and Andy highlighted this security
+  issue and Andy suggested code to use instead of sscanf().
+- switch from devm_kfree() to kfree() after Dan Carpenter warned me
+- remove .read from pinmux_select_ops per Geert since it is write only
+- add usage format to error when unable find fname or gname in buffer
 
->> which is being incremented when doing critical operations (before and
->> after queueing a new request, when sending an IPI, and when dequeueing=
+Notes for PATCH v4:
+- correct the commit message in the second patch to reference function
+  and group name instead of integer selectors. Apologies for not fixing
+  that in v3
+- fix typos in cover letter
 
->> a request). The counter value is stored in percpu variables which can
->> be printed out when a hang is detected.
->>
->> The data of the last event (consisting of sequence counter, source
->> cpu, target cpu, and event type) is stored in a global variable. When
->> a new event is to be traced, the data of the last event is stored in
->> the event related percpu location and the global data is updated with
->> the new event's data. This allows to track two events in one data
->> location: one by the value of the event data (the event before the
->> current one), and one by the location itself (the current event).
->>
->> A typical printout with a detected hang will look like this:
->>
->> csd: Detected non-responsive CSD lock (#1) on CPU#1, waiting 500000000=
-3 ns for CPU#06 scf_handler_1+0x0/0x50(0xffffa2a881bb1410).
->> 	csd: CSD lock (#1) handling prior scf_handler_1+0x0/0x50(0xffffa2a881=
-3823c0) request.
->>          csd: cnt(00008cc): ffff->0000 dequeue (src cpu 0 =3D=3D empty=
-)
->>          csd: cnt(00008cd): ffff->0006 idle
->>          csd: cnt(0003668): 0001->0006 queue
->>          csd: cnt(0003669): 0001->0006 ipi
->>          csd: cnt(0003e0f): 0007->000a queue
->>          csd: cnt(0003e10): 0001->ffff ping
->>          csd: cnt(0003e71): 0003->0000 ping
->>          csd: cnt(0003e72): ffff->0006 gotipi
->>          csd: cnt(0003e73): ffff->0006 handle
->>          csd: cnt(0003e74): ffff->0006 dequeue (src cpu 0 =3D=3D empty=
-)
->>          csd: cnt(0003e7f): 0004->0006 ping
->>          csd: cnt(0003e80): 0001->ffff pinged
->>          csd: cnt(0003eb2): 0005->0001 noipi
->>          csd: cnt(0003eb3): 0001->0006 queue
->>          csd: cnt(0003eb4): 0001->0006 noipi
->>          csd: cnt now: 0003f00
->>
->> The idea is to print only relevant entries. Those are all events which=
+Notes for PATCH v3:
+- add Suggested-by: Andy Shevchenko to the "pinctrl: use to octal
+  permissions for debugfs files" patch
+- change the octal permissions from 0400 to 0444 to correctly match the
+  symbolic permissions (thanks to Joe Perches and Geert Uytterhoeven)
+- note that S_IFREG flag is added to the mode in __debugfs_create_file()
+  (thanks to Andy for highlighting this and Joe for suggesting I should
+  add a note to the commit message)
+- fix order of the goto labels so that the buffers are freed correctly
+  as suggested by Dan Carpenter
+- move from devm_kzalloc() to kzalloc() as the buffers are only used
+  inside the pinmux_select() function and not related to the lifetime
+  of the pin controller device (thanks to Andy for pointing this out)
+- correct the pinmux-select example in commit message to use the
+  function and group name instead of selector (thanks to Geert)
 
->> are associated with the hang (so sender side events for the source cpu=
+Notes for PATCH v2:
+- create patch series that includes patch to switch all the debugfs
+  files in pinctrl subsystem over to octal permission
+- write function name and group name, instead of error-prone selector
+  numbers, to the 'pinmux-select' file
+- switch from static to dynamic allocation for the kernel buffer filled
+  by strncpy_from_user()
+- look up function selector from function name using
+  pinmux_func_name_to_selector()
+- validate group name with get_function_groups() and match_string()
+- look up selector for group name with pinctrl_get_group_selector()
 
->> of the hanging request, and receiver side events for the target cpu),
->> and the related events just before those (for adding data needed to
->> identify a possible race). Printing all available data would be
->> possible, but this would add large amounts of data printed on larger
->> configurations.
->>
->> Signed-off-by: Juergen Gross <jgross@suse.com>
->> Tested-by: Paul E. McKenney <paulmck@kernel.org>
->> ---
->> V2:
->> - add automatic data deciphering and sorting of entries
->> - add new trace point for leaving flush_smp_call_function_queue()
->> - add information when finding an empty call_single_queue
->=20
-> They do not apply on top of these:
->=20
->    https://lkml.kernel.org/r/20210220231712.2475218-2-namit@vmware.com
->=20
-> :-/
->=20
->> @@ -290,6 +476,19 @@ static DEFINE_PER_CPU_SHARED_ALIGNED(call_single_=
-data_t, csd_data);
->>  =20
->>   void __smp_call_single_queue(int cpu, struct llist_node *node)
->>   {
->> +#ifdef CONFIG_CSD_LOCK_WAIT_DEBUG
->> +	if (static_branch_unlikely(&csdlock_debug_extended)) {
->> +		unsigned int type;
->> +
->> +		type =3D CSD_TYPE(container_of(node, call_single_data_t,
->> +					     node.llist));
->> +		if (type =3D=3D CSD_TYPE_SYNC || type =3D=3D CSD_TYPE_ASYNC) {
->> +			__smp_call_single_queue_debug(cpu, node);
->> +			return;
->> +		}
->> +	}
->> +#endif
->=20
-> This really ought to be in generic_exec_single(), because there we know=
+Notes for PATCH v1:
+- posted seperate patch to switch all the debugfs files in pinctrl
+  subsystem over to octal permission
+- there is no existing documentation for any of the debugfs enteries for
+  pinctrl, so it seemed to have a bigger scope than just this patch. I
+  also noticed that rst documentation is confusingly named "pinctl" (no
+  'r') and started thread about that [2]. Linus suggested chaning that
+  to 'pin-control'. Thus I am planning a seperate documentation patch
+  series where the file is renamed, references changed and a section on
+  the pinctrl debugfs files is added.
 
-> the type matches.
+Notes for RFC v2 [3]:
+- rename debugfs file "pinmux-set" to "pinmux-select"
+- renmae pinmux_set_write() to pinmux_select()
+- switch from memdup_user_nul() to strncpy_from_user()
+- switch from pr_warn() to dev_err()
 
-You are right. This is much better.
+[1] https://lore.kernel.org/linux-gpio/20210126044742.87602-1-drew@beagleboard.org/
+[2] https://lore.kernel.org/linux-gpio/20210126050817.GA187797@x1/
+[3] https://lore.kernel.org/linux-gpio/20210123064909.466225-1-drew@beagleboard.org/
 
+Drew Fustini (4):
+  pinctrl: use to octal permissions for debugfs files
+  pinctrl: pinmux: Add pinmux-select debugfs file
+  Documentation: rename pinctl to pin-control
+  docs/pinctrl: document debugfs files
 
-Juergen
+ Documentation/driver-api/gpio/legacy.rst      |   2 +-
+ Documentation/driver-api/index.rst            |   2 +-
+ .../{pinctl.rst => pin-control.rst}           |  37 ++++++
+ MAINTAINERS                                   |   2 +-
+ drivers/pinctrl/core.c                        |  12 +-
+ drivers/pinctrl/pinconf.c                     |   4 +-
+ drivers/pinctrl/pinmux.c                      | 106 +++++++++++++++++-
+ 7 files changed, 152 insertions(+), 13 deletions(-)
+ rename Documentation/driver-api/{pinctl.rst => pin-control.rst} (97%)
 
---------------8BB1B64EBF68E5C5455B1DD1
-Content-Type: application/pgp-keys;
- name="OpenPGP_0xB0DE9DD628BF132F.asc"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: attachment;
- filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+-- 
+2.25.1
 
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOBy=
-cWx
-w3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJvedYm8O=
-f8Z
-d621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJNwQpd369y=
-9bf
-IhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvxXP3FAp2pkW0xq=
-G7/
-377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEBAAHNHEp1ZXJnZW4gR=
-3Jv
-c3MgPGpnQHBmdXBmLm5ldD7CwHkEEwECACMFAlOMcBYCGwMHCwkIBwMCAQYVCAIJCgsEFgIDA=
-QIe
-AQIXgAAKCRCw3p3WKL8TL0KdB/93FcIZ3GCNwFU0u3EjNbNjmXBKDY4FUGNQH2lvWAUy+dnyT=
-hpw
-dtF/jQ6j9RwE8VP0+NXcYpGJDWlNb9/JmYqLiX2Q3TyevpB0CA3dbBQp0OW0fgCetToGIQrg0=
-MbD
-1C/sEOv8Mr4NAfbauXjZlvTj30H2jO0u+6WGM6nHwbh2l5O8ZiHkH32iaSTfN7Eu5RnNVUJbv=
-oPH
-Z8SlM4KWm8rG+lIkGurqqu5gu8q8ZMKdsdGC4bBxdQKDKHEFExLJK/nRPFmAuGlId1E3fe10v=
-5QL
-+qHI3EIPtyfE7i9Hz6rVwi7lWKgh7pe0ZvatAudZ+JNIlBKptb64FaiIOAWDCx1SzR9KdWVyZ=
-2Vu
-IEdyb3NzIDxqZ3Jvc3NAc3VzZS5jb20+wsB5BBMBAgAjBQJTjHCvAhsDBwsJCAcDAgEGFQgCC=
-QoL
-BBYCAwECHgECF4AACgkQsN6d1ii/Ey/HmQf/RtI7kv5A2PS4RF7HoZhPVPogNVbC4YA6lW7Dr=
-Wf0
-teC0RR3MzXfy6pJ+7KLgkqMlrAbN/8Dvjoz78X+5vhH/rDLa9BuZQlhFmvcGtCF8eR0T1v0nC=
-/nu
-AFVGy+67q2DH8As3KPu0344TBDpAvr2uYM4tSqxK4DURx5INz4ZZ0WNFHcqsfvlGJALDeE0Lh=
-ITT
-d9jLzdDad1pQSToCnLl6SBJZjDOX9QQcyUigZFtCXFst4dlsvddrxyqT1f17+2cFSdu7+ynLm=
-XBK
-7abQ3rwJY8SbRO2iRulogc5vr/RLMMlscDAiDkaFQWLoqHHOdfO9rURssHNN8WkMnQfvUewRz=
-80h
-SnVlcmdlbiBHcm9zcyA8amdyb3NzQG5vdmVsbC5jb20+wsB5BBMBAgAjBQJTjHDXAhsDBwsJC=
-AcD
-AgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey8PUQf/ehmgCI9jB9hlgexLvgOtf7PJn=
-FOX
-gMLdBQgBlVPO3/D9R8LtF9DBAFPNhlrsfIG/SqICoRCqUcJ96Pn3P7UUinFG/I0ECGF4EvTE1=
-jnD
-kfJZr6jrbjgyoZHiw/4BNwSTL9rWASyLgqlA8u1mf+c2yUwcGhgkRAd1gOwungxcwzwqgljf0=
-N51
-N5JfVRHRtyfwq/ge+YEkDGcTU6Y0sPOuj4Dyfm8fJzdfHNQsWq3PnczLVELStJNdapwPOoE+l=
-otu
-fe3AM2vAEYJ9rTz3Cki4JFUsgLkHFqGZarrPGi1eyQcXeluldO3m91NK/1xMI3/+8jbO0tsn1=
-tqS
-EUGIJi7ox80eSnVlcmdlbiBHcm9zcyA8amdyb3NzQHN1c2UuZGU+wsB5BBMBAgAjBQJTjHDrA=
-hsD
-BwsJCAcDAgEGFQgCCQoLBBYCAwECHgECF4AACgkQsN6d1ii/Ey+LhQf9GL45eU5vOowA2u5N3=
-g3O
-ZUEBmDHVVbqMtzwlmNC4k9Kx39r5s2vcFl4tXqW7g9/ViXYuiDXb0RfUpZiIUW89siKrkzmQ5=
-dM7
-wRqzgJpJwK8Bn2MIxAKArekWpiCKvBOB/Cc+3EXE78XdlxLyOi/NrmSGRIov0karw2RzMNOu5=
-D+j
-LRZQd1Sv27AR+IP3I8U4aqnhLpwhK7MEy9oCILlgZ1QZe49kpcumcZKORmzBTNh30FVKK1Evm=
-V2x
-AKDoaEOgQB4iFQLhJCdP1I5aSgM5IVFdn7v5YgEYuJYx37IoN1EblHI//x/e2AaIHpzK5h88N=
-Eaw
-QsaNRpNSrcfbFmAg987ATQRTjHAWAQgAyzH6AOODMBjgfWE9VeCgsrwH3exNAU32gLq2xvjpW=
-nHI
-s98ndPUDpnoxWQugJ6MpMncr0xSwFmHEgnSEjK/PAjppgmyc57BwKII3sV4on+gDVFJR6Y8ZR=
-wgn
-BC5mVM6JjQ5xDk8WRXljExRfUX9pNhdE5eBOZJrDRoLUmmjDtKzWaDhIg/+1Hzz93X4fCQkNV=
-bVF
-LELU9bMaLPBG/x5q4iYZ2k2ex6d47YE1ZFdMm6YBYMOljGkZKwYde5ldM9mo45mmwe0icXKLk=
-pEd
-IXKTZeKDO+Hdv1aqFuAcccTg9RXDQjmwhC3yEmrmcfl0+rPghO0Iv3OOImwTEe4co3c1mwARA=
-QAB
-wsBfBBgBAgAJBQJTjHAWAhsMAAoJELDendYovxMvQ/gH/1ha96vm4P/L+bQpJwrZ/dneZcmEw=
-Tbe
-8YFsw2V/Buv6Z4Mysln3nQK5ZadD534CF7TDVft7fC4tU4PONxF5D+/tvgkPfDAfF77zy2AH1=
-vJz
-Q1fOU8lYFpZXTXIHb+559UqvIB8AdgR3SAJGHHt4RKA0F7f5ipYBBrC6cyXJyyoprT10EMvU8=
-VGi
-wXvTyJz3fjoYsdFzpWPlJEBRMedCot60g5dmbdrZ5DWClAr0yau47zpWj3enf1tLWaqcsuylW=
-svi
-uGjKGw7KHQd3bxALOknAp4dN3QwBYCKuZ7AddY9yjynVaD5X7nF9nO5BjR/i1DG86lem3iBDX=
-zXs
-ZDn8R38=3D
-=3D2wuH
------END PGP PUBLIC KEY BLOCK-----
-
---------------8BB1B64EBF68E5C5455B1DD1--
-
---y5F3YsYXl0Av0Y5rb8AghPxudnz11Wrly--
-
---lhltUXodeXb2iGkPzUmMCyH4GI87eaL1r
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmA907sFAwAAAAAACgkQsN6d1ii/Ey/p
-bAf+M2Vy+GOms8o2UhDl5eT5imAcujN2fJnF96OatDRsWUSQUELZfRwB98MPJsdI0F44YS61YwT8
-Huj0oegGq4mUa0kweCLyrTJ/cBx+Txny8lPdh0HVJKdrniMUDO2BK6B8RjPzAdghfo+joD3NvdDu
-/f++Aa2F9EznO0RXqGk7gCueKD/hfc3tDU/3i1z0bbS75yTaOmsWouddxgQJbPEAsAKsW7IDzzkD
-zd0NlgytHYHpo2h8tt+nn5YoSS4wQLrjWMiNSGPElbWARqUTJCfACycSK2r4bjB2A10fStj26E64
-htuBRv9mdXZ4EVC+NjWkzoTyVZD5vy0EMp/RuoaP1Q==
-=nuW1
------END PGP SIGNATURE-----
-
---lhltUXodeXb2iGkPzUmMCyH4GI87eaL1r--
