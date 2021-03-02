@@ -2,96 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D089BC433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:07:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42691C433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:07:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 89DCD64F1D
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:07:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E045660241
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:07:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580300AbhCBSBE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 13:01:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55550 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345665AbhCBHHC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 02:07:02 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED18FC061788;
-        Mon,  1 Mar 2021 23:06:02 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id s8so23888863edd.5;
-        Mon, 01 Mar 2021 23:06:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=tmhS/KeYVyEtrVqK4ma4bE7yqEBsOwF+0svPZ4Fg20U=;
-        b=eXUR/nfuzca1Q19Y5H8qRi7q/IK3HZEspy6KH0KjdLofWadozZfNmae5HZifLdY8s4
-         BERO++xo9gP5/vJFHT4shh8PcNsG84xbDAcFPt23xxM97HNwynxvK91MgJ/EOaNzZzOC
-         ZsnoyWJUo3JS0wX+IGDzI5DHTCjBOqr9cf6BbtGLSNglrjFqC7nv5U1Irx5iLXDGqKCa
-         BJmK5WzEsH32gKcYuvBgGunBDEclSkSMSfSdnC/lfkUfNrngVlLZDXqaRtpfMBaQKNJU
-         radHeu9NxBPR9+9jkvlSq/FUd28SOJPo3PZrjGxtJRw8ZHD8TQ3MAV7s39bOqrg/IBIK
-         VnFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=tmhS/KeYVyEtrVqK4ma4bE7yqEBsOwF+0svPZ4Fg20U=;
-        b=BnsX/vccwWM1pxcTubmo9fR6AtzC3BepIps65w/6Ni5zzZsoPvnFFuwfolzB9B6sAJ
-         2dwaKAgYXAlgx5Z6N2320Qog2gzOrl9MteTFw4Gg2+9x8a2FhxRmGkgRsjoHvEVZcHpA
-         6ExY03v9tfCdIAa3XhxlwQom3eUHTmrRvVbMyyG4EIF+MBKjxJmUysat+6oYPILLc2J9
-         /QoLjjk2A1XPU1tbn/E08Z3KonW9g833ztw3OhIpn1G++XjpInGuXnuhZi7CyLP/d5qc
-         R5sgdhE9qVxhCVvQI/XUgFKCAY4mHXHXDXOuH0nAf67yJDQJAVIbaJ31gfdtSIhO87LX
-         +2AQ==
-X-Gm-Message-State: AOAM533bacYGTqtfxkU4qJ4Jcuyj7j5TUSSWj6t4uYublL3hnykaYkAP
-        3hWLg6XVD4W30h+DBDwt6uQ=
-X-Google-Smtp-Source: ABdhPJxr0BAdDdpzb0RXsFS3MohsZq2i2dgUNGG+e/XDpdfTmnUKmCC+bC2IH+zY60ILoxNPBKhErA==
-X-Received: by 2002:aa7:d4d6:: with SMTP id t22mr16321161edr.376.1614668761706;
-        Mon, 01 Mar 2021 23:06:01 -0800 (PST)
-Received: from gmail.com (20014C4E1C864000F9B8756A94F10216.dsl.pool.telekom.hu. [2001:4c4e:1c86:4000:f9b8:756a:94f1:216])
-        by smtp.gmail.com with ESMTPSA id c20sm16444696eje.59.2021.03.01.23.06.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Mar 2021 23:06:01 -0800 (PST)
-Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
-Date:   Tue, 2 Mar 2021 08:05:59 +0100
-From:   Ingo Molnar <mingo@kernel.org>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     =?iso-8859-1?Q?J=FCrgen_Gro=DF?= <jgross@suse.com>,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        paulmck@kernel.org, mhocko@suse.com,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: Re: [PATCH v2 3/3] kernel/smp: add more data to CSD lock debugging
-Message-ID: <20210302070559.GB2809110@gmail.com>
-References: <20210301101336.7797-1-jgross@suse.com>
- <20210301101336.7797-4-jgross@suse.com>
- <YD0fTLnQTQ7/M7fx@hirez.programming.kicks-ass.net>
- <c7c1eeb5-21b3-339b-4b25-a6c8df820146@suse.com>
- <YD1SJNDeGcNOO00s@hirez.programming.kicks-ass.net>
+        id S1580330AbhCBSBS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 13:01:18 -0500
+Received: from mxout70.expurgate.net ([194.37.255.70]:41177 "EHLO
+        mxout70.expurgate.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347607AbhCBHHN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 02:07:13 -0500
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.90)
+        (envelope-from <ms@dev.tdt.de>)
+        id 1lGz4z-00043R-4L; Tue, 02 Mar 2021 08:04:25 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90)
+        (envelope-from <ms@dev.tdt.de>)
+        id 1lGz4x-0001Ps-Gy; Tue, 02 Mar 2021 08:04:23 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id 0AE98240041;
+        Tue,  2 Mar 2021 08:04:23 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id 5CD2C240040;
+        Tue,  2 Mar 2021 08:04:22 +0100 (CET)
+Received: from mail.dev.tdt.de (localhost [IPv6:::1])
+        by mail.dev.tdt.de (Postfix) with ESMTP id DE26A20043;
+        Tue,  2 Mar 2021 08:04:20 +0100 (CET)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YD1SJNDeGcNOO00s@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 02 Mar 2021 08:04:20 +0100
+From:   Martin Schiller <ms@dev.tdt.de>
+To:     Xie He <xie.he.0141@gmail.com>
+Cc:     Jakub Kicinski <kuba@kernel.org>,
+        Leon Romanovsky <leon@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Linux X25 <linux-x25@vger.kernel.org>,
+        Linux Kernel Network Developers <netdev@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Krzysztof Halasa <khc@pm.waw.pl>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB frames
+Organization: TDT AG
+In-Reply-To: <CAJht_EMG27YU+Jxtb2qeq1nXwu8uV8FXQPr62OcNHsE7DozD1g@mail.gmail.com>
+References: <20210216201813.60394-1-xie.he.0141@gmail.com>
+ <YC4sB9OCl5mm3JAw@unreal>
+ <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com>
+ <YC5DVTHHd6OOs459@unreal>
+ <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
+ <YC7GHgYfGmL2wVRR@unreal>
+ <CAJht_EPZ7rVFd-XD6EQD2VJTDtmZZv0HuZvii+7=yhFgVz68VQ@mail.gmail.com>
+ <CAJht_EPPMhB0JTtjWtMcGbRYNiZwJeMLWSC5hS6WhWuw5FgZtg@mail.gmail.com>
+ <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <CAJht_EOru3pW6AHN4QVjiaERpLSfg-0G0ZEaqU_hkhX1acv0HQ@mail.gmail.com>
+ <906d8114f1965965749f1890680f2547@dev.tdt.de>
+ <CAJht_EPBJhhdCBoon=WMuPBk-sxaeYOq3veOpAd2jq5kFqQHBg@mail.gmail.com>
+ <e1750da4179aca52960703890e985af3@dev.tdt.de>
+ <CAJht_ENP3Y98jgj1peGa3fGpQ-qPaF=1gtyYwMcawRFW_UCpeA@mail.gmail.com>
+ <ff200b159ef358494a922a676cbef8a6@dev.tdt.de>
+ <CAJht_EMG27YU+Jxtb2qeq1nXwu8uV8FXQPr62OcNHsE7DozD1g@mail.gmail.com>
+Message-ID: <41b77b1c3cf1bb7a51b750faf23900ef@dev.tdt.de>
+X-Sender: ms@dev.tdt.de
+User-Agent: Roundcube Webmail/1.3.16
+X-purgate: clean
+X-purgate-ID: 151534::1614668664-00002CDB-8FE715EC/0/0
+X-purgate-type: clean
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-* Peter Zijlstra <peterz@infradead.org> wrote:
-
-> On Mon, Mar 01, 2021 at 08:16:12PM +0100, Jürgen Groß wrote:
-> > >    https://lkml.kernel.org/r/20210220231712.2475218-2-namit@vmware.com
-> > 
-> > They are already in tip locking/core (Ingo applied them).
+On 2021-03-01 09:56, Xie He wrote:
+> On Sun, Feb 28, 2021 at 10:56 PM Martin Schiller <ms@dev.tdt.de> wrote:
+>> 
+>> >> Also, I have a hard time assessing if such a wrap is really
+>> >> enforceable.
+>> >
+>> > Sorry. I don't understand what you mean. What "wrap" are you referring
+>> > to?
+>> 
+>> I mean the change from only one hdlc<x> interface to both hdlc<x> and
+>> hdlc<x>_x25.
+>> 
+>> I can't estimate how many users are out there and how their setup 
+>> looks
+>> like.
 > 
-> I'm very tempted to undo that :-(
+> I'm also thinking about solving this issue by adding new APIs to the
+> HDLC subsystem (hdlc_stop_queue / hdlc_wake_queue) for hardware
+> drivers to call instead of netif_stop_queue / netif_wake_queue. This
+> way we can preserve backward compatibility.
+> 
+> However I'm reluctant to change the code of all the hardware drivers
+> because I'm afraid of introducing bugs, etc. When I look at the code
+> of "wan/lmc/lmc_main.c", I feel I'm not able to make sure there are no
+> bugs (related to stop_queue / wake_queue) after my change (and even
+> before my change, actually). There are even serious style problems:
+> the majority of its lines are indented by spaces.
+> 
+> So I don't want to mess with all the hardware drivers. Hardware driver
+> developers (if they wish to properly support hdlc_x25) should do the
+> change themselves. This is not a problem for me, because I use my own
+> out-of-tree hardware driver. However if I add APIs with no user code
+> in the kernel, other developers may think these APIs are not
+> necessary.
 
-Sorry about that - I'm sorting out the conflicts with the concurrent TLB 
-flush series.
+I don't think a change that affects the entire HDLC subsystem is
+justified, since the actual problem only affects the hdlc_x25 area.
 
-Thanks,
+The approach with the additional hdlc<x>_x25 is clean and purposeful and
+I personally could live with it.
 
-	Ingo
+I just don't see myself in the position to decide such a change at the
+moment.
+
+@Jakub: What is your opinion on this.
