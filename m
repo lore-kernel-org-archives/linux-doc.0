@@ -2,95 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87A3EC43332
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 041F9C4361B
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27DD664EEC
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C885964EEC
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241446AbhCCKdq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:33:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57588 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351253AbhCBWi4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 17:38:56 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 488BEC0617A9;
-        Tue,  2 Mar 2021 14:35:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=jnru7A6CJNDQgxd1XaHKuQe6QWiH67rHqnYf9JHq3JI=; b=a+9blF9cjjqsNi/iRJ64QnJkOj
-        llIfARqGcb2VZ8jbyw49Pdt6sp0E3SeXCHxf3P0R8wDvPJKcLlps79COQQMhS69UhVJw7jK4M5X3s
-        p53HZ1FGpIUKgaAKj20JCX5gv5vFoRJH2cFrRppXDx5zQVkJ5fgDNy9Ezsd6U1EVAJ0Lth8YxnoBz
-        3+yvfYee+NuIlrAmsuQkhXymQXT6ipQKn6gptURyobrFxK7D03YMnAh/uZ96HMqtPlrpJKTjOI08+
-        ypahQg1MbZ3fOPDjrn6os5PBrW7R2BnLjb2NksV0htTC55xKmkV+N3Ojzs0Tjd5AJbcK8TkPgFcbU
-        QfO/nwZQ==;
-Received: from [2601:1c0:6280:3f0::3ba4] (helo=smtpauth.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lHDc6-000WSO-EU; Tue, 02 Mar 2021 22:35:35 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, Johann Deneux <johann.deneux@gmail.com>,
-        Anssi Hannula <anssi.hannula@gmail.com>
-Subject: [PATCH 3/8 RESEND] input: Documentation: update related file names in ff.rst
-Date:   Tue,  2 Mar 2021 14:35:18 -0800
-Message-Id: <20210302223523.20130-4-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210302223523.20130-1-rdunlap@infradead.org>
-References: <20210302223523.20130-1-rdunlap@infradead.org>
+        id S239833AbhCCKhW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:37:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42046 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2361127AbhCBXbQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Mar 2021 18:31:16 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0B04F64F3A;
+        Tue,  2 Mar 2021 23:30:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614727835;
+        bh=eaqbGMdh02IVWXqfTzJMMG0eXfyji5TImxVinimTfZ8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=mNGVJGj74sulK1XpDtC+1PkfDz8pu+vd5dy/11440qyYXhOmgfChR3ePqAJ66/tFm
+         whjv4sQsgIG6JcRttlCQV/iA0GGZCXaZlNGnN3YLuQK4l/L2mXxFz35Xav1425icea
+         XTEP2yCPViD+lHhpxOKV4QhNpSI5eZkHuLbQGWgYyQqgCXwG/9xDgY/ZNO6XNzX/dL
+         euOlDcj+MHjwH7K1sz448UerEeBKMQND73XvXHTysPTBgmqT1JhaL8LyOnDfOWMIM8
+         uhb9TnP9VyQ9MX+03SHMZWRiczJF0yplPbGVe/KJnvDQRhda8PSQOTt0NmaUh487kp
+         2p84s69/cvvow==
+Date:   Tue, 2 Mar 2021 15:30:34 -0800
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     Martin Schiller <ms@dev.tdt.de>
+Cc:     Xie He <xie.he.0141@gmail.com>, Leon Romanovsky <leon@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Linux X25 <linux-x25@vger.kernel.org>,
+        Linux Kernel Network Developers <netdev@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Krzysztof Halasa <khc@pm.waw.pl>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB
+ frames
+Message-ID: <20210302153034.5f4e320b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <41b77b1c3cf1bb7a51b750faf23900ef@dev.tdt.de>
+References: <20210216201813.60394-1-xie.he.0141@gmail.com>
+        <YC4sB9OCl5mm3JAw@unreal>
+        <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com>
+        <YC5DVTHHd6OOs459@unreal>
+        <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
+        <YC7GHgYfGmL2wVRR@unreal>
+        <CAJht_EPZ7rVFd-XD6EQD2VJTDtmZZv0HuZvii+7=yhFgVz68VQ@mail.gmail.com>
+        <CAJht_EPPMhB0JTtjWtMcGbRYNiZwJeMLWSC5hS6WhWuw5FgZtg@mail.gmail.com>
+        <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        <CAJht_EOru3pW6AHN4QVjiaERpLSfg-0G0ZEaqU_hkhX1acv0HQ@mail.gmail.com>
+        <906d8114f1965965749f1890680f2547@dev.tdt.de>
+        <CAJht_EPBJhhdCBoon=WMuPBk-sxaeYOq3veOpAd2jq5kFqQHBg@mail.gmail.com>
+        <e1750da4179aca52960703890e985af3@dev.tdt.de>
+        <CAJht_ENP3Y98jgj1peGa3fGpQ-qPaF=1gtyYwMcawRFW_UCpeA@mail.gmail.com>
+        <ff200b159ef358494a922a676cbef8a6@dev.tdt.de>
+        <CAJht_EMG27YU+Jxtb2qeq1nXwu8uV8FXQPr62OcNHsE7DozD1g@mail.gmail.com>
+        <41b77b1c3cf1bb7a51b750faf23900ef@dev.tdt.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change other related documentation file names from .txt to .rst
-and be more explicit about their paths/locations.
+On Tue, 02 Mar 2021 08:04:20 +0100 Martin Schiller wrote:
+> On 2021-03-01 09:56, Xie He wrote:
+> > On Sun, Feb 28, 2021 at 10:56 PM Martin Schiller <ms@dev.tdt.de> wrote:  
+> >> I mean the change from only one hdlc<x> interface to both hdlc<x> and
+> >> hdlc<x>_x25.
+> >> 
+> >> I can't estimate how many users are out there and how their setup 
+> >> looks
+> >> like.  
+> > 
+> > I'm also thinking about solving this issue by adding new APIs to the
+> > HDLC subsystem (hdlc_stop_queue / hdlc_wake_queue) for hardware
+> > drivers to call instead of netif_stop_queue / netif_wake_queue. This
+> > way we can preserve backward compatibility.
+> > 
+> > However I'm reluctant to change the code of all the hardware drivers
+> > because I'm afraid of introducing bugs, etc. When I look at the code
+> > of "wan/lmc/lmc_main.c", I feel I'm not able to make sure there are no
+> > bugs (related to stop_queue / wake_queue) after my change (and even
+> > before my change, actually). There are even serious style problems:
+> > the majority of its lines are indented by spaces.
+> > 
+> > So I don't want to mess with all the hardware drivers. Hardware driver
+> > developers (if they wish to properly support hdlc_x25) should do the
+> > change themselves. This is not a problem for me, because I use my own
+> > out-of-tree hardware driver. However if I add APIs with no user code
+> > in the kernel, other developers may think these APIs are not
+> > necessary.  
+> 
+> I don't think a change that affects the entire HDLC subsystem is
+> justified, since the actual problem only affects the hdlc_x25 area.
+> 
+> The approach with the additional hdlc<x>_x25 is clean and purposeful and
+> I personally could live with it.
+> 
+> I just don't see myself in the position to decide such a change at the
+> moment.
+> 
+> @Jakub: What is your opinion on this.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Johann Deneux <johann.deneux@gmail.com>
-Cc: Anssi Hannula <anssi.hannula@gmail.com>
----
-where is fftest mentioned here found? I only found one place:
-  https://github.com/flosse/linuxconsole/blob/master/utils/fftest.c
+Hard question to answer, existing users seem happy and Xie's driver
+isn't upstream, so the justification for potentially breaking backward
+compatibility isn't exactly "strong".
 
- Documentation/input/ff.rst |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
---- linux-next-20210202.orig/Documentation/input/ff.rst
-+++ linux-next-20210202/Documentation/input/ff.rst
-@@ -16,8 +16,8 @@ goal is not to support these devices as
- (as it is already the case), but to really enable the rendering of force
- effects.
- This document only describes the force feedback part of the Linux input
--interface. Please read joystick.txt and input.txt before reading further this
--document.
-+interface. Please read joydev/joystick.rst and input.rst before reading further
-+this document.
- 
- Instructions to the user
- ~~~~~~~~~~~~~~~~~~~~~~~~
-@@ -36,7 +36,7 @@ should keep a hand on your device, in or
- something goes wrong.
- 
- If you have a serial iforce device, you need to start inputattach. See
--joystick.txt for details.
-+joydev/joystick.rst for details.
- 
- Does it work ?
- --------------
+Can we cop out and add a knob somewhere to control spawning the extra
+netdev? Let people who just want a newer kernel carry on without
+distractions and those who want the extra layer can flip the switch?
