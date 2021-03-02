@@ -2,305 +2,244 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50DD5C433DB
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:06:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F17EC433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:06:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 088F364F1D
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:06:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5488E64F1D
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:06:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350170AbhCBRz7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 12:55:59 -0500
-Received: from regular1.263xmail.com ([211.150.70.205]:58134 "EHLO
-        regular1.263xmail.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1574079AbhCBD3I (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 1 Mar 2021 22:29:08 -0500
-Received: from localhost (unknown [192.168.167.16])
-        by regular1.263xmail.com (Postfix) with ESMTP id 9DB1AA76;
-        Tue,  2 Mar 2021 11:22:21 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-KSVirus-CHECKED: 0
-X-ADDR-CHECKED4: 1
-X-ANTISPAM-LEVEL: 2
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-Received: from localhost (unknown [61.183.83.60])
-        by smtp.263.net (postfix) whith ESMTP id P32470T140679093151488S1614655340737397_;
-        Tue, 02 Mar 2021 11:22:21 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <4f7c211292cf42a0a29263a794746c6a>
-X-RL-SENDER: huangjianghui@uniontech.com
-X-SENDER: huangjianghui@uniontech.com
-X-LOGIN-NAME: huangjianghui@uniontech.com
-X-FST-TO: corbet@lwn.net
-X-SENDER-IP: 61.183.83.60
-X-ATTACHMENT-NUM: 1
-X-System-Flag: 0
-Date:   Tue, 2 Mar 2021 11:22:20 +0800
-From:   huangjianghui <huangjianghui@uniontech.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] PATCH Documentation translations:translate
- sound/hd-audio/controls to chinese
-Message-ID: <20210302032220.GA938@akg>
-Reply-To: huangjianghui@uniontech.com
-References: <20210301122019.80234-1-huangjianghui@uniontech.com>
- <8735xe4lsb.fsf@meer.lwn.net>
+        id S1350190AbhCBR4s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 12:56:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35894 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1576913AbhCBFfK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 00:35:10 -0500
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FBEEC061797
+        for <linux-doc@vger.kernel.org>; Mon,  1 Mar 2021 21:32:14 -0800 (PST)
+Received: by mail-pf1-x431.google.com with SMTP id 201so13111388pfw.5
+        for <linux-doc@vger.kernel.org>; Mon, 01 Mar 2021 21:32:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=beagleboard-org.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=2DbGvfOj1DMYYHtWVJxAg+wtPMMn58r4EIDpHlv7W5Y=;
+        b=oJL1BJF+uyiVd6FSeZRvyOFmVXxR6JUbGB57F3OnJesw3QFTlRvwU6hSWEmgfiS2bR
+         ElgM4iKD06OAh+kp+Yso+Xpj7PERqnZ9dp1jUaJSumbU81Oqn+/ti2SkIcLXfT3+2LiL
+         cIdK+e0TyM3gD655GkI9ZNm5hQsJ7Pi/G3o1+rhXzrxx/dggP0zFs6V2uo3rzahv0kUB
+         vAaHwrx0Te+gDe6Xix7rFx4akwgDVreho6yHu/T3L33cUthHdUuCdsJfULDXLG7sviSH
+         33wxvUq9SJkPiW49UQzM6noCYtFeykGRbFsWWkCjsqSLjEcAGEbxWDbq5pgi5FSmTFoM
+         Cfbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=2DbGvfOj1DMYYHtWVJxAg+wtPMMn58r4EIDpHlv7W5Y=;
+        b=radcAKUMRb7Ky3+BrXIYDbH/xUDhLxuRo07ulap59DvPHSOE9xvycD1qv53md8MhcP
+         JwxNl8s2mcjXjDtVoaNhLngSteroLU+gMkOvwQLKAOkjaxd/TWbUokZn9W+ZgXzbda8b
+         9xu88cnlDiSl5NYR6RsEK0+6TmfU73YxVsaFKRvPQYTHyW2WjqPvmlkyE5Rv5xJdocNi
+         rUO4mKZM6WMJMvBK3UsZz6JkXrNY/7PwaJNaMU+z8PqKzreJkJUpKQXVwOfrgdOwtVaW
+         jfEKLnjWixYiyH/wuSELp63sGULR6P9G1+h3An41arsSi6R8lbX1lSZHkNvo8oHL23hJ
+         7HnA==
+X-Gm-Message-State: AOAM5328MZ8nA8ChMDH0oR/2T+0q2jCPo8OBQ5JW7WUOANyn9K0J0Fzq
+        7q9USc6H2vBNtLJKYhF+TNg7kA==
+X-Google-Smtp-Source: ABdhPJyhWpprOajovew/hxFF0zbRLsFXE+yVL4rITdbVY9l+SQvRWEhH932A6nx0YSHs02mI8SI3Eg==
+X-Received: by 2002:a63:6dc3:: with SMTP id i186mr9446310pgc.314.1614663133698;
+        Mon, 01 Mar 2021 21:32:13 -0800 (PST)
+Received: from x1.hsd1.or.comcast.net ([2601:1c0:4701:ae70:37ab:7b44:a136:e385])
+        by smtp.gmail.com with ESMTPSA id o129sm17929757pgo.27.2021.03.01.21.32.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Mar 2021 21:32:12 -0800 (PST)
+From:   Drew Fustini <drew@beagleboard.org>
+To:     Linus Walleij <linus.walleij@linaro.org>,
+        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tony Lindgren <tony@atomide.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Jason Kridner <jkridner@beagleboard.org>,
+        Robert Nelson <robertcnelson@beagleboard.org>,
+        Joe Perches <joe@perches.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Drew Fustini <drew@beagleboard.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH v9 2/4] pinctrl: pinmux: Add pinmux-select debugfs file
+Date:   Mon,  1 Mar 2021 21:30:57 -0800
+Message-Id: <20210302053059.1049035-3-drew@beagleboard.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210302053059.1049035-1-drew@beagleboard.org>
+References: <20210302053059.1049035-1-drew@beagleboard.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="FL5UXtIhxfXey3p5"
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8735xe4lsb.fsf@meer.lwn.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Add "pinmux-select" to debugfs which will activate a pin function for a
+given pin group:
 
---FL5UXtIhxfXey3p5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+  echo "<group-name function-name>" > pinmux-select
 
-On Mon, Mar 01, 2021 at 02:16:36PM -0700, Jonathan Corbet wrote:
-> 
-> So you have sent me two versions of this in the last 24 hours with no
-> indication of what has changed or why I should prefer one over the
-> other.  Always include that information (under the "---" line) when you
-> send updated versions.
-> 
-> It looks like you got a Reviewed-by tag from Alex on the other version,
-> but that doesn't appear here; why?
-> 
-> [...]
-> 
-Thank you very much for your advices, I sent two emails ,and As a
-result,I lost the reviewed information of Mr. Alex,I'm sorry for causing of
-the result.
+The write operation pinmux_select() handles this by checking that the
+names map to valid selectors and then calling ops->set_mux().
 
-[...]
-> So you list a bunch of files here, but most of them are not added in
-> your patch.  That will, of course, break the docs build.
-> 
-> 
-> What are all of these files?
-> 
-> Please fix these issues and make sure that the docs build runs correctly
-> before resubmitting.
-> 
-> Thanks,
-> 
-> jon
-> 
-> 
-In the next patch ,I deleted the index of the untranstated files,and i
-used checkpatch.pl to detect doc errors and tried to built the htmldocs
-on my pc.
+The existing "pinmux-functions" debugfs file lists the pin functions
+registered for the pin controller. For example:
 
-Thanks,
+  function: pinmux-uart0, groups = [ pinmux-uart0-pins ]
+  function: pinmux-mmc0, groups = [ pinmux-mmc0-pins ]
+  function: pinmux-mmc1, groups = [ pinmux-mmc1-pins ]
+  function: pinmux-i2c0, groups = [ pinmux-i2c0-pins ]
+  function: pinmux-i2c1, groups = [ pinmux-i2c1-pins ]
+  function: pinmux-spi1, groups = [ pinmux-spi1-pins ]
 
-Huang Jianghui
+To activate function pinmux-i2c1 on group pinmux-i2c1-pins:
 
---FL5UXtIhxfXey3p5
-Content-Type: text/x-diff; charset=gb2312
-Content-Disposition: attachment; filename="0001-PATCH-Documentation-translations-translate-sound-hd-.patch"
-Content-Transfer-Encoding: 8bit
+  echo "pinmux-i2c1-pins pinmux-i2c1" > pinmux-select
 
-From 47c05e4fe540e938fc7a9fa13a2f8698579a4744 Mon Sep 17 00:00:00 2001
-From: hjh <huangjianghui@uniontech.com>
-Date: Tue, 2 Mar 2021 10:52:18 +0800
-Subject: [PATCH] PATCH Documentation translations:translate
- sound/hd-audio/controls to chinese
-
-Signed-off-by: hjh <huangjianghui@uniontech.com>
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Reviewed-by: Tony Lindgren <tony@atomide.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Drew Fustini <drew@beagleboard.org>
 ---
- Documentation/translations/zh_CN/index.rst    |   1 +
- .../zh_CN/sound/hd-audio/controls.rst         | 102 ++++++++++++++++++
- .../zh_CN/sound/hd-audio/index.rst            |  14 +++
- .../translations/zh_CN/sound/index.rst        |  22 ++++
- 4 files changed, 139 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/controls.rst
- create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/index.rst
- create mode 100644 Documentation/translations/zh_CN/sound/index.rst
+ drivers/pinctrl/pinmux.c | 102 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 102 insertions(+)
 
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index be6f11176200..2767dacfe86d 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -20,6 +20,7 @@
-    process/index
-    filesystems/index
-    arm64/index
-+   sound/index
+diff --git a/drivers/pinctrl/pinmux.c b/drivers/pinctrl/pinmux.c
+index c651b2db0925..f4abfaecfc5c 100644
+--- a/drivers/pinctrl/pinmux.c
++++ b/drivers/pinctrl/pinmux.c
+@@ -12,6 +12,7 @@
+  */
+ #define pr_fmt(fmt) "pinmux core: " fmt
  
- 目录和表格
- ----------
-diff --git a/Documentation/translations/zh_CN/sound/hd-audio/controls.rst b/Documentation/translations/zh_CN/sound/hd-audio/controls.rst
-new file mode 100644
-index 000000000000..54c028ab9a40
---- /dev/null
-+++ b/Documentation/translations/zh_CN/sound/hd-audio/controls.rst
-@@ -0,0 +1,102 @@
-+.. SPDX-License-Identifier: GPL-2.0
++#include <linux/ctype.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+ #include <linux/init.h>
+@@ -673,6 +674,105 @@ void pinmux_show_setting(struct seq_file *s,
+ DEFINE_SHOW_ATTRIBUTE(pinmux_functions);
+ DEFINE_SHOW_ATTRIBUTE(pinmux_pins);
+ 
++#define PINMUX_SELECT_MAX 128
++static ssize_t pinmux_select(struct file *file, const char __user *user_buf,
++				   size_t len, loff_t *ppos)
++{
++	struct seq_file *sfile = file->private_data;
++	struct pinctrl_dev *pctldev = sfile->private;
++	const struct pinmux_ops *pmxops = pctldev->desc->pmxops;
++	const char *const *groups;
++	char *buf, *gname, *fname;
++	unsigned int num_groups;
++	int fsel, gsel, ret;
 +
-+Chinese translator: Huang Jianghui <huangjianghui@uniontech.com>
-+---------------------------------------------------------------------
-+.. include:: ../../disclaimer-zh_CN.rst
-+以下为正文
-+---------------------------------------------------------------------
-+======================================
-+高清音频编解码器特定混音器控件
-+======================================
++	if (len > PINMUX_SELECT_MAX)
++		return -ENOMEM;
 +
++	buf = kzalloc(PINMUX_SELECT_MAX, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
 +
-+此文件解释特定于编解码器的混音器控件.
++	ret = strncpy_from_user(buf, user_buf, PINMUX_SELECT_MAX);
++	if (ret < 0)
++		goto exit_free_buf;
++	buf[len-1] = '\0';
 +
-+瑞昱编解码器
-+------------
++	/* remove leading and trailing spaces of input buffer */
++	gname = strstrip(buf);
++	if (*gname == '\0') {
++		ret = -EINVAL;
++		goto exit_free_buf;
++	}
 +
-+声道模式
-+  这是一个用于更改环绕声道设置的枚举控件,仅在环绕声道打开时显示出现。
-+  它给出要使用的通道数:"2ch","4ch","6ch"，和"8ch"。根据配置，这还控
-+  制多I/O插孔的插孔重分配。
++	/* find a separator which is a spacelike character */
++	for (fname = gname; !isspace(*fname); fname++) {
++		if (*fname == '\0') {
++			ret = -EINVAL;
++			goto exit_free_buf;
++		}
++	}
++	*fname = '\0';
 +
-+自动静音模式
-+  这是一个枚举控件，用于更改耳机和线路输出插孔的自动静音行为。如果内
-+  置扬声器、耳机和/或线路输出插孔在机器上可用，则显示该控件。当只有
-+  耳机或者线路输出的时候，它给出”禁用“和”启用“状态。当启用后，插孔插
-+  入后扬声器会自动静音。
++	/* drop extra spaces between function and group names */
++	fname = skip_spaces(fname + 1);
++	if (*fname == '\0') {
++		ret = -EINVAL;
++		goto exit_free_buf;
++	}
 +
-+  当耳机和线路输出插孔都存在时，它给出”禁用“、”仅扬声器“和”线路输出+扬
-+  声器“。当”仅扬声器“被选择，插入耳机或者线路输出插孔可使扬声器静音，
-+  但不会使线路输出静音。当线路输出+扬声器被选择，插入耳机插孔会同时使扬
-+  声器和线路输出静音。
++	ret = pinmux_func_name_to_selector(pctldev, fname);
++	if (ret < 0) {
++		dev_err(pctldev->dev, "invalid function %s in map table\n", fname);
++		goto exit_free_buf;
++	}
++	fsel = ret;
 +
++	ret = pmxops->get_function_groups(pctldev, fsel, &groups, &num_groups);
++	if (ret) {
++		dev_err(pctldev->dev, "no groups for function %d (%s)", fsel, fname);
++		goto exit_free_buf;
++	}
 +
-+矽玛特编解码器
-+--------------
++	ret = match_string(groups, num_groups, gname);
++	if (ret < 0) {
++		dev_err(pctldev->dev, "invalid group %s", gname);
++		goto exit_free_buf;
++	}
 +
-+模拟环回
-+   此控件启用/禁用模拟环回电路。只有在编解码器提示中将”lookback“设置为真
-+   时才会出现(见HD-Audio.txt)。请注意，在某些编解码器上，模拟环回和正常
-+   PCM播放是独占的,即当此选项打开时，您将听不到任何PCM流。
++	ret = pinctrl_get_group_selector(pctldev, gname);
++	if (ret < 0) {
++		dev_err(pctldev->dev, "failed to get group selector for %s", gname);
++		goto exit_free_buf;
++	}
++	gsel = ret;
 +
-+交换中置/低频
-+   交换中置和低频通道顺序，通常情况下，左侧对应中置，右侧对应低频,启动此
-+   项后，左边低频，右边中置。
++	ret = pmxops->set_mux(pctldev, fsel, gsel);
++	if (ret) {
++		dev_err(pctldev->dev, "set_mux() failed: %d", ret);
++		goto exit_free_buf;
++	}
++	ret = len;
 +
-+耳机作为线路输出
-+   当此控制开启时，将耳机视为线路输出插孔。也就是说，耳机不会自动静音其他
-+   线路输出，没有耳机放大器被设置到引脚上。
++exit_free_buf:
++	kfree(buf);
 +
-+麦克风插口模式、线路插孔模式等
-+   这些枚举控制输入插孔引脚的方向和偏置。根据插孔类型，它可以设置为”麦克风
-+   输入“和”线路输入“以确定输入偏置,或者当引脚是环绕声道的多I/O插孔时，它
-+   可以设置为”线路输出“。
++	return ret;
++}
 +
++static int pinmux_select_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, NULL, inode->i_private);
++}
 +
-+威盛编解码器
-+------------
++static const struct file_operations pinmux_select_ops = {
++	.owner = THIS_MODULE,
++	.open = pinmux_select_open,
++	.write = pinmux_select,
++	.llseek = no_llseek,
++	.release = single_release,
++};
 +
-+智能5.1
-+   一个枚举控件，用于为环绕输出重新分配多个I/O插孔的任务。当它打开时，相应
-+   的输入插孔（通常是线路输入和麦克风输入）被切换为环绕和中央低频输出插孔。
-+
-+独立耳机
-+   启用此枚举控制时，耳机输出从单个流（第三个PCM，如hw:0,2）而不是主流路由。
-+   如果耳机DAC与侧边或中央低频通道DAC共享，则DAC将自动切换到耳机。
-+
-+环回混合
-+   一个用于确定是否启动了模拟环回路由的枚举控件。当它启用后，模拟环回路由到
-+   前置通道。同样，耳机与扬声器输出也采用相同的路径。作为一个副作用，当设置
-+   此模式后，单个音量控制将不再适用于耳机和扬声器，因为只有一个DAC连接到混
-+   音器小部件。
-+
-+动态电源控制
-+   此控件决定是否启动每个插孔的动态电源控制检测。启用时，根据插孔的插入情况
-+   动态更改组件的电源状态（D0/D3）以节省电量消耗。但是，如果您的系统没有提
-+   供正确的插孔检测，这将无法工作;在这种情况下，请关闭此控件。
-+
-+插孔检测
-+   此控件仅为VT1708编解码器提供，它不会为每个插孔插拔提供适当的未请求事件。
-+   当此控件打开，驱动将轮询插孔检测，以便耳机自动静音可以工作，而关闭此控
-+   件将降低功耗。
-+
-+
-+科胜讯编解码器
-+--------------
-+
-+自动静音模式
-+   见瑞昱解码器
-+
-+
-+
-+模拟编解码器
-+------------
-+
-+通道模式
-+   这是一个用于更改环绕声道设置的枚举控件,仅在环绕声道可用时显示。它提供了能
-+   被使用的通道数:”2ch“、”4ch“和”6ch“。根据配置，这还控制多I/O插孔的插孔重
-+   分配。
-+
-+独立耳机
-+   启动此枚举控制后，耳机输出从单个流（第三个PCM，如hw:0,2）而不是主流路由。
-diff --git a/Documentation/translations/zh_CN/sound/hd-audio/index.rst b/Documentation/translations/zh_CN/sound/hd-audio/index.rst
-new file mode 100644
-index 000000000000..d9885d53b069
---- /dev/null
-+++ b/Documentation/translations/zh_CN/sound/hd-audio/index.rst
-@@ -0,0 +1,14 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../disclaimer-zh_CN.rst
-+
-+:Original: :doc:`../../../../sound/hd-audio/index`
-+:Translator: Huang Jianghui <huangjianghui@uniontech.com>
-+
-+
-+高清音频
-+========
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   controls
-diff --git a/Documentation/translations/zh_CN/sound/index.rst b/Documentation/translations/zh_CN/sound/index.rst
-new file mode 100644
-index 000000000000..28d5dca34a63
---- /dev/null
-+++ b/Documentation/translations/zh_CN/sound/index.rst
-@@ -0,0 +1,22 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :doc:`../../../sound/index`
-+:Translator: Huang Jianghui <huangjianghui@uniontech.com>
-+
-+
-+====================
-+Linux 声音子系统文档
-+====================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   hd-audio/index
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
+ void pinmux_init_device_debugfs(struct dentry *devroot,
+ 			 struct pinctrl_dev *pctldev)
+ {
+@@ -680,6 +780,8 @@ void pinmux_init_device_debugfs(struct dentry *devroot,
+ 			    devroot, pctldev, &pinmux_functions_fops);
+ 	debugfs_create_file("pinmux-pins", 0444,
+ 			    devroot, pctldev, &pinmux_pins_fops);
++	debugfs_create_file("pinmux-select", 0200,
++			    devroot, pctldev, &pinmux_select_ops);
+ }
+ 
+ #endif /* CONFIG_DEBUG_FS */
 -- 
-2.20.1
-
-
---FL5UXtIhxfXey3p5--
-
+2.25.1
 
