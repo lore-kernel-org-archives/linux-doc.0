@@ -2,124 +2,235 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5E83C43331
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED0D1C43333
 	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80D9664F1E
+	by mail.kernel.org (Postfix) with ESMTP id C5E1964F1D
 	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580367AbhCBSCX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 13:02:23 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:11982 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1837925AbhCBJNK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 04:13:10 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B603e017d0000>; Tue, 02 Mar 2021 01:12:29 -0800
-Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 2 Mar
- 2021 09:12:26 +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     Ralph Campbell <rcampbell@nvidia.com>
-CC:     "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "nouveau@lists.freedesktop.org" <nouveau@lists.freedesktop.org>,
-        "bskeggs@redhat.com" <bskeggs@redhat.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "John Hubbard" <jhubbard@nvidia.com>,
-        "jglisse@redhat.com" <jglisse@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        "hch@infradead.org" <hch@infradead.org>,
-        "daniel@ffwll.ch" <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 6/8] mm: Selftests for exclusive device memory
-Date:   Tue, 2 Mar 2021 20:12:24 +1100
-Message-ID: <4866160.ulnvbvOQiP@nvdebian>
-In-Reply-To: <MN2PR12MB43440D6E37E35DAF962F556EC29A9@MN2PR12MB4344.namprd12.prod.outlook.com>
-References: <20210226071832.31547-1-apopple@nvidia.com> <20210226071832.31547-7-apopple@nvidia.com> <MN2PR12MB43440D6E37E35DAF962F556EC29A9@MN2PR12MB4344.namprd12.prod.outlook.com>
+        id S1580376AbhCBSC3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 13:02:29 -0500
+Received: from z11.mailgun.us ([104.130.96.11]:46272 "EHLO z11.mailgun.us"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1349618AbhCBKn3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Mar 2021 05:43:29 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1614681782; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=bzphY5OQxbLN/iqNOX3XvX2YxbNYlBSIUk0+bXErBE4=;
+ b=dbRxsvHZmbFFMOkkrWRnUpa7cFtTA4sSKeKAcwkCY/mQnFh3hZlFi37v3ezaFedXYYA/Hl41
+ cxV/WYagUnsLm3ug8wSGk8nJhnYTAlNGcMe8zJH6VIYf8Qgh7/BZ1F/AHCLTVglziDJUrhxC
+ VyD7SV/n25Vkd4guvW0CGfcFZac=
+X-Mailgun-Sending-Ip: 104.130.96.11
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 603e13cd91ca526c583f54b2 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 02 Mar 2021 10:30:37
+ GMT
+Sender: pintu=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 7EFCEC4346B; Tue,  2 Mar 2021 10:30:36 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: pintu)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 8A934C433C6;
+        Tue,  2 Mar 2021 10:30:34 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1614676349; bh=FeQHtfi4mCSWbQH0/aD7Oy3q/R8JrFmF5liDHR+wnLk=;
-        h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-         MIME-Version:Content-Transfer-Encoding:Content-Type:
-         X-Originating-IP:X-ClientProxiedBy;
-        b=HEiZZh4DK3KNf5gTFX02zJnM2b4ou/jDcSzCQDNZpPUD1j+uXhbse5auYqfmiU7Ec
-         YXvVqk1kNu+9JT6l7F02Id1OMF+U0wEmNbvQu+/A3fXdEze7YxM7ab4F6YYYKwV/Fg
-         Dm4znbewQozpm7A3c+OLIY1ia2ne7u3sRgRh+vejOiSB6QgLd6BMQm44HQa9cMzZFo
-         k5ZNYwLJtxHXK1Cy2RXvbbUDWH1IntCrq79+XEho9Uqe5MtS3waXVyOSNZ7GIWALM8
-         B+++XLu/MiXh8eoRa+xCczpfPLRtfclfNcVGwwZ6yWPMbfL6KvN2XP1foQfzlXEZuJ
-         iqBU0ylYO9AMQ==
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 02 Mar 2021 16:00:34 +0530
+From:   pintu@codeaurora.org
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, jaewon31.kim@samsung.com,
+        yuzhao@google.com, shakeelb@google.com, guro@fb.com,
+        mchehab+huawei@kernel.org, xi.fengfei@h3c.com,
+        lokeshgidra@google.com, nigupta@nvidia.com, famzheng@amazon.com,
+        andrew.a.klychkov@gmail.com, bigeasy@linutronix.de,
+        ping.ping@gmail.com, vbabka@suse.cz, yzaikin@google.com,
+        keescook@chromium.org, mcgrof@kernel.org, corbet@lwn.net,
+        pintu.ping@gmail.com
+Subject: Re: [PATCH] mm: introduce clear all vm events counters
+In-Reply-To: <YD0EOyW3pZXDnuuJ@cmpxchg.org>
+References: <1614595766-7640-1-git-send-email-pintu@codeaurora.org>
+ <YD0EOyW3pZXDnuuJ@cmpxchg.org>
+Message-ID: <419bb403c33b7e48291972df938d0cae@codeaurora.org>
+X-Sender: pintu@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tuesday, 2 March 2021 10:14:56 AM AEDT Ralph Campbell wrote:
-> > From: Alistair Popple <apopple@nvidia.com>
-> > Sent: Thursday, February 25, 2021 11:19 PM
-> > To: linux-mm@kvack.org; nouveau@lists.freedesktop.org;
-> > bskeggs@redhat.com; akpm@linux-foundation.org
-> > Cc: linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org; dri-
-> > devel@lists.freedesktop.org; John Hubbard <jhubbard@nvidia.com>; Ralph
-> > Campbell <rcampbell@nvidia.com>; jglisse@redhat.com; Jason Gunthorpe
-> > <jgg@nvidia.com>; hch@infradead.org; daniel@ffwll.ch; Alistair Popple
-> > <apopple@nvidia.com>
-> > Subject: [PATCH v3 6/8] mm: Selftests for exclusive device memory
-> > 
-> > Adds some selftests for exclusive device memory.
-> > 
-> > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+On 2021-03-01 20:41, Johannes Weiner wrote:
+> On Mon, Mar 01, 2021 at 04:19:26PM +0530, Pintu Kumar wrote:
+>> At times there is a need to regularly monitor vm counters while we
+>> reproduce some issue, or it could be as simple as gathering some 
+>> system
+>> statistics when we run some scenario and every time we like to start 
+>> from
+>> beginning.
+>> The current steps are:
+>> Dump /proc/vmstat
+>> Run some scenario
+>> Dump /proc/vmstat again
+>> Generate some data or graph
+>> reboot and repeat again
 > 
-> One minor nit below, but you can add
+> You can subtract the first vmstat dump from the second to get the
+> event delta for the scenario run. That's what I do, and I'd assume
+> most people are doing. Am I missing something?
 
-Thanks Ralph. Will fix that.
+Thanks so much for your comments.
+Yes in most cases it works.
 
-> Tested-by: Ralph Campbell <rcampbell@nvidia.com>
-> Reviewed-by: Ralph Campbell <rcampbell@nvidia.com>
-> 
-> > +static int dmirror_exclusive(struct dmirror *dmirror,
-> > +			     struct hmm_dmirror_cmd *cmd)
-> > +{
-> > +	unsigned long start, end, addr;
-> > +	unsigned long size = cmd->npages << PAGE_SHIFT;
-> > +	struct mm_struct *mm = dmirror->notifier.mm;
-> > +	struct page *pages[64];
-> > +	struct dmirror_bounce bounce;
-> > +	unsigned long next;
-> > +	int ret;
-> > +
-> > +	start = cmd->addr;
-> > +	end = start + size;
-> > +	if (end < start)
-> > +		return -EINVAL;
-> > +
-> > +	/* Since the mm is for the mirrored process, get a reference first. */
-> > +	if (!mmget_not_zero(mm))
-> > +		return -EINVAL;
-> > +
-> > +	mmap_read_lock(mm);
-> > +	for (addr = start; addr < end; addr = next) {
-> > +		int i, mapped;
-> > +
-> > +		if (end < addr + (64 << PAGE_SHIFT))
-> > +			next = end;
-> > +		else
-> > +			next = addr + (64 << PAGE_SHIFT);
-> 
-> I suggest using ARRAY_SIZE(pages) instead of '64' to make the meaning clear.
-> 
-> 
+But I guess there are sometimes where we need to compare with fresh data 
+(just like reboot) at least for some of the counters.
+Suppose we wanted to monitor pgalloc_normal and pgfree.
+Or, suppose we want to monitor until the field becomes non-zero..
+Or, how certain values are changing compared to fresh reboot.
+Or, suppose we want to reset all counters after boot and start capturing 
+fresh stats.
+
+Some of the counters could be growing too large and too fast. Will there 
+be chances of overflow ?
+Then resetting using this could help without rebooting.
+
+Suppose system came back from hibernation, and we want to reset all 
+counters again (to capture fresh data) ?
+
+Here I am sharing one output (from qemu-arm32 with 256MB RAM) just to 
+indicate what could be changed:
+Scenario: Generate OOM kill case and check oom_kill counter
+
+BEFORE	AFTER	proc/vmstat
+------  ------  -----------------------
+49991	49916	nr_free_pages
+4467	4481	nr_zone_inactive_anon
+68	68	nr_zone_active_anon
+3189	3067	nr_zone_inactive_file
+223	444	nr_zone_active_file
+0	0	nr_zone_unevictable
+122	136	nr_zone_write_pending
+0	0	nr_mlock
+139	139	nr_page_table_pages
+0	0	nr_bounce
+0	0	nr_zspages
+4032	4032	nr_free_cma
+4467	4481	nr_inactive_anon
+68	68	nr_active_anon
+3189	3067	nr_inactive_file
+223	444	nr_active_file
+0	0	nr_unevictable
+1177	1178	nr_slab_reclaimable
+1889	1889	nr_slab_unreclaimable
+0	0	nr_isolated_anon
+0	0	nr_isolated_file
+176	163	workingset_nodes
+0	0	workingset_refault_anon
+3295	3369	workingset_refault_file
+0	0	workingset_activate_anon
+4	4	workingset_activate_file
+0	0	workingset_restore_anon
+4	4	workingset_restore_file
+0	0	workingset_nodereclaim
+4436	4436	nr_anon_pages
+2636	2678	nr_mapped
+3559	3645	nr_file_pages
+122	136	nr_dirty
+0	0	nr_writeback
+0	0	nr_writeback_temp
+126	126	nr_shmem
+0	0	nr_shmem_hugepages
+0	0	nr_shmem_pmdmapped
+0	0	nr_file_hugepages
+0	0	nr_file_pmdmapped
+0	0	nr_anon_transparent_hugepages
+1	1	nr_vmscan_write
+1	1	nr_vmscan_immediate_reclaim
+1024	1038	nr_dirtied
+902	902	nr_written
+0	0	nr_kernel_misc_reclaimable
+0	0	nr_foll_pin_acquired
+0	0	nr_foll_pin_released
+616	616	nr_kernel_stack
+10529	10533	nr_dirty_threshold
+5258	5260	nr_dirty_background_threshold
+50714	256	pgpgin
+3932	16	pgpgout
+0	0	pswpin
+0	0	pswpout
+86828	122	pgalloc_normal
+0	0	pgalloc_movable
+0	0	allocstall_normal
+22	0	allocstall_movable
+0	0	pgskip_normal
+0	0	pgskip_movable
+139594	34	pgfree
+4998	155	pgactivate
+5738	0	pgdeactivate
+0	0	pglazyfree
+82113	122	pgfault
+374	2	pgmajfault
+0	0	pglazyfreed
+7695	0	pgrefill
+2718	20	pgreuse
+9261	0	pgsteal_kswapd
+173	0	pgsteal_direct
+12627	0	pgscan_kswapd
+283	0	pgscan_direct
+2	0	pgscan_direct_throttle
+0	0	pgscan_anon
+12910	0	pgscan_file
+0	0	pgsteal_anon
+9434	0	pgsteal_file
+0	0	pginodesteal
+7008	0	slabs_scanned
+109	0	kswapd_inodesteal
+16	0	kswapd_low_wmark_hit_quickly
+24	0	kswapd_high_wmark_hit_quickly
+43	0	pageoutrun
+1	0	pgrotated
+0	0	drop_pagecache
+0	0	drop_slab
+1	0	oom_kill
+1210	0	pgmigrate_success
+0	0	pgmigrate_fail
+0	0	thp_migration_success
+0	0	thp_migration_fail
+0	0	thp_migration_split
+1509	0	compact_migrate_scanned
+9015	0	compact_free_scanned
+3911	0	compact_isolated
+0	0	compact_stall
+0	0	compact_fail
+0	0	compact_success
+3	0	compact_daemon_wake
+1509	0	compact_daemon_migrate_scanned
+9015	0	compact_daemon_free_scanned
+0	0	unevictable_pgs_culled
+0	0	unevictable_pgs_scanned
+0	0	unevictable_pgs_rescued
+0	0	unevictable_pgs_mlocked
+0	0	unevictable_pgs_munlocked
+0	0	unevictable_pgs_cleared
+0	0	unevictable_pgs_stranded
+0	0	balloon_inflate
+0	0	balloon_deflate
+0	0	balloon_migrate
+0	0	swap_ra
+0	0	swap_ra_hit
+0	0	nr_unstable
 
 
 
-
+Thanks,
+Pintu
