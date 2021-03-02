@@ -2,115 +2,243 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-24.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C1B0C4361B
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F17FC433E6
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3659B64F1E
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60D8564F1D
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580398AbhCBSCu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 13:02:50 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:18119 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1447143AbhCBMmj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 07:42:39 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B603e32960000>; Tue, 02 Mar 2021 04:41:58 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 2 Mar
- 2021 12:41:57 +0000
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
- by HQMAIL109.nvidia.com (172.20.187.15) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2 via Frontend Transport; Tue, 2 Mar 2021 12:41:57 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=krA99G49gRreljlKnK0aS7mxZ7LlG+Ie6zX++/BaLGR8IVZ2rACMD3perTBfdZeKJNwNPv2B/qg7aDWJK/ECQOvAUMX11b6ZH/JIw8b8Q4vOGJRqQBJ4kxutBukAm45pTiSAsRWR+WKHRv1XrnJZMEK9q7cUcY4yK8tcv0zXdVvvKGscZqRiFh2BBNTA2J0iM6hLviWYVoOQ9Jtgvnpl2J56M/IuxOHnavUvxN4P9bPevR1pYIIuAUMVjb0TePnxgIEkiDzHLmM6Grz95ZWZzSwWCxB3NOus6ZxtFtNoj8EGleLaUR5kO259yA9NVT6g3G/Q9XS0Hz1mFR8OzNqrRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oE+KS2DDNZXXTciEYWOFI2+Rv0T7GevVzlHvgXrL1vk=;
- b=Cpob7Z6LjeMafeO1X3g9tmDrZSYJZRWzkeQvw+/vfl+L9NBvUyNv42P8vtOWjF4jd3qHcfMvVu/IaDRKIUak3Sdd/KJdSFjhYIkUEOpJdWZuxF7TQzrfr2NStXg3A6rtyQot4M30+D7Hynnjw+QEmqzp/NDX3XMCwGrUXEBHoOalvSCtcnK7/5rObPVDcO2Du4fva4PVsJkHB6aduNt0vIL8sFxdFbU0w1L2POULgYQVAUX/p+gj1kICvEes47Ak3XJGKpq+Nq3zm8AYqJT40DrooGR3NWcF2qY+W32nihdri0QQXbVkt9FHsh6CqreHXHiVXLA/7CeY2ysFUwaiaA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB2486.namprd12.prod.outlook.com (2603:10b6:4:b2::32) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.23; Tue, 2 Mar
- 2021 12:41:54 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3912.017; Tue, 2 Mar 2021
- 12:41:54 +0000
-Date:   Tue, 2 Mar 2021 08:41:52 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Alistair Popple <apopple@nvidia.com>
-CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <jhubbard@nvidia.com>,
-        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <hch@infradead.org>,
-        <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 5/8] mm: Device exclusive memory access
-Message-ID: <20210302124152.GF4247@nvidia.com>
-References: <20210226071832.31547-1-apopple@nvidia.com>
- <20210226071832.31547-6-apopple@nvidia.com>
- <20210302000559.GA763995@nvidia.com> <2758096.Z30Q8iEM0t@nvdebian>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <2758096.Z30Q8iEM0t@nvdebian>
-X-ClientProxiedBy: BL0PR05CA0018.namprd05.prod.outlook.com
- (2603:10b6:208:91::28) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+        id S1580394AbhCBSCm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 13:02:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46394 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1350242AbhCBMOh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Mar 2021 07:14:37 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CB81A64F7A;
+        Tue,  2 Mar 2021 11:57:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614686261;
+        bh=skQU9bsYZucJ+Hrr6tdbO8KfNjYUgophIxGkK6ZAbho=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=vNqdpcWgTd3hxkOuiL3/iIDdltwgqW32wSmv4ks1aX1527DutvxJ/TUfbcbV9wm51
+         TYGD61aGvu9sKuOsLKE5/SPDUhKxPwo0soGuG7jgx9o5DdAMJhzTC6ctX8QYWjcuae
+         DHe3syrv/0vZDAwLXxwTnGj079tF8aI/xiQIHFCV6XS88iylc0ENhV0taATZPTdntP
+         Bab5Nnb9umv5a1CI4dkRDbqSFzHEtI8v3GOXKjkXMgDyBz+OmdF/VrDM1POFi0zu1Y
+         wzjH0bPgTi+rvX7bTgxGeiF1nyH4dEPDs2LqiT6dHmr6H0fB+gkvY+xP/+/hYiLykq
+         eihCjePvecmSQ==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     David Hildenbrand <david@redhat.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Oscar Salvador <osalvador@suse.de>,
+        Dave Hansen <dave.hansen@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Tom Rix <trix@redhat.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 42/47] drivers/base/memory: don't store phys_device in memory blocks
+Date:   Tue,  2 Mar 2021 06:56:41 -0500
+Message-Id: <20210302115646.62291-42-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210302115646.62291-1-sashal@kernel.org>
+References: <20210302115646.62291-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.115.133) by BL0PR05CA0018.namprd05.prod.outlook.com (2603:10b6:208:91::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.16 via Frontend Transport; Tue, 2 Mar 2021 12:41:53 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lH4LY-0049UW-8j; Tue, 02 Mar 2021 08:41:52 -0400
-X-Header: ProcessedBy-CMR-outbound
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1614688918; bh=oE+KS2DDNZXXTciEYWOFI2+Rv0T7GevVzlHvgXrL1vk=;
-        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
-         From:To:CC:Subject:Message-ID:References:Content-Type:
-         Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-         X-MS-Exchange-MessageSentRepresentingType:X-Header;
-        b=Bw0nEP7xQqtv/nLkS6v87rsYK4W26pKht7z811sA9bGQ3XHCUEIfPvhuuBMUKZcRU
-         pAJq9hfH1SoA0dHn+aJGBP04I4M2L2qPJE1TygCDd5kzCoIOQcGEMPS/NNNxZnLCke
-         x8ntsVBil6b42sWjx7HjnuKjj1uzGa9TYXcyj0X/7S44f25X84ctGNS+nO9EP8gULV
-         /Hvqqk8TbzX0WaGb91HnEorl8EjdWgaz+/iBNcbX+JKwJ1TwXI1wXq0m50R+r4U6o+
-         2nrlhXmgtatriXc63+cNtMOVqtHh2T5ak/Hbdu27vvIMlE5M13UxGUGX5Ah8HiurSt
-         x1cR2frsdzj6g==
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 02, 2021 at 07:57:58PM +1100, Alistair Popple wrote:
+From: David Hildenbrand <david@redhat.com>
 
-> The intent was a driver could use HMM or some other mechanism to keep PTEs 
-> synchronised if required. However I just looked at patch 8 in the series again 
-> and it appears I got this wrong when converting from the old migration 
-> approach:
-> 
-> +               mutex_unlock(&svmm->mutex);
-> +               ret = nouveau_atomic_range_fault(svmm, drm, args,
-> +                                               size, hmm_flags, mm);
-> 
-> The mutex needs to be unlocked after the range fault to ensure the PTE hasn't 
-> changed. But this ends up being a problem because try_to_protect() calls 
-> notifiers which need to take that mutex and hence deadlocks.
+[ Upstream commit e9a2e48e8704c9d20a625c6f2357147d03ea7b97 ]
 
-you have to check the notifier sequence under the mutex and loop
-again. The mutex should only cover programming the HW to use the
-pages, nothing else.
+No need to store the value for each and every memory block, as we can
+easily query the value at runtime.  Reshuffle the members to optimize the
+memory layout.  Also, let's clarify what the interface once was used for
+and why it's legacy nowadays.
 
-> However try_to_protect() scans the PTEs again under the PTL so checking the 
-> mapping of interest actually gets replaced during the rmap walk seems like a 
-> reasonable solution. Thanks for the comments.
+"phys_device" was used on s390x in older versions of lsmem[2]/chmem[3],
+back when they were still part of s390x-tools.  They were later replaced
+by the variants in linux-utils.  For example, RHEL6 and RHEL7 contain
+lsmem/chmem from s390-utils.  RHEL8 switched to versions from util-linux
+on s390x [4].
 
-It does seem cleaner if you can manage it, the notifier will still be
-needd to program the HW though
+"phys_device" was added with sysfs support for memory hotplug in commit
+3947be1969a9 ("[PATCH] memory hotplug: sysfs and add/remove functions") in
+2005.  It always returned 0.
 
-Jason
+s390x started returning something != 0 on some setups (if sclp.rzm is set
+by HW) in 2010 via commit 57b552ba0b2f ("memory hotplug/s390: set
+phys_device").
+
+For s390x, it allowed for identifying which memory block devices belong to
+the same storage increment (RZM).  Only if all memory block devices
+comprising a single storage increment were offline, the memory could
+actually be removed in the hypervisor.
+
+Since commit e5d709bb5fb7 ("s390/memory hotplug: provide
+memory_block_size_bytes() function") in 2013 a memory block device spans
+at least one storage increment - which is why the interface isn't really
+helpful/used anymore (except by old lsmem/chmem tools).
+
+There were once RFC patches to make use of "phys_device" in ACPI context;
+however, the underlying problem could be solved using different interfaces
+[1].
+
+[1] https://patchwork.kernel.org/patch/2163871/
+[2] https://github.com/ibm-s390-tools/s390-tools/blob/v2.1.0/zconf/lsmem
+[3] https://github.com/ibm-s390-tools/s390-tools/blob/v2.1.0/zconf/chmem
+[4] https://bugzilla.redhat.com/show_bug.cgi?id=1504134
+
+Link: https://lkml.kernel.org/r/20210201181347.13262-2-david@redhat.com
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Acked-by: Michal Hocko <mhocko@suse.com>
+Reviewed-by: Oscar Salvador <osalvador@suse.de>
+Cc: Dave Hansen <dave.hansen@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Ilya Dryomov <idryomov@gmail.com>
+Cc: Vaibhav Jain <vaibhav@linux.ibm.com>
+Cc: Tom Rix <trix@redhat.com>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../ABI/testing/sysfs-devices-memory          |  5 ++--
+ .../admin-guide/mm/memory-hotplug.rst         |  4 +--
+ drivers/base/memory.c                         | 25 +++++++------------
+ include/linux/memory.h                        |  3 +--
+ 4 files changed, 15 insertions(+), 22 deletions(-)
+
+diff --git a/Documentation/ABI/testing/sysfs-devices-memory b/Documentation/ABI/testing/sysfs-devices-memory
+index 2da2b1fba2c1..16a727a611b1 100644
+--- a/Documentation/ABI/testing/sysfs-devices-memory
++++ b/Documentation/ABI/testing/sysfs-devices-memory
+@@ -26,8 +26,9 @@ Date:		September 2008
+ Contact:	Badari Pulavarty <pbadari@us.ibm.com>
+ Description:
+ 		The file /sys/devices/system/memory/memoryX/phys_device
+-		is read-only and is designed to show the name of physical
+-		memory device.  Implementation is currently incomplete.
++		is read-only;  it is a legacy interface only ever used on s390x
++		to expose the covered storage increment.
++Users:		Legacy s390-tools lsmem/chmem
+ 
+ What:		/sys/devices/system/memory/memoryX/phys_index
+ Date:		September 2008
+diff --git a/Documentation/admin-guide/mm/memory-hotplug.rst b/Documentation/admin-guide/mm/memory-hotplug.rst
+index 5c4432c96c4b..245739f55ac7 100644
+--- a/Documentation/admin-guide/mm/memory-hotplug.rst
++++ b/Documentation/admin-guide/mm/memory-hotplug.rst
+@@ -160,8 +160,8 @@ Under each memory block, you can see 5 files:
+ 
+                     "online_movable", "online", "offline" command
+                     which will be performed on all sections in the block.
+-``phys_device``     read-only: designed to show the name of physical memory
+-                    device.  This is not well implemented now.
++``phys_device``	    read-only: legacy interface only ever used on s390x to
++		    expose the covered storage increment.
+ ``removable``       read-only: contains an integer value indicating
+                     whether the memory block is removable or not
+                     removable.  A value of 1 indicates that the memory
+diff --git a/drivers/base/memory.c b/drivers/base/memory.c
+index eef4ffb6122c..de058d15b33e 100644
+--- a/drivers/base/memory.c
++++ b/drivers/base/memory.c
+@@ -290,20 +290,20 @@ static ssize_t state_store(struct device *dev, struct device_attribute *attr,
+ }
+ 
+ /*
+- * phys_device is a bad name for this.  What I really want
+- * is a way to differentiate between memory ranges that
+- * are part of physical devices that constitute
+- * a complete removable unit or fru.
+- * i.e. do these ranges belong to the same physical device,
+- * s.t. if I offline all of these sections I can then
+- * remove the physical device?
++ * Legacy interface that we cannot remove: s390x exposes the storage increment
++ * covered by a memory block, allowing for identifying which memory blocks
++ * comprise a storage increment. Since a memory block spans complete
++ * storage increments nowadays, this interface is basically unused. Other
++ * archs never exposed != 0.
+  */
+ static ssize_t phys_device_show(struct device *dev,
+ 				struct device_attribute *attr, char *buf)
+ {
+ 	struct memory_block *mem = to_memory_block(dev);
++	unsigned long start_pfn = section_nr_to_pfn(mem->start_section_nr);
+ 
+-	return sysfs_emit(buf, "%d\n", mem->phys_device);
++	return sysfs_emit(buf, "%d\n",
++			  arch_get_memory_phys_device(start_pfn));
+ }
+ 
+ #ifdef CONFIG_MEMORY_HOTREMOVE
+@@ -488,11 +488,7 @@ static DEVICE_ATTR_WO(soft_offline_page);
+ static DEVICE_ATTR_WO(hard_offline_page);
+ #endif
+ 
+-/*
+- * Note that phys_device is optional.  It is here to allow for
+- * differentiation between which *physical* devices each
+- * section belongs to...
+- */
++/* See phys_device_show(). */
+ int __weak arch_get_memory_phys_device(unsigned long start_pfn)
+ {
+ 	return 0;
+@@ -574,7 +570,6 @@ int register_memory(struct memory_block *memory)
+ static int init_memory_block(unsigned long block_id, unsigned long state)
+ {
+ 	struct memory_block *mem;
+-	unsigned long start_pfn;
+ 	int ret = 0;
+ 
+ 	mem = find_memory_block_by_id(block_id);
+@@ -588,8 +583,6 @@ static int init_memory_block(unsigned long block_id, unsigned long state)
+ 
+ 	mem->start_section_nr = block_id * sections_per_block;
+ 	mem->state = state;
+-	start_pfn = section_nr_to_pfn(mem->start_section_nr);
+-	mem->phys_device = arch_get_memory_phys_device(start_pfn);
+ 	mem->nid = NUMA_NO_NODE;
+ 
+ 	ret = register_memory(mem);
+diff --git a/include/linux/memory.h b/include/linux/memory.h
+index 439a89e758d8..4da95e684e20 100644
+--- a/include/linux/memory.h
++++ b/include/linux/memory.h
+@@ -27,9 +27,8 @@ struct memory_block {
+ 	unsigned long start_section_nr;
+ 	unsigned long state;		/* serialized by the dev->lock */
+ 	int online_type;		/* for passing data to online routine */
+-	int phys_device;		/* to which fru does this belong? */
+-	struct device dev;
+ 	int nid;			/* NID for this memory block */
++	struct device dev;
+ };
+ 
+ int arch_get_memory_phys_device(unsigned long start_pfn);
+-- 
+2.30.1
+
