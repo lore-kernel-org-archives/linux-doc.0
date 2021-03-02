@@ -7,205 +7,71 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6324BC433E6
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15F3FC4332D
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1DD4864EDF
+	by mail.kernel.org (Postfix) with ESMTP id BC85064EF0
 	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240879AbhCCKby (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:31:54 -0500
-Received: from mout01.posteo.de ([185.67.36.65]:54133 "EHLO mout01.posteo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1446266AbhCBU2k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Mar 2021 15:28:40 -0500
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id ABEC3160063
-        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 21:27:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-        t=1614716842; bh=8mi09Rx1C6p0vrdpYJiMwlPPYaMYUrw/IsAC+AOdZ3o=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ZlmCR/4U1dJajTUv4+e58feNY13LkX+mwtu/zbSGTOzylPFIgloG5Q0bHItsStt24
-         iwYKYXjMySy6JRkOe9sy7tsKgtc+0qFx0bt6osoBQ/TGLoY05h1uUhFQxn4fTVvv+L
-         CEYJcpmYDqxAZnYmjUc7+bvNQDdiVL/cznESLifVUgjakpvye5isVki1VVoSEuU6dX
-         N6USuljVw9s706tvTeYsDue6imAlE/9KlmSmk6uGiYf6jLJXcq3HBpckXH96RqrQUF
-         BAooiCIxgBI5DjHRLQwBjetAfofB+W6klLnxPKU7MDAGZu85xWkYn2BFGMkLteye31
-         G1zl2fXwpPhkw==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4DqpZx5dX6z6tmT;
-        Tue,  2 Mar 2021 21:27:21 +0100 (CET)
-From:   Mark O'Donovan <shiftee@posteo.net>
-To:     linux-doc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Mark O'Donovan <shiftee@posteo.net>
-Subject: [PATCH] Documentation: Add leading slash to some paths
-Date:   Tue,  2 Mar 2021 20:25:40 +0000
-Message-Id: <20210302202539.103853-1-shiftee@posteo.net>
-X-Mailer: git-send-email 2.25.1
+        id S241654AbhCCKc4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:32:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58456 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1351276AbhCBWi4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 17:38:56 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51E12C06121E;
+        Tue,  2 Mar 2021 14:35:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+        Content-Type:Content-ID:Content-Description;
+        bh=bCrl2JT7gWAImYo9m6rSceBGUV1jXooR2t40Fw22toI=; b=lkcsZ8dS9F3qJV2TAzRgkV6rBe
+        FGCs8YksR6Sao/SUi2mkpWDT25B8t3y54bKD4Qo5/EUTIbPHc6f+C3x8wtuPY87PcY5TH6ewkgmEw
+        8jkG7FQhS8ghRSP4UILZTfi9+kq8Ez+RedF+o7Agf4lVztqP1AwyCwbWeNr6ZCw2shBlR8USCF5W7
+        9cTiyMm0hHdj5wp2n23cNhyobTQX43khIfekgRMT1BPN8EZsfakyL48Bp4/0owjzyAE/3SWwfM1rE
+        9ovp8OA3XT+58vBlT1eBLJ4cGXuy8vYr6dZFS2r/isFMaSQ+mq6mutIszRoIRW27US1aCreHis7wv
+        k2IOlbnw==;
+Received: from [2601:1c0:6280:3f0::3ba4] (helo=smtpauth.infradead.org)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lHDcK-000WSO-Ow; Tue, 02 Mar 2021 22:35:51 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [PATCH 8/8] input: Documentation: corrections for uinput.rst
+Date:   Tue,  2 Mar 2021 14:35:23 -0800
+Message-Id: <20210302223523.20130-9-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210302223523.20130-1-rdunlap@infradead.org>
+References: <20210302223523.20130-1-rdunlap@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change multiple sys/xyz to /sys/xyz
+Fix a typo (supportinf -> supporting).
 
-Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: linux-input@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
 ---
- Documentation/admin-guide/mm/numaperf.rst |  2 +-
- Documentation/fb/fbcon.rst                |  4 ++--
- Documentation/hid/intel-ish-hid.rst       |  2 +-
- Documentation/leds/leds-lm3556.rst        | 28 +++++++++++------------
- 4 files changed, 18 insertions(+), 18 deletions(-)
+ Documentation/input/uinput.rst |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/admin-guide/mm/numaperf.rst b/Documentation/admin-guide/mm/numaperf.rst
-index c2f826409bf0..166697325947 100644
---- a/Documentation/admin-guide/mm/numaperf.rst
-+++ b/Documentation/admin-guide/mm/numaperf.rst
-@@ -151,7 +151,7 @@ Each cache level's directory provides its attributes. For example, the
- following shows a single cache level and the attributes available for
- software to query::
+--- linux-next-20210202.orig/Documentation/input/uinput.rst
++++ linux-next-20210202/Documentation/input/uinput.rst
+@@ -179,7 +179,7 @@ uinput old interface
+ --------------------
  
--	# tree sys/devices/system/node/node0/memory_side_cache/
-+	# tree /sys/devices/system/node/node0/memory_side_cache/
- 	/sys/devices/system/node/node0/memory_side_cache/
- 	|-- index1
- 	|   |-- indexing
-diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-index 57f66de2f7e1..212f7003cfba 100644
---- a/Documentation/fb/fbcon.rst
-+++ b/Documentation/fb/fbcon.rst
-@@ -207,9 +207,9 @@ Documentation/driver-api/console.rst. To summarize:
- Echo a value to the bind file that represents the framebuffer console
- driver. So assuming vtcon1 represents fbcon, then::
- 
--  echo 1 > sys/class/vtconsole/vtcon1/bind - attach framebuffer console to
-+  echo 1 > /sys/class/vtconsole/vtcon1/bind - attach framebuffer console to
- 					     console layer
--  echo 0 > sys/class/vtconsole/vtcon1/bind - detach framebuffer console from
-+  echo 0 > /sys/class/vtconsole/vtcon1/bind - detach framebuffer console from
- 					     console layer
- 
- If fbcon is detached from the console layer, your boot console driver (which is
-diff --git a/Documentation/hid/intel-ish-hid.rst b/Documentation/hid/intel-ish-hid.rst
-index f6ce44ff611d..7a851252267a 100644
---- a/Documentation/hid/intel-ish-hid.rst
-+++ b/Documentation/hid/intel-ish-hid.rst
-@@ -345,7 +345,7 @@ Documentation/ABI/testing/sysfs-bus-iio for IIO ABIs to user space.
- To debug ISH, event tracing mechanism is used. To enable debug logs::
- 
-   echo 1 > /sys/kernel/debug/tracing/events/intel_ish/enable
--  cat sys/kernel/debug/tracing/trace
-+  cat /sys/kernel/debug/tracing/trace
- 
- 3.8 ISH IIO sysfs Example on Lenovo thinkpad Yoga 260
- -----------------------------------------------------
-diff --git a/Documentation/leds/leds-lm3556.rst b/Documentation/leds/leds-lm3556.rst
-index 1ef17d7d800e..32e3983473ba 100644
---- a/Documentation/leds/leds-lm3556.rst
-+++ b/Documentation/leds/leds-lm3556.rst
-@@ -23,7 +23,7 @@ from 93.75 mA to 1500 mA.The Flash currents are adjusted via the CURRENT
- CONTROL REGISTER(0x09).Flash mode is activated by the ENABLE REGISTER(0x0A),
- or by pulling the STROBE pin HIGH.
- 
--LM3556 Flash can be controlled through sys/class/leds/flash/brightness file
-+LM3556 Flash can be controlled through /sys/class/leds/flash/brightness file
- 
- * if STROBE pin is enabled, below example control brightness only, and
-   ON / OFF will be controlled by STROBE pin.
-@@ -32,17 +32,17 @@ Flash Example:
- 
- OFF::
- 
--	#echo 0 > sys/class/leds/flash/brightness
-+	#echo 0 > /sys/class/leds/flash/brightness
- 
- 93.75 mA::
- 
--	#echo 1 > sys/class/leds/flash/brightness
-+	#echo 1 > /sys/class/leds/flash/brightness
- 
- ...
- 
- 1500  mA::
- 
--	#echo 16 > sys/class/leds/flash/brightness
-+	#echo 16 > /sys/class/leds/flash/brightness
- 
- Torch Mode
- ^^^^^^^^^^
-@@ -51,7 +51,7 @@ In Torch Mode, the current source(LED) is programmed via the CURRENT CONTROL
- REGISTER(0x09).Torch Mode is activated by the ENABLE REGISTER(0x0A) or by the
- hardware TORCH input.
- 
--LM3556 torch can be controlled through sys/class/leds/torch/brightness file.
-+LM3556 torch can be controlled through /sys/class/leds/torch/brightness file.
- * if TORCH pin is enabled, below example control brightness only,
- and ON / OFF will be controlled by TORCH pin.
- 
-@@ -59,22 +59,22 @@ Torch Example:
- 
- OFF::
- 
--	#echo 0 > sys/class/leds/torch/brightness
-+	#echo 0 > /sys/class/leds/torch/brightness
- 
- 46.88 mA::
- 
--	#echo 1 > sys/class/leds/torch/brightness
-+	#echo 1 > /sys/class/leds/torch/brightness
- 
- ...
- 
- 375 mA::
- 
--	#echo 8 > sys/class/leds/torch/brightness
-+	#echo 8 > /sys/class/leds/torch/brightness
- 
- Indicator Mode
- ^^^^^^^^^^^^^^
- 
--Indicator pattern can be set through sys/class/leds/indicator/pattern file,
-+Indicator pattern can be set through /sys/class/leds/indicator/pattern file,
- and 4 patterns are pre-defined in indicator_pattern array.
- 
- According to N-lank, Pulse time and N Period values, different pattern wiill
-@@ -87,13 +87,13 @@ Indicator pattern example:
- 
- pattern 0::
- 
--	#echo 0 > sys/class/leds/indicator/pattern
-+	#echo 0 > /sys/class/leds/indicator/pattern
- 
- ...
- 
- pattern 3::
- 
--	#echo 3 > sys/class/leds/indicator/pattern
-+	#echo 3 > /sys/class/leds/indicator/pattern
- 
- Indicator brightness can be controlled through
- sys/class/leds/indicator/brightness file.
-@@ -102,17 +102,17 @@ Example:
- 
- OFF::
- 
--	#echo 0 > sys/class/leds/indicator/brightness
-+	#echo 0 > /sys/class/leds/indicator/brightness
- 
- 5.86 mA::
- 
--	#echo 1 > sys/class/leds/indicator/brightness
-+	#echo 1 > /sys/class/leds/indicator/brightness
- 
- ...
- 
- 46.875mA::
- 
--	#echo 8 > sys/class/leds/indicator/brightness
-+	#echo 8 > /sys/class/leds/indicator/brightness
- 
- Notes
- -----
--- 
-2.25.1
-
+ Before uinput version 5, there wasn't a dedicated ioctl to set up a virtual
+-device. Programs supportinf older versions of uinput interface need to fill
++device. Programs supporting older versions of uinput interface need to fill
+ a uinput_user_dev structure and write it to the uinput file descriptor to
+ configure the new uinput device. New code should not use the old interface
+ but interact with uinput via ioctl calls, or use libevdev.
