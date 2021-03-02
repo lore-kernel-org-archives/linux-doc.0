@@ -2,261 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D072C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C1B0C4361B
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 51B5C64F1D
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3659B64F1E
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1575102AbhCBSBi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 13:01:38 -0500
-Received: from z11.mailgun.us ([104.130.96.11]:18754 "EHLO z11.mailgun.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1381418AbhCBH72 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Mar 2021 02:59:28 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1614671924; h=Content-Transfer-Encoding: MIME-Version:
- References: In-Reply-To: Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=/dreKkZE2sPOs1X4kQZkQV4HS+BY1TtC1/axdP1s7i0=; b=w1qP3DsTK+xGdX7hRE6LLmqWMKD6pk3XJPGuwKU73dLryB0txit6MIjOn/r+BbPQGjXtMFbH
- MQ8LVKNMvBLNS3v/hvToJcv6+1oePJMZxASwQw5nfdSNLjje8xMaOXfzGyb3en1AhA1Fefqm
- dNlMnwVJ7VdTa4Y8FaemTORdDCs=
-X-Mailgun-Sending-Ip: 104.130.96.11
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 603ded481defdc70aee0dda0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 02 Mar 2021 07:46:16
- GMT
-Sender: saiprakash.ranjan=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 53EB6C43461; Tue,  2 Mar 2021 07:46:15 +0000 (UTC)
-Received: from blr-ubuntu-253.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: saiprakash.ranjan)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 420D7C433CA;
-        Tue,  2 Mar 2021 07:46:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 420D7C433CA
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=saiprakash.ranjan@codeaurora.org
-From:   Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To:     tglx@linutronix.de
-Cc:     Jisheng.Zhang@synaptics.com, afzal.mohd.ma@gmail.com,
-        akpm@linux-foundation.org, corbet@lwn.net, gpiccoli@canonical.com,
-        gustavo@embeddedor.com, helgaas@kernel.org, ilina@codeaurora.org,
-        kernelfans@gmail.com, kexec@lists.infradead.org,
-        linus.walleij@linaro.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, maz@kernel.org,
-        mike.kravetz@oracle.com, mkshah@codeaurora.org, oneukum@suse.com,
-        pawan.kumar.gupta@linux.intel.com, peterz@infradead.org,
-        pmladek@suse.com, viro@zeniv.linux.org.uk,
-        Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-Subject: Re: [PATCH 0/3] warn and suppress irqflood
-Date:   Tue,  2 Mar 2021 13:15:56 +0530
-Message-Id: <20210302074556.23998-1-saiprakash.ranjan@codeaurora.org>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <87tuueftou.fsf@nanos.tec.linutronix.de>
-References: <87tuueftou.fsf@nanos.tec.linutronix.de>
+        id S1580398AbhCBSCu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 13:02:50 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:18119 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1447143AbhCBMmj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 07:42:39 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B603e32960000>; Tue, 02 Mar 2021 04:41:58 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 2 Mar
+ 2021 12:41:57 +0000
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.174)
+ by HQMAIL109.nvidia.com (172.20.187.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2 via Frontend Transport; Tue, 2 Mar 2021 12:41:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=krA99G49gRreljlKnK0aS7mxZ7LlG+Ie6zX++/BaLGR8IVZ2rACMD3perTBfdZeKJNwNPv2B/qg7aDWJK/ECQOvAUMX11b6ZH/JIw8b8Q4vOGJRqQBJ4kxutBukAm45pTiSAsRWR+WKHRv1XrnJZMEK9q7cUcY4yK8tcv0zXdVvvKGscZqRiFh2BBNTA2J0iM6hLviWYVoOQ9Jtgvnpl2J56M/IuxOHnavUvxN4P9bPevR1pYIIuAUMVjb0TePnxgIEkiDzHLmM6Grz95ZWZzSwWCxB3NOus6ZxtFtNoj8EGleLaUR5kO259yA9NVT6g3G/Q9XS0Hz1mFR8OzNqrRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oE+KS2DDNZXXTciEYWOFI2+Rv0T7GevVzlHvgXrL1vk=;
+ b=Cpob7Z6LjeMafeO1X3g9tmDrZSYJZRWzkeQvw+/vfl+L9NBvUyNv42P8vtOWjF4jd3qHcfMvVu/IaDRKIUak3Sdd/KJdSFjhYIkUEOpJdWZuxF7TQzrfr2NStXg3A6rtyQot4M30+D7Hynnjw+QEmqzp/NDX3XMCwGrUXEBHoOalvSCtcnK7/5rObPVDcO2Du4fva4PVsJkHB6aduNt0vIL8sFxdFbU0w1L2POULgYQVAUX/p+gj1kICvEes47Ak3XJGKpq+Nq3zm8AYqJT40DrooGR3NWcF2qY+W32nihdri0QQXbVkt9FHsh6CqreHXHiVXLA/7CeY2ysFUwaiaA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM5PR12MB2486.namprd12.prod.outlook.com (2603:10b6:4:b2::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.23; Tue, 2 Mar
+ 2021 12:41:54 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3912.017; Tue, 2 Mar 2021
+ 12:41:54 +0000
+Date:   Tue, 2 Mar 2021 08:41:52 -0400
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Alistair Popple <apopple@nvidia.com>
+CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
+        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <jhubbard@nvidia.com>,
+        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <hch@infradead.org>,
+        <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 5/8] mm: Device exclusive memory access
+Message-ID: <20210302124152.GF4247@nvidia.com>
+References: <20210226071832.31547-1-apopple@nvidia.com>
+ <20210226071832.31547-6-apopple@nvidia.com>
+ <20210302000559.GA763995@nvidia.com> <2758096.Z30Q8iEM0t@nvdebian>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <2758096.Z30Q8iEM0t@nvdebian>
+X-ClientProxiedBy: BL0PR05CA0018.namprd05.prod.outlook.com
+ (2603:10b6:208:91::28) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.162.115.133) by BL0PR05CA0018.namprd05.prod.outlook.com (2603:10b6:208:91::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.16 via Frontend Transport; Tue, 2 Mar 2021 12:41:53 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lH4LY-0049UW-8j; Tue, 02 Mar 2021 08:41:52 -0400
+X-Header: ProcessedBy-CMR-outbound
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1614688918; bh=oE+KS2DDNZXXTciEYWOFI2+Rv0T7GevVzlHvgXrL1vk=;
+        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
+         From:To:CC:Subject:Message-ID:References:Content-Type:
+         Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
+         X-MS-Exchange-MessageSentRepresentingType:X-Header;
+        b=Bw0nEP7xQqtv/nLkS6v87rsYK4W26pKht7z811sA9bGQ3XHCUEIfPvhuuBMUKZcRU
+         pAJq9hfH1SoA0dHn+aJGBP04I4M2L2qPJE1TygCDd5kzCoIOQcGEMPS/NNNxZnLCke
+         x8ntsVBil6b42sWjx7HjnuKjj1uzGa9TYXcyj0X/7S44f25X84ctGNS+nO9EP8gULV
+         /Hvqqk8TbzX0WaGb91HnEorl8EjdWgaz+/iBNcbX+JKwJ1TwXI1wXq0m50R+r4U6o+
+         2nrlhXmgtatriXc63+cNtMOVqtHh2T5ak/Hbdu27vvIMlE5M13UxGUGX5Ah8HiurSt
+         x1cR2frsdzj6g==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Thomas,
+On Tue, Mar 02, 2021 at 07:57:58PM +1100, Alistair Popple wrote:
 
-> On Wed, Oct 28, 2020 at 12:58:41PM +0100, Thomas Gleixner wrote:
->
-
-<snip>...
-
-> Something like the completly untested below should work independent of
-> config options.
+> The intent was a driver could use HMM or some other mechanism to keep PTEs 
+> synchronised if required. However I just looked at patch 8 in the series again 
+> and it appears I got this wrong when converting from the old migration 
+> approach:
 > 
-> Thanks,
+> +               mutex_unlock(&svmm->mutex);
+> +               ret = nouveau_atomic_range_fault(svmm, drm, args,
+> +                                               size, hmm_flags, mm);
 > 
->         tglx
-> ---
->  include/linux/irqdesc.h |    4 ++
->  kernel/irq/manage.c     |    3 +
->  kernel/irq/spurious.c   |   74 +++++++++++++++++++++++++++++++++++-------------
->  3 files changed, 61 insertions(+), 20 deletions(-)
-> 
-> --- a/include/linux/irqdesc.h
-> +++ b/include/linux/irqdesc.h
-> @@ -30,6 +30,8 @@ struct pt_regs;
->   * @tot_count:		stats field for non-percpu irqs
->   * @irq_count:		stats field to detect stalled irqs
->   * @last_unhandled:	aging timer for unhandled count
-> + * @storm_count:	Counter for irq storm detection
-> + * @storm_checked:	Timestamp for irq storm detection
->   * @irqs_unhandled:	stats field for spurious unhandled interrupts
->   * @threads_handled:	stats field for deferred spurious detection of threaded handlers
->   * @threads_handled_last: comparator field for deferred spurious detection of theraded handlers
-> @@ -65,6 +67,8 @@ struct irq_desc {
->  	unsigned int		tot_count;
->  	unsigned int		irq_count;	/* For detecting broken IRQs */
->  	unsigned long		last_unhandled;	/* Aging timer for unhandled count */
-> +	unsigned long		storm_count;
-> +	unsigned long		storm_checked;
->  	unsigned int		irqs_unhandled;
->  	atomic_t		threads_handled;
->  	int			threads_handled_last;
-> --- a/kernel/irq/manage.c
-> +++ b/kernel/irq/manage.c
-> @@ -1581,6 +1581,9 @@ static int
->  	if (!shared) {
->  		init_waitqueue_head(&desc->wait_for_threads);
->  
-> +		/* Take a timestamp for interrupt storm detection */
-> +		desc->storm_checked = jiffies;
-> +
->  		/* Setup the type (level, edge polarity) if configured: */
->  		if (new->flags & IRQF_TRIGGER_MASK) {
->  			ret = __irq_set_trigger(desc,
-> --- a/kernel/irq/spurious.c
-> +++ b/kernel/irq/spurious.c
-> @@ -21,6 +21,7 @@ static void poll_spurious_irqs(struct ti
->  static DEFINE_TIMER(poll_spurious_irq_timer, poll_spurious_irqs);
->  static int irq_poll_cpu;
->  static atomic_t irq_poll_active;
-> +static unsigned long irqstorm_limit __ro_after_init;
->  
->  /*
->   * We wait here for a poller to finish.
-> @@ -189,18 +190,21 @@ static inline int bad_action_ret(irqretu
->   * (The other 100-of-100,000 interrupts may have been a correctly
->   *  functioning device sharing an IRQ with the failing one)
->   */
-> -static void __report_bad_irq(struct irq_desc *desc, irqreturn_t action_ret)
-> +static void __report_bad_irq(struct irq_desc *desc, irqreturn_t action_ret,
-> +			     bool storm)
->  {
->  	unsigned int irq = irq_desc_get_irq(desc);
->  	struct irqaction *action;
->  	unsigned long flags;
->  
-> -	if (bad_action_ret(action_ret)) {
-> -		printk(KERN_ERR "irq event %d: bogus return value %x\n",
-> -				irq, action_ret);
-> -	} else {
-> -		printk(KERN_ERR "irq %d: nobody cared (try booting with "
-> +	if (!storm) {
-> +		if (bad_action_ret(action_ret)) {
-> +			pr_err("irq event %d: bogus return value %x\n",
-> +			       irq, action_ret);
-> +		} else {
-> +			pr_err("irq %d: nobody cared (try booting with "
->  				"the \"irqpoll\" option)\n", irq);
-> +		}
->  	}
->  	dump_stack();
->  	printk(KERN_ERR "handlers:\n");
-> @@ -228,7 +232,7 @@ static void report_bad_irq(struct irq_de
->  
->  	if (count > 0) {
->  		count--;
-> -		__report_bad_irq(desc, action_ret);
-> +		__report_bad_irq(desc, action_ret, false);
->  	}
->  }
->  
-> @@ -267,6 +271,33 @@ try_misrouted_irq(unsigned int irq, stru
->  	return action && (action->flags & IRQF_IRQPOLL);
->  }
->  
-> +static void disable_stuck_irq(struct irq_desc *desc, irqreturn_t action_ret,
-> +			      const char *reason, bool storm)
-> +{
-> +	__report_bad_irq(desc, action_ret, storm);
-> +	pr_emerg("Disabling %s IRQ #%d\n", reason, irq_desc_get_irq(desc));
-> +	desc->istate |= IRQS_SPURIOUS_DISABLED;
-> +	desc->depth++;
-> +	irq_disable(desc);
-> +}
-> +
-> +/* Interrupt storm detector for runaway interrupts (handled or not). */
-> +static bool irqstorm_detected(struct irq_desc *desc)
-> +{
-> +	unsigned long now = jiffies;
-> +
-> +	if (++desc->storm_count < irqstorm_limit) {
-> +		if (time_after(now, desc->storm_checked + HZ)) {
-> +			desc->storm_count = 0;
-> +			desc->storm_checked = now;
-> +		}
-> +		return false;
-> +	}
-> +
-> +	disable_stuck_irq(desc, IRQ_NONE, "runaway", true);
-> +	return true;
-> +}
-> +
->  #define SPURIOUS_DEFERRED	0x80000000
->  
->  void note_interrupt(struct irq_desc *desc, irqreturn_t action_ret)
-> @@ -403,24 +434,16 @@ void note_interrupt(struct irq_desc *des
->  			desc->irqs_unhandled -= ok;
->  	}
->  
-> +	if (unlikely(irqstorm_limit && irqstorm_detected(desc)))
-> +		return;
-> +
->  	desc->irq_count++;
->  	if (likely(desc->irq_count < 100000))
->  		return;
->  
->  	desc->irq_count = 0;
->  	if (unlikely(desc->irqs_unhandled > 99900)) {
-> -		/*
-> -		 * The interrupt is stuck
-> -		 */
-> -		__report_bad_irq(desc, action_ret);
-> -		/*
-> -		 * Now kill the IRQ
-> -		 */
-> -		printk(KERN_EMERG "Disabling IRQ #%d\n", irq);
-> -		desc->istate |= IRQS_SPURIOUS_DISABLED;
-> -		desc->depth++;
-> -		irq_disable(desc);
-> -
-> +		disable_stuck_irq(desc, action_ret, "unhandled", false);
->  		mod_timer(&poll_spurious_irq_timer,
->  			  jiffies + POLL_SPURIOUS_IRQ_INTERVAL);
->  	}
-> @@ -462,5 +485,16 @@ static int __init irqpoll_setup(char *st
->  				"performance\n");
->  	return 1;
->  }
-> -
->  __setup("irqpoll", irqpoll_setup);
-> +
-> +static int __init irqstorm_setup(char *arg)
-> +{
-> +	int res = kstrtoul(arg, 0, &irqstorm_limit);
-> +
-> +	if (!res) {
-> +		pr_info("Interrupt storm detector enabled. Limit=%lu / s\n",
-> +			irqstorm_limit);
-> +	}
-> +	return !!res;
-> +}
-> +__setup("irqstorm_limit", irqstorm_setup);
+> The mutex needs to be unlocked after the range fault to ensure the PTE hasn't 
+> changed. But this ends up being a problem because try_to_protect() calls 
+> notifiers which need to take that mutex and hence deadlocks.
 
-This irq storm detection feature is very useful, any chance to get this merged?
-We will be happy to test. People seem to be having their own copy of such feature
-out-of-tree [1].
+you have to check the notifier sequence under the mutex and loop
+again. The mutex should only cover programming the HW to use the
+pages, nothing else.
 
-[1] https://elinux.org/images/d/de/Oct28_InterruptStormDetectionFeature_KentoKobayashi.pdf
+> However try_to_protect() scans the PTEs again under the PTL so checking the 
+> mapping of interest actually gets replaced during the rmap walk seems like a 
+> reasonable solution. Thanks for the comments.
 
-Thanks,
-Sai
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+It does seem cleaner if you can manage it, the notifier will still be
+needd to program the HW though
+
+Jason
