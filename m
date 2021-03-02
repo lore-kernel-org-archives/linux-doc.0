@@ -2,102 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF096C433E6
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26F5EC43142
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 75F1A64F07
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0542164EEC
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351009AbhCCKpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:45:00 -0500
-Received: from mx2.suse.de ([195.135.220.15]:54078 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241090AbhCCK0q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Mar 2021 05:26:46 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1614767159; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=62KK1EtrPwDpveUviuINUmjHcRrckD3Hrdf208FRBvY=;
-        b=NpZLN3MbUIPglvtn76MoeqxABY4sIVponKFYMpU/RMBDzXGNDYLccQP9CFwhpmcBJ89XOq
-        KvpSufVHkZNN9Pz9Mqhi/pWxhQcVdDurgnHvg/EU3guj1mopTFoDy2mQmMZeJFW41deuYY
-        BX/DB2mg7p7e58bJINgTUW4V3+4aSnU=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 8308FAC54;
-        Wed,  3 Mar 2021 10:25:59 +0000 (UTC)
-Date:   Wed, 3 Mar 2021 11:25:58 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/7] printk: Make %pS and friends print module build ID
-Message-ID: <YD9kNphaSRPk83KJ@alley>
-References: <20210301174749.1269154-1-swboyd@chromium.org>
- <20210301174749.1269154-6-swboyd@chromium.org>
+        id S232129AbhCCKby (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:31:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42458 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1347838AbhCBTL1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 14:11:27 -0500
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2E77C0698CF
+        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 09:20:47 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id e3so10257682pfj.6
+        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 09:20:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cilium-io.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=rmdTY77liaK5SCzblCmMtRzezZEYkkZ3aYrvDg9Bb+E=;
+        b=p9hHu6afCZiTeY1E2o7wqOBNpd4yP9RN7pqA9fb8WlkZPV30o1OCEflhsc5apRPWv4
+         iMPtN5VkEsGOdttYFE5L+1Yt2IF4l15BtvKhXHmM/AOAtIepywDnEoFZH99Hkdxze+IO
+         x7Vzhvw0CeSQhBlu3znvB4qUMuvygCNfjHUhwlSC7/bub5rtE24XV9muUvlWYk5MIwCj
+         F0dwgDhTkY4tkWXKxYgGKpa7z17B9yC2O/h2UwS53Unuw6oh2FOe5uyyR9hzRI3nS3Mu
+         4Y7I609pruhVIOhhWGR9iEwcX293Uxuf6Q40VU/LQcymk7P0zlT+PeClA05jA5PR+K1V
+         2/ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rmdTY77liaK5SCzblCmMtRzezZEYkkZ3aYrvDg9Bb+E=;
+        b=k/JF6eif+NScPVeOLRAS9NdTjl/tKle2k5X1KDBM/rOHGCkzPQSufhzbI48ZTypR3B
+         Y0EPchLODS+WMOCSnUdK8e4yMRZMtTLqECBMHQLJP7mVcXFnDyEQD8sgrhx2FUmGMIf5
+         p7KX1vyyQ4Y8MGnTIdY9QYg1z7QEnTFtqq/JwiJHIswvnfLOe3GdfgEQoXPrgJGFSEj4
+         GduG+9VVgfaeZWmBEfWz4ds+Ptpwirc4G8V5JOegKhhtuOm0FBWMtN5MKp98JwB9shPL
+         3V5XDV9RPnmq3gMk2Eu4nk+hzPRks2T+oOffDoOmsp+XEUQJPdDgIr8Oo/ShSzCokZXL
+         /RUA==
+X-Gm-Message-State: AOAM533fi1OTVMCVHK2Bi8Om9KTYRvCjuVUEEmeMhhkgGkMNb05B8Ut5
+        I9wJQk6WusuUgnmWhyves+qFWQ==
+X-Google-Smtp-Source: ABdhPJxzMU6Z6i/uOCRFlao8nR5bI1iSGEHnPO+VSAqFodLOhv1U+lT+DkshsxXusKr2knhcrf6mpA==
+X-Received: by 2002:a63:cc05:: with SMTP id x5mr18634644pgf.254.1614705647537;
+        Tue, 02 Mar 2021 09:20:47 -0800 (PST)
+Received: from localhost.localdomain (c-73-93-5-123.hsd1.ca.comcast.net. [73.93.5.123])
+        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Mar 2021 09:20:47 -0800 (PST)
+From:   Joe Stringer <joe@cilium.io>
+To:     bpf@vger.kernel.org
+Cc:     daniel@iogearbox.net, ast@kernel.org, linux-doc@vger.kernel.org,
+        linux-man@vger.kernel.org,
+        =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
+        Quentin Monnet <quentin@isovalent.com>
+Subject: [PATCHv2 bpf-next 12/15] selftests/bpf: Templatize man page generation
+Date:   Tue,  2 Mar 2021 09:19:44 -0800
+Message-Id: <20210302171947.2268128-13-joe@cilium.io>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210302171947.2268128-1-joe@cilium.io>
+References: <20210302171947.2268128-1-joe@cilium.io>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210301174749.1269154-6-swboyd@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon 2021-03-01 09:47:47, Stephen Boyd wrote:
-> The %pS printk format (among some others) is used to print kernel
-> addresses symbolically. When the kernel prints an address inside of a
-> module, the kernel prints the addresses' symbol name along with the
-> module's name that contains the address. Let's make kernel stacktraces
-> easier to identify on KALLSYMS builds by including the build ID of a
-> module when we print the address.
-> 
-> This is especially helpful for crash debugging with pstore or crashdump
-> kernels. If we have the build ID for the module in the stacktrace we can
-> request the debug symbols for the module from a remote debuginfod server
+Previously, the Makefile here was only targeting a single manual page so
+it just hardcoded a bunch of individual rules to specifically handle
+build, clean, install, uninstall for that particular page.
 
-I have read the thread so for. IMHO, all mentioned variants complicate
-the logs a lot. Either the backtrace lines are hard to parse.
-Or the OOps/panic blocks gets too long when the ID is mentioned
-for every loaded module. IMHO, neither proposed solution
-is acceptable to be always used.
+Upcoming commits will generate manual pages for an additional section,
+so this commit prepares the makefile first by converting the existing
+targets into an evaluated set of targets based on the manual page name
+and section.
 
-First, I think that only I some developers would actually use
-this information. Many of them either know what module was
-used or they do not have an easy way to get the debugging
-information by the ID. So, it should be configurable
-at minimum.
+Acked-by: Toke Høiland-Jørgensen <toke@redhat.com>
+Reviewed-by: Quentin Monnet <quentin@isovalent.com>
+Signed-off-by: Joe Stringer <joe@cilium.io>
+---
+ tools/testing/selftests/bpf/Makefile.docs | 40 ++++++++++++++---------
+ 1 file changed, 25 insertions(+), 15 deletions(-)
 
-Second, I am not sure that it should be part of each OOps/panic blob.
-One solution would be to print the ID by the module loader when
-the module gets loaded. It would be mentioned earlier in the log
-then.
+diff --git a/tools/testing/selftests/bpf/Makefile.docs b/tools/testing/selftests/bpf/Makefile.docs
+index 546c4a763b46..f39ad19317c8 100644
+--- a/tools/testing/selftests/bpf/Makefile.docs
++++ b/tools/testing/selftests/bpf/Makefile.docs
+@@ -39,24 +39,34 @@ $(OUTPUT)bpf-$1.rst: ../../../../include/uapi/linux/bpf.h
+ 	$$(QUIET_GEN)../../../../scripts/bpf_doc.py $1 \
+ 		--filename $$< > $$@
+ 
+-$(OUTPUT)%.7: $(OUTPUT)%.rst
++$(OUTPUT)%.$2: $(OUTPUT)%.rst
+ ifndef RST2MAN_DEP
+-	$(error "rst2man not found, but required to generate man pages")
++	$$(error "rst2man not found, but required to generate man pages")
+ endif
+-	$(QUIET_GEN)rst2man $< > $@
++	$$(QUIET_GEN)rst2man $$< > $$@
+ 
+-docs-clean:
+-	$(call QUIET_CLEAN, eBPF_helpers-manpage)
+-	$(Q)$(RM) $(DOC_MAN7) $(OUTPUT)$(HELPERS_RST)
++docs-clean-$1:
++	$$(call QUIET_CLEAN, eBPF_$1-manpage)
++	$(Q)$(RM) $$(DOC_MAN$2) $(OUTPUT)bpf-$1.rst
+ 
+-docs-install: helpers
+-	$(call QUIET_INSTALL, eBPF_helpers-manpage)
+-	$(Q)$(INSTALL) -d -m 755 $(DESTDIR)$(man7dir)
+-	$(Q)$(INSTALL) -m 644 $(DOC_MAN7) $(DESTDIR)$(man7dir)
++docs-install-$1: docs
++	$$(call QUIET_INSTALL, eBPF_$1-manpage)
++	$(Q)$(INSTALL) -d -m 755 $(DESTDIR)$$(man$2dir)
++	$(Q)$(INSTALL) -m 644 $$(DOC_MAN$2) $(DESTDIR)$$(man$2dir)
+ 
+-docs-uninstall:
+-	$(call QUIET_UNINST, eBPF_helpers-manpage)
+-	$(Q)$(RM) $(addprefix $(DESTDIR)$(man7dir)/,$(_DOC_MAN7))
+-	$(Q)$(RMDIR) $(DESTDIR)$(man7dir)
++docs-uninstall-$1:
++	$$(call QUIET_UNINST, eBPF_$1-manpage)
++	$(Q)$(RM) $$(addprefix $(DESTDIR)$$(man$2dir)/,$$(_DOC_MAN$2))
++	$(Q)$(RMDIR) $(DESTDIR)$$(man$2dir)
+ 
+-.PHONY: docs docs-clean docs-install docs-uninstall
++.PHONY: $1 docs-clean-$1 docs-install-$1 docs-uninstall-$1
++endef
++
++# Create the make targets to generate manual pages by name and section
++$(eval $(call DOCS_RULES,helpers,7))
++
++docs-clean: $(foreach doctarget,$(DOCTARGETS), docs-clean-$(doctarget))
++docs-install: $(foreach doctarget,$(DOCTARGETS), docs-install-$(doctarget))
++docs-uninstall: $(foreach doctarget,$(DOCTARGETS), docs-uninstall-$(doctarget))
++
++.PHONY: docs docs-clean docs-install docs-uninstall man7
+-- 
+2.27.0
 
-Or we could make it available, for example, via /proc. It is a kind
-of information that might be gathered later on a rebooted system.
-SUSE has "supportconfig" command that allows to gather a lot
-of similar information about the system. We use it when
-analyzing crashdumps and kernel bugs in general.
-
-Anyway, I consider this a very detailed information that is not
-suitable for everyone. It should be availabe on request, like
-for example, backtraces from all CPUs, list of tasks, memory info.
-
-Alternative solution would be to minimize the information, for
-example, by printing only the modules that appear in the backtrace.
-But this might be complicated to implement.
-
-Best Regards,
-Petr
