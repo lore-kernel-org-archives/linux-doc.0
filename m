@@ -7,63 +7,63 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39E89C4332D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E73AEC28D17
 	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DE1FB64F21
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6D4864F1E
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580451AbhCBSDh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 13:03:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50656 "EHLO
+        id S1580474AbhCBSDo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 13:03:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240092AbhCBRik (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 12:38:40 -0500
-Received: from mail-pg1-x535.google.com (mail-pg1-x535.google.com [IPv6:2607:f8b0:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CEA8C061A31
-        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 09:20:36 -0800 (PST)
-Received: by mail-pg1-x535.google.com with SMTP id b21so14263575pgk.7
-        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 09:20:36 -0800 (PST)
+        with ESMTP id S1344328AbhCBRni (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 12:43:38 -0500
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76AE4C0698C6
+        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 09:20:44 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id u11so12385916plg.13
+        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 09:20:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cilium-io.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4OQ4Fa3XDb0vqLtsUsGhKWRVVUdgFV/a7640/4sVzCI=;
-        b=VEn+KrqTLvXG4lYjWiPEl63hjQynBvGUaNH9btc9bqSkGLG/SAwpdWRGUsHJLQmmyr
-         5/AnNoFDms5Nd4h39i4ird96IfTOdmVttHfudZZ6jJP6oY3ipvAab/lfXqN0Z/bJvUJZ
-         TOAjHzM5LXPGwEz91/2sx9pWdQuJ6LrwlhH5czJwLZY3ysSYB8hgkqf57Fmrr1IEnAoy
-         5rjTpDWxJi8LfpPz5/D4eOzdm4/nICzedFqu2mMK86GUPRcR+WosqRM2XRNc797Z5tAZ
-         bsSss/XNt6HY/Jq+UwhxhR/Tp1GaQ6X7aNoiEtE026hQCaStKvzbWYCErMP/15MezB0D
-         m5LA==
+        bh=fRChbTS8wm3//f2BALQqTT/xFw+Hx0cBe+aJeD7Uh84=;
+        b=qXgIqqi4ObJ6UdZYB5w747BTk9f9amHZx1zbj15a59wo3j1hcw5u6sHcTuAHT7onMU
+         BVZhfAmy/WK0q4aWiIfTI0e2WJP0ljZ8OXEi94p851QdY9+kjbHFzIkPJzYc3N6H9HpC
+         QA6az0JLL/E1Uz4uXm4IWqA+fpAXqH7/bqtqVXbqsu7s+03/evhsa8YrntRGCoEFaVrf
+         pk+0N1LYEdjDe1Wsc61K+L9khdbNArLuIPw9DFHfl6jaC+FiU1kIOEWmHWBCIc3f0w6W
+         cvgObljR+dTW9RFKKxXL8P0NZfTYviXe/ONvH8RXfRzCgVvQ+HaKR6S60RFkF1Pgct+o
+         kKRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4OQ4Fa3XDb0vqLtsUsGhKWRVVUdgFV/a7640/4sVzCI=;
-        b=AFWCmTaM+mTsepK+5qWDHMue5gl3sq+VrCp1UpTnKbuDSH+Do183GYRVxPdvuOLXOf
-         qpG+FEpPd7uLj46C6XizSq52x6e8HGIWknpKmHI9TNxfCKBqJs1LNa5Xce3dqzIjOZ4X
-         28n2lpoPcGAJrqly3PoZqwV6Wt3agllWj0JLF9TzacqeQbPl7IxFyyhoryzsYRZomo7T
-         g/Dx9NyOQuODMLhfMimResWxrLawXSz5oAkbdRCLLCIMf53O3wG4YYwk5NoaB9axA1NZ
-         kjYUZycBtyPON8ItbHD7MAxtSemccfdrRYqGeB1AhXUunnEB8dEmk9FuGDBgXIAwhLwi
-         PGgA==
-X-Gm-Message-State: AOAM5303NESYfACnPpyw9M1X9EMqpDapTn0AbvXxCw0jASq6addjcARq
-        LEJeDcmAS8XAxNJkgxY5X1Fyqy1s6OPC61j5
-X-Google-Smtp-Source: ABdhPJxA2lvb0g3CuazPgmOebM0zd3D5/1CGdNrCBlzqn02l1xdSIJobPdOgKhL6LIUuS3t1rZO3AQ==
-X-Received: by 2002:a63:505d:: with SMTP id q29mr18501814pgl.218.1614705636133;
-        Tue, 02 Mar 2021 09:20:36 -0800 (PST)
+        bh=fRChbTS8wm3//f2BALQqTT/xFw+Hx0cBe+aJeD7Uh84=;
+        b=fDireZFkGkwoWSHMtWgPnCY11ggd7yPjKN1rDGHnChdJZL/YOyT9PL4vY8bXoUjc1R
+         Y14vyprQdpPXUkHKMjynjLhMq+SpfzSjRTqE5/ySVRDj7Ppm00S4njhWQiuJHo+liPah
+         kEuqMyjR2cSp1HhbBBH5N64YKZMupv6319XiVoqTxwJzBzPgeD63V3sYz+bWKPubtgAO
+         yK64+oUCh22sGa+RP5lK57oYA62TWzZu0h8sWpSF2fWaor0JX/Uy5kENFuhAAkdGSGNV
+         S6pxCAjYloNqWGGhZDP7gZ6NZSlcxmy0ndgYrrPmF2HgrtJxQfToLVbI+osZ1/OzBDq8
+         zP3Q==
+X-Gm-Message-State: AOAM530CjQhf2j8HD2LjxkKQsFaaKvL0TOGOOmMr3B9QxmeYvCQbO+W+
+        kgbc5KZr3yL/G1qFf04A6oh1OQ==
+X-Google-Smtp-Source: ABdhPJy+RrBwQTGcQzFWXHdEQ7YNuC9XacWs/v2BYwcrWyiLn3qvoyC6OROFYlLSPxV0G/BLWTnZNA==
+X-Received: by 2002:a17:90a:39c9:: with SMTP id k9mr5395908pjf.121.1614705643910;
+        Tue, 02 Mar 2021 09:20:43 -0800 (PST)
 Received: from localhost.localdomain (c-73-93-5-123.hsd1.ca.comcast.net. [73.93.5.123])
-        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.35
+        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Mar 2021 09:20:35 -0800 (PST)
+        Tue, 02 Mar 2021 09:20:43 -0800 (PST)
 From:   Joe Stringer <joe@cilium.io>
 To:     bpf@vger.kernel.org
 Cc:     daniel@iogearbox.net, ast@kernel.org, linux-doc@vger.kernel.org,
         linux-man@vger.kernel.org,
         =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
         Quentin Monnet <quentin@isovalent.com>
-Subject: [PATCHv2 bpf-next 03/15] bpf: Document BPF_F_LOCK in syscall commands
-Date:   Tue,  2 Mar 2021 09:19:35 -0800
-Message-Id: <20210302171947.2268128-4-joe@cilium.io>
+Subject: [PATCHv2 bpf-next 09/15] scripts/bpf: Abstract eBPF API target parameter
+Date:   Tue,  2 Mar 2021 09:19:41 -0800
+Message-Id: <20210302171947.2268128-10-joe@cilium.io>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210302171947.2268128-1-joe@cilium.io>
 References: <20210302171947.2268128-1-joe@cilium.io>
@@ -74,47 +74,283 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Document the meaning of the BPF_F_LOCK flag for the map lookup/update
-descriptions. Based on commit 96049f3afd50 ("bpf: introduce BPF_F_LOCK
-flag").
+Abstract out the target parameter so that upcoming commits, more than
+just the existing "helpers" target can be called to generate specific
+portions of docs from the eBPF UAPI headers.
 
 Acked-by: Toke Høiland-Jørgensen <toke@redhat.com>
 Reviewed-by: Quentin Monnet <quentin@isovalent.com>
 Signed-off-by: Joe Stringer <joe@cilium.io>
 ---
-CC: Alexei Starovoitov <ast@kernel.org>
----
- include/uapi/linux/bpf.h | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ MAINTAINERS                                |  1 +
+ include/uapi/linux/bpf.h                   |  2 +-
+ scripts/{bpf_helpers_doc.py => bpf_doc.py} | 91 +++++++++++++++-------
+ tools/bpf/Makefile.helpers                 |  2 +-
+ tools/include/uapi/linux/bpf.h             |  2 +-
+ tools/lib/bpf/Makefile                     |  2 +-
+ tools/perf/MANIFEST                        |  2 +-
+ 7 files changed, 69 insertions(+), 33 deletions(-)
+ rename scripts/{bpf_helpers_doc.py => bpf_doc.py} (92%)
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a50a543e3c81..8d56c7044067 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3223,6 +3223,7 @@ F:	net/core/filter.c
+ F:	net/sched/act_bpf.c
+ F:	net/sched/cls_bpf.c
+ F:	samples/bpf/
++F:	scripts/bpf_doc.py
+ F:	tools/bpf/
+ F:	tools/lib/bpf/
+ F:	tools/testing/selftests/bpf/
 diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-index 052bbfe65f77..eb9f059f0569 100644
+index c8b9d19fce22..63a56ed6a785 100644
 --- a/include/uapi/linux/bpf.h
 +++ b/include/uapi/linux/bpf.h
-@@ -123,6 +123,14 @@ union bpf_iter_link_info {
-  *		Look up an element with a given *key* in the map referred to
-  *		by the file descriptor *map_fd*.
+@@ -1439,7 +1439,7 @@ union bpf_attr {
+  * parsed and used to produce a manual page. The workflow is the following,
+  * and requires the rst2man utility:
   *
-+ *		The *flags* argument may be specified as one of the
-+ *		following:
-+ *
-+ *		**BPF_F_LOCK**
-+ *			Look up the value of a spin-locked map without
-+ *			returning the lock. This must be specified if the
-+ *			elements contain a spinlock.
-+ *
-  *	Return
-  *		Returns zero on success. On error, -1 is returned and *errno*
-  *		is set appropriately.
-@@ -140,6 +148,8 @@ union bpf_iter_link_info {
-  *			Create a new element only if it did not exist.
-  *		**BPF_EXIST**
-  *			Update an existing element.
-+ *		**BPF_F_LOCK**
-+ *			Update a spin_lock-ed map element.
+- *     $ ./scripts/bpf_helpers_doc.py \
++ *     $ ./scripts/bpf_doc.py \
+  *             --filename include/uapi/linux/bpf.h > /tmp/bpf-helpers.rst
+  *     $ rst2man /tmp/bpf-helpers.rst > /tmp/bpf-helpers.7
+  *     $ man /tmp/bpf-helpers.7
+diff --git a/scripts/bpf_helpers_doc.py b/scripts/bpf_doc.py
+similarity index 92%
+rename from scripts/bpf_helpers_doc.py
+rename to scripts/bpf_doc.py
+index 867ada23281c..5a4f68aab335 100755
+--- a/scripts/bpf_helpers_doc.py
++++ b/scripts/bpf_doc.py
+@@ -2,6 +2,7 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ # Copyright (C) 2018-2019 Netronome Systems, Inc.
++# Copyright (C) 2021 Isovalent, Inc.
+ 
+ # In case user attempts to run with Python 2.
+ from __future__ import print_function
+@@ -165,10 +166,11 @@ class Printer(object):
+     """
+     A generic class for printers. Printers should be created with an array of
+     Helper objects, and implement a way to print them in the desired fashion.
+-    @helpers: array of Helper objects to print to standard output
++    @parser: A HeaderParser with objects to print to standard output
+     """
+-    def __init__(self, helpers):
+-        self.helpers = helpers
++    def __init__(self, parser):
++        self.parser = parser
++        self.elements = []
+ 
+     def print_header(self):
+         pass
+@@ -181,19 +183,23 @@ class Printer(object):
+ 
+     def print_all(self):
+         self.print_header()
+-        for helper in self.helpers:
+-            self.print_one(helper)
++        for elem in self.elements:
++            self.print_one(elem)
+         self.print_footer()
+ 
++
+ class PrinterRST(Printer):
+     """
+-    A printer for dumping collected information about helpers as a ReStructured
+-    Text page compatible with the rst2man program, which can be used to
+-    generate a manual page for the helpers.
+-    @helpers: array of Helper objects to print to standard output
++    A generic class for printers that print ReStructured Text. Printers should
++    be created with a HeaderParser object, and implement a way to print API
++    elements in the desired fashion.
++    @parser: A HeaderParser with objects to print to standard output
+     """
+-    def print_header(self):
+-        header = '''\
++    def __init__(self, parser):
++        self.parser = parser
++
++    def print_license(self):
++        license = '''\
+ .. Copyright (C) All BPF authors and contributors from 2014 to present.
+ .. See git log include/uapi/linux/bpf.h in kernel tree for details.
+ .. 
+@@ -221,9 +227,39 @@ class PrinterRST(Printer):
+ .. 
+ .. Please do not edit this file. It was generated from the documentation
+ .. located in file include/uapi/linux/bpf.h of the Linux kernel sources
+-.. (helpers description), and from scripts/bpf_helpers_doc.py in the same
++.. (helpers description), and from scripts/bpf_doc.py in the same
+ .. repository (header and footer).
++'''
++        print(license)
++
++    def print_elem(self, elem):
++        if (elem.desc):
++            print('\tDescription')
++            # Do not strip all newline characters: formatted code at the end of
++            # a section must be followed by a blank line.
++            for line in re.sub('\n$', '', elem.desc, count=1).split('\n'):
++                print('{}{}'.format('\t\t' if line else '', line))
++
++        if (elem.ret):
++            print('\tReturn')
++            for line in elem.ret.rstrip().split('\n'):
++                print('{}{}'.format('\t\t' if line else '', line))
++
++        print('')
+ 
++
++class PrinterHelpersRST(PrinterRST):
++    """
++    A printer for dumping collected information about helpers as a ReStructured
++    Text page compatible with the rst2man program, which can be used to
++    generate a manual page for the helpers.
++    @parser: A HeaderParser with Helper objects to print to standard output
++    """
++    def __init__(self, parser):
++        self.elements = parser.helpers
++
++    def print_header(self):
++        header = '''\
+ ===========
+ BPF-HELPERS
+ ===========
+@@ -264,6 +300,7 @@ kernel at the top).
+ HELPERS
+ =======
+ '''
++        PrinterRST.print_license(self)
+         print(header)
+ 
+     def print_footer(self):
+@@ -380,27 +417,19 @@ SEE ALSO
+ 
+     def print_one(self, helper):
+         self.print_proto(helper)
++        self.print_elem(helper)
+ 
+-        if (helper.desc):
+-            print('\tDescription')
+-            # Do not strip all newline characters: formatted code at the end of
+-            # a section must be followed by a blank line.
+-            for line in re.sub('\n$', '', helper.desc, count=1).split('\n'):
+-                print('{}{}'.format('\t\t' if line else '', line))
+ 
+-        if (helper.ret):
+-            print('\tReturn')
+-            for line in helper.ret.rstrip().split('\n'):
+-                print('{}{}'.format('\t\t' if line else '', line))
+ 
+-        print('')
+ 
+ class PrinterHelpers(Printer):
+     """
+     A printer for dumping collected information about helpers as C header to
+     be included from BPF program.
+-    @helpers: array of Helper objects to print to standard output
++    @parser: A HeaderParser with Helper objects to print to standard output
+     """
++    def __init__(self, parser):
++        self.elements = parser.helpers
+ 
+     type_fwds = [
+             'struct bpf_fib_lookup',
+@@ -511,7 +540,7 @@ class PrinterHelpers(Printer):
+ 
+     def print_header(self):
+         header = '''\
+-/* This is auto-generated file. See bpf_helpers_doc.py for details. */
++/* This is auto-generated file. See bpf_doc.py for details. */
+ 
+ /* Forward declarations of BPF structs */'''
+ 
+@@ -589,8 +618,12 @@ script = os.path.abspath(sys.argv[0])
+ linuxRoot = os.path.dirname(os.path.dirname(script))
+ bpfh = os.path.join(linuxRoot, 'include/uapi/linux/bpf.h')
+ 
++printers = {
++        'helpers': PrinterHelpersRST,
++}
++
+ argParser = argparse.ArgumentParser(description="""
+-Parse eBPF header file and generate documentation for eBPF helper functions.
++Parse eBPF header file and generate documentation for the eBPF API.
+ The RST-formatted output produced can be turned into a manual page with the
+ rst2man utility.
+ """)
+@@ -601,6 +634,8 @@ if (os.path.isfile(bpfh)):
+                            default=bpfh)
+ else:
+     argParser.add_argument('--filename', help='path to include/uapi/linux/bpf.h')
++argParser.add_argument('target', nargs='?', default='helpers',
++                       choices=printers.keys(), help='eBPF API target')
+ args = argParser.parse_args()
+ 
+ # Parse file.
+@@ -609,7 +644,7 @@ headerParser.run()
+ 
+ # Print formatted output to standard output.
+ if args.header:
+-    printer = PrinterHelpers(headerParser.helpers)
++    printer = PrinterHelpers(headerParser)
+ else:
+-    printer = PrinterRST(headerParser.helpers)
++    printer = printers[args.target](headerParser)
+ printer.print_all()
+diff --git a/tools/bpf/Makefile.helpers b/tools/bpf/Makefile.helpers
+index 854d084026dd..a26599022fd6 100644
+--- a/tools/bpf/Makefile.helpers
++++ b/tools/bpf/Makefile.helpers
+@@ -35,7 +35,7 @@ man7: $(DOC_MAN7)
+ RST2MAN_DEP := $(shell command -v rst2man 2>/dev/null)
+ 
+ $(OUTPUT)$(HELPERS_RST): $(UP2DIR)../../include/uapi/linux/bpf.h
+-	$(QUIET_GEN)$(UP2DIR)../../scripts/bpf_helpers_doc.py --filename $< > $@
++	$(QUIET_GEN)$(UP2DIR)../../scripts/bpf_doc.py --filename $< > $@
+ 
+ $(OUTPUT)%.7: $(OUTPUT)%.rst
+ ifndef RST2MAN_DEP
+diff --git a/tools/include/uapi/linux/bpf.h b/tools/include/uapi/linux/bpf.h
+index b89af20cfa19..b4c5c529ad17 100644
+--- a/tools/include/uapi/linux/bpf.h
++++ b/tools/include/uapi/linux/bpf.h
+@@ -729,7 +729,7 @@ union bpf_attr {
+  * parsed and used to produce a manual page. The workflow is the following,
+  * and requires the rst2man utility:
   *
-  *	Return
-  *		Returns zero on success. On error, -1 is returned and *errno*
+- *     $ ./scripts/bpf_helpers_doc.py \
++ *     $ ./scripts/bpf_doc.py \
+  *             --filename include/uapi/linux/bpf.h > /tmp/bpf-helpers.rst
+  *     $ rst2man /tmp/bpf-helpers.rst > /tmp/bpf-helpers.7
+  *     $ man /tmp/bpf-helpers.7
+diff --git a/tools/lib/bpf/Makefile b/tools/lib/bpf/Makefile
+index 887a494ad5fc..8170f88e8ea6 100644
+--- a/tools/lib/bpf/Makefile
++++ b/tools/lib/bpf/Makefile
+@@ -158,7 +158,7 @@ $(BPF_IN_STATIC): force $(BPF_HELPER_DEFS)
+ 	$(Q)$(MAKE) $(build)=libbpf OUTPUT=$(STATIC_OBJDIR)
+ 
+ $(BPF_HELPER_DEFS): $(srctree)/tools/include/uapi/linux/bpf.h
+-	$(QUIET_GEN)$(srctree)/scripts/bpf_helpers_doc.py --header \
++	$(QUIET_GEN)$(srctree)/scripts/bpf_doc.py --header \
+ 		--file $(srctree)/tools/include/uapi/linux/bpf.h > $(BPF_HELPER_DEFS)
+ 
+ $(OUTPUT)libbpf.so: $(OUTPUT)libbpf.so.$(LIBBPF_VERSION)
+diff --git a/tools/perf/MANIFEST b/tools/perf/MANIFEST
+index 5d7b947320fb..f05c4d48fd7e 100644
+--- a/tools/perf/MANIFEST
++++ b/tools/perf/MANIFEST
+@@ -20,4 +20,4 @@ tools/lib/bitmap.c
+ tools/lib/str_error_r.c
+ tools/lib/vsprintf.c
+ tools/lib/zalloc.c
+-scripts/bpf_helpers_doc.py
++scripts/bpf_doc.py
 -- 
 2.27.0
 
