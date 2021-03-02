@@ -7,63 +7,63 @@ X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93D13C28D14
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 674CAC433E6
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:12:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 65AE764F1E
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F12064F1D
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:12:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580467AbhCBSDm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 13:03:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51238 "EHLO
+        id S1580456AbhCBSDk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 13:03:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344099AbhCBRlc (ORCPT
+        with ESMTP id S1344094AbhCBRlc (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 12:41:32 -0500
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC9E8C0698CB
-        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 09:20:46 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id 192so7249267pfv.0
-        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 09:20:46 -0800 (PST)
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 298C2C0698D2
+        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 09:20:49 -0800 (PST)
+Received: by mail-pf1-x42e.google.com with SMTP id 201so14264857pfw.5
+        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 09:20:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cilium-io.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=hu2fl/gdmtemcdYzHoBNdDwL+TolrGxintCby5qolro=;
-        b=gUeXZS2tsNTXS18Z4VONyksNUoioo/xd+y0QiZIsR+hxzg2BxZmWY/v7YFh3MicoyF
-         Fcqm8KlHlNsXyIns2a0V9XbeqGHNqfAv/W++vmNiX9pfZM2W6JslFu/MQf823Y40U+AX
-         xNfh0wj7eTi2NxM+BFt37IssX7tV0gE4zYELLAijxoewKKLulYTDpSLosnfHOkO2Pe2m
-         WHIaJSecBWQJqWGG5sq29pl+t8gaUsOwUTrKKoVxoRaQZ2BIHBkBaTfxoGsJT3bsUXgi
-         iYBwcfsN4k4nrNeAmodfhSHVCOXooHe+4w23bmUblDg7kD67WLx0wld/EezzdsvanNHk
-         ZlBg==
+        bh=sdfyObE0E1JspOvROEYz/USdJ0MsLAvmGmtxjKiuziw=;
+        b=hX1Bi349HGCRg4XxhEuiHPv8IhO8nCMLe1NF8WCH6A8WDN//ph/h8lvaH5r2lczDV1
+         wrB0kZ8auZwVQ++e7AnrEtrDanbuws/DC5Namddhl3/vNLA8kGdngV51GGXhpZV1xade
+         TZHIOt6Agm3XH6WZL1D2jgzJRHFQgj6lzRyCmk+k7+FRzXF2j1SyAnxREGC2vfgVjdwt
+         /o6FcUOFQigEC9sLMr9LX8X3mUyiIJM0BhlCghAY1B24xST7eaMJ1m84cV3lH3les6Rf
+         iaiokLMplzD2gO1jSgVAxEPR7CMzIv0B7+wYO2hZpo1g9G62jJjOdh0engpN8omOwBZu
+         yS3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=hu2fl/gdmtemcdYzHoBNdDwL+TolrGxintCby5qolro=;
-        b=oqvrVE+76datyVkIkcwRqFZXAsMC7HXLKt1n459GJZwXihECKQe9xOIcbt14tkcJ2g
-         qt28qlV6gtvlQgDCSJjpFtGaNX/FFH7mB0tWYidiE1fWEavEdEQpIvrMunohfIAExXrU
-         a7VH7E+S6TmtEsalYsbS4u4AQVj2KJnt4TJuCbfEW1U2VD8GPTgderDL8kyP4wc3ZEOd
-         brHQ9q5MGV/6W9iQelBBAwn9FnWDMIO9yAg94w8ZtDCMulbAL2ohT76Mzqh7ovxkWGwu
-         9GEcC494DBmiYhCDNOEvy4OVl28hrJV5x8TVeb6pdmKnIuUCeQBJquxCvjwAcoDf1NvM
-         ISTA==
-X-Gm-Message-State: AOAM530xhLUwO7e9McBcS+T7Oll5qIrzDVFpdtP9y61GRjZKeXPYrFFV
-        2yiJKlJok0kOqlScG8jzfy2x6g==
-X-Google-Smtp-Source: ABdhPJzBegCXpYGBPuhfMSwsZrbAutCvoiFoc06DUlOYmxG7LD63nqFLBzLNBKT72gRfSqvMLazo0g==
-X-Received: by 2002:a62:ea19:0:b029:1ee:5911:c516 with SMTP id t25-20020a62ea190000b02901ee5911c516mr4070769pfh.67.1614705646358;
-        Tue, 02 Mar 2021 09:20:46 -0800 (PST)
+        bh=sdfyObE0E1JspOvROEYz/USdJ0MsLAvmGmtxjKiuziw=;
+        b=cicIsa6D5+JSTlVro92cWNPM6/Lvwkxupeoat+zWirqBuorqfiAi826ou6Qh75J2lc
+         pQT5K45pxVj0UbWkox1U0QclxfID3AbDyVKKgIcniYjMrhBnl5NbYz1BDfunzWPhsFux
+         eGAXhbgcahBZiS6iWj8NkDXCfzXYYSp0jnK1Zb12JP0QVUH0/SYSkDBSFd9qKRJRaZC2
+         fIiitfuE+cGwuvsEEgUqxbxQRxKHJOpWnSDPPhZPbOElq4p5xTJiegnUleETHgCqRsUN
+         raESi2c1XJFNNU8C79SagWR3BtOooE8OTzvdQmqwB0+Y/5HrXQoQkfazgszjSewu1RAs
+         KiAg==
+X-Gm-Message-State: AOAM531s/zxMI6bI4K1wNmzbArz0UyMXRLLqsLFCqj5TYv1WGzt1wCq3
+        GlFUmc59iwMzVL4OyVwoQiBovSGGU1xr3qpy
+X-Google-Smtp-Source: ABdhPJxu2ccLPZxQduQGZaDo7/+I565sDXZiuNJfYVTL+2FXqWypan6o8vAXbJYeQe0VhYMkd+Z72Q==
+X-Received: by 2002:a62:6304:0:b029:1c0:d62d:d213 with SMTP id x4-20020a6263040000b02901c0d62dd213mr4045441pfb.79.1614705648725;
+        Tue, 02 Mar 2021 09:20:48 -0800 (PST)
 Received: from localhost.localdomain (c-73-93-5-123.hsd1.ca.comcast.net. [73.93.5.123])
-        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.45
+        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Mar 2021 09:20:45 -0800 (PST)
+        Tue, 02 Mar 2021 09:20:48 -0800 (PST)
 From:   Joe Stringer <joe@cilium.io>
 To:     bpf@vger.kernel.org
 Cc:     daniel@iogearbox.net, ast@kernel.org, linux-doc@vger.kernel.org,
         linux-man@vger.kernel.org,
         =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
         Quentin Monnet <quentin@isovalent.com>
-Subject: [PATCHv2 bpf-next 11/15] tools/bpf: Remove bpf-helpers from bpftool docs
-Date:   Tue,  2 Mar 2021 09:19:43 -0800
-Message-Id: <20210302171947.2268128-12-joe@cilium.io>
+Subject: [PATCHv2 bpf-next 13/15] selftests/bpf: Test syscall command parsing
+Date:   Tue,  2 Mar 2021 09:19:45 -0800
+Message-Id: <20210302171947.2268128-14-joe@cilium.io>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210302171947.2268128-1-joe@cilium.io>
 References: <20210302171947.2268128-1-joe@cilium.io>
@@ -74,270 +74,78 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This logic is used for validating the manual pages from selftests, so
-move the infra under tools/testing/selftests/bpf/ and rely on selftests
-for validation rather than tying it into the bpftool build.
+Add building of the bpf(2) syscall commands documentation as part of the
+docs building step in the build. This allows us to pick up on potential
+parse errors from the docs generator script as part of selftests.
+
+The generated manual pages here are not intended for distribution, they
+are just a fragment that can be integrated into the other static text of
+bpf(2) to form the full manual page.
 
 Acked-by: Toke Høiland-Jørgensen <toke@redhat.com>
 Reviewed-by: Quentin Monnet <quentin@isovalent.com>
 Signed-off-by: Joe Stringer <joe@cilium.io>
 ---
- tools/bpf/bpftool/.gitignore                  |  1 -
- tools/bpf/bpftool/Documentation/Makefile      | 11 +++----
- tools/testing/selftests/bpf/.gitignore        |  1 +
- tools/testing/selftests/bpf/Makefile          | 20 +++++++++---
- .../selftests/bpf/Makefile.docs}              | 32 ++++++++++---------
- .../selftests/bpf/test_bpftool_build.sh       | 21 ------------
- tools/testing/selftests/bpf/test_doc_build.sh | 13 ++++++++
- 7 files changed, 50 insertions(+), 49 deletions(-)
- rename tools/{bpf/Makefile.helpers => testing/selftests/bpf/Makefile.docs} (64%)
- create mode 100755 tools/testing/selftests/bpf/test_doc_build.sh
+ tools/testing/selftests/bpf/.gitignore    |  1 +
+ tools/testing/selftests/bpf/Makefile.docs | 14 ++++++++++++--
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
-diff --git a/tools/bpf/bpftool/.gitignore b/tools/bpf/bpftool/.gitignore
-index 944cb4b7c95d..05ce4446b780 100644
---- a/tools/bpf/bpftool/.gitignore
-+++ b/tools/bpf/bpftool/.gitignore
-@@ -3,7 +3,6 @@
- /bootstrap/
- /bpftool
- bpftool*.8
--bpf-helpers.*
- FEATURE-DUMP.bpftool
- feature
- libbpf
-diff --git a/tools/bpf/bpftool/Documentation/Makefile b/tools/bpf/bpftool/Documentation/Makefile
-index f33cb02de95c..c49487905ceb 100644
---- a/tools/bpf/bpftool/Documentation/Makefile
-+++ b/tools/bpf/bpftool/Documentation/Makefile
-@@ -16,15 +16,12 @@ prefix ?= /usr/local
- mandir ?= $(prefix)/man
- man8dir = $(mandir)/man8
- 
--# Load targets for building eBPF helpers man page.
--include ../../Makefile.helpers
--
- MAN8_RST = $(wildcard bpftool*.rst)
- 
- _DOC_MAN8 = $(patsubst %.rst,%.8,$(MAN8_RST))
- DOC_MAN8 = $(addprefix $(OUTPUT),$(_DOC_MAN8))
- 
--man: man8 helpers
-+man: man8
- man8: $(DOC_MAN8)
- 
- RST2MAN_DEP := $(shell command -v rst2man 2>/dev/null)
-@@ -46,16 +43,16 @@ ifndef RST2MAN_DEP
- endif
- 	$(QUIET_GEN)( cat $< ; printf "%b" $(call see_also,$<) ) | rst2man $(RST2MAN_OPTS) > $@
- 
--clean: helpers-clean
-+clean:
- 	$(call QUIET_CLEAN, Documentation)
- 	$(Q)$(RM) $(DOC_MAN8)
- 
--install: man helpers-install
-+install: man
- 	$(call QUIET_INSTALL, Documentation-man)
- 	$(Q)$(INSTALL) -d -m 755 $(DESTDIR)$(man8dir)
- 	$(Q)$(INSTALL) -m 644 $(DOC_MAN8) $(DESTDIR)$(man8dir)
- 
--uninstall: helpers-uninstall
-+uninstall:
- 	$(call QUIET_UNINST, Documentation-man)
- 	$(Q)$(RM) $(addprefix $(DESTDIR)$(man8dir)/,$(_DOC_MAN8))
- 	$(Q)$(RMDIR) $(DESTDIR)$(man8dir)
 diff --git a/tools/testing/selftests/bpf/.gitignore b/tools/testing/selftests/bpf/.gitignore
-index c0c48fdb9ac1..a0d5ec3cfc24 100644
+index a0d5ec3cfc24..4866f6a21901 100644
 --- a/tools/testing/selftests/bpf/.gitignore
 +++ b/tools/testing/selftests/bpf/.gitignore
-@@ -1,4 +1,5 @@
+@@ -1,5 +1,6 @@
  # SPDX-License-Identifier: GPL-2.0-only
-+bpf-helpers*
+ bpf-helpers*
++bpf-syscall*
  test_verifier
  test_maps
  test_lru_map
-diff --git a/tools/testing/selftests/bpf/Makefile b/tools/testing/selftests/bpf/Makefile
-index a81af15e4ded..b5827464c6b5 100644
---- a/tools/testing/selftests/bpf/Makefile
-+++ b/tools/testing/selftests/bpf/Makefile
-@@ -68,6 +68,7 @@ TEST_PROGS := test_kmod.sh \
- 	test_bpftool_build.sh \
- 	test_bpftool.sh \
- 	test_bpftool_metadata.sh \
-+	test_docs_build.sh \
- 	test_xsk.sh
- 
- TEST_PROGS_EXTENDED := with_addr.sh \
-@@ -103,6 +104,7 @@ override define CLEAN
- 	$(call msg,CLEAN)
- 	$(Q)$(RM) -r $(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED) $(TEST_GEN_FILES) $(EXTRA_CLEAN)
- 	$(Q)$(MAKE) -C bpf_testmod clean
-+	$(Q)$(MAKE) docs-clean
- endef
- 
- include ../lib.mk
-@@ -180,6 +182,7 @@ $(OUTPUT)/runqslower: $(BPFOBJ) | $(DEFAULT_BPFTOOL)
- 		    cp $(SCRATCH_DIR)/runqslower $@
- 
- $(TEST_GEN_PROGS) $(TEST_GEN_PROGS_EXTENDED): $(OUTPUT)/test_stub.o $(BPFOBJ)
-+$(TEST_GEN_FILES): docs
- 
- $(OUTPUT)/test_dev_cgroup: cgroup_helpers.c
- $(OUTPUT)/test_skb_cgroup_id_user: cgroup_helpers.c
-@@ -200,11 +203,16 @@ $(DEFAULT_BPFTOOL): $(wildcard $(BPFTOOLDIR)/*.[ch] $(BPFTOOLDIR)/Makefile)    \
- 		    CC=$(HOSTCC) LD=$(HOSTLD)				       \
- 		    OUTPUT=$(HOST_BUILD_DIR)/bpftool/			       \
- 		    prefix= DESTDIR=$(HOST_SCRATCH_DIR)/ install
--	$(Q)mkdir -p $(BUILD_DIR)/bpftool/Documentation
--	$(Q)RST2MAN_OPTS="--exit-status=1" $(MAKE) $(submake_extras)	       \
--		    -C $(BPFTOOLDIR)/Documentation			       \
--		    OUTPUT=$(BUILD_DIR)/bpftool/Documentation/		       \
--		    prefix= DESTDIR=$(SCRATCH_DIR)/ install
-+
-+docs:
-+	$(Q)RST2MAN_OPTS="--exit-status=1" $(MAKE) $(submake_extras)	\
-+	            -f Makefile.docs					\
-+	            prefix= OUTPUT=$(OUTPUT)/ DESTDIR=$(OUTPUT)/ $@
-+
-+docs-clean:
-+	$(Q)$(MAKE) $(submake_extras)					\
-+	            -f Makefile.docs					\
-+	            prefix= OUTPUT=$(OUTPUT)/ DESTDIR=$(OUTPUT)/ $@
- 
- $(BPFOBJ): $(wildcard $(BPFDIR)/*.[ch] $(BPFDIR)/Makefile)		       \
- 	   ../../../include/uapi/linux/bpf.h                                   \
-@@ -477,3 +485,5 @@ EXTRA_CLEAN := $(TEST_CUSTOM_PROGS) $(SCRATCH_DIR) $(HOST_SCRATCH_DIR)	\
- 	prog_tests/tests.h map_tests/tests.h verifier/tests.h		\
- 	feature								\
- 	$(addprefix $(OUTPUT)/,*.o *.skel.h no_alu32 bpf_gcc bpf_testmod.ko)
-+
-+.PHONY: docs docs-clean
-diff --git a/tools/bpf/Makefile.helpers b/tools/testing/selftests/bpf/Makefile.docs
-similarity index 64%
-rename from tools/bpf/Makefile.helpers
-rename to tools/testing/selftests/bpf/Makefile.docs
-index a26599022fd6..546c4a763b46 100644
---- a/tools/bpf/Makefile.helpers
+diff --git a/tools/testing/selftests/bpf/Makefile.docs b/tools/testing/selftests/bpf/Makefile.docs
+index f39ad19317c8..ccf260021e83 100644
+--- a/tools/testing/selftests/bpf/Makefile.docs
 +++ b/tools/testing/selftests/bpf/Makefile.docs
-@@ -1,13 +1,7 @@
- # SPDX-License-Identifier: GPL-2.0-only
--ifndef allow-override
--  include ../scripts/Makefile.include
--  include ../scripts/utilities.mak
--else
--  # Assume Makefile.helpers is being run from bpftool/Documentation
--  # subdirectory. Go up two more directories to fetch bpf.h header and
--  # associated script.
--  UP2DIR := ../../
--endif
-+
-+include ../../../scripts/Makefile.include
-+include ../../../scripts/utilities.mak
+@@ -15,18 +15,27 @@ endif
  
- INSTALL ?= install
- RM ?= rm -f
-@@ -29,13 +23,21 @@ MAN7_RST = $(HELPERS_RST)
+ prefix ?= /usr/local
+ mandir ?= $(prefix)/man
++man2dir = $(mandir)/man2
+ man7dir = $(mandir)/man7
+ 
++SYSCALL_RST = bpf-syscall.rst
++MAN2_RST = $(SYSCALL_RST)
++
+ HELPERS_RST = bpf-helpers.rst
+ MAN7_RST = $(HELPERS_RST)
+ 
++_DOC_MAN2 = $(patsubst %.rst,%.2,$(MAN2_RST))
++DOC_MAN2 = $(addprefix $(OUTPUT),$(_DOC_MAN2))
++
  _DOC_MAN7 = $(patsubst %.rst,%.7,$(MAN7_RST))
  DOC_MAN7 = $(addprefix $(OUTPUT),$(_DOC_MAN7))
  
-+DOCTARGETS := helpers
-+
-+docs: $(DOCTARGETS)
+-DOCTARGETS := helpers
++DOCTARGETS := helpers syscall
+ 
+ docs: $(DOCTARGETS)
++syscall: man2
  helpers: man7
++man2: $(DOC_MAN2)
  man7: $(DOC_MAN7)
  
  RST2MAN_DEP := $(shell command -v rst2man 2>/dev/null)
+@@ -64,9 +73,10 @@ endef
  
--$(OUTPUT)$(HELPERS_RST): $(UP2DIR)../../include/uapi/linux/bpf.h
--	$(QUIET_GEN)$(UP2DIR)../../scripts/bpf_doc.py --filename $< > $@
-+# Configure make rules for the man page bpf-$1.$2.
-+# $1 - target for scripts/bpf_doc.py
-+# $2 - man page section to generate the troff file
-+define DOCS_RULES =
-+$(OUTPUT)bpf-$1.rst: ../../../../include/uapi/linux/bpf.h
-+	$$(QUIET_GEN)../../../../scripts/bpf_doc.py $1 \
-+		--filename $$< > $$@
+ # Create the make targets to generate manual pages by name and section
+ $(eval $(call DOCS_RULES,helpers,7))
++$(eval $(call DOCS_RULES,syscall,2))
  
- $(OUTPUT)%.7: $(OUTPUT)%.rst
- ifndef RST2MAN_DEP
-@@ -43,18 +45,18 @@ ifndef RST2MAN_DEP
- endif
- 	$(QUIET_GEN)rst2man $< > $@
+ docs-clean: $(foreach doctarget,$(DOCTARGETS), docs-clean-$(doctarget))
+ docs-install: $(foreach doctarget,$(DOCTARGETS), docs-install-$(doctarget))
+ docs-uninstall: $(foreach doctarget,$(DOCTARGETS), docs-uninstall-$(doctarget))
  
--helpers-clean:
-+docs-clean:
- 	$(call QUIET_CLEAN, eBPF_helpers-manpage)
- 	$(Q)$(RM) $(DOC_MAN7) $(OUTPUT)$(HELPERS_RST)
- 
--helpers-install: helpers
-+docs-install: helpers
- 	$(call QUIET_INSTALL, eBPF_helpers-manpage)
- 	$(Q)$(INSTALL) -d -m 755 $(DESTDIR)$(man7dir)
- 	$(Q)$(INSTALL) -m 644 $(DOC_MAN7) $(DESTDIR)$(man7dir)
- 
--helpers-uninstall:
-+docs-uninstall:
- 	$(call QUIET_UNINST, eBPF_helpers-manpage)
- 	$(Q)$(RM) $(addprefix $(DESTDIR)$(man7dir)/,$(_DOC_MAN7))
- 	$(Q)$(RMDIR) $(DESTDIR)$(man7dir)
- 
--.PHONY: helpers helpers-clean helpers-install helpers-uninstall
-+.PHONY: docs docs-clean docs-install docs-uninstall
-diff --git a/tools/testing/selftests/bpf/test_bpftool_build.sh b/tools/testing/selftests/bpf/test_bpftool_build.sh
-index 2db3c60e1e61..ac349a5cea7e 100755
---- a/tools/testing/selftests/bpf/test_bpftool_build.sh
-+++ b/tools/testing/selftests/bpf/test_bpftool_build.sh
-@@ -85,23 +85,6 @@ make_with_tmpdir() {
- 	echo
- }
- 
--make_doc_and_clean() {
--	echo -e "\$PWD:    $PWD"
--	echo -e "command: make -s $* doc >/dev/null"
--	RST2MAN_OPTS="--exit-status=1" make $J -s $* doc
--	if [ $? -ne 0 ] ; then
--		ERROR=1
--		printf "FAILURE: Errors or warnings when building documentation\n"
--	fi
--	(
--		if [ $# -ge 1 ] ; then
--			cd ${@: -1}
--		fi
--		make -s doc-clean
--	)
--	echo
--}
--
- echo "Trying to build bpftool"
- echo -e "... through kbuild\n"
- 
-@@ -162,7 +145,3 @@ make_and_clean
- make_with_tmpdir OUTPUT
- 
- make_with_tmpdir O
--
--echo -e "Checking documentation build\n"
--# From tools/bpf/bpftool
--make_doc_and_clean
-diff --git a/tools/testing/selftests/bpf/test_doc_build.sh b/tools/testing/selftests/bpf/test_doc_build.sh
-new file mode 100755
-index 000000000000..7eb940a7b2eb
---- /dev/null
-+++ b/tools/testing/selftests/bpf/test_doc_build.sh
-@@ -0,0 +1,13 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+
-+# Assume script is located under tools/testing/selftests/bpf/. We want to start
-+# build attempts from the top of kernel repository.
-+SCRIPT_REL_PATH=$(realpath --relative-to=$PWD $0)
-+SCRIPT_REL_DIR=$(dirname $SCRIPT_REL_PATH)
-+KDIR_ROOT_DIR=$(realpath $PWD/$SCRIPT_REL_DIR/../../../../)
-+cd $KDIR_ROOT_DIR
-+
-+for tgt in docs docs-clean; do
-+	make -s -C $PWD/$SCRIPT_REL_DIR $tgt;
-+done
+-.PHONY: docs docs-clean docs-install docs-uninstall man7
++.PHONY: docs docs-clean docs-install docs-uninstall man2 man7
 -- 
 2.27.0
 
