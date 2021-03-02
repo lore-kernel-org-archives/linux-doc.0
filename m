@@ -3,70 +3,69 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A514C4161F
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73654C28CC4
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 106B864F23
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4371764F1D
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580461AbhCBSDk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 13:03:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51226 "EHLO
+        id S1580424AbhCBSDG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 13:03:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344092AbhCBRlc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 12:41:32 -0500
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 901ECC0698C9
-        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 09:20:45 -0800 (PST)
-Received: by mail-pf1-x430.google.com with SMTP id q204so13193766pfq.10
-        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 09:20:45 -0800 (PST)
+        with ESMTP id S1349609AbhCBRXs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 12:23:48 -0500
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF414C0611C1
+        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 09:20:32 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id w18so14250847pfu.9
+        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 09:20:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cilium-io.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=y+YcpUVr7LDyGFtvHmMjDnyPsDr68hKJkv6AGVIRT3Y=;
-        b=Rp5v5A14/uC75JpS8WLyl2oXZSjMYyIQFkEiPl4ZINMcxDxI348/xLTD6m0jtWk9Ec
-         aleRvpbPKXhFyYT46yDQ4MPmlN49N3q96FOHck48avTz8LMfy/eqQg+UBMQquFr57H5p
-         HwVlvfbD1+hdrjHyQ/WRM2790r9Jt9H25V5j3aGi55ZhyMU1tAU9iT10Bw5TzzBl8kr9
-         ZWkKme6tjLL6BqsfL2m0a9Z0qYhnaHArgqhsj5n1SRGiyJgnA3Pe/quB+KFLrPlcq7ng
-         KsA4vcxLGPd/DS8PD727FS+xr8DkzQ0/LO4fpEj2GDqqbvo9LzKVPCxHJGYKNge+H5+i
-         rH4A==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZSepNuTpShhqXcTO9o/+6YyXUqnmTGJsJycIq3qFJpo=;
+        b=iCWZupQqVkBwoPxoHcF5zAleItLX18zgYEvsPvPz1QBKeW4ggt81c3gfm62l9KBLYv
+         0ZQ5/4+e7WEVeILAU1QoVQSgSF9NuPuCV/IuzL04ylKWdGrGw+isusB09Py22T/03PCg
+         c3zTrTe6IClZMKWveUal+fOHVZ39cGEYQo7Jf+UYTg4D5IV7/L2JRK+sgAx11Di3SnG8
+         kPsPQAClb108dIOkpMeBlAW++rr+4zNrMD2UKsZmFOR9CLQKh4iJBQn/jKUjCYwpBMAp
+         8GN4iFygZb1OmR3+YI+ogrlz5On/VsVJ5aNi6wDpqJPfp6sBIUyB9bx1gPBDPCciVm/M
+         6mVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=y+YcpUVr7LDyGFtvHmMjDnyPsDr68hKJkv6AGVIRT3Y=;
-        b=cUx/RvihRTYPCimBvwKpD4qp1ljBoXlVqFezsNisM7bF17/adJRp9366ZRhQCkCKZn
-         j0zO60g89lpk7E3PDsl2sOi4OX/b9Txo2eythjjT2+VZKCmxYmVv3q1BieFEjueIknhZ
-         b13fU+UtXnXdHEa9kaXxVQp3OovfjHI+dnSOm/UbK5TDgIk3pWiF2d/v5gK9tdZjEBXh
-         wk2jbZEDhezDCOPgd+4sPAvpSHpDwHj4qb/HHrkUSQYSemOCs876uaAwHIDdZZkJxPZ0
-         6SiiMZRWK1FgLOp+/W0qsFog/iJxjjCRhExoj9lb/IAeITIFb4ekH3U0R5/N+OG6j+vy
-         6X7A==
-X-Gm-Message-State: AOAM530Jc+1wTaxVGLJ7xPY46KALoiIQLGyACEz1ZccLZ1yLIxDh0ONR
-        RjKfPy/XVSD2l4/W+AMAcmKZaQ==
-X-Google-Smtp-Source: ABdhPJzRmXxKE3NeYoNTv2Wb6UuOiXhbHE0sPmPP7v+b1QA2sVKS8vNLK86MDTp8LsIIIAsqUyq8fQ==
-X-Received: by 2002:a05:6a00:148a:b029:1ae:6d20:fbb3 with SMTP id v10-20020a056a00148ab02901ae6d20fbb3mr4055694pfu.55.1614705645090;
-        Tue, 02 Mar 2021 09:20:45 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZSepNuTpShhqXcTO9o/+6YyXUqnmTGJsJycIq3qFJpo=;
+        b=kzmPN1S82xDyzhDrQoJNxjexYyuu+FXZYcqs1ynWCCT5qramK7RpMpjImm6Yh7Rate
+         Z84mNiMBLgcKoB/2LXt0abwF4SQTmjKb8dmiIddbM01T3EiCOkbxfu8tGoYQe+42IEw5
+         vAYoOTJg7Wx+0J4/6yd9ao5JuXYdm9B2mc/xmfURBS/Wnmek8XgGy0TVvk/6pgmPiTu8
+         lAJEG3urU0KxQqwFbp5P5BFls1/oa+3QIme9c0kEWksxo91JytlTgkLfLSQgK0hvMm6K
+         xXAZ69Kto24Ci+tdZpGgSG4r/xAqbYIUvPwYWynMkucv8UgIKc4bhjNOKNY66KCnfbwK
+         kHmQ==
+X-Gm-Message-State: AOAM532mUm6pC0GKmH9gon7lOLAObAeVaRCuUdU+qmjs0XIK7eahP0kB
+        CaWEWyuIhYCWYY/uIwVCXU13RA==
+X-Google-Smtp-Source: ABdhPJwuIMK+ewRiaw33ZRBdLAvPTiWCttJuE4Y7QHyuLgDmoaprwrhcPx4OJfWs7oWlUXT/bYylqQ==
+X-Received: by 2002:aa7:9a86:0:b029:1ee:70dd:c44e with SMTP id w6-20020aa79a860000b02901ee70ddc44emr4136871pfi.56.1614705632486;
+        Tue, 02 Mar 2021 09:20:32 -0800 (PST)
 Received: from localhost.localdomain (c-73-93-5-123.hsd1.ca.comcast.net. [73.93.5.123])
-        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.44
+        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Mar 2021 09:20:44 -0800 (PST)
+        Tue, 02 Mar 2021 09:20:32 -0800 (PST)
 From:   Joe Stringer <joe@cilium.io>
 To:     bpf@vger.kernel.org
-Cc:     daniel@iogearbox.net, ast@kernel.org, linux-doc@vger.kernel.org,
-        linux-man@vger.kernel.org,
-        =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
-        Quentin Monnet <quentin@isovalent.com>
-Subject: [PATCHv2 bpf-next 10/15] scripts/bpf: Add syscall commands printer
-Date:   Tue,  2 Mar 2021 09:19:42 -0800
-Message-Id: <20210302171947.2268128-11-joe@cilium.io>
+Cc:     linux-man@vger.kernel.org, linux-doc@vger.kernel.org,
+        mtk.manpages@gmail.com, ast@kernel.org, brianvv@google.com,
+        daniel@iogearbox.net, daniel@zonque.org, john.fastabend@gmail.com,
+        ppenkov@google.com, quentin@isovalent.com, sean@mess.org,
+        yhs@fb.com
+Subject: [PATCHv2 bpf-next 00/15] Improve BPF syscall command documentation
+Date:   Tue,  2 Mar 2021 09:19:32 -0800
+Message-Id: <20210302171947.2268128-1-joe@cilium.io>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210302171947.2268128-1-joe@cilium.io>
-References: <20210302171947.2268128-1-joe@cilium.io>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -74,207 +73,127 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a new target to bpf_doc.py to support generating the list of syscall
-commands directly from the UAPI headers. Assuming that developer
-submissions keep the main header up to date, this should allow the man
-pages to be automatically generated based on the latest API changes
-rather than requiring someone to separately go back through the API and
-describe each command.
+The state of bpf(2) manual pages today is not exactly ideal. For the
+most part, it was written several years ago and has not kept up with the
+pace of development in the kernel tree. For instance, out of a total of
+~35 commands to the BPF syscall available today, when I pull the
+kernel-man-pages tree today I find just 6 documented commands: The very
+basics of map interaction and program load.
 
-Acked-by: Toke Høiland-Jørgensen <toke@redhat.com>
-Reviewed-by: Quentin Monnet <quentin@isovalent.com>
-Signed-off-by: Joe Stringer <joe@cilium.io>
+In contrast, looking at bpf-helpers(7), I am able today to run one
+command[0] to fetch API documentation of the very latest eBPF helpers
+that have been added to the kernel. This documentation is up to date
+because kernel maintainers enforce documenting the APIs as part of
+the feature submission process. As far as I can tell, we rely on manual
+synchronization from the kernel tree to the kernel-man-pages tree to
+distribute these more widely, so all locations may not be completely up
+to date. That said, the documentation does in fact exist in the first
+place which is a major initial hurdle to overcome.
+
+Given the relative success of the process around bpf-helpers(7) to
+encourage developers to document their user-facing changes, in this
+patch series I explore applying this technique to bpf(2) as well.
+Unfortunately, even with bpf(2) being so out-of-date, there is still a
+lot of content to convert over. In particular, the following aspects of
+the bpf syscall could also be individually be generated from separate
+documentation in the header:
+* BPF syscall commands
+* BPF map types
+* BPF program types
+* BPF program subtypes (aka expected_attach_type)
+* BPF attachment points
+
+Rather than tackle everything at once, I have focused in this series on
+the syscall commands, "enum bpf_cmd". This series is structured to first
+import what useful descriptions there are from the kernel-man-pages
+tree, then piece-by-piece document a few of the syscalls in more detail
+in cases where I could find useful documentation from the git tree or
+from a casual read of the code. Not all documentation is comprehensive
+at this point, but a basis is provided with examples that can be further
+enhanced with subsequent follow-up patches. Note, the series in its
+current state only includes documentation around the syscall commands
+themselves, so in the short term it doesn't allow us to automate bpf(2)
+generation; Only one section of the man page could be replaced. Though
+if there is appetite for this approach, this should be trivial to
+improve on, even if just by importing the remaining static text from the
+kernel-man-pages tree.
+
+Following that, the series enhances the python scripting around parsing
+the descriptions from the header files and generating dedicated
+ReStructured Text and troff output. Finally, to expose the new text and
+reduce the likelihood of having it get out of date or break the docs
+parser, it is added to the selftests and exposed through the kernel
+documentation web pages.
+
+The eventual goal of this effort would be to extend the kernel UAPI
+headers such that each of the categories I had listed above (commands,
+maps, progs, hooks) have dedicated documentation in the kernel tree, and
+that developers must update the comments in the headers to document the
+APIs prior to patch acceptance, and that we could auto-generate the
+latest version of the bpf(2) manual pages based on a few static
+description sections combined with the dynamically-generated output from
+the header.
+
+This patch series can also be found at the following location on GitHub:
+https://github.com/joestringer/linux/tree/submit/bpf-command-docs_v2
+
+Thanks also to Quentin Monnet for initial review.
+
+[0]: make -C tools/testing/selftests/bpf docs
+
 ---
- scripts/bpf_doc.py | 100 +++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 91 insertions(+), 9 deletions(-)
 
-diff --git a/scripts/bpf_doc.py b/scripts/bpf_doc.py
-index 5a4f68aab335..2d94025b38e9 100755
---- a/scripts/bpf_doc.py
-+++ b/scripts/bpf_doc.py
-@@ -14,6 +14,9 @@ import sys, os
- class NoHelperFound(BaseException):
-     pass
- 
-+class NoSyscallCommandFound(BaseException):
-+    pass
-+
- class ParsingError(BaseException):
-     def __init__(self, line='<line not provided>', reader=None):
-         if reader:
-@@ -23,18 +26,27 @@ class ParsingError(BaseException):
-         else:
-             BaseException.__init__(self, 'Error parsing line: %s' % line)
- 
--class Helper(object):
-+
-+class APIElement(object):
-     """
--    An object representing the description of an eBPF helper function.
--    @proto: function prototype of the helper function
--    @desc: textual description of the helper function
--    @ret: description of the return value of the helper function
-+    An object representing the description of an aspect of the eBPF API.
-+    @proto: prototype of the API symbol
-+    @desc: textual description of the symbol
-+    @ret: (optional) description of any associated return value
-     """
-     def __init__(self, proto='', desc='', ret=''):
-         self.proto = proto
-         self.desc = desc
-         self.ret = ret
- 
-+
-+class Helper(APIElement):
-+    """
-+    An object representing the description of an eBPF helper function.
-+    @proto: function prototype of the helper function
-+    @desc: textual description of the helper function
-+    @ret: description of the return value of the helper function
-+    """
-     def proto_break_down(self):
-         """
-         Break down helper function protocol into smaller chunks: return type,
-@@ -61,6 +73,7 @@ class Helper(object):
- 
-         return res
- 
-+
- class HeaderParser(object):
-     """
-     An object used to parse a file in order to extract the documentation of a
-@@ -73,6 +86,13 @@ class HeaderParser(object):
-         self.reader = open(filename, 'r')
-         self.line = ''
-         self.helpers = []
-+        self.commands = []
-+
-+    def parse_element(self):
-+        proto    = self.parse_symbol()
-+        desc     = self.parse_desc()
-+        ret      = self.parse_ret()
-+        return APIElement(proto=proto, desc=desc, ret=ret)
- 
-     def parse_helper(self):
-         proto    = self.parse_proto()
-@@ -80,6 +100,18 @@ class HeaderParser(object):
-         ret      = self.parse_ret()
-         return Helper(proto=proto, desc=desc, ret=ret)
- 
-+    def parse_symbol(self):
-+        p = re.compile(' \* ?(.+)$')
-+        capture = p.match(self.line)
-+        if not capture:
-+            raise NoSyscallCommandFound
-+        end_re = re.compile(' \* ?NOTES$')
-+        end = end_re.match(self.line)
-+        if end:
-+            raise NoSyscallCommandFound
-+        self.line = self.reader.readline()
-+        return capture.group(1)
-+
-     def parse_proto(self):
-         # Argument can be of shape:
-         #   - "void"
-@@ -141,16 +173,29 @@ class HeaderParser(object):
-                     break
-         return ret
- 
--    def run(self):
--        # Advance to start of helper function descriptions.
--        offset = self.reader.read().find('* Start of BPF helper function descriptions:')
-+    def seek_to(self, target, help_message):
-+        self.reader.seek(0)
-+        offset = self.reader.read().find(target)
-         if offset == -1:
--            raise Exception('Could not find start of eBPF helper descriptions list')
-+            raise Exception(help_message)
-         self.reader.seek(offset)
-         self.reader.readline()
-         self.reader.readline()
-         self.line = self.reader.readline()
- 
-+    def parse_syscall(self):
-+        self.seek_to('* DOC: eBPF Syscall Commands',
-+                     'Could not find start of eBPF syscall descriptions list')
-+        while True:
-+            try:
-+                command = self.parse_element()
-+                self.commands.append(command)
-+            except NoSyscallCommandFound:
-+                break
-+
-+    def parse_helpers(self):
-+        self.seek_to('* Start of BPF helper function descriptions:',
-+                     'Could not find start of eBPF helper descriptions list')
-         while True:
-             try:
-                 helper = self.parse_helper()
-@@ -158,6 +203,9 @@ class HeaderParser(object):
-             except NoHelperFound:
-                 break
- 
-+    def run(self):
-+        self.parse_syscall()
-+        self.parse_helpers()
-         self.reader.close()
- 
- ###############################################################################
-@@ -420,6 +468,37 @@ SEE ALSO
-         self.print_elem(helper)
- 
- 
-+class PrinterSyscallRST(PrinterRST):
-+    """
-+    A printer for dumping collected information about the syscall API as a
-+    ReStructured Text page compatible with the rst2man program, which can be
-+    used to generate a manual page for the syscall.
-+    @parser: A HeaderParser with APIElement objects to print to standard
-+             output
-+    """
-+    def __init__(self, parser):
-+        self.elements = parser.commands
-+
-+    def print_header(self):
-+        header = '''\
-+===
-+bpf
-+===
-+-------------------------------------------------------------------------------
-+Perform a command on an extended BPF object
-+-------------------------------------------------------------------------------
-+
-+:Manual section: 2
-+
-+COMMANDS
-+========
-+'''
-+        PrinterRST.print_license(self)
-+        print(header)
-+
-+    def print_one(self, command):
-+        print('**%s**' % (command.proto))
-+        self.print_elem(command)
- 
- 
- class PrinterHelpers(Printer):
-@@ -620,6 +699,7 @@ bpfh = os.path.join(linuxRoot, 'include/uapi/linux/bpf.h')
- 
- printers = {
-         'helpers': PrinterHelpersRST,
-+        'syscall': PrinterSyscallRST,
- }
- 
- argParser = argparse.ArgumentParser(description="""
-@@ -644,6 +724,8 @@ headerParser.run()
- 
- # Print formatted output to standard output.
- if args.header:
-+    if args.target != 'helpers':
-+        raise NotImplementedError('Only helpers header generation is supported')
-     printer = PrinterHelpers(headerParser)
- else:
-     printer = printers[args.target](headerParser)
+v2:
+* Remove build infrastructure in favor of kernel-doc directives
+* Shift userspace-api docs under Documentation/userspace-api/ebpf
+* Fix scripts/bpf_doc.py syscall --header (throw unsupported error)
+* Improve .gitignore handling of newly autogenerated files
+
+---
+
+Joe Stringer (15):
+  bpf: Import syscall arg documentation
+  bpf: Add minimal bpf() command documentation
+  bpf: Document BPF_F_LOCK in syscall commands
+  bpf: Document BPF_PROG_PIN syscall command
+  bpf: Document BPF_PROG_ATTACH syscall command
+  bpf: Document BPF_PROG_TEST_RUN syscall command
+  bpf: Document BPF_PROG_QUERY syscall command
+  bpf: Document BPF_MAP_*_BATCH syscall commands
+  scripts/bpf: Abstract eBPF API target parameter
+  scripts/bpf: Add syscall commands printer
+  tools/bpf: Remove bpf-helpers from bpftool docs
+  selftests/bpf: Templatize man page generation
+  selftests/bpf: Test syscall command parsing
+  docs/bpf: Add bpf() syscall command reference
+  tools: Sync uapi bpf.h header with latest changes
+
+ Documentation/bpf/index.rst                   |   9 +-
+ Documentation/userspace-api/ebpf/index.rst    |  17 +
+ Documentation/userspace-api/ebpf/syscall.rst  |  24 +
+ Documentation/userspace-api/index.rst         |   1 +
+ MAINTAINERS                                   |   2 +
+ include/uapi/linux/bpf.h                      | 714 +++++++++++++++++-
+ scripts/{bpf_helpers_doc.py => bpf_doc.py}    | 191 ++++-
+ tools/bpf/Makefile.helpers                    |  60 --
+ tools/bpf/bpftool/.gitignore                  |   1 -
+ tools/bpf/bpftool/Documentation/Makefile      |  11 +-
+ tools/include/uapi/linux/bpf.h                | 714 +++++++++++++++++-
+ tools/lib/bpf/Makefile                        |   2 +-
+ tools/perf/MANIFEST                           |   2 +-
+ tools/testing/selftests/bpf/.gitignore        |   2 +
+ tools/testing/selftests/bpf/Makefile          |  20 +-
+ tools/testing/selftests/bpf/Makefile.docs     |  82 ++
+ .../selftests/bpf/test_bpftool_build.sh       |  21 -
+ tools/testing/selftests/bpf/test_doc_build.sh |  13 +
+ 18 files changed, 1746 insertions(+), 140 deletions(-)
+ create mode 100644 Documentation/userspace-api/ebpf/index.rst
+ create mode 100644 Documentation/userspace-api/ebpf/syscall.rst
+ rename scripts/{bpf_helpers_doc.py => bpf_doc.py} (82%)
+ delete mode 100644 tools/bpf/Makefile.helpers
+ create mode 100644 tools/testing/selftests/bpf/Makefile.docs
+ create mode 100755 tools/testing/selftests/bpf/test_doc_build.sh
+
 -- 
 2.27.0
 
