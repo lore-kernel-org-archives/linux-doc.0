@@ -3,69 +3,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73654C28CC4
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E482C41518
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4371764F1D
+	by mail.kernel.org (Postfix) with ESMTP id E60CD60241
 	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580424AbhCBSDG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 13:03:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47308 "EHLO
+        id S1580434AbhCBSD0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 13:03:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349609AbhCBRXs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 12:23:48 -0500
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF414C0611C1
-        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 09:20:32 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id w18so14250847pfu.9
-        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 09:20:32 -0800 (PST)
+        with ESMTP id S1349788AbhCBRga (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 12:36:30 -0500
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FDC4C0698C2
+        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 09:20:43 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id b21so14263862pgk.7
+        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 09:20:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cilium-io.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZSepNuTpShhqXcTO9o/+6YyXUqnmTGJsJycIq3qFJpo=;
-        b=iCWZupQqVkBwoPxoHcF5zAleItLX18zgYEvsPvPz1QBKeW4ggt81c3gfm62l9KBLYv
-         0ZQ5/4+e7WEVeILAU1QoVQSgSF9NuPuCV/IuzL04ylKWdGrGw+isusB09Py22T/03PCg
-         c3zTrTe6IClZMKWveUal+fOHVZ39cGEYQo7Jf+UYTg4D5IV7/L2JRK+sgAx11Di3SnG8
-         kPsPQAClb108dIOkpMeBlAW++rr+4zNrMD2UKsZmFOR9CLQKh4iJBQn/jKUjCYwpBMAp
-         8GN4iFygZb1OmR3+YI+ogrlz5On/VsVJ5aNi6wDpqJPfp6sBIUyB9bx1gPBDPCciVm/M
-         6mVg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=AThU4ci48FKxy/EX8TQpAEHDA9i5ZmNT/rLJMEkkHrM=;
+        b=TRm4JPuM3dS20NhEZWk7JIzebqcxaxAjsqGFS5zL6ZusSg7H37Xa9iJXZUODP5okvA
+         6EmC7Quu6NbpvlZkJaKrXaJ6/2CjePLiQ0qMKsn8zWq3Q8tJHswz6F27RSKKdXbkzzTO
+         Ep4Y7DkVGYZMmgeSu0Td4gmz0LOW47iLVUEjQm+k1Gc/T9Copy63Uypd9NGe+yRaM/bp
+         In/0+dZQluaotcyb3QizHyPqAxNGb7zCYx+BpVIxaU60BL2Ti1HzaiAHeXbrgZAIjScu
+         4NhIu9uS709nR1F2IUkI3AJd75vakacFjFq9BXXSDE7PjlXLBe4WynJBe6jgxcKZcee4
+         FW1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ZSepNuTpShhqXcTO9o/+6YyXUqnmTGJsJycIq3qFJpo=;
-        b=kzmPN1S82xDyzhDrQoJNxjexYyuu+FXZYcqs1ynWCCT5qramK7RpMpjImm6Yh7Rate
-         Z84mNiMBLgcKoB/2LXt0abwF4SQTmjKb8dmiIddbM01T3EiCOkbxfu8tGoYQe+42IEw5
-         vAYoOTJg7Wx+0J4/6yd9ao5JuXYdm9B2mc/xmfURBS/Wnmek8XgGy0TVvk/6pgmPiTu8
-         lAJEG3urU0KxQqwFbp5P5BFls1/oa+3QIme9c0kEWksxo91JytlTgkLfLSQgK0hvMm6K
-         xXAZ69Kto24Ci+tdZpGgSG4r/xAqbYIUvPwYWynMkucv8UgIKc4bhjNOKNY66KCnfbwK
-         kHmQ==
-X-Gm-Message-State: AOAM532mUm6pC0GKmH9gon7lOLAObAeVaRCuUdU+qmjs0XIK7eahP0kB
-        CaWEWyuIhYCWYY/uIwVCXU13RA==
-X-Google-Smtp-Source: ABdhPJwuIMK+ewRiaw33ZRBdLAvPTiWCttJuE4Y7QHyuLgDmoaprwrhcPx4OJfWs7oWlUXT/bYylqQ==
-X-Received: by 2002:aa7:9a86:0:b029:1ee:70dd:c44e with SMTP id w6-20020aa79a860000b02901ee70ddc44emr4136871pfi.56.1614705632486;
-        Tue, 02 Mar 2021 09:20:32 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=AThU4ci48FKxy/EX8TQpAEHDA9i5ZmNT/rLJMEkkHrM=;
+        b=GHjsn7XVnOr0yRWTXXOR7CAbusOOUeRXNLls/8JfdPP47Rrr+k7uawT7KHWJu5cnBW
+         Rz92KI/2hBbwKHLUVLRLRFd5Ci+JrTc4WdW1E8jva/zUZqrMet+ivZptg9bhOWdDgYSC
+         V1jwDGHyW481K5eWZrulLR96Fu3eV1kZWc1dZkMIhXSVu4xUaykgqohMReYipQ8MNHEW
+         gJlPEJtATB6ENzGlGQGiTqvh6ahD/dNKgU9hC9n8iUcl7Cos/8mEhggqM6Tg63RdfGWo
+         7WdPWVGAXfsHlsd83LahCVALXAE2JCiJMziw8ArRXpNWafYcXgmexqBXIDJqQLY2cdKV
+         mxTA==
+X-Gm-Message-State: AOAM5319KFeAaklNywVMtw49ZJ/OvP/Kq3mUzhCy67UQHqSAtsYfk8Ey
+        Yeqy9FDZjTkvELEuspKIHjsTRQ==
+X-Google-Smtp-Source: ABdhPJzzVSbAzyjYnnbzdMLtBDQGJaOL0r5I5Nr5cA2wEk7ykjzOznxcSdJydzJkbN2d2iEG3ly2ng==
+X-Received: by 2002:a62:4e92:0:b029:1ee:251d:50a1 with SMTP id c140-20020a624e920000b02901ee251d50a1mr4010269pfb.53.1614705642736;
+        Tue, 02 Mar 2021 09:20:42 -0800 (PST)
 Received: from localhost.localdomain (c-73-93-5-123.hsd1.ca.comcast.net. [73.93.5.123])
-        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.31
+        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Mar 2021 09:20:32 -0800 (PST)
+        Tue, 02 Mar 2021 09:20:42 -0800 (PST)
 From:   Joe Stringer <joe@cilium.io>
 To:     bpf@vger.kernel.org
-Cc:     linux-man@vger.kernel.org, linux-doc@vger.kernel.org,
-        mtk.manpages@gmail.com, ast@kernel.org, brianvv@google.com,
-        daniel@iogearbox.net, daniel@zonque.org, john.fastabend@gmail.com,
-        ppenkov@google.com, quentin@isovalent.com, sean@mess.org,
-        yhs@fb.com
-Subject: [PATCHv2 bpf-next 00/15] Improve BPF syscall command documentation
-Date:   Tue,  2 Mar 2021 09:19:32 -0800
-Message-Id: <20210302171947.2268128-1-joe@cilium.io>
+Cc:     daniel@iogearbox.net, ast@kernel.org, linux-doc@vger.kernel.org,
+        linux-man@vger.kernel.org,
+        =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
+        Quentin Monnet <quentin@isovalent.com>,
+        Brian Vazquez <brianvv@google.com>, Yonghong Song <yhs@fb.com>
+Subject: [PATCHv2 bpf-next 08/15] bpf: Document BPF_MAP_*_BATCH syscall commands
+Date:   Tue,  2 Mar 2021 09:19:40 -0800
+Message-Id: <20210302171947.2268128-9-joe@cilium.io>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210302171947.2268128-1-joe@cilium.io>
+References: <20210302171947.2268128-1-joe@cilium.io>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -73,127 +75,167 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The state of bpf(2) manual pages today is not exactly ideal. For the
-most part, it was written several years ago and has not kept up with the
-pace of development in the kernel tree. For instance, out of a total of
-~35 commands to the BPF syscall available today, when I pull the
-kernel-man-pages tree today I find just 6 documented commands: The very
-basics of map interaction and program load.
+Based roughly on the following commits:
+* Commit cb4d03ab499d ("bpf: Add generic support for lookup batch op")
+* Commit 057996380a42 ("bpf: Add batch ops to all htab bpf map")
+* Commit aa2e93b8e58e ("bpf: Add generic support for update and delete
+  batch ops")
 
-In contrast, looking at bpf-helpers(7), I am able today to run one
-command[0] to fetch API documentation of the very latest eBPF helpers
-that have been added to the kernel. This documentation is up to date
-because kernel maintainers enforce documenting the APIs as part of
-the feature submission process. As far as I can tell, we rely on manual
-synchronization from the kernel tree to the kernel-man-pages tree to
-distribute these more widely, so all locations may not be completely up
-to date. That said, the documentation does in fact exist in the first
-place which is a major initial hurdle to overcome.
-
-Given the relative success of the process around bpf-helpers(7) to
-encourage developers to document their user-facing changes, in this
-patch series I explore applying this technique to bpf(2) as well.
-Unfortunately, even with bpf(2) being so out-of-date, there is still a
-lot of content to convert over. In particular, the following aspects of
-the bpf syscall could also be individually be generated from separate
-documentation in the header:
-* BPF syscall commands
-* BPF map types
-* BPF program types
-* BPF program subtypes (aka expected_attach_type)
-* BPF attachment points
-
-Rather than tackle everything at once, I have focused in this series on
-the syscall commands, "enum bpf_cmd". This series is structured to first
-import what useful descriptions there are from the kernel-man-pages
-tree, then piece-by-piece document a few of the syscalls in more detail
-in cases where I could find useful documentation from the git tree or
-from a casual read of the code. Not all documentation is comprehensive
-at this point, but a basis is provided with examples that can be further
-enhanced with subsequent follow-up patches. Note, the series in its
-current state only includes documentation around the syscall commands
-themselves, so in the short term it doesn't allow us to automate bpf(2)
-generation; Only one section of the man page could be replaced. Though
-if there is appetite for this approach, this should be trivial to
-improve on, even if just by importing the remaining static text from the
-kernel-man-pages tree.
-
-Following that, the series enhances the python scripting around parsing
-the descriptions from the header files and generating dedicated
-ReStructured Text and troff output. Finally, to expose the new text and
-reduce the likelihood of having it get out of date or break the docs
-parser, it is added to the selftests and exposed through the kernel
-documentation web pages.
-
-The eventual goal of this effort would be to extend the kernel UAPI
-headers such that each of the categories I had listed above (commands,
-maps, progs, hooks) have dedicated documentation in the kernel tree, and
-that developers must update the comments in the headers to document the
-APIs prior to patch acceptance, and that we could auto-generate the
-latest version of the bpf(2) manual pages based on a few static
-description sections combined with the dynamically-generated output from
-the header.
-
-This patch series can also be found at the following location on GitHub:
-https://github.com/joestringer/linux/tree/submit/bpf-command-docs_v2
-
-Thanks also to Quentin Monnet for initial review.
-
-[0]: make -C tools/testing/selftests/bpf docs
-
+Acked-by: Toke Høiland-Jørgensen <toke@redhat.com>
+Reviewed-by: Quentin Monnet <quentin@isovalent.com>
+Signed-off-by: Joe Stringer <joe@cilium.io>
 ---
-
-v2:
-* Remove build infrastructure in favor of kernel-doc directives
-* Shift userspace-api docs under Documentation/userspace-api/ebpf
-* Fix scripts/bpf_doc.py syscall --header (throw unsupported error)
-* Improve .gitignore handling of newly autogenerated files
-
+CC: Brian Vazquez <brianvv@google.com>
+CC: Yonghong Song <yhs@fb.com>
 ---
+ include/uapi/linux/bpf.h | 114 +++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 111 insertions(+), 3 deletions(-)
 
-Joe Stringer (15):
-  bpf: Import syscall arg documentation
-  bpf: Add minimal bpf() command documentation
-  bpf: Document BPF_F_LOCK in syscall commands
-  bpf: Document BPF_PROG_PIN syscall command
-  bpf: Document BPF_PROG_ATTACH syscall command
-  bpf: Document BPF_PROG_TEST_RUN syscall command
-  bpf: Document BPF_PROG_QUERY syscall command
-  bpf: Document BPF_MAP_*_BATCH syscall commands
-  scripts/bpf: Abstract eBPF API target parameter
-  scripts/bpf: Add syscall commands printer
-  tools/bpf: Remove bpf-helpers from bpftool docs
-  selftests/bpf: Templatize man page generation
-  selftests/bpf: Test syscall command parsing
-  docs/bpf: Add bpf() syscall command reference
-  tools: Sync uapi bpf.h header with latest changes
-
- Documentation/bpf/index.rst                   |   9 +-
- Documentation/userspace-api/ebpf/index.rst    |  17 +
- Documentation/userspace-api/ebpf/syscall.rst  |  24 +
- Documentation/userspace-api/index.rst         |   1 +
- MAINTAINERS                                   |   2 +
- include/uapi/linux/bpf.h                      | 714 +++++++++++++++++-
- scripts/{bpf_helpers_doc.py => bpf_doc.py}    | 191 ++++-
- tools/bpf/Makefile.helpers                    |  60 --
- tools/bpf/bpftool/.gitignore                  |   1 -
- tools/bpf/bpftool/Documentation/Makefile      |  11 +-
- tools/include/uapi/linux/bpf.h                | 714 +++++++++++++++++-
- tools/lib/bpf/Makefile                        |   2 +-
- tools/perf/MANIFEST                           |   2 +-
- tools/testing/selftests/bpf/.gitignore        |   2 +
- tools/testing/selftests/bpf/Makefile          |  20 +-
- tools/testing/selftests/bpf/Makefile.docs     |  82 ++
- .../selftests/bpf/test_bpftool_build.sh       |  21 -
- tools/testing/selftests/bpf/test_doc_build.sh |  13 +
- 18 files changed, 1746 insertions(+), 140 deletions(-)
- create mode 100644 Documentation/userspace-api/ebpf/index.rst
- create mode 100644 Documentation/userspace-api/ebpf/syscall.rst
- rename scripts/{bpf_helpers_doc.py => bpf_doc.py} (82%)
- delete mode 100644 tools/bpf/Makefile.helpers
- create mode 100644 tools/testing/selftests/bpf/Makefile.docs
- create mode 100755 tools/testing/selftests/bpf/test_doc_build.sh
-
+diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
+index 0cf92ef011f1..c8b9d19fce22 100644
+--- a/include/uapi/linux/bpf.h
++++ b/include/uapi/linux/bpf.h
+@@ -553,13 +553,55 @@ union bpf_iter_link_info {
+  *	Description
+  *		Iterate and fetch multiple elements in a map.
+  *
++ *		Two opaque values are used to manage batch operations,
++ *		*in_batch* and *out_batch*. Initially, *in_batch* must be set
++ *		to NULL to begin the batched operation. After each subsequent
++ *		**BPF_MAP_LOOKUP_BATCH**, the caller should pass the resultant
++ *		*out_batch* as the *in_batch* for the next operation to
++ *		continue iteration from the current point.
++ *
++ *		The *keys* and *values* are output parameters which must point
++ *		to memory large enough to hold *count* items based on the key
++ *		and value size of the map *map_fd*. The *keys* buffer must be
++ *		of *key_size* * *count*. The *values* buffer must be of
++ *		*value_size* * *count*.
++ *
++ *		The *elem_flags* argument may be specified as one of the
++ *		following:
++ *
++ *		**BPF_F_LOCK**
++ *			Look up the value of a spin-locked map without
++ *			returning the lock. This must be specified if the
++ *			elements contain a spinlock.
++ *
++ *		On success, *count* elements from the map are copied into the
++ *		user buffer, with the keys copied into *keys* and the values
++ *		copied into the corresponding indices in *values*.
++ *
++ *		If an error is returned and *errno* is not **EFAULT**, *count*
++ *		is set to the number of successfully processed elements.
++ *
+  *	Return
+  *		Returns zero on success. On error, -1 is returned and *errno*
+  *		is set appropriately.
+  *
++ *		May set *errno* to **ENOSPC** to indicate that *keys* or
++ *		*values* is too small to dump an entire bucket during
++ *		iteration of a hash-based map type.
++ *
+  * BPF_MAP_LOOKUP_AND_DELETE_BATCH
+  *	Description
+- *		Iterate and delete multiple elements in a map.
++ *		Iterate and delete all elements in a map.
++ *
++ *		This operation has the same behavior as
++ *		**BPF_MAP_LOOKUP_BATCH** with two exceptions:
++ *
++ *		* Every element that is successfully returned is also deleted
++ *		  from the map. This is at least *count* elements. Note that
++ *		  *count* is both an input and an output parameter.
++ *		* Upon returning with *errno* set to **EFAULT**, up to
++ *		  *count* elements may be deleted without returning the keys
++ *		  and values of the deleted elements.
+  *
+  *	Return
+  *		Returns zero on success. On error, -1 is returned and *errno*
+@@ -567,15 +609,81 @@ union bpf_iter_link_info {
+  *
+  * BPF_MAP_UPDATE_BATCH
+  *	Description
+- *		Iterate and update multiple elements in a map.
++ *		Update multiple elements in a map by *key*.
++ *
++ *		The *keys* and *values* are input parameters which must point
++ *		to memory large enough to hold *count* items based on the key
++ *		and value size of the map *map_fd*. The *keys* buffer must be
++ *		of *key_size* * *count*. The *values* buffer must be of
++ *		*value_size* * *count*.
++ *
++ *		Each element specified in *keys* is sequentially updated to the
++ *		value in the corresponding index in *values*. The *in_batch*
++ *		and *out_batch* parameters are ignored and should be zeroed.
++ *
++ *		The *elem_flags* argument should be specified as one of the
++ *		following:
++ *
++ *		**BPF_ANY**
++ *			Create new elements or update a existing elements.
++ *		**BPF_NOEXIST**
++ *			Create new elements only if they do not exist.
++ *		**BPF_EXIST**
++ *			Update existing elements.
++ *		**BPF_F_LOCK**
++ *			Update spin_lock-ed map elements. This must be
++ *			specified if the map value contains a spinlock.
++ *
++ *		On success, *count* elements from the map are updated.
++ *
++ *		If an error is returned and *errno* is not **EFAULT**, *count*
++ *		is set to the number of successfully processed elements.
+  *
+  *	Return
+  *		Returns zero on success. On error, -1 is returned and *errno*
+  *		is set appropriately.
+  *
++ *		May set *errno* to **EINVAL**, **EPERM**, **ENOMEM**, or
++ *		**E2BIG**. **E2BIG** indicates that the number of elements in
++ *		the map reached the *max_entries* limit specified at map
++ *		creation time.
++ *
++ *		May set *errno* to one of the following error codes under
++ *		specific circumstances:
++ *
++ *		**EEXIST**
++ *			If *flags* specifies **BPF_NOEXIST** and the element
++ *			with *key* already exists in the map.
++ *		**ENOENT**
++ *			If *flags* specifies **BPF_EXIST** and the element with
++ *			*key* does not exist in the map.
++ *
+  * BPF_MAP_DELETE_BATCH
+  *	Description
+- *		Iterate and delete multiple elements in a map.
++ *		Delete multiple elements in a map by *key*.
++ *
++ *		The *keys* parameter is an input parameter which must point
++ *		to memory large enough to hold *count* items based on the key
++ *		size of the map *map_fd*, that is, *key_size* * *count*.
++ *
++ *		Each element specified in *keys* is sequentially deleted. The
++ *		*in_batch*, *out_batch*, and *values* parameters are ignored
++ *		and should be zeroed.
++ *
++ *		The *elem_flags* argument may be specified as one of the
++ *		following:
++ *
++ *		**BPF_F_LOCK**
++ *			Look up the value of a spin-locked map without
++ *			returning the lock. This must be specified if the
++ *			elements contain a spinlock.
++ *
++ *		On success, *count* elements from the map are updated.
++ *
++ *		If an error is returned and *errno* is not **EFAULT**, *count*
++ *		is set to the number of successfully processed elements. If
++ *		*errno* is **EFAULT**, up to *count* elements may be been
++ *		deleted.
+  *
+  *	Return
+  *		Returns zero on success. On error, -1 is returned and *errno*
 -- 
 2.27.0
 
