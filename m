@@ -2,63 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE810C433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 622E6C433E0
 	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:07:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BCF964F1D
+	by mail.kernel.org (Postfix) with ESMTP id 1814A64F1E
 	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:07:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580334AbhCBSBY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 13:01:24 -0500
-Received: from out30-45.freemail.mail.aliyun.com ([115.124.30.45]:53688 "EHLO
-        out30-45.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1837161AbhCBHfU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 02:35:20 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04400;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UQ4AYPc_1614670474;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UQ4AYPc_1614670474)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Tue, 02 Mar 2021 15:34:34 +0800
-Subject: Re: [PATCH] PATCH Documentation translations:translate
- sound/hd-audio/controls to chinese
-To:     huangjianghui@uniontech.com, Jonathan Corbet <corbet@lwn.net>
-Cc:     Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210301122019.80234-1-huangjianghui@uniontech.com>
- <8735xe4lsb.fsf@meer.lwn.net> <20210302032220.GA938@akg>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <e9937016-3b09-fb43-8fbf-a6c9b21597ac@linux.alibaba.com>
-Date:   Tue, 2 Mar 2021 15:34:33 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+        id S1580332AbhCBSBV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 13:01:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59672 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S237733AbhCBH0S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 02:26:18 -0500
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD93C061794;
+        Mon,  1 Mar 2021 23:14:06 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id b13so14701832edx.1;
+        Mon, 01 Mar 2021 23:14:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=Vwbv3+RIeGnp+Qm+N740tpu/JEP5WHksMGMUdFIRhJc=;
+        b=jUKP8s1sarYU4xlbJaaZ00DQEEQvcYj+Om1m+33Zs5h8rSl5Y7bKYs11hGCIDMIO3C
+         Y66hFgY0HkmLgQxKU8Jq8UbjWkJMYCvq44rL4RoefWc5O2ZZq1RhCiHyhNG3Cm9rF0UB
+         M3tzoV8rvGAPlC2dqtGYVpFsssQCTrpmR5hWU5BGlKvxspl+1T0N0uAwMTqDpac8rOdl
+         ypc9SBjqLmXcacNE4ExiPFjdPXRsfOX97t3IUj87ST36sAqTyEOEY8OPdOy7HlrQusst
+         F9jrflEaRQF0ICYotrVTfWQnfftsBAxYRP9WgOG2KLk15tPBuKCKLb31L4kWuIZv83Oq
+         gNEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=Vwbv3+RIeGnp+Qm+N740tpu/JEP5WHksMGMUdFIRhJc=;
+        b=PFlMSpfJVWeEiczdnB5heD3l9iUcOio8TQQqH4RiUH1pEuC6rHeVBMpC5vOwhiKaUG
+         skC+C3A2JdnTEFiHYnYruynvUaPwEEmJu66IvUCfq5xAKLcbTgPnh4s9NJqINi/zrW35
+         ehCGpKy2be8MjXN8h1ZkEZ7VojyAajCCjC/kPLPHHkzfzEiZT5jyI8bF4ZlPfIqerInB
+         ZzTck0AK+cnlp+MSO2tRA74umrfZi9bTpho/SMMQ+67qz/4W61hoAwBTe37jwzonhQCX
+         2C1FL+dIukzMcR5N0Xlt2Kfcsd9FttZSSW+RE5Sg8K8cYrx0qIA93c1IpXO+4t1P7uW4
+         cRXA==
+X-Gm-Message-State: AOAM533rTJLu0N4mwoz4voFCtXTejNPty9x0WctoOEDfBFRZWxyqivAw
+        NAk4IYRxBrsTu612erSqSlQ=
+X-Google-Smtp-Source: ABdhPJwdfu1EOMlB2kYFyjgDmJH0n2894BrgXz6mft2zGdaNW4xunkGTWnubQit28Wf0La17ye3A2w==
+X-Received: by 2002:aa7:ce8a:: with SMTP id y10mr10613979edv.66.1614669245354;
+        Mon, 01 Mar 2021 23:14:05 -0800 (PST)
+Received: from gmail.com (20014C4E1C864000F9B8756A94F10216.dsl.pool.telekom.hu. [2001:4c4e:1c86:4000:f9b8:756a:94f1:216])
+        by smtp.gmail.com with ESMTPSA id y12sm10708502ejb.104.2021.03.01.23.14.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Mar 2021 23:14:03 -0800 (PST)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date:   Tue, 2 Mar 2021 08:14:01 +0100
+From:   Ingo Molnar <mingo@kernel.org>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     =?iso-8859-1?Q?J=FCrgen_Gro=DF?= <jgross@suse.com>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        paulmck@kernel.org, mhocko@suse.com,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2 3/3] kernel/smp: add more data to CSD lock debugging
+Message-ID: <20210302071401.GA2257965@gmail.com>
+References: <20210301101336.7797-1-jgross@suse.com>
+ <20210301101336.7797-4-jgross@suse.com>
+ <YD0fTLnQTQ7/M7fx@hirez.programming.kicks-ass.net>
+ <c7c1eeb5-21b3-339b-4b25-a6c8df820146@suse.com>
+ <YD1SJNDeGcNOO00s@hirez.programming.kicks-ass.net>
+ <20210302070559.GB2809110@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210302032220.GA938@akg>
-Content-Type: text/plain; charset=gbk
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210302070559.GB2809110@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
+* Ingo Molnar <mingo@kernel.org> wrote:
 
-ÔÚ 2021/3/2 ÉÏÎç11:22, huangjianghui Ð´µÀ:
->>
-> In the next patch ,I deleted the index of the untranstated files,and i
-> used checkpatch.pl to detect doc errors and tried to built the htmldocs
-> on my pc.
 > 
-> Thanks,
+> * Peter Zijlstra <peterz@infradead.org> wrote:
 > 
-> Huang Jianghui
+> > On Mon, Mar 01, 2021 at 08:16:12PM +0100, Jürgen Groß wrote:
+> > > >    https://lkml.kernel.org/r/20210220231712.2475218-2-namit@vmware.com
+> > > 
+> > > They are already in tip locking/core (Ingo applied them).
+> > 
+> > I'm very tempted to undo that :-(
+> 
+> Sorry about that - I'm sorting out the conflicts with the concurrent TLB 
+> flush series.
 
-Hi Jianghui,
+I've resolved them in:
 
-we usually include patch into email instead of attach it as attachment.
-You can try use 'git send-email' to post your patches.
+  8dbac5da2796: ("Merge branch 'locking/core' into x86/mm, to resolve conflicts")
 
-Thanks
-Alex
+Will push it out after a bit of testing.
+
+Thanks,
+
+	Ingo
