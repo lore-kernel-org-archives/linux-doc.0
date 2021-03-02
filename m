@@ -7,141 +7,205 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CC87C433E9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6324BC433E6
 	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4397264F04
+	by mail.kernel.org (Postfix) with ESMTP id 1DD4864EDF
 	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241620AbhCCKcq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:32:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58454 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351275AbhCBWi4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 17:38:56 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F3EC06121D;
-        Tue,  2 Mar 2021 14:35:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=J11dlG14AYxQZCH8MFCqD3po8HlFhB5D8IW06rMeixg=; b=Tca5JEW+sbI/BAYvo1EgHLDKTk
-        4q0fjmEpdCRCt5JOY8pkBHygNuddhbJ+D0EXgu/IQ1CW3hpnfDVwhz6XxD7wVz8cQbhnwXpXOO6p4
-        Q8kiOEoVuP7x2+KcaCOomoF1MOkM8ssNmItGCgpKNQTGNPVe/TkKJpXykAQQ9g6rHn4Jqpl8KE/Bx
-        Bcz6HBbkn0gtmX/VHBmgX9uJsbkHAAHJsiie37vlHBuXhxVnZcDslTvJK1nlM2RV2XKp48uHzpiba
-        cUessac4KfqFZjdT4X1YYcHkUTnS370R66VbqJIAtB+WnPuJMz+F3oq7FrZw/ytxwp+UV9cwk5nSp
-        9p6ppFSA==;
-Received: from [2601:1c0:6280:3f0::3ba4] (helo=smtpauth.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lHDcH-000WSO-Ut; Tue, 02 Mar 2021 22:35:46 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 7/8] input: Documentation: corrections for input-programming.rst
-Date:   Tue,  2 Mar 2021 14:35:22 -0800
-Message-Id: <20210302223523.20130-8-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210302223523.20130-1-rdunlap@infradead.org>
-References: <20210302223523.20130-1-rdunlap@infradead.org>
+        id S240879AbhCCKby (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:31:54 -0500
+Received: from mout01.posteo.de ([185.67.36.65]:54133 "EHLO mout01.posteo.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1446266AbhCBU2k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Mar 2021 15:28:40 -0500
+Received: from submission (posteo.de [89.146.220.130]) 
+        by mout01.posteo.de (Postfix) with ESMTPS id ABEC3160063
+        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 21:27:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
+        t=1614716842; bh=8mi09Rx1C6p0vrdpYJiMwlPPYaMYUrw/IsAC+AOdZ3o=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ZlmCR/4U1dJajTUv4+e58feNY13LkX+mwtu/zbSGTOzylPFIgloG5Q0bHItsStt24
+         iwYKYXjMySy6JRkOe9sy7tsKgtc+0qFx0bt6osoBQ/TGLoY05h1uUhFQxn4fTVvv+L
+         CEYJcpmYDqxAZnYmjUc7+bvNQDdiVL/cznESLifVUgjakpvye5isVki1VVoSEuU6dX
+         N6USuljVw9s706tvTeYsDue6imAlE/9KlmSmk6uGiYf6jLJXcq3HBpckXH96RqrQUF
+         BAooiCIxgBI5DjHRLQwBjetAfofB+W6klLnxPKU7MDAGZu85xWkYn2BFGMkLteye31
+         G1zl2fXwpPhkw==
+Received: from customer (localhost [127.0.0.1])
+        by submission (posteo.de) with ESMTPSA id 4DqpZx5dX6z6tmT;
+        Tue,  2 Mar 2021 21:27:21 +0100 (CET)
+From:   Mark O'Donovan <shiftee@posteo.net>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org, Mark O'Donovan <shiftee@posteo.net>
+Subject: [PATCH] Documentation: Add leading slash to some paths
+Date:   Tue,  2 Mar 2021 20:25:40 +0000
+Message-Id: <20210302202539.103853-1-shiftee@posteo.net>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Drop a repeated word.
-Fix punctuation of "eg." to "e.g."
-Fix punctuation of "ie" to "i.e."
-Add hyphentation to non-zero.
-Capitalize PM (for Power Management).
-Capitalize ID (for Identifier).
-Change "," in a run-on sentence to ";".
+Change multiple sys/xyz to /sys/xyz
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
+Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
 ---
- Documentation/input/input-programming.rst |   20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ Documentation/admin-guide/mm/numaperf.rst |  2 +-
+ Documentation/fb/fbcon.rst                |  4 ++--
+ Documentation/hid/intel-ish-hid.rst       |  2 +-
+ Documentation/leds/leds-lm3556.rst        | 28 +++++++++++------------
+ 4 files changed, 18 insertions(+), 18 deletions(-)
 
---- linux-next-20210202.orig/Documentation/input/input-programming.rst
-+++ linux-next-20210202/Documentation/input/input-programming.rst
-@@ -120,7 +120,7 @@ Then there is the::
+diff --git a/Documentation/admin-guide/mm/numaperf.rst b/Documentation/admin-guide/mm/numaperf.rst
+index c2f826409bf0..166697325947 100644
+--- a/Documentation/admin-guide/mm/numaperf.rst
++++ b/Documentation/admin-guide/mm/numaperf.rst
+@@ -151,7 +151,7 @@ Each cache level's directory provides its attributes. For example, the
+ following shows a single cache level and the attributes available for
+ software to query::
  
- call to tell those who receive the events that we've sent a complete report.
- This doesn't seem important in the one button case, but is quite important
--for for example mouse movement, where you don't want the X and Y values
-+for example for mouse movement, where you don't want the X and Y values
- to be interpreted separately, because that'd result in a different movement.
+-	# tree sys/devices/system/node/node0/memory_side_cache/
++	# tree /sys/devices/system/node/node0/memory_side_cache/
+ 	/sys/devices/system/node/node0/memory_side_cache/
+ 	|-- index1
+ 	|   |-- indexing
+diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
+index 57f66de2f7e1..212f7003cfba 100644
+--- a/Documentation/fb/fbcon.rst
++++ b/Documentation/fb/fbcon.rst
+@@ -207,9 +207,9 @@ Documentation/driver-api/console.rst. To summarize:
+ Echo a value to the bind file that represents the framebuffer console
+ driver. So assuming vtcon1 represents fbcon, then::
  
- dev->open() and dev->close()
-@@ -128,7 +128,7 @@ dev->open() and dev->close()
+-  echo 1 > sys/class/vtconsole/vtcon1/bind - attach framebuffer console to
++  echo 1 > /sys/class/vtconsole/vtcon1/bind - attach framebuffer console to
+ 					     console layer
+-  echo 0 > sys/class/vtconsole/vtcon1/bind - detach framebuffer console from
++  echo 0 > /sys/class/vtconsole/vtcon1/bind - detach framebuffer console from
+ 					     console layer
  
- In case the driver has to repeatedly poll the device, because it doesn't
- have an interrupt coming from it and the polling is too expensive to be done
--all the time, or if the device uses a valuable resource (eg. interrupt), it
-+all the time, or if the device uses a valuable resource (e.g. interrupt), it
- can use the open and close callback to know when it can stop polling or
- release the interrupt and when it must resume polling or grab the interrupt
- again. To do that, we would add this to our example driver::
-@@ -161,7 +161,7 @@ makes sure that dev->open() is called on
- to the device and that dev->close() is called when the very last user
- disconnects. Calls to both callbacks are serialized.
+ If fbcon is detached from the console layer, your boot console driver (which is
+diff --git a/Documentation/hid/intel-ish-hid.rst b/Documentation/hid/intel-ish-hid.rst
+index f6ce44ff611d..7a851252267a 100644
+--- a/Documentation/hid/intel-ish-hid.rst
++++ b/Documentation/hid/intel-ish-hid.rst
+@@ -345,7 +345,7 @@ Documentation/ABI/testing/sysfs-bus-iio for IIO ABIs to user space.
+ To debug ISH, event tracing mechanism is used. To enable debug logs::
  
--The open() callback should return a 0 in case of success or any nonzero value
-+The open() callback should return a 0 in case of success or any non-zero value
- in case of failure. The close() callback (which is void) must always succeed.
+   echo 1 > /sys/kernel/debug/tracing/events/intel_ish/enable
+-  cat sys/kernel/debug/tracing/trace
++  cat /sys/kernel/debug/tracing/trace
  
- Inhibiting input devices
-@@ -182,8 +182,8 @@ providing events to the input core.
+ 3.8 ISH IIO sysfs Example on Lenovo thinkpad Yoga 260
+ -----------------------------------------------------
+diff --git a/Documentation/leds/leds-lm3556.rst b/Documentation/leds/leds-lm3556.rst
+index 1ef17d7d800e..32e3983473ba 100644
+--- a/Documentation/leds/leds-lm3556.rst
++++ b/Documentation/leds/leds-lm3556.rst
+@@ -23,7 +23,7 @@ from 93.75 mA to 1500 mA.The Flash currents are adjusted via the CURRENT
+ CONTROL REGISTER(0x09).Flash mode is activated by the ENABLE REGISTER(0x0A),
+ or by pulling the STROBE pin HIGH.
  
- Calling the device's close() method on inhibit (if there are users) allows the
- driver to save power. Either by directly powering down the device or by
--releasing the runtime-pm reference it got in open() when the driver is using
--runtime-pm.
-+releasing the runtime-PM reference it got in open() when the driver is using
-+runtime-PM.
+-LM3556 Flash can be controlled through sys/class/leds/flash/brightness file
++LM3556 Flash can be controlled through /sys/class/leds/flash/brightness file
  
- Inhibiting and uninhibiting are orthogonal to opening and closing the device by
- input handlers. Userspace might want to inhibit a device in anticipation before
-@@ -219,8 +219,8 @@ It's reported to the input system via::
- 	input_report_key(struct input_dev *dev, int code, int value)
+ * if STROBE pin is enabled, below example control brightness only, and
+   ON / OFF will be controlled by STROBE pin.
+@@ -32,17 +32,17 @@ Flash Example:
  
- See uapi/linux/input-event-codes.h for the allowable values of code (from 0 to
--KEY_MAX). Value is interpreted as a truth value, ie any nonzero value means key
--pressed, zero value means key released. The input code generates events only
-+KEY_MAX). Value is interpreted as a truth value, i.e. any non-zero value means
-+key pressed, zero value means key released. The input code generates events only
- in case the value is different from before.
+ OFF::
  
- In addition to EV_KEY, there are two more basic event types: EV_REL and
-@@ -231,12 +231,12 @@ because it doesn't have any absolute coo
- events are namely for joysticks and digitizers - devices that do work in an
- absolute coordinate systems.
+-	#echo 0 > sys/class/leds/flash/brightness
++	#echo 0 > /sys/class/leds/flash/brightness
  
--Having the device report EV_REL buttons is as simple as with EV_KEY, simply
-+Having the device report EV_REL buttons is as simple as with EV_KEY; simply
- set the corresponding bits and call the::
+ 93.75 mA::
  
- 	input_report_rel(struct input_dev *dev, int code, int value)
+-	#echo 1 > sys/class/leds/flash/brightness
++	#echo 1 > /sys/class/leds/flash/brightness
  
--function. Events are generated only for nonzero value.
-+function. Events are generated only for non-zero values.
+ ...
  
- However EV_ABS requires a little special care. Before calling
- input_register_device, you have to fill additional fields in the input_dev
-@@ -280,7 +280,7 @@ device driver. It's a string like 'Gener
- user friendly name of the device.
+ 1500  mA::
  
- The id* fields contain the bus ID (PCI, USB, ...), vendor ID and device ID
--of the device. The bus IDs are defined in input.h. The vendor and device ids
-+of the device. The bus IDs are defined in input.h. The vendor and device IDs
- are defined in pci_ids.h, usb_ids.h and similar include files. These fields
- should be set by the input device driver before registering it.
+-	#echo 16 > sys/class/leds/flash/brightness
++	#echo 16 > /sys/class/leds/flash/brightness
  
+ Torch Mode
+ ^^^^^^^^^^
+@@ -51,7 +51,7 @@ In Torch Mode, the current source(LED) is programmed via the CURRENT CONTROL
+ REGISTER(0x09).Torch Mode is activated by the ENABLE REGISTER(0x0A) or by the
+ hardware TORCH input.
+ 
+-LM3556 torch can be controlled through sys/class/leds/torch/brightness file.
++LM3556 torch can be controlled through /sys/class/leds/torch/brightness file.
+ * if TORCH pin is enabled, below example control brightness only,
+ and ON / OFF will be controlled by TORCH pin.
+ 
+@@ -59,22 +59,22 @@ Torch Example:
+ 
+ OFF::
+ 
+-	#echo 0 > sys/class/leds/torch/brightness
++	#echo 0 > /sys/class/leds/torch/brightness
+ 
+ 46.88 mA::
+ 
+-	#echo 1 > sys/class/leds/torch/brightness
++	#echo 1 > /sys/class/leds/torch/brightness
+ 
+ ...
+ 
+ 375 mA::
+ 
+-	#echo 8 > sys/class/leds/torch/brightness
++	#echo 8 > /sys/class/leds/torch/brightness
+ 
+ Indicator Mode
+ ^^^^^^^^^^^^^^
+ 
+-Indicator pattern can be set through sys/class/leds/indicator/pattern file,
++Indicator pattern can be set through /sys/class/leds/indicator/pattern file,
+ and 4 patterns are pre-defined in indicator_pattern array.
+ 
+ According to N-lank, Pulse time and N Period values, different pattern wiill
+@@ -87,13 +87,13 @@ Indicator pattern example:
+ 
+ pattern 0::
+ 
+-	#echo 0 > sys/class/leds/indicator/pattern
++	#echo 0 > /sys/class/leds/indicator/pattern
+ 
+ ...
+ 
+ pattern 3::
+ 
+-	#echo 3 > sys/class/leds/indicator/pattern
++	#echo 3 > /sys/class/leds/indicator/pattern
+ 
+ Indicator brightness can be controlled through
+ sys/class/leds/indicator/brightness file.
+@@ -102,17 +102,17 @@ Example:
+ 
+ OFF::
+ 
+-	#echo 0 > sys/class/leds/indicator/brightness
++	#echo 0 > /sys/class/leds/indicator/brightness
+ 
+ 5.86 mA::
+ 
+-	#echo 1 > sys/class/leds/indicator/brightness
++	#echo 1 > /sys/class/leds/indicator/brightness
+ 
+ ...
+ 
+ 46.875mA::
+ 
+-	#echo 8 > sys/class/leds/indicator/brightness
++	#echo 8 > /sys/class/leds/indicator/brightness
+ 
+ Notes
+ -----
+-- 
+2.25.1
+
