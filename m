@@ -2,68 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-21.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0EB5C43381
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C1CCC28D15
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 874AC64F21
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3B33260241
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580455AbhCBSDj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 13:03:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50120 "EHLO
+        id S1580470AbhCBSDm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 13:03:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51328 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240809AbhCBRiu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 12:38:50 -0500
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF4D6C061D7F
-        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 09:20:41 -0800 (PST)
-Received: by mail-pg1-x52c.google.com with SMTP id b21so14263793pgk.7
-        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 09:20:41 -0800 (PST)
+        with ESMTP id S1344218AbhCBRlq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 12:41:46 -0500
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 456E2C0698D4
+        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 09:20:50 -0800 (PST)
+Received: by mail-pf1-x42b.google.com with SMTP id o188so7591818pfg.2
+        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 09:20:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cilium-io.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=z18YKbLroFUMGatWaH2sPxqJhja6Q90A29PeFQbc+yo=;
-        b=Pd1EI/TpC8ppXGX0DvPNxNKLO4LBZUb5iWVW39mf7VL+Yku8YghXxLi1ngPO+TsrbW
-         so6J/GGP32H8aiu44WZ1cWs5oVTZF7yfxNSFB0iPIBpeogJHoH+UCjHsgAmvV3dPZ6+/
-         WgZ6XVBb0OGFPrP9a0dTRg/QWoOahRBaAROtfFOIrdMeOCTvO9cGNG0GpqdnbyBLGJZ1
-         i7HSO8FEA//QEniDAOVW3NzwGurhiZtBzrlAEB16uU++MeTbT+PbVJlvcGyo2cbkx/UX
-         Ov7Qy3F+OZGQoBVEBL67GAoSJBQwCQpNKLlOQdCNiqfgQouCYWsApBI4s8rr8IkRmeqv
-         nNjw==
+        bh=m3P34ZfaEcKP5uSP2XHxCLx/BufSt6qtkFAu5J+XEKw=;
+        b=b7qqfY67saC70WwhUWdvFwLduwR5bjWQdVPqvMMQYOrNZsxV+HyNS9i4m6UrLQJnZl
+         cosTd+ZEy7e3dJGM+OmHRmRnl9ZqgSrqAdHJq4yFZ5uN+1E5wNYHjEuPfPz4llqnh+qZ
+         zFd4zhIj8JBjyciMDjYZLZ6egWzxG7GHVT7PXrRPf80rKzU4BjXc/+00vx1gGF8X9wZr
+         XkpyhdSl+ojyoYM/ciS9OeFobiAsssbunCb80qBhoqweCNxUi4euAzQd0vC+BdmQpXD1
+         ac1UmBPtGkx2p5d4wbobyX4AeFGBYDlxib9vFXJNMqNCHRbEtyQWnYHj0V0wN2FHqd+C
+         sjqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=z18YKbLroFUMGatWaH2sPxqJhja6Q90A29PeFQbc+yo=;
-        b=mtmvd+cbaa5Oe5yjZyXBLHUeCieH+tyP5mPgalRGFStEpbFdqgOGGjx8aEtc6fyzlw
-         q3ywhr0DmwmEIzwyrf0m0R30kHtG8scTwhqEcuB7O7PYWeUPKdiM3+wlD8mMe+YjYZfd
-         rKUiUsien1ubiewuJ7HCHtssxD94hLk6h1ik0YxuA//ZwgNycDpVX1ckyOozcjuqyDi/
-         ys4xIN+Yqq3cEyDTKUjiz/S3bcHSobl1PTgBUFIh4KGTn/mdGNiDG+qOFGVJaN3VxHkW
-         H4L26Gc/Q4ZVJ+A9X3A9zJEdMYeK3f7QAYpAY8jgR2ngNqy7jVOz/dHsYXvDpEPy4TgZ
-         UWqg==
-X-Gm-Message-State: AOAM533AnkvS435+ZZjmE2Qc1JfzPLJWt0sFDzM/FbpByPz1iaRBjiFJ
-        RU20jPcxkiQVJEBeW/zDNy0C3Q==
-X-Google-Smtp-Source: ABdhPJxim7dzilHY/aBlpeWqGXwKtRtgJEUPj4lm/UAvJUStMTmJjPAbshFJ/EXYqAw/a1iQt999cw==
-X-Received: by 2002:a62:170a:0:b029:1ed:cc98:35aa with SMTP id 10-20020a62170a0000b02901edcc9835aamr4026123pfx.77.1614705641361;
-        Tue, 02 Mar 2021 09:20:41 -0800 (PST)
+        bh=m3P34ZfaEcKP5uSP2XHxCLx/BufSt6qtkFAu5J+XEKw=;
+        b=inbgYnKT1FHaMhEo+QM7L9lIrWNzzEKPRYYowyYr02+FBCICWYOuRKhHFMD6BA/mAC
+         xvQklaUa8+BNn4Z7ZIffVNcxsQty3hnBo/82Pz71BGqatR7zXNeXVkl3pxIjaRx9g10D
+         nSGN6Rw1O1gat6ajyFavahKxGpE6bxvAFIq/DrqdihfH7YoQkVwG/+FqEGgu58+IgJqd
+         zLi49xl0V9x2DLjFnlN2ZV/aLxakPqEq2ZZyuYPWxt394octQA80sxMkyZAieannz+Gk
+         SqsRg6edds5uxubZ8RDa4yGFIqEVB+L26YeObtZo4MSPLFjHYwPRlch2lizA7eWYNhD1
+         yzEA==
+X-Gm-Message-State: AOAM531l8GkG/j+DT92aRwiGpWdgmg8FPrPtLHBwwXmkC2xFT/6R3qdM
+        NAVNMAtLoqgKvcZn/LVDAqexyUMZBqNxu6Ib
+X-Google-Smtp-Source: ABdhPJznxMzff9wTxkL7798tBHvE1eRQ1e22bBhq0XiAPiSvYqzLyKWUt0lHw97Q3g3+PIX8vymIQA==
+X-Received: by 2002:a63:1906:: with SMTP id z6mr19365033pgl.292.1614705649881;
+        Tue, 02 Mar 2021 09:20:49 -0800 (PST)
 Received: from localhost.localdomain (c-73-93-5-123.hsd1.ca.comcast.net. [73.93.5.123])
-        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.40
+        by smtp.gmail.com with ESMTPSA id b15sm20073923pgg.85.2021.03.02.09.20.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Mar 2021 09:20:40 -0800 (PST)
+        Tue, 02 Mar 2021 09:20:49 -0800 (PST)
 From:   Joe Stringer <joe@cilium.io>
 To:     bpf@vger.kernel.org
 Cc:     daniel@iogearbox.net, ast@kernel.org, linux-doc@vger.kernel.org,
         linux-man@vger.kernel.org,
         =?UTF-8?q?Toke=20H=C3=B8iland-J=C3=B8rgensen?= <toke@redhat.com>,
         Quentin Monnet <quentin@isovalent.com>
-Subject: [PATCHv2 bpf-next 07/15] bpf: Document BPF_PROG_QUERY syscall command
-Date:   Tue,  2 Mar 2021 09:19:39 -0800
-Message-Id: <20210302171947.2268128-8-joe@cilium.io>
+Subject: [PATCHv2 bpf-next 14/15] docs/bpf: Add bpf() syscall command reference
+Date:   Tue,  2 Mar 2021 09:19:46 -0800
+Message-Id: <20210302171947.2268128-15-joe@cilium.io>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210302171947.2268128-1-joe@cilium.io>
 References: <20210302171947.2268128-1-joe@cilium.io>
@@ -74,68 +74,128 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Commit 468e2f64d220 ("bpf: introduce BPF_PROG_QUERY command") originally
-introduced this, but there have been several additions since then.
-Unlike BPF_PROG_ATTACH, it appears that the sockmap progs are not able
-to be queried so far.
+Generate the syscall command reference from the UAPI header file and
+include it in the main bpf docs page.
 
 Acked-by: Toke Høiland-Jørgensen <toke@redhat.com>
 Reviewed-by: Quentin Monnet <quentin@isovalent.com>
 Signed-off-by: Joe Stringer <joe@cilium.io>
 ---
-CC: Alexei Starovoitov <ast@kernel.org>
+CC: linux-doc@vger.kernel.org
 ---
- include/uapi/linux/bpf.h | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ Documentation/bpf/index.rst                  |  9 +++++---
+ Documentation/userspace-api/ebpf/index.rst   | 17 ++++++++++++++
+ Documentation/userspace-api/ebpf/syscall.rst | 24 ++++++++++++++++++++
+ Documentation/userspace-api/index.rst        |  1 +
+ MAINTAINERS                                  |  1 +
+ 5 files changed, 49 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/userspace-api/ebpf/index.rst
+ create mode 100644 Documentation/userspace-api/ebpf/syscall.rst
 
-diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-index a6cd6650e23d..0cf92ef011f1 100644
---- a/include/uapi/linux/bpf.h
-+++ b/include/uapi/linux/bpf.h
-@@ -389,6 +389,43 @@ union bpf_iter_link_info {
-  *		Obtain information about eBPF programs associated with the
-  *		specified *attach_type* hook.
-  *
-+ *		The *target_fd* must be a valid file descriptor for a kernel
-+ *		object which depends on the attach type of *attach_bpf_fd*:
-+ *
-+ *		**BPF_PROG_TYPE_CGROUP_DEVICE**,
-+ *		**BPF_PROG_TYPE_CGROUP_SKB**,
-+ *		**BPF_PROG_TYPE_CGROUP_SOCK**,
-+ *		**BPF_PROG_TYPE_CGROUP_SOCK_ADDR**,
-+ *		**BPF_PROG_TYPE_CGROUP_SOCKOPT**,
-+ *		**BPF_PROG_TYPE_CGROUP_SYSCTL**,
-+ *		**BPF_PROG_TYPE_SOCK_OPS**
-+ *
-+ *			Control Group v2 hierarchy with the eBPF controller
-+ *			enabled. Requires the kernel to be compiled with
-+ *			**CONFIG_CGROUP_BPF**.
-+ *
-+ *		**BPF_PROG_TYPE_FLOW_DISSECTOR**
-+ *
-+ *			Network namespace (eg /proc/self/ns/net).
-+ *
-+ *		**BPF_PROG_TYPE_LIRC_MODE2**
-+ *
-+ *			LIRC device path (eg /dev/lircN). Requires the kernel
-+ *			to be compiled with **CONFIG_BPF_LIRC_MODE2**.
-+ *
-+ *		**BPF_PROG_QUERY** always fetches the number of programs
-+ *		attached and the *attach_flags* which were used to attach those
-+ *		programs. Additionally, if *prog_ids* is nonzero and the number
-+ *		of attached programs is less than *prog_cnt*, populates
-+ *		*prog_ids* with the eBPF program ids of the programs attached
-+ *		at *target_fd*.
-+ *
-+ *		The following flags may alter the result:
-+ *
-+ *		**BPF_F_QUERY_EFFECTIVE**
-+ *			Only return information regarding programs which are
-+ *			currently effective at the specified *target_fd*.
-+ *
-  *	Return
-  *		Returns zero on success. On error, -1 is returned and *errno*
-  *		is set appropriately.
+diff --git a/Documentation/bpf/index.rst b/Documentation/bpf/index.rst
+index 4f2874b729c3..a702f67dd45f 100644
+--- a/Documentation/bpf/index.rst
++++ b/Documentation/bpf/index.rst
+@@ -12,9 +12,6 @@ BPF instruction-set.
+ The Cilium project also maintains a `BPF and XDP Reference Guide`_
+ that goes into great technical depth about the BPF Architecture.
+ 
+-The primary info for the bpf syscall is available in the `man-pages`_
+-for `bpf(2)`_.
+-
+ BPF Type Format (BTF)
+ =====================
+ 
+@@ -35,6 +32,12 @@ Two sets of Questions and Answers (Q&A) are maintained.
+    bpf_design_QA
+    bpf_devel_QA
+ 
++Syscall API
++===========
++
++The primary info for the bpf syscall is available in the `man-pages`_
++for `bpf(2)`_. For more information about the userspace API, see
++Documentation/userspace-api/ebpf/index.rst.
+ 
+ Helper functions
+ ================
+diff --git a/Documentation/userspace-api/ebpf/index.rst b/Documentation/userspace-api/ebpf/index.rst
+new file mode 100644
+index 000000000000..473dfba78116
+--- /dev/null
++++ b/Documentation/userspace-api/ebpf/index.rst
+@@ -0,0 +1,17 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++eBPF Userspace API
++==================
++
++eBPF is a kernel mechanism to provide a sandboxed runtime environment in the
++Linux kernel for runtime extension and instrumentation without changing kernel
++source code or loading kernel modules. eBPF programs can be attached to various
++kernel subsystems, including networking, tracing and Linux security modules
++(LSM).
++
++For internal kernel documentation on eBPF, see Documentation/bpf/index.rst.
++
++.. toctree::
++   :maxdepth: 1
++
++   syscall
+diff --git a/Documentation/userspace-api/ebpf/syscall.rst b/Documentation/userspace-api/ebpf/syscall.rst
+new file mode 100644
+index 000000000000..ea9918084221
+--- /dev/null
++++ b/Documentation/userspace-api/ebpf/syscall.rst
+@@ -0,0 +1,24 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++eBPF Syscall
++------------
++
++:Authors: - Alexei Starovoitov <ast@kernel.org>
++          - Joe Stringer <joe@wand.net.nz>
++          - Michael Kerrisk <mtk.manpages@gmail.com>
++
++The primary info for the bpf syscall is available in the `man-pages`_
++for `bpf(2)`_.
++
++bpf() subcommand reference
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++.. kernel-doc:: include/uapi/linux/bpf.h
++   :doc: eBPF Syscall Preamble
++
++.. kernel-doc:: include/uapi/linux/bpf.h
++   :doc: eBPF Syscall Commands
++
++.. Links:
++.. _man-pages: https://www.kernel.org/doc/man-pages/
++.. _bpf(2): https://man7.org/linux/man-pages/man2/bpf.2.html
+diff --git a/Documentation/userspace-api/index.rst b/Documentation/userspace-api/index.rst
+index d29b020e5622..1e2438b7afa0 100644
+--- a/Documentation/userspace-api/index.rst
++++ b/Documentation/userspace-api/index.rst
+@@ -21,6 +21,7 @@ place where this information is gathered.
+    unshare
+    spec_ctrl
+    accelerators/ocxl
++   ebpf/index
+    ioctl/index
+    iommu
+    media/index
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8d56c7044067..4446d1455354 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3209,6 +3209,7 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
+ F:	Documentation/bpf/
+ F:	Documentation/networking/filter.rst
++F:	Documentation/userspace-api/ebpf/
+ F:	arch/*/net/*
+ F:	include/linux/bpf*
+ F:	include/linux/filter.h
 -- 
 2.27.0
 
