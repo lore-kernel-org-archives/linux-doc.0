@@ -2,115 +2,203 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4CA1C433E9
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C92AC4332E
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 742A364F1F
-	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1CB2C64F1E
+	for <linux-doc@archiver.kernel.org>; Tue,  2 Mar 2021 18:08:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1580344AbhCBSBj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 2 Mar 2021 13:01:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42468 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376912AbhCBIRu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 03:17:50 -0500
-Received: from mail-pj1-x1049.google.com (mail-pj1-x1049.google.com [IPv6:2607:f8b0:4864:20::1049])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF1C7C06178A
-        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 00:17:10 -0800 (PST)
-Received: by mail-pj1-x1049.google.com with SMTP id e11so1368039pjj.8
-        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 00:17:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=sender:date:message-id:mime-version:subject:from:to:cc;
-        bh=J5nM/aBIL0ud17qxWddLzc4+65+ykqSEziPOIHoR18E=;
-        b=CLaHSQRRQuhzlrNUHt+Ee6dvdh/pvhmKVL23Vm4bjLSGpL9t3yxCRmBAVgHL6lsIyn
-         05iAFmfLfOZZR9GHkYRXKHrHC0SJlD8qUu+AAvO9gfMPcV4vhR646pp/hEvI68QeA2Mb
-         DBYpEVQWeUFHdRFXaub06Vwhv8jjJysBUfgnKx9+1KwWwrDjmMYv+jozyxcKVieG9COH
-         DE7ZHKblBdBpTi6HTjHtr7iiM5+8AIUrueg5HzDkJVCaHvkxaOHcB1vGO3bNgFMavgSK
-         JIqmGJgz7qn0J+SwCsXUdzaYEdBIOPxEJJe80J4+INK+OSDVp9jhM5+vKb5bRxmRrTWt
-         lYag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
-         :to:cc;
-        bh=J5nM/aBIL0ud17qxWddLzc4+65+ykqSEziPOIHoR18E=;
-        b=PGOdZii5SvKRKFEzYUvgxEyV824LFpAHu2fB5WDmoOT4nf0uRdRBHW4lE0FalhOIJv
-         nbD2AiRm43QURqI760WnXnUR4v3C+tCZeBEMUmfFL/rsFqkJVxIrS7oysxzW06++O0KR
-         eEzLpKFk84mrDn71w6ykZKmZczQqb74WNE1JAQI+/o7xOLnmUXVScGZfagEpoEh3/2X0
-         LHMfmFnjDi/UY/PBsOq2z4U1St/fCxU6ehiAcVZ1aX6yZllfxjVvFsEjkjHU3q38Fci/
-         8REMENrwHmhP2MvH8IoOhGqzJL6qa12C3ih75A5v2z5wZmPeytof8Jeb9mzjQgcLc+l8
-         JNpQ==
-X-Gm-Message-State: AOAM532CHCDCmsKn/oeLMPgdTVSFOn89xOJK3KAA+aOdmH8BGtHlz4Sg
-        rsAFTSHDi4T9fmU60SOPg1GJ8xbtrAh2
-X-Google-Smtp-Source: ABdhPJxpzOEermj6hCTqHdZMYKkcNIjK+rfabJvpEhcLm7hTMoPzPtCdKtmgNr1eNEsnSiBD1DsDg2OTL89T
-Sender: "vipinsh via sendgmr" <vipinsh@vipinsh.kir.corp.google.com>
-X-Received: from vipinsh.kir.corp.google.com ([2620:0:1008:10:e829:dc2a:968a:1370])
- (user=vipinsh job=sendgmr) by 2002:a62:6585:0:b029:1b9:d8d9:1af2 with SMTP id
- z127-20020a6265850000b02901b9d8d91af2mr2296150pfb.17.1614673030058; Tue, 02
- Mar 2021 00:17:10 -0800 (PST)
-Date:   Tue,  2 Mar 2021 00:17:03 -0800
-Message-Id: <20210302081705.1990283-1-vipinsh@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
-Subject: [RFC v2 0/2] cgroup: New misc cgroup controller
-From:   Vipin Sharma <vipinsh@google.com>
-To:     tj@kernel.org, mkoutny@suse.com, rdunlap@infradead.org,
-        thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
-        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
-        frankja@linux.ibm.com, borntraeger@de.ibm.com
-Cc:     corbet@lwn.net, seanjc@google.com, vkuznets@redhat.com,
-        wanpengli@tencent.com, jmattson@google.com, joro@8bytes.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        gingell@google.com, rientjes@google.com, dionnaglaze@google.com,
-        kvm@vger.kernel.org, x86@kernel.org, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vipin Sharma <vipinsh@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1580357AbhCBSCJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 2 Mar 2021 13:02:09 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:1921 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1378018AbhCBIxy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 03:53:54 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B603dfcea0002>; Tue, 02 Mar 2021 00:52:58 -0800
+Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 2 Mar
+ 2021 08:52:55 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     Christoph Hellwig <hch@infradead.org>
+CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
+        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <jhubbard@nvidia.com>,
+        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <jgg@nvidia.com>,
+        <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 1/8] mm: Remove special swap entry functions
+Date:   Tue, 2 Mar 2021 19:52:53 +1100
+Message-ID: <2110609.1zlQqR5hOE@nvdebian>
+In-Reply-To: <20210226155909.GA2907711@infradead.org>
+References: <20210226071832.31547-1-apopple@nvidia.com> <20210226071832.31547-2-apopple@nvidia.com> <20210226155909.GA2907711@infradead.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1614675178; bh=Q3KJiry9KyGM4bq+yenpeuhX/mI9emX6OFn6eNSXghg=;
+        h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+         MIME-Version:Content-Transfer-Encoding:Content-Type:
+         X-Originating-IP:X-ClientProxiedBy;
+        b=dsu+1waYJQ7mqyv3AqpWc1eGn2uJdvbYr5/iNbgdcM0TKiIQTQh8JHHCNijiQjUUf
+         EJP+ja4ILdram33pqB4lCLWhSVsECM/8l5SOVdZXTtYrVTlGcWZgCDPjJ2YzG4pYXI
+         STyeVXGtNaS8EV2CYHHsTdnVdS2Dol2WMH8fKy1PJoaEhBx8SRB9cfUPxg/9cjK9cK
+         kf6s5gY/VIse5I8b7CBhYBQiKFQIuYpFBSPKt+fxSyPlTCLXtg5uUddehOmZFX9Ebo
+         LXja9zY84Af/ktvtHgmQeel83G4QfOfL/kBuBfZ/d1ZX5GHIBGhMFETZtVOCJlT2Bd
+         qxtZaFFgBfb1A==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello
+On Saturday, 27 February 2021 2:59:09 AM AEDT Christoph Hellwig wrote:
+> > -		struct page *page = migration_entry_to_page(entry);
+> > +		struct page *page = pfn_to_page(swp_offset(entry));
+> 
+> I wonder if keeping a single special_entry_to_page() helper would still
+> me a useful.  But I'm not entirely sure.  There are also two more open
+> coded copies of this in the THP migration code.
 
-This patch series is creating a new misc cgroup controller for limiting
-and tracking of resources which are not abstract like other cgroup
-controllers.
+I think it might be if only to clearly document where these entries are used. 
+Will add it for the next version to see what it looks like.
 
-This controller was initially proposed as encryption_id but after
-the feedbacks, it is now changed to misc cgroup.
-https://lore.kernel.org/lkml/20210108012846.4134815-2-vipinsh@google.com/
+> > -#define free_swap_and_cache(e) ({(is_migration_entry(e) || 
+is_device_private_entry(e));})
+> > -#define swapcache_prepare(e) ({(is_migration_entry(e) || 
+is_device_private_entry(e));})
+> > +#define free_swap_and_cache(e) is_special_entry(e)
+> > +#define swapcache_prepare(e) is_special_entry(e)
+> 
+> Staring at this I'm really, really confused at what this is doing.
+> 
+> Looking a little closer these are the !CONFIG_SWAP stubs, but it could
+> probably use a comment or two.
 
-Changes in RFC v2:
-1. Documentation fixes.
-2. Added kernel log messages.
-3. Changed charge API to treat misc_cg as input parameter.
-4. Added helper APIs to get and release references on the cgroup.
+Will do, thanks.
 
-[1] https://lore.kernel.org/lkml/20210218195549.1696769-1-vipinsh@google.com
-Vipin Sharma (2):
-  cgroup: sev: Add misc cgroup controller
-  cgroup: sev: Miscellaneous cgroup documentation.
+ - Alistair
+ 
+> >  	} else if (is_migration_entry(entry)) {
+> > -		page = migration_entry_to_page(entry);
+> > +		page = pfn_to_page(swp_offset(entry));
+> >  
+> >  		rss[mm_counter(page)]++;
+> >  
+> > @@ -737,7 +737,7 @@ copy_nonpresent_pte(struct mm_struct *dst_mm, struct 
+mm_struct *src_mm,
+> >  			set_pte_at(src_mm, addr, src_pte, pte);
+> >  		}
+> >  	} else if (is_device_private_entry(entry)) {
+> > -		page = device_private_entry_to_page(entry);
+> > +		page = pfn_to_page(swp_offset(entry));
+> >  
+> >  		/*
+> >  		 * Update rss count even for unaddressable pages, as
+> > @@ -1274,7 +1274,7 @@ static unsigned long zap_pte_range(struct mmu_gather 
+*tlb,
+> >  
+> >  		entry = pte_to_swp_entry(ptent);
+> >  		if (is_device_private_entry(entry)) {
+> > -			struct page *page = device_private_entry_to_page(entry);
+> > +			struct page *page = pfn_to_page(swp_offset(entry));
+> >  
+> >  			if (unlikely(details && details->check_mapping)) {
+> >  				/*
+> > @@ -1303,7 +1303,7 @@ static unsigned long zap_pte_range(struct mmu_gather 
+*tlb,
+> >  		else if (is_migration_entry(entry)) {
+> >  			struct page *page;
+> >  
+> > -			page = migration_entry_to_page(entry);
+> > +			page = pfn_to_page(swp_offset(entry));
+> >  			rss[mm_counter(page)]--;
+> >  		}
+> >  		if (unlikely(!free_swap_and_cache(entry)))
+> > @@ -3271,7 +3271,7 @@ vm_fault_t do_swap_page(struct vm_fault *vmf)
+> >  			migration_entry_wait(vma->vm_mm, vmf->pmd,
+> >  					     vmf->address);
+> >  		} else if (is_device_private_entry(entry)) {
+> > -			vmf->page = device_private_entry_to_page(entry);
+> > +			vmf->page = pfn_to_page(swp_offset(entry));
+> >  			ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
+> >  		} else if (is_hwpoison_entry(entry)) {
+> >  			ret = VM_FAULT_HWPOISON;
+> > diff --git a/mm/migrate.c b/mm/migrate.c
+> > index 20ca887ea769..72adcc3d8f5b 100644
+> > --- a/mm/migrate.c
+> > +++ b/mm/migrate.c
+> > @@ -321,7 +321,7 @@ void __migration_entry_wait(struct mm_struct *mm, 
+pte_t *ptep,
+> >  	if (!is_migration_entry(entry))
+> >  		goto out;
+> >  
+> > -	page = migration_entry_to_page(entry);
+> > +	page = pfn_to_page(swp_offset(entry));
+> >  
+> >  	/*
+> >  	 * Once page cache replacement of page migration started, page_count
+> > @@ -361,7 +361,7 @@ void pmd_migration_entry_wait(struct mm_struct *mm, 
+pmd_t *pmd)
+> >  	ptl = pmd_lock(mm, pmd);
+> >  	if (!is_pmd_migration_entry(*pmd))
+> >  		goto unlock;
+> > -	page = migration_entry_to_page(pmd_to_swp_entry(*pmd));
+> > +	page = pfn_to_page(swp_offset(pmd_to_swp_entry(*pmd)));
+> >  	if (!get_page_unless_zero(page))
+> >  		goto unlock;
+> >  	spin_unlock(ptl);
+> > @@ -2437,7 +2437,7 @@ static int migrate_vma_collect_pmd(pmd_t *pmdp,
+> >  			if (!is_device_private_entry(entry))
+> >  				goto next;
+> >  
+> > -			page = device_private_entry_to_page(entry);
+> > +			page = pfn_to_page(swp_offset(entry));
+> >  			if (!(migrate->flags &
+> >  				MIGRATE_VMA_SELECT_DEVICE_PRIVATE) ||
+> >  			    page->pgmap->owner != migrate->pgmap_owner)
+> > diff --git a/mm/page_vma_mapped.c b/mm/page_vma_mapped.c
+> > index 86e3a3688d59..34230d08556a 100644
+> > --- a/mm/page_vma_mapped.c
+> > +++ b/mm/page_vma_mapped.c
+> > @@ -96,7 +96,7 @@ static bool check_pte(struct page_vma_mapped_walk *pvmw)
+> >  		if (!is_migration_entry(entry))
+> >  			return false;
+> >  
+> > -		pfn = migration_entry_to_pfn(entry);
+> > +		pfn = swp_offset(entry);
+> >  	} else if (is_swap_pte(*pvmw->pte)) {
+> >  		swp_entry_t entry;
+> >  
+> > @@ -105,7 +105,7 @@ static bool check_pte(struct page_vma_mapped_walk 
+*pvmw)
+> >  		if (!is_device_private_entry(entry))
+> >  			return false;
+> >  
+> > -		pfn = device_private_entry_to_pfn(entry);
+> > +		pfn = swp_offset(entry);
+> >  	} else {
+> >  		if (!pte_present(*pvmw->pte))
+> >  			return false;
+> > @@ -200,7 +200,7 @@ bool page_vma_mapped_walk(struct page_vma_mapped_walk 
+*pvmw)
+> >  				if (is_migration_entry(pmd_to_swp_entry(*pvmw->pmd))) {
+> >  					swp_entry_t entry = pmd_to_swp_entry(*pvmw->pmd);
+> >  
+> > -					if (migration_entry_to_page(entry) != page)
+> > +					if (pfn_to_page(swp_offset(entry)) != page)
+> >  						return not_found(pvmw);
+> >  					return true;
+> >  				}
+> ---end quoted text---
+> 
 
- Documentation/admin-guide/cgroup-v1/index.rst |   1 +
- Documentation/admin-guide/cgroup-v1/misc.rst  |   4 +
- Documentation/admin-guide/cgroup-v2.rst       |  69 ++-
- arch/x86/kvm/svm/sev.c                        |  65 ++-
- arch/x86/kvm/svm/svm.h                        |   1 +
- include/linux/cgroup_subsys.h                 |   4 +
- include/linux/misc_cgroup.h                   | 122 +++++
- init/Kconfig                                  |  14 +
- kernel/cgroup/Makefile                        |   1 +
- kernel/cgroup/misc.c                          | 423 ++++++++++++++++++
- 10 files changed, 692 insertions(+), 12 deletions(-)
- create mode 100644 Documentation/admin-guide/cgroup-v1/misc.rst
- create mode 100644 include/linux/misc_cgroup.h
- create mode 100644 kernel/cgroup/misc.c
 
--- 
-2.30.1.766.gb4fecdf3b7-goog
+
 
