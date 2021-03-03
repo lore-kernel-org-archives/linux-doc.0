@@ -2,161 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DD38C433E9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF096C433E6
 	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 53A4564EE1
+	by mail.kernel.org (Postfix) with ESMTP id 75F1A64F07
 	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350564AbhCCKoP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:44:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37796 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1843034AbhCCKYk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 05:24:40 -0500
-Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59730C0698E3;
-        Wed,  3 Mar 2021 01:27:51 -0800 (PST)
-Received: by mail-pl1-x633.google.com with SMTP id u18so7516530plc.12;
-        Wed, 03 Mar 2021 01:27:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=s6hjvIUW2bHosaip4kPRUurnF/6m14XdG9Exrn+bnXA=;
-        b=QmtZTimjkEL4C+AdQxJ7CUItbuqw8SrBlSivDznS7YkiJhJEV5USAeC2IA1aCzI/4I
-         4453Sfz+7TEAqJG8WLtM0mO1yeoeoHdwLp2GQyYDNRCvPtkNUCnTzjEA8y/dlO7uxZp4
-         p4yxBtmyyiUZoG6++yupi3oTHuSDhzi0qQT427mCH2SVh92xentLIzj2dArvNUgJ6ee/
-         wvmpL+pKs6gHymG+KnmNwjRTXPwZLu8T0HaS8ij2NrDRphi8LqTCLi0OpVJCRTa52Ld5
-         +zjvwli6SI/ZciKZSyGydqdGG4R6WOVVnJfIFb6w93GmUc0T5HPj+ybZXJw5ef6aKk+l
-         yPzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s6hjvIUW2bHosaip4kPRUurnF/6m14XdG9Exrn+bnXA=;
-        b=UkKckDARoDp6HKPyfizY/vLol6iuhkiUWIBZr8Luv0ttLuanggKj3U3ZLOw+64SUqB
-         nkNWeeUZkrdYSpUKFK2jjv4Cqr7GQyExOmjdaCR/HfKK+oVJmprCnB7PVKYN47dcUsoF
-         qM8H2QkWz6AhJqJtrVUg6P5vuclxSWVlrcWn3Af/17QTWzEFj3PJ3n0RkQ/NsR+FfPxm
-         WbxpLvjiZaU2hsrbxmHLenBKzNi5Ts1xMKm8s2GRMp/2YY8KFyB4D2xbGPzaoO4kmOr9
-         D9+5xGU6bn9jNm6dr43Ymr23PyDyauNMAk71dCBQvr1Mvc3vtrQWrdeOQGgcykw+64gE
-         NYHA==
-X-Gm-Message-State: AOAM531V9rxor9UE6qnf49HlXBc+vUdqXd8EBjrSjoyYe+S9AadWbYrr
-        WAU5ydHZKqH246DXWh+hD8UGiPMC0p7Iw2eNE0o=
-X-Google-Smtp-Source: ABdhPJxBHtBkJYB3Vi2vDSobGNT6l9vpi3k8ps++zZkMsJYxt1s9S/JIUNVwIMQU2XRRpBIy5Gu3rBWKh20PvrI63GY=
-X-Received: by 2002:a17:90a:c84:: with SMTP id v4mr8889364pja.228.1614763670630;
- Wed, 03 Mar 2021 01:27:50 -0800 (PST)
+        id S1351009AbhCCKpA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:45:00 -0500
+Received: from mx2.suse.de ([195.135.220.15]:54078 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241090AbhCCK0q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Mar 2021 05:26:46 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1614767159; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=62KK1EtrPwDpveUviuINUmjHcRrckD3Hrdf208FRBvY=;
+        b=NpZLN3MbUIPglvtn76MoeqxABY4sIVponKFYMpU/RMBDzXGNDYLccQP9CFwhpmcBJ89XOq
+        KvpSufVHkZNN9Pz9Mqhi/pWxhQcVdDurgnHvg/EU3guj1mopTFoDy2mQmMZeJFW41deuYY
+        BX/DB2mg7p7e58bJINgTUW4V3+4aSnU=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 8308FAC54;
+        Wed,  3 Mar 2021 10:25:59 +0000 (UTC)
+Date:   Wed, 3 Mar 2021 11:25:58 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 5/7] printk: Make %pS and friends print module build ID
+Message-ID: <YD9kNphaSRPk83KJ@alley>
+References: <20210301174749.1269154-1-swboyd@chromium.org>
+ <20210301174749.1269154-6-swboyd@chromium.org>
 MIME-Version: 1.0
-References: <CAHp75VfpnGEZcnrQLFYaFQ-HuxTmPw5OnewKmRGfXQf__ztjww@mail.gmail.com>
- <87r1lgx8fo.fsf@meer.lwn.net> <CAHp75Vc0SwC=WxUOiokUik1G4uPE6bHfX_F_ckgp-eEJaVuWhA@mail.gmail.com>
- <87mtw4x7rw.fsf@meer.lwn.net> <CAHp75VcG544HZ1j_6jvZoba6kEjKXXfZ8deJWmwNQ08mC35NrA@mail.gmail.com>
- <20210303094426.1c3f6ff3@coco.lan>
-In-Reply-To: <20210303094426.1c3f6ff3@coco.lan>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 3 Mar 2021 11:27:34 +0200
-Message-ID: <CAHp75Vc3DkW=T=kDhqNYFNTguLrHdb3nF4pS5_VjquNMJOXUvA@mail.gmail.com>
-Subject: Re: anonymous enums in kernel doc
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210301174749.1269154-6-swboyd@chromium.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 3, 2021 at 10:44 AM Mauro Carvalho Chehab
-<mchehab@kernel.org> wrote:
-> Em Tue, 16 Feb 2021 19:12:58 +0200
-> Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
-> > On Tue, Feb 16, 2021 at 7:05 PM Jonathan Corbet <corbet@lwn.net> wrote:
-> > > Andy Shevchenko <andy.shevchenko@gmail.com> writes:
-> > > > On Tue, Feb 16, 2021 at 6:51 PM Jonathan Corbet <corbet@lwn.net> wrote:
-> > > >>
-> > > >> > Mauro, can you do some test cases in your workflow against anonymous
-> > > >> > enum in ernel doc, please?
-> > > >> >
-> > > >> > They are broken again, please fix the script!
-> > > >> >
-> > > >> > drivers/pinctrl/intel/pinctrl-intel.c:204: warning: wrong kernel-doc
-> > > >> > identifier on line:
-> > > >> > * enum - Locking variants of the pad configuration
-> > > >> >
-> > > >> > Above is simply a wrong statement.
-> > > >>
-> > > >> The real problem, perhaps, is that there seems to be little point in
-> > > >> adding kerneldoc comments for anonymous enums; where are you going to
-> > > >> use that documentation?
-> > > >
-> > > > I had been explicitly told during review (IIRC by maintainers) to make
-> > > > it such, while the initial version was exactly like you are thinking
-> > > > of. So, I'm not the right person to be asked :-)
-> >
-> > Just for a reference [1].
-> >
-> > > >>  The error message could perhaps be changed to
-> > > >> say that; meanwhile, perhaps this one could be fixed with an action like
-> > > >> s%/**%/*% ?
-> > > >
-> > > > See above. I think regression comes from the kernel doc script,
-> > > > earlier it was okay. That said, the author of kernel doc changes has
-> > > > to submit a patch to amend the driver and maintainers will review it.
-> > >
-> > > kerneldoc now warns about various incorrect things that it used to just
-> > > silently pass over.  There is no regression here, just a new diagnostic
-> > > to point out something that was never going to work right.  Unless you
-> > > have a good idea for what kerneldoc should do with a block like that?
-> >
-> > As it does, put description of individual fields and prepend it with a
-> > common part.
-> >
-> > So,
-> >
-> > enum - Bla bla bla
-> >  @FOO: ABC
-> >  @BAR: DEF
-> > Description
-> >
-> > Should go in the doc for the corresponding file like (as an example)
-> >
-> > Anonymous enumeration Bla bla bla
-> > Description
-> >
-> > FOO ABC
-> > BAR DEF
-> >
-> > (not sure about indentation, emphasizing and separators, but I think
-> > you got the idea).
-> >
-> > > (An alternative fix, of course, would be to give the enum a name so it
-> > > can actually be used for type checking.)
-> >
-> > That enum is not used as an enum, it provides the logically unified constants.
->
-> What's the problem of giving it a name?
+On Mon 2021-03-01 09:47:47, Stephen Boyd wrote:
+> The %pS printk format (among some others) is used to print kernel
+> addresses symbolically. When the kernel prints an address inside of a
+> module, the kernel prints the addresses' symbol name along with the
+> module's name that contains the address. Let's make kernel stacktraces
+> easier to identify on KALLSYMS builds by including the build ID of a
+> module when we print the address.
+> 
+> This is especially helpful for crash debugging with pstore or crashdump
+> kernels. If we have the build ID for the module in the stacktrace we can
+> request the debug symbols for the module from a remote debuginfod server
 
-Because why should I do this? It's a perfect C language which has no
-issues so far.
+I have read the thread so for. IMHO, all mentioned variants complicate
+the logs a lot. Either the backtrace lines are hard to parse.
+Or the OOps/panic blocks gets too long when the ID is mentioned
+for every loaded module. IMHO, neither proposed solution
+is acceptable to be always used.
 
-> You could call it as "intel_pinctrl_pad" or something similar.
->
-> > Personally I don't see why the kernel doc can't digest this.
->
-> It is not hard to add support for this special case. Just sent a
-> patch.
+First, I think that only I some developers would actually use
+this information. Many of them either know what module was
+used or they do not have an easy way to get the debugging
+information by the ID. So, it should be configurable
+at minimum.
 
-Thanks, I will test it!
+Second, I am not sure that it should be part of each OOps/panic blob.
+One solution would be to print the ID by the module loader when
+the module gets loaded. It would be mentioned earlier in the log
+then.
 
-> Yet, this adds additional complexity on an script that it is
-> already complex enough.
+Or we could make it available, for example, via /proc. It is a kind
+of information that might be gathered later on a rebooted system.
+SUSE has "supportconfig" command that allows to gather a lot
+of similar information about the system. We use it when
+analyzing crashdumps and kernel bugs in general.
 
-> > [1]: https://patchwork.ozlabs.org/project/linux-gpio/patch/20190808132128.13359-1-andriy.shevchenko@linux.intel.com/
+Anyway, I consider this a very detailed information that is not
+suitable for everyone. It should be availabe on request, like
+for example, backtraces from all CPUs, list of tasks, memory info.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Alternative solution would be to minimize the information, for
+example, by printing only the modules that appear in the backtrace.
+But this might be complicated to implement.
+
+Best Regards,
+Petr
