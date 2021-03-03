@@ -2,106 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6912AC43142
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75640C433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 56C2364EFD
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4409164EBB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243442AbhCDAbH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:31:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54384 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1388015AbhCCUYP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 15:24:15 -0500
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4E81C061760;
-        Wed,  3 Mar 2021 12:23:35 -0800 (PST)
-Received: by mail-pf1-x42e.google.com with SMTP id t29so17084138pfg.11;
-        Wed, 03 Mar 2021 12:23:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zkgxTa1swI7czPihfHxjvpadRXNKE7cU4riRGgz6wYc=;
-        b=H0wTIWV6YDtXRsDsVGvbWl59qcAUFOz6CLz9bd9kfWcw5thrryJ63vo6BiBBGk13rn
-         VyFwtLUcm8dZYqo24yxrX+PLPvl+dEk0JyDky+bOVviQLPCdeOyH5EcJXTPp14APxGKs
-         QJolCmjYo0JUxjDocXXtmdoNqzXMc0f+lj7/55RtEF7pO75Ef6Y7GQKCEEokjSdmrAVS
-         6JeSi2IesCXYEmV1iow8iBTNNDtlYYMohMHC7ryhzudG7obhZftFvG/0dlahLeQ8sQ6j
-         YB0Hwqre2nJfIsuIF21+wqkiyPgcQQNc+vP3m3L1rgK6aRfFv5Z/YYmB2aaiX1L/nyW9
-         foEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zkgxTa1swI7czPihfHxjvpadRXNKE7cU4riRGgz6wYc=;
-        b=Y8gD5bsCXsh11ANY/Sr4TJmCTmEfNsW6khurHvbs29UvtYSxabGNd5vL0WejEZ/S6k
-         wonVzdbE5qEepuiv4uaCc4aG9c50Gmbepi/DhpEsfD7LWl++AHNQtY4W4ptSv+7u8UQY
-         Nti/AwgfHSmFzM2BB/Fx95Y6oW7QLBQAtWhII1WOS45Tz4voD2yKvZuex7K+MBPtRua3
-         VC3sPNOUVXkbnYN7ikkDxZwDRoButzgjc5PHq1aZUQFEutuvO3SAj7NLqOp2CBhl0e/t
-         cvvQvvwYVbdOjJA7dHysjUiBF8Bq2j/boSg/wzVRyiLdZ40b5IMAzG67epZ9HFryFpOI
-         85og==
-X-Gm-Message-State: AOAM530fIMCWz8jyVo83QLRDCYW28/eyBFUEQIkKFw9vdG8ZWDRWvhdo
-        ucpmRdyTtgPMrBx8qvw9ZHOaF5RFS3P1RdbyZVE=
-X-Google-Smtp-Source: ABdhPJzIb/MFBl/1iDElv2ckDbWpVscaiSHzbARRWa8Mg2kRFc5cqa0XVgihYCGPPabh3lgqFYOS7P1IuavjmeqNcFc=
-X-Received: by 2002:a65:5c8d:: with SMTP id a13mr601359pgt.63.1614803015304;
- Wed, 03 Mar 2021 12:23:35 -0800 (PST)
+        id S1347985AbhCDAbG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:31:06 -0500
+Received: from mx0b-00082601.pphosted.com ([67.231.153.30]:61306 "EHLO
+        mx0a-00082601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1388008AbhCCUWc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 15:22:32 -0500
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+        by m0001303.ppops.net (8.16.0.43/8.16.0.43) with SMTP id 123KHL0M021704;
+        Wed, 3 Mar 2021 12:21:36 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fb.com; h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=facebook;
+ bh=2miiQUDZMksBmhJqtuZHfeIdFJaJQ8yg+zpZeabC/S0=;
+ b=cAOkMd0ic6BCy6zqN+rKUU3GND/u5CUVdYpx/CdZNrleg+jmIljuMuPOu5WUO8sQaxv4
+ R7OlABPe6Yg3afxApc6Ao9pWlHU1RMv8I8NSAHdp9GVGE0w9jSS4yWoVjeBJOds6sl36
+ ybZ4pm+9ss9HH3UsoTzFub8SeqM6dKO6eXw= 
+Received: from mail.thefacebook.com ([163.114.132.120])
+        by m0001303.ppops.net with ESMTP id 371uu3pp4d-2
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Wed, 03 Mar 2021 12:21:36 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (100.104.98.9) by
+ o365-in.thefacebook.com (100.104.94.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Wed, 3 Mar 2021 12:21:35 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LMlVs096yV5movPO54b+5WU6WizBQssMiJ0h274792uGFofHpBW0JWg5f7tnvZDArMtl/wpwGhhj36BKOYbmZPdmcawSmUo+PrL1LnaYrIDIyEFRr09kqhZku1Ipc1fSwK0g/yOl22pFtQ2ObZXPe/4wj1fFnKgGkpR3KJud4Q/57oA3OwzwwHLSvJttfhCmQLjWE10bXc90hDnDJrO9YBTDdMLs8RkCXxMTfKrxWLxs2903XQlYcgg02y2JyOHfnMDbpimDXL/n1z/3y3ZkMIfz6QjcgGzJTXl++PWmJ6ZxifqaCoqhMPkgYnsKphVHo805OVITDrTaiboDf1u/Kw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2miiQUDZMksBmhJqtuZHfeIdFJaJQ8yg+zpZeabC/S0=;
+ b=Si2Z/pNSi19zRKatQeYp6k+Y5YlqzXbA60kUKDBu823A4E5TQhSBiqVxc31FizJj84isrgovAxOf8rpV1v1P4PIVATtRIaGZfBiZ1g72H0bfcuwPHsIB9I7vxROPlKq4w3ETKKKQ1I8K/0IrxGlCeWRO2cN01Seur1dC5TYzrTF4NIAOpR/B2jdqQ4r7DrC9D5E/EbYoAFRtTtrAuLDraAYgh7tzTKRgjhs0IEP43P2tNMTPeWTlEm6COGNol/mrB8a/xXsAFDdevq3Zm3yW1bn83neOkALFZ5rNxcIcejchwG2PEbkHOyO79AJip/ewMv/3EcEnvVKlxNO4vY2R5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=fb.com; dmarc=pass action=none header.from=fb.com; dkim=pass
+ header.d=fb.com; arc=none
+Authentication-Results: isovalent.com; dkim=none (message not signed)
+ header.d=none;isovalent.com; dmarc=none action=none header.from=fb.com;
+Received: from SN6PR1501MB2064.namprd15.prod.outlook.com (2603:10b6:805:d::27)
+ by SN7PR15MB4222.namprd15.prod.outlook.com (2603:10b6:806:101::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17; Wed, 3 Mar
+ 2021 20:21:35 +0000
+Received: from SN6PR1501MB2064.namprd15.prod.outlook.com
+ ([fe80::f433:fd99:f905:8912]) by SN6PR1501MB2064.namprd15.prod.outlook.com
+ ([fe80::f433:fd99:f905:8912%3]) with mapi id 15.20.3890.030; Wed, 3 Mar 2021
+ 20:21:35 +0000
+Subject: Re: [PATCHv2 bpf-next 04/15] bpf: Document BPF_PROG_PIN syscall
+ command
+To:     Joe Stringer <joe@cilium.io>, <bpf@vger.kernel.org>
+CC:     <daniel@iogearbox.net>, <ast@kernel.org>,
+        <linux-doc@vger.kernel.org>, <linux-man@vger.kernel.org>,
+        =?UTF-8?Q?Toke_H=c3=b8iland-J=c3=b8rgensen?= <toke@redhat.com>,
+        Quentin Monnet <quentin@isovalent.com>
+References: <20210302171947.2268128-1-joe@cilium.io>
+ <20210302171947.2268128-5-joe@cilium.io>
+From:   Yonghong Song <yhs@fb.com>
+Message-ID: <a2df3799-bf8a-7753-4c9c-0feb102cd643@fb.com>
+Date:   Wed, 3 Mar 2021 12:21:32 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.8.0
+In-Reply-To: <20210302171947.2268128-5-joe@cilium.io>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [2620:10d:c090:400::5:94d2]
+X-ClientProxiedBy: MWHPR12CA0045.namprd12.prod.outlook.com
+ (2603:10b6:301:2::31) To SN6PR1501MB2064.namprd15.prod.outlook.com
+ (2603:10b6:805:d::27)
 MIME-Version: 1.0
-References: <20210216201813.60394-1-xie.he.0141@gmail.com> <YC4sB9OCl5mm3JAw@unreal>
- <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com>
- <YC5DVTHHd6OOs459@unreal> <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
- <YC7GHgYfGmL2wVRR@unreal> <CAJht_EPZ7rVFd-XD6EQD2VJTDtmZZv0HuZvii+7=yhFgVz68VQ@mail.gmail.com>
- <CAJht_EPPMhB0JTtjWtMcGbRYNiZwJeMLWSC5hS6WhWuw5FgZtg@mail.gmail.com>
- <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <CAJht_EOru3pW6AHN4QVjiaERpLSfg-0G0ZEaqU_hkhX1acv0HQ@mail.gmail.com>
- <906d8114f1965965749f1890680f2547@dev.tdt.de> <CAJht_EPBJhhdCBoon=WMuPBk-sxaeYOq3veOpAd2jq5kFqQHBg@mail.gmail.com>
- <e1750da4179aca52960703890e985af3@dev.tdt.de> <CAJht_ENP3Y98jgj1peGa3fGpQ-qPaF=1gtyYwMcawRFW_UCpeA@mail.gmail.com>
- <ff200b159ef358494a922a676cbef8a6@dev.tdt.de> <CAJht_EMG27YU+Jxtb2qeq1nXwu8uV8FXQPr62OcNHsE7DozD1g@mail.gmail.com>
- <41b77b1c3cf1bb7a51b750faf23900ef@dev.tdt.de> <20210302153034.5f4e320b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <8cac820a181070ac2bad983dc49e4e4e@dev.tdt.de>
-In-Reply-To: <8cac820a181070ac2bad983dc49e4e4e@dev.tdt.de>
-From:   Xie He <xie.he.0141@gmail.com>
-Date:   Wed, 3 Mar 2021 12:23:24 -0800
-Message-ID: <CAJht_ENFd74+MeqYDk4AtipKFcQ3n7WHG-rNL62Z=K3FxWct=A@mail.gmail.com>
-Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB frames
-To:     Martin Schiller <ms@dev.tdt.de>
-Cc:     Jakub Kicinski <kuba@kernel.org>,
-        Leon Romanovsky <leon@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Linux X25 <linux-x25@vger.kernel.org>,
-        Linux Kernel Network Developers <netdev@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Krzysztof Halasa <khc@pm.waw.pl>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2620:10d:c085:21e1::1a32] (2620:10d:c090:400::5:94d2) by MWHPR12CA0045.namprd12.prod.outlook.com (2603:10b6:301:2::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.20 via Frontend Transport; Wed, 3 Mar 2021 20:21:34 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 87175137-755a-46aa-72d9-08d8de81f120
+X-MS-TrafficTypeDiagnostic: SN7PR15MB4222:
+X-Microsoft-Antispam-PRVS: <SN7PR15MB4222D77C5F876D950D505CA6D3989@SN7PR15MB4222.namprd15.prod.outlook.com>
+X-FB-Source: Internal
+X-MS-Oob-TLC-OOBClassifiers: OLM:196;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: vD2T4cycpLlUymEAc5KCp6dQ9SEu6irNWkM+KEiwQgLqM7g1b+zARziKKaePLuXJK7InJJgB3faP2S+pKuiX4mjMU2skgyvfpu9jEFHd8h63iVQHV43Wpueyoci4J/EMoWA9GJcB0pAQIyyabx6RGPNolLbCf1QyxS6BrSSYuoGRLWLddXzgOkWJ8YRh4OoHu2yIDAJ+590ZV8Ffya3FstJI6CRaMOzC6VsOuWUkcgnVlscBkwXxKHqg8fBONJnMCUOtM0AdnBIydkJzHxJOT8R5VD9LZpJ1fCXD4tSUImcRHrHVUwnctWX1ItSv+15/WtgzhLIucRROqfAwRQjB+7Bq0CMjpCB+v+2p8ZbgUH8UvwXCSdEBM5M2aKWbMhDHllF1hOCRO05FaWuLiu44h2edhI697sn/uii9sNnQxy8uRB/D15Yk3cI1I3LhM9vew/fGg6/jyZpVdXPwnkHJSY8flZByyQKE/XAVPW1h22o6E/XTCNm3NNWdPj8Kspo+a56UUrJorZ1JhSRrJEv92k6dx99wdrL6+/0fEsTcurKagfWDutXG+9bBxLRN30+8chZWrvyn/aH0lUIBAAzp26U9PF25RTqhGl2Ccbfy88E=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR1501MB2064.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(396003)(376002)(39860400002)(366004)(346002)(6486002)(66946007)(66476007)(66556008)(8676002)(186003)(16526019)(5660300002)(4744005)(4326008)(54906003)(316002)(478600001)(2906002)(8936002)(31686004)(31696002)(83380400001)(36756003)(2616005)(52116002)(53546011)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RHk5aEFuT3Z2aFZTQzZKZGsvYm9nQlpmeCtqRUJxZTNjZG9odlVyRE9EUm5M?=
+ =?utf-8?B?TXluRTNWZzBDYkZzYXZDNlBzOHNlTUpJQmZ0MVRXNjNBZkJtckxCZ3U3ckxa?=
+ =?utf-8?B?dkcyUnFWdmF5MURNR1NtSlhjQm5UMHRZQnhJK2lRVEF0NHZSSTgxQ2c0eUtt?=
+ =?utf-8?B?UEdsOTNERGpaR3dyaEFabkVyWmpPSmdpRmVQMnFHRFN0SWVHSXZhN29UMG45?=
+ =?utf-8?B?ekhJelF3a1VoM2NUYjFkMklNT0N1TmlBQi84eVlkNHdxa2lSQjZrZjVHVXNC?=
+ =?utf-8?B?QjF2VHRkOC90UzBKMmNHNWdIb3d5ZjhBbXlLS1JVczA2eitRTjVFUEp4SWw1?=
+ =?utf-8?B?VlhxZ1BMUWpaYkZwSmZtZm5vNXI2UjhxRndwVXBNa3cwbnBIblY3OHBWaU5Z?=
+ =?utf-8?B?S3hneDh6dk1kSnZSV0NTM3hyVUs0Tld3eEQ4a3ZMSkRSck9HbkFRbHFqdFY3?=
+ =?utf-8?B?aDZFaDhJUWJHZWt1MmxkZUdxaVFDdVFKS2tnMUovMzh0cE5JOGdVRE1ncnNo?=
+ =?utf-8?B?aU95Mkp6Z1BYWlkvR0pwSi9reDNjM2VvYVRRamJ1anJrMStQTXNXVEcrdmFn?=
+ =?utf-8?B?Uk5sSXlMbHpoZnpheU1VeXRRbVdSbGFRbm5VY1kvSDdCOTlOOUkyRzRzVUl1?=
+ =?utf-8?B?SExKcVovdUNXdmRySm1TanVEZ1VabEZ2RExpU0ErblZZcC9wSVNkUFNhVjN4?=
+ =?utf-8?B?SGJIWWlidFJERkJhSGc3VjhUbzBrclMrWEswbTg2MG5LMVFUTU5GOVJCblZ0?=
+ =?utf-8?B?Z0RpN3g1a2tjdGp1S3dOM284RFhMMzRYRFZxbzZUc0hjdTdiU0RXcW0wOXhJ?=
+ =?utf-8?B?WGQ1SXRhcU1iNGV5d0NkTUhRUU43YnJQNUQxNFRRVWFBMWpEbWRJelYwMC9V?=
+ =?utf-8?B?eXJSUE41K1Nrc1pwLzBOOGViQUlqSW5qc2lxbitHR2dRbStSZ0hwN05lUGFI?=
+ =?utf-8?B?aldwbmUrUzR1RlQvSmROVFhRNktWQ3JxVVRtL3kxcWN2NHp3VjIzVVcrMDQr?=
+ =?utf-8?B?ZnN4TGZKUUI0Q0RhMHVyc0RLR3E5dWw4YzZzc3JwMTcvYWFEZUVPNDIrN1Iy?=
+ =?utf-8?B?ZGNwTnVFWkFlNlFiSG9xa20wa3N0WmZtQWgxMjR2OVBaQXRaQVJDaGJxWUxm?=
+ =?utf-8?B?SUlCTXlwVk1qcTZsMHlRaFRpZXI2dVp3QVpGUkN5VGVXOVJtaE0vdWtQMGdw?=
+ =?utf-8?B?M2hiQ1RNT2ZjUi9RcHNzZ1QxSE40Yjl1WVlIdG5kZGFCT0lxczgzaWg1bUJj?=
+ =?utf-8?B?QVVOKy9ONEVzS2VWd2llM01mS1F2RUx4Y2RzNlo0UEZDd3laMlhIc1F1R25X?=
+ =?utf-8?B?bXVZU1JoQ3Rma3p6dGV5VWMzcnZWVHlIbE9ubmlOZmpiSi9XczNFeE1CN1JV?=
+ =?utf-8?B?U2dvdkFIQmE0Q3VNU0h3K3czazltbXJyMzdNUEFaRkswS0IzWHRGNmFYcGpZ?=
+ =?utf-8?B?SjhwaVNDNUJMYmdvY1kvUTEvQmJ0Qm9ML25SRkVtamYwelBKaFZibkU1cTNO?=
+ =?utf-8?B?OVdaUEdpd0dHc3ZmLzVhSUp1UksvQkQ0UElDeG1raDB2K1k0SDhLMlcwNXlL?=
+ =?utf-8?B?TTNjUUhRY1pVN0ZWemZOYlJXR0FTMThuMVZXTkpzOUx6Rk8wcjFneXhHWFB5?=
+ =?utf-8?B?d1AyR0YyNktqeENWcHQ1RlRqRGRnL1lUREIzWFB0a0FJNmVqc2dMa0t0bDB3?=
+ =?utf-8?B?bkEweVZQajFxUzBWRWlVaVhUSCs3NlVJREtEcVdLa2R0eHZ4UUcyVUhldzdN?=
+ =?utf-8?B?Vm51YkE4bEV0eTRnMlZWbmpSUE13eEgwNWZCaW5aak5yL1BpdmJMTEhxT1pi?=
+ =?utf-8?Q?Pk30cexMA5W6JgciD2f4VhdmG+vPnpcFqDYcA=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87175137-755a-46aa-72d9-08d8de81f120
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR1501MB2064.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Mar 2021 20:21:35.1407
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ae927fe-1255-47a7-a2af-5f3a069daaa2
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: o7TCh7ZKVsjt64btdB1nyx1AKTEvKPEjhMv/y0ApFtEkmtVXnRmJshhHR5zwC/qH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR15MB4222
+X-OriginatorOrg: fb.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-03-03_06:2021-03-03,2021-03-03 signatures=0
+X-Proofpoint-Spam-Details: rule=fb_default_notspam policy=fb_default score=0 mlxlogscore=999
+ lowpriorityscore=0 impostorscore=0 priorityscore=1501 suspectscore=0
+ spamscore=0 phishscore=0 adultscore=0 mlxscore=0 malwarescore=0
+ bulkscore=0 clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103030144
+X-FB-Internal: deliver
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 3, 2021 at 5:26 AM Martin Schiller <ms@dev.tdt.de> wrote:
->
-> On 2021-03-03 00:30, Jakub Kicinski wrote:
-> >
-> > Hard question to answer, existing users seem happy and Xie's driver
-> > isn't upstream, so the justification for potentially breaking backward
-> > compatibility isn't exactly "strong".
-> >
-> > Can we cop out and add a knob somewhere to control spawning the extra
-> > netdev? Let people who just want a newer kernel carry on without
-> > distractions and those who want the extra layer can flip the switch?
->
-> Yes, that would be a good compromise.
-> I think a compile time selection option is enough here.
-> We could introduce a new config option CONFIG_HDLC_X25_LEGACY (or
-> something like that) and then implement the new or the old behavior in
-> the driver accordingly.
->
-> A switch that can be toggled at runtime (e.g. via sethdlc) would also be
-> conceivable, but I don't think this is necessary.
 
-Yes, I think adding a new config option would be a good way. Thank you both!!
+
+On 3/2/21 9:19 AM, Joe Stringer wrote:
+> Commit b2197755b263 ("bpf: add support for persistent maps/progs")
+> contains the original implementation and git logs, used as reference for
+> this documentation.
+> 
+> Also pull in the filename restriction as documented in commit 6d8cb045cde6
+> ("bpf: comment why dots in filenames under BPF virtual FS are not allowed")
+> 
+> Acked-by: Toke Høiland-Jørgensen <toke@redhat.com>
+> Reviewed-by: Quentin Monnet <quentin@isovalent.com>
+> Signed-off-by: Joe Stringer <joe@cilium.io>
+> ---
+> CC: Daniel Borkmann <daniel@iogearbox.net>
+> ---
+
+Acked-by: Yonghong Song <yhs@fb.com>
+
+>   include/uapi/linux/bpf.h | 36 +++++++++++++++++++++++++++++-------
+>   1 file changed, 29 insertions(+), 7 deletions(-)
