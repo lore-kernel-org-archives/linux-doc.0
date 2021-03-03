@@ -2,190 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72F9EC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DD38C433E9
 	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2825264EEC
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53A4564EE1
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350777AbhCCKoZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:44:25 -0500
-Received: from foss.arm.com ([217.140.110.172]:44968 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1843037AbhCCKYq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Mar 2021 05:24:46 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8E25311FB;
-        Wed,  3 Mar 2021 02:24:00 -0800 (PST)
-Received: from [10.57.63.81] (unknown [10.57.63.81])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 19D0F3F73B;
-        Wed,  3 Mar 2021 02:23:57 -0800 (PST)
-Subject: Re: [PATCH v4 01/10] coresight: syscfg: Initial coresight system
- configuration
-To:     Mike Leach <mike.leach@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-        mathieu.poirier@linaro.org, linux-doc@vger.kernel.org
-Cc:     yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
-        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
-References: <20210128170936.9222-1-mike.leach@linaro.org>
- <20210128170936.9222-2-mike.leach@linaro.org>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <e75f3cd2-6f87-24b1-bb3c-378725892e82@arm.com>
-Date:   Wed, 3 Mar 2021 10:23:54 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S1350564AbhCCKoP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:44:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37796 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1843034AbhCCKYk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 05:24:40 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59730C0698E3;
+        Wed,  3 Mar 2021 01:27:51 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id u18so7516530plc.12;
+        Wed, 03 Mar 2021 01:27:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=s6hjvIUW2bHosaip4kPRUurnF/6m14XdG9Exrn+bnXA=;
+        b=QmtZTimjkEL4C+AdQxJ7CUItbuqw8SrBlSivDznS7YkiJhJEV5USAeC2IA1aCzI/4I
+         4453Sfz+7TEAqJG8WLtM0mO1yeoeoHdwLp2GQyYDNRCvPtkNUCnTzjEA8y/dlO7uxZp4
+         p4yxBtmyyiUZoG6++yupi3oTHuSDhzi0qQT427mCH2SVh92xentLIzj2dArvNUgJ6ee/
+         wvmpL+pKs6gHymG+KnmNwjRTXPwZLu8T0HaS8ij2NrDRphi8LqTCLi0OpVJCRTa52Ld5
+         +zjvwli6SI/ZciKZSyGydqdGG4R6WOVVnJfIFb6w93GmUc0T5HPj+ybZXJw5ef6aKk+l
+         yPzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=s6hjvIUW2bHosaip4kPRUurnF/6m14XdG9Exrn+bnXA=;
+        b=UkKckDARoDp6HKPyfizY/vLol6iuhkiUWIBZr8Luv0ttLuanggKj3U3ZLOw+64SUqB
+         nkNWeeUZkrdYSpUKFK2jjv4Cqr7GQyExOmjdaCR/HfKK+oVJmprCnB7PVKYN47dcUsoF
+         qM8H2QkWz6AhJqJtrVUg6P5vuclxSWVlrcWn3Af/17QTWzEFj3PJ3n0RkQ/NsR+FfPxm
+         WbxpLvjiZaU2hsrbxmHLenBKzNi5Ts1xMKm8s2GRMp/2YY8KFyB4D2xbGPzaoO4kmOr9
+         D9+5xGU6bn9jNm6dr43Ymr23PyDyauNMAk71dCBQvr1Mvc3vtrQWrdeOQGgcykw+64gE
+         NYHA==
+X-Gm-Message-State: AOAM531V9rxor9UE6qnf49HlXBc+vUdqXd8EBjrSjoyYe+S9AadWbYrr
+        WAU5ydHZKqH246DXWh+hD8UGiPMC0p7Iw2eNE0o=
+X-Google-Smtp-Source: ABdhPJxBHtBkJYB3Vi2vDSobGNT6l9vpi3k8ps++zZkMsJYxt1s9S/JIUNVwIMQU2XRRpBIy5Gu3rBWKh20PvrI63GY=
+X-Received: by 2002:a17:90a:c84:: with SMTP id v4mr8889364pja.228.1614763670630;
+ Wed, 03 Mar 2021 01:27:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210128170936.9222-2-mike.leach@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <CAHp75VfpnGEZcnrQLFYaFQ-HuxTmPw5OnewKmRGfXQf__ztjww@mail.gmail.com>
+ <87r1lgx8fo.fsf@meer.lwn.net> <CAHp75Vc0SwC=WxUOiokUik1G4uPE6bHfX_F_ckgp-eEJaVuWhA@mail.gmail.com>
+ <87mtw4x7rw.fsf@meer.lwn.net> <CAHp75VcG544HZ1j_6jvZoba6kEjKXXfZ8deJWmwNQ08mC35NrA@mail.gmail.com>
+ <20210303094426.1c3f6ff3@coco.lan>
+In-Reply-To: <20210303094426.1c3f6ff3@coco.lan>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 3 Mar 2021 11:27:34 +0200
+Message-ID: <CAHp75Vc3DkW=T=kDhqNYFNTguLrHdb3nF4pS5_VjquNMJOXUvA@mail.gmail.com>
+Subject: Re: anonymous enums in kernel doc
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/28/21 5:09 PM, Mike Leach wrote:
-> Creates an system management API to allow complex configurations and
-> features to be programmed into a CoreSight infrastructure.
-> 
-> A feature is defined as a programming set for a device or class of
-> devices.
-> 
-> A configuration is a set of features across the system that are enabled
-> for a trace session.
-> 
-> The API will manage system wide configuration, and allow complex
-> programmed features to be added to individual device instances, and
-> provide for system wide configuration selection on trace capture
-> operations.
-> 
-> This patch creates the initial data object and the initial API for
-> loading configurations and features.
-> 
-> Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> ---
->   drivers/hwtracing/coresight/Makefile          |   2 +-
->   .../hwtracing/coresight/coresight-config.h    | 167 +++++++++++++++
->   drivers/hwtracing/coresight/coresight-core.c  |  12 +-
->   .../hwtracing/coresight/coresight-etm-perf.c  |   2 +-
->   .../hwtracing/coresight/coresight-etm-perf.h  |   2 +-
->   .../hwtracing/coresight/coresight-syscfg.c    | 197 ++++++++++++++++++
->   .../hwtracing/coresight/coresight-syscfg.h    |  54 +++++
->   7 files changed, 432 insertions(+), 4 deletions(-)
->   create mode 100644 drivers/hwtracing/coresight/coresight-config.h
->   create mode 100644 drivers/hwtracing/coresight/coresight-syscfg.c
->   create mode 100644 drivers/hwtracing/coresight/coresight-syscfg.h
-> 
-> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-> index f20e357758d1..4ce854c434b1 100644
-> --- a/drivers/hwtracing/coresight/Makefile
-> +++ b/drivers/hwtracing/coresight/Makefile
-> @@ -4,7 +4,7 @@
->   #
->   obj-$(CONFIG_CORESIGHT) += coresight.o
->   coresight-y := coresight-core.o  coresight-etm-perf.o coresight-platform.o \
-> -		coresight-sysfs.o
-> +		coresight-sysfs.o coresight-syscfg.o
->   obj-$(CONFIG_CORESIGHT_LINK_AND_SINK_TMC) += coresight-tmc.o
->   coresight-tmc-y := coresight-tmc-core.o coresight-tmc-etf.o \
->   		      coresight-tmc-etr.o
-> diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
-> new file mode 100644
-> index 000000000000..3fedf8ab3cee
-> --- /dev/null
-> +++ b/drivers/hwtracing/coresight/coresight-config.h
-> @@ -0,0 +1,167 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2020 Linaro Limited, All rights reserved.
-> + * Author: Mike Leach <mike.leach@linaro.org>
-> + */
-> +
-> +#ifndef _CORESIGHT_CORESIGHT_CONFIG_H
-> +#define _CORESIGHT_CORESIGHT_CONFIG_H
-> +
-> +#include <linux/coresight.h>
-> +#include <linux/types.h>
-> +
-> +/* CoreSight Configuration Management - component and system wide configuration */
-> +
-> +/*
-> + * Register type flags for register value descriptor:
-> + * describe how the value is interpreted, and handled.
-> + */
-> +#define CS_CFG_REG_TYPE_STD		0x80	/* reg is standard reg */
-> +#define CS_CFG_REG_TYPE_RESOURCE	0x40	/* reg is a resource */
-> +#define CS_CFG_REG_TYPE_VAL_PARAM	0x08	/* reg value uses param */
-> +#define CS_CFG_REG_TYPE_VAL_MASK	0x04	/* reg value bit masked */
-> +#define CS_CFG_REG_TYPE_VAL_64BIT	0x02	/* reg value 64 bit */
-> +#define CS_CFG_REG_TYPE_VAL_SAVE	0x01	/* reg value save on disable */
-> +
-> +/*
-> + * flags defining what device class a feature will match to when processing a
-> + * system configuration - used by config data and devices.
-> + */
-> +#define	CS_CFG_MATCH_CLASS_SRC_ALL	0x0001	/* match any source */
-> +#define CS_CFG_MATCH_CLASS_SRC_ETM4	0x0002	/* match any ETMv4 device */
-> +
-> +/* flags defining device instance matching - used in config match desc data. */
-> +#define CS_CFG_MATCH_INST_ANY		0x80000000 /* any instance of a class */
-> +
-> +/*
-> + * Limit number of presets in a configuration
-> + * This is related to the number of bits (4) we use to select the preset on
-> + * the perf command line. Preset 0 is always none selected.
-> + * See PMU_FORMAT_ATTR(preset, "config:0-3") in coresight-etm-perf.c
-> + */
-> +#define CS_CFG_CONFIG_PRESET_MAX 15
-> +
-> +/**
-> + * Parameter descriptor for a device feature.
-> + *
-> + * @name:  Name of parameter.
-> + * @value: Initial or default value.
-> + */
-> +struct cscfg_parameter_desc {
-> +	const char *name;
-> +	u64 value;
-> +};
-> +
-> +/**
-> + * Representation of register value.
-> + *
-> + * Supports full 64 bit register value, or 32 bit value with optional mask
-> + * value.
-> + *
-> + * @type:	define register usage and interpretation.
-> + * @offset:	the address offset for register in the hardware device (per device specification).
-> + * @hw_info:	optional hardware device type specific information. (ETM / CTI specific etc)
-> + * @val64:	64 bit value.
-> + * @val32:	32 bit value.
-> + * @mask32:	32 bit mask when using 32 bit value to access device register.
-> + */
-> +struct cscfg_regval_desc {
-> +	struct {
-> +		u32 type:8;
-> +		u32 offset:12;
-> +		u32 hw_info:12;
-> +	};
-> +	union {
-> +		u64 val64;
-> +		struct {
-> +			u32 val32;
-> +			u32 mask32;
-> +		};
-> +	};
-> +};
+On Wed, Mar 3, 2021 at 10:44 AM Mauro Carvalho Chehab
+<mchehab@kernel.org> wrote:
+> Em Tue, 16 Feb 2021 19:12:58 +0200
+> Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
+> > On Tue, Feb 16, 2021 at 7:05 PM Jonathan Corbet <corbet@lwn.net> wrote:
+> > > Andy Shevchenko <andy.shevchenko@gmail.com> writes:
+> > > > On Tue, Feb 16, 2021 at 6:51 PM Jonathan Corbet <corbet@lwn.net> wrote:
+> > > >>
+> > > >> > Mauro, can you do some test cases in your workflow against anonymous
+> > > >> > enum in ernel doc, please?
+> > > >> >
+> > > >> > They are broken again, please fix the script!
+> > > >> >
+> > > >> > drivers/pinctrl/intel/pinctrl-intel.c:204: warning: wrong kernel-doc
+> > > >> > identifier on line:
+> > > >> > * enum - Locking variants of the pad configuration
+> > > >> >
+> > > >> > Above is simply a wrong statement.
+> > > >>
+> > > >> The real problem, perhaps, is that there seems to be little point in
+> > > >> adding kerneldoc comments for anonymous enums; where are you going to
+> > > >> use that documentation?
+> > > >
+> > > > I had been explicitly told during review (IIRC by maintainers) to make
+> > > > it such, while the initial version was exactly like you are thinking
+> > > > of. So, I'm not the right person to be asked :-)
+> >
+> > Just for a reference [1].
+> >
+> > > >>  The error message could perhaps be changed to
+> > > >> say that; meanwhile, perhaps this one could be fixed with an action like
+> > > >> s%/**%/*% ?
+> > > >
+> > > > See above. I think regression comes from the kernel doc script,
+> > > > earlier it was okay. That said, the author of kernel doc changes has
+> > > > to submit a patch to amend the driver and maintainers will review it.
+> > >
+> > > kerneldoc now warns about various incorrect things that it used to just
+> > > silently pass over.  There is no regression here, just a new diagnostic
+> > > to point out something that was never going to work right.  Unless you
+> > > have a good idea for what kerneldoc should do with a block like that?
+> >
+> > As it does, put description of individual fields and prepend it with a
+> > common part.
+> >
+> > So,
+> >
+> > enum - Bla bla bla
+> >  @FOO: ABC
+> >  @BAR: DEF
+> > Description
+> >
+> > Should go in the doc for the corresponding file like (as an example)
+> >
+> > Anonymous enumeration Bla bla bla
+> > Description
+> >
+> > FOO ABC
+> > BAR DEF
+> >
+> > (not sure about indentation, emphasizing and separators, but I think
+> > you got the idea).
+> >
+> > > (An alternative fix, of course, would be to give the enum a name so it
+> > > can actually be used for type checking.)
+> >
+> > That enum is not used as an enum, it provides the logically unified constants.
+>
+> What's the problem of giving it a name?
 
-Is it possible to indicate whether the register value is 64bit or 32bit within the
-structure, rather than having this outside ? That way cscfg_regval_desc is a complete
-entity. (Realized this while looking at patch 2)
+Because why should I do this? It's a perfect C language which has no
+issues so far.
 
-Suzuki
+> You could call it as "intel_pinctrl_pad" or something similar.
+>
+> > Personally I don't see why the kernel doc can't digest this.
+>
+> It is not hard to add support for this special case. Just sent a
+> patch.
 
+Thanks, I will test it!
 
+> Yet, this adds additional complexity on an script that it is
+> already complex enough.
+
+> > [1]: https://patchwork.ozlabs.org/project/linux-gpio/patch/20190808132128.13359-1-andriy.shevchenko@linux.intel.com/
+
+-- 
+With Best Regards,
+Andy Shevchenko
