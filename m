@@ -2,78 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1278FC43333
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4871C433E0
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:40:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2B4D64EED
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:39:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7497D64EE1
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:40:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343571AbhCCKe3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:34:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33170 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1575646AbhCBWvL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 17:51:11 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E36DC06178C;
-        Tue,  2 Mar 2021 14:35:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:In-Reply-To:References;
-        bh=9nUBbwHQD30v0wZhqneE7HpdlVGkuxDUvd6OmHc/vyE=; b=CVh8jlE+HNWY9bMLykTH5jh/iR
-        TQQxJgdLLr5oEX4lZfjBkJWnuxd+AhTVLdVyxSD4m2PiXje+bJfh1V7vAOVhlwtZolUFAsbrA3qdI
-        irayKN73/1CRQUdD3ypHqHghyM97sQWyL8rZBn8i6l8P/oVoOtBUH3gwYz0tF4EyG/7CxDo5l68BN
-        aVrvmhA9XbS3VLZJ91cmYphu82K00Z8VWai58Kkc9Pv3gi2FsZ2guuBRc5XhzLrLLU0EEq5xgWioi
-        cBL7xPW3mA59WH3dblvgEPQ4QYV/q2UriZC6CbHEwBjWpF4J+kBPuS7a8hAwKqmttAYVvAiGG+dys
-        vRtufIlw==;
-Received: from [2601:1c0:6280:3f0::3ba4] (helo=smtpauth.infradead.org)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lHDby-000WSO-R3; Tue, 02 Mar 2021 22:35:27 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        id S1344632AbhCCKiC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:38:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58996 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234187AbhCCCCc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 2 Mar 2021 21:02:32 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 987EB64E6B;
+        Wed,  3 Mar 2021 02:01:37 +0000 (UTC)
+Date:   Tue, 2 Mar 2021 21:01:36 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         linux-doc@vger.kernel.org
-Subject: [PATCH 0/8] input: Documentation: corrections to Doc/input/ files
-Date:   Tue,  2 Mar 2021 14:35:15 -0800
-Message-Id: <20210302223523.20130-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+Subject: Re: [PATCH 5/7] printk: Make %pS and friends print module build ID
+Message-ID: <20210302210136.3ded3ab3@gandalf.local.home>
+In-Reply-To: <20210301174749.1269154-6-swboyd@chromium.org>
+References: <20210301174749.1269154-1-swboyd@chromium.org>
+        <20210301174749.1269154-6-swboyd@chromium.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Update several Documentation/input/ files for wording, punctutation,
-struct info, and file names.
+On Mon,  1 Mar 2021 09:47:47 -0800
+Stephen Boyd <swboyd@chromium.org> wrote:
 
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: linux-input@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
+>  WARNING: CPU: 4 PID: 3255 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x28/0x30 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
+>  Modules linked in: lkdtm rfcomm algif_hash algif_skcipher af_alg xt_cgroup uinput xt_MASQUERADE
+>  CPU: 4 PID: 3255 Comm: bash Not tainted 5.11 #3 aa23f7a1231c229de205662d5a9e0d4c580f19a1
+>  Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+>  pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=--)
+>  pc : lkdtm_WARNING+0x28/0x30 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
+>  lr : lkdtm_do_action+0x24/0x40 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
 
- [PATCH 1/8] input: Documentation: corrections for input.rst
- [PATCH 2/8] input: Documentation: corrections for event-codes.rst
- [PATCH 3/8 RESEND] input: Documentation: update related file names in ff.rst
- [PATCH 4/8] input: Documentation: corrections for gameport-programming.rst
- [PATCH 5/8] input: Documentation: corrections for multi-touch-protocol.rst
- [PATCH 6/8] input: Documentation: corrections for notifier.rst
- [PATCH 7/8] input: Documentation: corrections for input-programming.rst
- [PATCH 8/8] input: Documentation: corrections for uinput.rst
+Why not just change the "Modules linked in:" portion to show the build IDs
+instead of every function call? Maybe make it a config option to do so?
 
- Documentation/input/event-codes.rst          |   10 ++--
- Documentation/input/ff.rst                   |    6 +-
- Documentation/input/gameport-programming.rst |   35 +++++++++++------
- Documentation/input/input-programming.rst    |   20 ++++-----
- Documentation/input/input.rst                |    8 +--
- Documentation/input/multi-touch-protocol.rst |    8 +--
- Documentation/input/notifier.rst             |    3 -
- Documentation/input/uinput.rst               |    2 
- 8 files changed, 52 insertions(+), 40 deletions(-)
+-- Steve
