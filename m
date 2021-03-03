@@ -2,63 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8E27C433DB
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DEB7C433E9
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83B8664EEC
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 274F064EE3
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1451182AbhCDAal (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:30:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34642 "EHLO mail.kernel.org"
+        id S1346343AbhCDAam (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:30:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39964 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236430AbhCCOHF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Mar 2021 09:07:05 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C686764EAE;
-        Wed,  3 Mar 2021 14:05:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1614780360;
-        bh=Dp0+D625HwAqvxI89RK1lqFQ0TMsmccmmw5X2AV2AqQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xxJcA485F5jgnpF+bBLXnNgks0su/Sl0PRgMADE7m/ptDwGJNSX26wM6eextQlun9
-         iyxOKNSGbKnvSJfGzXpesfvbixiMru1o9ms6VqsmSUnbqa0fK1COCrCZK7DUCT5827
-         xVwj1KXxkqePMJ8sTxlm2UP0UwBDs4CGMGToUT4Q=
-Date:   Wed, 3 Mar 2021 15:05:57 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] docs: driver-model: device: Add helper macro examples
-Message-ID: <YD+XxZ2/8vPeDt05@kroah.com>
-References: <20210303133845.3939403-1-geert+renesas@glider.be>
+        id S1444019AbhCCPA4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Mar 2021 10:00:56 -0500
+Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1AF5864E02;
+        Wed,  3 Mar 2021 15:00:14 +0000 (UTC)
+Date:   Wed, 3 Mar 2021 10:00:12 -0500
+From:   Steven Rostedt <rostedt@goodmis.org>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Stephen Boyd <swboyd@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 5/7] printk: Make %pS and friends print module build ID
+Message-ID: <20210303100012.0e6e4de3@gandalf.local.home>
+In-Reply-To: <YD9kNphaSRPk83KJ@alley>
+References: <20210301174749.1269154-1-swboyd@chromium.org>
+        <20210301174749.1269154-6-swboyd@chromium.org>
+        <YD9kNphaSRPk83KJ@alley>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210303133845.3939403-1-geert+renesas@glider.be>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 03, 2021 at 02:38:43PM +0100, Geert Uytterhoeven wrote:
-> 	Hi Jon, Greg, Rafael,
-> 
-> The DEVICE_ATTR_* and ATTRIBUTE_GROUPS() helper macros have existed for
-> more than a decade, but are still not mentioned in the driver-model
-> device documentation.  Hence this patch series adds them, including
-> examples, to the documentation.
-> 
-> Thanks for your comments!
-> 
-> Geert Uytterhoeven (2):
->   docs: driver-model: device: Add DEVICE_ATTR_{RO,RW} examples
->   docs: driver-model: device: Add ATTRIBUTE_GROUPS() example
+On Wed, 3 Mar 2021 11:25:58 +0100
+Petr Mladek <pmladek@suse.com> wrote:
 
-Thanks for adding these:
+> Alternative solution would be to minimize the information, for
+> example, by printing only the modules that appear in the backtrace.
+> But this might be complicated to implement.
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+It could be a list after the backtrace perhaps, and not part of the
+"modules linked in"?
+
+But then you need a generic way of capturing those modules in the backtrace
+that works for every architecture.
+
+Honestly, I don't even know what a buildid is, and it is totally useless
+information for myself. What exactly is it used for?
+
+-- Steve
