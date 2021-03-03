@@ -2,91 +2,170 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 918A5C4332D
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 551B0C433E9
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 624C264EEE
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 25D4764F1D
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239453AbhCDAay (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:30:54 -0500
-Received: from mga06.intel.com ([134.134.136.31]:45588 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1382998AbhCCQ2U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Mar 2021 11:28:20 -0500
-IronPort-SDR: X98ptwmCA8JW+xOSZQev0BMOr1Mr6nBRgVFg6bxYqCP9Gz33YFpHCL/3dEj1NQscjHTZxW0BMA
- M+t1RSwapXqw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="248629274"
-X-IronPort-AV: E=Sophos;i="5.81,220,1610438400"; 
-   d="scan'208";a="248629274"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2021 08:17:07 -0800
-IronPort-SDR: HK6BqoCOxzow7Nb+DpilmIyDt0ONRht09Opyru2m3nxMWlc57oeZ9IbhzMHuvtnLb6GkVpB1SI
- TFaQCPef4zeA==
-X-IronPort-AV: E=Sophos;i="5.81,220,1610438400"; 
-   d="scan'208";a="384042326"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2021 08:17:04 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lHUBJ-009g4x-EE; Wed, 03 Mar 2021 18:17:01 +0200
-Date:   Wed, 3 Mar 2021 18:17:01 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Petr Mladek <pmladek@suse.com>, Stephen Boyd <swboyd@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/7] printk: Make %pS and friends print module build ID
-Message-ID: <YD+2fRo4J/ffQF8z@smile.fi.intel.com>
-References: <20210301174749.1269154-1-swboyd@chromium.org>
- <20210301174749.1269154-6-swboyd@chromium.org>
- <YD9kNphaSRPk83KJ@alley>
- <20210303100012.0e6e4de3@gandalf.local.home>
+        id S1346141AbhCDAar (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:30:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50650 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1449031AbhCCPnV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 10:43:21 -0500
+Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 068BFC061756;
+        Wed,  3 Mar 2021 07:42:41 -0800 (PST)
+Received: by mail-qt1-x834.google.com with SMTP id 2so8748800qtw.1;
+        Wed, 03 Mar 2021 07:42:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=474jOip4IgCUoyMxBEribCWEBGxFGSV2OmSthT7tIzw=;
+        b=OUl4a0iSBisVMbYesUskXLxC/LPLDhIN0Z0JGTf84f1GApfyQKw6BzripeCpctzhaH
+         +D7phCtY7W74P4MAMDNeGvYAAtxOcvPJwTwYjkvlPb+txGb+DC6yw9LLjjgmdNwNaBLz
+         T+iX1Z5f0zC8hh/Oq4MPpupIK8Xjsq53GLg0aO8HXh+mEfyHxI0LsJ3V1WVo9UY0nEtk
+         0VvSkiHz7Limw2jEyntvTsr41cqWhO/K1Rrur6QvaBoUNUytNHeQY6W0T9h/gLj3Jcox
+         6FVq2aCkhvKl8XALF/xuQlmwzULpBOvkkCmMpA80t6IHJ0shgNDsfE82JWH6mpsFuv8Q
+         m9hA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=474jOip4IgCUoyMxBEribCWEBGxFGSV2OmSthT7tIzw=;
+        b=ukwpOc9i0N5mS+7ylyxgpOYfaXxO/rwKJ13Svg6w2NF8Fwt2Vy/xNzzARA1sYnEerT
+         PSJUvsXPvrlYdG/niAhRAwqAuMmIeiC0ebXxTYfioqOmgZF0MhG9WVP1K0Iwt9b0oDH0
+         509IB5yI6fX6lxQWOOiqMb3vQbRSYIJ/XBoQiKdFazpdG4qAikJY78IBeyr84MXSOf/H
+         2CHKirbWMAnFT29ThgvzufvXw/RHQwaAj1scahcmmsL2wBCOKANY0GcA490WWDIwxcOm
+         2kB1Bx3KrFilW+8DaYltbAcjGvCU3JQX0e+qemmxqMMb3TdX/YqdRsaAq/zNsVqfbMcg
+         N+kw==
+X-Gm-Message-State: AOAM533C9ie2rtnSwb80uatIZGVb1dr0qrU+ELhC8VWsX8KSpT5dVIDS
+        ye78jluj6zJpvpxvHFPhWeUARowUhpF9Xg==
+X-Google-Smtp-Source: ABdhPJwLjx1ZIM0IGSCFJl5U/6zxO0tdSMromsGM+JquTtBrWC0ilXZSSOQoOEy0rSaf15B4HSmo9g==
+X-Received: by 2002:ac8:754a:: with SMTP id b10mr23629995qtr.251.1614786160009;
+        Wed, 03 Mar 2021 07:42:40 -0800 (PST)
+Received: from localhost (2603-7000-9602-8233-06d4-c4ff-fe48-9d05.res6.spectrum.com. [2603:7000:9602:8233:6d4:c4ff:fe48:9d05])
+        by smtp.gmail.com with ESMTPSA id j24sm5067992qka.67.2021.03.03.07.42.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Mar 2021 07:42:39 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Wed, 3 Mar 2021 10:42:37 -0500
+From:   Tejun Heo <tj@kernel.org>
+To:     Vipin Sharma <vipinsh@google.com>
+Cc:     mkoutny@suse.com, rdunlap@infradead.org, thomas.lendacky@amd.com,
+        brijesh.singh@amd.com, jon.grimm@amd.com, eric.vantassell@amd.com,
+        pbonzini@redhat.com, hannes@cmpxchg.org, frankja@linux.ibm.com,
+        borntraeger@de.ibm.com, corbet@lwn.net, seanjc@google.com,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, gingell@google.com,
+        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC v2 1/2] cgroup: sev: Add misc cgroup controller
+Message-ID: <YD+ubbB4Tz0ZlVvp@slm.duckdns.org>
+References: <20210302081705.1990283-1-vipinsh@google.com>
+ <20210302081705.1990283-2-vipinsh@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210303100012.0e6e4de3@gandalf.local.home>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20210302081705.1990283-2-vipinsh@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 03, 2021 at 10:00:12AM -0500, Steven Rostedt wrote:
-> On Wed, 3 Mar 2021 11:25:58 +0100
-> Petr Mladek <pmladek@suse.com> wrote:
-> 
-> > Alternative solution would be to minimize the information, for
-> > example, by printing only the modules that appear in the backtrace.
-> > But this might be complicated to implement.
-> 
-> It could be a list after the backtrace perhaps, and not part of the
-> "modules linked in"?
-> 
-> But then you need a generic way of capturing those modules in the backtrace
-> that works for every architecture.
+Hello,
 
-> Honestly, I don't even know what a buildid is, and it is totally useless
-> information for myself. What exactly is it used for?
+On Tue, Mar 02, 2021 at 12:17:04AM -0800, Vipin Sharma wrote:
+> +/**
+> + * struct misc_res: Per cgroup per misc type resource
+> + * @max: Maximum count of the resource.
+> + * @usage: Current usage of the resource.
+> + */
+> +struct misc_res {
+> +	unsigned int max;
+> +	atomic_t usage;
+> +};
 
-Dunno Stephen's motivation, but build ID is very useful when you do tracing,
-then based on ID the decoders can know what exactly was the layout of the
-binary and list of (exported) functions, etc.
+Can we do 64bits so that something which counts memory can use this too?
 
-At least that was my (shallow) experience with perf last time I have tried it.
+> +/*
+> + * Miscellaneous resources capacity for the entire machine. 0 capacity means
+> + * resource is not initialized or not present in the host.
+> + *
+> + * root_cg.max and capacity are independent of each other. root_cg.max can be
+> + * more than the actual capacity. We are using Limits resource distribution
+> + * model of cgroup for miscellaneous controller. However, root_cg.current for a
+> + * resource will never exceeds the resource capacity.
+                                ^
+                                typo
+
+> +int misc_cg_set_capacity(enum misc_res_type type, unsigned int capacity)
+> +{
+> +	if (!valid_type(type))
+> +		return -EINVAL;
+> +
+> +	for (;;) {
+> +		int usage;
+> +		unsigned int old;
+> +
+> +		/*
+> +		 * Update the capacity while making sure that it's not below
+> +		 * the concurrently-changing usage value.
+> +		 *
+> +		 * The xchg implies two full memory barriers before and after,
+> +		 * so the read-swap-read is ordered and ensures coherency with
+> +		 * misc_cg_try_charge(): that function modifies the usage
+> +		 * before checking the capacity, so if it sees the old
+> +		 * capacity, we see the modified usage and retry.
+> +		 */
+> +		usage = atomic_read(&root_cg.res[type].usage);
+> +
+> +		if (usage > capacity)
+> +			return -EBUSY;
+
+I'd rather go with allowing bringing down capacity below usage so that the
+users can set it to a lower value to drain existing usages while denying new
+ones. It's not like it's difficult to check the current total usage from the
+caller side, so I'm not sure it's very useful to shift the condition check
+here.
+
+> +int misc_cg_try_charge(enum misc_res_type type, struct misc_cg *cg,
+> +		       unsigned int amount)
+> +{
+...
+> +	for (i = cg; i; i = parent_misc(i)) {
+> +		res = &i->res[type];
+> +
+> +		/*
+> +		 * The atomic_long_add_return() implies a full memory barrier
+> +		 * between incrementing the count and reading the capacity.
+> +		 * When racing with misc_cg_set_capacity(), we either see the
+> +		 * new capacity or the setter sees the counter has changed and
+> +		 * retries.
+> +		 */
+> +		new_usage = atomic_add_return(amount, &res->usage);
+> +		if (new_usage > res->max ||
+> +		    new_usage > misc_res_capacity[type]) {
+> +			pr_info("cgroup: charge rejected by misc controller for %s resource in ",
+> +				misc_res_name[type]);
+> +			pr_cont_cgroup_path(i->css.cgroup);
+> +			pr_cont("\n");
+
+Should have commented on this in the priv thread but don't print something
+on every rejection. This often becomes a nuisance and can make an easy DoS
+vector at worst. If you wanna do it, print it once per cgroup or sth like
+that.
+
+Otherwise, looks good to me.
+
+Thanks.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+tejun
