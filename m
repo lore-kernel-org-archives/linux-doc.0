@@ -2,1307 +2,551 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D2D0C433E6
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89DCBC43381
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3511964EEC
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F19F64F1A
+	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347851AbhCCKmO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:42:14 -0500
-Received: from smtp-fw-9101.amazon.com ([207.171.184.25]:47913 "EHLO
-        smtp-fw-9101.amazon.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1352153AbhCCEqp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 23:46:45 -0500
+        id S1350643AbhCCKnp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:43:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37956 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1842961AbhCCKXE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 05:23:04 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE257C061B3F
+        for <linux-doc@vger.kernel.org>; Wed,  3 Mar 2021 00:56:28 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id j12so15758358pfj.12
+        for <linux-doc@vger.kernel.org>; Wed, 03 Mar 2021 00:56:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1614746795; x=1646282795;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=NB7DKXUddT8YlMyDWfxJnqZA9u4bpHJPFzGdImmM7fM=;
-  b=ARoYaIdVrBsUQVlTngrtdnbho8+Ci2Qdf1xfT+5RXTcBHxXlttd6U/+V
-   VaLDB++XF3t70B+TL775AtjS5Mm8t4RZnyrYwPkalOawGIzxqGkNNrDdP
-   KEJrC9tthZSobaX5UnH7cI6ZfJ9UupDYZFSy1/30T4KnGWt+ABa5X1h3+
-   I=;
-X-IronPort-AV: E=Sophos;i="5.81,219,1610409600"; 
-   d="scan'208";a="108771499"
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO email-inbound-relay-1a-e34f1ddc.us-east-1.amazon.com) ([10.47.23.38])
-  by smtp-border-fw-out-9101.sea19.amazon.com with ESMTP; 04 Feb 2021 15:35:51 +0000
-Received: from EX13D31EUA001.ant.amazon.com (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
-        by email-inbound-relay-1a-e34f1ddc.us-east-1.amazon.com (Postfix) with ESMTPS id 7ACC2A1D4C;
-        Thu,  4 Feb 2021 15:35:38 +0000 (UTC)
-Received: from u3f2cd687b01c55.ant.amazon.com (10.43.161.146) by
- EX13D31EUA001.ant.amazon.com (10.43.165.15) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 4 Feb 2021 15:35:20 +0000
-From:   SeongJae Park <sjpark@amazon.com>
-To:     <akpm@linux-foundation.org>
-CC:     SeongJae Park <sjpark@amazon.de>, <Jonathan.Cameron@Huawei.com>,
-        <aarcange@redhat.com>, <acme@kernel.org>,
-        <alexander.shishkin@linux.intel.com>, <amit@kernel.org>,
-        <benh@kernel.crashing.org>, <brendan.d.gregg@gmail.com>,
-        <brendanhiggins@google.com>, <cai@lca.pw>,
-        <colin.king@canonical.com>, <corbet@lwn.net>, <david@redhat.com>,
-        <dwmw@amazon.com>, <elver@google.com>, <fan.du@intel.com>,
-        <foersleo@amazon.de>, <gthelen@google.com>, <irogers@google.com>,
-        <jolsa@redhat.com>, <kirill@shutemov.name>, <mark.rutland@arm.com>,
-        <mgorman@suse.de>, <minchan@kernel.org>, <mingo@redhat.com>,
-        <namhyung@kernel.org>, <peterz@infradead.org>,
-        <rdunlap@infradead.org>, <riel@surriel.com>, <rientjes@google.com>,
-        <rostedt@goodmis.org>, <rppt@kernel.org>, <sblbir@amazon.com>,
-        <shakeelb@google.com>, <shuah@kernel.org>, <sj38.park@gmail.com>,
-        <snu@amazon.de>, <vbabka@suse.cz>, <vdavydov.dev@gmail.com>,
-        <yang.shi@linux.alibaba.com>, <ying.huang@intel.com>,
-        <zgf574564920@gmail.com>, <linux-damon@amazon.com>,
-        <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [PATCH v24 11/14] Documentation: Add documents for DAMON
-Date:   Thu, 4 Feb 2021 16:31:47 +0100
-Message-ID: <20210204153150.15948-12-sjpark@amazon.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210204153150.15948-1-sjpark@amazon.com>
-References: <20210204153150.15948-1-sjpark@amazon.com>
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=7P6bTNdMTvWkmZpC9yYVIKZGVXHk59BxjedK2z5UWWw=;
+        b=g2Qw/RtvxSqnTWMqM4cjQwKkUCF2PD17X6zPiGtKR2vQcMXL3CLOvTGO0a4ST2UCUH
+         zB9HTT+MJkdxsbZ2xB/cErGzYibt7v5BDNs9IdVuL/u3DQtOGPnH7mhYaGhu+z6MDMWB
+         1sIhxYLZigP44KZGrTnEqkkhOvEtTj67w6vTo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=7P6bTNdMTvWkmZpC9yYVIKZGVXHk59BxjedK2z5UWWw=;
+        b=UA9SeaEmQVIN5JgYu2EwxjNVgIki/6SjftjXLOFaGQJBKv1wr1kJ5wtPl6WgDC9op0
+         hvy8R+rGdFhiFdCAdGZ9YjX2B8/a6KuMd+gErRRPy9HHYSyNsapw02k8vGOkSOm4M3+f
+         PUYnITWUC5pNQkKRVnym6Ipd+3UFqPJyl0yB04rWGnmXVkqpd4OXdqFlIMX5ehAwfhKr
+         6KZZGhm/RcR1M927+N0g8h/dczX/BsmGLWv0ZIbiKh+0Ygy/vc+0x+Cmh4Gmlemt7XTS
+         64AT8txrSyk1Xo54nqHl+yxo3oCxKy5DlNjrMQe6lWACD1pTwO38+VyTl4/BBMDhN6u0
+         vIMw==
+X-Gm-Message-State: AOAM533HDTCIJF7Q1s13dKQLGwoeSU4OKKPa6doQVcewUQw0ujJnF+/N
+        Nn1ICIwlyvCwtb9e10dIYnv5dg==
+X-Google-Smtp-Source: ABdhPJxPWxDHa2G+L/upjcCheaQyysFbnYpN3uWB9+cR1tjo8dXlXiJAfwIloU5AB8icYv5Od6UoRA==
+X-Received: by 2002:a62:1cd4:0:b029:1ee:9db0:3dc3 with SMTP id c203-20020a621cd40000b02901ee9db03dc3mr2131390pfc.59.1614761788071;
+        Wed, 03 Mar 2021 00:56:28 -0800 (PST)
+Received: from chromium.org ([2620:15c:202:201:2510:ab07:78a:7d78])
+        by smtp.gmail.com with ESMTPSA id c29sm22448002pgb.58.2021.03.03.00.56.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Mar 2021 00:56:27 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.43.161.146]
-X-ClientProxiedBy: EX13D18UWA001.ant.amazon.com (10.43.160.11) To
- EX13D31EUA001.ant.amazon.com (10.43.165.15)
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YD9GeXcKbF3bsDLo@smile.fi.intel.com>
+References: <20210301174749.1269154-1-swboyd@chromium.org> <20210301174749.1269154-6-swboyd@chromium.org> <20210302210136.3ded3ab3@gandalf.local.home> <161474043200.1478170.15118093304775120279@swboyd.mtv.corp.google.com> <YD9GeXcKbF3bsDLo@smile.fi.intel.com>
+Subject: Re: [PATCH 5/7] printk: Make %pS and friends print module build ID
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Date:   Wed, 03 Mar 2021 00:56:25 -0800
+Message-ID: <161476178590.1478170.5751112944097540029@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: SeongJae Park <sjpark@amazon.de>
+Quoting Andy Shevchenko (2021-03-03 00:19:05)
+> On Tue, Mar 02, 2021 at 07:00:32PM -0800, Stephen Boyd wrote:
+> > Quoting Steven Rostedt (2021-03-02 18:01:36)
+> > > On Mon,  1 Mar 2021 09:47:47 -0800
+> > > Stephen Boyd <swboyd@chromium.org> wrote:
+> > >=20
+> > > >  WARNING: CPU: 4 PID: 3255 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WA=
+RNING+0x28/0x30 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
+> > > >  Modules linked in: lkdtm rfcomm algif_hash algif_skcipher af_alg x=
+t_cgroup uinput xt_MASQUERADE
+> > > >  CPU: 4 PID: 3255 Comm: bash Not tainted 5.11 #3 aa23f7a1231c229de2=
+05662d5a9e0d4c580f19a1
+> > > >  Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+> > > >  pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=3D--)
+> > > >  pc : lkdtm_WARNING+0x28/0x30 [lkdtm] (ed5019fdf5e53be37cb1ba789929=
+2d7e143b259e)
+> > > >  lr : lkdtm_do_action+0x24/0x40 [lkdtm] (ed5019fdf5e53be37cb1ba7899=
+292d7e143b259e)
+> > >=20
+> > > Why not just change the "Modules linked in:" portion to show the buil=
+d IDs
+> > > instead of every function call? Maybe make it a config option to do s=
+o?
+> > >=20
+> >=20
+> > As I wrote in the commit text
+> >=20
+> > =E2=94=82 An alternative to changing the printk format would be to upda=
+te the                                                                     =
+                                                                       =20
+> > =E2=94=82 "Modules linked in:" line to include the build ID of each mod=
+ule linked                                                                 =
+                                                                       =20
+> > =E2=94=82 in. This can become quite long when many modules are loaded (=
+i.e. on a                                                                  =
+                                                                       =20
+> > =E2=94=82 distro) so I've opted for the printk format instead.
+> >=20
+> > Implementing it is fairly simple compared to a new printk format. In
+> > fact I did that initially but decided against it because it felt
+> > unreadable and provided more information than was necessary if the
+> > stacktrace wasn't in a module.
+> >=20
+> > Example:
+> >=20
+> >  Modules linked in: rfcomm 4de3e669b9fee915 algif_hash 915c61c32d476f01=
+ algif_skcipher 53a4a330149bf071 af_alg b49d66496907f376 xt_cgroup 36fbbb65=
+e7620df9 uinput a0ff6a06c1c53685 xt_MASQUERADE d130585f728315d2 snd_soc_sc7=
+180 5c130cd310c81a12 venus_dec 2071e263fde9ca07 qcom_spmi_temp_alarm 41e28f=
+2a9cc8b562 qcom_spmi_adc_tm5 7e0e48d0b6550c7a qcom_spmi_adc5 40b81a00bc2d0c=
+1d qcom_vadc_common 09bb012dd1662dea snd_soc_rt5682_i2c c92b8935ad4a1729 ve=
+nus_enc efaf3335b88287bf snd_soc_qcom_common 56d1e87c267ed02e videobuf2_dma=
+_sg e9bc3c9e2758dfc9 snd_soc_rt5682 c4c9b31bf9a43f8b snd_soc_rl6231 908446e=
+32436898c hci_uart 107b5fe6884df077 btqca 401a2fcc17b80a39 bluetooth 3369c8=
+81496a3cf8 venus_core a11eee3aa201ad8e ecdh_generic 883e01f98b778108 ecc 22=
+6b258cf40ad1ba v4l2_mem2mem 592f197cbad39e6b snd_soc_lpass_sc7180 42a99cb81=
+2d5e2e3 snd_soc_lpass_hdmi 95cce2160cfc58e2 snd_soc_lpass_cpu 475a4b395577a=
+ffd snd_soc_lpass_platform 67517083263035ec snd_soc_max98357a 03ec1af0493d1=
+c59
+> >   fuse 82d170244a4d4ac6 iio_trig_sysfs b879a6228e059834 cros_ec_lid_ang=
+le a713c5f0a06a7a82 cros_ec_sensors 03f0c142ec521f67 cros_ec_sensors_core a=
+da3f44647980056 cros_ec_sensors_ring f99590e87e998485 industrialio_triggere=
+d_buffer c697969d67f73d77 kfifo_buf e8a3aeb3069188f0 cros_ec_sensorhub 041e=
+d1ffcefc991b ath10k_snoc 2f60802a74ff6ca7 lzo_rle 49a6228cec0c6885 ath10k_c=
+ore 9407c36a2b8f8fae lzo_compress e9b4375d4bad668a ath 20c585ba6f3998f0 zra=
+m c5cdfc1d7d8a35d9 mac80211 9eaed1c76e000c02 cfg80211 872178d2dcebb722 cdc_=
+ether 2baa214f72289402 usbnet 2bec73d0922ade28 uvcvideo eee0352cb1846ee4 r8=
+152 47b76561b78e9b1b mii b306d150923fe614 videobuf2_vmalloc 55431ec52fa6af8=
+4 videobuf2_memops 4d43ad18fa7b1e4e videobuf2_v4l2 cdda06b9d95ab11d videobu=
+f2_common 69cef0ca55a70a4a joydev 148399325b72d4a0
+> >=20
+> > compared to=20
+> >=20
+> >  Modules linked in: rfcomm algif_hash algif_skcipher af_alg xt_cgroup u=
+input xt_MASQUERADE snd_soc_sc7180 venus_dec qcom_spmi_temp_alarm qcom_spmi=
+_adc_tm5 qcom_spmi_adc5 qcom_vadc_common snd_soc_rt5682_i2c venus_enc snd_s=
+oc_qcom_common videobuf2_dma_sg snd_soc_rt5682 snd_soc_rl6231 hci_uart btqc=
+a bluetooth venus_core ecdh_generic ecc v4l2_mem2mem snd_soc_lpass_sc7180 s=
+nd_soc_lpass_hdmi snd_soc_lpass_cpu snd_soc_lpass_platform snd_soc_max98357=
+a=20
+> >   fuse iio_trig_sysfs cros_ec_lid_angle cros_ec_sensors cros_ec_sensors=
+_core cros_ec_sensors_ring industrialio_triggered_buffer kfifo_buf cros_ec_=
+sensorhub ath10k_snoc lzo_rle ath10k_core lzo_compress ath zram mac80211 cf=
+g80211 cdc_ether usbnet uvcvideo r8152 mii videobuf2_vmalloc videobuf2_memo=
+ps videobuf2_v4l2 videobuf2_common joydev=20
+> > I suppose it could be surrounded by parenthesis or brackets and that
+> > would be a little better? I'll try this approach again and see what
+> > folks think.
+>=20
+> But you can do:
+> Modules linked: module1 [buildidX]
+>  module2 [buildidY]
+>  module3 [buildidZ]
+> ...
+>=20
+> i.o.w. one module per line.
+>=20
+> * Yes, I understand that downside maybe split message, so it's just for
+> consideration.
+>=20
 
-This commit adds documents for DAMON under
-`Documentation/admin-guide/mm/damon/` and `Documentation/vm/damon/`.
+Yes that's another option. We could put every module on a different
+line. That could be over 100 more lines of error message though. That's
+probably a bad idea? Or we could print at most 5, 10 or 20 modules per
+line. Given that the build id is 20 characters and then 2 brackets, 4 or
+5 modules per line comes out to 120 to 150 or so characters per line.
 
-Signed-off-by: SeongJae Park <sjpark@amazon.de>
----
- Documentation/admin-guide/mm/damon/guide.rst | 159 ++++++++++
- Documentation/admin-guide/mm/damon/index.rst |  15 +
- Documentation/admin-guide/mm/damon/plans.rst |  29 ++
- Documentation/admin-guide/mm/damon/start.rst |  97 ++++++
- Documentation/admin-guide/mm/damon/usage.rst | 304 +++++++++++++++++++
- Documentation/admin-guide/mm/index.rst       |   1 +
- Documentation/vm/damon/api.rst               |  20 ++
- Documentation/vm/damon/design.rst            | 166 ++++++++++
- Documentation/vm/damon/eval.rst              | 232 ++++++++++++++
- Documentation/vm/damon/faq.rst               |  58 ++++
- Documentation/vm/damon/index.rst             |  31 ++
- Documentation/vm/index.rst                   |   1 +
- 12 files changed, 1113 insertions(+)
- create mode 100644 Documentation/admin-guide/mm/damon/guide.rst
- create mode 100644 Documentation/admin-guide/mm/damon/index.rst
- create mode 100644 Documentation/admin-guide/mm/damon/plans.rst
- create mode 100644 Documentation/admin-guide/mm/damon/start.rst
- create mode 100644 Documentation/admin-guide/mm/damon/usage.rst
- create mode 100644 Documentation/vm/damon/api.rst
- create mode 100644 Documentation/vm/damon/design.rst
- create mode 100644 Documentation/vm/damon/eval.rst
- create mode 100644 Documentation/vm/damon/faq.rst
- create mode 100644 Documentation/vm/damon/index.rst
+Right now I see this:
 
-diff --git a/Documentation/admin-guide/mm/damon/guide.rst b/Documentation/admin-guide/mm/damon/guide.rst
-new file mode 100644
-index 000000000000..49da40bc4ba9
---- /dev/null
-+++ b/Documentation/admin-guide/mm/damon/guide.rst
-@@ -0,0 +1,159 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==================
-+Optimization Guide
-+==================
-+
-+This document helps you estimating the amount of benefit that you could get
-+from DAMON-based optimizations, and describes how you could achieve it.  You
-+are assumed to already read :doc:`start`.
-+
-+
-+Check The Signs
-+===============
-+
-+No optimization can provide same extent of benefit to every case.  Therefore
-+you should first guess how much improvements you could get using DAMON.  If
-+some of below conditions match your situation, you could consider using DAMON.
-+
-+- *Low IPC and High Cache Miss Ratios.*  Low IPC means most of the CPU time is
-+  spent waiting for the completion of time-consuming operations such as memory
-+  access, while high cache miss ratios mean the caches don't help it well.
-+  DAMON is not for cache level optimization, but DRAM level.  However,
-+  improving DRAM management will also help this case by reducing the memory
-+  operation latency.
-+- *Memory Over-commitment and Unknown Users.*  If you are doing memory
-+  overcommitment and you cannot control every user of your system, a memory
-+  bank run could happen at any time.  You can estimate when it will happen
-+  based on DAMON's monitoring results and act earlier to avoid or deal better
-+  with the crisis.
-+- *Frequent Memory Pressure.*  Frequent memory pressure means your system has
-+  wrong configurations or memory hogs.  DAMON will help you find the right
-+  configuration and/or the criminals.
-+- *Heterogeneous Memory System.*  If your system is utilizing memory devices
-+  that placed between DRAM and traditional hard disks, such as non-volatile
-+  memory or fast SSDs, DAMON could help you utilizing the devices more
-+  efficiently.
-+
-+
-+Profile
-+=======
-+
-+If you found some positive signals, you could start by profiling your workloads
-+using DAMON.  Find major workloads on your systems and analyze their data
-+access pattern to find something wrong or can be improved.  The DAMON user
-+space tool (``damo``) will be useful for this.  You can get ``damo`` from
-+``tools/damon/`` directory in the DAMON development tree (``damon/master``
-+branch of https://github.com/sjp38/linux.git).
-+
-+We recommend you to start from working set size distribution check using ``damo
-+report wss``.  If the distribution is ununiform or quite different from what
-+you estimated, you could consider `Memory Configuration`_ optimization.
-+
-+Then, review the overall access pattern in heatmap form using ``damo report
-+heats``.  If it shows a simple pattern consists of a small number of memory
-+regions having high contrast of access temperature, you could consider manual
-+`Program Modification`_.
-+
-+If you still want to absorb more benefits, you should develop `Personalized
-+DAMON Application`_ for your special case.
-+
-+You don't need to take only one approach among the above plans, but you could
-+use multiple of the above approaches to maximize the benefit.
-+
-+
-+Optimize
-+========
-+
-+If the profiling result also says it's worth trying some optimization, you
-+could consider below approaches.  Note that some of the below approaches assume
-+that your systems are configured with swap devices or other types of auxiliary
-+memory so that you don't strictly required to accommodate the whole working set
-+in the main memory.  Most of the detailed optimization should be made on your
-+concrete understanding of your memory devices.
-+
-+
-+Memory Configuration
-+--------------------
-+
-+No more no less, DRAM should be large enough to accommodate only important
-+working sets, because DRAM is highly performance critical but expensive and
-+heavily consumes the power.  However, knowing the size of the real important
-+working sets is difficult.  As a consequence, people usually equips
-+unnecessarily large or too small DRAM.  Many problems stem from such wrong
-+configurations.
-+
-+Using the working set size distribution report provided by ``damo report wss``,
-+you can know the appropriate DRAM size for you.  For example, roughly speaking,
-+if you worry about only 95 percentile latency, you don't need to equip DRAM of
-+a size larger than 95 percentile working set size.
-+
-+Let's see a real example.  This `page
-+<https://damonitor.github.io/doc/html/v17/admin-guide/mm/damon/guide.html#memory-configuration>`_
-+shows the heatmap and the working set size distributions/changes of
-+``freqmine`` workload in PARSEC3 benchmark suite.  The working set size spikes
-+up to 180 MiB, but keeps smaller than 50 MiB for more than 95% of the time.
-+Even though you give only 50 MiB of memory space to the workload, it will work
-+well for 95% of the time.  Meanwhile, you can save the 130 MiB of memory space.
-+
-+
-+Program Modification
-+--------------------
-+
-+If the data access pattern heatmap plotted by ``damo report heats`` is quite
-+simple so that you can understand how the things are going in the workload with
-+your human eye, you could manually optimize the memory management.
-+
-+For example, suppose that the workload has two big memory object but only one
-+object is frequently accessed while the other one is only occasionally
-+accessed.  Then, you could modify the program source code to keep the hot
-+object in the main memory by invoking ``mlock()`` or ``madvise()`` with
-+``MADV_WILLNEED``.  Or, you could proactively evict the cold object using
-+``madvise()`` with ``MADV_COLD`` or ``MADV_PAGEOUT``.  Using both together
-+would be also worthy.
-+
-+A research work [1]_ using the ``mlock()`` achieved up to 2.55x performance
-+speedup.
-+
-+Let's see another realistic example access pattern for this kind of
-+optimizations.  This `page
-+<https://damonitor.github.io/doc/html/v17/admin-guide/mm/damon/guide.html#program-modification>`_
-+shows the visualized access patterns of streamcluster workload in PARSEC3
-+benchmark suite.  We can easily identify the 100 MiB sized hot object.
-+
-+
-+Personalized DAMON Application
-+------------------------------
-+
-+Above approaches will work well for many general cases, but would not enough
-+for some special cases.
-+
-+If this is the case, it might be the time to forget the comfortable use of the
-+user space tool and dive into the debugfs interface (refer to :doc:`usage` for
-+the detail) of DAMON.  Using the interface, you can control the DAMON more
-+flexibly.  Therefore, you can write your personalized DAMON application that
-+controls the monitoring via the debugfs interface, analyzes the result, and
-+applies complex optimizations itself.  Using this, you can make more creative
-+and wise optimizations.
-+
-+If you are a kernel space programmer, writing kernel space DAMON applications
-+using the API (refer to the :doc:`/vm/damon/api` for more detail) would be an
-+option.
-+
-+
-+Reference Practices
-+===================
-+
-+Referencing previously done successful practices could help you getting the
-+sense for this kind of optimizations.  There is an academic paper [1]_
-+reporting the visualized access pattern and manual `Program
-+Modification`_ results for a number of realistic workloads.  You can also get
-+the visualized access patterns [3]_ [4]_ [5]_ and automated DAMON-based memory
-+operations results for other realistic workloads that collected with latest
-+version of DAMON [2]_ .
-+
-+.. [1] https://dl.acm.org/doi/10.1145/3366626.3368125
-+.. [2] https://damonitor.github.io/test/result/perf/latest/html/
-+.. [3] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.1.png.html
-+.. [4] https://damonitor.github.io/test/result/visual/latest/rec.wss_sz.png.html
-+.. [5] https://damonitor.github.io/test/result/visual/latest/rec.wss_time.png.html
-diff --git a/Documentation/admin-guide/mm/damon/index.rst b/Documentation/admin-guide/mm/damon/index.rst
-new file mode 100644
-index 000000000000..0baae7a5402b
---- /dev/null
-+++ b/Documentation/admin-guide/mm/damon/index.rst
-@@ -0,0 +1,15 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================
-+Monitoring Data Accesses
-+========================
-+
-+:doc:`DAMON </vm/damon/index>` allows light-weight data access monitoring.
-+Using this, users can analyze and optimize their systems.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   start
-+   guide
-+   usage
-diff --git a/Documentation/admin-guide/mm/damon/plans.rst b/Documentation/admin-guide/mm/damon/plans.rst
-new file mode 100644
-index 000000000000..e3aa5ab96c29
---- /dev/null
-+++ b/Documentation/admin-guide/mm/damon/plans.rst
-@@ -0,0 +1,29 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+============
-+Future Plans
-+============
-+
-+DAMON is still on its first stage.  Below plans are still under development.
-+
-+
-+Automate Data Access Monitoring-based Memory Operation Schemes Execution
-+========================================================================
-+
-+The ultimate goal of DAMON is to be used as a building block for the data
-+access pattern aware kernel memory management optimization.  It will make
-+system just works efficiently.  However, some users having very special
-+workloads will want to further do their own optimization.  DAMON will automate
-+most of the tasks for such manual optimizations in near future.  Users will be
-+required to only describe what kind of data access pattern-based operation
-+schemes they want in a simple form.
-+
-+By applying a very simple scheme for THP promotion/demotion with a prototype
-+implementation, DAMON reduced 60% of THP memory footprint overhead while
-+preserving 50% of the THP performance benefit.  The detailed results can be
-+seen on an external web page [1]_.
-+
-+Several RFC patchsets for this plan are available [2]_.
-+
-+.. [1] https://damonitor.github.io/test/result/perf/latest/html/
-+.. [2] https://lore.kernel.org/linux-mm/20200616073828.16509-1-sjpark@amazon.com/
-diff --git a/Documentation/admin-guide/mm/damon/start.rst b/Documentation/admin-guide/mm/damon/start.rst
-new file mode 100644
-index 000000000000..69bac6782624
---- /dev/null
-+++ b/Documentation/admin-guide/mm/damon/start.rst
-@@ -0,0 +1,97 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===============
-+Getting Started
-+===============
-+
-+This document briefly describes how you can use DAMON by demonstrating its
-+default user space tool.  Please note that this document describes only a part
-+of its features for brevity.  Please refer to :doc:`usage` for more details.
-+
-+
-+TL; DR
-+======
-+
-+Follow below 5 commands to monitor and visualize the access pattern of your
-+workload. ::
-+
-+    $ git clone https://github.com/sjp38/linux -b damon/master
-+    /* build the kernel with CONFIG_DAMON=y, install, reboot */
-+    $ mount -t debugfs none /sys/kernel/debug/
-+    $ cd linux/tools/damon
-+    $ ./damo record $(pidof <your workload>)
-+    $ ./damo report heats --heatmap access_pattern.png
-+
-+
-+Prerequisites
-+=============
-+
-+Kernel
-+------
-+
-+You should first ensure your system is running on a kernel built with
-+``CONFIG_DAMON=y``.
-+
-+
-+User Space Tool
-+---------------
-+
-+For the demonstration, we will use the default user space tool for DAMON,
-+called DAMON Operator (DAMO).  It is located at ``tools/damon/damo`` of the
-+DAMON development kernel source tree (``damon/master`` branch of
-+https://github.com/sjp38/linux).  For brevity, below examples assume you set
-+``$PATH`` to point it.  It's not mandatory, though.
-+
-+Because DAMO is using the debugfs interface (refer to :doc:`usage` for the
-+detail) of DAMON, you should ensure debugfs is mounted.  Mount it manually as
-+below::
-+
-+    # mount -t debugfs none /sys/kernel/debug/
-+
-+or append below line to your ``/etc/fstab`` file so that your system can
-+automatically mount debugfs from next booting::
-+
-+    debugfs /sys/kernel/debug debugfs defaults 0 0
-+
-+
-+Recording Data Access Patterns
-+==============================
-+
-+Below commands record memory access pattern of a program and save the
-+monitoring results in a file. ::
-+
-+    $ git clone https://github.com/sjp38/masim
-+    $ cd masim; make; ./masim ./configs/zigzag.cfg &
-+    $ sudo damo record -o damon.data $(pidof masim)
-+
-+The first two lines of the commands get an artificial memory access generator
-+program and runs it in the background.  It will repeatedly access two 100 MiB
-+sized memory regions one by one.  You can substitute this with your real
-+workload.  The last line asks ``damo`` to record the access pattern in
-+``damon.data`` file.
-+
-+
-+Visualizing Recorded Patterns
-+=============================
-+
-+Below three commands visualize the recorded access patterns into three
-+image files. ::
-+
-+    $ damo report heats --heatmap access_pattern_heatmap.png
-+    $ damo report wss --range 0 101 1 --plot wss_dist.png
-+    $ damo report wss --range 0 101 1 --sortby time --plot wss_chron_change.png
-+
-+- ``access_pattern_heatmap.png`` will show the data access pattern in a
-+  heatmap, which shows when (x-axis) what memory region (y-axis) is how
-+  frequently accessed (color).
-+- ``wss_dist.png`` will show the distribution of the working set size.
-+- ``wss_chron_change.png`` will show how the working set size has
-+  chronologically changed.
-+
-+You can show the images in a web page [1]_ .  Those made with other realistic
-+workloads are also available [2]_ [3]_ [4]_.
-+
-+.. [1] https://damonitor.github.io/doc/html/v17/admin-guide/mm/damon/start.html#visualizing-recorded-patterns
-+.. [2] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.1.png.html
-+.. [3] https://damonitor.github.io/test/result/visual/latest/rec.wss_sz.png.html
-+.. [4] https://damonitor.github.io/test/result/visual/latest/rec.wss_time.png.html
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-new file mode 100644
-index 000000000000..32436cf853c7
---- /dev/null
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -0,0 +1,304 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+===============
-+Detailed Usages
-+===============
-+
-+DAMON provides below three interfaces for different users.
-+
-+- *DAMON user space tool.*
-+  This is for privileged people such as system administrators who want a
-+  just-working human-friendly interface.  Using this, users can use the DAMON’s
-+  major features in a human-friendly way.  It may not be highly tuned for
-+  special cases, though.  It supports only virtual address spaces monitoring.
-+- *debugfs interface.*
-+  This is for privileged user space programmers who want more optimized use of
-+  DAMON.  Using this, users can use DAMON’s major features by reading
-+  from and writing to special debugfs files.  Therefore, you can write and use
-+  your personalized DAMON debugfs wrapper programs that reads/writes the
-+  debugfs files instead of you.  The DAMON user space tool is also a reference
-+  implementation of such programs.  It supports only virtual address spaces
-+  monitoring.
-+- *Kernel Space Programming Interface.*
-+  This is for kernel space programmers.  Using this, users can utilize every
-+  feature of DAMON most flexibly and efficiently by writing kernel space
-+  DAMON application programs for you.  You can even extend DAMON for various
-+  address spaces.
-+
-+This document does not describe the kernel space programming interface in
-+detail.  For that, please refer to the :doc:`/vm/damon/api`.
-+
-+
-+DAMON User Space Tool
-+=====================
-+
-+There is a reference implementation of the DAMON user space tools, namely
-+``damo``, which provides a convenient user interface.  You can get it from
-+``tools/damon/`` directory in the DAMON development kernel source tree
-+(``damon/next`` branch of https://github.com/sjp38/linux.git).
-+
-+The tool provides a subcommands based interface.  Every subcommand provides
-+``-h`` option, which provides the minimal usage of it.  Currently, the tool
-+supports two subcommands, ``record`` and ``report``.
-+
-+Below example commands assume you set ``$PATH`` to point ``tools/damon/`` of
-+the development tree for brevity.  It is not mandatory for use of ``damo``,
-+though.
-+
-+
-+Recording Data Access Pattern
-+-----------------------------
-+
-+The ``record`` subcommand records the data access pattern of target workloads
-+in a file (``./damon.data`` by default).  You can specify the target with 1)
-+the command for execution of the monitoring target process, or 2) pid of
-+running target process.  Below example shows a command target usage::
-+
-+    # cd <kernel>/tools/damon/
-+    # damo record "sleep 5"
-+
-+The tool will execute ``sleep 5`` by itself and record the data access patterns
-+of the process.  Below example shows a pid target usage::
-+
-+    # sleep 5 &
-+    # damo record `pidof sleep`
-+
-+The location of the recorded file can be explicitly set using ``-o`` option.
-+You can further tune this by setting the monitoring attributes.  To know about
-+the monitoring attributes in detail, please refer to the
-+:doc:`/vm/damon/design`.
-+
-+
-+Analyzing Data Access Pattern
-+-----------------------------
-+
-+The ``report`` subcommand reads a data access pattern record file (if not
-+explicitly specified using ``-i`` option, reads ``./damon.data`` file by
-+default) and generates human-readable reports.  You can specify what type of
-+report you want using a sub-subcommand to ``report`` subcommand.  ``raw``,
-+``heats``, and ``wss`` report types are supported for now.
-+
-+
-+raw
-+~~~
-+
-+``raw`` sub-subcommand simply transforms the binary record into a
-+human-readable text.  For example::
-+
-+    $ damo report raw
-+    start_time:  193485829398
-+    rel time:                0
-+    nr_tasks:  1
-+    target_id:  1348
-+    nr_regions:  4
-+    560189609000-56018abce000(  22827008):  0
-+    7fbdff59a000-7fbdffaf1a00(   5601792):  0
-+    7fbdffaf1a00-7fbdffbb5000(    800256):  1
-+    7ffea0dc0000-7ffea0dfd000(    249856):  0
-+
-+    rel time:        100000731
-+    nr_tasks:  1
-+    target_id:  1348
-+    nr_regions:  6
-+    560189609000-56018abce000(  22827008):  0
-+    7fbdff59a000-7fbdff8ce933(   3361075):  0
-+    7fbdff8ce933-7fbdffaf1a00(   2240717):  1
-+    7fbdffaf1a00-7fbdffb66d99(    480153):  0
-+    7fbdffb66d99-7fbdffbb5000(    320103):  1
-+    7ffea0dc0000-7ffea0dfd000(    249856):  0
-+
-+The first line shows the recording started timestamp (nanosecond).  Records of
-+data access patterns follows.  Each record is separated by a blank line.  Each
-+record first specifies the recorded time (``rel time``) in relative to the
-+start time, the number of monitored tasks in this record (``nr_tasks``).
-+Recorded data access patterns of each task follow.  Each data access pattern
-+for each task shows the target's pid (``target_id``) and a number of monitored
-+address regions in this access pattern (``nr_regions``) first.  After that,
-+each line shows the start/end address, size, and the number of observed
-+accesses of each region.
-+
-+
-+heats
-+~~~~~
-+
-+The ``raw`` output is very detailed but hard to manually read.  ``heats``
-+sub-subcommand plots the data in 3-dimensional form, which represents the time
-+in x-axis, address of regions in y-axis, and the access frequency in z-axis.
-+Users can set the resolution of the map (``--tres`` and ``--ares``) and
-+start/end point of each axis (``--tmin``, ``--tmax``, ``--amin``, and
-+``--amax``) via optional arguments.  For example::
-+
-+    $ damo report heats --tres 3 --ares 3
-+    0               0               0.0
-+    0               7609002         0.0
-+    0               15218004        0.0
-+    66112620851     0               0.0
-+    66112620851     7609002         0.0
-+    66112620851     15218004        0.0
-+    132225241702    0               0.0
-+    132225241702    7609002         0.0
-+    132225241702    15218004        0.0
-+
-+This command shows a recorded access pattern in heatmap of 3x3 resolution.
-+Therefore it shows 9 data points in total.  Each line shows each of the data
-+points.  The three numbers in each line represent time in nanosecond, address,
-+and the observed access frequency.
-+
-+Users will be able to convert this text output into a heatmap image (represents
-+z-axis values with colors) or other 3D representations using various tools such
-+as 'gnuplot'.  For more convenience, ``heats`` sub-subcommand provides the
-+'gnuplot' based heatmap image creation.  For this, you can use ``--heatmap``
-+option.  Also, note that because it uses 'gnuplot' internally, it will fail if
-+'gnuplot' is not installed on your system.  For example::
-+
-+    $ ./damo report heats --heatmap heatmap.png
-+
-+Creates the heatmap image in ``heatmap.png`` file.  It supports ``pdf``,
-+``png``, ``jpeg``, and ``svg``.
-+
-+If the target address space is virtual memory address space and you plot the
-+entire address space, the huge unmapped regions will make the picture looks
-+only black.  Therefore you should do proper zoom in / zoom out using the
-+resolution and axis boundary-setting arguments.  To make this effort minimal,
-+you can use ``--guide`` option as below::
-+
-+    $ ./damo report heats --guide
-+    target_id:1348
-+    time: 193485829398-198337863555 (4852034157)
-+    region   0: 00000094564599762944-00000094564622589952 (22827008)
-+    region   1: 00000140454009610240-00000140454016012288 (6402048)
-+    region   2: 00000140731597193216-00000140731597443072 (249856)
-+
-+The output shows unions of monitored regions (start and end addresses in byte)
-+and the union of monitored time duration (start and end time in nanoseconds) of
-+each target task.  Therefore, it would be wise to plot the data points in each
-+union.  If no axis boundary option is given, it will automatically find the
-+biggest union in ``--guide`` output and set the boundary in it.
-+
-+
-+wss
-+~~~
-+
-+The ``wss`` type extracts the distribution and chronological working set size
-+changes from the records.  For example::
-+
-+    $ ./damo report wss
-+    # <percentile> <wss>
-+    # target_id   1348
-+    # avr:  66228
-+    0       0
-+    25      0
-+    50      0
-+    75      0
-+    100     1920615
-+
-+Without any option, it shows the distribution of the working set sizes as
-+above.  It shows 0th, 25th, 50th, 75th, and 100th percentile and the average of
-+the measured working set sizes in the access pattern records.  In this case,
-+the working set size was zero for 75th percentile but 1,920,615 bytes in max
-+and 66,228 bytes on average.
-+
-+By setting the sort key of the percentile using '--sortby', you can show how
-+the working set size has chronologically changed.  For example::
-+
-+    $ ./damo report wss --sortby time
-+    # <percentile> <wss>
-+    # target_id   1348
-+    # avr:  66228
-+    0       0
-+    25      0
-+    50      0
-+    75      0
-+    100     0
-+
-+The average is still 66,228.  And, because the access was spiked in very short
-+duration and this command plots only 4 data points, we cannot show when the
-+access spikes made.  Users can specify the resolution of the distribution
-+(``--range``).  By giving more fine resolution, the short duration spikes could
-+be found.
-+
-+Similar to that of ``heats --heatmap``, it also supports 'gnuplot' based simple
-+visualization of the distribution via ``--plot`` option.
-+
-+
-+debugfs Interface
-+=================
-+
-+DAMON exports four files, ``attrs``, ``target_ids``, ``record``, and
-+``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
-+
-+
-+Attributes
-+----------
-+
-+Users can get and set the ``sampling interval``, ``aggregation interval``,
-+``regions update interval``, and min/max number of monitoring target regions by
-+reading from and writing to the ``attrs`` file.  To know about the monitoring
-+attributes in detail, please refer to the :doc:`/vm/damon/design`.  For
-+example, below commands set those values to 5 ms, 100 ms, 1,000 ms, 10 and
-+1000, and then check it again::
-+
-+    # cd <debugfs>/damon
-+    # echo 5000 100000 1000000 10 1000 > attrs
-+    # cat attrs
-+    5000 100000 1000000 10 1000
-+
-+
-+Target IDs
-+----------
-+
-+Some types of address spaces supports multiple monitoring target.  For example,
-+the virtual memory address spaces monitoring can have multiple processes as the
-+monitoring targets.  Users can set the targets by writing relevant id values of
-+the targets to, and get the ids of the current targets by reading from the
-+``target_ids`` file.  In case of the virtual address spaces monitoring, the
-+values should be pids of the monitoring target processes.  For example, below
-+commands set processes having pids 42 and 4242 as the monitoring targets and
-+check it again::
-+
-+    # cd <debugfs>/damon
-+    # echo 42 4242 > target_ids
-+    # cat target_ids
-+    42 4242
-+
-+Note that setting the target ids doesn't start the monitoring.
-+
-+
-+Record
-+------
-+
-+This debugfs file allows you to record monitored access patterns in a regular
-+binary file.  The recorded results are first written in an in-memory buffer and
-+flushed to a file in batch.  Users can get and set the size of the buffer and
-+the path to the result file by reading from and writing to the ``record`` file.
-+For example, below commands set the buffer to be 4 KiB and the result to be
-+saved in ``/damon.data``. ::
-+
-+    # cd <debugfs>/damon
-+    # echo "4096 /damon.data" > record
-+    # cat record
-+    4096 /damon.data
-+
-+The recording can be disabled by setting the buffer size zero.
-+
-+
-+Turning On/Off
-+--------------
-+
-+Setting the files as described above doesn't incur effect unless you explicitly
-+start the monitoring.  You can start, stop, and check the current status of the
-+monitoring by writing to and reading from the ``monitor_on`` file.  Writing
-+``on`` to the file starts the monitoring of the targets with the attributes.
-+Writing ``off`` to the file stops those.  DAMON also stops if every target
-+process is terminated.  Below example commands turn on, off, and check the
-+status of DAMON::
-+
-+    # cd <debugfs>/damon
-+    # echo on > monitor_on
-+    # echo off > monitor_on
-+    # cat monitor_on
-+    off
-+
-+Please note that you cannot write to the above-mentioned debugfs files while
-+the monitoring is turned on.  If you write to the files while DAMON is running,
-+an error code such as ``-EBUSY`` will be returned.
-diff --git a/Documentation/admin-guide/mm/index.rst b/Documentation/admin-guide/mm/index.rst
-index cd727cfc1b04..32c27fbf1913 100644
---- a/Documentation/admin-guide/mm/index.rst
-+++ b/Documentation/admin-guide/mm/index.rst
-@@ -27,6 +27,7 @@ the Linux memory management.
- 
-    concepts
-    cma_debugfs
-+   damon/index
-    hugetlbpage
-    idle_page_tracking
-    ksm
-diff --git a/Documentation/vm/damon/api.rst b/Documentation/vm/damon/api.rst
-new file mode 100644
-index 000000000000..08f34df45523
---- /dev/null
-+++ b/Documentation/vm/damon/api.rst
-@@ -0,0 +1,20 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=============
-+API Reference
-+=============
-+
-+Kernel space programs can use every feature of DAMON using below APIs.  All you
-+need to do is including ``damon.h``, which is located in ``include/linux/`` of
-+the source tree.
-+
-+Structures
-+==========
-+
-+.. kernel-doc:: include/linux/damon.h
-+
-+
-+Functions
-+=========
-+
-+.. kernel-doc:: mm/damon/core.c
-diff --git a/Documentation/vm/damon/design.rst b/Documentation/vm/damon/design.rst
-new file mode 100644
-index 000000000000..727d72093f8f
---- /dev/null
-+++ b/Documentation/vm/damon/design.rst
-@@ -0,0 +1,166 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======
-+Design
-+======
-+
-+Configurable Layers
-+===================
-+
-+DAMON provides data access monitoring functionality while making the accuracy
-+and the overhead controllable.  The fundamental access monitorings require
-+primitives that dependent on and optimized for the target address space.  On
-+the other hand, the accuracy and overhead tradeoff mechanism, which is the core
-+of DAMON, is in the pure logic space.  DAMON separates the two parts in
-+different layers and defines its interface to allow various low level
-+primitives implementations configurable with the core logic.
-+
-+Due to this separated design and the configurable interface, users can extend
-+DAMON for any address space by configuring the core logics with appropriate low
-+level primitive implementations.  If appropriate one is not provided, users can
-+implement the primitives on their own.
-+
-+For example, physical memory, virtual memory, swap space, those for specific
-+processes, NUMA nodes, files, and backing memory devices would be supportable.
-+Also, if some architectures or devices support special optimized access check
-+primitives, those will be easily configurable.
-+
-+
-+Reference Implementations of Address Space Specific Primitives
-+==============================================================
-+
-+The low level primitives for the fundamental access monitoring are defined in
-+two parts:
-+
-+1. Identification of the monitoring target address range for the address space.
-+2. Access check of specific address range in the target space.
-+
-+DAMON currently provides the implementation of the primitives for only the
-+virtual address spaces. Below two subsections describe how it works.
-+
-+
-+PTE Accessed-bit Based Access Check
-+-----------------------------------
-+
-+The implementation for the virtual address space uses PTE Accessed-bit for
-+basic access checks.  It finds the relevant PTE Accessed bit from the address
-+by walking the page table for the target task of the address.  In this way, the
-+implementation finds and clears the bit for next sampling target address and
-+checks whether the bit set again after one sampling period.  This could disturb
-+other kernel subsystems using the Accessed bits, namely Idle page tracking and
-+the reclaim logic.  To avoid such disturbances, DAMON makes it mutually
-+exclusive with Idle page tracking and uses ``PG_idle`` and ``PG_young`` page
-+flags to solve the conflict with the reclaim logic, as Idle page tracking does.
-+
-+
-+VMA-based Target Address Range Construction
-+-------------------------------------------
-+
-+Only small parts in the super-huge virtual address space of the processes are
-+mapped to the physical memory and accessed.  Thus, tracking the unmapped
-+address regions is just wasteful.  However, because DAMON can deal with some
-+level of noise using the adaptive regions adjustment mechanism, tracking every
-+mapping is not strictly required but could even incur a high overhead in some
-+cases.  That said, too huge unmapped areas inside the monitoring target should
-+be removed to not take the time for the adaptive mechanism.
-+
-+For the reason, this implementation converts the complex mappings to three
-+distinct regions that cover every mapped area of the address space.  The two
-+gaps between the three regions are the two biggest unmapped areas in the given
-+address space.  The two biggest unmapped areas would be the gap between the
-+heap and the uppermost mmap()-ed region, and the gap between the lowermost
-+mmap()-ed region and the stack in most of the cases.  Because these gaps are
-+exceptionally huge in usual address spaces, excluding these will be sufficient
-+to make a reasonable trade-off.  Below shows this in detail::
-+
-+    <heap>
-+    <BIG UNMAPPED REGION 1>
-+    <uppermost mmap()-ed region>
-+    (small mmap()-ed regions and munmap()-ed regions)
-+    <lowermost mmap()-ed region>
-+    <BIG UNMAPPED REGION 2>
-+    <stack>
-+
-+
-+Address Space Independent Core Mechanisms
-+=========================================
-+
-+Below four sections describe each of the DAMON core mechanisms and the five
-+monitoring attributes, ``sampling interval``, ``aggregation interval``,
-+``regions update interval``, ``minimum number of regions``, and ``maximum
-+number of regions``.
-+
-+
-+Access Frequency Monitoring
-+---------------------------
-+
-+The output of DAMON says what pages are how frequently accessed for a given
-+duration.  The resolution of the access frequency is controlled by setting
-+``sampling interval`` and ``aggregation interval``.  In detail, DAMON checks
-+access to each page per ``sampling interval`` and aggregates the results.  In
-+other words, counts the number of the accesses to each page.  After each
-+``aggregation interval`` passes, DAMON calls callback functions that previously
-+registered by users so that users can read the aggregated results and then
-+clears the results.  This can be described in below simple pseudo-code::
-+
-+    while monitoring_on:
-+        for page in monitoring_target:
-+            if accessed(page):
-+                nr_accesses[page] += 1
-+        if time() % aggregation_interval == 0:
-+            for callback in user_registered_callbacks:
-+                callback(monitoring_target, nr_accesses)
-+            for page in monitoring_target:
-+                nr_accesses[page] = 0
-+        sleep(sampling interval)
-+
-+The monitoring overhead of this mechanism will arbitrarily increase as the
-+size of the target workload grows.
-+
-+
-+Region Based Sampling
-+---------------------
-+
-+To avoid the unbounded increase of the overhead, DAMON groups adjacent pages
-+that assumed to have the same access frequencies into a region.  As long as the
-+assumption (pages in a region have the same access frequencies) is kept, only
-+one page in the region is required to be checked.  Thus, for each ``sampling
-+interval``, DAMON randomly picks one page in each region, waits for one
-+``sampling interval``, checks whether the page is accessed meanwhile, and
-+increases the access frequency of the region if so.  Therefore, the monitoring
-+overhead is controllable by setting the number of regions.  DAMON allows users
-+to set the minimum and the maximum number of regions for the trade-off.
-+
-+This scheme, however, cannot preserve the quality of the output if the
-+assumption is not guaranteed.
-+
-+
-+Adaptive Regions Adjustment
-+---------------------------
-+
-+Even somehow the initial monitoring target regions are well constructed to
-+fulfill the assumption (pages in same region have similar access frequencies),
-+the data access pattern can be dynamically changed.  This will result in low
-+monitoring quality.  To keep the assumption as much as possible, DAMON
-+adaptively merges and splits each region based on their access frequency.
-+
-+For each ``aggregation interval``, it compares the access frequencies of
-+adjacent regions and merges those if the frequency difference is small.  Then,
-+after it reports and clears the aggregated access frequency of each region, it
-+splits each region into two or three regions if the total number of regions
-+will not exceed the user-specified maximum number of regions after the split.
-+
-+In this way, DAMON provides its best-effort quality and minimal overhead while
-+keeping the bounds users set for their trade-off.
-+
-+
-+Dynamic Target Space Updates Handling
-+-------------------------------------
-+
-+The monitoring target address range could dynamically changed.  For example,
-+virtual memory could be dynamically mapped and unmapped.  Physical memory could
-+be hot-plugged.
-+
-+As the changes could be quite frequent in some cases, DAMON checks the dynamic
-+memory mapping changes and applies it to the abstracted target area only for
-+each of a user-specified time interval (``regions update interval``).
-diff --git a/Documentation/vm/damon/eval.rst b/Documentation/vm/damon/eval.rst
-new file mode 100644
-index 000000000000..4ce1a6d86036
---- /dev/null
-+++ b/Documentation/vm/damon/eval.rst
-@@ -0,0 +1,232 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==========
-+Evaluation
-+==========
-+
-+DAMON is lightweight.  It increases system memory usage by 0.39% and slows
-+target workloads down by 1.16%.
-+
-+DAMON is accurate and useful for memory management optimizations.  An
-+experimental DAMON-based operation scheme for THP, namely 'ethp', removes
-+76.15% of THP memory overheads while preserving 51.25% of THP speedup.  Another
-+experimental DAMON-based 'proactive reclamation' implementation, namely 'prcl',
-+reduces 93.38% of residential sets and 23.63% of system memory footprint while
-+incurring only 1.22% runtime overhead in the best case (parsec3/freqmine).
-+
-+
-+Setup
-+=====
-+
-+On QEMU/KVM based virtual machines utilizing 130GB of RAM and 36 vCPUs hosted
-+by AWS EC2 i3.metal instances that running a kernel that v24 DAMON patchset is
-+applied, I measure runtime and consumed system memory while running various
-+realistic workloads with several configurations.  From each of PARSEC3 [3]_ and
-+SPLASH-2X [4]_ benchmark suites I pick 12 workloads, so I use 24 workloads in
-+total.  I use another wrapper scripts [5]_ for convenient setup and run of the
-+workloads.
-+
-+
-+Measurement
-+-----------
-+
-+For the measurement of the amount of consumed memory in system global scope, I
-+drop caches before starting each of the workloads and monitor 'MemFree' in the
-+'/proc/meminfo' file.  To make results more stable, I repeat the runs 5 times
-+and average results.
-+
-+
-+Configurations
-+--------------
-+
-+The configurations I use are as below.
-+
-+- orig: Linux v5.10 with 'madvise' THP policy
-+- rec: 'orig' plus DAMON running with virtual memory access recording
-+- prec: 'orig' plus DAMON running with physical memory access recording
-+- thp: same with 'orig', but use 'always' THP policy
-+- ethp: 'orig' plus a DAMON operation scheme, 'efficient THP'
-+- prcl: 'orig' plus a DAMON operation scheme, 'proactive reclaim [6]_'
-+
-+I use 'rec' for measurement of DAMON overheads to target workloads and system
-+memory.  'prec' is for physical memory monitroing and recording.  It monitors
-+17GB sized 'System RAM' region.  The remaining configs including 'thp', 'ethp',
-+and 'prcl' are for measurement of DAMON monitoring accuracy.
-+
-+'ethp' and 'prcl' are simple DAMON-based operation schemes developed for
-+proof of concepts of DAMON.  'ethp' reduces memory space waste of THP by using
-+DAMON for the decision of promotions and demotion for huge pages, while 'prcl'
-+is as similar as the original work.  For example, those can be implemented as
-+below::
-+
-+    # format: <min/max size> <min/max frequency (0-100)> <min/max age> <action>
-+    # ethp: Use huge pages if a region shows >=5% access rate, use regular
-+    # pages if a region >=2MB shows 0 access rate for >=7 seconds
-+    min     max     5       max     min     max     hugepage
-+    2M      max     min     min     7s      max     nohugepage
-+
-+    # prcl: If a region >=4KB shows 0 access rate for >=5 seconds, page out.
-+    4K      max     0       0       5s     max     pageout
-+
-+Note that these examples are designed with my only straightforward intuition
-+because those are for only proof of concepts and monitoring accuracy of DAMON.
-+In other words, those are not for production.  For production use, those should
-+be more tuned.  For automation of such tuning, you can use a user space tool
-+called DAMOOS [8]_.  For the evaluation, we use 'ethp' as same to above
-+example, but we use DAMOOS-tuned 'prcl' for each workload.
-+
-+The evaluation is done using the tests package for DAMON, ``damon-tests`` [7]_.
-+Using it, you can do the evaluation and generate a report on your own.
-+
-+.. [1] "Redis latency problems troubleshooting", https://redis.io/topics/latency
-+.. [2] "Disable Transparent Huge Pages (THP)",
-+    https://docs.mongodb.com/manual/tutorial/transparent-huge-pages/
-+.. [3] "The PARSEC Becnhmark Suite", https://parsec.cs.princeton.edu/index.htm
-+.. [4] "SPLASH-2x", https://parsec.cs.princeton.edu/parsec3-doc.htm#splash2x
-+.. [5] "parsec3_on_ubuntu", https://github.com/sjp38/parsec3_on_ubuntu
-+.. [6] "Proactively reclaiming idle memory", https://lwn.net/Articles/787611/
-+.. [7] "damon-tests", https://github.com/awslabs/damon-tests
-+.. [8] "DAMOOS", https://github.com/awslabs/damoos
-+
-+
-+Results
-+=======
-+
-+Below two tables show the measurement results.  The runtimes are in seconds
-+while the memory usages are in KiB.  Each configuration except 'orig' shows
-+its overhead relative to 'orig' in percent within parenthesizes.::
-+
-+    runtime                 orig     rec      (overhead) prec     (overhead) thp      (overhead) ethp     (overhead) prcl     (overhead)
-+    parsec3/blackscholes    139.658  140.168  (0.37)     139.385  (-0.20)    138.367  (-0.92)    139.279  (-0.27)    147.024  (5.27)
-+    parsec3/bodytrack       123.788  124.622  (0.67)     123.636  (-0.12)    125.115  (1.07)     123.840  (0.04)     141.928  (14.65)
-+    parsec3/canneal         207.491  210.318  (1.36)     217.927  (5.03)     174.287  (-16.00)   202.609  (-2.35)    225.483  (8.67)
-+    parsec3/dedup           18.292   18.301   (0.05)     18.378   (0.47)     18.264   (-0.15)    18.298   (0.03)     20.541   (12.30)
-+    parsec3/facesim         343.893  340.286  (-1.05)    338.217  (-1.65)    332.953  (-3.18)    333.840  (-2.92)    365.650  (6.33)
-+    parsec3/fluidanimate    339.959  326.886  (-3.85)    330.286  (-2.85)    331.239  (-2.57)    326.011  (-4.10)    341.684  (0.51)
-+    parsec3/freqmine        445.987  436.332  (-2.16)    435.946  (-2.25)    435.704  (-2.31)    437.595  (-1.88)    451.414  (1.22)
-+    parsec3/raytrace        184.106  182.158  (-1.06)    182.056  (-1.11)    183.180  (-0.50)    183.545  (-0.30)    202.197  (9.83)
-+    parsec3/streamcluster   599.990  674.091  (12.35)    617.314  (2.89)     521.864  (-13.02)   551.971  (-8.00)    696.127  (16.02)
-+    parsec3/swaptions       220.462  222.637  (0.99)     220.449  (-0.01)    219.921  (-0.25)    221.607  (0.52)     223.956  (1.59)
-+    parsec3/vips            87.767   88.700   (1.06)     87.461   (-0.35)    87.466   (-0.34)    87.875   (0.12)     91.768   (4.56)
-+    parsec3/x264            110.843  117.856  (6.33)     113.023  (1.97)     108.665  (-1.97)    115.434  (4.14)     117.811  (6.29)
-+    splash2x/barnes         131.441  129.275  (-1.65)    128.341  (-2.36)    119.317  (-9.22)    126.199  (-3.99)    147.602  (12.30)
-+    splash2x/fft            59.705   58.382   (-2.22)    58.858   (-1.42)    45.949   (-23.04)   59.939   (0.39)     64.548   (8.11)
-+    splash2x/lu_cb          132.552  131.604  (-0.72)    131.846  (-0.53)    132.320  (-0.18)    132.100  (-0.34)    140.289  (5.84)
-+    splash2x/lu_ncb         150.215  149.670  (-0.36)    149.646  (-0.38)    148.823  (-0.93)    149.416  (-0.53)    152.338  (1.41)
-+    splash2x/ocean_cp       84.033   76.405   (-9.08)    75.104   (-10.63)   73.487   (-12.55)   77.789   (-7.43)    77.380   (-7.92)
-+    splash2x/ocean_ncp      153.833  154.247  (0.27)     156.227  (1.56)     106.619  (-30.69)   139.299  (-9.45)    165.030  (7.28)
-+    splash2x/radiosity      143.566  143.654  (0.06)     142.426  (-0.79)    141.193  (-1.65)    141.740  (-1.27)    157.817  (9.93)
-+    splash2x/radix          49.984   49.996   (0.02)     50.519   (1.07)     46.573   (-6.82)    50.724   (1.48)     50.695   (1.42)
-+    splash2x/raytrace       133.238  134.337  (0.83)     134.389  (0.86)     134.833  (1.20)     131.073  (-1.62)    145.541  (9.23)
-+    splash2x/volrend        121.700  120.652  (-0.86)    120.560  (-0.94)    120.629  (-0.88)    119.581  (-1.74)    129.422  (6.35)
-+    splash2x/water_nsquared 370.771  375.236  (1.20)     376.829  (1.63)     355.592  (-4.09)    354.087  (-4.50)    419.606  (13.17)
-+    splash2x/water_spatial  133.295  132.931  (-0.27)    132.762  (-0.40)    133.090  (-0.15)    133.809  (0.39)     153.647  (15.27)
-+    total                   4486.580 4538.750 (1.16)     4481.600 (-0.11)    4235.430 (-5.60)    4357.660 (-2.87)    4829.510 (7.64)
-+
-+
-+    memused.avg             orig         rec          (overhead) prec         (overhead) thp          (overhead) ethp         (overhead) prcl         (overhead)
-+    parsec3/blackscholes    1828693.600  1834084.000  (0.29)     1823839.800  (-0.27)    1819296.600  (-0.51)    1830281.800  (0.09)     1603975.800  (-12.29)
-+    parsec3/bodytrack       1424963.400  1440085.800  (1.06)     1438384.200  (0.94)     1421718.400  (-0.23)    1432834.600  (0.55)     1439283.000  (1.00)
-+    parsec3/canneal         1036782.600  1052828.800  (1.55)     1050148.600  (1.29)     1035104.400  (-0.16)    1051145.400  (1.39)     1050019.400  (1.28)
-+    parsec3/dedup           2511841.400  2507374.000  (-0.18)    2472450.600  (-1.57)    2523557.600  (0.47)     2508912.000  (-0.12)    2493347.200  (-0.74)
-+    parsec3/facesim         537769.800   550740.800   (2.41)     548683.600   (2.03)     543547.800   (1.07)     560556.600   (4.24)     482782.600   (-10.23)
-+    parsec3/fluidanimate    570268.600   585598.000   (2.69)     579837.800   (1.68)     571433.000   (0.20)     582112.800   (2.08)     470073.400   (-17.57)
-+    parsec3/freqmine        982941.400   996253.200   (1.35)     993919.800   (1.12)     990531.800   (0.77)     1000994.400  (1.84)     750685.800   (-23.63)
-+    parsec3/raytrace        1737446.000  1749908.800  (0.72)     1741183.800  (0.22)     1726674.800  (-0.62)    1748530.200  (0.64)     1552275.600  (-10.66)
-+    parsec3/streamcluster   115857.000   155194.400   (33.95)    158272.800   (36.61)    122125.200   (5.41)     134545.600   (16.13)    133448.600   (15.18)
-+    parsec3/swaptions       13694.200    28451.800    (107.76)   28464.600    (107.86)   12797.800    (-6.55)    25328.200    (84.96)    28138.400    (105.48)
-+    parsec3/vips            2976126.400  3002408.600  (0.88)     3008218.800  (1.08)     2978258.600  (0.07)     2995428.600  (0.65)     2936338.600  (-1.34)
-+    parsec3/x264            3233886.200  3258790.200  (0.77)     3248355.000  (0.45)     3232070.000  (-0.06)    3256360.200  (0.69)     3254707.400  (0.64)
-+    splash2x/barnes         1210470.600  1211918.600  (0.12)     1204507.000  (-0.49)    1210892.800  (0.03)     1217414.800  (0.57)     944053.400   (-22.01)
-+    splash2x/fft            9697440.000  9604535.600  (-0.96)    9210571.800  (-5.02)    9867368.000  (1.75)     9637571.800  (-0.62)    9804092.000  (1.10)
-+    splash2x/lu_cb          510680.400   521792.600   (2.18)     517724.600   (1.38)     513500.800   (0.55)     519980.600   (1.82)     351787.000   (-31.11)
-+    splash2x/lu_ncb         512896.200   529353.600   (3.21)     521248.600   (1.63)     513493.200   (0.12)     523793.400   (2.12)     418701.600   (-18.37)
-+    splash2x/ocean_cp       3320800.200  3313688.400  (-0.21)    3225585.000  (-2.87)    3359032.200  (1.15)     3316591.800  (-0.13)    3304702.200  (-0.48)
-+    splash2x/ocean_ncp      3915132.400  3917401.000  (0.06)     3884086.400  (-0.79)    7050398.600  (80.08)    4532528.600  (15.77)    3920395.800  (0.13)
-+    splash2x/radiosity      1456908.200  1467611.800  (0.73)     1453612.600  (-0.23)    1466695.400  (0.67)     1467495.600  (0.73)     421197.600   (-71.09)
-+    splash2x/radix          2345874.600  2318202.200  (-1.18)    2261499.200  (-3.60)    2438228.400  (3.94)     2373697.800  (1.19)     2336605.600  (-0.40)
-+    splash2x/raytrace       43258.800    57624.200    (33.21)    55164.600    (27.52)    46204.400    (6.81)     60475.000    (39.80)    48865.400    (12.96)
-+    splash2x/volrend        149615.000   163809.400   (9.49)     162115.400   (8.36)     149119.600   (-0.33)    162747.800   (8.78)     157734.600   (5.43)
-+    splash2x/water_nsquared 40384.400    54848.600    (35.82)    53796.600    (33.21)    41455.800    (2.65)     53226.400    (31.80)    58260.600    (44.27)
-+    splash2x/water_spatial  670580.200   680444.200   (1.47)     670020.400   (-0.08)    668262.400   (-0.35)    678552.000   (1.19)     372931.000   (-44.39)
-+    total                   40844300.000 41002900.000 (0.39)     40311600.000 (-1.30)    44301900.000 (8.47)     41671052.000 (2.02)     38334431.000 (-6.14)
-+
-+
-+DAMON Overheads
-+---------------
-+
-+In total, DAMON virtual memory access recording feature ('rec') incurs 1.16%
-+runtime overhead and 0.39% memory space overhead.  Even though the size of the
-+monitoring target region becomes much larger with the physical memory access
-+recording ('prec'), it still shows only modest amount of overhead (-0.11% for
-+runtime and -1.30% for memory footprint).
-+
-+For a convenient test run of 'rec' and 'prec', I use a Python wrapper.  The
-+wrapper constantly consumes about 10-15MB of memory.  This becomes a high
-+memory overhead if the target workload has a small memory footprint.
-+Nonetheless, the overheads are not from DAMON, but from the wrapper, and thus
-+should be ignored.  This fake memory overhead continues in 'ethp' and 'prcl',
-+as those configurations are also using the Python wrapper.
-+
-+
-+Efficient THP
-+-------------
-+
-+THP 'always' enabled policy achieves 5.60% speedup but incurs 8.47% memory
-+overhead.  It achieves 30.69% speedup in the best case, but 80.08% memory
-+overhead in the worst case.  Interestingly, both the best and worst-case are
-+with 'splash2x/ocean_ncp').
-+
-+The 2-lines implementation of data access monitoring based THP version ('ethp')
-+shows 2.87% speedup and 2.02% memory overhead.  In other words, 'ethp' removes
-+76.15% of THP memory waste while preserving 51.25% of THP speedup in total.  In
-+the case of the 'splash2x/ocean_ncp', 'ethp' removes 80.30% of THP memory waste
-+while preserving 30.79% of THP speedup.
-+
-+
-+Proactive Reclamation
-+---------------------
-+
-+As similar to the original work, I use 4G 'zram' swap device for this
-+configuration.  Also note that we use DAMOOS-tuned ethp schemes for each
-+workload.
-+
-+In total, our 1 line implementation of Proactive Reclamation, 'prcl', incurred
-+7.64% runtime overhead in total while achieving 6.14% system memory footprint
-+reduction.  Even in the worst case, the runtime overhead was only 16.02%.
-+
-+Nonetheless, as the memory usage is calculated with 'MemFree' in
-+'/proc/meminfo', it contains the SwapCached pages.  As the swapcached pages can
-+be easily evicted, I also measured the residential set size of the workloads::
-+
-+    rss.avg                 orig         rec          (overhead) prec         (overhead) thp          (overhead) ethp         (overhead) prcl         (overhead)
-+    parsec3/blackscholes    587536.800   585720.000   (-0.31)    586233.400   (-0.22)    587045.400   (-0.08)    586753.400   (-0.13)    252207.400   (-57.07)
-+    parsec3/bodytrack       32302.200    32290.600    (-0.04)    32261.800    (-0.13)    32215.800    (-0.27)    32173.000    (-0.40)    6798.800     (-78.95)
-+    parsec3/canneal         842370.600   841443.400   (-0.11)    844012.400   (0.19)     838074.400   (-0.51)    841700.800   (-0.08)    840804.000   (-0.19)
-+    parsec3/dedup           1180414.800  1164634.600  (-1.34)    1188886.200  (0.72)     1207821.000  (2.32)     1193896.200  (1.14)     572359.200   (-51.51)
-+    parsec3/facesim         311848.400   311709.800   (-0.04)    311790.800   (-0.02)    317345.800   (1.76)     315443.400   (1.15)     188488.000   (-39.56)
-+    parsec3/fluidanimate    531868.000   531885.600   (0.00)     531828.800   (-0.01)    532988.000   (0.21)     532959.600   (0.21)     415153.200   (-21.94)
-+    parsec3/freqmine        552491.000   552718.600   (0.04)     552807.200   (0.06)     556574.200   (0.74)     554374.600   (0.34)     36573.400    (-93.38)
-+    parsec3/raytrace        879683.400   880752.200   (0.12)     879907.000   (0.03)     870631.000   (-1.03)    880952.200   (0.14)     293119.200   (-66.68)
-+    parsec3/streamcluster   110991.800   110937.200   (-0.05)    110964.600   (-0.02)    115606.800   (4.16)     116199.000   (4.69)     110108.200   (-0.80)
-+    parsec3/swaptions       5665.000     5718.400     (0.94)     5720.600     (0.98)     5682.200     (0.30)     5628.600     (-0.64)    3613.800     (-36.21)
-+    parsec3/vips            32143.600    31823.200    (-1.00)    31912.200    (-0.72)    33164.200    (3.18)     33925.800    (5.54)     27813.600    (-13.47)
-+    parsec3/x264            81534.000    81811.000    (0.34)     81708.400    (0.21)     83052.400    (1.86)     83758.800    (2.73)     81691.800    (0.19)
-+    splash2x/barnes         1220515.200  1218291.200  (-0.18)    1217699.600  (-0.23)    1228551.600  (0.66)     1220669.800  (0.01)     681096.000   (-44.20)
-+    splash2x/fft            9915850.400  10036461.000 (1.22)     9881242.800  (-0.35)    10334603.600 (4.22)     10006993.200 (0.92)     8975181.200  (-9.49)
-+    splash2x/lu_cb          511327.200   511679.000   (0.07)     511761.600   (0.08)     511971.600   (0.13)     511711.200   (0.08)     338005.000   (-33.90)
-+    splash2x/lu_ncb         511505.000   506816.800   (-0.92)    511392.800   (-0.02)    496623.000   (-2.91)    511410.200   (-0.02)    404734.000   (-20.87)
-+    splash2x/ocean_cp       3398834.000  3405017.800  (0.18)     3415287.800  (0.48)     3443604.600  (1.32)     3416264.200  (0.51)     3387134.000  (-0.34)
-+    splash2x/ocean_ncp      3947092.800  3939805.400  (-0.18)    3952311.600  (0.13)     7165858.800  (81.55)    4610075.000  (16.80)    3944753.400  (-0.06)
-+    splash2x/radiosity      1475024.000  1474053.200  (-0.07)    1475032.400  (0.00)     1483718.800  (0.59)     1475919.600  (0.06)     99637.200    (-93.25)
-+    splash2x/radix          2431302.200  2416928.600  (-0.59)    2455596.800  (1.00)     2568526.400  (5.64)     2479966.800  (2.00)     2437406.600  (0.25)
-+    splash2x/raytrace       23274.400    23278.400    (0.02)     23287.200    (0.05)     28828.000    (23.86)    27800.200    (19.45)    5667.000     (-75.65)
-+    splash2x/volrend        44106.800    44151.400    (0.10)     44186.000    (0.18)     45200.400    (2.48)     44751.200    (1.46)     16912.000    (-61.66)
-+    splash2x/water_nsquared 29427.200    29425.600    (-0.01)    29402.400    (-0.08)    28055.400    (-4.66)    28572.400    (-2.90)    13207.800    (-55.12)
-+    splash2x/water_spatial  664312.200   664095.600   (-0.03)    663025.200   (-0.19)    664100.600   (-0.03)    663597.400   (-0.11)    261214.200   (-60.68)
-+    total                   29321300.000 29401500.000 (0.27)     29338300.000 (0.06)     33179900.000 (13.16)    30175600.000 (2.91)     23393600.000 (-20.22)
-+
-+In total, 20.22% of residential sets were reduced.
-+
-+With parsec3/freqmine, 'prcl' reduced 93.38% of residential sets and 23.63% of
-+system memory usage while incurring only 1.22% runtime overhead.
-diff --git a/Documentation/vm/damon/faq.rst b/Documentation/vm/damon/faq.rst
-new file mode 100644
-index 000000000000..088128bbf22b
---- /dev/null
-+++ b/Documentation/vm/damon/faq.rst
-@@ -0,0 +1,58 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==========================
-+Frequently Asked Questions
-+==========================
-+
-+Why a new subsystem, instead of extending perf or other user space tools?
-+=========================================================================
-+
-+First, because it needs to be lightweight as much as possible so that it can be
-+used online, any unnecessary overhead such as kernel - user space context
-+switching cost should be avoided.  Second, DAMON aims to be used by other
-+programs including the kernel.  Therefore, having a dependency on specific
-+tools like perf is not desirable.  These are the two biggest reasons why DAMON
-+is implemented in the kernel space.
-+
-+
-+Can 'idle pages tracking' or 'perf mem' substitute DAMON?
-+=========================================================
-+
-+Idle page tracking is a low level primitive for access check of the physical
-+address space.  'perf mem' is similar, though it can use sampling to minimize
-+the overhead.  On the other hand, DAMON is a higher-level framework for the
-+monitoring of various address spaces.  It is focused on memory management
-+optimization and provides sophisticated accuracy/overhead handling mechanisms.
-+Therefore, 'idle pages tracking' and 'perf mem' could provide a subset of
-+DAMON's output, but cannot substitute DAMON.
-+
-+
-+How can I optimize my system's memory management using DAMON?
-+=============================================================
-+
-+Because there are several ways for the DAMON-based optimizations, we wrote a
-+separate document, :doc:`/admin-guide/mm/damon/guide`.  Please refer to that.
-+
-+
-+Does DAMON support virtual memory only?
-+=======================================
-+
-+No.  The core of the DAMON is address space independent.  The address space
-+specific low level primitive parts including monitoring target regions
-+constructions and actual access checks can be implemented and configured on the
-+DAMON core by the users.  In this way, DAMON users can monitor any address
-+space with any access check technique.
-+
-+Nonetheless, DAMON provides vma tracking and PTE Accessed bit check based
-+implementations of the address space dependent functions for the virtual memory
-+by default, for a reference and convenient use.  In near future, we will
-+provide those for physical memory address space.
-+
-+
-+Can I simply monitor page granularity?
-+======================================
-+
-+Yes.  You can do so by setting the ``min_nr_regions`` attribute higher than the
-+working set size divided by the page size.  Because the monitoring target
-+regions size is forced to be ``>=page size``, the region split will make no
-+effect.
-diff --git a/Documentation/vm/damon/index.rst b/Documentation/vm/damon/index.rst
-new file mode 100644
-index 000000000000..17dca3c12aad
---- /dev/null
-+++ b/Documentation/vm/damon/index.rst
-@@ -0,0 +1,31 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==========================
-+DAMON: Data Access MONitor
-+==========================
-+
-+DAMON is a data access monitoring framework subsystem for the Linux kernel.
-+The core mechanisms of DAMON (refer to :doc:`design` for the detail) make it
-+
-+ - *accurate* (the monitoring output is useful enough for DRAM level memory
-+   management; It might not appropriate for CPU Cache levels, though),
-+ - *light-weight* (the monitoring overhead is low enough to be applied online),
-+   and
-+ - *scalable* (the upper-bound of the overhead is in constant range regardless
-+   of the size of target workloads).
-+
-+Using this framework, therefore, the kernel's memory management mechanisms can
-+make advanced decisions.  Experimental memory management optimization works
-+that incurring high data accesses monitoring overhead could implemented again.
-+In user space, meanwhile, users who have some special workloads can write
-+personalized applications for better understanding and optimizations of their
-+workloads and systems.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   faq
-+   design
-+   eval
-+   api
-+   plans
-diff --git a/Documentation/vm/index.rst b/Documentation/vm/index.rst
-index eff5fbd492d0..b51f0d8992f8 100644
---- a/Documentation/vm/index.rst
-+++ b/Documentation/vm/index.rst
-@@ -32,6 +32,7 @@ descriptions of data structures and algorithms.
-    arch_pgtable_helpers
-    balance
-    cleancache
-+   damon/index
-    free_page_reporting
-    frontswap
-    highmem
--- 
-2.17.1
+ WARNING: CPU: 1 PID: 2124 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x=
+28/0x30 [lkdtm]
+ Modules linked in: vhost_vsock[b5de74de4890f7f9b6c6b9a75bf75cf2b7f828b9] v=
+mw_vsock_virtio_transport_common[939626f71b43da4aab49d0490a3d86da3647f0ec] =
+vsock[edf8bdd739f3bc46d8b9ee00fd5243e0d719aceb] vhost[d2f63a2bc2d33122a520e=
+a624a5ed45709691edc] vhost_iotlb[4042a67c527796e0e2e19b9acd5b38c938e19bf8] =
+lkdtm[6c2215028606bda50de823490723dc4bc5bf46f9] rfcomm[1853b40495371f7bbfdc=
+07d27018693d0a65e32e] algif_hash[d0035cb2ccdd3e20faea6138168f5b3ee7f55027] =
+algif_skcipher[290ded176708249e5f3fe6c20fb2645f46c38c7b] af_alg[9e1891ab464=
+76a7f1252a23b14a8e8fd59026986] xt_cgroup[3b8d96cd8b13e760e88162b441be9ceb98=
+500f75] uinput[3027573e498d509f71b6cb29aa7474bac9fbdba6] uvcvideo[a7676ff13=
+9a41297fcc33b80582af3ef68bbdbfa] videobuf2_vmalloc[591709b0f39979156cf3e8b9=
+0a61af75da36902a] xt_MASQUERADE[52bbd416ac57cf9c1081cb85ae0dd46fe7c256c7] v=
+enus_dec[50bf3f03f8a694acfe61f66dcdac73fde4b08384] videobuf2_dma_sg[a4d4ec2=
+1723a234278ddfe27081033ce366e82f4] hci_uart[152d461e1a2a8b5831507fc96fe18cd=
+94391d5db]
+  videobuf2_memops[3b3feac7d6440b52ac9fde356cc434f98b26f91d] btqca[0f921bc6=
+d55432a7552dbe0677477d81bb44c6e4] bluetooth[8a98be2c3e842b9c1284775096c3d35=
+04d5723e5] ath10k_snoc[525af7ae4d44d0f467980b67769cacaf6d9a5445] cros_ec_ty=
+pec[9bc93ec5d8d14765642576b24901d5313c5db1b4] venus_core[3cea3f6cd84bdaee7b=
+bce46f58d1eb0bf046763c] typec[e90cdc31cd39d173af46fa3b964215c8d0316534] ecd=
+h_generic[26db794ec69dcbfbabf8dec23c7311ca529dbe6f] qcom_spmi_adc5[5fd6407c=
+665b2af74b8b7d7a7f2ee49e6cec0bdf] ath10k_core[f54f6fd17fb433f83d1c60e32737b=
+eba72fbd151] qcom_spmi_temp_alarm[74c703822ed24645942437dda1772bc9cfdc431b]=
+ ecc[328c5244919fb66e50bd7319de74a73232d23e42] qcom_vadc_common[bc2afd1da3c=
+27b19cfd96ea70bf23ffd710e2aad] snd_soc_rt5682_i2c[4296e093615aaf4ec303fb605=
+bb4d870f4cf2eb4] snd_soc_rt5682[eb897b37a96eb95bae1581adf4cd0386b224cc4d] v=
+4l2_mem2mem[b4b843c3844f4c492d0e9f89714fb7133e1d3e8c] snd_soc_sc7180[8216ab=
+c2f56916ca36e5073b776ed493f1af8e4e]
+  snd_soc_qcom_common[54fbd61a2f457db385b40ae0a37c5a0719e2a8de] videobuf2_v=
+4l2[d100d30e4b9ad480471dab30494d85d1ae2f4044] snd_soc_lpass_sc7180[aa5e3313=
+ee630c10a1c890213c8777f6365f5ef5] ath[8f4ab51a49478f7955b3a2a95101de0de4bf0=
+864] snd_soc_rl6231[a668e6b9790e698a5f64e3e0e45713adce578de7] videobuf2_com=
+mon[bd4f81493fa674a6804ecf3244932f5a3e921d5d] snd_soc_lpass_hdmi[90a3aaff7f=
+90ed2086b896bbdd9df09e48e3a6f6] snd_soc_lpass_cpu[c3f3eefc220abcf50857b0c20=
+2b0002ebf90a41a] snd_soc_lpass_platform[9a20405ac4e1778db7632aecf68c5cf777d=
+c4254] mac80211[6f6acbb06c6c2c9538c37062bbfa4865708bf66b] snd_soc_max98357a=
+[61ed67be8e6cf3c82da549b30f09c8ec1dbf7270] fuse[3b0043fe3eec1552df28ffc568b=
+f787d75347269] iio_trig_sysfs[43a2fd24bb26966e7faa3f7532193407afb9b1ae] cro=
+s_ec_lid_angle[2e7c1c179ab8c9ee76f8abcd6e6139546743cf84] cros_ec_sensors[1b=
+f8ac89e90b6549b9935729882722eda7b924fa] cros_ec_sensors_core[273e9b0a90fbb7=
+066e55023a27f8b6d86371018f] cros_ec_sensors_ring[16ff4eb75deb8bcd81b1ddc5ee=
+a1eecf32c7fb14]
+  industrialio_triggered_buffer[8fe79c5203ccb4f16ed9638554924a42c4a7ec9d] k=
+fifo_buf[c1b3c4d10b52365c3887ba106b3b879c04f96f1d] cfg80211[c4084b0457e32a8=
+408e230cdbc22432ace087c31] cros_ec_sensorhub[e1e51bc2c5324bb000c335ce427263=
+cd17974144] lzo_rle[7c620147cbf701a30e9efa51c176394f2534a2a5] lzo_compress[=
+4fcd02f3181b4d541032ff1f1759d482205e7c5c] zram[bec5be42fb85409cb0776b5d63c1=
+a257b15af2ef] r8152[0a4bcdca4912d965082c8e0f27c2325c3b3e48d3] mii[0e4046722=
+1c7b7455a93ceafea794e4ce5c4d09e] joydev[0eabd30a73ec9378792dfb343ed38c2ad5a=
+599bc]
+ CPU: 1 PID: 2124 Comm: bash Not tainted 5.11 #6 5a995ea7d5d0bd2ed0ccfc90e8=
+c36fcccc04b81b
+ Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+ pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=3D--)
+ pc : lkdtm_WARNING+0x28/0x30 [lkdtm]
+ lr : lkdtm_do_action+0x24/0x40 [lkdtm]
+ sp : ffffffc013043ca0
+ x29: ffffffc013043ca0 x28: ffffff987e295540=20
+ x27: 0000000000000000 x26: 0000000000000000=20
+ x25: 0000000000000000 x24: ffffffe179b7b2c0=20
+ x23: 0000000000000020 x22: ffffffe179b79366=20
+ x21: ffffffe179b7b2e0 x20: ffffffc013043de0=20
+ x19: 0000000000000008 x18: 0000000000000000=20
+ x17: ffffff9847b569fc x16: 0000000000000000=20
+ x15: 0000000000000000 x14: 0000000000000012=20
+ x13: ffffffe1d96d892c x12: ffffffe1da505068=20
+ x11: 0000000000000000 x10: 0000000000000000=20
+ x9 : 0000000000000001 x8 : ffffffe179b7d000=20
+ x7 : aaaaaaaaaaaaaaaa x6 : 0000000000000000=20
+ x5 : 0000000000000000 x4 : 0000000000000001=20
+ x3 : 0000000000000008 x2 : ffffff99beec5a70=20
+ x1 : ffffff99beeb5788 x0 : ffffffe179b7b2e0=20
+ Call trace:
+  lkdtm_WARNING+0x28/0x30 [lkdtm]
+  direct_entry+0x16c/0x1b4 [lkdtm]
+  full_proxy_write+0x74/0xa4
+  vfs_write+0xec/0x2e8
+  ksys_write+0x84/0xf0
+  __arm64_sys_write+0x24/0x30
+  el0_svc_common+0xf4/0x1c0
+  do_el0_svc_compat+0x28/0x3c
+  el0_svc_compat+0x10/0x1c
+  el0_sync_compat_handler+0xa8/0xcc
+  el0_sync_compat+0x178/0x180
+ ---[ end trace e1c971e4a46de18e ]---
 
+And here's 10 per line with spacing
+
+ WARNING: CPU: 0 PID: 2009 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x=
+28/0x30 [lkdtm]
+ Modules linked in: lkdtm [6c2215028606bda50de823490723dc4bc5bf46f9] rfcomm=
+ [1853b40495371f7bbfdc07d27018693d0a65e32e] algif_hash [d0035cb2ccdd3e20fae=
+a6138168f5b3ee7f55027] algif_skcipher [290ded176708249e5f3fe6c20fb2645f46c3=
+8c7b] af_alg [9e1891ab46476a7f1252a23b14a8e8fd59026986] xt_cgroup [3b8d96cd=
+8b13e760e88162b441be9ceb98500f75] uinput [3027573e498d509f71b6cb29aa7474bac=
+9fbdba6] uvcvideo [a7676ff139a41297fcc33b80582af3ef68bbdbfa] videobuf2_vmal=
+loc [591709b0f39979156cf3e8b90a61af75da36902a] xt_MASQUERADE [52bbd416ac57c=
+f9c1081cb85ae0dd46fe7c256c7]
+  venus_dec [50bf3f03f8a694acfe61f66dcdac73fde4b08384] videobuf2_dma_sg [a4=
+d4ec21723a234278ddfe27081033ce366e82f4] videobuf2_memops [3b3feac7d6440b52a=
+c9fde356cc434f98b26f91d] hci_uart [152d461e1a2a8b5831507fc96fe18cd94391d5db=
+] btqca [0f921bc6d55432a7552dbe0677477d81bb44c6e4] bluetooth [8a98be2c3e842=
+b9c1284775096c3d3504d5723e5] venus_core [3cea3f6cd84bdaee7bbce46f58d1eb0bf0=
+46763c] ath10k_snoc [525af7ae4d44d0f467980b67769cacaf6d9a5445] ecdh_generic=
+ [26db794ec69dcbfbabf8dec23c7311ca529dbe6f] v4l2_mem2mem [b4b843c3844f4c492=
+d0e9f89714fb7133e1d3e8c]
+  videobuf2_v4l2 [d100d30e4b9ad480471dab30494d85d1ae2f4044] cros_ec_typec [=
+9bc93ec5d8d14765642576b24901d5313c5db1b4] ath10k_core [f54f6fd17fb433f83d1c=
+60e32737beba72fbd151] qcom_spmi_adc5 [5fd6407c665b2af74b8b7d7a7f2ee49e6cec0=
+bdf] videobuf2_common [bd4f81493fa674a6804ecf3244932f5a3e921d5d] typec [e90=
+cdc31cd39d173af46fa3b964215c8d0316534] snd_soc_sc7180 [8216abc2f56916ca36e5=
+073b776ed493f1af8e4e] snd_soc_rt5682_i2c [4296e093615aaf4ec303fb605bb4d870f=
+4cf2eb4] ecc [328c5244919fb66e50bd7319de74a73232d23e42] qcom_vadc_common [b=
+c2afd1da3c27b19cfd96ea70bf23ffd710e2aad]
+  snd_soc_rt5682 [eb897b37a96eb95bae1581adf4cd0386b224cc4d] qcom_spmi_temp_=
+alarm [74c703822ed24645942437dda1772bc9cfdc431b] ath [8f4ab51a49478f7955b3a=
+2a95101de0de4bf0864] snd_soc_qcom_common [54fbd61a2f457db385b40ae0a37c5a071=
+9e2a8de] snd_soc_rl6231 [a668e6b9790e698a5f64e3e0e45713adce578de7] snd_soc_=
+lpass_sc7180 [aa5e3313ee630c10a1c890213c8777f6365f5ef5] snd_soc_lpass_hdmi =
+[90a3aaff7f90ed2086b896bbdd9df09e48e3a6f6] snd_soc_lpass_cpu [c3f3eefc220ab=
+cf50857b0c202b0002ebf90a41a] mac80211 [6f6acbb06c6c2c9538c37062bbfa4865708b=
+f66b] snd_soc_lpass_platform [9a20405ac4e1778db7632aecf68c5cf777dc4254]
+  snd_soc_max98357a [61ed67be8e6cf3c82da549b30f09c8ec1dbf7270] fuse [3b0043=
+fe3eec1552df28ffc568bf787d75347269] cfg80211 [c4084b0457e32a8408e230cdbc224=
+32ace087c31] iio_trig_sysfs [43a2fd24bb26966e7faa3f7532193407afb9b1ae] cros=
+_ec_lid_angle [2e7c1c179ab8c9ee76f8abcd6e6139546743cf84] cros_ec_sensors [1=
+bf8ac89e90b6549b9935729882722eda7b924fa] cros_ec_sensors_core [273e9b0a90fb=
+b7066e55023a27f8b6d86371018f] industrialio_triggered_buffer [8fe79c5203ccb4=
+f16ed9638554924a42c4a7ec9d] cros_ec_sensors_ring [16ff4eb75deb8bcd81b1ddc5e=
+ea1eecf32c7fb14] kfifo_buf [c1b3c4d10b52365c3887ba106b3b879c04f96f1d]
+  cros_ec_sensorhub [e1e51bc2c5324bb000c335ce427263cd17974144] lzo_rle [7c6=
+20147cbf701a30e9efa51c176394f2534a2a5] lzo_compress [4fcd02f3181b4d541032ff=
+1f1759d482205e7c5c] zram [bec5be42fb85409cb0776b5d63c1a257b15af2ef] r8152 [=
+0a4bcdca4912d965082c8e0f27c2325c3b3e48d3] mii [0e40467221c7b7455a93ceafea79=
+4e4ce5c4d09e] [last unloaded: joydev]
+ CPU: 0 PID: 2009 Comm: bash Not tainted 5.11 #8 715ebac18cc41a59b9a429ad92=
+73467cba4680ae
+ Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+ pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=3D--)
+ pc : lkdtm_WARNING+0x28/0x30 [lkdtm]
+ lr : lkdtm_do_action+0x24/0x40 [lkdtm]
+ sp : ffffffc012e9bca0
+ x29: ffffffc012e9bca0 x28: ffffffbc34fbc440=20
+ x27: 0000000000000000 x26: 0000000000000000=20
+ x25: 0000000000000000 x24: ffffffdc41c382c0=20
+ x23: 0000000000000020 x22: ffffffdc41c36366=20
+ x21: ffffffdc41c382e0 x20: ffffffc012e9bde0=20
+ x19: 0000000000000008 x18: ffffffbc1bf65618=20
+ x17: ffffffbc003cc7fc x16: 0000000000000000=20
+ x15: 001d23f6e6650cfa x14: 0000000000000012=20
+ x13: ffffffdcad4d892c x12: ffffffdcadef2c94=20
+ x11: 0000000000000000 x10: 0000000000000000=20
+ x9 : 0000000000000001 x8 : ffffffdc41c3a000=20
+ x7 : bbbbbbbbbbbbbbbb x6 : 0000000000000020=20
+ x5 : ffffffc010683d40 x4 : 0000000000000001=20
+ x3 : 0000000000000008 x2 : ffffffbd7eea5a70=20
+ x1 : ffffffbd7ee95788 x0 : ffffffdc41c382e0=20
+ Call trace:
+  lkdtm_WARNING+0x28/0x30 [lkdtm]
+  direct_entry+0x16c/0x1b4 [lkdtm]
+  full_proxy_write+0x74/0xa4
+  vfs_write+0xec/0x2e8
+  ksys_write+0x84/0xf0
+  __arm64_sys_write+0x24/0x30
+  el0_svc_common+0xf4/0x1c0
+  do_el0_svc_compat+0x28/0x3c
+  el0_svc_compat+0x10/0x1c
+  el0_sync_compat_handler+0xa8/0xcc
+  el0_sync_compat+0x178/0x180
+ ---[ end trace 5f51a26c92780793 ]---
+
+5 looks pretty nice
+
+ WARNING: CPU: 2 PID: 3836 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x=
+28/0x30 [lkdtm]
+ Modules linked in: lkdtm [6c2215028606bda50de823490723dc4bc5bf46f9] vhost_=
+vsock [b5de74de4890f7f9b6c6b9a75bf75cf2b7f828b9] vmw_vsock_virtio_transport=
+_common [939626f71b43da4aab49d0490a3d86da3647f0ec] vsock [edf8bdd739f3bc46d=
+8b9ee00fd5243e0d719aceb] vhost [d2f63a2bc2d33122a520ea624a5ed45709691edc]
+  vhost_iotlb [4042a67c527796e0e2e19b9acd5b38c938e19bf8] rfcomm [1853b40495=
+371f7bbfdc07d27018693d0a65e32e] algif_hash [d0035cb2ccdd3e20faea6138168f5b3=
+ee7f55027] algif_skcipher [290ded176708249e5f3fe6c20fb2645f46c38c7b] af_alg=
+ [9e1891ab46476a7f1252a23b14a8e8fd59026986]
+  uinput [3027573e498d509f71b6cb29aa7474bac9fbdba6] xt_cgroup [3b8d96cd8b13=
+e760e88162b441be9ceb98500f75] uvcvideo [a7676ff139a41297fcc33b80582af3ef68b=
+bdbfa] videobuf2_vmalloc [591709b0f39979156cf3e8b90a61af75da36902a] xt_MASQ=
+UERADE [52bbd416ac57cf9c1081cb85ae0dd46fe7c256c7]
+  venus_dec [50bf3f03f8a694acfe61f66dcdac73fde4b08384] videobuf2_dma_sg [a4=
+d4ec21723a234278ddfe27081033ce366e82f4] hci_uart [152d461e1a2a8b5831507fc96=
+fe18cd94391d5db] btqca [0f921bc6d55432a7552dbe0677477d81bb44c6e4] videobuf2=
+_memops [3b3feac7d6440b52ac9fde356cc434f98b26f91d]
+  snd_soc_rt5682_i2c [4296e093615aaf4ec303fb605bb4d870f4cf2eb4] qcom_spmi_t=
+emp_alarm [74c703822ed24645942437dda1772bc9cfdc431b] snd_soc_rt5682 [eb897b=
+37a96eb95bae1581adf4cd0386b224cc4d] snd_soc_sc7180 [8216abc2f56916ca36e5073=
+b776ed493f1af8e4e] qcom_spmi_adc5 [5fd6407c665b2af74b8b7d7a7f2ee49e6cec0bdf]
+  qcom_vadc_common [bc2afd1da3c27b19cfd96ea70bf23ffd710e2aad] bluetooth [8a=
+98be2c3e842b9c1284775096c3d3504d5723e5] snd_soc_qcom_common [54fbd61a2f457d=
+b385b40ae0a37c5a0719e2a8de] snd_soc_rl6231 [a668e6b9790e698a5f64e3e0e45713a=
+dce578de7] ecdh_generic [26db794ec69dcbfbabf8dec23c7311ca529dbe6f]
+  ecc [328c5244919fb66e50bd7319de74a73232d23e42] ath10k_snoc [525af7ae4d44d=
+0f467980b67769cacaf6d9a5445] cros_ec_typec [9bc93ec5d8d14765642576b24901d53=
+13c5db1b4] ath10k_core [f54f6fd17fb433f83d1c60e32737beba72fbd151] typec [e9=
+0cdc31cd39d173af46fa3b964215c8d0316534]
+  venus_core [3cea3f6cd84bdaee7bbce46f58d1eb0bf046763c] v4l2_mem2mem [b4b84=
+3c3844f4c492d0e9f89714fb7133e1d3e8c] videobuf2_v4l2 [d100d30e4b9ad480471dab=
+30494d85d1ae2f4044] videobuf2_common [bd4f81493fa674a6804ecf3244932f5a3e921=
+d5d] snd_soc_lpass_sc7180 [aa5e3313ee630c10a1c890213c8777f6365f5ef5]
+  ath [8f4ab51a49478f7955b3a2a95101de0de4bf0864] snd_soc_lpass_hdmi [90a3aa=
+ff7f90ed2086b896bbdd9df09e48e3a6f6] snd_soc_lpass_cpu [c3f3eefc220abcf50857=
+b0c202b0002ebf90a41a] snd_soc_lpass_platform [9a20405ac4e1778db7632aecf68c5=
+cf777dc4254] mac80211 [6f6acbb06c6c2c9538c37062bbfa4865708bf66b]
+  snd_soc_max98357a [61ed67be8e6cf3c82da549b30f09c8ec1dbf7270] fuse [3b0043=
+fe3eec1552df28ffc568bf787d75347269] iio_trig_sysfs [43a2fd24bb26966e7faa3f7=
+532193407afb9b1ae] cfg80211 [c4084b0457e32a8408e230cdbc22432ace087c31] cros=
+_ec_sensors_ring [16ff4eb75deb8bcd81b1ddc5eea1eecf32c7fb14]
+  cros_ec_lid_angle [2e7c1c179ab8c9ee76f8abcd6e6139546743cf84] cros_ec_sens=
+ors [1bf8ac89e90b6549b9935729882722eda7b924fa] cros_ec_sensors_core [273e9b=
+0a90fbb7066e55023a27f8b6d86371018f] industrialio_triggered_buffer [8fe79c52=
+03ccb4f16ed9638554924a42c4a7ec9d] kfifo_buf [c1b3c4d10b52365c3887ba106b3b87=
+9c04f96f1d]
+  cros_ec_sensorhub [e1e51bc2c5324bb000c335ce427263cd17974144] lzo_rle [7c6=
+20147cbf701a30e9efa51c176394f2534a2a5] lzo_compress [4fcd02f3181b4d541032ff=
+1f1759d482205e7c5c] zram [bec5be42fb85409cb0776b5d63c1a257b15af2ef] cdc_eth=
+er [ced80b6f61771514901ed65242f51b60f2fe762b]
+  usbnet [6b967ceea5e9faff6f054218e2a7fc4296313688] r8152 [0a4bcdca4912d965=
+082c8e0f27c2325c3b3e48d3] mii [0e40467221c7b7455a93ceafea794e4ce5c4d09e] [l=
+ast unloaded: joydev]
+ CPU: 2 PID: 3836 Comm: bash Not tainted 5.11 #9 775145666670b360a22616ad81=
+88bd8edf5dfd36
+ Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+ pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=3D--)
+ pc : lkdtm_WARNING+0x28/0x30 [lkdtm]
+ lr : lkdtm_do_action+0x24/0x40 [lkdtm]
+ sp : ffffffc01892bca0
+ x29: ffffffc01892bca0 x28: ffffff9329533340=20
+ x27: 0000000000000000 x26: 0000000000000000=20
+ x25: 0000000000000000 x24: ffffffe95a2cc2c0=20
+ x23: 0000000000000020 x22: ffffffe95a2ca366=20
+ x21: ffffffe95a2cc2e0 x20: ffffffc01892bde0=20
+ x19: 0000000000000008 x18: 0000000000000000=20
+ x17: 0000000000000000 x16: 0000000000000037=20
+ x15: ffffffe98d6ab134 x14: 0000000000000003=20
+ x13: 0000000000000004 x12: 0000000000000000=20
+ x11: 0000000000000000 x10: 0000000000000000=20
+ x9 : 0000000000000001 x8 : ffffffe95a2ce000=20
+ x7 : 0000000000000000 x6 : ffffffe98e3f6b54=20
+ x5 : 0000000000000000 x4 : 0000000000000000=20
+ x3 : ffffffc01892b938 x2 : ffffff947eee5a70=20
+ x1 : ffffff947eed5788 x0 : ffffffe95a2cc2e0=20
+ Call trace:
+  lkdtm_WARNING+0x28/0x30 [lkdtm]
+  direct_entry+0x16c/0x1b4 [lkdtm]
+  full_proxy_write+0x74/0xa4
+  vfs_write+0xec/0x2e8
+  ksys_write+0x84/0xf0
+  __arm64_sys_write+0x24/0x30
+  el0_svc_common+0xf4/0x1c0
+  do_el0_svc_compat+0x28/0x3c
+  el0_svc_compat+0x10/0x1c
+  el0_sync_compat_handler+0xa8/0xcc
+  el0_sync_compat+0x178/0x180
+ ---[ end trace afd0105bfc489130 ]---
+
+ And the one per line approach
+
+ WARNING: CPU: 1 PID: 3402 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x=
+28/0x30 [lkdtm]
+ Modules linked in: lkdtm [6c2215028606bda50de823490723dc4bc5bf46f9]
+  rfcomm [1853b40495371f7bbfdc07d27018693d0a65e32e]
+  algif_hash [d0035cb2ccdd3e20faea6138168f5b3ee7f55027]
+  algif_skcipher [290ded176708249e5f3fe6c20fb2645f46c38c7b]
+  af_alg [9e1891ab46476a7f1252a23b14a8e8fd59026986]
+  xt_cgroup [3b8d96cd8b13e760e88162b441be9ceb98500f75]
+  uinput [3027573e498d509f71b6cb29aa7474bac9fbdba6]
+  venus_dec [50bf3f03f8a694acfe61f66dcdac73fde4b08384]
+  videobuf2_dma_sg [a4d4ec21723a234278ddfe27081033ce366e82f4]
+  xt_MASQUERADE [52bbd416ac57cf9c1081cb85ae0dd46fe7c256c7]
+  qcom_spmi_adc5 [5fd6407c665b2af74b8b7d7a7f2ee49e6cec0bdf]
+  hci_uart [152d461e1a2a8b5831507fc96fe18cd94391d5db]
+  btqca [0f921bc6d55432a7552dbe0677477d81bb44c6e4]
+  qcom_spmi_temp_alarm [74c703822ed24645942437dda1772bc9cfdc431b]
+  qcom_vadc_common [bc2afd1da3c27b19cfd96ea70bf23ffd710e2aad]
+  bluetooth [8a98be2c3e842b9c1284775096c3d3504d5723e5]
+  snd_soc_sc7180 [8216abc2f56916ca36e5073b776ed493f1af8e4e]
+  snd_soc_qcom_common [54fbd61a2f457db385b40ae0a37c5a0719e2a8de]
+  ecdh_generic [26db794ec69dcbfbabf8dec23c7311ca529dbe6f]
+  ath10k_snoc [525af7ae4d44d0f467980b67769cacaf6d9a5445]
+  cros_ec_typec [9bc93ec5d8d14765642576b24901d5313c5db1b4]
+  typec [e90cdc31cd39d173af46fa3b964215c8d0316534]
+  snd_soc_rt5682_i2c [4296e093615aaf4ec303fb605bb4d870f4cf2eb4]
+  ecc [328c5244919fb66e50bd7319de74a73232d23e42]
+  ath10k_core [f54f6fd17fb433f83d1c60e32737beba72fbd151]
+  snd_soc_rt5682 [eb897b37a96eb95bae1581adf4cd0386b224cc4d]
+  venus_core [3cea3f6cd84bdaee7bbce46f58d1eb0bf046763c]
+  snd_soc_rl6231 [a668e6b9790e698a5f64e3e0e45713adce578de7]
+  ath [8f4ab51a49478f7955b3a2a95101de0de4bf0864]
+  v4l2_mem2mem [b4b843c3844f4c492d0e9f89714fb7133e1d3e8c]
+  snd_soc_lpass_sc7180 [aa5e3313ee630c10a1c890213c8777f6365f5ef5]
+  mac80211 [6f6acbb06c6c2c9538c37062bbfa4865708bf66b]
+  snd_soc_lpass_hdmi [90a3aaff7f90ed2086b896bbdd9df09e48e3a6f6]
+  snd_soc_lpass_cpu [c3f3eefc220abcf50857b0c202b0002ebf90a41a]
+  snd_soc_lpass_platform [9a20405ac4e1778db7632aecf68c5cf777dc4254]
+  snd_soc_max98357a [61ed67be8e6cf3c82da549b30f09c8ec1dbf7270]
+  fuse [3b0043fe3eec1552df28ffc568bf787d75347269]
+  iio_trig_sysfs [43a2fd24bb26966e7faa3f7532193407afb9b1ae]
+  cfg80211 [c4084b0457e32a8408e230cdbc22432ace087c31]
+  cros_ec_lid_angle [2e7c1c179ab8c9ee76f8abcd6e6139546743cf84]
+  cros_ec_sensors_ring [16ff4eb75deb8bcd81b1ddc5eea1eecf32c7fb14]
+  cros_ec_sensors [1bf8ac89e90b6549b9935729882722eda7b924fa]
+  cros_ec_sensors_core [273e9b0a90fbb7066e55023a27f8b6d86371018f]
+  industrialio_triggered_buffer [8fe79c5203ccb4f16ed9638554924a42c4a7ec9d]
+  kfifo_buf [c1b3c4d10b52365c3887ba106b3b879c04f96f1d]
+  cros_ec_sensorhub [e1e51bc2c5324bb000c335ce427263cd17974144]
+  lzo_rle [7c620147cbf701a30e9efa51c176394f2534a2a5]
+  lzo_compress [4fcd02f3181b4d541032ff1f1759d482205e7c5c]
+  zram [bec5be42fb85409cb0776b5d63c1a257b15af2ef]
+  cdc_ether [ced80b6f61771514901ed65242f51b60f2fe762b]
+  usbnet [6b967ceea5e9faff6f054218e2a7fc4296313688]
+  r8152 [0a4bcdca4912d965082c8e0f27c2325c3b3e48d3]
+  uvcvideo [a7676ff139a41297fcc33b80582af3ef68bbdbfa]
+  mii [0e40467221c7b7455a93ceafea794e4ce5c4d09e]
+  videobuf2_vmalloc [591709b0f39979156cf3e8b90a61af75da36902a]
+  videobuf2_memops [3b3feac7d6440b52ac9fde356cc434f98b26f91d]
+  videobuf2_v4l2 [d100d30e4b9ad480471dab30494d85d1ae2f4044]
+  videobuf2_common [bd4f81493fa674a6804ecf3244932f5a3e921d5d]
+  joydev [0eabd30a73ec9378792dfb343ed38c2ad5a599bc]
+ CPU: 1 PID: 3402 Comm: bash Not tainted 5.11 #10 03359bc46737cb22e11f0e92c=
+efc7144afedf9c3
+ Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+ pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=3D--)
+ pc : lkdtm_WARNING+0x28/0x30 [lkdtm]
+ lr : lkdtm_do_action+0x24/0x40 [lkdtm]
+ sp : ffffffc0125cbca0
+ x29: ffffffc0125cbca0 x28: ffffffb26a3a8040=20
+ x27: 0000000000000000 x26: 0000000000000000=20
+ x25: 0000000000000000 x24: ffffffdd7129b2c0=20
+ x23: 0000000000000020 x22: ffffffdd71299366=20
+ x21: ffffffdd7129b2e0 x20: ffffffc0125cbde0=20
+ x19: 0000000000000008 x18: 0000000000000000=20
+ x17: 0000000000000000 x16: 0000000000000037=20
+ x15: ffffffdd908ab0b4 x14: 0000000000000003=20
+ x13: 0000000000000004 x12: 0000000000000000=20
+ x11: 0000000000000000 x10: 0000000000000000=20
+ x9 : 0000000000000001 x8 : ffffffdd7129d000=20
+ x7 : 0000000000000000 x6 : ffffffdd915f6b54=20
+ x5 : 0000000000000000 x4 : 0000000000000000=20
+ x3 : ffffffc0125cb938 x2 : ffffffb3beec5a70=20
+ x1 : ffffffb3beeb5788 x0 : ffffffdd7129b2e0=20
+ Call trace:
+  lkdtm_WARNING+0x28/0x30 [lkdtm]
+  direct_entry+0x16c/0x1b4 [lkdtm]
+  full_proxy_write+0x74/0xa4
+  vfs_write+0xec/0x2e8
+  ksys_write+0x84/0xf0
+  __arm64_sys_write+0x24/0x30
+  el0_svc_common+0xf4/0x1c0
+  do_el0_svc_compat+0x28/0x3c
+  el0_svc_compat+0x10/0x1c
+  el0_sync_compat_handler+0xa8/0xcc
+  el0_sync_compat+0x178/0x180
+ ---[ end trace de6a15f0c875cfee ]---
