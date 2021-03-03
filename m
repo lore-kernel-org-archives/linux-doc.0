@@ -2,71 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 679CDC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82740C433DB
 	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4AF7A64E62
+	by mail.kernel.org (Postfix) with ESMTP id 62BC864EEC
 	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1450096AbhCDAaQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:30:16 -0500
-Received: from mga17.intel.com ([192.55.52.151]:50123 "EHLO mga17.intel.com"
+        id S234981AbhCDAaS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:30:18 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47158 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1356507AbhCCKrh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Mar 2021 05:47:37 -0500
-IronPort-SDR: oqeQfvXOFMO5qTf8EOHr0kEP7hqjGabRftgsQH72rLLDZ5LF+k9Nt+e1xGZibPyTcX4Mp5KFLe
- hX/N4AUH6Mdg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9911"; a="167049145"
-X-IronPort-AV: E=Sophos;i="5.81,219,1610438400"; 
-   d="scan'208";a="167049145"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2021 01:27:44 -0800
-IronPort-SDR: JWQ4GYZNL/PGnPAfZQx9BLJ0pPS9sEg+0r0Lw8XZVMBpL4rUlyZxCMchHOm9zx3o232FIhaZpl
- EE9xmUUOhPRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,219,1610438400"; 
-   d="scan'208";a="506723803"
-Received: from mylly.fi.intel.com (HELO [10.237.72.57]) ([10.237.72.57])
-  by fmsmga001.fm.intel.com with ESMTP; 03 Mar 2021 01:27:41 -0800
-Subject: Re: [PATCH v5 3/4] i2c: designware: Use pcim_alloc_irq_vectors() to
- allocate IRQ vectors
-To:     Dejin Zheng <zhengdejin5@gmail.com>, corbet@lwn.net,
-        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
-        rric@kernel.org, bhelgaas@google.com, wsa@kernel.org,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-pci@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org
-References: <20210226155056.1068534-1-zhengdejin5@gmail.com>
- <20210226155056.1068534-4-zhengdejin5@gmail.com>
-From:   Jarkko Nikula <jarkko.nikula@linux.intel.com>
-Message-ID: <95c9e172-222f-32b7-1176-a3aa4b404f0a@linux.intel.com>
-Date:   Wed, 3 Mar 2021 11:27:40 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S1350209AbhCCMWJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Mar 2021 07:22:09 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A2A164DF2;
+        Wed,  3 Mar 2021 08:42:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614760942;
+        bh=FRgMk+OAmFAEpU9UR2Llp/Xzz5XikkDKRFOVhCQLfOM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=piRHX4X9mqP8OhBnzoEcWJnGVjmsF3VKwjWy/H6p/jP0BVsAXbbR+a8JrSQsB5OVe
+         EYSHmrQtZ6KgHH4dbID61DeG9ubb1A1+O1urXd8g2oLusGHgpoDL+OyA/ZMs86WdIs
+         wvZktXeijQSTqiKjim7b/fBIJDjHt5Qx3xoK7MdhFD8rYqG6KQQ8DqF8xazonPnHgQ
+         +8WjH4TFmho3rfHZWvXyV5ieOnLoglKsXCJt4kwg+wleoXTF3Il7hLH8KNUdCdI+rQ
+         +B2GY8XDkoiu0TYaeV9/N6AOKvDLIrpOdvxlh96FLs32atLdLs6HQTkHTTI+l/jCrt
+         TBVQQTOJBv3vg==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lHN5I-000rIv-2x; Wed, 03 Mar 2021 09:42:20 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Andy Shevchenko" <andy.shevchenko@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] scripts/kernel-doc: ignore identifier on anonymous enums
+Date:   Wed,  3 Mar 2021 09:42:14 +0100
+Message-Id: <055ad57879f1b9381b90879e00f72fde1c3a5647.1614760910.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <CAHp75VcG544HZ1j_6jvZoba6kEjKXXfZ8deJWmwNQ08mC35NrA@mail.gmail.com>
+References: <CAHp75VcG544HZ1j_6jvZoba6kEjKXXfZ8deJWmwNQ08mC35NrA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210226155056.1068534-4-zhengdejin5@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/26/21 5:50 PM, Dejin Zheng wrote:
-> The pcim_alloc_irq_vectors() function, an explicit device-managed version
-> of pci_alloc_irq_vectors(). If pcim_enable_device() has been called
-> before, then pci_alloc_irq_vectors() is actually a device-managed
-> function. It is used here as a device-managed function, So replace it
-> with pcim_alloc_irq_vectors(). At the same time, Remove the
-> pci_free_irq_vectors() function to simplify the error handling path.
-> the freeing resources will take automatically when device is gone.
-> 
-> Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
-> ---
-Acked-by: Jarkko Nikula <jarkko.nikula@linux.intel.com>
+When anonymous enums are used, the identifier is empty.
+
+While, IMO, it should be avoided the usage of such enums,
+adding support for it is not hard.
+
+So, postpone the check for empty identifiers to happen
+only at the dump phase.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/kernel-doc | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 68df17877384..f8ebbf5e9f12 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1412,9 +1412,14 @@ sub dump_enum($$) {
+ 
+     if ($members) {
+ 	if ($identifier ne $declaration_name) {
+-	    print STDERR "${file}:$.: warning: expecting prototype for enum $identifier. Prototype was for enum $declaration_name instead\n";
++	    if ($identifier eq "") {
++		print STDERR "${file}:$.: warning: wrong kernel-doc identifier on line:\n";
++	    } else {
++		print STDERR "${file}:$.: warning: expecting prototype for enum $identifier. Prototype was for enum $declaration_name instead\n";
++	    }
+ 	    return;
+ 	}
++	$declaration_name = "(anonymous)" if ($declaration_name eq "");
+ 
+ 	my %_members;
+ 
+@@ -2132,7 +2137,7 @@ sub process_name($$) {
+ 	    ++$warnings;
+ 	}
+ 
+-	if ($identifier eq "") {
++	if ($identifier eq "" && $decl_type ne "enum") {
+ 	    print STDERR "${file}:$.: warning: wrong kernel-doc identifier on line:\n";
+ 	    print STDERR $_;
+ 	    ++$warnings;
+-- 
+2.29.2
+
