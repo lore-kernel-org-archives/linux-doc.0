@@ -2,72 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D106DC4332B
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0ED94C4332E
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ACA3664EE3
+	by mail.kernel.org (Postfix) with ESMTP id E64F564E67
 	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239635AbhCDAay (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:30:54 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54458 "EHLO mail.kernel.org"
+        id S1355560AbhCDAa4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:30:56 -0500
+Received: from ms.lwn.net ([45.79.88.28]:38106 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235014AbhCCRBA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Mar 2021 12:01:00 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPS id A55B064EDF;
-        Wed,  3 Mar 2021 17:00:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614790807;
-        bh=GlpLp6hgSgh1lfq00GHEJic23eMw+Dv0Nw+gC2Vh1a4=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=r+a0FajFHHOV4ZuIu/k25ny2bGkzo0Fo/HbtmumalLEXz07gXjiRVY3xCd2HjT6s4
-         O8STBYvFkyal1arOdDVKDuaxBcoA9N6xSFPp734beajFo6tWKUEE2e4QWmgg+W1zP9
-         j1g6RWHOyw9BEEWWi+jRgcw7EdhLtXAQ/TRZSsDRj7E+kki90pmbAb2gj+ZzxX/T1p
-         bM4Z5pmR1RNgTIxnjNCO5rC8hgcO73zUsMhpJ0fvI51X1i+ujuNU2GE3UOh4i1t1UL
-         XAjmNVHpAbl/UemlRO3hN73OKmDL6M1LJQSRiX1ti8Fub3IL4x9Ak4CR3G3dVJ78sY
-         V19/RkhvxqxLg==
-Content-Type: text/plain; charset="utf-8"
+        id S235163AbhCCR1w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Mar 2021 12:27:52 -0500
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id B41E52CD;
+        Wed,  3 Mar 2021 17:25:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B41E52CD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1614792316; bh=stUJ13VskkGN0mdPm02DMITNl2re2BbdECPeoNTlQuY=;
+        h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+        b=dGirZviqdmXr1dYOksWyVIUnGlTy7Q9EP66d1x2lzljJOX6QSDiyUXGFXsRSUz3gi
+         BYTJTXvzfM2h9KK6F35HbwnzkizIk2gW3FLoO/MExhy9m+5rbdR/4c5lkE3Dz5XRDN
+         M5p8aDonI1ykkZVI6usnCGOTdLDuf+kCOBt3scdSg9Pdy6HhIoA0XHVlPO1M7fpj6m
+         g/0RKoaFCO3y49b3kjiqDRnslxn/iUpnCgvyDVV/qVXyyD5rClGofGJIn30AQ8DSmB
+         WvLFkh2pRo2ejN0ANSBvvZffq6tFMRPjeRqYGica/yNRJjCKrO92F8n7+8s77ikZZ6
+         0BQkZgi2FHMVw==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Joe Stringer <joe@cilium.io>
+Cc:     bpf@vger.kernel.org, linux-man@vger.kernel.org,
+        linux-doc@vger.kernel.org, mtk.manpages@gmail.com, ast@kernel.org,
+        brianvv@google.com, daniel@iogearbox.net, daniel@zonque.org,
+        john.fastabend@gmail.com, ppenkov@google.com,
+        quentin@isovalent.com, sean@mess.org, yhs@fb.com
+Subject: Re: [PATCHv2 bpf-next 00/15] Improve BPF syscall command documentation
+References: <20210302171947.2268128-1-joe@cilium.io>
+Date:   Wed, 03 Mar 2021 10:25:16 -0700
+In-Reply-To: <20210302171947.2268128-1-joe@cilium.io> (Joe Stringer's message
+        of "Tue, 2 Mar 2021 09:19:32 -0800")
+Message-ID: <87y2f4up37.fsf@meer.lwn.net>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.0.50 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] docs: networking: drop special stable handling
-From:   patchwork-bot+netdevbpf@kernel.org
-Message-Id: <161479080763.4362.12115440673038425798.git-patchwork-notify@kernel.org>
-Date:   Wed, 03 Mar 2021 17:00:07 +0000
-References: <20210303024643.1076846-1-kuba@kernel.org>
-In-Reply-To: <20210303024643.1076846-1-kuba@kernel.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     davem@davemloft.net, netdev@vger.kernel.org,
-        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello:
+Joe Stringer <joe@cilium.io> writes:
 
-This patch was applied to netdev/net.git (refs/heads/master):
+> Following that, the series enhances the python scripting around parsing
+> the descriptions from the header files and generating dedicated
+> ReStructured Text and troff output. Finally, to expose the new text and
+> reduce the likelihood of having it get out of date or break the docs
+> parser, it is added to the selftests and exposed through the kernel
+> documentation web pages.
 
-On Tue,  2 Mar 2021 18:46:43 -0800 you wrote:
-> Leave it to Greg.
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
->  Documentation/networking/netdev-FAQ.rst       | 72 ++-----------------
->  Documentation/process/stable-kernel-rules.rst |  6 --
->  Documentation/process/submitting-patches.rst  |  5 --
->  3 files changed, 6 insertions(+), 77 deletions(-)
+You can leave me off CC, but I have eyes everywhere :)
 
-Here is the summary with links:
-  - [net] docs: networking: drop special stable handling
-    https://git.kernel.org/netdev/net/c/dbbe7c962c3a
+Anyway, I like this version much better, thanks for making the
+adjustments.  Feel free to stick an
 
-You are awesome, thank you!
---
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Acked-by: Jonathan Corbet <corbet@lwn.net>
 
+on it if you feel so inclined.
 
+Thanks,
+
+jon
