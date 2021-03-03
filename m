@@ -2,175 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-24.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19B8CC433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 439B6C433E9
 	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C226C64EEC
+	by mail.kernel.org (Postfix) with ESMTP id EDAE664EED
 	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 10:53:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234624AbhCCKjb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:39:31 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54546 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244928AbhCCCr1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 2 Mar 2021 21:47:27 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2A59C64E89;
-        Wed,  3 Mar 2021 02:46:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614739605;
-        bh=QT/8bmf5dPEmthQP7Fe5jfJ3tysWF75GUfb5X2QJnyk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=MlBFf39bQ/XA8vTyNYOThxb5g6HDj6Jksv7hvdMawfbb8VJDQtKyf+Ne99LwxwmLS
-         LzTNUqea4QusETyQ90NhHOicasQVi0jowqGR+JoUAEZ48xS09MiTtedbd6v0E6jNGM
-         McodoPs2pG0p1ckmsxtoCrUhcLDfOVo7egOqSUAPgxkl5eDAv2gpcsLc3w60XPXeyZ
-         4W31w0rGopB5hxLmPQtdzNiCnzdAQH9g06d/WZlknP0ayvF9YO89QxlNxLFIqPSGqj
-         M0gNK9dky1KApbF4b0028nAdlpyv6xYmr/PA0F17tVJtkf8V2mcVu+GKsiNfa4dNym
-         50YPhTAN+hCSA==
-From:   Jakub Kicinski <kuba@kernel.org>
-To:     davem@davemloft.net
-Cc:     netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-        gregkh@linuxfoundation.org, Jakub Kicinski <kuba@kernel.org>
-Subject: [PATCH net] docs: networking: drop special stable handling
-Date:   Tue,  2 Mar 2021 18:46:43 -0800
-Message-Id: <20210303024643.1076846-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.26.2
+        id S237645AbhCCKkV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 05:40:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58592 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239852AbhCCDBO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 22:01:14 -0500
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB57CC06178B
+        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 19:00:34 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id o38so15243888pgm.9
+        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 19:00:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=ubk/tn6yfSpO7LtICTo6ZlZyh2FjSG4zV5mu/FLlvoQ=;
+        b=OI1iIu755PF1/cRkiaMjRJAZwP7B0ZVfHiBIVxTPPPPr9Uh7ZoRCIVjfbymhPh5HlX
+         /vmIy2D8VdC8dQiND+O9IkQzqeLhWnkmgUBcO02sRBM1vWlBh3yo7Nie7MpsEcFb6WUY
+         VWeI4qjoKqBHc+9SEcgbIj3CUg9LZbz3dq0N4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=ubk/tn6yfSpO7LtICTo6ZlZyh2FjSG4zV5mu/FLlvoQ=;
+        b=I54ZDzG0Nm/4qbt7AhtGRCZAYGHbV8Ji1b17bDtbdkppnuyOORRFcj4bd1OqgF4uYT
+         jKtZ8htySi7HBkItjX9J2AXshKjFNy3L3P5NW6vqzmJqSj6FARRVwy7ptkHp+w0PlgTp
+         Zoi0vee2W0m0tCONimhKrBdCRQFpe5467JVeET7NGWj5nAnehyj/mITtKg4eQtvHi0Ip
+         4pQRe6pgBCFeeWa5uAEkK+Mibr+qHez1S1L7cVgSGe63qHwBNNzrmqJPo+21YwdA/m6u
+         UKV4Ue/L/fSWclrjhSXAlcIl+pz7uaXHcFz67uk2S/CqKBVDlvU8Us1+eLYMgxdewdUO
+         5C4w==
+X-Gm-Message-State: AOAM533VaSLxmH8TTZG2ly3O5g8w8b66IwQCmKQDLbLbX59OOuZWNk9r
+        WXAEDD3BZ5J27JQd6PPMsuk97g==
+X-Google-Smtp-Source: ABdhPJz88lAi/GI+2fKAltbiVzeVEU8OANZYjuSCwqF+2k8CfBAVfwHRgywjomQHKm9dRmsp6aMUQw==
+X-Received: by 2002:a62:5302:0:b029:1ee:c519:8cdd with SMTP id h2-20020a6253020000b02901eec5198cddmr2284575pfb.79.1614740434242;
+        Tue, 02 Mar 2021 19:00:34 -0800 (PST)
+Received: from chromium.org ([2620:15c:202:201:2510:ab07:78a:7d78])
+        by smtp.gmail.com with ESMTPSA id z29sm22272664pfr.114.2021.03.02.19.00.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Mar 2021 19:00:33 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210302210136.3ded3ab3@gandalf.local.home>
+References: <20210301174749.1269154-1-swboyd@chromium.org> <20210301174749.1269154-6-swboyd@chromium.org> <20210302210136.3ded3ab3@gandalf.local.home>
+Subject: Re: [PATCH 5/7] printk: Make %pS and friends print module build ID
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org
+To:     Steven Rostedt <rostedt@goodmis.org>
+Date:   Tue, 02 Mar 2021 19:00:32 -0800
+Message-ID: <161474043200.1478170.15118093304775120279@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Leave it to Greg.
+Quoting Steven Rostedt (2021-03-02 18:01:36)
+> On Mon,  1 Mar 2021 09:47:47 -0800
+> Stephen Boyd <swboyd@chromium.org> wrote:
+>=20
+> >  WARNING: CPU: 4 PID: 3255 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNIN=
+G+0x28/0x30 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
+> >  Modules linked in: lkdtm rfcomm algif_hash algif_skcipher af_alg xt_cg=
+roup uinput xt_MASQUERADE
+> >  CPU: 4 PID: 3255 Comm: bash Not tainted 5.11 #3 aa23f7a1231c229de20566=
+2d5a9e0d4c580f19a1
+> >  Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+> >  pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=3D--)
+> >  pc : lkdtm_WARNING+0x28/0x30 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e=
+143b259e)
+> >  lr : lkdtm_do_action+0x24/0x40 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d=
+7e143b259e)
+>=20
+> Why not just change the "Modules linked in:" portion to show the build IDs
+> instead of every function call? Maybe make it a config option to do so?
+>=20
 
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
----
- Documentation/networking/netdev-FAQ.rst       | 72 ++-----------------
- Documentation/process/stable-kernel-rules.rst |  6 --
- Documentation/process/submitting-patches.rst  |  5 --
- 3 files changed, 6 insertions(+), 77 deletions(-)
+As I wrote in the commit text
 
-diff --git a/Documentation/networking/netdev-FAQ.rst b/Documentation/networking/netdev-FAQ.rst
-index a64c01b52b4c..91b2cf712801 100644
---- a/Documentation/networking/netdev-FAQ.rst
-+++ b/Documentation/networking/netdev-FAQ.rst
-@@ -142,73 +142,13 @@ Please send incremental versions on top of what has been merged in order to fix
- the patches the way they would look like if your latest patch series was to be
- merged.
- 
--How can I tell what patches are queued up for backporting to the various stable releases?
-------------------------------------------------------------------------------------------
--Normally Greg Kroah-Hartman collects stable commits himself, but for
--networking, Dave collects up patches he deems critical for the
--networking subsystem, and then hands them off to Greg.
--
--There is a patchworks queue that you can see here:
--
--  https://patchwork.kernel.org/bundle/netdev/stable/?state=*
--
--It contains the patches which Dave has selected, but not yet handed off
--to Greg.  If Greg already has the patch, then it will be here:
--
--  https://git.kernel.org/pub/scm/linux/kernel/git/stable/stable-queue.git
--
--A quick way to find whether the patch is in this stable-queue is to
--simply clone the repo, and then git grep the mainline commit ID, e.g.
--::
--
--  stable-queue$ git grep -l 284041ef21fdf2e
--  releases/3.0.84/ipv6-fix-possible-crashes-in-ip6_cork_release.patch
--  releases/3.4.51/ipv6-fix-possible-crashes-in-ip6_cork_release.patch
--  releases/3.9.8/ipv6-fix-possible-crashes-in-ip6_cork_release.patch
--  stable/stable-queue$
--
--I see a network patch and I think it should be backported to stable. Should I request it via stable@vger.kernel.org like the references in the kernel's Documentation/process/stable-kernel-rules.rst file say?
-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--No, not for networking.  Check the stable queues as per above first
--to see if it is already queued.  If not, then send a mail to netdev,
--listing the upstream commit ID and why you think it should be a stable
--candidate.
--
--Before you jump to go do the above, do note that the normal stable rules
--in :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
--still apply.  So you need to explicitly indicate why it is a critical
--fix and exactly what users are impacted.  In addition, you need to
--convince yourself that you *really* think it has been overlooked,
--vs. having been considered and rejected.
--
--Generally speaking, the longer it has had a chance to "soak" in
--mainline, the better the odds that it is an OK candidate for stable.  So
--scrambling to request a commit be added the day after it appears should
--be avoided.
--
--I have created a network patch and I think it should be backported to stable. Should I add a Cc: stable@vger.kernel.org like the references in the kernel's Documentation/ directory say?
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--No.  See above answer.  In short, if you think it really belongs in
--stable, then ensure you write a decent commit log that describes who
--gets impacted by the bug fix and how it manifests itself, and when the
--bug was introduced.  If you do that properly, then the commit will get
--handled appropriately and most likely get put in the patchworks stable
--queue if it really warrants it.
--
--If you think there is some valid information relating to it being in
--stable that does *not* belong in the commit log, then use the three dash
--marker line as described in
--:ref:`Documentation/process/submitting-patches.rst <the_canonical_patch_format>`
--to temporarily embed that information into the patch that you send.
--
--Are all networking bug fixes backported to all stable releases?
-+Are there special rules regarding stable submissions on netdev?
- ---------------------------------------------------------------
--Due to capacity, Dave could only take care of the backports for the
--last two stable releases. For earlier stable releases, each stable
--branch maintainer is supposed to take care of them. If you find any
--patch is missing from an earlier stable branch, please notify
--stable@vger.kernel.org with either a commit ID or a formal patch
--backported, and CC Dave and other relevant networking developers.
-+While it used to be the case that netdev submissions were not supposed
-+to carry explicit ``CC: stable@vger.kernel.org`` tags that is no longer
-+the case today. Please follow the standard stable rules in
-+:ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`,
-+and make sure you include appropriate Fixes tags!
- 
- Is the comment style convention different for the networking content?
- ---------------------------------------------------------------------
-diff --git a/Documentation/process/stable-kernel-rules.rst b/Documentation/process/stable-kernel-rules.rst
-index 3973556250e1..003c865e9c21 100644
---- a/Documentation/process/stable-kernel-rules.rst
-+++ b/Documentation/process/stable-kernel-rules.rst
-@@ -35,12 +35,6 @@ Rules on what kind of patches are accepted, and which ones are not, into the
- Procedure for submitting patches to the -stable tree
- ----------------------------------------------------
- 
-- - If the patch covers files in net/ or drivers/net please follow netdev stable
--   submission guidelines as described in
--   :ref:`Documentation/networking/netdev-FAQ.rst <netdev-FAQ>`
--   after first checking the stable networking queue at
--   https://patchwork.kernel.org/bundle/netdev/stable/?state=*
--   to ensure the requested patch is not already queued up.
-  - Security patches should not be handled (solely) by the -stable review
-    process but should follow the procedures in
-    :ref:`Documentation/admin-guide/security-bugs.rst <securitybugs>`.
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index 8c991c863628..91de63b201c1 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -250,11 +250,6 @@ should also read
- :ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
- in addition to this file.
- 
--Note, however, that some subsystem maintainers want to come to their own
--conclusions on which patches should go to the stable trees.  The networking
--maintainer, in particular, would rather not see individual developers
--adding lines like the above to their patches.
--
- If changes affect userland-kernel interfaces, please send the MAN-PAGES
- maintainer (as listed in the MAINTAINERS file) a man-pages patch, or at
- least a notification of the change, so that some information makes its way
--- 
-2.26.2
+=E2=94=82 An alternative to changing the printk format would be to update t=
+he                                                                         =
+                                                                   =20
+=E2=94=82 "Modules linked in:" line to include the build ID of each module =
+linked                                                                     =
+                                                                   =20
+=E2=94=82 in. This can become quite long when many modules are loaded (i.e.=
+ on a                                                                      =
+                                                                   =20
+=E2=94=82 distro) so I've opted for the printk format instead.
 
+Implementing it is fairly simple compared to a new printk format. In
+fact I did that initially but decided against it because it felt
+unreadable and provided more information than was necessary if the
+stacktrace wasn't in a module.
+
+Example:
+
+ Modules linked in: rfcomm 4de3e669b9fee915 algif_hash 915c61c32d476f01 alg=
+if_skcipher 53a4a330149bf071 af_alg b49d66496907f376 xt_cgroup 36fbbb65e762=
+0df9 uinput a0ff6a06c1c53685 xt_MASQUERADE d130585f728315d2 snd_soc_sc7180 =
+5c130cd310c81a12 venus_dec 2071e263fde9ca07 qcom_spmi_temp_alarm 41e28f2a9c=
+c8b562 qcom_spmi_adc_tm5 7e0e48d0b6550c7a qcom_spmi_adc5 40b81a00bc2d0c1d q=
+com_vadc_common 09bb012dd1662dea snd_soc_rt5682_i2c c92b8935ad4a1729 venus_=
+enc efaf3335b88287bf snd_soc_qcom_common 56d1e87c267ed02e videobuf2_dma_sg =
+e9bc3c9e2758dfc9 snd_soc_rt5682 c4c9b31bf9a43f8b snd_soc_rl6231 908446e3243=
+6898c hci_uart 107b5fe6884df077 btqca 401a2fcc17b80a39 bluetooth 3369c88149=
+6a3cf8 venus_core a11eee3aa201ad8e ecdh_generic 883e01f98b778108 ecc 226b25=
+8cf40ad1ba v4l2_mem2mem 592f197cbad39e6b snd_soc_lpass_sc7180 42a99cb812d5e=
+2e3 snd_soc_lpass_hdmi 95cce2160cfc58e2 snd_soc_lpass_cpu 475a4b395577affd =
+snd_soc_lpass_platform 67517083263035ec snd_soc_max98357a 03ec1af0493d1c59
+  fuse 82d170244a4d4ac6 iio_trig_sysfs b879a6228e059834 cros_ec_lid_angle a=
+713c5f0a06a7a82 cros_ec_sensors 03f0c142ec521f67 cros_ec_sensors_core ada3f=
+44647980056 cros_ec_sensors_ring f99590e87e998485 industrialio_triggered_bu=
+ffer c697969d67f73d77 kfifo_buf e8a3aeb3069188f0 cros_ec_sensorhub 041ed1ff=
+cefc991b ath10k_snoc 2f60802a74ff6ca7 lzo_rle 49a6228cec0c6885 ath10k_core =
+9407c36a2b8f8fae lzo_compress e9b4375d4bad668a ath 20c585ba6f3998f0 zram c5=
+cdfc1d7d8a35d9 mac80211 9eaed1c76e000c02 cfg80211 872178d2dcebb722 cdc_ethe=
+r 2baa214f72289402 usbnet 2bec73d0922ade28 uvcvideo eee0352cb1846ee4 r8152 =
+47b76561b78e9b1b mii b306d150923fe614 videobuf2_vmalloc 55431ec52fa6af84 vi=
+deobuf2_memops 4d43ad18fa7b1e4e videobuf2_v4l2 cdda06b9d95ab11d videobuf2_c=
+ommon 69cef0ca55a70a4a joydev 148399325b72d4a0
+
+compared to=20
+
+ Modules linked in: rfcomm algif_hash algif_skcipher af_alg xt_cgroup uinpu=
+t xt_MASQUERADE snd_soc_sc7180 venus_dec qcom_spmi_temp_alarm qcom_spmi_adc=
+_tm5 qcom_spmi_adc5 qcom_vadc_common snd_soc_rt5682_i2c venus_enc snd_soc_q=
+com_common videobuf2_dma_sg snd_soc_rt5682 snd_soc_rl6231 hci_uart btqca bl=
+uetooth venus_core ecdh_generic ecc v4l2_mem2mem snd_soc_lpass_sc7180 snd_s=
+oc_lpass_hdmi snd_soc_lpass_cpu snd_soc_lpass_platform snd_soc_max98357a=20
+  fuse iio_trig_sysfs cros_ec_lid_angle cros_ec_sensors cros_ec_sensors_cor=
+e cros_ec_sensors_ring industrialio_triggered_buffer kfifo_buf cros_ec_sens=
+orhub ath10k_snoc lzo_rle ath10k_core lzo_compress ath zram mac80211 cfg802=
+11 cdc_ether usbnet uvcvideo r8152 mii videobuf2_vmalloc videobuf2_memops v=
+ideobuf2_v4l2 videobuf2_common joydev=20
+
+I suppose it could be surrounded by parenthesis or brackets and that
+would be a little better? I'll try this approach again and see what
+folks think.
