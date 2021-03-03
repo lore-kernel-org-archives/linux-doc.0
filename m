@@ -2,98 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4879CC433E9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DC1BC43381
 	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3167764F0D
+	by mail.kernel.org (Postfix) with ESMTP id 221BC64F09
 	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1451152AbhCDAab (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:30:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52010 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382993AbhCCNjf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 08:39:35 -0500
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 656A8C061221
-        for <linux-doc@vger.kernel.org>; Wed,  3 Mar 2021 05:38:50 -0800 (PST)
-Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:cd47:42a6:c822:e50b])
-        by andre.telenet-ops.be with bizsmtp
-        id bpen2400W4huzR801penop; Wed, 03 Mar 2021 14:38:48 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lHRiB-004Q0m-I5; Wed, 03 Mar 2021 14:38:47 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1lHRiA-00GWpg-Ui; Wed, 03 Mar 2021 14:38:46 +0100
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH 2/2] docs: driver-model: device: Add ATTRIBUTE_GROUPS() example
-Date:   Wed,  3 Mar 2021 14:38:45 +0100
-Message-Id: <20210303133845.3939403-3-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210303133845.3939403-1-geert+renesas@glider.be>
-References: <20210303133845.3939403-1-geert+renesas@glider.be>
+        id S1357227AbhCDAa1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:30:27 -0500
+Received: from mxout70.expurgate.net ([194.37.255.70]:59009 "EHLO
+        mxout70.expurgate.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1380317AbhCCNaa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 08:30:30 -0500
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.90)
+        (envelope-from <ms@dev.tdt.de>)
+        id 1lHRWR-0004eQ-3X; Wed, 03 Mar 2021 14:26:39 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90)
+        (envelope-from <ms@dev.tdt.de>)
+        id 1lHRWP-0000NT-Lz; Wed, 03 Mar 2021 14:26:37 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id EFA0E240041;
+        Wed,  3 Mar 2021 14:26:36 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id 4FC9B240040;
+        Wed,  3 Mar 2021 14:26:36 +0100 (CET)
+Received: from mail.dev.tdt.de (localhost [IPv6:::1])
+        by mail.dev.tdt.de (Postfix) with ESMTP id B706B200E7;
+        Wed,  3 Mar 2021 14:26:35 +0100 (CET)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 03 Mar 2021 14:26:35 +0100
+From:   Martin Schiller <ms@dev.tdt.de>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     Xie He <xie.he.0141@gmail.com>, Leon Romanovsky <leon@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Linux X25 <linux-x25@vger.kernel.org>,
+        Linux Kernel Network Developers <netdev@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Krzysztof Halasa <khc@pm.waw.pl>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next RFC v4] net: hdlc_x25: Queue outgoing LAPB frames
+Organization: TDT AG
+In-Reply-To: <20210302153034.5f4e320b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+References: <20210216201813.60394-1-xie.he.0141@gmail.com>
+ <YC4sB9OCl5mm3JAw@unreal>
+ <CAJht_EN2ZO8r-dpou5M4kkg3o3J5mHvM7NdjS8nigRCGyih7mg@mail.gmail.com>
+ <YC5DVTHHd6OOs459@unreal>
+ <CAJht_EOhu+Wsv91yDS5dEt+YgSmGsBnkz=igeTLibenAgR=Tew@mail.gmail.com>
+ <YC7GHgYfGmL2wVRR@unreal>
+ <CAJht_EPZ7rVFd-XD6EQD2VJTDtmZZv0HuZvii+7=yhFgVz68VQ@mail.gmail.com>
+ <CAJht_EPPMhB0JTtjWtMcGbRYNiZwJeMLWSC5hS6WhWuw5FgZtg@mail.gmail.com>
+ <20210219103948.6644e61f@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <CAJht_EOru3pW6AHN4QVjiaERpLSfg-0G0ZEaqU_hkhX1acv0HQ@mail.gmail.com>
+ <906d8114f1965965749f1890680f2547@dev.tdt.de>
+ <CAJht_EPBJhhdCBoon=WMuPBk-sxaeYOq3veOpAd2jq5kFqQHBg@mail.gmail.com>
+ <e1750da4179aca52960703890e985af3@dev.tdt.de>
+ <CAJht_ENP3Y98jgj1peGa3fGpQ-qPaF=1gtyYwMcawRFW_UCpeA@mail.gmail.com>
+ <ff200b159ef358494a922a676cbef8a6@dev.tdt.de>
+ <CAJht_EMG27YU+Jxtb2qeq1nXwu8uV8FXQPr62OcNHsE7DozD1g@mail.gmail.com>
+ <41b77b1c3cf1bb7a51b750faf23900ef@dev.tdt.de>
+ <20210302153034.5f4e320b@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+Message-ID: <8cac820a181070ac2bad983dc49e4e4e@dev.tdt.de>
+X-Sender: ms@dev.tdt.de
+User-Agent: Roundcube Webmail/1.3.16
+X-purgate: clean
+X-purgate-type: clean
+X-purgate-ID: 151534::1614777998-0000B5A4-ED31A05D/0/0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a paragraph about the ATTRIBUTE_GROUPS() helper macro, and use it in
-the example.  Retain the old description, as it is still useful in case
-of multiple groups.  Change the names of the group(s) structures, to
-match the ATTRIBUTE_GROUPS() macro.
+On 2021-03-03 00:30, Jakub Kicinski wrote:
+> On Tue, 02 Mar 2021 08:04:20 +0100 Martin Schiller wrote:
+>> On 2021-03-01 09:56, Xie He wrote:
+>> > On Sun, Feb 28, 2021 at 10:56 PM Martin Schiller <ms@dev.tdt.de> wrote:
+>> >> I mean the change from only one hdlc<x> interface to both hdlc<x> and
+>> >> hdlc<x>_x25.
+>> >>
+>> >> I can't estimate how many users are out there and how their setup
+>> >> looks
+>> >> like.
+>> >
+>> > I'm also thinking about solving this issue by adding new APIs to the
+>> > HDLC subsystem (hdlc_stop_queue / hdlc_wake_queue) for hardware
+>> > drivers to call instead of netif_stop_queue / netif_wake_queue. This
+>> > way we can preserve backward compatibility.
+>> >
+>> > However I'm reluctant to change the code of all the hardware drivers
+>> > because I'm afraid of introducing bugs, etc. When I look at the code
+>> > of "wan/lmc/lmc_main.c", I feel I'm not able to make sure there are no
+>> > bugs (related to stop_queue / wake_queue) after my change (and even
+>> > before my change, actually). There are even serious style problems:
+>> > the majority of its lines are indented by spaces.
+>> >
+>> > So I don't want to mess with all the hardware drivers. Hardware driver
+>> > developers (if they wish to properly support hdlc_x25) should do the
+>> > change themselves. This is not a problem for me, because I use my own
+>> > out-of-tree hardware driver. However if I add APIs with no user code
+>> > in the kernel, other developers may think these APIs are not
+>> > necessary.
+>> 
+>> I don't think a change that affects the entire HDLC subsystem is
+>> justified, since the actual problem only affects the hdlc_x25 area.
+>> 
+>> The approach with the additional hdlc<x>_x25 is clean and purposeful 
+>> and
+>> I personally could live with it.
+>> 
+>> I just don't see myself in the position to decide such a change at the
+>> moment.
+>> 
+>> @Jakub: What is your opinion on this.
+> 
+> Hard question to answer, existing users seem happy and Xie's driver
+> isn't upstream, so the justification for potentially breaking backward
+> compatibility isn't exactly "strong".
+> 
+> Can we cop out and add a knob somewhere to control spawning the extra
+> netdev? Let people who just want a newer kernel carry on without
+> distractions and those who want the extra layer can flip the switch?
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- Documentation/driver-api/driver-model/device.rst | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+Yes, that would be a good compromise.
+I think a compile time selection option is enough here.
+We could introduce a new config option CONFIG_HDLC_X25_LEGACY (or
+something like that) and then implement the new or the old behavior in
+the driver accordingly.
 
-diff --git a/Documentation/driver-api/driver-model/device.rst b/Documentation/driver-api/driver-model/device.rst
-index 41c819fafd9c1aee..0833be568b06cace 100644
---- a/Documentation/driver-api/driver-model/device.rst
-+++ b/Documentation/driver-api/driver-model/device.rst
-@@ -82,19 +82,24 @@ organized as follows into a group::
- 	NULL,
-   };
- 
--  static struct attribute_group dev_attr_group = {
-+  static struct attribute_group dev_group = {
- 	.attrs = dev_attrs,
-   };
- 
--  static const struct attribute_group *dev_attr_groups[] = {
--	&dev_attr_group,
-+  static const struct attribute_group *dev_groups[] = {
-+	&dev_group,
- 	NULL,
-   };
- 
-+A helper macro is available for the common case of a single group, so the
-+above two structures can be declared using:::
-+
-+  ATTRIBUTE_GROUPS(dev);
-+
- This array of groups can then be associated with a device by setting the
- group pointer in struct device before device_register() is invoked::
- 
--        dev->groups = dev_attr_groups;
-+        dev->groups = dev_groups;
-         device_register(dev);
- 
- The device_register() function will use the 'groups' pointer to create the
--- 
-2.25.1
+A switch that can be toggled at runtime (e.g. via sethdlc) would also be
+conceivable, but I don't think this is necessary.
 
