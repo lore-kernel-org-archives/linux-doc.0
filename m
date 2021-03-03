@@ -2,141 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71849C433E6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E57CC433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C71864EEC
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1F5364EDF
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239691AbhCDAaT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:30:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47156 "EHLO mail.kernel.org"
+        id S1350195AbhCDAaV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:30:21 -0500
+Received: from z11.mailgun.us ([104.130.96.11]:49953 "EHLO z11.mailgun.us"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1350195AbhCCMWK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Mar 2021 07:22:10 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 60AA664EDB;
-        Wed,  3 Mar 2021 08:44:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614761070;
-        bh=D4rBZkJRUX3LCLXa+cvsr19cocx6FJQsH84hlT/eZDg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UDd9M3IGP0q8tvAsZ9ho78vKWkU5is2I66XLUyKSs62zdyCO5dOguKY0bvcO8EhoJ
-         26ViNy/bCkghNi6xKYhtp+bsWs5f/IuEzftr81s7ctVVvVvAZH2dF6StvsQVC6Jtg2
-         fzcqWGlVp3xp7F3gs/tjz+0FTJKV6XVj/D03Vqq/Gl2nF8PXlovasMz33DjeRpZP/m
-         qWX0qkhEnNI3kB7fPvYoP1ibI20DeW+LZVs/QgGoscYtMwB5MH2fh4jyHy7EtOvz92
-         ScBNTMnP03KBAQdLKvaNUCgbm53EIzreMjr/PVhk0mOdiPrfbxbcH87HaCAx7WXAlx
-         ueliHzSy1tHSg==
-Date:   Wed, 3 Mar 2021 09:44:26 +0100
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Subject: Re: anonymous enums in kernel doc
-Message-ID: <20210303094426.1c3f6ff3@coco.lan>
-In-Reply-To: <CAHp75VcG544HZ1j_6jvZoba6kEjKXXfZ8deJWmwNQ08mC35NrA@mail.gmail.com>
-References: <CAHp75VfpnGEZcnrQLFYaFQ-HuxTmPw5OnewKmRGfXQf__ztjww@mail.gmail.com>
-        <87r1lgx8fo.fsf@meer.lwn.net>
-        <CAHp75Vc0SwC=WxUOiokUik1G4uPE6bHfX_F_ckgp-eEJaVuWhA@mail.gmail.com>
-        <87mtw4x7rw.fsf@meer.lwn.net>
-        <CAHp75VcG544HZ1j_6jvZoba6kEjKXXfZ8deJWmwNQ08mC35NrA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S234046AbhCCMjK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Mar 2021 07:39:10 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1614775122; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=PtMq7GNMoeu6+0qiGV3pBsJu4dFPWHqMkKNpr2j9aPE=;
+ b=TVsgglTCOfyOCSQr39qnOLAdZwq7WIznyNgh/iX2cbWoyLtVzWajExUeHO6TCvtW6lLL0YCt
+ MTjYmnP3XL5+SdCEIbCZUT7O56SAGgoEN6yl8kyRkbiTeUlzheLIL9Xq9WDnndY12ZKLycTU
+ 96HEZAssnEzPSPAnTCygLk9ZOwE=
+X-Mailgun-Sending-Ip: 104.130.96.11
+X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 603f804439ef372114108b54 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 03 Mar 2021 12:25:40
+ GMT
+Sender: pintu=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 74DDEC43465; Wed,  3 Mar 2021 12:25:40 +0000 (UTC)
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: pintu)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7AA2FC433CA;
+        Wed,  3 Mar 2021 12:25:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
+Date:   Wed, 03 Mar 2021 17:55:38 +0530
+From:   pintu@codeaurora.org
+To:     Johannes Weiner <hannes@cmpxchg.org>
+Cc:     linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
+        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org, jaewon31.kim@samsung.com,
+        yuzhao@google.com, shakeelb@google.com, guro@fb.com,
+        mchehab+huawei@kernel.org, xi.fengfei@h3c.com,
+        lokeshgidra@google.com, nigupta@nvidia.com, famzheng@amazon.com,
+        andrew.a.klychkov@gmail.com, bigeasy@linutronix.de,
+        ping.ping@gmail.com, vbabka@suse.cz, yzaikin@google.com,
+        keescook@chromium.org, mcgrof@kernel.org, corbet@lwn.net,
+        pintu.ping@gmail.com
+Subject: Re: [PATCH] mm: introduce clear all vm events counters
+In-Reply-To: <YD5gFYalXJh0dMLn@cmpxchg.org>
+References: <1614595766-7640-1-git-send-email-pintu@codeaurora.org>
+ <YD0EOyW3pZXDnuuJ@cmpxchg.org>
+ <419bb403c33b7e48291972df938d0cae@codeaurora.org>
+ <YD5gFYalXJh0dMLn@cmpxchg.org>
+Message-ID: <2f816fe9682d9b066ba630951db75eac@codeaurora.org>
+X-Sender: pintu@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 16 Feb 2021 19:12:58 +0200
-Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
+On 2021-03-02 21:26, Johannes Weiner wrote:
+> On Tue, Mar 02, 2021 at 04:00:34PM +0530, pintu@codeaurora.org wrote:
+>> On 2021-03-01 20:41, Johannes Weiner wrote:
+>> > On Mon, Mar 01, 2021 at 04:19:26PM +0530, Pintu Kumar wrote:
+>> > > At times there is a need to regularly monitor vm counters while we
+>> > > reproduce some issue, or it could be as simple as gathering some
+>> > > system
+>> > > statistics when we run some scenario and every time we like to start
+>> > > from
+>> > > beginning.
+>> > > The current steps are:
+>> > > Dump /proc/vmstat
+>> > > Run some scenario
+>> > > Dump /proc/vmstat again
+>> > > Generate some data or graph
+>> > > reboot and repeat again
+>> >
+>> > You can subtract the first vmstat dump from the second to get the
+>> > event delta for the scenario run. That's what I do, and I'd assume
+>> > most people are doing. Am I missing something?
+>> 
+>> Thanks so much for your comments.
+>> Yes in most cases it works.
+>> 
+>> But I guess there are sometimes where we need to compare with fresh 
+>> data
+>> (just like reboot) at least for some of the counters.
+>> Suppose we wanted to monitor pgalloc_normal and pgfree.
+> 
+> Hopefully these would already be balanced out pretty well before you
+> run a test, or there is a risk that whatever outstanding allocations
+> there are can cause a large number of frees during your test that
+> don't match up to your recorded allocation events. Resetting to zero
+> doesn't eliminate the risk of such background noise.
+> 
+>> Or, suppose we want to monitor until the field becomes non-zero..
+>> Or, how certain values are changing compared to fresh reboot.
+>> Or, suppose we want to reset all counters after boot and start 
+>> capturing
+>> fresh stats.
+> 
+> Again, there simply is no mathematical difference between
+> 
+> 	reset events to 0
+> 	run test
+> 	look at events - 0
+> 
+> and
+> 
+> 	read events baseline
+> 	run test
+> 	look at events - baseline
+> 
+>> Some of the counters could be growing too large and too fast. Will 
+>> there be
+>> chances of overflow ?
+>> Then resetting using this could help without rebooting.
+> 
+> Overflows are just a fact of life on 32 bit systems. However, they can
+> also be trivially handled - you can always subtract a ulong start
+> state from a ulong end state and get a reliable delta of up to 2^32
+> events, whether the end state has overflowed or not.
+> 
+> The bottom line is that the benefit of this patch adds a minor
+> convenience for something that can already be done in userspace. But
+> the downside is that there would be one more possible source of noise
+> for kernel developers to consider when looking at a bug report. Plus
+> the extra code and user interface that need to be maintained.
+> 
+> I don't think we should merge this patch.
 
-> On Tue, Feb 16, 2021 at 7:05 PM Jonathan Corbet <corbet@lwn.net> wrote:
-> >
-> > Andy Shevchenko <andy.shevchenko@gmail.com> writes:
-> >  
-> > > On Tue, Feb 16, 2021 at 6:51 PM Jonathan Corbet <corbet@lwn.net> wrote:  
-> > >>  
-> > >> > Mauro, can you do some test cases in your workflow against anonymous
-> > >> > enum in ernel doc, please?
-> > >> >
-> > >> > They are broken again, please fix the script!
-> > >> >
-> > >> > drivers/pinctrl/intel/pinctrl-intel.c:204: warning: wrong kernel-doc
-> > >> > identifier on line:
-> > >> > * enum - Locking variants of the pad configuration
-> > >> >
-> > >> > Above is simply a wrong statement.  
-> > >>
-> > >> The real problem, perhaps, is that there seems to be little point in
-> > >> adding kerneldoc comments for anonymous enums; where are you going to
-> > >> use that documentation?  
-> > >
-> > > I had been explicitly told during review (IIRC by maintainers) to make
-> > > it such, while the initial version was exactly like you are thinking
-> > > of. So, I'm not the right person to be asked :-)  
-> 
-> Just for a reference [1].
-> 
-> > >>  The error message could perhaps be changed to
-> > >> say that; meanwhile, perhaps this one could be fixed with an action like
-> > >> s%/**%/*% ?  
-> > >
-> > > See above. I think regression comes from the kernel doc script,
-> > > earlier it was okay. That said, the author of kernel doc changes has
-> > > to submit a patch to amend the driver and maintainers will review it.  
-> >
-> > kerneldoc now warns about various incorrect things that it used to just
-> > silently pass over.  There is no regression here, just a new diagnostic
-> > to point out something that was never going to work right.  Unless you
-> > have a good idea for what kerneldoc should do with a block like that?  
-> 
-> As it does, put description of individual fields and prepend it with a
-> common part.
-> 
-> So,
-> 
-> enum - Bla bla bla
->  @FOO: ABC
->  @BAR: DEF
-> Description
-> 
-> Should go in the doc for the corresponding file like (as an example)
-> 
-> Anonymous enumeration Bla bla bla
-> Description
-> 
-> FOO ABC
-> BAR DEF
-> 
-> (not sure about indentation, emphasizing and separators, but I think
-> you got the idea).
-> 
-> > (An alternative fix, of course, would be to give the enum a name so it
-> > can actually be used for type checking.)  
-> 
-> That enum is not used as an enum, it provides the logically unified constants.
+Okay no problem.Thank you so much for your review and feedback.
+Yes I agree the benefits are minor but I thought might be useful for 
+someone somewhere.
+I worked on it and found it easy and convinient and thus proposed it.
+If others feel not important I am okay to drop it.
 
-What's the problem of giving it a name?
+Thanks once again to all who helped to review it.
 
-You could call it as "intel_pinctrl_pad" or something similar.
-
-> Personally I don't see why the kernel doc can't digest this.
-
-It is not hard to add support for this special case. Just sent a
-patch.
-
-Yet, this adds additional complexity on an script that it is
-already complex enough.
-
-> 
-> [1]: https://patchwork.ozlabs.org/project/linux-gpio/patch/20190808132128.13359-1-andriy.shevchenko@linux.intel.com/
-> 
-
-Thanks,
-Mauro
