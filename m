@@ -2,125 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 337ACC43381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 918A5C4332D
 	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 103F264F1D
+	by mail.kernel.org (Postfix) with ESMTP id 624C264EEE
 	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355455AbhCDAax (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:30:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56714 "EHLO mail.kernel.org"
+        id S239453AbhCDAay (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:30:54 -0500
+Received: from mga06.intel.com ([134.134.136.31]:45588 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1345134AbhCCP6s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Mar 2021 10:58:48 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 65CFC64EDB;
-        Wed,  3 Mar 2021 15:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1614787084;
-        bh=GKrMTWwEh1kLtPzdDB87gc1HSZh5O2LMmCKt9KLcS9o=;
-        h=From:To:Cc:Subject:Date:From;
-        b=nnrvgGQ4NiILw1zfzLL4bQjkcZ1FKnZ6lrIZUWBIMVZw8A/jfK9HgmKc5JCz7O85s
-         DK4BIms+p/PM3cgwvpyW/lBpYSSgelOHbcUtDWiBDbEiAYcUs1G2SRJkKadCm2tkpw
-         lRj8ISpU0Zh7mfmGtUF8FR/Gtsy5jC32gFV8zT6tiU0m3+ZlhfREB9gpvtT20sOs+q
-         ifKkcciKrRsb/4xxQDql46pZOXDKn8/02jh6S1WycGUa+1xTq2pP2swe/nnfeiIsfj
-         l0gsXnb41nyeVXUaOK6e5WF6StdKT007adzrmld7NPq3PCViSGLSn1pKAswOHNFGTZ
-         hTgW8XMTgGTBg==
-Received: by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1lHTsv-001iva-Tt; Wed, 03 Mar 2021 16:58:01 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: conf.py: adjust the LaTeX document output
-Date:   Wed,  3 Mar 2021 16:58:00 +0100
-Message-Id: <911fbac185dd09c7df715cf4153361b81f04b7ad.1614787053.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.29.2
+        id S1382998AbhCCQ2U (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Mar 2021 11:28:20 -0500
+IronPort-SDR: X98ptwmCA8JW+xOSZQev0BMOr1Mr6nBRgVFg6bxYqCP9Gz33YFpHCL/3dEj1NQscjHTZxW0BMA
+ M+t1RSwapXqw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="248629274"
+X-IronPort-AV: E=Sophos;i="5.81,220,1610438400"; 
+   d="scan'208";a="248629274"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2021 08:17:07 -0800
+IronPort-SDR: HK6BqoCOxzow7Nb+DpilmIyDt0ONRht09Opyru2m3nxMWlc57oeZ9IbhzMHuvtnLb6GkVpB1SI
+ TFaQCPef4zeA==
+X-IronPort-AV: E=Sophos;i="5.81,220,1610438400"; 
+   d="scan'208";a="384042326"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2021 08:17:04 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lHUBJ-009g4x-EE; Wed, 03 Mar 2021 18:17:01 +0200
+Date:   Wed, 3 Mar 2021 18:17:01 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     Petr Mladek <pmladek@suse.com>, Stephen Boyd <swboyd@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 5/7] printk: Make %pS and friends print module build ID
+Message-ID: <YD+2fRo4J/ffQF8z@smile.fi.intel.com>
+References: <20210301174749.1269154-1-swboyd@chromium.org>
+ <20210301174749.1269154-6-swboyd@chromium.org>
+ <YD9kNphaSRPk83KJ@alley>
+ <20210303100012.0e6e4de3@gandalf.local.home>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210303100012.0e6e4de3@gandalf.local.home>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset f546ff0c0c07 ("Move our minimum Sphinx version to 1.7")
-cleaned up some compatibility issues with previous Sphinx
-versions, but it also dropped the PDF margin sets.
+On Wed, Mar 03, 2021 at 10:00:12AM -0500, Steven Rostedt wrote:
+> On Wed, 3 Mar 2021 11:25:58 +0100
+> Petr Mladek <pmladek@suse.com> wrote:
+> 
+> > Alternative solution would be to minimize the information, for
+> > example, by printing only the modules that appear in the backtrace.
+> > But this might be complicated to implement.
+> 
+> It could be a list after the backtrace perhaps, and not part of the
+> "modules linked in"?
+> 
+> But then you need a generic way of capturing those modules in the backtrace
+> that works for every architecture.
 
-Without that, the media documentation won't build fine, as
-the margins are too wide to display texts with monospaced
-fonts.
+> Honestly, I don't even know what a buildid is, and it is totally useless
+> information for myself. What exactly is it used for?
 
-While here, align the  "latex_elements = {" values, and add
-a few other sphinxsetup configs in order to allow Sphinx to
-wrap long lines on literal blocks.
+Dunno Stephen's motivation, but build ID is very useful when you do tracing,
+then based on ID the decoders can know what exactly was the layout of the
+binary and list of (exported) functions, etc.
 
-Fixes: f546ff0c0c07 ("Move our minimum Sphinx version to 1.7")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+At least that was my (shallow) experience with perf last time I have tried it.
 
- Documentation/conf.py | 31 +++++++++++++++++++------------
- 1 file changed, 19 insertions(+), 12 deletions(-)
-
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index fd65168c10f8..879e86dbea66 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -331,27 +331,34 @@ htmlhelp_basename = 'TheLinuxKerneldoc'
- # -- Options for LaTeX output ---------------------------------------------
- 
- latex_elements = {
--# The paper size ('letterpaper' or 'a4paper').
--'papersize': 'a4paper',
-+    # The paper size ('letterpaper' or 'a4paper').
-+    'papersize': 'a4paper',
- 
--# The font size ('10pt', '11pt' or '12pt').
--'pointsize': '11pt',
-+    # The font size ('10pt', '11pt' or '12pt').
-+    'pointsize': '11pt',
- 
--# Latex figure (float) alignment
--#'figure_align': 'htbp',
-+    # Latex figure (float) alignment
-+    #'figure_align': 'htbp',
- 
--# Don't mangle with UTF-8 chars
--'inputenc': '',
--'utf8extra': '',
-+    # Don't mangle with UTF-8 chars
-+    'inputenc': '',
-+    'utf8extra': '',
- 
--# Additional stuff for the LaTeX preamble.
-+    # Set document margins
-+    'sphinxsetup': '''
-+        hmargin=0.5in, vmargin=1in,
-+        parsedliteralwraps=true,
-+        verbatimhintsturnover=false,
-+    ''',
-+
-+    # Additional stuff for the LaTeX preamble.
-     'preamble': '''
--	% Use some font with UTF-8 support with XeLaTeX
-+        % Use some font with UTF-8 support with XeLaTeX
-         \\usepackage{fontspec}
-         \\setsansfont{DejaVu Sans}
-         \\setromanfont{DejaVu Serif}
-         \\setmonofont{DejaVu Sans Mono}
--     '''
-+     ''',
- }
- 
- # At least one book (translations) may have Asian characters
 -- 
-2.29.2
+With Best Regards,
+Andy Shevchenko
 
 
