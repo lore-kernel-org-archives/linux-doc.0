@@ -2,662 +2,268 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 738ACC43381
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07F43C433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 43FAF64EEC
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CEB3964E67
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239840AbhCDAan (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:30:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44212 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245095AbhCCPOB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 10:14:01 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C51BC061762
-        for <linux-doc@vger.kernel.org>; Wed,  3 Mar 2021 07:12:51 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id m1so6670782wml.2
-        for <linux-doc@vger.kernel.org>; Wed, 03 Mar 2021 07:12:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QbSzuQXaWQqlVas85i9P22YNEMaYY4GiLoB0CbKxqYU=;
-        b=QXKSKS3fFG4f90a0xyB+pVd1nIJ0RWE4MIks3Ur6yEqanTuTB1hu/6r0VxRy6ZGcup
-         TIE0wMNwk5n2F/Mi62JK+pQPageF8jSEZ8xkwDWjUoyIpJGxmx9r61zCJI0SNEaHp/fI
-         Ov7CgNP7u4kcWFsvI4m5HsGV5MoiJ5TFzcvaBo0QQBY6I/iNE1Avus6S1aYzb7RCLxxx
-         Efp4CiEC251FApjDkkuoZeJGqJsQT1+6lduqZG2wKZSvZZlPULjHKPrwwQ0zhE3bcc75
-         EUNnJrnY10yHIsYpBxbGGpPvN8XEYgdJa84tJieFbjV5i4Be2bUWiEWaRuVKJlSjKiAP
-         xYwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QbSzuQXaWQqlVas85i9P22YNEMaYY4GiLoB0CbKxqYU=;
-        b=sVBEm5Nwxw9xeDlDDlXIYcj5QNMES1jLBWB1jlB6S6VOlWPJSGNBJX0mqNQdRY/mqy
-         tT8vVLZue1LIPgQaZgbCIvY1xq7MrDd651eKtdcCvYXrWcTA+VZiR7h9PndqaaTQpApP
-         Hy9uYXLBXX1BtthlVSWL85NBcS7ZMOoNDy4SH/j9zVumQsYSbe6dtSXwsPuDezd74cBR
-         Nm6Umi+56Sdjyt7yGlByEDRF7OeTCKO1/4CLSoxucLyQrjjoYkXZwBF4ko17Pd86NZQf
-         C0eC+W8Fwkei2rpfBEnZWirK9nvKy5LA6GPiYq96Ljd6Vc8k6oayd7sLthzxfp9OcYzy
-         IZkA==
-X-Gm-Message-State: AOAM531xXRTigIuCVqHmpM1zmGZJas1weJk7i0vjkcMwI/ywl/er3Nm4
-        0tcGVqYFoZK09iHyAfPmZHfDAd2b7ojndjh2kXjwhg==
-X-Google-Smtp-Source: ABdhPJxPckPIWc+Bf8Kh9j4fIvUOkGQWmPWDBJkCz9OJjT8uQhggZHhxzbZ7D86CzgMlBBYTBFa47AHXKwi2JW8lw9Y=
-X-Received: by 2002:a1c:6a12:: with SMTP id f18mr9718488wmc.31.1614784370016;
- Wed, 03 Mar 2021 07:12:50 -0800 (PST)
+        id S1343632AbhCDAao (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:30:44 -0500
+Received: from m32-153.88.com ([43.250.32.153]:8983 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1383846AbhCCPfX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Mar 2021 10:35:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=K41KffRxek2IwSHEWxrNkdldzTcNsXRABdNgU
+        cYwc2M=; b=khiwudigAJz0aNN2OrmqfmIYEk9vskdnEP/2Ae6mFeG2v9f796GMY
+        SR7dwmpTfU9iX1+41m2kr9pfO3OD8zHXHSLOJV92gHq5U8Ee8u5FogcYOd1pgwIh
+        1mc6Afgltamp+N17NFPpA61JwYCbNwS/DYGCzilX7yNsKr0nm+NH9I=
+Received: from mipc (unknown [120.238.248.239])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgBn8iKFrD9g8T0UAA--.56228S2;
+        Wed, 03 Mar 2021 23:34:32 +0800 (CST)
+Date:   Wed, 3 Mar 2021 23:34:29 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     harryxiyou@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 4/9] docs/zh_CN: Improve
+ zh_CN/process/3.Early-stage.rst
+Message-ID: <20210303153429.GA30178@mipc>
+References: <cover.1614488009.git.bobwxc@email.cn>
+ <0e893a3171884f832366cf248e131e9a2972762f.1614488009.git.bobwxc@email.cn>
+ <f11fd22b-705b-3258-9551-e202b6c3b03b@linux.alibaba.com>
 MIME-Version: 1.0
-References: <20210128170936.9222-1-mike.leach@linaro.org> <20210128170936.9222-2-mike.leach@linaro.org>
- <4aa04906-d762-b51d-40bc-2e701583ef35@arm.com>
-In-Reply-To: <4aa04906-d762-b51d-40bc-2e701583ef35@arm.com>
-From:   Mike Leach <mike.leach@linaro.org>
-Date:   Wed, 3 Mar 2021 15:12:39 +0000
-Message-ID: <CAJ9a7Vic-3LS3HJn5o9K3=LX9zptRPStYd-Bj7+FYPZzTfcc-g@mail.gmail.com>
-Subject: Re: [PATCH v4 01/10] coresight: syscfg: Initial coresight system configuration
-To:     Suzuki K Poulose <suzuki.poulose@arm.com>
-Cc:     linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Coresight ML <coresight@lists.linaro.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Yabin Cui <yabinc@google.com>,
-        Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linaro.org>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Tingwei Zhang <tingwei@codeaurora.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f11fd22b-705b-3258-9551-e202b6c3b03b@linux.alibaba.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgBn8iKFrD9g8T0UAA--.56228S2
+X-Coremail-Antispam: 1UD129KBjvJXoWfGry8Kr45tw1kGw4rZrWDArb_yoWkZr1fpF
+        ZrGa43Kw47GF90qr92k3y5Ja15C3srGayfKw1UCryxJ3s7X3yqqwnrG3W5u34fXr93ZF95
+        XF4UCFy5ZFy2yFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUqab7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzx
+        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
+        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxAIw2
+        8IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
+        xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrx
+        kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
+        6r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
+        CI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jHBTOUUUUU
+        =
+X-Originating-IP: [120.238.248.239]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Suzuki,
-
-On Wed, 3 Mar 2021 at 10:09, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
->
-> On 1/28/21 5:09 PM, Mike Leach wrote:
-> > Creates an system management API to allow complex configurations and
-> > features to be programmed into a CoreSight infrastructure.
-> >
-> > A feature is defined as a programming set for a device or class of
-> > devices.
-> >
-> > A configuration is a set of features across the system that are enabled
-> > for a trace session.
-> >
-> > The API will manage system wide configuration, and allow complex
-> > programmed features to be added to individual device instances, and
-> > provide for system wide configuration selection on trace capture
-> > operations.
-> >
-> > This patch creates the initial data object and the initial API for
-> > loading configurations and features.
-> >
-> > Signed-off-by: Mike Leach <mike.leach@linaro.org>
+On Mon, Mar 01, 2021 at 05:13:51PM +0800, Alex Shi wrote:
+> 
+> 
+> 在 2021/2/28 下午1:38, Wu XiangCheng 写道:
+> > Improve language and grammar of zh_CN/process/3.Early-stage.rst
+> > 
+> > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
 > > ---
-> >   drivers/hwtracing/coresight/Makefile          |   2 +-
-> >   .../hwtracing/coresight/coresight-config.h    | 167 +++++++++++++++
-> >   drivers/hwtracing/coresight/coresight-core.c  |  12 +-
-> >   .../hwtracing/coresight/coresight-etm-perf.c  |   2 +-
-> >   .../hwtracing/coresight/coresight-etm-perf.h  |   2 +-
-> >   .../hwtracing/coresight/coresight-syscfg.c    | 197 ++++++++++++++++++
-> >   .../hwtracing/coresight/coresight-syscfg.h    |  54 +++++
-> >   7 files changed, 432 insertions(+), 4 deletions(-)
-> >   create mode 100644 drivers/hwtracing/coresight/coresight-config.h
-> >   create mode 100644 drivers/hwtracing/coresight/coresight-syscfg.c
-> >   create mode 100644 drivers/hwtracing/coresight/coresight-syscfg.h
-> >
-> > diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-> > index f20e357758d1..4ce854c434b1 100644
-> > --- a/drivers/hwtracing/coresight/Makefile
-> > +++ b/drivers/hwtracing/coresight/Makefile
-> > @@ -4,7 +4,7 @@
-> >   #
-> >   obj-$(CONFIG_CORESIGHT) += coresight.o
-> >   coresight-y := coresight-core.o  coresight-etm-perf.o coresight-platform.o \
-> > -             coresight-sysfs.o
-> > +             coresight-sysfs.o coresight-syscfg.o
-> >   obj-$(CONFIG_CORESIGHT_LINK_AND_SINK_TMC) += coresight-tmc.o
-> >   coresight-tmc-y := coresight-tmc-core.o coresight-tmc-etf.o \
-> >                     coresight-tmc-etr.o
-> > diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
-> > new file mode 100644
-> > index 000000000000..3fedf8ab3cee
-> > --- /dev/null
-> > +++ b/drivers/hwtracing/coresight/coresight-config.h
-> > @@ -0,0 +1,167 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Copyright (c) 2020 Linaro Limited, All rights reserved.
-> > + * Author: Mike Leach <mike.leach@linaro.org>
-> > + */
+> >  .../zh_CN/process/3.Early-stage.rst           | 131 +++++++++---------
+> >  1 file changed, 69 insertions(+), 62 deletions(-)
+> > 
+> > diff --git a/Documentation/translations/zh_CN/process/3.Early-stage.rst b/Documentation/translations/zh_CN/process/3.Early-stage.rst
+> > index b8676aec6005..79e951b574fb 100644
+> > --- a/Documentation/translations/zh_CN/process/3.Early-stage.rst
+> > +++ b/Documentation/translations/zh_CN/process/3.Early-stage.rst
+> > @@ -1,7 +1,14 @@
+> >  .. include:: ../disclaimer-zh_CN.rst
+> >  
+> >  :Original: :ref:`Documentation/process/3.Early-stage.rst <development_early_stage>`
+> > -:Translator: Alex Shi <alex.shi@linux.alibaba.com>
 > > +
-> > +#ifndef _CORESIGHT_CORESIGHT_CONFIG_H
-> > +#define _CORESIGHT_CORESIGHT_CONFIG_H
+> > +:Translator:
 > > +
-> > +#include <linux/coresight.h>
-> > +#include <linux/types.h>
+> > + 时奎亮 Alex Shi <alex.shi@linux.alibaba.com>
 > > +
-> > +/* CoreSight Configuration Management - component and system wide configuration */
+> > +:校译:
 > > +
-> > +/*
-> > + * Register type flags for register value descriptor:
-> > + * describe how the value is interpreted, and handled.
-> > + */
-> > +#define CS_CFG_REG_TYPE_STD          0x80    /* reg is standard reg */
-> > +#define CS_CFG_REG_TYPE_RESOURCE     0x40    /* reg is a resource */
-> > +#define CS_CFG_REG_TYPE_VAL_PARAM    0x08    /* reg value uses param */
-> > +#define CS_CFG_REG_TYPE_VAL_MASK     0x04    /* reg value bit masked */
-> > +#define CS_CFG_REG_TYPE_VAL_64BIT    0x02    /* reg value 64 bit */
-> > +#define CS_CFG_REG_TYPE_VAL_SAVE     0x01    /* reg value save on disable */
-> > +
-> > +/*
-> > + * flags defining what device class a feature will match to when processing a
-> > + * system configuration - used by config data and devices.
-> > + */
-> > +#define      CS_CFG_MATCH_CLASS_SRC_ALL      0x0001  /* match any source */
->
-> nit: spurious TAB instead of SPACE
->
-> > +#define CS_CFG_MATCH_CLASS_SRC_ETM4  0x0002  /* match any ETMv4 device */
-> > +
-> > +/* flags defining device instance matching - used in config match desc data. */
-> > +#define CS_CFG_MATCH_INST_ANY                0x80000000 /* any instance of a class */
-> > +
-> > +/*
-> > + * Limit number of presets in a configuration
-> > + * This is related to the number of bits (4) we use to select the preset on
-> > + * the perf command line. Preset 0 is always none selected.
-> > + * See PMU_FORMAT_ATTR(preset, "config:0-3") in coresight-etm-perf.c
-> > + */
-> > +#define CS_CFG_CONFIG_PRESET_MAX 15
-> > +
-> > +/**
-> > + * Parameter descriptor for a device feature.
-> > + *
-> > + * @name:  Name of parameter.
-> > + * @value: Initial or default value.
-> > + */
-> > +struct cscfg_parameter_desc {
-> > +     const char *name;
-> > +     u64 value;
-> > +};
-> > +
-> > +/**
-> > + * Representation of register value.
-> > + *
-> > + * Supports full 64 bit register value, or 32 bit value with optional mask
-> > + * value.
-> > + *
-> > + * @type:    define register usage and interpretation.
-> > + * @offset:  the address offset for register in the hardware device (per device specification).
-> > + * @hw_info: optional hardware device type specific information. (ETM / CTI specific etc)
-> > + * @val64:   64 bit value.
-> > + * @val32:   32 bit value.
-> > + * @mask32:  32 bit mask when using 32 bit value to access device register.
-> > + */
-> > +struct cscfg_regval_desc {
-> > +     struct {
-> > +             u32 type:8;
-> > +             u32 offset:12;
-> > +             u32 hw_info:12;
-> > +     };
-> > +     union {
-> > +             u64 val64;
-> > +             struct {
-> > +                     u32 val32;
-> > +                     u32 mask32;
-> > +             };
-> > +     };
-> > +};
-> > +
-> > +/**
-> > + * Device feature descriptor - combination of registers and parameters to
-> > + * program a device to implement a specific complex function.
-> > + *
-> > + * @name:    feature name.
-> > + * @brief:   brief description of the feature.
-> > + * @item:    List entry.
-> > + * @match_flags: matching information if loading into a device
-> > + * @nr_params:  number of parameters used.
-> > + * @params:  array of parameters used.
-> > + * @nr_regs: number of registers used.
-> > + * @reg:     array of registers used.
-> > + */
-> > +struct cscfg_feature_desc {
-> > +     const char *name;
-> > +     const char *brief;
-> > +     struct list_head item;
-> > +     u32 match_flags;
->
-> Either we could use the cscfg_match_desc here or, simply follow
-> inlining match_flags everywhere, below (e.g, cscfg_config_feat_ref)
->
+> > + 吴想成 Wu XiangCheng <bobwxc@email.cn>
+> >  
+> >  .. _cn_development_early_stage:
+> >  
+> > @@ -9,45 +16,45 @@
+> >  ========
+> >  
+> >  当考虑一个Linux内核开发项目时，很可能会直接跳进去开始编码。然而，与任何重要
+> > -的项目一样，成功的许多基础最好是在第一行代码编写之前就做好了。在早期计划和
+> > -沟通中花费一些时间可以节省更多的时间。
+> > +的项目一样，许多成功的基础最好是在第一行代码编写之前就打下。在早期计划和
+> > +沟通中花费一些时间可以在之后节省更多的时间。
+> >  
+> > -详述问题
+> > +搞清问题
+> >  --------
+> 
+> better to keep old one?
+OK.
+> 
+> >  
+> > -与任何工程项目一样，成功的内核增强从要解决的问题的清晰描述开始。在某些情况
+> > -下，这个步骤很容易：例如，当某个特定硬件需要驱动程序时。不过，在其他方面，
+> > -将实际问题与建议的解决方案混淆是很有诱惑力的，这可能会导致困难。
+> > +与任何工程项目一样，成功的内核改善从清晰描述要解决的问题开始。在某些情况
+> > +下，这个步骤很容易：例如当某个特定硬件需要驱动程序时。不过，在其他情况下，
+> > +很容易将实际问题与建议的解决方案混在一起，这可能会导致麻烦。
+> 
+> better on Chinese custom.
+> 
+> >  
+> > -举个例子：几年前，使用Linux音频的开发人员寻求一种方法来运行应用程序，而不因
+> > -系统延迟过大而导致退出或其他工件。他们得到的解决方案是一个内核模块，旨在连
+> > -接到Linux安全模块（LSM）框架中；这个模块可以配置为允许特定的应用程序访问
+> > -实时调度程序。这个模块被实现并发送到Linux内核邮件列表，在那里它立即遇到问题。
+> > +举个例子：几年前，Linux音频的开发人员寻求一种方法来运行应用程序，而不会因
+> > +系统延迟过大而导致退出或其他问题。他们得到的解决方案是一个连接到Linux安全
+> > +模块（LSM）框架中的内核模块；这个模块可以配置为允许特定的应用程序访问实时
+> > +调度程序。这个模块被实现并发到linux-kernel邮件列表，在那里它立即遇到了麻烦。
+> >  
+> >  对于音频开发人员来说，这个安全模块足以解决他们当前的问题。但是，对于更广泛的
+> >  内核社区来说，这被视为对LSM框架的滥用（LSM框架并不打算授予他们原本不具备的
+> >  进程特权），并对系统稳定性造成风险。他们首选的解决方案包括短期的通过rlimit
+> >  机制进行实时调度访问，以及长期的减少延迟的工作。
+> >  
+> > -然而，音频社区看不到他们实施的特定解决方案的过去；他们不愿意接受替代方案。
+> > +然而，音频社区无法超越他们实施的特定解决方案来看问题；他们不愿意接受替代方案。
+> 
+> the old doc has point on the 'history', but new doc miss this point.
 
-Following Mathieus comments and a re-think on my part this will be
-addressed in the re-spin. I am planning to drop cfg_config_feat_ref in
-favour of mathing just by name in configs, and having discrete flags
-(and later named devices)  in the feat_desc.
+... could not see past the particlar solution they had ...
+The 'past' means 超过[prep.], not 'history', this is a translation mistake.
+> 
+> >  由此产生的分歧使这些开发人员对整个内核开发过程感到失望；其中一个开发人员返回
+> > -到音频列表并发布了以下内容：
+> > +到audio列表并发布了以下内容：
+> >  
+> > -        有很多非常好的Linux内核开发人员，但他们往往会被一群傲慢的傻瓜所压倒。
+> > -        试图向这些人传达用户需求是浪费时间。他们太“聪明”了，根本听不到少数人
+> > -        的话。
+> > +	这里有很多非常好的Linux内核开发人员，但他们往往会被一群傲慢的傻瓜所
+> > +	压倒。试图向这些人传达用户需求是浪费时间。他们太“聪明”了，根本听不
+> > +	到少数人的话。
+> 
+> Has the indent problem? and seems no need to add a word ‘这里‘。
+>
+Keep indent the same with the original text.
+> >  
+> >  （http://lwn.net/articles/131776/）
+> >  
+> > -实际情况不同；与特定模块相比，内核开发人员更关心系统稳定性、长期维护以及找到
+> > -正确的问题解决方案。这个故事的寓意是把重点放在问题上——而不是具体的解决方案
+> > -上——并在投入创建代码之前与开发社区讨论这个问题。
+> > +实际情况却是不同的；与特定模块相比，内核开发人员更关心系统稳定性、长期维护
+> > +以及找到问题的正确解决方案。这个故事的寓意是把重点放在问题上——而不是具体的
+> > +解决方案上——并在开始编写代码之前与开发社区讨论这个问题。
+> >  
+> >  因此，在考虑一个内核开发项目时，我们应该得到一组简短问题的答案：
+> >  
+> > - - 究竟需要解决的问题是什么？
+> > + - 需要解决的问题究竟是什么？
+> 
+> haha, actually no different.
+OK.
+> 
+> >  
+> > - - 受此问题影响的用户是谁？解决方案应该解决哪些用例？
+> > + - 受此问题影响的用户有哪些？解决方案应该解决哪些使用案例？
+> >  
+> >   - 内核现在为何没能解决这个问题？
+> 
+> why remove this line?
+>
+Please notice that, the dash is a paragraph mark, NOT a git symbol.
+There are spaces in the begin of the line.
+So as follow.
+> 
+> >  
+> > @@ -62,11 +69,11 @@
+> >  
+> >   - 很可能问题是由内核以您不理解的方式解决的。Linux内核很大，具有许多不明显
+> >     的特性和功能。并不是所有的内核功能都像人们所希望的那样有文档记录，而且很
+> > -   容易遗漏一些东西。你的作者发出了一个完整的驱动程序，复制了一个新作者不
+> > -   知道的现有驱动程序。重新设计现有轮子的代码不仅浪费，而且不会被接受到主线
+> > +   容易遗漏一些东西。某作者发布了一个完整的驱动程序，重复了一个其不
+> > +   知道的现有驱动程序。重新发明现有轮子的代码不仅浪费，而且不会被接受到主线
+> >     内核中。
+> >  
+> > - - 建议的解决方案中可能有一些元素不适用于主线合并。在编写代码之前，最好先
+> > + - 建议的解决方案中可能有一些要素不适合并入主线。在编写代码之前，最好先
+> >     了解这样的问题。
+> >  
+> >   - 其他开发人员完全有可能考虑过这个问题；他们可能有更好的解决方案的想法，并且
+> 
+> why remove this line?
+> 
+> > @@ -74,88 +81,88 @@
+> >  
+> >  在内核开发社区的多年经验给了我们一个明确的教训：闭门设计和开发的内核代码总是
+> >  有一些问题，这些问题只有在代码发布到社区中时才会被发现。有时这些问题很严重，
+> > -需要数月或数年的努力才能使代码达到内核社区的标准。一些例子包括：
+> > +需要数月或数年的努力才能使代码达到内核社区的标准。例如：
+> >  
+> >   - 设计并实现了单处理器系统的DeviceScape网络栈。只有使其适合于多处理器系统，
+> > -   才能将其合并到主线中。在代码中改装锁等等是一项困难的任务；因此，这段代码
+> > +   才能将其合并到主线中。在代码中修改锁等等是一项困难的任务；因此，这段代码
+> >     （现在称为mac80211）的合并被推迟了一年多。
+> >  
+> >   - Reiser4文件系统包含许多功能，核心内核开发人员认为这些功能应该在虚拟文件
+> 
+> why remove this line?
+> 
+> >     系统层中实现。它还包括一些特性，这些特性在不将系统暴露于用户引起的死锁的
+> > -   情况下是不容易实现的。这些问题的最新发现——以及对其中一些问题的拒绝——已经
+> > -   导致Reiser4远离了主线内核。
+> > +   情况下是不容易实现的。这些问题过迟发现——以及拒绝处理其中一些问题——已经
+> > +   导致Reiser4置身主线内核之外。
+> >  
+> >   - Apparmor安全模块以被认为不安全和不可靠的方式使用内部虚拟文件系统数据结构。
+> > -   这种担心（包括其他）使Apparmor多年不在主线上。
+> > +   这种担心（包括其他）使Apparmor多年来无法进入主线。
+> >  
+> > -在每一种情况下，通过与内核开发人员的早期讨论，可以避免大量的痛苦和额外的工作。
+> > +在这些情况下，与内核开发人员的早期讨论，可以避免大量的痛苦和额外的工作。
+> >  
+> > -找谁交流
+> > ---------
+> > +找谁交流？
+> > +----------
+> 
+> why a new "?"
+>
+Because the original text have one. The translation missed it.
+> 
+> Hmm, seem there are much of thing isn't in your explanated email.
+> Would you like to just patch what's we talked? since some of trival
+> changes don't has much meaning on understanding or others.
+>
+Sorry for the delay, I have some work recently.
 
+I have declared that I only could point out the main changes since there are 
+too many changes. This is a language improvment, not a pure code issue. My 
+preface can only give general directions, not words by words. Otherwise why 
+submit the patches, foreword is enough :) All in patchs, not in my notes.
 
-> > +     int nr_params;
-> > +     struct cscfg_parameter_desc *params;scfg_config_feat_ref
-> > +     int nr_regs;
-> > +     struct cscfg_regval_desc *regs;
-> > +};
-> > +
-> > +/**
-> > + * Match descriptor - Device / feature matching when loading into devices
-> > + *
-> > + * Used by loading configurations to define which class or specific devices
-> > + * they want to match used features to, and registered devices to specify which
-> > + * matching class and information they support.
-> > + *
-> > + * The load process uses these matching pairs to load feature instances into
-> > + * matching devices.
-> > + *
-> > + * @match_flags:     used to match to a particular class of device.
-> > + *
-> > + */
-> > +struct cscfg_match_desc {
-> > +     u32 match_flags;
-> > +};
-> > +
-> > +/**
-> > + * Descriptor for features referenced by a configuration.
-> > + *
-> > + * @name:    name of feature to use. Match against the @name in struct
-> > + *           cscfg_feature_desc.
-> > + * @match:   match info for the feature when used in this configuration -
-> > + *           may be all devices of a class or a specific device in that class.
-> > + */
-> > +struct cscfg_config_feat_ref {
-> > +     const char *name;
-> > +     struct cscfg_match_desc match;
-> > +};
-> > +
-> > +/**
-> > + * Configuration descriptor - describes selectable system configuration.
-> > + *
-> > + * A configuration describes device features in use, and may provide preset
-> > + * values for the parameters in those features.
-> > + *
-> > + * A single set of presets is the sum of the parameters declared by
-> > + * all the features in use - this value is @nr_total_params.
-> > + *
-> > + * @name:    name of the configuration - used for selection.
-> > + * @brief:   description of the purpose of the configuration.
-> > + * @item:    list entry.
-> > + * @nr_refs: Number of features used in this configuration.
-> > + * @refs:    references to features used in this configuration..
-> > + * @nr_presets:      Number of sets of presets supplied by this configuration.
-> > + * @nr_total_params: Sum of all parameters declared by used features
-> > + * @presets: Array of preset values.
-> > + *
-> > + */
-> > +struct cscfg_config_desc {
-> > +     const char *name;
-> > +     const char *brief;
->
-> super nit: s/brief/desc ?
->
+I had give you more than 70 details in the foreword. If I continue do that, 
+it is no different from rewriting the patches in the foreword.
 
-Probably 'description' to avoid clash with all the _desc names, but yes.
+I would appreciate if you could read my patches *completely* with the original 
+texts.
 
-> > +     struct list_head item;
-> > +     int nr_refs;
-> > +     struct cscfg_config_feat_ref *refs;
-> > +     int nr_presets;
-> > +     int nr_total_params;
-> > +     const u64 *presets; /* nr_presets * nr_total_params */
-> > +};
-> > +
-> > +#endif /* _CORESIGHT_CORESIGHT_CONFIG_H */
->
->
-> > diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
-> > new file mode 100644
-> > index 000000000000..f7e396a5f9cb
-> > --- /dev/null
-> > +++ b/drivers/hwtracing/coresight/coresight-syscfg.c
-> > @@ -0,0 +1,197 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * Copyright (c) 2020 Linaro Limited, All rights reserved.
-> > + * Author: Mike Leach <mike.leach@linaro.org>
-> > + */
-> > +
-> > +#include <linux/platform_device.h>
-> > +
-> > +#include "coresight-config.h"
-> > +#include "coresight-syscfg.h"
-> > +
-> > +/*
-> > + * cscfg_ API manages configurations and features for the entire coresight
-> > + * infrastructure.
-> > + *
-> > + * It allows the loading of configurations and features, and loads these into
-> > + * coresight devices as appropriate.
-> > + */
-> > +
-> > +/* protect the cscsg_data and device */
-> > +static DEFINE_MUTEX(cscfg_mutex);
-> > +
-> > +/* only one of these */
-> > +static struct cscfg_manager *cscfg_mgr;
-> > +
-> > +/* load features and configuations into the lists */
-> > +
-> > +/* check feature list for a named feature - call with mutex locked. */
-> > +static bool cscfg_match_list_feat(const char *name)
-> > +{
-> > +     struct cscfg_feature_desc *curr_item;
-> > +
-> > +     list_for_each_entry(curr_item, &cscfg_mgr->data.feat_desc_list, item) {
-> > +             if (strcmp(curr_item->name, name) == 0)
-> > +                     return true;
-> > +     }
-> > +     return false;
-> > +}
-> > +
-> > +/* check all feat needed for cfg are in the list - call with mutex locked. */
-> > +static int cscfg_check_feat_for_cfg(struct cscfg_config_desc *cfg_desc)
-> > +{
-> > +     int i;
-> > +
-> > +     for (i = 0; i < cfg_desc->nr_refs; i++)
-> > +             if (!cscfg_match_list_feat(cfg_desc->refs[i].name))
-> > +                     return -EINVAL;
-> > +     return 0;
-> > +}
-> > +
-> > +/*
-> > + * load feature - add to feature list.
-> > + */
-> > +static int cscfg_load_feat(struct cscfg_feature_desc *feat_desc)
-> > +{
-> > +     list_add(&feat_desc->item, &cscfg_mgr->data.feat_desc_list);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +/*
-> > + * load config into the system - validate used features exist then add to
-> > + * config list.
-> > + */
-> > +static int cscfg_load_config(struct cscfg_config_desc *cfg_desc)
-> > +{
-> > +     int err;
-> > +
-> > +     /* validate features are present */
-> > +     err = cscfg_check_feat_for_cfg(cfg_desc);
-> > +     if (err)
-> > +             return err;
-> > +
-> > +     list_add(&cfg_desc->item, &cscfg_mgr->data.config_desc_list);
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +/*
-> > + * External API function to load feature and config sets.
-> > + * Take a 0 terminated array of feature descriptors and/or configuration
-> > + * descriptors and load into the system.
-> > + * Features are loaded first to ensure configuration dependencies can be met.
-> > + */
-> > +int cscfg_load_config_sets(struct cscfg_config_desc **cfg_descs,
-> > +                        struct cscfg_feature_desc **feat_descs)
-> > +{
-> > +     int err, i = 0;
-> > +
-> > +     mutex_lock(&cscfg_mutex);
-> > +
-> > +     /* load features first */
-> > +     if (feat_descs) {
-> > +             while (feat_descs[i]) {
-> > +                     err = cscfg_load_feat(feat_descs[i]);
-> > +                     if (err) {
-> > +                             pr_err("coresight-syscfg: Failed to load feature %s\n",
-> > +                                    feat_descs[i]->name);
-> > +                             goto do_unlock;
-> > +                     }
-> > +                     i++;
-> > +             }
-> > +     }
-> > +
-> > +     /* next any configurations to check feature dependencies */
-> > +     i = 0;
-> > +     if (cfg_descs) {
-> > +             while (cfg_descs[i]) {
-> > +                     err = cscfg_load_config(cfg_descs[i]);
-> > +                     if (err) {
-> > +                             pr_err("coresight-syscfg: Failed to load configuration %s\n",
-> > +                                    cfg_descs[i]->name);
-> > +                             goto do_unlock;
-> > +                     }
-> > +                     i++;
-> > +             }
-> > +     }
-> > +
-> > +do_unlock:
-> > +     mutex_unlock(&cscfg_mutex);
-> > +     return err;
-> > +}
-> > +EXPORT_SYMBOL_GPL(cscfg_load_config_sets);
->
-> It looks like we keep the features and configs in the global list,
-> even when there was a failure halfway. This could be problematic,
-> as the caller could release/free the nodes we added and walking
-> the list is going to explode. So, we either:
->
-> 1) Do this in 2 pass. Check if the features and the configs can be
->     loaded in first pass. And load them in the second pass.
->
->   OR
->
-> 2) Add cleanup code to remove the items that were added.
->
-> Since we do this with the mutex lock, we should be fine.
->
+Thanks!
+Wu X.C.
 
-In this initial set we are trying to keep to the minimum baseline to
-provide the overall structure, with the autofdo configuration as a
-built in.
-Now we know that this configuration is by definition correct, so for
-this baseline set at least, the code is guaranteed to work. We are not
-allowing
-additional user configs at this point.
-
-There is a follow-up patch set that includes code to allow for dynamic
-loading and unloading of configurations and features, and this
-includes the correct error clean up, dependency locking to prevent
-in-use configs from being unloaded, along with an example of how to
-define a loadable module that loads a new set of configs / features.
-But this adds a whole lot more code that is not needed in this
-baseline set.
-
-> > +
-> > +/* Initialise system configuration management device. */
-> > +
-> > +struct device *to_device_cscfg(void)
->
-> minor nit: to_device_cscfg() implies you are converting
-> something to a device. But since this is a global device
-> it could be better named as :
->
-> struct device *cscfg_device(void);
->
-
-Agreed.
-
->
-> > +{
-> > +     return cscfg_mgr ? &cscfg_mgr->dev : NULL;
-> > +}
-> > +
-> > +/* Must have a release function or the kernel will complain on module unload */
-> > +void cscfg_dev_release(struct device *dev)
-> > +{
-> > +     kfree(cscfg_mgr);
-> > +     cscfg_mgr = NULL;
-> > +}
-> > +
-> > +/* a device is needed to "own" some kernel elements such as sysfs entries.  */
-> > +int cscfg_create_device(void)
-> > +{
-> > +     struct device *dev;
-> > +     int err = -ENOMEM;
-> > +
-> > +     mutex_lock(&cscfg_mutex);
-> > +     if (cscfg_mgr) {
-> > +             err = -EINVAL;
-> > +             goto create_dev_exit_unlock;
-> > +     }
-> > +
-> > +     cscfg_mgr = kzalloc(sizeof(struct cscfg_manager), GFP_KERNEL);
-> > +     if (!cscfg_mgr)
-> > +             goto create_dev_exit_unlock;
-> > +
-> > +     /* setup the device */
-> > +     dev = to_device_cscfg();
-> > +     dev->release = cscfg_dev_release;
-> > +     dev->init_name = "system_cfg";
->
-> nit: Does it make sense to have "cs" somewhere in the name ?
->
-
-It does.
-It's not something that the user would ever see / use, but no doubt
-linux makes hte name visible in a list somewhere.
-
-> > +
-> > +     err = device_register(dev);
-> > +     if (err)
-> > +             cscfg_dev_release(dev);
-> > +
-> > +create_dev_exit_unlock:
-> > +     mutex_unlock(&cscfg_mutex);
-> > +     return err;
-> > +}
-> > +
-> > +void cscfg_clear_device(void)
-> > +{
-> > +     mutex_lock(&cscfg_mutex);
-> > +     device_unregister(to_device_cscfg());
-> > +     mutex_unlock(&cscfg_mutex);
-> > +}
-> > +
-> > +/* Initialise system config management API device  */
-> > +int __init cscfg_init(void)
-> > +{
-> > +     int err = 0;
-> > +
-> > +     err = cscfg_create_device();
-> > +     if (err)
-> > +             return err;
-> > +
-> > +     INIT_LIST_HEAD(&cscfg_mgr->data.csdev_desc_list);
-> > +     INIT_LIST_HEAD(&cscfg_mgr->data.feat_desc_list);
-> > +     INIT_LIST_HEAD(&cscfg_mgr->data.config_desc_list);
-> > +     cscfg_mgr->data.nr_csdev = 0;
-> > +
-> > +     dev_info(to_device_cscfg(), "CoreSight Configuration manager initialised");
-> > +     return 0;
-> > +}
-> > +
-> > +void __exit cscfg_exit(void)
-> > +{
-> > +     cscfg_clear_device();
-> > +}
-> > diff --git a/drivers/hwtracing/coresight/coresight-syscfg.h b/drivers/hwtracing/coresight/coresight-syscfg.h
-> > new file mode 100644
-> > index 000000000000..907ba8d3efea
-> > --- /dev/null
-> > +++ b/drivers/hwtracing/coresight/coresight-syscfg.h
-> > @@ -0,0 +1,54 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > +/*
-> > + * Coresight system configuration driver.
-> > + */
-> > +
-> > +#ifndef CORESIGHT_SYSCFG_H
-> > +#define CORESIGHT_SYSCFG_H
-> > +
-> > +#include <linux/coresight.h>
-> > +#include <linux/device.h>
-> > +
-> > +#include "coresight-config.h"
-> > +
-> > +/**
-> > + * System configuration manager API data.
-> > + *
-> > + * @csdev_list:              List of coresight devices registered with the configuration manager.
->
-> Doesn't match the variable name below.
->
-
-OK - will fix.
-
-> > + * @feat_desc_list:  List of feature descriptors to load into registered devices.
-> > + * @config_desc_list:        List of system configuration descriptors to load into registered devices.
-> > + * @nr_csdev:        Number of registered devices with the cscfg system
-> > + */
-> > +struct cscfg_api_data {
-> > +     struct list_head csdev_desc_list;
-> > +     struct list_head feat_desc_list;
-> > +     struct list_head config_desc_list;
-> > +     int nr_csdev;
-> > +};
-> > +
-> > +/* internal core operations for cscfg */
-> > +int __init cscfg_init(void);
-> > +void __exit cscfg_exit(void);
-> > +
-> > +/* syscfg manager external API */
-> > +int cscfg_load_config_sets(struct cscfg_config_desc **cfg_descs,
-> > +                        struct cscfg_feature_desc **feat_descs);
-> > +
->
-> ---> Cut here <---
->
-> > +/**
-> > + * System configuration manager device.
-> > + *
-> > + * Need a device to 'own' some coresight system wide sysfs entries in
-> > + * perf events, configfs etc.
-> > + *
-> > + * @dev:     The device.
-> > + * @data:    The API data.
-> > + */
-> > +struct cscfg_manager {
-> > +     struct device dev;
-> > +     struct cscfg_api_data data;
-> > +};
-> > +
-> > +/* get reference to dev in cscfg_manager */
-> > +struct device *to_device_cscfg(void);
->
-> --> Cut End <---
->
-> Do the above need to be exposed outside the core coresight-syscfg.c ?
->
-
-Yes - they are used in the following patches in this set. They are
-made visible here to avoid changing later in the patchset, which tends
-to attract comments.
-
-> Cheers
-> Suzuki
-
-Thanks for the review
-
-Mike
-
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
