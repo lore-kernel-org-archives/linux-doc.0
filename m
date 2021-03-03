@@ -2,152 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E57CC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4879CC433E9
 	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1F5364EDF
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3167764F0D
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350195AbhCDAaV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:30:21 -0500
-Received: from z11.mailgun.us ([104.130.96.11]:49953 "EHLO z11.mailgun.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234046AbhCCMjK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Mar 2021 07:39:10 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1614775122; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=PtMq7GNMoeu6+0qiGV3pBsJu4dFPWHqMkKNpr2j9aPE=;
- b=TVsgglTCOfyOCSQr39qnOLAdZwq7WIznyNgh/iX2cbWoyLtVzWajExUeHO6TCvtW6lLL0YCt
- MTjYmnP3XL5+SdCEIbCZUT7O56SAGgoEN6yl8kyRkbiTeUlzheLIL9Xq9WDnndY12ZKLycTU
- 96HEZAssnEzPSPAnTCygLk9ZOwE=
-X-Mailgun-Sending-Ip: 104.130.96.11
-X-Mailgun-Sid: WyIzNjUxMiIsICJsaW51eC1kb2NAdmdlci5rZXJuZWwub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 603f804439ef372114108b54 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 03 Mar 2021 12:25:40
- GMT
-Sender: pintu=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 74DDEC43465; Wed,  3 Mar 2021 12:25:40 +0000 (UTC)
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: pintu)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7AA2FC433CA;
-        Wed,  3 Mar 2021 12:25:38 +0000 (UTC)
+        id S1451152AbhCDAab (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:30:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52010 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1382993AbhCCNjf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 08:39:35 -0500
+Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 656A8C061221
+        for <linux-doc@vger.kernel.org>; Wed,  3 Mar 2021 05:38:50 -0800 (PST)
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed20:cd47:42a6:c822:e50b])
+        by andre.telenet-ops.be with bizsmtp
+        id bpen2400W4huzR801penop; Wed, 03 Mar 2021 14:38:48 +0100
+Received: from rox.of.borg ([192.168.97.57])
+        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lHRiB-004Q0m-I5; Wed, 03 Mar 2021 14:38:47 +0100
+Received: from geert by rox.of.borg with local (Exim 4.93)
+        (envelope-from <geert@linux-m68k.org>)
+        id 1lHRiA-00GWpg-Ui; Wed, 03 Mar 2021 14:38:46 +0100
+From:   Geert Uytterhoeven <geert+renesas@glider.be>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Rafael J . Wysocki" <rafael@kernel.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH 2/2] docs: driver-model: device: Add ATTRIBUTE_GROUPS() example
+Date:   Wed,  3 Mar 2021 14:38:45 +0100
+Message-Id: <20210303133845.3939403-3-geert+renesas@glider.be>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210303133845.3939403-1-geert+renesas@glider.be>
+References: <20210303133845.3939403-1-geert+renesas@glider.be>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 03 Mar 2021 17:55:38 +0530
-From:   pintu@codeaurora.org
-To:     Johannes Weiner <hannes@cmpxchg.org>
-Cc:     linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, jaewon31.kim@samsung.com,
-        yuzhao@google.com, shakeelb@google.com, guro@fb.com,
-        mchehab+huawei@kernel.org, xi.fengfei@h3c.com,
-        lokeshgidra@google.com, nigupta@nvidia.com, famzheng@amazon.com,
-        andrew.a.klychkov@gmail.com, bigeasy@linutronix.de,
-        ping.ping@gmail.com, vbabka@suse.cz, yzaikin@google.com,
-        keescook@chromium.org, mcgrof@kernel.org, corbet@lwn.net,
-        pintu.ping@gmail.com
-Subject: Re: [PATCH] mm: introduce clear all vm events counters
-In-Reply-To: <YD5gFYalXJh0dMLn@cmpxchg.org>
-References: <1614595766-7640-1-git-send-email-pintu@codeaurora.org>
- <YD0EOyW3pZXDnuuJ@cmpxchg.org>
- <419bb403c33b7e48291972df938d0cae@codeaurora.org>
- <YD5gFYalXJh0dMLn@cmpxchg.org>
-Message-ID: <2f816fe9682d9b066ba630951db75eac@codeaurora.org>
-X-Sender: pintu@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-03-02 21:26, Johannes Weiner wrote:
-> On Tue, Mar 02, 2021 at 04:00:34PM +0530, pintu@codeaurora.org wrote:
->> On 2021-03-01 20:41, Johannes Weiner wrote:
->> > On Mon, Mar 01, 2021 at 04:19:26PM +0530, Pintu Kumar wrote:
->> > > At times there is a need to regularly monitor vm counters while we
->> > > reproduce some issue, or it could be as simple as gathering some
->> > > system
->> > > statistics when we run some scenario and every time we like to start
->> > > from
->> > > beginning.
->> > > The current steps are:
->> > > Dump /proc/vmstat
->> > > Run some scenario
->> > > Dump /proc/vmstat again
->> > > Generate some data or graph
->> > > reboot and repeat again
->> >
->> > You can subtract the first vmstat dump from the second to get the
->> > event delta for the scenario run. That's what I do, and I'd assume
->> > most people are doing. Am I missing something?
->> 
->> Thanks so much for your comments.
->> Yes in most cases it works.
->> 
->> But I guess there are sometimes where we need to compare with fresh 
->> data
->> (just like reboot) at least for some of the counters.
->> Suppose we wanted to monitor pgalloc_normal and pgfree.
-> 
-> Hopefully these would already be balanced out pretty well before you
-> run a test, or there is a risk that whatever outstanding allocations
-> there are can cause a large number of frees during your test that
-> don't match up to your recorded allocation events. Resetting to zero
-> doesn't eliminate the risk of such background noise.
-> 
->> Or, suppose we want to monitor until the field becomes non-zero..
->> Or, how certain values are changing compared to fresh reboot.
->> Or, suppose we want to reset all counters after boot and start 
->> capturing
->> fresh stats.
-> 
-> Again, there simply is no mathematical difference between
-> 
-> 	reset events to 0
-> 	run test
-> 	look at events - 0
-> 
-> and
-> 
-> 	read events baseline
-> 	run test
-> 	look at events - baseline
-> 
->> Some of the counters could be growing too large and too fast. Will 
->> there be
->> chances of overflow ?
->> Then resetting using this could help without rebooting.
-> 
-> Overflows are just a fact of life on 32 bit systems. However, they can
-> also be trivially handled - you can always subtract a ulong start
-> state from a ulong end state and get a reliable delta of up to 2^32
-> events, whether the end state has overflowed or not.
-> 
-> The bottom line is that the benefit of this patch adds a minor
-> convenience for something that can already be done in userspace. But
-> the downside is that there would be one more possible source of noise
-> for kernel developers to consider when looking at a bug report. Plus
-> the extra code and user interface that need to be maintained.
-> 
-> I don't think we should merge this patch.
+Add a paragraph about the ATTRIBUTE_GROUPS() helper macro, and use it in
+the example.  Retain the old description, as it is still useful in case
+of multiple groups.  Change the names of the group(s) structures, to
+match the ATTRIBUTE_GROUPS() macro.
 
-Okay no problem.Thank you so much for your review and feedback.
-Yes I agree the benefits are minor but I thought might be useful for 
-someone somewhere.
-I worked on it and found it easy and convinient and thus proposed it.
-If others feel not important I am okay to drop it.
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/driver-api/driver-model/device.rst | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-Thanks once again to all who helped to review it.
+diff --git a/Documentation/driver-api/driver-model/device.rst b/Documentation/driver-api/driver-model/device.rst
+index 41c819fafd9c1aee..0833be568b06cace 100644
+--- a/Documentation/driver-api/driver-model/device.rst
++++ b/Documentation/driver-api/driver-model/device.rst
+@@ -82,19 +82,24 @@ organized as follows into a group::
+ 	NULL,
+   };
+ 
+-  static struct attribute_group dev_attr_group = {
++  static struct attribute_group dev_group = {
+ 	.attrs = dev_attrs,
+   };
+ 
+-  static const struct attribute_group *dev_attr_groups[] = {
+-	&dev_attr_group,
++  static const struct attribute_group *dev_groups[] = {
++	&dev_group,
+ 	NULL,
+   };
+ 
++A helper macro is available for the common case of a single group, so the
++above two structures can be declared using:::
++
++  ATTRIBUTE_GROUPS(dev);
++
+ This array of groups can then be associated with a device by setting the
+ group pointer in struct device before device_register() is invoked::
+ 
+-        dev->groups = dev_attr_groups;
++        dev->groups = dev_groups;
+         device_register(dev);
+ 
+ The device_register() function will use the 'groups' pointer to create the
+-- 
+2.25.1
 
