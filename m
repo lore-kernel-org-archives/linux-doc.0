@@ -2,63 +2,63 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3058C4361A
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF731C4160E
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 91B9C64EEC
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A5E2860295
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:31:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348048AbhCDAbW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:31:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44866 "EHLO
+        id S232135AbhCDAbV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:31:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44276 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353181AbhCDADc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 19:03:32 -0500
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com [IPv6:2607:f8b0:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD8D6C0613A5
-        for <linux-doc@vger.kernel.org>; Wed,  3 Mar 2021 15:53:35 -0800 (PST)
-Received: by mail-oi1-x231.google.com with SMTP id m25so15057998oie.12
-        for <linux-doc@vger.kernel.org>; Wed, 03 Mar 2021 15:53:35 -0800 (PST)
+        with ESMTP id S1353081AbhCDADI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 19:03:08 -0500
+Received: from mail-oo1-xc2e.google.com (mail-oo1-xc2e.google.com [IPv6:2607:f8b0:4864:20::c2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADA16C061797
+        for <linux-doc@vger.kernel.org>; Wed,  3 Mar 2021 15:51:07 -0800 (PST)
+Received: by mail-oo1-xc2e.google.com with SMTP id l5so6134747ooj.7
+        for <linux-doc@vger.kernel.org>; Wed, 03 Mar 2021 15:51:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=cilium-io.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=sJfUpwC5Q0AujFJkQ3bJRLWkfqFnVs4ZYKg21LJVuHE=;
-        b=BFIWZ0u0+EF/YC1mA2Nchh2NeUUfh8mRSTWelXDcFLQm2vG0MPevPcPuTWmYwx4XeL
-         1Xk+DQKrHnBz+sIjKI+ng4AK1/SgOuS6H+lXZPHBmnv0SNp8K6ZxJhG3ujg2ZeAJ2wwP
-         d7F0hjQDdtCyevlcdjFr21rzFqYI/oWOvVzQ/mcUuAwV3ELOANllu1vNL2cwfRMCILdX
-         1NKZHPNvRopqcWZD+RWrXQ9cw22ho6Mwsbg1ilG7UEz+4/MGONLMrpFxX+kz0LwJeJj2
-         kZ7gUkarr8Usb0SLVN6UGeUgC2zXh+t4KgzmJD02xc4AwN5+e/9xJfZOFU7VpPwhA/Sk
-         eJQA==
+        bh=E/wr0fT0I7yiXwtdsqEsPqFrJ61emPLJgrDzqVvsCwc=;
+        b=Rk23ty4+bc5BV6kqWSsua/rctvyP75yV3bfEv2fvBR0l+li24kdj5a2bFVJnqUMAjv
+         SdnkUHdOrr7+ehIz1rD1YDtnJ4DhRqspOhwuLH37k+1iwjeYf0n/EDrTvbxcf9oJ48XA
+         /Dwcc7UsGU8X3vB5lE+BXnhL/wdTaeuaNS4jd63P+vcevgmU0QaEQSNqb9g/nvlZC1YM
+         zNHEnoZKoTN4XPvRTLXJp3tBo6tq4nyre7ooTDs3YMfKuLSa6TyhsXpRAiWcM38b67Dt
+         KzH75JKwvI5RroFYCH97HV/Ez4busEbTOUpAmWMQ33pQC5ZiAfrEE5/J+KoTT+ehSq0z
+         pD8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=sJfUpwC5Q0AujFJkQ3bJRLWkfqFnVs4ZYKg21LJVuHE=;
-        b=ifrxFuM2aPKBJGRh1uOIvPG+enacsuquOLIWIz3YeitBkkiYSuhaSdXAHZUuQ0bRTx
-         EzXhzusgPtt6vVRyWvTOs2iBnOI7zsqrltEoEmSO+X/wGytNQ5Tmdc892pw4XWEhBRFr
-         QC3tFb8nUqiNliGYeP/qPbaFOcA6e21wmIVPhjNIhieBbm0mpg7iAjYpz+MEyamz0VtD
-         fgPMX3BymOqB+oH9F1/jkLCIMuOMWT2lwcDV+1YhkA6NzKZlV6JNIaNoElgvSN7u1Eab
-         GCF8wSSBYTE4CyaQ+1ji8wMzZVGqFU4CzIFE4Al2RkB5/+fmkCERWFz3cnDscQ68FE/N
-         quCA==
-X-Gm-Message-State: AOAM530Nxag3GvXlrZGSvpTxMcwiSQnRhZ4cviXjFK2kzGOAAU0r7nOU
-        GrTmFeU+h3KZmdbUru7fIHnQS7F30pVK3uzLaSHijQ==
-X-Google-Smtp-Source: ABdhPJxVhvbmRStq/JhsuTAFe5elO14d19je73tPaRLSxCTShXmLatgreMOoyRO4L0xaC9DGZmlwi8aJuYsRDzPNKKo=
-X-Received: by 2002:aca:f50d:: with SMTP id t13mr1041539oih.89.1614815615117;
- Wed, 03 Mar 2021 15:53:35 -0800 (PST)
+        bh=E/wr0fT0I7yiXwtdsqEsPqFrJ61emPLJgrDzqVvsCwc=;
+        b=JotYQ9Q8sIaXvTjtRyOtQWs6p1qlMoeSNXJwmMDceU2nxineTRQA261j/m85Re4+b0
+         Mb2HhWsTQHZxxMkR9xGQ62i7JqX6ancmg3nXGdtdiK3J2e5rDvZ+EM7QqkWwZs8JqMQv
+         5dQaRPabslY/Q+9A1Hi1x91IhUqOKa9+iTWwbpgfhlZvJDN5nV30pzxodnLaVaFr1REn
+         fclIhnLjsCZfkgC/IT6HVhqacTMboKErRILStOlMssdUO9ltZl+l6eYxIz++S0hZR7cv
+         EACqRsU7IqhI0PIRbWY+va4nalZY0Rq/D6lHel3nevH5cu7sgq4e0H2fFn/YcXbtff9u
+         9EnQ==
+X-Gm-Message-State: AOAM531qYT8wp5725KVccbv/c8JYCYZrWvQZGKBHZFm2EulVVGm/Uv5O
+        u2tmnjHZKfKSeK1o5ZrAA03gauYFBwapEvdVe+eBkg==
+X-Google-Smtp-Source: ABdhPJwVmc2156RMPrmhrO69/wE7ilvgnrBhCrPXsfMwzYNLZG0DtDXU3w4tN/jdvhorW978WFVzqxZ3ivV0zLv+Yaw=
+X-Received: by 2002:a4a:ac49:: with SMTP id q9mr1226251oon.73.1614815466599;
+ Wed, 03 Mar 2021 15:51:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20210302171947.2268128-1-joe@cilium.io> <20210302171947.2268128-7-joe@cilium.io>
- <79954d84-ad75-8f91-118c-0ce2150a1c96@fb.com>
-In-Reply-To: <79954d84-ad75-8f91-118c-0ce2150a1c96@fb.com>
+References: <20210302171947.2268128-1-joe@cilium.io> <20210302171947.2268128-14-joe@cilium.io>
+ <0c5a3a41-2df2-2d54-80d5-00a9951074fb@fb.com>
+In-Reply-To: <0c5a3a41-2df2-2d54-80d5-00a9951074fb@fb.com>
 From:   Joe Stringer <joe@cilium.io>
-Date:   Wed, 3 Mar 2021 15:53:24 -0800
-Message-ID: <CADa=RyzgsEsRpED34Bi141216de9ecbSUw7M+349wtDDKVy2dw@mail.gmail.com>
-Subject: Re: [PATCHv2 bpf-next 06/15] bpf: Document BPF_PROG_TEST_RUN syscall command
+Date:   Wed, 3 Mar 2021 15:50:56 -0800
+Message-ID: <CADa=Ryw+qV=bVYkGj+9WkS6T_pGCBc4cpg6KnkoQg1wRfwwXNQ@mail.gmail.com>
+Subject: Re: [PATCHv2 bpf-next 13/15] selftests/bpf: Test syscall command parsing
 To:     Yonghong Song <yhs@fb.com>
 Cc:     Joe Stringer <joe@cilium.io>, bpf <bpf@vger.kernel.org>,
         Daniel Borkmann <daniel@iogearbox.net>,
@@ -66,59 +66,91 @@ Cc:     Joe Stringer <joe@cilium.io>, bpf <bpf@vger.kernel.org>,
         linux-man@vger.kernel.org,
         =?UTF-8?B?VG9rZSBIw7hpbGFuZC1Kw7hyZ2Vuc2Vu?= <toke@redhat.com>,
         Quentin Monnet <quentin@isovalent.com>,
-        Lorenz Bauer <lmb@cloudflare.com>
+        Michael Kerrisk <mtk.manpages@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 3, 2021 at 12:29 PM Yonghong Song <yhs@fb.com> wrote:
+On Wed, Mar 3, 2021 at 2:23 PM Yonghong Song <yhs@fb.com> wrote:
 >
 >
 >
 > On 3/2/21 9:19 AM, Joe Stringer wrote:
-> > Based on a brief read of the corresponding source code.
+> > Add building of the bpf(2) syscall commands documentation as part of th=
+e
+> > docs building step in the build. This allows us to pick up on potential
+> > parse errors from the docs generator script as part of selftests.
+> >
+> > The generated manual pages here are not intended for distribution, they
+> > are just a fragment that can be integrated into the other static text o=
+f
+> > bpf(2) to form the full manual page.
+>
+> I tried and the generated bpf(2) man page looks like:
+>
+> BPF(2)
+>
+>                           BPF(2)
+>
+> NAME
+>         bpf - Perform a command on an extended BPF object
+>
+> COMMANDS
+>         BPF_MAP_CREATE
+>
+>                Description
+>                       Create  a map and return a file descriptor that
+> refers to the map. The close-on-exec file descriptor flag (see fcntl(2))
+> is automatically enabled for the
+>                       new file descriptor.
+>
+>                       Applying close(2) to the file descriptor returned
+> by BPF_MAP_CREATE will delete the map (but see NOTES).
+>
+>                Return A new file descriptor (a nonnegative integer), or
+> -1 if an error occurred (in which case, errno is set appropriately).
+>
+>         BPF_MAP_LOOKUP_ELEM
+> ...
+>         BPF_PROG_BIND_MAP
+>
+>                Description
+>                       Bind a map to the lifetime of an eBPF program.
+>
+>                       The map identified by map_fd is bound to the
+> program identified by prog_fd and only released when prog_fd is
+> released. This may be used  in  cases  where
+>                       metadata  should  be  associated  with  a  program
+>   which otherwise does not contain any references to the map (for
+> example, embedded in the eBPF program
+>                       instructions).
+>
+>                Return Returns zero on success. On error, -1 is returned
+> and errno is set appropriately.
+>
+>
+> Yes, this needs to be integrated into the real man page. But this is
+> already great so people can see latest bpf latest features without
+> going to the source code. Thanks!
+
+:party-parrot:
+
+Yeah I think the step around integrating into the real man page is an
+area that folks may have opinions on and I'm CC'ing Michael here in
+particular, but ultimately that manual is currently managed in the
+upstream manpages tree so nothing actionable from this series,
+absolute simplest is for someone (is that me?) to just package this
+hunk up and submit it to the upstream tree every once in a while.
+Slightly more elaborate would involve integrating the static text with
+this generated text somewhere (either kernel tree or manpages tree)
+and have someone run a cron job to generate & submit the changes.
+Could be another option, these are the obvious ones that come to mind.
+
 > >
 > > Acked-by: Toke H=C3=B8iland-J=C3=B8rgensen <toke@redhat.com>
 > > Reviewed-by: Quentin Monnet <quentin@isovalent.com>
 > > Signed-off-by: Joe Stringer <joe@cilium.io>
 >
 > Acked-by: Yonghong Song <yhs@fb.com>
->
-> > ---
-> >   include/uapi/linux/bpf.h | 14 +++++++++++---
-> >   1 file changed, 11 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/include/uapi/linux/bpf.h b/include/uapi/linux/bpf.h
-> > index a8f2964ec885..a6cd6650e23d 100644
-> > --- a/include/uapi/linux/bpf.h
-> > +++ b/include/uapi/linux/bpf.h
-> > @@ -306,14 +306,22 @@ union bpf_iter_link_info {
-> >    *
-> >    * BPF_PROG_TEST_RUN
-> >    *  Description
-> > - *           Run an eBPF program a number of times against a provided
-> > - *           program context and return the modified program context a=
-nd
-> > - *           duration of the test run.
-> > + *           Run the eBPF program associated with the *prog_fd* a *rep=
-eat*
-> > + *           number of times against a provided program context *ctx_i=
-n* and
-> > + *           data *data_in*, and return the modified program context
-> > + *           *ctx_out*, *data_out* (for example, packet data), result =
-of the
-> > + *           execution *retval*, and *duration* of the test run.
->
-> FYI, Lorenz's BPF_PROG_TEST_RUN support for sk_lookup program
-> requires data_in and data_out to be NULL. Not sure whether it is
-> worthwhile to specially mention here or not. The patch has not
-> been merged but close.
->
-> https://lore.kernel.org/bpf/20210301101859.46045-1-lmb@cloudflare.com/
-
-Not sure how close either series is but I'm sure between Lorenz & I we
-can figure out how to fix this up. If I need to respin the series and
-Lorenz's one is in by then, I'll fix it up but it's not the end of the
-world to send an extra dedicated patch for this.
