@@ -2,88 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 091E5C433E9
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 11:02:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2C12C433E6
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AACC164ED7
-	for <linux-doc@archiver.kernel.org>; Wed,  3 Mar 2021 11:02:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84E8864E56
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240518AbhCCKbv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 05:31:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32846 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350259AbhCBS04 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 2 Mar 2021 13:26:56 -0500
-Received: from mail-il1-x134.google.com (mail-il1-x134.google.com [IPv6:2607:f8b0:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 669F3C061221
-        for <linux-doc@vger.kernel.org>; Tue,  2 Mar 2021 10:25:53 -0800 (PST)
-Received: by mail-il1-x134.google.com with SMTP id c10so18902428ilo.8
-        for <linux-doc@vger.kernel.org>; Tue, 02 Mar 2021 10:25:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/tR2XTG0HxjyVGlaiC+WrfL7p8OXI5fljdp3i9qrHB0=;
-        b=aqjY/V6RGVgwKRL3/lnscUN2LZ6ifrGWr6AfB4V8YKtxF6R2oeWYBA19kyaPGfjI9i
-         1+OZ+ZoBIQgOmkat3LFIZ4oXs9nUp3wluYxoRBavOpqQg7AlgdOkqYIJ6ha4GCWhniZj
-         eudr58unxm0p5t6SC2J12nC6zk14Dj2uUIW7P+JeI/hiwPLRMyFW41Pk+HDwY6szSXOR
-         pjb7i5NyzCaMtMcGxYV9snoFVZBU8xrnFi+bvEOXzgOJd4/AsdNLWTc2uaw1Zc1cg9fT
-         ZC+Xptql+b5CzelkIDp7i0xdCCi8cLL5qhvnVz0IuPq5naC/xtkBdtv0HdPrzlCy8ABM
-         uq0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/tR2XTG0HxjyVGlaiC+WrfL7p8OXI5fljdp3i9qrHB0=;
-        b=R8lvxL/fVXxrobDjpZflToxJ26vGxTVbzk/Qm8Nc1D2HL+yYx3MzdKoqX1eHLE+WAB
-         gvrNP+ukP7+poHwad/LhQsaXpHuX/hHWOtWbpkVMjHbDXWMDZ88CUsb09NwbDsQJs87H
-         QWsIG5So3aNc09/AKlkug7LTtwivDBcA08qNnxK2BBsWUI6E7EX3RuWaQNfeVvbpMTNC
-         mXM+Zst5g5U5k7X3WA0jXg7dfM7u0yN7d8DOANVZjZoAYr+2SNTPmmv9nvPbsmVhCma+
-         bN2ipyQV8i7ooxttBwio86an9Ewg3rSGvwRg+2rEBIezJq5OzYgvQZ9lOEr21ZX8Q+kX
-         KUqQ==
-X-Gm-Message-State: AOAM5331x0m6xM5OWxOOKtqeU9hN9wqCHuFlfe4s6uSLzRIgWdFqNHAO
-        HZeLA3PxcqyX6om7M2hoJMAD38feHvH/Tg==
-X-Google-Smtp-Source: ABdhPJxy5HeFvi7BpQUeJ7U/Std4KxNuGk5C3a6ucMAQfIiEHxLI3BHv4WrSSKvXo1Q9FozOFscU1A==
-X-Received: by 2002:a05:6e02:e87:: with SMTP id t7mr18767828ilj.211.1614709552488;
-        Tue, 02 Mar 2021 10:25:52 -0800 (PST)
-Received: from [192.168.1.30] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id g6sm8840282ilj.28.2021.03.02.10.25.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Mar 2021 10:25:52 -0800 (PST)
-Subject: Re: [PATCH] block/bfq: update comments and default value in docs for
- fifo_expire
-To:     Joseph Qi <joseph.qi@linux.alibaba.com>,
-        Paolo Valente <paolo.valente@linaro.org>
-Cc:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org
-References: <1614045328-87234-1-git-send-email-joseph.qi@linux.alibaba.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <a98d251d-f68f-a0e0-acda-54ad0b2779d8@kernel.dk>
-Date:   Tue, 2 Mar 2021 11:25:51 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1451130AbhCDAaR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:30:17 -0500
+Received: from mga03.intel.com ([134.134.136.65]:5678 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1357340AbhCCKt3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Mar 2021 05:49:29 -0500
+IronPort-SDR: CjZoDPzn0aSsNNDv60/nXalcwtH42Pij7jT0NW7npe6G09m6JpIYX++XaaK8BmmsDx/hDHQOdK
+ uDuUjqnh/lKA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9911"; a="187198599"
+X-IronPort-AV: E=Sophos;i="5.81,219,1610438400"; 
+   d="scan'208";a="187198599"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2021 00:21:36 -0800
+IronPort-SDR: qHA1K7Qn1BJsaz7fU0+bn7bDpllENc2l1wteDUW/VwqvWsIyaXjUWOZfUvraJPYK5gSaZu80EK
+ fqkRch3mNs+w==
+X-IronPort-AV: E=Sophos;i="5.81,219,1610438400"; 
+   d="scan'208";a="435946065"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2021 00:19:21 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lHMin-009ais-Mx; Wed, 03 Mar 2021 10:19:05 +0200
+Date:   Wed, 3 Mar 2021 10:19:05 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 5/7] printk: Make %pS and friends print module build ID
+Message-ID: <YD9GeXcKbF3bsDLo@smile.fi.intel.com>
+References: <20210301174749.1269154-1-swboyd@chromium.org>
+ <20210301174749.1269154-6-swboyd@chromium.org>
+ <20210302210136.3ded3ab3@gandalf.local.home>
+ <161474043200.1478170.15118093304775120279@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
-In-Reply-To: <1614045328-87234-1-git-send-email-joseph.qi@linux.alibaba.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <161474043200.1478170.15118093304775120279@swboyd.mtv.corp.google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2/22/21 6:55 PM, Joseph Qi wrote:
-> Correct the comments since bfq_fifo_expire[0] is for async request,
-> while bfq_fifo_expire[1] is for sync request.
-> Also update docs, according the source code, the default
-> fifo_expire_async is 250ms, and fifo_expire_sync is 125ms.
+On Tue, Mar 02, 2021 at 07:00:32PM -0800, Stephen Boyd wrote:
+> Quoting Steven Rostedt (2021-03-02 18:01:36)
+> > On Mon,  1 Mar 2021 09:47:47 -0800
+> > Stephen Boyd <swboyd@chromium.org> wrote:
+> > 
+> > >  WARNING: CPU: 4 PID: 3255 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x28/0x30 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
+> > >  Modules linked in: lkdtm rfcomm algif_hash algif_skcipher af_alg xt_cgroup uinput xt_MASQUERADE
+> > >  CPU: 4 PID: 3255 Comm: bash Not tainted 5.11 #3 aa23f7a1231c229de205662d5a9e0d4c580f19a1
+> > >  Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+> > >  pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=--)
+> > >  pc : lkdtm_WARNING+0x28/0x30 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
+> > >  lr : lkdtm_do_action+0x24/0x40 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
+> > 
+> > Why not just change the "Modules linked in:" portion to show the build IDs
+> > instead of every function call? Maybe make it a config option to do so?
+> > 
+> 
+> As I wrote in the commit text
+> 
+> │ An alternative to changing the printk format would be to update the                                                                                                                                             
+> │ "Modules linked in:" line to include the build ID of each module linked                                                                                                                                         
+> │ in. This can become quite long when many modules are loaded (i.e. on a                                                                                                                                          
+> │ distro) so I've opted for the printk format instead.
+> 
+> Implementing it is fairly simple compared to a new printk format. In
+> fact I did that initially but decided against it because it felt
+> unreadable and provided more information than was necessary if the
+> stacktrace wasn't in a module.
+> 
+> Example:
+> 
+>  Modules linked in: rfcomm 4de3e669b9fee915 algif_hash 915c61c32d476f01 algif_skcipher 53a4a330149bf071 af_alg b49d66496907f376 xt_cgroup 36fbbb65e7620df9 uinput a0ff6a06c1c53685 xt_MASQUERADE d130585f728315d2 snd_soc_sc7180 5c130cd310c81a12 venus_dec 2071e263fde9ca07 qcom_spmi_temp_alarm 41e28f2a9cc8b562 qcom_spmi_adc_tm5 7e0e48d0b6550c7a qcom_spmi_adc5 40b81a00bc2d0c1d qcom_vadc_common 09bb012dd1662dea snd_soc_rt5682_i2c c92b8935ad4a1729 venus_enc efaf3335b88287bf snd_soc_qcom_common 56d1e87c267ed02e videobuf2_dma_sg e9bc3c9e2758dfc9 snd_soc_rt5682 c4c9b31bf9a43f8b snd_soc_rl6231 908446e32436898c hci_uart 107b5fe6884df077 btqca 401a2fcc17b80a39 bluetooth 3369c881496a3cf8 venus_core a11eee3aa201ad8e ecdh_generic 883e01f98b778108 ecc 226b258cf40ad1ba v4l2_mem2mem 592f197cbad39e6b snd_soc_lpass_sc7180 42a99cb812d5e2e3 snd_soc_lpass_hdmi 95cce2160cfc58e2 snd_soc_lpass_cpu 475a4b395577affd snd_soc_lpass_platform 67517083263035ec snd_soc_max98357a 03ec1af0493d1c59
+>   fuse 82d170244a4d4ac6 iio_trig_sysfs b879a6228e059834 cros_ec_lid_angle a713c5f0a06a7a82 cros_ec_sensors 03f0c142ec521f67 cros_ec_sensors_core ada3f44647980056 cros_ec_sensors_ring f99590e87e998485 industrialio_triggered_buffer c697969d67f73d77 kfifo_buf e8a3aeb3069188f0 cros_ec_sensorhub 041ed1ffcefc991b ath10k_snoc 2f60802a74ff6ca7 lzo_rle 49a6228cec0c6885 ath10k_core 9407c36a2b8f8fae lzo_compress e9b4375d4bad668a ath 20c585ba6f3998f0 zram c5cdfc1d7d8a35d9 mac80211 9eaed1c76e000c02 cfg80211 872178d2dcebb722 cdc_ether 2baa214f72289402 usbnet 2bec73d0922ade28 uvcvideo eee0352cb1846ee4 r8152 47b76561b78e9b1b mii b306d150923fe614 videobuf2_vmalloc 55431ec52fa6af84 videobuf2_memops 4d43ad18fa7b1e4e videobuf2_v4l2 cdda06b9d95ab11d videobuf2_common 69cef0ca55a70a4a joydev 148399325b72d4a0
+> 
+> compared to 
+> 
+>  Modules linked in: rfcomm algif_hash algif_skcipher af_alg xt_cgroup uinput xt_MASQUERADE snd_soc_sc7180 venus_dec qcom_spmi_temp_alarm qcom_spmi_adc_tm5 qcom_spmi_adc5 qcom_vadc_common snd_soc_rt5682_i2c venus_enc snd_soc_qcom_common videobuf2_dma_sg snd_soc_rt5682 snd_soc_rl6231 hci_uart btqca bluetooth venus_core ecdh_generic ecc v4l2_mem2mem snd_soc_lpass_sc7180 snd_soc_lpass_hdmi snd_soc_lpass_cpu snd_soc_lpass_platform snd_soc_max98357a 
+>   fuse iio_trig_sysfs cros_ec_lid_angle cros_ec_sensors cros_ec_sensors_core cros_ec_sensors_ring industrialio_triggered_buffer kfifo_buf cros_ec_sensorhub ath10k_snoc lzo_rle ath10k_core lzo_compress ath zram mac80211 cfg80211 cdc_ether usbnet uvcvideo r8152 mii videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common joydev 
+> I suppose it could be surrounded by parenthesis or brackets and that
+> would be a little better? I'll try this approach again and see what
+> folks think.
 
-Applied, thanks.
+But you can do:
+Modules linked: module1 [buildidX]
+ module2 [buildidY]
+ module3 [buildidZ]
+...
+
+i.o.w. one module per line.
+
+* Yes, I understand that downside maybe split message, so it's just for
+consideration.
 
 -- 
-Jens Axboe
+With Best Regards,
+Andy Shevchenko
+
 
