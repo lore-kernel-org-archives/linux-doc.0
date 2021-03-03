@@ -2,170 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-21.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 551B0C433E9
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D106DC4332B
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 25D4764F1D
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ACA3664EE3
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:30:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346141AbhCDAar (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:30:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50650 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1449031AbhCCPnV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 10:43:21 -0500
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com [IPv6:2607:f8b0:4864:20::834])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 068BFC061756;
-        Wed,  3 Mar 2021 07:42:41 -0800 (PST)
-Received: by mail-qt1-x834.google.com with SMTP id 2so8748800qtw.1;
-        Wed, 03 Mar 2021 07:42:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=474jOip4IgCUoyMxBEribCWEBGxFGSV2OmSthT7tIzw=;
-        b=OUl4a0iSBisVMbYesUskXLxC/LPLDhIN0Z0JGTf84f1GApfyQKw6BzripeCpctzhaH
-         +D7phCtY7W74P4MAMDNeGvYAAtxOcvPJwTwYjkvlPb+txGb+DC6yw9LLjjgmdNwNaBLz
-         T+iX1Z5f0zC8hh/Oq4MPpupIK8Xjsq53GLg0aO8HXh+mEfyHxI0LsJ3V1WVo9UY0nEtk
-         0VvSkiHz7Limw2jEyntvTsr41cqWhO/K1Rrur6QvaBoUNUytNHeQY6W0T9h/gLj3Jcox
-         6FVq2aCkhvKl8XALF/xuQlmwzULpBOvkkCmMpA80t6IHJ0shgNDsfE82JWH6mpsFuv8Q
-         m9hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=474jOip4IgCUoyMxBEribCWEBGxFGSV2OmSthT7tIzw=;
-        b=ukwpOc9i0N5mS+7ylyxgpOYfaXxO/rwKJ13Svg6w2NF8Fwt2Vy/xNzzARA1sYnEerT
-         PSJUvsXPvrlYdG/niAhRAwqAuMmIeiC0ebXxTYfioqOmgZF0MhG9WVP1K0Iwt9b0oDH0
-         509IB5yI6fX6lxQWOOiqMb3vQbRSYIJ/XBoQiKdFazpdG4qAikJY78IBeyr84MXSOf/H
-         2CHKirbWMAnFT29ThgvzufvXw/RHQwaAj1scahcmmsL2wBCOKANY0GcA490WWDIwxcOm
-         2kB1Bx3KrFilW+8DaYltbAcjGvCU3JQX0e+qemmxqMMb3TdX/YqdRsaAq/zNsVqfbMcg
-         N+kw==
-X-Gm-Message-State: AOAM533C9ie2rtnSwb80uatIZGVb1dr0qrU+ELhC8VWsX8KSpT5dVIDS
-        ye78jluj6zJpvpxvHFPhWeUARowUhpF9Xg==
-X-Google-Smtp-Source: ABdhPJwLjx1ZIM0IGSCFJl5U/6zxO0tdSMromsGM+JquTtBrWC0ilXZSSOQoOEy0rSaf15B4HSmo9g==
-X-Received: by 2002:ac8:754a:: with SMTP id b10mr23629995qtr.251.1614786160009;
-        Wed, 03 Mar 2021 07:42:40 -0800 (PST)
-Received: from localhost (2603-7000-9602-8233-06d4-c4ff-fe48-9d05.res6.spectrum.com. [2603:7000:9602:8233:6d4:c4ff:fe48:9d05])
-        by smtp.gmail.com with ESMTPSA id j24sm5067992qka.67.2021.03.03.07.42.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Mar 2021 07:42:39 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Wed, 3 Mar 2021 10:42:37 -0500
-From:   Tejun Heo <tj@kernel.org>
-To:     Vipin Sharma <vipinsh@google.com>
-Cc:     mkoutny@suse.com, rdunlap@infradead.org, thomas.lendacky@amd.com,
-        brijesh.singh@amd.com, jon.grimm@amd.com, eric.vantassell@amd.com,
-        pbonzini@redhat.com, hannes@cmpxchg.org, frankja@linux.ibm.com,
-        borntraeger@de.ibm.com, corbet@lwn.net, seanjc@google.com,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, gingell@google.com,
-        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC v2 1/2] cgroup: sev: Add misc cgroup controller
-Message-ID: <YD+ubbB4Tz0ZlVvp@slm.duckdns.org>
-References: <20210302081705.1990283-1-vipinsh@google.com>
- <20210302081705.1990283-2-vipinsh@google.com>
+        id S239635AbhCDAay (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 19:30:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54458 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235014AbhCCRBA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 3 Mar 2021 12:01:00 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id A55B064EDF;
+        Wed,  3 Mar 2021 17:00:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614790807;
+        bh=GlpLp6hgSgh1lfq00GHEJic23eMw+Dv0Nw+gC2Vh1a4=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=r+a0FajFHHOV4ZuIu/k25ny2bGkzo0Fo/HbtmumalLEXz07gXjiRVY3xCd2HjT6s4
+         O8STBYvFkyal1arOdDVKDuaxBcoA9N6xSFPp734beajFo6tWKUEE2e4QWmgg+W1zP9
+         j1g6RWHOyw9BEEWWi+jRgcw7EdhLtXAQ/TRZSsDRj7E+kki90pmbAb2gj+ZzxX/T1p
+         bM4Z5pmR1RNgTIxnjNCO5rC8hgcO73zUsMhpJ0fvI51X1i+ujuNU2GE3UOh4i1t1UL
+         XAjmNVHpAbl/UemlRO3hN73OKmDL6M1LJQSRiX1ti8Fub3IL4x9Ak4CR3G3dVJ78sY
+         V19/RkhvxqxLg==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210302081705.1990283-2-vipinsh@google.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] docs: networking: drop special stable handling
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <161479080763.4362.12115440673038425798.git-patchwork-notify@kernel.org>
+Date:   Wed, 03 Mar 2021 17:00:07 +0000
+References: <20210303024643.1076846-1-kuba@kernel.org>
+In-Reply-To: <20210303024643.1076846-1-kuba@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org,
+        linux-doc@vger.kernel.org, gregkh@linuxfoundation.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+Hello:
 
-On Tue, Mar 02, 2021 at 12:17:04AM -0800, Vipin Sharma wrote:
-> +/**
-> + * struct misc_res: Per cgroup per misc type resource
-> + * @max: Maximum count of the resource.
-> + * @usage: Current usage of the resource.
-> + */
-> +struct misc_res {
-> +	unsigned int max;
-> +	atomic_t usage;
-> +};
+This patch was applied to netdev/net.git (refs/heads/master):
 
-Can we do 64bits so that something which counts memory can use this too?
+On Tue,  2 Mar 2021 18:46:43 -0800 you wrote:
+> Leave it to Greg.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
+>  Documentation/networking/netdev-FAQ.rst       | 72 ++-----------------
+>  Documentation/process/stable-kernel-rules.rst |  6 --
+>  Documentation/process/submitting-patches.rst  |  5 --
+>  3 files changed, 6 insertions(+), 77 deletions(-)
 
-> +/*
-> + * Miscellaneous resources capacity for the entire machine. 0 capacity means
-> + * resource is not initialized or not present in the host.
-> + *
-> + * root_cg.max and capacity are independent of each other. root_cg.max can be
-> + * more than the actual capacity. We are using Limits resource distribution
-> + * model of cgroup for miscellaneous controller. However, root_cg.current for a
-> + * resource will never exceeds the resource capacity.
-                                ^
-                                typo
+Here is the summary with links:
+  - [net] docs: networking: drop special stable handling
+    https://git.kernel.org/netdev/net/c/dbbe7c962c3a
 
-> +int misc_cg_set_capacity(enum misc_res_type type, unsigned int capacity)
-> +{
-> +	if (!valid_type(type))
-> +		return -EINVAL;
-> +
-> +	for (;;) {
-> +		int usage;
-> +		unsigned int old;
-> +
-> +		/*
-> +		 * Update the capacity while making sure that it's not below
-> +		 * the concurrently-changing usage value.
-> +		 *
-> +		 * The xchg implies two full memory barriers before and after,
-> +		 * so the read-swap-read is ordered and ensures coherency with
-> +		 * misc_cg_try_charge(): that function modifies the usage
-> +		 * before checking the capacity, so if it sees the old
-> +		 * capacity, we see the modified usage and retry.
-> +		 */
-> +		usage = atomic_read(&root_cg.res[type].usage);
-> +
-> +		if (usage > capacity)
-> +			return -EBUSY;
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-I'd rather go with allowing bringing down capacity below usage so that the
-users can set it to a lower value to drain existing usages while denying new
-ones. It's not like it's difficult to check the current total usage from the
-caller side, so I'm not sure it's very useful to shift the condition check
-here.
 
-> +int misc_cg_try_charge(enum misc_res_type type, struct misc_cg *cg,
-> +		       unsigned int amount)
-> +{
-...
-> +	for (i = cg; i; i = parent_misc(i)) {
-> +		res = &i->res[type];
-> +
-> +		/*
-> +		 * The atomic_long_add_return() implies a full memory barrier
-> +		 * between incrementing the count and reading the capacity.
-> +		 * When racing with misc_cg_set_capacity(), we either see the
-> +		 * new capacity or the setter sees the counter has changed and
-> +		 * retries.
-> +		 */
-> +		new_usage = atomic_add_return(amount, &res->usage);
-> +		if (new_usage > res->max ||
-> +		    new_usage > misc_res_capacity[type]) {
-> +			pr_info("cgroup: charge rejected by misc controller for %s resource in ",
-> +				misc_res_name[type]);
-> +			pr_cont_cgroup_path(i->css.cgroup);
-> +			pr_cont("\n");
-
-Should have commented on this in the priv thread but don't print something
-on every rejection. This often becomes a nuisance and can make an easy DoS
-vector at worst. If you wanna do it, print it once per cgroup or sth like
-that.
-
-Otherwise, looks good to me.
-
-Thanks.
-
--- 
-tejun
