@@ -2,100 +2,226 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF88EC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 08:55:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA4DBC433E6
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 09:51:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8053B64F20
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 08:55:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 87F3264F1C
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 09:51:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236949AbhCDIyV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 03:54:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46888 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236904AbhCDIxy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 03:53:54 -0500
-Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6657C061574;
-        Thu,  4 Mar 2021 00:53:13 -0800 (PST)
-Received: by mail-qk1-x735.google.com with SMTP id l132so25784951qke.7;
-        Thu, 04 Mar 2021 00:53:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=7yRX9wnbaqglQOqo35jp40oCDrn05rlNxnwnL03DlpE=;
-        b=KZp4VpCLyjq4r7v+f3wf3DEJwmNX69ZdxRoq/N35GcQfqmjHiarec+NRj7KIldoeDn
-         pZbEMbqOFxiQNvPhJdL/up4J+DHXdVPtN8l6ev1aGrjKVWrHdVUiyQ3Ne3+oN+ssrls6
-         LxnEGJ3S+kkZGcOyVXuepIbNqb1RPDtwc1GiQwhln41uDV1zNmeLCoGVCz1Zou/rv8Km
-         3zoPGw9sfJxB/GP+6HeJLHc7ZL8k/473wsXPli2Df4HTj+afRv1U+MNTSquDZmTG4vZZ
-         1GO0fzGBFPwvgzS1jPRN+1sMTk1UKbe7A2bA5z1ZcNiHFJUYu/I4XRGD4g+xai+Z2UfJ
-         P1BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=7yRX9wnbaqglQOqo35jp40oCDrn05rlNxnwnL03DlpE=;
-        b=BrsrX6sXJT4Igv+0Dy4ru0hFWHRrHKS8s1CqYahfpFjv50gCTHtU17o+rIa93aOkKx
-         apfyuIMozmBdxcHZbCuU68GxH19Ns2AT31X2qK371pUoNR9V3wA7I7d4echRLgVVhqI1
-         TD8vctw2hQSAd6qcgU46GV4l4AZ08M/H86Dvi6FJQcfsF45PJYWkT1f8dDk+W5obDj8R
-         V0cs3B9puM29cVdw3MXMzuSoxX/wdLRwMF/NLA/imzA0v2vkStX/SDnOIcMAAR0VuRbA
-         gldMY/GE59QROPINJ/dV5d6DJSmFw0qfjVIltjjDaf5MHM+eDgTO3DG/Ps/GD7h8m37i
-         PYcA==
-X-Gm-Message-State: AOAM530UPQMHNuz4/4GaSR/srqejclm9+kxQnQTIOLlQEjWRd40f5e67
-        Le6felvS1iyGBxjTUCtXlAs=
-X-Google-Smtp-Source: ABdhPJxjxqpmSS1hWEgEm4NSaHKWX/oNGl1qgvhGmr20OkNkRZoYpCeiWyVlFdEF31Z6wDbKA53ELg==
-X-Received: by 2002:ae9:eb8a:: with SMTP id b132mr2828097qkg.296.1614847992933;
-        Thu, 04 Mar 2021 00:53:12 -0800 (PST)
-Received: from localhost (2603-7000-9602-8233-06d4-c4ff-fe48-9d05.res6.spectrum.com. [2603:7000:9602:8233:6d4:c4ff:fe48:9d05])
-        by smtp.gmail.com with ESMTPSA id v145sm19926066qka.27.2021.03.04.00.53.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Mar 2021 00:53:12 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Thu, 4 Mar 2021 03:53:11 -0500
-From:   Tejun Heo <tj@kernel.org>
-To:     Vipin Sharma <vipinsh@google.com>
-Cc:     mkoutny@suse.com, rdunlap@infradead.org, thomas.lendacky@amd.com,
-        brijesh.singh@amd.com, jon.grimm@amd.com, eric.vantassell@amd.com,
-        pbonzini@redhat.com, hannes@cmpxchg.org, frankja@linux.ibm.com,
-        borntraeger@de.ibm.com, corbet@lwn.net, seanjc@google.com,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, gingell@google.com,
-        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        id S237833AbhCDJuz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 04:50:55 -0500
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:56212 "EHLO
+        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S237884AbhCDJuY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 04:50:24 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=alimailimapcm10staff010182156082;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UQOj96H_1614851382;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UQOj96H_1614851382)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 04 Mar 2021 17:49:42 +0800
+Subject: Re: [PATCH] PATCH Documentation translations:translate
+ sound/hd-audio/controls to chinese
+To:     hjh <huangjianghui@uniontech.com>, Jonathan Corbet <corbet@lwn.net>
+Cc:     Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [RFC v2 1/2] cgroup: sev: Add misc cgroup controller
-Message-ID: <YECf9yxMMAztYEH4@slm.duckdns.org>
-References: <20210302081705.1990283-1-vipinsh@google.com>
- <20210302081705.1990283-2-vipinsh@google.com>
- <YD+ubbB4Tz0ZlVvp@slm.duckdns.org>
- <YEB6ULUgbf+s8ydd@google.com>
+References: <20210304094556.5858-1-huangjianghui@uniontech.com>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <90dd447e-eb05-6a72-e4bb-d6ac7d15c4e5@linux.alibaba.com>
+Date:   Thu, 4 Mar 2021 17:49:41 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YEB6ULUgbf+s8ydd@google.com>
+In-Reply-To: <20210304094556.5858-1-huangjianghui@uniontech.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
 
-On Wed, Mar 03, 2021 at 10:12:32PM -0800, Vipin Sharma wrote:
-> Right now there is no API for the caller to know total usage, unless they
-> keep their own tally, I was thinking it will be useful to add one more API
+在 2021/3/4 下午5:45, hjh 写道:
+> Signed-off-by: hjh <huangjianghui@uniontech.com>
+> ---
+>  Documentation/translations/zh_CN/index.rst    |   1 +
+>  .../zh_CN/sound/hd-audio/controls.rst         | 102 ++++++++++++++++++
+>  .../zh_CN/sound/hd-audio/index.rst            |  14 +++
+>  .../translations/zh_CN/sound/index.rst        |  22 ++++
+>  4 files changed, 139 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/controls.rst
+>  create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/index.rst
+>  create mode 100644 Documentation/translations/zh_CN/sound/index.rst
 > 
-> unsigned long misc_cg_res_total_usage(enum misc_res_type type)
+> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+> index be6f11176200..2767dacfe86d 100644
+> --- a/Documentation/translations/zh_CN/index.rst
+> +++ b/Documentation/translations/zh_CN/index.rst
+> @@ -20,6 +20,7 @@
+>     process/index
+>     filesystems/index
+>     arm64/index
+> +   sound/index
+>  
+>  目录和表格
+>  ----------
+> diff --git a/Documentation/translations/zh_CN/sound/hd-audio/controls.rst b/Documentation/translations/zh_CN/sound/hd-audio/controls.rst
+> new file mode 100644
+> index 000000000000..54c028ab9a40
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/sound/hd-audio/controls.rst
+> @@ -0,0 +1,102 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Chinese translator: Huang Jianghui <huangjianghui@uniontech.com>
+> +---------------------------------------------------------------------
+> +.. include:: ../../disclaimer-zh_CN.rst
+> +以下为正文
+> +---------------------------------------------------------------------
+> +======================================
+> +高清音频编解码器特定混音器控件
+> +======================================
+> +
+> +
+> +此文件解释特定于编解码器的混音器控件.
+> +
+> +瑞昱编解码器
+> +------------
+> +
+> +声道模式
+> +  这是一个用于更改环绕声道设置的枚举控件,仅在环绕声道打开时显示出现。
+> +  它给出要使用的通道数:"2ch","4ch","6ch"，和"8ch"。根据配置，这还控
+> +  制多I/O插孔的插孔重分配。
+> +
+> +自动静音模式
+> +  这是一个枚举控件，用于更改耳机和线路输出插孔的自动静音行为。如果内
+> +  置扬声器、耳机和/或线路输出插孔在机器上可用，则显示该控件。当只有
+> +  耳机或者线路输出的时候，它给出”禁用“和”启用“状态。当启用后，插孔插
+> +  入后扬声器会自动静音。
+> +
+> +  当耳机和线路输出插孔都存在时，它给出”禁用“、”仅扬声器“和”线路输出+扬
+> +  声器“。当”仅扬声器“被选择，插入耳机或者线路输出插孔可使扬声器静音，
+> +  但不会使线路输出静音。当线路输出+扬声器被选择，插入耳机插孔会同时使扬
+> +  声器和线路输出静音。
+> +
+> +
+> +矽玛特编解码器
+> +--------------
+> +
+> +模拟环回
+> +   此控件启用/禁用模拟环回电路。只有在编解码器提示中将”lookback“设置为真
+> +   时才会出现(见HD-Audio.txt)。请注意，在某些编解码器上，模拟环回和正常
+> +   PCM播放是独占的,即当此选项打开时，您将听不到任何PCM流。
+> +
+> +交换中置/低频
+> +   交换中置和低频通道顺序，通常情况下，左侧对应中置，右侧对应低频,启动此
+> +   项后，左边低频，右边中置。
+> +
+> +耳机作为线路输出
+> +   当此控制开启时，将耳机视为线路输出插孔。也就是说，耳机不会自动静音其他
+> +   线路输出，没有耳机放大器被设置到引脚上。
+> +
+> +麦克风插口模式、线路插孔模式等
+> +   这些枚举控制输入插孔引脚的方向和偏置。根据插孔类型，它可以设置为”麦克风
+> +   输入“和”线路输入“以确定输入偏置,或者当引脚是环绕声道的多I/O插孔时，它
+> +   可以设置为”线路输出“。
+> +
+> +
+> +威盛编解码器
+> +------------
+> +
+> +智能5.1
+> +   一个枚举控件，用于为环绕输出重新分配多个I/O插孔的任务。当它打开时，相应
+> +   的输入插孔（通常是线路输入和麦克风输入）被切换为环绕和中央低频输出插孔。
+> +
+> +独立耳机
+> +   启用此枚举控制时，耳机输出从单个流（第三个PCM，如hw:0,2）而不是主流路由。
+> +   如果耳机DAC与侧边或中央低频通道DAC共享，则DAC将自动切换到耳机。
+> +
+> +环回混合
+> +   一个用于确定是否启动了模拟环回路由的枚举控件。当它启用后，模拟环回路由到
+> +   前置通道。同样，耳机与扬声器输出也采用相同的路径。作为一个副作用，当设置
+> +   此模式后，单个音量控制将不再适用于耳机和扬声器，因为只有一个DAC连接到混
+> +   音器小部件。
+> +
+> +动态电源控制
+> +   此控件决定是否启动每个插孔的动态电源控制检测。启用时，根据插孔的插入情况
+> +   动态更改组件的电源状态（D0/D3）以节省电量消耗。但是，如果您的系统没有提
+> +   供正确的插孔检测，这将无法工作;在这种情况下，请关闭此控件。
+> +
+> +插孔检测
+> +   此控件仅为VT1708编解码器提供，它不会为每个插孔插拔提供适当的未请求事件。
+> +   当此控件打开，驱动将轮询插孔检测，以便耳机自动静音可以工作，而关闭此控
+> +   件将降低功耗。
+> +
+> +
+> +科胜讯编解码器
+> +--------------
+> +
+> +自动静音模式
+> +   见瑞昱解码器
+> +
+> +
+> +
+> +模拟编解码器
+> +------------
+> +
+> +通道模式
+> +   这是一个用于更改环绕声道设置的枚举控件,仅在环绕声道可用时显示。它提供了能
+> +   被使用的通道数:”2ch“、”4ch“和”6ch“。根据配置，这还控制多I/O插孔的插孔重
+> +   分配。
+> +
+> +独立耳机
+> +   启动此枚举控制后，耳机输出从单个流（第三个PCM，如hw:0,2）而不是主流路由。
+> diff --git a/Documentation/translations/zh_CN/sound/hd-audio/index.rst b/Documentation/translations/zh_CN/sound/hd-audio/index.rst
+> new file mode 100644
+> index 000000000000..d9885d53b069
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/sound/hd-audio/index.rst
+> @@ -0,0 +1,14 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../../disclaimer-zh_CN.rst
+> +
+> +:Original: :doc:`../../../../sound/hd-audio/index`
+> +:Translator: Huang Jianghui <huangjianghui@uniontech.com>
+> +
+> +
+> +高清音频
+> +========
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +
+> +   controls
+> diff --git a/Documentation/translations/zh_CN/sound/index.rst b/Documentation/translations/zh_CN/sound/index.rst
+> new file mode 100644
+> index 000000000000..28d5dca34a63
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/sound/index.rst
+> @@ -0,0 +1,22 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: :doc:`../../../sound/index`
+> +:Translator: Huang Jianghui <huangjianghui@uniontech.com>
+> +
+> +
+> +====================
+> +Linux 声音子系统文档
+> +====================
+> +
+> +.. toctree::
+> +   :maxdepth: 2
+> +
+> +   hd-audio/index
+> +
+> +.. only::  subproject and html
+> +
+> +   Indices
+> +   =======
+> +
+> +   * :ref:`genindex`
 > 
-> It will return root_cg usage for "type" resource.
-> Will it be fine?
-
-Yeah, that sounds fine.
-
-Thanks.
-
--- 
-tejun
