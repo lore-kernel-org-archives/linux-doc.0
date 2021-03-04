@@ -2,163 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DF17C43381
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41260C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 01:12:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B4DF64EE3
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 00:32:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 213A764F38
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 01:12:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1355565AbhCDAa4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 19:30:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44946 "EHLO
+        id S240379AbhCDBMD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 20:12:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239338AbhCCR3a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 12:29:30 -0500
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84C8FC061764;
-        Wed,  3 Mar 2021 09:27:00 -0800 (PST)
-Received: from zn.tnic (p200300ec2f086d000d273eec19a1f357.dip0.t-ipconnect.de [IPv6:2003:ec:2f08:6d00:d27:3eec:19a1:f357])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id D6C9B1EC0300;
-        Wed,  3 Mar 2021 18:26:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1614792418;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=4ibLcnOd4K0tYTtc82E0TWwQeSANPgQebYcD/0eumSw=;
-        b=fZN/EdJwGpouJQ1EYJJuFKYMPR3wGDQgjNMM/pTBNKL59wEOirstsgN7mKM8OyeoyKou1i
-        HGktvIYgCwElZrpEtMPzSViQ6wOytsMrrX738nFT6eAj1GoSTfQHGXvVd8SHtaowHM5TAR
-        eEiSsLKgC1unJF+Xny+UH7GSFR/ThdA=
-Date:   Wed, 3 Mar 2021 18:26:52 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v21 08/26] x86/mm: Introduce _PAGE_COW
-Message-ID: <20210303172652.GF22305@zn.tnic>
-References: <20210217222730.15819-1-yu-cheng.yu@intel.com>
- <20210217222730.15819-9-yu-cheng.yu@intel.com>
- <20210301155234.GF6699@zn.tnic>
- <167f58a3-20ef-7210-1d66-cf25f4a9bbef@intel.com>
+        with ESMTP id S1452894AbhCDAjM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 19:39:12 -0500
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A708DC061760
+        for <linux-doc@vger.kernel.org>; Wed,  3 Mar 2021 16:38:31 -0800 (PST)
+Received: by mail-pg1-x530.google.com with SMTP id a23so7835750pga.8
+        for <linux-doc@vger.kernel.org>; Wed, 03 Mar 2021 16:38:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=PfZ+OYxNm7h5tJK5w+oUr32uRv1k2kpI5yPw7ocFrgQ=;
+        b=X8eFB+3ST2j16ARrJMB0ef0lcaSQd7pyQlhMRgb/UiCqNftC01OYAykqug2pE+HFnF
+         QzwrkzbKEefyiVjp+hT6AFNyQlNzibYRR3rYc4gTqJZB8u62ZMFm8jbrPSXyugqQ5/i5
+         NEFoW3WcNnpW17d/5DJ6rTQurIeb5XwKW+u04=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=PfZ+OYxNm7h5tJK5w+oUr32uRv1k2kpI5yPw7ocFrgQ=;
+        b=f2/+4CPmAhUZeSWZmgK+yDLDhoTiYNtr/OiRpyN9EzUSF12NAsWC/Ya6dEy4C4q5rf
+         vZt5dOz8sEKhjavewzYWjcnMcLBCOzoRW0aDyNlj5LuAYbGt+qlHpfm2MM9CbXSbw4MU
+         ckTJ1doCN9tplRJ18qH6an2DTfDX0q+wyz4GEHIa/sBkTRFJMr722IlXjNy1v8MHNPIg
+         Ev1SuamzfkkCLn9gpmHONxeWzZKb/5C8+rLDbKzJEvB46LuYyOPjI9Ev0Dd3MzDWAAHS
+         RqzdBVVjMRBfmLCvmRfdyhmASqV5g6rQDy94ytl2uTbdQ5LuA6zSotA6YIPuVo+WfUxv
+         EOJA==
+X-Gm-Message-State: AOAM530wS4JHLE64seqMqgpmFTOZyekoz8/WhxY4c5DY8HoWVUDjQxiG
+        n5Olt7pCzeOCQFLcpAbJcl4vOg==
+X-Google-Smtp-Source: ABdhPJwtzdmnlXXWIuKYO/rYxzkik6zRTD6vsA6EJ2zDRKMp0qXjSKyNixmUVgUxq7kITYibAn/+jg==
+X-Received: by 2002:a63:c90c:: with SMTP id o12mr1448716pgg.210.1614818311181;
+        Wed, 03 Mar 2021 16:38:31 -0800 (PST)
+Received: from chromium.org ([2620:15c:202:201:2510:ab07:78a:7d78])
+        by smtp.gmail.com with ESMTPSA id d16sm19780490pfq.203.2021.03.03.16.38.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Mar 2021 16:38:30 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <167f58a3-20ef-7210-1d66-cf25f4a9bbef@intel.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YD+2fRo4J/ffQF8z@smile.fi.intel.com>
+References: <20210301174749.1269154-1-swboyd@chromium.org> <20210301174749.1269154-6-swboyd@chromium.org> <YD9kNphaSRPk83KJ@alley> <20210303100012.0e6e4de3@gandalf.local.home> <YD+2fRo4J/ffQF8z@smile.fi.intel.com>
+Subject: Re: [PATCH 5/7] printk: Make %pS and friends print module build ID
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     Petr Mladek <pmladek@suse.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Steven Rostedt <rostedt@goodmis.org>
+Date:   Wed, 03 Mar 2021 16:38:28 -0800
+Message-ID: <161481830876.1478170.4374239517736205573@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 02, 2021 at 03:46:31PM -0800, Yu, Yu-cheng wrote:
-> There is a problem of doing that: pmd_write() is defined after this
-> function.  Maybe we can declare it first, or leave this as-is?
+Quoting Andy Shevchenko (2021-03-03 08:17:01)
+> On Wed, Mar 03, 2021 at 10:00:12AM -0500, Steven Rostedt wrote:
+> > On Wed, 3 Mar 2021 11:25:58 +0100
+> > Petr Mladek <pmladek@suse.com> wrote:
+> >=20
+> > > Alternative solution would be to minimize the information, for
+> > > example, by printing only the modules that appear in the backtrace.
+> > > But this might be complicated to implement.
+> >=20
+> > It could be a list after the backtrace perhaps, and not part of the
+> > "modules linked in"?
+> >=20
+> > But then you need a generic way of capturing those modules in the backt=
+race
+> > that works for every architecture.
 
-Or a third option: you lift those two functions in a prepatch and then
-in this patch use them directly.
+Right, and doing that is sort of complicated for something that really
+shouldn't need to be complicated. We're printing out information about a
+crash/hang/bug and that should be fast and not too computationally
+intensive so that the stacktrace can be printed before everything starts
+falling apart. I'd rather not save things away while processing the
+stacktrace and then print more info after the stacktrace. Seems fragile.
 
-Combined diff ontop:
+>=20
+> > Honestly, I don't even know what a buildid is, and it is totally useless
+> > information for myself. What exactly is it used for?
+>=20
+> Dunno Stephen's motivation, but build ID is very useful when you do traci=
+ng,
+> then based on ID the decoders can know what exactly was the layout of the
+> binary and list of (exported) functions, etc.
+>=20
+> At least that was my (shallow) experience with perf last time I have trie=
+d it.
+>=20
 
----
-diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
-index 1a6c0784af0a..b7e4d031ce22 100644
---- a/arch/x86/include/asm/pgtable.h
-+++ b/arch/x86/include/asm/pgtable.h
-@@ -209,6 +209,18 @@ static inline int pte_write(pte_t pte)
- 	return (pte_flags(pte) & _PAGE_RW) || pte_shstk(pte);
- }
- 
-+#define pmd_write pmd_write
-+static inline int pmd_write(pmd_t pmd)
-+{
-+	return (pmd_flags(pmd) & _PAGE_RW) || pmd_shstk(pmd);
-+}
-+
-+#define pud_write pud_write
-+static inline int pud_write(pud_t pud)
-+{
-+	return pud_flags(pud) & _PAGE_RW;
-+}
-+
- static inline int pte_huge(pte_t pte)
- {
- 	return pte_flags(pte) & _PAGE_PSE;
-@@ -540,7 +552,7 @@ static inline pmd_t pmd_mkdirty(pmd_t pmd)
- 	pmdval_t dirty = _PAGE_DIRTY;
- 
- 	/* Avoid creating (HW)Dirty=1, Write=0 PMDs */
--	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pmd_flags(pmd) & _PAGE_RW))
-+	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !pmd_write(pmd))
- 		dirty = _PAGE_COW;
- 
- 	return pmd_set_flags(pmd, dirty | _PAGE_SOFT_DIRTY);
-@@ -636,7 +648,7 @@ static inline pud_t pud_mkdirty(pud_t pud)
- 	pudval_t dirty = _PAGE_DIRTY;
- 
- 	/* Avoid creating (HW)Dirty=1, Write=0 PUDs */
--	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !(pud_flags(pud) & _PAGE_RW))
-+	if (cpu_feature_enabled(X86_FEATURE_SHSTK) && !pud_write(pud))
- 		dirty = _PAGE_COW;
- 
- 	return pud_set_flags(pud, dirty | _PAGE_SOFT_DIRTY);
-@@ -1273,12 +1285,6 @@ extern int pmdp_clear_flush_young(struct vm_area_struct *vma,
- 				  unsigned long address, pmd_t *pmdp);
- 
- 
--#define pmd_write pmd_write
--static inline int pmd_write(pmd_t pmd)
--{
--	return (pmd_flags(pmd) & _PAGE_RW) || pmd_shstk(pmd);
--}
--
- #define __HAVE_ARCH_PMDP_HUGE_GET_AND_CLEAR
- static inline pmd_t pmdp_huge_get_and_clear(struct mm_struct *mm, unsigned long addr,
- 				       pmd_t *pmdp)
-@@ -1300,12 +1306,6 @@ static inline void pmdp_set_wrprotect(struct mm_struct *mm,
- 	clear_bit(_PAGE_BIT_RW, (unsigned long *)pmdp);
- }
- 
--#define pud_write pud_write
--static inline int pud_write(pud_t pud)
--{
--	return pud_flags(pud) & _PAGE_RW;
--}
--
- #ifndef pmdp_establish
- #define pmdp_establish pmdp_establish
- static inline pmd_t pmdp_establish(struct vm_area_struct *vma,
+I'm starting to feel like nobody read the commit text, or I messed up
+somehow and the commit text was confusing? :(
 
--- 
-Regards/Gruss,
-    Boris.
+=E2=94=82 This is especially helpful for crash debugging with pstore or cra=
+shdump                                                                     =
+                                                                   =20
+=E2=94=82 kernels. If we have the build ID for the module in the stacktrace=
+ we can                                                                    =
+                                                                   =20
+=E2=94=82 request the debug symbols for the module from a remote debuginfod=
+ server                                                                    =
+                                                                   =20
+=E2=94=82 or parse stacktraces at a later time with decode_stacktrace.sh by=
+                                                                           =
+                                                                   =20
+=E2=94=82 downloading the correct symbols based on the build ID. This cuts =
+down on                                                                    =
+                                                                   =20
+=E2=94=82 the amount of time and effort needed to find the correct kernel m=
+odules                                                                     =
+                                                                   =20
+=E2=94=82 for a stacktrace by encoding that information into it. =20
 
-https://people.kernel.org/tglx/notes-about-netiquette
+In some distro (read: non-kernel dev) workflows the vmlinux isn't
+shipped on the device and crash handling is done offline or much later.
+Using the build ID[1] is a common way to identify the binary that's
+running on the device. In conjunction with a debuginfod[2] server you
+can download the symbols for a crash automatically if you have the build
+ID information.
+
+I can add a patch that updates decode_stacktrace.sh to show how it can
+download the correct vmlinux/modules if it isn't provided on the
+commandline.
+
+If the debug symbols are on some public server then in theory we could
+have some robot sitting on the mailing list that looks for stacktraces
+and automatically replies with information about the line number/file
+and even provides the code snippet for the code that's crashing from
+that binary, because it's all stored in the full debuginfo builds.
+
+[1] https://fedoraproject.org/wiki/RolandMcGrath/BuildID
+[2] https://sourceware.org/elfutils/Debuginfod.html
