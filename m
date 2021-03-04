@@ -2,241 +2,183 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2D61C433DB
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 09:53:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77BB0C433E9
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 10:02:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 810E164F20
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 09:53:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 596D364F2C
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 10:02:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237852AbhCDJwb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 04:52:31 -0500
-Received: from regular1.263xmail.com ([211.150.70.201]:40264 "EHLO
-        regular1.263xmail.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238007AbhCDJwV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 04:52:21 -0500
-Received: from localhost (unknown [192.168.167.235])
-        by regular1.263xmail.com (Postfix) with ESMTP id 6137CDF0;
-        Thu,  4 Mar 2021 17:46:02 +0800 (CST)
-X-MAIL-GRAY: 0
-X-MAIL-DELIVERY: 1
-X-ADDR-CHECKED4: 1
-X-ANTISPAM-LEVEL: 2
-X-SKE-CHECKED: 1
-X-ABS-CHECKED: 1
-Received: from localhost.localdomain (unknown [113.57.152.160])
-        by smtp.263.net (postfix) whith ESMTP id P19729T140185353447168S1614851161349091_;
-        Thu, 04 Mar 2021 17:46:02 +0800 (CST)
-X-IP-DOMAINF: 1
-X-UNIQUE-TAG: <3cea0d218c0c385e8890b1a7b73b21c4>
-X-RL-SENDER: huangjianghui@uniontech.com
-X-SENDER: huangjianghui@uniontech.com
-X-LOGIN-NAME: huangjianghui@uniontech.com
-X-FST-TO: corbet@lwn.net
-X-SENDER-IP: 113.57.152.160
-X-ATTACHMENT-NUM: 0
-X-System-Flag: 0
-From:   hjh <huangjianghui@uniontech.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] PATCH Documentation translations:translate sound/hd-audio/controls to chinese
-Date:   Thu,  4 Mar 2021 17:45:55 +0800
-Message-Id: <20210304094556.5858-1-huangjianghui@uniontech.com>
-X-Mailer: git-send-email 2.20.1
+        id S238231AbhCDKBf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 05:01:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33132 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238225AbhCDKBM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 05:01:12 -0500
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9A30C061761
+        for <linux-doc@vger.kernel.org>; Thu,  4 Mar 2021 02:00:31 -0800 (PST)
+Received: by mail-lf1-x132.google.com with SMTP id q25so21965820lfc.8
+        for <linux-doc@vger.kernel.org>; Thu, 04 Mar 2021 02:00:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=R+fyz1Gmo60Jzev6gG0weSOoqYLjk+pWR3oPV5MKoDA=;
+        b=lCDW9qJOuKrhpjESaUjTrpzFc1bcy7QBYhT7TcfsnuwLoRMbe1vBr6ymXsligO+5jG
+         sTneNJj8Lo/s0urIihtY1H8SXSXSMc0VPdePAkij11jLBKd6FP7z75Hhs/Q9YwntF3TE
+         G22+pN90TDJgrRLb6J7+yM0URNfEbiQvrrFK/DTy8p1Br8WUQY/D81lv+oS6NhRELZMp
+         XkyXefNOX+vyFG1WYPbOIOHFaqe+4SYCxjv0b/xioHR1/1QcZEtdOx1Occz4q/dBYc2P
+         2GGiiDVv7cvyezNdlPriPrhRL76yr8WAKE4nqpuFVw1UnJhcafnu1jt7dyRunIGH6Kvc
+         jmYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=R+fyz1Gmo60Jzev6gG0weSOoqYLjk+pWR3oPV5MKoDA=;
+        b=Ayf44N+vAD+QgAT/YEktK5ny84JbxMq8lRyipYVRjXVNktswQBGKamMqjZzLCH5el7
+         q3ByZWE5uNKXyQ3E4S45Smy4Ch05kEU42MBgcDN4ULvLTMYg+msXPUVbsq/5H9aK5hLq
+         Tamn2WVPVym4fm4d0h5QofIQLzP+hE//YUrgi0BMIax3C7UXRVmvuG/bzJOuEMNc7aEb
+         icrrFRaG8NRpxsFV6K8OJLnJA1Zft/4X5n1AyzzrVYcY0dFjaJVDB8LUsQjxH6F4xP/H
+         Nv7iG+Cgbb9dHsVJC+563a5pQhfFe9qPpOyTIJWYQRPHu63NngAgmt1C85/4Xg6BBHCZ
+         1xZw==
+X-Gm-Message-State: AOAM533xqe0LWBO4sCCP7tSU9g7mrld15gFLoLv8/CrgmOPMFcWSseBm
+        l+V1yLiTNmvoY4OMrpY8fmE+plRhcloXbofkzSWf/Q==
+X-Google-Smtp-Source: ABdhPJwXlOd8DBkLy9Zlmb+SghsS4EzhmtWT2+RyLbpljz0AiTWuutSp5GiA//NnHMof1wzIFvt/4DAQincSik0zAuE=
+X-Received: by 2002:ac2:4d9b:: with SMTP id g27mr1920444lfe.113.1614852030131;
+ Thu, 04 Mar 2021 02:00:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210301131127.793707-1-sumit.garg@linaro.org>
+In-Reply-To: <20210301131127.793707-1-sumit.garg@linaro.org>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Thu, 4 Mar 2021 15:30:18 +0530
+Message-ID: <CAFA6WYO4HHhtymaUzmkuaCZybTAWBQ=4K9Dez1pe1kqo3AJhuA@mail.gmail.com>
+Subject: Re: [PATCH v9 0/4] Introduce TEE based Trusted Keys support
+To:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
+Cc:     Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        Luke Hinds <lhinds@redhat.com>,
+        Elaine Palmer <erpalmer@us.ibm.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        "open list:SECURITY SUBSYSTEM" 
+        <linux-security-module@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Signed-off-by: hjh <huangjianghui@uniontech.com>
----
- Documentation/translations/zh_CN/index.rst    |   1 +
- .../zh_CN/sound/hd-audio/controls.rst         | 102 ++++++++++++++++++
- .../zh_CN/sound/hd-audio/index.rst            |  14 +++
- .../translations/zh_CN/sound/index.rst        |  22 ++++
- 4 files changed, 139 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/controls.rst
- create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/index.rst
- create mode 100644 Documentation/translations/zh_CN/sound/index.rst
+Hi Jarkko,
 
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index be6f11176200..2767dacfe86d 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -20,6 +20,7 @@
-    process/index
-    filesystems/index
-    arm64/index
-+   sound/index
- 
- 目录和表格
- ----------
-diff --git a/Documentation/translations/zh_CN/sound/hd-audio/controls.rst b/Documentation/translations/zh_CN/sound/hd-audio/controls.rst
-new file mode 100644
-index 000000000000..54c028ab9a40
---- /dev/null
-+++ b/Documentation/translations/zh_CN/sound/hd-audio/controls.rst
-@@ -0,0 +1,102 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Chinese translator: Huang Jianghui <huangjianghui@uniontech.com>
-+---------------------------------------------------------------------
-+.. include:: ../../disclaimer-zh_CN.rst
-+以下为正文
-+---------------------------------------------------------------------
-+======================================
-+高清音频编解码器特定混音器控件
-+======================================
-+
-+
-+此文件解释特定于编解码器的混音器控件.
-+
-+瑞昱编解码器
-+------------
-+
-+声道模式
-+  这是一个用于更改环绕声道设置的枚举控件,仅在环绕声道打开时显示出现。
-+  它给出要使用的通道数:"2ch","4ch","6ch"，和"8ch"。根据配置，这还控
-+  制多I/O插孔的插孔重分配。
-+
-+自动静音模式
-+  这是一个枚举控件，用于更改耳机和线路输出插孔的自动静音行为。如果内
-+  置扬声器、耳机和/或线路输出插孔在机器上可用，则显示该控件。当只有
-+  耳机或者线路输出的时候，它给出”禁用“和”启用“状态。当启用后，插孔插
-+  入后扬声器会自动静音。
-+
-+  当耳机和线路输出插孔都存在时，它给出”禁用“、”仅扬声器“和”线路输出+扬
-+  声器“。当”仅扬声器“被选择，插入耳机或者线路输出插孔可使扬声器静音，
-+  但不会使线路输出静音。当线路输出+扬声器被选择，插入耳机插孔会同时使扬
-+  声器和线路输出静音。
-+
-+
-+矽玛特编解码器
-+--------------
-+
-+模拟环回
-+   此控件启用/禁用模拟环回电路。只有在编解码器提示中将”lookback“设置为真
-+   时才会出现(见HD-Audio.txt)。请注意，在某些编解码器上，模拟环回和正常
-+   PCM播放是独占的,即当此选项打开时，您将听不到任何PCM流。
-+
-+交换中置/低频
-+   交换中置和低频通道顺序，通常情况下，左侧对应中置，右侧对应低频,启动此
-+   项后，左边低频，右边中置。
-+
-+耳机作为线路输出
-+   当此控制开启时，将耳机视为线路输出插孔。也就是说，耳机不会自动静音其他
-+   线路输出，没有耳机放大器被设置到引脚上。
-+
-+麦克风插口模式、线路插孔模式等
-+   这些枚举控制输入插孔引脚的方向和偏置。根据插孔类型，它可以设置为”麦克风
-+   输入“和”线路输入“以确定输入偏置,或者当引脚是环绕声道的多I/O插孔时，它
-+   可以设置为”线路输出“。
-+
-+
-+威盛编解码器
-+------------
-+
-+智能5.1
-+   一个枚举控件，用于为环绕输出重新分配多个I/O插孔的任务。当它打开时，相应
-+   的输入插孔（通常是线路输入和麦克风输入）被切换为环绕和中央低频输出插孔。
-+
-+独立耳机
-+   启用此枚举控制时，耳机输出从单个流（第三个PCM，如hw:0,2）而不是主流路由。
-+   如果耳机DAC与侧边或中央低频通道DAC共享，则DAC将自动切换到耳机。
-+
-+环回混合
-+   一个用于确定是否启动了模拟环回路由的枚举控件。当它启用后，模拟环回路由到
-+   前置通道。同样，耳机与扬声器输出也采用相同的路径。作为一个副作用，当设置
-+   此模式后，单个音量控制将不再适用于耳机和扬声器，因为只有一个DAC连接到混
-+   音器小部件。
-+
-+动态电源控制
-+   此控件决定是否启动每个插孔的动态电源控制检测。启用时，根据插孔的插入情况
-+   动态更改组件的电源状态（D0/D3）以节省电量消耗。但是，如果您的系统没有提
-+   供正确的插孔检测，这将无法工作;在这种情况下，请关闭此控件。
-+
-+插孔检测
-+   此控件仅为VT1708编解码器提供，它不会为每个插孔插拔提供适当的未请求事件。
-+   当此控件打开，驱动将轮询插孔检测，以便耳机自动静音可以工作，而关闭此控
-+   件将降低功耗。
-+
-+
-+科胜讯编解码器
-+--------------
-+
-+自动静音模式
-+   见瑞昱解码器
-+
-+
-+
-+模拟编解码器
-+------------
-+
-+通道模式
-+   这是一个用于更改环绕声道设置的枚举控件,仅在环绕声道可用时显示。它提供了能
-+   被使用的通道数:”2ch“、”4ch“和”6ch“。根据配置，这还控制多I/O插孔的插孔重
-+   分配。
-+
-+独立耳机
-+   启动此枚举控制后，耳机输出从单个流（第三个PCM，如hw:0,2）而不是主流路由。
-diff --git a/Documentation/translations/zh_CN/sound/hd-audio/index.rst b/Documentation/translations/zh_CN/sound/hd-audio/index.rst
-new file mode 100644
-index 000000000000..d9885d53b069
---- /dev/null
-+++ b/Documentation/translations/zh_CN/sound/hd-audio/index.rst
-@@ -0,0 +1,14 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../../disclaimer-zh_CN.rst
-+
-+:Original: :doc:`../../../../sound/hd-audio/index`
-+:Translator: Huang Jianghui <huangjianghui@uniontech.com>
-+
-+
-+高清音频
-+========
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   controls
-diff --git a/Documentation/translations/zh_CN/sound/index.rst b/Documentation/translations/zh_CN/sound/index.rst
-new file mode 100644
-index 000000000000..28d5dca34a63
---- /dev/null
-+++ b/Documentation/translations/zh_CN/sound/index.rst
-@@ -0,0 +1,22 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: :doc:`../../../sound/index`
-+:Translator: Huang Jianghui <huangjianghui@uniontech.com>
-+
-+
-+====================
-+Linux 声音子系统文档
-+====================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   hd-audio/index
-+
-+.. only::  subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
--- 
-2.20.1
+On Mon, 1 Mar 2021 at 18:41, Sumit Garg <sumit.garg@linaro.org> wrote:
+>
+> Add support for TEE based trusted keys where TEE provides the functionality
+> to seal and unseal trusted keys using hardware unique key. Also, this is
+> an alternative in case platform doesn't possess a TPM device.
+>
+> This patch-set has been tested with OP-TEE based early TA which is already
+> merged in upstream [1].
+>
+> [1] https://github.com/OP-TEE/optee_os/commit/f86ab8e7e0de869dfa25ca05a37ee070d7e5b86b
+>
+> Changes in v9:
+> 1. Rebased to latest tpmdd/master.
+> 2. Defined pr_fmt() and removed redundant tags.
+> 3. Patch #2: incorporated misc. comments.
+> 4. Patch #3: incorporated doc changes from Elaine and misc. comments
+>    from Randy.
+> 5. Patch #4: reverted to separate maintainer entry as per request from
+>    Jarkko.
+> 6. Added Jarkko's Tested-by: tag on patch #2.
 
+It looks like we don't have any further comments on this patch-set. So
+would you be able to pick up this patch-set?
 
+-Sumit
 
+>
+> Changes in v8:
+> 1. Added static calls support instead of indirect calls.
+> 2. Documented trusted keys source module parameter.
+> 3. Refined patch #1 commit message discription.
+> 4. Addressed misc. comments on patch #2.
+> 5. Added myself as Trusted Keys co-maintainer instead.
+> 6. Rebased to latest tpmdd master.
+>
+> Changes in v7:
+> 1. Added a trusted.source module parameter in order to enforce user's
+>    choice in case a particular platform posses both TPM and TEE.
+> 2. Refine commit description for patch #1.
+>
+> Changes in v6:
+> 1. Revert back to dynamic detection of trust source.
+> 2. Drop author mention from trusted_core.c and trusted_tpm1.c files.
+> 3. Rebased to latest tpmdd/master.
+>
+> Changes in v5:
+> 1. Drop dynamic detection of trust source and use compile time flags
+>    instead.
+> 2. Rename trusted_common.c -> trusted_core.c.
+> 3. Rename callback: cleanup() -> exit().
+> 4. Drop "tk" acronym.
+> 5. Other misc. comments.
+> 6. Added review tags for patch #3 and #4.
+>
+> Changes in v4:
+> 1. Pushed independent TEE features separately:
+>   - Part of recent TEE PR: https://lkml.org/lkml/2020/5/4/1062
+> 2. Updated trusted-encrypted doc with TEE as a new trust source.
+> 3. Rebased onto latest tpmdd/master.
+>
+> Changes in v3:
+> 1. Update patch #2 to support registration of multiple kernel pages.
+> 2. Incoporate dependency patch #4 in this patch-set:
+>    https://patchwork.kernel.org/patch/11091435/
+>
+> Changes in v2:
+> 1. Add reviewed-by tags for patch #1 and #2.
+> 2. Incorporate comments from Jens for patch #3.
+> 3. Switch to use generic trusted keys framework.
+>
+> Sumit Garg (4):
+>   KEYS: trusted: Add generic trusted keys framework
+>   KEYS: trusted: Introduce TEE based Trusted Keys
+>   doc: trusted-encrypted: updates with TEE as a new trust source
+>   MAINTAINERS: Add entry for TEE based Trusted Keys
+>
+>  .../admin-guide/kernel-parameters.txt         |  12 +
+>  .../security/keys/trusted-encrypted.rst       | 171 ++++++--
+>  MAINTAINERS                                   |   8 +
+>  include/keys/trusted-type.h                   |  53 +++
+>  include/keys/trusted_tee.h                    |  16 +
+>  include/keys/trusted_tpm.h                    |  29 +-
+>  security/keys/trusted-keys/Makefile           |   2 +
+>  security/keys/trusted-keys/trusted_core.c     | 358 +++++++++++++++++
+>  security/keys/trusted-keys/trusted_tee.c      | 317 +++++++++++++++
+>  security/keys/trusted-keys/trusted_tpm1.c     | 366 ++++--------------
+>  10 files changed, 981 insertions(+), 351 deletions(-)
+>  create mode 100644 include/keys/trusted_tee.h
+>  create mode 100644 security/keys/trusted-keys/trusted_core.c
+>  create mode 100644 security/keys/trusted-keys/trusted_tee.c
+>
+> --
+> 2.25.1
+>
