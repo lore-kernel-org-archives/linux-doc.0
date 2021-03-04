@@ -2,153 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BA4DC43332
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 06:18:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E92F4C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 06:24:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEB0164EF6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 06:18:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B2E3464EDF
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 06:24:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234918AbhCDGSE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 01:18:04 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:2203 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234866AbhCDGRy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 01:17:54 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B60407b6a0006>; Wed, 03 Mar 2021 22:17:14 -0800
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 4 Mar
- 2021 06:17:13 +0000
-Received: from localhost (172.20.145.6) by DRHQMAIL107.nvidia.com (10.27.9.16)
- with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 4 Mar 2021 06:17:13
- +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <jhubbard@nvidia.com>, <rcampbell@nvidia.com>,
-        <jglisse@redhat.com>, "Alistair Popple" <apopple@nvidia.com>
-Subject: [PATCH v4 7/8] nouveau/svm: Refactor nouveau_range_fault
-Date:   Thu, 4 Mar 2021 17:16:44 +1100
-Message-ID: <20210304061645.29747-8-apopple@nvidia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210304061645.29747-1-apopple@nvidia.com>
-References: <20210304061645.29747-1-apopple@nvidia.com>
+        id S235084AbhCDGXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 01:23:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42674 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235071AbhCDGWt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 01:22:49 -0500
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85EABC061760
+        for <linux-doc@vger.kernel.org>; Wed,  3 Mar 2021 22:22:09 -0800 (PST)
+Received: by mail-pg1-x532.google.com with SMTP id a23so8418189pga.8
+        for <linux-doc@vger.kernel.org>; Wed, 03 Mar 2021 22:22:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=wa5muaXHut4hfwXTsUBvUfthAuhKwhmv9/hS3aAHRxQ=;
+        b=Ei8dVn1tS3L8d+KCjI+VuCzSj+Cfa7yV0HFL1DM94rBiWSDms9SHkHwivMYn04bjmx
+         OY7XuGQpzmXg0EUzXpFAvpzAbXLTJKYqOnctbovAHMT8rOH5KdM45V87GeUhl5QmBmOf
+         9SsmlkYM/nbtIcpXpwLUik8NdP/SeznAYt/+RCuNSN4C49b2N8+qrYgTtMsFHLPlCq3i
+         oFaz4h5lYyjePLRasP1ShTXGMxKB4OpTzRm53eQV4pK89hTc9zr8XIMmx5W/jGKNj+L3
+         M9VgZ1z/fQqUt6B/WABIinlH+Kr151hgBCYsKRas0sZSUw/S+UXNv+4IxVwtGr+bxBZB
+         7OiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wa5muaXHut4hfwXTsUBvUfthAuhKwhmv9/hS3aAHRxQ=;
+        b=Cqf+YssipWgdIdsQmCkNGecv3+cnny6zl8EPtYoCR3HBclnG+m9cZyo/Pmz0B7mM2j
+         eKMLN0qahjkJaS9MyA+0ckxHq6iD9EIghX7VWuEgQGN8aUsHledL1CR+TYUb6I3I9HP2
+         CY4xKxfZlWUYc2HUVVOLN3fXwb3r8Xwno9hRNhEGomYjpiw7RkLcJi4IpObVYGcoZ0ik
+         oJ4jc23OolCZpbei1pSh0yOLOF/wE5GdwpZ5AwOTv0QA3/40Ya96v5Kc1CTXWvlyzOsX
+         pgyhqIxLbSbLFJaDwV6eiVzRRqr+tLxySxhNNpEPn7yXuMCjAYnK2v0B2c9Eg0aoBP6L
+         XXLg==
+X-Gm-Message-State: AOAM532SsBxOOMZ9XvlKba3K3wegh5crCGC1mdfPbnubKj0bSPSFXUGL
+        FCY4g5Yb4IXQyOaY3mS6zHUhRg==
+X-Google-Smtp-Source: ABdhPJxxhHevBDuxsi5CHKFWK0/YIVXgJSyzO2vm7eUTrnkAE2fGT16nVrdFVJcwBDOhVAjGBkGaQg==
+X-Received: by 2002:a63:3e03:: with SMTP id l3mr1928769pga.452.1614838928731;
+        Wed, 03 Mar 2021 22:22:08 -0800 (PST)
+Received: from google.com ([2620:0:1008:10:5ddf:a7e:5239:ef47])
+        by smtp.gmail.com with ESMTPSA id q128sm26609812pfb.51.2021.03.03.22.22.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Mar 2021 22:22:08 -0800 (PST)
+Date:   Wed, 3 Mar 2021 22:22:03 -0800
+From:   Vipin Sharma <vipinsh@google.com>
+To:     Jacob Pan <jacob.jun.pan@intel.com>
+Cc:     tj@kernel.org, mkoutny@suse.com, rdunlap@infradead.org,
+        thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
+        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
+        frankja@linux.ibm.com, borntraeger@de.ibm.com, corbet@lwn.net,
+        seanjc@google.com, vkuznets@redhat.com, wanpengli@tencent.com,
+        jmattson@google.com, joro@8bytes.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, gingell@google.com,
+        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, "Tian, Kevin" <kevin.tian@intel.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [RFC v2 2/2] cgroup: sev: Miscellaneous cgroup documentation.
+Message-ID: <YEB8i6Chq4K/GGF6@google.com>
+References: <20210302081705.1990283-1-vipinsh@google.com>
+ <20210302081705.1990283-3-vipinsh@google.com>
+ <20210303185513.27e18fce@jacob-builder>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1614838634; bh=IDt/w91IyQ/+IVJx/VBVmCwlFW3knn/F3DU7wj6KD1M=;
-        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-         References:MIME-Version:Content-Transfer-Encoding:Content-Type:
-         X-Originating-IP:X-ClientProxiedBy;
-        b=iea2v9cuC33Fcdf6Qc8wlbyrZccFDNYGFPM5zi8uzYlQe6964xt2mkJIgu3K6Bl4s
-         0gXmo3Zgcuiuz+odKlP0n3s1iDHtCsN7Vb4/U55msKVgMXNo4upC+J6QsX+M4Nw7BY
-         wI7vBwyuBA93q4Gh9/cq8/4NsLX7lVhWI++0qfR7yC8QmFx60XiCYCFL6v5b2DlJsY
-         Omb4CNqFyVssb4SUiwj3hSE90tqC3sJ234x7Uh84/SAL3NBiCMKF+Qu7zXJP4IxO2x
-         JnVusYvPiHc8rhTdVe/sr8CHyoy2bHvg9dqytuiac9OcWIBqRaTyiRwEbBEQ/m61vm
-         pmiFvevgJp+Dw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210303185513.27e18fce@jacob-builder>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Call mmu_interval_notifier_insert() as part of nouveau_range_fault().
-This doesn't introduce any functional change but makes it easier for a
-subsequent patch to alter the behaviour of nouveau_range_fault() to
-support GPU atomic operations.
+On Wed, Mar 03, 2021 at 06:55:13PM -0800, Jacob Pan wrote:
+> Hi Vipin,
+> 
+> On Tue,  2 Mar 2021 00:17:05 -0800, Vipin Sharma <vipinsh@google.com> wrote:
+> 
+> > +Migration and Ownership
+> > +~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +A miscellaneous scalar resource is charged to the cgroup in which it is
+> > used +first, and stays charged to that cgroup until that resource is
+> > freed. Migrating +a process to a different cgroup does not move the
+> > charge to the destination +cgroup where the process has moved.
+> > +
+> I am trying to see if IOASIDs cgroup can also fit in this misc controller
+> as yet another resource type.
+> https://lore.kernel.org/linux-iommu/20210303131726.7a8cb169@jacob-builder/T/#u
+> However, unlike sev IOASIDs need to be migrated if the process is moved to
+> another cgroup. i.e. charge the destination and uncharge the source.
+> 
+> Do you think this behavior can be achieved by differentiating resource
+> types? i.e. add attach callbacks for certain types. Having a single misc
+> interface seems cleaner than creating another controller.
 
-Signed-off-by: Alistair Popple <apopple@nvidia.com>
----
- drivers/gpu/drm/nouveau/nouveau_svm.c | 34 ++++++++++++++++-----------
- 1 file changed, 20 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouvea=
-u/nouveau_svm.c
-index f18bd53da052..cd7b47c946cf 100644
---- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -567,18 +567,27 @@ static int nouveau_range_fault(struct nouveau_svmm *s=
-vmm,
- 	unsigned long hmm_pfns[1];
- 	struct hmm_range range =3D {
- 		.notifier =3D &notifier->notifier,
--		.start =3D notifier->notifier.interval_tree.start,
--		.end =3D notifier->notifier.interval_tree.last + 1,
- 		.default_flags =3D hmm_flags,
- 		.hmm_pfns =3D hmm_pfns,
- 		.dev_private_owner =3D drm->dev,
- 	};
--	struct mm_struct *mm =3D notifier->notifier.mm;
-+	struct mm_struct *mm =3D svmm->notifier.mm;
- 	int ret;
-=20
-+	ret =3D mmu_interval_notifier_insert(&notifier->notifier, mm,
-+					args->p.addr, args->p.size,
-+					&nouveau_svm_mni_ops);
-+	if (ret)
-+		return ret;
-+
-+	range.start =3D notifier->notifier.interval_tree.start;
-+	range.end =3D notifier->notifier.interval_tree.last + 1;
-+
- 	while (true) {
--		if (time_after(jiffies, timeout))
--			return -EBUSY;
-+		if (time_after(jiffies, timeout)) {
-+			ret =3D -EBUSY;
-+			goto out;
-+		}
-=20
- 		range.notifier_seq =3D mmu_interval_read_begin(range.notifier);
- 		mmap_read_lock(mm);
-@@ -587,7 +596,7 @@ static int nouveau_range_fault(struct nouveau_svmm *svm=
-m,
- 		if (ret) {
- 			if (ret =3D=3D -EBUSY)
- 				continue;
--			return ret;
-+			goto out;
- 		}
-=20
- 		mutex_lock(&svmm->mutex);
-@@ -606,6 +615,9 @@ static int nouveau_range_fault(struct nouveau_svmm *svm=
-m,
- 	svmm->vmm->vmm.object.client->super =3D false;
- 	mutex_unlock(&svmm->mutex);
-=20
-+out:
-+	mmu_interval_notifier_remove(&notifier->notifier);
-+
- 	return ret;
- }
-=20
-@@ -727,14 +739,8 @@ nouveau_svm_fault(struct nvif_notify *notify)
- 		}
-=20
- 		notifier.svmm =3D svmm;
--		ret =3D mmu_interval_notifier_insert(&notifier.notifier, mm,
--						   args.i.p.addr, args.i.p.size,
--						   &nouveau_svm_mni_ops);
--		if (!ret) {
--			ret =3D nouveau_range_fault(svmm, svm->drm, &args.i,
--				sizeof(args), hmm_flags, &notifier);
--			mmu_interval_notifier_remove(&notifier.notifier);
--		}
-+		ret =3D nouveau_range_fault(svmm, svm->drm, &args.i,
-+					sizeof(args), hmm_flags, &notifier);
- 		mmput(mm);
-=20
- 		limit =3D args.i.p.addr + args.i.p.size;
---=20
-2.20.1
-
+I think it makes sense to add support for migration for the resources
+which need it. Resources like SEV, SEV-ES will not participate in
+migration and won't stop can_attach() to succeed, other resources which
+need migration will allow or stop based on their limits and capacity in
+the destination.
