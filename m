@@ -2,260 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DBDEC15508
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 21:48:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2AEFC433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 23:11:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3690264FFD
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 21:48:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96CC765007
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 23:11:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231640AbhCDVry (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 16:47:54 -0500
-Received: from marcansoft.com ([212.63.210.85]:36202 "EHLO mail.marcansoft.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237017AbhCDVri (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Mar 2021 16:47:38 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: hector@marcansoft.com)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id 1078D425D4;
-        Thu,  4 Mar 2021 21:40:16 +0000 (UTC)
-From:   Hector Martin <marcan@marcan.st>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     Hector Martin <marcan@marcan.st>, Marc Zyngier <maz@kernel.org>,
-        Rob Herring <robh@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        devicetree@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFT PATCH v3 08/27] asm-generic/io.h:  Add a non-posted variant of ioremap()
-Date:   Fri,  5 Mar 2021 06:38:43 +0900
-Message-Id: <20210304213902.83903-9-marcan@marcan.st>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210304213902.83903-1-marcan@marcan.st>
-References: <20210304213902.83903-1-marcan@marcan.st>
+        id S232463AbhCDXL6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 18:11:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35106 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230403AbhCDXLw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 18:11:52 -0500
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C569EC061756
+        for <linux-doc@vger.kernel.org>; Thu,  4 Mar 2021 15:11:50 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id w1so52797717ejf.11
+        for <linux-doc@vger.kernel.org>; Thu, 04 Mar 2021 15:11:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=BE32Kfi4kj+ZAdJIcPt+s2HaEM0hO57R8c+yyi9e21g=;
+        b=atcs3Qrf55HohHsaCh8HMvMzQuAaS7TmIGvNvghisxEdnQ/LGkArNBQhtJ0WeEfn6e
+         Bq5+Zp/g3CBKhk4DF+fIGlKWqLb1wm718t+t6qn4viF487VfAMkPFAPAbIlc8xm3adBk
+         xtAC8EN0NMaS+8FmuFnjjltMGViue0cHf96o8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BE32Kfi4kj+ZAdJIcPt+s2HaEM0hO57R8c+yyi9e21g=;
+        b=HDQaGaTjKIKhBi+HwKCKAFwX/lkoOhg7ndWAv/CdvwOsOG26EH6xjdn/n2zFSNvUHT
+         /tZZ+vRaLHnwznZORJZlGAQZq6sdDY7JcZqCIaxH7Ewx5bu998SFeLMIVN8nf5GhmGm+
+         FBD/pU/GAovg6ETMwWhUxo8MbEgviIl+QUVKb/WRYxxOgwpq3E40jw4dfqF8cAxFdVwP
+         lQR6X+d4aQz8yRLeiSGRFjnEI9Wmv+74p1iSOFyFykeLus3eWzdtuRFJY/+8/G4gJDjw
+         tgQIAkdIvyYrKgC05Ee9Rfdmz54KMbHRhpi3ng3NC8D6peb0VdSYZMqUU1Vs5O2+mhEH
+         UJzQ==
+X-Gm-Message-State: AOAM532b5iM//jFDM5ByK68RMBS2AEO/aZBG0fdkieAAOsZv/fNAYnp1
+        4XAO9cN7ZreqYzfcyem4dnXPzHacB2seKQ==
+X-Google-Smtp-Source: ABdhPJz2r/KaoCDk/RFGF+DnUOSC4E+TysAwdut12JzaS2aFTJq1asshybOBQBCy7zSRuUJw5ta81w==
+X-Received: by 2002:a17:906:d9c9:: with SMTP id qk9mr6485585ejb.504.1614899509299;
+        Thu, 04 Mar 2021 15:11:49 -0800 (PST)
+Received: from [192.168.1.149] ([80.208.71.141])
+        by smtp.gmail.com with ESMTPSA id oy8sm398597ejb.58.2021.03.04.15.11.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Mar 2021 15:11:48 -0800 (PST)
+Subject: Re: [PATCH 5/7] printk: Make %pS and friends print module build ID
+To:     Stephen Boyd <swboyd@chromium.org>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-doc@vger.kernel.org
+References: <20210301174749.1269154-1-swboyd@chromium.org>
+ <20210301174749.1269154-6-swboyd@chromium.org>
+ <20210304170052.GK2723601@casper.infradead.org>
+ <161488534185.1478170.10285681551102444519@swboyd.mtv.corp.google.com>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <95e58426-c7ab-6ba5-17ea-392754899959@rasmusvillemoes.dk>
+Date:   Fri, 5 Mar 2021 00:11:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <161488534185.1478170.10285681551102444519@swboyd.mtv.corp.google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-ARM64 currently defaults to posted MMIO (nGnRnE), but some devices
-require the use of non-posted MMIO (nGnRE). Introduce a new ioremap()
-variant to handle this case. ioremap_np() is aliased to ioremap() by
-default on arches that do not implement this variant.
+On 04/03/2021 20.15, Stephen Boyd wrote:
+> Quoting Matthew Wilcox (2021-03-04 09:00:52)
+>> On Mon, Mar 01, 2021 at 09:47:47AM -0800, Stephen Boyd wrote:
+>>> Example:
+>>>
+>>>  WARNING: CPU: 4 PID: 3255 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x28/0x30 [lkdtm] (ed5019fdf5e53be37cb1ba7899292d7e143b259e)
+>>
+>> Would the first 12 characters instead of all 40 make it more palatable
+>> without reducing its utility?
+> 
+> I can't seem to request debuginfo from debuginfod without the full 40
+> characters. It's not a git sha1 hash. 
+> 
+>> And I feel it should be within the [], so maybe this:
+>>
+>> WARNING: CPU: 4 PID: 3255 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x28/0x30 [lkdtm ed5019fdf5e5]
+>>
+> 
+> Sure I could put the hex numbers inside the brackets. I suspect changing
+> %pS or updating the "Modules linked in:" line isn't going to be
+> palatable. I've decided to introduce another printk format %pT to print
+> the stacktrace 
 
-sparc64 is the only architecture that needs to be touched directly,
-because it includes neither of the generic io.h or iomap.h headers.
+Can you avoid claiming a new "top-level" %p modifier? Isn't it better to
+add a new flag to '%pS', say '%pSb' to include build-id?
 
-This adds the IORESOURCE_MEM_NONPOSTED flag, which maps to this
-variant and marks a given resource as requiring non-posted mappings.
-This is implemented in the resource system because it is a SoC-level
-requirement, so existing drivers do not need special-case code to pick
-this ioremap variant.
-
-Then this is implemented in devres by introducing devm_ioremap_np(),
-and making devm_ioremap_resource() automatically select this variant
-when the resource has the IORESOURCE_MEM_NONPOSTED flag set.
-
-Signed-off-by: Hector Martin <marcan@marcan.st>
----
- .../driver-api/driver-model/devres.rst        |  1 +
- arch/sparc/include/asm/io_64.h                |  4 ++++
- include/asm-generic/io.h                      | 22 ++++++++++++++++++-
- include/asm-generic/iomap.h                   |  9 ++++++++
- include/linux/io.h                            |  2 ++
- include/linux/ioport.h                        |  1 +
- lib/devres.c                                  | 22 +++++++++++++++++++
- 7 files changed, 60 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-index cd8b6e657b94..2f45877a539d 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -309,6 +309,7 @@ IOMAP
-   devm_ioremap()
-   devm_ioremap_uc()
-   devm_ioremap_wc()
-+  devm_ioremap_np()
-   devm_ioremap_resource() : checks resource, requests memory region, ioremaps
-   devm_ioremap_resource_wc()
-   devm_platform_ioremap_resource() : calls devm_ioremap_resource() for platform device
-diff --git a/arch/sparc/include/asm/io_64.h b/arch/sparc/include/asm/io_64.h
-index 9bb27e5c22f1..9fbfc9574432 100644
---- a/arch/sparc/include/asm/io_64.h
-+++ b/arch/sparc/include/asm/io_64.h
-@@ -409,6 +409,10 @@ static inline void __iomem *ioremap(unsigned long offset, unsigned long size)
- #define ioremap_uc(X,Y)			ioremap((X),(Y))
- #define ioremap_wc(X,Y)			ioremap((X),(Y))
- #define ioremap_wt(X,Y)			ioremap((X),(Y))
-+static inline void __iomem *ioremap_np(unsigned long offset, unsigned long size)
-+{
-+	return NULL;
-+}
- 
- static inline void iounmap(volatile void __iomem *addr)
- {
-diff --git a/include/asm-generic/io.h b/include/asm-generic/io.h
-index c6af40ce03be..082e0c96db6e 100644
---- a/include/asm-generic/io.h
-+++ b/include/asm-generic/io.h
-@@ -942,7 +942,9 @@ static inline void *phys_to_virt(unsigned long address)
-  *
-  * ioremap_wc() and ioremap_wt() can provide more relaxed caching attributes
-  * for specific drivers if the architecture choses to implement them.  If they
-- * are not implemented we fall back to plain ioremap.
-+ * are not implemented we fall back to plain ioremap. Conversely, ioremap_np()
-+ * can provide stricter non-posted write semantics if the architecture
-+ * implements them.
-  */
- #ifndef CONFIG_MMU
- #ifndef ioremap
-@@ -993,6 +995,24 @@ static inline void __iomem *ioremap_uc(phys_addr_t offset, size_t size)
- {
- 	return NULL;
- }
-+
-+/*
-+ * ioremap_np needs an explicit architecture implementation, as it
-+ * requests stronger semantics than regular ioremap(). Portable drivers
-+ * should instead use one of the higher-level abstractions, like
-+ * devm_ioremap_resource(), to choose the correct variant for any given
-+ * device and bus. Portable drivers with a good reason to want non-posted
-+ * write semantics should always provide an ioremap() fallback in case
-+ * ioremap_np() is not available.
-+ */
-+#ifndef ioremap_np
-+#define ioremap_np ioremap_np
-+static inline void __iomem *ioremap_np(phys_addr_t offset, size_t size)
-+{
-+	return NULL;
-+}
-+#endif
-+
- #endif
- 
- #ifdef CONFIG_HAS_IOPORT_MAP
-diff --git a/include/asm-generic/iomap.h b/include/asm-generic/iomap.h
-index 649224664969..9b3eb6d86200 100644
---- a/include/asm-generic/iomap.h
-+++ b/include/asm-generic/iomap.h
-@@ -101,6 +101,15 @@ extern void ioport_unmap(void __iomem *);
- #define ioremap_wt ioremap
- #endif
- 
-+#ifndef ARCH_HAS_IOREMAP_NP
-+/* See the comment in asm-generic/io.h about ioremap_np(). */
-+#define ioremap_np ioremap_np
-+static inline void __iomem *ioremap_np(phys_addr_t offset, size_t size)
-+{
-+	return NULL;
-+}
-+#endif
-+
- #ifdef CONFIG_PCI
- /* Destroy a virtual mapping cookie for a PCI BAR (memory or IO) */
- struct pci_dev;
-diff --git a/include/linux/io.h b/include/linux/io.h
-index 8394c56babc2..d718354ed3e1 100644
---- a/include/linux/io.h
-+++ b/include/linux/io.h
-@@ -68,6 +68,8 @@ void __iomem *devm_ioremap_uc(struct device *dev, resource_size_t offset,
- 				   resource_size_t size);
- void __iomem *devm_ioremap_wc(struct device *dev, resource_size_t offset,
- 				   resource_size_t size);
-+void __iomem *devm_ioremap_np(struct device *dev, resource_size_t offset,
-+				   resource_size_t size);
- void devm_iounmap(struct device *dev, void __iomem *addr);
- int check_signature(const volatile void __iomem *io_addr,
- 			const unsigned char *signature, int length);
-diff --git a/include/linux/ioport.h b/include/linux/ioport.h
-index 55de385c839c..1de6c2e40c32 100644
---- a/include/linux/ioport.h
-+++ b/include/linux/ioport.h
-@@ -108,6 +108,7 @@ struct resource {
- #define IORESOURCE_MEM_32BIT		(3<<3)
- #define IORESOURCE_MEM_SHADOWABLE	(1<<5)	/* dup: IORESOURCE_SHADOWABLE */
- #define IORESOURCE_MEM_EXPANSIONROM	(1<<6)
-+#define IORESOURCE_MEM_NONPOSTED	(1<<7)
- 
- /* PnP I/O specific bits (IORESOURCE_BITS) */
- #define IORESOURCE_IO_16BIT_ADDR	(1<<0)
-diff --git a/lib/devres.c b/lib/devres.c
-index 2a4ff5d64288..4679dbb1bf5f 100644
---- a/lib/devres.c
-+++ b/lib/devres.c
-@@ -10,6 +10,7 @@ enum devm_ioremap_type {
- 	DEVM_IOREMAP = 0,
- 	DEVM_IOREMAP_UC,
- 	DEVM_IOREMAP_WC,
-+	DEVM_IOREMAP_NP,
- };
- 
- void devm_ioremap_release(struct device *dev, void *res)
-@@ -42,6 +43,9 @@ static void __iomem *__devm_ioremap(struct device *dev, resource_size_t offset,
- 	case DEVM_IOREMAP_WC:
- 		addr = ioremap_wc(offset, size);
- 		break;
-+	case DEVM_IOREMAP_NP:
-+		addr = ioremap_np(offset, size);
-+		break;
- 	}
- 
- 	if (addr) {
-@@ -98,6 +102,21 @@ void __iomem *devm_ioremap_wc(struct device *dev, resource_size_t offset,
- }
- EXPORT_SYMBOL(devm_ioremap_wc);
- 
-+/**
-+ * devm_ioremap_np - Managed ioremap_np()
-+ * @dev: Generic device to remap IO address for
-+ * @offset: Resource address to map
-+ * @size: Size of map
-+ *
-+ * Managed ioremap_np().  Map is automatically unmapped on driver detach.
-+ */
-+void __iomem *devm_ioremap_np(struct device *dev, resource_size_t offset,
-+			      resource_size_t size)
-+{
-+	return __devm_ioremap(dev, offset, size, DEVM_IOREMAP_NP);
-+}
-+EXPORT_SYMBOL(devm_ioremap_np);
-+
- /**
-  * devm_iounmap - Managed iounmap()
-  * @dev: Generic device to unmap for
-@@ -128,6 +147,9 @@ __devm_ioremap_resource(struct device *dev, const struct resource *res,
- 		return IOMEM_ERR_PTR(-EINVAL);
- 	}
- 
-+	if (type == DEVM_IOREMAP && res->flags & IORESOURCE_MEM_NONPOSTED)
-+		type = DEVM_IOREMAP_NP;
-+
- 	size = resource_size(res);
- 
- 	if (res->name)
--- 
-2.30.0
+Rasmus
 
