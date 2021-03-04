@@ -2,339 +2,302 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-24.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4809C433DB
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 12:15:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB72FC433E6
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 12:52:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71D3B64F1E
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 12:15:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 99C6864F32
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 12:52:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240411AbhCDMOl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 07:14:41 -0500
-Received: from foss.arm.com ([217.140.110.172]:37588 "EHLO foss.arm.com"
+        id S232655AbhCDMwC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 07:52:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:40586 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240494AbhCDMOk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Mar 2021 07:14:40 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A5F1F31B;
-        Thu,  4 Mar 2021 04:13:54 -0800 (PST)
-Received: from [10.57.63.81] (unknown [10.57.63.81])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E92363F7D7;
-        Thu,  4 Mar 2021 04:13:51 -0800 (PST)
-Subject: Re: [PATCH v4 04/10] coresight: etm-perf: update to handle
- configuration selection
-To:     Mike Leach <mike.leach@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-        mathieu.poirier@linaro.org, linux-doc@vger.kernel.org
-Cc:     yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
-        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
-References: <20210128170936.9222-1-mike.leach@linaro.org>
- <20210128170936.9222-5-mike.leach@linaro.org>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <641a0d20-bf3d-24e2-8402-d99de9117584@arm.com>
-Date:   Thu, 4 Mar 2021 12:13:48 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S235156AbhCDMvn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Mar 2021 07:51:43 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B5E3A64F2B;
+        Thu,  4 Mar 2021 12:51:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614862262;
+        bh=hYB8KjRMSUPg5XdsT7IDwqO40nOgdMlmnJxLiBmXIIs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=U1RN428i+N538p6c/4QnRdrXDaCEysLdqzPPxsH4YaI8r17p00O+cEBq/C+qISk52
+         +/GSULpAsXYPyGi/JXk1cMlyXeb2ZRdxjK0vJ1D1xzEcrYqxH4pfKrZ1whRZXxlruR
+         BNzr/uNWp9hdqs05Uf7JDuXTnUWgSo7lKFag1oDZoZPZCKdK7PJgEGUugbpLS9pQz0
+         CWZSF87a5ZuEhvDsaAxvbUppLO4g7BtNCL5HZB5HF7sOxWEO033s1vZmHuAXEyUziD
+         D7S1FPFYbvsTbM6Vnwvf38WCXKxaWPBT6VfgpQsHf78HYawybkdIzX8dgRI2Up1Amb
+         WWCx2CjoRICow==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lHnRT-001zwW-QS; Thu, 04 Mar 2021 13:50:59 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: add a subsystem profile documentation
+Date:   Thu,  4 Mar 2021 13:50:58 +0100
+Message-Id: <95af047a293d8209cf80c05be2b31261cf142853.1614862252.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210128170936.9222-5-mike.leach@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/28/21 5:09 PM, Mike Leach wrote:
-> Loaded coresight configurations are registered in the cs_etm\cs_config sub
-> directory. This extends the etm-perf code to handle these registrations,
-> and the cs_syscfg driver to perform the registration on load.
-> 
-> Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> ---
->   .../hwtracing/coresight/coresight-config.h    |   5 +-
->   .../hwtracing/coresight/coresight-etm-perf.c  | 164 +++++++++++++++---
->   .../hwtracing/coresight/coresight-etm-perf.h  |   8 +
->   .../hwtracing/coresight/coresight-syscfg.c    |  13 +-
->   4 files changed, 166 insertions(+), 24 deletions(-)
-> 
-> diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
-> index 9d66e0071f38..98380b496046 100644
-> --- a/drivers/hwtracing/coresight/coresight-config.h
-> +++ b/drivers/hwtracing/coresight/coresight-config.h
-> @@ -154,7 +154,8 @@ struct cscfg_config_feat_ref {
->    * @nr_presets:	Number of sets of presets supplied by this configuration.
->    * @nr_total_params: Sum of all parameters declared by used features
->    * @presets:	Array of preset values.
-> - *
-> + * @id_ea:	Extended attribute for perf configid value
-> + * @event_ea:	Extended attribute for perf event value
->    */
->   struct cscfg_config_desc {
->   	const char *name;
-> @@ -165,6 +166,8 @@ struct cscfg_config_desc {
->   	int nr_presets;
->   	int nr_total_params;
->   	const u64 *presets; /* nr_presets * nr_total_params */
-> +	struct dev_ext_attribute *id_ea;
-> +	struct dev_ext_attribute *event_ea;
->   };
->   
->   /**
-> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> index a608081bd446..e270bb1e0f7d 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
-> @@ -18,8 +18,10 @@
->   #include <linux/types.h>
->   #include <linux/workqueue.h>
->   
-> +#include "coresight-config.h"
->   #include "coresight-etm-perf.h"
->   #include "coresight-priv.h"
-> +#include "coresight-syscfg.h"
->   
->   static struct pmu etm_pmu;
->   static bool etm_perf_up;
-> @@ -32,8 +34,13 @@ PMU_FORMAT_ATTR(cycacc,		"config:" __stringify(ETM_OPT_CYCACC));
->   PMU_FORMAT_ATTR(contextid,	"config:" __stringify(ETM_OPT_CTXTID));
->   PMU_FORMAT_ATTR(timestamp,	"config:" __stringify(ETM_OPT_TS));
->   PMU_FORMAT_ATTR(retstack,	"config:" __stringify(ETM_OPT_RETSTK));
-> +/* preset - if sink ID is used as a configuration selector */
-> +PMU_FORMAT_ATTR(preset,		"config:0-3");
->   /* Sink ID - same for all ETMs */
->   PMU_FORMAT_ATTR(sinkid,		"config2:0-31");
-> +/* config ID - set if a system configuration is selected */
-> +PMU_FORMAT_ATTR(configid,	"config2:32-63");
-> +
->   
->   static struct attribute *etm_config_formats_attr[] = {
->   	&format_attr_cycacc.attr,
-> @@ -41,6 +48,8 @@ static struct attribute *etm_config_formats_attr[] = {
->   	&format_attr_timestamp.attr,
->   	&format_attr_retstack.attr,
->   	&format_attr_sinkid.attr,
-> +	&format_attr_preset.attr,
-> +	&format_attr_configid.attr,
->   	NULL,
->   };
->   
-> @@ -58,9 +67,29 @@ static const struct attribute_group etm_pmu_sinks_group = {
->   	.attrs  = etm_config_sinks_attr,
->   };
->   
-> +static struct attribute *etm_config_cscfg_attr[] = {
-> +	NULL,
-> +};
-> +
-> +static const struct attribute_group etm_pmu_cscfg_group = {
-> +	.name   = "configurations",
-> +	.attrs  = etm_config_cscfg_attr,
-> +};
-> +
-> +static struct attribute *etm_config_events_attr[] = {
-> +	NULL,
-> +};
-> +
-> +static const struct attribute_group etm_pmu_events_group = {
-> +	.name   = "events",
-> +	.attrs  = etm_config_events_attr,
-> +};
-> +
->   static const struct attribute_group *etm_pmu_attr_groups[] = {
->   	&etm_pmu_format_group,
->   	&etm_pmu_sinks_group,
-> +	&etm_pmu_cscfg_group,
-> +	&etm_pmu_events_group,
->   	NULL,
->   };
->   
-> @@ -219,7 +248,7 @@ static void *etm_setup_aux(struct perf_event *event, void **pages,
->   	INIT_WORK(&event_data->work, free_event_data);
->   
->   	/* First get the selected sink from user space. */
-> -	if (event->attr.config2) {
-> +	if (event->attr.config2 & GENMASK_ULL(31, 0)) {
->   		id = (u32)event->attr.config2;
->   		sink = coresight_get_sink_by_id(id);
->   	}
-> @@ -537,21 +566,17 @@ static ssize_t etm_perf_sink_name_show(struct device *dev,
->   	return scnprintf(buf, PAGE_SIZE, "0x%lx\n", (unsigned long)(ea->var));
->   }
->   
-> -int etm_perf_add_symlink_sink(struct coresight_device *csdev)
-> +int etm_perf_add_symlink_group(struct device *dev,
-> +			       struct dev_ext_attribute **ext_attr,
-> +			       const char *name,
-> +			       const char *group_name)
+Document the basic policies of the media subsystem profile.
 
-Couple of nits:
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/driver-api/media/index.rst      |   2 +
+ .../media/maintainer-entry-profile.rst        | 206 ++++++++++++++++++
+ .../maintainer/maintainer-entry-profile.rst   |   1 +
+ 3 files changed, 209 insertions(+)
+ create mode 100644 Documentation/driver-api/media/maintainer-entry-profile.rst
 
-This could be:
+diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
+index c140692454b1..2ad71dfa8828 100644
+--- a/Documentation/driver-api/media/index.rst
++++ b/Documentation/driver-api/media/index.rst
+@@ -28,6 +28,8 @@ Please see:
+     :maxdepth: 5
+     :numbered:
+ 
++    maintainer-entry-profile
++
+     v4l2-core
+     dtv-core
+     rc-core
+diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+new file mode 100644
+index 000000000000..4c6ec6de35c9
+--- /dev/null
++++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+@@ -0,0 +1,206 @@
++Media Subsystem Profile
++=======================
++
++Overview
++--------
++
++The media subsystem covers support for a variety of devices: stream
++capture, analog and digital TV streams, cameras, remote controllers, HDMI CEC
++and media pipeline control.
++
++It covers, mainly, the contents of those directories:
++
++  - drivers/media
++  - drivers/staging/media
++  - Documentation/admin-guide/media
++  - Documentation/driver-api/media
++  - Documentation/userspace-api/media
++  - Documentation/devicetree/bindings/media/\ [1]_
++  - include/media
++
++.. [1] Device tree bindings are maintained by the
++       OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS maintainers
++       (see the MAINTAINERS file). So, changes there must be reviewed
++       by them before being merged via the media subsystem's development
++       tree.
++
++Both media userspace and Kernel APIs are documented and the documentation
++must be kept in sync with the API changes. It means that all patches that
++add new features to the subsystem must also bring changes to the
++corresponding API files.
++
++Due to the size and wide scope of the media subsystem, media's
++maintainership model is to have sub-maintainers that have a broad
++knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
++task to review the patches, providing feedback to users if the patches are
++following the subsystem rules and are properly using the media kernel and
++userspace APIs.
++
++Patches for the media subsystem must be sent to the media mailing list
++at linux-media@vger.kernel.org as plain text only e-mail. Emails with
++HTML will be automatically rejected by the mail server. It could be wise
++to also copy the sub-maintainer(s).
++
++Media's workflow is heavily based on Patchwork, meaning that, once a patch
++is submitted, the e-mail will first be accepted by the mailing list
++server, and, after a while, it should appear at:
++
++   - https://patchwork.linuxtv.org/project/linux-media/list/
++
++If it doesn't automatically appear there after a few minutes, then
++probably something went wrong on your submission. Please check if the
++email is in plain text\ [2]_ only and if your emailer is not mangling
++whitespaces before complaining or submitting them again.
++
++You can check if the mailing list server accepted your patch, by looking at:
++
++   - https://lore.kernel.org/linux-media/
++
++.. [2] If your email contains HTML, the mailing list server will simply
++       drop it, without any further notice.
++
++
++Media maintainers
+++++++++++++++++++
++
++At the media subsystem, we have a group of senior developers that
++are responsible for doing the code reviews at the drivers (also known as
++sub-maintainers), and another senior developer responsible for the
++subsystem as a whole. For core changes, whenever possible, multiple
++media maintainers do the review.
++
++The media maintainers that work on specific areas of the subsystem are:
++
++- Digital TV and remote controllers:
++    Sean Young <sean@mess.org>
++
++- HDMI CEC:
++    Hans Verkuil <hverkuil@xs4all.nl>
++
++- Media controller drivers:
++    Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++
++- v4l2-async, v4l2-fwnode, v4l2-flash-led-class and Sensor drivers:
++    Sakari Ailus <sakari.ailus@linux.intel.com>
++
++- V4L2 drivers and core V4L2 frameworks:
++    Hans Verkuil <hverkuil@xs4all.nl>
++
++The subsystem maintainer is:
++  Mauro Carvalho Chehab <mchehab@kernel.org>
++
++Media maintainers may delegate a patch to other media maintainers as needed.
++On such case, checkpatch's ``delegate`` field indicates who's currently
++responsible for reviewing a patch.
++
++Submit Checklist Addendum
++-------------------------
++
++Patches that change the Open Firmware/Device Tree bindings must be
++reviewed by the Device Tree maintainers. So, DT maintainers should be
++Cc:ed when those are submitted via devicetree@vger.kernel.org mailing
++list.
++
++There is a set of compliance tools at https://git.linuxtv.org/v4l-utils.git/
++that should be used in order to check if the drivers are properly
++implementing the media APIs:
++
++====================	=======================================================
++Type			Tool
++====================	=======================================================
++V4L2 drivers\ [3]_	``v4l2-compliance``
++V4L2 virtual drivers	``contrib/test/test-media``
++CEC drivers		``cec-compliance``
++====================	=======================================================
++
++.. [3] The ``v4l2-compliance`` also covers the media controller usage inside
++       V4L2 drivers.
++
++Other compilance tools are under development to check other parts of the
++subsystem.
++
++Those tests need to pass before the patches go upstream.
++
++Also, please notice that we build the Kernel with::
++
++	make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=check_script
++
++Where the check script is::
++
++	#!/bin/bash
++	/devel/smatch/smatch -p=kernel $@ >&2
++	/devel/sparse/sparse $@ >&2
++
++Be sure to not introduce new warnings on your patches without a
++very good reason.
++
++Style Cleanup Patches
+++++++++++++++++++++++
++
++Style cleanups are welcome when they come together with other changes
++at the files where the style changes will affect.
++
++We may accept pure standalone style cleanups, but they should ideally
++be one patch for the whole subsystem (if the cleanup is low volume),
++or at least be grouped per directory. So, for example, if you're doing a
++big cleanup change set at drivers under drivers/media, please send a single
++patch for all drivers under drivers/media/pci, another one for
++drivers/media/usb and so on.
++
++Coding Style Addendum
+++++++++++++++++++++++
++
++Media development uses ``checkpatch.pl`` on strict mode to verify the code
++style, e.g.::
++
++	$ ./scripts/checkpatch.pl --strict --max-line-length=80
++
++In principle, patches should follow the coding style rules, but exceptions
++are allowed if there are good reasons. On such case, maintainers and reviewers
++may question about the rationale for not addressing the ``checkpatch.pl``.
++
++Please notice that the goal here is to improve code readability. On
++a few cases, ``checkpatch.pl`` may actually point to something that would
++look worse. So, you should use good sense.
++
++Note that addressing one ``checkpatch.pl`` issue (of any kind) alone may lead
++to having longer lines than 80 characters per line. While this is not
++strictly prohibited, efforts should be made towards staying within 80
++characters per line. This could include using re-factoring code that leads
++to less indentation, shorter variable or function names and last but not
++least, simply wrapping the lines.
++
++In particular, we accept lines with more than 80 columns:
++
++    - on strings, as they shouldn't be broken due to line length limits;
++    - when a function or variable name need to have a big identifier name,
++      which keeps hard to honor the 80 columns limit;
++    - on arithmetic expressions, when breaking lines makes them harder to
++      read;
++    - when they avoid a line to end with an open parenthesis or an open
++      bracket.
++
++Key Cycle Dates
++---------------
++
++New submissions can be sent at any time, but if they intend to hit the
++next merge window they should be sent before -rc5, and ideally stabilized
++in the linux-media branch by -rc6.
++
++Review Cadence
++--------------
++
++Provided that your patch is at https://patchwork.linuxtv.org, it should
++be sooner or later handled, so you don't need to re-submit a patch.
++
++Except for bug fixes, we don't usually add new patches to the development
++tree between -rc6 and the next -rc1.
++
++Please notice that the media subsystem is a high traffic one, so it
++could take a while for us to be able to review your patches. Feel free
++to ping if you don't get a feedback in a couple of weeks or to ask
++other developers to publicly add Reviewed-by and, more importantly,
++``Tested-by:`` tags.
++
++Please note that we expect a detailed description for ``Tested-by:``,
++identifying what boards were used at the test and what it was tested.
+diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+index b7a627d6c97d..5d5cc3acdf85 100644
+--- a/Documentation/maintainer/maintainer-entry-profile.rst
++++ b/Documentation/maintainer/maintainer-entry-profile.rst
+@@ -102,3 +102,4 @@ to do something different in the near future.
+    ../doc-guide/maintainer-profile
+    ../nvdimm/maintainer-entry-profile
+    ../riscv/patch-acceptance
++   ../driver-api/media/maintainer-entry-profile
+-- 
+2.29.2
 
-struct dev_ext_attribute *
-etm_perf_add_to_group_hashed(struct device *dev,
-			     const char *group,
-			     const char *name)
-{
-}
-						
-
-This could return the ea on success avoiding the **ext_attr as argument.
-Also the name of the function indicates what it does.
-
-
->   {
-> -	int ret;
-> +	struct dev_ext_attribute *ea;
->   	unsigned long hash;
-> -	const char *name;
-> +	int ret;
->   	struct device *pmu_dev = etm_pmu.dev;
-> -	struct device *dev = &csdev->dev;
-> -	struct dev_ext_attribute *ea;
->   
-> -	if (csdev->type != CORESIGHT_DEV_TYPE_SINK &&
-> -	    csdev->type != CORESIGHT_DEV_TYPE_LINKSINK)
-> -		return -EINVAL;
-> -
-> -	if (csdev->ea != NULL)
-> -		return -EINVAL;
-> +	*ext_attr = NULL;
->   
->   	if (!etm_perf_up)
->   		return -EPROBE_DEFER;
-> @@ -560,7 +585,6 @@ int etm_perf_add_symlink_sink(struct coresight_device *csdev)
->   	if (!ea)
->   		return -ENOMEM;
->   
-> -	name = dev_name(dev);
->   	/* See function coresight_get_sink_by_id() to know where this is used */
->   	hash = hashlen_hash(hashlen_string(NULL, name));
->   
-> @@ -574,31 +598,127 @@ int etm_perf_add_symlink_sink(struct coresight_device *csdev)
->   	ea->var = (unsigned long *)hash;
->   
->   	ret = sysfs_add_file_to_group(&pmu_dev->kobj,
-> -				      &ea->attr.attr, "sinks");
-> -
-> +				      &ea->attr.attr, group_name);
->   	if (!ret)
-> -		csdev->ea = ea;
-> -
-> +		*ext_attr = ea;
->   	return ret;
-
-
-
-
-
->   }
->   
-> -void etm_perf_del_symlink_sink(struct coresight_device *csdev)
-> +int etm_perf_add_symlink_sink(struct coresight_device *csdev)
-> +{
-> +	const char *name;
-> +	struct device *dev = &csdev->dev;
-> +
-> +	if (csdev->type != CORESIGHT_DEV_TYPE_SINK &&
-> +	    csdev->type != CORESIGHT_DEV_TYPE_LINKSINK)
-> +		return -EINVAL;
-> +
-> +	if (csdev->ea != NULL)
-> +		return -EINVAL;
-> +
-> +	name = dev_name(dev);
-> +	return etm_perf_add_symlink_group(dev, &csdev->ea, name, "sinks");
-> +}
-> +
-> +void etm_perf_del_symlink_group(struct dev_ext_attribute *ea, const char *group_name)
-
-void etm_perf_del_from_group(group, ea)
-
->   
-> +/* string to contain the attribute value */
-> +#define CSCFG_EVENT_STR_SIZE	32
-> +
-> +static ssize_t etm_perf_cscfg_event_show(struct device *dev,
-> +					 struct device_attribute *dattr,
-> +					 char *buf)
-> +{
-> +	struct dev_ext_attribute *ea;
-> +
-> +	ea = container_of(dattr, struct dev_ext_attribute, attr);
-> +	return scnprintf(buf, PAGE_SIZE, "%s\n", (const char *)(ea->var));
-> +}
-
-"configid=0x%lx", (unsigned long)ea->var ?
-
-> +
-> +static int etm_perf_add_cscfg_event(struct device *dev, struct cscfg_config_desc *cs_cfg)
-> +{
-> +	struct dev_ext_attribute *ea;
-> +	unsigned long hash;
-> +	int ret;
-> +	struct device *pmu_dev = etm_pmu.dev;
-> +
-> +	ea = devm_kzalloc(dev, sizeof(*ea), GFP_KERNEL);
-> +	if (!ea)
-> +		return -ENOMEM;
-> +
-> +	hash = (unsigned long)cs_cfg->id_ea->var;
-> +
-> +	sysfs_attr_init(&ea->attr.attr);
-> +	ea->attr.attr.name = devm_kstrdup(dev, cs_cfg->name, GFP_KERNEL);
-> +	if (!ea->attr.attr.name)
-> +		return -ENOMEM;
-> +
-> +	/*
-> +	 * attribute value is "configid=<hash>".
-> +	 * this will be what perf evaluates when the config name is used
-> +	 * on the command line.
-> +	 */
-> +	ea->var = devm_kzalloc(dev, CSCFG_EVENT_STR_SIZE, GFP_KERNEL);
-> +	if (!ea->var)
-> +		return -ENOMEM;
-
-Could we drop this string and use the "hash" instead ?
-
-> +
-> +	scnprintf(ea->var, CSCFG_EVENT_STR_SIZE, "configid=0x%lx", hash);
-> +	ea->attr.attr.mode = 0444;
-> +	ea->attr.show = etm_perf_cscfg_event_show;
-> +
-> +	ret = sysfs_add_file_to_group(&pmu_dev->kobj,
-> +				      &ea->attr.attr, "events");
-> +	if (!ret)
-> +		cs_cfg->event_ea = ea;
-> +	return ret;
-> +}
-> +
-> +int etm_perf_add_symlink_cscfg(struct device *dev, struct cscfg_config_desc *cs_cfg)
-
-etm_perf_add_cscfg() ?
-
-> +{
-> +	int err;
-> +
-> +	if (cs_cfg->id_ea != NULL)
-> +		return 0;
-> +
-> +	err = etm_perf_add_symlink_group(dev, &cs_cfg->id_ea,
-> +					 cs_cfg->name, "configurations");
-> +
-> +	if (!err)
-> +		err = etm_perf_add_cscfg_event(dev, cs_cfg);
-> +
-> +	return err;
-> +}
-> +
-> +void etm_perf_del_symlink_cscfg(struct cscfg_config_desc *cs_cfg)
-
-etm_perf_del_cscfg() ?
-
-Suzuki
