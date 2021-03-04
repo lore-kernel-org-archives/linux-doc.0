@@ -2,134 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2959BC433DB
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 05:52:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA341C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 06:14:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA09C64ED4
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 05:52:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7A6FF64EFD
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 06:14:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234319AbhCDFvx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 00:51:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35924 "EHLO
+        id S234534AbhCDGNp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 01:13:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234246AbhCDFvm (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 00:51:42 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7951C06175F
-        for <linux-doc@vger.kernel.org>; Wed,  3 Mar 2021 21:51:01 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id o6so6086328pjf.5
-        for <linux-doc@vger.kernel.org>; Wed, 03 Mar 2021 21:51:01 -0800 (PST)
+        with ESMTP id S234527AbhCDGNT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 01:13:19 -0500
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E737DC061760
+        for <linux-doc@vger.kernel.org>; Wed,  3 Mar 2021 22:12:38 -0800 (PST)
+Received: by mail-pl1-x632.google.com with SMTP id s7so8346097plg.5
+        for <linux-doc@vger.kernel.org>; Wed, 03 Mar 2021 22:12:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PHh6MdEXNUKZrwB9uZw23/DqWC2TOmpTX2HUQ2q/364=;
-        b=HxQdXk52IXdtRkHu1/R6yxMuIjlbC3nn+FxxvSbrxxeQkNtjI5EB0s2Fhv3TvjIpKT
-         qGGTY/1RU0C+gG/bxx0ujod2ciyhPCkICtGZyWHQPhKopE/dlptNwaZ1b2/Q7UAuHnX2
-         iCAdy9e7isLGXsJkHM7IL/+azvhPqg2dfhBTjDaduRklCTQ7/unUXVmDiLRP3yk6r4Ju
-         uuy0+YvACY5utD8X1Up2mqX16SoGsBssE2YlD5+QEma2aVgClTi/XC5/Rh3roeTObTTW
-         n6QlOv0fHJDhqUvh2ihs9fgHCllPXss2OIdHe2a6gTtXCOA/19tjxqG0GnYd9VvlNzT4
-         LQXQ==
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=wrRdPDPB3VCRpfnlU4rkj1XLWJk4+xODxpIbuwpHG+Y=;
+        b=Mym+BpeRKl4ppls7nPY+P84Wq2Ud/GZk6tA0DczxIwInISgM7CE1f2mF7YJfODiqK4
+         XH3AcCKqc8EP1qDxSnxZfc3OaZgrLZjYhMxoQGdzAX9eRqIwn5TrLUe3aVvj1+95nlc4
+         t+mWhOGTQervTzGSIfWDK0WpFFPiX1V/GhAgaMZQciXUpe3mRBZ2L2WcSt9gj0fbV+Nn
+         ADWTRRnbMc4R+ee4X2l6udt04Tmxxf/PoypVtrzbHnC99T6/ZF3jFsQeGHxoRLFcd6su
+         kjOdjT8wTHO84LDxBLDEo2trTu7feZ3mQESF3hDu+dWyyHlkU3nAlu8jZB26xsWoMJwP
+         Iv9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PHh6MdEXNUKZrwB9uZw23/DqWC2TOmpTX2HUQ2q/364=;
-        b=Qk8FF6Nxwt/cPePiFAdVy2YPWEJY1lpRsu4N9MjOYUq+BReRsUDqvyGdBGRkzd1bTC
-         EbWqYhUsEzStAE3PIeW+neHz7T71ZVD9Lpv68mA4BQVe6VxCM/BwaRIyFX7DFeiUmmOy
-         ucK/O33MpUpBZw+IPOCZ6a6ShEmcl7jtYtTwE7zx2LqUXxVbxyCfqEm+4UZTnqx0Ib7m
-         gEa/fJzyfDCjkmbHWRVesrWakDpqzxQuTZkhgXfpUHwkUd01Sc5PS94RD7gX24yLB4+k
-         6/I9vhLIVmjJSk/sJq29ByBsO6ALIVCG/vS1ah5OX3UwqtGztxnW75YWUdNg2M874zut
-         vmTA==
-X-Gm-Message-State: AOAM530zl1/GkJd4uA6MeG9lsTMJMHkorZbtxXhFPNkmKvj+yrjySAaM
-        W0+Sh/uFA0w4HiM93VwYrkro0emApVk2gqeXzdghTA==
-X-Google-Smtp-Source: ABdhPJyRe1Ska4Dpb+winDsksPNhnJKDFerdQjWU0fCZIDmkpQO4lSqg3V4NY2A8paKorMfdEXogGQht1yFEAQ+TICg=
-X-Received: by 2002:a17:90a:778a:: with SMTP id v10mr2679820pjk.229.1614837061472;
- Wed, 03 Mar 2021 21:51:01 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wrRdPDPB3VCRpfnlU4rkj1XLWJk4+xODxpIbuwpHG+Y=;
+        b=mzOhQs1DbGej3YLhHo7b5iYN3hpW6kCjctFRQpnUMNPbXFNMYMQRzh1pVXdL5wz8Ob
+         TZsJ+pZip8YZozl/iAmmJtQK31UnZaC0ixC48O8i3bvLsTCjrwb96oJ/AGsc1i8IzkrB
+         6Gc00MjIUh1wjcGs59MEU5tk1mltP+Jf7437pkCu2NYoFF+V3iRUaM/zSoiyiCSBO/DE
+         AmH22jP+Ucs1jsvlHBhuFcxIRTvjdT5iVli6uY0oQmVCge+YJqv74x0lCqlRQskd3YgH
+         IpK4bVXHllJUHOB87IxKZAJ9gu/ow+ce8MvUTVmLxNuGwCqmw+r0DPMaxhZUqNk0DDGY
+         YOdA==
+X-Gm-Message-State: AOAM533JTOsUt6d9klrHg/oHhrFSPKELQlATaWW3zeQmhCWXhGML+ZeV
+        /DVVF8E0WK92t5gYZxGra+kvjg==
+X-Google-Smtp-Source: ABdhPJxoQ4XeAYEroSjRKIe3ajdC9MLdtC450rboK3p9g++hxKRkIyYCXNH35Jr8sb3SlgtDgBGI+w==
+X-Received: by 2002:a17:90a:31cf:: with SMTP id j15mr2749433pjf.41.1614838358171;
+        Wed, 03 Mar 2021 22:12:38 -0800 (PST)
+Received: from google.com ([2620:0:1008:10:5ddf:a7e:5239:ef47])
+        by smtp.gmail.com with ESMTPSA id e1sm8477557pjt.10.2021.03.03.22.12.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Mar 2021 22:12:37 -0800 (PST)
+Date:   Wed, 3 Mar 2021 22:12:32 -0800
+From:   Vipin Sharma <vipinsh@google.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     mkoutny@suse.com, rdunlap@infradead.org, thomas.lendacky@amd.com,
+        brijesh.singh@amd.com, jon.grimm@amd.com, eric.vantassell@amd.com,
+        pbonzini@redhat.com, hannes@cmpxchg.org, frankja@linux.ibm.com,
+        borntraeger@de.ibm.com, corbet@lwn.net, seanjc@google.com,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, gingell@google.com,
+        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC v2 1/2] cgroup: sev: Add misc cgroup controller
+Message-ID: <YEB6ULUgbf+s8ydd@google.com>
+References: <20210302081705.1990283-1-vipinsh@google.com>
+ <20210302081705.1990283-2-vipinsh@google.com>
+ <YD+ubbB4Tz0ZlVvp@slm.duckdns.org>
 MIME-Version: 1.0
-References: <20210225132130.26451-1-songmuchun@bytedance.com>
- <20210225132130.26451-2-songmuchun@bytedance.com> <baa8e9af-69f5-c301-6735-f8eedc1929c7@gmail.com>
- <20210304042617.GB1223287@balbir-desktop>
-In-Reply-To: <20210304042617.GB1223287@balbir-desktop>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 4 Mar 2021 13:50:23 +0800
-Message-ID: <CAMZfGtUBsUH6ntfXBCPKT_5cZ_xxhW90=yU_KxBn-198k0wCwA@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v17 1/9] mm: memory_hotplug: factor out
- bootmem core functions to bootmem_info.c
-To:     Balbir Singh <bsingharora@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oscar Salvador <osalvador@suse.de>,
-        Michal Hocko <mhocko@suse.com>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Miaohe Lin <linmiaohe@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YD+ubbB4Tz0ZlVvp@slm.duckdns.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 4, 2021 at 12:26 PM Balbir Singh <bsingharora@gmail.com> wrote:
->
-> On Wed, Mar 03, 2021 at 01:45:00PM +1100, Singh, Balbir wrote:
-> > On 26/2/21 12:21 am, Muchun Song wrote:
-> > > Move bootmem info registration common API to individual bootmem_info.c.
-> > > And we will use {get,put}_page_bootmem() to initialize the page for the
-> > > vmemmap pages or free the vmemmap pages to buddy in the later patch.
-> > > So move them out of CONFIG_MEMORY_HOTPLUG_SPARSE. This is just code
-> > > movement without any functional change.
-> > >
-> > > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> > > Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
-> > > Reviewed-by: Oscar Salvador <osalvador@suse.de>
-> > > Reviewed-by: David Hildenbrand <david@redhat.com>
-> > > Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
-> > ...
-> >
-> > > diff --git a/mm/bootmem_info.c b/mm/bootmem_info.c
-> > > new file mode 100644
-> > > index 000000000000..fcab5a3f8cc0
-> > > --- /dev/null
-> > > +++ b/mm/bootmem_info.c
-> > > @@ -0,0 +1,124 @@
-> > > +// SPDX-License-Identifier: GPL-2.0
-> > > +/*
-> > > + *  linux/mm/bootmem_info.c
-> > > + *
-> > > + *  Copyright (C)
-> >
-> > Looks like incomplete
-> >
-> Not that my comment was, I should have said
->
-> The copyright looks very incomplete
+On Wed, Mar 03, 2021 at 10:42:37AM -0500, Tejun Heo wrote:
+> > +	atomic_t usage;
+> > +};
+> 
+> Can we do 64bits so that something which counts memory can use this too?
+> 
+Sure.
 
-Yes. Just copied from mm/memory_hotplug.c.
-I can improve it in the next version. Thanks.
+> > +
+> > +		if (usage > capacity)
+> > +			return -EBUSY;
+> 
+> I'd rather go with allowing bringing down capacity below usage so that the
+> users can set it to a lower value to drain existing usages while denying new
+> ones. It's not like it's difficult to check the current total usage from the
+> caller side, so I'm not sure it's very useful to shift the condition check
+> here.
+> 
 
->
-> Balbir Singh.
+Okay, I will change the code to set new capacity unconditionally.
+
+Right now there is no API for the caller to know total usage, unless they
+keep their own tally, I was thinking it will be useful to add one more API
+
+unsigned long misc_cg_res_total_usage(enum misc_res_type type)
+
+It will return root_cg usage for "type" resource.
+Will it be fine?
+
+> > +			pr_info("cgroup: charge rejected by misc controller for %s resource in ",
+> > +				misc_res_name[type]);
+> > +			pr_cont_cgroup_path(i->css.cgroup);
+> > +			pr_cont("\n");
+> 
+> Should have commented on this in the priv thread but don't print something
+> on every rejection. This often becomes a nuisance and can make an easy DoS
+> vector at worst. If you wanna do it, print it once per cgroup or sth like
+> that.
+
+I didn't think in that way. Thanks, I will print it once per cgroup.
+
+Thanks
+Vipin
