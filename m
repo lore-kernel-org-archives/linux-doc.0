@@ -7,28 +7,28 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37FCAC4161F
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 21:44:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01F6AC4332D
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 21:44:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 164946500A
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 21:44:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BF5BA6500C
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 21:44:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240923AbhCDVng (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 16:43:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44068 "EHLO
+        id S241186AbhCDVoG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 16:44:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240929AbhCDVn1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 16:43:27 -0500
+        with ESMTP id S229478AbhCDVn5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 16:43:57 -0500
 Received: from mail.marcansoft.com (marcansoft.com [IPv6:2a01:298:fe:f::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 597AFC061761;
-        Thu,  4 Mar 2021 13:42:47 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD434C06175F;
+        Thu,  4 Mar 2021 13:43:16 -0800 (PST)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: hector@marcansoft.com)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id 28BE042709;
-        Thu,  4 Mar 2021 21:41:56 +0000 (UTC)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id C87394271B;
+        Thu,  4 Mar 2021 21:42:25 +0000 (UTC)
 From:   Hector Martin <marcan@marcan.st>
 To:     linux-arm-kernel@lists.infradead.org
 Cc:     Hector Martin <marcan@marcan.st>, Marc Zyngier <maz@kernel.org>,
@@ -52,9 +52,9 @@ Cc:     Hector Martin <marcan@marcan.st>, Marc Zyngier <maz@kernel.org>,
         devicetree@vger.kernel.org, linux-serial@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFT PATCH v3 22/27] tty: serial: samsung_tty: Use devm_ioremap_resource
-Date:   Fri,  5 Mar 2021 06:38:57 +0900
-Message-Id: <20210304213902.83903-23-marcan@marcan.st>
+Subject: [RFT PATCH v3 26/27] dt-bindings: display: Add apple,simple-framebuffer
+Date:   Fri,  5 Mar 2021 06:39:01 +0900
+Message-Id: <20210304213902.83903-27-marcan@marcan.st>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210304213902.83903-1-marcan@marcan.st>
 References: <20210304213902.83903-1-marcan@marcan.st>
@@ -64,79 +64,40 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This picks up the non-posted I/O mode needed for Apple platforms to
-work properly.
-
-This removes the request/release functions, which are no longer
-necessary, since devm_ioremap_resource takes care of that already. Most
-other drivers already do it this way, anyway.
+Apple SoCs run firmware that sets up a simplefb-compatible framebuffer
+for us. Add a compatible for it, and two missing supported formats.
 
 Signed-off-by: Hector Martin <marcan@marcan.st>
 ---
- drivers/tty/serial/samsung_tty.c | 25 +++----------------------
- 1 file changed, 3 insertions(+), 22 deletions(-)
+ .../devicetree/bindings/display/simple-framebuffer.yaml      | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/tty/serial/samsung_tty.c b/drivers/tty/serial/samsung_tty.c
-index 7106eb238d8c..26cb05992e9f 100644
---- a/drivers/tty/serial/samsung_tty.c
-+++ b/drivers/tty/serial/samsung_tty.c
-@@ -1573,26 +1573,11 @@ static const char *s3c24xx_serial_type(struct uart_port *port)
- 	}
- }
+diff --git a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
+index eaf8c54fcf50..c2499a7906f5 100644
+--- a/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
++++ b/Documentation/devicetree/bindings/display/simple-framebuffer.yaml
+@@ -54,6 +54,7 @@ properties:
+   compatible:
+     items:
+       - enum:
++          - apple,simple-framebuffer
+           - allwinner,simple-framebuffer
+           - amlogic,simple-framebuffer
+       - const: simple-framebuffer
+@@ -84,9 +85,13 @@ properties:
+       Format of the framebuffer:
+         * `a8b8g8r8` - 32-bit pixels, d[31:24]=a, d[23:16]=b, d[15:8]=g, d[7:0]=r
+         * `r5g6b5` - 16-bit pixels, d[15:11]=r, d[10:5]=g, d[4:0]=b
++        * `x2r10g10b10` - 32-bit pixels, d[29:20]=r, d[19:10]=g, d[9:0]=b
++        * `x8r8g8b8` - 32-bit pixels, d[23:16]=r, d[15:8]=g, d[7:0]=b
+     enum:
+       - a8b8g8r8
+       - r5g6b5
++      - x2r10g10b10
++      - x8r8g8b8
  
--#define MAP_SIZE (0x100)
--
--static void s3c24xx_serial_release_port(struct uart_port *port)
--{
--	release_mem_region(port->mapbase, MAP_SIZE);
--}
--
--static int s3c24xx_serial_request_port(struct uart_port *port)
--{
--	const char *name = s3c24xx_serial_portname(port);
--
--	return request_mem_region(port->mapbase, MAP_SIZE, name) ? 0 : -EBUSY;
--}
--
- static void s3c24xx_serial_config_port(struct uart_port *port, int flags)
- {
- 	struct s3c24xx_uart_info *info = s3c24xx_port_to_info(port);
- 
--	if (flags & UART_CONFIG_TYPE &&
--	    s3c24xx_serial_request_port(port) == 0)
-+	if (flags & UART_CONFIG_TYPE)
- 		port->type = info->port_type;
- }
- 
-@@ -1645,8 +1630,6 @@ static const struct uart_ops s3c24xx_serial_ops = {
- 	.shutdown	= s3c24xx_serial_shutdown,
- 	.set_termios	= s3c24xx_serial_set_termios,
- 	.type		= s3c24xx_serial_type,
--	.release_port	= s3c24xx_serial_release_port,
--	.request_port	= s3c24xx_serial_request_port,
- 	.config_port	= s3c24xx_serial_config_port,
- 	.verify_port	= s3c24xx_serial_verify_port,
- #if defined(CONFIG_SERIAL_SAMSUNG_CONSOLE) && defined(CONFIG_CONSOLE_POLL)
-@@ -1668,8 +1651,6 @@ static const struct uart_ops s3c64xx_serial_ops = {
- 	.shutdown	= s3c64xx_serial_shutdown,
- 	.set_termios	= s3c24xx_serial_set_termios,
- 	.type		= s3c24xx_serial_type,
--	.release_port	= s3c24xx_serial_release_port,
--	.request_port	= s3c24xx_serial_request_port,
- 	.config_port	= s3c24xx_serial_config_port,
- 	.verify_port	= s3c24xx_serial_verify_port,
- #if defined(CONFIG_SERIAL_SAMSUNG_CONSOLE) && defined(CONFIG_CONSOLE_POLL)
-@@ -1927,8 +1908,8 @@ static int s3c24xx_serial_init_port(struct s3c24xx_uart_port *ourport,
- 
- 	dev_dbg(port->dev, "resource %pR)\n", res);
- 
--	port->membase = devm_ioremap(port->dev, res->start, resource_size(res));
--	if (!port->membase) {
-+	port->membase = devm_ioremap_resource(port->dev, res);
-+	if (IS_ERR(port->membase)) {
- 		dev_err(port->dev, "failed to remap controller address\n");
- 		return -EBUSY;
- 	}
+   display:
+     $ref: /schemas/types.yaml#/definitions/phandle
 -- 
 2.30.0
 
