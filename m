@@ -2,89 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F30BC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 02:54:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79C94C433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 03:00:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 471A664E84
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 02:54:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BCD764E90
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 03:00:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231901AbhCDCxt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 3 Mar 2021 21:53:49 -0500
-Received: from mga02.intel.com ([134.134.136.20]:13315 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231741AbhCDCxk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 3 Mar 2021 21:53:40 -0500
-IronPort-SDR: uZXXVjRcj272xTsIC6QZ8/TLz3zblExCtBLugUGnYh1Oa71oRMDlIUWSMKTPSflWew/xSBupWl
- 9oGmCkd67syA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9912"; a="174444362"
-X-IronPort-AV: E=Sophos;i="5.81,221,1610438400"; 
-   d="scan'208";a="174444362"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2021 18:52:58 -0800
-IronPort-SDR: 3i9zbih/qTnJ32Z9atLme0OLnL9sE717HSH9+ywfyQtC2DUtXDXMnSgdKq1O45rMUp+L1THRRm
- VfqTf3SzqBig==
-X-IronPort-AV: E=Sophos;i="5.81,221,1610438400"; 
-   d="scan'208";a="445547078"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Mar 2021 18:52:57 -0800
-Date:   Wed, 3 Mar 2021 18:55:13 -0800
-From:   Jacob Pan <jacob.jun.pan@intel.com>
-To:     Vipin Sharma <vipinsh@google.com>
-Cc:     tj@kernel.org, mkoutny@suse.com, rdunlap@infradead.org,
-        thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
-        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
-        frankja@linux.ibm.com, borntraeger@de.ibm.com, corbet@lwn.net,
-        seanjc@google.com, vkuznets@redhat.com, wanpengli@tencent.com,
-        jmattson@google.com, joro@8bytes.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, gingell@google.com,
-        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, jacob.jun.pan@intel.com,
-        "Tian, Kevin" <kevin.tian@intel.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [RFC v2 2/2] cgroup: sev: Miscellaneous cgroup documentation.
-Message-ID: <20210303185513.27e18fce@jacob-builder>
-In-Reply-To: <20210302081705.1990283-3-vipinsh@google.com>
-References: <20210302081705.1990283-1-vipinsh@google.com>
-        <20210302081705.1990283-3-vipinsh@google.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S232070AbhCDC7l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 3 Mar 2021 21:59:41 -0500
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:60030 "EHLO
+        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232035AbhCDC7L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 3 Mar 2021 21:59:11 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R391e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UQJAT7t_1614826708;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UQJAT7t_1614826708)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 04 Mar 2021 10:58:29 +0800
+Subject: Re: [PATCH] PATCH Documentation translations:translate
+ sound/hd-audio/controls to chinese
+To:     huangjianghui@uniontech.com
+Cc:     Jonathan Corbet <corbet@lwn.net>, Harry Wei <harryxiyou@gmail.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210301122019.80234-1-huangjianghui@uniontech.com>
+ <8735xe4lsb.fsf@meer.lwn.net> <20210302032220.GA938@akg>
+ <e9937016-3b09-fb43-8fbf-a6c9b21597ac@linux.alibaba.com>
+ <20210302091339.GA12203@akg>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <125f1e49-522b-1aa6-e18c-9fad90f841fe@linux.alibaba.com>
+Date:   Thu, 4 Mar 2021 10:58:26 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20210302091339.GA12203@akg>
+Content-Type: text/plain; charset=gbk
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vipin,
 
-On Tue,  2 Mar 2021 00:17:05 -0800, Vipin Sharma <vipinsh@google.com> wrote:
 
-> +Migration and Ownership
-> +~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +A miscellaneous scalar resource is charged to the cgroup in which it is
-> used +first, and stays charged to that cgroup until that resource is
-> freed. Migrating +a process to a different cgroup does not move the
-> charge to the destination +cgroup where the process has moved.
-> +
-I am trying to see if IOASIDs cgroup can also fit in this misc controller
-as yet another resource type.
-https://lore.kernel.org/linux-iommu/20210303131726.7a8cb169@jacob-builder/T/#u
-However, unlike sev IOASIDs need to be migrated if the process is moved to
-another cgroup. i.e. charge the destination and uncharge the source.
+ÔÚ 2021/3/2 ÏÂÎç5:13, huangjianghui Ð´µÀ:
+>> we usually include patch into email instead of attach it as attachment.
+>> You can try use 'git send-email' to post your patches.
+>>
+>> Thanks
+>> Alex
+>>
+>>
+> I am sorry to do those, my patch is shown below:
 
-Do you think this behavior can be achieved by differentiating resource
-types? i.e. add attach callbacks for certain types. Having a single misc
-interface seems cleaner than creating another controller.
+Hi Jianghui,
 
-Thanks,
+I cann't apply your patch:
 
-Jacob
+$ g am ../Re_\ \[PATCH\]\ PATCH\ Documentation\ translations_translate\ sound_hd-audio_controls\ to\ chinese.eml
+Applying: PATCH Documentation translations:translate sound/hd-audio/controls to chinese
+error: patch failed: Documentation/translations/zh_CN/index.rst:20
+error: Documentation/translations/zh_CN/index.rst: patch does not apply
+Patch failed at 0001 PATCH Documentation translations:translate sound/hd-audio/controls to chinese
+hint: Use 'git am --show-current-patch=diff' to see the failed patch
+When you have resolved this problem, run "git am --continue".
+If you prefer to skip this patch, run "git am --skip" instead.
+To restore the original branch and stop patching, run "git am --abort".
+
+
+You'd better try to use 'git am' apply your email patch from your email client,
+before send it to linux-doc.
+
+There are some process doc of how community working:
+https://landlock.io/linux-doc/landlock-v27/translations/zh_CN/process/
+
+Thanks
+Alex
