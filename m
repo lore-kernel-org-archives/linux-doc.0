@@ -2,80 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C4A4C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 05:22:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2959BC433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 05:52:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 658DD64EEF
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 05:22:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA09C64ED4
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 05:52:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234119AbhCDFV7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 00:21:59 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13814 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234013AbhCDFVi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 00:21:38 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B60406e3a0000>; Wed, 03 Mar 2021 21:20:58 -0800
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 4 Mar
- 2021 05:20:56 +0000
-Received: from nvdebian.localnet (172.20.145.6) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 4 Mar 2021
- 05:20:54 +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <jhubbard@nvidia.com>,
-        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <hch@infradead.org>,
-        <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 5/8] mm: Device exclusive memory access
-Date:   Thu, 4 Mar 2021 16:20:52 +1100
-Message-ID: <2083651.v4LkQjjfQp@nvdebian>
-In-Reply-To: <20210302124152.GF4247@nvidia.com>
-References: <20210226071832.31547-1-apopple@nvidia.com> <2758096.Z30Q8iEM0t@nvdebian> <20210302124152.GF4247@nvidia.com>
+        id S234319AbhCDFvx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 00:51:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35924 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234246AbhCDFvm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 00:51:42 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7951C06175F
+        for <linux-doc@vger.kernel.org>; Wed,  3 Mar 2021 21:51:01 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id o6so6086328pjf.5
+        for <linux-doc@vger.kernel.org>; Wed, 03 Mar 2021 21:51:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PHh6MdEXNUKZrwB9uZw23/DqWC2TOmpTX2HUQ2q/364=;
+        b=HxQdXk52IXdtRkHu1/R6yxMuIjlbC3nn+FxxvSbrxxeQkNtjI5EB0s2Fhv3TvjIpKT
+         qGGTY/1RU0C+gG/bxx0ujod2ciyhPCkICtGZyWHQPhKopE/dlptNwaZ1b2/Q7UAuHnX2
+         iCAdy9e7isLGXsJkHM7IL/+azvhPqg2dfhBTjDaduRklCTQ7/unUXVmDiLRP3yk6r4Ju
+         uuy0+YvACY5utD8X1Up2mqX16SoGsBssE2YlD5+QEma2aVgClTi/XC5/Rh3roeTObTTW
+         n6QlOv0fHJDhqUvh2ihs9fgHCllPXss2OIdHe2a6gTtXCOA/19tjxqG0GnYd9VvlNzT4
+         LQXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PHh6MdEXNUKZrwB9uZw23/DqWC2TOmpTX2HUQ2q/364=;
+        b=Qk8FF6Nxwt/cPePiFAdVy2YPWEJY1lpRsu4N9MjOYUq+BReRsUDqvyGdBGRkzd1bTC
+         EbWqYhUsEzStAE3PIeW+neHz7T71ZVD9Lpv68mA4BQVe6VxCM/BwaRIyFX7DFeiUmmOy
+         ucK/O33MpUpBZw+IPOCZ6a6ShEmcl7jtYtTwE7zx2LqUXxVbxyCfqEm+4UZTnqx0Ib7m
+         gEa/fJzyfDCjkmbHWRVesrWakDpqzxQuTZkhgXfpUHwkUd01Sc5PS94RD7gX24yLB4+k
+         6/I9vhLIVmjJSk/sJq29ByBsO6ALIVCG/vS1ah5OX3UwqtGztxnW75YWUdNg2M874zut
+         vmTA==
+X-Gm-Message-State: AOAM530zl1/GkJd4uA6MeG9lsTMJMHkorZbtxXhFPNkmKvj+yrjySAaM
+        W0+Sh/uFA0w4HiM93VwYrkro0emApVk2gqeXzdghTA==
+X-Google-Smtp-Source: ABdhPJyRe1Ska4Dpb+winDsksPNhnJKDFerdQjWU0fCZIDmkpQO4lSqg3V4NY2A8paKorMfdEXogGQht1yFEAQ+TICg=
+X-Received: by 2002:a17:90a:778a:: with SMTP id v10mr2679820pjk.229.1614837061472;
+ Wed, 03 Mar 2021 21:51:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1614835258; bh=9xq8FfvlXkYAk6gs2678CTOmYbDE3Qd9No1oNQX9mU8=;
-        h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-         MIME-Version:Content-Transfer-Encoding:Content-Type:
-         X-Originating-IP:X-ClientProxiedBy;
-        b=pdZOZqStw2k9kfUFThuG08SuNOI+mxN+x8dJw3XY+pM3XOS0KNusvlx7Jc8OmFDTP
-         1yLQwxTNBqHauziGi82t9z4NolEGpl064lNuH+GMljlF7shSZzhkX0cOxfFgsigt6T
-         xTZCkHQHNCzFRImpRR2ildShmJcGlzmD9S2WSCmPGvQz1AuZIgLx2/B/LWMWl3Uygq
-         22c/GzkFoGtVRvbdCQ/ffN0LnSmAmIJ4CxK9n7vAY+aaqagzn/7jl6GH6UwXw4Y54x
-         fg7uzjwBKZt6NGVv2TKGuIXUv2P0JIZsIRJkaFC//mQiZr15JDiQyleyVMMn4J8u0M
-         pFKBKhvcVbdbQ==
+References: <20210225132130.26451-1-songmuchun@bytedance.com>
+ <20210225132130.26451-2-songmuchun@bytedance.com> <baa8e9af-69f5-c301-6735-f8eedc1929c7@gmail.com>
+ <20210304042617.GB1223287@balbir-desktop>
+In-Reply-To: <20210304042617.GB1223287@balbir-desktop>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 4 Mar 2021 13:50:23 +0800
+Message-ID: <CAMZfGtUBsUH6ntfXBCPKT_5cZ_xxhW90=yU_KxBn-198k0wCwA@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v17 1/9] mm: memory_hotplug: factor out
+ bootmem core functions to bootmem_info.c
+To:     Balbir Singh <bsingharora@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Miaohe Lin <linmiaohe@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tuesday, 2 March 2021 11:41:52 PM AEDT Jason Gunthorpe wrote:
-> > However try_to_protect() scans the PTEs again under the PTL so checking 
-the 
-> > mapping of interest actually gets replaced during the rmap walk seems like 
-a 
-> > reasonable solution. Thanks for the comments.
-> 
-> It does seem cleaner if you can manage it, the notifier will still be
-> needd to program the HW though
+On Thu, Mar 4, 2021 at 12:26 PM Balbir Singh <bsingharora@gmail.com> wrote:
+>
+> On Wed, Mar 03, 2021 at 01:45:00PM +1100, Singh, Balbir wrote:
+> > On 26/2/21 12:21 am, Muchun Song wrote:
+> > > Move bootmem info registration common API to individual bootmem_info.c.
+> > > And we will use {get,put}_page_bootmem() to initialize the page for the
+> > > vmemmap pages or free the vmemmap pages to buddy in the later patch.
+> > > So move them out of CONFIG_MEMORY_HOTPLUG_SPARSE. This is just code
+> > > movement without any functional change.
+> > >
+> > > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > > Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
+> > > Reviewed-by: Oscar Salvador <osalvador@suse.de>
+> > > Reviewed-by: David Hildenbrand <david@redhat.com>
+> > > Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
+> > ...
+> >
+> > > diff --git a/mm/bootmem_info.c b/mm/bootmem_info.c
+> > > new file mode 100644
+> > > index 000000000000..fcab5a3f8cc0
+> > > --- /dev/null
+> > > +++ b/mm/bootmem_info.c
+> > > @@ -0,0 +1,124 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + *  linux/mm/bootmem_info.c
+> > > + *
+> > > + *  Copyright (C)
+> >
+> > Looks like incomplete
+> >
+> Not that my comment was, I should have said
+>
+> The copyright looks very incomplete
 
-Checking during the rmap walk wasn't hard but ultimately pointless. As you say 
-a range notifier and lock is required to program the hardware, which requires 
-checking the mappings with a mmu notifier sequence anyway.
+Yes. Just copied from mm/memory_hotplug.c.
+I can improve it in the next version. Thanks.
 
- - Alistair
-
-
-
+>
+> Balbir Singh.
