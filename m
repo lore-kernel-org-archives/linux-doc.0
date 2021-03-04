@@ -2,162 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC9B1C433E6
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 14:45:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1760C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 14:47:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83CB564F43
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 14:45:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6C10664F0A
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 14:47:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232426AbhCDOog (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 09:44:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32141 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232455AbhCDOoQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 09:44:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614868971;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=WtE6rQGgBStCxiYKH1KCeU5bCMvRZhVHeezm1zYPWL4=;
-        b=NRNE5o5O3kLS1FxTAfEkIoEAmmESitlA8t3rkig469WE9d5Mdis0Ms46l5QtHA0MzOIayX
-        7oxx8E3U7oTu983aviGGYdWjhJMVeIIuvBqhMNzQiE9KISqVhjNzDsjfn4ihL1XCdmwCeK
-        uFmXsy450Oav9yWGUi42sgqtqc7tgp0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-359-NX1wg6mjM5So2T6usmvUug-1; Thu, 04 Mar 2021 09:42:46 -0500
-X-MC-Unique: NX1wg6mjM5So2T6usmvUug-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4827983DD28;
-        Thu,  4 Mar 2021 14:42:45 +0000 (UTC)
-Received: from prarit.bos.redhat.com (prarit-guest.7a2m.lab.eng.bos.redhat.com [10.16.222.26])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 9037B5DA2D;
-        Thu,  4 Mar 2021 14:42:44 +0000 (UTC)
-Subject: Re: [PATCH] pci-driver: Add driver load messages
-To:     Bjorn Helgaas <helgaas@kernel.org>
-Cc:     Leon Romanovsky <leon@kernel.org>, bhelgaas@google.com,
-        corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-pci@vger.kernel.org, mstowe@redhat.com
-References: <20210218190603.GA993998@bjorn-Precision-5520>
-From:   Prarit Bhargava <prarit@redhat.com>
-Message-ID: <4a584957-24d5-54c8-07f8-36fd7d2e9fce@redhat.com>
-Date:   Thu, 4 Mar 2021 09:42:44 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.6.1
+        id S232089AbhCDOrQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 09:47:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38208 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232469AbhCDOrO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 09:47:14 -0500
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 200B0C061756
+        for <linux-doc@vger.kernel.org>; Thu,  4 Mar 2021 06:46:34 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id e10so27698045wro.12
+        for <linux-doc@vger.kernel.org>; Thu, 04 Mar 2021 06:46:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oPjdoY3IchTxSeEVo8a3bj2scxE+31WbW/AYcYPh3QM=;
+        b=rWuP9MybS+aGNANpU21WEPXzBZdbNfgJBQDKLXXyKxTGG0Cz8tNdUtYfvz/OuVuCCl
+         CVRGV6hVWxzz6SfQEDifFlLbj/P1hl9an9J4kSJltsh4DorFGVan0EEMGGno5Dmodz1f
+         UZt9qqcvs5WUHgMo3cQ8XeiSyLubYIX3riytWVynvcAsOrh11nthtYMtVtvbj1MQA9sN
+         tkCW8To5JT3qdfBrBI5MaGPMrFKSURAXdeXkbcO8uqO7qi6spY2caiScQ3iQZY6Y9SVg
+         nUZPgSvgt61iAxNbamg3s3Mwr2sR7jAgu+V3pID6X+DSXpgwj5jgDQAQUUXuaLIIk8X9
+         GbjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oPjdoY3IchTxSeEVo8a3bj2scxE+31WbW/AYcYPh3QM=;
+        b=Bdl1c1Qj3xoMIvG+18CJh3Cqw9kSpAQeoC5asuSI9K1CewSLn+OB//fFhft9iVtUtk
+         BJfyRWG1ext5bcA+k9V00S6eni5m0AUMYjt/MkFiB1UrAQ+TAdZynjYUSmX9ujMjRVim
+         bsaOlacLfdV6E2CDpa0VfA+L4Woy6EWunGPE/tMnGcgzFmwYD4vd3XQ9qRLKk4Uki8dj
+         X3Klru6FL+XaYbZVQqoAS1YT/jPPEk9IQVI98bnKOvvB4R5dNvkbW2X2e+nkaJ9IbNFn
+         HzxdQnuwpX4CxymZOTfP3S7gbfgQlFOnT3YOhmdS3/V4nE96gq556+em70SJfWaZiHTu
+         BvVw==
+X-Gm-Message-State: AOAM5328NuawSYtDW+anjCumP/RGwHbEC23ZAjdt+lWJbT6T3RZIqpkE
+        B7ABBpUAn/VN7FN7Yg+/tPsCVxtgefQSo6b5scLpTOfPoYA=
+X-Google-Smtp-Source: ABdhPJxMrhGvW7HaiafS+5gzz8xlNld8dYnSjUSYnfDHMPCyjqWwP0NmkfwcNhxBxz2381/J9tn7v+J/rwg60YsUCu8=
+X-Received: by 2002:a5d:4688:: with SMTP id u8mr4392324wrq.39.1614869192777;
+ Thu, 04 Mar 2021 06:46:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210218190603.GA993998@bjorn-Precision-5520>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20210128170936.9222-1-mike.leach@linaro.org> <20210128170936.9222-5-mike.leach@linaro.org>
+ <641a0d20-bf3d-24e2-8402-d99de9117584@arm.com> <CAJ9a7Vi5dTJTNRNC36UEwAeCayd_HF9jN8rXSggRF_4cPZ1NrA@mail.gmail.com>
+ <921225a2-14a8-2a4f-4726-f61224cafa28@arm.com>
+In-Reply-To: <921225a2-14a8-2a4f-4726-f61224cafa28@arm.com>
+From:   Mike Leach <mike.leach@linaro.org>
+Date:   Thu, 4 Mar 2021 14:46:22 +0000
+Message-ID: <CAJ9a7VhWqkDeSWeZnGi2JdrYv-d8=R6He_zfd+L3Za3WoPRXOg@mail.gmail.com>
+Subject: Re: [PATCH v4 04/10] coresight: etm-perf: update to handle
+ configuration selection
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc:     linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Coresight ML <coresight@lists.linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Yabin Cui <yabinc@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Tingwei Zhang <tingwei@codeaurora.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi
+
+On Thu, 4 Mar 2021 at 14:25, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
+>
+> On 3/4/21 2:19 PM, Mike Leach wrote:
+> > Hi Suzuki,
+> >
+> > On Thu, 4 Mar 2021 at 12:13, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
+> >>
+> >> On 1/28/21 5:09 PM, Mike Leach wrote:
+> >>> Loaded coresight configurations are registered in the cs_etm\cs_config sub
+> >>> directory. This extends the etm-perf code to handle these registrations,
+> >>> and the cs_syscfg driver to perform the registration on load.
+> >>>
+> >>> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> >>> ---
+> >>>    .../hwtracing/coresight/coresight-config.h    |   5 +-
+> >>>    .../hwtracing/coresight/coresight-etm-perf.c  | 164 +++++++++++++++---
+> >>>    .../hwtracing/coresight/coresight-etm-perf.h  |   8 +
+> >>>    .../hwtracing/coresight/coresight-syscfg.c    |  13 +-
+> >>>    4 files changed, 166 insertions(+), 24 deletions(-)
+> >>>
+>
+>
+> >>> +static ssize_t etm_perf_cscfg_event_show(struct device *dev,
+> >>> +                                      struct device_attribute *dattr,
+> >>> +                                      char *buf)
+> >>> +{
+> >>> +     struct dev_ext_attribute *ea;
+> >>> +
+> >>> +     ea = container_of(dattr, struct dev_ext_attribute, attr);
+> >>> +     return scnprintf(buf, PAGE_SIZE, "%s\n", (const char *)(ea->var));
+> >>> +}
+> >>
+> >> "configid=0x%lx", (unsigned long)ea->var ?
+> >>
+> >
+> > ea->var _is_ "configid=0x%lx" due to the way perf handles the events
+> > sub-dir entries.
+> >
+>
+> This must be combined with the suggestion below.
+>
+> >>> +
+> >>> +static int etm_perf_add_cscfg_event(struct device *dev, struct cscfg_config_desc *cs_cfg)
+> >>> +{
+> >>> +     struct dev_ext_attribute *ea;
+> >>> +     unsigned long hash;
+> >>> +     int ret;
+> >>> +     struct device *pmu_dev = etm_pmu.dev;
+> >>> +
+> >>> +     ea = devm_kzalloc(dev, sizeof(*ea), GFP_KERNEL);
+> >>> +     if (!ea)
+> >>> +             return -ENOMEM;
+> >>> +
+> >>> +     hash = (unsigned long)cs_cfg->id_ea->var;
+> >>> +
+> >>> +     sysfs_attr_init(&ea->attr.attr);
+> >>> +     ea->attr.attr.name = devm_kstrdup(dev, cs_cfg->name, GFP_KERNEL);
+> >>> +     if (!ea->attr.attr.name)
+> >>> +             return -ENOMEM;
+> >>> +
+> >>> +     /*
+> >>> +      * attribute value is "configid=<hash>".
+> >>> +      * this will be what perf evaluates when the config name is used
+> >>> +      * on the command line.
+> >>> +      */
+> >>> +     ea->var = devm_kzalloc(dev, CSCFG_EVENT_STR_SIZE, GFP_KERNEL);
+> >>> +     if (!ea->var)
+> >>> +             return -ENOMEM;
+> >>
+> >> Could we drop this string and use the "hash" instead ?
+> >>
+> >
+> > No. My understanding is that we have added an events directory to
+> > cs_etm, and add the configurations in there:-
+> >
+> > cs_etm/events/autofdo
+> >
+> > Now the contents of autofdo are "configid=0x<hash-value>" - where
+> > hash-value is the hash of "autofdo".
+> >
+> > On the perf command line:-
+> >
+> > perf record -e cs_etm/autofdo/ .....
+> >
+> > will result in perf parsing autofdo, looking in the events dir for
+> > cs_etm, seeing the configid=-string, and parsing that to assign to
+> > configid attribute - which we have allocated to config2:63:32 - this
+> > will then appear as a value in the perf_event and we can load the
+> > configuration when starting up the event on the ETM etc.
+>
+> Sorry, I was not explicit in my comments. You could drop the string and
+> have ea->var = hash. And the _show() could simply do
+>
+> "configid=0x%lx" , hash
+>
+> as mentioned above.
+>
+> That would avoid another string allocation, with the same interface.
+>
+
+OK, that makes sense.
+
+Mike
+
+> Suzuki
 
 
-On 2/18/21 2:06 PM, Bjorn Helgaas wrote:
-> On Thu, Feb 18, 2021 at 01:36:35PM -0500, Prarit Bhargava wrote:
->> On 1/26/21 10:12 AM, Bjorn Helgaas wrote:
->>> On Tue, Jan 26, 2021 at 09:05:23AM -0500, Prarit Bhargava wrote:
->>>> On 1/26/21 8:53 AM, Leon Romanovsky wrote:
->>>>> On Tue, Jan 26, 2021 at 08:42:12AM -0500, Prarit Bhargava wrote:
->>>>>> On 1/26/21 8:14 AM, Leon Romanovsky wrote:
->>>>>>> On Tue, Jan 26, 2021 at 07:54:46AM -0500, Prarit Bhargava wrote:
->>>>>>>>   Leon Romanovsky <leon@kernel.org> wrote:
->>>>>>>>> On Mon, Jan 25, 2021 at 02:41:38PM -0500, Prarit Bhargava wrote:
->>>>>>>>>> There are two situations where driver load messages are helpful.
->>>>>>>>>>
->>>>>>>>>> 1) Some drivers silently load on devices and debugging driver or system
->>>>>>>>>> failures in these cases is difficult.  While some drivers (networking
->>>>>>>>>> for example) may not completely initialize when the PCI driver probe() function
->>>>>>>>>> has returned, it is still useful to have some idea of driver completion.
->>>>>>>>>
->>>>>>>>> Sorry, probably it is me, but I don't understand this use case.
->>>>>>>>> Are you adding global to whole kernel command line boot argument to debug
->>>>>>>>> what and when?
->>>>>>>>>
->>>>>>>>> During boot:
->>>>>>>>> If device success, you will see it in /sys/bus/pci/[drivers|devices]/*.
->>>>>>>>> If device fails, you should get an error from that device (fix the
->>>>>>>>> device to return an error), or something immediately won't work and
->>>>>>>>> you won't see it in sysfs.
->>>>>>>>
->>>>>>>> What if there is a panic during boot?  There's no way to get to sysfs.
->>>>>>>> That's the case where this is helpful.
->>>>>>>
->>>>>>> How? If you have kernel panic, it means you have much more worse problem
->>>>>>> than not-supported device. If kernel panic was caused by the driver, you
->>>>>>> will see call trace related to it. If kernel panic was caused by
->>>>>>> something else, supported/not supported won't help here.
->>>>>>
->>>>>> I still have no idea *WHICH* device it was that the panic occurred on.
->>>>>
->>>>> The kernel panic is printed from the driver. There is one driver loaded
->>>>> for all same PCI devices which are probed without relation to their
->>>>> number.>
->>>>> If you have host with ten same cards, you will see one driver and this
->>>>> is where the problem and not in supported/not-supported device.
->>>>
->>>> That's true, but you can also have different cards loading the same driver.
->>>> See, for example, any PCI_IDs list in a driver.
->>>>
->>>> For example,
->>>>
->>>> 10:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3008 [Fury] (rev 02)
->>>> 20:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3108 [Invader] (rev 02)
->>>>
->>>> Both load the megaraid driver and have different profiles within the
->>>> driver.  I have no idea which one actually panicked until removing
->>>> one card.
->>>>
->>>> It's MUCH worse when debugging new hardware and getting a panic
->>>> from, for example, the uncore code which binds to a PCI mapped
->>>> device.  One device might work and the next one doesn't.  And
->>>> then you can multiply that by seeing *many* panics at once and
->>>> trying to determine if the problem was on one specific socket,
->>>> die, or core.
->>>
->>> Would a dev_panic() interface that identified the device and
->>> driver help with this?
->>
->> ^^ the more I look at this problem, the more a dev_panic() that
->> would output a device specific message at panic time is what I
->> really need.
 
-Bjorn,
-
-I went down this road a bit and had a realization.  The issue isn't with
-printing something at panic time, but the *data* that is output.  Each PCI
-device is associated with a struct device.  That device struct's name is output
-for dev_dbg(), etc., commands.  The PCI subsystem sets the device struct name at
-drivers/pci/probe.c: 1799
-
-	        dev_set_name(&dev->dev, "%04x:%02x:%02x.%d", pci_domain_nr(dev->bus),
-                     dev->bus->number, PCI_SLOT(dev->devfn),
-                     PCI_FUNC(dev->devfn));
-
-My problem really is that the above information is insufficient when I (or a
-user) need to debug a system.  The complexities of debugging multiple broken
-driver loads would be much easier if I didn't have to constantly add this output
-manually :).
-
-Would you be okay with adding a *debug* parameter to expand the device name to
-include the vendor & device ID pair?  FWIW, I'm somewhat against
-yet-another-kernel-option but that's really the information I need.  I could
-then add dev_dbg() statements in the local_pci_probe() function.
-
-Thoughts?
-
-P.
-
-
-
+-- 
+Mike Leach
+Principal Engineer, ARM Ltd.
+Manchester Design Centre. UK
