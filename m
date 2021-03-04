@@ -2,107 +2,366 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAC6CC433E9
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 10:50:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EB3AC433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 11:01:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 96AF364F31
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 10:50:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 533C664F2B
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 11:01:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238982AbhCDKtf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 05:49:35 -0500
-Received: from foss.arm.com ([217.140.110.172]:36626 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238974AbhCDKtR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Mar 2021 05:49:17 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E30B81FB;
-        Thu,  4 Mar 2021 02:48:31 -0800 (PST)
-Received: from [10.57.63.81] (unknown [10.57.63.81])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 114293F73B;
-        Thu,  4 Mar 2021 02:48:26 -0800 (PST)
-Subject: Re: [PATCH v4 01/10] coresight: syscfg: Initial coresight system
- configuration
-To:     Mike Leach <mike.leach@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-        mathieu.poirier@linaro.org, linux-doc@vger.kernel.org
-Cc:     yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
-        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
-References: <20210128170936.9222-1-mike.leach@linaro.org>
- <20210128170936.9222-2-mike.leach@linaro.org>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <4d429fd7-7aea-cf93-579a-1c43e120d9bf@arm.com>
-Date:   Thu, 4 Mar 2021 10:48:22 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S239212AbhCDLAr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 06:00:47 -0500
+Received: from mail-wm1-f43.google.com ([209.85.128.43]:36369 "EHLO
+        mail-wm1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239106AbhCDLAl (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 06:00:41 -0500
+Received: by mail-wm1-f43.google.com with SMTP id k66so9222736wmf.1;
+        Thu, 04 Mar 2021 03:00:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RANBnD46ojmlSMccdilRdjvDcaZ6u/VFb9a869Iq5XU=;
+        b=k/KvLQlzVFSSdzxEXi7HR8pHR1NFyjTyoj1PQztsHJzjFkyarqMGc7lqkIb6yzjYt3
+         akO7VeysmsYANNaru9AhiAZa2bNKcPy2R5Dei/FhBUGQL109Xd8RO/pr3yrCMA6PVtOG
+         3ejX09LHtTqF2B68BI7UZiMOxJvhvmMYGEI59mlXlbS/BzOGUuNT1BWmUKUy9pJtUiwc
+         gzAaAlc03DuTiS5RUYEpr/75+OUj5tT1QerPRUAeNWBosQC/p5/Mgdlse4Gt25EqASXt
+         RnlpiDWwPNUOEV5C51C0youuoQbGgrr5bRNUDIMzNr0qwMe3eXkMHCfFKsD5Ig/LWKX8
+         Kg3A==
+X-Gm-Message-State: AOAM531+b+YLChCQLnHwpqugzoOXTQv57Q5GBvP63j/hphtK23V0jK4A
+        u9lZitv4lErsWtkFKRYPxVY=
+X-Google-Smtp-Source: ABdhPJy9psosJAJzPkFtViYYM9+1QFnG3jbrArOHYWSu0xYl6j08YYMahfmJOMk7q24BUS7maJ9bSA==
+X-Received: by 2002:a1c:ddc6:: with SMTP id u189mr3361967wmg.171.1614855600261;
+        Thu, 04 Mar 2021 03:00:00 -0800 (PST)
+Received: from localhost ([2a02:8308:387:c900:a7b5:b859:9449:c07b])
+        by smtp.gmail.com with ESMTPSA id d85sm9420246wmd.15.2021.03.04.02.59.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Mar 2021 02:59:59 -0800 (PST)
+From:   =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>
+Cc:     =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/7] hwmon: (max31790) Rework to use regmap
+Date:   Thu,  4 Mar 2021 11:58:24 +0100
+Message-Id: <20210304105830.507176-1-kubernat@cesnet.cz>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-In-Reply-To: <20210128170936.9222-2-mike.leach@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 1/28/21 5:09 PM, Mike Leach wrote:
-> Creates an system management API to allow complex configurations and
-> features to be programmed into a CoreSight infrastructure.
-> 
-> A feature is defined as a programming set for a device or class of
-> devices.
-> 
-> A configuration is a set of features across the system that are enabled
-> for a trace session.
-> 
-> The API will manage system wide configuration, and allow complex
-> programmed features to be added to individual device instances, and
-> provide for system wide configuration selection on trace capture
-> operations.
-> 
-> This patch creates the initial data object and the initial API for
-> loading configurations and features.
-> 
-> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+Converting the driver to use regmap makes it more generic. It also makes
+it a lot easier to debug through debugfs.
 
+Signed-off-by: Václav Kubernát <kubernat@cesnet.cz>
+---
+ drivers/hwmon/Kconfig    |   1 +
+ drivers/hwmon/max31790.c | 148 +++++++++++++++++++++++++++------------
+ 2 files changed, 105 insertions(+), 44 deletions(-)
 
-> +/**
-> + * Representation of register value.
-> + *
-> + * Supports full 64 bit register value, or 32 bit value with optional mask
-> + * value.
-> + *
-> + * @type:	define register usage and interpretation.
-> + * @offset:	the address offset for register in the hardware device (per device specification).
-> + * @hw_info:	optional hardware device type specific information. (ETM / CTI specific etc)
-> + * @val64:	64 bit value.
-> + * @val32:	32 bit value.
-> + * @mask32:	32 bit mask when using 32 bit value to access device register.
-> + */
-> +struct cscfg_regval_desc {
-> +	struct {
-> +		u32 type:8;
-> +		u32 offset:12;
-> +		u32 hw_info:12;
-> +	};
-> +	union {
-> +		u64 val64;
-> +		struct {
-> +			u32 val32;
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index 54f04e61fb83..c2ec57672c4e 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -1092,6 +1092,7 @@ config SENSORS_MAX6697
+ config SENSORS_MAX31790
+ 	tristate "Maxim MAX31790 sensor chip"
+ 	depends on I2C
++	select REGMAP_I2C
+ 	help
+ 	  If you say yes here you get support for 6-Channel PWM-Output
+ 	  Fan RPM Controller.
+diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
+index 86e6c71db685..ca413985b5f9 100644
+--- a/drivers/hwmon/max31790.c
++++ b/drivers/hwmon/max31790.c
+@@ -12,6 +12,7 @@
+ #include <linux/init.h>
+ #include <linux/jiffies.h>
+ #include <linux/module.h>
++#include <linux/regmap.h>
+ #include <linux/slab.h>
+ 
+ /* MAX31790 registers */
+@@ -46,11 +47,35 @@
+ 
+ #define NR_CHANNEL			6
+ 
++#define MAX31790_REG_USER_BYTE_67	0x67
++
++#define BULK_TO_U16(msb, lsb)		(((msb) << 8) + (lsb))
++#define U16_MSB(num)			(((num) & 0xFF00) >> 8)
++#define U16_LSB(num)			((num) & 0x00FF)
++
++static const struct regmap_range max31790_ro_range = {
++	.range_min = MAX31790_REG_TACH_COUNT(0),
++	.range_max = MAX31790_REG_PWMOUT(0) - 1,
++};
++
++static const struct regmap_access_table max31790_wr_table = {
++	.no_ranges = &max31790_ro_range,
++	.n_no_ranges = 1,
++};
++
++static const struct regmap_config max31790_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.reg_stride = 1,
++	.max_register = MAX31790_REG_USER_BYTE_67,
++	.wr_table = &max31790_wr_table,
++};
++
+ /*
+  * Client data (each client gets its own)
+  */
+ struct max31790_data {
+-	struct i2c_client *client;
++	struct regmap *regmap;
+ 	struct mutex update_lock;
+ 	bool valid; /* zero until following fields are valid */
+ 	unsigned long last_updated; /* in jiffies */
+@@ -67,53 +92,72 @@ struct max31790_data {
+ static struct max31790_data *max31790_update_device(struct device *dev)
+ {
+ 	struct max31790_data *data = dev_get_drvdata(dev);
+-	struct i2c_client *client = data->client;
++	struct regmap *regmap = data->regmap;
+ 	struct max31790_data *ret = data;
+ 	int i;
+ 	int rv;
++	int val;
++	u8 val_bulk[2];
+ 
+ 	mutex_lock(&data->update_lock);
+ 
+ 	if (time_after(jiffies, data->last_updated + HZ) || !data->valid) {
+-		rv = i2c_smbus_read_byte_data(client,
+-				MAX31790_REG_FAN_FAULT_STATUS1);
++		rv = regmap_read(regmap,
++				 MAX31790_REG_FAN_FAULT_STATUS1,
++				 &val);
+ 		if (rv < 0)
+ 			goto abort;
+-		data->fault_status = rv & 0x3F;
++		data->fault_status = val & 0x3F;
+ 
+-		rv = i2c_smbus_read_byte_data(client,
+-				MAX31790_REG_FAN_FAULT_STATUS2);
++		rv = regmap_read(regmap,
++				 MAX31790_REG_FAN_FAULT_STATUS2,
++				 &val);
+ 		if (rv < 0)
+ 			goto abort;
+-		data->fault_status |= (rv & 0x3F) << 6;
++		data->fault_status |= (val & 0x3F) << 6;
+ 
+ 		for (i = 0; i < NR_CHANNEL; i++) {
+-			rv = i2c_smbus_read_word_swapped(client,
+-					MAX31790_REG_TACH_COUNT(i));
++			rv = regmap_bulk_read(regmap,
++					      MAX31790_REG_TACH_COUNT(i),
++					      val_bulk,
++					      2);
+ 			if (rv < 0)
+ 				goto abort;
+-			data->tach[i] = rv;
++			data->tach[i] = BULK_TO_U16(val_bulk[0],
++						    val_bulk[1]);
+ 
+ 			if (data->fan_config[i]
+ 			    & MAX31790_FAN_CFG_TACH_INPUT) {
+-				rv = i2c_smbus_read_word_swapped(client,
+-					MAX31790_REG_TACH_COUNT(NR_CHANNEL
+-								+ i));
++				rv = regmap_bulk_read(regmap,
++						      MAX31790_REG_TACH_COUNT(NR_CHANNEL
++									      + i),
++					      val_bulk,
++					      2);
+ 				if (rv < 0)
+ 					goto abort;
+-				data->tach[NR_CHANNEL + i] = rv;
++
++				data->tach[NR_CHANNEL + i] =
++					BULK_TO_U16(val_bulk[0],
++						    val_bulk[1]);
+ 			} else {
+-				rv = i2c_smbus_read_word_swapped(client,
+-						MAX31790_REG_PWMOUT(i));
++				rv = regmap_bulk_read(regmap,
++						      MAX31790_REG_PWMOUT(i),
++						      val_bulk,
++						      2);
+ 				if (rv < 0)
+ 					goto abort;
+-				data->pwm[i] = rv;
++				data->pwm[i] = BULK_TO_U16(val_bulk[0],
++							   val_bulk[1]);
+ 
+-				rv = i2c_smbus_read_word_swapped(client,
+-						MAX31790_REG_TARGET_COUNT(i));
++				rv = regmap_bulk_read(regmap,
++						      MAX31790_REG_TARGET_COUNT(i),
++						      val_bulk,
++						      2);
+ 				if (rv < 0)
+ 					goto abort;
+-				data->target_count[i] = rv;
++				data->target_count[i] =
++					BULK_TO_U16(val_bulk[0],
++						    val_bulk[1]);
+ 			}
+ 		}
+ 
+@@ -191,11 +235,12 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+ 			      long val)
+ {
+ 	struct max31790_data *data = dev_get_drvdata(dev);
+-	struct i2c_client *client = data->client;
++	struct regmap *regmap = data->regmap;
+ 	int target_count;
+ 	int err = 0;
+ 	u8 bits;
+ 	int sr;
++	u8 bulk_val[2];
+ 
+ 	mutex_lock(&data->update_lock);
+ 
+@@ -207,9 +252,9 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+ 			((data->fan_dynamics[channel] &
+ 			  ~MAX31790_FAN_DYN_SR_MASK) |
+ 			 (bits << MAX31790_FAN_DYN_SR_SHIFT));
+-		err = i2c_smbus_write_byte_data(client,
+-					MAX31790_REG_FAN_DYNAMICS(channel),
+-					data->fan_dynamics[channel]);
++		err = regmap_write(regmap,
++				   MAX31790_REG_FAN_DYNAMICS(channel),
++				   data->fan_dynamics[channel]);
+ 		if (err < 0)
+ 			break;
+ 
+@@ -218,10 +263,13 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+ 		target_count = clamp_val(target_count, 0x1, 0x7FF);
+ 
+ 		data->target_count[channel] = target_count << 5;
++		bulk_val[0] = U16_MSB(data->target_count[channel]);
++		bulk_val[1] = U16_LSB(data->target_count[channel]);
+ 
+-		err = i2c_smbus_write_word_swapped(client,
++		err = regmap_bulk_write(regmap,
+ 					MAX31790_REG_TARGET_COUNT(channel),
+-					data->target_count[channel]);
++					bulk_val,
++					2);
+ 		break;
+ 	default:
+ 		err = -EOPNOTSUPP;
+@@ -287,9 +335,10 @@ static int max31790_write_pwm(struct device *dev, u32 attr, int channel,
+ 			      long val)
+ {
+ 	struct max31790_data *data = dev_get_drvdata(dev);
+-	struct i2c_client *client = data->client;
++	struct regmap *regmap = data->regmap;
+ 	u8 fan_config;
+ 	int err = 0;
++	u8 bulk_val[2];
+ 
+ 	mutex_lock(&data->update_lock);
+ 
+@@ -300,9 +349,12 @@ static int max31790_write_pwm(struct device *dev, u32 attr, int channel,
+ 			break;
+ 		}
+ 		data->pwm[channel] = val << 8;
+-		err = i2c_smbus_write_word_swapped(client,
+-						   MAX31790_REG_PWMOUT(channel),
+-						   data->pwm[channel]);
++		bulk_val[0] = U16_MSB(data->pwm[channel]);
++		bulk_val[1] = U16_LSB(data->pwm[channel]);
++		err = regmap_bulk_write(regmap,
++					MAX31790_REG_PWMOUT(channel),
++					bulk_val,
++					2);
+ 		break;
+ 	case hwmon_pwm_enable:
+ 		fan_config = data->fan_config[channel];
+@@ -321,9 +373,9 @@ static int max31790_write_pwm(struct device *dev, u32 attr, int channel,
+ 			break;
+ 		}
+ 		data->fan_config[channel] = fan_config;
+-		err = i2c_smbus_write_byte_data(client,
+-					MAX31790_REG_FAN_CONFIG(channel),
+-					fan_config);
++		err = regmap_write(regmap,
++				   MAX31790_REG_FAN_CONFIG(channel),
++				   fan_config);
+ 		break;
+ 	default:
+ 		err = -EOPNOTSUPP;
+@@ -426,23 +478,25 @@ static const struct hwmon_chip_info max31790_chip_info = {
+ 	.info = max31790_info,
+ };
+ 
+-static int max31790_init_client(struct i2c_client *client,
++static int max31790_init_client(struct regmap *regmap,
+ 				struct max31790_data *data)
+ {
+-	int i, rv;
++	int i, rv, val;
+ 
+ 	for (i = 0; i < NR_CHANNEL; i++) {
+-		rv = i2c_smbus_read_byte_data(client,
+-				MAX31790_REG_FAN_CONFIG(i));
++		rv = regmap_read(regmap,
++				 MAX31790_REG_FAN_CONFIG(i),
++				 &val);
+ 		if (rv < 0)
+ 			return rv;
+-		data->fan_config[i] = rv;
++		data->fan_config[i] = val;
+ 
+-		rv = i2c_smbus_read_byte_data(client,
+-				MAX31790_REG_FAN_DYNAMICS(i));
++		rv = regmap_read(regmap,
++				 MAX31790_REG_FAN_DYNAMICS(i),
++				 &val);
+ 		if (rv < 0)
+ 			return rv;
+-		data->fan_dynamics[i] = rv;
++		data->fan_dynamics[i] = val;
+ 	}
+ 
+ 	return 0;
+@@ -464,13 +518,19 @@ static int max31790_probe(struct i2c_client *client)
+ 	if (!data)
+ 		return -ENOMEM;
+ 
+-	data->client = client;
+ 	mutex_init(&data->update_lock);
+ 
++	data->regmap = devm_regmap_init_i2c(client, &max31790_regmap_config);
++
++	if (IS_ERR(data->regmap)) {
++		dev_err(dev, "failed to allocate register map\n");
++		return PTR_ERR(data->regmap);
++	}
++
+ 	/*
+ 	 * Initialize the max31790 chip
+ 	 */
+-	err = max31790_init_client(client, data);
++	err = max31790_init_client(data->regmap, data);
+ 	if (err)
+ 		return err;
+ 
+-- 
+2.30.1
 
-Since this is also overloaded with param_idx for VAL_PARAM type, please
-make this explicit by doing something like this, to avoid having
-to explain things in the code, undocumented here.
-
-			union {
-				u32 val32;
-				u32 param_idx;
-			};
-
-
-Cheers
-Suzuki
