@@ -2,83 +2,361 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D0B8C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 17:22:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4FDFC433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 18:16:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 47DE964F5B
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 17:22:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6CC8F64F52
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 18:16:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229704AbhCDRV4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 12:21:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43254 "EHLO
+        id S233777AbhCDSQM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 13:16:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231294AbhCDRVi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 12:21:38 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFC6DC061574;
-        Thu,  4 Mar 2021 09:20:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=GhCGhP0BsbYxxvG5oirIRrU/eVqLhvnrFt9++MBuTbI=; b=NPKi/FCogHT05rZYVfR2iyhhx5
-        eHl43l4EOWfXGoMyxptEdO7OW3v61XMn/ugNheYMCs2J+Jtgs8J3l3rTnvbC/DJeabbXaUkY6BB5W
-        KS9x3F2aUOJmkyeNF4q3ZFetboPNyZ+DdZSWNZ6TuKhFozr/rUrOmoG1hiL7WxlCwCiXefYnQNGkn
-        FY5QpfMZvnAfnOJZXi4M9ekwjkXa+tD5Wvrpi2og+WutpT/l/xpLq50eAruI8gtOZNA1Qo5xwT+Yh
-        qrvUaduQyMeOW1PLXmYi8B7R91Zse0ItV5kWCIQ0zcNP+6xzXS3vEei0qkMbRBmmcUEeS5SPedLOQ
-        I4R+Hw0g==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lHrdV-007yCV-09; Thu, 04 Mar 2021 17:19:49 +0000
-Date:   Thu, 4 Mar 2021 17:19:40 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Steven Rostedt <rostedt@goodmis.org>
-Cc:     Stephen Boyd <swboyd@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/7] printk: Make %pS and friends print module build ID
-Message-ID: <20210304171940.GL2723601@casper.infradead.org>
-References: <20210301174749.1269154-1-swboyd@chromium.org>
- <20210301174749.1269154-6-swboyd@chromium.org>
- <20210301214319.7e54c66f@oasis.local.home>
+        with ESMTP id S233552AbhCDSQG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 13:16:06 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10157C061574
+        for <linux-doc@vger.kernel.org>; Thu,  4 Mar 2021 10:15:26 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id u125so10557036wmg.4
+        for <linux-doc@vger.kernel.org>; Thu, 04 Mar 2021 10:15:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=R39PAZ7G4RVGo7k05BwsFK/20JT9Co0kTXdvtJ95tjo=;
+        b=drXXoS49h6sGXB2kaXQfv9mnRH8Kky5X5/s3/3sxjGWinAaC6cCzg/rp0nlCc9eoxI
+         lZvy3k4koollJC/FkHRQq4MzIMH+q6CA9vmV7VsxmJoOmNRUfedbhUg5xm/x4V1vfzCV
+         NriGQQgtP695jrIjoI4Yxr4ToanAufMOh8eICrS1a3Rc4C3/xaFwKOv4OifnDatzl+X5
+         K4qF/0c29JVDR3U4norPx6zX5nPmOI+8m58hfsa8pwEtq583od0C/sZUOztSK56fREE7
+         xINcUOi0Qh/YDFVZA7MXfkvru506hrk4ElA80q429NpEBUcKLGgOK6Su9sjLxxLj0VCJ
+         3xyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=R39PAZ7G4RVGo7k05BwsFK/20JT9Co0kTXdvtJ95tjo=;
+        b=h8xIVUUbOPoBqf2kZpgimgg/JRnkpf50r5LOZnfDJxR51MMpNHkMU+nWMD4mG4BQHE
+         qB7ZIRXbhX3HS2uXSKvHJiXqcMT54e4SeVevpK575K/5eKFqFYhZpKCt9dhvwX8Xktvt
+         BDDzwmty8VEX8m8TgxVh0VQ2FzvviAW7rWA40wAbGtDR3QO6iB3+LUiK0Onyt2rR+WTl
+         ude4Q4bq63JPgci5mxR0N+/wnuXM39IA20NbqbTGP7LUOAmIwea3oVA6wCYVgdyPB/xG
+         oqG2g73ec+UzOE6kjfUl0Ifpe4ZYe9jDbifdwgHuhrbShssBf/zJzcRKuzf2BaOM/BmQ
+         RObw==
+X-Gm-Message-State: AOAM533KablY4NM29PbKD1GM3ObNCWZQ/wj7KDxQzWNcf3KDeAO0bgc/
+        KqNnnBV3xmO4g30/uKv9CYIb1CGC4B0uX3bZptvwOCkBMX5a7Q==
+X-Google-Smtp-Source: ABdhPJz68B1yIZH137AMO3DkcHV0gN97GH5lV9wJ3ZkVH3LACa6EwRqB6wzNilb3YVwQTBekwqrtd+7RXUQ+zc7I3S0=
+X-Received: by 2002:a1c:9d51:: with SMTP id g78mr5321573wme.5.1614881724661;
+ Thu, 04 Mar 2021 10:15:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210301214319.7e54c66f@oasis.local.home>
+References: <20210128170936.9222-1-mike.leach@linaro.org> <20210128170936.9222-6-mike.leach@linaro.org>
+ <2ff0fd68-969f-292b-f8d3-5dace8f1a435@arm.com>
+In-Reply-To: <2ff0fd68-969f-292b-f8d3-5dace8f1a435@arm.com>
+From:   Mike Leach <mike.leach@linaro.org>
+Date:   Thu, 4 Mar 2021 18:15:13 +0000
+Message-ID: <CAJ9a7Vj=WGPM3t2HtfrS-o=+9rntL90E=++8Gsxk1W8Aj=nggQ@mail.gmail.com>
+Subject: Re: [PATCH v4 05/10] coresight: syscfg: Add API to activate and
+ enable configurations
+To:     Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc:     linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Coresight ML <coresight@lists.linaro.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Yabin Cui <yabinc@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Tingwei Zhang <tingwei@codeaurora.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 01, 2021 at 09:43:19PM -0500, Steven Rostedt wrote:
-> On Mon,  1 Mar 2021 09:47:47 -0800
-> Stephen Boyd <swboyd@chromium.org> wrote:
-> 
-> > The %pS printk format (among some others) is used to print kernel
-> > addresses symbolically. When the kernel prints an address inside of a
-> > module, the kernel prints the addresses' symbol name along with the
-> > module's name that contains the address. Let's make kernel stacktraces
-> > easier to identify on KALLSYMS builds by including the build ID of a
-> > module when we print the address.
-> 
-> Please no!
-> 
-> This kills the output of tracing with offset, and can possibly break
-> scripts. I don't want to look at traces like this!
-> 
->           <idle>-0       [004] ..s1   353.842577: ipv4_conntrack_in+0x0/0x10 [nf_conntrack] (3b39eb771b2566331887f671c741f90bfba0b051) <-nf_hook_slow+0x40/0xb0
+Hi Suzuki,
 
-Would it make sense to only print the build-id if it differs from the
-build-id of the kernel which has loaded it?
+On Thu, 4 Mar 2021 at 16:49, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
+>
+> On 1/28/21 5:09 PM, Mike Leach wrote:
+> > Configurations are first activated, then when any coresight device is
+> > enabled, the active configurations are checked and any matching
+> > one is enabled.
+> >
+> > This patch provides the activation / enable API.
+> >
+> > Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> > ---
+> >   .../hwtracing/coresight/coresight-config.h    |   2 +
+> >   .../hwtracing/coresight/coresight-syscfg.c    | 127 ++++++++++++++++++
+> >   .../hwtracing/coresight/coresight-syscfg.h    |  10 +-
+> >   include/linux/coresight.h                     |   2 +
+> >   4 files changed, 140 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
+> > index 98380b496046..26396b70c826 100644
+> > --- a/drivers/hwtracing/coresight/coresight-config.h
+> > +++ b/drivers/hwtracing/coresight/coresight-config.h
+> > @@ -156,6 +156,7 @@ struct cscfg_config_feat_ref {
+> >    * @presets:        Array of preset values.
+> >    * @id_ea:  Extended attribute for perf configid value
+> >    * @event_ea:       Extended attribute for perf event value
+> > + * @active_cnt: ref count for activate on this configuration.
+> >    */
+> >   struct cscfg_config_desc {
+> >       const char *name;
+> > @@ -168,6 +169,7 @@ struct cscfg_config_desc {
+> >       const u64 *presets; /* nr_presets * nr_total_params */
+> >       struct dev_ext_attribute *id_ea;
+> >       struct dev_ext_attribute *event_ea;
+> > +     atomic_t active_cnt;
+> >   };
+> >
+> >   /**
+> > diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
+> > index a070f135eca3..d79cf5b36758 100644
+> > --- a/drivers/hwtracing/coresight/coresight-syscfg.c
+> > +++ b/drivers/hwtracing/coresight/coresight-syscfg.c
+> > @@ -298,6 +298,7 @@ static int cscfg_load_config(struct cscfg_config_desc *cfg_desc)
+> >               return err;
+> >
+> >       list_add(&cfg_desc->item, &cscfg_mgr->data.config_desc_list);
+> > +     atomic_set(&cfg_desc->active_cnt, 0);
+> >       return 0;
+> >   }
+> >
+> > @@ -477,6 +478,131 @@ void cscfg_unregister_csdev(struct coresight_device *csdev)
+> >   }
+> >   EXPORT_SYMBOL_GPL(cscfg_unregister_csdev);
+> >
+> > +void cscfg_csdev_reset_feats(struct coresight_device *csdev)
+> > +{
+> > +     struct cscfg_feature_csdev *feat;
+> > +
+> > +     mutex_lock(&cscfg_csdev_mutex);
+> > +     if (list_empty(&csdev->feature_csdev_list))
+> > +             goto unlock_exit;
+> > +
+> > +     list_for_each_entry(feat, &csdev->feature_csdev_list, node)
+> > +             cscfg_reset_feat(feat);
+> > +
+> > +unlock_exit:
+> > +     mutex_unlock(&cscfg_csdev_mutex);
+> > +}
+> > +EXPORT_SYMBOL_GPL(cscfg_csdev_reset_feats);
+> > +
+> > +/**
+> > + * Mark a config descriptor as active.
+> > + * This will be seen when csdev devices are activated in the system.
+> > + *
+> > + * Selection by hash value - generated from the configuration name when it
+> > + * was loaded and added to the cs_etm/configurations file system for selection
+> > + * by perf.
+> > + *
+> > + * @cfg_hash: Hash value of the selected configuration name.
+> > + */
+> > +int cscfg_activate_config(unsigned long cfg_hash)
+> > +{
+> > +     struct cscfg_config_desc *curr_item, *match_item = 0;
+>
+> nit: s/0/NULL
+>
+
+OK.
+
+> > +
+> > +     mutex_lock(&cscfg_mutex);
+> > +
+> > +     list_for_each_entry(curr_item, &cscfg_mgr->data.config_desc_list, item) {
+> > +             if ((unsigned long)curr_item->id_ea->var == cfg_hash) {
+> > +                     match_item = curr_item;
+> > +                     atomic_inc(&cscfg_mgr->data.sys_active_cnt);
+> > +                     break;
+> > +             }
+> > +     }
+> > +     mutex_unlock(&cscfg_mutex);
+> > +
+> > +     if (!match_item)
+> > +             return -EINVAL;
+> > +
+> > +     dev_dbg(to_device_cscfg(), "Activate config %s.\n", match_item->name);
+> > +
+> > +     /* mark the descriptors as active so enable config will use them */
+> > +     mutex_lock(&cscfg_csdev_mutex);
+> > +     atomic_inc(&match_item->active_cnt);
+> > +     mutex_unlock(&cscfg_csdev_mutex);
+>
+> Is there a guarantee that this item is active and present in the list after
+> we dropped the mutex above ? We could certainly nest the mutex as long as
+> we follow the order everywhere to prevent such a race.
+>
+
+Although removal not supported in this set, the rule is that nothing
+can be removed while any configuration is active (count on
+sys_active_cnt). - but a comment here could be added.
+That said, given this is an atomic, not sure that the mutex is
+necessary (I think previous versions did more than just update the
+count), & perhaps the increment should be moved to the main
+list_for_each loop.
+
+> > +
+> > +     return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(cscfg_activate_config);
+> > +
+> > +void cscfg_deactivate_config(unsigned long cfg_hash)
+> > +{
+> > +     struct cscfg_config_desc *curr_item, *match_item = 0;
+> > +
+> > +     mutex_lock(&cscfg_mutex);
+> > +
+> > +     list_for_each_entry(curr_item, &cscfg_mgr->data.config_desc_list, item) {
+> > +             if ((unsigned long)curr_item->id_ea->var == cfg_hash) {
+> > +                     match_item = curr_item;
+> > +                     break;
+> > +             }
+> > +     }
+> > +     mutex_unlock(&cscfg_mutex);
+> > +     if (!match_item)
+> > +             return;
+> > +
+> > +     dev_dbg(to_device_cscfg(), "Deactivate config %s.\n", match_item->name);
+> > +
+> > +     mutex_lock(&cscfg_csdev_mutex);
+> > +     atomic_dec(&match_item->active_cnt);
+> > +     mutex_unlock(&cscfg_csdev_mutex);
+> > +
+> > +     atomic_dec(&cscfg_mgr->data.sys_active_cnt);
+> > +}
+> > +EXPORT_SYMBOL_GPL(cscfg_deactivate_config);
+> > +
+> > +/* Find and program any active config for the supplied device.*/
+> > +int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
+> > +                                  unsigned long id_hash, int preset)
+> > +{
+> > +     struct cscfg_config_csdev *cfg = NULL, *item;
+> > +     const struct cscfg_config_desc *desc;
+> > +     int err = 0;
+> > +
+> > +     /* quickly check global count */
+> > +     if (!atomic_read(&cscfg_mgr->data.sys_active_cnt))
+> > +             return 0;
+> > +
+> > +     mutex_lock(&cscfg_csdev_mutex);
+> > +     list_for_each_entry(item, &csdev->config_csdev_list, node) {
+> > +             desc = item->desc;
+> > +             if ((atomic_read(&desc->active_cnt)) &&
+> > +                 ((unsigned long)desc->id_ea->var == id_hash)) {
+> > +                     cfg = item;
+> > +                     break;
+> > +             }
+> > +     }
+> > +     if (cfg) {
+> > +             err = cscfg_csdev_enable_config(cfg, preset);
+> > +             if (!err)
+> > +                     csdev->active_cfg_ctxt = (void *)cfg;
+> > +     }
+> > +     mutex_unlock(&cscfg_csdev_mutex);
+> > +     return err;
+> > +}
+> > +EXPORT_SYMBOL_GPL(cscfg_csdev_enable_active_config);
+> > +
+> > +/* save and disable the active config for the device */
+> > +void cscfg_csdev_disable_active_config(struct coresight_device *csdev)
+> > +{
+> > +     struct cscfg_config_csdev *cfg;
+> > +
+> > +     mutex_lock(&cscfg_csdev_mutex);
+> > +     cfg = (struct cscfg_config_csdev *)csdev->active_cfg_ctxt;
+> > +     if (cfg)
+> > +             cscfg_csdev_disable_config(cfg);
+> > +     mutex_unlock(&cscfg_csdev_mutex);
+> > +}
+> > +EXPORT_SYMBOL_GPL(cscfg_csdev_disable_active_config);
+> > +
+> >   /* Initialise system configuration management device. */
+> >
+> >   struct device *to_device_cscfg(void)
+> > @@ -546,6 +672,7 @@ int __init cscfg_init(void)
+> >       INIT_LIST_HEAD(&cscfg_mgr->data.feat_desc_list);
+> >       INIT_LIST_HEAD(&cscfg_mgr->data.config_desc_list);
+> >       cscfg_mgr->data.nr_csdev = 0;
+> > +     atomic_set(&cscfg_mgr->data.sys_active_cnt, 0);
+> >
+> >       dev_info(to_device_cscfg(), "CoreSight Configuration manager initialised");
+> >       return 0;
+> > diff --git a/drivers/hwtracing/coresight/coresight-syscfg.h b/drivers/hwtracing/coresight/coresight-syscfg.h
+> > index ebf5e1491d86..301e26e1e98f 100644
+> > --- a/drivers/hwtracing/coresight/coresight-syscfg.h
+> > +++ b/drivers/hwtracing/coresight/coresight-syscfg.h
+> > @@ -17,13 +17,15 @@
+> >    * @csdev_list:             List of coresight devices registered with the configuration manager.
+> >    * @feat_desc_list: List of feature descriptors to load into registered devices.
+>
+> nit: Is this aligned ? (It is from Patch 1, though).
+>
+> >    * @config_desc_list:       List of system configuration descriptors to load into registered devices.
+> > - * @nr_csdev:        Number of registered devices with the cscfg system
+> > + * @nr_csdev:                Number of registered devices with the cscfg system
+>
+> Spurious change ?
+>
+
+This struct disappears in the v5 respin, so the comments will too.
+
+> > + * @sys_active_cnt:  Total number of active config descriptor references.
+> >    */
+> >   struct cscfg_api_data {
+> >       struct list_head csdev_desc_list;
+> >       struct list_head feat_desc_list;
+> >       struct list_head config_desc_list;
+> >       int nr_csdev;
+> > +     atomic_t sys_active_cnt;
+> >   };
+> >
+> >   /**
+> > @@ -53,6 +55,12 @@ int cscfg_register_csdev(struct coresight_device *csdev,
+> >                        struct cscfg_match_desc *info,
+> >                        struct cscfg_csdev_feat_ops *ops);
+> >   void cscfg_unregister_csdev(struct coresight_device *csdev);
+> > +int cscfg_activate_config(unsigned long cfg_hash);
+> > +void cscfg_deactivate_config(unsigned long cfg_hash);
+> > +void cscfg_csdev_reset_feats(struct coresight_device *csdev);
+> > +int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
+> > +                                  unsigned long id_hash, int preset);
+> > +void cscfg_csdev_disable_active_config(struct coresight_device *csdev);
+> >
+> >   /**
+> >    * System configuration manager device.
+> > diff --git a/include/linux/coresight.h b/include/linux/coresight.h
+> > index d0126ed326a6..3941854e8280 100644
+> > --- a/include/linux/coresight.h
+> > +++ b/include/linux/coresight.h
+> > @@ -221,6 +221,7 @@ struct coresight_sysfs_link {
+> >    * @has_conns_grp: Have added a "connections" group for sysfs links.
+> >    * @feature_csdev_list: List of complex feature programming added to the device.
+> >    * @config_csdev_list:  List of system configurations added to the device.
+> > + * @active_cfg_ctxt:    Context information for current active congfig.
+> >    */
+> >   struct coresight_device {
+> >       struct coresight_platform_data *pdata;
+> > @@ -245,6 +246,7 @@ struct coresight_device {
+> >       /* system configuration and feature lists */
+> >       struct list_head feature_csdev_list;
+> >       struct list_head config_csdev_list;
+> > +     void *active_cfg_ctxt;
+> >   };
+> >
+>
+> Suzuki
+>
+
+Thanks for the review.
+
+Mike
+-- 
+Mike Leach
+Principal Engineer, ARM Ltd.
+Manchester Design Centre. UK
