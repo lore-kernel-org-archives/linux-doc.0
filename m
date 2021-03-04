@@ -2,152 +2,153 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D7FAC433E9
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 15:49:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A39F6C433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 15:52:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7047060230
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 15:49:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 736C664E60
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 15:52:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235697AbhCDPtI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 10:49:08 -0500
-Received: from mga14.intel.com ([192.55.52.115]:61411 "EHLO mga14.intel.com"
+        id S232515AbhCDPvs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 10:51:48 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48818 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235695AbhCDPtC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 4 Mar 2021 10:49:02 -0500
-IronPort-SDR: jJK0lEtaoYWn2MoUZV0VF13gb82XR9fh/LSdvwQK9mzm0/CwYjctkkpOFu65txd4B4iG5dvBFb
- L4SEAPaJrMuQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="186788651"
-X-IronPort-AV: E=Sophos;i="5.81,222,1610438400"; 
-   d="scan'208";a="186788651"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 07:47:15 -0800
-IronPort-SDR: whiMkD1NDk/EqYJPptXrY65A9zjM5g/zeMb96t7JR7H+L+BO8xkagioL5cmHxzBVUZA1guw42K
- OALd1Cbm9B0A==
-X-IronPort-AV: E=Sophos;i="5.81,222,1610438400"; 
-   d="scan'208";a="384512697"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Mar 2021 07:47:10 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lHqBv-009uT3-N2; Thu, 04 Mar 2021 17:47:07 +0200
-Date:   Thu, 4 Mar 2021 17:47:07 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
-Cc:     Marc Zyngier <maz@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH v2 2/5] gpiolib: Unify the checks on fwnode type
-Message-ID: <YEEA+0rXE3FoftpP@smile.fi.intel.com>
-References: <20210304150215.80652-1-andriy.shevchenko@linux.intel.com>
- <20210304150215.80652-3-andriy.shevchenko@linux.intel.com>
+        id S232776AbhCDPvW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 4 Mar 2021 10:51:22 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B05A560230;
+        Thu,  4 Mar 2021 15:50:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614873042;
+        bh=wQ0PUkMAPriKUZRWfHBPQn5zZ1IErGigM15osFPlP1E=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=N7ZcSdIU426bAspbzcApfAK315ZCRbEFOZJKDaN1mloCttlEqwCtgmjvuZuCw2csL
+         Gy4JG7U/Wgt1nGwarXVvx3oGy9FGlGbzysqn3Az35wDnfAki7z64oQmJYL37j7AnJG
+         hDfOhAH7ntoYLJKXEwQH9iDspIUU817Eta4vXgmI0MhvbpubN9WebW12CYm1WrsJk5
+         Ul4qoosx1DtLPcuWroArme7eP//qQ7IJVtAmUM4PEpy8c2Tx5zf8Twl8H73rfyERPG
+         OhkoIaPpVib6oLaOkFw42x59azFqxS7E4i9y2GnI7tjvCyqOgB8Ah08KDRjHmranCS
+         kQygnW7w6XezA==
+Date:   Thu, 4 Mar 2021 09:50:40 -0600
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Prarit Bhargava <prarit@redhat.com>
+Cc:     Leon Romanovsky <leon@kernel.org>, bhelgaas@google.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-pci@vger.kernel.org, mstowe@redhat.com
+Subject: Re: [PATCH] pci-driver: Add driver load messages
+Message-ID: <20210304155040.GA844982@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210304150215.80652-3-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <4a584957-24d5-54c8-07f8-36fd7d2e9fce@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 04, 2021 at 05:02:12PM +0200, Andy Shevchenko wrote:
-> We have (historically) different approaches how we identify the type
-> of a given fwnode. Let's standardize them across the library code.
+On Thu, Mar 04, 2021 at 09:42:44AM -0500, Prarit Bhargava wrote:
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> ---
->  drivers/gpio/gpiolib.c | 28 +++++++++++++---------------
->  1 file changed, 13 insertions(+), 15 deletions(-)
 > 
-> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-> index adf55db080d8..484ac92903ab 100644
-> --- a/drivers/gpio/gpiolib.c
-> +++ b/drivers/gpio/gpiolib.c
-> @@ -3678,11 +3678,12 @@ EXPORT_SYMBOL_GPL(fwnode_gpiod_get_index);
->   */
->  int gpiod_count(struct device *dev, const char *con_id)
->  {
-> +	const struct fwnode_handle *fwnode = dev_fwnode(dev);
-
-Oy vey, missed to fold the fix to this line. :-(
-
-Should be
-
-	const struct fwnode_handle *fwnode = dev ? dev_fwnode(dev) : NULL;
-
-
->  	int count = -ENOENT;
->  
-> -	if (IS_ENABLED(CONFIG_OF) && dev && dev->of_node)
-> +	if (is_of_node(fwnode))
->  		count = of_gpio_get_count(dev, con_id);
-> -	else if (IS_ENABLED(CONFIG_ACPI) && dev && ACPI_HANDLE(dev))
-> +	else if (is_acpi_node(fwnode))
->  		count = acpi_gpio_count(dev, con_id);
->  
->  	if (count < 0)
-> @@ -3820,18 +3821,17 @@ struct gpio_desc *__must_check gpiod_get_index(struct device *dev,
->  	int ret;
->  	/* Maybe we have a device name, maybe not */
->  	const char *devname = dev ? dev_name(dev) : "?";
-> +	const struct fwnode_handle *fwnode = dev ? dev_fwnode(dev) : NULL;
->  
->  	dev_dbg(dev, "GPIO lookup for consumer %s\n", con_id);
->  
-> -	if (dev) {
-> -		/* Using device tree? */
-> -		if (IS_ENABLED(CONFIG_OF) && dev->of_node) {
-> -			dev_dbg(dev, "using device tree for GPIO lookup\n");
-> -			desc = of_find_gpio(dev, con_id, idx, &lookupflags);
-> -		} else if (ACPI_COMPANION(dev)) {
-> -			dev_dbg(dev, "using ACPI for GPIO lookup\n");
-> -			desc = acpi_find_gpio(dev, con_id, idx, &flags, &lookupflags);
-> -		}
-> +	/* Using device tree? */
-> +	if (is_of_node(fwnode)) {
-> +		dev_dbg(dev, "using device tree for GPIO lookup\n");
-> +		desc = of_find_gpio(dev, con_id, idx, &lookupflags);
-> +	} else if (is_acpi_node(fwnode)) {
-> +		dev_dbg(dev, "using ACPI for GPIO lookup\n");
-> +		desc = acpi_find_gpio(dev, con_id, idx, &flags, &lookupflags);
->  	}
->  
->  	/*
-> @@ -3915,9 +3915,6 @@ struct gpio_desc *fwnode_get_named_gpiod(struct fwnode_handle *fwnode,
->  	struct gpio_desc *desc = ERR_PTR(-ENODEV);
->  	int ret;
->  
-> -	if (!fwnode)
-> -		return ERR_PTR(-EINVAL);
-> -
->  	if (is_of_node(fwnode)) {
->  		desc = gpiod_get_from_of_node(to_of_node(fwnode),
->  					      propname, index,
-> @@ -3933,7 +3930,8 @@ struct gpio_desc *fwnode_get_named_gpiod(struct fwnode_handle *fwnode,
->  
->  		acpi_gpio_update_gpiod_flags(&dflags, &info);
->  		acpi_gpio_update_gpiod_lookup_flags(&lflags, &info);
-> -	}
-> +	} else
-> +		return ERR_PTR(-EINVAL);
->  
->  	/* Currently only ACPI takes this path */
->  	ret = gpiod_request(desc, label);
-> -- 
-> 2.30.1
+> On 2/18/21 2:06 PM, Bjorn Helgaas wrote:
+> > On Thu, Feb 18, 2021 at 01:36:35PM -0500, Prarit Bhargava wrote:
+> >> On 1/26/21 10:12 AM, Bjorn Helgaas wrote:
+> >>> On Tue, Jan 26, 2021 at 09:05:23AM -0500, Prarit Bhargava wrote:
+> >>>> On 1/26/21 8:53 AM, Leon Romanovsky wrote:
+> >>>>> On Tue, Jan 26, 2021 at 08:42:12AM -0500, Prarit Bhargava wrote:
+> >>>>>> On 1/26/21 8:14 AM, Leon Romanovsky wrote:
+> >>>>>>> On Tue, Jan 26, 2021 at 07:54:46AM -0500, Prarit Bhargava wrote:
+> >>>>>>>>   Leon Romanovsky <leon@kernel.org> wrote:
+> >>>>>>>>> On Mon, Jan 25, 2021 at 02:41:38PM -0500, Prarit Bhargava wrote:
+> >>>>>>>>>> There are two situations where driver load messages are helpful.
+> >>>>>>>>>>
+> >>>>>>>>>> 1) Some drivers silently load on devices and debugging driver or system
+> >>>>>>>>>> failures in these cases is difficult.  While some drivers (networking
+> >>>>>>>>>> for example) may not completely initialize when the PCI driver probe() function
+> >>>>>>>>>> has returned, it is still useful to have some idea of driver completion.
+> >>>>>>>>>
+> >>>>>>>>> Sorry, probably it is me, but I don't understand this use case.
+> >>>>>>>>> Are you adding global to whole kernel command line boot argument to debug
+> >>>>>>>>> what and when?
+> >>>>>>>>>
+> >>>>>>>>> During boot:
+> >>>>>>>>> If device success, you will see it in /sys/bus/pci/[drivers|devices]/*.
+> >>>>>>>>> If device fails, you should get an error from that device (fix the
+> >>>>>>>>> device to return an error), or something immediately won't work and
+> >>>>>>>>> you won't see it in sysfs.
+> >>>>>>>>
+> >>>>>>>> What if there is a panic during boot?  There's no way to get to sysfs.
+> >>>>>>>> That's the case where this is helpful.
+> >>>>>>>
+> >>>>>>> How? If you have kernel panic, it means you have much more worse problem
+> >>>>>>> than not-supported device. If kernel panic was caused by the driver, you
+> >>>>>>> will see call trace related to it. If kernel panic was caused by
+> >>>>>>> something else, supported/not supported won't help here.
+> >>>>>>
+> >>>>>> I still have no idea *WHICH* device it was that the panic occurred on.
+> >>>>>
+> >>>>> The kernel panic is printed from the driver. There is one driver loaded
+> >>>>> for all same PCI devices which are probed without relation to their
+> >>>>> number.>
+> >>>>> If you have host with ten same cards, you will see one driver and this
+> >>>>> is where the problem and not in supported/not-supported device.
+> >>>>
+> >>>> That's true, but you can also have different cards loading the same driver.
+> >>>> See, for example, any PCI_IDs list in a driver.
+> >>>>
+> >>>> For example,
+> >>>>
+> >>>> 10:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3008 [Fury] (rev 02)
+> >>>> 20:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3108 [Invader] (rev 02)
+> >>>>
+> >>>> Both load the megaraid driver and have different profiles within the
+> >>>> driver.  I have no idea which one actually panicked until removing
+> >>>> one card.
+> >>>>
+> >>>> It's MUCH worse when debugging new hardware and getting a panic
+> >>>> from, for example, the uncore code which binds to a PCI mapped
+> >>>> device.  One device might work and the next one doesn't.  And
+> >>>> then you can multiply that by seeing *many* panics at once and
+> >>>> trying to determine if the problem was on one specific socket,
+> >>>> die, or core.
+> >>>
+> >>> Would a dev_panic() interface that identified the device and
+> >>> driver help with this?
+> >>
+> >> ^^ the more I look at this problem, the more a dev_panic() that
+> >> would output a device specific message at panic time is what I
+> >> really need.
 > 
+> I went down this road a bit and had a realization.  The issue isn't
+> with printing something at panic time, but the *data* that is
+> output.  Each PCI device is associated with a struct device.  That
+> device struct's name is output for dev_dbg(), etc., commands.  The
+> PCI subsystem sets the device struct name at drivers/pci/probe.c:
+> 1799
+> 
+> 	        dev_set_name(&dev->dev, "%04x:%02x:%02x.%d", pci_domain_nr(dev->bus),
+>                      dev->bus->number, PCI_SLOT(dev->devfn),
+>                      PCI_FUNC(dev->devfn));
+> 
+> My problem really is that the above information is insufficient when
+> I (or a user) need to debug a system.  The complexities of debugging
+> multiple broken driver loads would be much easier if I didn't have
+> to constantly add this output manually :).
 
--- 
-With Best Regards,
-Andy Shevchenko
+This *should* already be in the dmesg log:
 
+  pci 0000:00:00.0: [8086:5910] type 00 class 0x060000
+  pci 0000:00:01.0: [8086:1901] type 01 class 0x060400
+  pci 0000:00:02.0: [8086:591b] type 00 class 0x030000
 
+So if you had a dev_panic(), that message would include the
+bus/device/function number, and that would be enough to find the
+vendor/device ID from when the device was first enumerated.
+
+Or are you saying you can't get the part of the dmesg log that
+contains those vendor/device IDs?
+
+> Would you be okay with adding a *debug* parameter to expand the
+> device name to include the vendor & device ID pair?  FWIW, I'm
+> somewhat against yet-another-kernel-option but that's really the
+> information I need.  I could then add dev_dbg() statements in the
+> local_pci_probe() function.
