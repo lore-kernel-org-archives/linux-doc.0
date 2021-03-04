@@ -2,117 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F94EC433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 05:08:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C4A4C433E0
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 05:22:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EF57364EFE
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 05:08:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 658DD64EEF
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 05:22:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229772AbhCDFHf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 00:07:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54568 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229760AbhCDFHF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 00:07:05 -0500
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E826DC061574;
-        Wed,  3 Mar 2021 21:06:24 -0800 (PST)
-Received: by mail-pl1-x62a.google.com with SMTP id d8so5030975plg.10;
-        Wed, 03 Mar 2021 21:06:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=emvx6EGccNj6Ydsl4VIT/MapySsYN/1eggzsPky2Bqg=;
-        b=AlGlq+xLEuvo/Vc+kPNJEBcVKI/sHnodi8Jx8UTm4EaWSUtECl+ig6dpsb2yNshbXH
-         P627aXAL3t6+GWqIWlyn/c76pLoZcKFxde/drVkpjKfo4fF/rkMZ394mO8FKvXGz+H4j
-         pcKhEwQR7VfbE4H2XnDVSJK4Up/gwTqx3OenSIj5l1yXSj5pZY4XIHkmh0tVuqkApwc3
-         qJZ8Bsj43FKTseZRq+ks68ssiovr2xsMWf6IF7aMD0UiwQ1WCkMsD6w6eU5drZvOKDhM
-         KfM3J8w7XzM+QfvnB9EANNKG/FYPMPsGv2IlJIlaY57KoHPhCjeb8r75fS3pVYdS5eW7
-         arTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=emvx6EGccNj6Ydsl4VIT/MapySsYN/1eggzsPky2Bqg=;
-        b=P/amwh10QL1V90mkvxaeDWV5Uir0jERBYZOOlvTgMkJyVNqoWCogCX1RbgZs8HmLnb
-         r2bFDV3YRbfL5aQYfPyKGRGIPfaBeaRuhbk1d7FOE2Hi5lRVlSto7esUQIeogNkh94Y9
-         k0xXeUHwcjWcqyGFO5bxIZuBWMdDdqYwoY3iRDtqPfJtS2a14V8jngRI016fG6A+CTzR
-         Lhze9+jHt1rzhYntkWVLQBPax/tkt8e6EM/E+h8kLx9W24wmmuDtEWQ+dOAxjrzk3jWe
-         KC80i/wHaVEAsl1qxiwj2aMOb78UThF8nX1521XdP51k4ggXe0eGJZ6racsjoZUD9yhM
-         QQjA==
-X-Gm-Message-State: AOAM532MaIQSt10ucKlTG/ngrSEHqNBrNvDBGdSFtlTH7OEGEswMuo7t
-        kbb8m0mnfsA0fMvaInVSkLY=
-X-Google-Smtp-Source: ABdhPJzjrm43e7Byowg0g5bCTtT6JJKmNM5oQ0ifxTHweqTpc+KNPB9SmA1zgtUxtn+T2FeMn1vjAQ==
-X-Received: by 2002:a17:90a:a384:: with SMTP id x4mr2648884pjp.84.1614834384259;
-        Wed, 03 Mar 2021 21:06:24 -0800 (PST)
-Received: from localhost (121-45-173-48.tpgi.com.au. [121.45.173.48])
-        by smtp.gmail.com with ESMTPSA id a3sm433368pfi.206.2021.03.03.21.06.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Mar 2021 21:06:22 -0800 (PST)
-Date:   Thu, 4 Mar 2021 16:06:19 +1100
-From:   Balbir Singh <bsingharora@gmail.com>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
-        david@redhat.com, naoya.horiguchi@nec.com,
-        joao.m.martins@oracle.com, duanxiongchun@bytedance.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-fsdevel@vger.kernel.org,
-        Miaohe Lin <linmiaohe@huawei.com>
-Subject: Re: [PATCH v17 2/9] mm: hugetlb: introduce a new config
- HUGETLB_PAGE_FREE_VMEMMAP
-Message-ID: <20210304050619.GC1223287@balbir-desktop>
-References: <20210225132130.26451-1-songmuchun@bytedance.com>
- <20210225132130.26451-3-songmuchun@bytedance.com>
+        id S234119AbhCDFV7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 00:21:59 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13814 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234013AbhCDFVi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 00:21:38 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B60406e3a0000>; Wed, 03 Mar 2021 21:20:58 -0800
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 4 Mar
+ 2021 05:20:56 +0000
+Received: from nvdebian.localnet (172.20.145.6) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 4 Mar 2021
+ 05:20:54 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
+        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <jhubbard@nvidia.com>,
+        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <hch@infradead.org>,
+        <daniel@ffwll.ch>
+Subject: Re: [PATCH v3 5/8] mm: Device exclusive memory access
+Date:   Thu, 4 Mar 2021 16:20:52 +1100
+Message-ID: <2083651.v4LkQjjfQp@nvdebian>
+In-Reply-To: <20210302124152.GF4247@nvidia.com>
+References: <20210226071832.31547-1-apopple@nvidia.com> <2758096.Z30Q8iEM0t@nvdebian> <20210302124152.GF4247@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210225132130.26451-3-songmuchun@bytedance.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1614835258; bh=9xq8FfvlXkYAk6gs2678CTOmYbDE3Qd9No1oNQX9mU8=;
+        h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+         MIME-Version:Content-Transfer-Encoding:Content-Type:
+         X-Originating-IP:X-ClientProxiedBy;
+        b=pdZOZqStw2k9kfUFThuG08SuNOI+mxN+x8dJw3XY+pM3XOS0KNusvlx7Jc8OmFDTP
+         1yLQwxTNBqHauziGi82t9z4NolEGpl064lNuH+GMljlF7shSZzhkX0cOxfFgsigt6T
+         xTZCkHQHNCzFRImpRR2ildShmJcGlzmD9S2WSCmPGvQz1AuZIgLx2/B/LWMWl3Uygq
+         22c/GzkFoGtVRvbdCQ/ffN0LnSmAmIJ4CxK9n7vAY+aaqagzn/7jl6GH6UwXw4Y54x
+         fg7uzjwBKZt6NGVv2TKGuIXUv2P0JIZsIRJkaFC//mQiZr15JDiQyleyVMMn4J8u0M
+         pFKBKhvcVbdbQ==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 25, 2021 at 09:21:23PM +0800, Muchun Song wrote:
-> The option HUGETLB_PAGE_FREE_VMEMMAP allows for the freeing of
-> some vmemmap pages associated with pre-allocated HugeTLB pages.
-> For example, on X86_64 6 vmemmap pages of size 4KB each can be
-> saved for each 2MB HugeTLB page. 4094 vmemmap pages of size 4KB
-> each can be saved for each 1GB HugeTLB page.
+On Tuesday, 2 March 2021 11:41:52 PM AEDT Jason Gunthorpe wrote:
+> > However try_to_protect() scans the PTEs again under the PTL so checking 
+the 
+> > mapping of interest actually gets replaced during the rmap walk seems like 
+a 
+> > reasonable solution. Thanks for the comments.
 > 
-> When a HugeTLB page is allocated or freed, the vmemmap array
-> representing the range associated with the page will need to be
-> remapped. When a page is allocated, vmemmap pages are freed
-> after remapping. When a page is freed, previously discarded
-> vmemmap pages must be allocated before remapping.
-> 
-> The config option is introduced early so that supporting code
-> can be written to depend on the option. The initial version of
-> the code only provides support for x86-64.
-> 
-> Like other code which frees vmemmap, this config option depends on
-> HAVE_BOOTMEM_INFO_NODE. The routine register_page_bootmem_info() is
-> used to register bootmem info. Therefore, make sure
-> register_page_bootmem_info is enabled if HUGETLB_PAGE_FREE_VMEMMAP
-> is defined.
-> 
-> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-> Reviewed-by: Oscar Salvador <osalvador@suse.de>
-> Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
-> Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
-> ---
+> It does seem cleaner if you can manage it, the notifier will still be
+> needd to program the HW though
 
-Reviewed-by: Balbir Singh <bsingharora@gmail.com>
+Checking during the rmap walk wasn't hard but ultimately pointless. As you say 
+a range notifier and lock is required to program the hardware, which requires 
+checking the mappings with a mmu notifier sequence anyway.
+
+ - Alistair
+
+
+
