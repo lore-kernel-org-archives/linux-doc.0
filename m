@@ -2,251 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ACA6C433E0
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 08:25:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F9A3C433DB
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 08:52:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C10864F0A
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 08:25:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2AE1364F20
+	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 08:52:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236658AbhCDIY3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 03:24:29 -0500
-Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:32870 "EHLO
-        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236656AbhCDIYG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 03:24:06 -0500
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R861e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04423;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=3;SR=0;TI=SMTPD_---0UQNNhKs_1614846204;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UQNNhKs_1614846204)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Thu, 04 Mar 2021 16:23:24 +0800
-Subject: Re: [PATCH 2/2] docs/zh_CN: Add zh_CN/admin-guide/unicode.rst
-To:     Wu XiangCheng <bobwxc@email.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20210304080148.GA16612@mipc>
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <43369aaa-ab97-803e-601c-1c2ebaa59d31@linux.alibaba.com>
-Date:   Thu, 4 Mar 2021 16:23:23 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+        id S236479AbhCDIwN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 03:52:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46466 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236805AbhCDIv7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 03:51:59 -0500
+Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C29EAC061756;
+        Thu,  4 Mar 2021 00:51:18 -0800 (PST)
+Received: by mail-qv1-xf2b.google.com with SMTP id h7so6242846qvm.2;
+        Thu, 04 Mar 2021 00:51:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=I4gktfqxylGB3DlwpHUJlo46LXTYxo6+TuJCmtDgwqg=;
+        b=WYjdeOOvSLFpvDoGjRRqZlAOwzlmZdzsKW62eY2+C+MatfU5IHlRHugMRRHognkKJa
+         7I/NGS3uGqF63bl8cu+Sd8jPUj2wa8lNZWhg6s7FdnFPLRsxr7AK4HzzeD65KBmPz6wN
+         VQcjeJJbBgX5qiMV1/Cq6/FQCVXVPWIa+tMGhn9gGdfcb2+PL56qDI1QfMLy9cayAD8R
+         QXnYX4JEzS6BN9ANqF2JSjPoHHX1U+rqiF5qO+KIN6ax+4qAeRnkp97wMpAOHuQIRs5o
+         Kj46nYkNjqGS+ndlohRvyB8MUQ4HYU2dQPbGtA8rAwwGGcZ43FjhtD3OMnmovFe3Uaft
+         0aqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=I4gktfqxylGB3DlwpHUJlo46LXTYxo6+TuJCmtDgwqg=;
+        b=SCssvo3JnDfv2x8MNnb1/0o+1zLiG2oje8dRx4H1mu3yQalM9G/sMrsYMNayyjE51W
+         sCSb5goftX0iIsrtcfVzhxMcUL7ngF4pW+yzTuM0fwH/mCb1GoG9fcn5O5yIxghzliR0
+         0YezW/4DwQkIjzDV7SUCH0gAvwfkrleLMaEbwynXHPgQHbyo2S+3igidli5SB8zei8yZ
+         whfSFSkj1i8EIiIOlYd+3Iend4J7BapyEn5YMveSeBeihBljxq4uqKPNBQSrP5nTOgOx
+         0R1eP+vMPA+0IWVAAKadCbWMh8Op6LcgJf82lSkL0rLgwsJwXITO1TLJkPt1YKHopkYM
+         f4IA==
+X-Gm-Message-State: AOAM5310QWmMUK2qvXWN5TcTp/zSFJlNBoihJskbq3tpgY0GIh1CBB42
+        3VNl1VlyHSY8VuhWLBkBqyc=
+X-Google-Smtp-Source: ABdhPJzBUoqqJVrNBlQvGGRR49f0+8IuJLMipV5zoSogL0KIUeUBdiMnYRbldFvy1u4CXAnQ7dzQOw==
+X-Received: by 2002:ad4:53ac:: with SMTP id j12mr2877734qvv.3.1614847877771;
+        Thu, 04 Mar 2021 00:51:17 -0800 (PST)
+Received: from localhost (2603-7000-9602-8233-06d4-c4ff-fe48-9d05.res6.spectrum.com. [2603:7000:9602:8233:6d4:c4ff:fe48:9d05])
+        by smtp.gmail.com with ESMTPSA id m16sm1347504qkm.100.2021.03.04.00.51.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Mar 2021 00:51:17 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Thu, 4 Mar 2021 03:51:16 -0500
+From:   Tejun Heo <tj@kernel.org>
+To:     Vipin Sharma <vipinsh@google.com>
+Cc:     Jacob Pan <jacob.jun.pan@intel.com>, mkoutny@suse.com,
+        rdunlap@infradead.org, thomas.lendacky@amd.com,
+        brijesh.singh@amd.com, jon.grimm@amd.com, eric.vantassell@amd.com,
+        pbonzini@redhat.com, hannes@cmpxchg.org, frankja@linux.ibm.com,
+        borntraeger@de.ibm.com, corbet@lwn.net, seanjc@google.com,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, gingell@google.com,
+        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, "Tian, Kevin" <kevin.tian@intel.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>
+Subject: Re: [RFC v2 2/2] cgroup: sev: Miscellaneous cgroup documentation.
+Message-ID: <YECfhCJtHUL9cB2L@slm.duckdns.org>
+References: <20210302081705.1990283-1-vipinsh@google.com>
+ <20210302081705.1990283-3-vipinsh@google.com>
+ <20210303185513.27e18fce@jacob-builder>
+ <YEB8i6Chq4K/GGF6@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20210304080148.GA16612@mipc>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YEB8i6Chq4K/GGF6@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
+Hello,
 
-在 2021/3/4 下午4:01, Wu XiangCheng 写道:
-> Add translation zh_CN/admin-guide/unicode.rst, and link it to
-> zh_CN/admin-guide/index.rst while clean its todo entry.
+On Wed, Mar 03, 2021 at 10:22:03PM -0800, Vipin Sharma wrote:
+> > I am trying to see if IOASIDs cgroup can also fit in this misc controller
+> > as yet another resource type.
+> > https://lore.kernel.org/linux-iommu/20210303131726.7a8cb169@jacob-builder/T/#u
+> > However, unlike sev IOASIDs need to be migrated if the process is moved to
+> > another cgroup. i.e. charge the destination and uncharge the source.
+> > 
+> > Do you think this behavior can be achieved by differentiating resource
+> > types? i.e. add attach callbacks for certain types. Having a single misc
+> > interface seems cleaner than creating another controller.
 > 
-> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-> ---
->  .../translations/zh_CN/admin-guide/index.rst  |   2 +-
->  .../zh_CN/admin-guide/unicode.rst             | 170 ++++++++++++++++++
->  2 files changed, 171 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/admin-guide/unicode.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
-> index e7d8d43e4d4f..a716a48c8018 100644
-> --- a/Documentation/translations/zh_CN/admin-guide/index.rst
-> +++ b/Documentation/translations/zh_CN/admin-guide/index.rst
-> @@ -60,6 +60,7 @@ Todolist:
->  
->     clearing-warn-once
->     cpu-load
-> +   unicode
->  
->  Todolist:
->  
-> @@ -115,7 +116,6 @@ Todolist:
->     sysrq
->     thunderbolt
->     ufs
-> -   unicode
->     vga-softcursor
->     video-output
->     xfs
-> diff --git a/Documentation/translations/zh_CN/admin-guide/unicode.rst b/Documentation/translations/zh_CN/admin-guide/unicode.rst
-> new file mode 100644
-> index 000000000000..ef7f3cb2c02e
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/admin-guide/unicode.rst
-> @@ -0,0 +1,170 @@
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :ref:`Documentation/admin-guide/unicode.rst`
-> +
-> +:译者:
-> +
-> + 吴想成 Wu XiangCheng <bobwxc@email.cn>
-> +
-> +Unicode（统一码）支持
-> +======================
-> +
-> +	（英文版）上次更新：2005-01-17，版本号 1.4
-> +
-> +此文档由H. Peter Anvin <unicode@lanana.org>管理，是Linux注册名称与编号管理局
-> +（Linux Assigned Names And Numbers Authority，LANANA）项目的一部分。
-> +现行版本请见：
-> +
-> +	http://www.lanana.org/docs/unicode/admin-guide/unicode.rst
-> +
-> +简介
-> +-----
-> +
-> +Linux内核代码已被重写以使用Unicode来将字符映射到字体。下载一个Unicode到字体
-> +（Unicode-to-font）表，八位字符集与UTF-8模式都将改用此字体来显示。
-> +
-> +这微妙地改变了八位字符表的语义。现在的四个字符表是：
-> +
-> +=============== =============================== ================
-> +映射代号        映射名称                        Escape代码 (G0)
-> +=============== =============================== ================
-> +LAT1_MAP        Latin-1 (ISO 8859-1)            ESC ( B
-> +GRAF_MAP        DEC VT100 pseudographics        ESC ( 0
-> +IBMPC_MAP       IBM code page 437               ESC ( U
-> +USER_MAP        User defined                    ESC ( K
-> +=============== =============================== ================
-> +
-> +特别是 ESC ( U 不再是“直通字体”，因为字体可能与IBM字符集完全不同。
-> +例如，即使加载了一个Latin-1字体，也允许使用块图形（block graphics）。
-> +
-> +请注意，尽管这些代码与ISO 2022类似，但这些代码及其用途都与ISO 2022不匹配；
-> +Linux有两个八位代码（G0和G1），而ISO 2022有四个七位代码（G0-G3）。
-> +
-> +根据Unicode标准/ISO 10646，U+F000到U+F8FF被保留用于操作系统范围内的分配
-> +（Unicode标准将其称为“团体区域（Corporate Zone）”，因为这对于Linux是不准确
-> +的，所以我们称之为“Linux区域”）。选择U+F000作为起点，因为它允许直接映射
-> +区域以2的大倍数开始（以防需要1024或2048个字符的字体）。这就留下U+E000到
-> +U+EFFF作为最终用户区。
-> +
-> +[v1.2]：Unicodes范围从U+F000到U+F7FF已经被硬编码为直接映射到加载的字体，
-> +绕过了翻译表。用户定义的映射现在默认为U+F000到U+F0FF，模拟前述行为。实际上，
-> +此范围可能较短；例如，vgacon只能处理256字符（U+F000..U+F0FF）或512字符
-> +（U+F000..U+F1FF）字体。
-> +
-> +Linux 区域中定义的实际字符
-> +---------------------------
-> +
-> +此外，还定义了Unicode 1.1.4中不存在的以下字符；这些字符由DEC VT图形映射使用。
-> +[v1.2]此用法已过时，不应再使用；请参见下文。
-> +
-> +====== ======================================
-> +U+F800 DEC VT GRAPHICS HORIZONTAL LINE SCAN 1
-> +U+F801 DEC VT GRAPHICS HORIZONTAL LINE SCAN 3
-> +U+F803 DEC VT GRAPHICS HORIZONTAL LINE SCAN 7
-> +U+F804 DEC VT GRAPHICS HORIZONTAL LINE SCAN 9
-> +====== ======================================
-> +
-> +DEC VT220使用6x10字符矩阵，这些字符在DEC VT图形字符集中形成一个平滑的过渡。
-> +我省略了扫描5行，因为它也被用作块图形字符，因此被编码为U+2500 FORMS LIGHT
-> +HORIZONTAL。
-> +
-> +[v1.3]：这些字符已正式添加到Unicode 3.2.0中；它们在U+23BA、U+23BB、U+23BC、
-> +U+23BD处添加。Linux现在使用新值。
-> +
-> +[v1.2]：添加了以下字符来表示常见的键盘符号，这些符号不太可能被添加到Unicode
-> +中，因为它们非常讨厌地取决于特定供应商。当然，这是糟糕设计的一个好例子。
-> +
-> +====== ======================================
-> +U+F810 KEYBOARD SYMBOL FLYING FLAG
-> +U+F811 KEYBOARD SYMBOL PULLDOWN MENU
-> +U+F812 KEYBOARD SYMBOL OPEN APPLE
-> +U+F813 KEYBOARD SYMBOL SOLID APPLE
-> +====== ======================================
-> +
-> +克林贡（Klingon）语支持
-> +------------------------
-> +
-> +1996年，Linux是世界上第一个添加对人工语言克林贡支持的操作系统，克林贡是由
-> +Marc Okrand为《星际迷航》电视连续剧创造的。这种编码后来被征募Unicode注册表
-> +（ConScript Unicode Registry，CSUR）采用，并建议（但最终被拒绝）纳入Unicode
-> +平面一。不过，它仍然是Linux区域中的Linux/CSUR私有分配。
-> +
-> +这种编码已经得到克林贡语言研究所（Klingon Language Institute）的认可。
-> +有关更多信息，请联系他们：
-> +
-> +	http://www.kli.org/
-> +
-> +由于Linux CZ开头部分的字符大多是dingbats/symbols/forms类型，而且这是一种
-> +语言，因此根据标准Unicode惯例，我将它放置在16单元的边界上。
-> +
-> +.. note::
-> +
-> +  这个范围现在由征募Unicode注册表正式管理。规范性引用文件为：
-> +
-> +	https://www.evertype.com/standards/csur/klingon.html
-> +
-> +克林贡语有一个26个字符的字母表，一个10位数的位置数字书写系统，从左到右
-> +，从上到下书写。
-> +
-> +克林贡字母的几种字形已经被提出。但是由于这组符号看起来始终是一致的，只有实际
-> +的形状不同，因此按照标准Unicode惯例，这些差异被认为是字体变体。
-> +
-> +======	=======================================================
-> +U+F8D0	KLINGON LETTER A
-> +U+F8D1	KLINGON LETTER B
-> +U+F8D2	KLINGON LETTER CH
-> +U+F8D3	KLINGON LETTER D
-> +U+F8D4	KLINGON LETTER E
-> +U+F8D5	KLINGON LETTER GH
-> +U+F8D6	KLINGON LETTER H
-> +U+F8D7	KLINGON LETTER I
-> +U+F8D8	KLINGON LETTER J
-> +U+F8D9	KLINGON LETTER L
-> +U+F8DA	KLINGON LETTER M
-> +U+F8DB	KLINGON LETTER N
-> +U+F8DC	KLINGON LETTER NG
-> +U+F8DD	KLINGON LETTER O
-> +U+F8DE	KLINGON LETTER P
-> +U+F8DF	KLINGON LETTER Q
-> +	- Written <q> in standard Okrand Latin transliteration
-> +U+F8E0	KLINGON LETTER QH
-> +	- Written <Q> in standard Okrand Latin transliteration
-> +U+F8E1	KLINGON LETTER R
-> +U+F8E2	KLINGON LETTER S
-> +U+F8E3	KLINGON LETTER T
-> +U+F8E4	KLINGON LETTER TLH
-> +U+F8E5	KLINGON LETTER U
-> +U+F8E6	KLINGON LETTER V
-> +U+F8E7	KLINGON LETTER W
-> +U+F8E8	KLINGON LETTER Y
-> +U+F8E9	KLINGON LETTER GLOTTAL STOP
-> +
-> +U+F8F0	KLINGON DIGIT ZERO
-> +U+F8F1	KLINGON DIGIT ONE
-> +U+F8F2	KLINGON DIGIT TWO
-> +U+F8F3	KLINGON DIGIT THREE
-> +U+F8F4	KLINGON DIGIT FOUR
-> +U+F8F5	KLINGON DIGIT FIVE
-> +U+F8F6	KLINGON DIGIT SIX
-> +U+F8F7	KLINGON DIGIT SEVEN
-> +U+F8F8	KLINGON DIGIT EIGHT
-> +U+F8F9	KLINGON DIGIT NINE
-> +
-> +U+F8FD	KLINGON COMMA
-> +U+F8FE	KLINGON FULL STOP
-> +U+F8FF	KLINGON SYMBOL FOR EMPIRE
-> +======	=======================================================
-> +
-> +其他虚构和人工字母
-> +-------------------
-> +
-> +自从分配了克林贡Linux Unicode块之后，John Cowan <jcowan@reutershealth.com>
-> +和 Michael Everson <everson@evertype.com> 建立了一个虚构和人工字母的注册表。
-> +征募Unicode注册表请访问：
-> +
-> +	https://www.evertype.com/standards/csur/
-> +
-> +所使用的范围位于最终用户区域的低端，因此无法进行规范化分配，但建议希望对虚构
-> +字母进行编码的人员使用这些代码，以实现互操作性。对于克林贡语，CSUR采用了Linux
-> +编码。CSUR的人正在推动将Tengwar和Cirth添加到Unicode平面一；将克林贡添加到
-> +Unicode平面一被拒绝，因此上述编码仍然是官方的。
-> 
+> I think it makes sense to add support for migration for the resources
+> which need it. Resources like SEV, SEV-ES will not participate in
+> migration and won't stop can_attach() to succeed, other resources which
+> need migration will allow or stop based on their limits and capacity in
+> the destination.
+
+Please note that cgroup2 by and large don't really like or support charge
+migration or even migrations themselves. We tried that w/ memcg on cgroup1
+and it turned out horrible. The expected usage model as decribed in the doc
+is using migration to seed a cgroup (or even better, use the new clone call
+to start in the target cgroup) and then stay there until exit. All existing
+controllers assume this usage model and I'm likely to nack deviation unless
+there are some super strong justifications.
+
+Thanks.
+
+-- 
+tejun
