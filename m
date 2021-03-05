@@ -2,128 +2,128 @@ Return-Path: <SRS0=4QG0=ID=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6413C433E6
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 19:39:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C4CFC43381
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 21:18:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 98E6A6509A
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 19:39:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E6E06650A7
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 21:18:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229465AbhCETjI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Mar 2021 14:39:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44710 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229488AbhCETi5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 14:38:57 -0500
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCC95C06175F;
-        Fri,  5 Mar 2021 11:38:57 -0800 (PST)
-Received: by mail-pg1-x534.google.com with SMTP id x29so2055020pgk.6;
-        Fri, 05 Mar 2021 11:38:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qAJgbNw9KBqNioDnptWCHAlDfIWtd5u8+ZRDe39se/w=;
-        b=BoJ5pB1gsmBYyhYj6uXrjMiM/HZVJKlQ3H2cdr7ls3HPILovWa4gmUYX5CHtDqqpzz
-         JO9Px+5oacSMkKj1TBCvgRttIvpKSLHD3PIYNFU8rJZWm2jp6lZkp2jt1BA5dLjuqgsA
-         MUrtdTuVjvfbU1SDZZW8xOHrBqoBIAj15P24+3f+MkIvYKnPPQ2S06rBOZTNpqLwXLHF
-         iuykssBPu0zMvBNJwTAHrNUsmfOX+kBWdmYAU5JTm/Gx/T6cWNL30hOjlm8l981vOvww
-         FosprjLZ1CJYjMUtfyYnw+46PZkBK8XSl5Z43ho5WESW26llmU5NtfUEstASOPofayA8
-         gxWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qAJgbNw9KBqNioDnptWCHAlDfIWtd5u8+ZRDe39se/w=;
-        b=HJFzupb2Any2z9dSGAcZh4Me04q28RKASHLVvAswzHEtcCdzaNydEYbJQKVIuRl6Zd
-         fcvdsFBC0wv8MzxkhcXCGKEPNIXddsFaoc2bl7Srwdj3rlbJdftkUo9OlEzQ4VnwIAG6
-         pEEk0y8HHb7YFg1T7sMm75NvEYl+Dv/d9V0vbRxXwSgz8uKm+2r9APWM7dY6AE+bYkYh
-         W/HtYKMtW1EfrHgJDJsV2KHaHIAbqclKDu8E6aR8supFTrsCxCpedRWFqzB4Yz0JfEyU
-         h2cU16AxPad+hUoMfLanvfQmyFs/bm+PhrjPa/62CXtjNN3HtBEhlE+WvD6OwUHAgfb2
-         rn1g==
-X-Gm-Message-State: AOAM5305yZ0JeBGI0KhNktP/q/3/fw+zIJbVS3J1rRyU1APRziBtAs81
-        VQAB8xR6rhkqiba/7Pgx1VU=
-X-Google-Smtp-Source: ABdhPJyxrxQRE8Hql05EoHrzeYX0bTCaIz+xT1bVtCRehDR1Cbi5fj5I7E+a27xt0AB8zVohEhteBA==
-X-Received: by 2002:a05:6a00:1a01:b029:1da:a7ee:438f with SMTP id g1-20020a056a001a01b02901daa7ee438fmr10643151pfv.77.1614973137167;
-        Fri, 05 Mar 2021 11:38:57 -0800 (PST)
-Received: from ?IPv6:2405:201:600d:a089:58af:ffb4:5a90:f2bc? ([2405:201:600d:a089:58af:ffb4:5a90:f2bc])
-        by smtp.gmail.com with ESMTPSA id i22sm3108234pjz.56.2021.03.05.11.38.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Mar 2021 11:38:56 -0800 (PST)
-Subject: Re: [RFC] scripts: kernel-doc: fix attribute capture in function
- parsing
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     corbet@lwn.net, lukas.bulwahn@gmail.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20210305182000.8363-1-yashsri421@gmail.com>
- <20210305184322.GN2723601@casper.infradead.org>
-From:   Aditya <yashsri421@gmail.com>
-Message-ID: <bcd38964-bfff-99c2-eb24-1942836e9526@gmail.com>
-Date:   Sat, 6 Mar 2021 01:08:51 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S229718AbhCEVRd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Mar 2021 16:17:33 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52704 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229716AbhCEVRb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Mar 2021 16:17:31 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BD21A650A3;
+        Fri,  5 Mar 2021 21:17:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614979050;
+        bh=Uq2IgJr9kfuVZlHKajDc//q6GSI/XAvfSiCyKzo1V8Y=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=lRdKSARLHY86Mf+trKqlx5nDF6gUxXjau8jUulM0OvPHJnGHI+M8ySKktY8XXjiyh
+         gPgeYM/hOkWA4pMjlJBG1uE3K67vpVrBNMG/PLuFLxreBluK7TN771IUBPk0n+Q+8m
+         5aB2L2Fm24Sb5y0llCK3eB4e9semIXGj8Gk5B9jGiSxqIgHAk5WWHM5WV9BqyYS7ka
+         U5jPmZBMU21t0Kk5r//0EHI6e0rxIvN2x05/oinlGGebESgDGGUGa8aU+z8zYR8O/G
+         eYaEoUL45CG6w7DeJ8XM1Orfk3FuygeAiRz8Fm/I6OvluvPaW88PVV95UXoj8xQ6ER
+         XAa1IhBeRCPng==
+Received: by mail-oi1-f174.google.com with SMTP id j1so4052533oiw.3;
+        Fri, 05 Mar 2021 13:17:30 -0800 (PST)
+X-Gm-Message-State: AOAM530dA6UOr9jnM5OrYtXqtNf0U7+CGMl5YFfkHAHPYsXgeWGLrxmR
+        5dY6TKh2vJd1VFqHzAZCHCRd/KqEHL3/rlrzzOs=
+X-Google-Smtp-Source: ABdhPJxuxTnyW6QlTJAPT3FkZfYcbHpraEjPrLMerJHage2MvI0443wfkGa8phS23+Oq983m1NS18jdBnjhB5h3CRcA=
+X-Received: by 2002:aca:5e85:: with SMTP id s127mr8198762oib.67.1614979049957;
+ Fri, 05 Mar 2021 13:17:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210305184322.GN2723601@casper.infradead.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-13-marcan@marcan.st>
+ <CAL_JsqJF2Hz=4U7FR_GOSjCxqt3dpf-CAWFNfsSrDjDLpHqgCA@mail.gmail.com> <6e4880b3-1fb6-0cbf-c1a5-7a46fd9ccf62@marcan.st>
+In-Reply-To: <6e4880b3-1fb6-0cbf-c1a5-7a46fd9ccf62@marcan.st>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Fri, 5 Mar 2021 22:17:13 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a0Hmwt-ywzS-2eEmqyQ0v2SxLsLxFwfTUoWwbzCrBNhsQ@mail.gmail.com>
+Message-ID: <CAK8P3a0Hmwt-ywzS-2eEmqyQ0v2SxLsLxFwfTUoWwbzCrBNhsQ@mail.gmail.com>
+Subject: Re: [RFT PATCH v3 12/27] of/address: Add infrastructure to declare
+ MMIO as non-posted
+To:     Hector Martin <marcan@marcan.st>
+Cc:     Rob Herring <robh@kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Marc Zyngier <maz@kernel.org>, Olof Johansson <olof@lixom.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Will Deacon <will@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        DTML <devicetree@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
+        <linux-arch@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/3/21 12:13 am, Matthew Wilcox wrote:
-> On Fri, Mar 05, 2021 at 11:50:00PM +0530, Aditya Srivastava wrote:
->> Provide a simple fix by adding "__attribute_const__" in the corresponding
->> regex expression.
->>
->> A quick evaluation by running 'kernel-doc -none' on kernel-tree reveals
->> that no additional warning or error has been added or removed by the fix.
-> 
-> I'm no perlmonger, but why isn't this simply:
-> 
-> +++ b/scripts/kernel-doc
-> @@ -1753,6 +1753,7 @@ sub dump_function($$) {
->      $prototype =~ s/^__inline +//;
->      $prototype =~ s/^__always_inline +//;
->      $prototype =~ s/^noinline +//;
-> +    $prototype =~ s/__attribute_const__ +//;
->      $prototype =~ s/__init +//;
->      $prototype =~ s/__init_or_module +//;
->      $prototype =~ s/__meminit +//;
-> 
-> (completely untested)
-> 
->> +++ b/scripts/kernel-doc
->> @@ -1753,6 +1753,7 @@ sub dump_function($$) {
->>      my $prototype = shift;
->>      my $file = shift;
->>      my $noret = 0;
->> +    my $attribute_const = qr{__attribute_const__};
->>  
->>      print_lineno($new_start_line);
->>  
->> @@ -1808,7 +1809,7 @@ sub dump_function($$) {
->>  	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
->>  	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
->>  	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
->> -	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
->> +	$prototype =~ m/^(\w+\s+\w+\s*\*+$attribute_const?)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
->>  	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
->>  	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
->>  	$prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
+On Fri, Mar 5, 2021 at 7:18 PM Hector Martin <marcan@marcan.st> wrote:
+>
+> On 06/03/2021 02.39, Rob Herring wrote:
+> >> -       return ioremap(res.start, resource_size(&res));
+> >> +       if (res.flags & IORESOURCE_MEM_NONPOSTED)
+> >> +               return ioremap_np(res.start, resource_size(&res));
+> >> +       else
+> >> +               return ioremap(res.start, resource_size(&res));
+> >
+> > This and the devm variants all scream for a ioremap_extended()
+> > function. IOW, it would be better if the ioremap flavor was a
+> > parameter. Unless we could implement that just for arm64 first, that's
+> > a lot of refactoring...
+>
+> I agree, but yeah... that's one big refactor to try to do now...
 
-Hi Matthew
-You are correct, it should be placed there. I was considering it as a
-return type instead.
-I'll send a modified v2 with the changes.
+FWIW, there is ioremap_prot() that Christoph introduced in 2019
+for a few architectures.  I suppose it would be nice to lift
+that out architecture specific code and completely replace the
+unusual variants, leaving only ioremap(), ioremap_prot() and
+memremap() but dropping the _nc, _cached, _wc, _wt and _np
+versions in favor of an extensible set of flags.
 
-Thanks
-Aditya
+Then again, I would not make that a prerequisite for the merge
+of the M1 support.
+
+> > What's the code path using these functions on the M1 where we need to
+> > return 'posted'? It's just downstream PCI mappings (PCI memory space),
+> > right? Those would never hit these paths because they don't have a DT
+> > node or if they do the memory space is not part of it. So can't the
+> > check just be:
+> >
+> > bool of_mmio_is_nonposted(struct device_node *np)
+> > {
+> >      return np && of_machine_is_compatible("apple,arm-platform");
+> > }
+>
+> Yes; the implementation was trying to be generic, but AIUI we don't need
+> this on M1 because the PCI mappings don't go through this codepath, and
+> nothing else needs posted mode. My first hack was something not too
+> unlike this, then I was going to get rid of apple,arm-platform and just
+> have this be a generic mechanism with the properties, but then we added
+> the optimization to not do the lookups on other platforms, and now we're
+> coming full circle... :-)
+
+I never liked the idea of having a list of platforms that need a
+special hack, please let's not go back to that.
+
+         Arnd
