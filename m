@@ -2,235 +2,289 @@ Return-Path: <SRS0=4QG0=ID=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06820C433E9
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 15:02:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8E32C433E6
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 15:06:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD624650A4
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 15:02:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9393A65011
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 15:06:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229576AbhCEPBt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Mar 2021 10:01:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42158 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230047AbhCEPBj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Mar 2021 10:01:39 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3CDCA65011;
-        Fri,  5 Mar 2021 15:01:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1614956498;
-        bh=LFaFvz9E3qYlcPNdU+O7gyV5kGiBqm2Lk/DUBLgzstM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bAYrH3CzM0CTo6UHbq2fwOzDwrp19w2LCvdSBos1FXvlVhrKVQ995v43IHFc7TGJs
-         ZGOfkkhVOgVQ21Gqv35SoZ3nB1t0zBceh8xrtxY0MoaWcK9wBSs0lePpZVKQe0pyUs
-         8kGuHPzkSJpLW4tStgMV4aHIXlt/RHMdVTw/+x6Y=
-Date:   Fri, 5 Mar 2021 16:01:36 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Joel Becker <jlbec@evilplan.org>,
-        Christoph Hellwig <hch@lst.de>, Shuah Khan <shuah@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 08/12] drivers: export device_is_bound()
-Message-ID: <YEJH0J6czwpNlZAg@kroah.com>
-References: <20210304102452.21726-9-brgl@bgdev.pl>
- <CAMuHMdXRK5=w1-Z=EbM60Sf2bLY1EiVaxbZjMP+XyQ3g7nBpZw@mail.gmail.com>
- <YEHs3CxWnusWklME@kroah.com>
- <CAMRc=MddDb+nakgEM+Xeqm=rMMkkWO2EDekD36EoPJashYP88w@mail.gmail.com>
- <YEHyDUQ3V7Pl6+TU@kroah.com>
- <CAMRc=Md7FeQAd4Syh685+jyZAq2QStBNoo0ACQxrSB=4N6d3dg@mail.gmail.com>
- <YEIG0u8Vg3e6ZBhz@kroah.com>
- <CAMRc=Meznt=5m_4OnSRf04xHsUy39hH7S7_8ftZaHq6GD-taEw@mail.gmail.com>
- <YEIVi8aDSEukrK7E@kroah.com>
- <CAMRc=MeNBt=J2LkDAYKhd9iQJCfyTvAxBKmJZ7vjVUOmYjexLg@mail.gmail.com>
+        id S230052AbhCEPFe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Mar 2021 10:05:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42028 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229960AbhCEPF0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 10:05:26 -0500
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C647FC061574;
+        Fri,  5 Mar 2021 07:05:25 -0800 (PST)
+Received: by mail-pf1-x42d.google.com with SMTP id q20so2273475pfu.8;
+        Fri, 05 Mar 2021 07:05:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FBuTidaAi6iwCqMpRkLwLZrGR1e8aOX98e+4hVPySss=;
+        b=lcmixUX6YegcsdUJe3+kVvgS2KXWlyVjhgykODPMN7gGrrTc/RhzkOTA/XNJK/2kEo
+         Mz+bRk5IRaqnBG3GjYfQNIfanQW/GK+49TQXnoXhVpxoAKYu7aZCeLSKRQ4hppdclxpp
+         kL9o6sLLFNzbTI5Dm+vMyPeCtioXY97nVXq3iCfyspxX+u5gHZ+V0JTe127ltY/4QLcm
+         5eho94oTYQZwC6pXbn1kPgmIGXZNKKDzjDt/RMm6PFic3oLg3IijVzmZI8GmAqoQHmO9
+         HY37IoXcfkle59kc/DHibr7SSTeiNa5/j8HVbX+GA03midoCBXhBZu1NvAhfUREGhmIB
+         oCAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FBuTidaAi6iwCqMpRkLwLZrGR1e8aOX98e+4hVPySss=;
+        b=QA5NVLVb+gUf3gPcZtvpysjuFopO1eh6qG4gA+KX47zK3/gs80mRF1ZvmBxpc950RM
+         CbBmS6hoyUrQae2x3GA/B0ecd62KDzUmf9xVCZ0Nzf/a7j1PWPU33tTiWPFRAUDrtqfn
+         551ltUfBnGm+MGQZcm442L4QblH631HMpqCYzcbVSEUAngLKdlr/a2iReIJhZZPvdMok
+         u8U+7GdE5BBDblZ8Y6qhA5vtF7BHL0uzsiVc84X+1KjdNwtqtlNBojsArk0rtXfvcnxP
+         euos0aST/sxDsi8ry0pq202PNEQqtSZOwCZzaBSUohV+85fZXmoplwjtIhZtPOLX2Ovx
+         7vyw==
+X-Gm-Message-State: AOAM532v6f7rjKihpVG9RRSElRCEEfikymBmEkYlcdAfJPuImD9X4nu7
+        5yabBm9Yntdv25K++3E6ivCLCqftb/CGxJIIGik=
+X-Google-Smtp-Source: ABdhPJxj8+iP5+xaC9ZC+EsDKt8oM6DmSbnNGsU+YI8Ww4DOTpmFYGme8ndS9PqZtW501q/eIxT9iJ9OCL8HO+I+KjE=
+X-Received: by 2002:a63:ce15:: with SMTP id y21mr9147237pgf.4.1614956725251;
+ Fri, 05 Mar 2021 07:05:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MeNBt=J2LkDAYKhd9iQJCfyTvAxBKmJZ7vjVUOmYjexLg@mail.gmail.com>
+References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-17-marcan@marcan.st>
+In-Reply-To: <20210304213902.83903-17-marcan@marcan.st>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 5 Mar 2021 17:05:08 +0200
+Message-ID: <CAHp75Vco_rcjHJ4THLZ8CJP=yX2fesfAo_tOY8zohfSmTLEVgw@mail.gmail.com>
+Subject: Re: [RFT PATCH v3 16/27] irqchip/apple-aic: Add support for the Apple
+ Interrupt Controller
+To:     Hector Martin <marcan@marcan.st>
+Cc:     linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Will Deacon <will@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        devicetree <devicetree@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 05, 2021 at 03:20:27PM +0100, Bartosz Golaszewski wrote:
-> On Fri, Mar 5, 2021 at 12:27 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >
-> > On Fri, Mar 05, 2021 at 11:58:18AM +0100, Bartosz Golaszewski wrote:
-> > > On Fri, Mar 5, 2021 at 11:24 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > >
-> > > > On Fri, Mar 05, 2021 at 10:16:10AM +0100, Bartosz Golaszewski wrote:
-> > > > > On Fri, Mar 5, 2021 at 9:55 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > > > >
-> > > > > > On Fri, Mar 05, 2021 at 09:45:41AM +0100, Bartosz Golaszewski wrote:
-> > > > > > > On Fri, Mar 5, 2021 at 9:34 AM Greg KH <gregkh@linuxfoundation.org> wrote:
-> > > > > > > >
-> > > > > > > > On Fri, Mar 05, 2021 at 09:18:30AM +0100, Geert Uytterhoeven wrote:
-> > > > > > > > > CC Greg
-> > > > > > > > >
-> > > > > > > > > On Thu, Mar 4, 2021 at 11:30 AM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> > > > > > > > > >
-> > > > > > > > > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > > > > > > > >
-> > > > > > > > > > Export the symbol for device_is_bound() so that we can use it in gpio-sim
-> > > > > > > > > > to check if the simulated GPIO chip is bound before fetching its driver
-> > > > > > > > > > data from configfs callbacks in order to retrieve the name of the GPIO
-> > > > > > > > > > chip device.
-> > > > > > > > > >
-> > > > > > > > > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > > > > > > > > ---
-> > > > > > > > > >  drivers/base/dd.c | 1 +
-> > > > > > > > > >  1 file changed, 1 insertion(+)
-> > > > > > > > > >
-> > > > > > > > > > diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-> > > > > > > > > > index 9179825ff646..c62c02e3490a 100644
-> > > > > > > > > > --- a/drivers/base/dd.c
-> > > > > > > > > > +++ b/drivers/base/dd.c
-> > > > > > > > > > @@ -353,6 +353,7 @@ bool device_is_bound(struct device *dev)
-> > > > > > > > > >  {
-> > > > > > > > > >         return dev->p && klist_node_attached(&dev->p->knode_driver);
-> > > > > > > > > >  }
-> > > > > > > > > > +EXPORT_SYMBOL_GPL(device_is_bound);
-> > > > > > > >
-> > > > > > > > No.  Please no.  Why is this needed?  Feels like someone is doing
-> > > > > > > > something really wrong...
-> > > > > > > >
-> > > > > > > > NACK.
-> > > > > > > >
-> > > > > > >
-> > > > > > > I should have Cc'ed you the entire series, my bad.
-> > > > > > >
-> > > > > > > This is the patch that uses this change - it's a new, improved testing
-> > > > > > > module for GPIO using configfs & sysfs as you (I think) suggested a
-> > > > > > > while ago:
-> > > > > > >
-> > > > > > > https://lkml.org/lkml/2021/3/4/355
-> > > > > > >
-> > > > > > > The story goes like this: committing the configfs item registers a
-> > > > > > > platform device.
-> > > > > >
-> > > > > > Ick, no, stop there, that's not a "real" device, please do not abuse
-> > > > > > platform devices like that, you all know I hate this :(
-> > > > > >
-> > > > > > Use the virtbus code instead perhaps?
-> > > > > >
-> > > > >
-> > > > > I have no idea what virtbus is and grepping for it only returns three
-> > > > > hits in: ./drivers/pci/iov.c and it's a function argument.
-> > > > >
-> > > > > If it stands for virtual bus then for sure it sounds like the right
-> > > > > thing but I need to find more info on this.
-> > > >
-> > > > Sorry, wrong name, see Documentation/driver-api/auxiliary_bus.rst for
-> > > > the details.  "virtbus" was what I think about it as that was my
-> > > > original name for it, but it eventually got merged with a different
-> > > > name.
-> > > >
-> 
-> Unless I'm not seeing something - it completely doesn't look like the
-> right solution. This auxiliary bus sounds like MFD with extra steps.
-> Its aim seems to be to provide virtual devices for sub-modules of real
-> devices.
-> 
-> What I have here really is a dummy device for which no HW exists.
+On Thu, Mar 4, 2021 at 11:41 PM Hector Martin <marcan@marcan.st> wrote:
+>
+> This is the root interrupt controller used on Apple ARM SoCs such as the
+> M1. This irqchip driver performs multiple functions:
+>
+> * Handles both IRQs and FIQs
+>
+> * Drives the AIC peripheral itself (which handles IRQs)
+>
+> * Dispatches FIQs to downstream hard-wired clients (currently the ARM
+>   timer).
+>
+> * Implements a virtual IPI multiplexer to funnel multiple Linux IPIs
+>   into a single hardware IPI
 
-Then just use a "normal" virtual device.  We have loads of them.  But if
-you want to bind a "driver" to it, then use the aux bus please.  Do NOT
-abuse a platform device for this.
+...
 
-> Also: while the preferred way is to use configfs to instantiate these
-> simulated devices, then can still be registered from device-tree (this
-> is a feature that was requested and eventually implemented in
-> gpio-mockup which we want to phase out so we can't just drop it).
-> AFAIK only platform devices can be populated from DT.
+> + *   - <0 nr flags> - hwirq #nr
+> + *   - <1 nr flags> - FIQ #nr
+> + *     - nr=0  Physical HV timer
+> + *     - nr=1  Virtual HV timer
+> + *     - nr=2  Physical guest timer
+> + *     - nr=3  Virtual guest timer
 
-If you really are using DT, then ok, a platform device can be used, but
-you didn't say that :)
+> + *
 
-> I guess we could create something like a "virtual bus" that would be
-> there for devices that don't exist on any physical bus but this would
-> end up in big part being the same thing as platform devices.
+Unneeded blank line.
 
-That's what the aux bus code is there for.  So maybe you do need to use
-it.
+> + */
 
-> > > > > > > As far as I understand - there's no guarantee that
-> > > > > > > the device will be bound to a driver before the commit callback (or
-> > > > > > > more specifically platform_device_register_full() in this case)
-> > > > > > > returns so the user may try to retrieve the name of the device
-> > > > > > > immediately (normally user-space should wait for the associated uevent
-> > > > > > > but nobody can force that) by doing:
-> > > > > > >
-> > > > > > > mv /sys/kernel/config/gpio-sim/pending/foo /sys/kernel/config/gpio-sim/live/
-> > > > > > > cat /sys/kernel/config/gpio-sim/live/foo/dev_name
-> > > > > > >
-> > > > > > > If the device is not bound at this point, we'll have a crash in the
-> > > > > > > kernel as opposed to just returning -ENODEV.
-> > > > > >
-> > > > > > How will the kernel crash?  What has created the dev_name sysfs file
-> > > > > > before it is possible to be read from?  That feels like the root
-> > > > > > problem.
-> > > > > >
-> > > > >
-> > > > > It's not sysfs - it's in configfs. Each chip has a read-only configfs
-> > > > > attribute that returns the name of the device - I don't really have a
-> > > > > better idea to map the configfs items to devices that committing
-> > > > > creates.
-> > > >
-> > > > Same question, why are you exporting a configfs attribute that can not
-> > > > be read from?  Only export it when your driver is bound to the device.
-> > > >
-> > >
-> > > The device doesn't know anything about configfs. Why would it? The
-> > > configuration of a GPIO chip can't be changed after it's instantiated,
-> > > this is why we have committable items.
-> > >
-> > > We export a directory in configfs: gpio-sim -> user creates a new
-> > > directory (item) in gpio-sim/pending/foo and it's not tied to any
-> > > device yet but exports attributes which we use to configure the device
-> > > (label, number of lines, line names etc.), then we mv
-> > > gpio-sim/pending/foo gpio-sim/live and this is when the device gets
-> > > created and registered with the subsystem. We take all the configured
-> > > attributes and put them into device properties for both the driver and
-> > > gpiolib core (for standard properties) to read - just like we would
-> > > with a regular GPIO driver because this is the goal: test the core
-> > > code.
-> >
-> > Ok, but they why are you trying to have dev_name be an exported thing?
-> > I don't understand an attribute here that is visable but can not be read
-> > from.
-> >
-> 
-> Because once the associated configfs item is committed and the device
-> created, it will become readable. The list of attributes is fixed in
-> configfs. I'm not sure what the better approach would be - return
-> "none" if the device handle is NULL?
+...
 
-Sounds reasonable, I don't know how configfs works, it's been a decade
-since I last touched it.
+> +#define pr_fmt(fmt) "%s: " fmt, __func__
 
-> > And why not just use the default device name function: dev_name(), which
-> > will always return a string that will work no matter if the device is
-> > bound to a driver or not.
-> >
-> 
-> I can do this but then it's possible that user-space gets the name of
-> the device which doesn't exist in sysfs. I guess we can mention that
-> in the documentation.
+This is not needed, really, if you have unique / distinguishable
+messages in the first place.
+Rather people include module names, which may be useful.
 
-Device names can change over time, nothing new there.
+...
 
-thanks,
+> +#define MASK_REG(x)            (4 * ((x) >> 5))
+> +#define MASK_BIT(x)            BIT((x) & 0x1f)
 
-greg k-h
+GENMASK(4,0)
+
+...
+
+> +/*
+> + * Max 31 bits in IPI SEND register (top bit is self).
+> + * >=32-core chips will need code changes anyway.
+> + */
+> +#define AIC_MAX_CPUS           31
+
+I would put it as (32 - 1) to show that the register is actually 32-bit long.
+
+...
+
+> +static atomic_t aic_vipi_flag[AIC_MAX_CPUS];
+> +static atomic_t aic_vipi_enable[AIC_MAX_CPUS];
+
+Isn't it easier to handle these when they are full width, i.e. 32
+items per the array?
+
+...
+
+> +static int aic_irq_set_affinity(struct irq_data *d,
+> +                               const struct cpumask *mask_val, bool force)
+> +{
+> +       irq_hw_number_t hwirq = irqd_to_hwirq(d);
+> +       struct aic_irq_chip *ic = irq_data_get_irq_chip_data(d);
+> +       int cpu;
+> +
+> +       if (hwirq > ic->nr_hw)
+
+>= ?
+
+> +               return -EINVAL;
+> +
+> +       if (force)
+> +               cpu = cpumask_first(mask_val);
+> +       else
+> +               cpu = cpumask_any_and(mask_val, cpu_online_mask);
+> +
+> +       aic_ic_write(ic, AIC_TARGET_CPU + hwirq * 4, BIT(cpu));
+> +       irq_data_update_effective_affinity(d, cpumask_of(cpu));
+> +
+> +       return IRQ_SET_MASK_OK;
+> +}
+
+...
+
+> +static void aic_fiq_mask(struct irq_data *d)
+> +{
+> +       /* Only the guest timers have real mask bits, unfortunately. */
+> +       switch (d->hwirq) {
+> +       case AIC_TMR_GUEST_PHYS:
+> +               sysreg_clear_set_s(SYS_APL_VM_TMR_FIQ_ENA_EL1, VM_TMR_FIQ_ENABLE_P, 0);
+> +               break;
+> +       case AIC_TMR_GUEST_VIRT:
+> +               sysreg_clear_set_s(SYS_APL_VM_TMR_FIQ_ENA_EL1, VM_TMR_FIQ_ENABLE_V, 0);
+> +               break;
+
+default case? // some compilers may not be happy
+Ditto for all similar places in the series.
+
+> +       }
+> +}
+
+...
+
+> +#define TIMER_FIRING(x)                                                        \
+> +       (((x) & (ARCH_TIMER_CTRL_ENABLE | ARCH_TIMER_CTRL_IT_MASK |            \
+> +                ARCH_TIMER_CTRL_IT_STAT)) ==                                  \
+> +        (ARCH_TIMER_CTRL_ENABLE | ARCH_TIMER_CTRL_IT_STAT))
+
+It's a bit hard to read. Perhaps
+
+#define FOO_MASK  (_ENABLE | _STAT)
+#define _FIRING ... (FOO_MASK | _MASK == FOO_MASK)
+
+?
+
+...
+
+> +       if ((read_sysreg_s(SYS_APL_PMCR0_EL1) & (PMCR0_IMODE | PMCR0_IACT))
+> +                       == (FIELD_PREP(PMCR0_IMODE, PMCR0_IMODE_FIQ) | PMCR0_IACT)) {
+
+It's better to have == on the previous line.
+
+...
+
+> +       for_each_set_bit(i, &firing, AIC_NR_SWIPI) {
+> +               handle_domain_irq(aic_irqc->ipi_domain, i, regs);
+> +       }
+
+No {} needed.
+
+...
+
+> +static int aic_init_smp(struct aic_irq_chip *irqc, struct device_node *node)
+> +{
+> +       int base_ipi;
+
+Introducing a temporary variable may help with readability
+
+...  *d = irqc->hw_domain;
+
+> +       irqc->ipi_domain = irq_domain_create_linear(irqc->hw_domain->fwnode, AIC_NR_SWIPI,
+> +                                                   &aic_ipi_domain_ops, irqc);
+> +       if (WARN_ON(!irqc->ipi_domain))
+> +               return -ENODEV;
+> +
+> +       irqc->ipi_domain->flags |= IRQ_DOMAIN_FLAG_IPI_SINGLE;
+> +       irq_domain_update_bus_token(irqc->ipi_domain, DOMAIN_BUS_IPI);
+> +
+> +       base_ipi = __irq_domain_alloc_irqs(irqc->ipi_domain, -1, AIC_NR_SWIPI,
+> +                                          NUMA_NO_NODE, NULL, false, NULL);
+> +
+> +       if (WARN_ON(!base_ipi)) {
+> +               irq_domain_remove(irqc->ipi_domain);
+> +               return -ENODEV;
+> +       }
+> +
+> +       set_smp_ipi_range(base_ipi, AIC_NR_SWIPI);
+> +
+> +       return 0;
+> +}
+
+...
+
+> +       return 0;
+> +
+
+Extra blank line.
+
+...
+
+> +       irqc->hw_domain = irq_domain_create_linear(of_node_to_fwnode(node),
+> +                                                  irqc->nr_hw + AIC_NR_FIQ,
+> +                                                  &aic_irq_domain_ops, irqc);
+
+If you are sure it will be always OF-only, why not to use
+irq_domain_add_linear()?
+
+...
+
+> +       for (i = 0; i < BITS_TO_U32(irqc->nr_hw); i++)
+> +               aic_ic_write(irqc, AIC_MASK_SET + i * 4, ~0);
+> +       for (i = 0; i < BITS_TO_U32(irqc->nr_hw); i++)
+> +               aic_ic_write(irqc, AIC_SW_CLR + i * 4, ~0);
+
+~0 is a beast when it suddenly gets into > int size.
+
+I would recommend using either GENMASK() if it's a bit field, or
+type_MAX values if it's a plain number.
+
+-- 
+With Best Regards,
+Andy Shevchenko
