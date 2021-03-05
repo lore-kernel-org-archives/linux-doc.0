@@ -2,91 +2,139 @@ Return-Path: <SRS0=4QG0=ID=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCC81C433E6
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 17:20:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9EABC433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 17:30:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D86B650B2
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 17:20:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7133765020
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 17:30:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229493AbhCERTl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Mar 2021 12:19:41 -0500
-Received: from marcansoft.com ([212.63.210.85]:33278 "EHLO mail.marcansoft.com"
+        id S229486AbhCER3u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Mar 2021 12:29:50 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51522 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229465AbhCERTf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Mar 2021 12:19:35 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: marcan@marcan.st)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id 0610042037;
-        Fri,  5 Mar 2021 17:19:25 +0000 (UTC)
-Subject: Re: [RFT PATCH v3 12/27] of/address: Add infrastructure to declare
- MMIO as non-posted
-To:     Arnd Bergmann <arnd@kernel.org>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S229512AbhCER3r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Mar 2021 12:29:47 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8B20F65020;
+        Fri,  5 Mar 2021 17:29:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614965386;
+        bh=4r34DUYNpOJvEcVPpR+6wZnWvRIaTcgeWMWyB2GA44o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KW+QDqfeuEhA66S19otS9K3dumS+X+QQXoylVq+1tB5Hr6UOR3tNkKMaBLbF76OXz
+         MJySLIfflBFYFWokdbzwT2jgnwg9jiZmya8gQuNBfXVynLDZq+YTFTlu2yd/UKSgsV
+         UoCeqTwAXlJf2/o7dP8RMh0T9QE9WBoSzI1/FPcfQZqOX+jNqXqpes2IrWDsqBy5I6
+         ipUNqYgg0hmEA2diUjQG4odPCKiH6kd3eY4nGFdYcuau5JVaTWDcmMx7k+CGCPEH5V
+         BXonDpAkbH9JuSKGDvzsJEaJnE6Ky4DGqmZLpWdVRyM80vxuUZrat6lS1yeCULmdj9
+         KlaaM0sfG22Hw==
+Received: by quaco.ghostprotocols.net (Postfix, from userid 1000)
+        id 6AC4040647; Fri,  5 Mar 2021 14:29:44 -0300 (-03)
+Date:   Fri, 5 Mar 2021 14:29:44 -0300
+From:   Arnaldo Carvalho de Melo <acme@kernel.org>
+To:     Leo Yan <leo.yan@linaro.org>
+Cc:     Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Mike Leach <mike.leach@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        devicetree <devicetree@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20210304213902.83903-1-marcan@marcan.st>
- <20210304213902.83903-13-marcan@marcan.st>
- <CAHp75VdGYDDCRBRmd3O3Mt1opgDdwuRBoS1E=vaVc45h9eR-0w@mail.gmail.com>
- <04ea35d6-cd7d-d6de-75ae-59b1e0c77f04@marcan.st>
- <CAHp75Vd6adVM94G1vCrQcZoegQFWHbK14YRRuBTQZwrM5CV2jQ@mail.gmail.com>
- <CAK8P3a1X4DyWdeBM1Vx+QMXU7+VhJrLHFLVzwAE4a4mb_xuqMQ@mail.gmail.com>
-From:   Hector Martin <marcan@marcan.st>
-Message-ID: <7c56c08f-9382-5db4-647a-1afae79c84de@marcan.st>
-Date:   Sat, 6 Mar 2021 02:19:23 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        John Garry <john.garry@huawei.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Jiri Olsa <jolsa@redhat.com>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Daniel Kiss <Daniel.Kiss@arm.com>,
+        Denis Nikitin <denik@chromium.org>,
+        Al Grant <al.grant@arm.com>, coresight@lists.linaro.org,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 4/8] perf cs-etm: Fix bitmap for option
+Message-ID: <YEJqiNkIsNWS0E2G@kernel.org>
+References: <20210206150833.42120-1-leo.yan@linaro.org>
+ <20210206150833.42120-5-leo.yan@linaro.org>
+ <20210208204641.GE2077938@xps15>
+ <20210209015855.GA54680@leoy-ThinkPad-X240s>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a1X4DyWdeBM1Vx+QMXU7+VhJrLHFLVzwAE4a4mb_xuqMQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: es-ES
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210209015855.GA54680@leoy-ThinkPad-X240s>
+X-Url:  http://acmel.wordpress.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 06/03/2021 01.43, Arnd Bergmann wrote:
-> - setting ioremap() on PCI buses non-posted only makes them
->    only slower but not more reliable, because the non-posted flag
->    on the bus is discarded by the PCI host bridge.
+Em Tue, Feb 09, 2021 at 09:58:55AM +0800, Leo Yan escreveu:
+> On Mon, Feb 08, 2021 at 01:46:41PM -0700, Mathieu Poirier wrote:
+> > On Sat, Feb 06, 2021 at 11:08:29PM +0800, Leo Yan wrote:
+> > > From: Suzuki K Poulose <suzuki.poulose@arm.com>
+> > > 
+> > > When set option with macros ETM_OPT_CTXTID and ETM_OPT_TS, it wrongly
+> > > takes these two values (14 and 28 prespectively) as bit masks, but
+> > > actually both are the offset for bits.  But this doesn't lead to
+> > > further failure due to the AND logic operation will be always true for
+> > > ETM_OPT_CTXTID / ETM_OPT_TS.
+> > > 
+> > > This patch defines new independent macros (rather than using the
+> > > "config" bits) for requesting the "contextid" and "timestamp" for
+> > > cs_etm_set_option().
+> > > 
+> > > [leoy: Extract the change as a separate patch for easier review]
+> > 
+> > This should go just above your name - see below.
 
-Note that this doesn't work here *anyway*. The fabric is picky in both 
-directions: thou shalt use nGnRnE for on-SoC MMIO and nGnRE for PCIe 
-windows, or else, SError.
+I fixed this up and added this patch to my perf/urgent branch, for
+v5.12, since the kernel bits are upstream and this is a fix.
 
-Since these devices can support *any* PCI device via Thunderbolt, making 
-PCI drivers be the oddball ones needing special APIs would mean hundreds 
-of changes needed - the vast majority of PCI drivers in the kernel use 
-plain ioremap variants that don't have any flags to look at.
+Looking at the other patches in the series.
+
+- Arnaldo
+ 
+> > > Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> > > Signed-off-by: Leo Yan <leo.yan@linaro.org>
+> > > Reviewed-by: Mike Leach <mike.leach@linaro.org>
+> > 
+> >  Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> >  [Extract the change as a separate patch for easier review]
+> >  Signed-off-by: Leo Yan <leo.yan@linaro.org>
+> >  Reviewed-by: Mike Leach <mike.leach@linaro.org>
+> > 
+> > > ---
+> > >  tools/perf/arch/arm/util/cs-etm.c | 12 ++++++++----
+> > >  1 file changed, 8 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/tools/perf/arch/arm/util/cs-etm.c b/tools/perf/arch/arm/util/cs-etm.c
+> > > index bd446aba64f7..c25c878fd06c 100644
+> > > --- a/tools/perf/arch/arm/util/cs-etm.c
+> > > +++ b/tools/perf/arch/arm/util/cs-etm.c
+> > > @@ -156,6 +156,10 @@ static int cs_etm_set_timestamp(struct auxtrace_record *itr,
+> > >  	return err;
+> > >  }
+> > >  
+> > > +#define ETM_SET_OPT_CTXTID	(1 << 0)
+> > > +#define ETM_SET_OPT_TS		(1 << 1)
+> > > +#define ETM_SET_OPT_MASK	(ETM_SET_OPT_CTXTID | ETM_SET_OPT_TS)
+> > > +
+> > 
+> > I would much rather see this fixed with the BIT() macro as it is done in the
+> > rest of this set than defining new constant.
+> > 
+> > With the above:
+> > 
+> > Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > 
+> > I have picked up the kernel portion of this set.  I suggest you fix the above
+> > and send another revision to Arnaldo with my RBs.
+> 
+> Will do this.  Thanks for suggestion, Mathieu.
+> 
+> Leo
+> 
+> [...]
 
 -- 
-Hector Martin (marcan@marcan.st)
-Public Key: https://mrcn.st/pub
+
+- Arnaldo
