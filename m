@@ -2,115 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A9B5C433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:16:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB6B6C43381
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:17:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20C6B65019
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:16:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A29A06146D
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:17:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbhCEKQS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Mar 2021 05:16:18 -0500
-Received: from mga01.intel.com ([192.55.52.88]:34292 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229637AbhCEKP5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Mar 2021 05:15:57 -0500
-IronPort-SDR: 3wj5ckNR7w0tAJBPEmy+8wJegF72IaIq2ivtptDDGBQ20blAQ0DvkwvCGZ1J3oZHUUTctWLiG9
- WkFvibN6QCpA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9913"; a="207350999"
-X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="207350999"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2021 02:15:56 -0800
-IronPort-SDR: 4JQ/n/U/IuvIlsol9GHIdnLW+MU3AqyT50k04T0YmbnTz7bzKYz/1OY7k13ZYYhBatUaWMLnzv
- hNQkMM9zcm/Q==
-X-IronPort-AV: E=Sophos;i="5.81,224,1610438400"; 
-   d="scan'208";a="507950970"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2021 02:15:54 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lI7Us-00A5yl-N6; Fri, 05 Mar 2021 12:15:50 +0200
-Date:   Fri, 5 Mar 2021 12:15:50 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v2 09/12] gpio: sim: new testing module
-Message-ID: <YEIE1nG8lZ4V2MXq@smile.fi.intel.com>
-References: <20210304102452.21726-1-brgl@bgdev.pl>
- <20210304102452.21726-10-brgl@bgdev.pl>
- <YEDdbfbM9abHJpIO@smile.fi.intel.com>
- <CAMRc=MdRxXzoZuyLs-24dXfOft=OQqDneTHa4-ZKqFE1kMBWcg@mail.gmail.com>
+        id S229836AbhCEKQw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Mar 2021 05:16:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36608 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229848AbhCEKQk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 05:16:40 -0500
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D81C06175F
+        for <linux-doc@vger.kernel.org>; Fri,  5 Mar 2021 02:16:39 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id e2so2039957ljo.7
+        for <linux-doc@vger.kernel.org>; Fri, 05 Mar 2021 02:16:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qbH2XnLnL+zeqgwenkERgBp6OdMalagNgmjddUY2upo=;
+        b=oosQD1k0ihuNWvZd/OBh3mc8nkdjesc2ilrBKyxU54uLyH7RvMV3qxaKGuxGmyTP9w
+         7caTG2bAlHb4RIuwWBoXXdwLHI1wuF1UhzSYqvKKVuPJo2A4M4tpwRjXeJj+xZVUonDX
+         UdSpwPE1UpnxNlqFw+lq4Gu6zhZBXm/vANy7gThzJHkn3fTMng4OD0VcMKLNGAbJ8n7Z
+         W0DkubhzB0Y3TdGjmmV7fLpOP0x3K5jmP4uOJi8LKa53fUQqinUuitoq9vPbc6ObUogr
+         0YzEgMGg0uCnBgL74LwDVEecmp+20X7oEJNr4U+Q+ONNvPT2dwJ+XUWBfEzrflscGCAS
+         3YRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qbH2XnLnL+zeqgwenkERgBp6OdMalagNgmjddUY2upo=;
+        b=iXYR8omfS4T8DAhATP8CHGCW5B++Aft3R7CXNnsNoAmhOv7z7uT6BvVpYzhlEiY28R
+         9xbfKZcOHGu8dJlxaHj29oxSOOBejXF6vNVOqy8b44sJ1iyd97G/Bxfir/S+qpU3DHAl
+         371Ys5Fml29B5xjCOKJvXrWmUk1vGrSqkxc1nuJ6Eo9ZymGr2oSyIED5XjghyvsQtZ5y
+         TyequtEkfuJdme5DafnPXTYYTE4dCnzW/kOvwQcJaR2V1gqEuT+Q/m5D3bl7LFummwDO
+         i0zV1bL1T0PhihfWjMfXS3DojdLQYahM9GHaIl+27tK25zmCqyVXMmg2zqMy/ESd0aeb
+         3OPA==
+X-Gm-Message-State: AOAM530k7tvGMr25u9buncAAoHjM1pabxmNOrVUZyySHK945La57Bwag
+        8rPD+dPNwdu4jEMXd/hAdPr3BHaAK6O17y6vUjDQFA==
+X-Google-Smtp-Source: ABdhPJxEx/lpierUGPxwT0L2+ZEtm4VbumUeVdUGn8v87RY30yCJpt4gIIgfdrlbQP0GGfAVxM0ky6MFjfiSwQhsyRg=
+X-Received: by 2002:a2e:1649:: with SMTP id 9mr4991292ljw.74.1614939398241;
+ Fri, 05 Mar 2021 02:16:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMRc=MdRxXzoZuyLs-24dXfOft=OQqDneTHa4-ZKqFE1kMBWcg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-4-marcan@marcan.st>
+In-Reply-To: <20210304213902.83903-4-marcan@marcan.st>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 5 Mar 2021 11:16:26 +0100
+Message-ID: <CACRpkdbrEch04BFE+suqmmUHtgHrRBoUtS4_cv8gackqbDYoQQ@mail.gmail.com>
+Subject: Re: [RFT PATCH v3 03/27] dt-bindings: arm: apple: Add bindings for
+ Apple ARM platforms
+To:     Hector Martin <marcan@marcan.st>
+Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Will Deacon <will@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 04, 2021 at 09:15:29PM +0100, Bartosz Golaszewski wrote:
-> On Thu, Mar 4, 2021 at 2:15 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Thu, Mar 04, 2021 at 11:24:49AM +0100, Bartosz Golaszewski wrote:
-> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On Thu, Mar 4, 2021 at 10:39 PM Hector Martin <marcan@marcan.st> wrote:
 
-> > > +
-> > > +     /*
-> > > +      * FIXME If anyone knows a better way to parse that - please let me
-> > > +      * know.
-> > > +      */
-> >
-> > If comma can be replaced with ' ' (space) then why not to use next_arg() from
-> > cmdline.c? I.o.w. do you have strong opinion why should we use comma here?
-> >
-> 
-> My opinion is not very strong but I wanted to make the list of names
-> resemble what we pass to the gpio-line-names property in device tree.
-> Doesn't next_arg() react differently to string of the form: "foo=bar"?
+> This introduces bindings for all three 2020 Apple M1 devices:
+>
+> * apple,j274 - Mac mini (M1, 2020)
+> * apple,j293 - MacBook Pro (13-inch, M1, 2020)
+> * apple,j313 - MacBook Air (M1, 2020)
+>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
 
-It's ambiguous here.
+This way of specifying the SoC makes sense to me.
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-So, the strings '"foo=bar"' and 'foo=bar' (w/o single quotes!) are indeed
-parsed differently, i.e.
-	'"foo=bar"' -> 'foo=bar',
-while
-	"foo=bar" -> 'foo' + 'bar'.
-
-...
-
-> > > +     ida_free(&gpio_sim_ida, id);
-> >
-> > Isn't it atomic per se? I mean that IDA won't give the same ID until you free
-> > it. I.o.w. why is it under the mutex?
-> >
-> 
-> You're right but if we rapidly create and destroy chips we'll be left
-> with holes in the numbering (because new devices would be created
-> before the IDA numbers are freed, so the driver would take a larger
-> number that's currently free). It doesn't hurt but it would look worse
-> IMO. Do you have a strong opinion on this?
-
-It's not strong per se, but I would rather follow the 2nd rule of locking:
-don't protect something which doesn't need it.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Yours,
+Linus Walleij
