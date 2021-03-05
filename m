@@ -2,103 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7570CC433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:10:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8175C433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:12:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 295F96501C
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:10:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BF8864F5B
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:12:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229843AbhCEKKZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Mar 2021 05:10:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35224 "EHLO
+        id S229578AbhCEKLa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Mar 2021 05:11:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229737AbhCEKKL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 05:10:11 -0500
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E99ECC061574;
-        Fri,  5 Mar 2021 02:10:10 -0800 (PST)
-Received: by mail-qk1-x730.google.com with SMTP id t4so1427864qkp.1;
-        Fri, 05 Mar 2021 02:10:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=g649SWY5Pg9iweh3f261DGBlQ2YmVzNL6uLU/MjqmfE=;
-        b=EMbRLNAUW6LOBSy+mzI2wPZy6hjsPxEbyJ93p/GGgK9CQRdSOg5EAqNzM8FrPytIBB
-         /62Mmz6P0Gdl6WDygDTCb/OlbtelYgsd9SSU7eynFP0abWYQWu2al7J2yeH2LtwJShRU
-         bxM+WXFjRVbnan+3e1y1OxxiyhjnII0UJxdb0tSFiL4wjA+BnZcJkMCx/b3EZEnv3NHT
-         OlHHItU1cUj13Ei4A19d3lKn28UcrUniHzN0my0jPiBRivrckjkliyavnywS1urctqoB
-         4msaLEgfEU0IRasQi//T5i4JrLf/OW8AyjXQTpzPEh2sKYobkI1N3P0AczPM0sV16T0r
-         Mz1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=g649SWY5Pg9iweh3f261DGBlQ2YmVzNL6uLU/MjqmfE=;
-        b=U3eLZwko27brrHgsT1k9/P2cU+qiTwBOJzNr8PTUJKVs1xccoCeTg8w5stSXDPvhm1
-         zdCgPztYcpLDjH9d2cpPvgjJdC+QVfXslHS7EoPaIhklA6QChSWWtzz2uW8cwRqkNx2K
-         m+FemRsRflYCLHIkOp5ipqFJdXuumws4w+rbs5jlefyzu2jnQL+/wg/nAeu4B3f7vetF
-         Nbor6Zspn4R9Hami0AnypdBsovozq/8svl7DW7yf433GcmAqhj5+fazi+CGsGbcISwSe
-         mNU4ZqNty78Pfwnb57vflBEjkPXaYMOSfnZXbvRGxX/MZdySDWuhjUl+rz+iaJPpKb/l
-         4Y9Q==
-X-Gm-Message-State: AOAM530vZMtWbk1+ZD13YSYblN/VSYTzVacjsTBC6iWxENBAYMY+/3g8
-        tu1ENbtnGIvAW3psAjppxLk=
-X-Google-Smtp-Source: ABdhPJySSLSA3e5v4sHWMXUdW68rSD3rQk4qdlvmCUhdA4OJxDiR3IWlaOWKjTGDubuaFBTh60k3rg==
-X-Received: by 2002:a05:620a:1593:: with SMTP id d19mr8009552qkk.83.1614939010241;
-        Fri, 05 Mar 2021 02:10:10 -0800 (PST)
-Received: from localhost.localdomain ([156.146.54.164])
-        by smtp.gmail.com with ESMTPSA id z2sm1496968qkg.22.2021.03.05.02.10.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 02:10:09 -0800 (PST)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     jpoimboe@redhat.com, jikos@kernel.org, mbenes@suse.cz,
-        pmladek@suse.com, joe.lawrence@redhat.com, corbet@lwn.net,
-        live-patching@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH V2] docs: livepatch: Fix a typo and remove the unnecessary gaps in a sentence
-Date:   Fri,  5 Mar 2021 15:39:23 +0530
-Message-Id: <20210305100923.3731-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        with ESMTP id S229899AbhCEKLR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 05:11:17 -0500
+Received: from mail.marcansoft.com (marcansoft.com [IPv6:2a01:298:fe:f::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6788C061574;
+        Fri,  5 Mar 2021 02:11:16 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        (Authenticated sender: marcan@marcan.st)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id 2953542450;
+        Fri,  5 Mar 2021 10:11:08 +0000 (UTC)
+Subject: Re: [RFT PATCH v3 00/27] Apple M1 SoC platform bring-up
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Will Deacon <will@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        devicetree@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210304213902.83903-1-marcan@marcan.st>
+From:   Hector Martin <marcan@marcan.st>
+Message-ID: <7ab042aa-7969-a7d4-6ed1-23dc3428a271@marcan.st>
+Date:   Fri, 5 Mar 2021 19:11:07 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210304213902.83903-1-marcan@marcan.st>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: es-ES
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-s/varibles/variables/
+On 05/03/2021 06.38, Hector Martin wrote:
+> == Merge notes ==
+> 
+> This patchset depends on both the nVHE changes that are already in
+> 5.12-rc1, as well as the FIQ support work currently being reviewed
+> at [1]. A tree containing this patchset on top of the required
+> dependencies is available at [2][3]. Alternatively, you may apply
+> this series on top of Mark's tree at the arm64-fiq-20210302 tag [4][5].
 
-...and remove leading spaces from a sentence.
+Important warning: these trees are all based on v5.12-rc1, which has a 
+bad bug that causes your filesystems to go kaboom if you use a swap file 
+[1].
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- Changes from V1:
-  Pter pointed out some awkward  leading space in a sentence ,fixed it.
+This doesn't affect M1 since we don't *have* storage, but for folks 
+testing for regressions on on e.g. Samsung or other ARM boards, please 
+make sure you don't use swap files.
 
- Documentation/livepatch/shadow-vars.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+[1] 
+https://lore.kernel.org/lkml/CAHk-=wjnzdLSP3oDxhf9eMTYo7GF-QjaNLBUH1Zk3c4A7X75YA@mail.gmail.com/
 
-diff --git a/Documentation/livepatch/shadow-vars.rst b/Documentation/livepatch/shadow-vars.rst
-index c05715aeafa4..2ee114a91a35 100644
---- a/Documentation/livepatch/shadow-vars.rst
-+++ b/Documentation/livepatch/shadow-vars.rst
-@@ -165,8 +165,8 @@ In-flight parent objects
-
- Sometimes it may not be convenient or possible to allocate shadow
- variables alongside their parent objects.  Or a livepatch fix may
--require shadow varibles to only a subset of parent object instances.  In
--these cases, the klp_shadow_get_or_alloc() call can be used to attach
-+require shadow variables to only a subset of parent object instances.
-+In these cases, the klp_shadow_get_or_alloc() call can be used to attach
- shadow variables to parents already in-flight.
-
- For commit 1d147bfa6429, a good spot to allocate a shadow spinlock is
---
-2.20.1
-
+-- 
+Hector Martin (marcan@marcan.st)
+Public Key: https://mrcn.st/pub
