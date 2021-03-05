@@ -2,176 +2,398 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23953C433DB
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 05:29:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A04D9C433DB
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 05:43:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E795C64F60
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 05:29:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6404265012
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 05:43:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229463AbhCEF3D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Mar 2021 00:29:03 -0500
-Received: from [43.250.32.171] ([43.250.32.171]:12043 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229446AbhCEF3C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 5 Mar 2021 00:29:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=7m5NeRmSsjCQW3xCqaTgjviYLmyVi5vmZ3W6V
-        LUZt8w=; b=NrXZgk/MIjFrSdIASloDq6lBH6qRy2AFQuIob+gmQhJG/d0H62tIw
-        BzXXP7XtRJD1wsYpUZ+ASKpTipMVd/cXV4CO4JwZG7K8bs2M6ZWBGFrmXoYdfWGt
-        DL4d4Knk39W9cS26zSXSsBGPv2MmMgLb0azJ5FJMuX3g2I7Aej1trc=
-Received: from mipc (unknown [120.238.248.239])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgAXi9GQwUFgTI4QAA--.43992S2;
-        Fri, 05 Mar 2021 13:28:50 +0800 (CST)
-Date:   Fri, 5 Mar 2021 13:28:48 +0800
-From:   Wu XiangCheng <bobwxc@email.cn>
-To:     alex.shi@linux.alibaba.com
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org
-Subject: [PATCH v3 9/9] docs/zh_CN: Improve zh_CN/process/8.Conclusion.rst
-Message-ID: <8311d04c5528442ecae241062fbb1a7eded0b4f6.1614920267.git.bobwxc@email.cn>
-References: <cover.1614920267.git.bobwxc@email.cn>
+        id S229516AbhCEFnY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Mar 2021 00:43:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34444 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229486AbhCEFnY (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 00:43:24 -0500
+Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ECD5C061574;
+        Thu,  4 Mar 2021 21:43:24 -0800 (PST)
+Received: by mail-pf1-x436.google.com with SMTP id q204so1222437pfq.10;
+        Thu, 04 Mar 2021 21:43:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ruVrfuVnPxBfe9jZ6kyV5vDYQuPMqlsZoXtnB9sKvqk=;
+        b=mYzuE6SHUtOZ4iQ0y2GD/MpAHSa/TFSB2wKtxKkLdYwpX2TwhJaTJmACKhxoCg95Ym
+         rVD34Wogwwe7CnvFmABTllD6QztvS7R8BSaCTZxMN5cKU/VRVvpHONF850pB5RIoOO+S
+         kt8sr5VuG113izzatrn8nZw0ZgFVIo8ZuUUCURYpWwfOf90FpnlETdBciQaNhd7IyZ7x
+         +gzHhvkOfU5/OXFJy0LPAsLxdYCPbwaMrPa5oue0RyTy+/96sf++fRRzhG8tV5xVpa60
+         6eHfeaZS9F0eoZ76nU+GW9A9cAhVhFxgK456/iWYw1vTRiYvo+qm4407hVsOdvaEbp/e
+         wyAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ruVrfuVnPxBfe9jZ6kyV5vDYQuPMqlsZoXtnB9sKvqk=;
+        b=QPEcL0Vpxmhxnq9JSrpOCx20J7fJfHY+YGzWyYVqIC6VGMWIM5+72gw7o5VCEGhlOp
+         CP+J0h1WmIh3K6M5Fp8OyAPnqciEkDwIflPzyfHlGvx7BiE+c8FvOi0NWN15GTnifpjQ
+         JXQlxDvnvK0raHUnG/qOb5OQWJY4kdXuPWDshXkMwSyQeUg7DsbfPbQ3Zf7SH2JPsEEJ
+         vu95EmKyb7Mm74gQYGnvCjJsMrIb01lwK4rZhKpQuBpUBBFDGB7I4bgqEsEdIFE84ajZ
+         qkK5h553AigBZrQVltD7bbOOFwQKZ6Qqd9OT7XYMY0tzsZDgG+XaBuXw+gfTh2r/enFt
+         Irjw==
+X-Gm-Message-State: AOAM531mgxBT3JL/LkabJ5uMkUVLjXA9Hi2E2un3p7cXlpGMVTMzJDZz
+        Kw8VT3KifHXWyx5qM8Kt98A=
+X-Google-Smtp-Source: ABdhPJynUqaHFHr9YldsYx2tgVZsPvc9/TFiF8Rab+m+ihGF1HuaVpfq+nf+dmbVbiUNtHxNJQxCOw==
+X-Received: by 2002:a63:db02:: with SMTP id e2mr6942747pgg.18.1614923003646;
+        Thu, 04 Mar 2021 21:43:23 -0800 (PST)
+Received: from shane-XPS-13-9380.hsd1.ca.comcast.net ([2601:646:8800:1c00:6378:655:4fad:20f6])
+        by smtp.gmail.com with ESMTPSA id n184sm1145177pfd.205.2021.03.04.21.43.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Mar 2021 21:43:22 -0800 (PST)
+From:   Xie He <xie.he.0141@gmail.com>
+To:     Martin Schiller <ms@dev.tdt.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Halasa <khc@pm.waw.pl>, linux-x25@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Xie He <xie.he.0141@gmail.com>
+Subject: [PATCH net-next RFC] net: x25: Queue received packets in the drivers instead of per-CPU queues
+Date:   Thu,  4 Mar 2021 21:43:12 -0800
+Message-Id: <20210305054312.254922-1-xie.he.0141@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1614920267.git.bobwxc@email.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgAXi9GQwUFgTI4QAA--.43992S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxtr1rGw4DJFW7XFyrJry7ZFb_yoWxZrWkpF
-        4xtwn3K3W0kas0k397GrykAayxJa4Ika13GayUGa45uw1Fyay2y3yIyFyUX34aqa4xKas8
-        XFWrZryUur1fArDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUqSb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzx
-        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
-        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxAIw2
-        8IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
-        xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrx
-        kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v2
-        6r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8Jw
-        CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj4RRbyZUUUU
-        U
-X-Originating-IP: [120.238.248.239]
-X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Improve language and grammar of zh_CN/process/8.Conclusion.rst
+X.25 Layer 3 (the Packet Layer) expects layer 2 to provide a reliable
+datalink service such that no packets are reordered or dropped. And
+X.25 Layer 2 (the LAPB layer) is indeed designed to provide such service.
 
-Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-Reviewed-by: Alex Shi <alex.shi@linux.alibaba.com>
+However, this reliability is not preserved when a driver calls "netif_rx"
+to deliver the received packets to layer 3, because "netif_rx" will put
+the packets into per-CPU queues before they are delivered to layer 3.
+If there are multiple CPUs, the order of the packets may not be preserved.
+The per-CPU queues may also drop packets if there are too many.
+
+Therefore, we should not call "netif_rx" to let it queue the packets.
+Instead, we should use our own queue that won't reorder or drop packets.
+
+This patch changes all X.25 drivers to use their own queues instead of
+calling "netif_rx". The patch also documents this requirement in the
+"x25-iface" documentation.
+
+Cc: Martin Schiller <ms@dev.tdt.de>
+Signed-off-by: Xie He <xie.he.0141@gmail.com>
 ---
- .../zh_CN/process/8.Conclusion.rst            | 60 ++++++++++---------
- 1 file changed, 33 insertions(+), 27 deletions(-)
+ Documentation/networking/x25-iface.rst | 65 ++++----------------------
+ drivers/net/wan/hdlc_x25.c             | 29 +++++++++++-
+ drivers/net/wan/lapbether.c            | 46 ++++++++++++++++--
+ 3 files changed, 79 insertions(+), 61 deletions(-)
 
-diff --git a/Documentation/translations/zh_CN/process/8.Conclusion.rst b/Documentation/translations/zh_CN/process/8.Conclusion.rst
-index 90cec3de6106..71c3e30efc6f 100644
---- a/Documentation/translations/zh_CN/process/8.Conclusion.rst
-+++ b/Documentation/translations/zh_CN/process/8.Conclusion.rst
-@@ -1,7 +1,13 @@
- .. include:: ../disclaimer-zh_CN.rst
+diff --git a/Documentation/networking/x25-iface.rst b/Documentation/networking/x25-iface.rst
+index df401891dce6..f34e9ec64937 100644
+--- a/Documentation/networking/x25-iface.rst
++++ b/Documentation/networking/x25-iface.rst
+@@ -70,60 +70,13 @@ First Byte = 0x03 (X25_IFACE_PARAMS)
+ LAPB parameters. To be defined.
  
- :Original: :ref:`Documentation/process/8.Conclusion.rst <development_conclusion>`
--:Translator: Alex Shi <alex.shi@linux.alibaba.com>
-+:Translator:
+ 
++Requirements for the device driver
++----------------------------------
+ 
+-Possible Problems
+-=================
+-
+-(Henner Eisen, 2000-10-28)
+-
+-The X.25 packet layer protocol depends on a reliable datalink service.
+-The LAPB protocol provides such reliable service. But this reliability
+-is not preserved by the Linux network device driver interface:
+-
+-- With Linux 2.4.x (and above) SMP kernels, packet ordering is not
+-  preserved. Even if a device driver calls netif_rx(skb1) and later
+-  netif_rx(skb2), skb2 might be delivered to the network layer
+-  earlier that skb1.
+-- Data passed upstream by means of netif_rx() might be dropped by the
+-  kernel if the backlog queue is congested.
+-
+-The X.25 packet layer protocol will detect this and reset the virtual
+-call in question. But many upper layer protocols are not designed to
+-handle such N-Reset events gracefully. And frequent N-Reset events
+-will always degrade performance.
+-
+-Thus, driver authors should make netif_rx() as reliable as possible:
+-
+-SMP re-ordering will not occur if the driver's interrupt handler is
+-always executed on the same CPU. Thus,
+-
+-- Driver authors should use irq affinity for the interrupt handler.
+-
+-The probability of packet loss due to backlog congestion can be
+-reduced by the following measures or a combination thereof:
+-
+-(1) Drivers for kernel versions 2.4.x and above should always check the
+-    return value of netif_rx(). If it returns NET_RX_DROP, the
+-    driver's LAPB protocol must not confirm reception of the frame
+-    to the peer.
+-    This will reliably suppress packet loss. The LAPB protocol will
+-    automatically cause the peer to re-transmit the dropped packet
+-    later.
+-    The lapb module interface was modified to support this. Its
+-    data_indication() method should now transparently pass the
+-    netif_rx() return value to the (lapb module) caller.
+-(2) Drivers for kernel versions 2.2.x should always check the global
+-    variable netdev_dropping when a new frame is received. The driver
+-    should only call netif_rx() if netdev_dropping is zero. Otherwise
+-    the driver should not confirm delivery of the frame and drop it.
+-    Alternatively, the driver can queue the frame internally and call
+-    netif_rx() later when netif_dropping is 0 again. In that case, delivery
+-    confirmation should also be deferred such that the internal queue
+-    cannot grow to much.
+-    This will not reliably avoid packet loss, but the probability
+-    of packet loss in netif_rx() path will be significantly reduced.
+-(3) Additionally, driver authors might consider to support
+-    CONFIG_NET_HW_FLOWCONTROL. This allows the driver to be woken up
+-    when a previously congested backlog queue becomes empty again.
+-    The driver could uses this for flow-controlling the peer by means
+-    of the LAPB protocol's flow-control service.
++Packets should not be reordered or dropped when delivering between the
++Packet Layer and the device driver.
 +
-+ 时奎亮 Alex Shi <alex.shi@linux.alibaba.com>
++To avoid packets from being reordered or dropped when delivering from
++the device driver to the Packet Layer, the device driver should not
++call "netif_rx" to deliver the received packets. Instead, it should
++call "netif_receive_skb_core" from softirq context to deliver them.
+diff --git a/drivers/net/wan/hdlc_x25.c b/drivers/net/wan/hdlc_x25.c
+index 4aaa6388b9ee..28e9cb2c5f1e 100644
+--- a/drivers/net/wan/hdlc_x25.c
++++ b/drivers/net/wan/hdlc_x25.c
+@@ -23,6 +23,8 @@
+ 
+ struct x25_state {
+ 	x25_hdlc_proto settings;
++	struct sk_buff_head rx_queue;
++	struct tasklet_struct rx_tasklet;
+ };
+ 
+ static int x25_ioctl(struct net_device *dev, struct ifreq *ifr);
+@@ -32,10 +34,22 @@ static struct x25_state *state(hdlc_device *hdlc)
+ 	return hdlc->state;
+ }
+ 
++static void x25_rx_queue_kick(struct tasklet_struct *t)
++{
++	struct x25_state *x25st = from_tasklet(x25st, t, rx_tasklet);
++	struct sk_buff *skb = skb_dequeue(&x25st->rx_queue);
 +
-+:校译:
++	while (skb) {
++		netif_receive_skb_core(skb);
++		skb = skb_dequeue(&x25st->rx_queue);
++	}
++}
 +
-+ 吴想成 Wu XiangCheng <bobwxc@email.cn>
+ /* These functions are callbacks called by LAPB layer */
  
- .. _cn_development_conclusion:
+ static void x25_connect_disconnect(struct net_device *dev, int reason, int code)
+ {
++	struct x25_state *x25st = state(dev_to_hdlc(dev));
+ 	struct sk_buff *skb;
+ 	unsigned char *ptr;
  
-@@ -9,56 +15,56 @@
- ========
+@@ -48,7 +62,9 @@ static void x25_connect_disconnect(struct net_device *dev, int reason, int code)
+ 	*ptr = code;
  
- 关于Linux内核开发和相关主题的信息来源很多。首先是在内核源代码分发中找到的
--文档目录。顶级 :ref:`Documentation/translations/zh_CN/process/howto.rst <cn_process_howto>`
--文件是一个重要的起点
-+文档目录。顶级
-+:ref:`Documentation/translations/zh_CN/process/howto.rst <cn_process_howto>`
-+文件是一个重要的起点；
- :ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
--和 :ref:`process/submitting-drivers.rst <submittingdrivers>`
-+和 :ref:`Documentation/transaltions/zh_CN/process/submitting-drivers.rst <cn_submittingdrivers>`
- 也是所有内核开发人员都应该阅读的内容。许多内部内核API都是使用kerneldoc机制
--记录的；“make htmldocs”或“make pdfdocs”可用于以HTML或PDF格式生成这些文档（
--尽管某些发行版提供的tex版本会遇到内部限制，无法正确处理文档）。
-+记录的；“make htmldocs”或“make pdfdocs”可用于以HTML或PDF格式生成这些文档
-+（尽管某些发行版提供的tex版本会遇到内部限制，无法正确处理文档）。
+ 	skb->protocol = x25_type_trans(skb, dev);
+-	netif_rx(skb);
++
++	skb_queue_tail(&x25st->rx_queue, skb);
++	tasklet_schedule(&x25st->rx_tasklet);
+ }
  
--不同的网站在各个细节层次上讨论内核开发。您的作者想谦虚地建议用 https://lwn.net/
--作为来源；有关许多特定内核主题的信息可以通过以下网址的lwn内核索引找到：
-+不同的网站在各个细节层次上讨论内核开发。本文作者想谦虚地建议用 https://lwn.net/
-+作为来源；有关许多特定内核主题的信息可以通过以下网址的 LWN 内核索引找到：
  
--        http://lwn.net/kernel/index/
-+  http://lwn.net/kernel/index/
+@@ -69,6 +85,7 @@ static void x25_disconnected(struct net_device *dev, int reason)
  
- 除此之外，内核开发人员的一个宝贵资源是：
+ static int x25_data_indication(struct net_device *dev, struct sk_buff *skb)
+ {
++	struct x25_state *x25st = state(dev_to_hdlc(dev));
+ 	unsigned char *ptr;
  
--        https://kernelnewbies.org/
-+  https://kernelnewbies.org/
+ 	if (skb_cow(skb, 1)) {
+@@ -82,7 +99,10 @@ static int x25_data_indication(struct net_device *dev, struct sk_buff *skb)
+ 	*ptr = X25_IFACE_DATA;
  
--当然，我们不应该忘记 https://kernel.org/ 这是内核发布信息的最终位置。
-+当然，也不应该忘记 https://kernel.org/ ，这是内核发布信息的最终位置。
+ 	skb->protocol = x25_type_trans(skb, dev);
+-	return netif_rx(skb);
++
++	skb_queue_tail(&x25st->rx_queue, skb);
++	tasklet_schedule(&x25st->rx_tasklet);
++	return NET_RX_SUCCESS;
+ }
  
- 关于内核开发有很多书：
  
--        Linux设备驱动程序，第三版（Jonathan Corbet、Alessandro Rubini和Greg Kroah Hartman）。
--        在线：http://lwn.net/kernel/ldd3/
-+  《Linux设备驱动程序》第三版（Jonathan Corbet、Alessandro Rubini和Greg Kroah Hartman）
-+  线上版本在 http://lwn.net/kernel/ldd3/
+@@ -197,7 +217,10 @@ static int x25_open(struct net_device *dev)
  
--        Linux内核开发（Robert Love）。
-+  《Linux内核设计与实现》（Robert Love）
+ static void x25_close(struct net_device *dev)
+ {
++	struct x25_state *x25st = state(dev_to_hdlc(dev));
++
+ 	lapb_unregister(dev);
++	tasklet_kill(&x25st->rx_tasklet);
+ }
  
--        了解Linux内核（Daniel Bovet和Marco Cesati）。
-+  《深入理解Linux内核》(Daniel Bovet和Marco Cesati）
  
--然而，所有这些书都有一个共同的缺点：当它们上架时，它们往往有些过时，而且它们
--已经上架一段时间了。不过，在那里还可以找到相当多的好信息。
-+然而，所有这些书都有一个共同的缺点：它们上架时就往往有些过时，而且已经上架
-+一段时间了。不过，在那里还是可以找到相当多的好信息。
+@@ -298,6 +321,8 @@ static int x25_ioctl(struct net_device *dev, struct ifreq *ifr)
+ 			return result;
  
- 有关git的文档，请访问：
+ 		memcpy(&state(hdlc)->settings, &new_settings, size);
++		skb_queue_head_init(&state(hdlc)->rx_queue);
++		tasklet_setup(&state(hdlc)->rx_tasklet, x25_rx_queue_kick);
  
--        https://www.kernel.org/pub/software/scm/git/docs/
-+  https://www.kernel.org/pub/software/scm/git/docs/
+ 		/* There's no header_ops so hard_header_len should be 0. */
+ 		dev->hard_header_len = 0;
+diff --git a/drivers/net/wan/lapbether.c b/drivers/net/wan/lapbether.c
+index 605fe555e157..c85b2a1c8067 100644
+--- a/drivers/net/wan/lapbether.c
++++ b/drivers/net/wan/lapbether.c
+@@ -51,6 +51,8 @@ struct lapbethdev {
+ 	struct list_head	node;
+ 	struct net_device	*ethdev;	/* link to ethernet device */
+ 	struct net_device	*axdev;		/* lapbeth device (lapb#) */
++	struct sk_buff_head	rx_queue;
++	struct napi_struct	napi;
+ };
  
--        https://www.kernel.org/pub/software/scm/git/docs/user-manual.html
-+  https://www.kernel.org/pub/software/scm/git/docs/user-manual.html
+ static LIST_HEAD(lapbeth_devices);
+@@ -81,6 +83,25 @@ static __inline__ int dev_is_ethdev(struct net_device *dev)
  
- 结论
- ====
+ /* ------------------------------------------------------------------------ */
  
--祝贺所有通过这篇冗长的文件的人。希望它能够帮助您理解Linux内核是如何开发的，
-+祝贺所有通过这篇冗长的文档的人。希望它能够帮助您理解Linux内核是如何开发的，
- 以及您如何参与这个过程。
++static int lapbeth_napi_poll(struct napi_struct *napi, int budget)
++{
++	struct lapbethdev *lapbeth = container_of(napi, struct lapbethdev, napi);
++	struct sk_buff *skb;
++	int processed = 0;
++
++	for (; processed < budget; ++processed) {
++		skb = skb_dequeue(&lapbeth->rx_queue);
++		if (!skb)
++			break;
++		netif_receive_skb_core(skb);
++	}
++
++	if (processed < budget)
++		napi_complete(napi);
++
++	return processed;
++}
++
+ /*
+  *	Receive a LAPB frame via an ethernet interface.
+  */
+@@ -129,6 +150,7 @@ static int lapbeth_rcv(struct sk_buff *skb, struct net_device *dev, struct packe
  
--最后，重要的是参与。任何开源软件项目都不超过其贡献者投入其中的总和。Linux内核
--的发展速度和以前一样快，因为它得到了大量开发人员的帮助，他们都在努力使它变得
--更好。内核是一个主要的例子，说明当成千上万的人为了一个共同的目标一起工作时，
--可以做些什么。
-+最后，重要的是参与。任何开源软件项目都不会超过其贡献者投入其中的总和。Linux
-+内核的发展速度和以前一样快，因为它得到了大量开发人员的帮助，他们都在努力使它
-+变得更好。内核是一个最成功的例子，说明了当成千上万的人为了一个共同的目标一起
-+工作时，可以做出什么。
+ static int lapbeth_data_indication(struct net_device *dev, struct sk_buff *skb)
+ {
++	struct lapbethdev *lapbeth = netdev_priv(dev);
+ 	unsigned char *ptr;
  
--不过，内核总是可以从更大的开发人员基础中获益。总有更多的工作要做。但是，同样
-+不过，内核总是可以从更大的开发人员基础中获益。总有更多的工作要做。但是同样
- 重要的是，Linux生态系统中的大多数其他参与者可以通过为内核做出贡献而受益。使
- 代码进入主线是提高代码质量、降低维护和分发成本、提高对内核开发方向的影响程度
--等的关键。这是一种人人都赢的局面。踢开你的编辑，来加入我们吧，你会非常受
--欢迎的。
-+等的关键。这是一种共赢的局面。启动你的编辑器，来加入我们吧；你会非常受欢迎的。
+ 	if (skb_cow(skb, 1)) {
+@@ -142,7 +164,10 @@ static int lapbeth_data_indication(struct net_device *dev, struct sk_buff *skb)
+ 	*ptr = X25_IFACE_DATA;
+ 
+ 	skb->protocol = x25_type_trans(skb, dev);
+-	return netif_rx(skb);
++
++	skb_queue_tail(&lapbeth->rx_queue, skb);
++	napi_schedule(&lapbeth->napi);
++	return NET_RX_SUCCESS;
+ }
+ 
+ /*
+@@ -228,6 +253,7 @@ static void lapbeth_data_transmit(struct net_device *ndev, struct sk_buff *skb)
+ 
+ static void lapbeth_connected(struct net_device *dev, int reason)
+ {
++	struct lapbethdev *lapbeth = netdev_priv(dev);
+ 	unsigned char *ptr;
+ 	struct sk_buff *skb = dev_alloc_skb(1);
+ 
+@@ -240,11 +266,14 @@ static void lapbeth_connected(struct net_device *dev, int reason)
+ 	*ptr = X25_IFACE_CONNECT;
+ 
+ 	skb->protocol = x25_type_trans(skb, dev);
+-	netif_rx(skb);
++
++	skb_queue_tail(&lapbeth->rx_queue, skb);
++	napi_schedule(&lapbeth->napi);
+ }
+ 
+ static void lapbeth_disconnected(struct net_device *dev, int reason)
+ {
++	struct lapbethdev *lapbeth = netdev_priv(dev);
+ 	unsigned char *ptr;
+ 	struct sk_buff *skb = dev_alloc_skb(1);
+ 
+@@ -257,7 +286,9 @@ static void lapbeth_disconnected(struct net_device *dev, int reason)
+ 	*ptr = X25_IFACE_DISCONNECT;
+ 
+ 	skb->protocol = x25_type_trans(skb, dev);
+-	netif_rx(skb);
++
++	skb_queue_tail(&lapbeth->rx_queue, skb);
++	napi_schedule(&lapbeth->napi);
+ }
+ 
+ /*
+@@ -285,8 +316,11 @@ static const struct lapb_register_struct lapbeth_callbacks = {
+  */
+ static int lapbeth_open(struct net_device *dev)
+ {
++	struct lapbethdev *lapbeth = netdev_priv(dev);
+ 	int err;
+ 
++	napi_enable(&lapbeth->napi);
++
+ 	if ((err = lapb_register(dev, &lapbeth_callbacks)) != LAPB_OK) {
+ 		pr_err("lapb_register error: %d\n", err);
+ 		return -ENODEV;
+@@ -298,6 +332,7 @@ static int lapbeth_open(struct net_device *dev)
+ 
+ static int lapbeth_close(struct net_device *dev)
+ {
++	struct lapbethdev *lapbeth = netdev_priv(dev);
+ 	int err;
+ 
+ 	netif_stop_queue(dev);
+@@ -305,6 +340,8 @@ static int lapbeth_close(struct net_device *dev)
+ 	if ((err = lapb_unregister(dev)) != LAPB_OK)
+ 		pr_err("lapb_unregister error: %d\n", err);
+ 
++	napi_disable(&lapbeth->napi);
++
+ 	return 0;
+ }
+ 
+@@ -359,6 +396,9 @@ static int lapbeth_new_device(struct net_device *dev)
+ 	dev_hold(dev);
+ 	lapbeth->ethdev = dev;
+ 
++	skb_queue_head_init(&lapbeth->rx_queue);
++	netif_napi_add(ndev, &lapbeth->napi, lapbeth_napi_poll, 16);
++
+ 	rc = -EIO;
+ 	if (register_netdevice(ndev))
+ 		goto fail;
 -- 
-2.20.1
+2.27.0
 
