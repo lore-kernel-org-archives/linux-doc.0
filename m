@@ -2,125 +2,337 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F421C433DB
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 13:38:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1526C433E9
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 13:39:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3F2EB64FEB
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 13:38:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AEF3365016
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 13:39:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229558AbhCENhu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Mar 2021 08:37:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51448 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbhCENhd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 08:37:33 -0500
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A02FC061574;
-        Fri,  5 Mar 2021 05:37:33 -0800 (PST)
-Received: by mail-qv1-xf34.google.com with SMTP id t1so949332qvj.8;
-        Fri, 05 Mar 2021 05:37:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=LwsrFzohnzRe7vAxMPzw3U20E6cJaV+VWlq/m8eueqc=;
-        b=XtHpCkSi4lp+srcQKkn60e9DPRnVH/TMXETrmyYdk2xveEN6YNHiC7Lf81aKMlIS7l
-         Xxubmyh8bqJ4fR0UH8o8yiLZ3S8lo7zEC8vHNMBqJggTsLAaDpoQm8LmlPIVYQmaC74i
-         2kUPj5igizpc3VXiwW+gUCWihwsZfwrOrC9SG0vu5IEyvY1KN+Il6KBcukT+Qq89cvoZ
-         ickZDrqH/UNs4ItdV2RK5BhKyd+U0z2UfiA+YpprH2rQQGwmZHTjccFZgSkGTqS1oaVm
-         vLWuEIP7w/kY6YUiwF07fZRzSDgMRVfhe98/w/X6de+XuotV2ADNLHHy6ev3vtnOAIuz
-         nFww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=LwsrFzohnzRe7vAxMPzw3U20E6cJaV+VWlq/m8eueqc=;
-        b=CzVmVEAvLV10MnQsFFY1WfUjsLv0U54rFCIfOAeas/h/oWYkYjEV9vftemzfjK7ZtZ
-         7XbDuyhp8ujXCh1I3ZWW5n3XegzLsmKzrc1gWONsi1tYzeTE/po6FyyP4EwJucEn7sUx
-         1b6M9RoNNMwZQglcSLOc0NfuFAhMzD5q1AiUFByucwdmmsIZ7m3AuYlbqe0f7lAJH9sk
-         Ija9+ZFst8TZw9UhzgYldesfh3PELNYHvrK0H8kZBVMiAtUsElnmup1HVYYhk0SPyrdQ
-         nL8yj93fRbmyj4sITy2tEZJMEJ11h9iQgmPFHdXmzEfQ/06ogd/sDjTKYzp1XH/R9i0n
-         KhWQ==
-X-Gm-Message-State: AOAM532NzUN+JPZVuCza/pW2BULwkHY5PgotD5m+XYMoIZ4iyiV65VHM
-        69c6FvxIw5a97z0NDae0mZeFTw4HG32IesZ2
-X-Google-Smtp-Source: ABdhPJzNdyZyRy5a6QwQBSrKoOcg39Xy9cLTipvlQaRsNtI323ZzQpQyn7UTlsD9RVrvydgaE/1N/w==
-X-Received: by 2002:a05:6214:4b3:: with SMTP id w19mr9011696qvz.26.1614951452695;
-        Fri, 05 Mar 2021 05:37:32 -0800 (PST)
-Received: from Gentoo ([156.146.55.96])
-        by smtp.gmail.com with ESMTPSA id q186sm1747376qka.56.2021.03.05.05.37.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 05:37:31 -0800 (PST)
-Date:   Fri, 5 Mar 2021 19:07:21 +0530
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     jpoimboe@redhat.com, jikos@kernel.org, mbenes@suse.cz,
-        pmladek@suse.com, joe.lawrence@redhat.com, corbet@lwn.net,
-        live-patching@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rdunlap@infradead.org
-Subject: Re: [PATCH V2] docs: livepatch: Fix a typo and remove the
- unnecessary gaps in a sentence
-Message-ID: <YEI0EcR5G53IoYzb@Gentoo>
-Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        Matthew Wilcox <willy@infradead.org>, jpoimboe@redhat.com,
-        jikos@kernel.org, mbenes@suse.cz, pmladek@suse.com,
-        joe.lawrence@redhat.com, corbet@lwn.net,
-        live-patching@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rdunlap@infradead.org
-References: <20210305100923.3731-1-unixbhaskar@gmail.com>
- <20210305125600.GM2723601@casper.infradead.org>
+        id S230372AbhCENj1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Mar 2021 08:39:27 -0500
+Received: from foss.arm.com ([217.140.110.172]:54326 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230472AbhCENjX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Mar 2021 08:39:23 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CB28931B;
+        Fri,  5 Mar 2021 05:39:22 -0800 (PST)
+Received: from [10.57.51.235] (unknown [10.57.51.235])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 520F93F73B;
+        Fri,  5 Mar 2021 05:39:20 -0800 (PST)
+Subject: Re: [PATCH v4 08/10] coresight: config: Add preloaded configurations
+To:     Mike Leach <mike.leach@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        mathieu.poirier@linaro.org, linux-doc@vger.kernel.org
+Cc:     yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
+        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+References: <20210128170936.9222-1-mike.leach@linaro.org>
+ <20210128170936.9222-9-mike.leach@linaro.org>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+Message-ID: <e8609532-547f-b728-453c-c6e930c049f7@arm.com>
+Date:   Fri, 5 Mar 2021 13:39:17 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="GVj6pdslL7ULm4+q"
-Content-Disposition: inline
-In-Reply-To: <20210305125600.GM2723601@casper.infradead.org>
+In-Reply-To: <20210128170936.9222-9-mike.leach@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 1/28/21 5:09 PM, Mike Leach wrote:
+> Preload set of configurations.
+> 
+> This patch creates a small set of preloaded configurations and features
+> that are available immediately after coresight has been initialised.
+> 
+> The current set provides a strobing feature for ETMv4, that creates a
+> periodic sampling of trace by switching trace generation on and off
+> using counters in the ETM.
+> 
+> A configuration called "autofdo" is also provided that uses the 'strobing'
+> feature and provides a couple of preset values, selectable on the perf
+> command line.
+> 
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> ---
+>   drivers/hwtracing/coresight/Makefile          |   3 +-
+>   .../hwtracing/coresight/coresight-cfg-afdo.c  | 154 ++++++++++++++++++
+>   .../coresight/coresight-cfg-preload.c         |  25 +++
+>   .../coresight/coresight-cfg-preload.h         |  11 ++
+>   drivers/hwtracing/coresight/coresight-core.c  |   6 +
+>   .../hwtracing/coresight/coresight-syscfg.h    |   1 +
+>   6 files changed, 199 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/hwtracing/coresight/coresight-cfg-afdo.c
+>   create mode 100644 drivers/hwtracing/coresight/coresight-cfg-preload.c
+>   create mode 100644 drivers/hwtracing/coresight/coresight-cfg-preload.h
+> 
+> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
+> index ea544206204d..2707bfef1b76 100644
+> --- a/drivers/hwtracing/coresight/Makefile
+> +++ b/drivers/hwtracing/coresight/Makefile
+> @@ -4,7 +4,8 @@
+>   #
+>   obj-$(CONFIG_CORESIGHT) += coresight.o
+>   coresight-y := coresight-core.o  coresight-etm-perf.o coresight-platform.o \
+> -		coresight-sysfs.o coresight-syscfg.o coresight-config.o
+> +		coresight-sysfs.o coresight-syscfg.o coresight-config.o \
+> +		coresight-cfg-preload.o coresight-cfg-afdo.o
+>   obj-$(CONFIG_CORESIGHT_LINK_AND_SINK_TMC) += coresight-tmc.o
+>   coresight-tmc-y := coresight-tmc-core.o coresight-tmc-etf.o \
+>   		      coresight-tmc-etr.o
+> diff --git a/drivers/hwtracing/coresight/coresight-cfg-afdo.c b/drivers/hwtracing/coresight/coresight-cfg-afdo.c
+> new file mode 100644
+> index 000000000000..ff69fb3f4434
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-cfg-afdo.c
+> @@ -0,0 +1,154 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright(C) 2020 Linaro Limited. All rights reserved.
+> + * Author: Mike Leach <mike.leach@linaro.org>
+> + */
+> +
+> +#include "coresight-config.h"
+> +#include "coresight-etm4x-cfg.h"
+> +
+> +/* preload configurations and features */
+> +
+> +/* preload in features for ETMv4 */
+> +
+> +/* strobe feature */
+> +static struct cscfg_parameter_desc strobe_params[] = {
+> +	{
+> +		.name = "window",
+> +		.value = 5000,
+> +	},
+> +	{
+> +		.name = "period",
+> +		.value = 10000,
+> +	},
+> +};
+> +
+> +static struct cscfg_regval_desc strobe_regs[] = {
+> +	/* resource selectors */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCRSCTLRn(2),
+> +		.hw_info = ETM4_CFG_RES_SEL,
+> +		.val32 = 0x20001,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCRSCTLRn(3),
+> +		.hw_info = ETM4_CFG_RES_SEQ,
+> +		.val32 = 0x20002,
+> +	},
+> +	/* strobe window counter 0 - reload from param 0 */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE | CS_CFG_REG_TYPE_VAL_SAVE,
+> +		.offset = TRCCNTVRn(0),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE | CS_CFG_REG_TYPE_VAL_PARAM,
+> +		.offset = TRCCNTRLDVRn(0),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +		.val32 = 0,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCCNTCTLRn(0),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +		.val32 = 0x10001,
+> +	},
+> +	/* strobe period counter 1 - reload from param 1 */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE | CS_CFG_REG_TYPE_VAL_SAVE,
+> +		.offset = TRCCNTVRn(1),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE | CS_CFG_REG_TYPE_VAL_PARAM,
+> +		.offset = TRCCNTRLDVRn(1),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +		.val32 = 1,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCCNTCTLRn(1),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +		.val32 = 0x8102,
+> +	},
+> +	/* sequencer */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCSEQEVRn(0),
+> +		.hw_info = ETM4_CFG_RES_SEQ,
+> +		.val32 = 0x0081,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCSEQEVRn(1),
+> +		.hw_info = ETM4_CFG_RES_SEQ,
+> +		.val32 = 0x0000,
+> +	},
+> +	/* view-inst */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_STD | CS_CFG_REG_TYPE_VAL_MASK,
+> +		.offset = TRCVICTLR,
+> +		.val32 = 0x0003,
+> +		.mask32 = 0x0003,
+> +	},
+> +	/* end of regs */
+> +};
+> +
+> +struct cscfg_feature_desc strobe = {
+> +	.name = "strobing",
+> +	.brief = "Generate periodic trace capture windows.\n"
+> +	"parameter \'window\': a number of CPU cycles (W)\n"
+> +	"parameter \'period\': trace enabled for W cycles every period x W cycles\n",
 
---GVj6pdslL7ULm4+q
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
+nit: Could we align the string as below:
 
-On 12:56 Fri 05 Mar 2021, Matthew Wilcox wrote:
->On Fri, Mar 05, 2021 at 03:39:23PM +0530, Bhaskar Chowdhury wrote:
->> s/varibles/variables/
->>
->> ...and remove leading spaces from a sentence.
->
->What do you mean 'leading spaces'?  Separating two sentences with
->one space or two is a matter of personal style, and we do not attempt
->to enforce a particular style in the kernel.
->
-The spaces before the "In" .. nor I am imposing anything , it was peter caught
-and told me that it is hanging ..move it to the next line ..so I did. ..
+	.brief = "Generate periodic trace capture windows.\n"
+		 "parameter \'window\': a number of CPU cycles (W)\n"
+		 "parameter \'period\': trace enabled for W cycles every period x W cycles\n",
 
->>  Sometimes it may not be convenient or possible to allocate shadow
->>  variables alongside their parent objects.  Or a livepatch fix may
->> -require shadow varibles to only a subset of parent object instances.  In
->> +require shadow variables to only a subset of parent object instances.
->
->wrong preposition, s/to/for/    ..where???
+> +	.match_flags = CS_CFG_MATCH_CLASS_SRC_ETM4,
+> +	.nr_params = ARRAY_SIZE(strobe_params),
+> +	.params = strobe_params,
+> +	.nr_regs = ARRAY_SIZE(strobe_regs),
+> +	.regs = strobe_regs,
+> +};
+> +
+> +/* create an autofdo configuration */
+> +
+> +/* we will provide 9 sets of preset parameter values */
+> +#define AFDO_NR_PRESETS		9
+> +/* the total number of parameters in used features */
+> +#define AFDO_NR_PARAM_SUM	ARRAY_SIZE(strobe_params)
 
---GVj6pdslL7ULm4+q
-Content-Type: application/pgp-signature; name="signature.asc"
+nit: alignment consistency. i.e 1 TAB vs 2 TABs (with AFDO_NR_PRESETS)
 
------BEGIN PGP SIGNATURE-----
+minor nit : s/AFDO_NR_PARAM_SUM/AFDO_NR_TOTAL_PARAMS ? or even AFDO_NR_PARAMS
 
-iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmBCNBEACgkQsjqdtxFL
-KRUFLwf/XUiahJFH73wCx6qfXmiUUfsDymNYIWhrHadm87kHCGHScYOuvpRJN+mP
-deG6Z2zHXKf4rKHb3W+Pi9UHfTbYSjrglMa38szNPsd2DY1bCSibFO5PsHZOx3Hi
-LahtF6tmHFVCUOGilUTO2K8HGwqBGO5ua3F5iOebeIcQLrnuXvpd9TRC4R91Y0kO
-+U+wcQm9aHr8g1ztNsrEmM8JWPbPiW8I/qfxN5eHB8B4b2tv2pVvjsMrWyQr/rn7
-jdqFofhO6zTy50eygKuzF3L/sGzCpxfBZmW4YtwlT1N7Z3+Eb2P1BWDz9Isi+Bio
-19C9W3ocg0o2pRFiMQ073nIO+cShWg==
-=n4rW
------END PGP SIGNATURE-----
+> +
+> +#define AFDO_MATCH_STROBING (CS_CFG_MATCH_INST_ANY | CS_CFG_MATCH_CLASS_SRC_ETM4)
+> +
+> +static struct cscfg_config_feat_ref afdo_refs[] = {
+> +	{
+> +		.name = "strobing",
+> +		.match = {
+> +			.match_flags = AFDO_MATCH_STROBING,
+> +		},
+> +	},
+> +};
+> +
+> +/*
+> + * set of presets leaves strobing window constant while varying period to allow
+> + * experimentation with mark / space ratios for various workloads
+> + */
+> +static u64 afdo_presets[AFDO_NR_PRESETS][AFDO_NR_PARAM_SUM] = {
+> +	{ 5000, 2 },
+> +	{ 5000, 4 },
+> +	{ 5000, 8 },
+> +	{ 5000, 16 },
+> +	{ 5000, 64 },
+> +	{ 5000, 128 },
+> +	{ 5000, 512 },
+> +	{ 5000, 1024 },
+> +	{ 5000, 4096 },
+> +};
+> +
+> +struct cscfg_config_desc afdo = {
+> +	.name = "autofdo",
+> +	.brief = "Setup ETMs with strobing for autofdo\n"
+> +	"Supplied presets allow experimentation with mark-space ratio for various loads\n",
 
---GVj6pdslL7ULm4+q--
+Same alignment comments as above
+
+> +	.nr_refs = ARRAY_SIZE(afdo_refs),
+> +	.refs = afdo_refs,
+> +	.nr_presets = AFDO_NR_PRESETS,
+> +	.nr_total_params = AFDO_NR_PARAM_SUM,
+> +	.presets = &afdo_presets[0][0],
+> +};
+> diff --git a/drivers/hwtracing/coresight/coresight-cfg-preload.c b/drivers/hwtracing/coresight/coresight-cfg-preload.c
+> new file mode 100644
+> index 000000000000..c7ec5cbdd990
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-cfg-preload.c
+> @@ -0,0 +1,25 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright(C) 2020 Linaro Limited. All rights reserved.
+> + * Author: Mike Leach <mike.leach@linaro.org>
+
+One line on the brief of the files purpose is helpful.
+
+> + */
+> +
+> +#include "coresight-cfg-preload.h"
+> +#include "coresight-config.h"
+> +#include "coresight-syscfg.h"
+> +
+> +static struct cscfg_feature_desc *preload_feats[] = {
+> +	&strobe,
+> +	0
+> +};
+> +
+> +static struct cscfg_config_desc *preload_cfgs[] = {
+> +	&afdo,
+> +	0
+> +};
+> +
+> +/* preload called with mutex locked */
+> +int cscfg_preload(void)
+> +{
+> +	return cscfg_load_config_sets(preload_cfgs, preload_feats);
+> +}
+> diff --git a/drivers/hwtracing/coresight/coresight-cfg-preload.h b/drivers/hwtracing/coresight/coresight-cfg-preload.h
+> new file mode 100644
+> index 000000000000..fc4ac7faa93d
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-cfg-preload.h
+> @@ -0,0 +1,11 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright(C) 2020 Linaro Limited. All rights reserved.
+> + * Author: Mike Leach <mike.leach@linaro.org>
+> + */
+> +
+> +/* declare preloaded configurations and features */
+> +
+> +/* from coresight-cfg-afdo.c */
+> +extern struct cscfg_feature_desc strobe;
+> +extern struct cscfg_config_desc afdo;
+> diff --git a/drivers/hwtracing/coresight/coresight-core.c b/drivers/hwtracing/coresight/coresight-core.c
+> index 6bd41de46648..633ddcffc6c7 100644
+> --- a/drivers/hwtracing/coresight/coresight-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-core.c
+> @@ -1744,9 +1744,15 @@ static int __init coresight_init(void)
+>   
+>   	/* initialise the coresight syscfg API */
+>   	ret = cscfg_init();
+> +	if (ret)
+> +		goto exit_perf_close;
+> +
+> +	/* preload builtin configurations */
+> +	ret = cscfg_preload();
+>   	if (!ret)
+>   		return 0;
+
+Could this be folded into cscfg_init() ?
+
+Otherwise looks fine to me
+
+Suzuki
