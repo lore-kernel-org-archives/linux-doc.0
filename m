@@ -2,106 +2,318 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB6B6C43381
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:17:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B5F7C433E6
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:19:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A29A06146D
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:17:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D2B064F44
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:19:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229836AbhCEKQw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Mar 2021 05:16:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36608 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229848AbhCEKQk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 05:16:40 -0500
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D81C06175F
-        for <linux-doc@vger.kernel.org>; Fri,  5 Mar 2021 02:16:39 -0800 (PST)
-Received: by mail-lj1-x22a.google.com with SMTP id e2so2039957ljo.7
-        for <linux-doc@vger.kernel.org>; Fri, 05 Mar 2021 02:16:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qbH2XnLnL+zeqgwenkERgBp6OdMalagNgmjddUY2upo=;
-        b=oosQD1k0ihuNWvZd/OBh3mc8nkdjesc2ilrBKyxU54uLyH7RvMV3qxaKGuxGmyTP9w
-         7caTG2bAlHb4RIuwWBoXXdwLHI1wuF1UhzSYqvKKVuPJo2A4M4tpwRjXeJj+xZVUonDX
-         UdSpwPE1UpnxNlqFw+lq4Gu6zhZBXm/vANy7gThzJHkn3fTMng4OD0VcMKLNGAbJ8n7Z
-         W0DkubhzB0Y3TdGjmmV7fLpOP0x3K5jmP4uOJi8LKa53fUQqinUuitoq9vPbc6ObUogr
-         0YzEgMGg0uCnBgL74LwDVEecmp+20X7oEJNr4U+Q+ONNvPT2dwJ+XUWBfEzrflscGCAS
-         3YRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qbH2XnLnL+zeqgwenkERgBp6OdMalagNgmjddUY2upo=;
-        b=iXYR8omfS4T8DAhATP8CHGCW5B++Aft3R7CXNnsNoAmhOv7z7uT6BvVpYzhlEiY28R
-         9xbfKZcOHGu8dJlxaHj29oxSOOBejXF6vNVOqy8b44sJ1iyd97G/Bxfir/S+qpU3DHAl
-         371Ys5Fml29B5xjCOKJvXrWmUk1vGrSqkxc1nuJ6Eo9ZymGr2oSyIED5XjghyvsQtZ5y
-         TyequtEkfuJdme5DafnPXTYYTE4dCnzW/kOvwQcJaR2V1gqEuT+Q/m5D3bl7LFummwDO
-         i0zV1bL1T0PhihfWjMfXS3DojdLQYahM9GHaIl+27tK25zmCqyVXMmg2zqMy/ESd0aeb
-         3OPA==
-X-Gm-Message-State: AOAM530k7tvGMr25u9buncAAoHjM1pabxmNOrVUZyySHK945La57Bwag
-        8rPD+dPNwdu4jEMXd/hAdPr3BHaAK6O17y6vUjDQFA==
-X-Google-Smtp-Source: ABdhPJxEx/lpierUGPxwT0L2+ZEtm4VbumUeVdUGn8v87RY30yCJpt4gIIgfdrlbQP0GGfAVxM0ky6MFjfiSwQhsyRg=
-X-Received: by 2002:a2e:1649:: with SMTP id 9mr4991292ljw.74.1614939398241;
- Fri, 05 Mar 2021 02:16:38 -0800 (PST)
+        id S229520AbhCEKS1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Mar 2021 05:18:27 -0500
+Received: from foss.arm.com ([217.140.110.172]:51038 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229551AbhCEKSU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Mar 2021 05:18:20 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 892E3101E;
+        Fri,  5 Mar 2021 02:18:19 -0800 (PST)
+Received: from [10.57.63.81] (unknown [10.57.63.81])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B9E273F7D7;
+        Fri,  5 Mar 2021 02:18:16 -0800 (PST)
+Subject: Re: [PATCH v4 07/10] coresight: etm4x: Add complex configuration
+ handlers to etmv4
+To:     Mike Leach <mike.leach@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        mathieu.poirier@linaro.org, linux-doc@vger.kernel.org
+Cc:     yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
+        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+References: <20210128170936.9222-1-mike.leach@linaro.org>
+ <20210128170936.9222-8-mike.leach@linaro.org>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+Message-ID: <a82fe115-69b2-9b90-ed28-b75248811343@arm.com>
+Date:   Fri, 5 Mar 2021 10:18:13 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-4-marcan@marcan.st>
-In-Reply-To: <20210304213902.83903-4-marcan@marcan.st>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Fri, 5 Mar 2021 11:16:26 +0100
-Message-ID: <CACRpkdbrEch04BFE+suqmmUHtgHrRBoUtS4_cv8gackqbDYoQQ@mail.gmail.com>
-Subject: Re: [RFT PATCH v3 03/27] dt-bindings: arm: apple: Add bindings for
- Apple ARM platforms
-To:     Hector Martin <marcan@marcan.st>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210128170936.9222-8-mike.leach@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 4, 2021 at 10:39 PM Hector Martin <marcan@marcan.st> wrote:
+On 1/28/21 5:09 PM, Mike Leach wrote:
+> Adds in handlers to allow the ETMv4 to use the complex configuration
+> support. Features and configurations can be loaded and selected in the
+> device.
+> 
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> ---
+>   drivers/hwtracing/coresight/Makefile          |   3 +-
+>   .../hwtracing/coresight/coresight-etm4x-cfg.c | 184 ++++++++++++++++++
+>   .../hwtracing/coresight/coresight-etm4x-cfg.h |  29 +++
+>   .../coresight/coresight-etm4x-core.c          |  38 +++-
+>   .../coresight/coresight-etm4x-sysfs.c         |   3 +
+>   5 files changed, 254 insertions(+), 3 deletions(-)
+>   create mode 100644 drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+>   create mode 100644 drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+> 
+> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
+> index daad9f103a78..ea544206204d 100644
+> --- a/drivers/hwtracing/coresight/Makefile
+> +++ b/drivers/hwtracing/coresight/Makefile
+> @@ -16,7 +16,8 @@ obj-$(CONFIG_CORESIGHT_SOURCE_ETM3X) += coresight-etm3x.o
+>   coresight-etm3x-y := coresight-etm3x-core.o coresight-etm-cp14.o \
+>   		     coresight-etm3x-sysfs.o
+>   obj-$(CONFIG_CORESIGHT_SOURCE_ETM4X) += coresight-etm4x.o
+> -coresight-etm4x-y := coresight-etm4x-core.o coresight-etm4x-sysfs.o
+> +coresight-etm4x-y := coresight-etm4x-core.o coresight-etm4x-sysfs.o \
+> +			coresight-etm4x-cfg.o
+>   obj-$(CONFIG_CORESIGHT_STM) += coresight-stm.o
+>   obj-$(CONFIG_CORESIGHT_CPU_DEBUG) += coresight-cpu-debug.o
+>   obj-$(CONFIG_CORESIGHT_CATU) += coresight-catu.o
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> new file mode 100644
+> index 000000000000..f237a8d02360
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> @@ -0,0 +1,184 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright(C) 2020 Linaro Limited. All rights reserved.
+> + * Author: Mike Leach <mike.leach@linaro.org>
+> + */
+> +
+> +#include "coresight-etm4x.h"
+> +#include "coresight-etm4x-cfg.h"
+> +#include "coresight-priv.h"
+> +#include "coresight-syscfg.h"
+> +
+> +/**
+> + * etm4_cfg_map_reg_offset - validate and map the register offset into a
+> + *			     location in the driver config struct.
+> + *
+> + * Limits the number of registers that can be accessed and programmed in
+> + * features, to those which are used to control the trace capture parameters.
+> + *
+> + * Omits or limits access to those which the driver must use exclusively.
+> + *
+> + * Invalid offsets will result in fail code return and feature load failure.
+> + *
+> + * @drvdata:	driver data to map into.
+> + * @reg:	register to map.
+> + * @offset:	device offset for the register
+> + */
+> +static int etm4_cfg_map_reg_offset(struct etmv4_drvdata *drvdata,
+> +				   struct cscfg_reg_csdev *reg, u32 offset)
+> +{
+> +	int err = -EINVAL, idx;
+> +	struct etmv4_config *drvcfg = &drvdata->config;
+> +	u32 off_mask;
+> +
+> +#define CHECKREG(cval, elem) \
+> +	{ \
+> +		if (offset == cval) { \
+> +			reg->drv_store = &drvcfg->elem; \
+> +			err = 0; \
+> +			break; \
+> +		} \
+> +	}
+> +
+> +#define CHECKREGIDX(cval, elem, off_idx, mask)	\
+> +	{ \
+> +		if (mask == cval) { \
+> +			reg->drv_store = &drvcfg->elem[off_idx]; \
+> +			err = 0; \
+> +			break; \
+> +		} \
+> +	}
+> +
 
-> This introduces bindings for all three 2020 Apple M1 devices:
->
-> * apple,j274 - Mac mini (M1, 2020)
-> * apple,j293 - MacBook Pro (13-inch, M1, 2020)
-> * apple,j313 - MacBook Air (M1, 2020)
->
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+I think we can live with switch-case, ignoring the Warnings generated by the
+checkpatch, making the code much more readable and less error prone.
 
-This way of specifying the SoC makes sense to me.
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Otherwise, please could you move the above macro definitions to the top,
+outside this function ?
 
-Yours,
-Linus Walleij
+> +	if (((offset >= TRCEVENTCTL0R) && (offset <= TRCVIPCSSCTLR)) ||
+> +	    ((offset >= TRCSEQRSTEVR) && (offset <= TRCEXTINSELR)) ||
+> +	    ((offset >= TRCCIDCCTLR0) && (offset <= TRCVMIDCCTLR1))) {
+> +		do {
+> +			CHECKREG(TRCEVENTCTL0R, eventctrl0);
+> +			CHECKREG(TRCEVENTCTL1R, eventctrl1);
+> +			CHECKREG(TRCSTALLCTLR, stall_ctrl);
+> +			CHECKREG(TRCTSCTLR, ts_ctrl);
+> +			CHECKREG(TRCSYNCPR, syncfreq);
+> +			CHECKREG(TRCCCCTLR, ccctlr);
+> +			CHECKREG(TRCBBCTLR, bb_ctrl);
+> +			CHECKREG(TRCVICTLR, vinst_ctrl);
+> +			CHECKREG(TRCVIIECTLR, viiectlr);
+> +			CHECKREG(TRCVISSCTLR, vissctlr);
+> +			CHECKREG(TRCVIPCSSCTLR, vipcssctlr);
+> +			CHECKREG(TRCSEQRSTEVR, seq_rst);
+> +			CHECKREG(TRCSEQSTR, seq_state);
+> +			CHECKREG(TRCEXTINSELR, ext_inp);
+> +			CHECKREG(TRCCIDCCTLR0, ctxid_mask0);
+> +			CHECKREG(TRCCIDCCTLR1, ctxid_mask1);
+> +			CHECKREG(TRCVMIDCCTLR0, vmid_mask0);
+> +			CHECKREG(TRCVMIDCCTLR1, vmid_mask1);
+> +		} while (0);
+> +	} else if ((offset & GENMASK(11, 4)) == TRCSEQEVRn(0)) {
+> +		/* sequencer state control registers */
+> +		idx = (offset & GENMASK(3, 0)) / 4;
+> +		if (idx < ETM_MAX_SEQ_STATES) {
+> +			reg->drv_store = &drvcfg->seq_ctrl[idx];
+> +			err = 0;
+> +		}
+> +	} else if ((offset >= TRCSSCCRn(0)) && (offset <= TRCSSPCICRn(7))) {
+> +		/* 32 bit, 8 off indexed register sets */
+> +		idx = (offset & GENMASK(4, 0)) / 4;
+> +		off_mask =  (offset & GENMASK(11, 5));
+> +		do {
+> +			CHECKREGIDX(TRCSSCCRn(0), ss_ctrl, idx, off_mask);
+> +			CHECKREGIDX(TRCSSCSRn(0), ss_status, idx, off_mask);
+> +			CHECKREGIDX(TRCSSPCICRn(0), ss_pe_cmp, idx, off_mask);
+> +		} while (0);
+> +	} else if ((offset >= TRCCIDCVRn(0)) && (offset <= TRCVMIDCVRn(7))) {
+> +		/* 64 bit, 8 off indexed register sets */
+> +		idx = (offset & GENMASK(5, 0)) / 8;
+> +		off_mask = (offset & GENMASK(11, 6));
+> +		do {
+> +			CHECKREGIDX(TRCCIDCVRn(0), ctxid_pid, idx, off_mask);
+> +			CHECKREGIDX(TRCVMIDCVRn(0), vmid_val, idx, off_mask);
+> +		} while (0);
+> +	} else if ((offset >= TRCRSCTLRn(2)) &&
+> +		   (offset <= TRCRSCTLRn((ETM_MAX_RES_SEL - 1)))) {
+> +		/* 32 bit resource selection regs, 32 off, skip fixed 0,1 */
+> +		idx = (offset & GENMASK(6, 0)) / 4;
+> +		if (idx < ETM_MAX_RES_SEL) {
+> +			reg->drv_store = &drvcfg->res_ctrl[idx];
+> +			err = 0;
+> +		}
+> +	} else if ((offset >= TRCACVRn(0)) &&
+> +		   (offset <= TRCACATRn((ETM_MAX_SINGLE_ADDR_CMP - 1)))) {
+> +		/* 64 bit addr cmp regs, 16 off */
+> +		idx = (offset & GENMASK(6, 0)) / 8;
+> +		off_mask = offset & GENMASK(11, 7);
+> +		do {
+> +			CHECKREGIDX(TRCACVRn(0), addr_val, idx, off_mask);
+> +			CHECKREGIDX(TRCACATRn(0), addr_acc, idx, off_mask);
+
+What happens if the ETM doesn't have enough resources ? Do we fail the load
+here ? Or do we fail the activation during enabling the ETM ? Or do we assume
+all ETMs have the resources required for statically defined configs ?
+
+> +		} while (0);
+> +	} else if ((offset >= TRCCNTRLDVRn(0)) &&
+> +		   (offset <= TRCCNTVRn((ETMv4_MAX_CNTR - 1)))) {
+> +		/* 32 bit counter regs, 4 off (ETMv4_MAX_CNTR - 1) */
+> +		idx = (offset &  GENMASK(3, 0)) / 4;
+> +		off_mask = offset &  GENMASK(11, 4);
+> +		do {
+> +			CHECKREGIDX(TRCCNTRLDVRn(0), cntrldvr, idx, off_mask);
+> +			CHECKREGIDX(TRCCNTCTLRn(0), cntr_ctrl, idx, off_mask);
+> +			CHECKREGIDX(TRCCNTVRn(0), cntr_val, idx, off_mask);
+> +		} while (0);
+> +	}
+> +	return err;
+> +}
+> +
+> +/**
+> + * etm4_cfg_load_feature - load a feature into a device instance.
+> + *
+> + * @csdev:	An ETMv4 CoreSight device.
+> + * @feat:	The feature to be loaded.
+> + *
+> + * The function will load a feature instance into the device, checking that
+> + * the register definitions are valid for the device.
+> + *
+> + * Parameter and register definitions will be converted into internal
+> + * structures that are used to set the values in the driver when the
+> + * feature is enabled for the device.
+> + *
+> + * The feature spinlock pointer is initialised to the same spinlock
+> + * that the driver uses to protect the internal register values.
+> + */
+> +static int etm4_cfg_load_feature(struct coresight_device *csdev,
+> +				 struct cscfg_feature_csdev *feat)
+> +{
+> +	struct device *dev = csdev->dev.parent;
+> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev);
+> +	const struct cscfg_feature_desc *feat_desc = feat->desc;
+> +	u32 offset;
+> +	int i = 0, err = 0;
+> +
+> +	/*
+> +	 * essential we set the device spinlock - this is used in the generic
+> +	 * programming routines when copying values into the drvdata structures
+> +	 * via the pointers setup in etm4_cfg_map_reg_offset().
+> +	 */
+> +	feat->csdev_spinlock = &drvdata->spinlock;
+> +
+> +	/* process the register descriptions */
+> +	for (i = 0; i < feat->nr_regs && !err; i++) {
+> +		offset = feat_desc->regs[i].offset;
+> +		err = etm4_cfg_map_reg_offset(drvdata, &feat->regs[i], offset);
+> +	}
+> +	return err;
+> +}
+> +
+> +/* match information when loading configurations */
+> +#define CS_CFG_ETM4_MATCH_FLAGS	(CS_CFG_MATCH_CLASS_SRC_ALL | \
+> +					 CS_CFG_MATCH_CLASS_SRC_ETM4)
+> +
+> +int etm4_cscfg_register(struct coresight_device *csdev, const char *dev_name)
+> +{
+> +	struct cscfg_match_desc cfg_info;
+> +	struct cscfg_csdev_feat_ops ops;
+> +
+> +	cfg_info.match_flags = CS_CFG_ETM4_MATCH_FLAGS;
+> +
+> +	ops.load_feat = &etm4_cfg_load_feature;
+> +
+> +	return cscfg_register_csdev(csdev, &cfg_info, &ops);
+> +}
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.h b/drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+> new file mode 100644
+> index 000000000000..9e279c5da55d
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+> @@ -0,0 +1,29 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2014-2015, The Linux Foundation. All rights reserved.
+> + */
+> +
+> +#ifndef _CORESIGHT_CORESIGHT_ETM4X_CFG_H
+> +#define _CORESIGHT_CORESIGHT_ETM4X_CFG_H
+> +
+> +#include "coresight-config.h"
+> +#include "coresight-etm4x.h"
+> +
+> +/* ETMv4 specific config defines */
+> +
+> +/* resource IDs */
+> +
+> +#define ETM4_CFG_RES_CTR	0x001
+> +#define ETM4_CFG_RES_CMP	0x002
+> +#define ETM4_CFG_RES_CMP_PAIR0	0x003
+> +#define ETM4_CFG_RES_CMP_PAIR1	0x004
+> +#define ETM4_CFG_RES_SEL	0x005
+> +#define ETM4_CFG_RES_SEL_PAIR0	0x006
+> +#define ETM4_CFG_RES_SEL_PAIR1	0x007
+> +#define ETM4_CFG_RES_SEQ	0x008
+> +#define ETM4_CFG_RES_TS		0x009
+> +#define ETM4_CFG_RES_MASK	0x00F
+
+Where are these used ? Probably better to move it to the patch
+where they are actually used.
+
+Suzuki
