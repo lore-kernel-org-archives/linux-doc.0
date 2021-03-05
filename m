@@ -2,114 +2,184 @@ Return-Path: <SRS0=4QG0=ID=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22BF4C433E6
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 18:21:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1DDFC433E9
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 18:21:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E8E09650A4
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 18:20:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A40D464DF4
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 18:21:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229865AbhCESU1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Mar 2021 13:20:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55822 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229741AbhCESUK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 13:20:10 -0500
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08404C061574;
-        Fri,  5 Mar 2021 10:20:10 -0800 (PST)
-Received: by mail-pf1-x434.google.com with SMTP id 16so1204963pfn.5;
-        Fri, 05 Mar 2021 10:20:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=3CVrexvlnJ9koHqsw9KISnLFg3fxWfnmtiSsGGgZ+Gc=;
-        b=TlPYtjeJWQ1c3yJnKjXXITsVClv1F3kvPBiYsCoBCdz4D4EIpe/zbuA5XvPZFQXZSh
-         2peqSH/mV3qxpe/mLX/DCYLJed3J4Go8mocRrlP9KCkvAxjawMlXZ40vxIPUpX3IsN6u
-         f3rEt2iEvgKbE0362T8zKJGI4oMwQ61azL+jFF2heJkCujqJv6kQN9n/tlNnBJ6uyKQP
-         XUqXpEDaGJewbJu+ad80v8yG8gfNQxfUSQYgoUcwExwX+eFpJWngK7ICpGOcmFxRXUgq
-         XYqiMW8n2d5RWtYgrvQJxnxKBTft9Sds8zoy0GHmtD+5Z9jTFP8IyYORaJoR3EM+h6OP
-         p7rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=3CVrexvlnJ9koHqsw9KISnLFg3fxWfnmtiSsGGgZ+Gc=;
-        b=MEOR9cDnJp1xf0u+LNT/Yza5bxw95NoxFqwZVvKrNaozdxI3cR4qL5X5NBLa6DwLmS
-         7kG7yoUsL+G1HxTB3KEy74DFw9NTQKY8gMZklvhWWhVfOdlwbVNxGFFLT0kd9wSIltuZ
-         E8npB5PV1g78cuylWG4q03oyCEd+IC9JfnDbJE/1wfaGS3a2zlrNRplStIWO7ufll+7S
-         cd6LEzGCVgCqMZvfvV+uK6W44apj95T81dgjFCow0jpIdThvQSgSkmEeSs8g9LIJFI0x
-         nrvFcfhCfjUuyqHpcKwjKGU1i+Zsq4r3GYxe0TC/4ZGird+B3ojZ6kCgP81yEkoYNGVB
-         0pQg==
-X-Gm-Message-State: AOAM532PUKsHxTHet1ug2HtFIlheWPfa+avKACP6OTEkDL07Ecx8oe1w
-        9YvGbJOkpNsWEYd3tm6Kxx8=
-X-Google-Smtp-Source: ABdhPJxF4cp8/nCAppH0weT0KuimOzvtzq1ghNdldIGUP+NU/zbPHXfFhVf1+8umlgbBW50RkHGzLQ==
-X-Received: by 2002:a63:db10:: with SMTP id e16mr9966734pgg.234.1614968409376;
-        Fri, 05 Mar 2021 10:20:09 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:600d:a089:58af:ffb4:5a90:f2bc])
-        by smtp.googlemail.com with ESMTPSA id mp19sm14581545pjb.2.2021.03.05.10.20.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Mar 2021 10:20:08 -0800 (PST)
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     corbet@lwn.net
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [RFC] scripts: kernel-doc: fix attribute capture in function parsing
-Date:   Fri,  5 Mar 2021 23:50:00 +0530
-Message-Id: <20210305182000.8363-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S229935AbhCESVA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Mar 2021 13:21:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20934 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229611AbhCESUp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 13:20:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1614968444;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=JfSvRiV9id+sTOHyrwsGFVmiHVDEJVgf/6uCXFbnT2I=;
+        b=flJubouJm9ZtbslsUmR7PEwg18dWdwEQEFK/pAGqBeK53ndpw/RLsQ/8vm/NoexhdwyZGn
+        mx9ud59dzywDMx7a08FTDxEM2Bxg0wdhem0ro2HhDy/N6wzkr6Y5X0HrFT1B3hIwx92ZJp
+        19dqlLK3YbkbZ6sldUKs2J3Bcj/xWyg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-285-H7lXu8zzPyaVXFKbtTthjA-1; Fri, 05 Mar 2021 13:20:43 -0500
+X-MC-Unique: H7lXu8zzPyaVXFKbtTthjA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96702101F00B;
+        Fri,  5 Mar 2021 18:20:41 +0000 (UTC)
+Received: from prarit.bos.redhat.com (prarit-guest.7a2m.lab.eng.bos.redhat.com [10.16.222.26])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id BFC0510023BE;
+        Fri,  5 Mar 2021 18:20:40 +0000 (UTC)
+Subject: Re: [PATCH] pci-driver: Add driver load messages
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Leon Romanovsky <leon@kernel.org>, bhelgaas@google.com,
+        corbet@lwn.net, linux-doc@vger.kernel.org,
+        linux-pci@vger.kernel.org, mstowe@redhat.com
+References: <20210304155040.GA844982@bjorn-Precision-5520>
+From:   Prarit Bhargava <prarit@redhat.com>
+Message-ID: <940bfcbb-2672-74b8-432b-cf7b33bc036a@redhat.com>
+Date:   Fri, 5 Mar 2021 13:20:40 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20210304155040.GA844982@bjorn-Precision-5520>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently, kernel-doc warns for function prototype parsing on the
-presence of additional attributes in the definition.
 
-E.g., running kernel-doc -none on include/rdma/iw_cm.h causes this
-warning:
-"warning: cannot understand function prototype: 'const char *__attribute_const__ iwcm_reject_msg(int reason); '"
 
-Here, the prototype parsing does not take into account the presence
-of attribute, "__attribute_const__" before function name.
+On 3/4/21 10:50 AM, Bjorn Helgaas wrote:
+> On Thu, Mar 04, 2021 at 09:42:44AM -0500, Prarit Bhargava wrote:
+>>
+>>
+>> On 2/18/21 2:06 PM, Bjorn Helgaas wrote:
+>>> On Thu, Feb 18, 2021 at 01:36:35PM -0500, Prarit Bhargava wrote:
+>>>> On 1/26/21 10:12 AM, Bjorn Helgaas wrote:
+>>>>> On Tue, Jan 26, 2021 at 09:05:23AM -0500, Prarit Bhargava wrote:
+>>>>>> On 1/26/21 8:53 AM, Leon Romanovsky wrote:
+>>>>>>> On Tue, Jan 26, 2021 at 08:42:12AM -0500, Prarit Bhargava wrote:
+>>>>>>>> On 1/26/21 8:14 AM, Leon Romanovsky wrote:
+>>>>>>>>> On Tue, Jan 26, 2021 at 07:54:46AM -0500, Prarit Bhargava wrote:
+>>>>>>>>>>   Leon Romanovsky <leon@kernel.org> wrote:
+>>>>>>>>>>> On Mon, Jan 25, 2021 at 02:41:38PM -0500, Prarit Bhargava wrote:
+>>>>>>>>>>>> There are two situations where driver load messages are helpful.
+>>>>>>>>>>>>
+>>>>>>>>>>>> 1) Some drivers silently load on devices and debugging driver or system
+>>>>>>>>>>>> failures in these cases is difficult.  While some drivers (networking
+>>>>>>>>>>>> for example) may not completely initialize when the PCI driver probe() function
+>>>>>>>>>>>> has returned, it is still useful to have some idea of driver completion.
+>>>>>>>>>>>
+>>>>>>>>>>> Sorry, probably it is me, but I don't understand this use case.
+>>>>>>>>>>> Are you adding global to whole kernel command line boot argument to debug
+>>>>>>>>>>> what and when?
+>>>>>>>>>>>
+>>>>>>>>>>> During boot:
+>>>>>>>>>>> If device success, you will see it in /sys/bus/pci/[drivers|devices]/*.
+>>>>>>>>>>> If device fails, you should get an error from that device (fix the
+>>>>>>>>>>> device to return an error), or something immediately won't work and
+>>>>>>>>>>> you won't see it in sysfs.
+>>>>>>>>>>
+>>>>>>>>>> What if there is a panic during boot?  There's no way to get to sysfs.
+>>>>>>>>>> That's the case where this is helpful.
+>>>>>>>>>
+>>>>>>>>> How? If you have kernel panic, it means you have much more worse problem
+>>>>>>>>> than not-supported device. If kernel panic was caused by the driver, you
+>>>>>>>>> will see call trace related to it. If kernel panic was caused by
+>>>>>>>>> something else, supported/not supported won't help here.
+>>>>>>>>
+>>>>>>>> I still have no idea *WHICH* device it was that the panic occurred on.
+>>>>>>>
+>>>>>>> The kernel panic is printed from the driver. There is one driver loaded
+>>>>>>> for all same PCI devices which are probed without relation to their
+>>>>>>> number.>
+>>>>>>> If you have host with ten same cards, you will see one driver and this
+>>>>>>> is where the problem and not in supported/not-supported device.
+>>>>>>
+>>>>>> That's true, but you can also have different cards loading the same driver.
+>>>>>> See, for example, any PCI_IDs list in a driver.
+>>>>>>
+>>>>>> For example,
+>>>>>>
+>>>>>> 10:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3008 [Fury] (rev 02)
+>>>>>> 20:00.0 RAID bus controller: Broadcom / LSI MegaRAID SAS-3 3108 [Invader] (rev 02)
+>>>>>>
+>>>>>> Both load the megaraid driver and have different profiles within the
+>>>>>> driver.  I have no idea which one actually panicked until removing
+>>>>>> one card.
+>>>>>>
+>>>>>> It's MUCH worse when debugging new hardware and getting a panic
+>>>>>> from, for example, the uncore code which binds to a PCI mapped
+>>>>>> device.  One device might work and the next one doesn't.  And
+>>>>>> then you can multiply that by seeing *many* panics at once and
+>>>>>> trying to determine if the problem was on one specific socket,
+>>>>>> die, or core.
+>>>>>
+>>>>> Would a dev_panic() interface that identified the device and
+>>>>> driver help with this?
+>>>>
+>>>> ^^ the more I look at this problem, the more a dev_panic() that
+>>>> would output a device specific message at panic time is what I
+>>>> really need.
+>>
+>> I went down this road a bit and had a realization.  The issue isn't
+>> with printing something at panic time, but the *data* that is
+>> output.  Each PCI device is associated with a struct device.  That
+>> device struct's name is output for dev_dbg(), etc., commands.  The
+>> PCI subsystem sets the device struct name at drivers/pci/probe.c:
+>> 1799
+>>
+>> 	        dev_set_name(&dev->dev, "%04x:%02x:%02x.%d", pci_domain_nr(dev->bus),
+>>                      dev->bus->number, PCI_SLOT(dev->devfn),
+>>                      PCI_FUNC(dev->devfn));
+>>
+>> My problem really is that the above information is insufficient when
+>> I (or a user) need to debug a system.  The complexities of debugging
+>> multiple broken driver loads would be much easier if I didn't have
+>> to constantly add this output manually :).
+> 
+> This *should* already be in the dmesg log:
+> 
+>   pci 0000:00:00.0: [8086:5910] type 00 class 0x060000
+>   pci 0000:00:01.0: [8086:1901] type 01 class 0x060400
+>   pci 0000:00:02.0: [8086:591b] type 00 class 0x030000
+> 
+> So if you had a dev_panic(), that message would include the
+> bus/device/function number, and that would be enough to find the
+> vendor/device ID from when the device was first enumerated.
+> 
+> Or are you saying you can't get the part of the dmesg log that
+> contains those vendor/device IDs?
 
-Provide a simple fix by adding "__attribute_const__" in the corresponding
-regex expression.
+/me hangs head in shame
 
-A quick evaluation by running 'kernel-doc -none' on kernel-tree reveals
-that no additional warning or error has been added or removed by the fix.
+I didn't notice that until now. :)
 
-Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
- scripts/kernel-doc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Uh thanks for the polite hit with a cluebat :)  I *think* that will work.  Let
+me try some additional driver failure tests.
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 68df17877384..8673dc783309 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -1753,6 +1753,7 @@ sub dump_function($$) {
-     my $prototype = shift;
-     my $file = shift;
-     my $noret = 0;
-+    my $attribute_const = qr{__attribute_const__};
- 
-     print_lineno($new_start_line);
- 
-@@ -1808,7 +1809,7 @@ sub dump_function($$) {
- 	$prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
- 	$prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
- 	$prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
--	$prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-+	$prototype =~ m/^(\w+\s+\w+\s*\*+$attribute_const?)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
- 	$prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
- 	$prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
- 	$prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
--- 
-2.17.1
+P.
+
+> 
+>> Would you be okay with adding a *debug* parameter to expand the
+>> device name to include the vendor & device ID pair?  FWIW, I'm
+>> somewhat against yet-another-kernel-option but that's really the
+>> information I need.  I could then add dev_dbg() statements in the
+>> local_pci_probe() function.
+> 
 
