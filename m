@@ -2,57 +2,58 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-20.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFF45C4332B
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:59:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D14EC433E9
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 11:04:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3F576502E
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 10:59:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E401E6501C
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 11:04:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229651AbhCEK7A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Mar 2021 05:59:00 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:51046 "EHLO
+        id S229682AbhCELD4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Mar 2021 06:03:56 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:51181 "EHLO
         youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbhCEK6w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 05:58:52 -0500
-Received: from mail-wm1-f72.google.com ([209.85.128.72])
+        with ESMTP id S229718AbhCELDX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 06:03:23 -0500
+Received: from mail-wm1-f69.google.com ([209.85.128.69])
         by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
         (Exim 4.86_2)
         (envelope-from <krzysztof.kozlowski@canonical.com>)
-        id 1lI8AV-0001Fy-K2
-        for linux-doc@vger.kernel.org; Fri, 05 Mar 2021 10:58:51 +0000
-Received: by mail-wm1-f72.google.com with SMTP id j8so266728wmq.6
-        for <linux-doc@vger.kernel.org>; Fri, 05 Mar 2021 02:58:51 -0800 (PST)
+        id 1lI8Es-0001fe-SQ
+        for linux-doc@vger.kernel.org; Fri, 05 Mar 2021 11:03:22 +0000
+Received: by mail-wm1-f69.google.com with SMTP id z26so629887wml.4
+        for <linux-doc@vger.kernel.org>; Fri, 05 Mar 2021 03:03:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=4aJfVlauewtRE5vCynuYGIqgJwZdZisFk3AW2s1txII=;
-        b=IhFvJC5L8M7eYG4K8HYx4G9pZf4guUkP1EV4i1vEKK5Ff20wHO3DtKyQ5qI7zbXhRa
-         9Fre955l697XfXlWhdfFPTCc6Zrz3s46WKD85pg1PvXbUFaZDAtMpdlyucUZ6S3WkYfo
-         1Exl8RoK10SrU+FJshj5C3ZD8RsB3sL9gksailituMCBhK/YO2SHJV2aQbcdREiRAfDm
-         X2z8bvWbnFqoBhmZsTZzMByQkWRCMfYc1h8ImQXArHk/zqsnoeas0ELxn4kjW7sUrhiQ
-         OtsJZtBbVi/rWpcRG/79Kl/Gf3NNVdD9bWOhacn2z1yPR4kjfwkP5cMoY//tU2lpKAOL
-         1HKg==
-X-Gm-Message-State: AOAM530zG+C4m67+YaFPTJr0nYG2TbYfsoI3jqrDDtHHYvRwoG713ae4
-        xZEFsRhTxV22++JA3bXFxOCa3zE6oiPrYxCpGyVjZ/6aU5+Y7sSljpQuPiD+Pa5kbFS+MZ9VTkf
-        4WmUXV67mZkr/zb43ZBsgO3LCQF/gmPE56f0gJQ==
-X-Received: by 2002:a7b:cb99:: with SMTP id m25mr8423369wmi.64.1614941931427;
-        Fri, 05 Mar 2021 02:58:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwmQw4qIFRa6N+eh+U12JE4vYPax7TgkB7xnzrasYQiJvSoeqLGr8BCj354zBBg7bPpy0fgIA==
-X-Received: by 2002:a7b:cb99:: with SMTP id m25mr8423363wmi.64.1614941931318;
-        Fri, 05 Mar 2021 02:58:51 -0800 (PST)
+        bh=eplRf97wsAW/dlILq0xIA0M8/hRdFRbfndY572sUQ3w=;
+        b=Jpq1yUDDffNfOZgRT7IPQt7Ao1xq3DfvWNovwQiRG1we9h4d8jbGjwxkfxPuMPid+k
+         ouMA8xYXDmErmI/QZ3Wwl9wwrYcMaW0p29ic7tHISQ4kIVvP8FmsRKVnekSlgtdnrkeh
+         aoCQA9Z+fFdOPxo9im+O4DBY0mNboKYhp3a8X4Lp0Yj13d/yTrfxAasU4jU/IZaKaeGA
+         IsPLR1gjP9wWz2mx934vuJzctIxyCTBoOlP0coYJ8kV08MrSSif40v5EZ8rBV4sIx/3n
+         hBNpNnrotjeP3Z1uS8sqHy1yX9PYQKD5I8rq0jWlf9TUug+3jluC0+i97P8gbN6UKsgS
+         7tlQ==
+X-Gm-Message-State: AOAM5331v0LECLHfj4H7lO3b++ABu3RymvwmQWdJHDWPe6YU/3OQZgcO
+        1jIppAqzP9PqYiiKh5IwCVo0b8ii0+MzqE0sdIx7MVu/Q4NcY90HcJHBdWUHUP6Zsch1gwUjL59
+        gfqWLiWyEQrgQjQTuDX/iBBkb/j4egXjDJDo1pA==
+X-Received: by 2002:a5d:658d:: with SMTP id q13mr8756128wru.388.1614942201483;
+        Fri, 05 Mar 2021 03:03:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxnftLtCGeuBhGnFb1pHZJs39fFWG0ruOT9/IIDb0iq2tGSJ/FRqtMfWfVPM8GomI6b040CLQ==
+X-Received: by 2002:a5d:658d:: with SMTP id q13mr8756098wru.388.1614942201250;
+        Fri, 05 Mar 2021 03:03:21 -0800 (PST)
 Received: from [192.168.1.116] (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.gmail.com with ESMTPSA id h2sm4309640wrq.81.2021.03.05.02.58.50
+        by smtp.gmail.com with ESMTPSA id 9sm2163207wmf.13.2021.03.05.03.03.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Mar 2021 02:58:51 -0800 (PST)
-Subject: Re: [RFT PATCH v3 24/27] tty: serial: samsung_tty: Add support for
- Apple UARTs
+        Fri, 05 Mar 2021 03:03:20 -0800 (PST)
+Subject: Re: [RFT PATCH v3 27/27] arm64: apple: Add initial Apple Mac mini
+ (M1, 2020) devicetree
 To:     Hector Martin <marcan@marcan.st>,
         linux-arm-kernel@lists.infradead.org
 Cc:     Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -76,14 +77,14 @@ Cc:     Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
         linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
         linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20210304213902.83903-1-marcan@marcan.st>
- <20210304213902.83903-25-marcan@marcan.st>
+ <20210304213902.83903-28-marcan@marcan.st>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Message-ID: <3ed6840e-1c12-4145-c2d5-cb05cac156e9@canonical.com>
-Date:   Fri, 5 Mar 2021 11:58:50 +0100
+Message-ID: <e45c15ae-ee81-139c-5da1-a6759e39fd71@canonical.com>
+Date:   Fri, 5 Mar 2021 12:03:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210304213902.83903-25-marcan@marcan.st>
+In-Reply-To: <20210304213902.83903-28-marcan@marcan.st>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -91,32 +92,110 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 04/03/2021 22:38, Hector Martin wrote:
-> Apple SoCs are a distant descendant of Samsung designs and use yet
-> another variant of their UART style, with different interrupt handling.
+On 04/03/2021 22:39, Hector Martin wrote:
+> This currently supports:
 > 
-> In particular, this variant has the following differences with existing
-> ones:
+> * SMP (via spin-tables)
+> * AIC IRQs
+> * Serial (with earlycon)
+> * Framebuffer
 > 
-> * It includes a built-in interrupt controller with different registers,
->   using only a single platform IRQ
-> 
-> * Internal interrupt sources are treated as edge-triggered, even though
->   the IRQ output is level-triggered. This chiefly affects the TX IRQ
->   path: the driver can no longer rely on the TX buffer empty IRQ
->   immediately firing after TX is enabled, but instead must prime the
->   FIFO with data directly.
+> A number of properties are dynamic, and based on system firmware
+> decisions that vary from version to version. These are expected
+> to be filled in by the loader.
 > 
 > Signed-off-by: Hector Martin <marcan@marcan.st>
 > ---
->  drivers/tty/serial/Kconfig       |   2 +-
->  drivers/tty/serial/samsung_tty.c | 238 +++++++++++++++++++++++++++++--
->  include/linux/serial_s3c.h       |  16 +++
->  3 files changed, 247 insertions(+), 9 deletions(-)
+>  MAINTAINERS                              |   1 +
+>  arch/arm64/boot/dts/Makefile             |   1 +
+>  arch/arm64/boot/dts/apple/Makefile       |   2 +
+>  arch/arm64/boot/dts/apple/t8103-j274.dts |  45 ++++++++
+>  arch/arm64/boot/dts/apple/t8103.dtsi     | 135 +++++++++++++++++++++++
+>  5 files changed, 184 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/apple/Makefile
+>  create mode 100644 arch/arm64/boot/dts/apple/t8103-j274.dts
+>  create mode 100644 arch/arm64/boot/dts/apple/t8103.dtsi
 > 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 28bd46f4f7a7..d5e4d93a536a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1647,6 +1647,7 @@ C:	irc://chat.freenode.net/asahi-dev
+>  T:	git https://github.com/AsahiLinux/linux.git
+>  F:	Documentation/devicetree/bindings/arm/apple.yaml
+>  F:	Documentation/devicetree/bindings/interrupt-controller/apple,aic.yaml
+> +F:	arch/arm64/boot/dts/apple/
+>  F:	arch/arm64/include/asm/sysreg_apple.h
+>  F:	drivers/irqchip/irq-apple-aic.c
+>  F:	include/dt-bindings/interrupt-controller/apple-aic.h
+> diff --git a/arch/arm64/boot/dts/Makefile b/arch/arm64/boot/dts/Makefile
+> index f1173cd93594..639e01a4d855 100644
+> --- a/arch/arm64/boot/dts/Makefile
+> +++ b/arch/arm64/boot/dts/Makefile
+> @@ -6,6 +6,7 @@ subdir-y += amazon
+>  subdir-y += amd
+>  subdir-y += amlogic
+>  subdir-y += apm
+> +subdir-y += apple
+>  subdir-y += arm
+>  subdir-y += bitmain
+>  subdir-y += broadcom
+> diff --git a/arch/arm64/boot/dts/apple/Makefile b/arch/arm64/boot/dts/apple/Makefile
+> new file mode 100644
+> index 000000000000..cbbd701ebf05
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/apple/Makefile
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +dtb-$(CONFIG_ARCH_APPLE) += t8103-j274.dtb
+> diff --git a/arch/arm64/boot/dts/apple/t8103-j274.dts b/arch/arm64/boot/dts/apple/t8103-j274.dts
+> new file mode 100644
+> index 000000000000..8afc2ed70361
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/apple/t8103-j274.dts
+> @@ -0,0 +1,45 @@
+> +// SPDX-License-Identifier: GPL-2.0+ OR MIT
+> +/*
+> + * Apple Mac mini (M1, 2020)
+> + *
+> + * target-type: J174
+> + *
+> + * Copyright The Asahi Linux Contributors
+> + */
+> +
+> +/dts-v1/;
+> +
+> +#include "t8103.dtsi"
+> +
+> +/ {
+> +	compatible = "apple,j274", "apple,t8103", "apple,arm-platform";
+> +	model = "Apple Mac mini (M1, 2020)";
+> +
+> +	aliases {
+> +		serial0 = &serial0;
+> +	};
+> +
+> +	chosen {
+> +		#address-cells = <2>;
+> +		#size-cells = <2>;
+> +		ranges;
+> +
+> +		stdout-path = "serial0";
+> +
+> +		framebuffer0: framebuffer@0 {
+> +			compatible = "apple,simple-framebuffer", "simple-framebuffer";
+> +			reg = <0 0 0 0>; /* To be filled by loader */
+> +			/* Format properties will be added by loader */
+> +			status = "disabled";
+> +		};
+> +	};
+> +
+> +	memory@800000000 {
+> +		device_type = "memory";
+> +		reg = <0x8 0 0x2 0>; /* To be filled by loader */
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Tested-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Shouldn't this be 0x800000000 with ~0x80000000 length (or whatever is
+more common)? Or did I miss some ranges?
 
 Best regards,
 Krzysztof
