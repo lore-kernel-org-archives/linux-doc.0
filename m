@@ -2,109 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CFF6C433E9
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 11:46:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7115C433DB
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 12:19:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 679D264F73
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 11:46:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9452664F23
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 12:19:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229672AbhCELqE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Mar 2021 06:46:04 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:52473 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229651AbhCELp6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 06:45:58 -0500
-Received: from mail-ej1-f72.google.com ([209.85.218.72])
-        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <krzysztof.kozlowski@canonical.com>)
-        id 1lI8u4-0004Kf-Hb
-        for linux-doc@vger.kernel.org; Fri, 05 Mar 2021 11:45:56 +0000
-Received: by mail-ej1-f72.google.com with SMTP id rl7so727142ejb.16
-        for <linux-doc@vger.kernel.org>; Fri, 05 Mar 2021 03:45:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2TleSw0QiCwuJ7skQQModBnCrT+uYovU4V6hKBAXhss=;
-        b=jFvsMMPGl6oAIugpsefrgBLYaadcL+pVSw/ZH2jHFew97243JSkjiIdj8ZEpsKTj+V
-         AD/dZZySTb7iT9rI/1ZtI9FavrkPjsVK4/cxpthZdSBmvHceim5PEv4wH0e5exCo0JTf
-         G/33N9oNeqkHlCkJHQznLkCYKd76FDL3uSHUYof3StJr3px6b6bWbiAADfY3jjBmx3O+
-         I5flFHj7eIsjnaRYoXcrks0ksIOwthLXpfa8Tq3A5hV5d57TO5Wtwwotk5Qhp5IihXWA
-         aPKBo9amVzPpQkA9gwKFp65+kOo0OyJqqVTYOheSaSxPfSRiBler3uYTmORvzUCpwfHh
-         tGdg==
-X-Gm-Message-State: AOAM531GHjrmeTe68yzMw80u2idj25oyCdg/B+XEK/u/hd1csm2X3FIN
-        B45s6sb0xt/usR/zJeoRWauucGVVGT5Pn6SfGhze1VQeVWeFNfK9zGIrwaXucPW+iqWasyld4NF
-        juwIRFCxX6ksPDCxigCHgdWXfXOyInkIAF2/OUA==
-X-Received: by 2002:a50:da8b:: with SMTP id q11mr8953745edj.352.1614944756169;
-        Fri, 05 Mar 2021 03:45:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxKeo3Q/o1g2HQg4LFqmEh5BntZBVMe2z8slgQtUV9JbA5vQAZ8ZZGavMyBJMDCCXlKF5n8Tw==
-X-Received: by 2002:a50:da8b:: with SMTP id q11mr8953731edj.352.1614944756036;
-        Fri, 05 Mar 2021 03:45:56 -0800 (PST)
-Received: from [192.168.1.116] (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.gmail.com with ESMTPSA id s2sm1431854edt.35.2021.03.05.03.45.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Mar 2021 03:45:55 -0800 (PST)
-Subject: Re: [RFT PATCH v3 27/27] arm64: apple: Add initial Apple Mac mini
- (M1, 2020) devicetree
-To:     Hector Martin <marcan@marcan.st>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S229505AbhCEMSo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Mar 2021 07:18:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34498 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229493AbhCEMSg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 07:18:36 -0500
+X-Greylist: delayed 605 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 05 Mar 2021 04:18:36 PST
+Received: from office2.cesnet.cz (office2.cesnet.cz [IPv6:2001:718:1:101::144:244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AD1EC061574;
+        Fri,  5 Mar 2021 04:18:36 -0800 (PST)
+Received: from localhost (ip-94-112-197-160.net.upcbroadband.cz [94.112.197.160])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by office2.cesnet.cz (Postfix) with ESMTPSA id A7734400064;
+        Fri,  5 Mar 2021 13:08:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cesnet.cz;
+        s=office2-2020; t=1614946108;
+        bh=PrDtuf4GNCuIf4buOVLl6wJYuOH+X5xKlXypeeu9GN4=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References;
+        b=jgMNm3hO/+H22rHcWQrHZDE5HcGXkdemAE/4whSzhI9xjMwYTSkINWYN89nyItky4
+         OzxeArZsGPHPWOg/XhpUtCsHX4Vy7uPsLVANoUwsmtoRbdBhgU8xp766Kj8387QpVo
+         gKvKYTNpYTT+uuhECJuAjZYZMoAJ3dyhvgjiR1hcO18yTQ10mmqJfKjMZij/iyMhPx
+         roMUNtx5JCMcmsV3SyMYi2ChexAPKT6PilPTXQTkDASgAHH98p1ecD1YSHZqwgCbQ/
+         JqDZPGNN2A/R7UEAJuJuRf9q914i1Lf740OWM1D7z9jZ5EcYM8H5qxhKxQ63XKKCmk
+         rEZV7l2wo6gdQ==
+From:   =?iso-8859-1?Q?Jan_Kundr=E1t?= <jan.kundrat@cesnet.cz>
+To:     =?iso-8859-1?Q?V=E1clav_Kubern=E1t?= <kubernat@cesnet.cz>
+Cc:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        devicetree@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210304213902.83903-1-marcan@marcan.st>
- <20210304213902.83903-28-marcan@marcan.st>
- <e45c15ae-ee81-139c-5da1-a6759e39fd71@canonical.com>
- <2a4c461a-51d1-60b7-b698-edb3c0bfb243@marcan.st>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Message-ID: <32c136df-f4d4-4fbe-6605-5366b06d9f0a@canonical.com>
-Date:   Fri, 5 Mar 2021 12:45:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        <linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 3/7] hwmon: (max31790) Allow setting pulses
+Date:   Fri, 05 Mar 2021 13:08:26 +0100
 MIME-Version: 1.0
-In-Reply-To: <2a4c461a-51d1-60b7-b698-edb3c0bfb243@marcan.st>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Message-ID: <ad1c3054-e9a2-4299-aeed-94e36d6d3d12@cesnet.cz>
+In-Reply-To: <20210304105830.507176-3-kubernat@cesnet.cz>
+References: <20210304105830.507176-1-kubernat@cesnet.cz>
+ <20210304105830.507176-3-kubernat@cesnet.cz>
+Organization: CESNET
+User-Agent: Trojita/unstable-2020-07-06; Qt/5.15.2; xcb; Linux; 
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 05/03/2021 12:14, Hector Martin wrote:
-> On 05/03/2021 20.03, Krzysztof Kozlowski wrote:
->>> +	memory@800000000 {
->>> +		device_type = "memory";
->>> +		reg = <0x8 0 0x2 0>; /* To be filled by loader */
->>
->> Shouldn't this be 0x800000000 with ~0x80000000 length (or whatever is
->> more common)? Or did I miss some ranges?
-> 
-> The base model has 8GB of RAM, and RAM always starts at 0x800000000, 
-> hence that reg property.
+> @@ -285,6 +295,9 @@ static int max31790_write_fan(struct device=20
+> *dev, u32 attr, int channel,
+>  =09=09=09=09   MAX31790_REG_FAN_CONFIG(channel),
+>  =09=09=09=09   data->fan_config[channel]);
+>  =09=09break;
+> +=09case hwmon_fan_pulses:
+> +=09=09data->pulses[channel] =3D val;
+> +=09=09break;
 
-Ah, I messed up the unit addressing and number of zeros... it's OK.
+This needs input validation, otherwise it's possible to write 0 in there=20
+and you get a division-by-zero in the kernel context:
 
-Best regards,
-Krzysztof
+[102109.999968] Division by zero in kernel.
+[102110.003917] CPU: 1 PID: 27590 Comm: cat Not tainted 5.9.3-cla-cfb #42
+[102110.010462] Hardware name: Marvell Armada 380/385 (Device Tree)
+[102110.016497] [<c010f16c>] (unwind_backtrace) from [<c010ae40>]=20
+(show_stack+0x10/0x14)
+[102110.024355] [<c010ae40>] (show_stack) from [<c083ba30>]=20
+(dump_stack+0x94/0xa8)
+[102110.031689] [<c083ba30>] (dump_stack) from [<c083a3fc>]=20
+(Ldiv0+0x8/0x2c)
+[102110.038499] [<c083a3fc>] (Ldiv0) from [<c064c1ac>]=20
+(max31790_read+0x174/0x204)
+[102110.045836] [<c064c1ac>] (max31790_read) from [<c0646fdc>]=20
+(hwmon_attr_show+0x44/0x138)
+...
+
+A similar error can also happen when setting the fan speed to 0 RPM.=20
+That's, however, not an error caused by this patch series AFAIK. I *think*=20=
+
+that RPM_TO_REG should be changed to check if `rpm` is 0, and if so, set=20
+the register directly to the maximal value of 0x7ff (in another patch).
+
+With kind regards,
+Jan
