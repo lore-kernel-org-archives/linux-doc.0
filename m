@@ -2,97 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E8DC433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 02:17:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C9647C433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 02:51:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33F2A6500F
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 02:17:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 89D3264F6F
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 02:51:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229494AbhCECRi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 21:17:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46958 "EHLO
+        id S229478AbhCECvt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 21:51:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54252 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbhCECRi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 21:17:38 -0500
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23BE2C061574;
-        Thu,  4 Mar 2021 18:17:37 -0800 (PST)
-Received: by mail-qk1-x730.google.com with SMTP id g185so583227qkf.6;
-        Thu, 04 Mar 2021 18:17:37 -0800 (PST)
+        with ESMTP id S229436AbhCECvt (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 21:51:49 -0500
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FD03C061574;
+        Thu,  4 Mar 2021 18:51:49 -0800 (PST)
+Received: by mail-lf1-x12c.google.com with SMTP id 18so1099147lff.6;
+        Thu, 04 Mar 2021 18:51:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7OfH/7aQnmQER1/Jp2nanZu8HmrIn7USSW5vpL5BRBE=;
-        b=FudP2PUGinIUc6kpmSOzXYEcgqURLa3uJm5JsiGyFmmaV5I+W8hIGd+jPLykIR3GLd
-         DAxPJWYaCKyDh1B0B8uNn+Dmp5AnAMZs0scyM3zJ0rFNzIifIs7H5usfso2qkX1bxHDm
-         gIbKRWQCDBPMeTLJODbIytea8/8Sp5OoLM8C3yiSwPw8CyHYjH1Ad1rBkoQVHxGFmhp4
-         +N26cKo1lg7hoUv9YKG5mjnnn3ZvoVMwIF6ULTKuvo8sg6R8a7OKsiSyZnTMX+ymDdmQ
-         igmtG+h1C+9wE5NTsP9dKmKmiBKdMFNg8pJ9qWUCLucOMq6JI16puWTeoHQSmhBeIZbn
-         j/7w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OjnEJEa+vxW530VM5nSoy3SNP0gFstYX+DggD9FqR3o=;
+        b=kDfjOvunn4rJQXXIqSvt66SJ6pJpenxqRA9js78/6lY1te5GR6SPpZqdZeKMLLpcOc
+         oqv5Fgx94nU89+iQa8tUZx+kxiDqUze1cdHmzk10A1fkpTYMEzzo/o0FKh7YPgKtlbjJ
+         a/EB0KR3iY6mx5s2mZReTZTKQYw2164tbmisH3uIRhayUvHWQfbqdf7IQ8CDypEVainy
+         Xjdkc6WdpWsbxVkXgLWdwowPi29U0Ie2kUBcoeNJd/X5cnvIM4OMOIDDEJUFNsopDSlD
+         OvTNDpEv4KfxRqrYgsFNykNsFuRn1FgH1G9f5VVKlj04KWr1fihj0yPc9dnoSUOB9ibp
+         YfDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7OfH/7aQnmQER1/Jp2nanZu8HmrIn7USSW5vpL5BRBE=;
-        b=KGBXFoTiPyh7Yq9f0H7ws573v3auh+zqaArPDL2Ny1N1p9YS0469+FFN0GnPcOV7Ll
-         e/JArMxKqnoY2xlDMgTIdIPbm5skDnH6bmK3BBLUribgQrEW6JGyPcfqtAo3c3Am5t6T
-         PLeY90RKTh9jZlZYynqDVmCy7ig3Oi6mJUHr4vZEd3EHWsSVAD9+J7Jws5MftdaHnCO/
-         tluysOSSdFYaW7viz7FydaT7oT7JVcsCBSbQdaKzFmbw3U8KkCEc7/iUkLjY0YC0wudL
-         JLizGzo1uJcELaDwCRO63Bsb+/3FQ0x52SAN3cqDSOQnhkGR3FX6KyIPRCitLSZIq2Nz
-         WRXg==
-X-Gm-Message-State: AOAM531bRlBbFXQXJTc7nKT7bAqGfgcU8l/L6gVeuedts/Soz3wYelX5
-        iKDjAej+ZV2CrbQbQyOwBRAW95LLDvoIOe2k
-X-Google-Smtp-Source: ABdhPJyfAU2sf2GWPUNtKJrfgIpvoRbEu6kWTxG2sMJ0R8UWWWhz33cBdvGRRG0//2sv48EUaZGyvA==
-X-Received: by 2002:ae9:e40b:: with SMTP id q11mr7375602qkc.318.1614910656470;
-        Thu, 04 Mar 2021 18:17:36 -0800 (PST)
-Received: from localhost.localdomain ([156.146.54.138])
-        by smtp.gmail.com with ESMTPSA id j2sm1011601qtv.43.2021.03.04.18.17.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Mar 2021 18:17:35 -0800 (PST)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     jpoimboe@redhat.com, jikos@kernel.org, mbenes@suse.cz,
-        pmladek@suse.com, joe.lawrence@redhat.com, corbet@lwn.net,
-        live-patching@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] docs: livepatch: Fix a typo in the file shadow-vars.rst
-Date:   Fri,  5 Mar 2021 07:47:20 +0530
-Message-Id: <20210305021720.21874-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.30.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OjnEJEa+vxW530VM5nSoy3SNP0gFstYX+DggD9FqR3o=;
+        b=B0TQfQlJQDX3dLLJcfkSfE0uuIe51JmJs/WrpUP5+9WSmiVC4Kglfr6NbeqBhOSbga
+         5s+j0r2o9PgyGobDUdJkyW70/I+CtIpk19XHIyJxJtEjCxgFuao0R9d7aIaSIOu/e0HM
+         19t3TCwaVf/Oasyx5BxKs2NhP5t/1RXbcaihHe0+whc79H8UROK7yiRjnu2cjkZL3/IR
+         RXyajqoRHi2wc4WgsfLTcRsBsxjUZVDDCZGyT4jZ31s5yjCTb/0IloUfLAlJ4K5Z/J0B
+         wMWEHOsr4vyLmy6vZ6Olq28fp9kfFPDgahUWibpkntyiYNIhAVAmxWoOEdPtLWn7BkqF
+         4VJA==
+X-Gm-Message-State: AOAM530acif8bVscC/Pp9p/VXhpHVQKeZ3iuz0iQiPTzZPYOtSu3paPW
+        L+j4M0G83ZBtovoyRZkVQbbTVw8kY1axvqxiXNc=
+X-Google-Smtp-Source: ABdhPJwN59ho3oOMO8l+pTawq54uy53wr2ypcPMOYjnAS0mF5vqsgRHCxVx+KY4dxOK+qHDWrlOR7g2wRv6VskGhD0I=
+X-Received: by 2002:a19:48d2:: with SMTP id v201mr3951154lfa.504.1614912707769;
+ Thu, 04 Mar 2021 18:51:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210302171947.2268128-1-joe@cilium.io>
+In-Reply-To: <20210302171947.2268128-1-joe@cilium.io>
+From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date:   Thu, 4 Mar 2021 18:51:36 -0800
+Message-ID: <CAADnVQJzmymY6NDSwEp9NE6PNfoa8TGytoWqScSRQ3s5X+oDbw@mail.gmail.com>
+Subject: Re: [PATCHv2 bpf-next 00/15] Improve BPF syscall command documentation
+To:     Joe Stringer <joe@cilium.io>
+Cc:     bpf <bpf@vger.kernel.org>, linux-man <linux-man@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "Michael Kerrisk (man-pages)" <mtk.manpages@gmail.com>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Brian Vazquez <brianvv@google.com>,
+        Daniel Borkmann <daniel@iogearbox.net>,
+        Daniel Mack <daniel@zonque.org>,
+        John Fastabend <john.fastabend@gmail.com>,
+        Petar Penkov <ppenkov@google.com>,
+        Quentin Monnet <quentin@isovalent.com>,
+        Sean Young <sean@mess.org>, Yonghong Song <yhs@fb.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Mar 2, 2021 at 9:20 AM Joe Stringer <joe@cilium.io> wrote:
+>
+> Rather than tackle everything at once, I have focused in this series on
+> the syscall commands, "enum bpf_cmd".
+...
+> The eventual goal of this effort would be to extend the kernel UAPI
+> headers such that each of the categories I had listed above (commands,
+> maps, progs, hooks) have dedicated documentation in the kernel tree, and
+> that developers must update the comments in the headers to document the
+> APIs prior to patch acceptance, and that we could auto-generate the
+> latest version of the bpf(2) manual pages based on a few static
+> description sections combined with the dynamically-generated output from
+> the header.
+> v2:
+> * Remove build infrastructure in favor of kernel-doc directives
+> * Shift userspace-api docs under Documentation/userspace-api/ebpf
+> * Fix scripts/bpf_doc.py syscall --header (throw unsupported error)
+> * Improve .gitignore handling of newly autogenerated files
 
-s/ varibles/variables/
-
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- Documentation/livepatch/shadow-vars.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/livepatch/shadow-vars.rst b/Documentation/livepatch/shadow-vars.rst
-index c05715aeafa4..8464866d18ba 100644
---- a/Documentation/livepatch/shadow-vars.rst
-+++ b/Documentation/livepatch/shadow-vars.rst
-@@ -165,7 +165,7 @@ In-flight parent objects
-
- Sometimes it may not be convenient or possible to allocate shadow
- variables alongside their parent objects.  Or a livepatch fix may
--require shadow varibles to only a subset of parent object instances.  In
-+require shadow variables to only a subset of parent object instances.  In
- these cases, the klp_shadow_get_or_alloc() call can be used to attach
- shadow variables to parents already in-flight.
-
---
-2.30.1
-
+Looks great. Applied. Thanks!
