@@ -2,234 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96318C433DB
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 13:35:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F421C433DB
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 13:38:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 681BE64FE4
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 13:35:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F2EB64FEB
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 13:38:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229759AbhCENfK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Mar 2021 08:35:10 -0500
-Received: from mail-oi1-f178.google.com ([209.85.167.178]:44422 "EHLO
-        mail-oi1-f178.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230423AbhCENew (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 08:34:52 -0500
-Received: by mail-oi1-f178.google.com with SMTP id x20so2470406oie.11;
-        Fri, 05 Mar 2021 05:34:52 -0800 (PST)
+        id S229558AbhCENhu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Mar 2021 08:37:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51448 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229563AbhCENhd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 08:37:33 -0500
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A02FC061574;
+        Fri,  5 Mar 2021 05:37:33 -0800 (PST)
+Received: by mail-qv1-xf34.google.com with SMTP id t1so949332qvj.8;
+        Fri, 05 Mar 2021 05:37:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LwsrFzohnzRe7vAxMPzw3U20E6cJaV+VWlq/m8eueqc=;
+        b=XtHpCkSi4lp+srcQKkn60e9DPRnVH/TMXETrmyYdk2xveEN6YNHiC7Lf81aKMlIS7l
+         Xxubmyh8bqJ4fR0UH8o8yiLZ3S8lo7zEC8vHNMBqJggTsLAaDpoQm8LmlPIVYQmaC74i
+         2kUPj5igizpc3VXiwW+gUCWihwsZfwrOrC9SG0vu5IEyvY1KN+Il6KBcukT+Qq89cvoZ
+         ickZDrqH/UNs4ItdV2RK5BhKyd+U0z2UfiA+YpprH2rQQGwmZHTjccFZgSkGTqS1oaVm
+         vLWuEIP7w/kY6YUiwF07fZRzSDgMRVfhe98/w/X6de+XuotV2ADNLHHy6ev3vtnOAIuz
+         nFww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+Mx6ZToxOtXCF5d9Uj1GVvv2nmYAp8tY/BxTFwwTgYQ=;
-        b=TnLw8Ne9mrDs6+dRbOyH2CJbNWEwZdakfqBASIH6ItoE/zDe832/EHbFNsg+blsxip
-         6xT1+FkQosnUy4aLMRQA7tXmtZvnl2tlvmO9wCHz8Ntrm6MwPBlRoJjj7zGJsBYJQoeM
-         vfdT0mraOkEVpucgunT98JnNAEUotWa2g8fR3Tya6CI3FsCDqdoei4GnJSAKM2pL+RzS
-         qzKjNSTz3Vvc/mgBeWOBJ5P8GtC8kLkyYig93PgRhCWBfvVXy2pQQhdUiBp7q9L+BaTE
-         3NqrPqqfCBkK834HF7YBiaq61azY+WyMcl6UgZjEXd+QSnfgLNzMpJ4tProipktXeX+F
-         DIuA==
-X-Gm-Message-State: AOAM5304wFjwu0B2IYkfxSXyM5jN5C1PuF9nDp7lXh/pDUjYhTEi1g4d
-        gJYa2lVuSrvXBra+ojtBCzBhmwWTkJQRPa702Lo=
-X-Google-Smtp-Source: ABdhPJzbtT78Lvi4GCyhCQlxyP4bAma6cv3iJOfvr/g4xDNpjEl0dKlTkHX5E/7XfVPZDtAhALDRV/S4NJ7HXmquwT0=
-X-Received: by 2002:aca:f245:: with SMTP id q66mr6881439oih.69.1614951292035;
- Fri, 05 Mar 2021 05:34:52 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=LwsrFzohnzRe7vAxMPzw3U20E6cJaV+VWlq/m8eueqc=;
+        b=CzVmVEAvLV10MnQsFFY1WfUjsLv0U54rFCIfOAeas/h/oWYkYjEV9vftemzfjK7ZtZ
+         7XbDuyhp8ujXCh1I3ZWW5n3XegzLsmKzrc1gWONsi1tYzeTE/po6FyyP4EwJucEn7sUx
+         1b6M9RoNNMwZQglcSLOc0NfuFAhMzD5q1AiUFByucwdmmsIZ7m3AuYlbqe0f7lAJH9sk
+         Ija9+ZFst8TZw9UhzgYldesfh3PELNYHvrK0H8kZBVMiAtUsElnmup1HVYYhk0SPyrdQ
+         nL8yj93fRbmyj4sITy2tEZJMEJ11h9iQgmPFHdXmzEfQ/06ogd/sDjTKYzp1XH/R9i0n
+         KhWQ==
+X-Gm-Message-State: AOAM532NzUN+JPZVuCza/pW2BULwkHY5PgotD5m+XYMoIZ4iyiV65VHM
+        69c6FvxIw5a97z0NDae0mZeFTw4HG32IesZ2
+X-Google-Smtp-Source: ABdhPJzNdyZyRy5a6QwQBSrKoOcg39Xy9cLTipvlQaRsNtI323ZzQpQyn7UTlsD9RVrvydgaE/1N/w==
+X-Received: by 2002:a05:6214:4b3:: with SMTP id w19mr9011696qvz.26.1614951452695;
+        Fri, 05 Mar 2021 05:37:32 -0800 (PST)
+Received: from Gentoo ([156.146.55.96])
+        by smtp.gmail.com with ESMTPSA id q186sm1747376qka.56.2021.03.05.05.37.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Mar 2021 05:37:31 -0800 (PST)
+Date:   Fri, 5 Mar 2021 19:07:21 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     jpoimboe@redhat.com, jikos@kernel.org, mbenes@suse.cz,
+        pmladek@suse.com, joe.lawrence@redhat.com, corbet@lwn.net,
+        live-patching@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rdunlap@infradead.org
+Subject: Re: [PATCH V2] docs: livepatch: Fix a typo and remove the
+ unnecessary gaps in a sentence
+Message-ID: <YEI0EcR5G53IoYzb@Gentoo>
+Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>, jpoimboe@redhat.com,
+        jikos@kernel.org, mbenes@suse.cz, pmladek@suse.com,
+        joe.lawrence@redhat.com, corbet@lwn.net,
+        live-patching@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rdunlap@infradead.org
+References: <20210305100923.3731-1-unixbhaskar@gmail.com>
+ <20210305125600.GM2723601@casper.infradead.org>
 MIME-Version: 1.0
-References: <20210304201253.14652-1-andriy.shevchenko@linux.intel.com> <20210304201253.14652-2-andriy.shevchenko@linux.intel.com>
-In-Reply-To: <20210304201253.14652-2-andriy.shevchenko@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Fri, 5 Mar 2021 14:34:40 +0100
-Message-ID: <CAJZ5v0io925Fjua0GDKkCLnQZBjg=5ffRFzCc==_+ygSd7t4Ew@mail.gmail.com>
-Subject: Re: [PATCH v3 1/5] irqdomain: Introduce irq_domain_create_simple() API
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="GVj6pdslL7ULm4+q"
+Content-Disposition: inline
+In-Reply-To: <20210305125600.GM2723601@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 4, 2021 at 9:13 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
->
-> Linus Walleij pointed out that ird_domain_add_simple() gained
-> additional functionality and can't be anymore replaced with
-> a simple conditional. In preparation to upgrade GPIO library
-> to use fwnode, introduce irq_domain_create_simple() API which is
-> functional equivalent to the existing irq_domain_add_simple(),
-> but takes a pointer to the struct fwnode_handle as a parameter.
->
-> While at it, amend documentation to mention irq_domain_create_*()
-> functions where it makes sense.
->
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-This requires an ACK from Marc or Thomas so I can apply it.
+--GVj6pdslL7ULm4+q
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 
-> ---
->  Documentation/core-api/irq/irq-domain.rst | 22 ++++++++++++----------
->  include/linux/irqdomain.h                 | 19 ++++++++++++++-----
->  kernel/irq/irqdomain.c                    | 20 ++++++++++----------
->  3 files changed, 36 insertions(+), 25 deletions(-)
+On 12:56 Fri 05 Mar 2021, Matthew Wilcox wrote:
+>On Fri, Mar 05, 2021 at 03:39:23PM +0530, Bhaskar Chowdhury wrote:
+>> s/varibles/variables/
+>>
+>> ...and remove leading spaces from a sentence.
 >
-> diff --git a/Documentation/core-api/irq/irq-domain.rst b/Documentation/core-api/irq/irq-domain.rst
-> index a77c24c27f7b..8214e215a8bf 100644
-> --- a/Documentation/core-api/irq/irq-domain.rst
-> +++ b/Documentation/core-api/irq/irq-domain.rst
-> @@ -42,10 +42,10 @@ irq_domain usage
->  ================
+>What do you mean 'leading spaces'?  Separating two sentences with
+>one space or two is a matter of personal style, and we do not attempt
+>to enforce a particular style in the kernel.
 >
->  An interrupt controller driver creates and registers an irq_domain by
-> -calling one of the irq_domain_add_*() functions (each mapping method
-> -has a different allocator function, more on that later).  The function
-> -will return a pointer to the irq_domain on success.  The caller must
-> -provide the allocator function with an irq_domain_ops structure.
-> +calling one of the irq_domain_add_*() or irq_domain_create_*() functions
-> +(each mapping method has a different allocator function, more on that later).
-> +The function will return a pointer to the irq_domain on success. The caller
-> +must provide the allocator function with an irq_domain_ops structure.
+The spaces before the "In" .. nor I am imposing anything , it was peter caught
+and told me that it is hanging ..move it to the next line ..so I did. ..
+
+>>  Sometimes it may not be convenient or possible to allocate shadow
+>>  variables alongside their parent objects.  Or a livepatch fix may
+>> -require shadow varibles to only a subset of parent object instances.  In
+>> +require shadow variables to only a subset of parent object instances.
 >
->  In most cases, the irq_domain will begin empty without any mappings
->  between hwirq and IRQ numbers.  Mappings are added to the irq_domain
-> @@ -147,6 +147,7 @@ Legacy
->         irq_domain_add_simple()
->         irq_domain_add_legacy()
->         irq_domain_add_legacy_isa()
-> +       irq_domain_create_simple()
->         irq_domain_create_legacy()
->
->  The Legacy mapping is a special case for drivers that already have a
-> @@ -169,13 +170,13 @@ supported.  For example, ISA controllers would use the legacy map for
->  mapping Linux IRQs 0-15 so that existing ISA drivers get the correct IRQ
->  numbers.
->
-> -Most users of legacy mappings should use irq_domain_add_simple() which
-> -will use a legacy domain only if an IRQ range is supplied by the
-> -system and will otherwise use a linear domain mapping. The semantics
-> -of this call are such that if an IRQ range is specified then
-> +Most users of legacy mappings should use irq_domain_add_simple() or
-> +irq_domain_create_simple() which will use a legacy domain only if an IRQ range
-> +is supplied by the system and will otherwise use a linear domain mapping.
-> +The semantics of this call are such that if an IRQ range is specified then
->  descriptors will be allocated on-the-fly for it, and if no range is
-> -specified it will fall through to irq_domain_add_linear() which means
-> -*no* irq descriptors will be allocated.
-> +specified it will fall through to irq_domain_add_linear() or
-> +irq_domain_create_linear() which means *no* irq descriptors will be allocated.
->
->  A typical use case for simple domains is where an irqchip provider
->  is supporting both dynamic and static IRQ assignments.
-> @@ -186,6 +187,7 @@ that the driver using the simple domain call irq_create_mapping()
->  before any irq_find_mapping() since the latter will actually work
->  for the static IRQ assignment case.
->
-> +irq_domain_add_simple() and irq_domain_create_simple() as well as
->  irq_domain_add_legacy() and irq_domain_create_legacy() are functionally
->  equivalent, except for the first argument is different - the former
->  accepts an Open Firmware specific 'struct device_node', while the latter
-> diff --git a/include/linux/irqdomain.h b/include/linux/irqdomain.h
-> index 42d196805f58..6e78f5909723 100644
-> --- a/include/linux/irqdomain.h
-> +++ b/include/linux/irqdomain.h
-> @@ -260,11 +260,11 @@ struct irq_domain *__irq_domain_add(struct fwnode_handle *fwnode, int size,
->                                     irq_hw_number_t hwirq_max, int direct_max,
->                                     const struct irq_domain_ops *ops,
->                                     void *host_data);
-> -struct irq_domain *irq_domain_add_simple(struct device_node *of_node,
-> -                                        unsigned int size,
-> -                                        unsigned int first_irq,
-> -                                        const struct irq_domain_ops *ops,
-> -                                        void *host_data);
-> +struct irq_domain *irq_domain_create_simple(struct fwnode_handle *fwnode,
-> +                                           unsigned int size,
-> +                                           unsigned int first_irq,
-> +                                           const struct irq_domain_ops *ops,
-> +                                           void *host_data);
->  struct irq_domain *irq_domain_add_legacy(struct device_node *of_node,
->                                          unsigned int size,
->                                          unsigned int first_irq,
-> @@ -329,6 +329,15 @@ static inline struct irq_domain *irq_find_host(struct device_node *node)
->         return d;
->  }
->
-> +static inline struct irq_domain *irq_domain_add_simple(struct device_node *of_node,
-> +                                                      unsigned int size,
-> +                                                      unsigned int first_irq,
-> +                                                      const struct irq_domain_ops *ops,
-> +                                                      void *host_data)
-> +{
-> +       return irq_domain_create_simple(of_node_to_fwnode(of_node), size, first_irq, ops, host_data);
-> +}
-> +
->  /**
->   * irq_domain_add_linear() - Allocate and register a linear revmap irq_domain.
->   * @of_node: pointer to interrupt controller's device tree node.
-> diff --git a/kernel/irq/irqdomain.c b/kernel/irq/irqdomain.c
-> index 288151393a06..a7f4028971e4 100644
-> --- a/kernel/irq/irqdomain.c
-> +++ b/kernel/irq/irqdomain.c
-> @@ -295,8 +295,8 @@ void irq_domain_update_bus_token(struct irq_domain *domain,
->  EXPORT_SYMBOL_GPL(irq_domain_update_bus_token);
->
->  /**
-> - * irq_domain_add_simple() - Register an irq_domain and optionally map a range of irqs
-> - * @of_node: pointer to interrupt controller's device tree node.
-> + * irq_domain_create_simple() - Register an irq_domain and optionally map a range of irqs
-> + * @fwnode: firmware node for the interrupt controller
->   * @size: total number of irqs in mapping
->   * @first_irq: first number of irq block assigned to the domain,
->   *     pass zero to assign irqs on-the-fly. If first_irq is non-zero, then
-> @@ -312,15 +312,15 @@ EXPORT_SYMBOL_GPL(irq_domain_update_bus_token);
->   * irqs get mapped dynamically on the fly. However, if the controller requires
->   * static virq assignments (non-DT boot) then it will set that up correctly.
->   */
-> -struct irq_domain *irq_domain_add_simple(struct device_node *of_node,
-> -                                        unsigned int size,
-> -                                        unsigned int first_irq,
-> -                                        const struct irq_domain_ops *ops,
-> -                                        void *host_data)
-> +struct irq_domain *irq_domain_create_simple(struct fwnode_handle *fwnode,
-> +                                           unsigned int size,
-> +                                           unsigned int first_irq,
-> +                                           const struct irq_domain_ops *ops,
-> +                                           void *host_data)
->  {
->         struct irq_domain *domain;
->
-> -       domain = __irq_domain_add(of_node_to_fwnode(of_node), size, size, 0, ops, host_data);
-> +       domain = __irq_domain_add(fwnode, size, size, 0, ops, host_data);
->         if (!domain)
->                 return NULL;
->
-> @@ -328,7 +328,7 @@ struct irq_domain *irq_domain_add_simple(struct device_node *of_node,
->                 if (IS_ENABLED(CONFIG_SPARSE_IRQ)) {
->                         /* attempt to allocated irq_descs */
->                         int rc = irq_alloc_descs(first_irq, first_irq, size,
-> -                                                of_node_to_nid(of_node));
-> +                                                of_node_to_nid(to_of_node(fwnode)));
->                         if (rc < 0)
->                                 pr_info("Cannot allocate irq_descs @ IRQ%d, assuming pre-allocated\n",
->                                         first_irq);
-> @@ -338,7 +338,7 @@ struct irq_domain *irq_domain_add_simple(struct device_node *of_node,
->
->         return domain;
->  }
-> -EXPORT_SYMBOL_GPL(irq_domain_add_simple);
-> +EXPORT_SYMBOL_GPL(irq_domain_create_simple);
->
->  /**
->   * irq_domain_add_legacy() - Allocate and register a legacy revmap irq_domain.
-> --
-> 2.30.1
->
+>wrong preposition, s/to/for/    ..where???
+
+--GVj6pdslL7ULm4+q
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmBCNBEACgkQsjqdtxFL
+KRUFLwf/XUiahJFH73wCx6qfXmiUUfsDymNYIWhrHadm87kHCGHScYOuvpRJN+mP
+deG6Z2zHXKf4rKHb3W+Pi9UHfTbYSjrglMa38szNPsd2DY1bCSibFO5PsHZOx3Hi
+LahtF6tmHFVCUOGilUTO2K8HGwqBGO5ua3F5iOebeIcQLrnuXvpd9TRC4R91Y0kO
++U+wcQm9aHr8g1ztNsrEmM8JWPbPiW8I/qfxN5eHB8B4b2tv2pVvjsMrWyQr/rn7
+jdqFofhO6zTy50eygKuzF3L/sGzCpxfBZmW4YtwlT1N7Z3+Eb2P1BWDz9Isi+Bio
+19C9W3ocg0o2pRFiMQ073nIO+cShWg==
+=n4rW
+-----END PGP SIGNATURE-----
+
+--GVj6pdslL7ULm4+q--
