@@ -2,102 +2,151 @@ Return-Path: <SRS0=4QG0=ID=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE96EC433E0
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 16:00:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F65DC433E6
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 16:06:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 826BF6508F
-	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 16:00:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D70976509A
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 16:06:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229709AbhCEQAY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 5 Mar 2021 11:00:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36346 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229558AbhCEQAU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 5 Mar 2021 11:00:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1614960019;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tMFDf9/VQqzgB3HMa/pgJ1GSD4Q0k9QkIQ3iQdoAib0=;
-        b=YpT4yT7v7tQxCEvqpJ4Eo00+95PgK+lZxmAM11ugBkchEryCFhSSIN8RBgJIMfeDWUyFlC
-        48ALPnT3+a743GBKfTM//5Vg2Mx9Pdvg6wvLUay11n/V4byhx9St0MBE2a7vlkDmnsBs2/
-        HJRNi7I+uNQ+J6s7M/5H3MmcuLvVANE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-PKFWD34XOImkvUENlYeWug-1; Fri, 05 Mar 2021 11:00:15 -0500
-X-MC-Unique: PKFWD34XOImkvUENlYeWug-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 213021005D4F;
-        Fri,  5 Mar 2021 16:00:12 +0000 (UTC)
-Received: from [10.10.112.212] (ovpn-112-212.rdu2.redhat.com [10.10.112.212])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id EFD7218AD6;
-        Fri,  5 Mar 2021 16:00:10 +0000 (UTC)
-Subject: Re: [PATCH V2] docs: livepatch: Fix a typo and remove the unnecessary
- gaps in a sentence
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
-        Matthew Wilcox <willy@infradead.org>, jpoimboe@redhat.com,
-        jikos@kernel.org, mbenes@suse.cz, pmladek@suse.com, corbet@lwn.net,
-        live-patching@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, rdunlap@infradead.org
-References: <20210305100923.3731-1-unixbhaskar@gmail.com>
- <20210305125600.GM2723601@casper.infradead.org> <YEI0EcR5G53IoYzb@Gentoo>
-From:   Joe Lawrence <joe.lawrence@redhat.com>
-Message-ID: <f8b10ee7-026c-1dc0-fb0c-2a887cd1e953@redhat.com>
-Date:   Fri, 5 Mar 2021 11:00:10 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S231161AbhCEQFt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 5 Mar 2021 11:05:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58324 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231150AbhCEQFW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 5 Mar 2021 11:05:22 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 45B7365092;
+        Fri,  5 Mar 2021 16:05:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1614960322;
+        bh=ChyQh3jUOf3mpcLiwmUiTp3mAW4ljibFzKZwZJvYMcg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=TaVWfxx4/vllC7hR6YYISHmND4Na36dmQm1N7qtCjMqLrOljM3V4QVNTIJr2Q7MzX
+         8Mdq1njeGpl00EUjSWfKgk5KOmIoNd0BIGbuZx6U1oQY5+7DU3KGWUeiSta1GOHZAl
+         zw2h4zndDgOaeFsFrI+v6I6ZmRks5IiVdtT7YjuYcN/MMibqGV+QqWudpCusRoVN7J
+         r5cf4v/UlOh/381LqQhLzLxmPZmenrTNwALp3rDJ7ju/rTDDGShcgc7RTz2M7QwwOx
+         YxCJDPqhTkDLQEKTNEHtEKofYboTBlMvJsV99zUz6QESINCFUmHsgfFInqmtFsiDtf
+         +KbobAmBDhlNg==
+Received: by mail-ej1-f46.google.com with SMTP id w1so4440407ejf.11;
+        Fri, 05 Mar 2021 08:05:22 -0800 (PST)
+X-Gm-Message-State: AOAM531weEzW8sJSNcbA8txXXKYvQDTDEA+25tJjnHAgHdV9McM5OVoE
+        ObExncvd6cKulToQG/AmAzCXCZYpCRdXU1WxVA==
+X-Google-Smtp-Source: ABdhPJwUc4XxP2OrKgKoWP3l/xIeHgoelPjOuT9cmvaXTMfKex+qDw3goxqSBhbjX88yTcUVjAFeGozCqyLLXTE1hAc=
+X-Received: by 2002:a17:906:c405:: with SMTP id u5mr2843037ejz.341.1614960320807;
+ Fri, 05 Mar 2021 08:05:20 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YEI0EcR5G53IoYzb@Gentoo>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-13-marcan@marcan.st>
+ <CAHp75VdGYDDCRBRmd3O3Mt1opgDdwuRBoS1E=vaVc45h9eR-0w@mail.gmail.com>
+In-Reply-To: <CAHp75VdGYDDCRBRmd3O3Mt1opgDdwuRBoS1E=vaVc45h9eR-0w@mail.gmail.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Fri, 5 Mar 2021 10:05:08 -0600
+X-Gmail-Original-Message-ID: <CAL_JsqJsYMUpzH-2kEjQ-bDYAcxAB5Jgjp-2awjs3z00f3Gs+Q@mail.gmail.com>
+Message-ID: <CAL_JsqJsYMUpzH-2kEjQ-bDYAcxAB5Jgjp-2awjs3z00f3Gs+Q@mail.gmail.com>
+Subject: Re: [RFT PATCH v3 12/27] of/address: Add infrastructure to declare
+ MMIO as non-posted
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Hector Martin <marcan@marcan.st>,
+        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Marc Zyngier <maz@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Will Deacon <will@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        devicetree <devicetree@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/5/21 8:37 AM, Bhaskar Chowdhury wrote:
-> On 12:56 Fri 05 Mar 2021, Matthew Wilcox wrote:
->> On Fri, Mar 05, 2021 at 03:39:23PM +0530, Bhaskar Chowdhury wrote:
->>> s/varibles/variables/
->>>
->>> ...and remove leading spaces from a sentence.
->>
->> What do you mean 'leading spaces'?  Separating two sentences with
->> one space or two is a matter of personal style, and we do not attempt
->> to enforce a particular style in the kernel.
->>
-> The spaces before the "In" .. nor I am imposing anything , it was peter caught
-> and told me that it is hanging ..move it to the next line ..so I did. ..
-> 
+On Fri, Mar 5, 2021 at 9:13 AM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Thu, Mar 4, 2021 at 11:40 PM Hector Martin <marcan@marcan.st> wrote:
+> >
+> > This implements the 'nonposted-mmio' and 'posted-mmio' boolean
+> > properties. Placing these properties in a bus marks all child devices as
+> > requiring non-posted or posted MMIO mappings. If no such properties are
+> > found, the default is posted MMIO.
+> >
+> > of_mmio_is_nonposted() performs the tree walking to determine if a given
+> > device has requested non-posted MMIO.
+> >
+> > of_address_to_resource() uses this to set the IORESOURCE_MEM_NONPOSTED
+> > flag on resources that require non-posted MMIO.
+> >
+> > of_iomap() and of_io_request_and_map() then use this flag to pick the
+> > correct ioremap() variant.
+> >
+> > This mechanism is currently restricted to Apple ARM platforms, as an
+> > optimization.
+>
+> ...
+>
+> > @@ -896,7 +899,10 @@ void __iomem *of_iomap(struct device_node *np, int index)
+> >         if (of_address_to_resource(np, index, &res))
+> >                 return NULL;
+> >
+> > -       return ioremap(res.start, resource_size(&res));
+> > +       if (res.flags & IORESOURCE_MEM_NONPOSTED)
+> > +               return ioremap_np(res.start, resource_size(&res));
+> > +       else
+> > +               return ioremap(res.start, resource_size(&res));
+>
+> This doesn't sound right. Why _np is so exceptional? Why don't we have
+> other flavours (it also rings a bell to my previous comment that the
+> flag in ioresource is not in the right place)?
+>
+> ...
+>
+> > +       if (res.flags & IORESOURCE_MEM_NONPOSTED)
+> > +               mem = ioremap_np(res.start, resource_size(&res));
+> > +       else
+> > +               mem = ioremap(res.start, resource_size(&res));
+> > +
+>
+> Ditto.
+>
+> ...
+>
+> > +       while (node) {
+> > +               if (!of_property_read_bool(node, "ranges")) {
+> > +                       break;
+> > +               } else if (of_property_read_bool(node, "nonposted-mmio")) {
+> > +                       of_node_put(node);
+> > +                       return true;
+> > +               } else if (of_property_read_bool(node, "posted-mmio")) {
+> > +                       break;
+> > +               }
+> > +               parent = of_get_parent(node);
+> > +               of_node_put(node);
+> > +               node = parent;
+> > +       }
+>
+> I believe above can be slightly optimized. Don't we have helpers to
+> traverse to all parents?
 
-Initially I thought the same as Matthew, but after inspecting the diff I 
-realized it was just a line wrap.  Looks fine to me.
+We don't. I only found a handful of cases mostly in arch/powerpc.
+Given that and this series is big enough already, I don't think we
+need a helper as part of it. But patches welcome.
 
->>>   Sometimes it may not be convenient or possible to allocate shadow
->>>   variables alongside their parent objects.  Or a livepatch fix may
->>> -require shadow varibles to only a subset of parent object instances.  In
->>> +require shadow variables to only a subset of parent object instances.
->>
->> wrong preposition, s/to/for/    ..where???
-
-Hi Bhaskar,
-
-Thanks for spotting, I'd be happy with v2 as is or a v3 if you want to 
-update s/shadow variables to only/shadow variables for only/  but 
-knowing me, I probably repeated the same phrasing elsewhere.  Up to you, 
-thanks.
-
-Acked-by: Joe Lawrence <joe.lawrence@redhat.com>
-
--- Joe
-
+Rob
