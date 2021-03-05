@@ -2,165 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FDCCC433DB
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 23:54:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72E8DC433E0
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 02:17:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 72EB865001
-	for <linux-doc@archiver.kernel.org>; Thu,  4 Mar 2021 23:54:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 33F2A6500F
+	for <linux-doc@archiver.kernel.org>; Fri,  5 Mar 2021 02:17:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231236AbhCDXyz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 4 Mar 2021 18:54:55 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1668 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbhCDXyy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 18:54:54 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B6041734e0000>; Thu, 04 Mar 2021 15:54:54 -0800
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 4 Mar
- 2021 23:54:54 +0000
-Received: from nvdebian.localnet (172.20.145.6) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 4 Mar 2021
- 23:54:51 +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     Zi Yan <ziy@nvidia.com>
-CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <jhubbard@nvidia.com>,
-        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <jgg@nvidia.com>,
-        <hch@infradead.org>, <daniel@ffwll.ch>
-Subject: Re: [PATCH v3 4/8] mm/rmap: Split migration into its own function
-Date:   Fri, 5 Mar 2021 10:54:48 +1100
-Message-ID: <84997524.IMQpRet0Aq@nvdebian>
-In-Reply-To: <E93F89E1-3CE2-4CA3-97D9-6BCED78E1001@nvidia.com>
-References: <20210226071832.31547-1-apopple@nvidia.com> <20210226071832.31547-5-apopple@nvidia.com> <E93F89E1-3CE2-4CA3-97D9-6BCED78E1001@nvidia.com>
+        id S229494AbhCECRi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 4 Mar 2021 21:17:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46958 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229436AbhCECRi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 4 Mar 2021 21:17:38 -0500
+Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23BE2C061574;
+        Thu,  4 Mar 2021 18:17:37 -0800 (PST)
+Received: by mail-qk1-x730.google.com with SMTP id g185so583227qkf.6;
+        Thu, 04 Mar 2021 18:17:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7OfH/7aQnmQER1/Jp2nanZu8HmrIn7USSW5vpL5BRBE=;
+        b=FudP2PUGinIUc6kpmSOzXYEcgqURLa3uJm5JsiGyFmmaV5I+W8hIGd+jPLykIR3GLd
+         DAxPJWYaCKyDh1B0B8uNn+Dmp5AnAMZs0scyM3zJ0rFNzIifIs7H5usfso2qkX1bxHDm
+         gIbKRWQCDBPMeTLJODbIytea8/8Sp5OoLM8C3yiSwPw8CyHYjH1Ad1rBkoQVHxGFmhp4
+         +N26cKo1lg7hoUv9YKG5mjnnn3ZvoVMwIF6ULTKuvo8sg6R8a7OKsiSyZnTMX+ymDdmQ
+         igmtG+h1C+9wE5NTsP9dKmKmiBKdMFNg8pJ9qWUCLucOMq6JI16puWTeoHQSmhBeIZbn
+         j/7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7OfH/7aQnmQER1/Jp2nanZu8HmrIn7USSW5vpL5BRBE=;
+        b=KGBXFoTiPyh7Yq9f0H7ws573v3auh+zqaArPDL2Ny1N1p9YS0469+FFN0GnPcOV7Ll
+         e/JArMxKqnoY2xlDMgTIdIPbm5skDnH6bmK3BBLUribgQrEW6JGyPcfqtAo3c3Am5t6T
+         PLeY90RKTh9jZlZYynqDVmCy7ig3Oi6mJUHr4vZEd3EHWsSVAD9+J7Jws5MftdaHnCO/
+         tluysOSSdFYaW7viz7FydaT7oT7JVcsCBSbQdaKzFmbw3U8KkCEc7/iUkLjY0YC0wudL
+         JLizGzo1uJcELaDwCRO63Bsb+/3FQ0x52SAN3cqDSOQnhkGR3FX6KyIPRCitLSZIq2Nz
+         WRXg==
+X-Gm-Message-State: AOAM531bRlBbFXQXJTc7nKT7bAqGfgcU8l/L6gVeuedts/Soz3wYelX5
+        iKDjAej+ZV2CrbQbQyOwBRAW95LLDvoIOe2k
+X-Google-Smtp-Source: ABdhPJyfAU2sf2GWPUNtKJrfgIpvoRbEu6kWTxG2sMJ0R8UWWWhz33cBdvGRRG0//2sv48EUaZGyvA==
+X-Received: by 2002:ae9:e40b:: with SMTP id q11mr7375602qkc.318.1614910656470;
+        Thu, 04 Mar 2021 18:17:36 -0800 (PST)
+Received: from localhost.localdomain ([156.146.54.138])
+        by smtp.gmail.com with ESMTPSA id j2sm1011601qtv.43.2021.03.04.18.17.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Mar 2021 18:17:35 -0800 (PST)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     jpoimboe@redhat.com, jikos@kernel.org, mbenes@suse.cz,
+        pmladek@suse.com, joe.lawrence@redhat.com, corbet@lwn.net,
+        live-patching@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] docs: livepatch: Fix a typo in the file shadow-vars.rst
+Date:   Fri,  5 Mar 2021 07:47:20 +0530
+Message-Id: <20210305021720.21874-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1614902094; bh=F3stMHCU+5ii6x1iy3omj83ayupI0P+Mr9dS1o5FIt0=;
-        h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-         MIME-Version:Content-Transfer-Encoding:Content-Type:
-         X-Originating-IP:X-ClientProxiedBy;
-        b=NpU2unlnheR6/rs4Zkq9TpQwW8Ut3zxi8Pn9daVGKPN2Zf3wm0lvYJ/fXsPnTrJ2C
-         8r6FecCuivTyRTi4tEnX/gdG9VaTETErNKJhNRJW79HRPU3l70FQFYUPIkhEgdY7tX
-         YIlY/ILaZKek6pTrRHqTdQ0bbLwCKcvyZQIUXQp259KaTmOAv19PPuEro7v397+5Ru
-         zN6MpkzlSUiIVTJVHly9G9jlXozppR3Xo1drI0n42SmVmEVacBDR8DiJef1PPXPiVo
-         gD39vcJO1NY/MhM/r142FNOwKGLtl9ekatblvwVaSTLNgcdn4994m2D59bfjPvLnRH
-         5WIgHVadyysng==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wednesday, 3 March 2021 9:08:15 AM AEDT Zi Yan wrote:
-> On 26 Feb 2021, at 2:18, Alistair Popple wrote:
 
-> > diff --git a/include/linux/rmap.h b/include/linux/rmap.h
-> > index 7f1ee411bd7b..77fa17de51d7 100644
-> > --- a/include/linux/rmap.h
-> > +++ b/include/linux/rmap.h
-> > @@ -86,8 +86,6 @@ struct anon_vma_chain {
-> >  };
-> >
-> >  enum ttu_flags {
-> > -	TTU_MIGRATION		=3D 0x1,	/* migration mode */
-> > -
-> >  	TTU_SPLIT_HUGE_PMD	=3D 0x4,	/* split huge PMD if any */
->=20
-> It implies freeze in try_to_migrate() and no freeze in try_to_unmap(). I=
-=20
-think
-> we need some comments here, above try_to_migrate(), and above try_to_unma=
-p()
-> to clarify the implication.
+s/ varibles/variables/
 
-Sure. This confused me for a bit and I was initially tempted to leave=20
-TTU_SPLIT_FREEZE as a separate mode flag but looking at what freeze actuall=
-y=20
-does it made sense to remove it because try_to_migrate() is for installing=
-=20
-migration entries (which is what freeze does) and try_to_unmap() just unmap=
-s.=20
-So I'll add some comments to that effect.
-=20
-> >  	TTU_IGNORE_MLOCK	=3D 0x8,	/* ignore mlock */
-> >  	TTU_IGNORE_HWPOISON	=3D 0x20,	/* corrupted page is recoverable */
-> > @@ -96,7 +94,6 @@ enum ttu_flags {
-> >  					 * do a final flush if necessary */
-> >  	TTU_RMAP_LOCKED		=3D 0x80,	/* do not grab rmap lock:
-> >  					 * caller holds it */
-> > -	TTU_SPLIT_FREEZE	=3D 0x100,		/* freeze pte under splitting thp */
-> >  };
-> >
-> >  #ifdef CONFIG_MMU
-> > @@ -193,6 +190,7 @@ static inline void page_dup_rmap(struct page *page,=
-=20
-bool compound)
-> >  int page_referenced(struct page *, int is_locked,
-> >  			struct mem_cgroup *memcg, unsigned long *vm_flags);
-> >
-> > +bool try_to_migrate(struct page *page, enum ttu_flags flags);
-> >  bool try_to_unmap(struct page *, enum ttu_flags flags);
-> >
-> >  /* Avoid racy checks */
-> > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> > index d00b93dc2d9e..357052a4567b 100644
-> > --- a/mm/huge_memory.c
-> > +++ b/mm/huge_memory.c
-> > @@ -2351,16 +2351,16 @@ void vma_adjust_trans_huge(struct vm_area_struc=
-t=20
-*vma,
-> >
-> >  static void unmap_page(struct page *page)
-> >  {
-> > -	enum ttu_flags ttu_flags =3D TTU_IGNORE_MLOCK |
-> > -		TTU_RMAP_LOCKED | TTU_SPLIT_HUGE_PMD;
-> > +	enum ttu_flags ttu_flags =3D TTU_RMAP_LOCKED | TTU_SPLIT_HUGE_PMD;
-> >  	bool unmap_success;
-> >
-> >  	VM_BUG_ON_PAGE(!PageHead(page), page);
-> >
-> >  	if (PageAnon(page))
-> > -		ttu_flags |=3D TTU_SPLIT_FREEZE;
-> > -
-> > -	unmap_success =3D try_to_unmap(page, ttu_flags);
-> > +		unmap_success =3D try_to_migrate(page, ttu_flags);
-> > +	else
-> > +		unmap_success =3D try_to_unmap(page, ttu_flags |
-> > +						TTU_IGNORE_MLOCK);
->=20
-> I think we need a comment here about why anonymous pages need=20
-try_to_migrate()
-> and others need try_to_unmap().
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ Documentation/livepatch/shadow-vars.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Historically this comes from baa355fd3314 ("thp: file pages support for=20
-split_huge_page()") which says:
+diff --git a/Documentation/livepatch/shadow-vars.rst b/Documentation/livepatch/shadow-vars.rst
+index c05715aeafa4..8464866d18ba 100644
+--- a/Documentation/livepatch/shadow-vars.rst
++++ b/Documentation/livepatch/shadow-vars.rst
+@@ -165,7 +165,7 @@ In-flight parent objects
 
-"We don't setup migration entries. Just unmap pages. It helps handling case=
-s=20
-when i_size is in the middle of the page: no need handle unmap pages beyond=
-=20
-i_size manually."
+ Sometimes it may not be convenient or possible to allocate shadow
+ variables alongside their parent objects.  Or a livepatch fix may
+-require shadow varibles to only a subset of parent object instances.  In
++require shadow variables to only a subset of parent object instances.  In
+ these cases, the klp_shadow_get_or_alloc() call can be used to attach
+ shadow variables to parents already in-flight.
 
-But I'll add a comment here, thanks.
-
- - Alistair
-
-> Thanks.
->=20
-> =E2=80=94
-> Best Regards,
-> Yan Zi
-
-
-
+--
+2.30.1
 
