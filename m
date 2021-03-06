@@ -2,146 +2,121 @@ Return-Path: <SRS0=F2iX=IE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51951C43381
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Mar 2021 07:52:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82EEAC433E0
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Mar 2021 11:35:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1CA5565018
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Mar 2021 07:52:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5673F6501D
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Mar 2021 11:35:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229635AbhCFHtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Mar 2021 02:49:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59092 "EHLO
+        id S230222AbhCFLfV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 Mar 2021 06:35:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229617AbhCFHsq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Mar 2021 02:48:46 -0500
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B7FC06175F;
-        Fri,  5 Mar 2021 23:48:45 -0800 (PST)
-Received: by mail-pj1-x1030.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so369830pjh.1;
-        Fri, 05 Mar 2021 23:48:45 -0800 (PST)
+        with ESMTP id S230207AbhCFLfV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Mar 2021 06:35:21 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECAF3C06175F;
+        Sat,  6 Mar 2021 03:35:20 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id w34so2091361pga.8;
+        Sat, 06 Mar 2021 03:35:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DSZXu94+R555WhtuFMRch+eV8hmVBvr/x43d2hheJJc=;
-        b=VluraUHuZsIPa2k+Kvj6GH7BSkPT41eqr4M/CQ/PUSvCotnYQfO6dOYS7/3E6EecX2
-         2+MnYrBdCyZRgy4So3JceeAQkU/QAp5BVIV74Lefs08LkPlmCV5ZdKJreID3r/1VeepX
-         q3McCPKRMX8szQ0hAEX13XyB7Z6raB0oihzyt7ukQ23MDkt5uzxTnXfexj4ogbw20IFC
-         bQNvhn0GKIv4RtUmsgauvLn4+PnLWHrk5RjHRBfv5Xofv1r8w88hhM4ZWZoxZkong2DQ
-         e5v4d5dAUmMeZQyHpOeCU5apI0HruD/KYJyLElAZXp72x7+ifWCkAtMcmOuVZ3CKAGvf
-         n/bQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=RFcAptOGUzRFgc1VcA5H4/3lDHhPtSvWgw9OuJoIW28=;
+        b=ZvgTalSC71oPlL8WnLg4t8W9jsbTDX2i6R7giAZKzGn89jhZCH6bvptq9X5yzNQS5I
+         TqWkQy4xBzy1OqYPpKLPkibJibENFxX0lVx2Z3bBNqQJT6/Cxoo1YJqChS7XXHLYoD1Y
+         hAIEuNh9Mniy8UBLnq/dzEFSFRGsZuKkSWTI6xTY74miUVquK7bKEGdjq69axTk/ecyw
+         OXwtviL6EtS4ew+my7eiZj7n5tX3sEg6cLFBYdft0RVMHx3jO/htmDoJd07BvIFQCdla
+         kFXLUUzIe9kVZjcE3mKs1fqRFOZ+fB/z6yztLuFF/OumKpCvkZU9An0PiPBG1vVRKVHV
+         ET0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DSZXu94+R555WhtuFMRch+eV8hmVBvr/x43d2hheJJc=;
-        b=Eej4gghUT23gHEMEYu2p0HNGy5Rhp2BMFRXixwXKBC3c+EUj06FkDRula27ORtv8n7
-         oV6RhyudEAesWhACo9KeaYcB9vBi/kNy/rjDJQ5hc8ikW19oQ8bs9NpbDWelk5iIbtEM
-         PsDOhef4SVxzc++Ma0IKgb03Z5HIRhgodeZFrvoedf+vyXIKBbvVNbNEf7SL78MgvF1J
-         Re3PqpcykHJ/ye3ryQHo4DP//BlJvcjhyCZ2NE9RojAns4UQOEjRe9Bs/Egwqp2Xz1Bi
-         5UCnGwzU9qWmG7fXpKRX4wzJlqYG2tQBDfbOold3hzaEgv1vRnUpLCJw70aSA9vHFg+1
-         aQJg==
-X-Gm-Message-State: AOAM530htLptfGKb8as6bP8g4N6FgYj+Eynm7y0ztrHLLsojzDR23Ojb
-        Fd12s4I/53fUmIxO5C5rOr8=
-X-Google-Smtp-Source: ABdhPJx9oouAzAWFEXuhiUUwFZmuNk93Mo4/2GAEE/laT9yMPbZYkKWgCky8dE7eqgyhymy47DspLw==
-X-Received: by 2002:a17:902:b7cb:b029:e4:55cd:ddf0 with SMTP id v11-20020a170902b7cbb02900e455cdddf0mr11953507plz.45.1615016925270;
-        Fri, 05 Mar 2021 23:48:45 -0800 (PST)
-Received: from ?IPv6:2405:201:600d:a089:2cbb:f743:ffa5:41bc? ([2405:201:600d:a089:2cbb:f743:ffa5:41bc])
-        by smtp.gmail.com with ESMTPSA id x23sm4452314pff.133.2021.03.05.23.48.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Mar 2021 23:48:44 -0800 (PST)
-Subject: Re: [RFC v3] scripts: kernel-doc: fix typedef support for
- struct/union parsing
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <CAKXUXMzHPnM=ie06ZGuFXyJ7RcRjYomjyASbp3ND9-Mb2Es+2w@mail.gmail.com>
- <20210225145033.11431-1-yashsri421@gmail.com>
- <20210306043548.GO2723601@casper.infradead.org>
- <CAKXUXMwD_ZZA7EJaxZBRfMDEvwd4Ghsj2vy9KCfj0R-yx2_K0Q@mail.gmail.com>
-From:   Aditya <yashsri421@gmail.com>
-Message-ID: <6a75c9f4-460f-f83e-7fe2-5a3a4c64232b@gmail.com>
-Date:   Sat, 6 Mar 2021 13:18:38 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAKXUXMwD_ZZA7EJaxZBRfMDEvwd4Ghsj2vy9KCfj0R-yx2_K0Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=RFcAptOGUzRFgc1VcA5H4/3lDHhPtSvWgw9OuJoIW28=;
+        b=mXHH0GiCM+yk98sQaVFvP7/IPwb5PXMJTOcVIuTLVKEaxmERktK34KwnvTnUgvvGFd
+         k+xev7GoazpQMu7+ZmahU8pZgGXCPP8HLbwm2ajGNPeRk4F0FSUT1Sc7gzBN35ZiK9e3
+         oKI89U0kKShK5+sOp2AzgXqqCZgbTxvCmNANrVMoTt0ZG3auKkGATN/ERM7QMO/8ldvP
+         cYDeum6UoIfWRywNapyMT3mHrariggQgnsmTNGNDQ7BchVh5YGKFWJ8k906GuyAy1ov1
+         qBP4It+4RrXbW3TqTJ7jWevnF57cZjWdGRIgRP+vFFb8sjs+6B2UfD3FFKzp6jUIyYH6
+         2bDw==
+X-Gm-Message-State: AOAM532HYilz3mSAr0Iter4wFx1nI/+dj0oa4agb+lfm7njmKf4duMBm
+        wKgL4fGhWIkYsgHI5FsqJIY=
+X-Google-Smtp-Source: ABdhPJyVJQxFLZUKLdkwHW2bBFVsEj+2VwFa5BbmcE8NrsH2miLBMn1v3xMmQzBBt4oxhz57odo1ow==
+X-Received: by 2002:a63:d618:: with SMTP id q24mr12380661pgg.283.1615030520441;
+        Sat, 06 Mar 2021 03:35:20 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:600d:a089:2cbb:f743:ffa5:41bc])
+        by smtp.googlemail.com with ESMTPSA id n184sm5342980pfd.205.2021.03.06.03.35.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Mar 2021 03:35:19 -0800 (PST)
+From:   Aditya Srivastava <yashsri421@gmail.com>
+To:     corbet@lwn.net
+Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org, willy@infradead.org
+Subject: [RFC v2] scripts: kernel-doc: fix attribute capture in function parsing
+Date:   Sat,  6 Mar 2021 17:05:10 +0530
+Message-Id: <20210306113510.31023-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAKXUXMwoYa6xbCsqnUYL5uSA71h_3xV7-8erF6XTpmkck8ozaw@mail.gmail.com>
+References: <CAKXUXMwoYa6xbCsqnUYL5uSA71h_3xV7-8erF6XTpmkck8ozaw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 6/3/21 11:55 am, Lukas Bulwahn wrote:
-> On Sat, Mar 6, 2021 at 5:35 AM Matthew Wilcox <willy@infradead.org> wrote:
->>
->> On Thu, Feb 25, 2021 at 08:20:33PM +0530, Aditya Srivastava wrote:
->>> +++ b/scripts/kernel-doc
->>> @@ -1201,12 +1201,23 @@ sub dump_union($$) {
->>>  sub dump_struct($$) {
->>>      my $x = shift;
->>>      my $file = shift;
->>> +    my $decl_type;
->>> +    my $members;
->>> +    my $type = qr{struct|union};
->>> +    # For capturing struct/union definition body, i.e. "{members*}qualifiers*"
->>> +    my $definition_body = qr{\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*};
->>> -    if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
->>> -     my $decl_type = $1;
->>> +    if ($x =~ /($type)\s+(\w+)\s*$definition_body/) {
->>> +     $decl_type = $1;
->>>       $declaration_name = $2;
->>> -     my $members = $3;
->>> +     $members = $3;
->>> +    } elsif ($x =~ /typedef\s+($type)\s*$definition_body\s*(\w+)\s*;/) {
->>> +     $decl_type = $1;
->>> +     $declaration_name = $3;
->>> +     $members = $2;
->>> +    }
->>
->> In the same spirit as dump_function, would something like this work?
->>
-> 
-> I agree. That might be a suitable clean-up to keep the code for
-> functions and struct/union parsing similar in style/spirit.
-> 
-> Aditya, would you like to create a patch for that?
-> 
+Currently, kernel-doc warns for function prototype parsing on the
+presence of attributes "__attribute_const__" and "__flatten" in the
+definition.
 
-Sure Lukas.
-I have a doubt though, Can't we use a single expression separated by
-"|" here, instead of multiple lines? i.e.,
+There are 166 occurrences in ~70 files in the kernel tree for
+"__attribute_const__" and 5 occurrences in 4 files for "__flatten".
 
-$x =~
-s/__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)\s*//;
+Out of 166, there are 3 occurrences in three different files with
+"__attribute_const__" and a preceding kernel-doc; and, 1 occurrence in
+./mm/percpu.c for "__flatten" with a preceding kernel-doc. All other
+occurrences have no preceding kernel-doc.
 
+Add support for  "__attribute_const__" and "__flatten" attributes.
 
-Probably we could do something similar for dump_function, i.e.,
--    $prototype =~ s/^static +//;
--    $prototype =~ s/^extern +//;
--    $prototype =~ s/^asmlinkage +//;
--    $prototype =~ s/^inline +//;
--    $prototype =~ s/^__inline__ +//;
--    $prototype =~ s/^__inline +//;
--    $prototype =~ s/^__always_inline +//;
--    $prototype =~ s/^noinline +//;
+A quick evaluation by running 'kernel-doc -none' on kernel-tree reveals
+that no additional warning or error has been added or removed by the fix.
 
-+    $prototype =~
-s/^(?:static|extern|asmlinkage|__?inline__?|__always_inline|noinline) +//;
-And so on for other regexps.
+Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+Changes in v2:
+- Remove "__attribute_const__" from the $return_type capture regex and add to the substituting ones.
+- Add support for "__flatten" attribute
+- Modify commit message
 
-What do you think?
+ scripts/kernel-doc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks
-Aditya
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index 68df17877384..e1e562b2e2e7 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1766,12 +1766,14 @@ sub dump_function($$) {
+     $prototype =~ s/^noinline +//;
+     $prototype =~ s/__init +//;
+     $prototype =~ s/__init_or_module +//;
++    $prototype =~ s/__flatten +//;
+     $prototype =~ s/__meminit +//;
+     $prototype =~ s/__must_check +//;
+     $prototype =~ s/__weak +//;
+     $prototype =~ s/__sched +//;
+     $prototype =~ s/__printf\s*\(\s*\d*\s*,\s*\d*\s*\) +//;
+     my $define = $prototype =~ s/^#\s*define\s+//; #ak added
++    $prototype =~ s/__attribute_const__ +//;
+     $prototype =~ s/__attribute__\s*\(\(
+             (?:
+                  [\w\s]++          # attribute name
+-- 
+2.17.1
+
