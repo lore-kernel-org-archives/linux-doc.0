@@ -2,137 +2,146 @@ Return-Path: <SRS0=F2iX=IE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67E34C433DB
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Mar 2021 06:39:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51951C43381
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Mar 2021 07:52:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1819B64E42
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Mar 2021 06:39:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1CA5565018
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Mar 2021 07:52:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229637AbhCFGjM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Mar 2021 01:39:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44226 "EHLO
+        id S229635AbhCFHtG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 Mar 2021 02:49:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229628AbhCFGiu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Mar 2021 01:38:50 -0500
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com [IPv6:2607:f8b0:4864:20::d2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 690C8C06175F;
-        Fri,  5 Mar 2021 22:38:50 -0800 (PST)
-Received: by mail-io1-xd2e.google.com with SMTP id k2so4437099ioh.5;
-        Fri, 05 Mar 2021 22:38:50 -0800 (PST)
+        with ESMTP id S229617AbhCFHsq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Mar 2021 02:48:46 -0500
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B7FC06175F;
+        Fri,  5 Mar 2021 23:48:45 -0800 (PST)
+Received: by mail-pj1-x1030.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so369830pjh.1;
+        Fri, 05 Mar 2021 23:48:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=v/sw+/0dBPQokk2b5m8FztuNfd7xqS1fRXTj5tWyq3w=;
-        b=GfVFKlEpTDkLf60dzJSRpQN0KurTd+Yl6BBM8eU8fNVlXhYDoeQ72Y8bF2Cdr2iCn4
-         /Ee6mpsOPnM5aVdO9wvgtFdNq6CHZ6neuRxvjdyP6SAHNcljLDMgu76Q/4qvsitkOg2D
-         sNMSsxT0iyCFZIBqmrCww1PC1Jh6M0peUnuisjhNKpDfR32HeFFfzBFIfAMo3CbLk9hE
-         50RVlbz3vmPlGUXaA7o/hzIQkLsytSEnlY9Us0o7vSkaiI7SFjToc7p2zFlhOIGTO+tI
-         +BDXN9avPgBkhWrqEDUAg6v12NP26gegy+wugT6n5yJsbje+0YQ2ynQnR2iF82vbCmZb
-         b1jw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=DSZXu94+R555WhtuFMRch+eV8hmVBvr/x43d2hheJJc=;
+        b=VluraUHuZsIPa2k+Kvj6GH7BSkPT41eqr4M/CQ/PUSvCotnYQfO6dOYS7/3E6EecX2
+         2+MnYrBdCyZRgy4So3JceeAQkU/QAp5BVIV74Lefs08LkPlmCV5ZdKJreID3r/1VeepX
+         q3McCPKRMX8szQ0hAEX13XyB7Z6raB0oihzyt7ukQ23MDkt5uzxTnXfexj4ogbw20IFC
+         bQNvhn0GKIv4RtUmsgauvLn4+PnLWHrk5RjHRBfv5Xofv1r8w88hhM4ZWZoxZkong2DQ
+         e5v4d5dAUmMeZQyHpOeCU5apI0HruD/KYJyLElAZXp72x7+ifWCkAtMcmOuVZ3CKAGvf
+         n/bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=v/sw+/0dBPQokk2b5m8FztuNfd7xqS1fRXTj5tWyq3w=;
-        b=Uchyl51Z/WbEZkw7a6YJw8FACiE3h545wmRSmj26rGFgR6cx2d1r0uwOZ2pqQ3Qewr
-         X8uP2MiLUq0yhtso4imwF5cxczoEGpPboQmFHbIBOWs/cJ1boenqRK6g006nmWJyq8PG
-         oriN4ageJ1lItVVRWQcR8OR0S/ogBCHiLmd66DwhL4Hx5QP9B9WmZtgs34sgcdIToNjA
-         P3QRIKm7cIXhbk6VKuaDoxeirVm3da9CyKG0/08Bm55MPwI3uxyohQ+5l6RlRN1lCCbg
-         2Q2B614sNy6UajW1eqLrfM5jZe/+YAfTYgYROWnr8PUst7rqX8ePxKpxT6kjzPz+YFG2
-         ykWQ==
-X-Gm-Message-State: AOAM531gRUjX3X12pq2zkStwso5hDh74N12VFga/4ib5Vc6kqQTdmMlN
-        +ChjvDUX+fuVBlU1/uCTjs/WAB4AC8fpur9xfgw=
-X-Google-Smtp-Source: ABdhPJw4Wg/pG/DiNIEzk3AX99dPL7N8vAXKtJeSEjZ5UKsgj2ZPkr0U+dNvNEuVexUBCDsH3DMe6SMvGRyC8jGTMo8=
-X-Received: by 2002:a05:6602:2191:: with SMTP id b17mr11293912iob.114.1615012729875;
- Fri, 05 Mar 2021 22:38:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20210305182000.8363-1-yashsri421@gmail.com> <20210305184322.GN2723601@casper.infradead.org>
- <bcd38964-bfff-99c2-eb24-1942836e9526@gmail.com>
-In-Reply-To: <bcd38964-bfff-99c2-eb24-1942836e9526@gmail.com>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Sat, 6 Mar 2021 07:38:39 +0100
-Message-ID: <CAKXUXMwoYa6xbCsqnUYL5uSA71h_3xV7-8erF6XTpmkck8ozaw@mail.gmail.com>
-Subject: Re: [RFC] scripts: kernel-doc: fix attribute capture in function parsing
-To:     Aditya <yashsri421@gmail.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=DSZXu94+R555WhtuFMRch+eV8hmVBvr/x43d2hheJJc=;
+        b=Eej4gghUT23gHEMEYu2p0HNGy5Rhp2BMFRXixwXKBC3c+EUj06FkDRula27ORtv8n7
+         oV6RhyudEAesWhACo9KeaYcB9vBi/kNy/rjDJQ5hc8ikW19oQ8bs9NpbDWelk5iIbtEM
+         PsDOhef4SVxzc++Ma0IKgb03Z5HIRhgodeZFrvoedf+vyXIKBbvVNbNEf7SL78MgvF1J
+         Re3PqpcykHJ/ye3ryQHo4DP//BlJvcjhyCZ2NE9RojAns4UQOEjRe9Bs/Egwqp2Xz1Bi
+         5UCnGwzU9qWmG7fXpKRX4wzJlqYG2tQBDfbOold3hzaEgv1vRnUpLCJw70aSA9vHFg+1
+         aQJg==
+X-Gm-Message-State: AOAM530htLptfGKb8as6bP8g4N6FgYj+Eynm7y0ztrHLLsojzDR23Ojb
+        Fd12s4I/53fUmIxO5C5rOr8=
+X-Google-Smtp-Source: ABdhPJx9oouAzAWFEXuhiUUwFZmuNk93Mo4/2GAEE/laT9yMPbZYkKWgCky8dE7eqgyhymy47DspLw==
+X-Received: by 2002:a17:902:b7cb:b029:e4:55cd:ddf0 with SMTP id v11-20020a170902b7cbb02900e455cdddf0mr11953507plz.45.1615016925270;
+        Fri, 05 Mar 2021 23:48:45 -0800 (PST)
+Received: from ?IPv6:2405:201:600d:a089:2cbb:f743:ffa5:41bc? ([2405:201:600d:a089:2cbb:f743:ffa5:41bc])
+        by smtp.gmail.com with ESMTPSA id x23sm4452314pff.133.2021.03.05.23.48.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 05 Mar 2021 23:48:44 -0800 (PST)
+Subject: Re: [RFC v3] scripts: kernel-doc: fix typedef support for
+ struct/union parsing
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+References: <CAKXUXMzHPnM=ie06ZGuFXyJ7RcRjYomjyASbp3ND9-Mb2Es+2w@mail.gmail.com>
+ <20210225145033.11431-1-yashsri421@gmail.com>
+ <20210306043548.GO2723601@casper.infradead.org>
+ <CAKXUXMwD_ZZA7EJaxZBRfMDEvwd4Ghsj2vy9KCfj0R-yx2_K0Q@mail.gmail.com>
+From:   Aditya <yashsri421@gmail.com>
+Message-ID: <6a75c9f4-460f-f83e-7fe2-5a3a4c64232b@gmail.com>
+Date:   Sat, 6 Mar 2021 13:18:38 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CAKXUXMwD_ZZA7EJaxZBRfMDEvwd4Ghsj2vy9KCfj0R-yx2_K0Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 5, 2021 at 8:38 PM Aditya <yashsri421@gmail.com> wrote:
->
-> On 6/3/21 12:13 am, Matthew Wilcox wrote:
-> > On Fri, Mar 05, 2021 at 11:50:00PM +0530, Aditya Srivastava wrote:
-> >> Provide a simple fix by adding "__attribute_const__" in the corresponding
-> >> regex expression.
-> >>
-> >> A quick evaluation by running 'kernel-doc -none' on kernel-tree reveals
-> >> that no additional warning or error has been added or removed by the fix.
-> >
-> > I'm no perlmonger, but why isn't this simply:
-> >
-> > +++ b/scripts/kernel-doc
-> > @@ -1753,6 +1753,7 @@ sub dump_function($$) {
-> >      $prototype =~ s/^__inline +//;
-> >      $prototype =~ s/^__always_inline +//;
-> >      $prototype =~ s/^noinline +//;
-> > +    $prototype =~ s/__attribute_const__ +//;
-> >      $prototype =~ s/__init +//;
-> >      $prototype =~ s/__init_or_module +//;
-> >      $prototype =~ s/__meminit +//;
-> >
-> > (completely untested)
-> >
-> >> +++ b/scripts/kernel-doc
-> >> @@ -1753,6 +1753,7 @@ sub dump_function($$) {
-> >>      my $prototype = shift;
-> >>      my $file = shift;
-> >>      my $noret = 0;
-> >> +    my $attribute_const = qr{__attribute_const__};
-> >>
-> >>      print_lineno($new_start_line);
-> >>
-> >> @@ -1808,7 +1809,7 @@ sub dump_function($$) {
-> >>      $prototype =~ m/^(\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> >>      $prototype =~ m/^(\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> >>      $prototype =~ m/^(\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> >> -    $prototype =~ m/^(\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> >> +    $prototype =~ m/^(\w+\s+\w+\s*\*+$attribute_const?)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> >>      $prototype =~ m/^(\w+\s+\w+\s+\w+)\s+([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> >>      $prototype =~ m/^(\w+\s+\w+\s+\w+\s*\*+)\s*([a-zA-Z0-9_~:]+)\s*\(([^\(]*)\)/ ||
-> >>      $prototype =~ m/^()([a-zA-Z0-9_~:]+)\s*\(([^\{]*)\)/ ||
->
-> Hi Matthew
-> You are correct, it should be placed there. I was considering it as a
-> return type instead.
-> I'll send a modified v2 with the changes.
->
+On 6/3/21 11:55 am, Lukas Bulwahn wrote:
+> On Sat, Mar 6, 2021 at 5:35 AM Matthew Wilcox <willy@infradead.org> wrote:
+>>
+>> On Thu, Feb 25, 2021 at 08:20:33PM +0530, Aditya Srivastava wrote:
+>>> +++ b/scripts/kernel-doc
+>>> @@ -1201,12 +1201,23 @@ sub dump_union($$) {
+>>>  sub dump_struct($$) {
+>>>      my $x = shift;
+>>>      my $file = shift;
+>>> +    my $decl_type;
+>>> +    my $members;
+>>> +    my $type = qr{struct|union};
+>>> +    # For capturing struct/union definition body, i.e. "{members*}qualifiers*"
+>>> +    my $definition_body = qr{\{(.*)\}(?:\s*(?:__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*};
+>>> -    if ($x =~ /(struct|union)\s+(\w+)\s*\{(.*)\}(\s*(__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)))*/) {
+>>> -     my $decl_type = $1;
+>>> +    if ($x =~ /($type)\s+(\w+)\s*$definition_body/) {
+>>> +     $decl_type = $1;
+>>>       $declaration_name = $2;
+>>> -     my $members = $3;
+>>> +     $members = $3;
+>>> +    } elsif ($x =~ /typedef\s+($type)\s*$definition_body\s*(\w+)\s*;/) {
+>>> +     $decl_type = $1;
+>>> +     $declaration_name = $3;
+>>> +     $members = $2;
+>>> +    }
+>>
+>> In the same spirit as dump_function, would something like this work?
+>>
+> 
+> I agree. That might be a suitable clean-up to keep the code for
+> functions and struct/union parsing similar in style/spirit.
+> 
+> Aditya, would you like to create a patch for that?
+> 
 
-Aditya, I also ran:
+Sure Lukas.
+I have a doubt though, Can't we use a single expression separated by
+"|" here, instead of multiple lines? i.e.,
 
-git ls-files | xargs ./scripts/kernel-doc -none 2>&1 | tee kernel-doc-output
+$x =~
+s/__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)\s*//;
 
-cat kernel-doc-output | grep "cannot understand function prototype:" |
-sed 's/[^:].*:[0-9]*: \(.*\)$/\1/' | sort
 
-and I found another instance of failed parsing function prototypes in
-mm/percpu.c:2671:
+Probably we could do something similar for dump_function, i.e.,
+-    $prototype =~ s/^static +//;
+-    $prototype =~ s/^extern +//;
+-    $prototype =~ s/^asmlinkage +//;
+-    $prototype =~ s/^inline +//;
+-    $prototype =~ s/^__inline__ +//;
+-    $prototype =~ s/^__inline +//;
+-    $prototype =~ s/^__always_inline +//;
+-    $prototype =~ s/^noinline +//;
 
-struct pcpu_alloc_info * __flatten pcpu_build_alloc_info(size_t
-reserved_size, size_t dyn_size, size_t atom_size,
-pcpu_fc_cpu_distance_fn_t cpu_distance_fn)
++    $prototype =~
+s/^(?:static|extern|asmlinkage|__?inline__?|__always_inline|noinline) +//;
+And so on for other regexps.
 
-Could you address that one in your patch as well?
+What do you think?
 
-Lukas
+Thanks
+Aditya
