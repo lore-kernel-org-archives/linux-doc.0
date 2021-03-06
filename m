@@ -2,101 +2,205 @@ Return-Path: <SRS0=F2iX=IE=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 148ADC433DB
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Mar 2021 15:21:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1ECAC433E6
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Mar 2021 20:59:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEE1164FD3
-	for <linux-doc@archiver.kernel.org>; Sat,  6 Mar 2021 15:21:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E0DA650A2
+	for <linux-doc@archiver.kernel.org>; Sat,  6 Mar 2021 20:59:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230415AbhCFPUR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 6 Mar 2021 10:20:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42940 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230249AbhCFPUQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Mar 2021 10:20:16 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 451C3C06174A;
-        Sat,  6 Mar 2021 07:20:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=NjnK0qgYgEfs1buaAUZnKhf/ZDhnvWuO8bhHT6AcXzo=; b=u1ZJJ6BKay/Yg+3YE7MnYVhWQ9
-        JH+ifgjLjYNnhi+zBeT4w/oX975qexDEVTXt4FflUFdQfTGPVDkR+XA+xM/+vJzc156wErA6MPDw+
-        ufgwJmv/M9ePV01+Cny/kP3fiwa1g5LfJkIsT6mnGm8L5UTiGyWg3zMNznT3xRHrbKk46N07auZCi
-        rieDnUxpby6xrLq1GcMxJPDl3nByJAzOs33sq1ZI6vGzxoWOJQ16S+YX2qpmtv6m9kPnib8YiAWAZ
-        vo2gxEZPISlMYlyA/a2sG30uBAhkvwzYZU0yZXspc5Q+vv80zlmBgDijxL2KPYTpsYdm0S39aRQyU
-        JxVc5XlA==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lIYio-00DBQ3-0D; Sat, 06 Mar 2021 15:20:04 +0000
-Date:   Sat, 6 Mar 2021 15:20:01 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Aditya <yashsri421@gmail.com>
-Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [RFC v3] scripts: kernel-doc: fix typedef support for
- struct/union parsing
-Message-ID: <20210306152001.GP2723601@casper.infradead.org>
-References: <CAKXUXMzHPnM=ie06ZGuFXyJ7RcRjYomjyASbp3ND9-Mb2Es+2w@mail.gmail.com>
- <20210225145033.11431-1-yashsri421@gmail.com>
- <20210306043548.GO2723601@casper.infradead.org>
- <CAKXUXMwD_ZZA7EJaxZBRfMDEvwd4Ghsj2vy9KCfj0R-yx2_K0Q@mail.gmail.com>
- <6a75c9f4-460f-f83e-7fe2-5a3a4c64232b@gmail.com>
+        id S229737AbhCFU71 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 6 Mar 2021 15:59:27 -0500
+Received: from mail-qt1-f182.google.com ([209.85.160.182]:40353 "EHLO
+        mail-qt1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229704AbhCFU7E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 6 Mar 2021 15:59:04 -0500
+Received: by mail-qt1-f182.google.com with SMTP id h9so4681016qtq.7;
+        Sat, 06 Mar 2021 12:59:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=SFEqSSwSe/KzR9VZCsRqchghKKejji8suG50GSay0+M=;
+        b=W4rdmm2fDmygn+S1ssF5Fr40mQQfX8G+0XnjsJB7X53XVaFiZJMOBp1aiJlGYzQGUv
+         HMNuStEyoSOTUUwwvEtxOTlnGMSX6m0/p2mu2+3lXa9w7ThoOUrXQKpWF+jTz9v7Ob8G
+         WIcPEu15c2VMlHyvNJyAcoWUfcILtlvPeUAbcS/UaoCUZ4IRlSK4H3V2lohd2ph9K24j
+         gVXJMeSFhNSnutE0xygu/n1xjpNTJJ12KMK/XNHqNs1PGwkPV0yl+y7CopvMbOMG0ZQC
+         oFJidG8xNAY+VaFH2X49ULnHEhXxIsde0tYDdvzOzHjcqgitj+8g7nxqhM/jLmaT+wMD
+         3gLw==
+X-Gm-Message-State: AOAM530wMSIF/MhSJS2UZ+Ang6JVz2qLXkS6aavgwuzAaLCoi7M7f3Mk
+        yIAivcki8NB91QQtQ6gmFg==
+X-Google-Smtp-Source: ABdhPJzrYbstCQbyHTs+LKACy+Q3EGh7gYXWL5eAQ6ICuGWnppDHWTdn2sYJwbL2bRd21rCJqClYwA==
+X-Received: by 2002:ac8:7359:: with SMTP id q25mr15066984qtp.202.1615064343319;
+        Sat, 06 Mar 2021 12:59:03 -0800 (PST)
+Received: from robh.at.kernel.org ([172.58.27.98])
+        by smtp.gmail.com with ESMTPSA id v187sm4551721qkd.50.2021.03.06.12.58.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 06 Mar 2021 12:59:02 -0800 (PST)
+Received: (nullmailer pid 1202783 invoked by uid 1000);
+        Sat, 06 Mar 2021 20:58:55 -0000
+Date:   Sat, 6 Mar 2021 13:58:55 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Quan Nguyen <quan@os.amperecomputing.com>
+Cc:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        openbmc@lists.ozlabs.org,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
+Subject: Re: [PATCH 1/4] dt-bindings: mfd: Add bindings for Ampere Altra
+ SMPro drivers
+Message-ID: <20210306205855.GA1195877@robh.at.kernel.org>
+References: <20210225101854.13896-1-quan@os.amperecomputing.com>
+ <20210225101854.13896-2-quan@os.amperecomputing.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6a75c9f4-460f-f83e-7fe2-5a3a4c64232b@gmail.com>
+In-Reply-To: <20210225101854.13896-2-quan@os.amperecomputing.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 06, 2021 at 01:18:38PM +0530, Aditya wrote:
-> On 6/3/21 11:55 am, Lukas Bulwahn wrote:
-> > I agree. That might be a suitable clean-up to keep the code for
-> > functions and struct/union parsing similar in style/spirit.
-> > 
-> > Aditya, would you like to create a patch for that?
+On Thu, Feb 25, 2021 at 05:18:51PM +0700, Quan Nguyen wrote:
+> Adds device tree bindings for SMPro drivers found on the Mt.Jade hardware
+> reference platform with Ampere's Altra Processor family.
 > 
-> Sure Lukas.
-> I have a doubt though, Can't we use a single expression separated by
-> "|" here, instead of multiple lines? i.e.,
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+> ---
+>  .../bindings/hwmon/ampere,ac01-hwmon.yaml     | 27 ++++++
+>  .../bindings/mfd/ampere,ac01-smpro.yaml       | 82 +++++++++++++++++++
+>  2 files changed, 109 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+>  create mode 100644 Documentation/devicetree/bindings/mfd/ampere,ac01-smpro.yaml
 > 
-> $x =~
-> s/__packed|__aligned|____cacheline_aligned_in_smp|____cacheline_aligned|__attribute__\s*\(\([a-z0-9,_\s\(\)]*\)\)\s*//;
-> 
-> 
-> Probably we could do something similar for dump_function, i.e.,
-> -    $prototype =~ s/^static +//;
-> -    $prototype =~ s/^extern +//;
-> -    $prototype =~ s/^asmlinkage +//;
-> -    $prototype =~ s/^inline +//;
-> -    $prototype =~ s/^__inline__ +//;
-> -    $prototype =~ s/^__inline +//;
-> -    $prototype =~ s/^__always_inline +//;
-> -    $prototype =~ s/^noinline +//;
-> 
-> +    $prototype =~
-> s/^(?:static|extern|asmlinkage|__?inline__?|__always_inline|noinline) +//;
-> And so on for other regexps.
-> 
-> What do you think?
+> diff --git a/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+> new file mode 100644
+> index 000000000000..d13862ba646b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+> @@ -0,0 +1,27 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/ampere,ac01-hwmon.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Hardware monitoring driver for the Ampere Altra SMPro
+> +
+> +maintainers:
+> +  - Quan Nguyen <quan@os.amperecomputing.com>
+> +
+> +description: |
+> +  This module is part of the Ampere Altra SMPro multi-function device. For more
+> +  details see ../mfd/ampere,ac01-smpro.yaml.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ampere,ac01-hwmon
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> diff --git a/Documentation/devicetree/bindings/mfd/ampere,ac01-smpro.yaml b/Documentation/devicetree/bindings/mfd/ampere,ac01-smpro.yaml
+> new file mode 100644
+> index 000000000000..06b0239413ae
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/ampere,ac01-smpro.yaml
+> @@ -0,0 +1,82 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/ampere,ac01-smpro.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Ampere Altra SMPro firmware driver
+> +
+> +maintainers:
+> +  - Quan Nguyen <quan@os.amperecomputing.com>
+> +
+> +description: |
+> +  Ampere Altra SMPro firmware may contain different blocks like hardware
+> +  monitoring, error monitoring and other miscellaneous features.
+> +
+> +properties:
+> +  compatible:
+> +    const: ampere,ac01-smpro
+> +
+> +  reg:
+> +    description:
+> +      I2C device address.
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^hwmon(@[0-9a-f]+)?$":
+> +    $ref: ../hwmon/ampere,ac01-hwmon.yaml
+> +
+> +  "^misc(@[0-9a-f]+)?$":
+> +    type: object
+> +    description: Ampere Altra SMPro Misc driver
+> +    properties:
+> +      compatible:
+> +        const: "ampere,ac01-misc"
+> +
+> +  "^errmon(@[0-9a-f]+)?$":
+> +    type: object
+> +    description: Ampere Altra SMPro Error Monitor driver
+> +    properties:
+> +      compatible:
+> +        const: "ampere,ac01-errmon"
+> +
+> +required:
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        smpro@4f {
+> +            compatible = "ampere,ac01-smpro";
+> +            reg = <0x4f>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            hwmon {
+> +                compatible = "ampere,ac01-hwmon";
+> +            };
+> +
+> +            misc {
+> +                compatible = "ampere,ac01-misc";
+> +            };
+> +
+> +            errmon {
+> +                compatible = "ampere,ac01-errmon";
+> +            };
 
-I think there's a tradeoff between speed / compactness and readability.
-As someone who doesn't know perl particularly well, I can look at the
-series of lines and say "Oh, it's stripping out these unwanted things".
-Your one line, while undoubtedly more efficient, is considerably less
-easy to understand.
+No of these have any properties or resources, why do you need them? DT 
+is not the only way to instantiate drivers...
 
-Maybe there's another way to do it that's more efficient while not
-sacrificing the readability?
-
-Also, would your suggestion work for 'static inline void foo(void)'?
-I think it needs to remove multiple occurrences of the things in the
-regex.  But maybe that's what the ?: on the beginning is for?
+Rob
