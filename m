@@ -2,64 +2,117 @@ Return-Path: <SRS0=pILf=IF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E0F3C433E6
-	for <linux-doc@archiver.kernel.org>; Sun,  7 Mar 2021 11:34:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A600DC433E0
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Mar 2021 11:36:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E54A765109
-	for <linux-doc@archiver.kernel.org>; Sun,  7 Mar 2021 11:34:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 799E664FF2
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Mar 2021 11:36:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229794AbhCGLeZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 7 Mar 2021 06:34:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49032 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229919AbhCGLd5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 Mar 2021 06:33:57 -0500
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C8D6C061760;
-        Sun,  7 Mar 2021 03:33:57 -0800 (PST)
-Received: from ip4d142c50.dynamic.kabel-deutschland.de ([77.20.44.80] helo=truhe.fritz.box); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1lIrfT-0002Ox-DZ; Sun, 07 Mar 2021 12:33:51 +0100
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/2] docs: reporting-issues: a easier process for reporting stable regressions
-Date:   Sun,  7 Mar 2021 12:33:48 +0100
-Message-Id: <cover.1615116592.git.linux@leemhuis.info>
-X-Mailer: git-send-email 2.29.2
+        id S230143AbhCGLf3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 7 Mar 2021 06:35:29 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:49497 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230112AbhCGLe7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 7 Mar 2021 06:34:59 -0500
+Received: from mail-ed1-f70.google.com ([209.85.208.70])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <krzysztof.kozlowski@canonical.com>)
+        id 1lIrgX-0001pW-GS
+        for linux-doc@vger.kernel.org; Sun, 07 Mar 2021 11:34:57 +0000
+Received: by mail-ed1-f70.google.com with SMTP id cq11so3568448edb.14
+        for <linux-doc@vger.kernel.org>; Sun, 07 Mar 2021 03:34:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Op5mu56rLKVeXZ5BYHLLFs3XBf2gdeKehd8++u/6LDA=;
+        b=t12IVJGt3K91uw6UB2NUKF5OjIT5JOynL+9eRHXsyazuG48P5rY2J06eRqB4wDcFJv
+         Yv6nCUCJxUV0NmV0Gfbme32UwfBRkQ3hY54Vgibydzygk3hTRkyVYPLIEnwso41yxWNV
+         LKLpfJZeU4yuu6IkHDQeKoZFkjjW/iUL2VaFZ7pKTy9dzBGFYLUbToEQIezv5NgN/c+/
+         lp+PcrqLxGh5O1JZFli1O6rcP9eVzCSIRfecXF1uITTiWicfFCrTq37VfEWv5DTlPsCa
+         Pzaqxbli+HGBtC/jxDMUUTTyR7blYURqn0fza4rJ5eOx8H94hHCj1KjyW8N58zZwrvmv
+         e5HA==
+X-Gm-Message-State: AOAM531QCBQE58Ez82con1GA82Sdk5Yw16VIm2qJvG6ifMcwN3bD9IIT
+        a3DNWTo7bfPM0peFvObVrXf7DXQtCx6YuaHKFiAelTcwZBNOfgxyMaWJfuxGAPtEb8rknS3UHVw
+        EyvgsqWcKWMg/DAes/+bJW+ZG1fY9YThmITm2jg==
+X-Received: by 2002:a50:fa04:: with SMTP id b4mr17812457edq.293.1615116896809;
+        Sun, 07 Mar 2021 03:34:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwN50SNAvRJvyv1TTGSoHps9ZM3d2RwZosjPBjKJrezHq2PpQu4f0MDG5tTUROmsW8Jne4o4A==
+X-Received: by 2002:a50:fa04:: with SMTP id b4mr17812435edq.293.1615116896694;
+        Sun, 07 Mar 2021 03:34:56 -0800 (PST)
+Received: from [192.168.1.116] (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+        by smtp.gmail.com with ESMTPSA id g25sm5016167edp.95.2021.03.07.03.34.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 07 Mar 2021 03:34:56 -0800 (PST)
+Subject: Re: [RFT PATCH v3 21/27] tty: serial: samsung_tty: IRQ rework
+To:     Hector Martin <marcan@marcan.st>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
+        Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Will Deacon <will@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        devicetree <devicetree@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
+        Linux-Arch <linux-arch@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20210304213902.83903-1-marcan@marcan.st>
+ <20210304213902.83903-22-marcan@marcan.st>
+ <CAHp75Vc+t9_FNHZ0xYNaJ1+Ny+FFeZKA79abxV2NAsZvpBh3Bg@mail.gmail.com>
+ <535ff48e-160e-4ba4-23ac-54e478a2f3ee@marcan.st>
+ <CAHp75Vd_kwdjbus3iq_39+p_xRk3rum2ek3nLLFbBDzMwggnKA@mail.gmail.com>
+ <05ccc09f-ffea-71cd-4288-beed3020bd45@marcan.st>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Message-ID: <d33fffec-28bd-99b2-a8b1-cc83b628e4b3@canonical.com>
+Date:   Sun, 7 Mar 2021 12:34:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1615116837;e43d2063;
-X-HE-SMSGID: 1lIrfT-0002Ox-DZ
+In-Reply-To: <05ccc09f-ffea-71cd-4288-beed3020bd45@marcan.st>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series creates a streamlined process for users wanting to report
-regressions within a stable and longterm kernel series. The existing process is
-too demanding, complicated and takes too much time for this case.
+On 05/03/2021 17:29, Hector Martin wrote:
+> On 06/03/2021 01.20, Andy Shevchenko wrote:
+>>> I am just splitting an
+>>> existing function into two, where one takes the lock and the other does
+>>> the work. Do you mean using a different locking function? I'm not
+>>> entirely sure what you're suggesting.
+>>
+>> Yes, as a prerequisite
+>>
+>> spin_lock_irqsave -> spin_lock().
+> 
+> Krzysztof, is this something you want in this series? I was trying to 
+> avoid logic changes to the non-Apple paths.
 
-I didn't CC the stable maintainers here, they need to review the whole document
-anyway once the last few details have been sorted out.
+I don't quite get the need for such change (the code will be still
+called in interrupt handler, right?), but assuming the "why?" is
+properly documented, it can be a separate patch here.
 
-v2:
-* inital version, starting straight with v2 to avoid confusion, as one of the
-patches was submitted earlier already
-
-Thorsten Leemhuis (2):
-  docs: reporting-issues.rst: move tainted check upwards
-  docs: reporting-issues.rst: shortcut for reporting stable regressions
-
- .../admin-guide/reporting-issues.rst          | 222 +++++++++++-------
- 1 file changed, 135 insertions(+), 87 deletions(-)
-
-
-base-commit: ba5cb300e0b540a330d579402d72cdd1808e5a8f
--- 
-2.29.2
-
+Best regards,
+Krzysztof
