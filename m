@@ -2,113 +2,148 @@ Return-Path: <SRS0=pILf=IF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57A40C433E9
-	for <linux-doc@archiver.kernel.org>; Sun,  7 Mar 2021 16:03:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85189C433E6
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Mar 2021 16:47:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2E66765101
-	for <linux-doc@archiver.kernel.org>; Sun,  7 Mar 2021 16:03:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5204364F33
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Mar 2021 16:47:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232395AbhCGQCk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 7 Mar 2021 11:02:40 -0500
-Received: from mail.kernel.org ([198.145.29.99]:39472 "EHLO mail.kernel.org"
+        id S232463AbhCGQqd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 7 Mar 2021 11:46:33 -0500
+Received: from mout.gmx.net ([212.227.17.22]:43785 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232383AbhCGQCN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 7 Mar 2021 11:02:13 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9B322650FA;
-        Sun,  7 Mar 2021 16:02:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615132932;
-        bh=W3DWtdKbzB/Ewq0JXP5uIPr5sVdrpUWScZRv+BpwOOQ=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=uvTAugzrUQYpKuCcE5EB2V7uskUn7uQ1kw3Ti9BBAyqQTmqLgQKYlYnumatE5cRFc
-         TxVpaDX8t7wop24oROmlUS96NMdVeY7PBHDIW/T3WSmx/aCPFFh9v3xHu0e6GSI/Rx
-         ViYKo1BNlVsFC65pNKLgytdDsWIOhzT8pO1yqotAUcGPJGH0Nj83z5XIkuCh3gzRaP
-         RCvB3K4RyMw+BKYpyVQxCNekIzPX2+xiiY9/RoaX+oINmRapsa/7H7PofVuHzmkqdE
-         iMY49sccaS1j16kG5oQvyCvriltmludfQy+PNzABu+/0WPz+XC05tDuL+SaC1iYVBI
-         NrHiOR3ly/7qQ==
-Received: by mail-oi1-f176.google.com with SMTP id x78so8416232oix.1;
-        Sun, 07 Mar 2021 08:02:12 -0800 (PST)
-X-Gm-Message-State: AOAM530y6b8oPrrVJXGClw9xhwoqQGy/mg1Cjs168qlZpXpvZdilevcY
-        QxGhW2KOMGlKtNwmvWNCSSg2hvTE1tOXKtV04i4=
-X-Google-Smtp-Source: ABdhPJzpPsfCCAkRmVKn193+pHQBjk17f8dkofO2rKwjX7TbuYoBS5vX7tmjl8lFu8yM18ZXMOLeGO7Q06knumxhjeE=
-X-Received: by 2002:aca:5e85:: with SMTP id s127mr13583208oib.67.1615132931842;
- Sun, 07 Mar 2021 08:02:11 -0800 (PST)
-MIME-Version: 1.0
-References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-22-marcan@marcan.st>
- <CAHp75Vc+t9_FNHZ0xYNaJ1+Ny+FFeZKA79abxV2NAsZvpBh3Bg@mail.gmail.com>
- <535ff48e-160e-4ba4-23ac-54e478a2f3ee@marcan.st> <CAHp75Vd_kwdjbus3iq_39+p_xRk3rum2ek3nLLFbBDzMwggnKA@mail.gmail.com>
- <05ccc09f-ffea-71cd-4288-beed3020bd45@marcan.st> <d33fffec-28bd-99b2-a8b1-cc83b628e4b3@canonical.com>
-In-Reply-To: <d33fffec-28bd-99b2-a8b1-cc83b628e4b3@canonical.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Sun, 7 Mar 2021 17:01:55 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0o4NHjXZ+ePj_Xpcw6ZmonoiR1dfkcsv=3i1JBEF4arA@mail.gmail.com>
-Message-ID: <CAK8P3a0o4NHjXZ+ePj_Xpcw6ZmonoiR1dfkcsv=3i1JBEF4arA@mail.gmail.com>
-Subject: Re: [RFT PATCH v3 21/27] tty: serial: samsung_tty: IRQ rework
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
-Cc:     Hector Martin <marcan@marcan.st>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S231314AbhCGQqP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 7 Mar 2021 11:46:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1615135535;
+        bh=m9XhPyfhUktKluj+d5az9WgQg1jKZwtAqzqW4H/daMA=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=YCYdzORzNOi6MnehCKw+A4Rp+5K1Try1iiZAU59Yrq0d+9iTHodgb7rOmrk83kLuO
+         CI/Xj3SE4qFPdTzelLlDZzHUychoXZAlqxRfkD/pv/kwQVYArNT7KBr+1G9p5ljoj3
+         g645m6Bo6TzYwhHEnzCG92Wt/kNHL7jq3vcT9K2g=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([83.52.229.153]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MORAU-1l7UUS3arG-00Psmb; Sun, 07
+ Mar 2021 17:45:35 +0100
+Date:   Sun, 7 Mar 2021 17:45:20 +0100
+From:   John Wood <john.wood@gmx.com>
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     John Wood <john.wood@gmx.com>, Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        devicetree <devicetree@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        James Morris <jmorris@namei.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH v5 7/8] Documentation: Add documentation for the Brute LSM
+Message-ID: <20210307164520.GA16296@ubuntu>
+References: <20210227153013.6747-1-john.wood@gmx.com>
+ <20210227153013.6747-8-john.wood@gmx.com>
+ <878s78dnrm.fsf@linux.intel.com>
+ <20210302183032.GA3049@ubuntu>
+ <20210307151920.GR472138@tassilo.jf.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210307151920.GR472138@tassilo.jf.intel.com>
+X-Provags-ID: V03:K1:Bpg8ecpXFdvHz2NTQ76aeUXnn3ebPIJR0iLA7tatogSidBfsxSV
+ 4SgSun31Mi/jnuNe7K1dWzD4qB3YzuQ7kXm9bcDBLxKE6V+JH2hFIflBXckaihD+V/HQLzb
+ k6DMrnhRmpLRKPGHsTmOhtSCqMRNLvxKZPNWH9iZd+LBJcNzkmnB3C9vIN8wizSz4oP2fDN
+ W6QzSlRLxi8hQXHomYE8Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:S4iu+TLq6+k=:cn7zr2cbd64QhgaHruVpDi
+ 92EY7RwkplFbzCm8vX7Qkw13ckEDjIumAzNCXHKM+NHSF9H/lkg5/bc8nH0oGi2+u1bElldOz
+ +H4+XyCaTUqW+xn4uwI+HV4NrV/AM0AK1+E45BCtoabD5YHADGLg/R8xcGbqb82twuDOpWv0q
+ egHw7y8F1A1xiy0r+TsSb5C9EJFgBIZ+CP3b/yP5x1FxgM1RRePGLbPPTQH52kaBs9/eOoCSC
+ AeqrU+8mIKBUiNY4SYMWXVebNnW6d/e9N3i8PP/aEzCPSG8htmRU/7t0AolMFZ3X0pvJ4GCkg
+ M3PSFiSGBAa7nYQy6OUxYDKwI4KnKvRf1nofEYaOFQu/oWzuqm85bNoQshs6eC1uhmHP76ycc
+ VglZ+xK83QuDJ7jflF8jYkDDHaP9e/XGI91gkIOSpvLgvN8wLdn25M/obdui40EHFkRX4pr68
+ Sbf2oUl4+Tc4+kv9EV8fDBa4ExEXHiPf85LjSb/Um/UcyniZbSzT6QeOTUZ/sLAW2xkH1incy
+ 4vz8N67HdHaoz6VIi/FPGDCzdskzGaT4aUZdioG89MiqQ0Nj0tMRpYH+/L8lRSQnvN3DCdt9/
+ eJKj5JTmlXkP6rIZEhJ9THJTKcbFXpr8tt0fJfnF/Vfv5z6aU6YbAJ4nLNubFEoIc4Ptfy/7Y
+ kPbaQx6crwg0GUCHTYb46STMdyrf7fP6XoRfpcsS8GXAfsQnvYxWe3lTs6OvyA2LRls5bvG2D
+ TcpGKAeHXssIPxO0k9sjLhVh/0ErY6J75suV0l5hK9t1KCoE9XBPAlBPkgNSJ+6tNYDdMRPkS
+ rTdIAllPsN80q3ZmuVvknlaykBQgCYx29gMjr9YAyTXsdSRqe8SD63beZhzLCNmfdW/dGnVF4
+ +8YXLR6XHGIh4cqlQNAA==
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 7, 2021 at 12:34 PM Krzysztof Kozlowski
-<krzysztof.kozlowski@canonical.com> wrote:
-> On 05/03/2021 17:29, Hector Martin wrote:
-> > On 06/03/2021 01.20, Andy Shevchenko wrote:
-> >>> I am just splitting an
-> >>> existing function into two, where one takes the lock and the other does
-> >>> the work. Do you mean using a different locking function? I'm not
-> >>> entirely sure what you're suggesting.
-> >>
-> >> Yes, as a prerequisite
-> >>
-> >> spin_lock_irqsave -> spin_lock().
-> >
-> > Krzysztof, is this something you want in this series? I was trying to
-> > avoid logic changes to the non-Apple paths.
+On Sun, Mar 07, 2021 at 07:19:20AM -0800, Andi Kleen wrote:
+> Sorry for the late answer. I somehow missed your email earlier.
 >
-> I don't quite get the need for such change (the code will be still
-> called in interrupt handler, right?), but assuming the "why?" is
-> properly documented, it can be a separate patch here.
+> > As a mitigation method, all the offending tasks involved in the attack=
+ are
+> > killed. Or in other words, all the tasks that share the same statistic=
+s
+> > (statistics showing a fast crash rate) are killed.
+>
+> So systemd will just restart the network daemon and then the attack work=
+s
+> again?
 
-This is only for readability: the common rule is to not disable
-interrupts when they are already disabled, so a reader might wonder
-if this instance of the handler is special in some case that it might
-be called with interrupts enabled.
+Sorry, but I think my last explanation is not clear enough. If the network
+daemon crashes repeatedly in a short period of time it will trigger a brut=
+e
+force attack through the fork system call. Then this daemon and all the fo=
+rk
+processes created from it will be killed. If the systemd restart the netwo=
+rk
+daemon and it will crash again, then the systemd will be killed. I think t=
+his
+way the attack is fully mitigated.
 
-There is also a small overhead in accessing the global irq mask
-register on some architectures, but for a uart that does not make
-any difference of course.
+> Or if it's a interactive login you log in again.
 
-While I'm generally in favor of that kind of cleanup, I'd also
-prefer to leave it out of this series -- once you get into details
-like this the series gets harder to review.
+First the login will be killed (if it fails with a fatal signal) and if it=
+ is
+restarted, the process that exec() it again will be killed. In this case I=
+ think
+that the threat is also completely mitigated.
 
-        Arnd
+> I think it might be useful even with these limitations, but it would
+> be good to spell out the limitations of the method more clearly.
+>
+> I suspect to be useful it'll likely need some user space configuration
+> changes too.
+
+In the v2 version there were some sysctl attributes to fine tuning the
+detection. The following two paragraph are extracted from the documentatio=
+n
+patch of this version:
+
+To customize the detection's sensibility there are two new sysctl attribut=
+es
+that allow to set the last crashes timestamps list size and the applicatio=
+n
+crash period threshold (in milliseconds). Both are accessible through the
+following files respectively.
+
+/proc/sys/kernel/brute/timestamps_list_size
+/proc/sys/kernel/brute/crash_period_threshold
+
+However, Kees Cook suggested that if we narrow the attack detection focusi=
+ng in
+the crossing of privilege boundaries and signals delivered only by the ker=
+nel,
+it seems not necessary the customization of this feature by the user. I ag=
+gree
+with that.
+
+>
+> -Andi
+
+I have sent a v6 version with the documentation improved.
+
+Thanks for your comments,
+John Wood
