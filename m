@@ -2,179 +2,102 @@ Return-Path: <SRS0=pILf=IF=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3932CC43381
-	for <linux-doc@archiver.kernel.org>; Sun,  7 Mar 2021 11:54:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71B7AC433E0
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Mar 2021 12:05:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 063E465114
-	for <linux-doc@archiver.kernel.org>; Sun,  7 Mar 2021 11:54:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 386A36501D
+	for <linux-doc@archiver.kernel.org>; Sun,  7 Mar 2021 12:05:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230416AbhCGLyZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 7 Mar 2021 06:54:25 -0500
-Received: from mout.gmx.net ([212.227.15.15]:33417 "EHLO mout.gmx.net"
+        id S229753AbhCGMFO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 7 Mar 2021 07:05:14 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37802 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230111AbhCGLxz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 7 Mar 2021 06:53:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1615117999;
-        bh=0mOFH/whRcxwCCNf1FaCVfPgq3zuoVr5XMs4msmzXEk=;
-        h=X-UI-Sender-Class:From:To:Cc:Subject:Date:In-Reply-To:References;
-        b=fP/89F57Uvd6wz+HXrnrALfcyL2tIGkyzmhTNPThCqx+itY8xekbKfuA28nl94+TQ
-         E5HlyuaL6bc6hTgQWg3oBN0itIesNWk+9gUA+8Bl8N5foEjA7HbrrX+LCBZQ1eMIV1
-         /x1QkIefOuiI/1UK1JssrmXh+Pn6WpbsAbswIJqI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([83.52.229.153]) by mail.gmx.net
- (mrgmx005 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1N1fn0-1llM6Y3f1U-0120pu; Sun, 07 Mar 2021 12:53:19 +0100
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>, Shuah Khan <shuah@kernel.org>
-Cc:     John Wood <john.wood@gmx.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        kernel test robot <oliver.sang@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: [PATCH v6 1/8] security: Add LSM hook at the point where a task gets a fatal signal
-Date:   Sun,  7 Mar 2021 12:30:24 +0100
-Message-Id: <20210307113031.11671-2-john.wood@gmx.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210307113031.11671-1-john.wood@gmx.com>
-References: <20210307113031.11671-1-john.wood@gmx.com>
+        id S229662AbhCGMFB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 7 Mar 2021 07:05:01 -0500
+Received: from archlinux (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6C7646501E;
+        Sun,  7 Mar 2021 12:04:59 +0000 (UTC)
+Date:   Sun, 7 Mar 2021 12:04:51 +0000
+From:   Jonathan Cameron <jic23@kernel.org>
+To:     Lars-Peter Clausen <lars@metafoo.de>
+Cc:     linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>
+Subject: Re: [RFC PATCH 2/7] iio:ABI docs: Avoid repitition of
+ triggerX/sampling_frequency
+Message-ID: <20210307120451.79e538fc@archlinux>
+In-Reply-To: <c6fb25c0-1292-f5fa-c5c9-8e47d1061874@metafoo.de>
+References: <20210117153816.696693-1-jic23@kernel.org>
+        <20210117153816.696693-3-jic23@kernel.org>
+        <c6fb25c0-1292-f5fa-c5c9-8e47d1061874@metafoo.de>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:gjW1lxsS4O/k5Sf+wMA+VJHoZ1qM11KXQETBYwid34I0oYBNmr2
- C/OqkV5z9INlzUtp7FYtQoLqydzU9bhhstzt50l8ENfqMYH+YOzd2coK6Ju4El8FUXOa3jk
- xoXo4At48nMaIfEd8BXPlo1qQgeF1V41qKMoF/n8RLOOh1DVoHmG7gmpe0GuFxNDdSnwhOf
- IPMxaFSEsnB5la6LeBgQg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ekdqLgRPggU=:Ry3SJ1lEftaEQFRP1dW004
- uegRYmgq1qD2F4CQCDaE7r+J9EhwabNP4PICLFAgl6soYo+l8mXoPmdC9ekLhwasJtBdrvAGY
- b+e/6RctVObiuiI4ZFxtV1ZdKulXUTfx7HYTSyz3JCom9/bUK8KADSdusoYMeQcEyHCu8na33
- Ztv+Ii532DUvsRg+m/90I/m9WjYZyB5oBqQn67wPVvlcG2Na4j6uy9kw55JIu5b+21o2BCMkl
- jnG2shzC9TKnKrLlLkNeYe2om9jDscUubUB8K5p4PIcGRKoN4n2z1eSJTzDIcJHyrKv2V71oQ
- b03jo20VqZf1P7BQ/p4af0PK8YtH/Hilxit2mALEEzuqvXZSeGpnv9FANijUJdvtwisKc+zqk
- 13ni2mxgVi6k20SjoEkm5xC64NAcjjfpty9bTjPGLErpO59llY6SD2MGPbXv1YcTTzxYi186+
- 9Wm0kkoJWYYXtwxm9WdHkiY4VkQi6qDCU42rON5ZK9vHPaVv243kxc1CNLfipEVH7BUhUAEJx
- tvE81noKEfMRsGDCCX5miAuQM2Ic/OhogDViU9idzkMXmu3wct8fmtTjBmaN+kXAkxkRgt/Ck
- 30nNbmaqPxoyuPDbXVhFR2zEXekxCfNbQtyPddaDuLFr1n1/kUH8pppjEmzd9O1MNK/1RaNzj
- wjsPh0SUprrbiirIbd1svYdTKGDFgPZ5zNvVaMlslBFmmJHT0NUdrhf8xMKn02NspdFE5Qx0F
- LNtJWPrMLw3QJVsIcQAbtT3IIS1IgcF3zyfa+dWHjk6xQRGbiUqmgOcqJYZn1RFiEyA7H5Nro
- QMuBa0NKqhuJpdfukUba3qGp6zdR7ZO9p5mvD6nog76zbwIOx+3dBzUELxh98zNG0AegAMska
- +x8XVkaPzKh9hILDyJVA==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add a security hook that allows a LSM to be notified when a task gets a
-fatal signal. This patch is a previous step on the way to compute the
-task crash period by the "brute" LSM (linux security module to detect
-and mitigate fork brute force attack against vulnerable userspace
-processes).
+On Sun, 7 Mar 2021 10:40:18 +0100
+Lars-Peter Clausen <lars@metafoo.de> wrote:
 
-Signed-off-by: John Wood <john.wood@gmx.com>
-=2D--
- include/linux/lsm_hook_defs.h | 1 +
- include/linux/lsm_hooks.h     | 4 ++++
- include/linux/security.h      | 4 ++++
- kernel/signal.c               | 1 +
- security/security.c           | 5 +++++
- 5 files changed, 15 insertions(+)
+> On 1/17/21 4:38 PM, Jonathan Cameron wrote:
+> > From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> >
+> > The timer-stm32 provided a little more specific information than the main
+> > docs about the value of 0 corresponding to stopping sampling.  Given that
+> > this makes sense in general, move that statement over to the main docs
+> > and drop the version in sysfs-bus-iio-timer-stm32
+> >
+> > Fixes
+> > $ scripts/get_abi.pl validate
+> > /sys/bus/iio/devices/triggerX/sampling_frequency is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:92  ./Documentation/ABI/testing/sysfs-bus-iio:45
+> >
+> > Cc: Fabrice Gasnier <fabrice.gasnier@st.com>
+> > Reported-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> > ---
+> >   Documentation/ABI/testing/sysfs-bus-iio             | 2 ++
+> >   Documentation/ABI/testing/sysfs-bus-iio-timer-stm32 | 8 --------
+> >   2 files changed, 2 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/Documentation/ABI/testing/sysfs-bus-iio b/Documentation/ABI/testing/sysfs-bus-iio
+> > index d2dd9cc280f9..9b5ceb22363d 100644
+> > --- a/Documentation/ABI/testing/sysfs-bus-iio
+> > +++ b/Documentation/ABI/testing/sysfs-bus-iio
+> > @@ -55,6 +55,8 @@ Description:
+> >   		direct access interfaces, it may be found in any of the
+> >   		relevant directories.  If it affects all of the above
+> >   		then it is to be found in the base device directory.
+> > +		Note a value 0 where supported, will correspond to sampling
+> > +		stopping.  
+> 
+> Hm, I don't like this. 0 should be an invalid value for the standard 
+> ABI. Enabling/disabling of the trigger should be controlled by whether 
+> there are any active trigger consumers.
+> 
+> The stm32-timer-trigger implements a non-standard ABI and I think we 
+> need to document this explicitly. The driver does not have a set_state 
+> callback. So the frequency property is used to enable/disable the 
+> trigger, but as said above, for standard compliant triggers that should 
+> not be the case.
+> 
+Good point.  Ideally we'd also fix the stm32-timer-trigger to have
+an explicit enable / disable (even if that works by setting the frequency
+to 0 under the hook)
 
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index 477a597db013..0208df0955fa 100644
-=2D-- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -220,6 +220,7 @@ LSM_HOOK(int, -ENOSYS, task_prctl, int option, unsigne=
-d long arg2,
- 	 unsigned long arg3, unsigned long arg4, unsigned long arg5)
- LSM_HOOK(void, LSM_RET_VOID, task_to_inode, struct task_struct *p,
- 	 struct inode *inode)
-+LSM_HOOK(void, LSM_RET_VOID, task_fatal_signal, const kernel_siginfo_t *s=
-iginfo)
- LSM_HOOK(int, 0, ipc_permission, struct kern_ipc_perm *ipcp, short flag)
- LSM_HOOK(void, LSM_RET_VOID, ipc_getsecid, struct kern_ipc_perm *ipcp,
- 	 u32 *secid)
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index fb7f3193753d..beedaa6ee745 100644
-=2D-- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -784,6 +784,10 @@
-  *	security attributes, e.g. for /proc/pid inodes.
-  *	@p contains the task_struct for the task.
-  *	@inode contains the inode structure for the inode.
-+ * @task_fatal_signal:
-+ *	This hook allows security modules to be notified when a task gets a
-+ *	fatal signal.
-+ *	@siginfo contains the signal information.
-  *
-  * Security hooks for Netlink messaging.
-  *
-diff --git a/include/linux/security.h b/include/linux/security.h
-index 8aeebd6646dc..e4025a13630f 100644
-=2D-- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -430,6 +430,7 @@ int security_task_kill(struct task_struct *p, struct k=
-ernel_siginfo *info,
- int security_task_prctl(int option, unsigned long arg2, unsigned long arg=
-3,
- 			unsigned long arg4, unsigned long arg5);
- void security_task_to_inode(struct task_struct *p, struct inode *inode);
-+void security_task_fatal_signal(const kernel_siginfo_t *siginfo);
- int security_ipc_permission(struct kern_ipc_perm *ipcp, short flag);
- void security_ipc_getsecid(struct kern_ipc_perm *ipcp, u32 *secid);
- int security_msg_msg_alloc(struct msg_msg *msg);
-@@ -1165,6 +1166,9 @@ static inline int security_task_prctl(int option, un=
-signed long arg2,
- static inline void security_task_to_inode(struct task_struct *p, struct i=
-node *inode)
- { }
+For now I've dropped the patch until this is resolved.
 
-+static inline void security_task_fatal_signal(const kernel_siginfo_t *sig=
-info)
-+{ }
-+
- static inline int security_ipc_permission(struct kern_ipc_perm *ipcp,
- 					  short flag)
- {
-diff --git a/kernel/signal.c b/kernel/signal.c
-index ba4d1ef39a9e..d279df338f45 100644
-=2D-- a/kernel/signal.c
-+++ b/kernel/signal.c
-@@ -2750,6 +2750,7 @@ bool get_signal(struct ksignal *ksig)
- 		/*
- 		 * Anything else is fatal, maybe with a core dump.
- 		 */
-+		security_task_fatal_signal(&ksig->info);
- 		current->flags |=3D PF_SIGNALED;
+Thanks,
 
- 		if (sig_kernel_coredump(signr)) {
-diff --git a/security/security.c b/security/security.c
-index 5ac96b16f8fa..d9cf653a4e70 100644
-=2D-- a/security/security.c
-+++ b/security/security.c
-@@ -1840,6 +1840,11 @@ void security_task_to_inode(struct task_struct *p, =
-struct inode *inode)
- 	call_void_hook(task_to_inode, p, inode);
- }
+Jonathan
 
-+void security_task_fatal_signal(const kernel_siginfo_t *siginfo)
-+{
-+	call_void_hook(task_fatal_signal, siginfo);
-+}
-+
- int security_ipc_permission(struct kern_ipc_perm *ipcp, short flag)
- {
- 	return call_int_hook(ipc_permission, 0, ipcp, flag);
-=2D-
-2.25.1
 
