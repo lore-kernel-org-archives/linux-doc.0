@@ -2,84 +2,93 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2CD4C433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 20:05:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 312CAC43381
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 20:27:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8ADE365260
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 20:05:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 096986528C
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 20:27:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231321AbhCHUEh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Mar 2021 15:04:37 -0500
-Received: from mga02.intel.com ([134.134.136.20]:33975 "EHLO mga02.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229650AbhCHUEK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Mar 2021 15:04:10 -0500
-IronPort-SDR: dMGZtC/6aHVzLlF/j18MJzrsW7+6zIPifwbIE+iiPJGCQZtT3a2aR7h4z1H3ZAZ5rVtbnqVgKH
- aNkXsbgKFvxw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="175209351"
-X-IronPort-AV: E=Sophos;i="5.81,233,1610438400"; 
-   d="scan'208";a="175209351"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 12:04:09 -0800
-IronPort-SDR: C+R0BDcgPI2ASX/LPI8Cu18hmU7Wro/FWotAcJsXIhySnXp40/vBqVlWWSCFq/gmTkYMk4Srxy
- t0CHeehCLnBA==
-X-IronPort-AV: E=Sophos;i="5.81,233,1610438400"; 
-   d="scan'208";a="369526868"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 12:04:07 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lJM6m-00Au0K-0I; Mon, 08 Mar 2021 22:04:04 +0200
-Date:   Mon, 8 Mar 2021 22:04:03 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     "Rafael J. Wysocki" <rafael@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
+        id S229901AbhCHU0m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Mar 2021 15:26:42 -0500
+Received: from mail-io1-f45.google.com ([209.85.166.45]:44637 "EHLO
+        mail-io1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229637AbhCHU0X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Mar 2021 15:26:23 -0500
+Received: by mail-io1-f45.google.com with SMTP id 81so11377066iou.11;
+        Mon, 08 Mar 2021 12:26:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6UTjJ3jOvKiCus9H3n1TcHEJKB0LVrltl+hAbPpXslY=;
+        b=r8tw7LXpdXG1ZJ9JOm72egImX4nXFEu1u+nYI5Bz+sSxrLMFjzkTyN+mEVxhGARD6v
+         GvLkKDrjd3FQPMdUpAiIQ/wyZtUFU6GR/mkHLRcgw/zEXuFmZCgiQQGMl+3nxSGSCYvn
+         9deTBWFE1vnmstVzyPwmXDpsLlnrhZk5EENBIEe7MOgZvmgdOGvfQ1PWwlbua0H06jza
+         Fh6EKEM4RDBJur1Ji/lYqZNdpNWtm1kQfwz79V0x2YSd+a4I8FbAVC3aLP6u2WOMb6/M
+         gF8Q5CGYJuuZaMXoDMCLEAB0rn/dOtop5fm+khrk2hEd1oDwhlAujJf4h1/eXdAYwAHJ
+         +fsA==
+X-Gm-Message-State: AOAM532e9O+1hUyFtALIiAuDePU1KnrUxCK0IBS787wIXjNFW7aaYaDB
+        cn+urJ20zw8TyLHo5YTZoQ==
+X-Google-Smtp-Source: ABdhPJwOBTaPE0xKY0k0bCLQdONZXa85agktHmthvLzU6KA0D/iYjgFAJ9bn940AtIEul0SRUWlLAw==
+X-Received: by 2002:a02:7086:: with SMTP id f128mr24916049jac.104.1615235182626;
+        Mon, 08 Mar 2021 12:26:22 -0800 (PST)
+Received: from robh.at.kernel.org ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id m4sm6704226ilc.53.2021.03.08.12.26.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Mar 2021 12:26:21 -0800 (PST)
+Received: (nullmailer pid 2904189 invoked by uid 1000);
+        Mon, 08 Mar 2021 20:26:19 -0000
+Date:   Mon, 8 Mar 2021 13:26:19 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Hector Martin <marcan@marcan.st>
+Cc:     Alexander Graf <graf@amazon.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        linux-serial@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        devicetree@vger.kernel.org, Tony Lindgren <tony@atomide.com>,
+        Olof Johansson <olof@lixom.net>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-samsung-soc@vger.kernel.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH v5 6/6] gpiolib: Fold conditionals into a simple ternary
- operator
-Message-ID: <YEaDM1lpqmn6lBv9@smile.fi.intel.com>
-References: <20210308194535.66394-1-andriy.shevchenko@linux.intel.com>
- <20210308194535.66394-7-andriy.shevchenko@linux.intel.com>
- <CAJZ5v0gUDtpJE0Byw765yFr-5nOsxjPd5tH8_PGsr-gVZ-XSog@mail.gmail.com>
+        Linus Walleij <linus.walleij@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Arnd Bergmann <arnd@kernel.org>, Will Deacon <will@kernel.org>,
+        linux-kernel@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Marc Zyngier <maz@kernel.org>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>
+Subject: Re: [RFT PATCH v3 02/27] dt-bindings: vendor-prefixes: Add apple
+ prefix
+Message-ID: <20210308202619.GA2904129@robh.at.kernel.org>
+References: <20210304213902.83903-1-marcan@marcan.st>
+ <20210304213902.83903-3-marcan@marcan.st>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJZ5v0gUDtpJE0Byw765yFr-5nOsxjPd5tH8_PGsr-gVZ-XSog@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20210304213902.83903-3-marcan@marcan.st>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 08, 2021 at 08:47:47PM +0100, Rafael J. Wysocki wrote:
-> On Mon, Mar 8, 2021 at 8:45 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> >
-> > It's quite spread code to initialize IRQ domain options.
-> > Let's fold it into a simple oneliner.
-> >
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+On Fri, 05 Mar 2021 06:38:37 +0900, Hector Martin wrote:
+> This is different from the legacy AAPL prefix used on PPC, but
+> consensus is that we prefer `apple` for these new platforms.
 > 
-> Please see the comments I've just sent:
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Reviewed-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> https://lore.kernel.org/linux-acpi/CAJZ5v0gpNzyBDKfBXoBYskUXs15GrZAe-E2vzhSEu2Nrj7wa7g@mail.gmail.com/T/#u
 
-Yeah, I answered there, thanks!
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Reviewed-by: Rob Herring <robh@kernel.org>
