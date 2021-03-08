@@ -2,109 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7285C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 21:50:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3EA9C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 21:57:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9802265257
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 21:50:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CAC3A6525A
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 21:57:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232116AbhCHVuY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Mar 2021 16:50:24 -0500
-Received: from mail-io1-f44.google.com ([209.85.166.44]:36104 "EHLO
-        mail-io1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230169AbhCHVty (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Mar 2021 16:49:54 -0500
-Received: by mail-io1-f44.google.com with SMTP id n14so11687154iog.3;
-        Mon, 08 Mar 2021 13:49:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Aopk2xA4zD/bXMuGz7qZQmTI9QDAmCg2/YOh8hW5b/0=;
-        b=UtwLhXfV2cse5r8/G6vm2VCOSGyUPJULNDJXbSg0vvd+yt0zwroAt7SSsiU66gD0QT
-         IgdKoWuMlTTTHWwB01AfCZWRtyuDjFGGMV7SdAogDu8NViSsFheXiX4RNLd80I05uaPU
-         2od1XgmVAoZO/FvMEsvlo3R8OCeJcxhuGakaGN+kgyp0AW2vakAWQb7jliOa5A32uIZq
-         4M2Ur7lIvNyk0V0c3YF6wufGsfHuMSwKKLC1tEo4K3OGgYn6ZqIpFOaiFB0KZNqO/Uwg
-         pxJg9Xs3FnQNOFoxnhn7B0r9vez6LrdaTHOEbthgpnYQ94iRlhykI8H0MRwBk0KCE5qp
-         kgoQ==
-X-Gm-Message-State: AOAM532jdhWv80QwLGAjLfE9qtTdtn5mlGPKNQKhDETjBizyGT7RPJDP
-        X/CvM9HU4EXOjJldvFUVGg==
-X-Google-Smtp-Source: ABdhPJz4X8nedqPUFZXhmT/nr+nyG6cyHJpqU/AUG5gmHwFE1jAgJvvym0gu44LweRh8c7GRY2E0Ig==
-X-Received: by 2002:a05:6602:2497:: with SMTP id g23mr20165160ioe.22.1615240193189;
-        Mon, 08 Mar 2021 13:49:53 -0800 (PST)
-Received: from robh.at.kernel.org ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id k8sm6514522ilu.4.2021.03.08.13.49.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Mar 2021 13:49:52 -0800 (PST)
-Received: (nullmailer pid 3014339 invoked by uid 1000);
-        Mon, 08 Mar 2021 21:49:50 -0000
-Date:   Mon, 8 Mar 2021 14:49:50 -0700
-From:   Rob Herring <robh@kernel.org>
-To:     Kishon Vijay Abraham I <kishon@ti.com>
-Cc:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Tom Joseph <tjoseph@cadence.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Nadeem Athani <nadeem@cadence.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: Re: [PATCH v3 1/7] dt-bindings: PCI: pci-ep: Add binding to specify
- virtual function
-Message-ID: <20210308214950.GA3010566@robh.at.kernel.org>
-References: <20210305050410.9201-1-kishon@ti.com>
- <20210305050410.9201-2-kishon@ti.com>
+        id S231653AbhCHV4w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Mar 2021 16:56:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52656 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231162AbhCHV4c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Mar 2021 16:56:32 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6EFF46523D;
+        Mon,  8 Mar 2021 21:56:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615240591;
+        bh=KMmCb7U2ujabFxkud2d3urqwhs41+pBgCpeNG3URuos=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=shvsBQVFvq7E6xYk01gjriusngocJaMunvCLQ1nZ2LiXr6HqZOsptcBgfuD3VnmGQ
+         lpR36R70KqunemCgUFKzSpM8nXZG9o+7SnvsH3etABbswOk8zvD1Jo6+NlENDYyuDv
+         WHUkA/e27cC4Op9IiestvSkydSylG6nR3t3ydutKz9Ra7HIfaNpRpEAarKULQCPz0y
+         HwGY0uGH/E0gNZpl4WoKEcHc+b5uG9TBZyx5/VUfepz2hYvce+XbA8NwqEme724qfI
+         nkZLjsPL3MRnRThwG4OyccapQkYCwO+hCZcs6cyHrBsPIInBcJZ5luwlt5QNA1ebUN
+         2vTINTUt18Etw==
+Received: by mail-ot1-f47.google.com with SMTP id a17so10813292oto.5;
+        Mon, 08 Mar 2021 13:56:31 -0800 (PST)
+X-Gm-Message-State: AOAM5330bCAV2lyNzY7YYDF5EzM0OxV1ZYawXJBJ0eLLM8Fcarqas2zd
+        q5IGPKvb/lqZg+Uh4zOKvUp8hiOtB4F6U3saUW0=
+X-Google-Smtp-Source: ABdhPJxa7+3TXf8xLA/E0HpUEZafsO9uyBdTJcygHPn2QO83SDsdS9V8PUzozL+D9A/4nZHqTIXj7Xx+nWGOPifP+7w=
+X-Received: by 2002:a9d:6341:: with SMTP id y1mr6301932otk.210.1615240590795;
+ Mon, 08 Mar 2021 13:56:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210305050410.9201-2-kishon@ti.com>
+References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-13-marcan@marcan.st>
+ <CAL_JsqJF2Hz=4U7FR_GOSjCxqt3dpf-CAWFNfsSrDjDLpHqgCA@mail.gmail.com>
+ <6e4880b3-1fb6-0cbf-c1a5-7a46fd9ccf62@marcan.st> <CAK8P3a0Hmwt-ywzS-2eEmqyQ0v2SxLsLxFwfTUoWwbzCrBNhsQ@mail.gmail.com>
+ <CAL_JsqJHRM59GC3FjvaGLCELemy1uspnGvTEFH6q0OdyBPVSjA@mail.gmail.com>
+ <CAK8P3a0_GBB-VYFO5NaySyBJDN2Ra-WMH4WfFrnzgOejmJVG8g@mail.gmail.com> <20210308211306.GA2920998@robh.at.kernel.org>
+In-Reply-To: <20210308211306.GA2920998@robh.at.kernel.org>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Mon, 8 Mar 2021 22:56:14 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a2GfzUevuQNZeQarJ4GNFsuDj0g7oFuN940Hdaw06YJbA@mail.gmail.com>
+Message-ID: <CAK8P3a2GfzUevuQNZeQarJ4GNFsuDj0g7oFuN940Hdaw06YJbA@mail.gmail.com>
+Subject: Re: [RFT PATCH v3 12/27] of/address: Add infrastructure to declare
+ MMIO as non-posted
+To:     Rob Herring <robh@kernel.org>
+Cc:     Hector Martin <marcan@marcan.st>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Marc Zyngier <maz@kernel.org>, Olof Johansson <olof@lixom.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Will Deacon <will@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        DTML <devicetree@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
+        <linux-arch@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 05, 2021 at 10:34:04AM +0530, Kishon Vijay Abraham I wrote:
-> Add binding to specify virtual function (associated with each physical
-> function) in endpoint mode.
-> 
-> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
-> ---
->  Documentation/devicetree/bindings/pci/pci-ep.yaml | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/pci/pci-ep.yaml b/Documentation/devicetree/bindings/pci/pci-ep.yaml
-> index 7847bbcd4a03..b8d5406f94ce 100644
-> --- a/Documentation/devicetree/bindings/pci/pci-ep.yaml
-> +++ b/Documentation/devicetree/bindings/pci/pci-ep.yaml
-> @@ -23,6 +23,15 @@ properties:
->      default: 1
->      maximum: 255
->  
-> +  max-virtual-functions:
-> +    description: Array representing the number of virtual functions corresponding to each physical
-> +      function
-> +    $ref: /schemas/types.yaml#/definitions/uint8-array
-> +    minItems: 1
-> +    maxItems: 255
-> +    items:
-> +      maximum: 255
+On Mon, Mar 8, 2021 at 10:14 PM Rob Herring <robh@kernel.org> wrote:
+> On Mon, Mar 08, 2021 at 09:29:54PM +0100, Arnd Bergmann wrote:
+> > On Mon, Mar 8, 2021 at 4:56 PM Rob Herring <robh@kernel.org> wrote:
+>
+> Let's just stick with 'nonposted-mmio', but drop 'posted-mmio'. I'd
+> rather know if and when we need 'posted-mmio'. It does need to be added
+> to the DT spec[1] and schema[2] though (GH PRs are fine for both).
 
-No need for maximum, as that is already the case for uint8.
+I think the reason for having "posted-mmio" is that you cannot properly
+define the PCI host controller nodes on the M1 without that: Since
+nonposted-mmio applies to all child nodes, this would mean the PCI
+memory space gets declared as nonposted by the DT, but the hardware
+requires it to be mapped as posted.
 
-With that dropped,
-
-Reviewed-by: Rob Herring <robh@kernel.org>
+       Arnd
