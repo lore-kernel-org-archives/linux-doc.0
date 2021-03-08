@@ -4,84 +4,71 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDFEFC433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 23:53:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1197C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 23:53:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCDC96528C
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 23:53:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B007765256
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 23:53:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230411AbhCHXwz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Mar 2021 18:52:55 -0500
-Received: from ms.lwn.net ([45.79.88.28]:36860 "EHLO ms.lwn.net"
+        id S231760AbhCHXx1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Mar 2021 18:53:27 -0500
+Received: from ms.lwn.net ([45.79.88.28]:37040 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230512AbhCHXw1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Mar 2021 18:52:27 -0500
+        id S229488AbhCHXxR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Mar 2021 18:53:17 -0500
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 8905531A;
-        Mon,  8 Mar 2021 23:52:27 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8905531A
+        by ms.lwn.net (Postfix) with ESMTPSA id CBB1431A;
+        Mon,  8 Mar 2021 23:53:16 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CBB1431A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1615247547; bh=xycfLJzH7pyVas2pNH0j+dx9g9bv6bAMeFDksMNb4Uc=;
+        t=1615247596; bh=COx9eQ5SwNlqiBJ+BSztWogT456RXD+4NDcBY0ituWU=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=OvY6G/WUvcr+5e7M4xo/eAnb2UeGdKtAJCIOB+Ep2KvkIqB722yBgRhHgfKImretx
-         JZMnj9AXBbIvSsc02Ojls+pm/hqBnRbjYi7xOpZi245LLrJtOEPEuAI+IKyGttphLJ
-         KLneNYEhvSJH5c01/Wpk4JbnKpeyRyncUUJDa+OugeEx6mxiQxXdLGeQZRnxE5bMQQ
-         BL8hW5HsBzTfH4BhXhEDUpmHI9B8bTbkfLErwR6mrmBz0qTvu34zzNeNbXxgc+WhA8
-         cIhBHCVcC32POwCErCVTTTyL8rUPTAZHbf+Ss95KbGQ4OCSSjH2f7SzzF0k8/QIolf
-         aH0/J0jKE3zgA==
+        b=TsgHNn7Y/YoemeoQVeZuhSzEU4ayQWG2CCnwMo85ZUvHiSWU0R783v12zCA49sZAG
+         0/Sblfda4keZp20pHOhOldbcHlOdKdDmEIu0hqOO3BQ27q4QH1xz195Jkg8A8EyJX3
+         E57wRm6Nwsdhh8/5ZxjQu2+Fa7TF9/nce8pWEU5wstlgFfiTuw+ZaHzGBG+KOTnvWY
+         PWXpZZCBYEL275kb08hiX7/G8j93+C/cpeeD2lUBjSSIPkKj2bwXeIqpEqmemrT8Nd
+         prarWufxGSgu+4lHmjE0i4NFu6/Kni+6WFuUTgfIEqJExZVdw/7ZDhGAxmQ+sgWeM6
+         BQJPd16jzG1YA==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Aditya Srivastava <yashsri421@gmail.com>
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org, willy@infradead.org
-Subject: Re: [RFC v2] scripts: kernel-doc: fix attribute capture in function
- parsing
-In-Reply-To: <20210306113510.31023-1-yashsri421@gmail.com>
-References: <CAKXUXMwoYa6xbCsqnUYL5uSA71h_3xV7-8erF6XTpmkck8ozaw@mail.gmail.com>
- <20210306113510.31023-1-yashsri421@gmail.com>
-Date:   Mon, 08 Mar 2021 16:52:27 -0700
-Message-ID: <8735x56w5g.fsf@meer.lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: add a subsystem profile documentation
+In-Reply-To: <95af047a293d8209cf80c05be2b31261cf142853.1614862252.git.mchehab+huawei@kernel.org>
+References: <95af047a293d8209cf80c05be2b31261cf142853.1614862252.git.mchehab+huawei@kernel.org>
+Date:   Mon, 08 Mar 2021 16:53:16 -0700
+Message-ID: <87y2ex5hjn.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Aditya Srivastava <yashsri421@gmail.com> writes:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Currently, kernel-doc warns for function prototype parsing on the
-> presence of attributes "__attribute_const__" and "__flatten" in the
-> definition.
+> Document the basic policies of the media subsystem profile.
 >
-> There are 166 occurrences in ~70 files in the kernel tree for
-> "__attribute_const__" and 5 occurrences in 4 files for "__flatten".
->
-> Out of 166, there are 3 occurrences in three different files with
-> "__attribute_const__" and a preceding kernel-doc; and, 1 occurrence in
-> ./mm/percpu.c for "__flatten" with a preceding kernel-doc. All other
-> occurrences have no preceding kernel-doc.
->
-> Add support for  "__attribute_const__" and "__flatten" attributes.
->
-> A quick evaluation by running 'kernel-doc -none' on kernel-tree reveals
-> that no additional warning or error has been added or removed by the fix.
->
-> Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
-> Changes in v2:
-> - Remove "__attribute_const__" from the $return_type capture regex and add to the substituting ones.
-> - Add support for "__flatten" attribute
-> - Modify commit message
->
->  scripts/kernel-doc | 2 ++
->  1 file changed, 2 insertions(+)
+>  Documentation/driver-api/media/index.rst      |   2 +
+>  .../media/maintainer-entry-profile.rst        | 206 ++++++++++++++++++
+>  .../maintainer/maintainer-entry-profile.rst   |   1 +
+>  3 files changed, 209 insertions(+)
+>  create mode 100644 Documentation/driver-api/media/maintainer-entry-profile.rst
 
-Applied, thanks.
+This all looks good to me; would you like me to take it or were you
+going to send it upward yourself?
+
+Thanks,
 
 jon
