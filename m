@@ -2,102 +2,190 @@ Return-Path: <SRS0=NFUt=IG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F410C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 13:00:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43DE3C433E9
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 13:31:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E84016518F
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 13:00:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1B8CE651FD
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 13:31:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbhCHNAM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Mar 2021 08:00:12 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52510 "EHLO mail.kernel.org"
+        id S229922AbhCHNbV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Mar 2021 08:31:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57666 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229655AbhCHM7v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Mar 2021 07:59:51 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A40A364FB3;
-        Mon,  8 Mar 2021 12:59:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615208391;
-        bh=wxbL/Pa2LuwpiP3JjTmeepdQiCQNIv7MrwRtEg7zXKs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Axro0NZGoslIDIELA+vcrcmqfYkqa2Kispoq8GG1PhQ+GbLbBiVjYT8i8jgLKG4+t
-         0fv43dyqgy73NVWZvlxfP7NEXWO08+h2cNMWE5stsP7Xn2lITSc9qLMVnWFStmBVXE
-         vs1r1s8hmLch1KCzGcG4ydisTj2Ge23kJtK8xl42cLMN2A8UiDNErKDw5DcZHIFbD6
-         9K8aQt38rkcpeItasZYjaZvhNVeGX18YxVC/VGGk2v8hRYu0rhxACMwLvrBvkRVoeZ
-         F7aueLZ/eZ9SROhzZ4ZBToOl9R3Tct1GI87ov0yEXcXIT5M1xYVSUtTNMog3TwlzFj
-         rbibwoRAigyVA==
-Date:   Mon, 8 Mar 2021 12:59:46 +0000
-From:   Will Deacon <will@kernel.org>
-To:     Barry Song <song.bao.hua@hisilicon.com>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        akpm@linux-foundation.org, linux-mm@kvack.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linuxarm@openeuler.org, Mel Gorman <mgorman@suse.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>
-Subject: Re: [PATCH] Documentation/features: mark BATCHED_UNMAP_TLB_FLUSH
- doesn't apply to ARM64
-Message-ID: <20210308125946.GA26015@willie-the-truck>
-References: <20210223003230.11976-1-song.bao.hua@hisilicon.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210223003230.11976-1-song.bao.hua@hisilicon.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S229591AbhCHNbE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Mar 2021 08:31:04 -0500
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B7206651C2;
+        Mon,  8 Mar 2021 13:31:03 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <maz@kernel.org>)
+        id 1lJFyP-000L8E-P9; Mon, 08 Mar 2021 13:31:01 +0000
+Date:   Mon, 08 Mar 2021 13:31:00 +0000
+Message-ID: <874khlzsa3.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Hector Martin <marcan@marcan.st>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Will Deacon <will@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        devicetree@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFT PATCH v3 16/27] irqchip/apple-aic: Add support for the Apple Interrupt Controller
+In-Reply-To: <20210304213902.83903-17-marcan@marcan.st>
+References: <20210304213902.83903-1-marcan@marcan.st>
+        <20210304213902.83903-17-marcan@marcan.st>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: marcan@marcan.st, linux-arm-kernel@lists.infradead.org, robh@kernel.org, arnd@kernel.org, olof@lixom.net, krzk@kernel.org, mark.kettenis@xs4all.nl, tony@atomide.com, mohamed.mediouni@caramail.com, stan@corellium.com, graf@amazon.com, will@kernel.org, linus.walleij@linaro.org, mark.rutland@arm.com, andy.shevchenko@gmail.com, gregkh@linuxfoundation.org, corbet@lwn.net, catalin.marinas@arm.com, hch@infradead.org, davem@davemloft.net, devicetree@vger.kernel.org, linux-serial@vger.kernel.org, linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Feb 23, 2021 at 01:32:30PM +1300, Barry Song wrote:
-> BATCHED_UNMAP_TLB_FLUSH is used on x86 to do batched tlb shootdown by
-> sending one IPI to TLB flush all entries after unmapping pages rather
-> than sending an IPI to flush each individual entry.
-> On arm64, tlb shootdown is done by hardware. Flush instructions are
-> innershareable. The local flushes are limited to the boot (1 per CPU)
-> and when a task is getting a new ASID.
-> So marking this feature as "TODO" is not proper. ".." isn't good as
-> well. So this patch adds a "N/A" for this kind of features which are
-> not needed on some architectures.
+On Thu, 04 Mar 2021 21:38:51 +0000,
+Hector Martin <marcan@marcan.st> wrote:
 > 
-> Cc: Mel Gorman <mgorman@suse.de>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Catalin Marinas <catalin.marinas@arm.com>
-> Cc: Will Deacon <will@kernel.org>
-> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
-> ---
->  Documentation/features/arch-support.txt        | 1 +
->  Documentation/features/vm/TLB/arch-support.txt | 2 +-
->  2 files changed, 2 insertions(+), 1 deletion(-)
+> This is the root interrupt controller used on Apple ARM SoCs such as the
+> M1. This irqchip driver performs multiple functions:
 > 
-> diff --git a/Documentation/features/arch-support.txt b/Documentation/features/arch-support.txt
-> index d22a1095e661..118ae031840b 100644
-> --- a/Documentation/features/arch-support.txt
-> +++ b/Documentation/features/arch-support.txt
-> @@ -8,4 +8,5 @@ The meaning of entries in the tables is:
->      | ok |  # feature supported by the architecture
->      |TODO|  # feature not yet supported by the architecture
->      | .. |  # feature cannot be supported by the hardware
-> +    | N/A|  # feature doesn't apply to the architecture
->  
-> diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
-> index 30f75a79ce01..0d070f9f98d8 100644
-> --- a/Documentation/features/vm/TLB/arch-support.txt
-> +++ b/Documentation/features/vm/TLB/arch-support.txt
-> @@ -9,7 +9,7 @@
->      |       alpha: | TODO |
->      |         arc: | TODO |
->      |         arm: | TODO |
-> -    |       arm64: | TODO |
-> +    |       arm64: | N/A  |
->      |         c6x: |  ..  |
->      |        csky: | TODO |
->      |       h8300: |  ..  |
+> * Handles both IRQs and FIQs
+> 
+> * Drives the AIC peripheral itself (which handles IRQs)
+> 
+> * Dispatches FIQs to downstream hard-wired clients (currently the ARM
+>   timer).
+> 
+> * Implements a virtual IPI multiplexer to funnel multiple Linux IPIs
+>   into a single hardware IPI
+>
 
-Acked-by: Will Deacon <will@kernel.org>
+[...]
 
-Will
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> +static void __exception_irq_entry aic_handle_irq(struct pt_regs *regs)
+> +{
+> +	struct aic_irq_chip *ic = aic_irqc;
+> +	u32 event, type, irq;
+> +
+> +	do {
+> +		/*
+> +		 * We cannot use a relaxed read here, as DMA needs to be
+> +		 * ordered with respect to the IRQ firing.
+> +		 */
+> +		event = readl(ic->base + AIC_EVENT);
+> +		type = FIELD_GET(AIC_EVENT_TYPE, event);
+> +		irq = FIELD_GET(AIC_EVENT_NUM, event);
+> +
+> +		if (type == AIC_EVENT_TYPE_HW)
+> +			handle_domain_irq(aic_irqc->hw_domain, irq, regs);
+> +		else if (type == AIC_EVENT_TYPE_IPI && irq == 1)
+> +			aic_handle_ipi(regs);
+> +		else if (event != 0)
+> +			pr_err("Unknown IRQ event %d, %d\n", type, irq);
+> +	} while (event);
+> +
+> +	/*
+> +	 * vGIC maintenance interrupts end up here too, so we need to check
+> +	 * for them separately. Just report and disable vGIC for now, until
+> +	 * we implement this properly.
+> +	 */
+> +	if ((read_sysreg_s(SYS_ICH_HCR_EL2) & ICH_HCR_EN) &&
+> +		read_sysreg_s(SYS_ICH_MISR_EL2) != 0) {
+> +		pr_err("vGIC IRQ fired, disabling.\n");
+
+Please add a _ratelimited here. Whilst debugging KVM on this machine,
+I ended up with this firing at such a rate that it was impossible to
+do anything useful. Ratelimiting it allowed me to pinpoint the
+problem.
+
+[...]
+
+> +/*
+> + * FIQ irqchip
+> + */
+> +
+> +static void aic_fiq_mask(struct irq_data *d)
+> +{
+> +	/* Only the guest timers have real mask bits, unfortunately. */
+> +	switch (d->hwirq) {
+> +	case AIC_TMR_GUEST_PHYS:
+> +		sysreg_clear_set_s(SYS_APL_VM_TMR_FIQ_ENA_EL1, VM_TMR_FIQ_ENABLE_P, 0);
+> +		break;
+> +	case AIC_TMR_GUEST_VIRT:
+> +		sysreg_clear_set_s(SYS_APL_VM_TMR_FIQ_ENA_EL1, VM_TMR_FIQ_ENABLE_V, 0);
+> +		break;
+> +	}
+> +}
+> +
+> +static void aic_fiq_unmask(struct irq_data *d)
+> +{
+> +	switch (d->hwirq) {
+> +	case AIC_TMR_GUEST_PHYS:
+> +		sysreg_clear_set_s(SYS_APL_VM_TMR_FIQ_ENA_EL1, 0, VM_TMR_FIQ_ENABLE_P);
+> +		break;
+> +	case AIC_TMR_GUEST_VIRT:
+> +		sysreg_clear_set_s(SYS_APL_VM_TMR_FIQ_ENA_EL1, 0, VM_TMR_FIQ_ENABLE_V);
+> +		break;
+> +	}
+> +}
+> +
+> +static void aic_fiq_eoi(struct irq_data *d)
+> +{
+> +	/* We mask to ack (where we can), so we need to unmask at EOI. */
+> +	if (!irqd_irq_disabled(d) && !irqd_irq_masked(d))
+
+Ah, be careful here: irqd_irq_masked() doesn't do what you think it
+does for per-CPU interrupts. It's been on my list to fix for the rVIC
+implementation, but I never got around to doing it, and all decent ICs
+hide this from SW by having a HW-managed mask, similar to what is on
+the IRQ side.
+
+I can see two possibilities:
+
+- you can track the masked state directly and use that instead of
+  these predicates
+
+- you can just drop the masking altogether as this is only useful to a
+  hosted hypervisor (KVM), which will have to do its own masking
+  behind the scenes anyway
+
+> +		aic_fiq_unmask(d);
+> +}
+> +
+
+The rest looks good to me.
+
+Thanks,
+
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
