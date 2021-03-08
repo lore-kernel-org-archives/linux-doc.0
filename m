@@ -2,124 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 031C2C433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 18:31:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C35E9C433E6
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 18:33:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C70B065230
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 18:31:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 90C1E6520C
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 18:33:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230522AbhCHSac (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Mar 2021 13:30:32 -0500
-Received: from mail-mw2nam10on2088.outbound.protection.outlook.com ([40.107.94.88]:60512
-        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231203AbhCHSaZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Mar 2021 13:30:25 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=icKzH0YEOkmbII7uPqgwzJXFtx7L9LVWuIPtiCF+eqOt3IfDktd4qAtca5xwEOEapt9maBM+3Vg2gnZLS5MpM9FF+Ig+uNkcAMFbjylkDIvfrW3YalKdF3z8olBYId/HlGF3u/pq8DMAHbiT8d3nKQCE1KXX+Y6Rs9qGDdFmzwuR+4Kd0qi2KmhTld6z49Of7UTuTUcrA6Z4zDQjSyMhn784dFKduhLd1gP6whebeYX1qVcw9OMtlAnd1kkNynvFEqu9/A7FzwwVO9l88DeplyJjSHr8p5FWQIYVl+UTUIwJenZ9Uy/vk+eFnLW9/p8bqBT1g4CcVd4s/V1GmOqbMg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kkTsDS1VBRlRmDj4lnHWIdUxmZ1zJAxRFk7Z5AkzEa4=;
- b=RTlub8KdPgtP9PuhbEgAEjHgOPziMfXfaAcfqZjgeuHoNMZgeKexiMVsSUJKWUngIiTetNE01kkjz87BSReMCdYwm6CARo+nAfgmtQXjUkkB4gMMKCYbcu4F1X0Bg0N6Rvf/n5oYem+BS/BrrN0htRDUx88P9eOrTyT8UG1S9EP8OfhIh4zGlOKn/53+lKM9A44b00lID2/7UM+KtRAqH3Q9Ur1kw0TVdrYdSliguqv3TfXcyue1aJDPTHbYR8Um4im7VqNAV/oen/b5diD5q88JMyijxsNjaWfl7j6YFObIrHORSLbtvp+b+aZ36mlWmoROsWFI8zK4HqI7qfquNg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=linux-foundation.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kkTsDS1VBRlRmDj4lnHWIdUxmZ1zJAxRFk7Z5AkzEa4=;
- b=1gcBWPSDvjWmXpV/Lvb7FmIXSkcvG8X9IX1AePf8+5xiGE0bdNc7LO5DXdT2NhTWpv2x2QEQhq8oTAv0Ytg3IZT5QJOSb7BZ8uaRWZiMy38jp0Xmw4KgSRg8bxJ0v1jbh8yAJpN8ZO5683vlWUpS/fIdeeIQ6P5WY4OvUWaUBi8=
-Received: from DM5PR17CA0065.namprd17.prod.outlook.com (2603:10b6:3:13f::27)
- by DM5PR1201MB0156.namprd12.prod.outlook.com (2603:10b6:4:59::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17; Mon, 8 Mar
- 2021 18:30:22 +0000
-Received: from DM6NAM11FT035.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:13f:cafe::7e) by DM5PR17CA0065.outlook.office365.com
- (2603:10b6:3:13f::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
- Transport; Mon, 8 Mar 2021 18:30:22 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; linux-foundation.org; dkim=none (message not
- signed) header.d=none;linux-foundation.org; dmarc=pass action=none
- header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT035.mail.protection.outlook.com (10.13.172.100) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3912.17 via Frontend Transport; Mon, 8 Mar 2021 18:30:21 +0000
-Received: from rcampbell-test.nvidia.com (172.20.145.6) by
- HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 8 Mar 2021 18:30:14 +0000
-Subject: Re: [PATCH v4 2/8] mm/swapops: Rework swap entry manipulation code
-To:     Alistair Popple <apopple@nvidia.com>, <linux-mm@kvack.org>,
-        <nouveau@lists.freedesktop.org>, <bskeggs@redhat.com>,
-        <akpm@linux-foundation.org>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <jhubbard@nvidia.com>, <jglisse@redhat.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Jason Gunthorpe <jgg@nvidia.com>
-References: <20210304061645.29747-1-apopple@nvidia.com>
- <20210304061645.29747-3-apopple@nvidia.com>
-From:   Ralph Campbell <rcampbell@nvidia.com>
-Message-ID: <4cf3d4c5-b83e-902f-d1c8-a96248ce2ce8@nvidia.com>
-Date:   Mon, 8 Mar 2021 10:30:14 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S229650AbhCHSdO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Mar 2021 13:33:14 -0500
+Received: from mail-oi1-f171.google.com ([209.85.167.171]:41856 "EHLO
+        mail-oi1-f171.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231136AbhCHSc6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Mar 2021 13:32:58 -0500
+Received: by mail-oi1-f171.google.com with SMTP id y131so9113162oia.8;
+        Mon, 08 Mar 2021 10:32:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ORULzCjnXPb/eOQixg/gznJjWj+kBCZLN3pQYNFPoWI=;
+        b=fANIWjkr4YGz7W6fxyIEWAErXweUtz2svDjEf0nyN3nZaH1Wgn+fL0lD3X2SMK/WWL
+         aPU6w4n8lwcaaeo1tSoh34ykg32a1g9WzgF1L2sX5Amu6AGGPcYkXF4DYl1aiifuN/yl
+         fjqq96k8LU4caM1zwr4ctrIH1iSnl7lx4VharCW3FfH4RfNIZLPmg6m9+SdnVGUN0/vk
+         R1pNfbxeka5jszHh7iWi4XdZqsK22dCUoDsFrRFpQXKJrYqUDrOhPw/1QE3JIQbfDopn
+         jlUwFijohA5zYBGcoK9MBFFtmPjltq3mVF5jtDQ636g1YkFES48SmVQwGi6cKy5cThhv
+         dTVQ==
+X-Gm-Message-State: AOAM532/OsqlrFuNYa8Pu+hnk9V/OU9G+M0JukGgniKma1L0rZMsyoG7
+        4bUoN0lApbI2UUEsU/RYe834RVfJhFSgexUKQffmdi3x
+X-Google-Smtp-Source: ABdhPJwusjwrfgz1HhuY7d2RR+wDiiBn94dofEw7gcVvopI+S03bpDjL7POeGuKn66Vkpsfj4gOg7y7rmmggjMJBEZI=
+X-Received: by 2002:aca:f245:: with SMTP id q66mr113635oih.69.1615228378107;
+ Mon, 08 Mar 2021 10:32:58 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210304061645.29747-3-apopple@nvidia.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c031f529-f106-4e45-bd4e-08d8e2603bb4
-X-MS-TrafficTypeDiagnostic: DM5PR1201MB0156:
-X-Microsoft-Antispam-PRVS: <DM5PR1201MB015688941E6B4778D1D7945BC2939@DM5PR1201MB0156.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nCwLU+sYVDUIadGblpO/LSPSkbvheVSwpj69kxv0dsRWYRhYGRWj8YaEyY3vZGk1crvPkKDUuxucDhMPtYcU4wm6ei6ZdPCkxDFd+AkF1ZDq2dtTCbeZnBalzI5KowAfUYS7GfJzZd4xwsmUkEjqdpNzOVZjq/5f5Bf6nNr11/55cUK3qmNBIK65BKeRTV61VD2ZO8Q3WcfUy27HuQoNHS8Tv5W08ljlxGQbF8yFVxSDZUs38fPipN3+Dnw+b6Lr8ozbKC2lCd4ay5Prbkjd/9EIoaKiszt6DmrOBNAl47b42u5qyU15Jnk2M+Z3AE4I0LrZFQzAVhf13QxxPTjWn9E0mt1cAg6gyHWvRMNxeRE17YEKH5f0tpSiubHQcSQOTklBAS2UzdnqZUQgfi5+rjon3FdNH0OhciVYPrScJ9XJ/TFpuKN5i7ur0mrulwBTClt86xHqtnubzOBxNanHlv9eze+oxq5aSoTzC6bx+cuo5X1oMuV+MxyZEEb+cG+9tYbLTQ9v/954SbbaOxKf0R7VUUtY4phjldkjlLiHCBUs0YI5+RQZQm4Jq/PgxkMxnwMgNsd/gxRWVHWuaucQjF7TEUha9dp6dB5hW2CiKz36N2lgvNPPTf7pJy6ZQlAbqCDmdV7+JuyoaSP/vrc1iNNHm3J/UUqS1uZ/FT7VaikVs/cYCRQ1eAbwd9PI/AYUdjyAX02PuR0QR88zfbJ+lw==
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(136003)(346002)(396003)(376002)(36840700001)(46966006)(53546011)(31686004)(336012)(2616005)(107886003)(7636003)(36906005)(82740400003)(86362001)(36860700001)(478600001)(82310400003)(34020700004)(4744005)(31696002)(5660300002)(54906003)(4326008)(110136005)(47076005)(356005)(7696005)(2906002)(26005)(7416002)(36756003)(16526019)(186003)(8936002)(8676002)(70206006)(426003)(70586007)(316002)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2021 18:30:21.8314
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c031f529-f106-4e45-bd4e-08d8e2603bb4
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT035.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0156
+References: <20210304150215.80652-1-andriy.shevchenko@linux.intel.com> <20210304150215.80652-6-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20210304150215.80652-6-andriy.shevchenko@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 8 Mar 2021 19:32:47 +0100
+Message-ID: <CAJZ5v0juZyx0f9L6erdNdmhFdJQ=Q9hPGatNEJm9v_oija=oiQ@mail.gmail.com>
+Subject: Re: [PATCH v2 5/5] gpiolib: Reuse device's fwnode to create IRQ domain
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, Mar 4, 2021 at 4:02 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> When IRQ domain is created for an ACPI case, the name of it becomes unknown-%d
+> since for now it utilizes of_node member only and doesn't consider fwnode case.
+> Convert IRQ domain creation code to utilize fwnode instead.
+>
+> Before/After the change on Intel Galileo Gen 2 with two GPIO (IRQ) controllers:
+>
+>   unknown-1     ==>     \_SB.PCI0.GIP0.GPO
+>   unknown-2     ==>     \_SB.NIO3
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  drivers/gpio/gpiolib.c | 28 ++++++++--------------------
+>  1 file changed, 8 insertions(+), 20 deletions(-)
+>
+> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+> index 6827736ba05c..254d59b088fe 100644
+> --- a/drivers/gpio/gpiolib.c
+> +++ b/drivers/gpio/gpiolib.c
+> @@ -1457,9 +1457,9 @@ static int gpiochip_add_irqchip(struct gpio_chip *gc,
+>                                 struct lock_class_key *lock_key,
+>                                 struct lock_class_key *request_key)
+>  {
+> +       struct fwnode_handle *fwnode = dev_fwnode(&gc->gpiodev->dev);
+>         struct irq_chip *irqchip = gc->irq.chip;
+> -       const struct irq_domain_ops *ops = NULL;
+> -       struct device_node *np;
+> +       const struct irq_domain_ops *ops;
+>         unsigned int type;
+>         unsigned int i;
+>
+> @@ -1471,7 +1471,6 @@ static int gpiochip_add_irqchip(struct gpio_chip *gc,
+>                 return -EINVAL;
+>         }
+>
+> -       np = gc->gpiodev->dev.of_node;
+>         type = gc->irq.default_type;
+>
+>         /*
+> @@ -1479,16 +1478,10 @@ static int gpiochip_add_irqchip(struct gpio_chip *gc,
+>          * used to configure the interrupts, as you may end up with
+>          * conflicting triggers. Tell the user, and reset to NONE.
+>          */
+> -       if (WARN(np && type != IRQ_TYPE_NONE,
+> -                "%s: Ignoring %u default trigger\n", np->full_name, type))
+> +       if (WARN(fwnode && type != IRQ_TYPE_NONE,
+> +                "%pfw: Ignoring %u default trigger\n", fwnode, type))
+>                 type = IRQ_TYPE_NONE;
+>
+> -       if (has_acpi_companion(gc->parent) && type != IRQ_TYPE_NONE) {
+> -               acpi_handle_warn(ACPI_HANDLE(gc->parent),
+> -                                "Ignoring %u default trigger\n", type);
+> -               type = IRQ_TYPE_NONE;
+> -       }
 
-On 3/3/21 10:16 PM, Alistair Popple wrote:
-> Both migration and device private pages use special swap entries that
-> are manipluated by a range of inline functions. The arguments to these
-> are somewhat inconsitent so rework them to remove flag type arguments
-> and to make the arguments similar for both read and write entry
-> creation.
-> 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
+Why is the above message not worth printing any more?  If there is a
+good enough reason, it would be good to mention it in the changelog.
 
-Looks good to me too.
-Reviewed-by: Ralph Campbell <rcampbell@nvidia.com>
+> -
+>         if (gc->to_irq)
+>                 chip_warn(gc, "to_irq is redefined in %s and you shouldn't rely on it\n", __func__);
+>
+> @@ -1504,15 +1497,10 @@ static int gpiochip_add_irqchip(struct gpio_chip *gc,
+>                         return ret;
+>         } else {
+>                 /* Some drivers provide custom irqdomain ops */
+> -               if (gc->irq.domain_ops)
+> -                       ops = gc->irq.domain_ops;
+> -
+> -               if (!ops)
+> -                       ops = &gpiochip_domain_ops;
+
+I'm guessing that the code above is replaced in order to avoid
+initializing ops to NULL, but IMO that should be a separate patch or
+at least the extra cleanup should be mentioned in the changelog.
+
+Personally, I would do the essential change first and put all of the
+tangentially related cleanups into a separate follow-up patch.
+
+> -               gc->irq.domain = irq_domain_add_simple(np,
+> -                       gc->ngpio,
+> -                       gc->irq.first,
+> -                       ops, gc);
+> +               ops = gc->irq.domain_ops ?: &gpiochip_domain_ops;
+> +               gc->irq.domain = irq_domain_create_simple(fwnode, gc->ngpio,
+> +                                                                 gc->irq.first,
+> +                                                                 ops, gc);
+>                 if (!gc->irq.domain)
+>                         return -EINVAL;
+>         }
+> --
