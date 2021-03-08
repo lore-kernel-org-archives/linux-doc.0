@@ -2,108 +2,95 @@ Return-Path: <SRS0=NFUt=IG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71DDCC433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 09:39:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA81BC433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 10:19:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 44B7265134
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 09:39:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F6356511F
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 10:19:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229671AbhCHJjB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Mar 2021 04:39:01 -0500
-Received: from office2.cesnet.cz ([195.113.144.244]:40694 "EHLO
-        office2.cesnet.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229740AbhCHJij (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Mar 2021 04:38:39 -0500
-X-Greylist: delayed 404 seconds by postgrey-1.27 at vger.kernel.org; Mon, 08 Mar 2021 04:38:38 EST
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by office2.cesnet.cz (Postfix) with ESMTPSA id 133D2400064;
-        Mon,  8 Mar 2021 10:31:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cesnet.cz;
-        s=office2-2020; t=1615195911;
-        bh=yltdKOZ/6VYVTrMu44KMTldpTThy2mksJYEuQNhbrVk=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc;
-        b=fouG54RXXM/ARxEvvtmzap+LFggmmxf/tvkx71BohNyFDgbJ3joPSuubExBpZw8wz
-         HNGnOHvFjcg9E/aFfxh1Z3dm7zQzygHGci8QJNx+XpW7JdiRqdJuqP9wVEtYdEUyGA
-         ejoXHFOAqrFOUG+1VBlXJt4WqyIdgDdelvEisAmFRn0yN5u4b07xrMXoGp/fEJY0p9
-         rzzaW8u4M1Ti5I915o0AEmElCSd6nr+J+EsKMDcTJikEv1cHT8UUZE338Ty6E8K2aN
-         rI4tnorjw/d52HgwltkzzNy0cuLmCytYCbpz15U39XTVthrKeTjLxYkCPWNFsV96Rs
-         KAsMzgJsIxP6Q==
-Received: by mail-lj1-f178.google.com with SMTP id c19so6874419ljn.12;
-        Mon, 08 Mar 2021 01:31:51 -0800 (PST)
-X-Gm-Message-State: AOAM530j+pxEt3slcgafC1zRFYE6tuTF1agkirG5awbJRo59kcmy6eoI
-        7LWIwPj7Psd6qLCGzN7HlYQ2rbnymt9btCKFB6M=
-X-Google-Smtp-Source: ABdhPJzm1zXbic7UlfG8H1lozfmgdCs8/TEcgGlVrSorjf8r9LemwnQu0ogoHYfZHB2pbpwvJfkNORjjVf+uGo1WIf0=
-X-Received: by 2002:a2e:5716:: with SMTP id l22mr7268056ljb.244.1615195910561;
- Mon, 08 Mar 2021 01:31:50 -0800 (PST)
+        id S230126AbhCHKTL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Mar 2021 05:19:11 -0500
+Received: from mx2.suse.de ([195.135.220.15]:44616 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230124AbhCHKSy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Mar 2021 05:18:54 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1615198730; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=lvCIwtYnesXvJRVGzU2hGB/7G7oq37sXw80Pfgizm38=;
+        b=a9QLosKjy8KlfkCHYsZ2OvtJ/ZRgji+TsQ07hrYwcxzXf9fzRx16CvTXdtzoRohFKfxA5y
+        QiiXSp+xAInwnEQJMfC2g/cVAMlTSH+RhjqqvuAVHfCXBIUOJ33t1HkRfczb+iH5izh0gg
+        VdxKNMER9L9bl9z8mlqGPpTp6bdxtpg=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 8797AAD2B;
+        Mon,  8 Mar 2021 10:18:50 +0000 (UTC)
+Date:   Mon, 8 Mar 2021 11:18:50 +0100
+From:   Petr Mladek <pmladek@suse.com>
+To:     Joe Lawrence <joe.lawrence@redhat.com>
+Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>, jpoimboe@redhat.com,
+        jikos@kernel.org, mbenes@suse.cz, corbet@lwn.net,
+        live-patching@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rdunlap@infradead.org
+Subject: Re: [PATCH V2] docs: livepatch: Fix a typo and remove the
+ unnecessary gaps in a sentence
+Message-ID: <YEX6Cu0EcVpUklFG@alley>
+References: <20210305100923.3731-1-unixbhaskar@gmail.com>
+ <20210305125600.GM2723601@casper.infradead.org>
+ <YEI0EcR5G53IoYzb@Gentoo>
+ <f8b10ee7-026c-1dc0-fb0c-2a887cd1e953@redhat.com>
 MIME-Version: 1.0
-References: <20210304105830.507176-1-kubernat@cesnet.cz> <20210304105830.507176-3-kubernat@cesnet.cz>
- <ad1c3054-e9a2-4299-aeed-94e36d6d3d12@cesnet.cz>
-In-Reply-To: <ad1c3054-e9a2-4299-aeed-94e36d6d3d12@cesnet.cz>
-From:   =?UTF-8?B?VsOhY2xhdiBLdWJlcm7DoXQ=?= <kubernat@cesnet.cz>
-Date:   Mon, 8 Mar 2021 10:31:39 +0100
-X-Gmail-Original-Message-ID: <CABKa3noLPxg8DFoHBG7nz5h12Bo0qTU7sWbJBzsgtvK69aB0uw@mail.gmail.com>
-Message-ID: <CABKa3noLPxg8DFoHBG7nz5h12Bo0qTU7sWbJBzsgtvK69aB0uw@mail.gmail.com>
-Subject: Re: [PATCH 3/7] hwmon: (max31790) Allow setting pulses
-To:     =?UTF-8?B?SmFuIEt1bmRyw6F0?= <jan.kundrat@cesnet.cz>
-Cc:     Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f8b10ee7-026c-1dc0-fb0c-2a887cd1e953@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thanks, I will include fixes in v2 of the patches.
+On Fri 2021-03-05 11:00:10, Joe Lawrence wrote:
+> On 3/5/21 8:37 AM, Bhaskar Chowdhury wrote:
+> > On 12:56 Fri 05 Mar 2021, Matthew Wilcox wrote:
+> > > On Fri, Mar 05, 2021 at 03:39:23PM +0530, Bhaskar Chowdhury wrote:
+> > > > s/varibles/variables/
+> > > > 
+> > > > ...and remove leading spaces from a sentence.
+> > > 
+> > > What do you mean 'leading spaces'?  Separating two sentences with
+> > > one space or two is a matter of personal style, and we do not attempt
+> > > to enforce a particular style in the kernel.
+> > > 
+> > The spaces before the "In" .. nor I am imposing anything , it was peter caught
+> > and told me that it is hanging ..move it to the next line ..so I did. ..
+> > 
+> 
+> Initially I thought the same as Matthew, but after inspecting the diff I
+> realized it was just a line wrap.  Looks fine to me.
+> 
+> > > >   Sometimes it may not be convenient or possible to allocate shadow
+> > > >   variables alongside their parent objects.  Or a livepatch fix may
+> > > > -require shadow varibles to only a subset of parent object instances.  In
+> > > > +require shadow variables to only a subset of parent object instances.
+> > > 
+> > > wrong preposition, s/to/for/    ..where???
+> 
+> Hi Bhaskar,
+> 
+> Thanks for spotting, I'd be happy with v2 as is or a v3 if you want to
+> update s/shadow variables to only/shadow variables for only/  but knowing
+> me, I probably repeated the same phrasing elsewhere.  Up to you, thanks.
 
-By the way, I'd like to mention that Jan is my colleague.
+I could fix these when pushing unless anyone is against it.
 
-V=C3=A1clav
+> Acked-by: Joe Lawrence <joe.lawrence@redhat.com>
 
-p=C3=A1 5. 3. 2021 v 13:08 odes=C3=ADlatel Jan Kundr=C3=A1t <jan.kundrat@ce=
-snet.cz> napsal:
->
-> > @@ -285,6 +295,9 @@ static int max31790_write_fan(struct device
-> > *dev, u32 attr, int channel,
-> >                                  MAX31790_REG_FAN_CONFIG(channel),
-> >                                  data->fan_config[channel]);
-> >               break;
-> > +     case hwmon_fan_pulses:
-> > +             data->pulses[channel] =3D val;
-> > +             break;
->
-> This needs input validation, otherwise it's possible to write 0 in there
-> and you get a division-by-zero in the kernel context:
->
-> [102109.999968] Division by zero in kernel.
-> [102110.003917] CPU: 1 PID: 27590 Comm: cat Not tainted 5.9.3-cla-cfb #42
-> [102110.010462] Hardware name: Marvell Armada 380/385 (Device Tree)
-> [102110.016497] [<c010f16c>] (unwind_backtrace) from [<c010ae40>]
-> (show_stack+0x10/0x14)
-> [102110.024355] [<c010ae40>] (show_stack) from [<c083ba30>]
-> (dump_stack+0x94/0xa8)
-> [102110.031689] [<c083ba30>] (dump_stack) from [<c083a3fc>]
-> (Ldiv0+0x8/0x2c)
-> [102110.038499] [<c083a3fc>] (Ldiv0) from [<c064c1ac>]
-> (max31790_read+0x174/0x204)
-> [102110.045836] [<c064c1ac>] (max31790_read) from [<c0646fdc>]
-> (hwmon_attr_show+0x44/0x138)
-> ...
->
-> A similar error can also happen when setting the fan speed to 0 RPM.
-> That's, however, not an error caused by this patch series AFAIK. I *think=
-*
-> that RPM_TO_REG should be changed to check if `rpm` is 0, and if so, set
-> the register directly to the maximal value of 0x7ff (in another patch).
->
-> With kind regards,
-> Jan
+Acked-by: Petr Mladek <pmladek@suse.com>
+
+Best Regards,
+Petr
