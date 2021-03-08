@@ -2,132 +2,102 @@ Return-Path: <SRS0=NFUt=IG=vger.kernel.org=linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA119C43381
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 12:03:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F410C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 13:00:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2169564D92
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 12:03:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E84016518F
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 13:00:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231272AbhCHMC4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Mar 2021 07:02:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52940 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229627AbhCHMCr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Mar 2021 07:02:47 -0500
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 124C1C06174A;
-        Mon,  8 Mar 2021 04:02:47 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id y67so7073083pfb.2;
-        Mon, 08 Mar 2021 04:02:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jlusgLjbLKUTAaP82nwfxxVRLneDG0S3dn7MKQ5uqQM=;
-        b=AC/7yM68lti9c3ma6GRYkZHCqxY18TVJx6TlAzforETOsZcAandJdLTzfFeIB6R0Rh
-         SxAm7dXNu3QrnjZrpk+AWTZ7GbZ33D6VxUDP+yDUTrBy9Nk16ZlYp+rpb8eAi4+eELQF
-         1etohEM3QB5MVgkpxQUh6HRyZTF6XbpOXmz/8HuhF/vJMYsJVQ+L6yeA+er1fMzMph34
-         ncdkbKHGZIhvxyhLuTth5LyqOZswcZbXFl8J7asTlFnPh9x+SoxUTnCWEaLiXpeZL3lS
-         q4YoZgTM5g7iv8y8FdU/VMjzze3TFl2Ic9Vrbj02f515mzYjHNTqxNn58hC8apYYJ8FF
-         Iy6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jlusgLjbLKUTAaP82nwfxxVRLneDG0S3dn7MKQ5uqQM=;
-        b=rDHntY2Mev8f+5fm2CAqtUh1EnYcmDJpUpeqzYBLjrEGav6tQlfPz4El8rTUXy49w9
-         SFi1cC1imTosCDSEDAOgCe0rhSO0h68n0Q4ww+yQhddF1jTL9gvoEqdtdLmu0H147tK6
-         CQafEJPM/a/UE/GPKva3qwwA8qNLIVQD7nCy8xjOVBgPqKVxx1F8FMze8GUVMFWW9GIo
-         fdHhY16zyY4I4WbLMFKUcFBtrZqwvJv2fptcILBAFS0Uxgq4GQ0vwuLe1zFhYuFSYSPR
-         xr0s6L8fubTlqrcXgEPnLSLE97yBgUfRmVjLnNMrvoT5/n3QCAX9RTw2OFstWfpo3chY
-         PK4w==
-X-Gm-Message-State: AOAM531kvEjGhxDpN8ACbpb15LZTUpdm9FhNtojTtCN9VrX4g9sF/DhI
-        78tsm7k/xZ/x2w7FGHUaFpW/BvXVoNwlLxVq8lc=
-X-Google-Smtp-Source: ABdhPJykVLNhDhqQhXCcqXCmdA5Au+rowhNnrtIiQx35C+rH8rgT4Wo9r/DwSPnYYy9FT7AFGX87SD/h3Lz7e6itYyY=
-X-Received: by 2002:a62:7c43:0:b029:1ef:20ce:ba36 with SMTP id
- x64-20020a627c430000b02901ef20ceba36mr19910116pfc.40.1615204966584; Mon, 08
- Mar 2021 04:02:46 -0800 (PST)
+        id S229578AbhCHNAM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Mar 2021 08:00:12 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52510 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229655AbhCHM7v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Mar 2021 07:59:51 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A40A364FB3;
+        Mon,  8 Mar 2021 12:59:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615208391;
+        bh=wxbL/Pa2LuwpiP3JjTmeepdQiCQNIv7MrwRtEg7zXKs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Axro0NZGoslIDIELA+vcrcmqfYkqa2Kispoq8GG1PhQ+GbLbBiVjYT8i8jgLKG4+t
+         0fv43dyqgy73NVWZvlxfP7NEXWO08+h2cNMWE5stsP7Xn2lITSc9qLMVnWFStmBVXE
+         vs1r1s8hmLch1KCzGcG4ydisTj2Ge23kJtK8xl42cLMN2A8UiDNErKDw5DcZHIFbD6
+         9K8aQt38rkcpeItasZYjaZvhNVeGX18YxVC/VGGk2v8hRYu0rhxACMwLvrBvkRVoeZ
+         F7aueLZ/eZ9SROhzZ4ZBToOl9R3Tct1GI87ov0yEXcXIT5M1xYVSUtTNMog3TwlzFj
+         rbibwoRAigyVA==
+Date:   Mon, 8 Mar 2021 12:59:46 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Barry Song <song.bao.hua@hisilicon.com>
+Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
+        akpm@linux-foundation.org, linux-mm@kvack.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linuxarm@openeuler.org, Mel Gorman <mgorman@suse.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>
+Subject: Re: [PATCH] Documentation/features: mark BATCHED_UNMAP_TLB_FLUSH
+ doesn't apply to ARM64
+Message-ID: <20210308125946.GA26015@willie-the-truck>
+References: <20210223003230.11976-1-song.bao.hua@hisilicon.com>
 MIME-Version: 1.0
-References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-17-marcan@marcan.st>
- <CAHp75Vco_rcjHJ4THLZ8CJP=yX2fesfAo_tOY8zohfSmTLEVgw@mail.gmail.com> <875z21zwy2.wl-maz@kernel.org>
-In-Reply-To: <875z21zwy2.wl-maz@kernel.org>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 8 Mar 2021 14:02:29 +0200
-Message-ID: <CAHp75Vcgy1rB0LHHb+=mruAc-M-rGdfS0UnMh4xU1xkLxOycFA@mail.gmail.com>
-Subject: Re: [RFT PATCH v3 16/27] irqchip/apple-aic: Add support for the Apple
- Interrupt Controller
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Hector Martin <marcan@marcan.st>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Rob Herring <robh@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        devicetree <devicetree@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210223003230.11976-1-song.bao.hua@hisilicon.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 8, 2021 at 1:50 PM Marc Zyngier <maz@kernel.org> wrote:
-> On Fri, 05 Mar 2021 15:05:08 +0000,
-> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+On Tue, Feb 23, 2021 at 01:32:30PM +1300, Barry Song wrote:
+> BATCHED_UNMAP_TLB_FLUSH is used on x86 to do batched tlb shootdown by
+> sending one IPI to TLB flush all entries after unmapping pages rather
+> than sending an IPI to flush each individual entry.
+> On arm64, tlb shootdown is done by hardware. Flush instructions are
+> innershareable. The local flushes are limited to the boot (1 per CPU)
+> and when a task is getting a new ASID.
+> So marking this feature as "TODO" is not proper. ".." isn't good as
+> well. So this patch adds a "N/A" for this kind of features which are
+> not needed on some architectures.
+> 
+> Cc: Mel Gorman <mgorman@suse.de>
+> Cc: Andy Lutomirski <luto@kernel.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+> ---
+>  Documentation/features/arch-support.txt        | 1 +
+>  Documentation/features/vm/TLB/arch-support.txt | 2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/features/arch-support.txt b/Documentation/features/arch-support.txt
+> index d22a1095e661..118ae031840b 100644
+> --- a/Documentation/features/arch-support.txt
+> +++ b/Documentation/features/arch-support.txt
+> @@ -8,4 +8,5 @@ The meaning of entries in the tables is:
+>      | ok |  # feature supported by the architecture
+>      |TODO|  # feature not yet supported by the architecture
+>      | .. |  # feature cannot be supported by the hardware
+> +    | N/A|  # feature doesn't apply to the architecture
+>  
+> diff --git a/Documentation/features/vm/TLB/arch-support.txt b/Documentation/features/vm/TLB/arch-support.txt
+> index 30f75a79ce01..0d070f9f98d8 100644
+> --- a/Documentation/features/vm/TLB/arch-support.txt
+> +++ b/Documentation/features/vm/TLB/arch-support.txt
+> @@ -9,7 +9,7 @@
+>      |       alpha: | TODO |
+>      |         arc: | TODO |
+>      |         arm: | TODO |
+> -    |       arm64: | TODO |
+> +    |       arm64: | N/A  |
+>      |         c6x: |  ..  |
+>      |        csky: | TODO |
+>      |       h8300: |  ..  |
 
-...
+Acked-by: Will Deacon <will@kernel.org>
 
-> > > +#define TIMER_FIRING(x)                                                        \
-> > > +       (((x) & (ARCH_TIMER_CTRL_ENABLE | ARCH_TIMER_CTRL_IT_MASK |            \
-> > > +                ARCH_TIMER_CTRL_IT_STAT)) ==                                  \
-> > > +        (ARCH_TIMER_CTRL_ENABLE | ARCH_TIMER_CTRL_IT_STAT))
-> >
-> > It's a bit hard to read. Perhaps
-> >
-> > #define FOO_MASK  (_ENABLE | _STAT)
-> > #define _FIRING ... (FOO_MASK | _MASK == FOO_MASK)
->
-> The expression above is a direct translation of the architecture
-> reference manual, and I'd rather not have that hidden behind a bunch
-> of obscure macros.
-
-OK!
-
-...
-
-> > > +       irqc->hw_domain = irq_domain_create_linear(of_node_to_fwnode(node),
-> > > +                                                  irqc->nr_hw + AIC_NR_FIQ,
-> > > +                                                  &aic_irq_domain_ops, irqc);
-> >
-> > If you are sure it will be always OF-only, why not to use
-> > irq_domain_add_linear()?
->
-> The OF-only API is deprecated, and there is no point in using it for
-> *new* code, specially when things like IPI allocation require the use
-> of the modern API. For arm64 root controllers, that's the way to go.
-
-Good to know, thanks!
-
--- 
-With Best Regards,
-Andy Shevchenko
+Will
