@@ -2,105 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DBD65C433DB
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 16:52:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 985F3C433E0
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 17:08:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9225765235
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 16:52:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 56200650E5
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 17:08:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230184AbhCHQwF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Mar 2021 11:52:05 -0500
-Received: from mga06.intel.com ([134.134.136.31]:18037 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229818AbhCHQv6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Mar 2021 11:51:58 -0500
-IronPort-SDR: RWbEuP4Jjbm1SJ/0pYMC8GqkKQB2hEImRPRu7UHuXYV57wiEDu/mKH0XmdtnV5Sf9HpL19TIhD
- EcBN+EeyLsEw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="249443244"
-X-IronPort-AV: E=Sophos;i="5.81,232,1610438400"; 
-   d="scan'208";a="249443244"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 08:51:58 -0800
-IronPort-SDR: Ra6tLTStpq8dq36RZhKli0M2oVxfITFaaO3HQz+7ILvFtrtpvijqoqpCk6bbPegkcGxyt+LxRG
- 15Q2Lh7fpluQ==
-X-IronPort-AV: E=Sophos;i="5.81,232,1610438400"; 
-   d="scan'208";a="385909914"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.186.31]) ([10.209.186.31])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 08:51:56 -0800
-Subject: Re: [PATCH v21 10/26] x86/mm: Update pte_modify for _PAGE_COW
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S230250AbhCHRHs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Mar 2021 12:07:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34768 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230050AbhCHRHQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Mar 2021 12:07:16 -0500
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66CE0C061760
+        for <linux-doc@vger.kernel.org>; Mon,  8 Mar 2021 09:07:16 -0800 (PST)
+Received: by mail-qv1-xf49.google.com with SMTP id j3so8166201qvo.1
+        for <linux-doc@vger.kernel.org>; Mon, 08 Mar 2021 09:07:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=sender:date:message-id:mime-version:subject:from:cc;
+        bh=7mCRpmhv1OM36vNlkAtqHtWEhlUKPQI2C+wk9QTsT80=;
+        b=miOOpv1RLxFINJF7EYHrzJzD3khYSf16V5pPLLmhxznHshwiurgylwUbtsXLx/GoPJ
+         E4qC1svZwWEj/bXdNmvg5CGJzUHhR5Y9P9OWIatPV1Ja2AyN/hzWec0bxrfow92fYY3I
+         EpUzhabEWV2Kblsu3IglcUnYAOLa0xlESIWPOBFI4z3hnpejjSlW5DbJGEI7VwZB5XmI
+         5VcR6tW/GZjaU5fOBzMzt8dod0HiT/b0wdReP0Pq7fe19dWJm7pOfW5ZKGdY5EV9lGTm
+         fi0JUcAaB3pzkbmBwgyZAkRBDTIsAFXVLxwO8LLHSY8lp0UhE7gIQP2x5JvqDYEj/6IS
+         cJ/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+         :cc;
+        bh=7mCRpmhv1OM36vNlkAtqHtWEhlUKPQI2C+wk9QTsT80=;
+        b=PQEa25tWeulc6HN9W7uMZQt0cJOT58vso3VHDFKKlmVESb6e4LDTsOe7Lvzu8E8upt
+         cZoN3RMZTUyQnso85/Q2Jd/c/KLjv2y/T1kbhfehxv8LXL4LphiGvYpKow8E+vD7Ti4I
+         sSreJcnAsxf/dRu0Oi7su+4Ka12NSZjCj+dKQHDHFnxWtf4EnnLowRpHexmpDh73zBUy
+         SnU96ygwII+q+jW9Sfb1+ANwtWlU0kiPd872OUO0atnE64AoHl6W6JLE4tqoV4Gx1Aoo
+         evBCv0q6u29rJ54/ztmfiZJePZTndW25ZOXZJxdrBUigg9CqHEQw330XNgTI9Gurm6sa
+         TR8A==
+X-Gm-Message-State: AOAM532JyJZUmSFQK2wL3AWTshcTXE5wCmOtsQl/y3hZllY9M8NCg9wd
+        odGU5QGMVAsVDd0RQy0IQ1dgR3MKH6mRGnZEuA==
+X-Google-Smtp-Source: ABdhPJx9+q+MEXXOho3t/3yQ+LqETPemrMlYxWkhxLoiKwMhnO2xsjvoochQa6vlE3++weFzUkrdxqvsxq+Dbq6zpA==
+Sender: "kaleshsingh via sendgmr" <kaleshsingh@kaleshsingh.c.googlers.com>
+X-Received: from kaleshsingh.c.googlers.com ([fda3:e722:ac3:10:14:4d90:c0a8:2145])
+ (user=kaleshsingh job=sendgmr) by 2002:a0c:b526:: with SMTP id
+ d38mr21324197qve.7.1615223235257; Mon, 08 Mar 2021 09:07:15 -0800 (PST)
+Date:   Mon,  8 Mar 2021 17:06:40 +0000
+Message-Id: <20210308170651.919148-1-kaleshsingh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.1.766.gb4fecdf3b7-goog
+Subject: [RESEND PATCH v6 1/2] procfs: Allow reading fdinfo with PTRACE_MODE_READ
+From:   Kalesh Singh <kaleshsingh@google.com>
+Cc:     jannh@google.com, jeffv@google.com, keescook@chromium.org,
+        surenb@google.com, minchan@kernel.org, hridya@google.com,
+        rdunlap@infradead.org, christian.koenig@amd.com,
+        willy@infradead.org, viro@zeniv.linux.org.uk,
+        kernel-team@android.com, Kalesh Singh <kaleshsingh@google.com>,
+        Alexey Dobriyan <adobriyan@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210217222730.15819-1-yu-cheng.yu@intel.com>
- <20210217222730.15819-11-yu-cheng.yu@intel.com>
- <20210305142940.GC2685@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <b7105be2-d2de-c318-f6e2-2706e35dd7ce@intel.com>
-Date:   Mon, 8 Mar 2021 08:51:55 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
-MIME-Version: 1.0
-In-Reply-To: <20210305142940.GC2685@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Michal Hocko <mhocko@suse.com>,
+        Alexey Gladkov <gladkov.alexey@gmail.com>,
+        Szabolcs Nagy <szabolcs.nagy@arm.com>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Christian Brauner <christian.brauner@ubuntu.com>,
+        Michel Lespinasse <walken@google.com>,
+        Bernd Edlinger <bernd.edlinger@hotmail.de>,
+        Andrei Vagin <avagin@gmail.com>, Helge Deller <deller@gmx.de>,
+        James Morris <jamorris@linux.microsoft.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/5/2021 6:29 AM, Borislav Petkov wrote:
-> On Wed, Feb 17, 2021 at 02:27:14PM -0800, Yu-cheng Yu wrote:
->> @@ -787,16 +802,34 @@ static inline pte_t pte_modify(pte_t pte, pgprot_t newprot)
->>   	 */
->>   	val &= _PAGE_CHG_MASK;
->>   	val |= check_pgprot(newprot) & ~_PAGE_CHG_MASK;
->> +	val = fixup_dirty_pte(val);
-> 
-> Do I see it correctly that you can do here and below:
-> 
-> 	/*
-> 	 * Fix up potential shadow stack page flags because the RO, Dirty PTE is
-> 	 * special.
-> 	 */
-> 	if (pte_dirty()) {
-> 		pte_mkclean();
-> 		pte_mkdirty();
-> 	}
-> 
-> ?
+Android captures per-process system memory state when certain low memory
+events (e.g a foreground app kill) occur, to identify potential memory
+hoggers. In order to measure how much memory a process actually consumes,
+it is necessary to include the DMA buffer sizes for that process in the
+memory accounting. Since the handle to DMA buffers are raw FDs, it is
+important to be able to identify which processes have FD references to
+a DMA buffer.
 
-Yes, this looks better.  Thanks!
+Currently, DMA buffer FDs can be accounted using /proc/<pid>/fd/* and
+/proc/<pid>/fdinfo -- both are only readable by the process owner,
+as follows:
+  1. Do a readlink on each FD.
+  2. If the target path begins with "/dmabuf", then the FD is a dmabuf FD.
+  3. stat the file to get the dmabuf inode number.
+  4. Read/ proc/<pid>/fdinfo/<fd>, to get the DMA buffer size.
 
-> 
-> That fixup thing looks grafted and not like a normal flow to me.
-> 
+Accessing other processes' fdinfo requires root privileges. This limits
+the use of the interface to debugging environments and is not suitable
+for production builds.  Granting root privileges even to a system process
+increases the attack surface and is highly undesirable.
+
+Since fdinfo doesn't permit reading process memory and manipulating
+process state, allow accessing fdinfo under PTRACE_MODE_READ_FSCRED.
+
+Suggested-by: Jann Horn <jannh@google.com>
+Signed-off-by: Kalesh Singh <kaleshsingh@google.com>
+---
+Hi everyone,
+
+The initial posting of this patch can be found at [1].
+I didn't receive any feedback last time, so resending here.
+Would really appreciate any constructive comments/suggestions.
+
+Thanks,
+Kalesh
+
+[1] https://lore.kernel.org/r/20210208155315.1367371-1-kaleshsingh@google.com/
+
+Changes in v2:
+  - Update patch description
+ fs/proc/base.c |  4 ++--
+ fs/proc/fd.c   | 15 ++++++++++++++-
+ 2 files changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/fs/proc/base.c b/fs/proc/base.c
+index 3851bfcdba56..fd46d8dd0cf4 100644
+--- a/fs/proc/base.c
++++ b/fs/proc/base.c
+@@ -3159,7 +3159,7 @@ static const struct pid_entry tgid_base_stuff[] = {
+ 	DIR("task",       S_IRUGO|S_IXUGO, proc_task_inode_operations, proc_task_operations),
+ 	DIR("fd",         S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_operations),
+ 	DIR("map_files",  S_IRUSR|S_IXUSR, proc_map_files_inode_operations, proc_map_files_operations),
+-	DIR("fdinfo",     S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdinfo_operations),
++	DIR("fdinfo",     S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdinfo_operations),
+ 	DIR("ns",	  S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_operations),
+ #ifdef CONFIG_NET
+ 	DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_operations),
+@@ -3504,7 +3504,7 @@ static const struct inode_operations proc_tid_comm_inode_operations = {
+  */
+ static const struct pid_entry tid_base_stuff[] = {
+ 	DIR("fd",        S_IRUSR|S_IXUSR, proc_fd_inode_operations, proc_fd_operations),
+-	DIR("fdinfo",    S_IRUSR|S_IXUSR, proc_fdinfo_inode_operations, proc_fdinfo_operations),
++	DIR("fdinfo",    S_IRUGO|S_IXUGO, proc_fdinfo_inode_operations, proc_fdinfo_operations),
+ 	DIR("ns",	 S_IRUSR|S_IXUGO, proc_ns_dir_inode_operations, proc_ns_dir_operations),
+ #ifdef CONFIG_NET
+ 	DIR("net",        S_IRUGO|S_IXUGO, proc_net_inode_operations, proc_net_operations),
+diff --git a/fs/proc/fd.c b/fs/proc/fd.c
+index 07fc4fad2602..6a80b40fd2fe 100644
+--- a/fs/proc/fd.c
++++ b/fs/proc/fd.c
+@@ -6,6 +6,7 @@
+ #include <linux/fdtable.h>
+ #include <linux/namei.h>
+ #include <linux/pid.h>
++#include <linux/ptrace.h>
+ #include <linux/security.h>
+ #include <linux/file.h>
+ #include <linux/seq_file.h>
+@@ -72,6 +73,18 @@ static int seq_show(struct seq_file *m, void *v)
+ 
+ static int seq_fdinfo_open(struct inode *inode, struct file *file)
+ {
++	bool allowed = false;
++	struct task_struct *task = get_proc_task(inode);
++
++	if (!task)
++		return -ESRCH;
++
++	allowed = ptrace_may_access(task, PTRACE_MODE_READ_FSCREDS);
++	put_task_struct(task);
++
++	if (!allowed)
++		return -EACCES;
++
+ 	return single_open(file, seq_show, inode);
+ }
+ 
+@@ -308,7 +321,7 @@ static struct dentry *proc_fdinfo_instantiate(struct dentry *dentry,
+ 	struct proc_inode *ei;
+ 	struct inode *inode;
+ 
+-	inode = proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUSR);
++	inode = proc_pid_make_inode(dentry->d_sb, task, S_IFREG | S_IRUGO);
+ 	if (!inode)
+ 		return ERR_PTR(-ENOENT);
+ 
+-- 
+2.30.1.766.gb4fecdf3b7-goog
 
