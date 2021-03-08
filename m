@@ -2,122 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2D5DC433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 18:40:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81536C433E9
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 18:49:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6EAE56526C
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 18:40:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4774965288
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 18:49:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231308AbhCHSjm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Mar 2021 13:39:42 -0500
-Received: from mail-bn8nam11on2083.outbound.protection.outlook.com ([40.107.236.83]:48770
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231220AbhCHSjY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Mar 2021 13:39:24 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ieGdVQU1OihAgWVaOCFfnJjF9opJC4bmklupYDJ6QcbiZEDAQQyRquYhdu9HBux7xVA3ZeTTV8FS339cyBsFh/c0+CoM7NyC2Pg61Vt8w50+TrJ2qOoCDiavtJXH6H4xc+WdsjweZTec2y8cMOP2TDrf+SPQVhQw9wOayKx4ob6tqX9ZLh2U8OfoqHKVHrwqNm8yPGdYSvIEg07q0YOG+J8nMYSoMLtZF5sTr5JwLH4bDK+BOLHKI8W4ekEVAoe80d6cspwiPi+CbYauDD+AJaxvtNC1TQ7Z9weerZ0WwYPDKims1gOgXdFIGtNAQVGDdD3diJEEA5xtZfxIaKqM9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sOKFWlUk5jJS/g4RQ/98blBj3OKqTPfH1UfZLB0K2DY=;
- b=luG+iPqYDe/IlDP53JfRj7quYXo358yAmBcGZSzNC5HBDd36qtpS18/m14oVkbsqbcbf5/lcCPRU3fGhnwV1vgj+jQRJF2BhEqgTxJyTmIahbRE7AETYGxz76XOUlA/SljBIh20+LfiAJbw3kT3K+VVrNcsmbnvcVs31aVoze2dTo0dQppLVdx52Tq4Rz8UhJWHsIQLA1VCEsag5wXJVQz7rw721TfdTny4sV7HaFCAK/q9x1v1H2rSLWFkEhM4n0Skx5y7T+jmL/U/IhKl6CGCnO6aru1Jt5OKnEdXBpShtIf7cOuvaaJxn8i+0M3YbEN2AmhAp9xXSbvcNdHTvEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sOKFWlUk5jJS/g4RQ/98blBj3OKqTPfH1UfZLB0K2DY=;
- b=1l8vEJH6c8xH7qr5I2ZLE6LeaILzxOr7HjWMYpLZoqBShTQ95afKEiEACiLI8hkux+fjvPRk0UZ2hCgxQTOUPtRglKFLjL1zXEifCzsqWpvRABc07/opQKW0MQJIqu831nbbRx5C14DFc2TLrAYYF19HhLB+oy7B96RQNE6PwpY=
-Received: from DM6PR12CA0007.namprd12.prod.outlook.com (2603:10b6:5:1c0::20)
- by DM6PR12MB2972.namprd12.prod.outlook.com (2603:10b6:5:39::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.20; Mon, 8 Mar
- 2021 18:39:21 +0000
-Received: from DM6NAM11FT060.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:1c0:cafe::14) by DM6PR12CA0007.outlook.office365.com
- (2603:10b6:5:1c0::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
- Transport; Mon, 8 Mar 2021 18:39:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT060.mail.protection.outlook.com (10.13.173.63) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3912.17 via Frontend Transport; Mon, 8 Mar 2021 18:39:20 +0000
-Received: from rcampbell-test.nvidia.com (172.20.145.6) by
- HQMAIL107.nvidia.com (172.20.187.13) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 8 Mar 2021 18:39:19 +0000
-Subject: Re: [PATCH v4 3/8] mm/rmap: Split try_to_munlock from try_to_unmap
-To:     Alistair Popple <apopple@nvidia.com>, <linux-mm@kvack.org>,
-        <nouveau@lists.freedesktop.org>, <bskeggs@redhat.com>,
-        <akpm@linux-foundation.org>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <jhubbard@nvidia.com>, <jglisse@redhat.com>
-References: <20210304061645.29747-1-apopple@nvidia.com>
- <20210304061645.29747-4-apopple@nvidia.com>
-From:   Ralph Campbell <rcampbell@nvidia.com>
-Message-ID: <547dda23-ac57-559e-664f-172e3d6749d5@nvidia.com>
-Date:   Mon, 8 Mar 2021 10:39:19 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S231153AbhCHSst (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Mar 2021 13:48:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56838 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230046AbhCHSsh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Mar 2021 13:48:37 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72A0DC06174A;
+        Mon,  8 Mar 2021 10:48:37 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id i9so138824wml.0;
+        Mon, 08 Mar 2021 10:48:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kuS8Rc3UOuR98KYFxkapDvq7j5/JyhqKZORi7Tho5Yg=;
+        b=VJPsnM8U+SQZvYbxIcqjwLIlrLdYPYaKz9B4xFWMl6nYW4bKg1s9v7UXx9pL7csMdj
+         OK5l0yp2l9Jhrt1UXl17YNjRlFuI9EQj8pC3I+sGAzxVJHNbf9VH0OGXmvqtS/eYuc6A
+         TC6aSMKmHgt0DRrPhlv5Gqj672Vgy3g4w2zU0JeWS+GClxbhhI4GI46lPntZLsk0+pEl
+         ZiMOVAF0Yd8d/dDnEv27Ez+bH2WZSOnQCni4Z7xF+mwJcVz3HGBlIpirty9KFWuqo477
+         iFRGFams7z7Cyo9qRhUhtOVjeqZtj6VpYEEHVmSrYhM/ROVFFi14mLFrV+zJ6nxKUFO6
+         BTzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=kuS8Rc3UOuR98KYFxkapDvq7j5/JyhqKZORi7Tho5Yg=;
+        b=htUu5UZJyrNlD1zxD3vaC5ARdikDQIDeLYqh4+pb8RzP8ogN8FA3Hc1vPVISmJDE8t
+         zBbviGxhC6J/eJYibPSgGmbFhDDqI/unpwAojcX2TPm+F5AnpgOM2xGKg9tYls+xiiVr
+         ayC9gIS487I6nl8be1+Doz9NaKStaIe9f5AJhKCMHU1sr5M6oYQDtlUoanvvA/jkWtPI
+         H9wItFNvY0G7g6rvuQKONgR+lw7SRDhucjebAVXXiMCgs8daVLr9G4Njshp0IMSvIOJ6
+         ypxKKtcejUGPrx1YhrZ3afmYMlkCiai13mMkue8/8utP86FGv8XRjdhNq0V7jKzb4P6N
+         zJbA==
+X-Gm-Message-State: AOAM530ezuWKSvaeyF4nkGUn4le/AU5P5GEaumY3iOuplksX1OpIbT9T
+        n++sbfQcgF0r5Ur66ypYwpluyTjq3fQ=
+X-Google-Smtp-Source: ABdhPJxXCnDv0ks1rw5XHpNDskpWXkt3mF/Cj+hMvWBdlj5+4C7Nr0LKXEdVt8uUUF0W48Xns0WDDQ==
+X-Received: by 2002:a7b:c119:: with SMTP id w25mr161466wmi.127.1615229316277;
+        Mon, 08 Mar 2021 10:48:36 -0800 (PST)
+Received: from xws.localdomain (pd9ea322b.dip0.t-ipconnect.de. [217.234.50.43])
+        by smtp.gmail.com with ESMTPSA id z3sm19758877wrw.96.2021.03.08.10.48.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Mar 2021 10:48:35 -0800 (PST)
+From:   Maximilian Luz <luzmaximilian@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Maximilian Luz <luzmaximilian@gmail.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-api@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] platform/surface: Add DTX detachment system driver
+Date:   Mon,  8 Mar 2021 19:48:16 +0100
+Message-Id: <20210308184819.437438-1-luzmaximilian@gmail.com>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-In-Reply-To: <20210304061645.29747-4-apopple@nvidia.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a9e55d94-475e-4d51-0dad-08d8e2617cb8
-X-MS-TrafficTypeDiagnostic: DM6PR12MB2972:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB2972A04FA8D153A49E3BDAD3C2939@DM6PR12MB2972.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: R8wvwHtCoQLUkCbg46v4rf0+RWDrI597HYidIRsmgI/w6ht8f2clSMcdSXdSx+DE/zPV3+vx5cSwfZHRu1ha66RYuFCrXazMF9WHX6V0KKxXGs3MUoTYfdaCUfb4ZKitwl58LRyj+fk/SB11NxsM/crWuL1C8NF4sJKg0EDytwf07u/EVxTdgewn+6FtXbP3hnZS4N8434wChvZrSGipVfum/lL6UsbnKV0vPUgBrVItUxGGfYf3fRjePrV798TpyqXIECyyOwbeQwmhI1Xl9Y3nIN03FDl5fFhN+jDPZ5C2sEajH5xH0nIaYFOi8/vKVdjlXSMYn0HTWURNLPeSWqAvrZWkEv1Cwsao1VMy78/jiUxm9yKSC9OwEXdCjvMPG8J8TRwLCFZgh5inEYL+qjlzGDTXUNj6wmUzX8LdKcAs8cEVB9UTHySCmHGIT5SN1PMO4l4Ws+KDnTkJjaQ0hIj5SHpLZPVbZ9O3tGlhJ2nUb739WQ2kbofKGNPAjVC6LAitzgnfPCcPhrZHydaDVzaVvQ2kj6q7Bj7YTxUQ/Aobh2LkWB1PnrV95eVZcVLS0fvc6AGYnUplx+ax7DEmYdKB9pdNlLUEoX2g6cU3KQHB6g8+7NLnrfGdP4CmbJo/Vuz8ndql8NqUT1Ad/nZcWRpgyy74IALWLWMXOHQt1sPnnOEAv/uEtyBHbKpULHz6InvLte/gd9fgwn4a08KyRxPyAG9uHsnf3dfqlPeXB+M=
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(376002)(136003)(346002)(396003)(39860400002)(46966006)(36840700001)(4744005)(70206006)(7696005)(53546011)(7636003)(34020700004)(31696002)(8936002)(31686004)(82310400003)(86362001)(36756003)(356005)(5660300002)(83380400001)(70586007)(478600001)(8676002)(47076005)(336012)(26005)(2616005)(82740400003)(426003)(186003)(4326008)(36860700001)(16526019)(316002)(36906005)(54906003)(110136005)(2906002)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Mar 2021 18:39:20.4037
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9e55d94-475e-4d51-0dad-08d8e2617cb8
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT060.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2972
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+The Microsoft Surface Book series devices consist of a so-called
+clipboard part (containing the CPU, touchscreen, and primary battery)
+and a base part (containing keyboard, secondary battery, and optional
+discrete GPU). These parts can be separated, i.e. the clipboard can be
+detached and used as tablet.
 
-On 3/3/21 10:16 PM, Alistair Popple wrote:
-> The behaviour of try_to_unmap_one() is difficult to follow because it
-> performs different operations based on a fairly large set of flags used
-> in different combinations.
-> 
-> TTU_MUNLOCK is one such flag. However it is exclusively used by
-> try_to_munlock() which specifies no other flags. Therefore rather than
-> overload try_to_unmap_one() with unrelated behaviour split this out into
-> it's own function and remove the flag.
-> 
-> Signed-off-by: Alistair Popple <apopple@nvidia.com>
+This detachment process is managed by a subsystem of the Surface System
+Aggregator Module (SSAM). As that process is a bit more complex, i.e.
+can involve user interaction, it seems the best way to implement this is
+to provide a somewhat cleaned-up version of this interface to userspace.
 
-Looks good to me.
-Reviewed-by: Ralph Campbell <rcampbell@nvidia.com>
+This series adds a driver (and documentation) for the detachment system
+which provides such an interface. See the commit message of the first
+patch for more details and a link to a user-space daemon using this
+interface. Support for the Surface Book 3 is added in patch 2,
+user-space API documentation in patch 3.
+
+Regards,
+Max
+
+Maximilian Luz (3):
+  platform/surface: Add DTX driver
+  platform/surface: dtx: Add support for native SSAM devices
+  docs: driver-api: Add Surface DTX driver documentation
+
+ .../surface_aggregator/clients/dtx.rst        |  718 +++++++++
+ .../surface_aggregator/clients/index.rst      |    1 +
+ .../userspace-api/ioctl/ioctl-number.rst      |    2 +
+ MAINTAINERS                                   |    8 +
+ drivers/platform/surface/Kconfig              |   20 +
+ drivers/platform/surface/Makefile             |    1 +
+ drivers/platform/surface/surface_dtx.c        | 1289 +++++++++++++++++
+ include/uapi/linux/surface_aggregator/dtx.h   |  146 ++
+ 8 files changed, 2185 insertions(+)
+ create mode 100644 Documentation/driver-api/surface_aggregator/clients/dtx.rst
+ create mode 100644 drivers/platform/surface/surface_dtx.c
+ create mode 100644 include/uapi/linux/surface_aggregator/dtx.h
+
+-- 
+2.30.1
+
