@@ -1,122 +1,123 @@
-Return-Path: <SRS0=NFUt=IG=vger.kernel.org=linux-doc-owner@kernel.org>
+Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 072BDC433E6
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 14:37:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57221C433DB
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 15:05:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD249651FC
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 14:37:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F26465215
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 15:05:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231153AbhCHOhH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Mar 2021 09:37:07 -0500
-Received: from mail.kernel.org ([198.145.29.99]:45740 "EHLO mail.kernel.org"
+        id S229468AbhCHPFA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Mar 2021 10:05:00 -0500
+Received: from mga07.intel.com ([134.134.136.100]:15430 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230051AbhCHOgf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Mar 2021 09:36:35 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 83AE9651DC;
-        Mon,  8 Mar 2021 14:36:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1615214194;
-        bh=A0hmv3jMN4wqBTtB8OS7XxKHFgY14vTBrTGYAbFd1AE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QundLkZAHBw7vwUzNjhlWBqcEAAhBwetUmp/vZIOLhOg2eru9Qi/zNP+jbhPJSQw6
-         RW7YG63jKYTkr56WUVYevwdCiCQbO3BwdlFapU0gyhbFFwSqX5oy+eJsIMN2SyaGNC
-         5EZkNvPKmrKpKAUPsMJIc23ivHw5l9gNyLSslPwc=
-Date:   Mon, 8 Mar 2021 15:36:31 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Adrian Catangiu <acatan@amazon.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        qemu-devel@nongnu.org, kvm@vger.kernel.org,
-        linux-s390@vger.kernel.org, graf@amazon.com, rdunlap@infradead.org,
-        arnd@arndb.de, ebiederm@xmission.com, rppt@kernel.org,
-        0x7f454c46@gmail.com, borntraeger@de.ibm.com, Jason@zx2c4.com,
-        jannh@google.com, w@1wt.eu, colmmacc@amazon.com, luto@kernel.org,
-        tytso@mit.edu, ebiggers@kernel.org, dwmw@amazon.co.uk,
-        bonzini@gnu.org, sblbir@amazon.com, raduweis@amazon.com,
-        corbet@lwn.net, mst@redhat.com, mhocko@kernel.org,
-        rafael@kernel.org, pavel@ucw.cz, mpe@ellerman.id.au,
-        areber@redhat.com, ovzxemul@gmail.com, avagin@gmail.com,
-        ptikhomirov@virtuozzo.com, gil@azul.com, asmehra@redhat.com,
-        dgunigun@redhat.com, vijaysun@ca.ibm.com, oridgar@gmail.com,
-        ghammer@redhat.com
-Subject: Re: [PATCH v8] drivers/misc: sysgenid: add system generation id
- driver
-Message-ID: <YEY2b1QU5RxozL0r@kroah.com>
-References: <1615213083-29869-1-git-send-email-acatan@amazon.com>
+        id S230511AbhCHPEv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Mar 2021 10:04:51 -0500
+IronPort-SDR: rZXrXVlEH8dOYTpNPu2rpQ1mXm9l2LUgSpqJq0Oy68NQxddSdKgYDGSugP07WmRUQEpLI3IoF8
+ mk6qoq20BDAw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="252070636"
+X-IronPort-AV: E=Sophos;i="5.81,232,1610438400"; 
+   d="scan'208";a="252070636"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 07:04:50 -0800
+IronPort-SDR: J8GNzHfLKcDEkk426TkXPTJpLuMsSrSi0ZePPgzJPGYWw6fHHNIpqpY8ioVeonKngALCCJk50S
+ Wxqg+2kLC99Q==
+X-IronPort-AV: E=Sophos;i="5.81,232,1610438400"; 
+   d="scan'208";a="519965026"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 07:04:47 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lJHR6-00AqJ3-6h; Mon, 08 Mar 2021 17:04:44 +0200
+Date:   Mon, 8 Mar 2021 17:04:44 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kent Gibson <warthog618@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v2 09/12] gpio: sim: new testing module
+Message-ID: <YEY9DFk6NEcnEWGE@smile.fi.intel.com>
+References: <20210304102452.21726-1-brgl@bgdev.pl>
+ <20210304102452.21726-10-brgl@bgdev.pl>
+ <YEDdbfbM9abHJpIO@smile.fi.intel.com>
+ <CAMRc=MdRxXzoZuyLs-24dXfOft=OQqDneTHa4-ZKqFE1kMBWcg@mail.gmail.com>
+ <YEIE1nG8lZ4V2MXq@smile.fi.intel.com>
+ <CAMRc=MekGnK17rYf3Bx_UHumVVrpmJphOnMfO352NB9SaOJCGw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1615213083-29869-1-git-send-email-acatan@amazon.com>
+In-Reply-To: <CAMRc=MekGnK17rYf3Bx_UHumVVrpmJphOnMfO352NB9SaOJCGw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 08, 2021 at 04:18:03PM +0200, Adrian Catangiu wrote:
-> +static struct miscdevice sysgenid_misc = {
-> +	.minor = MISC_DYNAMIC_MINOR,
-> +	.name = "sysgenid",
-> +	.fops = &fops,
-> +};
+On Mon, Mar 08, 2021 at 03:23:31PM +0100, Bartosz Golaszewski wrote:
+> On Fri, Mar 5, 2021 at 11:15 AM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Thu, Mar 04, 2021 at 09:15:29PM +0100, Bartosz Golaszewski wrote:
+> > > On Thu, Mar 4, 2021 at 2:15 PM Andy Shevchenko
+> > > <andriy.shevchenko@linux.intel.com> wrote:
+> > > > On Thu, Mar 04, 2021 at 11:24:49AM +0100, Bartosz Golaszewski wrote:
+> > > > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Much cleaner, but:
+> > > > > +
+> > > > > +     /*
+> > > > > +      * FIXME If anyone knows a better way to parse that - please let me
+> > > > > +      * know.
+> > > > > +      */
+> > > >
+> > > > If comma can be replaced with ' ' (space) then why not to use next_arg() from
+> > > > cmdline.c? I.o.w. do you have strong opinion why should we use comma here?
+> > > >
+> > >
+> > > My opinion is not very strong but I wanted to make the list of names
+> > > resemble what we pass to the gpio-line-names property in device tree.
+> > > Doesn't next_arg() react differently to string of the form: "foo=bar"?
+> >
+> > It's ambiguous here.
+> >
+> > So, the strings '"foo=bar"' and 'foo=bar' (w/o single quotes!) are indeed
+> > parsed differently, i.e.
+> >         '"foo=bar"' -> 'foo=bar',
+> > while
+> >         "foo=bar" -> 'foo' + 'bar'.
+> >
+> 
+> IMO '"foo", "bar", "", "foobar"' looks better than '"foo" "bar" ""
+> "foobar"' and I'm also not sure next_arg will understand an empty
+> quote?
 
-> +static int __init sysgenid_init(void)
-> +{
-> +	int ret;
-> +
-> +	sysgenid_data.map_buf = get_zeroed_page(GFP_KERNEL);
-> +	if (!sysgenid_data.map_buf)
-> +		return -ENOMEM;
-> +
-> +	atomic_set(&sysgenid_data.generation_counter, 0);
-> +	atomic_set(&sysgenid_data.outdated_watchers, 0);
-> +	init_waitqueue_head(&sysgenid_data.read_waitq);
-> +	init_waitqueue_head(&sysgenid_data.outdated_waitq);
-> +	spin_lock_init(&sysgenid_data.lock);
-> +
-> +	ret = misc_register(&sysgenid_misc);
-> +	if (ret < 0) {
-> +		pr_err("misc_register() failed for sysgenid\n");
-> +		goto err;
-> +	}
-> +
-> +	return 0;
-> +
-> +err:
-> +	free_pages(sysgenid_data.map_buf, 0);
-> +	sysgenid_data.map_buf = 0;
-> +
-> +	return ret;
-> +}
-> +
-> +static void __exit sysgenid_exit(void)
-> +{
-> +	misc_deregister(&sysgenid_misc);
-> +	free_pages(sysgenid_data.map_buf, 0);
-> +	sysgenid_data.map_buf = 0;
-> +}
-> +
-> +module_init(sysgenid_init);
-> +module_exit(sysgenid_exit);
+I guess it understands it. But I agree that comma-separated it would look
+better.
 
-So you do this for any bit of hardware that happens to be out there?
-Will that really work?  You do not have any hwid to trigger off of to
-know that this is a valid device you can handle?
+> If you're not objecting strongly, then I would prefer my version.
 
-> +
-> +MODULE_AUTHOR("Adrian Catangiu");
-> +MODULE_DESCRIPTION("System Generation ID");
-> +MODULE_LICENSE("GPL");
-> +MODULE_VERSION("0.1");
+I have strong opinion not to open code "yet another parser".
 
-MODULE_VERSION() isn't a thing, just drop it please :)
+So, grepping on 'strsep(.*, ",")' shows a lot of code that wants something like
+this. Interesting are the net/9p cases. This in particular pointed out to
+lib/parser.c which in turn shows promising match_strlcpy() / match_strdup(). I
+haven't looked deeply though.
 
-thnaks,
+That said, I agree that next_arg() is not the best here.
 
-greg k-h
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
