@@ -2,101 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B196AC15500
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 19:46:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5738FC433E6
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 19:48:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BB1E652B9
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 19:46:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0453D64FA8
+	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 19:48:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231628AbhCHTp4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Mar 2021 14:45:56 -0500
-Received: from mga17.intel.com ([192.55.52.151]:48810 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231532AbhCHTpt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Mar 2021 14:45:49 -0500
-IronPort-SDR: vwhrFIcR7NO1/064V7qhvTtdngTTQHCkYzykNxY//YKBe7usIoODjeAGKRtLQJaHoc6Iv8aZaa
- LFE5Bx9754yQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="168008149"
-X-IronPort-AV: E=Sophos;i="5.81,233,1610438400"; 
-   d="scan'208";a="168008149"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Mar 2021 11:45:48 -0800
-IronPort-SDR: o/lemAW9+XLMcYwJQ2JE1qmeH4+lHe3uJ1HKgxLBegRw8MDaczeejABJsvYJA0F5eEd5nGLtLY
- j5fi+ooN9cmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,233,1610438400"; 
-   d="scan'208";a="408347556"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga007.jf.intel.com with ESMTP; 08 Mar 2021 11:45:41 -0800
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id CB879147; Mon,  8 Mar 2021 21:45:41 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        id S231430AbhCHTsB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Mar 2021 14:48:01 -0500
+Received: from mail-ot1-f51.google.com ([209.85.210.51]:38466 "EHLO
+        mail-ot1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231300AbhCHTr6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Mar 2021 14:47:58 -0500
+Received: by mail-ot1-f51.google.com with SMTP id a17so10440956oto.5;
+        Mon, 08 Mar 2021 11:47:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=R9a4r2KV/20IK9Xvdp/DQVl6ypaKqIrZBBr+oBc+pes=;
+        b=qeHWiC3jwKjgxTg2epReYBN0kUkww/ytgdnuKNl2XteCaCL3GJXhUi03CVzcx5/yo0
+         ZzSTPWxjLpug9caBhraEsMp5mTG4Pn+4oa96OpCM/48sQXaWNXBpPlnhEQxzZPC/xiLG
+         cJY18PkByHG8jwgAnqBJDZ8NtIeqiNoWdZ3tHCkrrDgqGRBQdCw/M4ZXkOTwhGauY0R8
+         u0uGXZM2CwmQ8LO8/d2gU/diVimOMgjAGCdAixNBbJow0P8fDASGfHZSssscynchLBLT
+         0NNT+Ceqml5/3ALKYYzdMqzSiG3xqYed2QhGn6e53wJ/7h5+te7XATCnG/BBiLoUx3nu
+         4d8Q==
+X-Gm-Message-State: AOAM5322ibJhsIWj9MU9mOTmTI36Abeqfd9acrl7YU4rVVjb7Kh2Og79
+        oMSn/TDIoZh4lXj5SOeBGcJgWe9bYKVXMAMR/98=
+X-Google-Smtp-Source: ABdhPJydFsK+bWDOUjzC43e6UcRCZWiDxCR+hne6xllZcsO/ByGbq3TvcGrc0npVj0y2Cag+SgmB0kL3sDZ9dg0I+S8=
+X-Received: by 2002:a05:6830:1057:: with SMTP id b23mr21883025otp.206.1615232877974;
+ Mon, 08 Mar 2021 11:47:57 -0800 (PST)
+MIME-Version: 1.0
+References: <20210308194535.66394-1-andriy.shevchenko@linux.intel.com> <20210308194535.66394-7-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20210308194535.66394-7-andriy.shevchenko@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 8 Mar 2021 20:47:47 +0100
+Message-ID: <CAJZ5v0gUDtpJE0Byw765yFr-5nOsxjPd5tH8_PGsr-gVZ-XSog@mail.gmail.com>
+Subject: Re: [PATCH v5 6/6] gpiolib: Fold conditionals into a simple ternary operator
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
         Mika Westerberg <mika.westerberg@linux.intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
-Cc:     Marc Zyngier <maz@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Thomas Gleixner <tglx@linutronix.de>,
         "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: [PATCH v5 0/6] gpiolib: switch to fwnode in the core
-Date:   Mon,  8 Mar 2021 21:45:29 +0200
-Message-Id: <20210308194535.66394-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.30.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-GPIO library uses of_node and fwnode in the core in non-unified way.
-The series cleans this up and improves IRQ domain creation for non-OF cases
-where currently the names of the domain are 'unknown'.
+On Mon, Mar 8, 2021 at 8:45 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> It's quite spread code to initialize IRQ domain options.
+> Let's fold it into a simple oneliner.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-This has been tested on Intel Galileo Gen 2.
+Please see the comments I've just sent:
 
-It touches GPIO core parts and it's expected that the series is routed via
-GPIO tree.
+https://lore.kernel.org/linux-acpi/CAJZ5v0gpNzyBDKfBXoBYskUXs15GrZAe-E2vzhSEu2Nrj7wa7g@mail.gmail.com/T/#u
 
-In v5:
- - same as v4 + v3 (patches 1-4/5) in order to route via GPIO tree (Bart)
-
-In v4:
- - based on Rafael's bleeding-edge
- - split the rest to two patches (Rafael)
- - elaborate WARN() deduplication in the commit message (Rafael)
-
-In v3:
-- fixed subtle bug in gpiod_count
-- made irq_domain_add_simple() static inline (Marc)
-
-In v2:
-- added a new patch due to functionality in irq_comain_add_simple() (Linus)
-- tagged patches 2-4 (Linus)
-- Cc'ed to Rafael
-
-Andy Shevchenko (6):
-  irqdomain: Introduce irq_domain_create_simple() API
-  gpiolib: Unify the checks on fwnode type
-  gpiolib: Move of_node operations to gpiolib-of and correct fwnode use
-  gpiolib: Introduce acpi_gpio_dev_init() and call it from core
-  gpiolib: Reuse device's fwnode to create IRQ domain
-  gpiolib: Fold conditionals into a simple ternary operator
-
- Documentation/core-api/irq/irq-domain.rst | 22 ++++----
- drivers/gpio/gpiolib-acpi.c               |  7 +++
- drivers/gpio/gpiolib-acpi.h               |  4 ++
- drivers/gpio/gpiolib-of.c                 |  6 ++-
- drivers/gpio/gpiolib.c                    | 61 +++++++++--------------
- include/linux/irqdomain.h                 | 19 +++++--
- kernel/irq/irqdomain.c                    | 20 ++++----
- 7 files changed, 75 insertions(+), 64 deletions(-)
-
--- 
-2.30.1
-
+> ---
+>  drivers/gpio/gpiolib.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+> index afee48e7dd41..8c5ce377accc 100644
+> --- a/drivers/gpio/gpiolib.c
+> +++ b/drivers/gpio/gpiolib.c
+> @@ -1458,7 +1458,7 @@ static int gpiochip_add_irqchip(struct gpio_chip *gc,
+>  {
+>         struct fwnode_handle *fwnode = dev_fwnode(&gc->gpiodev->dev);
+>         struct irq_chip *irqchip = gc->irq.chip;
+> -       const struct irq_domain_ops *ops = NULL;
+> +       const struct irq_domain_ops *ops;
+>         unsigned int type;
+>         unsigned int i;
+>
+> @@ -1496,11 +1496,7 @@ static int gpiochip_add_irqchip(struct gpio_chip *gc,
+>                         return ret;
+>         } else {
+>                 /* Some drivers provide custom irqdomain ops */
+> -               if (gc->irq.domain_ops)
+> -                       ops = gc->irq.domain_ops;
+> -
+> -               if (!ops)
+> -                       ops = &gpiochip_domain_ops;
+> +               ops = gc->irq.domain_ops ?: &gpiochip_domain_ops;
+>                 gc->irq.domain = irq_domain_create_simple(fwnode,
+>                         gc->ngpio,
+>                         gc->irq.first,
+> --
+> 2.30.1
+>
