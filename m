@@ -2,104 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 45EC5C43381
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 16:38:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A86A4C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 16:42:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2C1CD650E5
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 16:38:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7001D6521D
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 16:42:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231408AbhCIQi0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Mar 2021 11:38:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58480 "EHLO
+        id S229900AbhCIQlh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Mar 2021 11:41:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59172 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231432AbhCIQiG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 11:38:06 -0500
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8069AC06175F
-        for <linux-doc@vger.kernel.org>; Tue,  9 Mar 2021 08:38:06 -0800 (PST)
-Received: by mail-lf1-x12a.google.com with SMTP id q25so28068764lfc.8
-        for <linux-doc@vger.kernel.org>; Tue, 09 Mar 2021 08:38:06 -0800 (PST)
+        with ESMTP id S230478AbhCIQlO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 11:41:14 -0500
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6384CC06174A;
+        Tue,  9 Mar 2021 08:41:14 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id n9so8182256pgi.7;
+        Tue, 09 Mar 2021 08:41:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=DXEn5JSpgBw/y2eHpwVO9g48Km7rMDXnZlE1bBW2r8s=;
-        b=XbafCFFSFzMS+QhMLTOXgWvBugQJw48RI2zwRMEER0qGPENxJ5iZchaFs+rKwEnikM
-         1tw9Xx483823KTezlF5evj1N7lBynSwiixNRWDWfNIVwAwowxVk550YYcbVzT4P0nXjo
-         zmqi+9cd7JD9CdkiObbpmaNyz8VKgVTn9dhW1K1yaPxT+7VZEao5sP53AUdNGDXHri3j
-         k4lx6fKk6tszQoyJgAFHNqhhGRyB8+9bsJ/F3zZC4Xcu2m+9UA3oJ7PGHWX2fITVWdQk
-         Ps67OIw9ivU5AytiWUd3KoemZe4H9sK75XQy3jxZH8dQNjSC9JWOYLeMiNGL+Nh+KsVk
-         lpYQ==
+        bh=9w9armafDUBK5NoKB1+EVQ/HgT2OaGmEDCQKvuRthT8=;
+        b=rT0PG1glqZMgjBbM/qJdxLPs1QVsSh/3fGOrD/fmUJtBDPMuhe/86Ox/1KWHNulI+/
+         hqZ6DAWdpkj1qWmYSn3rcqQt5yplYv2EpFTO/wZW7VFAtodCObpWHnC/v9Y+jxy3P6ac
+         XwLEMtvVOK1gLYl1Olr8E46SUx6akpZ7lxcI1sw+x9jy6xcahHmL43akGY++fbDCD3l6
+         7yRU5Ow7tRuBkeNYeSuzImlZSGoaglMo4utU9fm51mSLiAjJVBS/MNfTkh07kBSeTmyJ
+         abosnxrDsAsPx9X/KzDObd+92QtAOXYQ3Vsa8fAQEsWZr5zcmv5Yfdgr9yGWRE+a5o10
+         VbaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=DXEn5JSpgBw/y2eHpwVO9g48Km7rMDXnZlE1bBW2r8s=;
-        b=AHiBNJi7bd2Jormc01SuD7FsDEZETbLe7fTNBXG4TZSgy6b1LlCWUveSAl4Mmnwe3c
-         v/C6NijviiPW1i14lIB5d26VZVtMXcAq3ZfC5CWgbxTYWCXv+VXT+4PwdJkN5uk+VYfI
-         0/0vxb/lXs4GDtvLhW11FhYwkRQ6ipT0eTM/DtrG3pDpOj2RTTIG414A3cSPkaHi72Iq
-         1K4IQpzqunjjxgf2/hk9wyxwNDMkVkXboLtztUy//h3aPrQfIQ+dqrOyE7qR4UjQcdNm
-         9YUTThUEBCp/N9DB+xA6UXqxnBPt2hCwm4ARqK1qR+UgZUqN9bH4aoeXdxoWcGjsbIUe
-         6fUA==
-X-Gm-Message-State: AOAM531ET6+ZtxkPzGyzQugWb69Mall/KLjqV73ENdUf7rL/RiNXyjpD
-        xEvGpKz2ePlAEYRHqrQkVqkiVh1YN8Jw0+Gucz5Mqw==
-X-Google-Smtp-Source: ABdhPJzph/W4+niKbEazqjfqIFq8ME97OA1IS7zhqExaRlDOuU14W5Llytf7OgyeKHYK9RZaGHLYo9BD0e1mWXcMU3o=
-X-Received: by 2002:a19:6b13:: with SMTP id d19mr17882973lfa.291.1615307885055;
- Tue, 09 Mar 2021 08:38:05 -0800 (PST)
+        bh=9w9armafDUBK5NoKB1+EVQ/HgT2OaGmEDCQKvuRthT8=;
+        b=EbCyxtbUN5O4+8kWsnLRwR/EcqehR6O2JNTsH3O/D9JLdi51cUlxg/vXUB57c+y5HB
+         Qg76n4vLG5fe7/gAkUywXUMPF1R2Jw2lOgdED6eqzs0A/c6lVS7PBlv0y5881CLRKEY2
+         i/v5f+dsrbX8f5ektjXPw4SwIq38FhmU0Gl0+icIlcNwbqIhVKT521Jj6cGT14dVelmO
+         Xd6JOsfn4TQof6bTQu13CP/sfQbQ8PIWZYm8JajbPYHMMtXZwNML1+Yzh6SzbBW330Es
+         Y7X8gnABGA+xnBPBdZJwrIAZ5tkw4fe14ZoxkqSxrPOM/qNgw+qeS6MTuJBFrKxy94ci
+         rUlQ==
+X-Gm-Message-State: AOAM532Jkx8QPpYcP8++cU+xU5jNTeBHDbJZ23PlywVTZlQTnJqn2qnM
+        Kvky3ntH9osJDDQvNpo8NzLehZEXYnIIUJu9Y/o=
+X-Google-Smtp-Source: ABdhPJxhPfwcYUHrxmRw1vliEm20Q1K4Ft9kTiR2vaXYlaqx9DdfEwFv3exQSJuZNgADW1jYEN/dqjW3mKx1Etmie9Q=
+X-Received: by 2002:a63:ce15:: with SMTP id y21mr26062604pgf.4.1615308073908;
+ Tue, 09 Mar 2021 08:41:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-27-marcan@marcan.st>
-In-Reply-To: <20210304213902.83903-27-marcan@marcan.st>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Tue, 9 Mar 2021 17:37:54 +0100
-Message-ID: <CACRpkdYzkOCurtLaeyZ+A6EWnSPGU66by4gYoCpLcn=52hTEPQ@mail.gmail.com>
-Subject: Re: [RFT PATCH v3 26/27] dt-bindings: display: Add apple,simple-framebuffer
-To:     Hector Martin <marcan@marcan.st>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+References: <20210308194535.66394-1-andriy.shevchenko@linux.intel.com>
+ <20210308194535.66394-2-andriy.shevchenko@linux.intel.com> <CACRpkdZO7TPcz6p8Gfavqd1SboCt7ZXwFa4+4TuWNTZuoXZqgg@mail.gmail.com>
+In-Reply-To: <CACRpkdZO7TPcz6p8Gfavqd1SboCt7ZXwFa4+4TuWNTZuoXZqgg@mail.gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 9 Mar 2021 18:40:57 +0200
+Message-ID: <CAHp75Vcjz7-QUYCAiss_WOb9vK_he8bFH51685wAhoo-=BYBEQ@mail.gmail.com>
+Subject: Re: [PATCH v5 1/6] irqdomain: Introduce irq_domain_create_simple() API
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 4, 2021 at 10:42 PM Hector Martin <marcan@marcan.st> wrote:
-
-> Apple SoCs run firmware that sets up a simplefb-compatible framebuffer
-> for us. Add a compatible for it, and two missing supported formats.
+On Tue, Mar 9, 2021 at 6:36 PM Linus Walleij <linus.walleij@linaro.org> wrote:
+> On Mon, Mar 8, 2021 at 8:45 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
 >
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+> > Linus Walleij pointed out that ird_domain_add_simple() gained
+> > additional functionality and can't be anymore replaced with
+> > a simple conditional. In preparation to upgrade GPIO library
+> > to use fwnode, introduce irq_domain_create_simple() API which is
+> > functional equivalent to the existing irq_domain_add_simple(),
+> > but takes a pointer to the struct fwnode_handle as a parameter.
+> >
+> > While at it, amend documentation to mention irq_domain_create_*()
+> > functions where it makes sense.
+> >
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Acked-by: Marc Zyngier <maz@kernel.org>
+>
+> Excellent work Andy!
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+Thanks!
 
-Marcan: tell me if you need me to apply this to the drm-misc tree
-and I'll fix it.
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+>
+> I suggest Bartosz just apply this with the rest to the GPIO tree.
 
-Yours,
-Linus Walleij
+Yes, that's the idea.
+
+-- 
+With Best Regards,
+Andy Shevchenko
