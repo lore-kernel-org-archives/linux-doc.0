@@ -4,57 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A19FC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5E63C43381
 	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 21:00:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60F9A65253
+	by mail.kernel.org (Postfix) with ESMTP id A94B165243
 	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 21:00:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231634AbhCIVAL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Mar 2021 16:00:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58836 "EHLO
+        id S231768AbhCIVAN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Mar 2021 16:00:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231755AbhCIU7k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 15:59:40 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16D7DC061762
-        for <linux-doc@vger.kernel.org>; Tue,  9 Mar 2021 12:59:40 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id l22so3811530wme.1
-        for <linux-doc@vger.kernel.org>; Tue, 09 Mar 2021 12:59:40 -0800 (PST)
+        with ESMTP id S231922AbhCIU7j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 15:59:39 -0500
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66BB3C061760
+        for <linux-doc@vger.kernel.org>; Tue,  9 Mar 2021 12:59:39 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id l22so3811466wme.1
+        for <linux-doc@vger.kernel.org>; Tue, 09 Mar 2021 12:59:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=b9JrBKuO/UMxqLp0dR5QODxDjy8Sowg28gDkd3Cd158=;
-        b=gNj6Q50g6ug1gUrCDzjA9E7LWc0DnilcsqHr7HBJOv7TwIV06hKwzSPWgiJdFQ3zI6
-         Y10x4QoKsKKn7Qj/7mhwA92T3OTe2X2ON4yI47AXu05//eR534zFAYK+H7+V6iaqGPJO
-         j/vxPZy2oFHoH1zjg84vpNdxZUd6Nyf9nXRg9ySqn49aMo/YZairKosQ18ZpzKiZy6HC
-         NfTcvas0X+3sQen4loVpZnsyxYAP/vDoHkhERMwBhaHrmYqryZ+jkKNpAkKsvsd84fdg
-         T15h7wVBB3YH9zJz9MwHoP3X3xOsT2mwu6TVF/SD8bOCMWZI+NAh4xejeI+rs2vBPQYz
-         bOsQ==
+        bh=z5Cepyi5kn4wd4FWddheSiToZBY6ONr0o29KGf5Ep/4=;
+        b=FXoeK8pn7/bXwIkDmDTwdjVh7uXQLo/AGBs/r8JIhOCGq0Ytp4GqAEu/Siww4WuqD4
+         ajA/2B7afZT5v/SQG01tiGUiwgKGV5AyLhDQZmVKxWIGqGjpg/6jcPGuWxIRH9jHDZ6I
+         rhJn4GmbbWKBpqu91tB7B61FIeaROPWMPRQCMmMFMFHuNqYYfFmXEAdGSmQFETQByBIY
+         FUaES4hpJkpy1y0UhgNaTmccj4yfHJ7bHzjh7zRSH/ebV/OGIi1ZWswzDlbAlAgb36fU
+         f9zTvmHCNqxxtM+2nXW4UJEk/MwSNUpmPxq497HvCdavd8cOODvfbgPqlfJ4zQFZgdyD
+         8S0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=b9JrBKuO/UMxqLp0dR5QODxDjy8Sowg28gDkd3Cd158=;
-        b=EO8yp8sVgiBXn6sJLna43yaANkpiyWgcyUy1nmIC+Qwg3xfCt6DbLA3JzJ1fi8cMmq
-         vSB2Q8lTrIYvA+pzhTp32LM8EbnYt413HL3gMYc0n0ntd+DWJi7G6zKp2QH+ux2Znq8L
-         koVmdJ7mAd1zRZNzUy4UUWDn5tFxIDbEK57jA1NTUUaodIDOmJjY7CfMS5umpp+RB2Lo
-         AS99PrigX7b4lKGfVO7ZQZ2rFkmOZCJhGGdRB697cMi4MT8Fd3vzw2cwpYhUe/kLtYQl
-         c7lbi5+cA71hV3cNT6uUjLV5snihI0SewnYAXVn27EkJKOe1/SY7Yi+F9vNm3PXI2J1C
-         wVCQ==
-X-Gm-Message-State: AOAM5324X7aEzzDmas5FHxmpd053VuhycvqfOW5KvjaclvPDeYOpsseD
-        loSrM43disPZhVm+Z5wBVSawZQ==
-X-Google-Smtp-Source: ABdhPJwk7UNTHRHU2S57yojtXBtoPnR3X8fgidczapk6qJPjcUluXTyCPbKjWKmWroltXPKxnXYd/A==
-X-Received: by 2002:a7b:cdef:: with SMTP id p15mr6149042wmj.0.1615323578909;
+        bh=z5Cepyi5kn4wd4FWddheSiToZBY6ONr0o29KGf5Ep/4=;
+        b=FiGnVEkMXwEamunImsPubqc6d4m2XyXLls+R1VKeUhwHaL8xLzcFEVfufgQfVCWmHO
+         5tzngB//0bN4+1sdd0maxdwaGvhvCltsNchK3xzBL2snYr5oG0o9mVYATuDLXTE5FmaH
+         6ZUMEMHwH0V18seIrhm5xwR43yiAE9yAXsKpsR4yWIFZk2FOYiH+To/QWCuxqQR3R4q6
+         5Xn50n9qQVdHjusJB3Lu3ob7R0eYViHQ1XTTwab6y+SNqGUo6LNoIVzoTXFdw1sTEakX
+         JcZFuN6BYc1OE3c/SHI3fjwd6ZUNLJfB1nXNTs5fJT7iul2UlnTX30+kuosd0JdCLK5G
+         E9bA==
+X-Gm-Message-State: AOAM530596vvTGEMUa7XceeLl8DvnJ2P0fK73Ky9IhqEW6wDkS/j24fN
+        P6+PIe5wM1rhYwEovoUB4S9FbA==
+X-Google-Smtp-Source: ABdhPJyImU/76uTvFHR22HNq1CjEupG6hD+pTOB9kEZ0oUpMwPkyYvd9LBO/0LbdX2Ynalo7Ab6YLw==
+X-Received: by 2002:a1c:7fd8:: with SMTP id a207mr5943463wmd.40.1615323578115;
         Tue, 09 Mar 2021 12:59:38 -0800 (PST)
 Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr. [90.8.158.167])
-        by smtp.gmail.com with ESMTPSA id j6sm5501305wmq.16.2021.03.09.12.59.38
+        by smtp.gmail.com with ESMTPSA id j6sm5501305wmq.16.2021.03.09.12.59.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Mar 2021 12:59:38 -0800 (PST)
+        Tue, 09 Mar 2021 12:59:37 -0800 (PST)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
         Shuah Khan <shuah@kernel.org>,
@@ -69,9 +69,9 @@ To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
 Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v3 07/11] lib: bitmap: provide devm_bitmap_alloc() and devm_bitmap_zalloc()
-Date:   Tue,  9 Mar 2021 21:59:17 +0100
-Message-Id: <20210309205921.15992-8-brgl@bgdev.pl>
+Subject: [PATCH v3 06/11] lib: bitmap: order includes alphabetically
+Date:   Tue,  9 Mar 2021 21:59:16 +0100
+Message-Id: <20210309205921.15992-7-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210309205921.15992-1-brgl@bgdev.pl>
 References: <20210309205921.15992-1-brgl@bgdev.pl>
@@ -83,92 +83,60 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Provide managed variants of bitmap_alloc() and bitmap_zalloc().
+For better readability and maintenance: order the includes in bitmap
+source files alphabetically.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- include/linux/bitmap.h |  8 ++++++++
- lib/bitmap.c           | 33 +++++++++++++++++++++++++++++++++
- 2 files changed, 41 insertions(+)
+ include/linux/bitmap.h | 4 ++--
+ lib/bitmap.c           | 9 +++++----
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
-index 3282db97e06c..73d039476fa4 100644
+index 6939a8983026..3282db97e06c 100644
 --- a/include/linux/bitmap.h
 +++ b/include/linux/bitmap.h
-@@ -9,6 +9,8 @@
- #include <linux/string.h>
- #include <linux/types.h>
+@@ -4,10 +4,10 @@
  
-+struct device;
-+
+ #ifndef __ASSEMBLY__
+ 
+-#include <linux/types.h>
+ #include <linux/bitops.h>
+-#include <linux/string.h>
+ #include <linux/kernel.h>
++#include <linux/string.h>
++#include <linux/types.h>
+ 
  /*
   * bitmaps provide bit arrays that consume one or more unsigned
-  * longs.  The bitmap interface and available operations are listed
-@@ -122,6 +124,12 @@ unsigned long *bitmap_alloc(unsigned int nbits, gfp_t flags);
- unsigned long *bitmap_zalloc(unsigned int nbits, gfp_t flags);
- void bitmap_free(const unsigned long *bitmap);
- 
-+/* Managed variants of the above. */
-+unsigned long *devm_bitmap_alloc(struct device *dev,
-+				 unsigned int nbits, gfp_t flags);
-+unsigned long *devm_bitmap_zalloc(struct device *dev,
-+				  unsigned int nbits, gfp_t flags);
-+
- /*
-  * lib/bitmap.c provides these functions:
-  */
 diff --git a/lib/bitmap.c b/lib/bitmap.c
-index 78f70d9007ad..b4fd7fd084c6 100644
+index 75006c4036e9..78f70d9007ad 100644
 --- a/lib/bitmap.c
 +++ b/lib/bitmap.c
-@@ -8,6 +8,7 @@
+@@ -3,17 +3,18 @@
+  * lib/bitmap.c
+  * Helper functions for bitmap.h.
+  */
+-#include <linux/export.h>
+-#include <linux/thread_info.h>
+-#include <linux/ctype.h>
+-#include <linux/errno.h>
++
+ #include <linux/bitmap.h>
  #include <linux/bitops.h>
  #include <linux/bug.h>
- #include <linux/ctype.h>
-+#include <linux/device.h>
- #include <linux/errno.h>
- #include <linux/export.h>
++#include <linux/ctype.h>
++#include <linux/errno.h>
++#include <linux/export.h>
  #include <linux/kernel.h>
-@@ -1263,6 +1264,38 @@ void bitmap_free(const unsigned long *bitmap)
- }
- EXPORT_SYMBOL(bitmap_free);
+ #include <linux/mm.h>
+ #include <linux/slab.h>
+ #include <linux/string.h>
++#include <linux/thread_info.h>
+ #include <linux/uaccess.h>
  
-+static void devm_bitmap_free(void *data)
-+{
-+	unsigned long *bitmap = data;
-+
-+	bitmap_free(bitmap);
-+}
-+
-+unsigned long *devm_bitmap_alloc(struct device *dev,
-+				 unsigned int nbits, gfp_t flags)
-+{
-+	unsigned long *bitmap;
-+	int ret;
-+
-+	bitmap = bitmap_alloc(nbits, flags);
-+	if (!bitmap)
-+		return NULL;
-+
-+	ret = devm_add_action_or_reset(dev, devm_bitmap_free, bitmap);
-+	if (ret)
-+		return NULL;
-+
-+	return bitmap;
-+}
-+EXPORT_SYMBOL(devm_bitmap_alloc);
-+
-+unsigned long *devm_bitmap_zalloc(struct device *dev,
-+				  unsigned int nbits, gfp_t flags)
-+{
-+	return devm_bitmap_alloc(dev, nbits, flags | __GFP_ZERO);
-+}
-+EXPORT_SYMBOL(devm_bitmap_zalloc);
-+
- #if BITS_PER_LONG == 64
- /**
-  * bitmap_from_arr32 - copy the contents of u32 array of bits to bitmap
+ #include <asm/page.h>
 -- 
 2.30.1
 
