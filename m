@@ -2,608 +2,1494 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC894C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 14:59:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E03A0C433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 15:07:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8CC0865239
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 14:59:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 874AB65243
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 15:07:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231453AbhCIO6b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Mar 2021 09:58:31 -0500
-Received: from sonic309-26.consmr.mail.ne1.yahoo.com ([66.163.184.152]:45825
-        "EHLO sonic309-26.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231382AbhCIO6Y (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 09:58:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1615301904; bh=1bJns34HrbIVgMrEBletH0I1iECyE9FyLi/OCydtV7g=; h=From:To:Cc:Subject:Date:In-Reply-To:References:From:Subject:Reply-To; b=NF1IgvmNdxu4yp5RF7niLbKiHcN8SWhWo1KCrMhD5dtTMuuUgb+1Du2OfUvmCp55Xg6gc+RuQ3cltHsJZy4rZeZ0uf5EnUHmO3XKTZ/lesrByuoiLQVqC62Yf+gOj72GXrQR8DkazkHAwNwgbz9lwjnBpUMyq0N6msgXDwtt9hZVxOzCqJ/t5XyAkZ2hTbW3L+Ac090bsUKO9fX4ZiaedoeUIqo/aUybc2ErE5eh+68HVgdup+iIfi9CCmx6WNfRSDDE74SzKV2tteR+dLRwZRQFRDJlkEQoV9Dv2uElv1H48SqPfke49NudE6daxJRk2yMvsZPTONBOtdcpuoRM6A==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1615301904; bh=dNddzbjEkPGr5+OsOs+nxTmLkkOm8Bu4QEgdkg/Nf5L=; h=X-Sonic-MF:From:To:Subject:Date:From:Subject; b=dOzlH+BXxBNV9ADjiaBB0w2uC4XXfaJEU47jKA4jXf8iG6osNL3/PaFjZIQN84vW3ptxbVrZIcWMhtRDU7UnYhfSreYpXsAZpV75nJOtdG0c+JYXcJCETBaVX7IJ49tX+uC/WPYdlTdB/3Tniw8U9yXwaMj8X4uRb6zLrqTDBZuNxY7+EZ94c9xP87JwxDbTsN8KD4FycehZyP0r/iR6IPaoCyop+3zEHnBFdOB81Rit/NanthLhLgMOfFCpd4P2hHxuUZHAnWRA/tSMmoYpreSZMKNyr44qW/0LaPQf1O9vXo4BIVQs09fP9rNbYYeDAraHe6rTVR5rk6zpt4uteg==
-X-YMail-OSG: h2.T5GgVM1ly89IbgrG5lCRSoYorRPwf._hW4ZNPVLw0wlE55LTrL8LxPaskVPW
- 0HFxymRtWTEenx6eg5gyqy8.o98xrKCJhR6b0XpegiWQGKL3OW0d6AH03hteHjL.RB8I1.XlYuY0
- mYxok16cK0zRxEME5WwI.oWig7JL6jpnHWlWsdbxLZ.gmm.cnkePYTMt.BnPzNTaGSR3QcDAtXAC
- SGe0vfTsh_pTw0Q_zjOIXFjbq.7p7hDvUzRGggxphvF2bPopeZGgVe6LCkjoAMB2eDtzBU_ysWP6
- T916yye47UD6Xjnfn9kzoctJTIkiRJJyhN9k1QylLaK.7bE99M5hHn7eYmJZWnLQaSN2sGX759VK
- CiLTyUucCnkkLDUsoo_utRheV129BKwvMfRzRVC_teKubb_7Sryl6OrqATe4zW.PRyYUPBEa7Kqe
- VUwzXqQc9KaSUxZ8NobufUimjS1F4y6VDRz3o9uq6H9hZ1wxlPLIuo0JNwIdbhljFrC17r040l6X
- O1lw_JUlBda6tdXCz6OfZtNYrB_MaES36DaRxekWWAuadVzpS2EAFcivMV1h.ldrFkbjgMT0xtAf
- Up1b5zVsh4rMRyI21elS36P8.kiqkFUZDJgyuQK6MMDLORkIMtiiQrsK8yBznD9VqLmiePCEjMG6
- XN1UVR4yh8DjWOp52WJNvmwDsHaclkLkffCGWnCZsy_ksQrA64RED2wK1OuQ_2pxnipsjr2AdOSm
- 5h0ULAheQfENqc9ipPOz9Llb6jVoTxDqsnJmI_jFl3K0nNm8Ff9WjNbCCZypgO_IbPcUthbWv5LZ
- 0jzcdXPmJF4Qo89M4ozi4eUF_g_Y5DgJRMfG2pRV3FA.Dbk5w4PwSb4YAGhS5d_jvv_JTp4ppeAj
- QmKqPUQxKh1Bxpm09yTe35vKK4MPdAeR7wZ37r6.ofAhCsxmE_oMu_ZL8_X.aNsAnp7vpGnQW2GO
- Udyd4_XYirVgsN58hrUdMogm_s0DKeb59ahSthbxxxHocmegdt.yvQJv0AvF79Xk9DAEHGd34qa6
- sMAMjXKtZC69LSjc6eH_fZFxfS.KF4SPyTIvv8rSW9BOHXx_Ag.bphdr_0sL62gWMQuYVhrGvLS1
- YiIGUQPLOM.obLIqhpJqS0WXE72sE1hRXu3fX5CKoLO8C6DbxoduNHlK0lRNK8cWYbBeCO1EZN6P
- w8wiar70w12Ik.Dq8H61DkauB2hIlcMuCkST70KoJgDsPl8yNUa.QtxceocyQFQbGwwpfSqgQbxw
- S_QUqBme3R9rUQGXXoO80Yx8Z6Qg1roaceJnh.1D6MSYhksYU2hAuto_2TjTZr1KMpfgGoh4QkrF
- ERjbnE5ka7w7Y2YyEepoHEJwTBuaWStKGS3lOYI_oqOf1y9OYIE3CNylsfK1c78M3qwJJG9yhPmG
- twDYlz5kQ6WqPx_OIo_3cSJGLP1_zyOaiQFpDfuId_qyCYvHF6PXSOz9_iOCerMeeswmLRZg_QXc
- XYKo5VKE.p6zPc56_WhdaubxHfMVpl2QR5xKUN9zyeqxyWYLT0pFX0vu2UCjCP_ROQrwUUtKKQk6
- nBv7i4fqViKvW5S2dYkxjwzVgpNqSIyhpBLU_22L_B6fWPEmpnLSNhi8ZQpa00dr13uN1KkwBLKl
- RkoZbnzUAfBwUg7.AIr0zFL4E0yz8s5Zcb4A63WHdhdnrggEoK2yuHS3CWyLGjwD5QAxcffiunwQ
- w34B3iXBI9X2whLi.8.IJx90t8y.n0b.pCs6C8r832gp1pZ2_Z.BrcMhz7EQyT.QkdcNMH3l.b1X
- DWr.Ktfsgmo4jcobAk8THKnXjnfT43Gkj.bwJfe64QWkt0CjkQ.f4eRPkqnCxTzrloGCmIPj9ME2
- Jk5ER11NOGZo7M8gCL1_TXyndmOryyQC5Y8z71QDtV0raWNeuOrngqv3uuv9Jbvsn5fMKYabAFol
- N1bsOhmLNewUKRGMzjkz2Vj0zBNZbCfsl.OsGjZYt5c_1WX2CzA7og9rPYNgBAHEWTHk6JcnbmV_
- SfJJDez2CZR_a3tpNGxefcJQ5IVsPLJTqSf1qXhiarKoqOqxVdlWb4lO1tiKSAnPkZfHTii9Tbpv
- 4q4kylRXbHk6WJV7xYJaF8Xj03A4Hb_MeA53DAj4lnmKWJGcVyRKlgDiHQvzPTqj6s4zQjPvCJx.
- HskMQnYRqD80AaSAZJwJ68BKQ0ZcLW3fkv5m95MQNIxOKSmTd9LEiIpcfTdZOj_88d3FXo9cRvn7
- doHhRK2w.KMn9BlV8DEQWtfn_bMZSmYKtYk2kSWIOUv_Zf.BsF6nOmZZyjFghIA3u_ht.umPZHzw
- Xa_p_.yy1s713fqryNp5eLOVdSlmxDysejXCtHx4nTg6tPbPPgh6FTVaQ.CDh84Hn6dNxUNhcTx1
- On1fCrO2GSXFfPV8x2PlxDdeNF8fU9f4QHvx60K5mTXyjqe84zjm8RXlOCbYOPM8g0bcHsxol1eu
- fHVk6XvYaCRaWggiU8hKVwp5pIJIWy6YHbAHZj_i9PVJ1xRp8I_SbwuqfU6kLl9sRu9zDRxoWCrI
- Ek7F4..AllmOHn1HxkRcrEg4v_25svlbMqjYmkOtn8IBDzD2nGKaHVCuQDRqk21t07oBSPurpQGw
- XSM7SuTSSgGiXvgb3I40Iv4wCT.hzabDcokQ0ofl9kqSjMNNaeSVQC3ZtJYl0GsgtZw71dZjpqwu
- pTI7oILTsl4kfP0xyu3UjgVokOWhEB1VOMzntVwy6twPgxCWNhIgI2Kczo6A4nJEmOms2ph1XNL5
- ofzAD16I.3Fynv0s8XUXCbI5ohLlKtl2QuyCxbf.B58nXSheevDomCXrkWcQczinkSWo0s0tN6qG
- E7Irr7guSVnu0lFEfJX..vQQ8A4kweUsyW2UntilH.q7gWgkQUKe4ankWNzxvDbbxbx68NAV_4fa
- YOp1Yx6glflj.4LAK4MU8YLWY2J1ZSDcxkw2cLUliEMAh37ws3.xuEwOMlEQWgbdBg8MwRBZiqpK
- iofG5vFXli_g0KltXezXgEDrm8gII3WKeiglQvl.VrpJb3DMzYB4tde6Mei3hGVDfZVS5qKn2Vkx
- kjOJZP8SojimXYmW_9nI7v3hDpuVWqjhSICe8fI15ryzvA1UQMJlT7kleqcGYYPNOp28IiMQqLK2
- FEUMOy6MSVjTVQVId8DV.mhF1GuUiYyOWijRUdsyrwhhxfDHnlrXiWBhxi2wC8z7C8HXi2gHJPnP
- hD8Ok8cOMGktV.lgKjHOKVEWzRwxpwkSKHfShR1jDp3h_oZMa_iEVFSBv66Ljb7lqqkmlPOhNbof
- iXiLjqhGQqYOGzq7mfFgk.nWRT6W4eomU4.AfX.qdJiR0brntWJIumsUaXk7LHytKZJ_xQJypR_R
- DbRLKptYurWk8ZTIJvadS5UwkiXaOY3erNUiWyUD5C99kdkYAyGSzYU_1w81tCbwJ795Dy4X1Jzc
- CLCFAzeHYFc1ILl78G_msf68oNdCbHA--
-X-Sonic-MF: <casey@schaufler-ca.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic309.consmr.mail.ne1.yahoo.com with HTTP; Tue, 9 Mar 2021 14:58:24 +0000
-Received: by smtp407.mail.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID 1cb5fffb0b4bf4c1c5e9539df2a6bbd7;
-          Tue, 09 Mar 2021 14:58:21 +0000 (UTC)
-From:   Casey Schaufler <casey@schaufler-ca.com>
-To:     casey.schaufler@intel.com, jmorris@namei.org,
-        linux-security-module@vger.kernel.org, selinux@vger.kernel.org
-Cc:     casey@schaufler-ca.com, linux-audit@redhat.com,
-        keescook@chromium.org, john.johansen@canonical.com,
-        penguin-kernel@i-love.sakura.ne.jp, paul@paul-moore.com,
-        sds@tycho.nsa.gov, linux-kernel@vger.kernel.org,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-api@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v25 14/25] LSM: Specify which LSM to display
-Date:   Tue,  9 Mar 2021 06:42:32 -0800
-Message-Id: <20210309144243.12519-15-casey@schaufler-ca.com>
+        id S231622AbhCIPGc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Mar 2021 10:06:32 -0500
+Received: from mailomta28-sa.btinternet.com ([213.120.69.34]:31451 "EHLO
+        sa-prd-fep-043.btinternet.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231272AbhCIPG0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 10:06:26 -0500
+Received: from sa-prd-rgout-002.btmx-prd.synchronoss.net ([10.2.38.5])
+          by sa-prd-fep-042.btinternet.com with ESMTP
+          id <20210309144004.CXPP32624.sa-prd-fep-042.btinternet.com@sa-prd-rgout-002.btmx-prd.synchronoss.net>;
+          Tue, 9 Mar 2021 14:40:04 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=btinternet.com; s=btmx201904; t=1615300804; 
+        bh=zrBFNMM+D+9IEwLePPctog25rTnrtLAAm3w/gYUpmo0=;
+        h=From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version;
+        b=aY6NL00GnJx77tg53kPsHlMmU2JLCPbSW0QLUKJRrdjAzKKmvdq9X0bDNr/1VOhbUi4iIWVrZAPb+xhs0j3vOoN+bYGVwad32WoXbmaBJaHT4srMvx3Lxz3ASnzohZVO8sv9K1ARG+g3BYNi+koYxmXU6RAOFgjyZIyxQfDbpAbCkyUFv1AZLtZtv7QJi/HrJeZ0mM1RmQUjWpjywQzhLAO0TYzdnu/tF1S3bixoVq++Y9Jxgxqjv++QopQX0YUV5ZLDDGIVrxM9LBaE2AGAOXxXzhvbTsg8paUqgQLt7hrNlXcDo0qeaQ/lZ6BSAcPPsKwPAM1Rq9YaED8j0EN8xg==
+Authentication-Results: btinternet.com; none
+X-SNCR-Rigid: 6038718301A653A3
+X-Originating-IP: [86.133.207.84]
+X-OWM-Source-IP: 86.133.207.84 (GB)
+X-OWM-Env-Sender: richard_c_haines@btinternet.com
+X-VadeSecure-score: verdict=clean score=0/300, class=clean
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduledrudduiedgieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuueftkffvkffujffvgffngfevqffopdfqfgfvnecuuegrihhlohhuthemuceftddunecunecujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeftihgthhgrrhguucfjrghinhgvshcuoehrihgthhgrrhgupggtpghhrghinhgvshessghtihhnthgvrhhnvghtrdgtohhmqeenucggtffrrghtthgvrhhnpeeutddtleelheeugefgiefhiedtheeukeffveeitdffgeffieeugeeljeegvefgieenucfkphepkeeirddufeefrddvtdejrdekgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhephhgvlhhopehlohgtrghlhhhoshhtrdhlohgtrghlughomhgrihhnpdhinhgvthepkeeirddufeefrddvtdejrdekgedpmhgrihhlfhhrohhmpeeorhhitghhrghruggptggphhgrihhnvghssegsthhinhhtvghrnhgvthdrtghomheqpdhrtghpthhtohepoegtrghsvgihsehstghhrghufhhlvghrqdgtrgdrtghomheqpdhrtghpthhtohepoegtohhrsggvtheslhifnhdrnhgvtheqpdhrtghpthhtohepoehjmhhorhhrihhssehnrghmvghirdhorhhgqedprhgtphhtthhopeeolhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgheqpdhrtghpthhtohepoehlihhnuhigqdhsvggtuhhrihhthidqmhhoughulhgvsehvghgvrhdrkhgvrhhn
+        vghlrdhorhhgqedprhgtphhtthhopeeophgruhhlsehprghulhdqmhhoohhrvgdrtghomheqpdhrtghpthhtohepoehrihgthhgrrhgupggtpghhrghinhgvshessghtihhnthgvrhhnvghtrdgtohhmqecuqfftvefrvfeprhhftgekvddvnehrihgthhgrrhgupggtpghhrghinhgvshessghtihhnthgvrhhnvghtrdgtohhmpdhrtghpthhtohepoehsvghrghgvsehhrghllhihnhdrtghomheq
+X-RazorGate-Vade-Verdict: clean 0
+X-RazorGate-Vade-Classification: clean
+X-SNCR-hdrdom: btinternet.com
+Received: from localhost.localdomain (86.133.207.84) by sa-prd-rgout-002.btmx-prd.synchronoss.net (5.8.340) (authenticated as richard_c_haines@btinternet.com)
+        id 6038718301A653A3; Tue, 9 Mar 2021 14:40:04 +0000
+From:   Richard Haines <richard_c_haines@btinternet.com>
+To:     linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     corbet@lwn.net, paul@paul-moore.com, jmorris@namei.org,
+        serge@hallyn.com, casey@schaufler-ca.com,
+        Richard Haines <richard_c_haines@btinternet.com>
+Subject: [RFC PATCH 2/3] include/linux: Update LSM hook text part1
+Date:   Tue,  9 Mar 2021 14:39:52 +0000
+Message-Id: <20210309143953.142341-3-richard_c_haines@btinternet.com>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210309144243.12519-1-casey@schaufler-ca.com>
-References: <20210309144243.12519-1-casey@schaufler-ca.com>
+In-Reply-To: <20210309143953.142341-1-richard_c_haines@btinternet.com>
+References: <20210309143953.142341-1-richard_c_haines@btinternet.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Create a new entry "interface_lsm" in the procfs attr directory for
-controlling which LSM security information is displayed for a
-process. A process can only read or write its own display value.
+No hook definitions have been updated, only formatting to render
+in kernel_docs.
 
-The name of an active LSM that supplies hooks for
-human readable data may be written to "interface_lsm" to set the
-value. The name of the LSM currently in use can be read from
-"interface_lsm". At this point there can only be one LSM capable
-of display active. A helper function lsm_task_ilsm() is
-provided to get the interface lsm slot for a task_struct.
-
-Setting the "interface_lsm" requires that all security modules using
-setprocattr hooks allow the action. Each security module is
-responsible for defining its policy.
-
-AppArmor hook provided by John Johansen <john.johansen@canonical.com>
-SELinux hook provided by Stephen Smalley <stephen.smalley.work@gmail.com>
-
-Signed-off-by: Casey Schaufler <casey@schaufler-ca.com>
-Cc: Kees Cook <keescook@chromium.org>
-Cc: Stephen Smalley <stephen.smalley.work@gmail.com>
-Cc: Paul Moore <paul@paul-moore.com>
-Cc: John Johansen <john.johansen@canonical.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-api@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
+Signed-off-by: Richard Haines <richard_c_haines@btinternet.com>
 ---
- .../ABI/testing/procfs-attr-lsm_display       |  22 +++
- Documentation/security/lsm.rst                |  14 ++
- fs/proc/base.c                                |   1 +
- include/linux/lsm_hooks.h                     |  17 ++
- security/apparmor/include/apparmor.h          |   3 +-
- security/apparmor/lsm.c                       |  32 ++++
- security/security.c                           | 166 ++++++++++++++++--
- security/selinux/hooks.c                      |  11 ++
- security/selinux/include/classmap.h           |   2 +-
- security/smack/smack_lsm.c                    |   7 +
- 10 files changed, 256 insertions(+), 19 deletions(-)
- create mode 100644 Documentation/ABI/testing/procfs-attr-lsm_display
+ include/linux/lsm_hooks.h | 1173 +++++++++++++++++++++----------------
+ 1 file changed, 677 insertions(+), 496 deletions(-)
 
-diff --git a/Documentation/ABI/testing/procfs-attr-lsm_display b/Documentation/ABI/testing/procfs-attr-lsm_display
-new file mode 100644
-index 000000000000..0f60005c235c
---- /dev/null
-+++ b/Documentation/ABI/testing/procfs-attr-lsm_display
-@@ -0,0 +1,22 @@
-+What:		/proc/*/attr/lsm_display
-+Contact:	linux-security-module@vger.kernel.org,
-+Description:	The name of the Linux security module (LSM) that will
-+		provide information in the /proc/*/attr/current,
-+		/proc/*/attr/prev and /proc/*/attr/exec interfaces.
-+		The details of permissions required to read from
-+		this interface are dependent on the LSMs active on the
-+		system.
-+		A process cannot write to this interface unless it
-+		refers to itself.
-+		The other details of permissions required to write to
-+		this interface are dependent on the LSMs active on the
-+		system.
-+		The format of the data used by this interface is a
-+		text string identifying the name of an LSM. The values
-+		accepted are:
-+			selinux		- the SELinux LSM
-+			smack		- the Smack LSM
-+			apparmor	- The AppArmor LSM
-+		By convention the LSM names are lower case and do not
-+		contain special characters.
-+Users:		LSM user-space
-diff --git a/Documentation/security/lsm.rst b/Documentation/security/lsm.rst
-index 6a2a2e973080..b77b4a540391 100644
---- a/Documentation/security/lsm.rst
-+++ b/Documentation/security/lsm.rst
-@@ -129,3 +129,17 @@ to identify it as the first security module to be registered.
- The capabilities security module does not use the general security
- blobs, unlike other modules. The reasons are historical and are
- based on overhead, complexity and performance concerns.
-+
-+LSM External Interfaces
-+=======================
-+
-+The LSM infrastructure does not generally provide external interfaces.
-+The individual security modules provide what external interfaces they
-+require.
-+
-+The file ``/sys/kernel/security/lsm`` provides a comma
-+separated list of the active security modules.
-+
-+The file ``/proc/pid/attr/interface_lsm`` contains the name of the security
-+module for which the ``/proc/pid/attr/current`` interface will
-+apply. This interface can be written to.
-diff --git a/fs/proc/base.c b/fs/proc/base.c
-index 3851bfcdba56..10de522f3112 100644
---- a/fs/proc/base.c
-+++ b/fs/proc/base.c
-@@ -2807,6 +2807,7 @@ static const struct pid_entry attr_dir_stuff[] = {
- 	ATTR(NULL, "fscreate",		0666),
- 	ATTR(NULL, "keycreate",		0666),
- 	ATTR(NULL, "sockcreate",	0666),
-+	ATTR(NULL, "interface_lsm",	0666),
- #ifdef CONFIG_SECURITY_SMACK
- 	DIR("smack",			0555,
- 	    proc_smack_attr_dir_inode_ops, proc_smack_attr_dir_ops),
 diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index 5509e4ed9829..ab08da884b2f 100644
+index fb7f31937..b7fdab1e9 100644
 --- a/include/linux/lsm_hooks.h
 +++ b/include/linux/lsm_hooks.h
-@@ -1670,4 +1670,21 @@ static inline void security_delete_hooks(struct security_hook_list *hooks,
- 
- extern int lsm_inode_alloc(struct inode *inode);
- 
-+/**
-+ * lsm_task_ilsm - the "interface_lsm" for this task
-+ * @task: The task to report on
+@@ -32,743 +32,924 @@
+ /**
+  * union security_list_options - Linux Security Module hook function list
+  *
+- * Security hooks for program execution operations.
++ * **Security hooks for program execution operations:**
+  *
+- * @bprm_creds_for_exec:
+- *	If the setup in prepare_exec_creds did not setup @bprm->cred->security
++ * int bprm_creds_for_exec(struct linux_binprm \*bprm)
++ *	If the setup in @prepare_exec_creds() did not setup @bprm->cred->security
+  *	properly for executing @bprm->file, update the LSM's portion of
+- *	@bprm->cred->security to be what commit_creds needs to install for the
+- *	new program.  This hook may also optionally check permissions
++ *	@bprm->cred->security to be what @commit_creds() needs to install for
++ *	the new program.  This hook may also optionally check permissions
+  *	(e.g. for transitions between security domains).
+- *	The hook must set @bprm->secureexec to 1 if AT_SECURE should be set to
+- *	request libc enable secure mode.
+- *	@bprm contains the linux_binprm structure.
+- *	Return 0 if the hook is successful and permission is granted.
+- * @bprm_creds_from_file:
+- *	If @file is setpcap, suid, sgid or otherwise marked to change
+- *	privilege upon exec, update @bprm->cred to reflect that change.
++ *	The hook must set @bprm->secureexec to %1 if %AT_SECURE should be set to
++ *	request %libc enable secure mode.
 + *
-+ * Returns the task's interface LSM slot.
-+ */
-+static inline int lsm_task_ilsm(struct task_struct *task)
-+{
-+#ifdef CONFIG_SECURITY
-+	int *ilsm = task->security;
-+
-+	if (ilsm)
-+		return *ilsm;
-+#endif
-+	return LSMBLOB_INVALID;
-+}
-+
- #endif /* ! __LINUX_LSM_HOOKS_H */
-diff --git a/security/apparmor/include/apparmor.h b/security/apparmor/include/apparmor.h
-index 1fbabdb565a8..b1622fcb4394 100644
---- a/security/apparmor/include/apparmor.h
-+++ b/security/apparmor/include/apparmor.h
-@@ -28,8 +28,9 @@
- #define AA_CLASS_SIGNAL		10
- #define AA_CLASS_NET		14
- #define AA_CLASS_LABEL		16
-+#define AA_CLASS_DISPLAY_LSM	17
- 
--#define AA_CLASS_LAST		AA_CLASS_LABEL
-+#define AA_CLASS_LAST		AA_CLASS_DISPLAY_LSM
- 
- /* Control parameters settable through module/boot flags */
- extern enum audit_mode aa_g_audit;
-diff --git a/security/apparmor/lsm.c b/security/apparmor/lsm.c
-index 7d5559b4c417..5bfd313a7cd5 100644
---- a/security/apparmor/lsm.c
-+++ b/security/apparmor/lsm.c
-@@ -621,6 +621,25 @@ static int apparmor_getprocattr(struct task_struct *task, char *name,
- 	return error;
- }
- 
-+
-+static int profile_interface_lsm(struct aa_profile *profile,
-+				 struct common_audit_data *sa)
-+{
-+	struct aa_perms perms = { };
-+	unsigned int state;
-+
-+	state = PROFILE_MEDIATES(profile, AA_CLASS_DISPLAY_LSM);
-+	if (state) {
-+		aa_compute_perms(profile->policy.dfa, state, &perms);
-+		aa_apply_modes_to_perms(profile, &perms);
-+		aad(sa)->label = &profile->label;
-+
-+		return aa_check_perms(profile, &perms, AA_MAY_WRITE, sa, NULL);
-+	}
-+
-+	return 0;
-+}
-+
- static int apparmor_setprocattr(const char *name, void *value,
- 				size_t size)
- {
-@@ -632,6 +651,19 @@ static int apparmor_setprocattr(const char *name, void *value,
- 	if (size == 0)
- 		return -EINVAL;
- 
-+	/* LSM infrastructure does actual setting of interface_lsm if allowed */
-+	if (!strcmp(name, "interface_lsm")) {
-+		struct aa_profile *profile;
-+		struct aa_label *label;
-+
-+		aad(&sa)->info = "set interface lsm";
-+		label = begin_current_label_crit_section();
-+		error = fn_for_each_confined(label, profile,
-+					profile_interface_lsm(profile, &sa));
-+		end_current_label_crit_section(label);
-+		return error;
-+	}
-+
- 	/* AppArmor requires that the buffer must be null terminated atm */
- 	if (args[size - 1] != '\0') {
- 		/* null terminate */
-diff --git a/security/security.c b/security/security.c
-index 0d9a4b50f252..df51140a4d93 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -77,7 +77,16 @@ static struct kmem_cache *lsm_file_cache;
- static struct kmem_cache *lsm_inode_cache;
- 
- char *lsm_names;
--static struct lsm_blob_sizes blob_sizes __lsm_ro_after_init;
-+
-+/*
-+ * The task blob includes the "interface_lsm" slot used for
-+ * chosing which module presents contexts.
-+ * Using a long to avoid potential alignment issues with
-+ * module assigned task blobs.
-+ */
-+static struct lsm_blob_sizes blob_sizes __lsm_ro_after_init = {
-+	.lbs_task = sizeof(long),
-+};
- 
- /* Boot-time LSM user choice */
- static __initdata const char *chosen_lsm_order;
-@@ -667,6 +676,8 @@ int lsm_inode_alloc(struct inode *inode)
-  */
- static int lsm_task_alloc(struct task_struct *task)
- {
-+	int *ilsm;
-+
- 	if (blob_sizes.lbs_task == 0) {
- 		task->security = NULL;
- 		return 0;
-@@ -675,6 +686,15 @@ static int lsm_task_alloc(struct task_struct *task)
- 	task->security = kzalloc(blob_sizes.lbs_task, GFP_KERNEL);
- 	if (task->security == NULL)
- 		return -ENOMEM;
-+
-+	/*
-+	 * The start of the task blob contains the "interface" LSM slot number.
-+	 * Start with it set to the invalid slot number, indicating that the
-+	 * default first registered LSM be displayed.
-+	 */
-+	ilsm = task->security;
-+	*ilsm = LSMBLOB_INVALID;
-+
- 	return 0;
- }
- 
-@@ -1688,14 +1708,26 @@ int security_file_open(struct file *file)
- 
- int security_task_alloc(struct task_struct *task, unsigned long clone_flags)
- {
-+	int *oilsm = current->security;
-+	int *nilsm;
- 	int rc = lsm_task_alloc(task);
- 
--	if (rc)
-+	if (unlikely(rc))
- 		return rc;
-+
- 	rc = call_int_hook(task_alloc, 0, task, clone_flags);
--	if (unlikely(rc))
-+	if (unlikely(rc)) {
- 		security_task_free(task);
--	return rc;
-+		return rc;
-+	}
-+
-+	if (oilsm) {
-+		nilsm = task->security;
-+		if (nilsm)
-+			*nilsm = *oilsm;
-+	}
-+
-+	return 0;
- }
- 
- void security_task_free(struct task_struct *task)
-@@ -2113,23 +2145,110 @@ int security_getprocattr(struct task_struct *p, const char *lsm, char *name,
- 				char **value)
- {
- 	struct security_hook_list *hp;
-+	int ilsm = lsm_task_ilsm(current);
-+	int slot = 0;
-+
-+	if (!strcmp(name, "interface_lsm")) {
-+		/*
-+		 * lsm_slot will be 0 if there are no displaying modules.
-+		 */
-+		if (lsm_slot == 0)
-+			return -EINVAL;
-+
-+		/*
-+		 * Only allow getting the current process' interface_lsm.
-+		 * There are too few reasons to get another process'
-+		 * interface_lsm and too many LSM policy issues.
-+		 */
-+		if (current != p)
-+			return -EINVAL;
-+
-+		ilsm = lsm_task_ilsm(p);
-+		if (ilsm != LSMBLOB_INVALID)
-+			slot = ilsm;
-+		*value = kstrdup(lsm_slotlist[slot]->lsm, GFP_KERNEL);
-+		if (*value)
-+			return strlen(*value);
-+		return -ENOMEM;
-+	}
- 
- 	hlist_for_each_entry(hp, &security_hook_heads.getprocattr, list) {
- 		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
- 			continue;
-+		if (lsm == NULL && ilsm != LSMBLOB_INVALID &&
-+		    ilsm != hp->lsmid->slot)
-+			continue;
- 		return hp->hook.getprocattr(p, name, value);
- 	}
- 	return LSM_RET_DEFAULT(getprocattr);
- }
- 
-+/**
-+ * security_setprocattr - Set process attributes via /proc
-+ * @lsm: name of module involved, or NULL
-+ * @name: name of the attribute
-+ * @value: value to set the attribute to
-+ * @size: size of the value
++ *	* @bprm contains the @linux_binprm structure.
++ *	* Return %0 if the hook is successful and permission is granted.
 + *
-+ * Set the process attribute for the specified security module
-+ * to the specified value. Note that this can only be used to set
-+ * the process attributes for the current, or "self" process.
-+ * The /proc code has already done this check.
++ * int bprm_creds_from_file(struct linux_binprm \*bprm, struct file \*file)
++ *	If @file is %setpcap, %suid, %sgid or otherwise marked to change
++ *	privilege upon @exec, update @bprm->cred to reflect that change.
+  *	This is called after finding the binary that will be executed.
+  *	without an interpreter.  This ensures that the credentials will not
+  *	be derived from a script that the binary will need to reopen, which
+  *	when reopend may end up being a completely different file.  This
+  *	hook may also optionally check permissions (e.g. for transitions
+  *	between security domains).
+- *	The hook must set @bprm->secureexec to 1 if AT_SECURE should be set to
+- *	request libc enable secure mode.
++ *	The hook must set @bprm->secureexec to %1 if %AT_SECURE should be set to
++ *	request %libc enable secure mode.
+  *	The hook must add to @bprm->per_clear any personality flags that
+- * 	should be cleared from current->personality.
+- *	@bprm contains the linux_binprm structure.
+- *	Return 0 if the hook is successful and permission is granted.
+- * @bprm_check_security:
++ *	should be cleared from @current->personality.
 + *
-+ * Returns 0 on success, an appropriate code otherwise.
-+ */
- int security_setprocattr(const char *lsm, const char *name, void *value,
- 			 size_t size)
- {
- 	struct security_hook_list *hp;
-+	char *termed;
-+	char *copy;
-+	int *ilsm = current->security;
-+	int rc = -EINVAL;
-+	int slot = 0;
-+
-+	if (!strcmp(name, "interface_lsm")) {
-+		/*
-+		 * Change the "interface_lsm" value only if all the security
-+		 * modules that support setting a procattr allow it.
-+		 * It is assumed that all such security modules will be
-+		 * cooperative.
-+		 */
-+		if (size == 0)
-+			return -EINVAL;
-+
-+		hlist_for_each_entry(hp, &security_hook_heads.setprocattr,
-+				     list) {
-+			rc = hp->hook.setprocattr(name, value, size);
-+			if (rc < 0)
-+				return rc;
-+		}
-+
-+		rc = -EINVAL;
-+
-+		copy = kmemdup_nul(value, size, GFP_KERNEL);
-+		if (copy == NULL)
-+			return -ENOMEM;
-+
-+		termed = strsep(&copy, " \n");
-+
-+		for (slot = 0; slot < lsm_slot; slot++)
-+			if (!strcmp(termed, lsm_slotlist[slot]->lsm)) {
-+				*ilsm = lsm_slotlist[slot]->slot;
-+				rc = size;
-+				break;
-+			}
-+
-+		kfree(termed);
-+		return rc;
-+	}
- 
- 	hlist_for_each_entry(hp, &security_hook_heads.setprocattr, list) {
- 		if (lsm != NULL && strcmp(lsm, hp->lsmid->lsm))
- 			continue;
-+		if (lsm == NULL && *ilsm != LSMBLOB_INVALID &&
-+		    *ilsm != hp->lsmid->slot)
-+			continue;
- 		return hp->hook.setprocattr(name, value, size);
- 	}
- 	return LSM_RET_DEFAULT(setprocattr);
-@@ -2149,15 +2268,15 @@ EXPORT_SYMBOL(security_ismaclabel);
- int security_secid_to_secctx(struct lsmblob *blob, char **secdata, u32 *seclen)
- {
- 	struct security_hook_list *hp;
--	int rc;
-+	int ilsm = lsm_task_ilsm(current);
- 
- 	hlist_for_each_entry(hp, &security_hook_heads.secid_to_secctx, list) {
- 		if (WARN_ON(hp->lsmid->slot < 0 || hp->lsmid->slot >= lsm_slot))
- 			continue;
--		rc = hp->hook.secid_to_secctx(blob->secid[hp->lsmid->slot],
--					      secdata, seclen);
--		if (rc != LSM_RET_DEFAULT(secid_to_secctx))
--			return rc;
-+		if (ilsm == LSMBLOB_INVALID || ilsm == hp->lsmid->slot)
-+			return hp->hook.secid_to_secctx(
-+					blob->secid[hp->lsmid->slot],
-+					secdata, seclen);
- 	}
- 
- 	return LSM_RET_DEFAULT(secid_to_secctx);
-@@ -2168,16 +2287,15 @@ int security_secctx_to_secid(const char *secdata, u32 seclen,
- 			     struct lsmblob *blob)
- {
- 	struct security_hook_list *hp;
--	int rc;
-+	int ilsm = lsm_task_ilsm(current);
- 
- 	lsmblob_init(blob, 0);
- 	hlist_for_each_entry(hp, &security_hook_heads.secctx_to_secid, list) {
- 		if (WARN_ON(hp->lsmid->slot < 0 || hp->lsmid->slot >= lsm_slot))
- 			continue;
--		rc = hp->hook.secctx_to_secid(secdata, seclen,
--					      &blob->secid[hp->lsmid->slot]);
--		if (rc != 0)
--			return rc;
-+		if (ilsm == LSMBLOB_INVALID || ilsm == hp->lsmid->slot)
-+			return hp->hook.secctx_to_secid(secdata, seclen,
-+						&blob->secid[hp->lsmid->slot]);
- 	}
- 	return 0;
- }
-@@ -2185,7 +2303,14 @@ EXPORT_SYMBOL(security_secctx_to_secid);
- 
- void security_release_secctx(char *secdata, u32 seclen)
- {
--	call_void_hook(release_secctx, secdata, seclen);
-+	struct security_hook_list *hp;
-+	int ilsm = lsm_task_ilsm(current);
-+
-+	hlist_for_each_entry(hp, &security_hook_heads.release_secctx, list)
-+		if (ilsm == LSMBLOB_INVALID || ilsm == hp->lsmid->slot) {
-+			hp->hook.release_secctx(secdata, seclen);
-+			return;
-+		}
- }
- EXPORT_SYMBOL(security_release_secctx);
- 
-@@ -2326,8 +2451,15 @@ EXPORT_SYMBOL(security_sock_rcv_skb);
- int security_socket_getpeersec_stream(struct socket *sock, char __user *optval,
- 				      int __user *optlen, unsigned len)
- {
--	return call_int_hook(socket_getpeersec_stream, -ENOPROTOOPT, sock,
--				optval, optlen, len);
-+	int ilsm = lsm_task_ilsm(current);
-+	struct security_hook_list *hp;
-+
-+	hlist_for_each_entry(hp, &security_hook_heads.socket_getpeersec_stream,
-+			     list)
-+		if (ilsm == LSMBLOB_INVALID || ilsm == hp->lsmid->slot)
-+			return hp->hook.socket_getpeersec_stream(sock, optval,
-+								 optlen, len);
-+	return -ENOPROTOOPT;
- }
- 
- int security_socket_getpeersec_dgram(struct socket *sock, struct sk_buff *skb,
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 96c560760c4c..3141ed8544de 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -6434,6 +6434,17 @@ static int selinux_setprocattr(const char *name, void *value, size_t size)
- 	/*
- 	 * Basic control over ability to set these attributes at all.
- 	 */
-+
-+	/*
-+	 * For setting interface_lsm, we only perform a permission check;
-+	 * the actual update to the interface_lsm value is handled by the
-+	 * LSM framework.
-+	 */
-+	if (!strcmp(name, "interface_lsm"))
-+		return avc_has_perm(&selinux_state,
-+				    mysid, mysid, SECCLASS_PROCESS2,
-+				    PROCESS2__SETDISPLAY, NULL);
-+
- 	if (!strcmp(name, "exec"))
- 		error = avc_has_perm(&selinux_state,
- 				     mysid, mysid, SECCLASS_PROCESS,
-diff --git a/security/selinux/include/classmap.h b/security/selinux/include/classmap.h
-index ba2e01a6955c..1b4a42150871 100644
---- a/security/selinux/include/classmap.h
-+++ b/security/selinux/include/classmap.h
-@@ -53,7 +53,7 @@ struct security_class_mapping secclass_map[] = {
- 	    "execmem", "execstack", "execheap", "setkeycreate",
- 	    "setsockcreate", "getrlimit", NULL } },
- 	{ "process2",
--	  { "nnp_transition", "nosuid_transition", NULL } },
-+	  { "nnp_transition", "nosuid_transition", "setdisplay", NULL } },
- 	{ "system",
- 	  { "ipc_info", "syslog_read", "syslog_mod",
- 	    "syslog_console", "module_request", "module_load", NULL } },
-diff --git a/security/smack/smack_lsm.c b/security/smack/smack_lsm.c
-index 023876c3f3a3..576f412b8616 100644
---- a/security/smack/smack_lsm.c
-+++ b/security/smack/smack_lsm.c
-@@ -3511,6 +3511,13 @@ static int smack_setprocattr(const char *name, void *value, size_t size)
- 	struct smack_known_list_elem *sklep;
- 	int rc;
- 
-+	/*
-+	 * Allow the /proc/.../attr/current and SO_PEERSEC "interface_lsm"
-+	 * to be reset at will.
-+	 */
-+	if (strcmp(name, "interface_lsm") == 0)
-+		return 0;
-+
- 	if (!smack_privileged(CAP_MAC_ADMIN) && list_empty(&tsp->smk_relabel))
- 		return -EPERM;
- 
++ *	* @bprm contains the @linux_binprm structure.
++ *	* Return %0 if the hook is successful and permission is granted.
++ *
++ * int bprm_check_security(struct linux_binprm \*bprm)
+  *	This hook mediates the point when a search for a binary handler will
+  *	begin.  It allows a check against the @bprm->cred->security value
+- *	which was set in the preceding creds_for_exec call.  The argv list and
+- *	envp list are reliably available in @bprm.  This hook may be called
+- *	multiple times during a single execve.
+- *	@bprm contains the linux_binprm structure.
+- *	Return 0 if the hook is successful and permission is granted.
+- * @bprm_committing_creds:
++ *	which was set in the preceding @creds_for_exec() call.  The %argv list
++ *	and %envp list are reliably available in @bprm.  This hook may be called
++ *	multiple times during a single @execve.
++ *
++ *	* @bprm contains the @linux_binprm structure.
++ *	* Return %0 if the hook is successful and permission is granted.
++ *
++ * void bprm_committing_creds(struct linux_binprm \*bprm)
+  *	Prepare to install the new security attributes of a process being
+- *	transformed by an execve operation, based on the old credentials
++ *	transformed by an @execve operation, based on the old credentials
+  *	pointed to by @current->cred and the information set in @bprm->cred by
+- *	the bprm_creds_for_exec hook.  @bprm points to the linux_binprm
++ *	the @bprm_creds_for_exec() hook.  @bprm points to the @linux_binprm
+  *	structure.  This hook is a good place to perform state changes on the
+  *	process such as closing open file descriptors to which access will no
+  *	longer be granted when the attributes are changed.  This is called
+- *	immediately before commit_creds().
+- * @bprm_committed_creds:
++ *	immediately before @commit_creds().
++ *
++ * void bprm_committed_creds(struct linux_binprm \*bprm)
+  *	Tidy up after the installation of the new security attributes of a
+- *	process being transformed by an execve operation.  The new credentials
++ *	process being transformed by an @execve operation.  The new credentials
+  *	have, by this point, been set to @current->cred.  @bprm points to the
+- *	linux_binprm structure.  This hook is a good place to perform state
++ *	@linux_binprm structure.  This hook is a good place to perform state
+  *	changes on the process such as clearing out non-inheritable signal
+- *	state.  This is called immediately after commit_creds().
++ *	state.  This is called immediately after @commit_creds().
++ *
++ * **Security hooks for mount using fs_context**
++ * (See also Documentation/filesystems/mount_api.rst):
++ *
++ * int fs_context_dup(struct fs_context \*fc, struct fs_context \*src_fc)
++ *	Allocate and attach a security structure to @sc->security.  This pointer
++ *	is initialised to %NULL by the caller.
+  *
+- * Security hooks for mount using fs_context.
+- *	[See also Documentation/filesystems/mount_api.rst]
++ *	* @fc indicates the new filesystem context.
++ *	* @src_fc indicates the original filesystem context.
+  *
+- * @fs_context_dup:
+- *	Allocate and attach a security structure to sc->security.  This pointer
+- *	is initialised to NULL by the caller.
+- *	@fc indicates the new filesystem context.
+- *	@src_fc indicates the original filesystem context.
+- * @fs_context_parse_param:
++ * int fs_context_parse_param(struct fs_context \*fc, struct fs_parameter \*param)
+  *	Userspace provided a parameter to configure a superblock.  The LSM may
+  *	reject it with an error and may use it for itself, in which case it
+- *	should return 0; otherwise it should return -ENOPARAM to pass it on to
++ *	should Return %0; otherwise it should return %-ENOPARAM to pass it on to
+  *	the filesystem.
+- *	@fc indicates the filesystem context.
+- *	@param The parameter
+  *
+- * Security hooks for filesystem operations.
++ *	* @fc indicates the filesystem context.
++ *	* @param The parameter
+  *
+- * @sb_alloc_security:
+- *	Allocate and attach a security structure to the sb->s_security field.
+- *	The s_security field is initialized to NULL when the structure is
++ * **Security hooks for filesystem operations:**
++ *
++ * int sb_alloc_security(struct super_block \*sb)
++ *	Allocate and attach a security structure to the @sb->s_security field.
++ *	The @s_security field is initialized to %NULL when the structure is
+  *	allocated.
+- *	@sb contains the super_block structure to be modified.
+- *	Return 0 if operation was successful.
+- * @sb_free_security:
+- *	Deallocate and clear the sb->s_security field.
+- *	@sb contains the super_block structure to be modified.
+- * @sb_free_mnt_opts:
++ *
++ *	* @sb contains the @super_block structure to be modified.
++ *	* Return %0 if operation was successful.
++ *
++ * void sb_free_security(struct super_block \*sb)
++ *	Deallocate and clear the @sb->s_security field.
++ *
++ *	* @sb contains the @super_block structure to be modified.
++ *
++ * void sb_free_mnt_opts(void \*mnt_opts)
+  * 	Free memory associated with @mnt_ops.
+- * @sb_eat_lsm_opts:
++ *
++ * int sb_eat_lsm_opts(char \*orig, void \*\*mnt_opts)
+  * 	Eat (scan @orig options) and save them in @mnt_opts.
+- * @sb_statfs:
++ *
++ * int sb_statfs(struct dentry \*dentry)
+  *	Check permission before obtaining filesystem statistics for the @mnt
+  *	mountpoint.
+- *	@dentry is a handle on the superblock for the filesystem.
+- *	Return 0 if permission is granted.
+- * @sb_mount:
++ *
++ *	* @dentry is a handle on the superblock for the filesystem.
++ *	* Return %0 if permission is granted.
++ *
++ * int sb_mount(const char \*dev_name, const struct path \*path, const char \*type, unsigned long flags, void \*data)
+  *	Check permission before an object specified by @dev_name is mounted on
+  *	the mount point named by @nd.  For an ordinary mount, @dev_name
+  *	identifies a device if the file system type requires a device.  For a
+- *	remount (@flags & MS_REMOUNT), @dev_name is irrelevant.  For a
+- *	loopback/bind mount (@flags & MS_BIND), @dev_name identifies the
++ *	remount (@flags & %MS_REMOUNT), @dev_name is irrelevant.  For a
++ *	loopback/bind mount (@flags & %MS_BIND), @dev_name identifies the
+  *	pathname of the object being mounted.
+- *	@dev_name contains the name for object being mounted.
+- *	@path contains the path for mount point object.
+- *	@type contains the filesystem type.
+- *	@flags contains the mount flags.
+- *	@data contains the filesystem-specific data.
+- *	Return 0 if permission is granted.
+- * @sb_copy_data:
++ *
++ *	* @dev_name contains the name for object being mounted.
++ *	* @path contains the path for mount point object.
++ *	* @type contains the filesystem type.
++ *	* @flags contains the mount flags.
++ *	* @data contains the filesystem-specific data.
++ *	* Return %0 if permission is granted.
++ *
++ * int sb_copy_data(char \*orig, char \*copy) - Deprecated
+  *	Allow mount option data to be copied prior to parsing by the filesystem,
+  *	so that the security module can extract security-specific mount
+- *	options cleanly (a filesystem may modify the data e.g. with strsep()).
++ *	options cleanly (a filesystem may modify the data e.g. with @strsep()).
+  *	This also allows the original mount data to be stripped of security-
+  *	specific options to avoid having to make filesystems aware of them.
+- *	@orig the original mount data copied from userspace.
+- *	@copy copied data which will be passed to the security module.
+- *	Returns 0 if the copy was successful.
+- * @sb_remount:
++ *
++ *	* @orig the original mount data copied from userspace.
++ *	* @copy copied data which will be passed to the security module.
++ *	* Returns %0 if the copy was successful.
++ *
++ * int sb_remount(struct super_block \*sb, void \*mnt_opts)
+  *	Extracts security system specific mount options and verifies no changes
+  *	are being made to those options.
+- *	@sb superblock being remounted
+- *	@data contains the filesystem-specific data.
+- *	Return 0 if permission is granted.
+- * @sb_kern_mount:
++ *
++ *	* @sb superblock being remounted
++ *	* @data contains the filesystem-specific data.
++ *	* Return %0 if permission is granted.
++ *
++ * int sb_kern_mount(struct super_block \*sb)
+  * 	Mount this @sb if allowed by permissions.
+- * @sb_show_options:
++ *
++ * int sb_show_options(struct seq_file \*m, struct super_block \*sb)
+  * 	Show (print on @m) mount options for this @sb.
+- * @sb_umount:
++ *
++ * int sb_umount(struct vfsmount \*mnt, int flags)
+  *	Check permission before the @mnt file system is unmounted.
+- *	@mnt contains the mounted file system.
+- *	@flags contains the unmount flags, e.g. MNT_FORCE.
+- *	Return 0 if permission is granted.
+- * @sb_pivotroot:
++ *
++ *	* @mnt contains the mounted file system.
++ *	* @flags contains the unmount flags, e.g. %MNT_FORCE.
++ *	* Return %0 if permission is granted.
++ *
++ * int sb_pivotroot(const struct path \*old_path, const struct path \*new_path)
+  *	Check permission before pivoting the root filesystem.
+- *	@old_path contains the path for the new location of the
+- *	current root (put_old).
+- *	@new_path contains the path for the new root (new_root).
+- *	Return 0 if permission is granted.
+- * @sb_set_mnt_opts:
+- *	Set the security relevant mount options used for a superblock
+- *	@sb the superblock to set security mount options for
+- *	@opts binary data structure containing all lsm mount data
+- * @sb_clone_mnt_opts:
++ *
++ *	* @old_path contains the path for the new location of the current root (put_old).
++ *	* @new_path contains the path for the new root (new_root).
++ *	* Return %0 if permission is granted.
++ *
++ * int sb_set_mnt_opts(struct super_block \*sb, void \*mnt_opts, unsigned long kern_flags, unsigned long \*set_kern_flags)
++ *	Set the security relevant mount options used for a superblock:
++ *
++ *	* @sb the superblock to set security mount options for
++ *	* @mnt_opts binary data structure containing all LSM mount data
++ *
++ * int sb_clone_mnt_opts(const struct super_block \*oldsb, struct super_block \*newsb, unsigned long kern_flags, unsigned long \*set_kern_flags)
+  *	Copy all security options from a given superblock to another
+  *	@oldsb old superblock which contain information to clone
+  *	@newsb new superblock which needs filled in
+- * @sb_add_mnt_opt:
++ *
++ * int sb_add_mnt_opt(const char \*option, const char \*val, int len, void \*\*mnt_opts)
+  * 	Add one mount @option to @mnt_opts.
+- * @sb_parse_opts_str:
++ *
++ * int sb_parse_opts_str(char \*options, struct security_mnt_opts \*opts) - Deprecated
+  *	Parse a string of security data filling in the opts structure
+  *	@options string containing all mount options known by the LSM
+  *	@opts binary data structure usable by the LSM
+- * @move_mount:
++ *
++ * int move_mount(const struct path \*from_path, const struct path \*to_path)
+  *	Check permission before a mount is moved.
+- *	@from_path indicates the mount that is going to be moved.
+- *	@to_path indicates the mountpoint that will be mounted upon.
+- * @dentry_init_security:
++ *
++ *	* @from_path indicates the mount that is going to be moved.
++ *	* @to_path indicates the mountpoint that will be mounted upon.
++ *
++ * int dentry_init_security(struct dentry \*dentry, int mode, const struct qstr \*name, void \*\*ctx, u32 \*ctxlen)
+  *	Compute a context for a dentry as the inode is not yet available
+  *	since NFSv4 has no label backed by an EA anyway.
+- *	@dentry dentry to use in calculating the context.
+- *	@mode mode used to determine resource type.
+- *	@name name of the last path component used to create file
+- *	@ctx pointer to place the pointer to the resulting context in.
+- *	@ctxlen point to place the length of the resulting context.
+- * @dentry_create_files_as:
++ *
++ *	* @dentry dentry to use in calculating the context.
++ *	* @mode mode used to determine resource type.
++ *	* @name name of the last path component used to create file
++ *	* @ctx pointer to place the pointer to the resulting context in.
++ *	* @ctxlen point to place the length of the resulting context.
++ *
++ * int dentry_create_files_as(struct dentry \*dentry, int mode, struct qstr \*name, const struct cred \*old, struct cred \*new)
+  *	Compute a context for a dentry as the inode is not yet available
+  *	and set that context in passed in creds so that new files are
+  *	created using that context. Context is calculated using the
+  *	passed in creds and not the creds of the caller.
+- *	@dentry dentry to use in calculating the context.
+- *	@mode mode used to determine resource type.
+- *	@name name of the last path component used to create file
+- *	@old creds which should be used for context calculation
+- *	@new creds to modify
+  *
++ *	* @dentry dentry to use in calculating the context.
++ *	* @mode mode used to determine resource type.
++ *	* @name name of the last path component used to create file
++ *	* @old creds which should be used for context calculation
++ *	* @new creds to modify
+  *
+- * Security hooks for inode operations.
++ * **Security hooks for inode operations:**
+  *
+- * @inode_alloc_security:
++ * int inode_alloc_security(struct inode \*inode)
+  *	Allocate and attach a security structure to @inode->i_security.  The
+- *	i_security field is initialized to NULL when the inode structure is
++ *	@i_security field is initialized to %NULL when the inode structure is
+  *	allocated.
+- *	@inode contains the inode structure.
+- *	Return 0 if operation was successful.
+- * @inode_free_security:
++ *
++ *	* @inode contains the inode structure.
++ *	* Return %0 if operation was successful.
++ *
++ * void inode_free_security(struct inode \*inode)
+  *	@inode contains the inode structure.
+  *	Deallocate the inode security structure and set @inode->i_security to
+- *	NULL.
+- * @inode_init_security:
++ *	%NULL.
++ *
++ * int inode_init_security(struct inode \*inode, struct inode \*dir, const struct qstr \*qstr, const char \*\*name, void \*\*value, size_t \*len)
+  *	Obtain the security attribute name suffix and value to set on a newly
+  *	created inode and set up the incore security field for the new inode.
+  *	This hook is called by the fs code as part of the inode creation
+  *	transaction and provides for atomic labeling of the inode, unlike
+  *	the post_create/mkdir/... hooks called by the VFS.  The hook function
+- *	is expected to allocate the name and value via kmalloc, with the caller
+- *	being responsible for calling kfree after using them.
++ *	is expected to allocate the name and value via @kmalloc(), with the caller
++ *	being responsible for calling @kfree() after using them.
+  *	If the security module does not use security attributes or does
+  *	not wish to put a security attribute on this particular inode,
+- *	then it should return -EOPNOTSUPP to skip this processing.
+- *	@inode contains the inode structure of the newly created inode.
+- *	@dir contains the inode structure of the parent directory.
+- *	@qstr contains the last path component of the new object
+- *	@name will be set to the allocated name suffix (e.g. selinux).
+- *	@value will be set to the allocated attribute value.
+- *	@len will be set to the length of the value.
+- *	Returns 0 if @name and @value have been successfully set,
+- *	-EOPNOTSUPP if no security attribute is needed, or
+- *	-ENOMEM on memory allocation failure.
+- * @inode_init_security_anon:
++ *	then it should return %-EOPNOTSUPP to skip this processing.
++ *
++ *	* @inode contains the inode structure of the newly created inode.
++ *	* @dir contains the inode structure of the parent directory.
++ *	* @qstr contains the last path component of the new object
++ *	* @name will be set to the allocated name suffix (e.g. selinux).
++ *	* @value will be set to the allocated attribute value.
++ *	* @len will be set to the length of the value.
++ *	* Returns %0 if @name and @value have been successfully set,
++ *	* %-EOPNOTSUPP if no security attribute is needed, or
++ *	* %-ENOMEM on memory allocation failure.
++ *
++ * int inode_init_security_anon(struct inode \*inode, const struct qstr \*name, const struct inode \*context_inode)
+  *      Set up the incore security field for the new anonymous inode
+  *      and return whether the inode creation is permitted by the security
+  *      module or not.
+- *      @inode contains the inode structure
+- *      @name name of the anonymous inode class
+- *      @context_inode optional related inode
+- *	Returns 0 on success, -EACCES if the security module denies the
+- *	creation of this inode, or another -errno upon other errors.
+- * @inode_create:
++ *
++ *      * @inode contains the inode structure
++ *      * @name name of the anonymous inode class
++ *      * @context_inode optional related inode
++ *	* Returns %0 on success,
++ *	* %-EACCES if the security module denies the creation of this inode,
++ *	* or another %-errno upon other errors.
++ *
++ * int inode_create(struct inode \*dir, struct dentry \*dentry, umode_t mode)
+  *	Check permission to create a regular file.
+- *	@dir contains inode structure of the parent of the new file.
+- *	@dentry contains the dentry structure for the file to be created.
+- *	@mode contains the file mode of the file to be created.
+- *	Return 0 if permission is granted.
+- * @inode_link:
++ *
++ *	* @dir contains inode structure of the parent of the new file.
++ *	* @dentry contains the dentry structure for the file to be created.
++ *	* @mode contains the file mode of the file to be created.
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_link(struct dentry \*old_dentry, struct inode \*dir, struct dentry \*new_dentry)
+  *	Check permission before creating a new hard link to a file.
+- *	@old_dentry contains the dentry structure for an existing
+- *	link to the file.
+- *	@dir contains the inode structure of the parent directory
+- *	of the new link.
+- *	@new_dentry contains the dentry structure for the new link.
+- *	Return 0 if permission is granted.
+- * @path_link:
++ *
++ *	* @old_dentry contains the dentry structure for an existing link to the file.
++ *	* @dir contains the inode structure of the parent directory of the new link.
++ *	* @new_dentry contains the dentry structure for the new link.
++ *	* Return %0 if permission is granted.
++ *
++ * int path_link(struct dentry \*old_dentry, const struct path \*new_dir, struct dentry \*new_dentry)
+  *	Check permission before creating a new hard link to a file.
+- *	@old_dentry contains the dentry structure for an existing link
+- *	to the file.
+- *	@new_dir contains the path structure of the parent directory of
+- *	the new link.
+- *	@new_dentry contains the dentry structure for the new link.
+- *	Return 0 if permission is granted.
+- * @inode_unlink:
++ *
++ *	* @old_dentry contains the dentry structure for an existing link to the file.
++ *	* @new_dir contains the path structure of the parent directory of the new link.
++ *	* @new_dentry contains the dentry structure for the new link.
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_unlink(struct inode \*dir, struct dentry \*dentry)
+  *	Check the permission to remove a hard link to a file.
+- *	@dir contains the inode structure of parent directory of the file.
+- *	@dentry contains the dentry structure for file to be unlinked.
+- *	Return 0 if permission is granted.
+- * @path_unlink:
++ *
++ *	* @dir contains the inode structure of parent directory of the file.
++ *	* @dentry contains the dentry structure for file to be unlinked.
++ *	* Return %0 if permission is granted.
++ *
++ * int path_unlink(const struct path \*dir, struct dentry \*dentry)
+  *	Check the permission to remove a hard link to a file.
+- *	@dir contains the path structure of parent directory of the file.
+- *	@dentry contains the dentry structure for file to be unlinked.
+- *	Return 0 if permission is granted.
+- * @inode_symlink:
++ *
++ *	* @dir contains the path structure of parent directory of the file.
++ *	* @dentry contains the dentry structure for file to be unlinked.
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_symlink(struct inode \*dir, struct dentry \*dentry, const char \*old_name)
+  *	Check the permission to create a symbolic link to a file.
+- *	@dir contains the inode structure of parent directory of
+- *	the symbolic link.
+- *	@dentry contains the dentry structure of the symbolic link.
+- *	@old_name contains the pathname of file.
+- *	Return 0 if permission is granted.
+- * @path_symlink:
++ *
++ *	* @dir contains the inode structure of parent directory of the symbolic link.
++ *	* @dentry contains the dentry structure of the symbolic link.
++ *	* @old_name contains the pathname of file.
++ *	* Return %0 if permission is granted.
++ *
++ * int path_symlink(const struct path \*dir, struct dentry \*dentry, const char \*old_name)
+  *	Check the permission to create a symbolic link to a file.
+- *	@dir contains the path structure of parent directory of
+- *	the symbolic link.
+- *	@dentry contains the dentry structure of the symbolic link.
+- *	@old_name contains the pathname of file.
+- *	Return 0 if permission is granted.
+- * @inode_mkdir:
++ *
++ *	* @dir contains the path structure of parent directory of the symbolic link.
++ *	* @dentry contains the dentry structure of the symbolic link.
++ *	* @old_name contains the pathname of file.
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_mkdir(struct inode \*dir, struct dentry \*dentry, umode_t mode)
+  *	Check permissions to create a new directory in the existing directory
+  *	associated with inode structure @dir.
+- *	@dir contains the inode structure of parent of the directory
+- *	to be created.
+- *	@dentry contains the dentry structure of new directory.
+- *	@mode contains the mode of new directory.
+- *	Return 0 if permission is granted.
+- * @path_mkdir:
++ *
++ *	* @dir contains the inode structure of parent of the directory to be created.
++ *	* @dentry contains the dentry structure of new directory.
++ *	* @mode contains the mode of new directory.
++ *	* Return %0 if permission is granted.
++ *
++ * int path_mkdir(const struct path \*dir, struct dentry \*dentry, umode_t mode)
+  *	Check permissions to create a new directory in the existing directory
+  *	associated with path structure @path.
+- *	@dir contains the path structure of parent of the directory
+- *	to be created.
+- *	@dentry contains the dentry structure of new directory.
+- *	@mode contains the mode of new directory.
+- *	Return 0 if permission is granted.
+- * @inode_rmdir:
++ *
++ *	* @dir contains the path structure of parent of the directory to be created.
++ *	* @dentry contains the dentry structure of new directory.
++ *	* @mode contains the mode of new directory.
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_rmdir(struct inode \*dir, struct dentry \*dentry)
+  *	Check the permission to remove a directory.
+- *	@dir contains the inode structure of parent of the directory
+- *	to be removed.
+- *	@dentry contains the dentry structure of directory to be removed.
+- *	Return 0 if permission is granted.
+- * @path_rmdir:
++ *
++ *	* @dir contains the inode structure of parent of the directory to be removed.
++ *	* @dentry contains the dentry structure of directory to be removed.
++ *	* Return %0 if permission is granted.
++ *
++ * int path_rmdir(const struct path \*dir, struct dentry \*dentry)
+  *	Check the permission to remove a directory.
+- *	@dir contains the path structure of parent of the directory to be
+- *	removed.
+- *	@dentry contains the dentry structure of directory to be removed.
+- *	Return 0 if permission is granted.
+- * @inode_mknod:
++ *
++ *	* @dir contains the path structure of parent of the directory to be removed.
++ *	* @dentry contains the dentry structure of directory to be removed.
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_mknod(struct inode \*dir, struct dentry \*dentry, umode_t mode, dev_t dev)
+  *	Check permissions when creating a special file (or a socket or a fifo
+- *	file created via the mknod system call).  Note that if mknod operation
++ *	file created via the @mknod() system call).  Note that if mknod operation
+  *	is being done for a regular file, then the create hook will be called
+  *	and not this hook.
+- *	@dir contains the inode structure of parent of the new file.
+- *	@dentry contains the dentry structure of the new file.
+- *	@mode contains the mode of the new file.
+- *	@dev contains the device number.
+- *	Return 0 if permission is granted.
+- * @path_mknod:
++ *
++ *	* @dir contains the inode structure of parent of the new file.
++ *	* @dentry contains the dentry structure of the new file.
++ *	* @mode contains the mode of the new file.
++ *	* @dev contains the device number.
++ *	* Return %0 if permission is granted.
++ *
++ * int path_mknod(const struct path \*dir, struct dentry \*dentry, umode_t mode, unsigned int dev)
+  *	Check permissions when creating a file. Note that this hook is called
+  *	even if mknod operation is being done for a regular file.
+- *	@dir contains the path structure of parent of the new file.
+- *	@dentry contains the dentry structure of the new file.
+- *	@mode contains the mode of the new file.
+- *	@dev contains the undecoded device number. Use new_decode_dev() to get
+- *	the decoded device number.
+- *	Return 0 if permission is granted.
+- * @inode_rename:
++ *
++ *	* @dir contains the path structure of parent of the new file.
++ *	* @dentry contains the dentry structure of the new file.
++ *	* @mode contains the mode of the new file.
++ *	* @dev contains the undecoded device number. Use new_decode_dev() to get the decoded device number.
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_rename(struct inode \*old_dir, struct dentry \*old_dentry, struct inode \*new_dir, struct dentry \*new_dentry)
+  *	Check for permission to rename a file or directory.
+- *	@old_dir contains the inode structure for parent of the old link.
+- *	@old_dentry contains the dentry structure of the old link.
+- *	@new_dir contains the inode structure for parent of the new link.
+- *	@new_dentry contains the dentry structure of the new link.
+- *	Return 0 if permission is granted.
+- * @path_rename:
++ *
++ *	* @old_dir contains the inode structure for parent of the old link.
++ *	* @old_dentry contains the dentry structure of the old link.
++ *	* @new_dir contains the inode structure for parent of the new link.
++ *	* @new_dentry contains the dentry structure of the new link.
++ *	* Return %0 if permission is granted.
++ *
++ * int path_rename(const struct path \*old_dir, struct dentry \*old_dentry, const struct path \*new_dir, struct dentry \*new_dentry)
+  *	Check for permission to rename a file or directory.
+- *	@old_dir contains the path structure for parent of the old link.
+- *	@old_dentry contains the dentry structure of the old link.
+- *	@new_dir contains the path structure for parent of the new link.
+- *	@new_dentry contains the dentry structure of the new link.
+- *	Return 0 if permission is granted.
+- * @path_chmod:
++ *
++ *	* @old_dir contains the path structure for parent of the old link.
++ *	* @old_dentry contains the dentry structure of the old link.
++ *	* @new_dir contains the path structure for parent of the new link.
++ *	* @new_dentry contains the dentry structure of the new link.
++ *	* Return %0 if permission is granted.
++ *
++ * int path_chmod(const struct path \*path, umode_t mode)
+  *	Check for permission to change a mode of the file @path. The new
+  *	mode is specified in @mode.
+- *	@path contains the path structure of the file to change the mode.
+- *	@mode contains the new DAC's permission, which is a bitmask of
+- *	constants from <include/uapi/linux/stat.h>
+- *	Return 0 if permission is granted.
+- * @path_chown:
++ *
++ *	* @path contains the path structure of the file to change the mode.
++ *	* @mode contains the new DAC's permission, which is a bitmask of constants from <include/uapi/linux/stat.h>
++ *	* Return %0 if permission is granted.
++ *
++ * int path_chown(const struct path \*path, kuid_t uid, kgid_t gid)
+  *	Check for permission to change owner/group of a file or directory.
+- *	@path contains the path structure.
+- *	@uid contains new owner's ID.
+- *	@gid contains new group's ID.
+- *	Return 0 if permission is granted.
+- * @path_chroot:
++ *
++ *	* @path contains the path structure.
++ *	* @uid contains new owner's ID.
++ *	* @gid contains new group's ID.
++ *	* Return %0 if permission is granted.
++ *
++ * int path_chroot(const struct path \*path)
+  *	Check for permission to change root directory.
+- *	@path contains the path structure.
+- *	Return 0 if permission is granted.
+- * @path_notify:
++ *
++ *	* @path contains the path structure.
++ *	* Return %0 if permission is granted.
++ *
++ * int path_notify(const struct path \*path, u64 mask, unsigned int obj_type)
+  *	Check permissions before setting a watch on events as defined by @mask,
+  *	on an object at @path, whose type is defined by @obj_type.
+- * @inode_readlink:
++ *
++ * int inode_readlink(struct dentry \*dentry)
+  *	Check the permission to read the symbolic link.
+- *	@dentry contains the dentry structure for the file link.
+- *	Return 0 if permission is granted.
+- * @inode_follow_link:
++ *
++ *	* @dentry contains the dentry structure for the file link.
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_follow_link(struct dentry \*dentry, struct inode \*inode,  bool rcu)
+  *	Check permission to follow a symbolic link when looking up a pathname.
+- *	@dentry contains the dentry structure for the link.
+- *	@inode contains the inode, which itself is not stable in RCU-walk
+- *	@rcu indicates whether we are in RCU-walk mode.
+- *	Return 0 if permission is granted.
+- * @inode_permission:
++ *
++ *	* @dentry contains the dentry structure for the link.
++ *	* @inode contains the inode, which itself is not stable in RCU-walk
++ *	* @rcu indicates whether we are in RCU-walk mode.
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_permission(struct inode \*inode, int mask)
+  *	Check permission before accessing an inode.  This hook is called by the
+  *	existing Linux permission function, so a security module can use it to
+  *	provide additional checking for existing Linux permission checks.
+  *	Notice that this hook is called when a file is opened (as well as many
+- *	other operations), whereas the file_security_ops permission hook is
++ *	other operations), whereas the @file_security_ops() permission hook is
+  *	called when the actual read/write operations are performed.
+- *	@inode contains the inode structure to check.
+- *	@mask contains the permission mask.
+- *	Return 0 if permission is granted.
+- * @inode_setattr:
++ *
++ *	* @inode contains the inode structure to check.
++ *	* @mask contains the permission mask.
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_setattr(struct dentry \*dentry, struct iattr \*attr)
+  *	Check permission before setting file attributes.  Note that the kernel
+- *	call to notify_change is performed from several locations, whenever
++ *	call to @notify_change() is performed from several locations, whenever
+  *	file attributes change (such as when a file is truncated, chown/chmod
+  *	operations, transferring disk quotas, etc).
+- *	@dentry contains the dentry structure for the file.
+- *	@attr is the iattr structure containing the new file attributes.
+- *	Return 0 if permission is granted.
+- * @path_truncate:
++ *
++ *	* @dentry contains the dentry structure for the file.
++ *	* @attr is the @iattr structure containing the new file attributes.
++ *	* Return %0 if permission is granted.
++ *
++ * int path_truncate(const struct path \*path)
+  *	Check permission before truncating a file.
+- *	@path contains the path structure for the file.
+- *	Return 0 if permission is granted.
+- * @inode_getattr:
++ *
++ *	* @path contains the path structure for the file.
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_getattr(const struct path \*path)
+  *	Check permission before obtaining file attributes.
+- *	@path contains the path structure for the file.
+- *	Return 0 if permission is granted.
+- * @inode_setxattr:
++ *
++ *	* @path contains the path structure for the file.
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_setxattr(struct user_namespace \*mnt_userns, struct dentry \*dentry, const char \*name, const void \*value, size_t size, int flags)
+  *	Check permission before setting the extended attributes
+- *	@value identified by @name for @dentry.
+- *	Return 0 if permission is granted.
+- * @inode_post_setxattr:
+- *	Update inode security field after successful setxattr operation.
+- *	@value identified by @name for @dentry.
+- * @inode_getxattr:
++ *
++ *	* @value identified by @name for @dentry.
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_post_setxattr(struct dentry \*dentry, const char \*name, const void \*value, size_t size, int flags)
++ *	Update inode security field after successful @setxattr operation.
++ *
++ *	* @value identified by @name for @dentry.
++ *
++ * int inode_getxattr(struct dentry \*dentry, const char \*name)
+  *	Check permission before obtaining the extended attributes
+  *	identified by @name for @dentry.
+- *	Return 0 if permission is granted.
+- * @inode_listxattr:
++ *
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_listxattr(struct dentry \*dentry)
+  *	Check permission before obtaining the list of extended attribute
+  *	names for @dentry.
+- *	Return 0 if permission is granted.
+- * @inode_removexattr:
++ *
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_removexattr(struct user_namespace \*mnt_userns, struct dentry \*dentry, const char \*name)
+  *	Check permission before removing the extended attribute
+  *	identified by @name for @dentry.
+- *	Return 0 if permission is granted.
+- * @inode_getsecurity:
++ *
++ *	* Return %0 if permission is granted.
++ *
++ * int inode_getsecurity(struct user_namespace \*mnt_userns, struct inode \*inode, const char \*name, void \*\*buffer, bool alloc)
+  *	Retrieve a copy of the extended attribute representation of the
+  *	security label associated with @name for @inode via @buffer.  Note that
+  *	@name is the remainder of the attribute name after the security prefix
+  *	has been removed. @alloc is used to specify of the call should return a
+  *	value via the buffer or just the value length Return size of buffer on
+  *	success.
+- * @inode_setsecurity:
++ *
++ * int inode_setsecurity(struct inode \*inode, const char \*name, const void \*value, size_t size, int flags)
+  *	Set the security label associated with @name for @inode from the
+  *	extended attribute value @value.  @size indicates the size of the
+- *	@value in bytes.  @flags may be XATTR_CREATE, XATTR_REPLACE, or 0.
++ *	@value in bytes.  @flags may be %XATTR_CREATE, %XATTR_REPLACE, or %0.
+  *	Note that @name is the remainder of the attribute name after the
+  *	security. prefix has been removed.
+- *	Return 0 on success.
+- * @inode_listsecurity:
++ *
++ *	* Return %0 on success.
++ *
++ * int inode_listsecurity(struct inode \*inode, char \*buffer, size_t buffer_size)
+  *	Copy the extended attribute names for the security labels
+  *	associated with @inode into @buffer.  The maximum size of @buffer
+- *	is specified by @buffer_size.  @buffer may be NULL to request
++ *	is specified by @buffer_size.  @buffer may be %NULL to request
+  *	the size of the buffer required.
+- *	Returns number of bytes used/required on success.
+- * @inode_need_killpriv:
++ *
++ *	* Returns number of bytes used/required on success.
++ *
++ * int inode_need_killpriv(struct dentry \*dentry)
+  *	Called when an inode has been changed.
+- *	@dentry is the dentry being changed.
+- *	Return <0 on error to abort the inode change operation.
+- *	Return 0 if inode_killpriv does not need to be called.
+- *	Return >0 if inode_killpriv does need to be called.
+- * @inode_killpriv:
+- *	The setuid bit is being removed.  Remove similar security labels.
+- *	Called with the dentry->d_inode->i_mutex held.
+- *	@mnt_userns: user namespace of the mount
+- *	@dentry is the dentry being changed.
+- *	Return 0 on success.  If error is returned, then the operation
+- *	causing setuid bit removal is failed.
+- * @inode_getsecid:
+- *	Get the secid associated with the node.
+- *	@inode contains a pointer to the inode.
+- *	@secid contains a pointer to the location where result will be saved.
+- *	In case of failure, @secid will be set to zero.
+- * @inode_copy_up:
++ *
++ *	* @dentry is the dentry being changed.
++ *	* Return %<0 on error to abort the inode change operation.
++ *	* Return %0 if @inode_killpriv() does not need to be called.
++ *	* Return %>0 if @inode_killpriv() does need to be called.
++ *
++ * int inode_killpriv(struct user_namespace \*mnt_userns, struct dentry \*dentry)
++ *	The %setuid bit is being removed.  Remove similar security labels.
++ *	Called with the @dentry->d_inode->i_mutex held.
++ *
++ *	* @mnt_userns: user namespace of the mount
++ *	* @dentry is the dentry being changed.
++ *	* Return %0 on success.
++ *	* If error is returned, then the operation causing %setuid bit removal is failed.
++ *
++ * void inode_getsecid(struct inode \*inode, u32 \*secid)
++ *	Get the %secid associated with the node.
++ *
++ *	* @inode contains a pointer to the inode.
++ *	* @secid contains a pointer to the location where result will be saved.
++ *	* In case of failure, @secid will be set to zero.
++ *
++ * int inode_copy_up(struct dentry \*src, struct cred \*\*new)
+  *	A file is about to be copied up from lower layer to upper layer of
+  *	overlay filesystem. Security module can prepare a set of new creds
+  *	and modify as need be and return new creds. Caller will switch to
+  *	new creds temporarily to create new file and release newly allocated
+  *	creds.
+- *	@src indicates the union dentry of file that is being copied up.
+- *	@new pointer to pointer to return newly allocated creds.
+- *	Returns 0 on success or a negative error code on error.
+- * @inode_copy_up_xattr:
++ *
++ *	* @src indicates the union @dentry of file that is being copied up.
++ *	* @new pointer to pointer to return newly allocated creds.
++ *	* Returns %0 on success or a negative error code on error.
++ *
++ * int inode_copy_up_xattr(const char \*name)
+  *	Filter the xattrs being copied up when a unioned file is copied
+  *	up from a lower layer to the union/overlay layer.
+- *	@name indicates the name of the xattr.
+- *	Returns 0 to accept the xattr, 1 to discard the xattr, -EOPNOTSUPP if
+- *	security module does not know about attribute or a negative error code
+- *	to abort the copy up. Note that the caller is responsible for reading
+- *	and writing the xattrs as this hook is merely a filter.
+- * @d_instantiate:
++ *	Note that the caller is responsible for reading and writing the
++ *	xattrs as this hook is merely a filter.
++ *
++ *	* @name indicates the name of the xattr.
++ *	* Returns %0 to accept the xattr,
++ *	* Returns %1 to discard the xattr,
++ *	* Returns %-EOPNOTSUPP if security module does not know about attribute or a negative error code to abort the copy up.
++ *
++ * void d_instantiate(struct dentry \*dentry, struct inode \*inode)
+  * 	Fill in @inode security information for a @dentry if allowed.
+- * @getprocattr:
++ *
++ * int getprocattr(struct task_struct \*p, char \*name, char \*\*value)
+  * 	Read attribute @name for process @p and store it into @value if allowed.
+- * @setprocattr:
++ *
++ * int setprocattr(const char \*name, void \*value, size_t size)
+  * 	Write (set) attribute @name to @value, size @size if allowed.
+  *
+- * Security hooks for kernfs node operations
++ * **Security hooks for kernfs node operations:**
+  *
+- * @kernfs_init_security:
+- *	Initialize the security context of a newly created kernfs node based
++ * int kernfs_init_security(struct kernfs_node \*kn_dir, struct kernfs_node \*kn)
++ *	Initialize the security context of a newly created @kernfs node based
+  *	on its own and its parent's attributes.
+  *
+- *	@kn_dir the parent kernfs node
+- *	@kn the new child kernfs node
++ *	* @kn_dir the parent kernfs node
++ *	* @kn the new child kernfs node
+  *
+- * Security hooks for file operations
++ * **Security hooks for file operations:**
+  *
+- * @file_permission:
++ * int file_permission(struct file \*file, int mask)
+  *	Check file permissions before accessing an open file.  This hook is
+  *	called by various operations that read or write files.  A security
+  *	module can use this hook to perform additional checking on these
+  *	operations, e.g.  to revalidate permissions on use to support privilege
+  *	bracketing or policy changes.  Notice that this hook is used when the
+  *	actual read/write operations are performed, whereas the
+- *	inode_security_ops hook is called when a file is opened (as well as
++ *	@inode_security_ops() hook is called when a file is opened (as well as
+  *	many other operations).
+  *	Caveat:  Although this hook can be used to revalidate permissions for
+  *	various system call operations that read or write files, it does not
+  *	address the revalidation of permissions for memory-mapped files.
+  *	Security modules must handle this separately if they need such
+  *	revalidation.
+- *	@file contains the file structure being accessed.
+- *	@mask contains the requested permissions.
+- *	Return 0 if permission is granted.
+- * @file_alloc_security:
+- *	Allocate and attach a security structure to the file->f_security field.
+- *	The security field is initialized to NULL when the structure is first
++ *
++ *	* @file contains the file structure being accessed.
++ *	* @mask contains the requested permissions.
++ *	* Return %0 if permission is granted.
++ *
++ * int file_alloc_security(struct file \*file)
++ *	Allocate and attach a security structure to the @file->f_security field.
++ *	The security field is initialized to %NULL when the structure is first
+  *	created.
+- *	@file contains the file structure to secure.
+- *	Return 0 if the hook is successful and permission is granted.
+- * @file_free_security:
+- *	Deallocate and free any security structures stored in file->f_security.
++ *
++ *	* @file contains the file structure to secure.
++ *	* Return %0 if the hook is successful and permission is granted.
++ *
++ * void file_free_security(struct file \*file)
++ *	Deallocate and free any security structures stored in @file->f_security.
++ *
+  *	@file contains the file structure being modified.
+- * @file_ioctl:
+- *	@file contains the file structure.
+- *	@cmd contains the operation to perform.
+- *	@arg contains the operational arguments.
++ *
++ * int file_ioctl(struct file \*file, unsigned int cmd, unsigned long arg)
+  *	Check permission for an ioctl operation on @file.  Note that @arg
+  *	sometimes represents a user space pointer; in other cases, it may be a
+  *	simple integer value.  When @arg represents a user space pointer, it
+  *	should never be used by the security module.
+- *	Return 0 if permission is granted.
+- * @mmap_addr :
++ *
++ *	* @file contains the file structure.
++ *	* @cmd contains the operation to perform.
++ *	* @arg contains the operational arguments.
++ *	* Return %0 if permission is granted.
++ *
++ * int mmap_addr(unsigned long addr)
+  *	Check permissions for a mmap operation at @addr.
+- *	@addr contains virtual address that will be used for the operation.
+- *	Return 0 if permission is granted.
+- * @mmap_file :
+- *	Check permissions for a mmap operation.  The @file may be NULL, e.g.
++ *
++ *	* @addr contains virtual address that will be used for the operation.
++ *	* Return %0 if permission is granted.
++ *
++ * int mmap_file(struct file \*file, unsigned long reqprot, unsigned long prot, unsigned long flags)
++ *	Check permissions for a @mmap operation.  The @file may be %NULL, e.g.
+  *	if mapping anonymous memory.
+- *	@file contains the file structure for file to map (may be NULL).
+- *	@reqprot contains the protection requested by the application.
+- *	@prot contains the protection that will be applied by the kernel.
+- *	@flags contains the operational flags.
+- *	Return 0 if permission is granted.
+- * @file_mprotect:
++ *
++ *	* @file contains the file structure for file to map (may be %NULL).
++ *	* @reqprot contains the protection requested by the application.
++ *	* @prot contains the protection that will be applied by the kernel.
++ *	* @flags contains the operational flags.
++ *	* Return %0 if permission is granted.
++ *
++ * int file_mprotect(struct vm_area_struct \*vma, unsigned long reqprot, unsigned long prot)
+  *	Check permissions before changing memory access permissions.
+- *	@vma contains the memory region to modify.
+- *	@reqprot contains the protection requested by the application.
+- *	@prot contains the protection that will be applied by the kernel.
+- *	Return 0 if permission is granted.
+- * @file_lock:
++ *
++ *	* @vma contains the memory region to modify.
++ *	* @reqprot contains the protection requested by the application.
++ *	* @prot contains the protection that will be applied by the kernel.
++ *	* Return %0 if permission is granted.
++ *
++ * int file_lock(struct file \*file, unsigned int cmd)
+  *	Check permission before performing file locking operations.
+  *	Note the hook mediates both flock and fcntl style locks.
+- *	@file contains the file structure.
+- *	@cmd contains the posix-translated lock operation to perform
+- *	(e.g. F_RDLCK, F_WRLCK).
+- *	Return 0 if permission is granted.
+- * @file_fcntl:
++ *
++ *	* @file contains the file structure.
++ *	* @cmd contains the posix-translated lock operation to perform (e.g. %F_RDLCK, %F_WRLCK).
++ *	* Return %0 if permission is granted.
++ *
++ * int file_fcntl(struct file \*file, unsigned int cmd, unsigned long arg)
+  *	Check permission before allowing the file operation specified by @cmd
+  *	from being performed on the file @file.  Note that @arg sometimes
+  *	represents a user space pointer; in other cases, it may be a simple
+  *	integer value.  When @arg represents a user space pointer, it should
+  *	never be used by the security module.
+- *	@file contains the file structure.
+- *	@cmd contains the operation to be performed.
+- *	@arg contains the operational arguments.
+- *	Return 0 if permission is granted.
+- * @file_set_fowner:
+- *	Save owner security information (typically from current->security) in
+- *	file->f_security for later use by the send_sigiotask hook.
+- *	@file contains the file structure to update.
+- *	Return 0 on success.
+- * @file_send_sigiotask:
+- *	Check permission for the file owner @fown to send SIGIO or SIGURG to the
++ *
++ *	* @file contains the file structure.
++ *	* @cmd contains the operation to be performed.
++ *	* @arg contains the operational arguments.
++ *	* Return %0 if permission is granted.
++ *
++ * void file_set_fowner(struct file \*file)
++ *	Save owner security information (typically from @current->security) in
++ *	@file->f_security for later use by the @send_sigiotask() hook.
++ *
++ *	* @file contains the file structure to update.
++ *
++ * int file_send_sigiotask(struct task_struct \*tsk, struct fown_struct \*fown, int sig)
++ *	Check permission for the file owner @fown to send %SIGIO or %SIGURG to the
+  *	process @tsk.  Note that this hook is sometimes called from interrupt.
+- *	Note that the fown_struct, @fown, is never outside the context of a
++ *	Note that the @fown_struct, @fown, is never outside the context of a
+  *	struct file, so the file structure (and associated security information)
+  *	can always be obtained: container_of(fown, struct file, f_owner)
+- *	@tsk contains the structure of task receiving signal.
+- *	@fown contains the file owner information.
+- *	@sig is the signal that will be sent.  When 0, kernel sends SIGIO.
+- *	Return 0 if permission is granted.
+- * @file_receive:
++ *
++ *	* @tsk contains the structure of task receiving signal.
++ *	* @fown contains the file owner information.
++ *	* @sig is the signal that will be sent.  When 0, kernel sends %SIGIO.
++ *	* Return %0 if permission is granted.
++ *
++ * int file_receive(struct file \*file)
+  *	This hook allows security modules to control the ability of a process
+  *	to receive an open file descriptor via socket IPC.
+- *	@file contains the file structure being received.
+- *	Return 0 if permission is granted.
+- * @file_open:
++ *
++ *	* @file contains the file structure being received.
++ *	* Return %0 if permission is granted.
++ *
++ * int file_open(struct file \*file)
+  *	Save open-time permission checking state for later use upon
+- *	file_permission, and recheck access if anything has changed
+- *	since inode_permission.
++ *	@file_permission(), and recheck access if anything has changed
++ *	since @inode_permission().
+  *
+- * Security hooks for task operations.
++ * **Security hooks for task operations:**
+  *
+- * @task_alloc:
+- *	@task task being allocated.
+- *	@clone_flags contains the flags indicating what should be shared.
++ * int task_alloc(struct task_struct \*task, unsigned long clone_flags)
+  *	Handle allocation of task-related resources.
+- *	Returns a zero on success, negative values on failure.
+- * @task_free:
+- *	@task task about to be freed.
++ *
++ *	* @task task being allocated.
++ *	* @clone_flags contains the flags indicating what should be shared.
++ *	* Returns a zero on success, negative values on failure.
++ *
++ * void task_free(struct task_struct \*task)
+  *	Handle release of task-related resources. (Note that this can be called
+  *	from interrupt context.)
+- * @cred_alloc_blank:
+- *	@cred points to the credentials.
+- *	@gfp indicates the atomicity of any memory allocations.
++ *
++ *	* @task task about to be freed.
++ *
++ * int cred_alloc_blank(struct cred \*cred, gfp_t gfp)
+  *	Only allocate sufficient memory and attach to @cred such that
+- *	cred_transfer() will not get ENOMEM.
+- * @cred_free:
+- *	@cred points to the credentials.
+- *	Deallocate and clear the cred->security field in a set of credentials.
+- * @cred_prepare:
+- *	@new points to the new credentials.
+- *	@old points to the original credentials.
+- *	@gfp indicates the atomicity of any memory allocations.
++ *	@cred_transfer() will not get %ENOMEM.
++ *
++ *	* @cred points to the credentials.
++ *	* @gfp indicates the atomicity of any memory allocations.
++ *
++ * void cred_free(struct cred \*cred)
++ *	Deallocate and clear the @cred->security field in a set of credentials.
++ *
++ *	* @cred points to the credentials.
++ *
++ * int cred_prepare(struct cred \*new, const struct cred \*old, gfp_t gfp)
+  *	Prepare a new set of credentials by copying the data from the old set.
+- * @cred_transfer:
+- *	@new points to the new credentials.
+- *	@old points to the original credentials.
++ *
++ *	* @new points to the new credentials.
++ *	* @old points to the original credentials.
++ *	* @gfp indicates the atomicity of any memory allocations.
++ *
++ * void cred_transfer(cred_transfer, struct cred \*new, const struct cred \*old)
+  *	Transfer data from original creds to new creds
+- * @cred_getsecid:
++ *
++ *	* @new points to the new credentials.
++ *	* @old points to the original credentials.
++ *
++ * void cred_getsecid(const struct cred \*c, u32 \*secid)
+  *	Retrieve the security identifier of the cred structure @c
+  *	@c contains the credentials, secid will be placed into @secid.
+  *	In case of failure, @secid will be set to zero.
+- * @kernel_act_as:
++ *
++ * int kernel_act_as(struct cred \*new, u32 secid)
+  *	Set the credentials for a kernel service to act as (subjective context).
+- *	@new points to the credentials to be modified.
+- *	@secid specifies the security ID to be set
+  *	The current task must be the one that nominated @secid.
+- *	Return 0 if successful.
+- * @kernel_create_files_as:
++ *
++ *	* @new points to the credentials to be modified.
++ *	* @secid specifies the security ID to be set
++ *	* Return %0 if successful.
++ *
++ * int kernel_create_files_as(struct cred \*new, struct inode \*inode)
+  *	Set the file creation context in a set of credentials to be the same as
+  *	the objective context of the specified inode.
+- *	@new points to the credentials to be modified.
+- *	@inode points to the inode to use as a reference.
+  *	The current task must be the one that nominated @inode.
+- *	Return 0 if successful.
+- * @kernel_module_request:
++ *
++ *	* @new points to the credentials to be modified.
++ *	* @inode points to the inode to use as a reference.
++ *	* Return %0 if successful.
++ *
++ * int kernel_module_request(char \*kmod_name)
+  *	Ability to trigger the kernel to automatically upcall to userspace for
+  *	userspace to load a kernel module with the given name.
+- *	@kmod_name name of the module requested by the kernel
+- *	Return 0 if successful.
+- * @kernel_load_data:
++ *
++ *	* @kmod_name name of the module requested by the kernel
++ *	* Return %0 if successful.
++ *
++ * int kernel_load_data(enum kernel_load_data_id id, bool contents)
+  *	Load data provided by userspace.
+- *	@id kernel load data identifier
+- *	@contents if a subsequent @kernel_post_load_data will be called.
+- *	Return 0 if permission is granted.
+- * @kernel_post_load_data:
++ *
++ *	* @id kernel load data identifier
++ *	* @contents if a subsequent @kernel_post_load_data will be called.
++ *	* Return %0 if permission is granted.
++ *
++ * int kernel_post_load_data(char \*buf, loff_t size, enum kernel_load_data_id id, char \*description)
+  *	Load data provided by a non-file source (usually userspace buffer).
+- *	@buf pointer to buffer containing the data contents.
+- *	@size length of the data contents.
+- *	@id kernel load data identifier
+- *	@description a text description of what was loaded, @id-specific
+- *	Return 0 if permission is granted.
+  *	This must be paired with a prior @kernel_load_data call that had
+  *	@contents set to true.
+- * @kernel_read_file:
++ *
++ *	* @buf pointer to buffer containing the data contents.
++ *	* @size length of the data contents.
++ *	* @id kernel load data identifier
++ *	* @description a text description of what was loaded, id-specific
++ *	* Return %0 if permission is granted.
++ *
++ * int kernel_read_file(struct file \*file, enum kernel_read_file_id id, bool contents)
+  *	Read a file specified by userspace.
+- *	@file contains the file structure pointing to the file being read
+- *	by the kernel.
+- *	@id kernel read file identifier
+- *	@contents if a subsequent @kernel_post_read_file will be called.
+- *	Return 0 if permission is granted.
+- * @kernel_post_read_file:
++ *
++ *	* @file contains the file structure pointing to the file being read by the kernel.
++ *	* @id kernel read file identifier
++ *	* @contents if a subsequent @kernel_post_read_file will be called.
++ *	* Return %0 if permission is granted.
++ *
++ * int kernel_post_read_file(struct file \*file, char \*buf, loff_t size, enum kernel_read_file_id id)
+  *	Read a file specified by userspace.
+- *	@file contains the file structure pointing to the file being read
+- *	by the kernel.
+- *	@buf pointer to buffer containing the file contents.
+- *	@size length of the file contents.
+- *	@id kernel read file identifier
+- *	This must be paired with a prior @kernel_read_file call that had
+- *	@contents set to true.
+- *	Return 0 if permission is granted.
+- * @task_fix_setuid:
++ *
++ *	* @file contains the file structure pointing to the file being read by the kernel.
++ *	* @buf pointer to buffer containing the file contents.
++ *	* @size length of the file contents.
++ *	* @id kernel read file identifier. This must be paired with a prior @kernel_read_file() call that had @contents set to true.
++ *	* Return %0 if permission is granted.
++ *
++ * int task_fix_setuid(struct cred \*new, const struct cred \*old, int flags)
+  *	Update the module's state after setting one or more of the user
+  *	identity attributes of the current process.  The @flags parameter
+  *	indicates which of the set*uid system calls invoked this hook.  If
+  *	@new is the set of credentials that will be installed.  Modifications
+  *	should be made to this rather than to @current->cred.
+  *	@old is the set of credentials that are being replaces
+- *	@flags contains one of the LSM_SETID_* values.
+- *	Return 0 on success.
+- * @task_fix_setgid:
++ *	@flags contains one of the %LSM_SETID_\* values.
++ *
++ *	* Return %0 on success.
++ *
++ * int task_fix_setgid(struct cred \*new, const struct cred \*old, int flags)
+  *	Update the module's state after setting one or more of the group
+  *	identity attributes of the current process.  The @flags parameter
+- *	indicates which of the set*gid system calls invoked this hook.
+- *	@new is the set of credentials that will be installed.  Modifications
+- *	should be made to this rather than to @current->cred.
+- *	@old is the set of credentials that are being replaced.
+- *	@flags contains one of the LSM_SETID_* values.
+- *	Return 0 on success.
+- * @task_setpgid:
++ *	indicates which of the set\*gid() system calls invoked this hook.
++ *
++ *	* @new is the set of credentials that will be installed.  Modifications should be made to this rather than to @current->cred.
++ *	* @old is the set of credentials that are being replaced.
++ *	* @flags contains one of the %LSM_SETID_\* values.
++ *	* Return %0 on success.
++ *
++ * int task_setpgid(struct task_struct \*p, pid_t pgid)
+  *	Check permission before setting the process group identifier of the
+  *	process @p to @pgid.
+- *	@p contains the task_struct for process being modified.
+- *	@pgid contains the new pgid.
+- *	Return 0 if permission is granted.
+- * @task_getpgid:
++ *
++ *	* @p contains the task_struct for process being modified.
++ *	* @pgid contains the new @pgid.
++ *	* Return %0 if permission is granted.
++ *
++ * int task_getpgid(struct task_struct \*p)
+  *	Check permission before getting the process group identifier of the
+  *	process @p.
+- *	@p contains the task_struct for the process.
+- *	Return 0 if permission is granted.
+- * @task_getsid:
++ *
++ *	* @p contains the task_struct for the process.
++ *	* Return %0 if permission is granted.
++ *
++ * int task_getsid(struct task_struct \*p)
+  *	Check permission before getting the session identifier of the process
+  *	@p.
+- *	@p contains the task_struct for the process.
+- *	Return 0 if permission is granted.
+- * @task_getsecid:
++ *
++ *	* @p contains the task_struct for the process.
++ *	* Return %0 if permission is granted.
++ *
++ * void task_getsecid(struct task_struct \*p, u32 \*secid)
+  *	Retrieve the security identifier of the process @p.
+- *	@p contains the task_struct for the process and place is into @secid.
+- *	In case of failure, @secid will be set to zero.
+  *
+- * @task_setnice:
++ *	* @p contains the task_struct for the process and place is into @secid.
++ *	* In case of failure, @secid will be set to zero.
++ *
++ * int task_setnice(struct task_struct \*p, int nice)
+  *	Check permission before setting the nice value of @p to @nice.
+- *	@p contains the task_struct of process.
+- *	@nice contains the new nice value.
+- *	Return 0 if permission is granted.
+- * @task_setioprio:
++ *
++ *	* @p contains the task_struct of process.
++ *	* @nice contains the new nice value.
++ *	* Return %0 if permission is granted.
++ *
++ * int task_setioprio(struct task_struct \*p, int ioprio)
+  *	Check permission before setting the ioprio value of @p to @ioprio.
+- *	@p contains the task_struct of process.
+- *	@ioprio contains the new ioprio value
+- *	Return 0 if permission is granted.
+- * @task_getioprio:
++ *
++ *	* @p contains the task_struct of process.
++ *	* @ioprio contains the new @ioprio value
++ *	* Return %0 if permission is granted.
++ *
++ * int task_getioprio(struct task_struct \*p)
+  *	Check permission before getting the ioprio value of @p.
+- *	@p contains the task_struct of process.
+- *	Return 0 if permission is granted.
+- * @task_prlimit:
++ *
++ *	* @p contains the task_struct of process.
++ *	* Return %0 if permission is granted.
++ *
++ * int task_prlimit(const struct cred \*cred, const struct cred \*tcred, unsigned int flags)
+  *	Check permission before getting and/or setting the resource limits of
+  *	another task.
+- *	@cred points to the cred structure for the current task.
+- *	@tcred points to the cred structure for the target task.
+- *	@flags contains the LSM_PRLIMIT_* flag bits indicating whether the
+- *	resource limits are being read, modified, or both.
+- *	Return 0 if permission is granted.
+- * @task_setrlimit:
++ *
++ *	* @cred points to the @cred structure for the current task.
++ *	* @tcred points to the @cred structure for the target task.
++ *	* @flags contains the %LSM_PRLIMIT_\* flag bits indicating whether the resource limits are being read, modified, or both.
++ *	* Return %0 if permission is granted.
++ *
++ * int task_setrlimit(struct task_struct \*p, unsigned int resource, struct rlimit \*new_rlim)
+  *	Check permission before setting the resource limits of process @p
+  *	for @resource to @new_rlim.  The old resource limit values can
+  *	be examined by dereferencing (p->signal->rlim + resource).
+- *	@p points to the task_struct for the target task's group leader.
+- *	@resource contains the resource whose limit is being set.
+- *	@new_rlim contains the new limits for @resource.
+- *	Return 0 if permission is granted.
+- * @task_setscheduler:
++ *
++ *	* @p points to the task_struct for the target task's group leader.
++ *	* @resource contains the resource whose limit is being set.
++ *	* @new_rlim contains the new limits for @resource.
++ *	* Return %0 if permission is granted.
++ *
++ * int task_setscheduler(struct task_struct \*p)
+  *	Check permission before setting scheduling policy and/or parameters of
+  *	process @p.
+- *	@p contains the task_struct for process.
+- *	Return 0 if permission is granted.
+- * @task_getscheduler:
++ *
++ *	* @p contains the task_struct for process.
++ *	* Return %0 if permission is granted.
++ *
++ * int task_getscheduler(struct task_struct \*p)
+  *	Check permission before obtaining scheduling information for process
+  *	@p.
+- *	@p contains the task_struct for process.
+- *	Return 0 if permission is granted.
+- * @task_movememory:
++ *
++ *	* @p contains the task_struct for process.
++ *	* Return %0 if permission is granted.
++ *
++ * int task_movememory(struct task_struct \*p)
+  *	Check permission before moving memory owned by process @p.
+- *	@p contains the task_struct for process.
+- *	Return 0 if permission is granted.
+- * @task_kill:
+- *	Check permission before sending signal @sig to @p.  @info can be NULL,
+- *	the constant 1, or a pointer to a kernel_siginfo structure.  If @info is 1 or
++ *
++ *	* @p contains the task_struct for process.
++ *	* Return %0 if permission is granted.
++ *
++ * int task_kill(struct task_struct \*p, struct kernel_siginfo \*info, int sig, const struct cred \*cred)
++ *	Check permission before sending signal @sig to @p.  @info can be %NULL,
++ *	the constant %1, or a pointer to a @kernel_siginfo structure.  If @info is %1 or
+  *	SI_FROMKERNEL(info) is true, then the signal should be viewed as coming
+  *	from the kernel and should typically be permitted.
+- *	SIGIO signals are handled separately by the send_sigiotask hook in
+- *	file_security_ops.
+- *	@p contains the task_struct for process.
+- *	@info contains the signal information.
+- *	@sig contains the signal value.
+- *	@cred contains the cred of the process where the signal originated, or
+- *	NULL if the current task is the originator.
+- *	Return 0 if permission is granted.
++ *	%SIGIO signals are handled separately by the @send_sigiotask() hook in
++ *	@file_security_ops().
++ *
++ *	* @p contains the task_struct for process.
++ *	* @info contains the signal information.
++ *	* @sig contains the signal value.
++ *	* @cred contains the cred of the process where the signal originated, or %NULL if the current task is the originator.
++ *	* Return %0 if permission is granted.
+  * @task_prctl:
+  *	Check permission before performing a process control operation on the
+  *	current process.
 -- 
 2.29.2
 
