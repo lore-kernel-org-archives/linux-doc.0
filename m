@@ -2,86 +2,81 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B592BC433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 19:32:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC856C433E9
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 20:16:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 738D265237
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 19:32:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 959796523B
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 20:16:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231283AbhCITcS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Mar 2021 14:32:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39792 "EHLO
+        id S231760AbhCIUPm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Mar 2021 15:15:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230320AbhCITb7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 14:31:59 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1E66C06174A;
-        Tue,  9 Mar 2021 11:31:58 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id x29so9481567pgk.6;
-        Tue, 09 Mar 2021 11:31:58 -0800 (PST)
+        with ESMTP id S231687AbhCIUP2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 15:15:28 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F5E0C06174A
+        for <linux-doc@vger.kernel.org>; Tue,  9 Mar 2021 12:15:28 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id lr10-20020a17090b4b8ab02900dd61b95c5eso3362390pjb.4
+        for <linux-doc@vger.kernel.org>; Tue, 09 Mar 2021 12:15:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HYJycecCKR8mJEVeAV0bVwc2FaxFgSqtKDz5fqSfG+Y=;
-        b=t/BAtgEgV5Af5sZNLuhwg2mdyygRwGzvxfza2L1PSTQ6joDvwFqZ8lbBB+By+CVx8/
-         dUqnPxqvWKnjVW+DAQdeYYddYwnXCiTXS+gRCOmwf50ydHtFaTTdJSkJD3cC8ydC+Gze
-         Ykg6oQQ7UEKaTY1Bm86L0+LFwWHnybFhTlmYqONyfIEtKyCV6u8kt68Mwh4PN6hryHfv
-         NyQsnZZCaGGMKf0/7tNfVmSnhHbiz2lRUO3BDw0/PhNNZxZAHj6hp/Aq6/Plhk3db8xN
-         RpYtQCQNgk7c14Z5nBq9fA0iRHVwjHJJxGrZ80Ymthrn9iohWPWdp4y+MEVbfYTNqJLN
-         U2JQ==
+        d=penguintechs.org; s=google;
+        h=subject:cc:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=gOeIe3TgDjIaHHmPAZjm+dCUv5aptDn0wQlbRWoodls=;
+        b=VoWl8zARrt2sRSvOzpA+nV/2A4iiB3oy1xx2idWrgNq1dweb2slj6EacyyQebRjK1t
+         s70IL39TtbSZeRxxZrJvcicJO+TBI0As3o/XN4rJqjqcj/mXNwo8cE5B400cS0o9206R
+         3nuNuyNE/iZOw7tYGx+6OYuz8p57FB+98Y6gI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HYJycecCKR8mJEVeAV0bVwc2FaxFgSqtKDz5fqSfG+Y=;
-        b=qvZXzdIu79PJh9Xo1Qe4MBs0aGFYE+4+WBDTrQdi+AILoQ+Uz4dlTzOOsNVrQmSExa
-         BYH+wfVrLgSJVGeyyggHCoT1JUBU4XJ37xdRkfXhOJgxEJAzdim6ym9EFHRcUHNnmK15
-         piqHCZXHpceeVYI2a4Z249w7UWlJcgS8pZhwPeeSAlKAIp5Ql8oQtzQ+cef9vYx99MKl
-         xBBr91ZW34FzKv1sg2bM3dZTHrRvKCzpPyufBGhb8hxmQjJQSAzBY2rAbDHTJi+UAWxr
-         250s/NXiIWWJEIURO2zYPMZHbS8166z01O26tEpQzrxW2V1R5n3cYXNAWNJ3jKt/lQzB
-         4o0A==
-X-Gm-Message-State: AOAM533479CFV0bxqnTvFNAJhdQxny9/dM9T8zRXyK0jYQVNWyNAoRYp
-        CyvGndso2WhA5JFSi6AXyo8iKymQTJq78A7cb30NuNcz
-X-Google-Smtp-Source: ABdhPJzlxVuyzwg/hJK8di9C/jil7B+Ti5mXNWdgDFd2l3Eiy/MUpPBDNiI39hYbF+32J3EexKNxVsayZLBJIl66iA0=
-X-Received: by 2002:a63:fb4d:: with SMTP id w13mr26864300pgj.233.1615318318606;
- Tue, 09 Mar 2021 11:31:58 -0800 (PST)
+        h=x-gm-message-state:subject:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=gOeIe3TgDjIaHHmPAZjm+dCUv5aptDn0wQlbRWoodls=;
+        b=fPOqTYXqEUqUaEsabm9Dk5+RqthrsxW4YqhTXdYCb5bkubkqd4n7EInr9PltgX5gWB
+         BvLzW9CdkoG0f45l47hmeKl0JKJnEcrvbv3tvw63ydiK8YlQa4p2VdX9mPerC8Qy27WG
+         F5nScyBKfwCwO1wCnHPNScEB/29KtHdQ0wIf4Lp2iilBYoWf7VFQAXEM9Gq/aUv/YN+r
+         32bsDmspyCTZcaF6rlXUDlOZlZV1fow3oM4ftHYy11UHgxwMpkzJo8vPCkm1/aCs5cKG
+         Jne+RE9kYPctQ5Ye4p9g9Gf1H9D6+eMsCmV8wSjm80utqVsfkTmy8NU2cwOKtZiy52xj
+         LM6Q==
+X-Gm-Message-State: AOAM532mHOMTa62sA0j+8eVrzjKxhxZXd+RPMWAK6T2ZRibrk4k4lhTR
+        pKrbQMcXs8u3werJgdjk9QH3usFfN2Hmkg==
+X-Google-Smtp-Source: ABdhPJxeBq1VrxlJFzHRE6iXKDhZjXL/E6YbG4bh36Wka0alhMnMW322XiHBsNIUoND7EgeiU0wz8w==
+X-Received: by 2002:a17:90b:e08:: with SMTP id ge8mr6285905pjb.130.1615320927417;
+        Tue, 09 Mar 2021 12:15:27 -0800 (PST)
+Received: from braindead.localdomain (c-71-202-115-154.hsd1.ca.comcast.net. [71.202.115.154])
+        by smtp.gmail.com with ESMTPSA id h19sm940616pfc.172.2021.03.09.12.15.26
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Mar 2021 12:15:26 -0800 (PST)
+Subject: Re: [PATCH v3] Expose the bus kernel docs to the build docs.
+Cc:     linux-doc@vger.kernel.org
+References: <20210307031611.GU2723601@casper.infradead.org>
+ <20210308191417.4750-1-wt@penguintechs.org>
+From:   Wren Turkal <wt@penguintechs.org>
+Message-ID: <db8e8ee0-e07b-8303-0150-b6ac78fd84c1@penguintechs.org>
+Date:   Tue, 9 Mar 2021 12:15:25 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210305054312.254922-1-xie.he.0141@gmail.com> <4b30ca506b0d79ef5ba1a5e9ce9cf2cd@dev.tdt.de>
-In-Reply-To: <4b30ca506b0d79ef5ba1a5e9ce9cf2cd@dev.tdt.de>
-From:   Xie He <xie.he.0141@gmail.com>
-Date:   Tue, 9 Mar 2021 11:31:47 -0800
-Message-ID: <CAJht_EM7Wtmtwi4=vEybSNbQrNmugC7HCLYcAjM07gEgeRtHMA@mail.gmail.com>
-Subject: Re: [PATCH net-next RFC] net: x25: Queue received packets in the
- drivers instead of per-CPU queues
-To:     Martin Schiller <ms@dev.tdt.de>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Halasa <khc@pm.waw.pl>,
-        Linux X25 <linux-x25@vger.kernel.org>,
-        Linux Kernel Network Developers <netdev@vger.kernel.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210308191417.4750-1-wt@penguintechs.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 9, 2021 at 5:23 AM Martin Schiller <ms@dev.tdt.de> wrote:
->
-> I've tested the hdlc_x25 driver.
-> Looks good to me.
->
-> Acked-by: Martin Schiller <ms@dev.tdt.de>
+I have a really dumb question. Should I see this patch somewhere in 
+patchwork? I can't find it on there.
 
-Thank you!!
-
-I'll re-send this patch after net-next is re-opened and my other fixes
-get merged into net-next.
-
-Thanks!
+Thanks,
+wt
+-- 
+You're more amazing than you think! ymatyt.com
