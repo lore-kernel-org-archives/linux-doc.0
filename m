@@ -2,107 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0911C433DB
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 19:17:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B592BC433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 19:32:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7ADD465237
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 19:17:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 738D265237
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 19:32:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230525AbhCITRF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Mar 2021 14:17:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43764 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230266AbhCITQe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 14:16:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1615317393;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=NX2Ui67bf//+KP/eW8dWn0/fgTw1ajXOOPWCljlmmag=;
-        b=MUSG/JcEHhtLxA15i44L6gqnvD986i8RWLntoOmbSCwiwKPzxAIb/97qzV6zRQkd4UAPv3
-        ixfiNiLP7Ki4z3xeCVsy522GMSPhfvxhkpMrGinyb8ocwbcxEHi+8FkScAcCsRw3eGkROL
-        LJcgQYCrA7wN6/ShNgx9Q67tQR7A/xw=
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
- [209.85.215.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-K0xq641SPsKarGO0cDRngw-1; Tue, 09 Mar 2021 14:16:32 -0500
-X-MC-Unique: K0xq641SPsKarGO0cDRngw-1
-Received: by mail-pg1-f200.google.com with SMTP id x36so8205171pgl.8
-        for <linux-doc@vger.kernel.org>; Tue, 09 Mar 2021 11:16:32 -0800 (PST)
+        id S231283AbhCITcS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Mar 2021 14:32:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39792 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230320AbhCITb7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 14:31:59 -0500
+Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1E66C06174A;
+        Tue,  9 Mar 2021 11:31:58 -0800 (PST)
+Received: by mail-pg1-x531.google.com with SMTP id x29so9481567pgk.6;
+        Tue, 09 Mar 2021 11:31:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HYJycecCKR8mJEVeAV0bVwc2FaxFgSqtKDz5fqSfG+Y=;
+        b=t/BAtgEgV5Af5sZNLuhwg2mdyygRwGzvxfza2L1PSTQ6joDvwFqZ8lbBB+By+CVx8/
+         dUqnPxqvWKnjVW+DAQdeYYddYwnXCiTXS+gRCOmwf50ydHtFaTTdJSkJD3cC8ydC+Gze
+         Ykg6oQQ7UEKaTY1Bm86L0+LFwWHnybFhTlmYqONyfIEtKyCV6u8kt68Mwh4PN6hryHfv
+         NyQsnZZCaGGMKf0/7tNfVmSnhHbiz2lRUO3BDw0/PhNNZxZAHj6hp/Aq6/Plhk3db8xN
+         RpYtQCQNgk7c14Z5nBq9fA0iRHVwjHJJxGrZ80Ymthrn9iohWPWdp4y+MEVbfYTNqJLN
+         U2JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NX2Ui67bf//+KP/eW8dWn0/fgTw1ajXOOPWCljlmmag=;
-        b=dr9TLJGKuRDKRwKH9/hqkZ+DVWLp8j2xhpa/2RVc2iKBDp4srur9s3Ci704LHpWbCH
-         s1Bk4ihp4mGe4F7rVh6blN4zgUoyayee6ZqSAag3TNiPfEoBjubbOJAcpnjAgIg1jQ1e
-         9nmkHVUySjcki4TeZD5/VxLwz2RuaSrKxxe14/mbez1/e1r0X80kmvktobTNplD37T6W
-         zxtbqENkaeEyYczoLNucgfCF7mOlIbdwYI1Sxoi8OlVbUu65ZVMooaJeJAUnDJXZJkSm
-         1W2Yd6kZ5u/CagFl/n63MPPqJ97xaLa9x4WV73yXYPFnz8Q8MctAycI3cnW9XDdI+1l5
-         ed0Q==
-X-Gm-Message-State: AOAM530bJNrvAnA8zEil2nbBqDuDx/Dw6Ez2Az3oAXkPaQ/a47Wer/91
-        Q3bd9kMOSTPtVnF+qW48/MlwLJ7vhR7y3EwNRK2o3kjTA9TiO6ADwKRAISf7xGKvWEZORCHVFlk
-        r+FHehP1svuYIpno/RTqicvYCQVrsBwNgG5rH2rX+nXiLBLulesym8nvL1D7FTvfI7ghNzgD2dQ
-        ==
-X-Received: by 2002:a17:902:8c97:b029:e2:8c58:153f with SMTP id t23-20020a1709028c97b02900e28c58153fmr5189060plo.79.1615317391237;
-        Tue, 09 Mar 2021 11:16:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy5rJhW4yXYjytN62DgfnhiNkJtbpbGTaCD/5FN7tzx4XcEd1FJBhQnm9PzjdTGT7OuEEE3aA==
-X-Received: by 2002:a17:902:8c97:b029:e2:8c58:153f with SMTP id t23-20020a1709028c97b02900e28c58153fmr5189020plo.79.1615317390869;
-        Tue, 09 Mar 2021 11:16:30 -0800 (PST)
-Received: from xiangao.remote.csb ([209.132.188.80])
-        by smtp.gmail.com with ESMTPSA id mu6sm3541566pjb.35.2021.03.09.11.16.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Mar 2021 11:16:30 -0800 (PST)
-From:   Gao Xiang <hsiangkao@redhat.com>
-To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-kernel@vger.kernel.org, Gao Xiang <hsiangkao@redhat.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Zefan Li <lizefan.x@bytedance.com>
-Subject: [PATCH] Documentation: sysrq: update description about sysrq crash
-Date:   Wed, 10 Mar 2021 03:15:50 +0800
-Message-Id: <20210309191550.3955601-1-hsiangkao@redhat.com>
-X-Mailer: git-send-email 2.27.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HYJycecCKR8mJEVeAV0bVwc2FaxFgSqtKDz5fqSfG+Y=;
+        b=qvZXzdIu79PJh9Xo1Qe4MBs0aGFYE+4+WBDTrQdi+AILoQ+Uz4dlTzOOsNVrQmSExa
+         BYH+wfVrLgSJVGeyyggHCoT1JUBU4XJ37xdRkfXhOJgxEJAzdim6ym9EFHRcUHNnmK15
+         piqHCZXHpceeVYI2a4Z249w7UWlJcgS8pZhwPeeSAlKAIp5Ql8oQtzQ+cef9vYx99MKl
+         xBBr91ZW34FzKv1sg2bM3dZTHrRvKCzpPyufBGhb8hxmQjJQSAzBY2rAbDHTJi+UAWxr
+         250s/NXiIWWJEIURO2zYPMZHbS8166z01O26tEpQzrxW2V1R5n3cYXNAWNJ3jKt/lQzB
+         4o0A==
+X-Gm-Message-State: AOAM533479CFV0bxqnTvFNAJhdQxny9/dM9T8zRXyK0jYQVNWyNAoRYp
+        CyvGndso2WhA5JFSi6AXyo8iKymQTJq78A7cb30NuNcz
+X-Google-Smtp-Source: ABdhPJzlxVuyzwg/hJK8di9C/jil7B+Ti5mXNWdgDFd2l3Eiy/MUpPBDNiI39hYbF+32J3EexKNxVsayZLBJIl66iA0=
+X-Received: by 2002:a63:fb4d:: with SMTP id w13mr26864300pgj.233.1615318318606;
+ Tue, 09 Mar 2021 11:31:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210305054312.254922-1-xie.he.0141@gmail.com> <4b30ca506b0d79ef5ba1a5e9ce9cf2cd@dev.tdt.de>
+In-Reply-To: <4b30ca506b0d79ef5ba1a5e9ce9cf2cd@dev.tdt.de>
+From:   Xie He <xie.he.0141@gmail.com>
+Date:   Tue, 9 Mar 2021 11:31:47 -0800
+Message-ID: <CAJht_EM7Wtmtwi4=vEybSNbQrNmugC7HCLYcAjM07gEgeRtHMA@mail.gmail.com>
+Subject: Re: [PATCH net-next RFC] net: x25: Queue received packets in the
+ drivers instead of per-CPU queues
+To:     Martin Schiller <ms@dev.tdt.de>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Halasa <khc@pm.waw.pl>,
+        Linux X25 <linux-x25@vger.kernel.org>,
+        Linux Kernel Network Developers <netdev@vger.kernel.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-After commit 8341f2f222d7 ("sysrq: Use panic() to force a crash"),
-a crash was not generated by dereferencing a NULL pointer anymore.
+On Tue, Mar 9, 2021 at 5:23 AM Martin Schiller <ms@dev.tdt.de> wrote:
+>
+> I've tested the hdlc_x25 driver.
+> Looks good to me.
+>
+> Acked-by: Martin Schiller <ms@dev.tdt.de>
 
-Let's update documentation as well to make it less misleading.
+Thank you!!
 
-Cc: Matthias Kaehlcke <mka@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Zefan Li <lizefan.x@bytedance.com>
-Signed-off-by: Gao Xiang <hsiangkao@redhat.com>
----
- Documentation/admin-guide/sysrq.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I'll re-send this patch after net-next is re-opened and my other fixes
+get merged into net-next.
 
-diff --git a/Documentation/admin-guide/sysrq.rst b/Documentation/admin-guide/sysrq.rst
-index 67dfa4c29093..60ce5f5ebab6 100644
---- a/Documentation/admin-guide/sysrq.rst
-+++ b/Documentation/admin-guide/sysrq.rst
-@@ -90,8 +90,8 @@ Command	    Function
- ``b``	    Will immediately reboot the system without syncing or unmounting
-             your disks.
- 
--``c``	    Will perform a system crash by a NULL pointer dereference.
--            A crashdump will be taken if configured.
-+``c``	    Will perform a system crash and a crashdump will be taken
-+            if configured.
- 
- ``d``	    Shows all locks that are held.
- 
--- 
-2.27.0
-
+Thanks!
