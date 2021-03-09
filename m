@@ -2,203 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A2DC433DB
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 16:12:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A076C43381
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 16:35:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A02C3650BB
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 16:12:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 115CB65238
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 16:35:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231811AbhCIQLw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Mar 2021 11:11:52 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33714 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231919AbhCIQL3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Mar 2021 11:11:29 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D2F4C64FBD;
-        Tue,  9 Mar 2021 16:11:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615306289;
-        bh=jP4SlGRYL9z9+eyGPwRsaTLzvGEXcjhnvO8W76wpgNg=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=ZVrTVRlsTUZ6UvAFSqnFRXzFTuQ+RTH+KKVz80hwNJhcVb8oPDqu3VUXPxU08MljE
-         KwQn8X4P+k3aO/P71x48UcI3mUXon9e0sO13vmZTlYMgq5vLgEnwqAFq9sKDfMkxTd
-         mDT80HetJ45/BY6gIZetj74YgC344aL8/8eHU48l2pI2a5a9g64isjQpFurdbGLNpM
-         1ycmOuKDCP2N2pkLoFejOEAw0aDIBrZeyVy/G/6GwYn4rhVAfdqB5arhHGktPsqT5V
-         PeMh/vzPynAhkBZcSvYJte7w9F2ZVQNfDAeX5D1G++lMklup3F8WUxdNtaqCcjZCBh
-         DYVpOQRq4uP0g==
-Received: by mail-ej1-f51.google.com with SMTP id mm21so29127530ejb.12;
-        Tue, 09 Mar 2021 08:11:28 -0800 (PST)
-X-Gm-Message-State: AOAM532T7NmkX/hNtCfMVF5q3eEgNw8crSJFhcaNx+IFZWOk9iNMQg71
-        ErdB+TjmR+QOtRKIININtW9Sa+63bED9c4aPjg==
-X-Google-Smtp-Source: ABdhPJyUkLV5udpIPwopun4y9FIyMOM7Kb/GLOh2/MhA1kzOLho0N807A6srQjeEqqxkaM/xpiP2WAOCDXgqauEOczc=
-X-Received: by 2002:a17:906:25c4:: with SMTP id n4mr21228200ejb.359.1615306287477;
- Tue, 09 Mar 2021 08:11:27 -0800 (PST)
+        id S230445AbhCIQei (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Mar 2021 11:34:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57650 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230457AbhCIQeQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 11:34:16 -0500
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B515C061760
+        for <linux-doc@vger.kernel.org>; Tue,  9 Mar 2021 08:34:15 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id h4so21486496ljl.0
+        for <linux-doc@vger.kernel.org>; Tue, 09 Mar 2021 08:34:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EInm0LEnIi7XLKD6zyKq8F4CqLBLvPBrEiCalMxA2ew=;
+        b=QFCUfjyZ4xnhe0B+dyRwT4L7N42IypkyBWHBEcDUQLyrvB1LT+5M1yqzKzbOba5dQ4
+         RsmcLSF8OBfOJotv21zMWOFayWlqRkAvd6OaQaKUZrSFzfCx7VThVzmcMyprHOix0c3z
+         Ft6zo0djGIu9DR/IZJNnJmPEuDUibch6vSohkq3tH5bnOIB8nilOj0y2BdkeVxZzxR51
+         hxQ8qQ2Ukx+t1Tf0q5JBwOD9wdfugEvno+I4uDWrEgwP49b0GCsQ8A6EGAIQj1i9VwTz
+         zPigDd3wds5T7tibLYVgBzIBpTJiUNO0ZTOnaR41f+d1Cg1uwExHIPs7xtsCnjCZS7eU
+         K5nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EInm0LEnIi7XLKD6zyKq8F4CqLBLvPBrEiCalMxA2ew=;
+        b=tYqBjqaz3IZ5TT51bob8nPJJ2BWBel6dEIHPfb3e26xBbOEYZsEdzmbbTAabUd6Lhg
+         hocC7qyWqUC6EUvX260kGJsQEPJLJc0TcARG6nPjQALW56741ZZxxF9EwJ2imedymBTg
+         IjBVqvQYfSmaNJCwEPB8oV+NpHlrL33g6aQxjXjlXuuh326Xn2fqzMem/vYavkqwctCa
+         TeyAbXFjhqqNcHmUlScfhgoZfSC9c3XHjB4i0t4SOMcefz/cWwkMe1GU8YAIUidoPRNe
+         quuVW3MkzvxRtnweMkloRPLrO0fwChMknWRZozeAL4oSKMWPFgnkC5Wqwr18dQD/8KSJ
+         sqRw==
+X-Gm-Message-State: AOAM531wqdJqk/f9tFsut8kx/HCFEmYapiM7eKsmnFhMBnOzGbND7XQA
+        OOo6EmWe9ePugqFbnmDxPfqWWfZs0rmgvcNR7T4jWg==
+X-Google-Smtp-Source: ABdhPJwNXAb9NrkkJhTzXglp6OzgZuNzRajKOhmHnYIlN9N9Kod+C9/W2ePM1dzVD0/tuS4O8FWQKlypJ/aXUx+mFvQ=
+X-Received: by 2002:a2e:864a:: with SMTP id i10mr16949254ljj.467.1615307653884;
+ Tue, 09 Mar 2021 08:34:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-7-marcan@marcan.st>
- <20210308203841.GA2906683@robh.at.kernel.org> <87zgzdqnbs.wl-maz@kernel.org>
-In-Reply-To: <87zgzdqnbs.wl-maz@kernel.org>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 9 Mar 2021 09:11:15 -0700
-X-Gmail-Original-Message-ID: <CAL_JsqJVmr+23HDN-7Wjbrkh5jt=4dbU9y1iUqDu1nPOV2+38Q@mail.gmail.com>
-Message-ID: <CAL_JsqJVmr+23HDN-7Wjbrkh5jt=4dbU9y1iUqDu1nPOV2+38Q@mail.gmail.com>
-Subject: Re: [RFT PATCH v3 06/27] dt-bindings: timer: arm,arch_timer: Add
- interrupt-names support
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     Hector Martin <marcan@marcan.st>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        devicetree@vger.kernel.org,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+References: <20210308194535.66394-1-andriy.shevchenko@linux.intel.com> <20210308194535.66394-2-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20210308194535.66394-2-andriy.shevchenko@linux.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Tue, 9 Mar 2021 17:34:02 +0100
+Message-ID: <CACRpkdZO7TPcz6p8Gfavqd1SboCt7ZXwFa4+4TuWNTZuoXZqgg@mail.gmail.com>
+Subject: Re: [PATCH v5 1/6] irqdomain: Introduce irq_domain_create_simple() API
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
-        <linux-arch@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 8, 2021 at 3:42 PM Marc Zyngier <maz@kernel.org> wrote:
->
-> On Mon, 08 Mar 2021 20:38:41 +0000,
-> Rob Herring <robh@kernel.org> wrote:
-> >
-> > On Fri, Mar 05, 2021 at 06:38:41AM +0900, Hector Martin wrote:
-> > > Not all platforms provide the same set of timers/interrupts, and Linux
-> > > only needs one (plus kvm/guest ones); some platforms are working around
-> > > this by using dummy fake interrupts. Implementing interrupt-names allows
-> > > the devicetree to specify an arbitrary set of available interrupts, so
-> > > the timer code can pick the right one.
-> > >
-> > > This also adds the hyp-virt timer/interrupt, which was previously not
-> > > expressed in the fixed 4-interrupt form.
-> > >
-> > > Signed-off-by: Hector Martin <marcan@marcan.st>
-> > > ---
-> > >  .../devicetree/bindings/timer/arm,arch_timer.yaml  | 14 ++++++++++++++
-> > >  1 file changed, 14 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml b/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
-> > > index 2c75105c1398..ebe9b0bebe41 100644
-> > > --- a/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
-> > > +++ b/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
-> > > @@ -34,11 +34,25 @@ properties:
-> > >                - arm,armv8-timer
-> > >
-> > >    interrupts:
-> > > +    minItems: 1
-> > > +    maxItems: 5
-> > >      items:
-> > >        - description: secure timer irq
-> > >        - description: non-secure timer irq
-> > >        - description: virtual timer irq
-> > >        - description: hypervisor timer irq
-> > > +      - description: hypervisor virtual timer irq
-> > > +
-> > > +  interrupt-names:
-> > > +    minItems: 1
-> > > +    maxItems: 5
-> > > +    items:
-> > > +      enum:
-> > > +        - phys-secure
-> > > +        - phys
-> > > +        - virt
-> > > +        - hyp-phys
-> > > +        - hyp-virt
-> >
-> > phys-secure and hyp-phys is not very consistent. secure-phys or sec-phys
-> > instead?
-> >
-> > This allows any order which is not ideal (unfortunately json-schema
-> > doesn't have a way to define order with optional entries in the middle).
-> > How many possible combinations are there which make sense? If that's a
-> > reasonable number, I'd rather see them listed out.
->
-> The available of interrupts are a function of the number of security
-> states, privileged exception levels and architecture revisions, as
-> described in D11.1.1:
->
-> <quote>
-> - An EL1 physical timer.
-> - A Non-secure EL2 physical timer.
-> - An EL3 physical timer.
-> - An EL1 virtual timer.
-> - A Non-secure EL2 virtual timer.
-> - A Secure EL2 virtual timer.
-> - A Secure EL2 physical timer.
-> </quote>
->
-> * Single security state, EL1 only, ARMv7 & ARMv8.0+ (assumed NS):
->   - physical, virtual
->
-> * Single security state, EL1 + EL2, ARMv7 & ARMv8.0 (assumed NS)
->   - physical, virtual, hyp physical
->
-> * Single security state, EL1 + EL2, ARMv8.1+ (assumed NS)
->   - physical, virtual, hyp physical, hyp virtual
->
-> * Two security states, EL1 + EL3, ARMv7 & ARMv8.0+:
->   - secure physical, physical, virtual
->
-> * Two security states, EL1 + EL2 + EL3, ARMv7 & ARMv8.0
->   - secure physical, physical, virtual, hyp physical
->
-> * Two security states, EL1 + EL2 + EL3, ARMv8.1+
->   - secure physical, physical, virtual, hyp physical, hyp virtual
->
-> * Two security states, EL1 + EL2 + S-EL2 + EL3, ARMv8.4+
->   - secure physical, physical, virtual, hyp physical, hyp virtual,
->     secure hyp physical, secure hyp virtual
->
-> Nobody has seen the last combination in the wild (that is, outside of
-> a SW model).
->
-> I'm really not convinced we want to express this kind of complexity in
-> the binding (each of the 7 cases), specially given that we don't
-> encode the underlying HW architecture level or number of exception
-> levels anywhere, and have ho way to validate such information.
+On Mon, Mar 8, 2021 at 8:45 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-Actually, we can simplify this down to 2 cases:
+> Linus Walleij pointed out that ird_domain_add_simple() gained
+> additional functionality and can't be anymore replaced with
+> a simple conditional. In preparation to upgrade GPIO library
+> to use fwnode, introduce irq_domain_create_simple() API which is
+> functional equivalent to the existing irq_domain_add_simple(),
+> but takes a pointer to the struct fwnode_handle as a parameter.
+>
+> While at it, amend documentation to mention irq_domain_create_*()
+> functions where it makes sense.
+>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Acked-by: Marc Zyngier <maz@kernel.org>
 
-oneOf:
-  - minItems: 2
-    items:
-      - const: phys
-      - const: virt
-      - const: hyp-phys
-      - const: hyp-virt
-  - minItems: 3
-    items:
-      - const: sec-phys
-      - const: phys
-      - const: virt
-      - const: hyp-phys
-      - const: hyp-virt
-      - const: sec-hyp-phy
-      - const: sec-hyp-virt
+Excellent work Andy!
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
-And that's below my threshold for not worth the complexity.
+I suggest Bartosz just apply this with the rest to the GPIO tree.
 
-Rob
+Yours,
+Linus Walleij
