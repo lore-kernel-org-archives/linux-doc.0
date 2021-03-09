@@ -2,81 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC856C433E9
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 20:16:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACA7AC433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 20:24:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 959796523B
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 20:16:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FCED6522B
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 20:24:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231760AbhCIUPm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Mar 2021 15:15:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49190 "EHLO
+        id S231366AbhCIUYW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Mar 2021 15:24:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231687AbhCIUP2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 15:15:28 -0500
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F5E0C06174A
-        for <linux-doc@vger.kernel.org>; Tue,  9 Mar 2021 12:15:28 -0800 (PST)
-Received: by mail-pj1-x102a.google.com with SMTP id lr10-20020a17090b4b8ab02900dd61b95c5eso3362390pjb.4
-        for <linux-doc@vger.kernel.org>; Tue, 09 Mar 2021 12:15:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=penguintechs.org; s=google;
-        h=subject:cc:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=gOeIe3TgDjIaHHmPAZjm+dCUv5aptDn0wQlbRWoodls=;
-        b=VoWl8zARrt2sRSvOzpA+nV/2A4iiB3oy1xx2idWrgNq1dweb2slj6EacyyQebRjK1t
-         s70IL39TtbSZeRxxZrJvcicJO+TBI0As3o/XN4rJqjqcj/mXNwo8cE5B400cS0o9206R
-         3nuNuyNE/iZOw7tYGx+6OYuz8p57FB+98Y6gI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=gOeIe3TgDjIaHHmPAZjm+dCUv5aptDn0wQlbRWoodls=;
-        b=fPOqTYXqEUqUaEsabm9Dk5+RqthrsxW4YqhTXdYCb5bkubkqd4n7EInr9PltgX5gWB
-         BvLzW9CdkoG0f45l47hmeKl0JKJnEcrvbv3tvw63ydiK8YlQa4p2VdX9mPerC8Qy27WG
-         F5nScyBKfwCwO1wCnHPNScEB/29KtHdQ0wIf4Lp2iilBYoWf7VFQAXEM9Gq/aUv/YN+r
-         32bsDmspyCTZcaF6rlXUDlOZlZV1fow3oM4ftHYy11UHgxwMpkzJo8vPCkm1/aCs5cKG
-         Jne+RE9kYPctQ5Ye4p9g9Gf1H9D6+eMsCmV8wSjm80utqVsfkTmy8NU2cwOKtZiy52xj
-         LM6Q==
-X-Gm-Message-State: AOAM532mHOMTa62sA0j+8eVrzjKxhxZXd+RPMWAK6T2ZRibrk4k4lhTR
-        pKrbQMcXs8u3werJgdjk9QH3usFfN2Hmkg==
-X-Google-Smtp-Source: ABdhPJxeBq1VrxlJFzHRE6iXKDhZjXL/E6YbG4bh36Wka0alhMnMW322XiHBsNIUoND7EgeiU0wz8w==
-X-Received: by 2002:a17:90b:e08:: with SMTP id ge8mr6285905pjb.130.1615320927417;
-        Tue, 09 Mar 2021 12:15:27 -0800 (PST)
-Received: from braindead.localdomain (c-71-202-115-154.hsd1.ca.comcast.net. [71.202.115.154])
-        by smtp.gmail.com with ESMTPSA id h19sm940616pfc.172.2021.03.09.12.15.26
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Mar 2021 12:15:26 -0800 (PST)
-Subject: Re: [PATCH v3] Expose the bus kernel docs to the build docs.
-Cc:     linux-doc@vger.kernel.org
-References: <20210307031611.GU2723601@casper.infradead.org>
- <20210308191417.4750-1-wt@penguintechs.org>
-From:   Wren Turkal <wt@penguintechs.org>
-Message-ID: <db8e8ee0-e07b-8303-0150-b6ac78fd84c1@penguintechs.org>
-Date:   Tue, 9 Mar 2021 12:15:25 -0800
+        with ESMTP id S231272AbhCIUX7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 15:23:59 -0500
+Received: from mail.marcansoft.com (marcansoft.com [IPv6:2a01:298:fe:f::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D4F5C06175F;
+        Tue,  9 Mar 2021 12:23:59 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: marcan@marcan.st)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id E5D233FA6A;
+        Tue,  9 Mar 2021 20:23:49 +0000 (UTC)
+To:     Rob Herring <robh@kernel.org>, Arnd Bergmann <arnd@kernel.org>
+Cc:     linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Marc Zyngier <maz@kernel.org>, Olof Johansson <olof@lixom.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Will Deacon <will@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        DTML <devicetree@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
+        <linux-arch@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20210304213902.83903-1-marcan@marcan.st>
+ <20210304213902.83903-13-marcan@marcan.st>
+ <CAL_JsqJF2Hz=4U7FR_GOSjCxqt3dpf-CAWFNfsSrDjDLpHqgCA@mail.gmail.com>
+ <6e4880b3-1fb6-0cbf-c1a5-7a46fd9ccf62@marcan.st>
+ <CAK8P3a0Hmwt-ywzS-2eEmqyQ0v2SxLsLxFwfTUoWwbzCrBNhsQ@mail.gmail.com>
+ <CAL_JsqJHRM59GC3FjvaGLCELemy1uspnGvTEFH6q0OdyBPVSjA@mail.gmail.com>
+ <CAK8P3a0_GBB-VYFO5NaySyBJDN2Ra-WMH4WfFrnzgOejmJVG8g@mail.gmail.com>
+ <20210308211306.GA2920998@robh.at.kernel.org>
+ <CAK8P3a2GfzUevuQNZeQarJ4GNFsuDj0g7oFuN940Hdaw06YJbA@mail.gmail.com>
+ <CAL_JsqK8FagJyQVyG5DAocUjLGZT91b6NzDm_DNMW1hdCz51Xg@mail.gmail.com>
+From:   Hector Martin <marcan@marcan.st>
+Subject: Re: [RFT PATCH v3 12/27] of/address: Add infrastructure to declare
+ MMIO as non-posted
+Message-ID: <c5693760-3b18-e8f1-18b6-bae42c05d329@marcan.st>
+Date:   Wed, 10 Mar 2021 05:23:47 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210308191417.4750-1-wt@penguintechs.org>
+In-Reply-To: <CAL_JsqK8FagJyQVyG5DAocUjLGZT91b6NzDm_DNMW1hdCz51Xg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Language: es-ES
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I have a really dumb question. Should I see this patch somewhere in 
-patchwork? I can't find it on there.
+On 10/03/2021 00.48, Rob Herring wrote:
+> On Mon, Mar 8, 2021 at 2:56 PM Arnd Bergmann <arnd@kernel.org> wrote:
+>>
+>> On Mon, Mar 8, 2021 at 10:14 PM Rob Herring <robh@kernel.org> wrote:
+>>> On Mon, Mar 08, 2021 at 09:29:54PM +0100, Arnd Bergmann wrote:
+>>>> On Mon, Mar 8, 2021 at 4:56 PM Rob Herring <robh@kernel.org> wrote:
+>>>
+>>> Let's just stick with 'nonposted-mmio', but drop 'posted-mmio'. I'd
+>>> rather know if and when we need 'posted-mmio'. It does need to be added
+>>> to the DT spec[1] and schema[2] though (GH PRs are fine for both).
+>>
+>> I think the reason for having "posted-mmio" is that you cannot properly
+>> define the PCI host controller nodes on the M1 without that: Since
+>> nonposted-mmio applies to all child nodes, this would mean the PCI
+>> memory space gets declared as nonposted by the DT, but the hardware
+>> requires it to be mapped as posted.
+> 
+> I don't think so. PCI devices wouldn't use any of the code paths in
+> this patch. They would map their memory space with plain ioremap()
+> which is posted.
 
-Thanks,
-wt
+My main concern here is that this creates an inconsistency in the device 
+tree representation that only works because PCI drivers happen not to 
+use these code paths. Logically, having "nonposted-mmio" above the PCI 
+controller would imply that it applies to that bus too. Sure, it doesn't 
+matter for Linux since it is ignored, but this creates an implicit 
+exception that PCI buses always use posted modes.
+
+Then if a device comes along that due to some twisted fabric logic needs 
+nonposted nGnRnE mappings for PCIe (even though the actual PCIe ops will 
+end up posted at the bus anyway)... how do we represent that? Declare 
+that another "nonposted-mmio" on the PCIe bus means "no, really, use 
+nonposted mmio for this"?
+
 -- 
-You're more amazing than you think! ymatyt.com
+Hector Martin (marcan@marcan.st)
+Public Key: https://mrcn.st/pub
