@@ -2,128 +2,189 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22344C433E9
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 22:07:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C0BAC433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 22:39:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E9F0065062
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 22:07:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5281264F48
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 22:39:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231958AbhCIWGt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Mar 2021 17:06:49 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44584 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230173AbhCIWG0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Mar 2021 17:06:26 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BD71165092;
-        Tue,  9 Mar 2021 22:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615327585;
-        bh=Yv8N+lvXzeDwu/BV9QWlF/ECq72HLpbo3iSHF+ZDqfA=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=b9PbhBz+g4RuhQnFFoZGqEnaAdoqx/n8ibHQd9UksEzDN3OCX8g8VaguKgjXoL8J9
-         aK9u69eyvc/BWTuwS8lIYuYCkHy59HLZXXgXNYp9FjDiau6yjAt2HeUm+013Kw5Je2
-         fOmbG/pfsOiHIO87xqtO5925x7LNyMkFRL8jPM+CqOD5WKNM8wZsVtU+E/xPq3BAgh
-         yD6Xj9V9NiRiYM65qk/6iUIk20/73ihjOCansOlQuZAZb99W+QpfrcANFglpfGkGoK
-         O/oUo6ct+GlE7wJQiPrS/ZXY9h2uDPHBVRRnlHVtGMPgVJlSGmB+yRs1lzMXstoZju
-         IJg8ssOyCZa/A==
-Received: by mail-qv1-f54.google.com with SMTP id x13so7242173qvj.7;
-        Tue, 09 Mar 2021 14:06:25 -0800 (PST)
-X-Gm-Message-State: AOAM532qu2xyOXoypO2VVCZQqxMgebdhYqG4qhMXKNL4yOgMSpEUqAyY
-        1Iu+rWriPgAtHc2G/20/myanriqS9kdq89tdVw==
-X-Google-Smtp-Source: ABdhPJy1C6AzP09b9wus1ZVT5E/CtXLEugZNjwqSvxHP9P4lOiRLRzFWXQ3jpvPXSnSw2MikeoWzpKJ2j9KJLzk621o=
-X-Received: by 2002:a0c:f092:: with SMTP id g18mr201509qvk.11.1615327584670;
- Tue, 09 Mar 2021 14:06:24 -0800 (PST)
+        id S230450AbhCIWjG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Mar 2021 17:39:06 -0500
+Received: from mail-bn8nam12on2046.outbound.protection.outlook.com ([40.107.237.46]:31425
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230086AbhCIWil (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Mar 2021 17:38:41 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Uu5np9HMa+aeEQOhJ4LUVL3v/X7YAYiazWTOSgMzbGNm7L19ywU4wSDqNOzPCTBun2Z13up3QVXfu6Hb08/5qHPGAVGGDvGfnTLsmeDBNEv59XbIPMj2jVIn2Y1YKKIknMv8C44E21ukjUMHSYzBgZYwXDcR47ksytbbzoceaHZc6RImHEYSzyCsL7lq/Zpu/EOJfzg4MIkHAkCV4uRgcSl65nWXmp6iGuVs2yaLDE5amWiWayuiinaHDqaGnXL8VWcbfmSBwLkDRohv5QQ6c6mV6KMB1mDnb6/qXppQoDyM+Ya9CxLqL22hITCss6VoU8XgwU8TJTmPe8pU6r8QIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vjmm3izY2BFjD/mNXDCW0CyvtiJ9fItFsvR23ZEDbHc=;
+ b=mjQK8PSwm3EY9TXhVZPyoOvEj/qLaDqyFeRyXloiphuqrxu34X4IQW3OU9eOs4k+QjQpVF95+Gtb2vHwMXjkyWB+Y2LZKKjPlRK3/X1MgREYr0ZxuAprTmi0/QefUiogGiMEIfhcheo4USV8hvDXIYqXcqchbaRncpW8KhSLOi22zAb17E7PiDahYv7r7xzcGeWSP++5rXJP3lYPKakogI2gQM+c0MNRi31tCxx+MxOUBfL6GD2zsdhhamT+TVnbDZ7Am0ovXNVZsa2oIP4uKD8XBFqjqLyj2MeyTjA51nznZU+zP+3Co3qWBUWMOJ1XJlhjv5kzmEwx+dxpgntUAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vjmm3izY2BFjD/mNXDCW0CyvtiJ9fItFsvR23ZEDbHc=;
+ b=Q/JZ+bZUBlRSbPJwSACjXqK/zvloxfyAKgCBwaZJtJ6AqVu3GfXBEloo19RkZou5egC6RM8DSXApIVFt46Md1y6p0QRzKW8A44dUB/XvCKdnzzipMYRh6d7XaMqFUKEwNKpLfvviLCPE56ZmJQbKIVLz/4cO7D1l+qu1M9RXZdCpe8gntiqV6NRWUTvvvEJbaI8bbBPAZ5+ZaIUayhyqpziSJ+v88fizisBIUhrGHfBBHchNPoUr0e+bPJjzbUeSH4lDkUOb5DIrfS+4WlJd2pnKl+oxW5gax9Jhz3tGhGE9mRx5WTF2IrPist3drgWBgGkatM+XSzwU4fTPf/gkQg==
+Received: from DM5PR19CA0013.namprd19.prod.outlook.com (2603:10b6:3:151::23)
+ by DM5PR1201MB0218.namprd12.prod.outlook.com (2603:10b6:4:4d::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19; Tue, 9 Mar
+ 2021 22:38:39 +0000
+Received: from DM6NAM11FT040.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:151:cafe::5f) by DM5PR19CA0013.outlook.office365.com
+ (2603:10b6:3:151::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
+ Transport; Tue, 9 Mar 2021 22:38:39 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ DM6NAM11FT040.mail.protection.outlook.com (10.13.173.133) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.3912.17 via Frontend Transport; Tue, 9 Mar 2021 22:38:39 +0000
+Received: from localhost (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 9 Mar
+ 2021 22:38:38 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
+        <bskeggs@redhat.com>, <akpm@linux-foundation.org>
+CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <jhubbard@nvidia.com>, <rcampbell@nvidia.com>,
+        <jglisse@redhat.com>, "Alistair Popple" <apopple@nvidia.com>
+Subject: [PATCH v5 7/8] nouveau/svm: Refactor nouveau_range_fault
+Date:   Wed, 10 Mar 2021 09:38:27 +1100
+Message-ID: <20210309223827.24541-1-apopple@nvidia.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210309121505.23608-1-apopple@nvidia.com>
+References: <20210309121505.23608-1-apopple@nvidia.com>
 MIME-Version: 1.0
-References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-13-marcan@marcan.st>
- <CAL_JsqJF2Hz=4U7FR_GOSjCxqt3dpf-CAWFNfsSrDjDLpHqgCA@mail.gmail.com>
- <6e4880b3-1fb6-0cbf-c1a5-7a46fd9ccf62@marcan.st> <CAK8P3a0Hmwt-ywzS-2eEmqyQ0v2SxLsLxFwfTUoWwbzCrBNhsQ@mail.gmail.com>
- <CAL_JsqJHRM59GC3FjvaGLCELemy1uspnGvTEFH6q0OdyBPVSjA@mail.gmail.com>
- <CAK8P3a0_GBB-VYFO5NaySyBJDN2Ra-WMH4WfFrnzgOejmJVG8g@mail.gmail.com>
- <20210308211306.GA2920998@robh.at.kernel.org> <CAK8P3a2GfzUevuQNZeQarJ4GNFsuDj0g7oFuN940Hdaw06YJbA@mail.gmail.com>
- <CAL_JsqK8FagJyQVyG5DAocUjLGZT91b6NzDm_DNMW1hdCz51Xg@mail.gmail.com> <c5693760-3b18-e8f1-18b6-bae42c05d329@marcan.st>
-In-Reply-To: <c5693760-3b18-e8f1-18b6-bae42c05d329@marcan.st>
-From:   Rob Herring <robh@kernel.org>
-Date:   Tue, 9 Mar 2021 15:06:13 -0700
-X-Gmail-Original-Message-ID: <CAL_Jsq+VLLPa98iaTvOkK-tjuBH4qY7FNEGtufYGv7rXAbwegQ@mail.gmail.com>
-Message-ID: <CAL_Jsq+VLLPa98iaTvOkK-tjuBH4qY7FNEGtufYGv7rXAbwegQ@mail.gmail.com>
-Subject: Re: [RFT PATCH v3 12/27] of/address: Add infrastructure to declare
- MMIO as non-posted
-To:     Hector Martin <marcan@marcan.st>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>, Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        DTML <devicetree@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
-        <linux-arch@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 287d2c0d-a50b-41ba-6c6b-08d8e34c15e4
+X-MS-TrafficTypeDiagnostic: DM5PR1201MB0218:
+X-Microsoft-Antispam-PRVS: <DM5PR1201MB02188E33BEE0A9729A1337C0DF929@DM5PR1201MB0218.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2T/1RBuiaFZGRwn2pe+47qfpbmm1GceaTlvwFE/xNXvq1Yq7Kpo/HpDmXAwnkMKVbYE3Lxi2gFjIceXlyFd07hFV5iedmz3cSPnbpXB/MTD4l2Iivycc2/MXpWF/UnHcb6l477+IR5gYco+FHUKooCsoGxS48CUoE9qvtSuW+C/Qco5got5bd1SdwiM5+0jOR/v3NOEezpKN3QKkvW5G8+DxjLZUuDYQ6PNcoThevvizOUKitDWe1hDAtm+RHhKlwjumy7bcUBiXslHRiZpZCxvsI20Nll1qPmoS8S+9dr5ojjXhpHFJKtS5zp7RlFKeT4tgNcq9cHKLy/dIJCAPdToyYHQSrfu0ZQ1nvDb5mWZJ+3SX0lk7c680QLaJSjvERnYnjACFB6O+hF4zryfEfILQsGbSd0S3P+kYD8OHfMMnwrCPj/bu95crw+6eKO0V9IpeIdPr/gDw85dluhx/6vMFIHuiULHk8nvoLdL225ld9BVfOTHJid1RjqMtdsIIspopytHpsMFi0wRpQ9hOf+sMTRDMk6Hdk2U/N+Hw7I1elMrvDr5q8cK+FBmngYP/lcR2cAjJRd4R5nazjIaQnRSab5kqPXL8pOkagh2EcAufEagqZAuMXrORhV2Qz+Q8CtNzt79WTe8U1CQUHm5jM2Eh86PDuaxm/yqLjU89dXOM0+zGlqRmMrPMEh8Br7uX
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(396003)(346002)(39860400002)(376002)(36840700001)(46966006)(36756003)(8936002)(2906002)(110136005)(316002)(356005)(7636003)(4326008)(54906003)(426003)(83380400001)(107886003)(82740400003)(8676002)(2616005)(82310400003)(36906005)(70586007)(5660300002)(336012)(478600001)(70206006)(36860700001)(186003)(6666004)(1076003)(47076005)(26005)(86362001)(34020700004)(16526019);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2021 22:38:39.6077
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 287d2c0d-a50b-41ba-6c6b-08d8e34c15e4
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT040.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0218
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 9, 2021 at 1:24 PM Hector Martin <marcan@marcan.st> wrote:
->
-> On 10/03/2021 00.48, Rob Herring wrote:
-> > On Mon, Mar 8, 2021 at 2:56 PM Arnd Bergmann <arnd@kernel.org> wrote:
-> >>
-> >> On Mon, Mar 8, 2021 at 10:14 PM Rob Herring <robh@kernel.org> wrote:
-> >>> On Mon, Mar 08, 2021 at 09:29:54PM +0100, Arnd Bergmann wrote:
-> >>>> On Mon, Mar 8, 2021 at 4:56 PM Rob Herring <robh@kernel.org> wrote:
-> >>>
-> >>> Let's just stick with 'nonposted-mmio', but drop 'posted-mmio'. I'd
-> >>> rather know if and when we need 'posted-mmio'. It does need to be added
-> >>> to the DT spec[1] and schema[2] though (GH PRs are fine for both).
-> >>
-> >> I think the reason for having "posted-mmio" is that you cannot properly
-> >> define the PCI host controller nodes on the M1 without that: Since
-> >> nonposted-mmio applies to all child nodes, this would mean the PCI
-> >> memory space gets declared as nonposted by the DT, but the hardware
-> >> requires it to be mapped as posted.
-> >
-> > I don't think so. PCI devices wouldn't use any of the code paths in
-> > this patch. They would map their memory space with plain ioremap()
-> > which is posted.
->
-> My main concern here is that this creates an inconsistency in the device
-> tree representation that only works because PCI drivers happen not to
-> use these code paths. Logically, having "nonposted-mmio" above the PCI
-> controller would imply that it applies to that bus too. Sure, it doesn't
-> matter for Linux since it is ignored, but this creates an implicit
-> exception that PCI buses always use posted modes.
+Call mmu_interval_notifier_insert() as part of nouveau_range_fault().
+This doesn't introduce any functional change but makes it easier for a
+subsequent patch to alter the behaviour of nouveau_range_fault() to
+support GPU atomic operations.
 
-We could be stricter that "nonposted-mmio" must be in the immediate
-parent. That's kind of in line with how addressing already works.
-Every level has to have 'ranges' to be an MMIO address, and the
-address cell size is set by the immediate parent.
+Signed-off-by: Alistair Popple <apopple@nvidia.com>
+---
+ drivers/gpu/drm/nouveau/nouveau_svm.c | 34 ++++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 14 deletions(-)
 
-> Then if a device comes along that due to some twisted fabric logic needs
-> nonposted nGnRnE mappings for PCIe (even though the actual PCIe ops will
-> end up posted at the bus anyway)... how do we represent that? Declare
-> that another "nonposted-mmio" on the PCIe bus means "no, really, use
-> nonposted mmio for this"?
+diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+index f18bd53da052..cd7b47c946cf 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_svm.c
++++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+@@ -567,18 +567,27 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+ 	unsigned long hmm_pfns[1];
+ 	struct hmm_range range = {
+ 		.notifier = &notifier->notifier,
+-		.start = notifier->notifier.interval_tree.start,
+-		.end = notifier->notifier.interval_tree.last + 1,
+ 		.default_flags = hmm_flags,
+ 		.hmm_pfns = hmm_pfns,
+ 		.dev_private_owner = drm->dev,
+ 	};
+-	struct mm_struct *mm = notifier->notifier.mm;
++	struct mm_struct *mm = svmm->notifier.mm;
+ 	int ret;
+ 
++	ret = mmu_interval_notifier_insert(&notifier->notifier, mm,
++					args->p.addr, args->p.size,
++					&nouveau_svm_mni_ops);
++	if (ret)
++		return ret;
++
++	range.start = notifier->notifier.interval_tree.start;
++	range.end = notifier->notifier.interval_tree.last + 1;
++
+ 	while (true) {
+-		if (time_after(jiffies, timeout))
+-			return -EBUSY;
++		if (time_after(jiffies, timeout)) {
++			ret = -EBUSY;
++			goto out;
++		}
+ 
+ 		range.notifier_seq = mmu_interval_read_begin(range.notifier);
+ 		mmap_read_lock(mm);
+@@ -587,7 +596,7 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+ 		if (ret) {
+ 			if (ret == -EBUSY)
+ 				continue;
+-			return ret;
++			goto out;
+ 		}
+ 
+ 		mutex_lock(&svmm->mutex);
+@@ -606,6 +615,9 @@ static int nouveau_range_fault(struct nouveau_svmm *svmm,
+ 	svmm->vmm->vmm.object.client->super = false;
+ 	mutex_unlock(&svmm->mutex);
+ 
++out:
++	mmu_interval_notifier_remove(&notifier->notifier);
++
+ 	return ret;
+ }
+ 
+@@ -727,14 +739,8 @@ nouveau_svm_fault(struct nvif_notify *notify)
+ 		}
+ 
+ 		notifier.svmm = svmm;
+-		ret = mmu_interval_notifier_insert(&notifier.notifier, mm,
+-						   args.i.p.addr, args.i.p.size,
+-						   &nouveau_svm_mni_ops);
+-		if (!ret) {
+-			ret = nouveau_range_fault(svmm, svm->drm, &args.i,
+-				sizeof(args), hmm_flags, &notifier);
+-			mmu_interval_notifier_remove(&notifier.notifier);
+-		}
++		ret = nouveau_range_fault(svmm, svm->drm, &args.i,
++					sizeof(args), hmm_flags, &notifier);
+ 		mmput(mm);
+ 
+ 		limit = args.i.p.addr + args.i.p.size;
+-- 
+2.20.1
 
-If we're strict, yes. The PCI host bridge would have to have "nonposted-mmio".
-
-Rob
