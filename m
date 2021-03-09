@@ -2,119 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65AF4C433DB
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 12:54:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46573C433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 13:24:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 208906525F
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 12:54:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 00C1D650ED
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 13:24:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230373AbhCIMxp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Mar 2021 07:53:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37598 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230449AbhCIMxe (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 07:53:34 -0500
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9725AC06174A;
-        Tue,  9 Mar 2021 04:53:34 -0800 (PST)
-Received: by mail-pj1-x102c.google.com with SMTP id j6-20020a17090adc86b02900cbfe6f2c96so5147102pjv.1;
-        Tue, 09 Mar 2021 04:53:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=7ONx2FOzWIgS1h/Pt0rxIhJX/kU2VsrARJ7BsHy15OI=;
-        b=As/Wcc+Nm78iyZnkMMtOT6fGyXZyC3DHVFw89k3TlkYga5f+rKBaYOvVgAqJtypnYK
-         R21+jzQbgGr4Gd1sk5HPbHfBO5jEGBrjyWxGISauE3fLwWe/ffth+ifVrC4i7ksKR+5v
-         gn5t6weqhxEzl+U6Gyt/RwPp+k7CtH4e0FULDaOoZg+GX7ZgCSRSK0DfVz5QEv0MP41I
-         icWlvpX9wYZX/4dHRadJ1mLlg2MPdPJQHlub8+NC4EzEkgL5jNFl2p53+aQ6WEKEWRM+
-         PjPcnkH/fq7CMSEboVD9kRz0SkBTgeYQbj8pWhvYWki4mTbJND6p0x2aSUltlHSqfVF+
-         PkLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=7ONx2FOzWIgS1h/Pt0rxIhJX/kU2VsrARJ7BsHy15OI=;
-        b=KUveYVDDXX8pfB8axPDUimPJJ7aaOYPPiyHqRTu0rZrhWOajeBFP0VpBinpYLKnFfF
-         4W4IuPX9avw1H9R/ScZ4Ra1VFj/zsAgoIuGSsZ3cdSvYFfyH2P70E/h69iIIMv6j5WiK
-         4EpM7EWraUIZe7UTr7daWsLY/NSUClsqWRLM8S0Nk7vkqInlOkGKqFA25V9BkF8TIgL6
-         FNCtQxLNgU4au6wgqs5l9K7V+arOVxZZlG8p01LqlDWIM8dar+OTH+Ku7vfb9PYiycNX
-         TA5P+qJDB8E3GWiLvWWMfQN70gQTVmaqOpvt9FBOTp1cttjiPaE3afPyQ3fkqZnmed2c
-         gZUw==
-X-Gm-Message-State: AOAM532kiO2wkmYkhMjtBquBBERPBfvAR/gR6shy8gFfHSunz4yaBuIX
-        edD+TlQb2IeEhLrWzhdI91I=
-X-Google-Smtp-Source: ABdhPJyFTdNLtllnen9bXqUvuviYG1ht1aZEMb65CmDxsBfkktSxfZy7nikXYd1iICBRKl1W5xlItw==
-X-Received: by 2002:a17:90a:e298:: with SMTP id d24mr4542602pjz.171.1615294414128;
-        Tue, 09 Mar 2021 04:53:34 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:600d:a089:f1c9:5654:cd78:ceac])
-        by smtp.googlemail.com with ESMTPSA id 197sm9192499pgg.53.2021.03.09.04.53.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Mar 2021 04:53:33 -0800 (PST)
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     corbet@lwn.net
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [RFC] scripts: kernel-doc: avoid warnings due to initial commented lines in file
-Date:   Tue,  9 Mar 2021 18:23:24 +0530
-Message-Id: <20210309125324.4456-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S230477AbhCINYG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Mar 2021 08:24:06 -0500
+Received: from mxout70.expurgate.net ([194.37.255.70]:55579 "EHLO
+        mxout70.expurgate.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231246AbhCINXx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 08:23:53 -0500
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.90)
+        (envelope-from <ms@dev.tdt.de>)
+        id 1lJcKv-000AV7-QL; Tue, 09 Mar 2021 14:23:45 +0100
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90)
+        (envelope-from <ms@dev.tdt.de>)
+        id 1lJcKu-0006uV-H8; Tue, 09 Mar 2021 14:23:44 +0100
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id 0C0D0240041;
+        Tue,  9 Mar 2021 14:23:44 +0100 (CET)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id 6CB50240040;
+        Tue,  9 Mar 2021 14:23:43 +0100 (CET)
+Received: from mail.dev.tdt.de (localhost [IPv6:::1])
+        by mail.dev.tdt.de (Postfix) with ESMTP id DE993200DE;
+        Tue,  9 Mar 2021 14:23:41 +0100 (CET)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Tue, 09 Mar 2021 14:23:41 +0100
+From:   Martin Schiller <ms@dev.tdt.de>
+To:     Xie He <xie.he.0141@gmail.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Halasa <khc@pm.waw.pl>, linux-x25@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next RFC] net: x25: Queue received packets in the
+ drivers instead of per-CPU queues
+Organization: TDT AG
+In-Reply-To: <20210305054312.254922-1-xie.he.0141@gmail.com>
+References: <20210305054312.254922-1-xie.he.0141@gmail.com>
+Message-ID: <4b30ca506b0d79ef5ba1a5e9ce9cf2cd@dev.tdt.de>
+X-Sender: ms@dev.tdt.de
+User-Agent: Roundcube Webmail/1.3.16
+X-purgate-type: clean
+X-purgate: clean
+X-purgate-ID: 151534::1615296225-0000B5A4-919C9C8D/0/0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Starting commented lines in a file mostly contains comments describing
-license, copyright or general information about the file.
+On 2021-03-05 06:43, Xie He wrote:
+> X.25 Layer 3 (the Packet Layer) expects layer 2 to provide a reliable
+> datalink service such that no packets are reordered or dropped. And
+> X.25 Layer 2 (the LAPB layer) is indeed designed to provide such 
+> service.
+> 
+> However, this reliability is not preserved when a driver calls 
+> "netif_rx"
+> to deliver the received packets to layer 3, because "netif_rx" will put
+> the packets into per-CPU queues before they are delivered to layer 3.
+> If there are multiple CPUs, the order of the packets may not be 
+> preserved.
+> The per-CPU queues may also drop packets if there are too many.
+> 
+> Therefore, we should not call "netif_rx" to let it queue the packets.
+> Instead, we should use our own queue that won't reorder or drop 
+> packets.
+> 
+> This patch changes all X.25 drivers to use their own queues instead of
+> calling "netif_rx". The patch also documents this requirement in the
+> "x25-iface" documentation.
 
-E.g., in sound/pci/ctxfi/ctresource.c, initial comment lines describe
-its copyright and other related file informations.
+I've tested the hdlc_x25 driver.
+Looks good to me.
 
-But as kernel-doc reads these lines, it results in ineffective warnings by
-kernel-doc, related to these.
-
-Provide a simple fix by skipping first three lines in a file for checking
-kernel-doc comments.
-
-Suggested-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
- scripts/kernel-doc | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index e1e562b2e2e7..431add05248e 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -2375,6 +2375,7 @@ sub process_file($) {
-     my $file;
-     my $initial_section_counter = $section_counter;
-     my ($orig_file) = @_;
-+    my $lineno = 0;	# to maintain the count of line number in a file
- 
-     $file = map_filename($orig_file);
- 
-@@ -2388,13 +2389,16 @@ sub process_file($) {
- 
-     $section_counter = 0;
-     while (<IN_FILE>) {
-+	$lineno++;
- 	while (s/\\\s*$//) {
- 	    $_ .= <IN_FILE>;
-+	    $lineno++;
- 	}
- 	# Replace tabs by spaces
-         while ($_ =~ s/\t+/' ' x (length($&) * 8 - length($`) % 8)/e) {};
- 	# Hand this line to the appropriate state handler
--	if ($state == STATE_NORMAL) {
-+	if ($state == STATE_NORMAL
-+	    && $lineno > 3) {	# to avoid starting comment lines describing the file
- 	    process_normal();
- 	} elsif ($state == STATE_NAME) {
- 	    process_name($file, $_);
--- 
-2.17.1
-
+Acked-by: Martin Schiller <ms@dev.tdt.de>
