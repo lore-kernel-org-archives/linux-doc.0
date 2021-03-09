@@ -2,121 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49252C433E9
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 08:20:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 967AFC433E6
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 09:11:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 07D0265295
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 08:20:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6367465130
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 09:11:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229607AbhCIITm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Mar 2021 03:19:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34694 "EHLO
+        id S229652AbhCIJKt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Mar 2021 04:10:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45800 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229530AbhCIITb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 03:19:31 -0500
-Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34656C061761
-        for <linux-doc@vger.kernel.org>; Tue,  9 Mar 2021 00:19:31 -0800 (PST)
-Received: by mail-ej1-x62a.google.com with SMTP id dx17so25692459ejb.2
-        for <linux-doc@vger.kernel.org>; Tue, 09 Mar 2021 00:19:31 -0800 (PST)
+        with ESMTP id S229520AbhCIJKV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 04:10:21 -0500
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7910C06175F
+        for <linux-doc@vger.kernel.org>; Tue,  9 Mar 2021 01:10:20 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id p21so25786076lfu.11
+        for <linux-doc@vger.kernel.org>; Tue, 09 Mar 2021 01:10:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ktw6Vy0vKj0+IWZr4PuUcyXC0kFObus7a2EmBpNWdj4=;
-        b=tH0VLSft5rYfI6ehechyQeyeheTGF4WBZ+zVPMOcqhQtUjwdPp/ZIgO6N92PQP22nv
-         jv7WqiKtR4Ey4bLqONv4Cj7l3pDkLs/Ut7+UGvl0J6MV8P/IBpSgq+AWKTRoOM21azGt
-         y9fA0kV7UhDZjTp4r94mkOrBYZxy0UAfHbRrceqBC2ydMnRvAi+JH40r3yqJkX4N1qiZ
-         IAy8wffkslT8wuq9LrR6DpBc8ENsmvCBVL/hdRRKe7oEw5DgjxIvF276O+mp1q1Fw57v
-         SjeBUjPf1gBQ1xzkmpHLkS8xjnd3+tSha2HFaHHjS7fZI/YJ2nXKW8wUl9CVqd937/+g
-         mX3w==
+        bh=wKD+yQjGrl7OUNRHRyxFsQZJDZyYo41ddQeYWHD+EP0=;
+        b=HTohe6xlqSsa9ysdqGaDx/LKiLgeY77hqdlLI5nZOMc7bJyltab5PD7dPzX7NKciVI
+         CiR0s2nUBmoC8xS7Fx4FxibTJ6bZfsYvhj45Fgg3+IADOfkL5vNu6q4PmCDEYnN4eGiW
+         MVh2GdGnAqFUnHDgWXCDI/GUauwAnCR8CqsK+Y5A1lu3sqYOd1P63aWs0Sw6kQRAlQ/J
+         sWj1qF4z5PALe45obJIuGKem1TrGlbvLr2Lvd6d2kEnUqnjaIjdQeR3PBK9qMETa/XGv
+         w1WiD1gwAN6H+FW6uZfkVLEnlnB+w9D61pMvCAVVj5ZrgusV7trTi5Pt3J0lrw8Igz5m
+         MzVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ktw6Vy0vKj0+IWZr4PuUcyXC0kFObus7a2EmBpNWdj4=;
-        b=mAF0EWAFKYpS+/ciS4ThGN5SXSMpgbez9MsVXJBdom+YB0m27aKbdDM0j5TQw7+6Dz
-         rNgYdsUHVk1xbF40KXul7txtCIdz3qxQfFVfbmAqd7cnR0WaaavvM7v2+50jvWKTICAn
-         5YldGBDerj1c+FgcWPAlxIF4Bney1waQ/nKw8GvH6t5BV1p1+Q+T1MbLcDHeQZoDfMaa
-         +n7iftM9pyx70Zb2uqWkVpKD5o4d/eXV61hlAMwXOE1yZQK3PvKTe5vr00l+bMHp9qlZ
-         L4VrtRb+io9TMBVUtmnILzm5eMTj0Q8RF5zlw/GiDa+sUZSubhRhkYGfj2ZLrhzB/hPD
-         8nGQ==
-X-Gm-Message-State: AOAM533nYrEv2DilUIsTfrb9/+zlrggE/0C6Fqh2CDKBQtvqYJnCbN7u
-        Hq+V0bYcDcy7+6rcTeAEeTSqho8EYBZL8eHT24t8rw==
-X-Google-Smtp-Source: ABdhPJxccaY07lvzI3pyPNA1B4j+TqZ/AgQnJSiW91vnn1Z11jeetk9yG4K3pnXMtESj7nJOyz2L+HZGYHjmyyoztkU=
-X-Received: by 2002:a17:907:76c7:: with SMTP id kf7mr18687281ejc.470.1615277969766;
- Tue, 09 Mar 2021 00:19:29 -0800 (PST)
+        bh=wKD+yQjGrl7OUNRHRyxFsQZJDZyYo41ddQeYWHD+EP0=;
+        b=PtEk0osV1WXqs8sGMagUigRGsNFL9fYRoImAtUMyB3CRa/L4PUUpqMMrgNdLTb/eqJ
+         Z4kedSuKfsn/oKFr28gbws6HC2B9Rt/TkPaIZYvxqspT9AWyv+u3Rbx3ovzw5w3Dtzge
+         WSNzfUlxOTuST/hHkAMlNgdG4ZVxIePgPsUMOyji0/JFPncFHkCE7Vtyxmn4rBtyohWS
+         XSotQLMPgIdXaOMsputVSXAwbUTeFNOCQYlFyzgopdkKH1raIOFSGrumOi3z/ZMATki9
+         WwGQVWSVmkY932aesM0fI7zZVtpo+gNGoUMVSNT71KACmhTBytx7xKzco+EcjnBNbJaF
+         cO9A==
+X-Gm-Message-State: AOAM533qBd0u/WqYDAM2z+rrsNy70FjUSV0XH+OVykYJcTASD+inQrIY
+        5ANYeKo7nHqywo2itgcdh+fb04MHnLJ3K+bVj4oaAg==
+X-Google-Smtp-Source: ABdhPJwsYPinGD4rPMc2OYJcBuXtSZFtl07YktW+xNb1utv1lOShAxTn8gj6iLPahmv3R1yl8oBj1yKfBXITAAXQeCU=
+X-Received: by 2002:ac2:46db:: with SMTP id p27mr16853964lfo.396.1615281018970;
+ Tue, 09 Mar 2021 01:10:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20210304201253.14652-1-andriy.shevchenko@linux.intel.com>
- <CAJZ5v0gR=gN2ROo9JSOGHokw5imscMBwDERni8X83p0eWt634w@mail.gmail.com>
- <CAMpxmJUQ3r0YCeQvPq=SW57w-5BLtoTO1_bv=2uw6CX_1-EXcQ@mail.gmail.com>
- <CAJZ5v0h7zUMU9DMofa3fhop9fYY6UJQ6Nm3xBOmG48bcmLCj3w@mail.gmail.com>
- <CAMpxmJXa2Qxznss3c79Zf-PzsX=SY6WOJorAMvS-UxKoViKP_w@mail.gmail.com>
- <YEZ81OraApPIu8d9@smile.fi.intel.com> <YEaAY37PsqT6WQB9@smile.fi.intel.com>
-In-Reply-To: <YEaAY37PsqT6WQB9@smile.fi.intel.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Tue, 9 Mar 2021 09:19:19 +0100
-Message-ID: <CAMpxmJUQ+Fhz8XTh14eHiqdQc3jBEwr8wuezw+NcgtU8XXFUQg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] gpiolib: switch to fwnode in the core
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
+References: <20210301131127.793707-1-sumit.garg@linaro.org>
+ <CAFA6WYO4HHhtymaUzmkuaCZybTAWBQ=4K9Dez1pe1kqo3AJhuA@mail.gmail.com> <YEEANW+khw3nJtcQ@kernel.org>
+In-Reply-To: <YEEANW+khw3nJtcQ@kernel.org>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Tue, 9 Mar 2021 14:40:07 +0530
+Message-ID: <CAFA6WYOxsYin8wBB_yU=S-bnqM-g5TFnTU_KXxc3wSBfx_N_6A@mail.gmail.com>
+Subject: Re: [PATCH v9 0/4] Introduce TEE based Trusted Keys support
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        Luke Hinds <lhinds@redhat.com>,
+        Elaine Palmer <erpalmer@us.ibm.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        "open list:SECURITY SUBSYSTEM" 
+        <linux-security-module@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 8, 2021 at 8:52 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+On Thu, 4 Mar 2021 at 21:14, Jarkko Sakkinen <jarkko@kernel.org> wrote:
 >
-> On Mon, Mar 08, 2021 at 09:36:52PM +0200, Andy Shevchenko wrote:
-> > On Mon, Mar 08, 2021 at 08:29:27PM +0100, Bartosz Golaszewski wrote:
-> > > On Mon, Mar 8, 2021 at 8:26 PM Rafael J. Wysocki <rafael@kernel.org> wrote:
-> > > > On Mon, Mar 8, 2021 at 8:23 PM Bartosz Golaszewski
-> > > > <bgolaszewski@baylibre.com> wrote:
+> On Thu, Mar 04, 2021 at 03:30:18PM +0530, Sumit Garg wrote:
+> > Hi Jarkko,
 > >
-> > ...
-> >
-> > > > My impression was that Andy wanted me to take them.
-> > > >
-> > > > However, if you'd rather take care of them yourself, there you go!
-> > > >
-> > > > I'll drop them now and assume that they will be routed through the GPIO tree.
-> > > >
-> > > > Thanks!
+> > On Mon, 1 Mar 2021 at 18:41, Sumit Garg <sumit.garg@linaro.org> wrote:
 > > >
-> > > They touch a lot of core GPIO code and are likely to conflict if any
-> > > other changes show up this release cycle. I'd rather take them through
-> > > the usual channel. Thanks!
+> > > Add support for TEE based trusted keys where TEE provides the functionality
+> > > to seal and unseal trusted keys using hardware unique key. Also, this is
+> > > an alternative in case platform doesn't possess a TPM device.
+> > >
+> > > This patch-set has been tested with OP-TEE based early TA which is already
+> > > merged in upstream [1].
+> > >
+> > > [1] https://github.com/OP-TEE/optee_os/commit/f86ab8e7e0de869dfa25ca05a37ee070d7e5b86b
+> > >
+> > > Changes in v9:
+> > > 1. Rebased to latest tpmdd/master.
+> > > 2. Defined pr_fmt() and removed redundant tags.
+> > > 3. Patch #2: incorporated misc. comments.
+> > > 4. Patch #3: incorporated doc changes from Elaine and misc. comments
+> > >    from Randy.
+> > > 5. Patch #4: reverted to separate maintainer entry as per request from
+> > >    Jarkko.
+> > > 6. Added Jarkko's Tested-by: tag on patch #2.
 > >
-> > Since now we have v4 based on Rafael's bleeding-edge, what do you want me to
-> > do? Resend a v5 with all patches included?
+> > It looks like we don't have any further comments on this patch-set. So
+> > would you be able to pick up this patch-set?
 >
-> I have decided to resend as usually it's better for maintainers.
->
-> But it appears I was too quick to miss Rafael's review tag / comments.
->
-> So, I will send v6 with those included.
->
-> --
-> With Best Regards,
-> Andy Shevchenko
->
+> I'm cool with that - I can pick this for 5.13.
 >
 
-Does this series depend on patches already in Rafael's tree? If so,
-maybe Rafael can provide me with an immutable tag to merge in?
+Thanks.
 
-Bartosz
+-Sumit
+
+> /Jarkko
