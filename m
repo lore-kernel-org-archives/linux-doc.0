@@ -2,126 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 967AFC433E6
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 09:11:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D8EDC433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 09:38:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6367465130
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 09:11:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3EC5F6514A
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 09:38:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229652AbhCIJKt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Mar 2021 04:10:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45800 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229520AbhCIJKV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 04:10:21 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7910C06175F
-        for <linux-doc@vger.kernel.org>; Tue,  9 Mar 2021 01:10:20 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id p21so25786076lfu.11
-        for <linux-doc@vger.kernel.org>; Tue, 09 Mar 2021 01:10:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wKD+yQjGrl7OUNRHRyxFsQZJDZyYo41ddQeYWHD+EP0=;
-        b=HTohe6xlqSsa9ysdqGaDx/LKiLgeY77hqdlLI5nZOMc7bJyltab5PD7dPzX7NKciVI
-         CiR0s2nUBmoC8xS7Fx4FxibTJ6bZfsYvhj45Fgg3+IADOfkL5vNu6q4PmCDEYnN4eGiW
-         MVh2GdGnAqFUnHDgWXCDI/GUauwAnCR8CqsK+Y5A1lu3sqYOd1P63aWs0Sw6kQRAlQ/J
-         sWj1qF4z5PALe45obJIuGKem1TrGlbvLr2Lvd6d2kEnUqnjaIjdQeR3PBK9qMETa/XGv
-         w1WiD1gwAN6H+FW6uZfkVLEnlnB+w9D61pMvCAVVj5ZrgusV7trTi5Pt3J0lrw8Igz5m
-         MzVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wKD+yQjGrl7OUNRHRyxFsQZJDZyYo41ddQeYWHD+EP0=;
-        b=PtEk0osV1WXqs8sGMagUigRGsNFL9fYRoImAtUMyB3CRa/L4PUUpqMMrgNdLTb/eqJ
-         Z4kedSuKfsn/oKFr28gbws6HC2B9Rt/TkPaIZYvxqspT9AWyv+u3Rbx3ovzw5w3Dtzge
-         WSNzfUlxOTuST/hHkAMlNgdG4ZVxIePgPsUMOyji0/JFPncFHkCE7Vtyxmn4rBtyohWS
-         XSotQLMPgIdXaOMsputVSXAwbUTeFNOCQYlFyzgopdkKH1raIOFSGrumOi3z/ZMATki9
-         WwGQVWSVmkY932aesM0fI7zZVtpo+gNGoUMVSNT71KACmhTBytx7xKzco+EcjnBNbJaF
-         cO9A==
-X-Gm-Message-State: AOAM533qBd0u/WqYDAM2z+rrsNy70FjUSV0XH+OVykYJcTASD+inQrIY
-        5ANYeKo7nHqywo2itgcdh+fb04MHnLJ3K+bVj4oaAg==
-X-Google-Smtp-Source: ABdhPJwsYPinGD4rPMc2OYJcBuXtSZFtl07YktW+xNb1utv1lOShAxTn8gj6iLPahmv3R1yl8oBj1yKfBXITAAXQeCU=
-X-Received: by 2002:ac2:46db:: with SMTP id p27mr16853964lfo.396.1615281018970;
- Tue, 09 Mar 2021 01:10:18 -0800 (PST)
+        id S229639AbhCIJh6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Mar 2021 04:37:58 -0500
+Received: from mga03.intel.com ([134.134.136.65]:43063 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229599AbhCIJhl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 9 Mar 2021 04:37:41 -0500
+IronPort-SDR: Ry/Sf24IzWpYMHkJHlwEryvNVq7qmY/fnWvmYc3wkwrncwg2QtVRO2xoOWUDzpphk59YQaXCmI
+ rcQ6lt23SowA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9917"; a="188240933"
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; 
+   d="scan'208";a="188240933"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Mar 2021 01:37:40 -0800
+IronPort-SDR: 5B9uJ4FbXNqRvB+2m0JkeVbnJXwMNOl1v+uc2PPGp8wmRlRUUdtQUlW7T2EmxeF2vSyl7YGp9Q
+ z3vzH3gi/Bew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,234,1610438400"; 
+   d="scan'208";a="408581527"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga007.jf.intel.com with ESMTP; 09 Mar 2021 01:37:38 -0800
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 7D52E56B; Tue,  9 Mar 2021 11:37:38 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-acpi@vger.kernel.org
+Cc:     Marc Zyngier <maz@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: [PATCH v6 4/6] gpiolib: Introduce acpi_gpio_dev_init() and call it from core
+Date:   Tue,  9 Mar 2021 11:37:34 +0200
+Message-Id: <20210309093736.67925-5-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210309093736.67925-1-andriy.shevchenko@linux.intel.com>
+References: <20210309093736.67925-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-References: <20210301131127.793707-1-sumit.garg@linaro.org>
- <CAFA6WYO4HHhtymaUzmkuaCZybTAWBQ=4K9Dez1pe1kqo3AJhuA@mail.gmail.com> <YEEANW+khw3nJtcQ@kernel.org>
-In-Reply-To: <YEEANW+khw3nJtcQ@kernel.org>
-From:   Sumit Garg <sumit.garg@linaro.org>
-Date:   Tue, 9 Mar 2021 14:40:07 +0530
-Message-ID: <CAFA6WYOxsYin8wBB_yU=S-bnqM-g5TFnTU_KXxc3wSBfx_N_6A@mail.gmail.com>
-Subject: Re: [PATCH v9 0/4] Introduce TEE based Trusted Keys support
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        Luke Hinds <lhinds@redhat.com>,
-        Elaine Palmer <erpalmer@us.ibm.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 4 Mar 2021 at 21:14, Jarkko Sakkinen <jarkko@kernel.org> wrote:
->
-> On Thu, Mar 04, 2021 at 03:30:18PM +0530, Sumit Garg wrote:
-> > Hi Jarkko,
-> >
-> > On Mon, 1 Mar 2021 at 18:41, Sumit Garg <sumit.garg@linaro.org> wrote:
-> > >
-> > > Add support for TEE based trusted keys where TEE provides the functionality
-> > > to seal and unseal trusted keys using hardware unique key. Also, this is
-> > > an alternative in case platform doesn't possess a TPM device.
-> > >
-> > > This patch-set has been tested with OP-TEE based early TA which is already
-> > > merged in upstream [1].
-> > >
-> > > [1] https://github.com/OP-TEE/optee_os/commit/f86ab8e7e0de869dfa25ca05a37ee070d7e5b86b
-> > >
-> > > Changes in v9:
-> > > 1. Rebased to latest tpmdd/master.
-> > > 2. Defined pr_fmt() and removed redundant tags.
-> > > 3. Patch #2: incorporated misc. comments.
-> > > 4. Patch #3: incorporated doc changes from Elaine and misc. comments
-> > >    from Randy.
-> > > 5. Patch #4: reverted to separate maintainer entry as per request from
-> > >    Jarkko.
-> > > 6. Added Jarkko's Tested-by: tag on patch #2.
-> >
-> > It looks like we don't have any further comments on this patch-set. So
-> > would you be able to pick up this patch-set?
->
-> I'm cool with that - I can pick this for 5.13.
->
+In the ACPI case we may use the firmware node in the similar way
+as it's done for OF case. We may use that fwnode for other purposes
+in the future.
 
-Thanks.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ drivers/gpio/gpiolib-acpi.c | 7 +++++++
+ drivers/gpio/gpiolib-acpi.h | 4 ++++
+ drivers/gpio/gpiolib.c      | 1 +
+ 3 files changed, 12 insertions(+)
 
--Sumit
+diff --git a/drivers/gpio/gpiolib-acpi.c b/drivers/gpio/gpiolib-acpi.c
+index 1aacd2a5a1fd..21750be9c489 100644
+--- a/drivers/gpio/gpiolib-acpi.c
++++ b/drivers/gpio/gpiolib-acpi.c
+@@ -1291,6 +1291,13 @@ void acpi_gpiochip_remove(struct gpio_chip *chip)
+ 	kfree(acpi_gpio);
+ }
+ 
++void acpi_gpio_dev_init(struct gpio_chip *gc, struct gpio_device *gdev)
++{
++	/* Set default fwnode to parent's one if present */
++	if (gc->parent)
++		ACPI_COMPANION_SET(&gdev->dev, ACPI_COMPANION(gc->parent));
++}
++
+ static int acpi_gpio_package_count(const union acpi_object *obj)
+ {
+ 	const union acpi_object *element = obj->package.elements;
+diff --git a/drivers/gpio/gpiolib-acpi.h b/drivers/gpio/gpiolib-acpi.h
+index e2edb632b2cc..e476558d9471 100644
+--- a/drivers/gpio/gpiolib-acpi.h
++++ b/drivers/gpio/gpiolib-acpi.h
+@@ -36,6 +36,8 @@ struct acpi_gpio_info {
+ void acpi_gpiochip_add(struct gpio_chip *chip);
+ void acpi_gpiochip_remove(struct gpio_chip *chip);
+ 
++void acpi_gpio_dev_init(struct gpio_chip *gc, struct gpio_device *gdev);
++
+ void acpi_gpiochip_request_interrupts(struct gpio_chip *chip);
+ void acpi_gpiochip_free_interrupts(struct gpio_chip *chip);
+ 
+@@ -58,6 +60,8 @@ int acpi_gpio_count(struct device *dev, const char *con_id);
+ static inline void acpi_gpiochip_add(struct gpio_chip *chip) { }
+ static inline void acpi_gpiochip_remove(struct gpio_chip *chip) { }
+ 
++static inline void acpi_gpio_dev_init(struct gpio_chip *gc, struct gpio_device *gdev) { }
++
+ static inline void
+ acpi_gpiochip_request_interrupts(struct gpio_chip *chip) { }
+ 
+diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
+index 41a57f042843..1853075df741 100644
+--- a/drivers/gpio/gpiolib.c
++++ b/drivers/gpio/gpiolib.c
+@@ -590,6 +590,7 @@ int gpiochip_add_data_with_key(struct gpio_chip *gc, void *data,
+ 	gc->gpiodev = gdev;
+ 
+ 	of_gpio_dev_init(gc, gdev);
++	acpi_gpio_dev_init(gc, gdev);
+ 
+ 	gdev->id = ida_alloc(&gpio_ida, GFP_KERNEL);
+ 	if (gdev->id < 0) {
+-- 
+2.30.1
 
-> /Jarkko
