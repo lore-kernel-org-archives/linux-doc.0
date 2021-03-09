@@ -2,73 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A419C433E0
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 00:27:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12164C433DB
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 01:18:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 214AF65290
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 00:27:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D9D4365092
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 01:18:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231406AbhCIA0i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Mar 2021 19:26:38 -0500
-Received: from ms.lwn.net ([45.79.88.28]:44444 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229797AbhCIA0G (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Mar 2021 19:26:06 -0500
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 27FF431A;
-        Tue,  9 Mar 2021 00:26:06 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 27FF431A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1615249566; bh=jplColhq3qy2UUm0RSVprSU3TKo4R0sGbR/6E6RHXIw=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=O9YWNCdjoNzBacpw8ZKmhlHGknK9OA1A4cFBNAFqDjcdLanEJqaYHvV0NCvz5qZdw
-         c5PCBK2X+6L2XDc48DGhFhkgcI4Ie9cIMghyRJbUwiRAIy7pE9kg7prKAu0utDPbQ+
-         VVGS6eyzoslUTMTIWZIj8eYXFw01W8dyla6O7Gl9eVI3apU0SOrYAdIWggw+kjfvLD
-         +QFepTGZxvSUHmC9FRHC9ph68dEvOp3Jwk6gzuwE1Yy/fPCUS5MBmmot0j2M3Vhlbz
-         GFVZUBjx+2Sz6ghiFTEzbks0G5RNB6n8kQuWp149ol83glrNhnykx93QWrZNM8x5MN
-         IavGMv6GR6l+w==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, jpoimboe@redhat.com,
-        jikos@kernel.org, mbenes@suse.cz, pmladek@suse.com,
-        joe.lawrence@redhat.com, live-patching@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: Re: [PATCH V2] docs: livepatch: Fix a typo and remove the
- unnecessary gaps in a sentence
-In-Reply-To: <20210305100923.3731-1-unixbhaskar@gmail.com>
-References: <20210305100923.3731-1-unixbhaskar@gmail.com>
-Date:   Mon, 08 Mar 2021 17:26:05 -0700
-Message-ID: <87ft1541gi.fsf@meer.lwn.net>
+        id S229898AbhCIBRd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Mar 2021 20:17:33 -0500
+Received: from mail-bn7nam10on2060.outbound.protection.outlook.com ([40.107.92.60]:4231
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229881AbhCIBR0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 8 Mar 2021 20:17:26 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AMCvPrL6ayveLzdYZDl/To3RwmQTautnZVcJqx2Pb1dhSoRqn4nOiFbl8RMRWfSD90ZMy1MNRyMHNO2iq+JyKs9apkVo8qWDH9B0LR/a9lDsRyRGsfRc/0JaUXifULNWgH7AS5XgkFWtuI1sWNkLiGOjQu3KzKw0U3cKZsajZambbCXtNznxUQM1+WKsYwyvKzGico/9SP78zlB9ephVg9TuwyTNRHO5VZGVou/uNeLyW1M+9uuZSu3qkVsoDT0EntCs+4uwjWr99bCONdMW1FQZJjMcRataawWj9TO2OqmYkBXNZKC/1tKcTTsnt5St3COqT8TI+2Kar4X72kcraQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9tQXbMYeq+FZ6yArCaBTCoz8d2g5YR1FNHecZRJh10w=;
+ b=EMmgB/Cq+lCGY2lxJGcSwL61pw/86nSohMF9S4qlW9Fe0Guycos3I7xDJuCNFIeIuSkkXC/Rt9VZ9RfbMD1zdo+fb/EKvUfRA9Qk2QUtOHAooUau2VB875m3vx3fR7kokkk2fYSCIGPsKT+Ukwnl65wUAt+ifvu7lJ2KlgSI+HjpEnpnhTTm1i/AlkBViIGsglKr57Yi1RjX22hMfdfD4D0QhQ9thrxrUWzpRFcKTd2q2Ime9YttCSSsk8pSmJDHeU1br7lqasdJ5kaNpxq99wBhdT/1voIrK2TgsJhCeMUAp67rdxri+zA5O2ji4Y+W53wE/HGgVSUv31EE8kbQGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9tQXbMYeq+FZ6yArCaBTCoz8d2g5YR1FNHecZRJh10w=;
+ b=vAKTd7FC3IFahMO8cW/JhqO+D7evYrlqcu7oKeCj48iTOmB1bKRyXnOW4WAw4nLE40PQ7CQfq5aZ4GMtdnYExesTGnrMD55mj/M49YJ+d3ykVrFRib6LHYHf7fDUvB+aVfdcFu8AIupeOylZCOvihIgOHdNrEURG0GCohcYHu98=
+Received: from CO2PR04CA0136.namprd04.prod.outlook.com (2603:10b6:104::14) by
+ MW3PR12MB4474.namprd12.prod.outlook.com (2603:10b6:303:2e::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3912.17; Tue, 9 Mar 2021 01:17:21 +0000
+Received: from CO1NAM11FT065.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:104:0:cafe::16) by CO2PR04CA0136.outlook.office365.com
+ (2603:10b6:104::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
+ Transport; Tue, 9 Mar 2021 01:17:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ CO1NAM11FT065.mail.protection.outlook.com (10.13.174.62) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.3890.19 via Frontend Transport; Tue, 9 Mar 2021 01:17:21 +0000
+Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 9 Mar
+ 2021 01:17:18 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     Ralph Campbell <rcampbell@nvidia.com>
+CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
+        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <jhubbard@nvidia.com>, <jglisse@redhat.com>
+Subject: Re: [PATCH v4 5/8] mm: Device exclusive memory access
+Date:   Tue, 9 Mar 2021 12:17:16 +1100
+Message-ID: <1795020.LnfgZAJ4CS@nvdebian>
+In-Reply-To: <ac380c1c-20f4-7c5b-dc5b-be6e1e970921@nvidia.com>
+References: <20210304061645.29747-1-apopple@nvidia.com> <20210304061645.29747-6-apopple@nvidia.com> <ac380c1c-20f4-7c5b-dc5b-be6e1e970921@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f9550d66-14b1-4073-5590-08d8e29916d9
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4474:
+X-Microsoft-Antispam-PRVS: <MW3PR12MB447431527986E9024242BC63DF929@MW3PR12MB4474.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: eT4AfXYctdZI1Qch7dpjGj/ixHJxf/TSKb4C2DZByuS67WaNxcrrR/VBBhxJuJOg3WwzcdjzyISVndRO+fI+hmOugxca5Z+7V+9JfFcXGshlfkNJqquz5FNmkIb/ACS+qy8y0DCxZm4+Sf6t/9yKn5TlED2pSrIaXSSAifCsVxwnGFRWSuCblXa5BtWOGTmjk6X7vz3fp4z/oRZS5wDM2NyXWEQSGqQKR/c47tgRhbOjoIRNzUgKUqSOfvKCoY3GJHRyyiqIDJslxyYyyxmUz9tI4g8AM79T7lEmqO/lgVIzypkjCP3DSQdouWdYUfrjtcDhtVMTnP2MAcMN17wVgim6P6U4rTbRRnqweuAG5D+OSKsYIBtpsnjZgKlKu5W+diOM1bgjG0Rbb00xl+sCG+uz3xKDKXL6dEg1mlPW8yI1MMVtK4uttRzIW+oO8GMujQPMk3NR6fh4nWRAvmdjQupN5L5QavEHA4us4WNdOUH/Xiu+BXwq4imKTpaFwNkrpkiJeKkX/Ztw8E78SsgnB8131O+R4JYPbGzmegcR54ZFDpOo3agWwq84qZ6i3pJG7ZEy8EryrLpiXD7ZKMPfwrq/ZEBaLHbCHQfr/nbPs3CwLFiIY+cQG/sT9uAx3KwfIPjva/q53eks+uohsFmurz68PJnAHgMBe7c4RHXtuWB7KzOWr38VGs2gwMJEBF08bIb947zwSyAsykRbw/hCyQ==
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(396003)(136003)(376002)(39860400002)(346002)(46966006)(36840700001)(36906005)(86362001)(8676002)(426003)(16526019)(8936002)(316002)(356005)(478600001)(33716001)(336012)(5660300002)(54906003)(36860700001)(47076005)(6636002)(2906002)(186003)(83380400001)(34020700004)(53546011)(70206006)(6862004)(70586007)(82740400003)(9686003)(4326008)(7636003)(26005)(9576002)(82310400003)(39026012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2021 01:17:21.3001
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9550d66-14b1-4073-5590-08d8e29916d9
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT065.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4474
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
+On Tuesday, 9 March 2021 6:44:41 AM AEDT Ralph Campbell wrote:
+> 
+> On 3/3/21 10:16 PM, Alistair Popple wrote:
+> > Some devices require exclusive write access to shared virtual
+> > memory (SVM) ranges to perform atomic operations on that memory. This
+> > requires CPU page tables to be updated to deny access whilst atomic
+> > operations are occurring.
+> > 
+> > In order to do this introduce a new swap entry
+> > type (SWP_DEVICE_EXCLUSIVE). When a SVM range needs to be marked for
+> > exclusive access by a device all page table mappings for the particular
+> > range are replaced with device exclusive swap entries. This causes any
+> > CPU access to the page to result in a fault.
+> > 
+> > Faults are resovled by replacing the faulting entry with the original
+> > mapping. This results in MMU notifiers being called which a driver uses
+> > to update access permissions such as revoking atomic access. After
+> > notifiers have been called the device will no longer have exclusive
+> > access to the region.
+> > 
+> > Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> 
+> I see in the next two patches how make_device_exclusive_entry() and
+> check_device_exclusive_range() are used. This points out a similar
+> problem that migrate_vma_setup() had before I added the
+> mmu_notifier_range_init_migrate() helper to pass a cookie from
+> migrate_vma_setup() to the invalidation callback so the device driver
+> could ignore an invalidation callback triggered by the caller and thus
+> resulting in a deadlock or having to invalidate device PTEs that
+> wouldn't be migrating.
+> 
+> I think you can eliminate the need for check_device_exclusive_range() in
+> the same way by adding a "void *" pointer to make_device_exclusive_entry()
+> and passing that through to try_to_protect(), setting rmap_walk_control 
+rwc.arg
+> and then passing arg to mmu_notifier_range_init_migrate().
 
-> s/varibles/variables/
->
-> ...and remove leading spaces from a sentence.
->
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-> ---
->  Changes from V1:
->   Pter pointed out some awkward  leading space in a sentence ,fixed it.
->
->  Documentation/livepatch/shadow-vars.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Thanks for the idea, I had missed there was already a way of passing a "void 
+*" as part of mmu_notifier_range_init_migrate(). Agree that should allow a 
+single pass without needing check_device_exclusive_range().
 
-I've applied this, poking in the suggested prepositional tweak in the
-process.
+As Jason points out still need to check the GUP page is mapped at the expected 
+address but that can be done as part of installing the exclusive swap entry in 
+try_to_protect_one().
 
-Thanks,
+> Although, maybe it would be better to define a new
+> mmu_notifier_range_init_exclusive() and event type MMU_NOTIFY_EXCLUSIVE so
+> that a device driver can revoke atomic/exclusive access but keep read/write
+> access to other parts of the page.
 
-jon
+Agree, I don't think overloading mmu_notifier_range_init_migrate() with the 
+exclusive usage is correct. Better to define a new helper.
+
+> I thought about how make_device_exclusive_entry() is similar to 
+hmm_range_fault()
+> and whether it would be possible to add a new HMM_PFN_REQ_EXCLUSIVE flag but 
+I
+> see that make_device_exclusive_entry() returns the pages locked and with an
+> additional get_page() reference. This doesn't fit well with the other
+> hmm_range_fault() entries being returned as a "snapshot" so having a 
+different
+> API makes sense. I think it would be useful to add a HMM_PFN_EXCLUSIVE flag 
+so
+> that snapshots of the page tables can at least report that a page is 
+exclusively
+> being accessed by *some* device. Unfortunately, there is no pgmap pointer to 
+be
+> able to tell which device has exclusive access (since any struct page could 
+be
+> exclusively accessed, not just device private ones).
+ 
+I have also experimented with integrating this with HMM but it just didn't end 
+up being a good fit for the reasons you mention.
+
+I also don't think adding HMM_PFN_EXCLUSIVE to read page table snapshots is 
+that useful because there is no way to tell *which* device has exclusive 
+access. So unless I've missed some particular usage for it now I think it can 
+probably be added as a future improvement to HMM if/when it is needed.
+
+ - Alistair
+
+
+
