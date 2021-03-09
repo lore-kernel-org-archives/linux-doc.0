@@ -2,73 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,TVD_SPACE_RATIO,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1197C433E0
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 23:53:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BAB0C433E0
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 00:01:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B007765256
-	for <linux-doc@archiver.kernel.org>; Mon,  8 Mar 2021 23:53:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F266D6528A
+	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 00:01:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231760AbhCHXx1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 8 Mar 2021 18:53:27 -0500
-Received: from ms.lwn.net ([45.79.88.28]:37040 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229488AbhCHXxR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 8 Mar 2021 18:53:17 -0500
+        id S231907AbhCIAAc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 8 Mar 2021 19:00:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39832 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231918AbhCIAAO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 8 Mar 2021 19:00:14 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 845AAC06174A;
+        Mon,  8 Mar 2021 16:00:10 -0800 (PST)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id CBB1431A;
-        Mon,  8 Mar 2021 23:53:16 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net CBB1431A
+        by ms.lwn.net (Postfix) with ESMTPSA id 30F7C2B0;
+        Tue,  9 Mar 2021 00:00:10 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 30F7C2B0
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1615247596; bh=COx9eQ5SwNlqiBJ+BSztWogT456RXD+4NDcBY0ituWU=;
+        t=1615248010; bh=SXirsMeQDAzZotqS7usdjFpJl2ClFAO2pWfJoF3RtTs=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=TsgHNn7Y/YoemeoQVeZuhSzEU4ayQWG2CCnwMo85ZUvHiSWU0R783v12zCA49sZAG
-         0/Sblfda4keZp20pHOhOldbcHlOdKdDmEIu0hqOO3BQ27q4QH1xz195Jkg8A8EyJX3
-         E57wRm6Nwsdhh8/5ZxjQu2+Fa7TF9/nce8pWEU5wstlgFfiTuw+ZaHzGBG+KOTnvWY
-         PWXpZZCBYEL275kb08hiX7/G8j93+C/cpeeD2lUBjSSIPkKj2bwXeIqpEqmemrT8Nd
-         prarWufxGSgu+4lHmjE0i4NFu6/Kni+6WFuUTgfIEqJExZVdw/7ZDhGAxmQ+sgWeM6
-         BQJPd16jzG1YA==
+        b=G42tO9HnqlBS0QqWrhc0fmMVQneT+hn3jXS2NLoF+zphPFqZUTJFLBsCZPCLB6ok7
+         WCE1zZxICW375koFYpVm0PWa6fiB0g+6ImG70qI+Yuk2atxc8IgujYbUrnBKRn5lMR
+         XF1zhg9VvfTqD/6kv5ICMSJ7pPq4OlDix53Icf4saKeNYZ2X7LC1G4mioStmAG5vrB
+         7WvU/4VdBbXYHTIBIYcELI3ef27IREvS4QGeObj3llc80etbxYYtZ5y8i+1yoHhZ+0
+         bvCvDJj9oRmIQG+R+xTcOMavNSDbJUgY8M5slTng9ntPuNKvDF6YaMNn1AWcGg9Ty0
+         2XcfpeggtLCDQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: add a subsystem profile documentation
-In-Reply-To: <95af047a293d8209cf80c05be2b31261cf142853.1614862252.git.mchehab+huawei@kernel.org>
-References: <95af047a293d8209cf80c05be2b31261cf142853.1614862252.git.mchehab+huawei@kernel.org>
-Date:   Mon, 08 Mar 2021 16:53:16 -0700
-Message-ID: <87y2ex5hjn.fsf@meer.lwn.net>
+To:     hjh <huangjianghui@uniontech.com>
+Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] PATCH Documentation translations:translate
+ sound/hd-audio/controls to chinese
+In-Reply-To: <20210304094556.5858-1-huangjianghui@uniontech.com>
+References: <20210304094556.5858-1-huangjianghui@uniontech.com>
+Date:   Mon, 08 Mar 2021 17:00:09 -0700
+Message-ID: <87tupl5h86.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+hjh <huangjianghui@uniontech.com> writes:
 
-> Document the basic policies of the media subsystem profile.
->
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Signed-off-by: hjh <huangjianghui@uniontech.com>
 > ---
->  Documentation/driver-api/media/index.rst      |   2 +
->  .../media/maintainer-entry-profile.rst        | 206 ++++++++++++++++++
->  .../maintainer/maintainer-entry-profile.rst   |   1 +
->  3 files changed, 209 insertions(+)
->  create mode 100644 Documentation/driver-api/media/maintainer-entry-profile.rst
+>  Documentation/translations/zh_CN/index.rst    |   1 +
+>  .../zh_CN/sound/hd-audio/controls.rst         | 102 ++++++++++++++++++
+>  .../zh_CN/sound/hd-audio/index.rst            |  14 +++
+>  .../translations/zh_CN/sound/index.rst        |  22 ++++
+>  4 files changed, 139 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/controls.rst
+>  create mode 100644 Documentation/translations/zh_CN/sound/hd-audio/index.rst
+>  create mode 100644 Documentation/translations/zh_CN/sound/index.rst
 
-This all looks good to me; would you like me to take it or were you
-going to send it upward yourself?
-
-Thanks,
+Applied, thanks.
 
 jon
