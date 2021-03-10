@@ -7,105 +7,88 @@ X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D70CAC43381
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 23:12:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4C70C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 23:16:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF27664FD2
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 23:12:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 846CB64FD3
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 23:16:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233751AbhCJXMF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Mar 2021 18:12:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60048 "EHLO
+        id S233488AbhCJXPx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Mar 2021 18:15:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232465AbhCJXLf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Mar 2021 18:11:35 -0500
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A13AC061762
-        for <linux-doc@vger.kernel.org>; Wed, 10 Mar 2021 15:11:34 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id i26so16242832ljn.1
-        for <linux-doc@vger.kernel.org>; Wed, 10 Mar 2021 15:11:34 -0800 (PST)
+        with ESMTP id S233606AbhCJXPm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Mar 2021 18:15:42 -0500
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC5C2C061760
+        for <linux-doc@vger.kernel.org>; Wed, 10 Mar 2021 15:15:41 -0800 (PST)
+Received: by mail-lf1-x12e.google.com with SMTP id u4so36530525lfs.0
+        for <linux-doc@vger.kernel.org>; Wed, 10 Mar 2021 15:15:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fsUvZGKYC5fgx4oei9Q5/ic2uEIxVNyjDNMh2AgyO6I=;
-        b=YFJ7SMDaL74sPgY4t2M2TveLoai2GpxFH7T+w02cY0yAPfz4d7STzMXwN2LMQ2iEoZ
-         AC3wFDsX/B+jYJXVNzs+y4D9tGf/wEA3njzRA4m7PPgqfVi486jFs5jC4rjhpItvLjMl
-         feX0SL4sSjFQxxMpaHtUG3m/yP5ZsWGY2bHZ1JzjeRWLuH3LgTM/weeATOW14t4za+lM
-         0oejehpKlmlwaemoSaXKHgvkv/wgRR/MCed4z76h2TRaPLDfBO1rpazJRuqEpn9HXUuZ
-         gZsRlyCIDNbKHWfuIFLOxVswPmSPuq2apnjiVRCSHJ7mbVzB2AtDRB2jPCfVazu7Yozu
-         i7/Q==
+        bh=FvgqzQ3J8j30csPWmBVtuOz65ao5kSPhlDNVxVSpFEc=;
+        b=I3yoB+2Jz9M77UGRHjOQ21FENV/4rcf8+OthqQA31JhtTKZUynjkLmtKEf0HMj+NLJ
+         8jvPlfUVgF98rs95p39XYZc7yFb68WICkPO/kQvt6Q1c8J+jFT7QEG8y7D7kdoqxOKRJ
+         DMvE5N7lFIevdpnTIj5+Slb00i7pEud0WDbJWaNU6iv3eZS9zVGUZtE2fpS3+EVmb/ec
+         gxuW8mdqT5QZr8E/D68kK+oKbchcF9jIscvwr/plgHJf3SvvLbj/ikY77bD8rHw/9yWj
+         yAbzJKsg98OHJB07f4Nlku0qvpt94YACmKgcRBfReIi1j5LWoP2M0muZ8nMy/pBj6pTI
+         Bdmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fsUvZGKYC5fgx4oei9Q5/ic2uEIxVNyjDNMh2AgyO6I=;
-        b=ToDnznLdMIGfLBnAmsI02PPTd9FSyv2eTL7ar5zBchRiCA5YikkiGK8v6LbjMc5BBK
-         fkML7G6zC+ZS2yzPzidg6YXd+eFSiD2hlzc6Iu3biedBmWVq5kU3mkGyhamYmWH05rwo
-         Qes1no+XL4iOXoaxo8QdtVElMY8zmBiWOoV+o+gRiwB6Lu4HDcz5mfIKlHLkWcsK/+vk
-         Y1j+V2t0Uy5F0bwMdpaLZ1M8BE84VuPfeJFHHp6GLUh4BO+jdniynaQze4ULG0mVedmb
-         40kH3P/rFSjaPRL5WnWCQc11uW9RCzG11H2+LCz7uWxr9vWJHOFoR41eX2/eqxRlCfS2
-         2b2A==
-X-Gm-Message-State: AOAM533pkPcXVMlUSPnn3pkC+nHt4VHrTpBJAmc81IK786QQ7PxPfOL0
-        KvXpLvIlXeAkYtcAn15jALxONBoZ9JZCLAqOc6BbZA==
-X-Google-Smtp-Source: ABdhPJzmo5G8NylnSmgEyDfdbat9eWDptGx3+8/H3Ywrq5Z5I67GtCUd0mY3fRoJZXOwQZI5bSexUvc4wSg5BOhWX4M=
-X-Received: by 2002:a2e:7001:: with SMTP id l1mr3125411ljc.200.1615417892988;
- Wed, 10 Mar 2021 15:11:32 -0800 (PST)
+        bh=FvgqzQ3J8j30csPWmBVtuOz65ao5kSPhlDNVxVSpFEc=;
+        b=djqtEPIoNLZdh/OAjyxWw+aDLF6IK8meJu7OWEFMuvGeiw2FUk45hednzME4svwwoB
+         bibbptM8g9+POxKKdklPl6UlBRl62w8rlqKEnSdJn2hJCBXFJ4z+wktSe7IwOizWLuyp
+         dZHC3Qk2RaXplPzFCBXA4KUJlEBEXhXNpH0q//CIAI67opEgallsadQ8+eBXK6N1DJS7
+         50n/NJarDP1i8OnjeOJrmgH/2rVSETF/hAEtbLqo0Hoe8FGekcmbcta6cV8Si3LV2fZs
+         xc11J62il0gd99Uln27vF44+VmM9blB0VoWHBp+N/9mhMGCqfKAqewr6LlAVMecYWAeG
+         fomw==
+X-Gm-Message-State: AOAM533tpksSq27wfx75qVh0BsMAXvxFmZtb/jBiUpq0wo4Nhv6bDGEV
+        HbqvJGtqUDJSpyth2UERPPID0Bw0AkHUo7wweaNPdA==
+X-Google-Smtp-Source: ABdhPJz6sqRctIaxVCY7bLqYO+NzPpIJ6vlSe8TnV452GfK18RjK/YOYwyudDIEPPPFgwGG+hoX2MGiC29xhnianDGc=
+X-Received: by 2002:ac2:4d95:: with SMTP id g21mr508729lfe.29.1615418140326;
+ Wed, 10 Mar 2021 15:15:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-26-marcan@marcan.st>
-In-Reply-To: <20210304213902.83903-26-marcan@marcan.st>
+References: <20210304201253.14652-1-andriy.shevchenko@linux.intel.com> <20210304201253.14652-2-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20210304201253.14652-2-andriy.shevchenko@linux.intel.com>
 From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 11 Mar 2021 00:11:22 +0100
-Message-ID: <CACRpkdZrFfP3nx=eU-hKKVUfxHHX2J2-__6tjV8hTPgX3qtBDA@mail.gmail.com>
-Subject: Re: [RFT PATCH v3 25/27] tty: serial: samsung_tty: Add earlycon
- support for Apple UARTs
-To:     Hector Martin <marcan@marcan.st>
-Cc:     Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+Date:   Thu, 11 Mar 2021 00:15:29 +0100
+Message-ID: <CACRpkdbA+Q24JV3Uct2dHtGfBb1AaF4uHwCbzcrOFAxoGQ4wXQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/5] irqdomain: Introduce irq_domain_create_simple() API
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Rafael J. Wysocki" <rafael@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 4, 2021 at 10:42 PM Hector Martin <marcan@marcan.st> wrote:
+On Thu, Mar 4, 2021 at 9:13 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
 
-> Earlycon support is identical to S3C2410, but Apple SoCs also need
-> MMIO mapped as nGnRnE. This is handled generically for normal drivers
-> including the normal UART path here, but earlycon uses fixmap and
-> runs before that scaffolding is ready.
+> Linus Walleij pointed out that ird_domain_add_simple() gained
+> additional functionality and can't be anymore replaced with
+> a simple conditional. In preparation to upgrade GPIO library
+> to use fwnode, introduce irq_domain_create_simple() API which is
+> functional equivalent to the existing irq_domain_add_simple(),
+> but takes a pointer to the struct fwnode_handle as a parameter.
 >
-> Since this is the only case where we need this fix, it makes more
-> sense to do it here in the UART driver instead of introducing a
-> whole fdt nonposted-mmio resolver just for earlycon/fixmap.
+> While at it, amend documentation to mention irq_domain_create_*()
+> functions where it makes sense.
 >
-> Suggested-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-This is as elegant as it gets!
 Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
 
 Yours,
