@@ -2,119 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6244FC433E9
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 23:23:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 211DCC433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 23:29:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3AAA964FCA
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 23:23:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F12FC64FCD
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 23:29:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233643AbhCJXWx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Mar 2021 18:22:53 -0500
-Received: from mga09.intel.com ([134.134.136.24]:65011 "EHLO mga09.intel.com"
+        id S233666AbhCJX30 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Mar 2021 18:29:26 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39070 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233271AbhCJXWr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Mar 2021 18:22:47 -0500
-IronPort-SDR: V/Xx3Laz1EeK68MgBufPlwnSrDu7IaaXsJjbEO7DjSjBmuuPLnOtjpi8xKOn3ohdPhluCq7Cvn
- YrJV5pAlws3Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="188680184"
-X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; 
-   d="scan'208";a="188680184"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2021 15:22:45 -0800
-IronPort-SDR: 0IDkoEO2HQZNiV1iZJn7oQUIDlBiMFDNIBXwwNfIe/p83TkZr4G7JQyi9y+5tOLg+e/KoeoVJ7
- SITLPWfab66A==
-X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; 
-   d="scan'208";a="509838912"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.23.206]) ([10.209.23.206])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2021 15:22:42 -0800
-Subject: Re: [PATCH v22 8/8] x86/vdso: Add ENDBR64 to __vdso_sgx_enter_enclave
-To:     Dave Hansen <dave.hansen@intel.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210310220519.16811-1-yu-cheng.yu@intel.com>
- <20210310220519.16811-9-yu-cheng.yu@intel.com> <YElKjT2v628tidE/@kernel.org>
- <8b8efe44-b79f-ce29-ee28-066f88c93840@intel.com>
- <c2bfe707-2ef6-213a-f02c-4689726a473a@intel.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <727fed3a-f7da-a947-4221-56ab39deefe4@intel.com>
-Date:   Wed, 10 Mar 2021 15:22:41 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S232181AbhCJX2v (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Mar 2021 18:28:51 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6670C64DDA;
+        Wed, 10 Mar 2021 23:28:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615418931;
+        bh=UfbEKg7ZAq2wNBsMx+afAVr4IIua3XrGFwGBZrz0vpc=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=Pxqrud2EzPMQj3J7ZkeyPjCaBiCrgraTkfbmZGAwJubVY1cLHgx8BduRi5fBh+j56
+         7BfBHxONDXEVCkll5nk55pDsGkZ3a0GF2j4+yzMWcYxaz5oHG60MVQD7xg9XQijCMz
+         W8W4gyVk2zIJhAPWJqiVr/JEgEmZse+XmzxOTzZW5r8/j0JOjrJiL+H4Ymz22m4YfX
+         vqa8zY1+OR+jinBdJ3m1to4lLBILfdN093WjOXqzvS0mVVfVHLDFZr1xlG9BVW9ao3
+         3FkQH8z9lWG++YK6XzPIK8jwsKgqrF0PEBiZZeiO8zjiUiRZPuDDaLUBLUSCi5K6XX
+         iD+lNI2RB4Nkw==
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 285C6352261C; Wed, 10 Mar 2021 15:28:51 -0800 (PST)
+Date:   Wed, 10 Mar 2021 15:28:51 -0800
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     Michal Hocko <mhocko@suse.com>,
+        Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        osalvador@suse.de, song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com, joao.m.martins@oracle.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, Chen Huang <chenhuang5@huawei.com>,
+        Bodeddula Balasubramaniam <bodeddub@amazon.com>
+Subject: Re: [PATCH v18 4/9] mm: hugetlb: alloc the vmemmap pages associated
+ with each HugeTLB page
+Message-ID: <20210310232851.GZ2696@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <20210308102807.59745-1-songmuchun@bytedance.com>
+ <20210308102807.59745-5-songmuchun@bytedance.com>
+ <YEjji9oAwHuZaZEt@dhcp22.suse.cz>
+ <f9f19d38-f1a7-ac8c-6ba8-3ce0bcc1e6a0@oracle.com>
+ <YEk1+mDZ4u85RKL3@dhcp22.suse.cz>
+ <20210310214909.GY2696@paulmck-ThinkPad-P72>
+ <68bc8cc9-a15b-2e97-9a2a-282fe6e9bd3f@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <c2bfe707-2ef6-213a-f02c-4689726a473a@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <68bc8cc9-a15b-2e97-9a2a-282fe6e9bd3f@oracle.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/10/2021 3:20 PM, Dave Hansen wrote:
-> On 3/10/21 2:55 PM, Yu, Yu-cheng wrote:
->> On 3/10/2021 2:39 PM, Jarkko Sakkinen wrote:
->>> On Wed, Mar 10, 2021 at 02:05:19PM -0800, Yu-cheng Yu wrote:
->>>> When CET is enabled, __vdso_sgx_enter_enclave() needs an endbr64
->>>> in the beginning of the function.
->>>
->>> OK.
->>>
->>> What you should do is to explain what it does and why it's needed.
->>>
->>
->> The endbr marks a branch target.  Without the "no-track" prefix, if an
->> indirect call/jmp reaches a non-endbr opcode, a control-protection fault
->> is raised.  Usually endbr's are inserted by the compiler.  For assembly,
->> these have to be put in manually.  I will add this in the commit log if
->> there is another revision.  Thanks!
+On Wed, Mar 10, 2021 at 02:10:12PM -0800, Mike Kravetz wrote:
+> On 3/10/21 1:49 PM, Paul E. McKenney wrote:
+> > On Wed, Mar 10, 2021 at 10:11:22PM +0100, Michal Hocko wrote:
+> >> On Wed 10-03-21 10:56:08, Mike Kravetz wrote:
+> >>> On 3/10/21 7:19 AM, Michal Hocko wrote:
+> >>>> On Mon 08-03-21 18:28:02, Muchun Song wrote:
+> >>>> [...]
+> >>>>> @@ -1447,7 +1486,7 @@ void free_huge_page(struct page *page)
+> >>>>>  	/*
+> >>>>>  	 * Defer freeing if in non-task context to avoid hugetlb_lock deadlock.
+> >>>>>  	 */
+> >>>>> -	if (!in_task()) {
+> >>>>> +	if (in_atomic()) {
+> >>>>
+> >>>> As I've said elsewhere in_atomic doesn't work for CONFIG_PREEMPT_COUNT=n.
+> >>>> We need this change for other reasons and so it would be better to pull
+> >>>> it out into a separate patch which also makes HUGETLB depend on
+> >>>> PREEMPT_COUNT.
+> >>>
+> >>> Yes, the issue of calling put_page for hugetlb pages from any context
+> >>> still needs work.  IMO, that is outside the scope of this series.  We
+> >>> already have code in this path which blocks/sleeps.
+> >>>
+> >>> Making HUGETLB depend on PREEMPT_COUNT is too restrictive.  IIUC,
+> >>> PREEMPT_COUNT will only be enabled if we enable:
+> >>> PREEMPT "Preemptible Kernel (Low-Latency Desktop)"
+> >>> PREEMPT_RT "Fully Preemptible Kernel (Real-Time)"
+> >>> or, other 'debug' options.  These are not enabled in 'more common'
+> >>> kernels.  Of course, we do not want to disable HUGETLB in common
+> >>> configurations.
+> >>
+> >> I haven't tried that but PREEMPT_COUNT should be selectable even without
+> >> any change to the preemption model (e.g. !PREEMPT).
+> > 
+> > It works reliably for me, for example as in the diff below.  So,
+> > as Michal says, you should be able to add "select PREEMPT_COUNT" to
+> > whatever Kconfig option you need to.
+> > 
 > 
-> This is close, but it's missing a detail or two that I think is
-> important for someone like Jarkko trying to figure out what it means for
-> his subsystem or driver.
+> Thanks Paul.
 > 
-> I'd probably say:
-> 
-> ENDBR is a special new instruction for the Indirect Branch Tracking
-> (IBR) component of CET.  IBT prevents attacks by ensuring that (most)
-> indirect branches and function calls may only land at ENDBR
-> instructions.  Branches that don't follow the rules will result in
-> control flow (#CF) exceptions.
-> 
-> ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
-> instructions are inserted automatically by the compiler, but branch
-> targets written in assembly must have ENDBR added manually, like this one.
-> 
+> I may have been misreading Michal's suggestion of "make HUGETLB depend on
+> PREEMPT_COUNT".  We could "select PREEMPT_COUNT" if HUGETLB is enabled.
+> However, since HUGETLB is enabled in most configs, then this would
+> result in PREEMPT_COUNT also being enabled in most configs.  I honestly
+> do not know how much this will cost us?  I assume that if it was free or
+> really cheap it would already be always on?
 
-Ok, I will update.  Thanks!
+There are a -lot- of configs out there, so are you sure that HUGETLB is
+really enabled in most of them?  ;-)
 
---
-Yu-cheng
+More seriously, I was going by earlier emails in this and related threads
+plus Michal's "PREEMPT_COUNT should be selectable".  But there are other
+situations that would like PREEMPT_COUNT.  And to your point, some who
+would rather PREEMPT_COUNT not be universally enabled.  I haven't seen
+any performance or kernel-size numbers from any of them, however.
+
+							Thanx, Paul
+
+> -- 
+> Mike Kravetz
+> 
+> > 							Thanx, Paul
+> > 
+> > diff --git a/kernel/rcu/Kconfig b/kernel/rcu/Kconfig
+> > index 3128b7c..7d9f989 100644
+> > --- a/kernel/rcu/Kconfig
+> > +++ b/kernel/rcu/Kconfig
+> > @@ -8,6 +8,7 @@ menu "RCU Subsystem"
+> >  config TREE_RCU
+> >  	bool
+> >  	default y if SMP
+> > +	select PREEMPT_COUNT
+> >  	help
+> >  	  This option selects the RCU implementation that is
+> >  	  designed for very large SMP system with hundreds or
+> > 
