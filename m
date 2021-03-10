@@ -2,99 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6A01C433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 09:52:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B74DC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 11:44:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7D0064FDE
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 09:52:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2A88464FE1
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 11:44:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230156AbhCJJwT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Mar 2021 04:52:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:35370 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231228AbhCJJv5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Mar 2021 04:51:57 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 928B164ECC;
-        Wed, 10 Mar 2021 09:51:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1615369917;
-        bh=8DjF5hfDNu9Ysuqn+EdjT0WOEZ0r4ECqcdJNt0wrATk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=YsVqzMy1ltRkkHvbVcCwsXf7qwPFggnzCiy43Iclfcss1aj/o+Ou2ZOibSBf6yfWw
-         dIXe4aVnqb4pjTh1p9QS8OOvr01lveHYvf8jLgWxNFL7q5WzbCTIyFCs9lKFsiVmYz
-         Qd31KKB3tbjNR9Am4ATXnIMKKuW1L/cS++Y9Arp8=
-Date:   Wed, 10 Mar 2021 10:51:54 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
-        Shuah Khan <shuah@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH v3 00/11] gpio: implement the configfs testing module
-Message-ID: <YEiWulEyDgr7pvZ2@kroah.com>
-References: <20210309205921.15992-1-brgl@bgdev.pl>
+        id S230522AbhCJLnf convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Mar 2021 06:43:35 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:43659 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231356AbhCJLnQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Mar 2021 06:43:16 -0500
+Received: from mail-oi1-f176.google.com ([209.85.167.176]) by
+ mrelayeu.kundenserver.de (mreue107 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MSLlu-1l8zwg1biq-00Sioh; Wed, 10 Mar 2021 12:43:14 +0100
+Received: by mail-oi1-f176.google.com with SMTP id d20so18734653oiw.10;
+        Wed, 10 Mar 2021 03:43:13 -0800 (PST)
+X-Gm-Message-State: AOAM531/7yZSvEeZkdCJa5NSq6fmieEqZ2RXVdtDQxJXhoLASuwSYSuv
+        L1D+aTPOqxnQ5AciLBcxDsIpR6C2d074lcunWHY=
+X-Google-Smtp-Source: ABdhPJxlHt0uYmch4USUhyI1PmZYpWv5SFHgA7xLm+M/LTOw8bqf4Cpyeoo3gC1uj5lb01XEoAYopnrDQGHXZzFybs8=
+X-Received: by 2002:a05:6808:3d9:: with SMTP id o25mr2139659oie.4.1615376592865;
+ Wed, 10 Mar 2021 03:43:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210309205921.15992-1-brgl@bgdev.pl>
+References: <20210225080453.1314-1-alex@ghiti.fr> <20210225080453.1314-3-alex@ghiti.fr>
+ <5279e97c-3841-717c-2a16-c249a61573f9@redhat.com> <7d9036d9-488b-47cc-4673-1b10c11baad0@ghiti.fr>
+In-Reply-To: <7d9036d9-488b-47cc-4673-1b10c11baad0@ghiti.fr>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Wed, 10 Mar 2021 12:42:56 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a3mVDwJG6k7PZEKkteszujP06cJf8Zqhq43F0rNsU=h4g@mail.gmail.com>
+Message-ID: <CAK8P3a3mVDwJG6k7PZEKkteszujP06cJf8Zqhq43F0rNsU=h4g@mail.gmail.com>
+Subject: Re: [PATCH 2/3] Documentation: riscv: Add documentation that
+ describes the VM layout
+To:     Alex Ghiti <alex@ghiti.fr>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Provags-ID: V03:K1:bgeb1O6xJm5Eu32jvoeA9HZygSXfrnl6bZIKYPa2hQtRZXi2xN3
+ 8jiZ6cQFF3TuLw3vAMCIncE4hHz5L0+F/ma7mjn8OgcOJ8SBGuKV6xnwhYd1YRWxK+SHaUq
+ GvuqHahb7NpC9WtQtfE1XV0CSRe53Ql/RVv7U9gTuy5hbREGU8NRODTnUE2vGdZycIwcAsV
+ EaYbF3tvDquFns9QufCqQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DD+2KlrKtKs=:I8RnZHOqF3ZzqNfAQyYRZs
+ eozE/kGvXgg3SwkhQPZo3yDi3UHAQl3YjU37wSfrg4wc7JTnCWLLsmKCWGwlXDC5eQKl0ctTr
+ WMm9wS3qpjAIlvgxPoaUWMTaAfLd8FSVZfY3/AejgeJ7rVsB13zpmHXMgjOwm4A4VxyB6LHNW
+ xl90+WmC/CvbjKbqeJQAQwlToPYiNWdMXybUY+U6PnuzTnaPwpXFjKRvEYCgdIRIwiC/n1J91
+ XJiWP003mpMbm91mxfXNU3jnlIkmD4gh6lVuaOrChdXc1c2l6opjLx5wlSGj0dMmN0Bo/2Cke
+ MPwWkJsDaxzdNXWEMpQ+gsFQvUF4r1icCF/kM9DgIT6rcTX8/95bdvKgbcmNehg1VLmaYBqFO
+ AGLekYDVrJW0OsGZFCfKhMGoNrc1PVb2gmsRclRHfvlMqeppED9iDOt23F1b8TwTzAtMF7PXq
+ /gJQpHeSCg6gQKLiEv6hxZdZAizwq8j9Kll9/il2Zf8D8+n/EvFhVszDaJ14sxwkqu8ePQw2E
+ JkaEp3+OQnftw+WMKhTBNi8mqYP0KdgW02F+6mZuYrl3BxchjCoI0UEmir7kE/Mwg==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 09, 2021 at 09:59:10PM +0100, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> 
-> This series adds a new GPIO testing module based on configfs committable items
-> and sysfs. The goal is to provide a testing driver that will be configurable
-> at runtime (won't need module reload) and easily extensible. The control over
-> the attributes is also much more fine-grained than in gpio-mockup.
-> 
-> This series also contains a respin of the patches I sent separately to the
-> configfs maintainers - these patches implement the concept of committable
-> items that was well defined for a long time but never actually completed.
-> 
-> Apart from the new driver itself, its selftests and the configfs patches, this
-> series contains some changes to the bitmap API - most importantly: it adds
-> devres managed variants of bitmap_alloc() and bitmap_zalloc().
-> 
-> v1 -> v2:
-> - add selftests for gpio-sim
-> - add helper programs for selftests
-> - update the configfs rename callback to work with the new API introduced in
->   v5.11
-> - fix a missing quote in the documentation
-> - use !! whenever using bits operation that are required to return 0 or 1
-> - use provided bitmap API instead of reimplementing copy or fill operations
-> - fix a deadlock in gpio_sim_direction_output()
-> - add new read-only configfs attributes for mapping of configfs items to GPIO
->   device names
-> - and address other minor issues pointed out in reviews of v1
-> 
-> v2 -> v3:
-> - use devm_bitmap_alloc() instead of the zalloc variant if we're initializing
->   the bitmap with 1s
-> - drop the patch exporting device_is_bound()
-> - don't return -ENODEV from dev_nam and chip_name configfs attributes, return
->   a string indicating that the device is not available yet ('n/a')
-> - fix indentation where it makes sense
-> - don't protect IDA functions which use their own locking and where it's not
->   needed
-> - use kmemdup() instead of kzalloc() + memcpy()
-> - collected review tags
-> - minor coding style fixes
+On Thu, Feb 25, 2021 at 12:56 PM Alex Ghiti <alex@ghiti.fr> wrote:
+>
+> Le 2/25/21 à 5:34 AM, David Hildenbrand a écrit :
+> >                   |            |                  |         |> +
+> > ffffffc000000000 | -256    GB | ffffffc7ffffffff |   32 GB | kasan
+> >> +   ffffffcefee00000 | -196    GB | ffffffcefeffffff |    2 MB | fixmap
+> >> +   ffffffceff000000 | -196    GB | ffffffceffffffff |   16 MB | PCI io
+> >> +   ffffffcf00000000 | -196    GB | ffffffcfffffffff |    4 GB | vmemmap
+> >> +   ffffffd000000000 | -192    GB | ffffffdfffffffff |   64 GB |
+> >> vmalloc/ioremap space
+> >> +   ffffffe000000000 | -128    GB | ffffffff7fffffff |  126 GB |
+> >> direct mapping of all physical memory
+> >
+> > ^ So you could never ever have more than 126 GB, correct?
+> >
+> > I assume that's nothing new.
+> >
+>
+> Before this patch, the limit was 128GB, so in my sense, there is nothing
+> new. If ever we want to increase that limit, we'll just have to lower
+> PAGE_OFFSET, there is still some unused virtual addresses after kasan
+> for example.
 
-Thanks for dropping the device_is_bound() stuff, looks sane to me.
+Linus Walleij is looking into changing the arm32 code to have the kernel
+direct map inside of the vmalloc area, which would be another place
+that you could use here. It would be nice to not have too many different
+ways of doing this, but I'm not sure how hard it would be to rework your
+code, or if there are any downsides of doing this.
 
-greg k-h
+        Arnd
