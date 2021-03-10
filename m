@@ -2,120 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDD46C433E9
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 17:02:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DE20C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 17:20:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AC22664FD2
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 17:02:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFDA464FC8
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 17:20:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230076AbhCJRCT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Mar 2021 12:02:19 -0500
-Received: from mail.kernel.org ([198.145.29.99]:44384 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233655AbhCJRB6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Mar 2021 12:01:58 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6A5FA64FCA;
-        Wed, 10 Mar 2021 17:01:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615395717;
-        bh=5LZ7c4U4IAUXXoygU0w5CR3jOKIDBj1RXMdFN86MevM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=b5q13A9vKkWPc/S2db+xOtVll5VS6u+2t6fCOQtiIUBFLLDdzVTyOI+P3UeGL+LqJ
-         7Elkm2kmhr5CpRnO2X65A+H6fhh08GnA/WZocXK+qekvB2TMURd3J8UgsqR1NfmFxy
-         fDonUJ45jhqpGSvmkgJUFSjgA6p0MSXOK2M6hq+6iVQgE7ghxEkPMetdhH7pMmlX+o
-         cOjW0m8/LKBPl6s3lctW6O2TtGutJaNWf1VaOiJ33Nq8iQxmlrU/PpR2RsOIZkmy0D
-         GyUobzwlzzFIqj7QIzHuu+VDiWYgi4SVCChUfIiVW79wRLAtbqMDYlXwptMkpZAMVn
-         lloGmQa4FN/LQ==
-Received: by mail-ed1-f48.google.com with SMTP id w9so29022145edt.13;
-        Wed, 10 Mar 2021 09:01:57 -0800 (PST)
-X-Gm-Message-State: AOAM530KCNGOc9UWduhTNmkxpbxEUUcZnZx2dKf1QRq8pCP7eaYalsLB
-        e8zsS1z9pKqpMVuOCDEDipti2ju9lBMiBqrhUQ==
-X-Google-Smtp-Source: ABdhPJyyjiOqDNU+GsRsusWQw6pd7IjZqC3Hzchz/EIeuYg4YBLw4UApJuUQRJ4ZYOdJ7x1nylPn+YQBn+IB+ohTiOE=
-X-Received: by 2002:aa7:d3d8:: with SMTP id o24mr4394042edr.165.1615395715853;
- Wed, 10 Mar 2021 09:01:55 -0800 (PST)
+        id S233015AbhCJRTy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Mar 2021 12:19:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40360 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231776AbhCJRTV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Mar 2021 12:19:21 -0500
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 124D2C061760;
+        Wed, 10 Mar 2021 09:19:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=/5w/2w1U8IalsF0nNy9P7Ug7r+ohzPQSbTLCV/ACYAw=; b=SgflWwuG7rlwczSiA89xk50EeO
+        oOTWd+PU5g5gxSejQlyIkVaSdnDwj4o3CRFn7UuX1oWDYc8DryelbfSw2YlzFTJlbsgnDDuDdMvTq
+        Kr+y0BQQ7khb13jHIkAL3SXgaSJv6IxdWu4FKUC+XIMTYurthG8XZEn28i55KvcnBjltFjWPKcEIq
+        lG0rpF9QX8Ur4hgel0bnSWWUzOo7LTG2q2cQN2bq60O+QJq9p3pA+/8MlTAvtktiOPna7xOl57jpb
+        v2N1TFYFrgGEYT74Cjsv+7O7nVCcMq2dqyUpK6GSVvEfYwIah8F9K8TawEuWuEGMim2cMrZurOZtk
+        D80YgH9g==;
+Received: from merlin.infradead.org ([2001:8b0:10b:1234::107])
+        by desiato.infradead.org with esmtps (Exim 4.94 #2 (Red Hat Linux))
+        id 1lK2UR-007K8B-16; Wed, 10 Mar 2021 17:19:19 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=/5w/2w1U8IalsF0nNy9P7Ug7r+ohzPQSbTLCV/ACYAw=; b=m7XtJ6F6ba4xYYPrTIE4xsUsws
+        WPYx3ooWq+b5Tccj8O+pI2kaWneGjqXek6MU3N6LHiXGQ2l7KLVB8iJ+tDyWFrPn7FFic2vKIc4da
+        563khCrBGqrXdg+ZdhEh3i0qvRbLEU79QNpJ6dO+0Nyok39hJkxOQDivFihPYwf6ITidfUfzkYikH
+        SKZpwQyK1iZggwZkU2sVXGEd386ZAeBWSWK4wgPM+oVILE5dwQYFhfhHQKMsrfnDmNjMm+o35mCBW
+        oSxtfSsHX5ooAlE0EoVj/4loLabM5x/K/T9luZlD6bNIdeDVwcSV83EoEHkACGo4ApWncrBosyaHh
+        E3kafvcQ==;
+Received: from [2601:1c0:6280:3f0::3ba4]
+        by merlin.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lK2RB-000pW0-Os; Wed, 10 Mar 2021 17:15:59 +0000
+Subject: Re: [PATCH v18 6/9] mm: hugetlb: add a kernel parameter
+ hugetlb_free_vmemmap
+To:     Michal Hocko <mhocko@suse.com>,
+        Muchun Song <songmuchun@bytedance.com>
+Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
+        paulmck@kernel.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de, almasrymina@google.com,
+        rientjes@google.com, willy@infradead.org, osalvador@suse.de,
+        song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com, joao.m.martins@oracle.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, Miaohe Lin <linmiaohe@huawei.com>,
+        Chen Huang <chenhuang5@huawei.com>,
+        Bodeddula Balasubramaniam <bodeddub@amazon.com>
+References: <20210308102807.59745-1-songmuchun@bytedance.com>
+ <20210308102807.59745-7-songmuchun@bytedance.com>
+ <YEjnpwN8eDlyc08+@dhcp22.suse.cz>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <4ed29af1-1114-a085-d47d-21d646963ab7@infradead.org>
+Date:   Wed, 10 Mar 2021 09:15:45 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-13-marcan@marcan.st>
- <CAL_JsqJF2Hz=4U7FR_GOSjCxqt3dpf-CAWFNfsSrDjDLpHqgCA@mail.gmail.com>
- <6e4880b3-1fb6-0cbf-c1a5-7a46fd9ccf62@marcan.st> <CAK8P3a0Hmwt-ywzS-2eEmqyQ0v2SxLsLxFwfTUoWwbzCrBNhsQ@mail.gmail.com>
- <CAL_JsqJHRM59GC3FjvaGLCELemy1uspnGvTEFH6q0OdyBPVSjA@mail.gmail.com>
- <CAK8P3a0_GBB-VYFO5NaySyBJDN2Ra-WMH4WfFrnzgOejmJVG8g@mail.gmail.com>
- <20210308211306.GA2920998@robh.at.kernel.org> <CAK8P3a2GfzUevuQNZeQarJ4GNFsuDj0g7oFuN940Hdaw06YJbA@mail.gmail.com>
- <CAL_JsqK8FagJyQVyG5DAocUjLGZT91b6NzDm_DNMW1hdCz51Xg@mail.gmail.com>
- <c5693760-3b18-e8f1-18b6-bae42c05d329@marcan.st> <CAL_Jsq+VLLPa98iaTvOkK-tjuBH4qY7FNEGtufYGv7rXAbwegQ@mail.gmail.com>
- <332c0b9a-dcfd-4c3b-9038-47cbda90eb3f@marcan.st>
-In-Reply-To: <332c0b9a-dcfd-4c3b-9038-47cbda90eb3f@marcan.st>
-From:   Rob Herring <robh@kernel.org>
-Date:   Wed, 10 Mar 2021 10:01:43 -0700
-X-Gmail-Original-Message-ID: <CAL_Jsq+X7JPm-xrxmy5bGKSuLO59yk6S=EuXmdMn0FwhpZAD7A@mail.gmail.com>
-Message-ID: <CAL_Jsq+X7JPm-xrxmy5bGKSuLO59yk6S=EuXmdMn0FwhpZAD7A@mail.gmail.com>
-Subject: Re: [RFT PATCH v3 12/27] of/address: Add infrastructure to declare
- MMIO as non-posted
-To:     Hector Martin <marcan@marcan.st>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>, Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        DTML <devicetree@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
-        <linux-arch@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YEjnpwN8eDlyc08+@dhcp22.suse.cz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 10, 2021 at 1:27 AM Hector Martin <marcan@marcan.st> wrote:
->
-> On 10/03/2021 07.06, Rob Herring wrote:
-> >> My main concern here is that this creates an inconsistency in the device
-> >> tree representation that only works because PCI drivers happen not to
-> >> use these code paths. Logically, having "nonposted-mmio" above the PCI
-> >> controller would imply that it applies to that bus too. Sure, it doesn't
-> >> matter for Linux since it is ignored, but this creates an implicit
-> >> exception that PCI buses always use posted modes.
-> >
-> > We could be stricter that "nonposted-mmio" must be in the immediate
-> > parent. That's kind of in line with how addressing already works.
-> > Every level has to have 'ranges' to be an MMIO address, and the
-> > address cell size is set by the immediate parent.
-> >
-> >> Then if a device comes along that due to some twisted fabric logic needs
-> >> nonposted nGnRnE mappings for PCIe (even though the actual PCIe ops will
-> >> end up posted at the bus anyway)... how do we represent that? Declare
-> >> that another "nonposted-mmio" on the PCIe bus means "no, really, use
-> >> nonposted mmio for this"?
-> >
-> > If we're strict, yes. The PCI host bridge would have to have "nonposted-mmio".
->
-> Works for me; then let's just make it non-recursive.
->
-> Do you think we can get rid of the Apple-only optimization if we do
-> this? It would mean only looking at the parent during address
-> resolution, not recursing all the way to the top, so presumably the
-> performance impact would be quite minimal.
+On 3/10/21 7:37 AM, Michal Hocko wrote:
+> On Mon 08-03-21 18:28:04, Muchun Song wrote:
+>> Add a kernel parameter hugetlb_free_vmemmap to enable the feature of
+>> freeing unused vmemmap pages associated with each hugetlb page on boot.
+>>
+>> We disables PMD mapping of vmemmap pages for x86-64 arch when this
+>> feature is enabled. Because vmemmap_remap_free() depends on vmemmap
+>> being base page mapped.
+>>
+>> Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+>> Reviewed-by: Oscar Salvador <osalvador@suse.de>
+>> Reviewed-by: Barry Song <song.bao.hua@hisilicon.com>
+>> Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
+>> Tested-by: Chen Huang <chenhuang5@huawei.com>
+>> Tested-by: Bodeddula Balasubramaniam <bodeddub@amazon.com>
+>> ---
+>>  Documentation/admin-guide/kernel-parameters.txt | 14 ++++++++++++++
+>>  Documentation/admin-guide/mm/hugetlbpage.rst    |  3 +++
+>>  arch/x86/mm/init_64.c                           |  8 ++++++--
+>>  include/linux/hugetlb.h                         | 19 +++++++++++++++++++
+>>  mm/hugetlb_vmemmap.c                            | 24 ++++++++++++++++++++++++
+>>  5 files changed, 66 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 04545725f187..de91d54573c4 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -1557,6 +1557,20 @@
+>>  			Documentation/admin-guide/mm/hugetlbpage.rst.
+>>  			Format: size[KMG]
+>>  
+>> +	hugetlb_free_vmemmap=
+>> +			[KNL] When CONFIG_HUGETLB_PAGE_FREE_VMEMMAP is set,
+>> +			this controls freeing unused vmemmap pages associated
+>> +			with each HugeTLB page. When this option is enabled,
+>> +			we disable PMD/huge page mapping of vmemmap pages which
+>> +			increase page table pages. So if a user/sysadmin only
+>> +			uses a small number of HugeTLB pages (as a percentage
+>> +			of system memory), they could end up using more memory
+>> +			with hugetlb_free_vmemmap on as opposed to off.
+>> +			Format: { on | off (default) }
+> 
+> Please note this is an admin guide and for those this seems overly low
+> level. I would use something like the following
+> 			[KNL] Reguires CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
+> 			enabled.
+> 			Allows heavy hugetlb users to free up some more
+> 			memory (6 * PAGE_SIZE for each 2MB hugetlb
+> 			page).
+> 			This feauture is not free though. Large page
+> 			tables are not use to back vmemmap pages which
 
-Yeah, that should be fine. I'd keep an IS_ENABLED() config check
-though. Then I'll also know if anyone else needs this.
+			       are not used
 
-Rob
+> 			can lead to a performance degradation for some
+> 			workloads. Also there will be memory allocation
+> 			required when hugetlb pages are freed from the
+> 			pool which can lead to corner cases under heavy
+> 			memory pressure.
+>> +
+>> +			on:  enable the feature
+>> +			off: disable the feature
+>> +
+>>  	hung_task_panic=
+>>  			[KNL] Should the hung task detector generate panics.
+>>  			Format: 0 | 1
+
+
+-- 
+~Randy
+
