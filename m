@@ -2,114 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C4E2C433E9
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 19:13:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA1F6C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 19:57:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E1CE464FD2
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 19:13:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C9C464FC9
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 19:57:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233403AbhCJTNV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Mar 2021 14:13:21 -0500
-Received: from relay11.mail.gandi.net ([217.70.178.231]:44741 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232417AbhCJTND (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Mar 2021 14:13:03 -0500
-Received: from [192.168.1.12] (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
-        (Authenticated sender: alex@ghiti.fr)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 9F5FB100006;
-        Wed, 10 Mar 2021 19:12:55 +0000 (UTC)
-Subject: Re: [PATCH 2/3] Documentation: riscv: Add documentation that
- describes the VM layout
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     David Hildenbrand <david@redhat.com>,
+        id S233250AbhCJT5D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Mar 2021 14:57:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52242 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230183AbhCJT4g (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Mar 2021 14:56:36 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C48BC64FBB;
+        Wed, 10 Mar 2021 19:56:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615406196;
+        bh=hwRJ4cG4gqJew/418K/AK/eJ2RNvo2awfPKya7n8mDg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XtllEriXv8/gtCDkxJYIV7SDLDwu7sw9sOKCVkXgOTUMdivht+ZtVq4PCt+TAfFeS
+         u28LRMoaTpINTeO1/Hx7YceweS9U+4Crn369Yz9oMfBz5oiBZOL8aYKxeTNbVGvMBh
+         FHFDLqPWtJ/mS+EGZzUMs+3YyAzmgV+cq0sZABuPdR1kuff2p48tjR/EnCpIC33YfV
+         Z4mkyZ4AeH9a4PsWoRw7wbDb8DkmRSIMUk5trAMAgPAal+G7E/sGoqnKSb/xjIvfp6
+         nD7WDa8pqaKTJq7Yxpjm5mdFTAy7oHD3o1m896WQLcQ+8MmN0Uc9A5RESRoLVCROoC
+         g3jqIaUCZmoOQ==
+Date:   Wed, 10 Mar 2021 21:56:13 +0200
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Sumit Garg <sumit.garg@linaro.org>, jejb@linux.ibm.com
+Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linus Walleij <linus.walleij@linaro.org>
-References: <20210225080453.1314-1-alex@ghiti.fr>
- <20210225080453.1314-3-alex@ghiti.fr>
- <5279e97c-3841-717c-2a16-c249a61573f9@redhat.com>
- <7d9036d9-488b-47cc-4673-1b10c11baad0@ghiti.fr>
- <CAK8P3a3mVDwJG6k7PZEKkteszujP06cJf8Zqhq43F0rNsU=h4g@mail.gmail.com>
-From:   Alex Ghiti <alex@ghiti.fr>
-Message-ID: <236a9788-8093-9876-a024-b0ad0d672c72@ghiti.fr>
-Date:   Wed, 10 Mar 2021 14:12:56 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        Luke Hinds <lhinds@redhat.com>,
+        Elaine Palmer <erpalmer@us.ibm.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        "open list:SECURITY SUBSYSTEM" 
+        <linux-security-module@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org
+Subject: Re: [PATCH v9 0/4] Introduce TEE based Trusted Keys support
+Message-ID: <YEkkXbWrYBTcGXEd@kernel.org>
+References: <20210301131127.793707-1-sumit.garg@linaro.org>
+ <CAFA6WYO4HHhtymaUzmkuaCZybTAWBQ=4K9Dez1pe1kqo3AJhuA@mail.gmail.com>
+ <YEEANW+khw3nJtcQ@kernel.org>
+ <CAFA6WYOxsYin8wBB_yU=S-bnqM-g5TFnTU_KXxc3wSBfx_N_6A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAK8P3a3mVDwJG6k7PZEKkteszujP06cJf8Zqhq43F0rNsU=h4g@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFA6WYOxsYin8wBB_yU=S-bnqM-g5TFnTU_KXxc3wSBfx_N_6A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Arnd,
-
-Le 3/10/21 à 6:42 AM, Arnd Bergmann a écrit :
-> On Thu, Feb 25, 2021 at 12:56 PM Alex Ghiti <alex@ghiti.fr> wrote:
->>
->> Le 2/25/21 à 5:34 AM, David Hildenbrand a écrit :
->>>                    |            |                  |         |> +
->>> ffffffc000000000 | -256    GB | ffffffc7ffffffff |   32 GB | kasan
->>>> +   ffffffcefee00000 | -196    GB | ffffffcefeffffff |    2 MB | fixmap
->>>> +   ffffffceff000000 | -196    GB | ffffffceffffffff |   16 MB | PCI io
->>>> +   ffffffcf00000000 | -196    GB | ffffffcfffffffff |    4 GB | vmemmap
->>>> +   ffffffd000000000 | -192    GB | ffffffdfffffffff |   64 GB |
->>>> vmalloc/ioremap space
->>>> +   ffffffe000000000 | -128    GB | ffffffff7fffffff |  126 GB |
->>>> direct mapping of all physical memory
->>>
->>> ^ So you could never ever have more than 126 GB, correct?
->>>
->>> I assume that's nothing new.
->>>
->>
->> Before this patch, the limit was 128GB, so in my sense, there is nothing
->> new. If ever we want to increase that limit, we'll just have to lower
->> PAGE_OFFSET, there is still some unused virtual addresses after kasan
->> for example.
+On Tue, Mar 09, 2021 at 02:40:07PM +0530, Sumit Garg wrote:
+> On Thu, 4 Mar 2021 at 21:14, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+> >
+> > On Thu, Mar 04, 2021 at 03:30:18PM +0530, Sumit Garg wrote:
+> > > Hi Jarkko,
+> > >
+> > > On Mon, 1 Mar 2021 at 18:41, Sumit Garg <sumit.garg@linaro.org> wrote:
+> > > >
+> > > > Add support for TEE based trusted keys where TEE provides the functionality
+> > > > to seal and unseal trusted keys using hardware unique key. Also, this is
+> > > > an alternative in case platform doesn't possess a TPM device.
+> > > >
+> > > > This patch-set has been tested with OP-TEE based early TA which is already
+> > > > merged in upstream [1].
+> > > >
+> > > > [1] https://github.com/OP-TEE/optee_os/commit/f86ab8e7e0de869dfa25ca05a37ee070d7e5b86b
+> > > >
+> > > > Changes in v9:
+> > > > 1. Rebased to latest tpmdd/master.
+> > > > 2. Defined pr_fmt() and removed redundant tags.
+> > > > 3. Patch #2: incorporated misc. comments.
+> > > > 4. Patch #3: incorporated doc changes from Elaine and misc. comments
+> > > >    from Randy.
+> > > > 5. Patch #4: reverted to separate maintainer entry as per request from
+> > > >    Jarkko.
+> > > > 6. Added Jarkko's Tested-by: tag on patch #2.
+> > >
+> > > It looks like we don't have any further comments on this patch-set. So
+> > > would you be able to pick up this patch-set?
+> >
+> > I'm cool with that - I can pick this for 5.13.
+> >
 > 
-> Linus Walleij is looking into changing the arm32 code to have the kernel
-> direct map inside of the vmalloc area, which would be another place
-> that you could use here. It would be nice to not have too many different
-> ways of doing this, but I'm not sure how hard it would be to rework your
-> code, or if there are any downsides of doing this.
-
-This was what my previous version did: https://lkml.org/lkml/2020/6/7/28.
-
-This approach was not welcomed very well and it fixed only the problem 
-of the implementation of relocatable kernel. The second issue I'm trying 
-to resolve here is to support both 3 and 4 level page tables using the 
-same kernel without being relocatable (which would introduce performance 
-penalty). I can't do it when the kernel mapping is in the vmalloc region 
-since vmalloc region relies on PAGE_OFFSET which is different on both 3 
-and 4 level page table and that would then require the kernel to be 
-relocatable.
-
-Alex
-
+> Thanks.
 > 
->          Arnd
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
-> 
+> -Sumit
+
+I'll make it available soon'ish.
+
+I also need to apply 
+
+https://lore.kernel.org/linux-integrity/20210127190617.17564-1-James.Bottomley@HansenPartnership.com/
+
+and I would like to do both while I'm at it.
+
+James, there was one patch that needed fixing but I cannot find
+lore.kernel.org link. Can you point me to that so that we
+can proceed?
+
+/Jarkko
