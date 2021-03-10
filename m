@@ -2,100 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E093CC433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 23:42:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AF39C433E6
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 23:53:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B751764FCA
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 23:42:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CEA1464FE0
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 23:53:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234004AbhCJXlx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Mar 2021 18:41:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41044 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234013AbhCJXlt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Mar 2021 18:41:49 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 901D164F84;
-        Wed, 10 Mar 2021 23:41:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615419709;
-        bh=C3RsJeg5tlK8pNQmjaKUSH84FGvfehLc6AVy6LUIT/s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Fn9jMQEh/fftc7c5w2+kj2PLgAtZpIF7mO0hF8jQFLq3ExrAuwdGb6vi1x/lWJqPE
-         WzezrSYYYjtPsRGKKqmR/G6q8OvjeOgT+qQ0Wjfb+iOGr+MXbV8xGEPZL/u/hI6oWM
-         l+4fYDmGxaZcbee7OsaUa5ue/QIvGWn6yEQcjepXVESokEtNDmQ4I8SdoE8HRC+O2g
-         qtr/JDocZzDLUI9ae+kV86bSHXtB7vq9zBEZENIYGn3vLowtcpg0x2xsza9gS0Sz2P
-         M5jkzJRqkGUYjlQK5V51H29X1abbPbz2XjhTMMxvgdIS89PIHqZCPNPwJoZD8cXRD6
-         mp29p4XxiipKA==
-Date:   Thu, 11 Mar 2021 01:41:25 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     James Bottomley <jejb@linux.ibm.com>
-Cc:     Sumit Garg <sumit.garg@linaro.org>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
+        id S234092AbhCJXxH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Mar 2021 18:53:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36693 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233934AbhCJXxB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Mar 2021 18:53:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1615420380;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=udIsXj2/Qdllfep2hpZOoBYR1JgZNIiBljI7t2gtaus=;
+        b=K7h4eNH2idypft6YeTHHj1G4XOnQ9e3CeZcsfyfove7a3BBYKQJgj8SOVrveRyrVXnVM1J
+        ZZFNGq9eDvIamGzt/OmUta5250tiHH3EKTFlRIzB0gURiszUVP6RHY8xknEdRFkp13BsTC
+        1nhZvoE+kGFZZdu7f/GErQ22r/yzWes=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-4nh9pexWOE2OPyl2b5hzKQ-1; Wed, 10 Mar 2021 18:52:55 -0500
+X-MC-Unique: 4nh9pexWOE2OPyl2b5hzKQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4FC791074644;
+        Wed, 10 Mar 2021 23:52:53 +0000 (UTC)
+Received: from omen.home.shazbot.org (ovpn-112-255.phx2.redhat.com [10.3.112.255])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8A8955B6A8;
+        Wed, 10 Mar 2021 23:52:48 +0000 (UTC)
+Date:   Wed, 10 Mar 2021 16:52:47 -0700
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        Luke Hinds <lhinds@redhat.com>,
-        Elaine Palmer <erpalmer@us.ibm.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org
-Subject: Re: [PATCH v9 0/4] Introduce TEE based Trusted Keys support
-Message-ID: <YElZJYTgrWFy/stG@kernel.org>
-References: <20210301131127.793707-1-sumit.garg@linaro.org>
- <CAFA6WYO4HHhtymaUzmkuaCZybTAWBQ=4K9Dez1pe1kqo3AJhuA@mail.gmail.com>
- <YEEANW+khw3nJtcQ@kernel.org>
- <CAFA6WYOxsYin8wBB_yU=S-bnqM-g5TFnTU_KXxc3wSBfx_N_6A@mail.gmail.com>
- <YEkkXbWrYBTcGXEd@kernel.org>
- <9aa3173ab46b0aa7edb8146ffd3df05c1f74207e.camel@linux.ibm.com>
- <YElXqEQblFfSJaGo@kernel.org>
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        Eric Auger <eric.auger@redhat.com>, kvm@vger.kernel.org,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, "Raj, Ashok" <ashok.raj@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH 00/10] Embed struct vfio_device in all sub-structures
+Message-ID: <20210310165247.0f04b237@omen.home.shazbot.org>
+In-Reply-To: <0-v1-7355d38b9344+17481-vfio1_jgg@nvidia.com>
+References: <0-v1-7355d38b9344+17481-vfio1_jgg@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YElXqEQblFfSJaGo@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 01:35:04AM +0200, Jarkko Sakkinen wrote:
-> On Wed, Mar 10, 2021 at 02:26:27PM -0800, James Bottomley wrote:
-> > On Wed, 2021-03-10 at 21:56 +0200, Jarkko Sakkinen wrote:
-> > [...]
-> > > I also need to apply 
-> > > 
-> > > https://lore.kernel.org/linux-integrity/20210127190617.17564-1-James.Bottomley@HansenPartnership.com/
-> > > 
-> > > and I would like to do both while I'm at it.
-> > > 
-> > > James, there was one patch that needed fixing but I cannot find
-> > > lore.kernel.org link. Can you point me to that so that we
-> > > can proceed?
-> > 
-> > I think you mean this one observing a missing space in the commit
-> > message:
-> > 
-> > https://lore.kernel.org/keyrings/1327393.1612972717@warthog.procyon.org.uk/
-> > 
-> > James
+On Tue,  9 Mar 2021 17:38:42 -0400
+Jason Gunthorpe <jgg@nvidia.com> wrote:
+> This series:
 > 
-> I applied the version that I have, no worries.
+> The main focus of this series is to make VFIO follow the normal kernel
+> convention of structure embedding for structure inheritance instead of
+> linking using a 'void *opaque'. Here we focus on moving the vfio_device to
+> be a member of every struct vfio_XX_device that is linked by a
+> vfio_add_group_dev().
+> 
+> In turn this allows 'struct vfio_device *' to be used everwhere, and the
+> public API out of vfio.c can be cleaned to remove places using 'struct
+> device *' and 'void *' as surrogates to refer to the device.
+> 
+> While this has the minor trade off of moving 'struct vfio_device' the
+> clarity of the design is worth it. I can speak directly to this idea, as
+> I've invested a fair amount of time carefully working backwards what all
+> the type-erased APIs are supposed to be and it is certainly not trivial or
+> intuitive.
+> 
+> When we get into mdev land things become even more inscrutable, and while
+> I now have a pretty clear picture, it was hard to obtain. I think this
+> agrees with the kernel style ideal of being explicit in typing and not
+> sacrificing clarity to create opaque structs.
+> 
+> After this series the general rules are:
+>  - Any vfio_XX_device * can be obtained at no cost from a vfio_device *
+>    using container_of(), and the reverse is possible by &XXdev->vdev
+> 
+>    This is similar to how 'struct pci_device' and 'struct device' are
+>    interrelated.
+> 
+>    This allows 'device_data' to be completely removed from the vfio.c API.
+> 
+>  - The drvdata for a struct device points at the vfio_XX_device that
+>    belongs to the driver that was probed. drvdata is removed from the core
+>    code, and only used as part of the implementation of the struct
+>    device_driver.
+> 
+>  - The lifetime of vfio_XX_device and vfio_device are identical, they are
+>    the same memory.
+> 
+>    This follows the existing model where vfio_del_group_dev() blocks until
+>    all vfio_device_put()'s are completed. This in turn means the struct
+>    device_driver remove() blocks, and thus under the driver_lock() a bound
+>    driver must have a valid drvdata pointing at both vfio device
+>    structs. A following series exploits this further.
+> 
+> Most vfio_XX_device structs have data that duplicates the 'struct
+> device *dev' member of vfio_device, a following series removes that
+> duplication too.
+> 
+> Jason
+> 
+> Jason Gunthorpe (10):
+>   vfio: Simplify the lifetime logic for vfio_device
+>   vfio: Split creation of a vfio_device into init and register ops
+>   vfio/platform: Use vfio_init/register/unregister_group_dev
+>   vfio/fsl-mc: Use vfio_init/register/unregister_group_dev
+>   vfio/pci: Use vfio_init/register/unregister_group_dev
+>   vfio/mdev: Use vfio_init/register/unregister_group_dev
+>   vfio/mdev: Make to_mdev_device() into a static inline
+>   vfio: Make vfio_device_ops pass a 'struct vfio_device *' instead of
+>     'void *'
+>   vfio/pci: Replace uses of vfio_device_data() with container_of
+>   vfio: Remove device_data from the vfio bus driver API
+> 
+>  Documentation/driver-api/vfio.rst             |  48 ++--
+>  drivers/vfio/fsl-mc/vfio_fsl_mc.c             |  69 +++---
+>  drivers/vfio/fsl-mc/vfio_fsl_mc_private.h     |   1 +
+>  drivers/vfio/mdev/mdev_private.h              |   5 +-
+>  drivers/vfio/mdev/vfio_mdev.c                 |  57 +++--
+>  drivers/vfio/pci/vfio_pci.c                   | 109 +++++----
+>  drivers/vfio/pci/vfio_pci_private.h           |   1 +
+>  drivers/vfio/platform/vfio_amba.c             |   8 +-
+>  drivers/vfio/platform/vfio_platform.c         |  21 +-
+>  drivers/vfio/platform/vfio_platform_common.c  |  56 ++---
+>  drivers/vfio/platform/vfio_platform_private.h |   5 +-
+>  drivers/vfio/vfio.c                           | 210 ++++++------------
+>  include/linux/vfio.h                          |  37 +--
+>  13 files changed, 299 insertions(+), 328 deletions(-)
+> 
 
-Both series have been applied. I mangled the makefile a bit in both series.
+This looks great.  As Christoph noted, addressing those init vs
+register races in the bus drivers don't seem too difficult or out of
+scope for this series.  Thanks,
 
-/Jarkko
+Alex
+
