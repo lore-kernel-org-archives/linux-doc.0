@@ -2,352 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5187C433E6
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 22:39:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9A72C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 02:55:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7971365147
-	for <linux-doc@archiver.kernel.org>; Tue,  9 Mar 2021 22:39:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8057D64FE9
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 02:55:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231788AbhCIWjG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 9 Mar 2021 17:39:06 -0500
-Received: from mail-bn8nam12on2086.outbound.protection.outlook.com ([40.107.237.86]:41824
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230122AbhCIWiy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 9 Mar 2021 17:38:54 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LNgccvxTN/q6W9dHc4txxqQ/RZ5Emi+vSv2VfK/sjcqW7Z3yOC8VMbxgxPqRILf9jAnyXrcC8X/fbO9vxTNN7+UvHWec2n2/4rmoITP+uhE6+3+z5hyDGjr7aFvCXD2B+81uzvKacDvB/2fmnylE1W5TWzg0Lf9xss36LYPOXnpEx84pqGRi8A8510gjcfHgKlddBjiD9NxJKFTDUIYfhlR4r9mF3zOYQ2BCe0t494WSvonCeyuu9XHKNRX/VOuG1C6etysx9BGQvRUPgkrPwuNLszRkUcuF3cbo7+Wr7c3kbGQLb5vnbMQtvtdoQcYu/JbcAjUd/0zei1VRoKDoBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cpKEZNHfoFu6J+bNSYuLLI5I8LXPOFQOvVIbCUINuu4=;
- b=jBz8EGRwMTEY3kwJZc2AXVciGK3O1B7A8lK0MzKSiWnlqbadzMCMDljkPIsZSPTQoYeIDEIEfBEcHYYbNtADOT1jatq6YAeg4ADn5q/C1rtCOXJhO6T9LE4U+LOqreK77fSr141TLZ+Bdw8kaYaparv3Gfziv+8KArcLVAU+RNI9uN0VssI5A2R2hHgsLkbXiIj9MSDIWgWpyR6AHtOJta1xPC0ABDdwmLvKpNPLXVTrMmbdWO8s73Wy095O5eN+zucMMRgteH9j/C/7LhFwv6V7Fv4bpnW665UW1gufjBJUgmPq59PpB6sNkCk2SaBaTxvAbRYaHB/pWzCBnX+42Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cpKEZNHfoFu6J+bNSYuLLI5I8LXPOFQOvVIbCUINuu4=;
- b=tAcvV+t78oZj5NQHq87ksUBvelbp6aoDsT+Sw5nDAJu7/ZiVo2HK8B2Nzaz/RAW6XkhFN5sqg+hl9rHR2Yzyajed06or0lsZm/1nFInInOynFq1JpphJ0eZGXYnDwk8N3L0bb8yHfJh47hLbYSGuIg1E4W4ZQrIHRBb2j+8nM5rMB1MhVoI56rqham+WWNfKD+osgtoffBuzmgy6bB/3U4IQ0qzxv+RCz96S3eUUNXNBO0adRa86SbFYMnVlS6Mgar1gr3UfRQWYyqSCBmpsbruJeqAXdV5Dd0dj0Sld56V64Qb2ieoIXYmlIiP4KBW1E8MvLodD6mP2e/fmlitkvA==
-Received: from DM6PR10CA0020.namprd10.prod.outlook.com (2603:10b6:5:60::33) by
- DM6PR12MB3724.namprd12.prod.outlook.com (2603:10b6:5:1c9::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.17; Tue, 9 Mar 2021 22:38:49 +0000
-Received: from DM6NAM11FT024.eop-nam11.prod.protection.outlook.com
- (2603:10b6:5:60:cafe::99) by DM6PR10CA0020.outlook.office365.com
- (2603:10b6:5:60::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
- Transport; Tue, 9 Mar 2021 22:38:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT024.mail.protection.outlook.com (10.13.172.159) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3912.17 via Frontend Transport; Tue, 9 Mar 2021 22:38:48 +0000
-Received: from localhost (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 9 Mar
- 2021 22:38:47 +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <jhubbard@nvidia.com>, <rcampbell@nvidia.com>,
-        <jglisse@redhat.com>, "Alistair Popple" <apopple@nvidia.com>
-Subject: [PATCH v5 8/8] nouveau/svm: Implement atomic SVM access
-Date:   Wed, 10 Mar 2021 09:38:44 +1100
-Message-ID: <20210309223844.24590-1-apopple@nvidia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210309121505.23608-1-apopple@nvidia.com>
-References: <20210309121505.23608-1-apopple@nvidia.com>
-MIME-Version: 1.0
+        id S232068AbhCJCyw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 9 Mar 2021 21:54:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50532 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231378AbhCJCya (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 9 Mar 2021 21:54:30 -0500
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 681D5C061761
+        for <linux-doc@vger.kernel.org>; Tue,  9 Mar 2021 18:54:30 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id t29so10927955pfg.11
+        for <linux-doc@vger.kernel.org>; Tue, 09 Mar 2021 18:54:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YBxARwCSnvP/MPs48fuZLZiuQ0mo/90Nc+1kxldAXvY=;
+        b=mgPjitELPEW/P5qmpcLVfVoA0D6sHZbihRmkHn2T6K9SBG4Ha/LJO/otu10peacMhr
+         LuL0fRZdQLwP7M9wEDrTpBtLj8K8tudZNldX6kZxxwpgoOUxKITkywSl2jzbDDQ+LlzB
+         pAfWpubnARGarXUbdueVAOGEZZwgdwg38kjUrvpm8UlRyhUcHqhOLh/KTMLubon7Kb4n
+         SDBddPEB0kPjpJ49JkLLyjwoA35CMpN5HTgdd0VAg06YzUz21lg3gZ8E6/aU6kC48WxF
+         Iv+Fz7wjENWwmVReUBuT2iyV4vRqfYBaKfQMpvTe0Mkt1040FtnGxaGlyV9nF1Rgq6o4
+         4rKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=YBxARwCSnvP/MPs48fuZLZiuQ0mo/90Nc+1kxldAXvY=;
+        b=UAhjayTSHhR2Q1vYTKv+Q9okiKGZO5qThZldTx2EJ7Hji3kACzkC5OJ8LVG0NmyMds
+         6wkZXoHQXlY0yfELepNOaYhUDhe6W1G6d4GJYb4Cl5jNLW0ffW7t+ezH2GcdxsYNfbCi
+         8sZi/zerRqc8K9IHJb17Vz1pIwg/v1ApdfhtIFbfgRmWQoWVhDG7+0I3xY0Gn8oNhTRL
+         9QasO/HOiNaqb/cK814sctv9p2+HWcM4qQSdd6em4HAX4O/uwQXBLQMnjOocWYUQaFIe
+         gX7KvEa0j6I8eyCObRYhJ9ItmbKwWYeyFvVafSe9qc2iy2q0uHai1ilD4Fb8ARdNt03F
+         8lmw==
+X-Gm-Message-State: AOAM532A7DtzljD8LyNFE9T1apuIJaL99a+yafm6BOjpke9UYMhHRFKZ
+        HudPEOOrTzeFx7Adss+bNu2R7Q==
+X-Google-Smtp-Source: ABdhPJw9djyUJKGf+CL7k+IvlqXvhXmzFMbBeiDmFCthoAskqXlsDt4pmgMsgrh8nJwik7OuxQCByg==
+X-Received: by 2002:a62:b410:0:b029:1a4:7868:7e4e with SMTP id h16-20020a62b4100000b02901a478687e4emr891769pfn.62.1615344869693;
+        Tue, 09 Mar 2021 18:54:29 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id v1sm4250210pjt.1.2021.03.09.18.54.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Mar 2021 18:54:28 -0800 (PST)
+Date:   Tue, 09 Mar 2021 18:54:28 -0800 (PST)
+X-Google-Original-Date: Tue, 09 Mar 2021 18:54:03 PST (-0800)
+Subject:     Re: [PATCH 0/3] Move kernel mapping outside the linear mapping
+In-Reply-To: <20210225080453.1314-1-alex@ghiti.fr>
+CC:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, Arnd Bergmann <arnd@arndb.de>,
+        aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org, alex@ghiti.fr
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     alex@ghiti.fr
+Message-ID: <mhng-cf5d29ec-e941-4579-8c42-2c11799a8f2f@penguin>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d7c5c8ab-e66a-4d93-91e9-08d8e34c1b7a
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3724:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB372425B378E936F2BD972F93DF929@DM6PR12MB3724.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2331;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qLHigEvRYD2k21A84sm5q1GYFoRsJ5fKJ5DJWj0hZSFybLmc1cDiTLNPFwc45JkYjI7//l9bG2Bv0qOs5AsgPbB3xba+GDxy46CLW3NPqAgVIRsV9Zje4EEP7ntdkcrR6he5LaXoxDNk7B63sgPd9auWMuyW7ZvoOvmOAFkvwt0XnkxHDxBlUIi9loks/jEdML6o+GXrUgaOnBzrMstA//AaAUFnkpKT9dCfJa751lNVXh7J3rRcUJmYTpdZPCs0IMfHZhuGTU4Az0TaE1zmvBSZZqKrg6piOjI5qvH+c+o2MFmARLJzxwaLJE/f+HL3rIVK9LnRG9/y6THRErDngwcRh6lvZi4WqwIX0WxrmIqzElpmTkWaiqv4U5isUxymfFmCGgaeYgC/g75ekmjSSRGCQfbHrISEunm1LYuSjngMf3vpWp2ajIVAbg/g5BTg3aAvMGTdA1IQRFNu4Zadvee/n3l7BAPRcw+hQlxmcQRm+orDTiAlt6e1RXs9M2cdZEUj/6ocy85YEksCdHla2COVvS8CZZLj+Q6k+yDWpjPpIWqSztTKyIzN2ce9VFw/blLB4n+C1HO3v35RCB0ydjop0M81DKaYk8KtTPiUfpdh/aSGjR6Pj9SXZiDz+39UWAYnLfyoOg7UXt+GAB1mlg/UfrAQLTWRcDdLpW8vE9yn1CkNUOadniyGuHgCcB0dy//nuYvF2fOClm+qlLOixQ==
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(346002)(376002)(39860400002)(396003)(46966006)(36840700001)(8676002)(7636003)(16526019)(478600001)(356005)(70206006)(186003)(36906005)(86362001)(36756003)(8936002)(36860700001)(6666004)(47076005)(5660300002)(316002)(82740400003)(2906002)(336012)(83380400001)(4326008)(2616005)(26005)(34020700004)(107886003)(54906003)(82310400003)(110136005)(70586007)(1076003)(426003)(21314003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Mar 2021 22:38:48.9473
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7c5c8ab-e66a-4d93-91e9-08d8e34c1b7a
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT024.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3724
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some NVIDIA GPUs do not support direct atomic access to system memory
-via PCIe. Instead this must be emulated by granting the GPU exclusive
-access to the memory. This is achieved by replacing CPU page table
-entries with special swap entries that fault on userspace access.
+On Thu, 25 Feb 2021 00:04:50 PST (-0800), alex@ghiti.fr wrote:
+> I decided to split sv48 support in small series to ease the review.
+>
+> This patchset pushes the kernel mapping (modules and BPF too) to the last
+> 4GB of the 64bit address space, this allows to:
+> - implement relocatable kernel (that will come later in another
+>   patchset) that requires to move the kernel mapping out of the linear
+>   mapping to avoid to copy the kernel at a different physical address.
+> - have a single kernel that is not relocatable (and then that avoids the
+>   performance penalty imposed by PIC kernel) for both sv39 and sv48.
+>
+> The first patch implements this behaviour, the second patch introduces a
+> documentation that describes the virtual address space layout of the 64bit
+> kernel and the last patch is taken from my sv48 series where I simply added
+> the dump of the modules/kernel/BPF mapping.
+>
+> I removed the Reviewed-by on the first patch since it changed enough from
+> last time and deserves a second look.
+>
+> Alexandre Ghiti (3):
+>   riscv: Move kernel mapping outside of linear mapping
+>   Documentation: riscv: Add documentation that describes the VM layout
+>   riscv: Prepare ptdump for vm layout dynamic addresses
+>
+>  Documentation/riscv/index.rst       |  1 +
+>  Documentation/riscv/vm-layout.rst   | 61 ++++++++++++++++++++++
+>  arch/riscv/boot/loader.lds.S        |  3 +-
+>  arch/riscv/include/asm/page.h       | 18 ++++++-
+>  arch/riscv/include/asm/pgtable.h    | 37 +++++++++----
+>  arch/riscv/include/asm/set_memory.h |  1 +
+>  arch/riscv/kernel/head.S            |  3 +-
+>  arch/riscv/kernel/module.c          |  6 +--
+>  arch/riscv/kernel/setup.c           |  3 ++
+>  arch/riscv/kernel/vmlinux.lds.S     |  3 +-
+>  arch/riscv/mm/fault.c               | 13 +++++
+>  arch/riscv/mm/init.c                | 81 +++++++++++++++++++++++------
+>  arch/riscv/mm/kasan_init.c          |  9 ++++
+>  arch/riscv/mm/physaddr.c            |  2 +-
+>  arch/riscv/mm/ptdump.c              | 67 +++++++++++++++++++-----
+>  15 files changed, 258 insertions(+), 50 deletions(-)
+>  create mode 100644 Documentation/riscv/vm-layout.rst
 
-The driver then grants the GPU permission to update the page undergoing
-atomic access via the GPU page tables. When CPU access to the page is
-required a CPU fault is raised which calls into the device driver via
-MMU notifiers to revoke the atomic access. The original page table
-entries are then restored allowing CPU access to proceed.
-
-Signed-off-by: Alistair Popple <apopple@nvidia.com>
-
----
-
-v4:
-* Check that page table entries haven't changed before mapping on the
-  device
----
- drivers/gpu/drm/nouveau/include/nvif/if000c.h |   1 +
- drivers/gpu/drm/nouveau/nouveau_svm.c         | 102 ++++++++++++++++--
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   1 +
- .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   6 ++
- 4 files changed, 101 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/include/nvif/if000c.h b/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-index d6dd40f21eed..9c7ff56831c5 100644
---- a/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-+++ b/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-@@ -77,6 +77,7 @@ struct nvif_vmm_pfnmap_v0 {
- #define NVIF_VMM_PFNMAP_V0_APER                           0x00000000000000f0ULL
- #define NVIF_VMM_PFNMAP_V0_HOST                           0x0000000000000000ULL
- #define NVIF_VMM_PFNMAP_V0_VRAM                           0x0000000000000010ULL
-+#define NVIF_VMM_PFNMAP_V0_A				  0x0000000000000004ULL
- #define NVIF_VMM_PFNMAP_V0_W                              0x0000000000000002ULL
- #define NVIF_VMM_PFNMAP_V0_V                              0x0000000000000001ULL
- #define NVIF_VMM_PFNMAP_V0_NONE                           0x0000000000000000ULL
-diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-index cd7b47c946cf..16b07d7589d2 100644
---- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -35,6 +35,7 @@
- #include <linux/sched/mm.h>
- #include <linux/sort.h>
- #include <linux/hmm.h>
-+#include <linux/rmap.h>
- 
- struct nouveau_svm {
- 	struct nouveau_drm *drm;
-@@ -265,7 +266,7 @@ nouveau_svmm_invalidate_range_start(struct mmu_notifier *mn,
- 	 * the invalidation is handled as part of the migration process.
- 	 */
- 	if (update->event == MMU_NOTIFY_MIGRATE &&
--	    update->migrate_pgmap_owner == svmm->vmm->cli->drm->dev)
-+	    update->owner == svmm->vmm->cli->drm->dev)
- 		goto out;
- 
- 	if (limit > svmm->unmanaged.start && start < svmm->unmanaged.limit) {
-@@ -421,9 +422,9 @@ nouveau_svm_fault_cmp(const void *a, const void *b)
- 		return ret;
- 	if ((ret = (s64)fa->addr - fb->addr))
- 		return ret;
--	/*XXX: atomic? */
--	return (fa->access == 0 || fa->access == 3) -
--	       (fb->access == 0 || fb->access == 3);
-+	/* Atomic access (2) has highest priority */
-+	return (-1*(fa->access == 2) + (fa->access == 0 || fa->access == 3)) -
-+	       (-1*(fb->access == 2) + (fb->access == 0 || fb->access == 3));
- }
- 
- static void
-@@ -487,6 +488,10 @@ static bool nouveau_svm_range_invalidate(struct mmu_interval_notifier *mni,
- 	struct svm_notifier *sn =
- 		container_of(mni, struct svm_notifier, notifier);
- 
-+	if (range->event == MMU_NOTIFY_EXCLUSIVE &&
-+	    range->owner == sn->svmm->vmm->cli->drm->dev)
-+		return true;
-+
- 	/*
- 	 * serializes the update to mni->invalidate_seq done by caller and
- 	 * prevents invalidation of the PTE from progressing while HW is being
-@@ -555,6 +560,73 @@ static void nouveau_hmm_convert_pfn(struct nouveau_drm *drm,
- 		args->p.phys[0] |= NVIF_VMM_PFNMAP_V0_W;
- }
- 
-+static int nouveau_atomic_range_fault(struct nouveau_svmm *svmm,
-+			       struct nouveau_drm *drm,
-+			       struct nouveau_pfnmap_args *args, u32 size,
-+			       struct svm_notifier *notifier)
-+{
-+	unsigned long timeout =
-+		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
-+	struct mm_struct *mm = svmm->notifier.mm;
-+	struct page *page;
-+	unsigned long start = args->p.addr;
-+	unsigned long notifier_seq;
-+	int ret = 0;
-+
-+	ret = mmu_interval_notifier_insert(&notifier->notifier, mm,
-+					args->p.addr, args->p.size,
-+					&nouveau_svm_mni_ops);
-+	if (ret)
-+		return ret;
-+
-+	while (true) {
-+		if (time_after(jiffies, timeout)) {
-+			ret = -EBUSY;
-+			goto out;
-+		}
-+
-+		notifier_seq = mmu_interval_read_begin(&notifier->notifier);
-+		mmap_read_lock(mm);
-+		make_device_exclusive_range(mm, start, start + PAGE_SIZE,
-+					    &page, drm->dev);
-+		mmap_read_unlock(mm);
-+		if (!page) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
-+		mutex_lock(&svmm->mutex);
-+		if (mmu_interval_read_retry(&notifier->notifier,
-+					    notifier_seq)) {
-+			mutex_unlock(&svmm->mutex);
-+			continue;
-+		}
-+		break;
-+	}
-+
-+	/* Map the page on the GPU. */
-+	args->p.page = 12;
-+	args->p.size = PAGE_SIZE;
-+	args->p.addr = start;
-+	args->p.phys[0] = page_to_phys(page) |
-+		NVIF_VMM_PFNMAP_V0_V |
-+		NVIF_VMM_PFNMAP_V0_W |
-+		NVIF_VMM_PFNMAP_V0_A |
-+		NVIF_VMM_PFNMAP_V0_HOST;
-+
-+	svmm->vmm->vmm.object.client->super = true;
-+	ret = nvif_object_ioctl(&svmm->vmm->vmm.object, args, size, NULL);
-+	svmm->vmm->vmm.object.client->super = false;
-+	mutex_unlock(&svmm->mutex);
-+
-+	unlock_page(page);
-+	put_page(page);
-+
-+out:
-+	mmu_interval_notifier_remove(&notifier->notifier);
-+	return ret;
-+}
-+
- static int nouveau_range_fault(struct nouveau_svmm *svmm,
- 			       struct nouveau_drm *drm,
- 			       struct nouveau_pfnmap_args *args, u32 size,
-@@ -637,7 +709,7 @@ nouveau_svm_fault(struct nvif_notify *notify)
- 	unsigned long hmm_flags;
- 	u64 inst, start, limit;
- 	int fi, fn;
--	int replay = 0, ret;
-+	int replay = 0, atomic = 0, ret;
- 
- 	/* Parse available fault buffer entries into a cache, and update
- 	 * the GET pointer so HW can reuse the entries.
-@@ -718,12 +790,14 @@ nouveau_svm_fault(struct nvif_notify *notify)
- 		/*
- 		 * Determine required permissions based on GPU fault
- 		 * access flags.
--		 * XXX: atomic?
- 		 */
- 		switch (buffer->fault[fi]->access) {
- 		case 0: /* READ. */
- 			hmm_flags = HMM_PFN_REQ_FAULT;
- 			break;
-+		case 2: /* ATOMIC. */
-+			atomic = true;
-+			break;
- 		case 3: /* PREFETCH. */
- 			hmm_flags = 0;
- 			break;
-@@ -739,8 +813,14 @@ nouveau_svm_fault(struct nvif_notify *notify)
- 		}
- 
- 		notifier.svmm = svmm;
--		ret = nouveau_range_fault(svmm, svm->drm, &args.i,
--					sizeof(args), hmm_flags, &notifier);
-+		if (atomic)
-+			ret = nouveau_atomic_range_fault(svmm, svm->drm,
-+							 &args.i, sizeof(args),
-+							 &notifier);
-+		else
-+			ret = nouveau_range_fault(svmm, svm->drm, &args.i,
-+						  sizeof(args), hmm_flags,
-+						  &notifier);
- 		mmput(mm);
- 
- 		limit = args.i.p.addr + args.i.p.size;
-@@ -760,7 +840,11 @@ nouveau_svm_fault(struct nvif_notify *notify)
- 			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_V)) ||
- 			    (buffer->fault[fi]->access != 0 /* READ. */ &&
- 			     buffer->fault[fi]->access != 3 /* PREFETCH. */ &&
--			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_W)))
-+			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_W)) ||
-+			    (buffer->fault[fi]->access != 0 /* READ. */ &&
-+			     buffer->fault[fi]->access != 1 /* WRITE. */ &&
-+			     buffer->fault[fi]->access != 3 /* PREFETCH. */ &&
-+			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_A)))
- 				break;
- 		}
- 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-index a2b179568970..f6188aa9171c 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-@@ -178,6 +178,7 @@ void nvkm_vmm_unmap_region(struct nvkm_vmm *, struct nvkm_vma *);
- #define NVKM_VMM_PFN_APER                                 0x00000000000000f0ULL
- #define NVKM_VMM_PFN_HOST                                 0x0000000000000000ULL
- #define NVKM_VMM_PFN_VRAM                                 0x0000000000000010ULL
-+#define NVKM_VMM_PFN_A					  0x0000000000000004ULL
- #define NVKM_VMM_PFN_W                                    0x0000000000000002ULL
- #define NVKM_VMM_PFN_V                                    0x0000000000000001ULL
- #define NVKM_VMM_PFN_NONE                                 0x0000000000000000ULL
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-index 236db5570771..f02abd9cb4dd 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-@@ -88,6 +88,9 @@ gp100_vmm_pgt_pfn(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
- 		if (!(*map->pfn & NVKM_VMM_PFN_W))
- 			data |= BIT_ULL(6); /* RO. */
- 
-+		if (!(*map->pfn & NVKM_VMM_PFN_A))
-+			data |= BIT_ULL(7); /* Atomic disable. */
-+
- 		if (!(*map->pfn & NVKM_VMM_PFN_VRAM)) {
- 			addr = *map->pfn >> NVKM_VMM_PFN_ADDR_SHIFT;
- 			addr = dma_map_page(dev, pfn_to_page(addr), 0,
-@@ -322,6 +325,9 @@ gp100_vmm_pd0_pfn(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
- 		if (!(*map->pfn & NVKM_VMM_PFN_W))
- 			data |= BIT_ULL(6); /* RO. */
- 
-+		if (!(*map->pfn & NVKM_VMM_PFN_A))
-+			data |= BIT_ULL(7); /* Atomic disable. */
-+
- 		if (!(*map->pfn & NVKM_VMM_PFN_VRAM)) {
- 			addr = *map->pfn >> NVKM_VMM_PFN_ADDR_SHIFT;
- 			addr = dma_map_page(dev, pfn_to_page(addr), 0,
--- 
-2.20.1
-
+This generally looks good, but I'm getting a bunch of checkpatch warnings and 
+some conflicts, do you mind fixing those up (and including your other kasan 
+patch, as that's likely to conflict)?
