@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A10CEC2D0BF
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 22:02:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8435C433E6
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 22:06:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E92964FFA
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 22:02:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86A0164FC9
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 22:06:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233809AbhCJWBm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Mar 2021 17:01:42 -0500
-Received: from mga04.intel.com ([192.55.52.120]:4728 "EHLO mga04.intel.com"
+        id S232123AbhCJWFy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Mar 2021 17:05:54 -0500
+Received: from mga04.intel.com ([192.55.52.120]:5154 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233679AbhCJWBO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Mar 2021 17:01:14 -0500
-IronPort-SDR: Pl+bucZBrxyvjbJZXtQNxokA77zPtMPwHIeCnO2LBIifOJQE2l9WXx7MVrCzzizjYQvpjEW3rA
- VNDSnm+Gcv4w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="186193123"
+        id S233005AbhCJWFu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Mar 2021 17:05:50 -0500
+IronPort-SDR: OX2p5xu29LZkfUiTMN8/StHNCqqaaZR3eLA3sYYOSRQ+7zAVqhTVw52W7o0Y1+MxLIzBex+t0e
+ a4lVtiiCVmtA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="186193975"
 X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; 
-   d="scan'208";a="186193123"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2021 14:01:14 -0800
-IronPort-SDR: Nb5zobTLP2dEX++c5eZER8R6+coYgglUPsWSdrscethU30rJouloX2yeQ5iy2ex4ManmR+vNH5
- p4JVSLJSbQBQ==
+   d="scan'208";a="186193975"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2021 14:05:44 -0800
+IronPort-SDR: 2FbPucSrMwCiTmF2aHd6Sx25mwxBRgB62Yoa5dtz8+lF8KUMvdFlC4vyQ2BpUZ7A6s91c6SkI9
+ DzbLc6C8feng==
 X-IronPort-AV: E=Sophos;i="5.81,238,1610438400"; 
-   d="scan'208";a="403847594"
+   d="scan'208";a="410368497"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2021 14:01:13 -0800
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2021 14:05:43 -0800
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -60,178 +60,44 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        Michael Kerrisk <mtk.manpages@gmail.com>
-Subject: [PATCH v22 06/28] x86/cet: Add control-protection fault handler
-Date:   Wed, 10 Mar 2021 14:00:24 -0800
-Message-Id: <20210310220046.15866-7-yu-cheng.yu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v22 1/8] x86/cet/ibt: Update Kconfig for user-mode Indirect Branch Tracking
+Date:   Wed, 10 Mar 2021 14:05:12 -0800
+Message-Id: <20210310220519.16811-2-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20210310220046.15866-1-yu-cheng.yu@intel.com>
-References: <20210310220046.15866-1-yu-cheng.yu@intel.com>
+In-Reply-To: <20210310220519.16811-1-yu-cheng.yu@intel.com>
+References: <20210310220519.16811-1-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A control-protection fault is triggered when a control-flow transfer
-attempt violates Shadow Stack or Indirect Branch Tracking constraints.
-For example, the return address for a RET instruction differs from the copy
-on the shadow stack; or an indirect JMP instruction, without the NOTRACK
-prefix, arrives at a non-ENDBR opcode.
+Indirect branch tracking is a hardware security feature that verifies near
+indirect call/jump instructions arrive at intended targets, which are
+labeled by the compiler with ENDBR opcodes.  If such instructions reach
+unlabeled locations, the processor raises control-protection faults.
 
-The control-protection fault handler works in a similar way as the general
-protection fault handler.  It provides the si_code SEGV_CPERR to the signal
-handler.
+Check the compiler is up-to-date at config time.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc: Michael Kerrisk <mtk.manpages@gmail.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- arch/x86/include/asm/idtentry.h    |  4 ++
- arch/x86/kernel/idt.c              |  4 ++
- arch/x86/kernel/signal_compat.c    |  2 +-
- arch/x86/kernel/traps.c            | 63 ++++++++++++++++++++++++++++++
- include/uapi/asm-generic/siginfo.h |  3 +-
- 5 files changed, 74 insertions(+), 2 deletions(-)
+ arch/x86/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/x86/include/asm/idtentry.h b/arch/x86/include/asm/idtentry.h
-index 5eb3bdf36a41..fa98ca6a17a2 100644
---- a/arch/x86/include/asm/idtentry.h
-+++ b/arch/x86/include/asm/idtentry.h
-@@ -571,6 +571,10 @@ DECLARE_IDTENTRY_ERRORCODE(X86_TRAP_SS,	exc_stack_segment);
- DECLARE_IDTENTRY_ERRORCODE(X86_TRAP_GP,	exc_general_protection);
- DECLARE_IDTENTRY_ERRORCODE(X86_TRAP_AC,	exc_alignment_check);
- 
-+#ifdef CONFIG_X86_CET
-+DECLARE_IDTENTRY_ERRORCODE(X86_TRAP_CP, exc_control_protection);
-+#endif
-+
- /* Raw exception entries which need extra work */
- DECLARE_IDTENTRY_RAW(X86_TRAP_UD,		exc_invalid_op);
- DECLARE_IDTENTRY_RAW(X86_TRAP_BP,		exc_int3);
-diff --git a/arch/x86/kernel/idt.c b/arch/x86/kernel/idt.c
-index ee1a283f8e96..e8166d9bbb10 100644
---- a/arch/x86/kernel/idt.c
-+++ b/arch/x86/kernel/idt.c
-@@ -105,6 +105,10 @@ static const __initconst struct idt_data def_idts[] = {
- #elif defined(CONFIG_X86_32)
- 	SYSG(IA32_SYSCALL_VECTOR,	entry_INT80_32),
- #endif
-+
-+#ifdef CONFIG_X86_CET
-+	INTG(X86_TRAP_CP,		asm_exc_control_protection),
-+#endif
- };
- 
- /*
-diff --git a/arch/x86/kernel/signal_compat.c b/arch/x86/kernel/signal_compat.c
-index a5330ff498f0..dd92490b1e7f 100644
---- a/arch/x86/kernel/signal_compat.c
-+++ b/arch/x86/kernel/signal_compat.c
-@@ -27,7 +27,7 @@ static inline void signal_compat_build_tests(void)
- 	 */
- 	BUILD_BUG_ON(NSIGILL  != 11);
- 	BUILD_BUG_ON(NSIGFPE  != 15);
--	BUILD_BUG_ON(NSIGSEGV != 9);
-+	BUILD_BUG_ON(NSIGSEGV != 10);
- 	BUILD_BUG_ON(NSIGBUS  != 5);
- 	BUILD_BUG_ON(NSIGTRAP != 5);
- 	BUILD_BUG_ON(NSIGCHLD != 6);
-diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
-index 7f5aec758f0e..83c641459ec6 100644
---- a/arch/x86/kernel/traps.c
-+++ b/arch/x86/kernel/traps.c
-@@ -39,6 +39,7 @@
- #include <linux/io.h>
- #include <linux/hardirq.h>
- #include <linux/atomic.h>
-+#include <linux/nospec.h>
- 
- #include <asm/stacktrace.h>
- #include <asm/processor.h>
-@@ -606,6 +607,68 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
- 	cond_local_irq_disable(regs);
- }
- 
-+#ifdef CONFIG_X86_CET
-+static const char * const control_protection_err[] = {
-+	"unknown",
-+	"near-ret",
-+	"far-ret/iret",
-+	"endbranch",
-+	"rstorssp",
-+	"setssbsy",
-+	"unknown",
-+};
-+
-+static DEFINE_RATELIMIT_STATE(cpf_rate, DEFAULT_RATELIMIT_INTERVAL,
-+			      DEFAULT_RATELIMIT_BURST);
-+
-+/*
-+ * When a control protection exception occurs, send a signal to the responsible
-+ * application.  Currently, control protection is only enabled for user mode.
-+ * This exception should not come from kernel mode.
-+ */
-+DEFINE_IDTENTRY_ERRORCODE(exc_control_protection)
-+{
-+	struct task_struct *tsk;
-+
-+	if (!user_mode(regs)) {
-+		pr_emerg("PANIC: unexpected kernel control protection fault\n");
-+		die("kernel control protection fault", regs, error_code);
-+		panic("Machine halted.");
-+	}
-+
-+	cond_local_irq_enable(regs);
-+
-+	if (!boot_cpu_has(X86_FEATURE_CET))
-+		WARN_ONCE(1, "Control protection fault with CET support disabled\n");
-+
-+	tsk = current;
-+	tsk->thread.error_code = error_code;
-+	tsk->thread.trap_nr = X86_TRAP_CP;
-+
-+	/*
-+	 * Ratelimit to prevent log spamming.
-+	 */
-+	if (show_unhandled_signals && unhandled_signal(tsk, SIGSEGV) &&
-+	    __ratelimit(&cpf_rate)) {
-+		unsigned long ssp;
-+		int cpf_type;
-+
-+		cpf_type = array_index_nospec(error_code, ARRAY_SIZE(control_protection_err));
-+
-+		rdmsrl(MSR_IA32_PL3_SSP, ssp);
-+		pr_emerg("%s[%d] control protection ip:%lx sp:%lx ssp:%lx error:%lx(%s)",
-+			 tsk->comm, task_pid_nr(tsk),
-+			 regs->ip, regs->sp, ssp, error_code,
-+			 control_protection_err[cpf_type]);
-+		print_vma_addr(KERN_CONT " in ", regs->ip);
-+		pr_cont("\n");
-+	}
-+
-+	force_sig_fault(SIGSEGV, SEGV_CPERR, (void __user *)0);
-+	cond_local_irq_disable(regs);
-+}
-+#endif
-+
- static bool do_int3(struct pt_regs *regs)
- {
- 	int res;
-diff --git a/include/uapi/asm-generic/siginfo.h b/include/uapi/asm-generic/siginfo.h
-index d2597000407a..1c2ea91284a0 100644
---- a/include/uapi/asm-generic/siginfo.h
-+++ b/include/uapi/asm-generic/siginfo.h
-@@ -231,7 +231,8 @@ typedef struct siginfo {
- #define SEGV_ADIPERR	7	/* Precise MCD exception */
- #define SEGV_MTEAERR	8	/* Asynchronous ARM MTE error */
- #define SEGV_MTESERR	9	/* Synchronous ARM MTE exception */
--#define NSIGSEGV	9
-+#define SEGV_CPERR	10	/* Control protection fault */
-+#define NSIGSEGV	10
- 
- /*
-  * SIGBUS si_codes
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 2c93178262f5..96000ed48469 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1953,6 +1953,7 @@ config X86_CET
+ 	def_bool n
+ 	depends on AS_WRUSS
+ 	depends on ARCH_HAS_SHADOW_STACK
++	depends on $(cc-option,-fcf-protection)
+ 	select ARCH_USES_HIGH_VMA_FLAGS
+ 	select ARCH_MAYBE_MKWRITE
+ 	select ARCH_USE_GNU_PROPERTY
 -- 
 2.21.0
 
