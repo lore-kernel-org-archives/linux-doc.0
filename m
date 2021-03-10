@@ -2,133 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2562C433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 22:28:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7926C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 22:40:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 93DEA64FC6
-	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 22:28:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9C89664FC3
+	for <linux-doc@archiver.kernel.org>; Wed, 10 Mar 2021 22:40:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232196AbhCJW2Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Mar 2021 17:28:25 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35555 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S231919AbhCJW2C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Mar 2021 17:28:02 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12AMPKBt166470;
-        Wed, 10 Mar 2021 17:26:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version : content-transfer-encoding; s=pp1;
- bh=tgKrZU7i0iMMBLUU8hg/UFd8eVIHr1j57T93sj+SGVs=;
- b=CnDAsvqWNBQXYKQaMBLiFq+tiUERksythCoLFGcxt2OTuVDoNuk6XFrVXRwdHnhV2GII
- Htb4pnTtGVlon56/J9I54P3igySOCyNM4/c1oVSTaKl2bXalrOQdRz2OogelZa+LdLei
- g8BzYcD/VlCH8H6GAOtPGCSwzHkmQSZI64D/kl3KNlLKc6IveTlfX0eAIqwHWGXqcVvM
- i88WIAdPc5Lx2Rde1szIs3sgDXNOMb5de1xcD/7jP4lCsHczFs5ghhHD+PNqykbMK/xu
- tRESW9IkK+82582uQUPC1DCiEiyWhNkSsvxYhWWDHRD7ApLhYWQq9JX1Bu8uoqRUdcpi Uw== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3774m8c313-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 10 Mar 2021 17:26:35 -0500
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12AMPLa2166575;
-        Wed, 10 Mar 2021 17:26:35 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 3774m8c30u-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 10 Mar 2021 17:26:35 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
-        by ppma04dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12AMGdW2030361;
-        Wed, 10 Mar 2021 22:26:34 GMT
-Received: from b03cxnp07027.gho.boulder.ibm.com (b03cxnp07027.gho.boulder.ibm.com [9.17.130.14])
-        by ppma04dal.us.ibm.com with ESMTP id 3768rcp05s-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 10 Mar 2021 22:26:34 +0000
-Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
-        by b03cxnp07027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 12AMQWja17236380
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 10 Mar 2021 22:26:33 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id CABA87806D;
-        Wed, 10 Mar 2021 22:26:32 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 2031C7805C;
-        Wed, 10 Mar 2021 22:26:29 +0000 (GMT)
-Received: from jarvis.int.hansenpartnership.com (unknown [9.80.211.242])
-        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Wed, 10 Mar 2021 22:26:28 +0000 (GMT)
-Message-ID: <9aa3173ab46b0aa7edb8146ffd3df05c1f74207e.camel@linux.ibm.com>
-Subject: Re: [PATCH v9 0/4] Introduce TEE based Trusted Keys support
-From:   James Bottomley <jejb@linux.ibm.com>
-Reply-To: jejb@linux.ibm.com
-To:     Jarkko Sakkinen <jarkko@kernel.org>,
-        Sumit Garg <sumit.garg@linaro.org>
-Cc:     Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
+        id S231267AbhCJWjk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Mar 2021 17:39:40 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58734 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229574AbhCJWjd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 10 Mar 2021 17:39:33 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9440864FAD;
+        Wed, 10 Mar 2021 22:39:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615415973;
+        bh=/46Jnxa7GWN9GVouuxzmFfEuec3FnGDcKOJciHOHIws=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RQVhIJPvxkTfFjVIPmqOKZDu2W4Nh4bCefUys/PH4bS7IXAKLvuIGeL9yhBYKdFP5
+         lksoks30ZjiCv8ilR8KqVY0PdBbpG0g0TNcfZHYk6hwqtefg7gFEAY87X7yt8mhdol
+         QJ2wOLKtIHhcKvcevYhkWhkRCocXou2LN0rCUhk4Zwgl/MnwRYDLqQcrzt1v6lVUMJ
+         Lb+tXWCBqUqRthdAEPSfKPBq6I4FMl068ag+2rhpdfTX7oWzWweApQZ/DYZhaSw0nL
+         DnvADmCkmQa8QE8r3T5gVPAbIyjReGYNV0r37VQZ0hTFu5acOicAQLQ41bdECi4BzT
+         VOU+cnaHYAdzQ==
+Date:   Thu, 11 Mar 2021 00:39:09 +0200
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        Luke Hinds <lhinds@redhat.com>,
-        Elaine Palmer <erpalmer@us.ibm.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org
-Date:   Wed, 10 Mar 2021 14:26:27 -0800
-In-Reply-To: <YEkkXbWrYBTcGXEd@kernel.org>
-References: <20210301131127.793707-1-sumit.garg@linaro.org>
-         <CAFA6WYO4HHhtymaUzmkuaCZybTAWBQ=4K9Dez1pe1kqo3AJhuA@mail.gmail.com>
-         <YEEANW+khw3nJtcQ@kernel.org>
-         <CAFA6WYOxsYin8wBB_yU=S-bnqM-g5TFnTU_KXxc3wSBfx_N_6A@mail.gmail.com>
-         <YEkkXbWrYBTcGXEd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.34.4 
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v22 8/8] x86/vdso: Add ENDBR64 to __vdso_sgx_enter_enclave
+Message-ID: <YElKjT2v628tidE/@kernel.org>
+References: <20210310220519.16811-1-yu-cheng.yu@intel.com>
+ <20210310220519.16811-9-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-03-10_12:2021-03-10,2021-03-10 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- mlxlogscore=999 suspectscore=0 priorityscore=1501 impostorscore=0
- spamscore=0 adultscore=0 lowpriorityscore=0 phishscore=0 bulkscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103100105
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210310220519.16811-9-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 2021-03-10 at 21:56 +0200, Jarkko Sakkinen wrote:
-[...]
-> I also need to apply 
+On Wed, Mar 10, 2021 at 02:05:19PM -0800, Yu-cheng Yu wrote:
+> When CET is enabled, __vdso_sgx_enter_enclave() needs an endbr64
+> in the beginning of the function.
+
+OK.
+
+What you should do is to explain what it does and why it's needed.
+
 > 
-> https://lore.kernel.org/linux-integrity/20210127190617.17564-1-James.Bottomley@HansenPartnership.com/
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Cc: Andy Lutomirski <luto@kernel.org>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Jarkko Sakkinen <jarkko@kernel.org>
+> ---
+>  arch/x86/entry/vdso/vsgx.S | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
-> and I would like to do both while I'm at it.
+> diff --git a/arch/x86/entry/vdso/vsgx.S b/arch/x86/entry/vdso/vsgx.S
+> index 86a0e94f68df..a70d4d09f713 100644
+> --- a/arch/x86/entry/vdso/vsgx.S
+> +++ b/arch/x86/entry/vdso/vsgx.S
+> @@ -27,6 +27,9 @@
+>  SYM_FUNC_START(__vdso_sgx_enter_enclave)
+>  	/* Prolog */
+>  	.cfi_startproc
+> +#ifdef CONFIG_X86_CET
+> +	endbr64
+> +#endif
+>  	push	%rbp
+>  	.cfi_adjust_cfa_offset	8
+>  	.cfi_rel_offset		%rbp, 0
+> -- 
+> 2.21.0
 > 
-> James, there was one patch that needed fixing but I cannot find
-> lore.kernel.org link. Can you point me to that so that we
-> can proceed?
+> 
 
-I think you mean this one observing a missing space in the commit
-message:
-
-https://lore.kernel.org/keyrings/1327393.1612972717@warthog.procyon.org.uk/
-
-James
-
-
+/Jarkko
