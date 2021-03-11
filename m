@@ -2,120 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CFCFC2BA4C
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 18:11:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CDEFC433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 18:24:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5461D65014
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 18:11:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2BCF164FDD
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 18:24:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231320AbhCKSLO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Mar 2021 13:11:14 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55496 "EHLO mail.kernel.org"
+        id S229887AbhCKSYH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Mar 2021 13:24:07 -0500
+Received: from mout.gmx.net ([212.227.15.15]:41513 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230300AbhCKSKf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Mar 2021 13:10:35 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 773FA65018;
-        Thu, 11 Mar 2021 18:10:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615486234;
-        bh=tmt8DXL/NkkK3fqsKzp1sa5x/enHlRdNBSlE6sT3Ol4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Ew/NIGH8ca6hopkG3U8b9r6qb4RL4623K9fly5yItiT+8ubil19Ek3W1I9uzZkXaV
-         SS/wUSc4qF2N/+CEdEEjiosqyXdPlQDV6gmsZyGoYiofROwQuELtuvpXLsg41ZUl+I
-         zTxb4YH7gGW2lP+bk0UmqouHE1A4Ct9j5CBAZIb/EyFukR+wc5+426TEG3xvSqlTNs
-         zrISTJo7Bcn1PT6Tt7VvH6wBUv/FOVlzZjPhhFRyf24OBWtBR8UkBxZNOxnGayUlL3
-         qdG/KlD2b/NUv3xynLWzvL7xQCfBHPzi0d+rEqHmljXgXkL98TRQxiPn6hmAPOYpfu
-         pO74we79VATfg==
-Received: by mail-ej1-f43.google.com with SMTP id e19so48236776ejt.3;
-        Thu, 11 Mar 2021 10:10:34 -0800 (PST)
-X-Gm-Message-State: AOAM532gIRH9bm3Fo+i0EbsHlRjhxiPQWK5SP7fJE/Yz0D30C1g5zyPH
-        LQhMi4sqcRq0QAngd7NwMBkwIHB/s3Zjf6bAFg==
-X-Google-Smtp-Source: ABdhPJyUsXPtzO/H83nHUMgfPs1p3wnAlKlkTmdKFFzieSp9RKRftdZy73PPYTvjnRjgXVDraWLRvsEKaxzbwKml2jg=
-X-Received: by 2002:a17:906:c405:: with SMTP id u5mr4327186ejz.341.1615486232876;
- Thu, 11 Mar 2021 10:10:32 -0800 (PST)
-MIME-Version: 1.0
-References: <20210304213902.83903-1-marcan@marcan.st> <20210304213902.83903-13-marcan@marcan.st>
- <CAL_JsqJF2Hz=4U7FR_GOSjCxqt3dpf-CAWFNfsSrDjDLpHqgCA@mail.gmail.com>
- <6e4880b3-1fb6-0cbf-c1a5-7a46fd9ccf62@marcan.st> <CAK8P3a0Hmwt-ywzS-2eEmqyQ0v2SxLsLxFwfTUoWwbzCrBNhsQ@mail.gmail.com>
- <CAL_JsqJHRM59GC3FjvaGLCELemy1uspnGvTEFH6q0OdyBPVSjA@mail.gmail.com>
- <CAK8P3a0_GBB-VYFO5NaySyBJDN2Ra-WMH4WfFrnzgOejmJVG8g@mail.gmail.com>
- <20210308211306.GA2920998@robh.at.kernel.org> <CAK8P3a2GfzUevuQNZeQarJ4GNFsuDj0g7oFuN940Hdaw06YJbA@mail.gmail.com>
- <CAL_JsqK8FagJyQVyG5DAocUjLGZT91b6NzDm_DNMW1hdCz51Xg@mail.gmail.com>
- <c5693760-3b18-e8f1-18b6-bae42c05d329@marcan.st> <CAL_Jsq+VLLPa98iaTvOkK-tjuBH4qY7FNEGtufYGv7rXAbwegQ@mail.gmail.com>
- <332c0b9a-dcfd-4c3b-9038-47cbda90eb3f@marcan.st> <CAL_Jsq+X7JPm-xrxmy5bGKSuLO59yk6S=EuXmdMn0FwhpZAD7A@mail.gmail.com>
- <CAK8P3a2HWbHc-aGHk792TVh6ea2j+aKswYrB6EBsjPA6fH1=xA@mail.gmail.com>
- <CAL_JsqKYpsXKvcw7xbbYx6z7Cg3P9DxcpLUnOG+m0xeSRO7v_g@mail.gmail.com> <CAK8P3a2iASEZf-YRh2SHYhNdUtpo8sdkuoxfk_MonXpXBk1kbg@mail.gmail.com>
-In-Reply-To: <CAK8P3a2iASEZf-YRh2SHYhNdUtpo8sdkuoxfk_MonXpXBk1kbg@mail.gmail.com>
-From:   Rob Herring <robh@kernel.org>
-Date:   Thu, 11 Mar 2021 11:10:20 -0700
-X-Gmail-Original-Message-ID: <CAL_JsqK200WcxD3PP1FToc5w2dyF3b6TYnf2oNd9Mpz77g68og@mail.gmail.com>
-Message-ID: <CAL_JsqK200WcxD3PP1FToc5w2dyF3b6TYnf2oNd9Mpz77g68og@mail.gmail.com>
-Subject: Re: [RFT PATCH v3 12/27] of/address: Add infrastructure to declare
- MMIO as non-posted
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Hector Martin <marcan@marcan.st>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>, Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        id S229883AbhCKSXl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Mar 2021 13:23:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1615486987;
+        bh=SpnCU8DF8fceQcBGatEhurYgUxXjyn+Yh3rMYnZtpBw=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=EJGVOIR575wXcr5c6RRSlrapvOBsan8L+f6g86Oe6pPunBUxgE4Uxr3yKQsYvuF55
+         Fk+OhstRBVDUiL5BP9azSbnTEAJAaL2YDxrGXgYab5j1zM1tCwPHuho67fkGJFNRny
+         I3CMBI7vURJKEGu4DCemsRLl20UpoLgYi+fcWYn0=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([83.52.229.153]) by mail.gmx.net (mrgmx005
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1MatRZ-1lrI4P44J1-00cOpP; Thu, 11
+ Mar 2021 19:23:07 +0100
+Date:   Thu, 11 Mar 2021 19:22:52 +0100
+From:   John Wood <john.wood@gmx.com>
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     John Wood <john.wood@gmx.com>, Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        DTML <devicetree@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
-        <linux-arch@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        James Morris <jmorris@namei.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH v5 7/8] Documentation: Add documentation for the Brute LSM
+Message-ID: <20210311182252.GA3349@ubuntu>
+References: <20210227153013.6747-1-john.wood@gmx.com>
+ <20210227153013.6747-8-john.wood@gmx.com>
+ <878s78dnrm.fsf@linux.intel.com>
+ <20210302183032.GA3049@ubuntu>
+ <20210307151920.GR472138@tassilo.jf.intel.com>
+ <20210307164520.GA16296@ubuntu>
+ <20210307172540.GS472138@tassilo.jf.intel.com>
+ <20210307180541.GA17108@ubuntu>
+ <20210307224927.GT472138@tassilo.jf.intel.com>
+ <20210309184054.GA3058@ubuntu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210309184054.GA3058@ubuntu>
+X-Provags-ID: V03:K1:G8f/cmLbzHC0nvOAJdH8LHg1kBQt5faDFzmpqz5385toUzzE7T/
+ aBAqokU4PkqDSQJV80GvLHFPwvw5izfUOdKZo0dRxlGYKGeLzprDF4za3AuKGiSftYOsWZA
+ miE6mjre9ithdQuNaeNBsIShWd524U0NwGLtlI/0nLPgFY3Gnem7CNFokvucxf3g7qGtR3L
+ dYo6zcVtd9Nhoy9g6b9tA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:IuvjmF4wvE8=:k+Np5YEJ/gTxWhv5RAx2aR
+ Naxj9IijaZ8D19fjm+4yscaHdBgu7pWkS0syoMyl5PgbGlKIHME1MWaLDyHw+nTW5ev4o28gM
+ n82pmgZHDVYWbpfGjmWnQ31+Mej/j868cvItrSX00RjPyaCpDcRbzJ3K+rOcjtQnGlGcrA/qs
+ HF1X+Yo9P7S4UsSvO9p9CKACZVZLqdzSrXJ5mDZ+gKxLu9IzN4bd8NvVoAOSz6Bo/ZDfav5pP
+ 7KJLAH0fA9FqQF4lU+r4LEnMU+3cJL01dswzOfE4LOOlZitGV830gVLIzKZ4zrw6Sm/Sb11Dz
+ 5p/AJbOWpeiuIFw9aByBtBhIQq/pTCxQNaj3Ex9eP2RlUCQXAe4Q6BwljSxyTcrRsMKgijXoL
+ Qa634MLCQLMjBuuzoLgiZlHRN+nqmzw6aNw32B+CS1GIXD8yOye3v4Bu9azwDeM4uwY0kn2Mo
+ dOVF7vKPAc7rU/tVFds+vkBP5bxemL7pU/YVEHZgxB1GXXR1IDfYL6ku7kpNzlnc+Bw0f7qiD
+ 0BELxF7+QUvGlepuAFeUO5AO257g4cTKcTK1n6FmQ6rg4TQkMwMtt9GfZWWKfrSLng6h4ICQ9
+ TiSeezx3n/+kze3B9lSg4zQv2SumZB2qOIEn649sZUMFJXfcSRVL3cb2mYpYv7oMjde6z5a0Z
+ 42Y+SuykritmMsZhHreEx0fSuRr54R00t2sQd7kC9YblMm2Yy2mKLLFRvAQRWl0nKeMlsfJcu
+ 9HkF6CgCtD68r1MU2s0bK+FV3cWvICtDu/6hMHkS0DmsWgo7ZX/zsmhtfG/duSyluefLHUGAM
+ HwJwt1O/E8L0NihOxV8aNOfKusr6CnHZ2tfnvoJu/lHuuVuMBVqD8m37xgUI7jWbDe1td8OQC
+ DILVp6PlvjR8m/sRveeg==
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 9:48 AM Arnd Bergmann <arnd@kernel.org> wrote:
->
-> On Thu, Mar 11, 2021 at 5:10 PM Rob Herring <robh@kernel.org> wrote:
-> > On Thu, Mar 11, 2021 at 2:12 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> > > On Wed, Mar 10, 2021 at 6:01 PM Rob Herring <robh@kernel.org> wrote:
-> > > Ok, makes sense.
-> > >
-> > > Conceptually, I'd like to then see a check that verifies that the
-> > > property is only set for nodes whose parent also has it set, since
-> > > that is how AXI defines it: A bus can wait for the ack from its
-> > > child node, or it can acknowledge the write to its parent early.
-> > > However, this breaks down as soon as a bus does the early ack:
-> > > all its children by definition use posted writes (as seen by the
-> > > CPU), even if they wait for stores that come from other masters.
-> > >
-> > > Does this make sense to you?
-> >
-> > BTW, I don't think it's clear in this thread, but the current
-> > definition proposed for the spec[1] and schema is 'nonposted-mmio' is
-> > specific to 'simple-bus'. I like this restriction and we can expand
-> > where 'nonposted-mmio' is allowed later if needed.
->
-> That sounds ok, as long as we can express everything for the mac
-> at the moment. Do we need to explicitly add a description to allow
-> the property in the root node in addition to simple-bus to be able
-> to enforce the rule about parent buses also having it?
+Hi,
 
-IMO it should not be allowed in the root node. That's a failure to
-define a bus node. Also, would that mean your memory has to be
-non-posted!?
+On Tue, Mar 09, 2021 at 07:40:54PM +0100, John Wood wrote:
+> On Sun, Mar 07, 2021 at 02:49:27PM -0800, Andi Kleen wrote:
+>
+> > So I think it needs more work on the user space side for most usages.
+>
+> Anyway, in the case that the supervisor is init then the system will pan=
+ic. So,
+> I think that we can add a prctl to avoid kill the parent task (the task =
+that
+> exec) and only block new fork system calls from this task. When this boo=
+lean is
+> set, any parent task that is involved in the attack will not be killed. =
+In this
+> case, any following forks will be blocked. This way the system will not =
+crash.
 
-Rob
+Another proposal that I think suits better:
+
+When a brute force attack is detected through the fork or execve system ca=
+ll,
+all the tasks involved in the attack will be killed with the exception of =
+the
+init task (task with pid equal to zero). Now, and only if the init task is
+involved in the attack, block the fork system call from the init process d=
+uring
+a user defined time (using a sysctl attribute). This way the brute force a=
+ttack
+is mitigated and the system does not panic.
+
+I think that this is a better solution than the other one since this is a =
+per
+system solution. And I believe that with a default value for the blocking =
+time
+(sysctl attribute) could be useful in a generic way (for most usages).
+
+The proposal using prctl will need more actions from userspace and it is n=
+ot a
+generic one due to it is a per process solution.
+
+> What do you think?
+
+Thanks,
+John Wood
