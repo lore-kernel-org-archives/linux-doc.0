@@ -2,136 +2,208 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D87FC43381
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 03:37:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F4AC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 04:15:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 33ECF64FDA
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 03:37:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7993A64FC9
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 04:15:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230429AbhCKDgj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 10 Mar 2021 22:36:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51254 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229818AbhCKDgb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 10 Mar 2021 22:36:31 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8D85C64E22;
-        Thu, 11 Mar 2021 03:36:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615433791;
-        bh=VU36+Oy9eNMQX1av5VV5rT/wzZmLW57dBFB+sUkXF4w=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=e7M11Ykz/wwfbgjKNn5uhle8DDoJiLEl5wtNAzrhBK5zeTMiiIe70zX3rO1f+tMpn
-         EV8wPp3kqY/+Epphh1oW1a5Wg8muWy6V92Lc0VJ47G57DvHYoMIwrbmJC82GJh7K2K
-         xT3sFovM1zbQxp17qxWMUtcMUruA7l6KLd9nF5BCTc7IfAN0XDhrteiGRvWvEOECEo
-         GdnDEiGZfSEgrEWvKdvoj8OFJFrrbOLoTkSFI+bRru2BEB5IIeLYrjnJ4n4t0YTywG
-         EbYs1bSm7vsUntt8XSuaTBZJnaAe/AIFepL4WoJO8P7vVTqj3xFoBZZpl7lAUf19fm
-         z301GU9DwHQVw==
-Date:   Thu, 11 Mar 2021 05:36:06 +0200
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v22 8/8] x86/vdso: Add ENDBR64 to __vdso_sgx_enter_enclave
-Message-ID: <YEmQJjwjs8UCEO2F@kernel.org>
-References: <20210310220519.16811-1-yu-cheng.yu@intel.com>
- <20210310220519.16811-9-yu-cheng.yu@intel.com>
- <YElKjT2v628tidE/@kernel.org>
- <8b8efe44-b79f-ce29-ee28-066f88c93840@intel.com>
+        id S230478AbhCKEOy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 10 Mar 2021 23:14:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40482 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231158AbhCKEOg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 10 Mar 2021 23:14:36 -0500
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5350CC061761
+        for <linux-doc@vger.kernel.org>; Wed, 10 Mar 2021 20:14:36 -0800 (PST)
+Received: by mail-pl1-x634.google.com with SMTP id c16so9600174ply.0
+        for <linux-doc@vger.kernel.org>; Wed, 10 Mar 2021 20:14:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QEFc+5uxcw01if19rtXMDW1S4shWkY5w/azslxmxuJ8=;
+        b=kBi8IOydn8mz/RQqllLx8Yn7CDOHYvKk/1hUB1Gs9l62c+HqvXZTjnenXvnm7BO2m9
+         mB7QxGuGYX2DgSomKvXpf2sIu1nMMuTsvdxViLIojTZALlC5jh/eO7VLJ6YybqcPiapf
+         3ghp/3bWgQhWqLl4k97+fgfFHSkSL4dEThDWe+B0eL19Omf7EQwWhwsrlcb11g5+NKOL
+         /scIDvJLBSgpVre0BWH0WkGPEhsSraKlfozW63e3GabkIFX0h8y3Kxs859KXXYtdztl6
+         fHfwhiLDdKtntLdKvoctwlhk3ODs03ad+DWB0XEwvWqcU/G9Tz40uZDu/WCjZ9YL8o1e
+         +cjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QEFc+5uxcw01if19rtXMDW1S4shWkY5w/azslxmxuJ8=;
+        b=OPCLpfyYshmuIamL8KrRjK9lT55fN6gNDCL4200+6/yyrCFH7KaFIq0DYW+QMujaQg
+         3WS0otq+B+ZeFVoGh8GljfomkB+PCCXHapfJWg+M6oCqUO/n0zHUniNOVtS/QdsOm/SR
+         bbhU1y6dteFiyQuXx3a8wRX9dFs2gnZ0hdk5kJlkh8+rsCeQymjxsPOs1gRA5uIw1Cs3
+         h2pyPkIxpLKJhAYtQeDhz8IaCth3+m09wGu7R5ixvD3YxX9BYY8IjQJtHMTs0U6u+s8K
+         biXPytL4Kj2tL6jyLOLaAcc5E67qCIYKnnK7nC13btVUPiM8wR4uB5hEZAWMv9k0Jypi
+         /34w==
+X-Gm-Message-State: AOAM532kAFsa9s7PGCZBsgdOHgVy9LvO0fi1anX6VYOVtg5ALYyqPI52
+        f/ZiGhC0+F2GqbFVBngkUc2aEpzw36p/tSXfNitS2Q==
+X-Google-Smtp-Source: ABdhPJx6NBHnxHdYb1A3eokq/gkhYfBt/LcvxHmuP92XpmYAwqdG0AurD8XdLRIdgW4SJlTNYwu+dP1ExB5GY7MnRl8=
+X-Received: by 2002:a17:902:d4cb:b029:e5:f608:6d5e with SMTP id
+ o11-20020a170902d4cbb02900e5f6086d5emr6034382plg.20.1615436075626; Wed, 10
+ Mar 2021 20:14:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8b8efe44-b79f-ce29-ee28-066f88c93840@intel.com>
+References: <20210308102807.59745-1-songmuchun@bytedance.com>
+ <20210308102807.59745-5-songmuchun@bytedance.com> <20210310142057.GA12777@linux>
+In-Reply-To: <20210310142057.GA12777@linux>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 11 Mar 2021 12:13:58 +0800
+Message-ID: <CAMZfGtVxiqwoxpYapVOK7GeyjZLzFY8EtD3h+4f1E-b6NwnNfA@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v18 4/9] mm: hugetlb: alloc the vmemmap
+ pages associated with each HugeTLB page
+To:     Oscar Salvador <osalvador@suse.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Chen Huang <chenhuang5@huawei.com>,
+        Bodeddula Balasubramaniam <bodeddub@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 10, 2021 at 02:55:55PM -0800, Yu, Yu-cheng wrote:
-> On 3/10/2021 2:39 PM, Jarkko Sakkinen wrote:
-> > On Wed, Mar 10, 2021 at 02:05:19PM -0800, Yu-cheng Yu wrote:
-> > > When CET is enabled, __vdso_sgx_enter_enclave() needs an endbr64
-> > > in the beginning of the function.
-> > 
-> > OK.
-> > 
-> > What you should do is to explain what it does and why it's needed.
-> > 
-> 
-> The endbr marks a branch target.  Without the "no-track" prefix, if an
-> indirect call/jmp reaches a non-endbr opcode, a control-protection fault is
-> raised.  Usually endbr's are inserted by the compiler.  For assembly, these
-> have to be put in manually.  I will add this in the commit log if there is
-> another revision.  Thanks!
+On Wed, Mar 10, 2021 at 10:21 PM Oscar Salvador <osalvador@suse.de> wrote:
+>
+> On Mon, Mar 08, 2021 at 06:28:02PM +0800, Muchun Song wrote:
+> > When we free a HugeTLB page to the buddy allocator, we need to allocate
+> > the vmemmap pages associated with it. However, we may not be able to
+> > allocate the vmemmap pages when the system is under memory pressure. In
+> > this case, we just refuse to free the HugeTLB page. This changes behavior
+> > in some corner cases as listed below:
+> >
+> >  1) Failing to free a huge page triggered by the user (decrease nr_pages).
+> >
+> >     User needs to try again later.
+> >
+> >  2) Failing to free a surplus huge page when freed by the application.
+> >
+> >     Try again later when freeing a huge page next time.
+> >
+> >  3) Failing to dissolve a free huge page on ZONE_MOVABLE via
+> >     offline_pages().
+> >
+> >     This can happen when we have plenty of ZONE_MOVABLE memory, but
+> >     not enough kernel memory to allocate vmemmmap pages.  We may even
+> >     be able to migrate huge page contents, but will not be able to
+> >     dissolve the source huge page.  This will prevent an offline
+> >     operation and is unfortunate as memory offlining is expected to
+> >     succeed on movable zones.  Users that depend on memory hotplug
+> >     to succeed for movable zones should carefully consider whether the
+> >     memory savings gained from this feature are worth the risk of
+> >     possibly not being able to offline memory in certain situations.
+>
+> This is nice to have it here, but a normal user won't dig in the kernel to
+> figure this out, so my question is: Do we have this documented somewhere under
+> Documentation/?
+> If not, could we document it there? It is nice to warn about this things were
+> sysadmins can find them.
 
-Thanks for the explanation. There is another revision, because this is
-lacking from the commit message.
+Make sense. I will do this.
 
-Does it do any harm to put it there unconditionally?
+>
+> >  4) Failing to dissolve a huge page on CMA/ZONE_MOVABLE via
+> >     alloc_contig_range() - once we have that handling in place. Mainly
+> >     affects CMA and virtio-mem.
+> >
+> >     Similar to 3). virito-mem will handle migration errors gracefully.
+> >     CMA might be able to fallback on other free areas within the CMA
+> >     region.
+> >
+> > Vmemmap pages are allocated from the page freeing context. In order for
+> > those allocations to be not disruptive (e.g. trigger oom killer)
+> > __GFP_NORETRY is used. hugetlb_lock is dropped for the allocation
+> > because a non sleeping allocation would be too fragile and it could fail
+> > too easily under memory pressure. GFP_ATOMIC or other modes to access
+> > memory reserves is not used because we want to prevent consuming
+> > reserves under heavy hugetlb freeing.
+> >
+> > Signed-off-by: Muchun Song <songmuchun@bytedance.com>
+> > Tested-by: Chen Huang <chenhuang5@huawei.com>
+> > Tested-by: Bodeddula Balasubramaniam <bodeddub@amazon.com>
+>
+> Sorry for jumping in late.
+> It looks good to me:
+>
+> Reviewed-by: Oscar Salvador <osalvador@suse.de>
 
-> 
+Thanks.
+
+>
+> Minor request above and below:
+>
+> > ---
+> >  Documentation/admin-guide/mm/hugetlbpage.rst |  8 +++
+> >  include/linux/mm.h                           |  2 +
+> >  mm/hugetlb.c                                 | 92 +++++++++++++++++++++-------
+> >  mm/hugetlb_vmemmap.c                         | 32 ++++++----
+> >  mm/hugetlb_vmemmap.h                         | 23 +++++++
+> >  mm/sparse-vmemmap.c                          | 75 ++++++++++++++++++++++-
+> >  6 files changed, 197 insertions(+), 35 deletions(-)
+>
+> [...]
+>
+>
+>
+> Could we place a brief comment about what we expect to return here?
+
+OK. Will do.
+
+>
+> > -static inline unsigned long free_vmemmap_pages_size_per_hpage(struct hstate *h)
+> > +int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
+> >  {
+> > -     return (unsigned long)free_vmemmap_pages_per_hpage(h) << PAGE_SHIFT;
+> > +     unsigned long vmemmap_addr = (unsigned long)head;
+> > +     unsigned long vmemmap_end, vmemmap_reuse;
+> > +
+> > +     if (!free_vmemmap_pages_per_hpage(h))
+> > +             return 0;
+> > +
+> > +     vmemmap_addr += RESERVE_VMEMMAP_SIZE;
+> > +     vmemmap_end = vmemmap_addr + free_vmemmap_pages_size_per_hpage(h);
+> > +     vmemmap_reuse = vmemmap_addr - PAGE_SIZE;
+> > +     /*
+> > +      * The pages which the vmemmap virtual address range [@vmemmap_addr,
+> > +      * @vmemmap_end) are mapped to are freed to the buddy allocator, and
+> > +      * the range is mapped to the page which @vmemmap_reuse is mapped to.
+> > +      * When a HugeTLB page is freed to the buddy allocator, previously
+> > +      * discarded vmemmap pages must be allocated and remapping.
+> > +      */
+> > +     return vmemmap_remap_alloc(vmemmap_addr, vmemmap_end, vmemmap_reuse,
+> > +                                GFP_KERNEL | __GFP_NORETRY | __GFP_THISNODE);
+> >  }
+>
 > --
-> Yu-cheng
-> 
-> > > 
-> > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > > Cc: Andy Lutomirski <luto@kernel.org>
-> > > Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> > > Cc: Jarkko Sakkinen <jarkko@kernel.org>
-> > > ---
-> > >   arch/x86/entry/vdso/vsgx.S | 3 +++
-> > >   1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/arch/x86/entry/vdso/vsgx.S b/arch/x86/entry/vdso/vsgx.S
-> > > index 86a0e94f68df..a70d4d09f713 100644
-> > > --- a/arch/x86/entry/vdso/vsgx.S
-> > > +++ b/arch/x86/entry/vdso/vsgx.S
-> > > @@ -27,6 +27,9 @@
-> > >   SYM_FUNC_START(__vdso_sgx_enter_enclave)
-> > >   	/* Prolog */
-> > >   	.cfi_startproc
-> > > +#ifdef CONFIG_X86_CET
-> > > +	endbr64
-> > > +#endif
-> > >   	push	%rbp
-> > >   	.cfi_adjust_cfa_offset	8
-> > >   	.cfi_rel_offset		%rbp, 0
-> > > -- 
-> > > 2.21.0
-> > > 
-> > > 
-> > 
-> > /Jarkko
-> > 
-> 
-> 
-
-/Jarkko
+> Oscar Salvador
+> SUSE L3
