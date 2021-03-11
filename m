@@ -2,104 +2,158 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EC5AC433E9
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 22:03:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 763C9C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 22:55:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D581B64F6B
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 22:03:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A9C864F89
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 22:55:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231222AbhCKWCe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Mar 2021 17:02:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44268 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231320AbhCKWCH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Mar 2021 17:02:07 -0500
-Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60162C061574;
-        Thu, 11 Mar 2021 14:02:07 -0800 (PST)
-Received: by mail-oi1-x22e.google.com with SMTP id q130so5831180oif.13;
-        Thu, 11 Mar 2021 14:02:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=UQ8E0btZr5f/lHfbczLb/OS7Qy0lc+CY+34s9mzBT2c=;
-        b=YS+Lt/Oz7YwelAb3kwV/VTcTZhSU1VV23ljUbjBRHVXLWreAi+8q3Xyx5BzBYTRdZg
-         ecHi1j8qqHW3dIEx/uc78fiN6DvHtae1RXv8A0aiBVy/Ql1J071v7r+NKWzeZCJq8CLf
-         H8rXr6x3k1vhVbm72gDn+0vDKXbLr7Dg0RydDZg+L6L8uVe9hFXBxR6T+byS1ljSloMF
-         emQx5ui+I9rkETtM2DHhdMBd42fidzmxmvSuiOu+uec/PLub86+HsxMNwVFIXv2kGqYm
-         MFpCPKVyAbtBAHoi0bpBplTOw5NYBvLncy+YAATvZPu5nAYzpKFAeyT4NyjvfWD7b7CQ
-         bBmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=UQ8E0btZr5f/lHfbczLb/OS7Qy0lc+CY+34s9mzBT2c=;
-        b=JQAIMdHbG2VIfGFrMG5gWbsTpXGofGCA1SViYj64XKXSilK3qr2I+8worRv9hjhzb9
-         c0I7EwsWp61/yDqqbZWIk6pKSImRt5vvukAmAaiz+1WQKLcMVxoBdiFV7Kp5g899TN7M
-         vVqtc429gyM/NBiSARBnGsrLKt76T/NRg1CIIWxu4JE0hjuxVOnHorMgitKcV/X9b+Ev
-         PgMf0ger2s7LuuOpYeofxxsJ7gYbc1h3q9Vdnd7whKxe9/419mpRWtO6+QJMvvU3ogaQ
-         /J/iJrZD3LG/yESwpzkPwBSriR51k5YsYj+qutScu3fq+g/RjxpAY7IQwvGk7xDzKrnw
-         QFdQ==
-X-Gm-Message-State: AOAM530apJ3CZ2ngoXaQdjEPnXDsKzjMiCpf9z0JNCaJP760H8Yvq2c0
-        p/ydJ89qEaM/VqyEe8LBaAoclm5skUg=
-X-Google-Smtp-Source: ABdhPJyBMus0KQ9ed2ZMwJyemHlMGIE4kSrAkjIqlUxQmSwL/KUDHRIm/sQZdhbE+aX1Dx4Ik58dGw==
-X-Received: by 2002:aca:bc89:: with SMTP id m131mr7549771oif.62.1615500126879;
-        Thu, 11 Mar 2021 14:02:06 -0800 (PST)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id 64sm801666oob.12.2021.03.11.14.02.06
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Thu, 11 Mar 2021 14:02:06 -0800 (PST)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Thu, 11 Mar 2021 14:02:05 -0800
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Erik Rosen <erik.rosen@metormote.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>
-Subject: Re: [PATCH v3 2/2] hwmon: (pmbus/stpddc60) Add ST STPDDC60 pmbus
- driver
-Message-ID: <20210311220205.GA37379@roeck-us.net>
-References: <20210218115249.28513-1-erik.rosen@metormote.com>
- <20210218115249.28513-3-erik.rosen@metormote.com>
+        id S230283AbhCKWzM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Mar 2021 17:55:12 -0500
+Received: from userp2120.oracle.com ([156.151.31.85]:47640 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230119AbhCKWzG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Mar 2021 17:55:06 -0500
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12BMnf4x115224;
+        Thu, 11 Mar 2021 22:53:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
+ cc : references : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=plSnUdBNvny7Ct7a8NuaqDGnQYwwr4B6qgGyUtk/DSU=;
+ b=Msup728Ns4Ep4HZxxAMhehA9El1ybe+B5r/r357QamrJjOas3nTMuu4f9WLbOt1rqT4j
+ O/TsgrpU16UrPraEtlWljTNBA2pIeBRFwqbM89ypogW+ujxgDcLuiaAvsW99JLrKIGXm
+ phkOt1w4OZRco4aGUsOSeVOj+PU4i84dcF+IegRCZzd7qCfZOGaFsrl7FN4YC26xP9nO
+ 5hAVmdMPqxiZSQutnvVrtVOkz0cOn+wsmB9wrBov/xIog5RnMLXP7H0uHZRGy77FN+7P
+ I5NYkVAQ+qTjzfBCpV+wsKS09bIUW2EJk+EivYEL6EixViltpspVW3VtpD0cRPrvJcpG jQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 3742cnga2b-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 11 Mar 2021 22:53:32 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12BMjAIf112036;
+        Thu, 11 Mar 2021 22:53:31 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by userp3020.oracle.com with ESMTP id 374kgvn1tk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 11 Mar 2021 22:53:31 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 12BMrBos023537;
+        Thu, 11 Mar 2021 22:53:11 GMT
+Received: from [192.168.2.112] (/50.38.35.18)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 11 Mar 2021 14:53:10 -0800
+Subject: Re: [PATCH v18 4/9] mm: hugetlb: alloc the vmemmap pages associated
+ with each HugeTLB page
+From:   Mike Kravetz <mike.kravetz@oracle.com>
+To:     Michal Hocko <mhocko@suse.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>
+Cc:     Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        osalvador@suse.de, song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com, joao.m.martins@oracle.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, Chen Huang <chenhuang5@huawei.com>,
+        Bodeddula Balasubramaniam <bodeddub@amazon.com>
+References: <20210308102807.59745-1-songmuchun@bytedance.com>
+ <20210308102807.59745-5-songmuchun@bytedance.com>
+ <YEjji9oAwHuZaZEt@dhcp22.suse.cz>
+ <f9f19d38-f1a7-ac8c-6ba8-3ce0bcc1e6a0@oracle.com>
+ <YEk1+mDZ4u85RKL3@dhcp22.suse.cz>
+ <20210310214909.GY2696@paulmck-ThinkPad-P72>
+ <68bc8cc9-a15b-2e97-9a2a-282fe6e9bd3f@oracle.com>
+ <20210310232851.GZ2696@paulmck-ThinkPad-P72>
+ <YEnXllhPEQhT0CRt@dhcp22.suse.cz> <YEoKa5oSm/hdgt5V@dhcp22.suse.cz>
+ <45f434da-b55b-da61-be36-c248a301f688@oracle.com>
+Message-ID: <4d4851fd-f0fd-9bfe-d271-b53891fdab6f@oracle.com>
+Date:   Thu, 11 Mar 2021 14:53:08 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.1.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210218115249.28513-3-erik.rosen@metormote.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <45f434da-b55b-da61-be36-c248a301f688@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-IMR: 1
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9920 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0
+ malwarescore=0 bulkscore=0 suspectscore=0 mlxscore=0 mlxlogscore=999
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103110121
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9920 signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0
+ clxscore=1015 phishscore=0 adultscore=0 mlxlogscore=999 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 mlxscore=0 impostorscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103110121
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Feb 18, 2021 at 12:52:49PM +0100, Erik Rosen wrote:
-> Add hardware monitoring support for ST STPDDC60 Unversal Digital
-> Multicell Controller.
+On 3/11/21 9:59 AM, Mike Kravetz wrote:
+> On 3/11/21 4:17 AM, Michal Hocko wrote:
+>>> Yeah per cpu preempt counting shouldn't be noticeable but I have to
+>>> confess I haven't benchmarked it.
+>>
+>> But all this seems moot now http://lkml.kernel.org/r/YEoA08n60+jzsnAl@hirez.programming.kicks-ass.net
+>>
 > 
-> Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
+> The proper fix for free_huge_page independent of this series would
+> involve:
+> 
+> - Make hugetlb_lock and subpool lock irq safe
+> - Hand off freeing to a workque if the freeing could sleep
+> 
+> Today, the only time we can sleep in free_huge_page is for gigantic
+> pages allocated via cma.  I 'think' the concern about undesirable
+> user visible side effects in this case is minimal as freeing/allocating
+> 1G pages is not something that is going to happen at a high frequency.
+> My thinking could be wrong?
+> 
+> Of more concern, is the introduction of this series.  If this feature
+> is enabled, then ALL free_huge_page requests must be sent to a workqueue.
+> Any ideas on how to address this?
+> 
 
-Applied but ...
+Thinking about this more ...
 
-> --- a/drivers/hwmon/pmbus/Makefile
-> +++ b/drivers/hwmon/pmbus/Makefile
-> @@ -28,9 +28,11 @@ obj-$(CONFIG_SENSORS_MP2975)	+= mp2975.o
->  obj-$(CONFIG_SENSORS_PM6764TR)	+= pm6764tr.o
->  obj-$(CONFIG_SENSORS_PXE1610)	+= pxe1610.o
->  obj-$(CONFIG_SENSORS_Q54SJ108A2)	+= q54sj108a2.o
-> +obj-$(CONFIG_SENSORS_STPDDC60)	+= stpddc60.o
->  obj-$(CONFIG_SENSORS_TPS40422)	+= tps40422.o
->  obj-$(CONFIG_SENSORS_TPS53679)	+= tps53679.o
->  obj-$(CONFIG_SENSORS_UCD9000)	+= ucd9000.o
->  obj-$(CONFIG_SENSORS_UCD9200)	+= ucd9200.o
->  obj-$(CONFIG_SENSORS_XDPE122)	+= xdpe12284.o
->  obj-$(CONFIG_SENSORS_ZL6100)	+= zl6100.o
-> +
+A call to free_huge_page has two distinct outcomes
+1) Page is freed back to the original allocator: buddy or cma
+2) Page is put on hugetlb free list
 
-I fixed this up. Please check for such whitespace errors.
+We can only possibly sleep in the first case 1.  In addition, freeing a
+page back to the original allocator involves these steps:
+1) Removing page from hugetlb lists
+2) Updating hugetlb counts: nr_hugepages, surplus
+3) Updating page fields
+4) Allocate vmemmap pages if needed as in this series
+5) Calling free routine of original allocator
 
-Thanks,
-Guenter
+If hugetlb_lock is irq safe, we can perform the first 3 steps under that
+lock without issue.  We would then use a workqueue to perform the last
+two steps.  Since we are updating hugetlb user visible data under the
+lock, there should be no delays.  Of course, giving those pages back to
+the original allocator could still be delayed, and a user may notice
+that.  Not sure if that would be acceptable?  I think Muchun had a
+similar setup just for vmemmmap allocation in an early version of this
+series.
+
+This would also require changes to where accounting is done in
+dissolve_free_huge_page and update_and_free_page as mentioned elsewhere.
+
+P.S. We could further optimize to check for the possibility of sleeping
+(cma or vmemmap) and only send to workqueue in those cases.
+-- 
+Mike Kravetz
