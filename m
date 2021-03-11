@@ -3,100 +3,96 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D349C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 13:46:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DCCB5C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 15:45:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ABF7B64F9A
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 13:46:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8947064FB8
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 15:45:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233306AbhCKNpx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Mar 2021 08:45:53 -0500
-Received: from mx2.suse.de ([195.135.220.15]:34656 "EHLO mx2.suse.de"
+        id S234234AbhCKPpG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Mar 2021 10:45:06 -0500
+Received: from mga04.intel.com ([192.55.52.120]:61146 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233496AbhCKNpn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Mar 2021 08:45:43 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 67E80AB8C;
-        Thu, 11 Mar 2021 13:45:41 +0000 (UTC)
-Date:   Thu, 11 Mar 2021 14:45:35 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Muchun Song <songmuchun@bytedance.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
+        id S234096AbhCKPok (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Mar 2021 10:44:40 -0500
+IronPort-SDR: qWK9aRE2TTZXTnoGQ6XadpIdaUrWHZIrBladi08rhh9Bhd46bi94+w+pNYdIORre8+gcMBXe4+
+ 4SNLXEpDnd0w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9920"; a="186305781"
+X-IronPort-AV: E=Sophos;i="5.81,241,1610438400"; 
+   d="scan'208";a="186305781"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 07:44:40 -0800
+IronPort-SDR: lVQmY3uuvk0SUoyAiiYU6+ijNeIsC7r6XEJxTl3KcWvFb7zk/HRdoWsUdZ7GfcLk9Ooudiw5o4
+ 51RFWl0wayEQ==
+X-IronPort-AV: E=Sophos;i="5.81,241,1610438400"; 
+   d="scan'208";a="404106966"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.103.95]) ([10.212.103.95])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 07:44:39 -0800
+Subject: Re: [PATCH v22 8/8] x86/vdso: Add ENDBR64 to __vdso_sgx_enter_enclave
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
-        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
-        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
-        anshuman.khandual@arm.com, jroedel@suse.de,
-        Mina Almasry <almasrymina@google.com>,
-        David Rientjes <rientjes@google.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
-        David Hildenbrand <david@redhat.com>,
-        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
-        <naoya.horiguchi@nec.com>,
-        Joao Martins <joao.m.martins@oracle.com>,
-        Xiongchun duan <duanxiongchun@bytedance.com>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Chen Huang <chenhuang5@huawei.com>,
-        Bodeddula Balasubramaniam <bodeddub@amazon.com>
-Subject: Re: [External] Re: [PATCH v18 9/9] mm: hugetlb: optimize the code
- with the help of the compiler
-Message-ID: <20210311134531.GA24797@linux>
-References: <20210308102807.59745-1-songmuchun@bytedance.com>
- <20210308102807.59745-10-songmuchun@bytedance.com>
- <YEjoozshsvKeMAAu@dhcp22.suse.cz>
- <CAMZfGtV1Fp1RiQ64c9RrMmZ+=EwjGRHjwL8Wx3Q0YRWbbKF6xg@mail.gmail.com>
- <YEnbBPviwU6N2RzK@dhcp22.suse.cz>
- <CAMZfGtW5uHYiA_1an3W-jEmemsoN3Org7JwieeE2V271wh9X-A@mail.gmail.com>
- <YEnlRlLJD1bK/Dup@dhcp22.suse.cz>
- <CAMZfGtX3pUmPOY1ieVQubnBKHZoOxfp-ARsPigYZpc=-UiiNjg@mail.gmail.com>
- <YEoKJYzP8//qVebC@dhcp22.suse.cz>
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210310220519.16811-1-yu-cheng.yu@intel.com>
+ <20210310220519.16811-9-yu-cheng.yu@intel.com> <YElKjT2v628tidE/@kernel.org>
+ <8b8efe44-b79f-ce29-ee28-066f88c93840@intel.com>
+ <YEmQJjwjs8UCEO2F@kernel.org>
+ <YEnX3Zn0FXPt7pcM@hirez.programming.kicks-ass.net>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <afd769ac-dd09-0c1f-1ffa-b8f68f48113f@intel.com>
+Date:   Thu, 11 Mar 2021 07:44:39 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YEoKJYzP8//qVebC@dhcp22.suse.cz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <YEnX3Zn0FXPt7pcM@hirez.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 01:16:37PM +0100, Michal Hocko wrote:
-> On Thu 11-03-21 18:00:09, Muchun Song wrote:
-> [...]
-> > Sorry. I am confused why you disagree with this change.
-> > It does not bring any disadvantages.
+On 3/11/2021 12:42 AM, Peter Zijlstra wrote:
+> On Thu, Mar 11, 2021 at 05:36:06AM +0200, Jarkko Sakkinen wrote:
+>> Does it do any harm to put it there unconditionally?
 > 
-> Because it is adding a code which is not really necessary and which will
-> have to be maintained. Think of future changes which would need to grow
-> more of these. Hugetlb code paths shouldn't really think about size of
-> the struct page.
+> Blows up your text footprint and I$ pressure. These instructions are 4
+> bytes each.
+> 
+> Aside from that, they're a NOP, so only consume front-end resources
+> (hopefully) on older CPUs and when IBT is disabled.
+> 
 
-I have to confess that when I looked at the patch I found it nice in the way that
-wipes out almost all clode dealing with vmemmap when sizeof(struct page) != power_of_2,
-and I was convinced by the fact that only two places required the change.
-So all in all it did not look like much churn, and not __that__ hard to maintain.
+Thanks Peter.  I think probably we'll do the macro Boris suggested. 
+That takes care of the visual clutter, and eliminates the need of using 
+.byte when the assembler is outdated.
 
-But I did not think in the case where this trick needs to be spread in more places
-if the code changes over time.
-
-So I agree that although it gets rid of a lot of code, it would seldomly pay off as
-not many configuration out there are running on !power_of_2, and hugetlb is already
-tricky enough.
-
-
--- 
-Oscar Salvador
-SUSE L3
+--
+Yu-cheng
