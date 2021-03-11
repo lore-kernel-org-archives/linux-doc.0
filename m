@@ -2,130 +2,120 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CDEFC433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 18:24:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A4B5C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 18:59:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2BCF164FDD
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 18:24:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AC20064FFA
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 18:59:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229887AbhCKSYH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Mar 2021 13:24:07 -0500
-Received: from mout.gmx.net ([212.227.15.15]:41513 "EHLO mout.gmx.net"
+        id S230391AbhCKS64 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Mar 2021 13:58:56 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57372 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229883AbhCKSXl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Mar 2021 13:23:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1615486987;
-        bh=SpnCU8DF8fceQcBGatEhurYgUxXjyn+Yh3rMYnZtpBw=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=EJGVOIR575wXcr5c6RRSlrapvOBsan8L+f6g86Oe6pPunBUxgE4Uxr3yKQsYvuF55
-         Fk+OhstRBVDUiL5BP9azSbnTEAJAaL2YDxrGXgYab5j1zM1tCwPHuho67fkGJFNRny
-         I3CMBI7vURJKEGu4DCemsRLl20UpoLgYi+fcWYn0=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([83.52.229.153]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MatRZ-1lrI4P44J1-00cOpP; Thu, 11
- Mar 2021 19:23:07 +0100
-Date:   Thu, 11 Mar 2021 19:22:52 +0100
-From:   John Wood <john.wood@gmx.com>
-To:     Andi Kleen <ak@linux.intel.com>
-Cc:     John Wood <john.wood@gmx.com>, Kees Cook <keescook@chromium.org>,
-        Jann Horn <jannh@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: Re: [PATCH v5 7/8] Documentation: Add documentation for the Brute LSM
-Message-ID: <20210311182252.GA3349@ubuntu>
-References: <20210227153013.6747-1-john.wood@gmx.com>
- <20210227153013.6747-8-john.wood@gmx.com>
- <878s78dnrm.fsf@linux.intel.com>
- <20210302183032.GA3049@ubuntu>
- <20210307151920.GR472138@tassilo.jf.intel.com>
- <20210307164520.GA16296@ubuntu>
- <20210307172540.GS472138@tassilo.jf.intel.com>
- <20210307180541.GA17108@ubuntu>
- <20210307224927.GT472138@tassilo.jf.intel.com>
- <20210309184054.GA3058@ubuntu>
+        id S230198AbhCKS6e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Mar 2021 13:58:34 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1615489110; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=UeR9O6P1emLf4uUoCF6hVv1qLiOIeDl0w/mf73dEI2E=;
+        b=OwpKvPoTX9B4yab8n0scwNESzz7thwrJdKqX4WFz3lHFLf67loAd28uab7i47IZMql2eR5
+        RyL+3KIt+uBJwUWHLTGWzqTYzha8lNAOaUkGr4IATny44mok/bF5C241k90yFbjbA+itVG
+        +zk/i5e6dg7/tDEX/Cqm/oqkkDJPmlQ=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id AB16BABD7;
+        Thu, 11 Mar 2021 18:58:29 +0000 (UTC)
+Date:   Thu, 11 Mar 2021 19:58:19 +0100
+From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Vipin Sharma <vipinsh@google.com>, rdunlap@infradead.org,
+        thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
+        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
+        frankja@linux.ibm.com, borntraeger@de.ibm.com, corbet@lwn.net,
+        seanjc@google.com, vkuznets@redhat.com, wanpengli@tencent.com,
+        jmattson@google.com, joro@8bytes.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, gingell@google.com,
+        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [Patch v3 0/2] cgroup: New misc cgroup controller
+Message-ID: <YEpoS90X19Z2QOro@blackbook>
+References: <20210304231946.2766648-1-vipinsh@google.com>
+ <YETLqGIw1GekWdYK@slm.duckdns.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="O0rnu3bXQXs0OCyA"
 Content-Disposition: inline
-In-Reply-To: <20210309184054.GA3058@ubuntu>
-X-Provags-ID: V03:K1:G8f/cmLbzHC0nvOAJdH8LHg1kBQt5faDFzmpqz5385toUzzE7T/
- aBAqokU4PkqDSQJV80GvLHFPwvw5izfUOdKZo0dRxlGYKGeLzprDF4za3AuKGiSftYOsWZA
- miE6mjre9ithdQuNaeNBsIShWd524U0NwGLtlI/0nLPgFY3Gnem7CNFokvucxf3g7qGtR3L
- dYo6zcVtd9Nhoy9g6b9tA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IuvjmF4wvE8=:k+Np5YEJ/gTxWhv5RAx2aR
- Naxj9IijaZ8D19fjm+4yscaHdBgu7pWkS0syoMyl5PgbGlKIHME1MWaLDyHw+nTW5ev4o28gM
- n82pmgZHDVYWbpfGjmWnQ31+Mej/j868cvItrSX00RjPyaCpDcRbzJ3K+rOcjtQnGlGcrA/qs
- HF1X+Yo9P7S4UsSvO9p9CKACZVZLqdzSrXJ5mDZ+gKxLu9IzN4bd8NvVoAOSz6Bo/ZDfav5pP
- 7KJLAH0fA9FqQF4lU+r4LEnMU+3cJL01dswzOfE4LOOlZitGV830gVLIzKZ4zrw6Sm/Sb11Dz
- 5p/AJbOWpeiuIFw9aByBtBhIQq/pTCxQNaj3Ex9eP2RlUCQXAe4Q6BwljSxyTcrRsMKgijXoL
- Qa634MLCQLMjBuuzoLgiZlHRN+nqmzw6aNw32B+CS1GIXD8yOye3v4Bu9azwDeM4uwY0kn2Mo
- dOVF7vKPAc7rU/tVFds+vkBP5bxemL7pU/YVEHZgxB1GXXR1IDfYL6ku7kpNzlnc+Bw0f7qiD
- 0BELxF7+QUvGlepuAFeUO5AO257g4cTKcTK1n6FmQ6rg4TQkMwMtt9GfZWWKfrSLng6h4ICQ9
- TiSeezx3n/+kze3B9lSg4zQv2SumZB2qOIEn649sZUMFJXfcSRVL3cb2mYpYv7oMjde6z5a0Z
- 42Y+SuykritmMsZhHreEx0fSuRr54R00t2sQd7kC9YblMm2Yy2mKLLFRvAQRWl0nKeMlsfJcu
- 9HkF6CgCtD68r1MU2s0bK+FV3cWvICtDu/6hMHkS0DmsWgo7ZX/zsmhtfG/duSyluefLHUGAM
- HwJwt1O/E8L0NihOxV8aNOfKusr6CnHZ2tfnvoJu/lHuuVuMBVqD8m37xgUI7jWbDe1td8OQC
- DILVp6PlvjR8m/sRveeg==
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YETLqGIw1GekWdYK@slm.duckdns.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
 
-On Tue, Mar 09, 2021 at 07:40:54PM +0100, John Wood wrote:
-> On Sun, Mar 07, 2021 at 02:49:27PM -0800, Andi Kleen wrote:
->
-> > So I think it needs more work on the user space side for most usages.
->
-> Anyway, in the case that the supervisor is init then the system will pan=
-ic. So,
-> I think that we can add a prctl to avoid kill the parent task (the task =
-that
-> exec) and only block new fork system calls from this task. When this boo=
-lean is
-> set, any parent task that is involved in the attack will not be killed. =
-In this
-> case, any following forks will be blocked. This way the system will not =
-crash.
+--O0rnu3bXQXs0OCyA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Another proposal that I think suits better:
+Hello.
 
-When a brute force attack is detected through the fork or execve system ca=
-ll,
-all the tasks involved in the attack will be killed with the exception of =
-the
-init task (task with pid equal to zero). Now, and only if the init task is
-involved in the attack, block the fork system call from the init process d=
-uring
-a user defined time (using a sysctl attribute). This way the brute force a=
-ttack
-is mitigated and the system does not panic.
+On Sun, Mar 07, 2021 at 07:48:40AM -0500, Tejun Heo <tj@kernel.org> wrote:
+> Vipin, thank you very much for your persistence and patience.
+Yes, and thanks for taking my remarks into account.
 
-I think that this is a better solution than the other one since this is a =
-per
-system solution. And I believe that with a default value for the blocking =
-time
-(sysctl attribute) could be useful in a generic way (for most usages).
+> Michal, as you've been reviewing the series, can you please take
+> another look and ack them if you don't find anything objectionable?
+Honestly, I'm still sitting on the fence whether this needs a new
+controller and whether the miscontroller (:-p) is a good approach in the
+long term [1].
 
-The proposal using prctl will need more actions from userspace and it is n=
-ot a
-generic one due to it is a per process solution.
+I admit, I didn't follow the past dicussions completely, however,
+(Vipin) could it be in the cover letter/commit messages shortly
+summarized why cgroups and a controller were chosen to implement
+restrictions of these resources, what were the alternatives any why were
+they rejected?
 
-> What do you think?
+In the previous discussion, I saw the reasoning for the list of the
+resources to be hardwired in the controller itself in order to get some
+scrutiny of possible changes. That makes sense to me. But with that, is
+it necessary to commit to the new controller API via EXPORT_SYMBOL? (I
+don't mean this as a licensing question but what the external API should
+be (if any).)
+
+Besides the generic remarks above, I'd still suggest some slight
+implementation changes, posted inline to the patch.
+
 
 Thanks,
-John Wood
+Michal
+
+[1] Currently, only one thing comes to my mind -- the delegation via
+cgroup.subtree_control. The miscontroller may add possibly further
+resources whose delegation granularity is bunched up under one entry.
+
+--O0rnu3bXQXs0OCyA
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAmBKaEIACgkQia1+riC5
+qSgOghAAjNwE9wBkbntz80HPsO1VwMth86Q8t51F/1HKwoZ6k0VF2q5h0CvFo001
+a1C+P8ZwgBEoFppNcDFZ7oGHmY5SuleyaUXJA+DXiiMyisZsgYYsrYwIZdvnYd1E
+nMBAu1f/+JcTnMEMV/BQF/eQzSbXbN0Sb7sh1UwZ1gjC5vufWml2lCR8lWcUB8dW
+1XhIs+p7KXxk/S9btShMO0sE13DNg0Teq74ugpDbQgM8hrESkC3d4/tJlVM8nqe6
+O0kAtW2M4AP+R9MHyi59cCQAT6mV3mkGkEPtJr9rKwSlNAIS0Oe/8bZ/iGOmTHaP
+HkdBbBEMeRHvZzgrJ3mzioJ8gY5VeOU7dAfgSdzt8xlXTkHqzm53DxSBtbzdzu54
+C2PiElG9UXdLATAhH0GqCw8q352B0Xe66nZKSHKEK6oZQSBok+mjr/ZfKeTUKL5b
+ktGsoAydg3GwXPozi9msTJ6MZLA8/kN2XvTKTyZYJMFUlzWVs2pSL/uxKmVpkXNS
+A7jS3UYeLsQ6kZzW/6XTQQ+FRw2tAiIOOZDrU1lWr7Xoi0bY4DTHWupJgftyn0MQ
+XHx7tqI56RSXgA0/GYPzyF/aO9cV0fUO/9aKE4M+GFDzp8OmpXUFprBy90UifF31
+0y17JUH447oTUuyZUxcC93GcFVkMxVu5BvYPkYGmrvn6pe6c3u4=
+=hCWq
+-----END PGP SIGNATURE-----
+
+--O0rnu3bXQXs0OCyA--
