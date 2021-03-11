@@ -2,123 +2,100 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B1F4C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 16:58:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1031FC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 17:23:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 24A3D64FE2
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 16:58:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C809464FE9
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 17:23:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229767AbhCKQ6Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Mar 2021 11:58:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35108 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229809AbhCKQ6K (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Mar 2021 11:58:10 -0500
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com [IPv6:2607:f8b0:4864:20::131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6599C061760
-        for <linux-doc@vger.kernel.org>; Thu, 11 Mar 2021 08:58:09 -0800 (PST)
-Received: by mail-il1-x131.google.com with SMTP id g9so19538545ilc.3
-        for <linux-doc@vger.kernel.org>; Thu, 11 Mar 2021 08:58:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mIw9mpEdtb6xII0/h1pkc9zwar1BCKRrPfEkXgVTjbI=;
-        b=AIAwsmpNhzzKXCSsCR+48hrHBgLwiA3le2y40XyItCCiAznTDaLmhQioZKLeYJvj5l
-         sYEbViFUJgais0HaTWgDIKrsLRgDvtzoSnhADRD5JFma2Nxe/M4xvkYsCOdCEa2pYKHu
-         jWNVeYX37GDpBx1ePo+F+81oLh3OgZLt4anZc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mIw9mpEdtb6xII0/h1pkc9zwar1BCKRrPfEkXgVTjbI=;
-        b=P8ws/eUlNEOaaDQz/4bV2HkIwDCkHE++Rot6jDOIFs/ix67t0JbXxEgPCJdUz9dCdU
-         pDhANZ1IkIyhWLNbvdoVbakqhgYs9ifecPhWSRpy8H+FpiQ6P+wlFjogwg5Mofgaqzoi
-         VIMdmoGX3H4BBxcfT1vCMLmImSBjK4Gp+P/zUYKmjYCvYRLFO3Gm+NmMq/fP7GnOH/Is
-         2ZqsV2cXcPdliOBmmQp8oPC7e7CReawBCosUtT+e9X0mO7qgDdie3t9VVZ8s/TA9HLPr
-         vhn1h+WfS+6pbSCkzccE1fFdLFUaNovXr42Fqoq51jx9dgSQ2WLud3Ow6+vdGqnT/VUA
-         KPbg==
-X-Gm-Message-State: AOAM530CmPE0QlvAAc8yyuIvkm00kc8UZaeLkQDaf+XrTxwSkADAxHQw
-        v7PPtRsiXB2wLUDLJxDOVEvETHQU9drRyOra
-X-Google-Smtp-Source: ABdhPJzuypBpPe9FI6egZZ+71aRp/BULx7XpkfRqAqjUsK1c2UFMokkDRSB2gX4C8kwjG0vIh0V43g==
-X-Received: by 2002:a92:50c:: with SMTP id q12mr7485260ile.59.1615481889128;
-        Thu, 11 Mar 2021 08:58:09 -0800 (PST)
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com. [209.85.166.46])
-        by smtp.gmail.com with ESMTPSA id r15sm1657439iot.5.2021.03.11.08.58.08
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Mar 2021 08:58:08 -0800 (PST)
-Received: by mail-io1-f46.google.com with SMTP id a7so22625838iok.12
-        for <linux-doc@vger.kernel.org>; Thu, 11 Mar 2021 08:58:08 -0800 (PST)
-X-Received: by 2002:a05:6638:2711:: with SMTP id m17mr4497331jav.115.1615481887730;
- Thu, 11 Mar 2021 08:58:07 -0800 (PST)
+        id S229702AbhCKRXF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Mar 2021 12:23:05 -0500
+Received: from mout.gmx.net ([212.227.17.20]:58463 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229585AbhCKRW7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Mar 2021 12:22:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1615483363;
+        bh=WhOe5KnvPWYxb9Bi+2Zstm68we1vlo0d48PEY9VRvcc=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=Nctrc0My1en6w1WlaPhxN/PdRY+hWH0UjRrMMsMRN9Qq0TEJ75ZnbmXkzpLfa9S7I
+         wBvlf5ZrcmPlPSFqdMsLNoSnrTtLqEr4JrszcZk5OUj74UFAvh0fK4tKEOePeTHwOE
+         UlNXt6CQut5hWSRdX10UVG9FKXaPHsOvdNfPsBhE=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([37.201.215.134]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MhU9j-1lxqVc2drn-00efjs; Thu, 11
+ Mar 2021 18:22:43 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     netdev@vger.kernel.org
+Cc:     =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: networking: phy: Improve placement of parenthesis
+Date:   Thu, 11 Mar 2021 18:22:34 +0100
+Message-Id: <20210311172234.1812323-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-References: <20210301085236.947011-1-hch@lst.de> <20210311165250.GB25023@lst.de>
-In-Reply-To: <20210311165250.GB25023@lst.de>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 11 Mar 2021 17:57:56 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuFkTYMGeL8WK_3VkYy4a1h3hY4NKWTtz=bho844Fa2zw@mail.gmail.com>
-Message-ID: <CANiDSCuFkTYMGeL8WK_3VkYy4a1h3hY4NKWTtz=bho844Fa2zw@mail.gmail.com>
-Subject: Re: add a new dma_alloc_noncontiguous API v3
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:4EQBIBSkgsHfHhBnB/oo8npiCpJeENXBEaY9yog56vdX9GPkNse
+ joUi2khkrZJ624oS9pq6fQtC617v0BsOmxFNosum+iKqdpp0YJzhhSFlxDq0a8/VI9bmOne
+ MxAvOuORIORa0I+9JqNsC1CVDrlTxgBp8dUwGK+fUKjUPU0j4SrQ6Kp9fthzPkTKjGrFs0D
+ 3l+bN8fWFONl9/ih9T6yw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bVWiX8V1yOI=:YYfPg1iTcw5jsv3X8xGaFM
+ MyVH9CEq02F4LyTkPGe3zrNfp4Ju9CJOmMugyhnSG8OGKC8P3VVHDSu2QcXCUgW8D3BaT2iwy
+ eSO9Svwy0abg3UuxSQ2Ch+miNfjsX5GT4Rge6x2byjsw6LdDOpJIO88q2hmPqlZLsO0oqfJgo
+ WysWJUnjxkvh+msROAHFY5Rjrr2k0aowRLEEGoqQZZtyUwPcS5I7t7vtjiQqQasrxutwSFYhq
+ BEBFLAGGA7of2WY5kM3Q/VBtdx15u2ctIQEZaWX2TK9ZX2BPvbD3ERmVG6WgvbdN6sWKutZik
+ aTjSeWP0u0wBk+TiEctwik090inFOI0Ip5is6xHNuGB62dy/D8TVO7DQgfXGhu9j7KJ0my+T3
+ Vzq51KzgHZHZtHP9fvkn4EnX+BDrfZekJ6xDODfh7D3jZgmfxSl9r0/pPNhaBKGXUcmqiJbOA
+ V2SEzVAQEmAQE1dgRJeOlloSf6xx3V2YQDS2n5cdAvCGnmjZpghcEnM0mK7l3nKN4AezV8bGL
+ qx35L1rDTjwAC2D/BIjwu/LMAgPzro5mvyDthHlIV76WBWl/5llXeP2vZoJU2vDEmslvD7NPO
+ MC2wlvFk5j/LEcrXfnimgYpNgQSI1q6eztA/i6oSVunGAA4F/8KP71q1pc+qOyS3SnP+sP5vJ
+ YNyQEooCbEL9PEOni/wd2Y6nFTYBg6+aQYUcDbbzhOBVSFD1Y84qJOI4GKTPkDPgj/n7/iwY0
+ GZfnXlErWBuBu+xby38m0ltNEC6GFY54UIiC39Y6cftjpBL+fFotbyXRjFzY4IPBtFZYqU2jE
+ tGfw36QtmhRaF221J/zk8NxRkqSwPR4BYvk+0Lbk9/gos5JCaLTmkcvFa+End6LNuDJweGpOC
+ 91TRYIv1EgCaRxFS29wA==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Christoph
+"either" is outside the parentheses, so the matching "or" should be too.
 
-I tried to run it in an arm device and it worked fine.
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
+ Documentation/networking/phy.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/Documentation/networking/phy.rst b/Documentation/networking/p=
+hy.rst
+index 06adfc2afcf02..3f05d50ecd6e9 100644
+=2D-- a/Documentation/networking/phy.rst
++++ b/Documentation/networking/phy.rst
+@@ -80,8 +80,8 @@ values of phy_interface_t must be understood from the pe=
+rspective of the PHY
+ device itself, leading to the following:
 
-On Thu, Mar 11, 2021 at 5:52 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> Any comments?  Especially on the uvcvideo conversion?
->
-> On Mon, Mar 01, 2021 at 09:52:30AM +0100, Christoph Hellwig wrote:
-> > Hi all,
-> >
-> > this series adds the new noncontiguous DMA allocation API requested by
-> > various media driver maintainers.
-> >
-> > Changes since v2:
-> >  - rebased to Linux 5.12-rc1
-> >  - dropped one already merged patch
-> >  - pass an attrs argument to dma_alloc_noncontigous
-> >  - clarify the dma_vmap_noncontiguous documentation a bit
-> >  - fix double assignments in uvcvideo
-> >
-> > Changes since v1:
-> >  - document that flush_kernel_vmap_range and invalidate_kernel_vmap_range
-> >    must be called once an allocation is mapped into KVA
-> >  - add dma-debug support
-> >  - remove the separate dma_handle argument, and instead create fully formed
-> >    DMA mapped scatterlists
-> >  - use a directional allocation in uvcvideo
-> >  - call invalidate_kernel_vmap_range from uvcvideo
-> > _______________________________________________
-> > iommu mailing list
-> > iommu@lists.linux-foundation.org
-> > https://lists.linuxfoundation.org/mailman/listinfo/iommu
-> ---end quoted text---
+ * PHY_INTERFACE_MODE_RGMII: the PHY is not responsible for inserting any
+-  internal delay by itself, it assumes that either the Ethernet MAC (if c=
+apable
+-  or the PCB traces) insert the correct 1.5-2ns delay
++  internal delay by itself, it assumes that either the Ethernet MAC (if c=
+apable)
++  or the PCB traces insert the correct 1.5-2ns delay
 
+ * PHY_INTERFACE_MODE_RGMII_TXID: the PHY should insert an internal delay
+   for the transmit data lines (TXD[3:0]) processed by the PHY device
+=2D-
+2.30.1
 
-
--- 
-Ricardo Ribalda
