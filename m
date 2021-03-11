@@ -2,91 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B4CAC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 11:11:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1826C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 12:12:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB47764E1F
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 11:11:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8680464FE7
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 12:12:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232377AbhCKLK7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Mar 2021 06:10:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44810 "EHLO
+        id S232993AbhCKMLx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Mar 2021 07:11:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57896 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232335AbhCKLK1 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Mar 2021 06:10:27 -0500
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42702C061574;
-        Thu, 11 Mar 2021 03:10:27 -0800 (PST)
-Received: by mail-qt1-x82b.google.com with SMTP id f12so804908qtq.4;
-        Thu, 11 Mar 2021 03:10:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=4FDhkUkdj8fWqlipDBp6WuM7/UyISTb34fe+zJutuhk=;
-        b=P849DNFgS5nte6HYXGD6ebAhhBZ3CyFnv9N3Sr2OhrHYwPjZon8k1Uf09nEsePPWI0
-         H9dmyx+EEhFA/GBdul8L0iS9ImrDHwqzKxTUxo7LNAZ4EBKimkA8s4dQS0umgEhbgttx
-         jRTxH4Wng6J+VJxQ4lnEAxHZe3iMCaQMx9n22CblexjSVPeCf+1Nl4XSIsdSbNdMbWdx
-         i5ZhN1Ux4/9F8jxSWEX+T5YsVD+Y/92mIsKAy2YM0NsJSyw4CDCt1snVu0JcpbWQsBOc
-         wvKxY6zBFQwDQAV1K40PCqBou18XW6/Fmbt1sZ4xYK0NirvYCvAJ0nxsL+CcWem4M5TY
-         F93g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=4FDhkUkdj8fWqlipDBp6WuM7/UyISTb34fe+zJutuhk=;
-        b=LZe8mrbt3dxu9TItngECZrR/KjoiYm3guq2QYb7u376he988e/AzfeXvHPfYcKhSJY
-         gUfKJK1nrWRJWMi8v7Vv68s9E+nP3EtW7NDHGHbs0FRz3Ya1qaurGO8H5EvNy1eL8IX/
-         DzPaUkUNFT4k6Iz5vVkbnCk4wZf3wzedrgJrrWLtyphfJya4Ay7sR7px+d1Gvknb581Q
-         8dnM7L8SkidZYXXm0F0MJ+NlGYNhfIT5vEDbEcLMjTwxVy3fTL84lpTonwQdN/wqbx6L
-         ynZdhGL/8SM7P6OOwX/TiAU6YATVhBFLGS/kYNccvIhQJ/DBcojO4zlBLMggmKItecUi
-         9GKA==
-X-Gm-Message-State: AOAM530blBrq87pkPABsZHGkI4GzzcOI3bG486VBXX8kl0OVQY6CGbBF
-        0x7cLjvbSZPPw0noHumKO1k=
-X-Google-Smtp-Source: ABdhPJzAmUcpvcKbe7oVuT3jh2pvL8XEzD3mV8sjVbg+GAQtSR/Ff9hDTjoyaSog8q0e8a30rdRYew==
-X-Received: by 2002:ac8:4314:: with SMTP id z20mr6848730qtm.127.1615461026174;
-        Thu, 11 Mar 2021 03:10:26 -0800 (PST)
-Received: from localhost (2603-7000-9602-8233-06d4-c4ff-fe48-9d05.res6.spectrum.com. [2603:7000:9602:8233:6d4:c4ff:fe48:9d05])
-        by smtp.gmail.com with ESMTPSA id p7sm1673704qkc.75.2021.03.11.03.10.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Mar 2021 03:10:25 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Thu, 11 Mar 2021 06:10:25 -0500
-From:   Tejun Heo <tj@kernel.org>
-To:     Chengming Zhou <zhouchengming@bytedance.com>
-Cc:     lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net,
-        mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
-        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, cgroups@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        songmuchun@bytedance.com
-Subject: Re: [PATCH] cgroup-v2: Add taskstats counters in cgroup.stat
-Message-ID: <YEn6od+CCVjNZIS9@slm.duckdns.org>
-References: <20210311061752.310831-1-zhouchengming@bytedance.com>
+        with ESMTP id S232781AbhCKMLX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Mar 2021 07:11:23 -0500
+Received: from mail.marcansoft.com (marcansoft.com [IPv6:2a01:298:fe:f::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3780DC061574;
+        Thu, 11 Mar 2021 04:11:23 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: marcan@marcan.st)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id AAAD642508;
+        Thu, 11 Mar 2021 12:11:14 +0000 (UTC)
+Subject: Re: [RFT PATCH v3 12/27] of/address: Add infrastructure to declare
+ MMIO as non-posted
+To:     Arnd Bergmann <arnd@kernel.org>, Rob Herring <robh@kernel.org>
+Cc:     linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Marc Zyngier <maz@kernel.org>, Olof Johansson <olof@lixom.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Will Deacon <will@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        DTML <devicetree@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:GENERIC INCLUDE/ASM HEADER FILES" 
+        <linux-arch@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20210304213902.83903-1-marcan@marcan.st>
+ <20210304213902.83903-13-marcan@marcan.st>
+ <CAL_JsqJF2Hz=4U7FR_GOSjCxqt3dpf-CAWFNfsSrDjDLpHqgCA@mail.gmail.com>
+ <6e4880b3-1fb6-0cbf-c1a5-7a46fd9ccf62@marcan.st>
+ <CAK8P3a0Hmwt-ywzS-2eEmqyQ0v2SxLsLxFwfTUoWwbzCrBNhsQ@mail.gmail.com>
+ <CAL_JsqJHRM59GC3FjvaGLCELemy1uspnGvTEFH6q0OdyBPVSjA@mail.gmail.com>
+ <CAK8P3a0_GBB-VYFO5NaySyBJDN2Ra-WMH4WfFrnzgOejmJVG8g@mail.gmail.com>
+ <20210308211306.GA2920998@robh.at.kernel.org>
+ <CAK8P3a2GfzUevuQNZeQarJ4GNFsuDj0g7oFuN940Hdaw06YJbA@mail.gmail.com>
+ <CAL_JsqK8FagJyQVyG5DAocUjLGZT91b6NzDm_DNMW1hdCz51Xg@mail.gmail.com>
+ <c5693760-3b18-e8f1-18b6-bae42c05d329@marcan.st>
+ <CAL_Jsq+VLLPa98iaTvOkK-tjuBH4qY7FNEGtufYGv7rXAbwegQ@mail.gmail.com>
+ <332c0b9a-dcfd-4c3b-9038-47cbda90eb3f@marcan.st>
+ <CAL_Jsq+X7JPm-xrxmy5bGKSuLO59yk6S=EuXmdMn0FwhpZAD7A@mail.gmail.com>
+ <CAK8P3a2HWbHc-aGHk792TVh6ea2j+aKswYrB6EBsjPA6fH1=xA@mail.gmail.com>
+From:   Hector Martin <marcan@marcan.st>
+Message-ID: <7ee4a1ac-9fd4-3eca-853d-d12a16ddbb60@marcan.st>
+Date:   Thu, 11 Mar 2021 21:11:12 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210311061752.310831-1-zhouchengming@bytedance.com>
+In-Reply-To: <CAK8P3a2HWbHc-aGHk792TVh6ea2j+aKswYrB6EBsjPA6fH1=xA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: es-ES
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 02:17:52PM +0800, Chengming Zhou wrote:
-> We have the netlink CGROUPSTATS_CMD_GET interface to get taskstats
-> of the cgroup on v1, but haven't the equivalent interface on v2,
-> making it difficult to calculate the per-cgroup cpu load in cadvisor
-> or implement the cgroup proc interface in lxcfs, like /proc/loadavg.
+On 11/03/2021 18.12, Arnd Bergmann wrote:
+> On Wed, Mar 10, 2021 at 6:01 PM Rob Herring <robh@kernel.org> wrote:
+>>
+>> On Wed, Mar 10, 2021 at 1:27 AM Hector Martin <marcan@marcan.st> wrote:
+>>>
+>>> On 10/03/2021 07.06, Rob Herring wrote:
+>>>>> My main concern here is that this creates an inconsistency in the device
+>>>>> tree representation that only works because PCI drivers happen not to
+>>>>> use these code paths. Logically, having "nonposted-mmio" above the PCI
+>>>>> controller would imply that it applies to that bus too. Sure, it doesn't
+>>>>> matter for Linux since it is ignored, but this creates an implicit
+>>>>> exception that PCI buses always use posted modes.
+>>>>
+>>>> We could be stricter that "nonposted-mmio" must be in the immediate
+>>>> parent. That's kind of in line with how addressing already works.
+>>>> Every level has to have 'ranges' to be an MMIO address, and the
+>>>> address cell size is set by the immediate parent.
+>>>>
+>>>>> Then if a device comes along that due to some twisted fabric logic needs
+>>>>> nonposted nGnRnE mappings for PCIe (even though the actual PCIe ops will
+>>>>> end up posted at the bus anyway)... how do we represent that? Declare
+>>>>> that another "nonposted-mmio" on the PCIe bus means "no, really, use
+>>>>> nonposted mmio for this"?
+>>>>
+>>>> If we're strict, yes. The PCI host bridge would have to have "nonposted-mmio".
+>>>
+>>> Works for me; then let's just make it non-recursive.
+>>>
+>>> Do you think we can get rid of the Apple-only optimization if we do
+>>> this? It would mean only looking at the parent during address
+>>> resolution, not recursing all the way to the top, so presumably the
+>>> performance impact would be quite minimal.
+> 
+> Works for me.
 
-So, this is what the PSI metrics are for and we've been using it for that
-for quite a while now. I'd much prefer not adding something duplicate (and
-incomplete).
+Incidentally, even though it would now be unused, I'd like to keep the 
+apple,arm-platform compatible at this point; we've already been pretty 
+close to a use case for it, and I don't want to have to fall back to a 
+list of SoC compatibles if we ever need another quirk for all Apple ARM 
+SoCs (or break backwards compat). It doesn't really hurt to have it in 
+the binding and devicetrees, right?
 
-Thanks.
+>> Yeah, that should be fine. I'd keep an IS_ENABLED() config check
+>> though. Then I'll also know if anyone else needs this.
+> 
+> Ok, makes sense.
+> 
+> Conceptually, I'd like to then see a check that verifies that the
+> property is only set for nodes whose parent also has it set, since
+> that is how AXI defines it: A bus can wait for the ack from its
+> child node, or it can acknowledge the write to its parent early.
+> However, this breaks down as soon as a bus does the early ack:
+> all its children by definition use posted writes (as seen by the
+> CPU), even if they wait for stores that come from other masters.
+> 
+> Does this make sense to you?
+
+Makes sense. This shouldn't really be something the kernel concerns 
+itself with at runtime, just something for the dts linting, right?
+
+I assume this isn't representable in json-schema, so it would presumably 
+need some ad-hoc validation code.
 
 -- 
-tejun
+Hector Martin (marcan@marcan.st)
+Public Key: https://mrcn.st/pub
