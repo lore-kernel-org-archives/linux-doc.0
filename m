@@ -2,95 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 856D0C433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 08:42:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A695EC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 08:46:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 480BA64FA7
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 08:42:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5894B64FA7
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 08:46:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231584AbhCKImv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Mar 2021 03:42:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41324 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231309AbhCKIml (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Mar 2021 03:42:41 -0500
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4976EC061574;
-        Thu, 11 Mar 2021 00:42:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=iNur3LddLbqOxPZObj0ioFPvfinKVBSW9anyjtwfwJM=; b=WanEzgwFy9TFzNVXe3OsRG/IHe
-        +z77vFr5wAdeiwyeKU9/63vQ/AtB1LaHCbqMYn3iPc97V5JHDGCASbLctR3UyHWhTnuwKn5na5HUR
-        Z9dT+KOA47twNFbGCz71zvp8Cj6gGNJe2KKNKC6+zav92iIQuRujY2TNxTk2Syh2TYFau62sdkXb+
-        pk3BCo7z1N92aWL1Hl1qE1HtNE2PldWZYFdC6gLxu0LD15aklrkDWepqleY4zoMDzl32450+mUSfu
-        mqdu2B6R4AeSq5zUGU0gUy7y2gkjJCizQ21sbnDHpLBYjlnPckdtNBUofSO09gALBBqkpgJGGIFqG
-        KXKLP1xw==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lKGtU-008ghN-MZ; Thu, 11 Mar 2021 08:42:08 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id DF4D83010CF;
-        Thu, 11 Mar 2021 09:42:05 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id D31EF299E3D08; Thu, 11 Mar 2021 09:42:05 +0100 (CET)
-Date:   Thu, 11 Mar 2021 09:42:05 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
+        id S231264AbhCKIqg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Mar 2021 03:46:36 -0500
+Received: from mx2.suse.de ([195.135.220.15]:56974 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230009AbhCKIqN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Mar 2021 03:46:13 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1615452371; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WufQ3n/kwHjfZtEAjPC6dKTzReIW3D11ZqXq64CI764=;
+        b=NPZL6lossPXcyKWueKyjDu+enqVqiYJGJSYU6wRfI5nseEMa6INY3gr/s9kR5xnKCsZI/Y
+        LxFsfDER3lI9iNKUuKGiJvtfBZDAvmidD5WBhiTFhmTuJ+IP+cE1P6iimwGLV7XK4WhEQe
+        t9iu5Xy2dt09xbzS70zlQquMtYsSzwk=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 2BB0CAB8C;
+        Thu, 11 Mar 2021 08:46:11 +0000 (UTC)
+Date:   Thu, 11 Mar 2021 09:46:10 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Muchun Song <songmuchun@bytedance.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v22 8/8] x86/vdso: Add ENDBR64 to __vdso_sgx_enter_enclave
-Message-ID: <YEnX3Zn0FXPt7pcM@hirez.programming.kicks-ass.net>
-References: <20210310220519.16811-1-yu-cheng.yu@intel.com>
- <20210310220519.16811-9-yu-cheng.yu@intel.com>
- <YElKjT2v628tidE/@kernel.org>
- <8b8efe44-b79f-ce29-ee28-066f88c93840@intel.com>
- <YEmQJjwjs8UCEO2F@kernel.org>
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Chen Huang <chenhuang5@huawei.com>,
+        Bodeddula Balasubramaniam <bodeddub@amazon.com>
+Subject: Re: [External] Re: [PATCH v18 4/9] mm: hugetlb: alloc the vmemmap
+ pages associated with each HugeTLB page
+Message-ID: <YEnY0qXuBGYW6LHA@dhcp22.suse.cz>
+References: <20210308102807.59745-1-songmuchun@bytedance.com>
+ <20210308102807.59745-5-songmuchun@bytedance.com>
+ <YEjji9oAwHuZaZEt@dhcp22.suse.cz>
+ <CAMZfGtVjLOF27VMVJ5fF8CDJRpZ0t7fWpmMHB9D-ipMK6b=POg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YEmQJjwjs8UCEO2F@kernel.org>
+In-Reply-To: <CAMZfGtVjLOF27VMVJ5fF8CDJRpZ0t7fWpmMHB9D-ipMK6b=POg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 05:36:06AM +0200, Jarkko Sakkinen wrote:
-> Does it do any harm to put it there unconditionally?
+On Thu 11-03-21 12:26:32, Muchun Song wrote:
+> On Wed, Mar 10, 2021 at 11:19 PM Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > On Mon 08-03-21 18:28:02, Muchun Song wrote:
+[...]
+> > > @@ -1771,8 +1813,12 @@ int dissolve_free_huge_page(struct page *page)
+> > >               h->free_huge_pages--;
+> > >               h->free_huge_pages_node[nid]--;
+> > >               h->max_huge_pages--;
+> > > -             update_and_free_page(h, head);
+> > > -             rc = 0;
+> > > +             rc = update_and_free_page(h, head);
+> > > +             if (rc) {
+> > > +                     h->surplus_huge_pages--;
+> > > +                     h->surplus_huge_pages_node[nid]--;
+> > > +                     h->max_huge_pages++;
+> >
+> > This is quite ugly and confusing. update_and_free_page is careful to do
+> > the proper counters accounting and now you just override it partially.
+> > Why cannot we rely on update_and_free_page do the right thing?
+> 
+> Dissolving path is special here. Since update_and_free_page failed,
+> the number of surplus pages was incremented.  Surplus pages are
+> the number of pages greater than max_huge_pages.  Since we are
+> incrementing max_huge_pages, we should decrement (undo) the
+> addition to surplus_huge_pages and surplus_huge_pages_node[nid].
 
-Blows up your text footprint and I$ pressure. These instructions are 4
-bytes each.
-
-Aside from that, they're a NOP, so only consume front-end resources
-(hopefully) on older CPUs and when IBT is disabled.
+Can we make dissolve_free_huge_page less special or tell
+update_and_free_page to not account against dissolve_free_huge_page?
+-- 
+Michal Hocko
+SUSE Labs
