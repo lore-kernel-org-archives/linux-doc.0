@@ -2,148 +2,300 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69661C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 21:04:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D26A7C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 21:49:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F31564F85
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 21:04:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F85764F8F
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 21:49:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229490AbhCKVED (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Mar 2021 16:04:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60062 "EHLO
+        id S229796AbhCKVsu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Mar 2021 16:48:50 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229468AbhCKVEC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Mar 2021 16:04:02 -0500
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 424D0C061574;
-        Thu, 11 Mar 2021 13:04:02 -0800 (PST)
-Received: by mail-pf1-x42a.google.com with SMTP id l7so397314pfd.3;
-        Thu, 11 Mar 2021 13:04:02 -0800 (PST)
+        with ESMTP id S230512AbhCKVsk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Mar 2021 16:48:40 -0500
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com [IPv6:2607:f8b0:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7603C061574;
+        Thu, 11 Mar 2021 13:48:40 -0800 (PST)
+Received: by mail-ot1-x334.google.com with SMTP id x28so2574034otr.6;
+        Thu, 11 Mar 2021 13:48:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ALluUOsoSqK4P+is/Y65pRMrQ+pvKVSisjX8vHlvv0Y=;
-        b=L+SgzsufpGKpowTezzieLVjENQonW5ufjAo6UGxYlvwEYAI4R3Qj8ejfabUzZ/E35o
-         eP9qU2CcWjrsiUp0VsPN31ep4vrG2ZKq3HcgPOxDBjbUXCYSXAWaZ+pmUCv+heU0V5oW
-         /N+1KeI7yCDxPza1UrJh8a7SkpoEKLDHq4B+3hXsZXbrxyg/dy+zV98l3aAz6sMVOA3s
-         Hjit8bp39EJkvN5r58j4op+3TcIFxih28ZAKczlzbdGAvz2SPAuwELFxIL8tExshpE0O
-         NiOLjc2mc0mkMvJuD1RhE5BztpkbE4VkrEIxUTb2+BzrwzAHTdIVr3aSp3zFY9z7YoB6
-         XjNg==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to
+         :user-agent;
+        bh=FLFJ/cfbWjjDQmovjePYB1SvwwbHlMBXgTEQGX1t96s=;
+        b=XesCgyqdJdWS4444WrdJNNuPovODkvXZd1O3rmtyGOY9sqcSCpJmkAylz73TJ+5jvC
+         evV/lSTnWN6E9a01Q3QwVa4HtsJrkAOk2Vyk1f0pandhimTLgpM1G4fyukLstZq+TD2n
+         LqIwGV260kyLBDfBm6mjVXBePTier8G/GMdHDeQiQEzcsGtbDevKk+qzZdiZUXszZZWK
+         g5T9sR4ZnYup2K4W6wrMRdEaiqo75OF1xvl4qz5YbUBx/6Ei1sD7UiNOVJPVyfaOniFv
+         R5EU90ml9xQCCjyhi1PVQEClLYW2uL/eMJtuNB1MYqTcb6cwvNSA6WwpHO4XDmgQxpMA
+         Vkig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ALluUOsoSqK4P+is/Y65pRMrQ+pvKVSisjX8vHlvv0Y=;
-        b=Uc1M5jn0UHjh8u8B6BV4mmrqApdHu7o70oTM+Q6QSoo0yiHmSTjFdLE2ko2zrWCVMB
-         eGjsQ6z+F9Nk+egA2QPi7GNVUT5+Fit+xGqATfBzFlVwY9+50Pg+qNHJjXHuSntHXhJ3
-         9JDRDwblzSeNZswTa3ul/+fAIBxYtRz3qAr0IHHDeIPe0tTUO13ORbNrKImNn64xhHXj
-         u9z/kNiZz8cVu8nIHDCGreJCw8j6oRV0tquz7PczQMP1QvhVtc0cjYsPqgGg5j4YSAYp
-         OZaQkhdAm5Z+v5I5i9EgB67t4o44ajCHRafXkyPAujU3YHzUnBmedjjxmLP59Age3qtB
-         mF2Q==
-X-Gm-Message-State: AOAM5326HNjOl/NQJSvD015SASVlcGru3FVVYqJgmDQB97uEm2WRigVO
-        pwPsLnSvD3EikrZnz9/CWNzyeFPF0UpO2RNe
-X-Google-Smtp-Source: ABdhPJwkBvX01oEU2foX84xttZrz/R4IafR2gkTb0wcgibS6UEN6hIYEQ+Oza7/LP/IS8mv91M7qkQ==
-X-Received: by 2002:a63:161c:: with SMTP id w28mr8872540pgl.341.1615496641519;
-        Thu, 11 Mar 2021 13:04:01 -0800 (PST)
-Received: from ?IPv6:2405:201:600d:a089:c1b4:679a:535a:d260? ([2405:201:600d:a089:c1b4:679a:535a:d260])
-        by smtp.gmail.com with ESMTPSA id s28sm3336112pfd.155.2021.03.11.13.03.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Mar 2021 13:04:01 -0800 (PST)
-Subject: Re: [RFC] scripts: kernel-doc: avoid warnings due to initial
- commented lines in file
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Markus Heiser <markus.heiser@darmarit.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20210309125324.4456-1-yashsri421@gmail.com>
- <8959bf29-9ee1-6a1d-da18-f440232864f3@darmarit.de>
- <c673e76f-72db-bbee-39d6-f5428e765173@gmail.com>
- <CAKXUXMwg7Vs5hm_X3ZHJj9309w5VYbnNeqXaajHBHS1oAKQydw@mail.gmail.com>
-From:   Aditya <yashsri421@gmail.com>
-Message-ID: <838a823b-f3fd-ed1b-70d1-82611f9f4ada@gmail.com>
-Date:   Fri, 12 Mar 2021 02:33:55 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to:user-agent;
+        bh=FLFJ/cfbWjjDQmovjePYB1SvwwbHlMBXgTEQGX1t96s=;
+        b=jWeR07x/bVwRPOPaNSLLqbuF+8LW5BJPVaj6bPK2gb8o4LxlXmNj+TAMrqu3n7eaps
+         eHAlDkjBf6a/7bfs7qL21WFYlLaQZsJH0pDibFsgtcfvScH5NyCt1p3PMSuSVklW8hRN
+         TO8MTplbhFlbvrR4rA0HR8YhSbNhLlH660PeyZwbeEtIWtrpOGK/DUKdzLK6ezGPnzd6
+         vQSdlTZ9eNX0eMDVKqlHyMmXq6OK3laVLxKqZj/nrR+RB6HczOojslDeTw50JI8Ce/zL
+         RKLnG0hPxKms1mUsM/3IHZ9gqgFfW4r4yrodJ7rcCi95qH3HAsKN7v0YhYIoYwuocOd1
+         U9Rg==
+X-Gm-Message-State: AOAM533wyFiiMLG4Rq2/aWFV5pvN3NJFtaL6nSGqRBzLZt1opkuJQIHe
+        DFHup5W1jglFEab0o/lwBf0=
+X-Google-Smtp-Source: ABdhPJx6wGN2tYknfFIvovrmwvQBFQdQ5WYTj+7z/OaDlFqSGacer0gQWK/b+F7VlkvVZSz0qf2UNQ==
+X-Received: by 2002:a9d:7512:: with SMTP id r18mr863295otk.90.1615499320227;
+        Thu, 11 Mar 2021 13:48:40 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id o9sm873506otl.39.2021.03.11.13.48.39
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 11 Mar 2021 13:48:39 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Thu, 11 Mar 2021 13:48:38 -0800
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Chris Packham <chris.packham@alliedtelesis.co.nz>
+Cc:     robh+dt@kernel.org, jdelvare@suse.com, devicetree@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] hwmon: (pmbus): Add driver for Infineon IR36021
+Message-ID: <20210311214838.GA36413@roeck-us.net>
+References: <20210301035954.16713-1-chris.packham@alliedtelesis.co.nz>
+ <20210301035954.16713-3-chris.packham@alliedtelesis.co.nz>
 MIME-Version: 1.0
-In-Reply-To: <CAKXUXMwg7Vs5hm_X3ZHJj9309w5VYbnNeqXaajHBHS1oAKQydw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210301035954.16713-3-chris.packham@alliedtelesis.co.nz>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 10/3/21 11:49 am, Lukas Bulwahn wrote:
-> On Tue, Mar 9, 2021 at 10:24 PM Aditya <yashsri421@gmail.com> wrote:
->>
->> On 9/3/21 7:00 pm, Markus Heiser wrote:
->>>
->>> Am 09.03.21 um 13:53 schrieb Aditya Srivastava:
->>>> Starting commented lines in a file mostly contains comments describing
->>>> license, copyright or general information about the file.
->>>>
->>>> E.g., in sound/pci/ctxfi/ctresource.c, initial comment lines describe
->>>> its copyright and other related file informations.
->>>
->>> The opening comment mark /** is used for kernel-doc comments [1]
->>>
->>> [1]
->>> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#how-to-format-kernel-doc-comments
->>>
->>
->> Hi Markus!
->> That's true. But the content inside the comment does not follow
->> kernel-doc format.
->> For e.g., try running kernel-doc -none/man/rst on the above file in
->> the example("sound/pci/ctxfi/ctresource.c").
->> The starting 2-3 lines in files generally do not contain any
->> struct/enum/function, etc. declaration.
->>
+On Mon, Mar 01, 2021 at 04:59:54PM +1300, Chris Packham wrote:
+> The IR36021 is a dual‐loop digital multi‐phase buck controller.
 > 
-> Aditya, can you provide a diff of the warnings over the whole kernel tree?
-> 
-> At the moment, your patch just implements ignoring the initial
-> comment, which probably is good for experimentation.
-> 
-> Alternatively, we could simply have a dedicated warning and then
-> ignore it or even warn and then parse it as-if.
-> 
-> In the "long run", we would probably want to fix all current files in
-> the repository by just replacing '/**' by '/*' and have kernel-doc
-> warn about this suspicious pattern, when new files appear (maybe even
-> configurable, but that is another feature to enable or disable certain
-> kernel-doc checks and warnings). I would certainly assist and
-> contribute to such a clean-up task.
-> 
-> I think the first step is to look at the diff, and see how many cases
-> really appear in the tree... then check how many patches throughout
-> the whole tree are required and if they are generally accepted.
-> 
+> Signed-off-by: Chris Packham <chris.packham@alliedtelesis.co.nz>
 
-Hi Lukas!
-This is the diff of the warnings over kernel tree before and after
-applying these changes.
-There are 2 sections in this report:
-1) for the warnings present before, but not after, and;
-2) after but not before
+Applied.
 
-The part (2) contains, for some cases, where the warning for "warning:
-Incorrect use of kernel-doc format:" type has changed to "warning:
-wrong kernel-doc identifier on line:" type.
+Thanks,
+Guenter
 
-The diff file can be found at:
-https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/kernel-doc/avoid_init_line_diff.txt
-
-
-Thanks
-Aditya
+> ---
+> Changes in v2:
+> - update against latest kernel for pmbus API changes
+> - avoid double negation
+> 
+>  Documentation/hwmon/index.rst   |  1 +
+>  Documentation/hwmon/ir36021.rst | 62 ++++++++++++++++++++++++++
+>  drivers/hwmon/pmbus/Kconfig     |  9 ++++
+>  drivers/hwmon/pmbus/Makefile    |  1 +
+>  drivers/hwmon/pmbus/ir36021.c   | 79 +++++++++++++++++++++++++++++++++
+>  5 files changed, 152 insertions(+)
+>  create mode 100644 Documentation/hwmon/ir36021.rst
+>  create mode 100644 drivers/hwmon/pmbus/ir36021.c
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 8d5a2df1ecb6..b34894403c2b 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -77,6 +77,7 @@ Hardware Monitoring Kernel Drivers
+>     intel-m10-bmc-hwmon
+>     ir35221
+>     ir38064
+> +   ir36021
+>     isl68137
+>     it87
+>     jc42
+> diff --git a/Documentation/hwmon/ir36021.rst b/Documentation/hwmon/ir36021.rst
+> new file mode 100644
+> index 000000000000..36ef8d518b81
+> --- /dev/null
+> +++ b/Documentation/hwmon/ir36021.rst
+> @@ -0,0 +1,62 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Kernel driver ir36021
+> +=====================
+> +
+> +Supported chips:
+> +
+> +  * Infineon IR36021
+> +
+> +    Prefix: ir36021
+> +    Addresses scanned: -
+> +
+> +    Datasheet: Publicly available at the Infineon website
+> +      https://www.infineon.com/dgdl/ir36021.pdf?fileId=5546d462533600a4015355d0aa2d1775
+> +
+> +Authors:
+> +      - Chris Packham <chris.packham@alliedtelesis.co.nz>
+> +
+> +Description
+> +-----------
+> +
+> +The IR36021 is a dual‐loop digital multi‐phase buck controller designed for
+> +point of load applications.
+> +
+> +Usage Notes
+> +-----------
+> +
+> +This driver does not probe for PMBus devices. You will have to instantiate
+> +devices explicitly.
+> +
+> +Sysfs attributes
+> +----------------
+> +
+> +======================= ===========================
+> +curr1_label             "iin"
+> +curr1_input             Measured input current
+> +curr1_alarm             Input fault alarm
+> +
+> +curr2_label             "iout1"
+> +curr2_input             Measured output current
+> +curr2_alarm             Output over-current alarm
+> +
+> +in1_label               "vin"
+> +in1_input               Measured input voltage
+> +in1_alarm               Input under-voltage alarm
+> +
+> +in2_label               "vout1"
+> +in2_input               Measured output voltage
+> +in2_alarm               Output over-voltage alarm
+> +
+> +power1_label            "pin"
+> +power1_input            Measured input power
+> +power1_alarm            Input under-voltage alarm
+> +
+> +power2_label            "pout1"
+> +power2_input            Measured output power
+> +
+> +temp1_input             Measured temperature
+> +temp1_alarm             Temperature alarm
+> +
+> +temp2_input             Measured other loop temperature
+> +temp2_alarm             Temperature alarm
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 32d2fc850621..ee8c27b3b83d 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -84,6 +84,15 @@ config SENSORS_IR35221
+>  	  This driver can also be built as a module. If so, the module will
+>  	  be called ir35221.
+>  
+> +config SENSORS_IR36021
+> +	tristate "Infineon IR36021"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for Infineon
+> +	  IR36021.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called ir36021.
+> +
+>  config SENSORS_IR38064
+>  	tristate "Infineon IR38064"
+>  	help
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index 6a4ba0fdc1db..685a6bc2b15f 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -11,6 +11,7 @@ obj-$(CONFIG_SENSORS_BEL_PFE)	+= bel-pfe.o
+>  obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
+>  obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
+>  obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+> +obj-$(CONFIG_SENSORS_IR36021)	+= ir36021.o
+>  obj-$(CONFIG_SENSORS_IR38064)	+= ir38064.o
+>  obj-$(CONFIG_SENSORS_IRPS5401)	+= irps5401.o
+>  obj-$(CONFIG_SENSORS_ISL68137)	+= isl68137.o
+> diff --git a/drivers/hwmon/pmbus/ir36021.c b/drivers/hwmon/pmbus/ir36021.c
+> new file mode 100644
+> index 000000000000..4767e39cc965
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/ir36021.c
+> @@ -0,0 +1,79 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Hardware monitoring driver for Infineon IR36021
+> + *
+> + * Copyright (c) 2021 Allied Telesis
+> + */
+> +#include <linux/err.h>
+> +#include <linux/i2c.h>
+> +#include <linux/init.h>
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include "pmbus.h"
+> +
+> +static struct pmbus_driver_info ir36021_info = {
+> +	.pages = 1,
+> +	.format[PSC_VOLTAGE_IN] = linear,
+> +	.format[PSC_VOLTAGE_OUT] = linear,
+> +	.format[PSC_CURRENT_IN] = linear,
+> +	.format[PSC_CURRENT_OUT] = linear,
+> +	.format[PSC_POWER] = linear,
+> +	.format[PSC_TEMPERATURE] = linear,
+> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT
+> +		| PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT
+> +		| PMBUS_HAVE_PIN | PMBUS_HAVE_POUT
+> +		| PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2
+> +		| PMBUS_HAVE_STATUS_TEMP,
+> +};
+> +
+> +static int ir36021_probe(struct i2c_client *client)
+> +{
+> +	u8 buf[I2C_SMBUS_BLOCK_MAX];
+> +	int ret;
+> +
+> +	if (!i2c_check_functionality(client->adapter,
+> +				     I2C_FUNC_SMBUS_READ_BYTE_DATA
+> +				     | I2C_FUNC_SMBUS_READ_WORD_DATA
+> +				     | I2C_FUNC_SMBUS_READ_BLOCK_DATA))
+> +		return -ENODEV;
+> +
+> +	ret = i2c_smbus_read_i2c_block_data(client, PMBUS_MFR_MODEL, 2, buf);
+> +	if (ret < 0) {
+> +		dev_err(&client->dev, "Failed to read PMBUS_MFR_MODEL\n");
+> +		return ret;
+> +	}
+> +	if (ret != 2 || buf[0] != 0x01 || buf[1] != 0x2d) {
+> +		dev_err(&client->dev, "MFR_MODEL unrecognised\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	return pmbus_do_probe(client, &ir36021_info);
+> +}
+> +
+> +static const struct i2c_device_id ir36021_id[] = {
+> +	{ "ir36021", 0 },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(i2c, ir36021_id);
+> +
+> +static const struct of_device_id __maybe_unused ir36021_of_id[] = {
+> +	{ .compatible = "infineon,ir36021" },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, ir36021_of_id);
+> +
+> +static struct i2c_driver ir36021_driver = {
+> +	.class = I2C_CLASS_HWMON,
+> +	.driver = {
+> +		.name = "ir36021",
+> +		.of_match_table = of_match_ptr(ir36021_of_id),
+> +	},
+> +	.probe_new = ir36021_probe,
+> +	.id_table = ir36021_id,
+> +};
+> +
+> +module_i2c_driver(ir36021_driver);
+> +
+> +MODULE_AUTHOR("Chris Packham <chris.packham@alliedtelesis.co.nz>");
+> +MODULE_DESCRIPTION("PMBus driver for Infineon IR36021");
+> +MODULE_LICENSE("GPL");
