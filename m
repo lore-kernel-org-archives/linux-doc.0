@@ -2,140 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34682C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 12:18:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50463C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 13:01:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E055364FD9
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 12:18:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0B6DB64FE7
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 13:01:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232876AbhCKMSR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Mar 2021 07:18:17 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37782 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232939AbhCKMRt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Mar 2021 07:17:49 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1615465068; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=IGYvOm6xWvQaeEAWJ0OJf1VZrE67PWdEBB9r6ELt5bQ=;
-        b=ISpFATe/FJR8SDgPYIl1OsuX8oVTZxkzA0m7C2HRWMR84KxvQoNf/GOSUmjDiiv8sSJEfp
-        XX3OWibykqurvAv7ae+V+BxHaq/jSHdIAD3Lql56hyVSj+tvsN3v7zk77eIT3YRyECepTE
-        Ic1aH0IbDkupFT7gIov7Er0/IPKZqrM=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id DC8FFAB8C;
-        Thu, 11 Mar 2021 12:17:47 +0000 (UTC)
-Date:   Thu, 11 Mar 2021 13:17:47 +0100
-From:   Michal Hocko <mhocko@suse.com>
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
-        peterz@infradead.org, viro@zeniv.linux.org.uk,
-        akpm@linux-foundation.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        osalvador@suse.de, song.bao.hua@hisilicon.com, david@redhat.com,
-        naoya.horiguchi@nec.com, joao.m.martins@oracle.com,
-        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, Chen Huang <chenhuang5@huawei.com>,
-        Bodeddula Balasubramaniam <bodeddub@amazon.com>
-Subject: Re: [PATCH v18 4/9] mm: hugetlb: alloc the vmemmap pages associated
- with each HugeTLB page
-Message-ID: <YEoKa5oSm/hdgt5V@dhcp22.suse.cz>
-References: <20210308102807.59745-1-songmuchun@bytedance.com>
- <20210308102807.59745-5-songmuchun@bytedance.com>
- <YEjji9oAwHuZaZEt@dhcp22.suse.cz>
- <f9f19d38-f1a7-ac8c-6ba8-3ce0bcc1e6a0@oracle.com>
- <YEk1+mDZ4u85RKL3@dhcp22.suse.cz>
- <20210310214909.GY2696@paulmck-ThinkPad-P72>
- <68bc8cc9-a15b-2e97-9a2a-282fe6e9bd3f@oracle.com>
- <20210310232851.GZ2696@paulmck-ThinkPad-P72>
- <YEnXllhPEQhT0CRt@dhcp22.suse.cz>
+        id S233285AbhCKNA6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Mar 2021 08:00:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40358 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233167AbhCKNAj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Mar 2021 08:00:39 -0500
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A11F0C061574
+        for <linux-doc@vger.kernel.org>; Thu, 11 Mar 2021 05:00:39 -0800 (PST)
+Received: by mail-pg1-x52f.google.com with SMTP id n10so13627965pgl.10
+        for <linux-doc@vger.kernel.org>; Thu, 11 Mar 2021 05:00:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ICClhXTxVfeDP5mVm1fYPC9myvROzb0Cj0NknzNNdKs=;
+        b=FNWkqzAOnObAD9/0sUTGtXYMiNmrmS8FJP++ikoDpY2J5iqbCSDXmEDaZHkPYz3FXL
+         /3sUWNHTxqVd5BmYP7/gMMHemNaYCOzzjhMY3Y3/cy5denRGwPb6GXyBN+mTXKpbPJ63
+         d1QZ9NojXcrEpGmXU+F8r9B90LJtBHRBqKqjYO+CBZjGNeUj0SZv6y2XGals1rh/QGpJ
+         rRnhDR8bevFcuRXA8sM/7nxYwhMkjPWFiEHD6DDlo+DIMXqP5UYYyF7RvhuntNeX0uV7
+         +lbw12eHhpCMdlJ4OfITM2qsSCGj8Nia4SGTMhaUsWxOKnXitSkW05QekiAa/VwUb9zN
+         zakQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ICClhXTxVfeDP5mVm1fYPC9myvROzb0Cj0NknzNNdKs=;
+        b=ljcMvNcrFdvsgrdTdVL4x9HT9tNvERassqzTuI9Zg/6L6y0PYD2ZcvAApML1KQzQ2N
+         +fKuTlYFnLs1aDmeymZcrWqd7EstlN7QQnzMq5X6p5a8xI/9PNcepFjFFw5lnmv0E92+
+         mtoId5CJ0Sg6/QIJwhZsHTGfQypkN1PgHr2QkU7rOU3cq40kbblfn/iUMttFsqBvTmTU
+         /FiLdsKCXKxfZA0L7Voezm9hv+chGnDbhiqlyR2G3d5xswRB9iMA8m6lESSXiR7iiadH
+         Nbub5A66/MIWhPr1MmKj5Hm6BMetePNzOHLChao2KbAl/P267Guw2SDjfjqPRAiXjFDD
+         xaew==
+X-Gm-Message-State: AOAM5311EMKfmDEOZYiajNwCUPRFM2VmwMEihLw+v5UTtIdAso0zbs1Z
+        cj5pvhBgFBPIkreZ8vXeMgNxmoj67JzZjk54R+KSzg==
+X-Google-Smtp-Source: ABdhPJxyzvuPcaF1NhUhc4M3D6E0KoDRfcfVCFt8gZR+bL7CluOq6WyYxviIqRjhulE609IOhIf8Gf0BgyaPXq/cOKA=
+X-Received: by 2002:aa7:9e5b:0:b029:1f1:5ba4:57a2 with SMTP id
+ z27-20020aa79e5b0000b02901f15ba457a2mr7614145pfq.59.1615467638784; Thu, 11
+ Mar 2021 05:00:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YEnXllhPEQhT0CRt@dhcp22.suse.cz>
+References: <20210308102807.59745-1-songmuchun@bytedance.com>
+ <20210308102807.59745-10-songmuchun@bytedance.com> <YEjoozshsvKeMAAu@dhcp22.suse.cz>
+ <CAMZfGtV1Fp1RiQ64c9RrMmZ+=EwjGRHjwL8Wx3Q0YRWbbKF6xg@mail.gmail.com>
+ <YEnbBPviwU6N2RzK@dhcp22.suse.cz> <CAMZfGtW5uHYiA_1an3W-jEmemsoN3Org7JwieeE2V271wh9X-A@mail.gmail.com>
+ <YEnlRlLJD1bK/Dup@dhcp22.suse.cz> <CAMZfGtX3pUmPOY1ieVQubnBKHZoOxfp-ARsPigYZpc=-UiiNjg@mail.gmail.com>
+ <YEoKJYzP8//qVebC@dhcp22.suse.cz>
+In-Reply-To: <YEoKJYzP8//qVebC@dhcp22.suse.cz>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Thu, 11 Mar 2021 21:00:01 +0800
+Message-ID: <CAMZfGtXOT0rjcS3UUBQ2_UC7nD7yuP1eGwbiV+KjjhN4icU4fw@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v18 9/9] mm: hugetlb: optimize the code
+ with the help of the compiler
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oscar Salvador <osalvador@suse.de>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        David Hildenbrand <david@redhat.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Chen Huang <chenhuang5@huawei.com>,
+        Bodeddula Balasubramaniam <bodeddub@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 11-03-21 09:40:57, Michal Hocko wrote:
-> On Wed 10-03-21 15:28:51, Paul E. McKenney wrote:
-> > On Wed, Mar 10, 2021 at 02:10:12PM -0800, Mike Kravetz wrote:
-> > > On 3/10/21 1:49 PM, Paul E. McKenney wrote:
-> > > > On Wed, Mar 10, 2021 at 10:11:22PM +0100, Michal Hocko wrote:
-> > > >> On Wed 10-03-21 10:56:08, Mike Kravetz wrote:
-> > > >>> On 3/10/21 7:19 AM, Michal Hocko wrote:
-> > > >>>> On Mon 08-03-21 18:28:02, Muchun Song wrote:
-> > > >>>> [...]
-> > > >>>>> @@ -1447,7 +1486,7 @@ void free_huge_page(struct page *page)
-> > > >>>>>  	/*
-> > > >>>>>  	 * Defer freeing if in non-task context to avoid hugetlb_lock deadlock.
-> > > >>>>>  	 */
-> > > >>>>> -	if (!in_task()) {
-> > > >>>>> +	if (in_atomic()) {
-> > > >>>>
-> > > >>>> As I've said elsewhere in_atomic doesn't work for CONFIG_PREEMPT_COUNT=n.
-> > > >>>> We need this change for other reasons and so it would be better to pull
-> > > >>>> it out into a separate patch which also makes HUGETLB depend on
-> > > >>>> PREEMPT_COUNT.
-> > > >>>
-> > > >>> Yes, the issue of calling put_page for hugetlb pages from any context
-> > > >>> still needs work.  IMO, that is outside the scope of this series.  We
-> > > >>> already have code in this path which blocks/sleeps.
-> > > >>>
-> > > >>> Making HUGETLB depend on PREEMPT_COUNT is too restrictive.  IIUC,
-> > > >>> PREEMPT_COUNT will only be enabled if we enable:
-> > > >>> PREEMPT "Preemptible Kernel (Low-Latency Desktop)"
-> > > >>> PREEMPT_RT "Fully Preemptible Kernel (Real-Time)"
-> > > >>> or, other 'debug' options.  These are not enabled in 'more common'
-> > > >>> kernels.  Of course, we do not want to disable HUGETLB in common
-> > > >>> configurations.
-> > > >>
-> > > >> I haven't tried that but PREEMPT_COUNT should be selectable even without
-> > > >> any change to the preemption model (e.g. !PREEMPT).
-> > > > 
-> > > > It works reliably for me, for example as in the diff below.  So,
-> > > > as Michal says, you should be able to add "select PREEMPT_COUNT" to
-> > > > whatever Kconfig option you need to.
-> > > > 
-> > > 
-> > > Thanks Paul.
-> > > 
-> > > I may have been misreading Michal's suggestion of "make HUGETLB depend on
-> > > PREEMPT_COUNT".  We could "select PREEMPT_COUNT" if HUGETLB is enabled.
-> > > However, since HUGETLB is enabled in most configs, then this would
-> > > result in PREEMPT_COUNT also being enabled in most configs.  I honestly
-> > > do not know how much this will cost us?  I assume that if it was free or
-> > > really cheap it would already be always on?
-> > 
-> > There are a -lot- of configs out there, so are you sure that HUGETLB is
-> > really enabled in most of them?  ;-)
-> 
-> It certainly is enabled for all distribution kernels and many are
-> !PREEMPT so I believe this is what Mike was concerned about.
-> 
-> > More seriously, I was going by earlier emails in this and related threads
-> > plus Michal's "PREEMPT_COUNT should be selectable".  But there are other
-> > situations that would like PREEMPT_COUNT.  And to your point, some who
-> > would rather PREEMPT_COUNT not be universally enabled.  I haven't seen
-> > any performance or kernel-size numbers from any of them, however.
-> 
-> Yeah per cpu preempt counting shouldn't be noticeable but I have to
-> confess I haven't benchmarked it.
+On Thu, Mar 11, 2021 at 8:16 PM Michal Hocko <mhocko@suse.com> wrote:
+>
+> On Thu 11-03-21 18:00:09, Muchun Song wrote:
+> [...]
+> > Sorry. I am confused why you disagree with this change.
+> > It does not bring any disadvantages.
+>
+> Because it is adding a code which is not really necessary and which will
+> have to be maintained. Think of future changes which would need to grow
+> more of these. Hugetlb code paths shouldn't really think about size of
+> the struct page.
 
-But all this seems moot now http://lkml.kernel.org/r/YEoA08n60+jzsnAl@hirez.programming.kicks-ass.net
+Got it. I will drop this patch.
 
--- 
-Michal Hocko
-SUSE Labs
+> --
+> Michal Hocko
+> SUSE Labs
