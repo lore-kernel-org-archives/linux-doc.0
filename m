@@ -2,89 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B011C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 10:57:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B4CAC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 11:11:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0696564FD2
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 10:57:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB47764E1F
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 11:11:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232495AbhCKK5F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Mar 2021 05:57:05 -0500
-Received: from mga09.intel.com ([134.134.136.24]:12909 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232349AbhCKK4y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 11 Mar 2021 05:56:54 -0500
-IronPort-SDR: dyFnvM5/RCqe6Ojvj0BoaplBtttKoriBjQp9Nf4YmctSwH5L3r+QIBa9EP2kIkKfTf2LS3aqtv
- 0Aa4hCTzSNOA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9919"; a="188746727"
-X-IronPort-AV: E=Sophos;i="5.81,240,1610438400"; 
-   d="scan'208";a="188746727"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 02:56:53 -0800
-IronPort-SDR: w1koGQl49zidT8+B5C2zg7sqXrdTN5ZtvAQkKV451pyGewyHi9U2zvOgfCt+l6ayWpdFNll3TO
- sXRyENlWn37Q==
-X-IronPort-AV: E=Sophos;i="5.81,240,1610438400"; 
-   d="scan'208";a="386977414"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Mar 2021 02:56:50 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lKIzn-00BYkk-Db; Thu, 11 Mar 2021 12:56:47 +0200
-Date:   Thu, 11 Mar 2021 12:56:47 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: Re: [PATCH v3 1/5] irqdomain: Introduce irq_domain_create_simple()
- API
-Message-ID: <YEn3b4fVolkcrWXq@smile.fi.intel.com>
-References: <20210304201253.14652-1-andriy.shevchenko@linux.intel.com>
- <20210304201253.14652-2-andriy.shevchenko@linux.intel.com>
- <CACRpkdbA+Q24JV3Uct2dHtGfBb1AaF4uHwCbzcrOFAxoGQ4wXQ@mail.gmail.com>
+        id S232377AbhCKLK7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Mar 2021 06:10:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44810 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232335AbhCKLK1 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Mar 2021 06:10:27 -0500
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42702C061574;
+        Thu, 11 Mar 2021 03:10:27 -0800 (PST)
+Received: by mail-qt1-x82b.google.com with SMTP id f12so804908qtq.4;
+        Thu, 11 Mar 2021 03:10:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=4FDhkUkdj8fWqlipDBp6WuM7/UyISTb34fe+zJutuhk=;
+        b=P849DNFgS5nte6HYXGD6ebAhhBZ3CyFnv9N3Sr2OhrHYwPjZon8k1Uf09nEsePPWI0
+         H9dmyx+EEhFA/GBdul8L0iS9ImrDHwqzKxTUxo7LNAZ4EBKimkA8s4dQS0umgEhbgttx
+         jRTxH4Wng6J+VJxQ4lnEAxHZe3iMCaQMx9n22CblexjSVPeCf+1Nl4XSIsdSbNdMbWdx
+         i5ZhN1Ux4/9F8jxSWEX+T5YsVD+Y/92mIsKAy2YM0NsJSyw4CDCt1snVu0JcpbWQsBOc
+         wvKxY6zBFQwDQAV1K40PCqBou18XW6/Fmbt1sZ4xYK0NirvYCvAJ0nxsL+CcWem4M5TY
+         F93g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=4FDhkUkdj8fWqlipDBp6WuM7/UyISTb34fe+zJutuhk=;
+        b=LZe8mrbt3dxu9TItngECZrR/KjoiYm3guq2QYb7u376he988e/AzfeXvHPfYcKhSJY
+         gUfKJK1nrWRJWMi8v7Vv68s9E+nP3EtW7NDHGHbs0FRz3Ya1qaurGO8H5EvNy1eL8IX/
+         DzPaUkUNFT4k6Iz5vVkbnCk4wZf3wzedrgJrrWLtyphfJya4Ay7sR7px+d1Gvknb581Q
+         8dnM7L8SkidZYXXm0F0MJ+NlGYNhfIT5vEDbEcLMjTwxVy3fTL84lpTonwQdN/wqbx6L
+         ynZdhGL/8SM7P6OOwX/TiAU6YATVhBFLGS/kYNccvIhQJ/DBcojO4zlBLMggmKItecUi
+         9GKA==
+X-Gm-Message-State: AOAM530blBrq87pkPABsZHGkI4GzzcOI3bG486VBXX8kl0OVQY6CGbBF
+        0x7cLjvbSZPPw0noHumKO1k=
+X-Google-Smtp-Source: ABdhPJzAmUcpvcKbe7oVuT3jh2pvL8XEzD3mV8sjVbg+GAQtSR/Ff9hDTjoyaSog8q0e8a30rdRYew==
+X-Received: by 2002:ac8:4314:: with SMTP id z20mr6848730qtm.127.1615461026174;
+        Thu, 11 Mar 2021 03:10:26 -0800 (PST)
+Received: from localhost (2603-7000-9602-8233-06d4-c4ff-fe48-9d05.res6.spectrum.com. [2603:7000:9602:8233:6d4:c4ff:fe48:9d05])
+        by smtp.gmail.com with ESMTPSA id p7sm1673704qkc.75.2021.03.11.03.10.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Mar 2021 03:10:25 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Thu, 11 Mar 2021 06:10:25 -0500
+From:   Tejun Heo <tj@kernel.org>
+To:     Chengming Zhou <zhouchengming@bytedance.com>
+Cc:     lizefan.x@bytedance.com, hannes@cmpxchg.org, corbet@lwn.net,
+        mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+        rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+        bristot@redhat.com, cgroups@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        songmuchun@bytedance.com
+Subject: Re: [PATCH] cgroup-v2: Add taskstats counters in cgroup.stat
+Message-ID: <YEn6od+CCVjNZIS9@slm.duckdns.org>
+References: <20210311061752.310831-1-zhouchengming@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CACRpkdbA+Q24JV3Uct2dHtGfBb1AaF4uHwCbzcrOFAxoGQ4wXQ@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20210311061752.310831-1-zhouchengming@bytedance.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 12:15:29AM +0100, Linus Walleij wrote:
-> On Thu, Mar 4, 2021 at 9:13 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> 
-> > Linus Walleij pointed out that ird_domain_add_simple() gained
-> > additional functionality and can't be anymore replaced with
-> > a simple conditional. In preparation to upgrade GPIO library
-> > to use fwnode, introduce irq_domain_create_simple() API which is
-> > functional equivalent to the existing irq_domain_add_simple(),
-> > but takes a pointer to the struct fwnode_handle as a parameter.
-> >
-> > While at it, amend documentation to mention irq_domain_create_*()
-> > functions where it makes sense.
-> >
-> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+On Thu, Mar 11, 2021 at 02:17:52PM +0800, Chengming Zhou wrote:
+> We have the netlink CGROUPSTATS_CMD_GET interface to get taskstats
+> of the cgroup on v1, but haven't the equivalent interface on v2,
+> making it difficult to calculate the per-cgroup cpu load in cadvisor
+> or implement the cgroup proc interface in lxcfs, like /proc/loadavg.
 
-Thanks! It's v6 now :-)
+So, this is what the PSI metrics are for and we've been using it for that
+for quite a while now. I'd much prefer not adding something duplicate (and
+incomplete).
+
+Thanks.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+tejun
