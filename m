@@ -2,65 +2,37 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74FB4C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 09:14:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 404E2C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 09:40:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 327EB64FC0
-	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 09:14:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC40864F4D
+	for <linux-doc@archiver.kernel.org>; Thu, 11 Mar 2021 09:40:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231882AbhCKJOV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 11 Mar 2021 04:14:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48038 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231639AbhCKJNu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 11 Mar 2021 04:13:50 -0500
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E3DCC061761
-        for <linux-doc@vger.kernel.org>; Thu, 11 Mar 2021 01:13:50 -0800 (PST)
-Received: by mail-pj1-x102d.google.com with SMTP id s21so3142069pjq.1
-        for <linux-doc@vger.kernel.org>; Thu, 11 Mar 2021 01:13:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=m1cMUuEgpKnm2GTf/raAO249wZsBDF+ILTqGlU7qKVk=;
-        b=L7VtFArDpP7/Z4xW7M5SjIdpJsgwfDjg0ysqTp59ew+B31AX8Ig7qvdpOulPS8nVu2
-         36s8kiciJuowre0qzGM49k87QlAaTvG1WmBZXZ/JaJMk3j8ll7Sue50VU7/uU/Ps217V
-         MRlqmFuaX90C9lrc7Yk1jCxDVhEmgzn20lXLPRLf7Xnx9uDU+l+JMSO5HO55TkhSw6rJ
-         HOlpduy43kf2+CXFzkbmlStjEz/ipIl6keCHd4azd9eV8jV25EOTpAc43oGebDww8+MW
-         MCMMkt0KfgEotwnlaXaV9RybCFJsTyj2CIijAWGJnDJi4FDx2Di+YP2xfANJNLyzHVts
-         nkSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=m1cMUuEgpKnm2GTf/raAO249wZsBDF+ILTqGlU7qKVk=;
-        b=Z5BnsdOmEWanjHhPbwni7wWnINlBetTNJNCSQ/BRRlBTkD7gRsFYhAqTBBoR3zbzUa
-         s5749bQzgRgUWhcOzD/oaC2b+zM0sXgizGpUuhMUBrMlO6KG6SZRuoElmkZdJ+FJpAuN
-         C4deiIpspxM0WUhNHtgmE1PgF9zBqeEHSVIrgwOq/nKVEKlJCAQI8nlC2U5H8wL2m+2d
-         qVLJYIRymwPmgjHaOfodKgHQDRB8hXsiGma7nBJ5cRpc8Bnjr2ENj19PRpwGoCTtTgvC
-         W38wWAR250oJ+0RDhTUWaQeIzdu2slWd7lUUVcgxIWC04B7UTVCuRztmLbnS7KXHNhU9
-         HNAQ==
-X-Gm-Message-State: AOAM533DhU4y01WDf8cBJe/zgHyKp9pMy5S7RTsoETgAr7DAvGQOMWDW
-        GSc7IM1pApjm6Fl2+06NEvIT4ZD7ptlc5KjxWmghiQ==
-X-Google-Smtp-Source: ABdhPJzsOK4kYPzWPl16KRujaNua+UCtyCBGX0TLmBMMt/QSKW2CamsgjBDeE/g4i+ArqAX0lsPzgIsJr2C6Y8UwQe8=
-X-Received: by 2002:a17:90a:f008:: with SMTP id bt8mr8141746pjb.13.1615454029628;
- Thu, 11 Mar 2021 01:13:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20210308102807.59745-1-songmuchun@bytedance.com>
- <20210308102807.59745-6-songmuchun@bytedance.com> <YEjlf/yV+hz+NksO@dhcp22.suse.cz>
- <CAMZfGtX28p-42bMCuddsYfE0AWpDbWUoLY32+4vn8L5nptNxqw@mail.gmail.com> <YEnZ0lR/sycBrRIn@dhcp22.suse.cz>
-In-Reply-To: <YEnZ0lR/sycBrRIn@dhcp22.suse.cz>
-From:   Muchun Song <songmuchun@bytedance.com>
-Date:   Thu, 11 Mar 2021 17:13:12 +0800
-Message-ID: <CAMZfGtUwB=RtW=5ft5QRAOHmPQ4PNm+MQpua11CoAj4u5pWV7g@mail.gmail.com>
-Subject: Re: [External] Re: [PATCH v18 5/9] mm: hugetlb: set the PageHWPoison
- to the raw error page
-To:     Michal Hocko <mhocko@suse.com>
+        id S231904AbhCKJj3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 11 Mar 2021 04:39:29 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57588 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231826AbhCKJjW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 11 Mar 2021 04:39:22 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1615455560; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Hu/Cdr4n+Fu84h51ILPTJCG7x6gjXFjYTqSY3KHqpS0=;
+        b=ntsEAuleumNwt6HsDqK9dvf9jZZ+AVd9uXArrgRm8MTdJKc/R/St7o6eZN8YcuiuBG0HzV
+        2HpWBpQPfP0pWP+7rJeQ7Tf5D5aVBfg8pwAKhfQ1x2sV2Y6s4uewB0lApg1FaDahSkwlMt
+        Vmu4AWUKOJdszdWokf4dquhaaT9xjG0=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 550E2AB8C;
+        Thu, 11 Mar 2021 09:39:20 +0000 (UTC)
+Date:   Thu, 11 Mar 2021 10:39:18 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Muchun Song <songmuchun@bytedance.com>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mike Kravetz <mike.kravetz@oracle.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -78,66 +50,78 @@ Cc:     Jonathan Corbet <corbet@lwn.net>,
         Oscar Salvador <osalvador@suse.de>,
         "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
         David Hildenbrand <david@redhat.com>,
-        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        HORIGUCHI =?utf-8?B?TkFPWUEo5aCA5Y+jIOebtOS5nyk=?= 
         <naoya.horiguchi@nec.com>,
         Joao Martins <joao.m.martins@oracle.com>,
         Xiongchun duan <duanxiongchun@bytedance.com>,
         linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
         Linux Memory Management List <linux-mm@kvack.org>,
         linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Miaohe Lin <linmiaohe@huawei.com>,
         Chen Huang <chenhuang5@huawei.com>,
         Bodeddula Balasubramaniam <bodeddub@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [External] Re: [PATCH v18 9/9] mm: hugetlb: optimize the code
+ with the help of the compiler
+Message-ID: <YEnlRlLJD1bK/Dup@dhcp22.suse.cz>
+References: <20210308102807.59745-1-songmuchun@bytedance.com>
+ <20210308102807.59745-10-songmuchun@bytedance.com>
+ <YEjoozshsvKeMAAu@dhcp22.suse.cz>
+ <CAMZfGtV1Fp1RiQ64c9RrMmZ+=EwjGRHjwL8Wx3Q0YRWbbKF6xg@mail.gmail.com>
+ <YEnbBPviwU6N2RzK@dhcp22.suse.cz>
+ <CAMZfGtW5uHYiA_1an3W-jEmemsoN3Org7JwieeE2V271wh9X-A@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMZfGtW5uHYiA_1an3W-jEmemsoN3Org7JwieeE2V271wh9X-A@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 4:50 PM Michal Hocko <mhocko@suse.com> wrote:
->
-> On Thu 11-03-21 14:34:04, Muchun Song wrote:
-> > On Wed, Mar 10, 2021 at 11:28 PM Michal Hocko <mhocko@suse.com> wrote:
+On Thu 11-03-21 17:08:34, Muchun Song wrote:
+> On Thu, Mar 11, 2021 at 4:55 PM Michal Hocko <mhocko@suse.com> wrote:
+> >
+> > On Thu 11-03-21 15:33:20, Muchun Song wrote:
+> > > On Wed, Mar 10, 2021 at 11:41 PM Michal Hocko <mhocko@suse.com> wrote:
+> > > >
+> > > > On Mon 08-03-21 18:28:07, Muchun Song wrote:
+> > > > > When the "struct page size" crosses page boundaries we cannot
+> > > > > make use of this feature. Let free_vmemmap_pages_per_hpage()
+> > > > > return zero if that is the case, most of the functions can be
+> > > > > optimized away.
+> > > >
+> > > > I am confused. Don't you check for this in early_hugetlb_free_vmemmap_param already?
 > > >
-> > > On Mon 08-03-21 18:28:03, Muchun Song wrote:
-> > > > Because we reuse the first tail vmemmap page frame and remap it
-> > > > with read-only, we cannot set the PageHWPosion on some tail pages.
-> > > > So we can use the head[4].private (There are at least 128 struct
-> > > > page structures associated with the optimized HugeTLB page, so
-> > > > using head[4].private is safe) to record the real error page index
-> > > > and set the raw error page PageHWPoison later.
+> > > Right.
 > > >
-> > > Can we have more poisoned tail pages? Also who does consume that index
-> > > and set the HWPoison on the proper tail page?
+> > > > Why do we need any runtime checks?
+> > >
+> > > If the size of the struct page is not power of 2, compiler can think
+> > > is_hugetlb_free_vmemmap_enabled() always return false. So
+> > > the code snippet of this user can be optimized away.
+> > >
+> > > E.g.
+> > >
+> > > if (is_hugetlb_free_vmemmap_enabled())
+> > >         /* do something */
+> > >
+> > > The compiler can drop "/* do something */" directly, because
+> > > it knows is_hugetlb_free_vmemmap_enabled() always returns
+> > > false.
 > >
-> > Good point. I look at the routine of memory failure closely.
-> > If we do not clear the HWPoison of the head page, we cannot
-> > poison another tail page.
-> >
-> > So we should not set the destructor of the huge page from
-> > HUGETLB_PAGE_DTOR to NULL_COMPOUND_DTOR
-> > before calling alloc_huge_page_vmemmap(). In this case,
-> > the below check of PageHuge() always returns true.
-> >
-> > I need to fix this in the previous patch.
-> >
-> > memory_failure()
-> >     if (PageHuge(page))
-> >         memory_failure_hugetlb()
-> >             head = compound_head(page)
-> >             if (TestSetPageHWPoison(head))
-> >                 return
->
-> I have to say that I am not fully familiar with hwpoisoning code
-> (especially after recent changes) but IIRC it does rely on hugetlb page
-> dissolving. With the new code this operation can fail which is a new
-> situation. Unless I am misunderstanding this can lead to a lost memory
-> failure operation on other tail pages.
->
-> Anyway the above answers the question why a single slot is sufficient so
-> it would be great to mention that in a changelog along with the caveat
-> that some pages might miss their poisoning.
+> > OK, so this is a micro-optimization to generate a better code?
+> 
+> Right.
+> 
+> > Is this measurable to warrant more code?
+> 
+> I have disassembled the code to confirm this behavior.
+> I know this is not the hot path. But it actually can decrease
+> the code size.
 
-OK. I will update the changelog. Thanks for your suggestions.
-
-> --
-> Michal Hocko
-> SUSE Labs
+struct page which is not power of 2 is not a common case. Are you sure
+it makes sense to micro optimize for an outliar. If you really want to
+microptimize then do that for a common case - the feature being
+disabled - via static key.
+-- 
+Michal Hocko
+SUSE Labs
