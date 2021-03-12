@@ -2,346 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ADB4C433E9
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 08:40:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49611C4332D
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 08:57:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EDAAD64FEE
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 08:40:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3579664FE0
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 08:57:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232562AbhCLIkM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Mar 2021 03:40:12 -0500
-Received: from mail-dm6nam11on2074.outbound.protection.outlook.com ([40.107.223.74]:3168
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232516AbhCLIjp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Mar 2021 03:39:45 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cGXm0VkaAHLTFhnr+eMHJ2p7dyDDMjMxf9QGqUZB0IeXsXpYXNE9Sr/duhFyTyo5FgiojQ6frn2EdP705ZsmLOJVC/RLY2iCGMM5QnpYTOw00QNW3AoIJWarT6XPXJ8LYobxY/6K6gsEx0at6mlmVlT5Tfyj5f5xrR6gGK7PHeHRsDgTP5gysY9SU/Kk3k8yXPS9Pf+I5MUBKn1nBSUpIHh7FFZ/uqv6cRFJ1sAgPaRocDKMDHq30ay5VMZT+/OCebcQj4d7WeBnHsRfHkJl+Yy1sLBeR9v4tOwODOV/e8ofQorZUAce0wUijM990uQmOuH9FXXriQ8BpMScBmKfcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6j8kdX05K9L+Y8AaEl2SlYLFPnXNAjrpx+mjtPQ90mU=;
- b=Q/qACOyk4Q6QLV3dngt6iktj9GQoE4nrh/FlQcfpYh8qNe4n5bVeUt1N+BDJe0veJYxe1qSC4Cl9AqEBf04BfeKsyxrZgtGr0OodKfFcJB2bvLcd8h3Hz4onBENzSCnJyjOj9uV8Ma1QAIm98dqjoCrvQ7Sz30/ggJ+CeMOXm8uIlaBij0BUXESc4n4PUgoHBdW5J+9x4MacZJuDfVRscZw4xgONlLqnui6NE8eRZutJjVSGihD1qxU5L6qRPhPty4LCDAnPbh8VJx86ztr9zh5kTDaCui+GuBHYnw4Laivln2lr/8kF+M9hhvLxSGy8Wb0u3fcrLtgQFvAT7dTshw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=redhat.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6j8kdX05K9L+Y8AaEl2SlYLFPnXNAjrpx+mjtPQ90mU=;
- b=WMBZMmlTqCXqkiEjD9gkzKT7b6X6yr2VAC29g1zJLqNiU0GZbSVJByujxzsmp6nvNtcqzL74sPLUZkRRvlJkkYsLfAPAnpdkKtJWKIwSrRhKtu1rTW5uHhcImWssWFsHQzH/5gzIyhPlqOmbHLW4n5S4FhOhrm+BlKpK2uzYhI0mK3ABDLvN/Ibuv2znmmKeqdgym8MAKYWGZ55L37oER70gf1Da5ywNJBzFcPUoypMlWSeTuvNNnVWCR8WsMYUo5RHosgjRkaokBp0CUlP37j+bV9jNYlpMkSvXo0Gxwo7VhQWxbp+huYK2tn+yL31nV7nMhvWu3yABTQvEM6SizA==
-Received: from DM3PR12CA0054.namprd12.prod.outlook.com (2603:10b6:0:56::22) by
- DM6PR12MB3786.namprd12.prod.outlook.com (2603:10b6:5:14a::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.30; Fri, 12 Mar 2021 08:39:42 +0000
-Received: from DM6NAM11FT045.eop-nam11.prod.protection.outlook.com
- (2603:10b6:0:56:cafe::3a) by DM3PR12CA0054.outlook.office365.com
- (2603:10b6:0:56::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.17 via Frontend
- Transport; Fri, 12 Mar 2021 08:39:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT045.mail.protection.outlook.com (10.13.173.123) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3933.31 via Frontend Transport; Fri, 12 Mar 2021 08:39:42 +0000
-Received: from localhost (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 12 Mar
- 2021 08:39:41 +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>
-CC:     <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <jhubbard@nvidia.com>, <rcampbell@nvidia.com>,
-        <jglisse@redhat.com>, <jgg@nvidia.com>, <hch@infradead.org>,
-        <daniel@ffwll.ch>, <willy@infradead.org>,
-        Alistair Popple <apopple@nvidia.com>
-Subject: [PATCH v6 8/8] nouveau/svm: Implement atomic SVM access
-Date:   Fri, 12 Mar 2021 19:38:51 +1100
-Message-ID: <20210312083851.15981-9-apopple@nvidia.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210312083851.15981-1-apopple@nvidia.com>
-References: <20210312083851.15981-1-apopple@nvidia.com>
+        id S232583AbhCLIzP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Mar 2021 03:55:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43092 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232574AbhCLIzL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Mar 2021 03:55:11 -0500
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96586C061762
+        for <linux-doc@vger.kernel.org>; Fri, 12 Mar 2021 00:55:10 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id mm21so51787917ejb.12
+        for <linux-doc@vger.kernel.org>; Fri, 12 Mar 2021 00:55:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XiqpDN6gJsaLMGdH3lPdKQnKDjjGC44fLRhvMJ+mVbU=;
+        b=ovvO9TpA1X4QZtTZ3ljfUXW6N60WEEufch6qINAX3S++TInA2bhEPck2U9qpnX7Ahc
+         Xn3+wJCHX+GLU0bK+tuETI5oDsfje+UQTb6vr4PVd7NCFZMx6mms+kaNfHuBuV7Fwie7
+         LDQM4c/5xOylQxXH3FoMFhSzac8teO3Uf9QHhPaEZJc2LFJN+RaX/48ntmyAMy2O6ABN
+         MxIgTkzBnttmKL1BHIUqkEvCcr/F7UVaqth6QRNmZrT5QR6fIrCfwH02iiTjnH0+StSc
+         9UF7F9RXppfB+5yjwOAyZVJnKS5nOMVv8P18jlHLaWD13rKowgS7fog9/CXi6NyBFDjn
+         uAFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XiqpDN6gJsaLMGdH3lPdKQnKDjjGC44fLRhvMJ+mVbU=;
+        b=nzr4QiILvy4cj/7nE3/I7CBQKYbX+3y/uBPvxrOB5S0yQ4HB5VID++NYRqbSfwylg3
+         WkKR9VUVxWR8i1z0WJpm/anpL1A3yUeBRObFc3NYVPYvUCxzNbSVXb2IPieYWuGOb50V
+         /Klt+mTQ9UqBhyBGjJ1/dILiDBnf4F4uUIysIFY6z7heOYJquVB56t116oQNI4AO27HY
+         0oXrOmHMEvImTlfytI7pCxHxy8KCAWl/qfcHArez90lh6Mj5HY4ccmtgoeGMt9ob4r/8
+         t7Vv9vt3mec7ts/GvlWAQQvEXt2lWJCiUNE+Fyp/DMx1GakSiIMqn1BaOgbKhnlzuKW/
+         d0Ww==
+X-Gm-Message-State: AOAM532JA5ATR/65evvFirCm8+al8AdYtJSF61Dk6ythx+qlQzXqIdKj
+        RimXUPD3pJGk2sQbnatBjFqVZuBGK4hYLI/3zPPO0c5gdPm4BA==
+X-Google-Smtp-Source: ABdhPJzKfyaZhHFsjM187ZvFFxqGbDJOnoMDfvHw+sx5HKyjtlQ2/LFXSMwb9d2njOiS8uXdoFfl36yXLF/KoWdhDcw=
+X-Received: by 2002:a17:906:3b48:: with SMTP id h8mr7360401ejf.261.1615539309187;
+ Fri, 12 Mar 2021 00:55:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 85b5f4b2-36db-4946-c191-08d8e53261a2
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3786:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB378614CC95B5B6299558203CDF6F9@DM6PR12MB3786.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: uz8GY3RcPRPDfrL8932w0E5QPmzu55p9pupugPEQ3bXt0z1cEoLNhNJbb0lNyKlw8i8Ks/AONmVefduhGfYognBepSzEKjcJdOVEhsXEr+1fCIwaTk5AGk5rgNhHTE5CPhNuEI3loXw3gWtbEuHMateXovX1YwsfQC+GObDczmC30+6xRFe7I3QfrXKN3ty2ulwIW5wmv+sIAnRWiCd17ngc4m7NliJLbj8BMe00QEpoo8wDflydiggioDWwZiRaWmmc/mfxBGHNZldJYPTjNRN4+OTzpk9JqXWak47VOVspGKCxZT8WEDk6B9SQDDFUbotABSLsS4eAxjKEqn9tFMQ9ZAAQ2BpFlCtWHtkTPkOMZE0p6n3OcXlB1+QohH32vVC7fOpvoat6UrGiEbWZSmxvymJpVruo9j1cPu66wZDqGBvlVuJ4mu+zyHLekSDOmsV3KewByDvD/LwSaHGKAcrFLiV4xaYtjCk/GP12JEvrIGoGTe0wxlCc63MCY9gkDRjJn/5Ojy6MBkTVixnPpCWWx3t9QvGPjCo6eoPHojU4X6+Xom+V0cFBFePoeLoH/795kfcJIAhWtwRyDkCUaB7EjQMkTp9OrQD/bbc1dm0nHYUyuAZXvqdGb8fx0CY0MbwQvppVydONS4PzYSQfr+XaZc+kXpDuU8wl3sX/ibKUzcGW1VOHLdKlVA+APLo2qRX6Z4bYqyBnhREcDOirwA==
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(346002)(376002)(39860400002)(396003)(36840700001)(46966006)(26005)(110136005)(107886003)(83380400001)(36860700001)(8676002)(426003)(316002)(86362001)(336012)(356005)(186003)(34020700004)(54906003)(70586007)(16526019)(36906005)(82310400003)(82740400003)(478600001)(7636003)(1076003)(7416002)(6666004)(70206006)(2616005)(36756003)(4326008)(8936002)(47076005)(2906002)(5660300002)(21314003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2021 08:39:42.0637
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85b5f4b2-36db-4946-c191-08d8e53261a2
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT045.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3786
+References: <20210309205921.15992-1-brgl@bgdev.pl> <20210309205921.15992-9-brgl@bgdev.pl>
+ <YEi7fth6sZWgKd+q@smile.fi.intel.com>
+In-Reply-To: <YEi7fth6sZWgKd+q@smile.fi.intel.com>
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+Date:   Fri, 12 Mar 2021 09:54:58 +0100
+Message-ID: <CAMRc=MfeCWNnXwqBBu3CcdHXQ5QnNPBh8EJRTCtyZau+RqE-0w@mail.gmail.com>
+Subject: Re: [PATCH v3 08/11] gpio: sim: new testing module
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kent Gibson <warthog618@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Some NVIDIA GPUs do not support direct atomic access to system memory
-via PCIe. Instead this must be emulated by granting the GPU exclusive
-access to the memory. This is achieved by replacing CPU page table
-entries with special swap entries that fault on userspace access.
+On Wed, Mar 10, 2021 at 1:28 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
 
-The driver then grants the GPU permission to update the page undergoing
-atomic access via the GPU page tables. When CPU access to the page is
-required a CPU fault is raised which calls into the device driver via
-MMU notifiers to revoke the atomic access. The original page table
-entries are then restored allowing CPU access to proceed.
+[snip]
 
-Signed-off-by: Alistair Popple <apopple@nvidia.com>
+> > +
+> > +static ssize_t gpio_sim_sysfs_line_show(struct device *dev,
+> > +                                     struct device_attribute *attr,
+> > +                                     char *buf)
+> > +{
+> > +     struct gpio_sim_attribute *line_attr = to_gpio_sim_attr(attr);
+> > +     struct gpio_sim_chip *chip = dev_get_drvdata(dev);
+> > +     int ret;
+> > +
+> > +     mutex_lock(&chip->lock);
+> > +     ret = sprintf(buf, "%u\n", !!test_bit(line_attr->offset, chip->values));
+>
+> Shouldn't we use sysfs_emit() in a new code?
+>
 
----
+TIL it exists. :) I'll use it.
 
-v4:
-* Check that page table entries haven't changed before mapping on the
-  device
----
- drivers/gpu/drm/nouveau/include/nvif/if000c.h |   1 +
- drivers/gpu/drm/nouveau/nouveau_svm.c         | 100 ++++++++++++++++--
- drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h |   1 +
- .../drm/nouveau/nvkm/subdev/mmu/vmmgp100.c    |   6 ++
- 4 files changed, 100 insertions(+), 8 deletions(-)
+[snip]
 
-diff --git a/drivers/gpu/drm/nouveau/include/nvif/if000c.h b/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-index d6dd40f21eed..9c7ff56831c5 100644
---- a/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-+++ b/drivers/gpu/drm/nouveau/include/nvif/if000c.h
-@@ -77,6 +77,7 @@ struct nvif_vmm_pfnmap_v0 {
- #define NVIF_VMM_PFNMAP_V0_APER                           0x00000000000000f0ULL
- #define NVIF_VMM_PFNMAP_V0_HOST                           0x0000000000000000ULL
- #define NVIF_VMM_PFNMAP_V0_VRAM                           0x0000000000000010ULL
-+#define NVIF_VMM_PFNMAP_V0_A				  0x0000000000000004ULL
- #define NVIF_VMM_PFNMAP_V0_W                              0x0000000000000002ULL
- #define NVIF_VMM_PFNMAP_V0_V                              0x0000000000000001ULL
- #define NVIF_VMM_PFNMAP_V0_NONE                           0x0000000000000000ULL
-diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-index a195e48c9aee..16b07d7589d2 100644
---- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -35,6 +35,7 @@
- #include <linux/sched/mm.h>
- #include <linux/sort.h>
- #include <linux/hmm.h>
-+#include <linux/rmap.h>
- 
- struct nouveau_svm {
- 	struct nouveau_drm *drm;
-@@ -421,9 +422,9 @@ nouveau_svm_fault_cmp(const void *a, const void *b)
- 		return ret;
- 	if ((ret = (s64)fa->addr - fb->addr))
- 		return ret;
--	/*XXX: atomic? */
--	return (fa->access == 0 || fa->access == 3) -
--	       (fb->access == 0 || fb->access == 3);
-+	/* Atomic access (2) has highest priority */
-+	return (-1*(fa->access == 2) + (fa->access == 0 || fa->access == 3)) -
-+	       (-1*(fb->access == 2) + (fb->access == 0 || fb->access == 3));
- }
- 
- static void
-@@ -487,6 +488,10 @@ static bool nouveau_svm_range_invalidate(struct mmu_interval_notifier *mni,
- 	struct svm_notifier *sn =
- 		container_of(mni, struct svm_notifier, notifier);
- 
-+	if (range->event == MMU_NOTIFY_EXCLUSIVE &&
-+	    range->owner == sn->svmm->vmm->cli->drm->dev)
-+		return true;
-+
- 	/*
- 	 * serializes the update to mni->invalidate_seq done by caller and
- 	 * prevents invalidation of the PTE from progressing while HW is being
-@@ -555,6 +560,73 @@ static void nouveau_hmm_convert_pfn(struct nouveau_drm *drm,
- 		args->p.phys[0] |= NVIF_VMM_PFNMAP_V0_W;
- }
- 
-+static int nouveau_atomic_range_fault(struct nouveau_svmm *svmm,
-+			       struct nouveau_drm *drm,
-+			       struct nouveau_pfnmap_args *args, u32 size,
-+			       struct svm_notifier *notifier)
-+{
-+	unsigned long timeout =
-+		jiffies + msecs_to_jiffies(HMM_RANGE_DEFAULT_TIMEOUT);
-+	struct mm_struct *mm = svmm->notifier.mm;
-+	struct page *page;
-+	unsigned long start = args->p.addr;
-+	unsigned long notifier_seq;
-+	int ret = 0;
-+
-+	ret = mmu_interval_notifier_insert(&notifier->notifier, mm,
-+					args->p.addr, args->p.size,
-+					&nouveau_svm_mni_ops);
-+	if (ret)
-+		return ret;
-+
-+	while (true) {
-+		if (time_after(jiffies, timeout)) {
-+			ret = -EBUSY;
-+			goto out;
-+		}
-+
-+		notifier_seq = mmu_interval_read_begin(&notifier->notifier);
-+		mmap_read_lock(mm);
-+		make_device_exclusive_range(mm, start, start + PAGE_SIZE,
-+					    &page, drm->dev);
-+		mmap_read_unlock(mm);
-+		if (!page) {
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+
-+		mutex_lock(&svmm->mutex);
-+		if (mmu_interval_read_retry(&notifier->notifier,
-+					    notifier_seq)) {
-+			mutex_unlock(&svmm->mutex);
-+			continue;
-+		}
-+		break;
-+	}
-+
-+	/* Map the page on the GPU. */
-+	args->p.page = 12;
-+	args->p.size = PAGE_SIZE;
-+	args->p.addr = start;
-+	args->p.phys[0] = page_to_phys(page) |
-+		NVIF_VMM_PFNMAP_V0_V |
-+		NVIF_VMM_PFNMAP_V0_W |
-+		NVIF_VMM_PFNMAP_V0_A |
-+		NVIF_VMM_PFNMAP_V0_HOST;
-+
-+	svmm->vmm->vmm.object.client->super = true;
-+	ret = nvif_object_ioctl(&svmm->vmm->vmm.object, args, size, NULL);
-+	svmm->vmm->vmm.object.client->super = false;
-+	mutex_unlock(&svmm->mutex);
-+
-+	unlock_page(page);
-+	put_page(page);
-+
-+out:
-+	mmu_interval_notifier_remove(&notifier->notifier);
-+	return ret;
-+}
-+
- static int nouveau_range_fault(struct nouveau_svmm *svmm,
- 			       struct nouveau_drm *drm,
- 			       struct nouveau_pfnmap_args *args, u32 size,
-@@ -637,7 +709,7 @@ nouveau_svm_fault(struct nvif_notify *notify)
- 	unsigned long hmm_flags;
- 	u64 inst, start, limit;
- 	int fi, fn;
--	int replay = 0, ret;
-+	int replay = 0, atomic = 0, ret;
- 
- 	/* Parse available fault buffer entries into a cache, and update
- 	 * the GET pointer so HW can reuse the entries.
-@@ -718,12 +790,14 @@ nouveau_svm_fault(struct nvif_notify *notify)
- 		/*
- 		 * Determine required permissions based on GPU fault
- 		 * access flags.
--		 * XXX: atomic?
- 		 */
- 		switch (buffer->fault[fi]->access) {
- 		case 0: /* READ. */
- 			hmm_flags = HMM_PFN_REQ_FAULT;
- 			break;
-+		case 2: /* ATOMIC. */
-+			atomic = true;
-+			break;
- 		case 3: /* PREFETCH. */
- 			hmm_flags = 0;
- 			break;
-@@ -739,8 +813,14 @@ nouveau_svm_fault(struct nvif_notify *notify)
- 		}
- 
- 		notifier.svmm = svmm;
--		ret = nouveau_range_fault(svmm, svm->drm, &args.i,
--					sizeof(args), hmm_flags, &notifier);
-+		if (atomic)
-+			ret = nouveau_atomic_range_fault(svmm, svm->drm,
-+							 &args.i, sizeof(args),
-+							 &notifier);
-+		else
-+			ret = nouveau_range_fault(svmm, svm->drm, &args.i,
-+						  sizeof(args), hmm_flags,
-+						  &notifier);
- 		mmput(mm);
- 
- 		limit = args.i.p.addr + args.i.p.size;
-@@ -760,7 +840,11 @@ nouveau_svm_fault(struct nvif_notify *notify)
- 			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_V)) ||
- 			    (buffer->fault[fi]->access != 0 /* READ. */ &&
- 			     buffer->fault[fi]->access != 3 /* PREFETCH. */ &&
--			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_W)))
-+			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_W)) ||
-+			    (buffer->fault[fi]->access != 0 /* READ. */ &&
-+			     buffer->fault[fi]->access != 1 /* WRITE. */ &&
-+			     buffer->fault[fi]->access != 3 /* PREFETCH. */ &&
-+			     !(args.phys[0] & NVIF_VMM_PFNMAP_V0_A)))
- 				break;
- 		}
- 
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-index a2b179568970..f6188aa9171c 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmm.h
-@@ -178,6 +178,7 @@ void nvkm_vmm_unmap_region(struct nvkm_vmm *, struct nvkm_vma *);
- #define NVKM_VMM_PFN_APER                                 0x00000000000000f0ULL
- #define NVKM_VMM_PFN_HOST                                 0x0000000000000000ULL
- #define NVKM_VMM_PFN_VRAM                                 0x0000000000000010ULL
-+#define NVKM_VMM_PFN_A					  0x0000000000000004ULL
- #define NVKM_VMM_PFN_W                                    0x0000000000000002ULL
- #define NVKM_VMM_PFN_V                                    0x0000000000000001ULL
- #define NVKM_VMM_PFN_NONE                                 0x0000000000000000ULL
-diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-index 236db5570771..f02abd9cb4dd 100644
---- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-@@ -88,6 +88,9 @@ gp100_vmm_pgt_pfn(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
- 		if (!(*map->pfn & NVKM_VMM_PFN_W))
- 			data |= BIT_ULL(6); /* RO. */
- 
-+		if (!(*map->pfn & NVKM_VMM_PFN_A))
-+			data |= BIT_ULL(7); /* Atomic disable. */
-+
- 		if (!(*map->pfn & NVKM_VMM_PFN_VRAM)) {
- 			addr = *map->pfn >> NVKM_VMM_PFN_ADDR_SHIFT;
- 			addr = dma_map_page(dev, pfn_to_page(addr), 0,
-@@ -322,6 +325,9 @@ gp100_vmm_pd0_pfn(struct nvkm_vmm *vmm, struct nvkm_mmu_pt *pt,
- 		if (!(*map->pfn & NVKM_VMM_PFN_W))
- 			data |= BIT_ULL(6); /* RO. */
- 
-+		if (!(*map->pfn & NVKM_VMM_PFN_A))
-+			data |= BIT_ULL(7); /* Atomic disable. */
-+
- 		if (!(*map->pfn & NVKM_VMM_PFN_VRAM)) {
- 			addr = *map->pfn >> NVKM_VMM_PFN_ADDR_SHIFT;
- 			addr = dma_map_page(dev, pfn_to_page(addr), 0,
--- 
-2.20.1
+> > +
+> > +static ssize_t gpio_sim_config_dev_name_show(struct config_item *item,
+> > +                                          char *page)
+> > +{
+> > +     struct gpio_sim_chip_config *config = to_gpio_sim_chip_config(item);
+> > +     struct platform_device *pdev;
+> > +     int ret;
+> > +
+> > +     mutex_lock(&config->lock);
+> > +     pdev = config->pdev;
+> > +     if (pdev)
+> > +             ret = sprintf(page, "%s\n", dev_name(&pdev->dev));
+> > +     else
+> > +             ret = sprintf(page, "n/a\n");
+>
+> I dunno '/' (slash) is a good character to be handled in a shell.
+> I would prefer 'none' or 'not available' (I think space is easier,
+> because the rules to escape much simpler: need just to take it into
+> quotes, while / needs to be escaped separately).
+>
 
+My test cases work fine with 'n/a' but I can change it to 'none' if
+it's less controversial.
+
+[snip]
+
+>
+> Also don't know what the rules about using s*printf() in the configfs.
+> Maybe we have sysfs_emit() analogue or it doesn't applicable here at all.
+> Greg?
+>
+
+There's no configfs_emit() or anything similar. Output for simple
+attributes must simply not exceed 4096 bytes. It used to be PAGE_SIZE,
+now it's defined in fs/configfs/file.c as SIMPLE_ATTR_SIZE. There's no
+need to check the length of the string here though as we're only
+showing what we received from the user-space anyway and configfs makes
+sure we don't get more than SIMPLE_ATTR_SIZE in the store callback.
+
+[snip]
+
+> > +
+> > +static int gpio_sim_config_commit_item(struct config_item *item)
+> > +{
+> > +     struct gpio_sim_chip_config *config = to_gpio_sim_chip_config(item);
+> > +     struct property_entry properties[GPIO_SIM_MAX_PROP];
+> > +     struct platform_device_info pdevinfo;
+> > +     struct platform_device *pdev;
+> > +     unsigned int prop_idx = 0;
+> > +
+> > +     memset(&pdevinfo, 0, sizeof(pdevinfo));
+> > +     memset(properties, 0, sizeof(properties));
+> > +
+> > +     mutex_lock(&config->lock);
+> > +
+> > +     properties[prop_idx++] = PROPERTY_ENTRY_U32("gpio-sim,nr-gpios",
+> > +                                                 config->num_lines);
+>
+> > +     if (config->label[0] != '\0')
+>
+> I'm wondering if we need this check. Isn't core taking care of it?
+>
+> > +             properties[prop_idx++] = PROPERTY_ENTRY_STRING("gpio-sim,label",
+> > +                                                            config->label);
+>
+> > +     if (config->line_names)
+>
+> Ditto.
+>
+> > +             properties[prop_idx++] = PROPERTY_ENTRY_STRING_ARRAY_LEN(
+> > +                                             "gpio-line-names",
+> > +                                             config->line_names,
+> > +                                             config->num_line_names);
+> > +
+
+But I would be creating empty properties for nothing. Better to just
+not have them at all.
+
+[snip]
+
+Bartosz
