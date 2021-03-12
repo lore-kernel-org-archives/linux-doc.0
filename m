@@ -2,168 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3FC2C433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 16:31:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23BE4C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 16:32:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D71BC6501D
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 16:31:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE2416501A
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 16:32:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232035AbhCLQbZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Mar 2021 11:31:25 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:20024 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232057AbhCLQbX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Mar 2021 11:31:23 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12CG4DQR026931;
-        Fri, 12 Mar 2021 11:30:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : reply-to : to : cc : date : in-reply-to : references : content-type
- : mime-version; s=pp1; bh=JnMUTBq7W8QCU9OEU3oe5ceyNi8mgtY203dCwAT6F5Y=;
- b=nlGPoE9iYWJCg8r3RSfeHnDKs2G10TU5TFVZKGyqBo9jor+ilxEOoisxONhQjlSGq1v3
- IC8UP8armVYXku7oK+dZUfZrMgFJxMOyk1YUGus1pRI47MLlp5IAGx+Qvqk6VJ0uf+0g
- DLf95VTMtxb72q62mmMK2dHQROU2PABYDC90qBYY6E4ttBTZFgEwT2evRPl4cmGmfbAD
- xINT4UUcUolnsBvVchTotezIatxP/mDPZHupoK+pc0m8IYh2xWxcA6POrr10nr3/fLGY
- a0SUra/hle9AOCbk0eJ3EVQENsnUOjJFUrRHAkbZZ1GncGVw0dIB3juO41SzMifcz/Lx FA== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3774m92rft-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 12 Mar 2021 11:30:47 -0500
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12CG4LVr029066;
-        Fri, 12 Mar 2021 11:30:46 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com [169.53.41.122])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 3774m92rf7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 12 Mar 2021 11:30:46 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
-        by ppma04dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12CGMf1t014852;
-        Fri, 12 Mar 2021 16:30:45 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
-        by ppma04dal.us.ibm.com with ESMTP id 377r5090ym-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Fri, 12 Mar 2021 16:30:44 +0000
-Received: from b03ledav004.gho.boulder.ibm.com (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
-        by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 12CGUhwE23724486
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 12 Mar 2021 16:30:43 GMT
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 345E678066;
-        Fri, 12 Mar 2021 16:30:43 +0000 (GMT)
-Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 0CE2878064;
-        Fri, 12 Mar 2021 16:30:37 +0000 (GMT)
-Received: from jarvis.int.hansenpartnership.com (unknown [9.80.211.242])
-        by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
-        Fri, 12 Mar 2021 16:30:37 +0000 (GMT)
-Message-ID: <5dfe8f6b5f25cc38c8410b849aaef2c3dbed7f65.camel@linux.ibm.com>
-Subject: Re: [PATCH v9 0/4] Introduce TEE based Trusted Keys support
-From:   James Bottomley <jejb@linux.ibm.com>
-Reply-To: jejb@linux.ibm.com
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     Sumit Garg <sumit.garg@linaro.org>,
-        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        David Howells <dhowells@redhat.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
+        id S231789AbhCLQb4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Mar 2021 11:31:56 -0500
+Received: from verein.lst.de ([213.95.11.211]:46238 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232054AbhCLQbz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Mar 2021 11:31:55 -0500
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 932C668B05; Fri, 12 Mar 2021 17:31:52 +0100 (CET)
+Date:   Fri, 12 Mar 2021 17:31:52 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     "Liu, Yi L" <yi.l.liu@intel.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        Janne Karhunen <janne.karhunen@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Markus Wamser <Markus.Wamser@mixed-mode.de>,
-        Luke Hinds <lhinds@redhat.com>,
-        Elaine Palmer <erpalmer@us.ibm.com>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        "open list:SECURITY SUBSYSTEM" 
-        <linux-security-module@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        op-tee@lists.trustedfirmware.org
-Date:   Fri, 12 Mar 2021 08:30:36 -0800
-In-Reply-To: <YEuWTet0wr5DuDy/@kernel.org>
-References: <20210301131127.793707-1-sumit.garg@linaro.org>
-         <CAFA6WYO4HHhtymaUzmkuaCZybTAWBQ=4K9Dez1pe1kqo3AJhuA@mail.gmail.com>
-         <YEEANW+khw3nJtcQ@kernel.org>
-         <CAFA6WYOxsYin8wBB_yU=S-bnqM-g5TFnTU_KXxc3wSBfx_N_6A@mail.gmail.com>
-         <YEkkXbWrYBTcGXEd@kernel.org>
-         <9aa3173ab46b0aa7edb8146ffd3df05c1f74207e.camel@linux.ibm.com>
-         <YEuWTet0wr5DuDy/@kernel.org>
-Content-Type: multipart/mixed; boundary="=-ta0eA6gTP2W+keueucj0"
-User-Agent: Evolution 3.34.4 
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        "Williams, Dan J" <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH 02/10] vfio: Split creation of a vfio_device into init
+ and register ops
+Message-ID: <20210312163152.GA11384@lst.de>
+References: <0-v1-7355d38b9344+17481-vfio1_jgg@nvidia.com> <2-v1-7355d38b9344+17481-vfio1_jgg@nvidia.com> <BN6PR11MB4068BDE65D5AA2A3E0A1200BC36F9@BN6PR11MB4068.namprd11.prod.outlook.com> <20210312142326.GA2356281@nvidia.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-03-12_06:2021-03-12,2021-03-12 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
- mlxlogscore=999 bulkscore=0 clxscore=1015 malwarescore=0 suspectscore=0
- adultscore=0 phishscore=0 impostorscore=0 priorityscore=1501 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103120115
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210312142326.GA2356281@nvidia.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
---=-ta0eA6gTP2W+keueucj0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Fri, 2021-03-12 at 18:26 +0200, Jarkko Sakkinen wrote:
-> On Wed, Mar 10, 2021 at 02:26:27PM -0800, James Bottomley wrote:
-> > On Wed, 2021-03-10 at 21:56 +0200, Jarkko Sakkinen wrote:
-> > [...]
-> > > I also need to apply 
-> > > 
-> > > https://lore.kernel.org/linux-integrity/20210127190617.17564-1-James.Bottomley@HansenPartnership.com/
-> > > 
-> > > and I would like to do both while I'm at it.
-> > > 
-> > > James, there was one patch that needed fixing but I cannot find
-> > > lore.kernel.org link. Can you point me to that so that we
-> > > can proceed?
-> > 
-> > I think you mean this one observing a missing space in the commit
-> > message:
-> > 
-> > https://lore.kernel.org/keyrings/1327393.1612972717@warthog.procyon.org.uk/
-> > 
-> > James
+On Fri, Mar 12, 2021 at 10:23:26AM -0400, Jason Gunthorpe wrote:
+> This is rarely done, there should be a good reason to do it, as making
+> a private structure in a container_of system requires another memory
+> allocation.
 > 
-> Makefile needed fixing (separate lines), and spaces where missing
-> between
-> commas in one file (checkpatch complained).
+> 'struct device' has this for instance, look at the 'p' member.
 > 
-> I digged a version from my reflog but as I noted privately it's
-> missing one
-> file.
-> 
-> Either provide that file or send a new version of the full patch set.
+> In this case I can't see much value
 
-This is the file that got lost
-
-James
-
-
---=-ta0eA6gTP2W+keueucj0
-Content-Disposition: attachment; filename="tpm2key.asn1"
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; name="tpm2key.asn1"; charset="UTF-8"
-
-LS0tCi0tLSBBU04uMSBmb3IgVFBNIDIuMCBrZXlzCi0tLQoKVFBNS2V5IDo6PSBTRVFVRU5DRSB7
-Cgl0eXBlCQlPQkpFQ1QgSURFTlRJRklFUiAoe3RwbTJfa2V5X3R5cGV9KSwKCWVtcHR5QXV0aAlb
-MF0gRVhQTElDSVQgQk9PTEVBTiBPUFRJT05BTCwKCXBhcmVudAkJSU5URUdFUiAoe3RwbTJfa2V5
-X3BhcmVudH0pLAoJcHVia2V5CQlPQ1RFVCBTVFJJTkcgKHt0cG0yX2tleV9wdWJ9KSwKCXByaXZr
-ZXkJCU9DVEVUIFNUUklORyAoe3RwbTJfa2V5X3ByaXZ9KQoJfQo=
-
-
---=-ta0eA6gTP2W+keueucj0--
-
+Agreed.  Moving this code to the normal kernel pattern really not just
+helps to find bugs and reduce complexity, but also makes it much easier
+for random kernel developers to actually be able to understand the code.
