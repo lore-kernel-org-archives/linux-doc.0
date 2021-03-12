@@ -2,141 +2,150 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D079C43381
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 07:01:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2396C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 08:16:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 78D1A64F29
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 07:01:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C7EBF64F24
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 08:16:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231420AbhCLHA5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Mar 2021 02:00:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46868 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231130AbhCLHAw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Mar 2021 02:00:52 -0500
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C967C061574;
-        Thu, 11 Mar 2021 23:00:52 -0800 (PST)
-Received: by mail-il1-x136.google.com with SMTP id c10so1664300ilo.8;
-        Thu, 11 Mar 2021 23:00:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8E99Zfd2Mf/hwCot5q1fILbMB3CtDrbC/Ip5gYh/Z/0=;
-        b=TGKYTHizKqsGrQpO/TU9IX/03j7/ZLBzRS1n5Lh2M0F0Yb0Pu8IrWr28jlPSnFzqNb
-         BitZowvws3i6Vcq7GaLHVAKv8FiKEsDrmdQkQrL+8kbxqz4QKmhfPbfinF5TOb1ns3bH
-         imvDx+8nqOyvLou9YSPCGFm+gyjUXNNB7udxWwNYhNDmxXMWLE/pxvsrPZQBz8g9SZg/
-         csMH09562v+RRpvrj9PCYHddVzl2nZzscQbYTz7lRAA7WeB5xbFmMIiLJ0wlxVQLdyxS
-         p1KB+c7XfAq/HvWm3nj6R4hdCUgQGCHlM+u5N8BCYe0FHsui56fbPaivnio/dQI/L0M9
-         +xew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8E99Zfd2Mf/hwCot5q1fILbMB3CtDrbC/Ip5gYh/Z/0=;
-        b=eIliDvpd8oLzAACbS5D+sybqZVs9n73O30civzuvwOGdBIJ7XjVE3TjJJg2ZtkWLBZ
-         Hh/mtpuXvfgGsrcQm06NK8Plucz8hS/zVWx59Z6Q8PvuTWARTaLZy/NUF5SsXuNEcjKN
-         wQG/g5TMvRG8z2MXzLfRy40Ot+iXmQY21NqhFKR2bzZISGGZIsrWgKzzhbx0Ag4x2Baj
-         xcYSJGBeqJmmJYoX5c0wNkoVD7dC80lbXyU+ztgCPGRj56g/ZHWATESXI26IEPfP4S1V
-         UBBYBhUQT5ek1fQu3ywl8T3bDfleSe9MEyKqI0RunHEIizi5M7SEnAlVMHs26dF36YmU
-         nxBg==
-X-Gm-Message-State: AOAM532CgnzI8XACRawk2xAkfykdDbe3OpJ+FDOF881OTg0lprHyYFHZ
-        OpKQ/51uA8yulVj1Qrt8e8/hrXPpKhMKtG6hZxUVcq3CZHE=
-X-Google-Smtp-Source: ABdhPJwLExrMo8wDJt1HPXiyvI5heC6Dp8wP9tSCOIe+64pzlnT1e3vU7Ga8S/OE3Y+PxWhoWtJ1dTkJAa1XZnR+wH0=
-X-Received: by 2002:a05:6e02:1049:: with SMTP id p9mr1772509ilj.125.1615532451415;
- Thu, 11 Mar 2021 23:00:51 -0800 (PST)
+        id S231792AbhCLIPr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Mar 2021 03:15:47 -0500
+Received: from mx2.suse.de ([195.135.220.15]:48622 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229756AbhCLIP1 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Mar 2021 03:15:27 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1615536923; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ZzkqciGY0ObbXmg3Dxl/xC6fEfWQ950vVkoLugQdVgs=;
+        b=WNssLyZ0aREa14/sC5vSfBl0P0aiGhfhOzOFpbJD9zpTQUIy583CCfNQqWtCvfSi6gLNwk
+        qSLw/QpZsdUkzu9W00pQYdGdWTXx2H1l+WHvLKdUfLDWsPTMfzEeK6sMRjSPK+0EqFnMn5
+        msL1yI+czcv5FG3xdJKvLPT3GlzmCiY=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 91FB0AF38;
+        Fri, 12 Mar 2021 08:15:23 +0000 (UTC)
+Date:   Fri, 12 Mar 2021 09:15:21 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     Mike Kravetz <mike.kravetz@oracle.com>
+Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
+        Muchun Song <songmuchun@bytedance.com>, corbet@lwn.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+        hpa@zytor.com, dave.hansen@linux.intel.com, luto@kernel.org,
+        peterz@infradead.org, viro@zeniv.linux.org.uk,
+        akpm@linux-foundation.org, mchehab+huawei@kernel.org,
+        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
+        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
+        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
+        osalvador@suse.de, song.bao.hua@hisilicon.com, david@redhat.com,
+        naoya.horiguchi@nec.com, joao.m.martins@oracle.com,
+        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linux-fsdevel@vger.kernel.org, Chen Huang <chenhuang5@huawei.com>,
+        Bodeddula Balasubramaniam <bodeddub@amazon.com>
+Subject: Re: [PATCH v18 4/9] mm: hugetlb: alloc the vmemmap pages associated
+ with each HugeTLB page
+Message-ID: <YEsjGbKtyrpfas4C@dhcp22.suse.cz>
+References: <YEjji9oAwHuZaZEt@dhcp22.suse.cz>
+ <f9f19d38-f1a7-ac8c-6ba8-3ce0bcc1e6a0@oracle.com>
+ <YEk1+mDZ4u85RKL3@dhcp22.suse.cz>
+ <20210310214909.GY2696@paulmck-ThinkPad-P72>
+ <68bc8cc9-a15b-2e97-9a2a-282fe6e9bd3f@oracle.com>
+ <20210310232851.GZ2696@paulmck-ThinkPad-P72>
+ <YEnXllhPEQhT0CRt@dhcp22.suse.cz>
+ <YEoKa5oSm/hdgt5V@dhcp22.suse.cz>
+ <45f434da-b55b-da61-be36-c248a301f688@oracle.com>
+ <4d4851fd-f0fd-9bfe-d271-b53891fdab6f@oracle.com>
 MIME-Version: 1.0
-References: <20210309125324.4456-1-yashsri421@gmail.com> <8959bf29-9ee1-6a1d-da18-f440232864f3@darmarit.de>
- <c673e76f-72db-bbee-39d6-f5428e765173@gmail.com> <CAKXUXMwg7Vs5hm_X3ZHJj9309w5VYbnNeqXaajHBHS1oAKQydw@mail.gmail.com>
- <838a823b-f3fd-ed1b-70d1-82611f9f4ada@gmail.com>
-In-Reply-To: <838a823b-f3fd-ed1b-70d1-82611f9f4ada@gmail.com>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Fri, 12 Mar 2021 08:00:40 +0100
-Message-ID: <CAKXUXMyJKU2ayx6KPFU50JA+t+X6-hhQwo0woNC18T6FTK60rw@mail.gmail.com>
-Subject: Re: [RFC] scripts: kernel-doc: avoid warnings due to initial
- commented lines in file
-To:     Aditya <yashsri421@gmail.com>
-Cc:     Markus Heiser <markus.heiser@darmarit.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4d4851fd-f0fd-9bfe-d271-b53891fdab6f@oracle.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 11, 2021 at 10:04 PM Aditya <yashsri421@gmail.com> wrote:
->
-> On 10/3/21 11:49 am, Lukas Bulwahn wrote:
-> > On Tue, Mar 9, 2021 at 10:24 PM Aditya <yashsri421@gmail.com> wrote:
+On Thu 11-03-21 14:53:08, Mike Kravetz wrote:
+> On 3/11/21 9:59 AM, Mike Kravetz wrote:
+> > On 3/11/21 4:17 AM, Michal Hocko wrote:
+> >>> Yeah per cpu preempt counting shouldn't be noticeable but I have to
+> >>> confess I haven't benchmarked it.
 > >>
-> >> On 9/3/21 7:00 pm, Markus Heiser wrote:
-> >>>
-> >>> Am 09.03.21 um 13:53 schrieb Aditya Srivastava:
-> >>>> Starting commented lines in a file mostly contains comments describing
-> >>>> license, copyright or general information about the file.
-> >>>>
-> >>>> E.g., in sound/pci/ctxfi/ctresource.c, initial comment lines describe
-> >>>> its copyright and other related file informations.
-> >>>
-> >>> The opening comment mark /** is used for kernel-doc comments [1]
-> >>>
-> >>> [1]
-> >>> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#how-to-format-kernel-doc-comments
-> >>>
+> >> But all this seems moot now http://lkml.kernel.org/r/YEoA08n60+jzsnAl@hirez.programming.kicks-ass.net
 > >>
-> >> Hi Markus!
-> >> That's true. But the content inside the comment does not follow
-> >> kernel-doc format.
-> >> For e.g., try running kernel-doc -none/man/rst on the above file in
-> >> the example("sound/pci/ctxfi/ctresource.c").
-> >> The starting 2-3 lines in files generally do not contain any
-> >> struct/enum/function, etc. declaration.
-> >>
-> >
-> > Aditya, can you provide a diff of the warnings over the whole kernel tree?
-> >
-> > At the moment, your patch just implements ignoring the initial
-> > comment, which probably is good for experimentation.
-> >
-> > Alternatively, we could simply have a dedicated warning and then
-> > ignore it or even warn and then parse it as-if.
-> >
-> > In the "long run", we would probably want to fix all current files in
-> > the repository by just replacing '/**' by '/*' and have kernel-doc
-> > warn about this suspicious pattern, when new files appear (maybe even
-> > configurable, but that is another feature to enable or disable certain
-> > kernel-doc checks and warnings). I would certainly assist and
-> > contribute to such a clean-up task.
-> >
-> > I think the first step is to look at the diff, and see how many cases
-> > really appear in the tree... then check how many patches throughout
-> > the whole tree are required and if they are generally accepted.
-> >
->
-> Hi Lukas!
-> This is the diff of the warnings over kernel tree before and after
-> applying these changes.
-> There are 2 sections in this report:
-> 1) for the warnings present before, but not after, and;
-> 2) after but not before
->
-> The part (2) contains, for some cases, where the warning for "warning:
-> Incorrect use of kernel-doc format:" type has changed to "warning:
-> wrong kernel-doc identifier on line:" type.
->
-> The diff file can be found at:
-> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/kernel-doc/avoid_init_line_diff.txt
->
+> > 
+> > The proper fix for free_huge_page independent of this series would
+> > involve:
+> > 
+> > - Make hugetlb_lock and subpool lock irq safe
+> > - Hand off freeing to a workque if the freeing could sleep
+> > 
+> > Today, the only time we can sleep in free_huge_page is for gigantic
+> > pages allocated via cma.  I 'think' the concern about undesirable
+> > user visible side effects in this case is minimal as freeing/allocating
+> > 1G pages is not something that is going to happen at a high frequency.
+> > My thinking could be wrong?
+> > 
+> > Of more concern, is the introduction of this series.  If this feature
+> > is enabled, then ALL free_huge_page requests must be sent to a workqueue.
+> > Any ideas on how to address this?
+> > 
+> 
+> Thinking about this more ...
+> 
+> A call to free_huge_page has two distinct outcomes
+> 1) Page is freed back to the original allocator: buddy or cma
+> 2) Page is put on hugetlb free list
+> 
+> We can only possibly sleep in the first case 1.  In addition, freeing a
+> page back to the original allocator involves these steps:
+> 1) Removing page from hugetlb lists
+> 2) Updating hugetlb counts: nr_hugepages, surplus
+> 3) Updating page fields
+> 4) Allocate vmemmap pages if needed as in this series
+> 5) Calling free routine of original allocator
+> 
+> If hugetlb_lock is irq safe, we can perform the first 3 steps under that
+> lock without issue.  We would then use a workqueue to perform the last
+> two steps.  Since we are updating hugetlb user visible data under the
+> lock, there should be no delays.  Of course, giving those pages back to
+> the original allocator could still be delayed, and a user may notice
+> that.  Not sure if that would be acceptable?
 
-Thanks, let us check if we can use this diff to create a patch set
-that cleans up those header comments for those files.
+Well, having many in-flight huge pages can certainly be visible. Say you
+are freeing hundreds of huge pages and your echo n > nr_hugepages will
+return just for you to find out that the memory hasn't been freed and
+therefore cannot be reused for another use - recently there was somebody
+mentioning their usecase to free up huge pages to prevent OOM for
+example. I do expect more people doing something like that.
 
-Lukas
+Now, nr_hugepages can be handled by blocking on the same WQ until all
+pre-existing items are processed. Maybe we will need to have a more
+generic API to achieve the same for in kernel users but let's wait for
+those requests.
+
+> I think Muchun had a
+> similar setup just for vmemmmap allocation in an early version of this
+> series.
+> 
+> This would also require changes to where accounting is done in
+> dissolve_free_huge_page and update_and_free_page as mentioned elsewhere.
+
+Normalizing dissolve_free_huge_page is definitely a good idea. It is
+really tricky how it sticks out and does half of the job of
+update_and_free_page.
+
+That being said, if it is possible to have a fully consistent h state
+before handing over to WQ for sleeping operation then we should be all
+fine. I am slightly worried about potential tricky situations where the
+sleeping operation fails because that would require that page to be
+added back to the pool again. As said above we would need some sort of
+sync with in-flight operations before returning to the userspace.
+
+-- 
+Michal Hocko
+SUSE Labs
