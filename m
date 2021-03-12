@@ -2,143 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FB33C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 17:00:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A0EAC433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 17:49:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 414186501C
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 17:00:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D613464F29
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 17:49:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232313AbhCLRAY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Mar 2021 12:00:24 -0500
-Received: from mga17.intel.com ([192.55.52.151]:30929 "EHLO mga17.intel.com"
+        id S232955AbhCLRsn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Mar 2021 12:48:43 -0500
+Received: from mout.gmx.net ([212.227.17.21]:39525 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232295AbhCLQ7y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Mar 2021 11:59:54 -0500
-IronPort-SDR: Plx2TmTst4mx78JJElyE2Oqd53dlPATRqPkHY2LaezbTZHsCPapNC+ZhPoe/zurOfdTotvq8XK
- /dp1JhmGHZpQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9921"; a="168773617"
-X-IronPort-AV: E=Sophos;i="5.81,244,1610438400"; 
-   d="scan'208";a="168773617"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2021 08:59:54 -0800
-IronPort-SDR: kjrjXp2igDygLx+c2Mon7eFhDFpJtYsPmkzGkxOE2QK3Y3Gwq4GHa5FlwgVzzDB2yqj/OARDD+
- ZAQNZEINXsOw==
-X-IronPort-AV: E=Sophos;i="5.81,244,1610438400"; 
-   d="scan'208";a="521477664"
-Received: from escomfor-mobl.amr.corp.intel.com (HELO [10.254.105.238]) ([10.254.105.238])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2021 08:59:53 -0800
-Subject: Re: [PATCH v22 8/8] x86/vdso: Add ENDBR64 to __vdso_sgx_enter_enclave
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
+        id S232986AbhCLRsa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Mar 2021 12:48:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1615571277;
+        bh=N7aaRYZfX/Hb6VlN8Wx+85FD6PVBAfrso1H+m3RhVgI=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=dqkbj0HPv6IV6VLmjL2AunUTiuhd3XZppUip+EU++Lv1CBjXMi0q1DIVd6E9PONkg
+         yBaD5Abld3wV4pG9SHf6j7FAtb/U99bTalzVylotpn9vyknFOOpqDhHFn7JdoL5Mkm
+         VtGT2OKRd22A+feY3HTTQQezJuH+nqlqpcFQCnHk=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([83.52.229.153]) by mail.gmx.net (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1M7sHy-1lOdmI3LaU-004xcl; Fri, 12
+ Mar 2021 18:47:57 +0100
+Date:   Fri, 12 Mar 2021 18:47:51 +0100
+From:   John Wood <john.wood@gmx.com>
+To:     Andi Kleen <ak@linux.intel.com>
+Cc:     John Wood <john.wood@gmx.com>, Kees Cook <keescook@chromium.org>,
+        Jann Horn <jannh@google.com>,
         Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210310220519.16811-1-yu-cheng.yu@intel.com>
- <20210310220519.16811-9-yu-cheng.yu@intel.com> <YElKjT2v628tidE/@kernel.org>
- <8b8efe44-b79f-ce29-ee28-066f88c93840@intel.com>
- <c2bfe707-2ef6-213a-f02c-4689726a473a@intel.com>
- <YEudGizbVrQaRoPq@kernel.org>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <c3fd1dc5-638c-978d-d959-0c3ebf92df16@intel.com>
-Date:   Fri, 12 Mar 2021 08:59:53 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH v5 7/8] Documentation: Add documentation for the Brute LSM
+Message-ID: <20210312174751.GB3103@ubuntu>
+References: <878s78dnrm.fsf@linux.intel.com>
+ <20210302183032.GA3049@ubuntu>
+ <20210307151920.GR472138@tassilo.jf.intel.com>
+ <20210307164520.GA16296@ubuntu>
+ <20210307172540.GS472138@tassilo.jf.intel.com>
+ <20210307180541.GA17108@ubuntu>
+ <20210307224927.GT472138@tassilo.jf.intel.com>
+ <20210309184054.GA3058@ubuntu>
+ <20210311182252.GA3349@ubuntu>
+ <20210311200811.GH203350@tassilo.jf.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <YEudGizbVrQaRoPq@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210311200811.GH203350@tassilo.jf.intel.com>
+X-Provags-ID: V03:K1:IUthEqD1fZ9e0K8Z2cjFF7rovLU03kPvwTyh75j6PKDuHOoiQDU
+ QEPH5uc4EbVEB5MQbG4jK0nNoUKsYW+xa8qKA3qSN3U0Oe/cUSyjP1QEXV8XyjnZb/QirhO
+ maBhqRkbARdxEaucB1YV6TkiVH+V9g/iljzJXTgZjMHDAMhQponafjwjTyCwaaIFKRmzQRd
+ 5lHdpa2QoMcLV0Jg5MoEg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MHKN75O+KwE=:qy5atky2c0DlG84lzjYs1m
+ iHPrnxxMvxMmvLXO6PhxCzQl5IggF6i2ZAxG48eZM6hntijGVKhUK8w/yluHp2Rg7Ig8FU2Iw
+ FG6qZdHgjyYI2loJ22t7dvUC/ius00oTQY82YLy+aPn3Y+WbIHJPujCCedLb2qApieTCQ0Cwi
+ Owj2+gTujdzplUbuD0aAHutXzr54Iv0jfdXGG2ql2NLueCTzmz5ApSa77IApQthTTVtzGNQ4L
+ FLkgINQebbs88KAx18x/BeFOfe/wAqxYF45qGFuBv0B/TK2cEHMiliSSnrUvmfDjlQ8B5FWzR
+ 0dbp8TY8c4UzTSb86uT+pz7JEFr11oddQpNHG3XPFQm+bsvn31uyfwV2GpGNJh1NH5xMfV1wE
+ oDHOsRTGdxN1UIU5eoifRpqp4hwDoC26Y+/XEvuY0kKcGMUmSXj+st9hEKwPka+ZqbZneVe06
+ O9VZCEXtf1/RhT2dGWAJH8Jf5bmsMAzyJQ0Ju0L4wiVfYYkxiteFUC61SONuCsKpS79XcOPHo
+ vv7SmCWpEcDV/xFhVIm4C72XrKkh9aJIKOcDfmOPkG7O7DRd1X6Z/nX1aApPKR822pVelITug
+ l+yDgfQPtnl7AZMIwm9q5sbBlS67ZSwYUuBgLhXaqMuN7nnPhN6tQCYl2bQ9zcg4sy1HpzSJd
+ yfWMMzrf2NdDJgfnOugRhM1dLGWjoXNW9/FUxzSfa3R/8Y8EU7VPd+RiLgn++hb6ttBoGlmmd
+ mcoU2I9+iqzrmEHjESnyAq0SQPSQGcTnekPwhZ8l3s/SiMTbdf5DlbtqTXq8U5OSlS0E1Ixom
+ gXTzCWO0D7Srif0BAGtD9JEcL2OHNwntX07M4nvTkAly2e4LZEtIgs1puYjsICu4I8YJwwXVi
+ 6+DhvQHYDAuZtMt2/R3w==
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/12/21 8:55 AM, Jarkko Sakkinen wrote:
->> ENDBR is a special new instruction for the Indirect Branch Tracking
->> (IBT) component of CET.  IBT prevents attacks by ensuring that (most)
->> indirect branches and function calls may only land at ENDBR
->> instructions.  Branches that don't follow the rules will result in
->> control flow (#CF) exceptions.
->>
->> ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
->> instructions are inserted automatically by the compiler, but branch
->> targets written in assembly must have ENDBR added manually, like this one.
-> Thank you, this clears the whole thing a lot.
-> 
-> Doesn't this mean that it could be there just as well unconditionally?
+On Thu, Mar 11, 2021 at 12:08:11PM -0800, Andi Kleen wrote:
+> > When a brute force attack is detected through the fork or execve syste=
+m call,
+> > all the tasks involved in the attack will be killed with the exception=
+ of the
+> > init task (task with pid equal to zero). Now, and only if the init tas=
+k is
+> > involved in the attack, block the fork system call from the init proce=
+ss during
+> > a user defined time (using a sysctl attribute). This way the brute for=
+ce attack
+> > is mitigated and the system does not panic.
+>
+> That means nobody can log in and fix the system during that time.
+>
+> Would be better to have that policy in init. Perhaps add some way
+> that someone doing wait*() can know the exit was due this mitigation
+> (and not something way) Then they could disable respawning of that daemo=
+n.
 
-It could be there unconditionally.  But, I think it's still worth the
-#ifdef just out of the principle of being as tidy as possible.  The
-#ifdef is basically as low cost and low complexity as you get.  It is
-also somewhat self-documenting: "This instruction is only necessary when
-your CPU supports IBT".
+Great. So, if we use wait*() to inform userspace that the exit of a proces=
+s was
+due to a brute force attack then, the supervisors (not only init) can adop=
+t the
+necessary policy in each case. This also allow us to deal with the respawn=
+ed
+daemons.
+
+As a summary of this useful discussion:
+
+- When a brute force attack is detected through the fork or execve system =
+call
+  all the offending tasks involved in the attack will be killed. Due to th=
+e
+  mitigation normally not reach init, do nothing special in this case -> t=
+he
+  system will panic when we kill init.
+
+- Use wait*() to inform userspace that every process killed by the mitigat=
+ion
+  has exited due to a brute force attack mitigation. So, each supervisor c=
+an
+  adopt their own policy regarding respawned daemons.
+
+I will work in that direction for the next version.
+
+Thanks a lot for your time, proposals, guidance and solutions.
+John Wood
