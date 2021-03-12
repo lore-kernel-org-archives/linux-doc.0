@@ -2,164 +2,154 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E166C433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 14:24:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64A70C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 15:29:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6B6D264FD6
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 14:24:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3AF8264F8F
+	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 15:29:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231802AbhCLOXt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Mar 2021 09:23:49 -0500
-Received: from mail-dm3nam07on2070.outbound.protection.outlook.com ([40.107.95.70]:10080
-        "EHLO NAM02-DM3-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232159AbhCLOXb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Mar 2021 09:23:31 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JHNdb5w+Yrn4pzcGZr7tPol3lRqvGwqCQA0FugCPJoX67t/ypRgXxvRyEelXdSXs0Njsrai/dq+oDFth3xDRaGl74CQYy28KxfviH3nl1Rk4KGnR6YxHzIKK10uz4teJ7VgEcZUS982yGp+XUNcSVbNoA+SMAYTC2awYT1ghVVQSpE+3aHjNO8stgJRqhHsMziIAIeMlKNAjzaC6uaxpRjpaGH31ZialSVwfqisotczdhcEP7kdSnY/aDjMqF9olHP72+lSO2Fvju3Mgw4YTuAWFBIVBxklJxHhmaMo+rH4nZILEIsEN0xgkx9HhpFVaZvskIfkGpyfuHcdNHLN2rQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zin0nLDZCugQcu6jejjKaxd5ji4T/ZMNvYtylkp996o=;
- b=cQ1qi8HipYmv1KITmvXbFHLT/m2yEQAssFIktFn9yCGStp7/jZ/CExTUHNlun6OiPRU1VkLh1aEQPi9ldqcmZ+qpqQ2qiQaJlKeLsEiuONJVsk0mfPf2a4etkLU40LkL0emtasb1LQ+0ry2dQS3TTnuHufaY3kPbqEjLScdliE71889C7VHp4H+hnewtYfJePYVxLGAGAwwODGTkwZ3xCsZVLY53TxnDRjabP+veX416qQ7oQFFCARAIEIE4WA9526agIE/SkJ78XH4GarMy9U/KABjZ4GdT9SLrWlW9ZRKoSm6lBPC09rDzkYk5KZRfGpXzhW4DtI745wnhVATHkg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zin0nLDZCugQcu6jejjKaxd5ji4T/ZMNvYtylkp996o=;
- b=P4/5P9nmHMe/Nbe4kpiwrwYQX7xx6vzAEwWdPAllFAkAPj2xQXssmze0jPdTfszyKxzf3/06xqelDUxhR9Qr8NyPH5iEsNshwXToXLX0hhmFjbpIg74AAHZrD3mQ2ArktaveMWYV8CSBJNZJTMzBJuNkzeHCWZbrsg/om5KYgK6jApWDkoMgybdvDNDbdLUBubg+2lFAF0REIcglUktIG+tALxSwmi1Y6rlTUl82jPGuFHP6X6eFi4YAocbT4br2LjvyPSf6r/1gr+BkaDXZXyaWNGwAR98I1AxeT8NesMUtg5YRVE87oBEgZYHOwYxcpPv1p0zg9B9TgNz+qKsaEg==
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB1514.namprd12.prod.outlook.com (2603:10b6:4:f::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3933.31; Fri, 12 Mar 2021 14:23:27 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3933.032; Fri, 12 Mar 2021
- 14:23:27 +0000
-Date:   Fri, 12 Mar 2021 10:23:26 -0400
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     "Liu, Yi L" <yi.l.liu@intel.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
+        id S231337AbhCLP2u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Mar 2021 10:28:50 -0500
+Received: from mout.gmx.net ([212.227.17.20]:58795 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230302AbhCLP2e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 12 Mar 2021 10:28:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1615562901;
+        bh=5kxWxnJH6TxGILTbWiEuWrtMiE4DpLAno4eP5DaAVnM=;
+        h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+        b=kiKXOysos2SmX0B8pydGx/TlqeNKGYPZVqafF9L5KKf1Al2XFMky8lQfp1MKLafQR
+         u/QUfHptnDrDwR7jBurSje/dRs7eWKoCvC+Tz3VLm8bFRNSY83gukQN+tuzcSAODwF
+         IZKra52x10JkVmVRzlG1owQNUrmao7pr1QvPzkEI=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from longitude ([37.201.215.134]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MeU0q-1lutsH2fjA-00aZGP; Fri, 12
+ Mar 2021 16:28:21 +0100
+From:   =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>
+To:     linux-doc@vger.kernel.org
+Cc:     linux-arch@vger.kernel.org,
+        =?UTF-8?q?Jonathan=20Neusch=C3=A4fer?= <j.neuschaefer@gmx.net>,
         Jonathan Corbet <corbet@lwn.net>,
-        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        "Williams, Dan J" <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH 02/10] vfio: Split creation of a vfio_device into init
- and register ops
-Message-ID: <20210312142326.GA2356281@nvidia.com>
-References: <0-v1-7355d38b9344+17481-vfio1_jgg@nvidia.com>
- <2-v1-7355d38b9344+17481-vfio1_jgg@nvidia.com>
- <BN6PR11MB4068BDE65D5AA2A3E0A1200BC36F9@BN6PR11MB4068.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN6PR11MB4068BDE65D5AA2A3E0A1200BC36F9@BN6PR11MB4068.namprd11.prod.outlook.com>
-X-Originating-IP: [142.162.115.133]
-X-ClientProxiedBy: BL0PR03CA0011.namprd03.prod.outlook.com
- (2603:10b6:208:2d::24) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
+Subject: [RFC PATCH] docs: Group arch-specific documentation under "CPU Architectures"
+Date:   Fri, 12 Mar 2021 16:28:03 +0100
+Message-Id: <20210312152804.2110703-1-j.neuschaefer@gmx.net>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.115.133) by BL0PR03CA0011.namprd03.prod.outlook.com (2603:10b6:208:2d::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.31 via Frontend Transport; Fri, 12 Mar 2021 14:23:27 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lKihK-00BvIp-6r; Fri, 12 Mar 2021 10:23:26 -0400
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 933743b0-c1ca-4917-2c9d-08d8e5626754
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1514:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1514528194B723B54C20E5BFC26F9@DM5PR12MB1514.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BHMATy1e6xH/BicCLTFhU/xEhzAj3obxAPE9QHQLqQresK3r6s91IH4OXh9En0nzFA1UGJTNpJT1RKq1muSEFQVBNfP6N1Hc6BNvnxQoU0YSQnB8k20R1JMrb50qu2IkVQjErXOe0IgypLP6m9kVXenFn4BY7nKdu4p2CwqKdvEqeu/bd5D1H/Bxt4ZWDAv5Q0XmI2P+4/ubNOdvk+zNyFQRP1+DiDPjrSChMgd6BI0N6Jtu8BEGLP7XtEC4ZNwAz2JvKPgTnc/smEZptWmbargNJZaIwwIYzL2PUD25Ll8Z6ZksNUR6P/NOkuSMVJwNfOJYU5v/VSwJ9OhjaiNLlterDRM62cKwqm3rXP7VO5XPjrX3/7vm89NSr+gD8BKrJ0ebZrvrdAl1BTSbyHIkHLC+5LkiKErFgZVJeoAK5iPXGwOK7NaUXCashR/Pxvgj0TRPeNp3EqS2RzKr2/70zWms7/DLyjAT/dVpIIEpxTkSP6jxgNpBOffA+t2vsltUxPezb/KmnQHBKWlybvkXpap0vQuuEuPG+N1Bc7GI3mwP73qGN+7z/lIvDABp5dky
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(39860400002)(396003)(366004)(376002)(346002)(6916009)(8676002)(54906003)(7416002)(316002)(107886003)(2906002)(5660300002)(9786002)(9746002)(26005)(478600001)(4326008)(186003)(8936002)(426003)(2616005)(1076003)(36756003)(33656002)(86362001)(66946007)(66556008)(66476007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?lVK/22l9jG2jIaYkrrmGywG3oKPUIEHOuZjaDyYj0TDG7MdYcUwcApSBomPQ?=
- =?us-ascii?Q?v2eeBLazhtMVprMwdNMUQRQ4W3Y3tVj+C0dPS+tpKh3IWy7krUAOyxiRMPMd?=
- =?us-ascii?Q?dwtJJEK5oDOZD28n0hQiz16357K7XBgQnSHNH0Ko5blLlyqr5gvhWHFfYaMK?=
- =?us-ascii?Q?uQicnSwz9sLBCf4viuTT3No9ph1uKen4ENsTi+f6BMztGjEVgAfKvnylNCLO?=
- =?us-ascii?Q?s0mYKDb0lN3+GJ9hYQyiOa8psIgKGY4/0kyaTpOVxe/W6ZjI2x+KBUyQ6USz?=
- =?us-ascii?Q?NH+TYsA9Z1y924HKJDwO6GGFOX93WuN92NQg8BKDlMDMRGVEk5bTHSeEkMGk?=
- =?us-ascii?Q?5m5h6w6otEE2LtN5GzppKeqj8nZqE6HonfCjBEgNBgKKl0Q/s39EukDl+u3/?=
- =?us-ascii?Q?7MJ1gR1bhnXXt6rkBhnx9RlRpjkjqQeNCZI2zxCTREC5Jtb9ZdrJ4pScZLC3?=
- =?us-ascii?Q?izOnX0QbzCjO48Subn6OCHPVf3itLqjJh7RdN2FtRbr8mn7Lknpa6F6ndywy?=
- =?us-ascii?Q?iqK00oeV6/EGMnyWT/1z+dnJVpyU6TjpzzaKyDpldjSM7KCe4OsHRMz5mVBX?=
- =?us-ascii?Q?6cLcD1aJmjdladfQMHQk4UPdgMebK6elxvl2Sg4eVFD4+7OHeStrr3ECnZXb?=
- =?us-ascii?Q?7ZIjhQ0Kzme7nSqNag+ySvEmGkilnp+uRaPKT/gnbsYTnVwow3SRK+E2dRRf?=
- =?us-ascii?Q?VYWnF+3r4YfMSO0ZxjtngoIc1Xnqp89zazrKeoppoXwy2ec+UkHU53syOhC3?=
- =?us-ascii?Q?n5JwW7AFt7qqRlFEyKXhYga61gxETdvl4n9T9k4vfTxoKOD37RLWX4hhA3rV?=
- =?us-ascii?Q?ZI1JMr+4YxUiJZ2xysGwV83WWkzdz/UlZ4C3CYktCA61TvPX8LNTSnASmWTf?=
- =?us-ascii?Q?NLum9os9sAsDf97irK7m4Jn/PFfgmVOzN/li0ZkHuVNPtob+OAZ6fDxtMi2X?=
- =?us-ascii?Q?Mcg0xl09G40CA4MbAt5uUY9PGBa08MKRAJRf8aov+AXP/MZiFnF7WMW9BIYc?=
- =?us-ascii?Q?CBaPyVwx5hFveig0Ecmr4vHDEbTALEbmTz/0QItq338yfL5yNaDHTBjzyU+t?=
- =?us-ascii?Q?cbFTtEBxBLSd5Zo9/gRAtosXBZCzZ/0IVkM2ZrceSuOCeyge8qzqJF3FFAfU?=
- =?us-ascii?Q?z+4iKVXCppPfygHBP7ty+2trKRm4ICRzNK0EsTGvXLSrqRWaRK8k5IIqlCnJ?=
- =?us-ascii?Q?UiRF84n2uaeyj2eYPxozRyzJhiRBKFBJa3fxgYNCrayIaF2mXfE/qvuJDHue?=
- =?us-ascii?Q?ZYx6KDRKTlE4Q+mv1tiCzmdY+U6u+fM2EceY0KFp5pmsgUaAJDcyzRE5e0AT?=
- =?us-ascii?Q?TDP0AlVU99T8+K21thUQkZbphR+DPuGA/VXpwNrzmsk5Eg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 933743b0-c1ca-4917-2c9d-08d8e5626754
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Mar 2021 14:23:27.8119
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BynunQl+/1k8pRLVFIwtVPIkq3r+GpyV5zbBjNETcFZrXQEpYOPc4m9Iap4YhT2O
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1514
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:8ebQTw4lZ+rVZ5nvFoAmTj5OAS3v/fSaT0/jFvCvQVpD2gpKnVw
+ DilHPjUKk0X3YA+e0yFNd1JIULXgIiQL40MkLj7dZA8ysVSSilzZ7qMxg0HWQZ1wZq9/0K3
+ AlikEl29YsjY9T29dZz7XsfV1x5rdiUHqcVejJieZkb79pkNISCbXGhKVp5K9eocWVNHWNb
+ CCflKytTdcFSBiCjkTG9A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:uihwH/s/73s=:+hoH2NdeT68B6TmcizC9x1
+ TXVdHUe+JqESQt16Cq5/oXL3DvFyFqeaXccPt9272v//kgr3m8I0HKN4pRVradhhqBazITH7z
+ BbDh82hc+C6xAu1YOOl/p58eCju57v2gzTnsTnIk3KJBaFXpo0gOUT01yse58b2Gb0TLHmP3B
+ iO8qd4J12Wkpa/Nfs/y7NWqqO6bUrRiUQVHiuhAst9cBuXHRD1PYYx6y4KwAuTjYb6hQ/Rxsu
+ 4Rh7HBmuXbztjNUPCa1/AbxuAiiivPP3OlMWQW1sJIijtCfksooewFj0nnHAoynHoLyynUkun
+ t7RGGKqiPEQHhHHpzpJvVZJ9NNDhGoiRMeh//UM8cVa6rYYMma2SPhXVJk/qSTyAikR6LbV4N
+ pouSs8E9SSJWIj6CfbEn7BMDuaWfDS0ZRMjlecjFRrgopGIbOjg1XNZesVdGqhfbiaZd/shtG
+ AsOwJORRB9VMct6kVmuYcX4AfHQ5M9VEbN4ivte5AaQjT4ir1Xj8kt5slQuR2CZfwdNT2KHYs
+ wmru5aU2NjA2wff8w7VcDcb/bf9G9hp+Ja78L4MemUNHGE58bgAIUtePAP9eCp7jU1zZ5K7IC
+ 94guYKUzco1RFQa3/Mhw+T2PK8021yuCHoF8lwcPt/q1jy+xssVya+koF1aBOWK9pkfjA8f/R
+ l5ZsYi/Zl4oZ4lLN/SnKD2i+q6cPvMru0mG9BjYePiTHwchhHlsDRG4Fq0dO+Xj9OjqSngkzU
+ aMc0KVWmjwEupvidUCE+dXxuIwMiLE0bzmsokMK3PDoTKCDvSVKzYORAKsl5L3x4VyOXMc/9F
+ OtjA0VL0FSNja1T1BVrci/JdSpkHG27IJCCohsnGiksPsKAC849jSCMly54uYsmxeXUoPoAdo
+ +ABCTXVJnsJjMza5TP8Q==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 12, 2021 at 01:04:29PM +0000, Liu, Yi L wrote:
-> Hi Jason,
-> 
-> > From: Jason Gunthorpe <jgg@nvidia.com>
-> > Sent: Wednesday, March 10, 2021 5:39 AM
-> > 
-> [...]
-> > diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-> > index b7e18bde5aa8b3..ad8b579d67d34a 100644
-> > +++ b/include/linux/vfio.h
-> > @@ -15,6 +15,18 @@
-> >  #include <linux/poll.h>
-> >  #include <uapi/linux/vfio.h>
-> > 
-> > +struct vfio_device {
-> > +	struct device *dev;
-> > +	const struct vfio_device_ops *ops;
-> > +	struct vfio_group *group;
-> > +
-> > +	/* Members below here are private, not for driver use */
-> > +	refcount_t refcount;
-> > +	struct completion comp;
-> > +	struct list_head group_next;
-> > +	void *device_data;
-> 
-> A dumb question. If these fields are not supposed to be used by
-> "external modules" like vfio_pci driver, how about defining a private
-> struct vfio_dev_prive within vfio.c and embed here?
+To declutter the top-level table of contents (the side bar), this
+patch reduces the architecture-specfic documentation to one top-level
+item, "CPU Architectures".
 
-This is rarely done, there should be a good reason to do it, as making
-a private structure in a container_of system requires another memory
-allocation.
+Signed-off-by: Jonathan Neusch=C3=A4fer <j.neuschaefer@gmx.net>
+=2D--
 
-'struct device' has this for instance, look at the 'p' member.
+As a side effect, the TOC in index.html effectively gets one level of
+detail less. This could be fixed by specifying ':maxdepth: 3'.
+=2D--
+ Documentation/arch.rst  | 26 ++++++++++++++++++++++++++
+ Documentation/index.rst | 20 ++------------------
+ 2 files changed, 28 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/arch.rst
 
-In this case I can't see much value
+diff --git a/Documentation/arch.rst b/Documentation/arch.rst
+new file mode 100644
+index 0000000000000..f10bd32a5972e
+=2D-- /dev/null
++++ b/Documentation/arch.rst
+@@ -0,0 +1,26 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++CPU Architectures
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++These books provide programming details about architecture-specific
++implementation.
++
++.. toctree::
++   :maxdepth: 2
++
++   arm/index
++   arm64/index
++   ia64/index
++   m68k/index
++   mips/index
++   nios2/index
++   openrisc/index
++   parisc/index
++   powerpc/index
++   riscv/index
++   s390/index
++   sh/index
++   sparc/index
++   x86/index
++   xtensa/index
+diff --git a/Documentation/index.rst b/Documentation/index.rst
+index 31f2adc8542dc..54ce34fd6fbda 100644
+=2D-- a/Documentation/index.rst
++++ b/Documentation/index.rst
+@@ -149,27 +149,11 @@ Architecture-agnostic documentation
+ Architecture-specific documentation
+ -----------------------------------
 
-Jason
+-These books provide programming details about architecture-specific
+-implementation.
+-
+ .. toctree::
+    :maxdepth: 2
+
+-   arm/index
+-   arm64/index
+-   ia64/index
+-   m68k/index
+-   mips/index
+-   nios2/index
+-   openrisc/index
+-   parisc/index
+-   powerpc/index
+-   riscv/index
+-   s390/index
+-   sh/index
+-   sparc/index
+-   x86/index
+-   xtensa/index
++   arch
++
+
+ Other documentation
+ -------------------
+=2D-
+2.30.1
+
