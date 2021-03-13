@@ -2,119 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D099FC433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 08:43:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEA30C433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 09:26:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 971A264F1A
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 08:43:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 67E5464F23
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 09:26:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233594AbhCMInN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 Mar 2021 03:43:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40358 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233559AbhCMImn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 03:42:43 -0500
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26F6CC061762
-        for <linux-doc@vger.kernel.org>; Sat, 13 Mar 2021 00:42:43 -0800 (PST)
-Received: by mail-pg1-x531.google.com with SMTP id g4so17395148pgj.0
-        for <linux-doc@vger.kernel.org>; Sat, 13 Mar 2021 00:42:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=beagleboard-org.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=pVXzAavbWQCIuyim7qVlCD+k9KLwZXY4SN3cSaFtD94=;
-        b=sfbmW7mEOQ/RXDel1aRVFFwUIRa7HH9D1Wbsazud96yTVFornNkX3AWSXhpMW5KqPk
-         uG/HMVGvbQlAKET251HGuLZeWYK7XGbrOgTrpeBhiiUo9qJ6p+Z24NMQAKwLlXaRlyc5
-         cmceVTE6Xila1p6ZIDv+9DDmLZk5sV2gRPVqyfew6CjpfnCsMMdFLHIxMVwdFL2xlRTo
-         HuAy4FlSocHDH24ieAJoQqLkvdNO42anbX7hD06lII9aK3MCAa5Co3nOp87LYXiV9eOh
-         JyeX22DIgw8nMbkR4NPJDJrjzKMHYWwg3tD9KNWc9W+GBg5HBVPISgCgKoGL7fwFsu57
-         Othw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=pVXzAavbWQCIuyim7qVlCD+k9KLwZXY4SN3cSaFtD94=;
-        b=uB1FlSxXECD/WN7fUyyzix3pjeXd6ZX6FMSxdKWYio+a0/S65Q+LpptKxxSyyD9pHf
-         kodCfHNlEkkd4bKMAmMdlZUWJ6jILTpwAQZMZzFH79YJAW0h5TQDMZmfXYPr6YTPrGJ7
-         pkKWTlqvpptY1PQZrTlEu7iuBf+RpUV/wTDBmHwRa/Oiuw32E8YbAKd5Ieml31JGwrhg
-         0TtIyFSRFDiuCkLoqyb8vglRuOENuhSPtCoNcSRNHg9jXnDu02qlyg3RQyCDZNQIu8Zl
-         DXPjn07evtZ1BoBJnFLgfrFTFU+CBwqDtDwm276zVR6UW+wSbV+cBG/YZCxHXxsgduD/
-         X0rg==
-X-Gm-Message-State: AOAM533I5sQ5p0GdmRZm7Y153Q6WgyNxvamtZjfUvQxsXkZNVRliqnKc
-        1oWvkNN9Jm5JONJdxGnYBUAteA==
-X-Google-Smtp-Source: ABdhPJwClrJYe1/6OfrldTxrl8D09eR8P+9mHwokjr9mcjKpjcs5o0H1wsuB3bOHVBEWDVdulWqcNA==
-X-Received: by 2002:a63:6982:: with SMTP id e124mr15526357pgc.46.1615624962566;
-        Sat, 13 Mar 2021 00:42:42 -0800 (PST)
-Received: from x1 ([2601:1c0:4701:ae70:70ad:d592:e701:79d3])
-        by smtp.gmail.com with ESMTPSA id q5sm7412514pfk.219.2021.03.13.00.42.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Mar 2021 00:42:41 -0800 (PST)
-Date:   Sat, 13 Mar 2021 00:42:39 -0800
-From:   Drew Fustini <drew@beagleboard.org>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tony Lindgren <tony@atomide.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Jason Kridner <jkridner@beagleboard.org>,
-        Robert Nelson <robertcnelson@beagleboard.org>,
-        Joe Perches <joe@perches.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v9 2/4] pinctrl: pinmux: Add pinmux-select debugfs file
-Message-ID: <20210313084239.GB1172642@x1>
-References: <20210302053059.1049035-1-drew@beagleboard.org>
- <20210302053059.1049035-3-drew@beagleboard.org>
- <349b09f8-fe99-d0d4-dd11-c288bf66cb4d@metux.net>
+        id S230380AbhCMJZe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Mar 2021 04:25:34 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:50447 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230114AbhCMJZR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 04:25:17 -0500
+X-Originating-IP: 2.7.49.219
+Received: from debian.home (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
+        (Authenticated sender: alex@ghiti.fr)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 32F551C0003;
+        Sat, 13 Mar 2021 09:25:10 +0000 (UTC)
+From:   Alexandre Ghiti <alex@ghiti.fr>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org
+Cc:     Alexandre Ghiti <alex@ghiti.fr>
+Subject: [PATCH v2 0/3] Move kernel mapping outside the linear mapping 
+Date:   Sat, 13 Mar 2021 04:25:06 -0500
+Message-Id: <20210313092509.4918-1-alex@ghiti.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <349b09f8-fe99-d0d4-dd11-c288bf66cb4d@metux.net>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 12, 2021 at 02:57:54PM +0100, Enrico Weigelt, metux IT consult wrote:
-> On 02.03.21 06:30, Drew Fustini wrote:
-> 
-> Hi folks,
-> 
-> > Add "pinmux-select" to debugfs which will activate a pin function for a
-> > given pin group:
-> > 
-> >    echo "<group-name function-name>" > pinmux-select
-> > 
-> > The write operation pinmux_select() handles this by checking that the
-> > names map to valid selectors and then calling ops->set_mux().
-> 
-> I've already been playing with similar idea, but for external muxes.
-> For example, some boards have multiple SIM slots that can be switched
-> via some gpio pin.
-> 
-> Not sure whether traditional pinmux would be a good match for that.
-> 
-> 
-> --mtx
-> 
+I decided to split sv48 support in small series to ease the review.
 
-Thank you for your comment.  I am interested in understanding other
-use cases.
+This patchset pushes the kernel mapping (modules and BPF too) to the last
+4GB of the 64bit address space, this allows to:
+- implement relocatable kernel (that will come later in another
+  patchset) that requires to move the kernel mapping out of the linear
+  mapping to avoid to copy the kernel at a different physical address.
+- have a single kernel that is not relocatable (and then that avoids the
+  performance penalty imposed by PIC kernel) for both sv39 and sv48.
 
-Linus can hopefully correct me, but I think this is covered by section
-"Drivers needing both pin control and GPIOs" in pinctl.rst [1]. The
-driver could be both a GPIO consumer and pinctrl consumer and then be
-able to call pinctrl_select_state() and devm_gpio_request().
+The first patch implements this behaviour, the second patch introduces a
+documentation that describes the virtual address space layout of the 64bit
+kernel and the last patch is taken from my sv48 series where I simply added
+the dump of the modules/kernel/BPF mapping.
 
-Thank you,
-Drew
+I removed the Reviewed-by on the first patch since it changed enough from
+last time and deserves a second look.
 
-[1] https://www.kernel.org/doc/html/latest/driver-api/pinctl.html
+Changes in v2:
+- Fix documentation about direct mapping size which is 124GB instead
+  of 126GB.
+- Fix SPDX missing header in documentation.
+- Fix another checkpatch warning about EXPORT_SYMBOL which was not
+  directly below variable declaration.
+
+Alexandre Ghiti (3):
+  riscv: Move kernel mapping outside of linear mapping
+  Documentation: riscv: Add documentation that describes the VM layout
+  riscv: Prepare ptdump for vm layout dynamic addresses
+
+ Documentation/riscv/index.rst       |  1 +
+ Documentation/riscv/vm-layout.rst   | 63 ++++++++++++++++++++++
+ arch/riscv/boot/loader.lds.S        |  3 +-
+ arch/riscv/include/asm/page.h       | 18 ++++++-
+ arch/riscv/include/asm/pgtable.h    | 37 +++++++++----
+ arch/riscv/include/asm/set_memory.h |  1 +
+ arch/riscv/kernel/head.S            |  3 +-
+ arch/riscv/kernel/module.c          |  6 +--
+ arch/riscv/kernel/setup.c           |  3 ++
+ arch/riscv/kernel/vmlinux.lds.S     |  3 +-
+ arch/riscv/mm/fault.c               | 13 +++++
+ arch/riscv/mm/init.c                | 83 +++++++++++++++++++++++------
+ arch/riscv/mm/kasan_init.c          |  9 ++++
+ arch/riscv/mm/physaddr.c            |  2 +-
+ arch/riscv/mm/ptdump.c              | 67 ++++++++++++++++++-----
+ 15 files changed, 262 insertions(+), 50 deletions(-)
+ create mode 100644 Documentation/riscv/vm-layout.rst
+
+-- 
+2.20.1
+
