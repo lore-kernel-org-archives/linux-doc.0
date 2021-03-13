@@ -2,131 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC5A1C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 18:07:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80F69C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 18:48:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8179A64EA4
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 18:07:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5695964ECC
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 18:48:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234257AbhCMSHN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 Mar 2021 13:07:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47496 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233635AbhCMSGp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 13:06:45 -0500
-Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com [IPv6:2607:f8b0:4864:20::82c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14A31C061574;
-        Sat, 13 Mar 2021 10:06:45 -0800 (PST)
-Received: by mail-qt1-x82c.google.com with SMTP id l13so6393122qtu.9;
-        Sat, 13 Mar 2021 10:06:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qmztczQ8nwlB2ZsLfNT+eUr55Vm8FQvEeckkwobT4Fo=;
-        b=J7BNxH+9zAJSpZT49oEVvoljADKL0mcaBvvxC0C2vlCBSuitKhdzpCMx3KI7BfdLdR
-         /OVlpcir79WWkWYHgudf7wc9wI4ikkGV/oj89W25FwqepTpfgBDOv3TxCNN1z0uOgJoF
-         SY+FzlHUH+gZypRWujGQZPCo07NOekPMlT6BO8sJqBPNB+gWKZZKCGZuL/ixT0afD7hq
-         OlHTJCfLA8dLtgYqCXf/rFP71y5lTue4Qkq7ePDIAbamQLwhl562yOeZmScANXRCkB69
-         aY1f6sROr7S36dtchcv8kUNsxshmcp7+lC20LpV2jCcBoL7a980V+Pouv5fVkFtI4Qzb
-         bDKQ==
+        id S234261AbhCMSsL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Mar 2021 13:48:11 -0500
+Received: from mail-vs1-f49.google.com ([209.85.217.49]:42223 "EHLO
+        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233635AbhCMSrg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 13:47:36 -0500
+Received: by mail-vs1-f49.google.com with SMTP id v123so14279236vsv.9;
+        Sat, 13 Mar 2021 10:47:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=qmztczQ8nwlB2ZsLfNT+eUr55Vm8FQvEeckkwobT4Fo=;
-        b=j2xSpHUseQZns+GrsvZe0cZ1wXLmFVJJij0sMkONS0QzpFzZiYtOqMtoZFMQyG/N0+
-         iyeHsxdhwBpm1yn44Lvdmc6yzoLZyUvTbC9B21nay6DUcmetErQNwhe2ZwSfK9s/N6AA
-         Q0+gxa4Ask3XXdpPgESa1l1vYhxz5sYKPbYsVZ5/60Q9cSmz5jKxjXffIHmav6HlRUZw
-         iJvD8tn22wyUVjCa+4g0vziee72EQXqxuo2Q9ctbiTHcSM7kYQegoT+pJjuGnV3l/erh
-         TNiV5TW/O3PriavS0jfZvkHPhfRIhEUlzZl4r/bkjQ12nTrp46i8R2C6itlo+Lo/HbOS
-         ohJQ==
-X-Gm-Message-State: AOAM531n1pSpQ+MwwtfqHwaweY1o137huGAWIvHZtNA71ZLbw6h0OvjL
-        KBOSJqseyC5HtZ89UKdn+GI=
-X-Google-Smtp-Source: ABdhPJx3TZWYKiCGPWxCw/QJBwue9nIX+6EKNJ5BoCzcywtVpMNr5EN/6N8MBRGBMGQWeo413t9GRQ==
-X-Received: by 2002:ac8:4543:: with SMTP id z3mr17030003qtn.286.1615658803977;
-        Sat, 13 Mar 2021 10:06:43 -0800 (PST)
-Received: from localhost ([2620:10d:c091:480::1:fde1])
-        by smtp.gmail.com with ESMTPSA id k138sm7201936qke.60.2021.03.13.10.06.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Mar 2021 10:06:43 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Sat, 13 Mar 2021 13:05:36 -0500
-From:   Tejun Heo <tj@kernel.org>
-To:     Jacob Pan <jacob.jun.pan@intel.com>
-Cc:     Vipin Sharma <vipinsh@google.com>, mkoutny@suse.com,
-        rdunlap@infradead.org, thomas.lendacky@amd.com,
-        brijesh.singh@amd.com, jon.grimm@amd.com, eric.vantassell@amd.com,
-        pbonzini@redhat.com, hannes@cmpxchg.org, frankja@linux.ibm.com,
-        borntraeger@de.ibm.com, corbet@lwn.net, seanjc@google.com,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, gingell@google.com,
-        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, "Tian, Kevin" <kevin.tian@intel.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        "jean-philippe@linaro.org" <jean-philippe@linaro.org>
-Subject: Re: [RFC v2 2/2] cgroup: sev: Miscellaneous cgroup documentation.
-Message-ID: <YEz+8HbfkbGgG5Tm@mtj.duckdns.org>
-References: <20210302081705.1990283-1-vipinsh@google.com>
- <20210302081705.1990283-3-vipinsh@google.com>
- <20210303185513.27e18fce@jacob-builder>
- <YEB8i6Chq4K/GGF6@google.com>
- <YECfhCJtHUL9cB2L@slm.duckdns.org>
- <20210312125821.22d9bfca@jacob-builder>
- <YEvZ4muXqiSScQ8i@google.com>
- <20210312145904.4071a9d6@jacob-builder>
- <YEyR9181Qgzt+Ps9@mtj.duckdns.org>
- <20210313085701.1fd16a39@jacob-builder>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=V4OlbTaZsfRr8m4U6wSFd2NjZwjTvfpq70Z7sr9ivb8=;
+        b=TlkyQeb7WVUjXry9Dj1yNgMClsyO8BzfTsKdf7pYK+BAsShxPqzuQI0Z8imQXj6WAi
+         armIRNRNovz5Jsz+ss8fk2ZPSdIz27jl+bIPWsGSzpKi1zw8jtM8Wbu0AIJBoNOyib3j
+         8HEctNSwN0QWXp7dg/ggmC5JjoAIy/vIEsd2khk5QyzNwp5KXJR/ev8rFNr7Uz5KX+Qd
+         TrgTRtkQ+N1TFCQLriHRU/p11PuU64QHefSWxRDjxi4poN8OOWwH9nGy7nO4bued3vaT
+         0UehzwixhK2WHnaiVhxzb4WkK0ZT3IGVtV/XW1U3UDpYSvEqXx5hS4Vv/ilbtP0oHaKE
+         zu2w==
+X-Gm-Message-State: AOAM531XHze5ULFUQzflcwt50Z2EYFqR5dDM6PAQbx4747rIGT1t9Zv8
+        /JQv/XUhYZWbVWG4v/sEToOl8beDcZw9aftf0SY=
+X-Google-Smtp-Source: ABdhPJzwoWPysyHbwdlp9M+VJu77QpQG1me8NmKxbmEsPbO2YahFUoj0nXRcbp3PfDd1aIU7blraldCc9ki67Z807fM=
+X-Received: by 2002:a67:8883:: with SMTP id k125mr2019352vsd.18.1615661255965;
+ Sat, 13 Mar 2021 10:47:35 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210313085701.1fd16a39@jacob-builder>
+References: <20210302053059.1049035-1-drew@beagleboard.org>
+ <20210302053059.1049035-3-drew@beagleboard.org> <349b09f8-fe99-d0d4-dd11-c288bf66cb4d@metux.net>
+ <YEyFyQ0TF5u/WS9X@piout.net>
+In-Reply-To: <YEyFyQ0TF5u/WS9X@piout.net>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Sat, 13 Mar 2021 19:47:24 +0100
+Message-ID: <CAMuHMdWzEQAOgy7_e_6RcQjP6z0n9LQA6R2LBs1nXMZeAYywvQ@mail.gmail.com>
+Subject: Re: [PATCH v9 2/4] pinctrl: pinmux: Add pinmux-select debugfs file
+To:     Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
+        Drew Fustini <drew@beagleboard.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Jason Kridner <jkridner@beagleboard.org>,
+        Robert Nelson <robertcnelson@beagleboard.org>,
+        Joe Perches <joe@perches.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hello,
+Hi Alexandre,
 
-On Sat, Mar 13, 2021 at 08:57:01AM -0800, Jacob Pan wrote:
-> Isn't PIDs controller doing the charge/uncharge? I was under the impression
-> that each resource can be independently charged/uncharged, why it affects
-> other resources? Sorry for the basic question.
+On Sat, Mar 13, 2021 at 10:28 AM Alexandre Belloni
+<alexandre.belloni@bootlin.com> wrote:
+> On 12/03/2021 14:57:54+0100, Enrico Weigelt, metux IT consult wrote:
+> > On 02.03.21 06:30, Drew Fustini wrote:
+> > > Add "pinmux-select" to debugfs which will activate a pin function for a
+> > > given pin group:
+> > >
+> > >    echo "<group-name function-name>" > pinmux-select
+> > >
+> > > The write operation pinmux_select() handles this by checking that the
+> > > names map to valid selectors and then calling ops->set_mux().
+> >
+> > I've already been playing with similar idea, but for external muxes.
+> > For example, some boards have multiple SIM slots that can be switched
+> > via some gpio pin.
+> >
+> > Not sure whether traditional pinmux would be a good match for that.
+>
+> If you want to be able to use both, then I guess gpio-mux is what you
+> are looking for. Obviously, it will also require support in the bus
+> core. On what bus are those SIMs? (I guess the answer will be UART and
+> then unfortunately UARTs are not represented as busses).
 
-Yeah, PID is an exception as we needed the initial migration to seed new
-cgroups and it gets really confusing with other ways to observe the
-processes - e.g. if you follow the original way of creating a cgroup,
-forking and then moving the seed process into the target cgroup, if we don't
-migrate the pid charge together, the numbers wouldn't agree and the seeder
-cgroup may end up running out of pids if there are any restrictions.
+We do have support for devices connected to UARTs.
+See patternProperties in Documentation/devicetree/bindings/serial/serial.yaml.
+Or do you mean something different?
 
-> I also didn't quite get the limitation on cgroup v2 migration, this is much
-> simpler than memcg. Could you give me some pointers?
+Gr{oetje,eeting}s,
 
-Migration itself doesn't have restrictions but all resources are distributed
-on the same hierarchy, so the controllers are supposed to follow the same
-conventions that can be implemented by all controllers.
-
-> BTW, since the IOASIDs are used to tag DMA and bound with guest process(mm)
-> for shared virtual addressing. fork() cannot be supported, so I guess clone
-> is not a solution here.
-
-Can you please elaborate what wouldn't work? The new spawning into a new
-cgroup w/ clone doesn't really change the usage model. It's just a neater
-way to seed a new cgroup. If you're saying that the overall usage model
-doesn't fit the needs of IOASIDs, it likely shouldn't be a cgroup
-controller.
-
-Thanks.
+                        Geert
 
 -- 
-tejun
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
