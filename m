@@ -2,106 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80F69C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 18:48:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2D12C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 19:50:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5695964ECC
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 18:48:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A66FF64EBE
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 19:50:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234261AbhCMSsL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 Mar 2021 13:48:11 -0500
-Received: from mail-vs1-f49.google.com ([209.85.217.49]:42223 "EHLO
-        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233635AbhCMSrg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 13:47:36 -0500
-Received: by mail-vs1-f49.google.com with SMTP id v123so14279236vsv.9;
-        Sat, 13 Mar 2021 10:47:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=V4OlbTaZsfRr8m4U6wSFd2NjZwjTvfpq70Z7sr9ivb8=;
-        b=TlkyQeb7WVUjXry9Dj1yNgMClsyO8BzfTsKdf7pYK+BAsShxPqzuQI0Z8imQXj6WAi
-         armIRNRNovz5Jsz+ss8fk2ZPSdIz27jl+bIPWsGSzpKi1zw8jtM8Wbu0AIJBoNOyib3j
-         8HEctNSwN0QWXp7dg/ggmC5JjoAIy/vIEsd2khk5QyzNwp5KXJR/ev8rFNr7Uz5KX+Qd
-         TrgTRtkQ+N1TFCQLriHRU/p11PuU64QHefSWxRDjxi4poN8OOWwH9nGy7nO4bued3vaT
-         0UehzwixhK2WHnaiVhxzb4WkK0ZT3IGVtV/XW1U3UDpYSvEqXx5hS4Vv/ilbtP0oHaKE
-         zu2w==
-X-Gm-Message-State: AOAM531XHze5ULFUQzflcwt50Z2EYFqR5dDM6PAQbx4747rIGT1t9Zv8
-        /JQv/XUhYZWbVWG4v/sEToOl8beDcZw9aftf0SY=
-X-Google-Smtp-Source: ABdhPJzwoWPysyHbwdlp9M+VJu77QpQG1me8NmKxbmEsPbO2YahFUoj0nXRcbp3PfDd1aIU7blraldCc9ki67Z807fM=
-X-Received: by 2002:a67:8883:: with SMTP id k125mr2019352vsd.18.1615661255965;
- Sat, 13 Mar 2021 10:47:35 -0800 (PST)
-MIME-Version: 1.0
-References: <20210302053059.1049035-1-drew@beagleboard.org>
- <20210302053059.1049035-3-drew@beagleboard.org> <349b09f8-fe99-d0d4-dd11-c288bf66cb4d@metux.net>
- <YEyFyQ0TF5u/WS9X@piout.net>
-In-Reply-To: <YEyFyQ0TF5u/WS9X@piout.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Sat, 13 Mar 2021 19:47:24 +0100
-Message-ID: <CAMuHMdWzEQAOgy7_e_6RcQjP6z0n9LQA6R2LBs1nXMZeAYywvQ@mail.gmail.com>
-Subject: Re: [PATCH v9 2/4] pinctrl: pinmux: Add pinmux-select debugfs file
-To:     Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>,
-        Drew Fustini <drew@beagleboard.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Jason Kridner <jkridner@beagleboard.org>,
-        Robert Nelson <robertcnelson@beagleboard.org>,
-        Joe Perches <joe@perches.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
+        id S234600AbhCMTto (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Mar 2021 14:49:44 -0500
+Received: from conuserg-11.nifty.com ([210.131.2.78]:40186 "EHLO
+        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234395AbhCMTt3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 14:49:29 -0500
+Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
+        by conuserg-11.nifty.com with ESMTP id 12DJmefB018162;
+        Sun, 14 Mar 2021 04:48:48 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 12DJmefB018162
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1615664928;
+        bh=cAMWYYhyZD8UJwLAsv+L4OvivNuJrDEaUet3BclM7Ho=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=GgPqxH8gmFo7WD7HYgnNSoTfKtd/bpav4RpnRk1Ww+Um/bWFy5MuzfbTrEtMQyhID
+         iAWmDd0Tcn2LYWYNIIGkEm8fyF4AyhzG7aiPZ2johkcSmwjp/fRpTJxUPyTq9Y5SLn
+         TQX+Itr8eJ9wVIDzp4XS5Lqywm36H0/kmDKEKzKs0Onv4XGC6IHNPsLmt7mpw/GaqL
+         b/zX6eyV92ETxzd2SGjJquQXfOjSRk7JPdLVgS1dXsQmkOOwziEJa0fEYQB+3Bqvna
+         c378AOVrAjum/hJf3n8eEMG7EyoI350GbAldBBu75Y4vtMvtg2UpmufovjTryBnLUv
+         M0gbbyqDXTNqQ==
+X-Nifty-SrcIP: [133.32.232.101]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     linux-kbuild@vger.kernel.org
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Content-Type: text/plain; charset="UTF-8"
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 12/13] kconfig: remove allnoconfig_y option
+Date:   Sun, 14 Mar 2021 04:48:35 +0900
+Message-Id: <20210313194836.372585-12-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210313194836.372585-1-masahiroy@kernel.org>
+References: <20210313194836.372585-1-masahiroy@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alexandre,
+Now that the only user CONFIG_EMBEDDED has stopped using this option,
+remove it entirely.
 
-On Sat, Mar 13, 2021 at 10:28 AM Alexandre Belloni
-<alexandre.belloni@bootlin.com> wrote:
-> On 12/03/2021 14:57:54+0100, Enrico Weigelt, metux IT consult wrote:
-> > On 02.03.21 06:30, Drew Fustini wrote:
-> > > Add "pinmux-select" to debugfs which will activate a pin function for a
-> > > given pin group:
-> > >
-> > >    echo "<group-name function-name>" > pinmux-select
-> > >
-> > > The write operation pinmux_select() handles this by checking that the
-> > > names map to valid selectors and then calling ops->set_mux().
-> >
-> > I've already been playing with similar idea, but for external muxes.
-> > For example, some boards have multiple SIM slots that can be switched
-> > via some gpio pin.
-> >
-> > Not sure whether traditional pinmux would be a good match for that.
->
-> If you want to be able to use both, then I guess gpio-mux is what you
-> are looking for. Obviously, it will also require support in the bus
-> core. On what bus are those SIMs? (I guess the answer will be UART and
-> then unfortunately UARTs are not represented as busses).
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
 
-We do have support for devices connected to UARTs.
-See patternProperties in Documentation/devicetree/bindings/serial/serial.yaml.
-Or do you mean something different?
+ Documentation/kbuild/kconfig-language.rst | 4 ----
+ scripts/kconfig/conf.c                    | 5 +----
+ scripts/kconfig/expr.h                    | 3 ---
+ scripts/kconfig/lexer.l                   | 1 -
+ scripts/kconfig/lkc.h                     | 1 -
+ scripts/kconfig/menu.c                    | 5 -----
+ scripts/kconfig/parser.y                  | 6 ------
+ 7 files changed, 1 insertion(+), 24 deletions(-)
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
+index 3cbccfc42798..4a796c601446 100644
+--- a/Documentation/kbuild/kconfig-language.rst
++++ b/Documentation/kbuild/kconfig-language.rst
+@@ -234,10 +234,6 @@ applicable everywhere (see syntax).
+     enables the third modular state for all config symbols.
+     At most one symbol may have the "modules" option set.
+ 
+-  - "allnoconfig_y"
+-    This declares the symbol as one that should have the value y when
+-    using "allnoconfig". Used for symbols that hide other symbols.
+-
+ Menu dependencies
+ -----------------
+ 
+diff --git a/scripts/kconfig/conf.c b/scripts/kconfig/conf.c
+index caad875da483..06901120a9ea 100644
+--- a/scripts/kconfig/conf.c
++++ b/scripts/kconfig/conf.c
+@@ -232,10 +232,7 @@ static bool conf_set_all_new_symbols(enum conf_def_mode mode)
+ 				sym->def[S_DEF_USER].tri = mod;
+ 				break;
+ 			case def_no:
+-				if (sym->flags & SYMBOL_ALLNOCONFIG_Y)
+-					sym->def[S_DEF_USER].tri = yes;
+-				else
+-					sym->def[S_DEF_USER].tri = no;
++				sym->def[S_DEF_USER].tri = no;
+ 				break;
+ 			case def_random:
+ 				sym->def[S_DEF_USER].tri = no;
+diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
+index dc17152b1f14..9c9caca5bd5f 100644
+--- a/scripts/kconfig/expr.h
++++ b/scripts/kconfig/expr.h
+@@ -156,9 +156,6 @@ struct symbol {
+ /* choice values need to be set before calculating this symbol value */
+ #define SYMBOL_NEED_SET_CHOICE_VALUES  0x100000
+ 
+-/* Set symbol to y if allnoconfig; used for symbols that hide others */
+-#define SYMBOL_ALLNOCONFIG_Y 0x200000
+-
+ #define SYMBOL_MAXLENGTH	256
+ #define SYMBOL_HASHSIZE		9973
+ 
+diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
+index e918950f94a6..08c96a6ffe05 100644
+--- a/scripts/kconfig/lexer.l
++++ b/scripts/kconfig/lexer.l
+@@ -91,7 +91,6 @@ n	[A-Za-z0-9_-]
+ [ \t]*			/* whitespaces */
+ \\\n			/* escaped new line */
+ \n			return T_EOL;
+-"allnoconfig_y"		return T_ALLNOCONFIG_Y;
+ "bool"			return T_BOOL;
+ "choice"		return T_CHOICE;
+ "comment"		return T_COMMENT;
+diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
+index 8d89a6275197..c1ab05f73ca2 100644
+--- a/scripts/kconfig/lkc.h
++++ b/scripts/kconfig/lkc.h
+@@ -106,7 +106,6 @@ struct property *menu_add_prompt(enum prop_type type, char *prompt, struct expr
+ void menu_add_expr(enum prop_type type, struct expr *expr, struct expr *dep);
+ void menu_add_symbol(enum prop_type type, struct symbol *sym, struct expr *dep);
+ void menu_add_option_modules(void);
+-void menu_add_option_allnoconfig_y(void);
+ void menu_finalize(struct menu *parent);
+ void menu_set_type(int type);
+ 
+diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
+index 5dcfc173da41..d50d0de55222 100644
+--- a/scripts/kconfig/menu.c
++++ b/scripts/kconfig/menu.c
+@@ -219,11 +219,6 @@ void menu_add_option_modules(void)
+ 	modules_sym = current_entry->sym;
+ }
+ 
+-void menu_add_option_allnoconfig_y(void)
+-{
+-	current_entry->sym->flags |= SYMBOL_ALLNOCONFIG_Y;
+-}
+-
+ static int menu_validate_number(struct symbol *sym, struct symbol *sym2)
+ {
+ 	return sym2->type == S_INT || sym2->type == S_HEX ||
+diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
+index f11d8382e9e6..2ada169c8b5d 100644
+--- a/scripts/kconfig/parser.y
++++ b/scripts/kconfig/parser.y
+@@ -45,7 +45,6 @@ static struct menu *current_menu, *current_entry;
+ %token <string> T_HELPTEXT
+ %token <string> T_WORD
+ %token <string> T_WORD_QUOTE
+-%token T_ALLNOCONFIG_Y
+ %token T_BOOL
+ %token T_CHOICE
+ %token T_CLOSE_PAREN
+@@ -222,11 +221,6 @@ config_option: T_OPTION T_MODULES T_EOL
+ 	menu_add_option_modules();
+ };
+ 
+-config_option: T_OPTION T_ALLNOCONFIG_Y T_EOL
+-{
+-	menu_add_option_allnoconfig_y();
+-};
+-
+ /* choice entry */
+ 
+ choice: T_CHOICE word_opt T_EOL
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.27.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
