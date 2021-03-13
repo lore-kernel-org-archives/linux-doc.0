@@ -2,107 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68118C4332B
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 10:25:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5611EC433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 10:45:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3957164F18
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 10:25:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 244CD64F21
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 10:45:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233217AbhCMKV7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 Mar 2021 05:21:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33148 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230349AbhCMKVo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 05:21:44 -0500
-Received: from mail-qk1-x730.google.com (mail-qk1-x730.google.com [IPv6:2607:f8b0:4864:20::730])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C84BC061574;
-        Sat, 13 Mar 2021 02:21:44 -0800 (PST)
-Received: by mail-qk1-x730.google.com with SMTP id b130so26989772qkc.10;
-        Sat, 13 Mar 2021 02:21:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=UpX1Lg+mq54WtiAhrwBDWXYDPmqQUSFtcUwtNY+v8RQ=;
-        b=FS0YqOTWPrsR8T8rB+TOtNMqfIpKjZbMujx1QpqRgZjz+StMzp0ESXTxK/LGZVIOsP
-         9J/ID9iq3J8fZXg6Zvd+AZeFr0D4YkkTPs8aOslYrPBSny6+99XB8x6oEohV8QVCe77t
-         cUb0BW4BeNSoNY+qqwndaQGB63Hxq/SUFNI/zOzGmYw9u8iUbebYf6K0V012N05CS6MU
-         HkIJs4hs3gGUSxMlZ1Fh6L2Gc3+begGLpY1xDxOeF1bLTazwfYrTo9ed3PR2AFrzSZHL
-         aUwrIpg9owREHwMHERhVCTJp9HrkZ26YA1xMQIDqfyU3uRlaMJYeB8puRxRmsdcEjhCI
-         OInA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=UpX1Lg+mq54WtiAhrwBDWXYDPmqQUSFtcUwtNY+v8RQ=;
-        b=TOs1rCxAk0veONv7kDC8O8wkAHQ/H7ZrnYpgYkq3nH+sYywMkdUlAd6Duw3fGFDmPh
-         /GNOtRjj+IktzIIg2G6TLl5rNbIHDYtAfpMukwKNzhNtwor6P6pntTZBZolsV2A6XVaN
-         UrEwsVInrEDCsmSo6G3PwW2+o5FYeIojQ48qwsQPfLt0obeMIlAG0/XBezMiClCPeHdC
-         uRxnZuhoqdYvAcwPH/apZNO3AsBtjqdVuKaYsYaDY41GNUCswBbKR7Dy03mQgqGwfLzt
-         jsJ5jRMaTDZRpZmeckDxhVII8/VDBoSasGZKRSGCIN66vv2a8+67ncUK+Febt56qMY+5
-         QFPw==
-X-Gm-Message-State: AOAM533A001jVMpWQPPx+pyTE7DGUcWHm+p3TPj28SyPvFeRWRvnZkCT
-        ohW7Ciug+1D3w+KfkbYfXTE=
-X-Google-Smtp-Source: ABdhPJzvrDsFGZRbsgl4wu3pGJt4hqTE0dedEbZoaS2lE81Ko30AmIDxkFn/Hgy8XduDR4fInx5ipQ==
-X-Received: by 2002:a37:6348:: with SMTP id x69mr16074698qkb.154.1615630903056;
-        Sat, 13 Mar 2021 02:21:43 -0800 (PST)
-Received: from localhost ([2620:10d:c091:480::1:26b6])
-        by smtp.gmail.com with ESMTPSA id r125sm6279413qkf.132.2021.03.13.02.21.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Mar 2021 02:21:42 -0800 (PST)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Sat, 13 Mar 2021 05:20:39 -0500
-From:   Tejun Heo <tj@kernel.org>
-To:     Jacob Pan <jacob.jun.pan@intel.com>
-Cc:     Vipin Sharma <vipinsh@google.com>, mkoutny@suse.com,
-        rdunlap@infradead.org, thomas.lendacky@amd.com,
-        brijesh.singh@amd.com, jon.grimm@amd.com, eric.vantassell@amd.com,
-        pbonzini@redhat.com, hannes@cmpxchg.org, frankja@linux.ibm.com,
-        borntraeger@de.ibm.com, corbet@lwn.net, seanjc@google.com,
-        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
-        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, gingell@google.com,
-        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, "Tian, Kevin" <kevin.tian@intel.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        "jean-philippe@linaro.org" <jean-philippe@linaro.org>
-Subject: Re: [RFC v2 2/2] cgroup: sev: Miscellaneous cgroup documentation.
-Message-ID: <YEyR9181Qgzt+Ps9@mtj.duckdns.org>
-References: <20210302081705.1990283-1-vipinsh@google.com>
- <20210302081705.1990283-3-vipinsh@google.com>
- <20210303185513.27e18fce@jacob-builder>
- <YEB8i6Chq4K/GGF6@google.com>
- <YECfhCJtHUL9cB2L@slm.duckdns.org>
- <20210312125821.22d9bfca@jacob-builder>
- <YEvZ4muXqiSScQ8i@google.com>
- <20210312145904.4071a9d6@jacob-builder>
+        id S230380AbhCMKpV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Mar 2021 05:45:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41850 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233155AbhCMKpV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 13 Mar 2021 05:45:21 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1B10564F1B;
+        Sat, 13 Mar 2021 10:45:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615632320;
+        bh=Uhy5dEacUbBiUn386NQTz78v2sd2V04Ad12yd4wbvEU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ay6p0+ZYtwNhEep6crBrqspBKNqkh0R9ePYUUtSgJ0efW6xUMKbuV8OacPEQsDkri
+         BGLK8OMxihBxTZcsRZTgoyIxB/6v0oWjK+wiSsZ3hL0BJMnGnR6azUP9rZYSwv9L4m
+         Ho6volvT38PYrLAFj+mqc0ODICyuKXo+zSadMS04F0CRUB8XBnkO5vboCLB2i00hCp
+         RtuTx2Ppus8u7VYor+EGBOC9svjuC9KZKxcsMi0xRKQofkVtMwKoeqPOVNinDVnnCp
+         pXzTVWazbBSKI4L6rf6ZR9GVd34/f0dZVSjcloa6uB7cD81woJ/17telQJjEU/atF7
+         bAgIGf8ISYd4Q==
+Date:   Sat, 13 Mar 2021 12:44:55 +0200
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     James Bottomley <jejb@linux.ibm.com>
+Cc:     Sumit Garg <sumit.garg@linaro.org>,
+        Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        David Howells <dhowells@redhat.com>,
+        Jens Wiklander <jens.wiklander@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        Janne Karhunen <janne.karhunen@gmail.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Markus Wamser <Markus.Wamser@mixed-mode.de>,
+        Luke Hinds <lhinds@redhat.com>,
+        Elaine Palmer <erpalmer@us.ibm.com>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        "open list:ASYMMETRIC KEYS" <keyrings@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        "open list:SECURITY SUBSYSTEM" 
+        <linux-security-module@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        op-tee@lists.trustedfirmware.org
+Subject: Re: [PATCH v9 0/4] Introduce TEE based Trusted Keys support
+Message-ID: <YEyXpwilJq8DR7vI@kernel.org>
+References: <20210301131127.793707-1-sumit.garg@linaro.org>
+ <CAFA6WYO4HHhtymaUzmkuaCZybTAWBQ=4K9Dez1pe1kqo3AJhuA@mail.gmail.com>
+ <YEEANW+khw3nJtcQ@kernel.org>
+ <CAFA6WYOxsYin8wBB_yU=S-bnqM-g5TFnTU_KXxc3wSBfx_N_6A@mail.gmail.com>
+ <YEkkXbWrYBTcGXEd@kernel.org>
+ <9aa3173ab46b0aa7edb8146ffd3df05c1f74207e.camel@linux.ibm.com>
+ <YEuWTet0wr5DuDy/@kernel.org>
+ <5dfe8f6b5f25cc38c8410b849aaef2c3dbed7f65.camel@linux.ibm.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210312145904.4071a9d6@jacob-builder>
+In-Reply-To: <5dfe8f6b5f25cc38c8410b849aaef2c3dbed7f65.camel@linux.ibm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 12, 2021 at 02:59:04PM -0800, Jacob Pan wrote:
-> Our primary goal is to limit the amount of IOASIDs that VMs can allocate.
-> If a VM is migrated to a different cgroup, I think we need to
-> charge/uncharge the destination/source cgroup in order enforce the limit. I
-> am not an expert here, any feedback would be appreciated.
+On Fri, Mar 12, 2021 at 08:30:36AM -0800, James Bottomley wrote:
+> On Fri, 2021-03-12 at 18:26 +0200, Jarkko Sakkinen wrote:
+> > On Wed, Mar 10, 2021 at 02:26:27PM -0800, James Bottomley wrote:
+> > > On Wed, 2021-03-10 at 21:56 +0200, Jarkko Sakkinen wrote:
+> > > [...]
+> > > > I also need to apply 
+> > > > 
+> > > > https://lore.kernel.org/linux-integrity/20210127190617.17564-1-James.Bottomley@HansenPartnership.com/
+> > > > 
+> > > > and I would like to do both while I'm at it.
+> > > > 
+> > > > James, there was one patch that needed fixing but I cannot find
+> > > > lore.kernel.org link. Can you point me to that so that we
+> > > > can proceed?
+> > > 
+> > > I think you mean this one observing a missing space in the commit
+> > > message:
+> > > 
+> > > https://lore.kernel.org/keyrings/1327393.1612972717@warthog.procyon.org.uk/
+> > > 
+> > > James
+> > 
+> > Makefile needed fixing (separate lines), and spaces where missing
+> > between
+> > commas in one file (checkpatch complained).
+> > 
+> > I digged a version from my reflog but as I noted privately it's
+> > missing one
+> > file.
+> > 
+> > Either provide that file or send a new version of the full patch set.
+> 
+> This is the file that got lost
+> 
+> James
+> 
 
-That simply isn't a supported usage model. None of other resources will get
-tracked if you do that.
+> ---
+> --- ASN.1 for TPM 2.0 keys
+> ---
+> 
+> TPMKey ::= SEQUENCE {
+> 	type		OBJECT IDENTIFIER ({tpm2_key_type}),
+> 	emptyAuth	[0] EXPLICIT BOOLEAN OPTIONAL,
+> 	parent		INTEGER ({tpm2_key_parent}),
+> 	pubkey		OCTET STRING ({tpm2_key_pub}),
+> 	privkey		OCTET STRING ({tpm2_key_priv})
+> 	}
 
-Thanks.
+Thanks, NP, I amended the commit.
 
--- 
-tejun
+/Jarkko
+
+
+/Jarkko
