@@ -2,92 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 396AAC433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 06:52:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E23ABC433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 08:24:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7D3964F1E
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 06:52:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BBDEF64F1D
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 08:24:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230380AbhCMGvs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 Mar 2021 01:51:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44696 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233205AbhCMGvd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 01:51:33 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1234::107])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67068C061574;
-        Fri, 12 Mar 2021 22:51:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=TwM+34ovqWzke2UroJ5Fb4rXHMkhYWeBFaPdq+c3MEY=; b=vAla+2hs9fXA6ziQtEpcwEIPBP
-        pAudnvS3kBR/tnbbsZlXTGQtJPjNZ58YTLej24+Rl4N3lxEGjreB0FeKLGRb/bReWrO/syCYj+UTm
-        6SN2qU5tl9rt4Z+aHj8s218mP4GwkxQ1c6xfXGKJdIFNW/rDw7OhV68sELuQP9/ozjVkR3BAwlhOs
-        K4yak9IhNu6sX10SXvZJ+sN5TQcaOWMsBE+fTecMdSFGvGo9eG1PtsBIjaFQD2u1VFVK5gZ5XNwe4
-        Y8Gz126N4sylodBm4SCwSFGfKjlv8BVzTBUtj335Y8W4iEYQ3wU3YEPEQvZe4lh+WX9E7e6+TRtUe
-        nhnIOr+g==;
-Received: from [2601:1c0:6280:3f0::9757]
-        by merlin.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lKy7O-0017jJ-8z; Sat, 13 Mar 2021 06:51:29 +0000
-Subject: Re: [PATCH] docs: admin-guide: cgroup-v1: Fix typos in the file
- memory.rst
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, tj@kernel.org,
-        lizefan@huawei.com, hannes@cmpxchg.org, corbet@lwn.net,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210313061029.28024-1-unixbhaskar@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <f3a59b47-5706-4da9-f6f6-b325b2edd289@infradead.org>
-Date:   Fri, 12 Mar 2021 22:51:18 -0800
+        id S233156AbhCMIYI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Mar 2021 03:24:08 -0500
+Received: from relay12.mail.gandi.net ([217.70.178.232]:33515 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232999AbhCMIXv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 03:23:51 -0500
+Received: from [192.168.1.100] (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
+        (Authenticated sender: alex@ghiti.fr)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 24807200003;
+        Sat, 13 Mar 2021 08:23:44 +0000 (UTC)
+Subject: Re: [PATCH 2/3] Documentation: riscv: Add documentation that
+ describes the VM layout
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+References: <20210225080453.1314-1-alex@ghiti.fr>
+ <20210225080453.1314-3-alex@ghiti.fr>
+ <5279e97c-3841-717c-2a16-c249a61573f9@redhat.com>
+ <7d9036d9-488b-47cc-4673-1b10c11baad0@ghiti.fr>
+ <CAK8P3a3mVDwJG6k7PZEKkteszujP06cJf8Zqhq43F0rNsU=h4g@mail.gmail.com>
+ <236a9788-8093-9876-a024-b0ad0d672c72@ghiti.fr>
+ <CAK8P3a1+vSoEBqHPzj9S07B7h-Xuwvccpsh1pnn+1xJmS3UdbA@mail.gmail.com>
+From:   Alex Ghiti <alex@ghiti.fr>
+Message-ID: <50109729-9a86-6b49-b608-dd5c8eb2d88e@ghiti.fr>
+Date:   Sat, 13 Mar 2021 03:23:44 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210313061029.28024-1-unixbhaskar@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CAK8P3a1+vSoEBqHPzj9S07B7h-Xuwvccpsh1pnn+1xJmS3UdbA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/12/21 10:10 PM, Bhaskar Chowdhury wrote:
+Hi Arnd,
+
+Le 3/11/21 à 3:42 AM, Arnd Bergmann a écrit :
+> On Wed, Mar 10, 2021 at 8:12 PM Alex Ghiti <alex@ghiti.fr> wrote:
+>> Le 3/10/21 à 6:42 AM, Arnd Bergmann a écrit :
+>>> On Thu, Feb 25, 2021 at 12:56 PM Alex Ghiti <alex@ghiti.fr> wrote:
+>>>>
+>>>> Le 2/25/21 à 5:34 AM, David Hildenbrand a écrit :
+>>>>>                     |            |                  |         |> +
+>>>>> ffffffc000000000 | -256    GB | ffffffc7ffffffff |   32 GB | kasan
+>>>>>> +   ffffffcefee00000 | -196    GB | ffffffcefeffffff |    2 MB | fixmap
+>>>>>> +   ffffffceff000000 | -196    GB | ffffffceffffffff |   16 MB | PCI io
+>>>>>> +   ffffffcf00000000 | -196    GB | ffffffcfffffffff |    4 GB | vmemmap
+>>>>>> +   ffffffd000000000 | -192    GB | ffffffdfffffffff |   64 GB |
+>>>>>> vmalloc/ioremap space
+>>>>>> +   ffffffe000000000 | -128    GB | ffffffff7fffffff |  126 GB |
+>>>>>> direct mapping of all physical memory
+>>>>>
+>>>>> ^ So you could never ever have more than 126 GB, correct?
+>>>>>
+>>>>> I assume that's nothing new.
+>>>>>
+>>>>
+>>>> Before this patch, the limit was 128GB, so in my sense, there is nothing
+>>>> new. If ever we want to increase that limit, we'll just have to lower
+>>>> PAGE_OFFSET, there is still some unused virtual addresses after kasan
+>>>> for example.
+>>>
+>>> Linus Walleij is looking into changing the arm32 code to have the kernel
+>>> direct map inside of the vmalloc area, which would be another place
+>>> that you could use here. It would be nice to not have too many different
+>>> ways of doing this, but I'm not sure how hard it would be to rework your
+>>> code, or if there are any downsides of doing this.
+>>
+>> This was what my previous version did: https://lkml.org/lkml/2020/6/7/28.
+>>
+>> This approach was not welcomed very well and it fixed only the problem
+>> of the implementation of relocatable kernel. The second issue I'm trying
+>> to resolve here is to support both 3 and 4 level page tables using the
+>> same kernel without being relocatable (which would introduce performance
+>> penalty). I can't do it when the kernel mapping is in the vmalloc region
+>> since vmalloc region relies on PAGE_OFFSET which is different on both 3
+>> and 4 level page table and that would then require the kernel to be
+>> relocatable.
 > 
-> s/overcommited/overcommitted/
-> s/Overcommiting/Overcommitting/
+> Ok, I see.
 > 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-
-> ---
->  Documentation/admin-guide/cgroup-v1/memory.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> I suppose it might work if you moved the direct-map to the lowest
+> address and the vmalloc area (incorporating the kernel mapping,
+> modules, pio, and fixmap at fixed addresses) to the very top of the
+> address space, but you probably already considered and rejected
+> that for other reasons.
 > 
-> diff --git a/Documentation/admin-guide/cgroup-v1/memory.rst b/Documentation/admin-guide/cgroup-v1/memory.rst
-> index 52688ae34461..0d574fd3f8e3 100644
-> --- a/Documentation/admin-guide/cgroup-v1/memory.rst
-> +++ b/Documentation/admin-guide/cgroup-v1/memory.rst
-> @@ -360,8 +360,8 @@ U != 0, K = unlimited:
+
+Yes I considered it...when you re-proposed it :) I'm not opposed to your 
+solution in the vmalloc region but I can't find any advantage over the 
+current solution, are there ? That would harmonize with Linus's work, 
+but then we'd be quite different from x86 address space.
+
+And by the way, thanks for having suggested the current solution in a 
+previous conversation :)
+
+Thanks again,
+
+Alex
+
+>           Arnd
 > 
->  U != 0, K < U:
->      Kernel memory is a subset of the user memory. This setup is useful in
-> -    deployments where the total amount of memory per-cgroup is overcommited.
-> -    Overcommiting kernel memory limits is definitely not recommended, since the
-> +    deployments where the total amount of memory per-cgroup is overcommitted.
-> +    Overcommitting kernel memory limits is definitely not recommended, since the
->      box can still run out of non-reclaimable memory.
->      In this case, the admin could set up K so that the sum of all groups is
->      never greater than the total memory, and freely set U at the cost of his
-> --
-
-
--- 
-~Randy
-
