@@ -2,83 +2,148 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37DD9C433DB
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 09:29:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6471C433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 09:48:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 12ECA64F1F
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 09:29:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 68E5D64F1F
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 09:48:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233356AbhCMJ25 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 Mar 2021 04:28:57 -0500
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:49245 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233298AbhCMJ2p (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 04:28:45 -0500
-X-Originating-IP: 90.65.108.55
-Received: from localhost (lfbn-lyo-1-1676-55.w90-65.abo.wanadoo.fr [90.65.108.55])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 3D80460004;
-        Sat, 13 Mar 2021 09:28:42 +0000 (UTC)
-Date:   Sat, 13 Mar 2021 10:28:41 +0100
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Cc:     Drew Fustini <drew@beagleboard.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tony Lindgren <tony@atomide.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Jason Kridner <jkridner@beagleboard.org>,
-        Robert Nelson <robertcnelson@beagleboard.org>,
-        Joe Perches <joe@perches.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: Re: [PATCH v9 2/4] pinctrl: pinmux: Add pinmux-select debugfs file
-Message-ID: <YEyFyQ0TF5u/WS9X@piout.net>
-References: <20210302053059.1049035-1-drew@beagleboard.org>
- <20210302053059.1049035-3-drew@beagleboard.org>
- <349b09f8-fe99-d0d4-dd11-c288bf66cb4d@metux.net>
+        id S231392AbhCMJrz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Mar 2021 04:47:55 -0500
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:59717 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230309AbhCMJrd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 04:47:33 -0500
+Received: from relay13.mail.gandi.net (unknown [217.70.178.233])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 6C77B3A943C;
+        Sat, 13 Mar 2021 09:27:44 +0000 (UTC)
+Received: from debian.home (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
+        (Authenticated sender: alex@ghiti.fr)
+        by relay13.mail.gandi.net (Postfix) with ESMTPSA id 14B0980004;
+        Sat, 13 Mar 2021 09:27:20 +0000 (UTC)
+From:   Alexandre Ghiti <alex@ghiti.fr>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org
+Cc:     Alexandre Ghiti <alex@ghiti.fr>
+Subject: [PATCH v2 2/3] Documentation: riscv: Add documentation that describes the VM layout
+Date:   Sat, 13 Mar 2021 04:25:08 -0500
+Message-Id: <20210313092509.4918-3-alex@ghiti.fr>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210313092509.4918-1-alex@ghiti.fr>
+References: <20210313092509.4918-1-alex@ghiti.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <349b09f8-fe99-d0d4-dd11-c288bf66cb4d@metux.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 12/03/2021 14:57:54+0100, Enrico Weigelt, metux IT consult wrote:
-> On 02.03.21 06:30, Drew Fustini wrote:
-> 
-> Hi folks,
-> 
-> > Add "pinmux-select" to debugfs which will activate a pin function for a
-> > given pin group:
-> > 
-> >    echo "<group-name function-name>" > pinmux-select
-> > 
-> > The write operation pinmux_select() handles this by checking that the
-> > names map to valid selectors and then calling ops->set_mux().
-> 
-> I've already been playing with similar idea, but for external muxes.
-> For example, some boards have multiple SIM slots that can be switched
-> via some gpio pin.
-> 
-> Not sure whether traditional pinmux would be a good match for that.
-> 
+This new document presents the RISC-V virtual memory layout and is based
+one the x86 one: it describes the different limits of the different regions
+of the virtual address space.
 
-If you want to be able to use both, then I guess gpio-mux is what you
-are looking for. Obviously, it will also require support in the bus
-core. On what bus are those SIMs? (I guess the answer will be UART and
-then unfortunately UARTs are not represented as busses).
+Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+---
+ Documentation/riscv/index.rst     |  1 +
+ Documentation/riscv/vm-layout.rst | 63 +++++++++++++++++++++++++++++++
+ 2 files changed, 64 insertions(+)
+ create mode 100644 Documentation/riscv/vm-layout.rst
 
-
+diff --git a/Documentation/riscv/index.rst b/Documentation/riscv/index.rst
+index 6e6e39482502..ea915c196048 100644
+--- a/Documentation/riscv/index.rst
++++ b/Documentation/riscv/index.rst
+@@ -6,6 +6,7 @@ RISC-V architecture
+     :maxdepth: 1
+ 
+     boot-image-header
++    vm-layout
+     pmu
+     patch-acceptance
+ 
+diff --git a/Documentation/riscv/vm-layout.rst b/Documentation/riscv/vm-layout.rst
+new file mode 100644
+index 000000000000..329d32098af4
+--- /dev/null
++++ b/Documentation/riscv/vm-layout.rst
+@@ -0,0 +1,63 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=====================================
++Virtual Memory Layout on RISC-V Linux
++=====================================
++
++:Author: Alexandre Ghiti <alex@ghiti.fr>
++:Date: 12 February 2021
++
++This document describes the virtual memory layout used by the RISC-V Linux
++Kernel.
++
++RISC-V Linux Kernel 32bit
++=========================
++
++RISC-V Linux Kernel SV32
++------------------------
++
++TODO
++
++RISC-V Linux Kernel 64bit
++=========================
++
++The RISC-V privileged architecture document states that the 64bit addresses
++"must have bits 63–48 all equal to bit 47, or else a page-fault exception will
++occur.": that splits the virtual address space into 2 halves separated by a very
++big hole, the lower half is where the userspace resides, the upper half is where
++the RISC-V Linux Kernel resides.
++
++RISC-V Linux Kernel SV39
++------------------------
++
++::
++
++  ========================================================================================================================
++      Start addr    |   Offset   |     End addr     |  Size   | VM area description
++  ========================================================================================================================
++                    |            |                  |         |
++   0000000000000000 |    0       | 0000003fffffffff |  256 GB | user-space virtual memory, different per mm
++  __________________|____________|__________________|_________|___________________________________________________________
++                    |            |                  |         |
++   0000004000000000 | +256    GB | ffffffbfffffffff | ~16M TB | ... huge, almost 64 bits wide hole of non-canonical
++                    |            |                  |         |     virtual memory addresses up to the -256 GB
++                    |            |                  |         |     starting offset of kernel mappings.
++  __________________|____________|__________________|_________|___________________________________________________________
++                                                              |
++                                                              | Kernel-space virtual memory, shared between all processes:
++  ____________________________________________________________|___________________________________________________________
++                    |            |                  |         |
++   ffffffc000000000 | -256    GB | ffffffc7ffffffff |   32 GB | kasan
++   ffffffcefee00000 | -196    GB | ffffffcefeffffff |    2 MB | fixmap
++   ffffffceff000000 | -196    GB | ffffffceffffffff |   16 MB | PCI io
++   ffffffcf00000000 | -196    GB | ffffffcfffffffff |    4 GB | vmemmap
++   ffffffd000000000 | -192    GB | ffffffdfffffffff |   64 GB | vmalloc/ioremap space
++   ffffffe000000000 | -128    GB | ffffffff7fffffff |  124 GB | direct mapping of all physical memory
++  __________________|____________|__________________|_________|____________________________________________________________
++                                                              |
++                                                              |
++  ____________________________________________________________|____________________________________________________________
++                    |            |                  |         |
++   ffffffff00000000 |   -4    GB | ffffffff7fffffff |    2 GB | modules
++   ffffffff80000000 |   -2    GB | ffffffffffffffff |    2 GB | kernel, BPF
++  __________________|____________|__________________|_________|____________________________________________________________
 -- 
-Alexandre Belloni, co-owner and COO, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.20.1
+
