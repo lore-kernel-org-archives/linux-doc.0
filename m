@@ -2,337 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0343C433DB
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 19:50:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1934C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 22:37:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ADC2364EC3
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 19:50:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A174364ECB
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 22:37:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233635AbhCMTuP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 Mar 2021 14:50:15 -0500
-Received: from conuserg-11.nifty.com ([210.131.2.78]:40811 "EHLO
-        conuserg-11.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234451AbhCMTuH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 14:50:07 -0500
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-11.nifty.com with ESMTP id 12DJmef8018162;
-        Sun, 14 Mar 2021 04:48:45 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-11.nifty.com 12DJmef8018162
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615664926;
-        bh=4h4gGA260dypAY3vrg3/RB5Y4ctghhyfHpP04GDrqFY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=PT/QrLH1x/v0uAA481BuRaIZ7NxJc2er3ul4NpPj99GaerU7fzQgpMdgLHGPGr17X
-         adQikAJbR37RbeRqXajYagc3hJVEx1bju8qA7OGHHLQP7KWfegw8D6F9NdYMlVMQee
-         ydRMkqInRcDQeRmPWw9aFLQ795IcGKeox616knnvOikxa2ZzYUZhfvOvbHaVRClVmS
-         8X01GTRUAx9uxVJ9MBlXr+RtFfEyfvLyeCdwPHnYlzzIzsU/4J5xrMVf22dGWy+6AQ
-         OvJX71s7mnD30SCLbgIxmRgyndKkOCgr2xFBeOEiWgcQ/uTXGM4sOIZrzZ3Aaz8ekZ
-         +4S14aLJEc7PA==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        David Howells <dhowells@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        KP Singh <kpsingh@google.com>,
-        Kees Cook <keescook@chromium.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nick Terrell <terrelln@fb.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Vlastimil Babka <vbabka@suse.cz>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 09/13] kconfig: change defconfig_list option to environment variable
-Date:   Sun, 14 Mar 2021 04:48:32 +0900
-Message-Id: <20210313194836.372585-9-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20210313194836.372585-1-masahiroy@kernel.org>
-References: <20210313194836.372585-1-masahiroy@kernel.org>
+        id S234771AbhCMWfX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Mar 2021 17:35:23 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:54831 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234735AbhCMWfT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 17:35:19 -0500
+Received: from mail-ot1-f44.google.com ([209.85.210.44]) by
+ mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
+ id 1MnqbU-1m61rL1EV8-00pL7m; Sat, 13 Mar 2021 23:35:17 +0100
+Received: by mail-ot1-f44.google.com with SMTP id h6-20020a0568300346b02901b71a850ab4so3304081ote.6;
+        Sat, 13 Mar 2021 14:35:16 -0800 (PST)
+X-Gm-Message-State: AOAM533WI9i5zO7Xh7Al8BdWsD+1YmOGiCE2rbhSTxMrGSvBndYGMNcF
+        W7ChQaG+G50w8gF5+vJX6CHqFgkJRoWQZVZPk1o=
+X-Google-Smtp-Source: ABdhPJy1hCZSOZgjWjUIiV7y81YWmhIh+++bR5CYo5jf0Rk/VdQv1W4rLs5PJp++TQ7iq07uGhi7ibXsnePfk6JNHFs=
+X-Received: by 2002:a05:6830:148c:: with SMTP id s12mr8850529otq.251.1615674915810;
+ Sat, 13 Mar 2021 14:35:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210225080453.1314-1-alex@ghiti.fr> <20210225080453.1314-3-alex@ghiti.fr>
+ <5279e97c-3841-717c-2a16-c249a61573f9@redhat.com> <7d9036d9-488b-47cc-4673-1b10c11baad0@ghiti.fr>
+ <CAK8P3a3mVDwJG6k7PZEKkteszujP06cJf8Zqhq43F0rNsU=h4g@mail.gmail.com>
+ <236a9788-8093-9876-a024-b0ad0d672c72@ghiti.fr> <CAK8P3a1+vSoEBqHPzj9S07B7h-Xuwvccpsh1pnn+1xJmS3UdbA@mail.gmail.com>
+ <50109729-9a86-6b49-b608-dd5c8eb2d88e@ghiti.fr>
+In-Reply-To: <50109729-9a86-6b49-b608-dd5c8eb2d88e@ghiti.fr>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Sat, 13 Mar 2021 23:34:59 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a1Nh4KUD85Fg_vFHf2fLMOqZThBgzyduLgfEtjGf-pm4g@mail.gmail.com>
+Message-ID: <CAK8P3a1Nh4KUD85Fg_vFHf2fLMOqZThBgzyduLgfEtjGf-pm4g@mail.gmail.com>
+Subject: Re: [PATCH 2/3] Documentation: riscv: Add documentation that
+ describes the VM layout
+To:     Alexandre Ghiti <alex@ghiti.fr>
+Cc:     David Hildenbrand <david@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-riscv <linux-riscv@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        Linus Walleij <linus.walleij@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:V+OHT2A8p0Alfk/QhAkFqphd5ZJSQR+7XtNqCvKUrqFy2NdWyll
+ 1qyVMptACR8kGCItDWu42EsGarUVRu8pIE0ZnUB5cSZvEkKQqFXcnrKz134USgs+viQbWKJ
+ mMi0e7LRvnelcW0IYeLDMb0vWcJDxKzl5IxVCwaUT3kvkekMBcgcAAIwpQVPjAEjUPtfeCN
+ XO18VFbP/Qi3B4xjXJa3g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+AUsDVhfPHQ=:49MT2eZT6ouNXqMnB8iHch
+ g6HuERmaOBO5ydi+3dCNx8RQZ/gtCCjBIXcSLuh4Ce9kslxhjrtn7kWiGfdQBY2S+/0PU77jz
+ HUyzKdvaHO9onY7RR3/lZtnqZgu+TMuzlzeIRDPy7JPGli5wpvJa3VF9CD0awg6kfa3GFJjBp
+ EQ//N4tkMTnvVxLBKyleHspaeFxLgmKcmbJr8fzAzOEnyJ6W/nbIIJ3+6WWQZmwWXFb+StVSf
+ krVUQVWBicfTwN6Kj9dL2nT2+GPjhCs3zDN1QtV0WAsVLQfHdSpxtFcyxdM2F7qMowRuoFtb3
+ rWq+T5rEwu4DaqTXzroO4n+ry75VL9VjRYzpqFEf58teCKhA4tauHy4lcXvyfERJSjDDsf8BJ
+ EG/mGZ6VYcmmbfhSDC0sX+/cTKhydnk811OBHTPPV9vH91YEmJJB9S+Grs09LDprdRoT/AqU8
+ +Bg9hvkoYsoTHdValZBTyIluWUwUKD9+TU9l2zxWqO3Fz2lx0fjd5TTKJ4ZOOrm8koJuag95D
+ PC1JQsD+MPB0HGDnDcu/po2UnUmIWhvYgX8xZSm0/ujvUnsHnZOr96/JToFOHAKHA==
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"defconfig_list" is a weird option that defines static symbol that
-declares the list of base config files in case the .config does not
-exist yet.
+On Sat, Mar 13, 2021 at 9:23 AM Alex Ghiti <alex@ghiti.fr> wrote:
+>
+> Yes I considered it...when you re-proposed it :) I'm not opposed to your
+> solution in the vmalloc region but I can't find any advantage over the
+> current solution, are there ? That would harmonize with Linus's work,
+> but then we'd be quite different from x86 address space.
+>
+> And by the way, thanks for having suggested the current solution in a
+> previous conversation :)
 
-This is quite different from other normal symbols; we just abused the
-"string" type and the "default" properties to list out the input files.
-They must be fixed values since these are searched for and loaded in
-the parse stage.
+Ah, I really need to keep track better of what I already commented on...
 
-It is an ugly hack, and should not exist in the first place. Providing
-this features as an environment variable is a saner approach.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- Documentation/kbuild/kconfig-language.rst |  5 ---
- Documentation/kbuild/kconfig.rst          |  8 +++++
- init/Kconfig                              |  9 ------
- scripts/kconfig/Makefile                  | 10 ++++++
- scripts/kconfig/confdata.c                | 38 +++++++++++++++++------
- scripts/kconfig/expr.h                    |  1 -
- scripts/kconfig/lexer.l                   |  1 -
- scripts/kconfig/lkc.h                     |  1 -
- scripts/kconfig/menu.c                    |  9 ------
- scripts/kconfig/parser.y                  |  6 ----
- scripts/kconfig/symbol.c                  |  1 -
- scripts/kconfig/tests/conftest.py         |  4 +++
- 12 files changed, 50 insertions(+), 43 deletions(-)
-
-diff --git a/Documentation/kbuild/kconfig-language.rst b/Documentation/kbuild/kconfig-language.rst
-index 226ae072da7d..3cbccfc42798 100644
---- a/Documentation/kbuild/kconfig-language.rst
-+++ b/Documentation/kbuild/kconfig-language.rst
-@@ -229,11 +229,6 @@ applicable everywhere (see syntax).
-   which can modify the behaviour of the menu entry and its config
-   symbol. These options are currently possible:
- 
--  - "defconfig_list"
--    This declares a list of default entries which can be used when
--    looking for the default configuration (which is used when the main
--    .config doesn't exists yet.)
--
-   - "modules"
-     This declares the symbol to be used as the MODULES symbol, which
-     enables the third modular state for all config symbols.
-diff --git a/Documentation/kbuild/kconfig.rst b/Documentation/kbuild/kconfig.rst
-index dce6801d66c9..5967c79c3baa 100644
---- a/Documentation/kbuild/kconfig.rst
-+++ b/Documentation/kbuild/kconfig.rst
-@@ -41,6 +41,14 @@ KCONFIG_CONFIG
- This environment variable can be used to specify a default kernel config
- file name to override the default name of ".config".
- 
-+KCONFIG_DEFCONFIG_LIST
-+----------------------
-+
-+This environment variable specifies a list of config files which can be used
-+as a base configuration in case the .config does not exist yet. Entries in
-+the list are separated with whitespaces to each other, and the first one
-+that exists is used.
-+
- KCONFIG_OVERWRITECONFIG
- -----------------------
- If you set KCONFIG_OVERWRITECONFIG in the environment, Kconfig will not
-diff --git a/init/Kconfig b/init/Kconfig
-index 22946fe5ded9..46b87ad73f6a 100644
---- a/init/Kconfig
-+++ b/init/Kconfig
-@@ -1,13 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0-only
--config DEFCONFIG_LIST
--	string
--	depends on !UML
--	option defconfig_list
--	default "/lib/modules/$(shell,uname -r)/.config"
--	default "/etc/kernel-config"
--	default "/boot/config-$(shell,uname -r)"
--	default "arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG)"
--
- config CC_VERSION_TEXT
- 	string
- 	default "$(CC_VERSION_TEXT)"
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index 8c19b82c6035..31c5735663c8 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -13,6 +13,16 @@ ifeq ($(quiet),silent_)
- silent := -s
- endif
- 
-+export KCONFIG_DEFCONFIG_LIST :=
-+ifneq ($(SRCARCH),um)
-+kernel-release := $(shell uname -r)
-+KCONFIG_DEFCONFIG_LIST := \
-+	/lib/modules/$(kernel-release)/.config \
-+	/etc/kernel-config \
-+	/boot/config-$(kernel-release) \
-+	arch/$(SRCARCH)/configs/$(KBUILD_DEFCONFIG)
-+endif
-+
- # We need this, in case the user has it in its environment
- unexport CONFIG_
- 
-diff --git a/scripts/kconfig/confdata.c b/scripts/kconfig/confdata.c
-index 198f70957fbf..f3998d5ddd02 100644
---- a/scripts/kconfig/confdata.c
-+++ b/scripts/kconfig/confdata.c
-@@ -360,28 +360,46 @@ int conf_read_simple(const char *name, int def)
- 	if (name) {
- 		in = zconf_fopen(name);
- 	} else {
--		struct property *prop;
-+		char *env;
- 
- 		name = conf_get_configname();
- 		in = zconf_fopen(name);
- 		if (in)
- 			goto load;
- 		sym_add_change_count(1);
--		if (!sym_defconfig_list)
-+
-+		env = getenv("KCONFIG_DEFCONFIG_LIST");
-+		if (!env)
- 			return 1;
- 
--		for_all_defaults(sym_defconfig_list, prop) {
--			if (expr_calc_value(prop->visible.expr) == no ||
--			    prop->expr->type != E_SYMBOL)
--				continue;
--			sym_calc_value(prop->expr->left.sym);
--			name = sym_get_string_value(prop->expr->left.sym);
--			in = zconf_fopen(name);
-+		while (1) {
-+			bool is_last;
-+
-+			while (isspace(*env))
-+				env++;
-+
-+			if (!*env)
-+				break;
-+
-+			p = env;
-+			while (*p && !isspace(*p))
-+				p++;
-+
-+			is_last = (*p == '\0');
-+
-+			*p = '\0';
-+
-+			in = zconf_fopen(env);
- 			if (in) {
- 				conf_message("using defaults found in %s",
--					 name);
-+					     env);
- 				goto load;
- 			}
-+
-+			if (is_last)
-+				break;
-+
-+			env = p + 1;
- 		}
- 	}
- 	if (!in)
-diff --git a/scripts/kconfig/expr.h b/scripts/kconfig/expr.h
-index bbca80a0dc24..dc17152b1f14 100644
---- a/scripts/kconfig/expr.h
-+++ b/scripts/kconfig/expr.h
-@@ -287,7 +287,6 @@ struct file *lookup_file(const char *name);
- 
- extern struct symbol symbol_yes, symbol_no, symbol_mod;
- extern struct symbol *modules_sym;
--extern struct symbol *sym_defconfig_list;
- extern int cdebug;
- struct expr *expr_alloc_symbol(struct symbol *sym);
- struct expr *expr_alloc_one(enum expr_type type, struct expr *ce);
-diff --git a/scripts/kconfig/lexer.l b/scripts/kconfig/lexer.l
-index 9c22cb554673..e918950f94a6 100644
---- a/scripts/kconfig/lexer.l
-+++ b/scripts/kconfig/lexer.l
-@@ -99,7 +99,6 @@ n	[A-Za-z0-9_-]
- "def_bool"		return T_DEF_BOOL;
- "def_tristate"		return T_DEF_TRISTATE;
- "default"		return T_DEFAULT;
--"defconfig_list"	return T_DEFCONFIG_LIST;
- "depends"		return T_DEPENDS;
- "endchoice"		return T_ENDCHOICE;
- "endif"			return T_ENDIF;
-diff --git a/scripts/kconfig/lkc.h b/scripts/kconfig/lkc.h
-index d0d5acecb530..8d89a6275197 100644
---- a/scripts/kconfig/lkc.h
-+++ b/scripts/kconfig/lkc.h
-@@ -106,7 +106,6 @@ struct property *menu_add_prompt(enum prop_type type, char *prompt, struct expr
- void menu_add_expr(enum prop_type type, struct expr *expr, struct expr *dep);
- void menu_add_symbol(enum prop_type type, struct symbol *sym, struct expr *dep);
- void menu_add_option_modules(void);
--void menu_add_option_defconfig_list(void);
- void menu_add_option_allnoconfig_y(void);
- void menu_finalize(struct menu *parent);
- void menu_set_type(int type);
-diff --git a/scripts/kconfig/menu.c b/scripts/kconfig/menu.c
-index a5fbd6ccc006..5dcfc173da41 100644
---- a/scripts/kconfig/menu.c
-+++ b/scripts/kconfig/menu.c
-@@ -219,15 +219,6 @@ void menu_add_option_modules(void)
- 	modules_sym = current_entry->sym;
- }
- 
--void menu_add_option_defconfig_list(void)
--{
--	if (!sym_defconfig_list)
--		sym_defconfig_list = current_entry->sym;
--	else if (sym_defconfig_list != current_entry->sym)
--		zconf_error("trying to redefine defconfig symbol");
--	sym_defconfig_list->flags |= SYMBOL_NO_WRITE;
--}
--
- void menu_add_option_allnoconfig_y(void)
- {
- 	current_entry->sym->flags |= SYMBOL_ALLNOCONFIG_Y;
-diff --git a/scripts/kconfig/parser.y b/scripts/kconfig/parser.y
-index 190f1117f35a..f11d8382e9e6 100644
---- a/scripts/kconfig/parser.y
-+++ b/scripts/kconfig/parser.y
-@@ -53,7 +53,6 @@ static struct menu *current_menu, *current_entry;
- %token T_COMMENT
- %token T_CONFIG
- %token T_DEFAULT
--%token T_DEFCONFIG_LIST
- %token T_DEF_BOOL
- %token T_DEF_TRISTATE
- %token T_DEPENDS
-@@ -223,11 +222,6 @@ config_option: T_OPTION T_MODULES T_EOL
- 	menu_add_option_modules();
- };
- 
--config_option: T_OPTION T_DEFCONFIG_LIST T_EOL
--{
--	menu_add_option_defconfig_list();
--};
--
- config_option: T_OPTION T_ALLNOCONFIG_Y T_EOL
- {
- 	menu_add_option_allnoconfig_y();
-diff --git a/scripts/kconfig/symbol.c b/scripts/kconfig/symbol.c
-index fe38e6fd2c2a..36b0fcb18117 100644
---- a/scripts/kconfig/symbol.c
-+++ b/scripts/kconfig/symbol.c
-@@ -35,7 +35,6 @@ static struct symbol symbol_empty = {
- 	.flags = SYMBOL_VALID,
- };
- 
--struct symbol *sym_defconfig_list;
- struct symbol *modules_sym;
- static tristate modules_val;
- 
-diff --git a/scripts/kconfig/tests/conftest.py b/scripts/kconfig/tests/conftest.py
-index 0345ef6e3273..af8774a5697c 100644
---- a/scripts/kconfig/tests/conftest.py
-+++ b/scripts/kconfig/tests/conftest.py
-@@ -53,6 +53,10 @@ class Conf:
-         # Override 'srctree' environment to make the test as the top directory
-         extra_env['srctree'] = self._test_dir
- 
-+        # Clear KCONFIG_DEFCONFIG_LIST to keep unit tests from being affected
-+        # by the user's environment.
-+        extra_env['KCONFIG_DEFCONFIG_LIST'] = ''
-+
-         # Run Kconfig in a temporary directory.
-         # This directory is automatically removed when done.
-         with tempfile.TemporaryDirectory() as temp_dir:
--- 
-2.27.0
-
+      Arnd
