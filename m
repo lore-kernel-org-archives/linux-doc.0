@@ -2,134 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1F15C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 22:57:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDDEDC433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 00:13:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95DBE64F6C
-	for <linux-doc@archiver.kernel.org>; Fri, 12 Mar 2021 22:57:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 861AE64F87
+	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 00:13:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235616AbhCLW5K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 12 Mar 2021 17:57:10 -0500
-Received: from mga18.intel.com ([134.134.136.126]:16336 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235677AbhCLW4r (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 12 Mar 2021 17:56:47 -0500
-IronPort-SDR: DczeVKGv44WmICrRtIkZWyFqksoj9WsHdPNqRAJbvNeIVcDF3qkyzrJ29ozLOCB4IV2Q2t0Sqh
- pp+mHl0qLRiA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9921"; a="176489935"
-X-IronPort-AV: E=Sophos;i="5.81,244,1610438400"; 
-   d="scan'208";a="176489935"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2021 14:56:44 -0800
-IronPort-SDR: Q38jh27KqE4tjAcSh2JdKCApzxqlKmzrsB7R1RbjmQPOVJmDqNlGsqc//VP3UWfgGC6shdAV9h
- TdoXP7JhLD6A==
-X-IronPort-AV: E=Sophos;i="5.81,244,1610438400"; 
-   d="scan'208";a="411164595"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2021 14:56:43 -0800
-Date:   Fri, 12 Mar 2021 14:59:04 -0800
-From:   Jacob Pan <jacob.jun.pan@intel.com>
-To:     Vipin Sharma <vipinsh@google.com>
-Cc:     Tejun Heo <tj@kernel.org>, mkoutny@suse.com, rdunlap@infradead.org,
-        thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
-        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
-        frankja@linux.ibm.com, borntraeger@de.ibm.com, corbet@lwn.net,
-        seanjc@google.com, vkuznets@redhat.com, wanpengli@tencent.com,
-        jmattson@google.com, joro@8bytes.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, gingell@google.com,
-        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, "Tian, Kevin" <kevin.tian@intel.com>,
-        "Liu, Yi L" <yi.l.liu@intel.com>,
-        "Raj, Ashok" <ashok.raj@intel.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Jason Gunthorpe <jgg@nvidia.com>,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        jacob.jun.pan@intel.com,
-        "jean-philippe@linaro.org" <jean-philippe@linaro.org>
-Subject: Re: [RFC v2 2/2] cgroup: sev: Miscellaneous cgroup documentation.
-Message-ID: <20210312145904.4071a9d6@jacob-builder>
-In-Reply-To: <YEvZ4muXqiSScQ8i@google.com>
-References: <20210302081705.1990283-1-vipinsh@google.com>
-        <20210302081705.1990283-3-vipinsh@google.com>
-        <20210303185513.27e18fce@jacob-builder>
-        <YEB8i6Chq4K/GGF6@google.com>
-        <YECfhCJtHUL9cB2L@slm.duckdns.org>
-        <20210312125821.22d9bfca@jacob-builder>
-        <YEvZ4muXqiSScQ8i@google.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S232790AbhCMAMy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 12 Mar 2021 19:12:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43936 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232679AbhCMAM2 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 12 Mar 2021 19:12:28 -0500
+X-Greylist: delayed 477 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 12 Mar 2021 16:12:28 PST
+Received: from mx-rz-3.rrze.uni-erlangen.de (mx-rz-3.rrze.uni-erlangen.de [IPv6:2001:638:a000:1025::16])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69C5EC061574;
+        Fri, 12 Mar 2021 16:12:28 -0800 (PST)
+Received: from mx-rz-smart.rrze.uni-erlangen.de (mx-rz-smart.rrze.uni-erlangen.de [IPv6:2001:638:a000:1025::1e])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mx-rz-3.rrze.uni-erlangen.de (Postfix) with ESMTPS id 4Dy2wq1kk2z1yt7;
+        Sat, 13 Mar 2021 01:04:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fau.de; s=fau-2013;
+        t=1615593867; bh=tiGbR5+qvcpdxRonVzk7L9PAmwGj3wphduFp/u6WEp4=;
+        h=From:To:Cc:Subject:Date:From:To:CC:Subject;
+        b=ieACjZTFOTsl6iO5+6niaLUHxy4CirypW+vNOB1zlAtHQvVrnXP3i/7aQ0/ViNQnP
+         1nKDdxFmJBjqrbJt7gJ7TLpyAN23NZYYEGtDw6ygVDhVUeYdvcOm1a4T++a2Xb2KLI
+         f8w7up4CIiQP6ioBtl5PNCpevT0Dw6LKMwFPYZDQnQhagvoQ5Y8kTokNuHhBcLkz/a
+         +IpyGGWTne0vlqfHl1fndopxkgp7/r8Dj+NtJqLwdEVzOuQhOvCcSOpdYXdPLP4qR+
+         wfnEPT6rpse2pciZIIG/lqDLaSNgbmlxgmMAuR89nux03t4yX3rydy16ZoIVQr2K+h
+         tuXPYBHNsuTbw==
+X-Virus-Scanned: amavisd-new at boeck2.rrze.uni-erlangen.de (RRZE)
+X-RRZE-Flag: Not-Spam
+X-RRZE-Submit-IP: 2003:ca:a71f:a300:732f:3ac2:88f:1036
+Received: from ruediger.fritz.box (p200300caa71fa300732f3ac2088f1036.dip0.t-ipconnect.de [IPv6:2003:ca:a71f:a300:732f:3ac2:88f:1036])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: U2FsdGVkX19P3QusNdvRDN2n6xXjFJrDEC7jJHp69BM=)
+        by smtp-auth.uni-erlangen.de (Postfix) with ESMTPSA id 4Dy2wh5vCfz1y8r;
+        Sat, 13 Mar 2021 01:04:20 +0100 (CET)
+From:   Eva Dengler <eva.dengler@fau.de>
+To:     linux-doc@vger.kernel.org
+Cc:     Jiri Pirko <jiri@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        trivial@kernel.org, Eva Dengler <eva.dengler@fau.de>
+Subject: [PATCH] devlink: fix typo in documentation
+Date:   Sat, 13 Mar 2021 01:04:13 +0100
+Message-Id: <20210313000413.138212-1-eva.dengler@fau.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vipin,
+This commit fixes three spelling typos in devlink-dpipe.rst and
+devlink-port.rst.
 
-On Fri, 12 Mar 2021 13:15:14 -0800, Vipin Sharma <vipinsh@google.com> wrote:
+Signed-off-by: Eva Dengler <eva.dengler@fau.de>
+---
+ Documentation/networking/devlink/devlink-dpipe.rst | 2 +-
+ Documentation/networking/devlink/devlink-port.rst  | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-> On Fri, Mar 12, 2021 at 12:58:21PM -0800, Jacob Pan wrote:
-> > Hi Vipin & Tejun,
-> > 
-> > Sorry for the late reply, I sent from a different email address than I
-> > intended. Please see my comments inline.
-> > 
-> > 
-> > On Thu, 4 Mar 2021 03:51:16 -0500, Tejun Heo <tj@kernel.org> wrote:
-> >   
-> > > Hello,
-> > > 
-> > > On Wed, Mar 03, 2021 at 10:22:03PM -0800, Vipin Sharma wrote:  
-> > > > > I am trying to see if IOASIDs cgroup can also fit in this misc
-> > > > > controller as yet another resource type.
-> > > > > https://lore.kernel.org/linux-iommu/20210303131726.7a8cb169@jacob-builder/T/#u
-> > > > > However, unlike sev IOASIDs need to be migrated if the process is
-> > > > > moved to another cgroup. i.e. charge the destination and uncharge
-> > > > > the source.
-> > > > > 
-> > > > > Do you think this behavior can be achieved by differentiating
-> > > > > resource types? i.e. add attach callbacks for certain types.
-> > > > > Having a single misc interface seems cleaner than creating
-> > > > > another controller.    
-> > > > 
-> > > > I think it makes sense to add support for migration for the
-> > > > resources which need it. Resources like SEV, SEV-ES will not
-> > > > participate in migration and won't stop can_attach() to succeed,
-> > > > other resources which need migration will allow or stop based on
-> > > > their limits and capacity in the destination.    
-> > >   
-> > Sounds good. Perhaps some capability/feature flags for each resource
-> > such that different behavior can be accommodated?
-> > Could you please include me in your future posting? I will rebase on
-> > yours.  
-> 
-> Hi Jacob
-> 
-> Based on Tejun's response, I will not add charge migration support in
-> misc controller.
-> 
-Sounds good. I need some confirmation on whether migration is a must have
-for VMs allocated IOASIDs.
-Our primary goal is to limit the amount of IOASIDs that VMs can allocate.
-If a VM is migrated to a different cgroup, I think we need to
-charge/uncharge the destination/source cgroup in order enforce the limit. I
-am not an expert here, any feedback would be appreciated.
+diff --git a/Documentation/networking/devlink/devlink-dpipe.rst b/Documentation/networking/devlink/devlink-dpipe.rst
+index 468fe1001b74..af37f250df43 100644
+--- a/Documentation/networking/devlink/devlink-dpipe.rst
++++ b/Documentation/networking/devlink/devlink-dpipe.rst
+@@ -52,7 +52,7 @@ purposes as a standard complementary tool. The system's view from
+ ``devlink-dpipe`` should change according to the changes done by the
+ standard configuration tools.
+ 
+-For example, it’s quiet common to  implement Access Control Lists (ACL)
++For example, it’s quite common to  implement Access Control Lists (ACL)
+ using Ternary Content Addressable Memory (TCAM). The TCAM memory can be
+ divided into TCAM regions. Complex TC filters can have multiple rules with
+ different priorities and different lookup keys. On the other hand hardware
+diff --git a/Documentation/networking/devlink/devlink-port.rst b/Documentation/networking/devlink/devlink-port.rst
+index e99b41599465..ab790e7980b8 100644
+--- a/Documentation/networking/devlink/devlink-port.rst
++++ b/Documentation/networking/devlink/devlink-port.rst
+@@ -151,7 +151,7 @@ representor netdevice.
+ -------------
+ A subfunction devlink port is created but it is not active yet. That means the
+ entities are created on devlink side, the e-switch port representor is created,
+-but the subfunction device itself it not created. A user might use e-switch port
++but the subfunction device itself is not created. A user might use e-switch port
+ representor to do settings, putting it into bridge, adding TC rules, etc. A user
+ might as well configure the hardware address (such as MAC address) of the
+ subfunction while subfunction is inactive.
+@@ -173,7 +173,7 @@ Terms and Definitions
+    * - Term
+      - Definitions
+    * - ``PCI device``
+-     - A physical PCI device having one or more PCI bus consists of one or
++     - A physical PCI device having one or more PCI buses consists of one or
+        more PCI controllers.
+    * - ``PCI controller``
+      -  A controller consists of potentially multiple physical functions,
+-- 
+2.26.2
 
-> I can definitly add you in my future posting, if you still wanna use it
-> without charge migration support.
-> 
-Yes, please. I got your v3 already, so just future patches.
-
-> Thanks
-> Vipin
-
-
-Thanks,
-
-Jacob
