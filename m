@@ -2,88 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C1F2C433DB
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Mar 2021 06:17:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25D48C433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Mar 2021 09:11:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4B02164ECD
-	for <linux-doc@archiver.kernel.org>; Sun, 14 Mar 2021 06:17:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E408164EB7
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Mar 2021 09:11:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234261AbhCNGQv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 14 Mar 2021 01:16:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33020 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234194AbhCNGQP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Mar 2021 01:16:15 -0500
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1234::107])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68E7BC061574;
-        Sat, 13 Mar 2021 22:15:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=0wAEjMxzCdnBr/rRsbY9kpqjVxTUbyGe+wiENA+FzUY=; b=ev2NUNZBX5ZECS2yw4gKel195B
-        GLm+m1YXVkbQHvtAnKa4kY6/3EMsDnTCYNZ2qq9EOxl3MpnJ38eKdZxwPnoSpvYkevb2ojESnRimb
-        6f+/h8c3nG16TuI/GQWk8rO5/JAjnUYiNk0s6GAIja15pO8dFZgbk+rGjJbUZTU8WVHLxWKHXeJVZ
-        t4nqwVEPHRiwwHJ2kuGQLHvT59r4VKKDCBasyJke3+OHsnpU7/qRb27DZhmHE5KXcLuH0oXW9uCa7
-        cI3fAZXL37TLnCeefgqUPR6BR0JfkontliZVgjFD2LO6ivURc34CDY0uH7jJULaQx+8HbMw/p4mj9
-        YoSJkQEQ==;
-Received: from [2601:1c0:6280:3f0::9757]
-        by merlin.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lLK1o-001B6q-E3; Sun, 14 Mar 2021 06:15:07 +0000
-Subject: Re: [PATCH] docs: kbuild: Fix a typo in the file
- Kconfig.recursion-issue-02
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, masahiroy@kernel.org,
-        michal.lkml@markovi.net, corbet@lwn.net,
-        linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210314043044.15926-1-unixbhaskar@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <ad52ed1d-92b1-8320-ff70-bc9d1a9b8991@infradead.org>
-Date:   Sat, 13 Mar 2021 22:15:00 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S235039AbhCNJKn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 14 Mar 2021 05:10:43 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:34785 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234489AbhCNJKg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 14 Mar 2021 05:10:36 -0400
+X-Originating-IP: 2.7.49.219
+Received: from debian.home (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
+        (Authenticated sender: alex@ghiti.fr)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 7201E20002;
+        Sun, 14 Mar 2021 09:10:29 +0000 (UTC)
+From:   Alexandre Ghiti <alex@ghiti.fr>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org
+Cc:     Alexandre Ghiti <alex@ghiti.fr>
+Subject: [PATCH v3 0/3] Move kernel mapping outside the linear mapping 
+Date:   Sun, 14 Mar 2021 05:10:24 -0400
+Message-Id: <20210314091027.21592-1-alex@ghiti.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210314043044.15926-1-unixbhaskar@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/13/21 8:30 PM, Bhaskar Chowdhury wrote:
-> 
-> s/sematics/semantics/
-> 
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+I decided to split sv48 support in small series to ease the review.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+This patchset pushes the kernel mapping (modules and BPF too) to the last
+4GB of the 64bit address space, this allows to:
+- implement relocatable kernel (that will come later in another
+  patchset) that requires to move the kernel mapping out of the linear
+  mapping to avoid to copy the kernel at a different physical address.
+- have a single kernel that is not relocatable (and then that avoids the
+  performance penalty imposed by PIC kernel) for both sv39 and sv48.
 
-> ---
->  Documentation/kbuild/Kconfig.recursion-issue-02 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/kbuild/Kconfig.recursion-issue-02 b/Documentation/kbuild/Kconfig.recursion-issue-02
-> index df245fd7670d..0034eb494d11 100644
-> --- a/Documentation/kbuild/Kconfig.recursion-issue-02
-> +++ b/Documentation/kbuild/Kconfig.recursion-issue-02
-> @@ -6,7 +6,7 @@
->  # make KBUILD_KCONFIG=Documentation/kbuild/Kconfig.recursion-issue-02 allnoconfig
->  #
->  # The recursive limitations with Kconfig has some non intuitive implications on
-> -# kconfig sematics which are documented here. One known practical implication
-> +# kconfig semantics which are documented here. One known practical implication
->  # of the recursive limitation is that drivers cannot negate features from other
->  # drivers if they share a common core requirement and use disjoint semantics to
->  # annotate those requirements, ie, some drivers use "depends on" while others
-> --
+The first patch implements this behaviour, the second patch introduces a
+documentation that describes the virtual address space layout of the 64bit
+kernel and the last patch is taken from my sv48 series where I simply added
+the dump of the modules/kernel/BPF mapping.
 
+I removed the Reviewed-by on the first patch since it changed enough from
+last time and deserves a second look.
+
+Changes in v3:
+- Fix broken nommu build as reported by kernel test robot by protecting
+  the kernel mapping only in 64BIT and MMU configs, by reverting the
+  introduction of load_sz_pmd and by not exporting load_sz/load_pa anymore
+  since they were not initialized in nommu config. 
+
+Changes in v2:
+- Fix documentation about direct mapping size which is 124GB instead
+  of 126GB.
+- Fix SPDX missing header in documentation.
+- Fix another checkpatch warning about EXPORT_SYMBOL which was not
+  directly below variable declaration.
+
+Alexandre Ghiti (3):
+  riscv: Move kernel mapping outside of linear mapping
+  Documentation: riscv: Add documentation that describes the VM layout
+  riscv: Prepare ptdump for vm layout dynamic addresses
+
+ Documentation/riscv/index.rst       |  1 +
+ Documentation/riscv/vm-layout.rst   | 63 +++++++++++++++++++++++
+ arch/riscv/boot/loader.lds.S        |  3 +-
+ arch/riscv/include/asm/page.h       | 17 ++++++-
+ arch/riscv/include/asm/pgtable.h    | 37 ++++++++++----
+ arch/riscv/include/asm/set_memory.h |  1 +
+ arch/riscv/kernel/head.S            |  3 +-
+ arch/riscv/kernel/module.c          |  6 +--
+ arch/riscv/kernel/setup.c           |  5 ++
+ arch/riscv/kernel/vmlinux.lds.S     |  3 +-
+ arch/riscv/mm/fault.c               | 13 +++++
+ arch/riscv/mm/init.c                | 78 ++++++++++++++++++++++-------
+ arch/riscv/mm/kasan_init.c          |  9 ++++
+ arch/riscv/mm/physaddr.c            |  2 +-
+ arch/riscv/mm/ptdump.c              | 67 ++++++++++++++++++++-----
+ 15 files changed, 258 insertions(+), 50 deletions(-)
+ create mode 100644 Documentation/riscv/vm-layout.rst
 
 -- 
-~Randy
+2.20.1
 
