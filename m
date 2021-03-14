@@ -2,89 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-21.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1934C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 22:37:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B81B2C433E0
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Mar 2021 02:21:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A174364ECB
-	for <linux-doc@archiver.kernel.org>; Sat, 13 Mar 2021 22:37:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 79C9864ECB
+	for <linux-doc@archiver.kernel.org>; Sun, 14 Mar 2021 02:21:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234771AbhCMWfX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 13 Mar 2021 17:35:23 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:54831 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234735AbhCMWfT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 13 Mar 2021 17:35:19 -0500
-Received: from mail-ot1-f44.google.com ([209.85.210.44]) by
- mrelayeu.kundenserver.de (mreue106 [213.165.67.113]) with ESMTPSA (Nemesis)
- id 1MnqbU-1m61rL1EV8-00pL7m; Sat, 13 Mar 2021 23:35:17 +0100
-Received: by mail-ot1-f44.google.com with SMTP id h6-20020a0568300346b02901b71a850ab4so3304081ote.6;
-        Sat, 13 Mar 2021 14:35:16 -0800 (PST)
-X-Gm-Message-State: AOAM533WI9i5zO7Xh7Al8BdWsD+1YmOGiCE2rbhSTxMrGSvBndYGMNcF
-        W7ChQaG+G50w8gF5+vJX6CHqFgkJRoWQZVZPk1o=
-X-Google-Smtp-Source: ABdhPJy1hCZSOZgjWjUIiV7y81YWmhIh+++bR5CYo5jf0Rk/VdQv1W4rLs5PJp++TQ7iq07uGhi7ibXsnePfk6JNHFs=
-X-Received: by 2002:a05:6830:148c:: with SMTP id s12mr8850529otq.251.1615674915810;
- Sat, 13 Mar 2021 14:35:15 -0800 (PST)
+        id S233797AbhCNCUI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 13 Mar 2021 21:20:08 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55490 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233233AbhCNCUI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 13 Mar 2021 21:20:08 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPS id D8BB464ECB;
+        Sun, 14 Mar 2021 02:20:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615688407;
+        bh=r/M2gBTOh1NrNHVrZSHIE3BRDHUYfL7Q9DPnjPKmyCo=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=HoSSSVYNLn84pSG9OudB044qcero+TuFaSpz3CD36MpY7c+N7ugA906d6kwgAQc8Y
+         oDrpWdEF54XWUKMRoTlJdTrW8gBZz2HIsG7NFduIEud7DNF7mbFvX151VTAX1KcJVp
+         ms9GD9vqhwTY2Nkjp2WOxzw0lejQdfmtSeRbvB4kWygqeCOVMzMd59bRxhr6K0Pwxu
+         6pFLnO79S595g0RTAbugUrDuZDXCdrtpLAd76HvvQJFhWU6huX5mXLcCUJnsXof8RI
+         10C7P0NlGtKCincu+weyOeWaM0pYnXHw1QR5AV5MFFmvYRgIPi/bLiVavJdLzEUiuy
+         y4bjD0gtD1b7A==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20210225080453.1314-1-alex@ghiti.fr> <20210225080453.1314-3-alex@ghiti.fr>
- <5279e97c-3841-717c-2a16-c249a61573f9@redhat.com> <7d9036d9-488b-47cc-4673-1b10c11baad0@ghiti.fr>
- <CAK8P3a3mVDwJG6k7PZEKkteszujP06cJf8Zqhq43F0rNsU=h4g@mail.gmail.com>
- <236a9788-8093-9876-a024-b0ad0d672c72@ghiti.fr> <CAK8P3a1+vSoEBqHPzj9S07B7h-Xuwvccpsh1pnn+1xJmS3UdbA@mail.gmail.com>
- <50109729-9a86-6b49-b608-dd5c8eb2d88e@ghiti.fr>
-In-Reply-To: <50109729-9a86-6b49-b608-dd5c8eb2d88e@ghiti.fr>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Sat, 13 Mar 2021 23:34:59 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a1Nh4KUD85Fg_vFHf2fLMOqZThBgzyduLgfEtjGf-pm4g@mail.gmail.com>
-Message-ID: <CAK8P3a1Nh4KUD85Fg_vFHf2fLMOqZThBgzyduLgfEtjGf-pm4g@mail.gmail.com>
-Subject: Re: [PATCH 2/3] Documentation: riscv: Add documentation that
- describes the VM layout
-To:     Alexandre Ghiti <alex@ghiti.fr>
-Cc:     David Hildenbrand <david@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:V+OHT2A8p0Alfk/QhAkFqphd5ZJSQR+7XtNqCvKUrqFy2NdWyll
- 1qyVMptACR8kGCItDWu42EsGarUVRu8pIE0ZnUB5cSZvEkKQqFXcnrKz134USgs+viQbWKJ
- mMi0e7LRvnelcW0IYeLDMb0vWcJDxKzl5IxVCwaUT3kvkekMBcgcAAIwpQVPjAEjUPtfeCN
- XO18VFbP/Qi3B4xjXJa3g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+AUsDVhfPHQ=:49MT2eZT6ouNXqMnB8iHch
- g6HuERmaOBO5ydi+3dCNx8RQZ/gtCCjBIXcSLuh4Ce9kslxhjrtn7kWiGfdQBY2S+/0PU77jz
- HUyzKdvaHO9onY7RR3/lZtnqZgu+TMuzlzeIRDPy7JPGli5wpvJa3VF9CD0awg6kfa3GFJjBp
- EQ//N4tkMTnvVxLBKyleHspaeFxLgmKcmbJr8fzAzOEnyJ6W/nbIIJ3+6WWQZmwWXFb+StVSf
- krVUQVWBicfTwN6Kj9dL2nT2+GPjhCs3zDN1QtV0WAsVLQfHdSpxtFcyxdM2F7qMowRuoFtb3
- rWq+T5rEwu4DaqTXzroO4n+ry75VL9VjRYzpqFEf58teCKhA4tauHy4lcXvyfERJSjDDsf8BJ
- EG/mGZ6VYcmmbfhSDC0sX+/cTKhydnk811OBHTPPV9vH91YEmJJB9S+Grs09LDprdRoT/AqU8
- +Bg9hvkoYsoTHdValZBTyIluWUwUKD9+TU9l2zxWqO3Fz2lx0fjd5TTKJ4ZOOrm8koJuag95D
- PC1JQsD+MPB0HGDnDcu/po2UnUmIWhvYgX8xZSm0/ujvUnsHnZOr96/JToFOHAKHA==
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] devlink: fix typo in documentation
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <161568840781.14251.4426493547774986604.git-patchwork-notify@kernel.org>
+Date:   Sun, 14 Mar 2021 02:20:07 +0000
+References: <20210313000413.138212-1-eva.dengler@fau.de>
+In-Reply-To: <20210313000413.138212-1-eva.dengler@fau.de>
+To:     Eva Dengler <eva.dengler@fau.de>
+Cc:     linux-doc@vger.kernel.org, jiri@nvidia.com, corbet@lwn.net,
+        netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        trivial@kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 13, 2021 at 9:23 AM Alex Ghiti <alex@ghiti.fr> wrote:
->
-> Yes I considered it...when you re-proposed it :) I'm not opposed to your
-> solution in the vmalloc region but I can't find any advantage over the
-> current solution, are there ? That would harmonize with Linus's work,
-> but then we'd be quite different from x86 address space.
->
-> And by the way, thanks for having suggested the current solution in a
-> previous conversation :)
+Hello:
 
-Ah, I really need to keep track better of what I already commented on...
+This patch was applied to netdev/net.git (refs/heads/master):
 
-      Arnd
+On Sat, 13 Mar 2021 01:04:13 +0100 you wrote:
+> This commit fixes three spelling typos in devlink-dpipe.rst and
+> devlink-port.rst.
+> 
+> Signed-off-by: Eva Dengler <eva.dengler@fau.de>
+> ---
+>  Documentation/networking/devlink/devlink-dpipe.rst | 2 +-
+>  Documentation/networking/devlink/devlink-port.rst  | 4 ++--
+>  2 files changed, 3 insertions(+), 3 deletions(-)
+
+Here is the summary with links:
+  - devlink: fix typo in documentation
+    https://git.kernel.org/netdev/net/c/ad236ccde19a
+
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
