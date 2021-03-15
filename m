@@ -2,99 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF3C6C433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 16:37:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E12AC43331
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 17:00:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9777B64F38
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 16:37:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F3F9564DF1
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 17:00:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233909AbhCOQhX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 12:37:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50848 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233454AbhCOQhM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 12:37:12 -0400
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AB1CC06174A;
-        Mon, 15 Mar 2021 09:37:11 -0700 (PDT)
-Received: by mail-pj1-x1032.google.com with SMTP id kk2-20020a17090b4a02b02900c777aa746fso15079728pjb.3;
-        Mon, 15 Mar 2021 09:37:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hxTr+jCjNOdK/SRs3Tz7jJtcDFSQzLPh/SdXv7CFTJg=;
-        b=JHodpzXGHG28Jf7mWc3g/MgAtc320RuyEet1UCcaWQyK7ZZuuQwfPATnMaaDu3UZ6g
-         rfSKVM9y1Cr2jQHWZ3puucVOcr3BEdF/82IRcLQpmMac6pXzmSwKeVsHJKj39o4z5iaj
-         5RK4yk/8FJtIL8tKGtaxR87ThL2p6796IsY3aCSCYqweaI7SU5IYz30cJ7CF6Ep2zaXI
-         6V+GeqBOtftcGES3z677GDgAVpkObIjjPV5fd1KbBpQoEqvLCR+Cbwns5YotzYe0qGV6
-         yqKklX7LkN3/XQmjYwYxg63j2XS/mjqnZEiZBQGR+8+G2lPWn/74mfxMELRmmUnVuX4N
-         +9qQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hxTr+jCjNOdK/SRs3Tz7jJtcDFSQzLPh/SdXv7CFTJg=;
-        b=WNgvFgkPGipVhjlJO1Rs7Z9fnKev7EBdLUxKmCj4pF5hKUZ3R/6k5AKEwYdtNtpsyo
-         0yBqCq/lJKE3RCqZDTQtbSb62N/Bfr3x3ldbUjPgwZzUSLwLinLMZnphx5OvOS1YxCOv
-         vdMpclm7eST9bWC1WGSq+yUJAUNbnNgI76E2SUA2sTjWYe8lwZaeBHCY4X8T1RgGJpjB
-         0ak7vGkZ7y7sgZ+cseB99Mj3nwRpKDl2nnLAIZyH2PdJ1gHd/4Q3vQNzpK3PP4sAUrbT
-         JFjupJ/fO6N8w5vhjBevfuuVYEf/2UzAdmU88rTw3XBHvda2MFiMUduQkHRm1BwJFuJO
-         LjsA==
-X-Gm-Message-State: AOAM530tnw+VRyTikVv1YEEHHNPOsNc75h2ZaOnk8MtJfNso3YmtrIqK
-        UyNaGjarW/10abnXL6U+bYWO0HdXArJMy2zI9h8=
-X-Google-Smtp-Source: ABdhPJzmD16eNSoHlg+ME0sV5oDSP8McG43pWnGy+W7nRmQ+OXh1nwhgopO1tf+cpxtFevI+9RbX/bEtq6FbXbhrpH0=
-X-Received: by 2002:a17:90a:db49:: with SMTP id u9mr14249289pjx.181.1615826230873;
- Mon, 15 Mar 2021 09:37:10 -0700 (PDT)
+        id S234178AbhCOQ7t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 12:59:49 -0400
+Received: from mga11.intel.com ([192.55.52.93]:55510 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235668AbhCOQ7m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Mar 2021 12:59:42 -0400
+IronPort-SDR: sJIeE9euBofcomPq9yUs+EL9vFV/YjmsR2pcHQoEpmxzdNc+ERvHkF6ZWryclYCzsTiCV2N3kX
+ es3Mlb6APMHg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9924"; a="185762519"
+X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
+   d="scan'208";a="185762519"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2021 09:59:35 -0700
+IronPort-SDR: O1KgmCu6J0NYNnGJsugDJFrFULa6LymUokuMP5YVccGNvzMcEFU2VygNegs39X7ir8R/SitPD3
+ ydtPj/ieXPmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
+   d="scan'208";a="388161101"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga002.jf.intel.com with ESMTP; 15 Mar 2021 09:59:33 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 0C34D11C; Mon, 15 Mar 2021 18:59:45 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: [PATCH v1 1/1] gpio: mockup: Adjust documentation to the code
+Date:   Mon, 15 Mar 2021 18:59:40 +0200
+Message-Id: <20210315165940.90055-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210315091400.13772-1-brgl@bgdev.pl> <20210315091400.13772-3-brgl@bgdev.pl>
- <6bc83972093a4be4ad163069a437ec25@AcuMS.aculab.com>
-In-Reply-To: <6bc83972093a4be4ad163069a437ec25@AcuMS.aculab.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Mon, 15 Mar 2021 18:36:54 +0200
-Message-ID: <CAHp75Vc3Fr3Ysv0p7-W1Bf5y1Em17psZ=eCgVNewdVF=AjPm-g@mail.gmail.com>
-Subject: Re: [PATCH v5 02/11] configfs: use (1UL << bit) for internal flags
-To:     David Laight <David.Laight@aculab.com>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Joel Becker <jlbec@evilplan.org>,
-        Christoph Hellwig <hch@lst.de>, Shuah Khan <shuah@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 15, 2021 at 5:33 PM David Laight <David.Laight@aculab.com> wrote:
-> From: Bartosz Golaszewski
-> > Sent: 15 March 2021 09:14
-> >
-> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> >
-> > For better readability and maintenance: use the (1UL << bit) for flag
-> > definitions.
->
-> If the values ever get printed in hex the hex definitions are
-> actually more useful.
+First of all one of the parameter missed 'mockup' in its name,
+Second, the semantics of the integer pairs depends on the sign
+of the base (the first value in the pair).
 
-Huh?!
+Update documentation to reflect the real code behaviour.
 
+Fixes: 2fd1abe99e5f ("Documentation: gpio: add documentation for gpio-mockup")
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ Documentation/admin-guide/gpio/gpio-mockup.rst | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
+diff --git a/Documentation/admin-guide/gpio/gpio-mockup.rst b/Documentation/admin-guide/gpio/gpio-mockup.rst
+index 9fa1618b3adc..493071da1738 100644
+--- a/Documentation/admin-guide/gpio/gpio-mockup.rst
++++ b/Documentation/admin-guide/gpio/gpio-mockup.rst
+@@ -17,17 +17,18 @@ module.
+     gpio_mockup_ranges
+ 
+         This parameter takes an argument in the form of an array of integer
+-        pairs. Each pair defines the base GPIO number (if any) and the number
+-        of lines exposed by the chip. If the base GPIO is -1, the gpiolib
+-        will assign it automatically.
++        pairs. Each pair defines the base GPIO number (non-negative integer)
++        and the first number after the last of this chip. If the base GPIO
++        is -1, the gpiolib will assign it automatically. while the following
++        parameter is the number of lines exposed by the chip.
+ 
+-        Example: gpio_mockup_ranges=-1,8,-1,16,405,4
++        Example: gpio_mockup_ranges=-1,8,-1,16,405,409
+ 
+         The line above creates three chips. The first one will expose 8 lines,
+         the second 16 and the third 4. The base GPIO for the third chip is set
+         to 405 while for two first chips it will be assigned automatically.
+ 
+-    gpio_named_lines
++    gpio_mockup_named_lines
+ 
+         This parameter doesn't take any arguments. It lets the driver know that
+         GPIO lines exposed by it should be named.
 -- 
-With Best Regards,
-Andy Shevchenko
+2.30.2
+
