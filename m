@@ -2,116 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E74F5C433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 19:10:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B929CC433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 19:19:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BDD2664F50
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 19:10:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D36E64F4A
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 19:19:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231178AbhCOTKU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 15:10:20 -0400
-Received: from mx2.suse.de ([195.135.220.15]:58734 "EHLO mx2.suse.de"
+        id S233284AbhCOTTV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 15:19:21 -0400
+Received: from ms.lwn.net ([45.79.88.28]:43900 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230243AbhCOTKN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Mar 2021 15:10:13 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1615835412; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=gBh9rZ1pe0Dw23aY7I0BceM5dAfPMfFrVDEvEe02JBQ=;
-        b=LtTDSfiEFPCuY2dr1iPNxVN3WP7R4nJ6QBfYlBO9dIEx3AZD7DORPVEpyqSZwxaNBD67ho
-        thqQwRLsCImAVaMVNPEnBPxDviIafWx0by0BLCZeyNCaYS1XjGqT0/nwMs8kOH0kUWCam7
-        aDMSyE7WKRGcejD1r5ZNrf11mumaWEc=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 126BDAE8F;
-        Mon, 15 Mar 2021 19:10:12 +0000 (UTC)
-Date:   Mon, 15 Mar 2021 20:10:09 +0100
-From:   Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-To:     Vipin Sharma <vipinsh@google.com>
-Cc:     Tejun Heo <tj@kernel.org>, rdunlap@infradead.org,
-        thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
-        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
-        frankja@linux.ibm.com, borntraeger@de.ibm.com, corbet@lwn.net,
-        seanjc@google.com, vkuznets@redhat.com, wanpengli@tencent.com,
-        jmattson@google.com, joro@8bytes.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, gingell@google.com,
-        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [Patch v3 0/2] cgroup: New misc cgroup controller
-Message-ID: <YE+xEbwUoRj+snTY@blackbook>
-References: <20210304231946.2766648-1-vipinsh@google.com>
- <YETLqGIw1GekWdYK@slm.duckdns.org>
- <YEpoS90X19Z2QOro@blackbook>
- <YEupplaAWU1i0G6B@google.com>
+        id S233369AbhCOTS6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Mar 2021 15:18:58 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 19DF82E5;
+        Mon, 15 Mar 2021 19:18:58 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 19DF82E5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1615835938; bh=So9BxVVP4vJIybXhEmOBJxB5pieD4QyUvx0pbVCgp5I=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=mpxpQzoi39ZdBSexYO8A147/EiFJIj5SoXm+LXMnBxovMbOWbVB6aIxT2VQb1cNbO
+         ip0xp770AKFuhIydaupQQHAkN8Xbcee6TyuidcwI9EJ47QxOhzeivCCr1bhdZBVMHJ
+         H5ickUEj4++Vbq5B9J8JdydI7qyiosgyR9Q13mYmXrqp8bzgfWd/HwHFi3VBLfSrrI
+         37ieCOZ8AZ4b8wrxy1K+R4Pc3/Oh3yM9h8cKil32skwu5HcZBL/NTqu9KXLyoq2ejs
+         cYu8/BkAW54GB8VAn/FKB56k2dmvGITUJy90NbeEmHgVdHG2wbN3oPPpkJa+PXGunt
+         HYSc6IK0mVqlg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Barry Song <song.bao.hua@hisilicon.com>, linux-doc@vger.kernel.org,
+        akpm@linux-foundation.org, linux-mm@kvack.org
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linuxarm@openeuler.org, Barry Song <song.bao.hua@hisilicon.com>,
+        Mel Gorman <mgorman@suse.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>
+Subject: Re: [PATCH] Documentation/features: mark BATCHED_UNMAP_TLB_FLUSH
+ doesn't apply to ARM64
+In-Reply-To: <20210223003230.11976-1-song.bao.hua@hisilicon.com>
+References: <20210223003230.11976-1-song.bao.hua@hisilicon.com>
+Date:   Mon, 15 Mar 2021 13:18:57 -0600
+Message-ID: <87a6r42pjy.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="WauBitk+7AKZVUrp"
-Content-Disposition: inline
-In-Reply-To: <YEupplaAWU1i0G6B@google.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Barry Song <song.bao.hua@hisilicon.com> writes:
 
---WauBitk+7AKZVUrp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+> BATCHED_UNMAP_TLB_FLUSH is used on x86 to do batched tlb shootdown by
+> sending one IPI to TLB flush all entries after unmapping pages rather
+> than sending an IPI to flush each individual entry.
+> On arm64, tlb shootdown is done by hardware. Flush instructions are
+> innershareable. The local flushes are limited to the boot (1 per CPU)
+> and when a task is getting a new ASID.
+> So marking this feature as "TODO" is not proper. ".." isn't good as
+> well. So this patch adds a "N/A" for this kind of features which are
+> not needed on some architectures.
+>
+> Cc: Mel Gorman <mgorman@suse.de>
+> Cc: Andy Lutomirski <luto@kernel.org>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Will Deacon <will@kernel.org>
+> Signed-off-by: Barry Song <song.bao.hua@hisilicon.com>
+> ---
+>  Documentation/features/arch-support.txt        | 1 +
+>  Documentation/features/vm/TLB/arch-support.txt | 2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 
-On Fri, Mar 12, 2021 at 09:49:26AM -0800, Vipin Sharma <vipinsh@google.com> wrote:
-> I will add some more information in the cover letter of the next version.
-Thanks.
+This had a conflict with the c6x removal, but I fixed that up and
+(finally) applied it, thanks.
 
-> Each one coming up with their own interaction is a duplicate effort
-> when they all need similar thing.
-Could this be expressed as a new BPF hook (when allocating/freeing such
-a resource unit)?
-
-The decision could be made based on the configured limit or even some
-other predicate.
-
-(I saw this proposed already but I haven't seen some more reasoning
-whether it's worse/better. IMO, BPF hooks are "cheaper" than full-blown
-controllers, though it's still new user API.)
-
-
-> As per my understanding this is the only for way for loadable modules
-> (kvm-amd in this case) to access Kernel APIs. Let me know if there is a
-> better way to do it.
-I understood the symbols are exported for such modularized builds.
-However, making them non-GPL exposes them to any out-of-tree modules,
-although, the resource types are supposed to stay hardcoded in the misc
-controller. So my point was to make them EXPORT_SYMBOL_GPL to mark
-they're just a means of implementing the modularized builds and not an
-API. (But they'd remain API for out-of-tree GPL modules anyway, so take
-this reasoning of mine with a grain of salt.)
-
-Michal
-
---WauBitk+7AKZVUrp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEEoQaUCWq8F2Id1tNia1+riC5qSgFAmBPsQ0ACgkQia1+riC5
-qSh1cQ/9GddlgkcRcRP9oxFJbsVUxhnntwF8wqSof5oSUCBDSWP5Hz7M3P05aFrI
-5VTcopKswg9sI+xO2rMiZb2guzOsy4soqTHRj6emRwbs09Pmtb9uEPrg3nbTZsAR
-jUHnNRkhPB7LVMhyVRH4wmZRcD1mq0HiJLkzQNaPVG8D3XG0ge6xVr6+doCc2Ev6
-UTrbbtcdBXmZX8hnLutMYu+QWNWQJyWJjii1nJKwby1v6heb10/fN40Ai1DQiOrR
-l21qKqxrzUjzpJUOv7Rek/FHvKf1u6HcIEI8H1wx/tMdbptH7IMH6fAtRSDpzbnl
-rPzovNq6h6r49VwFPKAaY0kx8u0Yv+IUME2GrjpmuxO+O3dvDJiaQeltisxlfWLn
-/Cn236Hzs3aGAHHqqLDJXoxarCmdbFbLL5KjLfK8onoUuNkKf9jmZ2puG04Lgin6
-iuvW2VEwUeKDXGxly0+JmzbRatQlvjfltDf7QlHx5zZxbGXYXVDFaz0AKx2hS6h+
-XeoV5ko/poc6htsxJWdygD+DXl8y0c9JJlQsLHhBr5JPszYaw3BegCedwvZdF4ph
-5QczC/tm0JiKqlb9tNIJ/kv2qIC97DbLt0Q0wv3idoAAZ9iTCwOSwRIdA79txnm4
-brb1x019FyJQXQbSL9pP2saG0dbJ7PYgNHp//N/zFMahETXHkq4=
-=lJqH
------END PGP SIGNATURE-----
-
---WauBitk+7AKZVUrp--
+jon
