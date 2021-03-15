@@ -2,108 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1390CC433E6
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 07:36:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD94BC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 07:44:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BAF6F64E67
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 07:36:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9BE0C64E37
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 07:44:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229964AbhCOHgP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 03:36:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38232 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229828AbhCOHgN (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Mar 2021 03:36:13 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C2D7264DAF;
-        Mon, 15 Mar 2021 07:36:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1615793773;
-        bh=D528rbfLh8zZTCX5u9fbw/DucSrt77tO+DqrXHDn2V0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dO1mcP97ftKFPgeb+DhHYDSMl3wP2m9IFi9wQaJY92FA8J6kLfRItewVib2a0LMLp
-         RXl+EWsucIUkZAa0s/bkOPJ8WbTPadWsSSv1a7c8d8TZYGLvdWGu48N7BoN2XWKKu1
-         DUQTzr9zXRGs28SRw6Pi8AHbjpytILixMDEkgji8=
-Date:   Mon, 15 Mar 2021 08:36:10 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     "Hongren Zheng (Zenithal)" <i@zenithal.me>
-Cc:     Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Alexandre Demers <alexandre.f.demers@gmail.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        usbip-devel@lists.sourceforge.net
-Subject: Re: [PATCH v2] docs: usbip: Fix major fields and descriptions in
- protocol
-Message-ID: <YE8Oan2BmSuKR4/p@kroah.com>
-References: <YE6/HQoxkraowTI7@Sun>
- <YE78SRefRe1trldP@Sun>
+        id S230104AbhCOHnb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 03:43:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48036 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230154AbhCOHnE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 03:43:04 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4AC8C061574;
+        Mon, 15 Mar 2021 00:43:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=a0crwDimWuDDFbQSyz3+xFwWCr0UuEjinSqp5FgMyJQ=; b=GonZpIh8oQ35/lgbuyAazr754g
+        ymArFIK48vHRADKrI7FoPunJP2FDYfPjcCFFX8sZOOXbc5S0+Tv0oLBvzXawhHXhrDIxKE2vDdWGc
+        0ZFmYCNt1B0CpKBLvCNl+zazYzJnc05ohUmEkHMLdEde6ONgnLxWkSQkghMm73TA7msRuL53MreVd
+        AHAltoj4GcwxUbanRdRiGgz9xDB8SKQ7lpeR2RZ6HcMqRqRk1kwyW+b9j8UPDCRdVTTn5Vwpcac+x
+        i0gb0GbEuyZejWop1J3hTZ0QbU8pjf43J2fzmYlAPV68tQYl/0aoNYn8jAGzrDPnnby+8dB0IbjDU
+        weKd2ByQ==;
+Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lLhsD-00HNdD-P4; Mon, 15 Mar 2021 07:42:46 +0000
+Date:   Mon, 15 Mar 2021 07:42:45 +0000
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Alistair Popple <apopple@nvidia.com>
+Cc:     linux-mm@kvack.org, nouveau@lists.freedesktop.org,
+        bskeggs@redhat.com, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-ppc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        jhubbard@nvidia.com, rcampbell@nvidia.com, jglisse@redhat.com,
+        jgg@nvidia.com, hch@infradead.org, daniel@ffwll.ch,
+        willy@infradead.org
+Subject: Re: [PATCH v6 5/8] mm: Device exclusive memory access
+Message-ID: <20210315074245.GC4136862@infradead.org>
+References: <20210312083851.15981-1-apopple@nvidia.com>
+ <20210312083851.15981-6-apopple@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YE78SRefRe1trldP@Sun>
+In-Reply-To: <20210312083851.15981-6-apopple@nvidia.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 15, 2021 at 02:18:49PM +0800, Hongren Zheng (Zenithal) wrote:
-> The old document for usbip protocol is misleading and hard to read:
->   * Some fields in header are incorrect
->   * Explanation of some fields are unclear or even wrong
->   * Padding of header (namely all headers have the same length) is
->     not explicitly point out, which is crucial for stream protocol like
->     TCP
-> 
-> These fixes are made through reading usbip kernel drivers and userland
-> codes. Also I have implemented one usbip server.
-> 
-> Major changes:
->   * Document the correct field as described in the codebase.
->   * Document the padding in usbip headers. This is crucial for TCP
->     stream hence these padding should be explicitly point out.
->     In code these padding are implemented by a union of all headers.
->   * Fix two FIXME related to usbip unlink and Document the behavior
->     of unlink in different situation.
->   * Clarify some field with more accurate explanation, like those
->     fields associated with URB. Some constraints are extracted from
->     code.
->   * Delete specific transfer_flag doc in usbip as it should be
->     documented by the URB part.
->   * Add data captured from wire as example
-> 
-> Also some changes suggested by a previous patch in
-> https://lore.kernel.org/linux-usb/20180128071514.9107-1-alexandre.f.demers@gmail.com/
-> is adopted in this patch.
-> 
-> Co-developed-by: Alexandre Demers <alexandre.f.demers@gmail.com>
-> Signed-off-by: Hongren Zheng (Zenithal) <i@zenithal.me>
-> ---
->  Documentation/usb/usbip_protocol.rst | 290 +++++++++++++++------------
->  1 file changed, 159 insertions(+), 131 deletions(-)
+> +Not all devices support atomic access to system memory. To support atomic
+> +operations to a shared virtual memory page such a device needs access to that
+> +page which is exclusive of any userspace access from the CPU. The
+> +``make_device_exclusive_range()`` function can be used to make a memory range
+> +inaccessible from userspace.
 
-What changed from v1?  Always list that here below the --- line.
+s/Not all devices/Some devices/ ?
 
-> 
-> diff --git a/Documentation/usb/usbip_protocol.rst b/Documentation/usb/usbip_protocol.rst
-> index 988c832166cd..a15d9c1254e2 100644
-> --- a/Documentation/usb/usbip_protocol.rst
-> +++ b/Documentation/usb/usbip_protocol.rst
-> @@ -5,8 +5,14 @@ USB/IP protocol
->  PRELIMINARY DRAFT, MAY CONTAIN MISTAKES!
->  28 Jun 2011
->  
-> +Update: Fix major fields in protocol
-> +14 Mar 2021
+>  static inline int mm_has_notifiers(struct mm_struct *mm)
+> @@ -528,7 +534,17 @@ static inline void mmu_notifier_range_init_migrate(
+>  {
+>  	mmu_notifier_range_init(range, MMU_NOTIFY_MIGRATE, flags, vma, mm,
+>  				start, end);
+> -	range->migrate_pgmap_owner = pgmap;
+> +	range->owner = pgmap;
+> +}
+> +
+> +static inline void mmu_notifier_range_init_exclusive(
+> +			struct mmu_notifier_range *range, unsigned int flags,
+> +			struct vm_area_struct *vma, struct mm_struct *mm,
+> +			unsigned long start, unsigned long end, void *owner)
+> +{
+> +	mmu_notifier_range_init(range, MMU_NOTIFY_EXCLUSIVE, flags, vma, mm,
+> +				start, end);
+> +	range->owner = owner;
 
-This does not belong here, the git changelog shows this information.
+Maybe just replace mmu_notifier_range_init_migrate with a
+mmu_notifier_range_init_owner helper that takes the owner but does
+not hard code a type?
 
-The original date above can be removed as well if you want.  And if the
-mistakes are all fixed now, that line can be dropped too :)
+>  		}
+> +	} else if (is_device_exclusive_entry(entry)) {
+> +		page = pfn_swap_entry_to_page(entry);
+> +
+> +		get_page(page);
+> +		rss[mm_counter(page)]++;
+> +
+> +		if (is_writable_device_exclusive_entry(entry) &&
+> +		    is_cow_mapping(vm_flags)) {
+> +			/*
+> +			 * COW mappings require pages in both
+> +			 * parent and child to be set to read.
+> +			 */
+> +			entry = make_readable_device_exclusive_entry(
+> +							swp_offset(entry));
+> +			pte = swp_entry_to_pte(entry);
+> +			if (pte_swp_soft_dirty(*src_pte))
+> +				pte = pte_swp_mksoft_dirty(pte);
+> +			if (pte_swp_uffd_wp(*src_pte))
+> +				pte = pte_swp_mkuffd_wp(pte);
+> +			set_pte_at(src_mm, addr, src_pte, pte);
+> +		}
 
-thanks,
+Just cosmetic, but I wonder if should factor this code block into
+a little helper.
 
-greg k-h
+> +
+> +static bool try_to_protect_one(struct page *page, struct vm_area_struct *vma,
+> +			unsigned long address, void *arg)
+> +{
+> +	struct mm_struct *mm = vma->vm_mm;
+> +	struct page_vma_mapped_walk pvmw = {
+> +		.page = page,
+> +		.vma = vma,
+> +		.address = address,
+> +	};
+> +	struct ttp_args *ttp = (struct ttp_args *) arg;
+
+This cast should not be needed.
+
+> +	return ttp.valid && (!page_mapcount(page) ? true : false);
+
+This can be simplified to:
+
+	return ttp.valid && !page_mapcount(page);
+
+> +	npages = get_user_pages_remote(mm, start, npages,
+> +				       FOLL_GET | FOLL_WRITE | FOLL_SPLIT_PMD,
+> +				       pages, NULL, NULL);
+> +	for (i = 0; i < npages; i++, start += PAGE_SIZE) {
+> +		if (!trylock_page(pages[i])) {
+> +			put_page(pages[i]);
+> +			pages[i] = NULL;
+> +			continue;
+> +		}
+> +
+> +		if (!try_to_protect(pages[i], mm, start, arg)) {
+> +			unlock_page(pages[i]);
+> +			put_page(pages[i]);
+> +			pages[i] = NULL;
+> +		}
+
+Should the trylock_page go into try_to_protect to simplify the loop
+a little?  Also I wonder if we need make_device_exclusive_range or
+should just open code the get_user_pages_remote + try_to_protect
+loop in the callers, as that might allow them to also deduct other
+information about the found pages.
+
+Otherwise looks good:
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
