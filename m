@@ -2,54 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE1BCC433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 08:59:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB23EC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B3E3164E90
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 08:59:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9FB8D64E33
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229591AbhCOI6n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 04:58:43 -0400
-Received: from verein.lst.de ([213.95.11.211]:52958 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229608AbhCOI6e (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Mar 2021 04:58:34 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id A56C668C4E; Mon, 15 Mar 2021 09:58:31 +0100 (CET)
-Date:   Mon, 15 Mar 2021 09:58:31 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
+        id S229532AbhCOJOd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 05:14:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39464 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229553AbhCOJOF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 05:14:05 -0400
+Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D2EC061574
+        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:05 -0700 (PDT)
+Received: by mail-wm1-x329.google.com with SMTP id l19so7643155wmh.1
+        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7q9frKRyQfRE4B6MTRBlCEP/Flnqnclwy9pdxxLTvwI=;
+        b=bzk3LhhcHOkhreIRdFUAb3eBRe5iFe9hp/x+X9PdLSDk3QlvrAQycVu4LhZ9enxjMt
+         u7ZaPqtUEzdXkE/mRtbps3BdhM2iluXj/UwIiX4fbjhXwZ9sQBAZrqnKTu4O8e0XdZap
+         rnlJBdwI/4/yuzaH10B3AauzX9xALmpEV2D7nw6QfJ49KWqqQLAbq0w1m2tlFwVTacnb
+         q1Rca1wUD54C6CmfDLwwDiq+AMhFDK4Di1MmCKgrItgZfSCLtIvAiWnlVKEtNLks4iDs
+         602nvN+TN3hAZBH+CtY0h06MdrUROgmfJ/130GLxNHtSiWyM3zpEcSMcoxxXkZwa0ycW
+         IuHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=7q9frKRyQfRE4B6MTRBlCEP/Flnqnclwy9pdxxLTvwI=;
+        b=P3oGVAbvEI7SgibMGxPSmF3qXhvjWWNPYiIwT2sq5Jix4vN3i0fRyz+yRfN/AjYjoL
+         yBhc+51DPPUZT+FvLLC4/PYeWiiqHBIayfgDqCXllx8pICKc8PrVz88qoxaimfNxKRRP
+         +p23jooRvjLZGSuXbiV3XZrwGPhGYXLmlcvp0I4mhSgAaCN1SvSlrJBf1c34xjKVvOlp
+         i7sv9b3jRcf9VlqWGmOwT78codhcEa2bCphZGIBvPzGDI1Xx4AuJnq3PxmJILw0E2Yfr
+         gQQWknrFmdfyCdlSZ/QNKWUtKaQvr6I/Mf9oAUmRfmHxc53UWZPYdDxlGPp04uUk4yhY
+         b4nw==
+X-Gm-Message-State: AOAM532tqK72FOt/0LupxCIFhTloiZcyW30rfuaQHOeGa1Gsl/415EVn
+        iqCpy+Sdq20K33ucToyt5fXr5A==
+X-Google-Smtp-Source: ABdhPJxWj/OPcRAt0JL7G9FO0RU0kAhusdVeP7JKPaNGFKhZ1Img5B6pk44bPzlWF7FR7FW/WbDydg==
+X-Received: by 2002:a05:600c:35c1:: with SMTP id r1mr25370863wmq.143.1615799644012;
+        Mon, 15 Mar 2021 02:14:04 -0700 (PDT)
+Received: from debian-brgl.home (lfbn-nic-1-149-6.w2-15.abo.wanadoo.fr. [2.15.231.6])
+        by smtp.gmail.com with ESMTPSA id z3sm17978822wrw.96.2021.03.15.02.14.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Mar 2021 02:14:03 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
+        Shuah Khan <shuah@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kent Gibson <warthog618@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Diana Craciun <diana.craciun@oss.nxp.com>,
-        Eric Auger <eric.auger@redhat.com>, kvm@vger.kernel.org,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, "Raj, Ashok" <ashok.raj@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH v2 12/14] vfio: Make vfio_device_ops pass a 'struct
- vfio_device *' instead of 'void *'
-Message-ID: <20210315085831.GE29269@lst.de>
-References: <0-v2-20d933792272+4ff-vfio1_jgg@nvidia.com> <12-v2-20d933792272+4ff-vfio1_jgg@nvidia.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH v5 00/11] gpio: implement the configfs testing module
+Date:   Mon, 15 Mar 2021 10:13:49 +0100
+Message-Id: <20210315091400.13772-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.30.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <12-v2-20d933792272+4ff-vfio1_jgg@nvidia.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Looks good,
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+This series adds a new GPIO testing module based on configfs committable items
+and sysfs. The goal is to provide a testing driver that will be configurable
+at runtime (won't need module reload) and easily extensible. The control over
+the attributes is also much more fine-grained than in gpio-mockup.
+
+This series also contains a respin of the patches I sent separately to the
+configfs maintainers - these patches implement the concept of committable
+items that was well defined for a long time but never actually completed.
+
+Apart from the new driver itself, its selftests and the configfs patches, this
+series contains some changes to the bitmap API - most importantly: it adds
+devres managed variants of bitmap_alloc() and bitmap_zalloc().
+
+v1 -> v2:
+- add selftests for gpio-sim
+- add helper programs for selftests
+- update the configfs rename callback to work with the new API introduced in
+  v5.11
+- fix a missing quote in the documentation
+- use !! whenever using bits operation that are required to return 0 or 1
+- use provided bitmap API instead of reimplementing copy or fill operations
+- fix a deadlock in gpio_sim_direction_output()
+- add new read-only configfs attributes for mapping of configfs items to GPIO
+  device names
+- and address other minor issues pointed out in reviews of v1
+
+v2 -> v3:
+- use devm_bitmap_alloc() instead of the zalloc variant if we're initializing
+  the bitmap with 1s
+- drop the patch exporting device_is_bound()
+- don't return -ENODEV from dev_nam and chip_name configfs attributes, return
+  a string indicating that the device is not available yet ('n/a')
+- fix indentation where it makes sense
+- don't protect IDA functions which use their own locking and where it's not
+  needed
+- use kmemdup() instead of kzalloc() + memcpy()
+- collected review tags
+- minor coding style fixes
+
+v3 -> v4:
+- return 'none' instead of 'n/a' from dev_name and chip_name before the device
+  is registered
+- use sysfs_emit() instead of s*printf()
+- drop GPIO_SIM_MAX_PROP as it's only used in an array's definition where it's
+  fine to hardcode the value
+
+v4 -> v5:
+- export devm bitmap functions with EXPORT_SYMBOL_GPL() instead of a simple
+  EXPORT_SYMBOL()
+
+Bartosz Golaszewski (11):
+  configfs: increase the item name length
+  configfs: use (1UL << bit) for internal flags
+  configfs: implement committable items
+  samples: configfs: add a committable group
+  lib: bitmap: remove the 'extern' keyword from function declarations
+  lib: bitmap: order includes alphabetically
+  lib: bitmap: provide devm_bitmap_alloc() and devm_bitmap_zalloc()
+  gpio: sim: new testing module
+  selftests: gpio: provide a helper for reading chip info
+  selftests: gpio: add a helper for reading GPIO line names
+  selftests: gpio: add test cases for gpio-sim
+
+ Documentation/admin-guide/gpio/gpio-sim.rst   |  72 ++
+ Documentation/filesystems/configfs.rst        |   6 +-
+ drivers/gpio/Kconfig                          |   8 +
+ drivers/gpio/Makefile                         |   1 +
+ drivers/gpio/gpio-sim.c                       | 874 ++++++++++++++++++
+ fs/configfs/configfs_internal.h               |  22 +-
+ fs/configfs/dir.c                             | 245 ++++-
+ include/linux/bitmap.h                        | 127 +--
+ include/linux/configfs.h                      |   3 +-
+ lib/bitmap.c                                  |  42 +-
+ samples/configfs/configfs_sample.c            | 153 +++
+ tools/testing/selftests/gpio/.gitignore       |   2 +
+ tools/testing/selftests/gpio/Makefile         |   4 +-
+ tools/testing/selftests/gpio/config           |   1 +
+ tools/testing/selftests/gpio/gpio-chip-info.c |  57 ++
+ tools/testing/selftests/gpio/gpio-line-name.c |  55 ++
+ tools/testing/selftests/gpio/gpio-sim.sh      | 229 +++++
+ 17 files changed, 1815 insertions(+), 86 deletions(-)
+ create mode 100644 Documentation/admin-guide/gpio/gpio-sim.rst
+ create mode 100644 drivers/gpio/gpio-sim.c
+ create mode 100644 tools/testing/selftests/gpio/gpio-chip-info.c
+ create mode 100644 tools/testing/selftests/gpio/gpio-line-name.c
+ create mode 100755 tools/testing/selftests/gpio/gpio-sim.sh
+
+-- 
+2.30.1
+
