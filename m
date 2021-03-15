@@ -4,57 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0247C4361A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF31C43333
 	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7812C64E99
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E083C64EDF
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229663AbhCOJOg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 05:14:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39550 "EHLO
+        id S229634AbhCOJOf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 05:14:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229664AbhCOJOT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 05:14:19 -0400
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7CCAC061574
-        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:17 -0700 (PDT)
-Received: by mail-wr1-x42a.google.com with SMTP id d15so8264924wrv.5
-        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:17 -0700 (PDT)
+        with ESMTP id S229639AbhCOJOL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 05:14:11 -0400
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D3A2C06175F
+        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:11 -0700 (PDT)
+Received: by mail-wr1-x436.google.com with SMTP id a18so8237537wrc.13
+        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=z5Cepyi5kn4wd4FWddheSiToZBY6ONr0o29KGf5Ep/4=;
-        b=BGvgsnGwpvbjxocGADih3b7K0Pu2tVOSk5+Qm8zszcBlGL8HFTBnNjlSUamkByqc5I
-         YCeJMEhi7aKewLIulWjaI8Sbj8gnXNXJFWamQtPkabx5B+vKq0FvlZD5XB1yzVEqNIQy
-         23QrH63PwxcPU/d53Ycpw8vg3aBOAXmdbafT7yEbjv9vCJtXs+ifmX16avVQ9IdUE7/C
-         bEPvXYyIywTiOFe+xF4xEPbxxxaRq269k4EIDSo4Tz9ch/Kh+BfJEOVnEzBOAR6L2nEH
-         LGWuUJc2fJEp23U6uLnz9D8fGVcMvns7FeviO3dajGTo89FukN8tdsunOzsRKhDTm0Nl
-         Ur3Q==
+        bh=fUwsUBnwpUEeIgj3zKzPgEDR8ZuQ3xVAmh3ZPjlofqU=;
+        b=YLjM+IsbFTFXUobVqnMuZVNlj+dqiEjDQas5TChlEYK9NtPhxpGY0+ARgUV/hxa8ne
+         7dhJvPbWrQpZa5m9m2N108Sa/VeV9FKUs+ynmgNA6bD5ZO7s8uyzyPQM1qHeOuPlc0v5
+         UEtso107IWjd6xCruPs+ptyiQSSSUzZ2gEVnVdr/fweQ3ZuxX86+5hsRindbdmIQSvIY
+         k1PWCvADhAo6jF2PDZKgW887dkWiTkGFetS+hfq1EQg0tOPzveBFGJCQx8+iSEYxdd5p
+         ODRBvFcn9oI45DOvZobKg5Od6veH280Ktt0KI64lLmbqGQrl96cwwGrGvgSuQ01fyS1F
+         NL1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=z5Cepyi5kn4wd4FWddheSiToZBY6ONr0o29KGf5Ep/4=;
-        b=Rr1JPbeJG1HwI3bNsMJ45i1b0ye5LEyYrGiAPtdBVWEEQx1sTOo5zRsMCPZCapPV23
-         bQ/0IWYhzgKMOA+I/5hxg9oSV195n+MKQJiDHLeat0e1iPmfpEom6PVFNX+CKYDYT5lk
-         D8iinOaYgBzXlG4e6jgGDnyuZrbWba1pRv6aT1nmiX7smbYtZgWCR0T3Y/mdqkNA9UPQ
-         iyvlXUZbqeCHh5s+fTw7vk7NX6aWpvu5FCgYfR2FrCQ7c+3uDr/i+Wn8bfSQYMpN8nFG
-         L4N/OF3wONCKoYLJ0bjxJ4LS2CJU/+V1XlfX9lETaKKg2PaddSj9cw4+J4Ul9cs0CjK1
-         LqPg==
-X-Gm-Message-State: AOAM5314SEk1SqQ9Uo3pZ397xOrVEDS+gHCylDG0RwnPCqydrvx+GK+Z
-        fD4sgqbrwPrrL4DHvIRB4qS8/Q==
-X-Google-Smtp-Source: ABdhPJyYht9VvXJx50Zeae7t2t/+qCdx86+1Ze5o2LEoQ3T7rqEy+FQpOY2vOkjCch4A89dx3W+WvQ==
-X-Received: by 2002:adf:f60b:: with SMTP id t11mr21207312wrp.269.1615799656537;
-        Mon, 15 Mar 2021 02:14:16 -0700 (PDT)
+        bh=fUwsUBnwpUEeIgj3zKzPgEDR8ZuQ3xVAmh3ZPjlofqU=;
+        b=kXQ5p8rfEBPln//6YyEu8Lr5CNMZHjaeO3Xn3H7ZsFrSJzhxRrB8p/hh2yb8ZSkDV3
+         om4AGAWR0vfY5dSjPU3j/024LGm26nDR/9PTvwYBvNaveWRxnjKesjeo5pbTh5yf5SCa
+         DvgfJ/7waoyoIWWpYJksG7VumgaxN8iJMKfJJbNzQaK7etJU6ayznCpeOyZmxHJ+POT9
+         1Q1qapfhrEbQsuSzQ0Vg4QtDFrTrTcKpL9pq5DSO4g3OJQsSatVhJwZnQnPEiS6C5of6
+         IRiHROtnz/apBa2ekLoTAMOtjL0pQPGNaLhlLIVkirZ2mMBmWjH06XAlL5bTntm+41nO
+         takA==
+X-Gm-Message-State: AOAM531btKpldUsaaDzDJ2SLUWIYbANg8lHVLSMTcfjytHWXelHLg3TR
+        eVdRCbM1MJjjmb1nt/tHXkn7Mw==
+X-Google-Smtp-Source: ABdhPJzoBt6wwGAyKiOp+A1yPRXcDpbuO1X1UjfoziFN5uuwRH6DFIKVfAWk4Hs3T+J26PWT7gSKwA==
+X-Received: by 2002:a05:6000:18ac:: with SMTP id b12mr26543057wri.77.1615799649982;
+        Mon, 15 Mar 2021 02:14:09 -0700 (PDT)
 Received: from debian-brgl.home (lfbn-nic-1-149-6.w2-15.abo.wanadoo.fr. [2.15.231.6])
-        by smtp.gmail.com with ESMTPSA id z3sm17978822wrw.96.2021.03.15.02.14.15
+        by smtp.gmail.com with ESMTPSA id z3sm17978822wrw.96.2021.03.15.02.14.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Mar 2021 02:14:16 -0700 (PDT)
+        Mon, 15 Mar 2021 02:14:09 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
         Shuah Khan <shuah@kernel.org>,
@@ -69,9 +69,9 @@ To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
 Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v5 06/11] lib: bitmap: order includes alphabetically
-Date:   Mon, 15 Mar 2021 10:13:55 +0100
-Message-Id: <20210315091400.13772-7-brgl@bgdev.pl>
+Subject: [PATCH v5 03/11] configfs: implement committable items
+Date:   Mon, 15 Mar 2021 10:13:52 +0100
+Message-Id: <20210315091400.13772-4-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210315091400.13772-1-brgl@bgdev.pl>
 References: <20210315091400.13772-1-brgl@bgdev.pl>
@@ -83,60 +83,386 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-For better readability and maintenance: order the includes in bitmap
-source files alphabetically.
+This implements configfs committable items. We mostly follow the
+documentation except that we extend config_group_ops with uncommit_item()
+callback for reverting the changes made by commit_item().
+
+Each committable group has two sub-directories: pending and live. New
+items can only be created in pending/. Attributes can only be modified
+while the item is in pending/. Once it's ready to be committed, it must
+be moved over to live/ using the rename() system call. This is when the
+commit_item() function will be called.
+
+Implementation-wise: we reuse the default group mechanism to elegantly
+plug the new pseude-groups into configfs. The pending group inherits the
+parent group's operations so that config_items can be seamlesly created
+in it using the callbacks supplied by the user as part of the committable
+group itself.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- include/linux/bitmap.h | 4 ++--
- lib/bitmap.c           | 9 +++++----
- 2 files changed, 7 insertions(+), 6 deletions(-)
+ Documentation/filesystems/configfs.rst |   6 +-
+ fs/configfs/configfs_internal.h        |   2 +
+ fs/configfs/dir.c                      | 245 ++++++++++++++++++++++++-
+ include/linux/configfs.h               |   1 +
+ 4 files changed, 245 insertions(+), 9 deletions(-)
 
-diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
-index 6939a8983026..3282db97e06c 100644
---- a/include/linux/bitmap.h
-+++ b/include/linux/bitmap.h
-@@ -4,10 +4,10 @@
+diff --git a/Documentation/filesystems/configfs.rst b/Documentation/filesystems/configfs.rst
+index 1d3d6f4a82a9..7e0e7c356450 100644
+--- a/Documentation/filesystems/configfs.rst
++++ b/Documentation/filesystems/configfs.rst
+@@ -290,6 +290,7 @@ config_item_type::
+ 		struct config_group *(*make_group)(struct config_group *group,
+ 						   const char *name);
+ 		int (*commit_item)(struct config_item *item);
++		int (*uncommit_item)(struct config_item *item);
+ 		void (*disconnect_notify)(struct config_group *group,
+ 					  struct config_item *item);
+ 		void (*drop_item)(struct config_group *group,
+@@ -490,9 +491,6 @@ pass up an error.
+ Committable Items
+ =================
  
- #ifndef __ASSEMBLY__
+-Note:
+-     Committable items are currently unimplemented.
+-
+ Some config_items cannot have a valid initial state.  That is, no
+ default values can be specified for the item's attributes such that the
+ item can do its work.  Userspace must configure one or more attributes,
+@@ -532,4 +530,4 @@ method returns zero and the item is moved to the "live" directory.
+ As rmdir(2) does not work in the "live" directory, an item must be
+ shutdown, or "uncommitted".  Again, this is done via rename(2), this
+ time from the "live" directory back to the "pending" one.  The subsystem
+-is notified by the ct_group_ops->uncommit_object() method.
++is notified by the ct_group_ops->uncommit_item() method.
+diff --git a/fs/configfs/configfs_internal.h b/fs/configfs/configfs_internal.h
+index b495c9f043d4..41ac21c82bf5 100644
+--- a/fs/configfs/configfs_internal.h
++++ b/fs/configfs/configfs_internal.h
+@@ -56,6 +56,8 @@ struct configfs_dirent {
+ #define CONFIGFS_USET_DROPPING		(1UL << 8)
+ #define CONFIGFS_USET_IN_MKDIR		(1UL << 9)
+ #define CONFIGFS_USET_CREATING		(1UL << 10)
++#define CONFIGFS_GROUP_PENDING		(1UL << 11)
++#define CONFIGFS_GROUP_LIVE		(1UL << 12)
+ #define CONFIGFS_NOT_PINNED	(CONFIGFS_ITEM_ATTR | CONFIGFS_ITEM_BIN_ATTR)
  
--#include <linux/types.h>
- #include <linux/bitops.h>
--#include <linux/string.h>
- #include <linux/kernel.h>
-+#include <linux/string.h>
-+#include <linux/types.h>
+ extern struct mutex configfs_symlink_mutex;
+diff --git a/fs/configfs/dir.c b/fs/configfs/dir.c
+index b6098e02e20b..f3c95c1d5278 100644
+--- a/fs/configfs/dir.c
++++ b/fs/configfs/dir.c
+@@ -656,6 +656,13 @@ static void detach_groups(struct config_group *group)
  
- /*
-  * bitmaps provide bit arrays that consume one or more unsigned
-diff --git a/lib/bitmap.c b/lib/bitmap.c
-index 75006c4036e9..78f70d9007ad 100644
---- a/lib/bitmap.c
-+++ b/lib/bitmap.c
-@@ -3,17 +3,18 @@
-  * lib/bitmap.c
-  * Helper functions for bitmap.h.
-  */
--#include <linux/export.h>
--#include <linux/thread_info.h>
--#include <linux/ctype.h>
--#include <linux/errno.h>
+ 		inode_unlock(d_inode(child));
+ 
++		/*
++		 * Free memory allocated for the pending and live directories
++		 * of committable groups.
++		 */
++		if (sd->s_type & (CONFIGFS_GROUP_PENDING | CONFIGFS_GROUP_LIVE))
++			kfree(sd->s_element);
 +
- #include <linux/bitmap.h>
- #include <linux/bitops.h>
- #include <linux/bug.h>
-+#include <linux/ctype.h>
-+#include <linux/errno.h>
-+#include <linux/export.h>
- #include <linux/kernel.h>
- #include <linux/mm.h>
- #include <linux/slab.h>
- #include <linux/string.h>
-+#include <linux/thread_info.h>
- #include <linux/uaccess.h>
+ 		d_delete(child);
+ 		dput(child);
+ 	}
+@@ -860,6 +867,134 @@ static void configfs_detach_item(struct config_item *item)
+ 	configfs_remove_dir(item);
+ }
  
- #include <asm/page.h>
++static bool is_committable_group(struct config_item *item)
++{
++	const struct config_item_type *type = item->ci_type;
++
++	if (type && type->ct_group_ops &&
++	    type->ct_group_ops->commit_item &&
++	    type->ct_group_ops->uncommit_item)
++		return true;
++
++	return false;
++}
++
++struct pending_group_data {
++	struct config_group group;
++	struct config_item_type type;
++	struct configfs_group_operations group_ops;
++};
++
++struct live_group_data {
++	struct config_group group;
++	struct config_item_type type;
++};
++
++static int create_pending_group(struct config_item *parent_item,
++				struct configfs_fragment *frag)
++{
++	const struct config_item_type *parent_type = parent_item->ci_type;
++	struct pending_group_data *pending;
++	struct configfs_dirent *sd;
++	int ret;
++
++	pending = kzalloc(sizeof(*pending), GFP_KERNEL);
++	if (!pending)
++		return -ENOMEM;
++
++	/*
++	 * Let's inherit the group_ops from the parent except for item
++	 * committing and uncommitting.
++	 */
++	memcpy(&pending->group_ops, parent_type->ct_group_ops,
++	       sizeof(struct configfs_group_operations));
++	pending->type.ct_group_ops = &pending->group_ops;
++	pending->type.ct_group_ops->commit_item = NULL;
++	pending->type.ct_group_ops->uncommit_item = NULL;
++
++	/* Let's directly reuse item_ops. */
++	pending->type.ct_item_ops = parent_type->ct_item_ops;
++	pending->type.ct_owner = parent_type->ct_owner;
++
++	config_group_init_type_name(&pending->group, "pending", &pending->type);
++
++	ret = create_default_group(to_config_group(parent_item),
++				   &pending->group, frag);
++	if (ret) {
++		kfree(pending);
++		return ret;
++	}
++
++	link_group(to_config_group(parent_item), &pending->group);
++
++	sd = pending->group.cg_item.ci_dentry->d_fsdata;
++	/* Allow creating config_items in 'pending' group. */
++	sd->s_type |= (CONFIGFS_GROUP_PENDING | CONFIGFS_USET_DIR);
++
++	return 0;
++}
++
++static int create_live_group(struct config_item *parent_item,
++			     struct configfs_fragment *frag)
++{
++	struct live_group_data *live;
++	struct configfs_dirent *sd;
++	int ret;
++
++	live = kzalloc(sizeof(*live), GFP_KERNEL);
++	if (!live)
++		return -ENOMEM;
++
++	live->type.ct_owner = parent_item->ci_type->ct_owner;
++
++	config_group_init_type_name(&live->group, "live", &live->type);
++
++	ret = create_default_group(to_config_group(parent_item),
++				   &live->group, frag);
++	if (ret) {
++		kfree(live);
++		return ret;
++	}
++
++	link_group(to_config_group(parent_item), &live->group);
++
++	sd = live->group.cg_item.ci_dentry->d_fsdata;
++	sd->s_type |= CONFIGFS_GROUP_LIVE;
++	sd->s_type &= ~CONFIGFS_USET_DIR;
++
++	return 0;
++}
++
++static int create_committable_groups(struct config_item *parent_item,
++				     struct configfs_fragment *frag)
++{
++	struct configfs_dirent *sd;
++	int ret;
++
++	ret = create_pending_group(parent_item, frag);
++	if (ret)
++		return ret;
++
++	ret = create_live_group(parent_item, frag);
++	if (ret) {
++		detach_groups(to_config_group(parent_item));
++		return ret;
++	}
++
++	/* Disallow creating items directly in the committable group. */
++	sd = parent_item->ci_dentry->d_fsdata;
++	sd->s_type &= ~CONFIGFS_USET_DIR;
++
++	return 0;
++}
++
++static void dentry_mark_dead(struct config_item *item, struct dentry *dentry)
++{
++	configfs_detach_item(item);
++	d_inode(dentry)->i_flags |= S_DEAD;
++	dont_mount(dentry);
++}
++
+ static int configfs_attach_group(struct config_item *parent_item,
+ 				 struct config_item *item,
+ 				 struct dentry *dentry,
+@@ -885,11 +1020,15 @@ static int configfs_attach_group(struct config_item *parent_item,
+ 		inode_lock_nested(d_inode(dentry), I_MUTEX_CHILD);
+ 		configfs_adjust_dir_dirent_depth_before_populate(sd);
+ 		ret = populate_groups(to_config_group(item), frag);
+-		if (ret) {
+-			configfs_detach_item(item);
+-			d_inode(dentry)->i_flags |= S_DEAD;
+-			dont_mount(dentry);
++		if (ret)
++			dentry_mark_dead(item, dentry);
++
++		if (is_committable_group(item)) {
++			ret = create_committable_groups(item, frag);
++			if (ret)
++				dentry_mark_dead(item, dentry);
+ 		}
++
+ 		configfs_adjust_dir_dirent_depth_after_populate(sd);
+ 		inode_unlock(d_inode(dentry));
+ 		if (ret)
+@@ -966,6 +1105,8 @@ static void configfs_dump_one(struct configfs_dirent *sd, int level)
+ 	type_print(CONFIGFS_USET_DIR);
+ 	type_print(CONFIGFS_USET_DEFAULT);
+ 	type_print(CONFIGFS_USET_DROPPING);
++	type_print(CONFIGFS_GROUP_PENDING);
++	type_print(CONFIGFS_GROUP_LIVE);
+ #undef type_print
+ }
+ 
+@@ -1457,7 +1598,7 @@ static int configfs_rmdir(struct inode *dir, struct dentry *dentry)
+ 	struct config_item *parent_item;
+ 	struct config_item *item;
+ 	struct configfs_subsystem *subsys;
+-	struct configfs_dirent *sd;
++	struct configfs_dirent *sd, *parent_sd;
+ 	struct configfs_fragment *frag;
+ 	struct module *subsys_owner = NULL, *dead_item_owner = NULL;
+ 	int ret;
+@@ -1476,6 +1617,12 @@ static int configfs_rmdir(struct inode *dir, struct dentry *dentry)
+ 		return -EINVAL;
+ 	}
+ 
++	parent_sd = dentry->d_parent->d_fsdata;
++	if (parent_sd->s_type & CONFIGFS_GROUP_LIVE) {
++		config_item_put(parent_item);
++		return -EPERM;
++	}
++
+ 	/* configfs_mkdir() shouldn't have allowed this */
+ 	BUG_ON(!subsys->su_group.cg_item.ci_type);
+ 	subsys_owner = subsys->su_group.cg_item.ci_type->ct_owner;
+@@ -1562,9 +1709,97 @@ static int configfs_rmdir(struct inode *dir, struct dentry *dentry)
+ 	return 0;
+ }
+ 
++static int configfs_rename(struct user_namespace *mnt_userns,
++			   struct inode *old_dir, struct dentry *old_dentry,
++			   struct inode *new_dir, struct dentry *new_dentry,
++			   unsigned int flags)
++{
++	struct configfs_dirent *sd, *old_parent_sd, *new_parent_sd;
++	struct dentry *old_parent_dentry, *new_parent_dentry;
++	struct dentry *committable_group_dentry;
++	struct config_item *committable_group_item, *item, *new_parent_item;
++	struct configfs_subsystem *committable_group_subsys;
++	struct configfs_group_operations *committable_group_ops;
++	int ret = 0;
++
++	if (flags)
++		return -EINVAL;
++
++	old_parent_dentry = old_dentry->d_parent;
++	new_parent_dentry = new_dentry->d_parent;
++
++	sd = old_dentry->d_fsdata;
++	old_parent_sd = old_dentry->d_parent->d_fsdata;
++	new_parent_sd = new_dentry->d_parent->d_fsdata;
++
++	if (!old_parent_sd || !new_parent_sd)
++		return -EPERM;
++
++	/*
++	 * Renaming must always be between a 'pending' and a 'live' group and
++	 * both need to have the same parent. Changing the directory name is
++	 * not allowed.
++	 */
++	if (!((old_parent_sd->s_type & CONFIGFS_GROUP_PENDING) &&
++	      (new_parent_sd->s_type & CONFIGFS_GROUP_LIVE)) &&
++	    !((old_parent_sd->s_type & CONFIGFS_GROUP_LIVE) &&
++	      (new_parent_sd->s_type & CONFIGFS_GROUP_PENDING)))
++		return -EPERM;
++
++	if (old_parent_dentry->d_parent != new_parent_dentry->d_parent)
++		return -EPERM;
++
++	if (strcmp(old_dentry->d_name.name, new_dentry->d_name.name))
++		return -EPERM;
++
++	committable_group_dentry = old_parent_dentry->d_parent;
++	/*
++	 * Grab a reference to the committable group for the duration of
++	 * this function.
++	 */
++	committable_group_item =
++		configfs_get_config_item(committable_group_dentry);
++	committable_group_subsys =
++		to_config_group(committable_group_item)->cg_subsys;
++	committable_group_ops = committable_group_item->ci_type->ct_group_ops;
++
++	item = sd->s_element;
++	new_parent_item = new_parent_sd->s_element;
++
++	if (WARN_ON(!is_committable_group(committable_group_item))) {
++		/* This would be a result of a programming error in configfs. */
++		config_item_put(committable_group_item);
++		return -EPERM;
++	}
++
++	mutex_lock(&committable_group_subsys->su_mutex);
++
++	if ((old_parent_sd->s_type & CONFIGFS_GROUP_PENDING) &&
++	    (new_parent_sd->s_type & CONFIGFS_GROUP_LIVE))
++		ret = committable_group_ops->commit_item(item);
++	else
++		ret = committable_group_ops->uncommit_item(item);
++	if (ret)
++		goto out;
++
++	spin_lock(&configfs_dirent_lock);
++	new_dentry->d_fsdata = sd;
++	list_move(&sd->s_sibling, &new_parent_sd->s_children);
++	item->ci_parent = new_parent_item;
++	d_move(old_dentry, new_dentry);
++	spin_unlock(&configfs_dirent_lock);
++
++out:
++	mutex_unlock(&committable_group_subsys->su_mutex);
++	config_item_put(committable_group_item);
++
++	return ret;
++}
++
+ const struct inode_operations configfs_dir_inode_operations = {
+ 	.mkdir		= configfs_mkdir,
+ 	.rmdir		= configfs_rmdir,
++	.rename		= configfs_rename,
+ 	.symlink	= configfs_symlink,
+ 	.unlink		= configfs_unlink,
+ 	.lookup		= configfs_lookup,
+diff --git a/include/linux/configfs.h b/include/linux/configfs.h
+index 4f76dcc08134..ff6b0e408136 100644
+--- a/include/linux/configfs.h
++++ b/include/linux/configfs.h
+@@ -219,6 +219,7 @@ struct configfs_group_operations {
+ 	struct config_item *(*make_item)(struct config_group *group, const char *name);
+ 	struct config_group *(*make_group)(struct config_group *group, const char *name);
+ 	int (*commit_item)(struct config_item *item);
++	int (*uncommit_item)(struct config_item *item);
+ 	void (*disconnect_notify)(struct config_group *group, struct config_item *item);
+ 	void (*drop_item)(struct config_group *group, struct config_item *item);
+ };
 -- 
 2.30.1
 
