@@ -2,122 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F3EC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 21:44:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15840C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 22:10:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE70F64F56
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 21:44:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C869764F56
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 22:10:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233401AbhCOVoB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 17:44:01 -0400
-Received: from relay.yourmailgateway.de ([188.68.63.162]:33797 "EHLO
-        relay.yourmailgateway.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233405AbhCOVng (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 17:43:36 -0400
-Received: from mors-relay-8201.netcup.net (localhost [127.0.0.1])
-        by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4Dzqfm2M7tz4Xvn;
-        Mon, 15 Mar 2021 22:43:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-        d=alexander-lochmann.de; s=key2; t=1615844608;
-        bh=eac9es/MFe3+8Al59Tl1zCNa/rwo+Zo9V4U9qpBACTg=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=Y3Xl6hwsbo86uGUELqv2FXJcSzPXWjZ/mu1tTvpE1UvBvsD6uBAfAlqbma4JKQhUL
-         hYMDzbe3nAlh/kZ7sdkNZFXXwNQac71s7EWM/t+mHFn0MNw5w12xpMHPuzMtR2crdF
-         0oRTNPXXme/L23ejJVmmdyQob/mCxaQ/6cbwALCKWhWZ/dHWPNBxu+chFpqqU1Qcuv
-         QEBEqXIMCMH9bZaGY/9iHgpNcEBUhbM6qXEOXObBn5Cb4RRWf4GePM0shzLOd5H2Hs
-         U1gdk6iDItIPWUof9qNgELC3MnIUiKFhhfTqKS6cuSUzh5CPEAImCDvwUBJzSVmGfm
-         icyx8HC4seyjA==
-Received: from policy01-mors.netcup.net (unknown [46.38.225.35])
-        by mors-relay-8201.netcup.net (Postfix) with ESMTPS id 4Dzqfm1xtzz4Xv9;
-        Mon, 15 Mar 2021 22:43:28 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at policy01-mors.netcup.net
-Received: from mx2e12.netcup.net (unknown [10.243.12.53])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by policy01-mors.netcup.net (Postfix) with ESMTPS id 4Dzqfk6jqDz8sX5;
-        Mon, 15 Mar 2021 22:43:26 +0100 (CET)
-Received: from [IPv6:2003:ed:7f03:fff0:8c65:f932:36e8:7b85] (p200300ed7f03fff08c65f93236e87b85.dip0.t-ipconnect.de [IPv6:2003:ed:7f03:fff0:8c65:f932:36e8:7b85])
-        by mx2e12.netcup.net (Postfix) with ESMTPSA id AB678A128E;
-        Mon, 15 Mar 2021 22:43:25 +0100 (CET)
-Authentication-Results: mx2e12;
-        spf=pass (sender IP is 2003:ed:7f03:fff0:8c65:f932:36e8:7b85) smtp.mailfrom=info@alexander-lochmann.de smtp.helo=[IPv6:2003:ed:7f03:fff0:8c65:f932:36e8:7b85]
-Received-SPF: pass (mx2e12: connection is authenticated)
-Subject: Re: [PATCH] KCOV: Introduced tracing unique covered PCs
-To:     Dmitry Vyukov <dvyukov@google.com>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Wei Yongjun <weiyongjun1@huawei.com>,
-        Maciej Grochowski <maciej.grochowski@pm.me>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        syzkaller <syzkaller@googlegroups.com>
-References: <20210211080716.80982-1-info@alexander-lochmann.de>
- <CACT4Y+YwRE=YNQYmQ=7RWde33830YOYr5pEAoYbrofY2JG43MA@mail.gmail.com>
- <01a9177f-bfd5-251a-758f-d3c68bafd0cf@alexander-lochmann.de>
- <CACT4Y+ZPX43ihuL0TCiCY-ZNa4RmfwuieLb1XUDJEa4tELsUsQ@mail.gmail.com>
-From:   Alexander Lochmann <info@alexander-lochmann.de>
-Message-ID: <8841773d-c7d2-73aa-6fa6-fe496952f2ba@alexander-lochmann.de>
-Date:   Mon, 15 Mar 2021 22:43:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        id S229605AbhCOWJh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 18:09:37 -0400
+Received: from mga09.intel.com ([134.134.136.24]:24979 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231400AbhCOWJg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 15 Mar 2021 18:09:36 -0400
+IronPort-SDR: 92spJeBzHVX1Wqwx0W/3ytlPnt6+cBuFFYzv/tjVsTNJGUirjzRzyW800UHKZQdWCTwpRTgEjE
+ ZYjbRX5ZATmA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9924"; a="189252800"
+X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
+   d="scan'208";a="189252800"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2021 15:09:34 -0700
+IronPort-SDR: h8R33qztUP4g3UWFP1eMSDTvke59umLwYr2NaDzDujI4j9ez+ZOoIOyvqjxkBlv7P+E+GuGOUu
+ g5ZI9i5IL7Kw==
+X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
+   d="scan'208";a="522298432"
+Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2021 15:09:34 -0700
+Date:   Mon, 15 Mar 2021 15:11:55 -0700
+From:   Jacob Pan <jacob.jun.pan@intel.com>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Vipin Sharma <vipinsh@google.com>, mkoutny@suse.com,
+        rdunlap@infradead.org, thomas.lendacky@amd.com,
+        brijesh.singh@amd.com, jon.grimm@amd.com, eric.vantassell@amd.com,
+        pbonzini@redhat.com, hannes@cmpxchg.org, frankja@linux.ibm.com,
+        borntraeger@de.ibm.com, corbet@lwn.net, seanjc@google.com,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, gingell@google.com,
+        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, "Tian, Kevin" <kevin.tian@intel.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+        jacob.jun.pan@intel.com
+Subject: Re: [RFC v2 2/2] cgroup: sev: Miscellaneous cgroup documentation.
+Message-ID: <20210315151155.383a7e6e@jacob-builder>
+In-Reply-To: <YEz+8HbfkbGgG5Tm@mtj.duckdns.org>
+References: <20210302081705.1990283-1-vipinsh@google.com>
+        <20210302081705.1990283-3-vipinsh@google.com>
+        <20210303185513.27e18fce@jacob-builder>
+        <YEB8i6Chq4K/GGF6@google.com>
+        <YECfhCJtHUL9cB2L@slm.duckdns.org>
+        <20210312125821.22d9bfca@jacob-builder>
+        <YEvZ4muXqiSScQ8i@google.com>
+        <20210312145904.4071a9d6@jacob-builder>
+        <YEyR9181Qgzt+Ps9@mtj.duckdns.org>
+        <20210313085701.1fd16a39@jacob-builder>
+        <YEz+8HbfkbGgG5Tm@mtj.duckdns.org>
+Organization: OTC
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CACT4Y+ZPX43ihuL0TCiCY-ZNa4RmfwuieLb1XUDJEa4tELsUsQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-DE
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-PPP-Message-ID: <161584460608.10283.10375834804910803558@mx2e12.netcup.net>
-X-PPP-Vhost: alexander-lochmann.de
-X-NC-CID: y7MpuFzfc+D6xQwpyqU+yQrRwg5OG3Qa4gGl9FcY9NcwZPR4oX0OeM0v
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Tejun,
 
+On Sat, 13 Mar 2021 13:05:36 -0500, Tejun Heo <tj@kernel.org> wrote:
 
-On 15.03.21 09:02, Dmitry Vyukov wrote:
->>>>  static notrace unsigned long canonicalize_ip(unsigned long ip)
->>>> @@ -191,18 +192,26 @@ void notrace __sanitizer_cov_trace_pc(void)
->>>>         struct task_struct *t;
->>>>         unsigned long *area;
->>>>         unsigned long ip = canonicalize_ip(_RET_IP_);
->>>> -       unsigned long pos;
->>>> +       unsigned long pos, idx;
->>>>
->>>>         t = current;
->>>> -       if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
->>>> +       if (!check_kcov_mode(KCOV_MODE_TRACE_PC | KCOV_MODE_UNIQUE_PC, t))
->>>>                 return;
->>>>
->>>>         area = t->kcov_area;
->>>> -       /* The first 64-bit word is the number of subsequent PCs. */
->>>> -       pos = READ_ONCE(area[0]) + 1;
->>>> -       if (likely(pos < t->kcov_size)) {
->>>> -               area[pos] = ip;
->>>> -               WRITE_ONCE(area[0], pos);
->>>> +       if (likely(t->kcov_mode == KCOV_MODE_TRACE_PC)) {
->>>
->>> Does this introduce an additional real of t->kcov_mode?
->>> If yes, please reuse the value read in check_kcov_mode.
->> Okay. How do I get that value from check_kcov_mode() to the caller?
->> Shall I add an additional parameter to check_kcov_mode()?
+> Hello,
 > 
-> Yes, I would try to add an additional pointer parameter for mode. I
-> think after inlining the compiler should be able to regestrize it.
+> On Sat, Mar 13, 2021 at 08:57:01AM -0800, Jacob Pan wrote:
+> > Isn't PIDs controller doing the charge/uncharge? I was under the
+> > impression that each resource can be independently charged/uncharged,
+> > why it affects other resources? Sorry for the basic question.  
 > 
-Should kcov->mode be written directly to that ptr?
-Otherwise, it must be written to the already present variable mode, and
-than copied to the ptr (if not NULL).
+> Yeah, PID is an exception as we needed the initial migration to seed new
+> cgroups and it gets really confusing with other ways to observe the
+> processes - e.g. if you follow the original way of creating a cgroup,
+> forking and then moving the seed process into the target cgroup, if we
+> don't migrate the pid charge together, the numbers wouldn't agree and the
+> seeder cgroup may end up running out of pids if there are any
+> restrictions.
+> 
+Thanks for explaining. Unfortunately, it seems IOASIDs has a similar needs
+in terms of migrating the charge.
 
-- Alex
+> > I also didn't quite get the limitation on cgroup v2 migration, this is
+> > much simpler than memcg. Could you give me some pointers?  
+> 
+> Migration itself doesn't have restrictions but all resources are
+> distributed on the same hierarchy, so the controllers are supposed to
+> follow the same conventions that can be implemented by all controllers.
+> 
+Got it, I guess that is the behavior required by the unified hierarchy.
+Cgroup v1 would be ok? But I am guessing we are not extending on v1?
 
--- 
-Alexander Lochmann                PGP key: 0xBC3EF6FD
-Heiliger Weg 72                   phone:  +49.231.28053964
-D-44141 Dortmund                  mobile: +49.151.15738323
+> > BTW, since the IOASIDs are used to tag DMA and bound with guest
+> > process(mm) for shared virtual addressing. fork() cannot be supported,
+> > so I guess clone is not a solution here.  
+> 
+> Can you please elaborate what wouldn't work? The new spawning into a new
+> cgroup w/ clone doesn't really change the usage model. It's just a neater
+> way to seed a new cgroup. If you're saying that the overall usage model
+> doesn't fit the needs of IOASIDs, it likely shouldn't be a cgroup
+> controller.
+> 
+The IOASIDs are programmed into devices to generate DMA requests tagged
+with them. The IOMMU has a per device IOASID table with each entry has two
+pointers:
+ - the PGD of the guest process.
+ - the PGD of the host process
+
+The result of this 2 stage/nested translation is that we can share virtual
+address (SVA) between guest process and DMA. The host process needs to
+allocate multiple IOASIDs since one IOASID is needed for each guest process
+who wants SVA.
+
+The DMA binding among device-IOMMU-process is setup via a series of user
+APIs (e.g. via VFIO).
+
+If a process calls fork(), the children does not inherit the IOASIDs and
+their bindings. Children who wish to use SVA has to call those APIs to
+establish the binding for themselves.
+
+Therefore, if a host process allocates 10 IOASIDs then does a
+fork()/clone(), it cannot charge 10 IOASIDs in the new cgroup. i.e. the 10
+IOASIDs stays with the process wherever it goes.
+
+I feel this fit in the domain model, true?
+
+> Thanks.
+> 
+
+
+Thanks,
+
+Jacob
