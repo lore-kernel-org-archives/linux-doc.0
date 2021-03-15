@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB23EC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09529C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9FB8D64E33
+	by mail.kernel.org (Postfix) with ESMTP id C271564EB5
 	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbhCOJOd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 05:14:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39464 "EHLO
+        id S229637AbhCOJOf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 05:14:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbhCOJOF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 05:14:05 -0400
-Received: from mail-wm1-x329.google.com (mail-wm1-x329.google.com [IPv6:2a00:1450:4864:20::329])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51D2EC061574
-        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:05 -0700 (PDT)
-Received: by mail-wm1-x329.google.com with SMTP id l19so7643155wmh.1
-        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:05 -0700 (PDT)
+        with ESMTP id S229606AbhCOJOK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 05:14:10 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAFBFC061574
+        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:09 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id f12so8246114wrx.8
+        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7q9frKRyQfRE4B6MTRBlCEP/Flnqnclwy9pdxxLTvwI=;
-        b=bzk3LhhcHOkhreIRdFUAb3eBRe5iFe9hp/x+X9PdLSDk3QlvrAQycVu4LhZ9enxjMt
-         u7ZaPqtUEzdXkE/mRtbps3BdhM2iluXj/UwIiX4fbjhXwZ9sQBAZrqnKTu4O8e0XdZap
-         rnlJBdwI/4/yuzaH10B3AauzX9xALmpEV2D7nw6QfJ49KWqqQLAbq0w1m2tlFwVTacnb
-         q1Rca1wUD54C6CmfDLwwDiq+AMhFDK4Di1MmCKgrItgZfSCLtIvAiWnlVKEtNLks4iDs
-         602nvN+TN3hAZBH+CtY0h06MdrUROgmfJ/130GLxNHtSiWyM3zpEcSMcoxxXkZwa0ycW
-         IuHg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=k4SxFZ2/z04LDFxgHqyBoGQvdfw+6RqGbZM8dagLyJw=;
+        b=MMCOFZNijZ6BqZJip7OELTgyUa/YPCPJPKzz7iWl/F27ZDpuX1elMirYsMb6RL0QIi
+         ysUpX8LVdt0a+8zRmxdvwIlcUE5zlbyRFM10kavUmYZ9JxnshhSzUWgnRuYrGZX0JIQx
+         AnWdSvQqSm+cody+GG/FVnJ7DbW55owvtwbGFQqt0QRBoRu4b+xMDwoZWUm91LI8hUrb
+         nw54SmHtxWHERf6/BCCQwMcYjFdoIHTZKsFsoh3HL/hRIKuiBhuh7ZVKwp10+ZZRWGo9
+         FtMEpxZbCRS36HKv5Rm0K9kQ11/Q2xanNy752T+O+ESOusPjMnCZeGwpSZQenzqtQAWA
+         2M0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7q9frKRyQfRE4B6MTRBlCEP/Flnqnclwy9pdxxLTvwI=;
-        b=P3oGVAbvEI7SgibMGxPSmF3qXhvjWWNPYiIwT2sq5Jix4vN3i0fRyz+yRfN/AjYjoL
-         yBhc+51DPPUZT+FvLLC4/PYeWiiqHBIayfgDqCXllx8pICKc8PrVz88qoxaimfNxKRRP
-         +p23jooRvjLZGSuXbiV3XZrwGPhGYXLmlcvp0I4mhSgAaCN1SvSlrJBf1c34xjKVvOlp
-         i7sv9b3jRcf9VlqWGmOwT78codhcEa2bCphZGIBvPzGDI1Xx4AuJnq3PxmJILw0E2Yfr
-         gQQWknrFmdfyCdlSZ/QNKWUtKaQvr6I/Mf9oAUmRfmHxc53UWZPYdDxlGPp04uUk4yhY
-         b4nw==
-X-Gm-Message-State: AOAM532tqK72FOt/0LupxCIFhTloiZcyW30rfuaQHOeGa1Gsl/415EVn
-        iqCpy+Sdq20K33ucToyt5fXr5A==
-X-Google-Smtp-Source: ABdhPJxWj/OPcRAt0JL7G9FO0RU0kAhusdVeP7JKPaNGFKhZ1Img5B6pk44bPzlWF7FR7FW/WbDydg==
-X-Received: by 2002:a05:600c:35c1:: with SMTP id r1mr25370863wmq.143.1615799644012;
-        Mon, 15 Mar 2021 02:14:04 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=k4SxFZ2/z04LDFxgHqyBoGQvdfw+6RqGbZM8dagLyJw=;
+        b=TNJTtsMnkeondIBJYqrn2Wj/4yDwxpV53jz9ukdU7YXDvSXwGz0IuLdUTt5jAptX1A
+         OeKmEiXZ9vOjLTT6YsaF0U5ICjdjYJxPXdeQIU4Q/WdAeL2vqHkuuTW5spPxmLd/mnlx
+         xsCvHq2fkxqhS8rzy40LvOPSZeMWhdPXjYiC2Yc6q10tra9GxhAoUe0IoamqJH8XrbYN
+         HDS/dL9Ij3WbE7mu6UNsY0AB2cxOD8YXyFU4vr5I2y8BQuQ3k6KRb8wfu1OL3QsW/aXd
+         pm8Wh+h2/+0XW60fREVn68RmwBNMFugpcKr7MvzRdR0clmexnJ0pEVDD9ZmIRwQgm+OT
+         gjtw==
+X-Gm-Message-State: AOAM532Kvyvo1Zj/b9f3ys+k141Tw0dG3nHzgRSD/dyip/5r12UWK3id
+        1wCbQEbDuLENb63D7/7ks1dO6A==
+X-Google-Smtp-Source: ABdhPJz7fCj+Gb5h4hry9abxN/prOa4QiMz0iK/IRgnzmONU4nw0g4mvWcQhuXZh0j8qQ959yqUJYA==
+X-Received: by 2002:a5d:4e85:: with SMTP id e5mr26905142wru.218.1615799648564;
+        Mon, 15 Mar 2021 02:14:08 -0700 (PDT)
 Received: from debian-brgl.home (lfbn-nic-1-149-6.w2-15.abo.wanadoo.fr. [2.15.231.6])
-        by smtp.gmail.com with ESMTPSA id z3sm17978822wrw.96.2021.03.15.02.14.03
+        by smtp.gmail.com with ESMTPSA id z3sm17978822wrw.96.2021.03.15.02.14.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Mar 2021 02:14:03 -0700 (PDT)
+        Mon, 15 Mar 2021 02:14:08 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
         Shuah Khan <shuah@kernel.org>,
@@ -69,10 +69,12 @@ To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
 Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v5 00/11] gpio: implement the configfs testing module
-Date:   Mon, 15 Mar 2021 10:13:49 +0100
-Message-Id: <20210315091400.13772-1-brgl@bgdev.pl>
+Subject: [PATCH v5 02/11] configfs: use (1UL << bit) for internal flags
+Date:   Mon, 15 Mar 2021 10:13:51 +0100
+Message-Id: <20210315091400.13772-3-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210315091400.13772-1-brgl@bgdev.pl>
+References: <20210315091400.13772-1-brgl@bgdev.pl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -81,93 +83,46 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-This series adds a new GPIO testing module based on configfs committable items
-and sysfs. The goal is to provide a testing driver that will be configurable
-at runtime (won't need module reload) and easily extensible. The control over
-the attributes is also much more fine-grained than in gpio-mockup.
+For better readability and maintenance: use the (1UL << bit) for flag
+definitions.
 
-This series also contains a respin of the patches I sent separately to the
-configfs maintainers - these patches implement the concept of committable
-items that was well defined for a long time but never actually completed.
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ fs/configfs/configfs_internal.h | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-Apart from the new driver itself, its selftests and the configfs patches, this
-series contains some changes to the bitmap API - most importantly: it adds
-devres managed variants of bitmap_alloc() and bitmap_zalloc().
-
-v1 -> v2:
-- add selftests for gpio-sim
-- add helper programs for selftests
-- update the configfs rename callback to work with the new API introduced in
-  v5.11
-- fix a missing quote in the documentation
-- use !! whenever using bits operation that are required to return 0 or 1
-- use provided bitmap API instead of reimplementing copy or fill operations
-- fix a deadlock in gpio_sim_direction_output()
-- add new read-only configfs attributes for mapping of configfs items to GPIO
-  device names
-- and address other minor issues pointed out in reviews of v1
-
-v2 -> v3:
-- use devm_bitmap_alloc() instead of the zalloc variant if we're initializing
-  the bitmap with 1s
-- drop the patch exporting device_is_bound()
-- don't return -ENODEV from dev_nam and chip_name configfs attributes, return
-  a string indicating that the device is not available yet ('n/a')
-- fix indentation where it makes sense
-- don't protect IDA functions which use their own locking and where it's not
-  needed
-- use kmemdup() instead of kzalloc() + memcpy()
-- collected review tags
-- minor coding style fixes
-
-v3 -> v4:
-- return 'none' instead of 'n/a' from dev_name and chip_name before the device
-  is registered
-- use sysfs_emit() instead of s*printf()
-- drop GPIO_SIM_MAX_PROP as it's only used in an array's definition where it's
-  fine to hardcode the value
-
-v4 -> v5:
-- export devm bitmap functions with EXPORT_SYMBOL_GPL() instead of a simple
-  EXPORT_SYMBOL()
-
-Bartosz Golaszewski (11):
-  configfs: increase the item name length
-  configfs: use (1UL << bit) for internal flags
-  configfs: implement committable items
-  samples: configfs: add a committable group
-  lib: bitmap: remove the 'extern' keyword from function declarations
-  lib: bitmap: order includes alphabetically
-  lib: bitmap: provide devm_bitmap_alloc() and devm_bitmap_zalloc()
-  gpio: sim: new testing module
-  selftests: gpio: provide a helper for reading chip info
-  selftests: gpio: add a helper for reading GPIO line names
-  selftests: gpio: add test cases for gpio-sim
-
- Documentation/admin-guide/gpio/gpio-sim.rst   |  72 ++
- Documentation/filesystems/configfs.rst        |   6 +-
- drivers/gpio/Kconfig                          |   8 +
- drivers/gpio/Makefile                         |   1 +
- drivers/gpio/gpio-sim.c                       | 874 ++++++++++++++++++
- fs/configfs/configfs_internal.h               |  22 +-
- fs/configfs/dir.c                             | 245 ++++-
- include/linux/bitmap.h                        | 127 +--
- include/linux/configfs.h                      |   3 +-
- lib/bitmap.c                                  |  42 +-
- samples/configfs/configfs_sample.c            | 153 +++
- tools/testing/selftests/gpio/.gitignore       |   2 +
- tools/testing/selftests/gpio/Makefile         |   4 +-
- tools/testing/selftests/gpio/config           |   1 +
- tools/testing/selftests/gpio/gpio-chip-info.c |  57 ++
- tools/testing/selftests/gpio/gpio-line-name.c |  55 ++
- tools/testing/selftests/gpio/gpio-sim.sh      | 229 +++++
- 17 files changed, 1815 insertions(+), 86 deletions(-)
- create mode 100644 Documentation/admin-guide/gpio/gpio-sim.rst
- create mode 100644 drivers/gpio/gpio-sim.c
- create mode 100644 tools/testing/selftests/gpio/gpio-chip-info.c
- create mode 100644 tools/testing/selftests/gpio/gpio-line-name.c
- create mode 100755 tools/testing/selftests/gpio/gpio-sim.sh
-
+diff --git a/fs/configfs/configfs_internal.h b/fs/configfs/configfs_internal.h
+index 9a3aed249692..b495c9f043d4 100644
+--- a/fs/configfs/configfs_internal.h
++++ b/fs/configfs/configfs_internal.h
+@@ -46,16 +46,16 @@ struct configfs_dirent {
+ 	struct configfs_fragment *s_frag;
+ };
+ 
+-#define CONFIGFS_ROOT		0x0001
+-#define CONFIGFS_DIR		0x0002
+-#define CONFIGFS_ITEM_ATTR	0x0004
+-#define CONFIGFS_ITEM_BIN_ATTR	0x0008
+-#define CONFIGFS_ITEM_LINK	0x0020
+-#define CONFIGFS_USET_DIR	0x0040
+-#define CONFIGFS_USET_DEFAULT	0x0080
+-#define CONFIGFS_USET_DROPPING	0x0100
+-#define CONFIGFS_USET_IN_MKDIR	0x0200
+-#define CONFIGFS_USET_CREATING	0x0400
++#define CONFIGFS_ROOT			(1UL << 0)
++#define CONFIGFS_DIR			(1UL << 1)
++#define CONFIGFS_ITEM_ATTR		(1UL << 2)
++#define CONFIGFS_ITEM_BIN_ATTR		(1UL << 3)
++#define CONFIGFS_ITEM_LINK		(1UL << 5)
++#define CONFIGFS_USET_DIR		(1UL << 6)
++#define CONFIGFS_USET_DEFAULT		(1UL << 7)
++#define CONFIGFS_USET_DROPPING		(1UL << 8)
++#define CONFIGFS_USET_IN_MKDIR		(1UL << 9)
++#define CONFIGFS_USET_CREATING		(1UL << 10)
+ #define CONFIGFS_NOT_PINNED	(CONFIGFS_ITEM_ATTR | CONFIGFS_ITEM_BIN_ATTR)
+ 
+ extern struct mutex configfs_symlink_mutex;
 -- 
 2.30.1
 
