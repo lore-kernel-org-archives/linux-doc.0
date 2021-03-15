@@ -4,57 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09529C433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E89FC4332B
 	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C271564EB5
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2441C64EB6
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229637AbhCOJOf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 05:14:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39494 "EHLO
+        id S229607AbhCOJOe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 05:14:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229606AbhCOJOK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 05:14:10 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAFBFC061574
-        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:09 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id f12so8246114wrx.8
-        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:09 -0700 (PDT)
+        with ESMTP id S229613AbhCOJOH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 05:14:07 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49B64C061574
+        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:06 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id u5-20020a7bcb050000b029010e9316b9d5so16025476wmj.2
+        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=k4SxFZ2/z04LDFxgHqyBoGQvdfw+6RqGbZM8dagLyJw=;
-        b=MMCOFZNijZ6BqZJip7OELTgyUa/YPCPJPKzz7iWl/F27ZDpuX1elMirYsMb6RL0QIi
-         ysUpX8LVdt0a+8zRmxdvwIlcUE5zlbyRFM10kavUmYZ9JxnshhSzUWgnRuYrGZX0JIQx
-         AnWdSvQqSm+cody+GG/FVnJ7DbW55owvtwbGFQqt0QRBoRu4b+xMDwoZWUm91LI8hUrb
-         nw54SmHtxWHERf6/BCCQwMcYjFdoIHTZKsFsoh3HL/hRIKuiBhuh7ZVKwp10+ZZRWGo9
-         FtMEpxZbCRS36HKv5Rm0K9kQ11/Q2xanNy752T+O+ESOusPjMnCZeGwpSZQenzqtQAWA
-         2M0g==
+        bh=h87jccumC6oS/Oglf5H2ioMoJmQRJZD6wd7xhfpKIok=;
+        b=U8f7n8lud4q00hU8mI/B653jy/PEafeOOtIhqqzdpKJ2tSmvdp3wGR7Q9XUBRz/oit
+         AiAnrPbfSo7d/h/j92VUUlup/tztdrH6N+bg9Z8m99JSt2rta3nPhbnsGDydn66OCOkN
+         +GKWM0FqAyc/b/RNmuiqN8SLfBOxbboSk0DryGMqmwAOeh/wxvjlzSHlsIp63gvb7L2Y
+         mxWOAasL7YreaNIDiCth2SMicwjwzxXSPr6UmmQk2WQNIBkmmOyj6j1s6vTXzObkbC9e
+         nMQwpDSd9dlcFtATzNQ3Z7BilIkesNw7ZfSunDxbBF7DStmbRaYbrkV8bF0tyNl8J9vC
+         aqag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=k4SxFZ2/z04LDFxgHqyBoGQvdfw+6RqGbZM8dagLyJw=;
-        b=TNJTtsMnkeondIBJYqrn2Wj/4yDwxpV53jz9ukdU7YXDvSXwGz0IuLdUTt5jAptX1A
-         OeKmEiXZ9vOjLTT6YsaF0U5ICjdjYJxPXdeQIU4Q/WdAeL2vqHkuuTW5spPxmLd/mnlx
-         xsCvHq2fkxqhS8rzy40LvOPSZeMWhdPXjYiC2Yc6q10tra9GxhAoUe0IoamqJH8XrbYN
-         HDS/dL9Ij3WbE7mu6UNsY0AB2cxOD8YXyFU4vr5I2y8BQuQ3k6KRb8wfu1OL3QsW/aXd
-         pm8Wh+h2/+0XW60fREVn68RmwBNMFugpcKr7MvzRdR0clmexnJ0pEVDD9ZmIRwQgm+OT
-         gjtw==
-X-Gm-Message-State: AOAM532Kvyvo1Zj/b9f3ys+k141Tw0dG3nHzgRSD/dyip/5r12UWK3id
-        1wCbQEbDuLENb63D7/7ks1dO6A==
-X-Google-Smtp-Source: ABdhPJz7fCj+Gb5h4hry9abxN/prOa4QiMz0iK/IRgnzmONU4nw0g4mvWcQhuXZh0j8qQ959yqUJYA==
-X-Received: by 2002:a5d:4e85:: with SMTP id e5mr26905142wru.218.1615799648564;
-        Mon, 15 Mar 2021 02:14:08 -0700 (PDT)
+        bh=h87jccumC6oS/Oglf5H2ioMoJmQRJZD6wd7xhfpKIok=;
+        b=HSZACtAtTJG4QBBHmwtp4gCJ1dJRQygTjFjYfhBo7ft0xtaI87NWu/p8JUDOjPzJb7
+         AiQ4VprVe76LqW6RQCheXtQfJhPJmWTFdNdG5WeuI51Yq0cG/X4Yd1g7R9Zmbxu+gpip
+         PkpLF/YmdTGt6EubFnk5Mek6ervApIvR99HUYoEemUbQfRCpcCV3bH1kDSvdNGAba30r
+         II1PsDtZGk2GYUjgKjK8rT7pImqy954rbv5p4r9yXG/qTfF/V7IZHeR/1rw/5iOIph7m
+         0wBZMQ2UClIrJtIOHcdsdTFCSH+lDDioNv3MSgi8L+YIMxaLNWls0wBCMD4iFSHJ43KA
+         bOrA==
+X-Gm-Message-State: AOAM531xhO4ehQESVnGmGpzHT7c+T9jb9o8vJ7DOSDYmlJ/9FmHOquih
+        dYcxjykRNpF8mDPH11k/0P9/wA==
+X-Google-Smtp-Source: ABdhPJxOwY7u3bt9Ri0rt82dLPfSz5l1XZbgoIPJxQeRy082joKhflRLifJ0gV3dNdoxgpbXU8dq1A==
+X-Received: by 2002:a1c:e184:: with SMTP id y126mr25095042wmg.163.1615799644979;
+        Mon, 15 Mar 2021 02:14:04 -0700 (PDT)
 Received: from debian-brgl.home (lfbn-nic-1-149-6.w2-15.abo.wanadoo.fr. [2.15.231.6])
-        by smtp.gmail.com with ESMTPSA id z3sm17978822wrw.96.2021.03.15.02.14.07
+        by smtp.gmail.com with ESMTPSA id z3sm17978822wrw.96.2021.03.15.02.14.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Mar 2021 02:14:08 -0700 (PDT)
+        Mon, 15 Mar 2021 02:14:04 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
         Shuah Khan <shuah@kernel.org>,
@@ -69,9 +69,9 @@ To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
 Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v5 02/11] configfs: use (1UL << bit) for internal flags
-Date:   Mon, 15 Mar 2021 10:13:51 +0100
-Message-Id: <20210315091400.13772-3-brgl@bgdev.pl>
+Subject: [PATCH v5 01/11] configfs: increase the item name length
+Date:   Mon, 15 Mar 2021 10:13:50 +0100
+Message-Id: <20210315091400.13772-2-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210315091400.13772-1-brgl@bgdev.pl>
 References: <20210315091400.13772-1-brgl@bgdev.pl>
@@ -83,46 +83,29 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-For better readability and maintenance: use the (1UL << bit) for flag
-definitions.
+20 characters limit for item name is relatively small. Let's increase it
+to 32 to fit '04-committable-children' - a name we'll use in the sample
+code for committable items.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- fs/configfs/configfs_internal.h | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ include/linux/configfs.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fs/configfs/configfs_internal.h b/fs/configfs/configfs_internal.h
-index 9a3aed249692..b495c9f043d4 100644
---- a/fs/configfs/configfs_internal.h
-+++ b/fs/configfs/configfs_internal.h
-@@ -46,16 +46,16 @@ struct configfs_dirent {
- 	struct configfs_fragment *s_frag;
- };
+diff --git a/include/linux/configfs.h b/include/linux/configfs.h
+index 2e8c69b43c64..4f76dcc08134 100644
+--- a/include/linux/configfs.h
++++ b/include/linux/configfs.h
+@@ -27,7 +27,7 @@
+ #include <linux/kref.h>   /* struct kref */
+ #include <linux/mutex.h>  /* struct mutex */
  
--#define CONFIGFS_ROOT		0x0001
--#define CONFIGFS_DIR		0x0002
--#define CONFIGFS_ITEM_ATTR	0x0004
--#define CONFIGFS_ITEM_BIN_ATTR	0x0008
--#define CONFIGFS_ITEM_LINK	0x0020
--#define CONFIGFS_USET_DIR	0x0040
--#define CONFIGFS_USET_DEFAULT	0x0080
--#define CONFIGFS_USET_DROPPING	0x0100
--#define CONFIGFS_USET_IN_MKDIR	0x0200
--#define CONFIGFS_USET_CREATING	0x0400
-+#define CONFIGFS_ROOT			(1UL << 0)
-+#define CONFIGFS_DIR			(1UL << 1)
-+#define CONFIGFS_ITEM_ATTR		(1UL << 2)
-+#define CONFIGFS_ITEM_BIN_ATTR		(1UL << 3)
-+#define CONFIGFS_ITEM_LINK		(1UL << 5)
-+#define CONFIGFS_USET_DIR		(1UL << 6)
-+#define CONFIGFS_USET_DEFAULT		(1UL << 7)
-+#define CONFIGFS_USET_DROPPING		(1UL << 8)
-+#define CONFIGFS_USET_IN_MKDIR		(1UL << 9)
-+#define CONFIGFS_USET_CREATING		(1UL << 10)
- #define CONFIGFS_NOT_PINNED	(CONFIGFS_ITEM_ATTR | CONFIGFS_ITEM_BIN_ATTR)
+-#define CONFIGFS_ITEM_NAME_LEN	20
++#define CONFIGFS_ITEM_NAME_LEN	32
  
- extern struct mutex configfs_symlink_mutex;
+ struct module;
+ 
 -- 
 2.30.1
 
