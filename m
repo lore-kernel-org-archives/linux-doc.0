@@ -4,57 +4,57 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E89FC4332B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DD3EC4332D
 	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2441C64EB6
+	by mail.kernel.org (Postfix) with ESMTP id 549D264E33
 	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229607AbhCOJOe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 05:14:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39478 "EHLO
+        id S229713AbhCOJOg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 05:14:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39520 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbhCOJOH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 05:14:07 -0400
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49B64C061574
-        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:06 -0700 (PDT)
-Received: by mail-wm1-x32c.google.com with SMTP id u5-20020a7bcb050000b029010e9316b9d5so16025476wmj.2
-        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:06 -0700 (PDT)
+        with ESMTP id S229649AbhCOJON (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 05:14:13 -0400
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E500CC061762
+        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:12 -0700 (PDT)
+Received: by mail-wr1-x42b.google.com with SMTP id 61so5282993wrm.12
+        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=h87jccumC6oS/Oglf5H2ioMoJmQRJZD6wd7xhfpKIok=;
-        b=U8f7n8lud4q00hU8mI/B653jy/PEafeOOtIhqqzdpKJ2tSmvdp3wGR7Q9XUBRz/oit
-         AiAnrPbfSo7d/h/j92VUUlup/tztdrH6N+bg9Z8m99JSt2rta3nPhbnsGDydn66OCOkN
-         +GKWM0FqAyc/b/RNmuiqN8SLfBOxbboSk0DryGMqmwAOeh/wxvjlzSHlsIp63gvb7L2Y
-         mxWOAasL7YreaNIDiCth2SMicwjwzxXSPr6UmmQk2WQNIBkmmOyj6j1s6vTXzObkbC9e
-         nMQwpDSd9dlcFtATzNQ3Z7BilIkesNw7ZfSunDxbBF7DStmbRaYbrkV8bF0tyNl8J9vC
-         aqag==
+        bh=ae9O+vV6Y1U8UdtXoNtbk0v4I3Tsz6Ni9lKyTQf2Zag=;
+        b=v6nt/lZet5RL6fKizILe25hqkpNkJwD70MY69RPjnaruBnKwx7yseZRnrN7skgLTrv
+         QXJFeppbzjhLndknXzEOSYRWN/wjjlZUMvGaL4fw4/v7zKg1lgAqunWJy6ubjtsv2Bi0
+         I3k0zuCSlS+34VwjfI102PbyRRaSWLUgvd4ZA59mOkoLmGaeWaqq8Kw60rOoj1ZkHDt0
+         HEEBnfadhdgIf2CAlUDdGaEwPzdw8AfzYls9Mmn9ALSb0AvP8/6/7VOOOFKYHWC1osg8
+         v2IUvyQiCxWU//l8aW7VOcht2ns/teK7qlDB4Iu35No8ZLw4igJib/1ilgbKvUI1kc3m
+         sN9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=h87jccumC6oS/Oglf5H2ioMoJmQRJZD6wd7xhfpKIok=;
-        b=HSZACtAtTJG4QBBHmwtp4gCJ1dJRQygTjFjYfhBo7ft0xtaI87NWu/p8JUDOjPzJb7
-         AiQ4VprVe76LqW6RQCheXtQfJhPJmWTFdNdG5WeuI51Yq0cG/X4Yd1g7R9Zmbxu+gpip
-         PkpLF/YmdTGt6EubFnk5Mek6ervApIvR99HUYoEemUbQfRCpcCV3bH1kDSvdNGAba30r
-         II1PsDtZGk2GYUjgKjK8rT7pImqy954rbv5p4r9yXG/qTfF/V7IZHeR/1rw/5iOIph7m
-         0wBZMQ2UClIrJtIOHcdsdTFCSH+lDDioNv3MSgi8L+YIMxaLNWls0wBCMD4iFSHJ43KA
-         bOrA==
-X-Gm-Message-State: AOAM531xhO4ehQESVnGmGpzHT7c+T9jb9o8vJ7DOSDYmlJ/9FmHOquih
-        dYcxjykRNpF8mDPH11k/0P9/wA==
-X-Google-Smtp-Source: ABdhPJxOwY7u3bt9Ri0rt82dLPfSz5l1XZbgoIPJxQeRy082joKhflRLifJ0gV3dNdoxgpbXU8dq1A==
-X-Received: by 2002:a1c:e184:: with SMTP id y126mr25095042wmg.163.1615799644979;
-        Mon, 15 Mar 2021 02:14:04 -0700 (PDT)
+        bh=ae9O+vV6Y1U8UdtXoNtbk0v4I3Tsz6Ni9lKyTQf2Zag=;
+        b=QMKuXz0FloHfnlXu69c3GoTiv5cBYk1TTnk5uy8vd1It5IqUXK1wzKgW11PKQyMu5L
+         hAen4gICMr0tGNXnG0YsoDNFP8PySMTUnXINBrjFoIo0a0LLmC+XZHoFvH7gmhTeUOE6
+         3fa785Pj/YkANu0r0dluQGkt+DcKWCqMzJm7rfib6DnA+eSiWDnPyBUMU3ORE5/3+yAf
+         nghw/VKtzptA3PmecvmW9W/QPS1mnv+yABv7XZMmXd1oz3Z64ke0q3KRwH3mBF4vKvgl
+         Bph+CAlh7Z3Vj3HLOYc09hKcbLmZr6Ul8fTDjM5WEh1QpOJoZW4aD4sIOFURe5dqVnpb
+         v5og==
+X-Gm-Message-State: AOAM532B+AP/wEkS+TMLjCa/s7rDlrZwqLH29iCpRRAVfkIfPmhrNywn
+        0x37m0DXpHIlZTDb2I4eOI5fEA==
+X-Google-Smtp-Source: ABdhPJxJcD9pfqsBilZVQWRafLubvQU8C1cgsgZpLkDCCcbZEJRHgUnxAJ5dVwUP8+dvyU8Yvoa49w==
+X-Received: by 2002:a5d:5487:: with SMTP id h7mr26810851wrv.348.1615799651560;
+        Mon, 15 Mar 2021 02:14:11 -0700 (PDT)
 Received: from debian-brgl.home (lfbn-nic-1-149-6.w2-15.abo.wanadoo.fr. [2.15.231.6])
-        by smtp.gmail.com with ESMTPSA id z3sm17978822wrw.96.2021.03.15.02.14.04
+        by smtp.gmail.com with ESMTPSA id z3sm17978822wrw.96.2021.03.15.02.14.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Mar 2021 02:14:04 -0700 (PDT)
+        Mon, 15 Mar 2021 02:14:11 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
         Shuah Khan <shuah@kernel.org>,
@@ -69,9 +69,9 @@ To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
 Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v5 01/11] configfs: increase the item name length
-Date:   Mon, 15 Mar 2021 10:13:50 +0100
-Message-Id: <20210315091400.13772-2-brgl@bgdev.pl>
+Subject: [PATCH v5 04/11] samples: configfs: add a committable group
+Date:   Mon, 15 Mar 2021 10:13:53 +0100
+Message-Id: <20210315091400.13772-5-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210315091400.13772-1-brgl@bgdev.pl>
 References: <20210315091400.13772-1-brgl@bgdev.pl>
@@ -83,28 +83,188 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-20 characters limit for item name is relatively small. Let's increase it
-to 32 to fit '04-committable-children' - a name we'll use in the sample
-code for committable items.
+Add an example of using committable items to configfs samples. Each
+config item has two attributes: read-write 'storeme' which works
+similarly to other examples in this file and a read-only 'committed'
+attribute which changes its value between false and true depending on
+whether it's committed or not at the moment.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 Acked-by: Linus Walleij <linus.walleij@linaro.org>
 ---
- include/linux/configfs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ samples/configfs/configfs_sample.c | 153 +++++++++++++++++++++++++++++
+ 1 file changed, 153 insertions(+)
 
-diff --git a/include/linux/configfs.h b/include/linux/configfs.h
-index 2e8c69b43c64..4f76dcc08134 100644
---- a/include/linux/configfs.h
-+++ b/include/linux/configfs.h
-@@ -27,7 +27,7 @@
- #include <linux/kref.h>   /* struct kref */
- #include <linux/mutex.h>  /* struct mutex */
+diff --git a/samples/configfs/configfs_sample.c b/samples/configfs/configfs_sample.c
+index f9008be7a8a1..9bef74e4369d 100644
+--- a/samples/configfs/configfs_sample.c
++++ b/samples/configfs/configfs_sample.c
+@@ -315,6 +315,158 @@ static struct configfs_subsystem group_children_subsys = {
  
--#define CONFIGFS_ITEM_NAME_LEN	20
-+#define CONFIGFS_ITEM_NAME_LEN	32
+ /* ----------------------------------------------------------------- */
  
- struct module;
++/*
++ * 04-committable-children
++ *
++ * This is an example of a committable group.  It's similar to the simple
++ * children example but each config_item has an additional 'committed'
++ * attribute which is read-only and is only modified when the config_item
++ * is moved from the 'pending' to the 'live' directory.
++ */
++
++struct committable_child {
++	struct config_item item;
++	int storeme;
++	bool committed;
++};
++
++static inline struct committable_child *
++to_committable_child(struct config_item *item)
++{
++	return container_of(item, struct committable_child, item);
++}
++
++static ssize_t
++committable_child_storeme_show(struct config_item *item, char *page)
++{
++	return sprintf(page, "%d\n", to_committable_child(item)->storeme);
++}
++
++static ssize_t committable_child_storeme_store(struct config_item *item,
++					       const char *page, size_t count)
++{
++	struct committable_child *child = to_committable_child(item);
++	int ret;
++
++	if (child->committed)
++		return -EPERM;
++
++	ret = kstrtoint(page, 10, &child->storeme);
++	if (ret)
++		return ret;
++
++	return count;
++}
++
++CONFIGFS_ATTR(committable_child_, storeme);
++
++static ssize_t
++committable_child_committed_show(struct config_item *item, char *page)
++{
++	return sprintf(page, "%s\n",
++		to_committable_child(item)->committed ? "true" : "false");
++}
++
++CONFIGFS_ATTR_RO(committable_child_, committed);
++
++static struct configfs_attribute *committable_child_attrs[] = {
++	&committable_child_attr_storeme,
++	&committable_child_attr_committed,
++	NULL,
++};
++
++static void committable_child_release(struct config_item *item)
++{
++	kfree(to_committable_child(item));
++}
++
++static struct configfs_item_operations committable_child_item_ops = {
++	.release	= committable_child_release,
++};
++
++static const struct config_item_type committable_child_type = {
++	.ct_item_ops	= &committable_child_item_ops,
++	.ct_attrs	= committable_child_attrs,
++	.ct_owner	= THIS_MODULE,
++};
++
++struct committable_children {
++	struct config_group group;
++};
++
++static struct config_item *
++committable_children_make_item(struct config_group *group, const char *name)
++{
++	struct committable_child *child;
++
++	child = kzalloc(sizeof(*child), GFP_KERNEL);
++	if (!child)
++		return ERR_PTR(-ENOMEM);
++
++	config_item_init_type_name(&child->item, name, &committable_child_type);
++
++	return &child->item;
++}
++
++static ssize_t
++committable_children_description_show(struct config_item *item, char *page)
++{
++	return sprintf(page,
++"[04-committable-children]\n"
++"\n"
++"This subsystem allows creation of committable config_items.  The subsystem\n"
++"has two subdirectories: pending and live.  New config_items can only be\n"
++"created in pending/ and they have one writable and readable attribute as\n"
++"well as a single read-only attribute.  The latter is only changed once the\n"
++"item is 'committed'.  This is done by moving the config_item (using\n"
++"rename()) to the live/ directory.  In this example, the storeme attribute\n"
++"becomes 'read-only' once committed.\n");
++}
++
++CONFIGFS_ATTR_RO(committable_children_, description);
++
++static struct configfs_attribute *committable_children_attrs[] = {
++	&committable_children_attr_description,
++	NULL,
++};
++
++static int committable_children_commit_item(struct config_item *item)
++{
++	to_committable_child(item)->committed = true;
++
++	return 0;
++}
++
++static int committable_children_uncommit_item(struct config_item *item)
++{
++	to_committable_child(item)->committed = false;
++
++	return 0;
++}
++
++static struct configfs_group_operations committable_children_group_ops = {
++	.make_item	= committable_children_make_item,
++	.commit_item	= committable_children_commit_item,
++	.uncommit_item	= committable_children_uncommit_item,
++};
++
++static const struct config_item_type committable_children_type = {
++	.ct_group_ops	= &committable_children_group_ops,
++	.ct_attrs	= committable_children_attrs,
++	.ct_owner	= THIS_MODULE,
++};
++
++static struct configfs_subsystem committable_children_subsys = {
++	.su_group = {
++		.cg_item = {
++			.ci_namebuf = "04-committable-children",
++			.ci_type = &committable_children_type,
++		},
++	},
++};
++
++/* ----------------------------------------------------------------- */
++
+ /*
+  * We're now done with our subsystem definitions.
+  * For convenience in this module, here's a list of them all.  It
+@@ -326,6 +478,7 @@ static struct configfs_subsystem *example_subsys[] = {
+ 	&childless_subsys.subsys,
+ 	&simple_children_subsys,
+ 	&group_children_subsys,
++	&committable_children_subsys,
+ 	NULL,
+ };
  
 -- 
 2.30.1
