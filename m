@@ -7,54 +7,54 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36709C4161F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F99BC2BA19
 	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1F96064EB6
+	by mail.kernel.org (Postfix) with ESMTP id 7322764E99
 	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:15:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229764AbhCOJOj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 05:14:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39598 "EHLO
+        id S229636AbhCOJOi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 05:14:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229708AbhCOJOX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 05:14:23 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAAB2C061762
-        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:22 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id 7so8268659wrz.0
-        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:22 -0700 (PDT)
+        with ESMTP id S229685AbhCOJOU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 05:14:20 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1B05C061574
+        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:19 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id e18so5284787wrt.6
+        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:14:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=w8ZvtWniN1Nax9s0y7bdXk3w3tCDYUtn2uEyXco2kqg=;
-        b=t1M4wHTo6/S/yxEaon3crnkzqI3HKG/T+x4IFGoYM4b0uPBnbxVfDx1hlIDcu/K4D9
-         x2ruQq3uUNY7zkHmcq9hfVUWpZB82407wrKBy7+lNwh86mOhONdr4g/Rmc6N3iPedeoc
-         ghkfHOy1th82rc+683I6RPeETMnt3r276II3qQDRB4nssavPAV+jAQZirPhkTPJ4RECj
-         j8jpoD8CxCSJ7vWrH5ktj8P2vHzaQhyUXpSzcKuNkifqN09KWbzgzNv2x0Lb4WMKwwp3
-         TbCx6CBptPi1apgO3evC8XXvahNdR9o1P1+G6RIWOkfy6PkdB3pQq7VPFK7gsHaNx7K+
-         eL9g==
+        bh=I//Q3Rak1EpVNRDtRGeww40WUlM2LbS/M05ekONU4GQ=;
+        b=f1gaT8JOF07kfR1GIVt3bonS3qRiBTNvSrfnLU1MmbY4X4lmKobMadPhA7/RJHvntX
+         vHqhaEUhh37jioU2zjGZ9KwpS8T21BakJizbqkFr1gLTdA5wlidamYFv2KF4k1jGBJ6g
+         IqiLpigO9f+o7l2+urpFnArW8+nop+4rkPlBKo2T30Lj7vYU7EWZcTannlhJMleMXLXY
+         rJrjSqyVDyxTobKo47ZCta1N/GMyzNRAlNw1+2tb3HJjyrIKXxHtIT8U468ZxnEfUiKc
+         fSDGZJATEReXAAr1hfNms+W4TOsxGoQdhcCiP32hJDtrg68IbYACwqtr/V1QV9SqzGSW
+         DddQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=w8ZvtWniN1Nax9s0y7bdXk3w3tCDYUtn2uEyXco2kqg=;
-        b=FZp6XOHnrxo7sYZ2GJI5Bft78QShmE/I8lz5LQ0CdrT8BNTl7Gwk8GC7oxsFn/fwZ1
-         h9HeDrpzqSrN9/6ZGx+G/IKiIhoPPYlcI5pXNDbPMcQvCyZccMPY2/eE17tpAHFNCvyX
-         e57hvKBdDtNQFwk+p76bNtUy0ImGL1CvMtbnSwx4cwhq6PLL1gIR9lN09LQET8bDgjUV
-         gTDxo8Ex07tynyLvPmnTasv2X8CJf5byRTPHFytJlVba1hRnIrga6Nndfv4Cm+aoIrfd
-         QZqlTrgVj0gWTWAcEivzmnqjFkPuXsM4taIuoxI8XouanUPGOJZqR3vc94XzLRK/Odox
-         2/1g==
-X-Gm-Message-State: AOAM531ULSr4M1EGswdqxZGhQlhRvmAhgZoNJ3QX8173Y+plzPyqxbEQ
-        cOO9PjrcVE4NZRJSgNLe/6gT8g==
-X-Google-Smtp-Source: ABdhPJypT5bzuaMfwXmJenwdZAqXfmmqbNAgeb08ODGFapUiqH+Jb1Ku3UyWgR/+jayNhAv2GE9KVA==
-X-Received: by 2002:a05:6000:18ac:: with SMTP id b12mr26543856wri.77.1615799661584;
-        Mon, 15 Mar 2021 02:14:21 -0700 (PDT)
+        bh=I//Q3Rak1EpVNRDtRGeww40WUlM2LbS/M05ekONU4GQ=;
+        b=LIzFWdHBEeYIZQaya0QLSY8cemGlaAlTZMZKnROhQS/dtv/gFsP45uSZGur8X/TtrE
+         FElMqwI2tnqf+VWkQRwhFQPRGXrvyXu4ihnwE2DiY0DtY2XdN3YRTph+hzAw2RVmdAqx
+         iLyTHfqNtLKI5wYjCJq5gcH3OmbxRyGA8dofcNv+padUljK2YZjMlj0sj6N7B5RyYQ8y
+         lJYa4TIqnlM7OvhENsPXtAUnrXO9PCsAuknnnOaBLuPLld0MSwKDGQf4/iZ0YaFWx1WJ
+         Q8nJohMXjcY7qaynbkTxQZPjx/xV2tcZg0MLIqO/tuGjokJfo/KHAa5X0wBB+nDrvRKQ
+         +4NQ==
+X-Gm-Message-State: AOAM531DiixTLuAGhFWdEQ/cjIj7VGLa5LdZwq9XGPPZzv4cb5qY+jJd
+        mSOaqp7VfbBEin3uP5rOoVTgbw==
+X-Google-Smtp-Source: ABdhPJytTVmPESyI06mXakLaYibH4Ja9idFeJCFiv7lL4WnfKbAG4SwqOFVWwSVYqr/Wjhj+1PQQ4g==
+X-Received: by 2002:a5d:6684:: with SMTP id l4mr26313900wru.381.1615799657607;
+        Mon, 15 Mar 2021 02:14:17 -0700 (PDT)
 Received: from debian-brgl.home (lfbn-nic-1-149-6.w2-15.abo.wanadoo.fr. [2.15.231.6])
-        by smtp.gmail.com with ESMTPSA id z3sm17978822wrw.96.2021.03.15.02.14.20
+        by smtp.gmail.com with ESMTPSA id z3sm17978822wrw.96.2021.03.15.02.14.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Mar 2021 02:14:21 -0700 (PDT)
+        Mon, 15 Mar 2021 02:14:17 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
         Shuah Khan <shuah@kernel.org>,
@@ -69,9 +69,9 @@ To:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
 Cc:     linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-doc@vger.kernel.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v5 11/11] selftests: gpio: add test cases for gpio-sim
-Date:   Mon, 15 Mar 2021 10:14:00 +0100
-Message-Id: <20210315091400.13772-12-brgl@bgdev.pl>
+Subject: [PATCH v5 07/11] lib: bitmap: provide devm_bitmap_alloc() and devm_bitmap_zalloc()
+Date:   Mon, 15 Mar 2021 10:13:56 +0100
+Message-Id: <20210315091400.13772-8-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210315091400.13772-1-brgl@bgdev.pl>
 References: <20210315091400.13772-1-brgl@bgdev.pl>
@@ -83,275 +83,92 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Add a set of tests for the new gpio-sim module. This is a pure shell
-test-suite and uses the helper programs available in the gpio selftests
-directory. These test-cases only test the functionalities exposed by the
-gpio-sim driver, not those handled by core gpiolib code.
+Provide managed variants of bitmap_alloc() and bitmap_zalloc().
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- tools/testing/selftests/gpio/Makefile    |   2 +-
- tools/testing/selftests/gpio/config      |   1 +
- tools/testing/selftests/gpio/gpio-sim.sh | 229 +++++++++++++++++++++++
- 3 files changed, 231 insertions(+), 1 deletion(-)
- create mode 100755 tools/testing/selftests/gpio/gpio-sim.sh
+ include/linux/bitmap.h |  8 ++++++++
+ lib/bitmap.c           | 33 +++++++++++++++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
 
-diff --git a/tools/testing/selftests/gpio/Makefile b/tools/testing/selftests/gpio/Makefile
-index d7d8f1985d99..4c6df61c76a8 100644
---- a/tools/testing/selftests/gpio/Makefile
-+++ b/tools/testing/selftests/gpio/Makefile
-@@ -1,6 +1,6 @@
- # SPDX-License-Identifier: GPL-2.0
+diff --git a/include/linux/bitmap.h b/include/linux/bitmap.h
+index 3282db97e06c..73d039476fa4 100644
+--- a/include/linux/bitmap.h
++++ b/include/linux/bitmap.h
+@@ -9,6 +9,8 @@
+ #include <linux/string.h>
+ #include <linux/types.h>
  
--TEST_PROGS := gpio-mockup.sh
-+TEST_PROGS := gpio-mockup.sh gpio-sim.sh
- TEST_FILES := gpio-mockup-sysfs.sh
- TEST_GEN_PROGS_EXTENDED := gpio-mockup-cdev gpio-chip-info gpio-line-name
++struct device;
++
+ /*
+  * bitmaps provide bit arrays that consume one or more unsigned
+  * longs.  The bitmap interface and available operations are listed
+@@ -122,6 +124,12 @@ unsigned long *bitmap_alloc(unsigned int nbits, gfp_t flags);
+ unsigned long *bitmap_zalloc(unsigned int nbits, gfp_t flags);
+ void bitmap_free(const unsigned long *bitmap);
  
-diff --git a/tools/testing/selftests/gpio/config b/tools/testing/selftests/gpio/config
-index ce100342c20b..409a8532facc 100644
---- a/tools/testing/selftests/gpio/config
-+++ b/tools/testing/selftests/gpio/config
-@@ -1,3 +1,4 @@
- CONFIG_GPIOLIB=y
- CONFIG_GPIO_CDEV=y
- CONFIG_GPIO_MOCKUP=m
-+CONFIG_GPIO_SIM=m
-diff --git a/tools/testing/selftests/gpio/gpio-sim.sh b/tools/testing/selftests/gpio/gpio-sim.sh
-new file mode 100755
-index 000000000000..fcca6ec611f8
---- /dev/null
-+++ b/tools/testing/selftests/gpio/gpio-sim.sh
-@@ -0,0 +1,229 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (C) 2021 Bartosz Golaszewski <bgolaszewski@baylibre.com>
++/* Managed variants of the above. */
++unsigned long *devm_bitmap_alloc(struct device *dev,
++				 unsigned int nbits, gfp_t flags);
++unsigned long *devm_bitmap_zalloc(struct device *dev,
++				  unsigned int nbits, gfp_t flags);
 +
-+BASE_DIR=`dirname $0`
-+CONFIGFS_DIR="/sys/kernel/config/gpio-sim"
-+PENDING_DIR=$CONFIGFS_DIR/pending
-+LIVE_DIR=$CONFIGFS_DIR/live
-+MODULE="gpio-sim"
+ /*
+  * lib/bitmap.c provides these functions:
+  */
+diff --git a/lib/bitmap.c b/lib/bitmap.c
+index 78f70d9007ad..27e08c0e547e 100644
+--- a/lib/bitmap.c
++++ b/lib/bitmap.c
+@@ -8,6 +8,7 @@
+ #include <linux/bitops.h>
+ #include <linux/bug.h>
+ #include <linux/ctype.h>
++#include <linux/device.h>
+ #include <linux/errno.h>
+ #include <linux/export.h>
+ #include <linux/kernel.h>
+@@ -1263,6 +1264,38 @@ void bitmap_free(const unsigned long *bitmap)
+ }
+ EXPORT_SYMBOL(bitmap_free);
+ 
++static void devm_bitmap_free(void *data)
++{
++	unsigned long *bitmap = data;
 +
-+fail() {
-+	echo "$*" >&2
-+	echo "GPIO $MODULE test FAIL"
-+	exit 1
++	bitmap_free(bitmap);
 +}
 +
-+skip() {
-+	echo "$*" >&2
-+	echo "GPIO $MODULE test SKIP"
-+	exit 4
++unsigned long *devm_bitmap_alloc(struct device *dev,
++				 unsigned int nbits, gfp_t flags)
++{
++	unsigned long *bitmap;
++	int ret;
++
++	bitmap = bitmap_alloc(nbits, flags);
++	if (!bitmap)
++		return NULL;
++
++	ret = devm_add_action_or_reset(dev, devm_bitmap_free, bitmap);
++	if (ret)
++		return NULL;
++
++	return bitmap;
 +}
++EXPORT_SYMBOL_GPL(devm_bitmap_alloc);
 +
-+configfs_cleanup() {
-+	for DIR in `ls $LIVE_DIR`; do
-+		mv $LIVE_DIR/$DIR $PENDING_DIR
-+	done
-+
-+	for DIR in `ls $PENDING_DIR`; do
-+		rmdir $PENDING_DIR/$DIR
-+	done
++unsigned long *devm_bitmap_zalloc(struct device *dev,
++				  unsigned int nbits, gfp_t flags)
++{
++	return devm_bitmap_alloc(dev, nbits, flags | __GFP_ZERO);
 +}
++EXPORT_SYMBOL_GPL(devm_bitmap_zalloc);
 +
-+create_pending_chip() {
-+	local NAME="$1"
-+	local LABEL="$2"
-+	local NUM_LINES="$3"
-+	local LINE_NAMES="$4"
-+	local CHIP_DIR="$PENDING_DIR/$NAME"
-+
-+	mkdir $CHIP_DIR
-+	test -n "$LABEL" && echo $LABEL > $CHIP_DIR/label
-+	test -n "$NUM_LINES" && echo $NUM_LINES > $CHIP_DIR/num_lines
-+	if [ -n "$LINE_NAMES" ]; then
-+		echo $LINE_NAMES 2> /dev/null > $CHIP_DIR/line_names
-+		# This one can fail
-+		if [ "$?" -ne "0" ]; then
-+			return 1
-+		fi
-+	fi
-+}
-+
-+create_live_chip() {
-+	local CHIP_DIR="$PENDING_DIR/$1"
-+
-+	create_pending_chip "$@" || fail "unable to create the chip configfs item"
-+	mv $CHIP_DIR $LIVE_DIR || fail "unable to commit the chip configfs item"
-+}
-+
-+remove_pending_chip() {
-+	local NAME="$1"
-+
-+	rmdir $PENDING_DIR/$NAME || fail "unable to remove the chip configfs item"
-+}
-+
-+remove_live_chip() {
-+	local NAME="$1"
-+
-+	mv $LIVE_DIR/$NAME $PENDING_DIR || fail "unable to uncommit the chip configfs item"
-+	remove_pending_chip "$@"
-+}
-+
-+configfs_chip_name() {
-+	local CHIP="$1"
-+
-+	cat $LIVE_DIR/$CHIP/chip_name 2> /dev/null || return 1
-+}
-+
-+configfs_dev_name() {
-+	local CHIP="$1"
-+
-+	cat $LIVE_DIR/$CHIP/dev_name 2> /dev/null || return 1
-+}
-+
-+get_chip_num_lines() {
-+	local CHIP="$1"
-+
-+	$BASE_DIR/gpio-chip-info /dev/`configfs_chip_name $CHIP` num-lines
-+}
-+
-+get_chip_label() {
-+	local CHIP="$1"
-+
-+	$BASE_DIR/gpio-chip-info /dev/`configfs_chip_name $CHIP` label
-+}
-+
-+get_line_name() {
-+	local CHIP="$1"
-+	local OFFSET="$2"
-+
-+	$BASE_DIR/gpio-line-name /dev/`configfs_chip_name $CHIP` $OFFSET
-+}
-+
-+sysfs_set_pull() {
-+	local CHIP="$1"
-+	local OFFSET="$2"
-+	local PULL="$3"
-+	local SYSFSPATH="/sys/devices/platform/`configfs_dev_name $CHIP`/line-ctrl/gpio$OFFSET"
-+
-+	echo $PULL > $SYSFSPATH
-+}
-+
-+# Load the gpio-sim module. This will pull in configfs if needed too.
-+modprobe gpio-sim || skip "unable to load the gpio-sim module"
-+# Make sure configfs is mounted at /sys/kernel/config. Wait a bit if needed.
-+for IDX in `seq 5`; do
-+	if [ "$IDX" -eq "5" ]; then
-+		skip "configfs not mounted at /sys/kernel/config"
-+	fi
-+
-+	mountpoint -q /sys/kernel/config && break
-+	sleep 0.1
-+done
-+# If the module was already loaded: remove all previous chips
-+configfs_cleanup
-+
-+trap "exit 1" SIGTERM SIGINT
-+trap configfs_cleanup EXIT
-+
-+echo "1. chip_name and dev_name attributes"
-+
-+echo "1.1. Chip name is communicated to user"
-+create_live_chip chip
-+test -n `cat $LIVE_DIR/chip/chip_name` || fail "chip_name doesn't work"
-+remove_live_chip chip
-+
-+echo "1.2. chip_name returns 'none' if the chip is still pending"
-+create_pending_chip chip
-+test "`cat $PENDING_DIR/chip/chip_name`" = "none" || fail "chip_name doesn't return 'none' for a pending chip"
-+remove_pending_chip chip
-+
-+echo "1.3. Device name is communicated to user"
-+create_live_chip chip
-+test -n `cat $LIVE_DIR/chip/dev_name` || fail "dev_name doesn't work"
-+remove_live_chip chip
-+
-+echo "1.4. dev_name returns 'none' if chip is still pending"
-+create_pending_chip chip
-+test "`cat $PENDING_DIR/chip/dev_name`" = "none" || fail "dev_name doesn't return 'none' for a pending chip"
-+remove_pending_chip chip
-+
-+echo "2. Creating simulated chips"
-+
-+echo "2.1. Default number of lines is 1"
-+create_live_chip chip
-+test "`get_chip_num_lines chip`" = "1" || fail "default number of lines is not 1"
-+remove_live_chip chip
-+
-+echo "2.2. Number of lines can be specified"
-+create_live_chip chip test-label 16
-+test "`get_chip_num_lines chip`" = "16" || fail "number of lines is not 16"
-+remove_live_chip chip
-+
-+echo "2.3. Label can be set"
-+create_live_chip chip foobar
-+test "`get_chip_label chip`" = "foobar" || fail "label is incorrect"
-+remove_live_chip chip
-+
-+echo "2.4. Label can be left empty"
-+create_live_chip chip
-+test -z "`cat $LIVE_DIR/chip/label`" || fail "label is not empty"
-+remove_live_chip chip
-+
-+echo "2.5. Line names can be configured"
-+create_live_chip chip test-label 16 '"foo", "", "bar"'
-+test "`get_line_name chip 0`" = "foo" || fail "line name is incorrect"
-+test "`get_line_name chip 2`" = "bar" || fail "line name is incorrect"
-+remove_live_chip chip
-+
-+echo "2.6. Errors in line names are detected"
-+create_pending_chip chip test-label 8 '"foo", bar' && fail "incorrect line name accepted"
-+remove_pending_chip chip
-+create_pending_chip chip test-label 8 '"foo" "bar"' && fail "incorrect line name accepted"
-+remove_pending_chip chip
-+
-+echo "2.7. Multiple chips can be created"
-+create_live_chip chip0
-+create_live_chip chip1
-+create_live_chip chip2
-+remove_live_chip chip0
-+remove_live_chip chip1
-+remove_live_chip chip2
-+
-+echo "3. Controlling simulated chips"
-+
-+echo "3.3. Pull can be set over sysfs"
-+create_live_chip chip test-label 8
-+sysfs_set_pull chip 0 1
-+$BASE_DIR/gpio-mockup-cdev /dev/`configfs_chip_name chip` 0
-+test "$?" = "1" || fail "pull set incorrectly"
-+sysfs_set_pull chip 0 0
-+$BASE_DIR/gpio-mockup-cdev /dev/`configfs_chip_name chip` 1
-+test "$?" = "0" || fail "pull set incorrectly"
-+remove_live_chip chip
-+
-+echo "3.4. Incorrect input in sysfs is rejected"
-+create_live_chip chip test-label 8
-+SYSFS_PATH="/sys/devices/platform/`configfs_dev_name chip`/line-ctrl/gpio0"
-+echo 2 > $SYSFS_PATH 2> /dev/null && fail "invalid input not detectec"
-+remove_live_chip chip
-+
-+echo "4. Simulated GPIO chips are functional"
-+
-+echo "4.1. Values can be read from sysfs"
-+create_live_chip chip test-label 8
-+SYSFS_PATH="/sys/devices/platform/`configfs_dev_name chip`/line-ctrl/gpio0"
-+test `cat $SYSFS_PATH` = "0" || fail "incorrect value read from sysfs"
-+$BASE_DIR/gpio-mockup-cdev -s 1 /dev/`configfs_chip_name chip` 0 &
-+sleep 0.1 # FIXME Any better way?
-+test `cat $SYSFS_PATH` = "1" || fail "incorrect value read from sysfs"
-+kill $!
-+remove_live_chip chip
-+
-+echo "4.2. Bias settings work correctly"
-+create_live_chip chip test-label 8
-+$BASE_DIR/gpio-mockup-cdev -b pull-up /dev/`configfs_chip_name chip` 0
-+test `cat $SYSFS_PATH` = "1" || fail "bias setting does not work"
-+remove_live_chip chip
-+
-+echo "GPIO $MODULE test PASS"
+ #if BITS_PER_LONG == 64
+ /**
+  * bitmap_from_arr32 - copy the contents of u32 array of bits to bitmap
 -- 
 2.30.1
 
