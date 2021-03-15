@@ -2,96 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 894D2C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 16:26:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF3C6C433E6
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 16:37:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4BB4C64F26
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 16:26:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9777B64F38
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 16:37:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232170AbhCOQZi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 12:25:38 -0400
-Received: from conssluserg-05.nifty.com ([210.131.2.90]:48194 "EHLO
-        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232406AbhCOQZI (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 12:25:08 -0400
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id 12FGOs4P030816;
-        Tue, 16 Mar 2021 01:24:55 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 12FGOs4P030816
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1615825495;
-        bh=8fR/k4S+x7zJcwVimEWtVYSZGWek5y8oJcBpe9Z1Yi4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=E8MsSaQxGxgTFg3tR0era08mFakTDjLx8+8Z0Tqr5DTNS5dgNaxVCU+mq7DIrYg/b
-         UpZnIwq3KTwLE5tciTnWkcMl8+FIGQdUy6h77AXizyBrqRNd9drRzdCGtIoeyF2N5q
-         sqgFNlzLRLVPz9jQ12HvCjgbM3tCytH0fadiLZH4a/K4e90IQ/H3JgrixoXz6ZltZ6
-         KQYGHJnM96S7PT+VccRPx9PTxeNwdnTaOaUZe640DnuXAMYeSH4X5sSuu/wram8ktv
-         eK8NQv7t32n2l3iQLLR4Zy51grt7tN7sQScIIJuKxGS8dAt8V+V5nLCyIfKB2LKIpQ
-         t8pUFhW6zOrpQ==
-X-Nifty-SrcIP: [209.85.214.178]
-Received: by mail-pl1-f178.google.com with SMTP id a8so9047665plp.13;
-        Mon, 15 Mar 2021 09:24:55 -0700 (PDT)
-X-Gm-Message-State: AOAM53195XXRcnBdfIHys7wgNlJv30wrynfWobwuIeFu+I4NC83QkqQ1
-        6HeEd8NHuo5Hs026nN5nPl37yQhF7xqVKPtnc9s=
-X-Google-Smtp-Source: ABdhPJzHP7b6j7mjgLRsHEFFgwnPQPIGFgz/LIxXsbmvcn18OKnSiDrClLJJ+xqGzUH7q1yiFF8bRLDCTo6NenZbRZE=
-X-Received: by 2002:a17:90a:fb54:: with SMTP id iq20mr13128873pjb.153.1615825494285;
- Mon, 15 Mar 2021 09:24:54 -0700 (PDT)
+        id S233909AbhCOQhX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 12:37:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233454AbhCOQhM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 12:37:12 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AB1CC06174A;
+        Mon, 15 Mar 2021 09:37:11 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id kk2-20020a17090b4a02b02900c777aa746fso15079728pjb.3;
+        Mon, 15 Mar 2021 09:37:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hxTr+jCjNOdK/SRs3Tz7jJtcDFSQzLPh/SdXv7CFTJg=;
+        b=JHodpzXGHG28Jf7mWc3g/MgAtc320RuyEet1UCcaWQyK7ZZuuQwfPATnMaaDu3UZ6g
+         rfSKVM9y1Cr2jQHWZ3puucVOcr3BEdF/82IRcLQpmMac6pXzmSwKeVsHJKj39o4z5iaj
+         5RK4yk/8FJtIL8tKGtaxR87ThL2p6796IsY3aCSCYqweaI7SU5IYz30cJ7CF6Ep2zaXI
+         6V+GeqBOtftcGES3z677GDgAVpkObIjjPV5fd1KbBpQoEqvLCR+Cbwns5YotzYe0qGV6
+         yqKklX7LkN3/XQmjYwYxg63j2XS/mjqnZEiZBQGR+8+G2lPWn/74mfxMELRmmUnVuX4N
+         +9qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hxTr+jCjNOdK/SRs3Tz7jJtcDFSQzLPh/SdXv7CFTJg=;
+        b=WNgvFgkPGipVhjlJO1Rs7Z9fnKev7EBdLUxKmCj4pF5hKUZ3R/6k5AKEwYdtNtpsyo
+         0yBqCq/lJKE3RCqZDTQtbSb62N/Bfr3x3ldbUjPgwZzUSLwLinLMZnphx5OvOS1YxCOv
+         vdMpclm7eST9bWC1WGSq+yUJAUNbnNgI76E2SUA2sTjWYe8lwZaeBHCY4X8T1RgGJpjB
+         0ak7vGkZ7y7sgZ+cseB99Mj3nwRpKDl2nnLAIZyH2PdJ1gHd/4Q3vQNzpK3PP4sAUrbT
+         JFjupJ/fO6N8w5vhjBevfuuVYEf/2UzAdmU88rTw3XBHvda2MFiMUduQkHRm1BwJFuJO
+         LjsA==
+X-Gm-Message-State: AOAM530tnw+VRyTikVv1YEEHHNPOsNc75h2ZaOnk8MtJfNso3YmtrIqK
+        UyNaGjarW/10abnXL6U+bYWO0HdXArJMy2zI9h8=
+X-Google-Smtp-Source: ABdhPJzmD16eNSoHlg+ME0sV5oDSP8McG43pWnGy+W7nRmQ+OXh1nwhgopO1tf+cpxtFevI+9RbX/bEtq6FbXbhrpH0=
+X-Received: by 2002:a17:90a:db49:: with SMTP id u9mr14249289pjx.181.1615826230873;
+ Mon, 15 Mar 2021 09:37:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210314043044.15926-1-unixbhaskar@gmail.com>
-In-Reply-To: <20210314043044.15926-1-unixbhaskar@gmail.com>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Tue, 16 Mar 2021 01:24:16 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQEYAiV7+19LXNs8-HjWNLvX4hGLvDVMjLXrshLb4BawQ@mail.gmail.com>
-Message-ID: <CAK7LNAQEYAiV7+19LXNs8-HjWNLvX4hGLvDVMjLXrshLb4BawQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: kbuild: Fix a typo in the file Kconfig.recursion-issue-02
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Cc:     Michal Marek <michal.lkml@markovi.net>,
+References: <20210315091400.13772-1-brgl@bgdev.pl> <20210315091400.13772-3-brgl@bgdev.pl>
+ <6bc83972093a4be4ad163069a437ec25@AcuMS.aculab.com>
+In-Reply-To: <6bc83972093a4be4ad163069a437ec25@AcuMS.aculab.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 15 Mar 2021 18:36:54 +0200
+Message-ID: <CAHp75Vc3Fr3Ysv0p7-W1Bf5y1Em17psZ=eCgVNewdVF=AjPm-g@mail.gmail.com>
+Subject: Re: [PATCH v5 02/11] configfs: use (1UL << bit) for internal flags
+To:     David Laight <David.Laight@aculab.com>
+Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Joel Becker <jlbec@evilplan.org>,
+        Christoph Hellwig <hch@lst.de>, Shuah Khan <shuah@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kent Gibson <warthog618@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 14, 2021 at 1:33 PM Bhaskar Chowdhury <unixbhaskar@gmail.com> wrote:
+On Mon, Mar 15, 2021 at 5:33 PM David Laight <David.Laight@aculab.com> wrote:
+> From: Bartosz Golaszewski
+> > Sent: 15 March 2021 09:14
+> >
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >
+> > For better readability and maintenance: use the (1UL << bit) for flag
+> > definitions.
 >
->
-> s/sematics/semantics/
->
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-> ---
+> If the values ever get printed in hex the hex definitions are
+> actually more useful.
 
-Applied to linux-kbuild. Thanks.
-
-
->  Documentation/kbuild/Kconfig.recursion-issue-02 | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/kbuild/Kconfig.recursion-issue-02 b/Documentation/kbuild/Kconfig.recursion-issue-02
-> index df245fd7670d..0034eb494d11 100644
-> --- a/Documentation/kbuild/Kconfig.recursion-issue-02
-> +++ b/Documentation/kbuild/Kconfig.recursion-issue-02
-> @@ -6,7 +6,7 @@
->  # make KBUILD_KCONFIG=Documentation/kbuild/Kconfig.recursion-issue-02 allnoconfig
->  #
->  # The recursive limitations with Kconfig has some non intuitive implications on
-> -# kconfig sematics which are documented here. One known practical implication
-> +# kconfig semantics which are documented here. One known practical implication
->  # of the recursive limitation is that drivers cannot negate features from other
->  # drivers if they share a common core requirement and use disjoint semantics to
->  # annotate those requirements, ie, some drivers use "depends on" while others
-> --
-> 2.26.2
->
+Huh?!
 
 
 -- 
-Best Regards
-Masahiro Yamada
+With Best Regards,
+Andy Shevchenko
