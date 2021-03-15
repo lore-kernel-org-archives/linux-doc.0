@@ -2,215 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 049DAC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:28:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F3EC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 10:00:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CDD7764EB1
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 09:28:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FFDD64EAE
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 10:00:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229703AbhCOJ2D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 05:28:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42476 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229847AbhCOJ1l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 05:27:41 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3215C06175F
-        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:27:40 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id e26so6183245pfd.9
-        for <linux-doc@vger.kernel.org>; Mon, 15 Mar 2021 02:27:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=cszE7wMfBbYNxizL5sc0ajOqCGxq2ZshpdXC0HOV9L4=;
-        b=km/CjZkCx6zyRgKYOGEoxWIjcIx1unZZquR8skWzd/pW6clIuXtwQGxiajPex0ATz2
-         P2wRVzt9l8BuviGhbq75n2agvjNjBaM/+hcKfgT8oClqlRtNdn/Apw1gj8ewV0jNmlxa
-         zTdGDKZxTmalwPV9uQWrR10edynmv54Hgj6Omv9jkDnilNrBJ1B/ZwQXuW3L7nCBkdLC
-         siDsQsYkTSH4fdAwnqQl7snYd/m1RG9Yy33+j6CuEKeRc64uxcxzXb9EMgpJjacVeavb
-         0PQT5RmteXVMLjtHYX+F4gVQzT3CT7yaEcTcn+A8fSICz6t22z82/cCKOR2nBV3yDgx3
-         ayWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=cszE7wMfBbYNxizL5sc0ajOqCGxq2ZshpdXC0HOV9L4=;
-        b=f/px5MHbXrKFo5OkH0yOsa3V7uS5QM47OupSfovTX4b0EuOYzHj9oU7ByRz0EfyTxA
-         if+2zstTes18GCbngNNjkFaggfgZrJsVrVtGuyUzyYaIHZ8f44DI7P5NsWljj3J/lJ5E
-         HN8vBSaWECq9thuJnNwPqHRhlnpfV9m72b6sVjGoG+95ITEO+IBFLvYk+mWFrKbuDaMn
-         2RA51wOoN7kn+7pvtngpFndydQB+IqhByr3J0hg0eZjC7TtKZS4KBL9m8SayB2PZK9qn
-         J+LVmR71WOI9jMZXli/Mg+XiuIxCgy5nPNKKy/rKole3nFkXfF0m9RLAcm0PqBk0H9b/
-         +T5g==
-X-Gm-Message-State: AOAM531KVz+YxJQIHRXgjgvFA1MCTZM5r0OIhAWKFC6S3Wx1cVXNsWFv
-        5e9/pjGdoIhNXy3friqH60YfGg==
-X-Google-Smtp-Source: ABdhPJxPEVdT+G36Se/9qGYicEGixno2NzopXRjEZUuaXgjgAEFZkNn1DOLUc0BnnJ58P4wMWFOvBA==
-X-Received: by 2002:a05:6a00:2da:b029:202:7800:567 with SMTP id b26-20020a056a0002dab029020278000567mr12592116pft.71.1615800460350;
-        Mon, 15 Mar 2021 02:27:40 -0700 (PDT)
-Received: from localhost.localdomain ([139.177.225.231])
-        by smtp.gmail.com with ESMTPSA id gm10sm10607883pjb.4.2021.03.15.02.27.27
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 15 Mar 2021 02:27:40 -0700 (PDT)
-From:   Muchun Song <songmuchun@bytedance.com>
-To:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        osalvador@suse.de, mhocko@suse.com, song.bao.hua@hisilicon.com,
-        david@redhat.com, naoya.horiguchi@nec.com,
-        joao.m.martins@oracle.com
-Cc:     duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org,
-        Muchun Song <songmuchun@bytedance.com>,
-        Miaohe Lin <linmiaohe@huawei.com>,
-        Chen Huang <chenhuang5@huawei.com>,
-        Bodeddula Balasubramaniam <bodeddub@amazon.com>
-Subject: [PATCH v19 8/8] mm: hugetlb: introduce nr_free_vmemmap_pages in the struct hstate
-Date:   Mon, 15 Mar 2021 17:20:15 +0800
-Message-Id: <20210315092015.35396-9-songmuchun@bytedance.com>
-X-Mailer: git-send-email 2.21.0 (Apple Git-122)
-In-Reply-To: <20210315092015.35396-1-songmuchun@bytedance.com>
-References: <20210315092015.35396-1-songmuchun@bytedance.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S229460AbhCOJ7c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 05:59:32 -0400
+Received: from mail-m118208.qiye.163.com ([115.236.118.208]:46780 "EHLO
+        mail-m118208.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229805AbhCOJ7F (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 05:59:05 -0400
+X-Greylist: delayed 590 seconds by postgrey-1.27 at vger.kernel.org; Mon, 15 Mar 2021 05:59:05 EDT
+Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.250.176.228])
+        by mail-m118208.qiye.163.com (Hmail) with ESMTPA id 46EA2E012A;
+        Mon, 15 Mar 2021 17:49:10 +0800 (CST)
+From:   Wang Qing <wangqing@vivo.com>
+To:     Jonathan Corbet <corbet@lwn.net>, Wang Qing <wangqing@vivo.com>,
+        Joe Perches <joe@perches.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] doc: admin-guide: remove explanation of "watchdog/%u"
+Date:   Mon, 15 Mar 2021 17:49:03 +0800
+Message-Id: <1615801744-31548-1-git-send-email-wangqing@vivo.com>
+X-Mailer: git-send-email 2.7.4
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZSkJMTBpMTUMfGR8YVkpNSk5DS0pMTktNSU5VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        FZT0tIVUpKSktOSlVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Nhg6NDo4Nz8PIUsYKA8SKzYM
+        HzwwFDZVSlVKTUpOQ0tKTE5KT0NMVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
+        SU5LVUpMTVVJSUNZV1kIAVlBSU9OQjcG
+X-HM-Tid: 0a78354a141e2c17kusn46ea2e012a
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-All the infrastructure is ready, so we introduce nr_free_vmemmap_pages
-field in the hstate to indicate how many vmemmap pages associated with
-a HugeTLB page that can be freed to buddy allocator. And initialize it
-in the hugetlb_vmemmap_init(). This patch is actual enablement of the
-feature.
+"watchdog/%u" threads has be replaced by cpu_stop_work, 
+which will mislead the reader.
 
-There are only (RESERVE_VMEMMAP_SIZE / sizeof(struct page)) struct
-page structs that can be used when CONFIG_HUGETLB_PAGE_FREE_VMEMMAP,
-so add a BUILD_BUG_ON to catch invalid usage of the tail struct page.
-
-Signed-off-by: Muchun Song <songmuchun@bytedance.com>
-Acked-by: Mike Kravetz <mike.kravetz@oracle.com>
-Reviewed-by: Oscar Salvador <osalvador@suse.de>
-Reviewed-by: Miaohe Lin <linmiaohe@huawei.com>
-Tested-by: Chen Huang <chenhuang5@huawei.com>
-Tested-by: Bodeddula Balasubramaniam <bodeddub@amazon.com>
+Signed-off-by: Wang Qing <wangqing@vivo.com>
 ---
- include/linux/hugetlb.h |  3 +++
- mm/hugetlb.c            |  1 +
- mm/hugetlb_vmemmap.c    | 33 +++++++++++++++++++++++++++++++++
- mm/hugetlb_vmemmap.h    | 10 ++++++----
- 4 files changed, 43 insertions(+), 4 deletions(-)
+ .../admin-guide/kernel-per-CPU-kthreads.rst          | 20 --------------------
+ 1 file changed, 20 deletions(-)
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index 3efc6b9b23f2..c70421e26189 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -580,6 +580,9 @@ struct hstate {
- 	unsigned int nr_huge_pages_node[MAX_NUMNODES];
- 	unsigned int free_huge_pages_node[MAX_NUMNODES];
- 	unsigned int surplus_huge_pages_node[MAX_NUMNODES];
-+#ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
-+	unsigned int nr_free_vmemmap_pages;
-+#endif
- #ifdef CONFIG_CGROUP_HUGETLB
- 	/* cgroup control files */
- 	struct cftype cgroup_files_dfl[7];
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 53f239818293..37c06e0e3660 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -3315,6 +3315,7 @@ void __init hugetlb_add_hstate(unsigned int order)
- 	h->next_nid_to_free = first_memory_node;
- 	snprintf(h->name, HSTATE_NAME_LEN, "hugepages-%lukB",
- 					huge_page_size(h)/1024);
-+	hugetlb_vmemmap_init(h);
- 
- 	parsed_hstate = h;
- }
-diff --git a/mm/hugetlb_vmemmap.c b/mm/hugetlb_vmemmap.c
-index 721258beeb94..13e7e57a1327 100644
---- a/mm/hugetlb_vmemmap.c
-+++ b/mm/hugetlb_vmemmap.c
-@@ -254,3 +254,36 @@ void free_huge_page_vmemmap(struct hstate *h, struct page *head)
- 	 */
- 	vmemmap_remap_free(vmemmap_addr, vmemmap_end, vmemmap_reuse);
- }
-+
-+void __init hugetlb_vmemmap_init(struct hstate *h)
-+{
-+	unsigned int nr_pages = pages_per_huge_page(h);
-+	unsigned int vmemmap_pages;
-+
-+	/*
-+	 * There are only (RESERVE_VMEMMAP_SIZE / sizeof(struct page)) struct
-+	 * page structs that can be used when CONFIG_HUGETLB_PAGE_FREE_VMEMMAP,
-+	 * so add a BUILD_BUG_ON to catch invalid usage of the tail struct page.
-+	 */
-+	BUILD_BUG_ON(__NR_USED_SUBPAGE >=
-+		     RESERVE_VMEMMAP_SIZE / sizeof(struct page));
-+
-+	if (!hugetlb_free_vmemmap_enabled)
-+		return;
-+
-+	vmemmap_pages = (nr_pages * sizeof(struct page)) >> PAGE_SHIFT;
-+	/*
-+	 * The head page and the first tail page are not to be freed to buddy
-+	 * allocator, the other pages will map to the first tail page, so they
-+	 * can be freed.
-+	 *
-+	 * Could RESERVE_VMEMMAP_NR be greater than @vmemmap_pages? It is true
-+	 * on some architectures (e.g. aarch64). See Documentation/arm64/
-+	 * hugetlbpage.rst for more details.
-+	 */
-+	if (likely(vmemmap_pages > RESERVE_VMEMMAP_NR))
-+		h->nr_free_vmemmap_pages = vmemmap_pages - RESERVE_VMEMMAP_NR;
-+
-+	pr_info("can free %d vmemmap pages for %s\n", h->nr_free_vmemmap_pages,
-+		h->name);
-+}
-diff --git a/mm/hugetlb_vmemmap.h b/mm/hugetlb_vmemmap.h
-index a37771b0b82a..cb2bef8f9e73 100644
---- a/mm/hugetlb_vmemmap.h
-+++ b/mm/hugetlb_vmemmap.h
-@@ -13,17 +13,15 @@
- #ifdef CONFIG_HUGETLB_PAGE_FREE_VMEMMAP
- int alloc_huge_page_vmemmap(struct hstate *h, struct page *head);
- void free_huge_page_vmemmap(struct hstate *h, struct page *head);
-+void hugetlb_vmemmap_init(struct hstate *h);
- 
- /*
-  * How many vmemmap pages associated with a HugeTLB page that can be freed
-  * to the buddy allocator.
-- *
-- * Todo: Returns zero for now, which means the feature is disabled. We will
-- * enable it once all the infrastructure is there.
-  */
- static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
- {
--	return 0;
-+	return h->nr_free_vmemmap_pages;
- }
- #else
- static inline int alloc_huge_page_vmemmap(struct hstate *h, struct page *head)
-@@ -35,6 +33,10 @@ static inline void free_huge_page_vmemmap(struct hstate *h, struct page *head)
- {
- }
- 
-+static inline void hugetlb_vmemmap_init(struct hstate *h)
-+{
-+}
-+
- static inline unsigned int free_vmemmap_pages_per_hpage(struct hstate *h)
- {
- 	return 0;
+diff --git a/Documentation/admin-guide/kernel-per-CPU-kthreads.rst b/Documentation/admin-guide/kernel-per-CPU-kthreads.rst
+index 531f689..5e51ee5
+--- a/Documentation/admin-guide/kernel-per-CPU-kthreads.rst
++++ b/Documentation/admin-guide/kernel-per-CPU-kthreads.rst
+@@ -332,23 +332,3 @@ To reduce its OS jitter, do at least one of the following:
+ 	kthreads from being created in the first place.  However, please
+ 	note that this will not eliminate OS jitter, but will instead
+ 	shift it to RCU_SOFTIRQ.
+-
+-Name:
+-  watchdog/%u
+-
+-Purpose:
+-  Detect software lockups on each CPU.
+-
+-To reduce its OS jitter, do at least one of the following:
+-
+-1.	Build with CONFIG_LOCKUP_DETECTOR=n, which will prevent these
+-	kthreads from being created in the first place.
+-2.	Boot with "nosoftlockup=0", which will also prevent these kthreads
+-	from being created.  Other related watchdog and softlockup boot
+-	parameters may be found in Documentation/admin-guide/kernel-parameters.rst
+-	and Documentation/watchdog/watchdog-parameters.rst.
+-3.	Echo a zero to /proc/sys/kernel/watchdog to disable the
+-	watchdog timer.
+-4.	Echo a large number of /proc/sys/kernel/watchdog_thresh in
+-	order to reduce the frequency of OS jitter due to the watchdog
+-	timer down to a level that is acceptable for your workload.
 -- 
-2.11.0
-
+2.7.4
