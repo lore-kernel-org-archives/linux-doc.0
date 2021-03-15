@@ -2,96 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E12AC43331
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 17:00:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78001C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 17:07:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F3F9564DF1
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 17:00:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4632C64DF4
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 17:07:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234178AbhCOQ7t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 12:59:49 -0400
-Received: from mga11.intel.com ([192.55.52.93]:55510 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235668AbhCOQ7m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 15 Mar 2021 12:59:42 -0400
-IronPort-SDR: sJIeE9euBofcomPq9yUs+EL9vFV/YjmsR2pcHQoEpmxzdNc+ERvHkF6ZWryclYCzsTiCV2N3kX
- es3Mlb6APMHg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9924"; a="185762519"
-X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
-   d="scan'208";a="185762519"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2021 09:59:35 -0700
-IronPort-SDR: O1KgmCu6J0NYNnGJsugDJFrFULa6LymUokuMP5YVccGNvzMcEFU2VygNegs39X7ir8R/SitPD3
- ydtPj/ieXPmg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
-   d="scan'208";a="388161101"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga002.jf.intel.com with ESMTP; 15 Mar 2021 09:59:33 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 0C34D11C; Mon, 15 Mar 2021 18:59:45 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Subject: [PATCH v1 1/1] gpio: mockup: Adjust documentation to the code
-Date:   Mon, 15 Mar 2021 18:59:40 +0200
-Message-Id: <20210315165940.90055-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+        id S230057AbhCORGn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 13:06:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57378 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234773AbhCORGT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 13:06:19 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 139F9C06175F;
+        Mon, 15 Mar 2021 10:06:18 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id a22-20020a17090aa516b02900c1215e9b33so14737723pjq.5;
+        Mon, 15 Mar 2021 10:06:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=V7IMmjZ2ome4sKp2EWacQS62zqJ+CHMpQY1RgLXOEn8=;
+        b=RWstzBctQjzNlskjf25HMDG8FuSbPRmreqUDL8nLvOZqOShocJCmVa5j2lJuWoQEvm
+         cVPaJOu+o9x4duK9xCpJjRJu7+EEPmAZQb41FuwNa9BzpA2zQVR1F3T8u1PHNomoK2yY
+         rNWtzOaFFZAETSjiNAiFrKNkfCAoRZx8Rd3yRVq6XBrJWmzNu9q3u6AXm7MZaeEQJbBw
+         6eVU9cqu/OPB8tXk5zPTyU+dKYNuYkXsTHqHahDYPjOoGMXleMYkSNvjSNSJbJL2p8jg
+         tSxjUWUGgZ66EzQNQ4LOOZUpWds2YEY9Kkm+aAo9dnBm4lvvg5s44umWo9uOCUxQZYxN
+         zffQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=V7IMmjZ2ome4sKp2EWacQS62zqJ+CHMpQY1RgLXOEn8=;
+        b=nRBxT20pcbBNbJivfCTvK0A1BvDcjwEO17YYyuy9P2iEf8x2Q3qaGNkv/E7/aphfcX
+         ph5+2B4q1QE+PeLl+ltgjpiskd0FV8Wzgj6c0LN6ta1PSeLLFknSlgBbEb+bUcZoLnk+
+         7GlYRCnRWkDF8rAzmTS1d9JpTWyWHH1YuN0PLDYQ4N0J7AS+YE+0Ziz+EHEsmHjf7miE
+         1UuSoqMDpd+32Q3T1EYGwgSBHwgRVDG5+8ZBoZTsDk24CG/mNGbs1YX7s4TbpB9CCFYF
+         J9gjDOIG6PHqVaUEd02OMSv/yr4HDzXzDI4W9Jsb7oA/f18luH7mb7eSiUccWdPwr8jy
+         RnLQ==
+X-Gm-Message-State: AOAM532Rc+nCxx7XMGBt8gxndO/NYPaHig2p6LiGk/zqVOxdsiK/9GA6
+        G+xjSFCFDLbWTsfu5aHtB2V5oPrYZuJjiDu5A4r62/db2rWKOA==
+X-Google-Smtp-Source: ABdhPJwokREzA5Kz3WMcEdCsj14E7nTUPnlAIe9WUeNdjUp5oJiT1aycDnGrpWKlL3l2x3i9SAWaR5c/bEbQniz+r0A=
+X-Received: by 2002:a17:902:ee02:b029:e6:5397:d79c with SMTP id
+ z2-20020a170902ee02b02900e65397d79cmr12525321plb.21.1615827977610; Mon, 15
+ Mar 2021 10:06:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210315165940.90055-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20210315165940.90055-1-andriy.shevchenko@linux.intel.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Mon, 15 Mar 2021 19:06:01 +0200
+Message-ID: <CAHp75Vcr86EPO2MX3z7z_mpiE=RrMHVN=1YCfzoYUh9Kcfnxzw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] gpio: mockup: Adjust documentation to the code
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-First of all one of the parameter missed 'mockup' in its name,
-Second, the semantics of the integer pairs depends on the sign
-of the base (the first value in the pair).
+On Mon, Mar 15, 2021 at 7:01 PM Andy Shevchenko
+<andriy.shevchenko@linux.intel.com> wrote:
+>
+> First of all one of the parameter missed 'mockup' in its name,
+> Second, the semantics of the integer pairs depends on the sign
+> of the base (the first value in the pair).
 
-Update documentation to reflect the real code behaviour.
+>          This parameter takes an argument in the form of an array of integer
+> -        pairs. Each pair defines the base GPIO number (if any) and the number
+> -        of lines exposed by the chip. If the base GPIO is -1, the gpiolib
+> -        will assign it automatically.
+> +        pairs. Each pair defines the base GPIO number (non-negative integer)
+> +        and the first number after the last of this chip. If the base GPIO
+> +        is -1, the gpiolib will assign it automatically. while the following
+> +        parameter is the number of lines exposed by the chip.
+>
+> -        Example: gpio_mockup_ranges=-1,8,-1,16,405,4
+> +        Example: gpio_mockup_ranges=-1,8,-1,16,405,409
 
-Fixes: 2fd1abe99e5f ("Documentation: gpio: add documentation for gpio-mockup")
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- Documentation/admin-guide/gpio/gpio-mockup.rst | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+Just a side note: it was always like this (I've checked the initial
+gpio-mockup.c code). I think you have to add more test cases.
 
-diff --git a/Documentation/admin-guide/gpio/gpio-mockup.rst b/Documentation/admin-guide/gpio/gpio-mockup.rst
-index 9fa1618b3adc..493071da1738 100644
---- a/Documentation/admin-guide/gpio/gpio-mockup.rst
-+++ b/Documentation/admin-guide/gpio/gpio-mockup.rst
-@@ -17,17 +17,18 @@ module.
-     gpio_mockup_ranges
- 
-         This parameter takes an argument in the form of an array of integer
--        pairs. Each pair defines the base GPIO number (if any) and the number
--        of lines exposed by the chip. If the base GPIO is -1, the gpiolib
--        will assign it automatically.
-+        pairs. Each pair defines the base GPIO number (non-negative integer)
-+        and the first number after the last of this chip. If the base GPIO
-+        is -1, the gpiolib will assign it automatically. while the following
-+        parameter is the number of lines exposed by the chip.
- 
--        Example: gpio_mockup_ranges=-1,8,-1,16,405,4
-+        Example: gpio_mockup_ranges=-1,8,-1,16,405,409
- 
-         The line above creates three chips. The first one will expose 8 lines,
-         the second 16 and the third 4. The base GPIO for the third chip is set
-         to 405 while for two first chips it will be assigned automatically.
- 
--    gpio_named_lines
-+    gpio_mockup_named_lines
- 
-         This parameter doesn't take any arguments. It lets the driver know that
-         GPIO lines exposed by it should be named.
 -- 
-2.30.2
-
+With Best Regards,
+Andy Shevchenko
