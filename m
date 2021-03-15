@@ -2,113 +2,68 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09126C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 06:23:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D74B4C433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 07:29:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCC6B64E12
-	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 06:23:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AAEDD64E09
+	for <linux-doc@archiver.kernel.org>; Mon, 15 Mar 2021 07:29:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229679AbhCOGXY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 02:23:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59194 "EHLO
+        id S230169AbhCOH2n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 03:28:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229607AbhCOGXE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 02:23:04 -0400
-Received: from mail-pg1-x531.google.com (mail-pg1-x531.google.com [IPv6:2607:f8b0:4864:20::531])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64404C061574;
-        Sun, 14 Mar 2021 23:23:04 -0700 (PDT)
-Received: by mail-pg1-x531.google.com with SMTP id 16so13431997pgo.13;
-        Sun, 14 Mar 2021 23:23:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:cc:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding;
-        bh=bAUk4veAZcLgzYEMIYI27fwdQvDriq0KpbEV9tpXgPU=;
-        b=ng9KdyPFwzpR5+YlAQpGaMMFLu2O0ClH+b2XzyFQwbr8iyHdIBlJYOmY5osnxW4jCw
-         ZM/BcD/5Uw4GKy7xr1hbca/cfgBYzAj3PumLKH1CP3D6GfdfYLd7R68fpognybWY5yHP
-         wM5vnwlNYli+6sOlHZpW8IbPw+T88H9jAlRR3MQ9tH9v6zjH/BPDDckHxYQvHZmBDEhl
-         /9CYI8I1A+2pTZ2pm/C6HwAdkZMhplgm8bf/6pToB06FFdrRtYmTKNfuulikW5Gg91a0
-         mYS4k9Fq5cgIcEm/XF9weyPdFwZFQ3IXX++KhE89Ymlb+1NFHNILtDetH7V2IMWFojAq
-         Nsig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:cc:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding;
-        bh=bAUk4veAZcLgzYEMIYI27fwdQvDriq0KpbEV9tpXgPU=;
-        b=unP+CYePCChSoIi10yz96ALXViZ/i1WBrcV0l5CspOHNt2nwXNi1QJOhRANOcKJnZ9
-         5QVdyM9bsXIarRqXobRUpEUJXQoCxEKWuWIhoxInhj/Xc9EdQ2WQY/UCdtyknAB71P8n
-         ZVU1gzgq2ShsdGIMf/3WI4SHaKyiHKey4fLWndqCfnnEYOO1SMBqVG+Cr91qcNnMrHy8
-         STs5Ku8fOn4XnGplCt5dxfvZ6a5SCzFUlrkaOMu1rgCYb4Gc5zZ17l2N9JedJsDwc+yk
-         kbDtF3cKweeGjLt6UNxjevzm2SSiZe4ILkPHBBPckpNVE/HV+IsQbhbc8SNNpBFtp6uy
-         aV3A==
-X-Gm-Message-State: AOAM5333wCyOukhnjtAENUnbVkFTdNgfYZ64RAbrjtLhuQRihLfq0H+N
-        ny2rus1Yj7fUkkrwaaWQ4L/ZLqOkjJdzZZHo
-X-Google-Smtp-Source: ABdhPJze+X7DAgWi+E0sxKmufrkfx8eSs19TqjRFkR+VMhWPqB8aCMbbrvt1nW+1sDJSJ/l8jYT0CA==
-X-Received: by 2002:a63:5b52:: with SMTP id l18mr22318855pgm.304.1615789383607;
-        Sun, 14 Mar 2021 23:23:03 -0700 (PDT)
-Received: from [172.24.61.73] ([103.114.158.1])
-        by smtp.gmail.com with ESMTPSA id v35sm11680611pga.3.2021.03.14.23.23.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 14 Mar 2021 23:23:03 -0700 (PDT)
-Subject: Re: [PATCH] security/loadpin: Update the changing interface in the
- source code.
-To:     keescook@chromium.org, corbet@lwn.net
-References: <20210308020358.102836-1-unclexiaole@gmail.com>
-From:   Jiele Zhao <unclexiaole@gmail.com>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Message-ID: <ce4d6069-b678-737f-a768-5a18b7764086@gmail.com>
-Date:   Mon, 15 Mar 2021 14:22:26 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        with ESMTP id S230159AbhCOH2e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 03:28:34 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4714C061574;
+        Mon, 15 Mar 2021 00:28:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=/4x/X3GS6thVGUK6cOVI8rH4h4+Oo61yBODFUT5MA0w=; b=vZi3bhH4d2YcxZIWoFyxnCOCzo
+        hhpidY/A6Mbh0EWNvr0oyxoaxtFxeFowICoVqbo6OK+Fgs1EsPYDuqwvGPFnGYsbCBkIZSWYxCOcW
+        53tvfYpwfVOOebLDQB//3YJkAXiY+BeQNlExtECW8bSXB9ZlaA8bahIuUUktyvMN0zXD25fma/ut9
+        7Sa4bDI5j6qs0U6/ExHfBLXqx1JscAvFwgh3w63HrUrCUghFXuQgBKnC0iKP70Tx8EHYCGKSSEYj9
+        KdWllX4zU5Vfypl+9TtxQCzfCvkQmhBD7U8ONPnT40VeCCb9W6OKibM/MKO7skATmiDfTlcrIEfFz
+        B/grPu7A==;
+Received: from hch by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lLhdt-00HMIO-KN; Mon, 15 Mar 2021 07:27:58 +0000
+Date:   Mon, 15 Mar 2021 07:27:57 +0000
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Alistair Popple <apopple@nvidia.com>
+Cc:     linux-mm@kvack.org, nouveau@lists.freedesktop.org,
+        bskeggs@redhat.com, akpm@linux-foundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kvm-ppc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        jhubbard@nvidia.com, rcampbell@nvidia.com, jglisse@redhat.com,
+        jgg@nvidia.com, hch@infradead.org, daniel@ffwll.ch,
+        willy@infradead.org
+Subject: Re: [PATCH v6 1/8] mm: Remove special swap entry functions
+Message-ID: <20210315072757.GA4136862@infradead.org>
+References: <20210312083851.15981-1-apopple@nvidia.com>
+ <20210312083851.15981-2-apopple@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <20210308020358.102836-1-unclexiaole@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210312083851.15981-2-apopple@nvidia.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021/3/8 10:03, Jiele zhao wrote:
-> Loadpin cmdline interface "enabled" has been renamed to "enforce"
-> for a long time, but the User Description Document was not updated.
-> (Meaning unchanged)
->
-> And kernel_read_file* were moved from linux/fs.h to its own
-> linux/kernel_read_file.h include file. So update that change here.
->
-> Signed-off-by: Jiele zhao <unclexiaole@gmail.com>
-> ---
->   Documentation/admin-guide/LSM/LoadPin.rst | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/admin-guide/LSM/LoadPin.rst b/Documentation/admin-guide/LSM/LoadPin.rst
-> index 716ad9b23c9a..dd3ca68b5df1 100644
-> --- a/Documentation/admin-guide/LSM/LoadPin.rst
-> +++ b/Documentation/admin-guide/LSM/LoadPin.rst
-> @@ -11,8 +11,8 @@ restrictions without needing to sign the files individually.
->   
->   The LSM is selectable at build-time with ``CONFIG_SECURITY_LOADPIN``, and
->   can be controlled at boot-time with the kernel command line option
-> -"``loadpin.enabled``". By default, it is enabled, but can be disabled at
-> -boot ("``loadpin.enabled=0``").
-> +"``loadpin.enforce``". By default, it is enabled, but can be disabled at
-> +boot ("``loadpin.enforce=0``").
->   
->   LoadPin starts pinning when it sees the first file loaded. If the
->   block device backing the filesystem is not read-only, a sysctl is
-> @@ -28,4 +28,4 @@ different mechanisms such as ``CONFIG_MODULE_SIG`` and
->   ``CONFIG_KEXEC_VERIFY_SIG`` to verify kernel module and kernel image while
->   still use LoadPin to protect the integrity of other files kernel loads. The
->   full list of valid file types can be found in ``kernel_read_file_str``
-> -defined in ``include/linux/fs.h``.
-> +defined in ``include/linux/kernel_read_file.h``.
+On Fri, Mar 12, 2021 at 07:38:44PM +1100, Alistair Popple wrote:
+> Remove the migration and device private entry_to_page() and
+> entry_to_pfn() inline functions and instead open code them directly.
+> This results in shorter code which is easier to understand.
 
-Ping. It's been almost one week now, can someone respond this patch?
-Kees? Jonathan?
+I think this commit log should mention pfn_swap_entry_to_page() now.
 
+Otherwise looks good:
+
+Reviewed-by: Christoph Hellwig <hch@lst.de>
