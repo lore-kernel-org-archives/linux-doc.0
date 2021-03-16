@@ -7,270 +7,137 @@ X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32145C433E6
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 19:23:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E358C43381
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 19:23:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F1360650D9
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 19:23:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CF7CE64F07
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 19:23:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236659AbhCPTWs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 15:22:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59742 "EHLO mail.kernel.org"
+        id S240363AbhCPTXX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 15:23:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60188 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234990AbhCPTWk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Mar 2021 15:22:40 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E870D65061;
-        Tue, 16 Mar 2021 19:22:38 +0000 (UTC)
+        id S240364AbhCPTXM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Mar 2021 15:23:12 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4A8146505E;
+        Tue, 16 Mar 2021 19:23:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1615922559;
-        bh=zg65Pn1r3cXmZ68Zj9qDDZ2iLpobA6DjNNZemVWYfXg=;
+        s=k20201202; t=1615922591;
+        bh=sWtZmKfMXGF5SI475qI69+xO3GMtSBC6a8W35/layQ4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HpoautR6qNDWPE2QlXP5cZF13tXQgMfXBEoaqM/R32UyMWeeuXXUGEoQz85frM8GG
-         ebu0MBOo1S8ciNndBDKlI26RwrhnBv4fhnktaQoWISiVL6Mx8fMJnYFyTVHjdi+YYi
-         zdxRn0pNDuTAzSUzzVv3T5JI9rhcLSV1pFPVsorfyDWDMxUkwZdfBGqTIXRJj02SCV
-         S0IBACa7l3uqHAk+CdOoOpadvNkP+1lRUIVu9OIkyuH0XvOPMxDM4q3wdKON03HIxT
-         RkK0nZrnUqjGeHNhdhQYnCwB9aL7mEph5OhSCIWXRY/uKmDvDbGAd6iQR4R024Kdgo
-         PNP2TdxzKrpgw==
-Date:   Tue, 16 Mar 2021 21:22:14 +0200
+        b=rFWewSgAfHeRhxbl6tLAZ+SmyfaPJv6fHztLMoMKe/3REKkyu/EzU3gxj7gTQyz4+
+         zFYssQKI7x1yKN+UQlVF5n2OIAaOVNqkctIoyYLcV2NZpuHcGu0nn11MN/6Loca+8K
+         +omIRhM+uvATCZauV2ta+4+NH9hy7rewWPrud9nuG7TgFqKpIJCyttIGHO1e0ntePD
+         y9FVEWng7pDIw9Vk2Bj1YVJmGEhaJgNrLaTtEcQ0tFS9p3CPOfQ6jnXH/04f2hYVRT
+         yow0OhI6XTkpQ1cpaKVryptk+7DUMwPmqx+e30iNUdCAQ/r8Y6WA5zUSr9L3/uGdpM
+         3Z8emdSM2pqFg==
+Date:   Tue, 16 Mar 2021 21:22:46 +0200
 From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>, kernel@pengutronix.de,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Udit Agarwal <udit.agarwal@nxp.com>,
-        Jan Luebbe <j.luebbe@penutronix.de>,
-        David Gstir <david@sigma-star.at>,
-        Franck LENORMAND <franck.lenormand@nxp.com>,
-        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
- CAAM-based trusted keys
-Message-ID: <YFEFZujgsMpX7VbU@kernel.org>
-References: <cover.56fff82362af6228372ea82e6bd7e586e23f0966.1615914058.git-series.a.fatoum@pengutronix.de>
- <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v23 9/9] x86/vdso: Add ENDBR to __vdso_sgx_enter_enclave
+Message-ID: <YFEFhoi/SB12HUrg@kernel.org>
+References: <20210316151320.6123-1-yu-cheng.yu@intel.com>
+ <20210316151320.6123-10-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
+In-Reply-To: <20210316151320.6123-10-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 06:01:18PM +0100, Ahmad Fatoum wrote:
-> The Cryptographic Acceleration and Assurance Module (CAAM) is an IP core
-> built into many newer i.MX and QorIQ SoCs by NXP.
+On Tue, Mar 16, 2021 at 08:13:19AM -0700, Yu-cheng Yu wrote:
+> ENDBR is a special new instruction for the Indirect Branch Tracking (IBT)
+> component of CET.  IBT prevents attacks by ensuring that (most) indirect
+> branches and function calls may only land at ENDBR instructions.  Branches
+> that don't follow the rules will result in control flow (#CF) exceptions.
 > 
-> The CAAM does crypto acceleration, hardware number generation and
-> has a blob mechanism for encapsulation/decapsulation of sensitive material.
+> ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
+> instructions are inserted automatically by the compiler, but branch
+> targets written in assembly must have ENDBR added manually.
 > 
-> This blob mechanism depends on a device specific random 256-bit One Time
-> Programmable Master Key that is fused in each SoC at manufacturing
-> time. This key is unreadable and can only be used by the CAAM for AES
-> encryption/decryption of user data.
+> Add ENDBR to __vdso_sgx_enter_enclave() branch targets.
 > 
-> This makes it a suitable backend (source) for kernel trusted keys.
-> 
-> Previous commits generalized trusted keys to support multiple backends
-> and added an API to access the CAAM blob mechanism. Based on these,
-> provide the necessary glue to use the CAAM for trusted keys.
-> 
-> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Cc: Andy Lutomirski <luto@kernel.org>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Jarkko Sakkinen <jarkko@kernel.org>
+> Cc: Peter Zijlstra <peterz@infradead.org>
 > ---
-> To: Jonathan Corbet <corbet@lwn.net>
-> To: David Howells <dhowells@redhat.com>
-> To: Jarkko Sakkinen <jarkko@kernel.org>
-> To: James Bottomley <jejb@linux.ibm.com>
-> To: Mimi Zohar <zohar@linux.ibm.com>
-> Cc: James Morris <jmorris@namei.org>
-> Cc: "Serge E. Hallyn" <serge@hallyn.com>
-> Cc: "Horia Geantă" <horia.geanta@nxp.com>
-> Cc: Aymen Sghaier <aymen.sghaier@nxp.com>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Udit Agarwal <udit.agarwal@nxp.com>
-> Cc: Jan Luebbe <j.luebbe@penutronix.de>
-> Cc: David Gstir <david@sigma-star.at>
-> Cc: Franck LENORMAND <franck.lenormand@nxp.com>
-> Cc: Sumit Garg <sumit.garg@linaro.org>
-> Cc: keyrings@vger.kernel.org
-> Cc: linux-crypto@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-integrity@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: linux-security-module@vger.kernel.org
-> ---
->  Documentation/admin-guide/kernel-parameters.txt |  1 +-
->  include/keys/trusted_caam.h                     | 11 +++-
->  security/keys/trusted-keys/Makefile             |  1 +-
->  security/keys/trusted-keys/trusted_caam.c       | 74 ++++++++++++++++++-
->  security/keys/trusted-keys/trusted_core.c       |  6 +-
->  5 files changed, 92 insertions(+), 1 deletion(-)
->  create mode 100644 include/keys/trusted_caam.h
->  create mode 100644 security/keys/trusted-keys/trusted_caam.c
+>  arch/x86/entry/vdso/vsgx.S | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index c8bad1762cba..382e911389aa 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5469,6 +5469,7 @@
->  			sources:
->  			- "tpm"
->  			- "tee"
-> +			- "caam"
->  			If not specified then it defaults to iterating through
->  			the trust source list starting with TPM and assigns the
->  			first trust source as a backend which is initialized
-> diff --git a/include/keys/trusted_caam.h b/include/keys/trusted_caam.h
-> new file mode 100644
-> index 000000000000..2fba0996b0b0
-> --- /dev/null
-> +++ b/include/keys/trusted_caam.h
-> @@ -0,0 +1,11 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
-> + */
-> +
-> +#ifndef __CAAM_TRUSTED_KEY_H
-> +#define __CAAM_TRUSTED_KEY_H
-> +
-> +extern struct trusted_key_ops caam_trusted_key_ops;
-> +
-> +#endif
-> diff --git a/security/keys/trusted-keys/Makefile b/security/keys/trusted-keys/Makefile
-> index feb8b6c3cc79..050370690abd 100644
-> --- a/security/keys/trusted-keys/Makefile
-> +++ b/security/keys/trusted-keys/Makefile
-> @@ -12,3 +12,4 @@ trusted-y += trusted_tpm2.o
->  trusted-y += tpm2key.asn1.o
+> diff --git a/arch/x86/entry/vdso/vsgx.S b/arch/x86/entry/vdso/vsgx.S
+> index 86a0e94f68df..1baa9b49053e 100644
+> --- a/arch/x86/entry/vdso/vsgx.S
+> +++ b/arch/x86/entry/vdso/vsgx.S
+> @@ -6,6 +6,7 @@
+>  #include <asm/enclu.h>
 >  
->  trusted-$(CONFIG_TEE) += trusted_tee.o
-> +trusted-$(CONFIG_CRYPTO_DEV_FSL_CAAM_BLOB_GEN) += trusted_caam.o
-> diff --git a/security/keys/trusted-keys/trusted_caam.c b/security/keys/trusted-keys/trusted_caam.c
-> new file mode 100644
-> index 000000000000..fc2e3dde9e06
-> --- /dev/null
-> +++ b/security/keys/trusted-keys/trusted_caam.c
-> @@ -0,0 +1,74 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
-> + */
-> +
-> +#include <keys/trusted_caam.h>
-> +#include <keys/trusted-type.h>
-> +#include <linux/build_bug.h>
-> +#include <linux/key-type.h>
-> +#include <soc/fsl/caam-blob.h>
-> +
-> +struct caam_blob_priv *blobifier;
-> +
-> +#define KEYMOD "kernel:trusted"
-> +
-> +static_assert(MAX_KEY_SIZE + CAAM_BLOB_OVERHEAD <= CAAM_BLOB_MAX_LEN);
-> +static_assert(MAX_BLOB_SIZE <= CAAM_BLOB_MAX_LEN);
-> +
-> +static int trusted_caam_seal(struct trusted_key_payload *p, char *datablob)
-> +{
-> +	int length = p->key_len + CAAM_BLOB_OVERHEAD;
-> +	int ret;
-> +
-> +	ret = caam_encap_blob(blobifier, KEYMOD, p->key, p->blob, length);
-> +	if (ret)
-> +		return ret;
-> +
-> +	p->blob_len = length;
-> +	return 0;
-> +}
-> +
-> +static int trusted_caam_unseal(struct trusted_key_payload *p, char *datablob)
-> +{
-> +	int length = p->blob_len;
-> +	int ret;
-> +
-> +	ret = caam_decap_blob(blobifier, KEYMOD, p->blob, p->key, length);
-> +	if (ret)
-> +		return ret;
-> +
-> +	p->key_len = length - CAAM_BLOB_OVERHEAD;
-> +	return 0;
-> +}
-> +
-> +static int trusted_caam_init(void)
-> +{
-> +	int ret;
-> +
-> +	blobifier = caam_blob_gen_init();
-> +	if (IS_ERR(blobifier)) {
-> +		pr_err("Job Ring Device allocation for transform failed\n");
-> +		return PTR_ERR(blobifier);
-> +	}
-> +
-> +	ret = register_key_type(&key_type_trusted);
-> +	if (ret)
-> +		caam_blob_gen_exit(blobifier);
-> +
-> +	return ret;
-> +}
-> +
-> +static void trusted_caam_exit(void)
-> +{
-> +	unregister_key_type(&key_type_trusted);
-> +	caam_blob_gen_exit(blobifier);
-> +}
-> +
-> +struct trusted_key_ops caam_trusted_key_ops = {
-> +	.migratable = 0, /* non-migratable */
-> +	.init = trusted_caam_init,
-> +	.seal = trusted_caam_seal,
-> +	.unseal = trusted_caam_unseal,
-> +	.exit = trusted_caam_exit,
-> +};
-> diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/trusted-keys/trusted_core.c
-> index 5f92323efedf..e9bfb1bbc014 100644
-> --- a/security/keys/trusted-keys/trusted_core.c
-> +++ b/security/keys/trusted-keys/trusted_core.c
-> @@ -9,6 +9,7 @@
->  #include <keys/user-type.h>
->  #include <keys/trusted-type.h>
->  #include <keys/trusted_tee.h>
-> +#include <keys/trusted_caam.h>
->  #include <keys/trusted_tpm.h>
->  #include <linux/capability.h>
->  #include <linux/err.h>
-> @@ -25,7 +26,7 @@
+>  #include "extable.h"
+> +#include "../calling.h"
 >  
->  static char *trusted_key_source;
->  module_param_named(source, trusted_key_source, charp, 0);
-> -MODULE_PARM_DESC(source, "Select trusted keys source (tpm or tee)");
-> +MODULE_PARM_DESC(source, "Select trusted keys source (tpm, tee or caam)");
+>  /* Relative to %rbp. */
+>  #define SGX_ENCLAVE_OFFSET_OF_RUN		16
+> @@ -27,6 +28,7 @@
+>  SYM_FUNC_START(__vdso_sgx_enter_enclave)
+>  	/* Prolog */
+>  	.cfi_startproc
+> +	ENDBR
+>  	push	%rbp
+>  	.cfi_adjust_cfa_offset	8
+>  	.cfi_rel_offset		%rbp, 0
+> @@ -62,6 +64,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
+>  .Lasync_exit_pointer:
+>  .Lenclu_eenter_eresume:
+>  	enclu
+> +	ENDBR
 >  
->  static const struct trusted_key_source trusted_key_sources[] = {
->  #if defined(CONFIG_TCG_TPM)
-> @@ -34,6 +35,9 @@ static const struct trusted_key_source trusted_key_sources[] = {
->  #if defined(CONFIG_TEE)
->  	{ "tee", &trusted_key_tee_ops },
->  #endif
-> +#if defined(CONFIG_CRYPTO_DEV_FSL_CAAM_BLOB_GEN)
-> +	{ "caam", &caam_trusted_key_ops },
-> +#endif
->  };
+>  	/* EEXIT jumps here unless the enclave is doing something fancy. */
+>  	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
+> @@ -91,6 +94,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
+>  	jmp	.Lout
 >  
->  DEFINE_STATIC_CALL_NULL(trusted_key_init, *trusted_key_sources[0].ops->init);
+>  .Lhandle_exception:
+> +	ENDBR
+>  	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
+>  
+>  	/* Set the exception info. */
 > -- 
-> git-series 0.9.1
+> 2.21.0
+> 
 > 
 
-Too early to ack, as I've not included the TEE thing to any PR yet.
+Looks good to me.
+
+Reviewed-by: Jarkko Sakkinen <jarkko@kernel.org>
 
 /Jarkko
