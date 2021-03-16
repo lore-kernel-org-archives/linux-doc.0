@@ -2,136 +2,559 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.9 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F356C433E6
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:47:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D72E4C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:56:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E1CD96511D
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:47:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 84E8F65120
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:56:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239141AbhCPRqu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 13:46:50 -0400
-Received: from mga11.intel.com ([192.55.52.93]:6558 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239186AbhCPRqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Mar 2021 13:46:33 -0400
-IronPort-SDR: cBvrr2H2DYUjbiyu9ENfEz0j2H9BE6bSlam8LWoSE2V51BvRZ69QRcnXrAXkcrlaJ9w7WsQIuP
- eNWFbvcgJndA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9925"; a="185945364"
-X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
-   d="scan'208";a="185945364"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 10:46:30 -0700
-IronPort-SDR: trMTFlvtMFRW2v2cORu3xAlCZ/Y+CR9CxY8aZ3ZwOpU0f5P38iqD/0th2YJlV6eN+5Fu7ljjAV
- YYB6C/E7qbwg==
-X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
-   d="scan'208";a="449800513"
-Received: from kcarrier-mobl.amr.corp.intel.com (HELO [10.209.124.168]) ([10.209.124.168])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 10:46:28 -0700
-Subject: Re: [PATCH v23 6/9] x86/entry: Introduce ENDBR macro
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Cc:     Jarkko Sakkinen <jarkko@kernel.org>
-References: <20210316151320.6123-1-yu-cheng.yu@intel.com>
- <20210316151320.6123-7-yu-cheng.yu@intel.com>
- <f98c600a-80e4-62f0-9c97-eeed708d998d@intel.com>
- <15966857-9be7-3029-7e93-e40596b4649a@intel.com>
- <0c0b3663-3c01-c166-03fa-a3dbfb250da3@intel.com>
- <1cbd8068-60e3-3fc9-9618-3262b179182d@intel.com>
-From:   Dave Hansen <dave.hansen@intel.com>
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
- z5cecg==
-Message-ID: <5856bc91-cc55-2394-fc11-a3414e48778f@intel.com>
-Date:   Tue, 16 Mar 2021 10:46:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S232455AbhCPR4Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 13:56:24 -0400
+Received: from mail-ed1-f52.google.com ([209.85.208.52]:38752 "EHLO
+        mail-ed1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231919AbhCPRzz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 13:55:55 -0400
+Received: by mail-ed1-f52.google.com with SMTP id h13so22607595eds.5;
+        Tue, 16 Mar 2021 10:55:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WwY0jENGZ8w9LCap3uvWftM+Im9MAgWDuvj+CVzZHJY=;
+        b=BC13zEOpOWfsUiKynpwCr7feK73cpFNWPgJ6Ou3550yzo9HF0dHoQDh0CBrDLTFVFn
+         2zrMGC0xCD3LnAcg8KhM7wDTIn29LjFad+1eBrXajzjBt+sjlOIp8ldT2JfqhT3AgBLh
+         bWXQkIKPv+STK5QhHafqwnlXsOmIPYn2JXLTJwy4SNemygPmRsvUSmp1bcTDwNX1+oqi
+         y7eesl9zvhnMxVCfy8CHab5z2AZw/+F1j5ez/rzRrvWc+fbb6KDWgwbWfmsBHHiz1MLG
+         hLSbHzfLby1AFRiqQGA9yTq73wH/68vQ3/boDC8sDd6io+wlr7jQIV7dGETts4gtM+bL
+         9tug==
+X-Gm-Message-State: AOAM530GzXAK0oVPu4yW5qC9gYSN4YwcY92/d5XvQivOwsLelZOoTqLR
+        6iC5Jd24znjbg+eFD/4Kg2w=
+X-Google-Smtp-Source: ABdhPJzlXQaIHxU4eVzKOQYzPOIYeCyc+rmX+fJKstmslZsqNj2K/ry+wuq6D4qmOP2cPIvGkcaCHw==
+X-Received: by 2002:a05:6402:704:: with SMTP id w4mr39026341edx.175.1615917353528;
+        Tue, 16 Mar 2021 10:55:53 -0700 (PDT)
+Received: from localhost ([2a02:8308:387:c900:a7b5:b859:9449:c07b])
+        by smtp.gmail.com with ESMTPSA id b6sm9630201ejb.8.2021.03.16.10.55.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Mar 2021 10:55:53 -0700 (PDT)
+From:   =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>
+Cc:     =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/5] hwmon: (max31790) Rework to use regmap
+Date:   Tue, 16 Mar 2021 18:54:58 +0100
+Message-Id: <20210316175503.1003051-1-kubernat@cesnet.cz>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <1cbd8068-60e3-3fc9-9618-3262b179182d@intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/16/21 10:44 AM, Yu, Yu-cheng wrote:
->> Also, Boris asked for two *different* macros for 32 and 64-bit:
->>
->> https://lore.kernel.org/linux-api/20210310231731.GK23521@zn.tnic/
->>
->> Could you do that in the next version, please?
-> 
-> Yes, we can do two macros, probably in arch/x86/include/asm/vdso.h.
+Converting the driver to use regmap makes it more generic. It also makes
+it a lot easier to debug through debugfs.
 
-*But*, please do leverage _CET_ENDBR if you can.  It seems awfully close
-to what we need.  If it works out, just use it for the 32/64-bit switch.
+Signed-off-by: Václav Kubernát <kubernat@cesnet.cz>
+---
+ drivers/hwmon/Kconfig    |   1 +
+ drivers/hwmon/max31790.c | 318 ++++++++++++++++++++-------------------
+ 2 files changed, 163 insertions(+), 156 deletions(-)
+
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index 54f04e61fb83..c2ec57672c4e 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -1092,6 +1092,7 @@ config SENSORS_MAX6697
+ config SENSORS_MAX31790
+ 	tristate "Maxim MAX31790 sensor chip"
+ 	depends on I2C
++	select REGMAP_I2C
+ 	help
+ 	  If you say yes here you get support for 6-Channel PWM-Output
+ 	  Fan RPM Controller.
+diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
+index 86e6c71db685..4e5add567890 100644
+--- a/drivers/hwmon/max31790.c
++++ b/drivers/hwmon/max31790.c
+@@ -12,6 +12,7 @@
+ #include <linux/init.h>
+ #include <linux/jiffies.h>
+ #include <linux/module.h>
++#include <linux/regmap.h>
+ #include <linux/slab.h>
+ 
+ /* MAX31790 registers */
+@@ -46,92 +47,49 @@
+ 
+ #define NR_CHANNEL			6
+ 
++#define MAX31790_REG_USER_BYTE_67	0x67
++
++#define BULK_TO_U16(msb, lsb)		(((msb) << 8) + (lsb))
++#define U16_MSB(num)			(((num) & 0xFF00) >> 8)
++#define U16_LSB(num)			((num) & 0x00FF)
++
++static const struct regmap_range max31790_ro_range = {
++	.range_min = MAX31790_REG_TACH_COUNT(0),
++	.range_max = MAX31790_REG_PWMOUT(0) - 1,
++};
++
++static const struct regmap_access_table max31790_wr_table = {
++	.no_ranges = &max31790_ro_range,
++	.n_no_ranges = 1,
++};
++
++static const struct regmap_range max31790_volatile_ranges[] = {
++	regmap_reg_range(MAX31790_REG_TACH_COUNT(0), MAX31790_REG_TACH_COUNT(12)),
++	regmap_reg_range(MAX31790_REG_FAN_FAULT_STATUS2, MAX31790_REG_FAN_FAULT_STATUS1),
++};
++
++static const struct regmap_access_table max31790_volatile_table = {
++	.no_ranges = max31790_volatile_ranges,
++	.n_no_ranges = 2,
++	.n_yes_ranges = 0
++};
++
++static const struct regmap_config max31790_regmap_config = {
++	.reg_bits = 8,
++	.val_bits = 8,
++	.reg_stride = 1,
++	.max_register = MAX31790_REG_USER_BYTE_67,
++	.wr_table = &max31790_wr_table,
++	.volatile_table = &max31790_volatile_table
++};
++
+ /*
+  * Client data (each client gets its own)
+  */
+ struct max31790_data {
+-	struct i2c_client *client;
+-	struct mutex update_lock;
+-	bool valid; /* zero until following fields are valid */
+-	unsigned long last_updated; /* in jiffies */
+-
+-	/* register values */
+-	u8 fan_config[NR_CHANNEL];
+-	u8 fan_dynamics[NR_CHANNEL];
+-	u16 fault_status;
+-	u16 tach[NR_CHANNEL * 2];
+-	u16 pwm[NR_CHANNEL];
+-	u16 target_count[NR_CHANNEL];
++	struct regmap *regmap;
+ };
+ 
+-static struct max31790_data *max31790_update_device(struct device *dev)
+-{
+-	struct max31790_data *data = dev_get_drvdata(dev);
+-	struct i2c_client *client = data->client;
+-	struct max31790_data *ret = data;
+-	int i;
+-	int rv;
+-
+-	mutex_lock(&data->update_lock);
+-
+-	if (time_after(jiffies, data->last_updated + HZ) || !data->valid) {
+-		rv = i2c_smbus_read_byte_data(client,
+-				MAX31790_REG_FAN_FAULT_STATUS1);
+-		if (rv < 0)
+-			goto abort;
+-		data->fault_status = rv & 0x3F;
+-
+-		rv = i2c_smbus_read_byte_data(client,
+-				MAX31790_REG_FAN_FAULT_STATUS2);
+-		if (rv < 0)
+-			goto abort;
+-		data->fault_status |= (rv & 0x3F) << 6;
+-
+-		for (i = 0; i < NR_CHANNEL; i++) {
+-			rv = i2c_smbus_read_word_swapped(client,
+-					MAX31790_REG_TACH_COUNT(i));
+-			if (rv < 0)
+-				goto abort;
+-			data->tach[i] = rv;
+-
+-			if (data->fan_config[i]
+-			    & MAX31790_FAN_CFG_TACH_INPUT) {
+-				rv = i2c_smbus_read_word_swapped(client,
+-					MAX31790_REG_TACH_COUNT(NR_CHANNEL
+-								+ i));
+-				if (rv < 0)
+-					goto abort;
+-				data->tach[NR_CHANNEL + i] = rv;
+-			} else {
+-				rv = i2c_smbus_read_word_swapped(client,
+-						MAX31790_REG_PWMOUT(i));
+-				if (rv < 0)
+-					goto abort;
+-				data->pwm[i] = rv;
+-
+-				rv = i2c_smbus_read_word_swapped(client,
+-						MAX31790_REG_TARGET_COUNT(i));
+-				if (rv < 0)
+-					goto abort;
+-				data->target_count[i] = rv;
+-			}
+-		}
+-
+-		data->last_updated = jiffies;
+-		data->valid = true;
+-	}
+-	goto done;
+-
+-abort:
+-	data->valid = false;
+-	ret = ERR_PTR(rv);
+-
+-done:
+-	mutex_unlock(&data->update_lock);
+-
+-	return ret;
+-}
+-
+ static const u8 tach_period[8] = { 1, 2, 4, 8, 16, 32, 32, 32 };
+ 
+ static u8 get_tach_period(u8 fan_dynamics)
+@@ -159,28 +117,89 @@ static u8 bits_for_tach_period(int rpm)
+ 	return bits;
+ }
+ 
++static int read_reg_byte(struct regmap *regmap, u8 reg)
++{
++	int rv;
++	int val;
++
++	rv = regmap_read(regmap, reg, &val);
++
++	if (rv < 0)
++		return rv;
++
++	return val;
++}
++
++static int read_reg_word(struct regmap *regmap, u8 reg)
++{
++	int rv;
++	u8 val_bulk[2];
++
++	rv = regmap_bulk_read(regmap, reg, val_bulk, 2);
++	if (rv < 0)
++		return rv;
++
++	return BULK_TO_U16(val_bulk[0], val_bulk[1]);
++}
++
++static int write_reg_word(struct regmap *regmap, u8 reg, u16 val)
++{
++	u8 bulk_val[2];
++
++	bulk_val[0] = U16_MSB(val);
++	bulk_val[1] = U16_LSB(val);
++
++	return regmap_bulk_write(regmap, reg, bulk_val, 2);
++}
++
+ static int max31790_read_fan(struct device *dev, u32 attr, int channel,
+ 			     long *val)
+ {
+-	struct max31790_data *data = max31790_update_device(dev);
+-	int sr, rpm;
++	struct max31790_data *data = dev_get_drvdata(dev);
++	struct regmap *regmap = data->regmap;
++	int rpm, dynamics, tach, fault;
+ 
+ 	if (IS_ERR(data))
+ 		return PTR_ERR(data);
+ 
+ 	switch (attr) {
+ 	case hwmon_fan_input:
+-		sr = get_tach_period(data->fan_dynamics[channel]);
+-		rpm = RPM_FROM_REG(data->tach[channel], sr);
++		dynamics = read_reg_byte(regmap, MAX31790_REG_FAN_DYNAMICS(channel));
++		if (dynamics < 0)
++			return dynamics;
++
++		tach = read_reg_word(regmap, MAX31790_REG_TACH_COUNT(channel));
++		if (tach < 0)
++			return tach;
++
++		rpm = RPM_FROM_REG(tach, get_tach_period(dynamics));
+ 		*val = rpm;
+ 		return 0;
+ 	case hwmon_fan_target:
+-		sr = get_tach_period(data->fan_dynamics[channel]);
+-		rpm = RPM_FROM_REG(data->target_count[channel], sr);
++		dynamics = read_reg_byte(regmap, MAX31790_REG_FAN_DYNAMICS(channel));
++		if (dynamics < 0)
++			return dynamics;
++
++		tach = read_reg_word(regmap, MAX31790_REG_TARGET_COUNT(channel));
++		if (tach < 0)
++			return tach;
++
++		rpm = RPM_FROM_REG(tach, get_tach_period(dynamics));
+ 		*val = rpm;
+ 		return 0;
+ 	case hwmon_fan_fault:
+-		*val = !!(data->fault_status & (1 << channel));
++		if (channel > 6)
++			fault = read_reg_byte(regmap, MAX31790_REG_FAN_FAULT_STATUS2);
++		else
++			fault = read_reg_byte(regmap, MAX31790_REG_FAN_FAULT_STATUS1);
++
++		if (fault < 0)
++			return fault;
++
++		if (channel > 6)
++			*val = !!(fault & (1 << (channel - 6)));
++		else
++			*val = !!(fault & (1 << channel));
+ 		return 0;
+ 	default:
+ 		return -EOPNOTSUPP;
+@@ -191,52 +210,58 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
+ 			      long val)
+ {
+ 	struct max31790_data *data = dev_get_drvdata(dev);
+-	struct i2c_client *client = data->client;
++	struct regmap *regmap = data->regmap;
+ 	int target_count;
+ 	int err = 0;
+ 	u8 bits;
+ 	int sr;
+-
+-	mutex_lock(&data->update_lock);
++	int fan_dynamics;
+ 
+ 	switch (attr) {
+ 	case hwmon_fan_target:
+ 		val = clamp_val(val, FAN_RPM_MIN, FAN_RPM_MAX);
+ 		bits = bits_for_tach_period(val);
+-		data->fan_dynamics[channel] =
+-			((data->fan_dynamics[channel] &
++		fan_dynamics = read_reg_byte(regmap, MAX31790_REG_FAN_DYNAMICS(channel));
++
++		if (fan_dynamics < 0)
++			return fan_dynamics;
++
++		fan_dynamics =
++			((fan_dynamics &
+ 			  ~MAX31790_FAN_DYN_SR_MASK) |
+ 			 (bits << MAX31790_FAN_DYN_SR_SHIFT));
+-		err = i2c_smbus_write_byte_data(client,
+-					MAX31790_REG_FAN_DYNAMICS(channel),
+-					data->fan_dynamics[channel]);
++		err = regmap_write(regmap,
++				   MAX31790_REG_FAN_DYNAMICS(channel),
++				   fan_dynamics);
+ 		if (err < 0)
+ 			break;
+ 
+-		sr = get_tach_period(data->fan_dynamics[channel]);
++		sr = get_tach_period(fan_dynamics);
+ 		target_count = RPM_TO_REG(val, sr);
+ 		target_count = clamp_val(target_count, 0x1, 0x7FF);
+ 
+-		data->target_count[channel] = target_count << 5;
++		target_count = target_count << 5;
+ 
+-		err = i2c_smbus_write_word_swapped(client,
+-					MAX31790_REG_TARGET_COUNT(channel),
+-					data->target_count[channel]);
++		err = write_reg_word(regmap,
++				     MAX31790_REG_TARGET_COUNT(channel),
++				     target_count);
+ 		break;
+ 	default:
+ 		err = -EOPNOTSUPP;
+ 		break;
+ 	}
+ 
+-	mutex_unlock(&data->update_lock);
+-
+ 	return err;
+ }
+ 
+ static umode_t max31790_fan_is_visible(const void *_data, u32 attr, int channel)
+ {
+ 	const struct max31790_data *data = _data;
+-	u8 fan_config = data->fan_config[channel % NR_CHANNEL];
++	struct regmap *regmap = data->regmap;
++	u8 fan_config = read_reg_byte(regmap, MAX31790_REG_FAN_CONFIG(channel % NR_CHANNEL));
++
++	if (fan_config < 0)
++		return 0;
+ 
+ 	switch (attr) {
+ 	case hwmon_fan_input:
+@@ -258,22 +283,29 @@ static umode_t max31790_fan_is_visible(const void *_data, u32 attr, int channel)
+ static int max31790_read_pwm(struct device *dev, u32 attr, int channel,
+ 			     long *val)
+ {
+-	struct max31790_data *data = max31790_update_device(dev);
+-	u8 fan_config;
++	struct max31790_data *data = dev_get_drvdata(dev);
++	struct regmap *regmap = data->regmap;
++	int read;
+ 
+ 	if (IS_ERR(data))
+ 		return PTR_ERR(data);
+ 
+-	fan_config = data->fan_config[channel];
+-
+ 	switch (attr) {
+ 	case hwmon_pwm_input:
+-		*val = data->pwm[channel] >> 8;
++		read = read_reg_word(regmap, MAX31790_REG_PWMOUT(channel));
++		if (read < 0)
++			return read;
++
++		*val = read >> 8;
+ 		return 0;
+ 	case hwmon_pwm_enable:
+-		if (fan_config & MAX31790_FAN_CFG_RPM_MODE)
++		read = read_reg_byte(regmap, MAX31790_REG_FAN_CONFIG(channel));
++		if (read < 0)
++			return read;
++
++		if (read & MAX31790_FAN_CFG_RPM_MODE)
+ 			*val = 2;
+-		else if (fan_config & MAX31790_FAN_CFG_TACH_INPUT_EN)
++		else if (read & MAX31790_FAN_CFG_TACH_INPUT_EN)
+ 			*val = 1;
+ 		else
+ 			*val = 0;
+@@ -287,25 +319,24 @@ static int max31790_write_pwm(struct device *dev, u32 attr, int channel,
+ 			      long val)
+ {
+ 	struct max31790_data *data = dev_get_drvdata(dev);
+-	struct i2c_client *client = data->client;
++	struct regmap *regmap = data->regmap;
+ 	u8 fan_config;
+ 	int err = 0;
+ 
+-	mutex_lock(&data->update_lock);
+-
+ 	switch (attr) {
+ 	case hwmon_pwm_input:
+ 		if (val < 0 || val > 255) {
+ 			err = -EINVAL;
+ 			break;
+ 		}
+-		data->pwm[channel] = val << 8;
+-		err = i2c_smbus_write_word_swapped(client,
+-						   MAX31790_REG_PWMOUT(channel),
+-						   data->pwm[channel]);
++		err = write_reg_word(regmap, MAX31790_REG_PWMOUT(channel), val << 8);
+ 		break;
+ 	case hwmon_pwm_enable:
+-		fan_config = data->fan_config[channel];
++		fan_config = read_reg_byte(regmap, MAX31790_REG_FAN_CONFIG(channel % NR_CHANNEL));
++
++		if (fan_config < 0)
++			return fan_config;
++
+ 		if (val == 0) {
+ 			fan_config &= ~(MAX31790_FAN_CFG_TACH_INPUT_EN |
+ 					MAX31790_FAN_CFG_RPM_MODE);
+@@ -320,25 +351,26 @@ static int max31790_write_pwm(struct device *dev, u32 attr, int channel,
+ 			err = -EINVAL;
+ 			break;
+ 		}
+-		data->fan_config[channel] = fan_config;
+-		err = i2c_smbus_write_byte_data(client,
+-					MAX31790_REG_FAN_CONFIG(channel),
+-					fan_config);
++		err = regmap_write(regmap,
++				   MAX31790_REG_FAN_CONFIG(channel),
++				   fan_config);
+ 		break;
+ 	default:
+ 		err = -EOPNOTSUPP;
+ 		break;
+ 	}
+ 
+-	mutex_unlock(&data->update_lock);
+-
+ 	return err;
+ }
+ 
+ static umode_t max31790_pwm_is_visible(const void *_data, u32 attr, int channel)
+ {
+ 	const struct max31790_data *data = _data;
+-	u8 fan_config = data->fan_config[channel];
++	struct regmap *regmap = data->regmap;
++	u8 fan_config = read_reg_byte(regmap, MAX31790_REG_FAN_CONFIG(channel % NR_CHANNEL));
++
++	if (fan_config < 0)
++		return 0;
+ 
+ 	switch (attr) {
+ 	case hwmon_pwm_input:
+@@ -426,35 +458,12 @@ static const struct hwmon_chip_info max31790_chip_info = {
+ 	.info = max31790_info,
+ };
+ 
+-static int max31790_init_client(struct i2c_client *client,
+-				struct max31790_data *data)
+-{
+-	int i, rv;
+-
+-	for (i = 0; i < NR_CHANNEL; i++) {
+-		rv = i2c_smbus_read_byte_data(client,
+-				MAX31790_REG_FAN_CONFIG(i));
+-		if (rv < 0)
+-			return rv;
+-		data->fan_config[i] = rv;
+-
+-		rv = i2c_smbus_read_byte_data(client,
+-				MAX31790_REG_FAN_DYNAMICS(i));
+-		if (rv < 0)
+-			return rv;
+-		data->fan_dynamics[i] = rv;
+-	}
+-
+-	return 0;
+-}
+-
+ static int max31790_probe(struct i2c_client *client)
+ {
+ 	struct i2c_adapter *adapter = client->adapter;
+ 	struct device *dev = &client->dev;
+ 	struct max31790_data *data;
+ 	struct device *hwmon_dev;
+-	int err;
+ 
+ 	if (!i2c_check_functionality(adapter,
+ 			I2C_FUNC_SMBUS_BYTE_DATA | I2C_FUNC_SMBUS_WORD_DATA))
+@@ -464,15 +473,12 @@ static int max31790_probe(struct i2c_client *client)
+ 	if (!data)
+ 		return -ENOMEM;
+ 
+-	data->client = client;
+-	mutex_init(&data->update_lock);
++	data->regmap = devm_regmap_init_i2c(client, &max31790_regmap_config);
+ 
+-	/*
+-	 * Initialize the max31790 chip
+-	 */
+-	err = max31790_init_client(client, data);
+-	if (err)
+-		return err;
++	if (IS_ERR(data->regmap)) {
++		dev_err(dev, "failed to allocate register map\n");
++		return PTR_ERR(data->regmap);
++	}
+ 
+ 	hwmon_dev = devm_hwmon_device_register_with_info(dev, client->name,
+ 							 data,
+-- 
+2.30.2
+
