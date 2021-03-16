@@ -2,195 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7539BC433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 19:47:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9F5FC433E9
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 19:59:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4844864F52
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 19:47:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B005664F6A
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 19:59:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236824AbhCPTrD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 15:47:03 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:35660 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237069AbhCPTqp (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 15:46:45 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12GJhi5h108871;
-        Tue, 16 Mar 2021 19:46:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : content-type : in-reply-to :
- mime-version; s=corp-2020-01-29;
- bh=erV69msJ3oojLMafl/GuaBF+ZNSj4aEaRElfRLebJbU=;
- b=aRH52FZ2hP1qGl5ipHq+wbVsIX63Q9HquqJ3y5QIYEhONjmEyCUKUQEM1czxuPtT7gKz
- XkpSumHCp7FsYkWU/hCHQ1wpZjT9HgRL1suLs1bb6EEAFgA2ikk0Ze83qRWPULIb57yp
- F1CtyrO9zz+OQH8+WSHj2OHMGIrwhVv8vwje23chMAzxSA9DBxhlA1Ex37cPOHCH8o0R
- bBwwy2WffaeNnvslLtOx31fSr0CFUawHdj2fLZmS15DiALxVuxtS1PPHBm1j0JB8oOug
- PfIGlHG97Zy5IbYH6hNREu2sDKPLMsNCp7ZzJ38JRRAYJ9VEY/po0QAUEWVtnZlGZTRT jg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2120.oracle.com with ESMTP id 378p1nss3c-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 16 Mar 2021 19:46:23 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12GJagm3085287;
-        Tue, 16 Mar 2021 19:46:22 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2175.outbound.protection.outlook.com [104.47.57.175])
-        by aserp3030.oracle.com with ESMTP id 3796ytwm5s-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 16 Mar 2021 19:46:22 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lLt4x/PuaL7I/+M0toSFuGtew4/0GFz4MofXc8dhnPGnBy6ypTl4hM/p9K6lR382pZEwPmNR+ETFP1LIrqkockGOlGuSWMPq1ihbdVVrWg2VNaP4aMwH3bzbgbisocjRbs8fmkHcMCOGOfxzyMD7mkDvbiElFggetSQ4cy6ku7e/hKAi5t7byzYDi3L8gU6Xta+oA3/p5EkvTyptfGFpdX0j43n50IWyw3c1zj5ZpeJ0vBueyLpyBZMDNtIUkg0cO/FTJ4Po5G7FJPTCc2EtOX1VOlSiiqaufOAvVYw1YyfIKV5tRa5nvBCJsotQVGjh/YOKh1eY3A8ASMf5wjqn2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=erV69msJ3oojLMafl/GuaBF+ZNSj4aEaRElfRLebJbU=;
- b=PmqDqaK26D2mspvlbKHc7BVg6uz4GnOUSCqfLfVxCN4hTxOpvMwlmEq8GCMsbc9TV8WHjI5CDYLAljkXFHLwQ1vhq8kHmMQqgbbCyjhwVTOVPb55cMXvhPzuTLDAZAjFINLfwyVwKCVt2E9wcwVgPbPVTo8Pb/XL910I8qF2toZd6fmvFV7vrJCYQzBVbpSW2IjdNrioCSwxXN21NSG3RAWWMY0xrdpvSuRR8Re0wphN4LbKDSbU7EiKCnRnFEfJfnOjFpBIgmgHf6fNx50HGH5j25jA48UfScV5RixP74I1GG5DaZBpP7PYVhjfV0FvBGGYI2+4AvBFC7iXy3n27w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=erV69msJ3oojLMafl/GuaBF+ZNSj4aEaRElfRLebJbU=;
- b=OK4DyUr85SL1ogTVwDbDHgRw9VtpP52syjBPNXSy94eUMT872eho62UegMM/eGyY9C4w+qGQ6CwNIHjC5YDI/+9dnDILHf27iGizV0a/VhULFU7vD4dvaQW3DgLwTd26KymIvjpyJyotfp4pynCUAkULDEtWBWhFZr8S1lIwbbU=
-Received: from BYAPR10MB2999.namprd10.prod.outlook.com (2603:10b6:a03:85::27)
- by BYAPR10MB3079.namprd10.prod.outlook.com (2603:10b6:a03:89::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Tue, 16 Mar
- 2021 19:46:18 +0000
-Received: from BYAPR10MB2999.namprd10.prod.outlook.com
- ([fe80::50f2:e203:1cc5:d4f7]) by BYAPR10MB2999.namprd10.prod.outlook.com
- ([fe80::50f2:e203:1cc5:d4f7%6]) with mapi id 15.20.3955.018; Tue, 16 Mar 2021
- 19:46:18 +0000
-Date:   Tue, 16 Mar 2021 15:46:09 -0400
-From:   Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-To:     Tom Saeger <tom.saeger@oracle.com>
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        Konrad Rzeszutek Wilk <konrad@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
+        id S237107AbhCPT6d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 15:58:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38682 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233506AbhCPT6U (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 15:58:20 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC298C06174A;
+        Tue, 16 Mar 2021 12:58:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=KkZwEPUQCMwOivHO6m7Z9239lBaUNqbxUKZ6UDSVFWY=; b=X5oOAwBnqFKCT2F+1ptWGWXzlC
+        J+05EeH3R5PZAymU4r1zQjaCX27P1TpJ9FYvTkoKe9oj+5GENdr+vSSmcjL4h43qamaTIZ9/50wYs
+        ET+iGhFylz8fZ4gMAsgPpRcpq0GPuU8OX/iKVvD1RyVxSUUDhR3t1ZF/P1rD6n41PwsYl36O7EZum
+        bXFkTsm661rBnfNSEVGrL0mZAlnrgJC2YveF95TKG0PTZa6p+ClYVHwr6I4nDcS+rlwG0y+VzLcAY
+        koOnNTC1PdRjnrgCBnHxEMIC5naZSQ7l61PyM5LSKc7vTEmOz40Oahjx4PiPLbs/KWPOmdkB2IiOj
+        FFlgk68w==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lMFpA-001lEm-11; Tue, 16 Mar 2021 19:57:52 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 48299301124;
+        Tue, 16 Mar 2021 20:57:50 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 3752520B05D79; Tue, 16 Mar 2021 20:57:50 +0100 (CET)
+Date:   Tue, 16 Mar 2021 20:57:50 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Al Stone <al.stone@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: arm64/acpi : clarify arm64 support of IBFT
-Message-ID: <YFELAVASqoAlNguH@Konrads-MacBook-Pro.local>
-References: <9efc652df2b8d6b53d9acb170eb7c9ca3938dfef.1615920441.git.tom.saeger@oracle.com>
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>
+Subject: Re: [PATCH v23 6/9] x86/entry: Introduce ENDBR macro
+Message-ID: <YFENvgrR8JSYq1ae@hirez.programming.kicks-ass.net>
+References: <20210316151320.6123-1-yu-cheng.yu@intel.com>
+ <20210316151320.6123-7-yu-cheng.yu@intel.com>
+ <f98c600a-80e4-62f0-9c97-eeed708d998d@intel.com>
+ <15966857-9be7-3029-7e93-e40596b4649a@intel.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9efc652df2b8d6b53d9acb170eb7c9ca3938dfef.1615920441.git.tom.saeger@oracle.com>
-X-Originating-IP: [138.3.200.29]
-X-ClientProxiedBy: CH2PR18CA0053.namprd18.prod.outlook.com
- (2603:10b6:610:55::33) To BYAPR10MB2999.namprd10.prod.outlook.com
- (2603:10b6:a03:85::27)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from Konrads-MacBook-Pro.local (138.3.200.29) by CH2PR18CA0053.namprd18.prod.outlook.com (2603:10b6:610:55::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend Transport; Tue, 16 Mar 2021 19:46:14 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: af23e4b8-97b1-4d62-f7af-08d8e8b42ac6
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3079:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB307908284CC3F9B0856E8A89896B9@BYAPR10MB3079.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2449;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: bw2RzV5Mb8o/9atOFQj1uk37qA3ybOf36LKu8jX1yDenmIvDI8+5rti0OeR/Yv5+L5/e7s/3qDsrAwEHO1kOeQCk1ZgVMxBtzlBT1mM3qYqmoVfqLchMB8Vy+LxodzKFZ4cZXOC8swQ6Nmhnzq7j2Htka6EViB/7QMrDIr7HiBVjejgxwnOk6glS1AHtUcTCTOohD3Nx7HVmqIN4gnZ9ZULYPWRtEO2GO/u/TIzJaodO5XAYZ+9mMtqk025pVSkGnl5ibkd3qJk+2qsBDHCIqa7cX8pkD0dmr7RHY2Tl+BwUqDwnK5Zmdh83WtZMRt8A0yfhtp8YWmQmfM0J8CPUGl8tVdimZi6dWXMhSU6dbhmOM7QabIbm1KosgRYu95XmFMz/RZBIjQCElVNXWY6qqsDVGT+NvK91JWcN3LVmDGZhMxk/911JZQNIAHwDy86w2LRVCcUr1zuAKh4Fsbsxh+iKmQKaNK4Kut4JdrfhhXBNRrW4UKjednidJbrROJqlaIHtCufAs1tqGVVBJUS3vi+p4jVaJ3LdTFhUBt8PkK1InDt8NTubjiceqXOFYmKWLWw4ZmOH+rN0sbfX8pN/FEUOTvUmyhY5GNzyXxyunwO/CC8QXB/kXSkqbyOVm/ppUx8XdIMjoDde/CIJS7jeLw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR10MB2999.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(396003)(376002)(136003)(39860400002)(346002)(66946007)(4326008)(186003)(83380400001)(6636002)(6862004)(16526019)(9686003)(66476007)(966005)(2906002)(66556008)(52116002)(55016002)(26005)(86362001)(54906003)(8676002)(8936002)(6666004)(5660300002)(6506007)(478600001)(316002)(7696005)(956004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?BtdnFOQmM4isNxgvPKxD0jaJNxADi8zh8hutwEYOXG2bIBesR8osAsl6Ag0p?=
- =?us-ascii?Q?nolh2IGRFGjYe+qRMwlQCmoInDyC6bTVJOgbsGKSNjuuv3XIMmgYeVWfhYzZ?=
- =?us-ascii?Q?g051NnI+uy5abXmSU5fPEvZapptah/dy36r7o+sYcdzbLa+9ZH3lPbpFHUPE?=
- =?us-ascii?Q?7JLBGCwliiytDV0mnIxIXA6NZT8l5VR0he67l+Y16VnKoGF5yLgJc137+CM5?=
- =?us-ascii?Q?NaQM7dIBvIpIrPlLH6wyCPbt+rRp30sWmfbHLxuPRty+V94a2FD7mm0GCy5D?=
- =?us-ascii?Q?z1InqUcGzo99sHeak5+r/PkA3p3w+by02gCiN3MMGlI//wZ/eIrQYl0WooGi?=
- =?us-ascii?Q?pU/BB18XzsUrdiEhGJKLh/BsZW61l5Omu86cJNW5d4U6GQ0ifAkr3o8lkXLz?=
- =?us-ascii?Q?mzf1BYLkEzQwRyqEl/rC1qgnDy3t6ddPh4JYqTefSJOLMsDGMqmBc885PMuN?=
- =?us-ascii?Q?/5u9I482tivX/j2VKIce0VvldTpFnZBz5Cex4r29I819hmesDTjs5tK4PdEu?=
- =?us-ascii?Q?x7ygf5Bm6pvxNgjlvqy/BVufQb7jaSrRAv/b9JSF3KJqf0kilhYuv9VXGzij?=
- =?us-ascii?Q?pMErvDGK75iOFTQrkjUUG/IzT6ijQTa79EENjs4ok4SZAo9eaceNiA5x2yD2?=
- =?us-ascii?Q?Echj7Q8zA/kLoprDi6wtyoemqbQL+dFPABDZ4BWGKc+7lrC27f1kARORWYRq?=
- =?us-ascii?Q?Hf3cfInwC0kRc1Hmlxyq4vbJ5ieE/zcjcQB2Y7Q28U1E4E/VzvzpmW/oXFBU?=
- =?us-ascii?Q?I6wRNRYUYLCzPt32EUtIZMecefurNwlksM1FRRVTHGz6R3AagjMxiaybEASi?=
- =?us-ascii?Q?79VzlIruKOpMBEizYSMRrlVEKiWyNkJkC2URm+/sJUOXQgcu4kBm7/IIy3f1?=
- =?us-ascii?Q?WKU4ASmFM+0Mjp7DobmK9TXIRPWYEsCOpNCefD+eCEW8IyFtv7ifx/RCEOXg?=
- =?us-ascii?Q?LrG2B/g21hXBK4bAGvlo3tPGlYehe7cMiCfjb0teb402iWaI7wCgSakdE146?=
- =?us-ascii?Q?AkfVdwoWVp4t8gpUcmb/DOkBOn97oYkEadThK9RRe9ZqZ6BWCZWLCz5A3Bg/?=
- =?us-ascii?Q?Ayebq+z8xiLtLn8pvglKK2JobALVgivhpY8YriTFRhI/BudII+lr+x/T+0xW?=
- =?us-ascii?Q?LrVFGwt/huSYZkSqO6jMDX4XNWga8IsGSxP2ujrgQmJ4Q2gfK7kFK+L4f42E?=
- =?us-ascii?Q?sO0x2SY6n7I80ehidZNKW6qtoFtFFo/y+yUvN4h/LkDiMdGfHdX/htJV5jMm?=
- =?us-ascii?Q?hbnPiqa21wZVjb5WerOrFpG8tiMAtkUgDfySmtVvvP4MvwCI65QjFL2Qvtp8?=
- =?us-ascii?Q?yX6IDRvQIN1DIhx0+oD0bhx8?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: af23e4b8-97b1-4d62-f7af-08d8e8b42ac6
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2999.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2021 19:46:18.4393
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7NcRhFSbLAgokFd6YGq51kkBSm7ELFAN3TCwxxq62PoerEwzeQRd0R7HbT22FpqNNwI6gUoktwUaYOaqvULOUQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3079
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9925 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0 spamscore=0
- bulkscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103160122
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9925 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 suspectscore=0 adultscore=0
- spamscore=0 clxscore=1011 phishscore=0 malwarescore=0 priorityscore=1501
- bulkscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103160123
+In-Reply-To: <15966857-9be7-3029-7e93-e40596b4649a@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 12:50:41PM -0600, Tom Saeger wrote:
-> In commit 94bccc340710 ("iscsi_ibft: make ISCSI_IBFT dependson ACPI instead
-> of ISCSI_IBFT_FIND") Kconfig was disentangled to make ISCSI_IBFT selection
-> not depend on x86.
+On Tue, Mar 16, 2021 at 10:12:39AM -0700, Yu, Yu-cheng wrote:
+> Alternatively, there is another compiler-defined macro _CET_ENDBR that can
+> be used.  We can put the following in calling.h:
 > 
-> Update arm64 acpi documentation, changing IBFT support status from
-> "Not Supported" to "Optional".
-> Opportunistically re-flow paragraph for changed lines.
+> #ifdef __CET__
+> #include <cet.h>
+> #else
+> #define _CET_ENDBR
+> #endif
 > 
-> Link: https://lore.kernel.org/lkml/1563475054-10680-1-git-send-email-thomas.tai@oracle.com/
+> and then use _CET_ENDBR in other files.  How is that?
 > 
-> Signed-off-by: Tom Saeger <tom.saeger@oracle.com>
+> In the future, in case we have kernel-mode IBT, ENDBR macros are also needed
+> for other assembly files.
 
-Reviewed-by: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-
-Thank you!
-> ---
->  Documentation/arm64/acpi_object_usage.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/arm64/acpi_object_usage.rst b/Documentation/arm64/acpi_object_usage.rst
-> index 377e9d224db0..0609da73970b 100644
-> --- a/Documentation/arm64/acpi_object_usage.rst
-> +++ b/Documentation/arm64/acpi_object_usage.rst
-> @@ -17,12 +17,12 @@ For ACPI on arm64, tables also fall into the following categories:
->  
->         -  Recommended: BERT, EINJ, ERST, HEST, PCCT, SSDT
->  
-> -       -  Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT, IORT,
-> -          MCHI, MPST, MSCT, NFIT, PMTT, RASF, SBST, SLIT, SPMI, SRAT, STAO,
-> -	  TCPA, TPM2, UEFI, XENV
-> +       -  Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT, IBFT,
-> +          IORT, MCHI, MPST, MSCT, NFIT, PMTT, RASF, SBST, SLIT, SPMI, SRAT,
-> +          STAO, TCPA, TPM2, UEFI, XENV
->  
-> -       -  Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IBFT, IVRS, LPIT,
-> -          MSDM, OEMx, PSDT, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
-> +       -  Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IVRS, LPIT, MSDM, OEMx,
-> +          PSDT, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
->  
->  ====== ========================================================================
->  Table  Usage for ARMv8 Linux
-> -- 
-> 2.31.0
-> 
+Can we please call it IBT_ENDBR or just ENDBR. CET is a horrible name,
+seeing how it is not specific.
