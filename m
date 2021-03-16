@@ -8,54 +8,54 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35DFDC4321A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC26AC433E0
 	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 05:48:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1051061554
+	by mail.kernel.org (Postfix) with ESMTP id C9D0164E3F
 	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 05:48:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235640AbhCPFsa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 01:48:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52104 "EHLO
+        id S235571AbhCPFsb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 01:48:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235602AbhCPFsA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 01:48:00 -0400
+        with ESMTP id S235604AbhCPFsD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 01:48:03 -0400
 Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59DBEC06174A;
-        Mon, 15 Mar 2021 22:48:00 -0700 (PDT)
-Received: by mail-pj1-x1029.google.com with SMTP id x7-20020a17090a2b07b02900c0ea793940so784849pjc.2;
-        Mon, 15 Mar 2021 22:48:00 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5D5BC06174A;
+        Mon, 15 Mar 2021 22:48:02 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id a22-20020a17090aa516b02900c1215e9b33so768075pjq.5;
+        Mon, 15 Mar 2021 22:48:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=e8Vte+BbSap8YpwjFJ75g2azWXd0zsCfSFory9ijCek=;
-        b=LoU/IxOthJou8zwK+tz3hGZJjyEE9k6/05PoHDFjex11wE1IcW2TEm9vDtxBxOdHwN
-         hE9s8SKkv5JQyORt7Fg+1zVz0j4a+0Rg3uuhoe6k+cjVvVh6eLD2ypva9EpbTz22zmGi
-         ghopwouOv6bhOpsVjiq2+dRJCyq6X0kcL7ydnG3YKufVZB2ZsjJm/WG9XsMtLN59NEun
-         xNxIypqQTOS6kG8EZqiKYGB/KG8UiMOh2FGcJ42ZL+DmAfG99GG/V67TEY9go1x6x/jl
-         WpHk4wHYkAzY6hexO6dWGDQvGu4e4GTQyxi15n50j4XkawIYdazZG5gX7mPHxOrQtzYi
-         6pvw==
+        bh=Y7JniS282f7kpZ2OXZXS7NrcHTFngjSUBwWhD/gNs5E=;
+        b=o8lKTN04BZ94LjuNDIH8DU0oDOV21ta6CbwyNZSvTEdwsvgN9jKLbWAZsuax14aW3c
+         /uG5rk9bVeEjoIz0uHjqghio/y1Rx1JTa5eMe8oARTf0T4OY9OCwgoAe8zPk4UBEV2Nf
+         IWyQYuKcpG/lrFNkdQ9vc0CnRNPJEwdi9C+WR6sI2FAidUr1cEJLvNpPeCwLSXR2Vi5M
+         v//iC/+/uSI4lAUCLyHtOVuWfNHFv/dOIijGF/Di0EXISHHobOW8LMzfBLYatBPuIXbr
+         OI7Cxv5TbXe2/MWZqYUTWv/HWjkapxwXtpHapuKHomAKPeoksB1ptwcQdAYydD+fP5lk
+         o5yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=e8Vte+BbSap8YpwjFJ75g2azWXd0zsCfSFory9ijCek=;
-        b=L/LgNkmy367sHQdA9i3NoCZK2h7mUOC8vJ9ZIrgygvdJyRd2DMobccMxK/tiCz4Khh
-         AGpkrZl++JBMU5hX3FpH3PahdzQQhLjGqgKegObsUAQtfvRQrEsmaNEid1Pr76Te+H3f
-         SXO70A7zhIEfLtsBQBO2c3+HHroUbYJ2KDfJ4U657yJutpgn51US16QjKQjd26gr0sxt
-         WrYt54994JuThEprqwRIQ2RlMMlaF5iairfCj7wf3wlPSHTT0dOs+wLtkuYz0wGttNZS
-         /oWGL8U91I4/qW2eSFevx9xyGmCdCVl7evedKyQgUr/KeAP+C1CUBXyJ985eWdt9gUDd
-         Larw==
-X-Gm-Message-State: AOAM532Xw0dEWwzk6PZOPJl7QcUz1RnVHUXlACHGRvVabZ+9ZryMTGBX
-        CJaVjUY0iRpxTvFXjvO1sAk=
-X-Google-Smtp-Source: ABdhPJysoBdyt8XhhrlqSQy2CkUGbw0a+AjALMH3pe3uBJ5kBl74wSekDfIF+sLi590XrILtrhLp3A==
-X-Received: by 2002:a17:90b:4d05:: with SMTP id mw5mr3082534pjb.236.1615873679902;
-        Mon, 15 Mar 2021 22:47:59 -0700 (PDT)
+        bh=Y7JniS282f7kpZ2OXZXS7NrcHTFngjSUBwWhD/gNs5E=;
+        b=e0f+8lgDEYlMZ9IfbrCfSO0wNaGRFRBCskdkzRabguJW2aKcQKqv/vSyvwhfSxfEV6
+         kr96uAue2TYoPXsujo+p8/FXa4aEoSAWvYvMJvGIUizvlM9OyVpKxu7jOBJrCG7Vc00/
+         MAWrnz4jV5QVVZg1WrnexXy4of6LUKFNRel5TvtJ1tmeJ9be+bzp04eXIQIUpP4J8YIm
+         t+LkHrueBq3B7eiMyCVvqgiUsFLvXQ4NHVuBuXbGmOeIEbz0GNBYXE+7fc0VqtimZ5kb
+         WCdF7VQV/9kIv/lKeLgIfDxnVH0RVo7NbyQssevcvZdn6JHSdvUfoHL1u7mQOolUB4WR
+         ixng==
+X-Gm-Message-State: AOAM533VoOZzXWnaYoGjlM8EbEbs21HglBCIMFUuHr7KHOqE1tEkz7Jn
+        VruVFVgaQ4NSmG1ZryxOpoU=
+X-Google-Smtp-Source: ABdhPJxYZ5T8F98yoGmG9TtJRtXeO8BYIWlcE2M9uU9K6v/OVqcPfzPph7l58shUAZfDZQTij3Q09Q==
+X-Received: by 2002:a17:902:26c:b029:e6:648f:2668 with SMTP id 99-20020a170902026cb02900e6648f2668mr15114228plc.66.1615873682436;
+        Mon, 15 Mar 2021 22:48:02 -0700 (PDT)
 Received: from cl-arch-kdev.. (cl-arch-kdev.xen.prgmr.com. [2605:2700:0:2:a800:ff:fed6:fc0d])
-        by smtp.gmail.com with ESMTPSA id l22sm15096513pfd.145.2021.03.15.22.47.58
+        by smtp.gmail.com with ESMTPSA id l22sm15096513pfd.145.2021.03.15.22.48.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Mar 2021 22:47:59 -0700 (PDT)
+        Mon, 15 Mar 2021 22:48:02 -0700 (PDT)
 From:   Fox Chen <foxhlchen@gmail.com>
 To:     neilb@suse.de
 Cc:     Fox Chen <foxhlchen@gmail.com>, corbet@lwn.net,
@@ -63,9 +63,9 @@ Cc:     Fox Chen <foxhlchen@gmail.com>, corbet@lwn.net,
         rdunlap@infradead.org, grandmaster@al2klimov.de,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         gregkh@linuxfoundation.org
-Subject: [PATCH v2 10/12] docs: path-lookup: update WALK_GET, WALK_PUT desc
-Date:   Tue, 16 Mar 2021 13:47:25 +0800
-Message-Id: <20210316054727.25655-11-foxhlchen@gmail.com>
+Subject: [PATCH v2 12/12] docs: path-lookup: update symlink description
+Date:   Tue, 16 Mar 2021 13:47:27 +0800
+Message-Id: <20210316054727.25655-13-foxhlchen@gmail.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210316054727.25655-1-foxhlchen@gmail.com>
 References: <20210316054727.25655-1-foxhlchen@gmail.com>
@@ -75,46 +75,55 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-WALK_GET is changed to WALK_TRAILING with a different meaning.
-Here it should be WALK_NOFOLLOW. WALK_PUT dosn't exist, we have
-WALK_MORE.
+instead of lookup_real()/vfs_create(), i_op->lookup() and
+i_op->create() will be called directly.
 
-WALK_PUT == !WALK_MORE
+update vfs_open() logic
 
-And there is not should_follow_link().
-
-Related commits:
-commit 8c4efe22e7c4 ("namei: invert the meaning of WALK_FOLLOW")
-commit 1c4ff1a87e46 ("namei: invert WALK_PUT logics")
+should_follow_link is merged into lookup_last() or open_last_lookup()
+which returns symlink name instead of an integer.
 
 Signed-off-by: Fox Chen <foxhlchen@gmail.com>
 ---
- Documentation/filesystems/path-lookup.rst | 12 +++++-------
- 1 file changed, 5 insertions(+), 7 deletions(-)
+ Documentation/filesystems/path-lookup.rst | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
 
 diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
-index 0d41c61f7e4f..abd0153e2415 100644
+index eef6e9f68fba..adbc714740c2 100644
 --- a/Documentation/filesystems/path-lookup.rst
 +++ b/Documentation/filesystems/path-lookup.rst
-@@ -1123,13 +1123,11 @@ stack in ``walk_component()`` immediately when the symlink is found;
- old symlink as it walks that last component.  So it is quite
- convenient for ``walk_component()`` to release the old symlink and pop
- the references just before pushing the reference information for the
--new symlink.  It is guided in this by two flags; ``WALK_GET``, which
--gives it permission to follow a symlink if it finds one, and
--``WALK_PUT``, which tells it to release the current symlink after it has been
--followed.  ``WALK_PUT`` is tested first, leading to a call to
--``put_link()``.  ``WALK_GET`` is tested subsequently (by
--``should_follow_link()``) leading to a call to ``pick_link()`` which sets
--up the stack frame.
-+new symlink.  It is guided in this by two flags; ``WALK_NOFOLLOW``, which
-+suggests whether to follow a symlink if it finds one, and
-+``WALK_MORE``, which tells whether to release the current symlink after it has
-+been followed.  ``WALK_MORE`` is tested first, leading to a call to
-+``put_link()``.
+@@ -1202,16 +1202,15 @@ the code.
+    it.  If the file was found in the dcache, then ``vfs_open()`` is used for
+    this.  If not, then ``lookup_open()`` will either call ``atomic_open()`` (if
+    the filesystem provides it) to combine the final lookup with the open, or
+-   will perform the separate ``lookup_real()`` and ``vfs_create()`` steps
++   will perform the separate ``i_op->lookup()`` and ``i_op->create()`` steps
+    directly.  In the later case the actual "open" of this newly found or
+    created file will be performed by ``vfs_open()``, just as if the name
+    were found in the dcache.
  
- Symlinks with no final component
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 2. ``vfs_open()`` can fail with ``-EOPENSTALE`` if the cached information
+-   wasn't quite current enough.  Rather than restarting the lookup from
+-   the top with ``LOOKUP_REVAL`` set, ``lookup_open()`` is called instead,
+-   giving the filesystem a chance to resolve small inconsistencies.
+-   If that doesn't work, only then is the lookup restarted from the top.
++   wasn't quite current enough.  If it's in RCU-walk -ECHILD will be returned
++   otherwise will return -ESTALE.  When -ESTALE is returned, the caller may
++   retry with LOOKUP_REVAL flag set.
+ 
+ 3. An open with O_CREAT **does** follow a symlink in the final component,
+    unlike other creation system calls (like ``mkdir``).  So the sequence::
+@@ -1221,8 +1220,8 @@ the code.
+ 
+    will create a file called ``/tmp/bar``.  This is not permitted if
+    ``O_EXCL`` is set but otherwise is handled for an O_CREAT open much
+-   like for a non-creating open: ``should_follow_link()`` returns ``1``, and
+-   so does ``do_last()`` so that ``trailing_symlink()`` gets called and the
++   like for a non-creating open: ``lookup_last()`` or ``open_last_lookup()``
++   returns a non ``Null`` value, and ``link_path_walk()`` gets called and the
+    open process continues on the symlink that was found.
+ 
+ Updating the access time
 -- 
 2.30.2
 
