@@ -2,208 +2,275 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D407C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 18:52:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32145C433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 19:23:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06E9B6513F
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 18:52:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1360650D9
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 19:23:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229561AbhCPSvg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 14:51:36 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:33544 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229728AbhCPSvY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 14:51:24 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12GIXu9N100659;
-        Tue, 16 Mar 2021 18:51:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : content-transfer-encoding : content-type :
- mime-version; s=corp-2020-01-29;
- bh=O8D8yQA9dDMzosQMIz9nNNKSMfbH+KXnCIfgp1QI6uU=;
- b=cUOozaPJN5nULGtEgt71YXzLsYGHDFGfBQsAAuxZwFdNuViu3/v63utcgKDetHSC9Avy
- ek3Y4QvxL2RlPwoRQx8qmRI2gyZqmF8m57TM2uwgka+dWTb9im6Xc9kIjGfnrU3RmCNG
- JVsnH1muMTXck3kIrF1GVzBhuRTia8EktP+wtxM5PeZK32zDpRaBL1KXOVYKSjbciXXC
- tzGkjcHQNu2cX0z8YkkOKFucs9OXD/jTCNnTKiO2ECdks+5adqnAvyO6tyYTISkRXZu9
- 8pToe/ps3N4/Tn4XzPN09UQawhgR3V43UQTCJeeedN1Aoxzhdg1bWt+fEh+fSd2Aya5h zg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2130.oracle.com with ESMTP id 378jwbhprh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 16 Mar 2021 18:51:04 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12GIZjRB026597;
-        Tue, 16 Mar 2021 18:51:04 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2106.outbound.protection.outlook.com [104.47.58.106])
-        by aserp3020.oracle.com with ESMTP id 3797a1khnv-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 16 Mar 2021 18:51:04 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=afvRm4oZW1d58axUCcBP4JiP8IYtWz+6D4hmhUsH6c5BBthNAO6/zbHroo9BykgMz8QjDlrcnjKU5ADHSr/W7VK3xRXzHbmeX9b2ZrbdMCECa4+SdfvB7Wwd+lJLwF9FVn2nggpzmagr4y7+dNjlnk5uFAVW8uSgXDY0AvyTmKbfXQAuTmAwOkNO14Kqv48Y/JxaZaIK3ASploJBWqGbDbgo3SWvEYqBV5Y+/LJoWB/m6vMPir/uDJgHP+eUXTuH9mIdzaFAL2VN+8j+eYmEiuP7XsvdCgIdy04JGIX3wMsuoUizCEYYY3+Rttw/Ro9oiJh4PgxsiUMG6Rej9qdmHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O8D8yQA9dDMzosQMIz9nNNKSMfbH+KXnCIfgp1QI6uU=;
- b=D3BYbQEGUjDnunJCP6zXGDB7HVhlSYAIRR1+RwcllBswydO6u8lpYIlG/IHPYmJFm4cnm3MYDx2tme71HTXkjvDUMmYSfmOX++gOK9W6thW08ENpUTi3o4pdJiFuVBRrZsNRMblBEzpKs5Ay50LA8sva4F4/V9wVKNgi1rE3dydVqtA4gRNYuIzuIGqZKLqO/97heo4xwy+XDACAKOj4lgxFVf/Z+8gn/t+XsNd5PKFAy8fb089PoSQA8Jh393/RdA0vD8lsBR9OKjRRPCEJj1r/1MxIyJ0UgKAkyRnX5ox2xEfry+3TB3GoX7kKIlnq8Q7F6eDztj8XP1q5sjPfRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O8D8yQA9dDMzosQMIz9nNNKSMfbH+KXnCIfgp1QI6uU=;
- b=e+ANHiQCHdsn2/HjGVHdTGBk6NrDrtZ36+/vfcqYE5B//D3xmFvYtrehw1GVv1bbGHusgtwHnOOvWgnJ6z8CaX2U1JK8QdBX+z9IUfQDjNQYEGOigALMR1pURyDU76FiofGsWTvr5ZrmBJ6ymfKUWmYqEeZqwsGb9Dx1srquYbk=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=oracle.com;
-Received: from BY5PR10MB3794.namprd10.prod.outlook.com (2603:10b6:a03:1b2::30)
- by BYAPR10MB3319.namprd10.prod.outlook.com (2603:10b6:a03:150::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3933.32; Tue, 16 Mar
- 2021 18:51:02 +0000
-Received: from BY5PR10MB3794.namprd10.prod.outlook.com
- ([fe80::21a6:5c60:cd6e:1902]) by BY5PR10MB3794.namprd10.prod.outlook.com
- ([fe80::21a6:5c60:cd6e:1902%7]) with mapi id 15.20.3933.032; Tue, 16 Mar 2021
- 18:51:02 +0000
-From:   Tom Saeger <tom.saeger@oracle.com>
-To:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        Konrad Rzeszutek Wilk <konrad@kernel.org>
-Cc:     Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Al Stone <al.stone@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Tom Saeger <tom.saeger@oracle.com>
-Subject: [PATCH] Documentation: arm64/acpi : clarify arm64 support of IBFT
-Date:   Tue, 16 Mar 2021 12:50:41 -0600
-Message-Id: <9efc652df2b8d6b53d9acb170eb7c9ca3938dfef.1615920441.git.tom.saeger@oracle.com>
-X-Mailer: git-send-email 2.31.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [2606:b400:8301:1010::172a]
-X-ClientProxiedBy: SJ0PR13CA0101.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::16) To BY5PR10MB3794.namprd10.prod.outlook.com
- (2603:10b6:a03:1b2::30)
+        id S236659AbhCPTWs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 15:22:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59742 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234990AbhCPTWk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Mar 2021 15:22:40 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E870D65061;
+        Tue, 16 Mar 2021 19:22:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615922559;
+        bh=zg65Pn1r3cXmZ68Zj9qDDZ2iLpobA6DjNNZemVWYfXg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HpoautR6qNDWPE2QlXP5cZF13tXQgMfXBEoaqM/R32UyMWeeuXXUGEoQz85frM8GG
+         ebu0MBOo1S8ciNndBDKlI26RwrhnBv4fhnktaQoWISiVL6Mx8fMJnYFyTVHjdi+YYi
+         zdxRn0pNDuTAzSUzzVv3T5JI9rhcLSV1pFPVsorfyDWDMxUkwZdfBGqTIXRJj02SCV
+         S0IBACa7l3uqHAk+CdOoOpadvNkP+1lRUIVu9OIkyuH0XvOPMxDM4q3wdKON03HIxT
+         RkK0nZrnUqjGeHNhdhQYnCwB9aL7mEph5OhSCIWXRY/uKmDvDbGAd6iQR4R024Kdgo
+         PNP2TdxzKrpgw==
+Date:   Tue, 16 Mar 2021 21:22:14 +0200
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Mimi Zohar <zohar@linux.ibm.com>, kernel@pengutronix.de,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+        Aymen Sghaier <aymen.sghaier@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Udit Agarwal <udit.agarwal@nxp.com>,
+        Jan Luebbe <j.luebbe@penutronix.de>,
+        David Gstir <david@sigma-star.at>,
+        Franck LENORMAND <franck.lenormand@nxp.com>,
+        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
+        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org
+Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
+ CAAM-based trusted keys
+Message-ID: <YFEFZujgsMpX7VbU@kernel.org>
+References: <cover.56fff82362af6228372ea82e6bd7e586e23f0966.1615914058.git-series.a.fatoum@pengutronix.de>
+ <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (2606:b400:8301:1010::172a) by SJ0PR13CA0101.namprd13.prod.outlook.com (2603:10b6:a03:2c5::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.11 via Frontend Transport; Tue, 16 Mar 2021 18:51:01 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2537b9b3-2bd3-4b97-6e90-08d8e8ac7223
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3319:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB33198505E43EC4554175AF8DFC6B9@BYAPR10MB3319.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:568;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?L28ONLmycW9An9F9jdjzx32mBX+BaDlMpEG5luy5r/VqmU+Ba/Hy84FdYPTM?=
- =?us-ascii?Q?zTwcLynf8e0NCgBbYGsZEb0sB2BxIoWy/h+TuhDH7uVtM5RI+yHaw4TEQZK4?=
- =?us-ascii?Q?6m6Gs23RjQ0/T1kIyvezP4SjkslC63YTdBU4vRTC/kM3fKNHL0d32UIOMHtJ?=
- =?us-ascii?Q?+pmqGTgG875fLq9JoFzExpJNC6H9fN0CVXg4ZA4wlyld9SmbXjGKpZNnCaU6?=
- =?us-ascii?Q?wvXBQrdNwolIR1g7HdGCteydLt0r+UgP+Y28T9BTJLRytkZ0WBzwGVjB+S+U?=
- =?us-ascii?Q?3G+PUDoRqXRI3j0e94M8Tm5z7XOXPqpndLcmRyU5s7j5BMNoNC7auvJC9TqC?=
- =?us-ascii?Q?3g3Vk/qn6rBVQd5+sJUVd2PHOVuuKkgtaThlbrIwaqFtdaRDqFnVZfVQ1LQ4?=
- =?us-ascii?Q?YsumARk1jDF51B7QsEv43fxSP3kbh00cap6L1p+2ahSvqxVQffqT1JWhmmBO?=
- =?us-ascii?Q?t68pBIhOCR2TdsGut0UIDL1mMjDcfNw32sD2CCZxIpQwp5nEn4VRUxUkWB5p?=
- =?us-ascii?Q?ullmfuLlZe5Twdi6JlUxS4myAgmqLr6Qw2iEF0L3Sf5qtGo88h7G2Kain/qj?=
- =?us-ascii?Q?qqf1GL+jCZvbThg88Nw8oxQsaBOmZVkYqKzAj7t4miSFSWKnZFudyw/obvcB?=
- =?us-ascii?Q?/lGc3+9rL4+8cdKmwPdLKCS1JAW1yfa17j1pb2u4E/OUMDloVPizHfYyba4J?=
- =?us-ascii?Q?bUVq5zY5iovn3K6/GR8eeltmu1gq+Q9V1Do46RPsp9aRh5uSAN9Gp0E+lsTK?=
- =?us-ascii?Q?RDQPhDSxGlLMuH2HwheMYEvbAq7XfV0LR4VXv9qIHNKryq6b+TLHkntHsa8o?=
- =?us-ascii?Q?eA0FCqcpzGMbvFQtx3QYlPQCAHV9jCuX+HDLzxifO9tYdO/t0sTW6SUnMuls?=
- =?us-ascii?Q?/xI8S6/EyABuQpVczXVi5qAiDmIzwtoflHJupO+lt3SW8SCGmpvPersqevKS?=
- =?us-ascii?Q?uHdsPbOibnv/gNuDHnlXhUURcs0W6lM7592WxsB3Yf5C1HV3991bxxKrHQsA?=
- =?us-ascii?Q?ZLbh?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:BY5PR10MB3794.namprd10.prod.outlook.com;PTR:;CAT:OSPM;SFS:(376002)(136003)(366004)(39860400002)(396003)(346002)(110136005)(66556008)(6666004)(478600001)(107886003)(4326008)(36756003)(86362001)(186003)(16526019)(52116002)(2906002)(5660300002)(8676002)(44832011)(54906003)(316002)(2616005)(8936002)(966005)(66946007)(83380400001)(6496006)(66476007)(6486002)(23200700001);DIR:OUT;SFP:1501;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?INKbMyg6HFMyYlZOeNUaafebsdetai+a8vIwXas0VDe4AQHEa4idMLPPY4CK?=
- =?us-ascii?Q?+uqMCvJCmbZ3m0VHUTxZk1+Ksuh2iCfiRttxch0ytXsqiG3C01arm+QBT16C?=
- =?us-ascii?Q?gjmmIlJklBbaTmRVvQmEjKBm5hyhDDZyiE9meeE2/J8NPqpOeIXLr+ntrYAy?=
- =?us-ascii?Q?9K17pOULhbcTtSjr64DoqKlKU9H3DdM+hgC7sKOm3/Dxr/ro8Jyy3Jotx7ZO?=
- =?us-ascii?Q?B7VF7BIhFw3aJ0lGhuXKt03K3On6BiqqoINO8jWtHh4X8W4+BNoj4ImFAAOt?=
- =?us-ascii?Q?/zvhI2NP4yyeu1srEvrZiDAQVCOB9yZx4mTorNYtIkWhwehOya6GuchyqLmh?=
- =?us-ascii?Q?+HgYu7ZaCupc4fAlHHFDXN8HJu7NyRDUNHWPrCJde8Jjn/vUGZgCIlnA8VIB?=
- =?us-ascii?Q?06GA0IBnm2pnSMRy5rkcP4/BYrNyoLfs/bGc922mM3InW4UHD+gQNO6iuz3A?=
- =?us-ascii?Q?H+Q8lTine0ExvTSdMDCO2brrXUWHY+9FV6AUpIXr40j8zTyZ6g/rVfDOPcLu?=
- =?us-ascii?Q?UshsHIgOmsBKl1IDgr1X574juFkdRG4MxtRILap1q6tFyONuGEuKd8FUOqg/?=
- =?us-ascii?Q?fDwjR/gMmFqSEnCghn2YMKE26jQbmY9zLZlUr2Tm0mt0lLLnhQzCG7M0LyCz?=
- =?us-ascii?Q?ITOe7jb8w1Jg3h2Ub0XL76xYrhn+PSraQRbTPzRzqPnDsCyMB71oBqAL6Ukm?=
- =?us-ascii?Q?H1BkByfWyieNVU7XNHFuk+x3/If/Bt2S7qJkmyhDLjtjWLv0ELfhYMH4I7pT?=
- =?us-ascii?Q?FYxsr3HegBq9Mgy0CI9FrLpMdlJFnVNPmbKgf/BkCYkPOuTwRSunQ1NA2yLg?=
- =?us-ascii?Q?Q0q0TFSGfDbz0UAZ2FARW1WCwXKc16B36l6x5Q7oJRGEIWcYwCm5AJMBq/2H?=
- =?us-ascii?Q?8C5tmgLEXiDnk6xd+p5waJe9HjaxBtxCQqY5Q7cTAHFpYo0cWsFMSewkhnfk?=
- =?us-ascii?Q?1yQLXE0vxEoeoI244eifpRlbe5lBa5rLuMFFEh6q6MLY7jQffHdoy3dIDYdN?=
- =?us-ascii?Q?NYe1ta7mKXlkZCKL6If3yze4kurEsFGgmy49+6RY+I9kea6fZk1Q67Rx2HyS?=
- =?us-ascii?Q?AjsGYZRy3s0+VJL//winsPLd5do51WkK+lVigNWdfooSk/AQRGvW+MccaDSJ?=
- =?us-ascii?Q?/tvXf47Ldvzp8VDYubIm10dPTlvv13h1MKTO6uzBEsqp/Nx5s2+lrbgPMX4a?=
- =?us-ascii?Q?58uUviJVbUSXb0OUiIDbUcR/MuI7XTz277N4pHn02227I1RNozA4vy6DnR8t?=
- =?us-ascii?Q?3pW7BVfoJAV3viEoqvrl2hDpoiIF/XRaR2+Sx6dXlfeX1lCIGh0LyvYMdNOF?=
- =?us-ascii?Q?wg7PhKGfISbUra3PHXGWaGnHOKOij/h9LxacVlTtQ8lveQ=3D=3D?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2537b9b3-2bd3-4b97-6e90-08d8e8ac7223
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR10MB3794.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Mar 2021 18:51:02.1817
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gwWncuJdCairYHncbCpwYQxsZwcrX9NB7FQ2VRbAe5NWoMc/d6CbGUN5i3ZUEt1d0MMiyOKYoMGHcAoxnUWpiA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3319
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9925 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0 spamscore=0
- mlxlogscore=999 bulkscore=0 malwarescore=0 phishscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103160116
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9925 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxlogscore=999
- spamscore=0 mlxscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
- lowpriorityscore=0 clxscore=1011 adultscore=0 phishscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103160116
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In commit 94bccc340710 ("iscsi_ibft: make ISCSI_IBFT dependson ACPI instead
-of ISCSI_IBFT_FIND") Kconfig was disentangled to make ISCSI_IBFT selection
-not depend on x86.
+On Tue, Mar 16, 2021 at 06:01:18PM +0100, Ahmad Fatoum wrote:
+> The Cryptographic Acceleration and Assurance Module (CAAM) is an IP core
+> built into many newer i.MX and QorIQ SoCs by NXP.
+> 
+> The CAAM does crypto acceleration, hardware number generation and
+> has a blob mechanism for encapsulation/decapsulation of sensitive material.
+> 
+> This blob mechanism depends on a device specific random 256-bit One Time
+> Programmable Master Key that is fused in each SoC at manufacturing
+> time. This key is unreadable and can only be used by the CAAM for AES
+> encryption/decryption of user data.
+> 
+> This makes it a suitable backend (source) for kernel trusted keys.
+> 
+> Previous commits generalized trusted keys to support multiple backends
+> and added an API to access the CAAM blob mechanism. Based on these,
+> provide the necessary glue to use the CAAM for trusted keys.
+> 
+> Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+> ---
+> To: Jonathan Corbet <corbet@lwn.net>
+> To: David Howells <dhowells@redhat.com>
+> To: Jarkko Sakkinen <jarkko@kernel.org>
+> To: James Bottomley <jejb@linux.ibm.com>
+> To: Mimi Zohar <zohar@linux.ibm.com>
+> Cc: James Morris <jmorris@namei.org>
+> Cc: "Serge E. Hallyn" <serge@hallyn.com>
+> Cc: "Horia Geantă" <horia.geanta@nxp.com>
+> Cc: Aymen Sghaier <aymen.sghaier@nxp.com>
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Udit Agarwal <udit.agarwal@nxp.com>
+> Cc: Jan Luebbe <j.luebbe@penutronix.de>
+> Cc: David Gstir <david@sigma-star.at>
+> Cc: Franck LENORMAND <franck.lenormand@nxp.com>
+> Cc: Sumit Garg <sumit.garg@linaro.org>
+> Cc: keyrings@vger.kernel.org
+> Cc: linux-crypto@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-integrity@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-security-module@vger.kernel.org
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  1 +-
+>  include/keys/trusted_caam.h                     | 11 +++-
+>  security/keys/trusted-keys/Makefile             |  1 +-
+>  security/keys/trusted-keys/trusted_caam.c       | 74 ++++++++++++++++++-
+>  security/keys/trusted-keys/trusted_core.c       |  6 +-
+>  5 files changed, 92 insertions(+), 1 deletion(-)
+>  create mode 100644 include/keys/trusted_caam.h
+>  create mode 100644 security/keys/trusted-keys/trusted_caam.c
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index c8bad1762cba..382e911389aa 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -5469,6 +5469,7 @@
+>  			sources:
+>  			- "tpm"
+>  			- "tee"
+> +			- "caam"
+>  			If not specified then it defaults to iterating through
+>  			the trust source list starting with TPM and assigns the
+>  			first trust source as a backend which is initialized
+> diff --git a/include/keys/trusted_caam.h b/include/keys/trusted_caam.h
+> new file mode 100644
+> index 000000000000..2fba0996b0b0
+> --- /dev/null
+> +++ b/include/keys/trusted_caam.h
+> @@ -0,0 +1,11 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
+> + */
+> +
+> +#ifndef __CAAM_TRUSTED_KEY_H
+> +#define __CAAM_TRUSTED_KEY_H
+> +
+> +extern struct trusted_key_ops caam_trusted_key_ops;
+> +
+> +#endif
+> diff --git a/security/keys/trusted-keys/Makefile b/security/keys/trusted-keys/Makefile
+> index feb8b6c3cc79..050370690abd 100644
+> --- a/security/keys/trusted-keys/Makefile
+> +++ b/security/keys/trusted-keys/Makefile
+> @@ -12,3 +12,4 @@ trusted-y += trusted_tpm2.o
+>  trusted-y += tpm2key.asn1.o
+>  
+>  trusted-$(CONFIG_TEE) += trusted_tee.o
+> +trusted-$(CONFIG_CRYPTO_DEV_FSL_CAAM_BLOB_GEN) += trusted_caam.o
+> diff --git a/security/keys/trusted-keys/trusted_caam.c b/security/keys/trusted-keys/trusted_caam.c
+> new file mode 100644
+> index 000000000000..fc2e3dde9e06
+> --- /dev/null
+> +++ b/security/keys/trusted-keys/trusted_caam.c
+> @@ -0,0 +1,74 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
+> + */
+> +
+> +#include <keys/trusted_caam.h>
+> +#include <keys/trusted-type.h>
+> +#include <linux/build_bug.h>
+> +#include <linux/key-type.h>
+> +#include <soc/fsl/caam-blob.h>
+> +
+> +struct caam_blob_priv *blobifier;
+> +
+> +#define KEYMOD "kernel:trusted"
+> +
+> +static_assert(MAX_KEY_SIZE + CAAM_BLOB_OVERHEAD <= CAAM_BLOB_MAX_LEN);
+> +static_assert(MAX_BLOB_SIZE <= CAAM_BLOB_MAX_LEN);
+> +
+> +static int trusted_caam_seal(struct trusted_key_payload *p, char *datablob)
+> +{
+> +	int length = p->key_len + CAAM_BLOB_OVERHEAD;
+> +	int ret;
+> +
+> +	ret = caam_encap_blob(blobifier, KEYMOD, p->key, p->blob, length);
+> +	if (ret)
+> +		return ret;
+> +
+> +	p->blob_len = length;
+> +	return 0;
+> +}
+> +
+> +static int trusted_caam_unseal(struct trusted_key_payload *p, char *datablob)
+> +{
+> +	int length = p->blob_len;
+> +	int ret;
+> +
+> +	ret = caam_decap_blob(blobifier, KEYMOD, p->blob, p->key, length);
+> +	if (ret)
+> +		return ret;
+> +
+> +	p->key_len = length - CAAM_BLOB_OVERHEAD;
+> +	return 0;
+> +}
+> +
+> +static int trusted_caam_init(void)
+> +{
+> +	int ret;
+> +
+> +	blobifier = caam_blob_gen_init();
+> +	if (IS_ERR(blobifier)) {
+> +		pr_err("Job Ring Device allocation for transform failed\n");
+> +		return PTR_ERR(blobifier);
+> +	}
+> +
+> +	ret = register_key_type(&key_type_trusted);
+> +	if (ret)
+> +		caam_blob_gen_exit(blobifier);
+> +
+> +	return ret;
+> +}
+> +
+> +static void trusted_caam_exit(void)
+> +{
+> +	unregister_key_type(&key_type_trusted);
+> +	caam_blob_gen_exit(blobifier);
+> +}
+> +
+> +struct trusted_key_ops caam_trusted_key_ops = {
+> +	.migratable = 0, /* non-migratable */
+> +	.init = trusted_caam_init,
+> +	.seal = trusted_caam_seal,
+> +	.unseal = trusted_caam_unseal,
+> +	.exit = trusted_caam_exit,
+> +};
+> diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/trusted-keys/trusted_core.c
+> index 5f92323efedf..e9bfb1bbc014 100644
+> --- a/security/keys/trusted-keys/trusted_core.c
+> +++ b/security/keys/trusted-keys/trusted_core.c
+> @@ -9,6 +9,7 @@
+>  #include <keys/user-type.h>
+>  #include <keys/trusted-type.h>
+>  #include <keys/trusted_tee.h>
+> +#include <keys/trusted_caam.h>
+>  #include <keys/trusted_tpm.h>
+>  #include <linux/capability.h>
+>  #include <linux/err.h>
+> @@ -25,7 +26,7 @@
+>  
+>  static char *trusted_key_source;
+>  module_param_named(source, trusted_key_source, charp, 0);
+> -MODULE_PARM_DESC(source, "Select trusted keys source (tpm or tee)");
+> +MODULE_PARM_DESC(source, "Select trusted keys source (tpm, tee or caam)");
+>  
+>  static const struct trusted_key_source trusted_key_sources[] = {
+>  #if defined(CONFIG_TCG_TPM)
+> @@ -34,6 +35,9 @@ static const struct trusted_key_source trusted_key_sources[] = {
+>  #if defined(CONFIG_TEE)
+>  	{ "tee", &trusted_key_tee_ops },
+>  #endif
+> +#if defined(CONFIG_CRYPTO_DEV_FSL_CAAM_BLOB_GEN)
+> +	{ "caam", &caam_trusted_key_ops },
+> +#endif
+>  };
+>  
+>  DEFINE_STATIC_CALL_NULL(trusted_key_init, *trusted_key_sources[0].ops->init);
+> -- 
+> git-series 0.9.1
+> 
 
-Update arm64 acpi documentation, changing IBFT support status from
-"Not Supported" to "Optional".
-Opportunistically re-flow paragraph for changed lines.
+Too early to ack, as I've not included the TEE thing to any PR yet.
 
-Link: https://lore.kernel.org/lkml/1563475054-10680-1-git-send-email-thomas.tai@oracle.com/
-
-Signed-off-by: Tom Saeger <tom.saeger@oracle.com>
----
- Documentation/arm64/acpi_object_usage.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/arm64/acpi_object_usage.rst b/Documentation/arm64/acpi_object_usage.rst
-index 377e9d224db0..0609da73970b 100644
---- a/Documentation/arm64/acpi_object_usage.rst
-+++ b/Documentation/arm64/acpi_object_usage.rst
-@@ -17,12 +17,12 @@ For ACPI on arm64, tables also fall into the following categories:
- 
-        -  Recommended: BERT, EINJ, ERST, HEST, PCCT, SSDT
- 
--       -  Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT, IORT,
--          MCHI, MPST, MSCT, NFIT, PMTT, RASF, SBST, SLIT, SPMI, SRAT, STAO,
--	  TCPA, TPM2, UEFI, XENV
-+       -  Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT, IBFT,
-+          IORT, MCHI, MPST, MSCT, NFIT, PMTT, RASF, SBST, SLIT, SPMI, SRAT,
-+          STAO, TCPA, TPM2, UEFI, XENV
- 
--       -  Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IBFT, IVRS, LPIT,
--          MSDM, OEMx, PSDT, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
-+       -  Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IVRS, LPIT, MSDM, OEMx,
-+          PSDT, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
- 
- ====== ========================================================================
- Table  Usage for ARMv8 Linux
--- 
-2.31.0
-
+/Jarkko
