@@ -2,380 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBEA4C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:08:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1C4DC433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:13:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A88DD6511E
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:08:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8527865128
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:13:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238354AbhCPRI0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 13:08:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21307 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S238554AbhCPRIZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 13:08:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1615914504;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=UXcIwAYQJO7er3n8t1vDQmVg3HZL2SMIlbQJ9A3NI5E=;
-        b=Ih6SBG6Zt3aM5O4yZF+qrpl/UNkhKEB42EN1QWd1VWOu9DYCkeYk6uugM83hd27lrU3MyT
-        3ygM+Dgl80E6uaMoZ/yPm3JiEJ/Mo+sxD1xWOthji2PNnZyzNnTkRYFI1CC7bXw0iqH3vN
-        jst1Bt3KOj8DfNoy3yjJfKS5FWF70cM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-ULJuriCgNAClr2HeXhANLw-1; Tue, 16 Mar 2021 13:08:20 -0400
-X-MC-Unique: ULJuriCgNAClr2HeXhANLw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 744CE800FF0;
-        Tue, 16 Mar 2021 17:08:19 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-113-30.ams2.redhat.com [10.36.113.30])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0DB075D9D3;
-        Tue, 16 Mar 2021 17:08:16 +0000 (UTC)
-From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To:     linux-doc@vger.kernel.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] doc/virt/kvm: move KVM_X86_SET_MSR_FILTER in section 8
-Date:   Tue, 16 Mar 2021 18:08:14 +0100
-Message-Id: <20210316170814.64286-1-eesposit@redhat.com>
+        id S238497AbhCPRMz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 13:12:55 -0400
+Received: from mga01.intel.com ([192.55.52.88]:50270 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S239171AbhCPRMm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Mar 2021 13:12:42 -0400
+IronPort-SDR: kupFXEQzqOy4Ngh47OGo92WpruiIVhmacxnCEOG1MjyDormoq4u0xhDWADEvSJZtVmuLTBiWND
+ lEzyeKzwkFIQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9925"; a="209242689"
+X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
+   d="scan'208";a="209242689"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 10:12:41 -0700
+IronPort-SDR: WAufUYiv2hINDLV1Fsm7MR1NscNe9fmWhCNAMYlonQgBJzkCN1Jk6hMv0wjROGIZvRym4QvWLT
+ XQwO7GxNWjGg==
+X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
+   d="scan'208";a="412295708"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.191.248]) ([10.212.191.248])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 10:12:40 -0700
+Subject: Re: [PATCH v23 6/9] x86/entry: Introduce ENDBR macro
+To:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Cc:     Jarkko Sakkinen <jarkko@kernel.org>
+References: <20210316151320.6123-1-yu-cheng.yu@intel.com>
+ <20210316151320.6123-7-yu-cheng.yu@intel.com>
+ <f98c600a-80e4-62f0-9c97-eeed708d998d@intel.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <15966857-9be7-3029-7e93-e40596b4649a@intel.com>
+Date:   Tue, 16 Mar 2021 10:12:39 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <f98c600a-80e4-62f0-9c97-eeed708d998d@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-KVM_X86_SET_MSR_FILTER is a capability, not an ioctl.
-Therefore move it from section 4.97 to the new 8.31 (other capabilities).
+On 3/16/2021 8:49 AM, Dave Hansen wrote:
+> On 3/16/21 8:13 AM, Yu-cheng Yu wrote:
+>> --- a/arch/x86/entry/calling.h
+>> +++ b/arch/x86/entry/calling.h
+>> @@ -392,3 +392,21 @@ For 32-bit we have the following conventions - kernel is built with
+>>   .endm
+>>   
+>>   #endif /* CONFIG_SMP */
+>> +/*
+>> + * ENDBR is an instruction for the Indirect Branch Tracking (IBT) component
+>> + * of CET.  IBT prevents attacks by ensuring that (most) indirect branches
+>> + * function calls may only land at ENDBR instructions.  Branches that don't
+>> + * follow the rules will result in control flow (#CF) exceptions.
+>> + * ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
+>> + * instructions are inserted automatically by the compiler, but branch
+>> + * targets written in assembly must have ENDBR added manually.
+>> + */
+>> +.macro ENDBR
+>> +#ifdef CONFIG_X86_CET
+>> +#ifdef __i386__
+>> +	endbr32
+>> +#else
+>> +	endbr64
+>> +#endif
+>> +#endif
+>> +.endm
+> 
+> Is "#ifdef __i386__" the right thing to use here?  I guess ENDBR only
+> ends up getting used in the VDSO, but there's a lot of
+> non-userspace-exposed stuff in calling.h.  It seems a bit weird to have
+> the normally userspace-only __i386__ in there.
+> 
+> I don't see any existing direct use of __i386__ in arch/x86/entry/vdso.
+> 
 
-To fill the gap, move KVM_X86_SET_MSR_FILTER (was 4.126) to
-4.97, and shifted Xen-related ioctl (were 4.127 - 4.130) by
-one place (4.126 - 4.129).
+Good point.  My thought was, __i386__ comes from the compiler having the 
+-m32 command-line option, and it is not dependent on anything else.
 
-Also fixed minor typo in KVM_GET_MSR_INDEX_LIST ioctl description
-(section 4.3).
+Alternatively, there is another compiler-defined macro _CET_ENDBR that 
+can be used.  We can put the following in calling.h:
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- Documentation/virt/kvm/api.rst | 250 ++++++++++++++++-----------------
- 1 file changed, 125 insertions(+), 125 deletions(-)
+#ifdef __CET__
+#include <cet.h>
+#else
+#define _CET_ENDBR
+#endif
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 1a2b5210cdbf..a230140d6a7f 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -201,7 +201,7 @@ Errors:
- 
-   ======     ============================================================
-   EFAULT     the msr index list cannot be read from or written to
--  E2BIG      the msr index list is to be to fit in the array specified by
-+  E2BIG      the msr index list is too big to fit in the array specified by
-              the user.
-   ======     ============================================================
- 
-@@ -3686,31 +3686,105 @@ which is the maximum number of possibly pending cpu-local interrupts.
- 
- Queues an SMI on the thread's vcpu.
- 
--4.97 KVM_CAP_PPC_MULTITCE
---------------------------
-+4.97 KVM_X86_SET_MSR_FILTER
-+----------------------------
- 
--:Capability: KVM_CAP_PPC_MULTITCE
--:Architectures: ppc
--:Type: vm
-+:Capability: KVM_X86_SET_MSR_FILTER
-+:Architectures: x86
-+:Type: vm ioctl
-+:Parameters: struct kvm_msr_filter
-+:Returns: 0 on success, < 0 on error
- 
--This capability means the kernel is capable of handling hypercalls
--H_PUT_TCE_INDIRECT and H_STUFF_TCE without passing those into the user
--space. This significantly accelerates DMA operations for PPC KVM guests.
--User space should expect that its handlers for these hypercalls
--are not going to be called if user space previously registered LIOBN
--in KVM (via KVM_CREATE_SPAPR_TCE or similar calls).
-+::
- 
--In order to enable H_PUT_TCE_INDIRECT and H_STUFF_TCE use in the guest,
--user space might have to advertise it for the guest. For example,
--IBM pSeries (sPAPR) guest starts using them if "hcall-multi-tce" is
--present in the "ibm,hypertas-functions" device-tree property.
-+  struct kvm_msr_filter_range {
-+  #define KVM_MSR_FILTER_READ  (1 << 0)
-+  #define KVM_MSR_FILTER_WRITE (1 << 1)
-+	__u32 flags;
-+	__u32 nmsrs; /* number of msrs in bitmap */
-+	__u32 base;  /* MSR index the bitmap starts at */
-+	__u8 *bitmap; /* a 1 bit allows the operations in flags, 0 denies */
-+  };
- 
--The hypercalls mentioned above may or may not be processed successfully
--in the kernel based fast path. If they can not be handled by the kernel,
--they will get passed on to user space. So user space still has to have
--an implementation for these despite the in kernel acceleration.
-+  #define KVM_MSR_FILTER_MAX_RANGES 16
-+  struct kvm_msr_filter {
-+  #define KVM_MSR_FILTER_DEFAULT_ALLOW (0 << 0)
-+  #define KVM_MSR_FILTER_DEFAULT_DENY  (1 << 0)
-+	__u32 flags;
-+	struct kvm_msr_filter_range ranges[KVM_MSR_FILTER_MAX_RANGES];
-+  };
- 
--This capability is always enabled.
-+flags values for ``struct kvm_msr_filter_range``:
-+
-+``KVM_MSR_FILTER_READ``
-+
-+  Filter read accesses to MSRs using the given bitmap. A 0 in the bitmap
-+  indicates that a read should immediately fail, while a 1 indicates that
-+  a read for a particular MSR should be handled regardless of the default
-+  filter action.
-+
-+``KVM_MSR_FILTER_WRITE``
-+
-+  Filter write accesses to MSRs using the given bitmap. A 0 in the bitmap
-+  indicates that a write should immediately fail, while a 1 indicates that
-+  a write for a particular MSR should be handled regardless of the default
-+  filter action.
-+
-+``KVM_MSR_FILTER_READ | KVM_MSR_FILTER_WRITE``
-+
-+  Filter both read and write accesses to MSRs using the given bitmap. A 0
-+  in the bitmap indicates that both reads and writes should immediately fail,
-+  while a 1 indicates that reads and writes for a particular MSR are not
-+  filtered by this range.
-+
-+flags values for ``struct kvm_msr_filter``:
-+
-+``KVM_MSR_FILTER_DEFAULT_ALLOW``
-+
-+  If no filter range matches an MSR index that is getting accessed, KVM will
-+  fall back to allowing access to the MSR.
-+
-+``KVM_MSR_FILTER_DEFAULT_DENY``
-+
-+  If no filter range matches an MSR index that is getting accessed, KVM will
-+  fall back to rejecting access to the MSR. In this mode, all MSRs that should
-+  be processed by KVM need to explicitly be marked as allowed in the bitmaps.
-+
-+This ioctl allows user space to define up to 16 bitmaps of MSR ranges to
-+specify whether a certain MSR access should be explicitly filtered for or not.
-+
-+If this ioctl has never been invoked, MSR accesses are not guarded and the
-+default KVM in-kernel emulation behavior is fully preserved.
-+
-+Calling this ioctl with an empty set of ranges (all nmsrs == 0) disables MSR
-+filtering. In that mode, ``KVM_MSR_FILTER_DEFAULT_DENY`` is invalid and causes
-+an error.
-+
-+As soon as the filtering is in place, every MSR access is processed through
-+the filtering except for accesses to the x2APIC MSRs (from 0x800 to 0x8ff);
-+x2APIC MSRs are always allowed, independent of the ``default_allow`` setting,
-+and their behavior depends on the ``X2APIC_ENABLE`` bit of the APIC base
-+register.
-+
-+If a bit is within one of the defined ranges, read and write accesses are
-+guarded by the bitmap's value for the MSR index if the kind of access
-+is included in the ``struct kvm_msr_filter_range`` flags.  If no range
-+cover this particular access, the behavior is determined by the flags
-+field in the kvm_msr_filter struct: ``KVM_MSR_FILTER_DEFAULT_ALLOW``
-+and ``KVM_MSR_FILTER_DEFAULT_DENY``.
-+
-+Each bitmap range specifies a range of MSRs to potentially allow access on.
-+The range goes from MSR index [base .. base+nmsrs]. The flags field
-+indicates whether reads, writes or both reads and writes are filtered
-+by setting a 1 bit in the bitmap for the corresponding MSR index.
-+
-+If an MSR access is not permitted through the filtering, it generates a
-+#GP inside the guest. When combined with KVM_CAP_X86_USER_SPACE_MSR, that
-+allows user space to deflect and potentially handle various MSR accesses
-+into user space.
-+
-+If a vCPU is in running state while this ioctl is invoked, the vCPU may
-+experience inconsistent filtering behavior on MSR accesses.
- 
- 4.98 KVM_CREATE_SPAPR_TCE_64
- ----------------------------
-@@ -4706,107 +4780,7 @@ KVM_PV_VM_VERIFY
-   Verify the integrity of the unpacked image. Only if this succeeds,
-   KVM is allowed to start protected VCPUs.
- 
--4.126 KVM_X86_SET_MSR_FILTER
------------------------------
--
--:Capability: KVM_X86_SET_MSR_FILTER
--:Architectures: x86
--:Type: vm ioctl
--:Parameters: struct kvm_msr_filter
--:Returns: 0 on success, < 0 on error
--
--::
--
--  struct kvm_msr_filter_range {
--  #define KVM_MSR_FILTER_READ  (1 << 0)
--  #define KVM_MSR_FILTER_WRITE (1 << 1)
--	__u32 flags;
--	__u32 nmsrs; /* number of msrs in bitmap */
--	__u32 base;  /* MSR index the bitmap starts at */
--	__u8 *bitmap; /* a 1 bit allows the operations in flags, 0 denies */
--  };
--
--  #define KVM_MSR_FILTER_MAX_RANGES 16
--  struct kvm_msr_filter {
--  #define KVM_MSR_FILTER_DEFAULT_ALLOW (0 << 0)
--  #define KVM_MSR_FILTER_DEFAULT_DENY  (1 << 0)
--	__u32 flags;
--	struct kvm_msr_filter_range ranges[KVM_MSR_FILTER_MAX_RANGES];
--  };
--
--flags values for ``struct kvm_msr_filter_range``:
--
--``KVM_MSR_FILTER_READ``
--
--  Filter read accesses to MSRs using the given bitmap. A 0 in the bitmap
--  indicates that a read should immediately fail, while a 1 indicates that
--  a read for a particular MSR should be handled regardless of the default
--  filter action.
--
--``KVM_MSR_FILTER_WRITE``
--
--  Filter write accesses to MSRs using the given bitmap. A 0 in the bitmap
--  indicates that a write should immediately fail, while a 1 indicates that
--  a write for a particular MSR should be handled regardless of the default
--  filter action.
--
--``KVM_MSR_FILTER_READ | KVM_MSR_FILTER_WRITE``
--
--  Filter both read and write accesses to MSRs using the given bitmap. A 0
--  in the bitmap indicates that both reads and writes should immediately fail,
--  while a 1 indicates that reads and writes for a particular MSR are not
--  filtered by this range.
--
--flags values for ``struct kvm_msr_filter``:
--
--``KVM_MSR_FILTER_DEFAULT_ALLOW``
--
--  If no filter range matches an MSR index that is getting accessed, KVM will
--  fall back to allowing access to the MSR.
--
--``KVM_MSR_FILTER_DEFAULT_DENY``
--
--  If no filter range matches an MSR index that is getting accessed, KVM will
--  fall back to rejecting access to the MSR. In this mode, all MSRs that should
--  be processed by KVM need to explicitly be marked as allowed in the bitmaps.
--
--This ioctl allows user space to define up to 16 bitmaps of MSR ranges to
--specify whether a certain MSR access should be explicitly filtered for or not.
--
--If this ioctl has never been invoked, MSR accesses are not guarded and the
--default KVM in-kernel emulation behavior is fully preserved.
--
--Calling this ioctl with an empty set of ranges (all nmsrs == 0) disables MSR
--filtering. In that mode, ``KVM_MSR_FILTER_DEFAULT_DENY`` is invalid and causes
--an error.
--
--As soon as the filtering is in place, every MSR access is processed through
--the filtering except for accesses to the x2APIC MSRs (from 0x800 to 0x8ff);
--x2APIC MSRs are always allowed, independent of the ``default_allow`` setting,
--and their behavior depends on the ``X2APIC_ENABLE`` bit of the APIC base
--register.
--
--If a bit is within one of the defined ranges, read and write accesses are
--guarded by the bitmap's value for the MSR index if the kind of access
--is included in the ``struct kvm_msr_filter_range`` flags.  If no range
--cover this particular access, the behavior is determined by the flags
--field in the kvm_msr_filter struct: ``KVM_MSR_FILTER_DEFAULT_ALLOW``
--and ``KVM_MSR_FILTER_DEFAULT_DENY``.
--
--Each bitmap range specifies a range of MSRs to potentially allow access on.
--The range goes from MSR index [base .. base+nmsrs]. The flags field
--indicates whether reads, writes or both reads and writes are filtered
--by setting a 1 bit in the bitmap for the corresponding MSR index.
--
--If an MSR access is not permitted through the filtering, it generates a
--#GP inside the guest. When combined with KVM_CAP_X86_USER_SPACE_MSR, that
--allows user space to deflect and potentially handle various MSR accesses
--into user space.
--
--If a vCPU is in running state while this ioctl is invoked, the vCPU may
--experience inconsistent filtering behavior on MSR accesses.
--
--4.127 KVM_XEN_HVM_SET_ATTR
-+4.126 KVM_XEN_HVM_SET_ATTR
- --------------------------
- 
- :Capability: KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_SHARED_INFO
-@@ -4849,7 +4823,7 @@ KVM_XEN_ATTR_TYPE_SHARED_INFO
- KVM_XEN_ATTR_TYPE_UPCALL_VECTOR
-   Sets the exception vector used to deliver Xen event channel upcalls.
- 
--4.128 KVM_XEN_HVM_GET_ATTR
-+4.127 KVM_XEN_HVM_GET_ATTR
- --------------------------
- 
- :Capability: KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_SHARED_INFO
-@@ -4861,7 +4835,7 @@ KVM_XEN_ATTR_TYPE_UPCALL_VECTOR
- Allows Xen VM attributes to be read. For the structure and types,
- see KVM_XEN_HVM_SET_ATTR above.
- 
--4.129 KVM_XEN_VCPU_SET_ATTR
-+4.128 KVM_XEN_VCPU_SET_ATTR
- ---------------------------
- 
- :Capability: KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_SHARED_INFO
-@@ -4923,7 +4897,7 @@ KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADJUST
-   or RUNSTATE_offline) to set the current accounted state as of the
-   adjusted state_entry_time.
- 
--4.130 KVM_XEN_VCPU_GET_ATTR
-+4.129 KVM_XEN_VCPU_GET_ATTR
- ---------------------------
- 
- :Capability: KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_SHARED_INFO
-@@ -6721,3 +6695,29 @@ vcpu_info is set.
- The KVM_XEN_HVM_CONFIG_RUNSTATE flag indicates that the runstate-related
- features KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADDR/_CURRENT/_DATA/_ADJUST are
- supported by the KVM_XEN_VCPU_SET_ATTR/KVM_XEN_VCPU_GET_ATTR ioctls.
-+
-+8.31 KVM_CAP_PPC_MULTITCE
-+-------------------------
-+
-+:Capability: KVM_CAP_PPC_MULTITCE
-+:Architectures: ppc
-+:Type: vm
-+
-+This capability means the kernel is capable of handling hypercalls
-+H_PUT_TCE_INDIRECT and H_STUFF_TCE without passing those into the user
-+space. This significantly accelerates DMA operations for PPC KVM guests.
-+User space should expect that its handlers for these hypercalls
-+are not going to be called if user space previously registered LIOBN
-+in KVM (via KVM_CREATE_SPAPR_TCE or similar calls).
-+
-+In order to enable H_PUT_TCE_INDIRECT and H_STUFF_TCE use in the guest,
-+user space might have to advertise it for the guest. For example,
-+IBM pSeries (sPAPR) guest starts using them if "hcall-multi-tce" is
-+present in the "ibm,hypertas-functions" device-tree property.
-+
-+The hypercalls mentioned above may or may not be processed successfully
-+in the kernel based fast path. If they can not be handled by the kernel,
-+they will get passed on to user space. So user space still has to have
-+an implementation for these despite the in kernel acceleration.
-+
-+This capability is always enabled.
-\ No newline at end of file
--- 
-2.29.2
+and then use _CET_ENDBR in other files.  How is that?
 
+In the future, in case we have kernel-mode IBT, ENDBR macros are also 
+needed for other assembly files.
+
+Thanks,
+Yu-cheng
