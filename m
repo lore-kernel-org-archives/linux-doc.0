@@ -2,183 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75A39C4646C
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 20:44:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D17BC43381
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 21:02:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5F87764F8F
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 20:44:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6B8C864F97
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 21:02:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231723AbhCPUoJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 16:44:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48386 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231173AbhCPUnT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 16:43:19 -0400
-Received: from smtp-8fac.mail.infomaniak.ch (smtp-8fac.mail.infomaniak.ch [IPv6:2001:1600:4:17::8fac])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6D44C06175F
-        for <linux-doc@vger.kernel.org>; Tue, 16 Mar 2021 13:43:16 -0700 (PDT)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4F0QGd0jnNzMq18l;
-        Tue, 16 Mar 2021 21:43:05 +0100 (CET)
-Received: from localhost (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4F0QGc52cSzlh8T5;
-        Tue, 16 Mar 2021 21:43:04 +0100 (CET)
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        id S232171AbhCPVBu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 17:01:50 -0400
+Received: from mga01.intel.com ([192.55.52.88]:4978 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232180AbhCPVBW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Mar 2021 17:01:22 -0400
+IronPort-SDR: HDpvjgXKkWS2ZzziY6TCb4v/W+NVz5Xxrp6/pHqnIlA9UMDi5HDayJJzWQWEs4TmT0Hx6lE82C
+ jfR2exyIR4yA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9925"; a="209280953"
+X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
+   d="scan'208";a="209280953"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 14:01:10 -0700
+IronPort-SDR: jl9j5Sr8LukusE8rFQ1CMdcCk1xcgInZq6zKKnBJVDNa5Qkmk5nKItZiqHnumNiZuOXqxc5gf8
+ 4v1qN7ImBUuQ==
+X-IronPort-AV: E=Sophos;i="5.81,254,1610438400"; 
+   d="scan'208";a="590805431"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.191.248]) ([10.212.191.248])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 14:01:08 -0700
+Subject: Re: [PATCH v23 6/9] x86/entry: Introduce ENDBR macro
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
         Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@linux.microsoft.com>
-Subject: [PATCH v30 06/12] fs,security: Add sb_delete hook
-Date:   Tue, 16 Mar 2021 21:42:46 +0100
-Message-Id: <20210316204252.427806-7-mic@digikod.net>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210316204252.427806-1-mic@digikod.net>
-References: <20210316204252.427806-1-mic@digikod.net>
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>
+References: <20210316151320.6123-1-yu-cheng.yu@intel.com>
+ <20210316151320.6123-7-yu-cheng.yu@intel.com>
+ <f98c600a-80e4-62f0-9c97-eeed708d998d@intel.com>
+ <15966857-9be7-3029-7e93-e40596b4649a@intel.com>
+ <YFENvgrR8JSYq1ae@hirez.programming.kicks-ass.net>
+ <65845773-6cf0-1bdc-1ecf-168de74cc283@intel.com>
+ <YFER79kU+ukn3YZr@hirez.programming.kicks-ass.net>
+ <aff84067-5b9e-1335-e540-ef90ee133ac9@intel.com>
+Message-ID: <9da6397f-326b-7891-5810-a5ac9e0def5d@intel.com>
+Date:   Tue, 16 Mar 2021 14:01:08 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <aff84067-5b9e-1335-e540-ef90ee133ac9@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mickaël Salaün <mic@linux.microsoft.com>
+On 3/16/2021 1:26 PM, Yu, Yu-cheng wrote:
+> On 3/16/2021 1:15 PM, Peter Zijlstra wrote:
+>> On Tue, Mar 16, 2021 at 01:05:30PM -0700, Yu, Yu-cheng wrote:
+>>> On 3/16/2021 12:57 PM, Peter Zijlstra wrote:
+>>>> On Tue, Mar 16, 2021 at 10:12:39AM -0700, Yu, Yu-cheng wrote:
+>>>>> Alternatively, there is another compiler-defined macro _CET_ENDBR 
+>>>>> that can
+>>>>> be used.  We can put the following in calling.h:
+>>>>>
+>>>>> #ifdef __CET__
+>>>>> #include <cet.h>
+>>>>> #else
+>>>>> #define _CET_ENDBR
+>>>>> #endif
+>>>>>
+>>>>> and then use _CET_ENDBR in other files.  How is that?
+>>>>>
+>>>>> In the future, in case we have kernel-mode IBT, ENDBR macros are 
+>>>>> also needed
+>>>>> for other assembly files.
+>>>>
+>>>> Can we please call it IBT_ENDBR or just ENDBR. CET is a horrible name,
+>>>> seeing how it is not specific.
+>>>>
+>>>
+>>> _CET_ENDBR is from the compiler and we cannot change it.  We can do:
+>>>
+>>> #define ENDBR _CET_ENDBR
+>>>
+>>> How is that?
+>>
+>> Do we really want to include compiler headers? AFAICT it's not a
+>> built-in. Also what about clang?
+>>
+>> This thing seems trivial enough to build our own, it's a single damn
+>> instruction. That also means we don't have to worry about changes to
+>> header files we don't control.
+>>
+> 
+> Then, what about moving what I had earlier to vdso.h?
+> If we don't want __i386__ either, then make it two macros.
+> 
+> +.macro ENDBR
+> +#ifdef CONFIG_X86_CET
+> +#ifdef __i386__
+> +    endbr32
+> +#else
+> +    endbr64
+> +#endif
+> +#endif
+> +.endm
 
-The sb_delete security hook is called when shutting down a superblock,
-which may be useful to release kernel objects tied to the superblock's
-lifetime (e.g. inodes).
+I will make it like the following:
 
-This new hook is needed by Landlock to release (ephemerally) tagged
-struct inodes.  This comes from the unprivileged nature of Landlock
-described in the next commit.
-
-Cc: Al Viro <viro@zeniv.linux.org.uk>
-Cc: James Morris <jmorris@namei.org>
-Cc: Kees Cook <keescook@chromium.org>
-Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
-Reviewed-by: Jann Horn <jannh@google.com>
-Acked-by: Serge Hallyn <serge@hallyn.com>
-Link: https://lore.kernel.org/r/20210316204252.427806-7-mic@digikod.net
----
-
-Changes since v28:
-* Extend hook description (suggested by Serge Hallyn).
-* Add Acked-by Serge Hallyn.
-
-Changes since v22:
-* Add Reviewed-by: Jann Horn <jannh@google.com>
-
-Changes since v17:
-* Initial patch to replace the direct call to landlock_release_inodes()
-  (requested by James Morris).
-  https://lore.kernel.org/lkml/alpine.LRH.2.21.2005150536440.7929@namei.org/
----
- fs/super.c                    | 1 +
- include/linux/lsm_hook_defs.h | 1 +
- include/linux/lsm_hooks.h     | 3 +++
- include/linux/security.h      | 4 ++++
- security/security.c           | 5 +++++
- 5 files changed, 14 insertions(+)
-
-diff --git a/fs/super.c b/fs/super.c
-index 8c1baca35c16..11b7e7213fd1 100644
---- a/fs/super.c
-+++ b/fs/super.c
-@@ -454,6 +454,7 @@ void generic_shutdown_super(struct super_block *sb)
- 		evict_inodes(sb);
- 		/* only nonzero refcount inodes can have marks */
- 		fsnotify_sb_delete(sb);
-+		security_sb_delete(sb);
- 
- 		if (sb->s_dio_done_wq) {
- 			destroy_workqueue(sb->s_dio_done_wq);
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index 477a597db013..e8adadbf9581 100644
---- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -59,6 +59,7 @@ LSM_HOOK(int, 0, fs_context_dup, struct fs_context *fc,
- LSM_HOOK(int, -ENOPARAM, fs_context_parse_param, struct fs_context *fc,
- 	 struct fs_parameter *param)
- LSM_HOOK(int, 0, sb_alloc_security, struct super_block *sb)
-+LSM_HOOK(void, LSM_RET_VOID, sb_delete, struct super_block *sb)
- LSM_HOOK(void, LSM_RET_VOID, sb_free_security, struct super_block *sb)
- LSM_HOOK(void, LSM_RET_VOID, sb_free_mnt_opts, void *mnt_opts)
- LSM_HOOK(int, 0, sb_eat_lsm_opts, char *orig, void **mnt_opts)
-diff --git a/include/linux/lsm_hooks.h b/include/linux/lsm_hooks.h
-index 75715998a95f..cc2eaaaec0e4 100644
---- a/include/linux/lsm_hooks.h
-+++ b/include/linux/lsm_hooks.h
-@@ -108,6 +108,9 @@
-  *	allocated.
-  *	@sb contains the super_block structure to be modified.
-  *	Return 0 if operation was successful.
-+ * @sb_delete:
-+ *	Release objects tied to a superblock (e.g. inodes).
-+ *	@sb contains the super_block structure being released.
-  * @sb_free_security:
-  *	Deallocate and clear the sb->s_security field.
-  *	@sb contains the super_block structure to be modified.
-diff --git a/include/linux/security.h b/include/linux/security.h
-index 8aeebd6646dc..90298baa4551 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -291,6 +291,7 @@ void security_bprm_committed_creds(struct linux_binprm *bprm);
- int security_fs_context_dup(struct fs_context *fc, struct fs_context *src_fc);
- int security_fs_context_parse_param(struct fs_context *fc, struct fs_parameter *param);
- int security_sb_alloc(struct super_block *sb);
-+void security_sb_delete(struct super_block *sb);
- void security_sb_free(struct super_block *sb);
- void security_free_mnt_opts(void **mnt_opts);
- int security_sb_eat_lsm_opts(char *options, void **mnt_opts);
-@@ -631,6 +632,9 @@ static inline int security_sb_alloc(struct super_block *sb)
- 	return 0;
- }
- 
-+static inline void security_sb_delete(struct super_block *sb)
-+{ }
+diff --git a/arch/x86/include/asm/vdso.h b/arch/x86/include/asm/vdso.h
+index 98aa103eb4ab..4c0262dcb93d 100644
+--- a/arch/x86/include/asm/vdso.h
++++ b/arch/x86/include/asm/vdso.h
+@@ -52,6 +52,15 @@ extern int map_vdso_once(const struct vdso_image 
+*image, unsigned long addr);
+  extern bool fixup_vdso_exception(struct pt_regs *regs, int trapnr,
+  				 unsigned long error_code,
+  				 unsigned long fault_addr);
+-#endif /* __ASSEMBLER__ */
++#else /* __ASSEMBLER__ */
 +
- static inline void security_sb_free(struct super_block *sb)
- { }
- 
-diff --git a/security/security.c b/security/security.c
-index e9c29480eb18..bb666f992497 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -900,6 +900,11 @@ int security_sb_alloc(struct super_block *sb)
- 	return rc;
- }
- 
-+void security_sb_delete(struct super_block *sb)
-+{
-+	call_void_hook(sb_delete, sb);
-+}
-+
- void security_sb_free(struct super_block *sb)
- {
- 	call_void_hook(sb_free_security, sb);
--- 
-2.30.2
++#ifdef CONFIG_X86_CET
++#define ENDBR64 endbr64
++#define ENDBR32 endbr32
++#else /*!CONFIG_X86_CET */
++#define ENDBR64
++#define ENDBR32
++#endif
 
++#endif /* __ASSEMBLER__ */
+  #endif /* _ASM_X86_VDSO_H */
