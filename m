@@ -2,367 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CDC1C4332E
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 18:08:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5BD5C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 18:13:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5A83164F39
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 18:08:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9ADB065136
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 18:13:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239736AbhCPSIT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 14:08:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42576 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239752AbhCPSHG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 14:07:06 -0400
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5205C0613E7
-        for <linux-doc@vger.kernel.org>; Tue, 16 Mar 2021 11:04:11 -0700 (PDT)
-Received: by mail-wr1-x430.google.com with SMTP id e18so7912038wrt.6
-        for <linux-doc@vger.kernel.org>; Tue, 16 Mar 2021 11:04:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=glWd/ahA9v5yy0IBlghZT05ctYgKAceP6Nnu+CL9oVE=;
-        b=uZKbKdXr3rSlZJHM81FSktSH0jJS69GppMT4h21S9F4wNpItn7/AFEGaX7fQ34BPk4
-         bhrrs6YcQACknjAnjfQdHsouwtaPQDA1wn1YnejEFyNGPF1VeKiYQiBYVCnrAzJAaU7I
-         YmKcpFKOHCQmXHPw/qXnpsYE5McIpuzfLM//G1QMm2c2xO7zG/0aFvlV3Qq1wxd3fkLS
-         TOEMOWLe6bJ5kutIT6H6ukM2VdFLc8xd7XuPZaRy2KAFKuz6+0Vf4jvqfa5Y8k8jVfyd
-         mA/qQIrbHklsKvTbrce7T2tTSftVFIgZFqWhtiN1LPFzsQvppVq+Q4CSvPodmI7q1r5K
-         xosA==
+        id S231741AbhCPSNF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 14:13:05 -0400
+Received: from mail-ej1-f42.google.com ([209.85.218.42]:44220 "EHLO
+        mail-ej1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239895AbhCPSMK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 14:12:10 -0400
+Received: by mail-ej1-f42.google.com with SMTP id ox4so58100597ejb.11;
+        Tue, 16 Mar 2021 11:12:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=glWd/ahA9v5yy0IBlghZT05ctYgKAceP6Nnu+CL9oVE=;
-        b=T3nDlBaqi6K4f5UYvHmp7hdK0JWCg0Oxk+TZoM1XmWwZE3sFVFsowCHKQ3KfUBuSWx
-         Zjylrg50gAfjXbsHs/0l64c3vsQYe6x882lVotYMHe4y6G5xJHDzYIeFrZmKlTcVOSNA
-         dmFsOjU+DrFVOH1tYWZ7G2FkFtreAyqeOTOGfRf9vfWflqw//E5eyWpSYyqdjd8c4sIp
-         9G8skIznRCbGDqSQcxMIw9vpFFm9SRvK0mGDNQFjrYzDsBQLycwmouQ98kgBT67190lT
-         3MKXfT0Afm0qGJKcdi9bCVjUZGGFH3h2I19gpIJFwLhq7NBZ0Btsn0mvXC1j/vgDR9/J
-         tJCw==
-X-Gm-Message-State: AOAM532wzvibN96ef8vvTGhHiKBqnfkF2F0zC5G+PcQOYwOCq7hIqPYZ
-        w/GybXUWTMuST0t5S7pzopZzgg==
-X-Google-Smtp-Source: ABdhPJzjS90kziJYzxks+piU8D1c1jnku1lb+1fgwFLTv6wE2ihXlFP+/3os0DZ2vCuzwsGKb/wzkw==
-X-Received: by 2002:adf:a219:: with SMTP id p25mr267621wra.400.1615917850415;
-        Tue, 16 Mar 2021 11:04:10 -0700 (PDT)
-Received: from linaro.org ([2a00:23c5:6801:1801:84a6:25fa:dde:ecca])
-        by smtp.gmail.com with ESMTPSA id d13sm23927858wro.23.2021.03.16.11.04.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Mar 2021 11:04:10 -0700 (PDT)
-From:   Mike Leach <mike.leach@linaro.org>
-To:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-        mathieu.poirier@linaro.org, linux-doc@vger.kernel.org,
-        suzuki.poulose@arm.com
-Cc:     yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
-        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        Mike Leach <mike.leach@linaro.org>
-Subject: [PATCH v5 10/10] coresight: docs: Add documentation for CoreSight config
-Date:   Tue, 16 Mar 2021 18:04:00 +0000
-Message-Id: <20210316180400.7184-11-mike.leach@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210316180400.7184-1-mike.leach@linaro.org>
-References: <20210316180400.7184-1-mike.leach@linaro.org>
+         :references:mime-version:content-transfer-encoding;
+        bh=9wogD9XPUnroYU9Ue50JM1tKqinHzQ303gftWHDor5A=;
+        b=l7Jvg13TxEnAA8YmpXIkzQcYjIuRsUpkk3Pwhz/p7Yh1y10LvwjY9Wj2ALpG3e9Hl9
+         2GWZF6Lu6K6fsXNzZyGl9c7+ySPftXllWmSl4N/pLsk8sT4Inh2Nd0Tz9yIEMDlIlMkr
+         sFlCsmsw3n1UcSTnkOleI6j2bxvCCE/lRnwYRBZiHH5CAYQjBcCr63pxQo56hk7dq96C
+         DqH7Urpr+NvqDFK5ssk0LoidBOg11bne79s9dQYvxf8PNJzbCvK+HaoDWqQMd3KpRoOH
+         cc//+rC0SGthmHvw2CYQWXKwmyhFoyFNVj/T9WqG4uob3C/hjK3ba6etYejRHV4qeNVZ
+         B4CA==
+X-Gm-Message-State: AOAM533teu5E/ykhHXk6acTzmFk62694hy6DZGjQM2eaCqT3K2AGJhka
+        /IEGukNpPAzXU7hHjMqbiN1RTM1p1AtW626S
+X-Google-Smtp-Source: ABdhPJwDu7T1Db/kHzLsRYwp84hawyltkAMbRc5pRl+zrCw524KbTVvKoZPMPTTkduYFx5j9yCjFow==
+X-Received: by 2002:a17:906:ca02:: with SMTP id jt2mr31122143ejb.312.1615918328061;
+        Tue, 16 Mar 2021 11:12:08 -0700 (PDT)
+Received: from localhost ([2a02:8308:387:c900:a7b5:b859:9449:c07b])
+        by smtp.gmail.com with ESMTPSA id t6sm11017025edq.48.2021.03.16.11.12.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Mar 2021 11:12:07 -0700 (PDT)
+From:   =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>
+Cc:     =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/5] hwmon: (max31790) Rework to use regmap
+Date:   Tue, 16 Mar 2021 19:11:34 +0100
+Message-Id: <20210316181134.1009226-1-kubernat@cesnet.cz>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210316175503.1003051-1-kubernat@cesnet.cz>
+References: <20210316175503.1003051-1-kubernat@cesnet.cz>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Adds documentation for the CoreSight System configuration manager.
+Hi Guenther,
 
-Signed-off-by: Mike Leach <mike.leach@linaro.org>
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
----
- .../trace/coresight/coresight-config.rst      | 244 ++++++++++++++++++
- Documentation/trace/coresight/coresight.rst   |  16 ++
- 2 files changed, 260 insertions(+)
- create mode 100644 Documentation/trace/coresight/coresight-config.rst
+I'm posting v2 of my series on max31790. These are the changes from v1:
+1) The driver uses regmap caching instead of local caching.
+2) I got rid of the "refactor" patch and also the "pulses" patch.
+3) I got rid of unnecessary whitespace changes.
+4) fan*_input now returns -ENODATA when fan*_enable is 0.
+5) Changed the argument of bits_for_speed_range to long.
 
-diff --git a/Documentation/trace/coresight/coresight-config.rst b/Documentation/trace/coresight/coresight-config.rst
-new file mode 100644
-index 000000000000..a4e3ef295240
---- /dev/null
-+++ b/Documentation/trace/coresight/coresight-config.rst
-@@ -0,0 +1,244 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+======================================
-+CoreSight System Configuration Manager
-+======================================
-+
-+    :Author:   Mike Leach <mike.leach@linaro.org>
-+    :Date:     October 2020
-+
-+Introduction
-+============
-+
-+The CoreSight System Configuration manager is an API that allows the
-+programming of the CoreSight system with pre-defined configurations that
-+can then be easily enabled from sysfs or perf.
-+
-+Many CoreSight components can be programmed in complex ways - especially ETMs.
-+In addition, components can interact across the CoreSight system, often via
-+the cross trigger components such as CTI and CTM. These system settings can
-+be defined and enabled as named configurations.
-+
-+
-+Basic Concepts
-+==============
-+
-+This section introduces the basic concepts of a CoreSight system configuration.
-+
-+
-+Features
-+--------
-+
-+A feature is a named set of programming for a CoreSight device. The programming
-+is device dependent, and can be defined in terms of absolute register values,
-+resource usage and parameter values.
-+
-+The feature is defined using a descriptor. This descriptor is used to load onto
-+a matching device, either when the feature is loaded into the system, or when the
-+CoreSight device is registered with the configuration manager.
-+
-+The load process involves interpreting the descriptor into a set of register
-+accesses in the driver - the resource usage and parameter descriptions
-+translated into appropriate register accesses. This interpretation makes it easy
-+and efficient for the feature to be programmed onto the device when required.
-+
-+The feature will not be active on the device until the feature is enabled, and
-+the device itself is enabled. When the device is enabled then enabled features
-+will be programmed into the device hardware.
-+
-+A feature is enabled as part of a configuration being enabled on the system.
-+
-+
-+Parameter Value
-+~~~~~~~~~~~~~~~
-+
-+A parameter value is a named value that may be set by the user prior to the
-+feature being enabled that can adjust the behaviour of the operation programmed
-+by the feature.
-+
-+For example, this could be a count value in a programmed operation that repeats
-+at a given rate. When the feature is enabled then the current value of the
-+parameter is used in programming the device.
-+
-+The feature descriptor defines a default value for a parameter, which is used
-+if the user does not supply a new value.
-+
-+Users can update parameter values using the configfs API for the CoreSight
-+system - which is described below.
-+
-+The current value of the parameter is loaded into the device when the feature
-+is enabled on that device.
-+
-+
-+Configurations
-+--------------
-+
-+A configuration defines a set of features that are to be used in a trace
-+session where the configuration is selected. For any trace session only one
-+configuration may be selected.
-+
-+The features defined may be on any type of device that is registered
-+to support system configuration. A configuration may select features to be
-+enabled on a class of devices - i.e. any ETMv4, or specific devices, e.g. a
-+specific CTI on the system.
-+
-+As with the feature, a descriptor is used to define the configuration.
-+This will define the features that must be enabled as part of the configuration
-+as well as any preset values that can be used to override default parameter
-+values.
-+
-+
-+Preset Values
-+~~~~~~~~~~~~~
-+
-+Preset values are easily selectable sets of parameter values for the features
-+that the configuration uses. The number of values in a single preset set, equals
-+the sum of parameter values in the features used by the configuration.
-+
-+e.g. a configuration consists of 3 features, one has 2 parameters, one has
-+a single parameter, and another has no parameters. A single preset set will
-+therefore have 3 values.
-+
-+Presets are optionally defined by the configuration, up to 15 can be defined.
-+If no preset is selected, then the parameter values defined in the feature
-+are used as normal.
-+
-+
-+Operation
-+~~~~~~~~~
-+
-+The following steps take place in the operation of a configuration.
-+
-+1) In this example, the configuration is 'autofdo', which has an
-+   associated feature 'strobing' that works on ETMv4 CoreSight Devices.
-+
-+2) The configuration is enabled. For example 'perf' may select the
-+   configuration as part of its command line::
-+
-+    perf record -e cs_etm/autofdo/ myapp
-+
-+   which will enable the 'autofdo' configuration.
-+
-+3) perf starts tracing on the system. As each ETMv4 that perf uses for
-+   trace is enabled,  the configuration manager will check if the ETMv4
-+   has a feature that relates to the currently active configuration.
-+   In this case 'strobing' is enabled & programmed into the ETMv4.
-+
-+4) When the ETMv4 is disabled, any registers marked as needing to be
-+   saved will be read back.
-+
-+5) At the end of the perf session, the configuration will be disabled.
-+
-+
-+Viewing Configurations and Features
-+===================================
-+
-+The set of configurations and features that are currently loaded into the
-+system can be viewed using the configfs API.
-+
-+Mount configfs as normal and the 'cs-syscfg' subsystem will appear::
-+
-+    $ ls /config
-+    cs-syscfg  stp-policy
-+
-+This has two sub-directories::
-+
-+    $ cd cs-syscfg/
-+    $ ls
-+    configurations  features
-+
-+The system has the configuration 'autofdo' built in. It may be examined as
-+follows::
-+
-+    $ cd configurations/
-+    $ ls
-+    autofdo
-+    $ cd autofdo/
-+    $ ls
-+    description   preset1  preset3  preset5  preset7  preset9
-+    feature_refs  preset2  preset4  preset6  preset8
-+    $ cat description
-+    Setup ETMs with strobing for autofdo
-+    $ cat feature_refs
-+    strobing
-+
-+Each preset declared has a preset<n> subdirectory declared. The values for
-+the preset can be examined::
-+
-+    $ cat preset1/values
-+    strobing.window = 0x1388 strobing.period = 0x2
-+    $ cat preset2/values
-+    strobing.window = 0x1388 strobing.period = 0x4
-+
-+The features referenced by the configuration can be examined in the features
-+directory::
-+
-+    $ cd ../../features/strobing/
-+    $ ls
-+    description  matches  nr_params  params
-+    $ cat description
-+    Generate periodic trace capture windows.
-+    parameter 'window': a number of CPU cycles (W)
-+    parameter 'period': trace enabled for W cycles every period x W cycles
-+    $ cat matches
-+    SRC_ETMV4
-+    $ cat nr_params
-+    2
-+
-+Move to the params directory to examine and adjust parameters::
-+
-+    cd params
-+    $ ls
-+    period  window
-+    $ cd period
-+    $ ls
-+    value
-+    $ cat value
-+    0x2710
-+    # echo 15000 > value
-+    # cat value
-+    0x3a98
-+
-+Parameters adjusted in this way are reflected in all device instances that have
-+loaded the feature.
-+
-+
-+Using Configurations in perf
-+============================
-+
-+The configurations loaded into the CoreSight configuration management are
-+also declared in the perf 'cs_etm' event infrastructure so that they can
-+be selected when running trace under perf::
-+
-+    $ ls /sys/devices/cs_etm
-+    configurations  format  perf_event_mux_interval_ms  sinks  type
-+    events  nr_addr_filters  power
-+
-+Key directories here are 'configurations' - which lists the loaded
-+configurations, and 'events' - a generic perf directory which allows
-+selection on the perf command line.::
-+
-+    $ ls configurations/
-+    autofdo
-+    $ cat configurations/autofdo
-+    0xa7c3dddd
-+
-+As with the sinks entries, this provides a hash of the configuration name.
-+The entry in the 'events' directory uses perfs built in syntax generator
-+to substitute the syntax for the name when evaluating the command::
-+
-+    $ ls events/
-+    autofdo
-+    $ cat events/autofdo
-+    configid=0xa7c3dddd
-+
-+The 'autofdo' configuration may be selected on the perf command line::
-+
-+    $ perf record -e cs_etm/autofdo/u --per-thread <application>
-+
-+A preset to override the current parameter values can also be selected::
-+
-+    $ perf record -e cs_etm/autofdo,preset=1/u --per-thread <application>
-+
-+When configurations are selected in this way, then the trace sink used is
-+automatically selected.
-diff --git a/Documentation/trace/coresight/coresight.rst b/Documentation/trace/coresight/coresight.rst
-index 169749efd8d1..7ec656c9f0dc 100644
---- a/Documentation/trace/coresight/coresight.rst
-+++ b/Documentation/trace/coresight/coresight.rst
-@@ -619,6 +619,20 @@ A separate documentation file is provided to explain the use of these devices.
- (:doc:`coresight-ect`) [#fourth]_.
- 
- 
-+CoreSight System Configuration
-+------------------------------
-+
-+CoreSight components can be complex devices with many programming options.
-+Furthermore, components can be programmed to interact with each other across the
-+complete system.
-+
-+A CoreSight System Configuration manager is provided to allow these complex programming
-+configurations to be selected and used easily from perf and sysfs.
-+
-+See the separate document for further information.
-+(:doc:`coresight-config`) [#fifth]_.
-+
-+
- .. [#first] Documentation/ABI/testing/sysfs-bus-coresight-devices-stm
- 
- .. [#second] Documentation/trace/stm.rst
-@@ -626,3 +640,5 @@ A separate documentation file is provided to explain the use of these devices.
- .. [#third] https://github.com/Linaro/perf-opencsd
- 
- .. [#fourth] Documentation/trace/coresight/coresight-ect.rst
-+
-+.. [#fifth] Documentation/trace/coresight/coresight-config.rst
--- 
-2.17.1
-
+Vaclav
