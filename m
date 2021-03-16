@@ -7,53 +7,53 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB7DDC433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 18:07:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 108C3C433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 18:08:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 80D996512E
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 18:07:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DBA9765139
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 18:08:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239658AbhCPSG7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 14:06:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42378 "EHLO
+        id S239605AbhCPSHi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 14:07:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239680AbhCPSFF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 14:05:05 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBC09C061765
-        for <linux-doc@vger.kernel.org>; Tue, 16 Mar 2021 11:04:04 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id c76-20020a1c9a4f0000b029010c94499aedso2001564wme.0
-        for <linux-doc@vger.kernel.org>; Tue, 16 Mar 2021 11:04:04 -0700 (PDT)
+        with ESMTP id S239821AbhCPSGC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 14:06:02 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07F02C0613DD
+        for <linux-doc@vger.kernel.org>; Tue, 16 Mar 2021 11:04:08 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id j2so10936633wrx.9
+        for <linux-doc@vger.kernel.org>; Tue, 16 Mar 2021 11:04:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=iIu7dWwyCGRDe2v3eh79fWopdnSBuLypsTgR5GnaYic=;
-        b=Gs1yMfqchy2nwnQu8F3tgXlUlfaB/NwxMOq4y15YcSffIb84WSAKnntL7Og50jYlxV
-         Xf0NwR7huxsdXzujtZM8Tf9ztKxLnP+vpwI40MjmJyJs8eH7M4AqsDaqpx5SvnSLNayy
-         4hwLLVM5h5sVgfgCrFUgB64jGi+S12EPqJS09dZTN3NgfFqzDBqPEe3GptjXKz3hrRUU
-         BodfulPvEROywxo/eQ/ZUan6UiZ2wfDinJmEbnhXIkH1JYFVE8nxbIM8kZz8z9XlhhMr
-         frDRGVZEMBs/Tb97eL5pl/fTfcdlmo2ggUWzJEAJnp8j25ppLaP4qGKnMQ/bp44rjSLr
-         n7+Q==
+        bh=IQ18C1mQ7ttZeG7evF+5P824FxPaEtLczBIoTMBfqwU=;
+        b=mZsfqnhiIrHJYMv/5hALykwEGiA8wZ8xnEWrWMe6dpMFOSiA+9oZXdqyDESR9keec4
+         ZEWVqheYaMYH9lGAxFV4UWpsh3DyGHCcI5xLVLWahwsR4OMay3jQdz0ZaZgNugWtUbR6
+         GIgt8vnJm7n48IlLkj70MpTf8iKg8FqQWuvarcYJenVBUGhpdPInX24CW9D926+nwCic
+         HSP+mjAD/DzOXTyVXPAZsFuiQ77dRHewVumdAQT0nalWTYqJYe0MZNsNqB/Pbn/wS4Yo
+         RIygQJ/umWPa2EnnOAHl6hzWuXA7uUTAxtvwfobW81qLXUfUasqFSxLaGWmBY5AcUvI3
+         gO5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=iIu7dWwyCGRDe2v3eh79fWopdnSBuLypsTgR5GnaYic=;
-        b=V2p82pujNMOLUPWu8Snlny2ShMUowPWbIPfHsVZMtEsU3nqzMniBo4IHoXxbJscqeW
-         GKBEorbyyejj3fJoP0mptNYOHplby9DoTWmQKXIdqaXEYyCsYqCheRaa7xtCVvVpYNpP
-         tom/l8qGA6CCF3ezAXPpGh62OYodbRfDRdYlpVLuGdkLAwRzKmKlD+o/jJMB0GjxrhcK
-         Riy6zSYEaIbbxR/xZLPYS3snlsBK2Ukuultcfha58Rild2Mx6nweqi9YIpyolzc7Y7Ow
-         LXlMMNs89KfHXAVZFBZR+g7lC9NJc/tlI/vRtlN20b/htf3FUpXTSWl1eg0GcRyRXUsy
-         9imw==
-X-Gm-Message-State: AOAM5313LBlHgtvg4cDFmXSznR5Vi1cEzW7O3OZZ57Qz0Re6I/MHmgUu
-        EfLk59S4oIo8o5CnU4kB7hMOSg==
-X-Google-Smtp-Source: ABdhPJwFlhKjL4GG1HzyRuj1PPlO0HxPYuo8AGQkCDGWRakzxMwiwD/obYJd4XDiuF9/64WD4OF/5w==
-X-Received: by 2002:a1c:ba88:: with SMTP id k130mr124752wmf.42.1615917843442;
-        Tue, 16 Mar 2021 11:04:03 -0700 (PDT)
+        bh=IQ18C1mQ7ttZeG7evF+5P824FxPaEtLczBIoTMBfqwU=;
+        b=BUZ2fviFtRKHgH5dZUXa88xPzy2yI8TM+cAc7sIdn159PeLZNgA6CQQEO+8ve0Nns3
+         grVik+nqD1CxbVw5gd7aCK41uT4xooxFz7yxvUYhiQgn+T79cFg+8RdWyCE9vWDCWsAW
+         ZuvoqvKTXQARuutxZqtezKzr96q2uJeQ499jfeOcJ+lTsFPAre1sf9UgZ73RfdtFI1dy
+         X+D8ELjV9Lmofih78fswOqtHazHY5dQ/JrJcAFzh9cZIgWB0zyuyGR0muzfqaBZuLsn4
+         koEFxDaP3h1FKFKOCD3kam9pgLZW3RUMfXSrqp/5o6xFyC9BTrbWh+wOVUk4ACIyKw2r
+         CJaw==
+X-Gm-Message-State: AOAM532v7s6LvL9OctsT2nNLzVJFMHctcXu973KOo3mgbfiFz914B1yI
+        EzC0HxAHNQaprcBeN4mo1UWg2Q==
+X-Google-Smtp-Source: ABdhPJxzTMeRKMarn8rxCMA+eKsqVHN0Xy8aSkKXpsW2wiE12QliEVJRdztzW6sCrCPifoXE/MsuiQ==
+X-Received: by 2002:adf:a3c2:: with SMTP id m2mr236221wrb.195.1615917846713;
+        Tue, 16 Mar 2021 11:04:06 -0700 (PDT)
 Received: from linaro.org ([2a00:23c5:6801:1801:84a6:25fa:dde:ecca])
-        by smtp.gmail.com with ESMTPSA id d13sm23927858wro.23.2021.03.16.11.04.02
+        by smtp.gmail.com with ESMTPSA id d13sm23927858wro.23.2021.03.16.11.04.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Mar 2021 11:04:03 -0700 (PDT)
+        Tue, 16 Mar 2021 11:04:06 -0700 (PDT)
 From:   Mike Leach <mike.leach@linaro.org>
 To:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
         mathieu.poirier@linaro.org, linux-doc@vger.kernel.org,
@@ -62,9 +62,9 @@ Cc:     yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
         alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
         gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
         Mike Leach <mike.leach@linaro.org>
-Subject: [PATCH v5 01/10] coresight: syscfg: Initial coresight system configuration
-Date:   Tue, 16 Mar 2021 18:03:51 +0000
-Message-Id: <20210316180400.7184-2-mike.leach@linaro.org>
+Subject: [PATCH v5 05/10] coresight: syscfg: Add API to activate and enable configurations
+Date:   Tue, 16 Mar 2021 18:03:55 +0000
+Message-Id: <20210316180400.7184-6-mike.leach@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210316180400.7184-1-mike.leach@linaro.org>
 References: <20210316180400.7184-1-mike.leach@linaro.org>
@@ -72,512 +72,238 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Creates an system management API to allow complex configurations and
-features to be programmed into a CoreSight infrastructure.
+Configurations are first activated, then when any coresight device is
+enabled, the active configurations are checked and any matching
+one is enabled.
 
-A feature is defined as a programming set for a device or class of
-devices.
-
-A configuration is a set of features across the system that are enabled
-for a trace session.
-
-The API will manage system wide configuration, and allow complex
-programmed features to be added to individual device instances, and
-provide for system wide configuration selection on trace capture
-operations.
-
-This patch creates the initial data object and the initial API for
-loading configurations and features.
+This patch provides the activation / enable API.
 
 Signed-off-by: Mike Leach <mike.leach@linaro.org>
 ---
- drivers/hwtracing/coresight/Makefile          |   2 +-
- .../hwtracing/coresight/coresight-config.h    | 142 +++++++++++++
- drivers/hwtracing/coresight/coresight-core.c  |  12 +-
- .../hwtracing/coresight/coresight-etm-perf.c  |   2 +-
- .../hwtracing/coresight/coresight-etm-perf.h  |   2 +-
- .../hwtracing/coresight/coresight-syscfg.c    | 195 ++++++++++++++++++
- .../hwtracing/coresight/coresight-syscfg.h    |  46 +++++
- 7 files changed, 397 insertions(+), 4 deletions(-)
- create mode 100644 drivers/hwtracing/coresight/coresight-config.h
- create mode 100644 drivers/hwtracing/coresight/coresight-syscfg.c
- create mode 100644 drivers/hwtracing/coresight/coresight-syscfg.h
+ .../hwtracing/coresight/coresight-config.h    |   2 +
+ .../hwtracing/coresight/coresight-syscfg.c    | 122 ++++++++++++++++++
+ .../hwtracing/coresight/coresight-syscfg.h    |   8 ++
+ include/linux/coresight.h                     |   2 +
+ 4 files changed, 134 insertions(+)
 
-diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-index f20e357758d1..4ce854c434b1 100644
---- a/drivers/hwtracing/coresight/Makefile
-+++ b/drivers/hwtracing/coresight/Makefile
-@@ -4,7 +4,7 @@
- #
- obj-$(CONFIG_CORESIGHT) += coresight.o
- coresight-y := coresight-core.o  coresight-etm-perf.o coresight-platform.o \
--		coresight-sysfs.o
-+		coresight-sysfs.o coresight-syscfg.o
- obj-$(CONFIG_CORESIGHT_LINK_AND_SINK_TMC) += coresight-tmc.o
- coresight-tmc-y := coresight-tmc-core.o coresight-tmc-etf.o \
- 		      coresight-tmc-etr.o
 diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
-new file mode 100644
-index 000000000000..21aa7464dcdc
---- /dev/null
+index 38fd1c71eb05..f1a5957a25c9 100644
+--- a/drivers/hwtracing/coresight/coresight-config.h
 +++ b/drivers/hwtracing/coresight/coresight-config.h
-@@ -0,0 +1,142 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2020 Linaro Limited, All rights reserved.
-+ * Author: Mike Leach <mike.leach@linaro.org>
-+ */
-+
-+#ifndef _CORESIGHT_CORESIGHT_CONFIG_H
-+#define _CORESIGHT_CORESIGHT_CONFIG_H
-+
-+#include <linux/coresight.h>
-+#include <linux/types.h>
-+
-+/* CoreSight Configuration Management - component and system wide configuration */
-+
-+/*
-+ * Register type flags for register value descriptor:
-+ * describe how the value is interpreted, and handled.
-+ */
-+#define CS_CFG_REG_TYPE_STD		0x80	/* reg is standard reg */
-+#define CS_CFG_REG_TYPE_RESOURCE	0x40	/* reg is a resource */
-+#define CS_CFG_REG_TYPE_VAL_PARAM	0x08	/* reg value uses param */
-+#define CS_CFG_REG_TYPE_VAL_MASK	0x04	/* reg value bit masked */
-+#define CS_CFG_REG_TYPE_VAL_64BIT	0x02	/* reg value 64 bit */
-+#define CS_CFG_REG_TYPE_VAL_SAVE	0x01	/* reg value save on disable */
-+
-+/*
-+ * flags defining what device class a feature will match to when processing a
-+ * system configuration - used by config data and devices.
-+ */
-+#define CS_CFG_MATCH_CLASS_SRC_ALL	0x0001	/* match any source */
-+#define CS_CFG_MATCH_CLASS_SRC_ETM4	0x0002	/* match any ETMv4 device */
-+
-+/* flags defining device instance matching - used in config match desc data. */
-+#define CS_CFG_MATCH_INST_ANY		0x80000000 /* any instance of a class */
-+
-+/*
-+ * Limit number of presets in a configuration
-+ * This is related to the number of bits (4) we use to select the preset on
-+ * the perf command line. Preset 0 is always none selected.
-+ * See PMU_FORMAT_ATTR(preset, "config:0-3") in coresight-etm-perf.c
-+ */
-+#define CS_CFG_CONFIG_PRESET_MAX 15
-+
-+/**
-+ * Parameter descriptor for a device feature.
-+ *
-+ * @name:  Name of parameter.
-+ * @value: Initial or default value.
-+ */
-+struct cscfg_parameter_desc {
-+	const char *name;
-+	u64 value;
-+};
-+
-+/**
-+ * Representation of register value and a descriptor of register usage.
-+ *
-+ * Used as a descriptor in the feature descriptors.
-+ * Used as a value in when in a feature loading into a csdev.
-+ *
-+ * Supports full 64 bit register value, or 32 bit value with optional mask
-+ * value.
-+ *
-+ * @type:	define register usage and interpretation.
-+ * @offset:	the address offset for register in the hardware device (per device specification).
-+ * @hw_info:	optional hardware device type specific information. (ETM / CTI specific etc)
-+ * @val64:	64 bit value.
-+ * @val32:	32 bit value.
-+ * @mask32:	32 bit mask when using 32 bit value to access device register - if mask type.
-+ * @param_idx:	parameter index value into parameter array if param type.
-+ */
-+struct cscfg_regval_desc {
-+	struct {
-+		u32 type:8;
-+		u32 offset:12;
-+		u32 hw_info:12;
-+	};
-+	union {
-+		u64 val64;
-+		struct {
-+			u32 val32;
-+			u32 mask32;
-+		};
-+		u32 param_idx;
-+	};
-+};
-+
-+/**
-+ * Device feature descriptor - combination of registers and parameters to
-+ * program a device to implement a specific complex function.
-+ *
-+ * @name:	 feature name.
-+ * @description: brief description of the feature.
-+ * @item:	 List entry.
-+ * @match_flags: matching information if loading into a device
-+ * @nr_params:   number of parameters used.
-+ * @params_desc: array of parameters used.
-+ * @nr_regs:	 number of registers used.
-+ * @regs_desc:	 array of registers used.
-+ */
-+struct cscfg_feature_desc {
-+	const char *name;
-+	const char *description;
-+	struct list_head item;
-+	u32 match_flags;
-+	int nr_params;
-+	struct cscfg_parameter_desc *params_desc;
-+	int nr_regs;
-+	struct cscfg_regval_desc *regs_desc;
-+};
-+
-+/**
-+ * Configuration descriptor - describes selectable system configuration.
-+ *
-+ * A configuration describes device features in use, and may provide preset
-+ * values for the parameters in those features.
-+ *
-+ * A single set of presets is the sum of the parameters declared by
-+ * all the features in use - this value is @nr_total_params.
-+ *
-+ * @name:		name of the configuration - used for selection.
-+ * @description:	description of the purpose of the configuration.
-+ * @item:		list entry.
-+ * @nr_feat_refs:	Number of features used in this configuration.
-+ * @feat_ref_names:	references to features used in this configuration.
-+ * @nr_presets:		Number of sets of presets supplied by this configuration.
-+ * @nr_total_params:	Sum of all parameters declared by used features
-+ * @presets:		Array of preset values.
-+ *
-+ */
-+struct cscfg_config_desc {
-+	const char *name;
-+	const char *description;
-+	struct list_head item;
-+	int nr_feat_refs;
-+	const char **feat_ref_names;
-+	int nr_presets;
-+	int nr_total_params;
-+	const u64 *presets; /* nr_presets * nr_total_params */
-+};
-+
-+#endif /* _CORESIGHT_CORESIGHT_CONFIG_H */
-diff --git a/drivers/hwtracing/coresight/coresight-core.c b/drivers/hwtracing/coresight/coresight-core.c
-index 0062c8935653..6bd41de46648 100644
---- a/drivers/hwtracing/coresight/coresight-core.c
-+++ b/drivers/hwtracing/coresight/coresight-core.c
-@@ -21,6 +21,7 @@
+@@ -127,6 +127,7 @@ struct cscfg_feature_desc {
+  * @nr_total_params:	Sum of all parameters declared by used features
+  * @presets:		Array of preset values.
+  * @event_ea:		Extended attribute for perf event value
++ * @active_cnt:		ref count for activate on this configuration.
+  *
+  */
+ struct cscfg_config_desc {
+@@ -139,6 +140,7 @@ struct cscfg_config_desc {
+ 	int nr_total_params;
+ 	const u64 *presets; /* nr_presets * nr_total_params */
+ 	struct dev_ext_attribute *event_ea;
++	atomic_t active_cnt;
+ };
  
- #include "coresight-etm-perf.h"
- #include "coresight-priv.h"
-+#include "coresight-syscfg.h"
- 
- static DEFINE_MUTEX(coresight_mutex);
- 
-@@ -1739,13 +1740,22 @@ static int __init coresight_init(void)
- 
- 	ret = etm_perf_init();
- 	if (ret)
--		bus_unregister(&coresight_bustype);
-+		goto exit_bus_unregister;
- 
-+	/* initialise the coresight syscfg API */
-+	ret = cscfg_init();
-+	if (!ret)
-+		return 0;
-+
-+	etm_perf_exit();
-+exit_bus_unregister:
-+	bus_unregister(&coresight_bustype);
- 	return ret;
- }
- 
- static void __exit coresight_exit(void)
- {
-+	cscfg_exit();
- 	etm_perf_exit();
- 	bus_unregister(&coresight_bustype);
- }
-diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
-index 0f603b4094f2..0e392513b2d6 100644
---- a/drivers/hwtracing/coresight/coresight-etm-perf.c
-+++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
-@@ -655,7 +655,7 @@ int __init etm_perf_init(void)
- 	return ret;
- }
- 
--void __exit etm_perf_exit(void)
-+void etm_perf_exit(void)
- {
- 	perf_pmu_unregister(&etm_pmu);
- }
-diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.h b/drivers/hwtracing/coresight/coresight-etm-perf.h
-index 3e4f2ad5e193..29d90dfeba31 100644
---- a/drivers/hwtracing/coresight/coresight-etm-perf.h
-+++ b/drivers/hwtracing/coresight/coresight-etm-perf.h
-@@ -83,6 +83,6 @@ static inline void *etm_perf_sink_config(struct perf_output_handle *handle)
- #endif /* CONFIG_CORESIGHT */
- 
- int __init etm_perf_init(void);
--void __exit etm_perf_exit(void);
-+void etm_perf_exit(void);
- 
- #endif
+ /**
 diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
-new file mode 100644
-index 000000000000..3e0ab4ac93fd
---- /dev/null
+index 03014a2142c1..c44746d6cd6d 100644
+--- a/drivers/hwtracing/coresight/coresight-syscfg.c
 +++ b/drivers/hwtracing/coresight/coresight-syscfg.c
-@@ -0,0 +1,195 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2020 Linaro Limited, All rights reserved.
-+ * Author: Mike Leach <mike.leach@linaro.org>
-+ */
+@@ -284,6 +284,7 @@ static int cscfg_load_config(struct cscfg_config_desc *config_desc)
+ 		return err;
+ 
+ 	list_add(&config_desc->item, &cscfg_mgr->config_desc_list);
++	atomic_set(&config_desc->active_cnt, 0);
+ 	return 0;
+ }
+ 
+@@ -451,6 +452,126 @@ void cscfg_unregister_csdev(struct coresight_device *csdev)
+ }
+ EXPORT_SYMBOL_GPL(cscfg_unregister_csdev);
+ 
++void cscfg_csdev_reset_feats(struct coresight_device *csdev)
++{
++	struct cscfg_feature_csdev *feat_csdev;
 +
-+#include <linux/platform_device.h>
++	mutex_lock(&cscfg_csdev_mutex);
++	if (list_empty(&csdev->feature_csdev_list))
++		goto unlock_exit;
 +
-+#include "coresight-config.h"
-+#include "coresight-syscfg.h"
++	list_for_each_entry(feat_csdev, &csdev->feature_csdev_list, node)
++		cscfg_reset_feat(feat_csdev);
 +
-+/*
-+ * cscfg_ API manages configurations and features for the entire coresight
-+ * infrastructure.
++unlock_exit:
++	mutex_unlock(&cscfg_csdev_mutex);
++}
++EXPORT_SYMBOL_GPL(cscfg_csdev_reset_feats);
++
++/**
++ * Mark a config descriptor as active.
++ * This will be seen when csdev devices are activated in the system.
 + *
-+ * It allows the loading of configurations and features, and loads these into
-+ * coresight devices as appropriate.
++ * Selection by hash value - generated from the configuration name when it
++ * was loaded and added to the cs_etm/configurations file system for selection
++ * by perf.
++ *
++ * @cfg_hash: Hash value of the selected configuration name.
 + */
-+
-+/* protect the cscsg_data and device */
-+static DEFINE_MUTEX(cscfg_mutex);
-+
-+/* only one of these */
-+static struct cscfg_manager *cscfg_mgr;
-+
-+/* load features and configuations into the lists */
-+
-+/* check feature list for a named feature - call with mutex locked. */
-+static bool cscfg_match_list_feat(const char *name)
++int cscfg_activate_config(unsigned long cfg_hash)
 +{
-+	struct cscfg_feature_desc *feat_desc;
-+
-+	list_for_each_entry(feat_desc, &cscfg_mgr->feat_desc_list, item) {
-+		if (strcmp(feat_desc->name, name) == 0)
-+			return true;
-+	}
-+	return false;
-+}
-+
-+/* check all feat needed for cfg are in the list - call with mutex locked. */
-+static int cscfg_check_feat_for_cfg(struct cscfg_config_desc *config_desc)
-+{
-+	int i;
-+
-+	for (i = 0; i < config_desc->nr_feat_refs; i++)
-+		if (!cscfg_match_list_feat(config_desc->feat_ref_names[i]))
-+			return -EINVAL;
-+	return 0;
-+}
-+
-+/*
-+ * load feature - add to feature list.
-+ */
-+static int cscfg_load_feat(struct cscfg_feature_desc *feat_desc)
-+{
-+	list_add(&feat_desc->item, &cscfg_mgr->feat_desc_list);
-+
-+	return 0;
-+}
-+
-+/*
-+ * load config into the system - validate used features exist then add to
-+ * config list.
-+ */
-+static int cscfg_load_config(struct cscfg_config_desc *config_desc)
-+{
-+	int err;
-+
-+	/* validate features are present */
-+	err = cscfg_check_feat_for_cfg(config_desc);
-+	if (err)
-+		return err;
-+
-+	list_add(&config_desc->item, &cscfg_mgr->config_desc_list);
-+	return 0;
-+}
-+
-+/*
-+ * External API function to load feature and config sets.
-+ * Take a 0 terminated array of feature descriptors and/or configuration
-+ * descriptors and load into the system.
-+ * Features are loaded first to ensure configuration dependencies can be met.
-+ */
-+int cscfg_load_config_sets(struct cscfg_config_desc **config_descs,
-+			   struct cscfg_feature_desc **feat_descs)
-+{
-+	int err, i = 0;
++	struct cscfg_config_desc *config_desc;
++	int err = -EINVAL;
 +
 +	mutex_lock(&cscfg_mutex);
 +
-+	/* load features first */
-+	if (feat_descs) {
-+		while (feat_descs[i]) {
-+			err = cscfg_load_feat(feat_descs[i]);
-+			if (err) {
-+				pr_err("coresight-syscfg: Failed to load feature %s\n",
-+				       feat_descs[i]->name);
-+				goto exit_unlock;
-+			}
-+			i++;
++	list_for_each_entry(config_desc, &cscfg_mgr->config_desc_list, item) {
++		if ((unsigned long)config_desc->event_ea->var == cfg_hash) {
++			/*
++			 * increment the global active count - control changes to
++			 * active configurations
++			 */
++			atomic_inc(&cscfg_mgr->sys_active_cnt);
++
++			/*
++			 * mark the descriptor as active so enable config on a
++			 * device instance will use it
++			 */
++			atomic_inc(&config_desc->active_cnt);
++
++			err = 0;
++			dev_dbg(cscfg_device(), "Activate config %s.\n", config_desc->name);
++			break;
 +		}
 +	}
++	mutex_unlock(&cscfg_mutex);
 +
-+	/* next any configurations to check feature dependencies */
-+	i = 0;
-+	if (config_descs) {
-+		while (config_descs[i]) {
-+			err = cscfg_load_config(config_descs[i]);
-+			if (err) {
-+				pr_err("coresight-syscfg: Failed to load configuration %s\n",
-+				       config_descs[i]->name);
-+				goto exit_unlock;
-+			}
-+			i++;
++	return err;
++}
++EXPORT_SYMBOL_GPL(cscfg_activate_config);
++
++void cscfg_deactivate_config(unsigned long cfg_hash)
++{
++	struct cscfg_config_desc *config_desc;
++
++	mutex_lock(&cscfg_mutex);
++
++	list_for_each_entry(config_desc, &cscfg_mgr->config_desc_list, item) {
++		if ((unsigned long)config_desc->event_ea->var == cfg_hash) {
++			atomic_dec(&config_desc->active_cnt);
++			atomic_dec(&cscfg_mgr->sys_active_cnt);
++			dev_dbg(cscfg_device(), "Deactivate config %s.\n", config_desc->name);
++			break;
 +		}
 +	}
-+
-+exit_unlock:
-+	mutex_unlock(&cscfg_mutex);
-+	return err;
-+}
-+EXPORT_SYMBOL_GPL(cscfg_load_config_sets);
-+
-+/* Initialise system configuration management device. */
-+
-+struct device *cscfg_device(void)
-+{
-+	return cscfg_mgr ? &cscfg_mgr->dev : NULL;
-+}
-+
-+/* Must have a release function or the kernel will complain on module unload */
-+void cscfg_dev_release(struct device *dev)
-+{
-+	kfree(cscfg_mgr);
-+	cscfg_mgr = NULL;
-+}
-+
-+/* a device is needed to "own" some kernel elements such as sysfs entries.  */
-+int cscfg_create_device(void)
-+{
-+	struct device *dev;
-+	int err = -ENOMEM;
-+
-+	mutex_lock(&cscfg_mutex);
-+	if (cscfg_mgr) {
-+		err = -EINVAL;
-+		goto create_dev_exit_unlock;
-+	}
-+
-+	cscfg_mgr = kzalloc(sizeof(struct cscfg_manager), GFP_KERNEL);
-+	if (!cscfg_mgr)
-+		goto create_dev_exit_unlock;
-+
-+	/* setup the device */
-+	dev = cscfg_device();
-+	dev->release = cscfg_dev_release;
-+	dev->init_name = "cs_system_cfg";
-+
-+	err = device_register(dev);
-+	if (err)
-+		cscfg_dev_release(dev);
-+
-+create_dev_exit_unlock:
-+	mutex_unlock(&cscfg_mutex);
-+	return err;
-+}
-+
-+void cscfg_clear_device(void)
-+{
-+	mutex_lock(&cscfg_mutex);
-+	device_unregister(cscfg_device());
 +	mutex_unlock(&cscfg_mutex);
 +}
++EXPORT_SYMBOL_GPL(cscfg_deactivate_config);
 +
-+/* Initialise system config management API device  */
-+int __init cscfg_init(void)
++/* Find and program any active config for the supplied device.*/
++int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
++				     unsigned long cfg_hash, int preset)
 +{
++	struct cscfg_config_csdev *config_csdev_active = NULL, *config_csdev_item;
++	const struct cscfg_config_desc *config_desc;
 +	int err = 0;
 +
-+	err = cscfg_create_device();
-+	if (err)
-+		return err;
++	/* quickly check global count */
++	if (!atomic_read(&cscfg_mgr->sys_active_cnt))
++		return 0;
 +
-+	INIT_LIST_HEAD(&cscfg_mgr->csdev_desc_list);
-+	INIT_LIST_HEAD(&cscfg_mgr->feat_desc_list);
-+	INIT_LIST_HEAD(&cscfg_mgr->config_desc_list);
-+
-+	dev_info(cscfg_device(), "CoreSight Configuration manager initialised");
-+	return 0;
++	mutex_lock(&cscfg_csdev_mutex);
++	list_for_each_entry(config_csdev_item, &csdev->config_csdev_list, node) {
++		config_desc = config_csdev_item->config_desc;
++		if ((atomic_read(&config_desc->active_cnt)) &&
++		    ((unsigned long)config_desc->event_ea->var == cfg_hash)) {
++			config_csdev_active = config_csdev_item;
++			break;
++		}
++	}
++	if (config_csdev_active) {
++		err = cscfg_csdev_enable_config(config_csdev_active, preset);
++		if (!err)
++			csdev->active_cscfg_ctxt = (void *)config_csdev_active;
++	}
++	mutex_unlock(&cscfg_csdev_mutex);
++	return err;
 +}
++EXPORT_SYMBOL_GPL(cscfg_csdev_enable_active_config);
 +
-+void cscfg_exit(void)
++/* save and disable the active config for the device */
++void cscfg_csdev_disable_active_config(struct coresight_device *csdev)
 +{
-+	cscfg_clear_device();
++	struct cscfg_config_csdev *config_csdev;
++
++	mutex_lock(&cscfg_csdev_mutex);
++	config_csdev = (struct cscfg_config_csdev *)csdev->active_cscfg_ctxt;
++	if (config_csdev)
++		cscfg_csdev_disable_config(config_csdev);
++	mutex_unlock(&cscfg_csdev_mutex);
 +}
++EXPORT_SYMBOL_GPL(cscfg_csdev_disable_active_config);
++
+ /* Initialise system configuration management device. */
+ 
+ struct device *cscfg_device(void)
+@@ -519,6 +640,7 @@ int __init cscfg_init(void)
+ 	INIT_LIST_HEAD(&cscfg_mgr->csdev_desc_list);
+ 	INIT_LIST_HEAD(&cscfg_mgr->feat_desc_list);
+ 	INIT_LIST_HEAD(&cscfg_mgr->config_desc_list);
++	atomic_set(&cscfg_mgr->sys_active_cnt, 0);
+ 
+ 	dev_info(cscfg_device(), "CoreSight Configuration manager initialised");
+ 	return 0;
 diff --git a/drivers/hwtracing/coresight/coresight-syscfg.h b/drivers/hwtracing/coresight/coresight-syscfg.h
-new file mode 100644
-index 000000000000..18be9b58cd0b
---- /dev/null
+index 5bcae3b374c6..a52775890670 100644
+--- a/drivers/hwtracing/coresight/coresight-syscfg.h
 +++ b/drivers/hwtracing/coresight/coresight-syscfg.h
-@@ -0,0 +1,46 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Coresight system configuration driver.
-+ */
-+
-+#ifndef CORESIGHT_SYSCFG_H
-+#define CORESIGHT_SYSCFG_H
-+
-+#include <linux/coresight.h>
-+#include <linux/device.h>
-+
-+#include "coresight-config.h"
-+
-+/**
-+ * System configuration manager device.
-+ *
-+ * Contains lists of the loaded configurations and features, plus a list of CoreSight devices
-+ * registered with the system as supporting configuration management.
-+ *
-+ * Need a device to 'own' some coresight system wide sysfs entries in
-+ * perf events, configfs etc.
-+ *
-+ * @dev:		The device.
-+ * @csdev_desc_list:	List of coresight devices registered with the configuration manager.
-+ * @feat_desc_list:	List of feature descriptors to load into registered devices.
-+ * @config_desc_list:	List of system configuration descriptors to load into registered devices.
-+ */
-+struct cscfg_manager {
-+	struct device dev;
-+	struct list_head csdev_desc_list;
-+	struct list_head feat_desc_list;
-+	struct list_head config_desc_list;
-+};
-+
-+/* get reference to dev in cscfg_manager */
-+struct device *cscfg_device(void);
-+
-+/* internal core operations for cscfg */
-+int __init cscfg_init(void);
-+void cscfg_exit(void);
-+
-+/* syscfg manager external API */
-+int cscfg_load_config_sets(struct cscfg_config_desc **cfg_descs,
-+			   struct cscfg_feature_desc **feat_descs);
-+
-+#endif /* CORESIGHT_SYSCFG_H */
+@@ -24,12 +24,14 @@
+  * @csdev_desc_list:	List of coresight devices registered with the configuration manager.
+  * @feat_desc_list:	List of feature descriptors to load into registered devices.
+  * @config_desc_list:	List of system configuration descriptors to load into registered devices.
++ * @sys_active_cnt:	Total number of active config descriptor references.
+  */
+ struct cscfg_manager {
+ 	struct device dev;
+ 	struct list_head csdev_desc_list;
+ 	struct list_head feat_desc_list;
+ 	struct list_head config_desc_list;
++	atomic_t sys_active_cnt;
+ };
+ 
+ /* get reference to dev in cscfg_manager */
+@@ -61,5 +63,11 @@ int cscfg_load_config_sets(struct cscfg_config_desc **cfg_descs,
+ int cscfg_register_csdev(struct coresight_device *csdev, u32 match_flags,
+ 			 struct cscfg_csdev_feat_ops *ops);
+ void cscfg_unregister_csdev(struct coresight_device *csdev);
++int cscfg_activate_config(unsigned long cfg_hash);
++void cscfg_deactivate_config(unsigned long cfg_hash);
++void cscfg_csdev_reset_feats(struct coresight_device *csdev);
++int cscfg_csdev_enable_active_config(struct coresight_device *csdev,
++				     unsigned long cfg_hash, int preset);
++void cscfg_csdev_disable_active_config(struct coresight_device *csdev);
+ 
+ #endif /* CORESIGHT_SYSCFG_H */
+diff --git a/include/linux/coresight.h b/include/linux/coresight.h
+index d0126ed326a6..a3b39ce2d6ef 100644
+--- a/include/linux/coresight.h
++++ b/include/linux/coresight.h
+@@ -221,6 +221,7 @@ struct coresight_sysfs_link {
+  * @has_conns_grp: Have added a "connections" group for sysfs links.
+  * @feature_csdev_list: List of complex feature programming added to the device.
+  * @config_csdev_list:  List of system configurations added to the device.
++ * @active_cscfg_ctxt:  Context information for current active system configuration.
+  */
+ struct coresight_device {
+ 	struct coresight_platform_data *pdata;
+@@ -245,6 +246,7 @@ struct coresight_device {
+ 	/* system configuration and feature lists */
+ 	struct list_head feature_csdev_list;
+ 	struct list_head config_csdev_list;
++	void *active_cscfg_ctxt;
+ };
+ 
+ /*
 -- 
 2.17.1
 
