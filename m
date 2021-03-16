@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA8B7C432C3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D93B5C43603
 	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 15:12:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 986EA650E8
+	by mail.kernel.org (Postfix) with ESMTP id B8541650E0
 	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 15:12:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237784AbhCPPLi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 11:11:38 -0400
+        id S237789AbhCPPLj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 11:11:39 -0400
 Received: from mga02.intel.com ([134.134.136.20]:37585 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234476AbhCPPL3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S234583AbhCPPL3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 16 Mar 2021 11:11:29 -0400
-IronPort-SDR: xWCdNY15Z7BOWTYtceqP4UxYQzOMmxekzpWerMXPBqA075ZXjrPYfIdKpHYOy1ZBKRqMzIb+C+
- isAt/6an3CJQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9924"; a="176406557"
+IronPort-SDR: iEnHb/8UTFtG03k3z1cyB5R8qiHlEQ3yRtYak4n5/QxooHNoiPdQG7EVGhQdJQqrTdJZW0lYGw
+ aLTJph0AsF7A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9924"; a="176406576"
 X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
-   d="scan'208";a="176406557"
+   d="scan'208";a="176406576"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 08:11:27 -0700
-IronPort-SDR: EKChlCAAbRWLoI2CdDOK5riDQAK1nDK1CAjVK9+ddYR6PYV2FxYnBWFyC3HiUkpbNjmbg8J8QJ
- +3LYgKGmTXkQ==
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 08:11:28 -0700
+IronPort-SDR: pj8IcsFP5v4QmhbtKQN6Ngea86h8MvqCv/lNDa37ENCvlSzpsvMs1YP+Upwe9KHaBiX0NM4hPF
+ WzCIfXZ1x1mg==
 X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
-   d="scan'208";a="405570232"
+   d="scan'208";a="405570259"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 08:11:25 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 08:11:27 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -60,10 +60,10 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v23 02/28] x86/cet/shstk: Add Kconfig option for user-mode control-flow protection
-Date:   Tue, 16 Mar 2021 08:10:28 -0700
-Message-Id: <20210316151054.5405-3-yu-cheng.yu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, Christoph Hellwig <hch@lst.de>
+Subject: [PATCH v23 07/28] x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+Date:   Tue, 16 Mar 2021 08:10:33 -0700
+Message-Id: <20210316151054.5405-8-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20210316151054.5405-1-yu-cheng.yu@intel.com>
 References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
@@ -73,72 +73,61 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Shadow Stack provides protection against function return address
-corruption.  It is active when the processor supports it, the kernel has
-CONFIG_X86_CET enabled, and the application is built for the feature.
-This is only implemented for the 64-bit kernel.  When it is enabled, legacy
-non-Shadow Stack applications continue to work, but without protection.
+The x86 family of processors do not directly create read-only and Dirty
+PTEs.  These PTEs are created by software.  One such case is that kernel
+read-only pages are historically setup as Dirty.
+
+New processors that support Shadow Stack regard read-only and Dirty PTEs as
+shadow stack pages.  This results in ambiguity between shadow stack and
+kernel read-only pages.  To resolve this, removed Dirty from kernel read-
+only pages.
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Peter Zijlstra <peterz@infradead.org>
 ---
- arch/x86/Kconfig           | 22 ++++++++++++++++++++++
- arch/x86/Kconfig.assembler |  5 +++++
- 2 files changed, 27 insertions(+)
+ arch/x86/include/asm/pgtable_types.h | 6 +++---
+ arch/x86/mm/pat/set_memory.c         | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
-index 2792879d398e..bdfecc17c2d3 100644
---- a/arch/x86/Kconfig
-+++ b/arch/x86/Kconfig
-@@ -28,6 +28,7 @@ config X86_64
- 	select ARCH_HAS_GIGANTIC_PAGE
- 	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
- 	select ARCH_USE_CMPXCHG_LOCKREF
-+	select ARCH_HAS_SHADOW_STACK
- 	select HAVE_ARCH_SOFT_DIRTY
- 	select MODULES_USE_ELF_RELA
- 	select NEED_DMA_MAP_STATE
-@@ -1941,6 +1942,27 @@ config X86_SGX
+diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
+index f24d7ef8fffa..9db61817dfff 100644
+--- a/arch/x86/include/asm/pgtable_types.h
++++ b/arch/x86/include/asm/pgtable_types.h
+@@ -192,10 +192,10 @@ enum page_cache_mode {
+ #define _KERNPG_TABLE		 (__PP|__RW|   0|___A|   0|___D|   0|   0| _ENC)
+ #define _PAGE_TABLE_NOENC	 (__PP|__RW|_USR|___A|   0|___D|   0|   0)
+ #define _PAGE_TABLE		 (__PP|__RW|_USR|___A|   0|___D|   0|   0| _ENC)
+-#define __PAGE_KERNEL_RO	 (__PP|   0|   0|___A|__NX|___D|   0|___G)
+-#define __PAGE_KERNEL_ROX	 (__PP|   0|   0|___A|   0|___D|   0|___G)
++#define __PAGE_KERNEL_RO	 (__PP|   0|   0|___A|__NX|   0|   0|___G)
++#define __PAGE_KERNEL_ROX	 (__PP|   0|   0|___A|   0|   0|   0|___G)
+ #define __PAGE_KERNEL_NOCACHE	 (__PP|__RW|   0|___A|__NX|___D|   0|___G| __NC)
+-#define __PAGE_KERNEL_VVAR	 (__PP|   0|_USR|___A|__NX|___D|   0|___G)
++#define __PAGE_KERNEL_VVAR	 (__PP|   0|_USR|___A|__NX|   0|   0|___G)
+ #define __PAGE_KERNEL_LARGE	 (__PP|__RW|   0|___A|__NX|___D|_PSE|___G)
+ #define __PAGE_KERNEL_LARGE_EXEC (__PP|__RW|   0|___A|   0|___D|_PSE|___G)
+ #define __PAGE_KERNEL_WP	 (__PP|__RW|   0|___A|__NX|___D|   0|___G| __WP)
+diff --git a/arch/x86/mm/pat/set_memory.c b/arch/x86/mm/pat/set_memory.c
+index 16f878c26667..6bebb95a6988 100644
+--- a/arch/x86/mm/pat/set_memory.c
++++ b/arch/x86/mm/pat/set_memory.c
+@@ -1932,7 +1932,7 @@ int set_memory_nx(unsigned long addr, int numpages)
  
- 	  If unsure, say N.
+ int set_memory_ro(unsigned long addr, int numpages)
+ {
+-	return change_page_attr_clear(&addr, numpages, __pgprot(_PAGE_RW), 0);
++	return change_page_attr_clear(&addr, numpages, __pgprot(_PAGE_RW | _PAGE_DIRTY), 0);
+ }
  
-+config ARCH_HAS_SHADOW_STACK
-+	def_bool n
-+
-+config X86_CET
-+	prompt "Intel Control-flow protection for user-mode"
-+	def_bool n
-+	depends on AS_WRUSS
-+	depends on ARCH_HAS_SHADOW_STACK
-+	select ARCH_USES_HIGH_VMA_FLAGS
-+	help
-+	  Control-flow protection is a set of hardware features which place
-+	  additional restrictions on indirect branches.  These help
-+	  mitigate ROP attacks.  Applications must be enabled to use it,
-+	  and old userspace does not get protection "for free".
-+	  Support for this feature is present on Tiger Lake family of
-+	  processors released in 2020 or later.  Enabling this feature
-+	  increases kernel text size by 3.7 KB.
-+	  See Documentation/x86/intel_cet.rst for more information.
-+
-+	  If unsure, say N.
-+
- config EFI
- 	bool "EFI runtime service support"
- 	depends on ACPI
-diff --git a/arch/x86/Kconfig.assembler b/arch/x86/Kconfig.assembler
-index 26b8c08e2fc4..00c79dd93651 100644
---- a/arch/x86/Kconfig.assembler
-+++ b/arch/x86/Kconfig.assembler
-@@ -19,3 +19,8 @@ config AS_TPAUSE
- 	def_bool $(as-instr,tpause %ecx)
- 	help
- 	  Supported by binutils >= 2.31.1 and LLVM integrated assembler >= V7
-+
-+config AS_WRUSS
-+	def_bool $(as-instr,wrussq %rax$(comma)(%rbx))
-+	help
-+	  Supported by binutils >= 2.31 and LLVM integrated assembler
+ int set_memory_rw(unsigned long addr, int numpages)
 -- 
 2.21.0
 
