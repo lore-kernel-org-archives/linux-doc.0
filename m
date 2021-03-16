@@ -2,206 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A82CC43331
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:57:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6065EC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:58:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 504EA65130
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:57:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A94C65104
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:58:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239480AbhCPR5D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 13:57:03 -0400
-Received: from mail-ej1-f42.google.com ([209.85.218.42]:41947 "EHLO
-        mail-ej1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239462AbhCPR4E (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 13:56:04 -0400
-Received: by mail-ej1-f42.google.com with SMTP id lr13so73713436ejb.8;
-        Tue, 16 Mar 2021 10:56:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=3edIuyjq57ahTfo6TpK7NVyellwm078SD4itITOhAD8=;
-        b=s6tTE+QYKRUkM6j8xl33XGvzsFZbgzxl9cDnDpQm1TGFeXTdqUIFpAFPtHZPvCjE11
-         pYAjv2sFR/iVWitjU2BPYMIh1eYabwmbGLY2yp2UO3/TOburC6ykX009Zz3qPXUqROeJ
-         URP142sjcx+6hbSw6UkzJzL+1U+dRLJkkCNkqzMXWOE5n1kwFpbkU2aFY+pjF9XRLlFi
-         wFo9ZsGZfUte1jA8Jr6lrFX5zgMtd+wz7P2+J88nLPVqQVYiYcmn7HJUMeL8rm77ezcz
-         foEAU6h9/jOE3HEOtsJ911XEDJWHvR/Vbcrz5WI1VoymGQSRiTXY4+tFvMFYYsHY2YPs
-         087g==
-X-Gm-Message-State: AOAM533PCTyq66RC7II9f2jbO+62kRlZhoI/a92yS68NJzQaRsU67N2E
-        MvVU6aevn+TJdTaBG9yUY9c=
-X-Google-Smtp-Source: ABdhPJw61/Q89NJaWXxCxEGc1bTkaFK4RxpWZJW72oFFH+I596OhbyQG+BTqvOg4HB2Qvge8CRxbHQ==
-X-Received: by 2002:a17:906:d8d3:: with SMTP id re19mr31266952ejb.440.1615917362966;
-        Tue, 16 Mar 2021 10:56:02 -0700 (PDT)
-Received: from localhost ([2a02:8308:387:c900:a7b5:b859:9449:c07b])
-        by smtp.gmail.com with ESMTPSA id p9sm10538828eds.66.2021.03.16.10.56.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 16 Mar 2021 10:56:02 -0700 (PDT)
-From:   =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>
-Cc:     =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/5] hwmon: (max31790) Allow setting fan*_div
-Date:   Tue, 16 Mar 2021 18:55:01 +0100
-Message-Id: <20210316175503.1003051-4-kubernat@cesnet.cz>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210316175503.1003051-1-kubernat@cesnet.cz>
-References: <20210316175503.1003051-1-kubernat@cesnet.cz>
+        id S231919AbhCPR53 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 13:57:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40494 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S239422AbhCPR4f (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 13:56:35 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A166EC06174A;
+        Tue, 16 Mar 2021 10:56:33 -0700 (PDT)
+Received: from ip4d142c50.dynamic.kabel-deutschland.de ([77.20.44.80] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1lMDvg-00089h-6R; Tue, 16 Mar 2021 18:56:28 +0100
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20210310072858.231776-1-linux@leemhuis.info>
+ <874khc1844.fsf@meer.lwn.net>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v1, RFC] docs: reporting-issues.rst: tone down 'test
+ vanilla mainline' a little
+Message-ID: <72d42b6c-e7d3-0243-d547-b5270dc00ef0@leemhuis.info>
+Date:   Tue, 16 Mar 2021 18:56:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <874khc1844.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-BS
 Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1615917393;45c58f66;
+X-HE-SMSGID: 1lMDvg-00089h-6R
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now, the divisor (which determines the speed range) is only set
-when in RPM mode. However, the speed range also affects the input RPM,
-which means, to get more accurate readings, this speed range needs to be
-set.
+On 15.03.21 21:20, Jonathan Corbet wrote:
+> Thorsten Leemhuis <linux@leemhuis.info> writes:
+>> Tell users that reporting bugs with vendor kernels which are only
+>> slightly patched can be okay in some situations, but point out there's a
+>> risk in doing so.
+>>
+>> Adjust some related sections to make them compatible and a bit clearer.
+>> At the same time make them less daunting: we want users to report bugs,
+>> even if they can't test vanilla mainline kernel.
+>>
+>> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+>> CC: Randy Dunlap <rdunlap@infradead.org>
+>>
+>> ---
+>> With this I try to get rid of the last remaining parts that have a
+>> 'this needs discussion' box that's in the text. I hope I've found a
+>> middle ground that everybody can live with.
+> 
+> For the most part it seems OK to me.
 
-Signed-off-by: Václav Kubernát <kubernat@cesnet.cz>
----
- Documentation/hwmon/max31790.rst |  1 +
- drivers/hwmon/max31790.c         | 79 +++++++++++++++++++++++++++-----
- 2 files changed, 68 insertions(+), 12 deletions(-)
+Thx for looking at it!
 
-diff --git a/Documentation/hwmon/max31790.rst b/Documentation/hwmon/max31790.rst
-index 8979c8a02cd1..2979addeac8f 100644
---- a/Documentation/hwmon/max31790.rst
-+++ b/Documentation/hwmon/max31790.rst
-@@ -38,6 +38,7 @@ Sysfs entries
- fan[1-12]_enable   RW  enable fan speed monitoring
- fan[1-12]_input    RO  fan tachometer speed in RPM
- fan[1-12]_fault    RO  fan experienced fault
-+fan[1-12]_div      RW  set the measurable speed range, not available in RPM mode
- fan[1-6]_target    RW  desired fan speed in RPM
- pwm[1-6]_enable    RW  regulator mode, 0=full speed, 1=manual (pwm) mode, 2=rpm mode
-                        setting rpm mode sets fan*_enable to 1
-diff --git a/drivers/hwmon/max31790.c b/drivers/hwmon/max31790.c
-index 7b47797db471..235a71bbff84 100644
---- a/drivers/hwmon/max31790.c
-+++ b/drivers/hwmon/max31790.c
-@@ -156,6 +156,26 @@ static int write_reg_word(struct regmap *regmap, u8 reg, u16 val)
- 	return regmap_bulk_write(regmap, reg, bulk_val, 2);
- }
- 
-+static int bits_for_speed_range(long speed_range)
-+{
-+	switch (speed_range) {
-+	case 1:
-+		return 0x0;
-+	case 2:
-+		return 0x1;
-+	case 4:
-+		return 0x2;
-+	case 8:
-+		return 0x3;
-+	case 16:
-+		return 0x4;
-+	case 32:
-+		return 0x5;
-+	default:
-+		return -1;
-+	}
-+}
-+
- static int max31790_read_fan(struct device *dev, u32 attr, int channel,
- 			     long *val)
- {
-@@ -228,6 +248,13 @@ static int max31790_read_fan(struct device *dev, u32 attr, int channel,
- 
- 		*val = !!(cfg & MAX31790_FAN_CFG_TACH_INPUT_EN);
- 		return 0;
-+	case hwmon_fan_div:
-+		cfg = read_reg_byte(regmap, MAX31790_REG_FAN_CONFIG(channel));
-+		if (cfg < 0)
-+			return cfg;
-+
-+		*val = get_tach_period(cfg);
-+		return 0;
- 	default:
- 		return -EOPNOTSUPP;
- 	}
-@@ -281,6 +308,33 @@ static int max31790_write_fan(struct device *dev, u32 attr, int channel,
- 			cfg |= MAX31790_FAN_CFG_TACH_INPUT_EN;
- 		err = regmap_write(regmap, MAX31790_REG_FAN_CONFIG(channel), cfg);
- 		break;
-+	case hwmon_fan_div:
-+		cfg = read_reg_byte(regmap, MAX31790_REG_FAN_CONFIG(channel));
-+		if (cfg < 0)
-+			return cfg;
-+
-+		if (cfg & MAX31790_FAN_CFG_RPM_MODE) {
-+			err = -EINVAL;
-+			break;
-+		}
-+		sr = bits_for_speed_range(val);
-+		if (sr < 0) {
-+			err = -EINVAL;
-+			break;
-+		}
-+
-+		fan_dynamics = read_reg_byte(regmap, MAX31790_REG_FAN_DYNAMICS(channel));
-+
-+		if (fan_dynamics < 0)
-+			return fan_dynamics;
-+
-+		fan_dynamics = ((fan_dynamics &
-+				 ~MAX31790_FAN_DYN_SR_MASK) |
-+				(sr << MAX31790_FAN_DYN_SR_SHIFT));
-+		err = regmap_write(regmap,
-+				   MAX31790_REG_FAN_DYNAMICS(channel),
-+				   fan_dynamics);
-+		break;
- 	default:
- 		err = -EOPNOTSUPP;
- 		break;
-@@ -311,6 +365,7 @@ static umode_t max31790_fan_is_visible(const void *_data, u32 attr, int channel)
- 			return 0644;
- 		return 0;
- 	case hwmon_fan_enable:
-+	case hwmon_fan_div:
- 		if (channel < NR_CHANNEL ||
- 		    (fan_config & MAX31790_FAN_CFG_TACH_INPUT))
- 			return 0644;
-@@ -485,18 +540,18 @@ static umode_t max31790_is_visible(const void *data,
- 
- static const struct hwmon_channel_info *max31790_info[] = {
- 	HWMON_CHANNEL_INFO(fan,
--			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
--			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
--			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
--			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
--			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
--			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
--			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
--			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
--			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
--			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
--			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
--			   HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT),
-+			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
-+			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
-+			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
-+			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
-+			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
-+			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_TARGET | HWMON_F_FAULT,
-+			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
-+			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
-+			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
-+			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
-+			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT,
-+			   HWMON_F_DIV | HWMON_F_ENABLE | HWMON_F_INPUT | HWMON_F_FAULT),
- 	HWMON_CHANNEL_INFO(pwm,
- 			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
- 			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
--- 
-2.30.2
+> I *really* worry, though, that this file is getting so big that few
+> people will work their way through it.
 
+Yeah, this is a problem, definitely, but the document was written to
+make sure that nobody has to work their way through it, as the "step by
+step" guide tells all the important things already – and that guide
+(even with this patch and the other one that you looked at yesterday)
+should still be shorter (and clearer) then the old "reporting bugs" text
+(I hope, I didn't verify...).
+
+>  Anything that could be done to
+> make it more concise going forward would be more than welcome.
+
+Yeah, will think about it, especially WRT to the other patch you looked
+at. Maybe I can come up with something. But no promises, I put a lot of
+thought into the problem already.
+
+The real solution for the problem IMHO looks totally different anyway:
+provide pre-compiled kernels somewhere that users can install and even
+bisect without installing a compiler at all (sure, there is a the
+problem with the configuration, but whatever, just pick one and see how
+things work out). Would be a fun project I'd really like to work on
+sooner or later, but for now I have different priorities...
+
+> [...]
+>> +   suspend your efforts for a few days anyway. Whatever version you choose,
+>> +   ideally use a 'vanilla' built. Ignoring these advices will dramatically
+>> +   increase the risk you report will be rejected or ignored.
+> s/built/build/
+
+Argh, thx for pointing it out.
+
+> Also, I would stop quoting terms like "mainline", "stable" and "vanilla"
+> throughout.  It makes the reading experience a bit stranger without
+> (IMO) adding anything.
+
+Yeah, let me provide a patch to reduce the quoting. If it's okay for you
+I'd like to leave the quotes in the section that round about explains
+the terms mainline, stable, and longterm. I think it's wise there to
+point out that these are terms that have a special meaning in kernel
+context. That's why I quoted them in a lot of places – especially those
+where the reader might see them for the first time, as "stable" is kind
+of ambiguous, which I wanted to avoid somehow.
+
+Which brings me to another, but related issue. That patch could also fix
+an inconsistency I recently noticed: how to spell panic, oops, bug,
+warning? I sometimes quoted them  because in kernel context they have
+special meaning, as a BUG() is not some random bug... And is it Oops or
+oops (I recently noticed I used both spellings, but I found both when I
+grepped Documentation/)? Here are some options:
+
+1) panic, oops, bug, warning
+2a) 'panic', 'oops', 'bug', 'warning',
+2b) *panic*, *oops*, *bug*, *warning*,
+3) panic, Oops, BUG, WARNING,
+4) panic, Oops, BUG(), WARN()
+
+The problem there is similar with the term 'stable': the words bug and
+warning are ambiguous for people that are not familiar with the terms
+used by the kernel community. Putting them in quotes at least give a
+subtle hint like "this term might have a special meaning". It works for
+my subconscious, but I guess won't for many others.
+
+Nevertheless I'd go option 2a or 2b above: doesn't look to ugly (like 3
+and 4) and avoids being ambiguous (like 1, which I for one don't like at
+all).
+
+What's your opinion on this? Or do you say "ohh, you are overthinking
+it, just go with option 1!". :-D
+
+Ciao, Thorsten
