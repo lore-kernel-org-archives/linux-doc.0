@@ -2,97 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09CDDC433E9
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 01:55:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A3B7C433E6
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 02:22:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB59464F9F
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 01:55:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 38FFB65029
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 02:22:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231733AbhCPByc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 15 Mar 2021 21:54:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58240 "EHLO
+        id S234624AbhCPCWQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 15 Mar 2021 22:22:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230511AbhCPByU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 21:54:20 -0400
-Received: from merlin.infradead.org (merlin.infradead.org [IPv6:2001:8b0:10b:1234::107])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD39BC06174A;
-        Mon, 15 Mar 2021 18:54:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=JWKAnsu2pp86k4vvBhK5LKLAE6pIvijEW3G7w0H2N6g=; b=vA8yQPegKuxnvz+NVIs4kjWss5
-        +pIxVmKBqRmMg7KiaCsdrqYor9BNIhxdSM5yncpltxvdjG1QZPP8FACCVHJlDWVKQJq+3xF7fX4mA
-        x2prMkbW+IdTSQbbEQO3pEULEpxFVcz57j+8ZeUD17ldYvTSSTYuIMdKoxum/Wh0xfVZehJYn1NKo
-        G40jOTrP8c1FfqbdAf/jGbn++ugKodihQl1IBjynCMR5o4NwJzL4sNxRZeJDAGiscWFB1VtjhhPtN
-        79UZ4Gz/RwA9GE3l2wyM8okAnBeE/qWhNOF8wpN4IQXB1ZJyKcGaSn9eG1G6/F9jw4ldphlhg0ctl
-        EpKwtB7A==;
-Received: from [2601:1c0:6280:3f0::9757]
-        by merlin.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lLyuW-001O15-ML; Tue, 16 Mar 2021 01:54:17 +0000
-Subject: Re: [PATCH v4] docs: usbip: Fix major fields and descriptions in
- protocol
-To:     "Hongren Zheng (Zenithal)" <i@zenithal.me>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?TcOhcnRvbiBOw6ltZXRo?= <nm127@freemail.hu>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Alexandre Demers <alexandre.f.demers@gmail.com>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        usbip-devel@lists.sourceforge.net
-References: <YE/Od9WNg3Prw1/h@Sun>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <dadd9c38-81e1-0db1-e14f-2bcfb0eebbc4@infradead.org>
-Date:   Mon, 15 Mar 2021 18:54:12 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        with ESMTP id S234598AbhCPCWO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 15 Mar 2021 22:22:14 -0400
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B300C06174A;
+        Mon, 15 Mar 2021 19:22:14 -0700 (PDT)
+Received: by mail-qt1-x833.google.com with SMTP id f12so10669828qtq.4;
+        Mon, 15 Mar 2021 19:22:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=x9e1xfobrgux5JmgRy+7168jAO2JUpIpvIQcF6MG83w=;
+        b=fjEXsStwnXKCurOKkJhtQkcTA24r1rdYzLOmvw1xvyNUJvtm0b9kg5enio6VXPGHUE
+         NeMqy3J9wiHHmkHoTqZlg8I7iJ8StIPtyYL8JawjzLLmbqjI+hrWHfILqO0RxLbwrXLC
+         jDWFObZ/zoE4IRnM9FQRyorroXQVsjphNLWMaDMpPHCRxgovQgs4vjPMMOm2o45NtdX/
+         nDbk2QOo3c4OaemxRdSTaFDuqla+i33mWKdJznmikwFBiysdhSnwmgzniAXpM9JXIQla
+         5KZ3WFUnLvoxEVwfPbWYKAVhnwTfUrDOtfhCPtfNSeuue6NnIU8ZUyDPx7cSZeSy2Yys
+         QoHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=x9e1xfobrgux5JmgRy+7168jAO2JUpIpvIQcF6MG83w=;
+        b=lDPdi1u0q9ZAJScz9tMMgPtZeDcDGKI2S0Q1C2cfHclROM7NeMEh4XLAYiJI6Oxtgm
+         IRP0L+ign0Lh/9rrqxBxX8abGIIHfJ1Q6DKG9Z1y+myQaTCTOvLedhwfokZr3iLzpTki
+         oCa8kNFDck4GAAAjKa+4lA06lEr/nE8xl2P2UEb+WQNmFExjrOhSi2ftFCokHBaL0Wiv
+         XYDmbuEVV0vndZUNGnmPXNiPxLExwmyrStKHsbVnQH15BGzBIuud8/QBMYH/LrCWT4IP
+         ODG1AjPQQ3zqE1X4JTHSP7v/poudXap6176i1p1MClkIPxTABh543Q4uBqwyvZ7+QrxF
+         pCzg==
+X-Gm-Message-State: AOAM531IIHuV5ntH7yqVE87BaEZAkboCOuoddFImHwnjrLnaDu2a319M
+        zKloiQ72TfL+pZHYrvJUFvg=
+X-Google-Smtp-Source: ABdhPJypiW/tANwk38POGxmJ+LQPrOrcn8PHYpIhP6vANCuOFNC24G9bMIqsJ6tcQiCBdmqOkqI3LA==
+X-Received: by 2002:a05:622a:48d:: with SMTP id p13mr21363305qtx.21.1615861333631;
+        Mon, 15 Mar 2021 19:22:13 -0700 (PDT)
+Received: from localhost (2603-7000-9602-8233-06d4-c4ff-fe48-9d05.res6.spectrum.com. [2603:7000:9602:8233:6d4:c4ff:fe48:9d05])
+        by smtp.gmail.com with ESMTPSA id d14sm13657503qkg.33.2021.03.15.19.22.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Mar 2021 19:22:13 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Mon, 15 Mar 2021 22:22:12 -0400
+From:   Tejun Heo <tj@kernel.org>
+To:     Jacob Pan <jacob.jun.pan@intel.com>
+Cc:     Vipin Sharma <vipinsh@google.com>, mkoutny@suse.com,
+        rdunlap@infradead.org, thomas.lendacky@amd.com,
+        brijesh.singh@amd.com, jon.grimm@amd.com, eric.vantassell@amd.com,
+        pbonzini@redhat.com, hannes@cmpxchg.org, frankja@linux.ibm.com,
+        borntraeger@de.ibm.com, corbet@lwn.net, seanjc@google.com,
+        vkuznets@redhat.com, wanpengli@tencent.com, jmattson@google.com,
+        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, gingell@google.com,
+        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, "Tian, Kevin" <kevin.tian@intel.com>,
+        "Liu, Yi L" <yi.l.liu@intel.com>,
+        "Raj, Ashok" <ashok.raj@intel.com>,
+        Alex Williamson <alex.williamson@redhat.com>,
+        Jason Gunthorpe <jgg@nvidia.com>,
+        Jacob Pan <jacob.jun.pan@linux.intel.com>,
+        "jean-philippe@linaro.org" <jean-philippe@linaro.org>
+Subject: Re: [RFC v2 2/2] cgroup: sev: Miscellaneous cgroup documentation.
+Message-ID: <YFAWVJrM86FB17Lk@slm.duckdns.org>
+References: <YEvZ4muXqiSScQ8i@google.com>
+ <20210312145904.4071a9d6@jacob-builder>
+ <YEyR9181Qgzt+Ps9@mtj.duckdns.org>
+ <20210313085701.1fd16a39@jacob-builder>
+ <YEz+8HbfkbGgG5Tm@mtj.duckdns.org>
+ <20210315151155.383a7e6e@jacob-builder>
+ <YE/ddx5+ToNsgUF0@slm.duckdns.org>
+ <20210315164012.4adeabe8@jacob-builder>
+ <YE/zvLkL1vM8/Cdm@slm.duckdns.org>
+ <20210315183030.5b15aea3@jacob-builder>
 MIME-Version: 1.0
-In-Reply-To: <YE/Od9WNg3Prw1/h@Sun>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210315183030.5b15aea3@jacob-builder>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/15/21 2:15 PM, Hongren Zheng (Zenithal) wrote:
-> 
-> Co-developed-by: Alexandre Demers <alexandre.f.demers@gmail.com>
-> Co-developed-by: Randy Dunlap <rdunlap@infradead.org>
+On Mon, Mar 15, 2021 at 06:30:30PM -0700, Jacob Pan wrote:
+> I don't know if this is required. I thought utilities such as cgclassify
+> need to be supported.
+> " cgclassify - move running task(s) to given cgroups "
+> If no such use case, I am fine with dropping the migration support. Just
+> enforce limit on allocations.
 
-No, I'm not in the Co-developed-by loop here.
+Yeah, that's what all other controllers do. Please read the in-tree cgroup2
+doc.
 
-And then you can add:
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-
-> Signed-off-by: Hongren Zheng <i@zenithal.me>
-> ---
->  Documentation/usb/usbip_protocol.rst | 320 ++++++++++++++-------------
->  1 file changed, 171 insertions(+), 149 deletions(-)
-> 
-> 
-> PATCH v4:
-> Suggested by https://lore.kernel.org/linux-doc
-> /40351ed6-2907-3966-e69a-a564173b3682@infradead.org/
->   * Add punctuations for readability
->   * Move patch changelog after the marker line
->   * Remove nickname in signed-off-by line
-> 
-> diff --git a/Documentation/usb/usbip_protocol.rst b/Documentation/usb/usbip_protocol.rst
-> index 988c832166cd..54c5677adf4e 100644
-> --- a/Documentation/usb/usbip_protocol.rst
-> +++ b/Documentation/usb/usbip_protocol.rst
-
-
+Thanks.
 
 -- 
-~Randy
-
+tejun
