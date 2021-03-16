@@ -5,33 +5,33 @@ X-Spam-Level:
 X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8591EC2BBCF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E879DC433E6
 	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 15:12:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5BE6D650E5
+	by mail.kernel.org (Postfix) with ESMTP id BEAE3650E7
 	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 15:12:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237840AbhCPPLt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 11:11:49 -0400
-Received: from mga09.intel.com ([134.134.136.24]:13631 "EHLO mga09.intel.com"
+        id S237854AbhCPPLv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 11:11:51 -0400
+Received: from mga01.intel.com ([192.55.52.88]:38747 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235132AbhCPPLd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Mar 2021 11:11:33 -0400
-IronPort-SDR: QLXdO5p9quwM+QD2a0ZRfPbK/mhS9WrqsGMBo5hCohaHV0zflASEpqDVK4zBGwWAr/KUYiXvX7
- wdRWUuolFvOA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9924"; a="189369498"
+        id S236449AbhCPPLe (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Mar 2021 11:11:34 -0400
+IronPort-SDR: wr/L9/C3aZe4akM+GoUB98hd2LlD0Yb3vvuhCoDvip0+hdkbO7GUqiMUdHoix0Txp/JK5Z3+El
+ FPtmzYSyB6Rg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9924"; a="209212676"
 X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
-   d="scan'208";a="189369498"
+   d="scan'208";a="209212676"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 08:11:32 -0700
-IronPort-SDR: gj+WE5fkO/VYqGjB4KZ7jB9zpahFHSYquIF/cGoTfPLWwOpDzu1BVt93UiX5QEwwvpLMtM0Dl0
- IpxWaBnFlPVQ==
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 08:11:30 -0700
+IronPort-SDR: S8maHkWvak+XoSyRn7eachFrZ2ffc2pW4itZcILNY3BUF2hfZMQNs7rtArnZ1pISaZsc749tZv
+ KBksk6ycJHMQ==
 X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
-   d="scan'208";a="405570311"
+   d="scan'208";a="405570297"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 08:11:31 -0700
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 08:11:30 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -61,9 +61,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v23 20/28] mm/mprotect: Exclude shadow stack from preserve_write
-Date:   Tue, 16 Mar 2021 08:10:46 -0700
-Message-Id: <20210316151054.5405-21-yu-cheng.yu@intel.com>
+Subject: [PATCH v23 16/28] mm: Fixup places that call pte_mkwrite() directly
+Date:   Tue, 16 Mar 2021 08:10:42 -0700
+Message-Id: <20210316151054.5405-17-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20210316151054.5405-1-yu-cheng.yu@intel.com>
 References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
@@ -73,64 +73,86 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-In change_pte_range(), when a PTE is changed for prot_numa, _PAGE_RW is
-preserved to avoid the additional write fault after the NUMA hinting fault.
-However, pte_write() now includes both normal writable and shadow stack
-(RW=0, Dirty=1) PTEs, but the latter does not have _PAGE_RW and has no need
-to preserve it.
+When serving a page fault, maybe_mkwrite() makes a PTE writable if it is in
+a writable vma.  A shadow stack vma is writable, but its PTEs need
+_PAGE_DIRTY to be set to become writable.  For this reason, maybe_mkwrite()
+has been updated.
 
-Exclude shadow stack from preserve_write test, and apply the same change to
-change_huge_pmd().
+There are a few places that call pte_mkwrite() directly, but effect the
+same result as from maybe_mkwrite().  These sites need to be updated for
+shadow stack as well.  Thus, change them to maybe_mkwrite():
+
+- do_anonymous_page() and migrate_vma_insert_page() check VM_WRITE directly
+  and call pte_mkwrite(), which is the same as maybe_mkwrite().  Change
+  them to maybe_mkwrite().
+
+- In do_numa_page(), if the numa entry 'was-writable', then pte_mkwrite()
+  is called directly.  Fix it by doing maybe_mkwrite().
+
+- In change_pte_range(), pte_mkwrite() is called directly.  Replace it with
+  maybe_mkwrite().
+
+  A shadow stack vma is writable but has different vma
+flags, and handled accordingly in maybe_mkwrite().
 
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+Reviewed-by: Kees Cook <keescook@chromium.org>
 ---
- mm/huge_memory.c | 7 ++++++-
- mm/mprotect.c    | 9 ++++++++-
- 2 files changed, 14 insertions(+), 2 deletions(-)
+ mm/memory.c   | 5 ++---
+ mm/migrate.c  | 3 +--
+ mm/mprotect.c | 2 +-
+ 3 files changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 3ad7d521a7b5..107c2be2156d 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -1812,12 +1812,17 @@ int change_huge_pmd(struct vm_area_struct *vma, pmd_t *pmd,
- 	bool prot_numa = cp_flags & MM_CP_PROT_NUMA;
- 	bool uffd_wp = cp_flags & MM_CP_UFFD_WP;
- 	bool uffd_wp_resolve = cp_flags & MM_CP_UFFD_WP_RESOLVE;
-+	bool shstk = arch_shadow_stack_mapping(vma->vm_flags);
+diff --git a/mm/memory.c b/mm/memory.c
+index 5efa07fb6cdc..c70c3847f79d 100644
+--- a/mm/memory.c
++++ b/mm/memory.c
+@@ -3561,8 +3561,7 @@ static vm_fault_t do_anonymous_page(struct vm_fault *vmf)
+ 	__SetPageUptodate(page);
  
- 	ptl = __pmd_trans_huge_lock(pmd, vma);
- 	if (!ptl)
- 		return 0;
+ 	entry = mk_pte(page, vma->vm_page_prot);
+-	if (vma->vm_flags & VM_WRITE)
+-		entry = pte_mkwrite(pte_mkdirty(entry));
++	entry = maybe_mkwrite(pte_mkdirty(entry), vma);
  
--	preserve_write = prot_numa && pmd_write(*pmd);
-+	/*
-+	 * Preserve only normal writable huge PMD, but not shadow
-+	 * stack (RW=0, Dirty=1).
-+	 */
-+	preserve_write = prot_numa && pmd_write(*pmd) && !shstk;
- 	ret = 1;
+ 	vmf->pte = pte_offset_map_lock(vma->vm_mm, vmf->pmd, vmf->address,
+ 			&vmf->ptl);
+@@ -4125,7 +4124,7 @@ static vm_fault_t do_numa_page(struct vm_fault *vmf)
+ 	pte = pte_modify(old_pte, vma->vm_page_prot);
+ 	pte = pte_mkyoung(pte);
+ 	if (was_writable)
+-		pte = pte_mkwrite(pte);
++		pte = maybe_mkwrite(pte, vma);
+ 	ptep_modify_prot_commit(vma, vmf->address, vmf->pte, old_pte, pte);
+ 	update_mmu_cache(vma, vmf->address, vmf->pte);
  
- #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
+diff --git a/mm/migrate.c b/mm/migrate.c
+index 62b81d5257aa..7251c88a3d64 100644
+--- a/mm/migrate.c
++++ b/mm/migrate.c
+@@ -2976,8 +2976,7 @@ static void migrate_vma_insert_page(struct migrate_vma *migrate,
+ 		}
+ 	} else {
+ 		entry = mk_pte(page, vma->vm_page_prot);
+-		if (vma->vm_flags & VM_WRITE)
+-			entry = pte_mkwrite(pte_mkdirty(entry));
++		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
+ 	}
+ 
+ 	ptep = pte_offset_map_lock(mm, pmdp, addr, &ptl);
 diff --git a/mm/mprotect.c b/mm/mprotect.c
-index c1ce78d688b6..e69278b346a9 100644
+index 94188df1ee55..c1ce78d688b6 100644
 --- a/mm/mprotect.c
 +++ b/mm/mprotect.c
-@@ -75,7 +75,14 @@ static unsigned long change_pte_range(struct vm_area_struct *vma, pmd_t *pmd,
- 		oldpte = *pte;
- 		if (pte_present(oldpte)) {
- 			pte_t ptent;
--			bool preserve_write = prot_numa && pte_write(oldpte);
-+			bool shstk = arch_shadow_stack_mapping(vma->vm_flags);
-+			bool preserve_write;
-+
-+			/*
-+			 * Preserve only normal writable PTE, but not shadow
-+			 * stack (RW=0, Dirty=1).
-+			 */
-+			preserve_write = prot_numa && pte_write(oldpte) && !shstk;
- 
- 			/*
- 			 * Avoid trapping faults against the zero or KSM
+@@ -135,7 +135,7 @@ static unsigned long change_pte_range(struct vm_area_struct *vma, pmd_t *pmd,
+ 			if (dirty_accountable && pte_dirty(ptent) &&
+ 					(pte_soft_dirty(ptent) ||
+ 					 !(vma->vm_flags & VM_SOFTDIRTY))) {
+-				ptent = pte_mkwrite(ptent);
++				ptent = maybe_mkwrite(ptent, vma);
+ 			}
+ 			ptep_modify_prot_commit(vma, addr, pte, oldpte, ptent);
+ 			pages++;
 -- 
 2.21.0
 
