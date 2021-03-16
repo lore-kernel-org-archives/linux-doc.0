@@ -2,271 +2,380 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 969D9C43603
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:03:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBEA4C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:08:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F6D365129
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:03:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A88DD6511E
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 17:08:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238964AbhCPRCo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 13:02:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56780 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238960AbhCPRCP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 13:02:15 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE91DC0613E0
-        for <linux-doc@vger.kernel.org>; Tue, 16 Mar 2021 10:02:13 -0700 (PDT)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <afa@pengutronix.de>)
-        id 1lMD4c-0000Nu-4G; Tue, 16 Mar 2021 18:01:38 +0100
-Received: from afa by dude.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <afa@pengutronix.de>)
-        id 1lMD4Y-0000Vo-Ji; Tue, 16 Mar 2021 18:01:34 +0100
-From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        Mimi Zohar <zohar@linux.ibm.com>
-Cc:     kernel@pengutronix.de, Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        =?UTF-8?q?Horia=20Geant=C4=83?= <horia.geanta@nxp.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Udit Agarwal <udit.agarwal@nxp.com>,
-        Jan Luebbe <j.luebbe@penutronix.de>,
-        David Gstir <david@sigma-star.at>,
-        Franck LENORMAND <franck.lenormand@nxp.com>,
-        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org
-Subject: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP CAAM-based trusted keys
-Date:   Tue, 16 Mar 2021 18:01:18 +0100
-Message-Id: <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <cover.56fff82362af6228372ea82e6bd7e586e23f0966.1615914058.git-series.a.fatoum@pengutronix.de>
-References: <cover.56fff82362af6228372ea82e6bd7e586e23f0966.1615914058.git-series.a.fatoum@pengutronix.de>
+        id S238354AbhCPRI0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 13:08:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21307 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S238554AbhCPRIZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 13:08:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1615914504;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=UXcIwAYQJO7er3n8t1vDQmVg3HZL2SMIlbQJ9A3NI5E=;
+        b=Ih6SBG6Zt3aM5O4yZF+qrpl/UNkhKEB42EN1QWd1VWOu9DYCkeYk6uugM83hd27lrU3MyT
+        3ygM+Dgl80E6uaMoZ/yPm3JiEJ/Mo+sxD1xWOthji2PNnZyzNnTkRYFI1CC7bXw0iqH3vN
+        jst1Bt3KOj8DfNoy3yjJfKS5FWF70cM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-ULJuriCgNAClr2HeXhANLw-1; Tue, 16 Mar 2021 13:08:20 -0400
+X-MC-Unique: ULJuriCgNAClr2HeXhANLw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 744CE800FF0;
+        Tue, 16 Mar 2021 17:08:19 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-113-30.ams2.redhat.com [10.36.113.30])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 0DB075D9D3;
+        Tue, 16 Mar 2021 17:08:16 +0000 (UTC)
+From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] doc/virt/kvm: move KVM_X86_SET_MSR_FILTER in section 8
+Date:   Tue, 16 Mar 2021 18:08:14 +0100
+Message-Id: <20210316170814.64286-1-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: afa@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The Cryptographic Acceleration and Assurance Module (CAAM) is an IP core
-built into many newer i.MX and QorIQ SoCs by NXP.
+KVM_X86_SET_MSR_FILTER is a capability, not an ioctl.
+Therefore move it from section 4.97 to the new 8.31 (other capabilities).
 
-The CAAM does crypto acceleration, hardware number generation and
-has a blob mechanism for encapsulation/decapsulation of sensitive material.
+To fill the gap, move KVM_X86_SET_MSR_FILTER (was 4.126) to
+4.97, and shifted Xen-related ioctl (were 4.127 - 4.130) by
+one place (4.126 - 4.129).
 
-This blob mechanism depends on a device specific random 256-bit One Time
-Programmable Master Key that is fused in each SoC at manufacturing
-time. This key is unreadable and can only be used by the CAAM for AES
-encryption/decryption of user data.
+Also fixed minor typo in KVM_GET_MSR_INDEX_LIST ioctl description
+(section 4.3).
 
-This makes it a suitable backend (source) for kernel trusted keys.
-
-Previous commits generalized trusted keys to support multiple backends
-and added an API to access the CAAM blob mechanism. Based on these,
-provide the necessary glue to use the CAAM for trusted keys.
-
-Signed-off-by: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
-To: Jonathan Corbet <corbet@lwn.net>
-To: David Howells <dhowells@redhat.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-To: James Bottomley <jejb@linux.ibm.com>
-To: Mimi Zohar <zohar@linux.ibm.com>
-Cc: James Morris <jmorris@namei.org>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>
-Cc: "Horia Geantă" <horia.geanta@nxp.com>
-Cc: Aymen Sghaier <aymen.sghaier@nxp.com>
-Cc: Herbert Xu <herbert@gondor.apana.org.au>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Udit Agarwal <udit.agarwal@nxp.com>
-Cc: Jan Luebbe <j.luebbe@penutronix.de>
-Cc: David Gstir <david@sigma-star.at>
-Cc: Franck LENORMAND <franck.lenormand@nxp.com>
-Cc: Sumit Garg <sumit.garg@linaro.org>
-Cc: keyrings@vger.kernel.org
-Cc: linux-crypto@vger.kernel.org
-Cc: linux-doc@vger.kernel.org
-Cc: linux-integrity@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Cc: linux-security-module@vger.kernel.org
----
- Documentation/admin-guide/kernel-parameters.txt |  1 +-
- include/keys/trusted_caam.h                     | 11 +++-
- security/keys/trusted-keys/Makefile             |  1 +-
- security/keys/trusted-keys/trusted_caam.c       | 74 ++++++++++++++++++-
- security/keys/trusted-keys/trusted_core.c       |  6 +-
- 5 files changed, 92 insertions(+), 1 deletion(-)
- create mode 100644 include/keys/trusted_caam.h
- create mode 100644 security/keys/trusted-keys/trusted_caam.c
+ Documentation/virt/kvm/api.rst | 250 ++++++++++++++++-----------------
+ 1 file changed, 125 insertions(+), 125 deletions(-)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c8bad1762cba..382e911389aa 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5469,6 +5469,7 @@
- 			sources:
- 			- "tpm"
- 			- "tee"
-+			- "caam"
- 			If not specified then it defaults to iterating through
- 			the trust source list starting with TPM and assigns the
- 			first trust source as a backend which is initialized
-diff --git a/include/keys/trusted_caam.h b/include/keys/trusted_caam.h
-new file mode 100644
-index 000000000000..2fba0996b0b0
---- /dev/null
-+++ b/include/keys/trusted_caam.h
-@@ -0,0 +1,11 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
-+ */
-+
-+#ifndef __CAAM_TRUSTED_KEY_H
-+#define __CAAM_TRUSTED_KEY_H
-+
-+extern struct trusted_key_ops caam_trusted_key_ops;
-+
-+#endif
-diff --git a/security/keys/trusted-keys/Makefile b/security/keys/trusted-keys/Makefile
-index feb8b6c3cc79..050370690abd 100644
---- a/security/keys/trusted-keys/Makefile
-+++ b/security/keys/trusted-keys/Makefile
-@@ -12,3 +12,4 @@ trusted-y += trusted_tpm2.o
- trusted-y += tpm2key.asn1.o
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 1a2b5210cdbf..a230140d6a7f 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -201,7 +201,7 @@ Errors:
  
- trusted-$(CONFIG_TEE) += trusted_tee.o
-+trusted-$(CONFIG_CRYPTO_DEV_FSL_CAAM_BLOB_GEN) += trusted_caam.o
-diff --git a/security/keys/trusted-keys/trusted_caam.c b/security/keys/trusted-keys/trusted_caam.c
-new file mode 100644
-index 000000000000..fc2e3dde9e06
---- /dev/null
-+++ b/security/keys/trusted-keys/trusted_caam.c
-@@ -0,0 +1,74 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2021 Pengutronix, Ahmad Fatoum <kernel@pengutronix.de>
-+ */
-+
-+#include <keys/trusted_caam.h>
-+#include <keys/trusted-type.h>
-+#include <linux/build_bug.h>
-+#include <linux/key-type.h>
-+#include <soc/fsl/caam-blob.h>
-+
-+struct caam_blob_priv *blobifier;
-+
-+#define KEYMOD "kernel:trusted"
-+
-+static_assert(MAX_KEY_SIZE + CAAM_BLOB_OVERHEAD <= CAAM_BLOB_MAX_LEN);
-+static_assert(MAX_BLOB_SIZE <= CAAM_BLOB_MAX_LEN);
-+
-+static int trusted_caam_seal(struct trusted_key_payload *p, char *datablob)
-+{
-+	int length = p->key_len + CAAM_BLOB_OVERHEAD;
-+	int ret;
-+
-+	ret = caam_encap_blob(blobifier, KEYMOD, p->key, p->blob, length);
-+	if (ret)
-+		return ret;
-+
-+	p->blob_len = length;
-+	return 0;
-+}
-+
-+static int trusted_caam_unseal(struct trusted_key_payload *p, char *datablob)
-+{
-+	int length = p->blob_len;
-+	int ret;
-+
-+	ret = caam_decap_blob(blobifier, KEYMOD, p->blob, p->key, length);
-+	if (ret)
-+		return ret;
-+
-+	p->key_len = length - CAAM_BLOB_OVERHEAD;
-+	return 0;
-+}
-+
-+static int trusted_caam_init(void)
-+{
-+	int ret;
-+
-+	blobifier = caam_blob_gen_init();
-+	if (IS_ERR(blobifier)) {
-+		pr_err("Job Ring Device allocation for transform failed\n");
-+		return PTR_ERR(blobifier);
-+	}
-+
-+	ret = register_key_type(&key_type_trusted);
-+	if (ret)
-+		caam_blob_gen_exit(blobifier);
-+
-+	return ret;
-+}
-+
-+static void trusted_caam_exit(void)
-+{
-+	unregister_key_type(&key_type_trusted);
-+	caam_blob_gen_exit(blobifier);
-+}
-+
-+struct trusted_key_ops caam_trusted_key_ops = {
-+	.migratable = 0, /* non-migratable */
-+	.init = trusted_caam_init,
-+	.seal = trusted_caam_seal,
-+	.unseal = trusted_caam_unseal,
-+	.exit = trusted_caam_exit,
-+};
-diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/trusted-keys/trusted_core.c
-index 5f92323efedf..e9bfb1bbc014 100644
---- a/security/keys/trusted-keys/trusted_core.c
-+++ b/security/keys/trusted-keys/trusted_core.c
-@@ -9,6 +9,7 @@
- #include <keys/user-type.h>
- #include <keys/trusted-type.h>
- #include <keys/trusted_tee.h>
-+#include <keys/trusted_caam.h>
- #include <keys/trusted_tpm.h>
- #include <linux/capability.h>
- #include <linux/err.h>
-@@ -25,7 +26,7 @@
+   ======     ============================================================
+   EFAULT     the msr index list cannot be read from or written to
+-  E2BIG      the msr index list is to be to fit in the array specified by
++  E2BIG      the msr index list is too big to fit in the array specified by
+              the user.
+   ======     ============================================================
  
- static char *trusted_key_source;
- module_param_named(source, trusted_key_source, charp, 0);
--MODULE_PARM_DESC(source, "Select trusted keys source (tpm or tee)");
-+MODULE_PARM_DESC(source, "Select trusted keys source (tpm, tee or caam)");
+@@ -3686,31 +3686,105 @@ which is the maximum number of possibly pending cpu-local interrupts.
  
- static const struct trusted_key_source trusted_key_sources[] = {
- #if defined(CONFIG_TCG_TPM)
-@@ -34,6 +35,9 @@ static const struct trusted_key_source trusted_key_sources[] = {
- #if defined(CONFIG_TEE)
- 	{ "tee", &trusted_key_tee_ops },
- #endif
-+#if defined(CONFIG_CRYPTO_DEV_FSL_CAAM_BLOB_GEN)
-+	{ "caam", &caam_trusted_key_ops },
-+#endif
- };
+ Queues an SMI on the thread's vcpu.
  
- DEFINE_STATIC_CALL_NULL(trusted_key_init, *trusted_key_sources[0].ops->init);
+-4.97 KVM_CAP_PPC_MULTITCE
+--------------------------
++4.97 KVM_X86_SET_MSR_FILTER
++----------------------------
+ 
+-:Capability: KVM_CAP_PPC_MULTITCE
+-:Architectures: ppc
+-:Type: vm
++:Capability: KVM_X86_SET_MSR_FILTER
++:Architectures: x86
++:Type: vm ioctl
++:Parameters: struct kvm_msr_filter
++:Returns: 0 on success, < 0 on error
+ 
+-This capability means the kernel is capable of handling hypercalls
+-H_PUT_TCE_INDIRECT and H_STUFF_TCE without passing those into the user
+-space. This significantly accelerates DMA operations for PPC KVM guests.
+-User space should expect that its handlers for these hypercalls
+-are not going to be called if user space previously registered LIOBN
+-in KVM (via KVM_CREATE_SPAPR_TCE or similar calls).
++::
+ 
+-In order to enable H_PUT_TCE_INDIRECT and H_STUFF_TCE use in the guest,
+-user space might have to advertise it for the guest. For example,
+-IBM pSeries (sPAPR) guest starts using them if "hcall-multi-tce" is
+-present in the "ibm,hypertas-functions" device-tree property.
++  struct kvm_msr_filter_range {
++  #define KVM_MSR_FILTER_READ  (1 << 0)
++  #define KVM_MSR_FILTER_WRITE (1 << 1)
++	__u32 flags;
++	__u32 nmsrs; /* number of msrs in bitmap */
++	__u32 base;  /* MSR index the bitmap starts at */
++	__u8 *bitmap; /* a 1 bit allows the operations in flags, 0 denies */
++  };
+ 
+-The hypercalls mentioned above may or may not be processed successfully
+-in the kernel based fast path. If they can not be handled by the kernel,
+-they will get passed on to user space. So user space still has to have
+-an implementation for these despite the in kernel acceleration.
++  #define KVM_MSR_FILTER_MAX_RANGES 16
++  struct kvm_msr_filter {
++  #define KVM_MSR_FILTER_DEFAULT_ALLOW (0 << 0)
++  #define KVM_MSR_FILTER_DEFAULT_DENY  (1 << 0)
++	__u32 flags;
++	struct kvm_msr_filter_range ranges[KVM_MSR_FILTER_MAX_RANGES];
++  };
+ 
+-This capability is always enabled.
++flags values for ``struct kvm_msr_filter_range``:
++
++``KVM_MSR_FILTER_READ``
++
++  Filter read accesses to MSRs using the given bitmap. A 0 in the bitmap
++  indicates that a read should immediately fail, while a 1 indicates that
++  a read for a particular MSR should be handled regardless of the default
++  filter action.
++
++``KVM_MSR_FILTER_WRITE``
++
++  Filter write accesses to MSRs using the given bitmap. A 0 in the bitmap
++  indicates that a write should immediately fail, while a 1 indicates that
++  a write for a particular MSR should be handled regardless of the default
++  filter action.
++
++``KVM_MSR_FILTER_READ | KVM_MSR_FILTER_WRITE``
++
++  Filter both read and write accesses to MSRs using the given bitmap. A 0
++  in the bitmap indicates that both reads and writes should immediately fail,
++  while a 1 indicates that reads and writes for a particular MSR are not
++  filtered by this range.
++
++flags values for ``struct kvm_msr_filter``:
++
++``KVM_MSR_FILTER_DEFAULT_ALLOW``
++
++  If no filter range matches an MSR index that is getting accessed, KVM will
++  fall back to allowing access to the MSR.
++
++``KVM_MSR_FILTER_DEFAULT_DENY``
++
++  If no filter range matches an MSR index that is getting accessed, KVM will
++  fall back to rejecting access to the MSR. In this mode, all MSRs that should
++  be processed by KVM need to explicitly be marked as allowed in the bitmaps.
++
++This ioctl allows user space to define up to 16 bitmaps of MSR ranges to
++specify whether a certain MSR access should be explicitly filtered for or not.
++
++If this ioctl has never been invoked, MSR accesses are not guarded and the
++default KVM in-kernel emulation behavior is fully preserved.
++
++Calling this ioctl with an empty set of ranges (all nmsrs == 0) disables MSR
++filtering. In that mode, ``KVM_MSR_FILTER_DEFAULT_DENY`` is invalid and causes
++an error.
++
++As soon as the filtering is in place, every MSR access is processed through
++the filtering except for accesses to the x2APIC MSRs (from 0x800 to 0x8ff);
++x2APIC MSRs are always allowed, independent of the ``default_allow`` setting,
++and their behavior depends on the ``X2APIC_ENABLE`` bit of the APIC base
++register.
++
++If a bit is within one of the defined ranges, read and write accesses are
++guarded by the bitmap's value for the MSR index if the kind of access
++is included in the ``struct kvm_msr_filter_range`` flags.  If no range
++cover this particular access, the behavior is determined by the flags
++field in the kvm_msr_filter struct: ``KVM_MSR_FILTER_DEFAULT_ALLOW``
++and ``KVM_MSR_FILTER_DEFAULT_DENY``.
++
++Each bitmap range specifies a range of MSRs to potentially allow access on.
++The range goes from MSR index [base .. base+nmsrs]. The flags field
++indicates whether reads, writes or both reads and writes are filtered
++by setting a 1 bit in the bitmap for the corresponding MSR index.
++
++If an MSR access is not permitted through the filtering, it generates a
++#GP inside the guest. When combined with KVM_CAP_X86_USER_SPACE_MSR, that
++allows user space to deflect and potentially handle various MSR accesses
++into user space.
++
++If a vCPU is in running state while this ioctl is invoked, the vCPU may
++experience inconsistent filtering behavior on MSR accesses.
+ 
+ 4.98 KVM_CREATE_SPAPR_TCE_64
+ ----------------------------
+@@ -4706,107 +4780,7 @@ KVM_PV_VM_VERIFY
+   Verify the integrity of the unpacked image. Only if this succeeds,
+   KVM is allowed to start protected VCPUs.
+ 
+-4.126 KVM_X86_SET_MSR_FILTER
+-----------------------------
+-
+-:Capability: KVM_X86_SET_MSR_FILTER
+-:Architectures: x86
+-:Type: vm ioctl
+-:Parameters: struct kvm_msr_filter
+-:Returns: 0 on success, < 0 on error
+-
+-::
+-
+-  struct kvm_msr_filter_range {
+-  #define KVM_MSR_FILTER_READ  (1 << 0)
+-  #define KVM_MSR_FILTER_WRITE (1 << 1)
+-	__u32 flags;
+-	__u32 nmsrs; /* number of msrs in bitmap */
+-	__u32 base;  /* MSR index the bitmap starts at */
+-	__u8 *bitmap; /* a 1 bit allows the operations in flags, 0 denies */
+-  };
+-
+-  #define KVM_MSR_FILTER_MAX_RANGES 16
+-  struct kvm_msr_filter {
+-  #define KVM_MSR_FILTER_DEFAULT_ALLOW (0 << 0)
+-  #define KVM_MSR_FILTER_DEFAULT_DENY  (1 << 0)
+-	__u32 flags;
+-	struct kvm_msr_filter_range ranges[KVM_MSR_FILTER_MAX_RANGES];
+-  };
+-
+-flags values for ``struct kvm_msr_filter_range``:
+-
+-``KVM_MSR_FILTER_READ``
+-
+-  Filter read accesses to MSRs using the given bitmap. A 0 in the bitmap
+-  indicates that a read should immediately fail, while a 1 indicates that
+-  a read for a particular MSR should be handled regardless of the default
+-  filter action.
+-
+-``KVM_MSR_FILTER_WRITE``
+-
+-  Filter write accesses to MSRs using the given bitmap. A 0 in the bitmap
+-  indicates that a write should immediately fail, while a 1 indicates that
+-  a write for a particular MSR should be handled regardless of the default
+-  filter action.
+-
+-``KVM_MSR_FILTER_READ | KVM_MSR_FILTER_WRITE``
+-
+-  Filter both read and write accesses to MSRs using the given bitmap. A 0
+-  in the bitmap indicates that both reads and writes should immediately fail,
+-  while a 1 indicates that reads and writes for a particular MSR are not
+-  filtered by this range.
+-
+-flags values for ``struct kvm_msr_filter``:
+-
+-``KVM_MSR_FILTER_DEFAULT_ALLOW``
+-
+-  If no filter range matches an MSR index that is getting accessed, KVM will
+-  fall back to allowing access to the MSR.
+-
+-``KVM_MSR_FILTER_DEFAULT_DENY``
+-
+-  If no filter range matches an MSR index that is getting accessed, KVM will
+-  fall back to rejecting access to the MSR. In this mode, all MSRs that should
+-  be processed by KVM need to explicitly be marked as allowed in the bitmaps.
+-
+-This ioctl allows user space to define up to 16 bitmaps of MSR ranges to
+-specify whether a certain MSR access should be explicitly filtered for or not.
+-
+-If this ioctl has never been invoked, MSR accesses are not guarded and the
+-default KVM in-kernel emulation behavior is fully preserved.
+-
+-Calling this ioctl with an empty set of ranges (all nmsrs == 0) disables MSR
+-filtering. In that mode, ``KVM_MSR_FILTER_DEFAULT_DENY`` is invalid and causes
+-an error.
+-
+-As soon as the filtering is in place, every MSR access is processed through
+-the filtering except for accesses to the x2APIC MSRs (from 0x800 to 0x8ff);
+-x2APIC MSRs are always allowed, independent of the ``default_allow`` setting,
+-and their behavior depends on the ``X2APIC_ENABLE`` bit of the APIC base
+-register.
+-
+-If a bit is within one of the defined ranges, read and write accesses are
+-guarded by the bitmap's value for the MSR index if the kind of access
+-is included in the ``struct kvm_msr_filter_range`` flags.  If no range
+-cover this particular access, the behavior is determined by the flags
+-field in the kvm_msr_filter struct: ``KVM_MSR_FILTER_DEFAULT_ALLOW``
+-and ``KVM_MSR_FILTER_DEFAULT_DENY``.
+-
+-Each bitmap range specifies a range of MSRs to potentially allow access on.
+-The range goes from MSR index [base .. base+nmsrs]. The flags field
+-indicates whether reads, writes or both reads and writes are filtered
+-by setting a 1 bit in the bitmap for the corresponding MSR index.
+-
+-If an MSR access is not permitted through the filtering, it generates a
+-#GP inside the guest. When combined with KVM_CAP_X86_USER_SPACE_MSR, that
+-allows user space to deflect and potentially handle various MSR accesses
+-into user space.
+-
+-If a vCPU is in running state while this ioctl is invoked, the vCPU may
+-experience inconsistent filtering behavior on MSR accesses.
+-
+-4.127 KVM_XEN_HVM_SET_ATTR
++4.126 KVM_XEN_HVM_SET_ATTR
+ --------------------------
+ 
+ :Capability: KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_SHARED_INFO
+@@ -4849,7 +4823,7 @@ KVM_XEN_ATTR_TYPE_SHARED_INFO
+ KVM_XEN_ATTR_TYPE_UPCALL_VECTOR
+   Sets the exception vector used to deliver Xen event channel upcalls.
+ 
+-4.128 KVM_XEN_HVM_GET_ATTR
++4.127 KVM_XEN_HVM_GET_ATTR
+ --------------------------
+ 
+ :Capability: KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_SHARED_INFO
+@@ -4861,7 +4835,7 @@ KVM_XEN_ATTR_TYPE_UPCALL_VECTOR
+ Allows Xen VM attributes to be read. For the structure and types,
+ see KVM_XEN_HVM_SET_ATTR above.
+ 
+-4.129 KVM_XEN_VCPU_SET_ATTR
++4.128 KVM_XEN_VCPU_SET_ATTR
+ ---------------------------
+ 
+ :Capability: KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_SHARED_INFO
+@@ -4923,7 +4897,7 @@ KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADJUST
+   or RUNSTATE_offline) to set the current accounted state as of the
+   adjusted state_entry_time.
+ 
+-4.130 KVM_XEN_VCPU_GET_ATTR
++4.129 KVM_XEN_VCPU_GET_ATTR
+ ---------------------------
+ 
+ :Capability: KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_SHARED_INFO
+@@ -6721,3 +6695,29 @@ vcpu_info is set.
+ The KVM_XEN_HVM_CONFIG_RUNSTATE flag indicates that the runstate-related
+ features KVM_XEN_VCPU_ATTR_TYPE_RUNSTATE_ADDR/_CURRENT/_DATA/_ADJUST are
+ supported by the KVM_XEN_VCPU_SET_ATTR/KVM_XEN_VCPU_GET_ATTR ioctls.
++
++8.31 KVM_CAP_PPC_MULTITCE
++-------------------------
++
++:Capability: KVM_CAP_PPC_MULTITCE
++:Architectures: ppc
++:Type: vm
++
++This capability means the kernel is capable of handling hypercalls
++H_PUT_TCE_INDIRECT and H_STUFF_TCE without passing those into the user
++space. This significantly accelerates DMA operations for PPC KVM guests.
++User space should expect that its handlers for these hypercalls
++are not going to be called if user space previously registered LIOBN
++in KVM (via KVM_CREATE_SPAPR_TCE or similar calls).
++
++In order to enable H_PUT_TCE_INDIRECT and H_STUFF_TCE use in the guest,
++user space might have to advertise it for the guest. For example,
++IBM pSeries (sPAPR) guest starts using them if "hcall-multi-tce" is
++present in the "ibm,hypertas-functions" device-tree property.
++
++The hypercalls mentioned above may or may not be processed successfully
++in the kernel based fast path. If they can not be handled by the kernel,
++they will get passed on to user space. So user space still has to have
++an implementation for these despite the in kernel acceleration.
++
++This capability is always enabled.
+\ No newline at end of file
 -- 
-git-series 0.9.1
+2.29.2
+
