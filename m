@@ -2,97 +2,73 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-21.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98170C4332B
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 21:52:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D08E7C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 22:10:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A86364F8A
-	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 21:52:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8CB6C64E3F
+	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 22:10:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229800AbhCPVwD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 17:52:03 -0400
-Received: from casper.infradead.org ([90.155.50.34]:37684 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232943AbhCPVRA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 16 Mar 2021 17:17:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=5gozf9msiE9KxmQI3WyWORDOu9a/cAx+NIytFUdmLig=; b=X/SgE772DCUsq82Z3cmFeX95oO
-        PqfjJ2FRHKtH42r39m6MsvF9e5TdZgVBI17+s6kSwsdLRIH6v9V4li+P1j+8WqrEOiBkH6dTpmXCl
-        zj1Kf2d5mWrKPa8KsbpoPAW1aiwZWNaloYuw/CAIYs+xvotJFNzpXH8o2sLJTPSdxOe8bKxhzoW7R
-        Fj+2vE8z7DbOu1UEzcqo4TMCRdDso4boo0dWkPh4i3GG1J0Wl3oHeTBkK6TokK4mP/RePGYbmcBdt
-        UCFi0He2Yd3bwFvSsH+Qnhs7glJ4VOkYI0qVv+/wM6AHgCid9xL3/c/oJyHftKdVv1DVOVvqYwv5V
-        V7lwKkHg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=worktop.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lMH2e-000dKj-Op; Tue, 16 Mar 2021 21:15:57 +0000
-Received: by worktop.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 59827981337; Tue, 16 Mar 2021 22:15:52 +0100 (CET)
-Date:   Tue, 16 Mar 2021 22:15:52 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v23 00/28] Control-flow Enforcement: Shadow Stack
-Message-ID: <20210316211552.GU4746@worktop.programming.kicks-ass.net>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+        id S230467AbhCPWKX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 18:10:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54268 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230397AbhCPWKH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Mar 2021 18:10:07 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 8C2676186A;
+        Tue, 16 Mar 2021 22:10:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1615932607;
+        bh=QDGfJY6zp/Cc6yn/TX1CZKO2H/GBxUEq6V7CIiYjTc8=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=FMoQE0yLi6mEo97em4yWyN2OZsNz4J9fFg3M4ImybBPMM1v2keDAUc1H1O+pbJ3xK
+         yKHJhEaSjofrfy8tsKGJOL1GWKn4G+VyiVEGyWb//8CyWPnyhIt69blsPz1FqPGcsf
+         NFXrEOz4k+g462tlNdSoiSvUOYNn63rZG1WFBLEgyKsLSgYMSAmr+2ehHuuiqJhbUV
+         5jvhJyoluuUqfEM0sVgUu0WW3DKRbelYv/EopL5J3n26lpJNy0v8o7cF4YLba7b/dZ
+         OFvljgfIqKqHiN95lQm98KJh98IwIlmj0UpW3jaorg6MfnSV0afTCAWoaNMwFaumdL
+         qk0KlOsuesrUg==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] docs: net: ena: Fix ena_start_xmit() function name typo
+From:   patchwork-bot+netdevbpf@kernel.org
+Message-Id: <161593260749.31300.13526087563089117634.git-patchwork-notify@kernel.org>
+Date:   Tue, 16 Mar 2021 22:10:07 +0000
+References: <20210316032737.1429-1-yuzenghui@huawei.com>
+In-Reply-To: <20210316032737.1429-1-yuzenghui@huawei.com>
+To:     Zenghui Yu <yuzenghui@huawei.com>
+Cc:     netdev@vger.kernel.org, davem@davemloft.net, kuba@kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        netanel@amazon.com, akiyano@amazon.com, gtzalik@amazon.com,
+        saeedb@amazon.com, corbet@lwn.net, wanghaibin.wang@huawei.com
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 08:10:26AM -0700, Yu-cheng Yu wrote:
-> Control-flow Enforcement (CET) is a new Intel processor feature that blocks
-> return/jump-oriented programming attacks.  Details are in "Intel 64 and
-> IA-32 Architectures Software Developer's Manual" [1].
+Hello:
+
+This patch was applied to netdev/net.git (refs/heads/master):
+
+On Tue, 16 Mar 2021 11:27:37 +0800 you wrote:
+> The ena.rst documentation referred to end_start_xmit() when it should refer
+> to ena_start_xmit(). Fix the typo.
 > 
-> CET can protect applications and the kernel.  This series enables only
-> application-level protection, and has three parts:
-> 
->   - Shadow stack [2],
->   - Indirect branch tracking [3], and
->   - Selftests [4].
+> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> ---
+>  Documentation/networking/device_drivers/ethernet/amazon/ena.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
-CET is marketing; afaict SS and IBT are 100% independent and there's no
-reason what so ever to have them share any code, let alone a Kconfig
-knob.
+Here is the summary with links:
+  - [net] docs: net: ena: Fix ena_start_xmit() function name typo
+    https://git.kernel.org/netdev/net/c/8a4452ca29f9
 
-In fact, I think all of this would improve is you remove the CET name
-from all of this entirely. Put this series under CONFIG_X86_SHSTK (or
-_SS) and use CONFIG_X86_IBT for the other one.
+You are awesome, thank you!
+--
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-Similarly with the .c file.
 
-All this CET business is just pure confusion.
