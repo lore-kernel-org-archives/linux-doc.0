@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAA0EC2BA57
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C99E0C41620
 	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 15:18:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CED67650DE
+	by mail.kernel.org (Postfix) with ESMTP id A23EC650DC
 	for <linux-doc@archiver.kernel.org>; Tue, 16 Mar 2021 15:18:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231293AbhCPPR5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 16 Mar 2021 11:17:57 -0400
-Received: from mga05.intel.com ([192.55.52.43]:18991 "EHLO mga05.intel.com"
+        id S236096AbhCPPR4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 16 Mar 2021 11:17:56 -0400
+Received: from mga05.intel.com ([192.55.52.43]:18968 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235945AbhCPPRj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 16 Mar 2021 11:17:39 -0400
-IronPort-SDR: dP/yjz+WRO6SXMdtbZ9+31LM8Ra1RbET7RJEnW2FfRiYBktEDIOjZzhe/5ef0DW0pESQ1yEVJk
- kKEtc+g8rc0w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9924"; a="274320177"
+        id S235669AbhCPPRd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 16 Mar 2021 11:17:33 -0400
+IronPort-SDR: puOPESrcX5kDCxXA8ISL4APA0OVkhbWB3/POxy0NWV0HHNxW+QvD8VV36YzmAQaExPGBQMLpEv
+ wxbwM5Oqf4Sg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9924"; a="274320167"
 X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
-   d="scan'208";a="274320177"
+   d="scan'208";a="274320167"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 08:13:31 -0700
-IronPort-SDR: EVggXsuEwaWhosM4/oMU+onDpXH9FGC32isT8ARcWW5qcISJoNY7uuHOg7PDxOhbcZ2Nq+PInJ
- VS6b1Ox8o61g==
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 08:13:30 -0700
+IronPort-SDR: /RLryx7L59dd3UdJqntuQHMiDOCDuccNgP0d2n9LHTfD/E+xNf6CHs+k8KWgvc8tQfpqTo5rCR
+ UxDz5dg8tdwg==
 X-IronPort-AV: E=Sophos;i="5.81,251,1610438400"; 
-   d="scan'208";a="449749010"
+   d="scan'208";a="449749003"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 08:13:31 -0700
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2021 08:13:29 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -60,10 +60,11 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Weijiang Yang <weijiang.yang@intel.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v23 8/9] x86/vdso: Insert endbr32/endbr64 to vDSO
-Date:   Tue, 16 Mar 2021 08:13:18 -0700
-Message-Id: <20210316151320.6123-9-yu-cheng.yu@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>
+Subject: [PATCH v23 6/9] x86/entry: Introduce ENDBR macro
+Date:   Tue, 16 Mar 2021 08:13:16 -0700
+Message-Id: <20210316151320.6123-7-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20210316151320.6123-1-yu-cheng.yu@intel.com>
 References: <20210316151320.6123-1-yu-cheng.yu@intel.com>
@@ -73,36 +74,54 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: "H.J. Lu" <hjl.tools@gmail.com>
+ENDBR is a special new instruction for the Indirect Branch Tracking (IBT)
+component of CET.  IBT prevents attacks by ensuring that (most) indirect
+branches and function calls may only land at ENDBR instructions.  Branches
+that don't follow the rules will result in control flow (#CF) exceptions.
 
-When Indirect Branch Tracking (IBT) is enabled, vDSO functions may be
-called indirectly, and must have ENDBR32 or ENDBR64 as the first
-instruction.  The compiler must support -fcf-protection=branch so that it
-can be used to compile vDSO.
+ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
+instructions are inserted automatically by the compiler, but branch
+targets written in assembly must have ENDBR added manually.
 
-Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
+There are two ENDBR versions: one for 64-bit and the other for 32.
+Introduce a macro to eliminate ifdeffery at call sites.
+
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Acked-by: Andy Lutomirski <luto@kernel.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
+Cc: Andy Lutomirski <luto@kernel.org>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
 ---
- arch/x86/entry/vdso/Makefile | 4 ++++
- 1 file changed, 4 insertions(+)
+ arch/x86/entry/calling.h | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index 05c4abc2fdfd..c9eccbc06e8c 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -93,6 +93,10 @@ endif
+diff --git a/arch/x86/entry/calling.h b/arch/x86/entry/calling.h
+index 07a9331d55e7..a63d33f7f069 100644
+--- a/arch/x86/entry/calling.h
++++ b/arch/x86/entry/calling.h
+@@ -392,3 +392,21 @@ For 32-bit we have the following conventions - kernel is built with
+ .endm
  
- $(vobjs): KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_LTO) $(GCC_PLUGINS_CFLAGS) $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
- 
-+ifdef CONFIG_X86_CET
-+$(vobjs) $(vobjs32): KBUILD_CFLAGS += -fcf-protection=branch
-+endif
-+
- #
- # vDSO code runs in userspace and -pg doesn't help with profiling anyway.
- #
+ #endif /* CONFIG_SMP */
++/*
++ * ENDBR is an instruction for the Indirect Branch Tracking (IBT) component
++ * of CET.  IBT prevents attacks by ensuring that (most) indirect branches
++ * function calls may only land at ENDBR instructions.  Branches that don't
++ * follow the rules will result in control flow (#CF) exceptions.
++ * ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
++ * instructions are inserted automatically by the compiler, but branch
++ * targets written in assembly must have ENDBR added manually.
++ */
++.macro ENDBR
++#ifdef CONFIG_X86_CET
++#ifdef __i386__
++	endbr32
++#else
++	endbr64
++#endif
++#endif
++.endm
 -- 
 2.21.0
 
