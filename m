@@ -2,121 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B6B4C433E6
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 10:16:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EF53C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 10:21:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E060F64E86
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 10:16:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F093F64F20
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 10:21:58 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbhCQKPq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Mar 2021 06:15:46 -0400
-Received: from casper.infradead.org ([90.155.50.34]:57244 "EHLO
-        casper.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229554AbhCQKPa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Mar 2021 06:15:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=GbFSfPvAGSrYmcgjy1/jiFvVWTiImeZT/N+n10CQYO8=; b=K/KBfR1lYuJIbFmu1hfj4ix8Jn
-        em4xUzlucCoj6dtG0B0LlJmZrrSdTywCapOny9m8bf0LhsIJR6smrTPigMfjkJTWb7+/6bXwxQyI1
-        fSgsrI6fG4w8L6QtBYV71XY39G/clhb/nivLkMUQaciYMDFrNnxm0ez3Jwi+qYgfmmU/10ymuYnal
-        s14JDtuNqJtjTCiVuMLnE7KAW5BFIJ66gTT5tl0N0EG+DvuOrMfKIQcIntXUv7LQHmr7IveCyAh2O
-        t1sQ6hBj4yVh5Vz1sQyRFlF7b5PKE+LFa0o7yVrfQusilBrwT7Xli35PPfbSqpZhnkJmuEFnOtc6H
-        vpx1alMQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lMTC5-001MbO-GD; Wed, 17 Mar 2021 10:14:29 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 44F923012DF;
-        Wed, 17 Mar 2021 11:14:24 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 3537F2C3C233C; Wed, 17 Mar 2021 11:14:24 +0100 (CET)
-Date:   Wed, 17 Mar 2021 11:14:24 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Ingo Molnar <mingo@kernel.org>
-Cc:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v23 00/28] Control-flow Enforcement: Shadow Stack
-Message-ID: <YFHWgOAEWrOZ+zPf@hirez.programming.kicks-ass.net>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316211552.GU4746@worktop.programming.kicks-ass.net>
- <90e453ee-377b-0342-55f9-9412940262f2@intel.com>
- <20210317091800.GA1461644@gmail.com>
+        id S229512AbhCQKVW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Mar 2021 06:21:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57698 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229472AbhCQKVQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Mar 2021 06:21:16 -0400
+Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AEFBC06174A;
+        Wed, 17 Mar 2021 03:21:16 -0700 (PDT)
+Received: by mail-qt1-x833.google.com with SMTP id s2so943580qtx.10;
+        Wed, 17 Mar 2021 03:21:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=n51gjbecvVbClzThaaf0zcDPA+9qxy+vlw2NAqOSGp4=;
+        b=C5Fw55cxZcAIoDfHOjJe6iFBjeSLC6B87f7331/hdeHXe4JN6s8q/X3eCZmp/iXVxG
+         +ZpBgzjAewjPVPkb14j6DCjebuOw9uYUFqGzu4WGztQ9FTqltdHdz54/SEmDgCjnjqRE
+         QbZ8m90xbtz/oryZX4YBs+1hASmghgsWEkHUvbVw8Oz13TPdemwm2msjoPHU8YhHfIrX
+         IDMunVR2a66Jqp3D6JSUNa+SIoIXruOO3jMj112DsSzxu5plWhZxdFt7bH4t8KXxAPVL
+         +do5QBKELxbqvohD8wS6PDvNKIDpOrwUPH2QL7hBLw1Zj7a5FPfAbpfaQPXMzcDRLSoQ
+         4nvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=n51gjbecvVbClzThaaf0zcDPA+9qxy+vlw2NAqOSGp4=;
+        b=A00wOpLnHVzv/sjZEisVCO9N4MNVoV3SirTr60lKy9+I6JNhsh1k0LzYdiXHrGGE7/
+         +qZLt3nzEZ4yZajngb6Q93uraUvagz4MrN9N0M969dvbinN/Mx7qqfOESBWqy+ZUPdPL
+         8OCn5zIcJIDjow3A11yZuqi+UTbvMHbQXFLHuqXbgdXKPBfB9tDNJuj35ikAYOKkjgk1
+         i1UjplHbz9KkuGwR2CoO6NGviUvE/nap2W7ZWeVMmyXAzPBJcrY9hJmbe/ONC+JATiY0
+         e434bCClCgdP1mXoPg1QkxXrrqQGqysOOyoAg9f9SyUIYyiU/pvekpOZwfC+QMGRcO/V
+         7d2Q==
+X-Gm-Message-State: AOAM533IjKQourGdGpC/fIaR33lOfA6rgUaKVUBeU5utmlMREWQYeyAT
+        0ONUa+xCWOqEP0J6hcT3p5SF1RwctY3FP+cD
+X-Google-Smtp-Source: ABdhPJwnZGiKH+Rdt5HtLSlvJiY6C135A0r1HWKfWiiirltMRT5J3mBAVnDWoiPgSoTA5nqx11T88Q==
+X-Received: by 2002:ac8:6696:: with SMTP id d22mr712038qtp.67.1615976475827;
+        Wed, 17 Mar 2021 03:21:15 -0700 (PDT)
+Received: from localhost.localdomain ([37.19.198.48])
+        by smtp.gmail.com with ESMTPSA id z6sm14997773qtv.69.2021.03.17.03.21.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Mar 2021 03:21:15 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     corbet@lwn.net, unixbhaskar@gmail.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     rdunlap@infradead.org
+Subject: [PATCH] docs: sphinx:  Trivial fix of a typo in the file rstFlatTable.py
+Date:   Wed, 17 Mar 2021 15:50:56 +0530
+Message-Id: <20210317102056.3003768-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210317091800.GA1461644@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 17, 2021 at 10:18:00AM +0100, Ingo Molnar wrote:
-> 
-> * Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
-> 
-> > On 3/16/2021 2:15 PM, Peter Zijlstra wrote:
-> > > On Tue, Mar 16, 2021 at 08:10:26AM -0700, Yu-cheng Yu wrote:
-> > > > Control-flow Enforcement (CET) is a new Intel processor feature that blocks
-> > > > return/jump-oriented programming attacks.  Details are in "Intel 64 and
-> > > > IA-32 Architectures Software Developer's Manual" [1].
-> > > > 
-> > > > CET can protect applications and the kernel.  This series enables only
-> > > > application-level protection, and has three parts:
-> > > > 
-> > > >    - Shadow stack [2],
-> > > >    - Indirect branch tracking [3], and
-> > > >    - Selftests [4].
-> > > 
-> > > CET is marketing; afaict SS and IBT are 100% independent and there's no
-> > > reason what so ever to have them share any code, let alone a Kconfig
-> > > knob.
-> > 
-> > We used to have shadow stack and ibt under separate Kconfig options, but in
-> > a few places they actually share same code path, such as the XSAVES
-> > supervisor states and ELF header for example.  Anyways I will be happy to
-> > make changes again if there is agreement.
-> 
-> I was look at:
-> 
->   x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
-> 
-> didn't see any IBT logic - it's essentially all shadow stack state.
-> 
-> Which is not surprising, forward call edge integrity protection (IBT) 
-> requires very little state, does it?
 
-They hid the IBT enable bit in the U_CET MSR, which is in the XSAVE
-thing.
+s/buidler/builder/
+
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ Documentation/sphinx/rstFlatTable.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/sphinx/rstFlatTable.py b/Documentation/sphinx/rstFlatTable.py
+index a3eea0bbe6ba..1d2b9be6b6c5 100755
+--- a/Documentation/sphinx/rstFlatTable.py
++++ b/Documentation/sphinx/rstFlatTable.py
+@@ -161,7 +161,7 @@ class ListTableBuilder(object):
+         for colwidth in colwidths:
+             colspec = nodes.colspec(colwidth=colwidth)
+             # FIXME: It seems, that the stub method only works well in the
+-            # absence of rowspan (observed by the html buidler, the docutils-xml
++            # absence of rowspan (observed by the html builder, the docutils-xml
+             # build seems OK).  This is not extraordinary, because there exists
+             # no table directive (except *this* flat-table) which allows to
+             # define coexistent of rowspan and stubs (there was no use-case
+--
+2.30.2
 
