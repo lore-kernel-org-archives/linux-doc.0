@@ -2,122 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C6B4C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 08:45:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6DB5C433E6
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 09:18:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5B3AA64F2B
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 08:45:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 81DF164F41
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 09:18:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229578AbhCQIpX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Mar 2021 04:45:23 -0400
-Received: from m32-153.88.com ([43.250.32.153]:64383 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229505AbhCQIpU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Mar 2021 04:45:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=0pY40MTBe8RYcz4skgu317roYX0EzL29bB5Pq
-        wQHnM0=; b=XOrNMOaazBMBJmSlMvRKFLSu+ReS0RL2aOdthinkLPRdv0/Lr1PGF
-        yzug70tfNsCub2coOuGeAx+4XAAMRyrv6EctD1IZ53hJ9QbREpztiyfXxVuLj93L
-        jFmEmy5nWKar9CkEldWXsSMJ2FYIImH6v5FKSX6yfzKnw8Hb4s/k24=
-Received: from mipc (unknown [120.238.248.129])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgCHEySZwVFg0QoyAA--.57852S2;
-        Wed, 17 Mar 2021 16:45:15 +0800 (CST)
-Date:   Wed, 17 Mar 2021 16:45:13 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v1 0/4] Add translations in zh_CN/admin-guide/
-Message-ID: <20210317084513.GB3057@mipc>
-References: <cover.1615950640.git.bobwxc@email.cn>
- <6bac3797-5773-a714-2514-465428465827@linux.alibaba.com>
+        id S229745AbhCQJSP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Mar 2021 05:18:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43854 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229708AbhCQJSF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Mar 2021 05:18:05 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 266D1C06174A;
+        Wed, 17 Mar 2021 02:18:05 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id k8so1020826wrc.3;
+        Wed, 17 Mar 2021 02:18:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=l4z7lY4hI142dOovIhBz7+RfJdWkutpjiBFHkQ9/Ugc=;
+        b=LJiZLEDrsQlbLch095SF3X/dmTK2IpbpbVpHGUAxjURXChtyjN45ul9VUWWsa0FThd
+         6AwExgL6x+x1DibDIBQZBViwrBX5cHKWpsYgd6m9dNyJ6TLmLwczOTC0UqGRWOVneGlV
+         5fFP8QLyuTaF7RbWhoaUkMiKHKFRD8tuV3l5WPMGvt/elFHB+CJwmhWcTa0mAZ4IoTNT
+         8riWznFLtlSeR/+BXE4GtGd0UAgozBiBTUIvKlIc3tG6KfpAyp4ZGWm5rw3o86/+6k3R
+         M8uXJNQRraEpfmRzB8ZtugL6Kb51roPZjfSodcjUVYqEde86d+Hql5/zMNpmOe7VhiJ8
+         h+Hw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=l4z7lY4hI142dOovIhBz7+RfJdWkutpjiBFHkQ9/Ugc=;
+        b=kq64nn6bqWYOtLHHLcGuLwzU8/2KYxgqIEqZD9WmfyMmZbYIkeeYAQXN/nN7HWYWMp
+         5IVxTkeYpdfdOD6t/3NYLx8dru3FFp81NtHnGKInXiYFggcX1kWj/oNqsts8vnNIBfbP
+         NCzgDgUrTWyb69guIk5450BLTYuUEIe8oioFJ3/2BBbkC6GkiAgy90z7unse5PRv/W3C
+         G0WyhcIFPyMnL8g8aFVDRN/VzeH3MUfHhM4Bk7u/Xsii5TRnG83iwloDdIBBwdLxoUfS
+         tKRP262+SMptHbd1xLGVpybycJI2iBRuJTXghM4+Nk3K+FLtLppbuIcUGqusT0IixPkB
+         AkKg==
+X-Gm-Message-State: AOAM531+dvf3/Kuo9d/XhvXcVaJ4yqteIEgVkjb+Ph4stPGSKd9o5Mu7
+        rwOvkfX61g1IsjuHDTGB0xo=
+X-Google-Smtp-Source: ABdhPJxuFNcXDJVAk2cwkK0X/n9SZAKsJQJ6VpBnv6zbLYXlB/zNrwu2rYXa+mhFZM3cGs78y3vWwg==
+X-Received: by 2002:adf:ee4f:: with SMTP id w15mr3297179wro.199.1615972683925;
+        Wed, 17 Mar 2021 02:18:03 -0700 (PDT)
+Received: from gmail.com (54033286.catv.pool.telekom.hu. [84.3.50.134])
+        by smtp.gmail.com with ESMTPSA id h10sm24764669wrp.22.2021.03.17.02.18.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Mar 2021 02:18:03 -0700 (PDT)
+Sender: Ingo Molnar <mingo.kernel.org@gmail.com>
+Date:   Wed, 17 Mar 2021 10:18:00 +0100
+From:   Ingo Molnar <mingo@kernel.org>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v23 00/28] Control-flow Enforcement: Shadow Stack
+Message-ID: <20210317091800.GA1461644@gmail.com>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316211552.GU4746@worktop.programming.kicks-ass.net>
+ <90e453ee-377b-0342-55f9-9412940262f2@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6bac3797-5773-a714-2514-465428465827@linux.alibaba.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgCHEySZwVFg0QoyAA--.57852S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uFy7ur15XrWxZFWrGr1xKrg_yoW8KFW3pa
-        yvkFyFg3Z7AFnxG397Wr47Ga12yF48Zws8G34fXw18Kwn5AF4Dtr1jgr42g398ur1rta4f
-        ArWYqF98CryjyrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgSb7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
-        z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0x
-        vYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_
-        Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkIecxEwVAFwVW8ZwCF04
-        k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j
-        6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
-        AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
-        2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
-        C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kfnx
-        nUUI43ZEXa7IUjbo7tUUUUU==
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+In-Reply-To: <90e453ee-377b-0342-55f9-9412940262f2@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 17, 2021 at 03:26:46PM +0800, Alex Shi wrote:
-> Good work, xiangcheng,
-> 
-> Just why your patchset dispersed in different series?
-> Could you put them together by 'git send-email' or
-> by other email clients? That could help a lot for
-> patchset pickup.
->
-Ahh, yes. Sorry for that. The 'In-Reply-To' head is corrcet but
-'Reference' head got in to mess. 
-I tried to give a reference to the previous version, but seems 
-not good even worse. Won't do that any more.
-Maybe a new version tomorrow or late more beautiful and bring 
-another translation.
 
-Thanks
-Wu X.C.
-> 
-> 
-> 在 2021/3/17 下午12:32, Wu XiangCheng 写道:
-> > Hi all,
-> > 
-> > This set of patches aims to add some translations in zh_CN/admin-guide/ .
-> > 
-> > - V1
-> >   - Re-manage the patch thread 
-> >   - Add zh_CN/admin-guide/security-bugs.rst
-> >   - Modify one word in [Patch 3/4] under Alex Shi's suggestion
-> >   - Pick Alex Shi's Reviewed-by tag for [Patch 1~2/4]
-> > 
-> > - V0
-> >   - Add zh_CN/admin-guide/reporting-issues.rst
-> >     <https://lore.kernel.org/linux-doc/20210315110119.GA9524@mipc/>
-> >   - Add zh_CN/admin-guide/bug-bisect.rst
-> >     <https://lore.kernel.org/linux-doc/b032e8ab75e91b37ae88f2c80102ab6dde1bfa45.1615909052.git.bobwxc@email.cn/>
-> >   - Add zh_CN/admin-guide/bug-hunting.rst
-> >     <https://lore.kernel.org/linux-doc/20210315110119.GA9524@mipc/>
-> > 
-> > Thanks!
-> > 
-> > Wu XiangCheng (4):
-> >   docs/zh_CN: Add zh_CN/admin-guide/reporting-issues
-> >   docs/zh_CN: Add zh_CN/admin-guide/bug-bisect.rst
-> >   docs/zh_CN: Add zh_CN/admin-guide/bug-hunting.rst
-> >   docs/zh_CN: Add zh_CN/admin-guide/security-bugs.rst
-> > 
-> >  .../zh_CN/admin-guide/bug-bisect.rst          |   81 ++
-> >  .../zh_CN/admin-guide/bug-hunting.rst         |  340 +++++
-> >  .../translations/zh_CN/admin-guide/index.rst  |   11 +-
-> >  .../zh_CN/admin-guide/reporting-issues.rst    | 1269 +++++++++++++++++
-> >  .../zh_CN/admin-guide/security-bugs.rst       |   74 +
-> >  5 files changed, 1772 insertions(+), 3 deletions(-)
-> >  create mode 100644 Documentation/translations/zh_CN/admin-guide/bug-bisect.rst
-> >  create mode 100644 Documentation/translations/zh_CN/admin-guide/bug-hunting.rst
-> >  create mode 100644 Documentation/translations/zh_CN/admin-guide/reporting-issues.rst
-> >  create mode 100644 Documentation/translations/zh_CN/admin-guide/security-bugs.rst
-> > 
+* Yu, Yu-cheng <yu-cheng.yu@intel.com> wrote:
 
+> On 3/16/2021 2:15 PM, Peter Zijlstra wrote:
+> > On Tue, Mar 16, 2021 at 08:10:26AM -0700, Yu-cheng Yu wrote:
+> > > Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+> > > return/jump-oriented programming attacks.  Details are in "Intel 64 and
+> > > IA-32 Architectures Software Developer's Manual" [1].
+> > > 
+> > > CET can protect applications and the kernel.  This series enables only
+> > > application-level protection, and has three parts:
+> > > 
+> > >    - Shadow stack [2],
+> > >    - Indirect branch tracking [3], and
+> > >    - Selftests [4].
+> > 
+> > CET is marketing; afaict SS and IBT are 100% independent and there's no
+> > reason what so ever to have them share any code, let alone a Kconfig
+> > knob.
+> 
+> We used to have shadow stack and ibt under separate Kconfig options, but in
+> a few places they actually share same code path, such as the XSAVES
+> supervisor states and ELF header for example.  Anyways I will be happy to
+> make changes again if there is agreement.
+
+I was look at:
+
+  x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
+
+didn't see any IBT logic - it's essentially all shadow stack state.
+
+Which is not surprising, forward call edge integrity protection (IBT) 
+requires very little state, does it?
+
+With IBT there's no nesting, no stack - the IBT state machine 
+basically requires the next instruction to be and ENDBR instruction, 
+and that's essentially it, right?
+
+Thanks,
+
+	Ingo
