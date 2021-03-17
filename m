@@ -2,92 +2,69 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E31FC433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 12:10:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71560C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 13:29:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE14064F70
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 12:10:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 19D2164F44
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 13:29:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229490AbhCQMJd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Mar 2021 08:09:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21096 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229769AbhCQMJK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Mar 2021 08:09:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1615982949;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=cdxgnyPpbT7juxUHUxOAe8mva0KlF49Q1H6rVeC+7nA=;
-        b=iJXOoWxpmGluB/Xs8WAFtncxAL7VGEkr/jgLSQNaneX/mNatF2kuwijYYj/SGN1YLccqBR
-        Wa1EN2gDJNvOBerqOqBgRGVx0GZt1qf+lmFot9HiHMJoM3uX0HPiubAfnpKCe8dPuGW77A
-        Rmyr1Kk6XEsfdA70ozjwDmRGv/Eo0TQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-YxuPsa8mNl-vROq4a299oA-1; Wed, 17 Mar 2021 08:09:05 -0400
-X-MC-Unique: YxuPsa8mNl-vROq4a299oA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        id S231161AbhCQN2u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Mar 2021 09:28:50 -0400
+Received: from ms.lwn.net ([45.79.88.28]:59972 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230443AbhCQN2d (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 17 Mar 2021 09:28:33 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5337483DD25;
-        Wed, 17 Mar 2021 12:09:03 +0000 (UTC)
-Received: from gondolin (ovpn-113-255.ams2.redhat.com [10.36.113.255])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id AA5312B3BB;
-        Wed, 17 Mar 2021 12:08:54 +0000 (UTC)
-Date:   Wed, 17 Mar 2021 13:08:52 +0100
-From:   Cornelia Huck <cohuck@redhat.com>
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Alex Williamson <alex.williamson@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Diana Craciun <diana.craciun@oss.nxp.com>,
-        Eric Auger <eric.auger@redhat.com>, kvm@vger.kernel.org,
-        Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, "Raj, Ashok" <ashok.raj@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH v2 14/14] vfio: Remove device_data from the vfio bus
- driver API
-Message-ID: <20210317130852.448dd019.cohuck@redhat.com>
-In-Reply-To: <14-v2-20d933792272+4ff-vfio1_jgg@nvidia.com>
-References: <0-v2-20d933792272+4ff-vfio1_jgg@nvidia.com>
-        <14-v2-20d933792272+4ff-vfio1_jgg@nvidia.com>
-Organization: Red Hat GmbH
+        by ms.lwn.net (Postfix) with ESMTPSA id EF5CC2B0;
+        Wed, 17 Mar 2021 13:28:32 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EF5CC2B0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1615987713; bh=a8k7q9FHBn/dR7hbs0CE3lJvCgLF42ArBIQpProJ5C8=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=nKl0m4P33MzoCZC2DAZtGfaXkI+W1U5vXcY1kuQ4qe7hMPpY7sBWDcP7jxNZ3g3vG
+         ysIwtPldMqSa54wScq3CcbpaIYSw538fIDsS9cYAqIyya3iytWhtBNyjbYwakTdakk
+         G774Fh6Uh2MglngJTvPGU9Lk6FcIB+FfsXvper7Fh76vgZ0X8lAxauwdLW5/NJajii
+         BjMmzh0N8a3XwlQxh+rAAgX/PhjsOk6BdmWASHc75be+ZYibtbDPZuzPQnhOtUp5Bq
+         Np32xJ9S5rnHOByY4nFqGffpcetzqc5GrAsV734U4v+iiJg4ftXiLk7N2qwojdAQ2W
+         G7akImi5l5Y4w==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Alex Shi <alex.shi@linux.alibaba.com>, "Wu X.C." <bobwxc@email.cn>
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] docs/zh_CN: Add zh_CN/admin-guide/bug-bisect.rst
+In-Reply-To: <8beea937-5df0-27a8-1b38-50c8f9cea3dd@linux.alibaba.com>
+References: <b032e8ab75e91b37ae88f2c80102ab6dde1bfa45.1615909052.git.bobwxc@email.cn>
+ <3311b919-2f86-af05-97fc-ce1d4db277f9@linux.alibaba.com>
+ <20210317024944.GA20193@mipc>
+ <8beea937-5df0-27a8-1b38-50c8f9cea3dd@linux.alibaba.com>
+Date:   Wed, 17 Mar 2021 07:28:32 -0600
+Message-ID: <871rcdykn3.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 12 Mar 2021 20:56:06 -0400
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+Alex Shi <alex.shi@linux.alibaba.com> writes:
 
-> There are no longer any users, so it can go away. Everything is using
-> container_of now.
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  Documentation/driver-api/vfio.rst            |  3 +--
->  drivers/vfio/fsl-mc/vfio_fsl_mc.c            |  5 +++--
->  drivers/vfio/mdev/vfio_mdev.c                |  2 +-
->  drivers/vfio/pci/vfio_pci.c                  |  2 +-
->  drivers/vfio/platform/vfio_platform_common.c |  2 +-
->  drivers/vfio/vfio.c                          | 12 +-----------
->  include/linux/vfio.h                         |  4 +---
->  7 files changed, 9 insertions(+), 21 deletions(-)
+> =E5=9C=A8 2021/3/17 =E4=B8=8A=E5=8D=8810:49, Wu X.C. =E5=86=99=E9=81=93:
+>> On Wed, Mar 17, 2021 at 10:29:21AM +0800, Alex Shi wrote:
+>>> LGTM.
+>>>
+>> Thanks!
+>> Is this could be regarded as a review-by?
+>
+> Yes, you could say so for me.
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Please be explicit when offering tags - we don't want people (including
+me) making them up...
 
+Thanks,
+
+jon
