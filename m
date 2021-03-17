@@ -7,35 +7,35 @@ X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 957FAC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 07:27:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BF26C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 07:29:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4ED5364F17
-	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 07:27:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E71764F79
+	for <linux-doc@archiver.kernel.org>; Wed, 17 Mar 2021 07:29:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229675AbhCQH1Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Mar 2021 03:27:25 -0400
-Received: from out30-132.freemail.mail.aliyun.com ([115.124.30.132]:48712 "EHLO
-        out30-132.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229707AbhCQH1M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Mar 2021 03:27:12 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R831e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=3;SR=0;TI=SMTPD_---0USESnvz_1615966029;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0USESnvz_1615966029)
+        id S229541AbhCQH2d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Mar 2021 03:28:33 -0400
+Received: from out30-133.freemail.mail.aliyun.com ([115.124.30.133]:56172 "EHLO
+        out30-133.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229978AbhCQH2C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Mar 2021 03:28:02 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R201e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=alimailimapcm10staff010182156082;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=3;SR=0;TI=SMTPD_---0USEIZwP_1615966076;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0USEIZwP_1615966076)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 17 Mar 2021 15:27:10 +0800
-Subject: Re: [PATCH v1 4/4] docs/zh_CN: Add
- zh_CN/admin-guide/security-bugs.rst
+          Wed, 17 Mar 2021 15:27:57 +0800
+Subject: Re: [PATCH v1 3/4] docs/zh_CN: Add zh_CN/admin-guide/bug-hunting.rst
 To:     Wu XiangCheng <bobwxc@email.cn>
 Cc:     corbet@lwn.net, linux-doc@vger.kernel.org
 References: <cover.1615950640.git.bobwxc@email.cn>
- <2552eb0fb4ddea81f80d020c69b7b7a3699dd93a.1615950640.git.bobwxc@email.cn>
+ <20210315110119.GA9524@mipc>
+ <dad9f26205e9cae7254ed21c796688851ca5ebfd.1615950640.git.bobwxc@email.cn>
 From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <24a5fe8f-deab-029a-4526-ef7514c31f31@linux.alibaba.com>
-Date:   Wed, 17 Mar 2021 15:27:09 +0800
+Message-ID: <b1f35228-e911-9349-8c16-ba785c37d6e4@linux.alibaba.com>
+Date:   Wed, 17 Mar 2021 15:27:56 +0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
  Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <2552eb0fb4ddea81f80d020c69b7b7a3699dd93a.1615950640.git.bobwxc@email.cn>
+In-Reply-To: <dad9f26205e9cae7254ed21c796688851ca5ebfd.1615950640.git.bobwxc@email.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -44,113 +44,380 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 LGTM.
 
-
 在 2021/3/17 下午12:34, Wu XiangCheng 写道:
-> Add translation zh_CN/admin-guide/security-bugs.rst, and link it to
+> Add translation zh_CN/admin-guide/bug-hunting.rst, and link it to
 > zh_CN/admin-guide/index.rst while clean its todo entry.
 > 
 > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
 > ---
->  .../translations/zh_CN/admin-guide/index.rst  |  2 +-
->  .../zh_CN/admin-guide/security-bugs.rst       | 74 +++++++++++++++++++
->  2 files changed, 75 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/translations/zh_CN/admin-guide/security-bugs.rst
+>  .../zh_CN/admin-guide/bug-hunting.rst         | 340 ++++++++++++++++++
+>  .../translations/zh_CN/admin-guide/index.rst  |   2 +-
+>  2 files changed, 341 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/zh_CN/admin-guide/bug-hunting.rst
 > 
-> diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
-> index d487e8adb804..335019901b1d 100644
-> --- a/Documentation/translations/zh_CN/admin-guide/index.rst
-> +++ b/Documentation/translations/zh_CN/admin-guide/index.rst
-> @@ -38,11 +38,11 @@ Todolist:
->     reporting-issues
->     bug-hunting
->     bug-bisect
-> +   security-bugs
->  
->  Todolist:
->  
->     reporting-bugs
-> -   security-bugs
->     tainted-kernels
->     ramoops
->     dynamic-debug-howto
-> diff --git a/Documentation/translations/zh_CN/admin-guide/security-bugs.rst b/Documentation/translations/zh_CN/admin-guide/security-bugs.rst
+> diff --git a/Documentation/translations/zh_CN/admin-guide/bug-hunting.rst b/Documentation/translations/zh_CN/admin-guide/bug-hunting.rst
 > new file mode 100644
-> index 000000000000..b8120391755d
+> index 000000000000..decb9b26d2f1
 > --- /dev/null
-> +++ b/Documentation/translations/zh_CN/admin-guide/security-bugs.rst
-> @@ -0,0 +1,74 @@
+> +++ b/Documentation/translations/zh_CN/admin-guide/bug-hunting.rst
+> @@ -0,0 +1,340 @@
 > +.. include:: ../disclaimer-zh_CN.rst
 > +
-> +:Original: :doc:`../../../admin-guide/security-bugs`
+> +:Original: :doc:`../../../admin-guide/bug-hunting`
 > +
 > +:译者:
 > +
 > + 吴想成 Wu XiangCheng <bobwxc@email.cn>
 > +
-> +安全缺陷
+> +追踪缺陷
 > +=========
 > +
-> +Linux内核开发人员非常重视安全性。因此我们想知道何时发现了安全漏洞，以便尽快
-> +修复和披露。请向Linux内核安全团队报告安全漏洞。
+> +内核错误报告通常附带如下堆栈转储::
 > +
-> +联络
-> +-----
+> +	------------[ cut here ]------------
+> +	WARNING: CPU: 1 PID: 28102 at kernel/module.c:1108 module_put+0x57/0x70
+> +	Modules linked in: dvb_usb_gp8psk(-) dvb_usb dvb_core nvidia_drm(PO) nvidia_modeset(PO) snd_hda_codec_hdmi snd_hda_intel snd_hda_codec snd_hwdep snd_hda_core snd_pcm snd_timer snd soundcore nvidia(PO) [last unloaded: rc_core]
+> +	CPU: 1 PID: 28102 Comm: rmmod Tainted: P        WC O 4.8.4-build.1 #1
+> +	Hardware name: MSI MS-7309/MS-7309, BIOS V1.12 02/23/2009
+> +	 00000000 c12ba080 00000000 00000000 c103ed6a c1616014 00000001 00006dc6
+> +	 c1615862 00000454 c109e8a7 c109e8a7 00000009 ffffffff 00000000 f13f6a10
+> +	 f5f5a600 c103ee33 00000009 00000000 00000000 c109e8a7 f80ca4d0 c109f617
+> +	Call Trace:
+> +	 [<c12ba080>] ? dump_stack+0x44/0x64
+> +	 [<c103ed6a>] ? __warn+0xfa/0x120
+> +	 [<c109e8a7>] ? module_put+0x57/0x70
+> +	 [<c109e8a7>] ? module_put+0x57/0x70
+> +	 [<c103ee33>] ? warn_slowpath_null+0x23/0x30
+> +	 [<c109e8a7>] ? module_put+0x57/0x70
+> +	 [<f80ca4d0>] ? gp8psk_fe_set_frontend+0x460/0x460 [dvb_usb_gp8psk]
+> +	 [<c109f617>] ? symbol_put_addr+0x27/0x50
+> +	 [<f80bc9ca>] ? dvb_usb_adapter_frontend_exit+0x3a/0x70 [dvb_usb]
+> +	 [<f80bb3bf>] ? dvb_usb_exit+0x2f/0xd0 [dvb_usb]
+> +	 [<c13d03bc>] ? usb_disable_endpoint+0x7c/0xb0
+> +	 [<f80bb48a>] ? dvb_usb_device_exit+0x2a/0x50 [dvb_usb]
+> +	 [<c13d2882>] ? usb_unbind_interface+0x62/0x250
+> +	 [<c136b514>] ? __pm_runtime_idle+0x44/0x70
+> +	 [<c13620d8>] ? __device_release_driver+0x78/0x120
+> +	 [<c1362907>] ? driver_detach+0x87/0x90
+> +	 [<c1361c48>] ? bus_remove_driver+0x38/0x90
+> +	 [<c13d1c18>] ? usb_deregister+0x58/0xb0
+> +	 [<c109fbb0>] ? SyS_delete_module+0x130/0x1f0
+> +	 [<c1055654>] ? task_work_run+0x64/0x80
+> +	 [<c1000fa5>] ? exit_to_usermode_loop+0x85/0x90
+> +	 [<c10013f0>] ? do_fast_syscall_32+0x80/0x130
+> +	 [<c1549f43>] ? sysenter_past_esp+0x40/0x6a
+> +	---[ end trace 6ebc60ef3981792f ]---
 > +
-> +可以通过电子邮件<security@kernel.org>联系Linux内核安全团队。这是一个安全人员
-> +的私有列表，他们将帮助验证错误报告并开发和发布修复程序。如果您已经有了一个
-> +修复，请将其包含在您的报告中，这样可以大大加快进程。安全团队可能会从区域维护
-> +人员那里获得额外的帮助，以理解和修复安全漏洞。
+> +这样的堆栈跟踪提供了足够的信息来识别内核源代码中发生错误的那一行。根据问题的
+> +严重性，它还可能包含 **“Oops”** 一词，比如::
 > +
-> +与任何缺陷一样，提供的信息越多，诊断和修复就越容易。如果您不清楚哪些信息有用，
-> +请查看“Documentation/translations/zh_CN/admin-guide/reporting-issues.rst”中
-> +概述的步骤。任何利用漏洞的攻击代码都非常有用，未经报告者同意不会对外发布，除
-> +非已经公开。
+> +	BUG: unable to handle kernel NULL pointer dereference at   (null)
+> +	IP: [<c06969d4>] iret_exc+0x7d0/0xa59
+> +	*pdpt = 000000002258a001 *pde = 0000000000000000
+> +	Oops: 0002 [#1] PREEMPT SMP
+> +	...
 > +
-> +请尽可能发送无附件的纯文本电子邮件。如果所有的细节都藏在附件里，那么就很难对
-> +一个复杂的问题进行上下文引用的讨论。把它想象成一个
-> +:doc:`常规的补丁提交 <../process/submitting-patches>` （即使你还没有补丁）：
-> +描述问题和影响，列出复现步骤，然后给出一个建议的解决方案，所有这些都是纯文本的。
+> +尽管有 **Oops** 或其他类型的堆栈跟踪，但通常需要找到出问题的行来识别和处理缺
+> +陷。在本章中，我们将参考“Oops”来了解需要分析的各种堆栈跟踪。
 > +
-> +披露和限制信息
+> +如果内核是用 ``CONFIG_DEBUG_INFO`` 编译的，那么可以使用文件：
+> +`scripts/decode_stacktrace.sh` 。
+> +
+> +链接的模块
+> +-----------
+> +
+> +受到污染或正在加载/卸载的模块用“（…）”标记，污染标志在
+> +`Documentation/admin-guide/tainted-kernels.rst` 文件中进行了描述，“正在被加
+> +载”用“+”标注，“正在被卸载”用“-”标注。
+> +
+> +
+> +Oops消息在哪？
 > +---------------
 > +
-> +安全列表不是公开渠道。为此，请参见下面的协作。
+> +通常，Oops文本由klogd从内核缓冲区读取，然后交给 ``syslogd`` ，后者将其写入
+> +syslog文件，通常是 ``/var/log/messages`` （取决于 ``/etc/syslog.conf`` ）。
+> +在使用systemd的系统上，它也可以由 ``journald`` 守护进程存储，并通过运行
+> +``journalctl`` 命令进行访问。
 > +
-> +一旦开发出了健壮的补丁，发布过程就开始了。对公开的缺陷的修复会立即发布。
+> +有时 ``klogd`` 会挂掉，这种情况下您可以运行 ``dmesg > file`` 从内核缓冲区
+> +读取数据并保存它。或者您可以 ``cat /proc/kmsg > file`` ，但是您必须适时
+> +中断以停止传输，因为 ``kmsg`` 是一个“永无止境的文件”。
 > +
-> +尽管我们倾向于在未公开缺陷的修复可用时即发布补丁，但应报告者或受影响方的请求，
-> +这可能会被推迟到发布过程开始后的7日内，如果根据缺陷的严重性需要更多的时间，
-> +则可额外延长到14天。推迟发布修复的唯一有效原因是为了适应QA的逻辑和需要发布
-> +协调的大规模部署。
+> +如果机器严重崩溃，无法输入命令或磁盘不可用，那还有三个选项：
 > +
-> +虽然可能与受信任的个人共享受限信息以开发修复，但未经报告者许可，此类信息不会
-> +与修复程序一起发布或发布在任何其他披露渠道上。这包括但不限于原始错误报告和
-> +后续讨论（如有）、漏洞、CVE信息或报告者的身份。
+> +(1) 手动复制屏幕上的文本，并在机器重新启动后输入。很难受，但这是突然崩溃下
+> +    唯一的选择。或者你可以用数码相机拍下屏幕——虽然不那么好，但总比什么都没
+> +    有好。如果消息滚动超出控制台顶部，使用更高分辨率（例如 ``vga=791`` ）
+> +    引导启动将允许您阅读更多文本。（警告：这需要 ``vesafb`` ，因此对“早期”
+> +    的Oppses没有帮助）
 > +
-> +换句话说，我们唯一感兴趣的是修复缺陷。提交给安全列表的所有其他资料以及对报告
-> +的任何后续讨论，即使在解除限制之后，也将永久保密。
+> +(2) 从串口终端启动（参见
+> +    :ref:`Documentation/admin-guide/serial-console.rst <serial_console>` ），
+> +    在另一台机器上运行调制解调器然后用你喜欢的通信程序捕获输出。
+> +    Minicom运行良好。
 > +
-> +协调
-> +------
+> +(3) 使用Kdump（参阅 Documentation/admin-guide/kdump/kdump.rst ），使用
+> +    Documentation/admin-guide/kdump/gdbmacros.txt 中的dmesg gdbmacro从旧内存
+> +    中提取内核环形缓冲区。
 > +
-> +对敏感缺陷（例如那些可能导致权限提升的缺陷）的修复可能需要与私有邮件列表
-> +<linux-distros@vs.openwall.org>进行协调，以便分发供应商做好准备，在公开披露
-> +上游补丁时发布一个已修复的内核。发行版将需要一些时间来测试建议的补丁，通常
-> +会要求至少几天的限制，而供应商更新发布更倾向于周二至周四。若合适，安全团队
-> +可以协助这种协调，或者报告者可以从一开始就包括linux发行版。在这种情况下，请
-> +记住在电子邮件主题行前面加上“[vs]”，如linux发行版wiki中所述：
-> +<http://oss-security.openwall.org/wiki/mailing-lists/distros#how-to-use-the-lists>。
+> +找到缺陷位置
+> +-------------
 > +
-> +CVE分配
-> +--------
+> +如果你能指出缺陷在内核源代码中的位置，则报告缺陷的效果会非常好。这有两种方法。
+> +通常来说使用 ``gdb`` 会比较容易，不过内核需要用调试信息来预编译。
 > +
-> +安全团队通常不分配CVE，我们也不需要它们来进行报告或修复，因为这会使过程不必
-> +要的复杂化，并可能耽误缺陷处理。如果报告者希望在公开披露之前分配一个CVE编号，
-> +他们需要联系上述的私有linux-distros列表。当在提供补丁之前已有这样的CVE编号时，
-> +如报告者愿意，最好在提交消息中提及它。
+> +gdb
+> +^^^^
 > +
-> +保密协议
+> +GNU 调试器（GNU debugger， ``gdb`` ）是从 ``vmlinux`` 文件中找出OOPS的确切
+> +文件和行号的最佳方法。
+> +
+> +在使用 ``CONFIG_DEBUG_INFO`` 编译的内核上使用gdb效果最好。可通过运行以下命令
+> +进行设置::
+> +
+> +  $ ./scripts/config -d COMPILE_TEST -e DEBUG_KERNEL -e DEBUG_INFO
+> +
+> +在用 ``CONFIG_DEBUG_INFO`` 编译的内核上，你可以直接从OOPS复制EIP值::
+> +
+> + EIP:    0060:[<c021e50e>]    Not tainted VLI
+> +
+> +并使用GDB来将其翻译成可读形式::
+> +
+> +  $ gdb vmlinux
+> +  (gdb) l *0xc021e50e
+> +
+> +如果没有启用 ``CONFIG_DEBUG_INFO`` ，则使用OOPS的函数偏移::
+> +
+> + EIP is at vt_ioctl+0xda8/0x1482
+> +
+> +并在启用 ``CONFIG_DEBUG_INFO`` 的情况下重新编译内核::
+> +
+> +  $ ./scripts/config -d COMPILE_TEST -e DEBUG_KERNEL -e DEBUG_INFO
+> +  $ make vmlinux
+> +  $ gdb vmlinux
+> +  (gdb) l *vt_ioctl+0xda8
+> +  0x1888 is in vt_ioctl (drivers/tty/vt/vt_ioctl.c:293).
+> +  288	{
+> +  289		struct vc_data *vc = NULL;
+> +  290		int ret = 0;
+> +  291
+> +  292		console_lock();
+> +  293		if (VT_BUSY(vc_num))
+> +  294			ret = -EBUSY;
+> +  295		else if (vc_num)
+> +  296			vc = vc_deallocate(vc_num);
+> +  297		console_unlock();
+> +
+> +或者若您想要更详细的显示::
+> +
+> +  (gdb) p vt_ioctl
+> +  $1 = {int (struct tty_struct *, unsigned int, unsigned long)} 0xae0 <vt_ioctl>
+> +  (gdb) l *0xae0+0xda8
+> +
+> +您也可以使用对象文件作为替代::
+> +
+> +  $ make drivers/tty/
+> +  $ gdb drivers/tty/vt/vt_ioctl.o
+> +  (gdb) l *vt_ioctl+0xda8
+> +
+> +如果你有调用跟踪，类似::
+> +
+> +     Call Trace:
+> +      [<ffffffff8802c8e9>] :jbd:log_wait_commit+0xa3/0xf5
+> +      [<ffffffff810482d9>] autoremove_wake_function+0x0/0x2e
+> +      [<ffffffff8802770b>] :jbd:journal_stop+0x1be/0x1ee
+> +      ...
+> +
+> +这表明问题可能在 :jbd: 模块中。您可以在gdb中加载该模块并列出相关代码::
+> +
+> +  $ gdb fs/jbd/jbd.ko
+> +  (gdb) l *log_wait_commit+0xa3
+> +
+> +.. note::
+> +
+> +     您还可以对堆栈跟踪处的任何函数调用执行相同的操作，例如::
+> +
+> +	 [<f80bc9ca>] ? dvb_usb_adapter_frontend_exit+0x3a/0x70 [dvb_usb]
+> +
+> +     上述调用发生的位置可以通过以下方式看到::
+> +
+> +	$ gdb drivers/media/usb/dvb-usb/dvb-usb.o
+> +	(gdb) l *dvb_usb_adapter_frontend_exit+0x3a
+> +
+> +objdump
+> +^^^^^^^^
+> +
+> +要调试内核，请使用objdump并从崩溃输出中查找十六进制偏移，以找到有效的代码/汇
+> +编行。如果没有调试符号，您将看到所示例程的汇编程序代码，但是如果内核有调试
+> +符号，C代码也将可见（调试符号可以在内核配置菜单的hacking项中启用）。例如::
+> +
+> +    $ objdump -r -S -l --disassemble net/dccp/ipv4.o
+> +
+> +.. note::
+> +
+> +   您需要处于内核树的顶层以便此获得您的C文件。
+> +
+> +如果您无法访问源代码，仍然可以使用以下方法调试一些崩溃转储（如Dave Miller的
+> +示例崩溃转储输出所示）::
+> +
+> +     EIP is at 	+0x14/0x4c0
+> +      ...
+> +     Code: 44 24 04 e8 6f 05 00 00 e9 e8 fe ff ff 8d 76 00 8d bc 27 00 00
+> +     00 00 55 57  56 53 81 ec bc 00 00 00 8b ac 24 d0 00 00 00 8b 5d 08
+> +     <8b> 83 3c 01 00 00 89 44  24 14 8b 45 28 85 c0 89 44 24 18 0f 85
+> +
+> +     Put the bytes into a "foo.s" file like this:
+> +
+> +            .text
+> +            .globl foo
+> +     foo:
+> +            .byte  .... /* bytes from Code: part of OOPS dump */
+> +
+> +     Compile it with "gcc -c -o foo.o foo.s" then look at the output of
+> +     "objdump --disassemble foo.o".
+> +
+> +     Output:
+> +
+> +     ip_queue_xmit:
+> +         push       %ebp
+> +         push       %edi
+> +         push       %esi
+> +         push       %ebx
+> +         sub        $0xbc, %esp
+> +         mov        0xd0(%esp), %ebp        ! %ebp = arg0 (skb)
+> +         mov        0x8(%ebp), %ebx         ! %ebx = skb->sk
+> +         mov        0x13c(%ebx), %eax       ! %eax = inet_sk(sk)->opt
+> +
+> +`scripts/decodecode` 文件可以用来自动完成大部分工作，这取决于正在调试的CPU
+> +体系结构。
+> +
+> +报告缺陷
 > +---------
 > +
-> +Linux内核安全团队不是一个正式的机构实体，因此无法签订任何保密协议。
+> +一旦你通过定位缺陷找到了其发生的地方，你可以尝试自己修复它或者向上游报告它。
+> +
+> +为了向上游报告，您应该找出用于开发受影响代码的邮件列表。这可以使用 ``get_maintainer.pl`` 。
+> +
+> +
+> +例如，您在gspca的sonixj.c文件中发现一个缺陷，则可以通过以下方法找到它的维护者::
+> +
+> +	$ ./scripts/get_maintainer.pl -f drivers/media/usb/gspca/sonixj.c
+> +	Hans Verkuil <hverkuil@xs4all.nl> (odd fixer:GSPCA USB WEBCAM DRIVER,commit_signer:1/1=100%)
+> +	Mauro Carvalho Chehab <mchehab@kernel.org> (maintainer:MEDIA INPUT INFRASTRUCTURE (V4L/DVB),commit_signer:1/1=100%)
+> +	Tejun Heo <tj@kernel.org> (commit_signer:1/1=100%)
+> +	Bhaktipriya Shridhar <bhaktipriya96@gmail.com> (commit_signer:1/1=100%,authored:1/1=100%,added_lines:4/4=100%,removed_lines:9/9=100%)
+> +	linux-media@vger.kernel.org (open list:GSPCA USB WEBCAM DRIVER)
+> +	linux-kernel@vger.kernel.org (open list)
+> +
+> +请注意它将指出：
+> +
+> +- 最后接触源代码的开发人员（如果这是在git树中完成的）。在上面的例子中是Tejun
+> +  和Bhaktipriya（在这个特定的案例中，没有人真正参与这个文件的开发）；
+> +- 驱动维护人员（Hans Verkuil）；
+> +- 子系统维护人员（Mauro Carvalho Chehab）；
+> +- 驱动程序和/或子系统邮件列表（linux-media@vger.kernel.org）；
+> +- Linux内核邮件列表（linux-kernel@vger.kernel.org）。
+> +
+> +通常，修复缺陷的最快方法是将它报告给用于开发相关代码的邮件列表（linux-media
+> +ML），抄送驱动程序维护者（Hans）。
+> +
+> +如果你完全不知道该把报告寄给谁，且 ``get_maintainer.pl`` 也没有提供任何有用
+> +的信息，请发送到linux-kernel@vger.kernel.org。
+> +
+> +感谢您的帮助，这使Linux尽可能稳定:-)
+> +
+> +修复缺陷
+> +---------
+> +
+> +如果你懂得编程，你不仅可以通过报告错误来帮助我们，还可以提供一个解决方案。
+> +毕竟，开源就是分享你的工作，你不想因为你的天才而被认可吗？
+> +
+> +如果你决定这样做，请在制定解决方案后将其提交到上游。
+> +
+> +请务必阅读
+> +:ref:`Documentation/process/submitting-patches.rst <submittingpatches>` ，
+> +以帮助您的代码被接受。
+> +
+> +
+> +---------------------------------------------------------------------------
+> +
+> +用 ``klogd`` 进行Oops跟踪的注意事项
+> +------------------------------------
+> +
+> +为了帮助Linus和其他内核开发人员， ``klogd`` 对保护故障的处理提供了大量支持。
+> +为了完整支持地址解析，至少应该使用 ``sysklogd`` 包的1.3-pl3版本。
+> +
+> +当发生保护故障时， ``klogd`` 守护进程会自动将内核日志消息中的重要地址转换为
+> +它们的等效符号。然后通过 ``klogd`` 使用的任何报告机制来转发这个已翻译的内核
+> +消息。保护错误消息可以直接从消息文件中剪切出来并转发给内核开发人员。
+> +
+> +``klogd`` 执行两种类型的地址解析，静态翻译和动态翻译。静态翻译使用System.map
+> +文件。为了进行静态转换， ``klogd`` 守护进程必须能够在守护进程初始化时找到系
+> +统映射文件。有关 ``klogd`` 如何搜索映射文件的信息，请参见klogd手册页。
+> +
+> +当使用内核可加载模块时，动态地址转换非常重要。由于内核模块的内存是从内核的
+> +动态内存池中分配的，因此无论是模块的开头还是模块中的函数和符号都没有固定的
+> +位置。
+> +
+> +内核支持系统调用，允许程序确定加载哪些模块及其在内存中的位置。klogd守护进程
+> +使用这些系统调用构建了一个符号表，可用于调试可加载内核模块中发生的保护错误。
+> +
+> +klogd至少会提供产生保护故障的模块的名称。如果可加载模块的开发人员选择从模块
+> +导出符号信息，则可能会有其他可用的符号信息。
+> +
+> +由于内核模块环境可以是动态的，因此当模块环境发生变化时，必须有一种通知
+> +``klogd`` 守护进程的机制。有一些可用的命令行选项允许klogd向当前正在执行的守
+> +护进程发出信号示意应该刷新符号信息。有关更多信息，请参阅 ``klogd`` 手册页。
+> +
+> +sysklogd发行版附带了一个补丁，它修改了 ``modules-2.0.0`` 包，以便在加载或
+> +卸载模块时自动向klogd发送信号。应用此补丁基本上可无缝支持调试内核可加载模块
+> +发生的保护故障。
+> +
+> +以下是 ``klogd`` 处理的可加载模块中的保护故障示例::
+> +
+> +	Aug 29 09:51:01 blizard kernel: Unable to handle kernel paging request at virtual address f15e97cc
+> +	Aug 29 09:51:01 blizard kernel: current->tss.cr3 = 0062d000, %cr3 = 0062d000
+> +	Aug 29 09:51:01 blizard kernel: *pde = 00000000
+> +	Aug 29 09:51:01 blizard kernel: Oops: 0002
+> +	Aug 29 09:51:01 blizard kernel: CPU:    0
+> +	Aug 29 09:51:01 blizard kernel: EIP:    0010:[oops:_oops+16/3868]
+> +	Aug 29 09:51:01 blizard kernel: EFLAGS: 00010212
+> +	Aug 29 09:51:01 blizard kernel: eax: 315e97cc   ebx: 003a6f80   ecx: 001be77b   edx: 00237c0c
+> +	Aug 29 09:51:01 blizard kernel: esi: 00000000   edi: bffffdb3   ebp: 00589f90   esp: 00589f8c
+> +	Aug 29 09:51:01 blizard kernel: ds: 0018   es: 0018   fs: 002b   gs: 002b   ss: 0018
+> +	Aug 29 09:51:01 blizard kernel: Process oops_test (pid: 3374, process nr: 21, stackpage=00589000)
+> +	Aug 29 09:51:01 blizard kernel: Stack: 315e97cc 00589f98 0100b0b4 bffffed4 0012e38e 00240c64 003a6f80 00000001
+> +	Aug 29 09:51:01 blizard kernel:        00000000 00237810 bfffff00 0010a7fa 00000003 00000001 00000000 bfffff00
+> +	Aug 29 09:51:01 blizard kernel:        bffffdb3 bffffed4 ffffffda 0000002b 0007002b 0000002b 0000002b 00000036
+> +	Aug 29 09:51:01 blizard kernel: Call Trace: [oops:_oops_ioctl+48/80] [_sys_ioctl+254/272] [_system_call+82/128]
+> +	Aug 29 09:51:01 blizard kernel: Code: c7 00 05 00 00 00 eb 08 90 90 90 90 90 90 90 90 89 ec 5d c3
+> +
+> +---------------------------------------------------------------------------
+> +
+> +::
+> +
+> +  Dr. G.W. Wettstein           Oncology Research Div. Computing Facility
+> +  Roger Maris Cancer Center    INTERNET: greg@wind.rmcc.com
+> +  820 4th St. N.
+> +  Fargo, ND  58122
+> +  Phone: 701-234-7556
+> diff --git a/Documentation/translations/zh_CN/admin-guide/index.rst b/Documentation/translations/zh_CN/admin-guide/index.rst
+> index 7dc3540629f0..d487e8adb804 100644
+> --- a/Documentation/translations/zh_CN/admin-guide/index.rst
+> +++ b/Documentation/translations/zh_CN/admin-guide/index.rst
+> @@ -36,13 +36,13 @@ Todolist:
+>     :maxdepth: 1
+>  
+>     reporting-issues
+> +   bug-hunting
+>     bug-bisect
+>  
+>  Todolist:
+>  
+>     reporting-bugs
+>     security-bugs
+> -   bug-hunting
+>     tainted-kernels
+>     ramoops
+>     dynamic-debug-howto
 > 
