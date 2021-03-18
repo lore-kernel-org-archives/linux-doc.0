@@ -2,169 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80A9CC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:06:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E86F3C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:19:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D5EE64F2B
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:06:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C323664F30
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:19:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232753AbhCRTGV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 15:06:21 -0400
-Received: from mga14.intel.com ([192.55.52.115]:40804 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231590AbhCRTGA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Mar 2021 15:06:00 -0400
-IronPort-SDR: xKOc06sQKVp6/FUGF8fGeXIx5jd4M5nHvgocyvCnyt5yP/Hf/oIGqfRgh4M0Iy98GPknM62ctr
- dEJvILz/Iv2A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9927"; a="189128303"
-X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; 
-   d="scan'208";a="189128303"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2021 12:06:00 -0700
-IronPort-SDR: hqYeyuc91+tiTRuC7ikztwLhEgKS2tALLRwJSbZ64YO5K2tylKZBX7tsRUFeWimmlOPHqcL6yO
- P5Jcq/OKHeVg==
-X-IronPort-AV: E=Sophos;i="5.81,259,1610438400"; 
-   d="scan'208";a="389358155"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.36.121]) ([10.209.36.121])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2021 12:05:58 -0700
-Subject: Re: [PATCH v23 22/28] x86/cet/shstk: User-mode shadow stack support
-To:     Borislav Petkov <bp@alien8.de>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        id S229958AbhCRTSl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 15:18:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33354 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232764AbhCRTSe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 15:18:34 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77B79C06174A;
+        Thu, 18 Mar 2021 12:18:34 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id gb6so3455970pjb.0;
+        Thu, 18 Mar 2021 12:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=u/NaYdFXtlzFcS9g4jr5fVZB7FIesAp70iyBKhysIZI=;
+        b=S0Zl/LTLeEBUdhTC+jeUj9e95tgW/RcRt/AX0TMM2jIpbbW2Y7vJrG074gPvuuSLxo
+         7VtIgGJt6nwy82W8O8lxgolf2Ck3hN+HHVro9iciIAaM2LjxlD7t+wjiJj0d/oOYtp35
+         tMQ4zUOgwoYGKljQ/wHxLrKLiyvvQq3Mz0kr5tR7tOx4g3Al1xl5Hq5Ije5p7zHFCN3m
+         sX3nGd/+MryD8ECQddM5GtWXLa2RbTz3b49uLM/i3iktD9F/9ifDzFyNcc7FQa3UKcaH
+         qP+cWZKlKel+xHotoEqKhTh2ngTgJOa7CdPE6D6zZdxg6w/UODrxIsvm7RUYK60E49Z7
+         9wRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=u/NaYdFXtlzFcS9g4jr5fVZB7FIesAp70iyBKhysIZI=;
+        b=IZ1fEZ9AbHRWrBMpW2rksnEHBGRHmeF66WVZqrTwWLscEgpTDyTbAzPC43nMgvvQ6H
+         QZ5UnsKyAITMaoN5xzJguL2vbl/8aHmyeh7p2cgGrVVVjx8jhMtgkINCq04M+NWVPfsU
+         gLO3lJ4K2uEWUGxsBj1MU49M7pKXhS8dqMZAurt088lPGW/hAY/LBzzqJRhrj20CPHl2
+         ut7+g9k2laW3GH/Z3vDapEdLZrYdKIsdRRBKG23yfzA+guSflHqPwJfeBP4voOmzpz/z
+         0oQYh5NrLuSrTY4z5xSJutMk3Fethuyz5MlC+gBkGG90kMJuIruYfuCe6ynfrw9JN+eL
+         Araw==
+X-Gm-Message-State: AOAM53236U+3HsCYWvjbruDDXHYUk94eh00vht4DMRr4WsnnCmXw1aAs
+        vKKZl2UDwigmeRPWMCPJuqLPBhY0i+s=
+X-Google-Smtp-Source: ABdhPJwm9cn3+ty6m9bscYeLI1ObHPxvuox7k4plqvKWGjZFP9XWBv0av+F/gOX0yt4i11b/fwP6RA==
+X-Received: by 2002:a17:902:7609:b029:e6:9f29:625f with SMTP id k9-20020a1709027609b02900e69f29625fmr11336669pll.80.1616095113517;
+        Thu, 18 Mar 2021 12:18:33 -0700 (PDT)
+Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id h2sm2896177pfq.139.2021.03.18.12.18.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Mar 2021 12:18:33 -0700 (PDT)
+From:   Florian Fainelli <f.fainelli@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     opendmb@gmail.com, Florian Fainelli <f.fainelli@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-23-yu-cheng.yu@intel.com>
- <20210318123215.GE19570@zn.tnic>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <b05ee7eb-1b5d-f84f-c8f3-bfe9426e8a7d@intel.com>
-Date:   Thu, 18 Mar 2021 12:05:58 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        iommu@lists.linux-foundation.org (open list:SWIOTLB SUBSYSTEM)
+Subject: [PATCH] swiotlb: Add swiotlb=off to disable SWIOTLB
+Date:   Thu, 18 Mar 2021 12:18:14 -0700
+Message-Id: <20210318191816.4185226-1-f.fainelli@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210318123215.GE19570@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/18/2021 5:32 AM, Borislav Petkov wrote:
->> Subject: Re: [PATCH v23 22/28] x86/cet/shstk:   User-mode shadow stack support
-> 						^
-> 						Add
-> 
-> On Tue, Mar 16, 2021 at 08:10:48AM -0700, Yu-cheng Yu wrote:
->> Introduce basic shadow stack enabling/disabling/allocation routines.
->> A task's shadow stack is allocated from memory with VM_SHSTK flag and has
->> a fixed size of min(RLIMIT_STACK, 4GB).
->>
->> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->> Reviewed-by: Kees Cook <keescook@chromium.org>
->> ---
->>   arch/x86/include/asm/cet.h       |  28 ++++++
->>   arch/x86/include/asm/processor.h |   5 ++
->>   arch/x86/kernel/Makefile         |   2 +
->>   arch/x86/kernel/cet.c            | 147 +++++++++++++++++++++++++++++++
+It may be useful to disable the SWIOTLB completely for testing or when a
+platform is known not to have any DRAM addressing limitations what so
+ever.
 
-[...]
+Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 1 +
+ include/linux/swiotlb.h                         | 1 +
+ kernel/dma/swiotlb.c                            | 9 +++++++++
+ 3 files changed, 11 insertions(+)
 
->> +void cet_free_shstk(struct task_struct *tsk)
->> +{
->> +	struct cet_status *cet = &tsk->thread.cet;
->> +
->> +	if (!static_cpu_has(X86_FEATURE_SHSTK) ||
-> 
-> cpu_feature_enabled and as above.
-> 
->> +	    !cet->shstk_size || !cet->shstk_base)
->> +		return;
->> +
->> +	if (!tsk->mm || tsk->mm != current->mm)
->> +		return;
-> 
-> You're operating on current here merrily but what's protecting all those
-> paths operating on current from getting current changed underneath them
-> due to scheduling? IOW, is preemption safely disabled in all those
-> paths ending up here?
-
-Good thought.  Indeed, this looks like scheduling would bring some 
-trouble.  However, when this instance is running, the current task must 
-be current, context switch or not.  The purpose of this check is 
-described below.
-
-When fork() fails, it calls exit_thread(), then cet_free_shstk(). 
-Normally the child tsk->mm != current->mm (parent).  There is no need to 
-free shadow stack.
-
-For CLONE_VM, however, the kernel has already allocated a shadow stack 
-for the child and needs to free it because fork() failed.
-
-Maybe I would add comments here.
-
-> 
->> +
->> +	while (1) {
-> 
-> Uuh, an endless loop. What guarantees we'll exit it relatively timely...
-> 
->> +		int r;
->> +
->> +		r = vm_munmap(cet->shstk_base, cet->shstk_size);
->> +
->> +		/*
->> +		 * Retry if mmap_lock is not available.
->> +		 */
->> +		if (r == -EINTR) {
->> +			cond_resched();
-> 
-> ... that thing?
-
-If vm_munmap() returns -EINTR, mmap_lock is held by something else. 
-That lock should not be held forever.  For other types of error, the 
-loop stops.
-
-> 
->> +			continue;
->> +		}
->> +
->> +		WARN_ON_ONCE(r);
->> +		break;
->> +	}
->> +
->> +	cet->shstk_base = 0;
->> +	cet->shstk_size = 0;
->> +}
->> -- 
->> 2.21.0
->>
-> 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 04545725f187..b0223e48921e 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5278,6 +5278,7 @@
+ 			force -- force using of bounce buffers even if they
+ 			         wouldn't be automatically used by the kernel
+ 			noforce -- Never use bounce buffers (for debugging)
++			off -- Completely disable SWIOTLB
+ 
+ 	switches=	[HW,M68k]
+ 
+diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+index 5857a937c637..23f86243defe 100644
+--- a/include/linux/swiotlb.h
++++ b/include/linux/swiotlb.h
+@@ -15,6 +15,7 @@ enum swiotlb_force {
+ 	SWIOTLB_NORMAL,		/* Default - depending on HW DMA mask etc. */
+ 	SWIOTLB_FORCE,		/* swiotlb=force */
+ 	SWIOTLB_NO_FORCE,	/* swiotlb=noforce */
++	SWIOTLB_OFF,		/* swiotlb=off */
+ };
+ 
+ /*
+diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+index c10e855a03bc..d7a4a789c7d3 100644
+--- a/kernel/dma/swiotlb.c
++++ b/kernel/dma/swiotlb.c
+@@ -126,6 +126,8 @@ setup_io_tlb_npages(char *str)
+ 	} else if (!strcmp(str, "noforce")) {
+ 		swiotlb_force = SWIOTLB_NO_FORCE;
+ 		io_tlb_nslabs = 1;
++	} else if (!strcmp(str, "off")) {
++		swiotlb_force = SWIOTLB_OFF;
+ 	}
+ 
+ 	return 0;
+@@ -229,6 +231,9 @@ int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
+ 	unsigned long i, bytes;
+ 	size_t alloc_size;
+ 
++	if (swiotlb_force == SWIOTLB_OFF)
++		return 0;
++
+ 	bytes = nslabs << IO_TLB_SHIFT;
+ 
+ 	io_tlb_nslabs = nslabs;
+@@ -284,6 +289,9 @@ swiotlb_init(int verbose)
+ 	unsigned char *vstart;
+ 	unsigned long bytes;
+ 
++	if (swiotlb_force == SWIOTLB_OFF)
++		goto out;
++
+ 	if (!io_tlb_nslabs) {
+ 		io_tlb_nslabs = (default_size >> IO_TLB_SHIFT);
+ 		io_tlb_nslabs = ALIGN(io_tlb_nslabs, IO_TLB_SEGSIZE);
+@@ -302,6 +310,7 @@ swiotlb_init(int verbose)
+ 		io_tlb_start = 0;
+ 	}
+ 	pr_warn("Cannot allocate buffer");
++out:
+ 	no_iotlb_memory = true;
+ }
+ 
+-- 
+2.25.1
 
