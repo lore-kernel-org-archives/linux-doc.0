@@ -2,114 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA874C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 11:30:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D0F2C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 11:43:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7BE8A64F2A
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 11:30:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 693B264F40
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 11:43:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229803AbhCRL3l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 07:29:41 -0400
-Received: from foss.arm.com ([217.140.110.172]:38682 "EHLO foss.arm.com"
+        id S229965AbhCRLmg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 07:42:36 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:46746 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229834AbhCRL3W (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Mar 2021 07:29:22 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73110ED1;
-        Thu, 18 Mar 2021 04:29:22 -0700 (PDT)
-Received: from e121166-lin.cambridge.arm.com (e121166-lin.cambridge.arm.com [10.1.196.255])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C5BAB3F792;
-        Thu, 18 Mar 2021 04:29:20 -0700 (PDT)
-Date:   Thu, 18 Mar 2021 11:29:10 +0000
-From:   Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
-To:     Will Deacon <will@kernel.org>
-Cc:     Tom Saeger <tom.saeger@oracle.com>, linux-doc@vger.kernel.org,
+        id S229745AbhCRLmf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Mar 2021 07:42:35 -0400
+Received: from zn.tnic (p200300ec2f0fad0050896a9c56ff90be.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:ad00:5089:6a9c:56ff:90be])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DD2AB1EC058C;
+        Thu, 18 Mar 2021 12:42:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1616067754;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=juGypyyvGVDiN/c+F2eQhiED/jKNk5rEPOGLa5dTkZg=;
+        b=GSopJWzga1p24chp7vKmIUmQlxYwu4JXl5KVf/B6/arMqYxmzfpTXjIvrTVjewYPeR8Tep
+        2VO0f/ufVW3LldqKevgvUWMuUVzm55jKJyycpYjG2WIgJUtPzhy7VxHVzJShTCplr9+6gv
+        A8vEtcFgbBT6hPk1mkrv3T5t4CF2JGE=
+Date:   Thu, 18 Mar 2021 12:42:32 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        Konrad Rzeszutek Wilk <konrad@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        Al Stone <al.stone@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        ahs3@redhat.com, ardb@kernel.org
-Subject: Re: [PATCH] Documentation: arm64/acpi : clarify arm64 support of IBFT
-Message-ID: <20210318112859.GA25002@e121166-lin.cambridge.arm.com>
-References: <9efc652df2b8d6b53d9acb170eb7c9ca3938dfef.1615920441.git.tom.saeger@oracle.com>
- <20210318104433.GA6959@willie-the-truck>
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>,
+        Peter Collingbourne <pcc@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH v23 21/28] mm: Re-introduce vm_flags to do_mmap()
+Message-ID: <20210318114232.GD19570@zn.tnic>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316151054.5405-22-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210318104433.GA6959@willie-the-truck>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210316151054.5405-22-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[+ Al, Ard]
-
-On Thu, Mar 18, 2021 at 10:44:33AM +0000, Will Deacon wrote:
-> [+Lorenzo]
+On Tue, Mar 16, 2021 at 08:10:47AM -0700, Yu-cheng Yu wrote:
+> There was no more caller passing vm_flags to do_mmap(), and vm_flags was
+> removed from the function's input by:
 > 
-> On Tue, Mar 16, 2021 at 12:50:41PM -0600, Tom Saeger wrote:
-> > In commit 94bccc340710 ("iscsi_ibft: make ISCSI_IBFT dependson ACPI instead
-> > of ISCSI_IBFT_FIND") Kconfig was disentangled to make ISCSI_IBFT selection
-> > not depend on x86.
-> > 
-> > Update arm64 acpi documentation, changing IBFT support status from
-> > "Not Supported" to "Optional".
-> > Opportunistically re-flow paragraph for changed lines.
-> > 
-> > Link: https://lore.kernel.org/lkml/1563475054-10680-1-git-send-email-thomas.tai@oracle.com/
-> > 
-> > Signed-off-by: Tom Saeger <tom.saeger@oracle.com>
-> > ---
-> >  Documentation/arm64/acpi_object_usage.rst | 10 +++++-----
-> >  1 file changed, 5 insertions(+), 5 deletions(-)
+>     commit 45e55300f114 ("mm: remove unnecessary wrapper function do_mmap_pgoff()").
 > 
-> Lorenzo, please could you ack the change below if you're happy with it?
-> If so, I can take it as a fix.
+> There is a new user now.  Shadow stack allocation passes VM_SHSTK to
+> do_mmap().  Re-introduce vm_flags to do_mmap(), but without the old wrapper
+> do_mmap_pgoff().
 
-I don't see any issue with this patch, more so given that the IBFT
-legacy discovery method was decoupled from the ACPI table method,
-so it looks sound on ARM64.
+Why does this matter at all?
 
-However, I would like to get Al and Ard opinions on this to make sure
-there is not something I am missing (in particular wrt the rationale
-behind the "Not Supported" in the docs).
+$ git grep do_mmap_pgoff
+$
 
-Lorenzo
+-- 
+Regards/Gruss,
+    Boris.
 
-> Thanks,
-> 
-> Will
-> 
-> > diff --git a/Documentation/arm64/acpi_object_usage.rst b/Documentation/arm64/acpi_object_usage.rst
-> > index 377e9d224db0..0609da73970b 100644
-> > --- a/Documentation/arm64/acpi_object_usage.rst
-> > +++ b/Documentation/arm64/acpi_object_usage.rst
-> > @@ -17,12 +17,12 @@ For ACPI on arm64, tables also fall into the following categories:
-> >  
-> >         -  Recommended: BERT, EINJ, ERST, HEST, PCCT, SSDT
-> >  
-> > -       -  Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT, IORT,
-> > -          MCHI, MPST, MSCT, NFIT, PMTT, RASF, SBST, SLIT, SPMI, SRAT, STAO,
-> > -	  TCPA, TPM2, UEFI, XENV
-> > +       -  Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT, IBFT,
-> > +          IORT, MCHI, MPST, MSCT, NFIT, PMTT, RASF, SBST, SLIT, SPMI, SRAT,
-> > +          STAO, TCPA, TPM2, UEFI, XENV
-> >  
-> > -       -  Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IBFT, IVRS, LPIT,
-> > -          MSDM, OEMx, PSDT, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
-> > +       -  Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IVRS, LPIT, MSDM, OEMx,
-> > +          PSDT, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
-> >  
-> >  ====== ========================================================================
-> >  Table  Usage for ARMv8 Linux
-> > -- 
-> > 2.31.0
-> > 
+https://people.kernel.org/tglx/notes-about-netiquette
