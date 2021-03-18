@@ -2,103 +2,133 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7625BC433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:41:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FFB5C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:43:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4A0A964F1D
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:41:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC63864E83
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:43:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232963AbhCRTlR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 15:41:17 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:33357 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232950AbhCRTlK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 15:41:10 -0400
-Received: from [192.168.1.155] ([77.4.36.33]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
- 1MN4ux-1l6GbY07HB-00J1fB; Thu, 18 Mar 2021 20:40:45 +0100
-Subject: Re: [PATCH v9 2/4] pinctrl: pinmux: Add pinmux-select debugfs file
-To:     Geert Uytterhoeven <geert@linux-m68k.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Cc:     Drew Fustini <drew@beagleboard.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Tony Lindgren <tony@atomide.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
-        Jason Kridner <jkridner@beagleboard.org>,
-        Robert Nelson <robertcnelson@beagleboard.org>,
-        Joe Perches <joe@perches.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S229958AbhCRTnY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 15:43:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38726 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232992AbhCRTnX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 15:43:23 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1E9AC06174A;
+        Thu, 18 Mar 2021 12:43:22 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id ot17-20020a17090b3b51b0290109c9ac3c34so3268632pjb.4;
+        Thu, 18 Mar 2021 12:43:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=CXffwwYrcucz6PkLWpGV6NoHESkAqtw1CcNDZMWpdBQ=;
+        b=jNduKqJSMUt5WOZPCi3HQPsGOMYzo1qxNn0d+yLtF8QzHmxYn0MVxo7w12d1iPqQVu
+         lvV1OiEOTwUp2o4S66sZfnfNbFJAXalm65NDQLl5JFIpsz2/PxhHDEO5fUST3hzhU+mH
+         QV0redUgqcnqebnNyc9hcJiAsUnwxbefH1YOrrPEcbzenRZZoFdQFvXYulMAb3FTk1CU
+         C1PYz88MNF/+3hNqyhITzujGZhpofOKCKiQ+9SWg6Xvzo2IDCHreg4+/JEpmFrTgIJUH
+         /PZOX1aPLFEPHOqy7a1rTPBzFhbKjm7PPxroYyHK2xEU66pnZGpHDpuWZn6ouI3cCnh9
+         mwUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=CXffwwYrcucz6PkLWpGV6NoHESkAqtw1CcNDZMWpdBQ=;
+        b=TPia4v9vAdOKjzcIaY0NcYCyXJmTCHGiRLOn0hmLcz/vESwn09eqmcI7jtkAIPaAxK
+         LYQetoT4BqD4YP+l92XG12FXhkYhz2x5SsuXKZc7bv3PXWahQVE5xPD/aLrzpzsrPp4e
+         YQA4SHVyanc6znh9alWD7hh1y/EiINf9s1mgRP6ZA5aPo3A2ENM8j2DYuKBYB9cN8vn+
+         ND2ZddftfdDP4PcW1GpwWNGeqtmh80IGWhUbSPGLF9puZuBCRmnJ14JtvrjqugrqmcSf
+         1DZWw46So0CsPgJOY1YbpymqKjodrliQKvcu7S73aeexpdbISudZVs/f3v1elgnPBhww
+         qKAw==
+X-Gm-Message-State: AOAM5329VOnjjdH+C0hu/mOMTMAi6+eV2Dq5QOF8RTEfS6dDUNpGSOwc
+        6s20uZkzKGCEZlqCvjHEM0I=
+X-Google-Smtp-Source: ABdhPJx6whDMKDzC33BODdtY7U0RVIN3SJu2/2BSqs7xQbfPQVncsAi7MXbvsiinVYE9JAwpBX4ArA==
+X-Received: by 2002:a17:90a:d507:: with SMTP id t7mr6128138pju.54.1616096602323;
+        Thu, 18 Mar 2021 12:43:22 -0700 (PDT)
+Received: from [10.230.29.202] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id e190sm3109763pfe.3.2021.03.18.12.43.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Mar 2021 12:43:21 -0700 (PDT)
+Subject: Re: [PATCH] swiotlb: Add swiotlb=off to disable SWIOTLB
+To:     Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>
+Cc:     opendmb@gmail.com, Jonathan Corbet <corbet@lwn.net>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Peter Zijlstra <peterz@infradead.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-References: <20210302053059.1049035-1-drew@beagleboard.org>
- <20210302053059.1049035-3-drew@beagleboard.org>
- <349b09f8-fe99-d0d4-dd11-c288bf66cb4d@metux.net> <YEyFyQ0TF5u/WS9X@piout.net>
- <CAMuHMdWzEQAOgy7_e_6RcQjP6z0n9LQA6R2LBs1nXMZeAYywvQ@mail.gmail.com>
-From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
-Message-ID: <002c9f84-4cc7-714f-0824-bb00eb05a227@metux.net>
-Date:   Thu, 18 Mar 2021 20:40:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        "open list:SWIOTLB SUBSYSTEM" <iommu@lists.linux-foundation.org>
+References: <20210318191816.4185226-1-f.fainelli@gmail.com>
+ <bbd44c42-cedc-7bd6-a443-c991fd080298@gmail.com>
+ <e7850feb-b7cd-e279-e3fc-a9bdba162423@arm.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <f0940ea7-79f6-af57-aa7d-d121abb99012@gmail.com>
+Date:   Thu, 18 Mar 2021 12:43:09 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <CAMuHMdWzEQAOgy7_e_6RcQjP6z0n9LQA6R2LBs1nXMZeAYywvQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: tl
+In-Reply-To: <e7850feb-b7cd-e279-e3fc-a9bdba162423@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+ZwcNmiOj1Kef7PLgtFCMGtXLjuaivHTbkjPVod3OVsl9HAgQF2
- olkcKXPEgCba6rJIhiEx+41jtYbjT9bjy5nAfe0qHtZr7B4VC0nCX0Kntbmne8OPF+bga1z
- OcdUJJASQe7ZlVJvRZUo1UfKWWw/l4NLSi9luFCuywt8fRNhLqziucmgmX1AzyKoLtS8Wph
- kOj+1wD8+P0kxvQcKYlBQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:u/eDxUvTGUM=:G2SiQp80rV4IJzSpZhfs6s
- 2B3WsiCLwXGjYBhRV/47vUoe2ATGsQoVLZGrQMEi2NRARCHd5FH2eEVD2C9hnUTn8zcssVYR7
- Yplls7mPMuj6pfWbrDEU9DdAiOwZ1tUPuTfUF53rCYRB2Hk5NXdwaRnCcN/ZuM2/ruKHSodgm
- 4TNGRqU3O12lAPNZVb3DO803eDGjiNFcVa5Rd63kbc9cNw6r4uDd3CZfHM9i3JiZAEb74gZJi
- sxRrsCC8/eMvcZ5Yj9PCnG0Sk1Fs0vt1q+LRx2P3wh02yVVTIxsPC7S4SIBs+dbvmVLIHzNLt
- YW4aLRYTrCck+wG7XlHPLvpmA3mDq8Fo6Ox+nb8IkYS1C+bcovVnFSj3jolT7URNIneDWuqlB
- EKkqX7BteTPVMhVp7BiDpeqYkXYsO1LksR2ZIP/dgPXGt7vfpsH7ymngKqeg/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 13.03.21 19:47, Geert Uytterhoeven wrote:
 
->>> I've already been playing with similar idea, but for external muxes.
->>> For example, some boards have multiple SIM slots that can be switched
->>> via some gpio pin.
->>>
->>> Not sure whether traditional pinmux would be a good match for that.
+
+On 3/18/2021 12:34 PM, Robin Murphy wrote:
+> On 2021-03-18 19:22, Florian Fainelli wrote:
 >>
->> If you want to be able to use both, then I guess gpio-mux is what you
->> are looking for. Obviously, it will also require support in the bus
->> core. On what bus are those SIMs? (I guess the answer will be UART and
->> then unfortunately UARTs are not represented as busses).
+>>
+>> On 3/18/2021 12:18 PM, Florian Fainelli wrote:
+>>> It may be useful to disable the SWIOTLB completely for testing or when a
+>>> platform is known not to have any DRAM addressing limitations what so
+>>> ever.
 > 
-> We do have support for devices connected to UARTs.
-> See patternProperties in Documentation/devicetree/bindings/serial/serial.yaml.
-> Or do you mean something different?
+> Isn't that what "swiotlb=noforce" is for? If you're confident that we've
+> really ironed out *all* the awkward corners that used to blow up if
+> various internal bits were left uninitialised, then it would make sense
+> to just tweak the implementation of what we already have.
 
-in my case, the SIM cards are connected directly to the baseband
-(there're extra lines on the m2 slots for that). CPU doesn't ever see
-any of this traffic, just can select which SIM card is routed to the
-m2 slot via gpio.
+swiotlb=noforce does prevent dma_direct_map_page() from resorting to the
+swiotlb, however what I am also after is reclaiming these 64MB of
+default SWIOTLB bounce buffering memory because my systems run with
+large amounts of reserved memory into ZONE_MOVABLE and everything in
+ZONE_NORMAL is precious at that point.
 
+> 
+> I wouldn't necessarily disagree with adding "off" as an additional alias
+> for "noforce", though, since it does come across as a bit wacky for
+> general use.
+> 
+>>> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+>>
+>> Christoph, in addition to this change, how would you feel if we
+>> qualified the swiotlb_init() in arch/arm/mm/init.c with a:
+>>
+>>
+>> if (memblock_end_of_DRAM() >= SZ_4G)
+>>     swiotlb_init(1)
+> 
+> Modulo "swiotlb=force", of course ;)
 
---mtx
-
+Indeed, we would need to handle that case as well. Does it sound
+reasonable to do that to you as well?
 -- 
----
-Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
-werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
-GPG/PGP-Schlüssel zu.
----
-Enrico Weigelt, metux IT consult
-Free software and Linux embedded engineering
-info@metux.net -- +49-151-27565287
+Florian
