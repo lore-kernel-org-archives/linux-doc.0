@@ -2,67 +2,35 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9586FC433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:22:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99D30C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:35:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 48AD464F45
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:22:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77A2264E21
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:35:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232901AbhCRTW1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 15:22:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34166 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232851AbhCRTWT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 15:22:19 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FBCFC06174A;
-        Thu, 18 Mar 2021 12:22:19 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id bt4so3432976pjb.5;
-        Thu, 18 Mar 2021 12:22:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=TM+vEBqjvzmGZFh854VHWSVx/dlysQ2NuONxv+B86HU=;
-        b=LBxnTBlH06B0fQtsE0BvxU3j7rlfq3katQi7WoUGretXjpngZM5x897LI0NpbDoopk
-         hX9iBFP1dRVeJ5lS7Yl+9a5OIDATku9d98R1Rx/4FFArP6hpBi0J3iDd+Rsz0PQwTw5c
-         R7rsUuPuCQGPFsFO98LjnZNtEuIuaNEt1RD0TCsr7vxGZBm7MRs0f+S9DO/WW5b2H9f9
-         M/2bQqXtzMxL2aZnVTEeR0mnDwnH90eSyMZ2Z4GwX2+Hh3LbpAfBUZGEU5vhgSpsP3L5
-         eo9J50pKpEeagWcG3ytdINWi0vle6C8TvUyy2NJly5kyWfI6GqZVMYO9r7Ww35jE4yJA
-         f74g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=TM+vEBqjvzmGZFh854VHWSVx/dlysQ2NuONxv+B86HU=;
-        b=TM4SdMPlnb0irTOEDTVdi2REHFJdr4DCgAs9Tpr4wWXCFgwaNfCRenhpT8ks458HaB
-         61hQCW8GdGSWWoP/kKW26lAJTDGpW64VT2qK6wAy/8qts23Sc9B5q2JdKLcHZ6JsEkOz
-         IIxFFZdTQsh3R8zQGgTscOoQHZnUwfDWwy/vz4hLTD+MfXkdqmpMdujxO0wgWOdFt4T1
-         ZWfE8KW/5HZMv9qEh9ySvRgTxonZCztCBeVBNT1u+X2bxQ2IvdgX9XiJWLTlEyRtaCka
-         eTcq+bT49qatsQMKJtb7SH6bme/9eoIGql6WbeTTYj81mnNVFIdoxJGqAgNFzMnIIIRl
-         b/tg==
-X-Gm-Message-State: AOAM533iJQPDPpT4n85GTKyKK24K6ut4awlsIeSUFmgnzZudFCH+aMzH
-        XPNLkOIZfG6aWHzPFl6WUfI=
-X-Google-Smtp-Source: ABdhPJw09QkiSEVKSoCdawiAp/3PCs1M1aROIkZX2/evRD9NZFUJ9/DhqAKS6v+Uak31oZ4vJmhfdw==
-X-Received: by 2002:a17:90a:e556:: with SMTP id ei22mr5793082pjb.214.1616095338892;
-        Thu, 18 Mar 2021 12:22:18 -0700 (PDT)
-Received: from [10.230.29.202] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id h19sm3290393pfc.172.2021.03.18.12.22.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Mar 2021 12:22:18 -0700 (PDT)
+        id S232918AbhCRTfT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 15:35:19 -0400
+Received: from foss.arm.com ([217.140.110.172]:47456 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232973AbhCRTfM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Mar 2021 15:35:12 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 498A1ED1;
+        Thu, 18 Mar 2021 12:35:11 -0700 (PDT)
+Received: from [10.57.50.37] (unknown [10.57.50.37])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 80E293F70D;
+        Thu, 18 Mar 2021 12:35:03 -0700 (PDT)
 Subject: Re: [PATCH] swiotlb: Add swiotlb=off to disable SWIOTLB
-To:     linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+To:     Florian Fainelli <f.fainelli@gmail.com>,
+        linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
 Cc:     opendmb@gmail.com, Jonathan Corbet <corbet@lwn.net>,
         Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>,
         "Paul E. McKenney" <paulmck@kernel.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         Andrew Morton <akpm@linux-foundation.org>,
@@ -74,115 +42,128 @@ Cc:     opendmb@gmail.com, Jonathan Corbet <corbet@lwn.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
         "open list:SWIOTLB SUBSYSTEM" <iommu@lists.linux-foundation.org>
 References: <20210318191816.4185226-1-f.fainelli@gmail.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <bbd44c42-cedc-7bd6-a443-c991fd080298@gmail.com>
-Date:   Thu, 18 Mar 2021 12:22:13 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.8.1
+ <bbd44c42-cedc-7bd6-a443-c991fd080298@gmail.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <e7850feb-b7cd-e279-e3fc-a9bdba162423@arm.com>
+Date:   Thu, 18 Mar 2021 19:34:55 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210318191816.4185226-1-f.fainelli@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <bbd44c42-cedc-7bd6-a443-c991fd080298@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 3/18/2021 12:18 PM, Florian Fainelli wrote:
-> It may be useful to disable the SWIOTLB completely for testing or when a
-> platform is known not to have any DRAM addressing limitations what so
-> ever.
+On 2021-03-18 19:22, Florian Fainelli wrote:
 > 
-> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-
-Christoph, in addition to this change, how would you feel if we
-qualified the swiotlb_init() in arch/arm/mm/init.c with a:
-
-
-if (memblock_end_of_DRAM() >= SZ_4G)
-	swiotlb_init(1)
-
-right now this is made unconditional whenever ARM_LPAE is enabled which
-is the case for the platforms I maintain (ARCH_BRCMSTB) however we do
-not really need a SWIOTLB so long as the largest DRAM physical address
-does not exceed 4GB AFAICT.
-
-Thanks!
-
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 1 +
->  include/linux/swiotlb.h                         | 1 +
->  kernel/dma/swiotlb.c                            | 9 +++++++++
->  3 files changed, 11 insertions(+)
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 04545725f187..b0223e48921e 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -5278,6 +5278,7 @@
->  			force -- force using of bounce buffers even if they
->  			         wouldn't be automatically used by the kernel
->  			noforce -- Never use bounce buffers (for debugging)
-> +			off -- Completely disable SWIOTLB
->  
->  	switches=	[HW,M68k]
->  
-> diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-> index 5857a937c637..23f86243defe 100644
-> --- a/include/linux/swiotlb.h
-> +++ b/include/linux/swiotlb.h
-> @@ -15,6 +15,7 @@ enum swiotlb_force {
->  	SWIOTLB_NORMAL,		/* Default - depending on HW DMA mask etc. */
->  	SWIOTLB_FORCE,		/* swiotlb=force */
->  	SWIOTLB_NO_FORCE,	/* swiotlb=noforce */
-> +	SWIOTLB_OFF,		/* swiotlb=off */
->  };
->  
->  /*
-> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
-> index c10e855a03bc..d7a4a789c7d3 100644
-> --- a/kernel/dma/swiotlb.c
-> +++ b/kernel/dma/swiotlb.c
-> @@ -126,6 +126,8 @@ setup_io_tlb_npages(char *str)
->  	} else if (!strcmp(str, "noforce")) {
->  		swiotlb_force = SWIOTLB_NO_FORCE;
->  		io_tlb_nslabs = 1;
-> +	} else if (!strcmp(str, "off")) {
-> +		swiotlb_force = SWIOTLB_OFF;
->  	}
->  
->  	return 0;
-> @@ -229,6 +231,9 @@ int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
->  	unsigned long i, bytes;
->  	size_t alloc_size;
->  
-> +	if (swiotlb_force == SWIOTLB_OFF)
-> +		return 0;
-> +
->  	bytes = nslabs << IO_TLB_SHIFT;
->  
->  	io_tlb_nslabs = nslabs;
-> @@ -284,6 +289,9 @@ swiotlb_init(int verbose)
->  	unsigned char *vstart;
->  	unsigned long bytes;
->  
-> +	if (swiotlb_force == SWIOTLB_OFF)
-> +		goto out;
-> +
->  	if (!io_tlb_nslabs) {
->  		io_tlb_nslabs = (default_size >> IO_TLB_SHIFT);
->  		io_tlb_nslabs = ALIGN(io_tlb_nslabs, IO_TLB_SEGSIZE);
-> @@ -302,6 +310,7 @@ swiotlb_init(int verbose)
->  		io_tlb_start = 0;
->  	}
->  	pr_warn("Cannot allocate buffer");
-> +out:
->  	no_iotlb_memory = true;
->  }
->  
-> 
+> On 3/18/2021 12:18 PM, Florian Fainelli wrote:
+>> It may be useful to disable the SWIOTLB completely for testing or when a
+>> platform is known not to have any DRAM addressing limitations what so
+>> ever.
 
--- 
-Florian
+Isn't that what "swiotlb=noforce" is for? If you're confident that we've 
+really ironed out *all* the awkward corners that used to blow up if 
+various internal bits were left uninitialised, then it would make sense 
+to just tweak the implementation of what we already have.
+
+I wouldn't necessarily disagree with adding "off" as an additional alias 
+for "noforce", though, since it does come across as a bit wacky for 
+general use.
+
+>> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+> 
+> Christoph, in addition to this change, how would you feel if we
+> qualified the swiotlb_init() in arch/arm/mm/init.c with a:
+> 
+> 
+> if (memblock_end_of_DRAM() >= SZ_4G)
+> 	swiotlb_init(1)
+
+Modulo "swiotlb=force", of course ;)
+
+Robin.
+
+> right now this is made unconditional whenever ARM_LPAE is enabled which
+> is the case for the platforms I maintain (ARCH_BRCMSTB) however we do
+> not really need a SWIOTLB so long as the largest DRAM physical address
+> does not exceed 4GB AFAICT.
+> 
+> Thanks!
+> 
+>> ---
+>>   Documentation/admin-guide/kernel-parameters.txt | 1 +
+>>   include/linux/swiotlb.h                         | 1 +
+>>   kernel/dma/swiotlb.c                            | 9 +++++++++
+>>   3 files changed, 11 insertions(+)
+>>
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+>> index 04545725f187..b0223e48921e 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -5278,6 +5278,7 @@
+>>   			force -- force using of bounce buffers even if they
+>>   			         wouldn't be automatically used by the kernel
+>>   			noforce -- Never use bounce buffers (for debugging)
+>> +			off -- Completely disable SWIOTLB
+>>   
+>>   	switches=	[HW,M68k]
+>>   
+>> diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
+>> index 5857a937c637..23f86243defe 100644
+>> --- a/include/linux/swiotlb.h
+>> +++ b/include/linux/swiotlb.h
+>> @@ -15,6 +15,7 @@ enum swiotlb_force {
+>>   	SWIOTLB_NORMAL,		/* Default - depending on HW DMA mask etc. */
+>>   	SWIOTLB_FORCE,		/* swiotlb=force */
+>>   	SWIOTLB_NO_FORCE,	/* swiotlb=noforce */
+>> +	SWIOTLB_OFF,		/* swiotlb=off */
+>>   };
+>>   
+>>   /*
+>> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
+>> index c10e855a03bc..d7a4a789c7d3 100644
+>> --- a/kernel/dma/swiotlb.c
+>> +++ b/kernel/dma/swiotlb.c
+>> @@ -126,6 +126,8 @@ setup_io_tlb_npages(char *str)
+>>   	} else if (!strcmp(str, "noforce")) {
+>>   		swiotlb_force = SWIOTLB_NO_FORCE;
+>>   		io_tlb_nslabs = 1;
+>> +	} else if (!strcmp(str, "off")) {
+>> +		swiotlb_force = SWIOTLB_OFF;
+>>   	}
+>>   
+>>   	return 0;
+>> @@ -229,6 +231,9 @@ int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
+>>   	unsigned long i, bytes;
+>>   	size_t alloc_size;
+>>   
+>> +	if (swiotlb_force == SWIOTLB_OFF)
+>> +		return 0;
+>> +
+>>   	bytes = nslabs << IO_TLB_SHIFT;
+>>   
+>>   	io_tlb_nslabs = nslabs;
+>> @@ -284,6 +289,9 @@ swiotlb_init(int verbose)
+>>   	unsigned char *vstart;
+>>   	unsigned long bytes;
+>>   
+>> +	if (swiotlb_force == SWIOTLB_OFF)
+>> +		goto out;
+>> +
+>>   	if (!io_tlb_nslabs) {
+>>   		io_tlb_nslabs = (default_size >> IO_TLB_SHIFT);
+>>   		io_tlb_nslabs = ALIGN(io_tlb_nslabs, IO_TLB_SEGSIZE);
+>> @@ -302,6 +310,7 @@ swiotlb_init(int verbose)
+>>   		io_tlb_start = 0;
+>>   	}
+>>   	pr_warn("Cannot allocate buffer");
+>> +out:
+>>   	no_iotlb_memory = true;
+>>   }
+>>   
+>>
+> 
