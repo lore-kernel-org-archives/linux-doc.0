@@ -2,156 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 86EFDC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 07:18:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D426BC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 07:19:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 429BF64F2A
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 07:18:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA35764F10
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 07:19:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229828AbhCRHRi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 03:17:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46182 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229749AbhCRHRS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 03:17:18 -0400
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54216C06174A
-        for <linux-doc@vger.kernel.org>; Thu, 18 Mar 2021 00:17:18 -0700 (PDT)
-Received: by mail-qt1-x832.google.com with SMTP id h7so3364733qtx.3
-        for <linux-doc@vger.kernel.org>; Thu, 18 Mar 2021 00:17:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=agahROSdNuYhnd8y/3W/h5Jobfh9gncs4vepyfROKvE=;
-        b=N57/fquyusnFq2i1WukCANUsn/VWGd/JcxBmJwiYv1dqXyfK5jTmFE1cX56n9bHkje
-         4nVZzUHfVfSdTojCwkbBdz6JbEK1qf4KREVfvoxLedEXoR3Rtjf/8kqdZtP1m2wtO1Dz
-         uNwiR/vK7dyFKMveR+M35ECjcM4/V2+XtybNBn27axyt66kFGg9QMMWW+YTVmD+nUEBE
-         MVO/QrGozDKHpLtsdMqm1rVMe0xV+pjPBmHI+vlFFqfaGCZr5cIQ0ZWbo+4V91/pjQ4a
-         GqKtpDY7X6N0KaYEUgBvNIEU4rYODSa0X05b42YXI8icBc7o/xYcHvlJ0myDwDJ6vL+b
-         LjOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=agahROSdNuYhnd8y/3W/h5Jobfh9gncs4vepyfROKvE=;
-        b=okI4GyIYGUcQoWCoSZXsh/0mz7xjNtd/azSScCTeBOGVI17P6SUC5N9QlfSEQfMiAw
-         u2FIKxmmJgi4rVkf9cdE1QCLEECx9BBwP7CqOpBnGvGCqNzV7XwcCU+uswsxT31FZXxU
-         xPpxyV503NGHH3x2pk8+Q2zeA+tfBsdY/MdiJqlY52D76jVh2i5WwOeCCCzjioTPguEb
-         qDSzJZSsA/3Sx/fXllVUlBFSVtYIkI9G1WX+5ZMDxa1Sn3vUOj1XERvqW1fV3K2vtZDm
-         tRDjrY+BflCO5rLy2n/wjc9ArC+T7qTrK/Gf9Gv3Sa5lGJKLiQYIPfwnLvirzTBbjKWV
-         8okA==
-X-Gm-Message-State: AOAM533n2zL98HZ3XeziZZeE66tdkdORWsRbG/PcFGzPYEJrfI3My1y8
-        ROilJPk+vuGo2Uor+P7Puf0+XWkzyvh9zHfULZ+NcQ==
-X-Google-Smtp-Source: ABdhPJztJebNgbyxGUiKce5xs+p0MV41pcvBqJTiW66+5/EOzNYCxyIlHRjF0408epy3JDA4b4uEzAocO7Y7usNWGXE=
-X-Received: by 2002:aed:2c61:: with SMTP id f88mr2438071qtd.337.1616051837341;
- Thu, 18 Mar 2021 00:17:17 -0700 (PDT)
+        id S229512AbhCRHTO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 03:19:14 -0400
+Received: from m32-153.88.com ([43.250.32.153]:6286 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229558AbhCRHTH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Mar 2021 03:19:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=B+ugild91JwI0tjlrwz56W7GcqKa+qIDZlV6+
+        WgCJ7Y=; b=TiYNFKNdROtqpyyjmNyroDf2T3thc+LDIXj/AvCBWnfodgl5XDnpl
+        Xv6G/FQrr2CDoOg9PnPDx2lD2Km4q1x0InrCaEOnLnS82TU02tyXMtr0GmMJRuzm
+        dCGzFgEufyfOisHLUI6SMrG+JB9/4bHfBaAWxTBZqQNzSiuFchA7lk=
+Received: from mipc (unknown [120.238.248.129])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgA3wyPh_lJgJOwzAA--.62655S2;
+        Thu, 18 Mar 2021 15:18:59 +0800 (CST)
+Date:   Thu, 18 Mar 2021 15:18:57 +0800
+From:   Wu XiangCheng <bobwxc@email.cn>
+To:     Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/6] Add translations in zh_CN/admin-guide/
+Message-ID: <cover.1616050069.git.bobwxc@email.cn>
 MIME-Version: 1.0
-References: <20210211080716.80982-1-info@alexander-lochmann.de>
- <CACT4Y+YwRE=YNQYmQ=7RWde33830YOYr5pEAoYbrofY2JG43MA@mail.gmail.com>
- <01a9177f-bfd5-251a-758f-d3c68bafd0cf@alexander-lochmann.de>
- <CACT4Y+ZPX43ihuL0TCiCY-ZNa4RmfwuieLb1XUDJEa4tELsUsQ@mail.gmail.com> <46db8e40-b3b6-370c-98fe-37610b789596@alexander-lochmann.de>
-In-Reply-To: <46db8e40-b3b6-370c-98fe-37610b789596@alexander-lochmann.de>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Thu, 18 Mar 2021 08:17:06 +0100
-Message-ID: <CACT4Y+bdXrFoL1Z_h5s+5YzPZiazkyr2koNvfw9xNYEM69TSvg@mail.gmail.com>
-Subject: Re: [PATCH] KCOV: Introduced tracing unique covered PCs
-To:     Alexander Lochmann <info@alexander-lochmann.de>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Wei Yongjun <weiyongjun1@huawei.com>,
-        Maciej Grochowski <maciej.grochowski@pm.me>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        syzkaller <syzkaller@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgA3wyPh_lJgJOwzAA--.62655S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXrW7AFyrtw4UKF1UCrW8Xrb_yoW5Xr4rpa
+        yvkryFg3WxAF13Gr4xGr47W3W7tF48Z3s8K34fWw18Awn5AF1qqr1jgr4aqr98Zry5t3Wf
+        ZrZ3tr1YkryjyrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgIb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
+        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
+        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc2xSY4AK67AK6r4xMxAIw2
+        8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_
+        Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
+        CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
+        I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
+        8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU
+        0xZFpf9x07Una9-UUUUU=
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 17, 2021 at 10:10 PM Alexander Lochmann
-<info@alexander-lochmann.de> wrote:
-> On 15.03.21 09:02, Dmitry Vyukov wrote:
-> >>> Does this introduce an additional real of t->kcov_mode?
-> >>> If yes, please reuse the value read in check_kcov_mode.
-> >> Okay. How do I get that value from check_kcov_mode() to the caller?
-> >> Shall I add an additional parameter to check_kcov_mode()?
-> >
-> > Yes, I would try to add an additional pointer parameter for mode. I
-> > think after inlining the compiler should be able to regestrize it.
-> First, I'll go for the extra argument. However, the compiler doesn't
-> seem to inline check_kcov_mode(). Can I enforce inlining?
-> I'm using GCC 9.3 on Debian Testing.
+Hi all,
 
-That's very strange and wrong. Maybe you use something like
-CONFIG_CC_OPTIMIZE_FOR_SIZE=y?
+This set of patches aims to add some translations in zh_CN/admin-guide/ 
+about issues or bugs.
 
-With gcc-10 I am getting:
+And please notice that, since each patch needs to modify their own entry in
+the same index.rst, patches of this set need to be applied in order.
 
-ffffffff81529ba0 <__sanitizer_cov_trace_pc>:
-ffffffff81529ba0:       65 8b 05 59 53 af 7e    mov
-%gs:0x7eaf5359(%rip),%eax        # 1ef00 <__preempt_count>
-ffffffff81529ba7:       89 c1                   mov    %eax,%ecx
-ffffffff81529ba9:       48 8b 34 24             mov    (%rsp),%rsi
-ffffffff81529bad:       81 e1 00 01 00 00       and    $0x100,%ecx
-ffffffff81529bb3:       65 48 8b 14 25 40 ef    mov    %gs:0x1ef40,%rdx
-ffffffff81529bba:       01 00
-ffffffff81529bbc:       a9 00 01 ff 00          test   $0xff0100,%eax
-ffffffff81529bc1:       74 0e                   je
-ffffffff81529bd1 <__sanitizer_cov_trace_pc+0x31>
-ffffffff81529bc3:       85 c9                   test   %ecx,%ecx
-ffffffff81529bc5:       74 35                   je
-ffffffff81529bfc <__sanitizer_cov_trace_pc+0x5c>
-ffffffff81529bc7:       8b 82 d4 14 00 00       mov    0x14d4(%rdx),%eax
-ffffffff81529bcd:       85 c0                   test   %eax,%eax
-ffffffff81529bcf:       74 2b                   je
-ffffffff81529bfc <__sanitizer_cov_trace_pc+0x5c>
-ffffffff81529bd1:       8b 82 b0 14 00 00       mov    0x14b0(%rdx),%eax
-ffffffff81529bd7:       83 f8 02                cmp    $0x2,%eax
-ffffffff81529bda:       75 20                   jne
-ffffffff81529bfc <__sanitizer_cov_trace_pc+0x5c>
-ffffffff81529bdc:       48 8b 8a b8 14 00 00    mov    0x14b8(%rdx),%rcx
-ffffffff81529be3:       8b 92 b4 14 00 00       mov    0x14b4(%rdx),%edx
-ffffffff81529be9:       48 8b 01                mov    (%rcx),%rax
-ffffffff81529bec:       48 83 c0 01             add    $0x1,%rax
-ffffffff81529bf0:       48 39 c2                cmp    %rax,%rdx
-ffffffff81529bf3:       76 07                   jbe
-ffffffff81529bfc <__sanitizer_cov_trace_pc+0x5c>
-ffffffff81529bf5:       48 89 34 c1             mov    %rsi,(%rcx,%rax,8)
-ffffffff81529bf9:       48 89 01                mov    %rax,(%rcx)
-ffffffff81529bfc:       c3                      retq
+- V2
 
-Oh, wait gcc-9 indeed does not inline:
+  - Add zh_CN/admin-guide/tainted-kernels.rst
+  - Add zh_CN/admin-guide/init.rst
+  - Pick Alex Shi's Reviewed-by tag for [Patch 3~4/6]
+  - No more new changes will be added to this set, that's all
 
-0000000000000070 <__sanitizer_cov_trace_pc>:
-      70:       65 48 8b 0c 25 00 00    mov    %gs:0x0,%rcx
-      77:       00 00
-      79:       bf 02 00 00 00          mov    $0x2,%edi
-      7e:       48 89 ce                mov    %rcx,%rsi
-      81:       4c 8b 04 24             mov    (%rsp),%r8
-      85:       e8 76 ff ff ff          callq  0 <check_kcov_mode>
-      8a:       84 c0                   test   %al,%al
-      8c:       74 20                   je     ae
-<__sanitizer_cov_trace_pc+0x3e>
-      8e:       48 8b 91 b8 14 00 00    mov    0x14b8(%rcx),%rdx
-      95:       8b 89 b4 14 00 00       mov    0x14b4(%rcx),%ecx
-      9b:       48 8b 02                mov    (%rdx),%rax
-      9e:       48 83 c0 01             add    $0x1,%rax
-      a2:       48 39 c1                cmp    %rax,%rcx
-      a5:       76 07                   jbe    ae
-<__sanitizer_cov_trace_pc+0x3e>
-      a7:       4c 89 04 c2             mov    %r8,(%rdx,%rax,8)
-      ab:       48 89 02                mov    %rax,(%rdx)
-      ae:       c3                      retq
+- V1
+  <https://lore.kernel.org/linux-doc/cover.1615950640.git.bobwxc@email.cn/>
 
-This looks like a bug in gcc-8/9. gcc-6 inlines again as well as
-clang-11/12 inline.
+  - Re-manage the patch thread 
+  - Add zh_CN/admin-guide/security-bugs.rst
+    <https://lore.kernel.org/linux-doc/2552eb0fb4ddea81f80d020c69b7b7a3699dd93a.1615950640.git.bobwxc@email.cn/>
+  - Modify one word in [Patch 3/4] under Alex Shi's suggestion
+  - Pick Alex Shi's Reviewed-by tag for [Patch 1~2/6]
 
-Please add __always_inline for check_kcov_mode.
+- V0
+
+  - Add zh_CN/admin-guide/reporting-issues.rst
+    <https://lore.kernel.org/linux-doc/20210315110119.GA9524@mipc/>
+  - Add zh_CN/admin-guide/bug-bisect.rst
+    <https://lore.kernel.org/linux-doc/b032e8ab75e91b37ae88f2c80102ab6dde1bfa45.1615909052.git.bobwxc@email.cn/>
+  - Add zh_CN/admin-guide/bug-hunting.rst
+    <https://lore.kernel.org/linux-doc/20210317030323.GA20733@mipc/>
+
+Thanks!
+
+Wu XiangCheng (6):
+  docs/zh_CN: Add zh_CN/admin-guide/reporting-issues
+  docs/zh_CN: Add zh_CN/admin-guide/bug-bisect.rst
+  docs/zh_CN: Add zh_CN/admin-guide/bug-hunting.rst
+  docs/zh_CN: Add zh_CN/admin-guide/security-bugs.rst
+  docs/zh_CN: Add zh_CN/admin-guide/tainted-kernels.rst
+  docs/zh_CN: Add zh_CN/admin-guide/init.rst
+
+ .../zh_CN/admin-guide/bug-bisect.rst          |   81 ++
+ .../zh_CN/admin-guide/bug-hunting.rst         |  340 +++++
+ .../translations/zh_CN/admin-guide/index.rst  |   11 +-
+ .../translations/zh_CN/admin-guide/init.rst   |   54 +
+ .../zh_CN/admin-guide/reporting-issues.rst    | 1269 +++++++++++++++++
+ .../zh_CN/admin-guide/security-bugs.rst       |   74 +
+ .../zh_CN/admin-guide/tainted-kernels.rst     |  157 ++
+ 7 files changed, 1983 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/bug-bisect.rst
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/bug-hunting.rst
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/init.rst
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/reporting-issues.rst
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/security-bugs.rst
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/tainted-kernels.rst
+
+-- 
+2.20.1
+
