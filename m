@@ -2,71 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E100C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 23:30:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05539C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 23:36:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E069664F65
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 23:30:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C8CA664F30
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 23:36:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230239AbhCRX3i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 19:29:38 -0400
-Received: from namei.org ([65.99.196.166]:46078 "EHLO mail.namei.org"
+        id S230204AbhCRXfc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 19:35:32 -0400
+Received: from foss.arm.com ([217.140.110.172]:53444 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229769AbhCRX31 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Mar 2021 19:29:27 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.namei.org (Postfix) with ESMTPS id 284A1DC8;
-        Thu, 18 Mar 2021 23:26:43 +0000 (UTC)
-Date:   Fri, 19 Mar 2021 10:26:43 +1100 (AEDT)
-From:   James Morris <jmorris@namei.org>
-To:     =?ISO-8859-15?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-cc:     Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
+        id S229681AbhCRXfJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Mar 2021 19:35:09 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DC6D4ED1;
+        Thu, 18 Mar 2021 16:35:08 -0700 (PDT)
+Received: from [10.57.50.37] (unknown [10.57.50.37])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4D49F3F792;
+        Thu, 18 Mar 2021 16:35:06 -0700 (PDT)
+Subject: Re: [PATCH] swiotlb: Add swiotlb=off to disable SWIOTLB
+To:     Florian Fainelli <f.fainelli@gmail.com>,
+        linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>, opendmb@gmail.com,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "open list:SWIOTLB SUBSYSTEM" <iommu@lists.linux-foundation.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v30 00/12] Landlock LSM
-In-Reply-To: <20210316204252.427806-1-mic@digikod.net>
-Message-ID: <651a1034-c59f-1085-d3f6-c5a41f6fbbb@namei.org>
-References: <20210316204252.427806-1-mic@digikod.net>
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+References: <20210318191816.4185226-1-f.fainelli@gmail.com>
+ <bbd44c42-cedc-7bd6-a443-c991fd080298@gmail.com>
+ <e7850feb-b7cd-e279-e3fc-a9bdba162423@arm.com>
+ <f0940ea7-79f6-af57-aa7d-d121abb99012@gmail.com>
+ <16d1c66f-5451-2515-af73-a6b44d996e92@arm.com>
+ <a8a05321-3fd0-d1c4-9d76-ec2e79e310ec@gmail.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <3dd81519-4a73-efb8-abf0-0b766f993a8b@arm.com>
+Date:   Thu, 18 Mar 2021 23:35:00 +0000
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <a8a05321-3fd0-d1c4-9d76-ec2e79e310ec@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I've queued this patchset here:
+On 2021-03-18 21:31, Florian Fainelli wrote:
+> 
+> 
+> On 3/18/2021 12:53 PM, Robin Murphy wrote:
+>> On 2021-03-18 19:43, Florian Fainelli wrote:
+>>>
+>>>
+>>> On 3/18/2021 12:34 PM, Robin Murphy wrote:
+>>>> On 2021-03-18 19:22, Florian Fainelli wrote:
+>>>>>
+>>>>>
+>>>>> On 3/18/2021 12:18 PM, Florian Fainelli wrote:
+>>>>>> It may be useful to disable the SWIOTLB completely for testing or
+>>>>>> when a
+>>>>>> platform is known not to have any DRAM addressing limitations what so
+>>>>>> ever.
+>>>>
+>>>> Isn't that what "swiotlb=noforce" is for? If you're confident that we've
+>>>> really ironed out *all* the awkward corners that used to blow up if
+>>>> various internal bits were left uninitialised, then it would make sense
+>>>> to just tweak the implementation of what we already have.
+>>>
+>>> swiotlb=noforce does prevent dma_direct_map_page() from resorting to the
+>>> swiotlb, however what I am also after is reclaiming these 64MB of
+>>> default SWIOTLB bounce buffering memory because my systems run with
+>>> large amounts of reserved memory into ZONE_MOVABLE and everything in
+>>> ZONE_NORMAL is precious at that point.
+>>
+>> It also forces io_tlb_nslabs to the minimum, so it should be claiming
+>> considerably less than 64MB. IIRC the original proposal *did* skip
+>> initialisation completely, but that turned up the aforementioned issues.
+> 
+> AFAICT in that case we will have iotlb_n_slabs will set to 1, which will
+> still make us allocate io_tlb_n_slabs << IO_TLB_SHIFT bytes in
+> swiotlb_init(), which still gives us 64MB.
 
-git://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git landlock_lsm
+Eh? When did 2KB become 64MB? IO_TLB_SHIFT is 11, so that's at most one 
+page in anyone's money...
 
-and pulled it into next-testing, which will get it coverage in linux-next.
+>>>> I wouldn't necessarily disagree with adding "off" as an additional alias
+>>>> for "noforce", though, since it does come across as a bit wacky for
+>>>> general use.
+>>>>
+>>>>>> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+>>>>>
+>>>>> Christoph, in addition to this change, how would you feel if we
+>>>>> qualified the swiotlb_init() in arch/arm/mm/init.c with a:
+>>>>>
+>>>>>
+>>>>> if (memblock_end_of_DRAM() >= SZ_4G)
+>>>>>       swiotlb_init(1)
+>>>>
+>>>> Modulo "swiotlb=force", of course ;)
+>>>
+>>> Indeed, we would need to handle that case as well. Does it sound
+>>> reasonable to do that to you as well?
+>>
+>> I wouldn't like it done to me personally, but for arm64, observe what
+>> mem_init() in arch/arm64/mm/init.c already does.
 
-All going well, I'll aim to push this to Linus in the next merge window. 
-More review and testing during that time will be helpful.
+In fact I should have looked more closely at that myself - checking 
+debugfs on my 4GB arm64 board actually shows io_tlb_nslabs = 0, and 
+indeed we are bypassing initialisation completely and (ab)using 
+SWIOTLB_NO_FORCE to cover it up, so I guess it probably *is* safe now 
+for the noforce option to do the same for itself and save even that one 
+page.
 
-
--- 
-James Morris
-<jmorris@namei.org>
-
+Robin.
