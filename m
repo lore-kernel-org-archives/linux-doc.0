@@ -2,81 +2,162 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 625BDC433E9
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 03:26:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF3AEC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 03:44:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D1A664EEC
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 03:26:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 90D4F64F04
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 03:44:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230507AbhCRD0X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 17 Mar 2021 23:26:23 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:44856 "EHLO loongson.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231249AbhCRD0O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 17 Mar 2021 23:26:14 -0400
-Received: from LAPTOP-O8VTVVS6.localdomain (unknown [112.20.110.110])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Bx4+RMyFJgffEBAA--.6905S2;
-        Thu, 18 Mar 2021 11:26:05 +0800 (CST)
-From:   Yanteng Si <siyanteng@loongson.cn>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Namjae Jeon <namjae.jeon@samsung.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Steve French <stfrench@microsoft.com>,
-        Gibeom Kim <gibeomii.kim@samsung.com>,
-        linux-doc@vger.kernel.org, Huacai chen <chenhuacai@gmail.com>,
-        siyanteng@gmail.com, Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH 0/2] docs/filesystems:fixes two build warnings
-Date:   Thu, 18 Mar 2021 11:26:02 +0800
-Message-Id: <20210318032604.9727-1-siyanteng@loongson.cn>
-X-Mailer: git-send-email 2.25.1
+        id S229618AbhCRDo2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 17 Mar 2021 23:44:28 -0400
+Received: from mailout4.samsung.com ([203.254.224.34]:48733 "EHLO
+        mailout4.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229512AbhCRDn5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 17 Mar 2021 23:43:57 -0400
+Received: from epcas1p3.samsung.com (unknown [182.195.41.47])
+        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20210318034355epoutp04b7a1b197161b3c4ba7db74cec81b09e9~tUvDGKE4h0312603126epoutp04e
+        for <linux-doc@vger.kernel.org>; Thu, 18 Mar 2021 03:43:55 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20210318034355epoutp04b7a1b197161b3c4ba7db74cec81b09e9~tUvDGKE4h0312603126epoutp04e
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1616039035;
+        bh=R5PAIR89jNJrslFlC1Qoqb8yIcANZlwWDmKnWLmlffs=;
+        h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+        b=K5YhxfMUTrDPFHaRM9Lif8PomXeRFgRh4v89h9eqoEkOQ6dCI44F4enuIq5pgP+U3
+         KWywsxzD0v14w+89b/vEGe6R+3H7UQsupY8DU2rO4Kz5ODgaWvUlztOUEyB5KEViUV
+         jlWT8gqJA2jtJ7m1k45SBoRKILIPKI0uJ/b9tvDo=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+        epcas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20210318034354epcas1p1a349cff22cf079fd683898b36c6886be~tUvCOmwaD2378623786epcas1p1l;
+        Thu, 18 Mar 2021 03:43:54 +0000 (GMT)
+Received: from epsmges1p4.samsung.com (unknown [182.195.40.164]) by
+        epsnrtp4.localdomain (Postfix) with ESMTP id 4F1CYj3dxQz4x9QB; Thu, 18 Mar
+        2021 03:43:53 +0000 (GMT)
+Received: from epcas1p1.samsung.com ( [182.195.41.45]) by
+        epsmges1p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+        FB.BC.59147.97CC2506; Thu, 18 Mar 2021 12:43:53 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20210318034352epcas1p25e4b5a2b6325b26a1ee8415e50d4d16e~tUvAd7eOU0987409874epcas1p2Q;
+        Thu, 18 Mar 2021 03:43:52 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20210318034352epsmtrp1873d6350483368eec76244798a6270db~tUvAdEYkx0141801418epsmtrp1X;
+        Thu, 18 Mar 2021 03:43:52 +0000 (GMT)
+X-AuditID: b6c32a38-e53ff7000000e70b-72-6052cc793ef2
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        3E.C1.13470.87CC2506; Thu, 18 Mar 2021 12:43:52 +0900 (KST)
+Received: from namjaejeon01 (unknown [10.88.104.63]) by epsmtip1.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20210318034352epsmtip1381aa942165d5e46f48c60526d5d3bc9~tUvAQNA0g2448224482epsmtip14;
+        Thu, 18 Mar 2021 03:43:52 +0000 (GMT)
+From:   "Namjae Jeon" <namjae.jeon@samsung.com>
+To:     "'Yanteng Si'" <siyanteng@loongson.cn>
+Cc:     "'Mauro Carvalho Chehab'" <mchehab+huawei@kernel.org>,
+        "'Steve French'" <stfrench@microsoft.com>,
+        "'Gibeom Kim'" <gibeomii.kim@samsung.com>,
+        <linux-doc@vger.kernel.org>,
+        "'Huacai chen'" <chenhuacai@gmail.com>, <siyanteng@gmail.com>,
+        "'Jonathan Corbet'" <corbet@lwn.net>
+In-Reply-To: <20210318032604.9727-2-siyanteng@loongson.cn>
+Subject: RE: [PATCH 1/2] docs: filesystems: cifsd: fix document title markup
+Date:   Thu, 18 Mar 2021 12:43:52 +0900
+Message-ID: <01b201d71ba8$ea20c1f0$be6245d0$@samsung.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Bx4+RMyFJgffEBAA--.6905S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7XF48uFWrur1xWrWfGF18uFg_yoW3Grg_C3
-        4xXFWkJr1UZ3WxJ3WxCF15WF13CFW7K3Wruw45Jry8Ja47JrWDJa4Dt34rtw48JFsxuryD
-        JFsrX3savFnrtjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUb48FF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-        A2z4x0Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Cr0_
-        Gr1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-        0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-        2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r48
-        MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
-        0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
-        wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
-        W8JwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
-        IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjQBMtUUUU
-        U==
-X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQKBpTFN3nHQWl8/otGaCxi9GvZJQwIQxc+/AeT8PMypFFfUEA==
+Content-Language: ko
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrKJsWRmVeSWpSXmKPExsWy7bCmrm7lmaAEgx8bpS0e/7nIaPHkQDuj
+        xbfdvSwWC9uWsFg8nH2V0eL+33ksFmeWs1jcmjifzYHDY+esu+wem1Z1snk0Ni1i8ljcN5nV
+        o3XHX3aPvi2rGD0+b5ILYI/KsclITUxJLVJIzUvOT8nMS7dV8g6Od443NTMw1DW0tDBXUshL
+        zE21VXLxCdB1y8wBOkpJoSwxpxQoFJBYXKykb2dTlF9akqqQkV9cYquUWpCSU2BoUKBXnJhb
+        XJqXrpecn2tlaGBgZApUmZCTMfvCfqaCaZwVs8/uYWxgvMnexcjJISFgIrGvcT1LFyMXh5DA
+        DkaJvXvamCGcT4wSk8+vYASpEhL4xihxZmEOTMeuyQvYIOJ7GSX+Lg2GaHjJKPGu4wcLSIJN
+        QFfi35/9YEUiAloSmzfsYAUpYhaYziTx4dMrsCJOASuJJ/u+gW0QFvCR6FzwEOwmFgFViXlb
+        P4HZvAKWErOOX2KDsAUlTs58AtbLLCAvsf3tHGaIixQkfj5dxgqxzEni3J8jrBA1IhKzOyHe
+        kRBYySGx4dBDRogGF4l7j2FsYYlXx7dAA0NK4mV/G5DNAWRXS3zcDzW/g1HixXdbCNtY4ub6
+        DawgJcwCmhLrd+lDhBUldv6eywixlk/i3dceVogpvBIdbUIQJaoSfZcOM0HY0hJd7R/YJzAq
+        zULy2Cwkj81C8sAshGULGFlWMYqlFhTnpqcWGxaYIMf1JkZwetWy2ME49+0HvUOMTByMhxgl
+        OJiVRHhN8wIShHhTEiurUovy44tKc1KLDzGaAoN6IrOUaHI+MMHnlcQbmhoZGxtbmJiZm5ka
+        K4nzJhk8iBcSSE8sSc1OTS1ILYLpY+LglGpginr51nHPuxPHG64WpAjZHHoQv/1lg6eruKTl
+        jVu9ORFR+RtYFq9Y8dcz9Otc8frIxn0cdZkLnz5L//TyK9/VfyYrlvxaXxKj9F31lLb3Lu8k
+        Vpfph5bv6Jr9YEV5TEeNskn8LHOj9FuKv+KCrwWv6bhtsWjlNeekh1VvW5RbH9d+yDZeeWXb
+        5Rlv2i87Vn/4P62V8WXVYTfZNLewxk/r5viucp6w5IdoS0WolNzcnIWBmRNstFKq+ZWFGyMY
+        OZm3/tjRemHawgoXkbnGJ1MW3Xt8VnvbpsdSWV411qstty3ap/4+836Cl9zl3Qe5r/HKlCiV
+        zUteeaVbnqnuqfzamT3/TpoG/Fdfq3BasWJLiBJLcUaioRZzUXEiAMSREv04BAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprAIsWRmVeSWpSXmKPExsWy7bCSnG7FmaAEgxcPJS0e/7nIaPHkQDuj
+        xbfdvSwWC9uWsFg8nH2V0eL+33ksFmeWs1jcmjifzYHDY+esu+wem1Z1snk0Ni1i8ljcN5nV
+        o3XHX3aPvi2rGD0+b5ILYI/isklJzcksSy3St0vgyph9YT9TwTTOitln9zA2MN5k72Lk5JAQ
+        MJHYNXkBWxcjF4eQwG5GiX2HZjNDJKQljp04A2RzANnCEocPF0PUPGeUWDphE1gzm4CuxL8/
+        +9lAbBEBLYnNG3awghQxC8xlklhz7D0TRMdORokz7TMZQao4Bawknuz7BmYLC/hIdC54CDaJ
+        RUBVYt7WT2A2r4ClxKzjl9ggbEGJkzOfsIBcwSygJ9G2EayVWUBeYvvbOVCHKkj8fLqMFeII
+        J4lzf46wQtSISMzubGOewCg8C8mkWQiTZiGZNAtJxwJGllWMkqkFxbnpucWGBYZ5qeV6xYm5
+        xaV56XrJ+bmbGMGRpqW5g3H7qg96hxiZOBgPMUpwMCuJ8JrmBSQI8aYkVlalFuXHF5XmpBYf
+        YpTmYFES573QdTJeSCA9sSQ1OzW1ILUIJsvEwSnVwFTQ2D3xjehd21M7+MxNLt6LZu8sZn1t
+        wKSzJV6cg3+1yfXP6e/3XPVxm/rgofKEtP+vono02//+E9n5vOhS9/wzAX/CtkSt/L3nyNsN
+        8uyZ/0waFb583tR0942cp8clhhThXq1tW5WPFO/U1ZaPZ9KzXPGEYYHGgq8FzyV2WK06L/OF
+        65axUKr3sxPzpmR6MAr/vW0Qap9vrXtJIjB4Q2nXv2lTnzB3ZpksXGZ1h6fL5IWnyrtjx+tY
+        5mz5MOe/9/JqNe8ymazQkn126rHddlfZ/He4V1rE2sUJvxHgP9rXZRGdZTNL5faC17d99kjY
+        iGw2lSxdMzNPzmG+nvmMOI7gJb+2RTHvyjWaVvO5WYmlOCPRUIu5qDgRAMSODugjAwAA
+X-CMS-MailID: 20210318034352epcas1p25e4b5a2b6325b26a1ee8415e50d4d16e
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: SVC_REQ_APPROVE
+CMS-TYPE: 101P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20210318032616epcas1p13d33dab0d6efa84cfc92184f391c8296
+References: <20210318032604.9727-1-siyanteng@loongson.cn>
+        <CGME20210318032616epcas1p13d33dab0d6efa84cfc92184f391c8296@epcas1p1.samsung.com>
+        <20210318032604.9727-2-siyanteng@loongson.cn>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series of patches fix some warnings:
+Hi Yanteng,
 
-linux-next/Documentation/filesystems/cifs/cifsd.rst:3: WARNING: Title overline too short.
+Thanks for your patch.
+I have already applied the patch to fix this warning to steve's tree.
 
-=========================
-CIFSD - SMB3 Kernel Server
-=========================
+https://github.com/smfrench/smb3-kernel/commit/801019d874df84f5fa8d21148c2a82edc80785da
 
-linux-next/Documentation/filesystems/cifs/cifsd.rst: WARNING: document isn't included in any toctree
+Thanks!
+> As warned by sphinx:
+> 
+> linux-next/Documentation/filesystems/cifs/cifsd.rst:3: WARNING:
+> Title overline too short.
+> 
+> =========================
+> CIFSD - SMB3 Kernel Server
+> =========================
+> 
+> so,just increase it!
+> ---
+>  Documentation/filesystems/cifs/cifsd.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/cifs/cifsd.rst b/Documentation/filesystems/cifs/cifsd.rst
+> index e0c33d03f290..af3589da6923 100644
+> --- a/Documentation/filesystems/cifs/cifsd.rst
+> +++ b/Documentation/filesystems/cifs/cifsd.rst
+> @@ -1,8 +1,8 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+> 
+> -=========================
+> +==========================
+>  CIFSD - SMB3 Kernel Server
+> -=========================
+> +==========================
+> 
+>  CIFSD is a linux kernel server which implements SMB3 protocol in kernel space  for sharing files over
+> network.
+> --
+> 2.25.1
 
-Yanteng Si(2):
-
-docs: filesystems: cifsd: fix document title markup
-docs: filesystems: add cifs to the index file
-
-Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
----
-Documentation/filesystems/cifs/cifsd.rst |  4 ++--
-Documentation/filesystems/cifs/index.rst | 12 ++++++++++++
-Documentation/filesystems/index.rst      |  2 +-
-3 files changed, 15 insertions(+), 3 deletions(-)
 
