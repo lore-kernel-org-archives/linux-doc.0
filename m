@@ -2,124 +2,309 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B873C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 09:48:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AD05C433E9
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 09:57:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C02A464F38
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 09:48:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1CD3564DD8
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 09:57:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229784AbhCRJr6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 05:47:58 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:54566 "EHLO mail.skyhub.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229996AbhCRJro (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Mar 2021 05:47:44 -0400
-Received: from zn.tnic (p200300ec2f0fad007adf1d3bb2d68d82.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:ad00:7adf:1d3b:b2d6:8d82])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S229941AbhCRJ4s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 05:56:48 -0400
+Received: from office2.cesnet.cz ([195.113.144.244]:40724 "EHLO
+        office2.cesnet.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229618AbhCRJ4c (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 05:56:32 -0400
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 961B31EC058C;
-        Thu, 18 Mar 2021 10:47:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1616060862;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=4Rj/z7f7I1IokpvMBB12tiM4VnDP7OF9VwWSkkcJM3k=;
-        b=hjhIoz7Uc/TRti+bG+0jGfNRhjyIAibHRwRbRukyWfFjYgfXsYiU7OXqw6zle+qmaa5nMT
-        rCfcxa3lGP2GSRLIb7WXLNEz8/gvoOTqkXNVzSYuyN4J4JX/5FEB1t4OWVEDF953pr4J2n
-        yhTWh13jmFAeHQgA0mL4BIZT3bjXnSM=
-Date:   Thu, 18 Mar 2021 10:47:40 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v23 16/28] mm: Fixup places that call pte_mkwrite()
- directly
-Message-ID: <20210318094740.GA19570@zn.tnic>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-17-yu-cheng.yu@intel.com>
+        by office2.cesnet.cz (Postfix) with ESMTPSA id 36A4940006E;
+        Thu, 18 Mar 2021 10:56:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cesnet.cz;
+        s=office2-2020; t=1616061390;
+        bh=118lnbTxA8eKbWvGsXeQrykbruOxfABZX590YoptLLg=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc;
+        b=gQKF43tSlevn3W8JD9J5pbbIGBg9ddzI3OYQH+KuKI/iVDmkjqlFBkAtXXTRNylhQ
+         kVIWanyAfcPy+oCqgaHPpGOH44U1GNTx4++31FSJy9rocSQjM7LAwj7UkiQacr7Qqt
+         vfJOeLDzZBuIrS/EOpQf6NnDMT23cTN8A9i6Fvmix/vcN/tHqJ6BsYqO/oKoGY+pDI
+         DnVXnneL6gnmnYLZpwa+Qvq1TI5hqaaxzjYQ7ArczcB2l2mu3FUmGoYODN6IsNRJgD
+         l5CHTLphlli/oxWZNfDkOgtHX2tgu25D9Xi7oy38686yphMDX3JSqtyrhFTuYltLcd
+         6vPsonIizT/sg==
+Received: by mail-lf1-f42.google.com with SMTP id o10so3569206lfb.9;
+        Thu, 18 Mar 2021 02:56:30 -0700 (PDT)
+X-Gm-Message-State: AOAM530k5EntyruOdkUNyeRfugRWlrMZ5dPqDUzmrJ0sGM1G36yuzp2F
+        ABfwD0UdUl/eLMO9b0qVpTIvqztLY7L0SPIEAcY=
+X-Google-Smtp-Source: ABdhPJxARCmqbXdbDRzRNRWFk/MAi6vv9pFlHZeCLprLSzhHa4xpKbn0OjBvZy/32kAsx/jEYZrjOhvJAYoF425/Tlo=
+X-Received: by 2002:a19:f608:: with SMTP id x8mr4943236lfe.380.1616061389690;
+ Thu, 18 Mar 2021 02:56:29 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210316151054.5405-17-yu-cheng.yu@intel.com>
+References: <20210316175503.1003051-1-kubernat@cesnet.cz> <20210317051239.GW2087@kadam>
+In-Reply-To: <20210317051239.GW2087@kadam>
+From:   =?UTF-8?B?VsOhY2xhdiBLdWJlcm7DoXQ=?= <kubernat@cesnet.cz>
+Date:   Thu, 18 Mar 2021 10:56:18 +0100
+X-Gmail-Original-Message-ID: <CABKa3nooU84H=K0XqR63j7uR2MqHx-NLJ0ReaYtNx73hsd4Jow@mail.gmail.com>
+Message-ID: <CABKa3nooU84H=K0XqR63j7uR2MqHx-NLJ0ReaYtNx73hsd4Jow@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] hwmon: (max31790) Rework to use regmap
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     kbuild@lists.01.org, lkp@intel.com, kbuild-all@lists.01.org,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 08:10:42AM -0700, Yu-cheng Yu wrote:
-> When serving a page fault, maybe_mkwrite() makes a PTE writable if it is in
-> a writable vma.  A shadow stack vma is writable, but its PTEs need
-> _PAGE_DIRTY to be set to become writable.  For this reason, maybe_mkwrite()
-> has been updated.
-> 
-> There are a few places that call pte_mkwrite() directly, but effect the
-> same result as from maybe_mkwrite().  These sites need to be updated for
+Hi Dan,
 
-s/effect the same result/have the same result/
+thanks, I will fix this in v3 of this patch series.
 
-> shadow stack as well.  Thus, change them to maybe_mkwrite():
-> 
-> - do_anonymous_page() and migrate_vma_insert_page() check VM_WRITE directly
->   and call pte_mkwrite(), which is the same as maybe_mkwrite().  Change
->   them to maybe_mkwrite().
-> 
-> - In do_numa_page(), if the numa entry 'was-writable', then pte_mkwrite()
+Vaclav
 
-You can simply say "was writable" instead of trying to hint at the
-variable there.
-
->   is called directly.  Fix it by doing maybe_mkwrite().
-> 
-> - In change_pte_range(), pte_mkwrite() is called directly.  Replace it with
->   maybe_mkwrite().
-> 
->   A shadow stack vma is writable but has different vma
-> flags, and handled accordingly in maybe_mkwrite().
+st 17. 3. 2021 v 6:14 odes=C3=ADlatel Dan Carpenter
+<dan.carpenter@oracle.com> napsal:
 >
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Hi "V=C3=A1clav,
+>
+> url:    https://github.com/0day-ci/linux/commits/V-clav-Kubern-t/hwmon-ma=
+x31790-Rework-to-use-regmap/20210317-015931
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-stag=
+ing.git hwmon-next
+> config: x86_64-randconfig-m001-20210316 (attached as .config)
+> compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+>
+> If you fix the issue, kindly add following tag as appropriate
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+>
+> smatch warnings:
+> drivers/hwmon/max31790.c:263 max31790_fan_is_visible() warn: impossible c=
+ondition '(fan_config < 0) =3D> (0-255 < 0)'
+> drivers/hwmon/max31790.c:337 max31790_write_pwm() warn: impossible condit=
+ion '(fan_config < 0) =3D> (0-255 < 0)'
+> drivers/hwmon/max31790.c:372 max31790_pwm_is_visible() warn: impossible c=
+ondition '(fan_config < 0) =3D> (0-255 < 0)'
+>
+> vim +263 drivers/hwmon/max31790.c
+>
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  257  static umode_t max31790_f=
+an_is_visible(const void *_data, u32 attr, int channel)
+> 195a4b4298a795 Il Han          2015-08-30  258  {
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  259          const struct max3=
+1790_data *data =3D _data;
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  260          struct =
+regmap *regmap =3D data->regmap;
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  261          u8 fan_=
+config =3D read_reg_byte(regmap, MAX31790_REG_FAN_CONFIG(channel % NR_CHANN=
+EL));
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  262
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16 @263          if (fan=
+_config < 0)
+>                                                             ^^^^^^^^^^^^^=
+^
+> A u8 can't be negative.
+>
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  264                 =
+ return 0;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  265
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  266          switch (attr) {
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  267          case hwmon_fan_in=
+put:
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  268          case hwmon_fan_fa=
+ult:
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  269                  if (chann=
+el < NR_CHANNEL ||
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  270                      (fan_=
+config & MAX31790_FAN_CFG_TACH_INPUT))
+> dc8dbb4d7672b7 Guenter Roeck   2018-12-10  271                          r=
+eturn 0444;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  272                  return 0;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  273          case hwmon_fan_ta=
+rget:
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  274                  if (chann=
+el < NR_CHANNEL &&
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  275                      !(fan=
+_config & MAX31790_FAN_CFG_TACH_INPUT))
+> dc8dbb4d7672b7 Guenter Roeck   2018-12-10  276                          r=
+eturn 0644;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  277                  return 0;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  278          default:
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  279                  return 0;
+> 195a4b4298a795 Il Han          2015-08-30  280          }
+> 195a4b4298a795 Il Han          2015-08-30  281  }
+> 195a4b4298a795 Il Han          2015-08-30  282
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  283  static int max31790_read_=
+pwm(struct device *dev, u32 attr, int channel,
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  284                           =
+    long *val)
+> 195a4b4298a795 Il Han          2015-08-30  285  {
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  286          struct =
+max31790_data *data =3D dev_get_drvdata(dev);
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  287          struct =
+regmap *regmap =3D data->regmap;
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  288          int rea=
+d;
+> 195a4b4298a795 Il Han          2015-08-30  289
+> 195a4b4298a795 Il Han          2015-08-30  290          if (IS_ERR(data))
+> 195a4b4298a795 Il Han          2015-08-30  291                  return PT=
+R_ERR(data);
+> 195a4b4298a795 Il Han          2015-08-30  292
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  293          switch (attr) {
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  294          case hwmon_pwm_in=
+put:
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  295                 =
+ read =3D read_reg_word(regmap, MAX31790_REG_PWMOUT(channel));
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  296                 =
+ if (read < 0)
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  297                 =
+         return read;
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  298
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  299                 =
+ *val =3D read >> 8;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  300                  return 0;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  301          case hwmon_pwm_en=
+able:
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  302                 =
+ read =3D read_reg_byte(regmap, MAX31790_REG_FAN_CONFIG(channel));
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  303                 =
+ if (read < 0)
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  304                 =
+         return read;
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  305
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  306                 =
+ if (read & MAX31790_FAN_CFG_RPM_MODE)
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  307                          *=
+val =3D 2;
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  308                 =
+ else if (read & MAX31790_FAN_CFG_TACH_INPUT_EN)
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  309                          *=
+val =3D 1;
+> 195a4b4298a795 Il Han          2015-08-30  310                  else
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  311                          *=
+val =3D 0;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  312                  return 0;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  313          default:
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  314                  return -E=
+OPNOTSUPP;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  315          }
+> 195a4b4298a795 Il Han          2015-08-30  316  }
+> 195a4b4298a795 Il Han          2015-08-30  317
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  318  static int max31790_write=
+_pwm(struct device *dev, u32 attr, int channel,
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  319                           =
+     long val)
+> 195a4b4298a795 Il Han          2015-08-30  320  {
+> 195a4b4298a795 Il Han          2015-08-30  321          struct max31790_d=
+ata *data =3D dev_get_drvdata(dev);
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  322          struct =
+regmap *regmap =3D data->regmap;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  323          u8 fan_config;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  324          int err =3D 0;
+> 195a4b4298a795 Il Han          2015-08-30  325
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  326          switch (attr) {
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  327          case hwmon_pwm_in=
+put:
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  328                  if (val <=
+ 0 || val > 255) {
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  329                          e=
+rr =3D -EINVAL;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  330                          b=
+reak;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  331                  }
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  332                 =
+ err =3D write_reg_word(regmap, MAX31790_REG_PWMOUT(channel), val << 8);
+> 195a4b4298a795 Il Han          2015-08-30  333                  break;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  334          case hwmon_pwm_en=
+able:
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  335                 =
+ fan_config =3D read_reg_byte(regmap, MAX31790_REG_FAN_CONFIG(channel % NR_=
+CHANNEL));
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  336
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16 @337                 =
+ if (fan_config < 0)
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  338                 =
+         return fan_config;
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  339
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  340                  if (val =
+=3D=3D 0) {
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  341                          f=
+an_config &=3D ~(MAX31790_FAN_CFG_TACH_INPUT_EN |
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  342                           =
+               MAX31790_FAN_CFG_RPM_MODE);
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  343                  } else if=
+ (val =3D=3D 1) {
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  344                          f=
+an_config =3D (fan_config |
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  345                           =
+             MAX31790_FAN_CFG_TACH_INPUT_EN) &
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  346                           =
+            ~MAX31790_FAN_CFG_RPM_MODE;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  347                  } else if=
+ (val =3D=3D 2) {
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  348                          f=
+an_config |=3D MAX31790_FAN_CFG_TACH_INPUT_EN |
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  349                           =
+             MAX31790_FAN_CFG_RPM_MODE;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  350                  } else {
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  351                          e=
+rr =3D -EINVAL;
+> 195a4b4298a795 Il Han          2015-08-30  352                          b=
+reak;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  353                  }
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  354                 =
+ err =3D regmap_write(regmap,
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  355                           =
+          MAX31790_REG_FAN_CONFIG(channel),
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  356                           =
+          fan_config);
+> 195a4b4298a795 Il Han          2015-08-30  357                  break;
+> 195a4b4298a795 Il Han          2015-08-30  358          default:
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  359                  err =3D -=
+EOPNOTSUPP;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  360                  break;
+> 195a4b4298a795 Il Han          2015-08-30  361          }
+> 195a4b4298a795 Il Han          2015-08-30  362
+> 195a4b4298a795 Il Han          2015-08-30  363          return err;
+> 195a4b4298a795 Il Han          2015-08-30  364  }
+> 195a4b4298a795 Il Han          2015-08-30  365
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  366  static umode_t max31790_p=
+wm_is_visible(const void *_data, u32 attr, int channel)
+> 195a4b4298a795 Il Han          2015-08-30  367  {
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  368          const struct max3=
+1790_data *data =3D _data;
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  369          struct =
+regmap *regmap =3D data->regmap;
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  370          u8 fan_=
+config =3D read_reg_byte(regmap, MAX31790_REG_FAN_CONFIG(channel % NR_CHANN=
+EL));
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  371
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16 @372          if (fan=
+_config < 0)
+> 2c8602cfaeab63 V=C3=A1clav Kubern=C3=A1t 2021-03-16  373                 =
+ return 0;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  374
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  375          switch (attr) {
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  376          case hwmon_pwm_in=
+put:
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  377          case hwmon_pwm_en=
+able:
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  378                  if (!(fan=
+_config & MAX31790_FAN_CFG_TACH_INPUT))
+> dc8dbb4d7672b7 Guenter Roeck   2018-12-10  379                          r=
+eturn 0644;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  380                  return 0;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  381          default:
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  382                  return 0;
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  383          }
+> 54187ff9d766b2 Guenter Roeck   2016-07-01  384  }
+>
 > ---
->  mm/memory.c   | 5 ++---
->  mm/migrate.c  | 3 +--
->  mm/mprotect.c | 2 +-
->  3 files changed, 4 insertions(+), 6 deletions(-)
-
-As with the previous one, I guess this one needs a mm person ACK. I
-mean, it is pretty obvious but still...
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+> 0-DAY CI Kernel Test Service, Intel Corporation
+> https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
