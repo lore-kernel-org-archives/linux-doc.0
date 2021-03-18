@@ -2,106 +2,435 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFAADC43332
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:09:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D20DAC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:10:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AD32F64E86
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:09:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 99F9164E81
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:10:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229618AbhCRKJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 06:09:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54768 "EHLO
+        id S230056AbhCRKKR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 06:10:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55004 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229600AbhCRKJC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 06:09:02 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AFF2C06175F;
-        Thu, 18 Mar 2021 03:09:02 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id 75so3623920lfa.2;
-        Thu, 18 Mar 2021 03:09:02 -0700 (PDT)
+        with ESMTP id S230099AbhCRKKF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 06:10:05 -0400
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AE24C06174A;
+        Thu, 18 Mar 2021 03:10:05 -0700 (PDT)
+Received: by mail-qt1-x831.google.com with SMTP id a11so3618454qto.2;
+        Thu, 18 Mar 2021 03:10:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=jMxhISu+COlRrHc/EVrqMnT5LVw2161ovhdA7IBtSGw=;
-        b=N+Q0LUNoyVaDPJ1eJrZ67FhUa77q/Fz02On4l9bg9QACSIgykCKqUmFdsf53Ojgnbf
-         eyumUdx/TwjbtDOLgwCYAB7RDOtR57TMCBeyNSAY//ay7Tl2lccP2Ssym94kRXjxfYRe
-         lulL4E/vgpp41CghUdWNrhQunOsNpbRkQh1Z5uA9cr4OPAdKTqKspV2wEkOPVcm1LmJR
-         yZKXoXYlgW/Aj82akuKLiTGE5Fox66wxjP6rcBsCJbwoniHR5/N5xRjjkVjAEfQdY1MW
-         wabHvQrtRlGBXU/oemiBE0fxxY0J0doyEwDn/K3ybrpVrl7lPm8K8TOwVCHW7Z8VfYJf
-         AzpA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=kPY0GkE9S3FRLIHJStl59h2p5t9zcOUJ2P3qtKum3yg=;
+        b=uifa1zNjdbvpbTXmZcIKvBHVGeyYEFADJwyoHeuQNZqV1kDmwB0V91RV/2VREZyGbs
+         qLG3vDdd4IOI5UVQABqKsyeSAuHn4HPkV5FtPQJ1ve0R/B16S+XfSsD34iknZIFNQrW1
+         0SQDULowYjwAhVQXV63/5Ow/0BZyvHBAyYX87iUuITvDLE6t6WNTqnvd2Z0WGJwFgOKY
+         b6CYcghHnNyNSxZncImChF8TE6sXeXczWJmW/KEegOWScQaotwVbaFn/bbv+UgVmtljZ
+         Rc4ZZbsRtd2x8M1H4Bu0hmUYIiLtKOdLVyy2SP/hkNr5pt/H798mzqpJ2xZ9YgeQoRu4
+         zNzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=jMxhISu+COlRrHc/EVrqMnT5LVw2161ovhdA7IBtSGw=;
-        b=IG0AFNQ4WIC7kIb1oqhO0NDJK4IpvBYtQMoHOV9DKFOKi5oYNqDC/BV9Gtr3IoH2cm
-         FMs+fvSr2r42szRdjBPArkOki56V6+y780HZ3xrW6yfFyKEi0qH0qiSI896Z5F/SCDWD
-         ywvmmefUjva1eWKcciuSJvoS6NdenabVMNcsg1d8HYaxGNWsyi9Xt1aa+qEHr4TnD6wH
-         an9cXBxh/pCVUaM1/Pr6Aho5lINHP7y0Ugv7D63w2LHAIaFUmQ0Lp14Sbf7tY7fYwmtz
-         IdX2/sg635XMHgnoc2K33eKSEoNXkHFZ3pV+ht+R7Yd3WIRao7tSSwmpDuvelJQKDFD1
-         81fA==
-X-Gm-Message-State: AOAM533B0nqqsdjnFA3SuMjAMpcZxmYRRvil0HpuTdKptUaWI6YivoUR
-        nH2jPe16oyAGQmh2VUFkPZLMuey11I6fmA==
-X-Google-Smtp-Source: ABdhPJx2/i763YoZT8agJf/e8IcPTQBDi5fhHCqQUnQpQ0jOlOdRn9E3L+UaYKsqgqqx/61KeZhUWQ==
-X-Received: by 2002:a05:6512:32ab:: with SMTP id q11mr4934722lfe.106.1616062140994;
-        Thu, 18 Mar 2021 03:09:00 -0700 (PDT)
-Received: from [192.168.1.101] ([178.176.78.3])
-        by smtp.gmail.com with ESMTPSA id z21sm173661ljh.104.2021.03.18.03.08.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Mar 2021 03:09:00 -0700 (PDT)
-Subject: Re: [PATCH 07/10] MIPS: disable CONFIG_IDE in bigsur_defconfig
-To:     Christoph Hellwig <hch@lst.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org
-References: <20210318045706.200458-1-hch@lst.de>
- <20210318045706.200458-8-hch@lst.de>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <53035511-c140-b51a-dd1d-874b1041039a@gmail.com>
-Date:   Thu, 18 Mar 2021 13:08:58 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
-MIME-Version: 1.0
-In-Reply-To: <20210318045706.200458-8-hch@lst.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=kPY0GkE9S3FRLIHJStl59h2p5t9zcOUJ2P3qtKum3yg=;
+        b=q7S8hHzgtzppac9owYh6odC1wcLQkrp78BBs9AndFr3rRz02qPIrXrprQcX600oNwq
+         wZs5mv+oAO1YNUbXsWZlySsDhFD31SOX6pb/6OywPgppYfUXREdUywhZn/X8LeMjjaRa
+         Qb8CxChYmJTyNOsmvlWSrJ15aTNzweGs3mrEErkIrt30O1FhX5yArYm7Blw8j3zTG7Zi
+         bY8NRVAU4adBjGxu9SxZYTMEiRrXE9ZvPpG/cJr01AtFfH0VuwzwZQ1G+iiFcObJwJJs
+         /JQQlQlGnQhive3Tkc7cUGZ9BK07OtPYBLeF2EeKq+x63lr4wVnUbutDU6HkE1j2c2Vg
+         DBsw==
+X-Gm-Message-State: AOAM531Zmk4Kqct0i9ErkuFntI/xhIAW08pc4L6kECesfvHOTED7KCCU
+        aGcdK9xA1HJLcHLMlgzGOs0=
+X-Google-Smtp-Source: ABdhPJx9BuUeb9sqCnoNK/EsEHuSf53fJCziFiNq4nAQvp5P9LSCCsjFW4GiOQc6OhsWiK4VFctTkA==
+X-Received: by 2002:ac8:53c3:: with SMTP id c3mr3056797qtq.118.1616062204665;
+        Thu, 18 Mar 2021 03:10:04 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id d16sm1358101qka.43.2021.03.18.03.10.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Mar 2021 03:10:04 -0700 (PDT)
+From:   sj38.park@gmail.com
+To:     akpm@linux-foundation.org
+Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        amit@kernel.org, benh@kernel.crashing.org,
+        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
+        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
+        foersleo@amazon.de, gthelen@google.com, mgorman@suse.de,
+        minchan@kernel.org, mingo@redhat.com, namhyung@kernel.org,
+        peterz@infradead.org, riel@surriel.com, rientjes@google.com,
+        rostedt@goodmis.org, rppt@kernel.org, shakeelb@google.com,
+        shuah@kernel.org, sj38.park@gmail.com, snu@amazon.de,
+        vbabka@suse.cz, vdavydov.dev@gmail.com, zgf574564920@gmail.com,
+        linux-damon@amazon.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v25 02/13] mm/damon/core: Implement region-based sampling
+Date:   Thu, 18 Mar 2021 10:08:45 +0000
+Message-Id: <20210318100856.34715-3-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210318100856.34715-1-sj38.park@gmail.com>
+References: <20210318100856.34715-1-sj38.park@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi!
+From: SeongJae Park <sjpark@amazon.de>
 
-On 3/18/21 7:57 AM, Christoph Hellwig wrote:
+To avoid the unbounded increase of the overhead, DAMON groups adjacent
+pages that are assumed to have the same access frequencies into a
+region.  As long as the assumption (pages in a region have the same
+access frequencies) is kept, only one page in the region is required to
+be checked.  Thus, for each ``sampling interval``,
 
-> bigsur_defconfig enables CONFIG_IDE for the tc86c001 ide driver, which
-> is a Toshiba plug in card that does not make much sense to use on bigsur
-    ^ for
+ 1. the 'prepare_access_checks' primitive picks one page in each region,
+ 2. waits for one ``sampling interval``,
+ 3. checks whether the page is accessed meanwhile, and
+ 4. increases the access count of the region if so.
 
-   Else that doesn't make much sense. :-)
+Therefore, the monitoring overhead is controllable by adjusting the
+number of regions.  DAMON allows both the underlying primitives and user
+callbacks to adjust regions for the trade-off.  In other words, this
+commit makes DAMON to use not only time-based sampling but also
+space-based sampling.
 
-> platforms.  For all other ATA cards libata support is already enabled.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-[...]
+This scheme, however, cannot preserve the quality of the output if the
+assumption is not guaranteed.  Next commit will address this problem.
 
-MBR, Sergei
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+---
+ include/linux/damon.h |  77 ++++++++++++++++++++++-
+ mm/damon/core.c       | 143 ++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 213 insertions(+), 7 deletions(-)
+
+diff --git a/include/linux/damon.h b/include/linux/damon.h
+index 2f652602b1ea..67db309ad61b 100644
+--- a/include/linux/damon.h
++++ b/include/linux/damon.h
+@@ -12,6 +12,48 @@
+ #include <linux/time64.h>
+ #include <linux/types.h>
+ 
++/**
++ * struct damon_addr_range - Represents an address region of [@start, @end).
++ * @start:	Start address of the region (inclusive).
++ * @end:	End address of the region (exclusive).
++ */
++struct damon_addr_range {
++	unsigned long start;
++	unsigned long end;
++};
++
++/**
++ * struct damon_region - Represents a monitoring target region.
++ * @ar:			The address range of the region.
++ * @sampling_addr:	Address of the sample for the next access check.
++ * @nr_accesses:	Access frequency of this region.
++ * @list:		List head for siblings.
++ */
++struct damon_region {
++	struct damon_addr_range ar;
++	unsigned long sampling_addr;
++	unsigned int nr_accesses;
++	struct list_head list;
++};
++
++/**
++ * struct damon_target - Represents a monitoring target.
++ * @id:			Unique identifier for this target.
++ * @regions_list:	Head of the monitoring target regions of this target.
++ * @list:		List head for siblings.
++ *
++ * Each monitoring context could have multiple targets.  For example, a context
++ * for virtual memory address spaces could have multiple target processes.  The
++ * @id of each target should be unique among the targets of the context.  For
++ * example, in the virtual address monitoring context, it could be a pidfd or
++ * an address of an mm_struct.
++ */
++struct damon_target {
++	unsigned long id;
++	struct list_head regions_list;
++	struct list_head list;
++};
++
+ struct damon_ctx;
+ 
+ /**
+@@ -36,7 +78,7 @@ struct damon_ctx;
+  *
+  * @init should initialize primitive-internal data structures.  For example,
+  * this could be used to construct proper monitoring target regions and link
+- * those to @damon_ctx.target.
++ * those to @damon_ctx.adaptive_targets.
+  * @update should update the primitive-internal data structures.  For example,
+  * this could be used to update monitoring target regions for current status.
+  * @prepare_access_checks should manipulate the monitoring regions to be
+@@ -130,7 +172,7 @@ struct damon_callback {
+  * @primitive:	Set of monitoring primitives for given use cases.
+  * @callback:	Set of callbacks for monitoring events notifications.
+  *
+- * @target:	Pointer to the user-defined monitoring target.
++ * @region_targets:	Head of monitoring targets (&damon_target) list.
+  */
+ struct damon_ctx {
+ 	unsigned long sample_interval;
+@@ -149,11 +191,40 @@ struct damon_ctx {
+ 	struct damon_primitive primitive;
+ 	struct damon_callback callback;
+ 
+-	void *target;
++	struct list_head region_targets;
+ };
+ 
++#define damon_next_region(r) \
++	(container_of(r->list.next, struct damon_region, list))
++
++#define damon_prev_region(r) \
++	(container_of(r->list.prev, struct damon_region, list))
++
++#define damon_for_each_region(r, t) \
++	list_for_each_entry(r, &t->regions_list, list)
++
++#define damon_for_each_region_safe(r, next, t) \
++	list_for_each_entry_safe(r, next, &t->regions_list, list)
++
++#define damon_for_each_target(t, ctx) \
++	list_for_each_entry(t, &(ctx)->region_targets, list)
++
++#define damon_for_each_target_safe(t, next, ctx)	\
++	list_for_each_entry_safe(t, next, &(ctx)->region_targets, list)
++
+ #ifdef CONFIG_DAMON
+ 
++struct damon_region *damon_new_region(unsigned long start, unsigned long end);
++inline void damon_insert_region(struct damon_region *r,
++		struct damon_region *prev, struct damon_region *next);
++void damon_add_region(struct damon_region *r, struct damon_target *t);
++void damon_destroy_region(struct damon_region *r);
++
++struct damon_target *damon_new_target(unsigned long id);
++void damon_add_target(struct damon_ctx *ctx, struct damon_target *t);
++void damon_free_target(struct damon_target *t);
++void damon_destroy_target(struct damon_target *t);
++
+ struct damon_ctx *damon_new_ctx(void);
+ void damon_destroy_ctx(struct damon_ctx *ctx);
+ int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
+diff --git a/mm/damon/core.c b/mm/damon/core.c
+index 693e51ebc05a..94db494dcf70 100644
+--- a/mm/damon/core.c
++++ b/mm/damon/core.c
+@@ -15,6 +15,101 @@
+ static DEFINE_MUTEX(damon_lock);
+ static int nr_running_ctxs;
+ 
++/*
++ * Construct a damon_region struct
++ *
++ * Returns the pointer to the new struct if success, or NULL otherwise
++ */
++struct damon_region *damon_new_region(unsigned long start, unsigned long end)
++{
++	struct damon_region *region;
++
++	region = kmalloc(sizeof(*region), GFP_KERNEL);
++	if (!region)
++		return NULL;
++
++	region->ar.start = start;
++	region->ar.end = end;
++	region->nr_accesses = 0;
++	INIT_LIST_HEAD(&region->list);
++
++	return region;
++}
++
++/*
++ * Add a region between two other regions
++ */
++inline void damon_insert_region(struct damon_region *r,
++		struct damon_region *prev, struct damon_region *next)
++{
++	__list_add(&r->list, &prev->list, &next->list);
++}
++
++void damon_add_region(struct damon_region *r, struct damon_target *t)
++{
++	list_add_tail(&r->list, &t->regions_list);
++}
++
++static void damon_del_region(struct damon_region *r)
++{
++	list_del(&r->list);
++}
++
++static void damon_free_region(struct damon_region *r)
++{
++	kfree(r);
++}
++
++void damon_destroy_region(struct damon_region *r)
++{
++	damon_del_region(r);
++	damon_free_region(r);
++}
++
++/*
++ * Construct a damon_target struct
++ *
++ * Returns the pointer to the new struct if success, or NULL otherwise
++ */
++struct damon_target *damon_new_target(unsigned long id)
++{
++	struct damon_target *t;
++
++	t = kmalloc(sizeof(*t), GFP_KERNEL);
++	if (!t)
++		return NULL;
++
++	t->id = id;
++	INIT_LIST_HEAD(&t->regions_list);
++
++	return t;
++}
++
++void damon_add_target(struct damon_ctx *ctx, struct damon_target *t)
++{
++	list_add_tail(&t->list, &ctx->region_targets);
++}
++
++static void damon_del_target(struct damon_target *t)
++{
++	list_del(&t->list);
++}
++
++void damon_free_target(struct damon_target *t)
++{
++	struct damon_region *r, *next;
++
++	damon_for_each_region_safe(r, next, t)
++		damon_free_region(r);
++	kfree(t);
++}
++
++void damon_destroy_target(struct damon_target *t)
++{
++	damon_del_target(t);
++	damon_free_target(t);
++}
++
+ struct damon_ctx *damon_new_ctx(void)
+ {
+ 	struct damon_ctx *ctx;
+@@ -32,15 +127,27 @@ struct damon_ctx *damon_new_ctx(void)
+ 
+ 	mutex_init(&ctx->kdamond_lock);
+ 
+-	ctx->target = NULL;
++	INIT_LIST_HEAD(&ctx->region_targets);
+ 
+ 	return ctx;
+ }
+ 
+-void damon_destroy_ctx(struct damon_ctx *ctx)
++static void damon_destroy_targets(struct damon_ctx *ctx)
+ {
+-	if (ctx->primitive.cleanup)
++	struct damon_target *t, *next_t;
++
++	if (ctx->primitive.cleanup) {
+ 		ctx->primitive.cleanup(ctx);
++		return;
++	}
++
++	damon_for_each_target_safe(t, next_t, ctx)
++		damon_destroy_target(t);
++}
++
++void damon_destroy_ctx(struct damon_ctx *ctx)
++{
++	damon_destroy_targets(ctx);
+ 	kfree(ctx);
+ }
+ 
+@@ -217,6 +324,21 @@ static bool kdamond_aggregate_interval_passed(struct damon_ctx *ctx)
+ 			ctx->aggr_interval);
+ }
+ 
++/*
++ * Reset the aggregated monitoring results ('nr_accesses' of each region).
++ */
++static void kdamond_reset_aggregated(struct damon_ctx *c)
++{
++	struct damon_target *t;
++
++	damon_for_each_target(t, c) {
++		struct damon_region *r;
++
++		damon_for_each_region(r, t)
++			r->nr_accesses = 0;
++	}
++}
++
+ /*
+  * Check whether it is time to check and apply the target monitoring regions
+  *
+@@ -238,6 +360,7 @@ static bool kdamond_need_update_primitive(struct damon_ctx *ctx)
+  */
+ static bool kdamond_need_stop(struct damon_ctx *ctx)
+ {
++	struct damon_target *t;
+ 	bool stop;
+ 
+ 	mutex_lock(&ctx->kdamond_lock);
+@@ -249,7 +372,12 @@ static bool kdamond_need_stop(struct damon_ctx *ctx)
+ 	if (!ctx->primitive.target_valid)
+ 		return false;
+ 
+-	return !ctx->primitive.target_valid(ctx->target);
++	damon_for_each_target(t, ctx) {
++		if (ctx->primitive.target_valid(t))
++			return false;
++	}
++
++	return true;
+ }
+ 
+ static void set_kdamond_stop(struct damon_ctx *ctx)
+@@ -265,6 +393,8 @@ static void set_kdamond_stop(struct damon_ctx *ctx)
+ static int kdamond_fn(void *data)
+ {
+ 	struct damon_ctx *ctx = (struct damon_ctx *)data;
++	struct damon_target *t;
++	struct damon_region *r, *next;
+ 
+ 	pr_info("kdamond (%d) starts\n", ctx->kdamond->pid);
+ 
+@@ -289,6 +419,7 @@ static int kdamond_fn(void *data)
+ 			if (ctx->callback.after_aggregation &&
+ 					ctx->callback.after_aggregation(ctx))
+ 				set_kdamond_stop(ctx);
++			kdamond_reset_aggregated(ctx);
+ 			if (ctx->primitive.reset_aggregated)
+ 				ctx->primitive.reset_aggregated(ctx);
+ 		}
+@@ -298,6 +429,10 @@ static int kdamond_fn(void *data)
+ 				ctx->primitive.update(ctx);
+ 		}
+ 	}
++	damon_for_each_target(t, ctx) {
++		damon_for_each_region_safe(r, next, t)
++			damon_destroy_region(r);
++	}
+ 
+ 	if (ctx->callback.before_terminate &&
+ 			ctx->callback.before_terminate(ctx))
+-- 
+2.17.1
+
