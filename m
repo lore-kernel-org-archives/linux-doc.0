@@ -6,89 +6,75 @@ X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3D23C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 16:13:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 296CFC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 16:38:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E77E64F04
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 16:13:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D596464E20
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 16:38:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231842AbhCRQNW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 12:13:22 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:36602 "EHLO mail.skyhub.de"
+        id S231833AbhCRQhj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 12:37:39 -0400
+Received: from ms.lwn.net ([45.79.88.28]:52030 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231806AbhCRQNA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Mar 2021 12:13:00 -0400
-Received: from zn.tnic (p200300ec2f0fad00070f6d4b275c681b.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:ad00:70f:6d4b:275c:681b])
+        id S232134AbhCRQhY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Mar 2021 12:37:24 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 6FF7E1EC0591;
-        Thu, 18 Mar 2021 17:12:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1616083978;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=iYAk+sBJZsOFN0LDj0WLxWQznRPOAKXobgPMm4BR1jY=;
-        b=iZU645W5+QzgvAjHSsEnafuzbLMH+MFR6eKTL53NMcfWNWWCuVIioJi0L2FcA2BLpKT06m
-        gJ/GltvmLMHhfRDWQB3kSksfu1SSX1G6ndpxcKb9xM3QyQvZNQNP9TmzLtd/IW6rREqyu3
-        P+M28m7Fx9Fzv71SMDm+OIAzp4gn0J4=
-Date:   Thu, 18 Mar 2021 17:13:01 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Peter Collingbourne <pcc@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-Subject: Re: [PATCH v23 21/28] mm: Re-introduce vm_flags to do_mmap()
-Message-ID: <20210318161301.GG19570@zn.tnic>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-22-yu-cheng.yu@intel.com>
- <20210318114232.GD19570@zn.tnic>
- <af1f109b-c36e-b548-ae15-752f7af7c1d4@intel.com>
+        by ms.lwn.net (Postfix) with ESMTPSA id E2D732E5;
+        Thu, 18 Mar 2021 16:37:23 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E2D732E5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1616085444; bh=pWbzF1wgIUiO8lLs6lJoTFe088GpnU5XVDRIVFq/5Ok=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=e48pDaT9fmQ8ixzvsSt301dPeftXj1BshL6H+kPC2MY4a6u0bbOAMG4LNpdSgJstY
+         sFXGk34Yr/N8e6t3VUsM2rCY5hxqBaF3gQvBXQuhcv85gVG2FrmwttrZH6LnONjHq2
+         9xezEugy1o4JuPHcj4sCcFyhFrcbwWunDddU/QtI7jsyCx4+xgU5Y1oydtDO37lxD1
+         E9oMvfouS4woufuQya2qosW04wCJITiQprm/D9jlbmtBT2GwPUswd+E8N8ZJY1CJ2g
+         z6qLze5ecujERovNo3M3BgdgQSYVeJLsEPUXN/0vN/vKCzKgg0zm2I5OLyhoKMfIDe
+         u3WwinKUwyxiA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Aditya <yashsri421@gmail.com>,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Subject: Re: [RFC] scripts: kernel-doc: avoid warnings due to initial
+ commented lines in file
+In-Reply-To: <CAKXUXMzwTp1H_vokVEAJSnmm7jNHfWzhhmLfpcrrBD9b8ak+dA@mail.gmail.com>
+References: <20210309125324.4456-1-yashsri421@gmail.com>
+ <8959bf29-9ee1-6a1d-da18-f440232864f3@darmarit.de>
+ <c673e76f-72db-bbee-39d6-f5428e765173@gmail.com>
+ <871rcg2p8g.fsf@meer.lwn.net>
+ <CAKXUXMzwTp1H_vokVEAJSnmm7jNHfWzhhmLfpcrrBD9b8ak+dA@mail.gmail.com>
+Date:   Thu, 18 Mar 2021 10:37:23 -0600
+Message-ID: <878s6kto3g.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <af1f109b-c36e-b548-ae15-752f7af7c1d4@intel.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 18, 2021 at 08:59:28AM -0700, Yu, Yu-cheng wrote:
-> Right, do_mmap_pgoff() was removed by commit 45e55300f114.  This patch does
-> not add back the wrapper.  Instead, add vm_flags to do_mmap(). Please advice
-> if I misunderstand the question.
+Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
 
-I'm just wondering why you even need to mention do_mmap_pgoff() since
-that thing is gone now...
+> I wonder if we could extend kernel-doc (not your preferred option as
+> it seems) for a new dedicated warning message or maintain a separate
+> kernel-doc sanity checking script to emit a dedicated warning based on
+> some heuristics that suggests when a "header comment" is probably
+> unintentionally declared as a "kernel-doc comment" when it really
+> should not be.
+>
+> Jonathan, would you then prefer to have a separate kernel-doc sanity
+> checking script that then allows us to maintain checking for patterns
+> we already cleaned up?
 
-Thx.
+Having a warning in kernel-doc for "This comment starts with /** but
+isn't a kerneldoc comment" could be useful, I guess.  That is the real
+problem, not the fact that it appears at the top of the file.  I'm all
+for tools that help us to clean things up, but let's not add
+line-counting hacks to try to paper it over.
 
--- 
-Regards/Gruss,
-    Boris.
+Thanks,
 
-https://people.kernel.org/tglx/notes-about-netiquette
+jon
