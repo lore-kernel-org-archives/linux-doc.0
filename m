@@ -2,421 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BFD4BC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 13:19:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D082C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 14:21:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 726FD64F04
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 13:19:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2C9F164F24
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 14:21:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbhCRNTI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 09:19:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36814 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230476AbhCRNSy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 09:18:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616073531;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=dSK0USnuX6KxDknSRR5qIweideljzaAZoiXntoUaHMs=;
-        b=eRdnXzMVKxmrFrp7ZdBI8a/Z4Sbrky05nllGg3KcRb5WWNfnKR9eCmna3ibeBKcY87Uz7W
-        XPYjIXSwaJ+bLTcJsi8U9A5CLtzhEBJ8FgzQrC7GY+yIwycSn15iRwlGk4b08gp3tCUIpe
-        leIncyUvSSNZbhS1IS6LkG7oE+QJM9o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-514-yeiMFZBmN4uP8LEmXyuuuQ-1; Thu, 18 Mar 2021 09:18:49 -0400
-X-MC-Unique: yeiMFZBmN4uP8LEmXyuuuQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BEBD563CCB;
-        Thu, 18 Mar 2021 13:18:47 +0000 (UTC)
-Received: from [10.36.112.6] (ovpn-112-6.ams2.redhat.com [10.36.112.6])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 55F995D6AB;
-        Thu, 18 Mar 2021 13:18:38 +0000 (UTC)
-Subject: Re: [PATCH v2 03/14] vfio: Split creation of a vfio_device into init
- and register ops
-To:     Jason Gunthorpe <jgg@nvidia.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     "Raj, Ashok" <ashok.raj@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christoph Hellwig <hch@lst.de>,
-        Leon Romanovsky <leonro@nvidia.com>,
-        Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Tarun Gupta <targupta@nvidia.com>,
-        Liu Yi L <yi.l.liu@intel.com>
-References: <3-v2-20d933792272+4ff-vfio1_jgg@nvidia.com>
-From:   Auger Eric <eric.auger@redhat.com>
-Message-ID: <5d8e4901-6798-e7be-8109-ef704971c8dd@redhat.com>
-Date:   Thu, 18 Mar 2021 14:18:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S230269AbhCROVV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 10:21:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41654 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231229AbhCROVJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Mar 2021 10:21:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7821E64EF9;
+        Thu, 18 Mar 2021 14:21:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616077269;
+        bh=fIdVVkOWf8byJSCanlFq6jbRjFI1tGNgEbHl2JUMFcE=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=gisaDKEHd5ULsXqZAK58LwuAcwki1SzbLOEgEfz7vJ3zHioz4lEvM/6jVUYi3D9i0
+         ofp8v9PPnneUt1HYpzSynoQwMEXOCSGH4+3VUMjQdHlnfvOaQIMfuGKkTITSgizsqW
+         OAtFrFu7FyMlRuikftqJwvwWldVHLTb/CqwIUazzSfD3Mykl/ZzY32lkid8Yl0QSuB
+         ut1PJDKK/IfCVtAJ9lJTvEa8exQpKXJKh7nuxKlotrgz2uArtZHfvulfdCK6UrngbN
+         EW0BFU+cJoLEWAC6GDAUoa8kgzQXjXqoyJeN+Tqjx5BtFvXLZJpcsfxauJhtOhh66C
+         IwS6qxV6DUzoQ==
+Received: by mail-oi1-f177.google.com with SMTP id x78so1719428oix.1;
+        Thu, 18 Mar 2021 07:21:09 -0700 (PDT)
+X-Gm-Message-State: AOAM532H55E/UQlXlwlWO+vea5XzekQEirJYbmQChrkDwXNt47855D/+
+        lzY3oPTsZzjOJGxcFCCK0drwNKZuAESuQT61sPc=
+X-Google-Smtp-Source: ABdhPJwkzJJoGyFNoBEcH0V9lAMmUPwLUkV5gfRYbbbYP6tDs7IEkjae9pMdsbcOpzcGiTenfGqgmZVIRrkGqRJXB0M=
+X-Received: by 2002:aca:1a01:: with SMTP id a1mr3241169oia.33.1616077268763;
+ Thu, 18 Mar 2021 07:21:08 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3-v2-20d933792272+4ff-vfio1_jgg@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+References: <9efc652df2b8d6b53d9acb170eb7c9ca3938dfef.1615920441.git.tom.saeger@oracle.com>
+ <20210318104433.GA6959@willie-the-truck> <20210318112859.GA25002@e121166-lin.cambridge.arm.com>
+In-Reply-To: <20210318112859.GA25002@e121166-lin.cambridge.arm.com>
+From:   Ard Biesheuvel <ardb@kernel.org>
+Date:   Thu, 18 Mar 2021 15:20:57 +0100
+X-Gmail-Original-Message-ID: <CAMj1kXGhpKCWo2MSvKZMHiZFwzoD=AXNDnNhshiq1zk2BEniDw@mail.gmail.com>
+Message-ID: <CAMj1kXGhpKCWo2MSvKZMHiZFwzoD=AXNDnNhshiq1zk2BEniDw@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: arm64/acpi : clarify arm64 support of IBFT
+To:     Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+Cc:     Will Deacon <will@kernel.org>, Tom Saeger <tom.saeger@oracle.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Thomas Tai <thomas.tai@oracle.com>,
+        Konrad Rzeszutek Wilk <konrad@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Al Stone <al.stone@linaro.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        ahs3@redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-On 3/13/21 1:55 AM, Jason Gunthorpe wrote:
-> This makes the struct vfio_pci_device part of the public interface so it
-> can be used with container_of and so forth, as is typical for a Linux
-> subystem.
-> 
-> This is the first step to bring some type-safety to the vfio interface by
-> allowing the replacement of 'void *' and 'struct device *' inputs with a
-> simple and clear 'struct vfio_pci_device *'
-> 
-> For now the self-allocating vfio_add_group_dev() interface is kept so each
-> user can be updated as a separate patch.
-> 
-> The expected usage pattern is
-> 
->   driver core probe() function:
->      my_device = kzalloc(sizeof(*mydevice));
->      vfio_init_group_dev(&my_device->vdev, dev, ops, mydevice);
->      /* other driver specific prep */
->      vfio_register_group_dev(&my_device->vdev);
->      dev_set_drvdata(my_device);
-> 
->   driver core remove() function:
->      my_device = dev_get_drvdata(dev);
->      vfio_unregister_group_dev(&my_device->vdev);
->      /* other driver specific tear down */
->      kfree(my_device);
-> 
-> Allowing the driver to be able to use the drvdata and vifo_device to go
-> to/from its own data.
-> 
-> The pattern also makes it clear that vfio_register_group_dev() must be
-> last in the sequence, as once it is called the core code can immediately
-> start calling ops. The init/register gap is provided to allow for the
-> driver to do setup before ops can be called and thus avoid races.
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
-> Reviewed-by: Liu Yi L <yi.l.liu@intel.com>
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-With previously commit msg and comment fixes,
+On Thu, 18 Mar 2021 at 12:29, Lorenzo Pieralisi
+<lorenzo.pieralisi@arm.com> wrote:
+>
+> [+ Al, Ard]
+>
+> On Thu, Mar 18, 2021 at 10:44:33AM +0000, Will Deacon wrote:
+> > [+Lorenzo]
+> >
+> > On Tue, Mar 16, 2021 at 12:50:41PM -0600, Tom Saeger wrote:
+> > > In commit 94bccc340710 ("iscsi_ibft: make ISCSI_IBFT dependson ACPI instead
+> > > of ISCSI_IBFT_FIND") Kconfig was disentangled to make ISCSI_IBFT selection
+> > > not depend on x86.
+> > >
+> > > Update arm64 acpi documentation, changing IBFT support status from
+> > > "Not Supported" to "Optional".
+> > > Opportunistically re-flow paragraph for changed lines.
+> > >
+> > > Link: https://lore.kernel.org/lkml/1563475054-10680-1-git-send-email-thomas.tai@oracle.com/
+> > >
+> > > Signed-off-by: Tom Saeger <tom.saeger@oracle.com>
+> > > ---
+> > >  Documentation/arm64/acpi_object_usage.rst | 10 +++++-----
+> > >  1 file changed, 5 insertions(+), 5 deletions(-)
+> >
+> > Lorenzo, please could you ack the change below if you're happy with it?
+> > If so, I can take it as a fix.
+>
+> I don't see any issue with this patch, more so given that the IBFT
+> legacy discovery method was decoupled from the ACPI table method,
+> so it looks sound on ARM64.
+>
+> However, I would like to get Al and Ard opinions on this to make sure
+> there is not something I am missing (in particular wrt the rationale
+> behind the "Not Supported" in the docs).
+>
 
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Both the original change and this documentation change look fine to me.
 
-Thanks
-
-Eric
-
-> ---
->  Documentation/driver-api/vfio.rst |  31 ++++----
->  drivers/vfio/vfio.c               | 123 ++++++++++++++++--------------
->  include/linux/vfio.h              |  16 ++++
->  3 files changed, 98 insertions(+), 72 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api/vfio.rst
-> index f1a4d3c3ba0bb1..d3a02300913a7f 100644
-> --- a/Documentation/driver-api/vfio.rst
-> +++ b/Documentation/driver-api/vfio.rst
-> @@ -249,18 +249,23 @@ VFIO bus driver API
->  
->  VFIO bus drivers, such as vfio-pci make use of only a few interfaces
->  into VFIO core.  When devices are bound and unbound to the driver,
-> -the driver should call vfio_add_group_dev() and vfio_del_group_dev()
-> -respectively::
-> -
-> -	extern int vfio_add_group_dev(struct device *dev,
-> -				      const struct vfio_device_ops *ops,
-> -				      void *device_data);
-> -
-> -	extern void *vfio_del_group_dev(struct device *dev);
-> -
-> -vfio_add_group_dev() indicates to the core to begin tracking the
-> -iommu_group of the specified dev and register the dev as owned by
-> -a VFIO bus driver.  The driver provides an ops structure for callbacks
-> +the driver should call vfio_register_group_dev() and
-> +vfio_unregister_group_dev() respectively::
-> +
-> +	void vfio_init_group_dev(struct vfio_device *device,
-> +				struct device *dev,
-> +				const struct vfio_device_ops *ops,
-> +				void *device_data);
-> +	int vfio_register_group_dev(struct vfio_device *device);
-> +	void vfio_unregister_group_dev(struct vfio_device *device);
-> +
-> +The driver should embed the vfio_device in its own structure and call
-> +vfio_init_group_dev() to pre-configure it before going to registration.
-> +vfio_register_group_dev() indicates to the core to begin tracking the
-> +iommu_group of the specified dev and register the dev as owned by a VFIO bus
-> +driver. Once vfio_register_group_dev() returns it is possible for userspace to
-> +start accessing the driver, thus the driver should ensure it is completely
-> +ready before calling it. The driver provides an ops structure for callbacks
->  similar to a file operations structure::
->  
->  	struct vfio_device_ops {
-> @@ -276,7 +281,7 @@ similar to a file operations structure::
->  	};
->  
->  Each function is passed the device_data that was originally registered
-> -in the vfio_add_group_dev() call above.  This allows the bus driver
-> +in the vfio_register_group_dev() call above.  This allows the bus driver
->  an easy place to store its opaque, private data.  The open/release
->  callbacks are issued when a new file descriptor is created for a
->  device (via VFIO_GROUP_GET_DEVICE_FD).  The ioctl interface provides
-> diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
-> index 32660e8a69ae20..cfa06ae3b9018b 100644
-> --- a/drivers/vfio/vfio.c
-> +++ b/drivers/vfio/vfio.c
-> @@ -89,16 +89,6 @@ struct vfio_group {
->  	struct blocking_notifier_head	notifier;
->  };
->  
-> -struct vfio_device {
-> -	refcount_t			refcount;
-> -	struct completion		comp;
-> -	struct device			*dev;
-> -	const struct vfio_device_ops	*ops;
-> -	struct vfio_group		*group;
-> -	struct list_head		group_next;
-> -	void				*device_data;
-> -};
-> -
->  #ifdef CONFIG_VFIO_NOIOMMU
->  static bool noiommu __read_mostly;
->  module_param_named(enable_unsafe_noiommu_mode,
-> @@ -532,35 +522,6 @@ static struct vfio_group *vfio_group_get_from_dev(struct device *dev)
->  /**
->   * Device objects - create, release, get, put, search
->   */
-> -static
-> -struct vfio_device *vfio_group_create_device(struct vfio_group *group,
-> -					     struct device *dev,
-> -					     const struct vfio_device_ops *ops,
-> -					     void *device_data)
-> -{
-> -	struct vfio_device *device;
-> -
-> -	device = kzalloc(sizeof(*device), GFP_KERNEL);
-> -	if (!device)
-> -		return ERR_PTR(-ENOMEM);
-> -
-> -	refcount_set(&device->refcount, 1);
-> -	init_completion(&device->comp);
-> -	device->dev = dev;
-> -	/* Our reference on group is moved to the device */
-> -	device->group = group;
-> -	device->ops = ops;
-> -	device->device_data = device_data;
-> -	dev_set_drvdata(dev, device);
-> -
-> -	mutex_lock(&group->device_lock);
-> -	list_add(&device->group_next, &group->device_list);
-> -	group->dev_counter++;
-> -	mutex_unlock(&group->device_lock);
-> -
-> -	return device;
-> -}
-> -
->  /* Device reference always implies a group reference */
->  void vfio_device_put(struct vfio_device *device)
->  {
-> @@ -779,14 +740,23 @@ static int vfio_iommu_group_notifier(struct notifier_block *nb,
->  /**
->   * VFIO driver API
->   */
-> -int vfio_add_group_dev(struct device *dev,
-> -		       const struct vfio_device_ops *ops, void *device_data)
-> +void vfio_init_group_dev(struct vfio_device *device, struct device *dev,
-> +			 const struct vfio_device_ops *ops, void *device_data)
-> +{
-> +	init_completion(&device->comp);
-> +	device->dev = dev;
-> +	device->ops = ops;
-> +	device->device_data = device_data;
-> +}
-> +EXPORT_SYMBOL_GPL(vfio_init_group_dev);
-> +
-> +int vfio_register_group_dev(struct vfio_device *device)
->  {
-> +	struct vfio_device *existing_device;
->  	struct iommu_group *iommu_group;
->  	struct vfio_group *group;
-> -	struct vfio_device *device;
->  
-> -	iommu_group = iommu_group_get(dev);
-> +	iommu_group = iommu_group_get(device->dev);
->  	if (!iommu_group)
->  		return -EINVAL;
->  
-> @@ -805,21 +775,50 @@ int vfio_add_group_dev(struct device *dev,
->  		iommu_group_put(iommu_group);
->  	}
->  
-> -	device = vfio_group_get_device(group, dev);
-> -	if (device) {
-> -		dev_WARN(dev, "Device already exists on group %d\n",
-> +	existing_device = vfio_group_get_device(group, device->dev);
-> +	if (existing_device) {
-> +		dev_WARN(device->dev, "Device already exists on group %d\n",
->  			 iommu_group_id(iommu_group));
-> -		vfio_device_put(device);
-> +		vfio_device_put(existing_device);
->  		vfio_group_put(group);
->  		return -EBUSY;
->  	}
->  
-> -	device = vfio_group_create_device(group, dev, ops, device_data);
-> -	if (IS_ERR(device)) {
-> -		vfio_group_put(group);
-> -		return PTR_ERR(device);
-> -	}
-> +	/* Our reference on group is moved to the device */
-> +	device->group = group;
-> +
-> +	/* Refcounting can't start until the driver calls register */
-> +	refcount_set(&device->refcount, 1);
-> +
-> +	mutex_lock(&group->device_lock);
-> +	list_add(&device->group_next, &group->device_list);
-> +	group->dev_counter++;
-> +	mutex_unlock(&group->device_lock);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(vfio_register_group_dev);
-> +
-> +int vfio_add_group_dev(struct device *dev, const struct vfio_device_ops *ops,
-> +		       void *device_data)
-> +{
-> +	struct vfio_device *device;
-> +	int ret;
-> +
-> +	device = kzalloc(sizeof(*device), GFP_KERNEL);
-> +	if (!device)
-> +		return -ENOMEM;
-> +
-> +	vfio_init_group_dev(device, dev, ops, device_data);
-> +	ret = vfio_register_group_dev(device);
-> +	if (ret)
-> +		goto err_kfree;
-> +	dev_set_drvdata(dev, device);
->  	return 0;
-> +
-> +err_kfree:
-> +	kfree(device);
-> +	return ret;
->  }
->  EXPORT_SYMBOL_GPL(vfio_add_group_dev);
->  
-> @@ -887,11 +886,9 @@ EXPORT_SYMBOL_GPL(vfio_device_data);
->  /*
->   * Decrement the device reference count and wait for the device to be
->   * removed.  Open file descriptors for the device... */
-> -void *vfio_del_group_dev(struct device *dev)
-> +void vfio_unregister_group_dev(struct vfio_device *device)
->  {
-> -	struct vfio_device *device = dev_get_drvdata(dev);
->  	struct vfio_group *group = device->group;
-> -	void *device_data = device->device_data;
->  	struct vfio_unbound_dev *unbound;
->  	unsigned int i = 0;
->  	bool interrupted = false;
-> @@ -908,7 +905,7 @@ void *vfio_del_group_dev(struct device *dev)
->  	 */
->  	unbound = kzalloc(sizeof(*unbound), GFP_KERNEL);
->  	if (unbound) {
-> -		unbound->dev = dev;
-> +		unbound->dev = device->dev;
->  		mutex_lock(&group->unbound_lock);
->  		list_add(&unbound->unbound_next, &group->unbound_list);
->  		mutex_unlock(&group->unbound_lock);
-> @@ -919,7 +916,7 @@ void *vfio_del_group_dev(struct device *dev)
->  	rc = try_wait_for_completion(&device->comp);
->  	while (rc <= 0) {
->  		if (device->ops->request)
-> -			device->ops->request(device_data, i++);
-> +			device->ops->request(device->device_data, i++);
->  
->  		if (interrupted) {
->  			rc = wait_for_completion_timeout(&device->comp,
-> @@ -929,7 +926,7 @@ void *vfio_del_group_dev(struct device *dev)
->  				&device->comp, HZ * 10);
->  			if (rc < 0) {
->  				interrupted = true;
-> -				dev_warn(dev,
-> +				dev_warn(device->dev,
->  					 "Device is currently in use, task"
->  					 " \"%s\" (%d) "
->  					 "blocked until device is released",
-> @@ -962,9 +959,17 @@ void *vfio_del_group_dev(struct device *dev)
->  
->  	/* Matches the get in vfio_group_create_device() */
->  	vfio_group_put(group);
-> +}
-> +EXPORT_SYMBOL_GPL(vfio_unregister_group_dev);
-> +
-> +void *vfio_del_group_dev(struct device *dev)
-> +{
-> +	struct vfio_device *device = dev_get_drvdata(dev);
-> +	void *device_data = device->device_data;
-> +
-> +	vfio_unregister_group_dev(device);
->  	dev_set_drvdata(dev, NULL);
->  	kfree(device);
-> -
->  	return device_data;
->  }
->  EXPORT_SYMBOL_GPL(vfio_del_group_dev);
-> diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-> index b7e18bde5aa8b3..ad8b579d67d34a 100644
-> --- a/include/linux/vfio.h
-> +++ b/include/linux/vfio.h
-> @@ -15,6 +15,18 @@
->  #include <linux/poll.h>
->  #include <uapi/linux/vfio.h>
->  
-> +struct vfio_device {
-> +	struct device *dev;
-> +	const struct vfio_device_ops *ops;
-> +	struct vfio_group *group;
-> +
-> +	/* Members below here are private, not for driver use */
-> +	refcount_t refcount;
-> +	struct completion comp;
-> +	struct list_head group_next;
-> +	void *device_data;
-> +};
-> +
->  /**
->   * struct vfio_device_ops - VFIO bus driver device callbacks
->   *
-> @@ -48,11 +60,15 @@ struct vfio_device_ops {
->  extern struct iommu_group *vfio_iommu_group_get(struct device *dev);
->  extern void vfio_iommu_group_put(struct iommu_group *group, struct device *dev);
->  
-> +void vfio_init_group_dev(struct vfio_device *device, struct device *dev,
-> +			 const struct vfio_device_ops *ops, void *device_data);
-> +int vfio_register_group_dev(struct vfio_device *device);
->  extern int vfio_add_group_dev(struct device *dev,
->  			      const struct vfio_device_ops *ops,
->  			      void *device_data);
->  
->  extern void *vfio_del_group_dev(struct device *dev);
-> +void vfio_unregister_group_dev(struct vfio_device *device);
->  extern struct vfio_device *vfio_device_get_from_dev(struct device *dev);
->  extern void vfio_device_put(struct vfio_device *device);
->  extern void *vfio_device_data(struct vfio_device *device);
-> 
-
+Acked-by: Ard Biesheuvel <ardb@kernel.org>
