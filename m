@@ -2,168 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 99D30C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:35:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7625BC433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:41:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 77A2264E21
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:35:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4A0A964F1D
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:41:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232918AbhCRTfT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 15:35:19 -0400
-Received: from foss.arm.com ([217.140.110.172]:47456 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232973AbhCRTfM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Mar 2021 15:35:12 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 498A1ED1;
-        Thu, 18 Mar 2021 12:35:11 -0700 (PDT)
-Received: from [10.57.50.37] (unknown [10.57.50.37])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 80E293F70D;
-        Thu, 18 Mar 2021 12:35:03 -0700 (PDT)
-Subject: Re: [PATCH] swiotlb: Add swiotlb=off to disable SWIOTLB
-To:     Florian Fainelli <f.fainelli@gmail.com>,
-        linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
-Cc:     opendmb@gmail.com, Jonathan Corbet <corbet@lwn.net>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Peter Zijlstra <peterz@infradead.org>,
+        id S232963AbhCRTlR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 15:41:17 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:33357 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232950AbhCRTlK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 15:41:10 -0400
+Received: from [192.168.1.155] ([77.4.36.33]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MN4ux-1l6GbY07HB-00J1fB; Thu, 18 Mar 2021 20:40:45 +0100
+Subject: Re: [PATCH v9 2/4] pinctrl: pinmux: Add pinmux-select debugfs file
+To:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>
+Cc:     Drew Fustini <drew@beagleboard.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Tony Lindgren <tony@atomide.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Pantelis Antoniou <pantelis.antoniou@konsulko.com>,
+        Jason Kridner <jkridner@beagleboard.org>,
+        Robert Nelson <robertcnelson@beagleboard.org>,
+        Joe Perches <joe@perches.com>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Jonathan Corbet <corbet@lwn.net>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "open list:SWIOTLB SUBSYSTEM" <iommu@lists.linux-foundation.org>
-References: <20210318191816.4185226-1-f.fainelli@gmail.com>
- <bbd44c42-cedc-7bd6-a443-c991fd080298@gmail.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <e7850feb-b7cd-e279-e3fc-a9bdba162423@arm.com>
-Date:   Thu, 18 Mar 2021 19:34:55 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        Geert Uytterhoeven <geert+renesas@glider.be>
+References: <20210302053059.1049035-1-drew@beagleboard.org>
+ <20210302053059.1049035-3-drew@beagleboard.org>
+ <349b09f8-fe99-d0d4-dd11-c288bf66cb4d@metux.net> <YEyFyQ0TF5u/WS9X@piout.net>
+ <CAMuHMdWzEQAOgy7_e_6RcQjP6z0n9LQA6R2LBs1nXMZeAYywvQ@mail.gmail.com>
+From:   "Enrico Weigelt, metux IT consult" <lkml@metux.net>
+Message-ID: <002c9f84-4cc7-714f-0824-bb00eb05a227@metux.net>
+Date:   Thu, 18 Mar 2021 20:40:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-In-Reply-To: <bbd44c42-cedc-7bd6-a443-c991fd080298@gmail.com>
+In-Reply-To: <CAMuHMdWzEQAOgy7_e_6RcQjP6z0n9LQA6R2LBs1nXMZeAYywvQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Language: tl
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:+ZwcNmiOj1Kef7PLgtFCMGtXLjuaivHTbkjPVod3OVsl9HAgQF2
+ olkcKXPEgCba6rJIhiEx+41jtYbjT9bjy5nAfe0qHtZr7B4VC0nCX0Kntbmne8OPF+bga1z
+ OcdUJJASQe7ZlVJvRZUo1UfKWWw/l4NLSi9luFCuywt8fRNhLqziucmgmX1AzyKoLtS8Wph
+ kOj+1wD8+P0kxvQcKYlBQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:u/eDxUvTGUM=:G2SiQp80rV4IJzSpZhfs6s
+ 2B3WsiCLwXGjYBhRV/47vUoe2ATGsQoVLZGrQMEi2NRARCHd5FH2eEVD2C9hnUTn8zcssVYR7
+ Yplls7mPMuj6pfWbrDEU9DdAiOwZ1tUPuTfUF53rCYRB2Hk5NXdwaRnCcN/ZuM2/ruKHSodgm
+ 4TNGRqU3O12lAPNZVb3DO803eDGjiNFcVa5Rd63kbc9cNw6r4uDd3CZfHM9i3JiZAEb74gZJi
+ sxRrsCC8/eMvcZ5Yj9PCnG0Sk1Fs0vt1q+LRx2P3wh02yVVTIxsPC7S4SIBs+dbvmVLIHzNLt
+ YW4aLRYTrCck+wG7XlHPLvpmA3mDq8Fo6Ox+nb8IkYS1C+bcovVnFSj3jolT7URNIneDWuqlB
+ EKkqX7BteTPVMhVp7BiDpeqYkXYsO1LksR2ZIP/dgPXGt7vfpsH7ymngKqeg/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-03-18 19:22, Florian Fainelli wrote:
-> 
-> 
-> On 3/18/2021 12:18 PM, Florian Fainelli wrote:
->> It may be useful to disable the SWIOTLB completely for testing or when a
->> platform is known not to have any DRAM addressing limitations what so
->> ever.
+On 13.03.21 19:47, Geert Uytterhoeven wrote:
 
-Isn't that what "swiotlb=noforce" is for? If you're confident that we've 
-really ironed out *all* the awkward corners that used to blow up if 
-various internal bits were left uninitialised, then it would make sense 
-to just tweak the implementation of what we already have.
-
-I wouldn't necessarily disagree with adding "off" as an additional alias 
-for "noforce", though, since it does come across as a bit wacky for 
-general use.
-
->> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
-> 
-> Christoph, in addition to this change, how would you feel if we
-> qualified the swiotlb_init() in arch/arm/mm/init.c with a:
-> 
-> 
-> if (memblock_end_of_DRAM() >= SZ_4G)
-> 	swiotlb_init(1)
-
-Modulo "swiotlb=force", of course ;)
-
-Robin.
-
-> right now this is made unconditional whenever ARM_LPAE is enabled which
-> is the case for the platforms I maintain (ARCH_BRCMSTB) however we do
-> not really need a SWIOTLB so long as the largest DRAM physical address
-> does not exceed 4GB AFAICT.
-> 
-> Thanks!
-> 
->> ---
->>   Documentation/admin-guide/kernel-parameters.txt | 1 +
->>   include/linux/swiotlb.h                         | 1 +
->>   kernel/dma/swiotlb.c                            | 9 +++++++++
->>   3 files changed, 11 insertions(+)
+>>> I've already been playing with similar idea, but for external muxes.
+>>> For example, some boards have multiple SIM slots that can be switched
+>>> via some gpio pin.
+>>>
+>>> Not sure whether traditional pinmux would be a good match for that.
 >>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index 04545725f187..b0223e48921e 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -5278,6 +5278,7 @@
->>   			force -- force using of bounce buffers even if they
->>   			         wouldn't be automatically used by the kernel
->>   			noforce -- Never use bounce buffers (for debugging)
->> +			off -- Completely disable SWIOTLB
->>   
->>   	switches=	[HW,M68k]
->>   
->> diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
->> index 5857a937c637..23f86243defe 100644
->> --- a/include/linux/swiotlb.h
->> +++ b/include/linux/swiotlb.h
->> @@ -15,6 +15,7 @@ enum swiotlb_force {
->>   	SWIOTLB_NORMAL,		/* Default - depending on HW DMA mask etc. */
->>   	SWIOTLB_FORCE,		/* swiotlb=force */
->>   	SWIOTLB_NO_FORCE,	/* swiotlb=noforce */
->> +	SWIOTLB_OFF,		/* swiotlb=off */
->>   };
->>   
->>   /*
->> diff --git a/kernel/dma/swiotlb.c b/kernel/dma/swiotlb.c
->> index c10e855a03bc..d7a4a789c7d3 100644
->> --- a/kernel/dma/swiotlb.c
->> +++ b/kernel/dma/swiotlb.c
->> @@ -126,6 +126,8 @@ setup_io_tlb_npages(char *str)
->>   	} else if (!strcmp(str, "noforce")) {
->>   		swiotlb_force = SWIOTLB_NO_FORCE;
->>   		io_tlb_nslabs = 1;
->> +	} else if (!strcmp(str, "off")) {
->> +		swiotlb_force = SWIOTLB_OFF;
->>   	}
->>   
->>   	return 0;
->> @@ -229,6 +231,9 @@ int __init swiotlb_init_with_tbl(char *tlb, unsigned long nslabs, int verbose)
->>   	unsigned long i, bytes;
->>   	size_t alloc_size;
->>   
->> +	if (swiotlb_force == SWIOTLB_OFF)
->> +		return 0;
->> +
->>   	bytes = nslabs << IO_TLB_SHIFT;
->>   
->>   	io_tlb_nslabs = nslabs;
->> @@ -284,6 +289,9 @@ swiotlb_init(int verbose)
->>   	unsigned char *vstart;
->>   	unsigned long bytes;
->>   
->> +	if (swiotlb_force == SWIOTLB_OFF)
->> +		goto out;
->> +
->>   	if (!io_tlb_nslabs) {
->>   		io_tlb_nslabs = (default_size >> IO_TLB_SHIFT);
->>   		io_tlb_nslabs = ALIGN(io_tlb_nslabs, IO_TLB_SEGSIZE);
->> @@ -302,6 +310,7 @@ swiotlb_init(int verbose)
->>   		io_tlb_start = 0;
->>   	}
->>   	pr_warn("Cannot allocate buffer");
->> +out:
->>   	no_iotlb_memory = true;
->>   }
->>   
->>
+>> If you want to be able to use both, then I guess gpio-mux is what you
+>> are looking for. Obviously, it will also require support in the bus
+>> core. On what bus are those SIMs? (I guess the answer will be UART and
+>> then unfortunately UARTs are not represented as busses).
 > 
+> We do have support for devices connected to UARTs.
+> See patternProperties in Documentation/devicetree/bindings/serial/serial.yaml.
+> Or do you mean something different?
+
+in my case, the SIM cards are connected directly to the baseband
+(there're extra lines on the m2 slots for that). CPU doesn't ever see
+any of this traffic, just can select which SIM card is routed to the
+m2 slot via gpio.
+
+
+--mtx
+
+-- 
+---
+Hinweis: unverschlüsselte E-Mails können leicht abgehört und manipuliert
+werden ! Für eine vertrauliche Kommunikation senden Sie bitte ihren
+GPG/PGP-Schlüssel zu.
+---
+Enrico Weigelt, metux IT consult
+Free software and Linux embedded engineering
+info@metux.net -- +49-151-27565287
