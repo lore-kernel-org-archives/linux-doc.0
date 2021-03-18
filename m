@@ -2,105 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9D56C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 17:53:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C0B0C433E9
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 18:04:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 73EAD64F1D
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 17:53:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A33C64EE2
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 18:04:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232298AbhCRRwg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 13:52:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42608 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232310AbhCRRwQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 13:52:16 -0400
-Received: from mail-io1-xd2f.google.com (mail-io1-xd2f.google.com [IPv6:2607:f8b0:4864:20::d2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A12DDC06174A;
-        Thu, 18 Mar 2021 10:52:16 -0700 (PDT)
-Received: by mail-io1-xd2f.google.com with SMTP id v3so3201762ioq.2;
-        Thu, 18 Mar 2021 10:52:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ZzB7p1mrH7Ut3wO2SVOFyueQFUpspybATe+7N0GIt5E=;
-        b=nlPMmM1nr7ne9QnqA2MOiSNWZJAp0UGD6TTtjFevPK2dYkM4NZPqpoGrOf8VuzU8A1
-         cOGMALs1RmCKHTTn1dCIJFc9rmoc9wE5GlMk5ROz0NJlKbE7hM6FxCOGjWSFfGDyaP7x
-         4Y0OtmnWlT0/C5uiOo4Oeo5qFJBITt2foM1il26KjttwX/rc+KyPlPDEmMZ53lUi4D9n
-         fbghgbFC0ZEnFK2vTHwdMm5cfMODBLMPpGKzDR3CiZs/ZMElLJkpJfN4eF9s8Jo6lLEi
-         jYEuXDgsgRWSWPxk65e5YtouL4WNZMBwPqaSdm8yg9u6bQS6k6n+nGUgQJud2Lz930LL
-         QDBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ZzB7p1mrH7Ut3wO2SVOFyueQFUpspybATe+7N0GIt5E=;
-        b=I7P5Jsm7peGHkNH9XwKsU3b9kMfzen3ZcvyJo+7dQNdSC1xnt8hPW3qlLwx8TKamAz
-         gM8WiYqKEKbvnN8mPoEQ1cJkHYMg+/cAxc/p4EDtUVs2WxWkkgK7tzcYmR14L+qhHH5w
-         dNtsM8haoFjT5dQkdFoWh37QlA9f7PLyein1NMf7qrN+I/X025DrlsQmhv1I4DWvjz8N
-         +3L3+CK7679qhXhVrR2EnCfoP6gzxpz8rTDU7yPqcuZdknLLJYkrTlkG6xox/c+X/ub6
-         AQ8zLpmR9LkZNweDEoUQZgKld89uNKSGGPqqWwz4yt2ELkJ+lmSKlX78rdEFvn/4LLAW
-         AMkQ==
-X-Gm-Message-State: AOAM530mQaajrZsOjr9Jwk9gtlhgrNkZAiJ5gPkczv5pbwvZLR6DKxWK
-        IR7mlHK1DRL397vLSTQmNfCxfHSH1O3OuCdQ/usrThxS
-X-Google-Smtp-Source: ABdhPJz0q7mAqubSJL6bw761i7nrOQaEBtfa+ohfLNR3XIF8GLlyxWZakMPiS/4d1zpr0iXS278aTJHm9JVkUjtNWx4=
-X-Received: by 2002:a5e:cb4c:: with SMTP id h12mr10762093iok.183.1616089935999;
- Thu, 18 Mar 2021 10:52:15 -0700 (PDT)
+        id S230173AbhCRSDx convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 14:03:53 -0400
+Received: from unicorn.mansr.com ([81.2.72.234]:42590 "EHLO unicorn.mansr.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229734AbhCRSDv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Mar 2021 14:03:51 -0400
+Received: from raven.mansr.com (raven.mansr.com [IPv6:2001:8b0:ca0d:8d8e::3])
+        by unicorn.mansr.com (Postfix) with ESMTPS id C65CC15361;
+        Thu, 18 Mar 2021 18:03:42 +0000 (GMT)
+Received: by raven.mansr.com (Postfix, from userid 51770)
+        id B967B219C32; Thu, 18 Mar 2021 18:03:42 +0000 (GMT)
+From:   =?iso-8859-1?Q?M=E5ns_Rullg=E5rd?= <mans@mansr.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>, Jens Axboe <axboe@kernel.dk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-doc@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
+        "David S. Miller" <davem@davemloft.net>, linux-ide@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        linux-arm-kernel@lists.infradead.org, linux-alpha@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Matt Turner <mattst88@gmail.com>, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        Richard Henderson <rth@twiddle.net>
+Subject: Re: [PATCH 01/10] alpha: use libata instead of the legacy ide driver
+References: <20210318045706.200458-1-hch@lst.de>
+        <20210318045706.200458-2-hch@lst.de>
+        <YFLrLwjZubWUvA2J@zeniv-ca.linux.org.uk>
+        <20210318060724.GA29117@lst.de> <yw1x1rccie35.fsf@mansr.com>
+Date:   Thu, 18 Mar 2021 18:03:42 +0000
+In-Reply-To: <yw1x1rccie35.fsf@mansr.com> (=?iso-8859-1?Q?=22M=E5ns_Rullg?=
+ =?iso-8859-1?Q?=E5rd=22's?= message of "Thu,
+        18 Mar 2021 17:09:02 +0000")
+Message-ID: <yw1xwnu4gwzl.fsf@mansr.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20210309125324.4456-1-yashsri421@gmail.com> <8959bf29-9ee1-6a1d-da18-f440232864f3@darmarit.de>
- <c673e76f-72db-bbee-39d6-f5428e765173@gmail.com> <871rcg2p8g.fsf@meer.lwn.net>
- <CAKXUXMzwTp1H_vokVEAJSnmm7jNHfWzhhmLfpcrrBD9b8ak+dA@mail.gmail.com> <878s6kto3g.fsf@meer.lwn.net>
-In-Reply-To: <878s6kto3g.fsf@meer.lwn.net>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Thu, 18 Mar 2021 18:52:05 +0100
-Message-ID: <CAKXUXMxWOvM5HRwmAAWEsqQc2k6_ReqRw0uD=VANLO5D7OpFtg@mail.gmail.com>
-Subject: Re: [RFC] scripts: kernel-doc: avoid warnings due to initial
- commented lines in file
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Aditya <yashsri421@gmail.com>,
-        Markus Heiser <markus.heiser@darmarit.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 18, 2021 at 5:37 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
->
-> > I wonder if we could extend kernel-doc (not your preferred option as
-> > it seems) for a new dedicated warning message or maintain a separate
-> > kernel-doc sanity checking script to emit a dedicated warning based on
-> > some heuristics that suggests when a "header comment" is probably
-> > unintentionally declared as a "kernel-doc comment" when it really
-> > should not be.
-> >
-> > Jonathan, would you then prefer to have a separate kernel-doc sanity
-> > checking script that then allows us to maintain checking for patterns
-> > we already cleaned up?
->
-> Having a warning in kernel-doc for "This comment starts with /** but
-> isn't a kerneldoc comment" could be useful, I guess.  That is the real
-> problem, not the fact that it appears at the top of the file.  I'm all
-> for tools that help us to clean things up, but let's not add
-> line-counting hacks to try to paper it over.
->
+Måns Rullgård <mans@mansr.com> writes:
 
-Yeah, and as this line-counting is really just a poor man's
-heuristics, we might just be better to really turn this heuristics
-into a dedicated cleanup warning script, then we can check for more
-indicators, such as "does it contain the word Copyright" somewhere in
-the kernel-doc comment, which tells us even more that this is not a
-kernel-doc as we would expect it.
+> Christoph Hellwig <hch@lst.de> writes:
+>
+>> On Thu, Mar 18, 2021 at 05:54:55AM +0000, Al Viro wrote:
+>>> On Thu, Mar 18, 2021 at 05:56:57AM +0100, Christoph Hellwig wrote:
+>>> > Switch the alpha defconfig from the legacy ide driver to libata.
+>>> 
+>>> Umm...  I don't have an IDE alpha box in a usable shape (fans on
+>>> CPU module shat themselves), and it would take a while to resurrect
+>>> it, but I remember the joy it used to cause in some versions.
+>>> 
+>>> Do you have reports of libata variants of drivers actually tested on
+>>> those?
+>>
+>> No, I haven't.  The whole point is that we're not going to keep 40000
+>> lines of code around despite notice for users that don't exist or
+>> care.  If there is a regression we'll fix it, but we're not going to
+>> make life miserable just because we can.
+>
+> The pata_ali driver works fine on my UP1500 machine, unless something
+> broke recently.  I'll build the latest kernel and report back.
 
-Aditya, would you like to try to turn this check into a separate script instead?
+5.11.7 seems fine too.
 
-Lukas
+-- 
+Måns Rullgård
