@@ -2,129 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5953C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:56:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02A8BC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 11:01:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C5B064F24
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:56:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B612264F2B
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 11:01:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230181AbhCRKzc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 06:55:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36454 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230137AbhCRKzQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 06:55:16 -0400
-Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69ADC06174A;
-        Thu, 18 Mar 2021 03:55:16 -0700 (PDT)
-Received: by mail-il1-x12f.google.com with SMTP id r8so4429429ilo.8;
-        Thu, 18 Mar 2021 03:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=98pxet5C8Gy9S6SIgsmctncU1QY7hRiKp+O67nhGkow=;
-        b=uMqQlC9MavXYkB3kXbenRs4kfB7G4L7LXt93bxBJ0oImb0yLDPiOGn158iYYIi6wJe
-         qBFhMWmNwYpdNImlAhLHUa5n+0rscYmzi+2G2SyHssG3jeoVZ58Ax+eiLGNP7ej1zc/9
-         qzBi1DgfSEr1v79waqfnsgbyEKhfKmKB0M0zs2RZdvB4p7K7f+ikYi5Rs2ml+sN7k6oJ
-         RvyEzHLbEsjo/09tTwv9j2+Pw4LQL6OFI+t62UEJurVc3+x4iJdqA8TzJPMrw4oZYY23
-         jRmso1NujbFnyaWHBGNcV+ihb13EUs43KG9gakaiCWbhmvuzsIpLbUqIJRsOUlEJah39
-         fxKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=98pxet5C8Gy9S6SIgsmctncU1QY7hRiKp+O67nhGkow=;
-        b=oXUNg5zd0UFBp3ZAQUcCSC3/ZFg3LCOEHKgVP7LZg+NQk4Hib1tRY0PI8tdVrLw8do
-         fedydJe7MVInvPWWgQ5oizgCgdSaYNSnNYHdISWaIM/ZTrzWPHs75DAuWN5GEeuRL0YK
-         X7LrIj/nfVyqKHSiboS2sCpWcd6iexK2j1RQhj/1rB3bcPIiws9GSAMXepFocZJMKGfc
-         XpEl9SkdQmv+OIZL18Il0Lwza7bqhnaxW90ADh6TpVw3X4dwNi8Y5jSeW4xn03hvFN2C
-         UTLEMbe6RydywjuoxZ42zkW+sMQiROF586SK3n7aWBiY/tMVCA4iDrSuRuusc+lH+mzH
-         GNnA==
-X-Gm-Message-State: AOAM532cIbiLclIRdaOXo4i/kj3ClRnS7oiTgL8Ayg8AzdhQtKaGQID9
-        e9/RxUlWs0Tim1Q0isE3KeNyv4QcgAHII+Xq2o7X1tdInDg=
-X-Google-Smtp-Source: ABdhPJwCUz3YalePN71JfUxCQ+3ETyztCla/KstVAsnn2Y02f0u5BDOaY4GLiv8BmqjbQ9EaZMXtwwG4iM6kbJYnyyg=
-X-Received: by 2002:a05:6e02:1aaa:: with SMTP id l10mr10477638ilv.251.1616064916024;
- Thu, 18 Mar 2021 03:55:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210309125324.4456-1-yashsri421@gmail.com> <8959bf29-9ee1-6a1d-da18-f440232864f3@darmarit.de>
- <c673e76f-72db-bbee-39d6-f5428e765173@gmail.com> <871rcg2p8g.fsf@meer.lwn.net>
-In-Reply-To: <871rcg2p8g.fsf@meer.lwn.net>
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Thu, 18 Mar 2021 11:55:05 +0100
-Message-ID: <CAKXUXMzwTp1H_vokVEAJSnmm7jNHfWzhhmLfpcrrBD9b8ak+dA@mail.gmail.com>
-Subject: Re: [RFC] scripts: kernel-doc: avoid warnings due to initial
- commented lines in file
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Aditya <yashsri421@gmail.com>,
-        Markus Heiser <markus.heiser@darmarit.de>,
+        id S230247AbhCRLA5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 07:00:57 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45964 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230330AbhCRLAp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Mar 2021 07:00:45 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 25E55AC75;
+        Thu, 18 Mar 2021 11:00:44 +0000 (UTC)
+Subject: Re: [PATCH v2 08/10] drm/simpledrm: Acquire clocks from DT device
+ node
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     bluescreen_avenger@verizon.net, Jonathan Corbet <corbet@lwn.net>,
+        David Airlie <airlied@linux.ie>,
+        Emil Velikov <emil.l.velikov@gmail.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Content-Type: text/plain; charset="UTF-8"
+        Liam Girdwood <lgirdwood@gmail.com>,
+        virtualization@lists.linux-foundation.org,
+        Hans de Goede <hdegoede@redhat.com>,
+        Mark Brown <broonie@kernel.org>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Sam Ravnborg <sam@ravnborg.org>
+References: <20210318102921.21536-1-tzimmermann@suse.de>
+ <20210318102921.21536-9-tzimmermann@suse.de>
+ <CAMuHMdVa6hw89zr5nRFaKG0sZYLXdTOktGN7pU2LiAPPbsHEdw@mail.gmail.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <eaa9a302-7c00-00d2-2308-86e885fc708e@suse.de>
+Date:   Thu, 18 Mar 2021 12:00:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <CAMuHMdVa6hw89zr5nRFaKG0sZYLXdTOktGN7pU2LiAPPbsHEdw@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="okoC2EK4ELgp4i8OVC04b8mh8PM0RZNio"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 15, 2021 at 8:25 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> Aditya <yashsri421@gmail.com> writes:
->
-> >> The opening comment mark /** is used for kernel-doc comments [1]
-> >>
-> >> [1]
-> >> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#how-to-format-kernel-doc-comments
-> >>
-> >
-> > Hi Markus!
-> > That's true. But the content inside the comment does not follow
-> > kernel-doc format.
-> > For e.g., try running kernel-doc -none/man/rst on the above file in
-> > the example("sound/pci/ctxfi/ctresource.c").
-> > The starting 2-3 lines in files generally do not contain any
-> > struct/enum/function, etc. declaration.
->
-> The problem is that it's marked as a kerneldoc comment without actually
-> being one; it looks like somebody's internal corporate formatting.  The
-> fix is not to put a hack into kernel-doc - we have more than enough of
-> those in the file already!  The right thing to do is to remove the extra
-> "*" so that the comment doesn't look like a kerneldoc comment anymore.
->
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--okoC2EK4ELgp4i8OVC04b8mh8PM0RZNio
+Content-Type: multipart/mixed; boundary="utyvLHxxSDV5Chs7hThFOl8N43JLq1tQV";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: bluescreen_avenger@verizon.net, Jonathan Corbet <corbet@lwn.net>,
+ David Airlie <airlied@linux.ie>, Emil Velikov <emil.l.velikov@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ virtualization@lists.linux-foundation.org,
+ Hans de Goede <hdegoede@redhat.com>, Mark Brown <broonie@kernel.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Sam Ravnborg <sam@ravnborg.org>
+Message-ID: <eaa9a302-7c00-00d2-2308-86e885fc708e@suse.de>
+Subject: Re: [PATCH v2 08/10] drm/simpledrm: Acquire clocks from DT device
+ node
+References: <20210318102921.21536-1-tzimmermann@suse.de>
+ <20210318102921.21536-9-tzimmermann@suse.de>
+ <CAMuHMdVa6hw89zr5nRFaKG0sZYLXdTOktGN7pU2LiAPPbsHEdw@mail.gmail.com>
+In-Reply-To: <CAMuHMdVa6hw89zr5nRFaKG0sZYLXdTOktGN7pU2LiAPPbsHEdw@mail.gmail.com>
 
-Jonathan, I agree that that is the right thing to do. Aditya is
-already following through and is cleaning up the repository. So, let
-us be optimistic that we will have cleaned up all of those occurrences
-within a few weeks. But how to continue? Someone is going to come with
-new files and introduce this pattern again in the repository; and as
-of now, we do not have a script to identify that pattern and react...
+--utyvLHxxSDV5Chs7hThFOl8N43JLq1tQV
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Running kernel-doc on the whole tree continuously and just observing
-the new warnings is probably not going to work as of now: there are
-20,000 kernel-doc warnings and at least, I cannot see a really good
-way to filter out this one specific type of issue among all the
-warnings that will might appear in the future (without specifically
-applying Aditya's patch and looking at the diff before and after).
+Hi
 
-I wonder if we could extend kernel-doc (not your preferred option as
-it seems) for a new dedicated warning message or maintain a separate
-kernel-doc sanity checking script to emit a dedicated warning based on
-some heuristics that suggests when a "header comment" is probably
-unintentionally declared as a "kernel-doc comment" when it really
-should not be.
+Am 18.03.21 um 11:39 schrieb Geert Uytterhoeven:
+> Hi Thomas,
+>=20
+> On Thu, Mar 18, 2021 at 11:29 AM Thomas Zimmermann <tzimmermann@suse.de=
+> wrote:
+>> Make sure required hardware clocks are enabled while the firmware
+>> framebuffer is in use.
+>>
+>> The basic code has been taken from the simplefb driver and adapted
+>> to DRM. Clocks are released automatically via devres helpers.
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>> Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
+>=20
+> Thanks for your patch!
+>=20
+>> --- a/drivers/gpu/drm/tiny/simpledrm.c
+>> +++ b/drivers/gpu/drm/tiny/simpledrm.c
+>=20
+>> +static int simpledrm_device_init_clocks(struct simpledrm_device *sdev=
+)
+>> +{
+>> +       struct drm_device *dev =3D &sdev->dev;
+>> +       struct platform_device *pdev =3D sdev->pdev;
+>> +       struct device_node *of_node =3D pdev->dev.of_node;
+>> +       struct clk *clock;
+>> +       unsigned int i;
+>> +       int ret;
+>> +
+>> +       if (dev_get_platdata(&pdev->dev) || !of_node)
+>> +               return 0;
+>> +
+>> +       sdev->clk_count =3D of_clk_get_parent_count(of_node);
+>> +       if (!sdev->clk_count)
+>> +               return 0;
+>> +
+>> +       sdev->clks =3D drmm_kzalloc(dev, sdev->clk_count * sizeof(sdev=
+->clks[0]),
+>> +                                 GFP_KERNEL);
+>> +       if (!sdev->clks)
+>> +               return -ENOMEM;
+>> +
+>> +       for (i =3D 0; i < sdev->clk_count; ++i) {
+>> +               clock =3D of_clk_get(of_node, i);
+>> +               if (IS_ERR(clock)) {
+>> +                       ret =3D PTR_ERR(clock);
+>> +                       if (ret =3D=3D -EPROBE_DEFER)
+>> +                               goto err;
+>> +                       drm_err(dev, "clock %u not found: %d\n", i, re=
+t);
+>> +                       continue;
+>> +               }
+>> +               ret =3D clk_prepare_enable(clock);
+>> +               if (ret) {
+>> +                       drm_err(dev, "failed to enable clock %u: %d\n"=
+,
+>> +                               i, ret);
+>> +                       clk_put(clock);
+>> +               }
+>> +               sdev->clks[i] =3D clock;
+>> +       }
+>=20
+> of_clk_bulk_get_all() + clk_bulk_prepare_enable()?
+>=20
+> There's also devm_clk_bulk_get_all(), but not for the OF variant.
 
-Jonathan, would you then prefer to have a separate kernel-doc sanity
-checking script that then allows us to maintain checking for patterns
-we already cleaned up?
+Right, you mentioned this on the original patch set. I tried to use the=20
+functions, but TBH I found them to obfuscate the overall logic of the=20
+function. So I went back to the original code. Hopefully this is not too =
 
-Eventually, we might have cleaned up enough to just use kernel-doc and
-keep it kind of warning-free (as with make htmldocs now) and then, we
-can simply follow up with kernel-doc and some basic monitoring
-scripts, but with 20,000 warnings in the whole repository to start
-with, it is still a long way to that point, IMHO.
+much of an issue.
 
-Lukas
+Best regards
+Thomas
+
+>=20
+> Gr{oetje,eeting}s,
+>=20
+>                          Geert
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--utyvLHxxSDV5Chs7hThFOl8N43JLq1tQV--
+
+--okoC2EK4ELgp4i8OVC04b8mh8PM0RZNio
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBTMtoFAwAAAAAACgkQlh/E3EQov+AS
+rhAAh6JyaE+QDzVYCByXi61NkZYTH+D/XkDKloGEIHAYv+FRyu1KuU9IWxzC11A93wGV3Ox4UQiV
+MI0+SSA3V6eShQ7BlmtmAK6Rk0O3UviVP9h62C59Oe7M7lml6SiW5wHgW6T9H9sIEnQFJIXyfdmv
+V8QmpzQ3HgaPF5wsF1M5GOxLT4yDKLQSpZ244U6Q41AqHGCEaSgR+L2jzvd4zeimIPxDPSUpEobv
+uTJmQrrBui65FqMSI/+wVs7Tn5aBd2/Km4x4lSxilctNi6WoY7fG0VQsQfN4+hmQVOJid4eBgHbZ
+aLmeRuyNZ0tMT6c86ATm63Jd4ZTEYFbvSFxh4tz5cwrb0bWSsYxnNx5XFR11Rq67MHEqaH9ZXvz7
+zob8y+sP3aKyYVyHUgB5RCwcgEeLqJIls14gudafyKmbGr9SMArxrwszfH7JdjzbuGN6lbMTMNFq
+t8VvcIdl++wi3MFIEz9/FHmlbZ7Gvnx0buynPhx9xUav3CkIazq0pt9m99ZDJRQu+4/K0y+v/2CK
+lVZiI+TdzMxvHq7wqjZh3w51fa9Su8DkcxKQyp3yKVtE5sf6obtjBmU7ciPrBqfzHNKkhWZMn/3C
+thRlrYEN+igE+O0LXBFyIFk9WntRXWup78PdyjuedddAe7NdrJaTRqNnMZG7Azu9ZxpEgA6Sga9i
+nTI=
+=/ob6
+-----END PGP SIGNATURE-----
+
+--okoC2EK4ELgp4i8OVC04b8mh8PM0RZNio--
