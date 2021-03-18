@@ -2,104 +2,129 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26EC6C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:45:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5953C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:56:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2F6764F30
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:45:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5C5B064F24
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:56:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230105AbhCRKoq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 06:44:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47052 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229999AbhCRKoj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Mar 2021 06:44:39 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0169C64F3B;
-        Thu, 18 Mar 2021 10:44:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616064279;
-        bh=1wFwF4VmWJoYRcMM00vbE2GRjaZ3NZEyo2k1k1yxUKc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QLLKnym4TvfswwMVZqQ434uKjDQyFQMbCIaXVaEPpPnziV0DpriH0B0oOJQakv4l2
-         UQDwx3sx2FfAYvEZu7evlvWJDQdt2qLuA7oFeLXEqQUz4OKo3eVq+dSvcblE4Ms+R1
-         9NptfnK5hSp9FBgB/j1v+NuhYbOA6ZhuW9tgA6CkSjKkER3j+1LadOmgNOVXuXyqbA
-         v3vWKdIgKyDS8nCf3C48rO7Sj4DYdNlItNztyI0q5egDE3jW8lUgq4gDmVbcoQwLS1
-         YK2loDs/EX2m3YLp61kNXVivXLh4pUzZdcNhhoXzOZ7dHTx/wW/0UwxGeVwixNMI5G
-         3GxFnWoNucoAg==
-Date:   Thu, 18 Mar 2021 10:44:33 +0000
-From:   Will Deacon <will@kernel.org>
-To:     Tom Saeger <tom.saeger@oracle.com>, lorenzo.pieralisi@arm.com
-Cc:     linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Thomas Tai <thomas.tai@oracle.com>,
-        Konrad Rzeszutek Wilk <konrad@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Al Stone <al.stone@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: arm64/acpi : clarify arm64 support of IBFT
-Message-ID: <20210318104433.GA6959@willie-the-truck>
-References: <9efc652df2b8d6b53d9acb170eb7c9ca3938dfef.1615920441.git.tom.saeger@oracle.com>
+        id S230181AbhCRKzc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 06:55:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36454 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230137AbhCRKzQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 06:55:16 -0400
+Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A69ADC06174A;
+        Thu, 18 Mar 2021 03:55:16 -0700 (PDT)
+Received: by mail-il1-x12f.google.com with SMTP id r8so4429429ilo.8;
+        Thu, 18 Mar 2021 03:55:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=98pxet5C8Gy9S6SIgsmctncU1QY7hRiKp+O67nhGkow=;
+        b=uMqQlC9MavXYkB3kXbenRs4kfB7G4L7LXt93bxBJ0oImb0yLDPiOGn158iYYIi6wJe
+         qBFhMWmNwYpdNImlAhLHUa5n+0rscYmzi+2G2SyHssG3jeoVZ58Ax+eiLGNP7ej1zc/9
+         qzBi1DgfSEr1v79waqfnsgbyEKhfKmKB0M0zs2RZdvB4p7K7f+ikYi5Rs2ml+sN7k6oJ
+         RvyEzHLbEsjo/09tTwv9j2+Pw4LQL6OFI+t62UEJurVc3+x4iJdqA8TzJPMrw4oZYY23
+         jRmso1NujbFnyaWHBGNcV+ihb13EUs43KG9gakaiCWbhmvuzsIpLbUqIJRsOUlEJah39
+         fxKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=98pxet5C8Gy9S6SIgsmctncU1QY7hRiKp+O67nhGkow=;
+        b=oXUNg5zd0UFBp3ZAQUcCSC3/ZFg3LCOEHKgVP7LZg+NQk4Hib1tRY0PI8tdVrLw8do
+         fedydJe7MVInvPWWgQ5oizgCgdSaYNSnNYHdISWaIM/ZTrzWPHs75DAuWN5GEeuRL0YK
+         X7LrIj/nfVyqKHSiboS2sCpWcd6iexK2j1RQhj/1rB3bcPIiws9GSAMXepFocZJMKGfc
+         XpEl9SkdQmv+OIZL18Il0Lwza7bqhnaxW90ADh6TpVw3X4dwNi8Y5jSeW4xn03hvFN2C
+         UTLEMbe6RydywjuoxZ42zkW+sMQiROF586SK3n7aWBiY/tMVCA4iDrSuRuusc+lH+mzH
+         GNnA==
+X-Gm-Message-State: AOAM532cIbiLclIRdaOXo4i/kj3ClRnS7oiTgL8Ayg8AzdhQtKaGQID9
+        e9/RxUlWs0Tim1Q0isE3KeNyv4QcgAHII+Xq2o7X1tdInDg=
+X-Google-Smtp-Source: ABdhPJwCUz3YalePN71JfUxCQ+3ETyztCla/KstVAsnn2Y02f0u5BDOaY4GLiv8BmqjbQ9EaZMXtwwG4iM6kbJYnyyg=
+X-Received: by 2002:a05:6e02:1aaa:: with SMTP id l10mr10477638ilv.251.1616064916024;
+ Thu, 18 Mar 2021 03:55:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9efc652df2b8d6b53d9acb170eb7c9ca3938dfef.1615920441.git.tom.saeger@oracle.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210309125324.4456-1-yashsri421@gmail.com> <8959bf29-9ee1-6a1d-da18-f440232864f3@darmarit.de>
+ <c673e76f-72db-bbee-39d6-f5428e765173@gmail.com> <871rcg2p8g.fsf@meer.lwn.net>
+In-Reply-To: <871rcg2p8g.fsf@meer.lwn.net>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Thu, 18 Mar 2021 11:55:05 +0100
+Message-ID: <CAKXUXMzwTp1H_vokVEAJSnmm7jNHfWzhhmLfpcrrBD9b8ak+dA@mail.gmail.com>
+Subject: Re: [RFC] scripts: kernel-doc: avoid warnings due to initial
+ commented lines in file
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Aditya <yashsri421@gmail.com>,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[+Lorenzo]
+On Mon, Mar 15, 2021 at 8:25 PM Jonathan Corbet <corbet@lwn.net> wrote:
+>
+> Aditya <yashsri421@gmail.com> writes:
+>
+> >> The opening comment mark /** is used for kernel-doc comments [1]
+> >>
+> >> [1]
+> >> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#how-to-format-kernel-doc-comments
+> >>
+> >
+> > Hi Markus!
+> > That's true. But the content inside the comment does not follow
+> > kernel-doc format.
+> > For e.g., try running kernel-doc -none/man/rst on the above file in
+> > the example("sound/pci/ctxfi/ctresource.c").
+> > The starting 2-3 lines in files generally do not contain any
+> > struct/enum/function, etc. declaration.
+>
+> The problem is that it's marked as a kerneldoc comment without actually
+> being one; it looks like somebody's internal corporate formatting.  The
+> fix is not to put a hack into kernel-doc - we have more than enough of
+> those in the file already!  The right thing to do is to remove the extra
+> "*" so that the comment doesn't look like a kerneldoc comment anymore.
+>
 
-On Tue, Mar 16, 2021 at 12:50:41PM -0600, Tom Saeger wrote:
-> In commit 94bccc340710 ("iscsi_ibft: make ISCSI_IBFT dependson ACPI instead
-> of ISCSI_IBFT_FIND") Kconfig was disentangled to make ISCSI_IBFT selection
-> not depend on x86.
-> 
-> Update arm64 acpi documentation, changing IBFT support status from
-> "Not Supported" to "Optional".
-> Opportunistically re-flow paragraph for changed lines.
-> 
-> Link: https://lore.kernel.org/lkml/1563475054-10680-1-git-send-email-thomas.tai@oracle.com/
-> 
-> Signed-off-by: Tom Saeger <tom.saeger@oracle.com>
-> ---
->  Documentation/arm64/acpi_object_usage.rst | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+Jonathan, I agree that that is the right thing to do. Aditya is
+already following through and is cleaning up the repository. So, let
+us be optimistic that we will have cleaned up all of those occurrences
+within a few weeks. But how to continue? Someone is going to come with
+new files and introduce this pattern again in the repository; and as
+of now, we do not have a script to identify that pattern and react...
 
-Lorenzo, please could you ack the change below if you're happy with it?
-If so, I can take it as a fix.
+Running kernel-doc on the whole tree continuously and just observing
+the new warnings is probably not going to work as of now: there are
+20,000 kernel-doc warnings and at least, I cannot see a really good
+way to filter out this one specific type of issue among all the
+warnings that will might appear in the future (without specifically
+applying Aditya's patch and looking at the diff before and after).
 
-Thanks,
+I wonder if we could extend kernel-doc (not your preferred option as
+it seems) for a new dedicated warning message or maintain a separate
+kernel-doc sanity checking script to emit a dedicated warning based on
+some heuristics that suggests when a "header comment" is probably
+unintentionally declared as a "kernel-doc comment" when it really
+should not be.
 
-Will
+Jonathan, would you then prefer to have a separate kernel-doc sanity
+checking script that then allows us to maintain checking for patterns
+we already cleaned up?
 
-> diff --git a/Documentation/arm64/acpi_object_usage.rst b/Documentation/arm64/acpi_object_usage.rst
-> index 377e9d224db0..0609da73970b 100644
-> --- a/Documentation/arm64/acpi_object_usage.rst
-> +++ b/Documentation/arm64/acpi_object_usage.rst
-> @@ -17,12 +17,12 @@ For ACPI on arm64, tables also fall into the following categories:
->  
->         -  Recommended: BERT, EINJ, ERST, HEST, PCCT, SSDT
->  
-> -       -  Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT, IORT,
-> -          MCHI, MPST, MSCT, NFIT, PMTT, RASF, SBST, SLIT, SPMI, SRAT, STAO,
-> -	  TCPA, TPM2, UEFI, XENV
-> +       -  Optional: BGRT, CPEP, CSRT, DBG2, DRTM, ECDT, FACS, FPDT, IBFT,
-> +          IORT, MCHI, MPST, MSCT, NFIT, PMTT, RASF, SBST, SLIT, SPMI, SRAT,
-> +          STAO, TCPA, TPM2, UEFI, XENV
->  
-> -       -  Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IBFT, IVRS, LPIT,
-> -          MSDM, OEMx, PSDT, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
-> +       -  Not supported: BOOT, DBGP, DMAR, ETDT, HPET, IVRS, LPIT, MSDM, OEMx,
-> +          PSDT, RSDT, SLIC, WAET, WDAT, WDRT, WPBT
->  
->  ====== ========================================================================
->  Table  Usage for ARMv8 Linux
-> -- 
-> 2.31.0
-> 
+Eventually, we might have cleaned up enough to just use kernel-doc and
+keep it kind of warning-free (as with make htmldocs now) and then, we
+can simply follow up with kernel-doc and some basic monitoring
+scripts, but with 20,000 warnings in the whole repository to start
+with, it is still a long way to that point, IMHO.
+
+Lukas
