@@ -2,105 +2,139 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BA01C433E6
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:12:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B10FC433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:30:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E310A64F49
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:12:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED4CF64F3B
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 10:30:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229883AbhCRKMZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 06:12:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55502 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230082AbhCRKMT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 06:12:19 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ACFFC06174A;
-        Thu, 18 Mar 2021 03:12:19 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id x28so3649969lfu.6;
-        Thu, 18 Mar 2021 03:12:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=fj+8CF0xEa6bOzXqxjtIYrEA5HoToR1DJW5/Q9q9jmw=;
-        b=h+XOb1GsQ2w8fLoRZPzFbHuKl4PLZbrg1n3NNXlB+1pwKaDpv3IYeBwNMYTnaAe/dv
-         53qY2HQRgJloO7YPpYoaazxwB0LyW9cda/3XqephYo6XWuKffw2EvNS/BeW8bu2CjhLn
-         YWTP2x1H0eEBDgDtwckTaScppt8aK7lt+V3njf7QJpXzuiT7grarbWs5GRfMMbxHi5hx
-         sbbCxsAJNuzngqg7yz9ZWUT+6eIJtzHyMp4aZtClTbLq39j781dflkTtZN7C5T1u2Nwq
-         xymOipVtMZt0XepUbRaIZljM2iUOt+cNzBqUcJW9l5gvLHs6joBPpTbT1tLMNxHlVuyX
-         KLDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=fj+8CF0xEa6bOzXqxjtIYrEA5HoToR1DJW5/Q9q9jmw=;
-        b=HUCNz4GlwqZgU+TK0qPxyR4jdJJ+lHsiaAAyJQHSS5CSDIl7cge4W1n1bU3z5RFA3N
-         qlZvbj9UwUIbBFpidDUW1bom21so2OhGcLlUZIPAj+mq+MtLIUScm7pJqEDPr+e3m+sE
-         Gr//733uEoLYmFsaI5aqk97kyi5S0gS2qyzjvYByiWzCdT1xvAqjKHGc8jw4DJ+ti7LQ
-         S5P/GKoG9PfsSHFO8b8hwahTNIv+1VGpMN6EdNTTV+/m8es+ytg/dO6VXCKRX1NOVqJ3
-         QfJ9ZGMaKAovEJgLRojC3cpZa0k090THsDN9c+jR7e2vovZt1905VoJ3ufvW7fLhVu3y
-         Z0bw==
-X-Gm-Message-State: AOAM531xYL+TkUY0pLfwmCgC570IvuKETDFyriUveloCSWrKHdsljRbS
-        a7QCvdwbo5sRmbVzFlX1Gqk=
-X-Google-Smtp-Source: ABdhPJw0WKNmAy7eGUCvhofce6ngmswkk73bpXDn/HaCVJQto32NE95sJGLkJZuXS7ucQeT6WnUpaw==
-X-Received: by 2002:a05:6512:238c:: with SMTP id c12mr69712lfv.200.1616062337968;
-        Thu, 18 Mar 2021 03:12:17 -0700 (PDT)
-Received: from [192.168.1.101] ([178.176.78.3])
-        by smtp.gmail.com with ESMTPSA id p22sm168167lfh.113.2021.03.18.03.12.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Mar 2021 03:12:17 -0700 (PDT)
-Subject: Re: [PATCH 08/10] MIPS: disable CONFIG_IDE in malta*_defconfig
-To:     Christoph Hellwig <hch@lst.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org
-References: <20210318045706.200458-1-hch@lst.de>
- <20210318045706.200458-9-hch@lst.de>
-From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
-Message-ID: <5b0f503e-a27c-a241-c705-b2a9ccd6d0a2@gmail.com>
-Date:   Thu, 18 Mar 2021 13:12:16 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S229914AbhCRK3y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 06:29:54 -0400
+Received: from mx2.suse.de ([195.135.220.15]:45936 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230015AbhCRK30 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Mar 2021 06:29:26 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id BD0B8AD71;
+        Thu, 18 Mar 2021 10:29:24 +0000 (UTC)
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     daniel@ffwll.ch, airlied@linux.ie,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com,
+        broonie@kernel.org, sam@ravnborg.org, robh@kernel.org,
+        emil.l.velikov@gmail.com, geert+renesas@glider.be,
+        hdegoede@redhat.com, bluescreen_avenger@verizon.net
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH v2 01/10] drm/format-helper: Pass destination pitch to drm_fb_memcpy_dstclip()
+Date:   Thu, 18 Mar 2021 11:29:12 +0100
+Message-Id: <20210318102921.21536-2-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210318102921.21536-1-tzimmermann@suse.de>
+References: <20210318102921.21536-1-tzimmermann@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20210318045706.200458-9-hch@lst.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/18/21 7:57 AM, Christoph Hellwig wrote:
+The memcpy's destination buffer might have a different pitch than the
+source. Support different pitches as function argument.
 
-> Various malta defconfigs enable CONFIG_IDE for the tc86c001 ide driver,
-> hich is a Toshiba plug in card that does not make much sense to use on
-  ^ which is for
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
+---
+ drivers/gpu/drm/drm_format_helper.c    | 9 +++++----
+ drivers/gpu/drm/mgag200/mgag200_mode.c | 2 +-
+ drivers/gpu/drm/tiny/cirrus.c          | 2 +-
+ include/drm/drm_format_helper.h        | 2 +-
+ 4 files changed, 8 insertions(+), 7 deletions(-)
 
-> bigsur platforms.  For all other ATA cards libata support is already
-  ^ Malta.
+diff --git a/drivers/gpu/drm/drm_format_helper.c b/drivers/gpu/drm/drm_format_helper.c
+index c043ca364c86..8d5a683afea7 100644
+--- a/drivers/gpu/drm/drm_format_helper.c
++++ b/drivers/gpu/drm/drm_format_helper.c
+@@ -52,6 +52,7 @@ EXPORT_SYMBOL(drm_fb_memcpy);
+ /**
+  * drm_fb_memcpy_dstclip - Copy clip buffer
+  * @dst: Destination buffer (iomem)
++ * @dst_pitch: Number of bytes between two consecutive scanlines within dst
+  * @vaddr: Source buffer
+  * @fb: DRM framebuffer
+  * @clip: Clip rectangle area to copy
+@@ -59,12 +60,12 @@ EXPORT_SYMBOL(drm_fb_memcpy);
+  * This function applies clipping on dst, i.e. the destination is a
+  * full (iomem) framebuffer but only the clip rect content is copied over.
+  */
+-void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
+-			   struct drm_framebuffer *fb,
++void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch,
++			   void *vaddr, struct drm_framebuffer *fb,
+ 			   struct drm_rect *clip)
+ {
+ 	unsigned int cpp = fb->format->cpp[0];
+-	unsigned int offset = clip_offset(clip, fb->pitches[0], cpp);
++	unsigned int offset = clip_offset(clip, dst_pitch, cpp);
+ 	size_t len = (clip->x2 - clip->x1) * cpp;
+ 	unsigned int y, lines = clip->y2 - clip->y1;
+ 
+@@ -73,7 +74,7 @@ void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
+ 	for (y = 0; y < lines; y++) {
+ 		memcpy_toio(dst, vaddr, len);
+ 		vaddr += fb->pitches[0];
+-		dst += fb->pitches[0];
++		dst += dst_pitch;
+ 	}
+ }
+ EXPORT_SYMBOL(drm_fb_memcpy_dstclip);
+diff --git a/drivers/gpu/drm/mgag200/mgag200_mode.c b/drivers/gpu/drm/mgag200/mgag200_mode.c
+index cece3e57fb27..9d576240faed 100644
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -1554,7 +1554,7 @@ mgag200_handle_damage(struct mga_device *mdev, struct drm_framebuffer *fb,
+ {
+ 	void *vmap = map->vaddr; /* TODO: Use mapping abstraction properly */
+ 
+-	drm_fb_memcpy_dstclip(mdev->vram, vmap, fb, clip);
++	drm_fb_memcpy_dstclip(mdev->vram, fb->pitches[0], vmap, fb, clip);
+ 
+ 	/* Always scanout image at VRAM offset 0 */
+ 	mgag200_set_startadd(mdev, (u32)0);
+diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
+index ad922c3ec681..ae5643b0a6f4 100644
+--- a/drivers/gpu/drm/tiny/cirrus.c
++++ b/drivers/gpu/drm/tiny/cirrus.c
+@@ -323,7 +323,7 @@ static int cirrus_fb_blit_rect(struct drm_framebuffer *fb, const struct dma_buf_
+ 		return -ENODEV;
+ 
+ 	if (cirrus->cpp == fb->format->cpp[0])
+-		drm_fb_memcpy_dstclip(cirrus->vram,
++		drm_fb_memcpy_dstclip(cirrus->vram, fb->pitches[0],
+ 				      vmap, fb, rect);
+ 
+ 	else if (fb->format->cpp[0] == 4 && cirrus->cpp == 2)
+diff --git a/include/drm/drm_format_helper.h b/include/drm/drm_format_helper.h
+index 5f9e37032468..2b5036a5fbe7 100644
+--- a/include/drm/drm_format_helper.h
++++ b/include/drm/drm_format_helper.h
+@@ -11,7 +11,7 @@ struct drm_rect;
+ 
+ void drm_fb_memcpy(void *dst, void *vaddr, struct drm_framebuffer *fb,
+ 		   struct drm_rect *clip);
+-void drm_fb_memcpy_dstclip(void __iomem *dst, void *vaddr,
++void drm_fb_memcpy_dstclip(void __iomem *dst, unsigned int dst_pitch, void *vaddr,
+ 			   struct drm_framebuffer *fb,
+ 			   struct drm_rect *clip);
+ void drm_fb_swab(void *dst, void *src, struct drm_framebuffer *fb,
+-- 
+2.30.1
 
-> enabled.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-[...]
-
-MBR, Sergei
