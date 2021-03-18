@@ -2,108 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33E15C433E0
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:54:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F29DC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 21:25:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0497164F18
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 19:54:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D4CC64F1D
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 21:25:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230220AbhCRTyV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 15:54:21 -0400
-Received: from foss.arm.com ([217.140.110.172]:47794 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230008AbhCRTxr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 18 Mar 2021 15:53:47 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A8D4031B;
-        Thu, 18 Mar 2021 12:53:46 -0700 (PDT)
-Received: from [10.57.50.37] (unknown [10.57.50.37])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 005C33F792;
-        Thu, 18 Mar 2021 12:53:43 -0700 (PDT)
-Subject: Re: [PATCH] swiotlb: Add swiotlb=off to disable SWIOTLB
-To:     Florian Fainelli <f.fainelli@gmail.com>,
-        linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, opendmb@gmail.com,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        "open list:SWIOTLB SUBSYSTEM" <iommu@lists.linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-References: <20210318191816.4185226-1-f.fainelli@gmail.com>
- <bbd44c42-cedc-7bd6-a443-c991fd080298@gmail.com>
- <e7850feb-b7cd-e279-e3fc-a9bdba162423@arm.com>
- <f0940ea7-79f6-af57-aa7d-d121abb99012@gmail.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <16d1c66f-5451-2515-af73-a6b44d996e92@arm.com>
-Date:   Thu, 18 Mar 2021 19:53:37 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
-MIME-Version: 1.0
-In-Reply-To: <f0940ea7-79f6-af57-aa7d-d121abb99012@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+        id S230368AbhCRVZR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 17:25:17 -0400
+Received: from smtp.outgoing.loopia.se ([93.188.3.37]:11405 "EHLO
+        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230333AbhCRVZJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 17:25:09 -0400
+Received: from s807.loopia.se (localhost [127.0.0.1])
+        by s807.loopia.se (Postfix) with ESMTP id D57C91A9AF7B
+        for <linux-doc@vger.kernel.org>; Thu, 18 Mar 2021 22:25:04 +0100 (CET)
+Received: from s630.loopia.se (unknown [172.22.191.5])
+        by s807.loopia.se (Postfix) with ESMTP id C58762E28448;
+        Thu, 18 Mar 2021 22:25:04 +0100 (CET)
+Received: from s470.loopia.se (unknown [172.22.191.5])
+        by s630.loopia.se (Postfix) with ESMTP id ADDB713B93A4;
+        Thu, 18 Mar 2021 22:25:04 +0100 (CET)
+X-Virus-Scanned: amavisd-new at amavis.loopia.se
+Received: from s498.loopia.se ([172.22.191.6])
+        by s470.loopia.se (s470.loopia.se [172.22.190.10]) (amavisd-new, port 10024)
+        with LMTP id elWmU2YwZqbb; Thu, 18 Mar 2021 22:25:03 +0100 (CET)
+X-Loopia-Auth: user
+X-Loopia-User: carl@hgsystem.se
+X-Loopia-Originating-IP: 155.4.131.157
+Received: from localhost.localdomain (h-155-4-131-157.NA.cust.bahnhof.se [155.4.131.157])
+        (Authenticated sender: carl@hgsystem.se)
+        by s498.loopia.se (Postfix) with ESMTPSA id 66DAC48940A;
+        Thu, 18 Mar 2021 22:25:03 +0100 (CET)
+From:   Erik Rosen <erik.rosen@metormote.com>
+To:     Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rob Herring <robh+dt@kernel.org>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org
+Cc:     Erik Rosen <erik.rosen@metormote.com>
+Subject: [PATCH 0/2] Add hardware monitoring support for TI TPS53676
+Date:   Thu, 18 Mar 2021 22:24:39 +0100
+Message-Id: <20210318212441.69050-1-erik.rosen@metormote.com>
+X-Mailer: git-send-email 2.11.0 (Apple Git-81)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021-03-18 19:43, Florian Fainelli wrote:
-> 
-> 
-> On 3/18/2021 12:34 PM, Robin Murphy wrote:
->> On 2021-03-18 19:22, Florian Fainelli wrote:
->>>
->>>
->>> On 3/18/2021 12:18 PM, Florian Fainelli wrote:
->>>> It may be useful to disable the SWIOTLB completely for testing or when a
->>>> platform is known not to have any DRAM addressing limitations what so
->>>> ever.
->>
->> Isn't that what "swiotlb=noforce" is for? If you're confident that we've
->> really ironed out *all* the awkward corners that used to blow up if
->> various internal bits were left uninitialised, then it would make sense
->> to just tweak the implementation of what we already have.
-> 
-> swiotlb=noforce does prevent dma_direct_map_page() from resorting to the
-> swiotlb, however what I am also after is reclaiming these 64MB of
-> default SWIOTLB bounce buffering memory because my systems run with
-> large amounts of reserved memory into ZONE_MOVABLE and everything in
-> ZONE_NORMAL is precious at that point.
+Add hardware monitoring support for TI TPS53676 Dual-channel D-CAP+,
+dual-channel (N + M <= 7 phases) step-down, multiphase controller with AVSBus.
 
-It also forces io_tlb_nslabs to the minimum, so it should be claiming 
-considerably less than 64MB. IIRC the original proposal *did* skip 
-initialisation completely, but that turned up the aforementioned issues.
+The support is added to the existing pmbus/tps53679 driver.
 
->> I wouldn't necessarily disagree with adding "off" as an additional alias
->> for "noforce", though, since it does come across as a bit wacky for
->> general use.
->>
->>>> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
->>>
->>> Christoph, in addition to this change, how would you feel if we
->>> qualified the swiotlb_init() in arch/arm/mm/init.c with a:
->>>
->>>
->>> if (memblock_end_of_DRAM() >= SZ_4G)
->>>      swiotlb_init(1)
->>
->> Modulo "swiotlb=force", of course ;)
-> 
-> Indeed, we would need to handle that case as well. Does it sound
-> reasonable to do that to you as well?
+This patch has been tested with a Flex BMR474 converter.
 
-I wouldn't like it done to me personally, but for arm64, observe what 
-mem_init() in arch/arm64/mm/init.c already does.
+Erik Rosen (2):
+  Add trivial device entry for TPS53676
+  Add support for TPS53676
 
-Robin.
+ .../devicetree/bindings/trivial-devices.yaml  |  2 +
+ Documentation/hwmon/tps53679.rst              | 13 ++++-
+ drivers/hwmon/pmbus/Kconfig                   |  4 +-
+ drivers/hwmon/pmbus/tps53679.c                | 49 ++++++++++++++++++-
+ 4 files changed, 63 insertions(+), 5 deletions(-)
+
+
+base-commit: 1e28eed17697bcf343c6743f0028cc3b5dd88bf0
+-- 
+2.20.1
+
