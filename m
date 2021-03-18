@@ -2,107 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0295DC433E9
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 07:55:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B873C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 09:48:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6A1664F40
-	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 07:55:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C02A464F38
+	for <linux-doc@archiver.kernel.org>; Thu, 18 Mar 2021 09:48:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229640AbhCRHy7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 03:54:59 -0400
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:58887 "EHLO
-        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229634AbhCRHy5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 03:54:57 -0400
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.94)
-          with esmtps (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1lMnUZ-002BtB-BB; Thu, 18 Mar 2021 08:54:51 +0100
-Received: from p5b13a966.dip0.t-ipconnect.de ([91.19.169.102] helo=[192.168.178.139])
-          by inpost2.zedat.fu-berlin.de (Exim 4.94)
-          with esmtpsa (TLS1.2)
-          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1lMnUZ-001WwY-3q; Thu, 18 Mar 2021 08:54:51 +0100
-Subject: Re: [PATCH 01/10] alpha: use libata instead of the legacy ide driver
-To:     Al Viro <viro@zeniv.linux.org.uk>, Christoph Hellwig <hch@lst.de>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org
-References: <20210318045706.200458-1-hch@lst.de>
- <20210318045706.200458-2-hch@lst.de> <YFLrLwjZubWUvA2J@zeniv-ca.linux.org.uk>
-From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Message-ID: <3a752e8c-b518-6d61-75e7-3549e9906f83@physik.fu-berlin.de>
-Date:   Thu, 18 Mar 2021 08:54:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S229784AbhCRJr6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 05:47:58 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:54566 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229996AbhCRJro (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 18 Mar 2021 05:47:44 -0400
+Received: from zn.tnic (p200300ec2f0fad007adf1d3bb2d68d82.dip0.t-ipconnect.de [IPv6:2003:ec:2f0f:ad00:7adf:1d3b:b2d6:8d82])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 961B31EC058C;
+        Thu, 18 Mar 2021 10:47:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1616060862;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=4Rj/z7f7I1IokpvMBB12tiM4VnDP7OF9VwWSkkcJM3k=;
+        b=hjhIoz7Uc/TRti+bG+0jGfNRhjyIAibHRwRbRukyWfFjYgfXsYiU7OXqw6zle+qmaa5nMT
+        rCfcxa3lGP2GSRLIb7WXLNEz8/gvoOTqkXNVzSYuyN4J4JX/5FEB1t4OWVEDF953pr4J2n
+        yhTWh13jmFAeHQgA0mL4BIZT3bjXnSM=
+Date:   Thu, 18 Mar 2021 10:47:40 +0100
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v23 16/28] mm: Fixup places that call pte_mkwrite()
+ directly
+Message-ID: <20210318094740.GA19570@zn.tnic>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316151054.5405-17-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <YFLrLwjZubWUvA2J@zeniv-ca.linux.org.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 91.19.169.102
+Content-Disposition: inline
+In-Reply-To: <20210316151054.5405-17-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Al!
-
-On 3/18/21 6:54 AM, Al Viro wrote:
-> On Thu, Mar 18, 2021 at 05:56:57AM +0100, Christoph Hellwig wrote:
->> Switch the alpha defconfig from the legacy ide driver to libata.
+On Tue, Mar 16, 2021 at 08:10:42AM -0700, Yu-cheng Yu wrote:
+> When serving a page fault, maybe_mkwrite() makes a PTE writable if it is in
+> a writable vma.  A shadow stack vma is writable, but its PTEs need
+> _PAGE_DIRTY to be set to become writable.  For this reason, maybe_mkwrite()
+> has been updated.
 > 
-> Umm...  I don't have an IDE alpha box in a usable shape (fans on
-> CPU module shat themselves), and it would take a while to resurrect
-> it, but I remember the joy it used to cause in some versions.
+> There are a few places that call pte_mkwrite() directly, but effect the
+> same result as from maybe_mkwrite().  These sites need to be updated for
+
+s/effect the same result/have the same result/
+
+> shadow stack as well.  Thus, change them to maybe_mkwrite():
 > 
-> Do you have reports of libata variants of drivers actually tested on
-> those?
+> - do_anonymous_page() and migrate_vma_insert_page() check VM_WRITE directly
+>   and call pte_mkwrite(), which is the same as maybe_mkwrite().  Change
+>   them to maybe_mkwrite().
+> 
+> - In do_numa_page(), if the numa entry 'was-writable', then pte_mkwrite()
 
-At least pata_cypress works fine on my AlphaStation XP1000:
+You can simply say "was writable" instead of trying to hint at the
+variable there.
 
-root@tsunami:~> lspci
-0000:00:07.0 ISA bridge: Contaq Microsystems 82c693
-0000:00:07.1 IDE interface: Contaq Microsystems 82c693
-0000:00:07.2 IDE interface: Contaq Microsystems 82c693
-0000:00:07.3 USB controller: Contaq Microsystems 82c693
-0000:00:0d.0 VGA compatible controller: Texas Instruments TVP4020 [Permedia 2] (rev 01)
-0001:01:03.0 Ethernet controller: Digital Equipment Corporation DECchip 21142/43 (rev 41)
-0001:01:06.0 SCSI storage controller: QLogic Corp. ISP1020 Fast-wide SCSI (rev 06)
-0001:01:08.0 PCI bridge: Digital Equipment Corporation DECchip 21152 (rev 03)
-0001:02:09.0 Ethernet controller: Intel Corporation 82541PI Gigabit Ethernet Controller (rev 05)
-root@tsunami:~> lsmod|grep pata
-pata_cypress            3595  3
-libata                235071  2 ata_generic,pata_cypress
-root@tsunami:~>
+>   is called directly.  Fix it by doing maybe_mkwrite().
+> 
+> - In change_pte_range(), pte_mkwrite() is called directly.  Replace it with
+>   maybe_mkwrite().
+> 
+>   A shadow stack vma is writable but has different vma
+> flags, and handled accordingly in maybe_mkwrite().
+>
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> ---
+>  mm/memory.c   | 5 ++---
+>  mm/migrate.c  | 3 +--
+>  mm/mprotect.c | 2 +-
+>  3 files changed, 4 insertions(+), 6 deletions(-)
 
-I also have two AlphaStation 233 currently in storage which I assume use
-different IDE chipset which I could test as well.
+As with the previous one, I guess this one needs a mm person ACK. I
+mean, it is pretty obvious but still...
 
-Adrian
+Thx.
 
 -- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
