@@ -2,143 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29D91C433E4
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 19:03:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAA41C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 19:06:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E65656194A
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 19:03:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A281661941
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 19:06:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230186AbhCSTDV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Mar 2021 15:03:21 -0400
-Received: from smtp-42ab.mail.infomaniak.ch ([84.16.66.171]:37851 "EHLO
-        smtp-42ab.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230348AbhCSTDR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 15:03:17 -0400
-X-Greylist: delayed 1341 seconds by postgrey-1.27 at vger.kernel.org; Fri, 19 Mar 2021 15:03:17 EDT
-Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4F2Cvy58JSzMqrNj;
-        Fri, 19 Mar 2021 20:03:10 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4F2Cvt0cSqzlh8T3;
-        Fri, 19 Mar 2021 20:03:06 +0100 (CET)
-Subject: Re: [PATCH v30 02/12] landlock: Add ruleset and domain management
-To:     Kees Cook <keescook@chromium.org>
-Cc:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20210316204252.427806-1-mic@digikod.net>
- <20210316204252.427806-3-mic@digikod.net> <202103191114.C87C5E2B69@keescook>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <acda4be1-4076-a31d-fcfd-27764dd598c8@digikod.net>
-Date:   Fri, 19 Mar 2021 20:03:22 +0100
-User-Agent: 
+        id S230343AbhCSTGB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Mar 2021 15:06:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58752 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230229AbhCSTFs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 15:05:48 -0400
+X-Greylist: delayed 3848 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 19 Mar 2021 12:05:48 PDT
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21320C06175F
+        for <linux-doc@vger.kernel.org>; Fri, 19 Mar 2021 12:05:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Sender:Content-Type:MIME-Version:
+        References:Message-ID:In-Reply-To:Subject:cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=uTbl6guFGQdbk49aLzrQbkLTdEFuonclJgyelza8jbk=; b=d3OkbniiKP81FNhFe250Q1Xy/w
+        a0ncQuxQh8iqQ+mczYZmDh6TYKd9WSPWTJ9AyE1rOJ3TeCtQ9vDGoc2T724Fe0bO+s+7fjTL7Bu+U
+        T3YksTt8b941mtSXCKFIqHSCEXrjbY10TH3mSlg/QqPl7GuKWDOtz8oYZJxA6uexrOnfwPXq69h9V
+        myOOeq9ki410yQLr0kNOkIE0oQehxsnv7Mg6JQMW/3P/krEiIrW+1GXBuI09ymLdp1XulLoejOh6w
+        phyZ29twDr1qQ3yhIpSwHJ7uXQtmOE/bjDZQnApKFPmciXTTQCOdi16JLNDT+oRRiseZLcvnbCaXz
+        e8MmVMAA==;
+Received: from rdunlap (helo=localhost)
+        by bombadil.infradead.org with local-esmtp (Exim 4.94 #2 (Red Hat Linux))
+        id 1lNJRI-001RNk-BN; Fri, 19 Mar 2021 18:01:37 +0000
+Date:   Fri, 19 Mar 2021 11:01:36 -0700 (PDT)
+From:   Randy Dunlap <rdunlap@bombadil.infradead.org>
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+cc:     hirofumi@mail.parknet.co.jp, corbet@lwn.net,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: filesystems: Fix a mundane typo
+In-Reply-To: <20210319015848.19515-1-unixbhaskar@gmail.com>
+Message-ID: <74a983-38ae-b769-7bdf-421bea4f2fc9@bombadil.infradead.org>
+References: <20210319015848.19515-1-unixbhaskar@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <202103191114.C87C5E2B69@keescook>
-Content-Type: text/plain; charset=iso-8859-15
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+Sender: Randy Dunlap <rdunlap@infradead.org>
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-646709E3 
+X-CRM114-CacheID: sfid-20210319_110136_413264_B5229686 
+X-CRM114-Status: GOOD (  12.53  )
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 
-On 19/03/2021 19:40, Kees Cook wrote:
-> On Tue, Mar 16, 2021 at 09:42:42PM +0100, Mickaël Salaün wrote:
->> From: Mickaël Salaün <mic@linux.microsoft.com>
->>
->> A Landlock ruleset is mainly a red-black tree with Landlock rules as
->> nodes.  This enables quick update and lookup to match a requested
->> access, e.g. to a file.  A ruleset is usable through a dedicated file
->> descriptor (cf. following commit implementing syscalls) which enables a
->> process to create and populate a ruleset with new rules.
->>
->> A domain is a ruleset tied to a set of processes.  This group of rules
->> defines the security policy enforced on these processes and their future
->> children.  A domain can transition to a new domain which is the
->> intersection of all its constraints and those of a ruleset provided by
->> the current process.  This modification only impact the current process.
->> This means that a process can only gain more constraints (i.e. lose
->> accesses) over time.
->>
->> Cc: James Morris <jmorris@namei.org>
->> Cc: Jann Horn <jannh@google.com>
->> Cc: Kees Cook <keescook@chromium.org>
->> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
->> Acked-by: Serge Hallyn <serge@hallyn.com>
->> Link: https://lore.kernel.org/r/20210316204252.427806-3-mic@digikod.net
-> 
-> (Aside: you appear to be self-adding your Link: tags -- AIUI, this is
-> normally done by whoever pulls your series. I've only seen Link: tags
-> added when needing to refer to something else not included in the
-> series.)
 
-It is an insurance to not lose history. :)
+On Fri, 19 Mar 2021, Bhaskar Chowdhury wrote:
 
-> 
->> [...]
->> +static void put_rule(struct landlock_rule *const rule)
->> +{
->> +	might_sleep();
->> +	if (!rule)
->> +		return;
->> +	landlock_put_object(rule->object);
->> +	kfree(rule);
->> +}
-> 
-> I'd expect this to be named "release" rather than "put" since it doesn't
-> do any lifetime reference counting.
+>
+> s/provisoned/provisioned/
+>
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 
-It does decrement rule->object->usage .
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-> 
->> +static void build_check_ruleset(void)
->> +{
->> +	const struct landlock_ruleset ruleset = {
->> +		.num_rules = ~0,
->> +		.num_layers = ~0,
->> +	};
->> +
->> +	BUILD_BUG_ON(ruleset.num_rules < LANDLOCK_MAX_NUM_RULES);
->> +	BUILD_BUG_ON(ruleset.num_layers < LANDLOCK_MAX_NUM_LAYERS);
->> +}
-> 
-> This is checking that the largest possible stored value is correctly
-> within the LANDLOCK_MAX_* macro value?
 
-Yes, there is builtin checks for all Landlock limits.
-
-> 
->> [...]
-> 
-> The locking all looks right, and given your test coverage and syzkaller
-> work, it's hard for me to think of ways to prove it out any better. :)
-
-Thanks!
-
-> 
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> 
-> 
+> ---
+> Documentation/filesystems/vfat.rst | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/filesystems/vfat.rst b/Documentation/filesystems/vfat.rst
+> index e85d74e91295..760a4d83fdf9 100644
+> --- a/Documentation/filesystems/vfat.rst
+> +++ b/Documentation/filesystems/vfat.rst
+> @@ -189,7 +189,7 @@ VFAT MOUNT OPTIONS
+> **discard**
+> 	If set, issues discard/TRIM commands to the block
+> 	device when blocks are freed. This is useful for SSD devices
+> -	and sparse/thinly-provisoned LUNs.
+> +	and sparse/thinly-provisioned LUNs.
+>
+> **nfs=stale_rw|nostale_ro**
+> 	Enable this only if you want to export the FAT filesystem
+> --
+> 2.26.2
+>
+>
