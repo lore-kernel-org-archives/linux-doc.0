@@ -2,99 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A658AC433E9
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 14:47:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F007C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 15:16:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 82A2064F4D
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 14:47:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60BA661928
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 15:16:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230205AbhCSOqi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Mar 2021 10:46:38 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:43086 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229956AbhCSOqO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 10:46:14 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12JEZt0e134892;
-        Fri, 19 Mar 2021 14:46:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=7oEfdv+3/2yP0OxsSopJ7O49C2upcE4d3ElLL7Dz4dU=;
- b=FaiiJ/Yn1Yxa/kg1/8ZsU1pzJiTg+dz+DCodZBvle/IWoAIKtkPaY3g51E2OJIDTI21A
- V6kEdFfFUH+kSmZfd/IwSt3SAB7Hn5tMAfo32Cx0R9Ca/3jsFsOcFPr5/YJiVY+usvuF
- 0pVTFUrsSE3rvNm8OeAubXnQdsAhKh1Fl7eg8ej05xgMsZYO/C4pmEN8zcHg3WxxpCwD
- F+vGexQTMCiCA86VIIgvDmUylOO0zY38dcoA0muDrckvQh1HdUWHyIMAV7GRV/5j6jAV
- 6xp76MEEiKm1r0XQJe8nvyF+NgO7tUeI2SnWHdei7X3dWntvzTZ0w9TQRw+Y2tIog+X4 rQ== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2120.oracle.com with ESMTP id 378p1p3744-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 19 Mar 2021 14:46:11 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12JEYr2U122407;
-        Fri, 19 Mar 2021 14:46:10 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3030.oracle.com with ESMTP id 3796yxj2qb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 19 Mar 2021 14:46:09 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 12JEk88Z021034;
-        Fri, 19 Mar 2021 14:46:08 GMT
-Received: from mwanda (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 19 Mar 2021 07:46:08 -0700
-Date:   Fri, 19 Mar 2021 17:46:01 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] Documentation: megaraid: fix spelling "consistend" =>
- "consistent"
-Message-ID: <YFS5KV7ejNoZmt6H@mwanda>
+        id S229987AbhCSPPp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Mar 2021 11:15:45 -0400
+Received: from mga07.intel.com ([134.134.136.100]:57445 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230190AbhCSPPj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Mar 2021 11:15:39 -0400
+IronPort-SDR: mrmqTzXK/04Ycy+cJvBvbMh6+C0X2IJ6CXiJ+h0o86ZTDcAwvYukWsi713bJIrPAtLE5laoWiR
+ 3tw/BTl/mn5g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9928"; a="253912336"
+X-IronPort-AV: E=Sophos;i="5.81,262,1610438400"; 
+   d="scan'208";a="253912336"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 08:15:35 -0700
+IronPort-SDR: xqCql09qCKZCcyUj9naOiIO6KtbsHf2bUgXg7u6ReJH6uqO28nq/GVC31qrzwCLql1HWkoZgk8
+ EoNy+lU/ZQMQ==
+X-IronPort-AV: E=Sophos;i="5.81,262,1610438400"; 
+   d="scan'208";a="450895952"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.156.180]) ([10.209.156.180])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 08:15:33 -0700
+Subject: Re: [PATCH v23 22/28] x86/cet/shstk: User-mode shadow stack support
+To:     Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316151054.5405-23-yu-cheng.yu@intel.com>
+ <20210318123215.GE19570@zn.tnic>
+ <b05ee7eb-1b5d-f84f-c8f3-bfe9426e8a7d@intel.com>
+ <20210319092806.GB6251@zn.tnic>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <3144b030-0f90-717b-b373-2d0b346010c8@intel.com>
+Date:   Fri, 19 Mar 2021 08:15:33 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-IMR: 1
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9928 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 malwarescore=0 spamscore=0
- bulkscore=0 mlxlogscore=999 mlxscore=0 suspectscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103190106
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9928 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 suspectscore=0 adultscore=0
- spamscore=0 clxscore=1015 phishscore=0 malwarescore=0 priorityscore=1501
- bulkscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103190106
+In-Reply-To: <20210319092806.GB6251@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change the spelling from "consistend" to "consistent".
+On 3/19/2021 2:28 AM, Borislav Petkov wrote:
+> On Thu, Mar 18, 2021 at 12:05:58PM -0700, Yu, Yu-cheng wrote:
+>> Maybe I would add comments here.
+> 
+> Yap.
+> 
+> Also, looking forward in the set, I see prctl_set() and that is also
+> done on current so should be ok.
+> 
+> In any case, yes, documenting the assumptions and expectations wrt
+> current here is a good idea.
+> 
+>> If vm_munmap() returns -EINTR, mmap_lock is held by something else. That
+>> lock should not be held forever.  For other types of error, the loop stops.
+> 
+> Ok I guess. The subsequent WARN_ON_ONCE() looks weird too but that
+> should not fire, right? :)
+> 
+> Thx.
+> 
 
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- Documentation/scsi/ChangeLog.megaraid | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+That should not fire.
 
-diff --git a/Documentation/scsi/ChangeLog.megaraid b/Documentation/scsi/ChangeLog.megaraid
-index d2052fdbedd2..cbb329956897 100644
---- a/Documentation/scsi/ChangeLog.megaraid
-+++ b/Documentation/scsi/ChangeLog.megaraid
-@@ -220,7 +220,7 @@ Older Version	: 2.20.4.5 (scsi module), 2.20.2.5 (cmm module)
- 
- 4.	Use the pre defined DMA mask constants from dma-mapping.h
- 	Use the DMA_{64,32}BIT_MASK constants from dma-mapping.h when calling
--	pci_set_dma_mask() or pci_set_consistend_dma_mask(). See
-+	pci_set_dma_mask() or pci_set_consistent_dma_mask(). See
- 	http://marc.theaimsgroup.com/?t=108001993000001&r=1&w=2 for more
- 	details.
- 		Signed-off-by: Tobias Klauser <tklauser@nuerscht.ch>
--- 
-2.30.1
-
+Yu-cheng
