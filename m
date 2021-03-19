@@ -2,95 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2AA4C433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 09:00:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3E79C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 09:17:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A7AFB64F62
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 09:00:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6009464F59
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 09:17:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229447AbhCSJAR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Mar 2021 05:00:17 -0400
-Received: from mx2.suse.de ([195.135.220.15]:49946 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229725AbhCSJAA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Mar 2021 05:00:00 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 63818AC1F;
-        Fri, 19 Mar 2021 08:59:58 +0000 (UTC)
-Date:   Fri, 19 Mar 2021 09:59:53 +0100
-From:   Oscar Salvador <osalvador@suse.de>
-To:     Muchun Song <songmuchun@bytedance.com>
-Cc:     corbet@lwn.net, mike.kravetz@oracle.com, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        viro@zeniv.linux.org.uk, akpm@linux-foundation.org,
-        paulmck@kernel.org, mchehab+huawei@kernel.org,
-        pawan.kumar.gupta@linux.intel.com, rdunlap@infradead.org,
-        oneukum@suse.com, anshuman.khandual@arm.com, jroedel@suse.de,
-        almasrymina@google.com, rientjes@google.com, willy@infradead.org,
-        mhocko@suse.com, song.bao.hua@hisilicon.com, david@redhat.com,
-        naoya.horiguchi@nec.com, joao.m.martins@oracle.com,
-        duanxiongchun@bytedance.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linux-fsdevel@vger.kernel.org, Miaohe Lin <linmiaohe@huawei.com>,
-        Chen Huang <chenhuang5@huawei.com>,
-        Bodeddula Balasubramaniam <bodeddub@amazon.com>
-Subject: Re: [PATCH v19 7/8] mm: hugetlb: add a kernel parameter
- hugetlb_free_vmemmap
-Message-ID: <20210319085948.GA5695@linux>
-References: <20210315092015.35396-1-songmuchun@bytedance.com>
- <20210315092015.35396-8-songmuchun@bytedance.com>
+        id S229841AbhCSJR1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Mar 2021 05:17:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43122 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229817AbhCSJRI (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 05:17:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1616145427;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=dTG0YNeiE2Tcbqwn6SJ65GVmG9r9Ym8B4ZrhCrxe4xk=;
+        b=Xfv9UIX2cLY/g0NU6oXuBO8ORClG0buiap3aTMo64UHdwlLpIpVBvnwcucdBCeX4MNOLey
+        Iy40NFrOvRi+nFuTq4nA6Rd7p+Hnd/Mk8LFlC2UP3gtXaMbw8UWdkN74T0PcgU/pFbwPPp
+        gC6Po/WJIjIdMItWjqA1c8lmkGoRLPM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-317-sIzvRL-cMLiXnT6fmBNyZg-1; Fri, 19 Mar 2021 05:16:56 -0400
+X-MC-Unique: sIzvRL-cMLiXnT6fmBNyZg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D996A189CD06;
+        Fri, 19 Mar 2021 09:16:54 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-113-38.ams2.redhat.com [10.36.113.38])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 10E5961D31;
+        Fri, 19 Mar 2021 09:16:51 +0000 (UTC)
+From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To:     linux-doc@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andrew Jones <drjones@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] documentation/kvm: additional explanations on KVM_SET_BOOT_CPU_ID
+Date:   Fri, 19 Mar 2021 10:16:50 +0100
+Message-Id: <20210319091650.11967-1-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210315092015.35396-8-songmuchun@bytedance.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 15, 2021 at 05:20:14PM +0800, Muchun Song wrote:
-> --- a/arch/x86/mm/init_64.c
-> +++ b/arch/x86/mm/init_64.c
-> @@ -34,6 +34,7 @@
->  #include <linux/gfp.h>
->  #include <linux/kcore.h>
->  #include <linux/bootmem_info.h>
-> +#include <linux/hugetlb.h>
->  
->  #include <asm/processor.h>
->  #include <asm/bios_ebda.h>
-> @@ -1557,7 +1558,8 @@ int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node,
->  {
->  	int err;
->  
-> -	if (end - start < PAGES_PER_SECTION * sizeof(struct page))
-> +	if ((is_hugetlb_free_vmemmap_enabled()  && !altmap) ||
-> +	    end - start < PAGES_PER_SECTION * sizeof(struct page))
->  		err = vmemmap_populate_basepages(start, end, node, NULL);
->  	else if (boot_cpu_has(X86_FEATURE_PSE))
->  		err = vmemmap_populate_hugepages(start, end, node, altmap);
+The ioctl KVM_SET_BOOT_CPU_ID fails when called after vcpu creation.
+Add this explanation in the documentation.
 
-I've been thinking about this some more.
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+ Documentation/virt/kvm/api.rst | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Assume you opt-in the hugetlb-vmemmap feature, and assume you pass a valid altmap
-to vmemmap_populate.
-This will lead to use populating the vmemmap array with hugepages.
-
-What if then, a HugeTLB gets allocated and falls within that memory range (backed
-by hugetpages)?
-AFAIK, this will get us in trouble as currently the code can only operate on memory
-backed by PAGE_SIZE pages, right?
-
-I cannot remember, but I do not think nothing prevents that from happening?
-Am I missing anything?
-
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 38e327d4b479..bece398227f5 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -1495,7 +1495,8 @@ Fails if any VCPU has already been created.
+ 
+ Define which vcpu is the Bootstrap Processor (BSP).  Values are the same
+ as the vcpu id in KVM_CREATE_VCPU.  If this ioctl is not called, the default
+-is vcpu 0.
++is vcpu 0. This ioctl has to be called before vcpu creation,
++otherwise it will return EBUSY error.
+ 
+ 
+ 4.42 KVM_GET_XSAVE
 -- 
-Oscar Salvador
-SUSE L3
+2.29.2
+
