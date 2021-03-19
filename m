@@ -2,128 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4852FC433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 12:52:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0B82C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 13:04:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1770464E60
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 12:52:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AEAD464EE6
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 13:04:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229912AbhCSMvx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Mar 2021 08:51:53 -0400
-Received: from mail.skyhub.de ([5.9.137.197]:34188 "EHLO mail.skyhub.de"
+        id S229925AbhCSNEU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Mar 2021 09:04:20 -0400
+Received: from verein.lst.de ([213.95.11.211]:46083 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229618AbhCSMvh (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 19 Mar 2021 08:51:37 -0400
-Received: from zn.tnic (p200300ec2f091e000ec907ca620adac2.dip0.t-ipconnect.de [IPv6:2003:ec:2f09:1e00:ec9:7ca:620a:dac2])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 556D11EC0324;
-        Fri, 19 Mar 2021 13:51:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1616158295;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=Lk9msQ8lwSfedjnHkZUcL3GSRq6GlT11mzhXgP9EbMo=;
-        b=F+67ambvthhfUAsYvwdThId59yMF1DvrzPxZKes7jJ03u7skgNXENIosppMKtRqB7BOhvF
-        UZcVbO/t+Nvl9O1JIj4KXTyXNfmsamotMr6mBKDZbhKQpT+cJCgceO3zKAdI2EOrhIOL64
-        0FbpUMUhser7r1WhrE7NuAcKnv2/L4Y=
-Date:   Fri, 19 Mar 2021 13:51:29 +0100
-From:   Borislav Petkov <bp@alien8.de>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v23 23/28] x86/cet/shstk: Handle signals for shadow stack
-Message-ID: <20210319125129.GF6251@zn.tnic>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-24-yu-cheng.yu@intel.com>
+        id S229941AbhCSNEC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Mar 2021 09:04:02 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 6CB8568BFE; Fri, 19 Mar 2021 14:03:57 +0100 (CET)
+Date:   Fri, 19 Mar 2021 14:03:57 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jens Axboe <axboe@kernel.dk>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 08/10] MIPS: disable CONFIG_IDE in malta*_defconfig
+Message-ID: <20210319130356.GA2624@lst.de>
+References: <20210318045706.200458-1-hch@lst.de> <20210318045706.200458-9-hch@lst.de> <20210318141900.GA10554@alpha.franken.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210316151054.5405-24-yu-cheng.yu@intel.com>
+In-Reply-To: <20210318141900.GA10554@alpha.franken.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 08:10:49AM -0700, Yu-cheng Yu wrote:
-> To deliver a signal, create a shadow stack restore token and put the token
-> and the signal restorer address on the shadow stack.  For sigreturn, verify
-> the token and restore from it the shadow stack pointer.
+On Thu, Mar 18, 2021 at 03:19:00PM +0100, Thomas Bogendoerfer wrote:
+> On Thu, Mar 18, 2021 at 05:57:04AM +0100, Christoph Hellwig wrote:
+> >  arch/mips/configs/malta_kvm_guest_defconfig | 3 ---
 > 
-> A shadow stack restore token marks a restore point of the shadow stack, and
-> the address in a token must point directly above the token, which is within
-> the same shadow stack.  This is distinctively different from other pointers
-> on the shadow stack; those pointers point to executable code area.
+> that file is gone in mips-next.
 > 
-> In sigreturn, restoring from a token ensures the target address is the
-> location pointed by the token.
-> 
-> Introduce WRUSS, which is a kernel-mode instruction but writes directly to
-> user shadow stack.  It is used to construct the user signal stack as
-> described above.
-> 
-> Currently there is no systematic facility for extending a signal context.
-> Introduce a signal context extension 'struct sc_ext', which is used to save
-> shadow stack restore token address and WAIT_ENDBR status.  WAIT_ENDBR will
-> be introduced later in the Indirect Branch Tracking (IBT) series, but add
-> that into sc_ext now to keep the struct stable in case the IBT series is
-> applied later.
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> ---
->  arch/x86/ia32/ia32_signal.c            |  17 +++
->  arch/x86/include/asm/cet.h             |   8 ++
->  arch/x86/include/asm/fpu/internal.h    |  10 ++
->  arch/x86/include/asm/special_insns.h   |  32 ++++++
->  arch/x86/include/uapi/asm/sigcontext.h |   9 ++
->  arch/x86/kernel/cet.c                  | 152 +++++++++++++++++++++++++
->  arch/x86/kernel/fpu/signal.c           | 100 ++++++++++++++++
->  arch/x86/kernel/signal.c               |  10 ++
->  8 files changed, 338 insertions(+)
+> I could take all MIPS patches into mips-next, if you want...
 
-The commit message lacks structure in explaining what the
-problem/missing functionality is and why this is solved the way it is,
-with stack tokens. Here's a good example how to structure it properly:
-
-https://git.kernel.org/tip/323950a8a98b492ac2fa168e8e4c0becfb4554dd
-
-Also, this patch does a couple of things at once and it needs splitting
-for easier review.
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Fine with me - it shouldn't really matter if the defconfig updates
+go in independently.  Do you want a resend with the typos fixed
+against mips-next or are you simply going to fix these things up?
