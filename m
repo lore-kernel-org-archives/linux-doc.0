@@ -2,126 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A3E4C433C1
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 17:54:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61B6CC433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 17:57:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0311861985
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 17:54:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 338706197E
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 17:57:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230092AbhCSRxv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Mar 2021 13:53:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42910 "EHLO
+        id S230228AbhCSR5F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Mar 2021 13:57:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229926AbhCSRxT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 13:53:19 -0400
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41D59C06174A;
-        Fri, 19 Mar 2021 10:53:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-         bh=5b5bolNJYoHvpbguUfHCrjOiVB1eiZ/SyLUPdIsBqrE=; b=fapckYyyVxKxd05dheNDlrTlv
-        uFcmGtMwFwzwBPEbnfZHhBlGlW9zqTLadk1HYzxRYAwklFLtV9Ox76oL3XfZFqn6UE1mg/IROkVj3
-        79f+WCg+fD7E2jnn1NqHDS3WGxIyuIatzqJmPNCsZxFSkCBNJu9EFI0JI2gN0m43clGoTG/R0W/fh
-        oEixbjDCYeE7nceZZwUWWrI/Ve1MweoQ8ZXHSGEwt/4o53r61OjolSZJcVNk3E10ogAN9vvDsQqgy
-        MhUzclWSUDU/yZFF8vu1i02HG9tGrP42frcpWnKzo5X6m8xslMqMzvtfBYxMIR2nmTOd6rlatvgWI
-        vvWNoMRwA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:51488)
-        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <linux@armlinux.org.uk>)
-        id 1lNJJA-0004hZ-VN; Fri, 19 Mar 2021 17:53:13 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
-        (envelope-from <linux@shell.armlinux.org.uk>)
-        id 1lNJJA-0000jP-3r; Fri, 19 Mar 2021 17:53:12 +0000
-Date:   Fri, 19 Mar 2021 17:53:12 +0000
-From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 02/10] ARM: disable CONFIG_IDE in footbridge_defconfig
-Message-ID: <20210319175311.GW1463@shell.armlinux.org.uk>
-References: <20210318045706.200458-1-hch@lst.de>
- <20210318045706.200458-3-hch@lst.de>
- <20210319170753.GV1463@shell.armlinux.org.uk>
+        with ESMTP id S230320AbhCSR4e (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 13:56:34 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A76FCC061760
+        for <linux-doc@vger.kernel.org>; Fri, 19 Mar 2021 10:56:34 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id l1so4190237pgb.5
+        for <linux-doc@vger.kernel.org>; Fri, 19 Mar 2021 10:56:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=+q/3pbtU4KRBeCiClf1jVde3rqJff5tAE3G/yUO/twY=;
+        b=Px46bBJ7mvrljx8ek9g5SOvd1jKb2iflgcqeVZiVe5xUV+ssBoFXrkhepVOQKvAu0W
+         wc544ZAyTrYKxp4eU7wneG31VhgV2pG4OO8vR/OUGy+eT4tlva1ClajEyl5BGBpqNmzG
+         hunNRfv4R9KjhPsKcrcyZbynh9VC1EqLCPhJk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=+q/3pbtU4KRBeCiClf1jVde3rqJff5tAE3G/yUO/twY=;
+        b=nAECY5o/K6Fpx4GDepaXAEfioXiuYwBm+QRefJKzx0lDtn7C8WmLmM1hVXl2ue93ys
+         QrlKtcxPA7+twBb8kYKV4WTdgrXTmCPHJ8P0ZxZYRN/dM+wtdlKjR/7+8RRaWrEB/BJ6
+         6O/88apcqlNz4iYijXlMGFHwxmiJuGcIbUzc78BOSstzPLGuFqwj9Yv7EgjIl5pV7ZUf
+         wQbqAd6+97eQNcnvUUp3nfNrhY51jE1tU1T45A458e3WE+Wo/XXSXkM6N254ZobpshyZ
+         HVEixskCm4jobybDiC8yEOpdtRM0HwxfqS8GyxXDjIRhiljfxPZOO6YdBfo4reiH1026
+         3Apw==
+X-Gm-Message-State: AOAM533kLzuh7wECZnscWwdDf2JZ3MSPN19pVwDrdgllROHUS/mFSrBm
+        PQzj7IKgbWPMgurbo3hioWsVqw==
+X-Google-Smtp-Source: ABdhPJx6hzgtsuXfb3wb8ZxJRkArVpobtGIGuejpGbWx0f2z95FZcMrh5SMDfiqjnPliwFHzGPG83w==
+X-Received: by 2002:aa7:8493:0:b029:1ee:75b2:2865 with SMTP id u19-20020aa784930000b02901ee75b22865mr10002946pfn.61.1616176594196;
+        Fri, 19 Mar 2021 10:56:34 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id t1sm6114696pfc.173.2021.03.19.10.56.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 19 Mar 2021 10:56:33 -0700 (PDT)
+Date:   Fri, 19 Mar 2021 10:56:32 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org,
+        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>
+Subject: Re: [PATCH v30 10/12] selftests/landlock: Add user space tests
+Message-ID: <202103191026.D936362B@keescook>
+References: <20210316204252.427806-1-mic@digikod.net>
+ <20210316204252.427806-11-mic@digikod.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210319170753.GV1463@shell.armlinux.org.uk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210316204252.427806-11-mic@digikod.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 19, 2021 at 05:07:53PM +0000, Russell King - ARM Linux admin wrote:
-> On Thu, Mar 18, 2021 at 05:56:58AM +0100, Christoph Hellwig wrote:
-> > footbridge_defconfig enables CONFIG_IDE but no actual host controller
-> > driver, so just drop it.
+On Tue, Mar 16, 2021 at 09:42:50PM +0100, Mickaël Salaün wrote:
+> From: Mickaël Salaün <mic@linux.microsoft.com>
 > 
-> I have been using the Cypress 82C693 IDE driver on Footbridge for a
-> CD ROM drive, and I know it doesn't work with the PATA driver - as
-> I need to disable BM DMA, otherwise the 82C693/DC21285 combination
-> deadlocks the PCI bus. The PATA driver doesn't support disabling
-> BM DMA without disabling it for all PATA ports, which is really
-> annoying for my IT821x card in the same machine.
+> Test all Landlock system calls, ptrace hooks semantic and filesystem
+> access-control with multiple layouts.
 > 
-> So, I'm rather stuck using the PATA driver for the HDDs and the
-> IDE driver for the CD ROM.
+> Test coverage for security/landlock/ is 93.6% of lines.  The code not
+> covered only deals with internal kernel errors (e.g. memory allocation)
+> and race conditions.
 > 
-> That said, a commit a while back "cleaning up" the PCI layer appears
-> to have totally shafted the 82C693, as the kernel tries to request
-> IO resources at the legacy IDE addresses against the PCI bus resource
-> which only covers 0x1000-0xffff. Hence, the 82C693 IDE ports are non-
-> functional at the moment.
-> 
-> I'm debating about trying to find a fix to the PCI breakage that was
-> introduced by "ARM: move PCI i/o resource setup into common code".
-> 
-> I hadn't noticed it because I don't use the CD ROM drive very often,
-> and I don't upgrade the kernel that often either on the machine -
-> but it has been running 24x7 for almost two decades.
+> Cc: James Morris <jmorris@namei.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Serge E. Hallyn <serge@hallyn.com>
+> Cc: Shuah Khan <shuah@kernel.org>
+> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+> Reviewed-by: Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>
+> Link: https://lore.kernel.org/r/20210316204252.427806-11-mic@digikod.net
 
-Okay, a bit more on this...
+This is terrific. I love the coverage. How did you measure this, BTW?
+To increase it into memory allocation failures, have you tried
+allocation fault injection:
+https://www.kernel.org/doc/html/latest/fault-injection/fault-injection.html
 
-If I extend the arch/arm/kernel/bios32.c code to kill BARs 2/3 (which
-actually are not present on the CY82C693) then the IDE driver works
-for me, but the PATA driver does not:
+> [...]
+> +TEST(inconsistent_attr) {
+> +	const long page_size = sysconf(_SC_PAGESIZE);
+> +	char *const buf = malloc(page_size + 1);
+> +	struct landlock_ruleset_attr *const ruleset_attr = (void *)buf;
+> +
+> +	ASSERT_NE(NULL, buf);
+> +
+> +	/* Checks copy_from_user(). */
+> +	ASSERT_EQ(-1, landlock_create_ruleset(ruleset_attr, 0, 0));
+> +	/* The size if less than sizeof(struct landlock_attr_enforce). */
+> +	ASSERT_EQ(EINVAL, errno);
+> +	ASSERT_EQ(-1, landlock_create_ruleset(ruleset_attr, 1, 0));
+> +	ASSERT_EQ(EINVAL, errno);
 
-cy82c693 0000:00:06.1: IDE controller (0x1080:0xc693 rev 0x00)
-cy82c693 0000:00:06.1: not 100% native mode: will probe irqs later
-legacy IDE will be removed in 2021, please switch to libata
-Report any missing HW support to linux-ide@vger.kernel.org
-    ide0: BM-DMA at 0x1080-0x1087
-    ide1: BM-DMA at 0x1088-0x108f
-Probing IDE interface ide0...
-hda: PIONEER DVD-RW DVR-105, ATAPI CD/DVD-ROM drive
-hda: host max PIO4 wanted PIO255(auto-tune) selected PIO4
-...
+Almost everywhere you're using ASSERT instead of EXPECT. Is this correct
+(in the sense than as soon as an ASSERT fails the rest of the test is
+skipped)? I do see you using EXPECT is some places, but I figured I'd
+ask about the intention here.
 
-(unbind Cypress_IDE and try binding pata_cypress)
+> +/*
+> + * TEST_F_FORK() is useful when a test drop privileges but the corresponding
+> + * FIXTURE_TEARDOWN() requires them (e.g. to remove files from a directory
+> + * where write actions are denied).  For convenience, FIXTURE_TEARDOWN() is
+> + * also called when the test failed, but not when FIXTURE_SETUP() failed.  For
+> + * this to be possible, we must not call abort() but instead exit smoothly
+> + * (hence the step print).
+> + */
 
-pata_cypress 0000:00:06.1: no available native port
+Hm, interesting. I think this should be extracted into a separate patch
+and added to the test harness proper.
 
+Could this be solved with TEARDOWN being called on SETUP failure?
+
+> +#define TEST_F_FORK(fixture_name, test_name) \
+> +	static void fixture_name##_##test_name##_child( \
+> +		struct __test_metadata *_metadata, \
+> +		FIXTURE_DATA(fixture_name) *self, \
+> +		const FIXTURE_VARIANT(fixture_name) *variant); \
+> +	TEST_F(fixture_name, test_name) \
+> +	{ \
+> +		int status; \
+> +		const pid_t child = fork(); \
+> +		if (child < 0) \
+> +			abort(); \
+> +		if (child == 0) { \
+> +			_metadata->no_print = 1; \
+> +			fixture_name##_##test_name##_child(_metadata, self, variant); \
+> +			if (_metadata->skip) \
+> +				_exit(255); \
+> +			if (_metadata->passed) \
+> +				_exit(0); \
+> +			_exit(_metadata->step); \
+> +		} \
+> +		if (child != waitpid(child, &status, 0)) \
+> +			abort(); \
+> +		if (WIFSIGNALED(status) || !WIFEXITED(status)) { \
+> +			_metadata->passed = 0; \
+> +			_metadata->step = 1; \
+> +			return; \
+> +		} \
+> +		switch (WEXITSTATUS(status)) { \
+> +		case 0: \
+> +			_metadata->passed = 1; \
+> +			break; \
+> +		case 255: \
+> +			_metadata->passed = 1; \
+> +			_metadata->skip = 1; \
+> +			break; \
+> +		default: \
+> +			_metadata->passed = 0; \
+> +			_metadata->step = WEXITSTATUS(status); \
+> +			break; \
+> +		} \
+> +	} \
+
+This looks like a subset of __wait_for_test()? Could __TEST_F_IMPL() be
+updated instead to do this? (Though the fork overhead might not be great
+for everyone.)
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+Kees Cook
