@@ -7,403 +7,254 @@ X-Spam-Status: No, score=-21.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E17FC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6A82C433E1
 	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 19:28:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C7536197B
+	by mail.kernel.org (Postfix) with ESMTP id 7701C6197D
 	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 19:28:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230226AbhCST2V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Mar 2021 15:28:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35306 "EHLO
+        id S230273AbhCST2W (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Mar 2021 15:28:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229912AbhCST1x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 15:27:53 -0400
+        with ESMTP id S230186AbhCST1y (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 15:27:54 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45BA7C06174A;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6300DC061762;
         Fri, 19 Mar 2021 12:27:53 -0700 (PDT)
 Received: from ip4d142c50.dynamic.kabel-deutschland.de ([77.20.44.80] helo=truhe.fritz.box); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1lNKmk-0003Lu-CB; Fri, 19 Mar 2021 20:27:50 +0100
+        id 1lNKmk-0003Lu-Qo; Fri, 19 Mar 2021 20:27:50 +0100
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 2/5] docs: reporting-issues.rst: tone down 'test vanilla mainline' a little
-Date:   Fri, 19 Mar 2021 20:27:46 +0100
-Message-Id: <652ee20eb36228f5d7ca842299faa4cb472feedb.1616181657.git.linux@leemhuis.info>
+Subject: [PATCH v3 4/5] docs: reporting-issues.rst: duplicate sections for reviewing purposes
+Date:   Fri, 19 Mar 2021 20:27:48 +0100
+Message-Id: <ef85edc8466f035eb243dd6629429ad4fd0565d8.1616181657.git.linux@leemhuis.info>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1616181657.git.linux@leemhuis.info>
 References: <cover.1616181657.git.linux@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=yes
 Content-Transfer-Encoding: 8bit
 X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1616182073;048012f6;
-X-HE-SMSGID: 1lNKmk-0003Lu-CB
+X-HE-SMSGID: 1lNKmk-0003Lu-Qo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Tell users that reporting bugs with vendor kernels which are only
-slightly patched can be okay in some situations, but point out there's a
-risk in doing so.
+This duplicates two section to make the diff in the next patch a bit
+easier to gasp for humans.
 
-Adjust some related sections to make them compatible and a bit clearer.
-At the same time make them less daunting: we want users to report bugs,
-even if they can't test vanilla mainline kernel.
+Straight copy, no content changes.
 
 Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-CC: Randy Dunlap <rdunlap@infradead.org>
-
 ---
-With this I try to get rid of the last remaining parts that have a
-'this needs discussion' box that's in the text. I hope I've found a
-middle ground that everybody can live with.
-
-v2
-* fix a few typos
-* don't quote mainline, vanilla, stable, and longterm, except in the
-  step by step guide, where users likely hit these special terms for the
-  first time
-
-v1, RFC https://lore.kernel.org/linux-doc/20210310072858.231776-1-linux@leemhuis.info/
-* initial version
----
- .../admin-guide/reporting-issues.rst          | 273 ++++++++++--------
- 1 file changed, 149 insertions(+), 124 deletions(-)
+ .../admin-guide/reporting-issues.rst          | 184 ++++++++++++++++++
+ 1 file changed, 184 insertions(+)
 
 diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-index 3b43748d8911..3c9bf24ebf66 100644
+index 6234741caca8..17e889bb3cfd 100644
 --- a/Documentation/admin-guide/reporting-issues.rst
 +++ b/Documentation/admin-guide/reporting-issues.rst
-@@ -94,10 +94,11 @@ early if an issue that looks like a Linux kernel problem is actually caused by
- something else. These steps thus help to ensure the time you invest in this
- process won't feel wasted in the end:
+@@ -328,6 +328,66 @@ those often get rejected or ignored, so consider yourself warned. But it's still
+ better than not reporting the issue at all: sometimes such reports directly or
+ indirectly will help to get the issue fixed over time.
  
-- * Stop reading this document and report the problem to your vendor instead,
--   unless you are running the latest mainline kernel already or are willing to
--   install it. This kernel must not be modified or enhanced in any way, and
--   thus be considered 'vanilla'.
-+ * Are you facing an issue with a Linux kernel a hardware or software vendor
-+   provided? Then in almost all cases you are better off to stop reading this
-+   document and reporting the issue to your vendor instead, unless you are
-+   willing to install the latest Linux version yourself. Be aware the latter
-+   will often be needed anyway to hunt down and fix issues.
- 
-  * See if the issue you are dealing with qualifies as regression, security
-    issue, or a really severe problem: those are 'issues of high priority' that
-@@ -134,12 +135,14 @@ process won't feel wasted in the end:
- 
- After these preparations you'll now enter the main part:
- 
-- * Install the latest Linux mainline kernel: that's where all issues get
--   fixed first, because it's the version line the kernel developers mainly
--   care about. Testing and reporting with the latest Linux stable kernel can
--   be an acceptable alternative in some situations, for example during the
--   merge window; but during that period you might want to suspend your efforts
--   till its end anyway.
-+ * Unless you are already running the latest 'mainline' Linux kernel, better
-+   go and install it for the reporting process. Testing and reporting with
-+   the latest 'stable' Linux can be an acceptable alternative in some
-+   situations; during the merge window that actually might be even the best
-+   approach, but in that development phase it can be an even better idea to
-+   suspend your efforts for a few days anyway. Whatever version you choose,
-+   ideally use a 'vanilla' build. Ignoring these advices will dramatically
-+   increase the risk your report will be rejected or ignored.
- 
-  * Ensure the kernel you just installed does not 'taint' itself when
-    running.
-@@ -276,55 +279,54 @@ issues to the Linux kernel developers.
- Make sure you're using the upstream Linux kernel
- ------------------------------------------------
- 
--   *Stop reading this document and report the problem to your vendor instead,
--   unless you are running the latest mainline kernel already or are willing to
--   install it. This kernel must not be modified or enhanced in any way, and
--   thus be considered 'vanilla'.*
-+   *Are you facing an issue with a Linux kernel a hardware or software vendor
-+   provided? Then in almost all cases you are better off to stop reading this
-+   document and reporting the issue to your vendor instead, unless you are
-+   willing to install the latest Linux version yourself. Be aware the latter
-+   will often be needed anyway to hunt down and fix issues.*
- 
- Like most programmers, Linux kernel developers don't like to spend time dealing
--with reports for issues that don't even happen with the source code they
--maintain: it's just a waste everybody's time, yours included. That's why you
--later will have to test your issue with the latest 'vanilla' kernel: a kernel
--that was build using the Linux sources taken straight from `kernel.org
--<https://kernel.org/>`_ and not modified or enhanced in any way.
--
--Almost all kernels used in devices (Computers, Laptops, Smartphones, Routers,
--…) and most kernels shipped by Linux distributors are ancient from the point of
--kernel development and heavily modified. They thus do not qualify for reporting
--an issue to the Linux kernel developers: the issue you face with such a kernel
--might be fixed already or caused by the changes or additions, even if they look
--small or totally unrelated. That's why issues with such kernels need to be
--reported to the vendor that distributed it. Its developers should look into the
-+with reports for issues that don't even happen with their current code. It's
-+just a waste everybody's time, especially yours. Unfortunately such situations
-+easily happen when it comes to the kernel and often leads to frustration on both
-+sides. That's because almost all Linux-based kernels pre-installed on devices
-+(Computers, Laptops, Smartphones, Routers, …) and most shipped by Linux
-+distributors are quite distant from the official Linux kernel as distributed by
-+kernel.org: these kernels from these vendors are often ancient from the point of
-+Linux development or heavily modified, often both.
 +
-+Most of these vendor kernels are quite unsuitable for reporting bugs to the
-+Linux kernel developers: an issue you face with one of them might have been
-+fixed by the Linux kernel developers months or years ago already; additionally,
-+the modifications and enhancements by the vendor might be causing the issue you
-+face, even if they look small or totally unrelated. That's why you should report
-+issues with these kernels to the vendor. Its developers should look into the
- report and, in case it turns out to be an upstream issue, fix it directly
--upstream or report it there. In practice that sometimes does not work out. If
--that the case, you might want to circumvent the vendor by installing the latest
--mainline kernel yourself and reporting the issue as outlined in this document;
--just make sure to use really fresh kernel (see below).
--
--
--.. note::
--
--   FIXME: Should we accept reports for issues with kernel images that are pretty
--   close to vanilla? But when are they close enough and how to put that line in
--   words? Maybe something like this?
--
--    *Note: Some Linux kernel developers accept reports from vendor kernels that
--    are known to be close to upstream. That for example is often the case for
--    the kernels that Debian GNU/Linux Sid or Fedora Rawhide ship, which are
--    normally following mainline closely and carry only a few patches. So a
--    report with one of these might be accepted by the developers that need to
--    handle it. But if they do, depends heavily on the individual developers and
--    the issue at hand. That's why installing a mainline vanilla kernel is the
--    safe bet.*
--
--    *Arch Linux, other Fedora releases, and openSUSE Tumbleweed often use quite
--    recent stable kernels that are pretty close to upstream, too. Some
--    developers accept bugs from them as well. But note that you normally should
--    avoid stable kernels for reporting issues and use a mainline kernel instead
--    (see below).*
--
--   Are there any other major Linux distributions that should be mentioned here?
--
-+upstream or forward the report there. In practice that often does not work out
-+or might not what you want. You thus might want to consider circumventing the
-+vendor by installing the very latest Linux kernel core yourself. If that's an
-+option for you move ahead in this process, as a later step in this guide will
-+explain how to do that once it rules out other potential causes for your issue.
++Search for existing reports
++---------------------------
 +
-+Note, the previous paragraph is starting with the word 'most', as sometimes
-+developers in fact are willing to handle reports about issues occurring with
-+vendor kernels. If they do in the end highly depends on the developers and the
-+issue in question. Your chances are quite good if the distributor applied only
-+small modifications to a kernel based on a recent Linux version; that for
-+example often holds true for the mainline kernels shipped by Debian GNU/Linux
-+Sid or Fedora Rawhide. Some developers will also accept reports about issues
-+with kernels from distributions shipping the latest stable kernel, as long as
-+its only slightly modified; that for example is often the case for Arch Linux,
-+regular Fedora releases, and openSUSE Tumbleweed. But keep in mind, you better
-+want to use a mainline Linux and avoid using a stable kernel for this
-+process, as outlined in the section 'Install a fresh kernel for testing' in more
-+detail.
++    *Search the archives of the bug tracker or mailing list in question
++    thoroughly for reports that might match your issue. Also check if you find
++    something with your favorite internet search engine or in the Linux Kernel
++    Mailing List (LKML) archives. If you find anything, join the discussion
++    instead of sending a new report.*
 +
-+Obviously you are free to ignore all this advice and report problems with an old
-+or heavily modified vendor kernel to the upstream Linux developers. But note,
-+those often get rejected or ignored, so consider yourself warned. But it's still
-+better than not reporting the issue at all: sometimes such reports directly or
-+indirectly will help to get the issue fixed over time.
- 
++Reporting an issue that someone else already brought forward is often a waste
++of time for everyone involved, especially you as the reporter. So it's in your
++own interest to thoroughly check if somebody reported the issue already. Thus
++do not hurry with this step of the reporting process. Spending 30 to 60 minutes
++or even more time can save you and others quite a lot of time and trouble.
++
++The best place to search is the bug tracker or the mailing list where your
++report needs to be filed. You'll find quite a few of those lists on
++`lore.kernel.org <https://lore.kernel.org/>`_, but some are hosted in
++different places. That for example is the case for the ath10k WiFi driver used
++as example in the previous step. But you'll often find the archives for these
++lists easily on the net. Searching for 'archive ath10k@lists.infradead.org' for
++example will quickly lead you to the `Info page for the ath10k mailing list
++<https://lists.infradead.org/mailman/listinfo/ath10k>`_, which at the top links
++to its `list archives <https://lists.infradead.org/pipermail/ath10k/>`_.
++
++Sadly this and quite a few other lists miss a way to search the archives. In
++those cases use a regular internet search engine and add something like
++'site:lists.infradead.org/pipermail/ath10k/' to your search terms, which limits
++the results to the archives at that URL.
++
++Additionally, search the internet and the `Linux Kernel Mailing List (LKML)
++archives <https://lore.kernel.org/lkml/>`_, as maybe the real culprit might be
++in some other subsystem. Searching in `bugzilla.kernel.org
++<https://bugzilla.kernel.org/>`_ might also be a good idea, but if you find
++anything there keep in mind: most subsystems expect reports in different
++places, hence those you find there might have not even reached the people
++responsible for the subsystem in question. Nevertheless, the data there might
++provide valuable insights.
++
++If you get flooded with results consider telling your search engine to limit
++search timeframe to the past month or year. And wherever you search, make sure
++to use good search terms; vary them a few times, too. While doing so try to
++look at the issue from the perspective of someone else: that will help you to
++come up with other words to use as search terms. Also make sure not to use too
++many search terms at once. Remember to search with and without information like
++the name of the kernel driver or the name of the affected hardware component.
++But its exact brand name (say 'ASUS Red Devil Radeon RX 5700 XT Gaming OC')
++often is not much helpful, as it is too specific. Instead try search terms like
++the model line (Radeon 5700 or Radeon 5000) and the code name of the main chip
++('Navi' or 'Navi10') with and without its manufacturer ('AMD').
++
++In case you find an existing report about your issue, join the discussion, as
++you might be able to provide valuable additional information. That can be
++important even when a fix is prepared or in its final stages already, as
++developers might look for people that can provide additional information or
++test a proposed fix. Jump to the section 'Duties after the report went out' for
++details on how to get properly involved.
++
++
  Issue of high priority?
  -----------------------
-@@ -690,13 +692,12 @@ Make sure your kernel doesn't get enhanced
-     kernel modules on-the-fly, which solutions like DKMS might be doing locally
-     without your knowledge.*
  
--Your kernel must be 'vanilla' when reporting an issue, but stops being pure as
--soon as it loads a kernel module not built from the sources used to compile the
--kernel image itself. That's why you need to ensure your Linux kernel stays
--vanilla by removing or disabling mechanisms like akmods and DKMS: those might
--build additional kernel modules automatically, for example when your boot into
--a newly installed Linux kernel the first time. Reboot after removing them and
--any modules they installed.
-+The risk your issue report gets ignored or rejected dramatically increases if
-+your kernel gets enhanced in any way. That's why you should remove or disable
-+mechanisms like akmods and DKMS: those build add-on kernel modules
-+automatically, for example when you install a new Linux kernel or boot it for
-+the first time. Also remove any modules they might have installed. Then reboot
-+before proceeding.
+@@ -1523,6 +1583,130 @@ was already fixed in the latest release of version line you're interested in.
+ This kernel needs to be vanilla and shouldn't be tainted before the issue
+ happens, as detailed outlined already above in the process of testing mainline.
  
- Note, you might not be aware that your system is using one of these solutions:
- they often get set up silently when you install Nvidia's proprietary graphics
-@@ -770,44 +771,47 @@ is hard to reproduce.
- Install a fresh kernel for testing
- ----------------------------------
++
++Check code history and search for existing discussions
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++    *Search the Linux kernel version control system for the change that fixed
++    the issue in mainline, as its commit message might tell you if the fix is
++    scheduled for backporting already. If you don't find anything that way,
++    search the appropriate mailing lists for posts that discuss such an issue
++    or peer-review possible fixes; then check the discussions if the fix was
++    deemed unsuitable for backporting. If backporting was not considered at
++    all, join the newest discussion, asking if it's in the cards.*
++
++In a lot of cases the issue you deal with will have happened with mainline, but
++got fixed there. The commit that fixed it would need to get backported as well
++to get the issue solved. That's why you want to search for it or any
++discussions abound it.
++
++ * First try to find the fix in the Git repository that holds the Linux kernel
++   sources. You can do this with the web interfaces `on kernel.org
++   <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/>`_
++   or its mirror `on GitHub <https://github.com/torvalds/linux>`_; if you have
++   a local clone you alternatively can search on the command line with ``git
++   log --grep=<pattern>``.
++
++   If you find the fix, look if the commit message near the end contains a
++   'stable tag' that looks like this:
++
++          Cc: <stable@vger.kernel.org> # 5.4+
++
++   If that's case the developer marked the fix safe for backporting to version
++   line 5.4 and later. Most of the time it's getting applied there within two
++   weeks, but sometimes it takes a bit longer.
++
++ * If the commit doesn't tell you anything or if you can't find the fix, look
++   again for discussions about the issue. Search the net with your favorite
++   internet search engine as well as the archives for the `Linux kernel
++   developers mailing list <https://lore.kernel.org/lkml/>`_. Also read the
++   section `Locate kernel area that causes the issue` above and follow the
++   instructions to find the subsystem in question: its bug tracker or mailing
++   list archive might have the answer you are looking for.
++
++ * If you see a proposed fix, search for it in the version control system as
++   outlined above, as the commit might tell you if a backport can be expected.
++
++   * Check the discussions for any indicators the fix might be too risky to get
++     backported to the version line you care about. If that's the case you have
++     to live with the issue or switch to the kernel version line where the fix
++     got applied.
++
++   * If the fix doesn't contain a stable tag and backporting was not discussed,
++     join the discussion: mention the version where you face the issue and that
++     you would like to see it fixed, if suitable.
++
++Details about reporting issues only occurring in older kernel version lines
++---------------------------------------------------------------------------
++
++This subsection provides details for steps you need to take if you could not
++reproduce your issue with a mainline kernel, but want to see it fixed in older
++version lines (aka stable and longterm kernels).
++
++Some fixes are too complex
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++    *Prepare yourself for the possibility that going through the next few steps
++    might not get the issue solved in older releases: the fix might be too big
++    or risky to get backported there.*
++
++Even small and seemingly obvious code-changes sometimes introduce new and
++totally unexpected problems. The maintainers of the stable and longterm kernels
++are very aware of that and thus only apply changes to these kernels that are
++within rules outlined in 'Documentation/process/stable-kernel-rules.rst'.
++
++Complex or risky changes for example do not qualify and thus only get applied
++to mainline. Other fixes are easy to get backported to the newest stable and
++longterm kernels, but too risky to integrate into older ones. So be aware the
++fix you are hoping for might be one of those that won't be backported to the
++version line your care about. In that case you'll have no other choice then to
++live with the issue or switch to a newer Linux version, unless you want to
++patch the fix into your kernels yourself.
++
++Make sure the particular version line still gets support
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++    *Check if the kernel developers still maintain the Linux kernel version
++    line you care about: go to the front page of kernel.org and make sure it
++    mentions the latest release of the particular version line without an
++    '[EOL]' tag.*
++
++Most kernel version lines only get supported for about three months, as
++maintaining them longer is quite a lot of work. Hence, only one per year is
++chosen and gets supported for at least two years (often six). That's why you
++need to check if the kernel developers still support the version line you care
++for.
++
++Note, if kernel.org lists two 'stable' version lines on the front page, you
++should consider switching to the newer one and forget about the older one:
++support for it is likely to be abandoned soon. Then it will get a "end-of-life"
++(EOL) stamp. Version lines that reached that point still get mentioned on the
++kernel.org front page for a week or two, but are unsuitable for testing and
++reporting.
++
++Search stable mailing list
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++    *Check the archives of the Linux stable mailing list for existing reports.*
++
++Maybe the issue you face is already known and was fixed or is about to. Hence,
++`search the archives of the Linux stable mailing list
++<https://lore.kernel.org/stable/>`_ for reports about an issue like yours. If
++you find any matches, consider joining the discussion, unless the fix is
++already finished and scheduled to get applied soon.
++
++Reproduce issue with the newest release
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++    *Install the latest release from the particular version line as a vanilla
++    kernel. Ensure this kernel is not tainted and still shows the problem, as
++    the issue might have already been fixed there.*
++
++Before investing any more time in this process you want to check if the issue
++was already fixed in the latest release of version line you're interested in.
++This kernel needs to be vanilla and shouldn't be tainted before the issue
++happens, as detailed outlined already above in the process of testing mainline.
++
+ Check code history and search for existing discussions
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  
--    *Install the latest Linux mainline kernel: that's where all issues get
--    fixed first, because it's the version line the kernel developers mainly
--    care about. Testing and reporting with the latest Linux stable kernel can
--    be an acceptable alternative in some situations, for example during the
--    merge window; but during that period you might want to suspend your efforts
--    till its end anyway.*
--
--Reporting an issue to the Linux kernel developers they fixed weeks or months
--ago is annoying for them and wasting their and your time. That's why it's in
--everybody's interest to check if the issue occurs with the latest codebase
--before reporting it.
--
--In the scope of the Linux kernel the term 'latest' means: a kernel version
--recently created from the main line of development, as this 'mainline' tree is
--where developers first apply fixes; only after that are they are allowed to get
--backported to older, still supported version lines called 'stable' and
--'longterm' kernels. That's why you should check a recent mainline kernel, even
--if you deal with an issue you only want to see fixed in an older version line.
--Another reason: some fixes are only applied to mainline or recent version
--lines, as it's too hard or risky to backport them to older versions. If that
--the case, reporting the issue again is unlikely to change anything.
--
--Longterm kernels (sometimes called "LTS kernels") are therefore unsuitable for
--testing; they simply are too distant from current development. Even the latest
--Linux 'stable' kernel is a significant bit behind and thus better avoided. At
--least most of the time, as sometimes a stable kernel can the best choice; but
--in those situations you might want to wait a few days anyway:
--
--Choosing between mainline, stable and waiting
--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--Head over to `kernel.org <https://kernel.org/>`_ to decide which version to
--use. Ignore the big yellow button that says 'Latest release' and look a little
--lower for a table. At its top you'll see a line starting with 'mainline', which
--most of the time will point to a pre-release with a version number like
--'5.8-rc2'. If that's the case, you'll want to use this mainline kernel for
--testing. Do not let that 'rc' scare you, these 'development kernels' are pretty
--reliable — and you made a backup, as you were instructed above, didn't you?
-+    *Unless you are already running the latest 'mainline' Linux kernel, better
-+    go and install it for the reporting process. Testing and reporting with
-+    the latest 'stable' Linux can be an acceptable alternative in some
-+    situations; during the merge window that actually might be even the best
-+    approach, but in that development phase it can be an even better idea to
-+    suspend your efforts for a few days anyway. Whatever version you choose,
-+    ideally use a 'vanilla' built. Ignoring these advices will dramatically
-+    increase the risk your report will be rejected or ignored.*
-+
-+As mentioned in the detailed explanation for the first step already: Like most
-+programmers, Linux kernel developers don't like to spend time dealing with
-+reports for issues that don't even happen with the current code. It's just a
-+waste everybody's time, especially yours. That's why it's in everybody's
-+interest that you confirm the issue still exists with the latest upstream code
-+before reporting it. You are free to ignore this advice, but as outlined
-+earlier: doing so dramatically increases the risk that your issue report might
-+get rejected or simply ignored.
-+
-+In the scope of the kernel "latest upstream" normally means:
-+
-+ * Install a mainline kernel; the latest stable kernel can be an option, but
-+   most of the time is better avoided. Longterm kernels (sometimes called 'LTS
-+   kernels') are unsuitable at this point of the process. The next subsection
-+   explains all of this in more detail.
-+
-+ * The over next subsection describes way to obtain and install such a kernel.
-+   It also outlines that using a pre-compiled kernel are fine, but better are
-+   vanilla, which means: it was built using Linux sources taken straight `from
-+   kernel.org <https://kernel.org/>`_ and not modified or enhanced in any way.
-+
-+Choosing the right version for testing
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Head over to `kernel.org <https://kernel.org/>`_ to find out which version you
-+want to use for testing. Ignore the big yellow button that says 'Latest release'
-+and look a little lower at the table. At its top you'll see a line starting with
-+mainline, which most of the time will point to a pre-release with a version
-+number like '5.8-rc2'. If that's the case, you'll want to use this mainline
-+kernel for testing, as that where all fixes have to be applied first. Do not let
-+that 'rc' scare you, these 'development kernels' are pretty reliable — and you
-+made a backup, as you were instructed above, didn't you?
- 
- In about two out of every nine to ten weeks, 'mainline' might point you to a
- proper release with a version number like '5.7'. If that happens, consider
-@@ -830,39 +834,60 @@ case mainline for some reason does currently not work for you. An in general:
- using it for reproducing the issue is also better than not reporting it issue
- at all.
- 
-+Better avoid using the latest stable kernel outside merge windows, as all fixes
-+must be applied to mainline first. That's why checking the latest mainline
-+kernel is so important: any issue you want to see fixed in older version lines
-+needs to be fixed in mainline first before it can get backported, which can
-+take a few days or weeks. Another reason: the fix you hope for might be too
-+hard or risky for backporting; reporting the issue again hence is unlikely to
-+change anything.
-+
-+These aspects are also why longterm kernels (sometimes called "LTS kernels")
-+are unsuitable for this part of the reporting process: they are to distant from
-+the current code. Hence go and test mainline first and follow the process
-+further: if the issue doesn't occur with mainline it will guide you how to get
-+it fixed in older version lines, if that's in the cards for the fix in question.
-+
- How to obtain a fresh Linux kernel
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--You can use pre-built or self-compiled kernel for testing; if you choose the
--latter approach, you can either obtain the source code using git or download it
--as tar archive.
--
--Using a pre-compiled kernel for testing is often the quickest, easiest, and
--safest way – especially is you are unfamiliar with the Linux kernel. But it
--needs to be a vanilla kernel, which can be hard to come buy. You are in luck if
--you are using a popular Linux distribution: for quite a few of them you'll find
--repositories on the net that contain packages with the latest mainline or
--stable kernels in vanilla fashion. It's totally okay to use these, just make
--sure from the repository's documentation they are really vanilla. And ensure
--the packages contain the latest versions as offered on kernel.org; they are
--likely unsuitable if the package is older than a week, as new mainline and
--stable kernels typically get released at least once a week. And be aware that
--you might need to get build your own kernel later anyway when it comes to
--helping test fixes, as described later in this document.
--
--Developers and experienced Linux users familiar with git are often best served
--by obtaining the latest Linux kernel sources straight from the `official
--development repository on kernel.org
-+**Using a pre-compiled kernel**: This is often the quickest, easiest, and safest
-+way for testing — especially is you are unfamiliar with the Linux kernel. The
-+problem: most of those shipped by distributors or add-on repositories are build
-+from modified Linux sources. They are thus not vanilla and therefore often
-+unsuitable for testing and issue reporting: the changes might cause the issue
-+you face or influence it somehow.
-+
-+But you are in luck if you are using a popular Linux distribution: for quite a
-+few of them you'll find repositories on the net that contain packages with the
-+latest mainline or stable Linux built as vanilla kernel. It's totally okay to
-+use these, just make sure from the repository's description they are vanilla or
-+at least close to it. Additionally ensure the packages contain the latest
-+versions as offered on kernel.org. The packages are likely unsuitable if they
-+are older than a week, as new mainline and stable kernels typically get released
-+at least once a week.
-+
-+Please note that you might need to build your own kernel manually later: that's
-+sometimes needed for debugging or testing fixes, as described later in this
-+document. Also be aware that pre-compiled kernels might lack debug symbols that
-+are needed to decode messages the kernel prints when a panic, Oops, warning, or
-+BUG occurs; if you plan to decode those, you might be better off compiling a
-+kernel yourself (see the end of this subsection and the section titled 'Decode
-+failure messages' for details).
-+
-+**Using git**: Developers and experienced Linux users familiar with git are
-+often best served by obtaining the latest Linux kernel sources straight from the
-+`official development repository on kernel.org
- <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/>`_.
- Those are likely a bit ahead of the latest mainline pre-release. Don't worry
- about it: they are as reliable as a proper pre-release, unless the kernel's
- development cycle is currently in the middle of a merge window. But even then
- they are quite reliable.
- 
--People unfamiliar with git are often best served by downloading the sources as
--tarball from `kernel.org <https://kernel.org/>`_.
-+**Conventional**: People unfamiliar with git are often best served by
-+downloading the sources as tarball from `kernel.org <https://kernel.org/>`_.
- 
--How to actually build a kernel isnot described here, as many websites explain
-+How to actually build a kernel is not described here, as many websites explain
- the necessary steps already. If you are new to it, consider following one of
- those how-to's that suggest to use ``make localmodconfig``, as that tries to
- pick up the configuration of your current kernel and then tries to adjust it
 -- 
 2.30.2
 
