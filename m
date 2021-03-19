@@ -2,120 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 261FAC433C1
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 19:40:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE535C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 19:46:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E83476197B
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 19:40:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A1E206197F
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 19:46:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230226AbhCSTjf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Mar 2021 15:39:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37802 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230092AbhCSTjX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 15:39:23 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8B18C06174A;
-        Fri, 19 Mar 2021 12:39:22 -0700 (PDT)
-Received: from ip4d142c50.dynamic.kabel-deutschland.de ([77.20.44.80] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1lNKxt-00038L-11; Fri, 19 Mar 2021 20:39:21 +0100
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1615116592.git.linux@leemhuis.info>
- <148a84de8d109ebbc01a337fb93cb246410c4351.1615116592.git.linux@leemhuis.info>
- <878s6o18kq.fsf@meer.lwn.net>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [PATCH v2 2/2] docs: reporting-issues.rst: shortcut for reporting
- stable regressions
-Message-ID: <3d8b94a7-42e0-d47d-55a6-155324e10243@leemhuis.info>
-Date:   Fri, 19 Mar 2021 20:39:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S230090AbhCSTpn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Mar 2021 15:45:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44551 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230223AbhCSTpa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 15:45:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1616183129;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=X/KdonTuSFjSMSOYRBj5KwLuZSZ8C3R0H74LqotwgAk=;
+        b=brZsffYrR2iPnaBiEb7jtap9FHiYsV+1TfgA4oQYvvWFxWTrXiPpsFacHwk6uvH9iKc5C6
+        Gl74hfeJFQ39zzpaU2Ekh3fz7Xr9vixS94S9QxxHJx7l06YL7FJO3R6tf7Uc/eAIq1NUFK
+        LSSBMYk8GoVzLANHzKJMN3H1XhKnwlQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-388-zdH_h7_yO-SOsIKbD4QekA-1; Fri, 19 Mar 2021 15:45:25 -0400
+X-MC-Unique: zdH_h7_yO-SOsIKbD4QekA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C274E107ACCA;
+        Fri, 19 Mar 2021 19:45:22 +0000 (UTC)
+Received: from optiplex-lnx.redhat.com (unknown [10.3.128.9])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 400B45D9E3;
+        Fri, 19 Mar 2021 19:45:18 +0000 (UTC)
+From:   Rafael Aquini <aquini@redhat.com>
+To:     linux-mm@kvack.org
+Cc:     Jonathan Corbet <corbet@lwn.net>, Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] mm/slab_common: provide "slab_merge" option for !IS_ENABLED(CONFIG_SLAB_MERGE_DEFAULT) builds
+Date:   Fri, 19 Mar 2021 15:45:03 -0400
+Message-Id: <20210319194506.200159-1-aquini@redhat.com>
+In-Reply-To: <20210319192233.199099-1-aquini@redhat.com>
+References: <20210319192233.199099-1-aquini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <878s6o18kq.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-BS
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1616182762;da2fb3e8;
-X-HE-SMSGID: 1lNKxt-00038L-11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 15.03.21 21:11, Jonathan Corbet wrote:
-> Thorsten Leemhuis <linux@leemhuis.info> writes:
-> 
->> Provide a much shorter and easier process for users that deal with
->> regressions in stable and longterm kernels, as those should be reported
->> quickly.
->>
->> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
->> CC: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Seems generally good, but I had a couple of comments...
+This is a minor addition to the allocator setup options to provide
+a simple way to on demand enable back cache merging for builds
+that by default run with CONFIG_SLAB_MERGE_DEFAULT not set.
 
-Thx for your feedback.
+Signed-off-by: Rafael Aquini <aquini@redhat.com>
+---
+v2 changelog:
+* fix __setup("slab_merge", setup_slab_nomerge); typo
 
+ Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
+ mm/slab_common.c                                | 8 ++++++++
+ 2 files changed, 15 insertions(+)
 
-> […]
->> + * If you are facing a regression within a stable or longterm version line
->> +   (say something broke when updating from 5.10.4 to 5.10.5), head over to
->> +   'Dealing with regressions within a stable and longterm kernel line'.
-> I would s/head over/scroll down/.  Otherwise readers may well wondering
-> where to go to find this section.
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 04545725f187..06519eecbfec 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -4877,6 +4877,10 @@
+ 
+ 	slram=		[HW,MTD]
+ 
++	slab_merge	[MM]
++			Enable merging of slabs with similar size when the
++			kernel is built without CONFIG_SLAB_MERGE_DEFAULT.
++
+ 	slab_nomerge	[MM]
+ 			Disable merging of slabs with similar size. May be
+ 			necessary if there is some reason to distinguish
+@@ -4924,6 +4928,9 @@
+ 			lower than slub_max_order.
+ 			For more information see Documentation/vm/slub.rst.
+ 
++	slub_merge	[MM, SLUB]
++			Same with slab_merge.
++
+ 	slub_nomerge	[MM, SLUB]
+ 			Same with slab_nomerge. This is supported for legacy.
+ 			See slab_nomerge for more information.
+diff --git a/mm/slab_common.c b/mm/slab_common.c
+index 88e833986332..b84dd734b75f 100644
+--- a/mm/slab_common.c
++++ b/mm/slab_common.c
+@@ -71,11 +71,19 @@ static int __init setup_slab_nomerge(char *str)
+ 	return 1;
+ }
+ 
++static int __init setup_slab_merge(char *str)
++{
++	slab_nomerge = false;
++	return 1;
++}
++
+ #ifdef CONFIG_SLUB
+ __setup_param("slub_nomerge", slub_nomerge, setup_slab_nomerge, 0);
++__setup_param("slub_merge", slub_merge, setup_slab_merge, 0);
+ #endif
+ 
+ __setup("slab_nomerge", setup_slab_nomerge);
++__setup("slab_merge", setup_slab_merge);
+ 
+ /*
+  * Determine the size of a slab object
+-- 
+2.26.2
 
-Good idea. Used this phrase somewhere else also, addressed it there in a
-septate patch in the series I just sent:
-https://lore.kernel.org/linux-doc/cover.1616181657.git.linux@leemhuis.info/
-
-> [...]
->> + * Make sure it's not the kernel's surroundings that are causing the issue
->> +   you face.
-> I can imagine that a lot of readers would have no idea what that means.
-> In fact, I'm not entirely sure what that means...
-
-That's why it explained in the reference section. That is a bit hard to
-spot just from the patch.
-
-> [...]
->> +Regression in stable or longterm kernel?
->> +----------------------------------------
->> +
->> +    *If you are facing a regression within a stable or longterm version line
->> +    (say something broke when updating from 5.10.4 to 5.10.5), head over to
->> +    'Dealing with regressions within a stable and longterm kernel line'.*
-> So you want to send them back upward here?
-
-No, this is just repeating the text from the step-by-step guide, as it's
-done everywhere in the reference section. It's hard to see in the diff
-and more clear when you look at the document as a whole.
-
->> +Regression within a stable and longterm kernel version line are something the
->> +Linux developers want to fix badly, as such issues are even more unwanted than
->> +regression in the main development branch, as they can quickly affect a lot of
->> +people. The developers thus want to learn about such issues as quickly as
->> +possible, hence there is a streamlined process to report them. Note,
->> +regressions with newer kernel version line (say something broke when switching
->> +from 5.9.15 to 5.10.5) do not qualify.
-> Given the length of this file, I really wonder if there isn't some way
-> to cut back on the amount of repeated text?
-
-The latest series addresses this:
-https://lore.kernel.org/linux-doc/cover.1616181657.git.linux@leemhuis.info/
-
-To avoid repeated text I had to use this in the end:
-``` Perform the first three steps in the section "Reporting issues only
-occurring in older kernel version lines" above. ```
-
-Not ideal, but not too bad and works.
-
-Thx again for your suggestions!
-
-Ciao, Thorsten
