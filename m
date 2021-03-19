@@ -2,297 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97734C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 10:38:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A0E1C433E6
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 12:17:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5A3D464F6B
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 10:38:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1F45164F85
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 12:17:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229618AbhCSKiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Mar 2021 06:38:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33620 "EHLO
+        id S229987AbhCSMQ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Mar 2021 08:16:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229865AbhCSKh6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 06:37:58 -0400
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com [IPv6:2607:f8b0:4864:20::d2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F020C061761
-        for <linux-doc@vger.kernel.org>; Fri, 19 Mar 2021 03:37:58 -0700 (PDT)
-Received: by mail-io1-xd2c.google.com with SMTP id k8so5518658iop.12
-        for <linux-doc@vger.kernel.org>; Fri, 19 Mar 2021 03:37:58 -0700 (PDT)
+        with ESMTP id S229736AbhCSMQq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 08:16:46 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62A47C06174A
+        for <linux-doc@vger.kernel.org>; Fri, 19 Mar 2021 05:16:35 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id w8so4567216pjf.4
+        for <linux-doc@vger.kernel.org>; Fri, 19 Mar 2021 05:16:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=metormote-com.20150623.gappssmtp.com; s=20150623;
+        d=bytedance-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=XetcND/DSS37rsPf7W1HM6yIOoKQSJW/Bb3HibrSkvk=;
-        b=jwr2nkA/hWL/NtGMBsq5pmmkGBwWc3fgrIBGugqu/X6XxWd01sSDHxErdn8ki4BPz/
-         cwtjKOV9H3Bbn6fXkc07+vfgHhWSogEo6SV6fiq07soSz9kIwGufpkVrbgqmr6YUrP+m
-         LMws4GQLfxK/YT9p0Tnm5dxm5hWNGUHRpjq4RC9+6n1Oids9myPyswKyJ4TNzIBF4x7O
-         CaOF4dhVY7v4hq5b7LWMUh+ez6CZUJbKCYif6ZSLLSjf2n1023nprcwsxIGfBlHt4i35
-         qAprsQssYupOpbt+Kmd7mwPKRi5RzWLJcCyZrNcbRrtBi98UE1Qd7Y4fBC+jDIALaYHW
-         KsOQ==
+         :cc;
+        bh=affLRntRZcInzHgZqXHL31AIW6roXMHiPl+j3xoyydw=;
+        b=Wwr3uymKFr1n+YOBEyGZs0UOSJMaYAZ56KTR7KZVL7k18g5qAOBt+YgiJoL8G92Uv7
+         t5ZSkP2F51JdFVKcgvsGhdWRS7lBXt+T83x/JmFbldKB7GuiA6oVMRQVllzP+A/nlfkY
+         6OcwpsxZjmDLyHA/jJjRsthgxYbLCRaPfUTWLfYy0qtmxHxEYx3++3yEzCHb5ZFIPP1Y
+         FpwnGU/AiT/7tJroR5E+LgvNyPu96pkAcyTaIqSrz1CHc4HSrezFYQysVJOjCSLEPuTm
+         n4wgQWBO10IbmJMFeSAGIs16rA6lAm7o93XYLQCZp76IUd9q9ZtS/iK9+4fEbZan6bVK
+         WWEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=XetcND/DSS37rsPf7W1HM6yIOoKQSJW/Bb3HibrSkvk=;
-        b=LbsQRC5pyOJdygVfdHkIp3cfzpwykaQE6o+GSsxnCNnh+BmPTX9uQ9Z1ct0vEMMIuw
-         k5Y4jaiRrKG5y40N11khJ0jqOdXH5TJdTnyzkTZiKb04LBZ85H9TC87Jf32kEwKjnIeZ
-         yMzutBT6Nx1s4UMBDp26QgGA/AaZ+m4cc9ISq9EmgCyLEJ+WFl27ww3OS11m63DZ3P/Z
-         whuOPnEVEsVHeIl97y6vX6dAFh2hu5nnwSr3yw4ynqYJxgd1th1nyOMr6Jr7Yh2RUdht
-         AXjfMhRFUAkbe129aerratHKhaF5B1rYxKvQ6QB8YirEvqHnDd7t5fenYA+t3jmOYpIS
-         qlNQ==
-X-Gm-Message-State: AOAM531FhliAmiHRVkUmvYsxHGYTaB+l3GPrkn8jqmLy2L+07zTLjCK6
-        rT9ef3sbOXOTbfMzMpTZOQTSavR99zrtwu+pz8YJvA==
-X-Google-Smtp-Source: ABdhPJyFOLwlR8I9Bg1F0fAgTkcLVbi7HmUXzBM9i0OHXXoGTHuh3F0SqSKOAkqWSmcK7VWaUvIp0yq8PXMVkqa1oGI=
-X-Received: by 2002:a02:661c:: with SMTP id k28mr691150jac.78.1616150277139;
- Fri, 19 Mar 2021 03:37:57 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=affLRntRZcInzHgZqXHL31AIW6roXMHiPl+j3xoyydw=;
+        b=ZKkcXY+QSmklWsoBw6GB7xOy95ADVUNu/klavkDMGOzb6jpBNkjqySXpKZyC22YY/k
+         D6KzB7aZTPm6uCcEHy2UQGiOiAwwc6KBU45p1vggZrKCrr0CMaIet9rm/FqIcxw9WgtT
+         U63Fmfqw41TiB8BMayUGsBllXKvCy3ObA/ZfbshKzhhIIqi1gdtAy9TSTH+cOO6YQxFR
+         jydMEg1b3huRiyDUxCbcuQpgMW3v2IYhZJc85YmzoMscuxWM0x+aVo2D9qzgTwadDAiG
+         FmkZUx0+ZsPFp69xDCE+j/p72XI4U9EM2AbfMXCkMgc887IHVcrTVCy5CwnwCsIKPKzr
+         2lQw==
+X-Gm-Message-State: AOAM532F9Z8JA3dpxyEWrlZUzHLcFveIfQdVZ2D70xQUvo0qKyXGLRGT
+        VOhhQBiGMt1fZ4YyQ4sK36p6+W5WP3Lz/3/KlauLlg==
+X-Google-Smtp-Source: ABdhPJwrqbdyuQfn4t1x4h3FwSP0uWjg3FdAAnwpfMkicRuHl1UB8RVx3Ukwq3U6YKkcOX2CFsmx8BMA4NisJmIyh6E=
+X-Received: by 2002:a17:90a:d991:: with SMTP id d17mr9339151pjv.229.1616156194913;
+ Fri, 19 Mar 2021 05:16:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210318212441.69050-1-erik.rosen@metormote.com>
- <20210318212441.69050-3-erik.rosen@metormote.com> <bd7acdcd-2bbc-70f5-d7a6-76a269e8f6a7@roeck-us.net>
-In-Reply-To: <bd7acdcd-2bbc-70f5-d7a6-76a269e8f6a7@roeck-us.net>
-From:   Erik Rosen <erik.rosen@metormote.com>
-Date:   Fri, 19 Mar 2021 11:37:46 +0100
-Message-ID: <CA+ui0Hm+zHkpqTDOkT2iR45fH5m2cGyTn2dvsOduxDM55meKZQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] hwmon: (pmbus/tps53679) Add support for TPS53676
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
+References: <20210315092015.35396-1-songmuchun@bytedance.com>
+ <20210315092015.35396-8-songmuchun@bytedance.com> <20210319085948.GA5695@linux>
+In-Reply-To: <20210319085948.GA5695@linux>
+From:   Muchun Song <songmuchun@bytedance.com>
+Date:   Fri, 19 Mar 2021 20:15:58 +0800
+Message-ID: <CAMZfGtXAgcJQp59AVuieqLT+1Qb3RGQmFK-SGNZH-T6K83Y=HQ@mail.gmail.com>
+Subject: Re: [External] Re: [PATCH v19 7/8] mm: hugetlb: add a kernel
+ parameter hugetlb_free_vmemmap
+To:     Oscar Salvador <osalvador@suse.de>,
+        David Hildenbrand <david@redhat.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
+        X86 ML <x86@kernel.org>, hpa@zytor.com,
+        dave.hansen@linux.intel.com, luto@kernel.org,
+        Peter Zijlstra <peterz@infradead.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>, paulmck@kernel.org,
+        mchehab+huawei@kernel.org, pawan.kumar.gupta@linux.intel.com,
+        Randy Dunlap <rdunlap@infradead.org>, oneukum@suse.com,
+        anshuman.khandual@arm.com, jroedel@suse.de,
+        Mina Almasry <almasrymina@google.com>,
+        David Rientjes <rientjes@google.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Michal Hocko <mhocko@suse.com>,
+        "Song Bao Hua (Barry Song)" <song.bao.hua@hisilicon.com>,
+        =?UTF-8?B?SE9SSUdVQ0hJIE5BT1lBKOWggOWPoyDnm7TkuZ8p?= 
+        <naoya.horiguchi@nec.com>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Xiongchun duan <duanxiongchun@bytedance.com>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        Miaohe Lin <linmiaohe@huawei.com>,
+        Chen Huang <chenhuang5@huawei.com>,
+        Bodeddula Balasubramaniam <bodeddub@amazon.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 19, 2021 at 12:04 AM Guenter Roeck <linux@roeck-us.net> wrote:
+On Fri, Mar 19, 2021 at 4:59 PM Oscar Salvador <osalvador@suse.de> wrote:
 >
-> On 3/18/21 2:24 PM, Erik Rosen wrote:
-> > Add support for TI TPS53676 controller to the tps53679 pmbus driver
+> On Mon, Mar 15, 2021 at 05:20:14PM +0800, Muchun Song wrote:
+> > --- a/arch/x86/mm/init_64.c
+> > +++ b/arch/x86/mm/init_64.c
+> > @@ -34,6 +34,7 @@
+> >  #include <linux/gfp.h>
+> >  #include <linux/kcore.h>
+> >  #include <linux/bootmem_info.h>
+> > +#include <linux/hugetlb.h>
 > >
-> > The driver uses the USER_DATA_03 register to figure out how many phases=
- are
-> > enabled and to which channel they are assigned, and sets the number of =
-pages
->
-> checkpatch complains about the line length here. Picky, but just move pag=
-es
-> to the next line.
-
-Sorry, forgot to run checkpath after changing the comment.
-
->
-> > and phases accordingly.
-> >
-> > Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
-> > ---
-> >  Documentation/hwmon/tps53679.rst | 13 +++++++--
-> >  drivers/hwmon/pmbus/Kconfig      |  4 +--
-> >  drivers/hwmon/pmbus/tps53679.c   | 49 +++++++++++++++++++++++++++++++-
-> >  3 files changed, 61 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/Documentation/hwmon/tps53679.rst b/Documentation/hwmon/tps=
-53679.rst
-> > index c7c589e49789..3b9561648c24 100644
-> > --- a/Documentation/hwmon/tps53679.rst
-> > +++ b/Documentation/hwmon/tps53679.rst
-> > @@ -19,6 +19,14 @@ Supported chips:
-> >
-> >      Datasheet: https://www.ti.com/lit/gpn/TPS53667
-> >
-> > +  * Texas Instruments TPS53676
-> > +
-> > +    Prefix: 'tps53676'
-> > +
-> > +    Addresses scanned: -
-> > +
-> > +    Datasheet: https://www.ti.com/lit/gpn/TPS53676
-> > +
-> >    * Texas Instruments TPS53679
-> >
-> >      Prefix: 'tps53679'
-> > @@ -136,7 +144,7 @@ power1_input              Measured input power.
-> >  power[N]_label               "pout[1-2]".
-> >
-> >                       - TPS53647, TPS53667: N=3D2
-> > -                     - TPS53679, TPS53681, TPS53588: N=3D2,3
-> > +                     - TPS53676, TPS53679, TPS53681, TPS53588: N=3D2,3
-> >
-> >  power[N]_input               Measured output power.
-> >
-> > @@ -156,10 +164,11 @@ curr[N]_label           "iout[1-2]" or "iout1.[0-=
-5]".
-> >
-> >                       The first digit is the output channel, the second
-> >                       digit is the phase within the channel. Per-phase
-> > -                     telemetry supported on TPS53681 only.
-> > +                     telemetry supported on TPS53676 and TPS53681 only=
-.
-> >
-> >                       - TPS53647, TPS53667: N=3D2
-> >                       - TPS53679, TPS53588: N=3D2,3
-> > +                     - TPS53676: N=3D2-8
-> >                       - TPS53681: N=3D2-9
-> >
-> >  curr[N]_input                Measured output current.
-> > diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> > index 32d2fc850621..35956a9227d8 100644
-> > --- a/drivers/hwmon/pmbus/Kconfig
-> > +++ b/drivers/hwmon/pmbus/Kconfig
-> > @@ -257,10 +257,10 @@ config SENSORS_TPS40422
-> >         be called tps40422.
-> >
-> >  config SENSORS_TPS53679
-> > -     tristate "TI TPS53647, TPS53667, TPS53679, TPS53681, TPS53688"
-> > +     tristate "TI TPS53647, TPS53667, TPS53676, TPS53679, TPS53681, TP=
-S53688"
-> >       help
-> >         If you say yes here you get hardware monitoring support for TI
-> > -       TPS53647, TPS53667, TPS53679, TPS53681, and TPS53688.
-> > +       TPS53647, TPS53667, TPS53676, TPS53679, TPS53681, and TPS53688.
-> >
-> >         This driver can also be built as a module. If so, the module wi=
-ll
-> >         be called tps53679.
-> > diff --git a/drivers/hwmon/pmbus/tps53679.c b/drivers/hwmon/pmbus/tps53=
-679.c
-> > index ba838fa311c3..d8e5f71ff162 100644
-> > --- a/drivers/hwmon/pmbus/tps53679.c
-> > +++ b/drivers/hwmon/pmbus/tps53679.c
-> > @@ -16,11 +16,14 @@
-> >  #include "pmbus.h"
-> >
-> >  enum chips {
-> > -     tps53647, tps53667, tps53679, tps53681, tps53688
-> > +     tps53647, tps53667, tps53676, tps53679, tps53681, tps53688
-> >  };
-> >
-> >  #define TPS53647_PAGE_NUM            1
-> >
-> > +#define TPS53676_USER_DATA_03                0xb3
-> > +#define TPS53676_MAX_PHASES          7
-> > +
-> >  #define TPS53679_PROT_VR12_5MV               0x01 /* VR12.0 mode, 5-mV=
- DAC */
-> >  #define TPS53679_PROT_VR12_5_10MV    0x02 /* VR12.5 mode, 10-mV DAC */
-> >  #define TPS53679_PROT_VR13_10MV              0x04 /* VR13.0 mode, 10-m=
-V DAC */
-> > @@ -143,6 +146,43 @@ static int tps53681_identify(struct i2c_client *cl=
-ient,
-> >                                           TPS53681_DEVICE_ID);
-> >  }
-> >
-> > +static int tps53676_identify(struct i2c_client *client,
-> > +                          struct pmbus_driver_info *info)
-> > +{
-> > +     u8 buf[I2C_SMBUS_BLOCK_MAX];
-> > +     int phases_a =3D 0, phases_b =3D 0;
-> > +     int i, ret;
-> > +
-> > +     ret =3D i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, buf=
-);
-> > +     if (ret < 0)
-> > +             return ret;
-> > +     if (strncmp("TI\x53\x67\x60", buf, 5)) {
->
-> Someone should have a serious talk with the chip designer.
-
-It's like; "Gee, I have this great idea how to save 2 bytes by using
-this amazing
-new hybrid ascii/binary format I just invented"
-
->
-> > +             dev_err(&client->dev, "Unexpected device ID: %s\n", buf);
-> > +             return -ENODEV;
-> > +     }
-> > +
-> > +     ret =3D i2c_smbus_read_block_data(client, TPS53676_USER_DATA_03, =
-buf);
-> > +     if (ret < 0)
-> > +             return ret;
->
-> You'll probably want to add a check to ensure that ret >=3D TPS53676_MAX_=
-PHASES * 2 + 1
-> or maybe =3D=3D 24.
-
-Yes; and if it's not equal to 24 something probably went wrong, so
-I'll check f=C3=B6r that.
-
->
-> > +     for (i =3D 0; i < 2 * TPS53676_MAX_PHASES; i +=3D 2) {
-> > +             if (buf[i + 1] & 0x80) {
-> > +                     if (buf[i] & 0x08)
-> > +                             phases_b++;
-> > +                     else
-> > +                             phases_a++;
-> > +             }
-> > +     }
-> > +
-> > +     info->format[PSC_VOLTAGE_OUT] =3D linear;
-> > +     info->pages =3D 1;
-> > +     info->phases[0] =3D phases_a;
-> > +     if (phases_b > 0) {
-> > +             info->pages =3D 2;
-> > +             info->phases[1] =3D phases_b;
-> > +     }
-> > +     return 0;
-> > +}
-> > +
-> >  static int tps53681_read_word_data(struct i2c_client *client, int page=
-,
-> >                                  int phase, int reg)
+> >  #include <asm/processor.h>
+> >  #include <asm/bios_ebda.h>
+> > @@ -1557,7 +1558,8 @@ int __meminit vmemmap_populate(unsigned long start, unsigned long end, int node,
 > >  {
-> > @@ -183,6 +223,7 @@ static struct pmbus_driver_info tps53679_info =3D {
-> >       .pfunc[3] =3D PMBUS_HAVE_IOUT,
-> >       .pfunc[4] =3D PMBUS_HAVE_IOUT,
-> >       .pfunc[5] =3D PMBUS_HAVE_IOUT,
-> > +     .pfunc[6] =3D PMBUS_HAVE_IOUT,
-> >  };
+> >       int err;
 > >
-> >  static int tps53679_probe(struct i2c_client *client)
-> > @@ -206,6 +247,9 @@ static int tps53679_probe(struct i2c_client *client=
-)
-> >               info->pages =3D TPS53647_PAGE_NUM;
-> >               info->identify =3D tps53679_identify;
-> >               break;
-> > +     case tps53676:
-> > +             info->identify =3D tps53676_identify;
-> > +             break;
-> >       case tps53679:
-> >       case tps53688:
-> >               info->pages =3D TPS53679_PAGE_NUM;
-> > @@ -227,9 +271,11 @@ static int tps53679_probe(struct i2c_client *clien=
-t)
-> >  static const struct i2c_device_id tps53679_id[] =3D {
-> >       {"tps53647", tps53647},
-> >       {"tps53667", tps53667},
-> > +     {"tps53676", tps53676},
-> >       {"tps53679", tps53679},
-> >       {"tps53681", tps53681},
-> >       {"tps53688", tps53688},
-> > +     {"bmr474", tps53676},
+> > -     if (end - start < PAGES_PER_SECTION * sizeof(struct page))
+> > +     if ((is_hugetlb_free_vmemmap_enabled()  && !altmap) ||
+> > +         end - start < PAGES_PER_SECTION * sizeof(struct page))
+> >               err = vmemmap_populate_basepages(start, end, node, NULL);
+> >       else if (boot_cpu_has(X86_FEATURE_PSE))
+> >               err = vmemmap_populate_hugepages(start, end, node, altmap);
 >
-> Please move to the top for alphabetic order.
+> I've been thinking about this some more.
+>
+> Assume you opt-in the hugetlb-vmemmap feature, and assume you pass a valid altmap
+> to vmemmap_populate.
+> This will lead to use populating the vmemmap array with hugepages.
 
-Ok, was a bit uncertain about that...
+Right.
 
 >
-> >       {}
-> >  };
-> >
-> > @@ -238,6 +284,7 @@ MODULE_DEVICE_TABLE(i2c, tps53679_id);
-> >  static const struct of_device_id __maybe_unused tps53679_of_match[] =
-=3D {
-> >       {.compatible =3D "ti,tps53647", .data =3D (void *)tps53647},
-> >       {.compatible =3D "ti,tps53667", .data =3D (void *)tps53667},
-> > +     {.compatible =3D "ti,tps53676", .data =3D (void *)tps53676},
-> >       {.compatible =3D "ti,tps53679", .data =3D (void *)tps53679},
-> >       {.compatible =3D "ti,tps53681", .data =3D (void *)tps53681},
-> >       {.compatible =3D "ti,tps53688", .data =3D (void *)tps53688},
-> >
+> What if then, a HugeTLB gets allocated and falls within that memory range (backed
+> by hugetpages)?
+
+I am not sure whether we can allocate the HugeTLB pages from there.
+Will only device memory pass a valid altmap parameter to
+vmemmap_populate()? If yes, can we allocate HugeTLB pages from
+device memory? Sorry, I am not an expert on this.
+
+
+> AFAIK, this will get us in trouble as currently the code can only operate on memory
+> backed by PAGE_SIZE pages, right?
 >
+> I cannot remember, but I do not think nothing prevents that from happening?
+> Am I missing anything?
+
+Maybe David H is more familiar with this.
+
+Hi David,
+
+Do you have some suggestions on this?
+
+Thanks.
+
+
+>
+> --
+> Oscar Salvador
+> SUSE L3
