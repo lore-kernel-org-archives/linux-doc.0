@@ -2,96 +2,187 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-9.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79AB7C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 00:20:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF6DCC433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 00:49:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3173464E41
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 00:20:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AAF3664E83
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 00:49:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232971AbhCSATo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 20:19:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41908 "EHLO
+        id S231349AbhCSAso (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 20:48:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231349AbhCSATZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 20:19:25 -0400
-Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14396C06174A
-        for <linux-doc@vger.kernel.org>; Thu, 18 Mar 2021 17:19:25 -0700 (PDT)
-Received: by mail-pj1-x102a.google.com with SMTP id kk2-20020a17090b4a02b02900c777aa746fso3959570pjb.3
-        for <linux-doc@vger.kernel.org>; Thu, 18 Mar 2021 17:19:25 -0700 (PDT)
+        with ESMTP id S232221AbhCSAsU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 20:48:20 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC889C06174A;
+        Thu, 18 Mar 2021 17:48:18 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id f17so2144236plr.0;
+        Thu, 18 Mar 2021 17:48:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=networkplumber-org.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4ZKNqGcOFxnFSs+j920f1ACx3dBPREyNqpSB4Op9FM0=;
-        b=Wwfmgkl3bG+O7E491clTkH0eDowPADxO1n6D+OrTTR30ODfRwtYMm7csN7XZ8yhHwe
-         5UysRM0FEJhlAavRP3Ccc8I5S+SqKIWMXbYVp9FP/cG2khzhwhXccBOllTR7AzvmJ+JV
-         GPjZc0oCqWIzH6bIP5JmKgyYnsuOMiH8dSETdpem0h0f+FcDIf5hA3sp9axDPaWGcKKj
-         AG0b2z8KTb2IH+cwQaloDUAK/9BuLJTAbeiWySoiuNLXGZ98TGnzFypUTc/7x3Ka8r/r
-         60eNhnzrHQEdkdiQ7uZBkeuYHaSZ4PHgjJFQw9YV5S5fpQ1HM8r3lAYCaX4MNhr9exMc
-         wsqw==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=eG1QzwIi3xEaakEPyWiwcIUMucRPcW0kIWxB+VdX0Ok=;
+        b=RAJG3mFP99nhvmv/KZWxUCdFpGEmKA3rijSW/KwwIvPUb9UZQ6Jg0EyQveb7G4h9fU
+         pkKdfJGMdcIm4HI8uAVUa5Nzv5Zg4BsnDy2d+JmuFQzST8gNpib1b6rpiGNtvsMPhPOC
+         LuJikCi/pTxL5zf9qwXIeLEFzpgbaTtIx5lksikP75lA4DjNhVOHDtGblLuffgfQNSmG
+         iftKfGmNegPkTPItGtRXgUJVFUVTSrMS/FWSdPOvaAyUNDzyCrYvqQgRk1G/AUC4p7UC
+         x53i7x8hpHXAlhD+e1Wa/QaFLzV3EUGQP9EqVnhWX4iPJvyM6NevwDVaL7Kw5/iotfQp
+         ujjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=4ZKNqGcOFxnFSs+j920f1ACx3dBPREyNqpSB4Op9FM0=;
-        b=qaQOEyiXmZhtOhvahNusRF7anxv57rhbhwq8cAk6Mc26hTOb9NkmxVZ6ZmQAKRahqK
-         NCy6YneQb49Jb9/7q+LjMswVED/sUEFH2Eph8LhVuOT8snVJv7wTA3TtMObjSkx06DMG
-         1TpfEicYq5pC2dVZ2eiUEYkjZYsLE3eAgohPk2qnZesOqXdudP3NkP2nvExWzzYac5Rx
-         MZkF87+TXZkCbJwTIz+fVWVCi2CYZt+Agg3V3qYn9/xhHftyw+1O1q+kAXrcH1Ajquck
-         W3sww1x+Y6U/QrU38NW9ieIsjAU5ZRpnDA80+VOzUXhI2GC7yJqHGMEa2krPkD3p8F6J
-         liHQ==
-X-Gm-Message-State: AOAM533pr5BtxD68PV5r7UwqNHAQbykBk4IucK0vFTp8BrDcmjRkhfE1
-        BvuAYNQ6iQt2IymticRuj88//g==
-X-Google-Smtp-Source: ABdhPJy+uyjOXGMNwa+7j/841CLC8G7jeCZfYyhN4rmIXFvOQI92oX+2B9aundDKnp/uxMnfeJiY1A==
-X-Received: by 2002:a17:90a:9f4a:: with SMTP id q10mr6869944pjv.113.1616113164491;
-        Thu, 18 Mar 2021 17:19:24 -0700 (PDT)
-Received: from hermes.local (76-14-218-44.or.wavecable.com. [76.14.218.44])
-        by smtp.gmail.com with ESMTPSA id 3sm3404458pfh.13.2021.03.18.17.19.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Mar 2021 17:19:23 -0700 (PDT)
-From:   Stephen Hemminger <stephen@networkplumber.org>
-X-Google-Original-From: Stephen Hemminger <sthemmin@microsoft.com>
-To:     paulmck@kernel.org, corbet@lwn.net
-Cc:     rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-        Stephen Hemminger <stephen@networkplumber.org>
-Subject: [PATCH] docs: Use my proper surname
-Date:   Thu, 18 Mar 2021 17:19:16 -0700
-Message-Id: <20210319001916.136666-1-sthemmin@microsoft.com>
-X-Mailer: git-send-email 2.30.2
+        bh=eG1QzwIi3xEaakEPyWiwcIUMucRPcW0kIWxB+VdX0Ok=;
+        b=BhJ732lROpyQxDoBghK/D82NDhtqDRrXRLXxQSGR4PwDMdvEEIJCspVpYA4yiRKvwG
+         RLWst+8RxItwIybhs5f9X3/sfm+ujcrQcCpZdties2QhWbnWlVYHSndA+beCaBd+FY+L
+         andrKEjOerN33OxiLfGPsGZT8MFHbRd8Sxo3ok6nuYJoKutelQuc4bb0jaejlVxeyQYp
+         z8zYEsv4+8F9VMfyqoZBELocXr4MON6xB4qPFaGq1uOK2KACIqu8Qeix1cQ3qCSDN0OE
+         ziceKYCrJ2xgq06MUnrOyh58Hgu580/D7fSSbRRDCYlA9QUgD3fHQjXTGvua6aoI79M4
+         7YGA==
+X-Gm-Message-State: AOAM530ooVV2YCKoSJWJjoMwK6nEXqbSn78euKr0PzLpd965NEMYMOrQ
+        /mHsBXmK/Xv7wulY8uSC16w=
+X-Google-Smtp-Source: ABdhPJytY1xkTdXpw1JPFJu5Rw5Dhn60wo+Djui6kIuuXt0aDtxR6iyqkWGn1AA/gx0cUCg8L8D8GA==
+X-Received: by 2002:a17:902:bf92:b029:e6:bc0:25ac with SMTP id v18-20020a170902bf92b02900e60bc025acmr12452727pls.49.1616114898109;
+        Thu, 18 Mar 2021 17:48:18 -0700 (PDT)
+Received: from [10.230.29.202] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id g2sm3388274pfi.28.2021.03.18.17.48.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Mar 2021 17:48:17 -0700 (PDT)
+Subject: Re: [PATCH] swiotlb: Add swiotlb=off to disable SWIOTLB
+To:     Robin Murphy <robin.murphy@arm.com>, linux-kernel@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>, opendmb@gmail.com,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        "open list:SWIOTLB SUBSYSTEM" <iommu@lists.linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Thomas Gleixner <tglx@linutronix.de>
+References: <20210318191816.4185226-1-f.fainelli@gmail.com>
+ <bbd44c42-cedc-7bd6-a443-c991fd080298@gmail.com>
+ <e7850feb-b7cd-e279-e3fc-a9bdba162423@arm.com>
+ <f0940ea7-79f6-af57-aa7d-d121abb99012@gmail.com>
+ <16d1c66f-5451-2515-af73-a6b44d996e92@arm.com>
+ <a8a05321-3fd0-d1c4-9d76-ec2e79e310ec@gmail.com>
+ <3dd81519-4a73-efb8-abf0-0b766f993a8b@arm.com>
+From:   Florian Fainelli <f.fainelli@gmail.com>
+Message-ID: <a7a858e9-d6e6-cd06-85fc-8826e45d460e@gmail.com>
+Date:   Thu, 18 Mar 2021 17:48:12 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <3dd81519-4a73-efb8-abf0-0b766f993a8b@arm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Stephen Hemminger <stephen@networkplumber.org>
 
-Fix my name in the RCU background file. I don't use Steve.
 
-Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
----
- Documentation/RCU/RTFP.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 3/18/2021 4:35 PM, Robin Murphy wrote:
+> On 2021-03-18 21:31, Florian Fainelli wrote:
+>>
+>>
+>> On 3/18/2021 12:53 PM, Robin Murphy wrote:
+>>> On 2021-03-18 19:43, Florian Fainelli wrote:
+>>>>
+>>>>
+>>>> On 3/18/2021 12:34 PM, Robin Murphy wrote:
+>>>>> On 2021-03-18 19:22, Florian Fainelli wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 3/18/2021 12:18 PM, Florian Fainelli wrote:
+>>>>>>> It may be useful to disable the SWIOTLB completely for testing or
+>>>>>>> when a
+>>>>>>> platform is known not to have any DRAM addressing limitations
+>>>>>>> what so
+>>>>>>> ever.
+>>>>>
+>>>>> Isn't that what "swiotlb=noforce" is for? If you're confident that
+>>>>> we've
+>>>>> really ironed out *all* the awkward corners that used to blow up if
+>>>>> various internal bits were left uninitialised, then it would make
+>>>>> sense
+>>>>> to just tweak the implementation of what we already have.
+>>>>
+>>>> swiotlb=noforce does prevent dma_direct_map_page() from resorting to
+>>>> the
+>>>> swiotlb, however what I am also after is reclaiming these 64MB of
+>>>> default SWIOTLB bounce buffering memory because my systems run with
+>>>> large amounts of reserved memory into ZONE_MOVABLE and everything in
+>>>> ZONE_NORMAL is precious at that point.
+>>>
+>>> It also forces io_tlb_nslabs to the minimum, so it should be claiming
+>>> considerably less than 64MB. IIRC the original proposal *did* skip
+>>> initialisation completely, but that turned up the aforementioned issues.
+>>
+>> AFAICT in that case we will have iotlb_n_slabs will set to 1, which will
+>> still make us allocate io_tlb_n_slabs << IO_TLB_SHIFT bytes in
+>> swiotlb_init(), which still gives us 64MB.
+> 
+> Eh? When did 2KB become 64MB? IO_TLB_SHIFT is 11, so that's at most one
+> page in anyone's money...
 
-diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
-index 3b0876c77355..588d97366a46 100644
---- a/Documentation/RCU/RTFP.txt
-+++ b/Documentation/RCU/RTFP.txt
-@@ -847,7 +847,7 @@ Symposium on Distributed Computing}
- 	'It's entirely possible that the current user could be replaced
- 	by RCU and/or seqlocks, and we could get rid of brlocks entirely.'
- 	.
--	Steve Hemminger responds by replacing them with RCU.
-+	Stephen Hemminger responds by replacing them with RCU.
- }
- }
- 
+Yes, sorry incorrect shift applied here. Still, and I believe this is
+what you mean below, architecture code setting swiotlb_force =
+SWIOTLB_NO_FORCE does not result in not allocating the SWIOTLB, because
+io_tlb_nslabs is still left set to 0 so swiotlb_init() will proceed with
+allocating the default size.
+
+> 
+>>>>> I wouldn't necessarily disagree with adding "off" as an additional
+>>>>> alias
+>>>>> for "noforce", though, since it does come across as a bit wacky for
+>>>>> general use.
+>>>>>
+>>>>>>> Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+>>>>>>
+>>>>>> Christoph, in addition to this change, how would you feel if we
+>>>>>> qualified the swiotlb_init() in arch/arm/mm/init.c with a:
+>>>>>>
+>>>>>>
+>>>>>> if (memblock_end_of_DRAM() >= SZ_4G)
+>>>>>>       swiotlb_init(1)
+>>>>>
+>>>>> Modulo "swiotlb=force", of course ;)
+>>>>
+>>>> Indeed, we would need to handle that case as well. Does it sound
+>>>> reasonable to do that to you as well?
+>>>
+>>> I wouldn't like it done to me personally, but for arm64, observe what
+>>> mem_init() in arch/arm64/mm/init.c already does.
+> 
+> In fact I should have looked more closely at that myself - checking
+> debugfs on my 4GB arm64 board actually shows io_tlb_nslabs = 0, and
+> indeed we are bypassing initialisation completely and (ab)using
+> SWIOTLB_NO_FORCE to cover it up, so I guess it probably *is* safe now
+> for the noforce option to do the same for itself and save even that one
+> page.
+
+OK, I can submit a patch that does that. 5.12-rc3 works correctly for me
+here as well and only allocates SWIOTLB when needed which in our case is
+either:
+
+- we have DRAM at PA >= 4GB
+- we have limited peripherals (Raspberry Pi 4 derivative) that can only
+address the lower 1GB
+
+Now let's see if we can get ARM 32-bit to match :)
 -- 
-2.30.2
-
+Florian
