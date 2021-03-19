@@ -2,80 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0383DC433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 00:13:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1F1AC433E6
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 00:17:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AE3F164F04
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 00:13:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDDD164F1C
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 00:17:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232570AbhCSAND (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 20:13:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40478 "EHLO
+        id S231327AbhCSAQ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 20:16:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41216 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230477AbhCSAMo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 20:12:44 -0400
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [IPv6:2001:4190:8020::4])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CA976C06174A;
-        Thu, 18 Mar 2021 17:12:43 -0700 (PDT)
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-        id 0DF1592009C; Fri, 19 Mar 2021 01:12:38 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-        by angie.orcam.me.uk (Postfix) with ESMTP id F30ED92009B;
-        Fri, 19 Mar 2021 01:12:38 +0100 (CET)
-Date:   Fri, 19 Mar 2021 01:12:38 +0100 (CET)
-From:   "Maciej W. Rozycki" <macro@orcam.me.uk>
-To:     Christoph Hellwig <hch@lst.de>
-cc:     "David S. Miller" <davem@davemloft.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 04/10] MIPS: disable CONFIG_IDE in
- sb1250_swarm_defconfig
-In-Reply-To: <20210318045706.200458-5-hch@lst.de>
-Message-ID: <alpine.DEB.2.21.2103190042210.21463@angie.orcam.me.uk>
-References: <20210318045706.200458-1-hch@lst.de> <20210318045706.200458-5-hch@lst.de>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+        with ESMTP id S233290AbhCSAQK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 20:16:10 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE389C061761
+        for <linux-doc@vger.kernel.org>; Thu, 18 Mar 2021 17:16:09 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id x2so1216994qkd.9
+        for <linux-doc@vger.kernel.org>; Thu, 18 Mar 2021 17:16:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=protocubo.io; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=i5KDOaUSmTUaar1Hct6l+MHBLaHk1XjZboRNxdbAAmc=;
+        b=PN5NHz/1Fk3m8x4m2ta4VqdobXOWX8YSvAY+zEb8JKx94eFneybNs8l9BkXmA5Nb/h
+         Hohse4s6VEfk2yQo2z+xWOnxVAPezFB6GGXFSvw1zDKKNrEXZbL93hXFZlquZBsJO7wn
+         6qF56X/9nd7KNfeuR/oMIiHXp8nJe4rOb6Y3K5nOLf74FEtIjDXj1aUJRmvoASUv26Os
+         pML3PBeErzNMwkedGI3Dn/i5KqrJvYH4pXO9FuVz9LS9UTn+tuu6F1VPuseXlTRIWfEy
+         yX7cyZDTCjenOPtC4awz5cfWgN9R8VHJoGvYcn8yjDf7H2CsHnn54zv2U5OQfxXgBK0N
+         QjPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=i5KDOaUSmTUaar1Hct6l+MHBLaHk1XjZboRNxdbAAmc=;
+        b=bXfbUDS8E2dMEssv0JU37IPyVQfuNB83BzC47fzK9nkdUkxqeacSDu0rofkGR14q7h
+         4wE5izP5FgsnNi0XZKA+/P/FrXy4fP2GUEivpz1LMrt8TmNtOXKe4bhC/J3hMCtwnXD8
+         laqnT8psDGgbRipf8Jzb+M8GiiPzHHXGg022TF+XXUDzowO04JXwA+w3pQYJGKspo28Z
+         MpyfBD813mKIinsYc06KVLVDuVS+zrqSvIrOmjexa/T37gL5uflvIJIVyhja/pXegBz7
+         u3UNXbG7M+vu6DdZs12z0OD5Ksfx8JLIt9rGeEW5/X5csoPFdMD1EjcrebIxcxLUmyZV
+         7Y3w==
+X-Gm-Message-State: AOAM530WP8C53tvW9vfJLCVv794qsNolsK3i8ApEXa2NXPuP4jKsBxwO
+        cO2kkmhPYpnjPdI9+jJLAhytQw==
+X-Google-Smtp-Source: ABdhPJxOSauyRuNgkLNGet+IZSxoGTt23FyQDc+yoi2rGEqdx8ZQ8V1Uh7L2X7IbgY1fDdl4Fuh1vQ==
+X-Received: by 2002:a37:a2c8:: with SMTP id l191mr7086297qke.413.1616112968757;
+        Thu, 18 Mar 2021 17:16:08 -0700 (PDT)
+Received: from calvin.localdomain ([2804:14d:5c5a:802e:bdc9:ded9:cc08:a4e9])
+        by smtp.gmail.com with ESMTPSA id o7sm3199097qkb.104.2021.03.18.17.16.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Mar 2021 17:16:08 -0700 (PDT)
+Date:   Thu, 18 Mar 2021 21:16:04 -0300
+From:   Jonas Malaco <jonas@protocubo.io>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
+        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: add driver for NZXT Kraken X42/X52/X62/X72
+Message-ID: <20210319001604.ta7tgnm5uyqz4lvn@calvin.localdomain>
+References: <20210318164824.21374-1-jonas@protocubo.io>
+ <8d59a1fe-e38d-3f1b-601d-26a9bcf7272f@roeck-us.net>
+ <20210318231506.v4dvz4jtvqazdoo2@calvin.localdomain>
+ <20210318233608.GA140894@roeck-us.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210318233608.GA140894@roeck-us.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 18 Mar 2021, Christoph Hellwig wrote:
+On Thu, Mar 18, 2021 at 04:36:08PM -0700, Guenter Roeck wrote:
+> On Thu, Mar 18, 2021 at 08:15:06PM -0300, Jonas Malaco wrote:
+> 
+> [ ... ]
+> 
+> > > Either case, the spinlocks are overkill. It would be much easier to
+> > > convert raw readings here into temperature and fan speed and store
+> > > the resulting values in struct kraken2_priv_data, and then to
+> > > just report it in the read functions. That would be much less costly
+> > > because the spinlock would not be needed at all, and calculations
+> > > would be done only once per event.
+> > 
+> > Oddly enough, this is very close to how the code read last week.
+> > 
+> > But I was storing the values in kraken2_priv_data as longs, and I'm not
+> > sure that storing and loading longs is atomic on all architectures.
+> > 
+> > Was that safe, or should I use something else instead of longs?
+> > 
+> 
+> Hard to say, but do you see any code in the kernel that assumes
+> that loading or storing a long is not atomic, for any architecture ?
 
-> sb1250_swarm_defconfig enables CONFIG_IDE but no actual host controller
-> driver, so just drop CONFIG_IDE, CONFIG_BLK_DEV_IDECD and
-> CONFIG_BLK_DEV_IDETAPE as they are useless.
+No, I don't think so.
 
- Actually BLK_DEV_PLATFORM would handle the SWARM's platform driver as an 
-IDE device, however the driver has supported libata ever since commit 
-2fef357cf391 ("IDE: Fix platform device registration in Swarm IDE driver 
-(v2)") back in 2008, so this is good to go.  We should probably enable 
-PATA_PLATFORM in the defconfig instead.
+> 
+> Also, I don't see how u16 * 1000 could ever require a long
+> for storage. int would be good enough.
 
- The printed name of the driver could be improved I suppose though:
+Oh, that's true.
 
-scsi host0: pata_platform
-ata1: PATA max PIO0 mmio cmd 0x100b3e00 ctl 0x100b7ec0 irq 36
+I'll submit a v2 shortly.
 
-(PIO3 is actually hardwired; it's an odd interface and people reported 
-issues with it, but I have never had any myself be it with IDE or libata).
+Thanks again,
+Jonas
 
-Acked-by: Maciej W. Rozycki <macro@orcam.me.uk>
-
-  Maciej
+> 
+> > > 
+> > > > +	memcpy(priv->status, data, STATUS_USEFUL_SIZE);
+> > > > +	spin_unlock_irqrestore(&priv->lock, flags);
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > 
+> > > For my education: What triggers those events ? Are they reported
+> > > by the hardware autonomously whenever something changes ?
+> > > A comment at the top of the driver explaining how this works
+> > > might be useful.
+> > 
+> > The device autonomously sends these status reports twice a second.
+> > 
+> > I'll add the comment for v2.
+> > 
+> That would be great, thanks.
+> 
+> > > 
+> > > Also, is there a way to initialize values during probe ? Otherwise
+> > > the driver would report values of 0 until the hardware reports
+> > > something.
+> > 
+> > The device doesn't respond to HID Get_Report, so we can't get valid
+> > initial values.
+> > 
+> > The best we can do is identify the situation and report it to
+> > user-space.  Am I right that ENODATA should be used for this?
+> > 
+> Yes, I think that would be a good idea, and ENODATA sounds good.
+> 
+> Thanks,
+> Guenter
