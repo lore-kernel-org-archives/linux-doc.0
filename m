@@ -2,145 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1F1AC433E6
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 00:17:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79AB7C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 00:20:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BDDD164F1C
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 00:17:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3173464E41
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 00:20:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231327AbhCSAQ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 18 Mar 2021 20:16:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41216 "EHLO
+        id S232971AbhCSATo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 18 Mar 2021 20:19:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233290AbhCSAQK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 20:16:10 -0400
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE389C061761
-        for <linux-doc@vger.kernel.org>; Thu, 18 Mar 2021 17:16:09 -0700 (PDT)
-Received: by mail-qk1-x729.google.com with SMTP id x2so1216994qkd.9
-        for <linux-doc@vger.kernel.org>; Thu, 18 Mar 2021 17:16:09 -0700 (PDT)
+        with ESMTP id S231349AbhCSATZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 18 Mar 2021 20:19:25 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14396C06174A
+        for <linux-doc@vger.kernel.org>; Thu, 18 Mar 2021 17:19:25 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id kk2-20020a17090b4a02b02900c777aa746fso3959570pjb.3
+        for <linux-doc@vger.kernel.org>; Thu, 18 Mar 2021 17:19:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=protocubo.io; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=i5KDOaUSmTUaar1Hct6l+MHBLaHk1XjZboRNxdbAAmc=;
-        b=PN5NHz/1Fk3m8x4m2ta4VqdobXOWX8YSvAY+zEb8JKx94eFneybNs8l9BkXmA5Nb/h
-         Hohse4s6VEfk2yQo2z+xWOnxVAPezFB6GGXFSvw1zDKKNrEXZbL93hXFZlquZBsJO7wn
-         6qF56X/9nd7KNfeuR/oMIiHXp8nJe4rOb6Y3K5nOLf74FEtIjDXj1aUJRmvoASUv26Os
-         pML3PBeErzNMwkedGI3Dn/i5KqrJvYH4pXO9FuVz9LS9UTn+tuu6F1VPuseXlTRIWfEy
-         yX7cyZDTCjenOPtC4awz5cfWgN9R8VHJoGvYcn8yjDf7H2CsHnn54zv2U5OQfxXgBK0N
-         QjPg==
+        d=networkplumber-org.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4ZKNqGcOFxnFSs+j920f1ACx3dBPREyNqpSB4Op9FM0=;
+        b=Wwfmgkl3bG+O7E491clTkH0eDowPADxO1n6D+OrTTR30ODfRwtYMm7csN7XZ8yhHwe
+         5UysRM0FEJhlAavRP3Ccc8I5S+SqKIWMXbYVp9FP/cG2khzhwhXccBOllTR7AzvmJ+JV
+         GPjZc0oCqWIzH6bIP5JmKgyYnsuOMiH8dSETdpem0h0f+FcDIf5hA3sp9axDPaWGcKKj
+         AG0b2z8KTb2IH+cwQaloDUAK/9BuLJTAbeiWySoiuNLXGZ98TGnzFypUTc/7x3Ka8r/r
+         60eNhnzrHQEdkdiQ7uZBkeuYHaSZ4PHgjJFQw9YV5S5fpQ1HM8r3lAYCaX4MNhr9exMc
+         wsqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=i5KDOaUSmTUaar1Hct6l+MHBLaHk1XjZboRNxdbAAmc=;
-        b=bXfbUDS8E2dMEssv0JU37IPyVQfuNB83BzC47fzK9nkdUkxqeacSDu0rofkGR14q7h
-         4wE5izP5FgsnNi0XZKA+/P/FrXy4fP2GUEivpz1LMrt8TmNtOXKe4bhC/J3hMCtwnXD8
-         laqnT8psDGgbRipf8Jzb+M8GiiPzHHXGg022TF+XXUDzowO04JXwA+w3pQYJGKspo28Z
-         MpyfBD813mKIinsYc06KVLVDuVS+zrqSvIrOmjexa/T37gL5uflvIJIVyhja/pXegBz7
-         u3UNXbG7M+vu6DdZs12z0OD5Ksfx8JLIt9rGeEW5/X5csoPFdMD1EjcrebIxcxLUmyZV
-         7Y3w==
-X-Gm-Message-State: AOAM530WP8C53tvW9vfJLCVv794qsNolsK3i8ApEXa2NXPuP4jKsBxwO
-        cO2kkmhPYpnjPdI9+jJLAhytQw==
-X-Google-Smtp-Source: ABdhPJxOSauyRuNgkLNGet+IZSxoGTt23FyQDc+yoi2rGEqdx8ZQ8V1Uh7L2X7IbgY1fDdl4Fuh1vQ==
-X-Received: by 2002:a37:a2c8:: with SMTP id l191mr7086297qke.413.1616112968757;
-        Thu, 18 Mar 2021 17:16:08 -0700 (PDT)
-Received: from calvin.localdomain ([2804:14d:5c5a:802e:bdc9:ded9:cc08:a4e9])
-        by smtp.gmail.com with ESMTPSA id o7sm3199097qkb.104.2021.03.18.17.16.06
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4ZKNqGcOFxnFSs+j920f1ACx3dBPREyNqpSB4Op9FM0=;
+        b=qaQOEyiXmZhtOhvahNusRF7anxv57rhbhwq8cAk6Mc26hTOb9NkmxVZ6ZmQAKRahqK
+         NCy6YneQb49Jb9/7q+LjMswVED/sUEFH2Eph8LhVuOT8snVJv7wTA3TtMObjSkx06DMG
+         1TpfEicYq5pC2dVZ2eiUEYkjZYsLE3eAgohPk2qnZesOqXdudP3NkP2nvExWzzYac5Rx
+         MZkF87+TXZkCbJwTIz+fVWVCi2CYZt+Agg3V3qYn9/xhHftyw+1O1q+kAXrcH1Ajquck
+         W3sww1x+Y6U/QrU38NW9ieIsjAU5ZRpnDA80+VOzUXhI2GC7yJqHGMEa2krPkD3p8F6J
+         liHQ==
+X-Gm-Message-State: AOAM533pr5BtxD68PV5r7UwqNHAQbykBk4IucK0vFTp8BrDcmjRkhfE1
+        BvuAYNQ6iQt2IymticRuj88//g==
+X-Google-Smtp-Source: ABdhPJy+uyjOXGMNwa+7j/841CLC8G7jeCZfYyhN4rmIXFvOQI92oX+2B9aundDKnp/uxMnfeJiY1A==
+X-Received: by 2002:a17:90a:9f4a:: with SMTP id q10mr6869944pjv.113.1616113164491;
+        Thu, 18 Mar 2021 17:19:24 -0700 (PDT)
+Received: from hermes.local (76-14-218-44.or.wavecable.com. [76.14.218.44])
+        by smtp.gmail.com with ESMTPSA id 3sm3404458pfh.13.2021.03.18.17.19.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Mar 2021 17:16:08 -0700 (PDT)
-Date:   Thu, 18 Mar 2021 21:16:04 -0300
-From:   Jonas Malaco <jonas@protocubo.io>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>,
-        linux-input@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] hwmon: add driver for NZXT Kraken X42/X52/X62/X72
-Message-ID: <20210319001604.ta7tgnm5uyqz4lvn@calvin.localdomain>
-References: <20210318164824.21374-1-jonas@protocubo.io>
- <8d59a1fe-e38d-3f1b-601d-26a9bcf7272f@roeck-us.net>
- <20210318231506.v4dvz4jtvqazdoo2@calvin.localdomain>
- <20210318233608.GA140894@roeck-us.net>
+        Thu, 18 Mar 2021 17:19:23 -0700 (PDT)
+From:   Stephen Hemminger <stephen@networkplumber.org>
+X-Google-Original-From: Stephen Hemminger <sthemmin@microsoft.com>
+To:     paulmck@kernel.org, corbet@lwn.net
+Cc:     rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+        Stephen Hemminger <stephen@networkplumber.org>
+Subject: [PATCH] docs: Use my proper surname
+Date:   Thu, 18 Mar 2021 17:19:16 -0700
+Message-Id: <20210319001916.136666-1-sthemmin@microsoft.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210318233608.GA140894@roeck-us.net>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 18, 2021 at 04:36:08PM -0700, Guenter Roeck wrote:
-> On Thu, Mar 18, 2021 at 08:15:06PM -0300, Jonas Malaco wrote:
-> 
-> [ ... ]
-> 
-> > > Either case, the spinlocks are overkill. It would be much easier to
-> > > convert raw readings here into temperature and fan speed and store
-> > > the resulting values in struct kraken2_priv_data, and then to
-> > > just report it in the read functions. That would be much less costly
-> > > because the spinlock would not be needed at all, and calculations
-> > > would be done only once per event.
-> > 
-> > Oddly enough, this is very close to how the code read last week.
-> > 
-> > But I was storing the values in kraken2_priv_data as longs, and I'm not
-> > sure that storing and loading longs is atomic on all architectures.
-> > 
-> > Was that safe, or should I use something else instead of longs?
-> > 
-> 
-> Hard to say, but do you see any code in the kernel that assumes
-> that loading or storing a long is not atomic, for any architecture ?
+From: Stephen Hemminger <stephen@networkplumber.org>
 
-No, I don't think so.
+Fix my name in the RCU background file. I don't use Steve.
 
-> 
-> Also, I don't see how u16 * 1000 could ever require a long
-> for storage. int would be good enough.
+Signed-off-by: Stephen Hemminger <stephen@networkplumber.org>
+---
+ Documentation/RCU/RTFP.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Oh, that's true.
+diff --git a/Documentation/RCU/RTFP.txt b/Documentation/RCU/RTFP.txt
+index 3b0876c77355..588d97366a46 100644
+--- a/Documentation/RCU/RTFP.txt
++++ b/Documentation/RCU/RTFP.txt
+@@ -847,7 +847,7 @@ Symposium on Distributed Computing}
+ 	'It's entirely possible that the current user could be replaced
+ 	by RCU and/or seqlocks, and we could get rid of brlocks entirely.'
+ 	.
+-	Steve Hemminger responds by replacing them with RCU.
++	Stephen Hemminger responds by replacing them with RCU.
+ }
+ }
+ 
+-- 
+2.30.2
 
-I'll submit a v2 shortly.
-
-Thanks again,
-Jonas
-
-> 
-> > > 
-> > > > +	memcpy(priv->status, data, STATUS_USEFUL_SIZE);
-> > > > +	spin_unlock_irqrestore(&priv->lock, flags);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > 
-> > > For my education: What triggers those events ? Are they reported
-> > > by the hardware autonomously whenever something changes ?
-> > > A comment at the top of the driver explaining how this works
-> > > might be useful.
-> > 
-> > The device autonomously sends these status reports twice a second.
-> > 
-> > I'll add the comment for v2.
-> > 
-> That would be great, thanks.
-> 
-> > > 
-> > > Also, is there a way to initialize values during probe ? Otherwise
-> > > the driver would report values of 0 until the hardware reports
-> > > something.
-> > 
-> > The device doesn't respond to HID Get_Report, so we can't get valid
-> > initial values.
-> > 
-> > The best we can do is identify the situation and report it to
-> > user-space.  Am I right that ENODATA should be used for this?
-> > 
-> Yes, I think that would be a good idea, and ENODATA sounds good.
-> 
-> Thanks,
-> Guenter
