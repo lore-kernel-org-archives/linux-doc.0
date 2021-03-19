@@ -2,103 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C9D6C433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 21:28:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE27C433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 21:44:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1A0E061985
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 21:28:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5943B61956
+	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 21:44:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230186AbhCSV2Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Mar 2021 17:28:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32996 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229974AbhCSV2M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 17:28:12 -0400
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32E64C06175F;
-        Fri, 19 Mar 2021 14:28:12 -0700 (PDT)
-Received: by mail-oi1-x234.google.com with SMTP id n140so6245827oig.9;
-        Fri, 19 Mar 2021 14:28:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ilcSk8VycjIw9PpYr/RlJKjxl+yFh+ALRPCRLrC3KD4=;
-        b=t37/PSzAFqFe0VfH5iLTfUWXBBIcWzy2W1c0iXyjSkl6GHHLWsFF+MuCs+rj/sCuth
-         BXUkR5EIDuqsnSPOYU6b/Yf23dyM+NCdZ7cb7x+dDhUtO+MRmWFd7FRAHfKFPsPK0JSe
-         u4flGkAgV3ItTRUX5uOUa09wEzM+zKuIVpXR+/lh1IcP0gA+oqjVmH2qe/WeM5WsVtQ0
-         EN4l0ZAutX14zNjjsn5ktDHMiccZ9X+Y9AsoXg4EV78B4ZKSJ14XVP/Ha7LCyZhlii23
-         5EpeoahcWjbCLbZiLJUI/UgljIZvP+aHiI2CwrMfsxL0gPiSxC+EOqM93izw7ImYx8+w
-         9NBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=ilcSk8VycjIw9PpYr/RlJKjxl+yFh+ALRPCRLrC3KD4=;
-        b=IzP39VhZstG9hvf1pQl8BsBDGMYgfHZprgXlWl4oUM7KBwAEv0n18tcxYPU8STr5jE
-         W+d1fKJGXjNGs7hZhRJKyFozpuHm5TwVSni4nKw4Z5sxl7DPabn7RnLOsOmGFDj5nxrs
-         pkbfvZRlIbTpqoNhiVlO9p7pzwJYys7mJ85BZKnv49iBqfB3mBpMs+ZTKvoWYuk5hRsF
-         JiWm+18V/8Y6r7zKWVrk5OLeeqwARh9Xxn7C94XBkoDUnlwNc7nJZ0HEIvgH5FPZki2/
-         o0TRM9c+yFD1NIkWB4SOLJTXginfRAC739IQuMTEEt0Hx5ildP3Jsn5FMlehnTI62atK
-         XQ9A==
-X-Gm-Message-State: AOAM533DJGH8hOISpBobi0pJwgZjAYw2beUbqrzITw8TnnJIsXc6e50M
-        dJosB0sie2zSSY/kFMq7Yec=
-X-Google-Smtp-Source: ABdhPJyJnGs39V72ai5EC8itdQv3Lux6+l61DgJh5h65b6BkcfGWsg6zCGJ8IUoG7CjmItc52Y9NZg==
-X-Received: by 2002:aca:d884:: with SMTP id p126mr2456643oig.118.1616189291677;
-        Fri, 19 Mar 2021 14:28:11 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id s191sm1462660oie.0.2021.03.19.14.28.10
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 19 Mar 2021 14:28:10 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Fri, 19 Mar 2021 14:28:09 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Erik Rosen <erik.rosen@metormote.com>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>, linux-hwmon@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: Add trivial device entry for TPS53676
-Message-ID: <20210319212809.GA24020@roeck-us.net>
-References: <20210318212441.69050-1-erik.rosen@metormote.com>
- <20210318212441.69050-2-erik.rosen@metormote.com>
+        id S229990AbhCSVnn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Mar 2021 17:43:43 -0400
+Received: from mga09.intel.com ([134.134.136.24]:8668 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229942AbhCSVnH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 19 Mar 2021 17:43:07 -0400
+IronPort-SDR: RSiSITZep4KuY9xDwMvGo553udx8tKIJxQp1wf3YX+3AcAaiHQDfTUJY1d1wv7SNk1u5wvSoC+
+ xP+qT3EzRbag==
+X-IronPort-AV: E=McAfee;i="6000,8403,9928"; a="190066754"
+X-IronPort-AV: E=Sophos;i="5.81,262,1610438400"; 
+   d="scan'208";a="190066754"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 14:43:06 -0700
+IronPort-SDR: iT/r8ByvMuU8XTKNeF3yq/D/QfUHXYpCYZjIvu/4fy4S0PaDOlSkasOytpgZFg7aZUrat2BnHp
+ M2DQvWQ8JZmw==
+X-IronPort-AV: E=Sophos;i="5.81,262,1610438400"; 
+   d="scan'208";a="603266289"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.212.100.40]) ([10.212.100.40])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2021 14:43:05 -0700
+Subject: Re: [PATCH v23 00/28] Control-flow Enforcement: Shadow Stack
+To:     Peter Zijlstra <peterz@infradead.org>,
+        Borislav Petkov <bp@alien8.de>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316211552.GU4746@worktop.programming.kicks-ass.net>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <adb72123-e8b3-c022-47da-b8c423952caf@intel.com>
+Date:   Fri, 19 Mar 2021 14:43:04 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210318212441.69050-2-erik.rosen@metormote.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210316211552.GU4746@worktop.programming.kicks-ass.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 18, 2021 at 10:24:40PM +0100, Erik Rosen wrote:
-> Add trivial device entry for TPS53676
+On 3/16/2021 2:15 PM, Peter Zijlstra wrote:
+> On Tue, Mar 16, 2021 at 08:10:26AM -0700, Yu-cheng Yu wrote:
+>> Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+>> return/jump-oriented programming attacks.  Details are in "Intel 64 and
+>> IA-32 Architectures Software Developer's Manual" [1].
+>>
+>> CET can protect applications and the kernel.  This series enables only
+>> application-level protection, and has three parts:
+>>
+>>    - Shadow stack [2],
+>>    - Indirect branch tracking [3], and
+>>    - Selftests [4].
 > 
-> Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
-
-For my reference (waiting for dt maintainer acceptance):
-
-Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-
-> ---
->  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
->  1 file changed, 2 insertions(+)
+> CET is marketing; afaict SS and IBT are 100% independent and there's no
+> reason what so ever to have them share any code, let alone a Kconfig
+> knob.
+> > In fact, I think all of this would improve is you remove the CET name
+> from all of this entirely. Put this series under CONFIG_X86_SHSTK (or
+> _SS) and use CONFIG_X86_IBT for the other one.
 > 
-> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-> index a327130d1faa..2e29c2a91966 100644
-> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
-> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-> @@ -288,6 +288,8 @@ properties:
->            - ti,tmp103
->              # Digital Temperature Sensor
->            - ti,tmp275
-> +            # TI Dual channel DCAP+ multiphase controller TPS53676 with AVSBus
-> +          - ti,tps53676
->              # TI Dual channel DCAP+ multiphase controller TPS53679
->            - ti,tps53679
->              # TI Dual channel DCAP+ multiphase controller TPS53688
+> Similarly with the .c file.
+> 
+> All this CET business is just pure confusion.
+> 
+
+What about this, we bring back CONFIG_X86_SHSTK and CONFIG_X86_IBT.
+For the CET name itself, can we change it to CFE (Control Flow 
+Enforcement), or just CF?
+
+In signal handling, ELF header parsing and arch_prctl(), shadow stack 
+and IBT pretty much share the same code.  It is better not to split them 
+into two sets of files.
+
+Thanks,
+Yu-cheng
