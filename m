@@ -2,113 +2,185 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D0C9C433E0
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 15:51:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CEEE6C433C1
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 20:57:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1FD986196C
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 15:51:26 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B88C61938
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 20:57:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229846AbhCTPuw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 Mar 2021 11:50:52 -0400
-Received: from mout.gmx.net ([212.227.17.22]:52525 "EHLO mout.gmx.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229931AbhCTPuw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 20 Mar 2021 11:50:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1616255422;
-        bh=EtfgOnZg9Z6qjvshAWtu16RZKvn05bQtCzBAK86M/cs=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=EIu7FMt+pSpqy22curLmVkLJJLYqmPcEPQkYmqMW3mZEqiY3WVjdIta9bmy9oQPhE
-         jcLQDiD0Zaul/XVShKlrezCw51Z3+RkFgMCwR5b/1hsLNkNqhKRPIzNHqGTuMwVCW9
-         3He2aNjVq/VrgrqoUWfzoMJrYv3uOQb1KQMXs22E=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([83.52.229.153]) by mail.gmx.net (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MAONX-1lYOQf1bEx-00BuUH; Sat, 20
- Mar 2021 16:50:22 +0100
-Date:   Sat, 20 Mar 2021 16:50:20 +0100
-From:   John Wood <john.wood@gmx.com>
-To:     Kees Cook <keescook@chromium.org>
-Cc:     John Wood <john.wood@gmx.com>, Jann Horn <jannh@google.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        James Morris <jmorris@namei.org>,
-        Shuah Khan <shuah@kernel.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        kernel test robot <oliver.sang@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: Re: [PATCH v6 7/8] Documentation: Add documentation for the Brute LSM
-Message-ID: <20210320155020.GF3023@ubuntu>
-References: <20210307113031.11671-1-john.wood@gmx.com>
- <20210307113031.11671-8-john.wood@gmx.com>
- <202103172108.404F9B6ED2@keescook>
+        id S229826AbhCTU42 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Mar 2021 16:56:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51160 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229766AbhCTU4J (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Mar 2021 16:56:09 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2059C061574;
+        Sat, 20 Mar 2021 13:56:07 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1616273765;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=spUFCRG29h9RVqTvgsvEoyAUjRhPPLoLtv+oFUv0LF0=;
+        b=nCwDQB/jV3yR4x0OOWDTAYdDKYZ0AardGg3IZvXQxhRR/HF39Ty9/lxv+wr3QHCQPjZTjS
+        aUaxGxANNfs/DJDEw/kHwg9TwzQ/P+x/yU+4qFaxHUPtdiFcRA4Jx03Q1LN2hRDZN7KHtt
+        bGjn1ziPQIBPX5S2CAzE+41lT4EuId0KW85AtOdsDP626xmzL5XRzM7NUuudowYF2y5GV7
+        F/vT0fVAFJiowedePWSqzwqaEqbIlmtUln3cVIOO+USMoYfzfkzpVw0Y7R06DGE1R8J3Jr
+        PBM3bwn95Z45/u5DJm0R/kGg71BFw+sYmvVXWW0xulQh34UiOxBFtTfIJp/mUw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1616273765;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=spUFCRG29h9RVqTvgsvEoyAUjRhPPLoLtv+oFUv0LF0=;
+        b=E8W6m/skpkxgBZ4Pka4xkdMkeW6S631dx0CDwBDYcrP3kPLPcSaqW2xkXgdJhRyp1x7OzQ
+        SWCNCKabqcNzPFCg==
+To:     "Chang S. Bae" <chang.seok.bae@intel.com>, bp@suse.de,
+        luto@kernel.org, mingo@kernel.org, x86@kernel.org
+Cc:     len.brown@intel.com, dave.hansen@intel.com, jing2.liu@intel.com,
+        ravi.v.shankar@intel.com, linux-kernel@vger.kernel.org,
+        chang.seok.bae@intel.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to control state component support
+In-Reply-To: <20210221185637.19281-23-chang.seok.bae@intel.com>
+References: <20210221185637.19281-1-chang.seok.bae@intel.com> <20210221185637.19281-23-chang.seok.bae@intel.com>
+Date:   Sat, 20 Mar 2021 21:56:04 +0100
+Message-ID: <871rc9bl3v.fsf@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202103172108.404F9B6ED2@keescook>
-X-Provags-ID: V03:K1:+cVZqzHxW0HIoxSZUaT6yj0taOzmdRJFFrdSAXoPnjbRl0Vormm
- s+sRmiFaaGGcCBpylGfyi3hYpESL6IP+SwSgMXyyiyXGY9I2WBcW10YctHupP8j3gwui/+Q
- VIkCO2XPRliMIvbWPiKgieSWA0gQ+ID4hNma3o2y6/vU3S1NFSX+5rMIHaKgjedoqBGLFqk
- nleCr9FFdGIJq4sJdqhpQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:o4EvpcNInyw=:vV7LjhpuTinA6uibauVbLa
- A+D2avKYdBISzZIRWHncWLEwlrDKLak2EwQ90ifW89Cfdk5xzyIiezzMVbJ5La5NWPzFw2y5e
- SnV1o+SsX1TmGI7FXHJ6ZqIpCWLRgBNQXAcTYC4ErkwjW9Av4ALd4sm0LzigkoccIjlOJHVSf
- TC7TIaQUPRofKq/WrpUmWr5vMefC4tyrS2Df5ZEQAcS54zUgaNgchgtljJUSgMS9WeKSHuxl5
- 8cbaLkGa+jlyhCZDczlOUA1VRNozuXDa89Xk2Ow+VN+V1OCyV8BGYPuSCPH7SuZPgMTsEMN9k
- OLNey2QcAdBGkIqvZ/irMOwN5BGuj5ldLG7YgpdzIx5aBknjCAw6b4CNli3euK5nTq9YtM2bI
- V3i12/wLmFQpNRNMJ90E9akw6jfwx/7zSbH7nddOqRE4h14dprueqtpMFRgBUd9oWj6PMUDaX
- iYK+t3c6kvhwobEjqJ4cao28miCnRmD0KlZbxHQGVX+rDWiWVhFN6/6vdj00bx4KQlQn5IW2A
- tLdJ4FXDdl5C+QkpbKkCLnlid/r2I0QbDzTLkbs6/j9KAyNF5QcK70hM0z5xIvhPmHv4oy9L/
- 9qSED51b3YWVtPXVRAac/Lmr1BixtrduuxtsKzIGiKlDFnCE2qVhIAGDamvfjKQ1F9faghpg1
- 1V4AuteS8DxOiJI9RigVn2xBDLFoiAl42hPJJTccoZSNZ2fagF8jJlds4P9plzfjT5EdoKLEW
- I9C8d6Ascsg17LNc+fHHanz0wN7heFDch46rIHvF6khSO1KdvOXWEfvBBpAp82tTpdzcIsrMA
- DUrzIpyPuJ+Jxr7Ujh7JGWPTRoSdzk9F2HUo3kpZIkA0M42SYUlVcmh/dqOG8qIdcGs+E9Pa/
- zZVp707VFu3leUnwZmlQ==
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 17, 2021 at 09:10:05PM -0700, Kees Cook wrote:
-> On Sun, Mar 07, 2021 at 12:30:30PM +0100, John Wood wrote:
-> > +These statistics are hold by the brute_stats struct.
-> > +
-> > +struct brute_cred {
-> > +	kuid_t uid;
-> > +	kgid_t gid;
-> > +	kuid_t suid;
-> > +	kgid_t sgid;
-> > +	kuid_t euid;
-> > +	kgid_t egid;
-> > +	kuid_t fsuid;
-> > +	kgid_t fsgid;
-> > +};
-> > +
-> > +struct brute_stats {
-> > +	spinlock_t lock;
-> > +	refcount_t refc;
-> > +	unsigned char faults;
-> > +	u64 jiffies;
-> > +	u64 period;
-> > +	struct brute_cred saved_cred;
-> > +	unsigned char network : 1;
-> > +	unsigned char bounds_crossed : 1;
-> > +};
+On Sun, Feb 21 2021 at 10:56, Chang S. Bae wrote:
+> "xstate.disable=0x60000" will disable AMX on a system that has AMX compiled
+> into XFEATURE_MASK_USER_ENABLED.
 >
-> Instead of open-coding this, just use the kerndoc references you've
-> already built in the .c files:
->
-> .. kernel-doc:: security/brute/brute.c
->
-Ok, thanks.
+> "xstate.enable=0x60000" will enable AMX on a system that does NOT have AMX
+> compiled into XFEATURE_MASK_USER_ENABLED (assuming the kernel is new enough
+> to support this feature).
 
-John Wood
+This makes no sense at all.
+
+> Rename XFEATURE_MASK_USER_SUPPORTED to XFEATURE_MASK_USER_ENABLED to be
+> aligned with the new parameters.
+>
+> While this cmdline is currently enabled only for AMX, it is intended to be
+> easily enabled to be useful for future XSAVE-enabled features.
+
+I have a hard time to map this changelog to the actual code.
+
+> +/* All currently enabled user features */
+> +#define XFEATURE_MASK_USER_ENABLED (XFEATURE_MASK_FP | \
+> +				    XFEATURE_MASK_SSE | \
+> +				    XFEATURE_MASK_YMM | \
+> +				    XFEATURE_MASK_OPMASK | \
+> +				    XFEATURE_MASK_ZMM_Hi256 | \
+> +				    XFEATURE_MASK_Hi16_ZMM	 | \
+> +				    XFEATURE_MASK_PKRU | \
+> +				    XFEATURE_MASK_BNDREGS | \
+> +				    XFEATURE_MASK_BNDCSR | \
+> +				    XFEATURE_MASK_XTILE)
+  
+> +
+> +static u64 xstate_enable;
+> +static u64 xstate_disable;
+
+This needs to be kept around forever because it's used where outside of
+__init code?
+
+>  u64 __init fpu__get_supported_xfeatures_mask(void)
+>  {
+> -	u64 mask = XFEATURE_MASK_USER_SUPPORTED | XFEATURE_MASK_SUPERVISOR_SUPPORTED;
+> -
+> -	if (!IS_ENABLED(CONFIG_X86_64))
+> -		mask &= ~(XFEATURE_MASK_XTILE);
+> +	u64 mask = XFEATURE_MASK_USER_ENABLED | XFEATURE_MASK_SUPERVISOR_SUPPORTED;
+> +
+> +	if (!IS_ENABLED(CONFIG_X86_64)) {
+> +		mask  &= ~(XFEATURE_MASK_XTILE);
+> +	} else if (xstate_enable || xstate_disable) {
+> +		u64 custom = mask;
+> +		u64 unknown;
+> +
+> +		custom |= xstate_enable;
+> +		custom &= ~xstate_disable;
+> +
+> +		unknown = custom & ~mask;
+> +		if (unknown) {
+> +			/*
+> +			 * User should fully understand the result of using undocumented
+> +			 * xstate component.
+> +			 */
+
+What is to understand here? Absolutely nothing.  This has been tried to
+be smuggled into the kernel ever so often and it's again in something
+which claims to do something else and the changelog is silent about it.
+
+The argument 'it allows easier testing of new features' is absolutely
+not true simply because the rest of the kernel knows absolutely nothing
+about the feature and stuff would go south anyway.
+
+We won't enable features which are unknown ever. Keep that presilicon
+test gunk where it belongs: In the Intel poison cabinet along with the
+rest of the code which nobody ever want's to see.
+
+> +		}
+> +
+> +		if ((custom & XFEATURE_MASK_XTILE) != XFEATURE_MASK_XTILE) {
+> +			pr_warn("x86/fpu: Error in xstate.disable. Additionally disabling 0x%x components.\n",
+> +				XFEATURE_MASK_XTILE);
+
+What?
+
+If the user added: xstate.disable=0x60000 to the command line, then the
+code above:
+
+> +		custom &= ~xstate_disable;
+
+has cleared XFEATURE_MASK_XTILE in custom which makes that check true,
+the warning emitted and then 
+
+> +			custom &= ~(XFEATURE_MASK_XTILE);
+
+this part clears out XFEATURE_MASK_XTILE once more.
+
+> +		}
+
+What the heck.
+
+> +/*
+> + * Longest parameter of 'xstate.enable=' is 22 octal number characters with '0' prefix and
+> + * an extra '\0' for termination.
+> + */
+> +#define MAX_XSTATE_MASK_CHARS	24
+> +/*
+> + * We parse xstate parameters early because fpu__init_system() is executed before
+> + * parse_early_param().
+> + */
+> +static void __init fpu__init_parse_early_param(void)
+> +{
+> +	char arg[MAX_XSTATE_MASK_CHARS];
+> +
+> +	if (cmdline_find_option(boot_command_line, "xstate.enable", arg, sizeof(arg)) &&
+> +	    !kstrtoull(arg, 0, &xstate_enable))
+> +		xstate_enable &= XFEATURE_MASK_CONFIGURABLE;
+
+This enable thing is not going to happen.
+
+> +	if (cmdline_find_option(boot_command_line, "xstate.disable", arg, sizeof(arg)) &&
+> +	    !kstrtoull(arg, 0, &xstate_disable))
+> +		xstate_disable &= XFEATURE_MASK_CONFIGURABLE;
+> +}
+> +
+
+This parser needs to be called for X86_32 because?
+
+Thanks,
+
+        tglx
