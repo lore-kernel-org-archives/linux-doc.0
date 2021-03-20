@@ -2,185 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CEEE6C433C1
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 20:57:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26BAFC433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 21:10:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B88C61938
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 20:57:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D69C760C40
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 21:10:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229826AbhCTU42 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 Mar 2021 16:56:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51160 "EHLO
+        id S229787AbhCTVJs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Mar 2021 17:09:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53994 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229766AbhCTU4J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Mar 2021 16:56:09 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2059C061574;
-        Sat, 20 Mar 2021 13:56:07 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1616273765;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=spUFCRG29h9RVqTvgsvEoyAUjRhPPLoLtv+oFUv0LF0=;
-        b=nCwDQB/jV3yR4x0OOWDTAYdDKYZ0AardGg3IZvXQxhRR/HF39Ty9/lxv+wr3QHCQPjZTjS
-        aUaxGxANNfs/DJDEw/kHwg9TwzQ/P+x/yU+4qFaxHUPtdiFcRA4Jx03Q1LN2hRDZN7KHtt
-        bGjn1ziPQIBPX5S2CAzE+41lT4EuId0KW85AtOdsDP626xmzL5XRzM7NUuudowYF2y5GV7
-        F/vT0fVAFJiowedePWSqzwqaEqbIlmtUln3cVIOO+USMoYfzfkzpVw0Y7R06DGE1R8J3Jr
-        PBM3bwn95Z45/u5DJm0R/kGg71BFw+sYmvVXWW0xulQh34UiOxBFtTfIJp/mUw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1616273765;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=spUFCRG29h9RVqTvgsvEoyAUjRhPPLoLtv+oFUv0LF0=;
-        b=E8W6m/skpkxgBZ4Pka4xkdMkeW6S631dx0CDwBDYcrP3kPLPcSaqW2xkXgdJhRyp1x7OzQ
-        SWCNCKabqcNzPFCg==
-To:     "Chang S. Bae" <chang.seok.bae@intel.com>, bp@suse.de,
-        luto@kernel.org, mingo@kernel.org, x86@kernel.org
-Cc:     len.brown@intel.com, dave.hansen@intel.com, jing2.liu@intel.com,
-        ravi.v.shankar@intel.com, linux-kernel@vger.kernel.org,
-        chang.seok.bae@intel.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to control state component support
-In-Reply-To: <20210221185637.19281-23-chang.seok.bae@intel.com>
-References: <20210221185637.19281-1-chang.seok.bae@intel.com> <20210221185637.19281-23-chang.seok.bae@intel.com>
-Date:   Sat, 20 Mar 2021 21:56:04 +0100
-Message-ID: <871rc9bl3v.fsf@nanos.tec.linutronix.de>
+        with ESMTP id S229769AbhCTVJV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Mar 2021 17:09:21 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCC42C061574;
+        Sat, 20 Mar 2021 14:09:20 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id 7so6708907qka.7;
+        Sat, 20 Mar 2021 14:09:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vzWME/XuekcEcQlH0cQ+Enyts6EE84rdTzIRzesN/to=;
+        b=CGGCu4vBfWeBGeZpGkbovZsTFUBiFgUmUl1yZkVXA5tPCsTdIP6UcWj063ZijJ0d1P
+         9e0NbVY21NrJ5OiNQW7n8yMy5GuTjHvEAaXfScc6Pj4xCJkVY+2laDCx4Gk4HnqI78qy
+         PSpALBYdwKpCcRjj9dzNqdnTqp2R5Wz9tyqEW991K8wrTJJ1bNfzyODnT3BKPYLo3YPU
+         RnMNwbphnknIyS5DeV1nWsIOJoyEWGfak30IwCysWz/ivIiutICYgiUJDqxeMXg4Loar
+         6vT8xF0AtjlyiQsMf5KDeuOETMcZ05onT8mTadImYdaKeINkkRwE3reXITvGArp/koMe
+         Ii8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=vzWME/XuekcEcQlH0cQ+Enyts6EE84rdTzIRzesN/to=;
+        b=b/8v7zvC3cc/RXibWmYPkMw1fKHwEtFHwDJASqD+vZRHe8HuLgVz508lh6NlUolygu
+         Bmn4HgtfYP3MeRUw2vWPtD8o9ZKuWvoIdKX7IQFCY69AZCYTPfr3qLG81jPRwOYpneWo
+         czUm+XDkwVhDO58W5bRaV0dbAAFYsHiVBwQ9XV7T64nSyP23po237VdxVVoEbvcjM+Cq
+         Wsf2I0GkPCV45lFF0xSFwo1nJwR2j7oYSl/oqboUiCCAKI5w1rXQeME6RrRfBF8GobTx
+         ltV6lSH9KHzOQ/nMYZTXOPU5JH6yYNmOxW6I22hfLDVv5Qw/J/cKa7+OqTN3OfMmhaWs
+         rhfA==
+X-Gm-Message-State: AOAM531WinScqVQu8pzBFSpjaw0bT3MqPcevlCpuYTBqfRRB3Y9USHWm
+        DItLU0Zcu0/azjw6PQZ6kcY=
+X-Google-Smtp-Source: ABdhPJwsrQAyD5fRlq9oaiTV5wq6RS+aWaHuW009fWcIgk/k/SedTINW6y/LQD5JP+haJIomTppXRA==
+X-Received: by 2002:ae9:edc1:: with SMTP id c184mr4401047qkg.453.1616274560087;
+        Sat, 20 Mar 2021 14:09:20 -0700 (PDT)
+Received: from localhost.localdomain ([138.199.13.205])
+        by smtp.gmail.com with ESMTPSA id p1sm7493193qkj.73.2021.03.20.14.09.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Mar 2021 14:09:19 -0700 (PDT)
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     davem@davemloft.net, kuba@kernel.org, corbet@lwn.net,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Subject: [PATCH] docs: networking: Fix a typo
+Date:   Sun, 21 Mar 2021 02:37:03 +0530
+Message-Id: <20210320210703.32588-1-unixbhaskar@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Feb 21 2021 at 10:56, Chang S. Bae wrote:
-> "xstate.disable=0x60000" will disable AMX on a system that has AMX compiled
-> into XFEATURE_MASK_USER_ENABLED.
->
-> "xstate.enable=0x60000" will enable AMX on a system that does NOT have AMX
-> compiled into XFEATURE_MASK_USER_ENABLED (assuming the kernel is new enough
-> to support this feature).
 
-This makes no sense at all.
+s/subsytem/subsystem/
 
-> Rename XFEATURE_MASK_USER_SUPPORTED to XFEATURE_MASK_USER_ENABLED to be
-> aligned with the new parameters.
->
-> While this cmdline is currently enabled only for AMX, it is intended to be
-> easily enabled to be useful for future XSAVE-enabled features.
+Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+---
+ Documentation/networking/xfrm_device.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I have a hard time to map this changelog to the actual code.
+diff --git a/Documentation/networking/xfrm_device.rst b/Documentation/networking/xfrm_device.rst
+index da1073acda96..01391dfd37d9 100644
+--- a/Documentation/networking/xfrm_device.rst
++++ b/Documentation/networking/xfrm_device.rst
+@@ -50,7 +50,7 @@ Callbacks to implement
 
-> +/* All currently enabled user features */
-> +#define XFEATURE_MASK_USER_ENABLED (XFEATURE_MASK_FP | \
-> +				    XFEATURE_MASK_SSE | \
-> +				    XFEATURE_MASK_YMM | \
-> +				    XFEATURE_MASK_OPMASK | \
-> +				    XFEATURE_MASK_ZMM_Hi256 | \
-> +				    XFEATURE_MASK_Hi16_ZMM	 | \
-> +				    XFEATURE_MASK_PKRU | \
-> +				    XFEATURE_MASK_BNDREGS | \
-> +				    XFEATURE_MASK_BNDCSR | \
-> +				    XFEATURE_MASK_XTILE)
-  
-> +
-> +static u64 xstate_enable;
-> +static u64 xstate_disable;
+ The NIC driver offering ipsec offload will need to implement these
+ callbacks to make the offload available to the network stack's
+-XFRM subsytem.  Additionally, the feature bits NETIF_F_HW_ESP and
++XFRM subsystem.  Additionally, the feature bits NETIF_F_HW_ESP and
+ NETIF_F_HW_ESP_TX_CSUM will signal the availability of the offload.
 
-This needs to be kept around forever because it's used where outside of
-__init code?
 
->  u64 __init fpu__get_supported_xfeatures_mask(void)
->  {
-> -	u64 mask = XFEATURE_MASK_USER_SUPPORTED | XFEATURE_MASK_SUPERVISOR_SUPPORTED;
-> -
-> -	if (!IS_ENABLED(CONFIG_X86_64))
-> -		mask &= ~(XFEATURE_MASK_XTILE);
-> +	u64 mask = XFEATURE_MASK_USER_ENABLED | XFEATURE_MASK_SUPERVISOR_SUPPORTED;
-> +
-> +	if (!IS_ENABLED(CONFIG_X86_64)) {
-> +		mask  &= ~(XFEATURE_MASK_XTILE);
-> +	} else if (xstate_enable || xstate_disable) {
-> +		u64 custom = mask;
-> +		u64 unknown;
-> +
-> +		custom |= xstate_enable;
-> +		custom &= ~xstate_disable;
-> +
-> +		unknown = custom & ~mask;
-> +		if (unknown) {
-> +			/*
-> +			 * User should fully understand the result of using undocumented
-> +			 * xstate component.
-> +			 */
+--
+2.26.2
 
-What is to understand here? Absolutely nothing.  This has been tried to
-be smuggled into the kernel ever so often and it's again in something
-which claims to do something else and the changelog is silent about it.
-
-The argument 'it allows easier testing of new features' is absolutely
-not true simply because the rest of the kernel knows absolutely nothing
-about the feature and stuff would go south anyway.
-
-We won't enable features which are unknown ever. Keep that presilicon
-test gunk where it belongs: In the Intel poison cabinet along with the
-rest of the code which nobody ever want's to see.
-
-> +		}
-> +
-> +		if ((custom & XFEATURE_MASK_XTILE) != XFEATURE_MASK_XTILE) {
-> +			pr_warn("x86/fpu: Error in xstate.disable. Additionally disabling 0x%x components.\n",
-> +				XFEATURE_MASK_XTILE);
-
-What?
-
-If the user added: xstate.disable=0x60000 to the command line, then the
-code above:
-
-> +		custom &= ~xstate_disable;
-
-has cleared XFEATURE_MASK_XTILE in custom which makes that check true,
-the warning emitted and then 
-
-> +			custom &= ~(XFEATURE_MASK_XTILE);
-
-this part clears out XFEATURE_MASK_XTILE once more.
-
-> +		}
-
-What the heck.
-
-> +/*
-> + * Longest parameter of 'xstate.enable=' is 22 octal number characters with '0' prefix and
-> + * an extra '\0' for termination.
-> + */
-> +#define MAX_XSTATE_MASK_CHARS	24
-> +/*
-> + * We parse xstate parameters early because fpu__init_system() is executed before
-> + * parse_early_param().
-> + */
-> +static void __init fpu__init_parse_early_param(void)
-> +{
-> +	char arg[MAX_XSTATE_MASK_CHARS];
-> +
-> +	if (cmdline_find_option(boot_command_line, "xstate.enable", arg, sizeof(arg)) &&
-> +	    !kstrtoull(arg, 0, &xstate_enable))
-> +		xstate_enable &= XFEATURE_MASK_CONFIGURABLE;
-
-This enable thing is not going to happen.
-
-> +	if (cmdline_find_option(boot_command_line, "xstate.disable", arg, sizeof(arg)) &&
-> +	    !kstrtoull(arg, 0, &xstate_disable))
-> +		xstate_disable &= XFEATURE_MASK_CONFIGURABLE;
-> +}
-> +
-
-This parser needs to be called for X86_32 because?
-
-Thanks,
-
-        tglx
