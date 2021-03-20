@@ -2,137 +2,412 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A773C433C1
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 13:34:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58183C433C1
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 15:03:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 57C636191C
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 13:34:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 329FE6192C
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 15:03:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbhCTNd1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 Mar 2021 09:33:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41372 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229775AbhCTNdN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Mar 2021 09:33:13 -0400
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 367A3C061762;
-        Sat, 20 Mar 2021 06:33:13 -0700 (PDT)
-Received: by mail-pl1-x632.google.com with SMTP id w11so4261346ply.6;
-        Sat, 20 Mar 2021 06:33:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=zel7VqglAbcHE+3PfYSn3C2SSRsn+gUENwKUKP8d3qQ=;
-        b=q849W2hb8iEUQSYVDml8xNerfLqjVM6pFSoaH9UQvE023n9zur+gEmAzmxdGYuZlu3
-         unuM06eYUZLjfYekvNf+Gbe3I5TL5Jn1jGdFjX2nwWtJxqdqcohdRX7/L3qUROKxQVx/
-         gtLCQGOmchV/YYXcsljpbSGQ0o2UO+tdwsaK581Z1mHe2NeiaMnO6SeNpEtILdGg7mAf
-         TLPbLqCUooDmf4eGHK5mZNpdyacAnSy6tepkUTgTANu7nDJoWEB6eaIz/fAb0jtgtoin
-         xVOeBpPdzYIf+KJua9VPW5pJD6zkkUwXEVgyzfg3dLRuRtemppPnwsfJF2ROoEz0BIMw
-         IVzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=zel7VqglAbcHE+3PfYSn3C2SSRsn+gUENwKUKP8d3qQ=;
-        b=YWIrJy4bq20OibGGPkSx7d38dZ96j4n04wL42Peydiq9Gr4jS95xaWPDlQsjieEbjp
-         PGLpU/wxLHRF5uBH0amaFzt/j0Npj9UMm2DGmn22e+k1YV7MZyEfIZabRth56rgEejAU
-         GZn1osRZu9RenutOn59uEaNl9Gkavs529050DryzuC57BtHgUYBo4ShmW4TJXrQ3KWrS
-         TwTdae+pQkifkgf+Tja1YjvK7jd9jPWZKaE0zZPwghs9kePVMF8O6GO4JQkjqj9MDFur
-         maWPV57FOGp+ovcBMSHcVlWJadbdU1jC8mzmlwZtCi8gULUNAOf1xYeERFvHrgdoDFqE
-         QPXw==
-X-Gm-Message-State: AOAM5334YPZzD9BcYVFi4OmsYZ5ktzg+bK0LoX6qrv5SBmSUuWkWsrEH
-        LG24EyiLd2JyNhj2CJpiN5w=
-X-Google-Smtp-Source: ABdhPJybaAFXeZ6T0sj4b5mmasN9VIRTo3lbhyUoFsf6/R1eDA0zQAxvynj0PQ+s4govMuXMZgnYiA==
-X-Received: by 2002:a17:90a:e7cc:: with SMTP id kb12mr3628046pjb.31.1616247192421;
-        Sat, 20 Mar 2021 06:33:12 -0700 (PDT)
-Received: from ?IPv6:2405:201:600d:a089:1ce8:18d9:6e3d:8c29? ([2405:201:600d:a089:1ce8:18d9:6e3d:8c29])
-        by smtp.gmail.com with ESMTPSA id p17sm8386881pjv.49.2021.03.20.06.33.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Mar 2021 06:33:12 -0700 (PDT)
-Subject: Re: [RFC] scripts: kernel-doc: avoid warnings due to initial
- commented lines in file
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Markus Heiser <markus.heiser@darmarit.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20210309125324.4456-1-yashsri421@gmail.com>
- <8959bf29-9ee1-6a1d-da18-f440232864f3@darmarit.de>
- <c673e76f-72db-bbee-39d6-f5428e765173@gmail.com>
- <871rcg2p8g.fsf@meer.lwn.net>
- <CAKXUXMzwTp1H_vokVEAJSnmm7jNHfWzhhmLfpcrrBD9b8ak+dA@mail.gmail.com>
- <878s6kto3g.fsf@meer.lwn.net>
- <CAKXUXMxWOvM5HRwmAAWEsqQc2k6_ReqRw0uD=VANLO5D7OpFtg@mail.gmail.com>
- <87o8fgpbpx.fsf@meer.lwn.net>
- <99a21e10-266e-b997-7048-c29a570afe0b@gmail.com>
- <30051ed8-33e4-a303-199c-f4bdcb0e448a@gmail.com>
- <CAKXUXMyQRY9GC7sUG+_W5hQe3EFdvxKrYTEO7JL3E5LD3cCPKQ@mail.gmail.com>
-From:   Aditya Srivastava <yashsri421@gmail.com>
-Message-ID: <9f5d3dc7-ed79-a420-346a-914004964569@gmail.com>
-Date:   Sat, 20 Mar 2021 19:03:06 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S229546AbhCTPDH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Mar 2021 11:03:07 -0400
+Received: from mout.gmx.net ([212.227.15.19]:35291 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229564AbhCTPCz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 20 Mar 2021 11:02:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1616252530;
+        bh=Qyy316MMRLCeGzcR94PAqHg48ZDAQa0fq9Q52i0Shv4=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=HHm76Nxr7kXuOksjq0yHaPoZzQUcews5agadFz9TNWK9FhZYGxzh9emiG7lpNBQXp
+         esGuXlJjYQp/VJJCjo5X/EwQHTnqr3AiCxt4ifJEi5fUt4b9gtkbokMY8hpb9MquUX
+         FfmJtiEcHSM+ah+nq4AOpmmLnyWRutgn6wg8bTPU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([83.52.229.153]) by mail.gmx.net (mrgmx004
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1M1HZo-1lPGkC2SmA-002nOF; Sat, 20
+ Mar 2021 16:02:10 +0100
+Date:   Sat, 20 Mar 2021 16:01:53 +0100
+From:   John Wood <john.wood@gmx.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     John Wood <john.wood@gmx.com>, Jann Horn <jannh@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        kernel test robot <oliver.sang@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH v6 2/8] security/brute: Define a LSM and manage
+ statistical data
+Message-ID: <20210320150153.GA3023@ubuntu>
+References: <20210307113031.11671-1-john.wood@gmx.com>
+ <20210307113031.11671-3-john.wood@gmx.com>
+ <202103171823.E7F64A593@keescook>
 MIME-Version: 1.0
-In-Reply-To: <CAKXUXMyQRY9GC7sUG+_W5hQe3EFdvxKrYTEO7JL3E5LD3cCPKQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202103171823.E7F64A593@keescook>
+X-Provags-ID: V03:K1:N3kDi3fcr7BY5jsLXEhpPT5eZCaHx6vuob6jMA+RdTaGjh8x9VS
+ hV87Ez7R08B5a/LV4rUuS+sNRxEb0rRx9YG2RV+GiHLEyMffLwDJoqHDDtbHZme0X7p/ut0
+ fALzuLGYUv3x79dHwdPPAU/s3LXWcFANyklULIR94sta/QDX8kUIAzk0Rg5JIBQHkNMSy1u
+ ffOa76sdUHRXUIcjhEtVw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:znyhYE+hPho=:4IpP/8ClXstsl4SruKeZN+
+ QBRMjJyTtACcGbLZY1iLRJA7wipKvsAez6Wxl0QsHTOEp4CjrLaf9zCxkM3+5qO91f0tIvD3q
+ uoFVuR/e0xie6uXyLlVX7U44aprQ8JtF7YdOhta42A4pVijYKqz5kVdaxZfFSg231iqeNUCeJ
+ ohTdH2mYstSXwpDLKbGFq6kdRUvTn1mskkPOM70kaoqDLWYJH2/hHIfm/SbNi0KPkMBkVzjo8
+ 21zXP53PeLQa+1AYoK4Yi1h0f//PsJfaE53v0C67pX5GiAdbZlyj0xFcX+x6/N/BjKZyb46iA
+ 9ydBQMVIpj1KTANBZLSPR1v6Q8vkwTAxiutsSxhHIlp6t0or/dhBH6bfHxzgFsSNhfsK2hV7X
+ AOd2kcb9jksY+/pDCNlYbNpZaV9za0/myw0ghISjpdXNyAIaiH4JLdVdPWix13Pba9GXAKlry
+ MkkjcA/oTvoS6zz7Ae34+vzhksKRte4DKnwvCLJudMs0Tsr6ZLnAOJK+yGGUdJF/PmOEmAZuG
+ vKtVFVjRjqHE08Q5yD7cmQtdXvZAQds5eF7QSNNRrFZD/h4egly+AzviUZWM2DI+HIoGeDsZW
+ XgjxIpz8Gnyfeoj+uPVjhBxfkCRFK/BJHnIUED4JLCVIxfPprj6DUEwAXXU4DQ4dOBrbHmiJ2
+ 8L49dfglgJnAetJYIV3lvji50TjLsFtrfJ2NA682Nzr8c3wk4zyOJ6W/QqbBnytSJF/m6zJch
+ BerqnhrhLJEZ1KOD1If6tf/zOq5S/X1afd50Ht7Dg7wAQoAgs4gFEEXSG8DK99qc+ok/pzh5U
+ 2FfjyJdmPIibEVNOSZZGQ1HQURy5CVzsmQL29jk5gBxDnTUU3rTjEe9VvUZA2yqmLxkMlU1Ro
+ CZBBwWM/EB8E2VB/BtEQ==
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20/3/21 6:51 pm, Lukas Bulwahn wrote:
-> On Sat, Mar 20, 2021 at 1:45 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
->>
->> On 20/3/21 12:23 pm, Aditya wrote:
->>> On 18/3/21 11:48 pm, Jonathan Corbet wrote:
->>>> Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
->>>>
->>>>> Yeah, and as this line-counting is really just a poor man's
->>>>> heuristics, we might just be better to really turn this heuristics
->>>>> into a dedicated cleanup warning script, then we can check for more
->>>>> indicators, such as "does it contain the word Copyright" somewhere in
->>>>> the kernel-doc comment, which tells us even more that this is not a
->>>>> kernel-doc as we would expect it.
->>>>
->>>> I really don't think we need that kind of heuristic.  The format of
->>>> kerneldoc comments is fairly rigid; it shouldn't be too hard to pick out
->>>> the /** comments that don't fit that format, right?  Am I missing
->>>> something there?
->>>>
->>>> Thanks,
->>>>
->>>> jon
->>>>
->>
->> Hi Lukas and Jon!
->> I have a question, should I clean up the files with '/**' like
->> comments in only header lines? Or as we are planning for making it
->> generic, for other lines as well?
->>
-> 
-> Aditya, of course, if you can detect and come across some unintended
-> '/**' comments in some files, clean them in the same go (as you did
-> with ecryptfs).
-> 
-> I am just worried that if you extend it to the fully generic case,
-> that the list of cases simply explodes: showing many 1,000 cases
-> across various 1,000 files that need to be cleaned up, and such
-> clean-up work is just too much to get done by yourself.
-> 
-> The current list limited to comments in header lines seems to be a set
-> of patches that you can probably get done.
-> 
+Hi,
+First of all thanks for the review. More info and questions inline.
 
-Sounds good, Lukas.
+On Wed, Mar 17, 2021 at 07:00:56PM -0700, Kees Cook wrote:
+> On Sun, Mar 07, 2021 at 12:30:25PM +0100, John Wood wrote:
+> >
+> >  config LSM
+> >  	string "Ordered list of enabled LSMs"
+> > -	default "lockdown,yama,loadpin,safesetid,integrity,smack,selinux,tom=
+oyo,apparmor,bpf" if DEFAULT_SECURITY_SMACK
+> > -	default "lockdown,yama,loadpin,safesetid,integrity,apparmor,selinux,=
+smack,tomoyo,bpf" if DEFAULT_SECURITY_APPARMOR
+> > -	default "lockdown,yama,loadpin,safesetid,integrity,tomoyo,bpf" if DE=
+FAULT_SECURITY_TOMOYO
+> > -	default "lockdown,yama,loadpin,safesetid,integrity,bpf" if DEFAULT_S=
+ECURITY_DAC
+> > -	default "lockdown,yama,loadpin,safesetid,integrity,selinux,smack,tom=
+oyo,apparmor,bpf"
+> > +	default "brute,lockdown,yama,loadpin,safesetid,integrity,smack,selin=
+ux,tomoyo,apparmor,bpf" if DEFAULT_SECURITY_SMACK
+> > +	default "brute,lockdown,yama,loadpin,safesetid,integrity,apparmor,se=
+linux,smack,tomoyo,bpf" if DEFAULT_SECURITY_APPARMOR
+> > +	default "brute,lockdown,yama,loadpin,safesetid,integrity,tomoyo,bpf"=
+ if DEFAULT_SECURITY_TOMOYO
+> > +	default "brute,lockdown,yama,loadpin,safesetid,integrity,bpf" if DEF=
+AULT_SECURITY_DAC
+> > +	default "brute,lockdown,yama,loadpin,safesetid,integrity,selinux,sma=
+ck,tomoyo,apparmor,bpf"
+>
+> It probably doesn't matter much, but I think brute should be added
+> between lockdown and yama.
 
-Thanks
-Aditya
+What is the rationale for the stacking order (in relation with brute and
+lockdown)?
+
+> > diff --git a/security/Makefile b/security/Makefile
+> > index 3baf435de541..1236864876da 100644
+> > --- a/security/Makefile
+> > +++ b/security/Makefile
+> > @@ -36,3 +36,7 @@ obj-$(CONFIG_BPF_LSM)			+=3D bpf/
+> >  # Object integrity file lists
+> >  subdir-$(CONFIG_INTEGRITY)		+=3D integrity
+> >  obj-$(CONFIG_INTEGRITY)			+=3D integrity/
+> > +
+> > +# Object brute file lists
+> > +subdir-$(CONFIG_SECURITY_FORK_BRUTE)	+=3D brute
+> > +obj-$(CONFIG_SECURITY_FORK_BRUTE)	+=3D brute/
+>
+> I don't think subdir is needed here? I think you can use obj-... like
+> loadpin, etc.
+
+loadpin also uses subdir just like selinux, smack, tomoyo, etc.. So, why
+is it not necessary for brute?
+
+> > +#include <asm/current.h>
+>
+> Why is this needed?
+
+IIUC, the "current" macro is defined in this header. I try to include the
+appropiate header for every macro and function used.
+
+> > +/**
+> > + * struct brute_stats - Fork brute force attack statistics.
+> > + * @lock: Lock to protect the brute_stats structure.
+> > + * @refc: Reference counter.
+> > + * @faults: Number of crashes.
+> > + * @jiffies: Last crash timestamp.
+> > + * @period: Crash period's moving average.
+> > + *
+> > + * This structure holds the statistical data shared by all the fork h=
+ierarchy
+> > + * processes.
+> > + */
+> > +struct brute_stats {
+> > +	spinlock_t lock;
+> > +	refcount_t refc;
+> > +	unsigned char faults;
+> > +	u64 jiffies;
+> > +	u64 period;
+> > +};
+>
+> I assume the max-255 "faults" will be explained... why is this so small?
+
+If a brute force attack is running slowly for a long time, the application
+crash period's EMA is not suitable for the detection. This type of attack
+must be detected using a maximum number of faults. In this case, the
+BRUTE_MAX_FAULTS is defined as 200.
+
+> > [...]
+> > +static struct brute_stats *brute_new_stats(void)
+> > +{
+> > +	struct brute_stats *stats;
+> > +
+> > +	stats =3D kmalloc(sizeof(struct brute_stats), GFP_KERNEL);
+> > +	if (!stats)
+> > +		return NULL;
+>
+> Since this is tied to process creation, I think it might make sense to
+> have a dedicated kmem cache for this (instead of using the "generic"
+> kmalloc). See kmem_cache_{create,*alloc,free}
+
+Thanks, I will work on it for the next version.
+>
+> > +
+> > +	spin_lock_init(&stats->lock);
+> > +	refcount_set(&stats->refc, 1);
+> > +	stats->faults =3D 0;
+> > +	stats->jiffies =3D get_jiffies_64();
+> > +	stats->period =3D 0;
+>
+> And either way, I'd recommend using the "z" variant of the allocator
+> (kmem_cache_zalloc, kzalloc) to pre-zero everything (and then you can
+> drop the "=3D 0" lines here).
+
+Understood.
+
+>
+> > +
+> > +	return stats;
+> > +}
+> > +
+> > +/**
+> > + * brute_share_stats() - Share the statistical data between processes=
+.
+> > + * @src: Source of statistics to be shared.
+> > + * @dst: Destination of statistics to be shared.
+> > + *
+> > + * Copy the src's pointer to the statistical data structure to the ds=
+t's pointer
+> > + * to the same structure. Since there is a new process that shares th=
+e same
+> > + * data, increase the reference counter. The src's pointer cannot be =
+NULL.
+> > + *
+> > + * It's mandatory to disable interrupts before acquiring the brute_st=
+ats::lock
+> > + * since the task_free hook can be called from an IRQ context during =
+the
+> > + * execution of the task_alloc hook.
+> > + */
+> > +static void brute_share_stats(struct brute_stats *src,
+> > +			      struct brute_stats **dst)
+> > +{
+> > +	unsigned long flags;
+> > +
+> > +	spin_lock_irqsave(&src->lock, flags);
+> > +	refcount_inc(&src->refc);
+> > +	*dst =3D src;
+> > +	spin_unlock_irqrestore(&src->lock, flags);
+> > +}
+> > +
+> > +/**
+> > + * brute_task_alloc() - Target for the task_alloc hook.
+> > + * @task: Task being allocated.
+> > + * @clone_flags: Contains the flags indicating what should be shared.
+> > + *
+> > + * For a correct management of a fork brute force attack it is necess=
+ary that
+> > + * all the tasks hold statistical data. The same statistical data nee=
+ds to be
+> > + * shared between all the tasks that hold the same memory contents or=
+ in other
+> > + * words, between all the tasks that have been forked without any exe=
+cve call.
+> > + *
+> > + * To ensure this, if the current task doesn't have statistical data =
+when forks,
+> > + * it is mandatory to allocate a new statistics structure and share i=
+t between
+> > + * this task and the new one being allocated. Otherwise, share the st=
+atistics
+> > + * that the current task already has.
+> > + *
+> > + * Return: -ENOMEM if the allocation of the new statistics structure =
+fails. Zero
+> > + *         otherwise.
+> > + */
+> > +static int brute_task_alloc(struct task_struct *task, unsigned long c=
+lone_flags)
+> > +{
+> > +	struct brute_stats **stats, **p_stats;
+> > +
+> > +	stats =3D brute_stats_ptr(task);
+> > +	p_stats =3D brute_stats_ptr(current);
+> > +
+> > +	if (likely(*p_stats)) {
+> > +		brute_share_stats(*p_stats, stats);
+> > +		return 0;
+> > +	}
+> > +
+> > +	*stats =3D brute_new_stats();
+> > +	if (!*stats)
+> > +		return -ENOMEM;
+> > +
+> > +	brute_share_stats(*stats, p_stats);
+> > +	return 0;
+> > +}
+>
+> During the task_alloc hook, aren't both "current" and "task" already
+> immutable (in the sense that no lock needs to be held for
+> brute_share_stats())?
+
+I will work on it.
+
+> And what is the case where brute_stats_ptr(current) returns NULL?
+
+Sorry, but I don't understand what you are trying to explain me.
+brute_stats_ptr(current) returns a pointer to a pointer. So, I think
+your question is: What's the purpose of the "if (likely(*p_stats))"
+check? If it is the case, this check is to guarantee that all the tasks
+have statistical data. If some task has been allocated prior the brute
+LSM initialization, this task doesn't have stats. So, with this check
+all the tasks that fork have stats.
+
+> > +
+> > +/**
+> > + * brute_task_execve() - Target for the bprm_committing_creds hook.
+> > + * @bprm: Points to the linux_binprm structure.
+> > + *
+> > + * When a forked task calls the execve system call, the memory conten=
+ts are set
+> > + * with new values. So, in this scenario the parent's statistical dat=
+a no need
+> > + * to be shared. Instead, a new statistical data structure must be al=
+located to
+> > + * start a new hierarchy. This condition is detected when the statist=
+ics
+> > + * reference counter holds a value greater than or equal to two (a fo=
+rk always
+> > + * sets the statistics reference counter to a minimum of two since th=
+e parent
+> > + * and the child task are sharing the same data).
+> > + *
+> > + * However, if the execve function is called immediately after anothe=
+r execve
+> > + * call, althought the memory contents are reset, there is no need to=
+ allocate
+> > + * a new statistical data structure. This is possible because at this=
+ moment
+> > + * only one task (the task that calls the execve function) points to =
+the data.
+> > + * In this case, the previous allocation is used but the statistics a=
+re reset.
+> > + *
+> > + * It's mandatory to disable interrupts before acquiring the brute_st=
+ats::lock
+> > + * since the task_free hook can be called from an IRQ context during =
+the
+> > + * execution of the bprm_committing_creds hook.
+> > + */
+> > +static void brute_task_execve(struct linux_binprm *bprm)
+> > +{
+> > +	struct brute_stats **stats;
+> > +	unsigned long flags;
+> > +
+> > +	stats =3D brute_stats_ptr(current);
+> > +	if (WARN(!*stats, "No statistical data\n"))
+> > +		return;
+> > +
+> > +	spin_lock_irqsave(&(*stats)->lock, flags);
+> > +
+> > +	if (!refcount_dec_not_one(&(*stats)->refc)) {
+> > +		/* execve call after an execve call */
+> > +		(*stats)->faults =3D 0;
+> > +		(*stats)->jiffies =3D get_jiffies_64();
+> > +		(*stats)->period =3D 0;
+> > +		spin_unlock_irqrestore(&(*stats)->lock, flags);
+> > +		return;
+> > +	}
+> > +
+> > +	/* execve call after a fork call */
+> > +	spin_unlock_irqrestore(&(*stats)->lock, flags);
+> > +	*stats =3D brute_new_stats();
+> > +	WARN(!*stats, "Cannot allocate statistical data\n");
+> > +}
+>
+> I don't think any of this locking is needed -- you're always operating
+> on "current", so its brute_stats will always be valid.
+
+But another process (that share the same stats) could be modifying this
+concurrently.
+
+Scenario 1: cpu 1 writes stats and cpu 2 writes stats.
+Scenario 2: cpu 1 writes stats, then IRQ on the same cpu writes stats.
+
+I think it is possible. So AFAIK we need locking. Sorry if I am wrong.
+
+> > +
+> > +/**
+> > + * brute_task_free() - Target for the task_free hook.
+> > + * @task: Task about to be freed.
+> > + *
+> > + * The statistical data that is shared between all the fork hierarchy=
+ processes
+> > + * needs to be freed when this hierarchy disappears.
+> > + *
+> > + * It's mandatory to disable interrupts before acquiring the brute_st=
+ats::lock
+> > + * since the task_free hook can be called from an IRQ context during =
+the
+> > + * execution of the task_free hook.
+> > + */
+> > +static void brute_task_free(struct task_struct *task)
+> > +{
+> > +	struct brute_stats **stats;
+> > +	unsigned long flags;
+> > +	bool refc_is_zero;
+> > +
+> > +	stats =3D brute_stats_ptr(task);
+> > +	if (WARN(!*stats, "No statistical data\n"))
+> > +		return;
+> > +
+> > +	spin_lock_irqsave(&(*stats)->lock, flags);
+> > +	refc_is_zero =3D refcount_dec_and_test(&(*stats)->refc);
+> > +	spin_unlock_irqrestore(&(*stats)->lock, flags);
+> > +
+> > +	if (refc_is_zero) {
+> > +		kfree(*stats);
+> > +		*stats =3D NULL;
+> > +	}
+> > +}
+>
+> Same thing -- this is what dec_and_test is for: it's atomic, so no
+> locking needed.
+
+Ok, in this case I can see that the locking is not necessary due to the
+stats::refc is atomic. But in the previous case, faults, jiffies and
+period are not atomic. So I think the lock is necessary. If not, what am
+I missing?
+
+Thanks,
+John Wood
