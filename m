@@ -2,214 +2,70 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4166BC433E2
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 21:58:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87E42C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 03:45:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0636E61988
-	for <linux-doc@archiver.kernel.org>; Fri, 19 Mar 2021 21:58:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 577226199B
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 03:45:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230218AbhCSV5u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 19 Mar 2021 17:57:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39434 "EHLO
+        id S229877AbhCTDow (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 19 Mar 2021 23:44:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230084AbhCSV5r (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 17:57:47 -0400
-Received: from smtp-42ac.mail.infomaniak.ch (smtp-42ac.mail.infomaniak.ch [IPv6:2001:1600:4:17::42ac])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C798AC06175F
-        for <linux-doc@vger.kernel.org>; Fri, 19 Mar 2021 14:57:46 -0700 (PDT)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4F2HnP27SzzMq6wY;
-        Fri, 19 Mar 2021 22:57:45 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4F2HnM4X8tzlh8T5;
-        Fri, 19 Mar 2021 22:57:43 +0100 (CET)
-Subject: Re: [PATCH v30 10/12] selftests/landlock: Add user space tests
-To:     Kees Cook <keescook@chromium.org>
-Cc:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>,
-        Dmitry Vyukov <dvyukov@google.com>
-References: <20210316204252.427806-1-mic@digikod.net>
- <20210316204252.427806-11-mic@digikod.net> <202103191026.D936362B@keescook>
- <e98a1f48-4c35-139d-af88-b6e65fbb5c3f@digikod.net>
- <202103191207.E12FD4E51@keescook>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <1b043379-b6eb-d272-c9b9-25c6960e1ef1@digikod.net>
-Date:   Fri, 19 Mar 2021 22:57:59 +0100
-User-Agent: 
+        with ESMTP id S229875AbhCTDou (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 19 Mar 2021 23:44:50 -0400
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [IPv6:2001:4190:8020::4])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 694FCC061761;
+        Fri, 19 Mar 2021 20:44:50 -0700 (PDT)
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+        id 26B2092009C; Sat, 20 Mar 2021 04:44:46 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+        by angie.orcam.me.uk (Postfix) with ESMTP id 1F63392009B;
+        Sat, 20 Mar 2021 04:44:46 +0100 (CET)
+Date:   Sat, 20 Mar 2021 04:44:46 +0100 (CET)
+From:   "Maciej W. Rozycki" <macro@orcam.me.uk>
+To:     Christoph Hellwig <hch@lst.de>
+cc:     "David S. Miller" <davem@davemloft.net>,
+        Jens Axboe <axboe@kernel.dk>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 10/10] ide: remove the legacy ide driver
+In-Reply-To: <20210318045706.200458-11-hch@lst.de>
+Message-ID: <alpine.DEB.2.21.2103200425360.21463@angie.orcam.me.uk>
+References: <20210318045706.200458-1-hch@lst.de> <20210318045706.200458-11-hch@lst.de>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 MIME-Version: 1.0
-In-Reply-To: <202103191207.E12FD4E51@keescook>
-Content-Type: text/plain; charset=iso-8859-15
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Thu, 18 Mar 2021, Christoph Hellwig wrote:
 
-On 19/03/2021 20:11, Kees Cook wrote:
-> On Fri, Mar 19, 2021 at 07:41:00PM +0100, Mickaël Salaün wrote:
->>
->> On 19/03/2021 18:56, Kees Cook wrote:
->>> On Tue, Mar 16, 2021 at 09:42:50PM +0100, Mickaël Salaün wrote:
->>>> From: Mickaël Salaün <mic@linux.microsoft.com>
->>>>
->>>> Test all Landlock system calls, ptrace hooks semantic and filesystem
->>>> access-control with multiple layouts.
->>>>
->>>> Test coverage for security/landlock/ is 93.6% of lines.  The code not
->>>> covered only deals with internal kernel errors (e.g. memory allocation)
->>>> and race conditions.
->>>>
->>>> Cc: James Morris <jmorris@namei.org>
->>>> Cc: Jann Horn <jannh@google.com>
->>>> Cc: Kees Cook <keescook@chromium.org>
->>>> Cc: Serge E. Hallyn <serge@hallyn.com>
->>>> Cc: Shuah Khan <shuah@kernel.org>
->>>> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
->>>> Reviewed-by: Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>
->>>> Link: https://lore.kernel.org/r/20210316204252.427806-11-mic@digikod.net
->>>
->>> This is terrific. I love the coverage. How did you measure this, BTW?
->>
->> I used gcov: https://www.kernel.org/doc/html/latest/dev-tools/gcov.html
->>
->>> To increase it into memory allocation failures, have you tried
->>> allocation fault injection:
->>> https://www.kernel.org/doc/html/latest/fault-injection/fault-injection.html
->>
->> Yes, it is used by syzkaller, but I don't know how to extract this
->> specific coverage.
->>
->>>
->>>> [...]
->>>> +TEST(inconsistent_attr) {
->>>> +	const long page_size = sysconf(_SC_PAGESIZE);
->>>> +	char *const buf = malloc(page_size + 1);
->>>> +	struct landlock_ruleset_attr *const ruleset_attr = (void *)buf;
->>>> +
->>>> +	ASSERT_NE(NULL, buf);
->>>> +
->>>> +	/* Checks copy_from_user(). */
->>>> +	ASSERT_EQ(-1, landlock_create_ruleset(ruleset_attr, 0, 0));
->>>> +	/* The size if less than sizeof(struct landlock_attr_enforce). */
->>>> +	ASSERT_EQ(EINVAL, errno);
->>>> +	ASSERT_EQ(-1, landlock_create_ruleset(ruleset_attr, 1, 0));
->>>> +	ASSERT_EQ(EINVAL, errno);
->>>
->>> Almost everywhere you're using ASSERT instead of EXPECT. Is this correct
->>> (in the sense than as soon as an ASSERT fails the rest of the test is
->>> skipped)? I do see you using EXPECT is some places, but I figured I'd
->>> ask about the intention here.
->>
->> I intentionally use ASSERT as much as possible, but I use EXPECT when an
->> error could block a test or when it could stop a cleanup (i.e. teardown).
-> 
-> Okay. Does the test suite run sanely when landlock is missing from the
-> kernel?
+> The legay ide driver has been replace with libata startin in 2003 and has
 
-When Landlock is disabled, the tests fail but do not hang.
+ s/legay/legacy/;s/replace/replaced/;s/startin/startin/ (though I'd say 
+"back in" instead in the latter case).
 
-> 
->>>
->>>> +/*
->>>> + * TEST_F_FORK() is useful when a test drop privileges but the corresponding
->>>> + * FIXTURE_TEARDOWN() requires them (e.g. to remove files from a directory
->>>> + * where write actions are denied).  For convenience, FIXTURE_TEARDOWN() is
->>>> + * also called when the test failed, but not when FIXTURE_SETUP() failed.  For
->>>> + * this to be possible, we must not call abort() but instead exit smoothly
->>>> + * (hence the step print).
->>>> + */
->>>
->>> Hm, interesting. I think this should be extracted into a separate patch
->>> and added to the test harness proper.
->>
->> I agree, but it may require some modifications to fit nicely in
->> kselftest_harness.h . For now, it works well for my use case. I'll send
->> patches once Landlock is merged. In fact, I already made
->> kselftest_harness.h available for other users than seccomp. ;)
-> 
-> Fair points.
-> 
->>>
->>> Could this be solved with TEARDOWN being called on SETUP failure?
->>
->> The goal of this helper is to still be able to call TEARDOWN when TEST
->> failed, not SETUP.
->>
->>>
->>>> +#define TEST_F_FORK(fixture_name, test_name) \
->>>> +	static void fixture_name##_##test_name##_child( \
->>>> +		struct __test_metadata *_metadata, \
->>>> +		FIXTURE_DATA(fixture_name) *self, \
->>>> +		const FIXTURE_VARIANT(fixture_name) *variant); \
->>>> +	TEST_F(fixture_name, test_name) \
->>>> +	{ \
->>>> +		int status; \
->>>> +		const pid_t child = fork(); \
->>>> +		if (child < 0) \
->>>> +			abort(); \
->>>> +		if (child == 0) { \
->>>> +			_metadata->no_print = 1; \
->>>> +			fixture_name##_##test_name##_child(_metadata, self, variant); \
->>>> +			if (_metadata->skip) \
->>>> +				_exit(255); \
->>>> +			if (_metadata->passed) \
->>>> +				_exit(0); \
->>>> +			_exit(_metadata->step); \
->>>> +		} \
->>>> +		if (child != waitpid(child, &status, 0)) \
->>>> +			abort(); \
->>>> +		if (WIFSIGNALED(status) || !WIFEXITED(status)) { \
->>>> +			_metadata->passed = 0; \
->>>> +			_metadata->step = 1; \
->>>> +			return; \
->>>> +		} \
->>>> +		switch (WEXITSTATUS(status)) { \
->>>> +		case 0: \
->>>> +			_metadata->passed = 1; \
->>>> +			break; \
->>>> +		case 255: \
->>>> +			_metadata->passed = 1; \
->>>> +			_metadata->skip = 1; \
->>>> +			break; \
->>>> +		default: \
->>>> +			_metadata->passed = 0; \
->>>> +			_metadata->step = WEXITSTATUS(status); \
->>>> +			break; \
->>>> +		} \
->>>> +	} \
->>>
->>> This looks like a subset of __wait_for_test()? Could __TEST_F_IMPL() be
->>> updated instead to do this? (Though the fork overhead might not be great
->>> for everyone.)
->>
->> Yes, it will probably be my approach to update kselftest_harness.h .
-> 
-> It seems like this would be named better as TEST_DROPS_PRIVS or something,
-> which describes the reason for the fork.
+> been scheduled for removal for a while.  Finally kill it off so that we
+> can start cleaning up various bits of cruft it forced on the block layer.
 
-Yeah, maybe, we could discuss about that in a dedicated patch series. :)
+ You need to adjust Documentation/admin-guide/kernel-parameters.txt too, 
+i.e. remove all the `ide*' options, possibly more (I haven't checked in 
+detail).
+
+  Maciej
