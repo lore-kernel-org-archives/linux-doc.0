@@ -2,116 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D73BC433DB
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 12:46:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D605CC433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 13:01:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 613D26196A
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 12:46:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A958D61971
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 13:01:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229510AbhCTMp5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 Mar 2021 08:45:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59362 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229564AbhCTMpa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Mar 2021 08:45:30 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8694C061762;
-        Sat, 20 Mar 2021 05:45:29 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id y200so7787361pfb.5;
-        Sat, 20 Mar 2021 05:45:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=ErfJAt/mRnqXnYm4yKcWK3E+xKBF1KIHjNRm05dEwgo=;
-        b=hXTcIhBPBRlr0bycdoJINwO5S5KzxcgTl/+FD8X8BiD/498zCDr/6abLhbnvG5lRS1
-         bXWLT/AgOh06CWltzjPOxC1690Ng3p0avNClSLcwM6fzmHT3YnZbWPHyPr3I56G5fqBp
-         9UxnvAUnHEPtm/0Ig6SosTspkSZ9y2ydZuvClR3Pghhfdq601vD7lSWzrS+IW9yfg22u
-         63BbJGgfE1pQV3WK80mxh8XSrpJZufV+1hyW+U/F7EqL/QC9QS9zeGSmbOUE9oPkt23K
-         PheW2zD5GuO1pHA3iqRvXyctr2zcFrb3Nz9l2tRxbk/9JDq/a/jOy+QmMf62tHTP68cA
-         Vgaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ErfJAt/mRnqXnYm4yKcWK3E+xKBF1KIHjNRm05dEwgo=;
-        b=N0w+PhHnCGvgtzmBkzdgDu/GSYFkXEZZCODWp2zcg0Fi1go9IseiE+1NE2VRz3fT01
-         UnllWJE8CnVAnhND9x7iXoZ/Rr04h+YTrvFID4eJ+JkmXh9S8wxu12Z8gAoKtxLwYHMB
-         yxj/Xc7a0pD69bg6xU45lINqSb9IYG+UiRb8nGOANC69EqxJzLoqe8TCTtVznq1kHiQy
-         PGtlPUQ5f3ehnpKVtE2sStuCwKFGF5yM7ji87nwDRVYnScZCzfjG4JkbDieVtIroUnyG
-         rvC0mGKD2cztZu8OaLBwvc1hN+bMqPFzbYcGQ7/K06leQAqOfzpsr/HWY1vPFZqLhJsk
-         /O7g==
-X-Gm-Message-State: AOAM531bWDDA87npNkYz91zR0qkRv410U8KI0JcZlLw4djgZWkuhJoJf
-        0jkjqjHuRFn/u0Y0BiyGGraWJEXBoF21yA==
-X-Google-Smtp-Source: ABdhPJyYjTZEParm4KJEnGN9fEm1eobKloCYmqPEEe4IdwIaAE14Hhg6+pdQYrGpyKGCe9AObi4dKQ==
-X-Received: by 2002:aa7:952c:0:b029:1f1:533c:40d7 with SMTP id c12-20020aa7952c0000b02901f1533c40d7mr13584388pfp.81.1616244329328;
-        Sat, 20 Mar 2021 05:45:29 -0700 (PDT)
-Received: from ?IPv6:2405:201:600d:a089:1ce8:18d9:6e3d:8c29? ([2405:201:600d:a089:1ce8:18d9:6e3d:8c29])
-        by smtp.gmail.com with ESMTPSA id v27sm8420641pfi.89.2021.03.20.05.45.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 20 Mar 2021 05:45:28 -0700 (PDT)
-Subject: Re: [RFC] scripts: kernel-doc: avoid warnings due to initial
- commented lines in file
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     Markus Heiser <markus.heiser@darmarit.de>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <20210309125324.4456-1-yashsri421@gmail.com>
- <8959bf29-9ee1-6a1d-da18-f440232864f3@darmarit.de>
- <c673e76f-72db-bbee-39d6-f5428e765173@gmail.com>
- <871rcg2p8g.fsf@meer.lwn.net>
- <CAKXUXMzwTp1H_vokVEAJSnmm7jNHfWzhhmLfpcrrBD9b8ak+dA@mail.gmail.com>
- <878s6kto3g.fsf@meer.lwn.net>
- <CAKXUXMxWOvM5HRwmAAWEsqQc2k6_ReqRw0uD=VANLO5D7OpFtg@mail.gmail.com>
- <87o8fgpbpx.fsf@meer.lwn.net>
- <99a21e10-266e-b997-7048-c29a570afe0b@gmail.com>
-Message-ID: <30051ed8-33e4-a303-199c-f4bdcb0e448a@gmail.com>
-Date:   Sat, 20 Mar 2021 18:15:22 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S229505AbhCTNAv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Mar 2021 09:00:51 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:50809 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229445AbhCTNAj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Mar 2021 09:00:39 -0400
+Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id D5C353B566D;
+        Sat, 20 Mar 2021 08:49:40 +0000 (UTC)
+X-Originating-IP: 2.7.49.219
+Received: from [192.168.1.12] (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
+        (Authenticated sender: alex@ghiti.fr)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 39AEC40003;
+        Sat, 20 Mar 2021 08:48:14 +0000 (UTC)
+Subject: Re: [PATCH 0/3] Move kernel mapping outside the linear mapping
+To:     Palmer Dabbelt <palmer@dabbelt.com>
+Cc:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, Arnd Bergmann <arnd@arndb.de>,
+        aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org
+References: <mhng-cf5d29ec-e941-4579-8c42-2c11799a8f2f@penguin>
+From:   Alex Ghiti <alex@ghiti.fr>
+Message-ID: <fdc52c40-3324-fc9a-ffda-926ced856a80@ghiti.fr>
+Date:   Sat, 20 Mar 2021 04:48:14 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <99a21e10-266e-b997-7048-c29a570afe0b@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <mhng-cf5d29ec-e941-4579-8c42-2c11799a8f2f@penguin>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 20/3/21 12:23 pm, Aditya wrote:
-> On 18/3/21 11:48 pm, Jonathan Corbet wrote:
->> Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
+Le 3/9/21 à 9:54 PM, Palmer Dabbelt a écrit :
+> On Thu, 25 Feb 2021 00:04:50 PST (-0800), alex@ghiti.fr wrote:
+>> I decided to split sv48 support in small series to ease the review.
 >>
->>> Yeah, and as this line-counting is really just a poor man's
->>> heuristics, we might just be better to really turn this heuristics
->>> into a dedicated cleanup warning script, then we can check for more
->>> indicators, such as "does it contain the word Copyright" somewhere in
->>> the kernel-doc comment, which tells us even more that this is not a
->>> kernel-doc as we would expect it.
+>> This patchset pushes the kernel mapping (modules and BPF too) to the last
+>> 4GB of the 64bit address space, this allows to:
+>> - implement relocatable kernel (that will come later in another
+>>   patchset) that requires to move the kernel mapping out of the linear
+>>   mapping to avoid to copy the kernel at a different physical address.
+>> - have a single kernel that is not relocatable (and then that avoids the
+>>   performance penalty imposed by PIC kernel) for both sv39 and sv48.
 >>
->> I really don't think we need that kind of heuristic.  The format of
->> kerneldoc comments is fairly rigid; it shouldn't be too hard to pick out
->> the /** comments that don't fit that format, right?  Am I missing
->> something there?
+>> The first patch implements this behaviour, the second patch introduces a
+>> documentation that describes the virtual address space layout of the 
+>> 64bit
+>> kernel and the last patch is taken from my sv48 series where I simply 
+>> added
+>> the dump of the modules/kernel/BPF mapping.
 >>
->> Thanks,
+>> I removed the Reviewed-by on the first patch since it changed enough from
+>> last time and deserves a second look.
 >>
->> jon
+>> Alexandre Ghiti (3):
+>>   riscv: Move kernel mapping outside of linear mapping
+>>   Documentation: riscv: Add documentation that describes the VM layout
+>>   riscv: Prepare ptdump for vm layout dynamic addresses
 >>
+>>  Documentation/riscv/index.rst       |  1 +
+>>  Documentation/riscv/vm-layout.rst   | 61 ++++++++++++++++++++++
+>>  arch/riscv/boot/loader.lds.S        |  3 +-
+>>  arch/riscv/include/asm/page.h       | 18 ++++++-
+>>  arch/riscv/include/asm/pgtable.h    | 37 +++++++++----
+>>  arch/riscv/include/asm/set_memory.h |  1 +
+>>  arch/riscv/kernel/head.S            |  3 +-
+>>  arch/riscv/kernel/module.c          |  6 +--
+>>  arch/riscv/kernel/setup.c           |  3 ++
+>>  arch/riscv/kernel/vmlinux.lds.S     |  3 +-
+>>  arch/riscv/mm/fault.c               | 13 +++++
+>>  arch/riscv/mm/init.c                | 81 +++++++++++++++++++++++------
+>>  arch/riscv/mm/kasan_init.c          |  9 ++++
+>>  arch/riscv/mm/physaddr.c            |  2 +-
+>>  arch/riscv/mm/ptdump.c              | 67 +++++++++++++++++++-----
+>>  15 files changed, 258 insertions(+), 50 deletions(-)
+>>  create mode 100644 Documentation/riscv/vm-layout.rst
+> 
+> This generally looks good, but I'm getting a bunch of checkpatch 
+> warnings and some conflicts, do you mind fixing those up (and including 
+> your other kasan patch, as that's likely to conflict)?
 
-Hi Lukas and Jon!
-I have a question, should I clean up the files with '/**' like
-comments in only header lines? Or as we are planning for making it
-generic, for other lines as well?
+I have just tried to rebase this on for-next, and that quite conflicts 
+with Vitaly's XIP patch, I'm fixing this and post a v3.
 
-Thanks
-Aditya
+Alex
