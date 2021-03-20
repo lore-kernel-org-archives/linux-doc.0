@@ -2,104 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D605CC433DB
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 13:01:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59761C433DB
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 13:30:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A958D61971
-	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 13:01:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 23A0E61966
+	for <linux-doc@archiver.kernel.org>; Sat, 20 Mar 2021 13:30:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229505AbhCTNAv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 20 Mar 2021 09:00:51 -0400
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:50809 "EHLO
-        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbhCTNAj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Mar 2021 09:00:39 -0400
-Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id D5C353B566D;
-        Sat, 20 Mar 2021 08:49:40 +0000 (UTC)
-X-Originating-IP: 2.7.49.219
-Received: from [192.168.1.12] (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
-        (Authenticated sender: alex@ghiti.fr)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 39AEC40003;
-        Sat, 20 Mar 2021 08:48:14 +0000 (UTC)
-Subject: Re: [PATCH 0/3] Move kernel mapping outside the linear mapping
-To:     Palmer Dabbelt <palmer@dabbelt.com>
-Cc:     corbet@lwn.net, Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, Arnd Bergmann <arnd@arndb.de>,
-        aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org
-References: <mhng-cf5d29ec-e941-4579-8c42-2c11799a8f2f@penguin>
-From:   Alex Ghiti <alex@ghiti.fr>
-Message-ID: <fdc52c40-3324-fc9a-ffda-926ced856a80@ghiti.fr>
-Date:   Sat, 20 Mar 2021 04:48:14 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S229544AbhCTNWD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 20 Mar 2021 09:22:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38934 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229505AbhCTNWC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 20 Mar 2021 09:22:02 -0400
+Received: from mail-io1-xd31.google.com (mail-io1-xd31.google.com [IPv6:2607:f8b0:4864:20::d31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD07C061762;
+        Sat, 20 Mar 2021 06:21:51 -0700 (PDT)
+Received: by mail-io1-xd31.google.com with SMTP id v17so9081445iot.6;
+        Sat, 20 Mar 2021 06:21:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cCOjc0tcqOTnDsStbeZc6I4mtJqZyPE6ypRSG5G1MfU=;
+        b=lTm+JHYVhc6j2CCXKqCWkv2eHWJ6IJsP4sIIp871trHteNWSDDuFg2T08gTq5bdthf
+         lR2M/CWir8bvR7r4KLYoRMo6wshYnqSGgxtpESzcPozkMjE6EUwIgZYBfx6hWluLr7fp
+         GqFrZa3oyJ8C1boZC4pSx6hGJoL/sxVzG8/396X1uyWsZgtMRGkvzm3y5Q8GM5RNbjxI
+         jpvd7TSABaC1sW8eRtUFIJGsL5VlZxGRN66J0nW/JTnXu6AEIm25rDKreQfUWfR+XmOL
+         /D1S74ZQ/O9nQliZPF2Xvhvh6ffatdKe1Y4cKA+5n9IqJGD9S9L29DSpJSzxefymIQz1
+         vZHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cCOjc0tcqOTnDsStbeZc6I4mtJqZyPE6ypRSG5G1MfU=;
+        b=sXQYOnmdoHoChh4ddBccy9AA6vnK14u1PUv5EoTWg7fjllxMosPtSiKFGCBnswds72
+         H3FHguufRSaJY5QurQUJDXs1aD+nfYENp70LRXKLL0OdeQ1zjBcRG036J3aL4XbtHWyq
+         NG7vGW11Db3r1XCZivZ7HwBqK7Cpx++SByWEctCqMxtf5zDcAwrpOL2jlonH01i7LTrJ
+         HzyWZ085I3fWBr6gunCCEzLWCN9whIt3+vVQG2JHd6pl4FejXQ2itNq6EOF8tlJZqW6H
+         j/csPgJ5ndYNqHvRW6ZV86edanMxe4c/0VpJnsshWdHMvLls8TruEF6kmszzTGLJdrnL
+         FMqA==
+X-Gm-Message-State: AOAM532oQjSOiy8lLsL3sEG/Em5NboUfQD5h8CpebhPBDm4TR16jVTKK
+        nLvmrDWoYjI4d2qsRqc4sF7Ts8GmIdggnjztwCIinX5eE2I=
+X-Google-Smtp-Source: ABdhPJzUtJgxvFkyPVHwFPLYLYWuKCv8cgnqpNG+Q7bRPRwPW9SsoGxHRxMfHlZoCSVXTxZFFYrnnthdSTKjJxXn2Gg=
+X-Received: by 2002:a02:6a14:: with SMTP id l20mr5212666jac.12.1616246510459;
+ Sat, 20 Mar 2021 06:21:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <mhng-cf5d29ec-e941-4579-8c42-2c11799a8f2f@penguin>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+References: <20210309125324.4456-1-yashsri421@gmail.com> <8959bf29-9ee1-6a1d-da18-f440232864f3@darmarit.de>
+ <c673e76f-72db-bbee-39d6-f5428e765173@gmail.com> <871rcg2p8g.fsf@meer.lwn.net>
+ <CAKXUXMzwTp1H_vokVEAJSnmm7jNHfWzhhmLfpcrrBD9b8ak+dA@mail.gmail.com>
+ <878s6kto3g.fsf@meer.lwn.net> <CAKXUXMxWOvM5HRwmAAWEsqQc2k6_ReqRw0uD=VANLO5D7OpFtg@mail.gmail.com>
+ <87o8fgpbpx.fsf@meer.lwn.net> <99a21e10-266e-b997-7048-c29a570afe0b@gmail.com>
+ <30051ed8-33e4-a303-199c-f4bdcb0e448a@gmail.com>
+In-Reply-To: <30051ed8-33e4-a303-199c-f4bdcb0e448a@gmail.com>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Sat, 20 Mar 2021 14:21:39 +0100
+Message-ID: <CAKXUXMyQRY9GC7sUG+_W5hQe3EFdvxKrYTEO7JL3E5LD3cCPKQ@mail.gmail.com>
+Subject: Re: [RFC] scripts: kernel-doc: avoid warnings due to initial
+ commented lines in file
+To:     Aditya Srivastava <yashsri421@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Markus Heiser <markus.heiser@darmarit.de>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Le 3/9/21 à 9:54 PM, Palmer Dabbelt a écrit :
-> On Thu, 25 Feb 2021 00:04:50 PST (-0800), alex@ghiti.fr wrote:
->> I decided to split sv48 support in small series to ease the review.
->>
->> This patchset pushes the kernel mapping (modules and BPF too) to the last
->> 4GB of the 64bit address space, this allows to:
->> - implement relocatable kernel (that will come later in another
->>   patchset) that requires to move the kernel mapping out of the linear
->>   mapping to avoid to copy the kernel at a different physical address.
->> - have a single kernel that is not relocatable (and then that avoids the
->>   performance penalty imposed by PIC kernel) for both sv39 and sv48.
->>
->> The first patch implements this behaviour, the second patch introduces a
->> documentation that describes the virtual address space layout of the 
->> 64bit
->> kernel and the last patch is taken from my sv48 series where I simply 
->> added
->> the dump of the modules/kernel/BPF mapping.
->>
->> I removed the Reviewed-by on the first patch since it changed enough from
->> last time and deserves a second look.
->>
->> Alexandre Ghiti (3):
->>   riscv: Move kernel mapping outside of linear mapping
->>   Documentation: riscv: Add documentation that describes the VM layout
->>   riscv: Prepare ptdump for vm layout dynamic addresses
->>
->>  Documentation/riscv/index.rst       |  1 +
->>  Documentation/riscv/vm-layout.rst   | 61 ++++++++++++++++++++++
->>  arch/riscv/boot/loader.lds.S        |  3 +-
->>  arch/riscv/include/asm/page.h       | 18 ++++++-
->>  arch/riscv/include/asm/pgtable.h    | 37 +++++++++----
->>  arch/riscv/include/asm/set_memory.h |  1 +
->>  arch/riscv/kernel/head.S            |  3 +-
->>  arch/riscv/kernel/module.c          |  6 +--
->>  arch/riscv/kernel/setup.c           |  3 ++
->>  arch/riscv/kernel/vmlinux.lds.S     |  3 +-
->>  arch/riscv/mm/fault.c               | 13 +++++
->>  arch/riscv/mm/init.c                | 81 +++++++++++++++++++++++------
->>  arch/riscv/mm/kasan_init.c          |  9 ++++
->>  arch/riscv/mm/physaddr.c            |  2 +-
->>  arch/riscv/mm/ptdump.c              | 67 +++++++++++++++++++-----
->>  15 files changed, 258 insertions(+), 50 deletions(-)
->>  create mode 100644 Documentation/riscv/vm-layout.rst
-> 
-> This generally looks good, but I'm getting a bunch of checkpatch 
-> warnings and some conflicts, do you mind fixing those up (and including 
-> your other kasan patch, as that's likely to conflict)?
+On Sat, Mar 20, 2021 at 1:45 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
+>
+> On 20/3/21 12:23 pm, Aditya wrote:
+> > On 18/3/21 11:48 pm, Jonathan Corbet wrote:
+> >> Lukas Bulwahn <lukas.bulwahn@gmail.com> writes:
+> >>
+> >>> Yeah, and as this line-counting is really just a poor man's
+> >>> heuristics, we might just be better to really turn this heuristics
+> >>> into a dedicated cleanup warning script, then we can check for more
+> >>> indicators, such as "does it contain the word Copyright" somewhere in
+> >>> the kernel-doc comment, which tells us even more that this is not a
+> >>> kernel-doc as we would expect it.
+> >>
+> >> I really don't think we need that kind of heuristic.  The format of
+> >> kerneldoc comments is fairly rigid; it shouldn't be too hard to pick out
+> >> the /** comments that don't fit that format, right?  Am I missing
+> >> something there?
+> >>
+> >> Thanks,
+> >>
+> >> jon
+> >>
+>
+> Hi Lukas and Jon!
+> I have a question, should I clean up the files with '/**' like
+> comments in only header lines? Or as we are planning for making it
+> generic, for other lines as well?
+>
 
-I have just tried to rebase this on for-next, and that quite conflicts 
-with Vitaly's XIP patch, I'm fixing this and post a v3.
+Aditya, of course, if you can detect and come across some unintended
+'/**' comments in some files, clean them in the same go (as you did
+with ecryptfs).
 
-Alex
+I am just worried that if you extend it to the fully generic case,
+that the list of cases simply explodes: showing many 1,000 cases
+across various 1,000 files that need to be cleaned up, and such
+clean-up work is just too much to get done by yourself.
+
+The current list limited to comments in header lines seems to be a set
+of patches that you can probably get done.
+
+Lukas
