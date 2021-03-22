@@ -2,143 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B4F1C433E8
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 09:28:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EFC4C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 10:15:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5094761981
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 09:28:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 07BCD6198C
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 10:15:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230096AbhCVJ1x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 05:27:53 -0400
-Received: from mail-eopbgr690088.outbound.protection.outlook.com ([40.107.69.88]:10499
-        "EHLO NAM04-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230060AbhCVJ1m (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Mar 2021 05:27:42 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JSxLdpusDg4c+eQ8ShMx8ygkenaDl0jfVzx6S2uVIuBR2uxLrLGsW1DSXOK6JYB1lhH+nQe4zvhrNhl9GC9GEYF5d0lLyKR1mwl4RRck7x3VeC6NiieR4w5yCLXQ1Bmj9dR8WGUxCfeg9bPZ6eDz2Ggq2VYmGYaCcsbdrlF80GyMtMV9k0ORqaDUlbWX5CP2aINBbm0Eh/xEG4ZeHyY6cAIBswNUVtwcZpOa6HHZVOGWXXZoMA4FToYm6GnnG1Eqw+x6eOwad6Qm6KopLxLz+57/5ZHi7KcKzF2QpqhxJ7ADxUved96zcE9AFbZtGGh70xWOqTuvrYsUxXF/2NwxYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RQstACXxhRbgfGic/9H1wBzJo+J7NBQEs2uehIvi1pg=;
- b=ZQQpxSkApnIrlsWxLnvNdCEmo3ZaAJqlNiJxSOLvspGcNNOR5ZxHxXKy5qCEafPr3XobXhnsYXcAeVqtQ0pfoYr0VJiI4jW8V3lcgHb60kRR7fUgLLtQBnsdRq2zwix41w7bqnSx24WsC60l9864vu1gganLCshRRvguBGxYmO5Voar/Hdol2DaFR1AQP0nKXb/kknBaG5a/GcpC81bJZ5SX8hEKbp2Ky5tWcCFFqyPhJJ6+ZUdehMx72AP+dMttdNJpcL8dndHyWZ7+zzCmzzSYjcqVl824y22DISFeR/kkEnhDn93Tc9LVcHgT9iW5/6KMBOoYMEM69YnGxIeomw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RQstACXxhRbgfGic/9H1wBzJo+J7NBQEs2uehIvi1pg=;
- b=bINofUd9HjDpToHTpe34LlTWicLpbpI+MsNlI+wczeiIRXb1gwWmTh5bE/FDQWzXEBQAW0fNMIiSw4egcGmINMrYZLXLcmlgy4VB94Nx8Cd6wuNBNijTaoJum1e3f8XlqTa5G032U/CVr4MVizArimVobzUse6rWJ8J0XETfp8xdHCQSIxYMZM7COWkp+Q82E2xlzd4Vt3KinSHBhJ2PzMBYE5mJFJbBQDamfcXiA5/736bqXVY8Ylu9LKqnYNRR8UYy3m1+wZmcjwilje8rREiLw3OhITYylcgprCvVeM6Nr38HQU0wzG92Sjq2gN1Y7jTlquGJZ481aEsbt0GmbQ==
-Received: from BN0PR03CA0013.namprd03.prod.outlook.com (2603:10b6:408:e6::18)
- by DM4PR12MB5200.namprd12.prod.outlook.com (2603:10b6:5:397::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Mon, 22 Mar
- 2021 09:27:39 +0000
-Received: from BN8NAM11FT061.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:e6:cafe::9f) by BN0PR03CA0013.outlook.office365.com
- (2603:10b6:408:e6::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend
- Transport; Mon, 22 Mar 2021 09:27:39 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; lists.freedesktop.org; dkim=none (message not
- signed) header.d=none;lists.freedesktop.org; dmarc=pass action=none
- header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- BN8NAM11FT061.mail.protection.outlook.com (10.13.177.144) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3955.18 via Frontend Transport; Mon, 22 Mar 2021 09:27:38 +0000
-Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 22 Mar
- 2021 09:27:35 +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     Christoph Hellwig <hch@infradead.org>
-CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <jhubbard@nvidia.com>, <rcampbell@nvidia.com>,
-        <jglisse@redhat.com>, <jgg@nvidia.com>, <daniel@ffwll.ch>,
-        <willy@infradead.org>
-Subject: Re: [PATCH v6 8/8] nouveau/svm: Implement atomic SVM access
-Date:   Mon, 22 Mar 2021 20:27:33 +1100
-Message-ID: <6407817.nLXe9rGL3b@nvdebian>
-In-Reply-To: <20210315075113.GD4136862@infradead.org>
-References: <20210312083851.15981-1-apopple@nvidia.com> <20210312083851.15981-9-apopple@nvidia.com> <20210315075113.GD4136862@infradead.org>
+        id S229472AbhCVKPI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 06:15:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50552 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229879AbhCVKO5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 06:14:57 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04CC7C061756
+        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 03:14:57 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id i26so4497627lfl.1
+        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 03:14:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=rVYaAi1eY1kPyS3/JwBek8GPGY1ptAf+8QB+EHmsqAU=;
+        b=0xAxeaYtjCj0z4GR/m+iCT1B87INTUY//rqJ+VAahUIwsVg8ZAvYyLV/C73kwEny9I
+         5bmP+Ze/gAocr73JJ11cXkYyXb0/Gf3Zd+r4R3eA58TMDA1eiMWU+rMh1/olatKyJLjo
+         4QKYJ/75INlA0ttbJG3z39uP+Gil0Esyvd0LSgK5Tvb012/4yqglr2y7lQCQCcZcuLcr
+         HPKJqoA+/yI/PbJGB9nlNL9opAR7qW1DeNwoWJ9I18hjVB4+THSiBNsRwIPj7IuDMhNl
+         fGocd8edYDD+GUhQKbrV1adoAPW9vMeyJWE2vDTyiWsTDO41apCkiT/tXVhgWd0t5/6t
+         VLKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=rVYaAi1eY1kPyS3/JwBek8GPGY1ptAf+8QB+EHmsqAU=;
+        b=IIEEbvseOFx6584BybeZq/Ev7uOMuTj/ZW4CmZ3l7xx0d+GQGjqseTsv8Y9TGURWZA
+         nDtNl5VhfO3609tdJQr9WvfL+s++1FF2P0xxsUzER/Y8gP1Cmf3pDUbuT4xgLwdV4vfG
+         xSFkL7mPIEdvwYIhUUrmQRhlAJqwtrCgsGbWFXd7lIAPnWXuemXRhtXd8La2Yt5R4OKA
+         jhcPQnmpYkLXvywW1GgAI2aQyHmLFV/Q6QawgQuyi2PHa28JRCkXQss/jEq/Kc9KOUGI
+         sHjKwpoxAWIsnpP2XMFnbAWSvJClolcPubKOZimKHLzL97CdCw4iXwn6ovlubsAzhZQ4
+         +YWQ==
+X-Gm-Message-State: AOAM530XPEMvMutvveAEaknCQYLcdayCi5UbjOafSyYfqQRMt6X+l/X7
+        0Y9bSmVl7oLqGyxXX0ret8KCCg==
+X-Google-Smtp-Source: ABdhPJxKaAEo8nt6OXdUuX61A1wui+fxNSys6+2rWR6UBxN18woKeXmAqW98QKT5Ba+bYjAcU7cKIw==
+X-Received: by 2002:a05:6512:348c:: with SMTP id v12mr8454102lfr.271.1616408095388;
+        Mon, 22 Mar 2021 03:14:55 -0700 (PDT)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id z10sm1523041lfe.114.2021.03.22.03.14.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Mar 2021 03:14:54 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id 23BA8101DEB; Mon, 22 Mar 2021 13:15:02 +0300 (+03)
+Date:   Mon, 22 Mar 2021 13:15:02 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v23 12/28] x86/mm: Update ptep_set_wrprotect() and
+ pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
+Message-ID: <20210322101502.b5hdy3qgyh6hf3sr@box>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316151054.5405-13-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f89110f9-433d-47b9-ec2e-08d8ed14bc77
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5200:
-X-Microsoft-Antispam-PRVS: <DM4PR12MB5200B43C5D71E47629643337DF659@DM4PR12MB5200.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EYPmVZ8NVK1ujJIBvTl2wbBciwt6o3DmYWe5L3KyicneaumPZl4L1G2My+o+V+YDu/L+2wM2MDiMeXI8EKEUjDookQmr1g/656hqJd6c+xmtO7alvUQXhUVjAWf1lESpq63ncp16mgVeM2GKA5z/QaorVaaeYamoZ2TqpGaon7NJ8klCWuTpjKtRmSEPEZvZ2muPvag/bkoZ4Az9tn02yH2As9CChxRLSBWV5hHPSkH5Xr/eMGbRrhQQHg23KIhKTPHV9QwwHODMXvsSroc44vK0UbhA7MZLjXEI6N3oSrO2UmDhf40cCtlqwswbH9Tzwu2qtJF96bKdlblozePIGoimXSz57Vb9uOs6NcoQDRcZeVOy4lluEkJA4bSn67OMimudrv9LlXB+t/JDwDfxk8k7gImu7O0ua9pjg9CYNAxHeLWpAp1RdaT2eQ9ckwEXS1H/pwMzL5sjEYrW7bzjUTHxlZjphVTRXwqj2/wTamEk7K30vB9lpb8rUCT1aoaebr7N5B+uoqIT1dpYDd/yKz/aTiOVBmmKDFhJxmZX/CfcOWVh6el+OPugBh7gWsmPjIOZfl5kXIV8EWdUXoW4WA0hPO1nw33d9ZfzI1p6XoqJ5zBJe+g5NxC5qIjhjCRfIrH+eWPBx4A2Wn4LwJ555BRDyF3mTg9vUyFWinFKH9mceJXAhCLgTn21YkVHAKnr+qPJQ2j/JJ49F4ClzeAesA==
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(396003)(346002)(136003)(376002)(46966006)(36840700001)(4326008)(9576002)(16526019)(36906005)(2906002)(186003)(336012)(316002)(8676002)(86362001)(8936002)(47076005)(70206006)(26005)(426003)(7416002)(5660300002)(82310400003)(70586007)(54906003)(82740400003)(36860700001)(478600001)(33716001)(356005)(7636003)(83380400001)(6916009)(9686003)(39026012)(21314003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 09:27:38.8350
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f89110f9-433d-47b9-ec2e-08d8ed14bc77
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT061.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5200
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210316151054.5405-13-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Monday, 15 March 2021 6:51:13 PM AEDT Christoph Hellwig wrote:
-> > -	/*XXX: atomic? */
-> > -	return (fa->access == 0 || fa->access == 3) -
-> > -	       (fb->access == 0 || fb->access == 3);
-> > +	/* Atomic access (2) has highest priority */
-> > +	return (-1*(fa->access == 2) + (fa->access == 0 || fa->access == 3)) -
-> > +	       (-1*(fb->access == 2) + (fb->access == 0 || fb->access == 3));
+On Tue, Mar 16, 2021 at 08:10:38AM -0700, Yu-cheng Yu wrote:
+> When Shadow Stack is introduced, [R/O + _PAGE_DIRTY] PTE is reserved for
+> shadow stack.  Copy-on-write PTEs have [R/O + _PAGE_COW].
 > 
-> This looks really unreabable.  If the magic values 0, 2 and 3 had names
-> it might become a little more understadable, then factor the duplicated
-> calculation of the priority value into a helper and we'll have code that
-> mere humans can understand..
-
-Fair enough, will add some definitions for the magic values.
-
-> > +		mutex_lock(&svmm->mutex);
-> > +		if (mmu_interval_read_retry(&notifier->notifier,
-> > +					    notifier_seq)) {
-> > +			mutex_unlock(&svmm->mutex);
-> > +			continue;
-> > +		}
-> > +		break;
-> > +	}
+> When a PTE goes from [R/W + _PAGE_DIRTY] to [R/O + _PAGE_COW], it could
+> become a transient shadow stack PTE in two cases:
 > 
-> This looks good, why not:
+> The first case is that some processors can start a write but end up seeing
+> a read-only PTE by the time they get to the Dirty bit, creating a transient
+> shadow stack PTE.  However, this will not occur on processors supporting
+> Shadow Stack, and a TLB flush is not necessary.
 > 
-> 		mutex_lock(&svmm->mutex);
-> 		if (!mmu_interval_read_retry(&notifier->notifier,
-> 					     notifier_seq))
-> 			break;
-> 		mutex_unlock(&svmm->mutex);
-> 	}
+> The second case is that when _PAGE_DIRTY is replaced with _PAGE_COW non-
+> atomically, a transient shadow stack PTE can be created as a result.
+> Thus, prevent that with cmpxchg.
+> 
+> Dave Hansen, Jann Horn, Andy Lutomirski, and Peter Zijlstra provided many
+> insights to the issue.  Jann Horn provided the cmpxchg solution.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> ---
+>  arch/x86/include/asm/pgtable.h | 36 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+> 
+> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+> index e1739f590ca6..46d9394b884f 100644
+> --- a/arch/x86/include/asm/pgtable.h
+> +++ b/arch/x86/include/asm/pgtable.h
+> @@ -1306,6 +1306,24 @@ static inline pte_t ptep_get_and_clear_full(struct mm_struct *mm,
+>  static inline void ptep_set_wrprotect(struct mm_struct *mm,
+>  				      unsigned long addr, pte_t *ptep)
+>  {
+> +	/*
+> +	 * If Shadow Stack is enabled, pte_wrprotect() moves _PAGE_DIRTY
+> +	 * to _PAGE_COW (see comments at pte_wrprotect()).
+> +	 * When a thread reads a RW=1, Dirty=0 PTE and before changing it
+> +	 * to RW=0, Dirty=0, another thread could have written to the page
+> +	 * and the PTE is RW=1, Dirty=1 now.  Use try_cmpxchg() to detect
+> +	 * PTE changes and update old_pte, then try again.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		pte_t old_pte, new_pte;
+> +
+> +		old_pte = READ_ONCE(*ptep);
+> +		do {
+> +			new_pte = pte_wrprotect(old_pte);
+> +		} while (!try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
 
-I had copied that from nouveau_range_fault() but this suggestion is better. 
-Will update, thanks for looking.
+I think this is wrong. You need to update old_pte on every loop iteration,
+otherwise you can get in to endless loop.
 
+The same issue for pmdp_set_wrprotect().
 
+> +
+> +		return;
+> +	}
+>  	clear_bit(_PAGE_BIT_RW, (unsigned long *)&ptep->pte);
+>  }
+>  
+> @@ -1350,6 +1368,24 @@ static inline pud_t pudp_huge_get_and_clear(struct mm_struct *mm,
+>  static inline void pmdp_set_wrprotect(struct mm_struct *mm,
+>  				      unsigned long addr, pmd_t *pmdp)
+>  {
+> +	/*
+> +	 * If Shadow Stack is enabled, pmd_wrprotect() moves _PAGE_DIRTY
+> +	 * to _PAGE_COW (see comments at pmd_wrprotect()).
+> +	 * When a thread reads a RW=1, Dirty=0 PMD and before changing it
+> +	 * to RW=0, Dirty=0, another thread could have written to the page
+> +	 * and the PMD is RW=1, Dirty=1 now.  Use try_cmpxchg() to detect
+> +	 * PMD changes and update old_pmd, then try again.
+> +	 */
+> +	if (cpu_feature_enabled(X86_FEATURE_SHSTK)) {
+> +		pmd_t old_pmd, new_pmd;
+> +
+> +		old_pmd = READ_ONCE(*pmdp);
+> +		do {
+> +			new_pmd = pmd_wrprotect(old_pmd);
+> +		} while (!try_cmpxchg((pmdval_t *)pmdp, (pmdval_t *)&old_pmd, pmd_val(new_pmd)));
+> +
+> +		return;
+> +	}
+>  	clear_bit(_PAGE_BIT_RW, (unsigned long *)pmdp);
+>  }
+>  
+> -- 
+> 2.21.0
+> 
 
+-- 
+ Kirill A. Shutemov
