@@ -2,128 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF824C433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 09:14:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95611C433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 09:21:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E9D36197F
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 09:14:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5859161931
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 09:21:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229987AbhCVJOE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 05:14:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37212 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229962AbhCVJNs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 05:13:48 -0400
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D736EC061762
-        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 02:13:47 -0700 (PDT)
-Received: by mail-lj1-x229.google.com with SMTP id a1so20125749ljp.2
-        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 02:13:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=oeb+PAJt63mP/90xgvzuCXrpKeElQVZ936dwu02SQSs=;
-        b=vzzAMo3aw5fcRzSX+G3c49ViQ1+a2Z3evKUgoQIyGT2wxwNav+apCuqkclUmMbnlaN
-         zqGSCJfOcEWSq8ssQkZwj+LJc/Ty/8pfNOYsNDllj78fk8jwexa9D9uyOL/WKSj70Usr
-         b/FnwK1wkHphsBamUAgAH2GFPKESAUjtpENKMfga60ik9YyY9NFua3ZxI2CL7RjVZn6K
-         aSBDoq5ZZSIdeXCzP2lF/W52ZHtaKfzU8cZU95Kpzj3XmLXkes3IYhX0QRvKkBO7r6B0
-         waP7sq+Dfk9clJC3leU31iwsQYM3gisuCqBiHUGWg7CkT3CIms5CXdbp1NC4TqHkgmOp
-         F7mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=oeb+PAJt63mP/90xgvzuCXrpKeElQVZ936dwu02SQSs=;
-        b=Fv+w58J85ZO8jTwi5N4/LCZaCbbl2prtp1G13UchszCcfpZv5hPr4BztdA8QTuB4wT
-         MklFfzVkqqYaDoM/yaVYNxrIMWlrIqDOMKggDGv6X+1tejGPC8G9i7wFea6swVsTTfUW
-         P7yu7GggDAVkvbHMr8+IaAYhzWeqRgogKErDJyum2ehpQ51XUi+UQao7f02uEaa33igf
-         y5QsWG50T2mMrdiDLMGpL625g9FgstqOvX9qPUKt57jaz57EXGhWgU0mkz51SualTutm
-         GT0G4LSVa8aPyM1a97b7PItDxR0PXew0fkoWjTnUNTY4iQgDvFRYJpkDk9VAokiw3XQz
-         jf1w==
-X-Gm-Message-State: AOAM530svTnt8LuptQMuw//SQrXEHTtVYzJYvqQ+LKWkxnNIYPiI3WqD
-        PeVvVr6RSP6xWpiwVQNYqT0KCg==
-X-Google-Smtp-Source: ABdhPJxTA9cuU0Tj6UyaICAHV1a7JefKb/E4L50FuiajXX8hVPb/1lKfnwtXmcDOwPFeHA+rJ9ZfkA==
-X-Received: by 2002:a05:651c:2005:: with SMTP id s5mr9499871ljo.491.1616404424784;
-        Mon, 22 Mar 2021 02:13:44 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id b39sm1792329ljf.68.2021.03.22.02.13.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 02:13:44 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id A074B101DEB; Mon, 22 Mar 2021 12:13:51 +0300 (+03)
-Date:   Mon, 22 Mar 2021 12:13:51 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v23 07/28] x86/mm: Remove _PAGE_DIRTY from kernel RO pages
-Message-ID: <20210322091351.ulemcluuhqkzuwkm@box>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-8-yu-cheng.yu@intel.com>
+        id S230070AbhCVJUi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 05:20:38 -0400
+Received: from mail-bn7nam10on2060.outbound.protection.outlook.com ([40.107.92.60]:49376
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230087AbhCVJUO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Mar 2021 05:20:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ncU4kAkpGlI8KH59+ib9bu57bA2pCA59eAeXa3jfZl8sbX4I2ihThNsczeJXJUvgQZI05wqzemsAV9H+dUO5bBwY+TI+OpYWiJxbYX9X5/LGKk0+J3x22L11OhelsEECKtYZW3RiKbo+fRkzqGYofBvN9jVe38owM/qljrwmvN3fNssoSgLo+B+Zu9+CYuWZKax9psEXUVTdwqTuDgPAwwOmPHzmm6ko5ENOBfolUEvWdmX0F+tuW+EMl3y1sJUdjIL+VyiJQ6+WJB4x1DHQip3mcmRRmDoHxtGcOq3MTan5H68GsKW1pkIX28im22H7H5ykh7MZl8Pe/oqnNzY/+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7PjgjOoPIn79dcehwmI54t/6L4wBBoa0m84RXRN81Pg=;
+ b=kwp7+eMr0ZktJD8c+2XdRm8Owwuo7jDI3MjqKr5Rk568dmVkiIE5MWQ1cWZcTWKuowP2yH976WFXMEPsnWKJt1ocNW0xdkjMml/gdBTfBXTEDux2PgBh4+o34ky9CJUcBv9hiPh3WOgScXHN9dzXY68J2QYi5ieUVZgr7h/8JWWFciOZgwcdDFVq8Lg4uW1pxHMEUPyGCOGWCn8EwyEaJa1thkhQd5aMyXM6ua93GqIU9JCsDxTQrO3zeB/QOLizN+oWrIbgcEqXBuaVV7GPJs41Fd04/5cM7oPHkTfNLH82caJDvAom5usVNCtFgKLaHugq8nAMjGxM2Airouo2FA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=lists.freedesktop.org
+ smtp.mailfrom=nvidia.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=nvidia.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7PjgjOoPIn79dcehwmI54t/6L4wBBoa0m84RXRN81Pg=;
+ b=stog+HaaPlb3GxW4BbXKqcfC3ADcm5TmaMazu2ZgeSHyMqMoMGA1PcBS3pHLp+AzSe/Az7nXyY46LSZPFQuP9GnwLneddjYrBTI3EDxeDcw5uTB2UbxACrro6mW6jB3biXwcfcrX71ZDkPhmSSIg9rl5j8kW48CHbfNG+WwSv+T7NtN4EURjelY2F5yhZ3Nuwl45UI1Ha1peoJNOE2QUqgxN264bE1bgGm4yGKL0nCvRBcey3Zf+uFBGcMPl0A5r1wOc5sWJMyS3IoTGjXXTrKo9V5hejVU2oWEa6X3rw4IC13yrEZWryDi+sth7krjFhuDOpMZNwcVTy2iB1a615A==
+Received: from MWHPR20CA0018.namprd20.prod.outlook.com (2603:10b6:300:13d::28)
+ by DM6PR12MB3257.namprd12.prod.outlook.com (2603:10b6:5:184::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.24; Mon, 22 Mar
+ 2021 09:20:11 +0000
+Received: from CO1NAM11FT019.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:300:13d:cafe::e3) by MWHPR20CA0018.outlook.office365.com
+ (2603:10b6:300:13d::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend
+ Transport; Mon, 22 Mar 2021 09:20:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; lists.freedesktop.org; dkim=none (message not
+ signed) header.d=none;lists.freedesktop.org; dmarc=pass action=none
+ header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ CO1NAM11FT019.mail.protection.outlook.com (10.13.175.57) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.3955.18 via Frontend Transport; Mon, 22 Mar 2021 09:20:10 +0000
+Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 22 Mar
+ 2021 09:20:07 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     Christoph Hellwig <hch@infradead.org>
+CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
+        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <jhubbard@nvidia.com>, <rcampbell@nvidia.com>,
+        <jglisse@redhat.com>, <jgg@nvidia.com>, <daniel@ffwll.ch>,
+        <willy@infradead.org>
+Subject: Re: [PATCH v6 1/8] mm: Remove special swap entry functions
+Date:   Mon, 22 Mar 2021 20:20:05 +1100
+Message-ID: <13488904.3iE9EkMCc7@nvdebian>
+In-Reply-To: <20210315072757.GA4136862@infradead.org>
+References: <20210312083851.15981-1-apopple@nvidia.com> <20210312083851.15981-2-apopple@nvidia.com> <20210315072757.GA4136862@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210316151054.5405-8-yu-cheng.yu@intel.com>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 400be08d-5f3a-43cd-a6be-08d8ed13b172
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3257:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB325797E4F4DF173B5BF601F6DF659@DM6PR12MB3257.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1360;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: C4uG3LeY5M3MA8lEsSXCTnNll2QeHbuRwIyZmLpR09/3PzJEZgxAv7bHsOjRTtH31hwTqIu2kLlHXBeEczQFdo8K/4aXQfDlNfMirdPb3SJ0xNxcI/4yVAI2RwJFpgKo6BdmJG7gGumTpVbyNbkTI/nFlCEt5dZ2ENpSBgy7U6AP2ZxG1hiVpmrlXQ3oyier34gNWhm4esrZCrobKGh/GUp6BbsH1Usmpe5FWKLqViqf8j1hz0xgINhUdMcsU9m49fkw+fUFCcLqY+yALdTyOHztTIdfXM9r3eO+uUQAMJjrk9UOuH7aNlcjwmzUpQyHOors2+2QXzxo3txs2pwl5rh5kj/JramWfmTDXLDG4UufRtRpTW429UYBOjU/ZlMkeTzLU4FoYh+y2/rthpZzMRtFUttizQDmmASwluCk7V/izwH9yLZBHu3PjPSExdTuZYjYU9P+MKf+5ReKPBduuObEsV5hfDmhlPFkHqVpOfmOIOSi4KtfGaB9JKKlkthZ7wjmsRQDiwifW+GYMD4vwXZz5efL2vzriY9pMp0LquELP+3uMaaDrLA6N+gTHcSR7x1UIvp90EpYBzHmjrRYSnEtBUbZamxV5fLqcEouyfYhrXB+9wgInBvCk/YwRJHtlRNFPlexgaf3+wbUUMo7g3u5RyNHGQczbqPWuXRFDabuvuev8Mp0mOhjjnq520vX
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(39860400002)(346002)(376002)(396003)(36840700001)(46966006)(9686003)(26005)(54906003)(16526019)(5660300002)(186003)(4744005)(47076005)(7416002)(426003)(82310400003)(336012)(36860700001)(2906002)(70586007)(36906005)(316002)(70206006)(8936002)(6916009)(33716001)(8676002)(86362001)(4326008)(478600001)(7636003)(356005)(9576002)(82740400003)(39026012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 09:20:10.8948
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 400be08d-5f3a-43cd-a6be-08d8ed13b172
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT019.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3257
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 08:10:33AM -0700, Yu-cheng Yu wrote:
-> The x86 family of processors do not directly create read-only and Dirty
-> PTEs.  These PTEs are created by software.  One such case is that kernel
-> read-only pages are historically setup as Dirty.
+On Monday, 15 March 2021 6:27:57 PM AEDT Christoph Hellwig wrote:
+> On Fri, Mar 12, 2021 at 07:38:44PM +1100, Alistair Popple wrote:
+> > Remove the migration and device private entry_to_page() and
+> > entry_to_pfn() inline functions and instead open code them directly.
+> > This results in shorter code which is easier to understand.
 > 
-> New processors that support Shadow Stack regard read-only and Dirty PTEs as
-> shadow stack pages.  This results in ambiguity between shadow stack and
-> kernel read-only pages.  To resolve this, removed Dirty from kernel read-
-> only pages.
+> I think this commit log should mention pfn_swap_entry_to_page() now.
+
+Will add. Thanks for the review.
+
+> Otherwise looks good:
 > 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Christoph Hellwig <hch@lst.de>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Peter Zijlstra <peterz@infradead.org>
+> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> 
 
-Looks good to me.
 
-Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 
--- 
- Kirill A. Shutemov
+
