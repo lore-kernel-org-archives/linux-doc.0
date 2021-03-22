@@ -2,46 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFFF5C433C1
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 07:10:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E72BFC433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 07:24:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F15D61924
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 07:10:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D90D6197F
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 07:24:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230254AbhCVHKP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 03:10:15 -0400
-Received: from verein.lst.de ([213.95.11.211]:53776 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229875AbhCVHJq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Mar 2021 03:09:46 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 99FE167373; Mon, 22 Mar 2021 08:09:44 +0100 (CET)
-Date:   Mon, 22 Mar 2021 08:09:44 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     "Maciej W. Rozycki" <macro@orcam.me.uk>
-Cc:     linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH 3/3] pata_legacy: Add `probe_mask' parameter like with
- ide-generic
-Message-ID: <20210322070944.GC3440@lst.de>
-References: <alpine.DEB.2.21.2103202152120.21463@angie.orcam.me.uk> <alpine.DEB.2.21.2103211800110.21463@angie.orcam.me.uk>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <alpine.DEB.2.21.2103211800110.21463@angie.orcam.me.uk>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+        id S229979AbhCVHYX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 03:24:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230006AbhCVHX6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 03:23:58 -0400
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42C1CC061574;
+        Mon, 22 Mar 2021 00:23:57 -0700 (PDT)
+Received: by mail-wr1-x42a.google.com with SMTP id x16so15491313wrn.4;
+        Mon, 22 Mar 2021 00:23:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=HlKn4dGfq7EGRrc/VNPdo+z1r+GB1vodbHKH3VbdTc0=;
+        b=Rkv1qAqalFOK1BUrAKOnyJShC4/WWZPoxaXhF1SqBTmUcVCBCxNQd9b7MY9YYVpEhx
+         CZ5sYIiTKjQhnHqoG7g3y96tQCj7VJ1ViFTrM3aM5ZJAvhTnzHhzbfMttLNg+MeS3Nsa
+         RUWjSG5H0lEhDEGu7VdgmXfbDNdefIp0m9PXvBIUxAR3mlW2eFTr2ReMin6ptWVKNBnf
+         8juW/VCHpqOjZkh8Jo2XhPEWZPkzLVnlHvvE/TbtNAPsGOYd1Xnw4OeVxk4nGb8Guf4A
+         QiYrunjv4Aikt6GG5LvAR++YquVH2z6J8OQBuw4uxCd3I/ZrYHej7DDAoKscff4v8KqU
+         H9ZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=HlKn4dGfq7EGRrc/VNPdo+z1r+GB1vodbHKH3VbdTc0=;
+        b=QHv9J8UY8ftB40A9L8KsPMv/27OzWuu7DApGVZPlhwBHntaWoM84Kg6lTVsQfJK/JG
+         FIw1cfFC2Sf1LHQPwZ0vpOEjvQePCRy2m0dyxEDBgkmkEGXNFghW5PJdq/ZmjXuc58Er
+         hrV+r8XEh+rmK9uW9ZtI0Df8UfSldF5JJMWyZdmhR4AfXrWPMPAqAV6YY8f9Uy5U+UnA
+         5f5B3txin0n1485Gu6i/cvvn3Q7QzDtVgZ5AjRogEWS8qGQEExjas/ArpI/R/yXGfkeJ
+         uu/VEUS1k6oviaxOM/kKhboSpcLmndR/XUAaBQz3sVa6qSFaKLbBswu9CVL7UuWIL6+Q
+         KVrg==
+X-Gm-Message-State: AOAM532opvgO5Y2zuz79ptEnc8M5PKIaS7NJfEwqkjEC5+t+ugYycvP6
+        bLwQbBEvAUDBnzcsfXJPTnA=
+X-Google-Smtp-Source: ABdhPJy/ZukVjppUeIZkDMajZGUbgqLJ7V86peDRPgwwIroxU7jfRTTmLSz3UEvWf4SkbaEv09JU9g==
+X-Received: by 2002:adf:fb87:: with SMTP id a7mr16878004wrr.58.1616397833622;
+        Mon, 22 Mar 2021 00:23:53 -0700 (PDT)
+Received: from felia.fritz.box ([2001:16b8:2d8a:8e00:f0d7:9c83:eaad:b065])
+        by smtp.gmail.com with ESMTPSA id i8sm15698129wmi.6.2021.03.22.00.23.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Mar 2021 00:23:53 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
+Cc:     Aditya Srivastava <yashsri421@gmail.com>,
+        Wei Xu <xuwei5@hisilicon.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] devicetree: replace invalid kernel-doc comment headers
+Date:   Mon, 22 Mar 2021 08:23:43 +0100
+Message-Id: <20210322072343.19993-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The interface looks a little strange, but I guess deviating from the
-old ide interface for something that has only such a use case in
-retrocomputing probably doesn't make much sense.
+The opening comment mark '/**' is used for indicating the beginning of
+kernel-doc comments.
 
-Reviewed-by: Christoph Hellwig <hch@lst.de>
+Replace uses of '/**' for invalid cases in dt-binding headers and dts.
+
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+Rob, please pick this quick kernel-doc cleanup patch.
+
+ arch/arm64/boot/dts/hisilicon/hip05-d02.dts    | 2 +-
+ arch/arm64/boot/dts/hisilicon/hip05.dtsi       | 2 +-
+ arch/arm64/boot/dts/hisilicon/hip06-d03.dts    | 2 +-
+ arch/arm64/boot/dts/hisilicon/hip06.dtsi       | 4 ++--
+ arch/arm64/boot/dts/hisilicon/hip07-d05.dts    | 2 +-
+ arch/arm64/boot/dts/hisilicon/hip07.dtsi       | 2 +-
+ include/dt-bindings/reset/hisi,hi6220-resets.h | 2 +-
+ include/dt-bindings/reset/snps,hsdk-reset.h    | 2 +-
+ 8 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/arch/arm64/boot/dts/hisilicon/hip05-d02.dts b/arch/arm64/boot/dts/hisilicon/hip05-d02.dts
+index 369b69b17b91..3d3d52bf41f5 100644
+--- a/arch/arm64/boot/dts/hisilicon/hip05-d02.dts
++++ b/arch/arm64/boot/dts/hisilicon/hip05-d02.dts
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/**
++/*
+  * dts file for Hisilicon D02 Development Board
+  *
+  * Copyright (C) 2014,2015 Hisilicon Ltd.
+diff --git a/arch/arm64/boot/dts/hisilicon/hip05.dtsi b/arch/arm64/boot/dts/hisilicon/hip05.dtsi
+index 4aed8d440b3a..5161e3476531 100644
+--- a/arch/arm64/boot/dts/hisilicon/hip05.dtsi
++++ b/arch/arm64/boot/dts/hisilicon/hip05.dtsi
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/**
++/*
+  * dts file for Hisilicon D02 Development Board
+  *
+  * Copyright (C) 2014,2015 Hisilicon Ltd.
+diff --git a/arch/arm64/boot/dts/hisilicon/hip06-d03.dts b/arch/arm64/boot/dts/hisilicon/hip06-d03.dts
+index 9f4a930e734d..97aa42a86fd9 100644
+--- a/arch/arm64/boot/dts/hisilicon/hip06-d03.dts
++++ b/arch/arm64/boot/dts/hisilicon/hip06-d03.dts
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/**
++/*
+  * dts file for Hisilicon D03 Development Board
+  *
+  * Copyright (C) 2016 Hisilicon Ltd.
+diff --git a/arch/arm64/boot/dts/hisilicon/hip06.dtsi b/arch/arm64/boot/dts/hisilicon/hip06.dtsi
+index 7deca5f763d5..d86ee1d25ab8 100644
+--- a/arch/arm64/boot/dts/hisilicon/hip06.dtsi
++++ b/arch/arm64/boot/dts/hisilicon/hip06.dtsi
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/**
++/*
+  * dts file for Hisilicon D03 Development Board
+  *
+  * Copyright (C) 2016 Hisilicon Ltd.
+@@ -315,7 +315,7 @@
+ 		};
+ 	};
+ 
+-	/**
++	/*
+ 	 *  HiSilicon erratum 161010801: This describes the limitation
+ 	 *  of HiSilicon platforms hip06/hip07 to support the SMMUv3
+ 	 *  mappings for PCIe MSI transactions.
+diff --git a/arch/arm64/boot/dts/hisilicon/hip07-d05.dts b/arch/arm64/boot/dts/hisilicon/hip07-d05.dts
+index 81a2312c8a26..57debca7b1ac 100644
+--- a/arch/arm64/boot/dts/hisilicon/hip07-d05.dts
++++ b/arch/arm64/boot/dts/hisilicon/hip07-d05.dts
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/**
++/*
+  * dts file for Hisilicon D05 Development Board
+  *
+  * Copyright (C) 2016 Hisilicon Ltd.
+diff --git a/arch/arm64/boot/dts/hisilicon/hip07.dtsi b/arch/arm64/boot/dts/hisilicon/hip07.dtsi
+index 2172d8071181..553f7c5209ad 100644
+--- a/arch/arm64/boot/dts/hisilicon/hip07.dtsi
++++ b/arch/arm64/boot/dts/hisilicon/hip07.dtsi
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/**
++/*
+  * dts file for Hisilicon D05 Development Board
+  *
+  * Copyright (C) 2016 Hisilicon Ltd.
+diff --git a/include/dt-bindings/reset/hisi,hi6220-resets.h b/include/dt-bindings/reset/hisi,hi6220-resets.h
+index 63aff7d8aa45..c67f479eede7 100644
+--- a/include/dt-bindings/reset/hisi,hi6220-resets.h
++++ b/include/dt-bindings/reset/hisi,hi6220-resets.h
+@@ -1,5 +1,5 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+-/**
++/*
+  * This header provides index for the reset controller
+  * based on hi6220 SoC.
+  */
+diff --git a/include/dt-bindings/reset/snps,hsdk-reset.h b/include/dt-bindings/reset/snps,hsdk-reset.h
+index e1a643e4bc91..6a331c8d834d 100644
+--- a/include/dt-bindings/reset/snps,hsdk-reset.h
++++ b/include/dt-bindings/reset/snps,hsdk-reset.h
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * This header provides index for the HSDK reset controller.
+  */
+ #ifndef _DT_BINDINGS_RESET_CONTROLLER_SNPS_HSDK
+-- 
+2.17.1
+
