@@ -2,160 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53AA7C433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 17:10:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3342C433C1
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 17:28:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1BA08619AA
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 17:10:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD28D6199F
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 17:28:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231938AbhCVRK1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 13:10:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231838AbhCVRKN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 13:10:13 -0400
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FF8AC061574;
-        Mon, 22 Mar 2021 10:10:13 -0700 (PDT)
-Received: by mail-pf1-x433.google.com with SMTP id q5so11385280pfh.10;
-        Mon, 22 Mar 2021 10:10:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fiyXOeQWEig0s6UT1FT5pCXalIidRHvGHYc/I0I86U4=;
-        b=QKCSek145JEuRPcVGh+jry7eSFRT7rDliJdVjjDPerK0DFdLuxLHuth+sgT617W5Mm
-         jecfEAMmOTZUwEtOT3NVkAuqnrRYhKJ/CPAWXtEAfpcv5KG+ByG0IJxfzUFn3hGP6OsW
-         oPWtBEalIpy+zv0CWGZlMW8GxXXGV7ADUru4p65y9tx2V70fFVPGVCDw2XknH9W9/seH
-         rGXSeCTpJaVlOEifvnGhW30lT6qTGVC8HeDy6eR1kA3bHZjb4uNfitWtT0tuQ4nhlZPN
-         JOrlTpcixGngqPjLmXcVOVdlhvxtSuD9Os696fAhe93PNbZoIWZPQiMeHjELruNKLkUN
-         u7Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fiyXOeQWEig0s6UT1FT5pCXalIidRHvGHYc/I0I86U4=;
-        b=e6MMktrDdCoTNtGegQcQFUMgR9FqHo4oZK4DjO0H0/ky4VtjScGgtbREDgDEJCOY9y
-         ObaszwJqkYdND/mLQOYMvm/h4VWTNR/yiE7kcVBvkqouvuDg74KfV2m/oIpqGOLn6ygw
-         mduUbj+WtKvgvpfvtkcig4o1oJAwkvhnFjjL0MEa+ZHfgMFQpwGMgCJPEVztOGp2/Vq0
-         59/srjQEWrxKRU4ZFFm3DvF86c0pPG7PG7u3K4jfrQlOUR4kq57AwGnfE/ga2rZfZSTR
-         ux9F2J1gEBeziS4kZQL1zJK935p0Gvlen8Jn4q9PkbdZ/6yHQiZakta+zvxeVCb9B3Iu
-         N4Hw==
-X-Gm-Message-State: AOAM532XA6xIyDMk/DQm605wrMerOw0A6Fx18EtIAwG2TZuDLBgTZvYm
-        4RlvbubYwex51RWWcii7CnbRsHpafH7SovGHusU=
-X-Google-Smtp-Source: ABdhPJyo1TSVtrx9+IOM2nIeFXCEIk7pxXeayGexYBlLGasNOgy9jn+8roBBPwJzj7t1TMvI/kT0tl7xmg8I5hxgK3k=
-X-Received: by 2002:a63:cc:: with SMTP id 195mr493605pga.282.1616433012697;
- Mon, 22 Mar 2021 10:10:12 -0700 (PDT)
+        id S231234AbhCVR2U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 13:28:20 -0400
+Received: from mga02.intel.com ([134.134.136.20]:1524 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230146AbhCVR16 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Mar 2021 13:27:58 -0400
+IronPort-SDR: R+Gt2MP1QDYzA+6cmHEi9+vAxD8pRIvB5qjY/zf29gX0gv/aF4NRCXL4LgyaI71A8JtQr2Xj4m
+ 2hveqgt0hI0w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="177447416"
+X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
+   d="scan'208";a="177447416"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 10:27:57 -0700
+IronPort-SDR: /poCiz3iH8zbav4AUTruoJT/OU8lWJG21RxkY8P29L4ZNarEgYiS0oFCvkNqX2jXjm9t5M9f99
+ CAkt3Y15cttQ==
+X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
+   d="scan'208";a="592694134"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.39.64]) ([10.209.39.64])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 10:27:53 -0700
+Subject: Re: [PATCH v23 14/28] x86/mm: Shadow Stack page fault error checking
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316151054.5405-15-yu-cheng.yu@intel.com>
+ <20210322103858.evxun5bhw2i5sio6@box>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <b88b5324-e595-be3a-3005-e016e3adc791@intel.com>
+Date:   Mon, 22 Mar 2021 10:27:53 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210318045706.200458-1-hch@lst.de> <20210318045706.200458-3-hch@lst.de>
- <20210319170753.GV1463@shell.armlinux.org.uk> <20210319175311.GW1463@shell.armlinux.org.uk>
- <20210322145403.GA30942@lst.de> <20210322151503.GX1463@shell.armlinux.org.uk>
- <224b110e-7c42-4e19-800e-e0fa23d3bf7f@physik.fu-berlin.de> <20210322170338.GZ1463@shell.armlinux.org.uk>
-In-Reply-To: <20210322170338.GZ1463@shell.armlinux.org.uk>
-From:   Cye Borg <cyborgyn@gmail.com>
-Date:   Mon, 22 Mar 2021 18:10:01 +0100
-Message-ID: <CAD4NMuZWoV0m85OyBDHLt+J8NYCV5wYx7fFZaivBNEgDnrN5xw@mail.gmail.com>
-Subject: Re: [PATCH 02/10] ARM: disable CONFIG_IDE in footbridge_defconfig
-To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
-Cc:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Christoph Hellwig <hch@lst.de>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210322103858.evxun5bhw2i5sio6@box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PWS 500au:
+On 3/22/2021 3:38 AM, Kirill A. Shutemov wrote:
+> On Tue, Mar 16, 2021 at 08:10:40AM -0700, Yu-cheng Yu wrote:
+[...]
+>>   
+>> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+>> index a73347e2cdfc..4316732a18c6 100644
+>> --- a/arch/x86/mm/fault.c
+>> +++ b/arch/x86/mm/fault.c
+>> @@ -1100,6 +1100,17 @@ access_error(unsigned long error_code, struct vm_area_struct *vma)
+>>   				       (error_code & X86_PF_INSTR), foreign))
+>>   		return 1;
+>>   
+>> +	/*
+>> +	 * Verify a shadow stack access is within a shadow stack VMA.
+>> +	 * It is always an error otherwise.  Normal data access to a
+>> +	 * shadow stack area is checked in the case followed.
+>> +	 */
+>> +	if (error_code & X86_PF_SHSTK) {
+>> +		if (!(vma->vm_flags & VM_SHSTK))
+>> +			return 1;
+>> +		return 0;
+> 
+> Any reason to return 0 here? I would rather keep the single return 0 in
+> the function, after all checks are done.
+> 
 
-snow / # lspci -vvx -s 7.1
-00:07.1 IDE interface: Contaq Microsystems 82c693 (prog-if 80 [ISA
-Compatibility mode-only controller, supports bus mastering])
-        Control: I/O+ Mem- BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr+ Stepping- SERR- FastB2B- DisINTx-
-        Status: Cap- 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium
->TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
-        Latency: 0
-        Interrupt: pin A routed to IRQ 0
-        Region 0: I/O ports at 01f0 [size=8]
-        Region 1: I/O ports at 03f4
-        Region 4: I/O ports at 9080 [size=16]
-        Kernel driver in use: pata_cypress
-        Kernel modules: pata_cypress
-00: 80 10 93 c6 45 00 80 02 00 80 01 01 00 00 80 00
-10: f1 01 00 00 f5 03 00 00 00 00 00 00 00 00 00 00
-20: 81 90 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-30: 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00
+For shadow stack fault, X86_PF_SHSTK and X86_PF_WRITE both can be set. 
+So for shadow stack fault, return from here and don't go into the normal 
+write fault case.
 
-snow / # lspci -vvx -s 7.2
-00:07.2 IDE interface: Contaq Microsystems 82c693 (prog-if 00 [ISA
-Compatibility mode-only controller])
-        Control: I/O+ Mem- BusMaster+ SpecCycle- MemWINV- VGASnoop-
-ParErr+ Stepping- SERR- FastB2B- DisINTx-
-        Status: Cap- 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium
->TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
-        Latency: 0
-        Interrupt: pin B routed to IRQ 0
-        Region 0: I/O ports at 0170 [size=8]
-        Region 1: I/O ports at 0374
-        Region 4: Memory at 0c240000 (32-bit, non-prefetchable)
-[disabled] [size=64K]
-        Kernel modules: pata_cypress
-00: 80 10 93 c6 45 00 80 02 00 00 01 01 00 00 80 00
-10: 71 01 00 00 75 03 00 00 00 00 00 00 00 00 00 00
-20: 00 00 24 0c 00 00 00 00 00 00 00 00 00 00 00 00
-30: 00 00 00 00 00 00 00 00 00 00 00 00 00 02 00 00
+Thanks,
+Yu-cheng
 
-On Mon, Mar 22, 2021 at 6:04 PM Russell King - ARM Linux admin
-<linux@armlinux.org.uk> wrote:
->
-> On Mon, Mar 22, 2021 at 05:09:13PM +0100, John Paul Adrian Glaubitz wrote:
-> > On 3/22/21 4:15 PM, Russell King - ARM Linux admin wrote:
-> > > I'm quite surprised that the CY82C693 even works on Alpha - I've
-> > > asked for a lspci for that last week but nothing has yet been
-> > > forthcoming from whoever responded to your patch for Alpha - so I
-> > > can't compare what I'm seeing with what's happening with Alpha.
-> >
-> > Here is lspci on my DEC Alpha XP-1000:
-> >
-> > root@tsunami:~> lspci
-> > 0000:00:07.0 ISA bridge: Contaq Microsystems 82c693
-> > 0000:00:07.1 IDE interface: Contaq Microsystems 82c693
-> > 0000:00:07.2 IDE interface: Contaq Microsystems 82c693
-> > 0000:00:07.3 USB controller: Contaq Microsystems 82c693
-> > 0000:00:0d.0 VGA compatible controller: Texas Instruments TVP4020 [Permedia 2] (rev 01)
-> > 0001:01:03.0 Ethernet controller: Digital Equipment Corporation DECchip 21142/43 (rev 41)
-> > 0001:01:06.0 SCSI storage controller: QLogic Corp. ISP1020 Fast-wide SCSI (rev 06)
-> > 0001:01:08.0 PCI bridge: Digital Equipment Corporation DECchip 21152 (rev 03)
-> > 0001:02:09.0 Ethernet controller: Intel Corporation 82541PI Gigabit Ethernet Controller (rev 05)
-> > root@tsunami:~>
->
-> This is no good. What I asked last Thursday was:
->
-> "Could you send me the output of lspci -vvx -s 7.1 and lspci -vvx -s 7.2
-> please?"
->
-> so I can see the resources the kernel is using and a dump of the PCI
-> config space to see what the hardware is using.
->
-> Thanks.
->
-> --
-> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-> FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
+>> +	}
+>> +
+>>   	if (error_code & X86_PF_WRITE) {
+>>   		/* write, present and write, not present: */
+>>   		if (unlikely(!(vma->vm_flags & VM_WRITE)))
+>> @@ -1293,6 +1304,14 @@ void do_user_addr_fault(struct pt_regs *regs,
+>>   
+>>   	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+>>   
+>> +	/*
+>> +	 * Clearing _PAGE_DIRTY is used to detect shadow stack access.
+>> +	 * This method cannot distinguish shadow stack read vs. write.
+>> +	 * For valid shadow stack accesses, set FAULT_FLAG_WRITE to effect
+>> +	 * copy-on-write.
+>> +	 */
+>> +	if (error_code & X86_PF_SHSTK)
+>> +		flags |= FAULT_FLAG_WRITE;
+>>   	if (error_code & X86_PF_WRITE)
+>>   		flags |= FAULT_FLAG_WRITE;
+>>   	if (error_code & X86_PF_INSTR)
+>> -- 
+>> 2.21.0
+>>
+> 
