@@ -2,67 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 646C2C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 04:03:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AF76C433E2
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 04:17:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22E3561966
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 04:03:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1617D61987
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 04:17:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229786AbhCVEDC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 00:03:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55418 "EHLO
+        id S229771AbhCVERP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 00:17:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58348 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229621AbhCVEDB (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 00:03:01 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6120EC061574;
-        Sun, 21 Mar 2021 21:03:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:To:From:Date:Sender:Reply-To:Cc:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=4a8nm0y32xGcaD9mUxGj3UqgnqgFCog9eP1Pm0kruoE=; b=D1yb5vAfC65DA6Scf6UDfXp3Hg
-        bJwJEzQQlnkqpppVA9nXFzhVJgywKbMbgvXmpolHqR8Cnve3nYh3KeR+15Q0LI2UeVjCd+67HukE9
-        u92apkX5aeCUjXhwWGv9RbyvUeJHBDbb6j+A8mIL6G1e5SzULhk9iE0QV6Y0vjK09vrFDQCQV8ASl
-        g+meAeSyPDQesa5xkv7MVTE5RzbziOn4DXYJP2jZ6Pe7Zu8GPAHXpyIIKbvTuZNehDI0caG1FqqXC
-        p20DGWH+zWN90q/wzNrOF+HK4t+aZe+EsWA/LV0wBhXr4afuTu+ToAnkJfpvX2JDOKzHaZIxYgFoD
-        5KkqfQ3A==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lOBle-007xoQ-SW; Mon, 22 Mar 2021 04:02:19 +0000
-Date:   Mon, 22 Mar 2021 04:02:14 +0000
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, corbet@lwn.net,
-        sir@cmpwn.com, gregkh@linuxfoundation.org, lee.jones@linaro.org,
-        bp@alien8.de, huawei@kernel.org, krzk@kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        rdunlap@infradead.org
+        with ESMTP id S229865AbhCVEQu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 00:16:50 -0400
+Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0825C061574;
+        Sun, 21 Mar 2021 21:16:49 -0700 (PDT)
+Received: by mail-qv1-xf36.google.com with SMTP id q9so8049002qvm.6;
+        Sun, 21 Mar 2021 21:16:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Mqht8zfwIeNE6HjVuAaYTNSXTwuv6qIhvRvFRLciTdo=;
+        b=WvFWAMUXUkmp8JUrDcdVH22ls7yHZqmEHjYznXOykZ85M2sFuwoeOmutLw03cTVIXI
+         3U29Dgx+wSAqhfFa3HlIu70Hk5pcb1a/D21DStOU7ZeLBMmW25/Y00bX8BYkkppnf9UQ
+         7tKjf3fn54vN583xxYiLL6mfeBT3iC5sSf4BIhif+M+vDjO6nbKJama/OII8EoR8AxuS
+         X5a++PuLgy/rHpaDRqzI6F1mWFIeoW5Su/zhuKgWJua4MTmngWr1fjy6kmaXGO69ZKh2
+         wkP/Ki/MNWEHDtHLTRjkghCTRIpCIGe3lsVbwCCc0hHCVP8lv9wgXygaLr2AOFxlJ6UC
+         wCGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=Mqht8zfwIeNE6HjVuAaYTNSXTwuv6qIhvRvFRLciTdo=;
+        b=oSHYjcuofOv8s8qb1aMTQDEnDQzzbe9OWSe+o8ehNYOKNCPJH9GxROSNFKAPBUpr4e
+         i9YN0JDUXzTx5Nlya8zxiyKp2shzCkUKgjHrFecvUc2RB0OqXW4d7trUBuH2P3rQ75cu
+         8/+hxNjg2v6uReghOf19YVBsSFxmhFmfRX3iANbokEOjwADANbz0GCOnCz6KMEzha4lh
+         ubOMXlPVhdzSGB2RvPH/3xUVgsiNm5xSBj7W1E75lzYxyygaPotpZl11hSbZ7N4IcmHb
+         gMi59jKQCSsOAOJJQWf2mZoQ5a1A0FNCOW8lPixnvyO8hvgu2mO4U2NFI8pV6dDzHh8C
+         wgKg==
+X-Gm-Message-State: AOAM533c+HffkKQY9bX1s28MDsXevYeVbwGE6qGt4DBUqOpJMW/e4go0
+        h/qBZ1wRtPoaPNxbWrTfPRc=
+X-Google-Smtp-Source: ABdhPJzrf9mOYGAGXu1F2pVN51nObBBqB1Omsvj8++pYy+lDqyYyf/ymAD3sBoPM9bcNH3/dKDXSPg==
+X-Received: by 2002:a05:6214:a62:: with SMTP id ef2mr19594079qvb.44.1616386608698;
+        Sun, 21 Mar 2021 21:16:48 -0700 (PDT)
+Received: from ArchLinux ([156.146.54.190])
+        by smtp.gmail.com with ESMTPSA id m3sm9951370qkk.15.2021.03.21.21.16.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 21 Mar 2021 21:16:47 -0700 (PDT)
+Date:   Mon, 22 Mar 2021 09:46:36 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     corbet@lwn.net, sir@cmpwn.com, gregkh@linuxfoundation.org,
+        lee.jones@linaro.org, bp@alien8.de, huawei@kernel.org,
+        krzk@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rdunlap@infradead.org
 Subject: Re: [PATCH] docs: submitting-patches Fix a typo
-Message-ID: <20210322040214.GG1719932@casper.infradead.org>
+Message-ID: <YFgaJJUIX24QNCpK@ArchLinux>
+Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>, corbet@lwn.net, sir@cmpwn.com,
+        gregkh@linuxfoundation.org, lee.jones@linaro.org, bp@alien8.de,
+        huawei@kernel.org, krzk@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rdunlap@infradead.org
 References: <20210322033000.2523887-1-unixbhaskar@gmail.com>
  <20210322034459.GE1719932@casper.infradead.org>
  <YFgTkhA+IOvNVxEn@ArchLinux>
+ <20210322040214.GG1719932@casper.infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="flmwgVbWvhpOynZh"
 Content-Disposition: inline
-In-Reply-To: <YFgTkhA+IOvNVxEn@ArchLinux>
+In-Reply-To: <20210322040214.GG1719932@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 22, 2021 at 09:18:34AM +0530, Bhaskar Chowdhury wrote:
-> On 03:44 Mon 22 Mar 2021, Matthew Wilcox wrote:
-> > On Mon, Mar 22, 2021 at 09:00:00AM +0530, Bhaskar Chowdhury wrote:
-> > > 
-> > > s/mesages/messages/
-> > 
-> > did you test the build afterwards?  you forgot to do something.
-> > 
-> What are you talking about??? It is going over my head...why the build
-> reqired?? A spello needs a rebuild???? Wondering....
 
-don't argue with me.  just type 'make htmldocs' and find out.
+--flmwgVbWvhpOynZh
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 
+On 04:02 Mon 22 Mar 2021, Matthew Wilcox wrote:
+>On Mon, Mar 22, 2021 at 09:18:34AM +0530, Bhaskar Chowdhury wrote:
+>> On 03:44 Mon 22 Mar 2021, Matthew Wilcox wrote:
+>> > On Mon, Mar 22, 2021 at 09:00:00AM +0530, Bhaskar Chowdhury wrote:
+>> > >
+>> > > s/mesages/messages/
+>> >
+>> > did you test the build afterwards?  you forgot to do something.
+>> >
+>> What are you talking about??? It is going over my head...why the build
+>> reqired?? A spello needs a rebuild???? Wondering....
+>
+>don't argue with me.  just type 'make htmldocs' and find out.
+
+Well, some other time ..I have the habit of arguing with people ..can't help ...
+>
+
+--flmwgVbWvhpOynZh
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmBYGh4ACgkQsjqdtxFL
+KRWSWwf/eRNUqsB43exjIlNdW3/Wsm0cETdVZHcu6rrj1e3/nQqD7dMZ6y1yVGab
+RBNOng0+BrO2TqhqJ84M5NV6yRJPTUuPsnW+Ex2vVPF5RVO2aDOILbHOgZCfCkMM
+3PDBf6xCSTGDW+1cIL8e4CqHGypRSx0ggPiPUQc9QHjBSAFIMJ9D9vvfKuq9q92b
+FOFx1Y8XxZkuuGoa/JpCzRZZNuA376/fkgjetnY5JB8pa2OYL4mA8ZdQIfRcgDDI
+BOPJ87JAqypelCtVWVpXUpgIFQPemwGSyWQnOd/fgSxrZbBDsswmuyNc8AfXo/Ua
+GaQUBDGlPPZ8GcKvqi71ZjDR/oWGRw==
+=t7t2
+-----END PGP SIGNATURE-----
+
+--flmwgVbWvhpOynZh--
