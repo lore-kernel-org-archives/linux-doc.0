@@ -2,142 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFCBFC433F7
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 16:07:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDEA2C433C1
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 16:10:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CBD77619BC
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 16:07:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A5C6D6198D
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 16:10:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231924AbhCVQGk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 12:06:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42174 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231919AbhCVQFw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 12:05:52 -0400
-Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2A26C061762
-        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 09:05:51 -0700 (PDT)
-Received: by mail-pf1-x434.google.com with SMTP id b184so11244540pfa.11
-        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 09:05:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=+S7gjt3MgnLDrdKzofrJNhS6p4rg7p4WBFZi5EQinSg=;
-        b=Wy7l0LMnDchSVa4nHZzPzMiZRnITpR4PoPerfT2iHAmIT9Ejdvj8Gwb3rryaLfhDbk
-         WUOkBltZS5qEqozQ7KJcx0lI5aPMtp5JR3fkcbA4CoiKDu9QyojCDR8TNEmeqBHRsJYm
-         2fu3KpROUDNMpadlTB/vIT5rnme9urvpGX25MGZMgQdGQFq7t9RqvQjIJIBZs+BdtCH7
-         c16cz7mD9dsSrepz9Nuq4m+s993K8y7wq/D1qva8C0RrSD6RAn8/cEFI0Adnstc0B8Bk
-         9lC/cW6pFRcjegMSo89u8RGktQHjVyQow8Igb3Deyga/a0pmq7ZRZCHvArz1qbebRQ4r
-         MRow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=+S7gjt3MgnLDrdKzofrJNhS6p4rg7p4WBFZi5EQinSg=;
-        b=g04ycPN9Cd8XjGY8IGVnI1zhIHcZjsYS6n90AaDWutiN/ZYm9RiA3gj/2p5neBw6FT
-         lDPuSQTb9ASIof6iNz7QQYOFxyaZqee7+nnV04hFrLPz11gy9O/1ykMZiG25SjeNbCRr
-         QQwctxPAbOSsgepAUviHpN6HU8Fr3+DOFGSsHfgnxpsLyYpYY+VpLO1Uzt4X719Q2kHU
-         OhOLU9JfwghB7urRVfDxAiGzUbCvZMmMDARkHYI+/LOaDPOR0RVy2t2kf4NxOJgzEXQ9
-         t9h6/mn27gmpf6huz5b8Pe9KqPdpDMwGZz0qKHk5LE1ES3iQIJHjbxWT83IBeVU9FKf6
-         ODdQ==
-X-Gm-Message-State: AOAM531voAvtIkHvu6cEkHVVXaEU21zx0Y1P3fbB+JXO4vCL9T14LT1n
-        KCluuHhu71hAm8Kx3hDu0a+9Qw==
-X-Google-Smtp-Source: ABdhPJwVj7AImbLlRr23Z0RxRD8gCshqvyDN+CM5FR1pwopcAY578lpSBDBdCy1oD0l38Ko9sYF6xw==
-X-Received: by 2002:a63:4761:: with SMTP id w33mr296710pgk.118.1616429150894;
-        Mon, 22 Mar 2021 09:05:50 -0700 (PDT)
-Received: from google.com ([2620:15c:f:10:5c8b:5536:d804:97ed])
-        by smtp.gmail.com with ESMTPSA id i8sm14475167pjl.32.2021.03.22.09.05.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 09:05:50 -0700 (PDT)
-Date:   Mon, 22 Mar 2021 09:05:43 -0700
-From:   Sean Christopherson <seanjc@google.com>
-To:     ira.weiny@intel.com
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        linux-kernel@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH V4 06/10] x86/fault: Adjust WARN_ON for PKey fault
-Message-ID: <YFjAV44u7i9t1TDL@google.com>
-References: <20210322053020.2287058-1-ira.weiny@intel.com>
- <20210322053020.2287058-7-ira.weiny@intel.com>
+        id S230510AbhCVQJ5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 12:09:57 -0400
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:46709 "EHLO
+        outpost1.zedat.fu-berlin.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S231807AbhCVQJX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 12:09:23 -0400
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.94)
+          with esmtps (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1lON7D-002n34-BF; Mon, 22 Mar 2021 17:09:15 +0100
+Received: from p57bd9564.dip0.t-ipconnect.de ([87.189.149.100] helo=[192.168.178.139])
+          by inpost2.zedat.fu-berlin.de (Exim 4.94)
+          with esmtpsa (TLS1.2)
+          tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1lON7D-000xth-3u; Mon, 22 Mar 2021 17:09:15 +0100
+Subject: Re: [PATCH 02/10] ARM: disable CONFIG_IDE in footbridge_defconfig
+To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>,
+        Christoph Hellwig <hch@lst.de>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jens Axboe <axboe@kernel.dk>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+References: <20210318045706.200458-1-hch@lst.de>
+ <20210318045706.200458-3-hch@lst.de>
+ <20210319170753.GV1463@shell.armlinux.org.uk>
+ <20210319175311.GW1463@shell.armlinux.org.uk> <20210322145403.GA30942@lst.de>
+ <20210322151503.GX1463@shell.armlinux.org.uk>
+From:   John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Message-ID: <224b110e-7c42-4e19-800e-e0fa23d3bf7f@physik.fu-berlin.de>
+Date:   Mon, 22 Mar 2021 17:09:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210322053020.2287058-7-ira.weiny@intel.com>
+In-Reply-To: <20210322151503.GX1463@shell.armlinux.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.149.100
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 21, 2021, ira.weiny@intel.com wrote:
-> From: Ira Weiny <ira.weiny@intel.com>
-> 
-> PKey faults may now happen on kernel mappings if the feature is enabled.
-> Remove the warning in the fault path if PKS is enabled.
+On 3/22/21 4:15 PM, Russell King - ARM Linux admin wrote:
+> I'm quite surprised that the CY82C693 even works on Alpha - I've
+> asked for a lspci for that last week but nothing has yet been
+> forthcoming from whoever responded to your patch for Alpha - so I
+> can't compare what I'm seeing with what's happening with Alpha.
 
-When/why can they happen?  I read through all the changelogs, as well as the
-cover letters for v1 and the RFC, and didn't see any explicit statement about
-why pkey faults on supervisor accesses are now "legal".  Explaining what happens
-later in the page fault handler would also be helpful, e.g. is the flag simply
-ignored?  Does it lead directly to OOPS?
+Here is lspci on my DEC Alpha XP-1000:
 
-Documenting what happens on a PKS #PF in the API patch would be nice to have, too.
+root@tsunami:~> lspci
+0000:00:07.0 ISA bridge: Contaq Microsystems 82c693
+0000:00:07.1 IDE interface: Contaq Microsystems 82c693
+0000:00:07.2 IDE interface: Contaq Microsystems 82c693
+0000:00:07.3 USB controller: Contaq Microsystems 82c693
+0000:00:0d.0 VGA compatible controller: Texas Instruments TVP4020 [Permedia 2] (rev 01)
+0001:01:03.0 Ethernet controller: Digital Equipment Corporation DECchip 21142/43 (rev 41)
+0001:01:06.0 SCSI storage controller: QLogic Corp. ISP1020 Fast-wide SCSI (rev 06)
+0001:01:08.0 PCI bridge: Digital Equipment Corporation DECchip 21152 (rev 03)
+0001:02:09.0 Ethernet controller: Intel Corporation 82541PI Gigabit Ethernet Controller (rev 05)
+root@tsunami:~>
 
-> Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> ---
->  arch/x86/mm/fault.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-> index a73347e2cdfc..731ec90ed413 100644
-> --- a/arch/x86/mm/fault.c
-> +++ b/arch/x86/mm/fault.c
-> @@ -1141,11 +1141,12 @@ do_kern_addr_fault(struct pt_regs *regs, unsigned long hw_error_code,
->  		   unsigned long address)
->  {
->  	/*
-> -	 * Protection keys exceptions only happen on user pages.  We
-> -	 * have no user pages in the kernel portion of the address
-> -	 * space, so do not expect them here.
-> +	 * PF_PK is expected on kernel addresses when supervisor pkeys are
+It's using pata_cypress:
 
-"is expected" can be misinterpreted as "PF is expected on all kernel addresses...".
+root@tsunami:~> lsmod|grep cypress
+pata_cypress            3595  3
+libata                235071  2 ata_generic,pata_cypress
+root@tsunami:~
 
-This ties in with the lack of an explanation in the changelog.
+Adrian
 
-> +	 * enabled.
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
-It'd be helpful to spell out "Protection keys exceptions" so that random readers
-don't need to search for PF_PK to understand what's up.  Maybe even use it as an
-opportunity to introduce "pkeys", e.g.
-
-	/* Protection keys (pkeys) exceptions are ... */
-
->  	 */
-> -	WARN_ON_ONCE(hw_error_code & X86_PF_PK);
-> +	if (!cpu_feature_enabled(X86_FEATURE_PKS))
-> +		WARN_ON_ONCE(hw_error_code & X86_PF_PK);
-
-Does this generate the same code if the whole thing is thrown in the WARN?  E.g.
-
-	WARN_ON_ONCE(!cpu_feature_enabled(X86_FEATURE_PKS) &&
-		     (hw_error_code & X86_PF_PK));
-
-> +
->  
->  #ifdef CONFIG_X86_32
->  	/*
-> -- 
-> 2.28.0.rc0.12.gb6a658bd00c9
-> 
