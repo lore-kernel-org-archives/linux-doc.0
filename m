@@ -2,122 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC725C433C1
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 11:39:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 085DBC433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 12:18:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8DF76619AB
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 11:39:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A7D046198D
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 12:18:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229472AbhCVLjL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 07:39:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40538 "EHLO
+        id S229930AbhCVMRd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 08:17:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230010AbhCVLio (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 07:38:44 -0400
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D8E1C061763
-        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 04:38:44 -0700 (PDT)
-Received: by mail-lj1-x22f.google.com with SMTP id 16so20555579ljc.11
-        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 04:38:43 -0700 (PDT)
+        with ESMTP id S229547AbhCVMRQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 08:17:16 -0400
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FFD2C061574;
+        Mon, 22 Mar 2021 05:17:16 -0700 (PDT)
+Received: by mail-yb1-xb2e.google.com with SMTP id o66so6319837ybg.10;
+        Mon, 22 Mar 2021 05:17:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=QYQGe8GavJNNQqRVgKmXAqfd/LyDn5OkU3yK0hg/4Ds=;
-        b=Mv8hzSF9y/WlPpAJoV0/oEmocDMZi3VCHHD1hVvUTkZJ7qEWAWnJxRXeCr+OHb5HNn
-         eY7Dxmno2nebZDo/jr3ffQqERrasGX324IDrbmh0YqW/3M2iAwCjalyN9DiG94jWvfVl
-         9ECZZ+H87jPB+Lzt9FBAgBuOBOeWOpNtrNjoB/ndPCLCB/+LtjgU5jQgaqHqZzEBVp4e
-         +4IMIPORukxDUlKUYmQDQmEjR/9dHQxDGo45e4Fv2aa0hU8ukxyzogwyd3XzjwG40e+L
-         OmuBlsWP+kqDFGWSPQiPxCfGDa8GllhzwiSc54smaN2fCDEIT01/8DwkN0yBOBbP2jL7
-         sBvg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=djp6rAThn/JMZBuvzCFDPT3cc+3P/h3ppC7XfOEilpc=;
+        b=s/Ibu1OQbNoAMX6Sb18/aqu/7fDNdN9Pdh1Z/GYhAGHyDWfxxpx6YMeLa89s7FbDbS
+         YNQbVrfVKI9AiKOm3YtwtUr0t0mTyhcVBYlSWgTgVYVvUvnAD8ubcINwJxaeSGpXaN6r
+         +9q0isev61wYM8SZCczNkt4NIhoLW2/jmFfqizDgmN5EeYW//104utVdHWgrqa/3WAVd
+         JqquNfCk/lzbBZf2XuyA0ZJsrRG3TPRD+YYXBaiq0fxW+1Kj38lePTdqjQPAChHEPMG5
+         5+PoYway+I9B6BxBdu/Bg1/C506cud+6dxBNL+57j6YJfLxOrXhGA+lHm7HfnUV/kaZ9
+         3p+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=QYQGe8GavJNNQqRVgKmXAqfd/LyDn5OkU3yK0hg/4Ds=;
-        b=q9XGiSp0lQxWd7khlp4GiUVS05WabGkR5k/9ZE4hDwURvxzXLoJizcxMRjzqkSBER/
-         DxzbNygoUnqxCkfZh/OLognTIX0J/sboNj+M8Xzwc6asyxTpiodLydbUqKL4NuU7rxao
-         JDSmGbj1OD2pwo6nwWgfvi+WfnYQ8T+wwlWWOsS85gGQ678954rzZoq2sZlJVpmILORW
-         fs6rKp/ymSi6eTAl5/Yd0NzQcX4w6DezEv14Moha/07jmioFFROyFFvMBNmLhBCZgqDK
-         KZf/NyMMcWsAb3p4Tk4OwO0bvIa9NY5QmjKqlh+cxDxuMc4gz+BPdN79+XM61WDHdtAn
-         hE5A==
-X-Gm-Message-State: AOAM532bawvvgBfJ0r8ePoIq81mFcU/gq/Mau6X1T52wmrkZllYJk6Zp
-        s+/VeeYQjT+eF6KZok7/a6bCnQ==
-X-Google-Smtp-Source: ABdhPJypWrQG3ZuDSQnHHtofx4HFDssoJDVyC/HSlMvOsjsQ3kQJLqjwWXFFLw5UM6XnXEB17KFpUQ==
-X-Received: by 2002:a05:651c:2c6:: with SMTP id f6mr9499521ljo.279.1616413122447;
-        Mon, 22 Mar 2021 04:38:42 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id l12sm1912343ljg.39.2021.03.22.04.38.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 04:38:41 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id 5BE39101DEB; Mon, 22 Mar 2021 14:38:49 +0300 (+03)
-Date:   Mon, 22 Mar 2021 14:38:49 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v23 12/28] x86/mm: Update ptep_set_wrprotect() and
- pmdp_set_wrprotect() for transition from _PAGE_DIRTY to _PAGE_COW
-Message-ID: <20210322113849.snfoxcijpwoks4go@box>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-13-yu-cheng.yu@intel.com>
- <20210322101502.b5hdy3qgyh6hf3sr@box>
- <YFh1fabrBok74F8X@hirez.programming.kicks-ass.net>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=djp6rAThn/JMZBuvzCFDPT3cc+3P/h3ppC7XfOEilpc=;
+        b=ZlAuecw8xxHFBI/fB25O5wj1rSaGYRhYI1xrO3ydtJHqX13RtQEsR84E0IalhcKhUF
+         D/Mc92yoKoBNQ3PIQkLGpdf+AWMxmq9TA1s0JWgWwdrJE7VD3aGEnUOyM8b+38M+DdQi
+         Ab6LoVvl1G/ekQt40F1G0j4UC8O59tC/oTO8dwgIEqLaJkMEEK5lYdcJgobhjALyg1QC
+         6fixIh1Ee2+nUasWr/D6M++hllAeRkxUxA/E8w0s3+zacXjyl/NH//lEnih7tVAKfkoT
+         P6xNdH6YtCXzhf6TwgGIu6WRPkolYZ+d17LhoLZHlJ2LaJogiSyf/PTpM7+8Fm8Vx2PH
+         040g==
+X-Gm-Message-State: AOAM532KBsdc9T8wjEyybu2ds43b7B/8neGXb4ydXUAhKGOOAWDbzShe
+        YCm/J2xuZet9ONneEHIW2z0pqch7uypdNX1l9Zo=
+X-Google-Smtp-Source: ABdhPJxsBHGCizKsS8vwffPbH+Xz5DUB5+jh84r9t85iyZOhIqse7/znhjmdqpCpQC3t+uHe41LBE8vZPazsMssgt/M=
+X-Received: by 2002:a25:d94b:: with SMTP id q72mr22707676ybg.135.1616415435700;
+ Mon, 22 Mar 2021 05:17:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YFh1fabrBok74F8X@hirez.programming.kicks-ass.net>
+References: <CACT4Y+bdXrFoL1Z_h5s+5YzPZiazkyr2koNvfw9xNYEM69TSvg@mail.gmail.com>
+ <20210321184403.8833-1-info@alexander-lochmann.de>
+In-Reply-To: <20210321184403.8833-1-info@alexander-lochmann.de>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 22 Mar 2021 13:17:04 +0100
+Message-ID: <CANiq72n+hqW5i4Cj8jS9oHYTcjQkoAZkw6OwhZ0vhkS=mayz_g@mail.gmail.com>
+Subject: Re: [PATCH] Introduced new tracing mode KCOV_MODE_UNIQUE.
+To:     Alexander Lochmann <info@alexander-lochmann.de>
+Cc:     Dmitry Vyukov <dvyukov@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Aleksandr Nogikh <nogikh@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Wei Yongjun <weiyongjun1@huawei.com>,
+        Maciej Grochowski <maciej.grochowski@pm.me>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 22, 2021 at 11:46:21AM +0100, Peter Zijlstra wrote:
-> On Mon, Mar 22, 2021 at 01:15:02PM +0300, Kirill A. Shutemov wrote:
-> > On Tue, Mar 16, 2021 at 08:10:38AM -0700, Yu-cheng Yu wrote:
-> 
-> > > +		pte_t old_pte, new_pte;
-> > > +
-> > > +		old_pte = READ_ONCE(*ptep);
-> > > +		do {
-> > > +			new_pte = pte_wrprotect(old_pte);
-> > > +		} while (!try_cmpxchg(&ptep->pte, &old_pte.pte, new_pte.pte));
-> > 
-> > I think this is wrong. You need to update old_pte on every loop iteration,
-> > otherwise you can get in to endless loop.
-> 
-> It is correct, please consider why the old argument is a pointer.
+Hi Alexander,
 
-Ah, right. Sorry for the noise.
+On Sun, Mar 21, 2021 at 8:14 PM Alexander Lochmann
+<info@alexander-lochmann.de> wrote:
+>
+> diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
+> index d2c4c27e1702..e105ffe6b6e3 100644
+> --- a/Documentation/dev-tools/kcov.rst
+> +++ b/Documentation/dev-tools/kcov.rst
+> @@ -127,6 +127,86 @@ That is, a parent process opens /sys/kernel/debug/kcov, enables trace mode,
+>  mmaps coverage buffer and then forks child processes in a loop. Child processes
+>  only need to enable coverage (disable happens automatically on thread end).
+>
+> +If someone is interested in a set of executed PCs, and does not care about
+> +execution order, he or she can advise KCOV to do so:
 
--- 
- Kirill A. Shutemov
+Please mention explicitly that KCOV_INIT_UNIQUE should be used for
+that, i.e. readers of the example shouldn't need to read every line to
+figure it out.
+
+> +    #define KCOV_INIT_TRACE                    _IOR('c', 1, unsigned long)
+
+Trace is not used in the example.
+
+> +       /* KCOV was initialized, but recording of unique PCs hasn't been chosen yet. */
+> +       KCOV_MODE_INIT_UNQIUE = 2,
+
+Typo? It isn't used?
+
+PS: not sure why I was Cc'd, but I hope that helps.
+
+Cheers,
+Miguel
