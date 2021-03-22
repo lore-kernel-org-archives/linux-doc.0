@@ -2,112 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 180D9C433E4
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 12:26:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D6B5C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 13:24:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB54E619A2
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 12:26:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 42E7D61925
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 13:24:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230115AbhCVM0g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 08:26:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50708 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230094AbhCVMZ6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 08:25:58 -0400
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97EB5C061574;
-        Mon, 22 Mar 2021 05:25:57 -0700 (PDT)
-Received: by mail-wr1-x431.google.com with SMTP id j18so16487090wra.2;
-        Mon, 22 Mar 2021 05:25:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=DGlVH/z6AUneSXkTaU6Us2MYmJ8DP9BEj41zBXWjRaQ=;
-        b=CdLxL9vxfxfEOK8O/aRcklGoAV8Mq2DFTnxOY7sfTtalvMiNQ/htQ7igCwvrDISCeA
-         ArlP0pV9zagkKMpgNskhO01r5IeiQdrC4quDzF9Hr8TEDQuqjobw1LmyMQFLCiL2OgeA
-         PbJlgSardXEpxnvrLwrlLM6DGUen0+VRafPnPyKod5Fv47vvkV2a3+3CQqEMwmmzNild
-         cI25enb9ZB/04vJv0lbifMOHyYc9rLxVK5eG8W/4uTYqIJOSx6jZZI8OqImBXH+Y9b7p
-         whWL8hVFCyY9x/uJZ6MUjle+1cstP8JEuLhRk3lKtdcNEoz0ArEsm88SHOFyk7UcMstL
-         989w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=DGlVH/z6AUneSXkTaU6Us2MYmJ8DP9BEj41zBXWjRaQ=;
-        b=K6mzjb935Bdx4fTA9cKUxrA8MQEUHWWqxCEgDivKp1m2GTcMh7dFErfRSlOG+FBLqL
-         TKXkUAoQ6S2k4IRATSoKdvpL5wM1HOoEmTpUFSD7V7U4cxbULIQoRUeBKgG38FkFRtjS
-         neYdXr8AZPavWN3i+dNj2HEWFVPG8iWGaZbzfuDL8ig8KWHV0SdPdP+ISGtsvQuWbODA
-         quRU3piBu6rVlZSeivmqcB83EiQPmlsw5w7qX9UDEy5KMdccB7fyr2RC2UXR7ZlkG7gT
-         J5lfJ19s9Hzbvd2tgAXGLNS3mEnxTTPMBhVe8JaD8nSiYuMlcYrisTcb1vpFF6IcYR2N
-         PTFQ==
-X-Gm-Message-State: AOAM531dowKIf8PNeickQXiff5cJPuWfIpg/J9+egYqHEKmvQeqRCHDl
-        KL2cM2wnWPPW2HacsebOWYE=
-X-Google-Smtp-Source: ABdhPJw+eHBj2KVeDbm7TygBhjGJNoFQ+/Qn1A6XGoCBeSsem+1cwpXiWbSXFu2mbxJZFe7y6qxhVA==
-X-Received: by 2002:adf:ea8d:: with SMTP id s13mr17867999wrm.32.1616415956354;
-        Mon, 22 Mar 2021 05:25:56 -0700 (PDT)
-Received: from felia.fritz.box ([2001:16b8:2d8a:8e00:5079:bba3:3b0:9023])
-        by smtp.gmail.com with ESMTPSA id u17sm19088558wrw.51.2021.03.22.05.25.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 05:25:56 -0700 (PDT)
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
-Cc:     Joe Perches <joe@perches.com>,
-        Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
-        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH 2/2] pagewalk: prefix struct kernel-doc descriptions
-Date:   Mon, 22 Mar 2021 13:25:42 +0100
-Message-Id: <20210322122542.15072-3-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210322122542.15072-1-lukas.bulwahn@gmail.com>
-References: <20210322122542.15072-1-lukas.bulwahn@gmail.com>
+        id S230483AbhCVNXe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 09:23:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38890 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232989AbhCVNUU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Mar 2021 09:20:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B1F586192D;
+        Mon, 22 Mar 2021 13:20:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616419218;
+        bh=tB9BH1WfCWL6Zr4kv1jDusfYTeAiiKrkECsa+aMqwkc=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=QwblAcOCJaG11yegYF6v/yVGLYeCuvNggXP6cYwxqHrOHGMcLDVs6i/mur3l1xiZp
+         3Aph3qidUnTp1L+HdY3dSdhSp8pHuoagOmzmRC5kXFp6NbTxP0yvXs3rR+Mpu7eVB4
+         ii5g767V0uB3aaqnj8HZjkn1eu2bRzUH0053RggvQGZErsNuHcwy8WmOMCFTDeL2rU
+         /3D9jTkWdJ6a9EzImzEw78SxHqX9Yb8jbgRSZrFm/QD2FoOjC4r/JKfvo4RBB89BPi
+         gkyTlGVyicHIwslsiIpAAoYxrcTBEuJk/daaiQlZKgQ+esljQM6lB9ad2PtWc66VtL
+         GvHxNkt5aCkfQ==
+From:   Will Deacon <will@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Thomas Tai <thomas.tai@oracle.com>,
+        Tom Saeger <tom.saeger@oracle.com>, linux-doc@vger.kernel.org,
+        Konrad Rzeszutek Wilk <konrad@kernel.org>
+Cc:     catalin.marinas@arm.com, kernel-team@android.com,
+        Will Deacon <will@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Al Stone <al.stone@linaro.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: arm64/acpi : clarify arm64 support of IBFT
+Date:   Mon, 22 Mar 2021 13:19:59 +0000
+Message-Id: <161641700110.3900554.4306809050769717911.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <9efc652df2b8d6b53d9acb170eb7c9ca3938dfef.1615920441.git.tom.saeger@oracle.com>
+References: <9efc652df2b8d6b53d9acb170eb7c9ca3938dfef.1615920441.git.tom.saeger@oracle.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The script './scripts/kernel-doc -none ./include/linux/pagewalk.h' reports:
+On Tue, 16 Mar 2021 12:50:41 -0600, Tom Saeger wrote:
+> In commit 94bccc340710 ("iscsi_ibft: make ISCSI_IBFT dependson ACPI instead
+> of ISCSI_IBFT_FIND") Kconfig was disentangled to make ISCSI_IBFT selection
+> not depend on x86.
+> 
+> Update arm64 acpi documentation, changing IBFT support status from
+> "Not Supported" to "Optional".
+> Opportunistically re-flow paragraph for changed lines.
+> 
+> [...]
 
-  include/linux/pagewalk.h:37: warning: cannot understand function prototype: 'struct mm_walk_ops '
-  include/linux/pagewalk.h:85: warning: cannot understand function prototype: 'struct mm_walk '
+Applied to arm64 (for-next/fixes), thanks!
 
-A kernel-doc description for a structure requires to prefix the struct name
-with the keyword 'struct'. So, do that such that no further kernel-doc
-warnings are reported for this file.
+[1/1] Documentation: arm64/acpi : clarify arm64 support of IBFT
+      https://git.kernel.org/arm64/c/e14a371f732b
 
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- include/linux/pagewalk.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/pagewalk.h b/include/linux/pagewalk.h
-index b1cb6b753abb..ac7b38ad5903 100644
---- a/include/linux/pagewalk.h
-+++ b/include/linux/pagewalk.h
-@@ -7,7 +7,7 @@
- struct mm_walk;
- 
- /**
-- * mm_walk_ops - callbacks for walk_page_range
-+ * struct mm_walk_ops - callbacks for walk_page_range
-  * @pgd_entry:		if set, called for each non-empty PGD (top-level) entry
-  * @p4d_entry:		if set, called for each non-empty P4D entry
-  * @pud_entry:		if set, called for each non-empty PUD entry
-@@ -71,7 +71,7 @@ enum page_walk_action {
- };
- 
- /**
-- * mm_walk - walk_page_range data
-+ * struct mm_walk - walk_page_range data
-  * @ops:	operation to call during the walk
-  * @mm:		mm_struct representing the target process of page table walk
-  * @pgd:	pointer to PGD; only valid with no_vma (otherwise set to NULL)
+Cheers,
 -- 
-2.17.1
+Will
 
+https://fixes.arm64.dev
+https://next.arm64.dev
+https://will.arm64.dev
