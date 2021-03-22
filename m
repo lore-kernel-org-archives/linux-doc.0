@@ -2,50 +2,53 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEE8DC433C1
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 05:31:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BC6AC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 05:31:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE26C61967
+	by mail.kernel.org (Postfix) with ESMTP id ECCC461966
 	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 05:31:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229897AbhCVFam (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 01:30:42 -0400
-Received: from mga01.intel.com ([192.55.52.88]:39465 "EHLO mga01.intel.com"
+        id S229941AbhCVFan (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 01:30:43 -0400
+Received: from mga09.intel.com ([134.134.136.24]:18626 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229728AbhCVFa3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Mar 2021 01:30:29 -0400
-IronPort-SDR: wu6sgsl0feGFhWZuOjqo67CPSwyXtilvEmyLohTA6kpy52aPpMILK4rd9tCtuhjyTNbwmpKckL
- +BpCi7E6e1Mw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9930"; a="210268981"
+        id S229926AbhCVFaf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Mar 2021 01:30:35 -0400
+IronPort-SDR: XXDNoAyd256LRlrmV0ch3MCZiqhID+XZCufTk31Rv4kdiHGEQDOZfsB3m4ebjZtDqdFQ4PwVwE
+ t7HTHhi7ZAjg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9930"; a="190298143"
 X-IronPort-AV: E=Sophos;i="5.81,268,1610438400"; 
-   d="scan'208";a="210268981"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2021 22:30:28 -0700
-IronPort-SDR: vua1iuQv0xQomTn+IqFstN87l1bST0a1k/HBecwFbUPrrVZoV2xUI+M63k8vZTxog/zbWAisIv
- MFJ4Hoq5yeSg==
+   d="scan'208";a="190298143"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2021 22:30:35 -0700
+IronPort-SDR: cQ2hdS88R4RIflBow77nGTW9TIPO3K0TsZNbDTLafGoEi4oauhlBPJdCd1gZoaIjz65JYbaMT7
+ LzFYexxPfcVQ==
 X-IronPort-AV: E=Sophos;i="5.81,268,1610438400"; 
-   d="scan'208";a="414339804"
+   d="scan'208";a="607238746"
 Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2021 22:30:28 -0700
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2021 22:30:34 -0700
 From:   ira.weiny@intel.com
 To:     Thomas Gleixner <tglx@linutronix.de>,
         Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
         Andy Lutomirski <luto@kernel.org>,
         Peter Zijlstra <peterz@infradead.org>
 Cc:     Ira Weiny <ira.weiny@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Dan Williams <dan.j.williams@intel.com>, x86@kernel.org,
-        linux-kernel@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: [PATCH V4 00/10] PKS Add Protection Key Supervisor support
-Date:   Sun, 21 Mar 2021 22:30:10 -0700
-Message-Id: <20210322053020.2287058-1-ira.weiny@intel.com>
+        Dan Williams <dan.j.williams@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: [PATCH V4 04/10] x86/pks: Add PKS defines and Kconfig options
+Date:   Sun, 21 Mar 2021 22:30:14 -0700
+Message-Id: <20210322053020.2287058-5-ira.weiny@intel.com>
 X-Mailer: git-send-email 2.28.0.rc0.12.gb6a658bd00c9
+In-Reply-To: <20210322053020.2287058-1-ira.weiny@intel.com>
+References: <20210322053020.2287058-1-ira.weiny@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -54,169 +57,128 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Ira Weiny <ira.weiny@intel.com>
 
-Introduce a new page protection mechanism for supervisor pages, Protection Key
-Supervisor (PKS).
+Protection Keys for Supervisor pages (PKS) enables fast, hardware thread
+specific, manipulation of permission restrictions on supervisor page
+mappings.  It uses the same mechanism of Protection Keys as those on
+User mappings but applies that mechanism to supervisor mappings using a
+supervisor specific MSR.
 
-Generally PKS enables protections on 'domains' of supervisor pages to limit
-supervisor mode access to pages beyond the normal paging protections.  PKS
-works in a similar fashion to user space pkeys, PKU.  As with PKU, supervisor
-pkeys are checked in addition to normal paging protections and Access or Writes
-can be disabled via a MSR update without TLB flushes when permissions change.
+Kernel users can define domains of page mappings which have an extra
+level of protection beyond those specified in the supervisor page table
+entries.
 
-Also like PKU, a page mapping is assigned to a domain by setting pkey bits in
-the page table entry for that mapping.
+Define the PKS CPU feature bits.
 
-Access is controlled through a PKRS register which is updated via WRMSR/RDMSR.
+Add the Kconfig ARCH_HAS_SUPERVISOR_PKEYS to indicate to consumers that
+an architecture supports pkeys.
 
-XSAVE is not supported for the PKRS MSR.  Therefore the implementation
-saves/restores the MSR across context switches and during exceptions.  Nested
-exceptions are supported by each exception getting a new PKS state.
+Introduce ARCH_ENABLE_SUPERVISOR_PKEYS to allow kernel users to specify
+to the arch that they wish to use the supervisor key support if
+ARCH_HAS_SUPERVISOR_PKEYS is available.  ARCH_ENABLE_SUPERVISOR_PKEYS
+remains off until the first use case sets it.
 
-For consistent behavior with current paging protections, pkey 0 is reserved and
-configured to allow full access via the pkey mechanism, thus preserving the
-default paging protections on mappings with the default pkey value of 0.
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+Co-developed-by: Fenghua Yu <fenghua.yu@intel.com>
+Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
+Signed-off-by: Ira Weiny <ira.weiny@intel.com>
 
-Other keys, (1-15) are allocated by an allocator which prepares us for key
-contention from day one.  Kernel users should be prepared for the allocator to
-fail either because of key exhaustion or due to PKS not being supported on the
-CPU instance.
+---
+Changes from V3:
+	From Dan
+		Clean up commit message
+		Add ARCH_ENABLE_SUPERVISOR_PKEYS option so we don't have
+		the overhead of PKS unless there is a user
+	Clean up commit message grammar
 
-The following are key attributes of PKS.
+Changes from V2
+	New patch for V3:  Split this off from the enable patch to be
+	able to create cleaner bisectability
+---
+ arch/x86/Kconfig                            | 1 +
+ arch/x86/include/asm/cpufeatures.h          | 1 +
+ arch/x86/include/asm/disabled-features.h    | 8 +++++++-
+ arch/x86/include/uapi/asm/processor-flags.h | 2 ++
+ mm/Kconfig                                  | 4 ++++
+ 5 files changed, 15 insertions(+), 1 deletion(-)
 
-   1) Fast switching of permissions
-	1a) Prevents access without page table manipulations
-	1b) No TLB flushes required
-   2) Works on a per thread basis
-
-PKS is available with 4 and 5 level paging.  Like PKRU it consumes 4 bits from
-the PTE to store the pkey within the entry.
-
-All code to support PKS is configured via ARCH_ENABLE_SUPERVISOR_PKEYS which
-is designed to only be turned on when a user is configured on in the kernel.
-Those users must depend on ARCH_HAS_SUPERVISOR_PKEYS to properly work with
-other architectures which do not yet support PKS.
-
-Originally this series was submitted as part of a large patch set which
-converted the kmap call sites.[1]
-
-Many follow on discussions revealed a few problems.  The first of which was
-that some callers leak a kmap mapping across threads rather than containing it
-to a critical section.  Attempts were made to see if these 'global kmaps' could
-be supported.[2]  However, supporting global kmaps had many problems.  Work is
-being done in parallel on converting as many kmap calls to the new
-kmap_local_page().[3]
-
-
-Changes from V3 [4]
-	Add ARCH_ENABLE_SUPERVISOR_PKEYS config which is selected by kernel
-	users to add the functionality to the core.  However, they should only
-	select this if ARCH_HAS_SUPERVISOR_PKEYS is available.
-	Clean up test code for context switching
-		Adjust for extended_pt_regs
-		Reduce output unless --debug is specified
-        Address internal review comments from Dan Williams and Dave Hansen
-		Help with macros and assembly coding
-		Change names of various functions
-                Clean up documentation
-                Move all #ifdefery into header files.
-                Clean up cover letter.
-		Make extended_pt_regs handling a macro rather than coding
-			around every call to C
-                Add macross for PKS shift/mask
-                        New patch : x86/pks: Add additional PKEY helper macros
-		Preserve pkrs_cache as static when PKS_TEST is not configured
-		Remove unnecessary pr_* prints
-		Clarify pks_key_alloc flags parameter
-		Change CONFIG_PKS_TESTING to CONFIG_PKS_TEST
-		Clean up test code separation from main code in fault.c
-		Remove module boilerplate from test code
-		Clean up all commit messages
-	Address comments from Thomas Gleixner
-		Provide a warning and fallback to no protection if a global
-		mapping is requested.
-		Fix context switch.  Fix where pks_sched_in() is called.
-		Fix test to actually do a context switch
-		Remove unecessary noinstr's
-	From Andy Lutomirski
-		Use extended_pt_regs idea to stash pks values on the stack
-		Drop patches 5/10 and 7/10
-			And use extended_pt_regs to print pkey info on fault
-		Adjust tests
-	Comments from Randy Dunlap:
-		Fix gramatical errors in doc
-	Clean up kernel docs
-	Rebase to 5.12
-
-
-[1] https://lore.kernel.org/lkml/20201009195033.3208459-1-ira.weiny@intel.com/
-
-[2] https://lore.kernel.org/lkml/87mtycqcjf.fsf@nanos.tec.linutronix.de/
-
-[3] https://lore.kernel.org/lkml/20210128061503.1496847-1-ira.weiny@intel.com/
-    https://lore.kernel.org/lkml/20210210062221.3023586-1-ira.weiny@intel.com/
-    https://lore.kernel.org/lkml/20210205170030.856723-1-ira.weiny@intel.com/
-    https://lore.kernel.org/lkml/20210217024826.3466046-1-ira.weiny@intel.com/
-
-[4] https://lore.kernel.org/lkml/20201106232908.364581-1-ira.weiny@intel.com/
-
-</proposed cover letter>
-
-
-Fenghua Yu (1):
-  x86/pks: Add PKS kernel API
-
-Ira Weiny (9):
-  x86/pkeys: Create pkeys_common.h
-  x86/fpu: Refactor arch_set_user_pkey_access() for PKS support
-  x86/pks: Add additional PKEY helper macros
-  x86/pks: Add PKS defines and Kconfig options
-  x86/pks: Add PKS setup code
-  x86/fault: Adjust WARN_ON for PKey fault
-  x86/pks: Preserve the PKRS MSR on context switch
-  x86/entry: Preserve PKRS MSR across exceptions
-  x86/pks: Add PKS test code
-
- Documentation/core-api/protection-keys.rst  | 111 +++-
- arch/x86/Kconfig                            |   1 +
- arch/x86/entry/calling.h                    |  26 +
- arch/x86/entry/common.c                     |  58 ++
- arch/x86/entry/entry_64.S                   |  22 +-
- arch/x86/entry/entry_64_compat.S            |   6 +-
- arch/x86/include/asm/cpufeatures.h          |   1 +
- arch/x86/include/asm/disabled-features.h    |   8 +-
- arch/x86/include/asm/msr-index.h            |   1 +
- arch/x86/include/asm/pgtable.h              |  10 +-
- arch/x86/include/asm/pgtable_types.h        |  12 +
- arch/x86/include/asm/pkeys.h                |   4 +
- arch/x86/include/asm/pkeys_common.h         |  34 +
- arch/x86/include/asm/pks.h                  |  54 ++
- arch/x86/include/asm/processor-flags.h      |   2 +
- arch/x86/include/asm/processor.h            |  43 +-
- arch/x86/include/uapi/asm/processor-flags.h |   2 +
- arch/x86/kernel/cpu/common.c                |   2 +
- arch/x86/kernel/fpu/xstate.c                |  22 +-
- arch/x86/kernel/head_64.S                   |   7 +-
- arch/x86/kernel/process.c                   |   3 +
- arch/x86/kernel/process_64.c                |   2 +
- arch/x86/mm/fault.c                         |  27 +-
- arch/x86/mm/pkeys.c                         | 218 +++++-
- include/linux/pgtable.h                     |   4 +
- include/linux/pkeys.h                       |  34 +
- kernel/entry/common.c                       |  14 +-
- lib/Kconfig.debug                           |  11 +
- lib/Makefile                                |   3 +
- lib/pks/Makefile                            |   3 +
- lib/pks/pks_test.c                          | 693 ++++++++++++++++++++
- mm/Kconfig                                  |   5 +
- tools/testing/selftests/x86/Makefile        |   3 +-
- tools/testing/selftests/x86/test_pks.c      | 150 +++++
- 34 files changed, 1519 insertions(+), 77 deletions(-)
- create mode 100644 arch/x86/include/asm/pkeys_common.h
- create mode 100644 arch/x86/include/asm/pks.h
- create mode 100644 lib/pks/Makefile
- create mode 100644 lib/pks/pks_test.c
- create mode 100644 tools/testing/selftests/x86/test_pks.c
-
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 2792879d398e..5e3a7c2bc342 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1870,6 +1870,7 @@ config X86_INTEL_MEMORY_PROTECTION_KEYS
+ 	depends on X86_64 && (CPU_SUP_INTEL || CPU_SUP_AMD)
+ 	select ARCH_USES_HIGH_VMA_FLAGS
+ 	select ARCH_HAS_PKEYS
++	select ARCH_HAS_SUPERVISOR_PKEYS
+ 	help
+ 	  Memory Protection Keys provides a mechanism for enforcing
+ 	  page-based protections, but without requiring modification of the
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index cc96e26d69f7..83ed73407417 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -359,6 +359,7 @@
+ #define X86_FEATURE_MOVDIR64B		(16*32+28) /* MOVDIR64B instruction */
+ #define X86_FEATURE_ENQCMD		(16*32+29) /* ENQCMD and ENQCMDS instructions */
+ #define X86_FEATURE_SGX_LC		(16*32+30) /* Software Guard Extensions Launch Control */
++#define X86_FEATURE_PKS			(16*32+31) /* Protection Keys for Supervisor pages */
+ 
+ /* AMD-defined CPU features, CPUID level 0x80000007 (EBX), word 17 */
+ #define X86_FEATURE_OVERFLOW_RECOV	(17*32+ 0) /* MCA overflow recovery support */
+diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
+index b7dd944dc867..fd09ae852c04 100644
+--- a/arch/x86/include/asm/disabled-features.h
++++ b/arch/x86/include/asm/disabled-features.h
+@@ -44,6 +44,12 @@
+ # define DISABLE_OSPKE		(1<<(X86_FEATURE_OSPKE & 31))
+ #endif /* CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS */
+ 
++#ifdef CONFIG_ARCH_ENABLE_SUPERVISOR_PKEYS
++# define DISABLE_PKS		0
++#else
++# define DISABLE_PKS		(1<<(X86_FEATURE_PKS & 31))
++#endif
++
+ #ifdef CONFIG_X86_5LEVEL
+ # define DISABLE_LA57	0
+ #else
+@@ -88,7 +94,7 @@
+ #define DISABLED_MASK14	0
+ #define DISABLED_MASK15	0
+ #define DISABLED_MASK16	(DISABLE_PKU|DISABLE_OSPKE|DISABLE_LA57|DISABLE_UMIP| \
+-			 DISABLE_ENQCMD)
++			 DISABLE_ENQCMD|DISABLE_PKS)
+ #define DISABLED_MASK17	0
+ #define DISABLED_MASK18	0
+ #define DISABLED_MASK19	0
+diff --git a/arch/x86/include/uapi/asm/processor-flags.h b/arch/x86/include/uapi/asm/processor-flags.h
+index bcba3c643e63..191c574b2390 100644
+--- a/arch/x86/include/uapi/asm/processor-flags.h
++++ b/arch/x86/include/uapi/asm/processor-flags.h
+@@ -130,6 +130,8 @@
+ #define X86_CR4_SMAP		_BITUL(X86_CR4_SMAP_BIT)
+ #define X86_CR4_PKE_BIT		22 /* enable Protection Keys support */
+ #define X86_CR4_PKE		_BITUL(X86_CR4_PKE_BIT)
++#define X86_CR4_PKS_BIT		24 /* enable Protection Keys for Supervisor */
++#define X86_CR4_PKS		_BITUL(X86_CR4_PKS_BIT)
+ 
+ /*
+  * x86-64 Task Priority Register, CR8
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 24c045b24b95..c7d1fc780358 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -808,6 +808,10 @@ config ARCH_USES_HIGH_VMA_FLAGS
+ 	bool
+ config ARCH_HAS_PKEYS
+ 	bool
++config ARCH_HAS_SUPERVISOR_PKEYS
++	bool
++config ARCH_ENABLE_SUPERVISOR_PKEYS
++	bool
+ 
+ config PERCPU_STATS
+ 	bool "Collect percpu memory statistics"
 -- 
 2.28.0.rc0.12.gb6a658bd00c9
 
