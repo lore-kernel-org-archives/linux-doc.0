@@ -2,114 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 085DBC433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 12:18:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02D95C433E2
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 12:26:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A7D046198D
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 12:18:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8CF5619A1
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 12:26:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229930AbhCVMRd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 08:17:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48832 "EHLO
+        id S229930AbhCVM0f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 08:26:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229547AbhCVMRQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 08:17:16 -0400
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FFD2C061574;
-        Mon, 22 Mar 2021 05:17:16 -0700 (PDT)
-Received: by mail-yb1-xb2e.google.com with SMTP id o66so6319837ybg.10;
-        Mon, 22 Mar 2021 05:17:16 -0700 (PDT)
+        with ESMTP id S230012AbhCVMZx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 08:25:53 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58F90C061574;
+        Mon, 22 Mar 2021 05:25:52 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id n11-20020a05600c4f8bb029010e5cf86347so11099247wmq.1;
+        Mon, 22 Mar 2021 05:25:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=djp6rAThn/JMZBuvzCFDPT3cc+3P/h3ppC7XfOEilpc=;
-        b=s/Ibu1OQbNoAMX6Sb18/aqu/7fDNdN9Pdh1Z/GYhAGHyDWfxxpx6YMeLa89s7FbDbS
-         YNQbVrfVKI9AiKOm3YtwtUr0t0mTyhcVBYlSWgTgVYVvUvnAD8ubcINwJxaeSGpXaN6r
-         +9q0isev61wYM8SZCczNkt4NIhoLW2/jmFfqizDgmN5EeYW//104utVdHWgrqa/3WAVd
-         JqquNfCk/lzbBZf2XuyA0ZJsrRG3TPRD+YYXBaiq0fxW+1Kj38lePTdqjQPAChHEPMG5
-         5+PoYway+I9B6BxBdu/Bg1/C506cud+6dxBNL+57j6YJfLxOrXhGA+lHm7HfnUV/kaZ9
-         3p+w==
+        h=from:to:cc:subject:date:message-id;
+        bh=LOMTMUV/x85LsCPs4gPFUtmz8oNiKQ4g1MCpJALdrNc=;
+        b=h23X+iafnBgO3cnGvZfeiDg84UGZYLcGqxh1D7fZNVic8vdWLnIQPRMVK42ZPf8o9N
+         +K26B+14EB/6s0m9osJUsNjYzpbDuRf/7piB9JM4/q/UzSPB/U96FdLPbGlTUpPGvzOw
+         1hWUG56Xt4gBGdWCQOoAREVM2ewYnA0y6TVzNc+Q9mrB7CaQJrCObm8phOzqeAfJWR4p
+         v2mbPrgNEOYDbzbt7Uw7F9RZUBTMzbr175Orz62+zqqqrEBfYgpc24vLlP1F8YafQ7A4
+         DtnwAxRPtNvi9UitVE2DyIcFIDEGhwT9Qsh+ZsSjRXHvV38GxS1sMiiu/mHnCcrOVCyn
+         tehg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=djp6rAThn/JMZBuvzCFDPT3cc+3P/h3ppC7XfOEilpc=;
-        b=ZlAuecw8xxHFBI/fB25O5wj1rSaGYRhYI1xrO3ydtJHqX13RtQEsR84E0IalhcKhUF
-         D/Mc92yoKoBNQ3PIQkLGpdf+AWMxmq9TA1s0JWgWwdrJE7VD3aGEnUOyM8b+38M+DdQi
-         Ab6LoVvl1G/ekQt40F1G0j4UC8O59tC/oTO8dwgIEqLaJkMEEK5lYdcJgobhjALyg1QC
-         6fixIh1Ee2+nUasWr/D6M++hllAeRkxUxA/E8w0s3+zacXjyl/NH//lEnih7tVAKfkoT
-         P6xNdH6YtCXzhf6TwgGIu6WRPkolYZ+d17LhoLZHlJ2LaJogiSyf/PTpM7+8Fm8Vx2PH
-         040g==
-X-Gm-Message-State: AOAM532KBsdc9T8wjEyybu2ds43b7B/8neGXb4ydXUAhKGOOAWDbzShe
-        YCm/J2xuZet9ONneEHIW2z0pqch7uypdNX1l9Zo=
-X-Google-Smtp-Source: ABdhPJxsBHGCizKsS8vwffPbH+Xz5DUB5+jh84r9t85iyZOhIqse7/znhjmdqpCpQC3t+uHe41LBE8vZPazsMssgt/M=
-X-Received: by 2002:a25:d94b:: with SMTP id q72mr22707676ybg.135.1616415435700;
- Mon, 22 Mar 2021 05:17:15 -0700 (PDT)
-MIME-Version: 1.0
-References: <CACT4Y+bdXrFoL1Z_h5s+5YzPZiazkyr2koNvfw9xNYEM69TSvg@mail.gmail.com>
- <20210321184403.8833-1-info@alexander-lochmann.de>
-In-Reply-To: <20210321184403.8833-1-info@alexander-lochmann.de>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 22 Mar 2021 13:17:04 +0100
-Message-ID: <CANiq72n+hqW5i4Cj8jS9oHYTcjQkoAZkw6OwhZ0vhkS=mayz_g@mail.gmail.com>
-Subject: Re: [PATCH] Introduced new tracing mode KCOV_MODE_UNIQUE.
-To:     Alexander Lochmann <info@alexander-lochmann.de>
-Cc:     Dmitry Vyukov <dvyukov@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Aleksandr Nogikh <nogikh@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Wei Yongjun <weiyongjun1@huawei.com>,
-        Maciej Grochowski <maciej.grochowski@pm.me>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=LOMTMUV/x85LsCPs4gPFUtmz8oNiKQ4g1MCpJALdrNc=;
+        b=Z5NCMaj3kjNyGhB5ybGQoGXN1PMf/bTYwWE01ti4C21lUVBXxTKM9bpxBFX0/EhGZZ
+         ta3EJrtqDFXOJqL/6nsf0zUh/iNXdlJ5N5rTZQU+uCffFj4NWowRGv8roNMWgXJ1xsVj
+         mb36V5YhskDsAvoX8k6dINzWvxAkDYqYWqEXQ9UfbtA96x+u/9X3Lct28mq7auDpSSRa
+         Zb5n+ANhYRbI9ZIeFI6Yp/CNE0fDyFaKqxdupXU2IeaxAAOrneQQ0MUgdrLJ3qJMCEbC
+         aLt8sFKpOZxGtdimhS96MyMZa13S/RvmbtixpdUgIC1Nembx2tu00LFxVbcRXI0OJ4NA
+         5kzQ==
+X-Gm-Message-State: AOAM532A8DEgQENcb+pHK85C+pi+XIW7dsjesvkT9i281rQzvR4Gsdl6
+        5Lwp8lkvMVNPI8LmtOZ67Es=
+X-Google-Smtp-Source: ABdhPJzt258rnp+NSla7apvIQE3tvvBvTpjWmYXSMVgriDFOrOqXSTatqWQQ26RLdAxRvgCu6jDioQ==
+X-Received: by 2002:a05:600c:290b:: with SMTP id i11mr16282819wmd.129.1616415950882;
+        Mon, 22 Mar 2021 05:25:50 -0700 (PDT)
+Received: from felia.fritz.box ([2001:16b8:2d8a:8e00:5079:bba3:3b0:9023])
+        by smtp.gmail.com with ESMTPSA id u17sm19088558wrw.51.2021.03.22.05.25.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Mar 2021 05:25:50 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org
+Cc:     Joe Perches <joe@perches.com>,
+        Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH 0/2] kernel-doc and MAINTAINERS clean-up
+Date:   Mon, 22 Mar 2021 13:25:40 +0100
+Message-Id: <20210322122542.15072-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Alexander,
+Roughly 900 warnings of about 21.000 kernel-doc warnings in the kernel tree
+warn with 'cannot understand function prototype:', i.e., the kernel-doc parser
+cannot parse the function's signature. The majority, about 600 cases of those,
+are just struct definitions following the kernel-doc description. Further,
+spot-check investigations suggest that the authors of the specific kernel-doc
+descriptions simply were not aware that the general format for a kernel-doc
+description for a structure requires to prefix the struct name with the keyword
+'struct', as in 'struct struct_name - Brief description.'. Details on
+kernel-doc are at the Link below.
 
-On Sun, Mar 21, 2021 at 8:14 PM Alexander Lochmann
-<info@alexander-lochmann.de> wrote:
->
-> diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
-> index d2c4c27e1702..e105ffe6b6e3 100644
-> --- a/Documentation/dev-tools/kcov.rst
-> +++ b/Documentation/dev-tools/kcov.rst
-> @@ -127,6 +127,86 @@ That is, a parent process opens /sys/kernel/debug/kcov, enables trace mode,
->  mmaps coverage buffer and then forks child processes in a loop. Child processes
->  only need to enable coverage (disable happens automatically on thread end).
->
-> +If someone is interested in a set of executed PCs, and does not care about
-> +execution order, he or she can advise KCOV to do so:
+Without the struct keyword, kernel-doc does not check if the kernel-doc
+description fits to the actual struct definition in the source code.
+Fortunately, in roughly a quarter of these cases, the kernel-doc description is
+actually complete wrt. its corresponding struct definition. So, the trivial
+change adding the struct keyword will allow us to keep the kernel-doc
+descriptions more consistent for future changes, by checking for new kernel-doc
+warnings.
 
-Please mention explicitly that KCOV_INIT_UNIQUE should be used for
-that, i.e. readers of the example shouldn't need to read every line to
-figure it out.
+Also, some of the files in ./include/ are not assigned to a specific
+MAINTAINERS section and hence have no dedicated maintainer. So, if needed, the
+files in ./include/ are also assigned to the fitting MAINTAINERS section, as I
+need to identify whom to send the clean-up patch anyway.
 
-> +    #define KCOV_INIT_TRACE                    _IOR('c', 1, unsigned long)
+Here is the change from this kernel-doc janitorial work in the ./include/
+directory for MEMORY MANAGEMENT.
 
-Trace is not used in the example.
+Andrew, please pick this clean-up patch series for mm.
 
-> +       /* KCOV was initialized, but recording of unique PCs hasn't been chosen yet. */
-> +       KCOV_MODE_INIT_UNQIUE = 2,
+Link: https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html
 
-Typo? It isn't used?
 
-PS: not sure why I was Cc'd, but I hope that helps.
+Lukas Bulwahn (2):
+  MAINTAINERS: assign pagewalk.h to MEMORY MANAGEMENT
+  pagewalk: prefix struct kernel-doc descriptions
 
-Cheers,
-Miguel
+ MAINTAINERS              | 1 +
+ include/linux/pagewalk.h | 4 ++--
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+-- 
+2.17.1
+
