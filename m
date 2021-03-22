@@ -2,138 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-0.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74000C433C1
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 18:26:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6BE9C433C1
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 18:33:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3475361998
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 18:26:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A7A7E61998
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 18:33:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232176AbhCVSZg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 14:25:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43974 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231264AbhCVSZN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 14:25:13 -0400
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83F7CC061762
-        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 11:25:01 -0700 (PDT)
-Received: by mail-pf1-x435.google.com with SMTP id l3so11562644pfc.7
-        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 11:25:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=OALm4xfK1wwGwvHx7Gk4sNjSyWXfRLiJPZ9rAyaA/XM=;
-        b=Qa63hcwdFdariUeX+riXwEreFLPTb8WrlMOljzBBFX7+lp14M5ndxajfImrIDPJgdI
-         5tnI1Ok8NP2//d9SfWGA6kfZD4QxFSKXBpq4yIP2JdwI27pnQtHPN6unZSbl3cEyHlAt
-         /Bqt6YvXxD5CJZo7tQbFS2DyO8VFSNopZzgykyEPzup90yrfD7qKbOb9U8hre5ZgDXnS
-         w8ntMBJwlffDAVEsVx6MH8+bwCYwhsRnUOgmDPuKnSb+9ohMIobtcQ2gZMTr1mpHYpK8
-         zDt4vXs1yZFQz2qoSg721rNpbpkBLZCOodzZyDXjvP8fcqmgWIOUNkE2sP8VonbGPHwg
-         Svpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=OALm4xfK1wwGwvHx7Gk4sNjSyWXfRLiJPZ9rAyaA/XM=;
-        b=JEXN+dnZg/Rkp7hM8qvL4d6nsnVqKfVDX97M43sVK10uDS9lOngvSdp9LaL7evlw1F
-         xeX+9PhOLKZ6KHdUtAa+R+Z6I6gIWneM/CEp/KkBEzLFzkGUcigTitylaos/M+94CRku
-         UtNnBGbUMiBrGNR0A/oJQTXjVxYZBp69VGYQ+RI5Xmzyz7uHiheWAGmb580kxZkiQoVt
-         dkuPlbuCnCsh2FoOqfVgz1ZYwF1ZyHssdTEOHlKR2MYp9mcPZsWnflKyAVIIZM1jXYvh
-         1LFWEpDB2v+rpSqG0YbXvFJsoKpGQUukNp21CaX/aII5YWxWTScJU/ozm+SWdeqXTsd+
-         gMaA==
-X-Gm-Message-State: AOAM5310SWSln+VG8zPXPaQ8B96uKkV1pM6jaIKm1d2hVQWwsPqr6Kz0
-        KvmQBH9V0PbBeT0aNOueTkQAew==
-X-Google-Smtp-Source: ABdhPJzjQVmvvDFT1abMZo1ekVFhkzQLl0sx8lA+wID1ngGh8tgY99U4UkprGOVz9CKTa83YI39kWQ==
-X-Received: by 2002:a65:6a4b:: with SMTP id o11mr772166pgu.138.1616437500829;
-        Mon, 22 Mar 2021 11:25:00 -0700 (PDT)
-Received: from google.com ([2620:0:1008:10:1193:4d01:a2a0:b6db])
-        by smtp.gmail.com with ESMTPSA id c128sm14232492pfc.76.2021.03.22.11.24.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Mar 2021 11:25:00 -0700 (PDT)
-Date:   Mon, 22 Mar 2021 11:24:55 -0700
-From:   Vipin Sharma <vipinsh@google.com>
-To:     Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-Cc:     Tejun Heo <tj@kernel.org>, rdunlap@infradead.org,
-        thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
-        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
-        frankja@linux.ibm.com, borntraeger@de.ibm.com, corbet@lwn.net,
-        seanjc@google.com, vkuznets@redhat.com, wanpengli@tencent.com,
-        jmattson@google.com, joro@8bytes.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, gingell@google.com,
-        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [Patch v3 0/2] cgroup: New misc cgroup controller
-Message-ID: <YFjg9+qGLMUoKj4h@google.com>
-References: <20210304231946.2766648-1-vipinsh@google.com>
- <YETLqGIw1GekWdYK@slm.duckdns.org>
- <YEpoS90X19Z2QOro@blackbook>
- <YEupplaAWU1i0G6B@google.com>
- <YE+xEbwUoRj+snTY@blackbook>
+        id S229949AbhCVSdR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 14:33:17 -0400
+Received: from mout.gmx.net ([212.227.17.21]:53159 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231734AbhCVSc6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 22 Mar 2021 14:32:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1616437935;
+        bh=a9Q8Zcnw/xf9sXWdpvtkD22X/toBDzx5VCNMGPqEsao=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=V+IEsbsg7pA8J46v3DI+dAtmCtV6lBWVzlRyw8QPDa9OwVA/xsKrEHq/ZG0KrPkHo
+         sDyi4LRHH2WuE1Y2Cs4A+qs3QVtSFQ8S7LqSf9t/vtvSoPk1iqTy5TpnCVG0bGhcWp
+         2W6e0vm15HHS1YDUsbcuaBwvhHpYVVrsZeZDPTmo=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([83.52.229.153]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MiJVG-1lujlJ04dK-00fUtT; Mon, 22
+ Mar 2021 19:32:15 +0100
+Date:   Mon, 22 Mar 2021 19:32:01 +0100
+From:   John Wood <john.wood@gmx.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     John Wood <john.wood@gmx.com>, Jann Horn <jannh@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        James Morris <jmorris@namei.org>,
+        Shuah Khan <shuah@kernel.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        kernel test robot <oliver.sang@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH v6 3/8] securtiy/brute: Detect a brute force attack
+Message-ID: <20210322183201.GA3401@ubuntu>
+References: <20210307113031.11671-1-john.wood@gmx.com>
+ <20210307113031.11671-4-john.wood@gmx.com>
+ <202103171902.E6F55172@keescook>
+ <20210321150118.GA3403@ubuntu>
+ <202103211128.B59FEB91F@keescook>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YE+xEbwUoRj+snTY@blackbook>
+In-Reply-To: <202103211128.B59FEB91F@keescook>
+X-Provags-ID: V03:K1:v1YYfDM4ZzWgD2iLohzBa4hvx/dVZggni7kZwkchp3kHU/01//I
+ C2Oinu1rDKAQRRiEUgF2Twqs7C5KvD2CLs+AE4WG8sDVw+pbeuEceyAXjiafm4H3xvuAW6v
+ H+I9Ko1qx6aJ2dKurmRWhGY9pM3sAkkiCr499DVfuESAbJfwK3tvBqsO+pWwkiPQvhgkIEq
+ /B095FfHE6Enpr+2ol5yg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qUJ7roGywfk=:fBRjjkvxFOsWRm92sDEG5J
+ fZol4nE3DxEHkCEFoKKpPv1BUPhVSQTV9rjS9X/WIKJ1CAke7JXqq+aRTMXlet4aJmmJ0wUwv
+ 2EZqyktEQFCYKhV4aZRJ/7qUtY/6EAO0XiRqaOQJT9PUkDMBpeh+gNGwgjGxto1sLd/dJJOjF
+ HXI3gPzyAJStb+Z2shGg3618w6cPoFCXMQp0fzvV/iAH/6oxWVjtOA5MPrQ7Fgp9cCy3Y0Qye
+ maOcQmLkB1GkFjH20Dzixc+iZYQAu38ZntB+FyXv3Oc6UvUoxfuR8SkUfym8FbAowtdW99UbK
+ lmKPJpkftX/qN8uBj/FjA7dH9QMETEoFSssd2bVl+fhvZxOlfRMI/GYWAOUyPuxrrmeIVvRUq
+ QII1NMqHh8yVFC+7ZR/Gij5q/jt0CdN+tQs65IeQGJNHuqmzzQGChx//PWqcuLEEHf7MJPGcT
+ dvNwwpEgnzc8SnGA8Su9F/5DFkHghwP9NKQ3GCEsWCTJhRK5GIzC5xtl43AdBQZvskMLQBZq/
+ 5c5yo15l5INHhsRb3vz0qjLGbwPvKgyAJ+yzQ0Z8piLhnzpdCfcXHUmH2INAsIhqCvcpCkT+y
+ 5nLdiGwJeLg3Rlaqd/rubsD30ZoPE70sSKXFF5lgC/WOobuPPuMyFiE9TKvtVsk5YKvBGjr4J
+ Q0OFra46huJKsYXjBWd1ZqwpqQmbx56FFXqmUfXZuHIzzs5JAsjn3PZfv+jeeO7NT1uSzZPU8
+ gtCMj6nNFM5XlpoRct1c28iubp0Z/wpLGZz+Qy5uVKxUF4X5cCU6KgUcQzLaHF51LjAcNo6sV
+ lv1WvrC6ZnS8rr6M30fJCT6TGccaeT9uznqDAXSNeVaJJ1LQsS7ZmAdD10nF9W9flE/Te1Ve6
+ dxMbxvJPHRpC/J+lKN9g==
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 15, 2021 at 08:10:09PM +0100, Michal Koutný wrote:
-> On Fri, Mar 12, 2021 at 09:49:26AM -0800, Vipin Sharma <vipinsh@google.com> wrote:
-> > I will add some more information in the cover letter of the next version.
-> Thanks.
-> 
-> > Each one coming up with their own interaction is a duplicate effort
-> > when they all need similar thing.
-> Could this be expressed as a new BPF hook (when allocating/freeing such
-> a resource unit)?
-> 
-> The decision could be made based on the configured limit or even some
-> other predicate.
-> 
-> (I saw this proposed already but I haven't seen some more reasoning
-> whether it's worse/better. IMO, BPF hooks are "cheaper" than full-blown
-> controllers, though it's still new user API.)
+Hi,
 
-I am not much knowledgeable with BPF, so, I might be wrong here.
+On Sun, Mar 21, 2021 at 11:45:59AM -0700, Kees Cook wrote:
+> On Sun, Mar 21, 2021 at 04:01:18PM +0100, John Wood wrote:
+> > On Wed, Mar 17, 2021 at 07:57:10PM -0700, Kees Cook wrote:
+> > > On Sun, Mar 07, 2021 at 12:30:26PM +0100, John Wood wrote:
+> > Sorry, but I try to understand how to use locking properly without luc=
+k.
+> >
+> > I have read (and tried to understand):
+> >    tools/memory-model/Documentation/simple.txt
+> >    tools/memory-model/Documentation/ordering.txt
+> >    tools/memory-model/Documentation/recipes.txt
+> >    Documentation/memory-barriers.txt
+> >
+> > And I don't find the responses that I need. I'm not saying they aren't
+> > there but I don't see them. So my questions:
+> >
+> > If in the above function makes sense to use locking, and it is called =
+from
+> > the brute_task_fatal_signal hook, then, all the functions that are cal=
+led
+> > from this hook need locking (more than one process can access stats at=
+ the
+> > same time).
+> >
+> > So, as you point, how it is possible and safe to read jiffies and faul=
+ts
+> > (and I think period even though you not mention it) using READ_ONCE() =
+but
+> > without holding brute_stats::lock? I'm very confused.
+>
+> There are, I think, 3 considerations:
+>
+> - is "stats", itself, a valid allocation in kernel memory? This is the
+>   "lifetime" management of the structure: it will only stay allocated as
+>   long as there is a task still alive that is attached to it. The use of
+>   refcount_t on task creation/death should entirely solve this issue, so
+>   that all the other places where you access "stats", the memory will be
+>   valid. AFAICT, this one is fine: you're doing all the correct lifetime
+>   management.
+>
+> - changing a task's stats pointer: this is related to lifetime
+>   management, but it, I think, entirely solved by the existing
+>   refcounting. (And isn't helped by holding stats->lock since this is
+>   about stats itself being a valid pointer.) Again, I think this is all
+>   correct already in your existing code (due to the implicit locking of
+>   "current"). Perhaps I've missed something here, but I guess we'll see!
 
-There are couple of things which might not be addressed with BPF:
-1. Which controller to use in v1 case? These are not abstract resources
-   so in v1 where each controller have their own hierarchy it might not
-   be easy to identify the best controller.
+My only concern now is the following case:
 
-2. It seems to me that we won't be able to abstract out a single BPF
-   program which can help with all of the resources types we are
-   planning to use, again, because it is not an abstract type like
-   network packets, and there will be different places in the source
-   code to use these resources.
+One process crashes with a fatal signal. Then, its stats are updated. Then
+we get the exec stats (the stats of the task that calls exec). At the same
+time another CPU frees this same stats. Now, if the first process writes
+to the exec stats we get a "use after free" bug.
 
-To me a cgroup tends to give much easier and well integrated solution when it
-comes to scheduling and limiting a resource with existing tools in a
-cloud infrastructure.
+If this scenario is possible, we would need to protect all the section
+inside the task_fatal_signal hook that deals with the exec stats. I think
+that here a global lock is necessary and also, protect the write of the
+pointer to stats struct in the task_free hook.
 
-> 
-> 
-> > As per my understanding this is the only for way for loadable modules
-> > (kvm-amd in this case) to access Kernel APIs. Let me know if there is a
-> > better way to do it.
-> I understood the symbols are exported for such modularized builds.
-> However, making them non-GPL exposes them to any out-of-tree modules,
-> although, the resource types are supposed to stay hardcoded in the misc
-> controller. So my point was to make them EXPORT_SYMBOL_GPL to mark
-> they're just a means of implementing the modularized builds and not an
-> API. (But they'd remain API for out-of-tree GPL modules anyway, so take
-> this reasoning of mine with a grain of salt.)
-> 
-I see, I will change it to GPL.
+Moreover, I can see another scenario:
 
-Thanks
-Vipin
+The first CPU gets the exec stats when a task fails with a fatal signal.
+The second CPU exec()ve after exec()ve over the same task from we get the
+exec stats with the first CPU. This second CPU resets the stats at the sam=
+e
+time that the first CPU updates the same stats. I think we also need lock
+here.
 
+Am I right? Are these paths possible?
+
+>
+> - are the values in stats getting written by multiple writers, or read
+>   during a write, etc?
+>
+> This last one is the core of what I think could be improved here:
+>
+> To keep the writes serialized, you (correctly) perform locking in the
+> writers. This is fine.
+>
+> There is also locking in the readers, which I think is not needed.
+> AFAICT, READ_ONCE() (with WRITE_ONCE() in the writers) is sufficient for
+> the readers here.
+>
+> > IIUC (during the reading of the documentation) READ_ONCE and WRITE_ONC=
+E only
+> > guarantees that a variable loaded with WRITE_ONCE can be read safely w=
+ith
+> > READ_ONCE avoiding tearing, etc. So, I see these functions like a form=
+ of
+> > guarantee atomicity in variables.
+>
+> Right -- from what I can see about how you're reading the statistics, I
+> don't see a way to have the values get confused (assuming locked writes
+> and READ/WRITE_ONCE()).
+>
+> > Another question. Is it also safe to use WRITE_ONCE without holding th=
+e lock?
+> > Or this is only appliable to read operations?
+>
+> No -- you'll still want the writer locked since you update multiple fiel=
+ds
+> in stats during a write, so you could miss increments, or interleave
+> count vs jiffies writes, etc. But the WRITE_ONCE() makes sure that the
+> READ_ONCE() readers will see a stable value (as I understand it), and
+> in the order they were written.
+>
+> > Any light on this will help me to do the best job in the next patches.=
+ If
+> > somebody can point me to the right direction it would be greatly appre=
+ciated.
+> >
+> > Is there any documentation for newbies regarding this theme? I'm stuck=
+.
+> > I have also read the documentation about spinlocks, semaphores, mutex,=
+ etc..
+> > but nothing clears me the concept expose.
+> >
+> > Apologies if this question has been answered in the past. But the sear=
+ch in
+> > the mailing list has not been lucky.
+>
+> It's a complex subject! Here are some other docs that might help:
+>
+> tools/memory-model/Documentation/explanation.txt
+> Documentation/core-api/refcount-vs-atomic.rst
+>
+> or they may melt your brain further! :) I know mine is always mushy
+> after reading them.
+>
+> > Thanks for your time and patience.
+>
+> You're welcome; and thank you for your work on this! I've wanted a robus=
+t
+> brute force mitigation in the kernel for a long time. :)
+>
+
+Thank you very much for this great explanation and mentorship. Now this
+subject is more clear to me. It's a pleasure to me to work on this.
+
+Again, thanks for your help.
+John Wood
