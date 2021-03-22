@@ -2,79 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C657C433E3
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 19:38:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC44BC433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 19:52:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A99A619A9
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 19:38:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A5B9F6196C
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 19:52:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232056AbhCVTiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 15:38:09 -0400
-Received: from smtp.outgoing.loopia.se ([93.188.3.37]:19229 "EHLO
-        smtp.outgoing.loopia.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232072AbhCVTh4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 15:37:56 -0400
-Received: from s807.loopia.se (localhost [127.0.0.1])
-        by s807.loopia.se (Postfix) with ESMTP id 0494C1A965FD
-        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 20:37:55 +0100 (CET)
-Received: from s645.loopia.se (unknown [172.22.191.6])
-        by s807.loopia.se (Postfix) with ESMTP id E8D852E29DBA;
-        Mon, 22 Mar 2021 20:37:54 +0100 (CET)
-Received: from s474.loopia.se (unknown [172.22.191.5])
-        by s645.loopia.se (Postfix) with ESMTP id DEAA91579F93;
-        Mon, 22 Mar 2021 20:37:54 +0100 (CET)
-X-Virus-Scanned: amavisd-new at amavis.loopia.se
-Received: from s500.loopia.se ([172.22.191.6])
-        by s474.loopia.se (s474.loopia.se [172.22.190.14]) (amavisd-new, port 10024)
-        with LMTP id 9K6bvFuAO9Re; Mon, 22 Mar 2021 20:37:54 +0100 (CET)
-X-Loopia-Auth: user
-X-Loopia-User: carl@hgsystem.se
-X-Loopia-Originating-IP: 155.4.131.157
-Received: from localhost.localdomain (h-155-4-131-157.NA.cust.bahnhof.se [155.4.131.157])
-        (Authenticated sender: carl@hgsystem.se)
-        by s500.loopia.se (Postfix) with ESMTPSA id 3941F1E32F06;
-        Mon, 22 Mar 2021 20:37:54 +0100 (CET)
-From:   Erik Rosen <erik.rosen@metormote.com>
-To:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>
-Cc:     Erik Rosen <erik.rosen@metormote.com>
-Subject: [PATCH v2 1/2] dt-bindings: Add trivial device entry for TPS53676
-Date:   Mon, 22 Mar 2021 20:37:33 +0100
-Message-Id: <20210322193734.75127-2-erik.rosen@metormote.com>
-X-Mailer: git-send-email 2.11.0 (Apple Git-81)
-In-Reply-To: <20210322193734.75127-1-erik.rosen@metormote.com>
-References: <20210322193734.75127-1-erik.rosen@metormote.com>
+        id S231723AbhCVTvf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 15:51:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34392 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231815AbhCVTvV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 15:51:21 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6808CC061574
+        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 12:51:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=SLdwPC5W3o3Gr0ZVa4JQql9yn28VAnXye3gRNuw619g=; b=Vx8d4CcY/4oayG0fn7gXhPPH2v
+        L+4k+RNSys1IkokVhJlKguahw1F8hVsP/9RGbYseY9pzQkuTUbYRNVYSvFgXPXfq4+UrtP7OItYE0
+        heJXSP2/VodK2SXpzDqklh4PQtzI/9EviJa/5MANT1joF8Tj7ryN3C/ipWp3/gEh2z/dKVkTGOUlG
+        /K4MedKwrPPhJbrP5LJwOeSSMvHqz0Dfc/MomCkVCfHCLPvpxQRzpibxj3CD4C3tcCUv06Y4s3vrt
+        GSuKo96DpxIwJIJiLiP59k3iEnCzQblEcxKnN6jw1fATrV+joMbsR9PJ+cGJMq0U/U1Y7ONqJqiQw
+        t1wJwxtA==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lOQZM-008zfX-16; Mon, 22 Mar 2021 19:50:39 +0000
+From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To:     linux-mm@kvack.org, Andrew Morton <akpm@linux-foundation.org>
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-doc@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: [PATCH 1/4] mm/doc: Fix fault_flag_allow_retry_first kerneldoc
+Date:   Mon, 22 Mar 2021 19:50:19 +0000
+Message-Id: <20210322195022.2143603-1-willy@infradead.org>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add trivial device entry for TPS53676
+make htmldocs reports:
 
-Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
+./include/linux/mm.h:496: warning: Function parameter or member 'flags' not described in 'fault_flag_allow_retry_first'
+
+Add a description.
+
+Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
- 1 file changed, 2 insertions(+)
+ include/linux/mm.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-index a327130d1faa..2e29c2a91966 100644
---- a/Documentation/devicetree/bindings/trivial-devices.yaml
-+++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-@@ -288,6 +288,8 @@ properties:
-           - ti,tmp103
-             # Digital Temperature Sensor
-           - ti,tmp275
-+            # TI Dual channel DCAP+ multiphase controller TPS53676 with AVSBus
-+          - ti,tps53676
-             # TI Dual channel DCAP+ multiphase controller TPS53679
-           - ti,tps53679
-             # TI Dual channel DCAP+ multiphase controller TPS53688
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index cb1e191da319..9c149e945bf9 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -482,6 +482,7 @@ extern pgprot_t protection_map[16];
+ 
+ /**
+  * fault_flag_allow_retry_first - check ALLOW_RETRY the first time
++ * @flags: Fault flags.
+  *
+  * This is mostly used for places where we want to try to avoid taking
+  * the mmap_lock for too long a time when waiting for another condition
 -- 
-2.20.1
+2.30.2
 
