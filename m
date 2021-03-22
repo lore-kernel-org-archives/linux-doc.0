@@ -2,238 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B217C433C1
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 10:28:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 099AEC433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 10:39:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 231026197F
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 10:28:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D005561994
+	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 10:39:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230087AbhCVK2T (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 06:28:19 -0400
-Received: from mail-dm6nam11on2087.outbound.protection.outlook.com ([40.107.223.87]:18208
-        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230203AbhCVK15 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Mar 2021 06:27:57 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=P6RbVX2dRoM+V4SvUxDP68g+oMrypkx+UsLPTEaVlUcuRxx3a/AiD0YMfMRjArvJT1znqmXoXpfDvi+L6DqyUHs4S0Nez/257huEoxtBiQKLArmHAQpgxw3yjcHH9++uikkaUDo9nRqaixW70bxWu+dPp4P3kELOP3sSW5LRw0mjqJR30YPzReSfcb/htvtiiIaKYXIbzRCg/uoQUD2VufVaMevyagd4TDXcitrG4q8b3+0D2HQuzy0PfeTzSjhhIjpiX9xw2vCvBSHpvgfKh5UITIA30p1ZEV0/CeCVn0ekYB0GBzzJ/ABmJOwL9ODddVvDi+hOqP0W+c4i0oYTtQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tu85S1tb13VE2v351z6HKk4HzDVjZgv9QJA4MLE3F3g=;
- b=FCdnHuNNnhunVQG2WRs5fNwidyTkjgkmypG/PJqKfZkFqDfneK6oXwjTCVT1CddUsTF5+HQRiojaRPSvHocp3+VlsPxWF8SBRYLOQzIOpTTbDhwSbP/PrMfLpuLeu5/HJR9EnqZUgfkrY3Rqdi92Y4r22wq0ipcoZu0YH8YGQYtpKChw0RtGbLMjXxvuGhqyFO2D72mKi/8b7UJ86fs+pLm9D1lQld/bimFqBiOE+wgLTMlitxI+TDGK4eUFZ8cS0du/wF7vR4rVz7FIcxB763TCFXS5be5pxSkQvkw02hea8syPT3UwDSAcROLJZ2foIiWTngFOFA2PPOO+Y8e/9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tu85S1tb13VE2v351z6HKk4HzDVjZgv9QJA4MLE3F3g=;
- b=adh8xcAxeXufTzcfBqDpsOiZDq5dPvP3/vDJfxhS4zd0aD7nQ90B1rIwHPv6YDXcUV0V4dFAnCC41cAzFmzhJKQndifOWrT7+cQdUwkZAkMSEl9aq3XUBzc+zW1HXz7oug9XMZAhziudacdGdi/1dQponvIU9+RbmuEvyEvN0eyXAnt1r0e6fIVVungy76ZyEBW/gn1tYrJwu2iNGyborWOE8wgO6+z2pJ27oje2CU6N0/N8N1m5Xlk6BTOq0b8ByS3QfthnDfEZznJI4IeQHDj02qWd7jiWxwOUi1cBY6ntqF92/aLcFiFQrJbsK2ekeQA8qmP1gnaLQtc2mx1sVg==
-Received: from DM5PR15CA0028.namprd15.prod.outlook.com (2603:10b6:4:4b::14) by
- BL0PR12MB4929.namprd12.prod.outlook.com (2603:10b6:208:1c4::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3955.18; Mon, 22 Mar 2021 10:27:54 +0000
-Received: from DM6NAM11FT009.eop-nam11.prod.protection.outlook.com
- (2603:10b6:4:4b:cafe::39) by DM5PR15CA0028.outlook.office365.com
- (2603:10b6:4:4b::14) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend
- Transport; Mon, 22 Mar 2021 10:27:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; lists.freedesktop.org; dkim=none (message not
- signed) header.d=none;lists.freedesktop.org; dmarc=pass action=none
- header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT009.mail.protection.outlook.com (10.13.173.20) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3955.18 via Frontend Transport; Mon, 22 Mar 2021 10:27:54 +0000
-Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 22 Mar
- 2021 10:27:48 +0000
-From:   Alistair Popple <apopple@nvidia.com>
-To:     Christoph Hellwig <hch@infradead.org>
-CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <jhubbard@nvidia.com>, <rcampbell@nvidia.com>,
-        <jglisse@redhat.com>, <jgg@nvidia.com>, <daniel@ffwll.ch>,
-        <willy@infradead.org>
-Subject: Re: [PATCH v6 5/8] mm: Device exclusive memory access
-Date:   Mon, 22 Mar 2021 21:27:46 +1100
-Message-ID: <6616451.iqfUG9VtI1@nvdebian>
-In-Reply-To: <20210315074245.GC4136862@infradead.org>
-References: <20210312083851.15981-1-apopple@nvidia.com> <20210312083851.15981-6-apopple@nvidia.com> <20210315074245.GC4136862@infradead.org>
+        id S229829AbhCVKjI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 06:39:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230136AbhCVKix (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 06:38:53 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED336C061762
+        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 03:38:52 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id f3so12098132lfu.5
+        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 03:38:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=4hC27dQ/u288m0lvIAqx0tpRb+YwDiUGxv3BPznT+sI=;
+        b=aG4CCQmbLb1GnZ6XtEGpwTGDwEDwL2zlf2cTCSr+JZswGfljVFAduiKDUNiHIBi622
+         MrBTtUORsoxUb1IuMEA5gBt7Tsghrdp4iXJZrQxtbROBmzwXXiwuRviIJs/8iMiZW9X1
+         UyXFoJhobLPxFpMrd6dAKytTdo5FoAzwnt2btLeNLaUz2l8B9qzYMewI3XojtnKMMJry
+         iD1BVjkZEKIBVeTPGZxRZ7MlabUdx7vAFGzrWr4YwcpQ+rjCEhWbuCSciM/tCHcC07BF
+         K/OHzUt5f04kquzgVob+i5QS5cUaF94dCWZHah0jwolZFj5tSn1B2VyNmH7kve5Dav56
+         ftzQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4hC27dQ/u288m0lvIAqx0tpRb+YwDiUGxv3BPznT+sI=;
+        b=stwKTRwGdbBDNWQfoG1GHVb/TrAI4mCIL9BhRKOrYN3ObAeqF4H5XLrG3PuSAe+Y+c
+         pTL1FZumx6QvBj1tefl80NDrcpuTVlyxatVqVZOwX90aqh8g8RIVN7wDOpIQOAFCeVrG
+         cI/85NJ8uG3+LAhNpg5pay/3qEdYi2Qe5mxwCkxCyfTXjP5XevbU3lUiYxH36uxYLm9q
+         DFCLMMU2U0BikOAOIGwQkAgOSvSIIAj6NCaeynxyf6w+VJWLD3r3ffFE2uQRAOptz03/
+         hFYiTl+ErjSepnVQ8qUK8JmUIr8ecB6wHlkGWUmCMxFsIOqj4PcE8LHXgzbi/YQfFWGI
+         HXEQ==
+X-Gm-Message-State: AOAM531ELJbT7N+odZyQPX1rErqxOgU9zzPkupRGXkLNTlSzDh1pbC8f
+        SBgpceLYApNsm6w35IRO7YIfIw==
+X-Google-Smtp-Source: ABdhPJwUXaWMh/7Jvw00YeWGfYQNsZQnygvvxQt2sYRhrPBaMYhh0Y5PdawcjG6A2A8jca1Jqv+VBw==
+X-Received: by 2002:a05:6512:324d:: with SMTP id c13mr8815993lfr.165.1616409531363;
+        Mon, 22 Mar 2021 03:38:51 -0700 (PDT)
+Received: from box.localdomain ([86.57.175.117])
+        by smtp.gmail.com with ESMTPSA id x1sm1527966lff.97.2021.03.22.03.38.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Mar 2021 03:38:50 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+        id 48DDE101DEB; Mon, 22 Mar 2021 13:38:58 +0300 (+03)
+Date:   Mon, 22 Mar 2021 13:38:58 +0300
+From:   "Kirill A. Shutemov" <kirill@shutemov.name>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v23 14/28] x86/mm: Shadow Stack page fault error checking
+Message-ID: <20210322103858.evxun5bhw2i5sio6@box>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316151054.5405-15-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3dbf1a86-3994-4f7a-2eb0-08d8ed1d2792
-X-MS-TrafficTypeDiagnostic: BL0PR12MB4929:
-X-Microsoft-Antispam-PRVS: <BL0PR12MB4929A0F578E537132E588809DF659@BL0PR12MB4929.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: LO1tcYpP9kaKzCjpWUVxbUT1WQJg5+ARKGz260bLyqaabALLlnEUa/lFoawKA8acwWfOX4LBTo5s7kTNtkolJUVdMLo2uH+LGPPjlAdw1WAGjShO0Dof6mZdVvfwHiQEJAzWNim9UGrpbB//aeIJU0K1bIJfHPpla/+08fvavMX+IldlKRlUU7TxvAez9T4774PzxIXR3l+n3ft0IiNYMlsech65HuLU8+pCPKy8mMho73fZgBUmbwxZg8p1Jy2znkQnDK1/Pmm2ooCAOLRtxN0cVLWULnwrz83ktIKPSBoj9ya1WuFtYb6BkdJRhCY4p+WQStggi9E3CIbmKxv3EtdnXuczCZaNz4+WYMD0FcK2G/S6EhHvs3nlKs1uZ8yGwc7bBbnq8HtP86hCrm5s/NXbkbi2xEC0vWZdWJXbSTWven9AqU17rSwODO+TxvmiIt5JG5u9+lXehK1dEjM6qilI7oUy3IMkXQJF/nInRjP8agz1ECuf4jhGc1+yuHS4QwT9sNAfFxkvH6hw1QqqCdkV03+PQR6YbxLRu/GAVUP6zIDZGvratqASKZE+9KvAX9B5UM8Mqo0EBCMg7kosD1CC0g+KqBdr8BP/1/Hz0CyY70l6lZ7DzNM/UTY9HLb+3XjIy6OXnqVYRmEQdtVmwEyYN96lEqkCwPuzbo17yJMMszdmVAw05Jdz9vxvs0bA
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(396003)(376002)(39860400002)(136003)(346002)(36840700001)(46966006)(316002)(54906003)(8676002)(356005)(4326008)(9576002)(8936002)(7636003)(47076005)(336012)(6916009)(426003)(83380400001)(86362001)(2906002)(36906005)(36860700001)(186003)(478600001)(33716001)(82740400003)(70586007)(9686003)(70206006)(16526019)(5660300002)(82310400003)(26005)(7416002)(39026012);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2021 10:27:54.5462
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3dbf1a86-3994-4f7a-2eb0-08d8ed1d2792
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT009.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4929
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210316151054.5405-15-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Monday, 15 March 2021 6:42:45 PM AEDT Christoph Hellwig wrote:
-> > +Not all devices support atomic access to system memory. To support atomic
-> > +operations to a shared virtual memory page such a device needs access to 
-that
-> > +page which is exclusive of any userspace access from the CPU. The
-> > +``make_device_exclusive_range()`` function can be used to make a memory 
-range
-> > +inaccessible from userspace.
+On Tue, Mar 16, 2021 at 08:10:40AM -0700, Yu-cheng Yu wrote:
+> Shadow stack accesses are those that are performed by the CPU where it
+> expects to encounter a shadow stack mapping.  These accesses are performed
+> implicitly by CALL/RET at the site of the shadow stack pointer.  These
+> accesses are made explicitly by shadow stack management instructions like
+> WRUSSQ.
 > 
-> s/Not all devices/Some devices/ ?
+> Shadow stacks accesses to shadow-stack mapping can see faults in normal,
+> valid operation just like regular accesses to regular mappings.  Shadow
+> stacks need some of the same features like delayed allocation, swap and
+> copy-on-write.
+> 
+> Shadow stack accesses can also result in errors, such as when a shadow
+> stack overflows, or if a shadow stack access occurs to a non-shadow-stack
+> mapping.
+> 
+> In handling a shadow stack page fault, verify it occurs within a shadow
+> stack mapping.  It is always an error otherwise.  For valid shadow stack
+> accesses, set FAULT_FLAG_WRITE to effect copy-on-write.  Because clearing
+> _PAGE_DIRTY (vs. _PAGE_RW) is used to trigger the fault, shadow stack read
+> fault and shadow stack write fault are not differentiated and both are
+> handled as a write access.
+> 
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Reviewed-by: Kees Cook <keescook@chromium.org>
+> ---
+>  arch/x86/include/asm/trap_pf.h |  2 ++
+>  arch/x86/mm/fault.c            | 19 +++++++++++++++++++
+>  2 files changed, 21 insertions(+)
+> 
+> diff --git a/arch/x86/include/asm/trap_pf.h b/arch/x86/include/asm/trap_pf.h
+> index 10b1de500ab1..afa524325e55 100644
+> --- a/arch/x86/include/asm/trap_pf.h
+> +++ b/arch/x86/include/asm/trap_pf.h
+> @@ -11,6 +11,7 @@
+>   *   bit 3 ==				1: use of reserved bit detected
+>   *   bit 4 ==				1: fault was an instruction fetch
+>   *   bit 5 ==				1: protection keys block access
+> + *   bit 6 ==				1: shadow stack access fault
+>   *   bit 15 ==				1: SGX MMU page-fault
+>   */
+>  enum x86_pf_error_code {
+> @@ -20,6 +21,7 @@ enum x86_pf_error_code {
+>  	X86_PF_RSVD	=		1 << 3,
+>  	X86_PF_INSTR	=		1 << 4,
+>  	X86_PF_PK	=		1 << 5,
+> +	X86_PF_SHSTK	=		1 << 6,
+>  	X86_PF_SGX	=		1 << 15,
+>  };
+>  
+> diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+> index a73347e2cdfc..4316732a18c6 100644
+> --- a/arch/x86/mm/fault.c
+> +++ b/arch/x86/mm/fault.c
+> @@ -1100,6 +1100,17 @@ access_error(unsigned long error_code, struct vm_area_struct *vma)
+>  				       (error_code & X86_PF_INSTR), foreign))
+>  		return 1;
+>  
+> +	/*
+> +	 * Verify a shadow stack access is within a shadow stack VMA.
+> +	 * It is always an error otherwise.  Normal data access to a
+> +	 * shadow stack area is checked in the case followed.
+> +	 */
+> +	if (error_code & X86_PF_SHSTK) {
+> +		if (!(vma->vm_flags & VM_SHSTK))
+> +			return 1;
+> +		return 0;
 
-I will reword this. What I was trying to convey is that devices may have 
-features which allow for atomics to be implemented with SW assistance.
+Any reason to return 0 here? I would rather keep the single return 0 in
+the function, after all checks are done.
 
-> >  static inline int mm_has_notifiers(struct mm_struct *mm)
-> > @@ -528,7 +534,17 @@ static inline void mmu_notifier_range_init_migrate(
-> >  {
-> >  	mmu_notifier_range_init(range, MMU_NOTIFY_MIGRATE, flags, vma, mm,
-> >  				start, end);
-> > -	range->migrate_pgmap_owner = pgmap;
-> > +	range->owner = pgmap;
-> > +}
-> > +
-> > +static inline void mmu_notifier_range_init_exclusive(
-> > +			struct mmu_notifier_range *range, unsigned int flags,
-> > +			struct vm_area_struct *vma, struct mm_struct *mm,
-> > +			unsigned long start, unsigned long end, void *owner)
-> > +{
-> > +	mmu_notifier_range_init(range, MMU_NOTIFY_EXCLUSIVE, flags, vma, mm,
-> > +				start, end);
-> > +	range->owner = owner;
-> 
-> Maybe just replace mmu_notifier_range_init_migrate with a
-> mmu_notifier_range_init_owner helper that takes the owner but does
-> not hard code a type?
-
-Ok. That does result in a function which takes a fair number of arguments, but 
-I guess that's no worse than multiple functions hard coding the different 
-types and it does result in less code overall.
-
-> >  		}
-> > +	} else if (is_device_exclusive_entry(entry)) {
-> > +		page = pfn_swap_entry_to_page(entry);
-> > +
-> > +		get_page(page);
-> > +		rss[mm_counter(page)]++;
-> > +
-> > +		if (is_writable_device_exclusive_entry(entry) &&
-> > +		    is_cow_mapping(vm_flags)) {
-> > +			/*
-> > +			 * COW mappings require pages in both
-> > +			 * parent and child to be set to read.
-> > +			 */
-> > +			entry = make_readable_device_exclusive_entry(
-> > +							swp_offset(entry));
-> > +			pte = swp_entry_to_pte(entry);
-> > +			if (pte_swp_soft_dirty(*src_pte))
-> > +				pte = pte_swp_mksoft_dirty(pte);
-> > +			if (pte_swp_uffd_wp(*src_pte))
-> > +				pte = pte_swp_mkuffd_wp(pte);
-> > +			set_pte_at(src_mm, addr, src_pte, pte);
-> > +		}
-> 
-> Just cosmetic, but I wonder if should factor this code block into
-> a little helper.
-
-In that case there are arguably are other bits of this function which should 
-be refactored into helpers as well. Unless you feel strongly about it I would 
-like to leave this as is and put together a future series to fix this and a 
-couple of other areas I've noticed that could do with some refactoring/clean 
-ups.
-
-> > +
-> > +static bool try_to_protect_one(struct page *page, struct vm_area_struct 
-*vma,
-> > +			unsigned long address, void *arg)
-> > +{
-> > +	struct mm_struct *mm = vma->vm_mm;
-> > +	struct page_vma_mapped_walk pvmw = {
-> > +		.page = page,
-> > +		.vma = vma,
-> > +		.address = address,
-> > +	};
-> > +	struct ttp_args *ttp = (struct ttp_args *) arg;
-> 
-> This cast should not be needed.
-> 
-> > +	return ttp.valid && (!page_mapcount(page) ? true : false);
-> 
-> This can be simplified to:
-> 
-> 	return ttp.valid && !page_mapcount(page);
-> 
-> > +	npages = get_user_pages_remote(mm, start, npages,
-> > +				       FOLL_GET | FOLL_WRITE | FOLL_SPLIT_PMD,
-> > +				       pages, NULL, NULL);
-> > +	for (i = 0; i < npages; i++, start += PAGE_SIZE) {
-> > +		if (!trylock_page(pages[i])) {
-> > +			put_page(pages[i]);
-> > +			pages[i] = NULL;
-> > +			continue;
-> > +		}
-> > +
-> > +		if (!try_to_protect(pages[i], mm, start, arg)) {
-> > +			unlock_page(pages[i]);
-> > +			put_page(pages[i]);
-> > +			pages[i] = NULL;
-> > +		}
-> 
-> Should the trylock_page go into try_to_protect to simplify the loop
-> a little?  Also I wonder if we need make_device_exclusive_range or
-> should just open code the get_user_pages_remote + try_to_protect
-> loop in the callers, as that might allow them to also deduct other
-> information about the found pages.
-
-This function has evolved over time and putting the trylock_page into 
-try_to_protect does simplify things nicely. I'm not sure what other 
-information a caller could deduct through open coding though, but I guess in 
-some circumstances it might be possible for callers to skip 
-get_user_pages_remote() which might be a future improvement.
-
-The main reason it looks like this was simply to keep it looking fairly 
-similar to how hmm_range_fault() and migrate_vma() are used with an array of 
-pages (or pfns) which are filled out from the given address range.
- 
-> Otherwise looks good:
-> 
-> Reviewed-by: Christoph Hellwig <hch@lst.de>
+> +	}
+> +
+>  	if (error_code & X86_PF_WRITE) {
+>  		/* write, present and write, not present: */
+>  		if (unlikely(!(vma->vm_flags & VM_WRITE)))
+> @@ -1293,6 +1304,14 @@ void do_user_addr_fault(struct pt_regs *regs,
+>  
+>  	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+>  
+> +	/*
+> +	 * Clearing _PAGE_DIRTY is used to detect shadow stack access.
+> +	 * This method cannot distinguish shadow stack read vs. write.
+> +	 * For valid shadow stack accesses, set FAULT_FLAG_WRITE to effect
+> +	 * copy-on-write.
+> +	 */
+> +	if (error_code & X86_PF_SHSTK)
+> +		flags |= FAULT_FLAG_WRITE;
+>  	if (error_code & X86_PF_WRITE)
+>  		flags |= FAULT_FLAG_WRITE;
+>  	if (error_code & X86_PF_INSTR)
+> -- 
+> 2.21.0
 > 
 
-Thanks.
-
-
-
+-- 
+ Kirill A. Shutemov
