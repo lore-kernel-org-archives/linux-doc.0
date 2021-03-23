@@ -2,70 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27775C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 11:57:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 216B9C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 12:08:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D3156619B8
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 11:57:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C421D619B1
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 12:08:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230121AbhCWL5N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 07:57:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56930 "EHLO mail.kernel.org"
+        id S230500AbhCWMIB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 08:08:01 -0400
+Received: from foss.arm.com ([217.140.110.172]:45220 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229482AbhCWL4s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Mar 2021 07:56:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6D48F6191F;
-        Tue, 23 Mar 2021 11:56:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1616500608;
-        bh=tq02Vd5NqpuFLSWzDRKQbq1PXhG1AGLHdMYDxgmkTaE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=1qz4yEgix7wGFQBvKOSXcCiEwQkrYLSh/VLIfLFo/8mItyPGjLztqoJ+LZTscswvN
-         wN6sQmwZ5GFskJ6DFIGKH9T7nwoHsCT+ALz1ksuTuWizxGo53z/mwopBFPDurjEcUp
-         a6BfPfxhu0mal6n7JsWQKsPAAVj3QL9/2wOx4AQk=
-Date:   Tue, 23 Mar 2021 12:56:45 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Ruslan Bilovol <ruslan.bilovol@gmail.com>
-Cc:     Felipe Balbi <balbi@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        gschmottlach@gmail.com, linux-usb@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/8] USB Audio Gadget part 2: Feedback endpoint,
- Volume/Mute support
-Message-ID: <YFnXfUr21JrweUoU@kroah.com>
-References: <1614603943-11668-1-git-send-email-ruslan.bilovol@gmail.com>
+        id S230340AbhCWMHi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Mar 2021 08:07:38 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83AF811B3;
+        Tue, 23 Mar 2021 05:07:38 -0700 (PDT)
+Received: from ewhatever.cambridge.arm.com (ewhatever.cambridge.arm.com [10.1.197.1])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F13493F719;
+        Tue, 23 Mar 2021 05:07:36 -0700 (PDT)
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+To:     linux-arm-kernel@lists.infradead.org
+Cc:     linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+        mathieu.poirier@linaro.org, mike.leach@linaro.org,
+        leo.yan@linaro.org, anshuman.khandual@arm.com, maz@kernel.org,
+        catalin.marinas@arm.com, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org,
+        Suzuki K Poulose <suzuki.poulose@arm.com>
+Subject: [PATCH v5 17/19] Documentation: coresight: trbe: Sysfs ABI description
+Date:   Tue, 23 Mar 2021 12:06:45 +0000
+Message-Id: <20210323120647.454211-18-suzuki.poulose@arm.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20210323120647.454211-1-suzuki.poulose@arm.com>
+References: <20210323120647.454211-1-suzuki.poulose@arm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1614603943-11668-1-git-send-email-ruslan.bilovol@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 01, 2021 at 03:05:35PM +0200, Ruslan Bilovol wrote:
-> This is extendend version of "UAC2 Feedback endpoint" patch set
-> I've sent back in 2020 [1]. It is extended with
-> bi-directional Volume/Mute controls support for both UAC1
-> and UAC2 gadgets.
-> 
-> It fixes issues with enumeration in various operation systems
-> because of Feedback endpoint implementation, yet also adds
-> new Volume/Mute support which allows developers to control
-> UAC1/2 Gadget's Volume/Mute from the Host and in the same way
-> UAC1/2 Gadget can control Volume/Mute of the Host making it
-> closer to a real USB Audio card.
-> 
-> This patch set should be applied on top of USB Audio Gadget
-> part 1 fixes/improvements that I've sent previously to the
-> mailing list [2]
+From: Anshuman Khandual <anshuman.khandual@arm.com>
 
-This series did not apply to my tree (except for the first patch).  Can
-you rebase it on my usb-testing branch and resend?
+Add sysfs ABI documentation for the TRBE devices.
 
-thanks,
+Cc: Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Mike Leach <mike.leach@linaro.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+[ Split from the TRBE driver patch ]
+Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+---
+ .../ABI/testing/sysfs-bus-coresight-devices-trbe   | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-bus-coresight-devices-trbe
 
-greg k-h
+diff --git a/Documentation/ABI/testing/sysfs-bus-coresight-devices-trbe b/Documentation/ABI/testing/sysfs-bus-coresight-devices-trbe
+new file mode 100644
+index 000000000000..ad3bbc6fa751
+--- /dev/null
++++ b/Documentation/ABI/testing/sysfs-bus-coresight-devices-trbe
+@@ -0,0 +1,14 @@
++What:		/sys/bus/coresight/devices/trbe<cpu>/align
++Date:		March 2021
++KernelVersion:	5.13
++Contact:	Anshuman Khandual <anshuman.khandual@arm.com>
++Description:	(Read) Shows the TRBE write pointer alignment. This value
++		is fetched from the TRBIDR register.
++
++What:		/sys/bus/coresight/devices/trbe<cpu>/flag
++Date:		March 2021
++KernelVersion:	5.13
++Contact:	Anshuman Khandual <anshuman.khandual@arm.com>
++Description:	(Read) Shows if TRBE updates in the memory are with access
++		and dirty flag updates as well. This value is fetched from
++		the TRBIDR register.
+-- 
+2.24.1
+
