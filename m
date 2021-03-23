@@ -2,105 +2,487 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2656BC433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 05:21:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1744C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 07:24:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D820B619A3
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 05:21:21 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 882BB619BB
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 07:24:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229437AbhCWFUt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 01:20:49 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:40827 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229548AbhCWFUq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Mar 2021 01:20:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=dkInjdJmlsQtnVwxSDh3IObIQQyb1I3U43xkv
-        HoTefY=; b=PS9BTu8HOVzvVQKcW2/duS8PYmPI4yUxhO7KpO65FAYAAOqieyxRF
-        udpYy9cNaMoDI0dTZmZpaAQBPq49ZRRCFlPNrwi0cShI/0EGcoQxaPjDrgJhpCMN
-        fSEaXQxghP45VWwAP1I1EsR+N82IbXKTd+hXGdeWwCtWrN2o5yQjt8=
-Received: from mipc (unknown [120.238.248.129])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgA3qtClellgnI81AA--.52393S2;
-        Tue, 23 Mar 2021 13:20:39 +0800 (CST)
-Date:   Tue, 23 Mar 2021 13:20:37 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: Add translations in zh_CN/kernel-hacking/
-Message-ID: <20210323052036.GA12187@mipc>
-References: <20210322143743.GA7820@mipc>
- <3301bb31-f8de-1e3c-aaa0-b3d4411eb17c@linux.alibaba.com>
- <20210323050221.GA11893@mipc>
- <b7fd15be-c1de-3ea2-6bf7-012efa1a3062@linux.alibaba.com>
+        id S229591AbhCWHXm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 03:23:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41406 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229493AbhCWHXe (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Mar 2021 03:23:34 -0400
+Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C2E9C061574
+        for <linux-doc@vger.kernel.org>; Tue, 23 Mar 2021 00:23:34 -0700 (PDT)
+Received: by mail-qk1-x72e.google.com with SMTP id y18so13389005qky.11
+        for <linux-doc@vger.kernel.org>; Tue, 23 Mar 2021 00:23:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=U+uQtXtTrSMjophb7N2eSO56RonvwygmBaLAk9/84Ks=;
+        b=pCpHL8O1GgN4SAUgHmLLUOLSG8t06m+lyFPh5S973ZPYluAoUHAyJboWjvl0HEgjqb
+         msNTGmfQjF7wW83zU70SrxIBbB7s8U9kOBn/1piiCVuYSEhjuZjm9da3fYVg3Kq20XdJ
+         DpnBw9F0BiYje1Uq6ZVTq8o3DKy7aItTQ7IP+Xyp++K8juH8kYrvjpi0z7vXcUN9oIyN
+         fQUuzLso4/O3oRl2cItDATpnG6WpY24Wmzl1936axKxXTJbHZ1Famc38k3/lfpohpk/H
+         M889PaJBgb3NPn9pIbB0SDTh8cAZNVXqOwfvQ6x722YcuhBepOOsq3SOkXiXGQZpUXC3
+         aoAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=U+uQtXtTrSMjophb7N2eSO56RonvwygmBaLAk9/84Ks=;
+        b=TIvx6ckaiwd6NcSib1WKB9bGNYZtcWX7H4auzy/6sQAfjHfK/AnZJ8tx8vIfoA/4jc
+         GVQVG5NCI3DnYVnuk9lKL8LM8/EJnY9egGXWEdulJ68PdEddEuFbJRD+aUuhL3kU1XZu
+         KM7g9IhgDMu6eo8tGEmtR7YAl/7uH9pdr1jQrYoVZqXqe8JGTnQ65KKwZtuOarkgINWy
+         jzyYIfAFrHn8IVuqsiRtqjYYEPVoTZfsoxvY9ualva/crkGF/AS4vDUGkk7/ClsEHFQZ
+         zsQE0SSTJsm05SQbK9skar8wtOGjr7T3u2fkL9ItIb0WjVSFU5jMDZs/w5Jv1iUFkjXm
+         ewBQ==
+X-Gm-Message-State: AOAM533LSA5II77banIP3UUj/Gn+7L221Zis/gFNfYy4fXc/vwQDLMZY
+        1AtUhWeQDBqo1THhDLQ1Hb/coNkh6ywITJZcNPH1uQ==
+X-Google-Smtp-Source: ABdhPJxt4KjxsRuDPpNyJVF+DCCctaPWsQErBljNOJEKOIYqXMk5uD6IUOlbzkmXzxdNgHSuu3AeKYIA3O03PdP7cuQ=
+X-Received: by 2002:a37:a7cb:: with SMTP id q194mr4169818qke.350.1616484212917;
+ Tue, 23 Mar 2021 00:23:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b7fd15be-c1de-3ea2-6bf7-012efa1a3062@linux.alibaba.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgA3qtClellgnI81AA--.52393S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7XFy5AFyxWFy8tr1DAFWDurg_yoWftFc_uF
-        n7AF18CrW5C3yxW3Z5Jry7trs2kr4rWF4Ut3Z5JanFgasIqF4rXrsYqayfZF1xGay5ZrnI
-        k3Wa9w17J3srujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbY8YjsxI4VWkCwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-        8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzx
-        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
-        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkIecxEwVAFwVW8WwCF04k20x
-        vY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4U
-        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
-        AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
-        cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
-        80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIF
-        yTuYvjxUjGQ6DUUUU
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+References: <CACT4Y+bdXrFoL1Z_h5s+5YzPZiazkyr2koNvfw9xNYEM69TSvg@mail.gmail.com>
+ <20210321184403.8833-1-info@alexander-lochmann.de>
+In-Reply-To: <20210321184403.8833-1-info@alexander-lochmann.de>
+From:   Dmitry Vyukov <dvyukov@google.com>
+Date:   Tue, 23 Mar 2021 08:23:21 +0100
+Message-ID: <CACT4Y+Z=d0WmcGV+Tt-g4G=XVDruxbpvOPJSAN6JZ1rXbOQ=2Q@mail.gmail.com>
+Subject: Re: [PATCH] Introduced new tracing mode KCOV_MODE_UNIQUE.
+To:     Alexander Lochmann <info@alexander-lochmann.de>
+Cc:     Andrey Konovalov <andreyknvl@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Aleksandr Nogikh <nogikh@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Wei Yongjun <weiyongjun1@huawei.com>,
+        Maciej Grochowski <maciej.grochowski@pm.me>,
+        kasan-dev <kasan-dev@googlegroups.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 23, 2021 at 01:13:15PM +0800, Alex Shi wrote:
-> 
-> 
-> 在 2021/3/23 下午1:02, Wu X.C. 写道:
-> >> hacking often translates as 骇客 in computer industry.
-> >>
-> > Yeah, generally
-> > 
-> >       黑客 -- Hacker
-> >       骇客 -- Cracker
-> > 
-> > But you know 骇/黑 always give a bad meaning, not suitable for here.
-> > "Hacking" is also different with "Programming".
-> 
-> Uh, in my mind, and usually their meaning depends on context, most
-> of time they are neutral, not negative. 
-> 
-> alos a brand new word just increases the confusing.
-> 
-OK, using 骇客
-I've also considered whether to use 探究
-> 
-> >>> +
-> >>> +用户上下文是指当您从系统调用或其他trap进入时：就像用户空间一样，您可以被更
-> >> trap often translates as 陷阱。
-> >>
-> > Is 陷阱 suitable for computer science?
-> 
-> Yes, I didn't see any other translation for the word. :)
+On Sun, Mar 21, 2021 at 7:44 PM Alexander Lochmann
+<info@alexander-lochmann.de> wrote:
 >
-OK
+> It simply stores the executed PCs.
+> The execution order is discarded.
+> Each bit in the shared buffer represents every fourth
+> byte of the text segment.
+> Since a call instruction on every supported
+> architecture is at least four bytes, it is safe
+> to just store every fourth byte of the text segment.
+> In contrast to KCOV_MODE_TRACE_PC, the shared buffer
+> cannot overflow. Thus, all executed PCs are recorded.
+>
+> Signed-off-by: Alexander Lochmann <info@alexander-lochmann.de>
+> ---
+>  Documentation/dev-tools/kcov.rst | 80 +++++++++++++++++++++++++++
+>  include/linux/kcov.h             | 12 ++--
+>  include/uapi/linux/kcov.h        | 10 ++++
+>  kernel/kcov.c                    | 94 ++++++++++++++++++++++++--------
+>  4 files changed, 169 insertions(+), 27 deletions(-)
+>
+> diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
+> index d2c4c27e1702..e105ffe6b6e3 100644
+> --- a/Documentation/dev-tools/kcov.rst
+> +++ b/Documentation/dev-tools/kcov.rst
+> @@ -127,6 +127,86 @@ That is, a parent process opens /sys/kernel/debug/kcov, enables trace mode,
+>  mmaps coverage buffer and then forks child processes in a loop. Child processes
+>  only need to enable coverage (disable happens automatically on thread end).
+>
+> +If someone is interested in a set of executed PCs, and does not care about
+> +execution order, he or she can advise KCOV to do so:
+> +
+> +.. code-block:: c
+> +
+> +    #include <stdio.h>
+> +    #include <stddef.h>
+> +    #include <stdint.h>
+> +    #include <stdlib.h>
+> +    #include <sys/types.h>
+> +    #include <sys/stat.h>
+> +    #include <sys/ioctl.h>
+> +    #include <sys/mman.h>
+> +    #include <unistd.h>
+> +    #include <fcntl.h>
+> +
+> +    #define KCOV_INIT_TRACE                    _IOR('c', 1, unsigned long)
+> +    #define KCOV_INIT_UNIQUE                _IOR('c', 2, unsigned long)
+> +    #define KCOV_ENABLE                        _IO('c', 100)
+> +    #define KCOV_DISABLE                       _IO('c', 101)
+> +
+> +    #define BITS_PER_LONG 64
+> +    #define KCOV_TRACE_PC  0
+> +    #define KCOV_TRACE_CMP 1
+> +    #define KCOV_UNIQUE_PC 2
+> +    /*
+> +     * Determine start of text segment via 'nm vmlinux | grep _stext | cut -d " " -f1',
+> +     * and fill in.
+> +     */
+> +    #define STEXT_START 0xffffffff81000000
+> +
+> +
+> +
+> +    int main(int argc, char **argv)
+> +    {
+> +       int fd;
+> +       unsigned long *cover, n, i;
+> +
+> +       /* A single fd descriptor allows coverage collection on a single
+> +        * thread.
+> +        */
+> +       fd = open("/sys/kernel/debug/kcov", O_RDWR);
+> +       if (fd == -1)
+> +               perror("open"), exit(1);
+> +       /* Setup trace mode and trace size. */
+> +       if ((n = ioctl(fd, KCOV_INIT_UNIQUE, 0)) < 0)
+> +               perror("ioctl"), exit(1);
+> +       /* Mmap buffer shared between kernel- and user-space. */
+> +       cover = (unsigned long*)mmap(NULL, n,
+> +                                    PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
+> +       if ((void*)cover == MAP_FAILED)
+> +               perror("mmap"), exit(1);
+> +       /* Enable coverage collection on the current thread. */
+> +       if (ioctl(fd, KCOV_ENABLE, KCOV_UNIQUE_PC))
+> +               perror("ioctl"), exit(1);
+> +       /* That's the target syscal call. */
+> +       read(-1, NULL, 0);
+> +       /* Disable coverage collection for the current thread. After this call
+> +        * coverage can be enabled for a different thread.
+> +        */
+> +       if (ioctl(fd, KCOV_DISABLE, 0))
+> +               perror("ioctl"), exit(1);
+> +        /* Convert byte size into element size */
+> +        n /= sizeof(unsigned long);
+> +        /* Print executed PCs in sorted order */
+> +        for (i = 0; i < n; i++) {
+> +            for (int j = 0; j < BITS_PER_LONG; j++) {
+> +                if (cover[i] & (1L << j)) {
+> +                    printf("0x%jx\n", (uintmax_t)(STEXT_START + (i * BITS_PER_LONG + j) * 4));
+> +                }
+> +            }
+> +        }
+> +       /* Free resources. */
+> +       if (munmap(cover, n * sizeof(unsigned long)))
+> +               perror("munmap"), exit(1);
+> +       if (close(fd))
+> +               perror("close"), exit(1);
+> +       return 0;
+> +    }
+> +
+>  Comparison operands collection
+>  ------------------------------
+>
+> diff --git a/include/linux/kcov.h b/include/linux/kcov.h
+> index 4e3037dc1204..d72dd73388d1 100644
+> --- a/include/linux/kcov.h
+> +++ b/include/linux/kcov.h
+> @@ -12,17 +12,21 @@ enum kcov_mode {
+>         /* Coverage collection is not enabled yet. */
+>         KCOV_MODE_DISABLED = 0,
+>         /* KCOV was initialized, but tracing mode hasn't been chosen yet. */
+> -       KCOV_MODE_INIT = 1,
+> +       KCOV_MODE_INIT_TRACE = 1,
+> +       /* KCOV was initialized, but recording of unique PCs hasn't been chosen yet. */
+> +       KCOV_MODE_INIT_UNQIUE = 2,
+>         /*
+>          * Tracing coverage collection mode.
+>          * Covered PCs are collected in a per-task buffer.
+>          */
+> -       KCOV_MODE_TRACE_PC = 2,
+> +       KCOV_MODE_TRACE_PC = 4,
+>         /* Collecting comparison operands mode. */
+> -       KCOV_MODE_TRACE_CMP = 3,
+> +       KCOV_MODE_TRACE_CMP = 8,
+> +       /* Collecting unique covered PCs. Execution order is not saved. */
+> +       KCOV_MODE_UNIQUE_PC = 16,
+>  };
+>
+> -#define KCOV_IN_CTXSW  (1 << 30)
+> +#define KCOV_IN_CTXSW  (1 << 31)
+>
+>  void kcov_task_init(struct task_struct *t);
+>  void kcov_task_exit(struct task_struct *t);
+> diff --git a/include/uapi/linux/kcov.h b/include/uapi/linux/kcov.h
+> index 1d0350e44ae3..5b99b6d1a1ac 100644
+> --- a/include/uapi/linux/kcov.h
+> +++ b/include/uapi/linux/kcov.h
+> @@ -19,6 +19,7 @@ struct kcov_remote_arg {
+>  #define KCOV_REMOTE_MAX_HANDLES                0x100
+>
+>  #define KCOV_INIT_TRACE                        _IOR('c', 1, unsigned long)
+> +#define KCOV_INIT_UNIQUE               _IOR('c', 2, unsigned long)
+>  #define KCOV_ENABLE                    _IO('c', 100)
+>  #define KCOV_DISABLE                   _IO('c', 101)
+>  #define KCOV_REMOTE_ENABLE             _IOW('c', 102, struct kcov_remote_arg)
+> @@ -35,6 +36,15 @@ enum {
+>         KCOV_TRACE_PC = 0,
+>         /* Collecting comparison operands mode. */
+>         KCOV_TRACE_CMP = 1,
+> +       /*
+> +        * Unique coverage collection mode.
+> +        * Unique covered PCs are collected in a per-task buffer.
+> +        * De-duplicates the collected PCs. Execution order is *not* saved.
+> +        * Each bit in the buffer represents every fourth byte of the text segment.
+> +        * Since a call instruction is at least four bytes on every supported
+> +        * architecture, storing just every fourth byte is sufficient.
+> +        */
+> +       KCOV_UNIQUE_PC = 2,
+>  };
+>
+>  /*
+> diff --git a/kernel/kcov.c b/kernel/kcov.c
+> index 80bfe71bbe13..1f727043146a 100644
+> --- a/kernel/kcov.c
+> +++ b/kernel/kcov.c
+> @@ -24,6 +24,7 @@
+>  #include <linux/refcount.h>
+>  #include <linux/log2.h>
+>  #include <asm/setup.h>
+> +#include <asm/sections.h>
 
-Thanks!
-> 
-> Thanks
-> Alex
-> 
-> > I don't know how to translate this word.
+Is this for __always_inline?
+__always_inline is defined in include/linux/compiler_types.h.
 
+
+>
+>  #define kcov_debug(fmt, ...) pr_debug("%s: " fmt, __func__, ##__VA_ARGS__)
+>
+> @@ -151,10 +152,8 @@ static void kcov_remote_area_put(struct kcov_remote_area *area,
+>         list_add(&area->list, &kcov_remote_areas);
+>  }
+>
+> -static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_struct *t)
+> +static __always_inline notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_struct *t, unsigned int *mode)
+>  {
+> -       unsigned int mode;
+> -
+>         /*
+>          * We are interested in code coverage as a function of a syscall inputs,
+>          * so we ignore code executed in interrupts, unless we are in a remote
+> @@ -162,7 +161,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
+>          */
+>         if (!in_task() && !(in_serving_softirq() && t->kcov_softirq))
+>                 return false;
+> -       mode = READ_ONCE(t->kcov_mode);
+> +       *mode = READ_ONCE(t->kcov_mode);
+>         /*
+>          * There is some code that runs in interrupts but for which
+>          * in_interrupt() returns false (e.g. preempt_schedule_irq()).
+> @@ -171,7 +170,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
+>          * kcov_start().
+>          */
+>         barrier();
+> -       return mode == needed_mode;
+> +       return ((int)(*mode & (KCOV_IN_CTXSW | needed_mode))) > 0;
+
+This logic and the rest of the patch looks good to me.
+
+Thanks
+
+>  }
+>
+>  static notrace unsigned long canonicalize_ip(unsigned long ip)
+> @@ -191,18 +190,27 @@ void notrace __sanitizer_cov_trace_pc(void)
+>         struct task_struct *t;
+>         unsigned long *area;
+>         unsigned long ip = canonicalize_ip(_RET_IP_);
+> -       unsigned long pos;
+> +       unsigned long pos, idx;
+> +       unsigned int mode;
+>
+>         t = current;
+> -       if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
+> +       if (!check_kcov_mode(KCOV_MODE_TRACE_PC | KCOV_MODE_UNIQUE_PC, t, &mode))
+>                 return;
+>
+>         area = t->kcov_area;
+> -       /* The first 64-bit word is the number of subsequent PCs. */
+> -       pos = READ_ONCE(area[0]) + 1;
+> -       if (likely(pos < t->kcov_size)) {
+> -               area[pos] = ip;
+> -               WRITE_ONCE(area[0], pos);
+> +       if (likely(mode == KCOV_MODE_TRACE_PC)) {
+> +               /* The first 64-bit word is the number of subsequent PCs. */
+> +               pos = READ_ONCE(area[0]) + 1;
+> +               if (likely(pos < t->kcov_size)) {
+> +                       area[pos] = ip;
+> +                       WRITE_ONCE(area[0], pos);
+> +               }
+> +       } else {
+> +               idx = (ip - canonicalize_ip((unsigned long)&_stext)) / 4;
+> +               pos = idx % BITS_PER_LONG;
+> +               idx /= BITS_PER_LONG;
+> +               if (likely(idx < t->kcov_size))
+> +                       WRITE_ONCE(area[idx], READ_ONCE(area[idx]) | 1L << pos);
+>         }
+>  }
+>  EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
+> @@ -213,9 +221,10 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
+>         struct task_struct *t;
+>         u64 *area;
+>         u64 count, start_index, end_pos, max_pos;
+> +       unsigned int mode;
+>
+>         t = current;
+> -       if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t))
+> +       if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t, &mode))
+>                 return;
+>
+>         ip = canonicalize_ip(ip);
+> @@ -362,7 +371,7 @@ void kcov_task_init(struct task_struct *t)
+>  static void kcov_reset(struct kcov *kcov)
+>  {
+>         kcov->t = NULL;
+> -       kcov->mode = KCOV_MODE_INIT;
+> +       kcov->mode = KCOV_MODE_INIT_TRACE;
+>         kcov->remote = false;
+>         kcov->remote_size = 0;
+>         kcov->sequence++;
+> @@ -468,12 +477,13 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
+>
+>         spin_lock_irqsave(&kcov->lock, flags);
+>         size = kcov->size * sizeof(unsigned long);
+> -       if (kcov->mode != KCOV_MODE_INIT || vma->vm_pgoff != 0 ||
+> +       if (kcov->mode & ~(KCOV_INIT_TRACE | KCOV_INIT_UNIQUE) || vma->vm_pgoff != 0 ||
+>             vma->vm_end - vma->vm_start != size) {
+>                 res = -EINVAL;
+>                 goto exit;
+>         }
+>         if (!kcov->area) {
+> +               kcov_debug("mmap(): Allocating 0x%lx bytes\n", size);
+>                 kcov->area = area;
+>                 vma->vm_flags |= VM_DONTEXPAND;
+>                 spin_unlock_irqrestore(&kcov->lock, flags);
+> @@ -515,6 +525,8 @@ static int kcov_get_mode(unsigned long arg)
+>  {
+>         if (arg == KCOV_TRACE_PC)
+>                 return KCOV_MODE_TRACE_PC;
+> +       else if (arg == KCOV_UNIQUE_PC)
+> +               return KCOV_MODE_UNIQUE_PC;
+>         else if (arg == KCOV_TRACE_CMP)
+>  #ifdef CONFIG_KCOV_ENABLE_COMPARISONS
+>                 return KCOV_MODE_TRACE_CMP;
+> @@ -562,12 +574,14 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>  {
+>         struct task_struct *t;
+>         unsigned long size, unused;
+> -       int mode, i;
+> +       int mode, i, text_size, ret = 0;
+>         struct kcov_remote_arg *remote_arg;
+>         struct kcov_remote *remote;
+>         unsigned long flags;
+>
+>         switch (cmd) {
+> +       case KCOV_INIT_UNIQUE:
+> +               /* fallthrough here */
+
+Looking at "git log --grep fallthrough", it seems that the modern way
+to say this is to use the fallthrough keyword.
+
+Please run checkpatch, it shows a bunch of other warnings as well:
+
+git diff HEAD^ | scripts/checkpatch.pl -
+
+
+>         case KCOV_INIT_TRACE:
+>                 /*
+>                  * Enable kcov in trace mode and setup buffer size.
+> @@ -581,11 +595,41 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>                  * that must not overflow.
+>                  */
+>                 size = arg;
+> -               if (size < 2 || size > INT_MAX / sizeof(unsigned long))
+> -                       return -EINVAL;
+> -               kcov->size = size;
+> -               kcov->mode = KCOV_MODE_INIT;
+> -               return 0;
+> +               if (cmd == KCOV_INIT_UNIQUE) {
+> +                       if (size != 0)
+> +                               return -EINVAL;
+> +                       text_size = (canonicalize_ip((unsigned long)&_etext) - canonicalize_ip((unsigned long)&_stext));
+> +                       /**
+> +                        * A call instr is at least four bytes on every supported architecture.
+> +                        * Hence, just every fourth instruction can potentially be a call.
+> +                        */
+> +                       text_size = roundup(text_size, 4);
+> +                       text_size /= 4;
+> +                       /*
+> +                        * Round up size of text segment to multiple of BITS_PER_LONG.
+> +                        * Otherwise, we cannot track
+> +                        * the last (text_size % BITS_PER_LONG) addresses.
+> +                        */
+> +                       text_size = roundup(text_size, BITS_PER_LONG);
+> +                       /* Get the amount of bytes needed */
+> +                       text_size = text_size / 8;
+> +                       /* mmap() requires size to be a multiple of PAGE_SIZE */
+> +                       text_size = roundup(text_size, PAGE_SIZE);
+> +                       /* Get the cover size (= amount of bytes stored) */
+> +                       ret = text_size;
+> +                       kcov->size = text_size / sizeof(unsigned long);
+> +                       kcov_debug("text size = 0x%lx, roundup = 0x%x, kcov->size = 0x%x\n",
+> +                                       ((unsigned long)&_etext) - ((unsigned long)&_stext),
+> +                                       text_size,
+> +                                       kcov->size);
+> +                       kcov->mode = KCOV_INIT_UNIQUE;
+> +               } else {
+> +                       if (size < 2 || size > INT_MAX / sizeof(unsigned long))
+> +                               return -EINVAL;
+> +                       kcov->size = size;
+> +                       kcov->mode = KCOV_INIT_TRACE;
+> +               }
+> +               return ret;
+>         case KCOV_ENABLE:
+>                 /*
+>                  * Enable coverage for the current task.
+> @@ -594,7 +638,7 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>                  * at task exit or voluntary by KCOV_DISABLE. After that it can
+>                  * be enabled for another task.
+>                  */
+> -               if (kcov->mode != KCOV_MODE_INIT || !kcov->area)
+> +               if (!kcov->area)
+>                         return -EINVAL;
+>                 t = current;
+>                 if (kcov->t != NULL || t->kcov != NULL)
+> @@ -602,6 +646,10 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>                 mode = kcov_get_mode(arg);
+>                 if (mode < 0)
+>                         return mode;
+> +               if (kcov->mode == KCOV_INIT_TRACE && mode == KCOV_MODE_UNIQUE_PC)
+> +                       return -EINVAL;
+> +               if (kcov->mode == KCOV_INIT_UNIQUE && (mode & (KCOV_MODE_TRACE_PC | KCOV_MODE_TRACE_CMP)))
+> +                       return -EINVAL;
+>                 kcov_fault_in_area(kcov);
+>                 kcov->mode = mode;
+>                 kcov_start(t, kcov, kcov->size, kcov->area, kcov->mode,
+> @@ -622,7 +670,7 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>                 kcov_put(kcov);
+>                 return 0;
+>         case KCOV_REMOTE_ENABLE:
+> -               if (kcov->mode != KCOV_MODE_INIT || !kcov->area)
+> +               if (kcov->mode != KCOV_MODE_INIT_TRACE || !kcov->area)
+>                         return -EINVAL;
+>                 t = current;
+>                 if (kcov->t != NULL || t->kcov != NULL)
+> --
+> 2.30.2
+>
