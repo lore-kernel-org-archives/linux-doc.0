@@ -2,214 +2,307 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7351AC433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 17:07:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F04C433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 17:50:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 42C2B619BB
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 17:07:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E6312619C3
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 17:50:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230051AbhCWRHI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 13:07:08 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64494 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229884AbhCWRGi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Mar 2021 13:06:38 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12NH3xXf001480;
-        Tue, 23 Mar 2021 13:06:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : from : to : cc
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=6JBiiubwipK622upUtTmkHf38UHQC7sl7ULXNHJlHcY=;
- b=Ouai4AGxcFMeH/hwPoIwsjOw4HbYF+0qXD32A18FVdR7OCyoI2f8oqPmr+ayCyNFfC2m
- 5ugs4nidVsGdG7kfoJiR4z9xWXDttetPuJrC6v/bOIITIq0pbvBGgDgDzs5Ln1m5HorY
- Rfmee4GrWAMDfSNiN+tLUV0zLvCcPFefkjMTmGKtC/WIeAMxKj551j0WQK1HYXDTChhc
- EayaYxCdLd8fBm4ieNNvpZUlF9JJbggbFrurFtgK8rX8cJ2Wlu8DK4nzXChcoJEp/XWe
- w1go329CyFDdfrdtHc/Hhj7z2DIhzlyg5SDaSNeujiTMywqkrxLLTbTOLHd8bvnZONNK 6Q== 
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 37fm8cgbkr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 23 Mar 2021 13:06:31 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
-        by ppma03fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12NGvFJp028891;
-        Tue, 23 Mar 2021 17:06:29 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
-        by ppma03fra.de.ibm.com with ESMTP id 37d9bpsuv1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 23 Mar 2021 17:06:29 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 12NH6QSW40763686
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 23 Mar 2021 17:06:26 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 74A5F52050;
-        Tue, 23 Mar 2021 17:06:26 +0000 (GMT)
-Received: from [172.17.0.2] (unknown [9.40.192.207])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 4BF285204E;
-        Tue, 23 Mar 2021 17:06:25 +0000 (GMT)
-Subject: [PATCH v2] powerpc/papr_scm: Implement support for H_SCM_FLUSH hcall
-From:   Shivaprasad G Bhat <sbhat@linux.ibm.com>
-To:     linuxppc-dev@lists.ozlabs.org, kvm-ppc@vger.kernel.org,
-        linux-nvdimm@lists.01.org, aneesh.kumar@linux.ibm.com,
-        ellerman@au1.ibm.com
-Cc:     sbhat@linux.vnet.ibm.com, linux-doc@vger.kernel.org,
-        vaibhav@linux.ibm.com
-Date:   Tue, 23 Mar 2021 13:06:24 -0400
-Message-ID: <161651910115.13873.14215644994307713797.stgit@6532096d84d3>
-User-Agent: StGit/0.21
-Content-Type: text/plain; charset="utf-8"
-X-TM-AS-GCONF: 00
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S231229AbhCWRuM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 13:50:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36270 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231189AbhCWRtw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Mar 2021 13:49:52 -0400
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8488EC061763
+        for <linux-doc@vger.kernel.org>; Tue, 23 Mar 2021 10:49:51 -0700 (PDT)
+Received: by mail-lf1-x12b.google.com with SMTP id b4so3994967lfi.6
+        for <linux-doc@vger.kernel.org>; Tue, 23 Mar 2021 10:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=P7FG8frtqOnIaco1BBcfNWyiT6YFpbAkPyq6JjHD/SQ=;
+        b=RqC83U3mrLkb+QFRLoON0Zw9/YzFosu29mToXdupbyes+eP8PIbUGwPqm8r7/KpwRR
+         oZelC5ZmxImg8iBbM2gmLroSoYCiCEUvGtkQiOC4/PAEclQS7ugWWjIJNtnS3605Q2J8
+         ZIN/PuHLu1RX17VYbH9ddtJ1VMYZ2UYl/zac1wDW7HAuCdsaxKFv6RGRsTr5dG5anaRB
+         vswno94C7eL1m8PiYJ70kLt+hevGKr4aTJ011awdWOMnAZwre4yQob6AqxNo1DVYfd7u
+         GLlsD8eUCAS1xPvQV5CkZ/lmgLn5dFcI7bh1eIS+ioRFxMljDx1upkfbDIXRXDqwZEuq
+         dslw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=P7FG8frtqOnIaco1BBcfNWyiT6YFpbAkPyq6JjHD/SQ=;
+        b=lPFFn4RhIdPt37XFql1WZ089O0bQIpu4cO5NG1nJkbwu2si7siV0+qgJ2m7FnrOafy
+         7Nb385/8LFZ8jciZ/y0qxU5sFrom+xYazMUIW/6szPmE6Ue4seussEKZFWgjUSBM3ibV
+         fZzJ8oCKPlMfADNNo/o0dfEhrbmlOEe97aUixQ1iDuuHt5h7QMN6cBwg3hLk0Ti3Ocy9
+         Qs8iWLe72LD3QP9tg6zBtEDwMnI4NSLoMVbZ0qSBks1uB2ihLF/2zwvici9PqwRkJ5YP
+         JRryasyO0iSbYlkMQ1x8LyMOdsr0N26EeQmrW2x2eEnqipDcTUMVlqASKtb8BHovrZ/6
+         Ollg==
+X-Gm-Message-State: AOAM533T+10OaCVvFy7JihigEYnUL1GPlVZ/a52iOk5Z+z/gYJPfCgi0
+        6CjZr0gmrWUCsoHjiyT/X8w7xCNxUHiwybf34FbgZg==
+X-Google-Smtp-Source: ABdhPJwyenFneH4fs+z0uzL0vIEhWiSdc0Ge3Zq/4vWaO4unkEzFLjqdXBLZ4GR4Y3t93oZd2IPWbg1ktdyPCk9cf3w=
+X-Received: by 2002:a19:22d6:: with SMTP id i205mr3164515lfi.352.1616521789635;
+ Tue, 23 Mar 2021 10:49:49 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-03-23_07:2021-03-22,2021-03-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- priorityscore=1501 bulkscore=0 mlxscore=0 impostorscore=0 clxscore=1011
- adultscore=0 suspectscore=0 mlxlogscore=999 spamscore=0 phishscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2103230126
+References: <20210316204252.427806-1-mic@digikod.net> <20210316204252.427806-8-mic@digikod.net>
+ <CAG48ez1arKO3uYzwng8fst-UHkcH6J7YzyHFN+vfXUT2=1HT+w@mail.gmail.com> <b41a021c-69f4-075f-e9a0-a4483b280df8@digikod.net>
+In-Reply-To: <b41a021c-69f4-075f-e9a0-a4483b280df8@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 23 Mar 2021 18:49:22 +0100
+Message-ID: <CAG48ez1Vkd3KtYphDHLLbbkKY9T_ByhUcxwYAcWuDAyiA04A+w@mail.gmail.com>
+Subject: Re: [PATCH v30 07/12] landlock: Support filesystem access-control
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for ND_REGION_ASYNC capability if the device tree
-indicates 'ibm,hcall-flush-required' property in the NVDIMM node.
-Flush is done by issuing H_SCM_FLUSH hcall to the hypervisor.
+On Tue, Mar 23, 2021 at 4:54 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+> On 23/03/2021 01:13, Jann Horn wrote:
+> >  On Tue, Mar 16, 2021 at 9:43 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.=
+net> wrote:
+> >> Using Landlock objects and ruleset, it is possible to tag inodes
+> >> according to a process's domain.
+> > [...]
+> >> +static void release_inode(struct landlock_object *const object)
+> >> +       __releases(object->lock)
+> >> +{
+> >> +       struct inode *const inode =3D object->underobj;
+> >> +       struct super_block *sb;
+> >> +
+> >> +       if (!inode) {
+> >> +               spin_unlock(&object->lock);
+> >> +               return;
+> >> +       }
+> >> +
+> >> +       /*
+> >> +        * Protects against concurrent use by hook_sb_delete() of the =
+reference
+> >> +        * to the underlying inode.
+> >> +        */
+> >> +       object->underobj =3D NULL;
+> >> +       /*
+> >> +        * Makes sure that if the filesystem is concurrently unmounted=
+,
+> >> +        * hook_sb_delete() will wait for us to finish iput().
+> >> +        */
+> >> +       sb =3D inode->i_sb;
+> >> +       atomic_long_inc(&landlock_superblock(sb)->inode_refs);
+> >> +       spin_unlock(&object->lock);
+> >> +       /*
+> >> +        * Because object->underobj was not NULL, hook_sb_delete() and
+> >> +        * get_inode_object() guarantee that it is safe to reset
+> >> +        * landlock_inode(inode)->object while it is not NULL.  It is =
+therefore
+> >> +        * not necessary to lock inode->i_lock.
+> >> +        */
+> >> +       rcu_assign_pointer(landlock_inode(inode)->object, NULL);
+> >> +       /*
+> >> +        * Now, new rules can safely be tied to @inode with get_inode_=
+object().
+> >> +        */
+> >> +
+> >> +       iput(inode);
+> >> +       if (atomic_long_dec_and_test(&landlock_superblock(sb)->inode_r=
+efs))
+> >> +               wake_up_var(&landlock_superblock(sb)->inode_refs);
+> >> +}
+> > [...]
+> >> +static struct landlock_object *get_inode_object(struct inode *const i=
+node)
+> >> +{
+> >> +       struct landlock_object *object, *new_object;
+> >> +       struct landlock_inode_security *inode_sec =3D landlock_inode(i=
+node);
+> >> +
+> >> +       rcu_read_lock();
+> >> +retry:
+> >> +       object =3D rcu_dereference(inode_sec->object);
+> >> +       if (object) {
+> >> +               if (likely(refcount_inc_not_zero(&object->usage))) {
+> >> +                       rcu_read_unlock();
+> >> +                       return object;
+> >> +               }
+> >> +               /*
+> >> +                * We are racing with release_inode(), the object is g=
+oing
+> >> +                * away.  Wait for release_inode(), then retry.
+> >> +                */
+> >> +               spin_lock(&object->lock);
+> >> +               spin_unlock(&object->lock);
+> >> +               goto retry;
+> >> +       }
+> >> +       rcu_read_unlock();
+> >> +
+> >> +       /*
+> >> +        * If there is no object tied to @inode, then create a new one=
+ (without
+> >> +        * holding any locks).
+> >> +        */
+> >> +       new_object =3D landlock_create_object(&landlock_fs_underops, i=
+node);
+> >> +       if (IS_ERR(new_object))
+> >> +               return new_object;
+> >> +
+> >> +       /* Protects against concurrent get_inode_object() calls. */
+> >> +       spin_lock(&inode->i_lock);
+> >> +       object =3D rcu_dereference_protected(inode_sec->object,
+> >> +                       lockdep_is_held(&inode->i_lock));
+> >
+> > rcu_dereference_protected() requires that inode_sec->object is not
+> > concurrently changed, but I think another thread could call
+> > get_inode_object() while we're in landlock_create_object(), and then
+> > we could race with the NULL write in release_inode() here? (It
+> > wouldn't actually be a UAF though because we're not actually accessing
+> > `object` here.) Or am I missing a lock that prevents this?
+> >
+> > In v28 this wasn't an issue because release_inode() was holding
+> > inode->i_lock (and object->lock) during the NULL store; but in v29 and
+> > this version the NULL store in release_inode() moved out of the locked
+> > region. I think you could just move the NULL store in release_inode()
+> > back up (and maybe add a comment explaining the locking rules for
+> > landlock_inode(...)->object)?
+> >
+> > (Or alternatively you could use rcu_dereference_raw() with a comment
+> > explaining that the read pointer is only used to check for NULL-ness,
+> > and that it is guaranteed that the pointer can't change if it is NULL
+> > and we're holding the lock. But that'd be needlessly complicated, I
+> > think.)
+>
+> To reach rcu_assign_pointer(landlock_inode(inode)->object, NULL) in
+> release_inode() or in hook_sb_delete(), the
+> landlock_inode(inode)->object need to be non-NULL,
 
-If the flush request failed, the hypervisor is expected to
-to reflect the problem in the subsequent dimm health request call.
+Yes.
 
-This patch prevents mmap of namespaces with MAP_SYNC flag if the
-nvdimm requires explicit flush[1].
+> which implies that a
+> call to get_inode_object(inode) either "retry" (because release_inode is
+> only called by landlock_put_object, which set object->usage to 0) until
+> it creates a new object, or reuses the existing referenced object (and
+> increments object->usage).
 
-References:
-[1] https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c
+But it can be that landlock_inode(inode)->object only becomes non-NULL
+after get_inode_object() has checked
+rcu_dereference(inode_sec->object).
 
-Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
----
-v1 - https://www.spinics.net/lists/kvm-ppc/msg18272.html
-Changes from v1:
-       - Hcall semantics finalized, all changes are to accomodate them.
+> The worse case would be if
+> get_inode_object(inode) is called just before the
+> rcu_assign_pointer(landlock_inode(inode)->object, NULL) from
+> hook_sb_delete(), which would result in an object with a NULL underobj,
+> which is the expected behavior (and checked by release_inode).
 
- Documentation/powerpc/papr_hcalls.rst     |   14 ++++++++++
- arch/powerpc/include/asm/hvcall.h         |    3 +-
- arch/powerpc/platforms/pseries/papr_scm.c |   39 +++++++++++++++++++++++++++++
- 3 files changed, 55 insertions(+), 1 deletion(-)
+The scenario I'm talking about doesn't involve hook_sb_delete().
 
-diff --git a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
-index 48fcf1255a33..648f278eea8f 100644
---- a/Documentation/powerpc/papr_hcalls.rst
-+++ b/Documentation/powerpc/papr_hcalls.rst
-@@ -275,6 +275,20 @@ Health Bitmap Flags:
- Given a DRC Index collect the performance statistics for NVDIMM and copy them
- to the resultBuffer.
- 
-+**H_SCM_FLUSH**
-+
-+| Input: *drcIndex, continue-token*
-+| Out: *continue-token*
-+| Return Value: *H_SUCCESS, H_Parameter, H_P2, H_BUSY*
-+
-+Given a DRC Index Flush the data to backend NVDIMM device.
-+
-+The hcall returns H_BUSY when the flush takes longer time and the hcall needs
-+to be issued multiple times in order to be completely serviced. The
-+*continue-token* from the output to be passed in the argument list of
-+subsequent hcalls to the hypervisor until the hcall is completely serviced
-+at which point H_SUCCESS or other error is returned by the hypervisor.
-+
- References
- ==========
- .. [1] "Power Architecture Platform Reference"
-diff --git a/arch/powerpc/include/asm/hvcall.h b/arch/powerpc/include/asm/hvcall.h
-index ed6086d57b22..9f7729a97ebd 100644
---- a/arch/powerpc/include/asm/hvcall.h
-+++ b/arch/powerpc/include/asm/hvcall.h
-@@ -315,7 +315,8 @@
- #define H_SCM_HEALTH            0x400
- #define H_SCM_PERFORMANCE_STATS 0x418
- #define H_RPT_INVALIDATE	0x448
--#define MAX_HCALL_OPCODE	H_RPT_INVALIDATE
-+#define H_SCM_FLUSH		0x44C
-+#define MAX_HCALL_OPCODE	H_SCM_FLUSH
- 
- /* Scope args for H_SCM_UNBIND_ALL */
- #define H_UNBIND_SCOPE_ALL (0x1)
-diff --git a/arch/powerpc/platforms/pseries/papr_scm.c b/arch/powerpc/platforms/pseries/papr_scm.c
-index 835163f54244..f0407e135410 100644
---- a/arch/powerpc/platforms/pseries/papr_scm.c
-+++ b/arch/powerpc/platforms/pseries/papr_scm.c
-@@ -93,6 +93,7 @@ struct papr_scm_priv {
- 	uint64_t block_size;
- 	int metadata_size;
- 	bool is_volatile;
-+	bool hcall_flush_required;
- 
- 	uint64_t bound_addr;
- 
-@@ -117,6 +118,38 @@ struct papr_scm_priv {
- 	size_t stat_buffer_len;
- };
- 
-+static int papr_scm_pmem_flush(struct nd_region *nd_region,
-+			       struct bio *bio __maybe_unused)
-+{
-+	struct papr_scm_priv *p = nd_region_provider_data(nd_region);
-+	unsigned long ret_buf[PLPAR_HCALL_BUFSIZE];
-+	uint64_t token = 0;
-+	int64_t rc;
-+
-+	do {
-+		rc = plpar_hcall(H_SCM_FLUSH, ret_buf, p->drc_index, token);
-+		token = ret_buf[0];
-+
-+		/* Check if we are stalled for some time */
-+		if (H_IS_LONG_BUSY(rc)) {
-+			msleep(get_longbusy_msecs(rc));
-+			rc = H_BUSY;
-+		} else if (rc == H_BUSY) {
-+			cond_resched();
-+		}
-+
-+	} while (rc == H_BUSY);
-+
-+	if (rc) {
-+		dev_err(&p->pdev->dev, "flush error: %lld", rc);
-+		rc = -EIO;
-+	} else {
-+		dev_dbg(&p->pdev->dev, "flush drc 0x%x complete", p->drc_index);
-+	}
-+
-+	return rc;
-+}
-+
- static LIST_HEAD(papr_nd_regions);
- static DEFINE_MUTEX(papr_ndr_lock);
- 
-@@ -943,6 +976,11 @@ static int papr_scm_nvdimm_init(struct papr_scm_priv *p)
- 	ndr_desc.num_mappings = 1;
- 	ndr_desc.nd_set = &p->nd_set;
- 
-+	if (p->hcall_flush_required) {
-+		set_bit(ND_REGION_ASYNC, &ndr_desc.flags);
-+		ndr_desc.flush = papr_scm_pmem_flush;
-+	}
-+
- 	if (p->is_volatile)
- 		p->region = nvdimm_volatile_region_create(p->bus, &ndr_desc);
- 	else {
-@@ -1088,6 +1126,7 @@ static int papr_scm_probe(struct platform_device *pdev)
- 	p->block_size = block_size;
- 	p->blocks = blocks;
- 	p->is_volatile = !of_property_read_bool(dn, "ibm,cache-flush-required");
-+	p->hcall_flush_required = of_property_read_bool(dn, "ibm,hcall-flush-required");
- 
- 	/* We just need to ensure that set cookies are unique across */
- 	uuid_parse(uuid_str, (uuid_t *) uuid);
+> The line rcu_assign_pointer(inode_sec->object, new_object) from
+> get_inode_object() can only be reached if the underlying inode doesn't
+> reference an object,
 
+Yes.
 
+> in which case hook_sb_delete() will not reach the
+> rcu_assign_pointer(landlock_inode(inode)->object, NULL) line for this
+> same inode.
+>
+> This works because get_inode_object(inode) is mutually exclusive to
+> itself with the same inode (i.e. an inode can only point to an object
+> that references this same inode).
+
+To clarify: You can concurrently call get_inode_object() multiple
+times on the same inode, right? There are no locks held on entry to
+that function.
+
+> I tried to explain this with the comment "Protects against concurrent
+> get_inode_object() calls" in get_inode_object(), and the comments just
+> before both rcu_assign_pointer(landlock_inode(inode)->object, NULL).
+
+The scenario I'm talking about is:
+
+Initially the inode does not have an associated landlock_object. There
+are two threads A and B. Thread A is going to execute
+get_inode_object(). Thread B is going to execute get_inode_object()
+followed immediately by landlock_put_object().
+
+thread A: enters get_inode_object()
+thread A: rcu_dereference(inode_sec->object) returns NULL
+thread A: enters landlock_create_object()
+thread B: enters get_inode_object()
+thread B: rcu_dereference(inode_sec->object) returns NULL
+thread B: calls landlock_create_object()
+thread B: sets inode_sec->object while holding inode->i_lock
+thread B: leaves get_inode_object()
+thread B: enters landlock_put_object()
+thread B: object->usage drops to 0, object->lock is taken
+thread B: calls release_inode()
+thread B: drops object->lock
+thread A: returns from landlock_create_object()
+thread A: takes inode->i_lock
+
+At this point, thread B will run:
+
+    rcu_assign_pointer(landlock_inode(inode)->object, NULL);
+
+while thread A runs:
+
+    rcu_dereference_protected(inode_sec->object,
+        lockdep_is_held(&inode->i_lock));
+
+meaning there is a (theoretical) data race, since
+rcu_dereference_protected() doesn't use READ_ONCE().
+
+> >> +       if (unlikely(object)) {
+> >> +               /* Someone else just created the object, bail out and =
+retry. */
+> >> +               spin_unlock(&inode->i_lock);
+> >> +               kfree(new_object);
+> >> +
+> >> +               rcu_read_lock();
+> >> +               goto retry;
+> >> +       }
+> >> +
+> >> +       rcu_assign_pointer(inode_sec->object, new_object);
+> >> +       /*
+> >> +        * @inode will be released by hook_sb_delete() on its superblo=
+ck
+> >> +        * shutdown.
+> >> +        */
+> >> +       ihold(inode);
+> >> +       spin_unlock(&inode->i_lock);
+> >> +       return new_object;
+> >> +}
