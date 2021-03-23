@@ -2,120 +2,214 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D5E0C433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 16:46:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7351AC433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 17:07:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D3075619C1
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 16:46:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 42C2B619BB
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 17:07:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233238AbhCWQpe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 12:45:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50444 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233299AbhCWQpM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Mar 2021 12:45:12 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C94C0C061574;
-        Tue, 23 Mar 2021 09:45:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
-        Reply-To:Cc:Content-ID:Content-Description;
-        bh=zzu/xcn7sghWXmeoDI7Yw3IsP/Ljt8YacCwRazpIVIs=; b=FDBnzXOE4hpdcNK/uHISdHlTJL
-        pE5bGCV+YPuJzn5Q0N336UFsRNRyt04ZEaeH4nomMbZFpqNXuYglGSmQmrqkd6siRDQEvi8oaKZOq
-        OOk1zHPQoVuNA/AFJe6vzHkPxT21pKEzqX7IT8G559O61wUlqjGsil9VzzylhjwS2+nCogn/GrdUW
-        NBM+rylskcYIC4aw80702/sRWJL4p/r9DdHJpZZ82V7+/uTAG442ynAPZJLyEz6edmTfEiv89QPVp
-        Uotuxnt4XDlGObVV5DCbJ07ZRRVD0yCaOxAM1x4KoGBjrMr0GMBhv403zWmEXs4/3ZDFi3FGebj1f
-        uT9HE14A==;
-Received: from [2601:1c0:6280:3f0::3ba4]
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lOk87-00AIWN-H4; Tue, 23 Mar 2021 16:44:04 +0000
-Subject: Re: [PATCH] init/Kconfig: Support sign module with SM3 hash algorithm
-To:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>,
-        David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Nick Terrell <terrelln@fb.com>, KP Singh <kpsingh@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Vlastimil Babka <vbabka@suse.cz>, keyrings@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-crypto@vger.kernel.org,
-        Jia Zhang <zhang.jia@linux.alibaba.com>
-References: <20210323083528.25678-1-tianjia.zhang@linux.alibaba.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <28d3a339-6210-ffd2-950f-ea5340ac23b7@infradead.org>
-Date:   Tue, 23 Mar 2021 09:43:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
-MIME-Version: 1.0
-In-Reply-To: <20210323083528.25678-1-tianjia.zhang@linux.alibaba.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S230051AbhCWRHI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 13:07:08 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64494 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S229884AbhCWRGi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Mar 2021 13:06:38 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12NH3xXf001480;
+        Tue, 23 Mar 2021 13:06:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : from : to : cc
+ : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=pp1; bh=6JBiiubwipK622upUtTmkHf38UHQC7sl7ULXNHJlHcY=;
+ b=Ouai4AGxcFMeH/hwPoIwsjOw4HbYF+0qXD32A18FVdR7OCyoI2f8oqPmr+ayCyNFfC2m
+ 5ugs4nidVsGdG7kfoJiR4z9xWXDttetPuJrC6v/bOIITIq0pbvBGgDgDzs5Ln1m5HorY
+ Rfmee4GrWAMDfSNiN+tLUV0zLvCcPFefkjMTmGKtC/WIeAMxKj551j0WQK1HYXDTChhc
+ EayaYxCdLd8fBm4ieNNvpZUlF9JJbggbFrurFtgK8rX8cJ2Wlu8DK4nzXChcoJEp/XWe
+ w1go329CyFDdfrdtHc/Hhj7z2DIhzlyg5SDaSNeujiTMywqkrxLLTbTOLHd8bvnZONNK 6Q== 
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 37fm8cgbkr-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 23 Mar 2021 13:06:31 -0400
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+        by ppma03fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12NGvFJp028891;
+        Tue, 23 Mar 2021 17:06:29 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+        by ppma03fra.de.ibm.com with ESMTP id 37d9bpsuv1-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 23 Mar 2021 17:06:29 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 12NH6QSW40763686
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 23 Mar 2021 17:06:26 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 74A5F52050;
+        Tue, 23 Mar 2021 17:06:26 +0000 (GMT)
+Received: from [172.17.0.2] (unknown [9.40.192.207])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 4BF285204E;
+        Tue, 23 Mar 2021 17:06:25 +0000 (GMT)
+Subject: [PATCH v2] powerpc/papr_scm: Implement support for H_SCM_FLUSH hcall
+From:   Shivaprasad G Bhat <sbhat@linux.ibm.com>
+To:     linuxppc-dev@lists.ozlabs.org, kvm-ppc@vger.kernel.org,
+        linux-nvdimm@lists.01.org, aneesh.kumar@linux.ibm.com,
+        ellerman@au1.ibm.com
+Cc:     sbhat@linux.vnet.ibm.com, linux-doc@vger.kernel.org,
+        vaibhav@linux.ibm.com
+Date:   Tue, 23 Mar 2021 13:06:24 -0400
+Message-ID: <161651910115.13873.14215644994307713797.stgit@6532096d84d3>
+User-Agent: StGit/0.21
+Content-Type: text/plain; charset="utf-8"
+X-TM-AS-GCONF: 00
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-03-23_07:2021-03-22,2021-03-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ priorityscore=1501 bulkscore=0 mlxscore=0 impostorscore=0 clxscore=1011
+ adultscore=0 suspectscore=0 mlxlogscore=999 spamscore=0 phishscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2103230126
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/23/21 1:35 AM, Tianjia Zhang wrote:
-> The kernel module signature supports the option to use the SM3
-> secure hash (OSCCA GM/T 0004-2012 SM3).
-> 
-> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-> ---
->  Documentation/admin-guide/module-signing.rst | 5 +++--
->  crypto/asymmetric_keys/pkcs7_parser.c        | 7 +++++++
->  init/Kconfig                                 | 5 +++++
->  3 files changed, 15 insertions(+), 2 deletions(-)
-> 
+Add support for ND_REGION_ASYNC capability if the device tree
+indicates 'ibm,hcall-flush-required' property in the NVDIMM node.
+Flush is done by issuing H_SCM_FLUSH hcall to the hypervisor.
 
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 5f5c776ef192..fed9236078e4 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -2202,6 +2202,10 @@ config MODULE_SIG_SHA512
->  	bool "Sign modules with SHA-512"
->  	select CRYPTO_SHA512
->  
-> +config MODULE_SIG_SM3
-> +	bool "Sign modules with SM3"
-> +	select CRYPTO_SM3
-> +
->  endchoice
->  
->  config MODULE_SIG_HASH
-> @@ -2212,6 +2216,7 @@ config MODULE_SIG_HASH
->  	default "sha256" if MODULE_SIG_SHA256
->  	default "sha384" if MODULE_SIG_SHA384
->  	default "sha512" if MODULE_SIG_SHA512
-> +	default "sm3" if MODULE_SIG_SM3
->  
->  config MODULE_COMPRESS
->  	bool "Compress modules on installation"
-> 
+If the flush request failed, the hypervisor is expected to
+to reflect the problem in the subsequent dimm health request call.
 
-checkpatch tells me:
+This patch prevents mmap of namespaces with MAP_SYNC flag if the
+nvdimm requires explicit flush[1].
 
-WARNING: please write a paragraph that describes the config symbol fully
-#74: FILE: init/Kconfig:2205:
-+config MODULE_SIG_SM3
+References:
+[1] https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c
 
+Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+---
+v1 - https://www.spinics.net/lists/kvm-ppc/msg18272.html
+Changes from v1:
+       - Hcall semantics finalized, all changes are to accomodate them.
 
-so yes, it should have some help text there.
+ Documentation/powerpc/papr_hcalls.rst     |   14 ++++++++++
+ arch/powerpc/include/asm/hvcall.h         |    3 +-
+ arch/powerpc/platforms/pseries/papr_scm.c |   39 +++++++++++++++++++++++++++++
+ 3 files changed, 55 insertions(+), 1 deletion(-)
 
-thanks.
--- 
-~Randy
+diff --git a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
+index 48fcf1255a33..648f278eea8f 100644
+--- a/Documentation/powerpc/papr_hcalls.rst
++++ b/Documentation/powerpc/papr_hcalls.rst
+@@ -275,6 +275,20 @@ Health Bitmap Flags:
+ Given a DRC Index collect the performance statistics for NVDIMM and copy them
+ to the resultBuffer.
+ 
++**H_SCM_FLUSH**
++
++| Input: *drcIndex, continue-token*
++| Out: *continue-token*
++| Return Value: *H_SUCCESS, H_Parameter, H_P2, H_BUSY*
++
++Given a DRC Index Flush the data to backend NVDIMM device.
++
++The hcall returns H_BUSY when the flush takes longer time and the hcall needs
++to be issued multiple times in order to be completely serviced. The
++*continue-token* from the output to be passed in the argument list of
++subsequent hcalls to the hypervisor until the hcall is completely serviced
++at which point H_SUCCESS or other error is returned by the hypervisor.
++
+ References
+ ==========
+ .. [1] "Power Architecture Platform Reference"
+diff --git a/arch/powerpc/include/asm/hvcall.h b/arch/powerpc/include/asm/hvcall.h
+index ed6086d57b22..9f7729a97ebd 100644
+--- a/arch/powerpc/include/asm/hvcall.h
++++ b/arch/powerpc/include/asm/hvcall.h
+@@ -315,7 +315,8 @@
+ #define H_SCM_HEALTH            0x400
+ #define H_SCM_PERFORMANCE_STATS 0x418
+ #define H_RPT_INVALIDATE	0x448
+-#define MAX_HCALL_OPCODE	H_RPT_INVALIDATE
++#define H_SCM_FLUSH		0x44C
++#define MAX_HCALL_OPCODE	H_SCM_FLUSH
+ 
+ /* Scope args for H_SCM_UNBIND_ALL */
+ #define H_UNBIND_SCOPE_ALL (0x1)
+diff --git a/arch/powerpc/platforms/pseries/papr_scm.c b/arch/powerpc/platforms/pseries/papr_scm.c
+index 835163f54244..f0407e135410 100644
+--- a/arch/powerpc/platforms/pseries/papr_scm.c
++++ b/arch/powerpc/platforms/pseries/papr_scm.c
+@@ -93,6 +93,7 @@ struct papr_scm_priv {
+ 	uint64_t block_size;
+ 	int metadata_size;
+ 	bool is_volatile;
++	bool hcall_flush_required;
+ 
+ 	uint64_t bound_addr;
+ 
+@@ -117,6 +118,38 @@ struct papr_scm_priv {
+ 	size_t stat_buffer_len;
+ };
+ 
++static int papr_scm_pmem_flush(struct nd_region *nd_region,
++			       struct bio *bio __maybe_unused)
++{
++	struct papr_scm_priv *p = nd_region_provider_data(nd_region);
++	unsigned long ret_buf[PLPAR_HCALL_BUFSIZE];
++	uint64_t token = 0;
++	int64_t rc;
++
++	do {
++		rc = plpar_hcall(H_SCM_FLUSH, ret_buf, p->drc_index, token);
++		token = ret_buf[0];
++
++		/* Check if we are stalled for some time */
++		if (H_IS_LONG_BUSY(rc)) {
++			msleep(get_longbusy_msecs(rc));
++			rc = H_BUSY;
++		} else if (rc == H_BUSY) {
++			cond_resched();
++		}
++
++	} while (rc == H_BUSY);
++
++	if (rc) {
++		dev_err(&p->pdev->dev, "flush error: %lld", rc);
++		rc = -EIO;
++	} else {
++		dev_dbg(&p->pdev->dev, "flush drc 0x%x complete", p->drc_index);
++	}
++
++	return rc;
++}
++
+ static LIST_HEAD(papr_nd_regions);
+ static DEFINE_MUTEX(papr_ndr_lock);
+ 
+@@ -943,6 +976,11 @@ static int papr_scm_nvdimm_init(struct papr_scm_priv *p)
+ 	ndr_desc.num_mappings = 1;
+ 	ndr_desc.nd_set = &p->nd_set;
+ 
++	if (p->hcall_flush_required) {
++		set_bit(ND_REGION_ASYNC, &ndr_desc.flags);
++		ndr_desc.flush = papr_scm_pmem_flush;
++	}
++
+ 	if (p->is_volatile)
+ 		p->region = nvdimm_volatile_region_create(p->bus, &ndr_desc);
+ 	else {
+@@ -1088,6 +1126,7 @@ static int papr_scm_probe(struct platform_device *pdev)
+ 	p->block_size = block_size;
+ 	p->blocks = blocks;
+ 	p->is_volatile = !of_property_read_bool(dn, "ibm,cache-flush-required");
++	p->hcall_flush_required = of_property_read_bool(dn, "ibm,hcall-flush-required");
+ 
+ 	/* We just need to ensure that set cookies are unique across */
+ 	uuid_parse(uuid_str, (uuid_t *) uuid);
+
 
