@@ -4,165 +4,146 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08FD9C433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 22:16:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 370C4C433C1
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 22:48:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B2451601FC
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 22:16:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 028FA619DF
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 22:48:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233858AbhCWWPZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 18:15:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37774 "EHLO mail.kernel.org"
+        id S233972AbhCWWrc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 18:47:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46108 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233659AbhCWWOX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Mar 2021 18:14:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 00619601FC;
-        Tue, 23 Mar 2021 22:14:21 +0000 (UTC)
+        id S233908AbhCWWrR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Mar 2021 18:47:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B552E6044F;
+        Tue, 23 Mar 2021 22:47:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616537662;
-        bh=euLud26DLs6jpGe+Y94fxhCgdNwfvxm3zvQ/VXv5ZOc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Okjtu5KPyaRWk3iFbNOzKPKjKekuvwvfvzB8HP8gNF/43MS/dCAopmtk/C/aAa5z2
-         Fwz97NDoeTvvCIz9TqIG+/b0JskLNtbfyRCp9f5m3cOiFbkBlxp69wJ23m7ERlUkDG
-         A3s2c3sPzJVXPD1ngDIsjVfxNNsbh/fdAPkgPyQVBDTIOPyUEeXJQtYz4gcZDeyUtl
-         rlhjKFdwvsEAKZrDGmK2Vbkd9Jx56hJVLj9LsBd94IQbHKS926z3ZqIQrCtqFKfnnX
-         ang0K0PeM81iNfL7QyPLdUH7TKpui3lNQCNRv37E9yfi0NWquUg6oihDBuWiFDe7AI
-         w9Q2Pw0ZyXP4Q==
-Received: by mail-ot1-f45.google.com with SMTP id f73-20020a9d03cf0000b02901b4d889bce0so21035357otf.12;
-        Tue, 23 Mar 2021 15:14:21 -0700 (PDT)
-X-Gm-Message-State: AOAM532lvk+3hIaxT3F5XORwou4Vaq4vxe2So8E1BdwU4YFnUgxPQHaQ
-        Or+cBEuHtSgO2m3XfkoqbyyAaJq/g6dr8GUrVJU=
-X-Google-Smtp-Source: ABdhPJzRrDcK+Z1w4yNXAoPMG4HuCGZnCsRiH1f1t1OAoW5YC9blqGf3Xz/P4ibyIPF7aFTBli233c73W2uEJspUMHo=
-X-Received: by 2002:a9d:12cb:: with SMTP id g69mr413585otg.77.1616537661122;
- Tue, 23 Mar 2021 15:14:21 -0700 (PDT)
+        s=k20201202; t=1616539637;
+        bh=11JtZEcq3IKgiIIgu80BAiSlfm+ye/04q50fmAGg3jg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=JmKMS58xYat0cbG/A2nxsstga6nHPOupcFJEpL9nbqpUxD3RTXLZtxEN0np5zLGoc
+         dbqkegEUrvHYbGZibt1Rrb508T82Y6ELq/BW8MDMCUussGg95w4OAW5mR2fh7s7vnd
+         PuLIajwUK717b6ELznVp0ENfac/RQDrugSp6AaVaK6DB68Cdn334HgK8iD6NyBNBcJ
+         PvepB4xX/FVTA99EaVMkUBMiyOHggbbz+32vQ1m7AJY5P41MWKX7oxYVu9ruyxehc+
+         8qWSM7YUN5NR/lsinxoaTP4E9WwW/duwoYQn0haJ3uufgMlgd+2a0yMMTzbaj/ZhgR
+         lRKSCmtRfNWuQ==
+Date:   Tue, 23 Mar 2021 17:47:10 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Dejin Zheng <zhengdejin5@gmail.com>
+Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
+        rric@kernel.org, bhelgaas@google.com, wsa@kernel.org,
+        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexander Gordeev <agordeev@redhat.com>,
+        Jonathan Derrick <jonathan.derrick@intel.com>,
+        Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
+        Logan Gunthorpe <logang@deltatee.com>
+Subject: Re: [PATCH v5 1/4] PCI: Introduce pcim_alloc_irq_vectors()
+Message-ID: <20210323224710.GA610170@bjorn-Precision-5520>
 MIME-Version: 1.0
-References: <20210323083528.25678-1-tianjia.zhang@linux.alibaba.com>
-In-Reply-To: <20210323083528.25678-1-tianjia.zhang@linux.alibaba.com>
-From:   Ard Biesheuvel <ardb@kernel.org>
-Date:   Tue, 23 Mar 2021 23:14:09 +0100
-X-Gmail-Original-Message-ID: <CAMj1kXE5x82SZUvo9=hjjE=Z9QrzggzfvBHbjaaGExRfQ8PDxw@mail.gmail.com>
-Message-ID: <CAMj1kXE5x82SZUvo9=hjjE=Z9QrzggzfvBHbjaaGExRfQ8PDxw@mail.gmail.com>
-Subject: Re: [PATCH] init/Kconfig: Support sign module with SM3 hash algorithm
-To:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-Cc:     David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Nick Terrell <terrelln@fb.com>, KP Singh <kpsingh@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Vlastimil Babka <vbabka@suse.cz>, keyrings@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        Jia Zhang <zhang.jia@linux.alibaba.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210226155056.1068534-2-zhengdejin5@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 23 Mar 2021 at 09:36, Tianjia Zhang
-<tianjia.zhang@linux.alibaba.com> wrote:
->
-> The kernel module signature supports the option to use the SM3
-> secure hash (OSCCA GM/T 0004-2012 SM3).
->
-> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+[+cc Christoph, Thomas, Alexander, in case you're interested]
+[+cc Jonathan, Kurt, Logan: vmd.c and switchtec.c use managed resources
+and pci_alloc_irq_vectors()]
 
-A secure hash is not the same as a signature. Looking at the patch,
-the asymmetric algorithm that is used to sign the SM3 digest is SM2,
-is that correct? How does one create such signed modules?
+On Fri, Feb 26, 2021 at 11:50:53PM +0800, Dejin Zheng wrote:
+> Introduce pcim_alloc_irq_vectors(), a device-managed version of
+> pci_alloc_irq_vectors(). Introducing this function can simplify
+> the error handling path in many drivers.
+> 
+> And use pci_free_irq_vectors() to replace some code in pcim_release(),
+> they are equivalent, and no functional change. It is more explicit
+> that pcim_alloc_irq_vectors() is a device-managed function.
+> 
+> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
 
-In any case, please provide more context in the commit log on how this
-is intended to be used.
+Acked-by: Bjorn Helgaas <bhelgaas@google.com>
 
+Let me know if you'd like me to take the series.
 
 > ---
->  Documentation/admin-guide/module-signing.rst | 5 +++--
->  crypto/asymmetric_keys/pkcs7_parser.c        | 7 +++++++
->  init/Kconfig                                 | 5 +++++
->  3 files changed, 15 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/admin-guide/module-signing.rst b/Documentation/admin-guide/module-signing.rst
-> index 7d7c7c8a545c..8d8980808b5b 100644
-> --- a/Documentation/admin-guide/module-signing.rst
-> +++ b/Documentation/admin-guide/module-signing.rst
-> @@ -30,8 +30,8 @@ This facility uses X.509 ITU-T standard certificates to encode the public keys
->  involved.  The signatures are not themselves encoded in any industrial standard
->  type.  The facility currently only supports the RSA public key encryption
->  standard (though it is pluggable and permits others to be used).  The possible
-> -hash algorithms that can be used are SHA-1, SHA-224, SHA-256, SHA-384, and
-> -SHA-512 (the algorithm is selected by data in the signature).
-> +hash algorithms that can be used are SHA-1, SHA-224, SHA-256, SHA-384, SHA-512,
-> +and SM3 (the algorithm is selected by data in the signature).
->
->
->  ==========================
-> @@ -86,6 +86,7 @@ This has a number of options available:
->         ``CONFIG_MODULE_SIG_SHA256``    :menuselection:`Sign modules with SHA-256`
->         ``CONFIG_MODULE_SIG_SHA384``    :menuselection:`Sign modules with SHA-384`
->         ``CONFIG_MODULE_SIG_SHA512``    :menuselection:`Sign modules with SHA-512`
-> +       ``CONFIG_MODULE_SIG_SM3``       :menuselection:`Sign modules with SM3`
->          =============================== ==========================================
->
->       The algorithm selected here will also be built into the kernel (rather
-> diff --git a/crypto/asymmetric_keys/pkcs7_parser.c b/crypto/asymmetric_keys/pkcs7_parser.c
-> index 967329e0a07b..6cf6c4552c11 100644
-> --- a/crypto/asymmetric_keys/pkcs7_parser.c
-> +++ b/crypto/asymmetric_keys/pkcs7_parser.c
-> @@ -248,6 +248,9 @@ int pkcs7_sig_note_digest_algo(void *context, size_t hdrlen,
->         case OID_sha224:
->                 ctx->sinfo->sig->hash_algo = "sha224";
->                 break;
-> +       case OID_sm3:
-> +               ctx->sinfo->sig->hash_algo = "sm3";
-> +               break;
->         default:
->                 printk("Unsupported digest algo: %u\n", ctx->last_oid);
->                 return -ENOPKG;
-> @@ -269,6 +272,10 @@ int pkcs7_sig_note_pkey_algo(void *context, size_t hdrlen,
->                 ctx->sinfo->sig->pkey_algo = "rsa";
->                 ctx->sinfo->sig->encoding = "pkcs1";
->                 break;
-> +       case OID_SM2_with_SM3:
-> +               ctx->sinfo->sig->pkey_algo = "sm2";
-> +               ctx->sinfo->sig->encoding = "raw";
-> +               break;
->         default:
->                 printk("Unsupported pkey algo: %u\n", ctx->last_oid);
->                 return -ENOPKG;
-> diff --git a/init/Kconfig b/init/Kconfig
-> index 5f5c776ef192..fed9236078e4 100644
-> --- a/init/Kconfig
-> +++ b/init/Kconfig
-> @@ -2202,6 +2202,10 @@ config MODULE_SIG_SHA512
->         bool "Sign modules with SHA-512"
->         select CRYPTO_SHA512
->
-> +config MODULE_SIG_SM3
-> +       bool "Sign modules with SM3"
-> +       select CRYPTO_SM3
+> v4 -> v5:
+> 	- Remove the check of enable device in pcim_alloc_irq_vectors()
+> 	  and make it as a static line function.
+> v3 -> v4:
+> 	- No change
+> v2 -> v3:
+> 	- Add some commit comments for replace some codes in
+> 	  pcim_release() by pci_free_irq_vectors().
+> v1 -> v2:
+> 	- Use pci_free_irq_vectors() to replace some code in
+> 	  pcim_release().
+> 	- Modify some commit messages.
+> 
+>  drivers/pci/pci.c   |  5 +----
+>  include/linux/pci.h | 24 ++++++++++++++++++++++++
+>  2 files changed, 25 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 16a17215f633..fecfdc0add2f 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -1969,10 +1969,7 @@ static void pcim_release(struct device *gendev, void *res)
+>  	struct pci_devres *this = res;
+>  	int i;
+>  
+> -	if (dev->msi_enabled)
+> -		pci_disable_msi(dev);
+> -	if (dev->msix_enabled)
+> -		pci_disable_msix(dev);
+> +	pci_free_irq_vectors(dev);
+>  
+>  	for (i = 0; i < DEVICE_COUNT_RESOURCE; i++)
+>  		if (this->region_mask & (1 << i))
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 86c799c97b77..5cafd7d65fd7 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -1818,6 +1818,30 @@ pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+>  					      NULL);
+>  }
+>  
+> +/**
+> + * pcim_alloc_irq_vectors - a device-managed pci_alloc_irq_vectors()
+> + * @dev:		PCI device to operate on
+> + * @min_vecs:		minimum number of vectors required (must be >= 1)
+> + * @max_vecs:		maximum (desired) number of vectors
+> + * @flags:		flags or quirks for the allocation
+> + *
+> + * Return the number of vectors allocated, (which might be smaller than
+> + * @max_vecs) if successful, or a negative error code on error. If less
+> + * than @min_vecs interrupt vectors are available for @dev the function
+> + * will fail with -ENOSPC.
+> + *
+> + * It depends on calling pcim_enable_device() to make IRQ resources
+> + * manageable.
+> + */
+> +static inline int
+> +pcim_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+> +			unsigned int max_vecs, unsigned int flags)
+> +{
+> +	if (!pci_is_managed(dev))
+> +		return -EINVAL;
+> +	return pci_alloc_irq_vectors(dev, min_vecs, max_vecs, flags);
+> +}
 > +
->  endchoice
->
->  config MODULE_SIG_HASH
-> @@ -2212,6 +2216,7 @@ config MODULE_SIG_HASH
->         default "sha256" if MODULE_SIG_SHA256
->         default "sha384" if MODULE_SIG_SHA384
->         default "sha512" if MODULE_SIG_SHA512
-> +       default "sm3" if MODULE_SIG_SM3
->
->  config MODULE_COMPRESS
->         bool "Compress modules on installation"
-> --
-> 2.19.1.3.ge56e4f7
->
+>  /* Include architecture-dependent settings and functions */
+>  
+>  #include <asm/pci.h>
+> -- 
+> 2.25.0
+> 
