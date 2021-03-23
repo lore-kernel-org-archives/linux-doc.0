@@ -2,307 +2,600 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25F04C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 17:50:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FCE4C433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 17:56:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6312619C3
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 17:50:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D797619C1
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 17:56:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231229AbhCWRuM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 13:50:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36270 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231189AbhCWRtw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Mar 2021 13:49:52 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8488EC061763
-        for <linux-doc@vger.kernel.org>; Tue, 23 Mar 2021 10:49:51 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id b4so3994967lfi.6
-        for <linux-doc@vger.kernel.org>; Tue, 23 Mar 2021 10:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=P7FG8frtqOnIaco1BBcfNWyiT6YFpbAkPyq6JjHD/SQ=;
-        b=RqC83U3mrLkb+QFRLoON0Zw9/YzFosu29mToXdupbyes+eP8PIbUGwPqm8r7/KpwRR
-         oZelC5ZmxImg8iBbM2gmLroSoYCiCEUvGtkQiOC4/PAEclQS7ugWWjIJNtnS3605Q2J8
-         ZIN/PuHLu1RX17VYbH9ddtJ1VMYZ2UYl/zac1wDW7HAuCdsaxKFv6RGRsTr5dG5anaRB
-         vswno94C7eL1m8PiYJ70kLt+hevGKr4aTJ011awdWOMnAZwre4yQob6AqxNo1DVYfd7u
-         GLlsD8eUCAS1xPvQV5CkZ/lmgLn5dFcI7bh1eIS+ioRFxMljDx1upkfbDIXRXDqwZEuq
-         dslw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=P7FG8frtqOnIaco1BBcfNWyiT6YFpbAkPyq6JjHD/SQ=;
-        b=lPFFn4RhIdPt37XFql1WZ089O0bQIpu4cO5NG1nJkbwu2si7siV0+qgJ2m7FnrOafy
-         7Nb385/8LFZ8jciZ/y0qxU5sFrom+xYazMUIW/6szPmE6Ue4seussEKZFWgjUSBM3ibV
-         fZzJ8oCKPlMfADNNo/o0dfEhrbmlOEe97aUixQ1iDuuHt5h7QMN6cBwg3hLk0Ti3Ocy9
-         Qs8iWLe72LD3QP9tg6zBtEDwMnI4NSLoMVbZ0qSBks1uB2ihLF/2zwvici9PqwRkJ5YP
-         JRryasyO0iSbYlkMQ1x8LyMOdsr0N26EeQmrW2x2eEnqipDcTUMVlqASKtb8BHovrZ/6
-         Ollg==
-X-Gm-Message-State: AOAM533T+10OaCVvFy7JihigEYnUL1GPlVZ/a52iOk5Z+z/gYJPfCgi0
-        6CjZr0gmrWUCsoHjiyT/X8w7xCNxUHiwybf34FbgZg==
-X-Google-Smtp-Source: ABdhPJwyenFneH4fs+z0uzL0vIEhWiSdc0Ge3Zq/4vWaO4unkEzFLjqdXBLZ4GR4Y3t93oZd2IPWbg1ktdyPCk9cf3w=
-X-Received: by 2002:a19:22d6:: with SMTP id i205mr3164515lfi.352.1616521789635;
- Tue, 23 Mar 2021 10:49:49 -0700 (PDT)
+        id S230305AbhCWR4H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 13:56:07 -0400
+Received: from mail-bn8nam12on2077.outbound.protection.outlook.com ([40.107.237.77]:36673
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S231338AbhCWRzq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Mar 2021 13:55:46 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZAB9gnNgjPwOf8c+ckGKi3irbdxKxWR86W/4Gu+U3IecaFre4W8NFr7aCCywuM5MsYmSKiIUHYJhl5MEkxhzY0PuWu72x2j3YhUGEDQJM7+mfirBcNFcpJ7OTZDlHafxoiEjB/HBIz4svDglh+MXaH9rBq750mfytu12wdyQKFzazfmqD2Vl+Tg+razUGR0+GIwgc+7eGlj2YTizTEw4nosAPR+K/CvVljDsD4TkWLj65/qJdeQLyHEmgGsMSQ7aITEfUSAzErQydGRvFwXx556DDmalzoFWTJDrOoJUHzfivbuElP2/EyOwc5ukZSgl356mkKbxadXsHg2tX3sq0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rN+SzwthwoTDPJovcRyTFOvgz1yqbotPudBWjrbNd1k=;
+ b=jf9ARZN63jnRuIIuRMjOOV1KqwtvpYZQT3xk+1mTCTLaGyM8VJN5xRYZwZAuwv+K2nZaj6WN478jFzpqhBSX14/oRhmQdeFPcE2K2TbrpuSZ/kD166U+t7epy2m5bVpPyjCE/lbVxWuxc1mqoRlpm9eecEDQM5dAaVXSMp/dE79F63BuYg9tNFKxjuaNtnOmVFcJYLtIDcrUVAUyUbpsRNmxqCFTBaebe2zs+38bXiaVPf3s0m55gZsbU5itqVkRKq2vTtJZ1Uz1aDadfohbRVEidnOTJo5OvN3PSQhsuZbKSLxQrqxz9ofp2Xz3qf8xFJUS9hd07BW9wdPXlRG/Xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rN+SzwthwoTDPJovcRyTFOvgz1yqbotPudBWjrbNd1k=;
+ b=DEWAFWOXtcPiDGA99uN5DxgzTyqXBfTqVO/0cUVmlYn8FU/5QuOuNEQRKycMzJes+k/eQzZAKs7qSXqrFG7RJE4FjbSCA2Mx5P6G5PC4282QuerkPEbS+DYT295+PoMVOi7p2rGNCuiHf76XLabVKBpAbu6K1eQTodZpiv3Enp7gLRvVNAPmpZOLTp0kyz6f0sdAOpLAqJAFULYrd6OObpTP/OtILTXRLf8FR4K0FozQc/obTORjrlabojd5kzMgVfq/yGwcwt+PynqZN406W9Me95hvdTZ8c33hQPhOQGsan9PPyQRJFG6qNNDRQRBIIlvNeKpmclTr7ATBN71Tvg==
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB4943.namprd12.prod.outlook.com (2603:10b6:5:1bc::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Tue, 23 Mar
+ 2021 17:55:44 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3955.027; Tue, 23 Mar 2021
+ 17:55:43 +0000
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org
+Cc:     "Raj, Ashok" <ashok.raj@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Tarun Gupta <targupta@nvidia.com>
+Subject: [PATCH 02/18] vfio/mdev: Add missing typesafety around mdev_device
+Date:   Tue, 23 Mar 2021 14:55:19 -0300
+Message-Id: <2-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
+In-Reply-To: <0-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
+References: 
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [206.223.160.26]
+X-ClientProxiedBy: BL0PR0102CA0007.prod.exchangelabs.com
+ (2603:10b6:207:18::20) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-References: <20210316204252.427806-1-mic@digikod.net> <20210316204252.427806-8-mic@digikod.net>
- <CAG48ez1arKO3uYzwng8fst-UHkcH6J7YzyHFN+vfXUT2=1HT+w@mail.gmail.com> <b41a021c-69f4-075f-e9a0-a4483b280df8@digikod.net>
-In-Reply-To: <b41a021c-69f4-075f-e9a0-a4483b280df8@digikod.net>
-From:   Jann Horn <jannh@google.com>
-Date:   Tue, 23 Mar 2021 18:49:22 +0100
-Message-ID: <CAG48ez1Vkd3KtYphDHLLbbkKY9T_ByhUcxwYAcWuDAyiA04A+w@mail.gmail.com>
-Subject: Re: [PATCH v30 07/12] landlock: Support filesystem access-control
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (206.223.160.26) by BL0PR0102CA0007.prod.exchangelabs.com (2603:10b6:207:18::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24 via Frontend Transport; Tue, 23 Mar 2021 17:55:40 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lOlFf-001cgU-7Z; Tue, 23 Mar 2021 14:55:35 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a382bd8f-cad8-4c58-2806-08d8ee24df5c
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4943:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4943E4CE9FB6451DE15E4599C2649@DM6PR12MB4943.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: YeV6d8+BSjTwxwDx9x6ju3gmdzBNOXC2IW3KSVm0dqNJtATEg8fxLieM7PFdBPOMNPdKGblCb9OigFdphb+fnFTFpDIP2q79vtTRtUBToaaOYxrD9uigab+ZdFVSD3ySXAVX+zqpVHuhpaSwKlJRz0xudX2UV3RD5V98qK2fQT0AYxm//Glj8BzyuIx2WqjhpW8DbUNG2anQciMEnqy80ZNeO3HpkII9wB+MtYLTlllzAKFvzH68S4MX34Bv8FVXYQh4ApaN9vW7wWeOKsBxJtobXrd11oNjJriiP+hIzsVsG1P7jYRsuJ27ECtSMeg0BPqRaCdtvi34HVRSJppzXBU+H7bibt8hgnyeFFQpRjP5QqMsAcHe5lamKTaK7riPoCSKmBr1FGxkpbhtzbB5kcAYTY+LZEq9xC7V3BdBdPWkYneAU91s1O/l45+dFQPLgk8iB+kdbQpdfncxBLlKPG/z30GMLxx2kMPJ2A+2wGcUGCJdLyQHP4O3gvP+FJUSyw6DuwDXKARrJThkJtya/LXVcXlvC6FKoEyS96Tb+uOcW5e2HBGa8/aVvP/M2f/NlRkmc2HtrakfRugmOW4/oPkhqFTLi42rMrByWAM2VNPtcX1JmOK+8/qEuDdz8shjt/9J8MBBAfQFis2goUbx8IZBlWLOM/Xsv8zEFYlEe8M=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(136003)(376002)(366004)(346002)(66476007)(186003)(107886003)(6666004)(8936002)(110136005)(36756003)(426003)(86362001)(54906003)(83380400001)(2616005)(38100700001)(30864003)(66946007)(5660300002)(478600001)(9746002)(66556008)(8676002)(4326008)(2906002)(26005)(316002)(9786002)(4216001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?mR5AcRZsXSeUyx46Z3+EZ01WUN9kvTwjkYtPQji9HWG666+lNNmz4tU4Q5qp?=
+ =?us-ascii?Q?0MlR0ahDo3OEmU+RqU7Xrr469kIq01Tawnbmm1E6k3b375StE/Fgj8/yh7Va?=
+ =?us-ascii?Q?H3G9m3f5t+U+Pgf39FKGWK+alo8BXY0yxTviR+32GZ9IF1OFM/CTXwcdOQjv?=
+ =?us-ascii?Q?sLAjrRSPei2ZkXrCknXlo2QkPvzz0KA3YdO6++Vv5X5vkQMWd3HBftNhQqJt?=
+ =?us-ascii?Q?lFL7Ddobzt6jXKqy+pwmb84v51gakj1DF13GKq2YYTGFqnmRzw9HCaDQgLU4?=
+ =?us-ascii?Q?LdD2LPIX3x1n4be7whYzSgmAHxplqEkfH486IlXeAb5qo19FC0+HAUt6qJ+l?=
+ =?us-ascii?Q?DJPmZ4H88hsj8euBxJprU0qT70cakawkWltIV7jFWtU2F7fwkrreY0IeAJ0a?=
+ =?us-ascii?Q?s28Mru7Rt3YnWICcPvtB4yfgTkMvgqE2RQOOdFv1HaicJyWHCo/Sa/q8mI6U?=
+ =?us-ascii?Q?3oBPb+mj8Ml1CktN+iTV1sc+dmiD38Zju4Uy/h3O/ui04RQimQpO3aL7bW24?=
+ =?us-ascii?Q?KZ3SxQ6pYiQMUGmf0SSRSzletEDq0x1FbzYQ1nbzK+nLiVPCsYjgOYHxO2Wh?=
+ =?us-ascii?Q?sj0EbwAp9PTgGnyilksJlpPuT3TB0gLdtXRrmYzafK3VOFVao7blxmCHfHRu?=
+ =?us-ascii?Q?G147ySk5cR8LQ8hRetnCkeSXvwH0aGJoVN2AETdVDY/hxlnC2wiSRYWHbr5L?=
+ =?us-ascii?Q?R8Jr+Of41iai5kDfSb7caylmiiHK+KtY+sjJ8iVcmG+6dWuPFz+Wp7g/CqfE?=
+ =?us-ascii?Q?wcjsGPuokGzB2OlXYh/lbFlwP1zaGQJKxNhAjgD6Rf91/NYS69Thb33HA+Dp?=
+ =?us-ascii?Q?jAedzpH+VcjABU84CnGK8OTHqj1uySDAlj56XjOGvI9faI+36/kZfzNmFe03?=
+ =?us-ascii?Q?UPb516VZiK9ybxvuL09a2CP2xOLomW1PqkhvkNwb2Uqs3PS/RKl17pDuPKpl?=
+ =?us-ascii?Q?iUrs9dcXmDg9hDM8FM2zQsyUmcbCIn+Ap5odvPAFq69OCZDrkD5EzHtm1p7x?=
+ =?us-ascii?Q?QPqOd89z3Ud7aWdeZzjY+VJTnNGG280zif6CdZegE5jCn/920FnimYTazKJO?=
+ =?us-ascii?Q?xTWsYygfrGKlwT0JAycNqRlwFA1dOF7knz44HBnwvCK43MSKFOIqaKXYE2Ct?=
+ =?us-ascii?Q?yioszuvVRPdj8/R7s+/kMd4r4BVdQ9SABG9mRFB+wxvO6Hd108CFHxODFmdI?=
+ =?us-ascii?Q?Sr5kJbAgEAmdOCl8U7Dv0vjCpcLXjFp2a8BLKHgIwOFirA3JGWeP7r7sDPWb?=
+ =?us-ascii?Q?3nJCR10ShAzRwMfxn57OfEcGt13XK5QLu+lriKKO3hL0fSUznm+QGAHsUFtX?=
+ =?us-ascii?Q?rOkgRWqOICo1xG9wLZB5OjOY?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a382bd8f-cad8-4c58-2806-08d8ee24df5c
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 17:55:41.2584
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jrGnUrJ8KzjkS3YZGuyZvHhJSlW+8Gr+oN3RvsdIJmc7TPQ5rYiCgYNMF2/0NXx7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4943
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 23, 2021 at 4:54 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
-wrote:
-> On 23/03/2021 01:13, Jann Horn wrote:
-> >  On Tue, Mar 16, 2021 at 9:43 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.=
-net> wrote:
-> >> Using Landlock objects and ruleset, it is possible to tag inodes
-> >> according to a process's domain.
-> > [...]
-> >> +static void release_inode(struct landlock_object *const object)
-> >> +       __releases(object->lock)
-> >> +{
-> >> +       struct inode *const inode =3D object->underobj;
-> >> +       struct super_block *sb;
-> >> +
-> >> +       if (!inode) {
-> >> +               spin_unlock(&object->lock);
-> >> +               return;
-> >> +       }
-> >> +
-> >> +       /*
-> >> +        * Protects against concurrent use by hook_sb_delete() of the =
-reference
-> >> +        * to the underlying inode.
-> >> +        */
-> >> +       object->underobj =3D NULL;
-> >> +       /*
-> >> +        * Makes sure that if the filesystem is concurrently unmounted=
-,
-> >> +        * hook_sb_delete() will wait for us to finish iput().
-> >> +        */
-> >> +       sb =3D inode->i_sb;
-> >> +       atomic_long_inc(&landlock_superblock(sb)->inode_refs);
-> >> +       spin_unlock(&object->lock);
-> >> +       /*
-> >> +        * Because object->underobj was not NULL, hook_sb_delete() and
-> >> +        * get_inode_object() guarantee that it is safe to reset
-> >> +        * landlock_inode(inode)->object while it is not NULL.  It is =
-therefore
-> >> +        * not necessary to lock inode->i_lock.
-> >> +        */
-> >> +       rcu_assign_pointer(landlock_inode(inode)->object, NULL);
-> >> +       /*
-> >> +        * Now, new rules can safely be tied to @inode with get_inode_=
-object().
-> >> +        */
-> >> +
-> >> +       iput(inode);
-> >> +       if (atomic_long_dec_and_test(&landlock_superblock(sb)->inode_r=
-efs))
-> >> +               wake_up_var(&landlock_superblock(sb)->inode_refs);
-> >> +}
-> > [...]
-> >> +static struct landlock_object *get_inode_object(struct inode *const i=
-node)
-> >> +{
-> >> +       struct landlock_object *object, *new_object;
-> >> +       struct landlock_inode_security *inode_sec =3D landlock_inode(i=
-node);
-> >> +
-> >> +       rcu_read_lock();
-> >> +retry:
-> >> +       object =3D rcu_dereference(inode_sec->object);
-> >> +       if (object) {
-> >> +               if (likely(refcount_inc_not_zero(&object->usage))) {
-> >> +                       rcu_read_unlock();
-> >> +                       return object;
-> >> +               }
-> >> +               /*
-> >> +                * We are racing with release_inode(), the object is g=
-oing
-> >> +                * away.  Wait for release_inode(), then retry.
-> >> +                */
-> >> +               spin_lock(&object->lock);
-> >> +               spin_unlock(&object->lock);
-> >> +               goto retry;
-> >> +       }
-> >> +       rcu_read_unlock();
-> >> +
-> >> +       /*
-> >> +        * If there is no object tied to @inode, then create a new one=
- (without
-> >> +        * holding any locks).
-> >> +        */
-> >> +       new_object =3D landlock_create_object(&landlock_fs_underops, i=
-node);
-> >> +       if (IS_ERR(new_object))
-> >> +               return new_object;
-> >> +
-> >> +       /* Protects against concurrent get_inode_object() calls. */
-> >> +       spin_lock(&inode->i_lock);
-> >> +       object =3D rcu_dereference_protected(inode_sec->object,
-> >> +                       lockdep_is_held(&inode->i_lock));
-> >
-> > rcu_dereference_protected() requires that inode_sec->object is not
-> > concurrently changed, but I think another thread could call
-> > get_inode_object() while we're in landlock_create_object(), and then
-> > we could race with the NULL write in release_inode() here? (It
-> > wouldn't actually be a UAF though because we're not actually accessing
-> > `object` here.) Or am I missing a lock that prevents this?
-> >
-> > In v28 this wasn't an issue because release_inode() was holding
-> > inode->i_lock (and object->lock) during the NULL store; but in v29 and
-> > this version the NULL store in release_inode() moved out of the locked
-> > region. I think you could just move the NULL store in release_inode()
-> > back up (and maybe add a comment explaining the locking rules for
-> > landlock_inode(...)->object)?
-> >
-> > (Or alternatively you could use rcu_dereference_raw() with a comment
-> > explaining that the read pointer is only used to check for NULL-ness,
-> > and that it is guaranteed that the pointer can't change if it is NULL
-> > and we're holding the lock. But that'd be needlessly complicated, I
-> > think.)
->
-> To reach rcu_assign_pointer(landlock_inode(inode)->object, NULL) in
-> release_inode() or in hook_sb_delete(), the
-> landlock_inode(inode)->object need to be non-NULL,
+The mdev API should accept and pass a 'struct mdev_device *' in all
+places, not pass a 'struct device *' and cast it internally with
+to_mdev_device(). Particularly in its struct mdev_driver functions, the
+whole point of a bus's struct device_driver wrapper is to provide type
+safety compared to the default struct device_driver.
 
-Yes.
+Further, the driver core standard is for bus drivers to expose their
+device structure in their public headers that can be used with
+container_of() inlines and '&foo->dev' to go between the class levels, and
+'&foo->dev' to be used with dev_err/etc driver core helper functions. Move
+'struct mdev_device' to mdev.h
 
-> which implies that a
-> call to get_inode_object(inode) either "retry" (because release_inode is
-> only called by landlock_put_object, which set object->usage to 0) until
-> it creates a new object, or reuses the existing referenced object (and
-> increments object->usage).
+Once done this allows moving some one instruction exported functions to
+static inlines, which in turns allows removing one of the two grotesque
+symbol_get()'s related to mdev in the core code.
 
-But it can be that landlock_inode(inode)->object only becomes non-NULL
-after get_inode_object() has checked
-rcu_dereference(inode_sec->object).
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+---
+ .../driver-api/vfio-mediated-device.rst       |  4 +-
+ drivers/vfio/mdev/mdev_core.c                 | 64 ++-----------------
+ drivers/vfio/mdev/mdev_driver.c               |  4 +-
+ drivers/vfio/mdev/mdev_private.h              | 23 +------
+ drivers/vfio/mdev/mdev_sysfs.c                | 26 ++++----
+ drivers/vfio/mdev/vfio_mdev.c                 |  7 +-
+ drivers/vfio/vfio_iommu_type1.c               | 25 ++------
+ include/linux/mdev.h                          | 58 +++++++++++++----
+ 8 files changed, 83 insertions(+), 128 deletions(-)
 
-> The worse case would be if
-> get_inode_object(inode) is called just before the
-> rcu_assign_pointer(landlock_inode(inode)->object, NULL) from
-> hook_sb_delete(), which would result in an object with a NULL underobj,
-> which is the expected behavior (and checked by release_inode).
+diff --git a/Documentation/driver-api/vfio-mediated-device.rst b/Documentation/driver-api/vfio-mediated-device.rst
+index 25eb7d5b834ba3..c43c1dc3333373 100644
+--- a/Documentation/driver-api/vfio-mediated-device.rst
++++ b/Documentation/driver-api/vfio-mediated-device.rst
+@@ -105,8 +105,8 @@ structure to represent a mediated device's driver::
+       */
+      struct mdev_driver {
+ 	     const char *name;
+-	     int  (*probe)  (struct device *dev);
+-	     void (*remove) (struct device *dev);
++	     int  (*probe)  (struct mdev_device *dev);
++	     void (*remove) (struct mdev_device *dev);
+ 	     struct device_driver    driver;
+      };
+ 
+diff --git a/drivers/vfio/mdev/mdev_core.c b/drivers/vfio/mdev/mdev_core.c
+index 6de97d25a3f87d..057922a1707e04 100644
+--- a/drivers/vfio/mdev/mdev_core.c
++++ b/drivers/vfio/mdev/mdev_core.c
+@@ -33,36 +33,6 @@ struct device *mdev_parent_dev(struct mdev_device *mdev)
+ }
+ EXPORT_SYMBOL(mdev_parent_dev);
+ 
+-void *mdev_get_drvdata(struct mdev_device *mdev)
+-{
+-	return mdev->driver_data;
+-}
+-EXPORT_SYMBOL(mdev_get_drvdata);
+-
+-void mdev_set_drvdata(struct mdev_device *mdev, void *data)
+-{
+-	mdev->driver_data = data;
+-}
+-EXPORT_SYMBOL(mdev_set_drvdata);
+-
+-struct device *mdev_dev(struct mdev_device *mdev)
+-{
+-	return &mdev->dev;
+-}
+-EXPORT_SYMBOL(mdev_dev);
+-
+-struct mdev_device *mdev_from_dev(struct device *dev)
+-{
+-	return dev_is_mdev(dev) ? to_mdev_device(dev) : NULL;
+-}
+-EXPORT_SYMBOL(mdev_from_dev);
+-
+-const guid_t *mdev_uuid(struct mdev_device *mdev)
+-{
+-	return &mdev->uuid;
+-}
+-EXPORT_SYMBOL(mdev_uuid);
+-
+ /* Should be called holding parent_list_lock */
+ static struct mdev_parent *__find_parent_device(struct device *dev)
+ {
+@@ -107,7 +77,7 @@ static void mdev_device_remove_common(struct mdev_device *mdev)
+ 	int ret;
+ 
+ 	type = to_mdev_type(mdev->type_kobj);
+-	mdev_remove_sysfs_files(&mdev->dev, type);
++	mdev_remove_sysfs_files(mdev, type);
+ 	device_del(&mdev->dev);
+ 	parent = mdev->parent;
+ 	lockdep_assert_held(&parent->unreg_sem);
+@@ -122,12 +92,10 @@ static void mdev_device_remove_common(struct mdev_device *mdev)
+ 
+ static int mdev_device_remove_cb(struct device *dev, void *data)
+ {
+-	if (dev_is_mdev(dev)) {
+-		struct mdev_device *mdev;
++	struct mdev_device *mdev = mdev_from_dev(dev);
+ 
+-		mdev = to_mdev_device(dev);
++	if (mdev)
+ 		mdev_device_remove_common(mdev);
+-	}
+ 	return 0;
+ }
+ 
+@@ -332,7 +300,7 @@ int mdev_device_create(struct kobject *kobj,
+ 	if (ret)
+ 		goto add_fail;
+ 
+-	ret = mdev_create_sysfs_files(&mdev->dev, type);
++	ret = mdev_create_sysfs_files(mdev, type);
+ 	if (ret)
+ 		goto sysfs_fail;
+ 
+@@ -354,13 +322,11 @@ int mdev_device_create(struct kobject *kobj,
+ 	return ret;
+ }
+ 
+-int mdev_device_remove(struct device *dev)
++int mdev_device_remove(struct mdev_device *mdev)
+ {
+-	struct mdev_device *mdev, *tmp;
++	struct mdev_device *tmp;
+ 	struct mdev_parent *parent;
+ 
+-	mdev = to_mdev_device(dev);
+-
+ 	mutex_lock(&mdev_list_lock);
+ 	list_for_each_entry(tmp, &mdev_list, next) {
+ 		if (tmp == mdev)
+@@ -390,24 +356,6 @@ int mdev_device_remove(struct device *dev)
+ 	return 0;
+ }
+ 
+-int mdev_set_iommu_device(struct device *dev, struct device *iommu_device)
+-{
+-	struct mdev_device *mdev = to_mdev_device(dev);
+-
+-	mdev->iommu_device = iommu_device;
+-
+-	return 0;
+-}
+-EXPORT_SYMBOL(mdev_set_iommu_device);
+-
+-struct device *mdev_get_iommu_device(struct device *dev)
+-{
+-	struct mdev_device *mdev = to_mdev_device(dev);
+-
+-	return mdev->iommu_device;
+-}
+-EXPORT_SYMBOL(mdev_get_iommu_device);
+-
+ static int __init mdev_init(void)
+ {
+ 	return mdev_bus_register();
+diff --git a/drivers/vfio/mdev/mdev_driver.c b/drivers/vfio/mdev/mdev_driver.c
+index 0d3223aee20b83..44c3ba7e56d923 100644
+--- a/drivers/vfio/mdev/mdev_driver.c
++++ b/drivers/vfio/mdev/mdev_driver.c
+@@ -48,7 +48,7 @@ static int mdev_probe(struct device *dev)
+ 		return ret;
+ 
+ 	if (drv && drv->probe) {
+-		ret = drv->probe(dev);
++		ret = drv->probe(mdev);
+ 		if (ret)
+ 			mdev_detach_iommu(mdev);
+ 	}
+@@ -62,7 +62,7 @@ static int mdev_remove(struct device *dev)
+ 	struct mdev_device *mdev = to_mdev_device(dev);
+ 
+ 	if (drv && drv->remove)
+-		drv->remove(dev);
++		drv->remove(mdev);
+ 
+ 	mdev_detach_iommu(mdev);
+ 
+diff --git a/drivers/vfio/mdev/mdev_private.h b/drivers/vfio/mdev/mdev_private.h
+index 74c2e541146999..bb60ec4a8d9d21 100644
+--- a/drivers/vfio/mdev/mdev_private.h
++++ b/drivers/vfio/mdev/mdev_private.h
+@@ -24,23 +24,6 @@ struct mdev_parent {
+ 	struct rw_semaphore unreg_sem;
+ };
+ 
+-struct mdev_device {
+-	struct device dev;
+-	struct mdev_parent *parent;
+-	guid_t uuid;
+-	void *driver_data;
+-	struct list_head next;
+-	struct kobject *type_kobj;
+-	struct device *iommu_device;
+-	bool active;
+-};
+-
+-static inline struct mdev_device *to_mdev_device(struct device *dev)
+-{
+-	return container_of(dev, struct mdev_device, dev);
+-}
+-#define dev_is_mdev(d)		((d)->bus == &mdev_bus_type)
+-
+ struct mdev_type {
+ 	struct kobject kobj;
+ 	struct kobject *devices_kobj;
+@@ -57,11 +40,11 @@ struct mdev_type {
+ int  parent_create_sysfs_files(struct mdev_parent *parent);
+ void parent_remove_sysfs_files(struct mdev_parent *parent);
+ 
+-int  mdev_create_sysfs_files(struct device *dev, struct mdev_type *type);
+-void mdev_remove_sysfs_files(struct device *dev, struct mdev_type *type);
++int  mdev_create_sysfs_files(struct mdev_device *mdev, struct mdev_type *type);
++void mdev_remove_sysfs_files(struct mdev_device *mdev, struct mdev_type *type);
+ 
+ int  mdev_device_create(struct kobject *kobj,
+ 			struct device *dev, const guid_t *uuid);
+-int  mdev_device_remove(struct device *dev);
++int  mdev_device_remove(struct mdev_device *dev);
+ 
+ #endif /* MDEV_PRIVATE_H */
+diff --git a/drivers/vfio/mdev/mdev_sysfs.c b/drivers/vfio/mdev/mdev_sysfs.c
+index 917fd84c1c6f24..6a5450587b79e9 100644
+--- a/drivers/vfio/mdev/mdev_sysfs.c
++++ b/drivers/vfio/mdev/mdev_sysfs.c
+@@ -225,6 +225,7 @@ int parent_create_sysfs_files(struct mdev_parent *parent)
+ static ssize_t remove_store(struct device *dev, struct device_attribute *attr,
+ 			    const char *buf, size_t count)
+ {
++	struct mdev_device *mdev = to_mdev_device(dev);
+ 	unsigned long val;
+ 
+ 	if (kstrtoul(buf, 0, &val) < 0)
+@@ -233,7 +234,7 @@ static ssize_t remove_store(struct device *dev, struct device_attribute *attr,
+ 	if (val && device_remove_file_self(dev, attr)) {
+ 		int ret;
+ 
+-		ret = mdev_device_remove(dev);
++		ret = mdev_device_remove(mdev);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -248,34 +249,37 @@ static const struct attribute *mdev_device_attrs[] = {
+ 	NULL,
+ };
+ 
+-int  mdev_create_sysfs_files(struct device *dev, struct mdev_type *type)
++int mdev_create_sysfs_files(struct mdev_device *mdev, struct mdev_type *type)
+ {
++	struct kobject *kobj = &mdev->dev.kobj;
+ 	int ret;
+ 
+-	ret = sysfs_create_link(type->devices_kobj, &dev->kobj, dev_name(dev));
++	ret = sysfs_create_link(type->devices_kobj, kobj, dev_name(&mdev->dev));
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = sysfs_create_link(&dev->kobj, &type->kobj, "mdev_type");
++	ret = sysfs_create_link(kobj, &type->kobj, "mdev_type");
+ 	if (ret)
+ 		goto type_link_failed;
+ 
+-	ret = sysfs_create_files(&dev->kobj, mdev_device_attrs);
++	ret = sysfs_create_files(kobj, mdev_device_attrs);
+ 	if (ret)
+ 		goto create_files_failed;
+ 
+ 	return ret;
+ 
+ create_files_failed:
+-	sysfs_remove_link(&dev->kobj, "mdev_type");
++	sysfs_remove_link(kobj, "mdev_type");
+ type_link_failed:
+-	sysfs_remove_link(type->devices_kobj, dev_name(dev));
++	sysfs_remove_link(type->devices_kobj, dev_name(&mdev->dev));
+ 	return ret;
+ }
+ 
+-void mdev_remove_sysfs_files(struct device *dev, struct mdev_type *type)
++void mdev_remove_sysfs_files(struct mdev_device *mdev, struct mdev_type *type)
+ {
+-	sysfs_remove_files(&dev->kobj, mdev_device_attrs);
+-	sysfs_remove_link(&dev->kobj, "mdev_type");
+-	sysfs_remove_link(type->devices_kobj, dev_name(dev));
++	struct kobject *kobj = &mdev->dev.kobj;
++
++	sysfs_remove_files(kobj, mdev_device_attrs);
++	sysfs_remove_link(kobj, "mdev_type");
++	sysfs_remove_link(type->devices_kobj, dev_name(&mdev->dev));
+ }
+diff --git a/drivers/vfio/mdev/vfio_mdev.c b/drivers/vfio/mdev/vfio_mdev.c
+index ae7e322fbe3c26..91b7b8b9eb9cb8 100644
+--- a/drivers/vfio/mdev/vfio_mdev.c
++++ b/drivers/vfio/mdev/vfio_mdev.c
+@@ -124,9 +124,8 @@ static const struct vfio_device_ops vfio_mdev_dev_ops = {
+ 	.request	= vfio_mdev_request,
+ };
+ 
+-static int vfio_mdev_probe(struct device *dev)
++static int vfio_mdev_probe(struct mdev_device *mdev)
+ {
+-	struct mdev_device *mdev = to_mdev_device(dev);
+ 	struct vfio_device *vdev;
+ 	int ret;
+ 
+@@ -144,9 +143,9 @@ static int vfio_mdev_probe(struct device *dev)
+ 	return 0;
+ }
+ 
+-static void vfio_mdev_remove(struct device *dev)
++static void vfio_mdev_remove(struct mdev_device *mdev)
+ {
+-	struct vfio_device *vdev = dev_get_drvdata(dev);
++	struct vfio_device *vdev = dev_get_drvdata(&mdev->dev);
+ 
+ 	vfio_unregister_group_dev(vdev);
+ 	kfree(vdev);
+diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
+index 4bb162c1d649b3..90b45ff1d87a7b 100644
+--- a/drivers/vfio/vfio_iommu_type1.c
++++ b/drivers/vfio/vfio_iommu_type1.c
+@@ -1923,28 +1923,13 @@ static bool vfio_iommu_has_sw_msi(struct list_head *group_resv_regions,
+ 	return ret;
+ }
+ 
+-static struct device *vfio_mdev_get_iommu_device(struct device *dev)
+-{
+-	struct device *(*fn)(struct device *dev);
+-	struct device *iommu_device;
+-
+-	fn = symbol_get(mdev_get_iommu_device);
+-	if (fn) {
+-		iommu_device = fn(dev);
+-		symbol_put(mdev_get_iommu_device);
+-
+-		return iommu_device;
+-	}
+-
+-	return NULL;
+-}
+-
+ static int vfio_mdev_attach_domain(struct device *dev, void *data)
+ {
++	struct mdev_device *mdev = to_mdev_device(dev);
+ 	struct iommu_domain *domain = data;
+ 	struct device *iommu_device;
+ 
+-	iommu_device = vfio_mdev_get_iommu_device(dev);
++	iommu_device = mdev_get_iommu_device(mdev);
+ 	if (iommu_device) {
+ 		if (iommu_dev_feature_enabled(iommu_device, IOMMU_DEV_FEAT_AUX))
+ 			return iommu_aux_attach_device(domain, iommu_device);
+@@ -1957,10 +1942,11 @@ static int vfio_mdev_attach_domain(struct device *dev, void *data)
+ 
+ static int vfio_mdev_detach_domain(struct device *dev, void *data)
+ {
++	struct mdev_device *mdev = to_mdev_device(dev);
+ 	struct iommu_domain *domain = data;
+ 	struct device *iommu_device;
+ 
+-	iommu_device = vfio_mdev_get_iommu_device(dev);
++	iommu_device = mdev_get_iommu_device(mdev);
+ 	if (iommu_device) {
+ 		if (iommu_dev_feature_enabled(iommu_device, IOMMU_DEV_FEAT_AUX))
+ 			iommu_aux_detach_device(domain, iommu_device);
+@@ -2008,9 +1994,10 @@ static bool vfio_bus_is_mdev(struct bus_type *bus)
+ 
+ static int vfio_mdev_iommu_device(struct device *dev, void *data)
+ {
++	struct mdev_device *mdev = to_mdev_device(dev);
+ 	struct device **old = data, *new;
+ 
+-	new = vfio_mdev_get_iommu_device(dev);
++	new = mdev_get_iommu_device(mdev);
+ 	if (!new || (*old && *old != new))
+ 		return -EINVAL;
+ 
+diff --git a/include/linux/mdev.h b/include/linux/mdev.h
+index 27eb383cb95de0..52f7ea19dd0f56 100644
+--- a/include/linux/mdev.h
++++ b/include/linux/mdev.h
+@@ -10,7 +10,21 @@
+ #ifndef MDEV_H
+ #define MDEV_H
+ 
+-struct mdev_device;
++struct mdev_device {
++	struct device dev;
++	struct mdev_parent *parent;
++	guid_t uuid;
++	void *driver_data;
++	struct list_head next;
++	struct kobject *type_kobj;
++	struct device *iommu_device;
++	bool active;
++};
++
++static inline struct mdev_device *to_mdev_device(struct device *dev)
++{
++	return container_of(dev, struct mdev_device, dev);
++}
+ 
+ /*
+  * Called by the parent device driver to set the device which represents
+@@ -19,12 +33,17 @@ struct mdev_device;
+  *
+  * @dev: the mediated device that iommu will isolate.
+  * @iommu_device: a pci device which represents the iommu for @dev.
+- *
+- * Return 0 for success, otherwise negative error value.
+  */
+-int mdev_set_iommu_device(struct device *dev, struct device *iommu_device);
++static inline void mdev_set_iommu_device(struct mdev_device *mdev,
++					 struct device *iommu_device)
++{
++	mdev->iommu_device = iommu_device;
++}
+ 
+-struct device *mdev_get_iommu_device(struct device *dev);
++static inline struct device *mdev_get_iommu_device(struct mdev_device *mdev)
++{
++	return mdev->iommu_device;
++}
+ 
+ /**
+  * struct mdev_parent_ops - Structure to be registered for each parent device to
+@@ -126,16 +145,25 @@ struct mdev_type_attribute mdev_type_attr_##_name =		\
+  **/
+ struct mdev_driver {
+ 	const char *name;
+-	int  (*probe)(struct device *dev);
+-	void (*remove)(struct device *dev);
++	int (*probe)(struct mdev_device *dev);
++	void (*remove)(struct mdev_device *dev);
+ 	struct device_driver driver;
+ };
+ 
+ #define to_mdev_driver(drv)	container_of(drv, struct mdev_driver, driver)
+ 
+-void *mdev_get_drvdata(struct mdev_device *mdev);
+-void mdev_set_drvdata(struct mdev_device *mdev, void *data);
+-const guid_t *mdev_uuid(struct mdev_device *mdev);
++static inline void *mdev_get_drvdata(struct mdev_device *mdev)
++{
++	return mdev->driver_data;
++}
++static inline void mdev_set_drvdata(struct mdev_device *mdev, void *data)
++{
++	mdev->driver_data = data;
++}
++static inline const guid_t *mdev_uuid(struct mdev_device *mdev)
++{
++	return &mdev->uuid;
++}
+ 
+ extern struct bus_type mdev_bus_type;
+ 
+@@ -146,7 +174,13 @@ int mdev_register_driver(struct mdev_driver *drv, struct module *owner);
+ void mdev_unregister_driver(struct mdev_driver *drv);
+ 
+ struct device *mdev_parent_dev(struct mdev_device *mdev);
+-struct device *mdev_dev(struct mdev_device *mdev);
+-struct mdev_device *mdev_from_dev(struct device *dev);
++static inline struct device *mdev_dev(struct mdev_device *mdev)
++{
++	return &mdev->dev;
++}
++static inline struct mdev_device *mdev_from_dev(struct device *dev)
++{
++	return dev->bus == &mdev_bus_type ? to_mdev_device(dev) : NULL;
++}
+ 
+ #endif /* MDEV_H */
+-- 
+2.31.0
 
-The scenario I'm talking about doesn't involve hook_sb_delete().
-
-> The line rcu_assign_pointer(inode_sec->object, new_object) from
-> get_inode_object() can only be reached if the underlying inode doesn't
-> reference an object,
-
-Yes.
-
-> in which case hook_sb_delete() will not reach the
-> rcu_assign_pointer(landlock_inode(inode)->object, NULL) line for this
-> same inode.
->
-> This works because get_inode_object(inode) is mutually exclusive to
-> itself with the same inode (i.e. an inode can only point to an object
-> that references this same inode).
-
-To clarify: You can concurrently call get_inode_object() multiple
-times on the same inode, right? There are no locks held on entry to
-that function.
-
-> I tried to explain this with the comment "Protects against concurrent
-> get_inode_object() calls" in get_inode_object(), and the comments just
-> before both rcu_assign_pointer(landlock_inode(inode)->object, NULL).
-
-The scenario I'm talking about is:
-
-Initially the inode does not have an associated landlock_object. There
-are two threads A and B. Thread A is going to execute
-get_inode_object(). Thread B is going to execute get_inode_object()
-followed immediately by landlock_put_object().
-
-thread A: enters get_inode_object()
-thread A: rcu_dereference(inode_sec->object) returns NULL
-thread A: enters landlock_create_object()
-thread B: enters get_inode_object()
-thread B: rcu_dereference(inode_sec->object) returns NULL
-thread B: calls landlock_create_object()
-thread B: sets inode_sec->object while holding inode->i_lock
-thread B: leaves get_inode_object()
-thread B: enters landlock_put_object()
-thread B: object->usage drops to 0, object->lock is taken
-thread B: calls release_inode()
-thread B: drops object->lock
-thread A: returns from landlock_create_object()
-thread A: takes inode->i_lock
-
-At this point, thread B will run:
-
-    rcu_assign_pointer(landlock_inode(inode)->object, NULL);
-
-while thread A runs:
-
-    rcu_dereference_protected(inode_sec->object,
-        lockdep_is_held(&inode->i_lock));
-
-meaning there is a (theoretical) data race, since
-rcu_dereference_protected() doesn't use READ_ONCE().
-
-> >> +       if (unlikely(object)) {
-> >> +               /* Someone else just created the object, bail out and =
-retry. */
-> >> +               spin_unlock(&inode->i_lock);
-> >> +               kfree(new_object);
-> >> +
-> >> +               rcu_read_lock();
-> >> +               goto retry;
-> >> +       }
-> >> +
-> >> +       rcu_assign_pointer(inode_sec->object, new_object);
-> >> +       /*
-> >> +        * @inode will be released by hook_sb_delete() on its superblo=
-ck
-> >> +        * shutdown.
-> >> +        */
-> >> +       ihold(inode);
-> >> +       spin_unlock(&inode->i_lock);
-> >> +       return new_object;
-> >> +}
