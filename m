@@ -2,145 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44750C433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 18:09:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6712C433E4
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 18:44:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 11203619A9
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 18:09:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 70A75619C1
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 18:44:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231255AbhCWSI3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 14:08:29 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:8152 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231206AbhCWSIE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Mar 2021 14:08:04 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12NI5RMu111568;
-        Tue, 23 Mar 2021 14:07:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=odnY6h4coq5urn2CzhCmZB0m7u2bx8U3SIbESLNrZHY=;
- b=rPhhJ/cw3twDW6aAEbsHiIs0DmmbFXQV4Cc8im/7PPbKiPnl9n3kV8I3K+g9FJy8UqMd
- CYd0gBDTdbJ2Gw1U4V7qnUVhWYDHuHiuVS/RYYEw1ama0VoPZltjPhUzeTm/eNKVQsD3
- kRy8ChD/IOoX8cu92zuq0XPateWtdfGv/9GRGRctmJnfhGlhu2fwMzSJAy+eEav4zp6s
- XzypMbC06UtYHSlP8KtiHdck3hexTDBs7onedG2QKbsM7DCb34tvNVVjaKDNjv278xqr
- ewSlnkjLHctWkQhicrgrCt6cUPydjU+NxXee+98KQ+q4uhXXZsV5zIC6KS9n2nrPgjb4 0A== 
-Received: from pps.reinject (localhost [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 37fm6ut8tr-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 23 Mar 2021 14:07:32 -0400
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
-        by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 12NI6tUB119695;
-        Tue, 23 Mar 2021 14:07:32 -0400
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com [149.81.74.107])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 37fm6ut8s9-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 23 Mar 2021 14:07:32 -0400
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
-        by ppma03fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12NI3m6k003991;
-        Tue, 23 Mar 2021 18:07:29 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
-        by ppma03fra.de.ibm.com with ESMTP id 37d9bpsvhw-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 23 Mar 2021 18:07:29 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 12NI7QRc41222406
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 23 Mar 2021 18:07:26 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 91417AE045;
-        Tue, 23 Mar 2021 18:07:26 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 41294AE04D;
-        Tue, 23 Mar 2021 18:07:21 +0000 (GMT)
-Received: from li-f45666cc-3089-11b2-a85c-c57d1a57929f.ibm.com (unknown [9.211.72.148])
-        by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-        Tue, 23 Mar 2021 18:07:20 +0000 (GMT)
-Message-ID: <f9c0087d299be1b9b91b242f41ac6ef7b9ee3ef7.camel@linux.ibm.com>
-Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
- CAAM-based trusted keys
-From:   Mimi Zohar <zohar@linux.ibm.com>
-To:     Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        Horia =?UTF-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        James Bottomley <jejb@linux.ibm.com>
-Cc:     "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
+        id S232296AbhCWSoC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 14:44:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47968 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232249AbhCWSnw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Mar 2021 14:43:52 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D5BEC061574;
+        Tue, 23 Mar 2021 11:43:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=DKyHtKCO0K411018/e/MjJ+tlpnzWhDvazNrYsJOSa8=; b=wCZfve7N74jmvnRTUOrJapFiD
+        leJcWyRdawkhb6OZ4a1jxgzU3R/uQMZ2qIC4/y+Z+g9Sm9wd52sx8s5nB9p/DacOKa0D085kbjhUG
+        t719Zz6QmKCjMRJa189d+8TdFKszHhlT0JCrsUlaN15Ckx/gO6mdtjjXk0VX6m+6vTI47uvdxpJvh
+        2BG/ot8QgcvNes2LaU+gyZF0cTx4dYG2XnofuryoyNBFgVrUagwbgOO2Ln4dpB+6KoQP+1egdlpI6
+        il+83CsRb5nFRb3bPUyPMt1saGI84tHzmPIAIUXwkbKTNs43gPCOy+82tv90e78q6UWOAjTD1usvT
+        97GM9EK/Q==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:51634)
+        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1lOlzy-00080o-ME; Tue, 23 Mar 2021 18:43:26 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1lOlzt-0004Mo-J1; Tue, 23 Mar 2021 18:43:21 +0000
+Date:   Tue, 23 Mar 2021 18:43:21 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Cye Borg <cyborgyn@gmail.com>
+Cc:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Christoph Hellwig <hch@lst.de>,
         "David S. Miller" <davem@davemloft.net>,
-        Udit Agarwal <udit.agarwal@nxp.com>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        David Gstir <david@sigma-star.at>,
-        Franck Lenormand <franck.lenormand@nxp.com>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>
-Date:   Tue, 23 Mar 2021 14:07:20 -0400
-In-Reply-To: <45a9e159-2dcb-85bf-02bd-2993d50b5748@pengutronix.de>
-References: <cover.56fff82362af6228372ea82e6bd7e586e23f0966.1615914058.git-series.a.fatoum@pengutronix.de>
-         <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
-         <01e6e13d-2968-0aa5-c4c8-7458b7bde462@nxp.com>
-         <45a9e159-2dcb-85bf-02bd-2993d50b5748@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5 (3.28.5-14.el8) 
-X-TM-AS-GCONF: 00
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        Jens Axboe <axboe@kernel.dk>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 02/10] ARM: disable CONFIG_IDE in footbridge_defconfig
+Message-ID: <20210323184321.GE1463@shell.armlinux.org.uk>
+References: <20210318045706.200458-1-hch@lst.de>
+ <20210318045706.200458-3-hch@lst.de>
+ <20210319170753.GV1463@shell.armlinux.org.uk>
+ <20210319175311.GW1463@shell.armlinux.org.uk>
+ <20210322145403.GA30942@lst.de>
+ <20210322151503.GX1463@shell.armlinux.org.uk>
+ <224b110e-7c42-4e19-800e-e0fa23d3bf7f@physik.fu-berlin.de>
+ <20210322170338.GZ1463@shell.armlinux.org.uk>
+ <CAD4NMuZWoV0m85OyBDHLt+J8NYCV5wYx7fFZaivBNEgDnrN5xw@mail.gmail.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-03-23_09:2021-03-22,2021-03-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
- malwarescore=0 phishscore=0 priorityscore=1501 impostorscore=0 spamscore=0
- bulkscore=0 suspectscore=0 mlxlogscore=999 adultscore=0 clxscore=1011
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103230133
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAD4NMuZWoV0m85OyBDHLt+J8NYCV5wYx7fFZaivBNEgDnrN5xw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 2021-03-23 at 17:35 +0100, Ahmad Fatoum wrote:
-> Hello Horia,
+On Mon, Mar 22, 2021 at 06:10:01PM +0100, Cye Borg wrote:
+> PWS 500au:
 > 
-> On 21.03.21 21:48, Horia Geantă wrote:
-> > On 3/16/2021 7:02 PM, Ahmad Fatoum wrote:
-> > [...]
-> >> +struct trusted_key_ops caam_trusted_key_ops = {
-> >> +	.migratable = 0, /* non-migratable */
-> >> +	.init = trusted_caam_init,
-> >> +	.seal = trusted_caam_seal,
-> >> +	.unseal = trusted_caam_unseal,
-> >> +	.exit = trusted_caam_exit,
-> >> +};
-> > caam has random number generation capabilities, so it's worth using that
-> > by implementing .get_random.
+> snow / # lspci -vvx -s 7.1
+> 00:07.1 IDE interface: Contaq Microsystems 82c693 (prog-if 80 [ISA
+> Compatibility mode-only controller, supports bus mastering])
+>         Control: I/O+ Mem- BusMaster+ SpecCycle- MemWINV- VGASnoop-
+> ParErr+ Stepping- SERR- FastB2B- DisINTx-
+>         Status: Cap- 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium
+> >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+>         Latency: 0
+>         Interrupt: pin A routed to IRQ 0
+>         Region 0: I/O ports at 01f0 [size=8]
+>         Region 1: I/O ports at 03f4
+>         Region 4: I/O ports at 9080 [size=16]
+>         Kernel driver in use: pata_cypress
+>         Kernel modules: pata_cypress
+> 00: 80 10 93 c6 45 00 80 02 00 80 01 01 00 00 80 00
+> 10: f1 01 00 00 f5 03 00 00 00 00 00 00 00 00 00 00
+> 20: 81 90 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> 30: 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00
 > 
-> If the CAAM HWRNG is already seeding the kernel RNG, why not use the kernel's?
-> 
-> Makes for less code duplication IMO.
+> snow / # lspci -vvx -s 7.2
+> 00:07.2 IDE interface: Contaq Microsystems 82c693 (prog-if 00 [ISA
+> Compatibility mode-only controller])
+>         Control: I/O+ Mem- BusMaster+ SpecCycle- MemWINV- VGASnoop-
+> ParErr+ Stepping- SERR- FastB2B- DisINTx-
+>         Status: Cap- 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium
+> >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+>         Latency: 0
+>         Interrupt: pin B routed to IRQ 0
+>         Region 0: I/O ports at 0170 [size=8]
+>         Region 1: I/O ports at 0374
+>         Region 4: Memory at 0c240000 (32-bit, non-prefetchable)
+> [disabled] [size=64K]
+>         Kernel modules: pata_cypress
+> 00: 80 10 93 c6 45 00 80 02 00 00 01 01 00 00 80 00
+> 10: 71 01 00 00 75 03 00 00 00 00 00 00 00 00 00 00
+> 20: 00 00 24 0c 00 00 00 00 00 00 00 00 00 00 00 00
+> 30: 00 00 00 00 00 00 00 00 00 00 00 00 00 02 00 00
 
-Using kernel RNG, in general, for trusted keys has been discussed
-before.   Please refer to Dave Safford's detailed explanation for not
-using it [1].
+Thanks very much.
 
-thanks,
+Could I also ask for the output of:
 
-Mimi
+# lspci -vxxx -s 7.0
 
-[1] 
-https://lore.kernel.org/linux-integrity/BCA04D5D9A3B764C9B7405BBA4D4A3C035F2A38B@ALPMBAPA12.e2k.ad.ge.com/
- 
+as well please - this will dump all 256 bytes for the ISA bridge, which
+contains a bunch of configuration registers. Thanks.
 
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
