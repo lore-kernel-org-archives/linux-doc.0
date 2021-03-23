@@ -7,703 +7,465 @@ X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
 	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E066AC433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 16:16:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2777BC433E1
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 16:16:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B7904619BD
+	by mail.kernel.org (Postfix) with ESMTP id F41F0619C6
 	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 16:16:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233067AbhCWQPc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S233115AbhCWQPc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 23 Mar 2021 12:15:32 -0400
-Received: from mail-bn7nam10on2089.outbound.protection.outlook.com ([40.107.92.89]:23521
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+Received: from mail-co1nam11on2068.outbound.protection.outlook.com ([40.107.220.68]:19553
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233141AbhCWQPR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Mar 2021 12:15:17 -0400
+        id S233159AbhCWQPT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Mar 2021 12:15:19 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fMgMbbwZyMOxYXdjPR+nTQiCqmxG3UOHpWjra6eSYBFELMZ/xOaaPqOUuRYOuIZZthbLQI+ZJKdIrRzHSrA51NatRc2P3aIamaoOrrcB50T2acoaiZQgLt3co3Gvqhlua2LVxf0hkr8ei9Ve/8eQkgPLDRccJlVjg+xPvS/Dl8TAOBe9YnG0JagORBhbwiI4hMTL5fGxpRd/dJzAXe+zti0/QXDLPYBSztYrkT+5j5G1QYg5VJ/YXom+Sf5AtdbJaKGtCG/QLcF/VCPxoBwiJhcr2w4E/okvgn+xAX18Eg2M0Mwd2t5RSlLo0jAK6sND+FEQej92Zw9W6ZKg6+kJbA==
+ b=Ns1rs91FtesS24C27g4Xv1EjBkppLeBPAJA/Eq2iaiWSjy2InDe2HXNCWTv7LOCOAENLaTlaQvZzwI3YkuwJ6VwgJRgLDxLlNg06ETTdAYxWkvfSb5pXErzIwFrmZ5wfrXnxkScgk61D0jRTe21yX2yvemI3WfZY2BVYcDSNNT5Qp1iJoybGIPk0pIuopV+ALA29RzfSE7D0iKdorCTOOWcHRXDNOM0HU4VUlgaj8vFzJx5uAOd05o5mu2aJD2VkYfDmY5YkyRoSO538cbSnM+oM5/0xkzg4V7joX+XVlMogowkuEczhosnR4pWjlvXG/siS5FdVrNJYIw6lnqb7Iw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tt2LG1l8OPQLTRf/lg3gHpfhqmd0UWli+Sw2vTVs5dE=;
- b=cTKzoLyUHDPoUMtjFdnUi4FeopyW+N3mG5AXREXAECC0TUgrijFsjUOXeQfLBu8xNL7o2xyeolPLai7rdw1hctxbdsw5/k/kLQghEZBrCB85efeDZAqun+QOCzSLGo9B69iClK23Tp8t1v8+kNfnc2zIW8D7n6vtK8QdobkZUmkmbVnwJWhuUWyJ5zR84lrkx07hvJs72IAl3flDD0dtErVXeQJOFNTl0u/a2AeFcv2ubl0eT8FcWmhyTvVdtoIIFkuPHr97ytuttxerl+MXX0dOQ+pxuKPezMsSUx9bgwxaIHOw8vLwq9m4cswo8jimlBUAVA2vlbo0wzl5Z1FlWw==
+ bh=+xPBC3xPaI8fc+7REGhZLu3AHPQyC6odvVGpV0xzeNo=;
+ b=LItbQZVVUb9h3z+/R+vMJ5OkkWBsOKwOYBDXAORCWpU9HQK0JV+DLilNk54deeYXK+eoCHrkM+CnmBL42mkkai7GvZacBPLF1suWexURlUzwLPwzGC6fJpecLQuVcEuOwSlZpg4Ytl1soX71LTW1+kCTYDi+TBIh76pjrNIossEbW1BmCrA5fZGRLgOheu7gk9XREDKTgbJmcPiGpc3F3/pkoWf4vHjyG7glX8auZjYG1VbsG0Z2YZht++DECDf5XfDwMzZDHy67rGk3aHDNBDeKzrwTuT8RefvuJFn95AyKBmo+C3ZDra/6xfi8HQQygbRsWsyYc6oRZWkaeqXvgQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tt2LG1l8OPQLTRf/lg3gHpfhqmd0UWli+Sw2vTVs5dE=;
- b=Xdyq4i3IjnmZFdrbXqj237pTYhoLztrz42aExEWGg2HlsalRbyWLTfFy1jbTwVdMjDrVpuuzeLmSwXViOmnyk0fRTtwKchtpJTKnJO+k7d4Bq3+seIhIoe+2ydJpMbflmOa43Qbpc4R10JfFd9Rws6jLHmttutDG0cWbDiO5UZdwID8F3b2wewpXjYmoaQKg49MopY5x4LVECPnO9nOy5TJqfyCFCMusczTnm7z43gfKslA87sXoEO7oNTj5hqgyd2rDbHrqHBSPFW/QnepKEFdhaN6LWiUqJCC7hC01Rlv4W2ZKYRae+Ihtl9WsB6bKXqq5qe4DG3cswvjqjLqj+A==
+ bh=+xPBC3xPaI8fc+7REGhZLu3AHPQyC6odvVGpV0xzeNo=;
+ b=JA7QU/g5XBtxia12dDlvaCxo+TBfTvB01z7aWxPSfKVrQy00PX5IvxqRk8+UJxmmRy5eChcDodAC69F6/Xcj2SokyqYr7UJ83NPfdSDLrYrd7PWEbZQ8jGDoZpBNRnG3Nxn2qviUxjfMOVUC4cocq2nWI7tXYqKwRwNBw1GP9J5SLhOYazUIWUjCa2nPWt7IobAbR03561Zva2FYEuQD9YfNRugmYGQAYXijq/QWoxKFQncO9kliP6t1/EfL0xOg7fycQqkJ0rHeOFxs1m9qCZVxmz1o6tAoVKMTOvbzXyl2D32p9ZfMjHN64cR5x74Cn4763dsQNvUxGauTG4eT+w==
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
 Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
  by DM6PR12MB4267.namprd12.prod.outlook.com (2603:10b6:5:21e::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24; Tue, 23 Mar
- 2021 16:15:10 +0000
+ 2021 16:15:13 +0000
 Received: from DM6PR12MB3834.namprd12.prod.outlook.com
  ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
  ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3955.027; Tue, 23 Mar 2021
- 16:15:10 +0000
+ 16:15:13 +0000
 From:   Jason Gunthorpe <jgg@nvidia.com>
 To:     Alex Williamson <alex.williamson@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Diana Craciun <diana.craciun@oss.nxp.com>,
-        Eric Auger <eric.auger@redhat.com>, kvm@vger.kernel.org,
-        Kirti Wankhede <kwankhede@nvidia.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org
 Cc:     "Raj, Ashok" <ashok.raj@intel.com>,
         Cornelia Huck <cohuck@redhat.com>,
         Dan Williams <dan.j.williams@intel.com>,
         Daniel Vetter <daniel@ffwll.ch>,
+        Eric Auger <eric.auger@redhat.com>,
         Christoph Hellwig <hch@lst.de>,
+        Kevin Tian <kevin.tian@intel.com>,
         Leon Romanovsky <leonro@nvidia.com>,
         Max Gurtovoy <mgurtovoy@nvidia.com>,
-        Tarun Gupta <targupta@nvidia.com>
-Subject: [PATCH v3 12/14] vfio: Make vfio_device_ops pass a 'struct vfio_device *' instead of 'void *'
-Date:   Tue, 23 Mar 2021 13:15:04 -0300
-Message-Id: <12-v3-225de1400dfc+4e074-vfio1_jgg@nvidia.com>
+        Tarun Gupta <targupta@nvidia.com>,
+        Liu Yi L <yi.l.liu@intel.com>
+Subject: [PATCH v3 03/14] vfio: Split creation of a vfio_device into init and register ops
+Date:   Tue, 23 Mar 2021 13:14:55 -0300
+Message-Id: <3-v3-225de1400dfc+4e074-vfio1_jgg@nvidia.com>
 In-Reply-To: <0-v3-225de1400dfc+4e074-vfio1_jgg@nvidia.com>
 References: 
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [206.223.160.26]
-X-ClientProxiedBy: BL1PR13CA0162.namprd13.prod.outlook.com
- (2603:10b6:208:2bd::17) To DM6PR12MB3834.namprd12.prod.outlook.com
+X-ClientProxiedBy: BL1PR13CA0208.namprd13.prod.outlook.com
+ (2603:10b6:208:2be::33) To DM6PR12MB3834.namprd12.prod.outlook.com
  (2603:10b6:5:14a::12)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (206.223.160.26) by BL1PR13CA0162.namprd13.prod.outlook.com (2603:10b6:208:2bd::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.9 via Frontend Transport; Tue, 23 Mar 2021 16:15:08 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lOjgQ-001aD8-S2; Tue, 23 Mar 2021 13:15:06 -0300
+Received: from mlx.ziepe.ca (206.223.160.26) by BL1PR13CA0208.namprd13.prod.outlook.com (2603:10b6:208:2be::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.14 via Frontend Transport; Tue, 23 Mar 2021 16:15:10 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lOjgQ-001aCY-E9; Tue, 23 Mar 2021 13:15:06 -0300
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 65d06126-a500-402d-3bd6-08d8ee16d3e1
+X-MS-Office365-Filtering-Correlation-Id: a19d3db3-8609-4dce-cb7f-08d8ee16d4d2
 X-MS-TrafficTypeDiagnostic: DM6PR12MB4267:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4267D0170C4C6A7589DBFE66C2649@DM6PR12MB4267.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4267A130CA93E21A7CE1B04BC2649@DM6PR12MB4267.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2733;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: XgtK52l8c8g6qHUYjS5+ikwfG7fB6NlgzZgUVwQfXNzXaqfFzisnU+NeWluDx3TNiz5fl3+Ovynvuxn1d1Fia0bgDJD6aYJLQECsADB0PelZ/XrgvNMWNC7H7BA0TLkmECBZhs2TngUN2x+gHmILG7Zm5hWIDuH6/D2bADLATFoARQoS0yK8+1PdstbrHS+GvP+LuAJdC5TwM1xOBp+e4lfvxvTL5voCPfP93wR8nM8BqFi5YmwAGzgB97cYwo9+iJg5fMqFLrqF7w7Q1xi7piO0f7yKH8SP8fglSsDiuFq6xwxnIydV5t6RCf+3pzguun0qWaRT9I2InhdJmrKUhdlAuhuUuBCOyLDI9rIizCTamjGwVOgSqSdNYxNCU7kLb3Qyqm1QU+AvG0OevdeOHLfl0DlmqrHcMC7D/+EI2VNyt4q/zIDLvRBCVcFLSzU6oMHYIDLD/AKzcesM/SnRLp7IFyq65QzMt3tcUBCBe1amifNCuGc2jcQLvAcwltpraMrLzO8UD8aNjPmOwEHnzIqo0w/JuE0z5n3oVYT7UREE6DZaBlzxoMOOi2MjziSkHOedueNcdtTjU1BIX3KO8NRQ4c90YwfaELeLaCkCAMjHajcew5ia2gfDccOvMB6RkNFGVaJuREIghjhNhF0wr6P4Pr+l63o0ABek8AzpcJA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(376002)(136003)(396003)(366004)(5660300002)(66476007)(30864003)(2616005)(66946007)(66556008)(2906002)(186003)(7416002)(83380400001)(426003)(54906003)(110136005)(316002)(8936002)(478600001)(8676002)(107886003)(4326008)(26005)(9746002)(9786002)(86362001)(36756003)(38100700001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?igIPDc3bKg98ng0x4NpCSUrMvKLRn/yUjPcW+Wg1ZtzNlR3ZurVvv/9yrvxW?=
- =?us-ascii?Q?dLpVxMMga33Te4Hck3unDk3kfbECxWQ8nTW6JAbq35zf89/5Sn7N3kbhQT5R?=
- =?us-ascii?Q?UmMmzoQCmLHfDAXGru/fgTdJZPdapgTt/MG+LB3cRzg41ZKK58hZn6I5YDlm?=
- =?us-ascii?Q?b4/hUFcdjC94/d2/m1XTDhd0v1XTKB5ADcO36itZzVAsAG0fpldyo3pFxIoi?=
- =?us-ascii?Q?RcKtnZlz7pctOPojvH1hQkMKhO2dqANsTcLyiICQeWxWdXHCJKbbtbQOOF/K?=
- =?us-ascii?Q?Z0rIKwoyJKszARHNFodr1jOemy9gm0077m8sv/zJfdvMWncE0fkAYBWvbpYP?=
- =?us-ascii?Q?KUrvxMCH1oWLq14vSTr0ghCyv4ByjFSsrK2F8k+FMFgA128CczLfC1N/wlUZ?=
- =?us-ascii?Q?ZabR4bp9H01ILCvikLZB7au1xQiDveJvhnpBbxBzdME3q9MzF0beds4WG42O?=
- =?us-ascii?Q?usnEzwafHsHonxQ2tC1CNcUqXRDuCKtalfGlGcvbylsOLEnShdjnyF5vBZdN?=
- =?us-ascii?Q?E7sbmgmkXqXIFbV7UDFZjoP6UFAf3WD+03GLOt3HVZ3WLT5n+lDaChNlVG0M?=
- =?us-ascii?Q?aUXtb9ukQFVVmzKzq3I1DJcq7L6BFJxlE/D+7Ad4GUylF9NHRXpKVzFF/73K?=
- =?us-ascii?Q?+CpULCc4m07y2tF/W6dgScut3iKV/sKYo6m/ykcyE1wqGo7iukVJsQxyxZyA?=
- =?us-ascii?Q?rncnvWLmkba9dJb9K3s56YOKMKt1Tbf95UnDBPSqPnKyzXJrjTP+RMiKM5Uz?=
- =?us-ascii?Q?LqBj4SiVpsCi6l0+R/wTLw7zuYULkJt+gS3z0pzXe/CySPD09Lzv4OZCD9te?=
- =?us-ascii?Q?Gl8o6IYJziycRW0aIbNaowkYE5oqYHGsNZQHRLh/Hiv+/Fut0wuB0jWYd6tm?=
- =?us-ascii?Q?egX1I/3Chb4nPizlmb/rdN5rhb1cx70zoOG6Uy32zo74PNUeypcEU+AYtoCS?=
- =?us-ascii?Q?+hjjsRDGsMu+cHmCuyhIab2afp55Tt6/Ild3Jq7AnYq1gJrXFiXt93UpQyTL?=
- =?us-ascii?Q?FJ3VlqbgGXDFbGy/dhpHz0X4L4NOzL6xF6hcEgl+pwlrM2CR0qOK6FDaEsgo?=
- =?us-ascii?Q?eEj5DLCcGBkwCEmIQCPAKXOSekLbTJOqSKIFweNDrrPPZb98p9GAeOqN+Mml?=
- =?us-ascii?Q?7z/i2AyJECgXgxYWG5q18h0cOLBtCeCMZW+c/Y3EegIpSU3rkTbjl7ECSzeH?=
- =?us-ascii?Q?8PlyHbuAJMY7RDTPtP3pKbN+1wyKIzOs6SGctehaWSRuAcMxtoUctnYJSUb4?=
- =?us-ascii?Q?lMiM+MHmXRvu18W5S/Tfo+fw5rLINs83TbxLG3O28aZyDosLfM7n57yNtL+g?=
- =?us-ascii?Q?IU4VGXHmyG/vaaMpABp/c9e1?=
+X-Microsoft-Antispam-Message-Info: c0uY+sVyS8SBfiT0GSQ5UHyMDY+3PDrn7vhj7BDRKCtEyGJZ9cAvMMRPd7/jtr9MjA/b+cim0JZA5kHL0HLpUmdCTXaSVeSuafN9UZoarYNQHDn0H4Pg8fiXx6i4t6sH2sRAMI3XY/DcjTwUs88CXfEWMcRWobBV1mA1Xe+5TguIK0A+fbG2pkJLSJxMaj7FgVJW7wpHZmF4tDw2ECAfQXnLGVd2gzXbKrnUTMuhUNHzzjCrmv96L5FdIWMnkaGqtDKxMWCE7WobOYby9jjtAYIV+QxgPm1+96rdouXWmKLTiC7lZRlUvBnn9tDEMioYCxZnDfEHnRM4JSrkm31dli1o1rYCXk4rEwCYEpBHWYTARFEtV1s27omBXQX41bP/O0/EVVOaDHm8qu9zs7Iqgr/05vMfsoxgwhAbQyASXdVxLYCtLd/gShU3ckFT6BklY5lvxSg7lSEo3qFnc04UfTYGPA8EK9bh36Mwc8r7FQ7xv65GlSMhm35HzXq6Z9e+ZqqTPVx2CtwEFZ02U8SNelZZwOoXJ2DsR9F1hv2vyRcxbznFCvKufCcyLO/3Am30TcdwFW9OIQ3t147jLCU10sgwqFamoEnFxJZOZA8aaVfaxulTZTMKSASWdI85t8kvezNEwTzWYwH14ZyJvuIDli2teXwf7se7nuTyIMRrwntDSEB0fxe3pqzIWy7d1nsP
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(376002)(136003)(396003)(366004)(5660300002)(66476007)(30864003)(2616005)(66946007)(66556008)(2906002)(186003)(7416002)(6666004)(83380400001)(426003)(54906003)(110136005)(316002)(8936002)(478600001)(8676002)(4326008)(26005)(9746002)(9786002)(86362001)(36756003)(38100700001)(4216001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?hd/QjxBXufRo+U+3cqDaCl7rMs++NdT3il0W0k/fQfMVc+g+xlaVHyVpHomx?=
+ =?us-ascii?Q?TesTq+7LWD6JOrS7l1K9GWdBDU7f+FZAP/K7J0aadwUoL19xsjXR76D82wOB?=
+ =?us-ascii?Q?ccMpvwxUC1JEBjyfvk85F7szC4CaOIbBZxl3/nqVWdtqIgUKmli570kmX1c7?=
+ =?us-ascii?Q?g0sv5jTXwS7fV+8s+6GwaaRaGZL6MLsqT5nAeUBcceifJsJcNHrMyffl0s2b?=
+ =?us-ascii?Q?WX0i4Dl7jBSheGUSLXyeh0wTC+ths5ADZyqeYGCIwXUgMM2oPbLF/WnIkVou?=
+ =?us-ascii?Q?nrhBVyByR7duMavBnu5CJs6Wj5sRVps/DADdeqdQelCEZUTY/bUf3RsxtRPq?=
+ =?us-ascii?Q?8TP7/Uv2r9uhixrRIbWjlyUjMT+G4EBxZFFZCDBjV7CTKJVSGSfwwor6/d6i?=
+ =?us-ascii?Q?e7O/ePderVjJsXJRwZL7XIOVzHAb7xmXZBoSgy2v5QUSx+5eHphcbzARRNOq?=
+ =?us-ascii?Q?x1yvGYUD/Vubb0I5+BkgOsONNSnnK02Q7TgJobQtcGhdkC4RpJuBoZmMX3tc?=
+ =?us-ascii?Q?dvkQUC8wQO64ve9IOODvYyi87phX6MVUEKV4pVCQiG1/V4ojikvHDWssVpc2?=
+ =?us-ascii?Q?L9GgUVraZhlb293bjdnyOqVZ6Lc2wGA7LjtGGGOu4lRsh1eDCCzNEjqPMOzf?=
+ =?us-ascii?Q?0WCgwwCORnoR4mzBF8HXg7ANf/YIAlQQalyNcaYffdbOwwfqVll83FnrMOCD?=
+ =?us-ascii?Q?Urj6pDQaQl1ERiZMDTEyKqiKE6iYVVbkJ89lN7E76zCnXNVMfQXZY6py4AWK?=
+ =?us-ascii?Q?sTUtet+mQnRXxjiuMdhxHei4Ocd8ExpyOOFKy0zFJYsMcx4OLg/zfAA16r1M?=
+ =?us-ascii?Q?wigwFs/OM1TrhKyPW+cAmoY7xPF4Cu1hhYG48bh/hzcxU0rueTlFzRdjj1D8?=
+ =?us-ascii?Q?N0Q22QIV3oce6kdf5mjZ9H9a2VZDG8WnqCo+wVbo8rqpVNL2fVTHHlHXMHID?=
+ =?us-ascii?Q?+H+84oEC5iKTCL3IfVAay5tHvd51MSP3XRvF+FSQYUD83pBVgw4QYPxIP0hK?=
+ =?us-ascii?Q?lkvYe1l+GDCGAwTRrU9cfIP6y9Us8kEvp76dwVdcP2XgjkuOrtyVrr13gZLA?=
+ =?us-ascii?Q?F5lw2jquT5Jxsy/edXUPTsYalFATF6dFMdTKEHqFsDXJ5JcqnheooPSF6nY3?=
+ =?us-ascii?Q?ir9eSijcB/DPv4Lup1PpJPbVSEu1qd5UccEl0O3Y3E+8HO3mHFRr1XiHIbGy?=
+ =?us-ascii?Q?YR6FAMzcGp7UEjgNmDyAvOC6IYf49sHLf8SlHgzlR6Nxf5xVn2mYGJnEQNeg?=
+ =?us-ascii?Q?mJt80ZtuGDghRZgDlRPizr+lzs6frr2sJn2bVfnbG8rhipsMv23J5t/5wkom?=
+ =?us-ascii?Q?g+e5Q5E5Z82xjPX3hDsUTojJ?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65d06126-a500-402d-3bd6-08d8ee16d3e1
+X-MS-Exchange-CrossTenant-Network-Message-Id: a19d3db3-8609-4dce-cb7f-08d8ee16d4d2
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 16:15:08.7308
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 16:15:10.2289
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4iz6bnto2/xd70YE63StOOJ6sE2d9/g0tZdstdV/jRTIFUN2pIOjJ15wr8A5QI9B
+X-MS-Exchange-CrossTenant-UserPrincipalName: IARZt3T9BD1or7Cdfbiachz2NWW69fXKVit3Al6NiwBLtlWcwbxuUzzfV5PIZ1ax
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4267
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is the standard kernel pattern, the ops associated with a struct get
-the struct pointer in for typesafety. The expected design is to use
-container_of to cleanly go from the subsystem level type to the driver
-level type without having any type erasure in a void *.
+This makes the struct vfio_device part of the public interface so it
+can be used with container_of and so forth, as is typical for a Linux
+subystem.
 
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+This is the first step to bring some type-safety to the vfio interface by
+allowing the replacement of 'void *' and 'struct device *' inputs with a
+simple and clear 'struct vfio_device *'
+
+For now the self-allocating vfio_add_group_dev() interface is kept so each
+user can be updated as a separate patch.
+
+The expected usage pattern is
+
+  driver core probe() function:
+     my_device = kzalloc(sizeof(*mydevice));
+     vfio_init_group_dev(&my_device->vdev, dev, ops, mydevice);
+     /* other driver specific prep */
+     vfio_register_group_dev(&my_device->vdev);
+     dev_set_drvdata(dev, my_device);
+
+  driver core remove() function:
+     my_device = dev_get_drvdata(dev);
+     vfio_unregister_group_dev(&my_device->vdev);
+     /* other driver specific tear down */
+     kfree(my_device);
+
+Allowing the driver to be able to use the drvdata and vfio_device to go
+to/from its own data.
+
+The pattern also makes it clear that vfio_register_group_dev() must be
+last in the sequence, as once it is called the core code can immediately
+start calling ops. The init/register gap is provided to allow for the
+driver to do setup before ops can be called and thus avoid races.
+
 Reviewed-by: Christoph Hellwig <hch@lst.de>
+Reviewed-by: Liu Yi L <yi.l.liu@intel.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Reviewed-by: Max Gurtovoy <mgurtovoy@nvidia.com>
+Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- Documentation/driver-api/vfio.rst            | 18 ++++----
- drivers/vfio/fsl-mc/vfio_fsl_mc.c            | 36 +++++++++------
- drivers/vfio/mdev/vfio_mdev.c                | 33 +++++++-------
- drivers/vfio/pci/vfio_pci.c                  | 47 ++++++++++++--------
- drivers/vfio/platform/vfio_platform_common.c | 33 ++++++++------
- drivers/vfio/vfio.c                          | 20 ++++-----
- include/linux/vfio.h                         | 16 +++----
- 7 files changed, 117 insertions(+), 86 deletions(-)
+ Documentation/driver-api/vfio.rst |  31 ++++----
+ drivers/vfio/vfio.c               | 125 ++++++++++++++++--------------
+ include/linux/vfio.h              |  16 ++++
+ 3 files changed, 99 insertions(+), 73 deletions(-)
 
 diff --git a/Documentation/driver-api/vfio.rst b/Documentation/driver-api/vfio.rst
-index d3a02300913a7f..3337f337293a32 100644
+index f1a4d3c3ba0bb1..d3a02300913a7f 100644
 --- a/Documentation/driver-api/vfio.rst
 +++ b/Documentation/driver-api/vfio.rst
-@@ -269,20 +269,22 @@ ready before calling it. The driver provides an ops structure for callbacks
+@@ -249,18 +249,23 @@ VFIO bus driver API
+ 
+ VFIO bus drivers, such as vfio-pci make use of only a few interfaces
+ into VFIO core.  When devices are bound and unbound to the driver,
+-the driver should call vfio_add_group_dev() and vfio_del_group_dev()
+-respectively::
+-
+-	extern int vfio_add_group_dev(struct device *dev,
+-				      const struct vfio_device_ops *ops,
+-				      void *device_data);
+-
+-	extern void *vfio_del_group_dev(struct device *dev);
+-
+-vfio_add_group_dev() indicates to the core to begin tracking the
+-iommu_group of the specified dev and register the dev as owned by
+-a VFIO bus driver.  The driver provides an ops structure for callbacks
++the driver should call vfio_register_group_dev() and
++vfio_unregister_group_dev() respectively::
++
++	void vfio_init_group_dev(struct vfio_device *device,
++				struct device *dev,
++				const struct vfio_device_ops *ops,
++				void *device_data);
++	int vfio_register_group_dev(struct vfio_device *device);
++	void vfio_unregister_group_dev(struct vfio_device *device);
++
++The driver should embed the vfio_device in its own structure and call
++vfio_init_group_dev() to pre-configure it before going to registration.
++vfio_register_group_dev() indicates to the core to begin tracking the
++iommu_group of the specified dev and register the dev as owned by a VFIO bus
++driver. Once vfio_register_group_dev() returns it is possible for userspace to
++start accessing the driver, thus the driver should ensure it is completely
++ready before calling it. The driver provides an ops structure for callbacks
  similar to a file operations structure::
  
  	struct vfio_device_ops {
--		int	(*open)(void *device_data);
--		void	(*release)(void *device_data);
--		ssize_t	(*read)(void *device_data, char __user *buf,
-+		int	(*open)(struct vfio_device *vdev);
-+		void	(*release)(struct vfio_device *vdev);
-+		ssize_t	(*read)(struct vfio_device *vdev, char __user *buf,
- 				size_t count, loff_t *ppos);
--		ssize_t	(*write)(void *device_data, const char __user *buf,
-+		ssize_t	(*write)(struct vfio_device *vdev,
-+				 const char __user *buf,
- 				 size_t size, loff_t *ppos);
--		long	(*ioctl)(void *device_data, unsigned int cmd,
-+		long	(*ioctl)(struct vfio_device *vdev, unsigned int cmd,
- 				 unsigned long arg);
--		int	(*mmap)(void *device_data, struct vm_area_struct *vma);
-+		int	(*mmap)(struct vfio_device *vdev,
-+				struct vm_area_struct *vma);
+@@ -276,7 +281,7 @@ similar to a file operations structure::
  	};
  
--Each function is passed the device_data that was originally registered
-+Each function is passed the vdev that was originally registered
- in the vfio_register_group_dev() call above.  This allows the bus driver
--an easy place to store its opaque, private data.  The open/release
-+to obtain its private data using container_of().  The open/release
+ Each function is passed the device_data that was originally registered
+-in the vfio_add_group_dev() call above.  This allows the bus driver
++in the vfio_register_group_dev() call above.  This allows the bus driver
+ an easy place to store its opaque, private data.  The open/release
  callbacks are issued when a new file descriptor is created for a
  device (via VFIO_GROUP_GET_DEVICE_FD).  The ioctl interface provides
- a direct pass through for VFIO_DEVICE_* ioctls.  The read/write/mmap
-diff --git a/drivers/vfio/fsl-mc/vfio_fsl_mc.c b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-index ad6c6feeeb4b2a..45f397c04a8959 100644
---- a/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-+++ b/drivers/vfio/fsl-mc/vfio_fsl_mc.c
-@@ -135,9 +135,10 @@ static void vfio_fsl_mc_regions_cleanup(struct vfio_fsl_mc_device *vdev)
- 	kfree(vdev->regions);
- }
- 
--static int vfio_fsl_mc_open(void *device_data)
-+static int vfio_fsl_mc_open(struct vfio_device *core_vdev)
- {
--	struct vfio_fsl_mc_device *vdev = device_data;
-+	struct vfio_fsl_mc_device *vdev =
-+		container_of(core_vdev, struct vfio_fsl_mc_device, vdev);
- 	int ret;
- 
- 	if (!try_module_get(THIS_MODULE))
-@@ -161,9 +162,10 @@ static int vfio_fsl_mc_open(void *device_data)
- 	return ret;
- }
- 
--static void vfio_fsl_mc_release(void *device_data)
-+static void vfio_fsl_mc_release(struct vfio_device *core_vdev)
- {
--	struct vfio_fsl_mc_device *vdev = device_data;
-+	struct vfio_fsl_mc_device *vdev =
-+		container_of(core_vdev, struct vfio_fsl_mc_device, vdev);
- 	int ret;
- 
- 	mutex_lock(&vdev->reflck->lock);
-@@ -197,11 +199,12 @@ static void vfio_fsl_mc_release(void *device_data)
- 	module_put(THIS_MODULE);
- }
- 
--static long vfio_fsl_mc_ioctl(void *device_data, unsigned int cmd,
--			      unsigned long arg)
-+static long vfio_fsl_mc_ioctl(struct vfio_device *core_vdev,
-+			      unsigned int cmd, unsigned long arg)
- {
- 	unsigned long minsz;
--	struct vfio_fsl_mc_device *vdev = device_data;
-+	struct vfio_fsl_mc_device *vdev =
-+		container_of(core_vdev, struct vfio_fsl_mc_device, vdev);
- 	struct fsl_mc_device *mc_dev = vdev->mc_dev;
- 
- 	switch (cmd) {
-@@ -327,10 +330,11 @@ static long vfio_fsl_mc_ioctl(void *device_data, unsigned int cmd,
- 	}
- }
- 
--static ssize_t vfio_fsl_mc_read(void *device_data, char __user *buf,
-+static ssize_t vfio_fsl_mc_read(struct vfio_device *core_vdev, char __user *buf,
- 				size_t count, loff_t *ppos)
- {
--	struct vfio_fsl_mc_device *vdev = device_data;
-+	struct vfio_fsl_mc_device *vdev =
-+		container_of(core_vdev, struct vfio_fsl_mc_device, vdev);
- 	unsigned int index = VFIO_FSL_MC_OFFSET_TO_INDEX(*ppos);
- 	loff_t off = *ppos & VFIO_FSL_MC_OFFSET_MASK;
- 	struct fsl_mc_device *mc_dev = vdev->mc_dev;
-@@ -404,10 +408,12 @@ static int vfio_fsl_mc_send_command(void __iomem *ioaddr, uint64_t *cmd_data)
- 	return 0;
- }
- 
--static ssize_t vfio_fsl_mc_write(void *device_data, const char __user *buf,
--				 size_t count, loff_t *ppos)
-+static ssize_t vfio_fsl_mc_write(struct vfio_device *core_vdev,
-+				 const char __user *buf, size_t count,
-+				 loff_t *ppos)
- {
--	struct vfio_fsl_mc_device *vdev = device_data;
-+	struct vfio_fsl_mc_device *vdev =
-+		container_of(core_vdev, struct vfio_fsl_mc_device, vdev);
- 	unsigned int index = VFIO_FSL_MC_OFFSET_TO_INDEX(*ppos);
- 	loff_t off = *ppos & VFIO_FSL_MC_OFFSET_MASK;
- 	struct fsl_mc_device *mc_dev = vdev->mc_dev;
-@@ -468,9 +474,11 @@ static int vfio_fsl_mc_mmap_mmio(struct vfio_fsl_mc_region region,
- 			       size, vma->vm_page_prot);
- }
- 
--static int vfio_fsl_mc_mmap(void *device_data, struct vm_area_struct *vma)
-+static int vfio_fsl_mc_mmap(struct vfio_device *core_vdev,
-+			    struct vm_area_struct *vma)
- {
--	struct vfio_fsl_mc_device *vdev = device_data;
-+	struct vfio_fsl_mc_device *vdev =
-+		container_of(core_vdev, struct vfio_fsl_mc_device, vdev);
- 	struct fsl_mc_device *mc_dev = vdev->mc_dev;
- 	unsigned int index;
- 
-diff --git a/drivers/vfio/mdev/vfio_mdev.c b/drivers/vfio/mdev/vfio_mdev.c
-index 4043cc91f9524e..11b3e15403ba4f 100644
---- a/drivers/vfio/mdev/vfio_mdev.c
-+++ b/drivers/vfio/mdev/vfio_mdev.c
-@@ -21,10 +21,11 @@
- #define DRIVER_AUTHOR   "NVIDIA Corporation"
- #define DRIVER_DESC     "VFIO based driver for Mediated device"
- 
--static int vfio_mdev_open(void *device_data)
-+static int vfio_mdev_open(struct vfio_device *core_vdev)
- {
--	struct mdev_device *mdev = device_data;
-+	struct mdev_device *mdev = to_mdev_device(core_vdev->dev);
- 	struct mdev_parent *parent = mdev->parent;
-+
- 	int ret;
- 
- 	if (unlikely(!parent->ops->open))
-@@ -40,9 +41,9 @@ static int vfio_mdev_open(void *device_data)
- 	return ret;
- }
- 
--static void vfio_mdev_release(void *device_data)
-+static void vfio_mdev_release(struct vfio_device *core_vdev)
- {
--	struct mdev_device *mdev = device_data;
-+	struct mdev_device *mdev = to_mdev_device(core_vdev->dev);
- 	struct mdev_parent *parent = mdev->parent;
- 
- 	if (likely(parent->ops->release))
-@@ -51,10 +52,10 @@ static void vfio_mdev_release(void *device_data)
- 	module_put(THIS_MODULE);
- }
- 
--static long vfio_mdev_unlocked_ioctl(void *device_data,
-+static long vfio_mdev_unlocked_ioctl(struct vfio_device *core_vdev,
- 				     unsigned int cmd, unsigned long arg)
- {
--	struct mdev_device *mdev = device_data;
-+	struct mdev_device *mdev = to_mdev_device(core_vdev->dev);
- 	struct mdev_parent *parent = mdev->parent;
- 
- 	if (unlikely(!parent->ops->ioctl))
-@@ -63,10 +64,10 @@ static long vfio_mdev_unlocked_ioctl(void *device_data,
- 	return parent->ops->ioctl(mdev, cmd, arg);
- }
- 
--static ssize_t vfio_mdev_read(void *device_data, char __user *buf,
-+static ssize_t vfio_mdev_read(struct vfio_device *core_vdev, char __user *buf,
- 			      size_t count, loff_t *ppos)
- {
--	struct mdev_device *mdev = device_data;
-+	struct mdev_device *mdev = to_mdev_device(core_vdev->dev);
- 	struct mdev_parent *parent = mdev->parent;
- 
- 	if (unlikely(!parent->ops->read))
-@@ -75,10 +76,11 @@ static ssize_t vfio_mdev_read(void *device_data, char __user *buf,
- 	return parent->ops->read(mdev, buf, count, ppos);
- }
- 
--static ssize_t vfio_mdev_write(void *device_data, const char __user *buf,
--			       size_t count, loff_t *ppos)
-+static ssize_t vfio_mdev_write(struct vfio_device *core_vdev,
-+			       const char __user *buf, size_t count,
-+			       loff_t *ppos)
- {
--	struct mdev_device *mdev = device_data;
-+	struct mdev_device *mdev = to_mdev_device(core_vdev->dev);
- 	struct mdev_parent *parent = mdev->parent;
- 
- 	if (unlikely(!parent->ops->write))
-@@ -87,9 +89,10 @@ static ssize_t vfio_mdev_write(void *device_data, const char __user *buf,
- 	return parent->ops->write(mdev, buf, count, ppos);
- }
- 
--static int vfio_mdev_mmap(void *device_data, struct vm_area_struct *vma)
-+static int vfio_mdev_mmap(struct vfio_device *core_vdev,
-+			  struct vm_area_struct *vma)
- {
--	struct mdev_device *mdev = device_data;
-+	struct mdev_device *mdev = to_mdev_device(core_vdev->dev);
- 	struct mdev_parent *parent = mdev->parent;
- 
- 	if (unlikely(!parent->ops->mmap))
-@@ -98,9 +101,9 @@ static int vfio_mdev_mmap(void *device_data, struct vm_area_struct *vma)
- 	return parent->ops->mmap(mdev, vma);
- }
- 
--static void vfio_mdev_request(void *device_data, unsigned int count)
-+static void vfio_mdev_request(struct vfio_device *core_vdev, unsigned int count)
- {
--	struct mdev_device *mdev = device_data;
-+	struct mdev_device *mdev = to_mdev_device(core_vdev->dev);
- 	struct mdev_parent *parent = mdev->parent;
- 
- 	if (parent->ops->request)
-diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-index a0ac20a499cf6c..5f1a782d1c65ae 100644
---- a/drivers/vfio/pci/vfio_pci.c
-+++ b/drivers/vfio/pci/vfio_pci.c
-@@ -553,9 +553,10 @@ static void vfio_pci_vf_token_user_add(struct vfio_pci_device *vdev, int val)
- 	vfio_device_put(pf_dev);
- }
- 
--static void vfio_pci_release(void *device_data)
-+static void vfio_pci_release(struct vfio_device *core_vdev)
- {
--	struct vfio_pci_device *vdev = device_data;
-+	struct vfio_pci_device *vdev =
-+		container_of(core_vdev, struct vfio_pci_device, vdev);
- 
- 	mutex_lock(&vdev->reflck->lock);
- 
-@@ -581,9 +582,10 @@ static void vfio_pci_release(void *device_data)
- 	module_put(THIS_MODULE);
- }
- 
--static int vfio_pci_open(void *device_data)
-+static int vfio_pci_open(struct vfio_device *core_vdev)
- {
--	struct vfio_pci_device *vdev = device_data;
-+	struct vfio_pci_device *vdev =
-+		container_of(core_vdev, struct vfio_pci_device, vdev);
- 	int ret = 0;
- 
- 	if (!try_module_get(THIS_MODULE))
-@@ -797,10 +799,11 @@ struct vfio_devices {
- 	int max_index;
- };
- 
--static long vfio_pci_ioctl(void *device_data,
-+static long vfio_pci_ioctl(struct vfio_device *core_vdev,
- 			   unsigned int cmd, unsigned long arg)
- {
--	struct vfio_pci_device *vdev = device_data;
-+	struct vfio_pci_device *vdev =
-+		container_of(core_vdev, struct vfio_pci_device, vdev);
- 	unsigned long minsz;
- 
- 	if (cmd == VFIO_DEVICE_GET_INFO) {
-@@ -1402,11 +1405,10 @@ static long vfio_pci_ioctl(void *device_data,
- 	return -ENOTTY;
- }
- 
--static ssize_t vfio_pci_rw(void *device_data, char __user *buf,
-+static ssize_t vfio_pci_rw(struct vfio_pci_device *vdev, char __user *buf,
- 			   size_t count, loff_t *ppos, bool iswrite)
- {
- 	unsigned int index = VFIO_PCI_OFFSET_TO_INDEX(*ppos);
--	struct vfio_pci_device *vdev = device_data;
- 
- 	if (index >= VFIO_PCI_NUM_REGIONS + vdev->num_regions)
- 		return -EINVAL;
-@@ -1434,22 +1436,28 @@ static ssize_t vfio_pci_rw(void *device_data, char __user *buf,
- 	return -EINVAL;
- }
- 
--static ssize_t vfio_pci_read(void *device_data, char __user *buf,
-+static ssize_t vfio_pci_read(struct vfio_device *core_vdev, char __user *buf,
- 			     size_t count, loff_t *ppos)
- {
-+	struct vfio_pci_device *vdev =
-+		container_of(core_vdev, struct vfio_pci_device, vdev);
-+
- 	if (!count)
- 		return 0;
- 
--	return vfio_pci_rw(device_data, buf, count, ppos, false);
-+	return vfio_pci_rw(vdev, buf, count, ppos, false);
- }
- 
--static ssize_t vfio_pci_write(void *device_data, const char __user *buf,
-+static ssize_t vfio_pci_write(struct vfio_device *core_vdev, const char __user *buf,
- 			      size_t count, loff_t *ppos)
- {
-+	struct vfio_pci_device *vdev =
-+		container_of(core_vdev, struct vfio_pci_device, vdev);
-+
- 	if (!count)
- 		return 0;
- 
--	return vfio_pci_rw(device_data, (char __user *)buf, count, ppos, true);
-+	return vfio_pci_rw(vdev, (char __user *)buf, count, ppos, true);
- }
- 
- /* Return 1 on zap and vma_lock acquired, 0 on contention (only with @try) */
-@@ -1646,9 +1654,10 @@ static const struct vm_operations_struct vfio_pci_mmap_ops = {
- 	.fault = vfio_pci_mmap_fault,
- };
- 
--static int vfio_pci_mmap(void *device_data, struct vm_area_struct *vma)
-+static int vfio_pci_mmap(struct vfio_device *core_vdev, struct vm_area_struct *vma)
- {
--	struct vfio_pci_device *vdev = device_data;
-+	struct vfio_pci_device *vdev =
-+		container_of(core_vdev, struct vfio_pci_device, vdev);
- 	struct pci_dev *pdev = vdev->pdev;
- 	unsigned int index;
- 	u64 phys_len, req_len, pgoff, req_start;
-@@ -1714,9 +1723,10 @@ static int vfio_pci_mmap(void *device_data, struct vm_area_struct *vma)
- 	return 0;
- }
- 
--static void vfio_pci_request(void *device_data, unsigned int count)
-+static void vfio_pci_request(struct vfio_device *core_vdev, unsigned int count)
- {
--	struct vfio_pci_device *vdev = device_data;
-+	struct vfio_pci_device *vdev =
-+		container_of(core_vdev, struct vfio_pci_device, vdev);
- 	struct pci_dev *pdev = vdev->pdev;
- 
- 	mutex_lock(&vdev->igate);
-@@ -1830,9 +1840,10 @@ static int vfio_pci_validate_vf_token(struct vfio_pci_device *vdev,
- 
- #define VF_TOKEN_ARG "vf_token="
- 
--static int vfio_pci_match(void *device_data, char *buf)
-+static int vfio_pci_match(struct vfio_device *core_vdev, char *buf)
- {
--	struct vfio_pci_device *vdev = device_data;
-+	struct vfio_pci_device *vdev =
-+		container_of(core_vdev, struct vfio_pci_device, vdev);
- 	bool vf_token = false;
- 	uuid_t uuid;
- 	int ret;
-diff --git a/drivers/vfio/platform/vfio_platform_common.c b/drivers/vfio/platform/vfio_platform_common.c
-index 6eb749250ee41c..f5f6b537084a67 100644
---- a/drivers/vfio/platform/vfio_platform_common.c
-+++ b/drivers/vfio/platform/vfio_platform_common.c
-@@ -218,9 +218,10 @@ static int vfio_platform_call_reset(struct vfio_platform_device *vdev,
- 	return -EINVAL;
- }
- 
--static void vfio_platform_release(void *device_data)
-+static void vfio_platform_release(struct vfio_device *core_vdev)
- {
--	struct vfio_platform_device *vdev = device_data;
-+	struct vfio_platform_device *vdev =
-+		container_of(core_vdev, struct vfio_platform_device, vdev);
- 
- 	mutex_lock(&driver_lock);
- 
-@@ -244,9 +245,10 @@ static void vfio_platform_release(void *device_data)
- 	module_put(vdev->parent_module);
- }
- 
--static int vfio_platform_open(void *device_data)
-+static int vfio_platform_open(struct vfio_device *core_vdev)
- {
--	struct vfio_platform_device *vdev = device_data;
-+	struct vfio_platform_device *vdev =
-+		container_of(core_vdev, struct vfio_platform_device, vdev);
- 	int ret;
- 
- 	if (!try_module_get(vdev->parent_module))
-@@ -293,10 +295,12 @@ static int vfio_platform_open(void *device_data)
- 	return ret;
- }
- 
--static long vfio_platform_ioctl(void *device_data,
-+static long vfio_platform_ioctl(struct vfio_device *core_vdev,
- 				unsigned int cmd, unsigned long arg)
- {
--	struct vfio_platform_device *vdev = device_data;
-+	struct vfio_platform_device *vdev =
-+		container_of(core_vdev, struct vfio_platform_device, vdev);
-+
- 	unsigned long minsz;
- 
- 	if (cmd == VFIO_DEVICE_GET_INFO) {
-@@ -455,10 +459,11 @@ static ssize_t vfio_platform_read_mmio(struct vfio_platform_region *reg,
- 	return -EFAULT;
- }
- 
--static ssize_t vfio_platform_read(void *device_data, char __user *buf,
--				  size_t count, loff_t *ppos)
-+static ssize_t vfio_platform_read(struct vfio_device *core_vdev,
-+				  char __user *buf, size_t count, loff_t *ppos)
- {
--	struct vfio_platform_device *vdev = device_data;
-+	struct vfio_platform_device *vdev =
-+		container_of(core_vdev, struct vfio_platform_device, vdev);
- 	unsigned int index = VFIO_PLATFORM_OFFSET_TO_INDEX(*ppos);
- 	loff_t off = *ppos & VFIO_PLATFORM_OFFSET_MASK;
- 
-@@ -531,10 +536,11 @@ static ssize_t vfio_platform_write_mmio(struct vfio_platform_region *reg,
- 	return -EFAULT;
- }
- 
--static ssize_t vfio_platform_write(void *device_data, const char __user *buf,
-+static ssize_t vfio_platform_write(struct vfio_device *core_vdev, const char __user *buf,
- 				   size_t count, loff_t *ppos)
- {
--	struct vfio_platform_device *vdev = device_data;
-+	struct vfio_platform_device *vdev =
-+		container_of(core_vdev, struct vfio_platform_device, vdev);
- 	unsigned int index = VFIO_PLATFORM_OFFSET_TO_INDEX(*ppos);
- 	loff_t off = *ppos & VFIO_PLATFORM_OFFSET_MASK;
- 
-@@ -573,9 +579,10 @@ static int vfio_platform_mmap_mmio(struct vfio_platform_region region,
- 			       req_len, vma->vm_page_prot);
- }
- 
--static int vfio_platform_mmap(void *device_data, struct vm_area_struct *vma)
-+static int vfio_platform_mmap(struct vfio_device *core_vdev, struct vm_area_struct *vma)
- {
--	struct vfio_platform_device *vdev = device_data;
-+	struct vfio_platform_device *vdev =
-+		container_of(core_vdev, struct vfio_platform_device, vdev);
- 	unsigned int index;
- 
- 	index = vma->vm_pgoff >> (VFIO_PLATFORM_OFFSET_SHIFT - PAGE_SHIFT);
 diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
-index 180b4ab02d115a..e6f5109fba4858 100644
+index 32660e8a69ae20..2ea430de505b3b 100644
 --- a/drivers/vfio/vfio.c
 +++ b/drivers/vfio/vfio.c
-@@ -832,7 +832,7 @@ static struct vfio_device *vfio_device_get_from_name(struct vfio_group *group,
- 		int ret;
+@@ -89,16 +89,6 @@ struct vfio_group {
+ 	struct blocking_notifier_head	notifier;
+ };
  
- 		if (it->ops->match) {
--			ret = it->ops->match(it->device_data, buf);
-+			ret = it->ops->match(it, buf);
- 			if (ret < 0) {
- 				device = ERR_PTR(ret);
- 				break;
-@@ -893,7 +893,7 @@ void vfio_unregister_group_dev(struct vfio_device *device)
+-struct vfio_device {
+-	refcount_t			refcount;
+-	struct completion		comp;
+-	struct device			*dev;
+-	const struct vfio_device_ops	*ops;
+-	struct vfio_group		*group;
+-	struct list_head		group_next;
+-	void				*device_data;
+-};
+-
+ #ifdef CONFIG_VFIO_NOIOMMU
+ static bool noiommu __read_mostly;
+ module_param_named(enable_unsafe_noiommu_mode,
+@@ -532,35 +522,6 @@ static struct vfio_group *vfio_group_get_from_dev(struct device *dev)
+ /**
+  * Device objects - create, release, get, put, search
+  */
+-static
+-struct vfio_device *vfio_group_create_device(struct vfio_group *group,
+-					     struct device *dev,
+-					     const struct vfio_device_ops *ops,
+-					     void *device_data)
+-{
+-	struct vfio_device *device;
+-
+-	device = kzalloc(sizeof(*device), GFP_KERNEL);
+-	if (!device)
+-		return ERR_PTR(-ENOMEM);
+-
+-	refcount_set(&device->refcount, 1);
+-	init_completion(&device->comp);
+-	device->dev = dev;
+-	/* Our reference on group is moved to the device */
+-	device->group = group;
+-	device->ops = ops;
+-	device->device_data = device_data;
+-	dev_set_drvdata(dev, device);
+-
+-	mutex_lock(&group->device_lock);
+-	list_add(&device->group_next, &group->device_list);
+-	group->dev_counter++;
+-	mutex_unlock(&group->device_lock);
+-
+-	return device;
+-}
+-
+ /* Device reference always implies a group reference */
+ void vfio_device_put(struct vfio_device *device)
+ {
+@@ -779,14 +740,23 @@ static int vfio_iommu_group_notifier(struct notifier_block *nb,
+ /**
+  * VFIO driver API
+  */
+-int vfio_add_group_dev(struct device *dev,
+-		       const struct vfio_device_ops *ops, void *device_data)
++void vfio_init_group_dev(struct vfio_device *device, struct device *dev,
++			 const struct vfio_device_ops *ops, void *device_data)
++{
++	init_completion(&device->comp);
++	device->dev = dev;
++	device->ops = ops;
++	device->device_data = device_data;
++}
++EXPORT_SYMBOL_GPL(vfio_init_group_dev);
++
++int vfio_register_group_dev(struct vfio_device *device)
+ {
++	struct vfio_device *existing_device;
+ 	struct iommu_group *iommu_group;
+ 	struct vfio_group *group;
+-	struct vfio_device *device;
+ 
+-	iommu_group = iommu_group_get(dev);
++	iommu_group = iommu_group_get(device->dev);
+ 	if (!iommu_group)
+ 		return -EINVAL;
+ 
+@@ -805,21 +775,50 @@ int vfio_add_group_dev(struct device *dev,
+ 		iommu_group_put(iommu_group);
+ 	}
+ 
+-	device = vfio_group_get_device(group, dev);
+-	if (device) {
+-		dev_WARN(dev, "Device already exists on group %d\n",
++	existing_device = vfio_group_get_device(group, device->dev);
++	if (existing_device) {
++		dev_WARN(device->dev, "Device already exists on group %d\n",
+ 			 iommu_group_id(iommu_group));
+-		vfio_device_put(device);
++		vfio_device_put(existing_device);
+ 		vfio_group_put(group);
+ 		return -EBUSY;
+ 	}
+ 
+-	device = vfio_group_create_device(group, dev, ops, device_data);
+-	if (IS_ERR(device)) {
+-		vfio_group_put(group);
+-		return PTR_ERR(device);
+-	}
++	/* Our reference on group is moved to the device */
++	device->group = group;
++
++	/* Refcounting can't start until the driver calls register */
++	refcount_set(&device->refcount, 1);
++
++	mutex_lock(&group->device_lock);
++	list_add(&device->group_next, &group->device_list);
++	group->dev_counter++;
++	mutex_unlock(&group->device_lock);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(vfio_register_group_dev);
++
++int vfio_add_group_dev(struct device *dev, const struct vfio_device_ops *ops,
++		       void *device_data)
++{
++	struct vfio_device *device;
++	int ret;
++
++	device = kzalloc(sizeof(*device), GFP_KERNEL);
++	if (!device)
++		return -ENOMEM;
++
++	vfio_init_group_dev(device, dev, ops, device_data);
++	ret = vfio_register_group_dev(device);
++	if (ret)
++		goto err_kfree;
++	dev_set_drvdata(dev, device);
+ 	return 0;
++
++err_kfree:
++	kfree(device);
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(vfio_add_group_dev);
+ 
+@@ -887,11 +886,9 @@ EXPORT_SYMBOL_GPL(vfio_device_data);
+ /*
+  * Decrement the device reference count and wait for the device to be
+  * removed.  Open file descriptors for the device... */
+-void *vfio_del_group_dev(struct device *dev)
++void vfio_unregister_group_dev(struct vfio_device *device)
+ {
+-	struct vfio_device *device = dev_get_drvdata(dev);
+ 	struct vfio_group *group = device->group;
+-	void *device_data = device->device_data;
+ 	struct vfio_unbound_dev *unbound;
+ 	unsigned int i = 0;
+ 	bool interrupted = false;
+@@ -908,7 +905,7 @@ void *vfio_del_group_dev(struct device *dev)
+ 	 */
+ 	unbound = kzalloc(sizeof(*unbound), GFP_KERNEL);
+ 	if (unbound) {
+-		unbound->dev = dev;
++		unbound->dev = device->dev;
+ 		mutex_lock(&group->unbound_lock);
+ 		list_add(&unbound->unbound_next, &group->unbound_list);
+ 		mutex_unlock(&group->unbound_lock);
+@@ -919,7 +916,7 @@ void *vfio_del_group_dev(struct device *dev)
  	rc = try_wait_for_completion(&device->comp);
  	while (rc <= 0) {
  		if (device->ops->request)
--			device->ops->request(device->device_data, i++);
-+			device->ops->request(device, i++);
+-			device->ops->request(device_data, i++);
++			device->ops->request(device->device_data, i++);
  
  		if (interrupted) {
  			rc = wait_for_completion_timeout(&device->comp,
-@@ -1379,7 +1379,7 @@ static int vfio_group_get_device_fd(struct vfio_group *group, char *buf)
- 	if (IS_ERR(device))
- 		return PTR_ERR(device);
+@@ -929,7 +926,7 @@ void *vfio_del_group_dev(struct device *dev)
+ 				&device->comp, HZ * 10);
+ 			if (rc < 0) {
+ 				interrupted = true;
+-				dev_warn(dev,
++				dev_warn(device->dev,
+ 					 "Device is currently in use, task"
+ 					 " \"%s\" (%d) "
+ 					 "blocked until device is released",
+@@ -960,11 +957,19 @@ void *vfio_del_group_dev(struct device *dev)
+ 	if (list_empty(&group->device_list))
+ 		wait_event(group->container_q, !group->container);
  
--	ret = device->ops->open(device->device_data);
-+	ret = device->ops->open(device);
- 	if (ret) {
- 		vfio_device_put(device);
- 		return ret;
-@@ -1391,7 +1391,7 @@ static int vfio_group_get_device_fd(struct vfio_group *group, char *buf)
- 	 */
- 	ret = get_unused_fd_flags(O_CLOEXEC);
- 	if (ret < 0) {
--		device->ops->release(device->device_data);
-+		device->ops->release(device);
- 		vfio_device_put(device);
- 		return ret;
- 	}
-@@ -1401,7 +1401,7 @@ static int vfio_group_get_device_fd(struct vfio_group *group, char *buf)
- 	if (IS_ERR(filep)) {
- 		put_unused_fd(ret);
- 		ret = PTR_ERR(filep);
--		device->ops->release(device->device_data);
-+		device->ops->release(device);
- 		vfio_device_put(device);
- 		return ret;
- 	}
-@@ -1558,7 +1558,7 @@ static int vfio_device_fops_release(struct inode *inode, struct file *filep)
- {
- 	struct vfio_device *device = filep->private_data;
- 
--	device->ops->release(device->device_data);
-+	device->ops->release(device);
- 
- 	vfio_group_try_dissolve_container(device->group);
- 
-@@ -1575,7 +1575,7 @@ static long vfio_device_fops_unl_ioctl(struct file *filep,
- 	if (unlikely(!device->ops->ioctl))
- 		return -EINVAL;
- 
--	return device->ops->ioctl(device->device_data, cmd, arg);
-+	return device->ops->ioctl(device, cmd, arg);
+-	/* Matches the get in vfio_group_create_device() */
++	/* Matches the get in vfio_register_group_dev() */
+ 	vfio_group_put(group);
++}
++EXPORT_SYMBOL_GPL(vfio_unregister_group_dev);
++
++void *vfio_del_group_dev(struct device *dev)
++{
++	struct vfio_device *device = dev_get_drvdata(dev);
++	void *device_data = device->device_data;
++
++	vfio_unregister_group_dev(device);
+ 	dev_set_drvdata(dev, NULL);
+ 	kfree(device);
+-
+ 	return device_data;
  }
- 
- static ssize_t vfio_device_fops_read(struct file *filep, char __user *buf,
-@@ -1586,7 +1586,7 @@ static ssize_t vfio_device_fops_read(struct file *filep, char __user *buf,
- 	if (unlikely(!device->ops->read))
- 		return -EINVAL;
- 
--	return device->ops->read(device->device_data, buf, count, ppos);
-+	return device->ops->read(device, buf, count, ppos);
- }
- 
- static ssize_t vfio_device_fops_write(struct file *filep,
-@@ -1598,7 +1598,7 @@ static ssize_t vfio_device_fops_write(struct file *filep,
- 	if (unlikely(!device->ops->write))
- 		return -EINVAL;
- 
--	return device->ops->write(device->device_data, buf, count, ppos);
-+	return device->ops->write(device, buf, count, ppos);
- }
- 
- static int vfio_device_fops_mmap(struct file *filep, struct vm_area_struct *vma)
-@@ -1608,7 +1608,7 @@ static int vfio_device_fops_mmap(struct file *filep, struct vm_area_struct *vma)
- 	if (unlikely(!device->ops->mmap))
- 		return -EINVAL;
- 
--	return device->ops->mmap(device->device_data, vma);
-+	return device->ops->mmap(device, vma);
- }
- 
- static const struct file_operations vfio_device_fops = {
+ EXPORT_SYMBOL_GPL(vfio_del_group_dev);
 diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index 4995faf51efeae..784c34c0a28763 100644
+index b7e18bde5aa8b3..ad8b579d67d34a 100644
 --- a/include/linux/vfio.h
 +++ b/include/linux/vfio.h
-@@ -44,17 +44,17 @@ struct vfio_device {
-  */
- struct vfio_device_ops {
- 	char	*name;
--	int	(*open)(void *device_data);
--	void	(*release)(void *device_data);
--	ssize_t	(*read)(void *device_data, char __user *buf,
-+	int	(*open)(struct vfio_device *vdev);
-+	void	(*release)(struct vfio_device *vdev);
-+	ssize_t	(*read)(struct vfio_device *vdev, char __user *buf,
- 			size_t count, loff_t *ppos);
--	ssize_t	(*write)(void *device_data, const char __user *buf,
-+	ssize_t	(*write)(struct vfio_device *vdev, const char __user *buf,
- 			 size_t count, loff_t *size);
--	long	(*ioctl)(void *device_data, unsigned int cmd,
-+	long	(*ioctl)(struct vfio_device *vdev, unsigned int cmd,
- 			 unsigned long arg);
--	int	(*mmap)(void *device_data, struct vm_area_struct *vma);
--	void	(*request)(void *device_data, unsigned int count);
--	int	(*match)(void *device_data, char *buf);
-+	int	(*mmap)(struct vfio_device *vdev, struct vm_area_struct *vma);
-+	void	(*request)(struct vfio_device *vdev, unsigned int count);
-+	int	(*match)(struct vfio_device *vdev, char *buf);
- };
+@@ -15,6 +15,18 @@
+ #include <linux/poll.h>
+ #include <uapi/linux/vfio.h>
  
++struct vfio_device {
++	struct device *dev;
++	const struct vfio_device_ops *ops;
++	struct vfio_group *group;
++
++	/* Members below here are private, not for driver use */
++	refcount_t refcount;
++	struct completion comp;
++	struct list_head group_next;
++	void *device_data;
++};
++
+ /**
+  * struct vfio_device_ops - VFIO bus driver device callbacks
+  *
+@@ -48,11 +60,15 @@ struct vfio_device_ops {
  extern struct iommu_group *vfio_iommu_group_get(struct device *dev);
+ extern void vfio_iommu_group_put(struct iommu_group *group, struct device *dev);
+ 
++void vfio_init_group_dev(struct vfio_device *device, struct device *dev,
++			 const struct vfio_device_ops *ops, void *device_data);
++int vfio_register_group_dev(struct vfio_device *device);
+ extern int vfio_add_group_dev(struct device *dev,
+ 			      const struct vfio_device_ops *ops,
+ 			      void *device_data);
+ 
+ extern void *vfio_del_group_dev(struct device *dev);
++void vfio_unregister_group_dev(struct vfio_device *device);
+ extern struct vfio_device *vfio_device_get_from_dev(struct device *dev);
+ extern void vfio_device_put(struct vfio_device *device);
+ extern void *vfio_device_data(struct vfio_device *device);
 -- 
 2.31.0
 
