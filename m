@@ -2,134 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0080AC433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 13:01:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D12B9C433C1
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 14:04:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9D8D619B8
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 13:00:59 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9D8D2619B9
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 14:04:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231390AbhCWNA2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 09:00:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42368 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231371AbhCWNAH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Mar 2021 09:00:07 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6E970619B7;
-        Tue, 23 Mar 2021 13:00:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1616504407;
-        bh=Z99hjTVltFxCT8RpC7pfLGSJtN+CDHehM0LkOEDVDMs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rMHnG34GsYMxf+X5k6ixt6bYqR41UOiUipfgNHOKAVleoabz0V9McDGOpcsKsiLxP
-         e6183mANGd5PjsOxEeT43mh0JPE0CE2CwjhR9Jik8BZXZZL58s6xxz3M51je1x50DL
-         Cy5f/hAnPKXfAtvzLUnDQN9Y3lfrfdWFxctS1Wu0=
-Date:   Tue, 23 Mar 2021 14:00:04 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Cc:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH v6 1/5] misc: Add Synopsys DesignWare xData IP driver
-Message-ID: <YFnmVEB86JcAENcN@kroah.com>
-References: <cover.1613150798.git.gustavo.pimentel@synopsys.com>
- <724f5d30e3a9b86448df7e32fb5ed1e814416368.1613150798.git.gustavo.pimentel@synopsys.com>
+        id S231475AbhCWODi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 10:03:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43234 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232001AbhCWODR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Mar 2021 10:03:17 -0400
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [IPv6:2001:4d48:ad52:32c8:5054:ff:fe00:142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21DBBC061763;
+        Tue, 23 Mar 2021 07:03:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+        Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=N2uCmQ8vi2Ep5UQ3oogYPNPYrv32/jec/EyUkk8lTs8=; b=X+JdXLoQWsdpRf+AXi8/3tUI/
+        jXnKmRfCxmqfZ3epNEm5hZd6PTJjrEfchsuMTTlqSuqlwy6qnEC631sY4eZU+osiWuHRhcxdwfmBD
+        EcYvmwvWC1bY3+5djEQq4uPoU/zCK3YUQHS/90ljVFZtIVLjCNXfSahRqSQjUFj/aqr7rUZvqKCg4
+        nAFII9fQW+Yo8eMKfe/x8Vh7CDPqW0zVh4L6fCzsTfFC91VsLLsN1Nuepys1ybTCHaDv7p6juNvev
+        jSWu7nxKgl0Rmv4lCgJG2fgIHHEpOcy5Vg45Bw0aV7bKbBtPXM47Pr9bcIU6ymZXkeYIVCo3YUFhi
+        YIUU7TlWA==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:51628)
+        by pandora.armlinux.org.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <linux@armlinux.org.uk>)
+        id 1lOhcg-0007nq-TU; Tue, 23 Mar 2021 14:03:07 +0000
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.92)
+        (envelope-from <linux@shell.armlinux.org.uk>)
+        id 1lOhcd-0004D5-LA; Tue, 23 Mar 2021 14:03:03 +0000
+Date:   Tue, 23 Mar 2021 14:03:03 +0000
+From:   Russell King - ARM Linux admin <linux@armlinux.org.uk>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jens Axboe <axboe@kernel.dk>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH 02/10] ARM: disable CONFIG_IDE in footbridge_defconfig
+Message-ID: <20210323140303.GD1463@shell.armlinux.org.uk>
+References: <20210318045706.200458-1-hch@lst.de>
+ <20210318045706.200458-3-hch@lst.de>
+ <20210319170753.GV1463@shell.armlinux.org.uk>
+ <20210319175311.GW1463@shell.armlinux.org.uk>
+ <20210322145403.GA30942@lst.de>
+ <20210322151503.GX1463@shell.armlinux.org.uk>
+ <20210322151823.GA2764@lst.de>
+ <20210322153314.GA3440@lst.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <724f5d30e3a9b86448df7e32fb5ed1e814416368.1613150798.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <20210322153314.GA3440@lst.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Sender: Russell King - ARM Linux admin <linux@armlinux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Feb 12, 2021 at 06:28:03PM +0100, Gustavo Pimentel wrote:
-> +static const struct attribute_group xdata_attr_group = {
-> +	.attrs = default_attrs,
-> +	.name = DW_XDATA_DRIVER_NAME,
-> +};
+On Mon, Mar 22, 2021 at 04:33:14PM +0100, Christoph Hellwig wrote:
+> On Mon, Mar 22, 2021 at 04:18:23PM +0100, Christoph Hellwig wrote:
+> > On Mon, Mar 22, 2021 at 03:15:03PM +0000, Russell King - ARM Linux admin wrote:
+> > > It gets worse than that though - due to a change to remove
+> > > pcibios_min_io from the generic code, moving it into the ARM
+> > > architecture code, this has caused a regression that prevents the
+> > > legacy resources being registered against the bus resource. So even
+> > > if they are there, they cause probe failures. I haven't found a
+> > > reasonable way to solve this yet, but until there is, there is no
+> > > way that the PATA driver can be used as the "legacy mode" support
+> > > is effectively done via the PCI code assigning virtual IO port
+> > > resources.
+> > > 
+> > > I'm quite surprised that the CY82C693 even works on Alpha - I've
+> > > asked for a lspci for that last week but nothing has yet been
+> > > forthcoming from whoever responded to your patch for Alpha - so I
+> > > can't compare what I'm seeing with what's happening with Alpha.
+> > 
+> > That sounds like something we could fix with a quirk for function 2
+> > in the PCI resource assignment code.  Can you show what vendor and
+> > device ID function 2 has so that I could try to come up with one?
+> 
+> Something like this:
 
-ATTRIBUTE_GROUPS()?
+That solves the problem for the IDE driver, which knows how to deal
+with legacy mode, but not the PATA driver, which doesn't. The PATA
+driver needs these resources.
 
-> +static int dw_xdata_pcie_probe(struct pci_dev *pdev,
-> +			       const struct pci_device_id *pid)
-> +{
-> +	const struct dw_xdata_pcie_data *pdata = (void *)pid->driver_data;
-> +	struct dw_xdata *dw;
-> +	u64 addr;
-> +	int err;
-> +
-> +	/* Enable PCI device */
-> +	err = pcim_enable_device(pdev);
-> +	if (err) {
-> +		pci_err(pdev, "enabling device failed\n");
-> +		return err;
-> +	}
-> +
-> +	/* Mapping PCI BAR regions */
-> +	err = pcim_iomap_regions(pdev, BIT(pdata->rg_bar), pci_name(pdev));
-> +	if (err) {
-> +		pci_err(pdev, "xData BAR I/O remapping failed\n");
-> +		return err;
-> +	}
-> +
-> +	pci_set_master(pdev);
-> +
-> +	/* Allocate memory */
-> +	dw = devm_kzalloc(&pdev->dev, sizeof(*dw), GFP_KERNEL);
-> +	if (!dw)
-> +		return -ENOMEM;
-> +
-> +	/* Data structure initialization */
-> +	mutex_init(&dw->mutex);
-> +
-> +	dw->rg_region.vaddr = pcim_iomap_table(pdev)[pdata->rg_bar];
-> +	if (!dw->rg_region.vaddr)
-> +		return -ENOMEM;
-> +
-> +	dw->rg_region.vaddr += pdata->rg_off;
-> +	dw->rg_region.paddr = pdev->resource[pdata->rg_bar].start;
-> +	dw->rg_region.paddr += pdata->rg_off;
-> +	dw->rg_region.sz = pdata->rg_sz;
-> +
-> +	dw->max_wr_len = pcie_get_mps(pdev);
-> +	dw->max_wr_len >>= 2;
-> +
-> +	dw->max_rd_len = pcie_get_readrq(pdev);
-> +	dw->max_rd_len >>= 2;
-> +
-> +	dw->pdev = pdev;
-> +
-> +	writel(0x0, &(__dw_regs(dw)->RAM_addr));
-> +	writel(0x0, &(__dw_regs(dw)->RAM_port));
-> +
-> +	addr = dw->rg_region.paddr + DW_XDATA_EP_MEM_OFFSET;
-> +	writel(lower_32_bits(addr), &(__dw_regs(dw)->addr_lsb));
-> +	writel(upper_32_bits(addr), &(__dw_regs(dw)->addr_msb));
-> +	pci_dbg(pdev, "xData: target address = 0x%.16llx\n", addr);
-> +
-> +	pci_dbg(pdev, "xData: wr_len=%zu, rd_len=%zu\n",
-> +		dw->max_wr_len * 4, dw->max_rd_len * 4);
-> +
-> +	/* Saving data structure reference */
-> +	pci_set_drvdata(pdev, dw);
-> +
-> +	/* Sysfs */
-> +	err = sysfs_create_group(&pdev->dev.kobj, &xdata_attr_group);
+As I say, having these resources presents a problem on ARM. A previous
+commit (3c5d1699887b) changed the way the bus resources are setup which
+results in /proc/ioports containing:
 
-You just raced with userspace and lost :(
+00000000-0000000f : dma1
+00000020-0000003f : pic1
+00000060-0000006f : i8042
+00000070-00000073 : rtc_cmos
+  00000070-00000073 : rtc0
+00000080-0000008f : dma low page
+000000a0-000000bf : pic2
+000000c0-000000df : dma2
+00000213-00000213 : ISAPnP
+000002f8-000002ff : serial8250.0
+  000002f8-000002ff : serial
+000003c0-000003df : vga+
+000003f8-000003ff : serial8250.0
+  000003f8-000003ff : serial
+00000480-0000048f : dma high page
+00000a79-00000a79 : isapnp write
+00001000-0000ffff : PCI0 I/O
+  00001000-0000107f : 0000:00:08.0
+    00001000-0000107f : 3c59x
+  00001080-0000108f : 0000:00:06.1
+  00001090-0000109f : 0000:00:07.0
+    00001090-0000109f : pata_it821x
+  000010a0-000010a7 : 0000:00:07.0
+    000010a0-000010a7 : pata_it821x
+  000010a8-000010af : 0000:00:07.0
+    000010a8-000010af : pata_it821x
+  000010b0-000010b3 : 0000:00:07.0
+    000010b0-000010b3 : pata_it821x
+  000010b4-000010b7 : 0000:00:07.0
+    000010b4-000010b7 : pata_it821x
 
-Have the driver core properly create/remove your sysfs files, set the
-default groups pointer in your driver and all will be fine.
+The "PCI0 I/O" resource is the bus level resource, and the legacy
+resources can not be claimed against that.
 
-thanks,
+Without these resources, the PATA cypress driver doesn't work.
 
-greg k-h
+As I said previously, the reason this regression was not picked up
+earlier is because I don't upgrade the kernel on this machine very
+often; the machine has had uptimes into thousands of days.
+
+I need to try reverting Rob's commit to find out if anything breaks
+on this platform - it's completely wrong from a technical point of
+view for any case where we have a PCI southbridge, since the
+southbridge provides ISA based resources. I'm not entirely sure
+what the point of it was, since we still have the PCIBIOS_MIN_IO
+macro which still uses pcibios_min_io.
+
+I'm looking at some of the other changes Rob made back at that time
+which also look wrong, such as 8ef6e6201b26 which has the effect of
+locating the 21285 IO resources to PCI address 0, over the top of
+the ISA southbridge resources. I've no idea what Rob was thinking
+when he removed the csrio allocation code in that commit, but
+looking at it to day, it's soo obviously wrong even to a casual
+glance.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
