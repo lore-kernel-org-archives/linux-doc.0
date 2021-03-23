@@ -4,227 +4,285 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,MSGID_FROM_MTA_HEADER,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,
+	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93C49C433E4
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 17:56:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52B6AC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 18:04:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7118D619CB
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 17:56:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 144846192B
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 18:04:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231340AbhCWR4I (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 13:56:08 -0400
-Received: from mail-bn8nam12on2077.outbound.protection.outlook.com ([40.107.237.77]:36673
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
+        id S230313AbhCWSDi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 14:03:38 -0400
+Received: from mail-mw2nam10on2052.outbound.protection.outlook.com ([40.107.94.52]:63748
+        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231339AbhCWRzr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Mar 2021 13:55:47 -0400
+        id S230370AbhCWSDJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Mar 2021 14:03:09 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Gd9YSYbi24A8ZJ77mfUT+K2WxEEKXA2xOEcCdIppqUHaZhKvXsYFZ1Qj7LMc8wPmuKUtctYrWXePoMMVtk2O6TcIMGc7mfsA/lRyxl9/uFjNwUepWddqCn4QyovHK/E2BvZXlosnRiRmMehJdCbAW25fdrOpu/RB6aOuD+0STHQJ1ZSs+xeR2ByGtn27Szcmefx7JE/KAczFE8ErQZoFjv9tfY8foZR6I80RWT2lCgx5lzyEhemT2I+GEAhW62dzK3poQjMzucR/M+FJBEpFnDCddJd6sorYtcdtmM6YDqW/zwkED+YTRvWnSDS81nyk0Q4XggnrTSRgA7o00V3Igw==
+ b=VhFHLF8aqHmWRFIIyAYgWA1zTQh3syOHZJ1t6lRdqMFf3csgtlI8BgcRmYAv1QOEPqabSZGgEdkdlxoydiTAaiPrnmSWRGOEMcX/lHnEc3QrdytEEufo48ZM2mnBOwQx6LSMyaItH19r9QlmHjBz+kiQEs6U6XcBAUBLU2XDvpTDEHf2ypGPtppbvZghVgupqrecARVSLm64G3ChqfeZDlHhe2hwvt+mReQ2b2ywTamo87qsVP+4e/rwj8I7v6jtn8zO/Do727y9/GPYTabN3AdSqmoNvpq0UVbYzsnQHNZq55hraIYfQ72kmAYvf1RaylE1cBQsh3BeBrero+is0w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2cB46sAu2SciDQDzTmKXSxgAAyCiQmySsGT1aw/yhJo=;
- b=bhC1Gcn9HakhvHSYqPOwKWJK3BZOlsQ9W9L6ICK3HriuP43NCeY/lm6tvo8PXPseZfETKz4SgicoiVmsf2s0Qtmn+a4RRWycSpNE7kf7BVo5q3Zc0dfdh6z4dUbr606wunnEoYW4SecNlgaGsjbiDBo5K/RzogjInC9syilmMCcaGVt4wBODQsYj3/nlvtG0jSM1mdUjAcWgxKlozRAF5lD3QEHJHrQ5Z6U3qSZd6EeW5980aML4yVTQAbWhCKTvOIMsufjzeogTbYiVtFoyOceU2ZApluppnqK8QQmshwn+/jxhO3E8eUck/KnfIvoquFmG1y3exnvDkOUtdCBi7g==
+ bh=ybq9AmUWfapy1CJMdY7w8M+5olrUXBj9cUudQd/NxN4=;
+ b=jbSZ9EoaYra2UYxIWPk20MWvysfF81lpwB7FUbWPL1MI50dB/ytD325M7OpjiZB5v/1q4rl2AwiAWGeCpEy8jCoqfFu1I5HLrT8qIdAXfZ/WJPr2vTn5rM3ypXMXe4o7IKwt/3Epgjgylwqjc3DVn92fn6zwtd4Tampxlkk6alx4cFqvWdH0FKSZjMtu8LfvoY6R2XAWV3Fv18YjCNFTmXOo+lyyKoCwFI7Re6PIbc0uJ3WHrVTZOHB6s6TsC9uJkktLOFb9DTJQeWcH76A3ui752zXNPR+27w61Hlv+BhWF/5+8LbZoEzmpeaxN8c42ntgD7XenezInEsncZvnK4w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2cB46sAu2SciDQDzTmKXSxgAAyCiQmySsGT1aw/yhJo=;
- b=YRnHheeU+Zm/So/cOl/qJMoHkYB/QGBhNNSmS4DGGNSn1/M6z5RS9YMwzEEW+CHwHJzgD1uEd4XFDiPuF6P00JsWYwxvZ4RNC50gmeWkocr4bFzXPEKZTxbepdDCJm6XRpwPqMZsdtVjOXzzVbD8bMh6VET7WFcbyLLBxju9dXgZjwUU5yPDqNUTI9laKOCwqNBPI3JWnyyn5T3ZLce1ZWmSs/7kPy/yPR/51/EAoEdmgzYOS/uERBkTUyibI4TO3eTMfZeHr608TyPerm4jYALTiXyrhgSRN5GRsfGWolIj4wQDgDgsi9P0JbCP5OZblSk9XlkTSD4OgJlf+Upyrw==
-Authentication-Results: linux.ie; dkim=none (message not signed)
- header.d=none;linux.ie; dmarc=none action=none header.from=nvidia.com;
+ bh=ybq9AmUWfapy1CJMdY7w8M+5olrUXBj9cUudQd/NxN4=;
+ b=lgzTFMR+kMoXxkC+W148oSc7irP+EGs3Mg3nnmwNVgDDBLPx6zSP/iSDHRiH4bozJI2s/cHZxr2YSD+OXsssMqKML4KCwc6CbskxIjuoBs6aeUqxcJKjrDFIsmWaH82Qyjh7ZeoEDj6PB5Ud853OrTstb1nzRv9Kbd+U90feXLfg+XKeu6vgNwk2Dt+FpFDexCqU+WyOC2pjBkWjuPYruXjqKEy0CXdmuxcSJSKysTfrXLWgKZopE4Ql3GV02pTG6AIc3VhNQe/FucuVbBPyfjKaZ5Sv/3riT7ysjLthYcozJhPcy4fYRbyrPotljyABVfWbofEXhWfeZMiF5R4tCA==
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
 Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB4943.namprd12.prod.outlook.com (2603:10b6:5:1bc::21) with
+ by DM6PR12MB4266.namprd12.prod.outlook.com (2603:10b6:5:21a::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Tue, 23 Mar
- 2021 17:55:44 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24; Tue, 23 Mar
+ 2021 18:03:07 +0000
 Received: from DM6PR12MB3834.namprd12.prod.outlook.com
  ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
  ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3955.027; Tue, 23 Mar 2021
- 17:55:44 +0000
+ 18:03:07 +0000
 From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     David Airlie <airlied@linux.ie>,
-        Tony Krowiak <akrowiak@linux.ibm.com>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
+To:     Alex Williamson <alex.williamson@redhat.com>,
         Cornelia Huck <cohuck@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        dri-devel@lists.freedesktop.org,
-        Eric Farman <farman@linux.ibm.com>,
-        Harald Freudenberger <freude@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        intel-gfx@lists.freedesktop.org,
-        intel-gvt-dev@lists.freedesktop.org,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
-        linux-doc@vger.kernel.org, linux-s390@vger.kernel.org,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Halil Pasic <pasic@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Vineeth Vijayan <vneethv@linux.ibm.com>,
-        Zhenyu Wang <zhenyuw@linux.intel.com>,
-        Zhi Wang <zhi.a.wang@intel.com>
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org
 Cc:     "Raj, Ashok" <ashok.raj@intel.com>,
-        Dong Jia Shi <bjsdjshi@linux.vnet.ibm.com>,
-        Neo Jia <cjia@nvidia.com>,
         Dan Williams <dan.j.williams@intel.com>,
         Christoph Hellwig <hch@lst.de>,
-        Jike Song <jike.song@intel.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
         Leon Romanovsky <leonro@nvidia.com>,
         Max Gurtovoy <mgurtovoy@nvidia.com>,
         Tarun Gupta <targupta@nvidia.com>
-Subject: [PATCH 00/18] Make vfio_mdev type safe
-Date:   Tue, 23 Mar 2021 14:55:17 -0300
-Message-Id: <0-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
+Subject: [PATCH 03/18] vfio/mdev: Simplify driver registration
+Date:   Tue, 23 Mar 2021 14:55:20 -0300
+Message-Id: <3-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
+In-Reply-To: <0-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
+References: 
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [206.223.160.26]
-X-ClientProxiedBy: BL0PR0102CA0030.prod.exchangelabs.com
- (2603:10b6:207:18::43) To DM6PR12MB3834.namprd12.prod.outlook.com
+X-ClientProxiedBy: MN2PR15CA0065.namprd15.prod.outlook.com
+ (2603:10b6:208:237::34) To DM6PR12MB3834.namprd12.prod.outlook.com
  (2603:10b6:5:14a::12)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (206.223.160.26) by BL0PR0102CA0030.prod.exchangelabs.com (2603:10b6:207:18::43) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18 via Frontend Transport; Tue, 23 Mar 2021 17:55:41 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lOlFf-001cgN-4b; Tue, 23 Mar 2021 14:55:35 -0300
+Received: from mlx.ziepe.ca (206.223.160.26) by MN2PR15CA0065.namprd15.prod.outlook.com (2603:10b6:208:237::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24 via Frontend Transport; Tue, 23 Mar 2021 18:03:07 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lOlFf-001cgY-9F; Tue, 23 Mar 2021 14:55:35 -0300
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c95c21d7-1be6-4a9b-d7dc-08d8ee24dfc5
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4943:
+X-MS-Office365-Filtering-Correlation-Id: 18ec7ee6-db53-4207-c2fb-08d8ee25e9ad
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4266:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB494349D76CDE94E9A4C36164C2649@DM6PR12MB4943.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Microsoft-Antispam-PRVS: <DM6PR12MB42665D6A4BA3697492D59496C2649@DM6PR12MB4266.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 95OIdF3tDilJGswE5bYcVx4FnZGlswa+LJA+7F8vKcmP0uc8WrIaZd8mWfw21F8M4cjIT8gmsBzPMuw92tUB8WoHJ1GGF0OToGjc8CvZBzcn8Bk66Y4lhVx9otrlnUVrGi1B1iCENACIB8FS715B/EcIvGwzfhXEUOTsEYYdjnhvkGzzfmT7Tv35Wb1PWlG9R26n/CeQ5KudMiwPsEadaX08+CCtQDO6NseVxQl1SxD4l3saiDlth0Gf4hh3PoNzIo58pr+H7zSp2+CRpbbmXVg18Otx1kQpyokUbXgEb2CR4r404WaGWqIaeMNSNPCiJKgrPtJIAs/7JeLS9ntxi6fhOBWxQ4IQZa2wpUKXV6/wlij7L33UPjft6eoBoWVIYXGhuhNhcd5I4RUSXWtzgLlLm5/k4L7tWF7dXY7ZXh/4OAArDZd+8ufN0jyk7HkJVqjhmMbTk+FLou2Twrxt0KmMR7MWP437wxktr57VYxzmzEzd6uehxgjhVIAAWXLhOaqrQ8d0TO3naCLoNqD9ugqZQk9uMami7FAEx2MaffkLE0PudWq7yJZh0ib7BwSeRMkPCYawVq1eKAi92ImCjfVf9PjetJldoyerOLVM0sjarkeiQeME3wg0saECio7u1DFWYUmsCY0yL5Xa7GjvNvUE5SjNBnGN9PMJ+j0I5Ex03jSaS8vB9CixvK1j8a6q1EMBVnAd++Yw0ugpDO8N35J3AZt+edYNsHw5/Dbu8HEn6UZwgtqMsN+As8L4GXgYasJKjNVL3eKceHrGhiONnw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39860400002)(136003)(376002)(366004)(346002)(66476007)(186003)(107886003)(6666004)(8936002)(110136005)(36756003)(426003)(86362001)(54906003)(83380400001)(2616005)(38100700001)(921005)(7406005)(7416002)(66946007)(5660300002)(478600001)(9746002)(66556008)(8676002)(4326008)(2906002)(26005)(316002)(966005)(9786002)(4216001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Barf92TEnVhxUlFj8VkY0tehCEbocCtWIFasMdTagPC7fvi402RbcB4sYMLr?=
- =?us-ascii?Q?R3+b8DtagKJl29/bMI21ribFTLoN1s2ecg3kDWgt2i0EQT0nuwgBFMx7559S?=
- =?us-ascii?Q?+ghMISTOgsNuXXgQzUDFlGyq4zYHAfbweyOKoxmpTdtKAGCRsq6rmxuZCqcc?=
- =?us-ascii?Q?5wgmfPcfbRpmMc8NylZEuh1szk6a9p3Lu+fOUFuPES11rQMJEMZLdM3AL09q?=
- =?us-ascii?Q?ePUeqvrrT5lu8+3jpEWn8A3NLaAyGeEGcORKHbnhkDaqRMDZZH4QbHX38G6a?=
- =?us-ascii?Q?E+FL/djDUzf622shvv5KZqxPaisckmN1p+CSo4o0OHUwPK9UPcWRub/ZYMDc?=
- =?us-ascii?Q?5XiKYFMhy7SER+Spmc2avc+U7yUR644OoyWoi1Pz3xk32GXda9S32QHNwZPz?=
- =?us-ascii?Q?xDLoGvdTTeD9dXQ/fc2tJk2I0+hDg6iEVQTkuxdAiWBX8oBOB6lXJAXyKtFy?=
- =?us-ascii?Q?kVUg1ltWCNaqp+3hG2fd8oHTfOegdpAw3PV6WIrB2Tv0jXePlJCEzJETlTqn?=
- =?us-ascii?Q?QE/7r+496M+0LVFVu+LC9v9qEBJUPMNWCAV6+iuBe3okSEaNgx9FcCPt92DX?=
- =?us-ascii?Q?TIMBxT57ORkvGMucFpqFosl3xjT35o/R7uDWyO5cGsxnZkYQSa0DvEMa4NvO?=
- =?us-ascii?Q?xz7jz45/7nCw8dapJpAkLFnnJ1BZsxOKzHfjO5uyXj1+8Z8e41Qmow2Y2bK8?=
- =?us-ascii?Q?56ketiGmbUwdIRH767p3jm1+qr/CCiRYrBnjMXzOlWbWLzscxNDHfIwb8dAO?=
- =?us-ascii?Q?MKlSp7j+Ao0K/UtAqVsUL1PuodYN4GHGh9xKBAu2J2pTdAWBOM9E+yaUBDkb?=
- =?us-ascii?Q?SDkpRWdFUJ5Coy8ho53AZClIYuLHm7XrD0hx3ria3QM01KYxyPsTETAXrF6c?=
- =?us-ascii?Q?WMg2HLRIPqn2sd0SK1hFECgZ6RAk/yZJNQp55AQUUzIaeP1zDZmOWyyMY2cG?=
- =?us-ascii?Q?ZoTw499iCpuhfhCLSHhmeAl8FWxOnWK/hB+2Zu1ba41oRfZfOnQC637YWVyU?=
- =?us-ascii?Q?9Jp1ZityVXX7lRVXuCKvfHXlA18/woeAQmdd0oUCQQMh301NAkAkRuIdDi9w?=
- =?us-ascii?Q?JHakswqDKXzjQrytUygItZqg7SuKqwCILIf6AVVt2C50hni80+F26tb8TigW?=
- =?us-ascii?Q?+3SDjPn3ZjV8xosvoJXfCi4sW0A21UvQIYpE1wpXgVjDDrq+mR9VvX2tIlrP?=
- =?us-ascii?Q?2Xkq4yy1qVMTIsMa5fcVH6BvCp3ecbEB+bKFfRi02Ca46AF7QksuaqHiGpt4?=
- =?us-ascii?Q?iCUsaML8wifuXuA/CcJ93ORYhVk7NlU0TpqQ5448iaIwISZGe/Ois+OwxXd8?=
- =?us-ascii?Q?m6au5WkdUragXfrGPZjR+0Yi?=
+X-Microsoft-Antispam-Message-Info: j2/n7nIMx3Kh2E40tf7Nj1Fq3svEvGC/KZJsw9kiNOp7d9hfvzPoux0jg05nN69cd/VP+u8DhgJ9DKRxbDkmgSQ2Pwno6HtHSEcBF1xjlYoyfb9197rO6x8j6pcXlLEq8L0vvurbGGp/ZJs/CWTADyk9TsOu+NHD1g7Gt2iKfbE1RLZIIrBZgB/2d4md34Ml4Qz6DtTkl1iJUmzyDUGaXPUMYD/Gm1XbuJbKmfpNX1HZSajbTi/svhlLAfW/lMlRgLMbgvOKMAbuZKFEGCFWY6BDiO4MhWH1Jzkisa1vLzFBYAEy0jbAiAjIDJwvmk5UaB8fTb96x9i71Vfncd7xXQn+GNoJxdIvPnQ9exADtXi/Sl+DcFAO6U2cHYnDI+DhGAK+kaL0FXJ/RYglKTlnWz2UfJ5hLYPAe8cd/bCp56K6eyl5R3Y4zQFDfgI0VlZB8WtJ0V0LVxm6rAeIpUJf/mTT77DuTGYp9EUNKNz4g8ePiAT390de27qcmaDctzeGI68/3YoPS8aSUZ5p6HRXaDvDKPPG/+yxzbjbdaySUKAxPIJv/oHmQhLCyzl3a/oGbU2AeYHRjHXjKBq1hBwqOqY7fKxHXPCQxQpUZFluw1hc1Kj5wRkuMwu7KlMjRoq8Yw+gwzI7nA25sCqbwkQ70gprjpAuR6PWfgnMb71zyzM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(136003)(39850400004)(376002)(366004)(346002)(66556008)(66946007)(2906002)(66476007)(110136005)(83380400001)(86362001)(54906003)(38100700001)(316002)(9746002)(9786002)(8676002)(186003)(478600001)(26005)(36756003)(426003)(4326008)(2616005)(6666004)(107886003)(5660300002)(8936002)(4216001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?KMKzB0t63+ab8tdubSJwyWY44Zi2dzW0SldgyGtQFQxy/ZNEJb2FBlXEXl84?=
+ =?us-ascii?Q?NTP+vOELhqx+DVs8Qz0i7ffX3SCGEE0F+VHJa3BFu2u1g+lhuEu2yA9vAASt?=
+ =?us-ascii?Q?W48+YXc8UDJLS6gK1jKuRwfwb0Oko+6xtmkNEvb1wxu0uwBsDfP8LbuwqHTU?=
+ =?us-ascii?Q?vFkO2mhWQsSSYPR3MZfIjPrnOxoR6aRXT3GzcWU0rRB5cpgM+QyNro20eRb5?=
+ =?us-ascii?Q?dd9GV3noBgDeLup2jTOXIG74pW1742FDDEHxcPqI2mYVzG24/66oDB+K3FeM?=
+ =?us-ascii?Q?n4s+fD3n2bNCf7ntrBqTU/fQL37rVOLs4rqi9CeK2JFiPwaxwdbB5+/+CkZH?=
+ =?us-ascii?Q?LT6mzgwnbrGFN75ooFWmOJM4YlugRrp3U7f43ZxdXDmm4K+i68RFhj7Iu51M?=
+ =?us-ascii?Q?OCJasSuPqhTOgYtaG0L6h/7GqQarTxg/T2CDse5+8lUBGsZRAywF1Bshf+Lv?=
+ =?us-ascii?Q?q9qXZ5wE443aKWOyKOXsLWF+vdUVMotl6ex8sDGBBnP6BpVHHlNAT2rak1yX?=
+ =?us-ascii?Q?LMl1XH0jtbRc4DSgH/hYWkdOHhVbKJoqUyB0eDWFsHhUETJcAIhvg5E/o7+6?=
+ =?us-ascii?Q?9qdwj6x0TuJMXqtUo6+PeRMgfbC1tNjY/QQB6mEzzq93dp/CeIGLfZvXDmiM?=
+ =?us-ascii?Q?mCheZxq3TqBqNh5SCMakUw8w2y1ZsPtF5Hot1IC5/KLt0wigDGGc1sqsKBsm?=
+ =?us-ascii?Q?MDWZi+4xhkor7lJ1B4XsOJ2GbldAA9MWSO00fGunKruXteBzDwEyh4sfjoS1?=
+ =?us-ascii?Q?aXL0Xj4Sq/qS2fYzAUngkIG0OoOgoOynJe94YDEXtJyn4byE5q3Y30/ObTDH?=
+ =?us-ascii?Q?ExUQ9eA3v7Jah8zmWlQ1RFpRkeREzFgy4wgbmG6KdrTJRbnHHV/Xikjg7PUu?=
+ =?us-ascii?Q?f3oLz+2w3sQkVqoM76WCVSewAIJU31p47a5XI84xY/D7rABZpP1XmP1MDedR?=
+ =?us-ascii?Q?MD5ZaXXra8K0mt5UpbamA4mF2KT7wN78iQTAuRdamFHRmeovsWidUahK1sbW?=
+ =?us-ascii?Q?+XYdf/16oM7+ZuXjGFFueNJKaUDMIBWEmEDcp/hBiO+GQlsMSVolukxbQ08t?=
+ =?us-ascii?Q?WcfbOSnIrs4JI1wV7KD8QXmlAi3RmKijFA1HIXYp0Uu6iIrdS6SHbutGAsDY?=
+ =?us-ascii?Q?v9GGLFQX3It4lSEzWkWKz2W98EvnVfx4kDXrDxtWRvXa0Fq6Q0del+4YD/i4?=
+ =?us-ascii?Q?QRZgM8kwP6F8CzDSBN0suZm1JIwupMTHVjBDcibMrg0XmWa1ldrhTSHlG78w?=
+ =?us-ascii?Q?289RY7+XgoJ0kIt78fBhCEBjV2FaCQJPtWiPwWiNc0JqbZVZQDoslaqC5+pa?=
+ =?us-ascii?Q?9MNJkIBLvEkp4qt7JgA4hztb?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c95c21d7-1be6-4a9b-d7dc-08d8ee24dfc5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18ec7ee6-db53-4207-c2fb-08d8ee25e9ad
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 17:55:41.5272
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Mar 2021 18:03:07.6823
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BipZJ1FNj4iKcf3aXT3x7UX9hZKdcNuxcW3+zKsbXYAtWbwyZReWnwwQhaFdLl/M
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4943
+X-MS-Exchange-CrossTenant-UserPrincipalName: unMfUKmiIFeblyQ1r3MYoKVNsr6E87sAlnNCPb8U0+5M88PToDDqmIqHYTgrYo/8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4266
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Prologue
-========
+This is only done once, we don't need to generate code to initialize a
+structure stored in the ELF .data segment. Fill in the three required
+.driver members directly instead of copying data into them during
+mdev_register_driver().
 
-This is series #2 in part of a larger work that arose from the minor
-remark that the mdev_parent_ops indirection shim is useless and
-complicates things.
+Further the to_mdev_driver() function doesn't belong in a public header,
+just inline it into the two places that need it. Finally, we can now
+clearly see that 'drv' derived from dev->driver cannot be NULL, firstly
+because the driver core forbids it, and secondly because NULL won't pass
+through the container_of(). Remove the dead code.
 
-It follows the "Embed struct vfio_device in all sub-structures" already
-sent, and must be applied on top of it.
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+---
+ Documentation/driver-api/vfio-mediated-device.rst |  5 +----
+ drivers/vfio/mdev/mdev_driver.c                   | 15 +++++++--------
+ drivers/vfio/mdev/vfio_mdev.c                     |  8 ++++++--
+ include/linux/mdev.h                              |  6 +-----
+ 4 files changed, 15 insertions(+), 19 deletions(-)
 
-A preview of the future series's is here:
-  https://github.com/jgunthorpe/linux/pull/3/commits
-
-========
-This series:
-
-vfio_mdev has a number of different objects: mdev_parent, mdev_type and
-mdev_device.
-
-Unfortunately the types of these have been erased in various places
-throughout the API, and this makes it very hard to understand this code or
-maintain it by the time it reaches all of the drivers.
-
-This series puts in all the types and aligns some of the design with the
-driver core standard for a driver core bus driver:
-
- - Replace 'struct device *' with 'struct mdev_device *
- - Replace 'struct device *' with 'struct mdev_type *' and
-   mtype_get_parent_dev()
- - Replace 'struct kobject *' with 'struct mdev_type *'
-
-Now that types are clear it is easy to spot a few places that have
-duplicated information.
-
-More significantly we can now understand how to directly fix the
-obfuscated 'kobj->name' matching by realizing the the kobj is a mdev_type,
-which is linked to the supported_types_list provided by the driver, and
-thus the core code can directly return the array indexes all the drivers
-actually want.
-
-Jason
-
-Jason Gunthorpe (18):
-  vfio/mdev: Fix missing static's on MDEV_TYPE_ATTR's
-  vfio/mdev: Add missing typesafety around mdev_device
-  vfio/mdev: Simplify driver registration
-  vfio/mdev: Use struct mdev_type in struct mdev_device
-  vfio/mdev: Do not allow a mdev_type to have a NULL parent pointer
-  vfio/mdev: Expose mdev_get/put_parent to mdev_private.h
-  vfio/mdev: Add missing reference counting to mdev_type
-  vfio/mdev: Reorganize mdev_device_create()
-  vfio/mdev: Add missing error handling to dev_set_name()
-  vfio/mdev: Remove duplicate storage of parent in mdev_device
-  vfio/mdev: Add mdev/mtype_get_type_group_id()
-  vfio/mtty: Use mdev_get_type_group_id()
-  vfio/mdpy: Use mdev_get_type_group_id()
-  vfio/mbochs: Use mdev_get_type_group_id()
-  vfio/gvt: Make DRM_I915_GVT depend on VFIO_MDEV
-  vfio/gvt: Use mdev_get_type_group_id()
-  vfio/mdev: Remove kobj from mdev_parent_ops->create()
-  vfio/mdev: Correct the function signatures for the
-    mdev_type_attributes
-
- .../driver-api/vfio-mediated-device.rst       |   9 +-
- drivers/gpu/drm/i915/Kconfig                  |   1 +
- drivers/gpu/drm/i915/gvt/gvt.c                |  41 ++---
- drivers/gpu/drm/i915/gvt/gvt.h                |   4 +-
- drivers/gpu/drm/i915/gvt/kvmgt.c              |   7 +-
- drivers/s390/cio/vfio_ccw_ops.c               |  17 +-
- drivers/s390/crypto/vfio_ap_ops.c             |  14 +-
- drivers/vfio/mdev/mdev_core.c                 | 160 ++++++------------
- drivers/vfio/mdev/mdev_driver.c               |  19 +--
- drivers/vfio/mdev/mdev_private.h              |  40 ++---
- drivers/vfio/mdev/mdev_sysfs.c                |  59 ++++---
- drivers/vfio/mdev/vfio_mdev.c                 |  29 ++--
- drivers/vfio/vfio_iommu_type1.c               |  25 +--
- include/linux/mdev.h                          |  80 ++++++---
- samples/vfio-mdev/mbochs.c                    |  55 +++---
- samples/vfio-mdev/mdpy.c                      |  56 +++---
- samples/vfio-mdev/mtty.c                      |  66 ++------
- 17 files changed, 306 insertions(+), 376 deletions(-)
-
+diff --git a/Documentation/driver-api/vfio-mediated-device.rst b/Documentation/driver-api/vfio-mediated-device.rst
+index c43c1dc3333373..1779b85f014e2f 100644
+--- a/Documentation/driver-api/vfio-mediated-device.rst
++++ b/Documentation/driver-api/vfio-mediated-device.rst
+@@ -98,13 +98,11 @@ structure to represent a mediated device's driver::
+ 
+      /*
+       * struct mdev_driver [2] - Mediated device's driver
+-      * @name: driver name
+       * @probe: called when new device created
+       * @remove: called when device removed
+       * @driver: device driver structure
+       */
+      struct mdev_driver {
+-	     const char *name;
+ 	     int  (*probe)  (struct mdev_device *dev);
+ 	     void (*remove) (struct mdev_device *dev);
+ 	     struct device_driver    driver;
+@@ -115,8 +113,7 @@ to register and unregister itself with the core driver:
+ 
+ * Register::
+ 
+-    extern int  mdev_register_driver(struct mdev_driver *drv,
+-				   struct module *owner);
++    extern int  mdev_register_driver(struct mdev_driver *drv);
+ 
+ * Unregister::
+ 
+diff --git a/drivers/vfio/mdev/mdev_driver.c b/drivers/vfio/mdev/mdev_driver.c
+index 44c3ba7e56d923..041699571b7e55 100644
+--- a/drivers/vfio/mdev/mdev_driver.c
++++ b/drivers/vfio/mdev/mdev_driver.c
+@@ -39,7 +39,8 @@ static void mdev_detach_iommu(struct mdev_device *mdev)
+ 
+ static int mdev_probe(struct device *dev)
+ {
+-	struct mdev_driver *drv = to_mdev_driver(dev->driver);
++	struct mdev_driver *drv =
++		container_of(dev->driver, struct mdev_driver, driver);
+ 	struct mdev_device *mdev = to_mdev_device(dev);
+ 	int ret;
+ 
+@@ -47,7 +48,7 @@ static int mdev_probe(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (drv && drv->probe) {
++	if (drv->probe) {
+ 		ret = drv->probe(mdev);
+ 		if (ret)
+ 			mdev_detach_iommu(mdev);
+@@ -58,10 +59,11 @@ static int mdev_probe(struct device *dev)
+ 
+ static int mdev_remove(struct device *dev)
+ {
+-	struct mdev_driver *drv = to_mdev_driver(dev->driver);
++	struct mdev_driver *drv =
++		container_of(dev->driver, struct mdev_driver, driver);
+ 	struct mdev_device *mdev = to_mdev_device(dev);
+ 
+-	if (drv && drv->remove)
++	if (drv->remove)
+ 		drv->remove(mdev);
+ 
+ 	mdev_detach_iommu(mdev);
+@@ -79,16 +81,13 @@ EXPORT_SYMBOL_GPL(mdev_bus_type);
+ /**
+  * mdev_register_driver - register a new MDEV driver
+  * @drv: the driver to register
+- * @owner: module owner of driver to be registered
+  *
+  * Returns a negative value on error, otherwise 0.
+  **/
+-int mdev_register_driver(struct mdev_driver *drv, struct module *owner)
++int mdev_register_driver(struct mdev_driver *drv)
+ {
+ 	/* initialize common driver fields */
+-	drv->driver.name = drv->name;
+ 	drv->driver.bus = &mdev_bus_type;
+-	drv->driver.owner = owner;
+ 
+ 	/* register with core */
+ 	return driver_register(&drv->driver);
+diff --git a/drivers/vfio/mdev/vfio_mdev.c b/drivers/vfio/mdev/vfio_mdev.c
+index 91b7b8b9eb9cb8..cc9507ed85a181 100644
+--- a/drivers/vfio/mdev/vfio_mdev.c
++++ b/drivers/vfio/mdev/vfio_mdev.c
+@@ -152,14 +152,18 @@ static void vfio_mdev_remove(struct mdev_device *mdev)
+ }
+ 
+ static struct mdev_driver vfio_mdev_driver = {
+-	.name	= "vfio_mdev",
++	.driver = {
++		.name = "vfio_mdev",
++		.owner = THIS_MODULE,
++		.mod_name = KBUILD_MODNAME,
++	},
+ 	.probe	= vfio_mdev_probe,
+ 	.remove	= vfio_mdev_remove,
+ };
+ 
+ static int __init vfio_mdev_init(void)
+ {
+-	return mdev_register_driver(&vfio_mdev_driver, THIS_MODULE);
++	return mdev_register_driver(&vfio_mdev_driver);
+ }
+ 
+ static void __exit vfio_mdev_exit(void)
+diff --git a/include/linux/mdev.h b/include/linux/mdev.h
+index 52f7ea19dd0f56..cb771c712da0f4 100644
+--- a/include/linux/mdev.h
++++ b/include/linux/mdev.h
+@@ -137,21 +137,17 @@ struct mdev_type_attribute mdev_type_attr_##_name =		\
+ 
+ /**
+  * struct mdev_driver - Mediated device driver
+- * @name: driver name
+  * @probe: called when new device created
+  * @remove: called when device removed
+  * @driver: device driver structure
+  *
+  **/
+ struct mdev_driver {
+-	const char *name;
+ 	int (*probe)(struct mdev_device *dev);
+ 	void (*remove)(struct mdev_device *dev);
+ 	struct device_driver driver;
+ };
+ 
+-#define to_mdev_driver(drv)	container_of(drv, struct mdev_driver, driver)
+-
+ static inline void *mdev_get_drvdata(struct mdev_device *mdev)
+ {
+ 	return mdev->driver_data;
+@@ -170,7 +166,7 @@ extern struct bus_type mdev_bus_type;
+ int mdev_register_device(struct device *dev, const struct mdev_parent_ops *ops);
+ void mdev_unregister_device(struct device *dev);
+ 
+-int mdev_register_driver(struct mdev_driver *drv, struct module *owner);
++int mdev_register_driver(struct mdev_driver *drv);
+ void mdev_unregister_driver(struct mdev_driver *drv);
+ 
+ struct device *mdev_parent_dev(struct mdev_device *mdev);
 -- 
 2.31.0
 
