@@ -2,158 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1525CC433C1
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 22:45:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A3A4C433E5
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 00:14:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D05EC619A3
-	for <linux-doc@archiver.kernel.org>; Mon, 22 Mar 2021 22:45:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5B7FA619AA
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 00:14:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229854AbhCVWo5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 22 Mar 2021 18:44:57 -0400
-Received: from mga09.intel.com ([134.134.136.24]:14973 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229639AbhCVWor (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 22 Mar 2021 18:44:47 -0400
-IronPort-SDR: 3XVnfYDZQ/siAJEUhSG2SPDz5ZYwXlecDBlAHHrpIi0qDlSYjR8dbQs7aau3XWGjID99ntvjyM
- ZryPIg430LvQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9931"; a="190456249"
-X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
-   d="scan'208";a="190456249"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 15:44:46 -0700
-IronPort-SDR: Cs90cP332n3ZwIZ+y9pl7057fKYog23Iah6j7pRk3RlXtypyIKmOoS8gd8Dobj3vdvqWv+XFt4
- NCdy85z+Y8mQ==
-X-IronPort-AV: E=Sophos;i="5.81,269,1610438400"; 
-   d="scan'208";a="408012774"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Mar 2021 15:44:46 -0700
-Date:   Mon, 22 Mar 2021 15:44:46 -0700
-From:   Ira Weiny <ira.weiny@intel.com>
-To:     Sean Christopherson <seanjc@google.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        linux-kernel@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH V4 06/10] x86/fault: Adjust WARN_ON for PKey fault
-Message-ID: <20210322224446.GQ3014244@iweiny-DESK2.sc.intel.com>
-References: <20210322053020.2287058-1-ira.weiny@intel.com>
- <20210322053020.2287058-7-ira.weiny@intel.com>
- <YFjAV44u7i9t1TDL@google.com>
+        id S231222AbhCWAOV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 22 Mar 2021 20:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34084 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231265AbhCWAN6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 22 Mar 2021 20:13:58 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECF09C061574
+        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 17:13:55 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id s17so23337752ljc.5
+        for <linux-doc@vger.kernel.org>; Mon, 22 Mar 2021 17:13:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=0Zv/Nh1NwdjT4vNoEgAKJF0+3Ir6H8KTDS01ZyTPf3o=;
+        b=MYfMpOlaWILZRe1pDeuZweAI3vdknsgeo67laT+dKd7DkSPJ3kqkICjvz6DoYVVnHZ
+         16OeAVHxuQfaEw3tjPMoe7QoNfBgXwLH10I06HQvLQrqH5L2JNBJAwiEQ2JR4BIEX+9S
+         mKRD0C7UQTjhxOy/6H8fA1YjCpW2EGV+O/1qAjuqnz/pmrLszTPkOjvS0yYpv/ZZ/qEF
+         lAjiGv9YsocO9v0uFbeqK3kItyVLmzZ8XbFjbvISEZUv72q4Dv/aYT92AgSreyZJuLpZ
+         d2c1Ghef/K4UviwHxjZHI5pznTsVIQq7ZchuSPAoEZC7/qFfjBKUTKzfd7IBKdOJs9LE
+         ySlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=0Zv/Nh1NwdjT4vNoEgAKJF0+3Ir6H8KTDS01ZyTPf3o=;
+        b=l5Or3BcsJKtvGsNe5fOFeIQwPhrRTQKaBT1M6iaKK1/LwAG6iyxKTY6eDsDag7wu2N
+         cZ7cZmZ4qk7Topg+mjFb6dCNqyOLmHaEiVQm/1rPtnEqdrZ5ao72B5DOJ+KUQcKjCah1
+         iNxtdv0Feen4GLxWbJeztB/qMxWAbadBjZvgcQ+xAA+JVyKFJd3FhFNxNWHL7LPMTP9Z
+         qGWE/NZ0qm8JBH25hoOX57uABgeN9AXJFAZ6gJfIh3eIi0q+FktIzBwW3rn3RHkoKvd5
+         hNkE4cT6cJJIYSlkOw84AhPjivYLac897WCozqCNTzjNTG6F9imk9NJp8VXozCjtNwBP
+         pHXw==
+X-Gm-Message-State: AOAM5300I83VMF1d3zJ1pvLOb8r/UlWs5kSsbMlUE9NRkN54c8zKhgL1
+        /05o0iHr31648D1bOGRenCGxjeAgYHZTcgQFBn9d9w==
+X-Google-Smtp-Source: ABdhPJywL/8xL+s/Wz9PYQqACsNKJlIixpOZzrkkMLprtEmtD0taXBt0RZSmBTlrPE/s8ZHyKoeWgqn3ctd+1W/a4Oo=
+X-Received: by 2002:a2e:9bcd:: with SMTP id w13mr1219196ljj.43.1616458434230;
+ Mon, 22 Mar 2021 17:13:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YFjAV44u7i9t1TDL@google.com>
-User-Agent: Mutt/1.11.1 (2018-12-01)
+References: <20210316204252.427806-1-mic@digikod.net> <20210316204252.427806-3-mic@digikod.net>
+In-Reply-To: <20210316204252.427806-3-mic@digikod.net>
+From:   Jann Horn <jannh@google.com>
+Date:   Tue, 23 Mar 2021 01:13:27 +0100
+Message-ID: <CAG48ez3v44du6_qVLa25SOdfLsr5+z-=a0pUP63d=qHP2tf4Pg@mail.gmail.com>
+Subject: Re: [PATCH v30 02/12] landlock: Add ruleset and domain management
+To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
+Cc:     James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        Kernel Hardening <kernel-hardening@lists.openwall.com>,
+        Linux API <linux-api@vger.kernel.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+        kernel list <linux-kernel@vger.kernel.org>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        "the arch/x86 maintainers" <x86@kernel.org>,
+        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 22, 2021 at 09:05:43AM -0700, Sean Christopherson wrote:
-> On Sun, Mar 21, 2021, ira.weiny@intel.com wrote:
-> > From: Ira Weiny <ira.weiny@intel.com>
-> > 
-> > PKey faults may now happen on kernel mappings if the feature is enabled.
-> > Remove the warning in the fault path if PKS is enabled.
-> 
-> When/why can they happen?  I read through all the changelogs, as well as the
-> cover letters for v1 and the RFC, and didn't see any explicit statement about
-> why pkey faults on supervisor accesses are now "legal".
+On Tue, Mar 16, 2021 at 9:43 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
+wrote:
+> A Landlock ruleset is mainly a red-black tree with Landlock rules as
+> nodes.  This enables quick update and lookup to match a requested
+> access, e.g. to a file.  A ruleset is usable through a dedicated file
+> descriptor (cf. following commit implementing syscalls) which enables a
+> process to create and populate a ruleset with new rules.
+>
+> A domain is a ruleset tied to a set of processes.  This group of rules
+> defines the security policy enforced on these processes and their future
+> children.  A domain can transition to a new domain which is the
+> intersection of all its constraints and those of a ruleset provided by
+> the current process.  This modification only impact the current process.
+> This means that a process can only gain more constraints (i.e. lose
+> accesses) over time.
+>
+> Cc: James Morris <jmorris@namei.org>
+> Cc: Jann Horn <jannh@google.com>
+> Cc: Kees Cook <keescook@chromium.org>
+> Signed-off-by: Micka=C3=ABl Sala=C3=BCn <mic@linux.microsoft.com>
+> Acked-by: Serge Hallyn <serge@hallyn.com>
+> Link: https://lore.kernel.org/r/20210316204252.427806-3-mic@digikod.net
 
-Ok, I have to admit I did not think about documenting this detail...  I'll
-update the commit message a bit more.
-
-Prior to this series pkeys were only supported on user page mappings.
-Therefore seeing a X86_PF_PK error in this path was completely unexpected and
-warranted the extra WARN_ON to indicate that something went very wrong.
-
-> Explaining what happens
-> later in the page fault handler would also be helpful, e.g. is the flag simply
-> ignored?
-
-Ok I'll do this.  But the behavior does not change.  The fault is unhandled and
-results in an Ooops.  The only difference is that if PKS is enabled and
-configured on a kernel mapping the oops is to be expected.
-
-> Does it lead directly to OOPS?
-
-Yes, the series concludes with it being an ooops unless the test code is
-running.  The behavior does not change from before.  I'll more clearly document
-that...
-
-> 
-> Documenting what happens on a PKS #PF in the API patch would be nice to have, too.
-
-Ok, yes, good idea.
-
-> 
-> > Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> > ---
-> >  arch/x86/mm/fault.c | 9 +++++----
-> >  1 file changed, 5 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
-> > index a73347e2cdfc..731ec90ed413 100644
-> > --- a/arch/x86/mm/fault.c
-> > +++ b/arch/x86/mm/fault.c
-> > @@ -1141,11 +1141,12 @@ do_kern_addr_fault(struct pt_regs *regs, unsigned long hw_error_code,
-> >  		   unsigned long address)
-> >  {
-> >  	/*
-> > -	 * Protection keys exceptions only happen on user pages.  We
-> > -	 * have no user pages in the kernel portion of the address
-> > -	 * space, so do not expect them here.
-> > +	 * PF_PK is expected on kernel addresses when supervisor pkeys are
-> 
-> "is expected" can be misinterpreted as "PF is expected on all kernel addresses...".
-
-Yes the commit message was more clear by using 'may'.
-
-> 
-> This ties in with the lack of an explanation in the changelog.
-> 
-> > +	 * enabled.
-> 
-> It'd be helpful to spell out "Protection keys exceptions" so that random readers
-> don't need to search for PF_PK to understand what's up.  Maybe even use it as an
-> opportunity to introduce "pkeys", e.g.
-> 
-> 	/* Protection keys (pkeys) exceptions are ... */
-
-Fair enough.  Will do.  I've changed this to:
-
-        /*
-         * X86_PF_PK (Protection key exceptions) may occur on kernel addresses
-         * when PKS (PKeys Supervisor) are enabled.
-         *
-         * If PKS is not enabled an exception should only happen on user pages.
-         * Because, we have no user pages in the kernel portion of the address
-         * space something must have gone very wrong and we should WARN.
-         */
-
-> 
-> >  	 */
-> > -	WARN_ON_ONCE(hw_error_code & X86_PF_PK);
-> > +	if (!cpu_feature_enabled(X86_FEATURE_PKS))
-> > +		WARN_ON_ONCE(hw_error_code & X86_PF_PK);
-> 
-> Does this generate the same code if the whole thing is thrown in the WARN?  E.g.
-> 
-> 	WARN_ON_ONCE(!cpu_feature_enabled(X86_FEATURE_PKS) &&
-> 		     (hw_error_code & X86_PF_PK));
-
-I don't know in the general case.  But if CONFIG_BUG=n this would be better.
-
-I've changed it.
-
-Thanks!
-Ira
+Reviewed-by: Jann Horn <jannh@google.com>
