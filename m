@@ -2,108 +2,137 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 893A1C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 12:08:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 959E5C433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 12:56:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 38AD8619B8
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 12:08:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E94E619C3
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 12:56:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230517AbhCWMIE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 08:08:04 -0400
-Received: from foss.arm.com ([217.140.110.172]:45230 "EHLO foss.arm.com"
+        id S231403AbhCWM4M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 08:56:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40868 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230365AbhCWMHk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Mar 2021 08:07:40 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 47C59D6E;
-        Tue, 23 Mar 2021 05:07:40 -0700 (PDT)
-Received: from ewhatever.cambridge.arm.com (ewhatever.cambridge.arm.com [10.1.197.1])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B59393F719;
-        Tue, 23 Mar 2021 05:07:38 -0700 (PDT)
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-To:     linux-arm-kernel@lists.infradead.org
-Cc:     linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
-        mathieu.poirier@linaro.org, mike.leach@linaro.org,
-        leo.yan@linaro.org, anshuman.khandual@arm.com, maz@kernel.org,
-        catalin.marinas@arm.com, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org,
-        Suzuki K Poulose <suzuki.poulose@arm.com>
-Subject: [PATCH v5 18/19] Documentation: trace: Add documentation for TRBE
-Date:   Tue, 23 Mar 2021 12:06:46 +0000
-Message-Id: <20210323120647.454211-19-suzuki.poulose@arm.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20210323120647.454211-1-suzuki.poulose@arm.com>
-References: <20210323120647.454211-1-suzuki.poulose@arm.com>
+        id S229675AbhCWM4J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Mar 2021 08:56:09 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F3619619B8;
+        Tue, 23 Mar 2021 12:56:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1616504168;
+        bh=7s1M3IsLZtGNlNk01+JyIT7SNm9jTdPqx5b5zByfRyM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=tqiQf2egd3FRlPC2gMcFNgwmVFU3j04Mp9W/SwOUfQEhucaofggWeqoSZp0n6DqYZ
+         +LtxhrvTSCsggPocaQmVxpynR6Y7NV9YgJ0BgXkICEr8DRsmwjHwqXP09gL80dqcvY
+         eJYg+ci/qtpPxMSC/jhvbWq/4QqFr3hBu7D9VRe8=
+Date:   Tue, 23 Mar 2021 13:56:05 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Alexander Graf <graf@amazon.com>
+Cc:     Adrian Catangiu <acatan@amazon.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
+        kvm@vger.kernel.org, linux-s390@vger.kernel.org,
+        rdunlap@infradead.org, arnd@arndb.de, ebiederm@xmission.com,
+        rppt@kernel.org, 0x7f454c46@gmail.com, borntraeger@de.ibm.com,
+        Jason@zx2c4.com, jannh@google.com, w@1wt.eu, colmmacc@amazon.com,
+        luto@kernel.org, tytso@mit.edu, ebiggers@kernel.org,
+        dwmw@amazon.co.uk, bonzini@gnu.org, sblbir@amazon.com,
+        raduweis@amazon.com, corbet@lwn.net, mst@redhat.com,
+        mhocko@kernel.org, rafael@kernel.org, pavel@ucw.cz,
+        mpe@ellerman.id.au, areber@redhat.com, ovzxemul@gmail.com,
+        avagin@gmail.com, ptikhomirov@virtuozzo.com, gil@azul.com,
+        asmehra@redhat.com, dgunigun@redhat.com, vijaysun@ca.ibm.com,
+        oridgar@gmail.com, ghammer@redhat.com
+Subject: Re: [PATCH v8] drivers/misc: sysgenid: add system generation id
+ driver
+Message-ID: <YFnlZQZOasOwxUDn@kroah.com>
+References: <1615213083-29869-1-git-send-email-acatan@amazon.com>
+ <YEY2b1QU5RxozL0r@kroah.com>
+ <a61c976f-b362-bb60-50a5-04073360e702@amazon.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a61c976f-b362-bb60-50a5-04073360e702@amazon.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Anshuman Khandual <anshuman.khandual@arm.com>
+On Mon, Mar 08, 2021 at 05:03:58PM +0100, Alexander Graf wrote:
+> 
+> 
+> On 08.03.21 15:36, Greg KH wrote:
+> > 
+> > On Mon, Mar 08, 2021 at 04:18:03PM +0200, Adrian Catangiu wrote:
+> > > +static struct miscdevice sysgenid_misc = {
+> > > +     .minor = MISC_DYNAMIC_MINOR,
+> > > +     .name = "sysgenid",
+> > > +     .fops = &fops,
+> > > +};
+> > 
+> > Much cleaner, but:
+> > 
+> > > +static int __init sysgenid_init(void)
+> > > +{
+> > > +     int ret;
+> > > +
+> > > +     sysgenid_data.map_buf = get_zeroed_page(GFP_KERNEL);
+> > > +     if (!sysgenid_data.map_buf)
+> > > +             return -ENOMEM;
+> > > +
+> > > +     atomic_set(&sysgenid_data.generation_counter, 0);
+> > > +     atomic_set(&sysgenid_data.outdated_watchers, 0);
+> > > +     init_waitqueue_head(&sysgenid_data.read_waitq);
+> > > +     init_waitqueue_head(&sysgenid_data.outdated_waitq);
+> > > +     spin_lock_init(&sysgenid_data.lock);
+> > > +
+> > > +     ret = misc_register(&sysgenid_misc);
+> > > +     if (ret < 0) {
+> > > +             pr_err("misc_register() failed for sysgenid\n");
+> > > +             goto err;
+> > > +     }
+> > > +
+> > > +     return 0;
+> > > +
+> > > +err:
+> > > +     free_pages(sysgenid_data.map_buf, 0);
+> > > +     sysgenid_data.map_buf = 0;
+> > > +
+> > > +     return ret;
+> > > +}
+> > > +
+> > > +static void __exit sysgenid_exit(void)
+> > > +{
+> > > +     misc_deregister(&sysgenid_misc);
+> > > +     free_pages(sysgenid_data.map_buf, 0);
+> > > +     sysgenid_data.map_buf = 0;
+> > > +}
+> > > +
+> > > +module_init(sysgenid_init);
+> > > +module_exit(sysgenid_exit);
+> > 
+> > So you do this for any bit of hardware that happens to be out there?
+> > Will that really work?  You do not have any hwid to trigger off of to
+> > know that this is a valid device you can handle?
+> 
+> The interface is already useful in a pure container context where the
+> generation change request is triggered by software.
+> 
+> And yes, there are hardware triggers, but Michael was quite unhappy about
+> potential races between VMGenID change and SysGenID change and thus wanted
+> to ideally separate the interfaces. So we went ahead and isolated the
+> SysGenID one, as it's already useful as is.
+> 
+> Hardware drivers to inject change events into SysGenID can then follow
+> later, for all different hardware platforms. But SysGenID as in this patch
+> is a completely hardware agnostic concept.
 
-Add documentation for the  TRBE under trace/coresight.
+Ok, this is going to play havoc with fuzzers and other "automated
+testers", should be fun to watch!  :)
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-[ Split from the TRBE driver patch ]
-Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
----
- .../trace/coresight/coresight-trbe.rst        | 38 +++++++++++++++++++
- 1 file changed, 38 insertions(+)
- create mode 100644 Documentation/trace/coresight/coresight-trbe.rst
+Let's queue this up and see what happens...
 
-diff --git a/Documentation/trace/coresight/coresight-trbe.rst b/Documentation/trace/coresight/coresight-trbe.rst
-new file mode 100644
-index 000000000000..b9928ef148da
---- /dev/null
-+++ b/Documentation/trace/coresight/coresight-trbe.rst
-@@ -0,0 +1,38 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================
-+Trace Buffer Extension (TRBE).
-+==============================
-+
-+    :Author:   Anshuman Khandual <anshuman.khandual@arm.com>
-+    :Date:     November 2020
-+
-+Hardware Description
-+--------------------
-+
-+Trace Buffer Extension (TRBE) is a percpu hardware which captures in system
-+memory, CPU traces generated from a corresponding percpu tracing unit. This
-+gets plugged in as a coresight sink device because the corresponding trace
-+generators (ETE), are plugged in as source device.
-+
-+The TRBE is not compliant to CoreSight architecture specifications, but is
-+driven via the CoreSight driver framework to support the ETE (which is
-+CoreSight compliant) integration.
-+
-+Sysfs files and directories
-+---------------------------
-+
-+The TRBE devices appear on the existing coresight bus alongside the other
-+coresight devices::
-+
-+	>$ ls /sys/bus/coresight/devices
-+	trbe0  trbe1  trbe2 trbe3
-+
-+The ``trbe<N>`` named TRBEs are associated with a CPU.::
-+
-+	>$ ls /sys/bus/coresight/devices/trbe0/
-+        align flag
-+
-+*Key file items are:-*
-+   * ``align``: TRBE write pointer alignment
-+   * ``flag``: TRBE updates memory with access and dirty flags
--- 
-2.24.1
+thanks,
 
+greg k-h
