@@ -2,98 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1A01C433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 16:18:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53417C433E2
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 16:35:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6CE0B619B8
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 16:18:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F1DA619CA
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 16:35:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232963AbhCWQRk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 12:17:40 -0400
-Received: from mga05.intel.com ([192.55.52.43]:34508 "EHLO mga05.intel.com"
+        id S233271AbhCWQf1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 12:35:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43576 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233234AbhCWQRU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Mar 2021 12:17:20 -0400
-IronPort-SDR: 9KRLV87FPyKQKZNZgmnGw0HRbpH8Hzs46Qe1BdlUqVf8YZDiSTFTjWSjZSSey2nUP4ENMMT9sE
- JGXxPXC7gUYA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9932"; a="275609961"
-X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; 
-   d="scan'208";a="275609961"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2021 09:17:17 -0700
-IronPort-SDR: nLWhYoIZ0EWA97i60IPA6BgWvFvZM5xvluDBzr/QCpXr3XXHeNZPpXKh9sTKVGB2DlEnY9HAmY
- SFbS6A5CJ7wQ==
-X-IronPort-AV: E=Sophos;i="5.81,272,1610438400"; 
-   d="scan'208";a="524882427"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2021 09:17:13 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1lOjiQ-00F3h9-2l; Tue, 23 Mar 2021 18:17:10 +0200
-Date:   Tue, 23 Mar 2021 18:17:10 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v5 00/11] gpio: implement the configfs testing module
-Message-ID: <YFoUhlEG8NcJ3jfi@smile.fi.intel.com>
-References: <20210315091400.13772-1-brgl@bgdev.pl>
- <CAMRc=MfQnofWQKz9tbnTA_1M8BkN37FcxbJpK4hs0RoRebWWkw@mail.gmail.com>
+        id S233150AbhCWQfR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Mar 2021 12:35:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4BAF9619B4;
+        Tue, 23 Mar 2021 16:35:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1616517316;
+        bh=RK+Kv0wxjcx5breQamKbj/qd89hf2M+eHtScR6kIrvA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bmf7U7KRA1m3gCUVC68jb1cPk4eb0Ce3ElrG1jzdXzWAn5+SG+L5DJs0n8es+H/Lh
+         oFcl1isxkQlKrWEv2Im4EifesAsn4zgc9iupKF0PhEqpI8o5oV+QEbnQ98S/y4FZoJ
+         hNusdpNZpE+/cIZZKPW2OTOBGC+Us/bvevZUElxI=
+Date:   Tue, 23 Mar 2021 17:35:14 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     "Catangiu, Adrian Costin" <acatan@amazon.com>
+Cc:     "Graf (AWS), Alexander" <graf@amazon.de>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+        "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+        "rdunlap@infradead.org" <rdunlap@infradead.org>,
+        "arnd@arndb.de" <arnd@arndb.de>,
+        "ebiederm@xmission.com" <ebiederm@xmission.com>,
+        "rppt@kernel.org" <rppt@kernel.org>,
+        "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
+        "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>,
+        "Jason@zx2c4.com" <Jason@zx2c4.com>,
+        "jannh@google.com" <jannh@google.com>, "w@1wt.eu" <w@1wt.eu>,
+        "MacCarthaigh, Colm" <colmmacc@amazon.com>,
+        "luto@kernel.org" <luto@kernel.org>,
+        "tytso@mit.edu" <tytso@mit.edu>,
+        "ebiggers@kernel.org" <ebiggers@kernel.org>,
+        "Woodhouse, David" <dwmw@amazon.co.uk>,
+        "bonzini@gnu.org" <bonzini@gnu.org>,
+        "Singh, Balbir" <sblbir@amazon.com>,
+        "Weiss, Radu" <raduweis@amazon.com>,
+        "corbet@lwn.net" <corbet@lwn.net>,
+        "mst@redhat.com" <mst@redhat.com>,
+        "mhocko@kernel.org" <mhocko@kernel.org>,
+        "rafael@kernel.org" <rafael@kernel.org>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+        "areber@redhat.com" <areber@redhat.com>,
+        "ovzxemul@gmail.com" <ovzxemul@gmail.com>,
+        "avagin@gmail.com" <avagin@gmail.com>,
+        "ptikhomirov@virtuozzo.com" <ptikhomirov@virtuozzo.com>,
+        "gil@azul.com" <gil@azul.com>,
+        "asmehra@redhat.com" <asmehra@redhat.com>,
+        "dgunigun@redhat.com" <dgunigun@redhat.com>,
+        "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>,
+        "oridgar@gmail.com" <oridgar@gmail.com>,
+        "ghammer@redhat.com" <ghammer@redhat.com>
+Subject: Re: [PATCH v8] drivers/misc: sysgenid: add system generation id
+ driver
+Message-ID: <YFoYwq/RadewiE8I@kroah.com>
+References: <1615213083-29869-1-git-send-email-acatan@amazon.com>
+ <YEY2b1QU5RxozL0r@kroah.com>
+ <a61c976f-b362-bb60-50a5-04073360e702@amazon.com>
+ <YFnlZQZOasOwxUDn@kroah.com>
+ <E6E517FF-A37C-427C-B16F-066A965B8F42@amazon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMRc=MfQnofWQKz9tbnTA_1M8BkN37FcxbJpK4hs0RoRebWWkw@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <E6E517FF-A37C-427C-B16F-066A965B8F42@amazon.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 22, 2021 at 03:32:24PM +0100, Bartosz Golaszewski wrote:
-> On Mon, Mar 15, 2021 at 10:14 AM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> >
-> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> >
-> > This series adds a new GPIO testing module based on configfs committable items
-> > and sysfs. The goal is to provide a testing driver that will be configurable
-> > at runtime (won't need module reload) and easily extensible. The control over
-> > the attributes is also much more fine-grained than in gpio-mockup.
-> >
-> > This series also contains a respin of the patches I sent separately to the
-> > configfs maintainers - these patches implement the concept of committable
-> > items that was well defined for a long time but never actually completed.
-> >
-> > Apart from the new driver itself, its selftests and the configfs patches, this
-> > series contains some changes to the bitmap API - most importantly: it adds
-> > devres managed variants of bitmap_alloc() and bitmap_zalloc().
+On Tue, Mar 23, 2021 at 04:10:27PM +0000, Catangiu, Adrian Costin wrote:
+> Hi Greg,
+> 
+> After your previous reply on this thread we started considering to provide this interface and framework/functionality through a userspace service instead of a kernel interface.
+> The latest iteration on this evolving patch-set doesn’t have strong reasons for living in the kernel anymore - the only objectively strong advantage would be easier driving of ecosystem integration; but I am not sure that's a good enough reason to create a new kernel interface.
+> 
+> I am now looking into adding this through Systemd. Either as a pluggable service or maybe even a systemd builtin offering.
+> 
+> What are your thoughts on it?
 
-> FYI The configfs patches from this series have been on the mailing
-> list for months (long before the GPIO part) and have been re-sent
-> several times. You have neither acked or opposed these changes. I
-> don't want to delay the new testing driver anymore so I intend to
-> apply the entire series and take it upstream through the GPIO tree by
-> the end of this week.
+I'll gladly drop this patch if it's not needed in the kernel, thanks for
+letting me know.
 
-Fine with me, feel free to add
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-where it's appropriate.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+greg k-h
