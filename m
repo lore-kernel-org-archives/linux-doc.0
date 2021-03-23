@@ -7,131 +7,128 @@ X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 959E5C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 12:56:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0080AC433C1
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 13:01:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E94E619C3
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 12:56:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9D8D619B8
+	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 13:00:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231403AbhCWM4M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 08:56:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40868 "EHLO mail.kernel.org"
+        id S231390AbhCWNA2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 09:00:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42368 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229675AbhCWM4J (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Mar 2021 08:56:09 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F3619619B8;
-        Tue, 23 Mar 2021 12:56:07 +0000 (UTC)
+        id S231371AbhCWNAH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Mar 2021 09:00:07 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6E970619B7;
+        Tue, 23 Mar 2021 13:00:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1616504168;
-        bh=7s1M3IsLZtGNlNk01+JyIT7SNm9jTdPqx5b5zByfRyM=;
+        s=korg; t=1616504407;
+        bh=Z99hjTVltFxCT8RpC7pfLGSJtN+CDHehM0LkOEDVDMs=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tqiQf2egd3FRlPC2gMcFNgwmVFU3j04Mp9W/SwOUfQEhucaofggWeqoSZp0n6DqYZ
-         +LtxhrvTSCsggPocaQmVxpynR6Y7NV9YgJ0BgXkICEr8DRsmwjHwqXP09gL80dqcvY
-         eJYg+ci/qtpPxMSC/jhvbWq/4QqFr3hBu7D9VRe8=
-Date:   Tue, 23 Mar 2021 13:56:05 +0100
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Alexander Graf <graf@amazon.com>
-Cc:     Adrian Catangiu <acatan@amazon.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, qemu-devel@nongnu.org,
-        kvm@vger.kernel.org, linux-s390@vger.kernel.org,
-        rdunlap@infradead.org, arnd@arndb.de, ebiederm@xmission.com,
-        rppt@kernel.org, 0x7f454c46@gmail.com, borntraeger@de.ibm.com,
-        Jason@zx2c4.com, jannh@google.com, w@1wt.eu, colmmacc@amazon.com,
-        luto@kernel.org, tytso@mit.edu, ebiggers@kernel.org,
-        dwmw@amazon.co.uk, bonzini@gnu.org, sblbir@amazon.com,
-        raduweis@amazon.com, corbet@lwn.net, mst@redhat.com,
-        mhocko@kernel.org, rafael@kernel.org, pavel@ucw.cz,
-        mpe@ellerman.id.au, areber@redhat.com, ovzxemul@gmail.com,
-        avagin@gmail.com, ptikhomirov@virtuozzo.com, gil@azul.com,
-        asmehra@redhat.com, dgunigun@redhat.com, vijaysun@ca.ibm.com,
-        oridgar@gmail.com, ghammer@redhat.com
-Subject: Re: [PATCH v8] drivers/misc: sysgenid: add system generation id
- driver
-Message-ID: <YFnlZQZOasOwxUDn@kroah.com>
-References: <1615213083-29869-1-git-send-email-acatan@amazon.com>
- <YEY2b1QU5RxozL0r@kroah.com>
- <a61c976f-b362-bb60-50a5-04073360e702@amazon.com>
+        b=rMHnG34GsYMxf+X5k6ixt6bYqR41UOiUipfgNHOKAVleoabz0V9McDGOpcsKsiLxP
+         e6183mANGd5PjsOxEeT43mh0JPE0CE2CwjhR9Jik8BZXZZL58s6xxz3M51je1x50DL
+         Cy5f/hAnPKXfAtvzLUnDQN9Y3lfrfdWFxctS1Wu0=
+Date:   Tue, 23 Mar 2021 14:00:04 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Cc:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>
+Subject: Re: [PATCH v6 1/5] misc: Add Synopsys DesignWare xData IP driver
+Message-ID: <YFnmVEB86JcAENcN@kroah.com>
+References: <cover.1613150798.git.gustavo.pimentel@synopsys.com>
+ <724f5d30e3a9b86448df7e32fb5ed1e814416368.1613150798.git.gustavo.pimentel@synopsys.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a61c976f-b362-bb60-50a5-04073360e702@amazon.com>
+In-Reply-To: <724f5d30e3a9b86448df7e32fb5ed1e814416368.1613150798.git.gustavo.pimentel@synopsys.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 08, 2021 at 05:03:58PM +0100, Alexander Graf wrote:
-> 
-> 
-> On 08.03.21 15:36, Greg KH wrote:
-> > 
-> > On Mon, Mar 08, 2021 at 04:18:03PM +0200, Adrian Catangiu wrote:
-> > > +static struct miscdevice sysgenid_misc = {
-> > > +     .minor = MISC_DYNAMIC_MINOR,
-> > > +     .name = "sysgenid",
-> > > +     .fops = &fops,
-> > > +};
-> > 
-> > Much cleaner, but:
-> > 
-> > > +static int __init sysgenid_init(void)
-> > > +{
-> > > +     int ret;
-> > > +
-> > > +     sysgenid_data.map_buf = get_zeroed_page(GFP_KERNEL);
-> > > +     if (!sysgenid_data.map_buf)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     atomic_set(&sysgenid_data.generation_counter, 0);
-> > > +     atomic_set(&sysgenid_data.outdated_watchers, 0);
-> > > +     init_waitqueue_head(&sysgenid_data.read_waitq);
-> > > +     init_waitqueue_head(&sysgenid_data.outdated_waitq);
-> > > +     spin_lock_init(&sysgenid_data.lock);
-> > > +
-> > > +     ret = misc_register(&sysgenid_misc);
-> > > +     if (ret < 0) {
-> > > +             pr_err("misc_register() failed for sysgenid\n");
-> > > +             goto err;
-> > > +     }
-> > > +
-> > > +     return 0;
-> > > +
-> > > +err:
-> > > +     free_pages(sysgenid_data.map_buf, 0);
-> > > +     sysgenid_data.map_buf = 0;
-> > > +
-> > > +     return ret;
-> > > +}
-> > > +
-> > > +static void __exit sysgenid_exit(void)
-> > > +{
-> > > +     misc_deregister(&sysgenid_misc);
-> > > +     free_pages(sysgenid_data.map_buf, 0);
-> > > +     sysgenid_data.map_buf = 0;
-> > > +}
-> > > +
-> > > +module_init(sysgenid_init);
-> > > +module_exit(sysgenid_exit);
-> > 
-> > So you do this for any bit of hardware that happens to be out there?
-> > Will that really work?  You do not have any hwid to trigger off of to
-> > know that this is a valid device you can handle?
-> 
-> The interface is already useful in a pure container context where the
-> generation change request is triggered by software.
-> 
-> And yes, there are hardware triggers, but Michael was quite unhappy about
-> potential races between VMGenID change and SysGenID change and thus wanted
-> to ideally separate the interfaces. So we went ahead and isolated the
-> SysGenID one, as it's already useful as is.
-> 
-> Hardware drivers to inject change events into SysGenID can then follow
-> later, for all different hardware platforms. But SysGenID as in this patch
-> is a completely hardware agnostic concept.
+On Fri, Feb 12, 2021 at 06:28:03PM +0100, Gustavo Pimentel wrote:
+> +static const struct attribute_group xdata_attr_group = {
+> +	.attrs = default_attrs,
+> +	.name = DW_XDATA_DRIVER_NAME,
+> +};
 
-Ok, this is going to play havoc with fuzzers and other "automated
-testers", should be fun to watch!  :)
+ATTRIBUTE_GROUPS()?
 
-Let's queue this up and see what happens...
+> +static int dw_xdata_pcie_probe(struct pci_dev *pdev,
+> +			       const struct pci_device_id *pid)
+> +{
+> +	const struct dw_xdata_pcie_data *pdata = (void *)pid->driver_data;
+> +	struct dw_xdata *dw;
+> +	u64 addr;
+> +	int err;
+> +
+> +	/* Enable PCI device */
+> +	err = pcim_enable_device(pdev);
+> +	if (err) {
+> +		pci_err(pdev, "enabling device failed\n");
+> +		return err;
+> +	}
+> +
+> +	/* Mapping PCI BAR regions */
+> +	err = pcim_iomap_regions(pdev, BIT(pdata->rg_bar), pci_name(pdev));
+> +	if (err) {
+> +		pci_err(pdev, "xData BAR I/O remapping failed\n");
+> +		return err;
+> +	}
+> +
+> +	pci_set_master(pdev);
+> +
+> +	/* Allocate memory */
+> +	dw = devm_kzalloc(&pdev->dev, sizeof(*dw), GFP_KERNEL);
+> +	if (!dw)
+> +		return -ENOMEM;
+> +
+> +	/* Data structure initialization */
+> +	mutex_init(&dw->mutex);
+> +
+> +	dw->rg_region.vaddr = pcim_iomap_table(pdev)[pdata->rg_bar];
+> +	if (!dw->rg_region.vaddr)
+> +		return -ENOMEM;
+> +
+> +	dw->rg_region.vaddr += pdata->rg_off;
+> +	dw->rg_region.paddr = pdev->resource[pdata->rg_bar].start;
+> +	dw->rg_region.paddr += pdata->rg_off;
+> +	dw->rg_region.sz = pdata->rg_sz;
+> +
+> +	dw->max_wr_len = pcie_get_mps(pdev);
+> +	dw->max_wr_len >>= 2;
+> +
+> +	dw->max_rd_len = pcie_get_readrq(pdev);
+> +	dw->max_rd_len >>= 2;
+> +
+> +	dw->pdev = pdev;
+> +
+> +	writel(0x0, &(__dw_regs(dw)->RAM_addr));
+> +	writel(0x0, &(__dw_regs(dw)->RAM_port));
+> +
+> +	addr = dw->rg_region.paddr + DW_XDATA_EP_MEM_OFFSET;
+> +	writel(lower_32_bits(addr), &(__dw_regs(dw)->addr_lsb));
+> +	writel(upper_32_bits(addr), &(__dw_regs(dw)->addr_msb));
+> +	pci_dbg(pdev, "xData: target address = 0x%.16llx\n", addr);
+> +
+> +	pci_dbg(pdev, "xData: wr_len=%zu, rd_len=%zu\n",
+> +		dw->max_wr_len * 4, dw->max_rd_len * 4);
+> +
+> +	/* Saving data structure reference */
+> +	pci_set_drvdata(pdev, dw);
+> +
+> +	/* Sysfs */
+> +	err = sysfs_create_group(&pdev->dev.kobj, &xdata_attr_group);
+
+You just raced with userspace and lost :(
+
+Have the driver core properly create/remove your sysfs files, set the
+default groups pointer in your driver and all will be fine.
 
 thanks,
 
