@@ -2,522 +2,346 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82678C433E3
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 19:53:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D32B5C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 19:58:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 585D561A1D
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 19:53:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B0C57619C7
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 19:58:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237907AbhCXTxW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 15:53:22 -0400
-Received: from mga03.intel.com ([134.134.136.65]:13763 "EHLO mga03.intel.com"
+        id S238051AbhCXT6X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 15:58:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46466 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237836AbhCXTxM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Mar 2021 15:53:12 -0400
-IronPort-SDR: nXzCUtUvEZTSixRvhhTzuNFTYEleQFnlXmKvLPvMw8umeXPuWajMErJEQzfsZ/p+9dWT4XMM7I
- nBGileLMvt9A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="190803398"
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="190803398"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 12:53:09 -0700
-IronPort-SDR: cgmZ8cXAQ2uatXJlLyGCE3gK2BFuQqiIPbTeyZpTPnXmxHIpqWuP6gWBuNfeSyy6ObqfUASvET
- AYiOJSS+zuhQ==
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="514317592"
-Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 12:53:09 -0700
-From:   ira.weiny@intel.com
-To:     Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>
-Cc:     Fenghua Yu <fenghua.yu@intel.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org
-Subject: [PATCH V4.1] x86/pks: Add PKS kernel API
-Date:   Wed, 24 Mar 2021 12:53:06 -0700
-Message-Id: <20210324195306.2490719-1-ira.weiny@intel.com>
-X-Mailer: git-send-email 2.28.0.rc0.12.gb6a658bd00c9
-In-Reply-To: <20210322053020.2287058-10-ira.weiny@intel.com>
-References: <20210322053020.2287058-10-ira.weiny@intel.com>
+        id S238049AbhCXT5u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Mar 2021 15:57:50 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E610E61A25;
+        Wed, 24 Mar 2021 19:57:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616615870;
+        bh=QiCbZkHWhUmmia+hfx+diW6GwLwnxWujJIW3E4k+dBc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Hp8iXo5yAj8CpflelQk1ZlliNJnw9hIoPaDoO9fkcFudLplk8fo4QJhnGa9hm9t4i
+         IjP6GSfUY7H8ufNS2hftkNzgMRdqiHLTNeEwbH8WDHE6IU2X/1N7X3Aa4NjZMRL3/9
+         o+ySZcp+4PFf+jH+bMGMd48kOEWyOnhUtfFa7ZHO688yMXnkS43Mye93KOYXUwB42n
+         uUNRnScEc7TMkQFvksVPo5b0QjpKMftaFtryoeKOBE/N6giaNVOap8BgWTAM/FZ1kf
+         s6A70nCw6TjT4bi3fmWE7sqQzdsDTouwwX2EUFXGAcucKdSxr6HS2AlWizDzOYIYeC
+         a3kkqAmCS1aUA==
+Date:   Wed, 24 Mar 2021 19:57:42 +0000
+From:   Will Deacon <will@kernel.org>
+To:     Hector Martin <marcan@marcan.st>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        devicetree@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFT PATCH v3 16/27] irqchip/apple-aic: Add support for the
+ Apple Interrupt Controller
+Message-ID: <20210324195742.GA13474@willie-the-truck>
+References: <20210304213902.83903-1-marcan@marcan.st>
+ <20210304213902.83903-17-marcan@marcan.st>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210304213902.83903-17-marcan@marcan.st>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Fenghua Yu <fenghua.yu@intel.com>
+Hi Hector,
 
-PKS allows kernel users to define domains of page mappings which have
-additional protections beyond the paging protections.  Violating those
-protections results in an oops.
+Sorry it took me so long to get to this. Some comments below.
 
-Add an API to allocate, use, and free a protection key which identifies
-such a domain.  Export 5 new symbols pks_key_alloc(), pks_mk_noaccess(),
-pks_mk_readonly(), pks_mk_readwrite(), and pks_key_free().  Add 2 new
-macros; PAGE_KERNEL_PKEY(key) and _PAGE_PKEY(pkey).
+On Fri, Mar 05, 2021 at 06:38:51AM +0900, Hector Martin wrote:
+> This is the root interrupt controller used on Apple ARM SoCs such as the
+> M1. This irqchip driver performs multiple functions:
+> 
+> * Handles both IRQs and FIQs
+> 
+> * Drives the AIC peripheral itself (which handles IRQs)
+> 
+> * Dispatches FIQs to downstream hard-wired clients (currently the ARM
+>   timer).
+> 
+> * Implements a virtual IPI multiplexer to funnel multiple Linux IPIs
+>   into a single hardware IPI
+> 
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> ---
+>  MAINTAINERS                     |   2 +
+>  drivers/irqchip/Kconfig         |   8 +
+>  drivers/irqchip/Makefile        |   1 +
+>  drivers/irqchip/irq-apple-aic.c | 710 ++++++++++++++++++++++++++++++++
+>  include/linux/cpuhotplug.h      |   1 +
+>  5 files changed, 722 insertions(+)
+>  create mode 100644 drivers/irqchip/irq-apple-aic.c
 
-Update the protection key documentation to cover pkeys on supervisor
-pages.
+[...]
 
-Cc: Sean Christopherson <seanjc@google.com>
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
-Co-developed-by: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-Signed-off-by: Fenghua Yu <fenghua.yu@intel.com>
+> + * Implementation notes:
+> + *
+> + * - This driver creates two IRQ domains, one for HW IRQs and internal FIQs,
+> + *   and one for IPIs.
+> + * - Since Linux needs more than 2 IPIs, we implement a software IRQ controller
+> + *   and funnel all IPIs into one per-CPU IPI (the second "self" IPI is unused).
+> + * - FIQ hwirq numbers are assigned after true hwirqs, and are per-cpu.
+> + * - DT bindings use 3-cell form (like GIC):
+> + *   - <0 nr flags> - hwirq #nr
+> + *   - <1 nr flags> - FIQ #nr
+> + *     - nr=0  Physical HV timer
+> + *     - nr=1  Virtual HV timer
+> + *     - nr=2  Physical guest timer
+> + *     - nr=3  Virtual guest timer
+> + *
+> + */
+> +
+> +#define pr_fmt(fmt) "%s: " fmt, __func__
 
----
-Changes from V4:
-	From Sean Christopers
-		Add what happens if the pkey is violated in the commit message
-		as well as the documentation
+General nit: but I suspect many of the prints in here probably want to be
+using the *_ratelimited variants.
 
-Changes from V3:
-	From Dan Williams
-		Remove flags from pks_key_alloc()
-		Convert to ARCH_ENABLE_SUPERVISOR_PKEYS
-	Update documentation for ARCH_ENABLE_SUPERVISOR_PKEYS
-	No need to export write_pkrs
-	Correct Kernel Doc for API functions
-	From Dan Williams
-		remove export of update_pkey_val()
-		Update documentation
-		change __clear_bit to clear_bit_unlock
-		remove cpu_feature_enabled from pks_key_free
-		remove pr_err stubs when CONFIG_HAS_SUPERVISOR_PKEYS=n
-		clarify pks_key_alloc flags parameter with enum
-	From Randy Dunlap:
-		Fix grammatical errors in doc
+> +static void __exception_irq_entry aic_handle_irq(struct pt_regs *regs)
+> +{
+> +	struct aic_irq_chip *ic = aic_irqc;
+> +	u32 event, type, irq;
+> +
+> +	do {
+> +		/*
+> +		 * We cannot use a relaxed read here, as DMA needs to be
+> +		 * ordered with respect to the IRQ firing.
+> +		 */
 
-Changes from V2
-	From Greg KH
-		Replace all WARN_ON_ONCE() uses with pr_err()
-	From Dan Williams
-		Add __must_check to pks_key_alloc() to help ensure users
-		are using the API correctly
+I think this could be a bit clearer: the readl() doesn't order any DMA
+accesses, but instead means that subsequent reads by the CPU are ordered
+(which may be from a buffer which was DMA'd to) are ordered after the
+read of the MMIO register.
 
-Changes from V1
-	Per Dave Hansen
-		Add flags to pks_key_alloc() to help future proof the
-		interface if/when the key space is exhausted.
+> +		event = readl(ic->base + AIC_EVENT);
+> +		type = FIELD_GET(AIC_EVENT_TYPE, event);
+> +		irq = FIELD_GET(AIC_EVENT_NUM, event);
+> +
+> +		if (type == AIC_EVENT_TYPE_HW)
+> +			handle_domain_irq(aic_irqc->hw_domain, irq, regs);
+> +		else if (type == AIC_EVENT_TYPE_IPI && irq == 1)
+> +			aic_handle_ipi(regs);
+> +		else if (event != 0)
+> +			pr_err("Unknown IRQ event %d, %d\n", type, irq);
+> +	} while (event);
+> +
+> +	/*
+> +	 * vGIC maintenance interrupts end up here too, so we need to check
+> +	 * for them separately. Just report and disable vGIC for now, until
+> +	 * we implement this properly.
+> +	 */
+> +	if ((read_sysreg_s(SYS_ICH_HCR_EL2) & ICH_HCR_EN) &&
+> +		read_sysreg_s(SYS_ICH_MISR_EL2) != 0) {
+> +		pr_err("vGIC IRQ fired, disabling.\n");
+> +		sysreg_clear_set_s(SYS_ICH_HCR_EL2, ICH_HCR_EN, 0);
+> +	}
 
-Changes from RFC V3
-	Per Dave Hansen
-		Put WARN_ON_ONCE in pks_key_free()
-		s/pks_mknoaccess/pks_mk_noaccess/
-		s/pks_mkread/pks_mk_readonly/
-		s/pks_mkrdwr/pks_mk_readwrite/
-		Change return pks_key_alloc() to EOPNOTSUPP when not
-			supported or configured
-	Per Peter Zijlstra
-		Remove unneeded preempt disable/enable
----
- Documentation/core-api/protection-keys.rst | 109 +++++++++++++---
- arch/x86/include/asm/pgtable_types.h       |  12 ++
- arch/x86/include/asm/pks.h                 |   4 +
- arch/x86/mm/pkeys.c                        | 137 ++++++++++++++++++++-
- include/linux/pgtable.h                    |   4 +
- include/linux/pkeys.h                      |  17 +++
- 6 files changed, 264 insertions(+), 19 deletions(-)
+What prevents all these system register accesses being speculated up before
+the handler?
 
-diff --git a/Documentation/core-api/protection-keys.rst b/Documentation/core-api/protection-keys.rst
-index ec575e72d0b2..5b1b90d8bdab 100644
---- a/Documentation/core-api/protection-keys.rst
-+++ b/Documentation/core-api/protection-keys.rst
-@@ -4,25 +4,30 @@
- Memory Protection Keys
- ======================
- 
--Memory Protection Keys for Userspace (PKU aka PKEYs) is a feature
--which is found on Intel's Skylake (and later) "Scalable Processor"
--Server CPUs. It will be available in future non-server Intel parts
--and future AMD processors.
-+Memory Protection Keys provide a mechanism for enforcing page-based
-+protections, but without requiring modification of the page tables
-+when an application changes protection domains.
- 
--For anyone wishing to test or use this feature, it is available in
--Amazon's EC2 C5 instances and is known to work there using an Ubuntu
--17.04 image.
-+PKeys Userspace (PKU) is a feature which is found on Intel's Skylake "Scalable
-+Processor" Server CPUs and later.  And it will be available in future
-+non-server Intel parts and future AMD processors.
- 
--Memory Protection Keys provides a mechanism for enforcing page-based
--protections, but without requiring modification of the page tables
--when an application changes protection domains.  It works by
--dedicating 4 previously ignored bits in each page table entry to a
--"protection key", giving 16 possible keys.
-+Protection Keys for Supervisor pages (PKS) is available in the SDM since May
-+2020.
-+
-+pkeys work by dedicating 4 previously Reserved bits in each page table entry to
-+a "protection key", giving 16 possible keys.  User and Supervisor pages are
-+treated separately.
- 
--There is also a new user-accessible register (PKRU) with two separate
--bits (Access Disable and Write Disable) for each key.  Being a CPU
--register, PKRU is inherently thread-local, potentially giving each
--thread a different set of protections from every other thread.
-+Protections for each page are controlled with per-CPU registers for each type
-+of page User and Supervisor.  Each of these 32-bit register stores two separate
-+bits (Access Disable and Write Disable) for each key.
-+
-+For Userspace the register is user-accessible (rdpkru/wrpkru).  For
-+Supervisor, the register (MSR_IA32_PKRS) is accessible only to the kernel.
-+
-+Being a CPU register, pkeys are inherently thread-local, potentially giving
-+each thread an independent set of protections from every other thread.
- 
- There are two new instructions (RDPKRU/WRPKRU) for reading and writing
- to the new register.  The feature is only available in 64-bit mode,
-@@ -30,8 +35,11 @@ even though there is theoretically space in the PAE PTEs.  These
- permissions are enforced on data access only and have no effect on
- instruction fetches.
- 
--Syscalls
--========
-+For kernel space rdmsr/wrmsr are used to access the kernel MSRs.
-+
-+
-+Syscalls for user space keys
-+============================
- 
- There are 3 system calls which directly interact with pkeys::
- 
-@@ -98,3 +106,68 @@ with a read()::
- The kernel will send a SIGSEGV in both cases, but si_code will be set
- to SEGV_PKERR when violating protection keys versus SEGV_ACCERR when
- the plain mprotect() permissions are violated.
-+
-+
-+Kernel API for PKS support
-+==========================
-+
-+Similar to user space pkeys, supervisor pkeys allow additional protections to
-+be defined for a supervisor mappings.  Unlike user space pkeys, Violations of
-+these protections result in a a kernel oops.
-+
-+The following interface is used to allocate, use, and free a pkey which defines
-+a 'protection domain' within the kernel.  Setting a pkey value in a supervisor
-+PTE adds this additional protection to the page.
-+
-+Kernel users intending to use PKS support should check (depend on)
-+ARCH_HAS_SUPERVISOR_PKEYS and add their config to ARCH_ENABLE_SUPERVISOR_PKEYS
-+to turn on this support within the core.
-+
-+        int pks_key_alloc(const char * const pkey_user);
-+        #define PAGE_KERNEL_PKEY(pkey)
-+        #define _PAGE_KEY(pkey)
-+        void pks_mk_noaccess(int pkey);
-+        void pks_mk_readonly(int pkey);
-+        void pks_mk_readwrite(int pkey);
-+        void pks_key_free(int pkey);
-+
-+pks_key_alloc() allocates keys dynamically to allow better use of the limited
-+key space.
-+
-+Callers of pks_key_alloc() _must_ be prepared for it to fail and take
-+appropriate action.  This is due mainly to the fact that PKS may not be
-+available on all arch's.  Failure to check the return of pks_key_alloc() and
-+using any of the rest of the API is undefined.
-+
-+Keys are allocated with 'No Access' permissions.  If other permissions are
-+required before the pkey is used, the pks_mk*() family of calls, documented
-+below, can be used prior to setting the pkey within the page table entries.
-+
-+Kernel users must set the pkey in the page table entries for the mappings they
-+want to protect.  This can be done with PAGE_KERNEL_PKEY() or _PAGE_KEY().
-+
-+The pks_mk*() family of calls allows kernel users to change the protections for
-+the domain identified by the pkey parameter.  3 states are available:
-+pks_mk_noaccess(), pks_mk_readonly(), and pks_mk_readwrite() which set the
-+access to none, read, and read/write respectively.
-+
-+Finally, pks_key_free() allows a user to return the key to the allocator for
-+use by others.
-+
-+The interface maintains pks_mk_noaccess() (Access Disabled (AD=1)) for all keys
-+not currently allocated.  Therefore, the user can depend on access being
-+disabled when pks_key_alloc() returns a key and the user should remove mappings
-+from the domain (remove the pkey from the PTE) prior to calling pks_key_free().
-+
-+It should be noted that the underlying WRMSR(MSR_IA32_PKRS) is not serializing
-+but still maintains ordering properties similar to WRPKRU.  Thus it is safe to
-+immediately use a mapping when the pks_mk*() functions return.
-+
-+Older versions of the SDM on PKRS may be wrong with regard to this
-+serialization.  The text should be the same as that of WRPKRU.  From the WRPKRU
-+text:
-+
-+	WRPKRU will never execute transiently. Memory accesses
-+	affected by PKRU register will not execute (even transiently)
-+	until all prior executions of WRPKRU have completed execution
-+	and updated the PKRU register.
-diff --git a/arch/x86/include/asm/pgtable_types.h b/arch/x86/include/asm/pgtable_types.h
-index f24d7ef8fffa..a3cb274351d9 100644
---- a/arch/x86/include/asm/pgtable_types.h
-+++ b/arch/x86/include/asm/pgtable_types.h
-@@ -73,6 +73,12 @@
- 			 _PAGE_PKEY_BIT2 | \
- 			 _PAGE_PKEY_BIT3)
- 
-+#ifdef CONFIG_ARCH_ENABLE_SUPERVISOR_PKEYS
-+#define _PAGE_PKEY(pkey)	(_AT(pteval_t, pkey) << _PAGE_BIT_PKEY_BIT0)
-+#else
-+#define _PAGE_PKEY(pkey)	(_AT(pteval_t, 0))
-+#endif
-+
- #if defined(CONFIG_X86_64) || defined(CONFIG_X86_PAE)
- #define _PAGE_KNL_ERRATUM_MASK (_PAGE_DIRTY | _PAGE_ACCESSED)
- #else
-@@ -228,6 +234,12 @@ enum page_cache_mode {
- #define PAGE_KERNEL_IO		__pgprot_mask(__PAGE_KERNEL_IO)
- #define PAGE_KERNEL_IO_NOCACHE	__pgprot_mask(__PAGE_KERNEL_IO_NOCACHE)
- 
-+#ifdef CONFIG_ARCH_ENABLE_SUPERVISOR_PKEYS
-+#define PAGE_KERNEL_PKEY(pkey)	__pgprot_mask(__PAGE_KERNEL | _PAGE_PKEY(pkey))
-+#else
-+#define PAGE_KERNEL_PKEY(pkey) PAGE_KERNEL
-+#endif
-+
- #endif	/* __ASSEMBLY__ */
- 
- /*         xwr */
-diff --git a/arch/x86/include/asm/pks.h b/arch/x86/include/asm/pks.h
-index bfa638e17620..4891c9aa8fc7 100644
---- a/arch/x86/include/asm/pks.h
-+++ b/arch/x86/include/asm/pks.h
-@@ -4,6 +4,10 @@
- 
- #ifdef CONFIG_ARCH_ENABLE_SUPERVISOR_PKEYS
- 
-+/*  PKS supports 16 keys. Key 0 is reserved for the kernel. */
-+#define        PKS_KERN_DEFAULT_KEY    0
-+#define        PKS_NUM_KEYS            16
-+
- struct extended_pt_regs {
- 	u32 thread_pkrs;
- 	/* Keep stack 8 byte aligned */
-diff --git a/arch/x86/mm/pkeys.c b/arch/x86/mm/pkeys.c
-index f6a3a54b8d7d..47d29707ac39 100644
---- a/arch/x86/mm/pkeys.c
-+++ b/arch/x86/mm/pkeys.c
-@@ -3,6 +3,9 @@
-  * Intel Memory Protection Keys management
-  * Copyright (c) 2015, Intel Corporation.
-  */
-+#undef pr_fmt
-+#define pr_fmt(fmt) "x86/pkeys: " fmt
-+
- #include <linux/debugfs.h>		/* debugfs_create_u32()		*/
- #include <linux/mm_types.h>             /* mm_struct, vma, etc...       */
- #include <linux/pkeys.h>                /* PKEY_*                       */
-@@ -11,6 +14,7 @@
- #include <asm/cpufeature.h>             /* boot_cpu_has, ...            */
- #include <asm/mmu_context.h>            /* vma_pkey()                   */
- #include <asm/fpu/internal.h>		/* init_fpstate			*/
-+#include <asm/pks.h>
- 
- int __execute_only_pkey(struct mm_struct *mm)
- {
-@@ -276,4 +280,135 @@ void setup_pks(void)
- 	cr4_set_bits(X86_CR4_PKS);
- }
- 
--#endif
-+/*
-+ * Do not call this directly, see pks_mk*() below.
-+ *
-+ * @pkey: Key for the domain to change
-+ * @protection: protection bits to be used
-+ *
-+ * Protection utilizes the same protection bits specified for User pkeys
-+ *     PKEY_DISABLE_ACCESS
-+ *     PKEY_DISABLE_WRITE
-+ *
-+ */
-+static inline void pks_update_protection(int pkey, unsigned long protection)
-+{
-+	current->thread.saved_pkrs = update_pkey_val(current->thread.saved_pkrs,
-+						     pkey, protection);
-+	write_pkrs(current->thread.saved_pkrs);
-+}
-+
-+/**
-+ * pks_mk_noaccess() - Disable all access to the domain
-+ * @pkey the pkey for which the access should change.
-+ *
-+ * Disable all access to the domain specified by pkey.  This is a global
-+ * update and only affects the current running thread.
-+ *
-+ * It is a bug for users to call this without a valid pkey returned from
-+ * pks_key_alloc()
-+ */
-+void pks_mk_noaccess(int pkey)
-+{
-+	pks_update_protection(pkey, PKEY_DISABLE_ACCESS);
-+}
-+EXPORT_SYMBOL_GPL(pks_mk_noaccess);
-+
-+/**
-+ * pks_mk_readonly() - Make the domain Read only
-+ * @pkey the pkey for which the access should change.
-+ *
-+ * Allow read access to the domain specified by pkey.  This is a global update
-+ * and only affects the current running thread.
-+ *
-+ * It is a bug for users to call this without a valid pkey returned from
-+ * pks_key_alloc()
-+ */
-+void pks_mk_readonly(int pkey)
-+{
-+	pks_update_protection(pkey, PKEY_DISABLE_WRITE);
-+}
-+EXPORT_SYMBOL_GPL(pks_mk_readonly);
-+
-+/**
-+ * pks_mk_readwrite() - Make the domain Read/Write
-+ * @pkey the pkey for which the access should change.
-+ *
-+ * Allow all access, read and write, to the domain specified by pkey.  This is
-+ * a global update and only affects the current running thread.
-+ *
-+ * It is a bug for users to call this without a valid pkey returned from
-+ * pks_key_alloc()
-+ */
-+void pks_mk_readwrite(int pkey)
-+{
-+	pks_update_protection(pkey, 0);
-+}
-+EXPORT_SYMBOL_GPL(pks_mk_readwrite);
-+
-+static const char pks_key_user0[] = "kernel";
-+
-+/* Store names of allocated keys for debug.  Key 0 is reserved for the kernel.  */
-+static const char *pks_key_users[PKS_NUM_KEYS] = {
-+	pks_key_user0
-+};
-+
-+/*
-+ * Each key is represented by a bit.  Bit 0 is set for key 0 and reserved for
-+ * its use.  We use ulong for the bit operations but only 16 bits are used.
-+ */
-+static unsigned long pks_key_allocation_map = 1 << PKS_KERN_DEFAULT_KEY;
-+
-+/**
-+ * pks_key_alloc() - Allocate a PKS key
-+ * @pkey_user: String stored for debugging of key exhaustion.  The caller is
-+ *             responsible to maintain this memory until pks_key_free().
-+ *
-+ * Return: pkey if success
-+ *         -EOPNOTSUPP if pks is not supported or not enabled
-+ *         -ENOSPC if no keys are available
-+ */
-+__must_check int pks_key_alloc(const char * const pkey_user)
-+{
-+	int nr;
-+
-+	if (!cpu_feature_enabled(X86_FEATURE_PKS))
-+		return -EOPNOTSUPP;
-+
-+	while (1) {
-+		nr = find_first_zero_bit(&pks_key_allocation_map, PKS_NUM_KEYS);
-+		if (nr >= PKS_NUM_KEYS) {
-+			pr_info("Cannot allocate supervisor key for %s.\n",
-+				pkey_user);
-+			return -ENOSPC;
-+		}
-+		if (!test_and_set_bit_lock(nr, &pks_key_allocation_map))
-+			break;
-+	}
-+
-+	/* for debugging key exhaustion */
-+	pks_key_users[nr] = pkey_user;
-+
-+	return nr;
-+}
-+EXPORT_SYMBOL_GPL(pks_key_alloc);
-+
-+/**
-+ * pks_key_free() - Free a previously allocate PKS key
-+ * @pkey: Key to be free'ed
-+ */
-+void pks_key_free(int pkey)
-+{
-+	if (pkey >= PKS_NUM_KEYS || pkey <= PKS_KERN_DEFAULT_KEY) {
-+		pr_err("Invalid PKey value: %d\n", pkey);
-+		return;
-+	}
-+
-+	/* Restore to default of no access */
-+	pks_mk_noaccess(pkey);
-+	pks_key_users[pkey] = NULL;
-+	clear_bit_unlock(pkey, &pks_key_allocation_map);
-+}
-+EXPORT_SYMBOL_GPL(pks_key_free);
-+
-+#endif /* CONFIG_ARCH_ENABLE_SUPERVISOR_PKEYS */
-diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-index 5e772392a379..e189e9ab6904 100644
---- a/include/linux/pgtable.h
-+++ b/include/linux/pgtable.h
-@@ -1464,6 +1464,10 @@ static inline bool arch_has_pfn_modify_check(void)
- # define PAGE_KERNEL_EXEC PAGE_KERNEL
- #endif
- 
-+#ifndef PAGE_KERNEL_PKEY
-+#define PAGE_KERNEL_PKEY(pkey) PAGE_KERNEL
-+#endif
-+
- /*
-  * Page Table Modification bits for pgtbl_mod_mask.
-  *
-diff --git a/include/linux/pkeys.h b/include/linux/pkeys.h
-index a3d17a8e4e81..6659404af876 100644
---- a/include/linux/pkeys.h
-+++ b/include/linux/pkeys.h
-@@ -56,6 +56,13 @@ static inline void copy_init_pkru_to_fpregs(void)
- void pkrs_save_set_irq(struct pt_regs *regs, u32 val);
- void pkrs_restore_irq(struct pt_regs *regs);
- 
-+__must_check int pks_key_alloc(const char *const pkey_user);
-+void pks_key_free(int pkey);
-+
-+void pks_mk_noaccess(int pkey);
-+void pks_mk_readonly(int pkey);
-+void pks_mk_readwrite(int pkey);
-+
- #else /* !CONFIG_ARCH_ENABLE_SUPERVISOR_PKEYS */
- 
- #ifndef INIT_PKRS_VALUE
-@@ -65,6 +72,16 @@ void pkrs_restore_irq(struct pt_regs *regs);
- static inline void pkrs_save_set_irq(struct pt_regs *regs, u32 val) { }
- static inline void pkrs_restore_irq(struct pt_regs *regs) { }
- 
-+static inline __must_check int pks_key_alloc(const char * const pkey_user)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static inline void pks_key_free(int pkey) {}
-+static inline void pks_mk_noaccess(int pkey) {}
-+static inline void pks_mk_readonly(int pkey) {}
-+static inline void pks_mk_readwrite(int pkey) {}
-+
- #endif /* CONFIG_ARCH_ENABLE_SUPERVISOR_PKEYS */
- 
- #endif /* _LINUX_PKEYS_H */
--- 
-2.28.0.rc0.12.gb6a658bd00c9
+> +}
+> +
+> +static int aic_irq_set_affinity(struct irq_data *d,
+> +				const struct cpumask *mask_val, bool force)
+> +{
+> +	irq_hw_number_t hwirq = irqd_to_hwirq(d);
+> +	struct aic_irq_chip *ic = irq_data_get_irq_chip_data(d);
+> +	int cpu;
+> +
+> +	if (hwirq > ic->nr_hw)
+> +		return -EINVAL;
+> +
+> +	if (force)
+> +		cpu = cpumask_first(mask_val);
+> +	else
+> +		cpu = cpumask_any_and(mask_val, cpu_online_mask);
+> +
+> +	aic_ic_write(ic, AIC_TARGET_CPU + hwirq * 4, BIT(cpu));
+> +	irq_data_update_effective_affinity(d, cpumask_of(cpu));
+> +
+> +	return IRQ_SET_MASK_OK;
+> +}
+> +
+> +static int aic_irq_set_type(struct irq_data *d, unsigned int type)
+> +{
+> +	return (type == IRQ_TYPE_LEVEL_HIGH) ? 0 : -EINVAL;
+> +}
+> +
+> +static struct irq_chip aic_chip = {
+> +	.name = "AIC",
+> +	.irq_mask = aic_irq_mask,
+> +	.irq_unmask = aic_irq_unmask,
 
+I know these are driven by the higher-level irq chip code, but I'm a bit
+confused as to what provides ordering if, e.g. something ends up calling:
+
+	aic_chip.irq_mask(d);
+	...
+	aic_chip.irq_unmask(d);
+
+I can't see any ISBs in here and they're writing to two different registers,
+so can we end up with the IRQ masked after this sequence?
+
+> +/*
+> + * IPI irqchip
+> + */
+> +
+> +static void aic_ipi_mask(struct irq_data *d)
+> +{
+> +	u32 irq_bit = BIT(irqd_to_hwirq(d));
+> +	int this_cpu = smp_processor_id();
+> +
+> +	/* No specific ordering requirements needed here. */
+> +	atomic_andnot(irq_bit, &aic_vipi_enable[this_cpu]);
+> +}
+
+Why not use a per-cpu variable here instead of an array of atomics? The pcpu
+API has things for atomic updates (e.g. or, and, xchg).
+
+> +static void aic_ipi_unmask(struct irq_data *d)
+> +{
+> +	struct aic_irq_chip *ic = irq_data_get_irq_chip_data(d);
+> +	u32 irq_bit = BIT(irqd_to_hwirq(d));
+> +	int this_cpu = smp_processor_id();
+> +
+> +	/*
+> +	 * This must complete before the atomic_read_acquire() below to avoid
+> +	 * racing aic_ipi_send_mask(). Use a dummy fetch op with release
+> +	 * semantics for this. This is arch-specific: ARMv8 B2.3.3 specifies
+> +	 * that writes with Release semantics are Barrier-ordered-before reads
+> +	 * with Acquire semantics, even though the Linux arch-independent
+> +	 * definition of these atomic ops does not.
+> +	 */
+
+I think a more idiomatic (and portable) way to do this would be to use
+the relaxed accessors, but with smp_mb__after_atomic() between them. Do you
+have a good reason for _not_ doing it like that?
+
+> +	(void)atomic_fetch_or_release(irq_bit, &aic_vipi_enable[this_cpu]);
+> +
+> +	/*
+> +	 * If a pending vIPI was unmasked, raise a HW IPI to ourselves.
+> +	 * No barriers needed here since this is a self-IPI.
+> +	 */
+> +	if (atomic_read_acquire(&aic_vipi_flag[this_cpu]) & irq_bit)
+
+"No barriers needed here" right before an acquire is confusing ;)
+
+> +		aic_ic_write(ic, AIC_IPI_SEND, AIC_IPI_SEND_CPU(this_cpu));
+> +}
+> +
+> +static void aic_ipi_send_mask(struct irq_data *d, const struct cpumask *mask)
+> +{
+> +	struct aic_irq_chip *ic = irq_data_get_irq_chip_data(d);
+> +	u32 irq_bit = BIT(irqd_to_hwirq(d));
+> +	u32 send = 0;
+> +	int cpu;
+> +	unsigned long pending;
+> +
+> +	for_each_cpu(cpu, mask) {
+> +		/*
+> +		 * This sequence is the mirror of the one in aic_ipi_unmask();
+> +		 * see the comment there. Additionally, release semantics
+> +		 * ensure that the vIPI flag set is ordered after any shared
+> +		 * memory accesses that precede it. This therefore also pairs
+> +		 * with the atomic_fetch_andnot in aic_handle_ipi().
+> +		 */
+> +		pending = atomic_fetch_or_release(irq_bit, &aic_vipi_flag[cpu]);
+
+(same here)
+
+> +		if (!(pending & irq_bit) && (atomic_read_acquire(&aic_vipi_enable[cpu]) & irq_bit))
+> +			send |= AIC_IPI_SEND_CPU(cpu);
+> +	}
+> +
+> +	/*
+> +	 * The flag writes must complete before the physical IPI is issued
+> +	 * to another CPU. This is implied by the control dependency on
+> +	 * the result of atomic_read_acquire() above, which is itself
+> +	 * already ordered after the vIPI flag write.
+> +	 */
+> +	if (send)
+> +		aic_ic_write(ic, AIC_IPI_SEND, send);
+> +}
+> +
+> +static struct irq_chip ipi_chip = {
+> +	.name = "AIC-IPI",
+> +	.irq_mask = aic_ipi_mask,
+> +	.irq_unmask = aic_ipi_unmask,
+> +	.ipi_send_mask = aic_ipi_send_mask,
+> +};
+> +
+> +/*
+> + * IPI IRQ domain
+> + */
+> +
+> +static void aic_handle_ipi(struct pt_regs *regs)
+> +{
+> +	int this_cpu = smp_processor_id();
+> +	int i;
+> +	unsigned long enabled, firing;
+> +
+> +	/*
+> +	 * Ack the IPI. We need to order this after the AIC event read, but
+> +	 * that is enforced by normal MMIO ordering guarantees.
+> +	 */
+> +	aic_ic_write(aic_irqc, AIC_IPI_ACK, AIC_IPI_OTHER);
+> +
+> +	/*
+> +	 * The mask read does not need to be ordered. Only we can change
+> +	 * our own mask anyway, so no races are possible here, as long as
+> +	 * we are properly in the interrupt handler (which is covered by
+> +	 * the barrier that is part of the top-level AIC handler's readl()).
+> +	 */
+> +	enabled = atomic_read(&aic_vipi_enable[this_cpu]);
+> +
+> +	/*
+> +	 * Clear the IPIs we are about to handle. This pairs with the
+> +	 * atomic_fetch_or_release() in aic_ipi_send_mask(), and needs to be
+> +	 * ordered after the aic_ic_write() above (to avoid dropping vIPIs) and
+> +	 * before IPI handling code (to avoid races handling vIPIs before they
+> +	 * are signaled). The former is taken care of by the release semantics
+> +	 * of the write portion, while the latter is taken care of by the
+> +	 * acquire semantics of the read portion.
+> +	 */
+> +	firing = atomic_fetch_andnot(enabled, &aic_vipi_flag[this_cpu]) & enabled;
+
+Does this also need to be ordered after the Ack? For example, if we have
+something like:
+
+CPU 0						CPU 1
+						<some other IPI>
+aic_ipi_send_mask()
+						atomic_fetch_andnot(flag)
+	atomic_fetch_or_release(flag)
+	aic_ic_write(AIC_IPI_SEND)
+						aic_ic_write(AIC_IPI_ACK)
+
+sorry if it's a stupid question, I'm just not sure about the cases in which
+the hardware will pend things for you.
+
+Will
