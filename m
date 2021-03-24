@@ -2,524 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66D78C433E1
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 02:05:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA72FC433C1
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 02:51:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DB5E61A09
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 02:05:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A052C619E1
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 02:51:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234726AbhCXCFD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 22:05:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58210 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230258AbhCXCEv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Mar 2021 22:04:51 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C63E2C061765
-        for <linux-doc@vger.kernel.org>; Tue, 23 Mar 2021 19:04:51 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id nh23-20020a17090b3657b02900c0d5e235a8so378171pjb.0
-        for <linux-doc@vger.kernel.org>; Tue, 23 Mar 2021 19:04:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=opK5mOcP2v6ZsfO/IEwfDFGjA4+Llr3EQ3BJOh7bMNU=;
-        b=f9E0MwSAsYSgkU+zWUVhfWJhxnZ1l1vhCjRpVuYETV93hOQTOs7dAl4ONX3zExIFHA
-         fLhugA7qye4X/Ezaq898JCEE42f8PwKmijaxM14BM/RkXX0GAGl3NUgmNLecJkDjC8Uk
-         7jkNVLBvOYgFWzKru0s8GIB/0jbR0C4uW6VU4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=opK5mOcP2v6ZsfO/IEwfDFGjA4+Llr3EQ3BJOh7bMNU=;
-        b=aNYuKNFWqxx75v3cZQPmCC44b5Rh0E6sVqC8zAMRFASmAFNnUVY8jVu2J+BkAn6aw1
-         LI264hn+L7jVdM37FsoMpw4jh69VUIzpXefpRBzOIGzpkXEGn7Gf1Q78e9HMFOrGkdUR
-         YP5Cp1NBsmeLdwPaKkbvZDmKfLjzKVoCHne/XVdSQ+MDz1/b2hl3kM4g3JWMI2liCLzQ
-         a1Kh/tJS+iYPzCaVxYil76CEnMMVAR1QARFgQtjKvkYyL0BfXo6Cao16eI3eWEDRClLS
-         lejW5ng3EvA+u4ZkG7PMiPycBZcsDiBb07mNTWlfalWxf3BCW38ROWws/ZyEbi8kJuxx
-         OLQA==
-X-Gm-Message-State: AOAM531CZdH5phpcFSXRrALLrKaF1YUtvrU0a3gRqNT5DqDXuYWkHwxZ
-        oPcnl1HADZ9y89k2en51n9n1pA==
-X-Google-Smtp-Source: ABdhPJzjTaJks9/LJLo4q2Cykh6B7haQX5locUwrJBGIp6afti0TzhTPAGoReWD6DNxG7wfLfPPlAw==
-X-Received: by 2002:a17:90a:516:: with SMTP id h22mr905921pjh.222.1616551491342;
-        Tue, 23 Mar 2021 19:04:51 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:202:201:84ac:62f7:16a8:ccc7])
-        by smtp.gmail.com with ESMTPSA id b3sm389441pjg.41.2021.03.23.19.04.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Mar 2021 19:04:51 -0700 (PDT)
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH v2 04/12] module: Add printk format to add module build ID to stacktraces
-Date:   Tue, 23 Mar 2021 19:04:35 -0700
-Message-Id: <20210324020443.1815557-5-swboyd@chromium.org>
-X-Mailer: git-send-email 2.31.0.291.g576ba9dcdaf-goog
-In-Reply-To: <20210324020443.1815557-1-swboyd@chromium.org>
-References: <20210324020443.1815557-1-swboyd@chromium.org>
+        id S232071AbhCXCur (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 22:50:47 -0400
+Received: from mail-eopbgr750058.outbound.protection.outlook.com ([40.107.75.58]:44691
+        "EHLO NAM02-BL2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234956AbhCXCuk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 23 Mar 2021 22:50:40 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UoUAYnBXD2cQVKYrFUBgqbBV2os4ovVZSaOHbZbBat5ePYqXDZC3tpiAUp8LankC9i3IZoa5BDwEjMtKFaMYxmPR++8Swtj0DTNJ4aXNxJk6QFsjYPxX8L2NQo1kvQSbTa9saM/uVQnE1wUJUm9EDgM1hnacJTbJ58KuhH8AT4L3+sJW1KMQgxIwvo2bgOyr3seYv5zD3Phnf9r8Ls4UKO7P5bV+Cjpl0mVwoNnwK7y+Gmq+zof+J8T0+yOEyePJKJCE6uyEj/YUBaE4y7lP5g3ZD+548HwjiaEalQIGE3MkX+Ar7AYi26ORuBdMikXJGs/5ST7UUVZdHkNO7H9TMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4iUSCOqij1JF8xUtxpJupRtRa/b2X91QPYpEWCHtDmQ=;
+ b=K6HXvRXFOnrzud+9jygVhTWADU8pN3eAWio9RlKVsytXC/ETd8z9L5fUA2kYzF7A1rbIBnHpTI3zV7eBGuGtihxF0lGKrWAAmQCLHiZ++OeYPtu5Ts2iNQiciA5+v5nTV83gI/FFtgh/KhVYslfyQfVXL/bvf4A2X+hQ5Vn4SzNMkHfRF6dyKjrjliR2RnBXbnHWxQXQeG7RggoCDH/WLnATBOki+uJThlQ6+LdCe32zpif5q/lzeCzarpJgb/7mcJPQtpyDnoWjBP25tO0oFCo1qs12qDZacEgo53eAdR5HFgDBLqUF78nSQe+y8wSy8J5LB5bmqimRZehuakimvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=kvack.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4iUSCOqij1JF8xUtxpJupRtRa/b2X91QPYpEWCHtDmQ=;
+ b=gK3zdBk/YcTV3d97wMX3QX6n7N+twqlG97pjJSNpwoDrdckD3Qxq7/+36P/vJShabDSqSvAPdlstQrcCm5PPWb9svh/B9L7QPZNTrz3Xyt3McM80X1TYqHLvG0uSP3s17he4hyVwxJPf9emDtbYwmWZlWfAhmypA/KgIwTuNhQdkJe3NrM9ylOc97b9oQKM4F3A44AV3IO17RxqW68Jr5ORMRQqsGlDqjQlX/cnMbiOgcf220YzUM4wlD1JMJl2XS8hyWFKK/HcXhGGBVx2iYbgzgrNCSyWk8PswsoO6kgt94xEnqLODgrbr5a2Zi2ZUBoHi6Ry0yjvsAMW/gcXnAw==
+Received: from BN8PR04CA0032.namprd04.prod.outlook.com (2603:10b6:408:70::45)
+ by DM5PR12MB1161.namprd12.prod.outlook.com (2603:10b6:3:73::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3955.18; Wed, 24 Mar
+ 2021 02:50:39 +0000
+Received: from BN8NAM11FT060.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:408:70:cafe::b) by BN8PR04CA0032.outlook.office365.com
+ (2603:10b6:408:70::45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.25 via Frontend
+ Transport; Wed, 24 Mar 2021 02:50:38 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; kvack.org; dkim=none (message not signed)
+ header.d=none;kvack.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ BN8NAM11FT060.mail.protection.outlook.com (10.13.177.211) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.3955.18 via Frontend Transport; Wed, 24 Mar 2021 02:50:38 +0000
+Received: from [10.2.88.242] (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 24 Mar
+ 2021 02:50:38 +0000
+Subject: Re: [PATCH 2/4] mm/doc: Fix page_maybe_dma_pinned kerneldoc
+To:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        <linux-mm@kvack.org>, Andrew Morton <akpm@linux-foundation.org>
+CC:     <linux-doc@vger.kernel.org>, Mike Rapoport <rppt@linux.ibm.com>
+References: <20210322195022.2143603-1-willy@infradead.org>
+ <20210322195022.2143603-2-willy@infradead.org>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <7c05f837-9703-001f-47d1-d07c0c700cd6@nvidia.com>
+Date:   Tue, 23 Mar 2021 19:50:38 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210322195022.2143603-2-willy@infradead.org>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 14e87ea3-3a76-49ed-370f-08d8ee6f9b66
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1161:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB11619DE812DBE4E5577F2F1CA8639@DM5PR12MB1161.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: itnx+r7mMH4gQc9/1uu9WeFY6McBWZiWT1PzpTYC4UN6+tM3kEFPX9aav0pz7cvauYnrUWliWydIddZ23aajXQggUiLaLvoa8rxNY1Pvc+Oga8+AToSTmWwVulNigkyluzWHgYcjml4q2td2wWqgQwzMaHWRV6K5UfM0hbdosdHY7LwDIN0OJChURuqjGPeyQLem3IQtpv/kYSE43AWzkPm9kdAO7+Frn8he1PPccDVf8/fLz6xYMSnTUphuiLdbtq+kAj/R+rJWryRMVFmIwgH45FO/xztwbrX7s8+UzBsxykkLQLCPPwca6akjopk6DHmd+OG0JTnnordJOvjUToU6N/qvmEmHa8EVP5dQQfUpxcZw+IMxFWhbw1zw6tQWTHWca+lwDA3Pv2ZRpO1j0Mex24CSVhDkfZolRTwjwxYoEJtiI491ddM9pqSA2Oyn0qE+jHMa3m4lEmJmZDOoaT5P3xQQM5Aq2pFr1C8tz3svKJ14wMzhbPPm8MWlB/M2eZsUHOTS17K5pQOVHC/lfyhn18ZS4UCLkqRxENbQQZvdZFBF1vNgSwGCkxLmAVj70XXvXah6dTkbTtNm9P8EPnAgpq6KoXvAOctGDZbFzzJ7KOVusYfJbe/jCjnZnY0yQKkG2owIcqNQRYhjCsn2pL9trtO4GI2jkFq85UBSgwsKPXXsYHeDp7kJ4mYEpYep
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(396003)(346002)(136003)(376002)(39860400002)(46966006)(36840700001)(70586007)(16526019)(186003)(36756003)(82310400003)(2616005)(83380400001)(36860700001)(110136005)(86362001)(70206006)(31696002)(47076005)(336012)(8676002)(36906005)(53546011)(426003)(8936002)(82740400003)(316002)(4326008)(7636003)(31686004)(16576012)(478600001)(2906002)(5660300002)(26005)(356005)(54906003)(43740500002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2021 02:50:38.7343
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 14e87ea3-3a76-49ed-370f-08d8ee6f9b66
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT060.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1161
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Let's make kernel stacktraces easier to identify by including the build
-ID[1] of a module if the stacktrace is printing a symbol from a module.
-This makes it simpler for developers to locate a kernel module's full
-debuginfo for a particular stacktrace. Combined with
-scripts/decode_stracktrace.sh, a developer can download the matching
-debuginfo from a debuginfod[2] server and find the exact file and line
-number for the functions plus offsets in a stacktrace that match the
-module. This is especially useful for pstore crash debugging where the
-kernel crashes are recorded in something like console-ramoops and the
-recovery kernel/modules are different or the debuginfo doesn't exist on
-the device due to space concerns (the debuginfo can be too large for
-space limited devices).
+On 3/22/21 12:50 PM, Matthew Wilcox (Oracle) wrote:
+> make htmldocs reports:
+> 
+> ./include/linux/mm.h:1341: warning: Excess function parameter 'Return' description in 'page_maybe_dma_pinned'
+> 
+> Fix a few other formatting nits while I'm editing this description.
+> 
+> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
+> ---
+>   include/linux/mm.h | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
 
-Originally, I put this on the %pS format, but that was quickly rejected
-given that %pS is used in other places such as ftrace where build IDs
-aren't meaningful. There was some discussions on the list to put every
-module build ID into the "Modules linked in:" section of the stacktrace
-message but that quickly becomes very hard to read once you have more
-than three or four modules linked in. It also provides too much
-information when we don't expect each module to be traversed in a
-stacktrace. Having the build ID for modules that aren't important just
-makes things messy. Splitting it to multiple lines for each module
-quickly explodes the number of lines printed in an oops too, possibly
-wrapping the warning off the console. And finally, trying to stash away
-each module used in a callstack to provide the ID of each symbol printed
-is cumbersome and would require changes to each architecture to stash
-away modules and return their build IDs once unwinding has completed.
+Looks nice, thanks for fixing this up.
 
-Instead, we opt for the simpler approach of introducing a new printk
-format '%p[sS][br]' for "pointer symbolic backtrace with module build ID"
-and then updating the few places in the architecture layer where the
-stacktrace is printed to use this new format.
+There was a slight delay, during which I re-learned that Sphinx 3 still causes
+a "nearly indefinite" delay in "make htmldocs". But eventually I got this to
+build and verified that the output made it through intact. I guess I'm grateful
+that Sphinx 3 works at all, though.
 
-Example:
+Reviewed-by: John Hubbard <jhubbard@nvidia.com>
 
- WARNING: CPU: 3 PID: 3373 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x28/0x30 [lkdtm]
- Modules linked in: lkdtm rfcomm algif_hash algif_skcipher af_alg xt_cgroup uinput xt_MASQUERADE hci_uart <modules trimmed>
- CPU: 3 PID: 3373 Comm: bash Not tainted 5.11 #12 a8c0d47f7051f3e6670ceaea724af66a39c6cec8
- Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
- pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=--)
- pc : lkdtm_WARNING+0x28/0x30 [lkdtm]
- lr : lkdtm_do_action+0x24/0x40 [lkdtm]
- sp : ffffffc013febca0
- x29: ffffffc013febca0 x28: ffffff88d9438040
- x27: 0000000000000000 x26: 0000000000000000
- x25: 0000000000000000 x24: ffffffdd0e9772c0
- x23: 0000000000000020 x22: ffffffdd0e975366
- x21: ffffffdd0e9772e0 x20: ffffffc013febde0
- x19: 0000000000000008 x18: 0000000000000000
- x17: 0000000000000000 x16: 0000000000000037
- x15: ffffffdd102ab174 x14: 0000000000000003
- x13: 0000000000000004 x12: 0000000000000000
- x11: 0000000000000000 x10: 0000000000000000
- x9 : 0000000000000001 x8 : ffffffdd0e979000
- x7 : 0000000000000000 x6 : ffffffdd10ff6b54
- x5 : 0000000000000000 x4 : 0000000000000000
- x3 : ffffffc013feb938 x2 : ffffff89fef05a70
- x1 : ffffff89feef5788 x0 : ffffffdd0e9772e0
- Call trace:
-  lkdtm_WARNING+0x28/0x30 [lkdtm 6c2215028606bda50de823490723dc4bc5bf46f9]
-  direct_entry+0x16c/0x1b4 [lkdtm 6c2215028606bda50de823490723dc4bc5bf46f9]
-  full_proxy_write+0x74/0xa4
-  vfs_write+0xec/0x2e8
-  ksys_write+0x84/0xf0
-  __arm64_sys_write+0x24/0x30
-  el0_svc_common+0xf4/0x1c0
-  do_el0_svc_compat+0x28/0x3c
-  el0_svc_compat+0x10/0x1c
-  el0_sync_compat_handler+0xa8/0xcc
-  el0_sync_compat+0x178/0x180
- ---[ end trace f89bc7f5417cbcc6 ]---
-
-Cc: Jiri Olsa <jolsa@kernel.org>
-Cc: Alexei Starovoitov <ast@kernel.org>
-Cc: Jessica Yu <jeyu@kernel.org>
-Cc: Evan Green <evgreen@chromium.org>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: <linux-doc@vger.kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>
-Link: https://fedoraproject.org/wiki/Releases/FeatureBuildId [1]
-Link: https://sourceware.org/elfutils/Debuginfod.html [2]
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
----
- Documentation/core-api/printk-formats.rst |  9 +++
- include/linux/kallsyms.h                  | 13 +++-
- include/linux/module.h                    |  6 +-
- kernel/kallsyms.c                         | 73 ++++++++++++++++-------
- kernel/module.c                           | 24 +++++++-
- lib/vsprintf.c                            |  6 +-
- 6 files changed, 106 insertions(+), 25 deletions(-)
-
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index 160e710d992f..c0844cb275eb 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -114,6 +114,15 @@ used when printing stack backtraces. The specifier takes into
- consideration the effect of compiler optimisations which may occur
- when tail-calls are used and marked with the noreturn GCC attribute.
- 
-+If the pointer is within a module, the module name and optionally build ID is
-+printed after the symbol name.
-+
-+::
-+	%pS	versatile_init+0x0/0x110 [module_name]
-+	%pSb	versatile_init+0x0/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-+	%pSr	versatile_init+0x9/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-+		(with __builtin_extract_return_addr() translation)
-+
- Probed Pointers from BPF / tracing
- ----------------------------------
- 
-diff --git a/include/linux/kallsyms.h b/include/linux/kallsyms.h
-index 465060acc981..9f489aaa4127 100644
---- a/include/linux/kallsyms.h
-+++ b/include/linux/kallsyms.h
-@@ -7,6 +7,7 @@
- #define _LINUX_KALLSYMS_H
- 
- #include <linux/errno.h>
-+#include <linux/buildid.h>
- #include <linux/kernel.h>
- #include <linux/stddef.h>
- #include <linux/mm.h>
-@@ -15,8 +16,9 @@
- #include <asm/sections.h>
- 
- #define KSYM_NAME_LEN 128
--#define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s]") + (KSYM_NAME_LEN - 1) + \
--			 2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + 1)
-+#define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s %s]") + (KSYM_NAME_LEN - 1) + \
-+			 2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + \
-+			 (BUILD_ID_SIZE_MAX * 2) + 1)
- 
- struct cred;
- struct module;
-@@ -91,6 +93,7 @@ const char *kallsyms_lookup(unsigned long addr,
- 
- /* Look up a kernel symbol and return it in a text buffer. */
- extern int sprint_symbol(char *buffer, unsigned long address);
-+extern int sprint_symbol_stacktrace(char *buffer, unsigned long address);
- extern int sprint_symbol_no_offset(char *buffer, unsigned long address);
- extern int sprint_backtrace(char *buffer, unsigned long address);
- 
-@@ -128,6 +131,12 @@ static inline int sprint_symbol(char *buffer, unsigned long addr)
- 	return 0;
- }
- 
-+static inline int sprint_symbol_stacktrace(char *buffer, unsigned long address)
-+{
-+	*buffer = '\0';
-+	return 0;
-+}
-+
- static inline int sprint_symbol_no_offset(char *buffer, unsigned long addr)
- {
- 	*buffer = '\0';
-diff --git a/include/linux/module.h b/include/linux/module.h
-index 59f094fa6f74..0d17c7eb4c8a 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -11,6 +11,7 @@
- 
- #include <linux/list.h>
- #include <linux/stat.h>
-+#include <linux/buildid.h>
- #include <linux/compiler.h>
- #include <linux/cache.h>
- #include <linux/kmod.h>
-@@ -367,6 +368,9 @@ struct module {
- 	/* Unique handle for this module */
- 	char name[MODULE_NAME_LEN];
- 
-+	/* Module build ID */
-+	unsigned char build_id[BUILD_ID_SIZE_MAX];
-+
- 	/* Sysfs stuff. */
- 	struct module_kobject mkobj;
- 	struct module_attribute *modinfo_attrs;
-@@ -630,7 +634,7 @@ void *dereference_module_function_descriptor(struct module *mod, void *ptr);
- const char *module_address_lookup(unsigned long addr,
- 			    unsigned long *symbolsize,
- 			    unsigned long *offset,
--			    char **modname,
-+			    char **modname, unsigned char **modbuildid,
- 			    char *namebuf);
- int lookup_module_symbol_name(unsigned long addr, char *symname);
- int lookup_module_symbol_attrs(unsigned long addr, unsigned long *size, unsigned long *offset, char *modname, char *name);
-diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
-index 8043a90aa50e..e77a1b6680a9 100644
---- a/kernel/kallsyms.c
-+++ b/kernel/kallsyms.c
-@@ -273,21 +273,13 @@ int kallsyms_lookup_size_offset(unsigned long addr, unsigned long *symbolsize,
- 		get_symbol_pos(addr, symbolsize, offset);
- 		return 1;
- 	}
--	return !!module_address_lookup(addr, symbolsize, offset, NULL, namebuf) ||
-+	return !!module_address_lookup(addr, symbolsize, offset, NULL, NULL, namebuf) ||
- 	       !!__bpf_address_lookup(addr, symbolsize, offset, namebuf);
- }
- 
--/*
-- * Lookup an address
-- * - modname is set to NULL if it's in the kernel.
-- * - We guarantee that the returned name is valid until we reschedule even if.
-- *   It resides in a module.
-- * - We also guarantee that modname will be valid until rescheduled.
-- */
--const char *kallsyms_lookup(unsigned long addr,
--			    unsigned long *symbolsize,
--			    unsigned long *offset,
--			    char **modname, char *namebuf)
-+const char *kallsyms_lookup_buildid(unsigned long addr, unsigned long *symbolsize,
-+				    unsigned long *offset, char **modname,
-+				    unsigned char **modbuildid, char *namebuf)
- {
- 	const char *ret;
- 
-@@ -303,12 +295,14 @@ const char *kallsyms_lookup(unsigned long addr,
- 				       namebuf, KSYM_NAME_LEN);
- 		if (modname)
- 			*modname = NULL;
-+		if (modbuildid)
-+			*modbuildid = NULL;
- 		return namebuf;
- 	}
- 
- 	/* See if it's in a module or a BPF JITed image. */
- 	ret = module_address_lookup(addr, symbolsize, offset,
--				    modname, namebuf);
-+				    modname, modbuildid, namebuf);
- 	if (!ret)
- 		ret = bpf_address_lookup(addr, symbolsize,
- 					 offset, modname, namebuf);
-@@ -319,6 +313,22 @@ const char *kallsyms_lookup(unsigned long addr,
- 	return ret;
- }
- 
-+/*
-+ * Lookup an address
-+ * - modname is set to NULL if it's in the kernel.
-+ * - We guarantee that the returned name is valid until we reschedule even if.
-+ *   It resides in a module.
-+ * - We also guarantee that modname will be valid until rescheduled.
-+ */
-+const char *kallsyms_lookup(unsigned long addr,
-+			    unsigned long *symbolsize,
-+			    unsigned long *offset,
-+			    char **modname, char *namebuf)
-+{
-+	return kallsyms_lookup_buildid(addr, symbolsize, offset, modname,
-+				       NULL, namebuf);
-+}
-+
- int lookup_symbol_name(unsigned long addr, char *symname)
- {
- 	symname[0] = '\0';
-@@ -359,15 +369,17 @@ int lookup_symbol_attrs(unsigned long addr, unsigned long *size,
- 
- /* Look up a kernel symbol and return it in a text buffer. */
- static int __sprint_symbol(char *buffer, unsigned long address,
--			   int symbol_offset, int add_offset)
-+			   int symbol_offset, int add_offset, int add_buildid)
- {
- 	char *modname;
-+	unsigned char *buildid;
- 	const char *name;
- 	unsigned long offset, size;
- 	int len;
- 
- 	address += symbol_offset;
--	name = kallsyms_lookup(address, &size, &offset, &modname, buffer);
-+	name = kallsyms_lookup_buildid(address, &size, &offset, &modname, &buildid,
-+				       buffer);
- 	if (!name)
- 		return sprintf(buffer, "0x%lx", address - symbol_offset);
- 
-@@ -379,8 +391,12 @@ static int __sprint_symbol(char *buffer, unsigned long address,
- 	if (add_offset)
- 		len += sprintf(buffer + len, "+%#lx/%#lx", offset, size);
- 
--	if (modname)
--		len += sprintf(buffer + len, " [%s]", modname);
-+	if (modname) {
-+		len += sprintf(buffer + len, " [%s", modname);
-+		if (add_buildid && buildid)
-+			len += sprintf(buffer + len, " %20phN", buildid);
-+		len += sprintf(buffer + len, "]");
-+	}
- 
- 	return len;
- }
-@@ -398,10 +414,27 @@ static int __sprint_symbol(char *buffer, unsigned long address,
-  */
- int sprint_symbol(char *buffer, unsigned long address)
- {
--	return __sprint_symbol(buffer, address, 0, 1);
-+	return __sprint_symbol(buffer, address, 0, 1, 0);
- }
- EXPORT_SYMBOL_GPL(sprint_symbol);
- 
-+/**
-+ * sprint_symbol_stacktrace - Look up a kernel symbol and return it in a text buffer
-+ * @buffer: buffer to be stored
-+ * @address: address to lookup
-+ *
-+ * This function looks up a kernel symbol with @address and stores its name,
-+ * offset, size, module name and module build ID to @buffer if possible. If no
-+ * symbol was found, just saves its @address as is.
-+ *
-+ * This function returns the number of bytes stored in @buffer.
-+ */
-+int sprint_symbol_stacktrace(char *buffer, unsigned long address)
-+{
-+	return __sprint_symbol(buffer, address, 0, 1, 1);
-+}
-+EXPORT_SYMBOL_GPL(sprint_symbol_stacktrace);
-+
- /**
-  * sprint_symbol_no_offset - Look up a kernel symbol and return it in a text buffer
-  * @buffer: buffer to be stored
-@@ -415,7 +448,7 @@ EXPORT_SYMBOL_GPL(sprint_symbol);
-  */
- int sprint_symbol_no_offset(char *buffer, unsigned long address)
- {
--	return __sprint_symbol(buffer, address, 0, 0);
-+	return __sprint_symbol(buffer, address, 0, 0, 0);
- }
- EXPORT_SYMBOL_GPL(sprint_symbol_no_offset);
- 
-@@ -435,7 +468,7 @@ EXPORT_SYMBOL_GPL(sprint_symbol_no_offset);
-  */
- int sprint_backtrace(char *buffer, unsigned long address)
- {
--	return __sprint_symbol(buffer, address, -1, 1);
-+	return __sprint_symbol(buffer, address, -1, 1, 0);
- }
- 
- /* To avoid using get_symbol_offset for every symbol, we carry prefix along. */
-diff --git a/kernel/module.c b/kernel/module.c
-index 30479355ab85..9e9cb502fb33 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -13,6 +13,7 @@
- #include <linux/trace_events.h>
- #include <linux/init.h>
- #include <linux/kallsyms.h>
-+#include <linux/buildid.h>
- #include <linux/file.h>
- #include <linux/fs.h>
- #include <linux/sysfs.h>
-@@ -2770,6 +2771,20 @@ static void add_kallsyms(struct module *mod, const struct load_info *info)
- 	}
- 	mod->core_kallsyms.num_symtab = ndst;
- }
-+
-+static void init_build_id(struct module *mod, const struct load_info *info)
-+{
-+	const Elf_Shdr *sechdr;
-+	unsigned int i;
-+
-+	for (i = 0; i < info->hdr->e_shnum; i++) {
-+		sechdr = &info->sechdrs[i];
-+		if (!sect_empty(sechdr) && sechdr->sh_type == SHT_NOTE &&
-+		    !build_id_parse_buf((void *)sechdr->sh_addr, mod->build_id,
-+					sechdr->sh_size))
-+			break;
-+	}
-+}
- #else
- static inline void layout_symtab(struct module *mod, struct load_info *info)
- {
-@@ -2778,6 +2793,10 @@ static inline void layout_symtab(struct module *mod, struct load_info *info)
- static void add_kallsyms(struct module *mod, const struct load_info *info)
- {
- }
-+
-+static void init_build_id(struct module *mod, const struct load_info *info)
-+{
-+}
- #endif /* CONFIG_KALLSYMS */
- 
- static void dynamic_debug_setup(struct module *mod, struct _ddebug *debug, unsigned int num)
-@@ -4004,6 +4023,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
- 		goto free_arch_cleanup;
- 	}
- 
-+	init_build_id(mod, info);
- 	dynamic_debug_setup(mod, info->debug, info->num_debug);
- 
- 	/* Ftrace init must be called in the MODULE_STATE_UNFORMED state */
-@@ -4235,7 +4255,7 @@ void * __weak dereference_module_function_descriptor(struct module *mod,
- const char *module_address_lookup(unsigned long addr,
- 			    unsigned long *size,
- 			    unsigned long *offset,
--			    char **modname,
-+			    char **modname, unsigned char **modbuildid,
- 			    char *namebuf)
- {
- 	const char *ret = NULL;
-@@ -4246,6 +4266,8 @@ const char *module_address_lookup(unsigned long addr,
- 	if (mod) {
- 		if (modname)
- 			*modname = mod->name;
-+		if (modbuildid)
-+			*modbuildid = mod->build_id;
- 
- 		ret = find_kallsyms_symbol(mod, addr, size, offset);
- 	}
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 41ddc353ebb8..9cd62e84e4aa 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -961,13 +961,15 @@ char *symbol_string(char *buf, char *end, void *ptr,
- 	char sym[KSYM_SYMBOL_LEN];
- #endif
- 
--	if (fmt[1] == 'R')
-+	if (fmt[1] == 'R' || fmt[1] == 'r')
- 		ptr = __builtin_extract_return_addr(ptr);
- 	value = (unsigned long)ptr;
- 
- #ifdef CONFIG_KALLSYMS
- 	if (*fmt == 'B')
- 		sprint_backtrace(sym, value);
-+	else if (*fmt == 'S' && (fmt[1] == 'b' || fmt[1] == 'r'))
-+		sprint_symbol_stacktrace(sym, value);
- 	else if (*fmt != 's')
- 		sprint_symbol(sym, value);
- 	else
-@@ -2129,6 +2131,8 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
-  * - 'S' For symbolic direct pointers (or function descriptors) with offset
-  * - 's' For symbolic direct pointers (or function descriptors) without offset
-  * - '[Ss]R' as above with __builtin_extract_return_addr() translation
-+ * - '[Ss]r' as above with __builtin_extract_return_addr() translation and module build ID
-+ * - '[Ss]b' as above with module build ID (for use in backtraces)
-  * - '[Ff]' %pf and %pF were obsoleted and later removed in favor of
-  *	    %ps and %pS. Be careful when re-using these specifiers.
-  * - 'B' For backtraced symbolic direct pointers with offset
+thanks,
 -- 
-https://chromeos.dev
+John Hubbard
+NVIDIA
+
+> 
+> diff --git a/include/linux/mm.h b/include/linux/mm.h
+> index 9c149e945bf9..96e5ceffce09 100644
+> --- a/include/linux/mm.h
+> +++ b/include/linux/mm.h
+> @@ -1273,10 +1273,11 @@ void unpin_user_page_range_dirty_lock(struct page *page, unsigned long npages,
+>   void unpin_user_pages(struct page **pages, unsigned long npages);
+>   
+>   /**
+> - * page_maybe_dma_pinned() - report if a page is pinned for DMA.
+> + * page_maybe_dma_pinned - Report if a page is pinned for DMA.
+> + * @page: The page.
+>    *
+>    * This function checks if a page has been pinned via a call to
+> - * pin_user_pages*().
+> + * a function in the pin_user_pages() family.
+>    *
+>    * For non-huge pages, the return value is partially fuzzy: false is not fuzzy,
+>    * because it means "definitely not pinned for DMA", but true means "probably
+> @@ -1294,9 +1295,8 @@ void unpin_user_pages(struct page **pages, unsigned long npages);
+>    *
+>    * For more information, please see Documentation/core-api/pin_user_pages.rst.
+>    *
+> - * @page:	pointer to page to be queried.
+> - * @Return:	True, if it is likely that the page has been "dma-pinned".
+> - *		False, if the page is definitely not dma-pinned.
+> + * Return: True, if it is likely that the page has been "dma-pinned".
+> + * False, if the page is definitely not dma-pinned.
+>    */
+>   static inline bool page_maybe_dma_pinned(struct page *page)
+>   {
+> 
+
 
