@@ -2,105 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF5C8C433E2
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 16:15:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C34FCC433C1
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 16:21:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9899061A0E
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 16:15:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9244F61A10
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 16:21:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233151AbhCXQPG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 12:15:06 -0400
-Received: from mga11.intel.com ([192.55.52.93]:57098 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230035AbhCXQOf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Mar 2021 12:14:35 -0400
-IronPort-SDR: zfGTiFEjKYvtYdtrDBg2JmPFkHkDM31AVIESN2o4IN/pF8FZLlrYnuAeT6rTbFpQSWc+CyNxmY
- nhDw2gaHwFyA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="187430914"
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="187430914"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 09:14:35 -0700
-IronPort-SDR: QSC95SEdrOKTkNAZDK+sqyjUDZsIHx2HWakvGcOAsBjSY6RfDxOQm0tHKN5ZPswqAR2wDcgFXZ
- I+y6CZWu0a8w==
-X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="391356730"
-Received: from jacob-builder.jf.intel.com (HELO jacob-builder) ([10.7.199.155])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 09:14:34 -0700
-Date:   Wed, 24 Mar 2021 09:17:01 -0700
-From:   Jacob Pan <jacob.jun.pan@intel.com>
-To:     Vipin Sharma <vipinsh@google.com>
-Cc:     tj@kernel.org, mkoutny@suse.com, rdunlap@infradead.org,
-        thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
-        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
-        frankja@linux.ibm.com, borntraeger@de.ibm.com, corbet@lwn.net,
-        seanjc@google.com, vkuznets@redhat.com, wanpengli@tencent.com,
-        jmattson@google.com, joro@8bytes.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, gingell@google.com,
-        rientjes@google.com, dionnaglaze@google.com, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Jacob Pan <jacob.jun.pan@linux.intel.com>,
-        jacob.jun.pan@intel.com
-Subject: Re: [Patch v3 1/2] cgroup: sev: Add misc cgroup controller
-Message-ID: <20210324091701.63c9ce8e@jacob-builder>
-In-Reply-To: <YFjn7wv/iMO4Isgz@google.com>
-References: <20210304231946.2766648-1-vipinsh@google.com>
-        <20210304231946.2766648-2-vipinsh@google.com>
-        <20210319142801.7dcce403@jacob-builder>
-        <YFjn7wv/iMO4Isgz@google.com>
-Organization: OTC
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S231739AbhCXQVG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 12:21:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45940 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233182AbhCXQUf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 12:20:35 -0400
+Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [IPv6:2001:1600:4:17::bc0a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 711F6C061763
+        for <linux-doc@vger.kernel.org>; Wed, 24 Mar 2021 09:20:34 -0700 (PDT)
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4F5D401XLQzMq2Qd;
+        Wed, 24 Mar 2021 17:20:32 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4F5D3w2gZgzlh8TB;
+        Wed, 24 Mar 2021 17:20:28 +0100 (CET)
+Subject: Re: [PATCH v30 12/12] landlock: Add user and kernel documentation
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
+References: <20210316204252.427806-1-mic@digikod.net>
+ <20210316204252.427806-13-mic@digikod.net> <202103191056.71AB0515A@keescook>
+ <81c76347-9e92-244f-6f32-600984a6c5cb@digikod.net>
+Message-ID: <57a2b232-f5ba-b585-da11-972845ac8067@digikod.net>
+Date:   Wed, 24 Mar 2021 17:21:07 +0100
+User-Agent: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <81c76347-9e92-244f-6f32-600984a6c5cb@digikod.net>
+Content-Type: text/plain; charset=iso-8859-15
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Vipin,
 
-On Mon, 22 Mar 2021 11:54:39 -0700, Vipin Sharma <vipinsh@google.com> wrote:
-
-> On Fri, Mar 19, 2021 at 02:28:01PM -0700, Jacob Pan wrote:
-> > On Thu,  4 Mar 2021 15:19:45 -0800, Vipin Sharma <vipinsh@google.com>
-> > wrote:  
-> > > +#ifndef _MISC_CGROUP_H_
-> > > +#define _MISC_CGROUP_H_
-> > > +  
-> > nit: should you do #include <linux/cgroup.h>?
-> > Otherwise, css may be undefined.  
+On 19/03/2021 19:54, Mickaël Salaün wrote:
 > 
-> User of this controller will use get_curernt_misc_cg() API which returns
-> a pointer. Ideally the user should use this pointer and they shouldn't
-> have any need to access "css" in their code. They also don't need to
-> create a object of 'struct misc_cg{}', because that won't be correct misc
-> cgroup object. They should just declare a pointer like we are doing here
-> in 'struct kvm_sev_info {}'.
+> On 19/03/2021 19:03, Kees Cook wrote:
+>> On Tue, Mar 16, 2021 at 09:42:52PM +0100, Mickaël Salaün wrote:
+>>> From: Mickaël Salaün <mic@linux.microsoft.com>
+[...]
+>>
+>>> [...]
+>>> +Special filesystems
+>>> +-------------------
+>>> +
+>>> +Access to regular files and directories can be restricted by Landlock,
+>>> +according to the handled accesses of a ruleset.  However, files that do not
+>>> +come from a user-visible filesystem (e.g. pipe, socket), but can still be
+>>> +accessed through /proc/self/fd/, cannot currently be restricted.  Likewise,
+>>> +some special kernel filesystems such as nsfs, which can be accessed through
+>>> +/proc/self/ns/, cannot currently be restricted.  For now, these kind of special
+>>> +paths are then always allowed.  Future Landlock evolutions will enable to
+>>> +restrict such paths with dedicated ruleset flags.
+>>
+>> With this series, can /proc (at the top level) be blocked? (i.e. can a
+>> landlock user avoid the weirdness by making /proc/$pid/ unavailable?)
 > 
-> If they do need to use "css" then they can include cgroup header in their
-> code.
-> 
-I didn't mean the users of misc_cgroup will use css directly. I meant if I
-want to use misc cgruop in ioasid.c, I have to do the following to avoid
-undefined css:
-#include <linux/cgroup.h>
-#include <linux/misc_cgroup.h>
+> /proc can be blocked, but not /proc/*/ns/* because of disconnected
+> roots. I plan to address this.
 
-So it might be simpler if you do #include <linux/cgroup.h> inside
-misc_cgroup.h. Then in ioasid.c, I only need to do
-#include <linux/misc_cgroup.h>.
-
-> Let me know if I am overlooking something here.
-> 
-> Thanks
-> Vipin Sharma
-
-
-Thanks,
-
-Jacob
+It is important to note that access to sensitive /proc files such as
+ns/* and fd/* are automatically restricted according to domain
+hierarchies. I'll add this detail to the documentation. :)
