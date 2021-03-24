@@ -2,145 +2,234 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B1BC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:39:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3FF6C433C1
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:54:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 898E7619B4
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:39:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7C914619EC
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:54:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234772AbhCXJjA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 05:39:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43092 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234676AbhCXJix (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 05:38:53 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79491C061763;
-        Wed, 24 Mar 2021 02:38:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=tlE7gowY/JQvvN3vtmtqL6YeVObw7oIr+DM32xIg/4Y=; b=XkqYGWPk0EUc5bSZ3l+Kc5nPkc
-        iCpQ2LXg/+3qkNv0scwWgEOoYOR/CaoN3QS3qVi1+mUfpEJ97L+AEidMtRlKhXyWGv+8I/BS+lNbT
-        T7ppwLh6I/8nvMItbFSjaIZaPW3q+Pq72q1cAXcTwhSzMXqKb3YoxZMp62dR+azkLVSUbBTT6NIc0
-        xk1jnCcFJS1+tW0COcVBLpBDkGhUKaiu6oliOkCAEcJ8zpm93dSjNp9PQQcxYhsqL6K12heT39tb+
-        nXtSsRhyHg3ae1gteczsIW4zstzlPhzurKJ3xkfLx8C/n+q+VfBIb9OngaB4hRKDpiw7BSoMvZkqb
-        SN895ErQ==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lOzxQ-00BCbH-AP; Wed, 24 Mar 2021 09:37:53 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 231093007CD;
-        Wed, 24 Mar 2021 10:37:43 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 049B1259421CD; Wed, 24 Mar 2021 10:37:42 +0100 (CET)
-Date:   Wed, 24 Mar 2021 10:37:42 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Josh Don <joshdon@google.com>
-Cc:     Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        David Rientjes <rientjes@google.com>,
-        Oleg Rombakh <olegrom@google.com>, linux-doc@vger.kernel.org,
-        Paul Turner <pjt@google.com>
-Subject: Re: [PATCH v2] sched: Warn on long periods of pending need_resched
-Message-ID: <YFsIZjhCFbxKyos3@hirez.programming.kicks-ass.net>
-References: <20210323035706.572953-1-joshdon@google.com>
+        id S232647AbhCXJx3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 05:53:29 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13300 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232606AbhCXJxW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 05:53:22 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12O9jFRC012057;
+        Wed, 24 Mar 2021 05:53:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=ocCPFyKvRr5NDa92QQBD8pRnFYdsyCVfW9sKZswguk0=;
+ b=tUpROK0WqJa+voAG+ENkRadSWrtkO9RAklzBs0PS3m4YmO3NEmUMQm7lopSla4ozPz/E
+ F1+oEnSdWr4PK+b5NVWAig6STRa5ILZ+Cs1zRtznQwWUJGqogNE8jOOAoGtfK5ys+8Vf
+ UuqzQTbBs7wkbONkWwQw5OKMY2/THNhT8YjzrJIfpk5R6yMeJs+aBBF0mdcyE8ov+jCm
+ yWukDX8MEoM79x8DCJBBQGsyEPHbdet8oNJO3lGqEhKUStytVaPMbXlMt1aO5vEE+J28
+ BYki4B6pJfY2WGtS1EbXkVBGOlB4R4K91mMiidSsr1aOg6eKXj+kpMsqPqzLbko5IHyu +A== 
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 37g32kr7b7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 24 Mar 2021 05:53:17 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+        by ppma04fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12O9o4DE018694;
+        Wed, 24 Mar 2021 09:53:15 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+        by ppma04fra.de.ibm.com with ESMTP id 37d9bya6jj-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 24 Mar 2021 09:53:15 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 12O9qs6x33947976
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 24 Mar 2021 09:52:54 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 5BFB152054;
+        Wed, 24 Mar 2021 09:53:12 +0000 (GMT)
+Received: from vajain21.in.ibm.com (unknown [9.77.202.127])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 62A365204E;
+        Wed, 24 Mar 2021 09:53:09 +0000 (GMT)
+Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Wed, 24 Mar 2021 15:23:08 +0530
+From:   Vaibhav Jain <vaibhav@linux.ibm.com>
+To:     Shivaprasad G Bhat <sbhat@linux.ibm.com>,
+        linuxppc-dev@lists.ozlabs.org, kvm-ppc@vger.kernel.org,
+        linux-nvdimm@lists.01.org, aneesh.kumar@linux.ibm.com,
+        ellerman@au1.ibm.com
+Cc:     sbhat@linux.vnet.ibm.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] powerpc/papr_scm: Implement support for H_SCM_FLUSH
+ hcall
+In-Reply-To: <161651910115.13873.14215644994307713797.stgit@6532096d84d3>
+References: <161651910115.13873.14215644994307713797.stgit@6532096d84d3>
+Date:   Wed, 24 Mar 2021 15:23:08 +0530
+Message-ID: <87pmzo3mkb.fsf@vajain21.in.ibm.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210323035706.572953-1-joshdon@google.com>
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-03-24_05:2021-03-24,2021-03-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1011
+ bulkscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0 mlxlogscore=999
+ adultscore=0 impostorscore=0 spamscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2103240073
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 22, 2021 at 08:57:06PM -0700, Josh Don wrote:
-> From: Paul Turner <pjt@google.com>
-> 
-> CPU scheduler marks need_resched flag to signal a schedule() on a
-> particular CPU. But, schedule() may not happen immediately in cases
-> where the current task is executing in the kernel mode (no
-> preemption state) for extended periods of time.
-> 
-> This patch adds a warn_on if need_resched is pending for more than the
-> time specified in sysctl resched_latency_warn_ms. If it goes off, it is
-> likely that there is a missing cond_resched() somewhere. Monitoring is
-> done via the tick and the accuracy is hence limited to jiffy scale. This
-> also means that we won't trigger the warning if the tick is disabled.
-> 
-> This feature is default disabled. It can be toggled on using sysctl
-> resched_latency_warn_enabled.
-> 
-> Signed-off-by: Paul Turner <pjt@google.com>
-> Signed-off-by: Josh Don <joshdon@google.com>
+
+Hi Shiva,
+
+Thanks for the patch. Few minor review comments:
+
+Shivaprasad G Bhat <sbhat@linux.ibm.com> writes:
+
+> Add support for ND_REGION_ASYNC capability if the device tree
+> indicates 'ibm,hcall-flush-required' property in the NVDIMM node.
+> Flush is done by issuing H_SCM_FLUSH hcall to the hypervisor.
+>
+> If the flush request failed, the hypervisor is expected to
+> to reflect the problem in the subsequent dimm health request call.
+s/dimm/nvdimm
+s/health request call/H_SCM_HEALTH hcall/
+
+>
+> This patch prevents mmap of namespaces with MAP_SYNC flag if the
+> nvdimm requires explicit flush[1].
+s/explicit/an explicit/
+
+>
+> References:
+> [1] https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c
+>
+> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
 > ---
-> Delta from v1:
-> - separate sysctl for enabling/disabling and triggering warn_once
->   behavior
-> - add documentation
-> - static branch for the enable
->  Documentation/admin-guide/sysctl/kernel.rst | 23 ++++++
->  include/linux/sched/sysctl.h                |  4 ++
->  kernel/sched/core.c                         | 78 ++++++++++++++++++++-
->  kernel/sched/debug.c                        | 10 +++
->  kernel/sched/sched.h                        | 10 +++
->  kernel/sysctl.c                             | 24 +++++++
->  6 files changed, 148 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-> index 1d56a6b73a4e..2d4a21d3b79f 100644
-> --- a/Documentation/admin-guide/sysctl/kernel.rst
-> +++ b/Documentation/admin-guide/sysctl/kernel.rst
-> @@ -1077,6 +1077,29 @@ ROM/Flash boot loader. Maybe to tell it what to do after
->  rebooting. ???
+> v1 - https://www.spinics.net/lists/kvm-ppc/msg18272.html
+> Changes from v1:
+>        - Hcall semantics finalized, all changes are to accomodate them.
+>
+>  Documentation/powerpc/papr_hcalls.rst     |   14 ++++++++++
+>  arch/powerpc/include/asm/hvcall.h         |    3 +-
+>  arch/powerpc/platforms/pseries/papr_scm.c |   39 +++++++++++++++++++++++++++++
+>  3 files changed, 55 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
+> index 48fcf1255a33..648f278eea8f 100644
+> --- a/Documentation/powerpc/papr_hcalls.rst
+> +++ b/Documentation/powerpc/papr_hcalls.rst
+> @@ -275,6 +275,20 @@ Health Bitmap Flags:
+>  Given a DRC Index collect the performance statistics for NVDIMM and copy them
+>  to the resultBuffer.
 >  
+> +**H_SCM_FLUSH**
+> +
+> +| Input: *drcIndex, continue-token*
+> +| Out: *continue-token*
+> +| Return Value: *H_SUCCESS, H_Parameter, H_P2, H_BUSY*
+> +
+> +Given a DRC Index Flush the data to backend NVDIMM device.
+> +
+> +The hcall returns H_BUSY when the flush takes longer time and the hcall needs
+> +to be issued multiple times in order to be completely serviced. The
+> +*continue-token* from the output to be passed in the argument list of
+> +subsequent hcalls to the hypervisor until the hcall is completely serviced
+> +at which point H_SUCCESS or other error is returned by the hypervisor.
+> +
+>  References
+>  ==========
+>  .. [1] "Power Architecture Platform Reference"
+> diff --git a/arch/powerpc/include/asm/hvcall.h b/arch/powerpc/include/asm/hvcall.h
+> index ed6086d57b22..9f7729a97ebd 100644
+> --- a/arch/powerpc/include/asm/hvcall.h
+> +++ b/arch/powerpc/include/asm/hvcall.h
+> @@ -315,7 +315,8 @@
+>  #define H_SCM_HEALTH            0x400
+>  #define H_SCM_PERFORMANCE_STATS 0x418
+>  #define H_RPT_INVALIDATE	0x448
+> -#define MAX_HCALL_OPCODE	H_RPT_INVALIDATE
+> +#define H_SCM_FLUSH		0x44C
+> +#define MAX_HCALL_OPCODE	H_SCM_FLUSH
 >  
-> +resched_latency_warn_enabled
-> +============================
+>  /* Scope args for H_SCM_UNBIND_ALL */
+>  #define H_UNBIND_SCOPE_ALL (0x1)
+> diff --git a/arch/powerpc/platforms/pseries/papr_scm.c b/arch/powerpc/platforms/pseries/papr_scm.c
+> index 835163f54244..f0407e135410 100644
+> --- a/arch/powerpc/platforms/pseries/papr_scm.c
+> +++ b/arch/powerpc/platforms/pseries/papr_scm.c
+> @@ -93,6 +93,7 @@ struct papr_scm_priv {
+>  	uint64_t block_size;
+>  	int metadata_size;
+>  	bool is_volatile;
+> +	bool hcall_flush_required;
+>  
+>  	uint64_t bound_addr;
+>  
+> @@ -117,6 +118,38 @@ struct papr_scm_priv {
+>  	size_t stat_buffer_len;
+>  };
+>  
+> +static int papr_scm_pmem_flush(struct nd_region *nd_region,
+> +			       struct bio *bio __maybe_unused)
+> +{
+> +	struct papr_scm_priv *p = nd_region_provider_data(nd_region);
+> +	unsigned long ret_buf[PLPAR_HCALL_BUFSIZE];
+> +	uint64_t token = 0;
+> +	int64_t rc;
 > +
-> +Enables/disables a warning that will trigger if need_resched is set for
-> +longer than sysctl ``resched_latency_warn_ms``. This warning likely
-> +indicates a kernel bug, such as a failure to call cond_resched().
+Suggest adding a dev_dbg to to indicate a flush request to a drc. That
+way if the loop below gets stuck the issue can be debugged with kernel
+logs.
+> +	do {
+> +		rc = plpar_hcall(H_SCM_FLUSH, ret_buf, p->drc_index, token);
+> +		token = ret_buf[0];
 > +
-> +Requires ``CONFIG_SCHED_DEBUG``.
+> +		/* Check if we are stalled for some time */
+> +		if (H_IS_LONG_BUSY(rc)) {
+> +			msleep(get_longbusy_msecs(rc));
+> +			rc = H_BUSY;
+> +		} else if (rc == H_BUSY) {
+> +			cond_resched();
+> +		}
 > +
+> +	} while (rc == H_BUSY);
 > +
-> +resched_latency_warn_ms
-> +=======================
+> +	if (rc) {
+> +		dev_err(&p->pdev->dev, "flush error: %lld", rc);
+> +		rc = -EIO;
+> +	} else {
+> +		dev_dbg(&p->pdev->dev, "flush drc 0x%x complete", p->drc_index);
+> +	}
 > +
-> +See ``resched_latency_warn_enabled``.
+> +	return rc;
+> +}
 > +
+>  static LIST_HEAD(papr_nd_regions);
+>  static DEFINE_MUTEX(papr_ndr_lock);
+>  
+> @@ -943,6 +976,11 @@ static int papr_scm_nvdimm_init(struct papr_scm_priv *p)
+>  	ndr_desc.num_mappings = 1;
+>  	ndr_desc.nd_set = &p->nd_set;
+>  
+> +	if (p->hcall_flush_required) {
+> +		set_bit(ND_REGION_ASYNC, &ndr_desc.flags);
+> +		ndr_desc.flush = papr_scm_pmem_flush;
+> +	}
 > +
-> +resched_latency_warn_once
-> +=========================
-> +
-> +If set, ``resched_latency_warn_enabled`` will only trigger one warning
-> +per boot.
-> +
-> +
->  sched_energy_aware
->  ==================
+>  	if (p->is_volatile)
+>  		p->region = nvdimm_volatile_region_create(p->bus, &ndr_desc);
+>  	else {
+> @@ -1088,6 +1126,7 @@ static int papr_scm_probe(struct platform_device *pdev)
+>  	p->block_size = block_size;
+>  	p->blocks = blocks;
+>  	p->is_volatile = !of_property_read_bool(dn, "ibm,cache-flush-required");
+> +	p->hcall_flush_required = of_property_read_bool(dn, "ibm,hcall-flush-required");
+>  
+>  	/* We just need to ensure that set cookies are unique across */
+>  	uuid_parse(uuid_str, (uuid_t *) uuid);
+>
+>
 
-Should we perhaps take out all SCHED_DEBUG sysctls and move them to
-/debug/sched/ ? (along with the existing /debug/sched_{debug,features,preemp}
-files)
-
-Having all that in sysctl and documented gives them far too much sheen
-of ABI.
-
-Not saying this patch should do that, just as a general observation.
+-- 
+Cheers
+~ Vaibhav
