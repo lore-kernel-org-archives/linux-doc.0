@@ -2,89 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA2F1C433C1
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 17:13:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F396FC433C1
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 17:48:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9483961A1B
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 17:13:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C085161A20
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 17:48:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236672AbhCXRMz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 13:12:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57366 "EHLO
+        id S237209AbhCXRsE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 13:48:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36856 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237143AbhCXRMj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 13:12:39 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EEE9C061763;
-        Wed, 24 Mar 2021 10:12:38 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 4156A380;
-        Wed, 24 Mar 2021 17:12:38 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4156A380
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1616605958; bh=BlmsETjY3d55KM0BBCtU0LhNFCRLCNUIeVyS6+Soa88=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=VeiE2kfViAVhaef6m1712dyj5J7l5sbH2WPyqgc+Z04ilYKfeL/tUXhqtx4IE3KN3
-         TcU1gsha0XOc7QparWNJNtX/6z2TBzyWJJxwgZhWzB0tFJI/YgYPR72mtw7jJDqmfp
-         kNRM38dr4NuBy/q3LcBh0J6aS3wUqiQ2e3ACgNMxAUCJHyLB0ey2e7l7dVtZt/acxt
-         rofNYG5pXW7FKD0BzTUiy1u2ifjapG1Fc8bLPDRGF4qevL92gZfnD+lydeXcOmOXtQ
-         3wiC7bBPNkZT/94Jkgf9K2BeQ6vwTcnGF16PA7lfn7e2b0dFCl0YvU5+HKcey6Rgsr
-         cKn7D4vH2xrrA==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Finn Behrens <me@kloenk.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        linux-kernel@vger.kernel.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] script: get_abi.pl: escape "<" and ">" characters
-In-Reply-To: <e02449ee86d89cd45313627b52500a6892ea37ae.1616605512.git.mchehab+huawei@kernel.org>
-References: <20210317142238.228fb1e8@coco.lan>
- <e02449ee86d89cd45313627b52500a6892ea37ae.1616605512.git.mchehab+huawei@kernel.org>
-Date:   Wed, 24 Mar 2021 11:12:37 -0600
-Message-ID: <87sg4kcw6y.fsf@meer.lwn.net>
+        with ESMTP id S237048AbhCXRrm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 13:47:42 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 347B1C061763;
+        Wed, 24 Mar 2021 10:47:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description;
+        bh=Fe2Ntedj1fEygPskrv8dOfCakXuESrZ2efaZ4udfr00=; b=Nz9W58huRMptcMqar1qWusPP8x
+        WbBiSxSxCx7r3sRMO79QKM/JJ9tIdVyagEAoHazgqR+LVnZKbD7S5wbP+uxVNcEX5VzTL01rfBWB+
+        5y31FiAhfLQK8yFBx3D2xRspfc1TIKkGEc58z1rLY7dfQkpF7XbsO+QyX8e5EgYj3zc295QDVNcxn
+        SvZW6ZyhGstCjL88jh8fKrqqdATFODyGaKuoDmsDHMF/oesZJIIKRSPKeTehz+BZHdSUJl9Z8Qo5H
+        Cz3HUPRMThpLUJko3I4+gokI3QcpyzPvXABQXDSd4mWdlYpjM/ajH5g47qA2E4QrYCadGsYGggWVu
+        4Xjdy3Vw==;
+Received: from [2601:1c0:6280:3f0::3ba4]
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lP7aI-00BeGN-Jz; Wed, 24 Mar 2021 17:46:30 +0000
+Subject: Re: [PATCH] docs: rbtree.rst: Fix a typo
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, corbet@lwn.net,
+        walken@google.com, grandmaster@al2klimov.de, willy@infradead.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210324080046.20709-1-unixbhaskar@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <5ea2fe0d-1013-d526-b3d4-47fdcfa8f396@infradead.org>
+Date:   Wed, 24 Mar 2021 10:46:19 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20210324080046.20709-1-unixbhaskar@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On 3/24/21 1:00 AM, Bhaskar Chowdhury wrote:
+> 
+> s/maintanence/maintenance/
+> 
+> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 
-> After merging the akpm-current tree, today's linux-next build (htmldocs)
-> produced this warning:
->
-> 	Documentation/ABI/testing/sysfs-kernel-mm-cma:2: WARNING: Inline interpreted text or phrase reference start-string without end-string.
->
-> Introduced by commit 439d477342a3 ("mm: cma: support sysfs")
->
-> As pointed by Jonathan, the problem is this text in
-> sysfs-kernel-mm-cma:
->
-> 	Each CMA heap subdirectory (that is, each
-> 	/sys/kernel/mm/cma/<cma-heap-name> directory) contains the
-> 	following items:
->
-> Is not parsed well, becase the major/minor signs need to be
-> escaped, when converted into cross-references.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Sorry, I kind of dropped the ball on this, and everything else really; a
-bit of a challenging time here.
+> ---
+>  Documentation/core-api/rbtree.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/core-api/rbtree.rst b/Documentation/core-api/rbtree.rst
+> index 6b88837fbf82..ed1a9fbc779e 100644
+> --- a/Documentation/core-api/rbtree.rst
+> +++ b/Documentation/core-api/rbtree.rst
+> @@ -201,7 +201,7 @@ search trees, such as for traversals or users relying on a the particular
+>  order for their own logic. To this end, users can use 'struct rb_root_cached'
+>  to optimize O(logN) rb_first() calls to a simple pointer fetch avoiding
+>  potentially expensive tree iterations. This is done at negligible runtime
+> -overhead for maintanence; albeit larger memory footprint.
+> +overhead for maintenance; albeit larger memory footprint.
+> 
+>  Similar to the rb_root structure, cached rbtrees are initialized to be
+>  empty via::
+> --
 
-This makes the warning go away, but I have to wonder if it's the right
-fix - wouldn't it be better to avoid trying to create a cross-reference
-entirely in cases where it clearly won't work?  Or am I missing
-something here?
 
-Thanks,
+-- 
+~Randy
 
-jon
