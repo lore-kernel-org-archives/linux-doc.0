@@ -2,87 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BB75C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:31:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15B1BC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:39:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E5E0061A09
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:31:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 898E7619B4
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:39:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234915AbhCXJbV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 05:31:21 -0400
-Received: from out30-57.freemail.mail.aliyun.com ([115.124.30.57]:39240 "EHLO
-        out30-57.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234914AbhCXJbR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 05:31:17 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04426;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=21;SR=0;TI=SMTPD_---0UT9xWcp_1616578271;
-Received: from B-455UMD6M-2027.local(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0UT9xWcp_1616578271)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Wed, 24 Mar 2021 17:31:12 +0800
-Subject: Re: [PATCH] init/Kconfig: Support sign module with SM3 hash algorithm
-To:     Ard Biesheuvel <ardb@kernel.org>
-Cc:     David Howells <dhowells@redhat.com>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Nathan Chancellor <nathan@kernel.org>,
+        id S234772AbhCXJjA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 05:39:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43092 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234676AbhCXJix (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 05:38:53 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79491C061763;
+        Wed, 24 Mar 2021 02:38:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=tlE7gowY/JQvvN3vtmtqL6YeVObw7oIr+DM32xIg/4Y=; b=XkqYGWPk0EUc5bSZ3l+Kc5nPkc
+        iCpQ2LXg/+3qkNv0scwWgEOoYOR/CaoN3QS3qVi1+mUfpEJ97L+AEidMtRlKhXyWGv+8I/BS+lNbT
+        T7ppwLh6I/8nvMItbFSjaIZaPW3q+Pq72q1cAXcTwhSzMXqKb3YoxZMp62dR+azkLVSUbBTT6NIc0
+        xk1jnCcFJS1+tW0COcVBLpBDkGhUKaiu6oliOkCAEcJ8zpm93dSjNp9PQQcxYhsqL6K12heT39tb+
+        nXtSsRhyHg3ae1gteczsIW4zstzlPhzurKJ3xkfLx8C/n+q+VfBIb9OngaB4hRKDpiw7BSoMvZkqb
+        SN895ErQ==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lOzxQ-00BCbH-AP; Wed, 24 Mar 2021 09:37:53 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 231093007CD;
+        Wed, 24 Mar 2021 10:37:43 +0100 (CET)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 049B1259421CD; Wed, 24 Mar 2021 10:37:42 +0100 (CET)
+Date:   Wed, 24 Mar 2021 10:37:42 +0100
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Josh Don <joshdon@google.com>
+Cc:     Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Valentin Schneider <valentin.schneider@arm.com>,
-        Nick Terrell <terrelln@fb.com>, KP Singh <kpsingh@google.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        Vlastimil Babka <vbabka@suse.cz>, keyrings@vger.kernel.org,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        Jia Zhang <zhang.jia@linux.alibaba.com>
-References: <20210323083528.25678-1-tianjia.zhang@linux.alibaba.com>
- <CAMj1kXE5x82SZUvo9=hjjE=Z9QrzggzfvBHbjaaGExRfQ8PDxw@mail.gmail.com>
-From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-Message-ID: <5777cfde-dbfd-bc25-3936-2e964b8e85be@linux.alibaba.com>
-Date:   Wed, 24 Mar 2021 17:31:11 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.1
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        David Rientjes <rientjes@google.com>,
+        Oleg Rombakh <olegrom@google.com>, linux-doc@vger.kernel.org,
+        Paul Turner <pjt@google.com>
+Subject: Re: [PATCH v2] sched: Warn on long periods of pending need_resched
+Message-ID: <YFsIZjhCFbxKyos3@hirez.programming.kicks-ass.net>
+References: <20210323035706.572953-1-joshdon@google.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMj1kXE5x82SZUvo9=hjjE=Z9QrzggzfvBHbjaaGExRfQ8PDxw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210323035706.572953-1-joshdon@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+On Mon, Mar 22, 2021 at 08:57:06PM -0700, Josh Don wrote:
+> From: Paul Turner <pjt@google.com>
+> 
+> CPU scheduler marks need_resched flag to signal a schedule() on a
+> particular CPU. But, schedule() may not happen immediately in cases
+> where the current task is executing in the kernel mode (no
+> preemption state) for extended periods of time.
+> 
+> This patch adds a warn_on if need_resched is pending for more than the
+> time specified in sysctl resched_latency_warn_ms. If it goes off, it is
+> likely that there is a missing cond_resched() somewhere. Monitoring is
+> done via the tick and the accuracy is hence limited to jiffy scale. This
+> also means that we won't trigger the warning if the tick is disabled.
+> 
+> This feature is default disabled. It can be toggled on using sysctl
+> resched_latency_warn_enabled.
+> 
+> Signed-off-by: Paul Turner <pjt@google.com>
+> Signed-off-by: Josh Don <joshdon@google.com>
+> ---
+> Delta from v1:
+> - separate sysctl for enabling/disabling and triggering warn_once
+>   behavior
+> - add documentation
+> - static branch for the enable
+>  Documentation/admin-guide/sysctl/kernel.rst | 23 ++++++
+>  include/linux/sched/sysctl.h                |  4 ++
+>  kernel/sched/core.c                         | 78 ++++++++++++++++++++-
+>  kernel/sched/debug.c                        | 10 +++
+>  kernel/sched/sched.h                        | 10 +++
+>  kernel/sysctl.c                             | 24 +++++++
+>  6 files changed, 148 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
+> index 1d56a6b73a4e..2d4a21d3b79f 100644
+> --- a/Documentation/admin-guide/sysctl/kernel.rst
+> +++ b/Documentation/admin-guide/sysctl/kernel.rst
+> @@ -1077,6 +1077,29 @@ ROM/Flash boot loader. Maybe to tell it what to do after
+>  rebooting. ???
+>  
+>  
+> +resched_latency_warn_enabled
+> +============================
+> +
+> +Enables/disables a warning that will trigger if need_resched is set for
+> +longer than sysctl ``resched_latency_warn_ms``. This warning likely
+> +indicates a kernel bug, such as a failure to call cond_resched().
+> +
+> +Requires ``CONFIG_SCHED_DEBUG``.
+> +
+> +
+> +resched_latency_warn_ms
+> +=======================
+> +
+> +See ``resched_latency_warn_enabled``.
+> +
+> +
+> +resched_latency_warn_once
+> +=========================
+> +
+> +If set, ``resched_latency_warn_enabled`` will only trigger one warning
+> +per boot.
+> +
+> +
+>  sched_energy_aware
+>  ==================
 
-On 3/24/21 6:14 AM, Ard Biesheuvel wrote:
-> On Tue, 23 Mar 2021 at 09:36, Tianjia Zhang
-> <tianjia.zhang@linux.alibaba.com> wrote:
->>
->> The kernel module signature supports the option to use the SM3
->> secure hash (OSCCA GM/T 0004-2012 SM3).
->>
->> Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
-> 
-> A secure hash is not the same as a signature. Looking at the patch,
-> the asymmetric algorithm that is used to sign the SM3 digest is SM2,
-> is that correct? How does one create such signed modules?
-> 
-> In any case, please provide more context in the commit log on how this
-> is intended to be used.
-> 
-> 
+Should we perhaps take out all SCHED_DEBUG sysctls and move them to
+/debug/sched/ ? (along with the existing /debug/sched_{debug,features,preemp}
+files)
 
-Sorry for the trouble you have caused. You are right. SM2 and SM3 always 
-appear in pairs. The former is used for signatures and the latter is 
-used for hashing algorithms. I will add this information in the next 
-version. It seems This is more appropriate to split into two patches.
+Having all that in sysctl and documented gives them far too much sheen
+of ABI.
 
-Best regards,
-Tianjia
+Not saying this patch should do that, just as a general observation.
