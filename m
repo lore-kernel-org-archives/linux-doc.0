@@ -2,168 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BBE8C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:25:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD537C433C1
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:27:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CA1561A10
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:25:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B92361A0A
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:27:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232156AbhCXJZZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 05:25:25 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56252 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232107AbhCXJZX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Mar 2021 05:25:23 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8946C61A03;
-        Wed, 24 Mar 2021 09:25:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1616577923;
-        bh=O0a1n/S9dOJwgzqzEYVtbF/EMLMwvmSvIJcKg0dHGk4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SZe2UqDgmE3mBmxzcopgzJJ/qqPsLzWARBLPVf5MxeJY+HBk4VzFOeTC3U4sHVguB
-         ZtYeUb5lqzxc7elP6qQQDU1ioSU8klOHkVDoUUlkOWFKYEe6FxHmcjni6UrYOprkmr
-         A4zxm87IqwXlmv/Mihcfc2FclrfYiH3NPK6NWaS0=
-Date:   Wed, 24 Mar 2021 10:25:20 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S234713AbhCXJ0b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 05:26:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40386 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234742AbhCXJ0Z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 05:26:25 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E7F3C0613DE
+        for <linux-doc@vger.kernel.org>; Wed, 24 Mar 2021 02:26:25 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <a.fatoum@pengutronix.de>)
+        id 1lOzmP-0001bV-VY; Wed, 24 Mar 2021 10:26:22 +0100
+Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
+ CAAM-based trusted keys
+To:     Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?Q?Horia_Geant=c4=83?= <horia.geanta@nxp.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>
-Subject: Re: [PATCH v6 1/5] misc: Add Synopsys DesignWare xData IP driver
-Message-ID: <YFsFgO4Z+2E7VLN/@kroah.com>
-References: <cover.1613150798.git.gustavo.pimentel@synopsys.com>
- <724f5d30e3a9b86448df7e32fb5ed1e814416368.1613150798.git.gustavo.pimentel@synopsys.com>
- <YFnmVEB86JcAENcN@kroah.com>
- <DM5PR12MB18355EDB515CE57C38ECF6D4DA639@DM5PR12MB1835.namprd12.prod.outlook.com>
+        David Howells <dhowells@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        James Bottomley <jejb@linux.ibm.com>
+Cc:     "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Aymen Sghaier <aymen.sghaier@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Udit Agarwal <udit.agarwal@nxp.com>,
+        Jan Luebbe <j.luebbe@pengutronix.de>,
+        David Gstir <david@sigma-star.at>,
+        Franck Lenormand <franck.lenormand@nxp.com>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>
+References: <cover.56fff82362af6228372ea82e6bd7e586e23f0966.1615914058.git-series.a.fatoum@pengutronix.de>
+ <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
+ <01e6e13d-2968-0aa5-c4c8-7458b7bde462@nxp.com>
+ <45a9e159-2dcb-85bf-02bd-2993d50b5748@pengutronix.de>
+ <f9c0087d299be1b9b91b242f41ac6ef7b9ee3ef7.camel@linux.ibm.com>
+From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
+Message-ID: <63dd7d4b-4729-9e03-cd8f-956b94eab0d9@pengutronix.de>
+Date:   Wed, 24 Mar 2021 10:26:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM5PR12MB18355EDB515CE57C38ECF6D4DA639@DM5PR12MB1835.namprd12.prod.outlook.com>
+In-Reply-To: <f9c0087d299be1b9b91b242f41ac6ef7b9ee3ef7.camel@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 24, 2021 at 09:15:46AM +0000, Gustavo Pimentel wrote:
-> Hi Greg,
+Hello Mimi,
+
+On 23.03.21 19:07, Mimi Zohar wrote:
+> On Tue, 2021-03-23 at 17:35 +0100, Ahmad Fatoum wrote:
+>> On 21.03.21 21:48, Horia Geantă wrote:
+>>> caam has random number generation capabilities, so it's worth using that
+>>> by implementing .get_random.
+>>
+>> If the CAAM HWRNG is already seeding the kernel RNG, why not use the kernel's?
+>>
+>> Makes for less code duplication IMO.
 > 
-> On Tue, Mar 23, 2021 at 13:0:4, Greg Kroah-Hartman 
-> <gregkh@linuxfoundation.org> wrote:
+> Using kernel RNG, in general, for trusted keys has been discussed
+> before.   Please refer to Dave Safford's detailed explanation for not
+> using it [1].
+
+The argument seems to boil down to:
+
+ - TPM RNG are known to be of good quality
+ - Trusted keys always used it so far
+
+Both are fine by me for TPMs, but the CAAM backend is new code and neither point
+really applies.
+
+get_random_bytes_wait is already used for generating key material elsewhere.
+Why shouldn't new trusted key backends be able to do the same thing?
+
+Cheers,
+Ahmad
+
 > 
-> > On Fri, Feb 12, 2021 at 06:28:03PM +0100, Gustavo Pimentel wrote:
-> > > +static const struct attribute_group xdata_attr_group = {
-> > > +	.attrs = default_attrs,
-> > > +	.name = DW_XDATA_DRIVER_NAME,
-> > > +};
-> > 
-> > ATTRIBUTE_GROUPS()?
+> thanks,
 > 
-> Nicely catched!
+> Mimi
 > 
-> > 
-> > > +static int dw_xdata_pcie_probe(struct pci_dev *pdev,
-> > > +			       const struct pci_device_id *pid)
-> > > +{
-> > > +	const struct dw_xdata_pcie_data *pdata = (void *)pid->driver_data;
-> > > +	struct dw_xdata *dw;
-> > > +	u64 addr;
-> > > +	int err;
-> > > +
-> > > +	/* Enable PCI device */
-> > > +	err = pcim_enable_device(pdev);
-> > > +	if (err) {
-> > > +		pci_err(pdev, "enabling device failed\n");
-> > > +		return err;
-> > > +	}
-> > > +
-> > > +	/* Mapping PCI BAR regions */
-> > > +	err = pcim_iomap_regions(pdev, BIT(pdata->rg_bar), pci_name(pdev));
-> > > +	if (err) {
-> > > +		pci_err(pdev, "xData BAR I/O remapping failed\n");
-> > > +		return err;
-> > > +	}
-> > > +
-> > > +	pci_set_master(pdev);
-> > > +
-> > > +	/* Allocate memory */
-> > > +	dw = devm_kzalloc(&pdev->dev, sizeof(*dw), GFP_KERNEL);
-> > > +	if (!dw)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	/* Data structure initialization */
-> > > +	mutex_init(&dw->mutex);
-> > > +
-> > > +	dw->rg_region.vaddr = pcim_iomap_table(pdev)[pdata->rg_bar];
-> > > +	if (!dw->rg_region.vaddr)
-> > > +		return -ENOMEM;
-> > > +
-> > > +	dw->rg_region.vaddr += pdata->rg_off;
-> > > +	dw->rg_region.paddr = pdev->resource[pdata->rg_bar].start;
-> > > +	dw->rg_region.paddr += pdata->rg_off;
-> > > +	dw->rg_region.sz = pdata->rg_sz;
-> > > +
-> > > +	dw->max_wr_len = pcie_get_mps(pdev);
-> > > +	dw->max_wr_len >>= 2;
-> > > +
-> > > +	dw->max_rd_len = pcie_get_readrq(pdev);
-> > > +	dw->max_rd_len >>= 2;
-> > > +
-> > > +	dw->pdev = pdev;
-> > > +
-> > > +	writel(0x0, &(__dw_regs(dw)->RAM_addr));
-> > > +	writel(0x0, &(__dw_regs(dw)->RAM_port));
-> > > +
-> > > +	addr = dw->rg_region.paddr + DW_XDATA_EP_MEM_OFFSET;
-> > > +	writel(lower_32_bits(addr), &(__dw_regs(dw)->addr_lsb));
-> > > +	writel(upper_32_bits(addr), &(__dw_regs(dw)->addr_msb));
-> > > +	pci_dbg(pdev, "xData: target address = 0x%.16llx\n", addr);
-> > > +
-> > > +	pci_dbg(pdev, "xData: wr_len=%zu, rd_len=%zu\n",
-> > > +		dw->max_wr_len * 4, dw->max_rd_len * 4);
-> > > +
-> > > +	/* Saving data structure reference */
-> > > +	pci_set_drvdata(pdev, dw);
-> > > +
-> > > +	/* Sysfs */
-> > > +	err = sysfs_create_group(&pdev->dev.kobj, &xdata_attr_group);
-> > 
-> > You just raced with userspace and lost :(
-> > 
-> > Have the driver core properly create/remove your sysfs files, set the
-> > default groups pointer in your driver and all will be fine.
+> [1] 
+> https://lore.kernel.org/linux-integrity/BCA04D5D9A3B764C9B7405BBA4D4A3C035F2A38B@ALPMBAPA12.e2k.ad.ge.com/
+>  
 > 
-> I've gone around and around, searched in other drivers, but I'm not 
-> understanding your PoV or what I should do. Can you throw me a bone here?
-> I'm starting to pull my hair off, lol
+> 
 
-Set the dev_groups field of the struct device_driver in your pci driver
-structure and all should be fine.
-
-But wait, why are you adding attributes to a pci device and not your
-"own" device?  You should make a sub-device for this device-specific
-things, otherwise it will be impossible to find these types of
-attributes anywhere in sysfs.
-
-> I would like to ask you about something, it's you the maintainer of misc 
-> drivers right?
-
-MAINTAINERS shows this so I guess it must be true...
-
-> After fixing this issue, does this driver have a chance to be pulled on 
-> 5.13?
-
-No idea, I do not promise anything :)
-
-thanks,
-
-greg k-h
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
