@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D412FC433E8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 96005C433E3
 	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 15:08:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8C7E61A0F
+	by mail.kernel.org (Postfix) with ESMTP id 84BAD61A1F
 	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 15:08:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236476AbhCXPH4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 11:07:56 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:47196 "EHLO loongson.cn"
+        id S236493AbhCXPHz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 11:07:55 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:47180 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236478AbhCXPHr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S236476AbhCXPHr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 24 Mar 2021 11:07:47 -0400
 Received: from LAPTOP-O8VTVVS6.localdomain (unknown [153.37.224.188])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxU+C1VVtgilQAAA--.1175S9;
-        Wed, 24 Mar 2021 23:07:44 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxU+C1VVtgilQAAA--.1175S8;
+        Wed, 24 Mar 2021 23:07:43 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
@@ -30,19 +30,19 @@ Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
         Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, siyanteng01@gmail.com,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH 7/8] docs/zh_CN: add iio to zh_CN index
-Date:   Wed, 24 Mar 2021 23:07:30 +0800
-Message-Id: <20210324150731.4512-8-siyanteng@loongson.cn>
+Subject: [PATCH 6/8] docs/zh_CN: add mips to zh_CN index
+Date:   Wed, 24 Mar 2021 23:07:29 +0800
+Message-Id: <20210324150731.4512-7-siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210324150731.4512-1-siyanteng@loongson.cn>
 References: <20210324150731.4512-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9CxU+C1VVtgilQAAA--.1175S9
-X-Coremail-Antispam: 1UD129KBjvdXoW5KryxKF1UtFWDGrW7AF13Jwb_yoWxWrX_Ca
-        s3XF4vvFy3tFyIqF4rur18Jr1FvFWxKr1UCrn8ta98G347G398Gw1DWrykZF4DWFW3ury5
-        CrZ5Zr1rXrnrKjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID: AQAAf9CxU+C1VVtgilQAAA--.1175S8
+X-Coremail-Antispam: 1UD129KBjvdXoWrXF17uFy3Cr1ktFy7CrWfZrb_yoWxWFg_Aa
+        s7XF4kZry3JFyIqr4rZr1rJr10vFWxKw4UGr98ta98G343Jws8Gw4DWrZ5ZF4DWFW3ury5
+        CrWkZr1rXrnrKjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
         9fnUUIcSsGvfJTRUUUbhkFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
         6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
         IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
@@ -61,7 +61,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-All the files in the iio directory have been translated into
+All the files in the mips directory have been translated into
 Chinese and it is time to add them to the zh_CN index.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
@@ -70,14 +70,14 @@ Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
  1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index 16641203dc88..51c50f319487 100644
+index cd55c1aea604..16641203dc88 100644
 --- a/Documentation/translations/zh_CN/index.rst
 +++ b/Documentation/translations/zh_CN/index.rst
-@@ -23,6 +23,7 @@
+@@ -22,6 +22,7 @@
+    arm64/index
     sound/index
     cpu-freq/index
-    mips/index
-+   iio/index
++   mips/index
  
  目录和表格
  ----------
