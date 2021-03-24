@@ -2,234 +2,172 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3FF6C433C1
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:54:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6847C433C1
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:57:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C914619EC
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:54:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 876C3619EC
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 09:57:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232647AbhCXJx3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 05:53:29 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:13300 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232606AbhCXJxW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 05:53:22 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12O9jFRC012057;
-        Wed, 24 Mar 2021 05:53:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type; s=pp1; bh=ocCPFyKvRr5NDa92QQBD8pRnFYdsyCVfW9sKZswguk0=;
- b=tUpROK0WqJa+voAG+ENkRadSWrtkO9RAklzBs0PS3m4YmO3NEmUMQm7lopSla4ozPz/E
- F1+oEnSdWr4PK+b5NVWAig6STRa5ILZ+Cs1zRtznQwWUJGqogNE8jOOAoGtfK5ys+8Vf
- UuqzQTbBs7wkbONkWwQw5OKMY2/THNhT8YjzrJIfpk5R6yMeJs+aBBF0mdcyE8ov+jCm
- yWukDX8MEoM79x8DCJBBQGsyEPHbdet8oNJO3lGqEhKUStytVaPMbXlMt1aO5vEE+J28
- BYki4B6pJfY2WGtS1EbXkVBGOlB4R4K91mMiidSsr1aOg6eKXj+kpMsqPqzLbko5IHyu +A== 
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 37g32kr7b7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 24 Mar 2021 05:53:17 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
-        by ppma04fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12O9o4DE018694;
-        Wed, 24 Mar 2021 09:53:15 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
-        by ppma04fra.de.ibm.com with ESMTP id 37d9bya6jj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 24 Mar 2021 09:53:15 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 12O9qs6x33947976
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 24 Mar 2021 09:52:54 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5BFB152054;
-        Wed, 24 Mar 2021 09:53:12 +0000 (GMT)
-Received: from vajain21.in.ibm.com (unknown [9.77.202.127])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 62A365204E;
-        Wed, 24 Mar 2021 09:53:09 +0000 (GMT)
-Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Wed, 24 Mar 2021 15:23:08 +0530
-From:   Vaibhav Jain <vaibhav@linux.ibm.com>
-To:     Shivaprasad G Bhat <sbhat@linux.ibm.com>,
-        linuxppc-dev@lists.ozlabs.org, kvm-ppc@vger.kernel.org,
-        linux-nvdimm@lists.01.org, aneesh.kumar@linux.ibm.com,
-        ellerman@au1.ibm.com
-Cc:     sbhat@linux.vnet.ibm.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] powerpc/papr_scm: Implement support for H_SCM_FLUSH
- hcall
-In-Reply-To: <161651910115.13873.14215644994307713797.stgit@6532096d84d3>
-References: <161651910115.13873.14215644994307713797.stgit@6532096d84d3>
-Date:   Wed, 24 Mar 2021 15:23:08 +0530
-Message-ID: <87pmzo3mkb.fsf@vajain21.in.ibm.com>
+        id S235345AbhCXJ5U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 05:57:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47080 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232830AbhCXJ5Q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 05:57:16 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CC40C061763
+        for <linux-doc@vger.kernel.org>; Wed, 24 Mar 2021 02:57:16 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id r12so31820015ejr.5
+        for <linux-doc@vger.kernel.org>; Wed, 24 Mar 2021 02:57:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Ui3KK3mzwqbV9eLNTYNhSvBlcu0bQi8tP4Sx/vLrsFM=;
+        b=RW6zzpKKOYU4TonZHWyHu86rXkdv9zk1Kn+dfUmAdQHSnL8x7WIErObnzx9/rde0cl
+         R+mxfCOCbfNcgLEiAGTKpJyJgLqMS6bNhmImpdWBezU4dPQpX08sZi9eQdcsYiiyIJ2U
+         Im+zCCfJX8PghtZ0tLRFjRwUsEypOLYW/flzA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Ui3KK3mzwqbV9eLNTYNhSvBlcu0bQi8tP4Sx/vLrsFM=;
+        b=lefR0D0C7ZmwaDdb91k1tPICe5uSlozeguXi6e1W+5f9DeOpxAQz9CQPwFAkwiBbr8
+         fm8jJ5SQWh6m6ydhdpecLyDofuwcGXI+sU5Xd/5V4dqZfEngYX1IR+U9WQ9ZS7pliKWN
+         iRxW4mJfnyiOim507P9tzDKDQn7D9BrdJJD706JWdXNIzyGZrwtjhgSMp91Zdflxq1VH
+         wJ9Mdg7X7V+23VeNE9hnLT93BwJQyQvr4sXr5P1ilMw3D/aa/DIhYK+c36BCOcmqrVD+
+         ktqrFREBF9c7sOXE0i2Xq/rJDzgTWMZoXiuW7ahAbOQXW+eAozuSBqJ/jdtdwmPQTXTP
+         At0g==
+X-Gm-Message-State: AOAM5316dT5QGXeg1G5SNvI8J2HwrFitBJ3aFc+uPhWdxu9wpCbhgCs1
+        XOlAr6cRSMsl0FqlEBfY6nrj3A==
+X-Google-Smtp-Source: ABdhPJzkMnHFljq3UR0armBnzHqGg/eD2m9c6+lIJW0if0dtjP6SqF8bGhC7DR7RD/5M3+15p/J/xg==
+X-Received: by 2002:a17:906:2710:: with SMTP id z16mr2752772ejc.176.1616579834782;
+        Wed, 24 Mar 2021 02:57:14 -0700 (PDT)
+Received: from [192.168.1.149] ([80.208.71.248])
+        by smtp.gmail.com with ESMTPSA id hd37sm645541ejc.114.2021.03.24.02.57.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Mar 2021 02:57:14 -0700 (PDT)
+Subject: Re: [PATCH v2 04/12] module: Add printk format to add module build ID
+ to stacktraces
+To:     Stephen Boyd <swboyd@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+References: <20210324020443.1815557-1-swboyd@chromium.org>
+ <20210324020443.1815557-5-swboyd@chromium.org>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <6dfb8ca2-20f3-e58a-ad6b-db6a6472afe0@rasmusvillemoes.dk>
+Date:   Wed, 24 Mar 2021 10:57:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-03-24_05:2021-03-24,2021-03-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1011
- bulkscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0 mlxlogscore=999
- adultscore=0 impostorscore=0 spamscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2103240073
+In-Reply-To: <20210324020443.1815557-5-swboyd@chromium.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 24/03/2021 03.04, Stephen Boyd wrote:
 
-Hi Shiva,
-
-Thanks for the patch. Few minor review comments:
-
-Shivaprasad G Bhat <sbhat@linux.ibm.com> writes:
-
-> Add support for ND_REGION_ASYNC capability if the device tree
-> indicates 'ibm,hcall-flush-required' property in the NVDIMM node.
-> Flush is done by issuing H_SCM_FLUSH hcall to the hypervisor.
->
-> If the flush request failed, the hypervisor is expected to
-> to reflect the problem in the subsequent dimm health request call.
-s/dimm/nvdimm
-s/health request call/H_SCM_HEALTH hcall/
-
->
-> This patch prevents mmap of namespaces with MAP_SYNC flag if the
-> nvdimm requires explicit flush[1].
-s/explicit/an explicit/
-
->
-> References:
-> [1] https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c
->
-> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-> ---
-> v1 - https://www.spinics.net/lists/kvm-ppc/msg18272.html
-> Changes from v1:
->        - Hcall semantics finalized, all changes are to accomodate them.
->
->  Documentation/powerpc/papr_hcalls.rst     |   14 ++++++++++
->  arch/powerpc/include/asm/hvcall.h         |    3 +-
->  arch/powerpc/platforms/pseries/papr_scm.c |   39 +++++++++++++++++++++++++++++
->  3 files changed, 55 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
-> index 48fcf1255a33..648f278eea8f 100644
-> --- a/Documentation/powerpc/papr_hcalls.rst
-> +++ b/Documentation/powerpc/papr_hcalls.rst
-> @@ -275,6 +275,20 @@ Health Bitmap Flags:
->  Given a DRC Index collect the performance statistics for NVDIMM and copy them
->  to the resultBuffer.
->  
-> +**H_SCM_FLUSH**
+> @@ -2778,6 +2793,10 @@ static inline void layout_symtab(struct module *mod, struct load_info *info)
+>  static void add_kallsyms(struct module *mod, const struct load_info *info)
+>  {
+>  }
 > +
-> +| Input: *drcIndex, continue-token*
-> +| Out: *continue-token*
-> +| Return Value: *H_SUCCESS, H_Parameter, H_P2, H_BUSY*
-> +
-> +Given a DRC Index Flush the data to backend NVDIMM device.
-> +
-> +The hcall returns H_BUSY when the flush takes longer time and the hcall needs
-> +to be issued multiple times in order to be completely serviced. The
-> +*continue-token* from the output to be passed in the argument list of
-> +subsequent hcalls to the hypervisor until the hcall is completely serviced
-> +at which point H_SUCCESS or other error is returned by the hypervisor.
-> +
->  References
->  ==========
->  .. [1] "Power Architecture Platform Reference"
-> diff --git a/arch/powerpc/include/asm/hvcall.h b/arch/powerpc/include/asm/hvcall.h
-> index ed6086d57b22..9f7729a97ebd 100644
-> --- a/arch/powerpc/include/asm/hvcall.h
-> +++ b/arch/powerpc/include/asm/hvcall.h
-> @@ -315,7 +315,8 @@
->  #define H_SCM_HEALTH            0x400
->  #define H_SCM_PERFORMANCE_STATS 0x418
->  #define H_RPT_INVALIDATE	0x448
-> -#define MAX_HCALL_OPCODE	H_RPT_INVALIDATE
-> +#define H_SCM_FLUSH		0x44C
-> +#define MAX_HCALL_OPCODE	H_SCM_FLUSH
->  
->  /* Scope args for H_SCM_UNBIND_ALL */
->  #define H_UNBIND_SCOPE_ALL (0x1)
-> diff --git a/arch/powerpc/platforms/pseries/papr_scm.c b/arch/powerpc/platforms/pseries/papr_scm.c
-> index 835163f54244..f0407e135410 100644
-> --- a/arch/powerpc/platforms/pseries/papr_scm.c
-> +++ b/arch/powerpc/platforms/pseries/papr_scm.c
-> @@ -93,6 +93,7 @@ struct papr_scm_priv {
->  	uint64_t block_size;
->  	int metadata_size;
->  	bool is_volatile;
-> +	bool hcall_flush_required;
->  
->  	uint64_t bound_addr;
->  
-> @@ -117,6 +118,38 @@ struct papr_scm_priv {
->  	size_t stat_buffer_len;
->  };
->  
-> +static int papr_scm_pmem_flush(struct nd_region *nd_region,
-> +			       struct bio *bio __maybe_unused)
+> +static void init_build_id(struct module *mod, const struct load_info *info)
 > +{
-> +	struct papr_scm_priv *p = nd_region_provider_data(nd_region);
-> +	unsigned long ret_buf[PLPAR_HCALL_BUFSIZE];
-> +	uint64_t token = 0;
-> +	int64_t rc;
-> +
-Suggest adding a dev_dbg to to indicate a flush request to a drc. That
-way if the loop below gets stuck the issue can be debugged with kernel
-logs.
-> +	do {
-> +		rc = plpar_hcall(H_SCM_FLUSH, ret_buf, p->drc_index, token);
-> +		token = ret_buf[0];
-> +
-> +		/* Check if we are stalled for some time */
-> +		if (H_IS_LONG_BUSY(rc)) {
-> +			msleep(get_longbusy_msecs(rc));
-> +			rc = H_BUSY;
-> +		} else if (rc == H_BUSY) {
-> +			cond_resched();
-> +		}
-> +
-> +	} while (rc == H_BUSY);
-> +
-> +	if (rc) {
-> +		dev_err(&p->pdev->dev, "flush error: %lld", rc);
-> +		rc = -EIO;
-> +	} else {
-> +		dev_dbg(&p->pdev->dev, "flush drc 0x%x complete", p->drc_index);
-> +	}
-> +
-> +	return rc;
 > +}
-> +
->  static LIST_HEAD(papr_nd_regions);
->  static DEFINE_MUTEX(papr_ndr_lock);
+>  #endif /* CONFIG_KALLSYMS */
 >  
-> @@ -943,6 +976,11 @@ static int papr_scm_nvdimm_init(struct papr_scm_priv *p)
->  	ndr_desc.num_mappings = 1;
->  	ndr_desc.nd_set = &p->nd_set;
+>  static void dynamic_debug_setup(struct module *mod, struct _ddebug *debug, unsigned int num)
+> @@ -4004,6 +4023,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
+>  		goto free_arch_cleanup;
+>  	}
 >  
-> +	if (p->hcall_flush_required) {
-> +		set_bit(ND_REGION_ASYNC, &ndr_desc.flags);
-> +		ndr_desc.flush = papr_scm_pmem_flush;
-> +	}
-> +
->  	if (p->is_volatile)
->  		p->region = nvdimm_volatile_region_create(p->bus, &ndr_desc);
->  	else {
-> @@ -1088,6 +1126,7 @@ static int papr_scm_probe(struct platform_device *pdev)
->  	p->block_size = block_size;
->  	p->blocks = blocks;
->  	p->is_volatile = !of_property_read_bool(dn, "ibm,cache-flush-required");
-> +	p->hcall_flush_required = of_property_read_bool(dn, "ibm,hcall-flush-required");
+> +	init_build_id(mod, info);
+>  	dynamic_debug_setup(mod, info->debug, info->num_debug);
 >  
->  	/* We just need to ensure that set cookies are unique across */
->  	uuid_parse(uuid_str, (uuid_t *) uuid);
->
->
+>  	/* Ftrace init must be called in the MODULE_STATE_UNFORMED state */
+> @@ -4235,7 +4255,7 @@ void * __weak dereference_module_function_descriptor(struct module *mod,
+>  const char *module_address_lookup(unsigned long addr,
+>  			    unsigned long *size,
+>  			    unsigned long *offset,
+> -			    char **modname,
+> +			    char **modname, unsigned char **modbuildid,
 
--- 
-Cheers
-~ Vaibhav
+It's an existing defect with modname, but surely this should take a
+"const unsigned char **modbuildid", no?
+
+>  			    char *namebuf)
+>  {
+>  	const char *ret = NULL;
+> @@ -4246,6 +4266,8 @@ const char *module_address_lookup(unsigned long addr,
+>  	if (mod) {
+>  		if (modname)
+>  			*modname = mod->name;
+> +		if (modbuildid)
+> +			*modbuildid = mod->build_id;
+>  
+>  		ret = find_kallsyms_symbol(mod, addr, size, offset);
+>  	}
+> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> index 41ddc353ebb8..9cd62e84e4aa 100644
+> --- a/lib/vsprintf.c
+> +++ b/lib/vsprintf.c
+> @@ -961,13 +961,15 @@ char *symbol_string(char *buf, char *end, void *ptr,
+>  	char sym[KSYM_SYMBOL_LEN];
+>  #endif
+>  
+> -	if (fmt[1] == 'R')
+> +	if (fmt[1] == 'R' || fmt[1] == 'r')
+>  		ptr = __builtin_extract_return_addr(ptr);
+>  	value = (unsigned long)ptr;
+>  
+>  #ifdef CONFIG_KALLSYMS
+>  	if (*fmt == 'B')
+>  		sprint_backtrace(sym, value);
+> +	else if (*fmt == 'S' && (fmt[1] == 'b' || fmt[1] == 'r'))
+> +		sprint_symbol_stacktrace(sym, value);
+>  	else if (*fmt != 's')
+>  		sprint_symbol(sym, value);
+>  	else
+> @@ -2129,6 +2131,8 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
+>   * - 'S' For symbolic direct pointers (or function descriptors) with offset
+>   * - 's' For symbolic direct pointers (or function descriptors) without offset
+>   * - '[Ss]R' as above with __builtin_extract_return_addr() translation
+> + * - '[Ss]r' as above with __builtin_extract_return_addr() translation and module build ID
+> + * - '[Ss]b' as above with module build ID (for use in backtraces)
+
+The code doesn't quite match the comment. The lowercase s is not handled
+(i.e., there's no way to say "without offset, with build ID"). You don't
+have to fix the code to support that right now, the whole kallsyms
+vsprintf code needs to be reworked inside-out anyway (having vsnprint
+call sprint_symbol* which builds the output using snprintf() calls makes
+me cringe), so please just replace [Ss] by S to make the comment match
+the code - I notice that you did only document the S variant in
+printk-formats.rst.
+
+Is there any reason you didn't just make b an optional flag that could
+be specified with or without R? I suppose the parsing is more difficult
+with several orthogonal flags (see escaped_string()), but it's a little
+easier to understand. Dunno, it's not like we're gonna think of 10 other
+things that could be printed for a symbol, so perhaps it's fine.
+
+Rasmus
