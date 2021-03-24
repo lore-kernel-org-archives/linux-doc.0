@@ -2,148 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	FROM_EXCESS_BASE64,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 370C4C433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 22:48:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E3D8C433C1
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 00:39:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 028FA619DF
-	for <linux-doc@archiver.kernel.org>; Tue, 23 Mar 2021 22:48:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0167B619E7
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 00:39:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233972AbhCWWrc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 18:47:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46108 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233908AbhCWWrR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 23 Mar 2021 18:47:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B552E6044F;
-        Tue, 23 Mar 2021 22:47:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616539637;
-        bh=11JtZEcq3IKgiIIgu80BAiSlfm+ye/04q50fmAGg3jg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:From;
-        b=JmKMS58xYat0cbG/A2nxsstga6nHPOupcFJEpL9nbqpUxD3RTXLZtxEN0np5zLGoc
-         dbqkegEUrvHYbGZibt1Rrb508T82Y6ELq/BW8MDMCUussGg95w4OAW5mR2fh7s7vnd
-         PuLIajwUK717b6ELznVp0ENfac/RQDrugSp6AaVaK6DB68Cdn334HgK8iD6NyBNBcJ
-         PvepB4xX/FVTA99EaVMkUBMiyOHggbbz+32vQ1m7AJY5P41MWKX7oxYVu9ruyxehc+
-         8qWSM7YUN5NR/lsinxoaTP4E9WwW/duwoYQn0haJ3uufgMlgd+2a0yMMTzbaj/ZhgR
-         lRKSCmtRfNWuQ==
-Date:   Tue, 23 Mar 2021 17:47:10 -0500
-From:   Bjorn Helgaas <helgaas@kernel.org>
-To:     Dejin Zheng <zhengdejin5@gmail.com>
-Cc:     corbet@lwn.net, jarkko.nikula@linux.intel.com,
-        andriy.shevchenko@linux.intel.com, mika.westerberg@linux.intel.com,
-        rric@kernel.org, bhelgaas@google.com, wsa@kernel.org,
-        linux-doc@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexander Gordeev <agordeev@redhat.com>,
-        Jonathan Derrick <jonathan.derrick@intel.com>,
-        Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
-        Logan Gunthorpe <logang@deltatee.com>
-Subject: Re: [PATCH v5 1/4] PCI: Introduce pcim_alloc_irq_vectors()
-Message-ID: <20210323224710.GA610170@bjorn-Precision-5520>
+        id S233895AbhCXAjI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 23 Mar 2021 20:39:08 -0400
+Received: from fallback12.mail.ru ([94.100.179.29]:45334 "EHLO
+        fallback12.mail.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233885AbhCXAir (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Mar 2021 20:38:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail3;
+        h=Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:To:From; bh=X3gMXYMH4QYYyTU623OacvjlTfWy8TBNpoTM7e8L24I=;
+        b=np/MIAaj+2H3MIR6Wjl118At65bPjWFB28ovMlP7Yu17zDSzBcW21qfvSbqjvFzlYp6ljxUU6/Vkf4rkGwj1bczpEADSf7FHNQszh/Lv6o3JmukHAV5nFB4yUT1OmEvLo4j4/XSJbXVMJvu0fLtoqC517YrwtfcDfP3v+xcS4Po=;
+Received: from [10.161.123.9] (port=37182 helo=f511.i.mail.ru)
+        by fallback12.m.smailru.net with esmtp (envelope-from <safinaskar@mail.ru>)
+        id 1lOrXp-0000vD-P0
+        for linux-doc@vger.kernel.org; Wed, 24 Mar 2021 03:38:46 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail3;
+        h=Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=X3gMXYMH4QYYyTU623OacvjlTfWy8TBNpoTM7e8L24I=;
+        b=Ahz1j8KhF1wnZKdcF+hNrTC7lvdadM3HPw4Cju4uLnYFNM6LjyBPz6XTpNC1Pz22rmYQ/kWs9Ke6bk/euw5UzFCL1sjuWJFZNOeuLIFhUy5QXKLB9wCYwWgpy/56xHM/NGdeSBwI+v1lD5DX2+0m4CsX5F28i6U9WLLVlk62x+4=;
+Received: by f511.i.mail.ru with local (envelope-from <safinaskar@mail.ru>)
+        id 1lOrXm-0005uP-LU; Wed, 24 Mar 2021 03:38:43 +0300
+Received: by light.mail.ru with HTTP;
+        Wed, 24 Mar 2021 03:38:42 +0300
+From:   =?UTF-8?B?QXNrYXIgU2FmaW4=?= <safinaskar@mail.ru>
+To:     =?UTF-8?B?Sm9uYXRoYW4gQ29yYmV0?= <corbet@lwn.net>,
+        =?UTF-8?B?bGludXgtZG9j?= <linux-doc@vger.kernel.org>
+Subject: =?UTF-8?B?ZG9jdW1lbnRhdGlvbi9maWxlc3lzdGVtcy9wYXRoLWxvb2t1cDogcmVwbGFj?=
+ =?UTF-8?B?ZSAiVGhlc2UgcGF0aHMiIHdpdGggIlVzdWFsbHkgcGF0aHMi?=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210226155056.1068534-2-zhengdejin5@gmail.com>
+X-Mailer: Mail.Ru Mailer 1.0
+Date:   Wed, 24 Mar 2021 03:38:42 +0300
+Reply-To: =?UTF-8?B?QXNrYXIgU2FmaW4=?= <safinaskar@mail.ru>
+X-Priority: 3 (Normal)
+Message-ID: <1616546322.499771404@f511.i.mail.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: base64
+X-7564579A: 646B95376F6C166E
+X-77F55803: 119C1F4DF6A9251CF1FA98B48E2E7DB62EC605561BFB2ED8293C6D7587B8D9748FD872164937FA4C21F87445B0368A09F28F6B3F0CB03C2A25541FDC285C5F6BC8452B214183A3F5
+X-7FA49CB5: 70AAF3C13DB7016878DA827A17800CE7770E811DB6B1D1D2D82A6BABE6F325AC08BE7437D75B48FABCF491FFA38154B613377AFFFEAFD269176DF2183F8FC7C0635364BEB45DD078C2099A533E45F2D0395957E7521B51C2CFCAF695D4D8E9FCEA1F7E6F0F101C6778DA827A17800CE7CF4D16325FBE1EEDEA1F7E6F0F101C67CDEEF6D7F21E0D1D174C73DBBBFC7664108F65D574C7441F1DEE793FF6780E1CD383E70EC033ABFF389733CBF5DBD5E913377AFFFEAFD269176DF2183F8FC7C07E7E81EEA8A9722B8941B15DA834481FCF19DD082D7633A0EF3E4896CB9E6436389733CBF5DBD5E9D5E8D9A59859A8B6D52CD31C43BF465FCC7F00164DA146DA6F5DAA56C3B73B237318B6A418E8EAB86D1867E19FE14079C09775C1D3CA48CF3D321E7403792E34F43C7A68FF626056395957E7521B51C2D96E472CDF7238E04AD6D5ED66289B5278DA827A17800CE738C07D734D9BECFF67F23339F89546C5A8DF7F3B2552694A6FED454B719173D6725E5C173C3A84C33A6CD0B1E3819E5F35872C767BF85DA2F004C906525384306FED454B719173D6462275124DF8B9C99B0B8D173C204012BD9CCCA9EDD067B1EDA766A37F9254B7
+X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A24A6D60772A99906F8E1CD14B953EB46DC63BC2380F8E036F355D89D7DBCDD132
+X-C1DE0DAB: 0D63561A33F958A50B64F930800E3370FA9B6D72FC071C28C26C6336AB03389EBDC6A1CF3F042BAD6DF99611D93F60EF4280523C145DA091699F904B3F4130E343918A1A30D5E7FCCB5012B2E24CD356
+X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D349A949488F6BF46DDFE715B87C34C501B897ED363FBE2395EE41EF76F448B18576F1CB1E58C1A3F4A1D7E09C32AA3244C8D85681E72FB44C3A69C99FB89BB666C408A6A02710B7304729B2BEF169E0186
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5+wYjsrrSY/u8Y3PrTqANeitKFiSd6Yd7yPpbiiZ/d5BsxIjK0jGQgCHUM3Ry2Lt2G3MDkMauH3h0dBdQGj+BB/iPzQYh7XS329fgu+/vnDhhllFZYJYh0COfQigR3wVMw==
+X-Mailru-Sender: 583F1D7ACE8F49BD48DC4DEF5972559E87895C48A0CF693C284E83E89B4F77793D9C248A34015CC729BA8B2C393D86C53919A3F0584408A7E277D648EEF17123F32B7A1AD1AAC36A3BEC1D9798BA4B85D186BC2F9B8D6AD3EAB4BC95F72C04283CDA0F3B3F5B9367
+X-Mras: Ok
+X-Spam: undefined
+X-7564579A: B8F34718100C35BD
+X-77F55803: 6242723A09DB00B43D3FA0ACCFBC07C6046E779C2B5E99972888A63633B1EFF4049FFFDB7839CE9EFA817F5924DFCA756ADB2A393CEE4C940B435DD55ED22814B2BF26FE178D576E
+X-7FA49CB5: 0D63561A33F958A508523144D6F127497B364D3D4AE3D6B6F044E74C9F61E5D98941B15DA834481FA18204E546F3947C6633242DC0339950F6B57BC7E64490618DEB871D839B7333395957E7521B51C2DFABB839C843B9C08941B15DA834481F8AA50765F79006375A3B25A3A11CE7E4389733CBF5DBD5E9B5C8C57E37DE458BD96E472CDF7238E04AD6D5ED66289B5278DA827A17800CE7B3441658091366454AD6D5ED66289B524E70A05D1297E1BB35872C767BF85DA227C277FBC8AE2E8BFB586A8C9755B36175ECD9A6C639B01B4E70A05D1297E1BBC6867C52282FAC8519DC0BE04022C72727F269C8F02392CD5571747095F342E88FB05168BE4CE3AF
+X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A2BBE337FB72E923155C0AF1600DCBC20BC00AE116A61B0410C385AF71822D64A3
+X-C1DE0DAB: 0D63561A33F958A508523144D6F127497B364D3D4AE3D6B67F61517F24AB7B668E8E86DC7131B365E7726E8460B7C23C
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5+wYjsrrSY/u8Y3PrTqANeitKFiSd6Yd7yPpbiiZ/d5BsxIjK0jGQgCHUM3Ry2Lt2G3MDkMauH3h0dBdQGj+BB/iPzQYh7XS329fgu+/vnDhhllFZYJYh0Bc3p08XLnbAg==
+X-Mailru-MI: 1000000000800
+X-Mras: Ok
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-[+cc Christoph, Thomas, Alexander, in case you're interested]
-[+cc Jonathan, Kurt, Logan: vmd.c and switchtec.c use managed resources
-and pci_alloc_irq_vectors()]
-
-On Fri, Feb 26, 2021 at 11:50:53PM +0800, Dejin Zheng wrote:
-> Introduce pcim_alloc_irq_vectors(), a device-managed version of
-> pci_alloc_irq_vectors(). Introducing this function can simplify
-> the error handling path in many drivers.
-> 
-> And use pci_free_irq_vectors() to replace some code in pcim_release(),
-> they are equivalent, and no functional change. It is more explicit
-> that pcim_alloc_irq_vectors() is a device-managed function.
-> 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Dejin Zheng <zhengdejin5@gmail.com>
-
-Acked-by: Bjorn Helgaas <bhelgaas@google.com>
-
-Let me know if you'd like me to take the series.
-
-> ---
-> v4 -> v5:
-> 	- Remove the check of enable device in pcim_alloc_irq_vectors()
-> 	  and make it as a static line function.
-> v3 -> v4:
-> 	- No change
-> v2 -> v3:
-> 	- Add some commit comments for replace some codes in
-> 	  pcim_release() by pci_free_irq_vectors().
-> v1 -> v2:
-> 	- Use pci_free_irq_vectors() to replace some code in
-> 	  pcim_release().
-> 	- Modify some commit messages.
-> 
->  drivers/pci/pci.c   |  5 +----
->  include/linux/pci.h | 24 ++++++++++++++++++++++++
->  2 files changed, 25 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 16a17215f633..fecfdc0add2f 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -1969,10 +1969,7 @@ static void pcim_release(struct device *gendev, void *res)
->  	struct pci_devres *this = res;
->  	int i;
->  
-> -	if (dev->msi_enabled)
-> -		pci_disable_msi(dev);
-> -	if (dev->msix_enabled)
-> -		pci_disable_msix(dev);
-> +	pci_free_irq_vectors(dev);
->  
->  	for (i = 0; i < DEVICE_COUNT_RESOURCE; i++)
->  		if (this->region_mask & (1 << i))
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 86c799c97b77..5cafd7d65fd7 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -1818,6 +1818,30 @@ pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
->  					      NULL);
->  }
->  
-> +/**
-> + * pcim_alloc_irq_vectors - a device-managed pci_alloc_irq_vectors()
-> + * @dev:		PCI device to operate on
-> + * @min_vecs:		minimum number of vectors required (must be >= 1)
-> + * @max_vecs:		maximum (desired) number of vectors
-> + * @flags:		flags or quirks for the allocation
-> + *
-> + * Return the number of vectors allocated, (which might be smaller than
-> + * @max_vecs) if successful, or a negative error code on error. If less
-> + * than @min_vecs interrupt vectors are available for @dev the function
-> + * will fail with -ENOSPC.
-> + *
-> + * It depends on calling pcim_enable_device() to make IRQ resources
-> + * manageable.
-> + */
-> +static inline int
-> +pcim_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
-> +			unsigned int max_vecs, unsigned int flags)
-> +{
-> +	if (!pci_is_managed(dev))
-> +		return -EINVAL;
-> +	return pci_alloc_irq_vectors(dev, min_vecs, max_vecs, flags);
-> +}
-> +
->  /* Include architecture-dependent settings and functions */
->  
->  #include <asm/pci.h>
-> -- 
-> 2.25.0
-> 
+UmVhZGVyIG1heSB0aGluayAiVGhlc2UgcGF0aHMiIHJlZmVyIHRvIGVtcHR5IHBhdGhzLCBzbyBj
+aGFuZ2luZyB0byAiVXN1YWxseSBwYXRocyIKClNpZ25lZC1vZmYtYnk6IEFza2FyIFNhZmluIDxz
+YWZpbmFza2FyQG1haWwucnU+Ci0tLQpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9maWxlc3lz
+dGVtcy9wYXRoLWxvb2t1cC5yc3QgYi9Eb2N1bWVudGF0aW9uL2ZpbGVzeXN0ZW1zL3BhdGgtbG9v
+a3VwLnJzdAppbmRleCBjNDgyZTE2MTllNzcuLmM2OGQ2ZjI3NTkzNSAxMDA2NDQKLS0tIGEvRG9j
+dW1lbnRhdGlvbi9maWxlc3lzdGVtcy9wYXRoLWxvb2t1cC5yc3QKKysrIGIvRG9jdW1lbnRhdGlv
+bi9maWxlc3lzdGVtcy9wYXRoLWxvb2t1cC5yc3QKQEAgLTU3LDcgKzU3LDcgQEAgZXhhbXBsZSwg
+aWYgeW91IGhhdmUgYW4gb3BlbiBmaWxlIGRlc2NyaXB0b3Igb24gYW4gZXhlY3V0YWJsZSBmaWxl
+IHlvdQogY2FuIGV4ZWN1dGUgaXQgYnkgY2FsbGluZyBgZXhlY3ZlYXQoKSA8ZXhlY3ZlYXRfPmBf
+IHBhc3NpbmcKIHRoZSBmaWxlIGRlc2NyaXB0b3IsIGFuIGVtcHR5IHBhdGgsIGFuZCB0aGUgYGBB
+VF9FTVBUWV9QQVRIYGAgZmxhZy4KIAotVGhlc2UgcGF0aHMgY2FuIGJlIGRpdmlkZWQgaW50byB0
+d28gc2VjdGlvbnM6IHRoZSBmaW5hbCBjb21wb25lbnQgYW5kCitVc3VhbGx5IHBhdGhzIGNhbiBi
+ZSBkaXZpZGVkIGludG8gdHdvIHNlY3Rpb25zOiB0aGUgZmluYWwgY29tcG9uZW50IGFuZAogZXZl
+cnl0aGluZyBlbHNlLiAgVGhlICJldmVyeXRoaW5nIGVsc2UiIGlzIHRoZSBlYXN5IGJpdC4gIElu
+IGFsbCBjYXNlcwogaXQgbXVzdCBpZGVudGlmeSBhIGRpcmVjdG9yeSB0aGF0IGFscmVhZHkgZXhp
+c3RzLCBvdGhlcndpc2UgYW4gZXJyb3IKIHN1Y2ggYXMgYGBFTk9FTlRgYCBvciBgYEVOT1RESVJg
+YCB3aWxsIGJlIHJlcG9ydGVkLg==
