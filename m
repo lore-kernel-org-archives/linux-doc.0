@@ -2,116 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71E20C433E4
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 12:16:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 451DBC433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 12:16:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1FF2561A11
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 12:16:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F28F261A06
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 12:16:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232638AbhCXMPj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 08:15:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48896 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231739AbhCXMPN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 08:15:13 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB678C061763;
-        Wed, 24 Mar 2021 05:15:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=48OjWaig9uawATa25cKrzW5rZ1wrmzf1PaJRwXuIZck=; b=Zhj6svGLgsjzrL1ryRg1Fa/1m4
-        z+ylPTkRDOe7bLpQb0F9WiqDkuQTtVh9+Gsj/ncCOgumm3eYmka4fVyzksL7WKVQPQzT1goC4FWmY
-        7o9HkKnWi1nRG4H/vyMw+joRzYHAoCCXYQmCphTLMWycMZe4RFoftMcb6PqSr/Cb8Dq9CiyhOgJvx
-        +5lBKq8ZLTAN1TkFvEvYclraeiAl2rV7r/JaEdg2ohqHNGSS2KTEj1l7OBW0uujGKc95vOracQDfe
-        lugLR5QAVyLdb3tvCunuQ6zwVoC4IrJRVbIc/V778VrKpfW7lDUzY5oLPD36LBZKhIuEOpblA/1Fg
-        0mVQajLA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lP2N0-00BJqL-Ee; Wed, 24 Mar 2021 12:12:27 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F2FEB306099;
-        Wed, 24 Mar 2021 13:12:16 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id B973E2BF5B73F; Wed, 24 Mar 2021 13:12:16 +0100 (CET)
-Date:   Wed, 24 Mar 2021 13:12:16 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Josh Don <joshdon@google.com>, Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
+        id S233290AbhCXMQM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 08:16:12 -0400
+Received: from out30-54.freemail.mail.aliyun.com ([115.124.30.54]:38952 "EHLO
+        out30-54.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233286AbhCXMQK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 08:16:10 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R761e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=alimailimapcm10staff010182156082;MF=tianjia.zhang@linux.alibaba.com;NM=1;PH=DS;RN=21;SR=0;TI=SMTPD_---0UTAwqDS_1616588126;
+Received: from localhost(mailfrom:tianjia.zhang@linux.alibaba.com fp:SMTPD_---0UTAwqDS_1616588126)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 24 Mar 2021 20:15:26 +0800
+From:   Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+To:     David Howells <dhowells@redhat.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Nathan Chancellor <nathan@kernel.org>,
         Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        David Rientjes <rientjes@google.com>,
-        Oleg Rombakh <olegrom@google.com>, linux-doc@vger.kernel.org,
-        Paul Turner <pjt@google.com>
-Subject: Re: [PATCH v2] sched: Warn on long periods of pending need_resched
-Message-ID: <YFssoD5NDl6dFfg/@hirez.programming.kicks-ass.net>
-References: <20210323035706.572953-1-joshdon@google.com>
- <YFsIZjhCFbxKyos3@hirez.programming.kicks-ass.net>
- <YFsaYBO/UqMHSpGS@hirez.programming.kicks-ass.net>
- <20210324114224.GP15768@suse.de>
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Valentin Schneider <valentin.schneider@arm.com>,
+        Nick Terrell <terrelln@fb.com>, KP Singh <kpsingh@google.com>,
+        Johannes Weiner <hannes@cmpxchg.org>,
+        Vlastimil Babka <vbabka@suse.cz>, keyrings@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-crypto@vger.kernel.org,
+        Jia Zhang <zhang.jia@linux.alibaba.com>
+Cc:     Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+Subject: [PATCH v2 2/2] init/Kconfig: support sign module with SM2-with-SM3 algorithm
+Date:   Wed, 24 Mar 2021 20:15:25 +0800
+Message-Id: <20210324121525.16062-3-tianjia.zhang@linux.alibaba.com>
+X-Mailer: git-send-email 2.19.1.3.ge56e4f7
+In-Reply-To: <20210324121525.16062-1-tianjia.zhang@linux.alibaba.com>
+References: <20210324121525.16062-1-tianjia.zhang@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210324114224.GP15768@suse.de>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 24, 2021 at 11:42:24AM +0000, Mel Gorman wrote:
-> On Wed, Mar 24, 2021 at 11:54:24AM +0100, Peter Zijlstra wrote:
-> > On Wed, Mar 24, 2021 at 10:37:43AM +0100, Peter Zijlstra wrote:
-> > > Should we perhaps take out all SCHED_DEBUG sysctls and move them to
-> > > /debug/sched/ ? (along with the existing /debug/sched_{debug,features,preemp}
-> > > files)
-> > > 
-> > > Having all that in sysctl and documented gives them far too much sheen
-> > > of ABI.
-> > 
-> > ... a little something like this ...
-> > 
-> 
-> I did not read this particularly carefully or boot it to check but some
-> of the sysctls moved are expected to exist and should never should have
-> been under SCHED_DEBUG.
-> 
-> For example, I'm surprised that numa_balancing is under the SCHED_DEBUG
-> sysctl because there are legimiate reasons to disable that at runtime.
-> For example, HPC clusters running various workloads may disable NUMA
-> balancing globally for particular jobs without wanting to reboot and
-> reenable it when finished.
+The kernel module signature supports the option to use the SM3 secure
+hash (OSCCA GM/T 0004-2012 SM3). SM2 and SM3 always appear in pairs.
+The former is used for signing and the latter is used for hash
+calculation.
 
-Yeah, lets say I was pleasantly surprised to find it there :-)
+To sign a kernel module, first, prepare a configuration file
+openssl.cnf with the following content:
 
-> Moving something like sched_min_granularity_ns will break a number of
-> tuning guides as well as the "tuned" tool which ships by default with
-> some distros and I believe some of the default profiles used for tuned
-> tweak kernel.sched_min_granularity_ns
+  [ req ]
+  default_bits = 2048
+  distinguished_name = req_distinguished_name
+  prompt = no
+  string_mask = utf8only
+  x509_extensions = v3_req
 
-Yeah, can't say I care. I suppose some people with PREEMPT=n kernels
-increase that to make their server workloads 'go fast'. But I'll
-absolutely suck rock on anything desktop.
+  [ req_distinguished_name ]
+  C = CN
+  ST = HangZhou
+  L = foo
+  O = Test
+  OU = Test
+  CN = Test key
+  emailAddress = test@foo.com
 
-These knobs really shouldn't have been as widely available as they are.
+  [ v3_req ]
+  basicConstraints=critical,CA:FALSE
+  keyUsage=digitalSignature
+  subjectKeyIdentifier=hash
+  authorityKeyIdentifier=keyid:always
 
-And guides, well, the writes have to earn a living too, right.
+Then we can use the following method to sign module with SM2-with-SM3
+algorithm combination:
 
-> Whether there are legimiate reasons to modify those values or not,
-> removing them may generate fun bug reports.
+  # generate CA key and self-signed CA certificate
+  openssl ecparam -genkey -name SM2 -text -out ca.key
+  openssl req -new -x509 -days 3650 -key ca.key \
+      -sm3 -sigopt "distid:1234567812345678" \
+      -subj "/O=testCA/OU=testCA/CN=testCA/emailAddress=ca@foo.com" \
+      -config openssl.cnf -out ca.crt
 
-Which I'll close with -EDONTCARE, userspace has to cope with
-SCHED_DEBUG=n in any case.
+  # generate SM2 private key and sign request
+  openssl ecparam -genkey -name SM2 -text -out private.pem
+  openssl req -new -key private.pem -config openssl.cnf \
+      -sm3 -sigopt "distid:1234567812345678" -out csr.pem
+
+  # generate SM2-with-SM3 certificate signed by CA
+  openssl x509 -req -days 3650 -sm3 -in csr.pem \
+      -sigopt "distid:1234567812345678" \
+      -vfyopt "distid:1234567812345678" \
+      -CA ca.crt -CAkey ca.key -CAcreateserial \
+      -extfile openssl.cnf -extensions v3_req \
+      -out cert.pem
+
+  # sign module with SM2-with-SM3 algorithm
+  sign-file sm3 private.pem cert.pem test.ko test.ko.signed
+
+At this point, we should built the CA certificate into the kernel, and
+then we can load the SM2-with-SM3 signed module normally.
+
+Signed-off-by: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+---
+ Documentation/admin-guide/module-signing.rst | 5 +++--
+ init/Kconfig                                 | 5 +++++
+ 2 files changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/module-signing.rst b/Documentation/admin-guide/module-signing.rst
+index 7d7c7c8a545c..8d8980808b5b 100644
+--- a/Documentation/admin-guide/module-signing.rst
++++ b/Documentation/admin-guide/module-signing.rst
+@@ -30,8 +30,8 @@ This facility uses X.509 ITU-T standard certificates to encode the public keys
+ involved.  The signatures are not themselves encoded in any industrial standard
+ type.  The facility currently only supports the RSA public key encryption
+ standard (though it is pluggable and permits others to be used).  The possible
+-hash algorithms that can be used are SHA-1, SHA-224, SHA-256, SHA-384, and
+-SHA-512 (the algorithm is selected by data in the signature).
++hash algorithms that can be used are SHA-1, SHA-224, SHA-256, SHA-384, SHA-512,
++and SM3 (the algorithm is selected by data in the signature).
+ 
+ 
+ ==========================
+@@ -86,6 +86,7 @@ This has a number of options available:
+ 	``CONFIG_MODULE_SIG_SHA256``	:menuselection:`Sign modules with SHA-256`
+ 	``CONFIG_MODULE_SIG_SHA384``	:menuselection:`Sign modules with SHA-384`
+ 	``CONFIG_MODULE_SIG_SHA512``	:menuselection:`Sign modules with SHA-512`
++	``CONFIG_MODULE_SIG_SM3``	:menuselection:`Sign modules with SM3`
+         =============================== ==========================================
+ 
+      The algorithm selected here will also be built into the kernel (rather
+diff --git a/init/Kconfig b/init/Kconfig
+index 5f5c776ef192..fed9236078e4 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -2202,6 +2202,10 @@ config MODULE_SIG_SHA512
+ 	bool "Sign modules with SHA-512"
+ 	select CRYPTO_SHA512
+ 
++config MODULE_SIG_SM3
++	bool "Sign modules with SM3"
++	select CRYPTO_SM3
++
+ endchoice
+ 
+ config MODULE_SIG_HASH
+@@ -2212,6 +2216,7 @@ config MODULE_SIG_HASH
+ 	default "sha256" if MODULE_SIG_SHA256
+ 	default "sha384" if MODULE_SIG_SHA384
+ 	default "sha512" if MODULE_SIG_SHA512
++	default "sm3" if MODULE_SIG_SM3
+ 
+ config MODULE_COMPRESS
+ 	bool "Compress modules on installation"
+-- 
+2.19.1.3.ge56e4f7
+
