@@ -2,320 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38286C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 10:57:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC946C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 11:01:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0792960238
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 10:57:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 96C0F61A0A
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 11:01:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231935AbhCXK5R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 06:57:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60156 "EHLO
+        id S231579AbhCXLAa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 07:00:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234431AbhCXK5Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 06:57:16 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43735C061763;
-        Wed, 24 Mar 2021 03:57:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=POSrgar70SlhtC0MB+c6+4sBxWfdvz20BQJ8i3GXyAY=; b=b6TSHXQxLyZI/ZDi6HWgC65FJF
-        gYh45yZTsYpgnvceVdNWG8j4+ISg4iSdGwiRVJcQFlXsAk6WLA1i3F61P+FUr0CgmzeUguz5FVv3m
-        XRcYwp+QEI4xB8qquTXuJL1LTRpgqw0OaOHKy/8SxJYSYDYpNc64Wj9I46TqYI1TrL/kiPAKcQUQG
-        7C6v1H8urwfEHSCwjdPeNvFKO2nqtDlAWLPZ/NXdsMmpgrpN2pTZ04lSGQKzXAOU0iI3Q4FtoXN/i
-        wJuGzDlGB+l8LMw+QjtCgbmctMxCQy+FuWfHgw5eUlWOF7JFDqKjiyyURzL4T0ihHdWXZN3pzAGJn
-        e+fjgfBg==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lP1Aj-00BGM1-MV; Wed, 24 Mar 2021 10:55:45 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 0D2463010C8;
-        Wed, 24 Mar 2021 11:55:33 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id F1B0428B290D0; Wed, 24 Mar 2021 11:55:32 +0100 (CET)
-Date:   Wed, 24 Mar 2021 11:55:32 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Josh Don <joshdon@google.com>
-Cc:     Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        David Rientjes <rientjes@google.com>,
-        Oleg Rombakh <olegrom@google.com>, linux-doc@vger.kernel.org,
-        Paul Turner <pjt@google.com>
-Subject: Re: [PATCH v2] sched: Warn on long periods of pending need_resched
-Message-ID: <YFsapDZevOve6C51@hirez.programming.kicks-ass.net>
-References: <20210323035706.572953-1-joshdon@google.com>
- <YFsIZjhCFbxKyos3@hirez.programming.kicks-ass.net>
- <YFsaYBO/UqMHSpGS@hirez.programming.kicks-ass.net>
+        with ESMTP id S230525AbhCXLAB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 07:00:01 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FFE2C061763
+        for <linux-doc@vger.kernel.org>; Wed, 24 Mar 2021 04:00:01 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id kt15so22633822ejb.12
+        for <linux-doc@vger.kernel.org>; Wed, 24 Mar 2021 04:00:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=Vq6UvNXDWrZTNsMJP/Ia1HW3F97MuZUnuthiX1bxGtU=;
+        b=cqmCCRie2CdDl1S1YgCHBGW+OkgqMG5N0dTNLJPsxgsJ7/+26XxfT7PFvafVoyNfjB
+         6nloQCQBP0YfyDSQVs9bDrEpT2pjWCzI/zmmZi1GXEHnXHH4yFsFeilTi1UifygghMZF
+         pclqUkLGeig18HyqBW3ow5NRhiCIExL3m4Yxc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Vq6UvNXDWrZTNsMJP/Ia1HW3F97MuZUnuthiX1bxGtU=;
+        b=dBnVB88N73AEiK/b6FH2dfXTc3A+ea4mDYQ7yV9cyy3B+wmjq4Q6wUcqe2q1ghmvHB
+         q8sDHN8adFz76oD9J/BpYUadET6j02tiySAMIKI2n0J/Pr1Uwkmn4Qdh03CE6RDuys5M
+         PaVYt0fcLEvIMaCuM09XZTLt+il0m4X6sT1oDR6SHZTyoOmzNnTBHdlaw1TA77Lvhf9d
+         Z+DzW5XgmXIu08H4FD0NUvAjrMiLzkB1OeI98yEe8WRz9lzQgDPtTCgbNGLRXw38trxb
+         FuQGUkC9RdFZ0ARR5CgRd6+QPEwN3frCZz5D6E0vIzhmeAfJpl3ZteOZ4FQL9GcrMPWD
+         nDfQ==
+X-Gm-Message-State: AOAM532YQxT6FqsM+ICiq15fzE0RNMMqaXkNhFmjSDhvzqKMcvxWNfL3
+        7ecNdC1ocEIzscpMzm720HWj7Q==
+X-Google-Smtp-Source: ABdhPJyfh90JecszOnCBMD0SmB+1HexRYEBzI5l+UU/eO0GM01GwpxlKrXSd47LJXxk7YIAsaQZESg==
+X-Received: by 2002:a17:906:489b:: with SMTP id v27mr2972817ejq.1.1616583599964;
+        Wed, 24 Mar 2021 03:59:59 -0700 (PDT)
+Received: from [192.168.1.149] ([80.208.71.248])
+        by smtp.gmail.com with ESMTPSA id l10sm951179edr.87.2021.03.24.03.59.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Mar 2021 03:59:59 -0700 (PDT)
+Subject: Re: [PATCH v2] editorconfig: Add automatic editor configuration file
+To:     Jonathan Corbet <corbet@lwn.net>, Danny Lin <danny@kdrag0n.dev>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <16043769.gqpzGLO8mG@pinwheel>
+ <20200703073143.423557-1-danny@kdrag0n.dev> <20200703062950.5e8c1785@lwn.net>
+From:   Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Message-ID: <9486d1ab-580a-0819-10c9-a62354a255e1@rasmusvillemoes.dk>
+Date:   Wed, 24 Mar 2021 11:59:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YFsaYBO/UqMHSpGS@hirez.programming.kicks-ass.net>
+In-Reply-To: <20200703062950.5e8c1785@lwn.net>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 24, 2021 at 11:54:24AM +0100, Peter Zijlstra wrote:
-> On Wed, Mar 24, 2021 at 10:37:43AM +0100, Peter Zijlstra wrote:
-> > Should we perhaps take out all SCHED_DEBUG sysctls and move them to
-> > /debug/sched/ ? (along with the existing /debug/sched_{debug,features,preemp}
-> > files)
-> > 
-> > Having all that in sysctl and documented gives them far too much sheen
-> > of ABI.
+On 03/07/2020 14.29, Jonathan Corbet wrote:
+
+[doing a bit of necromancy here]
+
+> On Fri,  3 Jul 2020 00:31:43 -0700
+> Danny Lin <danny@kdrag0n.dev> wrote:
 > 
-> ... a little something like this ...
+>> EditorConfig is a standard for defining basic editor configuration in
+>> projects. There is support available for 47 code editors as of writing,
+>> including both built-in and extension support. Many notable projects
+>> have adopted the standard already, including zsh, htop, and qemu.
+>>
+>> While this isn't a full-fledged C code style specifier, it does set some
+>> basic ground rules that make it more convenient for contributors to use
+>> any editor of their choice and not have to worry about indentation, line
+>> endings, encoding, final newlines, etc. This should make it
+>> significantly easier to conform to the kernel's general code style when
+>> used in combination with clang-format.
+>>
+>> For more information, check the official EditorConfig website:
+>> https://editorconfig.org/
+>>
+>> Signed-off-by: Danny Lin <danny@kdrag0n.dev>
+>> ---
 > 
+> So I worry a bit that not everybody will welcome the addition of a dotfile
+> that may be magically interpreted by their editor.
 
-And then the parent post becomes something like this..
+I would suppose that one would have to enable editorconfig support
+explicitly in one's editor, so this would have no effect for people that
+haven't done so (though there are almost certainly exceptions).
 
----
-Subject: sched: Warn on long periods of pending need_resched
-From: Paul Turner <pjt@google.com>
-Date: Mon, 22 Mar 2021 20:57:06 -0700
+> I also worry that the
+> file itself could become a battleground for people wanting to argue about
+> style issues.
 
-From: Paul Turner <pjt@google.com>
+I don't think so, not any more than the coding-style document is, and
+that seems to be pretty solid (but as doc maintainer, you'd know better).
 
-CPU scheduler marks need_resched flag to signal a schedule() on a
-particular CPU. But, schedule() may not happen immediately in cases
-where the current task is executing in the kernel mode (no
-preemption state) for extended periods of time.
+> 
+> Perhaps I worry a bit too much...?
 
-This patch adds a warn_on if need_resched is pending for more than the
-time specified in sysctl resched_latency_warn_ms. If it goes off, it is
-likely that there is a missing cond_resched() somewhere. Monitoring is
-done via the tick and the accuracy is hence limited to jiffy scale. This
-also means that we won't trigger the warning if the tick is disabled.
+As someone who regularly needs to submit patches to random upstream
+projects to fix bugs or implement minor features, I for one would really
+welcome more widespread use of editorconfig. While I mostly work with
+the linux kernel (and other projects using the same C style), so my
+default C style setting is "linux", even for the kernel this would be
+helpful to me when I poke around in none-C files (shell scripts, for
+example).
 
-This feature is default disabled.
-
-Signed-off-by: Paul Turner <pjt@google.com>
-Signed-off-by: Josh Don <joshdon@google.com>
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Link: https://lkml.kernel.org/r/20210323035706.572953-1-joshdon@google.com
----
- include/linux/sched/sysctl.h |    3 +
- kernel/sched/core.c          |   75 ++++++++++++++++++++++++++++++++++++++++++-
- kernel/sched/debug.c         |   13 +++++++
- kernel/sched/features.h      |    2 +
- kernel/sched/sched.h         |   10 +++++
- 5 files changed, 102 insertions(+), 1 deletion(-)
-
---- a/include/linux/sched/sysctl.h
-+++ b/include/linux/sched/sysctl.h
-@@ -48,6 +48,9 @@ extern unsigned int sysctl_numa_balancin
- #ifdef CONFIG_SCHED_DEBUG
- extern __read_mostly unsigned int sysctl_sched_migration_cost;
- extern __read_mostly unsigned int sysctl_sched_nr_migrate;
-+
-+extern int sysctl_resched_latency_warn_ms;
-+extern int sysctl_resched_latency_warn_once;
- #endif
- 
- /*
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -58,7 +58,21 @@ const_debug unsigned int sysctl_sched_fe
- #include "features.h"
- 	0;
- #undef SCHED_FEAT
--#endif
-+
-+/*
-+ * Print a warning if need_resched is set for the given duration (if
-+ * resched_latency_warn_enabled is set).
-+ *
-+ * If sysctl_resched_latency_warn_once is set, only one warning will be shown
-+ * per boot.
-+ *
-+ * Resched latency will be ignored for the first resched_boot_quiet_sec, to
-+ * reduce false alarms.
-+ */
-+int sysctl_resched_latency_warn_ms = 100;
-+int sysctl_resched_latency_warn_once = 1;
-+const long resched_boot_quiet_sec = 600;
-+#endif /* CONFIG_SCHED_DEBUG */
- 
- /*
-  * Number of tasks to iterate in a single balance run.
-@@ -4485,6 +4499,56 @@ unsigned long long task_sched_runtime(st
- 	return ns;
- }
- 
-+#ifdef CONFIG_SCHED_DEBUG
-+static u64 resched_latency_check(struct rq *rq)
-+{
-+	int latency_warn_ms = READ_ONCE(sysctl_resched_latency_warn_ms);
-+	u64 need_resched_latency, now = rq_clock(rq);
-+	static bool warned_once;
-+
-+	if (sysctl_resched_latency_warn_once && warned_once)
-+		return 0;
-+
-+	if (!need_resched() || WARN_ON_ONCE(latency_warn_ms < 2))
-+		return 0;
-+
-+	/* Disable this warning for the first few mins after boot */
-+	if (now < resched_boot_quiet_sec * NSEC_PER_SEC)
-+		return 0;
-+
-+	if (!rq->last_seen_need_resched_ns) {
-+		rq->last_seen_need_resched_ns = now;
-+		rq->ticks_without_resched = 0;
-+		return 0;
-+	}
-+
-+	rq->ticks_without_resched++;
-+	need_resched_latency = now - rq->last_seen_need_resched_ns;
-+	if (need_resched_latency <= latency_warn_ms * NSEC_PER_MSEC)
-+		return 0;
-+
-+	warned_once = true;
-+
-+	return need_resched_latency;
-+}
-+
-+static int __init setup_resched_latency_warn_ms(char *str)
-+{
-+	long val;
-+
-+	if ((kstrtol(str, 0, &val))) {
-+		pr_warn("Unable to set resched_latency_warn_ms\n");
-+		return 1;
-+	}
-+
-+	sysctl_resched_latency_warn_ms = val;
-+	return 1;
-+}
-+__setup("resched_latency_warn_ms=", setup_resched_latency_warn_ms);
-+#else
-+static inline u64 resched_latency_check(struct rq *rq) { return 0; }
-+#endif /* CONFIG_SCHED_DEBUG */
-+
- /*
-  * This function gets called by the timer code, with HZ frequency.
-  * We call it with interrupts disabled.
-@@ -4496,6 +4560,7 @@ void scheduler_tick(void)
- 	struct task_struct *curr = rq->curr;
- 	struct rq_flags rf;
- 	unsigned long thermal_pressure;
-+	u64 resched_latency;
- 
- 	arch_scale_freq_tick();
- 	sched_clock_tick();
-@@ -4506,10 +4571,15 @@ void scheduler_tick(void)
- 	thermal_pressure = arch_scale_thermal_pressure(cpu_of(rq));
- 	update_thermal_load_avg(rq_clock_thermal(rq), rq, thermal_pressure);
- 	curr->sched_class->task_tick(rq, curr, 0);
-+	if (sched_feat(LATENCY_WARN))
-+		resched_latency = resched_latency_check(rq);
- 	calc_global_load_tick(rq);
- 
- 	rq_unlock(rq, &rf);
- 
-+	if (sched_feat(LATENCY_WARN) && resched_latency)
-+		resched_latency_warn(cpu, resched_latency);
-+
- 	perf_event_task_tick();
- 
- #ifdef CONFIG_SMP
-@@ -5004,6 +5074,9 @@ static void __sched notrace __schedule(b
- 	next = pick_next_task(rq, prev, &rf);
- 	clear_tsk_need_resched(prev);
- 	clear_preempt_need_resched();
-+#ifdef CONFIG_SCHED_DEBUG
-+	rq->last_seen_need_resched_ns = 0;
-+#endif
- 
- 	if (likely(prev != next)) {
- 		rq->nr_switches++;
---- a/kernel/sched/debug.c
-+++ b/kernel/sched/debug.c
-@@ -321,6 +321,9 @@ static __init int sched_init_debug(void)
- 	debugfs_create_u32("min_granularity_ns", 0644, debugfs_sched, &sysctl_sched_min_granularity);
- 	debugfs_create_u32("wakeup_granularity_ns", 0644, debugfs_sched, &sysctl_sched_wakeup_granularity);
- 
-+	debugfs_create_u32("latency_warn_ms", 0644, debugfs_sched, &sysctl_resched_latency_warn_ms);
-+	debugfs_create_u32("latency_warn_once", 0644, debugfs_sched, &sysctl_resched_latency_warn_once);
-+
- #ifdef CONFIG_SMP
- 	debugfs_create_file("tunable_scaling", 0644, debugfs_sched, NULL, &sched_scaling_fops);
- 	debugfs_create_u32("migration_cost_ns", 0644, debugfs_sched, &sysctl_sched_migration_cost);
-@@ -1194,3 +1197,13 @@ void proc_sched_set_task(struct task_str
- 	memset(&p->se.statistics, 0, sizeof(p->se.statistics));
- #endif
- }
-+
-+void resched_latency_warn(int cpu, u64 latency)
-+{
-+	static DEFINE_RATELIMIT_STATE(latency_check_ratelimit, 60 * 60 * HZ, 1);
-+
-+	WARN(__ratelimit(&latency_check_ratelimit),
-+	     "sched: CPU %d need_resched set for > %llu ns (%d ticks) "
-+	     "without schedule\n",
-+	     cpu, latency, cpu_rq(cpu)->ticks_without_resched);
-+}
---- a/kernel/sched/features.h
-+++ b/kernel/sched/features.h
-@@ -90,3 +90,5 @@ SCHED_FEAT(WA_BIAS, true)
-  */
- SCHED_FEAT(UTIL_EST, true)
- SCHED_FEAT(UTIL_EST_FASTUP, true)
-+
-+SCHED_FEAT(LATENCY_WARN, false)
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -58,6 +58,7 @@
- #include <linux/prefetch.h>
- #include <linux/profile.h>
- #include <linux/psi.h>
-+#include <linux/ratelimit.h>
- #include <linux/rcupdate_wait.h>
- #include <linux/security.h>
- #include <linux/stop_machine.h>
-@@ -971,6 +972,11 @@ struct rq {
- 
- 	atomic_t		nr_iowait;
- 
-+#ifdef CONFIG_SCHED_DEBUG
-+	u64 last_seen_need_resched_ns;
-+	int ticks_without_resched;
-+#endif
-+
- #ifdef CONFIG_MEMBARRIER
- 	int membarrier_state;
- #endif
-@@ -2374,6 +2380,8 @@ extern void print_dl_stats(struct seq_fi
- extern void print_cfs_rq(struct seq_file *m, int cpu, struct cfs_rq *cfs_rq);
- extern void print_rt_rq(struct seq_file *m, int cpu, struct rt_rq *rt_rq);
- extern void print_dl_rq(struct seq_file *m, int cpu, struct dl_rq *dl_rq);
-+
-+extern void resched_latency_warn(int cpu, u64 latency);
- #ifdef CONFIG_NUMA_BALANCING
- extern void
- show_numa_stats(struct task_struct *p, struct seq_file *m);
-@@ -2381,6 +2389,8 @@ extern void
- print_numa_stats(struct seq_file *m, int node, unsigned long tsf,
- 	unsigned long tpf, unsigned long gsf, unsigned long gpf);
- #endif /* CONFIG_NUMA_BALANCING */
-+#else
-+static inline void resched_latency_warn(int cpu, u64 latency) {}
- #endif /* CONFIG_SCHED_DEBUG */
- 
- extern void init_cfs_rq(struct cfs_rq *cfs_rq);
+Rasmus
