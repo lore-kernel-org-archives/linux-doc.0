@@ -2,923 +2,676 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC573C05023
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 19:15:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C26FC433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 19:32:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9FA4D61A25
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 19:15:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4587061A1F
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 19:32:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237834AbhCXTPM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 15:15:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55768 "EHLO
+        id S237876AbhCXTbd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 15:31:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237863AbhCXTOw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 15:14:52 -0400
-Received: from smtp-190d.mail.infomaniak.ch (smtp-190d.mail.infomaniak.ch [IPv6:2001:1600:3:17::190d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 793EEC061763
-        for <linux-doc@vger.kernel.org>; Wed, 24 Mar 2021 12:14:52 -0700 (PDT)
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4F5Hx52FKJzMqKN2;
-        Wed, 24 Mar 2021 20:14:49 +0100 (CET)
-Received: from localhost (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4F5Hx46NJtzlh8T4;
-        Wed, 24 Mar 2021 20:14:48 +0100 (CET)
-From:   =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-To:     James Morris <jmorris@namei.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>
-Cc:     =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@linux.microsoft.com>
-Subject: [PATCH v31 02/12] landlock: Add ruleset and domain management
-Date:   Wed, 24 Mar 2021 20:15:10 +0100
-Message-Id: <20210324191520.125779-3-mic@digikod.net>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210324191520.125779-1-mic@digikod.net>
-References: <20210324191520.125779-1-mic@digikod.net>
+        with ESMTP id S237783AbhCXTbH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 15:31:07 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A4A9C061763;
+        Wed, 24 Mar 2021 12:31:07 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id j25so18122593pfe.2;
+        Wed, 24 Mar 2021 12:31:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=kPViiWzpd+vtjyHTG7l19ffYtZablT+7CwlxZ0j8qsA=;
+        b=FhpA2GxkcctvO1gdcphTKGzMpf4llu2lp/YGRtJxxfwnLRx6c7sKIWeto7Q2aa4b9I
+         qCOHrx0ttTaCG3nrL6AVitTvZ7kGstK2ZwE0fR6iSrUjy5Wvs9opHCeoxXq8EqejChLH
+         o0NQ8neuGIzOgah4XsjjOz9Vhr8mqmxk0ebjxxMfdu5jlERiW/+TKBR6zQmZdlxqetit
+         IC2sAW1UOw9+G97XFVcODmcHiyjzBJPvBtZjV5+HL2ujA+t61FQwrD+4PNTbqcUX+Vx9
+         exgDnGqAbTVmc4lfQRWCsS8wZLTCit196WxMCok0ezb9t1megSiGxEMd9ZKl2F1BjHTO
+         U/gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=kPViiWzpd+vtjyHTG7l19ffYtZablT+7CwlxZ0j8qsA=;
+        b=jEu0jMbEukgK/BAuufrvJcaj+8hkljI+46AnHIf6U7C/+4duysGVO/rrOEf2/G2vUj
+         5EbCbOT5AClz3riPkJ+iYHxtyO205vYc+6RxGO6htblJXRjTaqdZoNIvh0MP/CAxtWcV
+         b/0MohfkKvb2S6aVV+pdrn1wPV/pHqU42hQwZ6rs941Zu4qPoRgNKUR3esoGSHvZS02M
+         MaCmo9AggqMgNKunivOxNcVf0EB+p564DhrlKqMgbTSgEdpXGs86hteW++eZQIo91HfL
+         7ksuyfg4jn7v9560W3Oc+aeLm18+/QWQyT1dFWO+OXymXBwjxcNCY24DAZkEyW1iG1CE
+         USXA==
+X-Gm-Message-State: AOAM531KDAwR9KZ5bEGJn7ZC8+/8fmQX0GWlrQ4BGiXEH4WaJxy/W9UT
+        OU1okZz4XxaA1fxHRpy2ghKhVbCOVb6YAZUIg84=
+X-Google-Smtp-Source: ABdhPJyP8MZr8HircpDEznu1/OzkKhg9f/Hc4muQoq6lbrgZqvcxbosf4BNPiXPFLnn/UMORz0VV2o/wnNDHLC9nN6E=
+X-Received: by 2002:a17:902:c808:b029:e6:4204:f62f with SMTP id
+ u8-20020a170902c808b02900e64204f62fmr5145533plx.0.1616614266814; Wed, 24 Mar
+ 2021 12:31:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210324183610.4574-1-maciej.kwapulinski@linux.intel.com> <20210324183610.4574-2-maciej.kwapulinski@linux.intel.com>
+In-Reply-To: <20210324183610.4574-2-maciej.kwapulinski@linux.intel.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 24 Mar 2021 21:30:49 +0200
+Message-ID: <CAHp75Vf54GNsw_xWqiOhZx5aHHnQ_-wUWugQ8w9vJPRheLxHFA@mail.gmail.com>
+Subject: Re: [PATCH v2 01/13] intel_gna: add driver module
+To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
+        Savo Novakovic <savox.novakovic@intel.com>,
+        Jianxun Zhang <jianxun.zhang@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Mickaël Salaün <mic@linux.microsoft.com>
+On Wed, Mar 24, 2021 at 8:38 PM Maciej Kwapulinski
+<maciej.kwapulinski@linux.intel.com> wrote:
+>
+> From: Tomasz Jankowski <tomasz1.jankowski@intel.com>
+>
+> Add a new PCI driver for Intel(R) Gaussian & Neural Accelerator
+> with basic support like module loading and unloading. The full
+> function of the driver will be added by further changes.
+>
+> Signed-off-by: Tomasz Jankowski <tomasz1.jankowski@intel.com>
+> Tested-by: Savo Novakovic <savox.novakovic@intel.com>
+> Co-developed-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+> Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
+> Co-developed-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+> Signed-off-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+> ---
+>  Documentation/misc-devices/index.rst          |   1 +
+>  Documentation/misc-devices/intel/gna.rst      |  48 ++++++
+>  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+>  MAINTAINERS                                   |   7 +
+>  drivers/misc/Kconfig                          |   1 +
+>  drivers/misc/Makefile                         |   1 +
+>  drivers/misc/intel/gna/Kbuild                 |   5 +
+>  drivers/misc/intel/gna/Kconfig                |  13 ++
+>  drivers/misc/intel/gna/gna_device.c           |  74 +++++++++
+>  drivers/misc/intel/gna/gna_device.h           |  36 ++++
+>  drivers/misc/intel/gna/gna_driver.c           |  39 +++++
+>  drivers/misc/intel/gna/gna_driver.h           |  15 ++
 
-A Landlock ruleset is mainly a red-black tree with Landlock rules as
-nodes.  This enables quick update and lookup to match a requested
-access, e.g. to a file.  A ruleset is usable through a dedicated file
-descriptor (cf. following commit implementing syscalls) which enables a
-process to create and populate a ruleset with new rules.
+What is the point now to have gna/gna_, I guess the latter should go?
 
-A domain is a ruleset tied to a set of processes.  This group of rules
-defines the security policy enforced on these processes and their future
-children.  A domain can transition to a new domain which is the
-intersection of all its constraints and those of a ruleset provided by
-the current process.  This modification only impact the current process.
-This means that a process can only gain more constraints (i.e. lose
-accesses) over time.
+>  include/uapi/misc/intel/gna.h                 | 155 ++++++++++++++++++
+>  13 files changed, 396 insertions(+)
+>  create mode 100644 Documentation/misc-devices/intel/gna.rst
+>  create mode 100644 drivers/misc/intel/gna/Kbuild
+>  create mode 100644 drivers/misc/intel/gna/Kconfig
+>  create mode 100644 drivers/misc/intel/gna/gna_device.c
+>  create mode 100644 drivers/misc/intel/gna/gna_device.h
+>  create mode 100644 drivers/misc/intel/gna/gna_driver.c
+>  create mode 100644 drivers/misc/intel/gna/gna_driver.h
+>  create mode 100644 include/uapi/misc/intel/gna.h
+>
+> diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
+> index 64420b3314fe..1b187ee121b0 100644
+> --- a/Documentation/misc-devices/index.rst
+> +++ b/Documentation/misc-devices/index.rst
+> @@ -19,6 +19,7 @@ fit into other categories.
+>     bh1770glc
+>     eeprom
+>     c2port
+> +   intel/gna
 
-Cc: James Morris <jmorris@namei.org>
-Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
-Acked-by: Serge Hallyn <serge@hallyn.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Reviewed-by: Jann Horn <jannh@google.com>
-Link: https://lore.kernel.org/r/20210324191520.125779-3-mic@digikod.net
----
+Shouldn't it preserve ordering?
 
-Changes since v30:
-* Rename put_rule() to free_rule() to be more consistent.
-* Add Reviewed-by Kees Cook.
-* Add Reviewed-by Jann Horn.
+>     ibmvmc
+>     ics932s401
+>     isl29003
+> diff --git a/Documentation/misc-devices/intel/gna.rst b/Documentation/misc-devices/intel/gna.rst
+> new file mode 100644
+> index 000000000000..9baeec5ceb5c
+> --- /dev/null
+> +++ b/Documentation/misc-devices/intel/gna.rst
+> @@ -0,0 +1,48 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +=====================================================
+> +Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA)
+> +=====================================================
+> +
+> +Acronyms
+> +--------
+> +GNA    - Gaussian & Neural Accelerator
+> +GMM    - Gaussian Mixer Model
+> +CNN    - Convolutional Neural Network
+> +RNN    - Recurrent Neural Networks
+> +DNN    - Deep Neural Networks
+> +
+> +Introduction
+> +------------
+> +The Intel(R) GNA is an internal PCI fixed device available on several Intel platforms/SoCs.
+> +Feature set depends on the Intel chipset SKU.
+> +
+> +Intel(R) GNA provides hardware accelerated computation for GMMs and Neural Networks.
+> +It supports several layer types: affine, recurrent, and convolutional among others.
+> +Hardware also provides helper layer types for copying and transposing matrices.
+> +
+> +Linux Driver
+> +------------
+> +The driver also registers a character device to expose file operations via dev node.
+> +
+> +The driver probes/removes PCI device, implements file operations, handles runtime
 
-Changes since v28:
-* Add Acked-by Serge Hallyn.
-* Clean up comment.
+a PCI device
 
-Changes since v27:
-* Fix domains with layers of non-overlapping access rights.
-* Add stricter limit checks (same semantic).
-* Change the grow direction of a rule layer stack to make it the same as
-  the new ruleset fs_access_masks stack (cosmetic change).
-* Cosmetic fix for a comment block.
 
-Changes since v26:
-* Fix spelling.
+> +power management, and interacts with hardware through MMIO registers.
+> +
+> +Multiple processes can independently file many requests to the driver. These requests are
+> +processed in a FIFO manner. The hardware can process one request at a time by using a FIFO
+> +queue.
+> +
+> +IOCTL
+> +-----
+> +Intel(R) GNA driver controls the device through IOCTL interfaces.
+> +Following IOCTL commands are supported:
+> +
+> +GNA_IOCTL_PARAM_GET gets driver and device capabilities.
+> +
+> +GNA_IOCTL_MEMORY_MAP locks user pages and GNA MMU setups for DMA transfer.
+> +
+> +GNA_IOCTL_MEMORY_UNMAP unlocks user pages and releases GNA MMU structures.
+> +
+> +GNA_IOCTL_COMPUTE submits a request to the device queue.
+> +
+> +GNA_IOCTL_WAIT blocks and waits on the submitted request.
+> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> index a4c75a28c839..9ec2b32f656a 100644
+> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
+> @@ -115,6 +115,7 @@ Code  Seq#    Include File                                           Comments
+>  'B'   C0-FF  advanced bbus                                           <mailto:maassen@uni-freiburg.de>
+>  'C'   all    linux/soundcard.h                                       conflict!
+>  'C'   01-2F  linux/capi.h                                            conflict!
+> +'C'   01-5F  uapi/misc/intel/gna.h                                   conflict!
+>  'C'   F0-FF  drivers/net/wan/cosa.h                                  conflict!
+>  'D'   all    arch/s390/include/asm/dasd.h
+>  'D'   40-5F  drivers/scsi/dpt/dtpi_ioctl.h
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index bfc1b86e3e73..da926aa4523c 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8928,6 +8928,13 @@ S:       Maintained
+>  F:     Documentation/fb/intelfb.rst
+>  F:     drivers/video/fbdev/intelfb/
+>
+> +INTEL GNA PCI DRIVER
+> +M:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+> +S:     Maintained
+> +F:     Documentation/misc-devices/intel/gna.rst
+> +F:     drivers/misc/intel/gna/*
+> +F:     include/uapi/misc/intel/gna.h
+> +
+>  INTEL GPIO DRIVERS
+>  M:     Andy Shevchenko <andy@kernel.org>
+>  L:     linux-gpio@vger.kernel.org
+> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
+> index fafa8b0d8099..ce3dc5b9f821 100644
+> --- a/drivers/misc/Kconfig
+> +++ b/drivers/misc/Kconfig
+> @@ -481,4 +481,5 @@ source "drivers/misc/ocxl/Kconfig"
+>  source "drivers/misc/cardreader/Kconfig"
+>  source "drivers/misc/habanalabs/Kconfig"
+>  source "drivers/misc/uacce/Kconfig"
+> +source "drivers/misc/intel/gna/Kconfig"
+>  endmenu
+> diff --git a/drivers/misc/Makefile b/drivers/misc/Makefile
+> index d23231e73330..5fca2e730d96 100644
+> --- a/drivers/misc/Makefile
+> +++ b/drivers/misc/Makefile
+> @@ -57,3 +57,4 @@ obj-$(CONFIG_HABANA_AI)               += habanalabs/
+>  obj-$(CONFIG_UACCE)            += uacce/
+>  obj-$(CONFIG_XILINX_SDFEC)     += xilinx_sdfec.o
+>  obj-$(CONFIG_HISI_HIKEY_USB)   += hisi_hikey_usb.o
+> +obj-$(CONFIG_INTEL_GNA)                += intel/gna/
+> diff --git a/drivers/misc/intel/gna/Kbuild b/drivers/misc/intel/gna/Kbuild
+> new file mode 100644
+> index 000000000000..5d3becc71683
+> --- /dev/null
+> +++ b/drivers/misc/intel/gna/Kbuild
+> @@ -0,0 +1,5 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +intel_gna-y := gna_device.o gna_driver.o
+> +
+> +obj-$(CONFIG_INTEL_GNA) += intel_gna.o
+> diff --git a/drivers/misc/intel/gna/Kconfig b/drivers/misc/intel/gna/Kconfig
+> new file mode 100644
+> index 000000000000..c3b768a40684
+> --- /dev/null
+> +++ b/drivers/misc/intel/gna/Kconfig
+> @@ -0,0 +1,13 @@
+> +#
+> +# Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA)
+> +#
+> +
+> +config INTEL_GNA
+> +       tristate "Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA)"
+> +       depends on X86_64 && PCI
 
-Changes since v25:
-* Add build-time checks for the num_layers and num_rules variables
-  according to LANDLOCK_MAX_NUM_LAYERS and LANDLOCK_MAX_NUM_RULES, and
-  move these limits to a dedicated file.
-* Cosmetic variable renames.
+Why 64?
 
-Changes since v24:
-* Update struct landlock_rule with a layer stack.  This reverts "Always
-  intersect access rights" from v24 and also adds the ability to tie
-  access rights with their policy layer.  As noted by Jann Horn, always
-  intersecting access rights made some use cases uselessly more
-  difficult to handle in user space.  Thanks to this new stack, we still
-  have a deterministic policy behavior whatever their level in the stack
-  of policies, while using a "union" of accesses when building a
-  ruleset.  The implementation use a FAM to keep the access checks quick
-  and memory efficient (4 bytes per layer per inode).  Update
-  insert_rule() accordingly.
+> +       help
+> +         This option enables the Intel(R) Gaussian & Neural Accelerator
+> +         (Intel(R) GNA) driver: intel_gna.
+> +         User space interface is defined in include/uapi/misc/intel/gna.h, while
+> +         information about functionality is in
+> +         Documentation/misc-devices/intel/gna.rst
+> diff --git a/drivers/misc/intel/gna/gna_device.c b/drivers/misc/intel/gna/gna_device.c
+> new file mode 100644
+> index 000000000000..431113297879
+> --- /dev/null
+> +++ b/drivers/misc/intel/gna/gna_device.c
+> @@ -0,0 +1,74 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright(c) 2017-2021 Intel Corporation
+> +
+> +#include <linux/module.h>
+> +#include <linux/pci.h>
+> +
+> +#include "gna_device.h"
+> +#include "gna_driver.h"
 
-Changes since v23:
-* Always intersect access rights.  Following the filesystem change
-  logic, make ruleset updates more consistent by always intersecting
-  access rights (boolean AND) instead of combining them (boolean OR) for
-  the same layer.  This defensive approach could also help avoid user
-  space to inadvertently allow multiple access rights for the same
-  object (e.g.  write and execute access on a path hierarchy) instead of
-  dealing with such inconsistency.  This can happen when there is no
-  deduplication of objects (e.g. paths and underlying inodes) whereas
-  they get different access rights with landlock_add_rule(2).
-* Add extra checks to make sure that:
-  - there is always an (allocated) object in each used rules;
-  - when updating a ruleset with a new rule (i.e. not merging two
-    rulesets), the ruleset doesn't contain multiple layers.
-* Hide merge parameter from the public landlock_insert_rule() API.  This
-  helps avoid misuse of this function.
-* Replace a remaining hardcoded 1 with SINGLE_DEPTH_NESTING.
+> +#define GNA_BAR0               0
 
-Changes since v22:
-* Explicitely use RB_ROOT and SINGLE_DEPTH_NESTING (suggested by Jann
-  Horn).
-* Improve comments and fix spelling (suggested by Jann Horn).
+Why? Expecting something different?
 
-Changes since v21:
-* Add and clean up comments.
+> +static void gna_dev_init(struct gna_private *gna_priv, struct pci_dev *pcidev,
+> +                       const struct pci_device_id *pci_id)
+> +{
 
-Changes since v18:
-* Account rulesets to kmemcg.
-* Remove struct holes.
-* Cosmetic changes.
+> +       pci_set_drvdata(pcidev, gna_priv);
 
-Changes since v17:
-* Move include/uapi/linux/landlock.h and _LANDLOCK_ACCESS_FS_* to a
-  following patch.
+You assign this and make it visible before assigning fields. Not good.
 
-Changes since v16:
-* Allow enforcement of empty ruleset, which enables deny-all policies.
+> +       gna_priv->parent = &pcidev->dev;
+> +       gna_priv->pdev = pcidev;
+> +       gna_priv->info = *(struct gna_drv_info *)pci_id->driver_data;
+> +       gna_priv->drv_priv = &gna_drv_priv;
+> +}
 
-Changes since v15:
-* Replace layer_levels and layer_depth with a bitfield of layers, cf.
-  filesystem commit.
-* Rename the LANDLOCK_ACCESS_FS_{UNLINK,RMDIR} with
-  LANDLOCK_ACCESS_FS_REMOVE_{FILE,DIR} because it makes sense to use
-  them for the action of renaming a file or a directory, which may lead
-  to the removal of the source file or directory.  Removes the
-  LANDLOCK_ACCESS_FS_{LINK_TO,RENAME_FROM,RENAME_TO} which are now
-  replaced with LANDLOCK_ACCESS_FS_REMOVE_{FILE,DIR} and
-  LANDLOCK_ACCESS_FS_MAKE_* .
-* Update the documentation accordingly and highlight how the access
-  rights are taken into account.
-* Change nb_rules from atomic_t to u32 because it is not use anymore by
-  show_fdinfo().
-* Add safeguard for level variables types.
-* Check max number of rules.
-* Replace struct landlock_access (self and beneath bitfields) with one
-  bitfield.
-* Remove useless variable.
-* Add comments.
+Why is this can't be inlined into ->probe() ?
 
-Changes since v14:
-* Simplify the object, rule and ruleset management at the expense of a
-  less aggressive memory freeing (contributed by Jann Horn, with
-  additional modifications):
-  - Make a domain immutable (remove the opportunistic cleaning).
-  - Remove RCU pointers.
-  - Merge struct landlock_ref and struct landlock_ruleset_elem into
-    landlock_rule: get ride of rule's RCU.
-  - Adjust union.
-  - Remove the landlock_insert_rule() check about a new object with the
-    same address as a previously disabled one, because it is not
-    possible to disable a rule anymore.
-  Cf. https://lore.kernel.org/lkml/CAG48ez21bEn0wL1bbmTiiu8j9jP5iEWtHOwz4tURUJ+ki0ydYw@mail.gmail.com/
-* Fix nested domains by implementing a notion of layer level and depth:
-  - Update landlock_insert_rule() to manage such layers.
-  - Add an inherit_ruleset() helper to properly create a new domain.
-  - Rename landlock_find_access() to landlock_find_rule() and return a
-    full rule reference.
-  - Add a layer_level and a layer_depth fields to struct landlock_rule.
-  - Add a top_layer_level field to struct landlock_ruleset.
-* Remove access rights that may be required for FD-only requests:
-  truncate, getattr, lock, chmod, chown, chgrp, ioctl.  This will be
-  handle in a future evolution of Landlock, but right now the goal is to
-  lighten the code to ease review.
-* Remove LANDLOCK_ACCESS_FS_OPEN and rename
-  LANDLOCK_ACCESS_FS_{READ,WRITE} with a FILE suffix.
-* Rename LANDLOCK_ACCESS_FS_READDIR to match the *_FILE pattern.
-* Remove LANDLOCK_ACCESS_FS_MAP which was useless.
-* Fix memory leak in put_hierarchy() (reported by Jann Horn).
-* Fix user-after-free and rename free_ruleset() (reported by Jann Horn).
-* Replace the for loops with rbtree_postorder_for_each_entry_safe().
-* Constify variables.
-* Only use refcount_inc() through getter helpers.
-* Change Landlock_insert_ruleset_access() to
-  Landlock_insert_ruleset_rule().
-* Rename landlock_put_ruleset_enqueue() to landlock_put_ruleset_deferred().
-* Improve kernel documentation and add a warning about the unhandled
-  access/syscall families.
-* Move ABI check to syscall.c .
+> +int gna_probe(struct pci_dev *pcidev, const struct pci_device_id *pci_id)
+> +{
+> +       struct gna_private *gna_priv;
+> +       void __iomem *const *iomap;
+> +       unsigned long phys_len;
+> +       phys_addr_t phys;
+> +       int ret;
+> +
+> +       ret = pcim_enable_device(pcidev);
+> +       if (ret) {
+> +               dev_err(&pcidev->dev, "pci device can't be enabled\n");
+> +               return ret;
+> +       }
+> +
+> +       ret = pcim_iomap_regions(pcidev, 1 << GNA_BAR0, GNA_DV_NAME);
+> +       if (ret) {
+> +               dev_err(&pcidev->dev, "cannot iomap regions\n");
+> +               return ret;
+> +       }
 
-Changes since v13:
-* New implementation, inspired by the previous inode eBPF map, but
-  agnostic to the underlying kernel object.
+> +       phys = pci_resource_start(pcidev, GNA_BAR0);
+> +       phys_len = pci_resource_len(pcidev, GNA_BAR0);
+> +
+> +       dev_info(&pcidev->dev, "physical base address %pap, %lu bytes\n",
+> +               &phys, phys_len);
 
-Previous changes:
-https://lore.kernel.org/lkml/20190721213116.23476-7-mic@digikod.net/
----
- security/landlock/Makefile  |   2 +-
- security/landlock/limits.h  |  17 ++
- security/landlock/ruleset.c | 469 ++++++++++++++++++++++++++++++++++++
- security/landlock/ruleset.h | 165 +++++++++++++
- 4 files changed, 652 insertions(+), 1 deletion(-)
- create mode 100644 security/landlock/limits.h
- create mode 100644 security/landlock/ruleset.c
- create mode 100644 security/landlock/ruleset.h
+Why is it important?
 
-diff --git a/security/landlock/Makefile b/security/landlock/Makefile
-index cb6deefbf4c0..d846eba445bb 100644
---- a/security/landlock/Makefile
-+++ b/security/landlock/Makefile
-@@ -1,3 +1,3 @@
- obj-$(CONFIG_SECURITY_LANDLOCK) := landlock.o
- 
--landlock-y := object.o
-+landlock-y := object.o ruleset.o
-diff --git a/security/landlock/limits.h b/security/landlock/limits.h
-new file mode 100644
-index 000000000000..b734f597bb0e
---- /dev/null
-+++ b/security/landlock/limits.h
-@@ -0,0 +1,17 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Landlock LSM - Limits for different components
-+ *
-+ * Copyright © 2016-2020 Mickaël Salaün <mic@digikod.net>
-+ * Copyright © 2018-2020 ANSSI
-+ */
-+
-+#ifndef _SECURITY_LANDLOCK_LIMITS_H
-+#define _SECURITY_LANDLOCK_LIMITS_H
-+
-+#include <linux/limits.h>
-+
-+#define LANDLOCK_MAX_NUM_LAYERS		64
-+#define LANDLOCK_MAX_NUM_RULES		U32_MAX
-+
-+#endif /* _SECURITY_LANDLOCK_LIMITS_H */
-diff --git a/security/landlock/ruleset.c b/security/landlock/ruleset.c
-new file mode 100644
-index 000000000000..2e616f6d5274
---- /dev/null
-+++ b/security/landlock/ruleset.c
-@@ -0,0 +1,469 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Landlock LSM - Ruleset management
-+ *
-+ * Copyright © 2016-2020 Mickaël Salaün <mic@digikod.net>
-+ * Copyright © 2018-2020 ANSSI
-+ */
-+
-+#include <linux/bits.h>
-+#include <linux/bug.h>
-+#include <linux/compiler_types.h>
-+#include <linux/err.h>
-+#include <linux/errno.h>
-+#include <linux/kernel.h>
-+#include <linux/lockdep.h>
-+#include <linux/overflow.h>
-+#include <linux/rbtree.h>
-+#include <linux/refcount.h>
-+#include <linux/slab.h>
-+#include <linux/spinlock.h>
-+#include <linux/workqueue.h>
-+
-+#include "limits.h"
-+#include "object.h"
-+#include "ruleset.h"
-+
-+static struct landlock_ruleset *create_ruleset(const u32 num_layers)
-+{
-+	struct landlock_ruleset *new_ruleset;
-+
-+	new_ruleset = kzalloc(struct_size(new_ruleset, fs_access_masks,
-+				num_layers), GFP_KERNEL_ACCOUNT);
-+	if (!new_ruleset)
-+		return ERR_PTR(-ENOMEM);
-+	refcount_set(&new_ruleset->usage, 1);
-+	mutex_init(&new_ruleset->lock);
-+	new_ruleset->root = RB_ROOT;
-+	new_ruleset->num_layers = num_layers;
-+	/*
-+	 * hierarchy = NULL
-+	 * num_rules = 0
-+	 * fs_access_masks[] = 0
-+	 */
-+	return new_ruleset;
-+}
-+
-+struct landlock_ruleset *landlock_create_ruleset(const u32 fs_access_mask)
-+{
-+	struct landlock_ruleset *new_ruleset;
-+
-+	/* Informs about useless ruleset. */
-+	if (!fs_access_mask)
-+		return ERR_PTR(-ENOMSG);
-+	new_ruleset = create_ruleset(1);
-+	if (!IS_ERR(new_ruleset))
-+		new_ruleset->fs_access_masks[0] = fs_access_mask;
-+	return new_ruleset;
-+}
-+
-+static void build_check_rule(void)
-+{
-+	const struct landlock_rule rule = {
-+		.num_layers = ~0,
-+	};
-+
-+	BUILD_BUG_ON(rule.num_layers < LANDLOCK_MAX_NUM_LAYERS);
-+}
-+
-+static struct landlock_rule *create_rule(
-+		struct landlock_object *const object,
-+		const struct landlock_layer (*const layers)[],
-+		const u32 num_layers,
-+		const struct landlock_layer *const new_layer)
-+{
-+	struct landlock_rule *new_rule;
-+	u32 new_num_layers;
-+
-+	build_check_rule();
-+	if (new_layer) {
-+		/* Should already be checked by landlock_merge_ruleset(). */
-+		if (WARN_ON_ONCE(num_layers >= LANDLOCK_MAX_NUM_LAYERS))
-+			return ERR_PTR(-E2BIG);
-+		new_num_layers = num_layers + 1;
-+	} else {
-+		new_num_layers = num_layers;
-+	}
-+	new_rule = kzalloc(struct_size(new_rule, layers, new_num_layers),
-+			GFP_KERNEL_ACCOUNT);
-+	if (!new_rule)
-+		return ERR_PTR(-ENOMEM);
-+	RB_CLEAR_NODE(&new_rule->node);
-+	landlock_get_object(object);
-+	new_rule->object = object;
-+	new_rule->num_layers = new_num_layers;
-+	/* Copies the original layer stack. */
-+	memcpy(new_rule->layers, layers,
-+			flex_array_size(new_rule, layers, num_layers));
-+	if (new_layer)
-+		/* Adds a copy of @new_layer on the layer stack. */
-+		new_rule->layers[new_rule->num_layers - 1] = *new_layer;
-+	return new_rule;
-+}
-+
-+static void free_rule(struct landlock_rule *const rule)
-+{
-+	might_sleep();
-+	if (!rule)
-+		return;
-+	landlock_put_object(rule->object);
-+	kfree(rule);
-+}
-+
-+static void build_check_ruleset(void)
-+{
-+	const struct landlock_ruleset ruleset = {
-+		.num_rules = ~0,
-+		.num_layers = ~0,
-+	};
-+
-+	BUILD_BUG_ON(ruleset.num_rules < LANDLOCK_MAX_NUM_RULES);
-+	BUILD_BUG_ON(ruleset.num_layers < LANDLOCK_MAX_NUM_LAYERS);
-+}
-+
-+/**
-+ * insert_rule - Create and insert a rule in a ruleset
-+ *
-+ * @ruleset: The ruleset to be updated.
-+ * @object: The object to build the new rule with.  The underlying kernel
-+ *          object must be held by the caller.
-+ * @layers: One or multiple layers to be copied into the new rule.
-+ * @num_layers: The number of @layers entries.
-+ *
-+ * When user space requests to add a new rule to a ruleset, @layers only
-+ * contains one entry and this entry is not assigned to any level.  In this
-+ * case, the new rule will extend @ruleset, similarly to a boolean OR between
-+ * access rights.
-+ *
-+ * When merging a ruleset in a domain, or copying a domain, @layers will be
-+ * added to @ruleset as new constraints, similarly to a boolean AND between
-+ * access rights.
-+ */
-+static int insert_rule(struct landlock_ruleset *const ruleset,
-+		struct landlock_object *const object,
-+		const struct landlock_layer (*const layers)[],
-+		size_t num_layers)
-+{
-+	struct rb_node **walker_node;
-+	struct rb_node *parent_node = NULL;
-+	struct landlock_rule *new_rule;
-+
-+	might_sleep();
-+	lockdep_assert_held(&ruleset->lock);
-+	if (WARN_ON_ONCE(!object || !layers))
-+		return -ENOENT;
-+	walker_node = &(ruleset->root.rb_node);
-+	while (*walker_node) {
-+		struct landlock_rule *const this = rb_entry(*walker_node,
-+				struct landlock_rule, node);
-+
-+		if (this->object != object) {
-+			parent_node = *walker_node;
-+			if (this->object < object)
-+				walker_node = &((*walker_node)->rb_right);
-+			else
-+				walker_node = &((*walker_node)->rb_left);
-+			continue;
-+		}
-+
-+		/* Only a single-level layer should match an existing rule. */
-+		if (WARN_ON_ONCE(num_layers != 1))
-+			return -EINVAL;
-+
-+		/* If there is a matching rule, updates it. */
-+		if ((*layers)[0].level == 0) {
-+			/*
-+			 * Extends access rights when the request comes from
-+			 * landlock_add_rule(2), i.e. @ruleset is not a domain.
-+			 */
-+			if (WARN_ON_ONCE(this->num_layers != 1))
-+				return -EINVAL;
-+			if (WARN_ON_ONCE(this->layers[0].level != 0))
-+				return -EINVAL;
-+			this->layers[0].access |= (*layers)[0].access;
-+			return 0;
-+		}
-+
-+		if (WARN_ON_ONCE(this->layers[0].level == 0))
-+			return -EINVAL;
-+
-+		/*
-+		 * Intersects access rights when it is a merge between a
-+		 * ruleset and a domain.
-+		 */
-+		new_rule = create_rule(object, &this->layers, this->num_layers,
-+				&(*layers)[0]);
-+		if (IS_ERR(new_rule))
-+			return PTR_ERR(new_rule);
-+		rb_replace_node(&this->node, &new_rule->node, &ruleset->root);
-+		free_rule(this);
-+		return 0;
-+	}
-+
-+	/* There is no match for @object. */
-+	build_check_ruleset();
-+	if (ruleset->num_rules >= LANDLOCK_MAX_NUM_RULES)
-+		return -E2BIG;
-+	new_rule = create_rule(object, layers, num_layers, NULL);
-+	if (IS_ERR(new_rule))
-+		return PTR_ERR(new_rule);
-+	rb_link_node(&new_rule->node, parent_node, walker_node);
-+	rb_insert_color(&new_rule->node, &ruleset->root);
-+	ruleset->num_rules++;
-+	return 0;
-+}
-+
-+static void build_check_layer(void)
-+{
-+	const struct landlock_layer layer = {
-+		.level = ~0,
-+	};
-+
-+	BUILD_BUG_ON(layer.level < LANDLOCK_MAX_NUM_LAYERS);
-+}
-+
-+/* @ruleset must be locked by the caller. */
-+int landlock_insert_rule(struct landlock_ruleset *const ruleset,
-+		struct landlock_object *const object, const u32 access)
-+{
-+	struct landlock_layer layers[] = {{
-+		.access = access,
-+		/* When @level is zero, insert_rule() extends @ruleset. */
-+		.level = 0,
-+	}};
-+
-+	build_check_layer();
-+	return insert_rule(ruleset, object, &layers, ARRAY_SIZE(layers));
-+}
-+
-+static inline void get_hierarchy(struct landlock_hierarchy *const hierarchy)
-+{
-+	if (hierarchy)
-+		refcount_inc(&hierarchy->usage);
-+}
-+
-+static void put_hierarchy(struct landlock_hierarchy *hierarchy)
-+{
-+	while (hierarchy && refcount_dec_and_test(&hierarchy->usage)) {
-+		const struct landlock_hierarchy *const freeme = hierarchy;
-+
-+		hierarchy = hierarchy->parent;
-+		kfree(freeme);
-+	}
-+}
-+
-+static int merge_ruleset(struct landlock_ruleset *const dst,
-+		struct landlock_ruleset *const src)
-+{
-+	struct landlock_rule *walker_rule, *next_rule;
-+	int err = 0;
-+
-+	might_sleep();
-+	/* Should already be checked by landlock_merge_ruleset() */
-+	if (WARN_ON_ONCE(!src))
-+		return 0;
-+	/* Only merge into a domain. */
-+	if (WARN_ON_ONCE(!dst || !dst->hierarchy))
-+		return -EINVAL;
-+
-+	/* Locks @dst first because we are its only owner. */
-+	mutex_lock(&dst->lock);
-+	mutex_lock_nested(&src->lock, SINGLE_DEPTH_NESTING);
-+
-+	/* Stacks the new layer. */
-+	if (WARN_ON_ONCE(src->num_layers != 1 || dst->num_layers < 1)) {
-+		err = -EINVAL;
-+		goto out_unlock;
-+	}
-+	dst->fs_access_masks[dst->num_layers - 1] = src->fs_access_masks[0];
-+
-+	/* Merges the @src tree. */
-+	rbtree_postorder_for_each_entry_safe(walker_rule, next_rule,
-+			&src->root, node) {
-+		struct landlock_layer layers[] = {{
-+			.level = dst->num_layers,
-+		}};
-+
-+		if (WARN_ON_ONCE(walker_rule->num_layers != 1)) {
-+			err = -EINVAL;
-+			goto out_unlock;
-+		}
-+		if (WARN_ON_ONCE(walker_rule->layers[0].level != 0)) {
-+			err = -EINVAL;
-+			goto out_unlock;
-+		}
-+		layers[0].access = walker_rule->layers[0].access;
-+		err = insert_rule(dst, walker_rule->object, &layers,
-+				ARRAY_SIZE(layers));
-+		if (err)
-+			goto out_unlock;
-+	}
-+
-+out_unlock:
-+	mutex_unlock(&src->lock);
-+	mutex_unlock(&dst->lock);
-+	return err;
-+}
-+
-+static int inherit_ruleset(struct landlock_ruleset *const parent,
-+		struct landlock_ruleset *const child)
-+{
-+	struct landlock_rule *walker_rule, *next_rule;
-+	int err = 0;
-+
-+	might_sleep();
-+	if (!parent)
-+		return 0;
-+
-+	/* Locks @child first because we are its only owner. */
-+	mutex_lock(&child->lock);
-+	mutex_lock_nested(&parent->lock, SINGLE_DEPTH_NESTING);
-+
-+	/* Copies the @parent tree. */
-+	rbtree_postorder_for_each_entry_safe(walker_rule, next_rule,
-+			&parent->root, node) {
-+		err = insert_rule(child, walker_rule->object,
-+				&walker_rule->layers, walker_rule->num_layers);
-+		if (err)
-+			goto out_unlock;
-+	}
-+
-+	if (WARN_ON_ONCE(child->num_layers <= parent->num_layers)) {
-+		err = -EINVAL;
-+		goto out_unlock;
-+	}
-+	/* Copies the parent layer stack and leaves a space for the new layer. */
-+	memcpy(child->fs_access_masks, parent->fs_access_masks,
-+			flex_array_size(parent, fs_access_masks, parent->num_layers));
-+
-+	if (WARN_ON_ONCE(!parent->hierarchy)) {
-+		err = -EINVAL;
-+		goto out_unlock;
-+	}
-+	get_hierarchy(parent->hierarchy);
-+	child->hierarchy->parent = parent->hierarchy;
-+
-+out_unlock:
-+	mutex_unlock(&parent->lock);
-+	mutex_unlock(&child->lock);
-+	return err;
-+}
-+
-+static void free_ruleset(struct landlock_ruleset *const ruleset)
-+{
-+	struct landlock_rule *freeme, *next;
-+
-+	might_sleep();
-+	rbtree_postorder_for_each_entry_safe(freeme, next, &ruleset->root,
-+			node)
-+		free_rule(freeme);
-+	put_hierarchy(ruleset->hierarchy);
-+	kfree(ruleset);
-+}
-+
-+void landlock_put_ruleset(struct landlock_ruleset *const ruleset)
-+{
-+	might_sleep();
-+	if (ruleset && refcount_dec_and_test(&ruleset->usage))
-+		free_ruleset(ruleset);
-+}
-+
-+static void free_ruleset_work(struct work_struct *const work)
-+{
-+	struct landlock_ruleset *ruleset;
-+
-+	ruleset = container_of(work, struct landlock_ruleset, work_free);
-+	free_ruleset(ruleset);
-+}
-+
-+void landlock_put_ruleset_deferred(struct landlock_ruleset *const ruleset)
-+{
-+	if (ruleset && refcount_dec_and_test(&ruleset->usage)) {
-+		INIT_WORK(&ruleset->work_free, free_ruleset_work);
-+		schedule_work(&ruleset->work_free);
-+	}
-+}
-+
-+/**
-+ * landlock_merge_ruleset - Merge a ruleset with a domain
-+ *
-+ * @parent: Parent domain.
-+ * @ruleset: New ruleset to be merged.
-+ *
-+ * Returns the intersection of @parent and @ruleset, or returns @parent if
-+ * @ruleset is empty, or returns a duplicate of @ruleset if @parent is empty.
-+ */
-+struct landlock_ruleset *landlock_merge_ruleset(
-+		struct landlock_ruleset *const parent,
-+		struct landlock_ruleset *const ruleset)
-+{
-+	struct landlock_ruleset *new_dom;
-+	u32 num_layers;
-+	int err;
-+
-+	might_sleep();
-+	if (WARN_ON_ONCE(!ruleset || parent == ruleset))
-+		return ERR_PTR(-EINVAL);
-+
-+	if (parent) {
-+		if (parent->num_layers >= LANDLOCK_MAX_NUM_LAYERS)
-+			return ERR_PTR(-E2BIG);
-+		num_layers = parent->num_layers + 1;
-+	} else {
-+		num_layers = 1;
-+	}
-+
-+	/* Creates a new domain... */
-+	new_dom = create_ruleset(num_layers);
-+	if (IS_ERR(new_dom))
-+		return new_dom;
-+	new_dom->hierarchy = kzalloc(sizeof(*new_dom->hierarchy),
-+			GFP_KERNEL_ACCOUNT);
-+	if (!new_dom->hierarchy) {
-+		err = -ENOMEM;
-+		goto out_put_dom;
-+	}
-+	refcount_set(&new_dom->hierarchy->usage, 1);
-+
-+	/* ...as a child of @parent... */
-+	err = inherit_ruleset(parent, new_dom);
-+	if (err)
-+		goto out_put_dom;
-+
-+	/* ...and including @ruleset. */
-+	err = merge_ruleset(new_dom, ruleset);
-+	if (err)
-+		goto out_put_dom;
-+
-+	return new_dom;
-+
-+out_put_dom:
-+	landlock_put_ruleset(new_dom);
-+	return ERR_PTR(err);
-+}
-+
-+/*
-+ * The returned access has the same lifetime as @ruleset.
-+ */
-+const struct landlock_rule *landlock_find_rule(
-+		const struct landlock_ruleset *const ruleset,
-+		const struct landlock_object *const object)
-+{
-+	const struct rb_node *node;
-+
-+	if (!object)
-+		return NULL;
-+	node = ruleset->root.rb_node;
-+	while (node) {
-+		struct landlock_rule *this = rb_entry(node,
-+				struct landlock_rule, node);
-+
-+		if (this->object == object)
-+			return this;
-+		if (this->object < object)
-+			node = node->rb_right;
-+		else
-+			node = node->rb_left;
-+	}
-+	return NULL;
-+}
-diff --git a/security/landlock/ruleset.h b/security/landlock/ruleset.h
-new file mode 100644
-index 000000000000..2d3ed7ec5a0a
---- /dev/null
-+++ b/security/landlock/ruleset.h
-@@ -0,0 +1,165 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Landlock LSM - Ruleset management
-+ *
-+ * Copyright © 2016-2020 Mickaël Salaün <mic@digikod.net>
-+ * Copyright © 2018-2020 ANSSI
-+ */
-+
-+#ifndef _SECURITY_LANDLOCK_RULESET_H
-+#define _SECURITY_LANDLOCK_RULESET_H
-+
-+#include <linux/mutex.h>
-+#include <linux/rbtree.h>
-+#include <linux/refcount.h>
-+#include <linux/workqueue.h>
-+
-+#include "object.h"
-+
-+/**
-+ * struct landlock_layer - Access rights for a given layer
-+ */
-+struct landlock_layer {
-+	/**
-+	 * @level: Position of this layer in the layer stack.
-+	 */
-+	u16 level;
-+	/**
-+	 * @access: Bitfield of allowed actions on the kernel object.  They are
-+	 * relative to the object type (e.g. %LANDLOCK_ACTION_FS_READ).
-+	 */
-+	u16 access;
-+};
-+
-+/**
-+ * struct landlock_rule - Access rights tied to an object
-+ */
-+struct landlock_rule {
-+	/**
-+	 * @node: Node in the ruleset's red-black tree.
-+	 */
-+	struct rb_node node;
-+	/**
-+	 * @object: Pointer to identify a kernel object (e.g. an inode).  This
-+	 * is used as a key for this ruleset element.  This pointer is set once
-+	 * and never modified.  It always points to an allocated object because
-+	 * each rule increments the refcount of its object.
-+	 */
-+	struct landlock_object *object;
-+	/**
-+	 * @num_layers: Number of entries in @layers.
-+	 */
-+	u32 num_layers;
-+	/**
-+	 * @layers: Stack of layers, from the latest to the newest, implemented
-+	 * as a flexible array member (FAM).
-+	 */
-+	struct landlock_layer layers[];
-+};
-+
-+/**
-+ * struct landlock_hierarchy - Node in a ruleset hierarchy
-+ */
-+struct landlock_hierarchy {
-+	/**
-+	 * @parent: Pointer to the parent node, or NULL if it is a root
-+	 * Landlock domain.
-+	 */
-+	struct landlock_hierarchy *parent;
-+	/**
-+	 * @usage: Number of potential children domains plus their parent
-+	 * domain.
-+	 */
-+	refcount_t usage;
-+};
-+
-+/**
-+ * struct landlock_ruleset - Landlock ruleset
-+ *
-+ * This data structure must contain unique entries, be updatable, and quick to
-+ * match an object.
-+ */
-+struct landlock_ruleset {
-+	/**
-+	 * @root: Root of a red-black tree containing &struct landlock_rule
-+	 * nodes.  Once a ruleset is tied to a process (i.e. as a domain), this
-+	 * tree is immutable until @usage reaches zero.
-+	 */
-+	struct rb_root root;
-+	/**
-+	 * @hierarchy: Enables hierarchy identification even when a parent
-+	 * domain vanishes.  This is needed for the ptrace protection.
-+	 */
-+	struct landlock_hierarchy *hierarchy;
-+	union {
-+		/**
-+		 * @work_free: Enables to free a ruleset within a lockless
-+		 * section.  This is only used by
-+		 * landlock_put_ruleset_deferred() when @usage reaches zero.
-+		 * The fields @lock, @usage, @num_rules, @num_layers and
-+		 * @fs_access_masks are then unused.
-+		 */
-+		struct work_struct work_free;
-+		struct {
-+			/**
-+			 * @lock: Protects against concurrent modifications of
-+			 * @root, if @usage is greater than zero.
-+			 */
-+			struct mutex lock;
-+			/**
-+			 * @usage: Number of processes (i.e. domains) or file
-+			 * descriptors referencing this ruleset.
-+			 */
-+			refcount_t usage;
-+			/**
-+			 * @num_rules: Number of non-overlapping (i.e. not for
-+			 * the same object) rules in this ruleset.
-+			 */
-+			u32 num_rules;
-+			/**
-+			 * @num_layers: Number of layers that are used in this
-+			 * ruleset.  This enables to check that all the layers
-+			 * allow an access request.  A value of 0 identifies a
-+			 * non-merged ruleset (i.e. not a domain).
-+			 */
-+			u32 num_layers;
-+			/**
-+			 * @fs_access_masks: Contains the subset of filesystem
-+			 * actions that are restricted by a ruleset.  A domain
-+			 * saves all layers of merged rulesets in a stack
-+			 * (FAM), starting from the first layer to the last
-+			 * one.  These layers are used when merging rulesets,
-+			 * for user space backward compatibility (i.e.
-+			 * future-proof), and to properly handle merged
-+			 * rulesets without overlapping access rights.  These
-+			 * layers are set once and never changed for the
-+			 * lifetime of the ruleset.
-+			 */
-+			u16 fs_access_masks[];
-+		};
-+	};
-+};
-+
-+struct landlock_ruleset *landlock_create_ruleset(const u32 fs_access_mask);
-+
-+void landlock_put_ruleset(struct landlock_ruleset *const ruleset);
-+void landlock_put_ruleset_deferred(struct landlock_ruleset *const ruleset);
-+
-+int landlock_insert_rule(struct landlock_ruleset *const ruleset,
-+		struct landlock_object *const object, const u32 access);
-+
-+struct landlock_ruleset *landlock_merge_ruleset(
-+		struct landlock_ruleset *const parent,
-+		struct landlock_ruleset *const ruleset);
-+
-+const struct landlock_rule *landlock_find_rule(
-+		const struct landlock_ruleset *const ruleset,
-+		const struct landlock_object *const object);
-+
-+static inline void landlock_get_ruleset(struct landlock_ruleset *const ruleset)
-+{
-+	if (ruleset)
-+		refcount_inc(&ruleset->usage);
-+}
-+
-+#endif /* _SECURITY_LANDLOCK_RULESET_H */
+> +       iomap = pcim_iomap_table(pcidev);
+
+> +       if (!iomap) {
+> +               dev_err(&pcidev->dev, "failed to iomap table\n");
+> +               return -ENODEV;
+> +       }
+
+This conditional is redundant.
+
+> +       gna_priv = devm_kzalloc(&pcidev->dev, sizeof(*gna_priv), GFP_KERNEL);
+> +       if (!gna_priv)
+> +               return -ENOMEM;
+> +
+> +       gna_priv->bar0_base = iomap[GNA_BAR0];
+> +
+> +       dev_dbg(&pcidev->dev, "bar0 memory address: %p\n", gna_priv->bar0_base);
+> +
+> +       ret = dma_set_mask(&pcidev->dev, DMA_BIT_MASK(64));
+> +       if (ret) {
+> +               dev_err(&pcidev->dev, "pci_set_dma_mask returned error %d\n", ret);
+
+Typo in the message.
+
+Why not try to fall back to 32 bit mask and support 32-bit builds?
+
+> +               return ret;
+> +       }
+> +
+> +       pci_set_master(pcidev);
+> +
+> +       gna_dev_init(gna_priv, pcidev, pci_id);
+> +
+> +       return 0;
+> +}
+> diff --git a/drivers/misc/intel/gna/gna_device.h b/drivers/misc/intel/gna/gna_device.h
+> new file mode 100644
+> index 000000000000..d0b47f75f47f
+> --- /dev/null
+> +++ b/drivers/misc/intel/gna/gna_device.h
+> @@ -0,0 +1,36 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/* Copyright(c) 2017-2021 Intel Corporation */
+> +
+> +#ifndef __GNA_DEVICE_H__
+> +#define __GNA_DEVICE_H__
+> +
+> +#include <linux/types.h>
+> +
+> +struct gna_driver_private;
+> +struct pci_device_id;
+> +struct pci_dev;
+> +struct device;
+> +
+> +struct gna_drv_info {
+> +       u32 hwid;
+> +       u32 num_pagetables;
+> +       u32 num_page_entries;
+> +       u32 max_layer_count;
+> +       u64 max_hw_mem;
+> +};
+> +
+> +struct gna_private {
+> +       struct gna_driver_private *drv_priv;
+
+> +       struct pci_dev *pdev;
+> +       /* pdev->dev */
+> +       struct device *parent;
+
+This is a mess. One struct device is enough.
+Comment  doesn't bring any value and is confusing.
+
+> +       /* device related resources */
+> +       void __iomem *bar0_base;
+> +       struct gna_drv_info info;
+> +};
+
+> +int gna_probe(struct pci_dev *dev, const struct pci_device_id *id);
+
+This looks wrong. If you provide ->probe() function for others, it's
+probably generalized enough and mustn't be PCI or any other bus
+dependent. See below.
+
+> +#endif /* __GNA_DEVICE_H__ */
+> diff --git a/drivers/misc/intel/gna/gna_driver.c b/drivers/misc/intel/gna/gna_driver.c
+> new file mode 100644
+> index 000000000000..f4922a388be7
+> --- /dev/null
+> +++ b/drivers/misc/intel/gna/gna_driver.c
+> @@ -0,0 +1,39 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +// Copyright(c) 2017-2021 Intel Corporation
+> +
+> +#include <linux/jiffies.h>
+> +#include <linux/module.h>
+> +#include <linux/pci.h>
+> +
+> +#include "gna_device.h"
+> +#include "gna_driver.h"
+> +
+> +static int recovery_timeout = 60;
+> +module_param(recovery_timeout, int, 0644);
+> +MODULE_PARM_DESC(recovery_timeout, "Recovery timeout in seconds");
+
+Why module parameters?!
+
+> +struct gna_driver_private gna_drv_priv;
+
+Global?!
+
+> +static struct pci_driver gna_driver = {
+> +       .name = GNA_DV_NAME,
+> +       .probe = gna_probe,
+> +};
+> +
+> +static int __init gna_drv_init(void)
+> +{
+> +       gna_drv_priv.recovery_timeout_jiffies = msecs_to_jiffies(recovery_timeout * 1000);
+> +
+> +       return pci_register_driver(&gna_driver);
+> +}
+> +
+> +static void __exit gna_drv_exit(void)
+> +{
+> +       pci_unregister_driver(&gna_driver);
+> +}
+> +
+> +module_init(gna_drv_init);
+> +module_exit(gna_drv_exit);
+
+What is this entire module for?!
+
+Really you should not split this like above. This belongs to the PCI
+glue driver.
+
+
+> +MODULE_AUTHOR("Intel Corporation");
+> +MODULE_DESCRIPTION("Intel(R) Gaussian & Neural Accelerator (Intel(R) GNA) Driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/misc/intel/gna/gna_driver.h b/drivers/misc/intel/gna/gna_driver.h
+> new file mode 100644
+> index 000000000000..ed507ea10866
+> --- /dev/null
+> +++ b/drivers/misc/intel/gna/gna_driver.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/* Copyright(c) 2017-2021 Intel Corporation */
+> +
+> +#ifndef __GNA_DRIVER_H__
+> +#define __GNA_DRIVER_H__
+> +
+> +#define GNA_DV_NAME    "intel_gna"
+> +
+> +struct gna_driver_private {
+> +       int recovery_timeout_jiffies;
+> +};
+> +
+> +extern struct gna_driver_private gna_drv_priv;
+> +
+> +#endif /* __GNA_DRIVER_H__ */
+> diff --git a/include/uapi/misc/intel/gna.h b/include/uapi/misc/intel/gna.h
+> new file mode 100644
+> index 000000000000..a7e435b74a0a
+> --- /dev/null
+> +++ b/include/uapi/misc/intel/gna.h
+> @@ -0,0 +1,155 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
+> +/* Copyright(c) 2017-2021 Intel Corporation */
+> +
+> +#ifndef _UAPI_GNA_H_
+> +#define _UAPI_GNA_H_
+> +
+> +#if defined(__cplusplus)
+> +extern "C" {
+> +#endif
+
+> +#include <linux/types.h>
+> +#include <linux/ioctl.h>
+> +#include <linux/const.h>
+
+Ordered?
+
+> +#ifndef __user
+> +#define __user
+> +#endif
+
+What for?
+
+> +/* Operation modes */
+> +#define GNA_MODE_GMM   0
+> +#define GNA_MODE_XNN   1
+> +
+> +#define GNA_PARAM_DEVICE_ID            1
+> +#define GNA_PARAM_RECOVERY_TIMEOUT     2
+> +#define GNA_PARAM_DEVICE_TYPE          3
+> +#define GNA_PARAM_INPUT_BUFFER_S       4
+> +
+> +#define GNA_STS_SCORE_COMPLETED                _BITUL(0)
+> +#define GNA_STS_STATISTICS_VALID       _BITUL(3)
+> +#define GNA_STS_PCI_MMU_ERR            _BITUL(4)
+> +#define GNA_STS_PCI_DMA_ERR            _BITUL(5)
+> +#define GNA_STS_PCI_UNEXCOMPL_ERR      _BITUL(6)
+> +#define GNA_STS_VA_OOR                 _BITUL(7)
+> +#define GNA_STS_PARAM_OOR              _BITUL(8)
+> +#define GNA_STS_SATURATE               _BITUL(17)
+> +
+> +#define GNA_ERROR      (GNA_STS_PCI_DMA_ERR            | \
+
+Better to start value on the new line.
+
+> +                       GNA_STS_PCI_MMU_ERR             | \
+> +                       GNA_STS_PCI_UNEXCOMPL_ERR       | \
+> +                       GNA_STS_PARAM_OOR               | \
+> +                       GNA_STS_VA_OOR)
+> +
+> +#define GNA_DEV_TYPE_0_9       0x09
+> +#define GNA_DEV_TYPE_1_0       0x10
+> +#define GNA_DEV_TYPE_2_0       0x20
+> +
+> +/*
+> + * Structure describes part of memory to be overwritten before starting GNA
+> + */
+> +struct gna_memory_patch {
+> +       /* offset from targeted memory */
+> +       __u64 offset;
+> +
+> +       __u64 size;
+> +       __u64 value;
+> +};
+> +
+> +struct gna_buffer {
+> +       __u64 memory_id;
+> +
+> +       __u64 offset;
+> +       __u64 size;
+> +
+> +       __u64 patch_count;
+> +       __u64 patches_ptr;
+> +};
+> +
+> +/*
+> + * Driver performance timestamps in nanoseconds.
+> + * Values regard system boot time, but do not count during suspend.
+> + */
+> +struct gna_drv_perf {
+> +       __u64 pre_processing;   /* driver starts pre-processing */
+> +       __u64 processing;       /* hw starts processing */
+> +       __u64 hw_completed;     /* hw finishes processing */
+> +       __u64 completion;       /* driver finishes post-processing */
+> +};
+> +
+> +struct gna_hw_perf {
+> +       __u64 total;
+> +       __u64 stall;
+> +};
+> +
+> +struct gna_compute_cfg {
+> +       __u32 layer_base;
+> +       __u32 layer_count;
+> +
+> +       /* List of GNA memory buffers */
+> +       __u64 buffers_ptr;
+> +       __u64 buffer_count;
+> +
+> +       __u8 active_list_on;
+> +       __u8 gna_mode;
+> +       __u8 hw_perf_encoding;
+> +       __u8 pad[5];
+> +};
+> +
+> +union gna_parameter {
+> +       struct {
+> +               __u64 id;
+> +       } in;
+> +
+> +       struct {
+> +               __u64 value;
+> +       } out;
+> +};
+> +
+> +union gna_memory_map {
+> +       struct {
+> +               __u64 address;
+> +               __u32 size;
+> +               __u32 pad;
+> +       } in;
+> +
+> +       struct {
+> +               __u64 memory_id;
+> +       } out;
+> +};
+> +
+> +union gna_compute {
+> +       struct {
+> +               struct gna_compute_cfg config;
+> +       } in;
+> +
+> +       struct {
+> +               __u64 request_id;
+> +       } out;
+> +};
+> +
+> +union gna_wait {
+> +       struct {
+> +               __u64 request_id;
+> +               __u32 timeout;
+> +               __u32 pad;
+> +       } in;
+> +
+> +       struct {
+> +               __u32 hw_status;
+> +               __u32 pad;
+> +               struct gna_drv_perf drv_perf;
+> +               struct gna_hw_perf hw_perf;
+> +       } out;
+> +};
+
+For all unions:
+How do you know which branch is used (out, in)? What field and where
+in the ABI points to that?
+
+> +#define GNA_GET_PARAMETER      _IOWR('C', 0x01, union gna_parameter)
+> +#define GNA_MAP_MEMORY         _IOWR('C', 0x02, union gna_memory_map)
+> +#define GNA_UNMAP_MEMORY       _IOWR('C', 0x03, __u64)
+> +#define GNA_COMPUTE            _IOWR('C', 0x04, union gna_compute)
+> +#define GNA_WAIT               _IOWR('C', 0x05, union gna_wait)
+> +
+> +#if defined(__cplusplus)
+> +}
+> +#endif
+> +
+> +#endif /* _UAPI_GNA_H_ */
+> --
+> 2.28.0
+>
+
+
 -- 
-2.30.2
-
+With Best Regards,
+Andy Shevchenko
