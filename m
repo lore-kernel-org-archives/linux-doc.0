@@ -2,192 +2,204 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 497E5C433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 19:12:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D24D4C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 19:15:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 179CF61A07
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 19:12:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A965861A1D
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 19:15:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237777AbhCXTLz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 15:11:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55020 "EHLO
+        id S237919AbhCXTPK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 15:15:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237667AbhCXTLb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 15:11:31 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DA61C061763
-        for <linux-doc@vger.kernel.org>; Wed, 24 Mar 2021 12:11:31 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id il9-20020a17090b1649b0290114bcb0d6c2so1704880pjb.0
-        for <linux-doc@vger.kernel.org>; Wed, 24 Mar 2021 12:11:31 -0700 (PDT)
+        with ESMTP id S237641AbhCXTOh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 15:14:37 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D595C061763;
+        Wed, 24 Mar 2021 12:14:33 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id c204so18081092pfc.4;
+        Wed, 24 Mar 2021 12:14:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=WISkCV+v/5OaNh2ppwj/aWSky3u9U+aak3r8UbJPxHQ=;
-        b=IFfNxr8QrR36/C4OK1YVRL532hsTPL5VqVdA/a80N9o1Huk54iEkDmAe4pds3/QSYj
-         bZGbyd8R0cvzu50QUeY8QWh0Q9u/dHuJZbkBI0pbpnQ+eGR5KhOT3G1zWsSontsun3VP
-         oMF1LzqMB1XFRvqyv1Nrfmh0EjHEX6KPiYb2w=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xvBJ4EDdcjjCofVVdDGQtcQOikr6JAxzUhaQH16eZC0=;
+        b=IT+11ZeyzQkfdmCq9yS3kN7e9VZQQgKlvhLQfoA2ejjkdFvrggPyKlEv4r+LTgzHZD
+         LlsEjCFnI90yDR8Wr34laILdgzAy7d0G3WzT4l5vS+ZawNDc/R7ywrcWQVd5FMRQbzr6
+         E93jDO4YC3y9IIe2A5v0ldLon5c9TMPWUKiTHrsT67ptBO0831baWTmkV+760Lhp0gbS
+         r/n6XQ5xz8wVooarPHy/4wB8ZR0wkbqi6Kw2Uw9wCueBJ3wMLT+erbThuErTKH6Lj7yR
+         HibSWDErNSaHMUh612XNwwgCSfuLCCDv1ofovifJpuERmf05q5zbEElUuGDbVa976nFy
+         R7MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=WISkCV+v/5OaNh2ppwj/aWSky3u9U+aak3r8UbJPxHQ=;
-        b=aLJ4KO69njniNFxjrSiXDjVmSnRlaybKp/WVYa0UP1v8GO5905Kl2BLxj7AXwFFmDk
-         qMCJfCcKiw4Bs+3GPJlhyvgxFK9GX851yntpV1hXhF8r74wVHduRiqFT1BGcna9GBVSx
-         AHzL49Ta9nSiVyGnPIVPIsX8jVz0/v/VUgpW42U3u9ZALBPnUEXRsd3wAaMQENoaV3pw
-         FRGnXLhZa4tdoW35Z4C/xdx0sxc+O/sMIybsEKFlRZ+YpgU6kKqsphKD7ZaVISMXzHYh
-         An8wk4TjW88VRftTA0XAFJni56/9sTPD4u5n4aO+bCwiuaihdYtR2T1xHjuj4IHtf/Q+
-         vI8Q==
-X-Gm-Message-State: AOAM533Ny9lMxUBgHampaZoOIeMi4erB8FECWb5Kf0gALDbPQs5+0Vd5
-        k98XFFMpiQtMvL6Ssh/AW4mZT7vAAKtFzg==
-X-Google-Smtp-Source: ABdhPJzwiEU9bml7Oswo/1QUvqdzh67FXB1Qloacamo6Ro1DYj6onsT8ZQ8RuCMBtH5aa2BQHayv1w==
-X-Received: by 2002:a17:90a:ea91:: with SMTP id h17mr4947872pjz.66.1616613090691;
-        Wed, 24 Mar 2021 12:11:30 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:84ac:62f7:16a8:ccc7])
-        by smtp.gmail.com with ESMTPSA id y193sm3413813pfc.72.2021.03.24.12.11.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 12:11:30 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xvBJ4EDdcjjCofVVdDGQtcQOikr6JAxzUhaQH16eZC0=;
+        b=eQnRGslF25LpVITvTQ7R7EGNccQqvFBmFqKCnYzpQOENuyYxWNPE0ArzPC/q/lOA/I
+         eu9rLj2FfaQ4IuvABKL1/dSAp2Bl9kiBJ6iT80qWp9hJcEcXNh2grhvxyVkB9+ZCr/yK
+         lakVC10zTr92bPl4K97Z/AJpvlvtH10Q/nqC1N6zAsPWUnN/r1ly4CmyTYhzcuMIYbWn
+         EyTI6Vd3S5pX5211Ynk2CezXIN3ON4sYrqNqSF9Ud2Ty8gbMAFpZojR9zCeVmzblyeLY
+         BAJ4LKkxlrkFAMXrecr6M91YnAX7v3g3rC8dBFjlgk9RMf1Npwd5tkdNG4zZ1C+iMA57
+         VQew==
+X-Gm-Message-State: AOAM531D9vDlDg4SAscw40/D/lwJ6cJLQE/u7O9ZXBwse/613dk6mKbu
+        Au50m7CuQSLB+DmhGE1UsTd/NOgdvg/yccZstNI=
+X-Google-Smtp-Source: ABdhPJxv9lGQ2CeCRSp4UnEtaGofy87/QKujlCESfidTH2io/wHlkwWNyU5/QFpjwKN3PHTrFu5C7XleB7NlQHuAMDo=
+X-Received: by 2002:a17:902:a406:b029:e6:78c4:71c8 with SMTP id
+ p6-20020a170902a406b02900e678c471c8mr4909871plq.17.1616613272478; Wed, 24 Mar
+ 2021 12:14:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <6dfb8ca2-20f3-e58a-ad6b-db6a6472afe0@rasmusvillemoes.dk>
-References: <20210324020443.1815557-1-swboyd@chromium.org> <20210324020443.1815557-5-swboyd@chromium.org> <6dfb8ca2-20f3-e58a-ad6b-db6a6472afe0@rasmusvillemoes.dk>
-Subject: Re: [PATCH v2 04/12] module: Add printk format to add module build ID to stacktraces
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Date:   Wed, 24 Mar 2021 12:11:28 -0700
-Message-ID: <161661308874.3012082.15483899786731677633@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+References: <20210324183610.4574-1-maciej.kwapulinski@linux.intel.com>
+In-Reply-To: <20210324183610.4574-1-maciej.kwapulinski@linux.intel.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 24 Mar 2021 21:14:16 +0200
+Message-ID: <CAHp75Vf6DSd=i=rKVL_53=eo1HFZTZCjibrVxWNN+SNOmyFtqQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/13] Driver of Intel(R) Gaussian & Neural Accelerator
+To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Rasmus Villemoes (2021-03-24 02:57:13)
-> On 24/03/2021 03.04, Stephen Boyd wrote:
->=20
-> > @@ -2778,6 +2793,10 @@ static inline void layout_symtab(struct module *=
-mod, struct load_info *info)
-> >  static void add_kallsyms(struct module *mod, const struct load_info *i=
-nfo)
-> >  {
-> >  }
-> > +
-> > +static void init_build_id(struct module *mod, const struct load_info *=
-info)
-> > +{
-> > +}
-> >  #endif /* CONFIG_KALLSYMS */
-> > =20
-> >  static void dynamic_debug_setup(struct module *mod, struct _ddebug *de=
-bug, unsigned int num)
-> > @@ -4004,6 +4023,7 @@ static int load_module(struct load_info *info, co=
-nst char __user *uargs,
-> >               goto free_arch_cleanup;
-> >       }
-> > =20
-> > +     init_build_id(mod, info);
-> >       dynamic_debug_setup(mod, info->debug, info->num_debug);
-> > =20
-> >       /* Ftrace init must be called in the MODULE_STATE_UNFORMED state =
-*/
-> > @@ -4235,7 +4255,7 @@ void * __weak dereference_module_function_descrip=
-tor(struct module *mod,
-> >  const char *module_address_lookup(unsigned long addr,
-> >                           unsigned long *size,
-> >                           unsigned long *offset,
-> > -                         char **modname,
-> > +                         char **modname, unsigned char **modbuildid,
->=20
-> It's an existing defect with modname, but surely this should take a
-> "const unsigned char **modbuildid", no?
+On Wed, Mar 24, 2021 at 8:38 PM Maciej Kwapulinski
+<maciej.kwapulinski@linux.intel.com> wrote:
+>
+> Dear kernel maintainers,
+>
+> This submission is a kernel driver to support Intel(R) Gaussian & Neural
+> Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
+> available on multiple Intel platforms. AI developers and users can offload
+> continuous inference workloads to an Intel(R) GNA device in order to free
+> processor resources and save power. Noise reduction and speech recognition
+> are the examples of the workloads Intel(R) GNA deals with while its usage
+> is not limited to the two.
+>
+> For a list of processors equipped with Intel(R) GNA device, please refer to
+> this link:
+> https://docs.openvinotoolkit.org/latest/openvino_docs_IE_DG_supported_plugins_GNA.html
+>
+> We think contributing this driver to the upstream kernel project is the
+> best way for developers and users to get the latest Intel(R) GNA support in
+> a Linux kernel, through the mainline to any Linux distributions installed
+> on their systems. Upstreaming also enables contribution from developers
+> around the world to the driver once it is merged.
+>
+> The driver works with Intel(R) libraries in user space. The Intel(R) driver
+> exposes a few IOCTL interfaces for use by libraries in user space. The
+> libraries are open sourced and are available at:
+> https://github.com/intel/gna
+>
+> ---
+>
+> Changelogs:
+>
+> v1->v2:
+>  - driver's new layout:
+>    - driver name: gna -> intel_gna
+>    - module name: gna -> intel_gna
 
-Sure.
+>    - device file name: /dev/gnaN -> /dev/intel_gnaN
 
->=20
-> >                           char *namebuf)
-> >  {
-> >       const char *ret =3D NULL;
-> > @@ -4246,6 +4266,8 @@ const char *module_address_lookup(unsigned long a=
-ddr,
-> >       if (mod) {
-> >               if (modname)
-> >                       *modname =3D mod->name;
-> > +             if (modbuildid)
-> > +                     *modbuildid =3D mod->build_id;
-> > =20
-> >               ret =3D find_kallsyms_symbol(mod, addr, size, offset);
-> >       }
-> > diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-> > index 41ddc353ebb8..9cd62e84e4aa 100644
-> > --- a/lib/vsprintf.c
-> > +++ b/lib/vsprintf.c
-> > @@ -961,13 +961,15 @@ char *symbol_string(char *buf, char *end, void *p=
-tr,
-> >       char sym[KSYM_SYMBOL_LEN];
-> >  #endif
-> > =20
-> > -     if (fmt[1] =3D=3D 'R')
-> > +     if (fmt[1] =3D=3D 'R' || fmt[1] =3D=3D 'r')
-> >               ptr =3D __builtin_extract_return_addr(ptr);
-> >       value =3D (unsigned long)ptr;
-> > =20
-> >  #ifdef CONFIG_KALLSYMS
-> >       if (*fmt =3D=3D 'B')
-> >               sprint_backtrace(sym, value);
-> > +     else if (*fmt =3D=3D 'S' && (fmt[1] =3D=3D 'b' || fmt[1] =3D=3D '=
-r'))
-> > +             sprint_symbol_stacktrace(sym, value);
-> >       else if (*fmt !=3D 's')
-> >               sprint_symbol(sym, value);
-> >       else
-> > @@ -2129,6 +2131,8 @@ early_param("no_hash_pointers", no_hash_pointers_=
-enable);
-> >   * - 'S' For symbolic direct pointers (or function descriptors) with o=
-ffset
-> >   * - 's' For symbolic direct pointers (or function descriptors) withou=
-t offset
-> >   * - '[Ss]R' as above with __builtin_extract_return_addr() translation
-> > + * - '[Ss]r' as above with __builtin_extract_return_addr() translation=
- and module build ID
-> > + * - '[Ss]b' as above with module build ID (for use in backtraces)
->=20
-> The code doesn't quite match the comment. The lowercase s is not handled
-> (i.e., there's no way to say "without offset, with build ID"). You don't
-> have to fix the code to support that right now, the whole kallsyms
-> vsprintf code needs to be reworked inside-out anyway (having vsnprint
-> call sprint_symbol* which builds the output using snprintf() calls makes
-> me cringe), so please just replace [Ss] by S to make the comment match
-> the code - I notice that you did only document the S variant in
-> printk-formats.rst.
+Not sure we need this, but if Greg asked for that (I haven't followed)
+than it's okay.
 
-No problem. Will fix this comment.
+>    - driver's source directory: drivers/misc/gna/ -> drivers/misc/intel/gna/
+>    - UAPI: include/uapi/misc/gna.h -> include/uapi/misc/intel/gna.h
+>    - DOC: Documentation/misc-devices/gna.rst ->
+>        Documentation/misc-devices/intel/gna.rst
+>  - 'MISC' device framework used
+>  - fixes throughout GNA device's PCI management
+>  - header files' includes and forward declarations cleanup
+>  - ISR made static
+>  - unused comments cleanup
+>  - "_priv_" segment removed from function names
 
->=20
-> Is there any reason you didn't just make b an optional flag that could
-> be specified with or without R? I suppose the parsing is more difficult
-> with several orthogonal flags (see escaped_string()), but it's a little
-> easier to understand. Dunno, it's not like we're gonna think of 10 other
-> things that could be printed for a symbol, so perhaps it's fine.
->=20
+>  - tested: v5.11-rc3 -> v5.11
 
-I think I follow. So %pSb or %pSRb? If it's easier to understand then
-sure. I was trying to avoid checking another character beyond fmt[1] but
-it should be fine if fmt[1] is already 'R'.
+We are at v5.12-rc4. The rule of thumb is latest rc or release +
+subsystem tree against which the driver is created.
+
+>  - number of other/minor fixes
+>
+> ---
+>
+> Maciej Kwapulinski (1):
+>   intel_gna: add a 'misc' device
+>
+> Tomasz Jankowski (12):
+>   intel_gna: add driver module
+>   intel_gna: add component of hardware operation
+>   intel_gna: read hardware info in the driver
+>   intel_gna: add memory handling
+>   intel_gna: initialize mmu
+>   intel_gna: add hardware ids
+>   intel_gna: add request component
+>   intel_gna: implement scoring
+>   intel_gna: add a work queue to process scoring requests
+>   intel_gna: add interrupt handler
+>   intel_gna: add ioctl handler
+>   intel_gna: add file operations to a 'misc' device
+>
+>  Documentation/misc-devices/index.rst          |   1 +
+>  Documentation/misc-devices/intel/gna.rst      |  48 ++
+>  .../userspace-api/ioctl/ioctl-number.rst      |   1 +
+>  MAINTAINERS                                   |   7 +
+>  drivers/misc/Kconfig                          |   1 +
+>  drivers/misc/Makefile                         |   1 +
+>  drivers/misc/intel/gna/Kbuild                 |   5 +
+>  drivers/misc/intel/gna/Kconfig                |  13 +
+>  drivers/misc/intel/gna/gna_device.c           | 429 ++++++++++++++++
+>  drivers/misc/intel/gna/gna_device.h           |  89 ++++
+>  drivers/misc/intel/gna/gna_driver.c           |  43 ++
+>  drivers/misc/intel/gna/gna_driver.h           |  33 ++
+>  drivers/misc/intel/gna/gna_hw.c               | 125 +++++
+>  drivers/misc/intel/gna/gna_hw.h               |  61 +++
+>  drivers/misc/intel/gna/gna_ioctl.c            | 249 +++++++++
+>  drivers/misc/intel/gna/gna_ioctl.h            |  11 +
+>  drivers/misc/intel/gna/gna_mem.c              | 473 ++++++++++++++++++
+>  drivers/misc/intel/gna/gna_mem.h              | 107 ++++
+>  drivers/misc/intel/gna/gna_request.c          | 463 +++++++++++++++++
+>  drivers/misc/intel/gna/gna_request.h          |  62 +++
+>  drivers/misc/intel/gna/gna_score.c            | 298 +++++++++++
+>  drivers/misc/intel/gna/gna_score.h            |  18 +
+>  include/uapi/misc/intel/gna.h                 | 155 ++++++
+>  23 files changed, 2693 insertions(+)
+>  create mode 100644 Documentation/misc-devices/intel/gna.rst
+>  create mode 100644 drivers/misc/intel/gna/Kbuild
+>  create mode 100644 drivers/misc/intel/gna/Kconfig
+>  create mode 100644 drivers/misc/intel/gna/gna_device.c
+>  create mode 100644 drivers/misc/intel/gna/gna_device.h
+>  create mode 100644 drivers/misc/intel/gna/gna_driver.c
+>  create mode 100644 drivers/misc/intel/gna/gna_driver.h
+>  create mode 100644 drivers/misc/intel/gna/gna_hw.c
+>  create mode 100644 drivers/misc/intel/gna/gna_hw.h
+>  create mode 100644 drivers/misc/intel/gna/gna_ioctl.c
+>  create mode 100644 drivers/misc/intel/gna/gna_ioctl.h
+>  create mode 100644 drivers/misc/intel/gna/gna_mem.c
+>  create mode 100644 drivers/misc/intel/gna/gna_mem.h
+>  create mode 100644 drivers/misc/intel/gna/gna_request.c
+>  create mode 100644 drivers/misc/intel/gna/gna_request.h
+>  create mode 100644 drivers/misc/intel/gna/gna_score.c
+>  create mode 100644 drivers/misc/intel/gna/gna_score.h
+>  create mode 100644 include/uapi/misc/intel/gna.h
+>
+> --
+> 2.28.0
+>
+
+
+-- 
+With Best Regards,
+Andy Shevchenko
