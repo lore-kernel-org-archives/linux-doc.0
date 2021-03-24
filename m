@@ -2,369 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3BB48C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 03:12:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C26D4C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 05:48:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DAE49619F1
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 03:12:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 82512619EB
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 05:48:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232399AbhCXDL2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 23 Mar 2021 23:11:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44194 "EHLO
+        id S232898AbhCXFrj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 01:47:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232421AbhCXDK4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 23 Mar 2021 23:10:56 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2517EC0613DC
-        for <linux-doc@vger.kernel.org>; Tue, 23 Mar 2021 20:10:56 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id f26so28351071ljp.8
-        for <linux-doc@vger.kernel.org>; Tue, 23 Mar 2021 20:10:56 -0700 (PDT)
+        with ESMTP id S232971AbhCXFrh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 01:47:37 -0400
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E707CC061763;
+        Tue, 23 Mar 2021 22:47:36 -0700 (PDT)
+Received: by mail-pf1-x430.google.com with SMTP id j25so16533361pfe.2;
+        Tue, 23 Mar 2021 22:47:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ZegDJhsrs3t5DmLNRfuIr22Aaf3RCbcyU5Kj5Ptg79A=;
-        b=M1aeEDxmk9ECf3516Cji4G52oSFsAn8KliAgARkCx5OFt/DI6XCdQtqOSm9+ierP53
-         96dKx4KCJbD1lvEnlxaUGmiNHqSq7B9S+YnK8FMkPsxubMWmxCIKdd5hbiSOCmLVD8x2
-         y6n2VRtZwCuBVid10EDPdpch8y7Qu9isZUjXElYw2NB9WvCorTXHb/TyI6ot3eE3NxDI
-         7RsZdviWjL1D7m/r0hZMgfAIfoSy9HyDnzgjDhHI+4bgia3SIf9923vAMV2rMcGwAwJu
-         +fnXWI39SCzeRrtCZiqNDUgvaQvB4cbJ5ZtxdmrQjAnfMEHQ9KUtf86yaWDN3j/WVdih
-         Ii/A==
+         :cc;
+        bh=3/V/wb+c7o+naCxYjw0DGXPXFDsGm4gbTHC17MJ5eDA=;
+        b=UORtWm7q81uVrGPPQlVIZPbeeLQ5Ne8SaeD8lCdBTGsiDw082WEG6F9ZzA44U7U20R
+         nV0g4QOZ3cVOGF1M34wItVLRDN6BWKP0dJcPaWHuOGdYTwmQc+ERekjLVjS75urj56/E
+         +hMTzpYLp2A3QEQEX5ppZPuGBaX5V/7rL+E1Jv1OGi9gnA7+cBlLdMcbIGTE+DShJwDC
+         valenRD79ZEs1slQeOKxDhcyC61Tb+Guz7lezNct2UqXfTHxPDfhxICDye2shpCqalF8
+         vULIh21cEGxjhmCP/NP68GNRFUgz+siJXtxwVQFLLrfq4gHPcJ0a2joISY4EfZduxX5i
+         Ytjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ZegDJhsrs3t5DmLNRfuIr22Aaf3RCbcyU5Kj5Ptg79A=;
-        b=YC/hprv3H76VSJFQR5vRg6uexDFb2/eVKrFyTwHGRmh1blCkH9kJUiJ4owMtzBkChR
-         A4UXouKRIztEDzNF3XUNaw4zyw0mJYiAlxMIJDZ5yI7MR04IBnfKwBAsZL42tLi/Urdf
-         8uDqpLObwcB9CkZI8VSJojp/0KGXSwgrlOURCTIMRMvq893YjScnXOcJci8JeGVMF1Ru
-         4CpoyiP4F1y1brCdDXpbjH+mU9ai0rjiNiQ8mTD2jVoF38+Ku061O8+fg8gLtAjOdWXJ
-         5onc41LVTxk782wA+TJzWDFTMCnQ16ckmHi06Pg9fKosEz8ZQ73RIoqunT24ncWNARHR
-         XNzQ==
-X-Gm-Message-State: AOAM531Wnd3O96mbXVhKTQMmImrbdgaRIrNe/oLuVGoQuo/yU7YQQwYr
-        w/UMabbR6sG9BvXks/QGWumxl3CbylL+8Kx6AefrKw==
-X-Google-Smtp-Source: ABdhPJxSapwHRvBnLCwcoR2sXbNCQsSDCdMD6ytmf/icFhUU43QYK5yfde5P5ZIWyLr27rM90Izr4s50uVBB8ADYn3Q=
-X-Received: by 2002:a2e:9310:: with SMTP id e16mr638054ljh.226.1616555454025;
- Tue, 23 Mar 2021 20:10:54 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=3/V/wb+c7o+naCxYjw0DGXPXFDsGm4gbTHC17MJ5eDA=;
+        b=oscFlj4XeavLqFj8WHkMOw9P/1X+sbv0I4JdLls2hYOYLx7+DHZNZ23hy5VGcNoB/x
+         QM6Gz6S2UaedA/OP6cGx0gqnDnkd4fI0aX94ttfWkGR9m7arZnT7P/NlJ4jae3dBsvvu
+         3VRRmX50xhNTZbaCk+xb59Kh3+bfmSkPd3icaj1pZYHhLA+9H4J/WJKtXDaXc9wyjVTi
+         AH3NEaURI6SAIDkayqmQi0hJFbaIn5q3ecOK95K1qrgvysh4Sfjyj64vtEmt67w1GotC
+         dv4rKBhwKGZOrqz9uiClzPIt3ZW1Vq0FVx5WNXUZKLZV0uVIM5Jsv/8mimr2SRO3RD1/
+         X/xw==
+X-Gm-Message-State: AOAM5313HS0tSB9gPlQXqv2AbCOsRyyUgWXtwGLr9yzVcvmuYa4d3MCu
+        7MB+kGo/QQZlMqeEvdTa25kyMK0KXXToMjsj5pw=
+X-Google-Smtp-Source: ABdhPJyRFizO8aX0S/3g4GodbO0+twLfEMtbSN263NpOZxooLbeo3ay8YVAxGGNOSILNHDlAEwauCjMZR6X+p8NNLe8=
+X-Received: by 2002:a63:fa4c:: with SMTP id g12mr1614518pgk.205.1616564856232;
+ Tue, 23 Mar 2021 22:47:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210316204252.427806-1-mic@digikod.net> <20210316204252.427806-8-mic@digikod.net>
- <CAG48ez1arKO3uYzwng8fst-UHkcH6J7YzyHFN+vfXUT2=1HT+w@mail.gmail.com>
- <b41a021c-69f4-075f-e9a0-a4483b280df8@digikod.net> <CAG48ez1Vkd3KtYphDHLLbbkKY9T_ByhUcxwYAcWuDAyiA04A+w@mail.gmail.com>
- <7e494b74-8d5d-a109-6327-992d7d8fca87@digikod.net>
-In-Reply-To: <7e494b74-8d5d-a109-6327-992d7d8fca87@digikod.net>
-From:   Jann Horn <jannh@google.com>
-Date:   Wed, 24 Mar 2021 04:10:27 +0100
-Message-ID: <CAG48ez0ex48pCgunrg+BpJ-LppZUVXhsmiEW_2d2mhbkDB793Q@mail.gmail.com>
-Subject: Re: [PATCH v30 07/12] landlock: Support filesystem access-control
-To:     =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>
-Cc:     James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        Kernel Hardening <kernel-hardening@lists.openwall.com>,
-        Linux API <linux-api@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        linux-fsdevel <linux-fsdevel@vger.kernel.org>,
-        kernel list <linux-kernel@vger.kernel.org>,
-        "open list:KERNEL SELFTEST FRAMEWORK" 
-        <linux-kselftest@vger.kernel.org>,
-        linux-security-module <linux-security-module@vger.kernel.org>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        =?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@linux.microsoft.com>
+References: <20210318045706.200458-1-hch@lst.de> <20210318045706.200458-3-hch@lst.de>
+ <20210319170753.GV1463@shell.armlinux.org.uk> <20210319175311.GW1463@shell.armlinux.org.uk>
+ <20210322145403.GA30942@lst.de> <20210322151503.GX1463@shell.armlinux.org.uk>
+ <224b110e-7c42-4e19-800e-e0fa23d3bf7f@physik.fu-berlin.de>
+ <20210322170338.GZ1463@shell.armlinux.org.uk> <CAD4NMuZWoV0m85OyBDHLt+J8NYCV5wYx7fFZaivBNEgDnrN5xw@mail.gmail.com>
+ <20210323184321.GE1463@shell.armlinux.org.uk>
+In-Reply-To: <20210323184321.GE1463@shell.armlinux.org.uk>
+From:   Cye Borg <cyborgyn@gmail.com>
+Date:   Wed, 24 Mar 2021 06:47:25 +0100
+Message-ID: <CAD4NMubOZ019ESLVXbZXVYf1UGC7z9tQ4655TS68tSdwG9TTWA@mail.gmail.com>
+Subject: Re: [PATCH 02/10] ARM: disable CONFIG_IDE in footbridge_defconfig
+To:     Russell King - ARM Linux admin <linux@armlinux.org.uk>
+Cc:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Christoph Hellwig <hch@lst.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jens Axboe <axboe@kernel.dk>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        linux-ide@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 23, 2021 at 8:22 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.net> =
-wrote:
-> On 23/03/2021 18:49, Jann Horn wrote:
-> > On Tue, Mar 23, 2021 at 4:54 PM Micka=C3=ABl Sala=C3=BCn <mic@digikod.n=
-et> wrote:
-> >> On 23/03/2021 01:13, Jann Horn wrote:
-> >>>  On Tue, Mar 16, 2021 at 9:43 PM Micka=C3=ABl Sala=C3=BCn <mic@digiko=
-d.net> wrote:
-> >>>> Using Landlock objects and ruleset, it is possible to tag inodes
-> >>>> according to a process's domain.
-> >>> [...]
-> >>>> +static void release_inode(struct landlock_object *const object)
-> >>>> +       __releases(object->lock)
-> >>>> +{
-> >>>> +       struct inode *const inode =3D object->underobj;
-> >>>> +       struct super_block *sb;
-> >>>> +
-> >>>> +       if (!inode) {
-> >>>> +               spin_unlock(&object->lock);
-> >>>> +               return;
-> >>>> +       }
-> >>>> +
-> >>>> +       /*
-> >>>> +        * Protects against concurrent use by hook_sb_delete() of th=
-e reference
-> >>>> +        * to the underlying inode.
-> >>>> +        */
-> >>>> +       object->underobj =3D NULL;
-> >>>> +       /*
-> >>>> +        * Makes sure that if the filesystem is concurrently unmount=
-ed,
-> >>>> +        * hook_sb_delete() will wait for us to finish iput().
-> >>>> +        */
-> >>>> +       sb =3D inode->i_sb;
-> >>>> +       atomic_long_inc(&landlock_superblock(sb)->inode_refs);
-> >>>> +       spin_unlock(&object->lock);
-> >>>> +       /*
-> >>>> +        * Because object->underobj was not NULL, hook_sb_delete() a=
-nd
-> >>>> +        * get_inode_object() guarantee that it is safe to reset
-> >>>> +        * landlock_inode(inode)->object while it is not NULL.  It i=
-s therefore
-> >>>> +        * not necessary to lock inode->i_lock.
-> >>>> +        */
-> >>>> +       rcu_assign_pointer(landlock_inode(inode)->object, NULL);
-> >>>> +       /*
-> >>>> +        * Now, new rules can safely be tied to @inode with get_inod=
-e_object().
-> >>>> +        */
-> >>>> +
-> >>>> +       iput(inode);
-> >>>> +       if (atomic_long_dec_and_test(&landlock_superblock(sb)->inode=
-_refs))
-> >>>> +               wake_up_var(&landlock_superblock(sb)->inode_refs);
-> >>>> +}
-> >>> [...]
-> >>>> +static struct landlock_object *get_inode_object(struct inode *const=
- inode)
-> >>>> +{
-> >>>> +       struct landlock_object *object, *new_object;
-> >>>> +       struct landlock_inode_security *inode_sec =3D landlock_inode=
-(inode);
-> >>>> +
-> >>>> +       rcu_read_lock();
-> >>>> +retry:
-> >>>> +       object =3D rcu_dereference(inode_sec->object);
-> >>>> +       if (object) {
-> >>>> +               if (likely(refcount_inc_not_zero(&object->usage))) {
-> >>>> +                       rcu_read_unlock();
-> >>>> +                       return object;
-> >>>> +               }
-> >>>> +               /*
-> >>>> +                * We are racing with release_inode(), the object is=
- going
-> >>>> +                * away.  Wait for release_inode(), then retry.
-> >>>> +                */
-> >>>> +               spin_lock(&object->lock);
-> >>>> +               spin_unlock(&object->lock);
-> >>>> +               goto retry;
-> >>>> +       }
-> >>>> +       rcu_read_unlock();
-> >>>> +
-> >>>> +       /*
-> >>>> +        * If there is no object tied to @inode, then create a new o=
-ne (without
-> >>>> +        * holding any locks).
-> >>>> +        */
-> >>>> +       new_object =3D landlock_create_object(&landlock_fs_underops,=
- inode);
-> >>>> +       if (IS_ERR(new_object))
-> >>>> +               return new_object;
-> >>>> +
-> >>>> +       /* Protects against concurrent get_inode_object() calls. */
-> >>>> +       spin_lock(&inode->i_lock);
-> >>>> +       object =3D rcu_dereference_protected(inode_sec->object,
-> >>>> +                       lockdep_is_held(&inode->i_lock));
-> >>>
-> >>> rcu_dereference_protected() requires that inode_sec->object is not
-> >>> concurrently changed, but I think another thread could call
-> >>> get_inode_object() while we're in landlock_create_object(), and then
-> >>> we could race with the NULL write in release_inode() here? (It
-> >>> wouldn't actually be a UAF though because we're not actually accessin=
-g
-> >>> `object` here.) Or am I missing a lock that prevents this?
-> >>>
-> >>> In v28 this wasn't an issue because release_inode() was holding
-> >>> inode->i_lock (and object->lock) during the NULL store; but in v29 an=
-d
-> >>> this version the NULL store in release_inode() moved out of the locke=
-d
-> >>> region. I think you could just move the NULL store in release_inode()
-> >>> back up (and maybe add a comment explaining the locking rules for
-> >>> landlock_inode(...)->object)?
-> >>>
-> >>> (Or alternatively you could use rcu_dereference_raw() with a comment
-> >>> explaining that the read pointer is only used to check for NULL-ness,
-> >>> and that it is guaranteed that the pointer can't change if it is NULL
-> >>> and we're holding the lock. But that'd be needlessly complicated, I
-> >>> think.)
-> >>
-> >> To reach rcu_assign_pointer(landlock_inode(inode)->object, NULL) in
-> >> release_inode() or in hook_sb_delete(), the
-> >> landlock_inode(inode)->object need to be non-NULL,
-> >
-> > Yes.
-> >
-> >> which implies that a
-> >> call to get_inode_object(inode) either "retry" (because release_inode =
-is
-> >> only called by landlock_put_object, which set object->usage to 0) unti=
-l
-> >> it creates a new object, or reuses the existing referenced object (and
-> >> increments object->usage).
-> >
-> > But it can be that landlock_inode(inode)->object only becomes non-NULL
-> > after get_inode_object() has checked
-> > rcu_dereference(inode_sec->object).
-> >
-> >> The worse case would be if
-> >> get_inode_object(inode) is called just before the
-> >> rcu_assign_pointer(landlock_inode(inode)->object, NULL) from
-> >> hook_sb_delete(), which would result in an object with a NULL underobj=
-,
-> >> which is the expected behavior (and checked by release_inode).
-> >
-> > The scenario I'm talking about doesn't involve hook_sb_delete().
-> >
-> >> The line rcu_assign_pointer(inode_sec->object, new_object) from
-> >> get_inode_object() can only be reached if the underlying inode doesn't
-> >> reference an object,
-> >
-> > Yes.
-> >
-> >> in which case hook_sb_delete() will not reach the
-> >> rcu_assign_pointer(landlock_inode(inode)->object, NULL) line for this
-> >> same inode.
-> >>
-> >> This works because get_inode_object(inode) is mutually exclusive to
-> >> itself with the same inode (i.e. an inode can only point to an object
-> >> that references this same inode).
-> >
-> > To clarify: You can concurrently call get_inode_object() multiple
-> > times on the same inode, right? There are no locks held on entry to
-> > that function.
-> >
-> >> I tried to explain this with the comment "Protects against concurrent
-> >> get_inode_object() calls" in get_inode_object(), and the comments just
-> >> before both rcu_assign_pointer(landlock_inode(inode)->object, NULL).
-> >
-> > The scenario I'm talking about is:
-> >
-> > Initially the inode does not have an associated landlock_object. There
-> > are two threads A and B. Thread A is going to execute
-> > get_inode_object(). Thread B is going to execute get_inode_object()
-> > followed immediately by landlock_put_object().
-> >
-> > thread A: enters get_inode_object()
-> > thread A: rcu_dereference(inode_sec->object) returns NULL
-> > thread A: enters landlock_create_object()
-> > thread B: enters get_inode_object()
-> > thread B: rcu_dereference(inode_sec->object) returns NULL
-> > thread B: calls landlock_create_object()
-> > thread B: sets inode_sec->object while holding inode->i_lock
-> > thread B: leaves get_inode_object()
-> > thread B: enters landlock_put_object()
-> > thread B: object->usage drops to 0, object->lock is taken
-> > thread B: calls release_inode()
-> > thread B: drops object->lock
-> > thread A: returns from landlock_create_object()
-> > thread A: takes inode->i_lock
-> >
-> > At this point, thread B will run:
-> >
-> >     rcu_assign_pointer(landlock_inode(inode)->object, NULL);
-> >
-> > while thread A runs:
-> >
-> >     rcu_dereference_protected(inode_sec->object,
-> >         lockdep_is_held(&inode->i_lock));
-> >
-> > meaning there is a (theoretical) data race, since
-> > rcu_dereference_protected() doesn't use READ_ONCE().
->
-> Hum, I see, that is what I was missing. And that explain why there is
-> (in practice) no impact on winning the race.
->
-> I would prefer to use rcu_access_pointer() instead of
-> rcu_dereference_protected() to avoid pitfall, and it reflects what I was
-> expecting:
->
-> --- a/security/landlock/fs.c
-> +++ b/security/landlock/fs.c
-> @@ -117,9 +117,7 @@ static struct landlock_object
-> *get_inode_object(struct inode *const inode)
->
->         /* Protects against concurrent get_inode_object() calls. */
->         spin_lock(&inode->i_lock);
-> -       object =3D rcu_dereference_protected(inode_sec->object,
-> -                       lockdep_is_held(&inode->i_lock));
-> -       if (unlikely(object)) {
-> +       if (unlikely(rcu_access_pointer(inode_sec->object))) {
->                 /* Someone else just created the object, bail out and
-> retry. */
->                 spin_unlock(&inode->i_lock);
->                 kfree(new_object);
+Sure, here it is:
+snow / # lspci -vxxx -s 7.0
+00:07.0 ISA bridge: Contaq Microsystems 82c693
+        Flags: bus master, medium devsel, latency 0
+        Kernel modules: pata_cypress
+00: 80 10 93 c6 47 00 80 02 00 00 01 06 00 00 80 00
+10: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+20: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+30: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+40: 03 02 00 00 26 60 00 01 f0 60 00 80 80 71 00 00
+50: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+60: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+70: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+90: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 
-Ah, yeah, that should work. I had forgotten about rcu_access_pointer().
+Best regards,
+Barnabas
 
-> But I'm not sure about your proposition to move the NULL store in
-> release_inode() back up. Do you mean to add back the inode lock in
-> release_inode() like this?
+ps.: let me know, if anything else I can do.
+
+On Tue, Mar 23, 2021 at 7:43 PM Russell King - ARM Linux admin
+<linux@armlinux.org.uk> wrote:
 >
-> --- a/security/landlock/fs.c
-> +++ b/security/landlock/fs.c
-> @@ -59,16 +59,12 @@ static void release_inode(struct landlock_object
-> *const object)
->          * Makes sure that if the filesystem is concurrently unmounted,
->          * hook_sb_delete() will wait for us to finish iput().
->          */
-> +       spin_lock(&inode->i_lock);
->         sb =3D inode->i_sb;
->         atomic_long_inc(&landlock_superblock(sb)->inode_refs);
->         spin_unlock(&object->lock);
-> -       /*
-> -        * Because object->underobj was not NULL, hook_sb_delete() and
-> -        * get_inode_object() guarantee that it is safe to reset
-> -        * landlock_inode(inode)->object while it is not NULL.  It is the=
-refore
-> -        * not necessary to lock inode->i_lock.
-> -        */
->         rcu_assign_pointer(landlock_inode(inode)->object, NULL);
-> +       spin_unlock(&inode->i_lock);
->         /*
->          * Now, new rules can safely be tied to @inode with get_inode_obj=
-ect().
->          */
+> On Mon, Mar 22, 2021 at 06:10:01PM +0100, Cye Borg wrote:
+> > PWS 500au:
+> >
+> > snow / # lspci -vvx -s 7.1
+> > 00:07.1 IDE interface: Contaq Microsystems 82c693 (prog-if 80 [ISA
+> > Compatibility mode-only controller, supports bus mastering])
+> >         Control: I/O+ Mem- BusMaster+ SpecCycle- MemWINV- VGASnoop-
+> > ParErr+ Stepping- SERR- FastB2B- DisINTx-
+> >         Status: Cap- 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium
+> > >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+> >         Latency: 0
+> >         Interrupt: pin A routed to IRQ 0
+> >         Region 0: I/O ports at 01f0 [size=8]
+> >         Region 1: I/O ports at 03f4
+> >         Region 4: I/O ports at 9080 [size=16]
+> >         Kernel driver in use: pata_cypress
+> >         Kernel modules: pata_cypress
+> > 00: 80 10 93 c6 45 00 80 02 00 80 01 01 00 00 80 00
+> > 10: f1 01 00 00 f5 03 00 00 00 00 00 00 00 00 00 00
+> > 20: 81 90 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+> > 30: 00 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00
+> >
+> > snow / # lspci -vvx -s 7.2
+> > 00:07.2 IDE interface: Contaq Microsystems 82c693 (prog-if 00 [ISA
+> > Compatibility mode-only controller])
+> >         Control: I/O+ Mem- BusMaster+ SpecCycle- MemWINV- VGASnoop-
+> > ParErr+ Stepping- SERR- FastB2B- DisINTx-
+> >         Status: Cap- 66MHz- UDF- FastB2B+ ParErr- DEVSEL=medium
+> > >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+> >         Latency: 0
+> >         Interrupt: pin B routed to IRQ 0
+> >         Region 0: I/O ports at 0170 [size=8]
+> >         Region 1: I/O ports at 0374
+> >         Region 4: Memory at 0c240000 (32-bit, non-prefetchable)
+> > [disabled] [size=64K]
+> >         Kernel modules: pata_cypress
+> > 00: 80 10 93 c6 45 00 80 02 00 00 01 01 00 00 80 00
+> > 10: 71 01 00 00 75 03 00 00 00 00 00 00 00 00 00 00
+> > 20: 00 00 24 0c 00 00 00 00 00 00 00 00 00 00 00 00
+> > 30: 00 00 00 00 00 00 00 00 00 00 00 00 00 02 00 00
 >
+> Thanks very much.
 >
-> I would prefer to avoid nested locks if it is not necessary though.
-
-Hm, yeah, you have a point there.
-
-Doing it locklessly does make the locking rules a little complicated
-though, and you'll have to update the comment inside struct
-landlock_inode_security. At the moment, it says:
-
-* @object: Weak pointer to an allocated object.  All writes (i.e.
-* creating a new object or removing one) are protected by the
-* underlying inode->i_lock.  Disassociating @object from the inode is
-* additionally protected by @object->lock, from the time @object's
-* usage refcount drops to zero to the time this pointer is nulled out.
-
-which isn't true anymore.
+> Could I also ask for the output of:
+>
+> # lspci -vxxx -s 7.0
+>
+> as well please - this will dump all 256 bytes for the ISA bridge, which
+> contains a bunch of configuration registers. Thanks.
+>
+> --
+> RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+> FTTP is here! 40Mbps down 10Mbps up. Decent connectivity at last!
