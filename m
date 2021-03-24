@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B367C433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71711C433E1
 	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 15:08:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E443619A4
+	by mail.kernel.org (Postfix) with ESMTP id 4D547619B8
 	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 15:08:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236489AbhCXPHw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 11:07:52 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:47070 "EHLO loongson.cn"
+        id S236426AbhCXPHy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 11:07:54 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:47162 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236410AbhCXPHk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Mar 2021 11:07:40 -0400
+        id S236445AbhCXPHq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Mar 2021 11:07:46 -0400
 Received: from LAPTOP-O8VTVVS6.localdomain (unknown [153.37.224.188])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxU+C1VVtgilQAAA--.1175S2;
-        Wed, 24 Mar 2021 23:07:33 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxU+C1VVtgilQAAA--.1175S7;
+        Wed, 24 Mar 2021 23:07:42 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
@@ -30,59 +30,57 @@ Cc:     Alex Shi <alex.shi@linux.alibaba.com>,
         Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, siyanteng01@gmail.com,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH 0/8] docs/zh_CN: add cpu-freq translation
-Date:   Wed, 24 Mar 2021 23:07:23 +0800
-Message-Id: <20210324150731.4512-1-siyanteng@loongson.cn>
+Subject: [PATCH 5/8] docs/zh_CN: add cpu-freq to zh_CN index
+Date:   Wed, 24 Mar 2021 23:07:28 +0800
+Message-Id: <20210324150731.4512-6-siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210324150731.4512-1-siyanteng@loongson.cn>
+References: <20210324150731.4512-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9CxU+C1VVtgilQAAA--.1175S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw1rtr1rJryUGFyDuw4rZrb_yoW8JF4DpF
-        1DKryrZF10yr13Jw1fGrW7JF15JF4xC3y5tr17JwnYvr15Jw4UtFyUtrW7tF9rJr1xXFyY
-        qr4rKr1Dur1UAr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUkv14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-        6F4UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-        0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-        jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-        1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW5WwCF
-        04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
-        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vI
-        r41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr
-        1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
-        0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUgmRUUUUUU=
+X-CM-TRANSID: AQAAf9CxU+C1VVtgilQAAA--.1175S7
+X-Coremail-Antispam: 1UD129KBjvdXoWrur43Gw17Gr4DGrWrJw13urg_yoWxAFX_Aa
+        s7XF4vvFy3AF92qF4rCF15Ar10vFWxKw1UCrn8ta98G343G398Gw1DXrZ5ZF4DWFW3uryY
+        kFZ5Xr1rXrnrKjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbhkFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
+        IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
+        F7xvwVC0I7IYx2IY67AKxVW8JVW5JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr
+        1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
+        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
+        8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
+        jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6ryrMxAIw2
+        8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4l
+        x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrw
+        CI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l
+        IxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4
+        A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUDfHUUUUUU=
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series of patches:
- translates Documention/cpu-freq/* into Chinese.
- add .../zh_CN/mips to zh_CN index
- add .../zh_CN/iio to zh_CN index
- add .../zh_CN/riscv to zh_CN index
-
-Yabteng Si(8):
-docs/zh_CN: add cpu-freq core.rst translation
-docs/zh_CN: add cpu-freq cpu-drivers.rst translation
-docs/zh_CN: add cpu-freq cpufreq-stats.rst translation
-docs/zh_CN: add cpu-freq index.rst translation
-docs/zh_CN: add cpu-freq to zh_CN index
-docs/zh_CN: add mips to zh_CN index
-docs/zh_CN: add iio to zh_CN index
-docs/zh_CN: add riscv to zh_CN index
+All the files in the cpu-freq directory have been translated into
+Chinese and it is time to add them to the zh_CN index.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- Documentation/translations/zh_CN/cpu-freq/core.rst          | 105
-+++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst   | 259
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_CN/cpu-freq/cpufreq-stats.rst | 130
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_CN/cpu-freq/index.rst         |  45
-++++++++++++++++++++
- Documentation/translations/zh_CN/index.rst                  |   4 ++
- 5 files changed, 543 insertions(+)
+ Documentation/translations/zh_CN/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index 2767dacfe86d..cd55c1aea604 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -21,6 +21,7 @@
+    filesystems/index
+    arm64/index
+    sound/index
++   cpu-freq/index
+ 
+ 目录和表格
+ ----------
+-- 
+2.25.1
 
