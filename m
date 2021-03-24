@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C27F7C433F7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6E32C433F8
 	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 18:39:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9237D61A23
+	by mail.kernel.org (Postfix) with ESMTP id CD25461A27
 	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 18:39:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237722AbhCXSjB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 14:39:01 -0400
+        id S237737AbhCXSjD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 14:39:03 -0400
 Received: from mga09.intel.com ([134.134.136.24]:17741 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237345AbhCXSil (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Mar 2021 14:38:41 -0400
-IronPort-SDR: rRwut6S9nlfkjSoOf8yvZfbtBr/HPQnlxZk7LHGaHElTvGoewPLMBJ0ELXNf/jYfGnVVCpyxv4
- Sb06ugoctjUg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="190859547"
+        id S237691AbhCXSiw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Mar 2021 14:38:52 -0400
+IronPort-SDR: Vry9XIMZyM3cYzJNDxsKdJxFQ1g7kQ1vUas7jclMGzpNDb7d3HrwMSaxuPJyw9UplxgA7ba9cB
+ HyRX4x0UrR1w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="190859585"
 X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="190859547"
+   d="scan'208";a="190859585"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 11:38:41 -0700
-IronPort-SDR: Qb0qcOb2h9F6izKEPo7gSDJKs9Hum+NAOvrup4yeWJwK4wbQkAaNu+uDozBqblkcIxftklnlqG
- 7oVU7nrH8/xw==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 11:38:52 -0700
+IronPort-SDR: Ck0UDrK3J/KzAcuje5/Avfx+nteDZ2PA5dQgq2nPVJ2x97zXIVlBYd4rAaR5tkfU+4UvPbU25V
+ m9Mxy25UQYuw==
 X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="608203865"
+   d="scan'208";a="608203941"
 Received: from gna-dev.igk.intel.com ([10.102.80.34])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 11:38:38 -0700
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 11:38:49 -0700
 From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -43,12 +43,10 @@ Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
         Tomasz Jankowski <tomasz1.jankowski@intel.com>,
         Savo Novakovic <savox.novakovic@intel.com>,
-        Anisha Dattatraya Kulkarni 
-        <anisha.dattatraya.kulkarni@intel.com>,
         Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: [PATCH v2 09/13] intel_gna: add a work queue to process scoring requests
-Date:   Wed, 24 Mar 2021 19:36:06 +0100
-Message-Id: <20210324183610.4574-10-maciej.kwapulinski@linux.intel.com>
+Subject: [PATCH v2 13/13] intel_gna: add file operations to a 'misc' device
+Date:   Wed, 24 Mar 2021 19:36:10 +0100
+Message-Id: <20210324183610.4574-14-maciej.kwapulinski@linux.intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210324183610.4574-1-maciej.kwapulinski@linux.intel.com>
 References: <20210324183610.4574-1-maciej.kwapulinski@linux.intel.com>
@@ -60,267 +58,92 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Tomasz Jankowski <tomasz1.jankowski@intel.com>
 
-The new workqueue is responsible to process the list of requests
-in a FIFO manner. It waits for the hardware to complete	on every
-request until it is woken up by an interrupt that will be addressed
-in following changes.
-
 Signed-off-by: Tomasz Jankowski <tomasz1.jankowski@intel.com>
 Tested-by: Savo Novakovic <savox.novakovic@intel.com>
-Co-developed-by: Anisha Dattatraya Kulkarni <anisha.dattatraya.kulkarni@intel.com>
-Signed-off-by: Anisha Dattatraya Kulkarni <anisha.dattatraya.kulkarni@intel.com>
 Co-developed-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
 Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
 Co-developed-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 Signed-off-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 ---
- drivers/misc/intel/gna/gna_device.c  |  12 +++
- drivers/misc/intel/gna/gna_device.h  |   8 ++
- drivers/misc/intel/gna/gna_request.c | 116 +++++++++++++++++++++++++++
- drivers/misc/intel/gna/gna_request.h |   1 +
- 4 files changed, 137 insertions(+)
+ drivers/misc/intel/gna/gna_device.c | 60 ++++++++++++++++++++++++++++-
+ 1 file changed, 59 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/misc/intel/gna/gna_device.c b/drivers/misc/intel/gna/gna_device.c
-index e1a1f3142684..47f238677bc9 100644
+index 3f7f4c07d1a1..3f74a0a3bd30 100644
 --- a/drivers/misc/intel/gna/gna_device.c
 +++ b/drivers/misc/intel/gna/gna_device.c
-@@ -127,6 +127,15 @@ static int gna_dev_init(struct gna_private *gna_priv, struct pci_dev *pcidev,
- 	mutex_init(&gna_priv->reqlist_lock);
- 	INIT_LIST_HEAD(&gna_priv->request_list);
+@@ -93,12 +93,70 @@ MODULE_DEVICE_TABLE(pci, gna_pci_ids);
  
-+	init_waitqueue_head(&gna_priv->dev_busy_waitq);
-+
-+	gna_priv->request_wq = create_singlethread_workqueue(GNA_DV_NAME);
-+	if (!gna_priv->request_wq) {
-+		dev_err(&pcidev->dev, "could not create %s workqueue\n", GNA_DV_NAME);
-+		ret = -EFAULT;
-+		goto err_pci_drvdata_unset;
-+	}
-+
- 	return 0;
- 
- err_pci_drvdata_unset:
-@@ -137,6 +146,9 @@ static int gna_dev_init(struct gna_private *gna_priv, struct pci_dev *pcidev,
- 
- static void gna_dev_deinit(struct gna_private *gna_priv)
+ static int gna_open(struct inode *inode, struct file *f)
  {
-+	flush_workqueue(gna_priv->request_wq);
-+	destroy_workqueue(gna_priv->request_wq);
+-	return -EPERM;
++	struct gna_file_private *file_priv;
++	struct gna_private *gna_priv;
 +
- 	idr_destroy(&gna_priv->memory_idr);
- 	gna_mmu_free(gna_priv);
- }
-diff --git a/drivers/misc/intel/gna/gna_device.h b/drivers/misc/intel/gna/gna_device.h
-index 878a972ab5b3..23eae806f96d 100644
---- a/drivers/misc/intel/gna/gna_device.h
-+++ b/drivers/misc/intel/gna/gna_device.h
-@@ -14,6 +14,7 @@
- #include "gna_mem.h"
- 
- struct gna_driver_private;
-+struct workqueue_struct;
- struct device;
- 
- struct gna_drv_info {
-@@ -42,6 +43,8 @@ struct gna_private {
- 	/* pdev->dev */
- 	struct device *parent;
- 
-+	u32 hw_status;
++	gna_priv = container_of(f->private_data, struct gna_private, misc);
 +
- 	/* device related resources */
- 	void __iomem *bar0_base;
- 	struct gna_drv_info info;
-@@ -50,9 +53,14 @@ struct gna_private {
- 	struct gna_mmu_object mmu;
- 	struct mutex mmu_lock;
- 
-+	/* if true, then gna device is processing */
-+	bool dev_busy;
-+	struct wait_queue_head dev_busy_waitq;
++	file_priv = kzalloc(sizeof(*file_priv), GFP_KERNEL);
++	if (!file_priv)
++		return -ENOMEM;
 +
- 	struct list_head request_list;
- 	/* protects request_list */
- 	struct mutex reqlist_lock;
-+	struct workqueue_struct *request_wq;
- 	atomic_t request_count;
- 
- 	/* memory objects' store */
-diff --git a/drivers/misc/intel/gna/gna_request.c b/drivers/misc/intel/gna/gna_request.c
-index 383871eaebab..ba9bac358270 100644
---- a/drivers/misc/intel/gna/gna_request.c
-+++ b/drivers/misc/intel/gna/gna_request.c
-@@ -8,7 +8,118 @@
- 
- #include "gna_device.h"
- #include "gna_driver.h"
-+#include "gna_hw.h"
- #include "gna_request.h"
-+#include "gna_score.h"
++	file_priv->fd = f;
++	file_priv->gna_priv = gna_priv;
 +
-+static void gna_request_update_status(struct gna_request *score_request)
-+{
-+	struct gna_private *gna_priv = score_request->gna_priv;
-+	void __iomem *addr = gna_priv->bar0_base;
-+	/* The gna_priv's hw_status should be updated first */
-+	u32 hw_status = gna_priv->hw_status;
-+	u32 stall_cycles;
-+	u32 total_cycles;
++	mutex_init(&file_priv->memlist_lock);
++	INIT_LIST_HEAD(&file_priv->memory_list);
 +
-+	/* Technically, the time stamp can be a bit later than
-+	 * when the hw actually completed scoring. Here we just
-+	 * do our best in a deferred work, unless we want to
-+	 * tax isr for a more accurate record.
-+	 */
-+	score_request->drv_perf.hw_completed = ktime_get_ns();
++	mutex_lock(&gna_priv->flist_lock);
++	list_add_tail(&file_priv->flist, &gna_priv->file_list);
++	mutex_unlock(&gna_priv->flist_lock);
 +
-+	score_request->hw_status = hw_status;
++	f->private_data = file_priv;
 +
-+	score_request->status = gna_parse_hw_status(gna_priv, hw_status);
-+
-+	if (gna_hw_perf_enabled(gna_priv)) {
-+		if (hw_status & GNA_STS_STATISTICS_VALID) {
-+			total_cycles = gna_reg_read(addr, GNA_MMIO_PTC);
-+			stall_cycles = gna_reg_read(addr, GNA_MMIO_PSC);
-+			score_request->hw_perf.total = total_cycles;
-+			score_request->hw_perf.stall = stall_cycles;
-+		} else
-+			dev_warn(&gna_priv->pdev->dev, "GNA statistics missing\n");
-+	}
-+	if (unlikely(hw_status & GNA_ERROR))
-+		gna_print_error_status(gna_priv, hw_status);
++	return 0;
 +}
 +
-+static void gna_request_process(struct work_struct *work)
++static int gna_release(struct inode *inode, struct file *f)
 +{
-+	struct gna_request *score_request;
-+	struct gna_memory_object *mo;
++	struct gna_file_private *iter_file, *temp_file;
++	struct gna_memory_object *iter_mo, *temp_mo;
++	struct gna_file_private *file_priv;
 +	struct gna_private *gna_priv;
-+	struct gna_buffer *buffer;
-+	unsigned long hw_timeout;
-+	int ret;
-+	u64 i;
 +
-+	score_request = container_of(work, struct gna_request, work);
-+	gna_priv = score_request->gna_priv;
-+	dev_dbg(&gna_priv->pdev->dev, "processing request %llu\n", score_request->request_id);
++	/* free all memory objects created by that file */
++	file_priv = (struct gna_file_private *)f->private_data;
++	gna_priv = file_priv->gna_priv;
 +
-+	score_request->state = ACTIVE;
-+
-+	score_request->drv_perf.pre_processing = ktime_get_ns();
-+
-+	/* Set busy flag before kicking off HW. The isr will clear it and wake up us. There is
-+	 * no difference if isr is missed in a timeout situation of the last request. We just
-+	 * always set it busy and let the wait_event_timeout check the reset.
-+	 * wq:  X -> true
-+	 * isr: X -> false
-+	 */
-+	gna_priv->dev_busy = true;
-+
-+	ret = gna_score(score_request);
-+	if (ret) {
-+		score_request->status = ret;
-+		goto end;
++	mutex_lock(&file_priv->memlist_lock);
++	list_for_each_entry_safe(iter_mo, temp_mo, &file_priv->memory_list, file_mem_list) {
++		queue_work(gna_priv->request_wq, &iter_mo->work);
++		wait_event(iter_mo->waitq, true);
++		gna_memory_free(gna_priv, iter_mo);
 +	}
++	mutex_unlock(&file_priv->memlist_lock);
 +
-+	score_request->drv_perf.processing = ktime_get_ns();
++	gna_delete_file_requests(f, gna_priv);
 +
-+	hw_timeout = gna_priv->drv_priv->recovery_timeout_jiffies;
-+
-+	hw_timeout = wait_event_timeout(gna_priv->dev_busy_waitq,
-+			!gna_priv->dev_busy, hw_timeout);
-+
-+	if (!hw_timeout)
-+		dev_warn(&gna_priv->pdev->dev, "hardware timeout occurred\n");
-+
-+	gna_priv->hw_status = gna_reg_read(gna_priv->bar0_base, GNA_MMIO_STS);
-+
-+	gna_request_update_status(score_request);
-+	gna_abort_hw(gna_priv);
-+
-+	buffer = score_request->buffer_list;
-+	for (i = 0; i < score_request->buffer_count; i++, buffer++) {
-+		mutex_lock(&gna_priv->memidr_lock);
-+		mo = idr_find(&gna_priv->memory_idr, buffer->memory_id);
-+		mutex_unlock(&gna_priv->memidr_lock);
-+		if (mo) {
-+			mutex_lock(&mo->page_lock);
-+			mo->ops->put_pages(mo);
-+			mutex_unlock(&mo->page_lock);
-+		} else {
-+			dev_warn(&gna_priv->pdev->dev, "mo not found %llu\n", buffer->memory_id);
++	mutex_lock(&gna_priv->flist_lock);
++	list_for_each_entry_safe(iter_file, temp_file, &gna_priv->file_list, flist) {
++		if (iter_file->fd == f) {
++			list_del(&iter_file->flist);
++			f->private_data = NULL;
++			kfree(iter_file);
++			break;
 +		}
 +	}
++	mutex_unlock(&gna_priv->flist_lock);
 +
-+	/* patches_ptr's are already freed by ops->score() function */
-+	kvfree(score_request->buffer_list);
-+	score_request->buffer_list = NULL;
-+	score_request->buffer_count = 0;
-+
-+	gna_mmu_clear(gna_priv);
-+
-+end:
-+	score_request->drv_perf.completion = ktime_get_ns();
-+	dev_dbg(&gna_priv->pdev->dev, "request %llu done, waking processes\n",
-+		score_request->request_id);
-+	score_request->state = DONE;
-+	wake_up_interruptible_all(&score_request->waitq);
-+}
- 
- static struct gna_request *gna_request_create(struct gna_file_private *file_priv,
- 				       struct gna_compute_cfg *compute_cfg)
-@@ -34,6 +145,7 @@ static struct gna_request *gna_request_create(struct gna_file_private *file_priv
- 	score_request->gna_priv = gna_priv;
- 	score_request->state = NEW;
- 	init_waitqueue_head(&score_request->waitq);
-+	INIT_WORK(&score_request->work, gna_request_process);
- 
- 	return score_request;
++	return 0;
  }
-@@ -242,6 +354,7 @@ int gna_enqueue_request(struct gna_compute_cfg *compute_cfg,
- 	list_add_tail(&score_request->node, &gna_priv->request_list);
- 	mutex_unlock(&gna_priv->reqlist_lock);
  
-+	queue_work(gna_priv->request_wq, &score_request->work);
- 	kref_put(&score_request->refcount, gna_request_release);
- 
- 	*request_id = score_request->request_id;
-@@ -292,6 +405,7 @@ void gna_delete_request_by_id(u64 req_id, struct gna_private *gna_priv)
- 		list_for_each_entry_safe(req, temp_req, reqs_list, node) {
- 			if (req->request_id == req_id) {
- 				list_del(&req->node);
-+				cancel_work_sync(&req->work);
- 				kref_put(&req->refcount, gna_request_release);
- 				break;
- 			}
-@@ -313,6 +427,7 @@ void gna_delete_file_requests(struct file *fd, struct gna_private *gna_priv)
- 		list_for_each_entry_safe(req, temp_req, reqs_list, node) {
- 			if (req->fd == fd) {
- 				list_del(&req->node);
-+				cancel_work_sync(&req->work);
- 				kref_put(&req->refcount, gna_request_release);
- 				break;
- 			}
-@@ -336,6 +451,7 @@ void gna_delete_memory_requests(u64 memory_id, struct gna_private *gna_priv)
- 			for (i = 0; i < req->buffer_count; ++i) {
- 				if (req->buffer_list[i].memory_id == memory_id) {
- 					list_del(&req->node);
-+					cancel_work_sync(&req->work);
- 					kref_put(&req->refcount, gna_request_release);
- 					break;
- 				}
-diff --git a/drivers/misc/intel/gna/gna_request.h b/drivers/misc/intel/gna/gna_request.h
-index 609e66ffb54f..0d8c0f4180c8 100644
---- a/drivers/misc/intel/gna/gna_request.h
-+++ b/drivers/misc/intel/gna/gna_request.h
-@@ -43,6 +43,7 @@ struct gna_request {
- 	u64 buffer_count;
- 
- 	struct wait_queue_head waitq;
-+	struct work_struct work;
+ static const struct file_operations gna_file_ops = {
+ 	.owner		=	THIS_MODULE,
+ 	.open		=	gna_open,
++	.release	=	gna_release,
++	.unlocked_ioctl =	gna_ioctl,
  };
  
- int gna_enqueue_request(struct gna_compute_cfg *compute_cfg,
+ static void gna_dev_release(struct gna_private *gna_priv)
 -- 
 2.28.0
 
