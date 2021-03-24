@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27C48C433E5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFCF2C433F2
 	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 18:39:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 040DD61A17
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 18:39:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A922861A27
+	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 18:39:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237715AbhCXSi7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 14:38:59 -0400
+        id S237727AbhCXSjC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 24 Mar 2021 14:39:02 -0400
 Received: from mga09.intel.com ([134.134.136.24]:17741 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237658AbhCXSif (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 24 Mar 2021 14:38:35 -0400
-IronPort-SDR: 1S9Rr7dHAR68rDltUHkTAOJNge41n9g5h+NQBZQ2AoIZdpgwvGYG35okwLFfmULt93p/oH2Yke
- UZy6J4CzaLQA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="190859524"
+        id S237685AbhCXSir (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 24 Mar 2021 14:38:47 -0400
+IronPort-SDR: WtJ1VFIB5SsAfNsTtxMzQoI3eETsPCvp2a8C5wFCNqw6FO2uIX4TaBxXe3bewoSsVpEQWiDlrA
+ YPNsT7Gam+Pg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9933"; a="190859563"
 X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="190859524"
+   d="scan'208";a="190859563"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 11:38:35 -0700
-IronPort-SDR: 1Fk3S6zsN4pLqOViEtkqIaTZn0/sO8xfRcZAmTh7DXsQGoNiSx8tBI8j1jxcWUcqLaV/81dVB+
- ZZR+t/QiCy5Q==
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 11:38:46 -0700
+IronPort-SDR: Hi9YUzqnFlhB2xN4K4R0AC5UbqI8n4M+3Uk6atRrf+hEw/uLao7vRWJRNHcE5vQG6X/pQT4Ia6
+ OhRc4zKiPD/Q==
 X-IronPort-AV: E=Sophos;i="5.81,275,1610438400"; 
-   d="scan'208";a="608203828"
+   d="scan'208";a="608203910"
 Received: from gna-dev.igk.intel.com ([10.102.80.34])
-  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 11:38:32 -0700
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2021 11:38:44 -0700
 From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Arnd Bergmann <arnd@arndb.de>,
@@ -43,12 +43,10 @@ Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
         Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
         Tomasz Jankowski <tomasz1.jankowski@intel.com>,
         Savo Novakovic <savox.novakovic@intel.com>,
-        Anisha Dattatraya Kulkarni 
-        <anisha.dattatraya.kulkarni@intel.com>,
         Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: [PATCH v2 07/13] intel_gna: add request component
-Date:   Wed, 24 Mar 2021 19:36:04 +0100
-Message-Id: <20210324183610.4574-8-maciej.kwapulinski@linux.intel.com>
+Subject: [PATCH v2 11/13] intel_gna: add ioctl handler
+Date:   Wed, 24 Mar 2021 19:36:08 +0100
+Message-Id: <20210324183610.4574-12-maciej.kwapulinski@linux.intel.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210324183610.4574-1-maciej.kwapulinski@linux.intel.com>
 References: <20210324183610.4574-1-maciej.kwapulinski@linux.intel.com>
@@ -60,528 +58,392 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: Tomasz Jankowski <tomasz1.jankowski@intel.com>
 
-The scoring work submitted to the GNA driver is implemented as a
-list of requests that will be processed by the hardware.
+Add ioctl handler into GNA driver.
+The ioctl interface provides the ability to do the following:
+ - Map and unmap memory buffers for GNA computation requests.
+ - Retrieve capabilities of the underlying GNA IP.
+ - Submit GNA computation requests.
+ - Request notification of scoring completion.
 
 Signed-off-by: Tomasz Jankowski <tomasz1.jankowski@intel.com>
 Tested-by: Savo Novakovic <savox.novakovic@intel.com>
-Co-developed-by: Anisha Dattatraya Kulkarni <anisha.dattatraya.kulkarni@intel.com>
-Signed-off-by: Anisha Dattatraya Kulkarni <anisha.dattatraya.kulkarni@intel.com>
 Co-developed-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
 Signed-off-by: Jianxun Zhang <jianxun.zhang@linux.intel.com>
 Co-developed-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 Signed-off-by: Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
 ---
- drivers/misc/intel/gna/Kbuild        |   2 +-
- drivers/misc/intel/gna/gna_device.c  |   6 +
- drivers/misc/intel/gna/gna_device.h  |   6 +
- drivers/misc/intel/gna/gna_mem.c     |   3 +
- drivers/misc/intel/gna/gna_request.c | 347 +++++++++++++++++++++++++++
- drivers/misc/intel/gna/gna_request.h |  61 +++++
- 6 files changed, 424 insertions(+), 1 deletion(-)
- create mode 100644 drivers/misc/intel/gna/gna_request.c
- create mode 100644 drivers/misc/intel/gna/gna_request.h
+ drivers/misc/intel/gna/Kbuild       |   2 +-
+ drivers/misc/intel/gna/gna_device.c |  44 +++++
+ drivers/misc/intel/gna/gna_device.h |   3 +
+ drivers/misc/intel/gna/gna_ioctl.c  | 249 ++++++++++++++++++++++++++++
+ drivers/misc/intel/gna/gna_ioctl.h  |  11 ++
+ 5 files changed, 308 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/misc/intel/gna/gna_ioctl.c
+ create mode 100644 drivers/misc/intel/gna/gna_ioctl.h
 
 diff --git a/drivers/misc/intel/gna/Kbuild b/drivers/misc/intel/gna/Kbuild
-index e5cd953d83b2..5dbbd3f0a543 100644
+index 9dac467839c9..879cc76204c3 100644
 --- a/drivers/misc/intel/gna/Kbuild
 +++ b/drivers/misc/intel/gna/Kbuild
 @@ -1,5 +1,5 @@
  # SPDX-License-Identifier: GPL-2.0-only
  
--intel_gna-y := gna_device.o gna_driver.o gna_mem.o gna_hw.o
-+intel_gna-y := gna_device.o gna_driver.o gna_mem.o gna_request.o gna_hw.o
+-intel_gna-y := gna_device.o gna_driver.o gna_mem.o gna_request.o gna_score.o gna_hw.o
++intel_gna-y := gna_device.o gna_driver.o gna_mem.o gna_ioctl.o gna_request.o gna_score.o gna_hw.o
  
  obj-$(CONFIG_INTEL_GNA) += intel_gna.o
 diff --git a/drivers/misc/intel/gna/gna_device.c b/drivers/misc/intel/gna/gna_device.c
-index 9838d003426f..14ce24fd18ff 100644
+index 67917106a262..d8e1d4b8a9eb 100644
 --- a/drivers/misc/intel/gna/gna_device.c
 +++ b/drivers/misc/intel/gna/gna_device.c
-@@ -6,6 +6,7 @@
- 
- #include "gna_device.h"
- #include "gna_driver.h"
-+#include "gna_request.h"
- 
- #define GNA_DEV_HWID_CNL	0x5A11
- #define GNA_DEV_HWID_EHL	0x4511
-@@ -118,6 +119,11 @@ static int gna_dev_init(struct gna_private *gna_priv, struct pci_dev *pcidev,
- 	idr_init(&gna_priv->memory_idr);
- 	mutex_init(&gna_priv->memidr_lock);
- 
-+	atomic_set(&gna_priv->request_count, 0);
-+
-+	mutex_init(&gna_priv->reqlist_lock);
-+	INIT_LIST_HEAD(&gna_priv->request_list);
-+
- 	return 0;
- 
- err_pci_drvdata_unset:
-diff --git a/drivers/misc/intel/gna/gna_device.h b/drivers/misc/intel/gna/gna_device.h
-index 799788d70033..b54d0ea9b9ef 100644
---- a/drivers/misc/intel/gna/gna_device.h
-+++ b/drivers/misc/intel/gna/gna_device.h
-@@ -6,6 +6,7 @@
- 
- #include <linux/types.h>
- #include <linux/mutex.h>
-+#include <linux/list.h>
- #include <linux/idr.h>
+@@ -5,8 +5,12 @@
+ #include <linux/module.h>
  #include <linux/pci.h>
  
-@@ -44,6 +45,11 @@ struct gna_private {
- 	struct gna_mmu_object mmu;
- 	struct mutex mmu_lock;
- 
-+	struct list_head request_list;
-+	/* protects request_list */
-+	struct mutex reqlist_lock;
-+	atomic_t request_count;
++#include <uapi/misc/intel/gna.h>
 +
- 	/* memory objects' store */
- 	struct idr memory_idr;
- 	/* lock protecting memory_idr */
-diff --git a/drivers/misc/intel/gna/gna_mem.c b/drivers/misc/intel/gna/gna_mem.c
-index f3828b503ff6..ce1691d68edb 100644
---- a/drivers/misc/intel/gna/gna_mem.c
-+++ b/drivers/misc/intel/gna/gna_mem.c
-@@ -17,6 +17,7 @@
  #include "gna_device.h"
  #include "gna_driver.h"
- #include "gna_mem.h"
-+#include "gna_request.h"
++#include "gna_hw.h"
++#include "gna_ioctl.h"
+ #include "gna_request.h"
  
- static void gna_mmu_init(struct gna_private *gna_priv)
- {
-@@ -392,6 +393,8 @@ static void gna_memory_release(struct work_struct *work)
+ #define GNA_DEV_HWID_CNL	0x5A11
+@@ -262,3 +266,43 @@ void gna_remove(struct pci_dev *pcidev)
  
- 	mo = container_of(work, struct gna_memory_object, work);
- 
-+	gna_delete_memory_requests(mo->memory_id, mo->gna_priv);
+ 	pci_free_irq_vectors(pcidev);
+ }
 +
- 	mo->user_ptr = NULL;
++static u32 gna_device_type_by_hwid(u32 hwid)
++{
++	switch (hwid) {
++	case GNA_DEV_HWID_CNL:
++		return GNA_DEV_TYPE_0_9;
++	case GNA_DEV_HWID_GLK:
++	case GNA_DEV_HWID_EHL:
++	case GNA_DEV_HWID_ICL:
++		return GNA_DEV_TYPE_1_0;
++	case GNA_DEV_HWID_JSL:
++	case GNA_DEV_HWID_TGL:
++		return GNA_DEV_TYPE_2_0;
++	default:
++		return 0;
++	}
++}
++
++int gna_getparam(struct gna_private *gna_priv, union gna_parameter *param)
++{
++	switch (param->in.id) {
++	case GNA_PARAM_DEVICE_ID:
++		param->out.value = gna_priv->info.hwid;
++		break;
++	case GNA_PARAM_RECOVERY_TIMEOUT:
++		param->out.value = jiffies_to_msecs(gna_priv->drv_priv->recovery_timeout_jiffies) / 1000;
++		break;
++	case GNA_PARAM_INPUT_BUFFER_S:
++		param->out.value = gna_priv->hw_info.in_buf_s;
++		break;
++	case GNA_PARAM_DEVICE_TYPE:
++		param->out.value = gna_device_type_by_hwid(gna_priv->info.hwid);
++		break;
++	default:
++		dev_err(&gna_priv->pdev->dev, "unknown parameter id %llu\n", param->in.id);
++		return -EINVAL;
++	}
++
++	return 0;
++}
+diff --git a/drivers/misc/intel/gna/gna_device.h b/drivers/misc/intel/gna/gna_device.h
+index 7ba25f6f8492..aa7fadcf93b1 100644
+--- a/drivers/misc/intel/gna/gna_device.h
++++ b/drivers/misc/intel/gna/gna_device.h
+@@ -15,6 +15,7 @@
  
- 	wake_up_interruptible(&mo->waitq);
-diff --git a/drivers/misc/intel/gna/gna_request.c b/drivers/misc/intel/gna/gna_request.c
+ struct gna_driver_private;
+ struct workqueue_struct;
++union gna_parameter;
+ struct device;
+ 
+ struct gna_drv_info {
+@@ -77,4 +78,6 @@ int gna_probe(struct pci_dev *dev, const struct pci_device_id *id);
+ 
+ void gna_remove(struct pci_dev *dev);
+ 
++int gna_getparam(struct gna_private *gna_priv, union gna_parameter *param);
++
+ #endif /* __GNA_DEVICE_H__ */
+diff --git a/drivers/misc/intel/gna/gna_ioctl.c b/drivers/misc/intel/gna/gna_ioctl.c
 new file mode 100644
-index 000000000000..383871eaebab
+index 000000000000..79ce3aeb27cf
 --- /dev/null
-+++ b/drivers/misc/intel/gna/gna_request.c
-@@ -0,0 +1,347 @@
++++ b/drivers/misc/intel/gna/gna_ioctl.c
+@@ -0,0 +1,249 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +// Copyright(c) 2017-2021 Intel Corporation
 +
-+#include <linux/device.h>
-+#include <linux/kref.h>
-+#include <linux/wait.h>
-+#include <linux/workqueue.h>
-+
-+#include "gna_device.h"
-+#include "gna_driver.h"
-+#include "gna_request.h"
-+
-+static struct gna_request *gna_request_create(struct gna_file_private *file_priv,
-+				       struct gna_compute_cfg *compute_cfg)
-+{
-+	struct gna_request *score_request;
-+	struct gna_private *gna_priv;
-+
-+	gna_priv = file_priv->gna_priv;
-+	if (IS_ERR(gna_priv))
-+		return NULL;
-+
-+	score_request = kzalloc(sizeof(*score_request), GFP_KERNEL);
-+	if (!score_request)
-+		return NULL;
-+	kref_init(&score_request->refcount);
-+
-+	dev_dbg(&gna_priv->pdev->dev, "layer_base %d layer_count %d\n",
-+		compute_cfg->layer_base, compute_cfg->layer_count);
-+
-+	score_request->request_id = atomic_inc_return(&gna_priv->request_count);
-+	score_request->compute_cfg = *compute_cfg;
-+	score_request->fd = file_priv->fd;
-+	score_request->gna_priv = gna_priv;
-+	score_request->state = NEW;
-+	init_waitqueue_head(&score_request->waitq);
-+
-+	return score_request;
-+}
-+
-+/*
-+ * returns true if [inner_offset, inner_size) is embraced by [0, outer_size). False otherwise.
-+ */
-+static bool gna_validate_ranges(u64 outer_size, u64 inner_offset, u64 inner_size)
-+{
-+	return inner_offset < outer_size &&
-+		inner_size <= (outer_size - inner_offset);
-+}
-+
-+static int gna_validate_patches(struct gna_private *gna_priv, __u64 buffer_size,
-+				struct gna_memory_patch *patches, u64 count)
-+{
-+	u64 idx;
-+
-+	for (idx = 0; idx < count; ++idx) {
-+		if (patches[idx].size > 8) {
-+			dev_err(&gna_priv->pdev->dev, "invalid patch size: %llu\n", patches[idx].size);
-+			return -EINVAL;
-+		}
-+
-+		if (!gna_validate_ranges(buffer_size, patches[idx].offset, patches[idx].size)) {
-+			dev_err(&gna_priv->pdev->dev,
-+				"patch out of bounds. buffer size: %llu, patch offset/size:%llu/%llu\n",
-+				buffer_size, patches[idx].offset, patches[idx].size);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int gna_buffer_fill_patches(struct gna_buffer *buffer, struct gna_private *gna_priv)
-+{
-+	__u64 patches_user = buffer->patches_ptr;
-+	struct gna_memory_patch *patches;
-+	/* At this point, the buffer points to a memory region in kernel space where the copied
-+	 * patches_ptr also lives, but the value of it is still an address from user space. This
-+	 * function will set patches_ptr to either an address in kernel space or null before it
-+	 * exits.
-+	 */
-+	u64 patch_count;
-+	int ret;
-+
-+	buffer->patches_ptr = 0;
-+	patch_count = buffer->patch_count;
-+	if (!patch_count)
-+		return 0;
-+
-+	patches = kvmalloc_array(patch_count, sizeof(struct gna_memory_patch), GFP_KERNEL);
-+	if (!patches)
-+		return -ENOMEM;
-+
-+	if (copy_from_user(patches, u64_to_user_ptr(patches_user),
-+				sizeof(struct gna_memory_patch) * patch_count)) {
-+		dev_err(&gna_priv->pdev->dev, "copy %llu patches from user failed\n", patch_count);
-+		ret = -EFAULT;
-+		goto err_fill_patches;
-+	}
-+
-+	ret = gna_validate_patches(gna_priv, buffer->size, patches, patch_count);
-+	if (ret) {
-+		dev_err(&gna_priv->pdev->dev, "patches failed validation\n");
-+		goto err_fill_patches;
-+	}
-+
-+	buffer->patches_ptr = (uintptr_t)patches;
-+
-+	return 0;
-+
-+err_fill_patches:
-+	kvfree(patches);
-+	return ret;
-+}
-+
-+static int gna_request_fill_buffers(struct gna_request *score_request,
-+				    struct gna_compute_cfg *compute_cfg)
-+{
-+	struct gna_buffer *buffer_list;
-+	struct gna_memory_object *mo;
-+	struct gna_private *gna_priv;
-+	u64 buffers_total_size = 0;
-+	struct gna_buffer *buffer;
-+	u64 buffer_count;
-+	u64 memory_id;
-+	u64 i, j;
-+	int ret;
-+
-+	gna_priv = score_request->gna_priv;
-+
-+	buffer_count = compute_cfg->buffer_count;
-+	buffer_list = kvmalloc_array(buffer_count, sizeof(struct gna_buffer), GFP_KERNEL);
-+	if (!buffer_list)
-+		return -ENOMEM;
-+
-+	if (copy_from_user(buffer_list, u64_to_user_ptr(compute_cfg->buffers_ptr),
-+			sizeof(*buffer_list) * buffer_count)) {
-+		dev_err(&gna_priv->pdev->dev, "copying %llu buffers failed\n", buffer_count);
-+		ret = -EFAULT;
-+		goto err_free_buffers;
-+	}
-+
-+	for (i = 0; i < buffer_count; i++) {
-+		buffer = &buffer_list[i];
-+		memory_id = buffer->memory_id;
-+
-+		for (j = 0; j < i; j++) {
-+			if (buffer_list[j].memory_id == memory_id) {
-+				dev_err(&gna_priv->pdev->dev,
-+					"doubled memory id in score config. id:%llu\n", memory_id);
-+				ret = -EINVAL;
-+				goto err_zero_patch_ptr;
-+			}
-+		}
-+
-+		buffers_total_size +=
-+			gna_buffer_get_size(buffer->offset, buffer->size);
-+		if (buffers_total_size > gna_priv->info.max_hw_mem) {
-+			dev_err(&gna_priv->pdev->dev, "buffers' total size too big\n");
-+			ret = -EINVAL;
-+			goto err_zero_patch_ptr;
-+		}
-+
-+		mutex_lock(&gna_priv->memidr_lock);
-+		mo = idr_find(&gna_priv->memory_idr, memory_id);
-+		if (!mo) {
-+			mutex_unlock(&gna_priv->memidr_lock);
-+			dev_err(&gna_priv->pdev->dev, "memory object %llu not found\n", memory_id);
-+			ret = -EINVAL;
-+			goto err_zero_patch_ptr;
-+		}
-+		mutex_unlock(&gna_priv->memidr_lock);
-+
-+		if (mo->fd != score_request->fd) {
-+			dev_err(&gna_priv->pdev->dev,
-+				"memory object from another file. %p != %p\n",
-+				mo->fd, score_request->fd);
-+			ret = -EINVAL;
-+			goto err_zero_patch_ptr;
-+		}
-+
-+		if (!gna_validate_ranges(mo->memory_size, buffer->offset, buffer->size)) {
-+			dev_err(&gna_priv->pdev->dev,
-+				"buffer out of bounds. mo size: %llu, buffer offset/size:%llu/%llu\n",
-+				mo->memory_size, buffer->offset, buffer->size);
-+			ret = -EINVAL;
-+			goto err_zero_patch_ptr;
-+		}
-+
-+		ret = gna_buffer_fill_patches(buffer, gna_priv);
-+		if (ret)
-+			goto err_free_patches;
-+	}
-+
-+	score_request->buffer_list = buffer_list;
-+	score_request->buffer_count = buffer_count;
-+
-+	return 0;
-+
-+err_zero_patch_ptr:
-+	/* patches_ptr may still hold an address in userspace.
-+	 * Don't pass it to kvfree().
-+	 */
-+	buffer->patches_ptr = 0;
-+
-+err_free_patches:
-+	/* patches_ptr of each processed buffer should be either
-+	 * null or pointing to an allocated memory block in the
-+	 * kernel at this point.
-+	 */
-+	for (j = 0; j <= i; j++)
-+		kvfree((void *)(uintptr_t)buffer_list[j].patches_ptr);
-+
-+err_free_buffers:
-+	kvfree(buffer_list);
-+	return ret;
-+}
-+
-+int gna_enqueue_request(struct gna_compute_cfg *compute_cfg,
-+			struct gna_file_private *file_priv, u64 *request_id)
-+{
-+	struct gna_request *score_request;
-+	struct gna_private *gna_priv;
-+	int ret;
-+
-+	if (!file_priv)
-+		return -EINVAL;
-+
-+	gna_priv = file_priv->gna_priv;
-+
-+	score_request = gna_request_create(file_priv, compute_cfg);
-+	if (!score_request)
-+		return -ENOMEM;
-+
-+	ret = gna_request_fill_buffers(score_request, compute_cfg);
-+	if (ret) {
-+		kref_put(&score_request->refcount, gna_request_release);
-+		return ret;
-+	}
-+
-+	kref_get(&score_request->refcount);
-+	mutex_lock(&gna_priv->reqlist_lock);
-+	list_add_tail(&score_request->node, &gna_priv->request_list);
-+	mutex_unlock(&gna_priv->reqlist_lock);
-+
-+	kref_put(&score_request->refcount, gna_request_release);
-+
-+	*request_id = score_request->request_id;
-+
-+	return 0;
-+}
-+
-+void gna_request_release(struct kref *ref)
-+{
-+	struct gna_request *score_request =
-+		container_of(ref, struct gna_request, refcount);
-+	kfree(score_request);
-+}
-+
-+struct gna_request *gna_find_request_by_id(u64 req_id, struct gna_private *gna_priv)
-+{
-+	struct gna_request *req, *found_req;
-+	struct list_head *reqs_list;
-+
-+	mutex_lock(&gna_priv->reqlist_lock);
-+
-+	reqs_list = &gna_priv->request_list;
-+	found_req = NULL;
-+	if (!list_empty(reqs_list)) {
-+		list_for_each_entry(req, reqs_list, node) {
-+			if (req_id == req->request_id) {
-+				found_req = req;
-+				kref_get(&found_req->refcount);
-+				break;
-+			}
-+		}
-+	}
-+
-+	mutex_unlock(&gna_priv->reqlist_lock);
-+
-+	return found_req;
-+}
-+
-+void gna_delete_request_by_id(u64 req_id, struct gna_private *gna_priv)
-+{
-+	struct gna_request *req, *temp_req;
-+	struct list_head *reqs_list;
-+
-+	mutex_lock(&gna_priv->reqlist_lock);
-+
-+	reqs_list = &gna_priv->request_list;
-+	if (!list_empty(reqs_list)) {
-+		list_for_each_entry_safe(req, temp_req, reqs_list, node) {
-+			if (req->request_id == req_id) {
-+				list_del(&req->node);
-+				kref_put(&req->refcount, gna_request_release);
-+				break;
-+			}
-+		}
-+	}
-+
-+	mutex_unlock(&gna_priv->reqlist_lock);
-+}
-+
-+void gna_delete_file_requests(struct file *fd, struct gna_private *gna_priv)
-+{
-+	struct gna_request *req, *temp_req;
-+	struct list_head *reqs_list;
-+
-+	mutex_lock(&gna_priv->reqlist_lock);
-+
-+	reqs_list = &gna_priv->request_list;
-+	if (!list_empty(reqs_list)) {
-+		list_for_each_entry_safe(req, temp_req, reqs_list, node) {
-+			if (req->fd == fd) {
-+				list_del(&req->node);
-+				kref_put(&req->refcount, gna_request_release);
-+				break;
-+			}
-+		}
-+	}
-+
-+	mutex_unlock(&gna_priv->reqlist_lock);
-+}
-+
-+void gna_delete_memory_requests(u64 memory_id, struct gna_private *gna_priv)
-+{
-+	struct gna_request *req, *temp_req;
-+	struct list_head *reqs_list;
-+	int i;
-+
-+	mutex_lock(&gna_priv->reqlist_lock);
-+
-+	reqs_list = &gna_priv->request_list;
-+	if (!list_empty(reqs_list)) {
-+		list_for_each_entry_safe(req, temp_req, reqs_list, node) {
-+			for (i = 0; i < req->buffer_count; ++i) {
-+				if (req->buffer_list[i].memory_id == memory_id) {
-+					list_del(&req->node);
-+					kref_put(&req->refcount, gna_request_release);
-+					break;
-+				}
-+			}
-+		}
-+	}
-+
-+	mutex_unlock(&gna_priv->reqlist_lock);
-+}
-diff --git a/drivers/misc/intel/gna/gna_request.h b/drivers/misc/intel/gna/gna_request.h
-new file mode 100644
-index 000000000000..609e66ffb54f
---- /dev/null
-+++ b/drivers/misc/intel/gna/gna_request.h
-@@ -0,0 +1,61 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/* Copyright(c) 2017-2021 Intel Corporation */
-+
-+#ifndef __GNA_REQUEST_H__
-+#define __GNA_REQUEST_H__
-+
-+#include <linux/kref.h>
-+#include <linux/wait.h>
-+#include <linux/workqueue.h>
++#include <linux/uaccess.h>
 +
 +#include <uapi/misc/intel/gna.h>
 +
-+enum gna_request_state {
-+	NEW,
-+	ACTIVE,
-+	DONE,
-+};
++#include "gna_driver.h"
++#include "gna_device.h"
++#include "gna_ioctl.h"
++#include "gna_mem.h"
++#include "gna_request.h"
++#include "gna_score.h"
 +
-+struct gna_file_private;
-+
-+struct gna_request {
-+	u64 request_id;
-+
-+	struct kref refcount;
-+
++static int gna_ioctl_score(struct gna_file_private *file_priv, void __user *argptr)
++{
++	union gna_compute score_args;
 +	struct gna_private *gna_priv;
-+	struct file *fd;
++	u64 request_id;
++	int ret;
 +
-+	u32 hw_status;
++	gna_priv = file_priv->gna_priv;
 +
-+	enum gna_request_state state;
++	if (copy_from_user(&score_args, argptr, sizeof(score_args))) {
++		dev_err(&gna_priv->pdev->dev, "could not copy score ioctl config from user\n");
++		return -EFAULT;
++	}
 +
-+	int status;
++	ret = gna_validate_score_config(&score_args.in.config, file_priv);
++	if (ret) {
++		dev_err(&gna_priv->pdev->dev, "request not valid\n");
++		return ret;
++	}
 +
-+	struct gna_hw_perf hw_perf;
-+	struct gna_drv_perf drv_perf;
++	ret = gna_enqueue_request(&score_args.in.config, file_priv, &request_id);
++	if (ret) {
++		dev_err(&gna_priv->pdev->dev, "could not enqueue score request %d\n", ret);
++		return ret;
++	}
 +
-+	struct list_head node;
++	score_args.out.request_id = request_id;
++	if (copy_to_user(argptr, &score_args, sizeof(score_args))) {
++		dev_err(&gna_priv->pdev->dev, "could not copy score ioctl status to user\n");
++		return -EFAULT;
++	}
 +
-+	struct gna_compute_cfg compute_cfg;
++	return 0;
++}
 +
-+	struct gna_buffer *buffer_list;
-+	u64 buffer_count;
++static int gna_ioctl_wait(struct file *f, void __user *argptr)
++{
++	struct gna_file_private *file_priv;
++	struct gna_request *score_request;
++	struct gna_private *gna_priv;
++	union gna_wait wait_data;
++	u64 request_id;
++	u32 timeout;
++	int ret;
 +
-+	struct wait_queue_head waitq;
-+};
++	file_priv = (struct gna_file_private *)f->private_data;
++	gna_priv = file_priv->gna_priv;
 +
-+int gna_enqueue_request(struct gna_compute_cfg *compute_cfg,
-+			struct gna_file_private *file_priv, u64 *request_id);
++	ret = 0;
 +
-+void gna_request_release(struct kref *ref);
++	if (copy_from_user(&wait_data, argptr, sizeof(wait_data))) {
++		dev_err(&gna_priv->pdev->dev, "could not copy wait ioctl data from user\n");
++		return -EFAULT;
++	}
 +
-+struct gna_request *gna_find_request_by_id(u64 req_id, struct gna_private *gna_priv);
++	request_id = wait_data.in.request_id;
++	timeout = wait_data.in.timeout;
 +
-+void gna_delete_request_by_id(u64 req_id, struct gna_private *gna_priv);
++	score_request = gna_find_request_by_id(request_id, gna_priv);
 +
-+void gna_delete_file_requests(struct file *fd, struct gna_private *gna_priv);
++	if (!score_request) {
++		dev_err(&gna_priv->pdev->dev, "could not find request with id: %llu\n", request_id);
++		return -EINVAL;
++	}
 +
-+void gna_delete_memory_requests(u64 memory_id, struct gna_private *gna_priv);
++	if (score_request->fd != f) {
++		kref_put(&score_request->refcount, gna_request_release);
++		return -EINVAL;
++	}
 +
-+#endif // __GNA_REQUEST_H__
++	dev_dbg(&gna_priv->pdev->dev, "waiting for request %llu for timeout %u\n", request_id, timeout);
++
++	ret = wait_event_interruptible_timeout(score_request->waitq, score_request->state == DONE,
++					       msecs_to_jiffies(timeout));
++	if (ret == 0 || ret == -ERESTARTSYS) {
++		dev_err(&gna_priv->pdev->dev, "request timed out, id: %llu\n", request_id);
++		kref_put(&score_request->refcount, gna_request_release);
++		return -EBUSY;
++	}
++
++	dev_dbg(&gna_priv->pdev->dev, "request wait completed with %d req id %llu\n", ret, request_id);
++
++	wait_data.out.hw_perf = score_request->hw_perf;
++	wait_data.out.drv_perf = score_request->drv_perf;
++	wait_data.out.hw_status = score_request->hw_status;
++
++	ret = score_request->status;
++
++	dev_dbg(&gna_priv->pdev->dev, "request status %d, hw status: %#x\n",
++		score_request->status, score_request->hw_status);
++	kref_put(&score_request->refcount, gna_request_release);
++
++	gna_delete_request_by_id(request_id, gna_priv);
++
++	if (copy_to_user(argptr, &wait_data, sizeof(wait_data))) {
++		dev_err(&gna_priv->pdev->dev, "could not copy wait ioctl status to user\n");
++		ret = -EFAULT;
++	}
++
++	return ret;
++}
++
++static int gna_ioctl_map(struct gna_file_private *file_priv, void __user *argptr)
++{
++	struct gna_private *gna_priv;
++	union gna_memory_map gna_mem;
++	int ret;
++
++	gna_priv = file_priv->gna_priv;
++
++	if (copy_from_user(&gna_mem, argptr, sizeof(gna_mem))) {
++		dev_err(&gna_priv->pdev->dev, "could not copy userptr ioctl data from user\n");
++		return -EFAULT;
++	}
++
++	ret = gna_map_memory(file_priv, &gna_mem);
++	if (ret)
++		return ret;
++
++	if (copy_to_user(argptr, &gna_mem, sizeof(gna_mem))) {
++		dev_err(&gna_priv->pdev->dev, "could not copy userptr ioctl status to user\n");
++		return -EFAULT;
++	}
++
++	return 0;
++}
++
++static int gna_ioctl_free(struct gna_file_private *file_priv, unsigned long arg)
++{
++	struct gna_memory_object *iter_mo, *temp_mo;
++	struct gna_memory_object *mo;
++	struct gna_private *gna_priv;
++
++	u64 memory_id = arg;
++
++	gna_priv = file_priv->gna_priv;
++
++	mutex_lock(&gna_priv->memidr_lock);
++	mo = idr_find(&gna_priv->memory_idr, memory_id);
++	mutex_unlock(&gna_priv->memidr_lock);
++
++	if (!mo) {
++		dev_warn(&gna_priv->pdev->dev, "memory object not found\n");
++		return -EINVAL;
++	}
++
++	queue_work(gna_priv->request_wq, &mo->work);
++	if (wait_event_interruptible(mo->waitq, true)) {
++		dev_dbg(&gna_priv->pdev->dev, "wait interrupted\n");
++		return -ETIME;
++	}
++
++	mutex_lock(&file_priv->memlist_lock);
++	list_for_each_entry_safe(iter_mo, temp_mo, &file_priv->memory_list, file_mem_list) {
++		if (iter_mo->memory_id == memory_id) {
++			list_del(&iter_mo->file_mem_list);
++			break;
++		}
++	}
++	mutex_unlock(&file_priv->memlist_lock);
++
++	gna_memory_free(gna_priv, mo);
++
++	return 0;
++}
++
++static int gna_ioctl_getparam(struct gna_private *gna_priv, void __user *argptr)
++{
++	union gna_parameter param;
++	int ret;
++
++	if (copy_from_user(&param, argptr, sizeof(param))) {
++		dev_err(&gna_priv->pdev->dev, "could not copy getparam ioctl data from user\n");
++		return -EFAULT;
++	}
++
++	ret = gna_getparam(gna_priv, &param);
++	if (ret)
++		return ret;
++
++	if (copy_to_user(argptr, &param, sizeof(param))) {
++		dev_err(&gna_priv->pdev->dev, "could not copy getparam ioctl status to user\n");
++		return -EFAULT;
++	}
++
++	return 0;
++}
++
++long gna_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
++{
++	struct gna_file_private *file_priv;
++	struct gna_private *gna_priv;
++	void __user *argptr;
++	int ret = 0;
++
++	argptr = (void __user *)arg;
++
++	file_priv = (struct gna_file_private *)f->private_data;
++	// TODO following is always false?
++	if (!file_priv)
++		return -ENODEV;
++
++	gna_priv = file_priv->gna_priv;
++	if (!gna_priv)
++		return -ENODEV;
++
++	switch (cmd) {
++	case GNA_GET_PARAMETER:
++		ret = gna_ioctl_getparam(gna_priv, argptr);
++		break;
++
++	case GNA_MAP_MEMORY:
++		ret = gna_ioctl_map(file_priv, argptr);
++		break;
++
++	case GNA_UNMAP_MEMORY:
++		ret = gna_ioctl_free(file_priv, arg);
++		break;
++
++	case GNA_COMPUTE:
++		ret = gna_ioctl_score(file_priv, argptr);
++		break;
++
++	case GNA_WAIT:
++		ret = gna_ioctl_wait(f, argptr);
++		break;
++
++	default:
++		dev_warn(&gna_priv->pdev->dev, "wrong ioctl %#x\n", cmd);
++		ret = -EINVAL;
++		break;
++	}
++
++	return ret;
++}
+diff --git a/drivers/misc/intel/gna/gna_ioctl.h b/drivers/misc/intel/gna/gna_ioctl.h
+new file mode 100644
+index 000000000000..562f7f835f5f
+--- /dev/null
++++ b/drivers/misc/intel/gna/gna_ioctl.h
+@@ -0,0 +1,11 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/* Copyright(c) 2017-2021 Intel Corporation */
++
++#ifndef __GNA_IOCTL_H__
++#define __GNA_IOCTL_H__
++
++#include <linux/fs.h>
++
++long gna_ioctl(struct file *f, unsigned int cmd, unsigned long arg);
++
++#endif // __GNA_IOCTL_H__
 -- 
 2.28.0
 
