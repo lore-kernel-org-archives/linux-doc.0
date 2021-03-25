@@ -2,102 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B1BFC433E3
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 09:30:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D37E9C433C1
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 09:30:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 307F461A32
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 09:30:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F65A619FB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 09:30:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229957AbhCYJ3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 05:29:35 -0400
-Received: from smtp-190b.mail.infomaniak.ch ([185.125.25.11]:38941 "EHLO
-        smtp-190b.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230057AbhCYJ3N (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 05:29:13 -0400
-X-Greylist: delayed 51259 seconds by postgrey-1.27 at vger.kernel.org; Thu, 25 Mar 2021 05:29:12 EDT
-Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
-        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4F5ftj1bChzMqSFq;
-        Thu, 25 Mar 2021 10:29:01 +0100 (CET)
-Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
-        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4F5ftZ3sl9zlh8TD;
-        Thu, 25 Mar 2021 10:28:54 +0100 (CET)
-Subject: Re: [PATCH v30 02/12] landlock: Add ruleset and domain management
-To:     James Morris <jmorris@namei.org>
-Cc:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
-References: <20210316204252.427806-1-mic@digikod.net>
- <20210316204252.427806-3-mic@digikod.net> <202103191114.C87C5E2B69@keescook>
- <acda4be1-4076-a31d-fcfd-27764dd598c8@digikod.net>
- <c9dc8adb-7fab-14a1-a658-40b288419fdf@namei.org>
-From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Message-ID: <25f701bf-fddf-8e9c-1ac1-c50a38579096@digikod.net>
-Date:   Thu, 25 Mar 2021 10:29:35 +0100
-User-Agent: 
+        id S230008AbhCYJaG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 05:30:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42392 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230053AbhCYJaA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 05:30:00 -0400
+Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 451ABC061760
+        for <linux-doc@vger.kernel.org>; Thu, 25 Mar 2021 02:29:59 -0700 (PDT)
+Received: by mail-lj1-x236.google.com with SMTP id z8so2191221ljm.12
+        for <linux-doc@vger.kernel.org>; Thu, 25 Mar 2021 02:29:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vmKMFioY0zVZQp03F1ln+3gU2DK5top6vTpPu+FZnDs=;
+        b=KpfFtXzYNEauysABC3X5zU0EiEkxsudLmFnRzACbzQq+9rckx4xi2e6dfZb7bQEFEB
+         ifq+Mx5xaYTPSVq8raYbw2/d1ssOGWbNiaLpnDe9IQmUsl35oIXzDA6JfoQkdoEyc7c2
+         8BmEZUd55RaM2Xc3PUVnujU99sZ5neuBVDcIaeTDh+YxJ02gkwPjjkOMqHL8hKJ/DCgh
+         Md5dTPVuajkoRQ63aJsG9MgYGrEYzvNbdWhR+VZE4jlYrtoGCRSLVQy45hjLbPDYPPsZ
+         5lo5rnjwY8dC/cGe12ryE4X/bRn4zVP8nlY4b++QsDtHpXheRVaMwxWnAO03UzYoAtZg
+         rZew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vmKMFioY0zVZQp03F1ln+3gU2DK5top6vTpPu+FZnDs=;
+        b=rM23OOVCTWDpgGbZpyivRLcvCUpwotzUND7N4ENc+8PzWivFVLN1SgEw4vQn75mjBL
+         OKaMGgIDRUEYiVMi5gZE/kBPEKi/US9DVtjcl6k0jCVrymcZ63M2BqaVrKbjTTIEarEY
+         wY5dj1Q562m2CuXbhBxC8hNOyVhUWO8RX6oJv/3LXa+0GkMtJS4rKp6aWCqdWYNKeB03
+         VvIZBbII2ZW8B91tCN5UxH5btSevATZvA9WyfJlUi0GzgQoh5j7PUPn2NUZfxsFKbjjt
+         9XDgnfPng3EW1m8+SFo5CUaYghkMEymd0S0d+WKmay5kk1zl7m/hEV3R1hBHt797uSkI
+         a10g==
+X-Gm-Message-State: AOAM533nv5LoQK/hxtOJFs4j4HCuctlBLsq36lXs/AEpFIs1Zm0JAaqs
+        JPb/ZPRCkV9hfgizaGCFqLl1IypP1r18LM9UA8ieQA==
+X-Google-Smtp-Source: ABdhPJxB/I6kt1nPORWmNNUzemQAZpFOwtiNSsfBP3HL3imlrcuJEDouMOsJrxmy/ls2i8ggSYMfVxwKEFHNH5/x3N0=
+X-Received: by 2002:a2e:1649:: with SMTP id 9mr5244812ljw.74.1616664597825;
+ Thu, 25 Mar 2021 02:29:57 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c9dc8adb-7fab-14a1-a658-40b288419fdf@namei.org>
-Content-Type: text/plain; charset=iso-8859-15
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210315091400.13772-1-brgl@bgdev.pl> <CAMRc=MfQnofWQKz9tbnTA_1M8BkN37FcxbJpK4hs0RoRebWWkw@mail.gmail.com>
+In-Reply-To: <CAMRc=MfQnofWQKz9tbnTA_1M8BkN37FcxbJpK4hs0RoRebWWkw@mail.gmail.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 25 Mar 2021 10:29:46 +0100
+Message-ID: <CACRpkdZbGDjAJarJJN91gGfHqXEG3puj=OwsQu=OZ5L+tpWt6A@mail.gmail.com>
+Subject: Re: [PATCH v5 00/11] gpio: implement the configfs testing module
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        linux-doc <linux-doc@vger.kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Kent Gibson <warthog618@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Mon, Mar 22, 2021 at 3:32 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
 
-On 24/03/2021 21:31, James Morris wrote:
-> On Fri, 19 Mar 2021, Mickaël Salaün wrote:
-> 
->>
->>>> Cc: Kees Cook <keescook@chromium.org>
->>>> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
->>>> Acked-by: Serge Hallyn <serge@hallyn.com>
->>>> Link: https://lore.kernel.org/r/20210316204252.427806-3-mic@digikod.net
->>>
->>> (Aside: you appear to be self-adding your Link: tags -- AIUI, this is
->>> normally done by whoever pulls your series. I've only seen Link: tags
->>> added when needing to refer to something else not included in the
->>> series.)
->>
->> It is an insurance to not lose history. :)
-> 
-> How will history be lost? The code is in the repo and discussions can 
-> easily be found by searching for subjects or message IDs.
+> FYI The configfs patches from this series have been on the mailing
+> list for months (long before the GPIO part) and have been re-sent
+> several times. You have neither acked or opposed these changes. I
+> don't want to delay the new testing driver anymore so I intend to
+> apply the entire series and take it upstream through the GPIO tree by
+> the end of this week.
 
-The (full and ordered) history may be hard to find without any
-Message-ID in commit messages. The Lore links keep that information (in
-the commit message) and redirect to the related archived email thread,
-which is very handy. For instance, Linus can rely on those links to
-judge the quality of a patch:
-https://lore.kernel.org/lkml/CAHk-=wh7xY3UF7zEc0BNVNjOox59jYBW-Gfi7=emm+BXPWc6nQ@mail.gmail.com/
+I say go ahead.
+Acked-by: Linus Walleij <linus.walleij@linaro.org>
 
-> 
-> Is anyone else doing this self linking?
-> 
-
-I don't know, but it doesn't hurt. This way, if you're using git am
-without b4 am -l (or forgot to add links manually), the history is still
-pointed out by these self-reference links. I find it convenient and it
-is a safeguard to not forget them, no matter who takes the patches.
+Yours,
+Linus Walleij
