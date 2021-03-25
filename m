@@ -2,128 +2,207 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13B1FC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 22:29:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A0B1C433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 05:27:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D543461A1D
-	for <linux-doc@archiver.kernel.org>; Wed, 24 Mar 2021 22:29:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDC1D61A23
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 05:27:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232693AbhCXW3P (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 24 Mar 2021 18:29:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41370 "EHLO
+        id S229716AbhCYF0h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 01:26:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229882AbhCXW2q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 24 Mar 2021 18:28:46 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D909DC06174A
-        for <linux-doc@vger.kernel.org>; Wed, 24 Mar 2021 15:28:45 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id m7so15768259pgj.8
-        for <linux-doc@vger.kernel.org>; Wed, 24 Mar 2021 15:28:45 -0700 (PDT)
+        with ESMTP id S229868AbhCYF0X (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 01:26:23 -0400
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFCC2C0613DF
+        for <linux-doc@vger.kernel.org>; Wed, 24 Mar 2021 22:26:20 -0700 (PDT)
+Received: by mail-lj1-x235.google.com with SMTP id r20so1569278ljk.4
+        for <linux-doc@vger.kernel.org>; Wed, 24 Mar 2021 22:26:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=+1Ub9YvCJNkNw1vJdoc4OZ2njoC+Z+ZNVpn0PB64BJM=;
-        b=TO/EZzd4fgWNl/zTpxUTiTLbIP71i4Gswkw+BfmyHNHw8UxdlRVNoOhoE+2arp4gDp
-         /k2tSwtt+5mFFYe5z9K8b6tPrx0n5Z589OgZk8Sizx9rgiwNoHfyJG0uVLswsX6ruHfu
-         rqpfBU0V873XdWmnTONw2KCbMdXr+IHLEwXpU=
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=gFsXQtNcZc/jzBbc3KmHaNr8LuwlVaIo4tkNpXAhMCs=;
+        b=szUldggyNmVjxsrrTtlWnMRQPOMVT8cZCe5n98DB5e4AYjxCy/yawxRJYDhyjY6/HE
+         1zdQ2jBG3uJUxf4XjRDqgsZIjI/Zywasn9xRPTjryeG8OKkMdPujkQO4GFwQN4oyDFi6
+         o57TGNrEaoTRteOJ6W5ldogRM9nWPaTOxIpCyMiGsYB8nmVZ958quD6y0y3tWN2xtN0c
+         Ge2a1/y1yT3tD/qpV4vaIPTb089AVGdNEmBZ+xYZbA6zlapEXrvicmkhwUq7rM2dV1Vk
+         WnJ0YkTAlZVUzS3v5UkNOVRB6pTUtTAfpkqRIU76j8laN1/2CsRpNb8bW/Wr7tYlHzBj
+         l/xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=+1Ub9YvCJNkNw1vJdoc4OZ2njoC+Z+ZNVpn0PB64BJM=;
-        b=BptnaEaB2T9UaoeJzyD4SjdOYZSmj7HMJ4/8tB5J7m9cgjZaFkrZHgDGrdRQ/ht1Wb
-         l3pPDaNC/9wep+Xza0i/nN8S7V9tDCa28CC56UC7Hik7aY1JOfW6UyalCQiUEEYI7F1k
-         wo2JKjV/Gmx+WLviVYDRqcra7x3DvD64j1YqGKbf1mr/BXTGgmr/yrZTfrd+n5M6DAiI
-         tCzVbiR6zt6B6YghvIPuLLWS1+ys9hYLj81QX6NK13Q/ThgS6zGkIp64sH14bXOX/bx8
-         jofijTSt6a3BXP9/pwot+YYyJOTX4BnkNmjsrzg+WSYqAjjyatOR47EGhcRvafhH/XMx
-         TKlQ==
-X-Gm-Message-State: AOAM533fMTHWZTFfIuikskMeCaU/TJhs191LGCYDo+SSwFw75N2Go/NV
-        8iJtDxcMWWFt7Bv5dYL6SHIwwA==
-X-Google-Smtp-Source: ABdhPJwf2IQBIdOH+njw+0F5M+SRHK32CepVNZOvRQuH5ws5yAv3U0tZR7DGyN4yglXc64mOgBltUA==
-X-Received: by 2002:a63:5807:: with SMTP id m7mr4773070pgb.73.1616624925456;
-        Wed, 24 Mar 2021 15:28:45 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:84ac:62f7:16a8:ccc7])
-        by smtp.gmail.com with ESMTPSA id t16sm3518554pfc.204.2021.03.24.15.28.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 15:28:44 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=gFsXQtNcZc/jzBbc3KmHaNr8LuwlVaIo4tkNpXAhMCs=;
+        b=lj/mfy8KFOAp/xUt6tKAHwa9wDjD8R8FDHdfMvn+Md6qmbscS8Jo7MwzWa6N7ZV/eh
+         u7ZecEKTf0POU1KJWwbHLPRMwLAJfriURSvqflm38SBnKDmYAYb6AaV1smmRzmta3svs
+         I2CmXl8D4FtbLYX4Ei7xnOZ5i7nEp475qU6jwst4r1eQS+Z91FlOEOeRGLQP7hCHQ0W+
+         7vAtWGHCQkSD0Pjf3IJSj9bhAuLmudrXE2A8s/BRGc/cEGX+bdi8G7ezqKfAe3RInz2r
+         iYRt1rrGBhKwyUavGK+7sXNb5sd1e+ec5S3TIv/o6ITdp3Is0rrZcek7UGob6Wte8HQB
+         5lvA==
+X-Gm-Message-State: AOAM531SEFbaPIErHsekqIQvjQqofqg+WBTiBe3J+SjMMieXK9qPU2F2
+        prkn43ZnpuZHAgz495qllXZXOY1J6Bw8SKrQ+xXkpw==
+X-Google-Smtp-Source: ABdhPJw0lZa1dN3iWsOiL7ok+NZMNVuTQq5qAq6ImnOTO2jdiouw6uWhb1mTAuET6Lx9AmotH317Ob91LGw7g0Kt1wE=
+X-Received: by 2002:a05:651c:481:: with SMTP id s1mr4183162ljc.152.1616649979216;
+ Wed, 24 Mar 2021 22:26:19 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.56fff82362af6228372ea82e6bd7e586e23f0966.1615914058.git-series.a.fatoum@pengutronix.de>
+ <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
+ <01e6e13d-2968-0aa5-c4c8-7458b7bde462@nxp.com> <45a9e159-2dcb-85bf-02bd-2993d50b5748@pengutronix.de>
+ <f9c0087d299be1b9b91b242f41ac6ef7b9ee3ef7.camel@linux.ibm.com>
+ <63dd7d4b-4729-9e03-cd8f-956b94eab0d9@pengutronix.de> <CAFA6WYOw_mQwOUN=onhzb7zCTyYDBrcx0E7C3LRk6nPLAVCWEQ@mail.gmail.com>
+ <557b92d2-f3b8-d136-7431-419429f0e059@pengutronix.de>
+In-Reply-To: <557b92d2-f3b8-d136-7431-419429f0e059@pengutronix.de>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Thu, 25 Mar 2021 10:56:07 +0530
+Message-ID: <CAFA6WYNE44=Y7Erfc-xNtOrf7TkJjh+odmYH5vzhEHR6KqBfeQ@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
+ CAAM-based trusted keys
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?Q?Horia_Geant=C4=83?= <horia.geanta@nxp.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Aymen Sghaier <aymen.sghaier@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Udit Agarwal <udit.agarwal@nxp.com>,
+        Jan Luebbe <j.luebbe@pengutronix.de>,
+        David Gstir <david@sigma-star.at>,
+        Franck Lenormand <franck.lenormand@nxp.com>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <2785cae4-20be-85b5-7838-9a6dbd2baf72@rasmusvillemoes.dk>
-References: <20210324020443.1815557-1-swboyd@chromium.org> <20210324020443.1815557-5-swboyd@chromium.org> <6dfb8ca2-20f3-e58a-ad6b-db6a6472afe0@rasmusvillemoes.dk> <161661308874.3012082.15483899786731677633@swboyd.mtv.corp.google.com> <2785cae4-20be-85b5-7838-9a6dbd2baf72@rasmusvillemoes.dk>
-Subject: Re: [PATCH v2 04/12] module: Add printk format to add module build ID to stacktraces
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-To:     Andrew Morton <akpm@linux-foundation.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Date:   Wed, 24 Mar 2021 15:28:43 -0700
-Message-ID: <161662492346.3012082.17886011577458863951@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Rasmus Villemoes (2021-03-24 15:21:34)
-> On 24/03/2021 20.11, Stephen Boyd wrote:
-> > Quoting Rasmus Villemoes (2021-03-24 02:57:13)
->=20
+On Wed, 24 Mar 2021 at 19:37, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+>
+> Hello Sumit,
+>
+> On 24.03.21 11:47, Sumit Garg wrote:
+> > On Wed, 24 Mar 2021 at 14:56, Ahmad Fatoum <a.fatoum@pengutronix.de> wr=
+ote:
 > >>
-> >> Is there any reason you didn't just make b an optional flag that could
-> >> be specified with or without R? I suppose the parsing is more difficult
-> >> with several orthogonal flags (see escaped_string()), but it's a little
-> >> easier to understand. Dunno, it's not like we're gonna think of 10 oth=
-er
-> >> things that could be printed for a symbol, so perhaps it's fine.
+> >> Hello Mimi,
 > >>
-> >=20
-> > I think I follow. So %pSb or %pSRb? If it's easier to understand then
-> > sure. I was trying to avoid checking another character beyond fmt[1] but
-> > it should be fine if fmt[1] is already 'R'.
-> >=20
->=20
-> I don't know. On the one hand, it seems sensible to allow such "flag"
-> modifiers to appear independently and in any order. Because what if some
-> day we think of some other property of the symbol we might want to
-> provide access to via a "z" flag; when to allow all combinations of the
-> R, b and z functionality we'd have to use four more random letters to
-> stand for various combinations of those flags. On the other hand,
-> vsprintf.c is already a complete wild west of odd conventions for
-> %p<foo>, and it's not like symbol_string() gets extended every other
-> release, and I can certainly understand the desire to keep the parsing
-> of fmt minimal. So 'r' to mean 'Rb' is ok by me if you prefer that.
+> >> On 23.03.21 19:07, Mimi Zohar wrote:
+> >>> On Tue, 2021-03-23 at 17:35 +0100, Ahmad Fatoum wrote:
+> >>>> On 21.03.21 21:48, Horia Geant=C4=83 wrote:
+> >>>>> caam has random number generation capabilities, so it's worth using=
+ that
+> >>>>> by implementing .get_random.
+> >>>>
+> >>>> If the CAAM HWRNG is already seeding the kernel RNG, why not use the=
+ kernel's?
+> >>>>
+> >>>> Makes for less code duplication IMO.
+> >>>
+> >>> Using kernel RNG, in general, for trusted keys has been discussed
+> >>> before.   Please refer to Dave Safford's detailed explanation for not
+> >>> using it [1].
+> >>
+> >> The argument seems to boil down to:
+> >>
+> >>  - TPM RNG are known to be of good quality
+> >>  - Trusted keys always used it so far
+> >>
+> >> Both are fine by me for TPMs, but the CAAM backend is new code and nei=
+ther point
+> >> really applies.
+> >>
+> >> get_random_bytes_wait is already used for generating key material else=
+where.
+> >> Why shouldn't new trusted key backends be able to do the same thing?
+> >>
+> >
+> > Please refer to documented trusted keys behaviour here [1]. New
+> > trusted key backends should align to this behaviour and in your case
+> > CAAM offers HWRNG so we should be better using that.
+>
+> Why is it better?
+>
+> Can you explain what benefit a CAAM user would have if the trusted key
+> randomness comes directly out of the CAAM instead of indirectly from
+> the kernel entropy pool that is seeded by it?
 
-I'm inclined to use %pSb and %pSRb. The code looks to simpler and I
-suppose we can worry about different ordering/combination problems if it
-comes to it.
+IMO, user trust in case of trusted keys comes from trusted keys
+backend which is CAAM here. If a user doesn't trust that CAAM would
+act as a reliable source for RNG then CAAM shouldn't be used as a
+trust source in the first place.
 
----8<---
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 41ddc353ebb8..0e94cba5ba20 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -968,6 +968,8 @@ char *symbol_string(char *buf, char *end, void *ptr,
- #ifdef CONFIG_KALLSYMS
-        if (*fmt =3D=3D 'B')
-                sprint_backtrace(sym, value);
-+       else if (*fmt =3D=3D 'S' && (fmt[1] =3D=3D 'b' || (fmt[1] =3D=3D 'R=
-' && fmt[2] =3D=3D 'b')))
-+               sprint_symbol_stacktrace(sym, value);
-        else if (*fmt !=3D 's')
-                sprint_symbol(sym, value);
-        else
+And I think building user's trust for kernel RNG implementation with
+multiple entropy contributions is pretty difficult when compared with
+CAAM HWRNG implementation.
+
+-Sumit
+
+>
+> > Also, do update documentation corresponding to CAAM as a trusted keys b=
+ackend.
+>
+> Yes. The documentation should be updated for CAAM and it should describe
+> how the key material is derived. Will do so for v2.
+>
+> Cheers,
+> Ahmad
+>
+> >
+> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.=
+git/tree/Documentation/security/keys/trusted-encrypted.rst#n87
+> >
+> > -Sumit
+> >
+> >> Cheers,
+> >> Ahmad
+> >>
+> >>>
+> >>> thanks,
+> >>>
+> >>> Mimi
+> >>>
+> >>> [1]
+> >>> https://lore.kernel.org/linux-integrity/BCA04D5D9A3B764C9B7405BBA4D4A=
+3C035F2A38B@ALPMBAPA12.e2k.ad.ge.com/
+> >>>
+> >>>
+> >>>
+> >>
+> >> --
+> >> Pengutronix e.K.                           |                          =
+   |
+> >> Steuerwalder Str. 21                       | http://www.pengutronix.de=
+/  |
+> >> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0 =
+   |
+> >> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-55=
+55 |
+> >
+>
+> --
+> Pengutronix e.K.                           |                             =
+|
+> Steuerwalder Str. 21                       | http://www.pengutronix.de/  =
+|
+> 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    =
+|
+> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 =
+|
