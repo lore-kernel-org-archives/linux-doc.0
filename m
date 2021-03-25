@@ -7,33 +7,33 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5DC8C433E5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3BBDC433E4
 	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 10:39:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 861BB61A3A
+	by mail.kernel.org (Postfix) with ESMTP id 6A59861A30
 	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 10:39:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230221AbhCYKiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 06:38:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53608 "EHLO mail.kernel.org"
+        id S230155AbhCYKit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 06:38:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53514 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230175AbhCYKid (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Mar 2021 06:38:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D0C3C61A31;
-        Thu, 25 Mar 2021 10:38:32 +0000 (UTC)
+        id S229900AbhCYKic (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Mar 2021 06:38:32 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id CF44161A1A;
+        Thu, 25 Mar 2021 10:38:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616668713;
-        bh=W1br4FiINJpmQzfAdkQ99FX4HJL1iHQ/nWSUR1z579w=;
+        s=k20201202; t=1616668712;
+        bh=j3rNtpfT582xGy/cAqJWGjMFU14DN9+n8XRSNzeOlas=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=a8o1L8uogdvmmkegsgg7Ody4iUrHHuLScWbsz/vhTxjcbnWaLLD/0CRyC14BQdc28
-         XjMR343aNwBGUNXZC2ZeWNWbf6iSOSgx+Z+FRWi1gsnaGfs0beCSO6pLsqgR+baq2y
-         kGYOBhWtL4q7M0kxKgS70hdmAnVT4yV/9Wd577YmH0VOZTpd1T4MpK/LYMXIIodB6q
-         aV9dEcVpD5ubL7X8fpfVOHNLg3qH1dEh6gFRNxFLxxbCe50fuJ8zZHg5NZeb/yQz5A
-         z3Xt6C966wNPwKCPU1OZ4MEANqAt/arUTeYiyqGtnWKAq2iO5pLMkZhSx6n/JogNHI
-         0y3bUeDup7a1Q==
+        b=jHXwiIM6Rcz7UvGsYD7p95SYF1/ZnlorCxZb/RR5wgx5MdR9mPDK6ZcaeUdNyygkl
+         zA3P4UH8V0FWOWRwPWZeykFLMy1GSUSEgbcn84By7mp+BLQa7Vs1P0pOTQPi4dqJyW
+         Ger6OdwBA7kYvGQ8UMQOyOYQREDSs1bMorGh8XFYcGuYMEn924YUwnelEao91YrCHx
+         Y0yH/2gZzXkvieJrb2pJd64DAEydkqRd7ISRsv4TKMdZ0ZkVC4naCfT9gyuXgThiF/
+         hgadcXzT/uFTZQ/Fg6ulYpPER9MKRU7UUprunHnoHzvgr00uRsB4iyWYF4TZaJB4nH
+         9SNgP0j9e3G3g==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lPNNl-001AvW-7o; Thu, 25 Mar 2021 11:38:29 +0100
+        id 1lPNNl-001Avd-BN; Thu, 25 Mar 2021 11:38:29 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -41,9 +41,9 @@ To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/7] get_abi.pl: fix xref boundaries
-Date:   Thu, 25 Mar 2021 11:38:24 +0100
-Message-Id: <79a14d2518499b76931b5f29c50979987108152d.1616668017.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 6/7] scripts: get_abi: ignore code blocks for cross-references
+Date:   Thu, 25 Mar 2021 11:38:27 +0100
+Message-Id: <a590f994f8a5742db333bde69e88241a080e4fe0.1616668017.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1616668017.git.mchehab+huawei@kernel.org>
 References: <cover.1616668017.git.mchehab+huawei@kernel.org>
@@ -54,57 +54,46 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-There are some issues with the regex that seeks for What:
-cross references: basically, it is mis-identifying the start
-and the end boundaries of the regex, which causes :ref: to
-be inseerted for the wrong symbols at the wrong places.
-
-Fix it.
+The script should not generate cross-references inside
+literal blocks.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/get_abi.pl | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ scripts/get_abi.pl | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index 3c82cd188368..e87028257d1c 100755
+index e5d1da492c1e..d7aa82094296 100755
 --- a/scripts/get_abi.pl
 +++ b/scripts/get_abi.pl
-@@ -281,8 +281,11 @@ sub create_labels {
- # Outputs the book on ReST format
- #
+@@ -382,8 +382,27 @@ sub output_rest {
+ 				# Enrich text by creating cross-references
  
--# \b doesn't work well with paths. So, we need to define something else
--my $bondary = qr { (?<![\w\/\`\{])(?=[\w\/\`\{])|(?<=[\w\/\`\{])(?![\w\/\`\{]) }x;
-+# \b doesn't work well with paths. So, we need to define something else:
-+# Boundaries are punct characters, spaces and end-of-line
-+my $start = qr {(^|\s|\() }x;
-+my $bondary = qr { ([,.:;\)\s]|\z) }x;
-+my $xref_match = qr { $start(\/sys\/[^,.:;\)\s]+)$bondary }x;
- my $symbols = qr { ([\x01-\x08\x0e-\x1f\x21-\x2f\x3a-\x40\x7b-\xff]) }x;
+ 				my $new_desc = "";
++				my $init_indent = -1;
++				my $literal_indent = -1;
++
+ 				open(my $fh, "+<", \$desc);
+ 				while (my $d = <$fh>) {
++					my $indent = $d =~ m/^(\s+)/;
++					my $spaces = length($indent);
++					$init_indent = $indent if ($init_indent < 0);
++					if ($literal_indent >= 0) {
++						if ($spaces > $literal_indent) {
++							$new_desc .= $d;
++							next;
++						} else {
++							$literal_indent = -1;
++						}
++					} else {
++						if ($d =~ /()::$/ && !($d =~ /^\s*\.\./)) {
++							$literal_indent = $spaces;
++						}
++					}
++
+ 					$d =~ s,Documentation/(?!devicetree)(\S+)\.rst,:doc:`/$1`,g;
  
- sub output_rest {
-@@ -390,16 +393,18 @@ sub output_rest {
- 					$desc =~ s,\bDocumentation/ABI/$f\b,:ref:`$xref`,g;
- 				}
- 
--				@matches = $desc =~ m,$bondary(/sys/[^\s\.\,\;\:\*\s\`\'\(\)]+)$bondary,;
-+				# Seek for cross reference symbols like /sys/...
-+				@matches = $desc =~ m/$xref_match/g;
- 
- 				foreach my $s (@matches) {
-+					next if (!($s =~ m,/,));
- 					if (defined($data{$s}) && defined($data{$s}->{label})) {
- 						my $xref = $s;
- 
- 						$xref =~ s/$symbols/\\$1/g;
- 						$xref = ":ref:`$xref <" . $data{$s}->{label} . ">`";
- 
--						$desc =~ s,$bondary$s$bondary,$xref,g;
-+						$desc =~ s,$start$s$bondary,$1$xref$2,g;
- 					}
- 				}
- 
+ 					my @matches = $d =~ m,Documentation/ABI/([\w\/\-]+),g;
 -- 
 2.30.2
 
