@@ -7,43 +7,43 @@ X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0A77C433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:52:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 959F1C433C1
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:53:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA7D961A2A
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:52:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E41E61A2C
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:53:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230062AbhCYRwK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 13:52:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50266 "EHLO mail.kernel.org"
+        id S229670AbhCYRwk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 13:52:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50344 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230097AbhCYRvw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Mar 2021 13:51:52 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 83CEF61A2A;
-        Thu, 25 Mar 2021 17:51:50 +0000 (UTC)
+        id S230113AbhCYRwL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Mar 2021 13:52:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5874D61A2C;
+        Thu, 25 Mar 2021 17:52:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616694712;
-        bh=fTvHMi2KqwzRHzBkbbtVaeFW5b141mCJbvUhsPdMsoE=;
+        s=k20201202; t=1616694731;
+        bh=hmocFGPZAU29mExog+Yco+ObLadWafpsYzzec6xWfRM=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=H47Yjl+WQlgdgbF/034LchsDV2/f+Tjb//xEzdks0B2QFjprfR4q8b97YhQYpZj3r
-         +DmjyCkIdeGAtuP/7xi1ITMwrSlV2vRgZmXk6coA850P8NScTu+MLd1nKhxbrg5QHt
-         ob45KjqK+btafhzBecLVM1WmHyPWE2DQoif6Zi1EiHAWpDKCLMeGHSnqcqLBmWNY1X
-         vX7n0GQsMNXEAU9X+Lh+TR/rakXu0CIvVFkgllhzvXlSbIORWAPoGKlwUq4Gmx9Qep
-         MXRQoeMq2u13INcwUHbTcU3wGITZIo/XVr2Dpvozc101Eb8urL+2LHxqzFmykya00J
-         8EYg+qiSLCv3Q==
-Date:   Thu, 25 Mar 2021 18:51:47 +0100
+        b=JC6vOCPceqf3RxxEJCzwzv0I9bN3rijhd0FH1wg6NWvJ2mAsoCQA8Fv6blTZvGIiG
+         3k6EeztvmsQvZayCfuJZ6XnD6PwDSiDUQpKsqFCl4kLOecsPunpJH7sS4WRf5ZAV5n
+         c3OcOC7OrQtTrXQdKFb8cgrGq7k1/c6NwlU50ge4kMXm/eKu8MHTWl9mTFbHGowdJC
+         RKXUwUTVFYckhUoBdnQSusgjFyNBVeBvapKQylPorI8HTq9ijfDxXR/JZo5Uj1/Z58
+         4GeaV+0TsJTg5+nFCcLf91MM2R1IGpPQsctxslSivDnr+8YUoAd+zcUUUwT9Nx29ZN
+         WY2aYSmQ4DTRA==
+Date:   Thu, 25 Mar 2021 18:52:06 +0100
 From:   Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     Rob Herring <robh@kernel.org>
 Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Frank Rowand <frowand.list@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/8] docs: dt: writing-schema: Remove spurious
- indentation
-Message-ID: <20210325185147.0cdf304b@coco.lan>
-In-Reply-To: <20210325164713.1296407-3-robh@kernel.org>
+Subject: Re: [PATCH 3/8] docs: dt: writing-schema: Include the example
+ schema in the doc build
+Message-ID: <20210325185206.73f8ba1c@coco.lan>
+In-Reply-To: <20210325164713.1296407-4-robh@kernel.org>
 References: <20210325164713.1296407-1-robh@kernel.org>
-        <20210325164713.1296407-3-robh@kernel.org>
+        <20210325164713.1296407-4-robh@kernel.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -52,11 +52,11 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 25 Mar 2021 10:47:07 -0600
+Em Thu, 25 Mar 2021 10:47:08 -0600
 Rob Herring <robh@kernel.org> escreveu:
 
-> 'allOf' and 'properties' have a leading space which causes them to be
-> indented in the doc output.
+> The example-schema.yaml file serves as documentation, so let's include it
+> from writing-schema.rst.
 > 
 > Cc: Frank Rowand <frowand.list@gmail.com>
 > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -65,28 +65,35 @@ Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 > Signed-off-by: Rob Herring <robh@kernel.org>
 > ---
->  Documentation/devicetree/writing-schema.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/devicetree/writing-schema.rst | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
 > diff --git a/Documentation/devicetree/writing-schema.rst b/Documentation/devicetree/writing-schema.rst
-> index 16f21e182ff6..03e279d8fd6a 100644
+> index 03e279d8fd6a..be14dbed6081 100644
 > --- a/Documentation/devicetree/writing-schema.rst
 > +++ b/Documentation/devicetree/writing-schema.rst
-> @@ -46,12 +46,12 @@ select
->    schema. By default without 'select', nodes are matched against their possible
->    compatible string values or node name. Most bindings should not need select.
+> @@ -8,6 +8,8 @@ written in a JSON compatible subset of YAML. YAML is used instead of JSON as it
+>  is considered more human readable and has some advantages such as allowing
+>  comments (Prefixed with '#').
 >  
-> - allOf
-> +allOf
->    Optional. A list of other schemas to include. This is used to
->    include other schemas the binding conforms to. This may be schemas for a
->    particular class of devices such as I2C or SPI controllers.
+> +Also see :ref:`example-schema`.
+> +
+>  Schema Contents
+>  ---------------
 >  
-> - properties
-> +properties
->    A set of sub-schema defining all the DT properties for the
->    binding. The exact schema syntax depends on whether properties are known,
->    common properties (e.g. 'interrupts') or are binding/vendor specific properties.
+> @@ -170,3 +172,12 @@ json-schema Resources
+>  `JSON-Schema Specifications <http://json-schema.org/>`_
+>  
+>  `Using JSON Schema Book <http://usingjsonschema.com/>`_
+> +
+> +.. _example-schema:
+> +
+> +Annotated Example Schema
+> +------------------------
+> +
+> +Also available as a separate file: :download:`example-schema.yaml`
+> +
+> +.. literalinclude:: example-schema.yaml
 
 
 
