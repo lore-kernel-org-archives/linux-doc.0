@@ -2,92 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D37E9C433C1
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 09:30:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A54A5C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 09:45:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F65A619FB
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 09:30:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 485BF61A14
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 09:45:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230008AbhCYJaG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 05:30:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42392 "EHLO
+        id S229581AbhCYJpI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 05:45:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45702 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230053AbhCYJaA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 05:30:00 -0400
-Received: from mail-lj1-x236.google.com (mail-lj1-x236.google.com [IPv6:2a00:1450:4864:20::236])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 451ABC061760
-        for <linux-doc@vger.kernel.org>; Thu, 25 Mar 2021 02:29:59 -0700 (PDT)
-Received: by mail-lj1-x236.google.com with SMTP id z8so2191221ljm.12
-        for <linux-doc@vger.kernel.org>; Thu, 25 Mar 2021 02:29:59 -0700 (PDT)
+        with ESMTP id S229635AbhCYJor (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 05:44:47 -0400
+Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7260FC06174A;
+        Thu, 25 Mar 2021 02:44:47 -0700 (PDT)
+Received: by mail-yb1-xb2f.google.com with SMTP id j2so1607334ybj.8;
+        Thu, 25 Mar 2021 02:44:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=vmKMFioY0zVZQp03F1ln+3gU2DK5top6vTpPu+FZnDs=;
-        b=KpfFtXzYNEauysABC3X5zU0EiEkxsudLmFnRzACbzQq+9rckx4xi2e6dfZb7bQEFEB
-         ifq+Mx5xaYTPSVq8raYbw2/d1ssOGWbNiaLpnDe9IQmUsl35oIXzDA6JfoQkdoEyc7c2
-         8BmEZUd55RaM2Xc3PUVnujU99sZ5neuBVDcIaeTDh+YxJ02gkwPjjkOMqHL8hKJ/DCgh
-         Md5dTPVuajkoRQ63aJsG9MgYGrEYzvNbdWhR+VZE4jlYrtoGCRSLVQy45hjLbPDYPPsZ
-         5lo5rnjwY8dC/cGe12ryE4X/bRn4zVP8nlY4b++QsDtHpXheRVaMwxWnAO03UzYoAtZg
-         rZew==
+        bh=+PfQDO+5GIAWlGMTApmz7JCWjFl0RbrHV3jbq4RYJno=;
+        b=vBkyt7PulbbHh2XQeZOuV2kZe1ViU1f0eEsNskuhK8f8UaWLJA7HoR13/g+hXNP+GQ
+         D9vTpRdNBldW1hIc03DS25fmz6ZF4l9cfpbPPn5C2dgI1djw10iS6OSwzYdWyH8vzvzW
+         5juu6YQnf9BAZIIPnPNLB1lGZUDgO4cQ7pO4npTofT2mIFV9XnQRvUnK6nciRskdsQRt
+         nQm3CB2IHiXoz3HtIEjoEZT5HtRyMjZD+p+gYSnY7FpwHmGI0bIFquQgCU42tRkQ7+zg
+         Peq+NN6uihm4srs6FrP2RU8Zs1dCk5ub01ZbhZJ0Fjg2InqkvFOfzNS+TCM4yhdA0mmc
+         K9Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=vmKMFioY0zVZQp03F1ln+3gU2DK5top6vTpPu+FZnDs=;
-        b=rM23OOVCTWDpgGbZpyivRLcvCUpwotzUND7N4ENc+8PzWivFVLN1SgEw4vQn75mjBL
-         OKaMGgIDRUEYiVMi5gZE/kBPEKi/US9DVtjcl6k0jCVrymcZ63M2BqaVrKbjTTIEarEY
-         wY5dj1Q562m2CuXbhBxC8hNOyVhUWO8RX6oJv/3LXa+0GkMtJS4rKp6aWCqdWYNKeB03
-         VvIZBbII2ZW8B91tCN5UxH5btSevATZvA9WyfJlUi0GzgQoh5j7PUPn2NUZfxsFKbjjt
-         9XDgnfPng3EW1m8+SFo5CUaYghkMEymd0S0d+WKmay5kk1zl7m/hEV3R1hBHt797uSkI
-         a10g==
-X-Gm-Message-State: AOAM533nv5LoQK/hxtOJFs4j4HCuctlBLsq36lXs/AEpFIs1Zm0JAaqs
-        JPb/ZPRCkV9hfgizaGCFqLl1IypP1r18LM9UA8ieQA==
-X-Google-Smtp-Source: ABdhPJxB/I6kt1nPORWmNNUzemQAZpFOwtiNSsfBP3HL3imlrcuJEDouMOsJrxmy/ls2i8ggSYMfVxwKEFHNH5/x3N0=
-X-Received: by 2002:a2e:1649:: with SMTP id 9mr5244812ljw.74.1616664597825;
- Thu, 25 Mar 2021 02:29:57 -0700 (PDT)
+        bh=+PfQDO+5GIAWlGMTApmz7JCWjFl0RbrHV3jbq4RYJno=;
+        b=X7plR6In46CVD6mxCNZIvSNaICG/U+b36+zew4YVp2dP8i2ykay1DqJFvRJLQBHoQc
+         xdsDk3z3rsIdCG5MtFL6u6CV7BKTR5R6Fv9/ZPXzA8CBepPV8RJEvI2F8FcW1LYGF4AU
+         2TM2wUxP01s6VqyIKgDTpvNc9MZsXStSXVp+u0U2jsceVkP2NMuJP7zTcz4OWmRQUkCS
+         9lAuJm8Wbndq3IF+SkJixgx226Gr7FM4syeXekivGdG8hsThzS23BM1OqGILDiIYq+G2
+         oeaYMc8bxtWFy0n/VKDJ0C5/sC0twzXH+Hvbn0L7fjouf5fSvVBGmbflrHcD+d2Mu5kd
+         UWnw==
+X-Gm-Message-State: AOAM532XpsQVCvsUVm/LEJ6dRH95U4wTNw59nVOwaHiFHC/5mOb5q2+1
+        QWqu240KEgEKXh9xUEUu81eQTI3HbHwsIOUVIID1yDYbRzjL6w==
+X-Google-Smtp-Source: ABdhPJx8jatvMzExd1kWt4jYqHsKfmdYWME1ump36KR919Lb+Iu8nflUbMlf5w1yMNhSI3KypAO6JVTtDBrHI1YkwWU=
+X-Received: by 2002:a25:3b55:: with SMTP id i82mr11517623yba.422.1616665486863;
+ Thu, 25 Mar 2021 02:44:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210315091400.13772-1-brgl@bgdev.pl> <CAMRc=MfQnofWQKz9tbnTA_1M8BkN37FcxbJpK4hs0RoRebWWkw@mail.gmail.com>
-In-Reply-To: <CAMRc=MfQnofWQKz9tbnTA_1M8BkN37FcxbJpK4hs0RoRebWWkw@mail.gmail.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 25 Mar 2021 10:29:46 +0100
-Message-ID: <CACRpkdZbGDjAJarJJN91gGfHqXEG3puj=OwsQu=OZ5L+tpWt6A@mail.gmail.com>
-Subject: Re: [PATCH v5 00/11] gpio: implement the configfs testing module
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Joel Becker <jlbec@evilplan.org>, Christoph Hellwig <hch@lst.de>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kent Gibson <warthog618@gmail.com>,
+References: <16043769.gqpzGLO8mG@pinwheel> <20200703073143.423557-1-danny@kdrag0n.dev>
+ <20200703062950.5e8c1785@lwn.net> <9486d1ab-580a-0819-10c9-a62354a255e1@rasmusvillemoes.dk>
+ <CAK7LNAQ+M5Cn84tkEAiLDoyaKmrG-cFOyUjPgFC2+ksDGHn3vQ@mail.gmail.com>
+In-Reply-To: <CAK7LNAQ+M5Cn84tkEAiLDoyaKmrG-cFOyUjPgFC2+ksDGHn3vQ@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 25 Mar 2021 10:44:35 +0100
+Message-ID: <CANiq72nq-EyN5G9Atv5TMD+ZVsbYOPf7af18bermXs9b3-w6xg@mail.gmail.com>
+Subject: Re: [PATCH v2] editorconfig: Add automatic editor configuration file
+To:     Masahiro Yamada <masahiroy@kernel.org>
+Cc:     Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        Danny Lin <danny@kdrag0n.dev>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 22, 2021 at 3:32 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+On Thu, Mar 25, 2021 at 8:02 AM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> This is sensible for tools that interface to users.
+> Users have no interest in which language is used
+> internally.
 
-> FYI The configfs patches from this series have been on the mailing
-> list for months (long before the GPIO part) and have been re-sent
-> several times. You have neither acked or opposed these changes. I
-> don't want to delay the new testing driver anymore so I intend to
-> apply the entire series and take it upstream through the GPIO tree by
-> the end of this week.
+Agreed in the general case (e.g. everyday tools). In the kernel's
+case, however, I think it is not as important.
 
-I say go ahead.
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+And I guess most of us tab-autocomplete anyway... :-)
 
-Yours,
-Linus Walleij
+> Rather, I very much like this patch, but I just
+> wondered how this case could be handled.
+
+Symlinks might be a good way when there is an installer of some kind.
+But in the kernel's case, I would prefer to avoid having symlinks for
+every script (in particular if they are in the same folder).
+
+Cheers,
+Miguel
