@@ -2,106 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A34EC433E9
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 10:39:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD4AC433C1
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 11:07:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F2B6361A2D
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 10:39:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1950F61A2E
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 11:07:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230224AbhCYKiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 06:38:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53598 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230174AbhCYKid (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Mar 2021 06:38:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8FC9561A34;
-        Thu, 25 Mar 2021 10:38:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616668712;
-        bh=X0vm2TLnRzBGMIydCGUugGZKPvObtv5gLOJmeJk0Qlw=;
-        h=From:To:Cc:Subject:Date:From;
-        b=FYt1/yOjJOvCsxXXqmK7/tmPgEdUp0R/Ch8/HITm8wFIUaUJsTUZYGmIpuaRYgM16
-         NwCQQungNwfHor3q1N/5Dg0nZ49V0FDX+nuKyEEB7cNfrA9DvdSvE5wuEIgp6vKjzO
-         R56BMiOox/hfEd/EA3K4U2uZYDavUDbglizWIC0UQ97hPk/0ji+yvRVDzpKRbENvKR
-         y+Z+MHAGxK0W7q6KDUWkayZ5yLbugi6+Uskf7SO6mEMXkxjD93vzSUYy6CVgdydHKO
-         F0DOJvuB6MW1SlKnXT5TJjvn7ILH+mns+Gd9dYtJOKH3bbOYNH+mzh4AjAdfDq8hyP
-         jIKVwfuyhiljw==
-Received: by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1lPNNl-001AvQ-4U; Thu, 25 Mar 2021 11:38:29 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH v2 0/7] Fix some issues at get_abi.pl script
-Date:   Thu, 25 Mar 2021 11:38:21 +0100
-Message-Id: <cover.1616668017.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.30.2
+        id S229716AbhCYLGd convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 07:06:33 -0400
+Received: from jptosegrel01.sonyericsson.com ([124.215.201.71]:10591 "EHLO
+        JPTOSEGREL01.sonyericsson.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229801AbhCYLGc (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 07:06:32 -0400
+Subject: Re: [PATCH v2 00/12] Add build ID to stacktraces
+To:     Christoph Hellwig <hch@infradead.org>,
+        Stephen Boyd <swboyd@chromium.org>
+CC:     Andrew Morton <akpm@linux-foundation.org>,
+        <linux-kernel@vger.kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Baoquan He <bhe@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Dave Young <dyoung@redhat.com>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Ingo Molnar <mingo@redhat.com>, Jessica Yu <jeyu@kernel.org>,
+        Jiri Olsa <jolsa@kernel.org>, <kexec@lists.infradead.org>,
+        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-doc@vger.kernel.org>, Matthew Wilcox <willy@infradead.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sasha Levin <sashal@kernel.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Vivek Goyal <vgoyal@redhat.com>, Will Deacon <will@kernel.org>,
+        <x86@kernel.org>
+References: <20210324020443.1815557-1-swboyd@chromium.org>
+ <20210324085543.GA2660708@infradead.org>
+From:   peter enderborg <peter.enderborg@sony.com>
+Message-ID: <dbb430e1-2223-9df0-2563-4b017d6b409d@sony.com>
+Date:   Thu, 25 Mar 2021 12:06:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+In-Reply-To: <20210324085543.GA2660708@infradead.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+Content-Language: en-GB
+X-SEG-SpamProfiler-Analysis: v=2.3 cv=crzlbGwi c=1 sm=1 tr=0 a=fZcToFWbXLKijqHhjJ02CA==:117 a=IkcTkHD0fZMA:10 a=dESyimp9J3IA:10 a=9PaoSj5ytQdNhtA7W4EA:9 a=QEXdDO2ut3YA:10 a=fCgQI5UlmZDRPDxm0A3o:22
+X-SEG-SpamProfiler-Score: 0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series replace this patch:
-	https://lore.kernel.org/linux-doc/20210324191722.08d352e4@coco.lan/T/#t
+On 3/24/21 9:55 AM, Christoph Hellwig wrote:
+> On Tue, Mar 23, 2021 at 07:04:31PM -0700, Stephen Boyd wrote:
+>>  x5 : 0000000000000000 x4 : 0000000000000001
+>>  x3 : 0000000000000008 x2 : ffffff93fef25a70
+>>  x1 : ffffff93fef15788 x0 : ffffffe3622352e0
+>>  Call trace:
+>>   lkdtm_WARNING+0x28/0x30 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+>>   direct_entry+0x16c/0x1b4 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+> Yikes.  No, please do not make the backtraces a complete mess for
+> something that serves absolutely no need.
 
-It turns that there were multiple bugs at the get_abi.pl code that
-create cross-references.
+Would a "verbose" flag be acceptable solution?    Something like write 1 to /sys/kernel/debug/verbose_stack to get the extra info.
 
-Patches 1 to 6 fix those issues, and should apply cleanly on the top of
-the docs tree (although I tested against next-20210323).
-
-Patch 7 is optional, and independent from the other patches. It is meant
-to be applied against akpm's tree.  It makes the description (IMHO) 
-clearer, while producing cross references for the two mentioned symbols.
-
-The fix patches are:
-
-patch 1: fix some regexes that match the symbols that need to be
-  escaped when parsing "What:". The same regex is also used when
-  generating cross-references;
-
-patch 2: makes the check for Documentation/ABI references more
-  robust, as right now, it stops at the first occurrence;
-
-patch 3: fix the parser for /sys/foo -> xref conversion. Basically,
-  the logic that seeks for start and end boundaries were broken.
-  The new logic is a way more robust.
-
-patch 4: generate cross-references for /config/foo and other less
-  common ABI occurrences;
-
-patch 5 and 6: don't generate cross-references inside literal blocks.
-  Right now, there are a couple of places that would otherwise
-  generate references, producing a bad output.
-
-Mauro Carvalho Chehab (7):
-  scripts: get_abi.pl: better handle escape chars on what:
-  get_abi.pl: seek for all occurrences for Documentation/ABI
-  get_abi.pl: fix xref boundaries
-  scripts: get_abi.pl: extend xref match to other types
-  scripts: get_abi.pl: parse description line per line
-  scripts: get_abi: ignore code blocks for cross-references
-  ABI: sysfs-kernel-mm-cma: fix two cross-references
-
- Documentation/ABI/testing/sysfs-kernel-mm-cma |  8 +-
- scripts/get_abi.pl                            | 76 +++++++++++++------
- 2 files changed, 57 insertions(+), 27 deletions(-)
-
--- 
-2.30.2
-
+I think I see a need for it.
 
