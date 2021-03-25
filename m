@@ -2,117 +2,197 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19180C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 14:50:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FC8AC433E1
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 15:48:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D010861A10
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 14:50:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EC722614A7
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 15:48:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230500AbhCYOta (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 10:49:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53440 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230078AbhCYOtO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Mar 2021 10:49:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 837F7619F9;
-        Thu, 25 Mar 2021 14:49:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616683753;
-        bh=g2ZlXDmeEeZxEkxEnqAn7onjv8xh5BForWiFk2ex04U=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=B7AXfE4jFRrobfpRw2FaAYKC6MvyXtU6obWFBYkN0lGwjbQiFaLragEzkHbZItBws
-         QBand/1dIuqMlS8nHo0I+YXxuG4FUSBqCuL4lSjtB1KNR8ZC5A0dHPTgjp6C4Oj477
-         YGYoQaHRwjTqkyAUy9nju41KQckd840sj7rAx2b0qbeWS73PVSRLi5XxftNFChRgBj
-         A74iOhWJ7Z2hED2cBG6LJSpp0VhA5RVDGFxCz/bh5Feg/yMuNLIKAvIJSpdBVn+DEc
-         g38Q/XF19LYytoglY1yJyqNca2iKkNPAL5ceWnMOmYHNen+O1Ivl6iLodMdhA7We0k
-         rrMK1jKks2Uxg==
-Date:   Thu, 25 Mar 2021 14:49:06 +0000
-From:   Will Deacon <will@kernel.org>
-To:     Hector Martin <marcan@marcan.st>
-Cc:     Arnd Bergmann <arnd@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        DTML <devicetree@vger.kernel.org>,
-        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "moderated list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES" 
-        <linux-samsung-soc@vger.kernel.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [RFT PATCH v3 08/27] asm-generic/io.h: Add a non-posted variant
- of ioremap()
-Message-ID: <20210325144905.GA15109@willie-the-truck>
-References: <20210304213902.83903-1-marcan@marcan.st>
- <20210304213902.83903-9-marcan@marcan.st>
- <20210324181210.GB13181@willie-the-truck>
- <CAK8P3a0913Hs4VfHjdDY1WTAQvMzC83LJcP=9zeE0C-terfBhA@mail.gmail.com>
- <9e510158-551a-3feb-bdba-17e070f12a8e@marcan.st>
+        id S231680AbhCYPsS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 11:48:18 -0400
+Received: from mail-ua1-f46.google.com ([209.85.222.46]:38665 "EHLO
+        mail-ua1-f46.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230322AbhCYPrp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 11:47:45 -0400
+Received: by mail-ua1-f46.google.com with SMTP id h34so646723uah.5;
+        Thu, 25 Mar 2021 08:47:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VORyg37KyhTM2pEju2vrHYnS2b444LAJS39AyI1tLyU=;
+        b=NIbnJ/1DUbHA/K0FQzgEn+Ml5S10WVEPFyT3/1vYjTjpW6U7GEpOwvhiMco+9NXhUn
+         pM8GXczkW4Y+qLQv1zdt3fRLRdpmBulI+eYp9vlx1uUh7Ze2zmwdIVUbIYzVwkSjK2nE
+         XdzH1O5k/IaC7hnqpDWr9Je+wFj7T7EwkhTp77XknpPIhumlQIuI2QqP6K9tB9s7M1N/
+         n+sT0E/xaUFXeVhmMoF2VeKcg7306o62/30lfniz+RxDsd6psnA7u8Cts4LD7E9Vn5MP
+         Ga02gLhpGFlRTMhcgphZpOk0rNhH+gqPzrGRCt80N8pQKRbiOjnKsp6qKsNXwNb2f10k
+         FOQg==
+X-Gm-Message-State: AOAM532az4ky0wLWB4fzXHMsA1IsqEZ5xy9OqfmLSj0GtIpE0Z8nTwgC
+        qVTxrGTkph8BWpxvBKMfCwjTKFuPIIu1Q34jfVc=
+X-Google-Smtp-Source: ABdhPJz9ribtsSNo45nfPsfI32D2+XmTQUPrUgHfSYuhDyGOQqll7eBC8nUPPybEDHZ0rx9LbEO15UIVaXecG/fpF7Q=
+X-Received: by 2002:ab0:2c16:: with SMTP id l22mr5452914uar.100.1616687264304;
+ Thu, 25 Mar 2021 08:47:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9e510158-551a-3feb-bdba-17e070f12a8e@marcan.st>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20210205222644.2357303-9-saravanak@google.com>
+ <20210210114435.122242-1-tudor.ambarus@microchip.com> <CGME20210325133159eucas1p297b769beb681743fb32d362a86cc6e3e@eucas1p2.samsung.com>
+ <20210210114435.122242-2-tudor.ambarus@microchip.com> <d24bebc5-0f78-021f-293f-e58defa32531@samsung.com>
+In-Reply-To: <d24bebc5-0f78-021f-293f-e58defa32531@samsung.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Thu, 25 Mar 2021 16:47:33 +0100
+Message-ID: <CAMuHMdUaROcMbjAM1fu8und4g=BFZe3C3f8-rbB3q+85RWvgeA@mail.gmail.com>
+Subject: Re: [PATCH] clk: Mark fwnodes when their clock provider is added
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Pavel Machek <pavel@ucw.cz>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Saravana Kannan <saravanak@google.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 25, 2021 at 11:07:40PM +0900, Hector Martin wrote:
-> On 25/03/2021 04.09, Arnd Bergmann wrote:
-> > On Wed, Mar 24, 2021 at 7:12 PM Will Deacon <will@kernel.org> wrote:
-> > > 
-> > > > +/*
-> > > > + * ioremap_np needs an explicit architecture implementation, as it
-> > > > + * requests stronger semantics than regular ioremap(). Portable drivers
-> > > > + * should instead use one of the higher-level abstractions, like
-> > > > + * devm_ioremap_resource(), to choose the correct variant for any given
-> > > > + * device and bus. Portable drivers with a good reason to want non-posted
-> > > > + * write semantics should always provide an ioremap() fallback in case
-> > > > + * ioremap_np() is not available.
-> > > > + */
-> > > > +#ifndef ioremap_np
-> > > > +#define ioremap_np ioremap_np
-> > > > +static inline void __iomem *ioremap_np(phys_addr_t offset, size_t size)
-> > > > +{
-> > > > +     return NULL;
-> > > > +}
-> > > > +#endif
-> > > 
-> > > Can we implement the generic pci_remap_cfgspace() in terms of ioremap_np()
-> > > if it is supported by the architecture? That way, we could avoid defining
-> > > both on arm64.
-> > 
-> > Good idea. It needs a fallback in case the ioremap_np() fails on most
-> > architectures, but that sounds easy enough.
-> > 
-> > Since pci_remap_cfgspace() only has custom implementations, it sounds like
-> > we can actually make the generic implementation unconditional in the end,
-> > but that requires adding ioremap_np() on 32-bit as well, and I would keep
-> > that separate from this series.
-> 
-> Sounds good; I'm adding a patch to adjust the generic implementation and
-> remove the arm64 one in v4, and we can then complete the cleanup for other
-> arches later.
+Hi Marek,
 
-Cheers. Don't forget to update the comment in the generic code which
-complains about the lack of an ioremap() API for non-posted writes ;)
+On Thu, Mar 25, 2021 at 2:32 PM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+> On 10.02.2021 12:44, Tudor Ambarus wrote:
+> > This is a follow-up for:
+> > commit 3c9ea42802a1 ("clk: Mark fwnodes when their clock provider is added/removed")
+> >
+> > The above commit updated the deprecated of_clk_add_provider(),
+> > but missed to update the preferred of_clk_add_hw_provider().
+> > Update it now.
+> >
+> > Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
+>
+> This patch, which landed in linux-next as commit 6579c8d97ad7 ("clk:
+> Mark fwnodes when their clock provider is added") causes the following
+> NULL pointer dereference on Raspberry Pi 3b+ boards:
+>
+> --->8---
+>
+> raspberrypi-firmware soc:firmware: Attached to firmware from
+> 2020-01-06T13:05:25
+> Unable to handle kernel NULL pointer dereference at virtual address
+> 0000000000000050
+> Mem abort info:
+>    ESR = 0x96000004
+>    EC = 0x25: DABT (current EL), IL = 32 bits
+>    SET = 0, FnV = 0
+>    EA = 0, S1PTW = 0
+> Data abort info:
+>    ISV = 0, ISS = 0x00000004
+>    CM = 0, WnR = 0
+> [0000000000000050] user address but active_mm is swapper
+> Internal error: Oops: 96000004 [#1] PREEMPT SMP
+> Modules linked in:
+> CPU: 0 PID: 10 Comm: kworker/0:1 Not tainted 5.12.0-rc4+ #2764
+> Hardware name: Raspberry Pi 3 Model B (DT)
+> Workqueue: events deferred_probe_work_func
+> pstate: 00000005 (nzcv daif -PAN -UAO -TCO BTYPE=--)
+> pc : of_clk_add_hw_provider+0xac/0xe8
+> lr : of_clk_add_hw_provider+0x94/0xe8
+> sp : ffff8000130936b0
+> x29: ffff8000130936b0 x28: ffff800012494e04
+> x27: ffff00003b18cb05 x26: ffff00003aa5c010
+> x25: 0000000000000000 x24: 0000000000000000
+> x23: ffff00003aa1e380 x22: ffff8000106830d0
+> x21: ffff80001233f180 x20: 0000000000000018
+> x19: 0000000000000000 x18: ffff8000124d38b0
+> x17: 0000000000000013 x16: 0000000000000014
+> x15: ffff8000125758b0 x14: 00000000000184e0
+> x13: 000000000000292e x12: ffff80001258dd98
+> x11: 0000000000000001 x10: 0101010101010101
+> x9 : ffff80001233f288 x8 : 7f7f7f7f7f7f7f7f
+> x7 : fefefefeff6c626f x6 : 5d636d8080808080
+> x5 : 00000000006d635d x4 : 0000000000000000
+> x3 : 0000000000000000 x2 : 540eb5edae191600
+> x1 : 0000000000000000 x0 : 0000000000000000
+> Call trace:
+>   of_clk_add_hw_provider+0xac/0xe8
+>   devm_of_clk_add_hw_provider+0x5c/0xb8
+>   raspberrypi_clk_probe+0x110/0x210
+>   platform_probe+0x90/0xd8
+>   really_probe+0x108/0x3c0
+>   driver_probe_device+0x60/0xc0
+>   __device_attach_driver+0x9c/0xd0
+>   bus_for_each_drv+0x70/0xc8
+>   __device_attach+0xec/0x150
+>   device_initial_probe+0x10/0x18
+>   bus_probe_device+0x94/0xa0
+>   device_add+0x47c/0x780
+>   platform_device_add+0x110/0x248
+>   platform_device_register_full+0x120/0x150
+>   rpi_firmware_probe+0x158/0x1f8
 
-Will
+> This patch mainly revealed that clk/bcm/clk-raspberrypi.c driver calls
+> devm_of_clk_add_hw_provider(), with a device pointer, which has a NULL
+> dev->of_node. I'm not sure if adding a check for a NULL np in
+> of_clk_add_hw_provider() is a right fix, though.
+
+raspberrypi_clk_probe():
+
+        /*
+         * We can be probed either through the an old-fashioned
+         * platform device registration or through a DT node that is a
+         * child of the firmware node. Handle both cases.
+         */
+
+So the real issue is rpi_register_clk_driver() creating a platform
+device for the firmware clocks if they're missing in DT.
+
+Then, the clock driver calls devm_of_clk_add_hw_provider(),
+regardless of a DT node being present or not.
+I'm wondering how power consumers are supposed to refer
+to these firmware clocks, without a DT node?
+
+> > --- a/drivers/clk/clk.c
+> > +++ b/drivers/clk/clk.c
+> > @@ -4594,6 +4594,8 @@ int of_clk_add_hw_provider(struct device_node *np,
+> >       if (ret < 0)
+> >               of_clk_del_provider(np);
+> >
+> > +     fwnode_dev_initialized(&np->fwnode, true);
+> > +
+> >       return ret;
+> >   }
+> >   EXPORT_SYMBOL_GPL(of_clk_add_hw_provider);
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
