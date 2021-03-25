@@ -2,208 +2,245 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D2C3C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 12:38:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35BD2C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 13:32:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 21DE561A1B
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 12:38:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA2F761A39
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 13:32:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230239AbhCYMiM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 08:38:12 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42798 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230288AbhCYMhs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Mar 2021 08:37:48 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 50B7661A1B;
-        Thu, 25 Mar 2021 12:37:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616675867;
-        bh=StmC7cD/Q5ldcGD4tf65NroLfMLVM+HrJXECHsPjaIQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=LzWIWBR2EdBeyyN7rpPOnfOcE8Hf37zujQ5HcLppgm6W2OsdH+HkxiwJCBsTyt8lU
-         vhH2PVP6sI0W4K18ZCT9CpQBQ2zvJl8VXpE+1NEfSA81Deg68+pyXrXiaW/GXagdip
-         bbRDcsY5sEBKQchcGC/j4CEDzUmbFG6Ykt4M87cNGs3C9XCS+gD8jOVhDia9jciwO7
-         qaHIIqHwpf1cPs5yh1AtLVN/Er/TJ3BZcjZ/ty0kGPBKW4ohLFyOqMd8uDoXsUTN8Y
-         /yUdNMCEgUWe2TVGcGca/PvP/UhrFXgMcNbIWTuQ1l08d/0aOLPXMqdAZGMLRZ/Oe1
-         xYPwxgXYAn65w==
-Received: by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1lPPFB-001Coh-4S; Thu, 25 Mar 2021 13:37:45 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH v4] docs: experimental: build PDF with rst2pdf
-Date:   Thu, 25 Mar 2021 13:37:34 +0100
-Message-Id: <ca4759045f92716cc190e5e27d2cd011e4843064.1616675785.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.30.2
+        id S230415AbhCYNcY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 09:32:24 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:32247 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229731AbhCYNcC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 09:32:02 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20210325133200euoutp02ed64a6d9aeb3eacd0120370e2498a817~vmRhN_iI52438924389euoutp02c
+        for <linux-doc@vger.kernel.org>; Thu, 25 Mar 2021 13:32:00 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20210325133200euoutp02ed64a6d9aeb3eacd0120370e2498a817~vmRhN_iI52438924389euoutp02c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1616679120;
+        bh=Z/DNfCxQzs0IDWoaY5k0ggzsNxFtNfsppQC7SUo3Oxc=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=PMtE0N/GN5n23FKdJXoe8fmfFE0n4PTHJd3YgoYKQPYCm535bMH5dylBD/7xAPS6A
+         q4+0hT/utbRMOzRFTSeYrVtJswhqbLyjqTM7c8/0pfbxpLlEFTUpA/GJHzeLLuskvt
+         JfW95ozqwAKxC+A8pj2zaJLFcCbZ+vpPvtNEovU0=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20210325133200eucas1p220f7c0abe8506fb7c14ee5a19048e6d5~vmRgcvosb0792407924eucas1p2T;
+        Thu, 25 Mar 2021 13:32:00 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 5F.25.09452.FC09C506; Thu, 25
+        Mar 2021 13:31:59 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20210325133159eucas1p297b769beb681743fb32d362a86cc6e3e~vmRfxkYzT0793607936eucas1p2M;
+        Thu, 25 Mar 2021 13:31:59 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20210325133159eusmtrp2092b54a21cf01982167e7e9aebd38641~vmRfwEGGD3060130601eusmtrp2q;
+        Thu, 25 Mar 2021 13:31:59 +0000 (GMT)
+X-AuditID: cbfec7f2-a9fff700000024ec-a5-605c90cf87a7
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id FA.32.08705.FC09C506; Thu, 25
+        Mar 2021 13:31:59 +0000 (GMT)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20210325133157eusmtip1093d76ecea4c2fb8cbe03e117ac26715~vmReav6BN2222222222eusmtip1s;
+        Thu, 25 Mar 2021 13:31:57 +0000 (GMT)
+Subject: Re: [PATCH] clk: Mark fwnodes when their clock provider is added
+To:     Tudor Ambarus <tudor.ambarus@microchip.com>, corbet@lwn.net,
+        gregkh@linuxfoundation.org, rafael@kernel.org, khilman@kernel.org,
+        ulf.hansson@linaro.org, len.brown@intel.com, lenb@kernel.org,
+        pavel@ucw.cz, mturquette@baylibre.com, sboyd@kernel.org,
+        robh+dt@kernel.org, frowand.list@gmail.com, maz@kernel.org,
+        tglx@linutronix.de, saravanak@google.com
+Cc:     nicolas.ferre@microchip.com, claudiu.beznea@microchip.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-acpi@vger.kernel.org,
+        geert@linux-m68k.org, kernel-team@android.com,
+        linux-rpi-kernel <linux-rpi-kernel@lists.infradead.org>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <d24bebc5-0f78-021f-293f-e58defa32531@samsung.com>
+Date:   Thu, 25 Mar 2021 14:31:57 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
+        Gecko/20100101 Thunderbird/78.8.1
 MIME-Version: 1.0
+In-Reply-To: <20210210114435.122242-2-tudor.ambarus@microchip.com>
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SfUxTVxzdfa99rxDrHgXTO2aYNJM5l/FhMN6NxjDF7S1EQzYXF4KjFd/A
+        FSq2sM0tGQhUoSoUi1FrCZiiMD4E21GtCKylriBLy4ZjjCGufJTJhqbW+S2O55ON/8459/zO
+        73eSK8BFViJcsEuZx6iU8mwJEcyz/vDA86ZHlyaLNfqkyNP1mEST3x8AqMbp5qMTfz8lkG+k
+        E0PFplYCXTgfhqYsExgyVM1LNu8sgeq7KgDyHxrjo1P763ho8KKRQIHDToAqf28jkc3Yx0c/
+        XdmEzltO4chqqCfQtSuXCVR95yiONJ1OEmkdTwg0N3SOhyzmec1fl4hcLdsSl9PWDiufvjWs
+        IWmb4RpJ15rzadOlGxhtbiwj6NGhSwR90+0maUdPKaC7q5tJ2lJXQJvK9Xx69P5pQFv6v6Yb
+        mu6RdMAckUKlBkt3Mtm7PmdUMetlwVnlk5O83PGILzXXrUQhKAnXgiABpOJhwPYLoQXBAhHV
+        AKDe1P+c3AFwYrYFZ10iKgBgYb1kYaLn0a3npnoAL3fcAxzxA+g3dWBaIBCEUu9DszGL1cOo
+        GxjU+1p5LMGpUhz2/OHlsVEEFQe1s1qCxUJqPTzS58RYzKNWwqkBL58NWkbtgG2O7ZwlBPad
+        mHw2GkRtgP0VTc/sOPUKLG4/iXNYDEcmazB2F6TswVBnbAZsDqSS4F9VG7kGoXDG9R3J4eXw
+        qW3BXwyg191CcuQQgINFxwHnSoCj7ocEG4RTr8PWizGc/A4sDdzmc/lL4fBsCHfDUnjEegzn
+        ZCEs3S/i3FHQ4Dr731r7wM+4DkgMi5oZFrUxLGpj+H9vLeA1AjGTr87JZNRxSuaLaLU8R52v
+        zIzO2J1jBvNfu3/OdfsCqJ7xRzsAJgAOAAW4JEy4Y3OaTCTcKd/7FaPana7Kz2bUDvCygCcR
+        CxtPNqeLqEx5HqNgmFxGtfCKCYLCCzGj8u25pMGOo70vvXo38rcl/Kzjvc6QtYel7mPnIh+t
+        Ufu2JXVRSQV2YpOqL8Ja9GdKXfnVkUp7e9QKRTf2ickzkLCltnt8YxSpV0wcgOsG8E5F6bS1
+        KUCLtQW/vmUs8qTBD8+KKl6bmrbpM16sHz4T8vjT7pLte+7aNQZP+B51WmjDhoS8j6XK96qS
+        /Vs0kaHJg5qxis3XpaMfpH8kU6DuJLtuXEp4qCWf+eIPrvJthS0Pl4l/FL/xZPXVWBQpWrPu
+        4Kqw9sq9qSUZutah1JmBM15Jb3LN/fgU3YPeqH2935QpX2jwrV3R5oopc347nfhu/D9BUxL9
+        ygTZvrFYUe7NZAlPnSWPW42r1PJ/AU4O5fpJBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrNKsWRmVeSWpSXmKPExsVy+t/xu7rnJ8QkGHxey29xft8fdosnB9oZ
+        LeYfOcdqMfPNfzaLZ7f2Mlk0L17PZrFju4jF082PmSxmTQEK7Xz4ls1i+b5+RouPPfdYLRa2
+        LWGxuLxrDpvF594jjBYTb29gt9g55ySrxcVTrhbbNy9kttg2azmbxd1TR9ks5n6ZymzRuvcI
+        u0XXob9sFv+ubWSx2LwJKPZxiYPF8bXhDjIe23ZvY/V4f6OV3WPnrLvsHgs2lXos3vOSyWPT
+        qk42jzvX9rB5vDt3jt3j0OEORo/9c9ewe2xeUu+xuG8yq8edH0sZPTafrvZYsfo7u8fnTXIB
+        AlF6NkX5pSWpChn5xSW2StGGFkZ6hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6GX1P
+        nrAUPJKraL2/ja2BsUWqi5GTQ0LAROLw7/dsXYxcHEICSxklXi58ygyRkJE4Oa2BFcIWlvhz
+        rQuq6D2jxNfLk1i6GDk4hAU8JTbNyQCJiwi8ZJJ4tWkfK4jDLNDBLHHpeDc7RMdqRolr//4y
+        gYxiEzCU6HoLMoqTg1fATmLSySNgcRYBVYmnFx6CrRMVSJK4vGQiK0SNoMTJmU9YQGxOASeJ
+        0/2rweqZBcwk5m1+yAxhy0s0b50NZYtL3Hoyn2kCo9AsJO2zkLTMQtIyC0nLAkaWVYwiqaXF
+        uem5xYZ6xYm5xaV56XrJ+bmbGIGpatuxn5t3MM579VHvECMTB+MhRgkOZiUR3iTfmAQh3pTE
+        yqrUovz4otKc1OJDjKZA/0xklhJNzgcmy7ySeEMzA1NDEzNLA1NLM2Mlcd6tc9fECwmkJ5ak
+        ZqemFqQWwfQxcXBKNTAd2sJbqSZ3ZsaPzGfXT7892/3YTKtiQ9tn8Uotpq/7Vv/eOMFRykax
+        f9X+bd3fMqdxfRQOq8644Xc84WpJhHE/l5e34oIXxnuWx20si5L5cfMpf4Xw7UvfJ/VwPhDp
+        vCLSv+JQwxyZy3Fs5oZTPvSd5FS1P7OizyJ5wqU+jdStk1N7BZpe7bjLEW2uz+kq/WY189uc
+        iD/7X9Tty5ygu6FvX/cS+wWdN7h1dvzw4nI+s2xVvZRG6HJJdsei0s2PeBhV8rM+W77YcOaW
+        3OHwtypHjH52xRW/zlP8cmjp/LKXbQb9hs99v2hc8/RLCE35pZ3Rxq8R9lOSkeGU8+xXyZOt
+        zl9h95nyPz8mQIOnh0+JpTgj0VCLuag4EQC4OsQT3gMAAA==
+X-CMS-MailID: 20210325133159eucas1p297b769beb681743fb32d362a86cc6e3e
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20210325133159eucas1p297b769beb681743fb32d362a86cc6e3e
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210325133159eucas1p297b769beb681743fb32d362a86cc6e3e
+References: <20210205222644.2357303-9-saravanak@google.com>
+        <20210210114435.122242-1-tudor.ambarus@microchip.com>
+        <20210210114435.122242-2-tudor.ambarus@microchip.com>
+        <CGME20210325133159eucas1p297b769beb681743fb32d362a86cc6e3e@eucas1p2.samsung.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add an experimental PDF builder using rst2pdf.
+Hi
 
-This extension is only enabled when "pdf" builder is selected.
-So, it won't interfere with normal documentation builds. I opted
-to not add a try..except block, as the message is already
-good enough if one tries to do a "make rst2pdf" but the extension
-is missed:
+On 10.02.2021 12:44, Tudor Ambarus wrote:
+> This is a follow-up for:
+> commit 3c9ea42802a1 ("clk: Mark fwnodes when their clock provider is added/removed")
+>
+> The above commit updated the deprecated of_clk_add_provider(),
+> but missed to update the preferred of_clk_add_hw_provider().
+> Update it now.
+>
+> Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
 
-	Extension error:
-	Could not import extension rst2pdf.pdfbuilder (exception: No module named 'rst2pdf')
+This patch, which landed in linux-next as commit 6579c8d97ad7 ("clk: 
+Mark fwnodes when their clock provider is added") causes the following 
+NULL pointer dereference on Raspberry Pi 3b+ boards:
 
-This won't affect "make pdfdocs", as it uses the "latex" builder
-instead.
+--->8---
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+raspberrypi-firmware soc:firmware: Attached to firmware from 
+2020-01-06T13:05:25
+Unable to handle kernel NULL pointer dereference at virtual address 
+0000000000000050
+Mem abort info:
+   ESR = 0x96000004
+   EC = 0x25: DABT (current EL), IL = 32 bits
+   SET = 0, FnV = 0
+   EA = 0, S1PTW = 0
+Data abort info:
+   ISV = 0, ISS = 0x00000004
+   CM = 0, WnR = 0
+[0000000000000050] user address but active_mm is swapper
+Internal error: Oops: 96000004 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 0 PID: 10 Comm: kworker/0:1 Not tainted 5.12.0-rc4+ #2764
+Hardware name: Raspberry Pi 3 Model B (DT)
+Workqueue: events deferred_probe_work_func
+pstate: 00000005 (nzcv daif -PAN -UAO -TCO BTYPE=--)
+pc : of_clk_add_hw_provider+0xac/0xe8
+lr : of_clk_add_hw_provider+0x94/0xe8
+sp : ffff8000130936b0
+x29: ffff8000130936b0 x28: ffff800012494e04
+x27: ffff00003b18cb05 x26: ffff00003aa5c010
+x25: 0000000000000000 x24: 0000000000000000
+x23: ffff00003aa1e380 x22: ffff8000106830d0
+x21: ffff80001233f180 x20: 0000000000000018
+x19: 0000000000000000 x18: ffff8000124d38b0
+x17: 0000000000000013 x16: 0000000000000014
+x15: ffff8000125758b0 x14: 00000000000184e0
+x13: 000000000000292e x12: ffff80001258dd98
+x11: 0000000000000001 x10: 0101010101010101
+x9 : ffff80001233f288 x8 : 7f7f7f7f7f7f7f7f
+x7 : fefefefeff6c626f x6 : 5d636d8080808080
+x5 : 00000000006d635d x4 : 0000000000000000
+x3 : 0000000000000000 x2 : 540eb5edae191600
+x1 : 0000000000000000 x0 : 0000000000000000
+Call trace:
+  of_clk_add_hw_provider+0xac/0xe8
+  devm_of_clk_add_hw_provider+0x5c/0xb8
+  raspberrypi_clk_probe+0x110/0x210
+  platform_probe+0x90/0xd8
+  really_probe+0x108/0x3c0
+  driver_probe_device+0x60/0xc0
+  __device_attach_driver+0x9c/0xd0
+  bus_for_each_drv+0x70/0xc8
+  __device_attach+0xec/0x150
+  device_initial_probe+0x10/0x18
+  bus_probe_device+0x94/0xa0
+  device_add+0x47c/0x780
+  platform_device_add+0x110/0x248
+  platform_device_register_full+0x120/0x150
+  rpi_firmware_probe+0x158/0x1f8
+  platform_probe+0x90/0xd8
+  really_probe+0x108/0x3c0
+  driver_probe_device+0x60/0xc0
+  __device_attach_driver+0x9c/0xd0
+  bus_for_each_drv+0x70/0xc8
+  __device_attach+0xec/0x150
+  device_initial_probe+0x10/0x18
+  bus_probe_device+0x94/0xa0
+  deferred_probe_work_func+0x70/0xa8
+  process_one_work+0x2a8/0x718
+  worker_thread+0x48/0x460
+  kthread+0x134/0x160
+  ret_from_fork+0x10/0x18
+Code: b1006294 540000c0 b140069f 54000088 (3940e280)
+---[ end trace 7ead5ec2f0c51cfe ]---
 
-v4:
-- only enable the rst2pdf extension when required, e. g. when
+This patch mainly revealed that clk/bcm/clk-raspberrypi.c driver calls 
+devm_of_clk_add_hw_provider(), with a device pointer, which has a NULL 
+dev->of_node. I'm not sure if adding a check for a NULL np in 
+of_clk_add_hw_provider() is a right fix, though.
 
-    $ make rst2pdf
+> ---
+>   drivers/clk/clk.c | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
+> index 27ff90eacb1f..9370e4dfecae 100644
+> --- a/drivers/clk/clk.c
+> +++ b/drivers/clk/clk.c
+> @@ -4594,6 +4594,8 @@ int of_clk_add_hw_provider(struct device_node *np,
+>   	if (ret < 0)
+>   		of_clk_del_provider(np);
+>   
+> +	fwnode_dev_initialized(&np->fwnode, true);
+> +
+>   	return ret;
+>   }
+>   EXPORT_SYMBOL_GPL(of_clk_add_hw_provider);
 
-  is used.
-
- Documentation/Makefile                     |  5 +++++
- Documentation/conf.py                      | 20 ++++++++++++++------
- Documentation/sphinx/load_config.py        | 12 ++++++++++++
- Documentation/userspace-api/media/Makefile |  1 +
- Makefile                                   |  4 ++--
- 5 files changed, 34 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 9c42dde97671..42b76f25681f 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -115,6 +115,10 @@ pdfdocs: latexdocs
- 
- endif # HAVE_PDFLATEX
- 
-+rst2pdf:
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),pdf,$(var)))
-+
- epubdocs:
- 	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
-@@ -140,6 +144,7 @@ dochelp:
- 	@echo  '  htmldocs        - HTML'
- 	@echo  '  latexdocs       - LaTeX'
- 	@echo  '  pdfdocs         - PDF'
-+	@echo  '  rst2pdf         - PDF, using experimental rst2pdf support'
- 	@echo  '  epubdocs        - EPUB'
- 	@echo  '  xmldocs         - XML'
- 	@echo  '  linkcheckdocs   - check for broken external links'
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 879e86dbea66..217a9e682099 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -118,6 +118,11 @@ autosectionlabel_maxdepth = 2
- 
- extensions.append("sphinx.ext.imgmath")
- 
-+# Enable experimental rst2pdf, if available and selected by the user
-+for i in range(1, len(sys.argv)):
-+    if sys.argv[i] == "pdf":
-+        extensions.append('rst2pdf.pdfbuilder')
-+
- # Add any paths that contain templates here, relative to this directory.
- templates_path = ['_templates']
- 
-@@ -553,12 +558,15 @@ epub_exclude_files = ['search.html']
- #
- # See the Sphinx chapter of https://ralsina.me/static/manual.pdf
- #
--# FIXME: Do not add the index file here; the result will be too big. Adding
--# multiple PDF files here actually tries to get the cross-referencing right
--# *between* PDF files.
--pdf_documents = [
--    ('kernel-documentation', u'Kernel', u'Kernel', u'J. Random Bozo'),
--]
-+
-+# Add all LaTeX files to PDF documents as well
-+pdf_documents = []
-+for l in latex_documents:
-+    doc = l[0]
-+    fn = l[1].replace(".tex", "")
-+    name = l[2]
-+    authors = l[3]
-+    pdf_documents.append((doc, fn, name, authors))
- 
- # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
- # the Docs). In a normal build, these are supplied from the Makefile via command
-diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
-index eeb394b39e2c..8266afd438aa 100644
---- a/Documentation/sphinx/load_config.py
-+++ b/Documentation/sphinx/load_config.py
-@@ -43,6 +43,18 @@ def loadConfig(namespace):
- 
-             namespace['latex_documents'] = new_latex_docs
- 
-+            new_pdf_docs = []
-+            pdf_documents = namespace['pdf_documents']
-+
-+            for l in pdf_documents:
-+                if l[0].find(dir + '/') == 0:
-+                    has = True
-+                    fn = l[0][len(dir) + 1:]
-+                    new_pdf_docs.append((fn, l[1], l[2], l[3]))
-+                    break
-+
-+            namespace['pdf_documents'] = new_pdf_docs
-+
-         # If there is an extra conf.py file, load it
-         if os.path.isfile(config_file):
-             sys.stdout.write("load additional sphinx-config: %s\n" % config_file)
-diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
-index 81a4a1a53bce..8c6b3ac4ecb0 100644
---- a/Documentation/userspace-api/media/Makefile
-+++ b/Documentation/userspace-api/media/Makefile
-@@ -59,6 +59,7 @@ all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
- html: all
- epub: all
- xml: all
-+pdf: all
- latex: $(IMGPDF) all
- linkcheck:
- 
-diff --git a/Makefile b/Makefile
-index 193ebb83c34a..741c580b3626 100644
---- a/Makefile
-+++ b/Makefile
-@@ -270,7 +270,7 @@ no-dot-config-targets := $(clean-targets) \
- 			 cscope gtags TAGS tags help% %docs check% coccicheck \
- 			 $(version_h) headers headers_% archheaders archscripts \
- 			 %asm-generic kernelversion %src-pkg dt_binding_check \
--			 outputmakefile rustfmt rustfmtcheck
-+			 outputmakefile rustfmt rustfmtcheck rst2pdf
- # Installation targets should not require compiler. Unfortunately, vdso_install
- # is an exception where build artifacts may be updated. This must be fixed.
- no-compiler-targets := $(no-dot-config-targets) install dtbs_install \
-@@ -1816,7 +1816,7 @@ $(help-board-dirs): help-%:
- 
- # Documentation targets
- # ---------------------------------------------------------------------------
--DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
-+DOC_TARGETS := xmldocs latexdocs pdfdocs rst2pdf htmldocs epubdocs cleandocs \
- 	       linkcheckdocs dochelp refcheckdocs
- PHONY += $(DOC_TARGETS)
- $(DOC_TARGETS):
+Best regards
 -- 
-2.30.2
-
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
