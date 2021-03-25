@@ -2,81 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 024B1C433C1
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 22:31:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58371C433C1
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 23:00:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C299261A3F
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 22:31:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 13D16619BA
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 23:00:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231272AbhCYWau (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 18:30:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42564 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230486AbhCYWad (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 18:30:33 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA6CFC06174A;
-        Thu, 25 Mar 2021 15:30:33 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5B2F36A2;
-        Thu, 25 Mar 2021 22:30:33 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5B2F36A2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1616711433; bh=1qlmKLPTjs0PRb7TDA0clS4F1PUPTP6FjOnMXk0X1ss=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=POxXQ1DgCcjBE8SKpdMzx64zYvmovEJ03iURTYhsEfkqXjRuA1o5QSXtie89fFWLS
-         PUyJPOji/zRQW2OaJLXZ8z7tblR+lx8tIANJSqZxv70Dr1euWs+K7dt89mnCjinrZ8
-         E0UfwCItlQTxHYa7bpS7AJhvrXXDeJ8pyA0WV2o1xfOwZZIm1lnCoLHLEmaUQ8bRgg
-         7EBRWE2o01ZsZKz6rd30fLmCubi1NHjAJe3s6h6e4O8+1ph1XRUhKu657vR/mbrDm1
-         XYW+GidLUvJ2OOJRbdBttghzU8wnDQgutAKyUBtzsSRiPELi/KZCEigGQlEURs/8VS
-         os2v04yzzsPHg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: better handle '::' sequences
-In-Reply-To: <20210325221437.GA1719932@casper.infradead.org>
-References: <20210325184615.08526aed@coco.lan>
- <2cf44cf1fa42588632735d4fbc8e84304bdc235f.1616696051.git.mchehab+huawei@kernel.org>
- <87tuozyslu.fsf@meer.lwn.net>
- <20210325191435.GZ1719932@casper.infradead.org>
- <87a6qrx7wf.fsf@meer.lwn.net>
- <20210325221437.GA1719932@casper.infradead.org>
-Date:   Thu, 25 Mar 2021 16:30:32 -0600
-Message-ID: <87wntux3w7.fsf@meer.lwn.net>
+        id S231310AbhCYW7p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 18:59:45 -0400
+Received: from mail-ed1-f54.google.com ([209.85.208.54]:35720 "EHLO
+        mail-ed1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231307AbhCYW7T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 18:59:19 -0400
+Received: by mail-ed1-f54.google.com with SMTP id dm8so4263651edb.2;
+        Thu, 25 Mar 2021 15:59:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Tp2zS05BwtRY3Itowm2uz6iwQX/pxSYd0u71j04Rk6w=;
+        b=Q4tXndfabix/onEl0Urrziy+tK1wh/Mwutt1boQs2n8S2K2bWrT8RUbBwRmWP7OJ24
+         5AeO0E5pavRrkWgc5vlj//vGnNYPoi6cfS09px+TNtKuXX86NBtDz+b89HacXv1DJUXV
+         I4B4wj67ZT1/R0+Pi0E9GbNXuDWoJSvAbTAPx1AaTZxy7Ced4kEDbJiXH7DE5vc01vZ/
+         eZbCYCDv+1LHOej+FBw1FKC8ZVjfc0ZT48R6SnCD118g+NbCZSASe1WeRXjsWiAcJnRW
+         hxnzaE4JRx2F8RmguBFxbR50tqFs+K7PWmOHbCnJXwF9w6txjKg5ors41t0FZ9bgXf8M
+         5kng==
+X-Gm-Message-State: AOAM530czNE0NgMReV7W6vFed6I6cI4KPAMIS36ZUgmj1x30d60TxYan
+        ehUWBtiCVHCbsnIP644PIWVGnEtKhz2K0DiNcpCfhdGiY+E=
+X-Google-Smtp-Source: ABdhPJyUjBKC+uANInwiDCNBJ465jvcT0nnByAHqE7u4iEuERfWG5jkqO2XvR7KsVO6OWdT8g+qvWfndaWNv/O0hF2E=
+X-Received: by 2002:a05:6402:4245:: with SMTP id g5mr11807857edb.306.1616713158061;
+ Thu, 25 Mar 2021 15:59:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20210221185637.19281-1-chang.seok.bae@intel.com>
+ <20210221185637.19281-23-chang.seok.bae@intel.com> <871rc9bl3v.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <871rc9bl3v.fsf@nanos.tec.linutronix.de>
+From:   Len Brown <lenb@kernel.org>
+Date:   Thu, 25 Mar 2021 18:59:06 -0400
+Message-ID: <CAJvTdKkOKOgnmvAiPS6mWVoyAggbOB6hBOqb_tcHYDe8+-X+FQ@mail.gmail.com>
+Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to
+ control state component support
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     "Chang S. Bae" <chang.seok.bae@intel.com>,
+        Borislav Petkov <bp@suse.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>, X86 ML <x86@kernel.org>,
+        "Brown, Len" <len.brown@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        "Liu, Jing2" <jing2.liu@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Matthew Wilcox <willy@infradead.org> writes:
+On Sat, Mar 20, 2021 at 4:57 PM Thomas Gleixner <tglx@linutronix.de> wrote:
 
-> The rust code is alredy coming though ...
->
-> rust/kernel/buffer.rs:/// A pre-allocated buffer that implements [`core::fmt::Write`].
->
-> so now we have three formats.  Markdown and RST are _very_ similar, but
-> not identical [1].  Oh, and even better we now have three distinct tools --
-> kerneldoc, rustdoc and sphinx.  Have the rust people reached out to you
-> about integrating the various docs?
+> We won't enable features which are unknown ever. Keep that presilicon
+> test gunk where it belongs: In the Intel poison cabinet along with the
+> rest of the code which nobody ever want's to see.
 
-I have talked with them a bit, yes, but without any clear conclusions at
-this point.  The Rust world has its own way of doing things with regard
-to documentation, and I don't want to tell them they can't use it in the
-kernel context.  So I think there's going to be a certain amount of
-groping around for the best solution.
+I agree, it would be irresponsible to enable unvalidated features by default,
+and pre-silicon "test gunk" should be kept out of the upstream kernel.
 
-We did come to the mutual agreement that teaching kernel-doc to parse
-Rust code as well was not an ideal solution.  Probably there will be
-some sort of tool to translate between rustdoc and our sphinx setup.
-Beyond that, we'll see how it goes.
+This patch series is intended solely to enable fully validated
+hardware features,
+with product quality kernel support.
 
-jon
+The reason that the actual AMX feature isn't mentioned until the 16th
+patch in this series
+is because all of the patches before it are generic state save/restore patches,
+that are not actually specific to AMX.
+
+We call AMX a "simple state feature" -- it actually requires NO KERNEL ENABLING
+above the generic state save/restore to fully support userspace AMX
+applications.
+
+While not all ISA extensions can be simple state features, we do expect
+future features to share this trait, and so we want to be sure that it is simple
+to update the kernel to turn those features on (and when necessary, off).
+
+There will be a future CPUID attribute that will help us identify
+future simple-state features.
+For AMX, of course, we simply know.
+
+So after the generic state management support, the kernel enabling of AMX
+is not actually required to run applications.  Just like when a new instruction
+is added that re-uses existing state -- the application or library can check
+CPUID and just use it.  It is a formality (perhaps an obsolete one), that
+we add every feature flag to /proc/cpuid for the "benefit" of userspace.
+
+The reason we propose this cmdline switch is
+1. Ability of customers to disable a feature right away if an issue is found.
+Unlike the CPUid cmdline that works on flags, this is the ability to turn
+off a feature based on its state number.  Ie.  There could be 20 features
+that use the same state, and you can turn them all off at once this way.
+
+2. Ability of customers to enable a feature that is disabled by default
+in their kernel.  Yes, this will taint their kernel (thanks Andy),
+but we have customers that want to run the new feature on day 0
+before they have got a distro update to change the default, and this
+gives them a way to do that.
+
+Yeah, the cmdline syntax is not a user-friendly mnemonic, and I don't know
+that making it so would be an improvement.
+Like the CPUID cmdline, it is precise, it is future-proof, and it is
+used only in special situations.
+
+thanks,
+Len Brown, Intel Open Source Technology Center
