@@ -2,107 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3AFAC433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 22:02:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F292BC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 22:15:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 78EF061A42
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 22:02:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AA5D261A3C
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 22:15:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230486AbhCYV7l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 17:59:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35850 "EHLO
+        id S231225AbhCYWPD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 18:15:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230468AbhCYV7F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 17:59:05 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D246C061760
-        for <linux-doc@vger.kernel.org>; Thu, 25 Mar 2021 14:59:05 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id g24so2903499qts.6
-        for <linux-doc@vger.kernel.org>; Thu, 25 Mar 2021 14:59:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8cwwbYqI+w00egCRCaNukq5DD3eWu7cnLa6VwLpjfl8=;
-        b=iemGxUmO/N4+jYKKQX84i4qZHfAOjZ0sMxwEel3eFqXs0Le6ITeV/cBJkmMSijBW2Z
-         SFZiF2c1K8SuXOa3Qi6l3FJqOcitfGQy7fSOPr04QhCcBGtOsX9e4qSTptdt/gbUxIJk
-         oW5NHHV0nMxRaarldrMeEo8dRLYlryB2JZNTsxNCRLaJ4qpp5vAjMSt3fanGqtWP4pYq
-         cdrc47Nerpk59SO3uM8OzvBMZrJwGo9LwBa3K4nEZAacJs+Uzc7iDMsAY4iaEw90rrtN
-         SlTnny6qvBpkNv3UFeBVtepTAUIhtcn2tFMk6/Z4Mu8VD3BVFlg6DU8W0MPViCPLOrfW
-         bb2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8cwwbYqI+w00egCRCaNukq5DD3eWu7cnLa6VwLpjfl8=;
-        b=krk2ZEvLf771gULWerznaYkRUi2rYSZ/XHvI3Vw2hfBlrHPROjVsRQ8yA+8fk0Ar+t
-         aO5rYEanLKQY5EzSmcs8qNB+g2HBaYWe7NilyHidy8MAlhCeAv25V0kUiT+S8ylTFWHm
-         ev817WlOBmalZimRrZ/nc8Xvv/quAfwz+CVjpnao5SHAMAPQ8AgpEtswJGfm0OpX2BfU
-         eUAAOesCTU0AgsEZRhM+JhM4xVQSshIbKoyKzD0xo9RC3eAG1Z64pJ9hRT4vEPfH9xR3
-         cmgmdflsc2RX84bN/lwIvUusMvYbYPANL538F8qPSYFVV3z+aeUhT5DIsaGGftA225O6
-         8DfQ==
-X-Gm-Message-State: AOAM5320SZVKOllkPMo6rg78XrnlSfWRcugw06ziIynhVnw0sFne/Sja
-        z5c5/yyDM4/Yg1yQ/g9IfoUo4/42vv3AHY/qHr2NIw==
-X-Google-Smtp-Source: ABdhPJwuyB5h6povrFbiMjtqMOpCb6E8TBZ5NJvyyB9321D1vLDelW47KKU1IDrskoNZDpQoWnbS4JsCSuGMyJpMjdA=
-X-Received: by 2002:a05:622a:114:: with SMTP id u20mr9595291qtw.317.1616709543891;
- Thu, 25 Mar 2021 14:59:03 -0700 (PDT)
+        with ESMTP id S230419AbhCYWOw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 18:14:52 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15E35C06174A;
+        Thu, 25 Mar 2021 15:14:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=NVCefAzy77SIiZ982ecvAabze2914IZvTimkJPzBisY=; b=TfxwZjnFgqGZ5NQ+eKBh0v7KU+
+        rqNxyVhfuYmNk7nqg49MuhL7N0divk7vJxDTz+/8ySCo9BnvrcZUXLDmGH7hPLLd/PGY1A6CyMXpf
+        lhKRgxZqoK0InTMHIJDdQUPKEBhw3Gz/DjtPFDhH3Jo6aPOmpu6Sj8KVnLQusA457Ordfjt8hMet/
+        U+wYfoP3yEltBc4womhWfhS9iaBZHKGP5633Ku+1RtusLbdZM3T/STFT3EH7Rju7wLZLw4pWHQhQA
+        IaPWvOW21uGBpAg/tsN3GYuLtg3L7+4rP8ApqxwBdQLG33GBoDCP8pwFxtE4RFsd7jhBKJpAEi7iD
+        v6LLnFcw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lPYFR-00DtKj-Au; Thu, 25 Mar 2021 22:14:41 +0000
+Date:   Thu, 25 Mar 2021 22:14:37 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: better handle '::' sequences
+Message-ID: <20210325221437.GA1719932@casper.infradead.org>
+References: <20210325184615.08526aed@coco.lan>
+ <2cf44cf1fa42588632735d4fbc8e84304bdc235f.1616696051.git.mchehab+huawei@kernel.org>
+ <87tuozyslu.fsf@meer.lwn.net>
+ <20210325191435.GZ1719932@casper.infradead.org>
+ <87a6qrx7wf.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20210323035706.572953-1-joshdon@google.com> <YFsIZjhCFbxKyos3@hirez.programming.kicks-ass.net>
- <YFsaYBO/UqMHSpGS@hirez.programming.kicks-ass.net> <20210324114224.GP15768@suse.de>
- <YFssoD5NDl6dFfg/@hirez.programming.kicks-ass.net> <20210324133916.GQ15768@suse.de>
- <YFtOXpl1vWp47Qud@hirez.programming.kicks-ass.net> <20210324155224.GR15768@suse.de>
-In-Reply-To: <20210324155224.GR15768@suse.de>
-From:   Josh Don <joshdon@google.com>
-Date:   Thu, 25 Mar 2021 14:58:52 -0700
-Message-ID: <CABk29Nu7rR=_enuU8ecogtwCU3E4ygP0m+nmBH-KqKTRzDCe=A@mail.gmail.com>
-Subject: Re: [PATCH v2] sched: Warn on long periods of pending need_resched
-To:     Mel Gorman <mgorman@suse.de>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        David Rientjes <rientjes@google.com>,
-        Oleg Rombakh <olegrom@google.com>, linux-doc@vger.kernel.org,
-        Paul Turner <pjt@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87a6qrx7wf.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-> On Wed, Mar 24, 2021 at 01:39:16PM +0000, Mel Gorman wrote:
-> I'm not going to NAK because I do not have hard data that shows they must
-> exist. However, I won't ACK either because I bet a lot of tasty beverages
-> the next time we meet that the following parameters will generate reports
-> if removed.
->
-> kernel.sched_latency_ns
-> kernel.sched_migration_cost_ns
-> kernel.sched_min_granularity_ns
-> kernel.sched_wakeup_granularity_ns
->
-> I know they are altered by tuned for different profiles and some people do
-> go the effort to create custom profiles for specific applications. They
-> also show up in "Official Benchmarking" such as SPEC CPU 2017 and
-> some vendors put a *lot* of effort into SPEC CPU results for bragging
-> rights. They show up in technical books and best practice guids for
-> applications.  Finally they show up in Google when searching for "tuning
-> sched_foo". I'm not saying that any of these are even accurate or a good
-> idea, just that they show up near the top of the results and they are
-> sufficiently popular that they might as well be an ABI.
+On Thu, Mar 25, 2021 at 03:04:00PM -0600, Jonathan Corbet wrote:
+> Matthew Wilcox <willy@infradead.org> writes:
+> > Well ...
+> >
+> > If somebody wants to write a new tool (*) that extracts documentation
+> > written in a different format, I think that could be done.  Because the
+> > hard part of writing documentation is getting the person who knows the
+> > code to get everything that's in their brain into words, not really
+> > the formatting.
+> >
+> > If somebody did want to write such a tool, I think we'd also want a
+> > tool that turns the existing kernel-doc into the new format, because
+> > maintaining two function-doc formats would be awful.
+> 
+> Yeah, the thing is that, as long as we're documenting code with
+> something other than RST, we *do* have two formats, and they interact
+> with each other in surprising and unwelcome ways.
+> 
+> I don't really see a fix, though.  Even if we come up with the Perfect
+> New Format™, I don't want to be the one trying to push through the
+> patches changing tens of thousands of kerneldoc comments over...
 
-+1, these seem like sufficiently well-known scheduler tunables, and
-not really SCHED_DEBUG.
+I can't argue with either of your points.
+
+The rust code is alredy coming though ...
+
+rust/kernel/buffer.rs:/// A pre-allocated buffer that implements [`core::fmt::Write`].
+
+so now we have three formats.  Markdown and RST are _very_ similar, but
+not identical [1].  Oh, and even better we now have three distinct tools --
+kerneldoc, rustdoc and sphinx.  Have the rust people reached out to you
+about integrating the various docs?
+
+[1] https://en.wikipedia.org/wiki/Lightweight_markup_language#Comparison_of_lightweight_markup_language_syntax
