@@ -2,79 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D6ABC433E2
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 09:29:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B1BFC433E3
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 09:30:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7A41619FB
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 09:29:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 307F461A32
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 09:30:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229994AbhCYJ2b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 05:28:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42032 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229930AbhCYJ2V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 05:28:21 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABD87C06174A
-        for <linux-doc@vger.kernel.org>; Thu, 25 Mar 2021 02:28:20 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id m12so1476264lfq.10
-        for <linux-doc@vger.kernel.org>; Thu, 25 Mar 2021 02:28:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gYI+PuLtimhXH77xMKx0d9cmeN1WTmp9BxMwwXCReuc=;
-        b=vkzZ2N2UrRZK5RBwQrQvsfRbVolmmcIiwHGBhARupxqNSDLeSev5dOC8UG/dIL2rf4
-         yMuWSVyBRtrQdgtoazo9ipzP1CYUQvSfFuMRAHBCb5L5wngj9mwiuSxdSwcBO/tyqxgy
-         MenwoiIXh96QhrN/0K7wklslZj0ue96gv/4dyDUrUl9ze2rsSqdGCuAQ/mQkETIMfWDc
-         tJaVq9+8YyARo4Y7YBqdzP5XKqLqs7PnHgG+D6nt/WClVwbGDCJ7OtYGpCsV+uG85gTn
-         T/tsQ6lxBa02bW/g29IbIKCgrIr0gLI7QFlTAQ5zL+kZuZKIQrSnDpnPn2XjkYacbRxX
-         Luyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gYI+PuLtimhXH77xMKx0d9cmeN1WTmp9BxMwwXCReuc=;
-        b=N01XGmMn8QtY/K9cFyACJmsji08V0y1VVigIhf+gJyEOHnnNBKOXt0D0+V76jQukH4
-         5HVd3M9WdtxmOHjdpvgxlKNZa2m8wKsTLIm2REHtoacLJQ8f8bGy7x273JRGMxjxRU/a
-         i6yltdmWpyjBurWYryXq88ZcXim7+90Eb7Ruqn1feoU0h+OwtRmnNhsn9rwnefEioVdr
-         Patqb3iZDGodaz7/PaIsJ8WpQf1JT5f+GD+WgqVYsx+pazvexpz9XK9zwyx+UVXSBo7v
-         5b50fUTX5SYxuDCcjR2TaUwxLX428v//f6/rf7oH45oAG4jkVwFxmjG0+e1xrRMGCCgA
-         BuAg==
-X-Gm-Message-State: AOAM531H7ZZG23IdIBjx9rnAJaR2LXuMLHOGnACDQxk9frWUPjlmuV4x
-        3ZD2/YbPQssyfQumRTLqlidGMIW0PMs0XdmZLkH8Xw==
-X-Google-Smtp-Source: ABdhPJy2Z4Gos2vxj/iljbGSCtdK0ftBcKclmf8nmtikeFu0/ui1OQLJdrfnXCEhSNQC1St0TY+IoxAm8bt9VLy7J7M=
-X-Received: by 2002:ac2:4d95:: with SMTP id g21mr4757768lfe.29.1616664499245;
- Thu, 25 Mar 2021 02:28:19 -0700 (PDT)
+        id S229957AbhCYJ3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 05:29:35 -0400
+Received: from smtp-190b.mail.infomaniak.ch ([185.125.25.11]:38941 "EHLO
+        smtp-190b.mail.infomaniak.ch" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230057AbhCYJ3N (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 05:29:13 -0400
+X-Greylist: delayed 51259 seconds by postgrey-1.27 at vger.kernel.org; Thu, 25 Mar 2021 05:29:12 EDT
+Received: from smtp-3-0000.mail.infomaniak.ch (unknown [10.4.36.107])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4F5ftj1bChzMqSFq;
+        Thu, 25 Mar 2021 10:29:01 +0100 (CET)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4F5ftZ3sl9zlh8TD;
+        Thu, 25 Mar 2021 10:28:54 +0100 (CET)
+Subject: Re: [PATCH v30 02/12] landlock: Add ruleset and domain management
+To:     James Morris <jmorris@namei.org>
+Cc:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
+        "Serge E . Hallyn" <serge@hallyn.com>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>
+References: <20210316204252.427806-1-mic@digikod.net>
+ <20210316204252.427806-3-mic@digikod.net> <202103191114.C87C5E2B69@keescook>
+ <acda4be1-4076-a31d-fcfd-27764dd598c8@digikod.net>
+ <c9dc8adb-7fab-14a1-a658-40b288419fdf@namei.org>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <25f701bf-fddf-8e9c-1ac1-c50a38579096@digikod.net>
+Date:   Thu, 25 Mar 2021 10:29:35 +0100
+User-Agent: 
 MIME-Version: 1.0
-References: <20210323145509.139393-1-hello@bryanbrattlof.com>
-In-Reply-To: <20210323145509.139393-1-hello@bryanbrattlof.com>
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Thu, 25 Mar 2021 10:28:08 +0100
-Message-ID: <CACRpkdYYV8HLf+HCXbkiRPZFZww+1L_mq3VcqJ5Jse4hY9TkDQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: gpio: chip should be plural
-To:     Bryan Brattlof <hello@bryanbrattlof.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Jiri Kosina <trivial@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <c9dc8adb-7fab-14a1-a658-40b288419fdf@namei.org>
+Content-Type: text/plain; charset=iso-8859-15
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 23, 2021 at 3:56 PM Bryan Brattlof <hello@bryanbrattlof.com> wrote:
 
-> Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
+On 24/03/2021 21:31, James Morris wrote:
+> On Fri, 19 Mar 2021, Mickaël Salaün wrote:
+> 
+>>
+>>>> Cc: Kees Cook <keescook@chromium.org>
+>>>> Signed-off-by: Mickaël Salaün <mic@linux.microsoft.com>
+>>>> Acked-by: Serge Hallyn <serge@hallyn.com>
+>>>> Link: https://lore.kernel.org/r/20210316204252.427806-3-mic@digikod.net
+>>>
+>>> (Aside: you appear to be self-adding your Link: tags -- AIUI, this is
+>>> normally done by whoever pulls your series. I've only seen Link: tags
+>>> added when needing to refer to something else not included in the
+>>> series.)
+>>
+>> It is an insurance to not lose history. :)
+> 
+> How will history be lost? The code is in the repo and discussions can 
+> easily be found by searching for subjects or message IDs.
 
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+The (full and ordered) history may be hard to find without any
+Message-ID in commit messages. The Lore links keep that information (in
+the commit message) and redirect to the related archived email thread,
+which is very handy. For instance, Linus can rely on those links to
+judge the quality of a patch:
+https://lore.kernel.org/lkml/CAHk-=wh7xY3UF7zEc0BNVNjOox59jYBW-Gfi7=emm+BXPWc6nQ@mail.gmail.com/
 
-Yours,
-Linus Walleij
+> 
+> Is anyone else doing this self linking?
+> 
+
+I don't know, but it doesn't hurt. This way, if you're using git am
+without b4 am -l (or forgot to add links manually), the history is still
+pointed out by these self-reference links. I find it convenient and it
+is a safeguard to not forget them, no matter who takes the patches.
