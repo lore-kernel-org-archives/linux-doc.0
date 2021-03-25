@@ -2,187 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE0FFC433E3
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 18:55:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 159F8C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 19:02:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B01F461A0E
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 18:55:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B82B4619D3
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 19:02:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230192AbhCYSzH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 14:55:07 -0400
-Received: from conuserg-09.nifty.com ([210.131.2.76]:40714 "EHLO
-        conuserg-09.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229670AbhCYSy7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 14:54:59 -0400
-Received: from localhost.localdomain (133-32-232-101.west.xps.vectant.ne.jp [133.32.232.101]) (authenticated)
-        by conuserg-09.nifty.com with ESMTP id 12PIsD6V025746;
-        Fri, 26 Mar 2021 03:54:14 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-09.nifty.com 12PIsD6V025746
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1616698454;
-        bh=rh9G9lxLInAjsIJ5YF1Dh9a95r8V4/WiPgSc744DqMo=;
-        h=From:To:Cc:Subject:Date:From;
-        b=GIuES/rUkk/G3Bp7SSeHfTBzaHtDHM188n/MPmBFfESz8JRpFo+2r9/WCf22IoKVB
-         N0qlfdMtWOi85sR9UhGbFsemzUmeM2m635Qtq24+u7ysoqrfb/Ioqo6iQWmV6PCUjv
-         leKHS0iLY1WPJjZewaaTg+ZWFGVftk4RDuLleoARv+/lrEPcxIE50xJYkjifua7aZQ
-         f3aBT0BvP77EGjR8jpbMk7rNbaatvFdZ9UWTaOtgsNTEBz82finths7plJofHNVJFt
-         O7nRN18xQH35r9ftOh03hhG07W72Y/g9hmtQDMiwPXjZg5VovNoehjbEKLa+uWyJ3Y
-         q37stbSXOkK3A==
-X-Nifty-SrcIP: [133.32.232.101]
-From:   Masahiro Yamada <masahiroy@kernel.org>
-To:     linux-kbuild@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-doc@vger.kernel.org
-Subject: [PATCH 1/3] kbuild: generate Module.symvers only when vmlinux exists
-Date:   Fri, 26 Mar 2021 03:54:09 +0900
-Message-Id: <20210325185412.2352951-1-masahiroy@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        id S230128AbhCYTBk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 15:01:40 -0400
+Received: from ms.lwn.net ([45.79.88.28]:47018 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230133AbhCYTBQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Mar 2021 15:01:16 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id DF7A531A;
+        Thu, 25 Mar 2021 19:01:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DF7A531A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1616698875; bh=o4zcLbe60+zybZhVxDlbITNaE4I1j5dMPZcE8EhXWH8=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=s/G8WXkYwun9KQ/lqF9ctUeT6X2saj9V3UIY45LqbJFI/bcNdLeJQm5qSRMjWZUcD
+         Tv7CBjsyY3pgiufoffRg4qvPzCWZmpNVriswBNtEM8MHkU1hsJoTLoBhGEGXTbGClf
+         mcems0M5V9psxQLbmTDdUnqY+1H8k2hI6ax3Uscu4mHi7ekwpsMO5qn5s1r1tKduQ5
+         J1OsFfZNh6YM2/VvuJCHAuUCupEUDb2uq+ATIPmc4SYxkBMfHTiI2XKtJmruZlxzt2
+         ZNQpf+H1SycKgpibRVkMpj8SQ3CjOknaEmNijhr3bRkjGvQNu08P5SwiEBnTKhrrkD
+         inuys9c3YQHCQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH v2 0/7] Fix some issues at get_abi.pl script
+In-Reply-To: <cover.1616668017.git.mchehab+huawei@kernel.org>
+References: <cover.1616668017.git.mchehab+huawei@kernel.org>
+Date:   Thu, 25 Mar 2021 13:01:14 -0600
+Message-ID: <87lfabys5h.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The external module build shows the following warning if Module.symvers
-is missing in the kernel tree.
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-  WARNING: Symbol version dump "Module.symvers" is missing.
-           Modules may not have dependencies or modversions.
+> This series replace this patch:
+> 	https://lore.kernel.org/linux-doc/20210324191722.08d352e4@coco.lan/T/#t
+>
+> It turns that there were multiple bugs at the get_abi.pl code that
+> create cross-references.
+>
+> Patches 1 to 6 fix those issues, and should apply cleanly on the top of
+> the docs tree (although I tested against next-20210323).
+>
+> Patch 7 is optional, and independent from the other patches. It is meant
+> to be applied against akpm's tree.  It makes the description (IMHO) 
+> clearer, while producing cross references for the two mentioned symbols.
 
-I think this is an important heads-up because the resulting modules may
-not work as expected. This happens when you did not build the entire
-kernel tree, for example, you might have prepared the minimal setups
-for external modules by 'make defconfig && make modules_preapre'.
+So perhaps this is the best solution to the problem, but I must confess
+to not being entirely happy with it.  get_abi.pl is becoming another
+unreadable perlpile like kerneldoc, and this makes it worse.  Doing RST
+parsing there seems particularly unwelcome.
 
-A problem is that 'make modules' creates Module.symvers even without
-vmlinux. In this case, that warning is suppressed since Module.symvers
-already exists in spite of its incomplete content.
+Should the cross-reference generation, it now occurs to me, be done in
+the automarkup module instead?  Then there's no need to interpret RST,
+and we'd get cross-references throughout the kernel docs rather than in
+just the ABI stuff.  Am I completely out to lunch here?
 
-The incomplete (i.e. invalid) Module.symvers should not be created.
+Thanks,
 
-This commit changes the second pass of modpost to dump symbols into
-modules-only.symvers. The final Module.symvers is created by
-concatenating vmlinux.symvers and modules-only.symvers if both exist.
-
-Module.symvers is supposed to contain all the symbols from both vmlinux
-and modules. It might be a bit confusing, and I am not quite sure if it
-is an official interface, but presumably it is difficult to rename it
-because some projects (e.g. kmod) parse it.
-
-Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
----
-
- .gitignore               |  1 +
- Documentation/dontdiff   |  1 +
- Makefile                 |  2 +-
- scripts/Makefile.modpost | 15 ++++++++++++++-
- scripts/mod/modpost.c    | 15 +--------------
- 5 files changed, 18 insertions(+), 16 deletions(-)
-
-diff --git a/.gitignore b/.gitignore
-index 3adea59847ce..df8d3146a43f 100644
---- a/.gitignore
-+++ b/.gitignore
-@@ -57,6 +57,7 @@ modules.order
- /tags
- /TAGS
- /linux
-+/modules-only.symvers
- /vmlinux
- /vmlinux.32
- /vmlinux.map
-diff --git a/Documentation/dontdiff b/Documentation/dontdiff
-index ac42ad8d430d..910b30a2a7d9 100644
---- a/Documentation/dontdiff
-+++ b/Documentation/dontdiff
-@@ -178,6 +178,7 @@ mktables
- mktree
- mkutf8data
- modpost
-+modules-only.symvers
- modules.builtin
- modules.builtin.modinfo
- modules.nsdeps
-diff --git a/Makefile b/Makefile
-index 2b161f5a5a66..ed8bd815e8a3 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1532,7 +1532,7 @@ endif # CONFIG_MODULES
- # make distclean Remove editor backup files, patch leftover files and the like
- 
- # Directories & files removed with 'make clean'
--CLEAN_FILES += include/ksym vmlinux.symvers \
-+CLEAN_FILES += include/ksym vmlinux.symvers modules-only.symvers \
- 	       modules.builtin modules.builtin.modinfo modules.nsdeps \
- 	       compile_commands.json .thinlto-cache
- 
-diff --git a/scripts/Makefile.modpost b/scripts/Makefile.modpost
-index df57e259fac3..3f5b09a09aef 100644
---- a/scripts/Makefile.modpost
-+++ b/scripts/Makefile.modpost
-@@ -68,7 +68,20 @@ else
- ifeq ($(KBUILD_EXTMOD),)
- 
- input-symdump := vmlinux.symvers
--output-symdump := Module.symvers
-+output-symdump := modules-only.symvers
-+
-+quiet_cmd_cat = GEN     $@
-+      cmd_cat = cat $(real-prereqs) > $@
-+
-+ifneq ($(wildcard vmlinux.symvers),)
-+
-+__modpost: Module.symvers
-+Module.symvers: vmlinux.symvers modules-only.symvers FORCE
-+	$(call if_changed,cat)
-+
-+targets += Module.symvers
-+
-+endif
- 
- else
- 
-diff --git a/scripts/mod/modpost.c b/scripts/mod/modpost.c
-index 24725e50c7b4..10c3fba26f03 100644
---- a/scripts/mod/modpost.c
-+++ b/scripts/mod/modpost.c
-@@ -2423,19 +2423,6 @@ static void read_dump(const char *fname)
- 	fatal("parse error in symbol dump file\n");
- }
- 
--/* For normal builds always dump all symbols.
-- * For external modules only dump symbols
-- * that are not read from kernel Module.symvers.
-- **/
--static int dump_sym(struct symbol *sym)
--{
--	if (!external_module)
--		return 1;
--	if (sym->module->from_dump)
--		return 0;
--	return 1;
--}
--
- static void write_dump(const char *fname)
- {
- 	struct buffer buf = { };
-@@ -2446,7 +2433,7 @@ static void write_dump(const char *fname)
- 	for (n = 0; n < SYMBOL_HASH_SIZE ; n++) {
- 		symbol = symbolhash[n];
- 		while (symbol) {
--			if (dump_sym(symbol)) {
-+			if (!symbol->module->from_dump) {
- 				namespace = symbol->namespace;
- 				buf_printf(&buf, "0x%08x\t%s\t%s\t%s\t%s\n",
- 					   symbol->crc, symbol->name,
--- 
-2.27.0
-
+jon
