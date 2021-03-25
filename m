@@ -2,89 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C706C433C1
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 18:15:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7BA3C433C1
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 18:18:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C71C61A34
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 18:15:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5EF24619E4
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 18:18:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229581AbhCYSOn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 14:14:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56042 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230064AbhCYSOa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Mar 2021 14:14:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A1DE619C7;
-        Thu, 25 Mar 2021 18:14:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616696069;
-        bh=oxyM+N+so0rFYRGrbRnF6PmgegUrTBmyPivCzy2qhoI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FRraQm2SjMUDhaq5XyG9CMJTuPSJw/fWskuBxk9m9iAmXMjrCJYyUDb/tKQ3b9PZW
-         Uks0ZD/gH/P3SED7fzVhX5XSF7TkFvkS7XQYYqgSMCVNVbEIDM25jw62US23YHw5oD
-         Mr6KJt+x05RWz6CoRoDFVUvHSHELYcHfeAqrylbPg62shPAhv+Hbz6dvGl+zBr03Qd
-         xfM8pfMMz6pLOCJAkmHTIxq2hIhvAD1DWlyLi9f+yofUs3E56CxggCZ8THJyLh6MRR
-         LsBZk2YsG8ugfuIjShtfz0zEqg1MQp/i/JzvoZNwY2S1FFJNoUKZU7mUe/WR0ho6Cd
-         /5kaN9sBYZlyQ==
-Received: by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1lPUV1-001MlA-AO; Thu, 25 Mar 2021 19:14:27 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Jonathan Corbet" <corbet@lwn.net>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Rob Herring" <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH] kernel-doc: better handle '::' sequences
-Date:   Thu, 25 Mar 2021 19:14:25 +0100
-Message-Id: <2cf44cf1fa42588632735d4fbc8e84304bdc235f.1616696051.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210325184615.08526aed@coco.lan>
-References: <20210325184615.08526aed@coco.lan>
+        id S229676AbhCYSS1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 14:18:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44902 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229629AbhCYSSQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 14:18:16 -0400
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com [IPv6:2607:f8b0:4864:20::82a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6B99C06174A;
+        Thu, 25 Mar 2021 11:18:15 -0700 (PDT)
+Received: by mail-qt1-x82a.google.com with SMTP id h7so2386577qtx.3;
+        Thu, 25 Mar 2021 11:18:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=LAlhghiYAQdF1ZeVykS90mEP5fU8MsPbtOd43fGe81o=;
+        b=QmLTNedXYulGed8Q9vmYpLLGfyXgM4EuiVWcN1DrY1llt7DfjHsx/pmpASbKLxlAOh
+         siSPTR8ToAhRfr/m9GZ+U1g30VTQ/j2/ogTdTtf7oR21leSTpof+vpAdo6/jgDwMnSj3
+         71bJfn4ZkND/Hqdqe+L8kHUktBYEx5r7WOZolW8WzGGEg2+BWh0TKWgtKOaXNCy/44C0
+         fxNnTvC/VuvtZTurNJnAh/HBBAx3TwejHbSA3X6xm6JvUuo/VgOX9eK51Bwq2PLpO4ji
+         mKi7FS1rDQwERR6pMHa+V+ucV7vM96kfjhwsraZqG53+fCLiZcWOrWqGcBKSjaDW+HCI
+         vOMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=LAlhghiYAQdF1ZeVykS90mEP5fU8MsPbtOd43fGe81o=;
+        b=fanyPLdBZ+YtXvfMwqyXLJTCRO637GOBU6vY2ZI4tokiYs+FJZrV4oOi1LzRSmc27Y
+         a0DJa4qVsAocXtNR9YSq2T1hRyuNSRoQwUA1Au8qGMp5vgd6wDo71FmLCpZJR0xFMAyG
+         kCA0b1RlVxjcLNN/IXD8DwDndRJISXWBjVSTDQ8rprVgeYL/0l6W/SEK5sxuhqqeaA26
+         gvwzDvnNiIrEvUqXryJnJ9bE216v64Fq2rF1YwV3D6XxiYnimBh4AfhR0gxEzJY3obIe
+         XP9UAHlkuEPboe+Qr4K49e58UokOlr9qn2RAQToQHBBCdjCYlAmW9wow6OMh+UK/CCqw
+         n9ew==
+X-Gm-Message-State: AOAM531ez8zXSUBDZn3p5LJmPRicn0QceC038y0oeih93gN4sItmoZzy
+        88Ix+5thjYxTh4jnnzu/IJaY1RRNIjBMpPRT
+X-Google-Smtp-Source: ABdhPJyYN5DDjmsIs1uMwA1jClPu+viWhzn0pCMzqKGh/VlrGdxKDWkcaBHkfbtYIEkO4sZk//5t8w==
+X-Received: by 2002:ac8:7215:: with SMTP id a21mr9096103qtp.199.1616696295025;
+        Thu, 25 Mar 2021 11:18:15 -0700 (PDT)
+Received: from Gentoo ([37.19.198.30])
+        by smtp.gmail.com with ESMTPSA id a14sm3972065qtw.80.2021.03.25.11.18.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Mar 2021 11:18:14 -0700 (PDT)
+Date:   Thu, 25 Mar 2021 23:48:07 +0530
+From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        rdunlap@infradead.org
+Subject: Re: [PATCH] docs: sphinx:  Trivial fix of a typo in the file
+ rstFlatTable.py
+Message-ID: <YFzT3/sLrrBrZQhE@Gentoo>
+Mail-Followup-To: Bhaskar Chowdhury <unixbhaskar@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, rdunlap@infradead.org
+References: <20210317102056.3003768-1-unixbhaskar@gmail.com>
+ <877dlv15hu.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="uwfhAObxCzy0VF27"
+Content-Disposition: inline
+In-Reply-To: <877dlv15hu.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Right now, if one of the following headers end with a '::', the
-kernel-doc script will do the wrong thing:
 
-	description|context|returns?|notes?|examples?
+--uwfhAObxCzy0VF27
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 
-The real issue is with examples, as people could try to write
-something like:
+On 11:57 Thu 25 Mar 2021, Jonathan Corbet wrote:
+>Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
+>
+>> s/buidler/builder/
+>>
+>> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+>> ---
+>>  Documentation/sphinx/rstFlatTable.py | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/sphinx/rstFlatTable.py b/Documentation/sphinx/rstFlatTable.py
+>> index a3eea0bbe6ba..1d2b9be6b6c5 100755
+>> --- a/Documentation/sphinx/rstFlatTable.py
+>> +++ b/Documentation/sphinx/rstFlatTable.py
+>> @@ -161,7 +161,7 @@ class ListTableBuilder(object):
+>>          for colwidth in colwidths:
+>>              colspec = nodes.colspec(colwidth=colwidth)
+>>              # FIXME: It seems, that the stub method only works well in the
+>> -            # absence of rowspan (observed by the html buidler, the docutils-xml
+>> +            # absence of rowspan (observed by the html builder, the docutils-xml
+>>              # build seems OK).  This is not extraordinary, because there exists
+>>              # no table directive (except *this* flat-table) which allows to
+>>              # define coexistent of rowspan and stubs (there was no use-case
+>> --
+>
+>This was fixed in your previous patch from March 2.  Bhaskar, please
+>slow down a bit and try not to create needless work for the recipients
+>of your patches, OK?
+>
+Apologies. I am sorry to cause pain to others, this was not true intension of
+the trivial work I am trying to do.
 
-	example::
+I shall be prudent in the future. My sincere apology to gobbles up peoples
+time.
 
-		/* Some C code */
+>Thanks,
+>
+>jon
 
-and this won't be properly evaluated. So, improve the regex
-to not catch '\w+::' regex for the above identifiers.
+--uwfhAObxCzy0VF27
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- scripts/kernel-doc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index cb92d0e1e932..0ecd71477a16 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -392,7 +392,7 @@ my $doc_com_body = '\s*\* ?';
- my $doc_decl = $doc_com . '(\w+)';
- # @params and a strictly limited set of supported section names
- my $doc_sect = $doc_com .
--    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:(.*)';
-+    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:([^:]*)$';
- my $doc_content = $doc_com_body . '(.*)';
- my $doc_block = $doc_com . 'DOC:\s*(.*)?';
- my $doc_inline_start = '^\s*/\*\*\s*$';
--- 
-2.30.2
+iQEzBAABCAAdFiEEnwF+nWawchZUPOuwsjqdtxFLKRUFAmBc09sACgkQsjqdtxFL
+KRWRfQgAxtlSUDaK3PRwydBMzegQn6OqiSVYMtsjm3MTxnxmOMrD7XyGK2Hf0aYC
+1Nf8shTMtygZcL6nmhBB20azXxu3WjdYFGzfKVxXp7q4c5tiLfiOkRGSYAApf6d3
+fj+KDwmSUPKw1Zhd2BznRVZRSakng5iz4mcGzF5IknLEYPh4io3AfY8dep4mbvxE
+jPya3W/AnK2dMcgm2cwE5oYc5QG9qMeyUGdUIk2XrWfxdxuA1b9Qslgv+9Rb1nNH
+XtTRcoTp+HzMPnGYyLE/m9Y1IRxvgd8ICaSoicGoRxMoE2xVKZ4pXPKSHvTNngem
+2v1YAtRvAS3UfjRiwqh0RjIwRGcxGw==
+=y58k
+-----END PGP SIGNATURE-----
 
+--uwfhAObxCzy0VF27--
