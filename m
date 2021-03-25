@@ -2,116 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58371C433C1
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 23:00:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47A8BC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 23:11:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 13D16619BA
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 23:00:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E926C61A14
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 23:11:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231310AbhCYW7p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 18:59:45 -0400
-Received: from mail-ed1-f54.google.com ([209.85.208.54]:35720 "EHLO
-        mail-ed1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231307AbhCYW7T (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 18:59:19 -0400
-Received: by mail-ed1-f54.google.com with SMTP id dm8so4263651edb.2;
-        Thu, 25 Mar 2021 15:59:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Tp2zS05BwtRY3Itowm2uz6iwQX/pxSYd0u71j04Rk6w=;
-        b=Q4tXndfabix/onEl0Urrziy+tK1wh/Mwutt1boQs2n8S2K2bWrT8RUbBwRmWP7OJ24
-         5AeO0E5pavRrkWgc5vlj//vGnNYPoi6cfS09px+TNtKuXX86NBtDz+b89HacXv1DJUXV
-         I4B4wj67ZT1/R0+Pi0E9GbNXuDWoJSvAbTAPx1AaTZxy7Ced4kEDbJiXH7DE5vc01vZ/
-         eZbCYCDv+1LHOej+FBw1FKC8ZVjfc0ZT48R6SnCD118g+NbCZSASe1WeRXjsWiAcJnRW
-         hxnzaE4JRx2F8RmguBFxbR50tqFs+K7PWmOHbCnJXwF9w6txjKg5ors41t0FZ9bgXf8M
-         5kng==
-X-Gm-Message-State: AOAM530czNE0NgMReV7W6vFed6I6cI4KPAMIS36ZUgmj1x30d60TxYan
-        ehUWBtiCVHCbsnIP644PIWVGnEtKhz2K0DiNcpCfhdGiY+E=
-X-Google-Smtp-Source: ABdhPJyUjBKC+uANInwiDCNBJ465jvcT0nnByAHqE7u4iEuERfWG5jkqO2XvR7KsVO6OWdT8g+qvWfndaWNv/O0hF2E=
-X-Received: by 2002:a05:6402:4245:: with SMTP id g5mr11807857edb.306.1616713158061;
- Thu, 25 Mar 2021 15:59:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210221185637.19281-1-chang.seok.bae@intel.com>
- <20210221185637.19281-23-chang.seok.bae@intel.com> <871rc9bl3v.fsf@nanos.tec.linutronix.de>
-In-Reply-To: <871rc9bl3v.fsf@nanos.tec.linutronix.de>
-From:   Len Brown <lenb@kernel.org>
-Date:   Thu, 25 Mar 2021 18:59:06 -0400
-Message-ID: <CAJvTdKkOKOgnmvAiPS6mWVoyAggbOB6hBOqb_tcHYDe8+-X+FQ@mail.gmail.com>
+        id S231273AbhCYXKh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 19:10:37 -0400
+Received: from mga17.intel.com ([192.55.52.151]:19486 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231262AbhCYXKI (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Mar 2021 19:10:08 -0400
+IronPort-SDR: hwRBD3sh3SkbI1M2plZRM+TEFRluYvdkLPHQ8oVkKCiLw3A5Ha13h45XYzak3/QcWkTuYpjJdD
+ H5mhsgi9iqrg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9934"; a="171017323"
+X-IronPort-AV: E=Sophos;i="5.81,278,1610438400"; 
+   d="scan'208";a="171017323"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2021 16:10:07 -0700
+IronPort-SDR: W/sn87selvG3PGPq/9XAOyofUmHDVv0QKzriRgag6gQzF47TM/4+xQhI1cI5lvX3QCgWz2eoM/
+ Lb82YK8NE3Og==
+X-IronPort-AV: E=Sophos;i="5.81,278,1610438400"; 
+   d="scan'208";a="391956358"
+Received: from jeffche1-mobl.amr.corp.intel.com (HELO [10.209.73.71]) ([10.209.73.71])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2021 16:10:06 -0700
 Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to
  control state component support
-To:     Thomas Gleixner <tglx@linutronix.de>
+To:     Len Brown <lenb@kernel.org>, Thomas Gleixner <tglx@linutronix.de>
 Cc:     "Chang S. Bae" <chang.seok.bae@intel.com>,
         Borislav Petkov <bp@suse.de>,
         Andy Lutomirski <luto@kernel.org>,
         Ingo Molnar <mingo@kernel.org>, X86 ML <x86@kernel.org>,
         "Brown, Len" <len.brown@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
         "Liu, Jing2" <jing2.liu@intel.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
         Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+References: <20210221185637.19281-1-chang.seok.bae@intel.com>
+ <20210221185637.19281-23-chang.seok.bae@intel.com>
+ <871rc9bl3v.fsf@nanos.tec.linutronix.de>
+ <CAJvTdKkOKOgnmvAiPS6mWVoyAggbOB6hBOqb_tcHYDe8+-X+FQ@mail.gmail.com>
+From:   Dave Hansen <dave.hansen@intel.com>
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+ z5cecg==
+Message-ID: <b1a8f92d-fd82-6e86-93ff-4ac200080d8c@intel.com>
+Date:   Thu, 25 Mar 2021 16:10:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CAJvTdKkOKOgnmvAiPS6mWVoyAggbOB6hBOqb_tcHYDe8+-X+FQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 20, 2021 at 4:57 PM Thomas Gleixner <tglx@linutronix.de> wrote:
+On 3/25/21 3:59 PM, Len Brown wrote:
+> We call AMX a "simple state feature" -- it actually requires NO KERNEL ENABLING
+> above the generic state save/restore to fully support userspace AMX
+> applications.
+> 
+> While not all ISA extensions can be simple state features, we do expect
+> future features to share this trait, and so we want to be sure that it is simple
+> to update the kernel to turn those features on (and when necessary, off).
 
-> We won't enable features which are unknown ever. Keep that presilicon
-> test gunk where it belongs: In the Intel poison cabinet along with the
-> rest of the code which nobody ever want's to see.
+From some IRC chats with Thomaas and Andy, I think it's safe to say that
+they're not comfortable blindly enabling even our "simple features".  I
+think we're going to need at least some additional architecture to get
+us to a point where everyone will be comfortable.
 
-I agree, it would be irresponsible to enable unvalidated features by default,
-and pre-silicon "test gunk" should be kept out of the upstream kernel.
+For instance, AMX might be "simple", but there are really only kludgy
+ways to get it back to the init state.  Plus, it's *not* simple in that
+state left in the registers can have permanent (as long as the state
+remains) power and performance impact.
 
-This patch series is intended solely to enable fully validated
-hardware features,
-with product quality kernel support.
-
-The reason that the actual AMX feature isn't mentioned until the 16th
-patch in this series
-is because all of the patches before it are generic state save/restore patches,
-that are not actually specific to AMX.
-
-We call AMX a "simple state feature" -- it actually requires NO KERNEL ENABLING
-above the generic state save/restore to fully support userspace AMX
-applications.
-
-While not all ISA extensions can be simple state features, we do expect
-future features to share this trait, and so we want to be sure that it is simple
-to update the kernel to turn those features on (and when necessary, off).
-
-There will be a future CPUID attribute that will help us identify
-future simple-state features.
-For AMX, of course, we simply know.
-
-So after the generic state management support, the kernel enabling of AMX
-is not actually required to run applications.  Just like when a new instruction
-is added that re-uses existing state -- the application or library can check
-CPUID and just use it.  It is a formality (perhaps an obsolete one), that
-we add every feature flag to /proc/cpuid for the "benefit" of userspace.
-
-The reason we propose this cmdline switch is
-1. Ability of customers to disable a feature right away if an issue is found.
-Unlike the CPUid cmdline that works on flags, this is the ability to turn
-off a feature based on its state number.  Ie.  There could be 20 features
-that use the same state, and you can turn them all off at once this way.
-
-2. Ability of customers to enable a feature that is disabled by default
-in their kernel.  Yes, this will taint their kernel (thanks Andy),
-but we have customers that want to run the new feature on day 0
-before they have got a distro update to change the default, and this
-gives them a way to do that.
-
-Yeah, the cmdline syntax is not a user-friendly mnemonic, and I don't know
-that making it so would be an improvement.
-Like the CPUID cmdline, it is precise, it is future-proof, and it is
-used only in special situations.
-
-thanks,
-Len Brown, Intel Open Source Technology Center
+Also, we probably need to expand the "simple" architecture documentation
+a bit.  For instance, we need to promise that things like pkeys which
+can cause kernel exceptions will never be enumerated as "simple".
