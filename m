@@ -2,129 +2,86 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23371C433C1
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 12:17:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3975C433C1
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 12:24:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7FD561A10
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 12:17:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B9740619C7
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 12:24:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229788AbhCYMQm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 08:16:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50196 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230389AbhCYMQT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 08:16:19 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58BBFC06174A;
-        Thu, 25 Mar 2021 05:16:19 -0700 (PDT)
-Received: from ip4d142c50.dynamic.kabel-deutschland.de ([77.20.44.80] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1lPOuM-0005y8-Kz; Thu, 25 Mar 2021 13:16:15 +0100
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1616181657.git.linux@leemhuis.info>
-Subject: Re: [PATCH v3 0/5] docs: reporting-issues: streamline process and
- solve a FIXME
-Message-ID: <c8770353-3d0d-17af-115a-efa4a31fd97b@leemhuis.info>
-Date:   Thu, 25 Mar 2021 13:16:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S230281AbhCYMXl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 08:23:41 -0400
+Received: from out30-130.freemail.mail.aliyun.com ([115.124.30.130]:59508 "EHLO
+        out30-130.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230317AbhCYMXU (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 08:23:20 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R191e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04394;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=9;SR=0;TI=SMTPD_---0UTH2Nd0_1616674997;
+Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UTH2Nd0_1616674997)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 25 Mar 2021 20:23:17 +0800
+Subject: Re: [PATCH 0/8] docs/zh_CN: add cpu-freq translation
+To:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Huacai Chen <chenhuacai@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com,
+        Wu XiangCheng <bobwxc@email.cn>
+References: <20210324150731.4512-1-siyanteng@loongson.cn>
+From:   Alex Shi <alex.shi@linux.alibaba.com>
+Message-ID: <e3a1546e-070b-c9d4-0dc9-e8bc6d67b1ab@linux.alibaba.com>
+Date:   Thu, 25 Mar 2021 20:23:16 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1616181657.git.linux@leemhuis.info>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-BS
+In-Reply-To: <20210324150731.4512-1-siyanteng@loongson.cn>
+Content-Type: text/plain; charset=gbk
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1616674579;95de1c9e;
-X-HE-SMSGID: 1lPOuM-0005y8-Kz
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jonathan!
+Cc Wu Xiangcheng,
 
-On 19.03.21 20:27, Thorsten Leemhuis wrote:
-> This series bundle a few patches that piled up for
-> Documentation/admin-guide/reporting-issues.rst. The main changes are these:
+Hi Yanteng,
 
-Sorry to bring the following up, as I saw you mentioning in another mail
-on linux-doc you have a lot on your plate already. I really would prefer
-to not add something to it, but something came up.
+Thanks for your work! believe we active translators could review
+for each other. :)
 
-My vague hope had been to get this patchset merged for 5.13-rc1 and
-after its release post the text to Greg, Sasha, ksummit-list and LKML
-for a round of really public review. That would make sure at least all
-the important maintainers are aware of the text and have a chance to
-intervene before it gets fully official. Depending on the outcome I had
-hoped to remove the the two last remaining "FIXME" boxes and the "WIP"
-box at the top of reporting-issues.rst for 5.14-rc1 and also remove
-reporting-bugs.rst.
+Thanks!
 
 
-
-
-But a few days ago Konstantin put a visible admonition on the front of
-
-bugzilla.kernel.org that links to the rendered version of
-reporting-issues.rst â€“ for context see
-
-https://lore.kernel.org/lkml/CAMwyc-Sqbkg=VxCWcfRazkGG7vkwEQ43m9Dov_Nawia5MN_oUQ@mail.gmail.com/
-
-And then Tytso brought up that it might be a good time to bless the
-text: https://lore.kernel.org/lkml/YFovanxCgq1lF4Ah@mit.edu/
-
-
-
-That's why I'd like to speed things up a little. But for that it would
-be good to have something from you: a kind of "I like the direction
-where this patch set is heading and I'm optimistic that we get it merged
-for 5.13-rc1" message from you. With something like that I could move
-ahead as outlined above already. Do you maybe have a minute for that?
-
-Ciao, Thorsten
-
-
->  * patch 2/5: tones down 'test vanilla mainline' a little and mention that
-> vendor kernel might be find in some cases if they are close to vanilla. Gets rid
-> of a "FIXME" box.
+ÔÚ 2021/3/24 ÏÂÎç11:07, Yanteng Si Ð´µÀ:
+> This series of patches:
+>  translates Documention/cpu-freq/* into Chinese.
+>  add .../zh_CN/mips to zh_CN index
+>  add .../zh_CN/iio to zh_CN index
+>  add .../zh_CN/riscv to zh_CN index
 > 
->  * patch 5/5: creates a streamlined process for users wanting to report
-> regressions within a stable and longterm kernel series. The existing process is
-> too demanding, complicated and takes too much time for this case. I didn't CC
-> the stable maintainers here, they need to review the whole document anyway once
-> the last few details have been sorted out.
+> Yabteng Si(8):
+> docs/zh_CN: add cpu-freq core.rst translation
+> docs/zh_CN: add cpu-freq cpu-drivers.rst translation
+> docs/zh_CN: add cpu-freq cpufreq-stats.rst translation
+> docs/zh_CN: add cpu-freq index.rst translation
+> docs/zh_CN: add cpu-freq to zh_CN index
+> docs/zh_CN: add mips to zh_CN index
+> docs/zh_CN: add iio to zh_CN index
+> docs/zh_CN: add riscv to zh_CN index
 > 
-> Patch 1/5 are just small fixes I wanted to keep separated. Patch 3/4 and 4/5 are
-> mainly there to make the diff in the last patch of this series easier to read in
-> the review phase. They can easily be squashed into the patches that follow them.
-> 
-> v3:
-> * add patch to fix a typo and an existing style-issue that came up during review
-> that until now handled separately
-> * add related patch that tones down 'test vanilla mainline' a bit
-> * add another patch to make the diff easier to read
-> 
-> v2: https://lore.kernel.org/linux-doc/cover.1615116592.git.linux@leemhuis.info/
-> * initial version, starting straight with v2 to avoid confusion, as one of the
-> patches was submitted earlier already
-> 
-> Thorsten Leemhuis (5):
->   docs: reporting-issues.rst: fix small typos and style issues
->   docs: reporting-issues.rst: tone down 'test vanilla mainline' a little
->   docs: reporting-issues.rst: reorder some steps
->   docs: reporting-issues.rst: duplicate sections for reviewing purposes
->   docs: reporting-issues.rst: improved process esp. for stable
->     regressions
-> 
->  .../admin-guide/reporting-issues.rst          | 832 ++++++++++--------
->  1 file changed, 471 insertions(+), 361 deletions(-)
-> 
-> 
-> base-commit: a8f2a68e42d19e6fc1e0eb6eaef548ef07b19d75
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  Documentation/translations/zh_CN/cpu-freq/core.rst          | 105
+> +++++++++++++++++++++++++++++++++++++++++++++
+>  Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst   | 259
+> +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  Documentation/translations/zh_CN/cpu-freq/cpufreq-stats.rst | 130
+> ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  Documentation/translations/zh_CN/cpu-freq/index.rst         |  45
+> ++++++++++++++++++++
+>  Documentation/translations/zh_CN/index.rst                  |   4 ++
+>  5 files changed, 543 insertions(+)
 > 
