@@ -2,140 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 327F2C433C1
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 20:37:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C524BC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 21:05:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D753561A2A
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 20:37:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77CE661A33
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 21:05:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230208AbhCYUhV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 16:37:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46596 "EHLO mail.kernel.org"
+        id S230255AbhCYVE3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 17:04:29 -0400
+Received: from ms.lwn.net ([45.79.88.28]:52272 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230166AbhCYUhD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Mar 2021 16:37:03 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CA1E061A2A;
-        Thu, 25 Mar 2021 20:37:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616704623;
-        bh=38UUAS8/YRAAI31500fuU6AXi4kkY0DXiEk73cRKSh0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=TGJ1W29MUEJmAn4uSZgxJzNXMin3Njkb5ZH5ZS++OpXoLHzYsv5KCgiu2NXgrNWQy
-         kzBrZoMGqTSxFqudwnxaJMYsBZ4aMz8raziIjeTmjZRvnDV8uH124Ekf8hQ5hZxDHh
-         4A6UAR3W9/aCoCWDIKlha6L36ZYaFTVCTAD+Zb0wZ/s0nxDKK9Zv2OsGb0ZQtlygbS
-         t3a7P+GOU7jQRsxfyz1YoLHx3/kTTFj7Q4F3QTLWHRtsE5U3tmYSs0ixrrbPurcVPo
-         hUFHki0nvN3WAQgwud5XyDxu5o6zGR1ORrZUSpk3WWn4vp+wjaEnp2ZqwQCiDm/8J+
-         pq82w1Xk0CGhw==
-Date:   Thu, 25 Mar 2021 21:36:59 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH v2 0/7] Fix some issues at get_abi.pl script
-Message-ID: <20210325213659.1ae03794@coco.lan>
-In-Reply-To: <87lfabys5h.fsf@meer.lwn.net>
-References: <cover.1616668017.git.mchehab+huawei@kernel.org>
-        <87lfabys5h.fsf@meer.lwn.net>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S229930AbhCYVEB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Mar 2021 17:04:01 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id B9C0D6A2;
+        Thu, 25 Mar 2021 21:04:00 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B9C0D6A2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1616706240; bh=iGv+gy+JQHLdwSA/W99xdBIG7NrXqMxzGHgpi0V8xoI=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=C2xRhDozwuE/9W4G+Ys47QGMv+I4fWco5t/ATvwMaMp4ix+LysEWb+VLxr+jQ7lMv
+         f9QiKith1pPeLUTKEiZDcAszuJV11zNlxQtrDXSMfA7JPW3m44yjjb3xpdjZdTz9VC
+         6sTaZcPb/yOVcNi556/Z60567clHenopFODJDolSaGdR+9v17HmLmST339GkCb8wG3
+         U/luDihWgnJ05H4nyv+3zpLBylgglsljr0OxoOsSWBnTPEZ19wXr1JTSv8GMvZwW9m
+         PR5G/J6IghVOv46bZY77djDJFGNH8s6c7D7v1wE7Z0evThFHYLMUcaWxFclyER8R/7
+         EW3RkOa5dxU2Q==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernel-doc: better handle '::' sequences
+In-Reply-To: <20210325191435.GZ1719932@casper.infradead.org>
+References: <20210325184615.08526aed@coco.lan>
+ <2cf44cf1fa42588632735d4fbc8e84304bdc235f.1616696051.git.mchehab+huawei@kernel.org>
+ <87tuozyslu.fsf@meer.lwn.net>
+ <20210325191435.GZ1719932@casper.infradead.org>
+Date:   Thu, 25 Mar 2021 15:04:00 -0600
+Message-ID: <87a6qrx7wf.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 25 Mar 2021 13:01:14 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
+Matthew Wilcox <willy@infradead.org> writes:
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > This series replace this patch:
-> > 	https://lore.kernel.org/linux-doc/20210324191722.08d352e4@coco.lan/T/#t
-> >
-> > It turns that there were multiple bugs at the get_abi.pl code that
-> > create cross-references.
-> >
-> > Patches 1 to 6 fix those issues, and should apply cleanly on the top of
-> > the docs tree (although I tested against next-20210323).
-> >
-> > Patch 7 is optional, and independent from the other patches. It is meant
-> > to be applied against akpm's tree.  It makes the description (IMHO) 
-> > clearer, while producing cross references for the two mentioned symbols.  
-> 
-> So perhaps this is the best solution to the problem, but I must confess
-> to not being entirely happy with it.  get_abi.pl is becoming another
-> unreadable perlpile like kerneldoc, and this makes it worse.  Doing RST
-> parsing there seems particularly unwelcome.
+> On Thu, Mar 25, 2021 at 12:51:25PM -0600, Jonathan Corbet wrote:
+>> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>>=20
+>> > Right now, if one of the following headers end with a '::', the
+>> > kernel-doc script will do the wrong thing:
+>> >
+>> > 	description|context|returns?|notes?|examples?
+>> >
+>> > The real issue is with examples, as people could try to write
+>> > something like:
+>> >
+>> > 	example::
+>> >
+>> > 		/* Some C code */
+>> >
+>> > and this won't be properly evaluated. So, improve the regex
+>> > to not catch '\w+::' regex for the above identifiers.
+>> >
+>> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>> > ---
+>> >  scripts/kernel-doc | 2 +-
+>> >  1 file changed, 1 insertion(+), 1 deletion(-)
+>>=20
+>> Ah....wouldn't it be nice if kerneldoc comments had just been RST from
+>> the beginning?  I don't think we're fixing that at this point, though,
+>> so this makes sense; applied.
+>
+> Well ...
+>
+> If somebody wants to write a new tool (*) that extracts documentation
+> written in a different format, I think that could be done.  Because the
+> hard part of writing documentation is getting the person who knows the
+> code to get everything that's in their brain into words, not really
+> the formatting.
+>
+> If somebody did want to write such a tool, I think we'd also want a
+> tool that turns the existing kernel-doc into the new format, because
+> maintaining two function-doc formats would be awful.
 
-Nah, it is not that complex ;-) 
-It has 628 lines of code; kernel-doc has 2488. It is 1/4 the size of
-kernel-doc :-D
+Yeah, the thing is that, as long as we're documenting code with
+something other than RST, we *do* have two formats, and they interact
+with each other in surprising and unwelcome ways.
 
-Btw, 20 lines can be removed from it, if we drop support for --no-rst-source. 
-I almost dropped it this time :-)
+I don't really see a fix, though.  Even if we come up with the Perfect
+New Format=E2=84=A2, I don't want to be the one trying to push through the
+patches changing tens of thousands of kerneldoc comments over...
 
-Ah, the entire code that outputs the rst description and does the
-xref has just 34 lines (with 5 lines with comments and 5 blank lines).
-
-It is not much, and some cleanups could be done to make it a little
-shorter.
-
-Most of the script complexity is actually at the parsing part. The
-thing is that the ABI files are somewhat free-style: some files 
-don't strictly follow the format, which requires some extra steps in
-order to cope with some "soft" violations, as well as to report
-problems when the violation is more severe.
-
-> Should the cross-reference generation, it now occurs to me, be done in
-> the automarkup module instead?  Then there's no need to interpret RST,
-> and we'd get cross-references throughout the kernel docs rather than in
-> just the ABI stuff.  Am I completely out to lunch here?
-
-Yes, I guess we can move the Xref code to automarkup some day,
-that is if we can ensure that get_abi.pl will run before automarkup.
-
-There's currently an issue, though. We need first to get rid of those
-duplicated symbols:
-
-	Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:0  Documentation/ABI/testing/sysfs-bus-iio:395
-	Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:1  Documentation/ABI/testing/sysfs-bus-iio:396
-	Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:2  Documentation/ABI/testing/sysfs-bus-iio:397
-	Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_x_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:3  Documentation/ABI/testing/sysfs-bus-iio:398
-	Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_y_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:4  Documentation/ABI/testing/sysfs-bus-iio:399
-	Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_z_calibbias is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-icm42600:5  Documentation/ABI/testing/sysfs-bus-iio:400
-	Warning: /sys/bus/iio/devices/iio:deviceX/in_count0_preset is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:100  Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:0
-	Warning: /sys/bus/iio/devices/iio:deviceX/in_count_quadrature_mode_available is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-counter-104-quad-8:2  Documentation/ABI/testing/sysfs-bus-iio-lptimer-stm32:8
-	Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_frequency is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:0  Documentation/ABI/testing/sysfs-bus-iio:600
-	Warning: /sys/bus/iio/devices/iio:deviceX/out_altvoltageY_powerdown is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4371:36  Documentation/ABI/testing/sysfs-bus-iio:589
-	Warning: /sys/bus/iio/devices/iio:deviceX/out_currentY_raw is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-light-lm3533-als:43  Documentation/ABI/testing/sysfs-bus-iio-health-afe440x:38
-	Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:0  Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:0
-	Warning: /sys/bus/iio/devices/iio:deviceX/out_current_heater_raw_available is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc2010:1  Documentation/ABI/testing/sysfs-bus-iio-humidity-hdc100x:1
-	Warning: /sys/bus/iio/devices/iio:deviceX/sensor_sensitivity is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-distance-srf08:0  Documentation/ABI/testing/sysfs-bus-iio-proximity-as3935:8
-	Warning: /sys/bus/iio/devices/triggerX/sampling_frequency is defined 2 times:  Documentation/ABI/testing/sysfs-bus-iio-timer-stm32:92  Documentation/ABI/testing/sysfs-bus-iio:45
-	Warning: /sys/class/backlight/<backlight>/l1_daylight_max is defined 2 times:  Documentation/ABI/testing/sysfs-class-backlight-adp8860:12  Documentation/ABI/testing/sysfs-class-backlight-driver-adp8870:4
-	Warning: /sys/class/leds/<led>/hw_pattern is defined 2 times:  Documentation/ABI/testing/sysfs-class-led-trigger-pattern:14  Documentation/ABI/testing/sysfs-class-led-driver-sc27xx:0
-	Warning: /sys/class/leds/<led>/repeat is defined 2 times:  Documentation/ABI/testing/sysfs-class-led-trigger-pattern:28  Documentation/ABI/testing/sysfs-class-led-driver-el15203000:0
-	Warning: /sys/kernel/iommu_groups/reserved_regions is defined 2 times:  Documentation/ABI/testing/sysfs-kernel-iommu_groups:15  Documentation/ABI/testing/sysfs-kernel-iommu_groups:27
-
-Right now, get_abi.pl has some logic to allow multiple "What:" with
-identical strings. It does that by adding extra random characters at
-the end of the reference name, and keeping track of them on some
-internal hash tables.
-
-As the hash table is local to the script, an external script won't be
-able to handle it.
-
-Once those gets fixed, we can consider moving the xref code to
-automarkup (although I suspect that this will be a way slower).
-
-Thanks,
-Mauro
+jon
