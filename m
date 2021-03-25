@@ -2,151 +2,79 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2 autolearn=ham
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C203FC433DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4435C433E1
 	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:47:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D1DA61A2C
+	by mail.kernel.org (Postfix) with ESMTP id C2AB661A2E
 	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:47:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229836AbhCYRqn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 13:46:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49454 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229782AbhCYRqU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Mar 2021 13:46:20 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 61159619DC;
-        Thu, 25 Mar 2021 17:46:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616694379;
-        bh=NqcaxGQNN3y04oxah4IgioEU5ngdI0w2S2E0zJ8cgNA=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=oFk3i/J39hQr5+zrlxG9dlrr3edZxLzG4glenAyeBHcdshcLcmHYy8ujy8E52lCyX
-         24X0K1OTwHZknX/dqlSoPMkXazFXEH81A/SPbOttp2xw95tP6HexYV9HWpxhKqdRr+
-         +WvVrRIvuUUA7zFHBFNEsmxS8dtTWvQJISYpDc9NCAgxeoyRiod5f8XmcT/wVFerko
-         tYaMgd/4bZJvUrhA57tjLrL1W/uuvdD+ARzfZClEkVFehuz2M3P6i8FayoXo6Vo7+Z
-         OwZJCy0tIQNz0ffSgllOCHg+fXsYf/FGpWjDVstVtHczM/WPWEitmAkDs9GlIvzxAN
-         XAHexXDLJ8dQA==
-Date:   Thu, 25 Mar 2021 18:46:15 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Frank Rowand <frowand.list@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 6/8] of: Fix kerneldoc output formatting
-Message-ID: <20210325184615.08526aed@coco.lan>
-In-Reply-To: <20210325164713.1296407-7-robh@kernel.org>
-References: <20210325164713.1296407-1-robh@kernel.org>
-        <20210325164713.1296407-7-robh@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S229547AbhCYRqm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 13:46:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37994 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229836AbhCYRqV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 13:46:21 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EDDDC06174A
+        for <linux-doc@vger.kernel.org>; Thu, 25 Mar 2021 10:46:20 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5E46131A;
+        Thu, 25 Mar 2021 17:46:20 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5E46131A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1616694380; bh=BFaDPUOdW9FA0ccZJmuKWWofud43FsHa/9PrWBWOi18=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ekEfAaoEaCxk5LBVXRxlMDxy6D5U5N8s/cUSmRFhVKVIiM8ZUT0wTQ5HFKzSez4gD
+         3nGLZdi//CzZ4Yzb2B5f68H3mwghlZ2IEhO4IaJSfSZwvAd/AT69z+mdkyxPHjAVCQ
+         AYd73eVLampCAVY8bCnQml8B4jAfoeQXXH6ETYer4E45O7NGJMrXSEqDIU1XXcyjrX
+         uGWh9GIDuo4/KJge/e85ig9+feBISi93UkyigLWz9t2q7GrkG7zWdGdhsrFI0W8+I9
+         6GPzVC31zCVqSDhU0/7PKhiGY5P0kzRhsbB/QsMV5fYGO8+/1JnuKaFcEnR84Lw/DL
+         uktKaLgXXGrHQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Wu XiangCheng <bobwxc@email.cn>,
+        Alex Shi <alex.shi@linux.alibaba.com>
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] docs/zh_CN: Add translations in zh_CN/kernel-hacking/
+In-Reply-To: <20210323091651.GA23904@mipc>
+References: <20210322143743.GA7820@mipc> <20210323091651.GA23904@mipc>
+Date:   Thu, 25 Mar 2021 11:46:19 -0600
+Message-ID: <87wntv15zo.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 25 Mar 2021 10:47:11 -0600
-Rob Herring <robh@kernel.org> escreveu:
+Wu XiangCheng <bobwxc@email.cn> writes:
 
-> The indentation of the kerneldoc comments affects the output formatting.
-> Leading tabs in particular don't work, and sections need to be indented
-> under the section header.
-> 
-> The example snippets for DT source in the comments still have some
-> formatting issues, but there doesn't seem to be any way to do multi-line
-> literal blocks in kerneldoc.
-> 
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Signed-off-by: Rob Herring <robh@kernel.org>
+> Add new translations
+>
+> * Documentation/translations/zh_CN/kernel-hacking/index.rst
+> * Documentation/translations/zh_CN/kernel-hacking/hacking.rst
+>
+> And link them to zh_CN/index.rst.
+>
+> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
 > ---
-> 
-> Note the dts examples still cause warnings. I couldn't find any way to 
-> do a literal block and fix them. Minimally, there needs to be a way to 
-> escape ':' and not create sections:
-> 
-> Documentation/devicetree/kernel-api:11: ../drivers/of/base.c:1466: WARNING: Definition list ends without a blank line; unexpected unindent.
+> v2:
+> Correct typos in commit message.
+> Modified some words under Alex Shi's suggestions.
+> Specific changes between v1~v2 see <http://fars.ee/9fr7/diff>
+>
+>  Documentation/translations/zh_CN/index.rst    |   1 +
+>  .../zh_CN/kernel-hacking/hacking.rst          | 708 ++++++++++++++++++
+>  .../zh_CN/kernel-hacking/index.rst            |  22 +
+>  3 files changed, 731 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/kernel-hacking/hacking.rst
+>  create mode 100644 Documentation/translations/zh_CN/kernel-hacking/index.rst
 
-You can do something like this:
+Applied, thanks.
 
-/**
- * of_parse_phandle_with_args() - Find a node pointed by phandle in a list
- * @np:		pointer to a device tree node containing a list
- * @list_name:	property name that contains a list
- * @cells_name:	property name that specifies phandles' arguments count
- * @index:	index of a phandle to parse out
- * @out_args:	optional pointer to output arguments structure (will be filled)
- *
- * This function is useful to parse lists of phandles and their arguments.
- * Returns 0 on success and fills out_args, on error returns appropriate
- * errno value.
- *
- * Caller is responsible to call of_node_put() on the returned out_args->np
- * pointer.
- *
- * For example::
- *
- *	phandle1: node1 {
- *		#list-cells = <2>;
- *	};
- *
- *	phandle2: node2 {
- *		#list-cells = <1>;
- *	};
- *
- *	node3 {
- *		list = <&phandle1 1 2 &phandle2 3>;
- *	};
- *
- * To get a device_node of the ``node2`` node you may call this:
- * of_parse_phandle_with_args(node3, "list", "#list-cells", 1, &args);
- */
-
-
-The problem is that using just:
-
-/**
- ...
- * Example::
- ...
-
-Would make confusion with an existing regex at kernel-doc script that
-parses a regex similar to this:
-
-	\*\s+(\w+):
-
-Into:
-	**$1**
-
-So, using two words fix the issue.
-
-Granted, this is something that could be improved at kernel-doc with
-something like (untested):
-
-<snip>
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index cb92d0e1e932..cea82e004fce 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -392,7 +392,7 @@ my $doc_com_body = '\s*\* ?';
- my $doc_decl = $doc_com . '(\w+)';
- # @params and a strictly limited set of supported section names
- my $doc_sect = $doc_com .
--    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:(.*)';
-+    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:([^:]*)$';
- my $doc_content = $doc_com_body . '(.*)';
- my $doc_block = $doc_com . 'DOC:\s*(.*)?';
- my $doc_inline_start = '^\s*/\*\*\s*$';
-</snip>
-
-I'll run some tests if the above works and submit a separate patch
-addressing it, likely tomorrow.
-
-Thanks,
-Mauro
+jon
