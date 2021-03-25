@@ -2,82 +2,89 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1EADC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:58:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C706C433C1
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 18:15:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A9CB161A33
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:58:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C71C61A34
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 18:15:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230046AbhCYR52 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 13:57:28 -0400
-Received: from ms.lwn.net ([45.79.88.28]:45092 "EHLO ms.lwn.net"
+        id S229581AbhCYSOn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 14:14:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56042 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230009AbhCYR5C (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Mar 2021 13:57:02 -0400
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 535256A2;
-        Thu, 25 Mar 2021 17:57:02 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 535256A2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1616695022; bh=yeEA3l06qlC6l30C1E9Uq5HCWKl9+nik4n17LBkoWyQ=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=NJ2IV830oOhY0bldr3HdsthczGADNjQiEVmLT+vIsyzQctzMpBHHYaij+YrArZGQn
-         p56PEmyuKeFyei6Rr/jRgA68Knp1Q+xE2LvuJesK3gakulxNFeAgoMG6uZ7A1N899r
-         5F+TiRjCYO9s61izH+UhMrZfNwtRr+xBheiXNZRGat4VzJuMB7K0963jZssGaYt2L5
-         Fem4eUe5PSnCzjQ2IzEhc3+cv6SSxPaHIrgyMJEH/Sya1s96FG+jt1levJh/+A559q
-         uB/ANnYYxUxjLwPZ5zAZs++4DAOihThIr9EVY6nRTafDCMjTBR8ToyU0xZ4Djb85a3
-         a2JTXGpid1eXw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, unixbhaskar@gmail.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     rdunlap@infradead.org
-Subject: Re: [PATCH] docs: sphinx:  Trivial fix of a typo in the file
- rstFlatTable.py
-In-Reply-To: <20210317102056.3003768-1-unixbhaskar@gmail.com>
-References: <20210317102056.3003768-1-unixbhaskar@gmail.com>
-Date:   Thu, 25 Mar 2021 11:57:01 -0600
-Message-ID: <877dlv15hu.fsf@meer.lwn.net>
+        id S230064AbhCYSOa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Mar 2021 14:14:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A1DE619C7;
+        Thu, 25 Mar 2021 18:14:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616696069;
+        bh=oxyM+N+so0rFYRGrbRnF6PmgegUrTBmyPivCzy2qhoI=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=FRraQm2SjMUDhaq5XyG9CMJTuPSJw/fWskuBxk9m9iAmXMjrCJYyUDb/tKQ3b9PZW
+         Uks0ZD/gH/P3SED7fzVhX5XSF7TkFvkS7XQYYqgSMCVNVbEIDM25jw62US23YHw5oD
+         Mr6KJt+x05RWz6CoRoDFVUvHSHELYcHfeAqrylbPg62shPAhv+Hbz6dvGl+zBr03Qd
+         xfM8pfMMz6pLOCJAkmHTIxq2hIhvAD1DWlyLi9f+yofUs3E56CxggCZ8THJyLh6MRR
+         LsBZk2YsG8ugfuIjShtfz0zEqg1MQp/i/JzvoZNwY2S1FFJNoUKZU7mUe/WR0ho6Cd
+         /5kaN9sBYZlyQ==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lPUV1-001MlA-AO; Thu, 25 Mar 2021 19:14:27 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Jonathan Corbet" <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Rob Herring" <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH] kernel-doc: better handle '::' sequences
+Date:   Thu, 25 Mar 2021 19:14:25 +0100
+Message-Id: <2cf44cf1fa42588632735d4fbc8e84304bdc235f.1616696051.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210325184615.08526aed@coco.lan>
+References: <20210325184615.08526aed@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
+Right now, if one of the following headers end with a '::', the
+kernel-doc script will do the wrong thing:
 
-> s/buidler/builder/
->
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
-> ---
->  Documentation/sphinx/rstFlatTable.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/sphinx/rstFlatTable.py b/Documentation/sphinx/rstFlatTable.py
-> index a3eea0bbe6ba..1d2b9be6b6c5 100755
-> --- a/Documentation/sphinx/rstFlatTable.py
-> +++ b/Documentation/sphinx/rstFlatTable.py
-> @@ -161,7 +161,7 @@ class ListTableBuilder(object):
->          for colwidth in colwidths:
->              colspec = nodes.colspec(colwidth=colwidth)
->              # FIXME: It seems, that the stub method only works well in the
-> -            # absence of rowspan (observed by the html buidler, the docutils-xml
-> +            # absence of rowspan (observed by the html builder, the docutils-xml
->              # build seems OK).  This is not extraordinary, because there exists
->              # no table directive (except *this* flat-table) which allows to
->              # define coexistent of rowspan and stubs (there was no use-case
-> --
+	description|context|returns?|notes?|examples?
 
-This was fixed in your previous patch from March 2.  Bhaskar, please
-slow down a bit and try not to create needless work for the recipients
-of your patches, OK?
+The real issue is with examples, as people could try to write
+something like:
 
-Thanks,
+	example::
 
-jon
+		/* Some C code */
+
+and this won't be properly evaluated. So, improve the regex
+to not catch '\w+::' regex for the above identifiers.
+
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ scripts/kernel-doc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index cb92d0e1e932..0ecd71477a16 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -392,7 +392,7 @@ my $doc_com_body = '\s*\* ?';
+ my $doc_decl = $doc_com . '(\w+)';
+ # @params and a strictly limited set of supported section names
+ my $doc_sect = $doc_com .
+-    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:(.*)';
++    '\s*(\@[.\w]+|\@\.\.\.|description|context|returns?|notes?|examples?)\s*:([^:]*)$';
+ my $doc_content = $doc_com_body . '(.*)';
+ my $doc_block = $doc_com . 'DOC:\s*(.*)?';
+ my $doc_inline_start = '^\s*/\*\*\s*$';
+-- 
+2.30.2
+
