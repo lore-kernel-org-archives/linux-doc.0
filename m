@@ -7,43 +7,46 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFF70C433C1
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 10:39:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D879C433E6
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 10:39:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B2CC561A28
+	by mail.kernel.org (Postfix) with ESMTP id DC94261A30
 	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 10:39:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230217AbhCYKiu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 06:38:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53538 "EHLO mail.kernel.org"
+        id S230230AbhCYKiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 06:38:51 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53580 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230160AbhCYKic (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 25 Mar 2021 06:38:32 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D49E561A27;
+        id S230173AbhCYKid (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Mar 2021 06:38:33 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DA47661A2C;
         Thu, 25 Mar 2021 10:38:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1616668712;
-        bh=KwApZJ8/w2jfzVZqqaL0ukDm8pZipSoobTwxn4qEIQA=;
+        bh=wrrYLBWnyLJ2Nn2/jedot7XUqegfjMKZxIQEc4fg+/w=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cJCSdHy+9UxKXeOk2/OoPxU+d6t4na3ea0UkLRTbJQsHdASjpYJNY2jpQWACJw7sE
-         9b0g77BMrDyMGSEOOy1nMYZkoZouwgxMyruYM5qS4MBRJ+glH5gz17FEYOIi4DsFfo
-         ALDqSR3oJ/2eKSDQuy4ONGY2UsheVE13tD+QnyHoDqta2NYKU0OgaijIG11jfGajqk
-         ckZfoWd9fsajcl9mWxf4S0GoGf3nVSI8VfwZJNVk85L9Fn/k0eGWPxuB4rCeZGq8fx
-         jLKPrt15SRS5A2xeyJ/ku/Iw9Nd5vvdrzuWA3bAn66WS0iA3z5H5wxUymnPWAfVIKB
-         JWjFSheHH4xKQ==
+        b=FEY8vW+9Slf6gLgA+h2dXSozXcZ8+eEiWspQtnx9c85U12GrG9sU0q89tVF/HRMtm
+         eOj6ywd0K7eK3wP44zXryqUv1h6wOdPTGbEAUfihqIkRjxVDE5ZpUEy1DSZ+F4NfHE
+         k6Q/iaLmlZYKCJgErGU4g+9unFfqVKTBnPwXz3Xo6LGiZhuul2aWy+0E1WWJ6/eRxC
+         KWwJAqbWLghTYisJH/lqYnqXzAwlnKB8MkDo4PVfVXW3SevTHBns7U8uRw2z9A8hdz
+         UZvNxeC7IdkYw+TkCxyAB5LzZlTGcmXH6EtKrY+9F/cwommMyOp0f9GwKvQ962e9d8
+         vxCYrj0EIBNXw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lPNNl-001AvS-5R; Thu, 25 Mar 2021 11:38:29 +0100
+        id 1lPNNl-001Avg-CW; Thu, 25 Mar 2021 11:38:29 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Minchan Kim <minchan@kernel.org>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/7] scripts: get_abi.pl: better handle escape chars on what:
-Date:   Thu, 25 Mar 2021 11:38:22 +0100
-Message-Id: <29cb56def89b508fe605bcd2ba74a4376cc08e35.1616668017.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 7/7] ABI: sysfs-kernel-mm-cma: fix two cross-references
+Date:   Thu, 25 Mar 2021 11:38:28 +0100
+Message-Id: <87907316390311c6b42e86c3ba9fb2f2903d9499.1616668017.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1616668017.git.mchehab+huawei@kernel.org>
 References: <cover.1616668017.git.mchehab+huawei@kernel.org>
@@ -54,53 +57,34 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The parser for the symbols defined on What: doesn't cover all
-chars that need to be scaped, like '{' and '}'. Change the logic
-to be more generic, and ensure that the same regex will be used
-on both What: and when parsing the cross-references.
+Change the text in order to generate cross-references for
+alloc_pages_success and alloc_pages_fail symbols.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/get_abi.pl | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ Documentation/ABI/testing/sysfs-kernel-mm-cma | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index 92d9aa6cc4f5..a9348b9bdaa4 100755
---- a/scripts/get_abi.pl
-+++ b/scripts/get_abi.pl
-@@ -283,6 +283,7 @@ sub create_labels {
+diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-cma b/Documentation/ABI/testing/sysfs-kernel-mm-cma
+index 02b2bb60c296..86e261185561 100644
+--- a/Documentation/ABI/testing/sysfs-kernel-mm-cma
++++ b/Documentation/ABI/testing/sysfs-kernel-mm-cma
+@@ -5,12 +5,10 @@ Description:
+ 		/sys/kernel/mm/cma/ contains a subdirectory for each CMA
+ 		heap name (also sometimes called CMA areas).
  
- # \b doesn't work well with paths. So, we need to define something else
- my $bondary = qr { (?<![\w\/\`\{])(?=[\w\/\`\{])|(?<=[\w\/\`\{])(?![\w\/\`\{]) }x;
-+my $symbols = qr { ([\x01-\x08\x0e-\x1f\x21-\x2f\x3a-\x40\x7b-\xff]) }x;
+-		Each CMA heap subdirectory (that is, each
+-		/sys/kernel/mm/cma/<cma-heap-name> directory) contains the
+-		following items:
++		Each CMA heap subdirectory contains the following items:
  
- sub output_rest {
- 	create_labels();
-@@ -305,7 +306,6 @@ sub output_rest {
- 		}
+-			alloc_pages_success
+-			alloc_pages_fail
++			- /sys/kernel/mm/cma/<cma-heap-name>/alloc_pages_success
++			- /sys/kernel/mm/cma/<cma-heap-name>/alloc_pages_fail
  
- 		my $w = $what;
--		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
- 
- 		if ($type ne "File") {
- 			my $cur_part = $what;
-@@ -329,6 +329,7 @@ sub output_rest {
- 			my $len = 0;
- 
- 			foreach my $name (@names) {
-+				$name =~ s/$symbols/\\$1/g;
- 				$name = "**$name**";
- 				$len = length($name) if (length($name) > $len);
- 			}
-@@ -395,7 +396,7 @@ sub output_rest {
- 					if (defined($data{$s}) && defined($data{$s}->{label})) {
- 						my $xref = $s;
- 
--						$xref =~ s/([\x00-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])/\\$1/g;
-+						$xref =~ s/$symbols/\\$1/g;
- 						$xref = ":ref:`$xref <" . $data{$s}->{label} . ">`";
- 
- 						$desc =~ s,$bondary$s$bondary,$xref,g;
+ What:		/sys/kernel/mm/cma/<cma-heap-name>/alloc_pages_success
+ Date:		Feb 2021
 -- 
 2.30.2
 
