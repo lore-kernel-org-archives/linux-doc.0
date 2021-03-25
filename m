@@ -2,54 +2,52 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D879C433E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A34EC433E9
 	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 10:39:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DC94261A30
+	by mail.kernel.org (Postfix) with ESMTP id F2B6361A2D
 	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 10:39:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230230AbhCYKiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S230224AbhCYKiv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 25 Mar 2021 06:38:51 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53580 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:53598 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230173AbhCYKid (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S230174AbhCYKid (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 25 Mar 2021 06:38:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id DA47661A2C;
-        Thu, 25 Mar 2021 10:38:31 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8FC9561A34;
+        Thu, 25 Mar 2021 10:38:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1616668712;
-        bh=wrrYLBWnyLJ2Nn2/jedot7XUqegfjMKZxIQEc4fg+/w=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FEY8vW+9Slf6gLgA+h2dXSozXcZ8+eEiWspQtnx9c85U12GrG9sU0q89tVF/HRMtm
-         eOj6ywd0K7eK3wP44zXryqUv1h6wOdPTGbEAUfihqIkRjxVDE5ZpUEy1DSZ+F4NfHE
-         k6Q/iaLmlZYKCJgErGU4g+9unFfqVKTBnPwXz3Xo6LGiZhuul2aWy+0E1WWJ6/eRxC
-         KWwJAqbWLghTYisJH/lqYnqXzAwlnKB8MkDo4PVfVXW3SevTHBns7U8uRw2z9A8hdz
-         UZvNxeC7IdkYw+TkCxyAB5LzZlTGcmXH6EtKrY+9F/cwommMyOp0f9GwKvQ962e9d8
-         vxCYrj0EIBNXw==
+        bh=X0vm2TLnRzBGMIydCGUugGZKPvObtv5gLOJmeJk0Qlw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=FYt1/yOjJOvCsxXXqmK7/tmPgEdUp0R/Ch8/HITm8wFIUaUJsTUZYGmIpuaRYgM16
+         NwCQQungNwfHor3q1N/5Dg0nZ49V0FDX+nuKyEEB7cNfrA9DvdSvE5wuEIgp6vKjzO
+         R56BMiOox/hfEd/EA3K4U2uZYDavUDbglizWIC0UQ97hPk/0ji+yvRVDzpKRbENvKR
+         y+Z+MHAGxK0W7q6KDUWkayZ5yLbugi6+Uskf7SO6mEMXkxjD93vzSUYy6CVgdydHKO
+         F0DOJvuB6MW1SlKnXT5TJjvn7ILH+mns+Gd9dYtJOKH3bbOYNH+mzh4AjAdfDq8hyP
+         jIKVwfuyhiljw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lPNNl-001Avg-CW; Thu, 25 Mar 2021 11:38:29 +0100
+        id 1lPNNl-001AvQ-4U; Thu, 25 Mar 2021 11:38:29 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
         Andrew Morton <akpm@linux-foundation.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         John Hubbard <jhubbard@nvidia.com>,
         Minchan Kim <minchan@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 7/7] ABI: sysfs-kernel-mm-cma: fix two cross-references
-Date:   Thu, 25 Mar 2021 11:38:28 +0100
-Message-Id: <87907316390311c6b42e86c3ba9fb2f2903d9499.1616668017.git.mchehab+huawei@kernel.org>
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH v2 0/7] Fix some issues at get_abi.pl script
+Date:   Thu, 25 Mar 2021 11:38:21 +0100
+Message-Id: <cover.1616668017.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1616668017.git.mchehab+huawei@kernel.org>
-References: <cover.1616668017.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -57,34 +55,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change the text in order to generate cross-references for
-alloc_pages_success and alloc_pages_fail symbols.
+This series replace this patch:
+	https://lore.kernel.org/linux-doc/20210324191722.08d352e4@coco.lan/T/#t
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/ABI/testing/sysfs-kernel-mm-cma | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+It turns that there were multiple bugs at the get_abi.pl code that
+create cross-references.
 
-diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-cma b/Documentation/ABI/testing/sysfs-kernel-mm-cma
-index 02b2bb60c296..86e261185561 100644
---- a/Documentation/ABI/testing/sysfs-kernel-mm-cma
-+++ b/Documentation/ABI/testing/sysfs-kernel-mm-cma
-@@ -5,12 +5,10 @@ Description:
- 		/sys/kernel/mm/cma/ contains a subdirectory for each CMA
- 		heap name (also sometimes called CMA areas).
- 
--		Each CMA heap subdirectory (that is, each
--		/sys/kernel/mm/cma/<cma-heap-name> directory) contains the
--		following items:
-+		Each CMA heap subdirectory contains the following items:
- 
--			alloc_pages_success
--			alloc_pages_fail
-+			- /sys/kernel/mm/cma/<cma-heap-name>/alloc_pages_success
-+			- /sys/kernel/mm/cma/<cma-heap-name>/alloc_pages_fail
- 
- What:		/sys/kernel/mm/cma/<cma-heap-name>/alloc_pages_success
- Date:		Feb 2021
+Patches 1 to 6 fix those issues, and should apply cleanly on the top of
+the docs tree (although I tested against next-20210323).
+
+Patch 7 is optional, and independent from the other patches. It is meant
+to be applied against akpm's tree.  It makes the description (IMHO) 
+clearer, while producing cross references for the two mentioned symbols.
+
+The fix patches are:
+
+patch 1: fix some regexes that match the symbols that need to be
+  escaped when parsing "What:". The same regex is also used when
+  generating cross-references;
+
+patch 2: makes the check for Documentation/ABI references more
+  robust, as right now, it stops at the first occurrence;
+
+patch 3: fix the parser for /sys/foo -> xref conversion. Basically,
+  the logic that seeks for start and end boundaries were broken.
+  The new logic is a way more robust.
+
+patch 4: generate cross-references for /config/foo and other less
+  common ABI occurrences;
+
+patch 5 and 6: don't generate cross-references inside literal blocks.
+  Right now, there are a couple of places that would otherwise
+  generate references, producing a bad output.
+
+Mauro Carvalho Chehab (7):
+  scripts: get_abi.pl: better handle escape chars on what:
+  get_abi.pl: seek for all occurrences for Documentation/ABI
+  get_abi.pl: fix xref boundaries
+  scripts: get_abi.pl: extend xref match to other types
+  scripts: get_abi.pl: parse description line per line
+  scripts: get_abi: ignore code blocks for cross-references
+  ABI: sysfs-kernel-mm-cma: fix two cross-references
+
+ Documentation/ABI/testing/sysfs-kernel-mm-cma |  8 +-
+ scripts/get_abi.pl                            | 76 +++++++++++++------
+ 2 files changed, 57 insertions(+), 27 deletions(-)
+
 -- 
 2.30.2
+
 
