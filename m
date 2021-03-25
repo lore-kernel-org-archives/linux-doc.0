@@ -2,97 +2,146 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE89DC433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 06:57:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D362CC433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 07:02:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7F49761A1F
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 06:57:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A36BC61A2D
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 07:02:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229547AbhCYG5M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 02:57:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37438 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbhCYG5B (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 02:57:01 -0400
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5E55C06174A;
-        Wed, 24 Mar 2021 23:57:01 -0700 (PDT)
-Received: by mail-qv1-xf31.google.com with SMTP id q12so660990qvc.8;
-        Wed, 24 Mar 2021 23:57:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Uz6+kiBviuADJ12mOaLUJGMa1maUKwbLwzWTG0awX6g=;
-        b=aPtolmZMXtgEMHeNL0W2eAbipeKtb1wiB54OMg1wru+cRPm9lLuR0SvSLB6tFX5ghG
-         j+RbM6F+3f8iiOnuxQJlr9Wrn7o9y0r8bMoKYDP1+MRlSjPyTfNmrrt+IFAxe2pfze+3
-         WRRfsnfWWcvYK+ZbmJ1TXLH3ahjDmrVD198y6Bdx2Qu7GUcGaSkAyrHl3HPAwAQZGDfe
-         Ivas5jUwbBXssDO//8I/A9Xs5vqujpgp5tzCl+6rjY8e+tEbtOApgZIWB+AOPaz2BXcf
-         VdZkZ6LUcviJAVAxKqINDBnkGcivgjylHtK0JfAG3sRBPdDzw7FGl2d5aAF4uk3FdlwO
-         PpHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Uz6+kiBviuADJ12mOaLUJGMa1maUKwbLwzWTG0awX6g=;
-        b=m5DIkJSpRiTWvQMbVdZpsDuzrnx+0vQ0Fs6Ocqbyl0gU6jiKQOe9JFZbIjg/CRf4SW
-         AguSQTAKjdeU/dQh2hbfczx5MbyNKIW5TnYq8B+D3g4cav+Hh+5HCAN09o9H3HZ2MGCM
-         Up7We8QMIzKOpb8vglbq6Rb0SRDLQ4ry1RPlyEHRm9pfkpla8d6NdPUDECUEcu1xo/P8
-         xUC52LozRysg4DIIFouUhl3E35jQsJWrVDYNWTH38mZeptTJKv4Vv9dglqAL2YkoKtZ4
-         thTuKOGgMcUao/NRBdDMjiYizIOzvwAX+LglNRYxJ9rBh5Fwq6oC4sR4ddEfmlnrSKbp
-         lpdg==
-X-Gm-Message-State: AOAM530qkBTK/++dMRymhSSf0CrYpdB1s8F2W4oggBaFrp0eGpxSRsYa
-        gPduWIgD+275XjoQm5nGMN8=
-X-Google-Smtp-Source: ABdhPJwTHT9EKSzEHs1YGEdnDQj+8CaWntlEw6epe6B1bt0olFY77jYP/IYCbR34li588SrnFkb70A==
-X-Received: by 2002:a05:6214:10ca:: with SMTP id r10mr48944qvs.53.1616655421128;
-        Wed, 24 Mar 2021 23:57:01 -0700 (PDT)
-Received: from localhost.localdomain ([156.146.58.54])
-        by smtp.gmail.com with ESMTPSA id a138sm3532591qkg.29.2021.03.24.23.56.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Mar 2021 23:57:00 -0700 (PDT)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     jpoimboe@redhat.com, jikos@kernel.org, mbenes@suse.cz,
-        pmladek@suse.com, joe.lawrence@redhat.com, corbet@lwn.net,
-        live-patching@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     rdunlap@infradead.org, Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] docs: livepatch: Fix a typo
-Date:   Thu, 25 Mar 2021 12:26:46 +0530
-Message-Id: <20210325065646.7467-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.30.1
+        id S229664AbhCYHCB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 03:02:01 -0400
+Received: from conssluserg-05.nifty.com ([210.131.2.90]:27216 "EHLO
+        conssluserg-05.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229461AbhCYHBa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 03:01:30 -0400
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172]) (authenticated)
+        by conssluserg-05.nifty.com with ESMTP id 12P71Eji000576;
+        Thu, 25 Mar 2021 16:01:15 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com 12P71Eji000576
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1616655675;
+        bh=35qK+TDUWH89XFuOlT4Ceqr1ByyKjN1HXv9JJtPoq+g=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=oV0ah/M8nbV4SL9InNpQBg3Kj8vCLpbHUESpOD5H3E9hNDIHqTlfhOlJFuzQw6ZwE
+         06p8an8PfpN6K5Y1GVTiEK95Zt9EdO3D1kQNDzrrW9UClGaugyGMbieWQEyNKffr5n
+         iFFz8PBtq0MMFruArb+Z1PX7zhmy411gG/D0Mvb2YSaAJpZdFHnVU1ZPDyPbyWNBF7
+         N7R9NQqGERe5wP9SQmf0p//hkopXNtnzoqHYQDYUyB0LY/4ng9RWmGVHp+HCl2neME
+         ttdvdnBaOcGxY/KU57Zxcoion88GVwp4xctsVQW+Z0QT4na165Wqll5NAuG0xMoA32
+         4H1U+/G6pJb7w==
+X-Nifty-SrcIP: [209.85.210.172]
+Received: by mail-pf1-f172.google.com with SMTP id y200so1067160pfb.5;
+        Thu, 25 Mar 2021 00:01:15 -0700 (PDT)
+X-Gm-Message-State: AOAM533E0MultMW8Axb7uUd79JuqnvwXIObq8kHQJ5FTZLFp/DZCvEWL
+        2JE+m/E378g1coAOQ/IKZvCJcguxk+oF9pVTNv8=
+X-Google-Smtp-Source: ABdhPJyDnD+j2Knq2ABvomoL1uB8X0ToT40elNI9VXKPYbw3O2SGfqeNYXYsoFTSEcMGScs3+88x3bO1ccVarpfmYKU=
+X-Received: by 2002:a65:41c6:: with SMTP id b6mr6182669pgq.7.1616655674402;
+ Thu, 25 Mar 2021 00:01:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <16043769.gqpzGLO8mG@pinwheel> <20200703073143.423557-1-danny@kdrag0n.dev>
+ <20200703062950.5e8c1785@lwn.net> <9486d1ab-580a-0819-10c9-a62354a255e1@rasmusvillemoes.dk>
+In-Reply-To: <9486d1ab-580a-0819-10c9-a62354a255e1@rasmusvillemoes.dk>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Thu, 25 Mar 2021 16:00:37 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAQ+M5Cn84tkEAiLDoyaKmrG-cFOyUjPgFC2+ksDGHn3vQ@mail.gmail.com>
+Message-ID: <CAK7LNAQ+M5Cn84tkEAiLDoyaKmrG-cFOyUjPgFC2+ksDGHn3vQ@mail.gmail.com>
+Subject: Re: [PATCH v2] editorconfig: Add automatic editor configuration file
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Danny Lin <danny@kdrag0n.dev>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Whitcroft <apw@canonical.com>,
+        Joe Perches <joe@perches.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Mar 24, 2021 at 8:01 PM Rasmus Villemoes
+<linux@rasmusvillemoes.dk> wrote:
+>
+> On 03/07/2020 14.29, Jonathan Corbet wrote:
+>
+> [doing a bit of necromancy here]
+>
+> > On Fri,  3 Jul 2020 00:31:43 -0700
+> > Danny Lin <danny@kdrag0n.dev> wrote:
+> >
+> >> EditorConfig is a standard for defining basic editor configuration in
+> >> projects. There is support available for 47 code editors as of writing,
+> >> including both built-in and extension support. Many notable projects
+> >> have adopted the standard already, including zsh, htop, and qemu.
+> >>
+> >> While this isn't a full-fledged C code style specifier, it does set some
+> >> basic ground rules that make it more convenient for contributors to use
+> >> any editor of their choice and not have to worry about indentation, line
+> >> endings, encoding, final newlines, etc. This should make it
+> >> significantly easier to conform to the kernel's general code style when
+> >> used in combination with clang-format.
+> >>
+> >> For more information, check the official EditorConfig website:
+> >> https://editorconfig.org/
+> >>
+> >> Signed-off-by: Danny Lin <danny@kdrag0n.dev>
+> >> ---
+> >
+> > So I worry a bit that not everybody will welcome the addition of a dotfile
+> > that may be magically interpreted by their editor.
+>
+> I would suppose that one would have to enable editorconfig support
+> explicitly in one's editor, so this would have no effect for people that
+> haven't done so (though there are almost certainly exceptions).
+>
+> > I also worry that the
+> > file itself could become a battleground for people wanting to argue about
+> > style issues.
+>
+> I don't think so, not any more than the coding-style document is, and
+> that seems to be pretty solid (but as doc maintainer, you'd know better).
+>
+> >
+> > Perhaps I worry a bit too much...?
+>
+> As someone who regularly needs to submit patches to random upstream
+> projects to fix bugs or implement minor features, I for one would really
+> welcome more widespread use of editorconfig. While I mostly work with
+> the linux kernel (and other projects using the same C style), so my
+> default C style setting is "linux", even for the kernel this would be
+> helpful to me when I poke around in none-C files (shell scripts, for
+> example).
+>
+> Rasmus
 
-s/varibles/variables/
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- Documentation/livepatch/shadow-vars.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Just from my curiosity, I just checked the behavior
+when the language is specified by a shebang line.
 
-diff --git a/Documentation/livepatch/shadow-vars.rst b/Documentation/livepatch/shadow-vars.rst
-index c05715aeafa4..8464866d18ba 100644
---- a/Documentation/livepatch/shadow-vars.rst
-+++ b/Documentation/livepatch/shadow-vars.rst
-@@ -165,7 +165,7 @@ In-flight parent objects
+For example, scripts/diffconfig has no file suffix,
+but specifies '#!/usr/bin/env python3'
+at the very top line.
+This is sensible for tools that interface to users.
+Users have no interest in which language is used
+internally.
 
- Sometimes it may not be convenient or possible to allocate shadow
- variables alongside their parent objects.  Or a livepatch fix may
--require shadow varibles to only a subset of parent object instances.  In
-+require shadow variables to only a subset of parent object instances.  In
- these cases, the klp_shadow_get_or_alloc() call can be used to attach
- shadow variables to parents already in-flight.
+
+As far as I test this patch on Emacs, it follows the rule
+of [*] rather than [*.{pl,pm,py,tc,json,tc}].
+
+This is the correct behavior but not what we want in general.
+
+I do not mean I am negative to this patch.
+Rather, I very much like this patch, but I just
+wondered how this case could be handled.
+
+I found this:
+https://github.com/editorconfig/editorconfig/issues/404
+I did not read through it, though.
+
 
 --
-2.30.1
-
+Best Regards
+Masahiro Yamada
