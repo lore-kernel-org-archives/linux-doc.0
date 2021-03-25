@@ -2,99 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2742C433C1
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 19:15:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99765C433DB
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 19:38:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85490619D3
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 19:15:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 65CF861A31
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 19:38:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230192AbhCYTPX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 15:15:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57084 "EHLO
+        id S230208AbhCYTiG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 15:38:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33660 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229989AbhCYTPJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 15:15:09 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DF18C06174A;
-        Thu, 25 Mar 2021 12:15:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=WUqGPkhwjAbPY0ivEtV7le3YOwKlwVLG87yWTGzEbAY=; b=OtfPuLECwnuLlrDw3rOgxbmE2j
-        0KnZ3pkGk5DBrhOhz+hTnTpCKamjUNn+sZo0cNmYgu0Gd3HTYnUeqHBn/YA/OcVxdPAMMmt5x84rg
-        mufSHYaur8+6leetRiPrGKVy7kXq0QmPxd1WHZyA6WpfhYnOEjclveReqV1aeFoxRkWOHZNoRdlQb
-        JkbAuT056Numa5k59Oo+FbP/zZMZLny6a1qB8oKQ/OLbn/LMHRvmOCl7JVtQ+sQDcnDHYSjvZe4ez
-        eBiBaT3OUnOVDJioOAaSy3MrBXrGkMH31yzFOUihwHUMNoy9/FakGyJCbKMXs68OqRM0E7eS0KMtv
-        HtqFnm7g==;
-Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lPVRD-00DcBq-8o; Thu, 25 Mar 2021 19:14:45 +0000
-Date:   Thu, 25 Mar 2021 19:14:35 +0000
-From:   Matthew Wilcox <willy@infradead.org>
+        with ESMTP id S229616AbhCYThd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 15:37:33 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3929C06174A;
+        Thu, 25 Mar 2021 12:37:32 -0700 (PDT)
+Received: from ip4d142c50.dynamic.kabel-deutschland.de ([77.20.44.80] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1lPVnN-0004kc-Vg; Thu, 25 Mar 2021 20:37:30 +0100
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: better handle '::' sequences
-Message-ID: <20210325191435.GZ1719932@casper.infradead.org>
-References: <20210325184615.08526aed@coco.lan>
- <2cf44cf1fa42588632735d4fbc8e84304bdc235f.1616696051.git.mchehab+huawei@kernel.org>
- <87tuozyslu.fsf@meer.lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1616181657.git.linux@leemhuis.info>
+ <c8770353-3d0d-17af-115a-efa4a31fd97b@leemhuis.info>
+ <87y2ebysy8.fsf@meer.lwn.net>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v3 0/5] docs: reporting-issues: streamline process and
+ solve a FIXME
+Message-ID: <4bc573bf-3dc1-fb6b-e6d7-d51993725c29@leemhuis.info>
+Date:   Thu, 25 Mar 2021 20:37:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87tuozyslu.fsf@meer.lwn.net>
+In-Reply-To: <87y2ebysy8.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-BS
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1616701053;a929d664;
+X-HE-SMSGID: 1lPVnN-0004kc-Vg
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 25, 2021 at 12:51:25PM -0600, Jonathan Corbet wrote:
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+On 25.03.21 19:43, Jonathan Corbet wrote:
+> Thorsten Leemhuis <linux@leemhuis.info> writes:
 > 
-> > Right now, if one of the following headers end with a '::', the
-> > kernel-doc script will do the wrong thing:
-> >
-> > 	description|context|returns?|notes?|examples?
-> >
-> > The real issue is with examples, as people could try to write
-> > something like:
-> >
-> > 	example::
-> >
-> > 		/* Some C code */
-> >
-> > and this won't be properly evaluated. So, improve the regex
-> > to not catch '\w+::' regex for the above identifiers.
-> >
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  scripts/kernel-doc | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> Ah....wouldn't it be nice if kerneldoc comments had just been RST from
-> the beginning?  I don't think we're fixing that at this point, though,
-> so this makes sense; applied.
+>> That's why I'd like to speed things up a little. But for that it would
+>> be good to have something from you: a kind of "I like the direction
+>> where this patch set is heading and I'm optimistic that we get it merged
+>> for 5.13-rc1" message from you. With something like that I could move
+>> ahead as outlined above already. Do you maybe have a minute for that?
+> Honestly, I don't see any reason to delay this work any further, so I've
+> just applied the set.
 
-Well ...
+Ahh, great, many thx.
 
-If somebody wants to write a new tool (*) that extracts documentation
-written in a different format, I think that could be done.  Because the
-hard part of writing documentation is getting the person who knows the
-code to get everything that's in their brain into words, not really
-the formatting.
+> Sorry for the slowness,
 
-If somebody did want to write such a tool, I think we'd also want a
-tool that turns the existing kernel-doc into the new format, because
-maintaining two function-doc formats would be awful.
+No worries, it's improvements to a docs text, not a crucial security
+issue in core code. :-D
 
-https://blog.golang.org/godoc would be my preferred format ... the less
-information repeated from the actual function, the better.  But if
-we're actually going to have rust in the kernel, perhaps rustdoc is
-better.  https://doc.rust-lang.org/beta/rust-by-example/meta/doc.html
+> it has been a rather harsh week.
 
-(*) because nobody actually likes kernel-doc.pl, right?
+I hope things will get better soon!
+
+BTW, I wondered it it would make sense to add a entry to the MAINTAINERS
+file for the text so I can keep and eye on things and help with fine
+tuning. Let me known if you think that idea is overblown, otherwise I'll
+likely add one with the patch that I'll send sooner or later to remove
+the WIP box near the top.
+
+Ciao (and make sure to take care of yourself!), Thorsten
+
+
