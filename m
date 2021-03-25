@@ -4,64 +4,74 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3845C433DB
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:41:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4281FC433E0
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:42:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 90C3761A2C
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:41:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 13E1961A31
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:42:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbhCYRlT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 13:41:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36826 "EHLO
+        id S229984AbhCYRmX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 13:42:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37064 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230007AbhCYRlC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 13:41:02 -0400
+        with ESMTP id S229961AbhCYRmH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 13:42:07 -0400
 Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D02D9C06174A;
-        Thu, 25 Mar 2021 10:41:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CAD6C06174A;
+        Thu, 25 Mar 2021 10:42:07 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 272F031A;
-        Thu, 25 Mar 2021 17:41:01 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 272F031A
+        by ms.lwn.net (Postfix) with ESMTPSA id E011531A;
+        Thu, 25 Mar 2021 17:42:06 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E011531A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1616694061; bh=73hADQRfNTJx3OI1nRDly3n0w6QGMbqCZNtlNgHhqoU=;
+        t=1616694127; bh=eiOqmA3QMARsyKoWBIDtLBhFPqBFbGL9lEPOum8H/+A=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=YCqV3v33B3MmxOmAXWOl+4L94eU5mu1I7rz+Qv8wR4/b+xu8YnOHLajq/MqRJnJQM
-         KNu6hM7jmoL1tqEaUhUBCZg9GSdBJxquzuzPvtTV65b3Rpsp0AGZZbvjEWmaaseTGW
-         e8iYsmsfTeGIHNCkRI04aydMA4Afh6AEXmwjoRxY4Pm3Ett6Rq/pB4hqFdQFk2zREg
-         3xzt/bexAcJFdYKXRaLTuKCXhh2JDNw0QLHAzJ3619oUeZ7Fg01QOkaFRt9xpCyh/a
-         5uIeHTmdqAr872r7deYJsl6HyCtws9m3RYjSwbr6G5l3TNM1NzwZAFT5m0VbqivZ6z
-         2r8qjbem28TlQ==
+        b=J3IUjt03Ktv7CZmltrnGS4GiVujKI94bLWicfh5XP4u+HgyeiZ0D4MKrVTG0tvJXs
+         Dz/qZCCevl7UYWA1NF4afgWjyRnWv1oyYvEqsxJK23xm8nHxq2WeXOKjjCFgUN6p+9
+         PUarYlLE31Ev5BqCmzCyQfG0PMeMX721Dw2X3njVUy+07/I0JkyvkIJPfULeftWYaC
+         bbu0taHiz0ySyUtFPG+zi8isnSvsyINs6PqLXOuavAVk7iJE66suJwkzihkh3+g4TU
+         syisKOpz+g9UHxfi6Z9HA95Jml5Eu72DMXivb1J4ckxGc7HK+BOqiciLESjHJ1sC/O
+         NKtFxoJnNcUow==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, walken@google.com,
-        unixbhaskar@gmail.com, grandmaster@al2klimov.de,
-        willy@infradead.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     rdunlap@infradead.org
-Subject: Re: [PATCH] docs: rbtree.rst: Fix a typo
-In-Reply-To: <20210324080046.20709-1-unixbhaskar@gmail.com>
-References: <20210324080046.20709-1-unixbhaskar@gmail.com>
-Date:   Thu, 25 Mar 2021 11:41:00 -0600
-Message-ID: <87a6qr2ksz.fsf@meer.lwn.net>
+To:     Bryan Brattlof <hello@bryanbrattlof.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, trivial@kernel.org,
+        Bryan Brattlof <hello@bryanbrattlof.com>
+Subject: Re: [PATCH] Documentation: gpio: chip should be plural
+In-Reply-To: <20210323145509.139393-1-hello@bryanbrattlof.com>
+References: <20210323145509.139393-1-hello@bryanbrattlof.com>
+Date:   Thu, 25 Mar 2021 11:42:06 -0600
+Message-ID: <875z1f2kr5.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Bhaskar Chowdhury <unixbhaskar@gmail.com> writes:
+Bryan Brattlof <hello@bryanbrattlof.com> writes:
 
-> s/maintanence/maintenance/
->
-> Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> Signed-off-by: Bryan Brattlof <hello@bryanbrattlof.com>
 > ---
->  Documentation/core-api/rbtree.rst | 2 +-
+>  Documentation/driver-api/gpio/intro.rst | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/driver-api/gpio/intro.rst b/Documentation/driver-api/gpio/intro.rst
+> index 94dd7185e76e..2e924fb5b3d5 100644
+> --- a/Documentation/driver-api/gpio/intro.rst
+> +++ b/Documentation/driver-api/gpio/intro.rst
+> @@ -27,7 +27,7 @@ What is a GPIO?
+>  ===============
+>  
+>  A "General Purpose Input/Output" (GPIO) is a flexible software-controlled
+> -digital signal. They are provided from many kinds of chip, and are familiar
+> +digital signal. They are provided from many kinds of chips, and are familiar
 
 Applied, thanks.
 
