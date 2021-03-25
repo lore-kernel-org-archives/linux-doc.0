@@ -7,73 +7,79 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4435C433E1
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:47:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69E28C433C1
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:48:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2AB661A2E
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:47:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 44B2B619E5
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 17:48:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229547AbhCYRqm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 13:46:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37994 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229836AbhCYRqV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 13:46:21 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EDDDC06174A
-        for <linux-doc@vger.kernel.org>; Thu, 25 Mar 2021 10:46:20 -0700 (PDT)
+        id S229629AbhCYRsS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 13:48:18 -0400
+Received: from ms.lwn.net ([45.79.88.28]:44788 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229642AbhCYRsO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 25 Mar 2021 13:48:14 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 5E46131A;
-        Thu, 25 Mar 2021 17:46:20 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5E46131A
+        by ms.lwn.net (Postfix) with ESMTPSA id 3E5AE31A;
+        Thu, 25 Mar 2021 17:48:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3E5AE31A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1616694380; bh=BFaDPUOdW9FA0ccZJmuKWWofud43FsHa/9PrWBWOi18=;
+        t=1616694494; bh=1B890Iy2jDxHXnAfsSRVgQsOzs8wckrMqh8VbJvh/MY=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=ekEfAaoEaCxk5LBVXRxlMDxy6D5U5N8s/cUSmRFhVKVIiM8ZUT0wTQ5HFKzSez4gD
-         3nGLZdi//CzZ4Yzb2B5f68H3mwghlZ2IEhO4IaJSfSZwvAd/AT69z+mdkyxPHjAVCQ
-         AYd73eVLampCAVY8bCnQml8B4jAfoeQXXH6ETYer4E45O7NGJMrXSEqDIU1XXcyjrX
-         uGWh9GIDuo4/KJge/e85ig9+feBISi93UkyigLWz9t2q7GrkG7zWdGdhsrFI0W8+I9
-         6GPzVC31zCVqSDhU0/7PKhiGY5P0kzRhsbB/QsMV5fYGO8+/1JnuKaFcEnR84Lw/DL
-         uktKaLgXXGrHQ==
+        b=Tteod0QDH1rCSgf1AUuTLlve0npQBxvY/lUJq2h3zTcrQce2ZfbA19LpyoBNqGivg
+         mSNP5OIee3NzAEY4M9eD8UrKuWQkfa84KwVtuTj9xwIOeC1pweyvpMUOmh+ZW9YcIS
+         6n18ZWU6BMncWl3VAHnm4dPuD3Eit64aDXXEGgnwul9UYP1Wg2DKppjN1u3lSGJUhT
+         jd8oNQWA3xh4YlaqjL5b5rObM+owYmYLQO3yJFOspXcLvL34DRK2PlLF3w6XZXdTzN
+         L9RL5Cg5ztgtg6tgDpgWCbvvpNxiM3IOSY+6SFgFvcLBjmU7lYka9sgqORgefFmTyA
+         h8NiaDRnhLwHw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Wu XiangCheng <bobwxc@email.cn>,
-        Alex Shi <alex.shi@linux.alibaba.com>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs/zh_CN: Add translations in zh_CN/kernel-hacking/
-In-Reply-To: <20210323091651.GA23904@mipc>
-References: <20210322143743.GA7820@mipc> <20210323091651.GA23904@mipc>
-Date:   Thu, 25 Mar 2021 11:46:19 -0600
-Message-ID: <87wntv15zo.fsf@meer.lwn.net>
+To:     Dwaipayan Ray <dwaipayanray1@gmail.com>, mchehab@kernel.org
+Cc:     linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: Re: [PATCH -next v4] docs: document all error message types in
+ checkpatch
+In-Reply-To: <20210322082139.33822-1-dwaipayanray1@gmail.com>
+References: <20210322082139.33822-1-dwaipayanray1@gmail.com>
+Date:   Thu, 25 Mar 2021 11:48:13 -0600
+Message-ID: <87sg4j15wi.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wu XiangCheng <bobwxc@email.cn> writes:
+Dwaipayan Ray <dwaipayanray1@gmail.com> writes:
 
-> Add new translations
+> All the error message types now have a verbose description.
 >
-> * Documentation/translations/zh_CN/kernel-hacking/index.rst
-> * Documentation/translations/zh_CN/kernel-hacking/hacking.rst
+> Also there are two new groups of message types:
 >
-> And link them to zh_CN/index.rst.
+> - Macros, Attributes and Symbols
+> - Functions and Variables
 >
-> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+> Rearrange the message types to fit these new groups as needed.
+>
+> Reviewed-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> Signed-off-by: Dwaipayan Ray <dwaipayanray1@gmail.com>
 > ---
-> v2:
-> Correct typos in commit message.
-> Modified some words under Alex Shi's suggestions.
-> Specific changes between v1~v2 see <http://fars.ee/9fr7/diff>
 >
->  Documentation/translations/zh_CN/index.rst    |   1 +
->  .../zh_CN/kernel-hacking/hacking.rst          | 708 ++++++++++++++++++
->  .../zh_CN/kernel-hacking/index.rst            |  22 +
->  3 files changed, 731 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/kernel-hacking/hacking.rst
->  create mode 100644 Documentation/translations/zh_CN/kernel-hacking/index.rst
+> Changes in v4:
+> - Use lore.kernel.org links
+> - modify explanation for DEFINE_ARCH_HAS
+>
+> Changes in v3:
+> - Add more explanation for LOCKDEP
+> - Minor grammar fixes
+>
+> Changes in v2:
+> - Replace 4.10 kernel doc links by latest
+>
+>  Documentation/dev-tools/checkpatch.rst | 318 ++++++++++++++++++++++---
+>  1 file changed, 280 insertions(+), 38 deletions(-)
 
 Applied, thanks.
 
