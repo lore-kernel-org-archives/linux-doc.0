@@ -4,42 +4,42 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D33FC433E4
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 16:48:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83AA0C433EA
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 16:48:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7AF9C61A2F
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 16:48:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4C4BF61A30
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 16:48:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229951AbhCYQrx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 12:47:53 -0400
-Received: from mail-il1-f182.google.com ([209.85.166.182]:33466 "EHLO
-        mail-il1-f182.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229812AbhCYQrc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 12:47:32 -0400
-Received: by mail-il1-f182.google.com with SMTP id u10so2733854ilb.0;
-        Thu, 25 Mar 2021 09:47:32 -0700 (PDT)
+        id S229981AbhCYQrz (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 12:47:55 -0400
+Received: from mail-io1-f50.google.com ([209.85.166.50]:42734 "EHLO
+        mail-io1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229836AbhCYQri (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 12:47:38 -0400
+Received: by mail-io1-f50.google.com with SMTP id r193so2540319ior.9;
+        Thu, 25 Mar 2021 09:47:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WsN7Xqa0H0sw8FyvyboT6y25R/zqs9xa7Bq93vO2pFM=;
-        b=m0vchpT8M6/4ID1oOxKCSRruHlMfar9Y2E7b1sE7HUoO5B+7MnfeTjRoFpzn0rfS56
-         4z8wG4pa3YJaXm3jKzKyTeBH6hUWQYv7jvVNS0xrtSBkCjz3u6Am9GSG02fxbpc6OivD
-         xCWM4YGJglV+cRyizqNxr5gCMSH0CFCcKUwRVqLZF0jv6Kz+9BUIptfnweN+aRZLCA71
-         KdGJhesIrQYSc6qIR5AoVs2PMuDSsw+nteMe2Z/Wj+3SLxzUt5yMpn8FfrYLoeJHLUL9
-         VwZxlbY3FIP5jN8Hi8xgsmOEHxYrQgXQt9SkPW0f+et0rQT6oqvfgJxB/0kBKvpM7HHF
-         5ERg==
-X-Gm-Message-State: AOAM532+7rr0ptHqDcKbJMIE/plpabPsCrnkRoE3LPnuzU7MGNuI+7Bm
-        e2AGThXK8NNAIGJPJrqZa+yAAcsM4w==
-X-Google-Smtp-Source: ABdhPJw7dgqG6kxlM6R5kJFIL5cMsPaoOck+8hTcMos1uAWQsrLc/kZugE8VcjgNEYIpNaOw83F9EA==
-X-Received: by 2002:a92:b703:: with SMTP id k3mr7597536ili.185.1616690851216;
-        Thu, 25 Mar 2021 09:47:31 -0700 (PDT)
+        bh=a7sJu5rhLqNCGvoHbFMmH4l9oipcNGbXw2wa6pIJXQE=;
+        b=oGkshcRd+iNDJbkC6OGhVGaiA9AiHBfikpsdCpC+48JPh4UB88Httuk9+v5Lpba6fp
+         czVAY6gYohz73pcL5Ny0mIAG+KFKQa3s5Wqmmu5Wn6EDy9uk+Mr8CE8tUawfPSxe+llu
+         w6rDNPkAeXy4ZEaNgAX+frf8OljiID2Teeb33r5IRkSfqEcqH6lQp3p/mqZDD8A+EzOx
+         xhPtgUi3v1BLDxO4jC3rKNIH7LWWOpboa4gHGAHKHnYiSZZD1+chlZu1MFAAXgZMrIDH
+         +wkrDzchGy4+K0J3i+P0zedsiLdT2xXakRNisaet7qs4Gb2YcOH0pmfBZCdryVK/V8aa
+         sZuA==
+X-Gm-Message-State: AOAM532peCgj7hQbEoyWFtv1KRSbFwCqp6QPyIS97QoQW9ZAPACtE8GG
+        IMViOMhJRYrAfmi0NuRdgR1TABC4mg==
+X-Google-Smtp-Source: ABdhPJwBdKPGZz3rOFxiwyJpHLSrd4idMM3MwXzZq3c5b05sPqoUJvx4ayJqVAn2eD9w21Y8cvsYFA==
+X-Received: by 2002:a5d:9659:: with SMTP id d25mr7345782ios.146.1616690857349;
+        Thu, 25 Mar 2021 09:47:37 -0700 (PDT)
 Received: from xps15.herring.priv ([64.188.179.253])
-        by smtp.googlemail.com with ESMTPSA id h13sm2868615ila.82.2021.03.25.09.47.28
+        by smtp.googlemail.com with ESMTPSA id h13sm2868615ila.82.2021.03.25.09.47.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Mar 2021 09:47:29 -0700 (PDT)
+        Thu, 25 Mar 2021 09:47:36 -0700 (PDT)
 From:   Rob Herring <robh@kernel.org>
 To:     devicetree@vger.kernel.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -47,9 +47,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Lee Jones <lee.jones@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH 3/8] docs: dt: writing-schema: Include the example schema in the doc build
-Date:   Thu, 25 Mar 2021 10:47:08 -0600
-Message-Id: <20210325164713.1296407-4-robh@kernel.org>
+Subject: [PATCH 5/8] docs: dt: Group DT docs into relevant sub-sections
+Date:   Thu, 25 Mar 2021 10:47:10 -0600
+Message-Id: <20210325164713.1296407-6-robh@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210325164713.1296407-1-robh@kernel.org>
 References: <20210325164713.1296407-1-robh@kernel.org>
@@ -59,42 +59,78 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The example-schema.yaml file serves as documentation, so let's include it
-from writing-schema.rst.
+The DT docs are currently all just lumped together in the doc build.
+Let's organize the documents by kernel specifics, overlays and bindings.
+
+As writing-schema.rst is about bindings, let's move it to the bindings
+directory.
 
 Cc: Frank Rowand <frowand.list@gmail.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 Signed-off-by: Rob Herring <robh@kernel.org>
 ---
- Documentation/devicetree/writing-schema.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ Documentation/devicetree/bindings/index.rst      |  7 ++-----
+ .../devicetree/{ => bindings}/writing-schema.rst |  0
+ Documentation/devicetree/index.rst               | 16 ++++++++++++++--
+ 3 files changed, 16 insertions(+), 7 deletions(-)
+ rename Documentation/devicetree/{ => bindings}/writing-schema.rst (100%)
 
-diff --git a/Documentation/devicetree/writing-schema.rst b/Documentation/devicetree/writing-schema.rst
-index 03e279d8fd6a..be14dbed6081 100644
---- a/Documentation/devicetree/writing-schema.rst
-+++ b/Documentation/devicetree/writing-schema.rst
-@@ -8,6 +8,8 @@ written in a JSON compatible subset of YAML. YAML is used instead of JSON as it
- is considered more human readable and has some advantages such as allowing
- comments (Prefixed with '#').
+diff --git a/Documentation/devicetree/bindings/index.rst b/Documentation/devicetree/bindings/index.rst
+index 3837b17c234f..d9002a3a0abb 100644
+--- a/Documentation/devicetree/bindings/index.rst
++++ b/Documentation/devicetree/bindings/index.rst
+@@ -1,12 +1,9 @@
+ .. SPDX-License-Identifier: GPL-2.0
  
-+Also see :ref:`example-schema`.
-+
- Schema Contents
- ---------------
+-===========
+-Device Tree
+-===========
+-
+ .. toctree::
+    :maxdepth: 1
  
-@@ -170,3 +172,12 @@ json-schema Resources
- `JSON-Schema Specifications <http://json-schema.org/>`_
+    ABI
+-   submitting-patches
+    writing-bindings
++   writing-schema
++   submitting-patches
+diff --git a/Documentation/devicetree/writing-schema.rst b/Documentation/devicetree/bindings/writing-schema.rst
+similarity index 100%
+rename from Documentation/devicetree/writing-schema.rst
+rename to Documentation/devicetree/bindings/writing-schema.rst
+diff --git a/Documentation/devicetree/index.rst b/Documentation/devicetree/index.rst
+index 32509e8de8da..70b5dcdbcf07 100644
+--- a/Documentation/devicetree/index.rst
++++ b/Documentation/devicetree/index.rst
+@@ -4,14 +4,26 @@
+ Open Firmware and Devicetree
+ =============================
  
- `Using JSON Schema Book <http://usingjsonschema.com/>`_
++Kernel Devicetree Usage
++=======================
+ .. toctree::
+    :maxdepth: 1
+ 
+    usage-model
+-   writing-schema
++   of_unittest
 +
-+.. _example-schema:
++Devicetree Overlays
++===================
++.. toctree::
++   :maxdepth: 1
 +
-+Annotated Example Schema
-+------------------------
+    changesets
+    dynamic-resolution-notes
+-   of_unittest
+    overlay-notes
+ 
++Devicetree Bindings
++===================
++.. toctree::
++   :maxdepth: 1
 +
-+Also available as a separate file: :download:`example-schema.yaml`
-+
-+.. literalinclude:: example-schema.yaml
+    bindings/index
 -- 
 2.27.0
 
