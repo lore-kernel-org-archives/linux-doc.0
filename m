@@ -6,24 +6,22 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD4AC433C1
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 11:07:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6DE1C433C1
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 11:15:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1950F61A2E
-	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 11:07:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7EC97619E8
+	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 11:15:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229716AbhCYLGd convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 07:06:33 -0400
-Received: from jptosegrel01.sonyericsson.com ([124.215.201.71]:10591 "EHLO
+        id S229931AbhCYLPI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 07:15:08 -0400
+Received: from jptosegrel01.sonyericsson.com ([124.215.201.71]:11461 "EHLO
         JPTOSEGREL01.sonyericsson.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229801AbhCYLGc (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 07:06:32 -0400
+        by vger.kernel.org with ESMTP id S229988AbhCYLOm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 25 Mar 2021 07:14:42 -0400
 Subject: Re: [PATCH v2 00/12] Add build ID to stacktraces
-To:     Christoph Hellwig <hch@infradead.org>,
-        Stephen Boyd <swboyd@chromium.org>
-CC:     Andrew Morton <akpm@linux-foundation.org>,
-        <linux-kernel@vger.kernel.org>,
+To:     Stephen Boyd <swboyd@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+CC:     <linux-kernel@vger.kernel.org>,
         Alexei Starovoitov <ast@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Baoquan He <bhe@redhat.com>, Borislav Petkov <bp@alien8.de>,
@@ -45,35 +43,80 @@ CC:     Andrew Morton <akpm@linux-foundation.org>,
         Vivek Goyal <vgoyal@redhat.com>, Will Deacon <will@kernel.org>,
         <x86@kernel.org>
 References: <20210324020443.1815557-1-swboyd@chromium.org>
- <20210324085543.GA2660708@infradead.org>
 From:   peter enderborg <peter.enderborg@sony.com>
-Message-ID: <dbb430e1-2223-9df0-2563-4b017d6b409d@sony.com>
-Date:   Thu, 25 Mar 2021 12:06:17 +0100
+Message-ID: <a7a5e6b4-109b-fdf6-5d72-1d8675a2b1ae@sony.com>
+Date:   Thu, 25 Mar 2021 12:14:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210324085543.GA2660708@infradead.org>
+In-Reply-To: <20210324020443.1815557-1-swboyd@chromium.org>
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 7bit
 Content-Language: en-GB
-X-SEG-SpamProfiler-Analysis: v=2.3 cv=crzlbGwi c=1 sm=1 tr=0 a=fZcToFWbXLKijqHhjJ02CA==:117 a=IkcTkHD0fZMA:10 a=dESyimp9J3IA:10 a=9PaoSj5ytQdNhtA7W4EA:9 a=QEXdDO2ut3YA:10 a=fCgQI5UlmZDRPDxm0A3o:22
+X-SEG-SpamProfiler-Analysis: v=2.3 cv=crzlbGwi c=1 sm=1 tr=0 a=9drRLWArJOlETflmpfiyCA==:117 a=IkcTkHD0fZMA:10 a=dESyimp9J3IA:10 a=g0dnI_grFRafmFuLWKwA:9 a=QEXdDO2ut3YA:10 a=fCgQI5UlmZDRPDxm0A3o:22
 X-SEG-SpamProfiler-Score: 0
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/24/21 9:55 AM, Christoph Hellwig wrote:
-> On Tue, Mar 23, 2021 at 07:04:31PM -0700, Stephen Boyd wrote:
->>  x5 : 0000000000000000 x4 : 0000000000000001
->>  x3 : 0000000000000008 x2 : ffffff93fef25a70
->>  x1 : ffffff93fef15788 x0 : ffffffe3622352e0
->>  Call trace:
->>   lkdtm_WARNING+0x28/0x30 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
->>   direct_entry+0x16c/0x1b4 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-> Yikes.  No, please do not make the backtraces a complete mess for
-> something that serves absolutely no need.
+On 3/24/21 3:04 AM, Stephen Boyd wrote:
+> This series adds the kernel's build ID[1] to the stacktrace header printed
+> in oops messages, warnings, etc. and the build ID for any module that
+> appears in the stacktrace after the module name. The goal is to make the
+> stacktrace more self-contained and descriptive by including the relevant
+> build IDs in the kernel logs when something goes wrong. This can be used
+> by post processing tools like script/decode_stacktrace.sh and kernel
+> developers to easily locate the debug info associated with a kernel
+> crash and line up what line and file things started falling apart at.
+>
+> To show how this can be used I've included a patch to
+> decode_stacktrace.sh that downloads the debuginfo from a debuginfod
+> server.
+>
+> This also includes some patches to make the buildid.c file use more
+> const arguments and consolidate logic into buildid.c from kdump. These
+> are left to the end as they were mostly cleanup patches. I don't know
+> who exactly maintains this so I guess Andrew is the best option to merge
+> all this code.
+>
+> Here's an example lkdtm stacktrace on arm64.
+>
+>  WARNING: CPU: 4 PID: 3255 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x28/0x30 [lkdtm]
+>  Modules linked in: lkdtm rfcomm algif_hash algif_skcipher af_alg xt_cgroup uinput xt_MASQUERADE
+>  CPU: 4 PID: 3255 Comm: bash Not tainted 5.11 #3 aa23f7a1231c229de205662d5a9e0d4c580f19a1
+>  Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+>  pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=--)
+>  pc : lkdtm_WARNING+0x28/0x30 [lkdtm]
+>  lr : lkdtm_do_action+0x24/0x40 [lkdtm]
+>  sp : ffffffc0134fbca0
+>  x29: ffffffc0134fbca0 x28: ffffff92d53ba240
+>  x27: 0000000000000000 x26: 0000000000000000
+>  x25: 0000000000000000 x24: ffffffe3622352c0
+>  x23: 0000000000000020 x22: ffffffe362233366
+>  x21: ffffffe3622352e0 x20: ffffffc0134fbde0
+>  x19: 0000000000000008 x18: 0000000000000000
+>  x17: ffffff929b6536fc x16: 0000000000000000
+>  x15: 0000000000000000 x14: 0000000000000012
+>  x13: ffffffe380ed892c x12: ffffffe381d05068
+>  x11: 0000000000000000 x10: 0000000000000000
+>  x9 : 0000000000000001 x8 : ffffffe362237000
+>  x7 : aaaaaaaaaaaaaaaa x6 : 0000000000000000
+>  x5 : 0000000000000000 x4 : 0000000000000001
+>  x3 : 0000000000000008 x2 : ffffff93fef25a70
+>  x1 : ffffff93fef15788 x0 : ffffffe3622352e0
+>  Call trace:
+>   lkdtm_WARNING+0x28/0x30 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+>   direct_entry+0x16c/0x1b4 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+>   full_proxy_write+0x74/0xa4
+>   vfs_write+0xec/0x2e8
+>   ksys_write+0x84/0xf0
+>   __arm64_sys_write+0x24/0x30
+>   el0_svc_common+0xf4/0x1c0
+>   do_el0_svc_compat+0x28/0x3c
+>   el0_svc_compat+0x10/0x1c
+>   el0_sync_compat_handler+0xa8/0xcc
+>   el0_sync_compat+0x178/0x180
+>  ---[ end trace 3d95032303e59e68 ]---
 
-Would a "verbose" flag be acceptable solution?    Something like write 1 to /sys/kernel/debug/verbose_stack to get the extra info.
-
-I think I see a need for it.
+How will this work with the ftrace?
 
