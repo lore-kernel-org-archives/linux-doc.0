@@ -7,33 +7,33 @@ X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3BBDC433E4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFF70C433C1
 	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 10:39:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6A59861A30
+	by mail.kernel.org (Postfix) with ESMTP id B2CC561A28
 	for <linux-doc@archiver.kernel.org>; Thu, 25 Mar 2021 10:39:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230155AbhCYKit (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 25 Mar 2021 06:38:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53514 "EHLO mail.kernel.org"
+        id S230217AbhCYKiu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 25 Mar 2021 06:38:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53538 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229900AbhCYKic (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S230160AbhCYKic (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 25 Mar 2021 06:38:32 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CF44161A1A;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D49E561A27;
         Thu, 25 Mar 2021 10:38:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1616668712;
-        bh=j3rNtpfT582xGy/cAqJWGjMFU14DN9+n8XRSNzeOlas=;
+        bh=KwApZJ8/w2jfzVZqqaL0ukDm8pZipSoobTwxn4qEIQA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=jHXwiIM6Rcz7UvGsYD7p95SYF1/ZnlorCxZb/RR5wgx5MdR9mPDK6ZcaeUdNyygkl
-         zA3P4UH8V0FWOWRwPWZeykFLMy1GSUSEgbcn84By7mp+BLQa7Vs1P0pOTQPi4dqJyW
-         Ger6OdwBA7kYvGQ8UMQOyOYQREDSs1bMorGh8XFYcGuYMEn924YUwnelEao91YrCHx
-         Y0yH/2gZzXkvieJrb2pJd64DAEydkqRd7ISRsv4TKMdZ0ZkVC4naCfT9gyuXgThiF/
-         hgadcXzT/uFTZQ/Fg6ulYpPER9MKRU7UUprunHnoHzvgr00uRsB4iyWYF4TZaJB4nH
-         9SNgP0j9e3G3g==
+        b=cJCSdHy+9UxKXeOk2/OoPxU+d6t4na3ea0UkLRTbJQsHdASjpYJNY2jpQWACJw7sE
+         9b0g77BMrDyMGSEOOy1nMYZkoZouwgxMyruYM5qS4MBRJ+glH5gz17FEYOIi4DsFfo
+         ALDqSR3oJ/2eKSDQuy4ONGY2UsheVE13tD+QnyHoDqta2NYKU0OgaijIG11jfGajqk
+         ckZfoWd9fsajcl9mWxf4S0GoGf3nVSI8VfwZJNVk85L9Fn/k0eGWPxuB4rCeZGq8fx
+         jLKPrt15SRS5A2xeyJ/ku/Iw9Nd5vvdrzuWA3bAn66WS0iA3z5H5wxUymnPWAfVIKB
+         JWjFSheHH4xKQ==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lPNNl-001Avd-BN; Thu, 25 Mar 2021 11:38:29 +0100
+        id 1lPNNl-001AvS-5R; Thu, 25 Mar 2021 11:38:29 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
@@ -41,9 +41,9 @@ To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 6/7] scripts: get_abi: ignore code blocks for cross-references
-Date:   Thu, 25 Mar 2021 11:38:27 +0100
-Message-Id: <a590f994f8a5742db333bde69e88241a080e4fe0.1616668017.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 1/7] scripts: get_abi.pl: better handle escape chars on what:
+Date:   Thu, 25 Mar 2021 11:38:22 +0100
+Message-Id: <29cb56def89b508fe605bcd2ba74a4376cc08e35.1616668017.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1616668017.git.mchehab+huawei@kernel.org>
 References: <cover.1616668017.git.mchehab+huawei@kernel.org>
@@ -54,46 +54,53 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The script should not generate cross-references inside
-literal blocks.
+The parser for the symbols defined on What: doesn't cover all
+chars that need to be scaped, like '{' and '}'. Change the logic
+to be more generic, and ensure that the same regex will be used
+on both What: and when parsing the cross-references.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/get_abi.pl | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ scripts/get_abi.pl | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/get_abi.pl b/scripts/get_abi.pl
-index e5d1da492c1e..d7aa82094296 100755
+index 92d9aa6cc4f5..a9348b9bdaa4 100755
 --- a/scripts/get_abi.pl
 +++ b/scripts/get_abi.pl
-@@ -382,8 +382,27 @@ sub output_rest {
- 				# Enrich text by creating cross-references
+@@ -283,6 +283,7 @@ sub create_labels {
  
- 				my $new_desc = "";
-+				my $init_indent = -1;
-+				my $literal_indent = -1;
-+
- 				open(my $fh, "+<", \$desc);
- 				while (my $d = <$fh>) {
-+					my $indent = $d =~ m/^(\s+)/;
-+					my $spaces = length($indent);
-+					$init_indent = $indent if ($init_indent < 0);
-+					if ($literal_indent >= 0) {
-+						if ($spaces > $literal_indent) {
-+							$new_desc .= $d;
-+							next;
-+						} else {
-+							$literal_indent = -1;
-+						}
-+					} else {
-+						if ($d =~ /()::$/ && !($d =~ /^\s*\.\./)) {
-+							$literal_indent = $spaces;
-+						}
-+					}
-+
- 					$d =~ s,Documentation/(?!devicetree)(\S+)\.rst,:doc:`/$1`,g;
+ # \b doesn't work well with paths. So, we need to define something else
+ my $bondary = qr { (?<![\w\/\`\{])(?=[\w\/\`\{])|(?<=[\w\/\`\{])(?![\w\/\`\{]) }x;
++my $symbols = qr { ([\x01-\x08\x0e-\x1f\x21-\x2f\x3a-\x40\x7b-\xff]) }x;
  
- 					my @matches = $d =~ m,Documentation/ABI/([\w\/\-]+),g;
+ sub output_rest {
+ 	create_labels();
+@@ -305,7 +306,6 @@ sub output_rest {
+ 		}
+ 
+ 		my $w = $what;
+-		$w =~ s/([\(\)\_\-\*\=\^\~\\])/\\$1/g;
+ 
+ 		if ($type ne "File") {
+ 			my $cur_part = $what;
+@@ -329,6 +329,7 @@ sub output_rest {
+ 			my $len = 0;
+ 
+ 			foreach my $name (@names) {
++				$name =~ s/$symbols/\\$1/g;
+ 				$name = "**$name**";
+ 				$len = length($name) if (length($name) > $len);
+ 			}
+@@ -395,7 +396,7 @@ sub output_rest {
+ 					if (defined($data{$s}) && defined($data{$s}->{label})) {
+ 						my $xref = $s;
+ 
+-						$xref =~ s/([\x00-\x1f\x21-\x2f\x3a-\x40\x7b-\xff])/\\$1/g;
++						$xref =~ s/$symbols/\\$1/g;
+ 						$xref = ":ref:`$xref <" . $data{$s}->{label} . ">`";
+ 
+ 						$desc =~ s,$bondary$s$bondary,$xref,g;
 -- 
 2.30.2
 
