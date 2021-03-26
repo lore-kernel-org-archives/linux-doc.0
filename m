@@ -2,181 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC049C433E1
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:43:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71945C433C1
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:47:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A495D61A2D
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:43:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3BC3C61A27
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:47:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230271AbhCZPnA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Mar 2021 11:43:00 -0400
-Received: from mout.gmx.net ([212.227.17.21]:46687 "EHLO mout.gmx.net"
+        id S230319AbhCZPqr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Mar 2021 11:46:47 -0400
+Received: from mga17.intel.com ([192.55.52.151]:36224 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230192AbhCZPmz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Mar 2021 11:42:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=badeba3b8450; t=1616773315;
-        bh=5eLgdU45K7E2wo8Ug5bX02jFCrshvXXHtRqXp9B6Ow4=;
-        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
-        b=h8SQ3C/2QwpQx0H0KY6KP+jiib7Gm5USU+lQNsEvBANLK8Smdnfid33h7KFB12x81
-         J973x93ulLSa39BNO+pIsKe63b3zq5qjrZJSl5r8bnDMhUMY0ZaLcWqfkbNNOzqcsb
-         n76DLt/OLQKTDbpkQPdF2Yd/qmbdd9MY2ZlVjXTY=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from ubuntu ([83.52.229.153]) by mail.gmx.net (mrgmx105
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1ML9yc-1l7jkH0lQw-00IAuO; Fri, 26
- Mar 2021 16:41:55 +0100
-Date:   Fri, 26 Mar 2021 16:41:41 +0100
-From:   John Wood <john.wood@gmx.com>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
+        id S230080AbhCZPqc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Mar 2021 11:46:32 -0400
+IronPort-SDR: tjLCPTysDovHN6DDZ7lTA8gswryivK3tZFil2gHhskdY+plTSqIt1651uA1yFpdzm1/p1sLKmj
+ SsvAlW/uNaMg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9935"; a="171162278"
+X-IronPort-AV: E=Sophos;i="5.81,280,1610438400"; 
+   d="scan'208";a="171162278"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2021 08:46:32 -0700
+IronPort-SDR: 4LVgfPVpdmkD7cfo8pmJomTC9ws0nhuVEuHkPVnvQyKK3SXozc7p1edP3lq/iDypY7mT73MZ8q
+ FiFTPZ8L5a1A==
+X-IronPort-AV: E=Sophos;i="5.81,280,1610438400"; 
+   d="scan'208";a="443390230"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.209.171.114]) ([10.209.171.114])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2021 08:46:31 -0700
+Subject: Re: [PATCH v23 18/28] mm/mmap: Add shadow stack pages to memory
+ accounting
+To:     "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        James Morris <jmorris@namei.org>,
-        Shuah Khan <shuah@kernel.org>, John Wood <john.wood@gmx.com>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andi Kleen <ak@linux.intel.com>,
-        kernel test robot <oliver.sang@intel.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        kernel-hardening@lists.openwall.com
-Subject: Re: [PATCH v6 7/8] Documentation: Add documentation for the Brute LSM
-Message-ID: <20210326154141.GA3131@ubuntu>
-References: <20210307113031.11671-1-john.wood@gmx.com>
- <20210307113031.11671-8-john.wood@gmx.com>
- <87k0q0l4s8.fsf@meer.lwn.net>
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
+ <20210316151054.5405-19-yu-cheng.yu@intel.com>
+ <20210322105729.24rt4nwc3blipxsr@box>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <4b926140-66ac-f538-df94-8213b8a2ab86@intel.com>
+Date:   Fri, 26 Mar 2021 08:46:30 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87k0q0l4s8.fsf@meer.lwn.net>
-X-Provags-ID: V03:K1:2ffp/O9iNnB5tOZJlOKbIBIElc1aB7tKPscALEmFt1EkyRNffNU
- wiPNw8U3ciTKoYxsVRf81yoQRo+H/hCZy/YRjAhdBHs3d0PuEgLHBhO3PnfD7k9tPPFojEM
- cGrMSsT0B1TFpWESJbnCsgDEso8ClCflg1zZj8nlYfUqt71TtWmomZBAxLP/erTm8BKsSQK
- seGzO+1FPZsNDkPT/lboQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vchnW+PvK4U=:Kaw9IXbD5r2xS7sNA6OL56
- QE1/0MjKUGVmH5sEyhJqPw6vSvgHThqEtvtDYJZUOOOx/PiFtqjWxWcqPZYpfm6fAF26hbUyL
- dQzXBiz/3yLMAS810CnIcsi0OZeAvX2pe2c98w+koowqJVNgyvhnDatNlfCFsD7DjotBsCNjw
- Ek/8IIFJ0C5eOTQDBwUWwpgFNkjFBKEK+k7YJOl33byzzHjIg09gCeJjg5Qk/j/jth+t0Jp8g
- rDJfsaNv2horig5RmhCLYi7xfpv74AztymIxntOdxFs2b/4m4CpL7OXlHTGz5TWDE7yDNbdXz
- LTQGMcyqZHUnsiaN/bUEGiSpV7MA5B4kY/SF3CIU4bMBoH3W4rtGS93HJMFJEDrlpl95Ixry3
- WjGbM03IHwI2jJOcPceBGFru4tC4PwQIIDZt7yka/ujCKfliV8+l7bvxQR/Yb0N8FKSta9mYn
- wJMFcl5T+BIChZLYAqArTJe4aGFObBz3gmbeRgK6OXuxDUlFz7k58yhIxgWSme9sMrn5UX2M9
- KnoG1n0PkJBrTqxbZaxejWeBp5e1f/vtxjE8t+5FjQcyNfcKx1snzJxMUqzhtAwDlMRdICkFi
- O1RIW4vtfFH1C/5/Ppj9cMUz6D2BTooqzurmm19swoL12/uPVCO5WkvEhtij155ZviTMjFkl1
- EtPKV7SDFMeonS671j5j8P055AKpZbyKYA5xetqt7l0fzA2rJTie2rmS2c65kO8Gf4v+nC9AT
- kj7qg7C+oQR7uR1YJQec0Oi1ljqBKcERi4Axsd6vqVUmYhWRFF6A9jQSaxGrfS+bZ2irLenMN
- vT7NOFvhTzL7nZZXed5oi4GF2nWUW00nMMgkr+yXfJ/IbTsoGMwRQYWxOMdMzjLhCCPXak6tG
- 5HUmVFEMKL6OrA1hz2PETgTBOEQ0EbY8+EoBUy1DrpVlSBhbSoC0wOjnbMqSKmN0ftRYspGyz
- IknRYK5luCxnOfAgKvm8T4oAlcCN8VZr8wEgfvEXk0f4fOc+5VhgN+wXvKbJB3w0H2qxh7mdd
- /3qNaBqWfeGSzPpgjskBhLeG8sxCeHvnyAQjxLPrB3IXryXyKXBEQfeITIVg5NwJcwqX+Zrjq
- QMy4mSh9VU9q/fgRaw7VWbjnXf576OgiDe8jrbQNjAP40LHgtxet2LPlJEfACu+P3Dc775l0b
- KiQ9ZMeMLa8xYiKNjOfvfRZHcpCykK9NEMIQk1XBD48HaVsli04WH179X88YsvSyiz4xE=
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20210322105729.24rt4nwc3blipxsr@box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 21, 2021 at 12:50:47PM -0600, Jonathan Corbet wrote:
-> John Wood <john.wood@gmx.com> writes:
->
-> > Add some info detailing what is the Brute LSM, its motivation, weak
-> > points of existing implementations, proposed solutions, enabling,
-> > disabling and self-tests.
-> >
-> > Signed-off-by: John Wood <john.wood@gmx.com>
-> > ---
-> >  Documentation/admin-guide/LSM/Brute.rst | 278 +++++++++++++++++++++++=
-+
-> >  Documentation/admin-guide/LSM/index.rst |   1 +
-> >  security/brute/Kconfig                  |   3 +-
-> >  3 files changed, 281 insertions(+), 1 deletion(-)
-> >  create mode 100644 Documentation/admin-guide/LSM/Brute.rst
->
-> Thanks for including documentation with the patch!
->
-> As you get closer to merging this, though, you'll want to take a minute
-> (OK, a few minutes) to build the docs and look at the result; there are
+On 3/22/2021 3:57 AM, Kirill A. Shutemov wrote:
+> On Tue, Mar 16, 2021 at 08:10:44AM -0700, Yu-cheng Yu wrote:
+>> Account shadow stack pages to stack memory.
+>>
+>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>> Reviewed-by: Kees Cook <keescook@chromium.org>
+>> ---
+>>   arch/x86/mm/pgtable.c   |  7 +++++++
+>>   include/linux/pgtable.h | 11 +++++++++++
+>>   mm/mmap.c               |  5 +++++
+>>   3 files changed, 23 insertions(+)
+>>
+>> diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
+>> index 0f4fbf51a9fc..948d28c29964 100644
+>> --- a/arch/x86/mm/pgtable.c
+>> +++ b/arch/x86/mm/pgtable.c
+>> @@ -895,3 +895,10 @@ int pmd_free_pte_page(pmd_t *pmd, unsigned long addr)
+>>   
+>>   #endif /* CONFIG_X86_64 */
+>>   #endif	/* CONFIG_HAVE_ARCH_HUGE_VMAP */
+>> +
+>> +#ifdef CONFIG_ARCH_HAS_SHADOW_STACK
+>> +bool arch_shadow_stack_mapping(vm_flags_t vm_flags)
+>> +{
+>> +	return (vm_flags & VM_SHSTK);
+>> +}
+>> +#endif
+>> diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
+>> index cbd98484c4f1..487c08df4365 100644
+>> --- a/include/linux/pgtable.h
+>> +++ b/include/linux/pgtable.h
+>> @@ -1470,6 +1470,17 @@ static inline pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma
+>>   #endif /* CONFIG_ARCH_MAYBE_MKWRITE */
+>>   #endif /* CONFIG_MMU */
+>>   
+>> +#ifdef CONFIG_MMU
+>> +#ifdef CONFIG_ARCH_HAS_SHADOW_STACK
+>> +bool arch_shadow_stack_mapping(vm_flags_t vm_flags);
+>> +#else
+>> +static inline bool arch_shadow_stack_mapping(vm_flags_t vm_flags)
+>> +{
+>> +	return false;
+>> +}
+>> +#endif /* CONFIG_ARCH_HAS_SHADOW_STACK */
+>> +#endif /* CONFIG_MMU */
+>> +
+>>   /*
+>>    * Architecture PAGE_KERNEL_* fallbacks
+>>    *
+>> diff --git a/mm/mmap.c b/mm/mmap.c
+>> index 3f287599a7a3..2ac67882ace2 100644
+>> --- a/mm/mmap.c
+>> +++ b/mm/mmap.c
+>> @@ -1718,6 +1718,9 @@ static inline int accountable_mapping(struct file *file, vm_flags_t vm_flags)
+>>   	if (file && is_file_hugepages(file))
+>>   		return 0;
+>>   
+>> +	if (arch_shadow_stack_mapping(vm_flags))
+>> +		return 1;
+>> +
+> 
+> What's wrong with testing (vm_flags & VM_SHSTK) here? VM_SHSTK is 0 on
+> non-x86.
+> 
+>>   	return (vm_flags & (VM_NORESERVE | VM_SHARED | VM_WRITE)) == VM_WRITE;
+>>   }
+>>   
+>> @@ -3387,6 +3390,8 @@ void vm_stat_account(struct mm_struct *mm, vm_flags_t flags, long npages)
+>>   		mm->stack_vm += npages;
+>>   	else if (is_data_mapping(flags))
+>>   		mm->data_vm += npages;
+>> +	else if (arch_shadow_stack_mapping(flags))
+>> +		mm->stack_vm += npages;
+> 
+> Ditto.
+> 
 
-Thanks, I will do it.
+The thought was, here all testings are done with helpers, e.g. 
+is_data_mapping(), so creating a helper for shadow stack is more inline 
+with the existing code.  Or, maybe we can call it 
+is_shadow_stack_mapping()?  And, since we have a helper, use it in 
+accountable_mapping() as well.  Or do you have other suggestions?
 
-> a number of places where you're not going to get what you expect.  Just
-> as an example:
->
-> [...]
->
-> > +Based on the above scenario it would be nice to have this detected an=
-d
-> > +mitigated, and this is the goal of this implementation. Specifically =
-the
-> > +following attacks are expected to be detected:
-> > +
-> > +1.- Launching (fork()/exec()) a setuid/setgid process repeatedly unti=
-l a
-> > +    desirable memory layout is got (e.g. Stack Clash).
-> > +2.- Connecting to an exec()ing network daemon (e.g. xinetd) repeatedl=
-y until a
-> > +    desirable memory layout is got (e.g. what CTFs do for simple netw=
-ork
-> > +    service).
-> > +3.- Launching processes without exec() (e.g. Android Zygote) and expo=
-sing state
-> > +    to attack a sibling.
-> > +4.- Connecting to a fork()ing network daemon (e.g. apache) repeatedly=
- until the
-> > +    previously shared memory layout of all the other children is expo=
-sed (e.g.
-> > +    kind of related to HeartBleed).
->
-> Sphinx will try to recognize your enumerated list, but that may be a bit
-> more punctuation than it is prepared to deal with; I'd take the hyphens
-> out, if nothing else.
-
-Thanks. I will fix this for the next version.
-
-> > +These statistics are hold by the brute_stats struct.
-> > +
-> > +struct brute_cred {
-> > +	kuid_t uid;
-> > +	kgid_t gid;
-> > +	kuid_t suid;
-> > +	kgid_t sgid;
-> > +	kuid_t euid;
-> > +	kgid_t egid;
-> > +	kuid_t fsuid;
-> > +	kgid_t fsgid;
-> > +};
->
-> That will certainly not render the way you want.  What you need here is
-> a literal block:
->
-> These statistics are hold by the brute_stats struct::
->
->     struct brute_cred {
-> 	kuid_t uid;
-> 	kgid_t gid;
-> 	kuid_t suid;
-> 	kgid_t sgid;
-> 	kuid_t euid;
-> 	kgid_t egid;
-> 	kuid_t fsuid;
-> 	kgid_t fsgid;
->     };
->
-> The "::" causes all of the indented text following to be formatted
-> literally.
-
-Thanks a lot for your comments and guidance. I will build the docs and
-check if the output is as I want.
-
-> Thanks,
->
-> jon
-
-Regards,
-John Wood
+Thanks,
+Yu-cheng
