@@ -2,108 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3DDEC433E4
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 07:58:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9118C433C1
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 08:25:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7249B61A38
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 07:58:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5767D61A44
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 08:25:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229915AbhCZH57 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Mar 2021 03:57:59 -0400
-Received: from marcansoft.com ([212.63.210.85]:41058 "EHLO mail.marcansoft.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229798AbhCZH5k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Mar 2021 03:57:40 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: marcan@marcan.st)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id 40EB041982;
-        Fri, 26 Mar 2021 07:57:31 +0000 (UTC)
-Subject: Re: [RFT PATCH v3 16/27] irqchip/apple-aic: Add support for the Apple
- Interrupt Controller
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        devicetree@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210304213902.83903-1-marcan@marcan.st>
- <20210304213902.83903-17-marcan@marcan.st> <874khlzsa3.wl-maz@kernel.org>
-From:   Hector Martin <marcan@marcan.st>
-Message-ID: <7a7363cd-01e9-645c-e9b8-a81005210253@marcan.st>
-Date:   Fri, 26 Mar 2021 16:57:29 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        id S229590AbhCZIZV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Mar 2021 04:25:21 -0400
+Received: from m32-153.88.com ([43.250.32.153]:18193 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229463AbhCZIZT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Mar 2021 04:25:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=To:From:Date; bh=ZXhRW2oIQACYC5c7HrzziEEfPAGtEyLWPYiqy
+        AmnDP0=; b=kj7hhXl8ZADtz7/AjbSsmxEO9/PLC+NMCv8AfISuqLG9LBYDRst21
+        785gxwP+ma1TzRrHBUItW3wCIcrbvnrAvFL0frevyDR0p+nXSZ6HZttutjU9h7W/
+        IbejoK1Cfqmke2lCZrnkvCOXRGHArdBsIY49UgIZ6FdaugjOEdb6hA=
+Received: from [192.168.3.26] (unknown [120.242.70.191])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgDHpiFYml1gVehHAA--.49184S3;
+        Fri, 26 Mar 2021 16:24:58 +0800 (CST)
+Subject: Re: [PATCH 0/8] docs/zh_CN: add cpu-freq translation
+To:     Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Huacai Chen <chenhuacai@gmail.com>,
+        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, yanteng si <siyanteng01@gmail.com>,
+        alexs@kernel.org,
+        =?UTF-8?B?6buE5rGf5oWn?= <huangjianghui@uniontech.com>,
+        Yanteng Si <siyanteng@loongson.cn>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20210324150731.4512-1-siyanteng@loongson.cn>
+ <e3a1546e-070b-c9d4-0dc9-e8bc6d67b1ab@linux.alibaba.com>
+ <87pmznyskc.fsf@meer.lwn.net>
+ <1a648811-9809-49cd-92c1-9b72a136075d@www.fastmail.com>
+ <bbc36f12-2321-d445-c8c1-88ca1c71cc40@linux.alibaba.com>
+From:   "Wu X.C." <bobwxc@email.cn>
+Message-ID: <5d284267-8a27-131c-211d-d1e7bcf09701@email.cn>
+Date:   Fri, 26 Mar 2021 16:25:07 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <874khlzsa3.wl-maz@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: es-ES
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <bbc36f12-2321-d445-c8c1-88ca1c71cc40@linux.alibaba.com>
+Content-Type: text/plain; charset=gbk; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: GiKnCgDHpiFYml1gVehHAA--.49184S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7ArWrWw43Kw47Ar4fKFWruFg_yoW8ur1rpF
+        4UA3Wjya1rJry09F4I93yIqFZYy34fKrW5Xr98Wrn3Zwn8KF1xtrZagrZI9a4xZr1xXF4F
+        va1jqr97ZayDAFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUk0b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
+        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
+        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2
+        xKxwCYjI0SjxkI62AI1cAE67vIY487MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIE
+        Y20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s
+        026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF
+        0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0x
+        vE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv
+        6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj4RRbyZUUUUU
+X-Originating-IP: [120.242.70.191]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08/03/2021 22.31, Marc Zyngier wrote:
->> +	if ((read_sysreg_s(SYS_ICH_HCR_EL2) & ICH_HCR_EN) &&
->> +		read_sysreg_s(SYS_ICH_MISR_EL2) != 0) {
->> +		pr_err("vGIC IRQ fired, disabling.\n");
-> 
-> Please add a _ratelimited here. Whilst debugging KVM on this machine,
-> I ended up with this firing at such a rate that it was impossible to
-> do anything useful. Ratelimiting it allowed me to pinpoint the
-> problem.
+在 2021/3/26 15:44, Alex Shi 写道:
+> 在 2021/3/26 上午11:31, Jiaxun Yang 写道:
+>>
+>> On Fri, Mar 26, 2021, at 2:52 AM, Jonathan Corbet wrote:
+>>> Alex Shi <alex.shi@linux.alibaba.com> writes:
+>>>
+>>>> Cc Wu Xiangcheng,
+>>>>
+>>>> Hi Yanteng,
+>>>>
+>>>> Thanks for your work! believe we active translators could review
+>>>> for each other. :)
+>>> I'd very much like to second that.  Alex has been doing a great job of
+>>> reviewing these patches, but I think he deserves some help.
+> Thanks for encourage, My great pleasure. :)
+>
+>> Hi all,
+>>
+>> I'm going too help with revewing as well.
+> Very glad to more Chinese translators working together :)
+>
+>> However when reviewing these translations I found there are some inconsistencies
+>> in word choices.
+> Uh, generally, I am not warry about the slightly different words if they are all
+> common used in computer industry or have no clearly misleading. And we still has
+> chances to change inconsistency in review or by a patch.
+>
+>> Probably for Chinese translations we need a general golssary to help translators?
+>> We can pick up a general computer dictionary as baseline and make some linux
+>> addtion entries.
+> I don't know if there some common acked computer dictionaries. Im afraid that the
+> dictionary selection may cause much discussion and long time. :D
+>
+> May let's trust translators and provide better options in each of review?
+There is a website called termonline.cn by CNCTST which could be used as 
+a reference.
+But there are still a lot of words missing.
+So I support Alex Shi's view.
+>
+>
+> BTW,
+> I am leaving alibaba, this email account will be invalid soon. Please cc me at
+> alexs@kernel.org or seakeel@gmail.com
+Don't forget to change the Maintainer file ；)
 
-Ouch. Done for v4.
+And does Harry Wei still maintain the zh_CN translation? According to 
+git log, he/she
+last appear at many years ago.
+Also there is a maillist for Linux group of Xi'an University of Posts and
+Telecommunication marked here, seems not suitable.
 
->> +static void aic_fiq_eoi(struct irq_data *d)
->> +{
->> +	/* We mask to ack (where we can), so we need to unmask at EOI. */
->> +	if (!irqd_irq_disabled(d) && !irqd_irq_masked(d))
-> 
-> Ah, be careful here: irqd_irq_masked() doesn't do what you think it
-> does for per-CPU interrupts. It's been on my list to fix for the rVIC
-> implementation, but I never got around to doing it, and all decent ICs
-> hide this from SW by having a HW-managed mask, similar to what is on
-> the IRQ side.
-> 
-> I can see two possibilities:
-> 
-> - you can track the masked state directly and use that instead of
->    these predicates
-> 
-> - you can just drop the masking altogether as this is only useful to a
->    hosted hypervisor (KVM), which will have to do its own masking
->    behind the scenes anyway
-> 
+Thanks
+Wu X.C.
+>
+> Thanks
+> Alex
+>
+>> Thanks.
+>>
+>> - Jiaxun
+>>
+>>> Thanks,
+>>>
+>>> jon
+>>>
 
-Since you're using the masking in KVM after all, I'm tracking the mask 
-state in a percpu variable now. Also folded in your two minor bugfixes 
-from the KVM series. Cheers!
-
-
--- 
-Hector Martin (marcan@marcan.st)
-Public Key: https://mrcn.st/pub
