@@ -2,100 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ACA89C433C1
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 14:01:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77839C433C1
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:28:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6912761A24
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 14:01:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C71E61A27
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:28:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229744AbhCZOAx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Mar 2021 10:00:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45220 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230188AbhCZOAh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 10:00:37 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21C6AC0613AA
-        for <linux-doc@vger.kernel.org>; Fri, 26 Mar 2021 07:00:37 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id e14so8515711ejz.11
-        for <linux-doc@vger.kernel.org>; Fri, 26 Mar 2021 07:00:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4E2S5nAzj1ksZmJVDyih97Im5qf9hgz2vlqV5+knSG8=;
-        b=LdngGkFFOArwKJ8UJ104P+y+oqKrHDtcVxy/eFtCTkGjXnpY5/2uD3orjojnZK/Vf7
-         0/AI7LiO7lUTJCK1SJPyBYybdo0fUsvwNmcYpD2S+zTjfA76kEx5FVJ+FafcqiKuAfEj
-         wfsFI/wItAOUL6sRiVTNKQThgZx3E6/MRhJmCg7EgZIoR/nKXamUrCiWTt0wnWq7Ubyc
-         81v0fx9JbcRoK8SiL34nhLM+7QfM771UwcCbbEUgqQ5f0Wr5JfGtWbpJYF6bNQLfeJdb
-         ydCNNh/ZyKmiAs647P/wn10/7FITOsmEx62R5s5/xDCoXh8QA6xtPIDCqIMjT9s60VMg
-         J0Bg==
+        id S230221AbhCZP1o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Mar 2021 11:27:44 -0400
+Received: from mail-ej1-f42.google.com ([209.85.218.42]:33342 "EHLO
+        mail-ej1-f42.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230196AbhCZP1d (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 11:27:33 -0400
+Received: by mail-ej1-f42.google.com with SMTP id k10so9070682ejg.0;
+        Fri, 26 Mar 2021 08:27:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=4E2S5nAzj1ksZmJVDyih97Im5qf9hgz2vlqV5+knSG8=;
-        b=WBqSuFtXnqPTiCdWWG8pNjcJAXltQRY2z3f4q0HlheXFHiaV2gvWjMIO8A1+dXUd0w
-         Ymsm82I8U7skQYeDhbmMnRLY1+uHzlH0MglpEtGnAmFu9iG6b1Ig0kIaxNhwJfyWysMM
-         dudyEjpWJ39Kh2Q3oLlo55SvYExBNljixaKo9vs+lS/fpHY3egrmcEm76RtZBaJybtsn
-         gQXKdgMjmmkhgpd/+SZbcxDB3dIIcSqGiJoweVcHfao550zIgJD1mIerM6sVfqPeBLkb
-         fvunzMpeZkh1Tdxp2PCj963g4wG+ma5AF09aAoCwKz1e4NX6kAgQy+x29Vd0qh52KWqO
-         cS6w==
-X-Gm-Message-State: AOAM531Vu82bmrfj4Nqb6GbbVwieWoPJ/GeUdGFHRFDqOVHELZehhfWK
-        aTqpTYgtX+mHPUQhnlo0YhTIKQgHSsn670ntfVMN1A==
-X-Google-Smtp-Source: ABdhPJwCIK6bEQ+wusvSDhVviUDIcN+68kuVwxqzCeJsIZn9JiWkLZiMbDYndaUSskLApbRkVzmHH20b/0WPNk42s0o=
-X-Received: by 2002:a17:906:398a:: with SMTP id h10mr15832832eje.155.1616767231611;
- Fri, 26 Mar 2021 07:00:31 -0700 (PDT)
+        bh=CsvTmaNAD+JZrfh5r3rTSTh1rpmcrxqU66s7Dv3Gkbc=;
+        b=n6rfuhxBOr6U36vv91n2Iwiz0iL+xDyXds6Z+NczzAdx96UlVIoVf7viSuXZGW+Z6d
+         D7am5fTfCqRJinkAlegfRDwTw5uoxuKBgQkVrXd2IuQQXW6Spa7Tlk7PLRAvx0e2dfYW
+         Zw7IpT4o7N54RmIP93C6be4oQxV539ihK8J2AqQOoE5ZAJ6ywAPgBKExakfMJWCEd3o7
+         oQyRI2BWAXIesbPW+3Ap/Nz7Po5Ite/gj2d8G/5tkrI3Nnti76fRDT6CNXbtL0BA0uyJ
+         6BG8sJrpW/qcSpzGj53iTOW5SN/t4TtF3+IiE06cdh+nvbhdbD+Fi6p/DUI6YPwVW0y7
+         1jow==
+X-Gm-Message-State: AOAM532syNrsBvijHVPSMwXKRQLKJf30cAer7PZdWV9XUi8uc3YE1xsv
+        TINlM7sQZw30bhTv6MpYHe5kqLjMHDb1GN9EMiujA1wt
+X-Google-Smtp-Source: ABdhPJyFlw7rGrbUJFQ4KQwktBppReA8rH3lAxc1L6Lop8M+D8rVfU1AuaGVizQy1Tm1K2rwqAwvBOS8Mf3XBUZqRss=
+X-Received: by 2002:a17:906:340f:: with SMTP id c15mr2779781ejb.317.1616772452060;
+ Fri, 26 Mar 2021 08:27:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210315091400.13772-1-brgl@bgdev.pl> <CAMRc=MfQnofWQKz9tbnTA_1M8BkN37FcxbJpK4hs0RoRebWWkw@mail.gmail.com>
- <CACRpkdZbGDjAJarJJN91gGfHqXEG3puj=OwsQu=OZ5L+tpWt6A@mail.gmail.com>
-In-Reply-To: <CACRpkdZbGDjAJarJJN91gGfHqXEG3puj=OwsQu=OZ5L+tpWt6A@mail.gmail.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Fri, 26 Mar 2021 15:00:20 +0100
-Message-ID: <CAMpxmJWdwpPBBcg_QrZzDmvvm6ZUPD1QtPCjhj+yz_=Pk2q3=A@mail.gmail.com>
-Subject: Re: [PATCH v5 00/11] gpio: implement the configfs testing module
-To:     Linus Walleij <linus.walleij@linaro.org>
-Cc:     Bartosz Golaszewski <brgl@bgdev.pl>,
-        Joel Becker <jlbec@evilplan.org>,
-        Christoph Hellwig <hch@lst.de>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+References: <20210221185637.19281-1-chang.seok.bae@intel.com>
+ <20210221185637.19281-23-chang.seok.bae@intel.com> <871rc9bl3v.fsf@nanos.tec.linutronix.de>
+ <CAJvTdKkOKOgnmvAiPS6mWVoyAggbOB6hBOqb_tcHYDe8+-X+FQ@mail.gmail.com> <b1a8f92d-fd82-6e86-93ff-4ac200080d8c@intel.com>
+In-Reply-To: <b1a8f92d-fd82-6e86-93ff-4ac200080d8c@intel.com>
+From:   Len Brown <lenb@kernel.org>
+Date:   Fri, 26 Mar 2021 11:27:20 -0400
+Message-ID: <CAJvTdKk-d2rpsAYiPg7iJNZ=sEyhjBnGrT3Hy8Mt5G1TkEJRDw@mail.gmail.com>
+Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to
+ control state component support
+To:     Dave Hansen <dave.hansen@intel.com>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        "Chang S. Bae" <chang.seok.bae@intel.com>,
+        Borislav Petkov <bp@suse.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>, X86 ML <x86@kernel.org>,
+        "Brown, Len" <len.brown@intel.com>,
+        "Liu, Jing2" <jing2.liu@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        linux-doc <linux-doc@vger.kernel.org>,
-        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Kent Gibson <warthog618@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        Linux Documentation List <linux-doc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 25, 2021 at 10:29 AM Linus Walleij <linus.walleij@linaro.org> wrote:
+On Thu, Mar 25, 2021 at 7:10 PM Dave Hansen <dave.hansen@intel.com> wrote:
 >
-> On Mon, Mar 22, 2021 at 3:32 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
+> On 3/25/21 3:59 PM, Len Brown wrote:
+> > We call AMX a "simple state feature" -- it actually requires NO KERNEL ENABLING
+> > above the generic state save/restore to fully support userspace AMX
+> > applications.
+> >
+> > While not all ISA extensions can be simple state features, we do expect
+> > future features to share this trait, and so we want to be sure that it is simple
+> > to update the kernel to turn those features on (and when necessary, off).
 >
-> > FYI The configfs patches from this series have been on the mailing
-> > list for months (long before the GPIO part) and have been re-sent
-> > several times. You have neither acked or opposed these changes. I
-> > don't want to delay the new testing driver anymore so I intend to
-> > apply the entire series and take it upstream through the GPIO tree by
-> > the end of this week.
->
-> I say go ahead.
-> Acked-by: Linus Walleij <linus.walleij@linaro.org>
->
-> Yours,
-> Linus Walleij
+> From some IRC chats with Thomaas and Andy, I think it's safe to say that
+> they're not comfortable blindly enabling even our "simple features".  I
+> think we're going to need at least some additional architecture to get
+> us to a point where everyone will be comfortable.
 
-Series applied, thanks for the reviews!
+Hi Dave,
 
-Bartosz
+There is no code in this patch series, including patch 22, that enables
+an unvalidated feature by default.
+
+Yes, I fully accept that patch 22 allows a user to enable something
+that a distro didn't validate.
+
+If there is a new requirement that the kernel cmdline not allow anything
+that a distro didn't explicitly validate, then about 99.9% of the kernel cmdline
+options that exist today would need to be removed.
+
+Does such a requirement exist, or does it not?
+
+thanks,
+-Len
