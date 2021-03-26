@@ -3,53 +3,55 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 610C4C433C1
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:34:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E435DC433C1
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:38:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 200F261A24
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:34:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B04E361A1E
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:38:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230098AbhCZPeO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Mar 2021 11:34:14 -0400
-Received: from mail-ed1-f43.google.com ([209.85.208.43]:44909 "EHLO
-        mail-ed1-f43.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230106AbhCZPd7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 11:33:59 -0400
-Received: by mail-ed1-f43.google.com with SMTP id j3so6747368edp.11;
-        Fri, 26 Mar 2021 08:33:59 -0700 (PDT)
+        id S230070AbhCZPh2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Mar 2021 11:37:28 -0400
+Received: from mail-ed1-f48.google.com ([209.85.208.48]:42723 "EHLO
+        mail-ed1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230051AbhCZPg7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 11:36:59 -0400
+Received: by mail-ed1-f48.google.com with SMTP id l18so6787332edc.9;
+        Fri, 26 Mar 2021 08:36:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fVuyITToMefSsVdcKHUKULd5V5yD+yduTs+fYSCVCoA=;
-        b=iBvkvUNql4vCso3sQzClsmMP16IhO+tkBsv+mLHfkbJXDn4hrg6GgSGHFdMxF67hGe
-         kDq9CQrZxRW1peVtsipG8L+x4zy8nKlOwl7EokTCmmrULT8vsqNf+8U4L+Hzm734Cneb
-         uvHCMUtzQ4JdeBOgHMs/ioCBhEWtP0ypmd+uiUaMg2V21nIKvATlYtrEooGOipgE1Y2f
-         UCV/1/dM2TBhNn5GI50eCmeHrURMPo7pokITIcAMfs+GZO5kBnns7JhLj5NWaQdEMcCY
-         jyaZJqi8A1a3sTtTrxqT/5tRmoDXPF3Y+WG6M1q66cmjZyk9Zb6l6TLCcgjGQ0hGXRfp
-         Pl+A==
-X-Gm-Message-State: AOAM530XdvKuKKGZE3I82TTBMbQ29a6H0OEVTcivT8cpU5Rx1853p9LG
-        Bh9SwprApVkun9BR80JRHBGSUy87MPvKPGMWRj0O+0pw
-X-Google-Smtp-Source: ABdhPJxSkedp8fuIQnTqBygp92MCs6xp3cWITyw3O2utH0HrpIqiVIMyxLv1UpSZKeKtgdfkbJ7ovzgI1X1OBtDclns=
-X-Received: by 2002:a05:6402:35c9:: with SMTP id z9mr15796150edc.94.1616772838554;
- Fri, 26 Mar 2021 08:33:58 -0700 (PDT)
+        bh=M7bAOaHuOoPUP0hL0a5lD9zPxMZDsFezwNwO9c9aMSo=;
+        b=BhvKfLaarTzv4NarbNrgU+8Pi2szeGwwoSLZvGyR853YQBSZ9wa2Igxogltj9MMb1V
+         RQ3DhMHZ3fnlq3J9dP1FJOE9Jl6HqU7kDPXbHFykiiFOaifBLUT+EuR/UbhpynX8qnZ8
+         50pdWeLMJVMAEfNOXA4W4Syh1CdI17qZzrysatiVACLEsCQQ2tzHbV2Yk1zXeiz0KSyC
+         bjAID0+vDoCwdKF5ztSe8XW3PeYGBO9zvgh88fvBjh2ZVK312+xzw3R1Xh5bUIG9gAWG
+         5wqBbGJ1jnVQZIP+biUok/PkBlDxekFjjhNIn0iIVhUB3Tzuflg/GY+h82tgrPRYwtmE
+         7WdA==
+X-Gm-Message-State: AOAM530VEk4ixVxe6Lo77S/kq8qsFQzd9VN/DqStDVIFFuWvQ6ckN+pJ
+        DceXtQ8rnffxTS9JAOL0MP9UgECn9i+q8bC7/nc=
+X-Google-Smtp-Source: ABdhPJwVkwNZmu5i9ayfG2g3qmXDWDs2Q5qPfdGT7KjmW2rz52eZ9agkXMzAeOwwkQGBFPGoGYCgjL3nfG+IWovE+Mw=
+X-Received: by 2002:aa7:d917:: with SMTP id a23mr15858529edr.122.1616773017835;
+ Fri, 26 Mar 2021 08:36:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210221185637.19281-1-chang.seok.bae@intel.com>
  <20210221185637.19281-23-chang.seok.bae@intel.com> <871rc9bl3v.fsf@nanos.tec.linutronix.de>
- <CAJvTdKkOKOgnmvAiPS6mWVoyAggbOB6hBOqb_tcHYDe8+-X+FQ@mail.gmail.com> <CALCETrWOc7wwW=KY2dGJGy9k5Ag=KhkdGGTDZMvgRHgyQ5fDjQ@mail.gmail.com>
-In-Reply-To: <CALCETrWOc7wwW=KY2dGJGy9k5Ag=KhkdGGTDZMvgRHgyQ5fDjQ@mail.gmail.com>
+ <CAJvTdKkOKOgnmvAiPS6mWVoyAggbOB6hBOqb_tcHYDe8+-X+FQ@mail.gmail.com> <87v99evg2j.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <87v99evg2j.fsf@nanos.tec.linutronix.de>
 From:   Len Brown <lenb@kernel.org>
-Date:   Fri, 26 Mar 2021 11:33:47 -0400
-Message-ID: <CAJvTdK=OGALDso0H+asjgkjD_VaPNZzm+LpV+msM_i5aVUm_qw@mail.gmail.com>
+Date:   Fri, 26 Mar 2021 11:36:46 -0400
+Message-ID: <CAJvTdK=zZ7OYr9uO0GpoCG5iufe=NKhoWhkkHX0wTbajQNhYSw@mail.gmail.com>
 Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to
  control state component support
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Borislav Petkov <bp@suse.de>, Ingo Molnar <mingo@kernel.org>,
-        X86 ML <x86@kernel.org>, "Brown, Len" <len.brown@intel.com>,
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     "Chang S. Bae" <chang.seok.bae@intel.com>,
+        Borislav Petkov <bp@suse.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Ingo Molnar <mingo@kernel.org>, X86 ML <x86@kernel.org>,
+        "Brown, Len" <len.brown@intel.com>,
         Dave Hansen <dave.hansen@intel.com>,
         "Liu, Jing2" <jing2.liu@intel.com>,
         "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
@@ -60,25 +62,17 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 25, 2021 at 9:42 PM Andy Lutomirski <luto@kernel.org> wrote:
+On Thu, Mar 25, 2021 at 9:50 PM Thomas Gleixner <tglx@linutronix.de> wrote:
 
-> Regardless of what you call AMX, AMX requires kernel enabling.
+> Please provide the architectural document which guarantees that and does
+> so in a way that it can be evaluated by the kernel. Have not seen that,
+> so it does not exist at all.
+>
+>   Future CPUID attributes are as useful as the tweet of today.
 
-I submit, that after the generic XFD support is in place,
-there is exactly 1 bit that needs to be flipped to enable
-user applications to benefit from AMX.
-
-I submit the patch that knows about AMX and double checks the
-state size is superfluous.
-
-I submit that updating /proc/cpuinfo is superfluous.
-
-What AMX-specific kernel enabling did I miss?
-
-> Specifically, it appears that leaving AMX in use in the XINUSE sense
-> degrades system performance and/or power.
-
-Please share the specifics about what performance or power issue you anticipate.
+I will do so the moment I am permitted.
+I'm fine with dropping patch 22 until it can rely on the assurance of
+that architectural feature.
 
 thanks,
--Len
+Len Brown, Intel Open Source Technology Center
