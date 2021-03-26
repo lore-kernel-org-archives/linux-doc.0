@@ -2,552 +2,439 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 375FFC433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 19:26:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFFABC433DB
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 20:53:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EBADB619F2
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 19:26:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CFB9661A24
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 20:53:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230107AbhCZT0V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Mar 2021 15:26:21 -0400
-Received: from mail-io1-f45.google.com ([209.85.166.45]:37845 "EHLO
-        mail-io1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229969AbhCZT0L (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 15:26:11 -0400
-Received: by mail-io1-f45.google.com with SMTP id b10so6528119iot.4;
-        Fri, 26 Mar 2021 12:26:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gcmLtn0pTb1AfSMtdyh5DjMeOzu6nLGhIV86oDtcsLY=;
-        b=MkAbqayjp2Es0igNMOd9cGJvWveeoxbn2l/8LwMCwih0jkmnoLkMlFb/LTaOxbeKAd
-         8p0HWZi8/04bzJp/O9GYf3LiIJnQsMbC8Pevmj8zmyXNPbj8EXZQuyqtexpa5VGm2abm
-         C0Lo7AeepwxweO/GfL8AZL16ei75WjkZx5HebHu6FPYMMhALGBKTQ4kuafNeQXly1WoD
-         cWI9yXOV2rKkM/PzUFFAWyT0dg0JaeN9yHyZaYURqext2JPpbTJOsNlZV/Q50oeuM3Iv
-         6eCxdXvjofMLlLf8ExIBXPPqJUEzDMwurKACy0fvodwsMC0StCpgFjNbcRw0mue24wT9
-         dVvw==
-X-Gm-Message-State: AOAM533fgiuxEQASnjezbFIsVXZpB1DI0qfj5GJW6JUcqPwEjsZyWtPm
-        ewwHbLVs1180Tb7j+VQvsQo4P3TE5A==
-X-Google-Smtp-Source: ABdhPJzH2wb/4BrRFSzGQyob4wa7ccJ3Xs9q9SphLkcQcf840bEjU7OEQozYc4WAfTgoEjuQ4d/HlA==
-X-Received: by 2002:a05:6638:ec7:: with SMTP id q7mr13440203jas.54.1616786769840;
-        Fri, 26 Mar 2021 12:26:09 -0700 (PDT)
-Received: from xps15.herring.priv ([64.188.179.253])
-        by smtp.googlemail.com with ESMTPSA id x4sm1878658ilm.39.2021.03.26.12.26.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Mar 2021 12:26:09 -0700 (PDT)
-From:   Rob Herring <robh@kernel.org>
-To:     devicetree@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Frank Rowand <frowand.list@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v2] of: Fix kerneldoc output formatting
-Date:   Fri, 26 Mar 2021 13:26:06 -0600
-Message-Id: <20210326192606.3702739-1-robh@kernel.org>
-X-Mailer: git-send-email 2.27.0
+        id S230127AbhCZUxC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Mar 2021 16:53:02 -0400
+Received: from mx1.hrz.uni-dortmund.de ([129.217.128.51]:52075 "EHLO
+        unimail.uni-dortmund.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230003AbhCZUwi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 16:52:38 -0400
+Received: from localhost.localdomain (p4fd97b97.dip0.t-ipconnect.de [79.217.123.151])
+        (authenticated bits=0)
+        by unimail.uni-dortmund.de (8.16.1/8.16.1) with ESMTPSA id 12QKpaOo026371
+        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+        Fri, 26 Mar 2021 21:51:58 +0100 (CET)
+From:   Alexander Lochmann <info@alexander-lochmann.de>
+Cc:     Alexander Lochmann <info@alexander-lochmann.de>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Aleksandr Nogikh <nogikh@google.com>,
+        Wei Yongjun <weiyongjun1@huawei.com>,
+        Maciej Grochowski <maciej.grochowski@pm.me>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCHv3] Introduced new tracing mode KCOV_MODE_UNIQUE.
+Date:   Fri, 26 Mar 2021 21:51:28 +0100
+Message-Id: <20210326205135.6098-1-info@alexander-lochmann.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The indentation of the kerneldoc comments affects the output formatting.
-Leading tabs in particular don't work, sections need to be indented
-under the section header, and several code blocks are reformatted.
+It simply stores the executed PCs.
+The execution order is discarded.
+Each bit in the shared buffer represents every fourth
+byte of the text segment.
+Since a call instruction on every supported
+architecture is at least four bytes, it is safe
+to just store every fourth byte of the text segment.
+In contrast to KCOV_MODE_TRACE_PC, the shared buffer
+cannot overflow. Thus, all executed PCs are recorded.
 
-Cc: Frank Rowand <frowand.list@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Rob Herring <robh@kernel.org>
+Signed-off-by: Alexander Lochmann <info@alexander-lochmann.de>
 ---
-v2:
-- Updated the example code blocks to use 'Example::' which depends (for 
-  nice output) on Mauro's fix.
+ Documentation/dev-tools/kcov.rst | 79 +++++++++++++++++++++++++
+ include/linux/kcov.h             | 12 ++--
+ include/uapi/linux/kcov.h        | 10 ++++
+ kernel/kcov.c                    | 98 ++++++++++++++++++++++++--------
+ 4 files changed, 172 insertions(+), 27 deletions(-)
 
-The rest of the series is here[1].
-
-[1] https://lore.kernel.org/r/20210325164713.1296407-1-robh@kernel.org/
-
- drivers/of/base.c | 275 +++++++++++++++++++++++-----------------------
- drivers/of/fdt.c  |   9 +-
- 2 files changed, 141 insertions(+), 143 deletions(-)
-
-diff --git a/drivers/of/base.c b/drivers/of/base.c
-index 457d1ec27300..a64c093d30ef 100644
---- a/drivers/of/base.c
-+++ b/drivers/of/base.c
-@@ -651,11 +651,11 @@ bool of_device_is_big_endian(const struct device_node *device)
- EXPORT_SYMBOL(of_device_is_big_endian);
+diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
+index d2c4c27e1702..9b0df2f8474c 100644
+--- a/Documentation/dev-tools/kcov.rst
++++ b/Documentation/dev-tools/kcov.rst
+@@ -127,6 +127,85 @@ That is, a parent process opens /sys/kernel/debug/kcov, enables trace mode,
+ mmaps coverage buffer and then forks child processes in a loop. Child processes
+ only need to enable coverage (disable happens automatically on thread end).
  
- /**
-- *	of_get_parent - Get a node's parent if any
-- *	@node:	Node to get parent
-+ * of_get_parent - Get a node's parent if any
-+ * @node:	Node to get parent
-  *
-- *	Returns a node pointer with refcount incremented, use
-- *	of_node_put() on it when done.
-+ * Return: A node pointer with refcount incremented, use
-+ * of_node_put() on it when done.
-  */
- struct device_node *of_get_parent(const struct device_node *node)
- {
-@@ -673,15 +673,15 @@ struct device_node *of_get_parent(const struct device_node *node)
- EXPORT_SYMBOL(of_get_parent);
++If someone is interested in a set of executed PCs, and does not care about
++execution order, he or she can use KCOV_INIT_UNIQUE to do so:
++
++.. code-block:: c
++
++    #include <stdio.h>
++    #include <stddef.h>
++    #include <stdint.h>
++    #include <stdlib.h>
++    #include <sys/types.h>
++    #include <sys/stat.h>
++    #include <sys/ioctl.h>
++    #include <sys/mman.h>
++    #include <unistd.h>
++    #include <fcntl.h>
++
++    #define KCOV_INIT_UNIQUE                _IOR('c', 2, unsigned long)
++    #define KCOV_ENABLE			_IO('c', 100)
++    #define KCOV_DISABLE			_IO('c', 101)
++
++    #define BITS_PER_LONG 64
++    #define KCOV_TRACE_PC  0
++    #define KCOV_TRACE_CMP 1
++    #define KCOV_UNIQUE_PC 2
++    /*
++     * Determine start of text segment via 'nm vmlinux | grep _stext | cut -d " " -f1',
++     * and fill in.
++     */
++    #define STEXT_START 0xffffffff81000000
++
++
++
++    int main(int argc, char **argv)
++    {
++	int fd;
++	unsigned long *cover, n, i;
++
++	/* A single fd descriptor allows coverage collection on a single
++	 * thread.
++	 */
++	fd = open("/sys/kernel/debug/kcov", O_RDWR);
++	if (fd == -1)
++		perror("open"), exit(1);
++	/* Setup trace mode and trace size. */
++	if ((n = ioctl(fd, KCOV_INIT_UNIQUE, 0)) < 0)
++		perror("ioctl"), exit(1);
++	/* Mmap buffer shared between kernel- and user-space. */
++	cover = (unsigned long*)mmap(NULL, n,
++				     PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
++	if ((void*)cover == MAP_FAILED)
++		perror("mmap"), exit(1);
++	/* Enable coverage collection on the current thread. */
++	if (ioctl(fd, KCOV_ENABLE, KCOV_UNIQUE_PC))
++		perror("ioctl"), exit(1);
++	/* That's the target syscal call. */
++	read(-1, NULL, 0);
++	/* Disable coverage collection for the current thread. After this call
++	 * coverage can be enabled for a different thread.
++	 */
++	if (ioctl(fd, KCOV_DISABLE, 0))
++		perror("ioctl"), exit(1);
++        /* Convert byte size into element size */
++        n /= sizeof(unsigned long);
++        /* Print executed PCs in sorted order */
++        for (i = 0; i < n; i++) {
++            for (int j = 0; j < BITS_PER_LONG; j++) {
++                if (cover[i] & (1L << j)) {
++                    printf("0x%jx\n", (uintmax_t)(STEXT_START + (i * BITS_PER_LONG + j) * 4));
++                }
++            }
++        }
++	/* Free resources. */
++	if (munmap(cover, n * sizeof(unsigned long)))
++		perror("munmap"), exit(1);
++	if (close(fd))
++		perror("close"), exit(1);
++	return 0;
++    }
++
+ Comparison operands collection
+ ------------------------------
  
- /**
-- *	of_get_next_parent - Iterate to a node's parent
-- *	@node:	Node to get parent of
-+ * of_get_next_parent - Iterate to a node's parent
-+ * @node:	Node to get parent of
-  *
-- *	This is like of_get_parent() except that it drops the
-- *	refcount on the passed node, making it suitable for iterating
-- *	through a node's parents.
-+ * This is like of_get_parent() except that it drops the
-+ * refcount on the passed node, making it suitable for iterating
-+ * through a node's parents.
-  *
-- *	Returns a node pointer with refcount incremented, use
-- *	of_node_put() on it when done.
-+ * Return: A node pointer with refcount incremented, use
-+ * of_node_put() on it when done.
-  */
- struct device_node *of_get_next_parent(struct device_node *node)
- {
-@@ -719,13 +719,13 @@ static struct device_node *__of_get_next_child(const struct device_node *node,
- 	     child = __of_get_next_child(parent, child))
+diff --git a/include/linux/kcov.h b/include/linux/kcov.h
+index 4e3037dc1204..99c309b3a53b 100644
+--- a/include/linux/kcov.h
++++ b/include/linux/kcov.h
+@@ -12,17 +12,21 @@ enum kcov_mode {
+ 	/* Coverage collection is not enabled yet. */
+ 	KCOV_MODE_DISABLED = 0,
+ 	/* KCOV was initialized, but tracing mode hasn't been chosen yet. */
+-	KCOV_MODE_INIT = 1,
++	KCOV_MODE_INIT_TRACE = 1,
++	/* KCOV was initialized, but recording of unique PCs hasn't been chosen yet. */
++	KCOV_MODE_INIT_UNIQUE = 2,
+ 	/*
+ 	 * Tracing coverage collection mode.
+ 	 * Covered PCs are collected in a per-task buffer.
+ 	 */
+-	KCOV_MODE_TRACE_PC = 2,
++	KCOV_MODE_TRACE_PC = 4,
+ 	/* Collecting comparison operands mode. */
+-	KCOV_MODE_TRACE_CMP = 3,
++	KCOV_MODE_TRACE_CMP = 8,
++	/* Collecting unique covered PCs. Execution order is not saved. */
++	KCOV_MODE_UNIQUE_PC = 16,
+ };
  
- /**
-- *	of_get_next_child - Iterate a node childs
-- *	@node:	parent node
-- *	@prev:	previous child of the parent node, or NULL to get first
-+ * of_get_next_child - Iterate a node childs
-+ * @node:	parent node
-+ * @prev:	previous child of the parent node, or NULL to get first
-  *
-- *	Returns a node pointer with refcount incremented, use of_node_put() on
-- *	it when done. Returns NULL when prev is the last child. Decrements the
-- *	refcount of prev.
-+ * Return: A node pointer with refcount incremented, use of_node_put() on
-+ * it when done. Returns NULL when prev is the last child. Decrements the
-+ * refcount of prev.
-  */
- struct device_node *of_get_next_child(const struct device_node *node,
- 	struct device_node *prev)
-@@ -741,12 +741,12 @@ struct device_node *of_get_next_child(const struct device_node *node,
- EXPORT_SYMBOL(of_get_next_child);
+-#define KCOV_IN_CTXSW	(1 << 30)
++#define KCOV_IN_CTXSW	(1 << 31)
  
- /**
-- *	of_get_next_available_child - Find the next available child node
-- *	@node:	parent node
-- *	@prev:	previous child of the parent node, or NULL to get first
-+ * of_get_next_available_child - Find the next available child node
-+ * @node:	parent node
-+ * @prev:	previous child of the parent node, or NULL to get first
-  *
-- *      This function is like of_get_next_child(), except that it
-- *      automatically skips any disabled nodes (i.e. status = "disabled").
-+ * This function is like of_get_next_child(), except that it
-+ * automatically skips any disabled nodes (i.e. status = "disabled").
-  */
- struct device_node *of_get_next_available_child(const struct device_node *node,
- 	struct device_node *prev)
-@@ -772,12 +772,12 @@ struct device_node *of_get_next_available_child(const struct device_node *node,
- EXPORT_SYMBOL(of_get_next_available_child);
+ void kcov_task_init(struct task_struct *t);
+ void kcov_task_exit(struct task_struct *t);
+diff --git a/include/uapi/linux/kcov.h b/include/uapi/linux/kcov.h
+index 1d0350e44ae3..5b99b6d1a1ac 100644
+--- a/include/uapi/linux/kcov.h
++++ b/include/uapi/linux/kcov.h
+@@ -19,6 +19,7 @@ struct kcov_remote_arg {
+ #define KCOV_REMOTE_MAX_HANDLES		0x100
  
- /**
-- *	of_get_next_cpu_node - Iterate on cpu nodes
-- *	@prev:	previous child of the /cpus node, or NULL to get first
-+ * of_get_next_cpu_node - Iterate on cpu nodes
-+ * @prev:	previous child of the /cpus node, or NULL to get first
-  *
-- *	Returns a cpu node pointer with refcount incremented, use of_node_put()
-- *	on it when done. Returns NULL when prev is the last child. Decrements
-- *	the refcount of prev.
-+ * Return: A cpu node pointer with refcount incremented, use of_node_put()
-+ * on it when done. Returns NULL when prev is the last child. Decrements
-+ * the refcount of prev.
-  */
- struct device_node *of_get_next_cpu_node(struct device_node *prev)
- {
-@@ -834,15 +834,15 @@ struct device_node *of_get_compatible_child(const struct device_node *parent,
- EXPORT_SYMBOL(of_get_compatible_child);
+ #define KCOV_INIT_TRACE			_IOR('c', 1, unsigned long)
++#define KCOV_INIT_UNIQUE		_IOR('c', 2, unsigned long)
+ #define KCOV_ENABLE			_IO('c', 100)
+ #define KCOV_DISABLE			_IO('c', 101)
+ #define KCOV_REMOTE_ENABLE		_IOW('c', 102, struct kcov_remote_arg)
+@@ -35,6 +36,15 @@ enum {
+ 	KCOV_TRACE_PC = 0,
+ 	/* Collecting comparison operands mode. */
+ 	KCOV_TRACE_CMP = 1,
++	/*
++	 * Unique coverage collection mode.
++	 * Unique covered PCs are collected in a per-task buffer.
++	 * De-duplicates the collected PCs. Execution order is *not* saved.
++	 * Each bit in the buffer represents every fourth byte of the text segment.
++	 * Since a call instruction is at least four bytes on every supported
++	 * architecture, storing just every fourth byte is sufficient.
++	 */
++	KCOV_UNIQUE_PC = 2,
+ };
  
- /**
-- *	of_get_child_by_name - Find the child node by name for a given parent
-- *	@node:	parent node
-- *	@name:	child name to look for.
-+ * of_get_child_by_name - Find the child node by name for a given parent
-+ * @node:	parent node
-+ * @name:	child name to look for.
-  *
-- *      This function looks for child node for given matching name
-+ * This function looks for child node for given matching name
-  *
-- *	Returns a node pointer if found, with refcount incremented, use
-- *	of_node_put() on it when done.
-- *	Returns NULL if node is not found.
-+ * Return: A node pointer if found, with refcount incremented, use
-+ * of_node_put() on it when done.
-+ * Returns NULL if node is not found.
-  */
- struct device_node *of_get_child_by_name(const struct device_node *node,
- 				const char *name)
-@@ -893,22 +893,22 @@ struct device_node *__of_find_node_by_full_path(struct device_node *node,
+ /*
+diff --git a/kernel/kcov.c b/kernel/kcov.c
+index 80bfe71bbe13..9d64d672a5dc 100644
+--- a/kernel/kcov.c
++++ b/kernel/kcov.c
+@@ -24,6 +24,7 @@
+ #include <linux/refcount.h>
+ #include <linux/log2.h>
+ #include <asm/setup.h>
++#include <asm/sections.h>
+ 
+ #define kcov_debug(fmt, ...) pr_debug("%s: " fmt, __func__, ##__VA_ARGS__)
+ 
+@@ -151,10 +152,10 @@ static void kcov_remote_area_put(struct kcov_remote_area *area,
+ 	list_add(&area->list, &kcov_remote_areas);
  }
  
- /**
-- *	of_find_node_opts_by_path - Find a node matching a full OF path
-- *	@path: Either the full path to match, or if the path does not
-- *	       start with '/', the name of a property of the /aliases
-- *	       node (an alias).  In the case of an alias, the node
-- *	       matching the alias' value will be returned.
-- *	@opts: Address of a pointer into which to store the start of
-- *	       an options string appended to the end of the path with
-- *	       a ':' separator.
-- *
-- *	Valid paths:
-- *		/foo/bar	Full path
-- *		foo		Valid alias
-- *		foo/bar		Valid alias + relative path
-- *
-- *	Returns a node pointer with refcount incremented, use
-- *	of_node_put() on it when done.
-+ * of_find_node_opts_by_path - Find a node matching a full OF path
-+ * @path: Either the full path to match, or if the path does not
-+ *       start with '/', the name of a property of the /aliases
-+ *       node (an alias).  In the case of an alias, the node
-+ *       matching the alias' value will be returned.
-+ * @opts: Address of a pointer into which to store the start of
-+ *       an options string appended to the end of the path with
-+ *       a ':' separator.
-+ *
-+ * Valid paths:
-+ *  * /foo/bar	Full path
-+ *  * foo	Valid alias
-+ *  * foo/bar	Valid alias + relative path
-+ *
-+ * Return: A node pointer with refcount incremented, use
-+ * of_node_put() on it when done.
-  */
- struct device_node *of_find_node_opts_by_path(const char *path, const char **opts)
+-static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_struct *t)
++static __always_inline notrace bool check_kcov_mode(enum kcov_mode needed_mode,
++						    struct task_struct *t,
++						    unsigned int *mode)
  {
-@@ -958,15 +958,15 @@ struct device_node *of_find_node_opts_by_path(const char *path, const char **opt
- EXPORT_SYMBOL(of_find_node_opts_by_path);
+-	unsigned int mode;
+-
+ 	/*
+ 	 * We are interested in code coverage as a function of a syscall inputs,
+ 	 * so we ignore code executed in interrupts, unless we are in a remote
+@@ -162,7 +163,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
+ 	 */
+ 	if (!in_task() && !(in_serving_softirq() && t->kcov_softirq))
+ 		return false;
+-	mode = READ_ONCE(t->kcov_mode);
++	*mode = READ_ONCE(t->kcov_mode);
+ 	/*
+ 	 * There is some code that runs in interrupts but for which
+ 	 * in_interrupt() returns false (e.g. preempt_schedule_irq()).
+@@ -171,7 +172,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
+ 	 * kcov_start().
+ 	 */
+ 	barrier();
+-	return mode == needed_mode;
++	return ((int)(*mode & (KCOV_IN_CTXSW | needed_mode))) > 0;
+ }
  
- /**
-- *	of_find_node_by_name - Find a node by its "name" property
-- *	@from:	The node to start searching from or NULL; the node
-+ * of_find_node_by_name - Find a node by its "name" property
-+ * @from:	The node to start searching from or NULL; the node
-  *		you pass will not be searched, only the next one
-  *		will. Typically, you pass what the previous call
-  *		returned. of_node_put() will be called on @from.
-- *	@name:	The name string to match against
-+ * @name:	The name string to match against
-  *
-- *	Returns a node pointer with refcount incremented, use
-- *	of_node_put() on it when done.
-+ * Return: A node pointer with refcount incremented, use
-+ * of_node_put() on it when done.
-  */
- struct device_node *of_find_node_by_name(struct device_node *from,
- 	const char *name)
-@@ -985,16 +985,16 @@ struct device_node *of_find_node_by_name(struct device_node *from,
- EXPORT_SYMBOL(of_find_node_by_name);
+ static notrace unsigned long canonicalize_ip(unsigned long ip)
+@@ -191,18 +192,27 @@ void notrace __sanitizer_cov_trace_pc(void)
+ 	struct task_struct *t;
+ 	unsigned long *area;
+ 	unsigned long ip = canonicalize_ip(_RET_IP_);
+-	unsigned long pos;
++	unsigned long pos, idx;
++	unsigned int mode;
  
- /**
-- *	of_find_node_by_type - Find a node by its "device_type" property
-- *	@from:	The node to start searching from, or NULL to start searching
-+ * of_find_node_by_type - Find a node by its "device_type" property
-+ * @from:	The node to start searching from, or NULL to start searching
-  *		the entire device tree. The node you pass will not be
-  *		searched, only the next one will; typically, you pass
-  *		what the previous call returned. of_node_put() will be
-  *		called on from for you.
-- *	@type:	The type string to match against
-+ * @type:	The type string to match against
-  *
-- *	Returns a node pointer with refcount incremented, use
-- *	of_node_put() on it when done.
-+ * Return: A node pointer with refcount incremented, use
-+ * of_node_put() on it when done.
-  */
- struct device_node *of_find_node_by_type(struct device_node *from,
- 	const char *type)
-@@ -1013,18 +1013,18 @@ struct device_node *of_find_node_by_type(struct device_node *from,
- EXPORT_SYMBOL(of_find_node_by_type);
+ 	t = current;
+-	if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
++	if (!check_kcov_mode(KCOV_MODE_TRACE_PC | KCOV_MODE_UNIQUE_PC, t, &mode))
+ 		return;
  
- /**
-- *	of_find_compatible_node - Find a node based on type and one of the
-+ * of_find_compatible_node - Find a node based on type and one of the
-  *                                tokens in its "compatible" property
-- *	@from:		The node to start searching from or NULL, the node
-- *			you pass will not be searched, only the next one
-- *			will; typically, you pass what the previous call
-- *			returned. of_node_put() will be called on it
-- *	@type:		The type string to match "device_type" or NULL to ignore
-- *	@compatible:	The string to match to one of the tokens in the device
-- *			"compatible" list.
-- *
-- *	Returns a node pointer with refcount incremented, use
-- *	of_node_put() on it when done.
-+ * @from:	The node to start searching from or NULL, the node
-+ *		you pass will not be searched, only the next one
-+ *		will; typically, you pass what the previous call
-+ *		returned. of_node_put() will be called on it
-+ * @type:	The type string to match "device_type" or NULL to ignore
-+ * @compatible:	The string to match to one of the tokens in the device
-+ *		"compatible" list.
-+ *
-+ * Return: A node pointer with refcount incremented, use
-+ * of_node_put() on it when done.
-  */
- struct device_node *of_find_compatible_node(struct device_node *from,
- 	const char *type, const char *compatible)
-@@ -1044,16 +1044,16 @@ struct device_node *of_find_compatible_node(struct device_node *from,
- EXPORT_SYMBOL(of_find_compatible_node);
+ 	area = t->kcov_area;
+-	/* The first 64-bit word is the number of subsequent PCs. */
+-	pos = READ_ONCE(area[0]) + 1;
+-	if (likely(pos < t->kcov_size)) {
+-		area[pos] = ip;
+-		WRITE_ONCE(area[0], pos);
++	if (likely(mode == KCOV_MODE_TRACE_PC)) {
++		/* The first 64-bit word is the number of subsequent PCs. */
++		pos = READ_ONCE(area[0]) + 1;
++		if (likely(pos < t->kcov_size)) {
++			area[pos] = ip;
++			WRITE_ONCE(area[0], pos);
++		}
++	} else {
++		idx = (ip - canonicalize_ip((unsigned long)&_stext)) / 4;
++		pos = idx % BITS_PER_LONG;
++		idx /= BITS_PER_LONG;
++		if (likely(idx < t->kcov_size))
++			WRITE_ONCE(area[idx], READ_ONCE(area[idx]) | 1L << pos);
+ 	}
+ }
+ EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
+@@ -213,9 +223,10 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
+ 	struct task_struct *t;
+ 	u64 *area;
+ 	u64 count, start_index, end_pos, max_pos;
++	unsigned int mode;
  
- /**
-- *	of_find_node_with_property - Find a node which has a property with
-- *                                   the given name.
-- *	@from:		The node to start searching from or NULL, the node
-- *			you pass will not be searched, only the next one
-- *			will; typically, you pass what the previous call
-- *			returned. of_node_put() will be called on it
-- *	@prop_name:	The name of the property to look for.
-- *
-- *	Returns a node pointer with refcount incremented, use
-- *	of_node_put() on it when done.
-+ * of_find_node_with_property - Find a node which has a property with
-+ *                              the given name.
-+ * @from:	The node to start searching from or NULL, the node
-+ *		you pass will not be searched, only the next one
-+ *		will; typically, you pass what the previous call
-+ *		returned. of_node_put() will be called on it
-+ * @prop_name:	The name of the property to look for.
-+ *
-+ * Return: A node pointer with refcount incremented, use
-+ * of_node_put() on it when done.
-  */
- struct device_node *of_find_node_with_property(struct device_node *from,
- 	const char *prop_name)
-@@ -1102,10 +1102,10 @@ const struct of_device_id *__of_match_node(const struct of_device_id *matches,
+ 	t = current;
+-	if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t))
++	if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t, &mode))
+ 		return;
  
- /**
-  * of_match_node - Tell if a device_node has a matching of_match structure
-- *	@matches:	array of of device match structures to search in
-- *	@node:		the of device structure to match against
-+ * @matches:	array of of device match structures to search in
-+ * @node:	the of device structure to match against
-  *
-- *	Low level utility function used by device matching.
-+ * Low level utility function used by device matching.
-  */
- const struct of_device_id *of_match_node(const struct of_device_id *matches,
- 					 const struct device_node *node)
-@@ -1121,17 +1121,17 @@ const struct of_device_id *of_match_node(const struct of_device_id *matches,
- EXPORT_SYMBOL(of_match_node);
- 
- /**
-- *	of_find_matching_node_and_match - Find a node based on an of_device_id
-- *					  match table.
-- *	@from:		The node to start searching from or NULL, the node
-- *			you pass will not be searched, only the next one
-- *			will; typically, you pass what the previous call
-- *			returned. of_node_put() will be called on it
-- *	@matches:	array of of device match structures to search in
-- *	@match:		Updated to point at the matches entry which matched
-- *
-- *	Returns a node pointer with refcount incremented, use
-- *	of_node_put() on it when done.
-+ * of_find_matching_node_and_match - Find a node based on an of_device_id
-+ *				     match table.
-+ * @from:	The node to start searching from or NULL, the node
-+ *		you pass will not be searched, only the next one
-+ *		will; typically, you pass what the previous call
-+ *		returned. of_node_put() will be called on it
-+ * @matches:	array of of device match structures to search in
-+ * @match:	Updated to point at the matches entry which matched
-+ *
-+ * Return: A node pointer with refcount incremented, use
-+ * of_node_put() on it when done.
-  */
- struct device_node *of_find_matching_node_and_match(struct device_node *from,
- 					const struct of_device_id *matches,
-@@ -1460,21 +1460,21 @@ EXPORT_SYMBOL(of_parse_phandle);
-  * Caller is responsible to call of_node_put() on the returned out_args->np
-  * pointer.
-  *
-- * Example:
-+ * Example::
-  *
-- * phandle1: node1 {
-+ *  phandle1: node1 {
-  *	#list-cells = <2>;
-- * }
-+ *  };
-  *
-- * phandle2: node2 {
-+ *  phandle2: node2 {
-  *	#list-cells = <1>;
-- * }
-+ *  };
-  *
-- * node3 {
-+ *  node3 {
-  *	list = <&phandle1 1 2 &phandle2 3>;
-- * }
-+ *  };
-  *
-- * To get a device_node of the `node2' node you may call this:
-+ * To get a device_node of the ``node2`` node you may call this:
-  * of_parse_phandle_with_args(node3, "list", "#list-cells", 1, &args);
-  */
- int of_parse_phandle_with_args(const struct device_node *np, const char *list_name,
-@@ -1512,29 +1512,29 @@ EXPORT_SYMBOL(of_parse_phandle_with_args);
-  * Caller is responsible to call of_node_put() on the returned out_args->np
-  * pointer.
-  *
-- * Example:
-+ * Example::
-  *
-- * phandle1: node1 {
-- *	#list-cells = <2>;
-- * }
-+ *  phandle1: node1 {
-+ *  	#list-cells = <2>;
-+ *  };
-  *
-- * phandle2: node2 {
-- *	#list-cells = <1>;
-- * }
-+ *  phandle2: node2 {
-+ *  	#list-cells = <1>;
-+ *  };
-  *
-- * phandle3: node3 {
-- * 	#list-cells = <1>;
-- * 	list-map = <0 &phandle2 3>,
-- * 		   <1 &phandle2 2>,
-- * 		   <2 &phandle1 5 1>;
-- *	list-map-mask = <0x3>;
-- * };
-+ *  phandle3: node3 {
-+ *  	#list-cells = <1>;
-+ *  	list-map = <0 &phandle2 3>,
-+ *  		   <1 &phandle2 2>,
-+ *  		   <2 &phandle1 5 1>;
-+ *  	list-map-mask = <0x3>;
-+ *  };
-  *
-- * node4 {
-- *	list = <&phandle1 1 2 &phandle3 0>;
-- * }
-+ *  node4 {
-+ *  	list = <&phandle1 1 2 &phandle3 0>;
-+ *  };
-  *
-- * To get a device_node of the `node2' node you may call this:
-+ * To get a device_node of the ``node2`` node you may call this:
-  * of_parse_phandle_with_args(node4, "list", "list", 1, &args);
-  */
- int of_parse_phandle_with_args_map(const struct device_node *np,
-@@ -1694,19 +1694,19 @@ EXPORT_SYMBOL(of_parse_phandle_with_args_map);
-  * Caller is responsible to call of_node_put() on the returned out_args->np
-  * pointer.
-  *
-- * Example:
-+ * Example::
-  *
-- * phandle1: node1 {
-- * }
-+ *  phandle1: node1 {
-+ *  };
-  *
-- * phandle2: node2 {
-- * }
-+ *  phandle2: node2 {
-+ *  };
-  *
-- * node3 {
-- *	list = <&phandle1 0 2 &phandle2 2 3>;
-- * }
-+ *  node3 {
-+ *  	list = <&phandle1 0 2 &phandle2 2 3>;
-+ *  };
-  *
-- * To get a device_node of the `node2' node you may call this:
-+ * To get a device_node of the ``node2`` node you may call this:
-  * of_parse_phandle_with_fixed_args(node3, "list", 2, 1, &args);
-  */
- int of_parse_phandle_with_fixed_args(const struct device_node *np,
-@@ -1952,13 +1952,12 @@ static void of_alias_add(struct alias_prop *ap, struct device_node *np,
- 
- /**
-  * of_alias_scan - Scan all properties of the 'aliases' node
-+ * @dt_alloc:	An allocator that provides a virtual address to memory
-+ *		for storing the resulting tree
-  *
-  * The function scans all the properties of the 'aliases' node and populates
-  * the global lookup table with the properties.  It returns the
-  * number of alias properties found, or an error code in case of failure.
-- *
-- * @dt_alloc:	An allocator that provides a virtual address to memory
-- *		for storing the resulting tree
-  */
- void of_alias_scan(void * (*dt_alloc)(u64 size, u64 align))
+ 	ip = canonicalize_ip(ip);
+@@ -362,7 +373,7 @@ void kcov_task_init(struct task_struct *t)
+ static void kcov_reset(struct kcov *kcov)
  {
-@@ -2153,12 +2152,12 @@ bool of_console_check(struct device_node *dn, char *name, int index)
- EXPORT_SYMBOL_GPL(of_console_check);
+ 	kcov->t = NULL;
+-	kcov->mode = KCOV_MODE_INIT;
++	kcov->mode = KCOV_MODE_INIT_TRACE;
+ 	kcov->remote = false;
+ 	kcov->remote_size = 0;
+ 	kcov->sequence++;
+@@ -468,12 +479,13 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
  
- /**
-- *	of_find_next_cache_node - Find a node's subsidiary cache
-- *	@np:	node of type "cpu" or "cache"
-+ * of_find_next_cache_node - Find a node's subsidiary cache
-+ * @np:	node of type "cpu" or "cache"
-  *
-- *	Returns a node pointer with refcount incremented, use
-- *	of_node_put() on it when done.  Caller should hold a reference
-- *	to np.
-+ * Return: A node pointer with refcount incremented, use
-+ * of_node_put() on it when done.  Caller should hold a reference
-+ * to np.
-  */
- struct device_node *of_find_next_cache_node(const struct device_node *np)
+ 	spin_lock_irqsave(&kcov->lock, flags);
+ 	size = kcov->size * sizeof(unsigned long);
+-	if (kcov->mode != KCOV_MODE_INIT || vma->vm_pgoff != 0 ||
++	if (kcov->mode & ~(KCOV_MODE_INIT_TRACE | KCOV_MODE_INIT_UNIQUE) || vma->vm_pgoff != 0 ||
+ 	    vma->vm_end - vma->vm_start != size) {
+ 		res = -EINVAL;
+ 		goto exit;
+ 	}
+ 	if (!kcov->area) {
++		kcov_debug("mmap(): Allocating 0x%lx bytes\n", size);
+ 		kcov->area = area;
+ 		vma->vm_flags |= VM_DONTEXPAND;
+ 		spin_unlock_irqrestore(&kcov->lock, flags);
+@@ -515,6 +527,8 @@ static int kcov_get_mode(unsigned long arg)
  {
-diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
-index 4d6d195e089a..ba53da9c3895 100644
---- a/drivers/of/fdt.c
-+++ b/drivers/of/fdt.c
-@@ -349,11 +349,6 @@ static int unflatten_dt_nodes(const void *blob,
+ 	if (arg == KCOV_TRACE_PC)
+ 		return KCOV_MODE_TRACE_PC;
++	else if (arg == KCOV_UNIQUE_PC)
++		return KCOV_MODE_UNIQUE_PC;
+ 	else if (arg == KCOV_TRACE_CMP)
+ #ifdef CONFIG_KCOV_ENABLE_COMPARISONS
+ 		return KCOV_MODE_TRACE_CMP;
+@@ -562,12 +576,14 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+ {
+ 	struct task_struct *t;
+ 	unsigned long size, unused;
+-	int mode, i;
++	int mode, i, text_size, ret = 0;
+ 	struct kcov_remote_arg *remote_arg;
+ 	struct kcov_remote *remote;
+ 	unsigned long flags;
  
- /**
-  * __unflatten_device_tree - create tree of device_nodes from flat blob
-- *
-- * unflattens a device-tree, creating the
-- * tree of struct device_node. It also fills the "name" and "type"
-- * pointers of the nodes so the normal device-tree walking functions
-- * can be used.
-  * @blob: The blob to expand
-  * @dad: Parent device node
-  * @mynodes: The device_node tree created by the call
-@@ -361,6 +356,10 @@ static int unflatten_dt_nodes(const void *blob,
-  * for the resulting tree
-  * @detached: if true set OF_DETACHED on @mynodes
-  *
-+ * unflattens a device-tree, creating the tree of struct device_node. It also
-+ * fills the "name" and "type" pointers of the nodes so the normal device-tree
-+ * walking functions can be used.
-+ *
-  * Returns NULL on failure or the memory chunk containing the unflattened
-  * device tree on success.
-  */
+ 	switch (cmd) {
++	case KCOV_INIT_UNIQUE:
++		fallthrough;
+ 	case KCOV_INIT_TRACE:
+ 		/*
+ 		 * Enable kcov in trace mode and setup buffer size.
+@@ -581,11 +597,42 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+ 		 * that must not overflow.
+ 		 */
+ 		size = arg;
+-		if (size < 2 || size > INT_MAX / sizeof(unsigned long))
+-			return -EINVAL;
+-		kcov->size = size;
+-		kcov->mode = KCOV_MODE_INIT;
+-		return 0;
++		if (cmd == KCOV_INIT_UNIQUE) {
++			if (size != 0)
++				return -EINVAL;
++			text_size = (canonicalize_ip((unsigned long)&_etext)
++				     - canonicalize_ip((unsigned long)&_stext));
++			/**
++			 * A call instr is at least four bytes on every supported architecture.
++			 * Hence, just every fourth instruction can potentially be a call.
++			 */
++			text_size = roundup(text_size, 4);
++			text_size /= 4;
++			/*
++			 * Round up size of text segment to multiple of BITS_PER_LONG.
++			 * Otherwise, we cannot track
++			 * the last (text_size % BITS_PER_LONG) addresses.
++			 */
++			text_size = roundup(text_size, BITS_PER_LONG);
++			/* Get the amount of bytes needed */
++			text_size = text_size / 8;
++			/* mmap() requires size to be a multiple of PAGE_SIZE */
++			text_size = roundup(text_size, PAGE_SIZE);
++			/* Get the cover size (= amount of bytes stored) */
++			ret = text_size;
++			kcov->size = text_size / sizeof(unsigned long);
++			kcov_debug("text size = 0x%lx, roundup = 0x%x, kcov->size = 0x%x\n",
++					((unsigned long)&_etext) - ((unsigned long)&_stext),
++					text_size,
++					kcov->size);
++			kcov->mode = KCOV_MODE_INIT_UNIQUE;
++		} else {
++			if (size < 2 || size > INT_MAX / sizeof(unsigned long))
++				return -EINVAL;
++			kcov->size = size;
++			kcov->mode = KCOV_MODE_INIT_TRACE;
++		}
++		return ret;
+ 	case KCOV_ENABLE:
+ 		/*
+ 		 * Enable coverage for the current task.
+@@ -594,7 +641,7 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+ 		 * at task exit or voluntary by KCOV_DISABLE. After that it can
+ 		 * be enabled for another task.
+ 		 */
+-		if (kcov->mode != KCOV_MODE_INIT || !kcov->area)
++		if (!kcov->area)
+ 			return -EINVAL;
+ 		t = current;
+ 		if (kcov->t != NULL || t->kcov != NULL)
+@@ -602,6 +649,11 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+ 		mode = kcov_get_mode(arg);
+ 		if (mode < 0)
+ 			return mode;
++		if (kcov->mode == KCOV_MODE_INIT_TRACE && mode == KCOV_MODE_UNIQUE_PC)
++			return -EINVAL;
++		if (kcov->mode == KCOV_MODE_INIT_UNIQUE &&
++		    (mode & (KCOV_MODE_TRACE_PC | KCOV_MODE_TRACE_CMP)))
++			return -EINVAL;
+ 		kcov_fault_in_area(kcov);
+ 		kcov->mode = mode;
+ 		kcov_start(t, kcov, kcov->size, kcov->area, kcov->mode,
+@@ -622,7 +674,7 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+ 		kcov_put(kcov);
+ 		return 0;
+ 	case KCOV_REMOTE_ENABLE:
+-		if (kcov->mode != KCOV_MODE_INIT || !kcov->area)
++		if (kcov->mode != KCOV_MODE_INIT_TRACE || !kcov->area)
+ 			return -EINVAL;
+ 		t = current;
+ 		if (kcov->t != NULL || t->kcov != NULL)
 -- 
-2.27.0
+2.30.2
 
