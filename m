@@ -3,194 +3,91 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23BEDC433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 06:20:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A07E4C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 06:24:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E7B6E61A38
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 06:20:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6D8FC61A43
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 06:24:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229812AbhCZGUQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Mar 2021 02:20:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58748 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230192AbhCZGTz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 02:19:55 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0001C0613AA;
-        Thu, 25 Mar 2021 23:19:54 -0700 (PDT)
-Received: from ip4d142c50.dynamic.kabel-deutschland.de ([77.20.44.80] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1lPfp3-0003VY-BD; Fri, 26 Mar 2021 07:19:53 +0100
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     ksummit <ksummit-discuss@lists.linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>
-Cc:     linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-References: <c396c91f-27c2-de36-7b05-099e03c213f4@leemhuis.info>
-Subject: [5/5] reporting-issues: addendum
-Message-ID: <5ec1b7b0-08d5-e9b8-394f-e03b65534ade@leemhuis.info>
-Date:   Fri, 26 Mar 2021 07:19:52 +0100
+        id S230006AbhCZGYC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Mar 2021 02:24:02 -0400
+Received: from [212.63.208.185] ([212.63.208.185]:44310 "EHLO
+        mail.marcansoft.com" rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S229782AbhCZGXs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 02:23:48 -0400
+X-Greylist: delayed 58547 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Mar 2021 02:23:46 EDT
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: marcan@marcan.st)
+        by mail.marcansoft.com (Postfix) with ESMTPSA id EA5CA425DF;
+        Fri, 26 Mar 2021 06:23:32 +0000 (UTC)
+Subject: Re: [RFT PATCH v3 13/27] arm64: Add Apple vendor-specific system
+ registers
+To:     Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
+        Arnd Bergmann <arnd@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        devicetree@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210304213902.83903-1-marcan@marcan.st>
+ <20210304213902.83903-14-marcan@marcan.st>
+ <20210324183818.GF13181@willie-the-truck>
+ <20210324185921.GA27297@C02TD0UTHF1T.local>
+ <20210324190428.GG13181@willie-the-truck>
+From:   Hector Martin <marcan@marcan.st>
+Message-ID: <00d7b1ea-b455-c443-d350-d71a432573e5@marcan.st>
+Date:   Fri, 26 Mar 2021 15:23:30 +0900
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <c396c91f-27c2-de36-7b05-099e03c213f4@leemhuis.info>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-BS
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1616739594;bc4b8056;
-X-HE-SMSGID: 1lPfp3-0003VY-BD
+In-Reply-To: <20210324190428.GG13181@willie-the-truck>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: es-ES
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 26.03.21 07:13, Thorsten Leemhuis wrote:
+On 25/03/2021 04.04, Will Deacon wrote:
+> On Wed, Mar 24, 2021 at 06:59:21PM +0000, Mark Rutland wrote:
+>> So far we've kept arch/arm64/ largely devoid of IMP-DEF bits, and it
+>> seems a shame to add something with the sole purpose of collating that,
+>> especially given arch code shouldn't need to touch these if FW and
+>> bootloader have done their jobs right.
+>>
+>> Can we put the definitions in the relevant drivers? That would sidestep
+>> any pain with MAINTAINERS, too.
 > 
-> Lo! Since a few months mainline in
-> Documentation/admin-guide/reporting-issues.rst contains a text written
-> to obsolete the good old reporting-bugs text. For now, the new document
-> still contains a warning at the top that basically says "this is WIP".
-> But I'd like to remove that warning and delete reporting-bugs.rst in the
-> next merge window to make reporting-issues.rst fully official. With this
-> mail I want to give everyone a chance to take a look at the text and
-> speak up if you don't want me to move ahead for now.
-> 
-> For easier review I'll post the text of reporting-issues.rst in reply to
-> this mail. I'll do that in a few chunks, as if this was a cover letter
-> for a patch-set. 
-
-
-
-Why some issues won't get any reaction or remain unfixed after being reported
-
-=============================================================================
-
-
-
-When reporting a problem to the Linux developers, be aware only 'issues of high
-
-priority' (regressions, security issues, severe problems) are definitely going
-
-to get resolved. The maintainers or if all else fails Linus Torvalds himself
-
-will make sure of that. They and the other kernel developers will fix a lot of
-
-other issues as well. But be aware that sometimes they can't or won't help; and
-
-sometimes there isn't even anyone to send a report to.
-
-
-
-This is best explained with kernel developers that contribute to the Linux
-
-kernel in their spare time. Quite a few of the drivers in the kernel were
-
-written by such programmers, often because they simply wanted to make their
-
-hardware usable on their favorite operating system.
-
-
-
-These programmers most of the time will happily fix problems other people
-
-report. But nobody can force them to do, as they are contributing voluntarily.
-
-
-
-Then there are situations where such developers really want to fix an issue,
-
-but can't: sometimes they lack hardware programming documentation to do so.
-
-This often happens when the publicly available docs are superficial or the
-
-driver was written with the help of reverse engineering.
-
-
-
-Sooner or later spare time developers will also stop caring for the driver.
-
-Maybe their test hardware broke, got replaced by something more fancy, or is so
-
-old that it's something you don't find much outside of computer museums
-
-anymore. Sometimes developer stops caring for their code and Linux at all, as
-
-something different in their life became way more important. In some cases
-
-nobody is willing to take over the job as maintainer – and nobody can be forced
-
-to, as contributing to the Linux kernel is done on a voluntary basis. Abandoned
-
-drivers nevertheless remain in the kernel: they are still useful for people and
-
-removing would be a regression.
-
-
-
-The situation is not that different with developers that are paid for their
-
-work on the Linux kernel. Those contribute most changes these days. But their
-
-employers sooner or later also stop caring for their code or make its
-
-programmer focus on other things. Hardware vendors for example earn their money
-
-mainly by selling new hardware; quite a few of them hence are not investing
-
-much time and energy in maintaining a Linux kernel driver for something they
-
-stopped selling years ago. Enterprise Linux distributors often care for a
-
-longer time period, but in new versions often leave support for old and rare
-
-hardware aside to limit the scope. Often spare time contributors take over once
-
-a company orphans some code, but as mentioned above: sooner or later they will
-
-leave the code behind, too.
-
-
-
-Priorities are another reason why some issues are not fixed, as maintainers
-
-quite often are forced to set those, as time to work on Linux is limited.
-
-That's true for spare time or the time employers grant their developers to
-
-spend on maintenance work on the upstream kernel. Sometimes maintainers also
-
-get overwhelmed with reports, even if a driver is working nearly perfectly. To
-
-not get completely stuck, the programmer thus might have no other choice than
-
-to prioritize issue reports and reject some of them.
-
-
-
-But don't worry too much about all of this, a lot of drivers have active
-
-maintainers who are quite interested in fixing as many issues as possible.
-
-
-
-
-
-Closing words
-
-=============
-
-
-
-Compared with other Free/Libre & Open Source Software it's hard to report
-
-issues to the Linux kernel developers: the length and complexity of this
-
-document and the implications between the lines illustrate that. But that's how
-
-it is for now. The main author of this text hopes documenting the state of the
-
-art will lay some groundwork to improve the situation over time.
+> If we can genuinely ignore these in arch code, then sure. I just don't know
+> how long that is going to be the case, and ending up in a situation where
+> these are scattered randomly throughout the tree sounds horrible to me.
+
+I thought we would need some in KVM code, but given the direction Marc's 
+series ended up in, it seems we won't. So I'm happy keeping these in the 
+respective drivers; if this ends up being messy in the future it 
+shouldn't be a big deal to refactor it all into one file again.
+
+-- 
+Hector Martin (marcan@marcan.st)
+Public Key: https://mrcn.st/pub
