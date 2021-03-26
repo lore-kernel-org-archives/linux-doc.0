@@ -2,191 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4298C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 10:09:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C0D1C433C1
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 10:46:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 702D461A4C
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 10:09:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3E3D361582
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 10:46:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229946AbhCZKJS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Mar 2021 06:09:18 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:14491 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229730AbhCZKJN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 06:09:13 -0400
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4F6Hh93BMjzyPPH;
-        Fri, 26 Mar 2021 18:07:05 +0800 (CST)
-Received: from huawei.com (10.67.174.47) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.498.0; Fri, 26 Mar 2021
- 18:08:58 +0800
-From:   He Ying <heying24@huawei.com>
-To:     <mpe@ellerman.id.au>, <benh@kernel.crashing.org>,
-        <paulus@samba.org>, <corbet@lwn.net>, <ruscur@russell.cc>,
-        <oohall@gmail.com>, <heying24@huawei.com>
-CC:     <linuxppc-dev@lists.ozlabs.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>
-Subject: [PATCH] docs: powerpc: Fix misspellings and grammar errors
-Date:   Fri, 26 Mar 2021 06:08:53 -0400
-Message-ID: <20210326100853.173586-1-heying24@huawei.com>
-X-Mailer: git-send-email 2.17.1
+        id S229758AbhCZKp5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Mar 2021 06:45:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59744 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229580AbhCZKpk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 06:45:40 -0400
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com [IPv6:2a00:1450:4864:20::12a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE18AC0613AA
+        for <linux-doc@vger.kernel.org>; Fri, 26 Mar 2021 03:45:39 -0700 (PDT)
+Received: by mail-lf1-x12a.google.com with SMTP id g8so6951021lfv.12
+        for <linux-doc@vger.kernel.org>; Fri, 26 Mar 2021 03:45:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IK4/sJNKpiXcAkZPkWde1UY0aLQTEEelKUznm20o8Vo=;
+        b=CJyacTlwtLXGbCs5AoYG0JIafM42Hz1J1CXyseLv1SRT+wY5/h0dnDuwnUZ06+OO5P
+         UMrVbLtH/LGKm4kylBJfqkDHuzu35nFH7+7oL63TmM6kE2amaSMs8Xm8v+7wl83SSuga
+         5k46KN0hPWEgJH5R0IPffVF+EbdzcfKeGsSex+CMEQiPyxipLyD98BogEF8y0vGOTqy1
+         3bowHgeLnqLHM1s7elKdEEiuG8NjpZSoFy6iXFTY97mlyz1xcIhSKgE+2j8cHECHtZuA
+         7A1tyE2j3XTtMJZIW/747ZEIG9obesEuUIujyB31FLAcuU1kZ4y6tnXFXSuwWbbY/U4C
+         yJBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IK4/sJNKpiXcAkZPkWde1UY0aLQTEEelKUznm20o8Vo=;
+        b=G/I7YYu5BsrV4LxrmEIOpu4q/H0NCT7YIhMCgtWhLAJT87QbC1QRlU6blMm8ES7FMs
+         Cm0M8nFJ2iicl4KXjWUqkRLnNkrpFZWhCGNJyETzPE8I3ubWYeMNGWJZ2yTD+MD45bMa
+         kd01jr7d5nl0brRyck13D7IVI2/L+buQfiPPx1TjGcfPgZRAQJVtTkMBC0K1u02mN0NE
+         n5HigYUwSDpE8GMTACRYuoVfUiikO+fYZVG/WmgTBrkGkeTJhgMrDG39/QdK8S48SqCU
+         LMSh0qJh6Fd7S/aJm4SrStDBowliHSeNBQNwocG7CrO4eTBHGMS6zpoAkE5sZD+CnoKS
+         Xh6A==
+X-Gm-Message-State: AOAM530JAGaWDT566TOv15Ou2DgrFz3EQshwGnN1Oy5jEsCqW/ibUOMP
+        kzO8rdCmba78ldMH3Dk/MyxTBfa4wjxVukOTXhfJ3g==
+X-Google-Smtp-Source: ABdhPJxT1rj22fVGJqVzGXNuT9Wc6xVCgWO8b1atXNowepxcEYEwKbab92Vj3dYjxrucjH3qTZ0gJX+42SONzCvB7R0=
+X-Received: by 2002:a19:6b13:: with SMTP id d19mr7522600lfa.291.1616755538184;
+ Fri, 26 Mar 2021 03:45:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.67.174.47]
-X-CFilter-Loop: Reflected
+References: <20210324183610.4574-1-maciej.kwapulinski@linux.intel.com>
+In-Reply-To: <20210324183610.4574-1-maciej.kwapulinski@linux.intel.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Fri, 26 Mar 2021 11:45:27 +0100
+Message-ID: <CACRpkdaHMKueLr9Q5CAXQXN5A5FwZScfroE-DYfK+NaGXaqN1A@mail.gmail.com>
+Subject: Re: [PATCH v2 00/13] Driver of Intel(R) Gaussian & Neural Accelerator
+To:     Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>,
+        Olof Johansson <olof@lixom.net>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: He Ying <heying24@huawei.com>
----
- Documentation/powerpc/booting.rst                | 2 +-
- Documentation/powerpc/dawr-power9.rst            | 2 +-
- Documentation/powerpc/eeh-pci-error-recovery.rst | 2 +-
- Documentation/powerpc/elfnote.rst                | 2 +-
- Documentation/powerpc/firmware-assisted-dump.rst | 2 +-
- Documentation/powerpc/kaslr-booke32.rst          | 2 +-
- Documentation/powerpc/mpc52xx.rst                | 2 +-
- Documentation/powerpc/papr_hcalls.rst            | 4 ++--
- Documentation/powerpc/transactional_memory.rst   | 4 ++--
- 9 files changed, 11 insertions(+), 11 deletions(-)
+On Wed, Mar 24, 2021 at 7:39 PM Maciej Kwapulinski
+<maciej.kwapulinski@linux.intel.com> wrote:
 
-diff --git a/Documentation/powerpc/booting.rst b/Documentation/powerpc/booting.rst
-index 2d0ec2ff2b57..11aa440f98cc 100644
---- a/Documentation/powerpc/booting.rst
-+++ b/Documentation/powerpc/booting.rst
-@@ -94,7 +94,7 @@ should:
- 
-         a) add your platform support as a _boolean_ option in
-         arch/powerpc/Kconfig, following the example of PPC_PSERIES,
--        PPC_PMAC and PPC_MAPLE. The later is probably a good
-+        PPC_PMAC and PPC_MAPLE. The latter is probably a good
-         example of a board support to start from.
- 
-         b) create your main platform file as
-diff --git a/Documentation/powerpc/dawr-power9.rst b/Documentation/powerpc/dawr-power9.rst
-index c96ab6befd9c..e55ac6a24b97 100644
---- a/Documentation/powerpc/dawr-power9.rst
-+++ b/Documentation/powerpc/dawr-power9.rst
-@@ -4,7 +4,7 @@ DAWR issues on POWER9
- 
- On POWER9 the Data Address Watchpoint Register (DAWR) can cause a checkstop
- if it points to cache inhibited (CI) memory. Currently Linux has no way to
--disinguish CI memory when configuring the DAWR, so (for now) the DAWR is
-+distinguish CI memory when configuring the DAWR, so (for now) the DAWR is
- disabled by this commit::
- 
-     commit 9654153158d3e0684a1bdb76dbababdb7111d5a0
-diff --git a/Documentation/powerpc/eeh-pci-error-recovery.rst b/Documentation/powerpc/eeh-pci-error-recovery.rst
-index 438a87ebc095..d6643a91bdf8 100644
---- a/Documentation/powerpc/eeh-pci-error-recovery.rst
-+++ b/Documentation/powerpc/eeh-pci-error-recovery.rst
-@@ -73,7 +73,7 @@ return all-ff's (0xff, 0xffff, 0xffffffff for 8/16/32-bit reads).
- This value was chosen because it is the same value you would
- get if the device was physically unplugged from the slot.
- This includes access to PCI memory, I/O space, and PCI config
--space.  Interrupts; however, will continued to be delivered.
-+space.  Interrupts; however, will continue to be delivered.
- 
- Detection and recovery are performed with the aid of ppc64
- firmware.  The programming interfaces in the Linux kernel
-diff --git a/Documentation/powerpc/elfnote.rst b/Documentation/powerpc/elfnote.rst
-index 06602248621c..3ec8d61e9a33 100644
---- a/Documentation/powerpc/elfnote.rst
-+++ b/Documentation/powerpc/elfnote.rst
-@@ -8,7 +8,7 @@ capabilities and information which can be used by a bootloader or userland.
- Types and Descriptors
- ---------------------
- 
--The types to be used with the "PowerPC" namesapce are defined in [#f1]_.
-+The types to be used with the "PowerPC" namespace are defined in [#f1]_.
- 
- 	1) PPC_ELFNOTE_CAPABILITIES
- 
-diff --git a/Documentation/powerpc/firmware-assisted-dump.rst b/Documentation/powerpc/firmware-assisted-dump.rst
-index 6c0ae070ba67..e363fc48529a 100644
---- a/Documentation/powerpc/firmware-assisted-dump.rst
-+++ b/Documentation/powerpc/firmware-assisted-dump.rst
-@@ -207,7 +207,7 @@ Currently the dump will be copied from /proc/vmcore to a new file upon
- user intervention. The dump data available through /proc/vmcore will be
- in ELF format. Hence the existing kdump infrastructure (kdump scripts)
- to save the dump works fine with minor modifications. KDump scripts on
--major Distro releases have already been modified to work seemlessly (no
-+major Distro releases have already been modified to work seamlessly (no
- user intervention in saving the dump) when FADump is used, instead of
- KDump, as dump mechanism.
- 
-diff --git a/Documentation/powerpc/kaslr-booke32.rst b/Documentation/powerpc/kaslr-booke32.rst
-index 8b259fdfdf03..5681c1d1b65b 100644
---- a/Documentation/powerpc/kaslr-booke32.rst
-+++ b/Documentation/powerpc/kaslr-booke32.rst
-@@ -38,5 +38,5 @@ bit of the entropy to decide the index of the 64M zone. Then we chose a
- 
-                               kernstart_virt_addr
- 
--To enable KASLR, set CONFIG_RANDOMIZE_BASE = y. If KASLR is enable and you
-+To enable KASLR, set CONFIG_RANDOMIZE_BASE = y. If KASLR is enabled and you
- want to disable it at runtime, add "nokaslr" to the kernel cmdline.
-diff --git a/Documentation/powerpc/mpc52xx.rst b/Documentation/powerpc/mpc52xx.rst
-index 30260707c3fe..5243b1763fad 100644
---- a/Documentation/powerpc/mpc52xx.rst
-+++ b/Documentation/powerpc/mpc52xx.rst
-@@ -34,7 +34,7 @@ To compile/use :
- Some remarks:
- 
-  - The port is named mpc52xxx, and config options are PPC_MPC52xx. The MGT5100
--   is not supported, and I'm not sure anyone is interesting in working on it
-+   is not supported, and I'm not sure anyone is interested in working on it
-    so. I didn't took 5xxx because there's apparently a lot of 5xxx that have
-    nothing to do with the MPC5200. I also included the 'MPC' for the same
-    reason.
-diff --git a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
-index 48fcf1255a33..3d553e8a2937 100644
---- a/Documentation/powerpc/papr_hcalls.rst
-+++ b/Documentation/powerpc/papr_hcalls.rst
-@@ -40,7 +40,7 @@ and any in-arguments for the hcall are provided in registers *r4-r12*. If values
- have to be passed through a memory buffer, the data stored in that buffer should be
- in Big-endian byte order.
- 
--Once control is returns back to the guest after hypervisor has serviced the
-+Once control returns back to the guest after hypervisor has serviced the
- 'HVCS' instruction the return value of the hcall is available in *r3* and any
- out values are returned in registers *r4-r12*. Again like in case of in-arguments,
- any out values stored in a memory buffer will be in Big-endian byte order.
-@@ -147,7 +147,7 @@ corresponding opcode values please look into the arch specific header [4]_:
- | Out: *numBytesRead*
- | Return Value: *H_Success, H_Parameter, H_P2, H_P3, H_Hardware*
- 
--Given a DRC Index of an NVDIMM, read N-bytes from the the metadata area
-+Given a DRC Index of an NVDIMM, read N-bytes from the metadata area
- associated with it, at a specified offset and copy it to provided buffer.
- The metadata area stores configuration information such as label information,
- bad-blocks etc. The metadata area is located out-of-band of NVDIMM storage
-diff --git a/Documentation/powerpc/transactional_memory.rst b/Documentation/powerpc/transactional_memory.rst
-index b5b09bf00966..040a20675fd1 100644
---- a/Documentation/powerpc/transactional_memory.rst
-+++ b/Documentation/powerpc/transactional_memory.rst
-@@ -189,7 +189,7 @@ kernel aborted a transaction:
-  ====================== ================================
- 
- These can be checked by the user program's abort handler as TEXASR[0:7].  If
--bit 7 is set, it indicates that the error is consider persistent.  For example
-+bit 7 is set, it indicates that the error is considered persistent.  For example
- a TM_CAUSE_ALIGNMENT will be persistent while a TM_CAUSE_RESCHED will not.
- 
- GDB
-@@ -271,4 +271,4 @@ with these lines:
- 
- hrfid and mtmsrd have the same quirk.
- 
--The Linux kernel uses this quirk in it's early exception handling.
-+The Linux kernel uses this quirk in its early exception handling.
--- 
-2.17.1
+> This submission is a kernel driver to support Intel(R) Gaussian & Neural
+> Accelerator (Intel(R) GNA). Intel(R) GNA is a PCI-based neural co-processor
+> available on multiple Intel platforms.
 
+I clearly remember Olof Johansson talking about the potential need
+of creating a kernel subsystem for inference engines, so I believe he
+wants to be in on this discussion.
+
+There is already misc/habanalabs, and I personally feel this is already
+going in the same direction as did pin control before we standardized
+it (somewhat), with vendors claiming they are all necessarily different.
+
+So are they necessarily different? New frontiers in the Wild West
+every vendor shooting from the hip without any attempts at
+standardizing this thing?
+
+Habanalabs was first at this and they made it in, has there been
+any attempt to see if the two drivers could actually share code or
+have anything in common? Could they share interfaces to userspace?
+That kind of thing.
+
+In the end what kernel users want is to be able to write a
+userspace making use of any kind of inference/statistics engine
+without having to worry about the underlying hardware, this is
+what abstractions are for.
+
+> The driver works with Intel(R) libraries in user space. The Intel(R) driver
+> exposes a few IOCTL interfaces for use by libraries in user space. The
+> libraries are open sourced and are available at:
+> https://github.com/intel/gna
+
+This is nice.
+
+Have you made any attempts to cooperate with anyone else in the
+world on this, or is this Intel's personal playground?
+
+Yours,
+Linus Walleij
