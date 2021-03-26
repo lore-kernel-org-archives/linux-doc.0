@@ -2,110 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,UNPARSEABLE_RELAY,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47879C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 08:35:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 036A0C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 08:50:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06F6661A48
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 08:35:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B687C619FE
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 08:50:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229671AbhCZIej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Mar 2021 04:34:39 -0400
-Received: from out30-43.freemail.mail.aliyun.com ([115.124.30.43]:46752 "EHLO
-        out30-43.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229969AbhCZIe0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 04:34:26 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R981e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e01424;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=11;SR=0;TI=SMTPD_---0UTMtDAq_1616747663;
-Received: from IT-FVFX43SYHV2H.local(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UTMtDAq_1616747663)
+        id S229622AbhCZIuD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Mar 2021 04:50:03 -0400
+Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:48910 "EHLO
+        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229604AbhCZIt4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 04:49:56 -0400
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R861e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UTMkWms_1616748586;
+Received: from aliy80.localdomain(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UTMkWms_1616748586)
           by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 26 Mar 2021 16:34:23 +0800
-Subject: Re: [PATCH 0/8] docs/zh_CN: add cpu-freq translation
-To:     "Wu X.C." <bobwxc@email.cn>, Jonathan Corbet <corbet@lwn.net>
-Cc:     Huacai Chen <chenhuacai@gmail.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, yanteng si <siyanteng01@gmail.com>,
-        alexs@kernel.org,
-        =?UTF-8?B?6buE5rGf5oWn?= <huangjianghui@uniontech.com>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <20210324150731.4512-1-siyanteng@loongson.cn>
- <e3a1546e-070b-c9d4-0dc9-e8bc6d67b1ab@linux.alibaba.com>
- <87pmznyskc.fsf@meer.lwn.net>
- <1a648811-9809-49cd-92c1-9b72a136075d@www.fastmail.com>
- <bbc36f12-2321-d445-c8c1-88ca1c71cc40@linux.alibaba.com>
- <5d284267-8a27-131c-211d-d1e7bcf09701@email.cn>
+          Fri, 26 Mar 2021 16:49:53 +0800
 From:   Alex Shi <alex.shi@linux.alibaba.com>
-Message-ID: <5f4970e1-354d-49f2-fed5-6bea57ed25c0@linux.alibaba.com>
-Date:   Fri, 26 Mar 2021 16:34:22 +0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.0; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.0
+To:     corbet@lwn.net
+Cc:     Harry Wei <harryxiyou@gmail.com>, Alex Shi <alexs@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] Docs/zh_CN: update Alex Shi new email address
+Date:   Fri, 26 Mar 2021 16:49:31 +0800
+Message-Id: <1616748571-52058-2-git-send-email-alex.shi@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1616748571-52058-1-git-send-email-alex.shi@linux.alibaba.com>
+References: <1616748571-52058-1-git-send-email-alex.shi@linux.alibaba.com>
 MIME-Version: 1.0
-In-Reply-To: <5d284267-8a27-131c-211d-d1e7bcf09701@email.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+I am leaving Alibaba, udpate the old email address to new one.
 
+Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+Cc: Harry Wei <harryxiyou@gmail.com> 
+Cc: Alex Shi <alexs@kernel.org> 
+Cc: Jonathan Corbet <corbet@lwn.net> 
+Cc: linux-doc@vger.kernel.org 
+Cc: linux-kernel@vger.kernel.org 
+---
+ Documentation/translations/zh_CN/disclaimer-zh_CN.rst | 2 +-
+ MAINTAINERS                                           | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-在 2021/3/26 下午4:25, Wu X.C. 写道:
-> 在 2021/3/26 15:44, Alex Shi 写道:
->> 在 2021/3/26 上午11:31, Jiaxun Yang 写道:
->>>
->>> On Fri, Mar 26, 2021, at 2:52 AM, Jonathan Corbet wrote:
->>>> Alex Shi <alex.shi@linux.alibaba.com> writes:
->>>>
->>>>> Cc Wu Xiangcheng,
->>>>>
->>>>> Hi Yanteng,
->>>>>
->>>>> Thanks for your work! believe we active translators could review
->>>>> for each other. :)
->>>> I'd very much like to second that.  Alex has been doing a great job of
->>>> reviewing these patches, but I think he deserves some help.
->> Thanks for encourage, My great pleasure. :)
->>
->>> Hi all,
->>>
->>> I'm going too help with revewing as well.
->> Very glad to more Chinese translators working together :)
->>
->>> However when reviewing these translations I found there are some inconsistencies
->>> in word choices.
->> Uh, generally, I am not warry about the slightly different words if they are all
->> common used in computer industry or have no clearly misleading. And we still has
->> chances to change inconsistency in review or by a patch.
->>
->>> Probably for Chinese translations we need a general golssary to help translators?
->>> We can pick up a general computer dictionary as baseline and make some linux
->>> addtion entries.
->> I don't know if there some common acked computer dictionaries. Im afraid that the
->> dictionary selection may cause much discussion and long time. :D
->>
->> May let's trust translators and provide better options in each of review?
-> There is a website called termonline.cn by CNCTST which could be used as a reference.
-> But there are still a lot of words missing.
-> So I support Alex Shi's view.
->>
->>
->> BTW,
->> I am leaving alibaba, this email account will be invalid soon. Please cc me at
->> alexs@kernel.org or seakeel@gmail.com
-> Don't forget to change the Maintainer file ；)
+diff --git a/Documentation/translations/zh_CN/disclaimer-zh_CN.rst b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+index dcf803ede85a..3c6db094a63c 100644
+--- a/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
++++ b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
+@@ -6,4 +6,4 @@
+ 
+ .. note::
+      如果您发现本文档与原始文件有任何不同或者有翻译问题，请联系该文件的译者，
+-     或者请求时奎亮的帮助：<alex.shi@linux.alibaba.com>。
++     或者请求时奎亮的帮助：<alexs@kernel.org>。
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 728216e3919c..f4b60255f011 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4211,7 +4211,7 @@ F:	Documentation/dev-tools/checkpatch.rst
+ 
+ CHINESE DOCUMENTATION
+ M:	Harry Wei <harryxiyou@gmail.com>
+-M:	Alex Shi <alex.shi@linux.alibaba.com>
++M:	Alex Shi <alexs@kernel.org>
+ L:	xiyoulinuxkernelgroup@googlegroups.com (subscribers-only)
+ S:	Maintained
+ F:	Documentation/translations/zh_CN/
+-- 
+2.29.GIT
 
-I will, thanks for reminder!
-
-> 
-> And does Harry Wei still maintain the zh_CN translation? According to git log, he/she
-> last appear at many years ago.
-> Also there is a maillist for Linux group of Xi'an University of Posts and
-> Telecommunication marked here, seems not suitable.
-
-You could send a mail to update MAINTAINER file, also please cc Harry Wei. :)
-
-Thanks!
