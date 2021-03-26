@@ -2,77 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E435DC433C1
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:38:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BC049C433E1
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:43:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B04E361A1E
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:38:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A495D61A2D
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 15:43:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230070AbhCZPh2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Mar 2021 11:37:28 -0400
-Received: from mail-ed1-f48.google.com ([209.85.208.48]:42723 "EHLO
-        mail-ed1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230051AbhCZPg7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 11:36:59 -0400
-Received: by mail-ed1-f48.google.com with SMTP id l18so6787332edc.9;
-        Fri, 26 Mar 2021 08:36:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=M7bAOaHuOoPUP0hL0a5lD9zPxMZDsFezwNwO9c9aMSo=;
-        b=BhvKfLaarTzv4NarbNrgU+8Pi2szeGwwoSLZvGyR853YQBSZ9wa2Igxogltj9MMb1V
-         RQ3DhMHZ3fnlq3J9dP1FJOE9Jl6HqU7kDPXbHFykiiFOaifBLUT+EuR/UbhpynX8qnZ8
-         50pdWeLMJVMAEfNOXA4W4Syh1CdI17qZzrysatiVACLEsCQQ2tzHbV2Yk1zXeiz0KSyC
-         bjAID0+vDoCwdKF5ztSe8XW3PeYGBO9zvgh88fvBjh2ZVK312+xzw3R1Xh5bUIG9gAWG
-         5wqBbGJ1jnVQZIP+biUok/PkBlDxekFjjhNIn0iIVhUB3Tzuflg/GY+h82tgrPRYwtmE
-         7WdA==
-X-Gm-Message-State: AOAM530VEk4ixVxe6Lo77S/kq8qsFQzd9VN/DqStDVIFFuWvQ6ckN+pJ
-        DceXtQ8rnffxTS9JAOL0MP9UgECn9i+q8bC7/nc=
-X-Google-Smtp-Source: ABdhPJwVkwNZmu5i9ayfG2g3qmXDWDs2Q5qPfdGT7KjmW2rz52eZ9agkXMzAeOwwkQGBFPGoGYCgjL3nfG+IWovE+Mw=
-X-Received: by 2002:aa7:d917:: with SMTP id a23mr15858529edr.122.1616773017835;
- Fri, 26 Mar 2021 08:36:57 -0700 (PDT)
+        id S230271AbhCZPnA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Mar 2021 11:43:00 -0400
+Received: from mout.gmx.net ([212.227.17.21]:46687 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230192AbhCZPmz (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Mar 2021 11:42:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1616773315;
+        bh=5eLgdU45K7E2wo8Ug5bX02jFCrshvXXHtRqXp9B6Ow4=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=h8SQ3C/2QwpQx0H0KY6KP+jiib7Gm5USU+lQNsEvBANLK8Smdnfid33h7KFB12x81
+         J973x93ulLSa39BNO+pIsKe63b3zq5qjrZJSl5r8bnDMhUMY0ZaLcWqfkbNNOzqcsb
+         n76DLt/OLQKTDbpkQPdF2Yd/qmbdd9MY2ZlVjXTY=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([83.52.229.153]) by mail.gmx.net (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1ML9yc-1l7jkH0lQw-00IAuO; Fri, 26
+ Mar 2021 16:41:55 +0100
+Date:   Fri, 26 Mar 2021 16:41:41 +0100
+From:   John Wood <john.wood@gmx.com>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Kees Cook <keescook@chromium.org>, Jann Horn <jannh@google.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        James Morris <jmorris@namei.org>,
+        Shuah Khan <shuah@kernel.org>, John Wood <john.wood@gmx.com>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andi Kleen <ak@linux.intel.com>,
+        kernel test robot <oliver.sang@intel.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        kernel-hardening@lists.openwall.com
+Subject: Re: [PATCH v6 7/8] Documentation: Add documentation for the Brute LSM
+Message-ID: <20210326154141.GA3131@ubuntu>
+References: <20210307113031.11671-1-john.wood@gmx.com>
+ <20210307113031.11671-8-john.wood@gmx.com>
+ <87k0q0l4s8.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20210221185637.19281-1-chang.seok.bae@intel.com>
- <20210221185637.19281-23-chang.seok.bae@intel.com> <871rc9bl3v.fsf@nanos.tec.linutronix.de>
- <CAJvTdKkOKOgnmvAiPS6mWVoyAggbOB6hBOqb_tcHYDe8+-X+FQ@mail.gmail.com> <87v99evg2j.fsf@nanos.tec.linutronix.de>
-In-Reply-To: <87v99evg2j.fsf@nanos.tec.linutronix.de>
-From:   Len Brown <lenb@kernel.org>
-Date:   Fri, 26 Mar 2021 11:36:46 -0400
-Message-ID: <CAJvTdK=zZ7OYr9uO0GpoCG5iufe=NKhoWhkkHX0wTbajQNhYSw@mail.gmail.com>
-Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to
- control state component support
-To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Borislav Petkov <bp@suse.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>, X86 ML <x86@kernel.org>,
-        "Brown, Len" <len.brown@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        "Liu, Jing2" <jing2.liu@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87k0q0l4s8.fsf@meer.lwn.net>
+X-Provags-ID: V03:K1:2ffp/O9iNnB5tOZJlOKbIBIElc1aB7tKPscALEmFt1EkyRNffNU
+ wiPNw8U3ciTKoYxsVRf81yoQRo+H/hCZy/YRjAhdBHs3d0PuEgLHBhO3PnfD7k9tPPFojEM
+ cGrMSsT0B1TFpWESJbnCsgDEso8ClCflg1zZj8nlYfUqt71TtWmomZBAxLP/erTm8BKsSQK
+ seGzO+1FPZsNDkPT/lboQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vchnW+PvK4U=:Kaw9IXbD5r2xS7sNA6OL56
+ QE1/0MjKUGVmH5sEyhJqPw6vSvgHThqEtvtDYJZUOOOx/PiFtqjWxWcqPZYpfm6fAF26hbUyL
+ dQzXBiz/3yLMAS810CnIcsi0OZeAvX2pe2c98w+koowqJVNgyvhnDatNlfCFsD7DjotBsCNjw
+ Ek/8IIFJ0C5eOTQDBwUWwpgFNkjFBKEK+k7YJOl33byzzHjIg09gCeJjg5Qk/j/jth+t0Jp8g
+ rDJfsaNv2horig5RmhCLYi7xfpv74AztymIxntOdxFs2b/4m4CpL7OXlHTGz5TWDE7yDNbdXz
+ LTQGMcyqZHUnsiaN/bUEGiSpV7MA5B4kY/SF3CIU4bMBoH3W4rtGS93HJMFJEDrlpl95Ixry3
+ WjGbM03IHwI2jJOcPceBGFru4tC4PwQIIDZt7yka/ujCKfliV8+l7bvxQR/Yb0N8FKSta9mYn
+ wJMFcl5T+BIChZLYAqArTJe4aGFObBz3gmbeRgK6OXuxDUlFz7k58yhIxgWSme9sMrn5UX2M9
+ KnoG1n0PkJBrTqxbZaxejWeBp5e1f/vtxjE8t+5FjQcyNfcKx1snzJxMUqzhtAwDlMRdICkFi
+ O1RIW4vtfFH1C/5/Ppj9cMUz6D2BTooqzurmm19swoL12/uPVCO5WkvEhtij155ZviTMjFkl1
+ EtPKV7SDFMeonS671j5j8P055AKpZbyKYA5xetqt7l0fzA2rJTie2rmS2c65kO8Gf4v+nC9AT
+ kj7qg7C+oQR7uR1YJQec0Oi1ljqBKcERi4Axsd6vqVUmYhWRFF6A9jQSaxGrfS+bZ2irLenMN
+ vT7NOFvhTzL7nZZXed5oi4GF2nWUW00nMMgkr+yXfJ/IbTsoGMwRQYWxOMdMzjLhCCPXak6tG
+ 5HUmVFEMKL6OrA1hz2PETgTBOEQ0EbY8+EoBUy1DrpVlSBhbSoC0wOjnbMqSKmN0ftRYspGyz
+ IknRYK5luCxnOfAgKvm8T4oAlcCN8VZr8wEgfvEXk0f4fOc+5VhgN+wXvKbJB3w0H2qxh7mdd
+ /3qNaBqWfeGSzPpgjskBhLeG8sxCeHvnyAQjxLPrB3IXryXyKXBEQfeITIVg5NwJcwqX+Zrjq
+ QMy4mSh9VU9q/fgRaw7VWbjnXf576OgiDe8jrbQNjAP40LHgtxet2LPlJEfACu+P3Dc775l0b
+ KiQ9ZMeMLa8xYiKNjOfvfRZHcpCykK9NEMIQk1XBD48HaVsli04WH179X88YsvSyiz4xE=
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Mar 25, 2021 at 9:50 PM Thomas Gleixner <tglx@linutronix.de> wrote:
-
-> Please provide the architectural document which guarantees that and does
-> so in a way that it can be evaluated by the kernel. Have not seen that,
-> so it does not exist at all.
+On Sun, Mar 21, 2021 at 12:50:47PM -0600, Jonathan Corbet wrote:
+> John Wood <john.wood@gmx.com> writes:
 >
->   Future CPUID attributes are as useful as the tweet of today.
+> > Add some info detailing what is the Brute LSM, its motivation, weak
+> > points of existing implementations, proposed solutions, enabling,
+> > disabling and self-tests.
+> >
+> > Signed-off-by: John Wood <john.wood@gmx.com>
+> > ---
+> >  Documentation/admin-guide/LSM/Brute.rst | 278 +++++++++++++++++++++++=
++
+> >  Documentation/admin-guide/LSM/index.rst |   1 +
+> >  security/brute/Kconfig                  |   3 +-
+> >  3 files changed, 281 insertions(+), 1 deletion(-)
+> >  create mode 100644 Documentation/admin-guide/LSM/Brute.rst
+>
+> Thanks for including documentation with the patch!
+>
+> As you get closer to merging this, though, you'll want to take a minute
+> (OK, a few minutes) to build the docs and look at the result; there are
 
-I will do so the moment I am permitted.
-I'm fine with dropping patch 22 until it can rely on the assurance of
-that architectural feature.
+Thanks, I will do it.
 
-thanks,
-Len Brown, Intel Open Source Technology Center
+> a number of places where you're not going to get what you expect.  Just
+> as an example:
+>
+> [...]
+>
+> > +Based on the above scenario it would be nice to have this detected an=
+d
+> > +mitigated, and this is the goal of this implementation. Specifically =
+the
+> > +following attacks are expected to be detected:
+> > +
+> > +1.- Launching (fork()/exec()) a setuid/setgid process repeatedly unti=
+l a
+> > +    desirable memory layout is got (e.g. Stack Clash).
+> > +2.- Connecting to an exec()ing network daemon (e.g. xinetd) repeatedl=
+y until a
+> > +    desirable memory layout is got (e.g. what CTFs do for simple netw=
+ork
+> > +    service).
+> > +3.- Launching processes without exec() (e.g. Android Zygote) and expo=
+sing state
+> > +    to attack a sibling.
+> > +4.- Connecting to a fork()ing network daemon (e.g. apache) repeatedly=
+ until the
+> > +    previously shared memory layout of all the other children is expo=
+sed (e.g.
+> > +    kind of related to HeartBleed).
+>
+> Sphinx will try to recognize your enumerated list, but that may be a bit
+> more punctuation than it is prepared to deal with; I'd take the hyphens
+> out, if nothing else.
+
+Thanks. I will fix this for the next version.
+
+> > +These statistics are hold by the brute_stats struct.
+> > +
+> > +struct brute_cred {
+> > +	kuid_t uid;
+> > +	kgid_t gid;
+> > +	kuid_t suid;
+> > +	kgid_t sgid;
+> > +	kuid_t euid;
+> > +	kgid_t egid;
+> > +	kuid_t fsuid;
+> > +	kgid_t fsgid;
+> > +};
+>
+> That will certainly not render the way you want.  What you need here is
+> a literal block:
+>
+> These statistics are hold by the brute_stats struct::
+>
+>     struct brute_cred {
+> 	kuid_t uid;
+> 	kgid_t gid;
+> 	kuid_t suid;
+> 	kgid_t sgid;
+> 	kuid_t euid;
+> 	kgid_t egid;
+> 	kuid_t fsuid;
+> 	kgid_t fsgid;
+>     };
+>
+> The "::" causes all of the indented text following to be formatted
+> literally.
+
+Thanks a lot for your comments and guidance. I will build the docs and
+check if the output is as I want.
+
+> Thanks,
+>
+> jon
+
+Regards,
+John Wood
