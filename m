@@ -2,439 +2,570 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFFABC433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 20:53:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23C55C433E0
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 21:27:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFB9661A24
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 20:53:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EBBAA61A28
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 21:27:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230127AbhCZUxC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Mar 2021 16:53:02 -0400
-Received: from mx1.hrz.uni-dortmund.de ([129.217.128.51]:52075 "EHLO
-        unimail.uni-dortmund.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230003AbhCZUwi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 16:52:38 -0400
-Received: from localhost.localdomain (p4fd97b97.dip0.t-ipconnect.de [79.217.123.151])
-        (authenticated bits=0)
-        by unimail.uni-dortmund.de (8.16.1/8.16.1) with ESMTPSA id 12QKpaOo026371
-        (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-        Fri, 26 Mar 2021 21:51:58 +0100 (CET)
-From:   Alexander Lochmann <info@alexander-lochmann.de>
-Cc:     Alexander Lochmann <info@alexander-lochmann.de>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S230170AbhCZV1L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Mar 2021 17:27:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39196 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230134AbhCZV06 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Mar 2021 17:26:58 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 80AB661A21;
+        Fri, 26 Mar 2021 21:26:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1616794017;
+        bh=7O/qnfEfgENe5RwTuOKe0g9oml2abEFSHFzw4/w7xns=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=Fq26EzALm532RA5d5wziuixDOvJwleER4h9BiWKqNxEFrqUeUt//Zq0tflLSda2dt
+         rckTEiaIZvsfvsJd9cjLt0Q5OSDaxfZP5ZT1NIm/L7p9THNWjvY5+AZh+Fef4vGQ3w
+         kBRlLA+ese6Pq/El/PGL/5M66cmGiIpqQQBfgY5eCbFeYQU+lD/0Ky8+mrEKr4EqRn
+         6MB0tiaC09Qf3nHvIOSrImPG7J9Vp5nlV/uLS89VQx1wKvT2LEHnRrzkC+SC8sIwTZ
+         7ztH5hDD18CYTM75wNYzhoHVzxxafxZCzOOKGtrigQHUpN5+Qb92axR7SS9cZ4J1LB
+         uiXX4mBRbSy9g==
+Date:   Fri, 26 Mar 2021 16:26:55 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Heiner Kallweit <hkallweit1@gmail.com>
+Cc:     Bjorn Helgaas <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jens Axboe <axboe@kernel.dk>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ion Badulescu <ionut@badula.org>,
         Jakub Kicinski <kuba@kernel.org>,
-        Aleksandr Nogikh <nogikh@google.com>,
-        Wei Yongjun <weiyongjun1@huawei.com>,
-        Maciej Grochowski <maciej.grochowski@pm.me>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCHv3] Introduced new tracing mode KCOV_MODE_UNIQUE.
-Date:   Fri, 26 Mar 2021 21:51:28 +0100
-Message-Id: <20210326205135.6098-1-info@alexander-lochmann.de>
-X-Mailer: git-send-email 2.30.2
+        Lino Sanfilippo <LinoSanfilippo@gmx.de>,
+        Christian Lamparter <chunkeey@googlemail.com>,
+        Kalle Valo <kvalo@codeaurora.org>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Adam Radford <aradford@gmail.com>,
+        "James E.J. Bottomley" <jejb@linux.ibm.com>,
+        "Martin K. Petersen" <martin.petersen@oracle.com>,
+        James Smart <james.smart@broadcom.com>,
+        Dick Kennedy <dick.kennedy@broadcom.com>,
+        Nilesh Javali <njavali@marvell.com>,
+        GR-QLogic-Storage-Upstream@marvell.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Felipe Balbi <balbi@kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-ide@vger.kernel.org, dmaengine@vger.kernel.org,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        linux-parisc@vger.kernel.org,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        SCSI development list <linux-scsi@vger.kernel.org>,
+        linux-serial@vger.kernel.org,
+        Linux USB Mailing List <linux-usb@vger.kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Subject: Re: [PATCH] PCI: Remove pci_try_set_mwi
+Message-ID: <20210326212655.GA912670@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4d535d35-6c8c-2bd8-812b-2b53194ce0ec@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-It simply stores the executed PCs.
-The execution order is discarded.
-Each bit in the shared buffer represents every fourth
-byte of the text segment.
-Since a call instruction on every supported
-architecture is at least four bytes, it is safe
-to just store every fourth byte of the text segment.
-In contrast to KCOV_MODE_TRACE_PC, the shared buffer
-cannot overflow. Thus, all executed PCs are recorded.
+[+cc Randy, Andrew (though I'm sure you have zero interest in this
+ancient question :))]
 
-Signed-off-by: Alexander Lochmann <info@alexander-lochmann.de>
----
- Documentation/dev-tools/kcov.rst | 79 +++++++++++++++++++++++++
- include/linux/kcov.h             | 12 ++--
- include/uapi/linux/kcov.h        | 10 ++++
- kernel/kcov.c                    | 98 ++++++++++++++++++++++++--------
- 4 files changed, 172 insertions(+), 27 deletions(-)
+On Wed, Dec 09, 2020 at 09:31:21AM +0100, Heiner Kallweit wrote:
+> pci_set_mwi() and pci_try_set_mwi() do exactly the same, just that the
+> former one is declared as __must_check. However also some callers of
+> pci_set_mwi() have a comment that it's an optional feature. I don't
+> think there's much sense in this separation and the use of
+> __must_check. Therefore remove pci_try_set_mwi() and remove the
+> __must_check attribute from pci_set_mwi().
+> I don't expect either function to be used in new code anyway.
 
-diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
-index d2c4c27e1702..9b0df2f8474c 100644
---- a/Documentation/dev-tools/kcov.rst
-+++ b/Documentation/dev-tools/kcov.rst
-@@ -127,6 +127,85 @@ That is, a parent process opens /sys/kernel/debug/kcov, enables trace mode,
- mmaps coverage buffer and then forks child processes in a loop. Child processes
- only need to enable coverage (disable happens automatically on thread end).
- 
-+If someone is interested in a set of executed PCs, and does not care about
-+execution order, he or she can use KCOV_INIT_UNIQUE to do so:
-+
-+.. code-block:: c
-+
-+    #include <stdio.h>
-+    #include <stddef.h>
-+    #include <stdint.h>
-+    #include <stdlib.h>
-+    #include <sys/types.h>
-+    #include <sys/stat.h>
-+    #include <sys/ioctl.h>
-+    #include <sys/mman.h>
-+    #include <unistd.h>
-+    #include <fcntl.h>
-+
-+    #define KCOV_INIT_UNIQUE                _IOR('c', 2, unsigned long)
-+    #define KCOV_ENABLE			_IO('c', 100)
-+    #define KCOV_DISABLE			_IO('c', 101)
-+
-+    #define BITS_PER_LONG 64
-+    #define KCOV_TRACE_PC  0
-+    #define KCOV_TRACE_CMP 1
-+    #define KCOV_UNIQUE_PC 2
-+    /*
-+     * Determine start of text segment via 'nm vmlinux | grep _stext | cut -d " " -f1',
-+     * and fill in.
-+     */
-+    #define STEXT_START 0xffffffff81000000
-+
-+
-+
-+    int main(int argc, char **argv)
-+    {
-+	int fd;
-+	unsigned long *cover, n, i;
-+
-+	/* A single fd descriptor allows coverage collection on a single
-+	 * thread.
-+	 */
-+	fd = open("/sys/kernel/debug/kcov", O_RDWR);
-+	if (fd == -1)
-+		perror("open"), exit(1);
-+	/* Setup trace mode and trace size. */
-+	if ((n = ioctl(fd, KCOV_INIT_UNIQUE, 0)) < 0)
-+		perror("ioctl"), exit(1);
-+	/* Mmap buffer shared between kernel- and user-space. */
-+	cover = (unsigned long*)mmap(NULL, n,
-+				     PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-+	if ((void*)cover == MAP_FAILED)
-+		perror("mmap"), exit(1);
-+	/* Enable coverage collection on the current thread. */
-+	if (ioctl(fd, KCOV_ENABLE, KCOV_UNIQUE_PC))
-+		perror("ioctl"), exit(1);
-+	/* That's the target syscal call. */
-+	read(-1, NULL, 0);
-+	/* Disable coverage collection for the current thread. After this call
-+	 * coverage can be enabled for a different thread.
-+	 */
-+	if (ioctl(fd, KCOV_DISABLE, 0))
-+		perror("ioctl"), exit(1);
-+        /* Convert byte size into element size */
-+        n /= sizeof(unsigned long);
-+        /* Print executed PCs in sorted order */
-+        for (i = 0; i < n; i++) {
-+            for (int j = 0; j < BITS_PER_LONG; j++) {
-+                if (cover[i] & (1L << j)) {
-+                    printf("0x%jx\n", (uintmax_t)(STEXT_START + (i * BITS_PER_LONG + j) * 4));
-+                }
-+            }
-+        }
-+	/* Free resources. */
-+	if (munmap(cover, n * sizeof(unsigned long)))
-+		perror("munmap"), exit(1);
-+	if (close(fd))
-+		perror("close"), exit(1);
-+	return 0;
-+    }
-+
- Comparison operands collection
- ------------------------------
- 
-diff --git a/include/linux/kcov.h b/include/linux/kcov.h
-index 4e3037dc1204..99c309b3a53b 100644
---- a/include/linux/kcov.h
-+++ b/include/linux/kcov.h
-@@ -12,17 +12,21 @@ enum kcov_mode {
- 	/* Coverage collection is not enabled yet. */
- 	KCOV_MODE_DISABLED = 0,
- 	/* KCOV was initialized, but tracing mode hasn't been chosen yet. */
--	KCOV_MODE_INIT = 1,
-+	KCOV_MODE_INIT_TRACE = 1,
-+	/* KCOV was initialized, but recording of unique PCs hasn't been chosen yet. */
-+	KCOV_MODE_INIT_UNIQUE = 2,
- 	/*
- 	 * Tracing coverage collection mode.
- 	 * Covered PCs are collected in a per-task buffer.
- 	 */
--	KCOV_MODE_TRACE_PC = 2,
-+	KCOV_MODE_TRACE_PC = 4,
- 	/* Collecting comparison operands mode. */
--	KCOV_MODE_TRACE_CMP = 3,
-+	KCOV_MODE_TRACE_CMP = 8,
-+	/* Collecting unique covered PCs. Execution order is not saved. */
-+	KCOV_MODE_UNIQUE_PC = 16,
- };
- 
--#define KCOV_IN_CTXSW	(1 << 30)
-+#define KCOV_IN_CTXSW	(1 << 31)
- 
- void kcov_task_init(struct task_struct *t);
- void kcov_task_exit(struct task_struct *t);
-diff --git a/include/uapi/linux/kcov.h b/include/uapi/linux/kcov.h
-index 1d0350e44ae3..5b99b6d1a1ac 100644
---- a/include/uapi/linux/kcov.h
-+++ b/include/uapi/linux/kcov.h
-@@ -19,6 +19,7 @@ struct kcov_remote_arg {
- #define KCOV_REMOTE_MAX_HANDLES		0x100
- 
- #define KCOV_INIT_TRACE			_IOR('c', 1, unsigned long)
-+#define KCOV_INIT_UNIQUE		_IOR('c', 2, unsigned long)
- #define KCOV_ENABLE			_IO('c', 100)
- #define KCOV_DISABLE			_IO('c', 101)
- #define KCOV_REMOTE_ENABLE		_IOW('c', 102, struct kcov_remote_arg)
-@@ -35,6 +36,15 @@ enum {
- 	KCOV_TRACE_PC = 0,
- 	/* Collecting comparison operands mode. */
- 	KCOV_TRACE_CMP = 1,
-+	/*
-+	 * Unique coverage collection mode.
-+	 * Unique covered PCs are collected in a per-task buffer.
-+	 * De-duplicates the collected PCs. Execution order is *not* saved.
-+	 * Each bit in the buffer represents every fourth byte of the text segment.
-+	 * Since a call instruction is at least four bytes on every supported
-+	 * architecture, storing just every fourth byte is sufficient.
-+	 */
-+	KCOV_UNIQUE_PC = 2,
- };
- 
- /*
-diff --git a/kernel/kcov.c b/kernel/kcov.c
-index 80bfe71bbe13..9d64d672a5dc 100644
---- a/kernel/kcov.c
-+++ b/kernel/kcov.c
-@@ -24,6 +24,7 @@
- #include <linux/refcount.h>
- #include <linux/log2.h>
- #include <asm/setup.h>
-+#include <asm/sections.h>
- 
- #define kcov_debug(fmt, ...) pr_debug("%s: " fmt, __func__, ##__VA_ARGS__)
- 
-@@ -151,10 +152,10 @@ static void kcov_remote_area_put(struct kcov_remote_area *area,
- 	list_add(&area->list, &kcov_remote_areas);
- }
- 
--static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_struct *t)
-+static __always_inline notrace bool check_kcov_mode(enum kcov_mode needed_mode,
-+						    struct task_struct *t,
-+						    unsigned int *mode)
- {
--	unsigned int mode;
--
- 	/*
- 	 * We are interested in code coverage as a function of a syscall inputs,
- 	 * so we ignore code executed in interrupts, unless we are in a remote
-@@ -162,7 +163,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
- 	 */
- 	if (!in_task() && !(in_serving_softirq() && t->kcov_softirq))
- 		return false;
--	mode = READ_ONCE(t->kcov_mode);
-+	*mode = READ_ONCE(t->kcov_mode);
- 	/*
- 	 * There is some code that runs in interrupts but for which
- 	 * in_interrupt() returns false (e.g. preempt_schedule_irq()).
-@@ -171,7 +172,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
- 	 * kcov_start().
- 	 */
- 	barrier();
--	return mode == needed_mode;
-+	return ((int)(*mode & (KCOV_IN_CTXSW | needed_mode))) > 0;
- }
- 
- static notrace unsigned long canonicalize_ip(unsigned long ip)
-@@ -191,18 +192,27 @@ void notrace __sanitizer_cov_trace_pc(void)
- 	struct task_struct *t;
- 	unsigned long *area;
- 	unsigned long ip = canonicalize_ip(_RET_IP_);
--	unsigned long pos;
-+	unsigned long pos, idx;
-+	unsigned int mode;
- 
- 	t = current;
--	if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
-+	if (!check_kcov_mode(KCOV_MODE_TRACE_PC | KCOV_MODE_UNIQUE_PC, t, &mode))
- 		return;
- 
- 	area = t->kcov_area;
--	/* The first 64-bit word is the number of subsequent PCs. */
--	pos = READ_ONCE(area[0]) + 1;
--	if (likely(pos < t->kcov_size)) {
--		area[pos] = ip;
--		WRITE_ONCE(area[0], pos);
-+	if (likely(mode == KCOV_MODE_TRACE_PC)) {
-+		/* The first 64-bit word is the number of subsequent PCs. */
-+		pos = READ_ONCE(area[0]) + 1;
-+		if (likely(pos < t->kcov_size)) {
-+			area[pos] = ip;
-+			WRITE_ONCE(area[0], pos);
-+		}
-+	} else {
-+		idx = (ip - canonicalize_ip((unsigned long)&_stext)) / 4;
-+		pos = idx % BITS_PER_LONG;
-+		idx /= BITS_PER_LONG;
-+		if (likely(idx < t->kcov_size))
-+			WRITE_ONCE(area[idx], READ_ONCE(area[idx]) | 1L << pos);
- 	}
- }
- EXPORT_SYMBOL(__sanitizer_cov_trace_pc);
-@@ -213,9 +223,10 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
- 	struct task_struct *t;
- 	u64 *area;
- 	u64 count, start_index, end_pos, max_pos;
-+	unsigned int mode;
- 
- 	t = current;
--	if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t))
-+	if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t, &mode))
- 		return;
- 
- 	ip = canonicalize_ip(ip);
-@@ -362,7 +373,7 @@ void kcov_task_init(struct task_struct *t)
- static void kcov_reset(struct kcov *kcov)
- {
- 	kcov->t = NULL;
--	kcov->mode = KCOV_MODE_INIT;
-+	kcov->mode = KCOV_MODE_INIT_TRACE;
- 	kcov->remote = false;
- 	kcov->remote_size = 0;
- 	kcov->sequence++;
-@@ -468,12 +479,13 @@ static int kcov_mmap(struct file *filep, struct vm_area_struct *vma)
- 
- 	spin_lock_irqsave(&kcov->lock, flags);
- 	size = kcov->size * sizeof(unsigned long);
--	if (kcov->mode != KCOV_MODE_INIT || vma->vm_pgoff != 0 ||
-+	if (kcov->mode & ~(KCOV_MODE_INIT_TRACE | KCOV_MODE_INIT_UNIQUE) || vma->vm_pgoff != 0 ||
- 	    vma->vm_end - vma->vm_start != size) {
- 		res = -EINVAL;
- 		goto exit;
- 	}
- 	if (!kcov->area) {
-+		kcov_debug("mmap(): Allocating 0x%lx bytes\n", size);
- 		kcov->area = area;
- 		vma->vm_flags |= VM_DONTEXPAND;
- 		spin_unlock_irqrestore(&kcov->lock, flags);
-@@ -515,6 +527,8 @@ static int kcov_get_mode(unsigned long arg)
- {
- 	if (arg == KCOV_TRACE_PC)
- 		return KCOV_MODE_TRACE_PC;
-+	else if (arg == KCOV_UNIQUE_PC)
-+		return KCOV_MODE_UNIQUE_PC;
- 	else if (arg == KCOV_TRACE_CMP)
- #ifdef CONFIG_KCOV_ENABLE_COMPARISONS
- 		return KCOV_MODE_TRACE_CMP;
-@@ -562,12 +576,14 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
- {
- 	struct task_struct *t;
- 	unsigned long size, unused;
--	int mode, i;
-+	int mode, i, text_size, ret = 0;
- 	struct kcov_remote_arg *remote_arg;
- 	struct kcov_remote *remote;
- 	unsigned long flags;
- 
- 	switch (cmd) {
-+	case KCOV_INIT_UNIQUE:
-+		fallthrough;
- 	case KCOV_INIT_TRACE:
- 		/*
- 		 * Enable kcov in trace mode and setup buffer size.
-@@ -581,11 +597,42 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
- 		 * that must not overflow.
- 		 */
- 		size = arg;
--		if (size < 2 || size > INT_MAX / sizeof(unsigned long))
--			return -EINVAL;
--		kcov->size = size;
--		kcov->mode = KCOV_MODE_INIT;
--		return 0;
-+		if (cmd == KCOV_INIT_UNIQUE) {
-+			if (size != 0)
-+				return -EINVAL;
-+			text_size = (canonicalize_ip((unsigned long)&_etext)
-+				     - canonicalize_ip((unsigned long)&_stext));
-+			/**
-+			 * A call instr is at least four bytes on every supported architecture.
-+			 * Hence, just every fourth instruction can potentially be a call.
-+			 */
-+			text_size = roundup(text_size, 4);
-+			text_size /= 4;
-+			/*
-+			 * Round up size of text segment to multiple of BITS_PER_LONG.
-+			 * Otherwise, we cannot track
-+			 * the last (text_size % BITS_PER_LONG) addresses.
-+			 */
-+			text_size = roundup(text_size, BITS_PER_LONG);
-+			/* Get the amount of bytes needed */
-+			text_size = text_size / 8;
-+			/* mmap() requires size to be a multiple of PAGE_SIZE */
-+			text_size = roundup(text_size, PAGE_SIZE);
-+			/* Get the cover size (= amount of bytes stored) */
-+			ret = text_size;
-+			kcov->size = text_size / sizeof(unsigned long);
-+			kcov_debug("text size = 0x%lx, roundup = 0x%x, kcov->size = 0x%x\n",
-+					((unsigned long)&_etext) - ((unsigned long)&_stext),
-+					text_size,
-+					kcov->size);
-+			kcov->mode = KCOV_MODE_INIT_UNIQUE;
-+		} else {
-+			if (size < 2 || size > INT_MAX / sizeof(unsigned long))
-+				return -EINVAL;
-+			kcov->size = size;
-+			kcov->mode = KCOV_MODE_INIT_TRACE;
-+		}
-+		return ret;
- 	case KCOV_ENABLE:
- 		/*
- 		 * Enable coverage for the current task.
-@@ -594,7 +641,7 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
- 		 * at task exit or voluntary by KCOV_DISABLE. After that it can
- 		 * be enabled for another task.
- 		 */
--		if (kcov->mode != KCOV_MODE_INIT || !kcov->area)
-+		if (!kcov->area)
- 			return -EINVAL;
- 		t = current;
- 		if (kcov->t != NULL || t->kcov != NULL)
-@@ -602,6 +649,11 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
- 		mode = kcov_get_mode(arg);
- 		if (mode < 0)
- 			return mode;
-+		if (kcov->mode == KCOV_MODE_INIT_TRACE && mode == KCOV_MODE_UNIQUE_PC)
-+			return -EINVAL;
-+		if (kcov->mode == KCOV_MODE_INIT_UNIQUE &&
-+		    (mode & (KCOV_MODE_TRACE_PC | KCOV_MODE_TRACE_CMP)))
-+			return -EINVAL;
- 		kcov_fault_in_area(kcov);
- 		kcov->mode = mode;
- 		kcov_start(t, kcov, kcov->size, kcov->area, kcov->mode,
-@@ -622,7 +674,7 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
- 		kcov_put(kcov);
- 		return 0;
- 	case KCOV_REMOTE_ENABLE:
--		if (kcov->mode != KCOV_MODE_INIT || !kcov->area)
-+		if (kcov->mode != KCOV_MODE_INIT_TRACE || !kcov->area)
- 			return -EINVAL;
- 		t = current;
- 		if (kcov->t != NULL || t->kcov != NULL)
--- 
-2.30.2
+There's not much I like better than removing things.  But some
+significant thought went into adding pci_try_set_mwi() in the first
+place, so I need a little more convincing about why it's safe to
+remove it.
 
+The argument should cite the discussion about adding it.  I think one
+of the earliest conversations is here:
+https://lore.kernel.org/linux-ide/20070404213704.224128ec.randy.dunlap@oracle.com/
+
+> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+> ---
+> patch applies on top of pci/misc for v5.11
+> ---
+>  Documentation/PCI/pci.rst                     |  5 +----
+>  drivers/ata/pata_cs5530.c                     |  2 +-
+>  drivers/ata/sata_mv.c                         |  2 +-
+>  drivers/dma/dw/pci.c                          |  2 +-
+>  drivers/dma/hsu/pci.c                         |  2 +-
+>  drivers/ide/cs5530.c                          |  2 +-
+>  drivers/mfd/intel-lpss-pci.c                  |  2 +-
+>  drivers/net/ethernet/adaptec/starfire.c       |  2 +-
+>  drivers/net/ethernet/alacritech/slicoss.c     |  2 +-
+>  drivers/net/ethernet/dec/tulip/tulip_core.c   |  5 +----
+>  drivers/net/ethernet/sun/cassini.c            |  4 ++--
+>  drivers/net/wireless/intersil/p54/p54pci.c    |  2 +-
+>  .../intersil/prism54/islpci_hotplug.c         |  3 +--
+>  .../wireless/realtek/rtl818x/rtl8180/dev.c    |  2 +-
+>  drivers/pci/pci.c                             | 19 -------------------
+>  drivers/scsi/3w-9xxx.c                        |  4 ++--
+>  drivers/scsi/3w-sas.c                         |  4 ++--
+>  drivers/scsi/csiostor/csio_init.c             |  2 +-
+>  drivers/scsi/lpfc/lpfc_init.c                 |  2 +-
+>  drivers/scsi/qla2xxx/qla_init.c               |  8 ++++----
+>  drivers/scsi/qla2xxx/qla_mr.c                 |  2 +-
+>  drivers/tty/serial/8250/8250_lpss.c           |  2 +-
+>  drivers/usb/chipidea/ci_hdrc_pci.c            |  2 +-
+>  drivers/usb/gadget/udc/amd5536udc_pci.c       |  2 +-
+>  drivers/usb/gadget/udc/net2280.c              |  2 +-
+>  drivers/usb/gadget/udc/pch_udc.c              |  2 +-
+>  include/linux/pci.h                           |  5 ++---
+>  27 files changed, 33 insertions(+), 60 deletions(-)
+> 
+> diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
+> index 814b40f83..120362cc9 100644
+> --- a/Documentation/PCI/pci.rst
+> +++ b/Documentation/PCI/pci.rst
+> @@ -226,10 +226,7 @@ If the PCI device can use the PCI Memory-Write-Invalidate transaction,
+>  call pci_set_mwi().  This enables the PCI_COMMAND bit for Mem-Wr-Inval
+>  and also ensures that the cache line size register is set correctly.
+>  Check the return value of pci_set_mwi() as not all architectures
+> -or chip-sets may support Memory-Write-Invalidate.  Alternatively,
+> -if Mem-Wr-Inval would be nice to have but is not required, call
+> -pci_try_set_mwi() to have the system do its best effort at enabling
+> -Mem-Wr-Inval.
+> +or chip-sets may support Memory-Write-Invalidate.
+>  
+>  
+>  Request MMIO/IOP resources
+> diff --git a/drivers/ata/pata_cs5530.c b/drivers/ata/pata_cs5530.c
+> index ad75d02b6..8654b3ae1 100644
+> --- a/drivers/ata/pata_cs5530.c
+> +++ b/drivers/ata/pata_cs5530.c
+> @@ -214,7 +214,7 @@ static int cs5530_init_chip(void)
+>  	}
+>  
+>  	pci_set_master(cs5530_0);
+> -	pci_try_set_mwi(cs5530_0);
+> +	pci_set_mwi(cs5530_0);
+>  
+>  	/*
+>  	 * Set PCI CacheLineSize to 16-bytes:
+> diff --git a/drivers/ata/sata_mv.c b/drivers/ata/sata_mv.c
+> index 664ef658a..ee37755ea 100644
+> --- a/drivers/ata/sata_mv.c
+> +++ b/drivers/ata/sata_mv.c
+> @@ -4432,7 +4432,7 @@ static int mv_pci_init_one(struct pci_dev *pdev,
+>  	mv_print_info(host);
+>  
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  	return ata_host_activate(host, pdev->irq, mv_interrupt, IRQF_SHARED,
+>  				 IS_GEN_I(hpriv) ? &mv5_sht : &mv6_sht);
+>  }
+> diff --git a/drivers/dma/dw/pci.c b/drivers/dma/dw/pci.c
+> index 1142aa6f8..1c20b7485 100644
+> --- a/drivers/dma/dw/pci.c
+> +++ b/drivers/dma/dw/pci.c
+> @@ -30,7 +30,7 @@ static int dw_pci_probe(struct pci_dev *pdev, const struct pci_device_id *pid)
+>  	}
+>  
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	ret = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
+>  	if (ret)
+> diff --git a/drivers/dma/hsu/pci.c b/drivers/dma/hsu/pci.c
+> index 07cc7320a..420dd3706 100644
+> --- a/drivers/dma/hsu/pci.c
+> +++ b/drivers/dma/hsu/pci.c
+> @@ -73,7 +73,7 @@ static int hsu_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  	}
+>  
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	ret = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
+>  	if (ret)
+> diff --git a/drivers/ide/cs5530.c b/drivers/ide/cs5530.c
+> index 5bb46e713..5d2c421ab 100644
+> --- a/drivers/ide/cs5530.c
+> +++ b/drivers/ide/cs5530.c
+> @@ -168,7 +168,7 @@ static int init_chipset_cs5530(struct pci_dev *dev)
+>  	 */
+>  
+>  	pci_set_master(cs5530_0);
+> -	pci_try_set_mwi(cs5530_0);
+> +	pci_set_mwi(cs5530_0);
+>  
+>  	/*
+>  	 * Set PCI CacheLineSize to 16-bytes:
+> diff --git a/drivers/mfd/intel-lpss-pci.c b/drivers/mfd/intel-lpss-pci.c
+> index 2d7c588ef..a0c3be750 100644
+> --- a/drivers/mfd/intel-lpss-pci.c
+> +++ b/drivers/mfd/intel-lpss-pci.c
+> @@ -39,7 +39,7 @@ static int intel_lpss_pci_probe(struct pci_dev *pdev,
+>  
+>  	/* Probably it is enough to set this for iDMA capable devices only */
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	ret = intel_lpss_probe(&pdev->dev, info);
+>  	if (ret)
+> diff --git a/drivers/net/ethernet/adaptec/starfire.c b/drivers/net/ethernet/adaptec/starfire.c
+> index 555299737..1dbff34c4 100644
+> --- a/drivers/net/ethernet/adaptec/starfire.c
+> +++ b/drivers/net/ethernet/adaptec/starfire.c
+> @@ -679,7 +679,7 @@ static int starfire_init_one(struct pci_dev *pdev,
+>  	pci_set_master(pdev);
+>  
+>  	/* enable MWI -- it vastly improves Rx performance on sparc64 */
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  #ifdef ZEROCOPY
+>  	/* Starfire can do TCP/UDP checksumming */
+> diff --git a/drivers/net/ethernet/alacritech/slicoss.c b/drivers/net/ethernet/alacritech/slicoss.c
+> index 696517eae..544510f57 100644
+> --- a/drivers/net/ethernet/alacritech/slicoss.c
+> +++ b/drivers/net/ethernet/alacritech/slicoss.c
+> @@ -1749,7 +1749,7 @@ static int slic_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+>  	}
+>  
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	slic_configure_pci(pdev);
+>  
+> diff --git a/drivers/net/ethernet/dec/tulip/tulip_core.c b/drivers/net/ethernet/dec/tulip/tulip_core.c
+> index c1dcd6ca1..4f6debb24 100644
+> --- a/drivers/net/ethernet/dec/tulip/tulip_core.c
+> +++ b/drivers/net/ethernet/dec/tulip/tulip_core.c
+> @@ -1193,10 +1193,7 @@ static void tulip_mwi_config(struct pci_dev *pdev, struct net_device *dev)
+>  	/* if we have any cache line size at all, we can do MRM and MWI */
+>  	csr0 |= MRM | MWI;
+>  
+> -	/* Enable MWI in the standard PCI command bit.
+> -	 * Check for the case where MWI is desired but not available
+> -	 */
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	/* read result from hardware (in case bit refused to enable) */
+>  	pci_read_config_word(pdev, PCI_COMMAND, &pci_command);
+> diff --git a/drivers/net/ethernet/sun/cassini.c b/drivers/net/ethernet/sun/cassini.c
+> index 9ff894ba8..9a95ec989 100644
+> --- a/drivers/net/ethernet/sun/cassini.c
+> +++ b/drivers/net/ethernet/sun/cassini.c
+> @@ -4933,14 +4933,14 @@ static int cas_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
+>  	pci_cmd &= ~PCI_COMMAND_SERR;
+>  	pci_cmd |= PCI_COMMAND_PARITY;
+>  	pci_write_config_word(pdev, PCI_COMMAND, pci_cmd);
+> -	if (pci_try_set_mwi(pdev))
+> +	if (pci_set_mwi(pdev))
+>  		pr_warn("Could not enable MWI for %s\n", pci_name(pdev));
+>  
+>  	cas_program_bridge(pdev);
+>  
+>  	/*
+>  	 * On some architectures, the default cache line size set
+> -	 * by pci_try_set_mwi reduces perforamnce.  We have to increase
+> +	 * by pci_set_mwi reduces performance.  We have to increase
+>  	 * it for this case.  To start, we'll print some configuration
+>  	 * data.
+>  	 */
+> diff --git a/drivers/net/wireless/intersil/p54/p54pci.c b/drivers/net/wireless/intersil/p54/p54pci.c
+> index e97ee547b..c76326d1e 100644
+> --- a/drivers/net/wireless/intersil/p54/p54pci.c
+> +++ b/drivers/net/wireless/intersil/p54/p54pci.c
+> @@ -583,7 +583,7 @@ static int p54p_probe(struct pci_dev *pdev,
+>  	}
+>  
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	pci_write_config_byte(pdev, 0x40, 0);
+>  	pci_write_config_byte(pdev, 0x41, 0);
+> diff --git a/drivers/net/wireless/intersil/prism54/islpci_hotplug.c b/drivers/net/wireless/intersil/prism54/islpci_hotplug.c
+> index 31a1e6132..e8087d9a5 100644
+> --- a/drivers/net/wireless/intersil/prism54/islpci_hotplug.c
+> +++ b/drivers/net/wireless/intersil/prism54/islpci_hotplug.c
+> @@ -153,8 +153,7 @@ prism54_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  	DEBUG(SHOW_TRACING, "%s: pci_set_master(pdev)\n", DRV_NAME);
+>  	pci_set_master(pdev);
+>  
+> -	/* enable MWI */
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	/* setup the network device interface and its structure */
+>  	if (!(ndev = islpci_setup(pdev))) {
+> diff --git a/drivers/net/wireless/realtek/rtl818x/rtl8180/dev.c b/drivers/net/wireless/realtek/rtl818x/rtl8180/dev.c
+> index 2477e18c7..b259b0b58 100644
+> --- a/drivers/net/wireless/realtek/rtl818x/rtl8180/dev.c
+> +++ b/drivers/net/wireless/realtek/rtl818x/rtl8180/dev.c
+> @@ -1871,7 +1871,7 @@ static int rtl8180_probe(struct pci_dev *pdev,
+>  
+>  	if (priv->chip_family != RTL818X_CHIP_FAMILY_RTL8180) {
+>  		priv->band.n_bitrates = ARRAY_SIZE(rtl818x_rates);
+> -		pci_try_set_mwi(pdev);
+> +		pci_set_mwi(pdev);
+>  	}
+>  
+>  	if (priv->chip_family != RTL818X_CHIP_FAMILY_RTL8180)
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index 9a5500287..f0ab432d2 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -4389,25 +4389,6 @@ int pcim_set_mwi(struct pci_dev *dev)
+>  }
+>  EXPORT_SYMBOL(pcim_set_mwi);
+>  
+> -/**
+> - * pci_try_set_mwi - enables memory-write-invalidate PCI transaction
+> - * @dev: the PCI device for which MWI is enabled
+> - *
+> - * Enables the Memory-Write-Invalidate transaction in %PCI_COMMAND.
+> - * Callers are not required to check the return value.
+> - *
+> - * RETURNS: An appropriate -ERRNO error value on error, or zero for success.
+> - */
+> -int pci_try_set_mwi(struct pci_dev *dev)
+> -{
+> -#ifdef PCI_DISABLE_MWI
+> -	return 0;
+> -#else
+> -	return pci_set_mwi(dev);
+> -#endif
+> -}
+> -EXPORT_SYMBOL(pci_try_set_mwi);
+> -
+>  /**
+>   * pci_clear_mwi - disables Memory-Write-Invalidate for device dev
+>   * @dev: the PCI device to disable
+> diff --git a/drivers/scsi/3w-9xxx.c b/drivers/scsi/3w-9xxx.c
+> index b4718a1b2..d869485e2 100644
+> --- a/drivers/scsi/3w-9xxx.c
+> +++ b/drivers/scsi/3w-9xxx.c
+> @@ -2018,7 +2018,7 @@ static int twa_probe(struct pci_dev *pdev, const struct pci_device_id *dev_id)
+>  	}
+>  
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	retval = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+>  	if (retval)
+> @@ -2227,7 +2227,7 @@ static int __maybe_unused twa_resume(struct device *dev)
+>  
+>  	printk(KERN_WARNING "3w-9xxx: Resuming host %d.\n", tw_dev->host->host_no);
+>  
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	retval = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+>  	if (retval)
+> diff --git a/drivers/scsi/3w-sas.c b/drivers/scsi/3w-sas.c
+> index b8f1848ec..49ca153b8 100644
+> --- a/drivers/scsi/3w-sas.c
+> +++ b/drivers/scsi/3w-sas.c
+> @@ -1571,7 +1571,7 @@ static int twl_probe(struct pci_dev *pdev, const struct pci_device_id *dev_id)
+>  	}
+>  
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	retval = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+>  	if (retval)
+> @@ -1790,7 +1790,7 @@ static int __maybe_unused twl_resume(struct device *dev)
+>  	TW_Device_Extension *tw_dev = (TW_Device_Extension *)host->hostdata;
+>  
+>  	printk(KERN_WARNING "3w-sas: Resuming host %d.\n", tw_dev->host->host_no);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	retval = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+>  	if (retval)
+> diff --git a/drivers/scsi/csiostor/csio_init.c b/drivers/scsi/csiostor/csio_init.c
+> index 390b07bf9..c20bf44c6 100644
+> --- a/drivers/scsi/csiostor/csio_init.c
+> +++ b/drivers/scsi/csiostor/csio_init.c
+> @@ -201,7 +201,7 @@ csio_pci_init(struct pci_dev *pdev, int *bars)
+>  		goto err_disable_device;
+>  
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	rv = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+>  	if (rv)
+> diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+> index ac67f420e..b4833c0f8 100644
+> --- a/drivers/scsi/lpfc/lpfc_init.c
+> +++ b/drivers/scsi/lpfc/lpfc_init.c
+> @@ -6119,7 +6119,7 @@ lpfc_enable_pci_dev(struct lpfc_hba *phba)
+>  		goto out_disable_device;
+>  	/* Set up device as PCI master and save state for EEH */
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  	pci_save_state(pdev);
+>  
+>  	/* PCIe EEH recovery on powerpc platforms needs fundamental reset */
+> diff --git a/drivers/scsi/qla2xxx/qla_init.c b/drivers/scsi/qla2xxx/qla_init.c
+> index 5626e9b69..76019dc2e 100644
+> --- a/drivers/scsi/qla2xxx/qla_init.c
+> +++ b/drivers/scsi/qla2xxx/qla_init.c
+> @@ -2356,7 +2356,7 @@ qla2100_pci_config(scsi_qla_host_t *vha)
+>  	struct device_reg_2xxx __iomem *reg = &ha->iobase->isp;
+>  
+>  	pci_set_master(ha->pdev);
+> -	pci_try_set_mwi(ha->pdev);
+> +	pci_set_mwi(ha->pdev);
+>  
+>  	pci_read_config_word(ha->pdev, PCI_COMMAND, &w);
+>  	w |= (PCI_COMMAND_PARITY | PCI_COMMAND_SERR);
+> @@ -2388,7 +2388,7 @@ qla2300_pci_config(scsi_qla_host_t *vha)
+>  	struct device_reg_2xxx __iomem *reg = &ha->iobase->isp;
+>  
+>  	pci_set_master(ha->pdev);
+> -	pci_try_set_mwi(ha->pdev);
+> +	pci_set_mwi(ha->pdev);
+>  
+>  	pci_read_config_word(ha->pdev, PCI_COMMAND, &w);
+>  	w |= (PCI_COMMAND_PARITY | PCI_COMMAND_SERR);
+> @@ -2469,7 +2469,7 @@ qla24xx_pci_config(scsi_qla_host_t *vha)
+>  	struct device_reg_24xx __iomem *reg = &ha->iobase->isp24;
+>  
+>  	pci_set_master(ha->pdev);
+> -	pci_try_set_mwi(ha->pdev);
+> +	pci_set_mwi(ha->pdev);
+>  
+>  	pci_read_config_word(ha->pdev, PCI_COMMAND, &w);
+>  	w |= (PCI_COMMAND_PARITY | PCI_COMMAND_SERR);
+> @@ -2511,7 +2511,7 @@ qla25xx_pci_config(scsi_qla_host_t *vha)
+>  	struct qla_hw_data *ha = vha->hw;
+>  
+>  	pci_set_master(ha->pdev);
+> -	pci_try_set_mwi(ha->pdev);
+> +	pci_set_mwi(ha->pdev);
+>  
+>  	pci_read_config_word(ha->pdev, PCI_COMMAND, &w);
+>  	w |= (PCI_COMMAND_PARITY | PCI_COMMAND_SERR);
+> diff --git a/drivers/scsi/qla2xxx/qla_mr.c b/drivers/scsi/qla2xxx/qla_mr.c
+> index ca7306685..e9763d8e3 100644
+> --- a/drivers/scsi/qla2xxx/qla_mr.c
+> +++ b/drivers/scsi/qla2xxx/qla_mr.c
+> @@ -499,7 +499,7 @@ qlafx00_pci_config(scsi_qla_host_t *vha)
+>  	struct qla_hw_data *ha = vha->hw;
+>  
+>  	pci_set_master(ha->pdev);
+> -	pci_try_set_mwi(ha->pdev);
+> +	pci_set_mwi(ha->pdev);
+>  
+>  	pci_read_config_word(ha->pdev, PCI_COMMAND, &w);
+>  	w |= (PCI_COMMAND_PARITY | PCI_COMMAND_SERR);
+> diff --git a/drivers/tty/serial/8250/8250_lpss.c b/drivers/tty/serial/8250/8250_lpss.c
+> index 4dee8a9e0..8acc1e5c9 100644
+> --- a/drivers/tty/serial/8250/8250_lpss.c
+> +++ b/drivers/tty/serial/8250/8250_lpss.c
+> @@ -193,7 +193,7 @@ static void qrk_serial_setup_dma(struct lpss8250 *lpss, struct uart_port *port)
+>  	if (ret)
+>  		return;
+>  
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	/* Special DMA address for UART */
+>  	dma->rx_dma_addr = 0xfffff000;
+> diff --git a/drivers/usb/chipidea/ci_hdrc_pci.c b/drivers/usb/chipidea/ci_hdrc_pci.c
+> index d63479e1a..d412fa910 100644
+> --- a/drivers/usb/chipidea/ci_hdrc_pci.c
+> +++ b/drivers/usb/chipidea/ci_hdrc_pci.c
+> @@ -78,7 +78,7 @@ static int ci_hdrc_pci_probe(struct pci_dev *pdev,
+>  	}
+>  
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	/* register a nop PHY */
+>  	ci->phy = usb_phy_generic_register();
+> diff --git a/drivers/usb/gadget/udc/amd5536udc_pci.c b/drivers/usb/gadget/udc/amd5536udc_pci.c
+> index 8d387e0e4..9630ce8d3 100644
+> --- a/drivers/usb/gadget/udc/amd5536udc_pci.c
+> +++ b/drivers/usb/gadget/udc/amd5536udc_pci.c
+> @@ -151,7 +151,7 @@ static int udc_pci_probe(
+>  	dev->chiprev = pdev->revision;
+>  
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	/* init dma pools */
+>  	if (use_dma) {
+> diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/net2280.c
+> index fc9f99fe7..e15520698 100644
+> --- a/drivers/usb/gadget/udc/net2280.c
+> +++ b/drivers/usb/gadget/udc/net2280.c
+> @@ -3761,7 +3761,7 @@ static int net2280_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  			&dev->pci->pcimstctl);
+>  	/* erratum 0115 shouldn't appear: Linux inits PCI_LATENCY_TIMER */
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	/* ... also flushes any posted pci writes */
+>  	dev->chiprev = get_idx_reg(dev->regs, REG_CHIPREV) & 0xffff;
+> diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
+> index a3c1fc924..4a0484a0c 100644
+> --- a/drivers/usb/gadget/udc/pch_udc.c
+> +++ b/drivers/usb/gadget/udc/pch_udc.c
+> @@ -3100,7 +3100,7 @@ static int pch_udc_probe(struct pci_dev *pdev,
+>  	}
+>  
+>  	pci_set_master(pdev);
+> -	pci_try_set_mwi(pdev);
+> +	pci_set_mwi(pdev);
+>  
+>  	/* device struct setup */
+>  	spin_lock_init(&dev->lock);
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index de75f6a4d..c590f616d 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -1191,9 +1191,8 @@ void pci_clear_master(struct pci_dev *dev);
+>  
+>  int pci_set_pcie_reset_state(struct pci_dev *dev, enum pcie_reset_state state);
+>  int pci_set_cacheline_size(struct pci_dev *dev);
+> -int __must_check pci_set_mwi(struct pci_dev *dev);
+> -int __must_check pcim_set_mwi(struct pci_dev *dev);
+> -int pci_try_set_mwi(struct pci_dev *dev);
+> +int pci_set_mwi(struct pci_dev *dev);
+> +int pcim_set_mwi(struct pci_dev *dev);
+>  void pci_clear_mwi(struct pci_dev *dev);
+>  void pci_intx(struct pci_dev *dev, int enable);
+>  bool pci_check_and_mask_intx(struct pci_dev *dev);
+> -- 
+> 2.29.2
+> 
