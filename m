@@ -2,80 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 036A0C433E0
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 08:50:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5E26C433C1
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 08:58:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B687C619FE
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 08:50:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9E84F619FC
+	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 08:58:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229622AbhCZIuD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Mar 2021 04:50:03 -0400
-Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56]:48910 "EHLO
-        out30-56.freemail.mail.aliyun.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229604AbhCZIt4 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 04:49:56 -0400
-X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R861e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=alex.shi@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0UTMkWms_1616748586;
-Received: from aliy80.localdomain(mailfrom:alex.shi@linux.alibaba.com fp:SMTPD_---0UTMkWms_1616748586)
-          by smtp.aliyun-inc.com(127.0.0.1);
-          Fri, 26 Mar 2021 16:49:53 +0800
-From:   Alex Shi <alex.shi@linux.alibaba.com>
-To:     corbet@lwn.net
-Cc:     Harry Wei <harryxiyou@gmail.com>, Alex Shi <alexs@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] Docs/zh_CN: update Alex Shi new email address
-Date:   Fri, 26 Mar 2021 16:49:31 +0800
-Message-Id: <1616748571-52058-2-git-send-email-alex.shi@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1616748571-52058-1-git-send-email-alex.shi@linux.alibaba.com>
-References: <1616748571-52058-1-git-send-email-alex.shi@linux.alibaba.com>
+        id S229761AbhCZI6K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Mar 2021 04:58:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55778 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229758AbhCZI6A (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 26 Mar 2021 04:58:00 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A6C0C61A18;
+        Fri, 26 Mar 2021 08:57:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1616749080;
+        bh=edZqUHw5Z3EONRX9RfghM0Jwz5Bjv21lNtfF9E2D0+I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rNwGEBLQjWWZYnjU+saotsVAj14lGybssYYaAdviMY3V2Amsx5I1bmGPwK1ezyFTE
+         eAvONQwAhTy+ueH8s3MQ6DkU2TlfK6qw1nJouRgFJKv1CRRW9wprSpzjKXvbW3rwnD
+         APJLJBV1RxVynxbd2aEe5aLAPDRqb0d/KgpTxhkc=
+Date:   Fri, 26 Mar 2021 09:57:57 +0100
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     ksummit <ksummit-discuss@lists.linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-doc@vger.kernel.org
+Subject: Re: [Ksummit-discuss] [2/5] reporting-issues: step-by-step-guide:
+ main and two sub-processes for stable/longterm
+Message-ID: <YF2iFW4/LF6itKFm@kroah.com>
+References: <c396c91f-27c2-de36-7b05-099e03c213f4@leemhuis.info>
+ <b14050b6-8426-a762-49f1-1565c48a5724@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b14050b6-8426-a762-49f1-1565c48a5724@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I am leaving Alibaba, udpate the old email address to new one.
+On Fri, Mar 26, 2021 at 07:16:40AM +0100, Thorsten Leemhuis wrote:
+> On 26.03.21 07:13, Thorsten Leemhuis wrote:
+> > Lo! Since a few months mainline in
+> > Documentation/admin-guide/reporting-issues.rst contains a text written
+> > to obsolete the good old reporting-bugs text. For now, the new document
+> > still contains a warning at the top that basically says "this is WIP".
+> > But I'd like to remove that warning and delete reporting-bugs.rst in the
+> > next merge window to make reporting-issues.rst fully official. With this
+> > mail I want to give everyone a chance to take a look at the text and
+> > speak up if you don't want me to move ahead for now.
+> > 
+> > For easier review I'll post the text of reporting-issues.rst in reply to
+> > this mail. I'll do that in a few chunks, as if this was a cover letter
+> > for a patch-set. 
+> 
+> 
+> Step-by-step guide how to report issues to the kernel maintainers
 
-Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
-Cc: Harry Wei <harryxiyou@gmail.com> 
-Cc: Alex Shi <alexs@kernel.org> 
-Cc: Jonathan Corbet <corbet@lwn.net> 
-Cc: linux-doc@vger.kernel.org 
-Cc: linux-kernel@vger.kernel.org 
----
- Documentation/translations/zh_CN/disclaimer-zh_CN.rst | 2 +-
- MAINTAINERS                                           | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Looks good to me, no objections from my side.  Thanks so much for doing
+this!
 
-diff --git a/Documentation/translations/zh_CN/disclaimer-zh_CN.rst b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
-index dcf803ede85a..3c6db094a63c 100644
---- a/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
-+++ b/Documentation/translations/zh_CN/disclaimer-zh_CN.rst
-@@ -6,4 +6,4 @@
- 
- .. note::
-      如果您发现本文档与原始文件有任何不同或者有翻译问题，请联系该文件的译者，
--     或者请求时奎亮的帮助：<alex.shi@linux.alibaba.com>。
-+     或者请求时奎亮的帮助：<alexs@kernel.org>。
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 728216e3919c..f4b60255f011 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4211,7 +4211,7 @@ F:	Documentation/dev-tools/checkpatch.rst
- 
- CHINESE DOCUMENTATION
- M:	Harry Wei <harryxiyou@gmail.com>
--M:	Alex Shi <alex.shi@linux.alibaba.com>
-+M:	Alex Shi <alexs@kernel.org>
- L:	xiyoulinuxkernelgroup@googlegroups.com (subscribers-only)
- S:	Maintained
- F:	Documentation/translations/zh_CN/
--- 
-2.29.GIT
-
+greg k-h
