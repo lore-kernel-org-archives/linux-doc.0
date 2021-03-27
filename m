@@ -2,147 +2,252 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A45EEC433C1
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Mar 2021 12:47:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EBA7C433C1
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Mar 2021 14:57:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F579619E5
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Mar 2021 12:47:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 287DB619B1
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Mar 2021 14:57:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230305AbhC0MrO convert rfc822-to-8bit (ORCPT
-        <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 Mar 2021 08:47:14 -0400
-Received: from lilium.sigma-star.at ([109.75.188.150]:59536 "EHLO
-        lilium.sigma-star.at" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230296AbhC0MrO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Mar 2021 08:47:14 -0400
-X-Greylist: delayed 345 seconds by postgrey-1.27 at vger.kernel.org; Sat, 27 Mar 2021 08:47:12 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by lilium.sigma-star.at (Postfix) with ESMTP id B1F871817F76C;
-        Sat, 27 Mar 2021 13:41:26 +0100 (CET)
-Received: from lilium.sigma-star.at ([127.0.0.1])
-        by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 2m3PmdzHQlsy; Sat, 27 Mar 2021 13:41:26 +0100 (CET)
-Received: from lilium.sigma-star.at ([127.0.0.1])
-        by localhost (lilium.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id ZIqBOEDGmD9E; Sat, 27 Mar 2021 13:41:25 +0100 (CET)
-Content-Type: text/plain;
-        charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.60.0.2.21\))
-Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
- CAAM-based trusted keys
-From:   David Gstir <david@sigma-star.at>
-In-Reply-To: <CAFA6WYNE44=Y7Erfc-xNtOrf7TkJjh+odmYH5vzhEHR6KqBfeQ@mail.gmail.com>
-Date:   Sat, 27 Mar 2021 13:41:24 +0100
-Cc:     Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        =?utf-8?Q?Horia_Geant=C4=83?= <horia.geanta@nxp.com>,
+        id S230030AbhC0O5A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 Mar 2021 10:57:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55032 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229582AbhC0O4n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Mar 2021 10:56:43 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 619B2C0613B1;
+        Sat, 27 Mar 2021 07:56:43 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id kt15so12726487ejb.12;
+        Sat, 27 Mar 2021 07:56:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9XfERiSuS0jgzL6XtH0j5Zkdj6GdS3lhay8hKtzIIvw=;
+        b=daUZHZ3fBiNaSqN278lcZbLZBg1S9em0tplEV5jgXsyIjQJkzT3ZupisolsGGnxArG
+         1LFe1EERqfwv3rj4aDrYpMXH8UDqNjm51BypNqPSfIBJoZdEEUj2HbFk3egzw4tVOIDu
+         267CK1jCFWkQITeeYgRoiifaxXnfB7C/fT67K5gvFRaVqV8KZgvdgYaVs2gvgCn7Xrq7
+         j4NtDNKCc0HO1IxkkqeGeXWMINfUr4GNBxhAoe3CVRxEnM1UsYAFHZ8dgy57+YM+ovO7
+         wTF5ZZubjjMxyy+j+/DHuvpCUBFe4AlcrPrmnWz/SuhHst24aP5c28NA/dfPW6KAA4kh
+         pfuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9XfERiSuS0jgzL6XtH0j5Zkdj6GdS3lhay8hKtzIIvw=;
+        b=eJhYku6rXQ6rADPwRPYPMrcfc7eXqLvNqC5H4rUlrM3SZzB1ILgtvT8TBPg7RTmUXn
+         cJ0JFCcZMlUyuii2BGnhEQ9yj+GooJKKBa/T7wIJEuFrGsJg/dse36tfpElQFk3LOPWh
+         t3w5TU3m8Hs6wluHT02dFAc5w9nrbiTnuPDRPuzLQ2QN1kpIjQd2yzA/9kOA0wkurzvG
+         CaglDv6mj0SewmGcI4aHCMGptzudwpAYIOdb53AzvCdEd5ZB6yV4DJrrbd7y8qkz0Rrt
+         +MCX/8n4m69j9iibW7hMTvJLZ6agnnwpYBBuv7z2FttLfuN6a2M63tYGo351rb0OdZw+
+         45yQ==
+X-Gm-Message-State: AOAM5339rK6+blBRcyHvutHUujxnwshTxFIpJ6fOiTloAr8KsfGBxxw+
+        aPv7pp8FcKD34nZlRq02UTRzC2SsdgGW+LjA12c=
+X-Google-Smtp-Source: ABdhPJy6lCRHeePNElX5dJ33hHek99HOaPXLCD5oruAOWdcfDLfojjJqMUdl6uKemoofUUsuQc0MN+uoF6UU3Gc0Bts=
+X-Received: by 2002:a17:906:1fd6:: with SMTP id e22mr21088169ejt.481.1616857002134;
+ Sat, 27 Mar 2021 07:56:42 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210326205135.6098-1-info@alexander-lochmann.de>
+In-Reply-To: <20210326205135.6098-1-info@alexander-lochmann.de>
+From:   Andrey Konovalov <andreyknvl@gmail.com>
+Date:   Sat, 27 Mar 2021 15:56:31 +0100
+Message-ID: <CA+fCnZcTi=QLGC_LCdhs+fMrxkqX66kXEuM5ewOmjVjifKzUrw@mail.gmail.com>
+Subject: Re: [PATCHv3] Introduced new tracing mode KCOV_MODE_UNIQUE.
+To:     Alexander Lochmann <info@alexander-lochmann.de>
+Cc:     Dmitry Vyukov <dvyukov@google.com>,
+        Andrey Konovalov <andreyknvl@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Udit Agarwal <udit.agarwal@nxp.com>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        Franck Lenormand <franck.lenormand@nxp.com>,
-        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>
-Content-Transfer-Encoding: 8BIT
-Message-Id: <6F812C20-7585-4718-997E-0306C4118468@sigma-star.at>
-References: <cover.56fff82362af6228372ea82e6bd7e586e23f0966.1615914058.git-series.a.fatoum@pengutronix.de>
- <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
- <01e6e13d-2968-0aa5-c4c8-7458b7bde462@nxp.com>
- <45a9e159-2dcb-85bf-02bd-2993d50b5748@pengutronix.de>
- <f9c0087d299be1b9b91b242f41ac6ef7b9ee3ef7.camel@linux.ibm.com>
- <63dd7d4b-4729-9e03-cd8f-956b94eab0d9@pengutronix.de>
- <CAFA6WYOw_mQwOUN=onhzb7zCTyYDBrcx0E7C3LRk6nPLAVCWEQ@mail.gmail.com>
- <557b92d2-f3b8-d136-7431-419429f0e059@pengutronix.de>
- <CAFA6WYNE44=Y7Erfc-xNtOrf7TkJjh+odmYH5vzhEHR6KqBfeQ@mail.gmail.com>
-To:     Sumit Garg <sumit.garg@linaro.org>
-X-Mailer: Apple Mail (2.3654.60.0.2.21)
+        Randy Dunlap <rdunlap@infradead.org>,
+        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Aleksandr Nogikh <nogikh@google.com>,
+        Wei Yongjun <weiyongjun1@huawei.com>,
+        Maciej Grochowski <maciej.grochowski@pm.me>,
+        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi!
+On Fri, Mar 26, 2021 at 9:52 PM Alexander Lochmann
+<info@alexander-lochmann.de> wrote:
+>
 
-> On 25.03.2021, at 06:26, Sumit Garg <sumit.garg@linaro.org> wrote:
-> 
-> On Wed, 24 Mar 2021 at 19:37, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
->> 
->> Hello Sumit,
->> 
->> On 24.03.21 11:47, Sumit Garg wrote:
->>> On Wed, 24 Mar 2021 at 14:56, Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
->>>> 
->>>> Hello Mimi,
->>>> 
->>>> On 23.03.21 19:07, Mimi Zohar wrote:
->>>>> On Tue, 2021-03-23 at 17:35 +0100, Ahmad Fatoum wrote:
->>>>>> On 21.03.21 21:48, Horia Geantă wrote:
->>>>>>> caam has random number generation capabilities, so it's worth using that
->>>>>>> by implementing .get_random.
->>>>>> 
->>>>>> If the CAAM HWRNG is already seeding the kernel RNG, why not use the kernel's?
->>>>>> 
->>>>>> Makes for less code duplication IMO.
->>>>> 
->>>>> Using kernel RNG, in general, for trusted keys has been discussed
->>>>> before.   Please refer to Dave Safford's detailed explanation for not
->>>>> using it [1].
->>>> 
->>>> The argument seems to boil down to:
->>>> 
->>>> - TPM RNG are known to be of good quality
->>>> - Trusted keys always used it so far
->>>> 
->>>> Both are fine by me for TPMs, but the CAAM backend is new code and neither point
->>>> really applies.
->>>> 
->>>> get_random_bytes_wait is already used for generating key material elsewhere.
->>>> Why shouldn't new trusted key backends be able to do the same thing?
->>>> 
->>> 
->>> Please refer to documented trusted keys behaviour here [1]. New
->>> trusted key backends should align to this behaviour and in your case
->>> CAAM offers HWRNG so we should be better using that.
->> 
->> Why is it better?
->> 
->> Can you explain what benefit a CAAM user would have if the trusted key
->> randomness comes directly out of the CAAM instead of indirectly from
->> the kernel entropy pool that is seeded by it?
-> 
-> IMO, user trust in case of trusted keys comes from trusted keys
-> backend which is CAAM here. If a user doesn't trust that CAAM would
-> act as a reliable source for RNG then CAAM shouldn't be used as a
-> trust source in the first place.
-> 
-> And I think building user's trust for kernel RNG implementation with
-> multiple entropy contributions is pretty difficult when compared with
-> CAAM HWRNG implementation.
+Hi Alexander,
 
-Generally speaking, I’d say trusting the CAAM RNG and trusting in it’s
-other features are two separate things. However, reading through the CAAM
-key blob spec I’ve got here, CAAM key blob keys (the keys that secure a blob’s
-content) are generated using its internal RNG. So I’d save if the CAAM RNG
-is insecure, so are generated key blobs. Maybe somebody with more insight
-into the CAAM internals can verify that, but I don’t see any point in using
-the kernel’s RNG as long as we let CAAM generate the key blob keys for us.
+> It simply stores the executed PCs.
+> The execution order is discarded.
+> Each bit in the shared buffer represents every fourth
+> byte of the text segment.
+> Since a call instruction on every supported
+> architecture is at least four bytes, it is safe
+> to just store every fourth byte of the text segment.
 
-Cheers,
-dave
+What about jumps?
 
+[...]
+
+> -#define KCOV_IN_CTXSW  (1 << 30)
+> +#define KCOV_IN_CTXSW  (1 << 31)
+
+This change needs to be mentioned and explained in the changelog.
+
+> -static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_struct *t)
+> +static __always_inline notrace bool check_kcov_mode(enum kcov_mode needed_mode,
+> +                                                   struct task_struct *t,
+> +                                                   unsigned int *mode)
+>  {
+> -       unsigned int mode;
+> -
+>         /*
+>          * We are interested in code coverage as a function of a syscall inputs,
+>          * so we ignore code executed in interrupts, unless we are in a remote
+> @@ -162,7 +163,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
+>          */
+>         if (!in_task() && !(in_serving_softirq() && t->kcov_softirq))
+>                 return false;
+> -       mode = READ_ONCE(t->kcov_mode);
+> +       *mode = READ_ONCE(t->kcov_mode);
+>         /*
+>          * There is some code that runs in interrupts but for which
+>          * in_interrupt() returns false (e.g. preempt_schedule_irq()).
+> @@ -171,7 +172,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
+>          * kcov_start().
+>          */
+>         barrier();
+> -       return mode == needed_mode;
+> +       return ((int)(*mode & (KCOV_IN_CTXSW | needed_mode))) > 0;
+
+This change needs to be mentioned and explained in the changelog.
+
+[...]
+
+>  static notrace unsigned long canonicalize_ip(unsigned long ip)
+> @@ -191,18 +192,27 @@ void notrace __sanitizer_cov_trace_pc(void)
+>         struct task_struct *t;
+>         unsigned long *area;
+>         unsigned long ip = canonicalize_ip(_RET_IP_);
+> -       unsigned long pos;
+> +       unsigned long pos, idx;
+> +       unsigned int mode;
+>
+>         t = current;
+> -       if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
+> +       if (!check_kcov_mode(KCOV_MODE_TRACE_PC | KCOV_MODE_UNIQUE_PC, t, &mode))
+>                 return;
+>
+>         area = t->kcov_area;
+> -       /* The first 64-bit word is the number of subsequent PCs. */
+> -       pos = READ_ONCE(area[0]) + 1;
+> -       if (likely(pos < t->kcov_size)) {
+> -               area[pos] = ip;
+> -               WRITE_ONCE(area[0], pos);
+> +       if (likely(mode == KCOV_MODE_TRACE_PC)) {
+> +               /* The first 64-bit word is the number of subsequent PCs. */
+> +               pos = READ_ONCE(area[0]) + 1;
+> +               if (likely(pos < t->kcov_size)) {
+> +                       area[pos] = ip;
+> +                       WRITE_ONCE(area[0], pos);
+> +               }
+> +       } else {
+> +               idx = (ip - canonicalize_ip((unsigned long)&_stext)) / 4;
+> +               pos = idx % BITS_PER_LONG;
+> +               idx /= BITS_PER_LONG;
+> +               if (likely(idx < t->kcov_size))
+> +                       WRITE_ONCE(area[idx], READ_ONCE(area[idx]) | 1L << pos);
+
+This is confusing: for KCOV_MODE_TRACE_PC, pos is used to index area,
+and for else, idx is used to index area. You should swap idx and pos.
+
+[...]
+
+> @@ -213,9 +223,10 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
+>         struct task_struct *t;
+>         u64 *area;
+>         u64 count, start_index, end_pos, max_pos;
+> +       unsigned int mode;
+>
+>         t = current;
+> -       if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t))
+> +       if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t, &mode))
+>                 return;
+
+mode isn't used here, right? No need for it then.
+
+> @@ -562,12 +576,14 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>  {
+>         struct task_struct *t;
+>         unsigned long size, unused;
+> -       int mode, i;
+> +       int mode, i, text_size, ret = 0;
+>         struct kcov_remote_arg *remote_arg;
+>         struct kcov_remote *remote;
+>         unsigned long flags;
+>
+>         switch (cmd) {
+> +       case KCOV_INIT_UNIQUE:
+> +               fallthrough;
+>         case KCOV_INIT_TRACE:
+>                 /*
+>                  * Enable kcov in trace mode and setup buffer size.
+> @@ -581,11 +597,42 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
+>                  * that must not overflow.
+>                  */
+>                 size = arg;
+> -               if (size < 2 || size > INT_MAX / sizeof(unsigned long))
+> -                       return -EINVAL;
+> -               kcov->size = size;
+> -               kcov->mode = KCOV_MODE_INIT;
+> -               return 0;
+> +               if (cmd == KCOV_INIT_UNIQUE) {
+
+Let's put this code under KCOV_INIT_UNIQUE in the switch. This
+internal if only saves duplicating two lines of code, which isn't
+worth it.
+
+> +                       if (size != 0)
+> +                               return -EINVAL;
+> +                       text_size = (canonicalize_ip((unsigned long)&_etext)
+> +                                    - canonicalize_ip((unsigned long)&_stext));
+> +                       /**
+> +                        * A call instr is at least four bytes on every supported architecture.
+> +                        * Hence, just every fourth instruction can potentially be a call.
+> +                        */
+> +                       text_size = roundup(text_size, 4);
+> +                       text_size /= 4;
+> +                       /*
+> +                        * Round up size of text segment to multiple of BITS_PER_LONG.
+> +                        * Otherwise, we cannot track
+> +                        * the last (text_size % BITS_PER_LONG) addresses.
+> +                        */
+> +                       text_size = roundup(text_size, BITS_PER_LONG);
+> +                       /* Get the amount of bytes needed */
+> +                       text_size = text_size / 8;
+> +                       /* mmap() requires size to be a multiple of PAGE_SIZE */
+> +                       text_size = roundup(text_size, PAGE_SIZE);
+> +                       /* Get the cover size (= amount of bytes stored) */
+> +                       ret = text_size;
+> +                       kcov->size = text_size / sizeof(unsigned long);
+> +                       kcov_debug("text size = 0x%lx, roundup = 0x%x, kcov->size = 0x%x\n",
+> +                                       ((unsigned long)&_etext) - ((unsigned long)&_stext),
+> +                                       text_size,
+> +                                       kcov->size);
+> +                       kcov->mode = KCOV_MODE_INIT_UNIQUE;
+> +               } else {
+> +                       if (size < 2 || size > INT_MAX / sizeof(unsigned long))
+> +                               return -EINVAL;
+> +                       kcov->size = size;
+> +                       kcov->mode = KCOV_MODE_INIT_TRACE;
+> +               }
+> +               return ret;
+
+Thanks!
