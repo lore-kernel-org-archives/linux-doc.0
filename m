@@ -2,554 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.7 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B069C433DB
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 22:20:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CED0C433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Mar 2021 02:14:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 57E5361A43
-	for <linux-doc@archiver.kernel.org>; Fri, 26 Mar 2021 22:20:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 32CC561A2A
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Mar 2021 02:14:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230043AbhCZWUN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 26 Mar 2021 18:20:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54712 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230114AbhCZWTl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 26 Mar 2021 18:19:41 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1BB99619FF;
-        Fri, 26 Mar 2021 22:19:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1616797181;
-        bh=rb2XANYYYu9LEhFUJadIJ+jQoTEzCLGvA6Jn5fs4DOk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=XEHYJ6xQiPkpfLnrWLVaGpGEV2QBxksuhjVLFqFBqVIlZt+IeDQVU6VVTnXJoRv6I
-         aA8kNXO6GY0qgakhE5oXwR25uTd2zwBMaxn3keVxVDb8SPK1A3nFwLz8tELT6fa7uv
-         8hOgpH5/ntAVbHMCv70lWUSIWGuDDZphFL0l8XHEaW+M/vPkUGM2+MjbZ/WkoMN37q
-         gUo+iiaZSZnMkqeeqSdbFmU6sgAfBGgGjNRZWur0Cc88rdmZyYNzT8khEBbmn73veF
-         cLuelCOCTaMos+LEKjm8kW6qB4ja0ptKXo/g+sR8uakRNmypRKXvb1zj5bzzJAYIQq
-         DHWAwQRQrqbsQ==
-Date:   Fri, 26 Mar 2021 23:19:36 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Lee Jones <lee.jones@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Frank Rowand <frowand.list@gmail.com>
-Subject: Re: [PATCH v2] of: Fix kerneldoc output formatting
-Message-ID: <20210326231936.08ea87d8@coco.lan>
-In-Reply-To: <20210326192606.3702739-1-robh@kernel.org>
-References: <20210326192606.3702739-1-robh@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+        id S230236AbhC0COJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 26 Mar 2021 22:14:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33774 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230142AbhC0CNz (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 26 Mar 2021 22:13:55 -0400
+Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55890C0613AA
+        for <linux-doc@vger.kernel.org>; Fri, 26 Mar 2021 19:13:55 -0700 (PDT)
+Received: by mail-ej1-x633.google.com with SMTP id w3so11146362ejc.4
+        for <linux-doc@vger.kernel.org>; Fri, 26 Mar 2021 19:13:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=aCb0vL++9Q0mZTHQFK//FXVSSjEAhkBycTNFku6ZguY=;
+        b=Uh93tIJSqXcBbsgelWtmwQh2X7w2olZWcl0wpj0BdbKbzWm0TiOvokJ/JFfiAUk13S
+         0np5gopyVyHVY+Fw1nWREnhwpxb1lgyz7MZDrA+W/pV3DFaIhIouG4Fi8ezLVcfiNknx
+         WffrmajS7C+GwaJeICdEU5VigsPj+yID5MluIh3cLMZKCdFm2N6kxfccSfxq9MoUXr7k
+         85P0MF4KJIqK0ZlOj0v7nHRQFKEUl6NSOmbxWOM6NqTSUHLLAtK6QYjH8S+WLbieT2o0
+         +ugZsjFrBj2RWkt4MALQfCxoOoJ+b0oW8G2d5NCz/kSBYBtbSkQw8fO27YxyED202pzJ
+         4XOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=aCb0vL++9Q0mZTHQFK//FXVSSjEAhkBycTNFku6ZguY=;
+        b=OpToSmG3Ixu452fODsPt9N6WOBkJjjxaNb2VCYq9M91AfVPTciIeQrkch3G9Pk9yZw
+         D6S4Tkqnnc3k7XO64ZeKKMZFmvlO+ThVJF7qgTon7UNI8JyXXx18DMToCbV+rBmaBLAC
+         FYYJTnHSHs+ndrfaz2Wvv+8x2qTfz22QI+mSeF7ZxH3FrzHGdw7vzWtP+47h98Z8MvRS
+         ZkDqxshiVdq1/fU8SFnjn1m1ZgC2fL5vrbLasz3tG/csY0KpvcoikPjX1Meg1TeuPn4e
+         IClTNpyjioL5m8Dw38ibYcbtu4jIemBsMo+3iEGx5pNXSYnC9chx48Seld8Ldvmuqs8Q
+         yV7w==
+X-Gm-Message-State: AOAM533M0/VN/kYRYSxeFt2RUbt7ZG2q7R7ZaTW+B3QxcSAJrmu7WN3a
+        vUU/dJASrhl/ppBuDrez0P2Ju+j+HdDoJPrSGnmpoFTrM7PiYg==
+X-Google-Smtp-Source: ABdhPJzkbEN46rYNGST2DAz7OWrA6QtL/TNZecX/5HsEdct103vxkCOAqoZ6mvoJAK4RZ7U0X/N8UdFK3DzaQ76RZIc=
+X-Received: by 2002:a17:906:af91:: with SMTP id mj17mr17785766ejb.230.1616811233895;
+ Fri, 26 Mar 2021 19:13:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20210324150731.4512-1-siyanteng@loongson.cn> <20210324150731.4512-2-siyanteng@loongson.cn>
+ <5623c525-2898-4583-bd0c-df2dd4059bea@www.fastmail.com>
+In-Reply-To: <5623c525-2898-4583-bd0c-df2dd4059bea@www.fastmail.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Sat, 27 Mar 2021 10:13:44 +0800
+Message-ID: <CAEensMwE37FhbzOdMOvPYxnusz8nBp50HaDEjt7UEbFfFgb1ZQ@mail.gmail.com>
+Subject: Re: [PATCH 1/8] docs/zh_CN: add cpu-freq core.rst translation
+To:     Jiaxun Yang <jiaxun.yang@flygoat.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        Puyu Wang <realpuyuwang@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Fri, 26 Mar 2021 13:26:06 -0600
-Rob Herring <robh@kernel.org> escreveu:
-
-> The indentation of the kerneldoc comments affects the output formatting.
-> Leading tabs in particular don't work, sections need to be indented
-> under the section header, and several code blocks are reformatted.
-> 
-> Cc: Frank Rowand <frowand.list@gmail.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
-> v2:
-> - Updated the example code blocks to use 'Example::' which depends (for 
->   nice output) on Mauro's fix.
-> 
-> The rest of the series is here[1].
-> 
-> [1] https://lore.kernel.org/r/20210325164713.1296407-1-robh@kernel.org/
-> 
->  drivers/of/base.c | 275 +++++++++++++++++++++++-----------------------
->  drivers/of/fdt.c  |   9 +-
->  2 files changed, 141 insertions(+), 143 deletions(-)
-> 
-> diff --git a/drivers/of/base.c b/drivers/of/base.c
-> index 457d1ec27300..a64c093d30ef 100644
-> --- a/drivers/of/base.c
-> +++ b/drivers/of/base.c
-> @@ -651,11 +651,11 @@ bool of_device_is_big_endian(const struct device_node *device)
->  EXPORT_SYMBOL(of_device_is_big_endian);
->  
->  /**
-> - *	of_get_parent - Get a node's parent if any
-> - *	@node:	Node to get parent
-> + * of_get_parent - Get a node's parent if any
-> + * @node:	Node to get parent
->   *
-> - *	Returns a node pointer with refcount incremented, use
-> - *	of_node_put() on it when done.
-> + * Return: A node pointer with refcount incremented, use
-> + * of_node_put() on it when done.
->   */
->  struct device_node *of_get_parent(const struct device_node *node)
->  {
-> @@ -673,15 +673,15 @@ struct device_node *of_get_parent(const struct device_node *node)
->  EXPORT_SYMBOL(of_get_parent);
->  
->  /**
-> - *	of_get_next_parent - Iterate to a node's parent
-> - *	@node:	Node to get parent of
-> + * of_get_next_parent - Iterate to a node's parent
-> + * @node:	Node to get parent of
->   *
-> - *	This is like of_get_parent() except that it drops the
-> - *	refcount on the passed node, making it suitable for iterating
-> - *	through a node's parents.
-> + * This is like of_get_parent() except that it drops the
-> + * refcount on the passed node, making it suitable for iterating
-> + * through a node's parents.
->   *
-> - *	Returns a node pointer with refcount incremented, use
-> - *	of_node_put() on it when done.
-> + * Return: A node pointer with refcount incremented, use
-> + * of_node_put() on it when done.
->   */
->  struct device_node *of_get_next_parent(struct device_node *node)
->  {
-> @@ -719,13 +719,13 @@ static struct device_node *__of_get_next_child(const struct device_node *node,
->  	     child = __of_get_next_child(parent, child))
->  
->  /**
-> - *	of_get_next_child - Iterate a node childs
-> - *	@node:	parent node
-> - *	@prev:	previous child of the parent node, or NULL to get first
-> + * of_get_next_child - Iterate a node childs
-> + * @node:	parent node
-> + * @prev:	previous child of the parent node, or NULL to get first
->   *
-> - *	Returns a node pointer with refcount incremented, use of_node_put() on
-> - *	it when done. Returns NULL when prev is the last child. Decrements the
-> - *	refcount of prev.
-> + * Return: A node pointer with refcount incremented, use of_node_put() on
-> + * it when done. Returns NULL when prev is the last child. Decrements the
-> + * refcount of prev.
->   */
->  struct device_node *of_get_next_child(const struct device_node *node,
->  	struct device_node *prev)
-> @@ -741,12 +741,12 @@ struct device_node *of_get_next_child(const struct device_node *node,
->  EXPORT_SYMBOL(of_get_next_child);
->  
->  /**
-> - *	of_get_next_available_child - Find the next available child node
-> - *	@node:	parent node
-> - *	@prev:	previous child of the parent node, or NULL to get first
-> + * of_get_next_available_child - Find the next available child node
-> + * @node:	parent node
-> + * @prev:	previous child of the parent node, or NULL to get first
->   *
-> - *      This function is like of_get_next_child(), except that it
-> - *      automatically skips any disabled nodes (i.e. status = "disabled").
-> + * This function is like of_get_next_child(), except that it
-> + * automatically skips any disabled nodes (i.e. status = "disabled").
->   */
->  struct device_node *of_get_next_available_child(const struct device_node *node,
->  	struct device_node *prev)
-> @@ -772,12 +772,12 @@ struct device_node *of_get_next_available_child(const struct device_node *node,
->  EXPORT_SYMBOL(of_get_next_available_child);
->  
->  /**
-> - *	of_get_next_cpu_node - Iterate on cpu nodes
-> - *	@prev:	previous child of the /cpus node, or NULL to get first
-> + * of_get_next_cpu_node - Iterate on cpu nodes
-> + * @prev:	previous child of the /cpus node, or NULL to get first
->   *
-> - *	Returns a cpu node pointer with refcount incremented, use of_node_put()
-> - *	on it when done. Returns NULL when prev is the last child. Decrements
-> - *	the refcount of prev.
-> + * Return: A cpu node pointer with refcount incremented, use of_node_put()
-> + * on it when done. Returns NULL when prev is the last child. Decrements
-> + * the refcount of prev.
->   */
->  struct device_node *of_get_next_cpu_node(struct device_node *prev)
->  {
-> @@ -834,15 +834,15 @@ struct device_node *of_get_compatible_child(const struct device_node *parent,
->  EXPORT_SYMBOL(of_get_compatible_child);
->  
->  /**
-> - *	of_get_child_by_name - Find the child node by name for a given parent
-> - *	@node:	parent node
-> - *	@name:	child name to look for.
-> + * of_get_child_by_name - Find the child node by name for a given parent
-> + * @node:	parent node
-> + * @name:	child name to look for.
->   *
-> - *      This function looks for child node for given matching name
-> + * This function looks for child node for given matching name
->   *
-> - *	Returns a node pointer if found, with refcount incremented, use
-> - *	of_node_put() on it when done.
-> - *	Returns NULL if node is not found.
-> + * Return: A node pointer if found, with refcount incremented, use
-> + * of_node_put() on it when done.
-> + * Returns NULL if node is not found.
->   */
->  struct device_node *of_get_child_by_name(const struct device_node *node,
->  				const char *name)
-> @@ -893,22 +893,22 @@ struct device_node *__of_find_node_by_full_path(struct device_node *node,
->  }
->  
->  /**
-> - *	of_find_node_opts_by_path - Find a node matching a full OF path
-> - *	@path: Either the full path to match, or if the path does not
-> - *	       start with '/', the name of a property of the /aliases
-> - *	       node (an alias).  In the case of an alias, the node
-> - *	       matching the alias' value will be returned.
-> - *	@opts: Address of a pointer into which to store the start of
-> - *	       an options string appended to the end of the path with
-> - *	       a ':' separator.
-> - *
-> - *	Valid paths:
-> - *		/foo/bar	Full path
-> - *		foo		Valid alias
-> - *		foo/bar		Valid alias + relative path
-> - *
-> - *	Returns a node pointer with refcount incremented, use
-> - *	of_node_put() on it when done.
-> + * of_find_node_opts_by_path - Find a node matching a full OF path
-> + * @path: Either the full path to match, or if the path does not
-> + *       start with '/', the name of a property of the /aliases
-> + *       node (an alias).  In the case of an alias, the node
-> + *       matching the alias' value will be returned.
-> + * @opts: Address of a pointer into which to store the start of
-> + *       an options string appended to the end of the path with
-> + *       a ':' separator.
-> + *
-> + * Valid paths:
-> + *  * /foo/bar	Full path
-> + *  * foo	Valid alias
-> + *  * foo/bar	Valid alias + relative path
-> + *
-> + * Return: A node pointer with refcount incremented, use
-> + * of_node_put() on it when done.
->   */
->  struct device_node *of_find_node_opts_by_path(const char *path, const char **opts)
->  {
-> @@ -958,15 +958,15 @@ struct device_node *of_find_node_opts_by_path(const char *path, const char **opt
->  EXPORT_SYMBOL(of_find_node_opts_by_path);
->  
->  /**
-> - *	of_find_node_by_name - Find a node by its "name" property
-> - *	@from:	The node to start searching from or NULL; the node
-> + * of_find_node_by_name - Find a node by its "name" property
-> + * @from:	The node to start searching from or NULL; the node
->   *		you pass will not be searched, only the next one
->   *		will. Typically, you pass what the previous call
->   *		returned. of_node_put() will be called on @from.
-> - *	@name:	The name string to match against
-> + * @name:	The name string to match against
->   *
-> - *	Returns a node pointer with refcount incremented, use
-> - *	of_node_put() on it when done.
-> + * Return: A node pointer with refcount incremented, use
-> + * of_node_put() on it when done.
->   */
->  struct device_node *of_find_node_by_name(struct device_node *from,
->  	const char *name)
-> @@ -985,16 +985,16 @@ struct device_node *of_find_node_by_name(struct device_node *from,
->  EXPORT_SYMBOL(of_find_node_by_name);
->  
->  /**
-> - *	of_find_node_by_type - Find a node by its "device_type" property
-> - *	@from:	The node to start searching from, or NULL to start searching
-> + * of_find_node_by_type - Find a node by its "device_type" property
-> + * @from:	The node to start searching from, or NULL to start searching
->   *		the entire device tree. The node you pass will not be
->   *		searched, only the next one will; typically, you pass
->   *		what the previous call returned. of_node_put() will be
->   *		called on from for you.
-> - *	@type:	The type string to match against
-> + * @type:	The type string to match against
->   *
-> - *	Returns a node pointer with refcount incremented, use
-> - *	of_node_put() on it when done.
-> + * Return: A node pointer with refcount incremented, use
-> + * of_node_put() on it when done.
->   */
->  struct device_node *of_find_node_by_type(struct device_node *from,
->  	const char *type)
-> @@ -1013,18 +1013,18 @@ struct device_node *of_find_node_by_type(struct device_node *from,
->  EXPORT_SYMBOL(of_find_node_by_type);
->  
->  /**
-> - *	of_find_compatible_node - Find a node based on type and one of the
-> + * of_find_compatible_node - Find a node based on type and one of the
->   *                                tokens in its "compatible" property
-> - *	@from:		The node to start searching from or NULL, the node
-> - *			you pass will not be searched, only the next one
-> - *			will; typically, you pass what the previous call
-> - *			returned. of_node_put() will be called on it
-> - *	@type:		The type string to match "device_type" or NULL to ignore
-> - *	@compatible:	The string to match to one of the tokens in the device
-> - *			"compatible" list.
-> - *
-> - *	Returns a node pointer with refcount incremented, use
-> - *	of_node_put() on it when done.
-> + * @from:	The node to start searching from or NULL, the node
-> + *		you pass will not be searched, only the next one
-> + *		will; typically, you pass what the previous call
-> + *		returned. of_node_put() will be called on it
-> + * @type:	The type string to match "device_type" or NULL to ignore
-> + * @compatible:	The string to match to one of the tokens in the device
-> + *		"compatible" list.
-> + *
-> + * Return: A node pointer with refcount incremented, use
-> + * of_node_put() on it when done.
->   */
->  struct device_node *of_find_compatible_node(struct device_node *from,
->  	const char *type, const char *compatible)
-> @@ -1044,16 +1044,16 @@ struct device_node *of_find_compatible_node(struct device_node *from,
->  EXPORT_SYMBOL(of_find_compatible_node);
->  
->  /**
-> - *	of_find_node_with_property - Find a node which has a property with
-> - *                                   the given name.
-> - *	@from:		The node to start searching from or NULL, the node
-> - *			you pass will not be searched, only the next one
-> - *			will; typically, you pass what the previous call
-> - *			returned. of_node_put() will be called on it
-> - *	@prop_name:	The name of the property to look for.
-> - *
-> - *	Returns a node pointer with refcount incremented, use
-> - *	of_node_put() on it when done.
-> + * of_find_node_with_property - Find a node which has a property with
-> + *                              the given name.
-> + * @from:	The node to start searching from or NULL, the node
-> + *		you pass will not be searched, only the next one
-> + *		will; typically, you pass what the previous call
-> + *		returned. of_node_put() will be called on it
-> + * @prop_name:	The name of the property to look for.
-> + *
-> + * Return: A node pointer with refcount incremented, use
-> + * of_node_put() on it when done.
->   */
->  struct device_node *of_find_node_with_property(struct device_node *from,
->  	const char *prop_name)
-> @@ -1102,10 +1102,10 @@ const struct of_device_id *__of_match_node(const struct of_device_id *matches,
->  
->  /**
->   * of_match_node - Tell if a device_node has a matching of_match structure
-> - *	@matches:	array of of device match structures to search in
-> - *	@node:		the of device structure to match against
-> + * @matches:	array of of device match structures to search in
-> + * @node:	the of device structure to match against
->   *
-> - *	Low level utility function used by device matching.
-> + * Low level utility function used by device matching.
->   */
->  const struct of_device_id *of_match_node(const struct of_device_id *matches,
->  					 const struct device_node *node)
-> @@ -1121,17 +1121,17 @@ const struct of_device_id *of_match_node(const struct of_device_id *matches,
->  EXPORT_SYMBOL(of_match_node);
->  
->  /**
-> - *	of_find_matching_node_and_match - Find a node based on an of_device_id
-> - *					  match table.
-> - *	@from:		The node to start searching from or NULL, the node
-> - *			you pass will not be searched, only the next one
-> - *			will; typically, you pass what the previous call
-> - *			returned. of_node_put() will be called on it
-> - *	@matches:	array of of device match structures to search in
-> - *	@match:		Updated to point at the matches entry which matched
-> - *
-> - *	Returns a node pointer with refcount incremented, use
-> - *	of_node_put() on it when done.
-> + * of_find_matching_node_and_match - Find a node based on an of_device_id
-> + *				     match table.
-> + * @from:	The node to start searching from or NULL, the node
-> + *		you pass will not be searched, only the next one
-> + *		will; typically, you pass what the previous call
-> + *		returned. of_node_put() will be called on it
-> + * @matches:	array of of device match structures to search in
-> + * @match:	Updated to point at the matches entry which matched
-> + *
-> + * Return: A node pointer with refcount incremented, use
-> + * of_node_put() on it when done.
->   */
->  struct device_node *of_find_matching_node_and_match(struct device_node *from,
->  					const struct of_device_id *matches,
-> @@ -1460,21 +1460,21 @@ EXPORT_SYMBOL(of_parse_phandle);
->   * Caller is responsible to call of_node_put() on the returned out_args->np
->   * pointer.
->   *
-> - * Example:
-> + * Example::
->   *
-> - * phandle1: node1 {
-> + *  phandle1: node1 {
->   *	#list-cells = <2>;
-> - * }
-> + *  };
->   *
-> - * phandle2: node2 {
-> + *  phandle2: node2 {
->   *	#list-cells = <1>;
-> - * }
-> + *  };
->   *
-> - * node3 {
-> + *  node3 {
->   *	list = <&phandle1 1 2 &phandle2 3>;
-> - * }
-> + *  };
->   *
-> - * To get a device_node of the `node2' node you may call this:
-> + * To get a device_node of the ``node2`` node you may call this:
->   * of_parse_phandle_with_args(node3, "list", "#list-cells", 1, &args);
->   */
->  int of_parse_phandle_with_args(const struct device_node *np, const char *list_name,
-> @@ -1512,29 +1512,29 @@ EXPORT_SYMBOL(of_parse_phandle_with_args);
->   * Caller is responsible to call of_node_put() on the returned out_args->np
->   * pointer.
->   *
-> - * Example:
-> + * Example::
->   *
-> - * phandle1: node1 {
-> - *	#list-cells = <2>;
-> - * }
-> + *  phandle1: node1 {
-> + *  	#list-cells = <2>;
-> + *  };
->   *
-> - * phandle2: node2 {
-> - *	#list-cells = <1>;
-> - * }
-> + *  phandle2: node2 {
-> + *  	#list-cells = <1>;
-> + *  };
->   *
-> - * phandle3: node3 {
-> - * 	#list-cells = <1>;
-> - * 	list-map = <0 &phandle2 3>,
-> - * 		   <1 &phandle2 2>,
-> - * 		   <2 &phandle1 5 1>;
-> - *	list-map-mask = <0x3>;
-> - * };
-> + *  phandle3: node3 {
-> + *  	#list-cells = <1>;
-> + *  	list-map = <0 &phandle2 3>,
-> + *  		   <1 &phandle2 2>,
-> + *  		   <2 &phandle1 5 1>;
-> + *  	list-map-mask = <0x3>;
-> + *  };
->   *
-> - * node4 {
-> - *	list = <&phandle1 1 2 &phandle3 0>;
-> - * }
-> + *  node4 {
-> + *  	list = <&phandle1 1 2 &phandle3 0>;
-> + *  };
->   *
-> - * To get a device_node of the `node2' node you may call this:
-> + * To get a device_node of the ``node2`` node you may call this:
->   * of_parse_phandle_with_args(node4, "list", "list", 1, &args);
->   */
->  int of_parse_phandle_with_args_map(const struct device_node *np,
-> @@ -1694,19 +1694,19 @@ EXPORT_SYMBOL(of_parse_phandle_with_args_map);
->   * Caller is responsible to call of_node_put() on the returned out_args->np
->   * pointer.
->   *
-> - * Example:
-> + * Example::
->   *
-> - * phandle1: node1 {
-> - * }
-> + *  phandle1: node1 {
-> + *  };
->   *
-> - * phandle2: node2 {
-> - * }
-> + *  phandle2: node2 {
-> + *  };
->   *
-> - * node3 {
-> - *	list = <&phandle1 0 2 &phandle2 2 3>;
-> - * }
-> + *  node3 {
-> + *  	list = <&phandle1 0 2 &phandle2 2 3>;
-> + *  };
->   *
-> - * To get a device_node of the `node2' node you may call this:
-> + * To get a device_node of the ``node2`` node you may call this:
->   * of_parse_phandle_with_fixed_args(node3, "list", 2, 1, &args);
->   */
->  int of_parse_phandle_with_fixed_args(const struct device_node *np,
-> @@ -1952,13 +1952,12 @@ static void of_alias_add(struct alias_prop *ap, struct device_node *np,
->  
->  /**
->   * of_alias_scan - Scan all properties of the 'aliases' node
-> + * @dt_alloc:	An allocator that provides a virtual address to memory
-> + *		for storing the resulting tree
->   *
->   * The function scans all the properties of the 'aliases' node and populates
->   * the global lookup table with the properties.  It returns the
->   * number of alias properties found, or an error code in case of failure.
-> - *
-> - * @dt_alloc:	An allocator that provides a virtual address to memory
-> - *		for storing the resulting tree
->   */
->  void of_alias_scan(void * (*dt_alloc)(u64 size, u64 align))
->  {
-> @@ -2153,12 +2152,12 @@ bool of_console_check(struct device_node *dn, char *name, int index)
->  EXPORT_SYMBOL_GPL(of_console_check);
->  
->  /**
-> - *	of_find_next_cache_node - Find a node's subsidiary cache
-> - *	@np:	node of type "cpu" or "cache"
-> + * of_find_next_cache_node - Find a node's subsidiary cache
-> + * @np:	node of type "cpu" or "cache"
->   *
-> - *	Returns a node pointer with refcount incremented, use
-> - *	of_node_put() on it when done.  Caller should hold a reference
-> - *	to np.
-> + * Return: A node pointer with refcount incremented, use
-> + * of_node_put() on it when done.  Caller should hold a reference
-> + * to np.
->   */
->  struct device_node *of_find_next_cache_node(const struct device_node *np)
->  {
-> diff --git a/drivers/of/fdt.c b/drivers/of/fdt.c
-> index 4d6d195e089a..ba53da9c3895 100644
-> --- a/drivers/of/fdt.c
-> +++ b/drivers/of/fdt.c
-> @@ -349,11 +349,6 @@ static int unflatten_dt_nodes(const void *blob,
->  
->  /**
->   * __unflatten_device_tree - create tree of device_nodes from flat blob
-> - *
-> - * unflattens a device-tree, creating the
-> - * tree of struct device_node. It also fills the "name" and "type"
-> - * pointers of the nodes so the normal device-tree walking functions
-> - * can be used.
->   * @blob: The blob to expand
->   * @dad: Parent device node
->   * @mynodes: The device_node tree created by the call
-> @@ -361,6 +356,10 @@ static int unflatten_dt_nodes(const void *blob,
->   * for the resulting tree
->   * @detached: if true set OF_DETACHED on @mynodes
->   *
-> + * unflattens a device-tree, creating the tree of struct device_node. It also
-> + * fills the "name" and "type" pointers of the nodes so the normal device-tree
-> + * walking functions can be used.
-> + *
->   * Returns NULL on failure or the memory chunk containing the unflattened
->   * device tree on success.
->   */
-
-
-
-Thanks,
-Mauro
+SmlheHVuIFlhbmcgPGppYXh1bi55YW5nQGZseWdvYXQuY29tPiDkuo4yMDIx5bm0M+aciDI25pel
+5ZGo5LqUIOS4iuWNiDExOjEz5YaZ6YGT77yaDQo+DQo+DQo+DQo+IE9uIFdlZCwgTWFyIDI0LCAy
+MDIxLCBhdCAxMTowNyBQTSwgWWFudGVuZyBTaSB3cm90ZToNCj4gPiBUaGlzIHBhdGNoIHRyYW5z
+bGF0ZXMgRG9jdW1lbnRpb24vY3B1LWZyZXEvY29yZS5yc3QgaW50byBDaGluZXNlLg0KPiA+DQo+
+ID4gU2lnbmVkLW9mZi1ieTogWWFudGVuZyBTaSA8c2l5YW50ZW5nQGxvb25nc29uLmNuPg0KPiA+
+IC0tLQ0KPiA+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL2NwdS1mcmVxL2NvcmUucnN0ICAgICAg
+fCAxMDUgKysrKysrKysrKysrKysrKysrDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxMDUgaW5zZXJ0
+aW9ucygrKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlv
+bnMvemhfQ04vY3B1LWZyZXEvY29yZS5yc3QNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9Eb2N1bWVu
+dGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jcHUtZnJlcS9jb3JlLnJzdA0KPiA+IGIvRG9jdW1l
+bnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vY3B1LWZyZXEvY29yZS5yc3QNCj4gPiBuZXcgZmls
+ZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAwMC4uMTU3MTA4N2MyNTgxDQo+ID4g
+LS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NO
+L2NwdS1mcmVxL2NvcmUucnN0DQo+ID4gQEAgLTAsMCArMSwxMDUgQEANCj4gPiArLi4gU1BEWC1M
+aWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCj4gPiArLi4gaW5jbHVkZTo6IC4uL2Rpc2NsYWlt
+ZXItemhfQ04ucnN0DQo+ID4gKw0KPiA+ICs6T3JpZ2luYWw6IDpkb2M6YC4uLy4uLy4uL2NwdS1m
+cmVxL2NvcmVgDQo+ID4gKzpUcmFuc2xhdG9yOiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdz
+b24uY24+DQo+ID4gKw0KPiA+ICsuLiBfY25fY29yZS5yc3Q6DQo+ID4gKw0KPiA+ICsNCj4gPiAr
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+ID4gK0NQVUZyZXHmoLjlv4Pl
+koxDUFVGcmVx6YCa55+l5Zmo55qE5LiA6Iis6K+05piODQo+ID4gKz09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PQ0KPg0KPiDkuIDoiKwgLT4g6YCa55So77yfDQpPSyENCj4NCj4g
+PiArDQo+ID4gK+S9nOiAhToNCj4gPiArICAgICAtIERvbWluaWsgQnJvZG93c2tpICA8bGludXhA
+YnJvZG8uZGU+DQo+ID4gKyAgICAgLSBEYXZpZCBLaW1kb24gPGR3aGVkb25AZGViaWFuLm9yZz4N
+Cj4gPiArICAgICAtIFJhZmFlbCBKLiBXeXNvY2tpIDxyYWZhZWwuai53eXNvY2tpQGludGVsLmNv
+bT4NCj4gPiArICAgICAtIFZpcmVzaCBLdW1hciA8dmlyZXNoLmt1bWFyQGxpbmFyby5vcmc+DQo+
+ID4gKw0KPiA+ICsuLiDnm67lvZU6DQo+ID4gKw0KPiA+ICsgICAxLiAgQ1BVRnJlceaguOW/g+WS
+jOaOpeWPow0KPiA+ICsgICAyLiAgQ1BVRnJlcemAmuefpeWZqA0KPiA+ICsgICAzLiAg5ZCr5pyJ
+T3BlcmF0aW5nIFBlcmZvcm1hbmNlIFBvaW50IChPUFAp55qEQ1BVRnJlceihqOeahOeUn+aIkA0K
+PiA+ICsNCj4gPiArMS4gQ1BVRnJlceaguOW/g+WSjOaOpeWPow0KPiA+ICs9PT09PT09PT09PT09
+PT09PT09PT09DQo+ID4gKw0KPiA+ICtjcHVmcmVx5qC45b+D5Luj56CB5L2N5LqOZHJpdmVycy9j
+cHVmcmVxL2NwdWZyZXEuY+S4reOAgui/meS6m2NwdWZyZXHku6PnoIHkuLpDUFVGcmVx5p625p6E
+55qE6amxDQo+ID4gK+WKqOeoi+W6j++8iOmCo+S6m+i/m+ihjOWunumZhemikeeOh+i9rOaNouea
+hOS7o+egge+8ieS7peWPiiAi6YCa55+l5ZmoICLmj5DkvpvkuobkuIDkuKrmoIflh4bljJbnmoTm
+jqXlj6PjgIINCj4NCj4g6YKj5Lqb5pON5L2c56Gs5Lu25YiH5o2i6aKR546H55qE5Luj56CBIHdp
+bGwgaGVscCB3aXRoIHVuZGVyc3RhbmRpbmcuDQpPSyENCj4NCj4NCj4gPiAr6L+Z5Lqb5piv6K6+
+5aSH6amx5Yqo56iL5bqP5oiW6ZyA6KaB5LqG6Kej562W55Wl5Y+Y5YyW55qE5YW25a6D5YaF5qC4
+6YOo5YiG77yI5aaCIEFDUEkg562J54Ot5qih5Z2X77yJ5oiW5omA5pyJ6aKR546H5pu05pS577yI
+6ZmkDQo+IEFkZCBzYmplY3QgIumAmuefpeWZqCINCj4g54Ot5qih5Z2XIHNlZW1zIGJvZ3VzLCDn
+g63ph4/nrqHnkIbvvJ8NCk9LIQ0KPuKAnA0KPiA+ICvorqHml7bku6PnoIHlpJbvvInvvIznlJro
+h7PpnIDopoHlvLrliLbnoa7lrprpgJ/luqbpmZDliLbvvIjlpoIgQVJNIOaetuaehOS4iueahCBM
+Q0Qg6amx5Yqo56iL5bqP77yJ44CCDQo+ID4gK+atpOWklu+8jCDlhoXmoLggIuW4uOaVsCIgbG9v
+cHNfcGVyX2ppZmZ55Lya5qC55o2u6aKR546H5Y+Y5YyW6ICM5pu05paw44CCDQo+ID4gKw0KPiA+
+ICtjcHVmcmVx562W55Wl55qE5byV55So6K6h5pWw55SxIGNwdWZyZXFfY3B1X2dldCDlkowgY3B1
+ZnJlcV9jcHVfcHV0IOadpeWujOaIkO+8jOS7peehruS/nSBjcHVmcmVxIOmpsQ0KPiA+ICvliqjn
+qIvluo/ooqvmraPnoa7lnLDms6jlhozliLDmoLjlv4PkuK3vvIzlubbkuJTlnKggY3B1ZnJlcV9w
+dXRfY3B1IOiiq+iwg+eUqOS5i+WJjeS4jeS8muiiq+WNuOi9veOAgui/meS5n+S/neivgeS6huWQ
+hOiHqueahA0KPiA+ICtjcHVmcmVxIOetlueVpeWcqOS9v+eUqOaXtuS4jeS8muiiq+mHiuaUvuOA
+gg0KPg0KPiBJdCBtYWtlcyBtZSAiUGFyc2VyIGVycm9yIiB3aGVuIHJlYWRpbmcuLi4uLg0KZW1t
+bW0uIEkgZ3Vlc3MgImNwdWZyZXFfcHV0X2NwdSAtPiBjcHVmcmVxX2NwdV9wdXQsIg0KTWF5YmUg
+SSBzaG91bGQgcmV2aXNlIHRoZSBvcmlnaW5hbCBkcmFmdCBmaXJzdOOAgg0KDQphcyBmb3IgIlBh
+cnNlciBlcnJvciINCitjcHVmcmVx562W55Wl55qE5byV55So6K6h5pWw55SxIGNwdWZyZXFfY3B1
+X2dldCDlkowgY3B1ZnJlcV9jcHVfcHV0IOadpeWujOaIkO+8jOS7peehruS/nSBjcHVmcmVxIOmp
+sQ0KK+WKqOeoi+W6j+iiq+ato+ehruWcsOazqOWGjOWIsOaguOW/g+S4re+8jOW5tuS4lOmpseWK
+qOeoi+W6j+WcqCBjcHVmcmVxX2NwdV9wdXQg6KKr6LCD55So5LmL5YmN5LiN5Lya6KKr5Y246L29
+44CC6L+Z5Lmf5L+d6K+B5LqG5q+P5Liq5qC455qEDQorY3B1ZnJlcSDnrZbnlaXlnKjkvb/nlKjm
+l7bkuI3kvJrooqvph4rmlL7jgIINCk9LPzopDQoNCj4NCj4gPiArDQo+ID4gKzIuIENQVUZyZXEg
+6YCa55+l5ZmoDQo+ID4gKz09PT09PT09PT09PT09PT09PT09DQo+ID4gKw0KPiA+ICtDUFVGcmVx
+6YCa55+l5Zmo56ym5ZCI5qCH5YeG55qE5YaF5qC46YCa55+l5Zmo5o6l5Y+j44CCDQo+ID4gK+WF
+s+S6jumAmuefpeWZqOeahOe7huiKguivt+WPgumYhSBsaW51eC9pbmNsdWRlL2xpbnV4L25vdGlm
+aWVyLmjjgIINCj4gPiArDQo+ID4gK+i/memHjOacieS4pOS4quS4jeWQjOeahENQVWZyZXHpgJrn
+n6XlmaggLSDnrZbnlaXpgJrnn6XlmajlkozovazmjaLpgJrnn6XlmajjgIINCj4gPiArDQo+ID4g
+Kw0KPiA+ICsyLjEgQ1BVRnJlceetlueVpemAmuefpeWZqA0KPiA+ICstLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tDQo+ID4gKw0KPiA+ICvlvZPliJvlu7rmiJbnp7vpmaTnrZbnlaXml7bvvIzo
+v5nkupvpg73kvJrooqvpgJrnn6XjgIINCj4gPiArDQo+ID4gK+mYtuauteaYr+WcqOmAmuefpeWZ
+qOeahOesrOS6jOS4quWPguaVsOS4reaMh+WumueahOOAguW9k+esrOS4gOasoeWIm+W7uuetlueV
+peaXtu+8jOmYtuauteaYr0NQVUZSRVFfQ1JFQVRFX1BPTElDWe+8jOW9kw0KPiA+ICvnrZbnlaXo
+oqvnp7vpmaTml7bvvIzpmLbmrrXmmK9DUFVGUkVRX1JFTU9WRV9QT0xJQ1njgIINCj4gPiArDQo+
+ID4gK+esrOS4ieS4quWPguaVsCBgYHZvaWQgKnBvaW50ZXJgYCDmjIflkJHkuIDkuKrnu5PmnoTk
+vZNjcHVmcmVxX3BvbGljee+8jOWFtuWMheaLrG1pbu+8jG1heCjmlrDnrZbnlaXnmoTkuIvpmZDl
+kowNCj4gPiAr5LiK6ZmQ77yI5Y2V5L2N5Li6a0h677yJKei/meWHoOS4quWAvOOAgg0KPiA+ICsN
+Cj4gPiArDQo+ID4gKzIuMiBDUFVGcmVx6L2s5o2i6YCa55+l5ZmoDQo+ID4gKy0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gKw0KPiA+ICvlvZNDUFVmcmVx6amx5Yqo5YiH5o2i
+Q1BV5qC45b+D6aKR546H5pe277yM562W55Wl5Lit55qE5q+P5Liq5Zyo57q/Q1BV6YO95Lya5pS2
+5Yiw5Lik5qyh6YCa55+l77yM6L+Z5Lqb5Y+Y5YyW5rKh5pyJ5Lu75L2V5aSW6YOo5bmyDQo+ID4g
+K+mihOOAgg0KPiA+ICsNCj4gPiAr56ys5LqM5Liq5Y+C5pWw5oyH5a6a6Zi25q61IC0gQ1BVRlJF
+UV9QUkVDSEFOR0Ugb3IgQ1BVRlJFUV9QT1NUQ0hBTkdFLg0KPiA+ICsNCj4gPiAr56ys5LiJ5Liq
+5Y+C5pWw5piv5LiA5Liq5YyF5ZCr5aaC5LiL5YC855qE57uT5p6E5L2TY3B1ZnJlcV9mcmVxc++8
+mg0KPiA+ICsNCj4gPiArPT09PT0gICAgICAgID09PT09PT09PT09PT09PT09PT09DQo+ID4gK2Nw
+dSAg5Y+X5b2x5ZONY3B155qE57yW5Y+3DQo+ID4gK29sZCAg5pen6aKR546HDQo+ID4gK25ldyAg
+5paw6aKR546HDQo+ID4gK2ZsYWdzICAgICAgICBjcHVmcmVx6amx5Yqo55qE5qCH5b+XDQo+ID4g
+Kz09PT09ICAgICAgICA9PT09PT09PT09PT09PT09PT09PQ0KPiA+ICsNCj4gPiArMy4g5ZCr5pyJ
+T3BlcmF0aW5nIFBlcmZvcm1hbmNlIFBvaW50IChPUFAp55qEQ1BVRnJlceihqOeahOeUn+aIkA0K
+PiA+ICs9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT0NCj4gPiAr5YWz5LqOT1BQ55qE57uG6IqC6K+35Y+C6ZiFIERvY3VtZW50
+YXRpb24vcG93ZXIvb3BwLnJzdA0KPiA+ICsNCj4gPiArZGV2X3BtX29wcF9pbml0X2NwdWZyZXFf
+dGFibGUgLQ0KPiA+ICsgICAgIOi/meS4quWKn+iDveaPkOS+m+S6huS4gOS4qumaj+aXtuWPr+eU
+qOeahOi9rOaNoueoi+W6j++8jOeUqOadpeWwhk9QUOWxguWFs+S6juWPr+eUqOmikeeOh+eahOWG
+hemDqOS/oeaBr+e/u+ivkeaIkOS4gOenjeWuueaYk+aPkOS+m+e7mQ0KPiA+ICsgICAgIGNwdWZy
+ZXHnmoTmoLzlvI/jgIINCj4gPiArDQo+ID4gKyAgICAgLi4gV2FybmluZzo6DQo+ID4gKw0KPiA+
+ICsgICAgICAgICAgICAg5LiN6KaB5Zyo5Lit5pat5LiK5LiL5paH5Lit5L2/55So5q2k5Ye95pWw
+44CCDQo+ID4gKw0KPiA+ICsgICAgIOS+i+Wmgjo6DQo+ID4gKw0KPiA+ICsgICAgICBzb2NfcG1f
+aW5pdCgpDQo+ID4gKyAgICAgIHsNCj4gPiArICAgICAgICAgICAgIC8qIERvIHRoaW5ncyAqLw0K
+PiA+ICsgICAgICAgICAgICAgciA9IGRldl9wbV9vcHBfaW5pdF9jcHVmcmVxX3RhYmxlKGRldiwg
+JmZyZXFfdGFibGUpOw0KPiA+ICsgICAgICAgICAgICAgaWYgKCFyKQ0KPiA+ICsgICAgICAgICAg
+ICAgICAgICAgICBwb2xpY3ktPmZyZXFfdGFibGUgPSBmcmVxX3RhYmxlOw0KPiA+ICsgICAgICAg
+ICAgICAgLyogRG8gb3RoZXIgdGhpbmdzICovDQo+ID4gKyAgICAgIH0NCj4gPiArDQo+ID4gKyAg
+ICAgLi4gbm90ZTo6DQo+ID4gKw0KPiA+ICsgICAgICAgICAgICAg6K+l5Ye95pWw5Y+q5pyJ5Zyo
+Q09ORklHX1BNX09QUOS5i+Wklui/mOWQr+eUqOS6hkNPTkZJR19DUFVfRlJFUeaXtuaJjeWPr+eU
+qOOAgg0KPiA+ICsNCj4gPiArZGV2X3BtX29wcF9mcmVlX2NwdWZyZXFfdGFibGUNCj4gPiArICAg
+ICDph4rmlL5kZXZfcG1fb3BwX2luaXRfY3B1ZnJlcV90YWJsZeWIhumFjeeahOihqOOAgg0KPiA+
+IC0tDQo+ID4gMi4yNS4xDQo+ID4NCj4gPg0KPg0KPiAtLQ0KPiAtIEppYXh1bg0KDQpZYW4gdGVu
+Zw0K
