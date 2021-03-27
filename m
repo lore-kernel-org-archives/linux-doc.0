@@ -2,252 +2,224 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5EBA7C433C1
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Mar 2021 14:57:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D31FC433E0
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Mar 2021 22:21:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 287DB619B1
-	for <linux-doc@archiver.kernel.org>; Sat, 27 Mar 2021 14:57:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 387A361976
+	for <linux-doc@archiver.kernel.org>; Sat, 27 Mar 2021 22:21:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230030AbhC0O5A (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 27 Mar 2021 10:57:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55032 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229582AbhC0O4n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Mar 2021 10:56:43 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 619B2C0613B1;
-        Sat, 27 Mar 2021 07:56:43 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id kt15so12726487ejb.12;
-        Sat, 27 Mar 2021 07:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=9XfERiSuS0jgzL6XtH0j5Zkdj6GdS3lhay8hKtzIIvw=;
-        b=daUZHZ3fBiNaSqN278lcZbLZBg1S9em0tplEV5jgXsyIjQJkzT3ZupisolsGGnxArG
-         1LFe1EERqfwv3rj4aDrYpMXH8UDqNjm51BypNqPSfIBJoZdEEUj2HbFk3egzw4tVOIDu
-         267CK1jCFWkQITeeYgRoiifaxXnfB7C/fT67K5gvFRaVqV8KZgvdgYaVs2gvgCn7Xrq7
-         j4NtDNKCc0HO1IxkkqeGeXWMINfUr4GNBxhAoe3CVRxEnM1UsYAFHZ8dgy57+YM+ovO7
-         wTF5ZZubjjMxyy+j+/DHuvpCUBFe4AlcrPrmnWz/SuhHst24aP5c28NA/dfPW6KAA4kh
-         pfuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=9XfERiSuS0jgzL6XtH0j5Zkdj6GdS3lhay8hKtzIIvw=;
-        b=eJhYku6rXQ6rADPwRPYPMrcfc7eXqLvNqC5H4rUlrM3SZzB1ILgtvT8TBPg7RTmUXn
-         cJ0JFCcZMlUyuii2BGnhEQ9yj+GooJKKBa/T7wIJEuFrGsJg/dse36tfpElQFk3LOPWh
-         t3w5TU3m8Hs6wluHT02dFAc5w9nrbiTnuPDRPuzLQ2QN1kpIjQd2yzA/9kOA0wkurzvG
-         CaglDv6mj0SewmGcI4aHCMGptzudwpAYIOdb53AzvCdEd5ZB6yV4DJrrbd7y8qkz0Rrt
-         +MCX/8n4m69j9iibW7hMTvJLZ6agnnwpYBBuv7z2FttLfuN6a2M63tYGo351rb0OdZw+
-         45yQ==
-X-Gm-Message-State: AOAM5339rK6+blBRcyHvutHUujxnwshTxFIpJ6fOiTloAr8KsfGBxxw+
-        aPv7pp8FcKD34nZlRq02UTRzC2SsdgGW+LjA12c=
-X-Google-Smtp-Source: ABdhPJy6lCRHeePNElX5dJ33hHek99HOaPXLCD5oruAOWdcfDLfojjJqMUdl6uKemoofUUsuQc0MN+uoF6UU3Gc0Bts=
-X-Received: by 2002:a17:906:1fd6:: with SMTP id e22mr21088169ejt.481.1616857002134;
- Sat, 27 Mar 2021 07:56:42 -0700 (PDT)
+        id S230493AbhC0WUl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 27 Mar 2021 18:20:41 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:34902 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231201AbhC0WU3 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 27 Mar 2021 18:20:29 -0400
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1616883627;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=FlQQBMnnP/oY7YaWuWl6wKHl/QvLMioKgOuHapxDvv8=;
+        b=FUGmc27I4NDHxhWUWkGZbMcmJ6glRHVajdOKtcNvOsHySqD97RLqBeNbn8TzUVghXqLl4B
+        y4jtQ8nZB8ZTiaQ1RIvsm0wuHUBJuQTGcvFaiQhTgRPELkihkv4IIuNvio7Z2ZPAJW20Zj
+        cSO5+tOx3ra3zXPEXEzenef/iBB/ViGUa3q21o8mhmoWseGC7R4c4u0+68HUTFhd/YGqzk
+        blLb+nuvRsmkXLKZlnqg53wXWR6V17rPtlp2SIzzlhNQJd3QhePGL6YdJW6M7dV3H+NJaP
+        ybC/NpvtHvnVj3+vb3zNNC2fol8RpXDfts91lp5opN8kzR5/rlK81XgFZmREzQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1616883627;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=FlQQBMnnP/oY7YaWuWl6wKHl/QvLMioKgOuHapxDvv8=;
+        b=kHMNeOF6/3uHvLE2E7N3FecPfJgBq2lGEgHOppKS9ECBjnmizUeflMpPkvoD4klSo7EblB
+        RFZUU8ZqwwBEACCA==
+To:     Len Brown <lenb@kernel.org>, Andy Lutomirski <luto@kernel.org>
+Cc:     "Chang S. Bae" <chang.seok.bae@intel.com>,
+        Borislav Petkov <bp@suse.de>, Ingo Molnar <mingo@kernel.org>,
+        X86 ML <x86@kernel.org>, "Brown\, Len" <len.brown@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        "Liu\, Jing2" <jing2.liu@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to control state component support
+In-Reply-To: <CAJvTdKmdMfD4BddMJs4iwvHWRSv4PV7Dh2vxjM57UJ3pw5UJDQ@mail.gmail.com>
+References: <20210221185637.19281-1-chang.seok.bae@intel.com> <20210221185637.19281-23-chang.seok.bae@intel.com> <871rc9bl3v.fsf@nanos.tec.linutronix.de> <CAJvTdKkOKOgnmvAiPS6mWVoyAggbOB6hBOqb_tcHYDe8+-X+FQ@mail.gmail.com> <CALCETrWOc7wwW=KY2dGJGy9k5Ag=KhkdGGTDZMvgRHgyQ5fDjQ@mail.gmail.com> <CAJvTdK=OGALDso0H+asjgkjD_VaPNZzm+LpV+msM_i5aVUm_qw@mail.gmail.com> <CALCETrXky0RuA5WeQ0Mxjs+e4ywk1A7vmpBxqCo=PTSBzUsz-g@mail.gmail.com> <CAJvTdK=_G11phL6=9Ri41fJQvhRNopok_oktgvRjTM0v6ojcbg@mail.gmail.com> <CALCETrX-34QqeVLjX39ZAD+4Y6XkZ3=bPEtEPxTi0YHvLgBKig@mail.gmail.com> <CAJvTdKmdMfD4BddMJs4iwvHWRSv4PV7Dh2vxjM57UJ3pw5UJDQ@mail.gmail.com>
+Date:   Sat, 27 Mar 2021 23:20:27 +0100
+Message-ID: <87r1k0ck7o.ffs@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-References: <20210326205135.6098-1-info@alexander-lochmann.de>
-In-Reply-To: <20210326205135.6098-1-info@alexander-lochmann.de>
-From:   Andrey Konovalov <andreyknvl@gmail.com>
-Date:   Sat, 27 Mar 2021 15:56:31 +0100
-Message-ID: <CA+fCnZcTi=QLGC_LCdhs+fMrxkqX66kXEuM5ewOmjVjifKzUrw@mail.gmail.com>
-Subject: Re: [PATCHv3] Introduced new tracing mode KCOV_MODE_UNIQUE.
-To:     Alexander Lochmann <info@alexander-lochmann.de>
-Cc:     Dmitry Vyukov <dvyukov@google.com>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Aleksandr Nogikh <nogikh@google.com>,
-        Wei Yongjun <weiyongjun1@huawei.com>,
-        Maciej Grochowski <maciej.grochowski@pm.me>,
-        kasan-dev@googlegroups.com, linux-doc@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 26, 2021 at 9:52 PM Alexander Lochmann
-<info@alexander-lochmann.de> wrote:
+Len,
+
+On Sat, Mar 27 2021 at 00:53, Len Brown wrote:
+>> 3.3 RECOMMENDATIONS FOR SYSTEM SOFTWARE
+>>
+>> System software may disable use of Intel AMX by clearing XCR0[18:17],
+>> by clearing CR4.OSXSAVE, or by setting
+>> IA32_XFD[18]. It is recommended that system software initialize AMX
+>> state (e.g., by executing TILERELEASE)
+>> before doing so. This is because maintaining AMX state in a
+>> non-initialized state may have negative power and
+>> performance implications.
 >
+> I agree that the wording here about disabling AMX is ominous.
 
-Hi Alexander,
+Which is what I pointed out 7 days ago already, but that got lost in the
+ABI and command line noise... Thanks Andy for bringing it back!
 
-> It simply stores the executed PCs.
-> The execution order is discarded.
-> Each bit in the shared buffer represents every fourth
-> byte of the text segment.
-> Since a call instruction on every supported
-> architecture is at least four bytes, it is safe
-> to just store every fourth byte of the text segment.
-
-What about jumps?
-
-[...]
-
-> -#define KCOV_IN_CTXSW  (1 << 30)
-> +#define KCOV_IN_CTXSW  (1 << 31)
-
-This change needs to be mentioned and explained in the changelog.
-
-> -static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_struct *t)
-> +static __always_inline notrace bool check_kcov_mode(enum kcov_mode needed_mode,
-> +                                                   struct task_struct *t,
-> +                                                   unsigned int *mode)
->  {
-> -       unsigned int mode;
-> -
->         /*
->          * We are interested in code coverage as a function of a syscall inputs,
->          * so we ignore code executed in interrupts, unless we are in a remote
-> @@ -162,7 +163,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
->          */
->         if (!in_task() && !(in_serving_softirq() && t->kcov_softirq))
->                 return false;
-> -       mode = READ_ONCE(t->kcov_mode);
-> +       *mode = READ_ONCE(t->kcov_mode);
->         /*
->          * There is some code that runs in interrupts but for which
->          * in_interrupt() returns false (e.g. preempt_schedule_irq()).
-> @@ -171,7 +172,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
->          * kcov_start().
->          */
->         barrier();
-> -       return mode == needed_mode;
-> +       return ((int)(*mode & (KCOV_IN_CTXSW | needed_mode))) > 0;
-
-This change needs to be mentioned and explained in the changelog.
-
-[...]
-
->  static notrace unsigned long canonicalize_ip(unsigned long ip)
-> @@ -191,18 +192,27 @@ void notrace __sanitizer_cov_trace_pc(void)
->         struct task_struct *t;
->         unsigned long *area;
->         unsigned long ip = canonicalize_ip(_RET_IP_);
-> -       unsigned long pos;
-> +       unsigned long pos, idx;
-> +       unsigned int mode;
+> The hardware initializes with AMX disabled.
+> The kernel probes AMX, enables it in XCR0, and keeps it enabled.
 >
->         t = current;
-> -       if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
-> +       if (!check_kcov_mode(KCOV_MODE_TRACE_PC | KCOV_MODE_UNIQUE_PC, t, &mode))
->                 return;
+> Initially, XFD is "armed" for all tasks.
+> When a task accesses AMX state, #NM fires, we allocate a context
+> switch buffer, and we "disarm" XFD for that task.
+> As we have that buffer in-hand for the lifetime of the task, we never
+> "arm" XFD for that task again.
 >
->         area = t->kcov_area;
-> -       /* The first 64-bit word is the number of subsequent PCs. */
-> -       pos = READ_ONCE(area[0]) + 1;
-> -       if (likely(pos < t->kcov_size)) {
-> -               area[pos] = ip;
-> -               WRITE_ONCE(area[0], pos);
-> +       if (likely(mode == KCOV_MODE_TRACE_PC)) {
-> +               /* The first 64-bit word is the number of subsequent PCs. */
-> +               pos = READ_ONCE(area[0]) + 1;
-> +               if (likely(pos < t->kcov_size)) {
-> +                       area[pos] = ip;
-> +                       WRITE_ONCE(area[0], pos);
-> +               }
-> +       } else {
-> +               idx = (ip - canonicalize_ip((unsigned long)&_stext)) / 4;
-> +               pos = idx % BITS_PER_LONG;
-> +               idx /= BITS_PER_LONG;
-> +               if (likely(idx < t->kcov_size))
-> +                       WRITE_ONCE(area[idx], READ_ONCE(area[idx]) | 1L << pos);
-
-This is confusing: for KCOV_MODE_TRACE_PC, pos is used to index area,
-and for else, idx is used to index area. You should swap idx and pos.
-
-[...]
-
-> @@ -213,9 +223,10 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
->         struct task_struct *t;
->         u64 *area;
->         u64 count, start_index, end_pos, max_pos;
-> +       unsigned int mode;
+> XFD is context switched, and so the next time it is set, is when we
+> are restoring some other task's state.
 >
->         t = current;
-> -       if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t))
-> +       if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t, &mode))
->                 return;
-
-mode isn't used here, right? No need for it then.
-
-> @@ -562,12 +576,14 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
->  {
->         struct task_struct *t;
->         unsigned long size, unused;
-> -       int mode, i;
-> +       int mode, i, text_size, ret = 0;
->         struct kcov_remote_arg *remote_arg;
->         struct kcov_remote *remote;
->         unsigned long flags;
+> n.b. I'm describing the Linux flow.  The VMM scenario is a little different.
 >
->         switch (cmd) {
-> +       case KCOV_INIT_UNIQUE:
-> +               fallthrough;
->         case KCOV_INIT_TRACE:
->                 /*
->                  * Enable kcov in trace mode and setup buffer size.
-> @@ -581,11 +597,42 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
->                  * that must not overflow.
->                  */
->                 size = arg;
-> -               if (size < 2 || size > INT_MAX / sizeof(unsigned long))
-> -                       return -EINVAL;
-> -               kcov->size = size;
-> -               kcov->mode = KCOV_MODE_INIT;
-> -               return 0;
-> +               if (cmd == KCOV_INIT_UNIQUE) {
+>> Since you reviewed the patch set, I assume you are familiar with how
+>> Linux manages XSTATE.  Linux does *not* eagerly load XSTATE on context
+>> switch.  Instead, Linux loads XSTATE when the kernel needs it loaded
+>> or before executing user code.  This means that the kernel can (and
+>> does, and it's a performance win) execute kernel thread code and/or go
+>> idle, *including long-term deep idle*, with user XSTATE loaded.
+>
+> Yes, this scenario is clear.
+>
+> There are several cases.
+>
+> 1. Since TMM registers are volatile, a routine using TMM that wants
+> them to persist across a call must save them,
+>     and will TILERELEASE before invoking that call.  That is the
+> calling convention,
+>     and I expect that if it is not followed, debugging (of tools) will
+> occur until it is.
+>
+>     The only way for a user program's XSTATE to be present during the
+> kernel's call to idle
+>     is if it sleep via a system call when no other task wants to run
+> on that CPU.
+>
+>     Since system calls are calls, in this case, AMX INIT=1 during
+>     idle.
 
-Let's put this code under KCOV_INIT_UNIQUE in the switch. This
-internal if only saves duplicating two lines of code, which isn't
-worth it.
+What is the guarantee for that? A calling convention?
 
-> +                       if (size != 0)
-> +                               return -EINVAL;
-> +                       text_size = (canonicalize_ip((unsigned long)&_etext)
-> +                                    - canonicalize_ip((unsigned long)&_stext));
-> +                       /**
-> +                        * A call instr is at least four bytes on every supported architecture.
-> +                        * Hence, just every fourth instruction can potentially be a call.
-> +                        */
-> +                       text_size = roundup(text_size, 4);
-> +                       text_size /= 4;
-> +                       /*
-> +                        * Round up size of text segment to multiple of BITS_PER_LONG.
-> +                        * Otherwise, we cannot track
-> +                        * the last (text_size % BITS_PER_LONG) addresses.
-> +                        */
-> +                       text_size = roundup(text_size, BITS_PER_LONG);
-> +                       /* Get the amount of bytes needed */
-> +                       text_size = text_size / 8;
-> +                       /* mmap() requires size to be a multiple of PAGE_SIZE */
-> +                       text_size = roundup(text_size, PAGE_SIZE);
-> +                       /* Get the cover size (= amount of bytes stored) */
-> +                       ret = text_size;
-> +                       kcov->size = text_size / sizeof(unsigned long);
-> +                       kcov_debug("text size = 0x%lx, roundup = 0x%x, kcov->size = 0x%x\n",
-> +                                       ((unsigned long)&_etext) - ((unsigned long)&_stext),
-> +                                       text_size,
-> +                                       kcov->size);
-> +                       kcov->mode = KCOV_MODE_INIT_UNIQUE;
-> +               } else {
-> +                       if (size < 2 || size > INT_MAX / sizeof(unsigned long))
-> +                               return -EINVAL;
-> +                       kcov->size = size;
-> +                       kcov->mode = KCOV_MODE_INIT_TRACE;
-> +               }
-> +               return ret;
+That's uninteresting because that's only the recommended and desired
+state and not the guaranteed state.
 
-Thanks!
+>     All deep C-state are enabled, the idle CPU is able to contribute
+> it's maximum turbo buget to its peers.
+>
+> 2. A correct program with live TMM registers takes an interrupt, and
+> we enter the kernel AMX INIT=0.
+>     Yes, we will enter the syscall at the frequency of the app (like
+> we always do).
+
+That's about interrupts not syscalls and I assume this should be all
+s/syscall/interrupt/ for the whole #2 including 2a
+
+>     Yes, turbo frequency may be limited by the activity of this
+> processor and its peers (like it always is)
+>
+>    2a. If we return to the same program, then depending on how long
+> the syscall runs, we may execute
+>          the program and the system call code at a frequency lower
+> than we might if AMX INIT=1 at time of interrupt.
+
+So the frequency effect is relevant for the duration of the interrupt
+and the eventually appended soft interrupt, right?
+
+The program state is uninteresting because even if the kernel would
+do XSAVES, TILERELEASE on interrupt entry then it would restore the
+state before returning and then the program would have the same
+conditions as before the interrupt.
+
+>    2b. If we context switch to a task that has AMX INIT=1, then any
+> AMX-imposed limits on turbo
+>          are immediately gone.
+
+Immediately on context switch? Definitely not.
+
+      switch_to(prev, next)
+        XSAVES(prev)
+        eventually set XFD[18]
+
+The point where AMX INIT=1 of 'next' becomes relevant is on return to
+user space where XRSTORS happens. Up to that point AMX INIT=0 stays in
+effect.
+
+Now what guarantees that 'next' is returning to user space immediately?
+
+Nothing.
+
+If it's a user task this can be a wakeup for whatever which might cause
+another wait depending on the callchain that task is in. It can be
+preempted before reaching XRSTORS which is the point that matters to
+flip the AMX INIT state back to 1.
+
+It can be a kernel task or a chain of kernel tasks with arbitrary
+runtime.
+
+As a consequence the scheduler might migrate 'prev' from CPU_A to CPU_L
+and what happens to that state on CPU_A? Does it magically move along
+with 'prev' to CPU_L? I can't see how, but what do I know about magic.
+
+So now the chain of kernel tasks finishes and there is nothing to do,
+CPU_A goes idle with AMX INIT=0, which prevents the CPU from going deep,
+drains power, can't contribute to the turbo state or whatever undesired
+side effects that has.
+
+You can get the same effect not only by device interrupts but also by
+regular task migration, ptrace, breakpoints, any form of traps,
+exception the task triggers in user space, user space freezing, kill -9
+and .....
+
+> 3. A buggy or purposely bogus program is fully empowered to violate
+> the programming conventions.
+>     Say such a program called a long sleep, and nothing else wanted to
+> run on that CPU, so the kernel
+>     went idle with AMX INIT=0.  Indeed, this could retard the core
+> from getting into the deepest available
+>     C-state, which could impact the turbo budget of neighboring cores.
+> However, if that were some kind
+>     of DOS, it would be simpler and more effective to simply hog a CPU
+> by running code.  Also, as soon
+>     as another thread switches in with INIT=1, there is no concept of
+> AMX frequency caps. (see note for 2b)
+
+It's irrelevant whether this is intentionally buggy or not. It's equally
+irrelevant whether this is a stupid attempt of DOS or not.
+
+What's relevant is that this has undesired side effects of various
+sorts.
+
+> I do not see a situation where the kernel needs to issue TILERELEASE
+> (though a VMM likely would).
+
+So #3 does not qualify for you? Interesting POV.
+
+> What did I miss?
+
+See #2.b
+
+What's the actual downside of issuing TILERELEASE conditionally
+depending on prev->AMX INIT=0? Is it slooooow or what's the real
+problem here?
+
+Thanks,
+
+        tglx
