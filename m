@@ -2,211 +2,446 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55BF6C433C1
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Mar 2021 15:30:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA68C433C1
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Mar 2021 16:31:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2B6DD61972
-	for <linux-doc@archiver.kernel.org>; Sun, 28 Mar 2021 15:30:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8DABA6194A
+	for <linux-doc@archiver.kernel.org>; Sun, 28 Mar 2021 16:31:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231208AbhC1P3j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 28 Mar 2021 11:29:39 -0400
-Received: from mout01.posteo.de ([185.67.36.65]:35758 "EHLO mout01.posteo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231164AbhC1P3F (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 28 Mar 2021 11:29:05 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout01.posteo.de (Postfix) with ESMTPS id 16FFC160061
-        for <linux-doc@vger.kernel.org>; Sun, 28 Mar 2021 17:29:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.net; s=2017;
-        t=1616945341; bh=8mi09Rx1C6p0vrdpYJiMwlPPYaMYUrw/IsAC+AOdZ3o=;
-        h=From:To:Cc:Subject:Date:From;
-        b=JQ6E+OKX1vM67tdNoYt9F/KUS+9BbhmPdrbZQRf6Z1P4EBDNaSKutOXMCQd6aAeuQ
-         FxX+huL/2oSr6HABIWpVzPSS20+7lHK4XIpNYpcCbMNr+aM08Ecmn7rOSghknrrWYh
-         20oPK4X6MixjV+VwPRES3ooU3Y6C6x+mdqB0FD+R5wMCNf2zrTyVi5/JJZB/Q/agid
-         vLQkRjYQOAEM4ouneuTMM+/ta/G/J0teFUrZ+GNr6/Y+EZziK2QixX87ghgGvYMI0O
-         p/Ux6fkXlu0UqF8StHHvbq7zdsFiiN8EjKaJ6TjAwF62oDDMV+ShQ03WZUHzWw2svc
-         836LGFyPtJz4A==
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4F7fkg6VkRz6tmG;
-        Sun, 28 Mar 2021 17:28:59 +0200 (CEST)
-From:   Mark O'Donovan <shiftee@posteo.net>
-To:     corbet@lwn.net
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark O'Donovan <shiftee@posteo.net>
-Subject: [PATCH] Documentation: Add leading slash to some paths
-Date:   Sun, 28 Mar 2021 16:28:37 +0100
-Message-Id: <20210328152837.73347-1-shiftee@posteo.net>
-X-Mailer: git-send-email 2.25.1
+        id S230092AbhC1Qao (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 28 Mar 2021 12:30:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42722 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229538AbhC1Qaj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 28 Mar 2021 12:30:39 -0400
+Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59846C061756;
+        Sun, 28 Mar 2021 09:30:39 -0700 (PDT)
+Received: by mail-qt1-x836.google.com with SMTP id j7so7758618qtx.5;
+        Sun, 28 Mar 2021 09:30:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fflf44PBhll8Lp+gQ+hj9EJ05dwi+4skqTSj/7exmuA=;
+        b=oyjwO6bZf2rxohsoCvLa8Gq6kwlM/at46UrRoXCFinGaKO8va+OtOHSkzQfayE5r14
+         vY+7ANH4Cq5gImHu21Ct58SgZAZ2QfFwxilyj+ny5E4vSpTJwhzxEmA2PQGHRJvAohBj
+         +LKs/KA/6ts77rAlg9ImeEKuaDfV1XQmBsrIyoA35W9btVv/0V1Dswrrv28COy8c1iVx
+         Ht89HHIUaFUK5KzRl8/LsXr6PBzG02wvWGuCCV6FIxyTzv+fq8/hh2iXq5LyekO42AuZ
+         IhIZ8B8CCm4c8+JKUlcPoGUUU8qavMlHOVYZUjk850oChxKfh9NtnthURZdsJMykknxY
+         G3Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fflf44PBhll8Lp+gQ+hj9EJ05dwi+4skqTSj/7exmuA=;
+        b=ReoAAt2SjTWQjXYuZcA4zOlvPXocjC6G043eQsO0dmXnEkjFWpnGTPYCJdmsSkQYxC
+         8KCEc2RBCEcX5HOyawuoD6y6OFWHk5GpAgbLZduolufVUvqCbHQzWDUkKaBU7iNK6hiG
+         GMzKBdkIEI1VrutWxLCJoGqmjUXFrhfC+ed25cOIafCqP94Pkv4+sMHxnBvar8PeJvxC
+         WsEWwTR/rkyPS54FoJMKFjNbfsS5v3zjmT0e9SavrIysEmwJU/Yc+4g66jaaS4dmx40S
+         mjRBW7jacqTfmwiU0GlCFG1nMGp+VprHrbZKV759OUndTmCsyhjt8FU7DaTkd8K9PaQx
+         LNKg==
+X-Gm-Message-State: AOAM530OldSDGW4/DfxcrMhHtzjPGrbtjdklzXzYkq9MwtxQnMcN9APs
+        8tVJ2fAQN2L2YtEhretNL9ScGnGKwjQ=
+X-Google-Smtp-Source: ABdhPJzahu7dK8CXZkrET96cxCqxy1w1IMAjcM/NOYJ2blVcwCnQar8eRw00EHreXFTYa6+ruT/BfQ==
+X-Received: by 2002:ac8:7485:: with SMTP id v5mr19534471qtq.31.1616949038442;
+        Sun, 28 Mar 2021 09:30:38 -0700 (PDT)
+Received: from shane-XPS-13-9380.attlocal.net ([2600:1700:4ca1:ade0:d373:7d57:15e2:e5f6])
+        by smtp.gmail.com with ESMTPSA id 124sm11242265qkn.121.2021.03.28.09.30.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 28 Mar 2021 09:30:37 -0700 (PDT)
+From:   Xie He <xie.he.0141@gmail.com>
+To:     Martin Schiller <ms@dev.tdt.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Halasa <khc@pm.waw.pl>, linux-x25@vger.kernel.org,
+        netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Xie He <xie.he.0141@gmail.com>
+Subject: [PATCH net-next v2] net: x25: Queue received packets in the drivers instead of per-CPU queues
+Date:   Sun, 28 Mar 2021 09:30:30 -0700
+Message-Id: <20210328163030.604227-1-xie.he.0141@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Change multiple sys/xyz to /sys/xyz
+X.25 Layer 3 (the Packet Layer) expects layer 2 to provide a reliable
+datalink service such that no packets are reordered or dropped. And
+X.25 Layer 2 (the LAPB layer) is indeed designed to provide such service.
 
-Signed-off-by: Mark O'Donovan <shiftee@posteo.net>
+However, this reliability is not preserved when a driver calls "netif_rx"
+to deliver the received packets to layer 3, because "netif_rx" will put
+the packets into per-CPU queues before they are delivered to layer 3.
+If there are multiple CPUs, the order of the packets may not be preserved.
+The per-CPU queues may also drop packets if there are too many.
+
+Therefore, we should not call "netif_rx" to let it queue the packets.
+Instead, we should use our own queue that won't reorder or drop packets.
+
+This patch changes all X.25 drivers to use their own queues instead of
+calling "netif_rx". The patch also documents this requirement in the
+"x25-iface" documentation.
+
+Cc: Martin Schiller <ms@dev.tdt.de>
+Signed-off-by: Xie He <xie.he.0141@gmail.com>
 ---
- Documentation/admin-guide/mm/numaperf.rst |  2 +-
- Documentation/fb/fbcon.rst                |  4 ++--
- Documentation/hid/intel-ish-hid.rst       |  2 +-
- Documentation/leds/leds-lm3556.rst        | 28 +++++++++++------------
- 4 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/numaperf.rst b/Documentation/admin-guide/mm/numaperf.rst
-index c2f826409bf0..166697325947 100644
---- a/Documentation/admin-guide/mm/numaperf.rst
-+++ b/Documentation/admin-guide/mm/numaperf.rst
-@@ -151,7 +151,7 @@ Each cache level's directory provides its attributes. For example, the
- following shows a single cache level and the attributes available for
- software to query::
+Change from v1:
+Drop all PFMEMALLOC skbs because we cannot handle them.
+
+Change from RFC (March 5, 2021):
+Rebased onto the latest net-next.
+
+Martin Schiller has acked the RFC version.
+
+---
+ Documentation/networking/x25-iface.rst | 65 ++++----------------------
+ drivers/net/wan/hdlc_x25.c             | 37 ++++++++++++++-
+ drivers/net/wan/lapbether.c            | 59 +++++++++++++++++++++--
+ 3 files changed, 100 insertions(+), 61 deletions(-)
+
+diff --git a/Documentation/networking/x25-iface.rst b/Documentation/networking/x25-iface.rst
+index df401891dce6..f34e9ec64937 100644
+--- a/Documentation/networking/x25-iface.rst
++++ b/Documentation/networking/x25-iface.rst
+@@ -70,60 +70,13 @@ First Byte = 0x03 (X25_IFACE_PARAMS)
+ LAPB parameters. To be defined.
  
--	# tree sys/devices/system/node/node0/memory_side_cache/
-+	# tree /sys/devices/system/node/node0/memory_side_cache/
- 	/sys/devices/system/node/node0/memory_side_cache/
- 	|-- index1
- 	|   |-- indexing
-diff --git a/Documentation/fb/fbcon.rst b/Documentation/fb/fbcon.rst
-index 57f66de2f7e1..212f7003cfba 100644
---- a/Documentation/fb/fbcon.rst
-+++ b/Documentation/fb/fbcon.rst
-@@ -207,9 +207,9 @@ Documentation/driver-api/console.rst. To summarize:
- Echo a value to the bind file that represents the framebuffer console
- driver. So assuming vtcon1 represents fbcon, then::
  
--  echo 1 > sys/class/vtconsole/vtcon1/bind - attach framebuffer console to
-+  echo 1 > /sys/class/vtconsole/vtcon1/bind - attach framebuffer console to
- 					     console layer
--  echo 0 > sys/class/vtconsole/vtcon1/bind - detach framebuffer console from
-+  echo 0 > /sys/class/vtconsole/vtcon1/bind - detach framebuffer console from
- 					     console layer
++Requirements for the device driver
++----------------------------------
  
- If fbcon is detached from the console layer, your boot console driver (which is
-diff --git a/Documentation/hid/intel-ish-hid.rst b/Documentation/hid/intel-ish-hid.rst
-index f6ce44ff611d..7a851252267a 100644
---- a/Documentation/hid/intel-ish-hid.rst
-+++ b/Documentation/hid/intel-ish-hid.rst
-@@ -345,7 +345,7 @@ Documentation/ABI/testing/sysfs-bus-iio for IIO ABIs to user space.
- To debug ISH, event tracing mechanism is used. To enable debug logs::
+-Possible Problems
+-=================
+-
+-(Henner Eisen, 2000-10-28)
+-
+-The X.25 packet layer protocol depends on a reliable datalink service.
+-The LAPB protocol provides such reliable service. But this reliability
+-is not preserved by the Linux network device driver interface:
+-
+-- With Linux 2.4.x (and above) SMP kernels, packet ordering is not
+-  preserved. Even if a device driver calls netif_rx(skb1) and later
+-  netif_rx(skb2), skb2 might be delivered to the network layer
+-  earlier that skb1.
+-- Data passed upstream by means of netif_rx() might be dropped by the
+-  kernel if the backlog queue is congested.
+-
+-The X.25 packet layer protocol will detect this and reset the virtual
+-call in question. But many upper layer protocols are not designed to
+-handle such N-Reset events gracefully. And frequent N-Reset events
+-will always degrade performance.
+-
+-Thus, driver authors should make netif_rx() as reliable as possible:
+-
+-SMP re-ordering will not occur if the driver's interrupt handler is
+-always executed on the same CPU. Thus,
+-
+-- Driver authors should use irq affinity for the interrupt handler.
+-
+-The probability of packet loss due to backlog congestion can be
+-reduced by the following measures or a combination thereof:
+-
+-(1) Drivers for kernel versions 2.4.x and above should always check the
+-    return value of netif_rx(). If it returns NET_RX_DROP, the
+-    driver's LAPB protocol must not confirm reception of the frame
+-    to the peer.
+-    This will reliably suppress packet loss. The LAPB protocol will
+-    automatically cause the peer to re-transmit the dropped packet
+-    later.
+-    The lapb module interface was modified to support this. Its
+-    data_indication() method should now transparently pass the
+-    netif_rx() return value to the (lapb module) caller.
+-(2) Drivers for kernel versions 2.2.x should always check the global
+-    variable netdev_dropping when a new frame is received. The driver
+-    should only call netif_rx() if netdev_dropping is zero. Otherwise
+-    the driver should not confirm delivery of the frame and drop it.
+-    Alternatively, the driver can queue the frame internally and call
+-    netif_rx() later when netif_dropping is 0 again. In that case, delivery
+-    confirmation should also be deferred such that the internal queue
+-    cannot grow to much.
+-    This will not reliably avoid packet loss, but the probability
+-    of packet loss in netif_rx() path will be significantly reduced.
+-(3) Additionally, driver authors might consider to support
+-    CONFIG_NET_HW_FLOWCONTROL. This allows the driver to be woken up
+-    when a previously congested backlog queue becomes empty again.
+-    The driver could uses this for flow-controlling the peer by means
+-    of the LAPB protocol's flow-control service.
++Packets should not be reordered or dropped when delivering between the
++Packet Layer and the device driver.
++
++To avoid packets from being reordered or dropped when delivering from
++the device driver to the Packet Layer, the device driver should not
++call "netif_rx" to deliver the received packets. Instead, it should
++call "netif_receive_skb_core" from softirq context to deliver them.
+diff --git a/drivers/net/wan/hdlc_x25.c b/drivers/net/wan/hdlc_x25.c
+index 5a6a945f6c81..849e71f6466f 100644
+--- a/drivers/net/wan/hdlc_x25.c
++++ b/drivers/net/wan/hdlc_x25.c
+@@ -25,6 +25,8 @@ struct x25_state {
+ 	x25_hdlc_proto settings;
+ 	bool up;
+ 	spinlock_t up_lock; /* Protects "up" */
++	struct sk_buff_head rx_queue;
++	struct tasklet_struct rx_tasklet;
+ };
  
-   echo 1 > /sys/kernel/debug/tracing/events/intel_ish/enable
--  cat sys/kernel/debug/tracing/trace
-+  cat /sys/kernel/debug/tracing/trace
+ static int x25_ioctl(struct net_device *dev, struct ifreq *ifr);
+@@ -34,10 +36,22 @@ static struct x25_state *state(hdlc_device *hdlc)
+ 	return hdlc->state;
+ }
  
- 3.8 ISH IIO sysfs Example on Lenovo thinkpad Yoga 260
- -----------------------------------------------------
-diff --git a/Documentation/leds/leds-lm3556.rst b/Documentation/leds/leds-lm3556.rst
-index 1ef17d7d800e..32e3983473ba 100644
---- a/Documentation/leds/leds-lm3556.rst
-+++ b/Documentation/leds/leds-lm3556.rst
-@@ -23,7 +23,7 @@ from 93.75 mA to 1500 mA.The Flash currents are adjusted via the CURRENT
- CONTROL REGISTER(0x09).Flash mode is activated by the ENABLE REGISTER(0x0A),
- or by pulling the STROBE pin HIGH.
++static void x25_rx_queue_kick(struct tasklet_struct *t)
++{
++	struct x25_state *x25st = from_tasklet(x25st, t, rx_tasklet);
++	struct sk_buff *skb = skb_dequeue(&x25st->rx_queue);
++
++	while (skb) {
++		netif_receive_skb_core(skb);
++		skb = skb_dequeue(&x25st->rx_queue);
++	}
++}
++
+ /* These functions are callbacks called by LAPB layer */
  
--LM3556 Flash can be controlled through sys/class/leds/flash/brightness file
-+LM3556 Flash can be controlled through /sys/class/leds/flash/brightness file
+ static void x25_connect_disconnect(struct net_device *dev, int reason, int code)
+ {
++	struct x25_state *x25st = state(dev_to_hdlc(dev));
+ 	struct sk_buff *skb;
+ 	unsigned char *ptr;
  
- * if STROBE pin is enabled, below example control brightness only, and
-   ON / OFF will be controlled by STROBE pin.
-@@ -32,17 +32,17 @@ Flash Example:
+@@ -45,12 +59,19 @@ static void x25_connect_disconnect(struct net_device *dev, int reason, int code)
+ 		netdev_err(dev, "out of memory\n");
+ 		return;
+ 	}
++	if (skb_pfmemalloc(skb)) {
++		netdev_err(dev, "out of memory\n");
++		kfree_skb(skb);
++		return;
++	}
  
- OFF::
+ 	ptr = skb_put(skb, 1);
+ 	*ptr = code;
  
--	#echo 0 > sys/class/leds/flash/brightness
-+	#echo 0 > /sys/class/leds/flash/brightness
+ 	skb->protocol = x25_type_trans(skb, dev);
+-	netif_rx(skb);
++
++	skb_queue_tail(&x25st->rx_queue, skb);
++	tasklet_schedule(&x25st->rx_tasklet);
+ }
  
- 93.75 mA::
  
--	#echo 1 > sys/class/leds/flash/brightness
-+	#echo 1 > /sys/class/leds/flash/brightness
+@@ -71,12 +92,18 @@ static void x25_disconnected(struct net_device *dev, int reason)
  
- ...
+ static int x25_data_indication(struct net_device *dev, struct sk_buff *skb)
+ {
++	struct x25_state *x25st = state(dev_to_hdlc(dev));
+ 	unsigned char *ptr;
  
- 1500  mA::
+ 	if (skb_cow(skb, 1)) {
+ 		kfree_skb(skb);
+ 		return NET_RX_DROP;
+ 	}
++	if (skb_pfmemalloc(skb)) {
++		netdev_err(dev, "out of memory\n");
++		kfree_skb(skb);
++		return NET_RX_DROP;
++	}
  
--	#echo 16 > sys/class/leds/flash/brightness
-+	#echo 16 > /sys/class/leds/flash/brightness
+ 	skb_push(skb, 1);
  
- Torch Mode
- ^^^^^^^^^^
-@@ -51,7 +51,7 @@ In Torch Mode, the current source(LED) is programmed via the CURRENT CONTROL
- REGISTER(0x09).Torch Mode is activated by the ENABLE REGISTER(0x0A) or by the
- hardware TORCH input.
+@@ -84,7 +111,10 @@ static int x25_data_indication(struct net_device *dev, struct sk_buff *skb)
+ 	*ptr = X25_IFACE_DATA;
  
--LM3556 torch can be controlled through sys/class/leds/torch/brightness file.
-+LM3556 torch can be controlled through /sys/class/leds/torch/brightness file.
- * if TORCH pin is enabled, below example control brightness only,
- and ON / OFF will be controlled by TORCH pin.
+ 	skb->protocol = x25_type_trans(skb, dev);
+-	return netif_rx(skb);
++
++	skb_queue_tail(&x25st->rx_queue, skb);
++	tasklet_schedule(&x25st->rx_tasklet);
++	return NET_RX_SUCCESS;
+ }
  
-@@ -59,22 +59,22 @@ Torch Example:
  
- OFF::
+@@ -223,6 +253,7 @@ static void x25_close(struct net_device *dev)
+ 	spin_unlock_bh(&x25st->up_lock);
  
--	#echo 0 > sys/class/leds/torch/brightness
-+	#echo 0 > /sys/class/leds/torch/brightness
+ 	lapb_unregister(dev);
++	tasklet_kill(&x25st->rx_tasklet);
+ }
  
- 46.88 mA::
  
--	#echo 1 > sys/class/leds/torch/brightness
-+	#echo 1 > /sys/class/leds/torch/brightness
+@@ -338,6 +369,8 @@ static int x25_ioctl(struct net_device *dev, struct ifreq *ifr)
+ 		memcpy(&state(hdlc)->settings, &new_settings, size);
+ 		state(hdlc)->up = false;
+ 		spin_lock_init(&state(hdlc)->up_lock);
++		skb_queue_head_init(&state(hdlc)->rx_queue);
++		tasklet_setup(&state(hdlc)->rx_tasklet, x25_rx_queue_kick);
  
- ...
+ 		/* There's no header_ops so hard_header_len should be 0. */
+ 		dev->hard_header_len = 0;
+diff --git a/drivers/net/wan/lapbether.c b/drivers/net/wan/lapbether.c
+index 45d74285265a..e2cb1cb568da 100644
+--- a/drivers/net/wan/lapbether.c
++++ b/drivers/net/wan/lapbether.c
+@@ -53,6 +53,8 @@ struct lapbethdev {
+ 	struct net_device	*axdev;		/* lapbeth device (lapb#) */
+ 	bool			up;
+ 	spinlock_t		up_lock;	/* Protects "up" */
++	struct sk_buff_head	rx_queue;
++	struct napi_struct	napi;
+ };
  
- 375 mA::
+ static LIST_HEAD(lapbeth_devices);
+@@ -83,6 +85,25 @@ static __inline__ int dev_is_ethdev(struct net_device *dev)
  
--	#echo 8 > sys/class/leds/torch/brightness
-+	#echo 8 > /sys/class/leds/torch/brightness
+ /* ------------------------------------------------------------------------ */
  
- Indicator Mode
- ^^^^^^^^^^^^^^
++static int lapbeth_napi_poll(struct napi_struct *napi, int budget)
++{
++	struct lapbethdev *lapbeth = container_of(napi, struct lapbethdev, napi);
++	struct sk_buff *skb;
++	int processed = 0;
++
++	for (; processed < budget; ++processed) {
++		skb = skb_dequeue(&lapbeth->rx_queue);
++		if (!skb)
++			break;
++		netif_receive_skb_core(skb);
++	}
++
++	if (processed < budget)
++		napi_complete(napi);
++
++	return processed;
++}
++
+ /*
+  *	Receive a LAPB frame via an ethernet interface.
+  */
+@@ -135,12 +156,18 @@ static int lapbeth_rcv(struct sk_buff *skb, struct net_device *dev, struct packe
  
--Indicator pattern can be set through sys/class/leds/indicator/pattern file,
-+Indicator pattern can be set through /sys/class/leds/indicator/pattern file,
- and 4 patterns are pre-defined in indicator_pattern array.
+ static int lapbeth_data_indication(struct net_device *dev, struct sk_buff *skb)
+ {
++	struct lapbethdev *lapbeth = netdev_priv(dev);
+ 	unsigned char *ptr;
  
- According to N-lank, Pulse time and N Period values, different pattern wiill
-@@ -87,13 +87,13 @@ Indicator pattern example:
+ 	if (skb_cow(skb, 1)) {
+ 		kfree_skb(skb);
+ 		return NET_RX_DROP;
+ 	}
++	if (skb_pfmemalloc(skb)) {
++		pr_err("out of memory\n");
++		kfree_skb(skb);
++		return NET_RX_DROP;
++	}
  
- pattern 0::
+ 	skb_push(skb, 1);
  
--	#echo 0 > sys/class/leds/indicator/pattern
-+	#echo 0 > /sys/class/leds/indicator/pattern
+@@ -148,7 +175,10 @@ static int lapbeth_data_indication(struct net_device *dev, struct sk_buff *skb)
+ 	*ptr = X25_IFACE_DATA;
  
- ...
+ 	skb->protocol = x25_type_trans(skb, dev);
+-	return netif_rx(skb);
++
++	skb_queue_tail(&lapbeth->rx_queue, skb);
++	napi_schedule(&lapbeth->napi);
++	return NET_RX_SUCCESS;
+ }
  
- pattern 3::
+ /*
+@@ -233,6 +263,7 @@ static void lapbeth_data_transmit(struct net_device *ndev, struct sk_buff *skb)
  
--	#echo 3 > sys/class/leds/indicator/pattern
-+	#echo 3 > /sys/class/leds/indicator/pattern
+ static void lapbeth_connected(struct net_device *dev, int reason)
+ {
++	struct lapbethdev *lapbeth = netdev_priv(dev);
+ 	unsigned char *ptr;
+ 	struct sk_buff *skb = dev_alloc_skb(1);
  
- Indicator brightness can be controlled through
- sys/class/leds/indicator/brightness file.
-@@ -102,17 +102,17 @@ Example:
+@@ -240,16 +271,24 @@ static void lapbeth_connected(struct net_device *dev, int reason)
+ 		pr_err("out of memory\n");
+ 		return;
+ 	}
++	if (skb_pfmemalloc(skb)) {
++		pr_err("out of memory\n");
++		kfree_skb(skb);
++		return;
++	}
  
- OFF::
+ 	ptr  = skb_put(skb, 1);
+ 	*ptr = X25_IFACE_CONNECT;
  
--	#echo 0 > sys/class/leds/indicator/brightness
-+	#echo 0 > /sys/class/leds/indicator/brightness
+ 	skb->protocol = x25_type_trans(skb, dev);
+-	netif_rx(skb);
++
++	skb_queue_tail(&lapbeth->rx_queue, skb);
++	napi_schedule(&lapbeth->napi);
+ }
  
- 5.86 mA::
+ static void lapbeth_disconnected(struct net_device *dev, int reason)
+ {
++	struct lapbethdev *lapbeth = netdev_priv(dev);
+ 	unsigned char *ptr;
+ 	struct sk_buff *skb = dev_alloc_skb(1);
  
--	#echo 1 > sys/class/leds/indicator/brightness
-+	#echo 1 > /sys/class/leds/indicator/brightness
+@@ -257,12 +296,19 @@ static void lapbeth_disconnected(struct net_device *dev, int reason)
+ 		pr_err("out of memory\n");
+ 		return;
+ 	}
++	if (skb_pfmemalloc(skb)) {
++		pr_err("out of memory\n");
++		kfree_skb(skb);
++		return;
++	}
  
- ...
+ 	ptr  = skb_put(skb, 1);
+ 	*ptr = X25_IFACE_DISCONNECT;
  
- 46.875mA::
+ 	skb->protocol = x25_type_trans(skb, dev);
+-	netif_rx(skb);
++
++	skb_queue_tail(&lapbeth->rx_queue, skb);
++	napi_schedule(&lapbeth->napi);
+ }
  
--	#echo 8 > sys/class/leds/indicator/brightness
-+	#echo 8 > /sys/class/leds/indicator/brightness
+ /*
+@@ -293,6 +339,8 @@ static int lapbeth_open(struct net_device *dev)
+ 	struct lapbethdev *lapbeth = netdev_priv(dev);
+ 	int err;
  
- Notes
- -----
++	napi_enable(&lapbeth->napi);
++
+ 	if ((err = lapb_register(dev, &lapbeth_callbacks)) != LAPB_OK) {
+ 		pr_err("lapb_register error: %d\n", err);
+ 		return -ENODEV;
+@@ -317,6 +365,8 @@ static int lapbeth_close(struct net_device *dev)
+ 	if ((err = lapb_unregister(dev)) != LAPB_OK)
+ 		pr_err("lapb_unregister error: %d\n", err);
+ 
++	napi_disable(&lapbeth->napi);
++
+ 	return 0;
+ }
+ 
+@@ -374,6 +424,9 @@ static int lapbeth_new_device(struct net_device *dev)
+ 	lapbeth->up = false;
+ 	spin_lock_init(&lapbeth->up_lock);
+ 
++	skb_queue_head_init(&lapbeth->rx_queue);
++	netif_napi_add(ndev, &lapbeth->napi, lapbeth_napi_poll, 16);
++
+ 	rc = -EIO;
+ 	if (register_netdevice(ndev))
+ 		goto fail;
 -- 
-2.25.1
+2.27.0
 
