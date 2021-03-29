@@ -2,90 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC588C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 13:15:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79671C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 13:21:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7008C6195C
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 13:15:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E5CD6195B
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 13:21:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229656AbhC2NO2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 09:14:28 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:53370 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229515AbhC2NOT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Mar 2021 09:14:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=nPZBRO64r975JmZhjOD5beu/cE8yXAW1VIj4B
-        FrY16M=; b=hKuO+ig3qCrDmuCWrwdk0pFEm8E+njhIKw7mWWhbC0E/rcwfic9Wf
-        3Rd+q864XYgbQeSqlYyvnsg1sB2Z3zZ6iN1isVE/RCF/QrKWDRh5SAu92xWILXYo
-        nwbISEhENDQMTE7Z931CPFTdmwxXvzNU3uU1dNGUEUn/rj9bG4SxqQ=
-Received: from mipc (unknown [120.238.248.129])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDHOdCV0mFgeqVAAA--.14491S2;
-        Mon, 29 Mar 2021 21:13:59 +0800 (CST)
-Date:   Mon, 29 Mar 2021 21:13:57 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     yanteng si <siyanteng01@gmail.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        Puyu Wang <realpuyuwang@gmail.com>
-Subject: Re: [PATCH v2 3/8] docs/zh_CN: add cpu-freq cpufreq-stats.rst
- translation
-Message-ID: <20210329131357.GA5608@mipc>
-References: <20210329025144.9776-1-siyanteng@loongson.cn>
- <20210329025144.9776-4-siyanteng@loongson.cn>
- <20210329062342.GB8845@mipc>
- <CAEensMxBMjT1D31-dbQ2Y14Rp61=-vuxmoej2-Xyyw6w1K7Dnw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEensMxBMjT1D31-dbQ2Y14Rp61=-vuxmoej2-Xyyw6w1K7Dnw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgDHOdCV0mFgeqVAAA--.14491S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-        VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUU5K7k0a2IF6F4UM7kC6x804xWl1xkIjI8I
-        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2
-        x7M28EF7xvwVC0I7IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8
-        JVWxJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-        0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-        74AGY7Cv6cx26F4UJr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YV
-        CY1x02628vn2kIc2xKxwCY02Avz4vE14v_Xr4l42xK82IYc2Ij64vIr41l42xK82IY6x8E
-        rcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
-        18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vI
-        r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
-        1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
-        x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UzWlkUUUUU=
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+        id S230247AbhC2NU4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 09:20:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58680 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229674AbhC2NUZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 09:20:25 -0400
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08F1CC061574;
+        Mon, 29 Mar 2021 06:20:25 -0700 (PDT)
+Received: by mail-pg1-x536.google.com with SMTP id i6so2229355pgs.1;
+        Mon, 29 Mar 2021 06:20:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=JwsYQU1DFQ2M+ekJ6ppgtzSpS7I0JHxVUkdRYp5wdEg=;
+        b=XrH8dfshMyX3xL7fehAPt61ew87yhjSA+3XOfDhGCmPYqYTG+B6siovezQEera41Rh
+         YLFDFRlh0pVuIel2T/QwtWCKJD2HY40sletmWA4s1G1eWegtef0eJP8oWUCLlB7yFMVF
+         am9P49fbvso4/FfPywZEpF2xsOFPOVRIEbRgQhIzmGM8cbQ7bgO2a8/NtbbSdE/Nstc3
+         AJQTxdGobE7vYDfEQQ/T9Wc7aIwRh57KPUCjBt3cdU6+JS9GKM7WCnqz6r9V1p993QeE
+         rOMTsilZDlkSRjZ7auF2p8mb+RYK0Q7Dbbf9mtarvgbBCRrW0b0Cnb6KP5B0hZr76fwq
+         GsAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=JwsYQU1DFQ2M+ekJ6ppgtzSpS7I0JHxVUkdRYp5wdEg=;
+        b=csPtoujHfkWPSoo/jrUL7/pa5PJnYtwqwdZRlA/fh/EMVns+0HeQeNCcJldDN3AV7f
+         f1GKIbd3VEYwYI7Q74isw5frlRmmaKfYcWiuOUT1AGccbUbCUTzjSnozWmhfsAdQFVbk
+         vqi3QKm6Z9zLD4/JjQASQF4WpYoTaEt9FDhvR7MFJt/PDvhNpzeVEuWQP4DK97VzHYdI
+         1zLokwvCS40YquSY309cGPeBLqjmeku0JtCfToK2is+/XpFhgnijuDS22dRr1lkQ6JsW
+         1JehnOWXLZzv9NiYeX0BsZpCzGmQTYmvm2HMcm8TBx78mNB4vJ9dbn5XJ21o5ZAXglcc
+         wHGA==
+X-Gm-Message-State: AOAM533Mj1bdtPawX8QFN5m4eEYd75tHSVChX3muH0QtuEC5giTwURYf
+        zURhw+ZYycEo939yu2X2YKeh2p02pqh+M4hf
+X-Google-Smtp-Source: ABdhPJwEbRC9afY9WoMpQsBmFY1j/sgDu3pgz3Ebhpc/xBpfP+Rog+bmY7uNbzsOyaz66u3kiBjsYg==
+X-Received: by 2002:a63:3585:: with SMTP id c127mr18073691pga.92.1617024024333;
+        Mon, 29 Mar 2021 06:20:24 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:600d:a089:4ed:8f53:adc7:b574])
+        by smtp.googlemail.com with ESMTPSA id t12sm16415838pga.85.2021.03.29.06.20.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Mar 2021 06:20:24 -0700 (PDT)
+From:   Aditya Srivastava <yashsri421@gmail.com>
+To:     patrice.chotard@foss.st.com
+Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com, balbi@kernel.org,
+        gregkh@linuxfoundation.org, rdunlap@infradead.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: dwc3: st: fix incorrect kernel-doc comment syntax in file
+Date:   Mon, 29 Mar 2021 18:50:14 +0530
+Message-Id: <20210329132014.24304-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 29, 2021 at 08:19:23PM +0800, yanteng si wrote:
-> Hi~
-> 
-> Do you mind if I add the following?
-> 
-> +:校译:
-> +
-> + 吴想成 Wu XiangCheng <bobwxc@email.cn>
+The opening comment mark '/**' is used for highlighting the beginning of
+kernel-doc comments.
+The header for drivers/usb/dwc3/dwc3-st.c follows this syntax, but the
+content inside does not comply with kernel-doc.
 
-Ah, thank you very much.
+This line was probably not meant for kernel-doc parsing, but is parsed
+due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+causes unexpected warning from kernel-doc:
+"warning: expecting prototype for dwc3(). Prototype was for CLKRST_CTRL() instead"
 
-I really appreciate your willingness to do so. It's really an honor, 
-but I have only done some minor work. :) Just put it on hold. 
-Many people will review your works continually. If someone modify your 
-translation later, add them.
+Provide a simple fix by replacing this occurrence with general comment
+format, i.e. '/*', to prevent kernel-doc from parsing it.
 
-Sincerely,
-Wu X.C.
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+* Applies perfectly on next-20210326
+
+ drivers/usb/dwc3/dwc3-st.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/dwc3/dwc3-st.c b/drivers/usb/dwc3/dwc3-st.c
+index b06b7092b1a2..166b5bde45cb 100644
+--- a/drivers/usb/dwc3/dwc3-st.c
++++ b/drivers/usb/dwc3/dwc3-st.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0+
+-/**
++/*
+  * dwc3-st.c Support for dwc3 platform devices on ST Microelectronics platforms
+  *
+  * This is a small driver for the dwc3 to provide the glue logic
+-- 
+2.17.1
 
