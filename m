@@ -2,221 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26365C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 17:37:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED3CAC433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 18:17:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E900761985
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 17:37:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 940386191F
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 18:17:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230493AbhC2RhG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 13:37:06 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48164 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231124AbhC2Rg6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 13:36:58 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12THX3Cb113118;
-        Mon, 29 Mar 2021 13:36:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : from : to : cc
- : date : message-id : content-type : content-transfer-encoding :
- mime-version; s=pp1; bh=MttDJCGARaxpDtVMt/KLSICt/OHkz6lbnzzYLYrPrCo=;
- b=QA2MqWpKs8xty6j31vW9y6CYuQe36GBGmN/fIg8dflwgOEH0acEH1Zamy0LmJAzSXoH4
- aX2yjTY3KEFakG7pdluEps8NY0y4NCykc0z76uZHklvxLFi59Nt/mLv1QfV0xbnpghOO
- NQQTL+Psd04M2WBi21Xvp0dUXlfGWkqLYWVSv092ghNFCgNVdOSIvqip2S+wLMIGCOSE
- MxgPLmOoNy8rDOjtx5Uhzf0lZdS+Z96kIwB0JYyrPwGp/7yHwCujFVzgretg/q0oFsLh
- 4S9UuhFkC5N89TUpFiDFXi3hRHNoZJmuoY/lsy7D3yurpvILMm8a8JZPnEAqOme8wOXT Zg== 
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com [149.81.74.108])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 37jpbvjy6x-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 29 Mar 2021 13:36:50 -0400
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
-        by ppma05fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12THSVNh021091;
-        Mon, 29 Mar 2021 17:36:48 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
-        by ppma05fra.de.ibm.com with ESMTP id 37hvb8h1x8-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 29 Mar 2021 17:36:48 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
-        by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 12THakiw54854068
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 29 Mar 2021 17:36:46 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E40AA5204F;
-        Mon, 29 Mar 2021 17:36:45 +0000 (GMT)
-Received: from [172.17.0.3] (unknown [9.40.192.207])
-        by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id B98B052051;
-        Mon, 29 Mar 2021 17:36:44 +0000 (GMT)
-Subject: [PATCH v3] powerpc/papr_scm: Implement support for H_SCM_FLUSH hcall
-From:   Shivaprasad G Bhat <sbhat@linux.ibm.com>
-To:     sbhat@linux.vnet.ibm.com, linuxppc-dev@lists.ozlabs.org,
-        kvm-ppc@vger.kernel.org, linux-nvdimm@lists.01.org,
-        aneesh.kumar@linux.ibm.com, ellerman@au1.ibm.com
-Cc:     linux-doc@vger.kernel.org, vaibhav@linux.ibm.com
-Date:   Mon, 29 Mar 2021 13:36:43 -0400
-Message-ID: <161703936121.36.7260632399582101498.stgit@e1fbed493c87>
-User-Agent: StGit/0.21
-Content-Type: text/plain; charset="utf-8"
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: cLlAuKPSy8G7IVq1hjwRBXmiiyY2AnfD
-X-Proofpoint-ORIG-GUID: cLlAuKPSy8G7IVq1hjwRBXmiiyY2AnfD
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S229468AbhC2SRU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 14:17:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38296 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230420AbhC2SRD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 14:17:03 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8EC1C061574;
+        Mon, 29 Mar 2021 11:17:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=w3n6ycLm4n1SSQiOYkwgaV89Fzkl7RLAkF0UMWzZ4G8=; b=fczFwQn+vQmCM2aZFnLhYBGEcH
+        +8PH+ZyVcqWv8pyDuJOSRivWTXdTA7tIOUPwlQc/+9Vh5psUQTFY+49M5B+p4eTfzkul/u2g/ZhTj
+        26Yj3N+ZvF/ZdI8qBVOHO2hZY7A7X/M6Z4vK2iKSJdhEooHLpVCGvUyi8zEzTRtBwGFOuB1q4qVFJ
+        YFdN8Ou1eY9j/x7p+JiDSq2XvsU5vq9GzSX32cp+m+GttY1BtXz4HploGBaGGyhilOJQ3E6oamMji
+        biLUzthJWb4Ziy2hQPk6OhZd1ZFMgS3siRlJIclt5xLDYkfRnVhcHEz2w3vsraXCWzjzjN2Dl9ovH
+        XbHF78ng==;
+Received: from [2601:1c0:6280:3f0::4557]
+        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lQwQc-0010mF-Mx; Mon, 29 Mar 2021 18:16:04 +0000
+Subject: Re: [PATCH] usb: dwc3: st: fix incorrect kernel-doc comment syntax in
+ file
+To:     Aditya Srivastava <yashsri421@gmail.com>,
+        patrice.chotard@foss.st.com
+Cc:     lukas.bulwahn@gmail.com, balbi@kernel.org,
+        gregkh@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210329132014.24304-1-yashsri421@gmail.com>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <dfdf5685-30f6-4fad-f9e8-8605dce3668d@infradead.org>
+Date:   Mon, 29 Mar 2021 11:15:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-03-29_10:2021-03-26,2021-03-29 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
- suspectscore=0 priorityscore=1501 malwarescore=0 clxscore=1015 spamscore=0
- lowpriorityscore=0 bulkscore=0 impostorscore=0 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2103250000 definitions=main-2103290130
+In-Reply-To: <20210329132014.24304-1-yashsri421@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add support for ND_REGION_ASYNC capability if the device tree
-indicates 'ibm,hcall-flush-required' property in the NVDIMM node.
-Flush is done by issuing H_SCM_FLUSH hcall to the hypervisor.
+On 3/29/21 6:20 AM, Aditya Srivastava wrote:
+> The opening comment mark '/**' is used for highlighting the beginning of
+> kernel-doc comments.
+> The header for drivers/usb/dwc3/dwc3-st.c follows this syntax, but the
+> content inside does not comply with kernel-doc.
+> 
+> This line was probably not meant for kernel-doc parsing, but is parsed
+> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+> causes unexpected warning from kernel-doc:
+> "warning: expecting prototype for dwc3(). Prototype was for CLKRST_CTRL() instead"
+> 
+> Provide a simple fix by replacing this occurrence with general comment
+> format, i.e. '/*', to prevent kernel-doc from parsing it.
+> 
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 
-If the flush request failed, the hypervisor is expected to
-to reflect the problem in the subsequent nvdimm H_SCM_HEALTH call.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-This patch prevents mmap of namespaces with MAP_SYNC flag if the
-nvdimm requires an explicit flush[1].
+> ---
+> * Applies perfectly on next-20210326
+> 
+>  drivers/usb/dwc3/dwc3-st.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/dwc3/dwc3-st.c b/drivers/usb/dwc3/dwc3-st.c
+> index b06b7092b1a2..166b5bde45cb 100644
+> --- a/drivers/usb/dwc3/dwc3-st.c
+> +++ b/drivers/usb/dwc3/dwc3-st.c
+> @@ -1,5 +1,5 @@
+>  // SPDX-License-Identifier: GPL-2.0+
+> -/**
+> +/*
+>   * dwc3-st.c Support for dwc3 platform devices on ST Microelectronics platforms
+>   *
+>   * This is a small driver for the dwc3 to provide the glue logic
+> 
 
-References:
-[1] https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c
 
-Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
----
-v2 - https://www.spinics.net/lists/kvm-ppc/msg18799.html
-Changes from v2:
-       - Fixed the commit message.
-       - Add dev_dbg before the H_SCM_FLUSH hcall
-
-v1 - https://www.spinics.net/lists/kvm-ppc/msg18272.html
-Changes from v1:
-       - Hcall semantics finalized, all changes are to accomodate them.
-
- Documentation/powerpc/papr_hcalls.rst     |   14 ++++++++++
- arch/powerpc/include/asm/hvcall.h         |    3 +-
- arch/powerpc/platforms/pseries/papr_scm.c |   40 +++++++++++++++++++++++++++++
- 3 files changed, 56 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
-index 48fcf1255a33..648f278eea8f 100644
---- a/Documentation/powerpc/papr_hcalls.rst
-+++ b/Documentation/powerpc/papr_hcalls.rst
-@@ -275,6 +275,20 @@ Health Bitmap Flags:
- Given a DRC Index collect the performance statistics for NVDIMM and copy them
- to the resultBuffer.
- 
-+**H_SCM_FLUSH**
-+
-+| Input: *drcIndex, continue-token*
-+| Out: *continue-token*
-+| Return Value: *H_SUCCESS, H_Parameter, H_P2, H_BUSY*
-+
-+Given a DRC Index Flush the data to backend NVDIMM device.
-+
-+The hcall returns H_BUSY when the flush takes longer time and the hcall needs
-+to be issued multiple times in order to be completely serviced. The
-+*continue-token* from the output to be passed in the argument list of
-+subsequent hcalls to the hypervisor until the hcall is completely serviced
-+at which point H_SUCCESS or other error is returned by the hypervisor.
-+
- References
- ==========
- .. [1] "Power Architecture Platform Reference"
-diff --git a/arch/powerpc/include/asm/hvcall.h b/arch/powerpc/include/asm/hvcall.h
-index ed6086d57b22..9f7729a97ebd 100644
---- a/arch/powerpc/include/asm/hvcall.h
-+++ b/arch/powerpc/include/asm/hvcall.h
-@@ -315,7 +315,8 @@
- #define H_SCM_HEALTH            0x400
- #define H_SCM_PERFORMANCE_STATS 0x418
- #define H_RPT_INVALIDATE	0x448
--#define MAX_HCALL_OPCODE	H_RPT_INVALIDATE
-+#define H_SCM_FLUSH		0x44C
-+#define MAX_HCALL_OPCODE	H_SCM_FLUSH
- 
- /* Scope args for H_SCM_UNBIND_ALL */
- #define H_UNBIND_SCOPE_ALL (0x1)
-diff --git a/arch/powerpc/platforms/pseries/papr_scm.c b/arch/powerpc/platforms/pseries/papr_scm.c
-index 835163f54244..b7a47fcc5aa5 100644
---- a/arch/powerpc/platforms/pseries/papr_scm.c
-+++ b/arch/powerpc/platforms/pseries/papr_scm.c
-@@ -93,6 +93,7 @@ struct papr_scm_priv {
- 	uint64_t block_size;
- 	int metadata_size;
- 	bool is_volatile;
-+	bool hcall_flush_required;
- 
- 	uint64_t bound_addr;
- 
-@@ -117,6 +118,39 @@ struct papr_scm_priv {
- 	size_t stat_buffer_len;
- };
- 
-+static int papr_scm_pmem_flush(struct nd_region *nd_region,
-+			       struct bio *bio __maybe_unused)
-+{
-+	struct papr_scm_priv *p = nd_region_provider_data(nd_region);
-+	unsigned long ret_buf[PLPAR_HCALL_BUFSIZE];
-+	uint64_t token = 0;
-+	int64_t rc;
-+
-+	dev_dbg(&p->pdev->dev, "flush drc 0x%x", p->drc_index);
-+
-+	do {
-+		rc = plpar_hcall(H_SCM_FLUSH, ret_buf, p->drc_index, token);
-+		token = ret_buf[0];
-+
-+		/* Check if we are stalled for some time */
-+		if (H_IS_LONG_BUSY(rc)) {
-+			msleep(get_longbusy_msecs(rc));
-+			rc = H_BUSY;
-+		} else if (rc == H_BUSY) {
-+			cond_resched();
-+		}
-+	} while (rc == H_BUSY);
-+
-+	if (rc) {
-+		dev_err(&p->pdev->dev, "flush error: %lld", rc);
-+		rc = -EIO;
-+	} else {
-+		dev_dbg(&p->pdev->dev, "flush drc 0x%x complete", p->drc_index);
-+	}
-+
-+	return rc;
-+}
-+
- static LIST_HEAD(papr_nd_regions);
- static DEFINE_MUTEX(papr_ndr_lock);
- 
-@@ -943,6 +977,11 @@ static int papr_scm_nvdimm_init(struct papr_scm_priv *p)
- 	ndr_desc.num_mappings = 1;
- 	ndr_desc.nd_set = &p->nd_set;
- 
-+	if (p->hcall_flush_required) {
-+		set_bit(ND_REGION_ASYNC, &ndr_desc.flags);
-+		ndr_desc.flush = papr_scm_pmem_flush;
-+	}
-+
- 	if (p->is_volatile)
- 		p->region = nvdimm_volatile_region_create(p->bus, &ndr_desc);
- 	else {
-@@ -1088,6 +1127,7 @@ static int papr_scm_probe(struct platform_device *pdev)
- 	p->block_size = block_size;
- 	p->blocks = blocks;
- 	p->is_volatile = !of_property_read_bool(dn, "ibm,cache-flush-required");
-+	p->hcall_flush_required = of_property_read_bool(dn, "ibm,hcall-flush-required");
- 
- 	/* We just need to ensure that set cookies are unique across */
- 	uuid_parse(uuid_str, (uuid_t *) uuid);
-
+-- 
+~Randy
 
