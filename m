@@ -2,90 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 06422C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 22:12:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B2FCC433C1
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 22:24:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BA5476198E
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 22:12:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6FD95619D1
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 22:24:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231349AbhC2WMD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 18:12:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60556 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231220AbhC2WLs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 18:11:48 -0400
-Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2845AC061762;
-        Mon, 29 Mar 2021 15:11:48 -0700 (PDT)
-Received: by mail-oo1-xc2b.google.com with SMTP id j10-20020a4ad18a0000b02901b677a0ba98so3323718oor.1;
-        Mon, 29 Mar 2021 15:11:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=GOOHC5swwjR1pbdOp8gONNThtE/MzX6K9f+3UiXPGLQ=;
-        b=YzVWW339v08+8TdMNwZ1OjVv35CoTdDmrSzl62PcAxunUg+iL5YpkvV0f6qTfAiiVZ
-         nXV5YGXefOsai8HhXozoIvnLgm14ahuFpDT6hBEJFwv8pP7Dfjz+DSN6b8LAf9XRD1oU
-         yfRjFQ6BZ9NNRJQYOimUa2OHoGAMF7GWRjJash3HZvVzIHpTKDOLPBZ8zVI+Pl8jIMag
-         AndGWx4+Qf5xHIIf+QlIryQ/keVe1cY4/8A2X9nH2WtCwPMu9lX2v3xPVZ1viw2PkvdI
-         ey8lAp/w4szq3a4ZM7VN6qUDGju+AJcPNXA29TBjhkTYgSTa0tsebw5Nl6S41Ad+2NsY
-         6C/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to:user-agent;
-        bh=GOOHC5swwjR1pbdOp8gONNThtE/MzX6K9f+3UiXPGLQ=;
-        b=bomlXbaDOfHyZt6/yIb3caTCayyJerAwfpWjvOnn+gRaUVSOM9UavLF1BPn5qWS4bL
-         FA7+hnG4+juT0PP/tuFnRl2NjiDDwnKdzHvVlSzYtSr6AbHN7duasUiLJY0iMaZmlxt0
-         XFymnVbNJeRtJD+hqUEo0swAkxrYaE4vdm9sR3HCnxLlyE/Dbkeboq13UClS6N1xrW6z
-         Hi9ms/PJLy3NRItANZe85yWn8/tNISouRDynppLv9jcbcz366l9+1l5070Fo5ASzEFJS
-         rfkx+XlN8hxWHVn5+2PNCYm3H8lzVhv1o+MAOEQXtPTVbbLedl7Gt/XnexWx3aAcImBu
-         u4Rw==
-X-Gm-Message-State: AOAM530Ii/BYATe2rsoRSCK1bOqdo0uApBzQ/V+UC9h1PDpnzN7culKU
-        svCzDPTEbhpd0H/XaAKTbHeJJljjsbI=
-X-Google-Smtp-Source: ABdhPJyBMq3fE/2knk+IsBueaiYOtZqtudyf1uaCdUofWRMBvDP95ESqjPFwnKITVq8Cbo/0I+tYHw==
-X-Received: by 2002:a4a:e4c4:: with SMTP id w4mr23235317oov.68.1617055907600;
-        Mon, 29 Mar 2021 15:11:47 -0700 (PDT)
-Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
-        by smtp.gmail.com with ESMTPSA id r15sm4830723ote.27.2021.03.29.15.11.46
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 29 Mar 2021 15:11:46 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date:   Mon, 29 Mar 2021 15:11:45 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Erik Rosen <erik.rosen@metormote.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Jean Delvare <jdelvare@suse.com>
-Subject: Re: [PATCH v2 2/2] hwmon: (pmbus/tps53679) Add support for TI
- TPS53676
-Message-ID: <20210329221145.GA223180@roeck-us.net>
-References: <20210322193734.75127-1-erik.rosen@metormote.com>
- <20210322193734.75127-3-erik.rosen@metormote.com>
+        id S232370AbhC2WYW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 18:24:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46212 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231970AbhC2WWO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Mar 2021 18:22:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3B8156196E;
+        Mon, 29 Mar 2021 22:22:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617056533;
+        bh=DPeTCw/WWlAXsi9cSHxRAN8amnCVOudZDZzM/W+sUPk=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=MdTlG4gcshXQFSKjkx5ig8nveMFa5nW3pg1Njj/L2gnFW7JU9Kn43zD6tmVLR4QIF
+         dEPKF214wu0B7cjiSSdmGWx+yaYqBfXaJlk67o/DsLpUyBhKhlijyZrkxVOVhNIG1i
+         ux1i0aCQHo2ZPtPNNsV/wkQb4uG96RhdKdbKWLLIg+NG+J6Kwl+ltHXXK2yejMp/rs
+         DVbVrh94A8ttIP9T3v8ZkjJG+WgNdBSX47wAXLs+TUQyo8dLK7bb1KsvrzOnpg4zpq
+         xFxVmz3O9AxMhN9FtGPVveUP7VmoTuFJCA/+A3LFdI9QB+AHCGRUv+WzMjx/nJ7Tzg
+         rNcFHkhCnRRvA==
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Rich Wiley <rwiley@nvidia.com>, Will Deacon <will@kernel.org>,
+        Sasha Levin <sashal@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.11 31/38] arm64: kernel: disable CNP on Carmel
+Date:   Mon, 29 Mar 2021 18:21:26 -0400
+Message-Id: <20210329222133.2382393-31-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.1
+In-Reply-To: <20210329222133.2382393-1-sashal@kernel.org>
+References: <20210329222133.2382393-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210322193734.75127-3-erik.rosen@metormote.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 22, 2021 at 08:37:34PM +0100, Erik Rosen wrote:
-> Add support for TI TPS53676 controller to the tps53679 pmbus driver
-> 
-> The driver uses the USER_DATA_03 register to figure out how many phases
-> are enabled and to which channel they are assigned, and sets the number
-> of pages and phases accordingly.
-> 
-> Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
+From: Rich Wiley <rwiley@nvidia.com>
 
-Applied to hwmon-next.
+[ Upstream commit 20109a859a9b514eb10c22b8a14b5704ffe93897 ]
 
-Thanks,
-Guenter
+On NVIDIA Carmel cores, CNP behaves differently than it does on standard
+ARM cores. On Carmel, if two cores have CNP enabled and share an L2 TLB
+entry created by core0 for a specific ASID, a non-shareable TLBI from
+core1 may still see the shared entry. On standard ARM cores, that TLBI
+will invalidate the shared entry as well.
+
+This causes issues with patchsets that attempt to do local TLBIs based
+on cpumasks instead of broadcast TLBIs. Avoid these issues by disabling
+CNP support for NVIDIA Carmel cores.
+
+Signed-off-by: Rich Wiley <rwiley@nvidia.com>
+Link: https://lore.kernel.org/r/20210324002809.30271-1-rwiley@nvidia.com
+[will: Fix pre-existing whitespace issue]
+Signed-off-by: Will Deacon <will@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/arm64/silicon-errata.rst |  3 +++
+ arch/arm64/Kconfig                     | 10 ++++++++++
+ arch/arm64/include/asm/cpucaps.h       |  3 ++-
+ arch/arm64/kernel/cpu_errata.c         |  8 ++++++++
+ arch/arm64/kernel/cpufeature.c         |  5 ++++-
+ 5 files changed, 27 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/arm64/silicon-errata.rst b/Documentation/arm64/silicon-errata.rst
+index 719510247292..d410a47ffa57 100644
+--- a/Documentation/arm64/silicon-errata.rst
++++ b/Documentation/arm64/silicon-errata.rst
+@@ -130,6 +130,9 @@ stable kernels.
+ | Marvell        | ARM-MMU-500     | #582743         | N/A                         |
+ +----------------+-----------------+-----------------+-----------------------------+
+ +----------------+-----------------+-----------------+-----------------------------+
++| NVIDIA         | Carmel Core     | N/A             | NVIDIA_CARMEL_CNP_ERRATUM   |
+++----------------+-----------------+-----------------+-----------------------------+
+++----------------+-----------------+-----------------+-----------------------------+
+ | Freescale/NXP  | LS2080A/LS1043A | A-008585        | FSL_ERRATUM_A008585         |
+ +----------------+-----------------+-----------------+-----------------------------+
+ +----------------+-----------------+-----------------+-----------------------------+
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index e42da99db91f..2517dd8c5a4d 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -805,6 +805,16 @@ config QCOM_FALKOR_ERRATUM_E1041
+ 
+ 	  If unsure, say Y.
+ 
++config NVIDIA_CARMEL_CNP_ERRATUM
++	bool "NVIDIA Carmel CNP: CNP on Carmel semantically different than ARM cores"
++	default y
++	help
++	  If CNP is enabled on Carmel cores, non-sharable TLBIs on a core will not
++	  invalidate shared TLB entries installed by a different core, as it would
++	  on standard ARM cores.
++
++	  If unsure, say Y.
++
+ config SOCIONEXT_SYNQUACER_PREITS
+ 	bool "Socionext Synquacer: Workaround for GICv3 pre-ITS"
+ 	default y
+diff --git a/arch/arm64/include/asm/cpucaps.h b/arch/arm64/include/asm/cpucaps.h
+index b77d997b173b..c40f2490cd7b 100644
+--- a/arch/arm64/include/asm/cpucaps.h
++++ b/arch/arm64/include/asm/cpucaps.h
+@@ -66,7 +66,8 @@
+ #define ARM64_WORKAROUND_1508412		58
+ #define ARM64_HAS_LDAPR				59
+ #define ARM64_KVM_PROTECTED_MODE		60
++#define ARM64_WORKAROUND_NVIDIA_CARMEL_CNP	61
+ 
+-#define ARM64_NCAPS				61
++#define ARM64_NCAPS				62
+ 
+ #endif /* __ASM_CPUCAPS_H */
+diff --git a/arch/arm64/kernel/cpu_errata.c b/arch/arm64/kernel/cpu_errata.c
+index a63428301f42..3fc281e4e655 100644
+--- a/arch/arm64/kernel/cpu_errata.c
++++ b/arch/arm64/kernel/cpu_errata.c
+@@ -527,6 +527,14 @@ const struct arm64_cpu_capabilities arm64_errata[] = {
+ 				  0, 0,
+ 				  1, 0),
+ 	},
++#endif
++#ifdef CONFIG_NVIDIA_CARMEL_CNP_ERRATUM
++	{
++		/* NVIDIA Carmel */
++		.desc = "NVIDIA Carmel CNP erratum",
++		.capability = ARM64_WORKAROUND_NVIDIA_CARMEL_CNP,
++		ERRATA_MIDR_ALL_VERSIONS(MIDR_NVIDIA_CARMEL),
++	},
+ #endif
+ 	{
+ 	}
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index 33b6f56dcb21..b1f7bfadab9f 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -1270,7 +1270,10 @@ has_useable_cnp(const struct arm64_cpu_capabilities *entry, int scope)
+ 	 * may share TLB entries with a CPU stuck in the crashed
+ 	 * kernel.
+ 	 */
+-	 if (is_kdump_kernel())
++	if (is_kdump_kernel())
++		return false;
++
++	if (cpus_have_const_cap(ARM64_WORKAROUND_NVIDIA_CARMEL_CNP))
+ 		return false;
+ 
+ 	return has_cpuid_feature(entry, scope);
+-- 
+2.30.1
+
