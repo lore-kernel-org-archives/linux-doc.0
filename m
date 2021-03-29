@@ -2,110 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D79B0C433C1
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 11:04:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E18CC433E3
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 11:18:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8A09761938
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 11:04:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6A79861968
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 11:18:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231778AbhC2LED (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 07:04:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51118 "EHLO mail.kernel.org"
+        id S232164AbhC2LRa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 07:17:30 -0400
+Received: from mail.thorsis.com ([92.198.35.195]:55158 "EHLO mail.thorsis.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231735AbhC2LDu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Mar 2021 07:03:50 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6A2F461883;
-        Mon, 29 Mar 2021 11:03:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1617015830;
-        bh=eKeLc/eUxq4hM0vTtXWv5c1gnqKwCfyDPdzZJI49lRM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ig+lk1oU61xxoTGM5ALvhcXo3iGoh4jlwm5PkJ4uljdLJrwOdJUc871y6VMSeO01h
-         IIWpkLpJFAIxrz0+2OmHJ+ckVIOnQTpfIZbN0w5HwB4xtGHlD4ly0/XvraMsYkTxSo
-         2RH3jXuVUjmnTNTibOCoSpzpSb/g4N06IvK3Ad+c=
-Date:   Mon, 29 Mar 2021 13:03:47 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        id S232039AbhC2LRU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Mar 2021 07:17:20 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.thorsis.com (Postfix) with ESMTP id 0768235D7;
+        Mon, 29 Mar 2021 13:17:19 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
+Received: from mail.thorsis.com ([127.0.0.1])
+        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id lApW-tkxq7lu; Mon, 29 Mar 2021 13:17:18 +0200 (CEST)
+Received: by mail.thorsis.com (Postfix, from userid 109)
+        id CD2CA35D8; Mon, 29 Mar 2021 13:17:18 +0200 (CEST)
+From:   Alexander Dahl <ada@thorsis.com>
+To:     linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-Subject: Re: [PATCH v9 4/4] docs: ABI: Add sysfs documentation interface of
- dw-xdata-pcie driver
-Message-ID: <YGG0EyKKJoq4BhOb@kroah.com>
-References: <cover.1617011831.git.gustavo.pimentel@synopsys.com>
- <5840637a206dd1287caf142a0dbedf0dac9ccd48.1617011831.git.gustavo.pimentel@synopsys.com>
- <YGGnC8LouF+paZ6G@kroah.com>
- <DM5PR12MB18353C0E6935F94C457F9595DA7E9@DM5PR12MB1835.namprd12.prod.outlook.com>
- <YGGunNguZTiRS8FP@kroah.com>
- <DM5PR12MB1835FDEFEFE4C8865CDB17F6DA7E9@DM5PR12MB1835.namprd12.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM5PR12MB1835FDEFEFE4C8865CDB17F6DA7E9@DM5PR12MB1835.namprd12.prod.outlook.com>
+        Alexander Dahl <ada@thorsis.com>
+Subject: [PATCH 1/3] docs: gpio: mockup: Fix parameter name
+Date:   Mon, 29 Mar 2021 13:16:46 +0200
+Message-Id: <20210329111648.7969-2-ada@thorsis.com>
+In-Reply-To: <20210329111648.7969-1-ada@thorsis.com>
+References: <20210329111648.7969-1-ada@thorsis.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 29, 2021 at 10:53:38AM +0000, Gustavo Pimentel wrote:
-> On Mon, Mar 29, 2021 at 11:40:28, Greg Kroah-Hartman 
-> <gregkh@linuxfoundation.org> wrote:
-> 
-> > On Mon, Mar 29, 2021 at 10:25:25AM +0000, Gustavo Pimentel wrote:
-> > > On Mon, Mar 29, 2021 at 11:8:11, Greg Kroah-Hartman 
-> > > <gregkh@linuxfoundation.org> wrote:
-> > > 
-> > > > On Mon, Mar 29, 2021 at 11:59:40AM +0200, Gustavo Pimentel wrote:
-> > > > > This patch describes the sysfs interface implemented on the dw-xdata-pcie
-> > > > > driver.
-> > > > > 
-> > > > > Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> > > > > ---
-> > > > >  Documentation/ABI/testing/sysfs-driver-xdata | 46 ++++++++++++++++++++++++++++
-> > > > >  1 file changed, 46 insertions(+)
-> > > > >  create mode 100644 Documentation/ABI/testing/sysfs-driver-xdata
-> > > > > 
-> > > > > diff --git a/Documentation/ABI/testing/sysfs-driver-xdata b/Documentation/ABI/testing/sysfs-driver-xdata
-> > > > > new file mode 100644
-> > > > > index 00000000..66af19a
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/ABI/testing/sysfs-driver-xdata
-> > > > > @@ -0,0 +1,46 @@
-> > > > > +What:		/sys/class/misc/drivers/dw-xdata-pcie.<device>/write
-> > > > > +Date:		April 2021
-> > > > > +KernelVersion:	5.13
-> > > > > +Contact:	Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> > > > > +Description:	Allows the user to enable the PCIe traffic generator which
-> > > > > +		will create write TLPs frames - from the Root Complex to the
-> > > > > +		Endpoint direction.
-> > > > > +		Usage e.g.
-> > > > > +		 echo 1 > /sys/class/misc/dw-xdata-pcie.<device>/write
-> > > > 
-> > > > Again, this does not match the code.  Either fix the code (which I
-> > > > recommend), or change this and the other sysfs descriptions of writing
-> > > > values here.
-> > > 
-> > > I've commented about this previously, but I didn't get feedback on it, 
-> > > therefore I assumed that justification was okay.
-> > > I will change the code to accept only the "1" input on the *_store()
-> > 
-> > Why not use the built-in function to parse "1/y/Y" that the kernel
-> > provides for this type of thing?
-> 
-> I found kstrtobool() just now. I'm adapting the code as we speak.
-> After testing I will send the v10 as soon as possible.
+Module probing with the parameter documented yielded this in kernel log:
 
-There is no rush, take your time.
+        gpio_mockup: unknown parameter 'gpio_named_lines' ignored
 
-greg k-h
+The parameter documented did not match the parameter actually
+implemented with commit 8a68ea00a62e ("gpio: mockup: implement naming
+the lines") long before introducing the documentation.
+
+Fixes: commit 2fd1abe99e5f ("Documentation: gpio: add documentation for gpio-mockup")
+Signed-off-by: Alexander Dahl <ada@thorsis.com>
+---
+ Documentation/admin-guide/gpio/gpio-mockup.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/gpio/gpio-mockup.rst b/Documentation/admin-guide/gpio/gpio-mockup.rst
+index 9fa1618b3adc..e3cafb4451aa 100644
+--- a/Documentation/admin-guide/gpio/gpio-mockup.rst
++++ b/Documentation/admin-guide/gpio/gpio-mockup.rst
+@@ -27,7 +27,7 @@ module.
+         the second 16 and the third 4. The base GPIO for the third chip is set
+         to 405 while for two first chips it will be assigned automatically.
+ 
+-    gpio_named_lines
++    gpio_mockup_named_lines
+ 
+         This parameter doesn't take any arguments. It lets the driver know that
+         GPIO lines exposed by it should be named.
+-- 
+2.20.1
+
