@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 912DAC433C1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 112BEC4345A
 	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6119961972
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EE3E061997
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231209AbhC2FQm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 01:16:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36704 "EHLO
+        id S230210AbhC2FQk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 01:16:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231152AbhC2FQa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 01:16:30 -0400
+        with ESMTP id S230495AbhC2FQR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 01:16:17 -0400
 Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E0ACC061574;
-        Sun, 28 Mar 2021 22:16:28 -0700 (PDT)
-Received: by mail-qk1-x732.google.com with SMTP id v70so11385427qkb.8;
-        Sun, 28 Mar 2021 22:16:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97F23C061574;
+        Sun, 28 Mar 2021 22:16:17 -0700 (PDT)
+Received: by mail-qk1-x732.google.com with SMTP id g15so11382574qkl.4;
+        Sun, 28 Mar 2021 22:16:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=m5EV04eIiwEZ5nQKZ5z824e2ndM34fbaupYp7au9GOk=;
-        b=JYjp9pgpwG6VnW6Coy7RK8cJ2xKSV9P0BP5zrAZDLSs18NPVCXMkTApunGkgx/vl8u
-         EkvSHAy9QQkF/SxXrWS7cAnXzgeczSUEy4L6kKGwPs/Layd8ji44iWdOTtds2LpmkpDj
-         a6U5miR9WzxBG2OLOTulR2bnCrGj4U5juxjQEGWJpNrIDJguvOEDt0Pe86tjLRPIwPLu
-         wAGWYlqrWKIryTUlC+lZ7F++MpsJCFQdvlwZIjXdyfCB59n1SXFfKCcBRXUgU8r27wi0
-         RfGwyAYzLnPYKl1w4YODOycAGYo9GxCsm1m6YouJIzZM/iB7ZRrn+ySKz2wB0uj+y7CI
-         lVyg==
+        bh=De7D/2+J43dmpkMVEvObFo4NGBGgRHpRSklZzoDw2oE=;
+        b=nqCLa13OgkFgmKb4JQHG5mfTcdQPro+ZJaoYi1mVgsukZ3vq+SGVa2Gs9v+TCYVgw1
+         IPIqQ2CFX0j7KXVoCfJRt06EsImVkIjQJ78S6wsABxG7M9MhkWQfk5pooZ0ExFNIFKYG
+         3Dl5zDzXgTx6KHOID1drgMMmNb6zh08jrxsIyFdQk5IHIhaC61I6/tszYGBoT9/YMJuz
+         F/Oq/yGIRHfT4m986PewDEjloWPh7s6bsghUAjx7a3GSdoejKLgMxEo4EK9vGhYeT+Dw
+         tf4aloKORmQMdc2NkwD8msNOBAMgyNtoSEhOWwTVUHkZ1jfFKuHlkfOdDY6X7LOkVyHo
+         zkMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=m5EV04eIiwEZ5nQKZ5z824e2ndM34fbaupYp7au9GOk=;
-        b=gHJUjdFari1+pih++OFy4xD48hZql3RMm9ihdRvf3m9xyOS9AABJWlOCerZnfxAVu5
-         bUTA18odrGcrQ17vrlu34o0OvwMImjAYsFkN8kUZkPQkjd0XgP/hiCV49vG9AYwP9DTR
-         avtBUY5W9lmunnQ35BKCvKyHapS+HdVEQx3K9JZXkwoVKc81wA49T2aBWEYqVJVIetBR
-         fjnjWGld2uuPTxKP6fcRTkCxGpaVr94qqdq+eCooKD8thGp3dKrRy3AI5iRneJE+dNIc
-         Y7lVF+QIlfP2poD3I4L7UC3W3ISa/fBH/eik7TWRgQCda1c9kkF4EAvf1tC6azZ3tQbY
-         sfyQ==
-X-Gm-Message-State: AOAM5321i3IIuf5Ok1W2LfQNOax8KA/GZpZ8w2G2LAodxu2dvHmv52m6
-        a+UwZ9ZqtHRmfnfYsxzpluo=
-X-Google-Smtp-Source: ABdhPJz5OXalOkpdOsabrX9UVuVu2Vh/A01U8MYW34nnq0NtcNGXiUKr2tEbXqEji83Tu31UMm59/Q==
-X-Received: by 2002:a37:a211:: with SMTP id l17mr24190468qke.195.1616994987898;
-        Sun, 28 Mar 2021 22:16:27 -0700 (PDT)
+        bh=De7D/2+J43dmpkMVEvObFo4NGBGgRHpRSklZzoDw2oE=;
+        b=WPFd9kuxl8YOlYPRe7LDYN82L3vQ2dx4MnZcPnRehOoB4v7sUdkeFRzrjwwXFmRd5e
+         Vxyp8eRw0eyLk4egrCs547CrswsSUxm/mbGbA3eK/MU97yjm62vVixywxVZSTL+DiJzS
+         Oz5YwFrdPOwhaNho20GWHCPsoWnzlmjZpTQo8H91fGG8Kio+h0odxhLOfZKv3WsCVLif
+         dy5IYneAz8FhHh/tKj4YGappcxpuhPVK8slSXF5C839LGLEp0PTXUP82ivCLvV5y4eJ4
+         qmuVeBu/s53ay2uyS5mQ6zv1V8xY33o1hCDtoWrwM4qASc2wSETa9Rk3PWFMabG7keTn
+         543Q==
+X-Gm-Message-State: AOAM5336W39fVNljRL7QWg2Y9Ax98T5ruZN5UBeNdp4eGqtXDp7wc2UJ
+        KQYEWgzdCRc+JVgnq65BVyQ=
+X-Google-Smtp-Source: ABdhPJyE7m8fs5qCWbQ/eqDkXEJuyF//xCYQmieGX1iGrvLo/cqbbwwl63uGbNrhzAV0OXoc10NHmw==
+X-Received: by 2002:a05:620a:88e:: with SMTP id b14mr23285064qka.166.1616994976913;
+        Sun, 28 Mar 2021 22:16:16 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.37.195])
-        by smtp.gmail.com with ESMTPSA id z124sm12993181qke.36.2021.03.28.22.16.24
+        by smtp.gmail.com with ESMTPSA id z124sm12993181qke.36.2021.03.28.22.16.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Mar 2021 22:16:27 -0700 (PDT)
+        Sun, 28 Mar 2021 22:16:16 -0700 (PDT)
 From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To:     corbet@lwn.net, linux-doc@vger.kernel.org
 Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, rdunlap@infradead.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 18/23] security: core.rst: Fixed a spello
-Date:   Mon, 29 Mar 2021 10:42:54 +0530
-Message-Id: <cb6d3318559c7be6b56f7cf426bb69e7e085adf5.1616992679.git.unixbhaskar@gmail.com>
+Subject: [PATCH 15/23] trace: events.rst: Fix a typo
+Date:   Mon, 29 Mar 2021 10:42:51 +0530
+Message-Id: <8c888c8cb91767c9d49188faaadc8fd9112eb184.1616992679.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616992679.git.unixbhaskar@gmail.com>
 References: <cover.1616992679.git.unixbhaskar@gmail.com>
@@ -72,26 +72,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-s/implemenation/implementation/
+s/specfied/specified/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- Documentation/security/keys/core.rst | 2 +-
+ Documentation/trace/events.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/security/keys/core.rst b/Documentation/security/keys/core.rst
-index b3ed5c581034..d66ad592c6cc 100644
---- a/Documentation/security/keys/core.rst
-+++ b/Documentation/security/keys/core.rst
-@@ -869,7 +869,7 @@ The keyctl syscall functions are:
+diff --git a/Documentation/trace/events.rst b/Documentation/trace/events.rst
+index 8ddb9b09451c..80052adc592d 100644
+--- a/Documentation/trace/events.rst
++++ b/Documentation/trace/events.rst
+@@ -884,7 +884,7 @@ functions can be used.
 
- 	 - ``char *hashname`` specifies the NUL terminated string identifying
- 	   the hash used from the kernel crypto API and applied for the KDF
--	   operation. The KDF implemenation complies with SP800-56A as well
-+	   operation. The KDF implementation complies with SP800-56A as well
- 	   as with SP800-108 (the counter KDF).
-
- 	 - ``char *otherinfo`` specifies the OtherInfo data as documented in
+ To create a kprobe event, an empty or partially empty kprobe event
+ should first be created using kprobe_event_gen_cmd_start().  The name
+-of the event and the probe location should be specfied along with one
++of the event and the probe location should be specified along with one
+ or args each representing a probe field should be supplied to this
+ function.  Before calling kprobe_event_gen_cmd_start(), the user
+ should create and initialize a dynevent_cmd object using
 --
 2.26.3
 
