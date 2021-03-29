@@ -2,190 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB01EC433E1
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 10:11:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E848BC433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 10:12:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76BF161920
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 10:11:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B5409617C9
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 10:12:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232530AbhC2KLJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 06:11:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44772 "EHLO
+        id S231673AbhC2KLn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 06:11:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232550AbhC2KKo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 06:10:44 -0400
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3586C061764
-        for <linux-doc@vger.kernel.org>; Mon, 29 Mar 2021 03:10:43 -0700 (PDT)
-Received: by mail-lf1-x134.google.com with SMTP id m12so17559044lfq.10
-        for <linux-doc@vger.kernel.org>; Mon, 29 Mar 2021 03:10:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=shutemov-name.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=TrrPoo3NF06Hriy1kiCCzSGcqBJEQPrLMgSJHsg60T0=;
-        b=MEEB4gQC+frgKiF9qxjZWukNl+J2hRwRFu7J1PqfnMfeey07tHMtQDPvdpfUrJMj+v
-         ygJO68J8dLSogekKUyuyEXo8RQTJ807gbbBdBq6oagwJBdc2IRBWavSbj7y0TeaYGk7E
-         1GMkHLPx64SGknP3wTP3iIwhW/hsV3/W7y4ZI2wuMVuSBy4bV9ff4rSSppPkrnAbmDgR
-         DUn7cyCOUbkSRIfa4trfe9SwiqvhtJKOiqg6ST1RQmHRJJnJUUL32FPYbRR2YeR7KN3I
-         R5SyHZOtuaxGBK7ZXgmwHbpEg33N9z5EquYbNO9sYVg5nO/6x0zL17e5dB0XQojSvKub
-         IXGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=TrrPoo3NF06Hriy1kiCCzSGcqBJEQPrLMgSJHsg60T0=;
-        b=jWFFIYiDxWHt3RWk5lqLRgt+J0WHPP8RxoNhumWpJK1YpwoKJX39HbVHMOpZCa8HpG
-         OANujcvHz/Ji2As/3UwhbzSDdaK6r8Oi9L/l34T871X2Gpm4GydeupyXrHO4EuU1v42u
-         pPs8HWwyJfHDqZUdArGQk4H+2hp78y+23EfZpp+FWHL0thMCLUBysCRy8x0I4xYcGiGB
-         NddkAeQ5GyQxBEQFU9iuXvuQNoiicBDZQLntaSRJKks7H7zuPygDwrftR6zdxJhBzxDl
-         pfGyAnZn0qbdgxB3bgIMrdsNm+1uyW9o/9zOFKYduMcQDYJ+ACXUCTIP1FLfXvZhvAG7
-         StQw==
-X-Gm-Message-State: AOAM532ZJOPhtcSQ/ZgMbLlRZ6d3Ta+0vRoyrGFIrKrDcUejbk8KVTJq
-        Q8v85u5Gr/hYNVP5iGUD6KZ+oA==
-X-Google-Smtp-Source: ABdhPJzFN60J7EkuzOGOBl18JQs7UDI+EF00tDUs2xAE6AjR6wmyHSPcLg0T1AveZfh8xHdfaQ/2vg==
-X-Received: by 2002:a05:6512:3089:: with SMTP id z9mr16097622lfd.496.1617012642015;
-        Mon, 29 Mar 2021 03:10:42 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id r66sm1776883lff.93.2021.03.29.03.10.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Mar 2021 03:10:41 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
-        id DB6C5101FC8; Mon, 29 Mar 2021 13:10:40 +0300 (+03)
-Date:   Mon, 29 Mar 2021 13:10:40 +0300
-From:   "Kirill A. Shutemov" <kirill@shutemov.name>
-To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        with ESMTP id S232770AbhC2KLf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 06:11:35 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B58F5C061756
+        for <linux-doc@vger.kernel.org>; Mon, 29 Mar 2021 03:11:34 -0700 (PDT)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=[IPv6:::1])
+        by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+        (envelope-from <a.fatoum@pengutronix.de>)
+        id 1lQorr-00056a-FI; Mon, 29 Mar 2021 12:11:31 +0200
+Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
+ CAAM-based trusted keys
+To:     Jarkko Sakkinen <jarkko@kernel.org>,
+        David Gstir <david@sigma-star.at>
+Cc:     Sumit Garg <sumit.garg@linaro.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?Q?Horia_Geant=c4=83?= <horia.geanta@nxp.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v23 18/28] mm/mmap: Add shadow stack pages to memory
- accounting
-Message-ID: <20210329101040.sra6aqvgjbmy72bj@box>
-References: <20210316151054.5405-1-yu-cheng.yu@intel.com>
- <20210316151054.5405-19-yu-cheng.yu@intel.com>
- <20210322105729.24rt4nwc3blipxsr@box>
- <4b926140-66ac-f538-df94-8213b8a2ab86@intel.com>
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Aymen Sghaier <aymen.sghaier@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Udit Agarwal <udit.agarwal@nxp.com>,
+        Jan Luebbe <j.luebbe@pengutronix.de>,
+        Franck Lenormand <franck.lenormand@nxp.com>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>
+References: <cover.56fff82362af6228372ea82e6bd7e586e23f0966.1615914058.git-series.a.fatoum@pengutronix.de>
+ <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
+ <01e6e13d-2968-0aa5-c4c8-7458b7bde462@nxp.com>
+ <45a9e159-2dcb-85bf-02bd-2993d50b5748@pengutronix.de>
+ <f9c0087d299be1b9b91b242f41ac6ef7b9ee3ef7.camel@linux.ibm.com>
+ <63dd7d4b-4729-9e03-cd8f-956b94eab0d9@pengutronix.de>
+ <CAFA6WYOw_mQwOUN=onhzb7zCTyYDBrcx0E7C3LRk6nPLAVCWEQ@mail.gmail.com>
+ <557b92d2-f3b8-d136-7431-419429f0e059@pengutronix.de>
+ <CAFA6WYNE44=Y7Erfc-xNtOrf7TkJjh+odmYH5vzhEHR6KqBfeQ@mail.gmail.com>
+ <6F812C20-7585-4718-997E-0306C4118468@sigma-star.at>
+ <YGDpA4yPWmTWEyx+@kernel.org>
+From:   Ahmad Fatoum <a.fatoum@pengutronix.de>
+Message-ID: <1171de9c-97b9-3936-707b-16ec34cf94d5@pengutronix.de>
+Date:   Mon, 29 Mar 2021 12:11:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4b926140-66ac-f538-df94-8213b8a2ab86@intel.com>
+In-Reply-To: <YGDpA4yPWmTWEyx+@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 26, 2021 at 08:46:30AM -0700, Yu, Yu-cheng wrote:
-> On 3/22/2021 3:57 AM, Kirill A. Shutemov wrote:
-> > On Tue, Mar 16, 2021 at 08:10:44AM -0700, Yu-cheng Yu wrote:
-> > > Account shadow stack pages to stack memory.
-> > > 
-> > > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> > > Reviewed-by: Kees Cook <keescook@chromium.org>
-> > > ---
-> > >   arch/x86/mm/pgtable.c   |  7 +++++++
-> > >   include/linux/pgtable.h | 11 +++++++++++
-> > >   mm/mmap.c               |  5 +++++
-> > >   3 files changed, 23 insertions(+)
-> > > 
-> > > diff --git a/arch/x86/mm/pgtable.c b/arch/x86/mm/pgtable.c
-> > > index 0f4fbf51a9fc..948d28c29964 100644
-> > > --- a/arch/x86/mm/pgtable.c
-> > > +++ b/arch/x86/mm/pgtable.c
-> > > @@ -895,3 +895,10 @@ int pmd_free_pte_page(pmd_t *pmd, unsigned long addr)
-> > >   #endif /* CONFIG_X86_64 */
-> > >   #endif	/* CONFIG_HAVE_ARCH_HUGE_VMAP */
-> > > +
-> > > +#ifdef CONFIG_ARCH_HAS_SHADOW_STACK
-> > > +bool arch_shadow_stack_mapping(vm_flags_t vm_flags)
-> > > +{
-> > > +	return (vm_flags & VM_SHSTK);
-> > > +}
-> > > +#endif
-> > > diff --git a/include/linux/pgtable.h b/include/linux/pgtable.h
-> > > index cbd98484c4f1..487c08df4365 100644
-> > > --- a/include/linux/pgtable.h
-> > > +++ b/include/linux/pgtable.h
-> > > @@ -1470,6 +1470,17 @@ static inline pmd_t arch_maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma
-> > >   #endif /* CONFIG_ARCH_MAYBE_MKWRITE */
-> > >   #endif /* CONFIG_MMU */
-> > > +#ifdef CONFIG_MMU
-> > > +#ifdef CONFIG_ARCH_HAS_SHADOW_STACK
-> > > +bool arch_shadow_stack_mapping(vm_flags_t vm_flags);
-> > > +#else
-> > > +static inline bool arch_shadow_stack_mapping(vm_flags_t vm_flags)
-> > > +{
-> > > +	return false;
-> > > +}
-> > > +#endif /* CONFIG_ARCH_HAS_SHADOW_STACK */
-> > > +#endif /* CONFIG_MMU */
-> > > +
-> > >   /*
-> > >    * Architecture PAGE_KERNEL_* fallbacks
-> > >    *
-> > > diff --git a/mm/mmap.c b/mm/mmap.c
-> > > index 3f287599a7a3..2ac67882ace2 100644
-> > > --- a/mm/mmap.c
-> > > +++ b/mm/mmap.c
-> > > @@ -1718,6 +1718,9 @@ static inline int accountable_mapping(struct file *file, vm_flags_t vm_flags)
-> > >   	if (file && is_file_hugepages(file))
-> > >   		return 0;
-> > > +	if (arch_shadow_stack_mapping(vm_flags))
-> > > +		return 1;
-> > > +
-> > 
-> > What's wrong with testing (vm_flags & VM_SHSTK) here? VM_SHSTK is 0 on
-> > non-x86.
-> > 
-> > >   	return (vm_flags & (VM_NORESERVE | VM_SHARED | VM_WRITE)) == VM_WRITE;
-> > >   }
-> > > @@ -3387,6 +3390,8 @@ void vm_stat_account(struct mm_struct *mm, vm_flags_t flags, long npages)
-> > >   		mm->stack_vm += npages;
-> > >   	else if (is_data_mapping(flags))
-> > >   		mm->data_vm += npages;
-> > > +	else if (arch_shadow_stack_mapping(flags))
-> > > +		mm->stack_vm += npages;
-> > 
-> > Ditto.
-> > 
+Hello Jarkko,
+
+On 28.03.21 22:37, Jarkko Sakkinen wrote:
+> On Sat, Mar 27, 2021 at 01:41:24PM +0100, David Gstir wrote:
+>> Generally speaking, I’d say trusting the CAAM RNG and trusting in it’s
+>> other features are two separate things. However, reading through the CAAM
+>> key blob spec I’ve got here, CAAM key blob keys (the keys that secure a blob’s
+>> content) are generated using its internal RNG. So I’d save if the CAAM RNG
+>> is insecure, so are generated key blobs. Maybe somebody with more insight
+>> into the CAAM internals can verify that, but I don’t see any point in using
+>> the kernel’s RNG as long as we let CAAM generate the key blob keys for us.
 > 
-> The thought was, here all testings are done with helpers, e.g.
-> is_data_mapping(), so creating a helper for shadow stack is more inline with
-> the existing code.  Or, maybe we can call it is_shadow_stack_mapping()?
-> And, since we have a helper, use it in accountable_mapping() as well.  Or do
-> you have other suggestions?
+> Here's my long'ish analysis. Please read it to the end if by ever means
+> possible, and apologies, I usually try to keep usually my comms short, but
+> this requires some more meat than the usual.
 
-is_shadow_stack_mapping() sounds reasonable.
+Thanks for the write-up!
 
-My point is that we already have ifdef around #define VM_SHSTK. No need in
-duplicating it for helper.
+> The Bad News
+> ============
+> 
+> Now that we add multiple hardware trust sources for trusted keys, will
+> there ever be a scenario where a trusted key is originally sealed with a
+> backing hardware A, unsealed, and resealed with hardware B?
+> 
+> The hardware and vendor neutral way to generate the key material would be
+> unconditionally always just the kernel RNG.
+> 
+> CAAM is actually worse than TCG because it's not even a standards body, if
+> I got it right. Not a lot but at least a tiny fraction.
+
+CAAM is how NXP calls the crypto accelerator built into some of its SoCs.
+
+> This brings an open item in TEE patches: trusted_tee_get_random() is an
+> issue in generating kernel material. I would rather replace that with
+> kernel RNG *for now*, because the same open question applies also to ARM
+> TEE. It's also a single company controlled backing technology.
+> 
+> By all practical means, I do trust ARM TEE in my personal life but this is
+> not important.
+> 
+> CAAM *and* TEE backends break the golden rule of putting as little trust as
+> possible to anything, even not anything weird is clear at sight, as
+> security is essentially a game of known unknowns and unknown unknowns.
+
+Agreed.
+
+> The GOOD News
+> =============
+> 
+> So there's actually option (C) that also fixes the TPM trustd keys issue:
+> 
+> Add a new kernel patch, which:
+> 
+> 1. Adds the use of kernel RNG as a boot option.
+> 2. If this boot option is not active, the subsystem will print a warning
+>    to klog denoting this.
+> 3. Default is of course vendor RNG given the bad design issue in the TPM
+>    trusted keys, but the warning in klog will help to address it at least
+>    a bit.
+
+Why should the TPM backend's choice influence later backends? We could add
+a new option for key creation time, e.g.:
+
+   keyctl add trusted kmk "new keylen rng=kernel" @s
+
+The default would be rng=vendor if available with a fallback to rng=kernel,
+which should always be available.
+
+> 4. Document all this to Documentation/security/keys/trusted-encrypted.rst.
+
+Yes, backends would then document whether they support a rng=vendor or not.
+
+> I'd prefer the choice between A, B and C be concluded rather sooner than
+> later.
+
+FWIW, my vote is for option C, with the change described above.
+
+Cheers,
+Ahmad
+
+> 
+> /Jarkko
+> 
 
 -- 
- Kirill A. Shutemov
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
