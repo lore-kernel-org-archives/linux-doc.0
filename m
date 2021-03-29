@@ -2,581 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF6BDC433C1
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 20:07:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69557C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 20:41:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AA3576198F
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 20:07:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3F1DF61976
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 20:41:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231843AbhC2UHK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 16:07:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33804 "EHLO
+        id S229555AbhC2UlH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 16:41:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231899AbhC2UG7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 16:06:59 -0400
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com [IPv6:2607:f8b0:4864:20::332])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E393C061574
-        for <linux-doc@vger.kernel.org>; Mon, 29 Mar 2021 13:06:59 -0700 (PDT)
-Received: by mail-ot1-x332.google.com with SMTP id w31-20020a9d36220000b02901f2cbfc9743so13450003otb.7
-        for <linux-doc@vger.kernel.org>; Mon, 29 Mar 2021 13:06:59 -0700 (PDT)
+        with ESMTP id S230495AbhC2Ukg (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 16:40:36 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A03FEC061574;
+        Mon, 29 Mar 2021 13:40:35 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id a143so15104748ybg.7;
+        Mon, 29 Mar 2021 13:40:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=yT8ocahgrDuoXT6m6ETfzQhZyvvH0xJy+cBNqyLrYo8=;
-        b=IznSHSPEbbGB54n18iKokmQ7KBlBaynvJqqZDJHMU4oLtmK5ATb8A6GDxOzXttdPc0
-         32UhPFrUKrfE6itN1XpQYLq0QlOkbYG2UPYVAn9AmVHbxW64YEAgYtts/Etb9pWvdv/w
-         wZr1NoJ3tSviI0J+hXIpliiTJgKdCbpCznpwI=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FaMnHKrcqRFdMgIooSwMY251zpzffov2Wa1tFMgJcQc=;
+        b=NWXHP647lLp0tz5ggRDWXJq++xmMGdJxHith+p2+CT8rtTIE3Kc5v+GunTZ0NLkjpO
+         kxBSJ0NewzcpCyz0O5WQ2HcGBjSG3dKZdUXKBfQ3LrOQ7LGKtOgkjbLvbGBbkj1KYudF
+         WLfyVYA6bNmkhq+Ctwz8j08d4Qy8FqP8l+3fHiAk+dtu2jK2Xlx2EJMqf2aumEBOFb5s
+         3+tgZ7kLhoMZR9Ao3ursAVSaWWCxMstpk+F3JmrrOF1k/jwTjIlOb7UWxEPgdRzIGv0t
+         nIk0s6SQvbon3jahll/0VZ0UbnVoM+W+ImpLuQkBMn6tA5P2cYcfJ3j8coGeKw8xz/Ai
+         704Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=yT8ocahgrDuoXT6m6ETfzQhZyvvH0xJy+cBNqyLrYo8=;
-        b=WgusI8cV4K37FCHTkR0cCTKxBBdEoXteBuK+LIzu5gatFaWlIAMCvpkPAe7PemUjkN
-         eP/gmiaF63krA1+Sj3ECew1foJq1Fx8hx8DIF4rzQsWmbhW21af+2P+F3p+31nUMLLMm
-         aPjEJPMqsrbznv2u0DmBHfuIcd2LqdDGVsVLDNvVwmRIvRTe8rZE1bbll1lo4oHGnPC+
-         PY3eeBpWNeyv4Y6mIcVC8nHpmqR6XnBd7Fr2z3FPCHIx99Mn4mdYszl5tsfpXlddKBsY
-         kGHVqSwQG5f4gN/7k/0RjZWZvtByQJtvMr+jUtl/au0Tpn1VKnqAjqU2z+x1fE9tRQ9k
-         KP1w==
-X-Gm-Message-State: AOAM53195CseVQ34bDw6PS0TAB2fy+f6bAjFK7xo29elRpycRD4Ud11e
-        HuJbseM1ktmGCQvMPpqfAba/MA==
-X-Google-Smtp-Source: ABdhPJyb+FpQ8cVjJa/HcbIAReZlscNgecYPQPAM2jAUAFg2/eVKyYy/ltRHMtzq29jqrhtTcGHA/A==
-X-Received: by 2002:a05:6830:908:: with SMTP id v8mr24667169ott.217.1617048418584;
-        Mon, 29 Mar 2021 13:06:58 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id 24sm3612863oij.58.2021.03.29.13.06.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Mar 2021 13:06:58 -0700 (PDT)
-Subject: Re: [PATCH v5] docs: usbip: Fix major fields and descriptions in
- protocol
-To:     "Hongren Zheng (Zenithal)" <i@zenithal.me>,
-        Valentina Manea <valentina.manea.m@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        =?UTF-8?B?TcOhcnRvbiBOw6ltZXRo?= <nm127@freemail.hu>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Cc:     Alexandre Demers <alexandre.f.demers@gmail.com>,
-        linux-usb@vger.kernel.org, usbip-devel@lists.sourceforge.net,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Shuah Khan <skhan@linuxfoundation.org>
-References: <YFAXGBSxaZJ8Dy3/@Sun>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <51edf4bb-1b00-a3b8-4277-25c282588858@linuxfoundation.org>
-Date:   Mon, 29 Mar 2021 14:06:56 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FaMnHKrcqRFdMgIooSwMY251zpzffov2Wa1tFMgJcQc=;
+        b=OKwEcN1kx/qlfqhvwAzNFeqxmnK7cdp/Sg5NpEaPIa1nEuPQnGBkhvrGRIdXgJkooO
+         tsNMpzu/2roEotUiZe42IYdSemIJB+opfw9sG5tsE+Jr+7FfggyUtlDxVp3MskrOvP/c
+         TOpDq2x6lOrLscWQu0dw3tjRdzTGwE8vaiMh4x8pWUxgfi3XFHYzm8SFIiqClFJTcl9r
+         WQETDFMmT3MR1JivPm2dOu4BJwwclQ+3wLU5xx5C6lx5xi5mKvVou7WfY8TvidumUTez
+         OdWyjhwha7pPjyPA7PxZgXLvbnkaGzfttsNx+1S3xkcZ27EBWCoxCbtP/AmkRIqxDwoY
+         e2Nw==
+X-Gm-Message-State: AOAM530hR+rnnvLt3tkXA53zkg2Sd89LbPEgsvMntBV3L4tTpH2rjO5A
+        mUMcdgPThdWxZj4Fpl+11fwix6wWVcnDfy7p+HQ=
+X-Google-Smtp-Source: ABdhPJy0sW8G5Bh8dGcRLyzl71RvsAYvdfpVfDlRwDlFU1lbSGoQ1uadfPIwsWceK5QatpxnYN+5whxAIH9cW9XQN70=
+X-Received: by 2002:a25:3b55:: with SMTP id i82mr43295469yba.422.1617050434956;
+ Mon, 29 Mar 2021 13:40:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <YFAXGBSxaZJ8Dy3/@Sun>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210325184615.08526aed@coco.lan> <2cf44cf1fa42588632735d4fbc8e84304bdc235f.1616696051.git.mchehab+huawei@kernel.org>
+ <87tuozyslu.fsf@meer.lwn.net> <20210325191435.GZ1719932@casper.infradead.org>
+ <87a6qrx7wf.fsf@meer.lwn.net> <20210325221437.GA1719932@casper.infradead.org>
+In-Reply-To: <20210325221437.GA1719932@casper.infradead.org>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 29 Mar 2021 22:40:24 +0200
+Message-ID: <CANiq72=kRzBQsjgUeuVNXRmRVN8zXzMvMn+yTWt=YhR+r2wNEg@mail.gmail.com>
+Subject: Re: [PATCH] kernel-doc: better handle '::' sequences
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/15/21 8:25 PM, Hongren Zheng (Zenithal) wrote:
-> The old document for usbip protocol is misleading and hard to read:
->    * Some fields in header are incorrect
->    * Explanation of some fields are unclear or even wrong
->    * Padding of header (namely all headers have the same length) is
->      not explicitly pointed out, which is crucial for stream protocol
->      like TCP
-> 
-> Major changes:
->    * Document the correct field as described in the codebase.
->    * Document the padding in usbip headers. This is crucial for TCP
->      stream hence these padding should be explicitly point out.
->      In code these padding are implemented by a union of all headers.
->    * Fix two FIXME related to usbip unlink and Document the behavior
->      of unlink in different situation.
->    * Clarify some field with more accurate explanation, like those
->      fields associated with URB. Some constraints are extracted from
->      code.
->    * Delete specific transfer_flag doc in usbip as it should be
->      documented by the URB part.
+On Thu, Mar 25, 2021 at 11:18 PM Matthew Wilcox <willy@infradead.org> wrote:
+>
+> The rust code is alredy coming though ...
+>
+> rust/kernel/buffer.rs:/// A pre-allocated buffer that implements [`core::fmt::Write`].
+>
+> so now we have three formats.  Markdown and RST are _very_ similar, but
+> not identical [1].  Oh, and even better we now have three distinct tools --
+> kerneldoc, rustdoc and sphinx.  Have the rust people reached out to you
+> about integrating the various docs?
 
-Why are we deleting this. What do you mean documented by URB part?
+Yeah, I reached out to Jonathan a few weeks ago to discuss how we will
+approach this, because I knew using `rustdoc` and Markdown could be
+contentious ;-)
 
->    * Add data captured from wire as example
-> 
-> Co-developed-by: Alexandre Demers <alexandre.f.demers@gmail.com>
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Hongren Zheng <i@zenithal.me>
-> ---
->   Documentation/usb/usbip_protocol.rst | 320 ++++++++++++++-------------
->   1 file changed, 171 insertions(+), 149 deletions(-)
-> 
-> PATCH v2:
-> Some changes suggested by a previous patch in
-> https://lore.kernel.org/linux-usb
-> /20180128071514.9107-1-alexandre.f.demers@gmail.com/
-> is adopted in this patch.
->    * Fix Typo: duplicated 'the' in 'the following 4 field'
->    * Fix incorrect field: in OP_REQ_DEVLIST, the second dev starts with
->      field 'path', not 'busid'
-> 
-> PATCH v3:
-> Suggested by
-> https://lore.kernel.org/linux-doc/YE8Oan2BmSuKR4%2Fp@kroah.com/
->    * Remove date and changelog in doc as these are tracked in git history
->    * Remove 'mistake alert' as all data fields are documented properly
->      now. However, docs on possible values for some field shall be added
->      in the future
-> 
-> PATCH v4:
-> Suggested by https://lore.kernel.org/linux-doc
-> /40351ed6-2907-3966-e69a-a564173b3682@infradead.org/
->    * Add punctuations for readability
->    * Move patch changelog after the marker line
->    * Remove nickname in signed-off-by line
-> 
-> PATCH v5:
->    * Instead of co-developed-by, use reviewed-by
->      for Randy Dunlap
-> 
-> diff --git a/Documentation/usb/usbip_protocol.rst b/Documentation/usb/usbip_protocol.rst
-> index 988c832166cd..54c5677adf4e 100644
-> --- a/Documentation/usb/usbip_protocol.rst
-> +++ b/Documentation/usb/usbip_protocol.rst
-> @@ -2,11 +2,11 @@
->   USB/IP protocol
->   ===============
->    > -PRELIMINARY DRAFT, MAY CONTAIN MISTAKES> -28 Jun 2011
-> +Architecture
+This is the solution we decided to go for the RFC but, of course,
+nothing is set in stone:
 
-Let's add doc version preserving the history.
-Add Version 1 and date perhaps.
+  1. The "out-of-line" docs in `Documentation/rust/`: these will be in
+RST as usual [*]. However, please note this does not include APIs or
+anything like that, as it is done in the C side. Only a few "general
+documents" that don't fit anywhere else are kept here.
 
-> +============
->   
->   The USB/IP protocol follows a server/client architecture. The server exports the
-> -USB devices and the clients imports them. The device driver for the exported
-> +USB devices and the client imports them. The device driver for the exported
+  2. The "inline" docs in Rust source files: these will be parsed by
+`rustdoc` and written in Markdown. These will contain the majority of
+the Rust documentation. `rustdoc` is designed for Rust code, and
+internally uses the Rust compiler, which comes with a number of
+advantages.
 
-clients import them.
+The generated HTML docs will be showcased in the RFC. It is my hope
+that this way we get feedback on them and see if people agree this
+approach is worth keeping. We have put an effort (and I have been
+annoying contributors enough to that end :-) to provide high-quality
+documentation from the get-go.
 
->   USB device runs on the client machine.
->   
->   The client may ask for the list of the exported USB devices. To get the list the
-> @@ -37,6 +37,9 @@ to transfer the URB traffic between the client and the server. The client may
->   send two types of packets: the USBIP_CMD_SUBMIT to submit an URB, and
->   USBIP_CMD_UNLINK to unlink a previously submitted URB. The answers of the
->   server may be USBIP_RET_SUBMIT and USBIP_RET_UNLINK respectively.
-> +Note that after successful USBIP_RET_UNLINK, the unlinked URB request would not
-> +have a corresponding USBIP_RET_UNLINK (this is explained in
-> +drivers/usb/usbip/stub_rx.c).
+Please note that we chose this way knowing well that inconsistency and
+adding "yet one more tool" needs to come with big advantages to
+offset. We think it is the best approach nevertheless!
 
-This is not clear to me. Doesn't look correct. Where do you see this
-in drivers/usb/usbip/stub_rx.c?
+[*] I discussed with Jonathan using Markdown since Sphinx supports it.
+The main advantage would be easier refactoring of comments between the
+out- and inline docs. But this is very minor, thus mixing two formats
+inside `Documentation/` does not seem like worth it.
 
->   
->   ::
->   
-> @@ -85,16 +88,42 @@ server may be USBIP_RET_SUBMIT and USBIP_RET_UNLINK respectively.
->             |                        .                        |
->             |                        :                        |
->             |                                                 |
-> +          |            USBIP_CMD_SUBMIT(seqnum = p)         |
-> +          | ----------------------------------------------> |
-> +          |                                                 |
-> +          |               USBIP_CMD_UNLINK                  |
-> +          |         (seqnum = p+1, unlink_seqnum = p)       |
-> +          | ----------------------------------------------> |
-> +          |                                                 |
-> +          |               USBIP_RET_UNLINK                  |
-> +          |        (seqnum = p+1, status = -ECONNRESET)     |
-> +          | <---------------------------------------------- |
-> +          |                                                 |
-> +          |         Note: No USBIP_RET_SUBMIT(seqnum = p)   |
-> +          | <--X---X---X---X---X---X---X---X---X---X---X--- |
-> +          |                        .                        |
-> +          |                        :                        |
-> +          |                                                 |
-> +          |            USBIP_CMD_SUBMIT(seqnum = q)         |
-> +          | ----------------------------------------------> |
-> +          |                                                 |
-> +          |            USBIP_RET_SUBMIT(seqnum = q)         |
-> +          | <---------------------------------------------- |
-> +          |                                                 |
->             |               USBIP_CMD_UNLINK                  |
-> +          |         (seqnum = q+1, unlink_seqnum = q)       |
->             | ----------------------------------------------> |
->             |                                                 |
->             |               USBIP_RET_UNLINK                  |
-> +          |           (seqnum = q+1, status = 0)            |
->             | <---------------------------------------------- |
->             |                                                 |
->   
-
-I would do this differently. Let's add this as an expanded
-USBIP_CMD_UNLINK sequence with a separate heading below the
-current flow
-
->   The fields are in network (big endian) byte order meaning that the most significant
->   byte (MSB) is stored at the lowest address.
->   
-> +Message Format
-> +==============
->   
->   OP_REQ_DEVLIST:
->   	Retrieve the list of exported USB devices.
-> @@ -102,7 +131,7 @@ OP_REQ_DEVLIST:
->   +-----------+--------+------------+---------------------------------------------------+
->   | Offset    | Length | Value      | Description                                       |
->   +===========+========+============+===================================================+
-> -| 0         | 2      | 0x0100     | Binary-coded decimal USBIP version number: v1.0.0 |
-> +| 0         | 2      | 0x0111     | Binary-coded decimal USBIP version number: v1.1.1 |
->   +-----------+--------+------------+---------------------------------------------------+
-
-Let's make this vx.x.x and specify current version number at the top.
-Saves us doc updates as we change version number - one location change
-as opposed to the entire document
->   | 2         | 2      | 0x8005     | Command code: Retrieve the list of exported USB   |
->   |           |        |            | devices.                                          |
-> @@ -116,7 +145,7 @@ OP_REP_DEVLIST:
->   +-----------+--------+------------+---------------------------------------------------+
->   | Offset    | Length | Value      | Description                                       |
->   +===========+========+============+===================================================+
-> -| 0         | 2      | 0x0100     | Binary-coded decimal USBIP version number: v1.0.0.|
-> +| 0         | 2      | 0x0111     | Binary-coded decimal USBIP version number: v1.1.1 |
->   +-----------+--------+------------+---------------------------------------------------+
->   | 2         | 2      | 0x0005     | Reply code: The list of exported USB devices.     |
->   +-----------+--------+------------+---------------------------------------------------+
-> @@ -165,8 +194,8 @@ OP_REP_DEVLIST:
->   | 0x143     | 1      |            | bNumInterfaces                                    |
->   +-----------+--------+------------+---------------------------------------------------+
->   | 0x144     |        | m_0        | From now on each interface is described, all      |
-> -|           |        |            | together bNumInterfaces times, with the           |
-> -|           |        |            | the following 4 fields:                           |
-> +|           |        |            | together bNumInterfaces times, with the following |
-> +|           |        |            | 4 fields:                                         |
->   +-----------+--------+------------+---------------------------------------------------+
->   |           | 1      |            | bInterfaceClass                                   |
->   +-----------+--------+------------+---------------------------------------------------+
-> @@ -177,7 +206,7 @@ OP_REP_DEVLIST:
->   | 0x147     | 1      |            | padding byte for alignment, shall be set to zero  |
->   +-----------+--------+------------+---------------------------------------------------+
->   | 0xC +     |        |            | The second exported USB device starts at i=1      |
-> -| i*0x138 + |        |            | with the busid field.                             |
-> +| i*0x138 + |        |            | with the path field.                              |
->   | m_(i-1)*4 |        |            |                                                   |
->   +-----------+--------+------------+---------------------------------------------------+
->   
-> @@ -187,7 +216,7 @@ OP_REQ_IMPORT:
->   +-----------+--------+------------+---------------------------------------------------+
->   | Offset    | Length | Value      | Description                                       |
->   +===========+========+============+===================================================+
-> -| 0         | 2      | 0x0100     | Binary-coded decimal USBIP version number: v1.0.0 |
-> +| 0         | 2      | 0x0111     | Binary-coded decimal USBIP version number: v1.1.1 |
->   +-----------+--------+------------+---------------------------------------------------+
->   | 2         | 2      | 0x8003     | Command code: import a remote USB device.         |
->   +-----------+--------+------------+---------------------------------------------------+
-> @@ -206,7 +235,7 @@ OP_REP_IMPORT:
->   +-----------+--------+------------+---------------------------------------------------+
->   | Offset    | Length | Value      | Description                                       |
->   +===========+========+============+===================================================+
-> -| 0         | 2      | 0x0100     | Binary-coded decimal USBIP version number: v1.0.0 |
-> +| 0         | 2      | 0x0111     | Binary-coded decimal USBIP version number: v1.1.1 |
->   +-----------+--------+------------+---------------------------------------------------+
->   | 2         | 2      | 0x0003     | Reply code: Reply to import.                      |
->   +-----------+--------+------------+---------------------------------------------------+
-> @@ -254,158 +283,151 @@ OP_REP_IMPORT:
->   | 0x13E     | 1      |            | bNumInterfaces                                    |
->   +-----------+--------+------------+---------------------------------------------------+
->   
-> -USBIP_CMD_SUBMIT:
-> -	Submit an URB
-> +The following four commands have a common basic header called
-> +'usbip_header_basic', and their headers, called 'usbip_header' (before URB
-> +payload), have the same length, therefore paddings are needed.
->   
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| Offset    | Length | Value      | Description                                       |
-> -+===========+========+============+===================================================+
-> -| 0         | 4      | 0x00000001 | command: Submit an URB                            |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 4         | 4      |            | seqnum: the sequence number of the URB to submit  |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 8         | 4      |            | devid                                             |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0xC       | 4      |            | direction:                                        |
-> -|           |        |            |                                                   |
-> -|           |        |            |    - 0: USBIP_DIR_OUT                             |
-> -|           |        |            |    - 1: USBIP_DIR_IN                              |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x10      | 4      |            | ep: endpoint number, possible values are: 0...15  |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x14      | 4      |            | transfer_flags: possible values depend on the     |
-> -|           |        |            | URB transfer type, see below                      |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x18      | 4      |            | transfer_buffer_length                            |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x1C      | 4      |            | start_frame: specify the selected frame to        |
-> -|           |        |            | transmit an ISO frame, ignored if URB_ISO_ASAP    |
-> -|           |        |            | is specified at transfer_flags                    |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x20      | 4      |            | number_of_packets: number of ISO packets          |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x24      | 4      |            | interval: maximum time for the request on the     |
-> -|           |        |            | server-side host controller                       |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x28      | 8      |            | setup: data bytes for USB setup, filled with      |
-> -|           |        |            | zeros if not used                                 |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x30      |        |            | URB data. For ISO transfers the padding between   |
-> -|           |        |            | each ISO packets is not transmitted.              |
-> -+-----------+--------+------------+---------------------------------------------------+
-> +usbip_header_basic:
->   
-> ++-----------+--------+---------------------------------------------------+
-> +| Offset    | Length | Description                                       |
-> ++===========+========+===================================================+
-> +| 0         | 4      | command                                           |
-> ++-----------+--------+---------------------------------------------------+
-> +| 4         | 4      | seqnum: sequential number that identifies requests|
-> +|           |        | and corresponding responses;                      |
-> +|           |        | incremented per connection                        |
-> ++-----------+--------+---------------------------------------------------+
-> +| 8         | 4      | devid: specifies a remote USB device uniquely     |
-> +|           |        | instead of busnum and devnum;                     |
-> +|           |        | for client (request), this value is               |
-> +|           |        | ((busnum << 16) | devnum);                        |
-> +|           |        | for server (response), this shall be set to 0     |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0xC       | 4      | direction:                                        |
-> +|           |        |                                                   |
-> +|           |        |    - 0: USBIP_DIR_OUT                             |
-> +|           |        |    - 1: USBIP_DIR_IN                              |
-> +|           |        |                                                   |
-> +|           |        | only used by client, for server this shall be 0   |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x10      | 4      | ep: endpoint number                               |
-> +|           |        | only used by client, for server this shall be 0;  |
-> +|           |        | for UNLINK, this shall be 0                       |
-> ++-----------+--------+---------------------------------------------------+
->   
-> - +-------------------------+------------+---------+-----------+----------+-------------+
-> - | Allowed transfer_flags  | value      | control | interrupt | bulk     | isochronous |
-> - +=========================+============+=========+===========+==========+=============+
-> - | URB_SHORT_NOT_OK        | 0x00000001 | only in | only in   | only in  | no          |
-> - +-------------------------+------------+---------+-----------+----------+-------------+
-> - | URB_ISO_ASAP            | 0x00000002 | no      | no        | no       | yes         |
-> - +-------------------------+------------+---------+-----------+----------+-------------+
-> - | URB_NO_TRANSFER_DMA_MAP | 0x00000004 | yes     | yes       | yes      | yes         |
-> - +-------------------------+------------+---------+-----------+----------+-------------+
-> - | URB_ZERO_PACKET         | 0x00000040 | no      | no        | only out | no          |
-> - +-------------------------+------------+---------+-----------+----------+-------------+
-> - | URB_NO_INTERRUPT        | 0x00000080 | yes     | yes       | yes      | yes         |
-> - +-------------------------+------------+---------+-----------+----------+-------------+
-> - | URB_FREE_BUFFER         | 0x00000100 | yes     | yes       | yes      | yes         |
-> - +-------------------------+------------+---------+-----------+----------+-------------+
-> - | URB_DIR_MASK            | 0x00000200 | yes     | yes       | yes      | yes         |
-> - +-------------------------+------------+---------+-----------+----------+-------------+
-> +USBIP_CMD_SUBMIT:
-> +	Submit an URB
->   
-> ++-----------+--------+---------------------------------------------------+
-> +| Offset    | Length | Description                                       |
-> ++===========+========+===================================================+
-> +| 0         | 20     | usbip_header_basic, 'command' shall be 0x00000001 |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x14      | 4      | transfer_flags: possible values depend on the     |
-> +|           |        | URB transfer_flags,                               |
-> +|           |        | but with URB_NO_TRANSFER_DMA_MAP masked           |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x18      | 4      | transfer_buffer_length:                           |
-> +|           |        | use URB transfer_buffer_length                    |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x1C      | 4      | start_frame: use URB start_frame;                 |
-> +|           |        | initial frame for ISO transfer;                   |
-> +|           |        | shall be set to 0 if not ISO transfer             |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x20      | 4      | number_of_packets: number of ISO packets;         |
-> +|           |        | shall be set to 0xffffffff if not ISO transfer    |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x24      | 4      | interval: maximum time for the request on the     |
-> +|           |        | server-side host controller                       |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x28      | 8      | setup: data bytes for USB setup, filled with      |
-> +|           |        | zeros if not used.                                |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x30      | n      | transfer_buffer.                                  |
-> +|           |        | If direction is USBIP_DIR_OUT then n equals       |
-> +|           |        | transfer_buffer_length; otherwise n equals 0.     |
-> +|           |        | For ISO transfers the padding between each ISO    |
-> +|           |        | packets is not transmitted.                       |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x30+n    | m      | iso_packet_descriptor                             |
-> ++-----------+--------+---------------------------------------------------+
->   
->   USBIP_RET_SUBMIT:
->   	Reply for submitting an URB
->   
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| Offset    | Length | Value      | Description                                       |
-> -+===========+========+============+===================================================+
-> -| 0         | 4      | 0x00000003 | command                                           |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 4         | 4      |            | seqnum: URB sequence number                       |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 8         | 4      |            | devid                                             |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0xC       | 4      |            | direction:                                        |
-> -|           |        |            |                                                   |
-> -|           |        |            |    - 0: USBIP_DIR_OUT                             |
-> -|           |        |            |    - 1: USBIP_DIR_IN                              |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x10      | 4      |            | ep: endpoint number                               |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x14      | 4      |            | status: zero for successful URB transaction,      |
-> -|           |        |            | otherwise some kind of error happened.            |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x18      | 4      | n          | actual_length: number of URB data bytes           |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x1C      | 4      |            | start_frame: for an ISO frame the actually        |
-> -|           |        |            | selected frame for transmit.                      |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x20      | 4      |            | number_of_packets                                 |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x24      | 4      |            | error_count                                       |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x28      | 8      |            | setup: data bytes for USB setup, filled with      |
-> -|           |        |            | zeros if not used                                 |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x30      | n      |            | URB data bytes. For ISO transfers the padding     |
-> -|           |        |            | between each ISO packets is not transmitted.      |
-> -+-----------+--------+------------+---------------------------------------------------+
-> ++-----------+--------+---------------------------------------------------+
-> +| Offset    | Length | Description                                       |
-> ++===========+========+===================================================+
-> +| 0         | 20     | usbip_header_basic, 'command' shall be 0x00000003 |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x14      | 4      | status: zero for successful URB transaction,      |
-> +|           |        | otherwise some kind of error happened.            |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x18      | 4      | actual_length: number of URB data bytes;          |
-> +|           |        | use URB actual_length                             |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x1C      | 4      | start_frame: use URB start_frame;                 |
-> +|           |        | initial frame for ISO transfer;                   |
-> +|           |        | shall be set to 0 if not ISO transfer             |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x20      | 4      | number_of_packets: number of ISO packets;         |
-> +|           |        | shall be set to 0xffffffff if not ISO transfer    |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x24      | 4      | error_count                                       |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x28      | 8      | padding, shall be set to 0                        |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x30      | n      | transfer_buffer.                                  |
-> +|           |        | If direction is USBIP_DIR_IN then n equals        |
-> +|           |        | actual_length; otherwise n equals 0.              |
-> +|           |        | For ISO transfers the padding between each ISO    |
-> +|           |        | packets is not transmitted.                       |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x30+n    | m      | iso_packet_descriptor                             |
-> ++-----------+--------+---------------------------------------------------+
->   
->   USBIP_CMD_UNLINK:
->   	Unlink an URB
->   
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| Offset    | Length | Value      | Description                                       |
-> -+===========+========+============+===================================================+
-> -| 0         | 4      | 0x00000002 | command: URB unlink command                       |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 4         | 4      |            | seqnum: URB sequence number to unlink:            |
-> -|           |        |            |                                                   |
-> -|           |        |            | FIXME:                                            |
-> -|           |        |            |    is this so?                                    |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 8         | 4      |            | devid                                             |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0xC       | 4      |            | direction:                                        |
-> -|           |        |            |                                                   |
-> -|           |        |            |    - 0: USBIP_DIR_OUT                             |
-> -|           |        |            |    - 1: USBIP_DIR_IN                              |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x10      | 4      |            | ep: endpoint number: zero                         |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x14      | 4      |            | seqnum: the URB sequence number given previously  |
-> -|           |        |            | at USBIP_CMD_SUBMIT.seqnum field                  |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x30      | n      |            | URB data bytes. For ISO transfers the padding     |
-> -|           |        |            | between each ISO packets is not transmitted.      |
-> -+-----------+--------+------------+---------------------------------------------------+
-> ++-----------+--------+---------------------------------------------------+
-> +| Offset    | Length | Description                                       |
-> ++===========+========+===================================================+
-> +| 0         | 20     | usbip_header_basic, 'command' shall be 0x00000002 |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x14      | 4      | unlink_seqnum, of the SUBMIT request to unlink    |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x18      | 24     | padding, shall be set to 0                        |
-> ++-----------+--------+---------------------------------------------------+
->   
->   USBIP_RET_UNLINK:
->   	Reply for URB unlink
->   
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| Offset    | Length | Value      | Description                                       |
-> -+===========+========+============+===================================================+
-> -| 0         | 4      | 0x00000004 | command: reply for the URB unlink command         |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 4         | 4      |            | seqnum: the unlinked URB sequence number          |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 8         | 4      |            | devid                                             |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0xC       | 4      |            | direction:                                        |
-> -|           |        |            |                                                   |
-> -|           |        |            |    - 0: USBIP_DIR_OUT                             |
-> -|           |        |            |    - 1: USBIP_DIR_IN                              |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x10      | 4      |            | ep: endpoint number                               |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x14      | 4      |            | status: This is the value contained in the        |
-> -|           |        |            | urb->status in the URB completition handler.      |
-> -|           |        |            |                                                   |
-> -|           |        |            | FIXME:                                            |
-> -|           |        |            |      a better explanation needed.                 |
-> -+-----------+--------+------------+---------------------------------------------------+
-> -| 0x30      | n      |            | URB data bytes. For ISO transfers the padding     |
-> -|           |        |            | between each ISO packets is not transmitted.      |
-> -+-----------+--------+------------+---------------------------------------------------+
-> ++-----------+--------+---------------------------------------------------+
-> +| Offset    | Length | Description                                       |
-> ++===========+========+===================================================+
-> +| 0         | 20     | usbip_header_basic, 'command' shall be 0x00000004 |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x14      | 4      | status: This is similar to the status of          |
-> +|           |        | USBIP_RET_SUBMIT (share the same memory offset).  |
-> +|           |        | When UNLINK is successful, status is -ECONNRESET; |
-> +|           |        | when USBIP_CMD_UNLINK is after USBIP_RET_SUBMIT   |
-> +|           |        | status is 0                                       |
-> ++-----------+--------+---------------------------------------------------+
-> +| 0x18      | 24     | padding, shall be set to 0                        |
-> ++-----------+--------+---------------------------------------------------+
-> +
-> +EXAMPLE
-> +=======
-> +
-> +  The following data is captured from wire with Human Interface Devices (HID)
-> +  payload
-> +
-> +::
-> +
-> +  CmdIntrIN:  00000001 00000d05 0001000f 00000001 00000001 00000200 00000040 ffffffff 00000000 00000004 00000000 00000000
-> +  CmdIntrOUT: 00000001 00000d06 0001000f 00000000 00000001 00000000 00000040 ffffffff 00000000 00000004 00000000 00000000
-> +              ffffffff860008a784ce5ae212376300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-> +  RetIntrOut: 00000003 00000d06 00000000 00000000 00000000 00000000 00000040 ffffffff 00000000 00000000 00000000 00000000
-> +  RetIntrIn:  00000003 00000d05 00000000 00000000 00000000 00000000 00000040 ffffffff 00000000 00000000 00000000 00000000
-> +              ffffffff860011a784ce5ae2123763612891b1020100000400000000000000000000000000000000000000000000000000000000000000000000000000000000
-> 
-
+Cheers,
+Miguel
