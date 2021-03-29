@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 080B3C433E4
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B58EC43381
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E991961981
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ECA7B61960
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229502AbhC2FQJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 01:16:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36494 "EHLO
+        id S231158AbhC2FQh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 01:16:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbhC2FPi (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 01:15:38 -0400
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0952AC061574;
-        Sun, 28 Mar 2021 22:15:38 -0700 (PDT)
-Received: by mail-qt1-x830.google.com with SMTP id j7so8547198qtx.5;
-        Sun, 28 Mar 2021 22:15:38 -0700 (PDT)
+        with ESMTP id S230210AbhC2FQH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 01:16:07 -0400
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A25F0C061574;
+        Sun, 28 Mar 2021 22:16:06 -0700 (PDT)
+Received: by mail-qt1-x82b.google.com with SMTP id f12so8576642qtq.4;
+        Sun, 28 Mar 2021 22:16:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+qum4IYVDaQdVr2baOxkdvQBmfIMWs71T6sBotGIbjc=;
-        b=Catg9+A/pcRgXs2HE5U3odCZqK3rzXpfJcNw9ElomcPL1HOMJOYbp9YKBfMizQBdiR
-         YgpusfRu6xIOhftIELcdPPMhdyxRgPuZ/L3Izc0WC1pJimk4YTRt4uCSauL1KCx32ijk
-         Pn7PdxOaiYTHnJKdFI391e9JSPB5UDu5BQbObykB7L88KG9C+rCsOPWVSutxalCyaOFu
-         0QSKx6K+WbTCyKs0PlR2135luENmsdWokmI798UVvnD/dPPqUsl5/lCFq5FiDZV7NDdi
-         gCpNL6v9+2gMFXl+SnVqo8X9jPCdmUBRsXnkw8jAn7hajkuYcO9O7CmM/IX0YwpvGIll
-         aN+Q==
+        bh=0V7C1T9wNQmTU6i5HIXBF5gA9OtBRPctbZANANjFuT4=;
+        b=DSVtt547zwKQ0vfocNWsj9CnGzbGhQmAOHfy4mD3S0WucmO1u8zdeO2UWpJ9vrc3xF
+         P9efShKAc3vYGeTLh+54G2O4yWBXKMm+tILz6RZktD9YbqQGqZzUL/klItSRIrWAHOly
+         ZRZ81xbcRbdXpqgYAnjd8PnY1OaaktPZ7613t3+eTsE8u332NH309XDOlqllcgutpos9
+         Oq2/9TTsVX342VaLDTu1p1MqKR6MVafjMeVMQzbvRJzApSwyuIK/SjfslOEVfPLJPyQJ
+         SFr807luiWgZu3fZw/b5zPXhIlQABLnT4WeI8X6i8clN7Q9XExCxPfKa1bAjfhGGGQDo
+         rQ2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+qum4IYVDaQdVr2baOxkdvQBmfIMWs71T6sBotGIbjc=;
-        b=QHFlT9lK5mR1C6OldQjVWns73SZAVasjFYi05fP1Imt8PDIgP+323PbR/90lqLbSxX
-         MxLckoD/LL7FjpBrjef9wwyyvsd0GrbdQQ4ajSgrIHhHLq2dGCVrNhIrU1H6w6TeLTid
-         L6aEHkgpf4sK9ggJ1xGrfTs9xVdsLweCpLeRg9WAWNkre0muEaxjSyiSDRAL+2ht8QHc
-         sgKxbSCqYYgLm3ZLg5nqu1tErUmXIOdIurDL6fZe8WPL4NuxEaZWl9oWnPAq44AfIJ+P
-         X9nRp0lY35scjODsoZVvpcfmqmMpz0waDuDKo8u4qLafQJBp1Jyl4QnXgjRY0ghgx7DX
-         QJZA==
-X-Gm-Message-State: AOAM532jZjhd8dzPyNIChD6pDpAqGzqzh99USPDVwS+xIVGe/xb+hczq
-        tSJrtBLn9XbHxGL+pY5kSyk=
-X-Google-Smtp-Source: ABdhPJwFXG4T0LhRsQ3ki+1RrhIZ0Pjcgjy/URgl2OC0HZC3Ns8rTnMVLLMWJWb3rjJbBH8gwFykUg==
-X-Received: by 2002:ac8:6a04:: with SMTP id t4mr21775660qtr.258.1616994937354;
-        Sun, 28 Mar 2021 22:15:37 -0700 (PDT)
+        bh=0V7C1T9wNQmTU6i5HIXBF5gA9OtBRPctbZANANjFuT4=;
+        b=mlB9IFH/ftxLpdATnNLeccq3D73uGquhcWGMK25cxQx7WyAtG2XJUIh6b+2wFQcDMM
+         8FeCk3G5E6vC1tBsg/AnJCGP28/V+i8VxYY+zmjxsgdt4jaf3ZL4fteFDSjESgamKok8
+         AaOsFXl34VDt0sAWImTpF9vMppvP55002Ldjlo4QXCoR+lBH8KJWqHTCqYIWWnzMnq6W
+         uaMjVoP482Gku7OnIJeRfkC3DKT9B/ZuoSLJDFt/+PukWiJhalpdWk4CGWWILiLjXNll
+         T4je/0eZBrrRzvupSGx0d36m7jAcufoAgnyI2mULxnhvSYv56DWxGnIqgHqO8RL5VpXv
+         m2vg==
+X-Gm-Message-State: AOAM533pXqSw+RqkiGvUTUOhGbXmaPs8aEC+CClrtzNmGbUVNR+Kqdqx
+        Y8W4a5VtK+ieTB7iXRNjKNQ=
+X-Google-Smtp-Source: ABdhPJx/8PKrdDMLVejl0xPcfgBYMTWCgq/jsH7aKmtzElL9byReR2YGcYCRGCzo3Mp3KFRUYjwnFA==
+X-Received: by 2002:ac8:44a6:: with SMTP id a6mr21757871qto.269.1616994965960;
+        Sun, 28 Mar 2021 22:16:05 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.37.195])
-        by smtp.gmail.com with ESMTPSA id z124sm12993181qke.36.2021.03.28.22.15.34
+        by smtp.gmail.com with ESMTPSA id z124sm12993181qke.36.2021.03.28.22.16.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Mar 2021 22:15:36 -0700 (PDT)
+        Sun, 28 Mar 2021 22:16:05 -0700 (PDT)
 From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To:     corbet@lwn.net, linux-doc@vger.kernel.org
 Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, rdunlap@infradead.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 04/23] w1-generic.rst: A typo fix
-Date:   Mon, 29 Mar 2021 10:42:40 +0530
-Message-Id: <fe13b9b018501549e5b457ab936255291e0530f2.1616992679.git.unixbhaskar@gmail.com>
+Subject: [PATCH 12/23] v4l: hist-v4l2.rst: Fix a typo
+Date:   Mon, 29 Mar 2021 10:42:48 +0530
+Message-Id: <6a3c604c9818b80ec269379a8cc2a45153cd28e4.1616992679.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616992679.git.unixbhaskar@gmail.com>
 References: <cover.1616992679.git.unixbhaskar@gmail.com>
@@ -72,26 +72,27 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-s/beetwen/between/
+
+s/directon/director/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- Documentation/w1/w1-generic.rst | 2 +-
+ Documentation/userspace-api/media/v4l/hist-v4l2.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/w1/w1-generic.rst b/Documentation/w1/w1-generic.rst
-index da4e8b4e9b01..229b16b6399b 100644
---- a/Documentation/w1/w1-generic.rst
-+++ b/Documentation/w1/w1-generic.rst
-@@ -101,7 +101,7 @@ w1_master_search          (rw) the number of searches left to do,
- w1_master_slave_count     (ro) the number of slaves found
- w1_master_slaves          (ro) the names of the slaves, one per line
- w1_master_timeout         (ro) the delay in seconds between searches
--w1_master_timeout_us      (ro) the delay in microseconds beetwen searches
-+w1_master_timeout_us      (ro) the delay in microseconds between searches
- ========================= =====================================================
+diff --git a/Documentation/userspace-api/media/v4l/hist-v4l2.rst b/Documentation/userspace-api/media/v4l/hist-v4l2.rst
+index 28a2750d5c8c..7061496126ad 100644
+--- a/Documentation/userspace-api/media/v4l/hist-v4l2.rst
++++ b/Documentation/userspace-api/media/v4l/hist-v4l2.rst
+@@ -47,7 +47,7 @@ Codec API was released.
+ 1998-11-08: Many minor changes. Most symbols have been renamed. Some
+ material changes to struct v4l2_capability.
 
- If you have a w1 bus that never changes (you don't add or remove devices),
+-1998-11-12: The read/write directon of some ioctls was misdefined.
++1998-11-12: The read/write director of some ioctls was misdefined.
+
+ 1998-11-14: ``V4L2_PIX_FMT_RGB24`` changed to ``V4L2_PIX_FMT_BGR24``,
+ and ``V4L2_PIX_FMT_RGB32`` changed to ``V4L2_PIX_FMT_BGR32``. Audio
 --
 2.26.3
 
