@@ -2,84 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
 	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 656E1C433C1
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 19:13:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90129C433C1
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 19:34:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1BF6E61982
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 19:13:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 47FEA61981
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 19:34:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231594AbhC2TMx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 15:12:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50314 "EHLO
+        id S231703AbhC2TeU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 15:34:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54998 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231745AbhC2TM2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 15:12:28 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 368ACC061574;
-        Mon, 29 Mar 2021 12:12:28 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id x189so14864596ybg.5;
-        Mon, 29 Mar 2021 12:12:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HKmYLaEk43CYTxU5svn8oc1fILpHmvISVJqZG9ciT94=;
-        b=glkaGcAkaW6c9C9lNHLJh/6XL9XUssMG00pOAbm81S5bzhukitbWs4oSCgyE0SDOKY
-         aEk9SLcQkb/Fsy4UncKK8g13CpFOiK2al1OmALUUHnhLccshR2ESSxR09512PSMm9lTD
-         CbImhRw/EY0QyBAdvwPtIDI1WM8T28qa405+nJ8y1TA+BYM5EFZbSJb3gSVGRqbz0sbX
-         NhrwgJWtbreFCGyLCGXgft/pTRmqA26a5udUKIw6XHZcQgqS6O0x7CgW1NnwD3M8aBgQ
-         8Vg7VYPPH6ujoZ3SuAto3a7Qlf5Lis4po5PtH1VQ8k8PoZ55uZdd61Cbj0aJyO1LvaC4
-         NaKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HKmYLaEk43CYTxU5svn8oc1fILpHmvISVJqZG9ciT94=;
-        b=rwTSRp0cclhP974f6ONXa8lDtjw8pG8g07AIpu0gGd6kNXnUvk4oOE+C0sdCQQuBMq
-         d3w90illEceqFnbKfJOO7FqbkCILVSsmtkIafs7jXbKQNaxrEouFDm0jb4J6OJueOBr2
-         WtlvjNDRkUc6QiQ5eY/5b6y5DvtkAH5dlqxcVRgKPumno0o7NcnkAeEx04WesezaMiXp
-         I9ihy91Uy3gt3jJQiGscfIjFZFcXxH8YURuankGkLHu410L39Gf5zX4EI9pvWgzryLGB
-         0crCkBcNzaVgVeDkfsXDPtxlboN7YnX1OltTijf3+hYPurZXSOKSwozIf5aq+omQRr+Z
-         pWeQ==
-X-Gm-Message-State: AOAM531BWYbR9+r773KrxGOqOTQ1cYjtN3IxxkFULEl3PbDIIXELPP1Q
-        PbGyq2ZvNLaY1GX0/xc0EYiutXsnnWm5TTTQBFg=
-X-Google-Smtp-Source: ABdhPJx6awGKtvZYWTCAaFfb/psgHVBPq9Uis53zOwOW3G8m1WNj3B6YanbsbiMxIj0rmuybo2xNeQ4jUH9ro6ISg9I=
-X-Received: by 2002:a25:3b55:: with SMTP id i82mr42784655yba.422.1617045147596;
- Mon, 29 Mar 2021 12:12:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210329121054.20474-1-yashsri421@gmail.com>
-In-Reply-To: <20210329121054.20474-1-yashsri421@gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 29 Mar 2021 21:12:16 +0200
-Message-ID: <CANiq72=-ahHeOJY66OjVF1A0WZfGyepWs4K7QvY7Tyk1Y6Uw_g@mail.gmail.com>
-Subject: Re: [PATCH] lib: fix incorrect kernel-doc comment syntax in file
-To:     Aditya Srivastava <yashsri421@gmail.com>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        linux-kernel-mentees@lists.linuxfoundation.org,
+        with ESMTP id S231167AbhC2TeP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 15:34:15 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A686EC061574;
+        Mon, 29 Mar 2021 12:34:15 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 5598E5CC;
+        Mon, 29 Mar 2021 19:34:15 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5598E5CC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1617046455; bh=uzFXcG0h/iYERcvHtbYCNxggA1K+2rAr3AVX/yFCPd8=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=hdTGzRUX36cS3AH7waEjn9eMbrPj1cCWz1qv0+eWGCZqcpX9jXF3tjIiIMy9cWoPm
+         WuZiviyQ/iwy48hj0CId1CbERQjHPsg4GUs25pFajjfk9I+H0JUhaAetWmgSMRHT/L
+         ulms3pTcjQgJPkMaYlIqmFMbNXJVIV+KrPFPNx4H3DdqiE2bdUtYsxhNWqlR3ZZO++
+         dtMQ9EnQ9/5PebdGSqa7slpq8A/cqhgXSGM45sWOXLh+OStH7JHyrX847A+6BD97yh
+         5ky61eqcz97I97sB3aQ0TmvBUf+ZcV+vC/b4mUzBw+vBLMWtR0TqJbhOsjnLPKcXLi
+         vFs+p08/7DGCg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Gustavo A . R . Silva" <gustavoars@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org,
+        Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Subject: Re: kerneldoc and rust (was [PATCH] kernel-doc: better handle '::'
+ sequences)
+In-Reply-To: <20210329144204.GF351017@casper.infradead.org>
+References: <20210325184615.08526aed@coco.lan>
+ <2cf44cf1fa42588632735d4fbc8e84304bdc235f.1616696051.git.mchehab+huawei@kernel.org>
+ <87tuozyslu.fsf@meer.lwn.net>
+ <20210325191435.GZ1719932@casper.infradead.org>
+ <87a6qrx7wf.fsf@meer.lwn.net>
+ <20210325221437.GA1719932@casper.infradead.org>
+ <87wntux3w7.fsf@meer.lwn.net>
+ <20210329144204.GF351017@casper.infradead.org>
+Date:   Mon, 29 Mar 2021 13:34:14 -0600
+Message-ID: <87czvhrbyh.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 29, 2021 at 2:11 PM Aditya Srivastava <yashsri421@gmail.com> wrote:
+Matthew Wilcox <willy@infradead.org> writes:
+
+If we're going to talk about incorporating Rust into the doc system, we
+should probably include some Rust folks - thus, I'm adding Miguel.
+
+> On Thu, Mar 25, 2021 at 04:30:32PM -0600, Jonathan Corbet wrote:
+>> Matthew Wilcox <willy@infradead.org> writes:
+>> 
+>> We did come to the mutual agreement that teaching kernel-doc to parse
+>> Rust code as well was not an ideal solution.  Probably there will be
+>> some sort of tool to translate between rustdoc and our sphinx setup.
+>> Beyond that, we'll see how it goes.
 >
-> Provide a simple fix by replacing such occurrences with general comment
-> format, i.e. '/*', to prevent kernel-doc from parsing it.
+> In the spirit of groping around for the best solution, I did some looking
+> around at various options, including using rustdoc for .c files (that
+> uses Markdown, which appears to be strictly worse than rST for our
+> purposes).
+>
+> So here's my "modest proposal":
+>
+>  - Similar to our ".. kernel-doc::" invocation in .rst files, handle
+>    ".. rustdoc::" (insert weeks of hacking here)
+>  - Now add ".. rst-doc::" which parses .c files like [1] kernel-doc
+>    does, but interprets a different style of comment and actually does
+>    most of the repetitive boring bits for you.
+>
+> For example, xa_load:
+>
+> /**
+>  * xa_load() - Load an entry from an XArray.
+>  * @xa: XArray.
+>  * @index: index into array.
+>  *
+>  * Context: Any context.  Takes and releases the RCU lock.
+>  * Return: The entry at @index in @xa.
+>  */
+> void *xa_load(struct xarray *xa, unsigned long index)
+>
+> //rST
+> // Load an entry from an XArray.
+> //
+> // :Context: Any context.  Takes and releases the RCU lock.
+> // :Return: The entry in `xa` at `index`.
+> void *xa_load(struct xarray *xa, unsigned long index)
+>
+> (more complex example below [2])
+>
+> Things I considered:
+>
+>  - Explicitly document that this is rST markup instead of Markdown or
+>    whatever.
+>  - Don't repeat the name of the function.  The tool can figure it out.
 
-I assumed these come from the original sources and were not adapted,
-but they aren't there, at least in the current version in GitHub.
+That worries me a wee bit just because a common source of problems is
+kerneldoc comments becoming separated from the functions they describe
+over time.  We finally have tooling to notice that; this seems like a
+step in the other direction.
 
-    Acked-by: Miguel Ojeda <ojeda@kernel.org>
+>  - Don't force documenting each parameter.  Often they are obvious
+>    and there's really nothing interesting to say about the parameter.
+>    Witness the number of '@foo: The foo' (of type struct foo) that we
+>    have scattered throughout the tree.  It's not that the documenter is
+>    lazy, it's that there's genuinely nothing to say here.
 
-Cheers,
-Miguel
+...another failure mode is developers adding parameters and not
+documenting them; this would mask that problem too.
+
+>  - Use `interpreted text` to refer to parameters instead of *emphasis* or
+>    **strong emphasis**.  The tool can turn that into whatever markup
+>    is appropriate.
+>  - Use field lists for Context and Return instead of sections.  The markup
+>    is simpler to use, and I think the rendered output is better.
+>
+> [1] by which i mean "in a completely different way from, but similar in
+>     concept"
+>
+> [2] More complex example:
+>
+> /**
+>  * xa_store() - Store this entry in the XArray.
+>  * @xa: XArray.
+>  * @index: Index into array.
+>  * @entry: New entry.
+>  * @gfp: Memory allocation flags.
+>  *
+>  * After this function returns, loads from this index will return @entry.
+>  * Storing into an existing multi-index entry updates the entry of every index.
+>  * The marks associated with @index are unaffected unless @entry is %NULL.
+>  *
+>  * Context: Any context.  Takes and releases the xa_lock.
+>  * May sleep if the @gfp flags permit.
+>  * Return: The old entry at this index on success, xa_err(-EINVAL) if @entry
+>  * cannot be stored in an XArray, or xa_err(-ENOMEM) if memory allocation
+>  * failed.
+>  */
+> void *xa_store(struct xarray *xa, unsigned long index, void *entry, gfp_t gfp)
+>
+> //rST
+> // Store an entry in the XArray.
+> //
+> // After this function returns, loads from `index` will return `entry`.
+> // Storing into an existing multi-index entry updates the entry of every index.
+> // The marks associated with `index` are unaffected unless `entry` is ``NULL``.
+> //
+> // :Context: Any context.  Takes and releases the xa_lock.
+> //    May sleep if the `gfp` flags permit.
+> // :Return: The old entry at this index on success, xa_err(-EINVAL) if `entry`
+> //    cannot be stored in an XArray, or xa_err(-ENOMEM) if memory allocation
+> //    failed.
+> void *xa_store(struct xarray *xa, unsigned long index, void *entry, gfp_t gfp)
+
+Thanks,
+
+jon
