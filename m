@@ -2,104 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79671C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 13:21:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7DBCC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 13:32:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E5CD6195B
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 13:21:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 713B46193A
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 13:32:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230247AbhC2NU4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 09:20:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58680 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229674AbhC2NUZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 09:20:25 -0400
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com [IPv6:2607:f8b0:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08F1CC061574;
-        Mon, 29 Mar 2021 06:20:25 -0700 (PDT)
-Received: by mail-pg1-x536.google.com with SMTP id i6so2229355pgs.1;
-        Mon, 29 Mar 2021 06:20:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=JwsYQU1DFQ2M+ekJ6ppgtzSpS7I0JHxVUkdRYp5wdEg=;
-        b=XrH8dfshMyX3xL7fehAPt61ew87yhjSA+3XOfDhGCmPYqYTG+B6siovezQEera41Rh
-         YLFDFRlh0pVuIel2T/QwtWCKJD2HY40sletmWA4s1G1eWegtef0eJP8oWUCLlB7yFMVF
-         am9P49fbvso4/FfPywZEpF2xsOFPOVRIEbRgQhIzmGM8cbQ7bgO2a8/NtbbSdE/Nstc3
-         AJQTxdGobE7vYDfEQQ/T9Wc7aIwRh57KPUCjBt3cdU6+JS9GKM7WCnqz6r9V1p993QeE
-         rOMTsilZDlkSRjZ7auF2p8mb+RYK0Q7Dbbf9mtarvgbBCRrW0b0Cnb6KP5B0hZr76fwq
-         GsAg==
+        id S231621AbhC2NcJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 09:32:09 -0400
+Received: from mail-ej1-f54.google.com ([209.85.218.54]:40650 "EHLO
+        mail-ej1-f54.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229674AbhC2Nbk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 09:31:40 -0400
+Received: by mail-ej1-f54.google.com with SMTP id u9so19460390ejj.7;
+        Mon, 29 Mar 2021 06:31:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=JwsYQU1DFQ2M+ekJ6ppgtzSpS7I0JHxVUkdRYp5wdEg=;
-        b=csPtoujHfkWPSoo/jrUL7/pa5PJnYtwqwdZRlA/fh/EMVns+0HeQeNCcJldDN3AV7f
-         f1GKIbd3VEYwYI7Q74isw5frlRmmaKfYcWiuOUT1AGccbUbCUTzjSnozWmhfsAdQFVbk
-         vqi3QKm6Z9zLD4/JjQASQF4WpYoTaEt9FDhvR7MFJt/PDvhNpzeVEuWQP4DK97VzHYdI
-         1zLokwvCS40YquSY309cGPeBLqjmeku0JtCfToK2is+/XpFhgnijuDS22dRr1lkQ6JsW
-         1JehnOWXLZzv9NiYeX0BsZpCzGmQTYmvm2HMcm8TBx78mNB4vJ9dbn5XJ21o5ZAXglcc
-         wHGA==
-X-Gm-Message-State: AOAM533Mj1bdtPawX8QFN5m4eEYd75tHSVChX3muH0QtuEC5giTwURYf
-        zURhw+ZYycEo939yu2X2YKeh2p02pqh+M4hf
-X-Google-Smtp-Source: ABdhPJwEbRC9afY9WoMpQsBmFY1j/sgDu3pgz3Ebhpc/xBpfP+Rog+bmY7uNbzsOyaz66u3kiBjsYg==
-X-Received: by 2002:a63:3585:: with SMTP id c127mr18073691pga.92.1617024024333;
-        Mon, 29 Mar 2021 06:20:24 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:600d:a089:4ed:8f53:adc7:b574])
-        by smtp.googlemail.com with ESMTPSA id t12sm16415838pga.85.2021.03.29.06.20.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Mar 2021 06:20:24 -0700 (PDT)
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     patrice.chotard@foss.st.com
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com, balbi@kernel.org,
-        gregkh@linuxfoundation.org, rdunlap@infradead.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: dwc3: st: fix incorrect kernel-doc comment syntax in file
-Date:   Mon, 29 Mar 2021 18:50:14 +0530
-Message-Id: <20210329132014.24304-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KytxCMPWowD4rik3dQfwPYa5nzVpGWTaHqOIiMrFA+g=;
+        b=kuqPKtuhHfuYrJS/R3dkx8XMpToTOb8T57yjI+/gr/e2EVStSpaRJxsVBemx8pE2iW
+         4pQrepGTmDQ1ujQBc4N5XKVqpirWlLzbItl1mIemeoSQz9OvrykUySE1tQAvJIYE3KVS
+         hObVR5oMAivMBDO+Lkg6q8nm5mAFcJ+qWO4ckBoauLhRZJuylE+PtiwmT7fXdkOGaSDt
+         e7jVg0VV/0PCnchudTrxZ3tJpkOl26OjKfTxZsrQFmZcVJMiY6jhDZVixc9helz7tvO9
+         VAKxWAoy92yXXxu5LqEx3if42HfQiUTgzl3/MVqlAEPkm3BAmLzZ3SoYNsWEGSIkxzix
+         ZC5Q==
+X-Gm-Message-State: AOAM530P5IXTau65K2mdPsClPrtwChPAWP0OY8SsdnLNKlmYRdR/3hZU
+        IQxN3fcfl/7Pl1bSoAJvFUWxCCW4eMSVGQIgBu+VI9BF
+X-Google-Smtp-Source: ABdhPJwF4ZWWoE8xAKqU0qrM/UkqqYjBcHhQlub0SOHqzAntJ28k3gIPtNZJjGOoePm8EyYlHKkGXAo0sRZ5ifCjXMs=
+X-Received: by 2002:a17:906:4055:: with SMTP id y21mr28073275ejj.507.1617024699011;
+ Mon, 29 Mar 2021 06:31:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210221185637.19281-1-chang.seok.bae@intel.com>
+ <20210221185637.19281-23-chang.seok.bae@intel.com> <871rc9bl3v.fsf@nanos.tec.linutronix.de>
+ <CAJvTdKkOKOgnmvAiPS6mWVoyAggbOB6hBOqb_tcHYDe8+-X+FQ@mail.gmail.com>
+ <CALCETrWOc7wwW=KY2dGJGy9k5Ag=KhkdGGTDZMvgRHgyQ5fDjQ@mail.gmail.com>
+ <CAJvTdK=OGALDso0H+asjgkjD_VaPNZzm+LpV+msM_i5aVUm_qw@mail.gmail.com>
+ <CALCETrXky0RuA5WeQ0Mxjs+e4ywk1A7vmpBxqCo=PTSBzUsz-g@mail.gmail.com>
+ <CAJvTdK=_G11phL6=9Ri41fJQvhRNopok_oktgvRjTM0v6ojcbg@mail.gmail.com>
+ <CALCETrX-34QqeVLjX39ZAD+4Y6XkZ3=bPEtEPxTi0YHvLgBKig@mail.gmail.com>
+ <CAJvTdKmdMfD4BddMJs4iwvHWRSv4PV7Dh2vxjM57UJ3pw5UJDQ@mail.gmail.com> <87r1k0ck7o.ffs@nanos.tec.linutronix.de>
+In-Reply-To: <87r1k0ck7o.ffs@nanos.tec.linutronix.de>
+From:   Len Brown <lenb@kernel.org>
+Date:   Mon, 29 Mar 2021 09:31:27 -0400
+Message-ID: <CAJvTdKkOED6p0ox83A0qcspi5UZ-UbZAkJeyOJ6AChb-qnZGwQ@mail.gmail.com>
+Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to
+ control state component support
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Andy Lutomirski <luto@kernel.org>,
+        "Chang S. Bae" <chang.seok.bae@intel.com>,
+        Borislav Petkov <bp@suse.de>, Ingo Molnar <mingo@kernel.org>,
+        X86 ML <x86@kernel.org>, "Brown, Len" <len.brown@intel.com>,
+        Dave Hansen <dave.hansen@intel.com>,
+        "Liu, Jing2" <jing2.liu@intel.com>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Documentation List <linux-doc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The opening comment mark '/**' is used for highlighting the beginning of
-kernel-doc comments.
-The header for drivers/usb/dwc3/dwc3-st.c follows this syntax, but the
-content inside does not comply with kernel-doc.
+On Sat, Mar 27, 2021 at 6:20 PM Thomas Gleixner <tglx@linutronix.de> wrote:
 
-This line was probably not meant for kernel-doc parsing, but is parsed
-due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-causes unexpected warning from kernel-doc:
-"warning: expecting prototype for dwc3(). Prototype was for CLKRST_CTRL() instead"
+> What's the actual downside of issuing TILERELEASE conditionally
+> depending on prev->AMX INIT=0? Is it slooooow or what's the real
+> problem here?
 
-Provide a simple fix by replacing this occurrence with general comment
-format, i.e. '/*', to prevent kernel-doc from parsing it.
+TILERELEASE is fast, so there should be no down-side to execute it.
+Indeed, checking whether you need to execute it or not will probably take
+longer than executing TILERELEASE.  My point (perhaps academic)
+is that Linux should not have to know about TILERELEASE, or execute it.
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
-* Applies perfectly on next-20210326
+Re: running in the kernel with AMX INIT=0
 
- drivers/usb/dwc3/dwc3-st.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+AMX INIT=0 will prevent c6 on that core.  I don't expect to see this
+in the syscall path, though if a user wanted to neglect to issue TILERELEASE,
+there is nothing forcing them to do so.
 
-diff --git a/drivers/usb/dwc3/dwc3-st.c b/drivers/usb/dwc3/dwc3-st.c
-index b06b7092b1a2..166b5bde45cb 100644
---- a/drivers/usb/dwc3/dwc3-st.c
-+++ b/drivers/usb/dwc3/dwc3-st.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0+
--/**
-+/*
-  * dwc3-st.c Support for dwc3 platform devices on ST Microelectronics platforms
-  *
-  * This is a small driver for the dwc3 to provide the glue logic
--- 
-2.17.1
+It can certainly happen on the interrupt path, but on the interrupt patch
+I don't know if we can end up requesting c6 -- perhaps on a forced
+task migration?
 
+Re:  frequency credits in the kernel with AMX INIT=0.
+
+It works exactly the same way as AMX INIT=1.
+That is to say, the frequency credits don't key off of AMX INIT,
+they key off of the actual use of the AMX execution unit, and
+the credits free up several orders of magnitude faster
+(both for AVX-512 and AMX) on this hardware as in previous generations.
+
+As a result, if we interrupt an AMX program, and run for an extended
+period of time in the kernel without XRESTOR to clear out his AMX INIT=0 state,
+that will not have any impact on the frequency we run inside the kernel any more
+than if he had AMX INIT=1 state.
+
+thanks,
+Len Brown, Intel Open Source Technology Center
