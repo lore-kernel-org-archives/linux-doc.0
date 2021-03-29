@@ -2,134 +2,184 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80634C433C1
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 12:07:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1AF4C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 12:11:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 579586192B
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 12:07:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 86D7761934
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 12:11:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231395AbhC2MGi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 08:06:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42248 "EHLO
+        id S230306AbhC2ML0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 08:11:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43322 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231205AbhC2MGL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 08:06:11 -0400
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DF69C061574
-        for <linux-doc@vger.kernel.org>; Mon, 29 Mar 2021 05:06:11 -0700 (PDT)
-Received: by mail-ej1-x629.google.com with SMTP id ap14so5903196ejc.0
-        for <linux-doc@vger.kernel.org>; Mon, 29 Mar 2021 05:06:11 -0700 (PDT)
+        with ESMTP id S231151AbhC2MLC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 08:11:02 -0400
+Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90201C061574;
+        Mon, 29 Mar 2021 05:11:02 -0700 (PDT)
+Received: by mail-pf1-x429.google.com with SMTP id l123so9727037pfl.8;
+        Mon, 29 Mar 2021 05:11:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=n4ZBYqmDsUSzNi+Xw3nf7PDlZxZlAktzHot6pHMzbd4=;
-        b=F93pMoVghsS8kcFa0E3f+CGu91h7N24RWmddNfb6WDhp5ygFzEcdbVsUFb6OV3cJDi
-         2og9J2R79q9MQNFn/7s+Ae74Cha//8Ufr8RhzJ7Ewl1TixAQCXenDDulBIwYVoRnnquZ
-         NlLSS6Xw22S6ANHaVE/BGJ/UNXXqc2Tc8ughoFu0JnYgP4yuUNp7SItO1JgptjpY66iP
-         crAKQ6U/Ok9D+4vj6G7z88Zvu+sJ9WYw7MsZYH6FddlZvHpL0AphB3qWiPmbRvi0x22G
-         ln1LdbgLAINWEH7c0FHWTRnwuurfgGUaeiNo0TLqCoOJ881pj9aM49MqR5Z+qEiiODHW
-         3n4w==
+        h=from:to:cc:subject:date:message-id;
+        bh=8rbrNA2DMWFVv62Fqnm4Yc2a4037zO3cB4baJDc6bEc=;
+        b=qoSs0FMzNCVEbDg6NUQJg9n4d/xYpPF1W9NejWfJWh5K5dR0NxrUnigbJ+U98eVlvR
+         q5Dh3O48xlqs9MgLbEmJXjPWj/p14/tfSchx6hwM8WUuRhI8d8dbv0capAwaXsnR94EZ
+         KPt/1YKrybPEOjUuC0/4m1ddq9zrn7Sk8FgRoEr8UVHkCB1WK3Ro+5jAZnB8hjwaXopt
+         jMGebC/DQn17C+vvObyNkOKMxzgXoFWj079sCBpgsrMgF3ra9AslzTM/TeVLJ7vSGDuE
+         uThCqlWqAMSz+7jdLq60GagsIA0suOGRG/mVDw1KRJyP5m9FWZwHo3lhP6+61opllTi+
+         cgPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=n4ZBYqmDsUSzNi+Xw3nf7PDlZxZlAktzHot6pHMzbd4=;
-        b=iVcsD6p0RJNJBK/mXKiRpP1UxKbQhHoxu4CY9UeoQYNpHhzOuKKIhPhNhWNgRYHDLt
-         Y1EjQJABkHjv5jtoyFC5bvV9798r3b1TKz4tkjNhgJ0BvlzENcjq8sAwu1/nhGcqRDTA
-         GUxIq4KLoZobpoRConm1mPSZJxmmCe6HDG+tXBx0kUIokEc1/BPDp7+ev2fCut+jivd4
-         +iXqHf0Izu9Ol1W4OdqSBbS5fRr1ItTO+vCXI/VVUjkISSUeK9jmb+GI9mHdpTrjKxur
-         GY1zSNJ3lOM511H7nwi8jqrTHmyKm4BzsaZeZDeY/Ci45mc5uT+6Lhd1MpX2MUlTKSt8
-         /YXA==
-X-Gm-Message-State: AOAM533D/LwHVoQf1HrrLnbA0dJFyOZMcrhVP8PgyhzNuNjZBonMFkes
-        Mya/o7npW7bu4uKx+doGndhz1gi2q5Qb00THKwY=
-X-Google-Smtp-Source: ABdhPJy1dwQi6lRRIucG0JqZBwbWHHoer5NvnXF+06wiybezSPyE/fhc/TiXq5oTdBVmo9Ctx0vVAxuIoA4gCmgG8r4=
-X-Received: by 2002:a17:906:82c5:: with SMTP id a5mr28795392ejy.232.1617019570150;
- Mon, 29 Mar 2021 05:06:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210329025144.9776-1-siyanteng@loongson.cn> <20210329025144.9776-3-siyanteng@loongson.cn>
- <20210329062139.GA8845@mipc>
-In-Reply-To: <20210329062139.GA8845@mipc>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Mon, 29 Mar 2021 20:05:59 +0800
-Message-ID: <CAEensMx39qOE=XmT+Lt8cqqjZD1rujrxOD-FWkqUTdojTJKBNg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/8] docs/zh_CN: add cpu-freq cpu-drivers.rst translation
-To:     "Wu X.C." <bobwxc@email.cn>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        Puyu Wang <realpuyuwang@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=8rbrNA2DMWFVv62Fqnm4Yc2a4037zO3cB4baJDc6bEc=;
+        b=fbYTTSc+wqGYe5d/cC5xdaQkwXHHYOkzQs+VztP6sZ0QNAI39EdNbJMa7y65RRUvV6
+         h8omUHkyyicDJUqqRXsWviPwOMJSikKZf1hjfHNnuiYULVVDh2WxOvtQ2sPiK51OwhEM
+         7hCdB8fGk3+wYq0BDY+amgzhOIoTXnzUDQh/h/yw2SboFVvHnO8J9/zDrQWGOlo7vV7Y
+         8ZNA+9Y5Emj+AIWlQrUBUU4f5brGTlgjfljr4v8RyJOpTOMXivZ0YHDW/pd3v5R74Jwr
+         6SEtu9gxpmappqBjXZodt5bbOCeSK5JRZUfkTu0u3mf5/YE+HqJTV+AACCcynP/P4uPw
+         9wzA==
+X-Gm-Message-State: AOAM531gmqI1hcSVb5g2O1EVdq5ExEOHdESC9e9P05e/o64Jr4Nvfcas
+        fbtfCPohbfJS5rrS9PgR9M9ldD88jlFZcg==
+X-Google-Smtp-Source: ABdhPJyl85VK5ySg2j2c2AXwiguB6VVIepe85EWSVIu8DMrHzDo6vXI0+CLG6GUwDa7E1cR7IUUnSQ==
+X-Received: by 2002:a05:6a00:7c5:b029:21d:2ea5:a684 with SMTP id n5-20020a056a0007c5b029021d2ea5a684mr24431242pfu.36.1617019861811;
+        Mon, 29 Mar 2021 05:11:01 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:600d:a089:4ed:8f53:adc7:b574])
+        by smtp.googlemail.com with ESMTPSA id s17sm15012322pjn.44.2021.03.29.05.10.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Mar 2021 05:11:01 -0700 (PDT)
+From:   Aditya Srivastava <yashsri421@gmail.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, rdunlap@infradead.org,
+        gustavoars@kernel.org, ojeda@kernel.org
+Subject: [PATCH] lib: fix incorrect kernel-doc comment syntax in file
+Date:   Mon, 29 Mar 2021 17:40:54 +0530
+Message-Id: <20210329121054.20474-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wu X.C. <bobwxc@email.cn> =E4=BA=8E2021=E5=B9=B43=E6=9C=8829=E6=97=A5=E5=91=
-=A8=E4=B8=80 =E4=B8=8B=E5=8D=882:21=E5=86=99=E9=81=93=EF=BC=9A
->
-> Hi,
->
-> On Mon, Mar 29, 2021 at 10:51:38AM +0800, Yanteng Si wrote:
-> > This patch translates Documention/cpu-freq/cpu-drivers.rst into Chinese=
-.
-> >
-> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> > ---
-> >  .../zh_CN/cpu-freq/cpu-drivers.rst            | 259 ++++++++++++++++++
-> >  1 file changed, 259 insertions(+)
-> >  create mode 100644 Documentation/translations/zh_CN/cpu-freq/cpu-drive=
-rs.rst
-> >
-> > diff --git a/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst =
-b/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
-> [...]
-> > +1.5. target/target_index
-> > +------------------------
-> > +
-> > +target_index=E8=B0=83=E7=94=A8=E6=9C=89=E4=B8=A4=E4=B8=AA=E5=8F=82=E6=
-=95=B0/=EF=BC=9A``struct cpufreq_policy * policy``=E5=92=8C``unsigned int``
->
-> "s/=E3=80=82/=EF=BC=9A/" means use '=EF=BC=9A' to replace '=E3=80=82' ;
-> aka "s/{0}/{1}/" means use {1} to replace {0}, this is a sed command.
-> So, please delete the '/' .
-OK!
->
-> [...]
-> > +
-> > +=E5=A6=82=E6=9E=9C=E4=BD=A0=E9=9C=80=E8=A6=81=E5=9C=A8driver_freq_tabl=
-e=E4=B8=AD=E5=A4=84=E7=90=86pos=E7=9A=84=E4=BD=8D=E7=BD=AE=EF=BC=8C=E4=B8=
-=8D=E8=A6=81=E5=87=8F=E5=8E=BB=E6=8C=87=E9=92=88=EF=BC=8C=E5=9B=A0=E4=B8=BA=
-=E5=AE=83=E7=9A=84=E4=BB=A3=E4=BB=B7=E7=9B=B8=E5=BD=93=E9=AB=98=E3=80=82=E7=
-=9B=B8=E5=8F=8D=EF=BC=8C=E4=BD=BF=E7=94=A8=E5=AE=8F
-> > +  cpufreq_for_each_entry_idx() =E5=92=8C cpufreq_for_each_valid_entry_=
-idx() =E3=80=82
->
-> The spaces in the begin are also redundant.
->
-OK!
-> And one more thing:
->   The numbers of columns are very random, if someone read the rst files
->   <http://fars.ee/sqoL.png>
->   instead of html files, that may cause difficulties. Please use a
->   monospaced font to fix the problem, try to keep in 74-80 columns
->   except meet a long English word, one Chinese character use 2 columns.
->
->   This comment is for all patches.
->
-> Thanks!
->
-> Wu X.C.
->
-Thanks!
+The opening comment mark '/**' is used for highlighting the beginning of
+kernel-doc comments.
+There are certain files in lib and lib/zstd, which follow this syntax,
+but the content inside does not comply with kernel-doc.
+Such lines were probably not meant for kernel-doc parsing, but are parsed
+due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+causes unexpected warnings from kernel-doc.
 
-Yanteng
+E.g., presence of kernel-doc like comment in lib/zstd/compress.c at
+header causes these warnings by kernel-doc:
+"warning: cannot understand function prototype: 'const U32 g_searchStrength = 8;  '"
+
+Similarly for other files too.
+
+Provide a simple fix by replacing such occurrences with general comment
+format, i.e. '/*', to prevent kernel-doc from parsing it.
+
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+* Applies perfectly on next-20210326
+
+ lib/win_minmax.c         | 2 +-
+ lib/zstd/compress.c      | 2 +-
+ lib/zstd/decompress.c    | 2 +-
+ lib/zstd/error_private.h | 2 +-
+ lib/zstd/mem.h           | 2 +-
+ lib/zstd/zstd_common.c   | 2 +-
+ lib/zstd/zstd_internal.h | 2 +-
+ lib/zstd/zstd_opt.h      | 2 +-
+ 8 files changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/lib/win_minmax.c b/lib/win_minmax.c
+index 6bdc1cd15f76..ec10506834b6 100644
+--- a/lib/win_minmax.c
++++ b/lib/win_minmax.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
+-/**
++/*
+  * lib/minmax.c: windowed min/max tracker
+  *
+  * Kathleen Nichols' algorithm for tracking the minimum (or maximum)
+diff --git a/lib/zstd/compress.c b/lib/zstd/compress.c
+index b080264ed3ad..42604785c4f2 100644
+--- a/lib/zstd/compress.c
++++ b/lib/zstd/compress.c
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+  * All rights reserved.
+  *
+diff --git a/lib/zstd/decompress.c b/lib/zstd/decompress.c
+index 66cd487a326a..b28f10f21a6c 100644
+--- a/lib/zstd/decompress.c
++++ b/lib/zstd/decompress.c
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+  * All rights reserved.
+  *
+diff --git a/lib/zstd/error_private.h b/lib/zstd/error_private.h
+index 1a60b31f706c..f7dfa4a18f27 100644
+--- a/lib/zstd/error_private.h
++++ b/lib/zstd/error_private.h
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+  * All rights reserved.
+  *
+diff --git a/lib/zstd/mem.h b/lib/zstd/mem.h
+index 93d7a2c377fe..97d92eb431a5 100644
+--- a/lib/zstd/mem.h
++++ b/lib/zstd/mem.h
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+  * All rights reserved.
+  *
+diff --git a/lib/zstd/zstd_common.c b/lib/zstd/zstd_common.c
+index a282624ee155..ebf848c1f348 100644
+--- a/lib/zstd/zstd_common.c
++++ b/lib/zstd/zstd_common.c
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+  * All rights reserved.
+  *
+diff --git a/lib/zstd/zstd_internal.h b/lib/zstd/zstd_internal.h
+index dac753397f86..5f02411bded1 100644
+--- a/lib/zstd/zstd_internal.h
++++ b/lib/zstd/zstd_internal.h
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2016-present, Yann Collet, Facebook, Inc.
+  * All rights reserved.
+  *
+diff --git a/lib/zstd/zstd_opt.h b/lib/zstd/zstd_opt.h
+index 55e1b4cba808..b4a02b9f76d8 100644
+--- a/lib/zstd/zstd_opt.h
++++ b/lib/zstd/zstd_opt.h
+@@ -1,4 +1,4 @@
+-/**
++/*
+  * Copyright (c) 2016-present, Przemyslaw Skibinski, Yann Collet, Facebook, Inc.
+  * All rights reserved.
+  *
+-- 
+2.17.1
+
