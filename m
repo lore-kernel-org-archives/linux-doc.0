@@ -2,111 +2,106 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 875BCC433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 14:11:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16ABDC433C1
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 14:27:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 519AC61938
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 14:11:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DA4F861985
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 14:27:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229910AbhC2OLM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 10:11:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41466 "EHLO
+        id S230338AbhC2O0w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 10:26:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230220AbhC2OKy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 10:10:54 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1D49C061574;
-        Mon, 29 Mar 2021 07:10:53 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1617027052;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=QSxgoPopcM0cDMxgeW7VtkiyOengdx6ivl7xbU811OM=;
-        b=Nuo01USCwoeU/+/V+JGgvZUDpIWn67KGPIbL8b1tTS5s6UcMNQRRKrUafrZFve5obVgOOJ
-        73u47whssJNTzZxUD0A5gKe6VPDb4TVKOteIMVo0YDlhK4h9y2sM0V9j23Mdm6CY8RJKNv
-        2j4iaEkCqWeG422dTAgFS2ep90RtiQ8XNerAjMWHpRZRzfeyR65rIw/79WnTBk05fCcPFM
-        YR098gZ7qB8oS4G6cVm8CJi33EU3SVKW8hQC1XaNYdBkVK4aoKX7SgzKjjmRmPNmWr8EjL
-        MK6NvX/lhPVQJDMTDmNPNHM/eq00jlQ5susXZClx9zfN9mVKPrgeN4DepptIpw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1617027052;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=QSxgoPopcM0cDMxgeW7VtkiyOengdx6ivl7xbU811OM=;
-        b=GF4k7+bIuvabZwywW1+UzMxS2SMH1G5hGQWmlUT7RAotmXvgICLTIkNjdFfA7Xp3CZmfPf
-        qruKyM3ef5cj/9BA==
-To:     Len Brown <lenb@kernel.org>
-Cc:     Andy Lutomirski <luto@kernel.org>,
-        "Chang S. Bae" <chang.seok.bae@intel.com>,
-        Borislav Petkov <bp@suse.de>, Ingo Molnar <mingo@kernel.org>,
-        X86 ML <x86@kernel.org>, "Brown\, Len" <len.brown@intel.com>,
-        Dave Hansen <dave.hansen@intel.com>,
-        "Liu\, Jing2" <jing2.liu@intel.com>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v4 22/22] x86/fpu/xstate: Introduce boot-parameters to control state component support
-In-Reply-To: <CAJvTdKkOED6p0ox83A0qcspi5UZ-UbZAkJeyOJ6AChb-qnZGwQ@mail.gmail.com>
-References: <20210221185637.19281-1-chang.seok.bae@intel.com> <20210221185637.19281-23-chang.seok.bae@intel.com> <871rc9bl3v.fsf@nanos.tec.linutronix.de> <CAJvTdKkOKOgnmvAiPS6mWVoyAggbOB6hBOqb_tcHYDe8+-X+FQ@mail.gmail.com> <CALCETrWOc7wwW=KY2dGJGy9k5Ag=KhkdGGTDZMvgRHgyQ5fDjQ@mail.gmail.com> <CAJvTdK=OGALDso0H+asjgkjD_VaPNZzm+LpV+msM_i5aVUm_qw@mail.gmail.com> <CALCETrXky0RuA5WeQ0Mxjs+e4ywk1A7vmpBxqCo=PTSBzUsz-g@mail.gmail.com> <CAJvTdK=_G11phL6=9Ri41fJQvhRNopok_oktgvRjTM0v6ojcbg@mail.gmail.com> <CALCETrX-34QqeVLjX39ZAD+4Y6XkZ3=bPEtEPxTi0YHvLgBKig@mail.gmail.com> <CAJvTdKmdMfD4BddMJs4iwvHWRSv4PV7Dh2vxjM57UJ3pw5UJDQ@mail.gmail.com> <87r1k0ck7o.ffs@nanos.tec.linutronix.de> <CAJvTdKkOED6p0ox83A0qcspi5UZ-UbZAkJeyOJ6AChb-qnZGwQ@mail.gmail.com>
-Date:   Mon, 29 Mar 2021 16:10:52 +0200
-Message-ID: <87r1jy6oer.ffs@nanos.tec.linutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain
+        with ESMTP id S229822AbhC2O0S (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 10:26:18 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11625C061574;
+        Mon, 29 Mar 2021 07:26:18 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id h20so4475349plr.4;
+        Mon, 29 Mar 2021 07:26:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=m9ZlEf9Kme4mbiO6IFR/gcxIg4Oa3HNlqB5nKLE2L8M=;
+        b=dXh0pE9ejqskpD303Y1mDRnLk7vI6Qrmn8vnLQmo3iktYK//4gKuXsu519xhB6vrt+
+         FcldxO2/JmAFjmEvO6BHDEMnsMPfGuqx3TULWCWkZeNirZOFgq0ycvJOX3vFfetdnK+G
+         AmM25a4jqMhNOlYySGUkKfN0P5Ua0JBhlizTjgd801Ca92jjxj1MRlEDy/2gTzM1rzcv
+         IPNJ83xVdf2Ae3e6cIRn80CaQsKjqGbS022Ve0T2wvkZJXds4hL7dsUob+0yx2nbK8b6
+         rTDt+XKSdvkfuzohF9vioVpZQkH+CK+zyh0rreTGX4ExWjwIXYQLSmCiaYjRRwMgu6XF
+         dBpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=m9ZlEf9Kme4mbiO6IFR/gcxIg4Oa3HNlqB5nKLE2L8M=;
+        b=qAy8ThzjM+0KQYa7IjvE50VzTw/U/BDkDh8hQUZTmRKONK04oTZaSiwAqutDDeYL5X
+         83Susx585u+r3Qflff/W+E9qZza82mHINNjLOIRo5AQSk5tgMlsS4H8VbbSH0Gcjb9Ld
+         tVnxVlRzJ6ImF9619creLLC8odbCTE8pNY0UzQZJAGTcdfmSGvAY/6F4and88aoOgOb2
+         MAyl03/GUQ9NdjDGDElyzj15bbKpSU+EDeYbyKZ0B2Qk8SJuoZh53pYDkJy1VcJN3H8V
+         Xgrx+L4J+ybv3Dpqagmw3vp7ckIlB9RWOu/RE1MxDzZGk4h3TW7a2mP6ZJGjLXLii+Hp
+         dpLA==
+X-Gm-Message-State: AOAM530R5RWQO9gdEAx6db9XE63BmZd2dUbgugdqKycoxVxNJzgN3Nv+
+        P1DAXHhihecG6hUxJ27Q1qQ=
+X-Google-Smtp-Source: ABdhPJxiyW8fdmbzHiJw0DVGGzwsumamMCVvqh9OAV5jj6j1DU2bfOuMpz8NnNKqu111rrzl/ViQiQ==
+X-Received: by 2002:a17:903:228d:b029:e7:1f01:bab0 with SMTP id b13-20020a170903228db02900e71f01bab0mr16660231plh.80.1617027977531;
+        Mon, 29 Mar 2021 07:26:17 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:600d:a089:4ed:8f53:adc7:b574])
+        by smtp.googlemail.com with ESMTPSA id f65sm9641341pgc.19.2021.03.29.07.26.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Mar 2021 07:26:17 -0700 (PDT)
+From:   Aditya Srivastava <yashsri421@gmail.com>
+To:     balbi@kernel.org
+Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
+        gregkh@linuxfoundation.org, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+        linux-imx@nxp.com, rdunlap@infradead.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: dwc3: imx8mp: fix incorrect kernel-doc comment syntax
+Date:   Mon, 29 Mar 2021 19:56:04 +0530
+Message-Id: <20210329142604.28737-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 29 2021 at 09:31, Len Brown wrote:
-> On Sat, Mar 27, 2021 at 6:20 PM Thomas Gleixner <tglx@linutronix.de> wrote:
->
->> What's the actual downside of issuing TILERELEASE conditionally
->> depending on prev->AMX INIT=0? Is it slooooow or what's the real
->> problem here?
->
-> TILERELEASE is fast, so there should be no down-side to execute it.
-> Indeed, checking whether you need to execute it or not will probably take
-> longer than executing TILERELEASE.  My point (perhaps academic)
-> is that Linux should not have to know about TILERELEASE, or execute it.
->
-> Re: running in the kernel with AMX INIT=0
->
-> AMX INIT=0 will prevent c6 on that core.  I don't expect to see this
-> in the syscall path, though if a user wanted to neglect to issue TILERELEASE,
-> there is nothing forcing them to do so.
->
-> It can certainly happen on the interrupt path, but on the interrupt patch
-> I don't know if we can end up requesting c6 -- perhaps on a forced
-> task migration?
+The opening comment mark '/**' is used for highlighting the beginning of
+kernel-doc comments.
+The header for drivers/usb/dwc3/dwc3-imx8mp.c follows this syntax, but the
+content inside does not comply with kernel-doc.
 
-I think I clearly described how it can end up in that situation and that
-there are a gazillion ways to get there.
+This line was probably not meant for kernel-doc parsing, but is parsed
+due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+causes unexpected warning from kernel-doc:
+"warning: expecting prototype for dwc3(). Prototype was for USB_WAKEUP_CTRL() instead"
 
-If I decide at 5PM to call it a day after hitting the breakpoint, then I
-really would appreciate that the machine goes deep idle instead of
-staying at C1(E) until 9AM when I come back.
+Provide a simple fix by replacing this occurrence with general comment
+format, i.e. '/*', to prevent kernel-doc from parsing it.
 
-> Re:  frequency credits in the kernel with AMX INIT=0.
->
-> It works exactly the same way as AMX INIT=1.
-> That is to say, the frequency credits don't key off of AMX INIT,
-> they key off of the actual use of the AMX execution unit, and
-> the credits free up several orders of magnitude faster
-> (both for AVX-512 and AMX) on this hardware as in previous generations.
->
-> As a result, if we interrupt an AMX program, and run for an extended
-> period of time in the kernel without XRESTOR to clear out his AMX INIT=0 state,
-> that will not have any impact on the frequency we run inside the kernel any more
-> than if he had AMX INIT=1 state.
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+* Applies perfectly on next-20210326
 
-Ok. That's clearly missing in documentation, but it does not solve the C
-state issue at all.
+ drivers/usb/dwc3/dwc3-imx8mp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks,
+diff --git a/drivers/usb/dwc3/dwc3-imx8mp.c b/drivers/usb/dwc3/dwc3-imx8mp.c
+index 75f0042b998b..b13cfab89d53 100644
+--- a/drivers/usb/dwc3/dwc3-imx8mp.c
++++ b/drivers/usb/dwc3/dwc3-imx8mp.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0
+-/**
++/*
+  * dwc3-imx8mp.c - NXP imx8mp Specific Glue layer
+  *
+  * Copyright (c) 2020 NXP.
+-- 
+2.17.1
 
-        tglx
