@@ -7,27 +7,27 @@ X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62FE6C433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 06:23:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59035C433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 06:24:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 319356196D
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 06:23:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1410E61968
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 06:24:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230223AbhC2GWY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 02:22:24 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:14146 "EHLO email.cn"
+        id S229689AbhC2GYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 02:24:04 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:14342 "EHLO email.cn"
         rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229441AbhC2GVw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Mar 2021 02:21:52 -0400
+        id S229711AbhC2GXw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Mar 2021 02:23:52 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=tBfQG9dYtXoLOF7i1yHjoOy0gIgn67R7FdmFQ
-        RUVVm4=; b=aMxXP/aEl1xh9C440HpLcMj6XOso8j//+g8mYo5lzbhXk+UBsXOUn
-        3i+kxL98I3ABu4JPAMhUBno6DkQjpPVq6mvBsx+y3DqqF2Z7ZGsqMdU5zO+pF9L6
-        MchLLtvOVA2zYorZagt/6g+lfWRdjBYLBhG88FndZYo9LVR/xRT32Y=
+        s=dkim; h=Date:From:To; bh=jFUyXgjvns418Jx2fGzisnUKjcD9uEKJha4yr
+        JRUHIg=; b=Gr0PAQVJCpe0epgNpjyYCF2jLzg8BoFakGniEuaBGLYAwP+3032pg
+        5EbVG3h+kbF5Cvc9JDwvVs3Mo/0oWEVcAqpqbg4EuqxAHUe2emWOK7Ew/zupVCrb
+        TFrfCs7c2xdXk6ch3Df2PFkJyHroopXp4NimPshatKn3q9p9xhGSGk=
 Received: from mipc (unknown [120.238.248.129])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgB36tD0cWFgOSBAAA--.12921S2;
-        Mon, 29 Mar 2021 14:21:41 +0800 (CST)
-Date:   Mon, 29 Mar 2021 14:21:39 +0800
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgAXi9FucmFg1yBAAA--.13437S2;
+        Mon, 29 Mar 2021 14:23:44 +0800 (CST)
+Date:   Mon, 29 Mar 2021 14:23:42 +0800
 From:   "Wu X.C." <bobwxc@email.cn>
 To:     Yanteng Si <siyanteng@loongson.cn>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
@@ -36,22 +36,22 @@ Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
         Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: Re: [PATCH v2 2/8] docs/zh_CN: add cpu-freq cpu-drivers.rst
+Subject: Re: [PATCH v2 3/8] docs/zh_CN: add cpu-freq cpufreq-stats.rst
  translation
-Message-ID: <20210329062139.GA8845@mipc>
+Message-ID: <20210329062342.GB8845@mipc>
 References: <20210329025144.9776-1-siyanteng@loongson.cn>
- <20210329025144.9776-3-siyanteng@loongson.cn>
+ <20210329025144.9776-4-siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210329025144.9776-3-siyanteng@loongson.cn>
+In-Reply-To: <20210329025144.9776-4-siyanteng@loongson.cn>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgB36tD0cWFgOSBAAA--.12921S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw17AF4xGry5GryfCrW7Jwb_yoW8XFWrpF
-        4fKrWayr48tw47Cw1fCF47Xryfuan3uayjkwsFg3Z5W3W7AFnYqFyDt3929FWDJryxGFy0
-        qFsxtrZ8CF1UA3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUyvb7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-CM-TRANSID: LCKnCgAXi9FucmFg1yBAAA--.13437S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxXF1fKw17Xr4kWw4kGr18AFb_yoW5Gw48pr
+        1qgrWIkr4xtryDJ3ZxKr1UKw1DAFs7AwnrCrn7Jrn0qF1UJw4qqF1UKFyDCrW5W39rAFW8
+        Zr4rJrW0krWUC3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUymb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
         cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
         v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
         z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
@@ -60,52 +60,86 @@ X-Coremail-Antispam: 1UD129KBjvJXoW7Kw17AF4xGry5GryfCrW7Jwb_yoW8XFWrpF
         xKxwCY02Avz4vE14v_GF1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1U
         JwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
         vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
-        x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+        x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
         xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
-        wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IUj2Nt7UUUUU==
+        wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07U4a0PUUUUU=
 X-Originating-IP: [120.238.248.129]
 X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
-
-On Mon, Mar 29, 2021 at 10:51:38AM +0800, Yanteng Si wrote:
-> This patch translates Documention/cpu-freq/cpu-drivers.rst into Chinese.
+On Mon, Mar 29, 2021 at 10:51:39AM +0800, Yanteng Si wrote:
+> This patch translates Documention/cpu-freq/cpufreq-stats.rst into Chinese.
 > 
 > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 > ---
->  .../zh_CN/cpu-freq/cpu-drivers.rst            | 259 ++++++++++++++++++
->  1 file changed, 259 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
+>  .../zh_CN/cpu-freq/cpufreq-stats.rst          | 130 ++++++++++++++++++
+>  1 file changed, 130 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/cpu-freq/cpufreq-stats.rst
 > 
-> diff --git a/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst b/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
-[...]
-> +1.5. target/target_index
-> +------------------------
+> diff --git a/Documentation/translations/zh_CN/cpu-freq/cpufreq-stats.rst b/Documentation/translations/zh_CN/cpu-freq/cpufreq-stats.rst
+> new file mode 100644
+> index 000000000000..d21a317d9659
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/cpu-freq/cpufreq-stats.rst
+> @@ -0,0 +1,130 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +target_index调用有两个参数/：``struct cpufreq_policy * policy``和``unsigned int``
-
-"s/。/：/" means use '：' to replace '。' ;
-aka "s/{0}/{1}/" means use {1} to replace {0}, this is a sed command.
-So, please delete the '/' .
-
-[...]
+> +.. include:: ../disclaimer-zh_CN.rst
 > +
-> +如果你需要在driver_freq_table中处理pos的位置，不要减去指针，因为它的代价相当高。相反，使用宏
-> +  cpufreq_for_each_entry_idx() 和 cpufreq_for_each_valid_entry_idx() 。
+> +:Original: :doc:`../../../cpu-freq/cpufreq-stats`
+> +:Translator: Yanteng Si <siyanteng@loongson.cn>
+> +
+> +.. _cn_cpufreq-stats.rst:
+> +
+> +
+> +==========================================
+> +sysfs CPUFreq Stats的一般说明
+> +==========================================
+> +
+> +用户信息
+> +
+> +
+> +作者: Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>
+> +
+> +.. Contents
+> +
+> +   1. 简介
+> +   2. 提供的统计数据(举例说明)
+> +   3. 配置cpufreq-stats
+> +
+> +
+> +1. 简介
+> +===============
+> +
+> +cpufreq-stats是一个为每个CPU提供CPU频率统计的驱动。
+> +这些统计数据在/sysfs中以一堆只读接口的形式提供。这个接口（在配置好后）将出现在
+> +/sysfs（<sysfs root>/devices/system/cpu/cpuX/cpufreq/stats/）中cpufreq下的一个单
+> +独的目录中，提供给每个CPU。
+> +各种统计数据将在此目录下形成只读文件。
+> +
+> +此驱动是独立于任何可能运行在你所用CPU上的特定cpufreq_driver而设计的。因此，它将与所有
+> +cpufreq_driver一起工作。
+> +
+> +
+> +2. 提供的统计数据(举例说明)
+> +=====================================
+> +
+> +cpufreq stats提供了以下统计数据（在下面详细解释）。
+> +
+> +-  time_in_state
+> +-  total_trans
+> +-  trans_table
+> +
+> +所有的统计数据将从统计驱动被载入的时间（或统计被重置的时间）开始，到某一统计数据被读取的时间为止。
 
-The spaces in the begin are also redundant.
+You changed 'insert' in this sentence.
+And next?
 
-And one more thing:
-  The numbers of columns are very random, if someone read the rst files
-  <http://fars.ee/sqoL.png>
-  instead of html files, that may cause difficulties. Please use a
-  monospaced font to fix the problem, try to keep in 74-80 columns
-  except meet a long English word, one Chinese character use 2 columns.
-
-  This comment is for all patches.
+> +显然，统计驱动不会有任何关于统计驱动插入之前的频率转换信息。
+                                       ^^^^
+All others are look good to me.
 
 Thanks!
 
