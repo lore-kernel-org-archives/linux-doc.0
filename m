@@ -2,96 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-11.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	FROM_LOCAL_NOVOWEL,HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC3EFC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:21:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9372CC433C1
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:41:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 742FB61960
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:21:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5832561968
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:41:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231314AbhC2FRJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 01:17:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36792 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231281AbhC2FQw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 01:16:52 -0400
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com [IPv6:2607:f8b0:4864:20::f35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40AE6C061574;
-        Sun, 28 Mar 2021 22:16:52 -0700 (PDT)
-Received: by mail-qv1-xf35.google.com with SMTP id q9so5905012qvm.6;
-        Sun, 28 Mar 2021 22:16:52 -0700 (PDT)
+        id S230250AbhC2Fk2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 01:40:28 -0400
+Received: from mail-ed1-f45.google.com ([209.85.208.45]:45676 "EHLO
+        mail-ed1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229557AbhC2Fjx (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 01:39:53 -0400
+Received: by mail-ed1-f45.google.com with SMTP id bx7so12792813edb.12;
+        Sun, 28 Mar 2021 22:39:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6g+lgLBSDX6TD/T6Z84lMITA6ycCwCQ9sjXvqkoHkaU=;
-        b=qeJfZUD3Qvxi9jy39JQmbXif4CGrf35Dy53578/XM7ztPIxdiz/GMrpFP0O1mapHlL
-         ZsQNtWYetBkvPn0WxjdVsUghLTQjmuenvBU9GtJXuu4JD9Zyb23rcuXqJegCu3j7R6h7
-         9Qtg2gT5fORIsWInNktgNw4iTX/Zp/jgoj9NT1zWlndYFqzHc6U0VwyNgehGT4EiNQNE
-         Y3+y9/V7RYnUrjeQIH9IZlksJZyQQnuhTJ+BTrDO3ruzP4c5tu/CLf34ysg5qZ+0/gwy
-         RoXlr7NcrXslvbTH9aMaxCMYD53cTuXv5UMFFUht6jnx169BTZbzqvmSw4jYyHuldezR
-         HejQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Z9Bqy7y/SBHZ7sSlA5wHS9gkRIG83fq3eksdfvugY4Q=;
+        b=OH58VUGSMCu3WWUyleT5KpIkmufKMRALVDe6id4HRHqZuIiAPiGYMBC4pIV6BPnDL6
+         NDBm4NaspO9QEwzDjTzk23DApCJg1PyD/x3lBYXsrYhNufd8daUdOlwLWyJ6kMXsf9gr
+         PyDYLcbN2MaMWJLsPg3znSC1hFqMuR5ERoiVJp7U/9YlxTD6R3WG4/W27Rbe6IzPlUjD
+         JCjcwNxbihqlVHRZN747RMazsbgG8+24CBWnxpPs6E8E3yrW8PvrQqG6mDYpXCYGQHNo
+         8/mCs/D97fhkO2hV/8zvsazOXlYmqgtqTWQBHQoSMsSRRmNRua10OhiWGvDksjKQ+9Lr
+         qEHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6g+lgLBSDX6TD/T6Z84lMITA6ycCwCQ9sjXvqkoHkaU=;
-        b=COYOUujllKwqDBivSuQ/Gjw/qGAHrAzRRnudlKOvZahLU88j6RTICH0Y+tcfSWLxf7
-         tSuZ56jss428HzfiE/hWdWVFiUCORNM4NrOgbaICEJctRbqh5q1M/Kbp1h7t3gLf9xI0
-         A4qn1hh0IcDEqbEEgHPIXcKJdCi7dJpkmXmdpflanQ4/aEruK4Ovk1VcD3iZPWyq/gaC
-         5BpGTBTfGGSbxcc4qgpBWkeiaihZTLr+nVn1jSvaq6GBlndSbxtqkjoN7tV1y65/zEmh
-         OJidwIwsLqsqpXqo9DtG7U78jSzRLPeghe9VEfC44Ap8awCQW++jvnfu++ZQp0qhhX3u
-         Ma7w==
-X-Gm-Message-State: AOAM531fG6Pi9OUoycEcPg8NlCQ5u3OuIMxANMZN7lzEgrmcHxOTlGud
-        IIv+eV9dfJf5im9zRoXIF4g=
-X-Google-Smtp-Source: ABdhPJzv3X6nHOkOXiP7iEOiKZsVdwqvEWOvk9wVBoqP+sEV++J4MV2dCZPSp5s7ziq9zSi1Ge4Wug==
-X-Received: by 2002:a0c:a954:: with SMTP id z20mr23840330qva.29.1616995011623;
-        Sun, 28 Mar 2021 22:16:51 -0700 (PDT)
-Received: from localhost.localdomain ([156.146.37.195])
-        by smtp.gmail.com with ESMTPSA id z124sm12993181qke.36.2021.03.28.22.16.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Mar 2021 22:16:51 -0700 (PDT)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     corbet@lwn.net, linux-doc@vger.kernel.org
-Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, rdunlap@infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 23/23] openrisc: openrisc_port.rst: Fix a typo
-Date:   Mon, 29 Mar 2021 10:42:59 +0530
-Message-Id: <3f294d0860973889e0e7826b86a8779d4834fb6e.1616992679.git.unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <cover.1616992679.git.unixbhaskar@gmail.com>
-References: <cover.1616992679.git.unixbhaskar@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Z9Bqy7y/SBHZ7sSlA5wHS9gkRIG83fq3eksdfvugY4Q=;
+        b=YKhcCEaAD9R/EgulGu5NlZPTV4Sj6nksz+uoCFuD3ACGlG/wjy0NSrKEXxnMHIinKr
+         Srj2SEsIBG8UKx3Dm03gSDE9g78MfOqMdCVKbm4xwaVMRolE1jIn45mMQQOHCZM49+FM
+         ErLPcyUzdER4yfUr2IH5IkdWqbByu+0151eUDZr7Q0RyW+u0L9D4k6E2BAi8oJXZC4sa
+         snGqsOgFHhIlfq2JSmHiXI7E9YxWn2SGE5GIJ+Prtwd6cibozHjK70MD/jUi/8IarPDB
+         f8mBh8wNhvzaNaV0+UaRQyGbq5SSoX2GD8fcsplb5A/JMClVMcaByXUn9qm++9Ht8UEa
+         Gj4w==
+X-Gm-Message-State: AOAM533OCFS4WIV6xyB4g/LSipxCSh2aMHBs+ZiH/5hk3S5E38C/OwYc
+        amZyWkuX6BChINm9bcZYptECa3LFIphOoQRdRZTMoF2X
+X-Google-Smtp-Source: ABdhPJzTGHZphqnGn3YUkycxCQXTd+W+LHOCjmCH8aE59y5YHgK1jjtsUkGsfsJ2JjCwln/jBUJ0ip9rLv0+t1LsjeA=
+X-Received: by 2002:a05:6402:2552:: with SMTP id l18mr26344232edb.71.1616996326717;
+ Sun, 28 Mar 2021 22:38:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1616992679.git.unixbhaskar@gmail.com> <b103bd6a8bcdad7f90806dbe7680017235cf1d9c.1616992679.git.unixbhaskar@gmail.com>
+ <CAMo8BfKj+ojEbc1ZJ6QL+f9Sq+7oZeqVNMu6nTP=OSbrqD2XOg@mail.gmail.com>
+In-Reply-To: <CAMo8BfKj+ojEbc1ZJ6QL+f9Sq+7oZeqVNMu6nTP=OSbrqD2XOg@mail.gmail.com>
+From:   Max Filippov <jcmvbkbc@gmail.com>
+Date:   Sun, 28 Mar 2021 22:38:35 -0700
+Message-ID: <CAMo8BfL8bzsVCSez8WUy5E7_izKmhYFB1O2gOXsqcsok65sM=w@mail.gmail.com>
+Subject: Re: [PATCH 01/23] atomctl.rst: A typo fix
+To:     Bhaskar Chowdhury <unixbhaskar@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+        Randy Dunlap <rdunlap@infradead.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-s/enhancments/enhancements/
+On Sun, Mar 28, 2021 at 10:37 PM Max Filippov <jcmvbkbc@gmail.com> wrote:
+>
+> On Sun, Mar 28, 2021 at 10:18 PM Bhaskar Chowdhury
+> <unixbhaskar@gmail.com> wrote:
+> >
+> > s/controlers/controllers/
+> >
+> > Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
+> > ---
+> >  Documentation/xtensa/atomctl.rst | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/xtensa/atomctl.rst b/Documentation/xtensa/atomctl.rst
+> > index 1ecbd0ba9a2e..a0efab2abe8f 100644
+> > --- a/Documentation/xtensa/atomctl.rst
+> > +++ b/Documentation/xtensa/atomctl.rst
+> > @@ -23,7 +23,7 @@ doing a Cached (WB) transaction and use the Memory RCW for un-cached
+> >  operations.
+> >
+> >  For systems without an coherent cache controller, non-MX, we always
+> > -use the memory controllers RCW, thought non-MX controlers likely
+> > +use the memory controllers RCW, thought non-MX controllers likely
+>
+> In this line you could also do s/thought/though/.
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- Documentation/openrisc/openrisc_port.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+...and s/memory controllers/memory controller's/
 
-diff --git a/Documentation/openrisc/openrisc_port.rst b/Documentation/openrisc/openrisc_port.rst
-index 657ac4af7be6..b3c6c5e258b0 100644
---- a/Documentation/openrisc/openrisc_port.rst
-+++ b/Documentation/openrisc/openrisc_port.rst
-@@ -114,7 +114,7 @@ History
- 	port to 2.6.x
-
- 30-11-2004	Matjaz Breskvar (phoenix@bsemi.com)
--	lots of bugfixes and enhancments.
-+	lots of bugfixes and enhancements.
- 	added opencores framebuffer driver.
-
- 09-10-2010    Jonas Bonn (jonas@southpole.se)
---
-2.26.3
-
+-- 
+Thanks.
+-- Max
