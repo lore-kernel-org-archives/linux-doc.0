@@ -2,146 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59035C433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 06:24:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23E79C433E1
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 09:30:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1410E61968
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 06:24:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D52716196D
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 09:30:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbhC2GYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 02:24:04 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:14342 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229711AbhC2GXw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Mar 2021 02:23:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=jFUyXgjvns418Jx2fGzisnUKjcD9uEKJha4yr
-        JRUHIg=; b=Gr0PAQVJCpe0epgNpjyYCF2jLzg8BoFakGniEuaBGLYAwP+3032pg
-        5EbVG3h+kbF5Cvc9JDwvVs3Mo/0oWEVcAqpqbg4EuqxAHUe2emWOK7Ew/zupVCrb
-        TFrfCs7c2xdXk6ch3Df2PFkJyHroopXp4NimPshatKn3q9p9xhGSGk=
-Received: from mipc (unknown [120.238.248.129])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgAXi9FucmFg1yBAAA--.13437S2;
-        Mon, 29 Mar 2021 14:23:44 +0800 (CST)
-Date:   Mon, 29 Mar 2021 14:23:42 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: Re: [PATCH v2 3/8] docs/zh_CN: add cpu-freq cpufreq-stats.rst
- translation
-Message-ID: <20210329062342.GB8845@mipc>
-References: <20210329025144.9776-1-siyanteng@loongson.cn>
- <20210329025144.9776-4-siyanteng@loongson.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210329025144.9776-4-siyanteng@loongson.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgAXi9FucmFg1yBAAA--.13437S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXF1fKw17Xr4kWw4kGr18AFb_yoW5Gw48pr
-        1qgrWIkr4xtryDJ3ZxKr1UKw1DAFs7AwnrCrn7Jrn0qF1UJw4qqF1UKFyDCrW5W39rAFW8
-        Zr4rJrW0krWUC3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUymb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
-        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
-        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2
-        xKxwCY02Avz4vE14v_GF1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1U
-        JwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-        vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
-        x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
-        xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
-        wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07U4a0PUUUUU=
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+        id S231636AbhC2JaM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 05:30:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36030 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231296AbhC2J37 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 05:29:59 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E5CDC061574;
+        Mon, 29 Mar 2021 02:29:59 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id h8so4111953plt.7;
+        Mon, 29 Mar 2021 02:29:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=I2rYcnAf0ifNkAwBrdzfC3Hucp+PdY95Y1i5iXCzcs4=;
+        b=DWp35A6ITBgFsPERJoKrnD9oIp9n4wapfaTcGC2EG6YLrSB5O3Nq0M0kcN7pV4Xk6z
+         fDyfD26eVfv9+wOhmh7PcmI8AUF7tDgYEYMviw+lg1KX9MV3Dt/k/GkB+pj6+tPI5R7W
+         KkylbAr0Hy83xpbgXRhZSJKC7Pw/yTFB2O2pIVAkGr5DsyvOLDRYcZQfAE7lpRPPhO2P
+         S8/2WUwaxBCscvR4kRpbfY342rTnsJRIgEdxUxxtmD25Nbprj593WvV9jFmkaVhB94WY
+         BKkBC0NkbfHU+CMNx3IuhvKltB9rx+6NZkpuOlT2H5wdmQCyI3zRt5P3Toe6QTX8ZtsS
+         iDsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=I2rYcnAf0ifNkAwBrdzfC3Hucp+PdY95Y1i5iXCzcs4=;
+        b=epTUeO/e+dlnLOVjgJh6DNTxS3g+wbG3uMdsre55+3ETvYId6hwVIer5rsQXRK5dJT
+         NSTP0YcmmMe7JjbZFL8v5mwv5+NNhpk4HHx92m6ZcAJFL3xDoXBGyPb5jB32V1h5vUPK
+         Gwt1BBuVQw5hwpIUL9cUcnlv5V4pP0SdnTF6nV7HFrx3ZrPGBV44z7mhLSUCwoklq2rp
+         id7+gQ4lLmht1mWswN6W+xaAPyMdbEO94Pt2ese6eJ7LGjD1Qlnqeifcj7jAZejrgPTK
+         DBSYMbQT4at/4GAjBDjpQV8BxOUd83gIYOrKGhmTg0HAtjcEN10czWhpv1BiLY7B9Dgg
+         1Mww==
+X-Gm-Message-State: AOAM532ZDIZEIWnRdMBHZzyhPO0m56YzsEKjyEFbwf6eCocNTGpFVDs2
+        rplt9IEEAYOUvxTowl3XGjM=
+X-Google-Smtp-Source: ABdhPJx8yZaadvCrbGyAu8R22UEr9i0Qzbzpk5yBbA8vuFl5QZLV1SahL4l40JzN+KlSnvGEOUdKcw==
+X-Received: by 2002:a17:90b:16cd:: with SMTP id iy13mr26404121pjb.46.1617010199064;
+        Mon, 29 Mar 2021 02:29:59 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:600d:a089:4ed:8f53:adc7:b574])
+        by smtp.googlemail.com with ESMTPSA id z1sm16581419pfn.127.2021.03.29.02.29.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Mar 2021 02:29:58 -0700 (PDT)
+From:   Aditya Srivastava <yashsri421@gmail.com>
+To:     corbet@lwn.net
+Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] scripts: kernel-doc: add warning for comment not following kernel-doc syntax
+Date:   Mon, 29 Mar 2021 14:59:45 +0530
+Message-Id: <20210329092945.13152-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 29, 2021 at 10:51:39AM +0800, Yanteng Si wrote:
-> This patch translates Documention/cpu-freq/cpufreq-stats.rst into Chinese.
-> 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  .../zh_CN/cpu-freq/cpufreq-stats.rst          | 130 ++++++++++++++++++
->  1 file changed, 130 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/cpu-freq/cpufreq-stats.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/cpu-freq/cpufreq-stats.rst b/Documentation/translations/zh_CN/cpu-freq/cpufreq-stats.rst
-> new file mode 100644
-> index 000000000000..d21a317d9659
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/cpu-freq/cpufreq-stats.rst
-> @@ -0,0 +1,130 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :doc:`../../../cpu-freq/cpufreq-stats`
-> +:Translator: Yanteng Si <siyanteng@loongson.cn>
-> +
-> +.. _cn_cpufreq-stats.rst:
-> +
-> +
-> +==========================================
-> +sysfs CPUFreq Stats的一般说明
-> +==========================================
-> +
-> +用户信息
-> +
-> +
-> +作者: Venkatesh Pallipadi <venkatesh.pallipadi@intel.com>
-> +
-> +.. Contents
-> +
-> +   1. 简介
-> +   2. 提供的统计数据(举例说明)
-> +   3. 配置cpufreq-stats
-> +
-> +
-> +1. 简介
-> +===============
-> +
-> +cpufreq-stats是一个为每个CPU提供CPU频率统计的驱动。
-> +这些统计数据在/sysfs中以一堆只读接口的形式提供。这个接口（在配置好后）将出现在
-> +/sysfs（<sysfs root>/devices/system/cpu/cpuX/cpufreq/stats/）中cpufreq下的一个单
-> +独的目录中，提供给每个CPU。
-> +各种统计数据将在此目录下形成只读文件。
-> +
-> +此驱动是独立于任何可能运行在你所用CPU上的特定cpufreq_driver而设计的。因此，它将与所有
-> +cpufreq_driver一起工作。
-> +
-> +
-> +2. 提供的统计数据(举例说明)
-> +=====================================
-> +
-> +cpufreq stats提供了以下统计数据（在下面详细解释）。
-> +
-> +-  time_in_state
-> +-  total_trans
-> +-  trans_table
-> +
-> +所有的统计数据将从统计驱动被载入的时间（或统计被重置的时间）开始，到某一统计数据被读取的时间为止。
+Currently, kernel-doc start parsing the comment as a kernel-doc comment if
+it starts with '/**', but does not take into account if the content inside
+the comment too, adheres with the expected format.
+This results in unexpected and unclear warnings for the user.
 
-You changed 'insert' in this sentence.
-And next?
+E.g., running scripts/kernel-doc -none mm/memcontrol.c emits:
+"mm/memcontrol.c:961: warning: expecting prototype for do not fallback to current(). Prototype was for get_mem_cgroup_from_current() instead"
 
-> +显然，统计驱动不会有任何关于统计驱动插入之前的频率转换信息。
-                                       ^^^^
-All others are look good to me.
+Here kernel-doc parses the corresponding comment as a kernel-doc comment
+and expects prototype for it in the next lines, and as a result causing
+this warning.
 
-Thanks!
+Provide a clearer warning message to the users regarding the same, if the
+content inside the comment does not follow the kernel-doc expected format.
 
-Wu X.C.
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+ scripts/kernel-doc | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index cb92d0e1e932..b1d71a7b721f 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -2103,15 +2103,17 @@ sub process_name($$) {
+ 	}
+     } elsif (/$doc_decl/o) {
+ 	$identifier = $1;
+-	if (/\s*([\w\s]+?)(\(\))?\s*([-:].*)?$/) {
++	my $is_kernel_comment = 0;
++	if (/^\s*\*\s*([\w\s]+?)(\(\))?\s*([-:].*)?$/) {
+ 	    $identifier = $1;
++	    $decl_type = 'function';
++	    $identifier =~ s/^define\s+//;
++	    $is_kernel_comment = 1;
+ 	}
+ 	if ($identifier =~ m/^(struct|union|enum|typedef)\b\s*(\S*)/) {
+ 	    $decl_type = $1;
+ 	    $identifier = $2;
+-	} else {
+-	    $decl_type = 'function';
+-	    $identifier =~ s/^define\s+//;
++	    $is_kernel_comment = 1;
+ 	}
+ 	$identifier =~ s/\s+$//;
+ 
+@@ -2133,6 +2135,13 @@ sub process_name($$) {
+ 	    $declaration_purpose = "";
+ 	}
+ 
++	if (!$is_kernel_comment) {
++	    print STDERR "${file}:$.: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst\n";
++	    print STDERR $_;
++	    ++$warnings;
++	    $state = STATE_NORMAL;
++	}
++
+ 	if (($declaration_purpose eq "") && $verbose) {
+ 	    print STDERR "${file}:$.: warning: missing initial short description on line:\n";
+ 	    print STDERR $_;
+-- 
+2.17.1
 
