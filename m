@@ -2,99 +2,144 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11DFFC433E0
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 22:44:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40FECC433E0
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 23:29:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF3026192E
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 22:44:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1458B61990
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 23:29:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230161AbhC2WoY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 18:44:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39366 "EHLO
+        id S229555AbhC2X3J (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 19:29:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231301AbhC2WoW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 18:44:22 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7521C061762;
-        Mon, 29 Mar 2021 15:44:22 -0700 (PDT)
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id EA6595CC;
-        Mon, 29 Mar 2021 22:44:21 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EA6595CC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1617057862; bh=EKvmVbzD//QNEEEuaeTgAwCcHafiUeTm6qRa1v6UhRU=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=sYOtGao+7Dz0cFmHAFPNFvdh2Yu9lNiRnH7BZooXPXQ03s006cMRFxZ7lELQrk7Ht
-         DAuw9DQgpfKLCJcKPcl/aflDdDk61+qlhrkWTImsKVIoekHLDsHtdYhR+5q6wrDnGD
-         CsU2AGIQJGF9ao20InPcr+7B2SFMcmjNDCiNSbwhhJjyrvGsUjghj78rdRUa1doXSN
-         6nNP4nAY9zrYtndA+Se8wPQqE52twACfVAnlfv/FduafJkEsCab5htgpUXiKPLfKGc
-         3un9ieOFYZHYOyaEQ5SH85S7jeuevYTugykM66xQQA7/8o1ecI56g6F63qLmKWfc/O
-         1o/bwKaHRjHYw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Thorsten Leemhuis <linux@leemhuis.info>,
-        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [1/5] reporting-issues: header and TLDR
-In-Reply-To: <14d9b8a3-94ce-00a6-a17b-934ffd999697@leemhuis.info>
-References: <c396c91f-27c2-de36-7b05-099e03c213f4@leemhuis.info>
- <6a220d2c-568e-2e41-53a4-0800e206d0a6@leemhuis.info>
- <14d9b8a3-94ce-00a6-a17b-934ffd999697@leemhuis.info>
-Date:   Mon, 29 Mar 2021 16:44:21 -0600
-Message-ID: <87r1jxpol6.fsf@meer.lwn.net>
+        with ESMTP id S229861AbhC2X25 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 19:28:57 -0400
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD5CC061764
+        for <linux-doc@vger.kernel.org>; Mon, 29 Mar 2021 16:28:57 -0700 (PDT)
+Received: by mail-yb1-xb2d.google.com with SMTP id x189so15468445ybg.5
+        for <linux-doc@vger.kernel.org>; Mon, 29 Mar 2021 16:28:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WDde1oog8pONjUYe4veyTF77bnbUW5uOW/VjN8BRrfc=;
+        b=tR1uudSRQlnzL7FPxhVK1H2lmKlgH5Jstl69KtGaXiKfzpJeNtd3sKUREc83E14Hyg
+         KNtpU52k/3GvnCheolompf0OcGFwxjIztQl12NPKWvtVUo2Ca28hh6VmkNVc+jIKNYve
+         qR/5ZhPcLbSkgxU1WQSwPiF+Kkczewe7xqJWQApgPqPzpetjUWvmTZ7Qr41GdZDiJIJH
+         XibRwn4VLj8hlEfGH9NN6fS+EgkU8yH6ME68JPyNOJ8MKcOIyH806NIpP9D2drko4jdM
+         T3dCqd2FpbrDSQ8blvlO8F8dItLzhwn6XP5WAL3ZurP3FGTL5yuve9pXPXBjS913UV8N
+         utww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WDde1oog8pONjUYe4veyTF77bnbUW5uOW/VjN8BRrfc=;
+        b=tSF5t1sV/pDoP40/oMuV87bjxonJi9R1XzYsplrHoOMgPaWsGIETWChksPMlTwkkf/
+         0MbWDgyyOUE6/3NuuxSps6s/zFkdGHSRy132TwaxiIsiTYhXbjfgBhcO9rjLJrB8r6yD
+         7gdlA+uUVNFd9OOQ6z0gsnsW2Ux29aB6qo4X/gg8enp0hjXtUOQJmRmcLamuTIlHh1K5
+         xBq5hBCWeqs2BUgzToe2IqwGL8x5DjZylwD0OXGERKH9gTC5+vFE0MlrF15RfpoIKmv9
+         Abdw5Qr1iy84PwUS6WUQ0le4qVd5CfZpHiD1JPykesYxWNQKldcILi2XzTlsN/yUrSVz
+         hDzw==
+X-Gm-Message-State: AOAM532VxTxyRpuKZuzpIDu0r8hW1BWjUNLJvrHhdWiK8ygYi5NWqmTY
+        2y2T3UOQYegKC/WBUkAJ/jEOEcB1zxqb3Dcv3BiEdQ==
+X-Google-Smtp-Source: ABdhPJxJ0sCTNyDyfI1b+8FrpLSQIIgEbs4baXc7OkRt3EK4dgFfRKGNOBy2PoOel1NkVVc1/6RzZA8g9VrfRrbLeWw=
+X-Received: by 2002:a25:b443:: with SMTP id c3mr43370477ybg.32.1617060536158;
+ Mon, 29 Mar 2021 16:28:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20210205222644.2357303-9-saravanak@google.com>
+ <20210210114435.122242-1-tudor.ambarus@microchip.com> <20210210114435.122242-2-tudor.ambarus@microchip.com>
+ <CGME20210325133159eucas1p297b769beb681743fb32d362a86cc6e3e@eucas1p2.samsung.com>
+ <d24bebc5-0f78-021f-293f-e58defa32531@samsung.com> <9b206c4d00dfe8b7f941260f18909914b2b2eecb.camel@suse.de>
+ <161678243444.3012082.5031467952132861429@swboyd.mtv.corp.google.com>
+ <CAMuHMdV5PGUujsFP2TXMxij4UxVnrrurh_qVhq8+480w21jJAg@mail.gmail.com> <161705310317.3012082.15148238105608149214@swboyd.mtv.corp.google.com>
+In-Reply-To: <161705310317.3012082.15148238105608149214@swboyd.mtv.corp.google.com>
+From:   Saravana Kannan <saravanak@google.com>
+Date:   Mon, 29 Mar 2021 16:28:20 -0700
+Message-ID: <CAGETcx8reqKoPoJ8dV7f9=SHYKmNhcVpkNHoCS-0L4UHCBahoA@mail.gmail.com>
+Subject: Re: [PATCH] clk: Mark fwnodes when their clock provider is added
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Frank Rowand <frowand.list@gmail.com>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
+        Marc Zyngier <maz@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        DOCUMENTATION <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux PM list <linux-pm@vger.kernel.org>,
+        linux-clk <linux-clk@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetre
+        e@vger.kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Android Kernel Team <kernel-team@android.com>, linux-rpi-kernel" 
+        <linux-rpi-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thorsten Leemhuis <linux@leemhuis.info> writes:
-
-> FWIW, on another channel someone mentioned the process in the TLDR is
-> quite complicated when it comes to regressions in stable and longterm
-> kernels. I looked at the text and it seemed like a valid complaint, esp.
-> as those regressions are something we really care about.
+On Mon, Mar 29, 2021 at 2:25 PM Stephen Boyd <sboyd@kernel.org> wrote:
 >
-> To solve this properly I sadly had to shake up the text in this section
-> completely and rewrite parts of it. Find the result below. I'm quite
-> happy with it, as it afaics is more straight forward and easier to
-> understand. And it matches the step-by-step guide better. And the best
-> thing: it's a bit shorter than the old TLDR.
-
-I think this is much improved - concise is good! :)  I really just have
-one little comment...
-
-> I'll wait a day or two and then will send it through the regular review
-> together with a few small other fixes that piled up for the text, just
-> wanted to add it here for completeness.
+> Quoting Geert Uytterhoeven (2021-03-26 11:29:55)
+> > On Fri, Mar 26, 2021 at 7:13 PM Stephen Boyd <sboyd@kernel.org> wrote:
+> > > Quoting Nicolas Saenz Julienne (2021-03-25 11:25:24)
+> > > > >
+> > > > > This patch mainly revealed that clk/bcm/clk-raspberrypi.c driver calls
+> > > > > devm_of_clk_add_hw_provider(), with a device pointer, which has a NULL
+> > > > > dev->of_node. I'm not sure if adding a check for a NULL np in
+> > > > > of_clk_add_hw_provider() is a right fix, though.
+> > > >
+> > > > I believe the right fix is not to call 'devm_of_clk_add_hw_provider()' if
+> > > > 'pdev->dev.of_node == NULL'. In such case, which is RPi3's, only the CPU clock
+> > > > is used, and it's defined and queried later through
+> > > > devm_clk_hw_register_clkdev().
+> > > >
+> > > > @Marek, I don't mind taking care of it if it's OK with you.
+> > > >
+> > >
+> > > Ah I see this is related to the patch I just reviewed. Can you reference
+> > > this in the commit text? And instead of putting the change into the clk
+> > > provider let's check for NULL 'np' in of_clk_add_hw_provider() instead
+> > > and return 0 if there's nothing to do. That way we don't visit this
+> > > problem over and over again.
+> >
+> > I'm not sure the latter is what we reall want: shouldn't calling
+> > *of*_clk_add_hw_provider() with a NULL np be a bug in the provider?
+> >
 >
-> ---
-> The short guide (aka TL;DR)
-> ===========================
+> I don't have a strong opinion either way. Would it be useful if the
+> function returned an error when 'np' is NULL?
+
+I lean towards returning an error. Not a strong opinion either.
+
+-Saravana
+
+> I guess the caller could
+> use that to figure out that it should register a clkdev. But it
+> shouldn't hurt to register both a clkdev lookup and a DT provider for
+> the same clk. The framework will try the DT path first and then fallback
+> to a clkdev lookup otherwise, so we'll be wasting memory for clkdev but
+> otherwise be fine.
 >
-> Are you facing a regression with vanilla kernels from the same stable or
-> longterm series? One still supported? Then search the `LKML
-> <https://lore.kernel.org/lkml/>`_ and the `Linux stable mailing list
-> <https://lore.kernel.org/stable/>_` archives for matching reports to
-> join. If you don't find any, install `the latest release from that
-> series <https://kernel.org/>`_. If it still shows the issue, report it
-> to the stable mailing list and the stable maintainers.
-
-If we really want this to be a short guide that gets people to the
-answer quickly, we might as well put the addresses to report to right
-here rather than making people search for them.
-
-Thanks,
-
-jon
-
+> Really it feels like we should try to unify around a
+> devm_clk_add_hw_provider() API that figures out what to do based on if
+> the device has an of_node or not. That would mean implementing something
+> like clkdev but for a whole provider instead of a single clk. Then this
+> question of returning an error would be moot here.
