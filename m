@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC666C433ED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BB9CC433E9
 	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B094761974
+	by mail.kernel.org (Postfix) with ESMTP id 8D0536195D
 	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230394AbhC2FQL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 01:16:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36578 "EHLO
+        id S229483AbhC2FQK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 01:16:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36552 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229842AbhC2FP7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 01:15:59 -0400
-Received: from mail-qv1-xf2b.google.com (mail-qv1-xf2b.google.com [IPv6:2607:f8b0:4864:20::f2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23D65C061574;
-        Sun, 28 Mar 2021 22:15:59 -0700 (PDT)
-Received: by mail-qv1-xf2b.google.com with SMTP id o19so5938748qvu.0;
-        Sun, 28 Mar 2021 22:15:59 -0700 (PDT)
+        with ESMTP id S229788AbhC2FPw (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 01:15:52 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F201DC061574;
+        Sun, 28 Mar 2021 22:15:51 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id q12so5896383qvc.8;
+        Sun, 28 Mar 2021 22:15:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=aApRacuTNhES68Gu+jVHlEPEkNYmK8etRd5uQwgAclI=;
-        b=a3badIk4SJqtoW2nBNlQccZaxbHSRe2wNYE4xu4TRP4vBdggSbANbx9rKOPZ9cYy0H
-         olgyoZ6K6bqyJXzq2udtIi1lgJtD2A48nQip+WsW5sRmV/B6EKipscI0C9E5wEhFIpbL
-         HfiNFwb4GgFztfVWOYB+c8EEnnevdQOlAlVDqZyA2NmClCl7mjFvziv5jof36jPa1DfW
-         m8eiDM1zZfsSG7nBEUz91hpJmBIYMN1DHQZ1jdHeLl34GGnMgSMUKGyH3Eh+ZbOrEHSH
-         bD9V+UpPzDn5zeVKgPJLCPvPTUhw8FfNYZL8L9fdc0Qo8/qKZSROea3O2CDbOc6rrt81
-         7qrw==
+        bh=vyzRIfy4lQ1Fg7+r4gmKZCNIPyLg4oFnaTvQHNKd/Yc=;
+        b=gLI7ExzTHy8h6Si0YRN9XxBPxx5gEqUWnX780eAfydfwUX4jRSQXCRaK+tu7/T7w3b
+         MoCwX4tYXwDvtfYydJlgyDb45EO+3yOFO7AsGKUSkywtq78kuPokFA36SabhPndn0REO
+         zvUP081PNXLvGyCY8b3KhIfpvB6pDPxU3ceK5k08iWX3O0G/aSY7+GhjbT80cnIP6iVZ
+         r+MV/TJ9D6Ln2+5B8Heq8RxrKcgYWNH5HwHgbKsn7pY/XjDt2CQa5wq4mFcoftB5165C
+         fuocvWQHB3TAaYdD27gMkapL53XOyqrJwmJhNnhSxqYptb1aJvCnWfjH7o3kdKcOfBQr
+         w2vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=aApRacuTNhES68Gu+jVHlEPEkNYmK8etRd5uQwgAclI=;
-        b=KU5hMQxuOgLm7KsOLXaZ+YTeMh/n0ojBd9mXaqiZ6fzSiyxEthviBosqfj/DVoVunS
-         SZbo89D7WRfUPyjwnRfKYT2gFBRepOvD6JotljARslF2jc8lYVPlyWGb4n3wW+rHrqVu
-         qsxeZOJt7lgs2uuUQPHvabJji0iOVaCqFtNJaq5c96hy3cWAya8f2Y0/0XGQ/Y6TDnoc
-         qr7Dtpw8TWCPW1+brPhPm+rc8g7eTryWHOUVnL5LyZwutkpSfFDxrjOjsJFamHFS6BQZ
-         tBeF8PmLK4lGrZbMJpBTYdc6vnl9UMr1prPIbj8VAZF3S/z59kZ4RDrUJAYM9SeXjMR1
-         hENg==
-X-Gm-Message-State: AOAM530ONxG/8FSW6YwVxWghGRhjcRPvnwDt173xMWF5B41xcbiKW87L
-        ZuyKo1x5XCP6uRaJdZbuy3mJG2k0XCRG1A==
-X-Google-Smtp-Source: ABdhPJz3gGBeKRD/jMjHDQiD+HMLid6oAVdAhipToy+LvNl2n6b6NJCAn5c0iMvT6jBjvqqwly6JJw==
-X-Received: by 2002:a05:6214:10c7:: with SMTP id r7mr23772633qvs.3.1616994958487;
-        Sun, 28 Mar 2021 22:15:58 -0700 (PDT)
+        bh=vyzRIfy4lQ1Fg7+r4gmKZCNIPyLg4oFnaTvQHNKd/Yc=;
+        b=NpUzm9Zkhp1CaWM+xTkoBZl1clW5PrDiLp5uiiLLMb7SnwQaEubeHg+qsfhNbfC8T4
+         9puuPMyn5ESS1dduBVoRld9zn29RKtIlwRe7LoqufIAV8M9jKCzhm49n6PoNWubO9d1h
+         hnAimbu0XyEWcxadh9gLoHjM/EsV6folPmDrONK5Zj+UFrDB1a7hJmaxOTxOksnqu0MX
+         1lL1JIWCXQxrvGC0kR+ecwT5gGHWPeeyORQVSJK5pTipICofV/t8aRh1zc3hrlknjgQy
+         iYzgUfBpwjIgADtkIyeVSV50RUWJ+a+RqyG+kn2E2fnHLTgQNqc02REY5092RQHIkw5w
+         LTXg==
+X-Gm-Message-State: AOAM531xCIYLtep93v2L2Z50EVfT9ve4giJF25n0e4kbu7iKitdLvxf3
+        HPlG16k/1FPFidTrcNYRUM8=
+X-Google-Smtp-Source: ABdhPJyoTKAjkWMb+qa56Z84yne+rqqYqwe9OvTsfKKphZrwhmrXcGSE4zTfSp9YAsfHWWMHSNbbmA==
+X-Received: by 2002:a0c:9b82:: with SMTP id o2mr21246867qve.47.1616994951341;
+        Sun, 28 Mar 2021 22:15:51 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.37.195])
-        by smtp.gmail.com with ESMTPSA id z124sm12993181qke.36.2021.03.28.22.15.55
+        by smtp.gmail.com with ESMTPSA id z124sm12993181qke.36.2021.03.28.22.15.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Mar 2021 22:15:57 -0700 (PDT)
+        Sun, 28 Mar 2021 22:15:50 -0700 (PDT)
 From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To:     corbet@lwn.net, linux-doc@vger.kernel.org
 Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, rdunlap@infradead.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 10/23] virt: kvm: halt-polling.rst: Fixed a typo
-Date:   Mon, 29 Mar 2021 10:42:46 +0530
-Message-Id: <198ca51061b07425ed8c85620587fdede55b77f7.1616992679.git.unixbhaskar@gmail.com>
+Subject: [PATCH 08/23] virt: kvm: vm.rst: Fix a typo
+Date:   Mon, 29 Mar 2021 10:42:44 +0530
+Message-Id: <6e639e834c594c2079b7490e27ea3c69fd476b2b.1616992679.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616992679.git.unixbhaskar@gmail.com>
 References: <cover.1616992679.git.unixbhaskar@gmail.com>
@@ -72,26 +72,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-s/dependant/dependent/
+s/imlemented/implemented/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- Documentation/virt/kvm/halt-polling.rst | 2 +-
+ Documentation/virt/kvm/devices/vm.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/virt/kvm/halt-polling.rst b/Documentation/virt/kvm/halt-polling.rst
-index 4922e4a15f18..c428d319de45 100644
---- a/Documentation/virt/kvm/halt-polling.rst
-+++ b/Documentation/virt/kvm/halt-polling.rst
-@@ -14,7 +14,7 @@ before giving up the cpu to the scheduler in order to let something else run.
- Polling provides a latency advantage in cases where the guest can be run again
- very quickly by at least saving us a trip through the scheduler, normally on
- the order of a few micro-seconds, although performance benefits are workload
--dependant. In the event that no wakeup source arrives during the polling
-+dependent. In the event that no wakeup source arrives during the polling
- interval or some other task on the runqueue is runnable the scheduler is
- invoked. Thus halt polling is especially useful on workloads with very short
- wakeup periods where the time spent halt polling is minimised and the time
+diff --git a/Documentation/virt/kvm/devices/vm.rst b/Documentation/virt/kvm/devices/vm.rst
+index 0aa5b1cfd700..3eb1abf505c9 100644
+--- a/Documentation/virt/kvm/devices/vm.rst
++++ b/Documentation/virt/kvm/devices/vm.rst
+@@ -92,7 +92,7 @@ Allows user space to retrieve or request to change cpu related information for a
+ KVM does not enforce or limit the cpu model data in any form. Take the information
+ retrieved by means of KVM_S390_VM_CPU_MACHINE as hint for reasonable configuration
+ setups. Instruction interceptions triggered by additionally set facility bits that
+-are not handled by KVM need to by imlemented in the VM driver code.
++are not handled by KVM need to by implemented in the VM driver code.
+
+ :Parameters: address of buffer to store/set the processor related cpu
+ 	     data of type struct kvm_s390_vm_cpu_processor*.
 --
 2.26.3
 
