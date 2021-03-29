@@ -8,61 +8,61 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D6DB5C43459
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 080B3C433E4
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B107E6196E
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E991961981
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231191AbhC2FQj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 01:16:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36640 "EHLO
+        id S229502AbhC2FQJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 01:16:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36494 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230454AbhC2FQO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 01:16:14 -0400
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 053D7C061574;
-        Sun, 28 Mar 2021 22:16:14 -0700 (PDT)
-Received: by mail-qv1-xf36.google.com with SMTP id cx5so5888034qvb.10;
-        Sun, 28 Mar 2021 22:16:13 -0700 (PDT)
+        with ESMTP id S229441AbhC2FPi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 01:15:38 -0400
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0952AC061574;
+        Sun, 28 Mar 2021 22:15:38 -0700 (PDT)
+Received: by mail-qt1-x830.google.com with SMTP id j7so8547198qtx.5;
+        Sun, 28 Mar 2021 22:15:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3fVbBgdpLcupl8+ZJiLOeuzM2KAPiNa9jeyTEN/kans=;
-        b=SIvFzgJRZwr7aS0efed93fOjaVgd1mLbHSDxeJKah6nneRPzdCQIrb8bb+9kENi/Vy
-         VJyEnMVVFAe25sfvKzt0C4zTKpj9JhEwTNH7sd4zoLzghmJv8pXIzX9+lNy5IqbNFfzA
-         Gtl8iw0F2cQ51rpOq6KFymghvD4a//DEVH4qaJ1LlQwQ+JvXydLPZ4QAInP3T4MwnQZA
-         lJ+bMMiNSVT3Bp+k3+R/J2/Zb4gGdMAphCZSfUbylP4h13kj+P699QlTYCYboB85vWb2
-         En/+41QjNRHRfcsbexkAZ8Qj7QyNS7ve5u3qGfnRaoUd/INszlqO5L16xTb2plkOpsLb
-         F+ZQ==
+        bh=+qum4IYVDaQdVr2baOxkdvQBmfIMWs71T6sBotGIbjc=;
+        b=Catg9+A/pcRgXs2HE5U3odCZqK3rzXpfJcNw9ElomcPL1HOMJOYbp9YKBfMizQBdiR
+         YgpusfRu6xIOhftIELcdPPMhdyxRgPuZ/L3Izc0WC1pJimk4YTRt4uCSauL1KCx32ijk
+         Pn7PdxOaiYTHnJKdFI391e9JSPB5UDu5BQbObykB7L88KG9C+rCsOPWVSutxalCyaOFu
+         0QSKx6K+WbTCyKs0PlR2135luENmsdWokmI798UVvnD/dPPqUsl5/lCFq5FiDZV7NDdi
+         gCpNL6v9+2gMFXl+SnVqo8X9jPCdmUBRsXnkw8jAn7hajkuYcO9O7CmM/IX0YwpvGIll
+         aN+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3fVbBgdpLcupl8+ZJiLOeuzM2KAPiNa9jeyTEN/kans=;
-        b=en4o0a35X9qaMfrPXXytg3rYAAVFTY17/MQ+kOa+wvoQvUcBpbbivFc5p8NbtT69DC
-         mGsNF/xamdUenFqfejlQydluR3QLWhLJcsKuf1eumW3mvEedzE1gHgwlMatGjhw4FcLI
-         fZA8qZTLKyT19rAnW2WOV/jPvIXlNDMN8GXXvV/xVQXb69tiLaz8o+s9v66esNUJjEGH
-         CpwGmz5RI89oPCneWq89iB3hgAfhc2dQW4/XXfSNZ959whXYMgQ/w9nbBh3m9ePFSfs8
-         OnBgPBkbP+EIO6zkJfKV4nS+rUUJMR5UOsQsrtsLMbP5b3Lu9VibUyshTSehO6PCnKGc
-         Ii2w==
-X-Gm-Message-State: AOAM531Iso2Iognh8Aqex9dTW3WNcFUlxwKZp+YXEWG2pGBNEahmCztS
-        QswAmAdhDfr5phz9Wm7b91s=
-X-Google-Smtp-Source: ABdhPJwX8x/q3PHM1CC7nEEPP7z4t9SZd41IP4lxa384CKlOI2mEhcI3MPN46weexC9nHtguf3chiw==
-X-Received: by 2002:a05:6214:f0d:: with SMTP id gw13mr20659469qvb.33.1616994973331;
-        Sun, 28 Mar 2021 22:16:13 -0700 (PDT)
+        bh=+qum4IYVDaQdVr2baOxkdvQBmfIMWs71T6sBotGIbjc=;
+        b=QHFlT9lK5mR1C6OldQjVWns73SZAVasjFYi05fP1Imt8PDIgP+323PbR/90lqLbSxX
+         MxLckoD/LL7FjpBrjef9wwyyvsd0GrbdQQ4ajSgrIHhHLq2dGCVrNhIrU1H6w6TeLTid
+         L6aEHkgpf4sK9ggJ1xGrfTs9xVdsLweCpLeRg9WAWNkre0muEaxjSyiSDRAL+2ht8QHc
+         sgKxbSCqYYgLm3ZLg5nqu1tErUmXIOdIurDL6fZe8WPL4NuxEaZWl9oWnPAq44AfIJ+P
+         X9nRp0lY35scjODsoZVvpcfmqmMpz0waDuDKo8u4qLafQJBp1Jyl4QnXgjRY0ghgx7DX
+         QJZA==
+X-Gm-Message-State: AOAM532jZjhd8dzPyNIChD6pDpAqGzqzh99USPDVwS+xIVGe/xb+hczq
+        tSJrtBLn9XbHxGL+pY5kSyk=
+X-Google-Smtp-Source: ABdhPJwFXG4T0LhRsQ3ki+1RrhIZ0Pjcgjy/URgl2OC0HZC3Ns8rTnMVLLMWJWb3rjJbBH8gwFykUg==
+X-Received: by 2002:ac8:6a04:: with SMTP id t4mr21775660qtr.258.1616994937354;
+        Sun, 28 Mar 2021 22:15:37 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.37.195])
-        by smtp.gmail.com with ESMTPSA id z124sm12993181qke.36.2021.03.28.22.16.10
+        by smtp.gmail.com with ESMTPSA id z124sm12993181qke.36.2021.03.28.22.15.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Mar 2021 22:16:12 -0700 (PDT)
+        Sun, 28 Mar 2021 22:15:36 -0700 (PDT)
 From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To:     corbet@lwn.net, linux-doc@vger.kernel.org
 Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, rdunlap@infradead.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 14/23] trace: ftrace-uses.rst: Fix a typo
-Date:   Mon, 29 Mar 2021 10:42:50 +0530
-Message-Id: <c1062acc1b90bb51b3fe7304408e44e1f9fa1a82.1616992679.git.unixbhaskar@gmail.com>
+Subject: [PATCH 04/23] w1-generic.rst: A typo fix
+Date:   Mon, 29 Mar 2021 10:42:40 +0530
+Message-Id: <fe13b9b018501549e5b457ab936255291e0530f2.1616992679.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616992679.git.unixbhaskar@gmail.com>
 References: <cover.1616992679.git.unixbhaskar@gmail.com>
@@ -72,26 +72,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-s/preemptable/preemptible/
+s/beetwen/between/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- Documentation/trace/ftrace-uses.rst | 2 +-
+ Documentation/w1/w1-generic.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/trace/ftrace-uses.rst b/Documentation/trace/ftrace-uses.rst
-index f7d98ae5b885..2903a58f5ac2 100644
---- a/Documentation/trace/ftrace-uses.rst
-+++ b/Documentation/trace/ftrace-uses.rst
-@@ -193,7 +193,7 @@ FTRACE_OPS_FL_RECURSION
- 	Not, if this flag is set, then the callback will always be called
- 	with preemption disabled. If it is not set, then it is possible
- 	(but not guaranteed) that the callback will be called in
--	preemptable context.
-+	preemptible context.
+diff --git a/Documentation/w1/w1-generic.rst b/Documentation/w1/w1-generic.rst
+index da4e8b4e9b01..229b16b6399b 100644
+--- a/Documentation/w1/w1-generic.rst
++++ b/Documentation/w1/w1-generic.rst
+@@ -101,7 +101,7 @@ w1_master_search          (rw) the number of searches left to do,
+ w1_master_slave_count     (ro) the number of slaves found
+ w1_master_slaves          (ro) the names of the slaves, one per line
+ w1_master_timeout         (ro) the delay in seconds between searches
+-w1_master_timeout_us      (ro) the delay in microseconds beetwen searches
++w1_master_timeout_us      (ro) the delay in microseconds between searches
+ ========================= =====================================================
 
- FTRACE_OPS_FL_IPMODIFY
- 	Requires FTRACE_OPS_FL_SAVE_REGS set. If the callback is to "hijack"
+ If you have a w1 bus that never changes (you don't add or remove devices),
 --
 2.26.3
 
