@@ -2,115 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F20CC433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 15:17:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0CE7C433C1
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 16:44:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C538D61969
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 15:17:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BA3A86196C
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 16:44:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229711AbhC2PQc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 11:16:32 -0400
-Received: from m32-153.88.com ([43.250.32.153]:27034 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230347AbhC2PQM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 29 Mar 2021 11:16:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=hThKDuBMyA+jQcLmsLmdL2nPUseEOjn9tZEmy
-        ak3skg=; b=jshfYw1OKwsAB7P2VPftL47H6VIKNHfbESyrTBQXFCXGHJ/p+MBld
-        ZMSId9xsyisQlfcDiaZ7cX9wSZo08m9xFJ61DJ0RmdEwbLUuRLGx54Qv4W+OrfM4
-        FERl8cb9JJ/pMGDgo53VrHlAsqPvIX+LXcqUZhEMFFAx7lRMDFOnWc=
-Received: from mipc (unknown [120.238.248.129])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAHkyMp72FgUiNPAA--.53608S2;
-        Mon, 29 Mar 2021 23:15:55 +0800 (CST)
-Date:   Mon, 29 Mar 2021 23:15:53 +0800
-From:   Wu XiangCheng <bobwxc@email.cn>
-To:     Alex Shi <alex.shi@linux.alibaba.com>, Alex Shi <alexs@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Harry Wei <harryxiyou@gmail.com>,
-        Weiwei Jia <harrynjit@gmail.com>, Fu Wei <wefu@redhat.com>,
-        Li Yang <leoyang.li@nxp.com>,
-        Linux-Doc <linux-doc@vger.kernel.org>,
-        LKLM <linux-kernel@vger.kernel.org>
-Subject: [PATCH] doc/zh_CN: Clean zh_CN translation maintainer
-Message-ID: <20210329151551.GA10901@mipc>
+        id S231187AbhC2QoO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 12:44:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46490 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229910AbhC2Qn6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 12:43:58 -0400
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E2D2C061574;
+        Mon, 29 Mar 2021 09:43:58 -0700 (PDT)
+Received: by mail-lj1-x22a.google.com with SMTP id o16so2642469ljp.3;
+        Mon, 29 Mar 2021 09:43:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=EJA04ZTI6BF3T7RTrxt/PRfIkpOFj2/PcmhPczxlcIE=;
+        b=THtoF59AVOFrR2jstQBNOoDcCB3dQWh93fHaqXEcvO6bOXhPRvN/8TTsypthmcU/UM
+         7owCSX8NkHl8e8J+iFGtj+lVPrVQnLR8m9FfUaHm2usLQF3/Ihx9eug/2HcW6JcqmMWl
+         e1dSxyzypN/4jCg4LVG1Mi4NjAQCkdAeAMupYwoMRAmdRzvfbSutokQwCvgD71J9KIRc
+         ioKEB6E5pMQ9ODdDJg49OAZPraUF1oMBiKUKb6VxvUQtncu5rNH1r/20pJLezAxSuChl
+         wnwTupu+GYlnlJB90p5n1z7OfAxBC4ffWz0Fe7ambJ9mbYDgBBWCP3J2ve8YMcp+/Ahx
+         TziA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=EJA04ZTI6BF3T7RTrxt/PRfIkpOFj2/PcmhPczxlcIE=;
+        b=CEuCs57A8k8rsiXT3e55r+NC0U+dGGTs69buvpaco1A2IrhxTqHa+qbVfZFvf1m3mq
+         yRdyDHdGKwXHiXNJHbdwkxxwGMSFa8MPjdJLHCZcfETabb7RTf3nSi1g1/n3/p/gIxio
+         NaMOBsDnpzQHfQjJrS9g7CS1avWXdCmfEOmmTixxQuyMmHVfMO3khXjwrwMUP9sNiinu
+         ARW4j0+2jBzsK3AsPndPkYHWudwwmRjRz4tC5U4N5IDMIFZuLsiDu3lT5AzQB1Z6QrX2
+         65+PWiLE9avFXDjpkFf4SYJPa0Q78FbxIqNL2V4Fj2SHoaLaMVt33cjbPDPOValgIV23
+         L/OQ==
+X-Gm-Message-State: AOAM530i+QE0ORin1l5Alli5AYaZZqNeqA9YmZl0elPUdn7BVEvUeeXp
+        UZHCL2aHGMrpd975UASF1fBiPknYBWV/D2SribI=
+X-Google-Smtp-Source: ABdhPJzS8PQfFWyMazbBa7Hc/f4knOhxnZndQbdzqKAFN6z6q+U1344mkldKZH8fX2YKnlVG0Nr19E2tf6O0Uy6Gu1s=
+X-Received: by 2002:a2e:9a4e:: with SMTP id k14mr18376958ljj.116.1617036236649;
+ Mon, 29 Mar 2021 09:43:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgAHkyMp72FgUiNPAA--.53608S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CF1DKF4xAw4xZr43Cw48WFg_yoW8CFy7pF
-        WrKr1fGF93t3WjyF48Kw4av3W09F97Gw47X39rtwn0yFn2ya1vqFW3K3sIgr1vqF4rWF4F
-        kanI9FyFkayYyrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUg2b7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzx
-        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
-        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkIecxEwVAFwVW5WwCF04k20x
-        vY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4U
-        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
-        AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
-        cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
-        80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
-        43ZEXa7IUjBOJUUUUUU==
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+References: <20210329142604.28737-1-yashsri421@gmail.com>
+In-Reply-To: <20210329142604.28737-1-yashsri421@gmail.com>
+From:   Fabio Estevam <festevam@gmail.com>
+Date:   Mon, 29 Mar 2021 13:43:44 -0300
+Message-ID: <CAOMZO5DLaw7uCBX03YgpY7ZvcjNW6gdsbOx9et+pgEGjRMm=dw@mail.gmail.com>
+Subject: Re: [PATCH] usb: dwc3: imx8mp: fix incorrect kernel-doc comment syntax
+To:     Aditya Srivastava <yashsri421@gmail.com>
+Cc:     Felipe Balbi <balbi@kernel.org>, lukas.bulwahn@gmail.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Sascha Hauer <kernel@pengutronix.de>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove Harry Wei and <xiyoulinuxkernelgroup@googlegroups.com> from
-MAINTAINERS Chinese Translation.
+Hi Aditya,
 
-According to git logs, Harry Wei (aka WeiWei Jia)
-* last submitted at 2012-05-07
-commit a9e73211fb0f ("Fix a mistake sentence in the file 'Documentation/zh_CN/magic-number.txt'")
-* last Reviewed-by at 2016-02-16
-commit 45c73ea7a785 ("Documentation: Chinese translation of arm64/silicon-errata.txt")
-* last Signed-off-by at 2019-03-13 (pick by Alex Shi)
-commit 95dcdb6e125f ("docs/zh_CN: rename magic-numbers as rst doc")
+On Mon, Mar 29, 2021 at 11:26 AM Aditya Srivastava <yashsri421@gmail.com> wrote:
+>
+> The opening comment mark '/**' is used for highlighting the beginning of
+> kernel-doc comments.
+> The header for drivers/usb/dwc3/dwc3-imx8mp.c follows this syntax, but the
+> content inside does not comply with kernel-doc.
+>
+> This line was probably not meant for kernel-doc parsing, but is parsed
+> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+> causes unexpected warning from kernel-doc:
+> "warning: expecting prototype for dwc3(). Prototype was for USB_WAKEUP_CTRL() instead"
+>
+> Provide a simple fix by replacing this occurrence with general comment
+> format, i.e. '/*', to prevent kernel-doc from parsing it.
+>
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 
-According to mail list archives, Harry Wei
-* last replied at 2016-02-15
-<https://lore.kernel.org/lkml/CAD+1EGPFdoD7HHZYfEWVvmesXXG27n=6KmEZ8=B6nrvb+oaLZA@mail.gmail.com/>
-* last appeared at 2018-05-12
-<https://lore.kernel.org/lkml/CA+scX6kYH8Y9_f1PLcMHG-MD9bhXgd4gGpkJanjzvwwj9L=aOQ@mail.gmail.com/>
+It looks good, thanks:
 
-He/She did not maintain zh_CN translations for a long time.
-<xiyoulinuxkernelgroup@googlegroups.com> is a maillist for Linux group of
-Xi'an University of Posts and Telecommunications, not special for zh_CN
-translation work.
-
-Anyway, many thanks him/her and Xiyou for their contributions to the early
-Chinese translation work!
-
-Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
----
-Hope I did not miss something.
-If someone know Harry Wei want to come back, please reply this message
-before pick up.
-
- MAINTAINERS | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fb2a3633b719..178927f7e813 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4185,9 +4185,7 @@ S:	Maintained
- F:	scripts/checkpatch.pl
- 
- CHINESE DOCUMENTATION
--M:	Harry Wei <harryxiyou@gmail.com>
- M:	Alex Shi <alex.shi@linux.alibaba.com>
--L:	xiyoulinuxkernelgroup@googlegroups.com (subscribers-only)
- S:	Maintained
- F:	Documentation/translations/zh_CN/
- 
--- 
-2.20.1
-
+Reviewed-by: Fabio Estevam <festevam@gmail.com>
