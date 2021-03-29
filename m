@@ -3,179 +3,87 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E04DC433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 13:51:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4C25C433E2
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 13:57:18 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6E53261938
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 13:51:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A32961969
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 13:57:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231740AbhC2NvY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 09:51:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37220 "EHLO
+        id S230359AbhC2N4s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 09:56:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231734AbhC2NvV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 09:51:21 -0400
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABA0FC061574;
-        Mon, 29 Mar 2021 06:51:20 -0700 (PDT)
-Received: by mail-pl1-x62e.google.com with SMTP id e14so4421775plj.2;
-        Mon, 29 Mar 2021 06:51:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=g6MGypQezVtHLiXCLKeIkg+BTfToRXpmNx+Fhvih524=;
-        b=RmZVrOs/Xv6ZMvjON31XrBzpiNonLabyrdWo/pSVmegntHjtDII1lrl3jhlny0jSfe
-         Yw7ih/0CCagLRHylRs4mEsI2QDpW68bDZXQ75S4u2VzCdI+hzkamqFcvcMj5B5otf8YI
-         MmRTxtANSQoN+iy0EUJqvCAQjHFgiLyXtOCQgtSHH0jZxfZ6WZLz2brskEo3vZrm12yZ
-         d0ANtskJRkXCR/GL1QI/zUup/m/0//seluOxapFIVFqCmNcwcdo0jzO9+atMN1t/QTnP
-         LMCrxHAeGZLib9SjD9IVj1W+GN3ulHLiD0qBp/0Hits1Hl3ZrO4UuYWJpAlpf9w9S5y8
-         KkhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=g6MGypQezVtHLiXCLKeIkg+BTfToRXpmNx+Fhvih524=;
-        b=CRuAB41SWTDJI25XxR5Agnbm2VJBCMVghpjKC3LrGIbclsqqVdEUCbLq1828chC7+o
-         4WbtdbUlEV7thltjBzyHWX+1TVqsmaHmpYtomtytWtLOKwXepNDe6dZ1pRkl9xOsSXdD
-         L6GBBz9Df0Aene6iZV6roJt3JleN11suBUynVcIhHilQR4KU64ZeZJVtB4mRZjP16T65
-         QiqdiML62XHTMeCBKvt1IOjdadbf1GXrr/gxBRcLONp3o12ybuqcFqtLxjZzA4xp/fMf
-         tEXwOjPScPveGCjhVYM6SIgTTtcOS3ajP/ckUyHQTLT7Cl5B7qs1IvFU5ELtAmx6XeWN
-         iFog==
-X-Gm-Message-State: AOAM532ubgFdKiCh3hR1A9aNKUvCeeZPv0kwASLzvYrcQzBboQWuL/fN
-        ULJNbNG+A7axNxKok9udF9CXT8MjhnAyQl00
-X-Google-Smtp-Source: ABdhPJwOf99fPjyShSZ07RL9cICcdUqyhTG71ttWjJnb7jcJExZZeM7z9zMCbhmt2Dw5Q2iN/dvltg==
-X-Received: by 2002:a17:902:d202:b029:e4:55cd:dde8 with SMTP id t2-20020a170902d202b02900e455cddde8mr28519192ply.51.1617025880092;
-        Mon, 29 Mar 2021 06:51:20 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:600d:a089:4ed:8f53:adc7:b574])
-        by smtp.googlemail.com with ESMTPSA id w84sm17429226pfc.142.2021.03.29.06.51.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Mar 2021 06:51:19 -0700 (PDT)
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     balbi@kernel.org
+        with ESMTP id S231571AbhC2N4m (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 09:56:42 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325EFC061574;
+        Mon, 29 Mar 2021 06:56:40 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id A17AE31A;
+        Mon, 29 Mar 2021 13:56:37 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A17AE31A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1617026197; bh=wP5WqP7TpuMhuinSpqX6j4VTxGeZ7Yu9z1jrQzPzyi0=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=hVhTaW+qcOXhMUPdNSGEV54fHVH4+bhntN6Evj0LLSDi30TYZrzBoKHE/YgH61eP3
+         4QinjQ4PRKjQUsTMlL0o3khU/W0PmTjsHRi6XLWWdEjUkYOrqs1miZMWJjZnHArjan
+         sPvgW2jc1sULfLqbTIdrJSLvg5x3JHI+s/78CXEog3GUoiDl9p6HYk1BM7GQvJo1a5
+         RZ6ry7BPfPO+CSrddzM0ykIWOQ6ZOHPot79Rt3N3s2XY5RzbtemN97E0FmlQZjOut0
+         zMysbnKYsk39sICqO2HAaM5VxdhCYojBBU3W+8DeEn7bCZD+eniEanJ042GJOQQg5Z
+         u/47nwgljIpiQ==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Aditya Srivastava <yashsri421@gmail.com>
 Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        gregkh@linuxfoundation.org, rdunlap@infradead.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: dwc3: fix incorrect kernel-doc comment syntax in files
-Date:   Mon, 29 Mar 2021 19:21:08 +0530
-Message-Id: <20210329135108.27128-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scripts: kernel-doc: add warning for comment not
+ following kernel-doc syntax
+In-Reply-To: <20210329092945.13152-1-yashsri421@gmail.com>
+References: <20210329092945.13152-1-yashsri421@gmail.com>
+Date:   Mon, 29 Mar 2021 07:56:37 -0600
+Message-ID: <87czvit65m.fsf@meer.lwn.net>
+MIME-Version: 1.0
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The opening comment mark '/**' is used for highlighting the beginning of
-kernel-doc comments.
-There are certain files in drivers/usb/dwc3, which follow this syntax,
-but the content inside does not comply with kernel-doc.
-Such lines were probably not meant for kernel-doc parsing, but are parsed
-due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-causes unexpected warnings from kernel-doc.
+Aditya Srivastava <yashsri421@gmail.com> writes:
 
-E.g., presence of kernel-doc like comment in drivers/usb/dwc3/io.h at
-header causes this warnings by kernel-doc:
-"warning: expecting prototype for h(). Prototype was for __DRIVERS_USB_DWC3_IO_H() instead"
+> Currently, kernel-doc start parsing the comment as a kernel-doc comment if
+> it starts with '/**', but does not take into account if the content inside
+> the comment too, adheres with the expected format.
+> This results in unexpected and unclear warnings for the user.
+>
+> E.g., running scripts/kernel-doc -none mm/memcontrol.c emits:
+> "mm/memcontrol.c:961: warning: expecting prototype for do not fallback to current(). Prototype was for get_mem_cgroup_from_current() instead"
+>
+> Here kernel-doc parses the corresponding comment as a kernel-doc comment
+> and expects prototype for it in the next lines, and as a result causing
+> this warning.
+>
+> Provide a clearer warning message to the users regarding the same, if the
+> content inside the comment does not follow the kernel-doc expected format.
+>
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> ---
+>  scripts/kernel-doc | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
 
-Similarly for other files too.
+This is definitely a capability we want, but I really don't think that
+we can turn it on by default - for now.  Experience shows that if you
+create a blizzard of warnings, nobody sees any of them.  How many
+warnings does this add to a full docs build?
 
-Provide a simple fix by replacing such occurrences with general comment
-format, i.e. '/*', to prevent kernel-doc from parsing it.
+For now I think we need a flag to turn this warning on, which perhaps
+can be set for a W=1 build.
 
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
-* Applies perfectly on next-20210326
+Thanks,
 
- drivers/usb/dwc3/debug.h         | 2 +-
- drivers/usb/dwc3/debugfs.c       | 2 +-
- drivers/usb/dwc3/dwc3-keystone.c | 2 +-
- drivers/usb/dwc3/dwc3-pci.c      | 2 +-
- drivers/usb/dwc3/io.h            | 2 +-
- drivers/usb/dwc3/trace.c         | 2 +-
- drivers/usb/dwc3/trace.h         | 2 +-
- 7 files changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/usb/dwc3/debug.h b/drivers/usb/dwc3/debug.h
-index 8ab394942360..db231de46bb3 100644
---- a/drivers/usb/dwc3/debug.h
-+++ b/drivers/usb/dwc3/debug.h
-@@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--/**
-+/*
-  * debug.h - DesignWare USB3 DRD Controller Debug Header
-  *
-  * Copyright (C) 2010-2011 Texas Instruments Incorporated - https://www.ti.com
-diff --git a/drivers/usb/dwc3/debugfs.c b/drivers/usb/dwc3/debugfs.c
-index 5da4f6082d93..b0e3f434d219 100644
---- a/drivers/usb/dwc3/debugfs.c
-+++ b/drivers/usb/dwc3/debugfs.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0
--/**
-+/*
-  * debugfs.c - DesignWare USB3 DRD Controller DebugFS file
-  *
-  * Copyright (C) 2010-2011 Texas Instruments Incorporated - https://www.ti.com
-diff --git a/drivers/usb/dwc3/dwc3-keystone.c b/drivers/usb/dwc3/dwc3-keystone.c
-index 057056c0975e..1317959294e6 100644
---- a/drivers/usb/dwc3/dwc3-keystone.c
-+++ b/drivers/usb/dwc3/dwc3-keystone.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0
--/**
-+/*
-  * dwc3-keystone.c - Keystone Specific Glue layer
-  *
-  * Copyright (C) 2010-2013 Texas Instruments Incorporated - https://www.ti.com
-diff --git a/drivers/usb/dwc3/dwc3-pci.c b/drivers/usb/dwc3/dwc3-pci.c
-index 4c5c6972124a..4698c43af5ae 100644
---- a/drivers/usb/dwc3/dwc3-pci.c
-+++ b/drivers/usb/dwc3/dwc3-pci.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0
--/**
-+/*
-  * dwc3-pci.c - PCI Specific glue layer
-  *
-  * Copyright (C) 2010-2011 Texas Instruments Incorporated - https://www.ti.com
-diff --git a/drivers/usb/dwc3/io.h b/drivers/usb/dwc3/io.h
-index 76b73b116862..1e96ea339d48 100644
---- a/drivers/usb/dwc3/io.h
-+++ b/drivers/usb/dwc3/io.h
-@@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--/**
-+/*
-  * io.h - DesignWare USB3 DRD IO Header
-  *
-  * Copyright (C) 2010-2011 Texas Instruments Incorporated - https://www.ti.com
-diff --git a/drivers/usb/dwc3/trace.c b/drivers/usb/dwc3/trace.c
-index 1b45a9723eeb..088995885678 100644
---- a/drivers/usb/dwc3/trace.c
-+++ b/drivers/usb/dwc3/trace.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0
--/**
-+/*
-  * trace.c - DesignWare USB3 DRD Controller Trace Support
-  *
-  * Copyright (C) 2014 Texas Instruments Incorporated - https://www.ti.com
-diff --git a/drivers/usb/dwc3/trace.h b/drivers/usb/dwc3/trace.h
-index 97f4f1125a41..60883268adfc 100644
---- a/drivers/usb/dwc3/trace.h
-+++ b/drivers/usb/dwc3/trace.h
-@@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--/**
-+/*
-  * trace.h - DesignWare USB3 DRD Controller Trace Support
-  *
-  * Copyright (C) 2014 Texas Instruments Incorporated - https://www.ti.com
--- 
-2.17.1
-
+jon
