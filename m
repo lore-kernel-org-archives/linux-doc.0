@@ -2,126 +2,115 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 500CBC433DB
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 15:11:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F20CC433DB
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 15:17:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1913A61964
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 15:11:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C538D61969
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 15:17:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229655AbhC2PLM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 11:11:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54350 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229971AbhC2PKn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 11:10:43 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7201C061574;
-        Mon, 29 Mar 2021 08:10:43 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id h20so4538766plr.4;
-        Mon, 29 Mar 2021 08:10:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=N/NFcCbZ8SKrCYRliun6T/1PmIMqL/U+dGOxSrfuAnc=;
-        b=CpLS08yoL0mgc/0jXiOqpJ1zYGIuIpq/bs/oA1AEx50zpsGFJc41Fsu0G4trNuVdqV
-         IXy1vasTJYKOJQa66t3Rww7mrUxBdLFoWorvsm6EjqHzjWX3mWDw+DtzIRKCLefZb1a+
-         7+yAxkDR+KPI3rbx8lyfBEAgSQWpswkhnpOmSFSxn51oM4UAYxD/4m/55ih2RLUG88wb
-         cjLUxVHlEAVjye3+nRXv2vrsHUn7ajNRUPvuyFXm0yM0NWL8fNdQOnC4tm59kDgwSYJT
-         tmffZR3ig0SjSIy55FZFTnNHH3693W/0uctfpQHqI3h0lM6xuGucjXWIS/uzn9iQl9mD
-         Y/Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=N/NFcCbZ8SKrCYRliun6T/1PmIMqL/U+dGOxSrfuAnc=;
-        b=B40kJatO1Id4D55iiGIa0y0KIgFkC+ykCemDqjaY/+L7bYl3j1OLblz4kDFjunAWuv
-         5NZbAw/B4Yibmh4S4WkKyxHlHf5xHu4+Pt380pBcaKIEAyv/crtB+WdkZC+1lpxmHNEk
-         MbFlll0RSZ7JJF9jPJ0Qj9k3evHNBwnMDmucsL3UCiBqT9IidEi8i0+i7Osjeh19bcOj
-         ZKry7CQTFuGoyroGXv1EgrAj9oBdwGABqgcqX+dYM0Vf1nkcl9NauYvDGKl4UM4+WyxY
-         53SotFcmsnwTSQy906XyLiavGJI0mh6lwJJ2PwDNziM50pmv3ZVU+khJvoQElpVMkFVI
-         6bFA==
-X-Gm-Message-State: AOAM533aTZNfRipHe9HDcUFuidv66EjpJjOMcWqu/140JGyg7aC9jqjE
-        IeV46LnM9+S1keOeTiOnsciP3o0sFESWRqjC
-X-Google-Smtp-Source: ABdhPJzqN2E68plwn/1hbIWAe8x57eA/rAEk/eQn0HrGMkeiOAN0s/buYE1hQii3Fd0eVYWo/4Xf2g==
-X-Received: by 2002:a17:902:820e:b029:e6:f006:fcff with SMTP id x14-20020a170902820eb02900e6f006fcffmr28543194pln.60.1617030642988;
-        Mon, 29 Mar 2021 08:10:42 -0700 (PDT)
-Received: from ?IPv6:2405:201:600d:a089:b513:fdab:ff5:9ffb? ([2405:201:600d:a089:b513:fdab:ff5:9ffb])
-        by smtp.gmail.com with ESMTPSA id q184sm17486614pfc.78.2021.03.29.08.10.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Mar 2021 08:10:42 -0700 (PDT)
-Subject: Re: [PATCH] scripts: kernel-doc: add warning for comment not
- following kernel-doc syntax
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     lukas.bulwahn@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210329092945.13152-1-yashsri421@gmail.com>
- <87czvit65m.fsf@meer.lwn.net>
-From:   Aditya Srivastava <yashsri421@gmail.com>
-Message-ID: <a35096d5-99e7-6b69-c959-1136d511a0ff@gmail.com>
-Date:   Mon, 29 Mar 2021 20:40:36 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S229711AbhC2PQc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 11:16:32 -0400
+Received: from m32-153.88.com ([43.250.32.153]:27034 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230347AbhC2PQM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 29 Mar 2021 11:16:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=hThKDuBMyA+jQcLmsLmdL2nPUseEOjn9tZEmy
+        ak3skg=; b=jshfYw1OKwsAB7P2VPftL47H6VIKNHfbESyrTBQXFCXGHJ/p+MBld
+        ZMSId9xsyisQlfcDiaZ7cX9wSZo08m9xFJ61DJ0RmdEwbLUuRLGx54Qv4W+OrfM4
+        FERl8cb9JJ/pMGDgo53VrHlAsqPvIX+LXcqUZhEMFFAx7lRMDFOnWc=
+Received: from mipc (unknown [120.238.248.129])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAHkyMp72FgUiNPAA--.53608S2;
+        Mon, 29 Mar 2021 23:15:55 +0800 (CST)
+Date:   Mon, 29 Mar 2021 23:15:53 +0800
+From:   Wu XiangCheng <bobwxc@email.cn>
+To:     Alex Shi <alex.shi@linux.alibaba.com>, Alex Shi <alexs@kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Harry Wei <harryxiyou@gmail.com>,
+        Weiwei Jia <harrynjit@gmail.com>, Fu Wei <wefu@redhat.com>,
+        Li Yang <leoyang.li@nxp.com>,
+        Linux-Doc <linux-doc@vger.kernel.org>,
+        LKLM <linux-kernel@vger.kernel.org>
+Subject: [PATCH] doc/zh_CN: Clean zh_CN translation maintainer
+Message-ID: <20210329151551.GA10901@mipc>
 MIME-Version: 1.0
-In-Reply-To: <87czvit65m.fsf@meer.lwn.net>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgAHkyMp72FgUiNPAA--.53608S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7CF1DKF4xAw4xZr43Cw48WFg_yoW8CFy7pF
+        WrKr1fGF93t3WjyF48Kw4av3W09F97Gw47X39rtwn0yFn2ya1vqFW3K3sIgr1vqF4rWF4F
+        kanI9FyFkayYyrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUg2b7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26F4UJVW0owAS0I0E0xvYzx
+        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
+        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkIecxEwVAFwVW5WwCF04k20x
+        vY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4U
+        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
+        AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
+        cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
+        80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
+        43ZEXa7IUjBOJUUUUUU==
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 29/3/21 7:26 pm, Jonathan Corbet wrote:
-> Aditya Srivastava <yashsri421@gmail.com> writes:
-> 
->> Currently, kernel-doc start parsing the comment as a kernel-doc comment if
->> it starts with '/**', but does not take into account if the content inside
->> the comment too, adheres with the expected format.
->> This results in unexpected and unclear warnings for the user.
->>
->> E.g., running scripts/kernel-doc -none mm/memcontrol.c emits:
->> "mm/memcontrol.c:961: warning: expecting prototype for do not fallback to current(). Prototype was for get_mem_cgroup_from_current() instead"
->>
->> Here kernel-doc parses the corresponding comment as a kernel-doc comment
->> and expects prototype for it in the next lines, and as a result causing
->> this warning.
->>
->> Provide a clearer warning message to the users regarding the same, if the
->> content inside the comment does not follow the kernel-doc expected format.
->>
->> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
->> ---
->>  scripts/kernel-doc | 17 +++++++++++++----
->>  1 file changed, 13 insertions(+), 4 deletions(-)
-> 
-> This is definitely a capability we want, but I really don't think that
-> we can turn it on by default - for now.  Experience shows that if you
-> create a blizzard of warnings, nobody sees any of them.  How many
-> warnings does this add to a full docs build?
-> 
+Remove Harry Wei and <xiyoulinuxkernelgroup@googlegroups.com> from
+MAINTAINERS Chinese Translation.
 
-Hi Jonathan, here's the diff I have created for the warnings before
-and after the changes:
-https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/kernel-doc/kernel_doc_comment_syntax.txt
+According to git logs, Harry Wei (aka WeiWei Jia)
+* last submitted at 2012-05-07
+commit a9e73211fb0f ("Fix a mistake sentence in the file 'Documentation/zh_CN/magic-number.txt'")
+* last Reviewed-by at 2016-02-16
+commit 45c73ea7a785 ("Documentation: Chinese translation of arm64/silicon-errata.txt")
+* last Signed-off-by at 2019-03-13 (pick by Alex Shi)
+commit 95dcdb6e125f ("docs/zh_CN: rename magic-numbers as rst doc")
 
-Around ~1320 new warnings of this type are added to the kernel tree,
-and around ~1580 warnings are removed.
+According to mail list archives, Harry Wei
+* last replied at 2016-02-15
+<https://lore.kernel.org/lkml/CAD+1EGPFdoD7HHZYfEWVvmesXXG27n=6KmEZ8=B6nrvb+oaLZA@mail.gmail.com/>
+* last appeared at 2018-05-12
+<https://lore.kernel.org/lkml/CA+scX6kYH8Y9_f1PLcMHG-MD9bhXgd4gGpkJanjzvwwj9L=aOQ@mail.gmail.com/>
 
-Thanks
-Aditya
+He/She did not maintain zh_CN translations for a long time.
+<xiyoulinuxkernelgroup@googlegroups.com> is a maillist for Linux group of
+Xi'an University of Posts and Telecommunications, not special for zh_CN
+translation work.
 
-> For now I think we need a flag to turn this warning on, which perhaps
-> can be set for a W=1 build.
-> > Thanks,
-> 
-> jon
-> 
+Anyway, many thanks him/her and Xiyou for their contributions to the early
+Chinese translation work!
+
+Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+---
+Hope I did not miss something.
+If someone know Harry Wei want to come back, please reply this message
+before pick up.
+
+ MAINTAINERS | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fb2a3633b719..178927f7e813 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -4185,9 +4185,7 @@ S:	Maintained
+ F:	scripts/checkpatch.pl
+ 
+ CHINESE DOCUMENTATION
+-M:	Harry Wei <harryxiyou@gmail.com>
+ M:	Alex Shi <alex.shi@linux.alibaba.com>
+-L:	xiyoulinuxkernelgroup@googlegroups.com (subscribers-only)
+ S:	Maintained
+ F:	Documentation/translations/zh_CN/
+ 
+-- 
+2.20.1
 
