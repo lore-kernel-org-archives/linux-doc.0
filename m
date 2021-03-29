@@ -2,67 +2,67 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,USER_AGENT_GIT autolearn=ham
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7251C433EB
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ECA34C43446
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D3236195E
-	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C64F2619C1
+	for <linux-doc@archiver.kernel.org>; Mon, 29 Mar 2021 05:17:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230402AbhC2FQL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 29 Mar 2021 01:16:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36594 "EHLO
+        id S231183AbhC2FQi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 29 Mar 2021 01:16:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36626 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229873AbhC2FQD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 01:16:03 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E20C061574;
-        Sun, 28 Mar 2021 22:16:02 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id g24so8554675qts.6;
-        Sun, 28 Mar 2021 22:16:02 -0700 (PDT)
+        with ESMTP id S230378AbhC2FQK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 29 Mar 2021 01:16:10 -0400
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7481AC061574;
+        Sun, 28 Mar 2021 22:16:10 -0700 (PDT)
+Received: by mail-qk1-x72d.google.com with SMTP id c4so11391987qkg.3;
+        Sun, 28 Mar 2021 22:16:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qrac6Y8n7VJp0ETI9GDKy6Zy5spiCaL0e3a0AJeAsJw=;
-        b=va5JCICcydH63gN0PTtUNguBea12LnzZBpuWl4fBHLQ24hAod08cBWRTJukCeAyNIG
-         2LPFwemzFzMyTDq8ehDNgh0vgD5y28PNIxcL3bFkdPaHZzAAzKrZddZz84PgVB3C/mof
-         SkB2txXHV4FbcVYhaYebAfA+zhyGhM6X5s/wCs9mWjwTyqzDCgmDBDfvt8AOoCLNlTjM
-         zhxAPm9HQ60IuUZFeLAjgEuKxnLpnWHObPekJ1eI0nqCfL33ARHRdH2ozQUbaWlEw4t5
-         DDg1m20U89bAl3rXD4bKj8kbMQSvbrph6/J3chqsfHnwS/ee62jk8thfUDf7ZDUgIhBX
-         4JxQ==
+        bh=JSkxpavW56Tv10FJKwdHyyIQv1l5EPU54pjbcomxTCY=;
+        b=IGkYjXooWSe/I7pUun/JwdSlJKAiWX6Nsn26Gy9pcKjIImTCnNLc8zQH5AJYOvzH7h
+         2zZea88iHoR0FBY7eVKTYKINPs4A8yd2eSuhusUK0jj2D8JOF6Pmnci3sEW3oYEORSP0
+         tym3cxGdvwMRvkhn6D3x5wjDp9Io2MYlRynjKnLP5r/k3xV5Rz1tksGSSpeIb6R6osr1
+         nqkz6oon+367hdAoHV6lg7hNtgLYaT/qBCr+qE86St5mkZnAIQFt9cbEx7VIu3hcg8wV
+         3y61VVD7BgYmawBi+ORGnsTE6M2bvH3f814dTzjtQDY7jY5xFWkDojVgD2gZ872Pa/x4
+         Lfjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qrac6Y8n7VJp0ETI9GDKy6Zy5spiCaL0e3a0AJeAsJw=;
-        b=tZl7KR+SnWFSuiB22b0NazWRDFToPLM4RPeoEe9wVl49TGTLfegqq0YP+G5xKWNWBt
-         CsA5ihUxfNQLw0iYlkG8Px0VU32/98sAJSLbPNewnlIybPefs1QbbL8JrPsXidwPr9ku
-         G0XcumlPWSP7LtSLoHuOsOKnzNRH/sXE+YO6dJ5ZSioUc3H9d+ceZUaVSxX+neA/yjA5
-         BlUfqctRK6xsz+XuRnMhFjCf2h9wErsaVRV6YA4eItKdjdCxpfCsyByqLxNeHGebcX/c
-         GT+w25gDn10M13XZ/A6slcTSauKkmk7iF0A1Pws6V/8q4OQm8tcs1j1YWZBugOusjmBR
-         9D5w==
-X-Gm-Message-State: AOAM531/0z6RU5/aBrnCd5j0LCH4/wunbBk187YydFvJRLOkZcjig5oT
-        J7zEDEU1N3a4HPN5uc57gxg=
-X-Google-Smtp-Source: ABdhPJxDvI2aPHPNx8ed2o0+nvEAL5XLq6bJF3ZSxgmogXSlKVnIHcAPdGgWbWoh+yiF6fBsX2Kyeg==
-X-Received: by 2002:ac8:6e85:: with SMTP id c5mr20693234qtv.299.1616994962102;
-        Sun, 28 Mar 2021 22:16:02 -0700 (PDT)
+        bh=JSkxpavW56Tv10FJKwdHyyIQv1l5EPU54pjbcomxTCY=;
+        b=OXC9i7XiCbfmsIpSLKA9PEnSM7ZQWs1zfg6zbJtUfrZDRazGW2EEPMvStqJJvOO9rg
+         dnGya9JosR0zwgdKlCWx6+szK/f7MIVCQ7uDYte8l4n5SLblOWkYsy2toT6j+VRiho0s
+         1VoSaRiMTi99JZFuxIubXA4wyECfh0vnZ0Epra0xqzIl1d8kLNt+pD5ptT3uqG/qZEma
+         /v2lrqBkH7nDcsJIZFkns95fCeG59pvcUDNZuNaQsUi3KhVdMPhzCUDmr1ppzCNbg091
+         PZNNFYQAd3I8QBgIjlb8DNLUY+IOLR0+7SqKWNhnUXAJDWpYB9Nx1JA7GIOpysimyF4g
+         Jlhw==
+X-Gm-Message-State: AOAM5305MY3MlsqK2Dmjh9qowahSt4ERCehaltbhFkOZHdM8+nzssTz2
+        5pL8Eb5WXDcKK3rscHtes3w=
+X-Google-Smtp-Source: ABdhPJyxOBeq/ZddQVp9saDk/JONslrhxwittKF9nu+WLd5QcHt4fUdHy/yNzcHzUzpLbgpt57WurA==
+X-Received: by 2002:a37:9b07:: with SMTP id d7mr23357955qke.130.1616994969770;
+        Sun, 28 Mar 2021 22:16:09 -0700 (PDT)
 Received: from localhost.localdomain ([156.146.37.195])
-        by smtp.gmail.com with ESMTPSA id z124sm12993181qke.36.2021.03.28.22.15.58
+        by smtp.gmail.com with ESMTPSA id z124sm12993181qke.36.2021.03.28.22.16.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Mar 2021 22:16:01 -0700 (PDT)
+        Sun, 28 Mar 2021 22:16:09 -0700 (PDT)
 From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
 To:     corbet@lwn.net, linux-doc@vger.kernel.org
 Cc:     Bhaskar Chowdhury <unixbhaskar@gmail.com>, rdunlap@infradead.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 11/23] virt: user_mode_linux_howto_v2.rst: Few typo fixes
-Date:   Mon, 29 Mar 2021 10:42:47 +0530
-Message-Id: <f5a9688aa0254f60512b711fc8813e005d8cb89f.1616992679.git.unixbhaskar@gmail.com>
+Subject: [PATCH 13/23] trace: hwlat_detector.rst: Fix a typo
+Date:   Mon, 29 Mar 2021 10:42:49 +0530
+Message-Id: <3d7ca39a6be678852b448f5930fd538276cbb487.1616992679.git.unixbhaskar@gmail.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <cover.1616992679.git.unixbhaskar@gmail.com>
 References: <cover.1616992679.git.unixbhaskar@gmail.com>
@@ -72,65 +72,26 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-s/absense/absence/
-s/sripts/scripts/
-s/resultion/resolution/
-s/desireable/desirable/
+s/occuring/occurring/
 
 Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
 ---
- Documentation/virt/uml/user_mode_linux_howto_v2.rst | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ Documentation/trace/hwlat_detector.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-index 312e431695d9..0e1371c3e235 100644
---- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-+++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-@@ -317,7 +317,7 @@ Shared Options
- * ``v6=[0,1]`` to specify if a v6 connection is desired for all
-   transports which operate over IP. Additionally, for transports that
-   have some differences in the way they operate over v4 and v6 (for example
--  EoL2TPv3), sets the correct mode of operation. In the absense of this
-+  EoL2TPv3), sets the correct mode of operation. In the absence of this
-   option, the socket type is determined based on what do the src and dst
-   arguments resolve/parse to.
+diff --git a/Documentation/trace/hwlat_detector.rst b/Documentation/trace/hwlat_detector.rst
+index 5739349649c8..f7811e2ddf34 100644
+--- a/Documentation/trace/hwlat_detector.rst
++++ b/Documentation/trace/hwlat_detector.rst
+@@ -14,7 +14,7 @@ originally written for use by the "RT" patch since the Real Time
+ kernel is highly latency sensitive.
 
-@@ -726,7 +726,7 @@ kernel.  When you boot UML, you'll see a line like::
-
-    mconsole initialized on /home/jdike/.uml/umlNJ32yL/mconsole
-
--If you specify a unique machine id one the UML command line, i.e.
-+If you specify a unique machine id one the UML command line, i.e.
- ``umid=debian``, you'll see this::
-
-    mconsole initialized on /home/jdike/.uml/debian/mconsole
-@@ -1073,7 +1073,7 @@ If you have something to contribute such as a patch, a bugfix, a
- new feature, please send it to ``linux-um@lists.infradead.org``
-
- Please follow all standard Linux patch guidelines such as cc-ing
--relevant maintainers and run ``./sripts/checkpatch.pl`` on your patch.
-+relevant maintainers and run ``./scripts/checkpatch.pl`` on your patch.
- For more details see ``Documentation/process/submitting-patches.rst``
-
- Note - the list does not accept HTML or attachments, all emails must
-@@ -1131,7 +1131,7 @@ This is a typical picture from a mostly idle UML instance
- * The sequence of ptrace calls is part of MMU emulation and runnin the
-   UML userspace
- * ``timer_settime`` is part of the UML high res timer subsystem mapping
--  timer requests from inside UML onto the host high resultion timers.
-+  timer requests from inside UML onto the host high resolution timers.
- * ``clock_nanosleep`` is UML going into idle (similar to the way a PC
-   will execute an ACPI idle).
-
-@@ -1195,7 +1195,7 @@ between a driver and the host at the UML command line is OK
- security-wise. Allowing it as a loadable module parameter
- isn't.
-
--If such functionality is desireable for a particular application
-+If such functionality is desirable for a particular application
- (e.g. loading BPF "firmware" for raw socket network transports),
- it should be off by default and should be explicitly turned on
- as a command line parameter at startup.
+ SMIs are not serviced by the Linux kernel, which means that it does not
+-even know that they are occuring. SMIs are instead set up by BIOS code
++even know that they are occurring. SMIs are instead set up by BIOS code
+ and are serviced by BIOS code, usually for "critical" events such as
+ management of thermal sensors and fans. Sometimes though, SMIs are used for
+ other tasks and those tasks can spend an inordinate amount of time in the
 --
 2.26.3
 
