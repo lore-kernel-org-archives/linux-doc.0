@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 67CD0C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:06:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A80FC433E5
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:06:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CA1761929
+	by mail.kernel.org (Postfix) with ESMTP id B759F619BD
 	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:06:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231624AbhC3JGJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 05:06:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59880 "EHLO
+        id S231655AbhC3JGM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 05:06:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231512AbhC3JFx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 05:05:53 -0400
-Received: from mail-qt1-x833.google.com (mail-qt1-x833.google.com [IPv6:2607:f8b0:4864:20::833])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FF69C061762;
-        Tue, 30 Mar 2021 02:05:53 -0700 (PDT)
-Received: by mail-qt1-x833.google.com with SMTP id l6so3170791qtq.2;
-        Tue, 30 Mar 2021 02:05:53 -0700 (PDT)
+        with ESMTP id S231589AbhC3JGF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 05:06:05 -0400
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E150FC061762;
+        Tue, 30 Mar 2021 02:06:04 -0700 (PDT)
+Received: by mail-qk1-x734.google.com with SMTP id y18so15115728qky.11;
+        Tue, 30 Mar 2021 02:06:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Eo3pqaFYDHE/AchRbjHb192sD13NhAxk8MLhFWpD8Eg=;
-        b=mNCimRTIcHxJLOqtBF0yCt/QXw2LLeoch129mRHucMADx976TXJ+yi71cj0vBREwI9
-         KWDnL4JVq3MIyYCTHWQECn/1Dw+TmQd12yYIrqhR4EC97/uQ//+dAU3xDXHKNWULNxMa
-         SEvCxE7Tz0qBrGioShl0OI16nbE0w7YQk+Ffuyx2NoWPRniw0zehTlQuGaUpryYKS5K6
-         jpeRnI16xhXfFDNZtl6IpuVcYpxvVl5EwEx+/ldD9iSVHwzGowzzGqAwp2yck6D66g0z
-         g9yzHeKC004bjjmeqxLYqwkupF06P8Hd2bUrpgtYiaEpJTqD1Z8baMeRBCrx18fCKuvy
-         ysdg==
+        bh=vtrB2rInnYxF3AJo1SMSTjvnEEdxxHaUc0AwFdrdGNE=;
+        b=evZWZqmSjckcOkyb55NBlPjtqljYC/5fxELm84zqIY/s1hcvvU09G7lVLK3kqSUytN
+         5ONvyF6WLT6uRvVM3Q4rfy6C2hyT8CSxH7f6tmJw48Qcpzlhznj2GWfmlhHTB1O+nM75
+         Ll7zs7VA0FzLECPkgDZW0OrkPx7QC/lQujvv0Y8f7H7Db1AUAsHgyKh3HTdlQ0zoC1o9
+         6rKpEYjPEA4V5Ncc06Yh8yrR6bHcGM1dBJ77KXf408Gi7PQNvWUl6girP7ZJcrar+ulZ
+         dNmTkUEune/bJZCIPdOInfw6Fkj13LBfBpfX/v9fasZzPmx9hRWKdASl2XcF3zL7SaDm
+         js5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=Eo3pqaFYDHE/AchRbjHb192sD13NhAxk8MLhFWpD8Eg=;
-        b=B9g5Q9BK50r5ExT2Crk+y1DIVsbsuBoxUlH3y7Y3mE3I9XYC/xNjxmAGVwhjCyXkwE
-         V16ZvcAOEYpduwgr0L73uV4SnV2v7MO7m4hO8vETXs3pkCUx4CUQyHzJ55wtw771XVg6
-         UeecUxHILR9o6GwCyitn/7EPN4fuJP6kHr2nkwUjnXEN8v9jkniKlkwYQOzKgWzApz0K
-         qYV8QYDMHbZvpYIfQ0F5Yn/TM9r8ALULWAslnGBqafH0s856bSsHtdDfM18ikGrVceqq
-         4mT46pus/z0wtM0iuEam5Cy08JZyOgONPVV3jiAC+GYDX4u7g+MLJhOv58arL6FNeHRa
-         xqhQ==
-X-Gm-Message-State: AOAM531uRMBrHBETNwlMZTRvI8Oa76ZO4szy5+eLHH+syPQPjEoWqOF/
-        KOBsRqb3pQZPwd6eSwXRp0Q=
-X-Google-Smtp-Source: ABdhPJyR8+0kYabjIMaIo0ulTnoh/kmt3CCTG4ws4AG2HeWAe17tdSlwGRaofXaPQJsO+9xvR+YQ/g==
-X-Received: by 2002:a05:622a:1744:: with SMTP id l4mr27138566qtk.75.1617095152142;
-        Tue, 30 Mar 2021 02:05:52 -0700 (PDT)
+        bh=vtrB2rInnYxF3AJo1SMSTjvnEEdxxHaUc0AwFdrdGNE=;
+        b=SDjY9gT7j+9yjZsHK73kRZpbVlrYZBibbvHzO4cFQ/bvELmXG851M4jaQIWjh9dsEp
+         z6xmwrKkKfP1DaPHR/bPv5rXOwlfhaZUAHoEtIpRyxENpAPz5WvwvCD2KlZtgZGKMjts
+         Lz7n3w5V2t2BcKVZwpsKP35TLQ+ncSM4s9pgpukemi1Kmz96/2+HZeWa8/QvbpRnnKGi
+         yf/Y5Er3I5ZS+IyxvPwiQTpnZI10s1AublgzcNidSH12si8K3ircF8KqqmqYb3Zr6OV5
+         lzou+bGEzC5v90SfQ5dTEbmnfpZ2xPKoBLAoB4bdUY/SEQX/FcfNffKOHK3bjeRrLCLy
+         ucyQ==
+X-Gm-Message-State: AOAM532TyN+Wy5KqiwsTyzKXU8sVeOJ5w6LTSOhigTkX8ozl2EDnfhys
+        pZO5f78vKxC0VTMWXUugGQI=
+X-Google-Smtp-Source: ABdhPJzTvRG2zfOmAcxJExAfLGBOzAH8FO2LgBpIS7QEPXZ7kZ13ucpQ6wxqtwhXusbvwDzO1fCamA==
+X-Received: by 2002:ae9:ef89:: with SMTP id d131mr28601002qkg.214.1617095164092;
+        Tue, 30 Mar 2021 02:06:04 -0700 (PDT)
 Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id 8sm14630011qkc.32.2021.03.30.02.05.51
+        by smtp.gmail.com with ESMTPSA id 8sm14630011qkc.32.2021.03.30.02.06.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Mar 2021 02:05:51 -0700 (PDT)
+        Tue, 30 Mar 2021 02:06:03 -0700 (PDT)
 From:   sj38.park@gmail.com
 To:     akpm@linux-foundation.org
 Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
@@ -71,9 +71,9 @@ Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
         vdavydov.dev@gmail.com, zgf574564920@gmail.com,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v26 01/13] mm: Introduce Data Access MONitor (DAMON)
-Date:   Tue, 30 Mar 2021 09:05:25 +0000
-Message-Id: <20210330090537.12143-2-sj38.park@gmail.com>
+Subject: [PATCH v26 04/13] mm/idle_page_tracking: Make PG_idle reusable
+Date:   Tue, 30 Mar 2021 09:05:28 +0000
+Message-Id: <20210330090537.12143-5-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210330090537.12143-1-sj38.park@gmail.com>
 References: <20210330090537.12143-1-sj38.park@gmail.com>
@@ -83,637 +83,191 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-DAMON is a data access monitoring framework for the Linux kernel.  The
-core mechanisms of DAMON make it
+PG_idle and PG_young allow the two PTE Accessed bit users, Idle Page
+Tracking and the reclaim logic concurrently work while don't interfere
+each other.  That is, when they need to clear the Accessed bit, they set
+PG_young to represent the previous state of the bit, respectively.  And
+when they need to read the bit, if the bit is cleared, they further read
+the PG_young to know whether the other has cleared the bit meanwhile or
+not.
 
- - accurate (the monitoring output is useful enough for DRAM level
-   performance-centric memory management; It might be inappropriate for
-   CPU cache levels, though),
- - light-weight (the monitoring overhead is normally low enough to be
-   applied online), and
- - scalable (the upper-bound of the overhead is in constant range
-   regardless of the size of target workloads).
+We could add another page flag and extend the mechanism to use the flag
+if we need to add another concurrent PTE Accessed bit user subsystem.
+However, the space is limited.  Meanwhile, if the new subsystem is
+mutually exclusive with IDLE_PAGE_TRACKING or interfering with it is not
+a real problem, it would be ok to simply reuse the PG_idle flag.
+However, it's impossible because the flags are dependent on
+IDLE_PAGE_TRACKING.
 
-Using this framework, hence, we can easily write efficient kernel space
-data access monitoring applications.  For example, the kernel's memory
-management mechanisms can make advanced decisions using this.
-Experimental data access aware optimization works that incurring high
-access monitoring overhead could again be implemented on top of this.
+To allow such reuse of the flags, this commit separates the PG_young and
+PG_idle flag logic from IDLE_PAGE_TRACKING and introduces new kernel
+config, 'PAGE_IDLE_FLAG'.  Hence, a new subsystem would be able to reuse
+PG_idle without depending on IDLE_PAGE_TRACKING.
 
-Due to its simple and flexible interface, providing user space interface
-would be also easy.  Then, user space users who have some special
-workloads can write personalized applications for better understanding
-and optimizations of their workloads and systems.
-
-===
-
-Nevertheless, this commit is defining and implementing only basic access
-check part without the overhead-accuracy handling core logic.  The basic
-access check is as below.
-
-The output of DAMON says what memory regions are how frequently accessed
-for a given duration.  The resolution of the access frequency is
-controlled by setting ``sampling interval`` and ``aggregation
-interval``.  In detail, DAMON checks access to each page per ``sampling
-interval`` and aggregates the results.  In other words, counts the
-number of the accesses to each region.  After each ``aggregation
-interval`` passes, DAMON calls callback functions that previously
-registered by users so that users can read the aggregated results and
-then clears the results.  This can be described in below simple
-pseudo-code::
-
-    init()
-    while monitoring_on:
-        for page in monitoring_target:
-            if accessed(page):
-                nr_accesses[page] += 1
-        if time() % aggregation_interval == 0:
-            for callback in user_registered_callbacks:
-                callback(monitoring_target, nr_accesses)
-            for page in monitoring_target:
-                nr_accesses[page] = 0
-        if time() % update_interval == 0:
-            update()
-        sleep(sampling interval)
-
-The target regions constructed at the beginning of the monitoring and
-updated after each ``regions_update_interval``, because the target
-regions could be dynamically changed (e.g., mmap() or memory hotplug).
-The monitoring overhead of this mechanism will arbitrarily increase as
-the size of the target workload grows.
-
-The basic monitoring primitives for actual access check and dynamic
-target regions construction aren't in the core part of DAMON.  Instead,
-it allows users to implement their own primitives that are optimized for
-their use case and configure DAMON to use those.  In other words, users
-cannot use current version of DAMON without some additional works.
-
-Following commits will implement the core mechanisms for the
-overhead-accuracy control and default primitives implementations.
+In the next commit, DAMON's reference implementation of the virtual
+memory address space monitoring primitives will use it.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
-Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+Reviewed-by: Shakeel Butt <shakeelb@google.com>
 ---
- include/linux/damon.h | 167 ++++++++++++++++++++++
- mm/Kconfig            |   3 +
- mm/Makefile           |   1 +
- mm/damon/Kconfig      |  15 ++
- mm/damon/Makefile     |   3 +
- mm/damon/core.c       | 318 ++++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 507 insertions(+)
- create mode 100644 include/linux/damon.h
- create mode 100644 mm/damon/Kconfig
- create mode 100644 mm/damon/Makefile
- create mode 100644 mm/damon/core.c
+ include/linux/page-flags.h     |  4 ++--
+ include/linux/page_ext.h       |  2 +-
+ include/linux/page_idle.h      |  6 +++---
+ include/trace/events/mmflags.h |  2 +-
+ mm/Kconfig                     |  8 ++++++++
+ mm/page_ext.c                  | 12 +++++++++++-
+ mm/page_idle.c                 | 10 ----------
+ 7 files changed, 26 insertions(+), 18 deletions(-)
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-new file mode 100644
-index 000000000000..2f652602b1ea
---- /dev/null
-+++ b/include/linux/damon.h
-@@ -0,0 +1,167 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * DAMON api
-+ *
-+ * Author: SeongJae Park <sjpark@amazon.de>
-+ */
-+
-+#ifndef _DAMON_H_
-+#define _DAMON_H_
-+
-+#include <linux/mutex.h>
-+#include <linux/time64.h>
-+#include <linux/types.h>
-+
-+struct damon_ctx;
-+
-+/**
-+ * struct damon_primitive	Monitoring primitives for given use cases.
-+ *
-+ * @init:			Initialize primitive-internal data structures.
-+ * @update:			Update primitive-internal data structures.
-+ * @prepare_access_checks:	Prepare next access check of target regions.
-+ * @check_accesses:		Check the accesses to target regions.
-+ * @reset_aggregated:		Reset aggregated accesses monitoring results.
-+ * @target_valid:		Determine if the target is valid.
-+ * @cleanup:			Clean up the context.
-+ *
-+ * DAMON can be extended for various address spaces and usages.  For this,
-+ * users should register the low level primitives for their target address
-+ * space and usecase via the &damon_ctx.primitive.  Then, the monitoring thread
-+ * (&damon_ctx.kdamond) calls @init and @prepare_access_checks before starting
-+ * the monitoring, @update after each &damon_ctx.primitive_update_interval, and
-+ * @check_accesses, @target_valid and @prepare_access_checks after each
-+ * &damon_ctx.sample_interval.  Finally, @reset_aggregated is called after each
-+ * &damon_ctx.aggr_interval.
-+ *
-+ * @init should initialize primitive-internal data structures.  For example,
-+ * this could be used to construct proper monitoring target regions and link
-+ * those to @damon_ctx.target.
-+ * @update should update the primitive-internal data structures.  For example,
-+ * this could be used to update monitoring target regions for current status.
-+ * @prepare_access_checks should manipulate the monitoring regions to be
-+ * prepared for the next access check.
-+ * @check_accesses should check the accesses to each region that made after the
-+ * last preparation and update the number of observed accesses of each region.
-+ * @reset_aggregated should reset the access monitoring results that aggregated
-+ * by @check_accesses.
-+ * @target_valid should check whether the target is still valid for the
-+ * monitoring.
-+ * @cleanup is called from @kdamond just before its termination.
-+ */
-+struct damon_primitive {
-+	void (*init)(struct damon_ctx *context);
-+	void (*update)(struct damon_ctx *context);
-+	void (*prepare_access_checks)(struct damon_ctx *context);
-+	void (*check_accesses)(struct damon_ctx *context);
-+	void (*reset_aggregated)(struct damon_ctx *context);
-+	bool (*target_valid)(void *target);
-+	void (*cleanup)(struct damon_ctx *context);
-+};
-+
-+/*
-+ * struct damon_callback	Monitoring events notification callbacks.
-+ *
-+ * @before_start:	Called before starting the monitoring.
-+ * @after_sampling:	Called after each sampling.
-+ * @after_aggregation:	Called after each aggregation.
-+ * @before_terminate:	Called before terminating the monitoring.
-+ * @private:		User private data.
-+ *
-+ * The monitoring thread (&damon_ctx.kdamond) calls @before_start and
-+ * @before_terminate just before starting and finishing the monitoring,
-+ * respectively.  Therefore, those are good places for installing and cleaning
-+ * @private.
-+ *
-+ * The monitoring thread calls @after_sampling and @after_aggregation for each
-+ * of the sampling intervals and aggregation intervals, respectively.
-+ * Therefore, users can safely access the monitoring results without additional
-+ * protection.  For the reason, users are recommended to use these callback for
-+ * the accesses to the results.
-+ *
-+ * If any callback returns non-zero, monitoring stops.
-+ */
-+struct damon_callback {
-+	void *private;
-+
-+	int (*before_start)(struct damon_ctx *context);
-+	int (*after_sampling)(struct damon_ctx *context);
-+	int (*after_aggregation)(struct damon_ctx *context);
-+	int (*before_terminate)(struct damon_ctx *context);
-+};
-+
-+/**
-+ * struct damon_ctx - Represents a context for each monitoring.  This is the
-+ * main interface that allows users to set the attributes and get the results
-+ * of the monitoring.
-+ *
-+ * @sample_interval:		The time between access samplings.
-+ * @aggr_interval:		The time between monitor results aggregations.
-+ * @primitive_update_interval:	The time between monitoring primitive updates.
-+ *
-+ * For each @sample_interval, DAMON checks whether each region is accessed or
-+ * not.  It aggregates and keeps the access information (number of accesses to
-+ * each region) for @aggr_interval time.  DAMON also checks whether the target
-+ * memory regions need update (e.g., by ``mmap()`` calls from the application,
-+ * in case of virtual memory monitoring) and applies the changes for each
-+ * @primitive_update_interval.  All time intervals are in micro-seconds.
-+ * Please refer to &struct damon_primitive and &struct damon_callback for more
-+ * detail.
-+ *
-+ * @kdamond:		Kernel thread who does the monitoring.
-+ * @kdamond_stop:	Notifies whether kdamond should stop.
-+ * @kdamond_lock:	Mutex for the synchronizations with @kdamond.
-+ *
-+ * For each monitoring context, one kernel thread for the monitoring is
-+ * created.  The pointer to the thread is stored in @kdamond.
-+ *
-+ * Once started, the monitoring thread runs until explicitly required to be
-+ * terminated or every monitoring target is invalid.  The validity of the
-+ * targets is checked via the &damon_primitive.target_valid of @primitive.  The
-+ * termination can also be explicitly requested by writing non-zero to
-+ * @kdamond_stop.  The thread sets @kdamond to NULL when it terminates.
-+ * Therefore, users can know whether the monitoring is ongoing or terminated by
-+ * reading @kdamond.  Reads and writes to @kdamond and @kdamond_stop from
-+ * outside of the monitoring thread must be protected by @kdamond_lock.
-+ *
-+ * Note that the monitoring thread protects only @kdamond and @kdamond_stop via
-+ * @kdamond_lock.  Accesses to other fields must be protected by themselves.
-+ *
-+ * @primitive:	Set of monitoring primitives for given use cases.
-+ * @callback:	Set of callbacks for monitoring events notifications.
-+ *
-+ * @target:	Pointer to the user-defined monitoring target.
-+ */
-+struct damon_ctx {
-+	unsigned long sample_interval;
-+	unsigned long aggr_interval;
-+	unsigned long primitive_update_interval;
-+
-+/* private: internal use only */
-+	struct timespec64 last_aggregation;
-+	struct timespec64 last_primitive_update;
-+
-+/* public: */
-+	struct task_struct *kdamond;
-+	bool kdamond_stop;
-+	struct mutex kdamond_lock;
-+
-+	struct damon_primitive primitive;
-+	struct damon_callback callback;
-+
-+	void *target;
-+};
-+
-+#ifdef CONFIG_DAMON
-+
-+struct damon_ctx *damon_new_ctx(void);
-+void damon_destroy_ctx(struct damon_ctx *ctx);
-+int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
-+		unsigned long aggr_int, unsigned long primitive_upd_int);
-+
-+int damon_start(struct damon_ctx **ctxs, int nr_ctxs);
-+int damon_stop(struct damon_ctx **ctxs, int nr_ctxs);
-+
-+#endif	/* CONFIG_DAMON */
-+
-+#endif	/* _DAMON_H */
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 04a34c08e0a6..6be2c1e2fb48 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -131,7 +131,7 @@ enum pageflags {
+ #ifdef CONFIG_MEMORY_FAILURE
+ 	PG_hwpoison,		/* hardware poisoned page. Don't touch */
+ #endif
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
+ 	PG_young,
+ 	PG_idle,
+ #endif
+@@ -436,7 +436,7 @@ PAGEFLAG_FALSE(HWPoison)
+ #define __PG_HWPOISON 0
+ #endif
+ 
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
+ TESTPAGEFLAG(Young, young, PF_ANY)
+ SETPAGEFLAG(Young, young, PF_ANY)
+ TESTCLEARFLAG(Young, young, PF_ANY)
+diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
+index aff81ba31bd8..fabb2e1e087f 100644
+--- a/include/linux/page_ext.h
++++ b/include/linux/page_ext.h
+@@ -19,7 +19,7 @@ struct page_ext_operations {
+ enum page_ext_flags {
+ 	PAGE_EXT_OWNER,
+ 	PAGE_EXT_OWNER_ALLOCATED,
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && !defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
+ 	PAGE_EXT_YOUNG,
+ 	PAGE_EXT_IDLE,
+ #endif
+diff --git a/include/linux/page_idle.h b/include/linux/page_idle.h
+index 1e894d34bdce..d8a6aecf99cb 100644
+--- a/include/linux/page_idle.h
++++ b/include/linux/page_idle.h
+@@ -6,7 +6,7 @@
+ #include <linux/page-flags.h>
+ #include <linux/page_ext.h>
+ 
+-#ifdef CONFIG_IDLE_PAGE_TRACKING
++#ifdef CONFIG_PAGE_IDLE_FLAG
+ 
+ #ifdef CONFIG_64BIT
+ static inline bool page_is_young(struct page *page)
+@@ -106,7 +106,7 @@ static inline void clear_page_idle(struct page *page)
+ }
+ #endif /* CONFIG_64BIT */
+ 
+-#else /* !CONFIG_IDLE_PAGE_TRACKING */
++#else /* !CONFIG_PAGE_IDLE_FLAG */
+ 
+ static inline bool page_is_young(struct page *page)
+ {
+@@ -135,6 +135,6 @@ static inline void clear_page_idle(struct page *page)
+ {
+ }
+ 
+-#endif /* CONFIG_IDLE_PAGE_TRACKING */
++#endif /* CONFIG_PAGE_IDLE_FLAG */
+ 
+ #endif /* _LINUX_MM_PAGE_IDLE_H */
+diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
+index 629c7a0eaff2..ea434bbc2d2b 100644
+--- a/include/trace/events/mmflags.h
++++ b/include/trace/events/mmflags.h
+@@ -73,7 +73,7 @@
+ #define IF_HAVE_PG_HWPOISON(flag,string)
+ #endif
+ 
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
+ #define IF_HAVE_PG_IDLE(flag,string) ,{1UL << flag, string}
+ #else
+ #define IF_HAVE_PG_IDLE(flag,string)
 diff --git a/mm/Kconfig b/mm/Kconfig
-index b20e2d6d9811..43d50f93789d 100644
+index 43d50f93789d..f35fcaefa225 100644
 --- a/mm/Kconfig
 +++ b/mm/Kconfig
-@@ -896,4 +896,7 @@ config SECRETMEM
- # struct io_mapping based helper.  Selected by drivers that need them
- config IO_MAPPING
- 	bool
-+
-+source "mm/damon/Kconfig"
-+
- endmenu
-diff --git a/mm/Makefile b/mm/Makefile
-index a9ad6122d468..e73edb328ef8 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -126,3 +126,4 @@ obj-$(CONFIG_MAPPING_DIRTY_HELPERS) += mapping_dirty_helpers.o
- obj-$(CONFIG_PTDUMP_CORE) += ptdump.o
- obj-$(CONFIG_PAGE_REPORTING) += page_reporting.o
- obj-$(CONFIG_IO_MAPPING) += io-mapping.o
-+obj-$(CONFIG_DAMON) += damon/
-diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
-new file mode 100644
-index 000000000000..d00e99ac1a15
---- /dev/null
-+++ b/mm/damon/Kconfig
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+menu "Data Access Monitoring"
-+
-+config DAMON
-+	bool "DAMON: Data Access Monitoring Framework"
+@@ -765,10 +765,18 @@ config DEFERRED_STRUCT_PAGE_INIT
+ 	  lifetime of the system until these kthreads finish the
+ 	  initialisation.
+ 
++config PAGE_IDLE_FLAG
++	bool "Add PG_idle and PG_young flags"
 +	help
-+	  This builds a framework that allows kernel subsystems to monitor
-+	  access frequency of each memory region. The information can be useful
-+	  for performance-centric DRAM level memory management.
++	  This feature adds PG_idle and PG_young flags in 'struct page'.  PTE
++	  Accessed bit writers can set the state of the bit in the flags to let
++	  other PTE Accessed bit readers don't disturbed.
 +
-+	  See https://damonitor.github.io/doc/html/latest-damon/index.html for
-+	  more information.
-+
-+endmenu
-diff --git a/mm/damon/Makefile b/mm/damon/Makefile
-new file mode 100644
-index 000000000000..4fd2edb4becf
---- /dev/null
-+++ b/mm/damon/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+obj-$(CONFIG_DAMON)		:= core.o
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-new file mode 100644
-index 000000000000..693e51ebc05a
---- /dev/null
-+++ b/mm/damon/core.c
-@@ -0,0 +1,318 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Data Access Monitor
-+ *
-+ * Author: SeongJae Park <sjpark@amazon.de>
-+ */
-+
-+#define pr_fmt(fmt) "damon: " fmt
-+
-+#include <linux/damon.h>
-+#include <linux/delay.h>
-+#include <linux/kthread.h>
-+#include <linux/slab.h>
-+
-+static DEFINE_MUTEX(damon_lock);
-+static int nr_running_ctxs;
-+
-+struct damon_ctx *damon_new_ctx(void)
+ config IDLE_PAGE_TRACKING
+ 	bool "Enable idle page tracking"
+ 	depends on SYSFS && MMU
+ 	select PAGE_EXTENSION if !64BIT
++	select PAGE_IDLE_FLAG
+ 	help
+ 	  This feature allows to estimate the amount of user pages that have
+ 	  not been touched during a given period of time. This information can
+diff --git a/mm/page_ext.c b/mm/page_ext.c
+index df6f74aac8e1..8e59da0f4367 100644
+--- a/mm/page_ext.c
++++ b/mm/page_ext.c
+@@ -58,11 +58,21 @@
+  * can utilize this callback to initialize the state of it correctly.
+  */
+ 
++#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
++static bool need_page_idle(void)
 +{
-+	struct damon_ctx *ctx;
-+
-+	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return NULL;
-+
-+	ctx->sample_interval = 5 * 1000;
-+	ctx->aggr_interval = 100 * 1000;
-+	ctx->primitive_update_interval = 1000 * 1000;
-+
-+	ktime_get_coarse_ts64(&ctx->last_aggregation);
-+	ctx->last_primitive_update = ctx->last_aggregation;
-+
-+	mutex_init(&ctx->kdamond_lock);
-+
-+	ctx->target = NULL;
-+
-+	return ctx;
-+}
-+
-+void damon_destroy_ctx(struct damon_ctx *ctx)
-+{
-+	if (ctx->primitive.cleanup)
-+		ctx->primitive.cleanup(ctx);
-+	kfree(ctx);
-+}
-+
-+/**
-+ * damon_set_attrs() - Set attributes for the monitoring.
-+ * @ctx:		monitoring context
-+ * @sample_int:		time interval between samplings
-+ * @aggr_int:		time interval between aggregations
-+ * @primitive_upd_int:	time interval between monitoring primitive updates
-+ *
-+ * This function should not be called while the kdamond is running.
-+ * Every time interval is in micro-seconds.
-+ *
-+ * Return: 0 on success, negative error code otherwise.
-+ */
-+int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
-+		    unsigned long aggr_int, unsigned long primitive_upd_int)
-+{
-+	ctx->sample_interval = sample_int;
-+	ctx->aggr_interval = aggr_int;
-+	ctx->primitive_update_interval = primitive_upd_int;
-+
-+	return 0;
-+}
-+
-+static bool damon_kdamond_running(struct damon_ctx *ctx)
-+{
-+	bool running;
-+
-+	mutex_lock(&ctx->kdamond_lock);
-+	running = ctx->kdamond != NULL;
-+	mutex_unlock(&ctx->kdamond_lock);
-+
-+	return running;
-+}
-+
-+static int kdamond_fn(void *data);
-+
-+/*
-+ * __damon_start() - Starts monitoring with given context.
-+ * @ctx:	monitoring context
-+ *
-+ * This function should be called while damon_lock is hold.
-+ *
-+ * Return: 0 on success, negative error code otherwise.
-+ */
-+static int __damon_start(struct damon_ctx *ctx)
-+{
-+	int err = -EBUSY;
-+
-+	mutex_lock(&ctx->kdamond_lock);
-+	if (!ctx->kdamond) {
-+		err = 0;
-+		ctx->kdamond_stop = false;
-+		ctx->kdamond = kthread_create(kdamond_fn, ctx, "kdamond.%d",
-+				nr_running_ctxs);
-+		if (IS_ERR(ctx->kdamond))
-+			err = PTR_ERR(ctx->kdamond);
-+		else
-+			wake_up_process(ctx->kdamond);
-+	}
-+	mutex_unlock(&ctx->kdamond_lock);
-+
-+	return err;
-+}
-+
-+/**
-+ * damon_start() - Starts the monitorings for a given group of contexts.
-+ * @ctxs:	an array of the pointers for contexts to start monitoring
-+ * @nr_ctxs:	size of @ctxs
-+ *
-+ * This function starts a group of monitoring threads for a group of monitoring
-+ * contexts.  One thread per each context is created and run in parallel.  The
-+ * caller should handle synchronization between the threads by itself.  If a
-+ * group of threads that created by other 'damon_start()' call is currently
-+ * running, this function does nothing but returns -EBUSY.
-+ *
-+ * Return: 0 on success, negative error code otherwise.
-+ */
-+int damon_start(struct damon_ctx **ctxs, int nr_ctxs)
-+{
-+	int i;
-+	int err = 0;
-+
-+	mutex_lock(&damon_lock);
-+	if (nr_running_ctxs) {
-+		mutex_unlock(&damon_lock);
-+		return -EBUSY;
-+	}
-+
-+	for (i = 0; i < nr_ctxs; i++) {
-+		err = __damon_start(ctxs[i]);
-+		if (err)
-+			break;
-+		nr_running_ctxs++;
-+	}
-+	mutex_unlock(&damon_lock);
-+
-+	return err;
-+}
-+
-+/*
-+ * __damon_stop() - Stops monitoring of given context.
-+ * @ctx:	monitoring context
-+ *
-+ * Return: 0 on success, negative error code otherwise.
-+ */
-+static int __damon_stop(struct damon_ctx *ctx)
-+{
-+	mutex_lock(&ctx->kdamond_lock);
-+	if (ctx->kdamond) {
-+		ctx->kdamond_stop = true;
-+		mutex_unlock(&ctx->kdamond_lock);
-+		while (damon_kdamond_running(ctx))
-+			usleep_range(ctx->sample_interval,
-+					ctx->sample_interval * 2);
-+		return 0;
-+	}
-+	mutex_unlock(&ctx->kdamond_lock);
-+
-+	return -EPERM;
-+}
-+
-+/**
-+ * damon_stop() - Stops the monitorings for a given group of contexts.
-+ * @ctxs:	an array of the pointers for contexts to stop monitoring
-+ * @nr_ctxs:	size of @ctxs
-+ *
-+ * Return: 0 on success, negative error code otherwise.
-+ */
-+int damon_stop(struct damon_ctx **ctxs, int nr_ctxs)
-+{
-+	int i, err = 0;
-+
-+	for (i = 0; i < nr_ctxs; i++) {
-+		/* nr_running_ctxs is decremented in kdamond_fn */
-+		err = __damon_stop(ctxs[i]);
-+		if (err)
-+			return err;
-+	}
-+
-+	return err;
-+}
-+
-+/*
-+ * damon_check_reset_time_interval() - Check if a time interval is elapsed.
-+ * @baseline:	the time to check whether the interval has elapsed since
-+ * @interval:	the time interval (microseconds)
-+ *
-+ * See whether the given time interval has passed since the given baseline
-+ * time.  If so, it also updates the baseline to current time for next check.
-+ *
-+ * Return:	true if the time interval has passed, or false otherwise.
-+ */
-+static bool damon_check_reset_time_interval(struct timespec64 *baseline,
-+		unsigned long interval)
-+{
-+	struct timespec64 now;
-+
-+	ktime_get_coarse_ts64(&now);
-+	if ((timespec64_to_ns(&now) - timespec64_to_ns(baseline)) <
-+			interval * 1000)
-+		return false;
-+	*baseline = now;
 +	return true;
 +}
++struct page_ext_operations page_idle_ops = {
++	.need = need_page_idle,
++};
++#endif
 +
-+/*
-+ * Check whether it is time to flush the aggregated information
-+ */
-+static bool kdamond_aggregate_interval_passed(struct damon_ctx *ctx)
-+{
-+	return damon_check_reset_time_interval(&ctx->last_aggregation,
-+			ctx->aggr_interval);
-+}
-+
-+/*
-+ * Check whether it is time to check and apply the target monitoring regions
-+ *
-+ * Returns true if it is.
-+ */
-+static bool kdamond_need_update_primitive(struct damon_ctx *ctx)
-+{
-+	return damon_check_reset_time_interval(&ctx->last_primitive_update,
-+			ctx->primitive_update_interval);
-+}
-+
-+/*
-+ * Check whether current monitoring should be stopped
-+ *
-+ * The monitoring is stopped when either the user requested to stop, or all
-+ * monitoring targets are invalid.
-+ *
-+ * Returns true if need to stop current monitoring.
-+ */
-+static bool kdamond_need_stop(struct damon_ctx *ctx)
-+{
-+	bool stop;
-+
-+	mutex_lock(&ctx->kdamond_lock);
-+	stop = ctx->kdamond_stop;
-+	mutex_unlock(&ctx->kdamond_lock);
-+	if (stop)
-+		return true;
-+
-+	if (!ctx->primitive.target_valid)
-+		return false;
-+
-+	return !ctx->primitive.target_valid(ctx->target);
-+}
-+
-+static void set_kdamond_stop(struct damon_ctx *ctx)
-+{
-+	mutex_lock(&ctx->kdamond_lock);
-+	ctx->kdamond_stop = true;
-+	mutex_unlock(&ctx->kdamond_lock);
-+}
-+
-+/*
-+ * The monitoring daemon that runs as a kernel thread
-+ */
-+static int kdamond_fn(void *data)
-+{
-+	struct damon_ctx *ctx = (struct damon_ctx *)data;
-+
-+	pr_info("kdamond (%d) starts\n", ctx->kdamond->pid);
-+
-+	if (ctx->primitive.init)
-+		ctx->primitive.init(ctx);
-+	if (ctx->callback.before_start && ctx->callback.before_start(ctx))
-+		set_kdamond_stop(ctx);
-+
-+	while (!kdamond_need_stop(ctx)) {
-+		if (ctx->primitive.prepare_access_checks)
-+			ctx->primitive.prepare_access_checks(ctx);
-+		if (ctx->callback.after_sampling &&
-+				ctx->callback.after_sampling(ctx))
-+			set_kdamond_stop(ctx);
-+
-+		usleep_range(ctx->sample_interval, ctx->sample_interval + 1);
-+
-+		if (ctx->primitive.check_accesses)
-+			ctx->primitive.check_accesses(ctx);
-+
-+		if (kdamond_aggregate_interval_passed(ctx)) {
-+			if (ctx->callback.after_aggregation &&
-+					ctx->callback.after_aggregation(ctx))
-+				set_kdamond_stop(ctx);
-+			if (ctx->primitive.reset_aggregated)
-+				ctx->primitive.reset_aggregated(ctx);
-+		}
-+
-+		if (kdamond_need_update_primitive(ctx)) {
-+			if (ctx->primitive.update)
-+				ctx->primitive.update(ctx);
-+		}
-+	}
-+
-+	if (ctx->callback.before_terminate &&
-+			ctx->callback.before_terminate(ctx))
-+		set_kdamond_stop(ctx);
-+	if (ctx->primitive.cleanup)
-+		ctx->primitive.cleanup(ctx);
-+
-+	pr_debug("kdamond (%d) finishes\n", ctx->kdamond->pid);
-+	mutex_lock(&ctx->kdamond_lock);
-+	ctx->kdamond = NULL;
-+	mutex_unlock(&ctx->kdamond_lock);
-+
-+	mutex_lock(&damon_lock);
-+	nr_running_ctxs--;
-+	mutex_unlock(&damon_lock);
-+
-+	do_exit(0);
-+}
+ static struct page_ext_operations *page_ext_ops[] = {
+ #ifdef CONFIG_PAGE_OWNER
+ 	&page_owner_ops,
+ #endif
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && !defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
+ 	&page_idle_ops,
+ #endif
+ };
+diff --git a/mm/page_idle.c b/mm/page_idle.c
+index 64e5344a992c..edead6a8a5f9 100644
+--- a/mm/page_idle.c
++++ b/mm/page_idle.c
+@@ -207,16 +207,6 @@ static const struct attribute_group page_idle_attr_group = {
+ 	.name = "page_idle",
+ };
+ 
+-#ifndef CONFIG_64BIT
+-static bool need_page_idle(void)
+-{
+-	return true;
+-}
+-struct page_ext_operations page_idle_ops = {
+-	.need = need_page_idle,
+-};
+-#endif
+-
+ static int __init page_idle_init(void)
+ {
+ 	int err;
 -- 
 2.17.1
 
