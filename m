@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01642C433E2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CDD8C433E3
 	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 11:49:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DEFD861987
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 11:49:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1D78161968
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 11:49:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231993AbhC3Lsc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 07:48:32 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:46710 "EHLO loongson.cn"
+        id S232132AbhC3Lsg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 07:48:36 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:46738 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232243AbhC3Lro (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S232248AbhC3Lro (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 30 Mar 2021 07:47:44 -0400
 Received: from LAPTOP-O8VTVVS6.localdomain (unknown [223.106.57.161])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxzcjSD2NgLF4CAA--.2278S7;
-        Tue, 30 Mar 2021 19:47:38 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxzcjSD2NgLF4CAA--.2278S9;
+        Tue, 30 Mar 2021 19:47:40 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
@@ -30,19 +30,19 @@ Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
         Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, siyanteng01@gmail.com,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v3 5/8] docs/zh_CN: add cpu-freq to zh_CN index
-Date:   Tue, 30 Mar 2021 19:47:25 +0800
-Message-Id: <20210330114728.2680-6-siyanteng@loongson.cn>
+Subject: [PATCH v3 7/8] docs/zh_CN: add iio to zh_CN index
+Date:   Tue, 30 Mar 2021 19:47:27 +0800
+Message-Id: <20210330114728.2680-8-siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210330114728.2680-1-siyanteng@loongson.cn>
 References: <20210330114728.2680-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9AxzcjSD2NgLF4CAA--.2278S7
-X-Coremail-Antispam: 1UD129KBjvdXoWrur43Gw17Gr4DGrWrJw13urg_yoWxAFX_Aa
-        s7XF4vvFy3AF92qF4rCF15Ar10vFWxKw1UCrn8ta98G343G398Gw1DXrZ5ZF4DWFW3uryY
-        kFZ5Xr1rXrnrKjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID: AQAAf9AxzcjSD2NgLF4CAA--.2278S9
+X-Coremail-Antispam: 1UD129KBjvdXoW5KryxKF1UtFWDGrW7AF13Jwb_yoWxWrX_Ca
+        s3XF4vvFy3tFyIqF4rur18Jr1FvFWxKr1UCrn8ta98G347G398Gw1DWrykZF4DWFW3ury5
+        CrZ5Zr1rXrnrKjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
         9fnUUIcSsGvfJTRUUUbk8FF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
         6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
         IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
@@ -62,7 +62,7 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-All the files in the cpu-freq directory have been translated into
+All the files in the iio directory have been translated into
 Chinese and it is time to add them to the zh_CN index.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
@@ -71,14 +71,14 @@ Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
  1 file changed, 1 insertion(+)
 
 diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index 2767dacfe86d..cd55c1aea604 100644
+index 16641203dc88..51c50f319487 100644
 --- a/Documentation/translations/zh_CN/index.rst
 +++ b/Documentation/translations/zh_CN/index.rst
-@@ -21,6 +21,7 @@
-    filesystems/index
-    arm64/index
+@@ -23,6 +23,7 @@
     sound/index
-+   cpu-freq/index
+    cpu-freq/index
+    mips/index
++   iio/index
  
  目录和表格
  ----------
