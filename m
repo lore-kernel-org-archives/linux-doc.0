@@ -2,72 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 060C2C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 14:14:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3BDFC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 14:14:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C7382619CA
+	by mail.kernel.org (Postfix) with ESMTP id AB25A619C7
 	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 14:14:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232038AbhC3ONu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 10:13:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41998 "EHLO
+        id S231620AbhC3ONt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 10:13:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42014 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231301AbhC3ONW (ORCPT
+        with ESMTP id S231730AbhC3ONW (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 10:13:22 -0400
 Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B759C061574;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B4FAC0613D8;
         Tue, 30 Mar 2021 07:13:21 -0700 (PDT)
 Received: from ip4d14bd53.dynamic.kabel-deutschland.de ([77.20.189.83] helo=truhe.fritz.box); authenticated
         by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1lRF7I-0000jw-1w; Tue, 30 Mar 2021 16:13:12 +0200
+        id 1lRF7H-0000jw-Jf; Tue, 30 Mar 2021 16:13:11 +0200
 From:   Thorsten Leemhuis <linux@leemhuis.info>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v1 2/4] MAINTAINERS: add entry for Documentation/admin-guide/reporting-issues.rst
-Date:   Tue, 30 Mar 2021 16:13:05 +0200
-Message-Id: <c8d55ec74d104b90fdb9c155bca3b407e8480fb3.1617113469.git.linux@leemhuis.info>
+Subject: [PATCH v1 0/4] Improve reporting-issues.rst and make it official
+Date:   Tue, 30 Mar 2021 16:13:03 +0200
+Message-Id: <cover.1617113469.git.linux@leemhuis.info>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1617113469.git.linux@leemhuis.info>
-References: <cover.1617113469.git.linux@leemhuis.info>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1617113602;38c5c4bd;
-X-HE-SMSGID: 1lRF7I-0000jw-1w
+X-HE-SMSGID: 1lRF7H-0000jw-Jf
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Thorsten will keep an eye on the new document about reporting issues
-(aka bugs).
+This patchset makes reporting-issues.rst fully official and thus removes
+reporting-bugs.rst. It also adds an entry for the text in MAINTAINERS as
+discussed earlier. Then there is the new text for the TLDR already posted as a
+draft and a patch which assorted fixes and small enhancements.
 
-Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+Thorsten Leemhuis (4):
+  docs: make reporting-issues.rst official and delete reporting-bugs.rst
+  MAINTAINERS: add entry for
+    Documentation/admin-guide/reporting-issues.rst
+  docs: reporting-issues.rst: reshuffle and improve TLDR
+  docs: reporting-issues: reduce quoting and assorted fixes
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e66ff3daf23c..b5d38fedff6c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5413,6 +5413,12 @@ X:	Documentation/power/
- X:	Documentation/spi/
- X:	Documentation/userspace-api/media/
- 
-+DOCUMENTATION REPORTING ISSUES
-+M:	Thorsten Leemhuis <linux@leemhuis.info>
-+L:	linux-doc@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/admin-guide/reporting-issues.rst
-+
- DOCUMENTATION SCRIPTS
- M:	Mauro Carvalho Chehab <mchehab@kernel.org>
- L:	linux-doc@vger.kernel.org
+ Documentation/admin-guide/index.rst           |   1 -
+ Documentation/admin-guide/reporting-bugs.rst  | 187 ---------------
+ .../admin-guide/reporting-issues.rst          | 218 ++++++++----------
+ MAINTAINERS                                   |   6 +
+ 4 files changed, 96 insertions(+), 316 deletions(-)
+ delete mode 100644 Documentation/admin-guide/reporting-bugs.rst
+
+
+base-commit: 8d295fbad687a61eaa0cf14958c284a3ddbf2173
 -- 
 2.30.2
 
