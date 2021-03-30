@@ -2,97 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A2EDC433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 05:30:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32110C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 06:00:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C8EE761921
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 05:30:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DDDC461935
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 06:00:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230077AbhC3F3y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 01:29:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36520 "EHLO mail.kernel.org"
+        id S229667AbhC3F7f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 01:59:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41538 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229675AbhC3F3c (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Mar 2021 01:29:32 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 81EE461921;
-        Tue, 30 Mar 2021 05:29:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617082171;
-        bh=8I7DqHNKkHoQuqnMHUExWNfnew54U0aGIlJ/JSc4DuQ=;
+        id S229655AbhC3F7S (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Mar 2021 01:59:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7F76A6191B;
+        Tue, 30 Mar 2021 05:59:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1617083958;
+        bh=+5DO+lXCL5MeWGlG77YUtf/+D9Bht5ixm4alm8/c6S8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gNsS5Hq1zZvyXLoIKggM0Laqwgx9GQDCRSubWKvHBkg68by1ByQgXrhO1EH6VqwAt
-         c78FnjAquP16SnS+YSKL5QBAyiEHUuerQYmXDAyU2LGlWbTt/+t4IqaZ+qYXm2sHgR
-         fQWa/iSoc5AAmbZgSMKQmU9JspMq+U9HytOZl5zgZCgBvrROzhz7S2DWmJIUzgRMUg
-         OvU754rBTvWwmVvjzHG076rh/Bjdfl9pbb1kFvQc8k3GdSO17R66il3OT0zHQ0j8qD
-         obkz2HwOrnFWBuO7vf05Pji0CpA8rinGGxQu8sf6hZfGcEQ5OmhjZt4zdXg8Pe/p07
-         raaeW+F2bErmw==
-Date:   Mon, 29 Mar 2021 22:29:30 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Dexuan Cui <decui@microsoft.com>,
-        linux-crypto@vger.kernel.org,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: crypto: add info about "fips=" boot
- option
-Message-ID: <YGK3OlT3+6WdXbux@sol.localdomain>
-References: <20210330050651.13344-1-rdunlap@infradead.org>
+        b=GT+Qc6M4+0XVaboH0yUMU55OBIAmswUaSY+E9CiXcxK8SBW1Bzu5w0ezQWLFTe3Fp
+         TQyHYWXLB0uqPQ6x7+4l+XMTSb1a+dGODNC5alxMldDFUeT6lZF3qw6ie0g7A+BKQ7
+         0u0Tsm2DR0k286T1aTdwSY7AC4BOimDM+K+4w4vI=
+Date:   Tue, 30 Mar 2021 07:59:15 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Thorsten Leemhuis <linux@leemhuis.info>,
+        ksummit <ksummit-discuss@lists.linuxfoundation.org>,
+        Sasha Levin <sashal@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [1/5] reporting-issues: header and TLDR
+Message-ID: <YGK+M66FWJOMC8ky@kroah.com>
+References: <c396c91f-27c2-de36-7b05-099e03c213f4@leemhuis.info>
+ <6a220d2c-568e-2e41-53a4-0800e206d0a6@leemhuis.info>
+ <14d9b8a3-94ce-00a6-a17b-934ffd999697@leemhuis.info>
+ <87r1jxpol6.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210330050651.13344-1-rdunlap@infradead.org>
+In-Reply-To: <87r1jxpol6.fsf@meer.lwn.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 29, 2021 at 10:06:51PM -0700, Randy Dunlap wrote:
-> Having just seen a report of using "fips=1" on the kernel command line,
-> I could not find it documented anywhere, so add some help for it.
+On Mon, Mar 29, 2021 at 04:44:21PM -0600, Jonathan Corbet wrote:
+> Thorsten Leemhuis <linux@leemhuis.info> writes:
 > 
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Dexuan Cui <decui@microsoft.com>
-> Cc: linux-crypto@vger.kernel.org
-> Cc: Eric Biggers <ebiggers@kernel.org>
-> Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> Cc: "David S. Miller" <davem@davemloft.net>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> ---
-> Updates/corrections welcome.
+> > FWIW, on another channel someone mentioned the process in the TLDR is
+> > quite complicated when it comes to regressions in stable and longterm
+> > kernels. I looked at the text and it seemed like a valid complaint, esp.
+> > as those regressions are something we really care about.
+> >
+> > To solve this properly I sadly had to shake up the text in this section
+> > completely and rewrite parts of it. Find the result below. I'm quite
+> > happy with it, as it afaics is more straight forward and easier to
+> > understand. And it matches the step-by-step guide better. And the best
+> > thing: it's a bit shorter than the old TLDR.
 > 
-> v2: drop comment that "fips_enabled can cause some tests to be skipped".
+> I think this is much improved - concise is good! :)  I really just have
+> one little comment...
 > 
->  Documentation/admin-guide/kernel-parameters.txt |   14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+> > I'll wait a day or two and then will send it through the regular review
+> > together with a few small other fixes that piled up for the text, just
+> > wanted to add it here for completeness.
+> >
+> > ---
+> > The short guide (aka TL;DR)
+> > ===========================
+> >
+> > Are you facing a regression with vanilla kernels from the same stable or
+> > longterm series? One still supported? Then search the `LKML
+> > <https://lore.kernel.org/lkml/>`_ and the `Linux stable mailing list
+> > <https://lore.kernel.org/stable/>_` archives for matching reports to
+> > join. If you don't find any, install `the latest release from that
+> > series <https://kernel.org/>`_. If it still shows the issue, report it
+> > to the stable mailing list and the stable maintainers.
 > 
-> --- linux-next-20210329.orig/Documentation/admin-guide/kernel-parameters.txt
-> +++ linux-next-20210329/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1370,6 +1370,20 @@
->  			See Documentation/admin-guide/sysctl/net.rst for
->  			fb_tunnels_only_for_init_ns
->  
-> +	fips=		Format: { 0 | 1}
-> +			Use to disable (0) or enable (1) FIPS mode.
-> +			If enabled, any process that is waiting on the
-> +			'fips_fail_notif_chain' will be notified of fips
-> +			failures.
-> +			This setting can also be modified via sysctl at
-> +			/proc/sysctl/crypto/fips_enabled, i.e.,
-> +			crypto.fips_enabled.
-> +			If fips_enabled = 1 and a test fails, it will cause a
-> +			kernel panic.
-> +			If fips_enabled = 1, RSA test requires a key size of
-> +			2K or larger.
-> +			It can also effect which ECC curve is used.
+> If we really want this to be a short guide that gets people to the
+> answer quickly, we might as well put the addresses to report to right
+> here rather than making people search for them.
 
-This doesn't really explain why anyone would want to give this option.
-What high-level thing is this option meant to be accomplishing?
-That's what the documentation should explain.
+"stable@vger.kernel.org" is good to use here, no need to also cc: any
+individuals for this type of thing.
 
-- Eric
+thanks,
+
+greg k-h
