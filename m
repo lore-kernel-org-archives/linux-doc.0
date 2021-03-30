@@ -2,163 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDF16C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 19:13:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23284C433C1
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 19:26:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ACB6B619D2
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 19:13:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C53E2619BB
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 19:26:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233077AbhC3TNF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 15:13:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50802 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233110AbhC3TMd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 15:12:33 -0400
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28B70C061762
-        for <linux-doc@vger.kernel.org>; Tue, 30 Mar 2021 12:12:33 -0700 (PDT)
-Received: by mail-pl1-x634.google.com with SMTP id f17so6660473plr.0
-        for <linux-doc@vger.kernel.org>; Tue, 30 Mar 2021 12:12:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=pSBj0YaYaN0GbrJlNEC2b8pftXmc5dsioW7Jk9w3b0Q=;
-        b=kNYY6xY3yQWZigWtv6pzY98fYe8q2MVfB/FUD6Qtz/kvwR9jrpi8sDZV07WXnzg7+Y
-         JGpb+4U00fQhXmQZ33N0dRoEoJx6TkAJo2T1GtK3p7WOJkEkxHNJ1JCd6Wy4VWS+HIgL
-         DPfQK0dmqnDvTmnXGIylTcFh5YaSA+fpw0KYg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=pSBj0YaYaN0GbrJlNEC2b8pftXmc5dsioW7Jk9w3b0Q=;
-        b=oX2i+Qo6iXZQowz+mPf0waxPCjSWmZirlsEQGSvHTSxIbClwf+n+HjWZwAv7vIwrWN
-         /pi5P4vwATE1F73zRA2PbUX5zywv8skKefnssCBwcPvKfsFvJ1JPj3bINlMjCO1k7SLx
-         JEj9orvGjO+o0fmdDnVoQja7iYshtoAWGQkZAQHMkic9zfd9zyGInMhUILYfQKzjfsaH
-         5oBpRDW2Qc1SgUOOUokvJ4lvv2/kaUexKyMPBzRr/NB13kihnUPvaUh9PpvqNLDovjZS
-         u1WwUtMftKKobbsVpvYJ92iyUttHagrFXkPw1sOtVKZsx3C6VNREgg2wXIO6lCLbdYlP
-         EKMA==
-X-Gm-Message-State: AOAM531ViyakE5xC8kOam6+mUvrf99BN2+0Hn41NhYHB2j95VyjL+ska
-        8CYNTbZe1HAdGmN2enqmHSAyZw==
-X-Google-Smtp-Source: ABdhPJzPloxjPL7P2kxXfUtG7olsGtlZdZfNGi1MCSQcNkhfcNYyLOfJY+tmHcpRqGrO4heVY1nWdA==
-X-Received: by 2002:a17:902:c104:b029:e7:3268:6eb9 with SMTP id 4-20020a170902c104b02900e732686eb9mr22685163pli.32.1617131552563;
-        Tue, 30 Mar 2021 12:12:32 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:c8c2:b814:df0f:253f])
-        by smtp.gmail.com with ESMTPSA id h14sm3341649pjc.37.2021.03.30.12.12.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Mar 2021 12:12:31 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        id S233104AbhC3T0U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 15:26:20 -0400
+Received: from mga17.intel.com ([192.55.52.151]:14266 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233084AbhC3T0B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Mar 2021 15:26:01 -0400
+IronPort-SDR: L9sJ7igl1phoiIEXAuQ9xJl3YrFkr5VLBPwSCegmCvDwewQjFDw4MBYaP7f9zeWRHhi9PKl6Gi
+ leJ92X76RCfQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9939"; a="171863215"
+X-IronPort-AV: E=Sophos;i="5.81,291,1610438400"; 
+   d="scan'208";a="171863215"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2021 12:25:59 -0700
+IronPort-SDR: s4znUWJU2XXel6e0JhbKBdQEeigoyLFbRp7i1UPfMAnK5HT36ADEossmBe48hJB8pmJGbEO6H8
+ JDsDlUuZuNdA==
+X-IronPort-AV: E=Sophos;i="5.81,291,1610438400"; 
+   d="scan'208";a="418305275"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2021 12:25:58 -0700
+Date:   Tue, 30 Mar 2021 12:25:58 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH V4 07/10] x86/pks: Preserve the PKRS MSR on context switch
+Message-ID: <20210330192558.GD3014244@iweiny-DESK2.sc.intel.com>
+References: <20210322053020.2287058-1-ira.weiny@intel.com>
+ <20210322053020.2287058-8-ira.weiny@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YGL9hHFg9Pm4xaNM@alley>
-References: <20210324020443.1815557-1-swboyd@chromium.org> <20210324020443.1815557-5-swboyd@chromium.org> <YGL9hHFg9Pm4xaNM@alley>
-Subject: Re: [PATCH v2 04/12] module: Add printk format to add module build ID to stacktraces
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-To:     Petr Mladek <pmladek@suse.com>
-Date:   Tue, 30 Mar 2021 12:12:29 -0700
-Message-ID: <161713154989.2260335.1975274918938126463@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210322053020.2287058-8-ira.weiny@intel.com>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Petr Mladek (2021-03-30 03:29:24)
-> On Tue 2021-03-23 19:04:35, Stephen Boyd wrote:
-> > Let's make kernel stacktraces easier to identify by including the build
-> > ID[1] of a module if the stacktrace is printing a symbol from a module.
-> >=20
-> > Example:
-> >=20
-> >  WARNING: CPU: 3 PID: 3373 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNIN=
-G+0x28/0x30 [lkdtm]
-> >  Modules linked in: lkdtm rfcomm algif_hash algif_skcipher af_alg xt_cg=
-roup uinput xt_MASQUERADE hci_uart <modules trimmed>
-> >  CPU: 3 PID: 3373 Comm: bash Not tainted 5.11 #12 a8c0d47f7051f3e6670ce=
-aea724af66a39c6cec8
->=20
-> I tested it with "echo l >/proc/sysrq-trigger" and I got the following
-> output:
->=20
-> [   71.905593] CPU: 0 PID: 1762 Comm: bash Kdump: loaded Not tainted 5.12=
-.0-rc5-default+ #167 00000080ffffffff0000000000000000
-> 00000000
->=20
-> It does not looks like an unique build-id.
-> Any idea what was going wrong?
+[snip]
 
-Hmm not sure. What does 'hexdump /sys/kernel/notes' show or 'file
-vmlinux' parse out of the kernel image?
+<self review>
 
->=20
-> > --- a/include/linux/kallsyms.h
-> > +++ b/include/linux/kallsyms.h
-> > @@ -91,6 +93,7 @@ const char *kallsyms_lookup(unsigned long addr,
-> > =20
-> >  /* Look up a kernel symbol and return it in a text buffer. */
-> >  extern int sprint_symbol(char *buffer, unsigned long address);
-> > +extern int sprint_symbol_stacktrace(char *buffer, unsigned long addres=
-s);
-> >  extern int sprint_symbol_no_offset(char *buffer, unsigned long address=
-);
-> >  extern int sprint_backtrace(char *buffer, unsigned long address);
->=20
-> Could we use a more clear name? It is hard to guess what is
-> the difference between sprint_*_stacktrace() and sprint_backtrace().
->=20
-> What about sprint_symbol_build_id() ?
+The test bot reported build errors on i386 yesterday.  Not sure why they were
+not caught before...
 
-Sure.
+Anyway that caused me to look at this patch again and I've found a couple of
+issues noted below.  Combined with Sean's review I'll be re-spinning a new v5.
 
->=20
->=20
-> > diff --git a/kernel/module.c b/kernel/module.c
-> > index 30479355ab85..9e9cb502fb33 100644
-> > --- a/kernel/module.c
-> > +++ b/kernel/module.c
-> > @@ -2770,6 +2771,20 @@ static void add_kallsyms(struct module *mod, con=
-st struct load_info *info)
-> >       }
-> >       mod->core_kallsyms.num_symtab =3D ndst;
-> >  }
-> > +
-> > +static void init_build_id(struct module *mod, const struct load_info *=
-info)
-> > +{
-> > +     const Elf_Shdr *sechdr;
-> > +     unsigned int i;
-> > +
-> > +     for (i =3D 0; i < info->hdr->e_shnum; i++) {
-> > +             sechdr =3D &info->sechdrs[i];
-> > +             if (!sect_empty(sechdr) && sechdr->sh_type =3D=3D SHT_NOT=
-E &&
-> > +                 !build_id_parse_buf((void *)sechdr->sh_addr, mod->bui=
-ld_id,
-> > +                                     sechdr->sh_size))
-> > +                     break;
-> > +     }
->=20
-> Just to be sure. Is this really reliable way how to find the build ID,
-> please?
->=20
+> diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+> index 546d6ecf0a35..c15a049bf6ac 100644
+> --- a/arch/x86/include/asm/msr-index.h
+> +++ b/arch/x86/include/asm/msr-index.h
+> @@ -765,6 +765,7 @@
+>  
+>  #define MSR_IA32_TSC_DEADLINE		0x000006E0
+>  
+> +#define MSR_IA32_PKRS			0x000006E1
 
-The build ID is always part of a note section, so if we parse the notes
-and find a build ID type of section (see nhdr->n_type =3D=3D BUILD_ID) with
-a GNU name then we know we have the right section and will be able to
-parse the ID out of the buffer.
+This belongs in patch 5 where it is 'used'.  Note that nothing is really used
+until the final test patch...  But in review this define does not make any
+sense here...
+
+>  
+>  #define MSR_TSX_FORCE_ABORT		0x0000010F
+>  
+> diff --git a/arch/x86/include/asm/pkeys_common.h b/arch/x86/include/asm/pkeys_common.h
+> index 0681522974ba..6917f1a27479 100644
+> --- a/arch/x86/include/asm/pkeys_common.h
+> +++ b/arch/x86/include/asm/pkeys_common.h
+> @@ -17,4 +17,18 @@
+>  #define PKR_AD_KEY(pkey)     (PKR_AD_BIT << PKR_PKEY_SHIFT(pkey))
+>  #define PKR_WD_KEY(pkey)     (PKR_WD_BIT << PKR_PKEY_SHIFT(pkey))
+>  
+> +/*
+> + * Define a default PKRS value for each task.
+> + *
+> + * Key 0 has no restriction.  All other keys are set to the most restrictive
+> + * value which is access disabled (AD=1).
+> + *
+> + * NOTE: This needs to be a macro to be used as part of the INIT_THREAD macro.
+> + */
+> +#define INIT_PKRS_VALUE (PKR_AD_KEY(1) | PKR_AD_KEY(2) | PKR_AD_KEY(3) | \
+> +			 PKR_AD_KEY(4) | PKR_AD_KEY(5) | PKR_AD_KEY(6) | \
+> +			 PKR_AD_KEY(7) | PKR_AD_KEY(8) | PKR_AD_KEY(9) | \
+> +			 PKR_AD_KEY(10) | PKR_AD_KEY(11) | PKR_AD_KEY(12) | \
+> +			 PKR_AD_KEY(13) | PKR_AD_KEY(14) | PKR_AD_KEY(15))
+
+The same is true for this macro.  While it is used in this patch it is used
+first in patch 5.  So it should be there.
+
+I'm letting 0-day crank on these changes but there should be a v5 out very
+soon.
+
+Sorry for the noise,
+Ira
+
