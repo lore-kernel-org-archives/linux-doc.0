@@ -2,297 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A249C433E4
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 19:00:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDF16C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 19:13:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1E612619D8
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 19:00:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ACB6B619D2
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 19:13:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233028AbhC3S7m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 14:59:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43589 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232971AbhC3S7Q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 14:59:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617130756;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=9rovFwqHnWbHsNU90FkcQMMDk//e8S7lckbsm+eNrNY=;
-        b=Dt1dVCGGeGj30+wiLzJaMJioqNFfUInq7U9nmqrGGTxGIv8S4SYwpzxQCk9J5YSWVtePyR
-        pSrwmVAbWXX22G0SIM/bsmtH3xsm3Ta0zRyQFRyxRW4DReEwCbPxskB11wn7EDxx9/2BVX
-        qyRNJ8jbrLf2n81LzQqSWo/7ciW4iT0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-qdOTxoRKPayrOKdSUkE8gA-1; Tue, 30 Mar 2021 14:59:13 -0400
-X-MC-Unique: qdOTxoRKPayrOKdSUkE8gA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com [10.5.11.23])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB721911E2;
-        Tue, 30 Mar 2021 18:59:11 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-112-41.ams2.redhat.com [10.36.112.41])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 5B8B519C44;
-        Tue, 30 Mar 2021 18:59:07 +0000 (UTC)
-From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To:     kvm@vger.kernel.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
-        Alexander Graf <graf@amazon.com>,
-        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: [PATCH 4/4] selftests: kvm: add get_emulated_cpuid test
-Date:   Tue, 30 Mar 2021 20:58:41 +0200
-Message-Id: <20210330185841.44792-5-eesposit@redhat.com>
-In-Reply-To: <20210330185841.44792-1-eesposit@redhat.com>
-References: <20210330185841.44792-1-eesposit@redhat.com>
+        id S233077AbhC3TNF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 15:13:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50802 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233110AbhC3TMd (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 15:12:33 -0400
+Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28B70C061762
+        for <linux-doc@vger.kernel.org>; Tue, 30 Mar 2021 12:12:33 -0700 (PDT)
+Received: by mail-pl1-x634.google.com with SMTP id f17so6660473plr.0
+        for <linux-doc@vger.kernel.org>; Tue, 30 Mar 2021 12:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=pSBj0YaYaN0GbrJlNEC2b8pftXmc5dsioW7Jk9w3b0Q=;
+        b=kNYY6xY3yQWZigWtv6pzY98fYe8q2MVfB/FUD6Qtz/kvwR9jrpi8sDZV07WXnzg7+Y
+         JGpb+4U00fQhXmQZ33N0dRoEoJx6TkAJo2T1GtK3p7WOJkEkxHNJ1JCd6Wy4VWS+HIgL
+         DPfQK0dmqnDvTmnXGIylTcFh5YaSA+fpw0KYg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=pSBj0YaYaN0GbrJlNEC2b8pftXmc5dsioW7Jk9w3b0Q=;
+        b=oX2i+Qo6iXZQowz+mPf0waxPCjSWmZirlsEQGSvHTSxIbClwf+n+HjWZwAv7vIwrWN
+         /pi5P4vwATE1F73zRA2PbUX5zywv8skKefnssCBwcPvKfsFvJ1JPj3bINlMjCO1k7SLx
+         JEj9orvGjO+o0fmdDnVoQja7iYshtoAWGQkZAQHMkic9zfd9zyGInMhUILYfQKzjfsaH
+         5oBpRDW2Qc1SgUOOUokvJ4lvv2/kaUexKyMPBzRr/NB13kihnUPvaUh9PpvqNLDovjZS
+         u1WwUtMftKKobbsVpvYJ92iyUttHagrFXkPw1sOtVKZsx3C6VNREgg2wXIO6lCLbdYlP
+         EKMA==
+X-Gm-Message-State: AOAM531ViyakE5xC8kOam6+mUvrf99BN2+0Hn41NhYHB2j95VyjL+ska
+        8CYNTbZe1HAdGmN2enqmHSAyZw==
+X-Google-Smtp-Source: ABdhPJzPloxjPL7P2kxXfUtG7olsGtlZdZfNGi1MCSQcNkhfcNYyLOfJY+tmHcpRqGrO4heVY1nWdA==
+X-Received: by 2002:a17:902:c104:b029:e7:3268:6eb9 with SMTP id 4-20020a170902c104b02900e732686eb9mr22685163pli.32.1617131552563;
+        Tue, 30 Mar 2021 12:12:32 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:201:c8c2:b814:df0f:253f])
+        by smtp.gmail.com with ESMTPSA id h14sm3341649pjc.37.2021.03.30.12.12.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Mar 2021 12:12:31 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YGL9hHFg9Pm4xaNM@alley>
+References: <20210324020443.1815557-1-swboyd@chromium.org> <20210324020443.1815557-5-swboyd@chromium.org> <YGL9hHFg9Pm4xaNM@alley>
+Subject: Re: [PATCH v2 04/12] module: Add printk format to add module build ID to stacktraces
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+To:     Petr Mladek <pmladek@suse.com>
+Date:   Tue, 30 Mar 2021 12:12:29 -0700
+Message-ID: <161713154989.2260335.1975274918938126463@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Introduce a new selftest for the KVM_GET_EMULATED_CPUID
-ioctl. Since the behavior and functionality is similar to
-get_cpuid_test, the test checks:
+Quoting Petr Mladek (2021-03-30 03:29:24)
+> On Tue 2021-03-23 19:04:35, Stephen Boyd wrote:
+> > Let's make kernel stacktraces easier to identify by including the build
+> > ID[1] of a module if the stacktrace is printing a symbol from a module.
+> >=20
+> > Example:
+> >=20
+> >  WARNING: CPU: 3 PID: 3373 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNIN=
+G+0x28/0x30 [lkdtm]
+> >  Modules linked in: lkdtm rfcomm algif_hash algif_skcipher af_alg xt_cg=
+roup uinput xt_MASQUERADE hci_uart <modules trimmed>
+> >  CPU: 3 PID: 3373 Comm: bash Not tainted 5.11 #12 a8c0d47f7051f3e6670ce=
+aea724af66a39c6cec8
+>=20
+> I tested it with "echo l >/proc/sysrq-trigger" and I got the following
+> output:
+>=20
+> [   71.905593] CPU: 0 PID: 1762 Comm: bash Kdump: loaded Not tainted 5.12=
+.0-rc5-default+ #167 00000080ffffffff0000000000000000
+> 00000000
+>=20
+> It does not looks like an unique build-id.
+> Any idea what was going wrong?
 
-1) checks for corner case in the nent field of the struct kvm_cpuid2.
-2) sets and gets it as cpuid from the guest VM
+Hmm not sure. What does 'hexdump /sys/kernel/notes' show or 'file
+vmlinux' parse out of the kernel image?
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- tools/testing/selftests/kvm/.gitignore        |   1 +
- tools/testing/selftests/kvm/Makefile          |   1 +
- .../selftests/kvm/x86_64/get_emulated_cpuid.c | 183 ++++++++++++++++++
- 3 files changed, 185 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86_64/get_emulated_cpuid.c
+>=20
+> > --- a/include/linux/kallsyms.h
+> > +++ b/include/linux/kallsyms.h
+> > @@ -91,6 +93,7 @@ const char *kallsyms_lookup(unsigned long addr,
+> > =20
+> >  /* Look up a kernel symbol and return it in a text buffer. */
+> >  extern int sprint_symbol(char *buffer, unsigned long address);
+> > +extern int sprint_symbol_stacktrace(char *buffer, unsigned long addres=
+s);
+> >  extern int sprint_symbol_no_offset(char *buffer, unsigned long address=
+);
+> >  extern int sprint_backtrace(char *buffer, unsigned long address);
+>=20
+> Could we use a more clear name? It is hard to guess what is
+> the difference between sprint_*_stacktrace() and sprint_backtrace().
+>=20
+> What about sprint_symbol_build_id() ?
 
-diff --git a/tools/testing/selftests/kvm/.gitignore b/tools/testing/selftests/kvm/.gitignore
-index 7bd7e776c266..f1523f3bfd04 100644
---- a/tools/testing/selftests/kvm/.gitignore
-+++ b/tools/testing/selftests/kvm/.gitignore
-@@ -8,6 +8,7 @@
- /x86_64/debug_regs
- /x86_64/evmcs_test
- /x86_64/get_cpuid_test
-+x86_64/get_emulated_cpuid
- /x86_64/get_msr_index_features
- /x86_64/kvm_pv_test
- /x86_64/hyperv_clock
-diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
-index 67eebb53235f..0d8d3bd5a7c7 100644
---- a/tools/testing/selftests/kvm/Makefile
-+++ b/tools/testing/selftests/kvm/Makefile
-@@ -40,6 +40,7 @@ LIBKVM_s390x = lib/s390x/processor.c lib/s390x/ucall.c lib/s390x/diag318_test_ha
- 
- TEST_GEN_PROGS_x86_64 = x86_64/cr4_cpuid_sync_test
- TEST_GEN_PROGS_x86_64 += x86_64/get_msr_index_features
-+TEST_GEN_PROGS_x86_64 += x86_64/get_emulated_cpuid
- TEST_GEN_PROGS_x86_64 += x86_64/evmcs_test
- TEST_GEN_PROGS_x86_64 += x86_64/get_cpuid_test
- TEST_GEN_PROGS_x86_64 += x86_64/hyperv_clock
-diff --git a/tools/testing/selftests/kvm/x86_64/get_emulated_cpuid.c b/tools/testing/selftests/kvm/x86_64/get_emulated_cpuid.c
-new file mode 100644
-index 000000000000..f5294dc4b8ff
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86_64/get_emulated_cpuid.c
-@@ -0,0 +1,183 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2021, Red Hat Inc.
-+ *
-+ * Generic tests for KVM CPUID set/get ioctls
-+ */
-+#include <asm/kvm_para.h>
-+#include <linux/kvm_para.h>
-+#include <stdint.h>
-+
-+#include "test_util.h"
-+#include "kvm_util.h"
-+#include "processor.h"
-+
-+#define VCPU_ID 0
-+#define MAX_NENT 1000
-+
-+/* CPUIDs known to differ */
-+struct {
-+	u32 function;
-+	u32 index;
-+} mangled_cpuids[] = {
-+	{.function = 0xd, .index = 0},
-+};
-+
-+static void guest_main(void)
-+{
-+
-+}
-+
-+static bool is_cpuid_mangled(struct kvm_cpuid_entry2 *entrie)
-+{
-+	int i;
-+
-+	for (i = 0; i < sizeof(mangled_cpuids); i++) {
-+		if (mangled_cpuids[i].function == entrie->function &&
-+		    mangled_cpuids[i].index == entrie->index)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static void check_cpuid(struct kvm_cpuid2 *cpuid, struct kvm_cpuid_entry2 *entrie)
-+{
-+	int i;
-+
-+	for (i = 0; i < cpuid->nent; i++) {
-+		if (cpuid->entries[i].function == entrie->function &&
-+		    cpuid->entries[i].index == entrie->index) {
-+			if (is_cpuid_mangled(entrie))
-+				return;
-+
-+			TEST_ASSERT(cpuid->entries[i].eax == entrie->eax &&
-+				    cpuid->entries[i].ebx == entrie->ebx &&
-+				    cpuid->entries[i].ecx == entrie->ecx &&
-+				    cpuid->entries[i].edx == entrie->edx,
-+				    "CPUID 0x%x.%x differ: 0x%x:0x%x:0x%x:0x%x vs 0x%x:0x%x:0x%x:0x%x",
-+				    entrie->function, entrie->index,
-+				    cpuid->entries[i].eax, cpuid->entries[i].ebx,
-+				    cpuid->entries[i].ecx, cpuid->entries[i].edx,
-+				    entrie->eax, entrie->ebx, entrie->ecx, entrie->edx);
-+			return;
-+		}
-+	}
-+
-+	TEST_ASSERT(false, "CPUID 0x%x.%x not found", entrie->function, entrie->index);
-+}
-+
-+static void compare_cpuids(struct kvm_cpuid2 *cpuid1,
-+						   struct kvm_cpuid2 *cpuid2)
-+{
-+	int i;
-+
-+	for (i = 0; i < cpuid1->nent; i++)
-+		check_cpuid(cpuid2, &cpuid1->entries[i]);
-+
-+	for (i = 0; i < cpuid2->nent; i++)
-+		check_cpuid(cpuid1, &cpuid2->entries[i]);
-+}
-+
-+struct kvm_cpuid2 *vcpu_alloc_cpuid(struct kvm_vm *vm, vm_vaddr_t *p_gva, struct kvm_cpuid2 *cpuid)
-+{
-+	int size = sizeof(*cpuid) + cpuid->nent * sizeof(cpuid->entries[0]);
-+	vm_vaddr_t gva = vm_vaddr_alloc(vm, size,
-+					getpagesize(), 0, 0);
-+	struct kvm_cpuid2 *guest_cpuids = addr_gva2hva(vm, gva);
-+
-+	memcpy(guest_cpuids, cpuid, size);
-+
-+	*p_gva = gva;
-+	return guest_cpuids;
-+}
-+
-+static struct kvm_cpuid2 *alloc_custom_kvm_cpuid2(int nent)
-+{
-+	struct kvm_cpuid2 *cpuid;
-+	size_t size;
-+
-+	size = sizeof(*cpuid);
-+	size += nent * sizeof(struct kvm_cpuid_entry2);
-+	cpuid = calloc(1, size);
-+	if (!cpuid) {
-+		perror("malloc");
-+		abort();
-+	}
-+
-+	cpuid->nent = nent;
-+
-+	return cpuid;
-+}
-+
-+static void test_emulated_entries(struct kvm_vm *vm)
-+{
-+	int res, right_nent;
-+	struct kvm_cpuid2 *cpuid;
-+
-+	cpuid = alloc_custom_kvm_cpuid2(MAX_NENT);
-+
-+	/* 0 nent, return E2BIG */
-+	cpuid->nent = 0;
-+	res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
-+	TEST_ASSERT(res == -1 && errno == E2BIG,
-+				"KVM_GET_EMULATED_CPUID should fail E2BIG with nent=0");
-+
-+	/* high nent, set the entries and adjust */
-+	cpuid->nent = MAX_NENT;
-+	res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
-+	printf("%d %d\n", res, errno);
-+	TEST_ASSERT(res == 0,
-+			"KVM_GET_EMULATED_CPUID should not fail with nent > actual nent");
-+	right_nent = cpuid->nent;
-+
-+	/* high nent, set the entries and adjust */
-+	cpuid->nent++;
-+	res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
-+	TEST_ASSERT(res == 0,
-+			"KVM_GET_EMULATED_CPUID should not fail with nent > actual nent");
-+	TEST_ASSERT(right_nent == cpuid->nent,
-+				"KVM_GET_EMULATED_CPUID nent should be always the same");
-+
-+	/* low nent, return E2BIG */
-+	if (right_nent > 1) {
-+		cpuid->nent = 1;
-+		res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
-+		TEST_ASSERT(res == -1 && errno == E2BIG,
-+					"KVM_GET_EMULATED_CPUID should fail with nent=1");
-+	}
-+
-+	/* exact nent */
-+	cpuid->nent = right_nent;
-+	res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
-+	TEST_ASSERT(res == 0,
-+			"KVM_GET_EMULATED_CPUID should not fail with nent == actual nent");
-+	TEST_ASSERT(cpuid->nent == right_nent,
-+			"KVM_GET_EMULATED_CPUID should be invaried when nent is exact");
-+
-+	free(cpuid);
-+}
-+
-+// emulated is all emulated
-+// supported is only hw + kvm
-+int main(void)
-+{
-+	struct kvm_cpuid2 *emul_cpuid, *cpuid2;
-+	struct kvm_vm *vm;
-+
-+	if (!kvm_check_cap(KVM_CAP_EXT_EMUL_CPUID)) {
-+		print_skip("KVM_GET_EMULATED_CPUID not available");
-+		return 0;
-+	}
-+
-+	vm = vm_create_default(VCPU_ID, 0, guest_main);
-+
-+	emul_cpuid = kvm_get_emulated_cpuid();
-+	vcpu_set_cpuid(vm, VCPU_ID, emul_cpuid);
-+	cpuid2 = vcpu_get_cpuid(vm, VCPU_ID);
-+
-+	test_emulated_entries(vm);
-+	compare_cpuids(emul_cpuid, cpuid2);
-+
-+	kvm_vm_free(vm);
-+}
--- 
-2.30.2
+Sure.
 
+>=20
+>=20
+> > diff --git a/kernel/module.c b/kernel/module.c
+> > index 30479355ab85..9e9cb502fb33 100644
+> > --- a/kernel/module.c
+> > +++ b/kernel/module.c
+> > @@ -2770,6 +2771,20 @@ static void add_kallsyms(struct module *mod, con=
+st struct load_info *info)
+> >       }
+> >       mod->core_kallsyms.num_symtab =3D ndst;
+> >  }
+> > +
+> > +static void init_build_id(struct module *mod, const struct load_info *=
+info)
+> > +{
+> > +     const Elf_Shdr *sechdr;
+> > +     unsigned int i;
+> > +
+> > +     for (i =3D 0; i < info->hdr->e_shnum; i++) {
+> > +             sechdr =3D &info->sechdrs[i];
+> > +             if (!sect_empty(sechdr) && sechdr->sh_type =3D=3D SHT_NOT=
+E &&
+> > +                 !build_id_parse_buf((void *)sechdr->sh_addr, mod->bui=
+ld_id,
+> > +                                     sechdr->sh_size))
+> > +                     break;
+> > +     }
+>=20
+> Just to be sure. Is this really reliable way how to find the build ID,
+> please?
+>=20
+
+The build ID is always part of a note section, so if we parse the notes
+and find a build ID type of section (see nhdr->n_type =3D=3D BUILD_ID) with
+a GNU name then we know we have the right section and will be able to
+parse the ID out of the buffer.
