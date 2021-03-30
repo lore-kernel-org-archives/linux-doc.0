@@ -2,71 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A41C433EA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80367C433C1
 	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:28:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C6B20619E3
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:28:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6360C61A0A
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:28:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232798AbhC3V1a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S232803AbhC3V1a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Tue, 30 Mar 2021 17:27:30 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:42822 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232596AbhC3V0z (ORCPT
+Received: from aserp2120.oracle.com ([141.146.126.78]:49758 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232549AbhC3V0z (ORCPT
         <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 17:26:55 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULONSn011485;
-        Tue, 30 Mar 2021 21:25:03 GMT
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULNsLD130340;
+        Tue, 30 Mar 2021 21:25:30 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : content-type : mime-version;
- s=corp-2020-01-29; bh=yUuQ6MQgIvRVMnLbvkNufFSI7S9ZTYuth/hjvaPUOJQ=;
- b=PvEGuM6j5q5Kx/IyAVMGCKm7Bo7ddxnKw7lk13ncrewMXdbHAIRT1iF5mylqdYOvTyuM
- 3K2WtbJlPo7uDad3hBSrUnlwf1MJ85KMWnzNkffHi1sQwKiRAuXg5jGQ7VYkYEvAUtAW
- 361BjmuVULLZpWuMwsa3cGs3aPYAHOSRqWgrwmxx11cT2SJjt0bkgD9YY1fG7iNbmSMX
- MAPjZeIS70BRiCz5xo1NNUxG1O55III0R7iqZ7z3gR/ZlHfF3m6tWD0QIC7tEWFQIcUX
- tVPU1TD+XxbS1/Hv2A5eu7yn4bzuNHppLPQH68mFfN23HbF5DlKUmcSd6NNoxW+D2Pdy NQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2120.oracle.com with ESMTP id 37mab3g8uk-1
+ subject : date : message-id : in-reply-to : references : content-type :
+ mime-version; s=corp-2020-01-29;
+ bh=UUYO3z/elouuXXsWyOd9Gmz3+wWbtLHinkjbPkMqato=;
+ b=MaFtLmlRz6ddxkE1+hJpM4l5EM4wVNEDbkBG+ngVA+H/8bL7FSAcVcNibavEh56/MmEp
+ emP+t5Vri7uwWORBH8J/SWirOd3NM+UnioUabJ5ACDrqCZFn67Jzw/WqqtwG38teBACM
+ YCHDzlcGRFCFwZntI1kyTBG8pAIrSEq6FQgya0nj6RqFIiTCCqv2KlEKwFjuF5SSt7e1
+ 6/phio8p0T8Fe47jSCj+wp5CH1Acolbg3EhMzBGkLVxeqnjCluKbi4yo1KPKue5dq+tx
+ xXJmsvMqLsYPk0DMbSDvBA/rnBLGLV3VfjnCsVlj2tv0UYGdnKLhiMS6QH+ZQrd3PR4p ng== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 37mabqr8ms-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 30 Mar 2021 21:25:03 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULBS4f065401;
-        Tue, 30 Mar 2021 21:25:03 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2169.outbound.protection.outlook.com [104.47.55.169])
-        by userp3030.oracle.com with ESMTP id 37mabkbbfv-1
+        Tue, 30 Mar 2021 21:25:29 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULOax3149709;
+        Tue, 30 Mar 2021 21:25:29 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2169.outbound.protection.outlook.com [104.47.56.169])
+        by userp3020.oracle.com with ESMTP id 37mac4kchx-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 30 Mar 2021 21:25:03 +0000
+        Tue, 30 Mar 2021 21:25:28 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DsezOLTG/D+LMMs+cFShj/AvI6kgkqYp5gMSieIDRyABhCl9xO3pjc04gQ8CFlIoUCbPRBEZy4ZyQv0qCzVkWuHEBQd65m1F2vh3yHY7T+BFSHRqweCAa00Dz/J6R5IibO8p04PUlXNTrZji6lAjKPuh++93UUEtRWWPgZOcLQjxsDYD67LfgrNzw7A/HLDs+EP43PGhWesfwX+DI+sCUNmGNMWD8UOM7Gl4Q/A8zE+Y9YTry+lHmRQ3F/5dZAYMCIcmc40ZyYVvBnCE3oao7D1g6u8kgV6AIucIobfTRnUt4AWjnNl79bg0WEFjYMiBhCDp9/Iu51ns71r30rvmEA==
+ b=hjs7DI4/tSUXc09pV92PK6eeXc7/N1IQj2iQ5rw/s/frR5Nppg7Aw38OqM8ifBPnN68xhShtGFtmkn029N7UZbWIGHwyyipp6pz0pvkjoaEAsF6SICWEZP6rnjWZg4wjK56mj2eZvaDvKmlPWc+n2OsZ+kHwhJKqXgzgHaUmJdCAWwHzk/7hiu8PB7omi5C2ekAjwh5ipeAfy1pN5yU21SMo1UfkqpWWZ7z+SoINZzePwwlm8jPj9Z2psOlQmQ3Ny7myheJFAMS/X4ecSd7EiW41eL8jGlvdKzip+IRSaDFXLBstVoJUgd02nvsrSlYqwXWTieZyw+y53YlaREJODQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yUuQ6MQgIvRVMnLbvkNufFSI7S9ZTYuth/hjvaPUOJQ=;
- b=Ag7wAzzAIrGvnHEsjmOVzKPFK7T3EE7+pBWMkQsPqwlr/wVRw7ZyMWmqXkhHBSXO2JsSjQEzJ6KW7gDKpxO8WWsblxcP9Wcgl/tbFk6YkgwqtmE4lqZZZ0n151Mu/QUbZgnyw1r/DLNMZUe6yoymhUJfLWfwVp8kv/zxvQigCA6lO6xKFS36qFrxtKkdko/yhDgV55NGR7BnMc6JnZIjpQu9lR0wh8o33Fb/luMO5IciftTbgf27wCr2uQ7wEqzNShUogNQhZdzDqHAyb4BIliSba3IiXGnLJPDzf6zLpof71/cD3Ikl91L3Wlc2x2xgurPIr+GiCC/7otcVLOHvZQ==
+ bh=UUYO3z/elouuXXsWyOd9Gmz3+wWbtLHinkjbPkMqato=;
+ b=kx0rl6MW6X3hK9JExicb517RMM9r6zcA4L7OXBkD/46YyUMXyMy9VmZj8QYERkIVWS7wBvj2pLgAeFNG05/JwD6iZQhsqwGnGkIxBS5yrnnPujndNwyyBzvWtAEgNylBPCpmL8cPhov5d30f1QE5WVSUf29db2NyeViGBsE7o64JktNBy5cG3FtoPD34Z+hpmCtfTHcKx7ZsMWJJaxhadIqpVIGlkVrbnhynXx2Xfvzg6Y/0m/z8xcrJp3KNmQJV809TwBvR/B14cHoGaf0Mz8r/E3HWidIV8fEUi7go6uecfoeXGnmwpuSIRPuuin5sttVpvgvwuLQPvkoHs102cA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yUuQ6MQgIvRVMnLbvkNufFSI7S9ZTYuth/hjvaPUOJQ=;
- b=N4SX0IFmZQmpTjQk2KvwQ0i0YcJTh95XlNgKImy2PjqrA2C7FuFlaeZIkNhghuYMWOqsuhgz10ZHwstfTUlu2ozVDuTY5FQinUx+/oHJBxbZm2RWXzJ0nFHRsDyNAC92ylyhR2chy/CjcOLJSgZi3AGCyVVFAGPGHnk7oXm7JXU=
+ bh=UUYO3z/elouuXXsWyOd9Gmz3+wWbtLHinkjbPkMqato=;
+ b=PQ6d/gD6OoRalBUrrqq8IlKVik86JoJyxCnEYcW8R9vfGAHqKIxOKvunoDJ4mQRhTZOxi/GAevXwFflp7AZiRIuPT2tntENty+HhMr9U0ooM11mHD/Udn5SBH5xeHWhVkqlUk0VyRp2uGTgdyHw3H0b9flCCqQbUZ3NVZmjWDbY=
 Authentication-Results: kvack.org; dkim=none (message not signed)
  header.d=none;kvack.org; dmarc=none action=none header.from=oracle.com;
 Received: from MN2PR10MB3533.namprd10.prod.outlook.com (2603:10b6:208:118::32)
- by MN2PR10MB3120.namprd10.prod.outlook.com (2603:10b6:208:122::18) with
+ by MN2PR10MB3357.namprd10.prod.outlook.com (2603:10b6:208:12e::33) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24; Tue, 30 Mar
- 2021 21:25:00 +0000
+ 2021 21:25:25 +0000
 Received: from MN2PR10MB3533.namprd10.prod.outlook.com
  ([fe80::cc79:c40e:430f:e254]) by MN2PR10MB3533.namprd10.prod.outlook.com
  ([fe80::cc79:c40e:430f:e254%4]) with mapi id 15.20.3977.033; Tue, 30 Mar 2021
- 21:25:00 +0000
+ 21:25:25 +0000
 From:   Anthony Yznaga <anthony.yznaga@oracle.com>
 To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
@@ -87,10 +88,12 @@ Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
         lei.l.li@intel.com, daniel.m.jordan@oracle.com,
         steven.sistare@oracle.com, linux-fsdevel@vger.kernel.org,
         linux-doc@vger.kernel.org, kexec@lists.infradead.org
-Subject: [RFC v2 00/43] PKRAM: Preserved-over-Kexec RAM
-Date:   Tue, 30 Mar 2021 14:35:35 -0700
-Message-Id: <1617140178-8773-1-git-send-email-anthony.yznaga@oracle.com>
+Subject: [RFC v2 06/43] mm: PKRAM: implement byte stream operations
+Date:   Tue, 30 Mar 2021 14:35:41 -0700
+Message-Id: <1617140178-8773-7-git-send-email-anthony.yznaga@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1617140178-8773-1-git-send-email-anthony.yznaga@oracle.com>
+References: <1617140178-8773-1-git-send-email-anthony.yznaga@oracle.com>
 Content-Type: text/plain
 X-Originating-IP: [148.87.23.8]
 X-ClientProxiedBy: BYAPR11CA0099.namprd11.prod.outlook.com
@@ -98,330 +101,328 @@ X-ClientProxiedBy: BYAPR11CA0099.namprd11.prod.outlook.com
  (2603:10b6:208:118::32)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ca-qasparc-x86-2.us.oracle.com (148.87.23.8) by BYAPR11CA0099.namprd11.prod.outlook.com (2603:10b6:a03:f4::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.26 via Frontend Transport; Tue, 30 Mar 2021 21:24:55 +0000
+Received: from ca-qasparc-x86-2.us.oracle.com (148.87.23.8) by BYAPR11CA0099.namprd11.prod.outlook.com (2603:10b6:a03:f4::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.26 via Frontend Transport; Tue, 30 Mar 2021 21:25:21 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5562b439-896b-473a-1f6d-08d8f3c24610
-X-MS-TrafficTypeDiagnostic: MN2PR10MB3120:
+X-MS-Office365-Filtering-Correlation-Id: a23616cd-b4f3-4d86-2787-08d8f3c25559
+X-MS-TrafficTypeDiagnostic: MN2PR10MB3357:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR10MB3120530881BC837BA13BD865EC7D9@MN2PR10MB3120.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Microsoft-Antispam-PRVS: <MN2PR10MB3357CC909828ADB1D87FEF86EC7D9@MN2PR10MB3357.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ohp3+An/bUARqnyLaC/fXRm9XMKmNHxu2uRGETZWQAaerC7Xi+WMhwdf8W+QBEn6uo5iAbd1hT5lMtBeF3NzNOv4n0hSq7AVYvFAxJJs95dTd/6RKxH7mNR+VX95BtkhjWUR/dk4ydKPV+3JFpOPNkwMniP6XkvAqs4hRWAYYcs8y1abz7c5WsSSzdpi+jQNY66g8fY0sQ9h2DkxsQrjkbD9iO5JWMNcceE9glWVUxY3WbbSXPos5YIwRvw9MEf0zxWdTEHV2KlegUsRtCZlEWtlQASDNPNdts3iRgf0l8wMh1FYynsF0MS3X/R24cV58FmXi2vXWFftdn8Tyy1lhKyd07pnweJOZ+F81QZA1rYcZJkaqpBkxdoXIdLAiUd4bXdMGw4yoiKgm8F6yFSkSDEhVlsSu7fonll9ZyItJerUnaWnS3Mepr8XZ3ngx8B+fPvILpAdRj0clBaKySq+ncMCRr+RYiTePAzf18ZZ+IGJ0Bs0xmr2FNdRMRJr5e31lge8eleXtI9mv+7BHU1fkkIatHftFlQ4CwXsWOkG/L4wwr4jycUCjacnR3O9Eu7ComoHNlHk0Zxd/x+I/N1si/E+vUhmkxCBCBUvAvpuQFhTc5Fl9gF7vQpbZPbB8Dz1BEXstIYCtgpcMfYzOM+Y0P5iFbzhxE/kw2tifJvjCtOAe3GVmjvy0EEWBHLZaWmBSYY8QPO0YyCz1IvZib96wdW9phbUikMQQFgIDKWwSE8=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB3533.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(39860400002)(366004)(376002)(346002)(396003)(52116002)(966005)(316002)(186003)(6486002)(16526019)(5660300002)(2616005)(956004)(6666004)(8676002)(66556008)(44832011)(478600001)(83380400001)(7406005)(38100700001)(86362001)(7696005)(66476007)(66946007)(4326008)(2906002)(26005)(7416002)(36756003)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?BBCbzM3dl36wMaQOcA2F39fOGNubaF7a+cWSqcesCMccfpuKb7F2s8JT3Qmr?=
- =?us-ascii?Q?/nUYm5yMzlfgy+ahC5G0xBB9J5YOXhnRdGPO3mM4KsSPdOcoF8nwg3FjnK6P?=
- =?us-ascii?Q?efiDmSRg7VAZI2utBvlGBQUuBReepDgq/f27VMRy+nAAouOp6laYNCdyXLiV?=
- =?us-ascii?Q?/VGIhRacd6F1xAukjg0keaI4w+GShUSl/VR2ntxc44kKt80KJQrsd4n2si2R?=
- =?us-ascii?Q?O24hXju9zAiIRT2QrE2bENQbxz+hycDfBfee9l9yapiycCQG8cvPZYPrxc5d?=
- =?us-ascii?Q?8GysU8t6uTEV0CCjiyF+1CD0FQ9+TWYMgQt/7VTCzGMNvSYlHpNyfc+DKDgQ?=
- =?us-ascii?Q?mKkV6j/FDcs1Q5CJJpkljJDSARrEZ33NQWe+/KisuxBgy5j2jIYkz5I+5b06?=
- =?us-ascii?Q?Ppa05X6spwmzChM0sU41f6TgOhkEBcXWP2id6y1fvzOuA5U0CFPdDrigixE8?=
- =?us-ascii?Q?188px95TmLd73dyZxZdUZp44HCKDMh0CPMwh7A3Uuralp3os9MpR/SURBH75?=
- =?us-ascii?Q?dPop331LOKyQq58v5/8vTMEfg6iQHvX4ktnLrZGoA83MVwWYQPeayFrp04Tb?=
- =?us-ascii?Q?Vfvrfop71ESsw5cAPbZ+pCmNIXSTwA/eg0TlAAkEVwl43g9/FsQJ3dHwmz8z?=
- =?us-ascii?Q?/WHUcei6PbKug9duLUVckvjblmP2IhdJYdcWtMGYQqqKzZ8R7VGsphpfgaGg?=
- =?us-ascii?Q?+PrBBU4ITgGtGWwOHnkFPe+ZmEUrGsoPBBuNXbZZoHlZuy8FJnXxLHUF91Xl?=
- =?us-ascii?Q?6ghdurrDsiw/ENOn2YLz2ibCFM1QQOwTOlgMAbFKx1J+QjFGpX3KjwMONodF?=
- =?us-ascii?Q?fn1jiQuwpisCjJGCxTCXV491eM2BqIAUb4E+jGJKwUDykjPqbkhuA+VZhKCs?=
- =?us-ascii?Q?QsL2dhL+VydMVJS182ttj8KWKAkWxheyy5yNvLDYfVeUOA4QLaZjaBc0AdqJ?=
- =?us-ascii?Q?ctg3B5qP9t4iFXJqKu9AJytstzm2w3u6ZMWjVwMMILlHZZMEJt2igk1tnL3r?=
- =?us-ascii?Q?RKDOMsRZADl/UMuovbJ3K/dSVwQNkQyNRN+9Dtlupar4jXlGVMA1DB9Kz+pe?=
- =?us-ascii?Q?Uvb66uUV4bafPKi+7ffJjv0a0yU69vkpXda+S9nGiIIVoIM4Z/Wt27Yez8xn?=
- =?us-ascii?Q?C8Do+u43qYwfRUUwla2ljRnWeoKaPvIDJbrmsH7c60lJ1Z7MYghCCnW8prz2?=
- =?us-ascii?Q?QKkWXVDFuHlyvORWrt+Oa8nwkqKkxseKp5Tg7GbGQiOnvwknsB4G35xKMmYK?=
- =?us-ascii?Q?K39Ewdb3/ICAvRrJLnnIGqAp1PaHix0g7TeQnui4FaIo/dl+LuzRpDm+pAvq?=
- =?us-ascii?Q?8Fnyd5U31SLHHtE3+rR7EOHI?=
+X-Microsoft-Antispam-Message-Info: Q4nlL9xoE6KNeGmLZMvvWXj7Hccq6ZZqa43WpKoZuGSWGt/orQTvblAEcnddUg16q0+GZQYAYmq9QflJZ7FJfIowDJrzfD/L3c0mJIhXdDfQrb41h9BsO3rq0o14ahVyg+AUC8Jr94a3iwmBjkF/8MXOsK0bJlvICXwlSDzsdXofi3dfzgYEhNHlsDl8usfDwfK8Wz9AeUmeOYfRTzCY0c6xByCWV6a1wlEF0LAZrBKwzQFTPfqQ94fzP9GWOiTM8gbX8je9aXA1JI62AEFqK44/e8P0qRYxwrUreCtpol5v20iJotA8+bk95FgDXCiqHCTT98LbBSR0xrs2MZXUpKazI4wdNYYePdkuPJx7QC2pLMhFZqzg7co8cxXnQTGlCHSRA0sgMYQmhLbjOy0HR+rVMHq2IuO831xZmEFAQBQ56phQGCipoI4EC3Gbv6bzG0wAVDoy5o56Az+QjcR5c36CX6kxoPTdlBEYKwQaRm7ibjT9oDw6LwLVPFjyJT6j/asuD3kjrF5SLtglAAhqi+AG9xiYh91MyFnz3OT0t8Ki38rps9cpzWtCopGeali3Lkq2s7D4m3Iptk+Ojd7N0PLKcpseWSruCe1HanyKQP6j6jjJ55atiw6KBQdE8LTTAlMQd9V/zre2EGFJBJlSBw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB3533.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(376002)(136003)(346002)(39860400002)(366004)(396003)(2616005)(5660300002)(956004)(6666004)(4326008)(16526019)(66946007)(186003)(44832011)(86362001)(478600001)(7406005)(26005)(38100700001)(8936002)(52116002)(83380400001)(8676002)(7696005)(2906002)(66476007)(66556008)(36756003)(6486002)(316002)(7416002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?iouGMKabyhkA65Od1i9GabpQj+LeKT4THNDuW7SnADXVyrMN2Q+DhoFn3d+i?=
+ =?us-ascii?Q?z7XdcVLKbFM7LtndxvLpjC0xIjgoDC9thC5bDE6L3S2kSA73rTXhjbhvEAxC?=
+ =?us-ascii?Q?tDBA2X8XjluUkf9e7XxxCzfujLU/58lo2DyzlGOjUc+bW54Psw07iH+anlcW?=
+ =?us-ascii?Q?HWu5/r0bUFUCTnEZPLfzmWgCmaOCqbX3a7E+wyDPyuwlHXn75XOwEPaBrR7s?=
+ =?us-ascii?Q?2rrdigFM5nL6Y/xB60G68NxH6FVRXep+zwe6SiEY+p7xRIcb8HjIH0xttsI7?=
+ =?us-ascii?Q?oJiHMe9+CK7IqZ6gdg/B+c8PwZlY1sWSFMeMXgdyOcxkwdNtjT/0EM4OG7Uj?=
+ =?us-ascii?Q?/I6KDRkVxSXqDauaBxdanpVWWoiwSMb3JASNep4locdibasrJyJNThrpMxvo?=
+ =?us-ascii?Q?btBkykPdAaBROHKMgCyoXtHVeI9o9BddvRIEMfo+5cekASYhLOLM8Uc7X7Ef?=
+ =?us-ascii?Q?oGHilqYdEkWBZizz/wOQCIW81NjQqmV0RNWKlYBA8Z7RjA5jBDPQm1KYRXdm?=
+ =?us-ascii?Q?+suefMGTjkpb3eoFqBc/rLl6hbCYi2YpHSGwE4KWDMHCZWthqiERBKuMcLvb?=
+ =?us-ascii?Q?JlTAuAdkUzXHorr4m+8kmckZIbEnbtFY24AnPgXDfLhKgw/lcIAl0SWTI6nQ?=
+ =?us-ascii?Q?Ne+c+R26bK/isf57+MD4od981g95v5wgnwGJkZgnjsCgquHffN+jOMUlBwlu?=
+ =?us-ascii?Q?vkz0S3rNetilzBQQZOy7z69WLAfcbR3EGMRh3wcz3HxjiaUBTxVVkE/ZIVkA?=
+ =?us-ascii?Q?sq+ytwr56QWQzklsc2gqG70T9hvATNV+45uxYVDskX3wkpFTKcCwxhHeeu6Z?=
+ =?us-ascii?Q?QDzw4Z4Uwiz52TwfHRl99k0nvcIsNqCuxrGskkf6RFy/rzkxEWV7p/tGwUXn?=
+ =?us-ascii?Q?S277hLyTitm7nup3EfKsnIynty/SMiKUx9u62qwOttEsD8LdIXdZCJ2lFOnu?=
+ =?us-ascii?Q?2IJXk+Dduk1YWqMmyzwoZa605FXUHh8ZY5bBkMlilf2MYlTk8Q6V4henJrDq?=
+ =?us-ascii?Q?uJvP0JyDmXgfY5w2pDiImezSPTDPyqDet1x+xgOl2Z8kh52/m/k08Xgy6W40?=
+ =?us-ascii?Q?8Zv7gdfsp9Bu5qMsG+iYsZt+WodlEG5zi0O4/kvdGhjZ9jOOkRm26My+tewk?=
+ =?us-ascii?Q?Q9qZZKStblRzKF1iJyYMA0d7riDcA5Shx7MOX47Po7g+Vp1oCicvke71E1Ff?=
+ =?us-ascii?Q?p8Pgmq6+oLdOOKHdqpHomcjyuaAsYTkN/emYR2RoUOR6U+VTykBN/Rn0wex3?=
+ =?us-ascii?Q?XiNM0CsRPP1uHO2aCpaWGinptQFfimKAOg6J/+0cjNQGfn34W4X1gi2654im?=
+ =?us-ascii?Q?bSpBqghOvXMjTBo4s5mWOAHi?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5562b439-896b-473a-1f6d-08d8f3c24610
+X-MS-Exchange-CrossTenant-Network-Message-Id: a23616cd-b4f3-4d86-2787-08d8f3c25559
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB3533.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 21:24:59.8521
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 21:25:25.5945
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Nb8KooD33OIfMi0LjVUHVazcAFr3OPSsLqSbIYM0eSgABKA6psJGDDzQwRc2b/Yg7sNYQ+/G8RGbAAtr6+2SDMbltBKI2TWF5/snHRG6MMw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3120
+X-MS-Exchange-CrossTenant-UserPrincipalName: gzl7k54IevJzuMMPUt6dUN9L6ASuUKM5w9sN5vJFJ7X+QoavisAtMhPvc70WZN2fGgxNO3ga50R2UFI5bx9Z/I1rMTFL7E7Abiur2Hp9VBM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3357
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0
- mlxlogscore=999 phishscore=0 suspectscore=0 spamscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2103300000 definitions=main-2103300155
-X-Proofpoint-ORIG-GUID: W7WblQTsoSAUbExD2EdxrPAyTfBbjmNJ
-X-Proofpoint-GUID: W7WblQTsoSAUbExD2EdxrPAyTfBbjmNJ
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
+ malwarescore=0 spamscore=0 mlxscore=0 suspectscore=0 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2103300000 definitions=main-2103300156
+X-Proofpoint-ORIG-GUID: rpdJ9_KxTJgStd7Go_TTy_GHTW9ym2jb
+X-Proofpoint-GUID: rpdJ9_KxTJgStd7Go_TTy_GHTW9ym2jb
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 lowpriorityscore=0
- spamscore=0 priorityscore=1501 phishscore=0 malwarescore=0 suspectscore=0
- clxscore=1011 impostorscore=0 adultscore=0 bulkscore=0 mlxlogscore=999
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 malwarescore=0 suspectscore=0 adultscore=0 mlxscore=0
+ bulkscore=0 spamscore=0 clxscore=1015 mlxlogscore=999 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103300000
  definitions=main-2103300156
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patchset implements preserved-over-kexec memory storage or PKRAM as a
-method for saving memory pages of the currently executing kernel so that
-they may be restored after kexec into a new kernel. The patches are adapted
-from an RFC patchset sent out in 2013 by Vladimir Davydov [1]. They
-introduce the PKRAM kernel API and implement its use within tmpfs, allowing
-tmpfs files to be preserved across kexec.
+This patch adds the ability to save an arbitrary byte streams to a
+a PKRAM object using pkram_write() to be restored later using pkram_read().
 
-One use case for PKRAM is preserving guest memory and/or auxillary supporting
-data (e.g. iommu data) across kexec in support of VMM Fast Restart[2].
-VMM Fast Restart is currently using PKRAM to support preserving "Keep Alive
-State" across reboot[3].  PKRAM provides a flexible way for doing this
-without requiring that the amount of memory used by a fixed size created
-a priori.  Another use case is for databases to preserve their block caches
-in shared memory across reboot.
+Originally-by: Vladimir Davydov <vdavydov.dev@gmail.com>
+Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
+---
+ include/linux/pkram.h |  11 +++++
+ mm/pkram.c            | 123 ++++++++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 130 insertions(+), 4 deletions(-)
 
-Changes since RFC v1
-  - Rebased onto 5.12-rc4
-  - Refined the API to reduce the number of calls
-    and better support multithreading.
-  - Allow preserving byte data of arbitrary length
-    (was previously limited to one page).
-  - Build a new memblock reserved list with the
-    preserved ranges and then substitute it for
-    the existing one. (Mike Rapoport)
-  - Use mem_avoid_overlap() to avoid kaslr stepping
-    on preserved ranges. (Kees Cook)
-
--- Usage --
-
- 1) Mount tmpfs with 'pkram=NAME' option.
-
-    NAME is an arbitrary string specifying a preserved memory node.
-    Different tmpfs trees may be saved to PKRAM if different names are
-    passed.
-
-    # mkdir -p /mnt
-    # mount -t tmpfs -o pkram=mytmpfs none /mnt
-
- 2) Populate a file under /mnt
-
-    # head -c 2G /dev/urandom > /mnt/testfile
-    # md5sum /mnt/testfile
-    e281e2f019ac3bfa3bdb28aa08c4beb3  /mnt/testfile
-
- 3) Remount tmpfs to preserve files.
-
-    # mount -o remount,preserve,ro /mnt
-
- 4) Load the new kernel image.
-
-    Pass the PKRAM super block pfn via 'pkram' boot option. The pfn is
-    exported via the sysfs file /sys/kernel/pkram.
-
-    # kexec -s -l /boot/vmlinuz-$kernel --initrd=/boot/initramfs-$kernel.img \
-            --append="$(cat /proc/cmdline|sed -e 's/pkram=[^ ]*//g') pkram=$(cat /sys/kernel/pkram)"
-
- 5) Boot to the new kernel.
-
-    # systemctl kexec
-
- 6) Mount tmpfs with 'pkram=NAME' option.
-
-    It should find the PKRAM node with the tmpfs tree saved on previous
-    unmount and restore it.
-
-    # mount -t tmpfs -o pkram=mytmpfs none /mnt
-
- 7) Use the restored file under /mnt
-
-    # md5sum /mnt/testfile
-    e281e2f019ac3bfa3bdb28aa08c4beb3  /mnt/testfile
-
-
- -- Implementation details --
-
- * When a tmpfs filesystem is mounted the first time with the 'pkram=NAME'
-   option, a shmem_pkram_info is allocated to record NAME. The shmem_pkram_info
-   and whether the filesystem is in the preserved state are tracked by
-   shmem_sb_info.
-
- * A PKRAM-enabled tmpfs filesystem is saved to PKRAM on remount when the
-  'preserve' mount option is specified and the filesystem is read-only.
-
- * Saving a file to PKRAM is done by walking the pages of the file and
-   building a list of the pages and attributes needed to restore them later.
-   The pages containing this metadata as well as the target file pages have
-   their refcount incremented to prevent them from being freed even after
-   the last user puts the pages (i.e. the filesystem is unmounted).
-
- * To aid in quickly finding contiguous ranges of memory containing
-   preserved pages a pseudo physical mapping pagetable is populated
-   with pages as they are preserved.
-
- * If a page to be preserved is found to be in range of memory that was
-   previously reserved during early boot or in range of memory where the
-   kernel will be loaded to on kexec, the page will be copied to a page
-   outside of those ranges and the new page will be preserved. A compound
-   page will be copied to and preserved as individual base pages.
-
- * A single page is allocated for the PKRAM super block. For the next kernel
-   kexec boot to find preserved memory metadata, the pfn of the PKRAM super
-   block, which is exported via /sys/kernel/pkram, is passed in the 'pkram'
-   boot option.
-
- * In the newly booted kernel, PKRAM adds all preserved pages to the memblock
-   reserve list during early boot so that they will not be recycled.
-
- * Since kexec may load the new kernel code to any memory region, it could
-   destroy preserved memory. When the kernel selects the memory region
-   (kexec_file_load syscall), kexec will avoid preserved pages.  When the
-   user selects the kexec memory region to use (kexec_load syscall) , kexec
-   load will fail if there is conflict with preserved pages. Pages preserved
-   after a kexec kernel is loaded will be relocated if they conflict with
-   the selected memory region.
-
-The current implementation has some restrictions:
-
- * Only regular tmpfs files without multiple hard links can be preserved.
-   Save to PKRAM will abort and log an error if a directory or other file
-   type is encountered.
-
- * Pages for PKRAM-enabled files are prevented from swapping out to avoid
-   the performance penalty of swapping in and the possibility of insufficient
-   memory.
-
-
--- Patches --
-
-The patches are broken down into the following groups:
-
-Patches 1-22 implement the API and supporting functionality.
-
-Patches 23-27 implement the use of PKRAM within tmpfs
-
-The remaining patches implement optimizations to the initialization of
-preserved pages and to the preservation and restoration of shmem pages.
-
-To give an idea of the improvement in performance here is an example
-comparison with and without these patches when saving and loading a 100G
-file:
-
-  Save a 100G file:
-
-              | No optimizations | Optimized (16 cpus) |
-  ------------------------------------------------------
-  huge=never  |     2265ms       |       232ms         |
-  ------------------------------------------------------
-  huge=always |       58ms       |        22ms         |
-
-
-  Load a 100G file:
-
-              | No optimizations | Optimized (16 cpus) |
-  ------------------------------------------------------
-  huge=never  |     8833ms       |       516ms         |
-  ------------------------------------------------------
-  huge=always |      752ms       |       105ms         |
-
-
-Patches 28-31 Defer initialization of page structs for preserved pages
-
-Patches 32-34 Implement multi-threading of shmem page preservation and
-restoration.
-
-Patches 35-37 Implement and use an  API for inserting shmem pages in bulk
-
-Patches 38-39: Reduce contention on the LRU lock by staging and adding pages
-in bulk to the LRU
-
-Patches 40-43: Reduce contention on the pagecache xarray lock by inserting
-pages in bulk in certain cases
-
-[1] https://lkml.org/lkml/2013/7/1/211
-
-[2] https://www.youtube.com/watch?v=pBsHnf93tcQ
-    https://static.sched.com/hosted_files/kvmforum2019/66/VMM-fast-restart_kvmforum2019.pdf
-
-[3] https://www.youtube.com/watch?v=pBsHnf93tcQ
-https://static.sched.com/hosted_files/kvmforum2020/10/Device-Keepalive-State-KVMForum2020.pdf
-
-Anthony Yznaga (43):
-  mm: add PKRAM API stubs and Kconfig
-  mm: PKRAM: implement node load and save functions
-  mm: PKRAM: implement object load and save functions
-  mm: PKRAM: implement page stream operations
-  mm: PKRAM: support preserving transparent hugepages
-  mm: PKRAM: implement byte stream operations
-  mm: PKRAM: link nodes by pfn before reboot
-  mm: PKRAM: introduce super block
-  PKRAM: track preserved pages in a physical mapping pagetable
-  PKRAM: pass a list of preserved ranges to the next kernel
-  PKRAM: prepare for adding preserved ranges to memblock reserved
-  mm: PKRAM: reserve preserved memory at boot
-  PKRAM: free the preserved ranges list
-  PKRAM: prevent inadvertent use of a stale superblock
-  PKRAM: provide a way to ban pages from use by PKRAM
-  kexec: PKRAM: prevent kexec clobbering preserved pages in some cases
-  PKRAM: provide a way to check if a memory range has preserved pages
-  kexec: PKRAM: avoid clobbering already preserved pages
-  mm: PKRAM: allow preserved memory to be freed from userspace
-  PKRAM: disable feature when running the kdump kernel
-  x86/KASLR: PKRAM: support physical kaslr
-  x86/boot/compressed/64: use 1GB pages for mappings
-  mm: shmem: introduce shmem_insert_page
-  mm: shmem: enable saving to PKRAM
-  mm: shmem: prevent swapping of PKRAM-enabled tmpfs pages
-  mm: shmem: specify the mm to use when inserting pages
-  mm: shmem: when inserting, handle pages already charged to a memcg
-  x86/mm/numa: add numa_isolate_memblocks()
-  PKRAM: ensure memblocks with preserved pages init'd for numa
-  memblock: PKRAM: mark memblocks that contain preserved pages
-  memblock, mm: defer initialization of preserved pages
-  shmem: preserve shmem files a chunk at a time
-  PKRAM: atomically add and remove link pages
-  shmem: PKRAM: multithread preserving and restoring shmem pages
-  shmem: introduce shmem_insert_pages()
-  PKRAM: add support for loading pages in bulk
-  shmem: PKRAM: enable bulk loading of preserved pages into shmem
-  mm: implement splicing a list of pages to the LRU
-  shmem: optimize adding pages to the LRU in shmem_insert_pages()
-  shmem: initial support for adding multiple pages to pagecache
-  XArray: add xas_export_node() and xas_import_node()
-  shmem: reduce time holding xa_lock when inserting pages
-  PKRAM: improve index alignment of pkram_link entries
-
- documentation/core-api/xarray.rst       |    8 +
- arch/x86/boot/compressed/Makefile       |    3 +
- arch/x86/boot/compressed/ident_map_64.c |    9 +-
- arch/x86/boot/compressed/kaslr.c        |   10 +-
- arch/x86/boot/compressed/misc.h         |   10 +
- arch/x86/boot/compressed/pkram.c        |  109 ++
- arch/x86/include/asm/numa.h             |    4 +
- arch/x86/kernel/setup.c                 |    3 +
- arch/x86/mm/init_64.c                   |    2 +
- arch/x86/mm/numa.c                      |   32 +-
- include/linux/memblock.h                |    6 +
- include/linux/mm.h                      |    2 +-
- include/linux/pkram.h                   |  120 ++
- include/linux/shmem_fs.h                |   28 +
- include/linux/swap.h                    |   13 +
- include/linux/xarray.h                  |    2 +
- kernel/kexec.c                          |    9 +
- kernel/kexec_core.c                     |    3 +
- kernel/kexec_file.c                     |   15 +
- lib/test_xarray.c                       |   45 +
- lib/xarray.c                            |  100 ++
- mm/Kconfig                              |    9 +
- mm/Makefile                             |    1 +
- mm/memblock.c                           |   11 +-
- mm/page_alloc.c                         |   55 +-
- mm/pkram.c                              | 1808 +++++++++++++++++++++++++++++++
- mm/pkram_pagetable.c                    |  376 +++++++
- mm/shmem.c                              |  494 ++++++++-
- mm/shmem_pkram.c                        |  530 +++++++++
- mm/swap.c                               |   86 ++
- 30 files changed, 3869 insertions(+), 34 deletions(-)
- create mode 100644 arch/x86/boot/compressed/pkram.c
- create mode 100644 include/linux/pkram.h
- create mode 100644 mm/pkram.c
- create mode 100644 mm/pkram_pagetable.c
- create mode 100644 mm/shmem_pkram.c
-
+diff --git a/include/linux/pkram.h b/include/linux/pkram.h
+index 9d8a6fd96dd9..4f95d4fb5339 100644
+--- a/include/linux/pkram.h
++++ b/include/linux/pkram.h
+@@ -14,10 +14,12 @@
+  * enum pkram_data_flags - definition of data types contained in a pkram obj
+  * @PKRAM_DATA_none: No data types configured
+  * @PKRAM_DATA_pages: obj contains file page data
++ * @PKRAM_DATA_bytes: obj contains byte data
+  */
+ enum pkram_data_flags {
+ 	PKRAM_DATA_none		= 0x0,	/* No data types configured */
+ 	PKRAM_DATA_pages	= 0x1,	/* Contains file page data */
++	PKRAM_DATA_bytes	= 0x2,	/* Contains byte data */
+ };
+ 
+ struct pkram_data_stream {
+@@ -36,18 +38,27 @@ struct pkram_stream {
+ 
+ 	__u64 *pages_head_link_pfnp;
+ 	__u64 *pages_tail_link_pfnp;
++
++	__u64 *bytes_head_link_pfnp;
++	__u64 *bytes_tail_link_pfnp;
+ };
+ 
+ struct pkram_pages_access {
+ 	unsigned long next_index;
+ };
+ 
++struct pkram_bytes_access {
++	struct page *data_page;		/* current page */
++	unsigned int data_offset;	/* offset into current page */
++};
++
+ struct pkram_access {
+ 	enum pkram_data_flags dtype;
+ 	struct pkram_stream *ps;
+ 	struct pkram_data_stream pds;
+ 
+ 	struct pkram_pages_access pages;
++	struct pkram_bytes_access bytes;
+ };
+ 
+ #define PKRAM_NAME_MAX		256	/* including nul */
+diff --git a/mm/pkram.c b/mm/pkram.c
+index da44a6060c5f..d81af26c9a66 100644
+--- a/mm/pkram.c
++++ b/mm/pkram.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0
+ #include <linux/err.h>
+ #include <linux/gfp.h>
++#include <linux/highmem.h>
+ #include <linux/io.h>
+ #include <linux/kernel.h>
+ #include <linux/list.h>
+@@ -46,6 +47,9 @@ struct pkram_link {
+ struct pkram_obj {
+ 	__u64	pages_head_link_pfn;	/* the first pages link of the object */
+ 	__u64	pages_tail_link_pfn;	/* the last pages link of the object */
++	__u64	bytes_head_link_pfn;	/* the first bytes link of the object */
++	__u64	bytes_tail_link_pfn;	/* the last bytes link of the object */
++	__u64	data_len;	/* byte data size */
+ 	__u64	obj_pfn;	/* points to the next object in the list */
+ };
+ 
+@@ -140,6 +144,11 @@ static void pkram_truncate_obj(struct pkram_obj *obj)
+ 	pkram_truncate_links(obj->pages_head_link_pfn);
+ 	obj->pages_head_link_pfn = 0;
+ 	obj->pages_tail_link_pfn = 0;
++
++	pkram_truncate_links(obj->bytes_head_link_pfn);
++	obj->bytes_head_link_pfn = 0;
++	obj->bytes_tail_link_pfn = 0;
++	obj->data_len = 0;
+ }
+ 
+ static void pkram_truncate_node(struct pkram_node *node)
+@@ -315,7 +324,7 @@ int pkram_prepare_save_obj(struct pkram_stream *ps, enum pkram_data_flags flags)
+ 
+ 	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_SAVE);
+ 
+-	if (flags & ~PKRAM_DATA_pages)
++	if (flags & ~(PKRAM_DATA_pages | PKRAM_DATA_bytes))
+ 		return -EINVAL;
+ 
+ 	page = pkram_alloc_page(ps->gfp_mask | __GFP_ZERO);
+@@ -331,6 +340,10 @@ int pkram_prepare_save_obj(struct pkram_stream *ps, enum pkram_data_flags flags)
+ 		ps->pages_head_link_pfnp = &obj->pages_head_link_pfn;
+ 		ps->pages_tail_link_pfnp = &obj->pages_tail_link_pfn;
+ 	}
++	if (flags & PKRAM_DATA_bytes) {
++		ps->bytes_head_link_pfnp = &obj->bytes_head_link_pfn;
++		ps->bytes_tail_link_pfnp = &obj->bytes_tail_link_pfn;
++	}
+ 	ps->obj = obj;
+ 	return 0;
+ }
+@@ -438,7 +451,7 @@ int pkram_prepare_load_obj(struct pkram_stream *ps)
+ 		return -ENODATA;
+ 
+ 	obj = pfn_to_kaddr(node->obj_pfn);
+-	if (!obj->pages_head_link_pfn) {
++	if (!obj->pages_head_link_pfn && !obj->bytes_head_link_pfn) {
+ 		WARN_ON(1);
+ 		return -EINVAL;
+ 	}
+@@ -449,6 +462,10 @@ int pkram_prepare_load_obj(struct pkram_stream *ps)
+ 		ps->pages_head_link_pfnp = &obj->pages_head_link_pfn;
+ 		ps->pages_tail_link_pfnp = &obj->pages_tail_link_pfn;
+ 	}
++	if (obj->bytes_head_link_pfn) {
++		ps->bytes_head_link_pfnp = &obj->bytes_head_link_pfn;
++		ps->bytes_tail_link_pfnp = &obj->bytes_tail_link_pfn;
++	}
+ 	ps->obj = obj;
+ 	return 0;
+ }
+@@ -499,6 +516,9 @@ void pkram_finish_access(struct pkram_access *pa, bool status_ok)
+ 
+ 	if (pa->pds.link)
+ 		pkram_truncate_link(pa->pds.link);
++
++	if ((pa->dtype == PKRAM_DATA_bytes) && (pa->bytes.data_page))
++		pkram_free_page(page_address(pa->bytes.data_page));
+ }
+ 
+ /*
+@@ -552,6 +572,22 @@ int pkram_save_file_page(struct pkram_access *pa, struct page *page)
+ 	return __pkram_save_page(pa, page, page->index);
+ }
+ 
++static int __pkram_bytes_save_page(struct pkram_access *pa, struct page *page)
++{
++	struct pkram_data_stream *pds = &pa->pds;
++	struct pkram_link *link = pds->link;
++
++	if (!link || pds->entry_idx >= PKRAM_LINK_ENTRIES_MAX) {
++		link = pkram_new_link(pds, pa->ps->gfp_mask);
++		if (!link)
++			return -ENOMEM;
++	}
++
++	pkram_add_link_entry(pds, page);
++
++	return 0;
++}
++
+ static struct page *__pkram_prep_load_page(pkram_entry_t p)
+ {
+ 	struct page *page;
+@@ -646,10 +682,53 @@ struct page *pkram_load_file_page(struct pkram_access *pa, unsigned long *index)
+  *
+  * On success, returns the number of bytes written, which is always equal to
+  * @count. On failure, -errno is returned.
++ *
++ * Error values:
++ *    %ENOMEM: insufficient amount of memory available
+  */
+ ssize_t pkram_write(struct pkram_access *pa, const void *buf, size_t count)
+ {
+-	return -ENOSYS;
++	struct pkram_node *node = pa->ps->node;
++	struct pkram_obj *obj = pa->ps->obj;
++	size_t copy_count, write_count = 0;
++	void *addr;
++
++	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_SAVE);
++
++	while (count > 0) {
++		if (!pa->bytes.data_page) {
++			gfp_t gfp_mask = pa->ps->gfp_mask;
++			struct page *page;
++			int err;
++
++			page = pkram_alloc_page((gfp_mask & GFP_RECLAIM_MASK) |
++					       __GFP_HIGHMEM | __GFP_ZERO);
++			if (!page)
++				return -ENOMEM;
++			err = __pkram_bytes_save_page(pa, page);
++			if (err) {
++				pkram_free_page(page_address(page));
++				return err;
++			}
++			pa->bytes.data_page = page;
++			pa->bytes.data_offset = 0;
++		}
++
++		copy_count = min_t(size_t, count, PAGE_SIZE - pa->bytes.data_offset);
++		addr = kmap_atomic(pa->bytes.data_page);
++		memcpy(addr + pa->bytes.data_offset, buf, copy_count);
++		kunmap_atomic(addr);
++
++		buf += copy_count;
++		obj->data_len += copy_count;
++		pa->bytes.data_offset += copy_count;
++		if (pa->bytes.data_offset >= PAGE_SIZE)
++			pa->bytes.data_page = NULL;
++
++		write_count += copy_count;
++		count -= copy_count;
++	}
++	return write_count;
+ }
+ 
+ /**
+@@ -663,5 +742,41 @@ ssize_t pkram_write(struct pkram_access *pa, const void *buf, size_t count)
+  */
+ size_t pkram_read(struct pkram_access *pa, void *buf, size_t count)
+ {
+-	return 0;
++	struct pkram_node *node = pa->ps->node;
++	struct pkram_obj *obj = pa->ps->obj;
++	size_t copy_count, read_count = 0;
++	char *addr;
++
++	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_LOAD);
++
++	while (count > 0 && obj->data_len > 0) {
++		if (!pa->bytes.data_page) {
++			struct page *page;
++
++			page = __pkram_load_page(pa, NULL);
++			if (!page)
++				break;
++			pa->bytes.data_page = page;
++			pa->bytes.data_offset = 0;
++		}
++
++		copy_count = min_t(size_t, count, PAGE_SIZE - pa->bytes.data_offset);
++		if (copy_count > obj->data_len)
++			copy_count = obj->data_len;
++		addr = kmap_atomic(pa->bytes.data_page);
++		memcpy(buf, addr + pa->bytes.data_offset, copy_count);
++		kunmap_atomic(addr);
++
++		buf += copy_count;
++		obj->data_len -= copy_count;
++		pa->bytes.data_offset += copy_count;
++		if (pa->bytes.data_offset >= PAGE_SIZE || !obj->data_len) {
++			put_page(pa->bytes.data_page);
++			pa->bytes.data_page = NULL;
++		}
++
++		read_count += copy_count;
++		count -= copy_count;
++	}
++	return read_count;
+ }
 -- 
 1.8.3.1
 
