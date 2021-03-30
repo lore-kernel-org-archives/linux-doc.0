@@ -7,67 +7,67 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3ADA5C433E9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A82B2C433F1
 	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:28:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ED4BA619D4
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:28:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 94A47619F4
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:28:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232792AbhC3V12 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 17:27:28 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:60806 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232606AbhC3V0z (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 17:26:55 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULP80x122942;
-        Tue, 30 Mar 2021 21:25:08 GMT
+        id S232820AbhC3V1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 17:27:32 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:50814 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232611AbhC3V05 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 17:26:57 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULP9x2145305;
+        Tue, 30 Mar 2021 21:25:17 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=4xJD9dBWZTGkr9GFOZ1rhfq9w/F6myJVw9nCCu4BHdo=;
- b=x7KT/KmElZkSmMt9Xh83PLS/vlYmvyJlzUDJhbSnwusBME1b+vCuN1zs5zhT89TChMhQ
- GoCZmkT6MugnpZoT7iv3Fz6ZfjESgPZ+y4m+qdiRhuxTyHWp/drDNEeplh7BtMicH/aC
- GgQxH0+v4JnrjbX/GGN1874+n6Pkj9FhtniNH0wX9AYnF7SexCWDvGcq2D8Rb78t95gx
- ZKN0Me5Cl3Me6SdAhfvIYiGs+tj9Ik1pZFFUWHpabasP81r8n9krOs0ULdYoqZSfyf6s
- DzMKmb00DRG0B0gLICluF8WLE71ppStKR23HYJHt6JG8sfytaJjpmjYM8bE8dGQdEQuv 6g== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2130.oracle.com with ESMTP id 37mafv0810-1
+ bh=anR3JuhOf2/kaCECJEGMHmimb81ITGwiAVS+xEPtF6M=;
+ b=dOfVSRZLmdgwabn2pZONARFU7FGHUM1HEcW14B8nVrBZ0FJ3oyc1cZt9q2ogKAZPL5uS
+ YS1r6BV5AWdO+5iA4ObYSQFu7OChbl4Ij+ihHU31j8LVGql83n7t66Y35qmBeSWvcKCI
+ FC3T/DQX+AHL/Iq+H2zbbfgt0TJsliiZbalu8bh7uPbBvCS/xH49zxP6m5FL2A+IhhS3
+ EvZUbNfc0w190TwRTq+Y8FJYD3IxL1mq492QDSu94x7vPO3DVlrN7UDATxGEW86+fQQc
+ Sh2YsyF7He7gcjKcp2ZgTkrclqmdOSVPhhvxZcGu1DiMjcdfzxJUdBiSq5NSv6I3+hls tQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2130.oracle.com with ESMTP id 37mad9r8ds-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 30 Mar 2021 21:25:08 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULBSwq065456;
-        Tue, 30 Mar 2021 21:25:07 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2175.outbound.protection.outlook.com [104.47.55.175])
-        by userp3030.oracle.com with ESMTP id 37mabkbbjw-1
+        Tue, 30 Mar 2021 21:25:17 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULOblx149856;
+        Tue, 30 Mar 2021 21:25:16 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
+        by userp3020.oracle.com with ESMTP id 37mac4kc6r-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 30 Mar 2021 21:25:07 +0000
+        Tue, 30 Mar 2021 21:25:16 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OirDWEi8VWEriZN1uRvAU5pUl9YmPntfh+HWYrn11SOLG9J+/iemp3SfHeQruR+5TA/QpOAACAk4ze0lhmcP1EyL/XAU0udfak4KSEwrFBiUtIeVd/lrEUBB3+AUaeyGodXo4tuimwa/D1cgncP4eQkkn5bkvK4bw8Q/6ZEuElGrCITSK+IrLjDOrcC713M+aiNomMXDpgpJRieD6C4EP5Dt6lZjOgNBlSyoMUZpIQsWazprkPRA6WhYieJZ0RUZLPWwxJfYvE3neETvNQSacg9NQMlsEcSBoEAd/szqgsaOOYUcwNOv0n9SFWBYuUXbWlxdWVm2dwEr4/u3xTm20w==
+ b=SMnBEyPyoyYn7HLnk2jOaisP6aZJs1SiOaKRl5iHlleYfruE9R/f6dc+WscDmaBoc7Dbvm1nXEmtZpHMNWaOx/yCyFL7i55jzXOwojf6dD4IY7PHI0X73l1OPruYsKCww+T5ji/S6b/xczpqCCEO32ZGyk/bd1w+rkEAQGTXeV4a1nulxcYbXh7Vug/m7ZBslljlepot1SPtlzewVmt4LUKK3p9x/YTnNzY8TGX8euHLezEUmPQB5XbwjBSPM8xlvmVyd5Spi5SZFR2JG4TeBPjRzDm2HPvY6g253rYQ2Omgf7K08BU4Jh38XDsgX+ckkIij7eDs4mPugCptDmTQ4A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4xJD9dBWZTGkr9GFOZ1rhfq9w/F6myJVw9nCCu4BHdo=;
- b=GOdeUdMSyII7Cs2i6hNPekPCSatdI4eyIlLol9qhy9t8NMHiRtkxUdHBc5yWGF3AEkxRiwDlHBBS58i0uRJoH6mwURIuWQQEgH361fraSV5SimFSCvo96RiMeMTMFbO3EZ5l5JTa0b0Umw+F4ucWQs9Qn6Ce88aCdlhP7qSV+qgpEnRO9jCpMMflZpADXrTt0xOIMrOiiOl+l8U6bnsW8gAxlx+ecpRAnGhm1HYWNMOEbczDCQ4RuPd3ELGZ+28QBv9PsL7GRPPH8I/HJSbryClYIdIvjw2PNouYSIWqVuFuojAkZnHDZduHA4QbGjK41HqptdshbwDgLs+Dt/dL0A==
+ bh=anR3JuhOf2/kaCECJEGMHmimb81ITGwiAVS+xEPtF6M=;
+ b=dRwnIRdaVvkWBMHlwi8lYHpZxVJ0a0V7ial8IYPmWzOEtUsFToFEEAOBnBDbAAeEL6oy3ypnHha9Y7GE/Hu6RbGRG7awXI3se+a6W5v1UfBCVpTWv6srkddXooV5fa1SYzLpSuHA4omAivcU/wT5JJYimqHg27sBJWGlwxJ9kuEytZIwJvdRB124qknE5cSB6P0UBcMl+lXB5BvHNbFW0T2olWcDvYYzpOpaQUmW4SwInUT1QeK2ZK41glJvymEfTNXkIwvqoQqkorj4XETQPpPid49UQKQV6CU6z+10O1Bhs0aSiSNoyUFNeu9Siwn/I3ZIFX659cWDifjSyYM+Mw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4xJD9dBWZTGkr9GFOZ1rhfq9w/F6myJVw9nCCu4BHdo=;
- b=x+XDOGbxB0HtZf/T5MHs3eOKq7k85WdF3zJic7LYO2Riwe1Q4+ApIXW27DZekYSjmra5x8mqhaLGogSGxRlLVpC1eTqWfK90Nvmp4hPFt6jugd6HNnGnAxy9u+eTknDd9pKXVir9/ghnUS/uraLz+T5/tWjqu1DAngj3JveEVBs=
+ bh=anR3JuhOf2/kaCECJEGMHmimb81ITGwiAVS+xEPtF6M=;
+ b=RKYdKXCKO/teL6ersbZb/sgruguN1kC6tUVSlkKzFnqt39lZMYUx7thnpBmYuNO724hUtEA2Rl9h8spIwA+mL34yP/luscSwKPUpi5+HrqB8Vp79ovN0bNAjgcpxNwgg7dLoIo8GgsPpRnkuMDydStcmDczOltm6Gh2IYlqasyU=
 Authentication-Results: kvack.org; dkim=none (message not signed)
  header.d=none;kvack.org; dmarc=none action=none header.from=oracle.com;
 Received: from MN2PR10MB3533.namprd10.prod.outlook.com (2603:10b6:208:118::32)
  by MN2PR10MB3120.namprd10.prod.outlook.com (2603:10b6:208:122::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24; Tue, 30 Mar
- 2021 21:25:04 +0000
+ 2021 21:25:12 +0000
 Received: from MN2PR10MB3533.namprd10.prod.outlook.com
  ([fe80::cc79:c40e:430f:e254]) by MN2PR10MB3533.namprd10.prod.outlook.com
  ([fe80::cc79:c40e:430f:e254%4]) with mapi id 15.20.3977.033; Tue, 30 Mar 2021
- 21:25:04 +0000
+ 21:25:12 +0000
 From:   Anthony Yznaga <anthony.yznaga@oracle.com>
 To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
@@ -88,9 +88,9 @@ Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
         lei.l.li@intel.com, daniel.m.jordan@oracle.com,
         steven.sistare@oracle.com, linux-fsdevel@vger.kernel.org,
         linux-doc@vger.kernel.org, kexec@lists.infradead.org
-Subject: [RFC v2 01/43] mm: add PKRAM API stubs and Kconfig
-Date:   Tue, 30 Mar 2021 14:35:36 -0700
-Message-Id: <1617140178-8773-2-git-send-email-anthony.yznaga@oracle.com>
+Subject: [RFC v2 03/43] mm: PKRAM: implement object load and save functions
+Date:   Tue, 30 Mar 2021 14:35:38 -0700
+Message-Id: <1617140178-8773-4-git-send-email-anthony.yznaga@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1617140178-8773-1-git-send-email-anthony.yznaga@oracle.com>
 References: <1617140178-8773-1-git-send-email-anthony.yznaga@oracle.com>
@@ -101,441 +101,256 @@ X-ClientProxiedBy: BYAPR11CA0099.namprd11.prod.outlook.com
  (2603:10b6:208:118::32)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ca-qasparc-x86-2.us.oracle.com (148.87.23.8) by BYAPR11CA0099.namprd11.prod.outlook.com (2603:10b6:a03:f4::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.26 via Frontend Transport; Tue, 30 Mar 2021 21:25:00 +0000
+Received: from ca-qasparc-x86-2.us.oracle.com (148.87.23.8) by BYAPR11CA0099.namprd11.prod.outlook.com (2603:10b6:a03:f4::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.26 via Frontend Transport; Tue, 30 Mar 2021 21:25:08 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 479d6f06-0fa4-420d-5ef3-08d8f3c2489c
+X-MS-Office365-Filtering-Correlation-Id: 84624cf4-e76b-473d-946c-08d8f3c24db2
 X-MS-TrafficTypeDiagnostic: MN2PR10MB3120:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR10MB312034AAB028122ECE26ABE9EC7D9@MN2PR10MB3120.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Microsoft-Antispam-PRVS: <MN2PR10MB31205C279102FEF31D6455DCEC7D9@MN2PR10MB3120.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zmNxxGMDVb833n+1r8H87LN53U9hnUk0AiVCYHK0V4+ueKvUaP+GxT7gUuBMkZ5w4PGbrx1B0vBNiPdc4fOoNFCnfyLPvw8ipMxHiZCupTmh5ku3D/P4NJXMH7PPxZzTbWk3yTqPB/KmvCN5zTLOItfXlpMaGr/JKbff2E0hyi+IalLO3ThAebMdUjVBT8X6OM8A8QU/nCNa8OZr9WB17IGP19fDLdd/M5ygiQ6r4WseaC0lbUiEEXyUsQz8sjhZk7GTVnw90TKwzFkLoINjNo//IHt4wFJ+vZcCc6ypVUPrQBpzV7SvDuQnWH3TzNuvIKtATBJUHDV40aCYxONtRTQYPLX3iqh4bf14FPYrxla31abMCR5f+twZayRN0DJCLxN58tzZyqCN7jkX9uUtNbKjlJxWhmqIOxSd05DQ0P5d+3bZMlvbsGnZjrW09sh2uXKxspWchYv9U5g9MG+8Wn8OmPmZAbt+pybRT5eqezB+4ELSuY/7SGEJSxgr8agNwknZ9FRKT99ULGdKEPA5VNCrQQCwdugdUjqrbtsF/x7KnOhztsSU4Zg17WVDhC8/MXTQFU7VaXSq24yt/HpQYN1Qackgp5G5kXzda4GflX8ltLwwf6X3BBxrkJl9SdAeqqPOOHvKiO23UYN6gIFAnw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB3533.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(39860400002)(366004)(376002)(346002)(396003)(52116002)(316002)(186003)(6486002)(16526019)(5660300002)(2616005)(956004)(6666004)(8676002)(66556008)(44832011)(478600001)(83380400001)(7406005)(38100700001)(86362001)(7696005)(30864003)(66476007)(66946007)(4326008)(2906002)(26005)(7416002)(36756003)(8936002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?hEr9bVWsUdduhJN90F2Mc8Drii01BtIjPCeeCwddo/OmDIostBeWaTGKOqZk?=
- =?us-ascii?Q?Y+YeD66C5rjwh7hm5g8g+n+OWlJwBQ7S3EoUGoqSZjg4QOmv/nWptqqI6C7F?=
- =?us-ascii?Q?/U0oeKHPmMXu0tN2jzTaor4liAk40bH4S+XR0VRKQuyje2ulOJdnBNdUMCTe?=
- =?us-ascii?Q?lwXERNm/0kZ8feBZoQBeYkzOAtb2bHKqEWBpow9+kEbRFOflc6notPAB5YTf?=
- =?us-ascii?Q?tEQPAx0D4j8aDr+ZjPt9hHhZKKBx9HrnbdSt/Cia7i+1RzBa4ykFpvrviwGO?=
- =?us-ascii?Q?0+ptl21eEt1oQoGuCp8L9vDE8bNPQ0yaY6sqVD7A7rXbpOVeq0hnnEEhuyIX?=
- =?us-ascii?Q?lnW8O6AqGATHz7xSzHFCGybMTbTyhCflvSlwPBbPscCTZzar6M4+zlYzedvz?=
- =?us-ascii?Q?qreMB+4ZghRoDoPDLdSeyFbPktN9CwWjO/5M+r5VdA/S4ZxGxd9fWgnfngbO?=
- =?us-ascii?Q?XTIlFkouhVsuttc2+1Ex33zwgucucuagBgElBCwknk8fFWzzzGteOuHfuGL5?=
- =?us-ascii?Q?XLFc/r9YWDwBB0pwppCnYz5KlDA6Sh4nmHOanDyf9JuZBsrnOt8/QznzmBTJ?=
- =?us-ascii?Q?ir0S9yGUgspRmP6aw8TEuvFY+9i+sDxxuXA7Pdhf2XrqqxnXca7/Hl24vu9L?=
- =?us-ascii?Q?wockp/jw0aNla7s59FmoPzYTQLUJ+JQpvSQvzXOW6zrzKb/N9Tv/XXNiMUPT?=
- =?us-ascii?Q?RTlpYYWXjFqDV4ZNe9t85q9sdR4XC16eVhkHIGodEIp0Brjl5wg6DfeoDDUi?=
- =?us-ascii?Q?O4ESgVleDlGZJG/OvOPaVhFPuNDkQSi4497SuIvHjf1t45Cs3NVJlaGcsDH1?=
- =?us-ascii?Q?zXA/L4odfKwB4wwRj41mQdxjdjkr9XfcMeufc8jUWxklhw/rwmhrKD/plPWC?=
- =?us-ascii?Q?VZIMMQSzteoxVJTbNS2tecNJ38EErOlCO10g7b2beN1igjVjkrveZI9ZcyuU?=
- =?us-ascii?Q?2CbHDjvNt5fv6fRfvyOA4KhCXpUGuHxKCYiV8510vEEgPCowAyAPvOsVlZ1J?=
- =?us-ascii?Q?2fAmM9apTrp8yL3lSmLVRAANbHs6mDBdYUNzGJ+uYgfxS6ihrcnsO4lXXguW?=
- =?us-ascii?Q?LEqzEkX9L1keGUqSS3BFB52VgsmOcvqyOc81ndChdKYnFrh04QBjg6U6aRJp?=
- =?us-ascii?Q?EGS9nIhCCCO3Qg3hVJTcr2yGNtPkcTIqcptIvizD85u4ujK4umxMcAnoHszP?=
- =?us-ascii?Q?CHDqhBSBgJMKRxn9zovjMCxjfCep9eqlkDLQNyZ/zQnkVgRhX4cI2cyYvx15?=
- =?us-ascii?Q?teBPPfG+Uq24T0Z2GktejLZXmuzeFNivYRzdMnXN1TSnJHk5+6Z/Ta5W6KMv?=
- =?us-ascii?Q?xLw3PQwUN+oren8P0t3buVMJ?=
+X-Microsoft-Antispam-Message-Info: qK1u7bhbLzniP866Jt/ifhzhVfWcUUDu8KAefS7+eYVjmZSILyCnhJKjsxkS+nb/X0fLrLBR7akgpjtSYwb1bIgwrrDcpUa9won4DJnmfZGz4tHbdsyuxOAnjo4EmT7sUhtScVS3Z4ZM/FdFjGRrPIeQ4mnSWt5gDxbCCprkfW/AdFp8sqyhM9Mv0CiZfslG5iIpplJiyc/PBgiCsuLBFUdTJ82728l0uMggFqNmWGC9di2WN8VeTCqTx5t3p4HQ7ru6WGah4wXbCX4C76GFECDtskLo2mF5EatceBkJEdgaFGiIfuYapMHSXmsZ0glipCzNPEQrBC7F146nMQQAMU4fToAPDvKxLxPKtNSCZaVPnMi0nQiCYWFGUhFQTM+oy4UYCZRACDqA+5QOomD+5/Zkz0rh/3bVLQQ5OIFniSOELmJN7KhrS2/p1OvKy/JoB2jH9bynCSXKACbjjzk5QSSb5eDQOtEhtaDp5L0qIav0gDpPLe9yuFsJC+XGQ74JlSTME5UIgw54K1H8dZxEieO+H2N4hgJharYhQCGrHrk94HAHeCCgMo404yMwfiPDSbladsA6V4dNJc6ZuL4YijU+1o3SCZZ7H9pn7oWpr+W5FtA7tLYkLBPwUIJ/ia4JNO/IuwoCY5wSmM/8V68wrbXndmBij73K09AlCJD2LKAS8HMEckoONhi/i8WXVPyi
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB3533.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(39860400002)(366004)(376002)(346002)(396003)(52116002)(316002)(186003)(6486002)(16526019)(5660300002)(2616005)(956004)(6666004)(8676002)(66556008)(44832011)(478600001)(83380400001)(7406005)(38100700001)(86362001)(7696005)(66476007)(66946007)(4326008)(2906002)(26005)(7416002)(36756003)(8936002)(134885004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?mUdEfLqk1UcJ4n+VNMunRH1K6bg4BCk4dI1J0JJKK3IBdziwcVE0yu3Tu51F?=
+ =?us-ascii?Q?b1CWgeM4mnD4xSMemxXhEfMqkx1bj5QzlumgWvJ5XtwDXU9zomN7WIDWIhkw?=
+ =?us-ascii?Q?N6A/xnIXtL9TNXU73C3RsAD33sm80sSMSxmQnA+M07h4NI6nRVlDcg/yI2iC?=
+ =?us-ascii?Q?WAVs68t98qhn6OJL616qOxXyG2iMZ5rDE8HbGW43qQEB0tZJy/CsoCNQ/ZRy?=
+ =?us-ascii?Q?HJ+cQ6oDekt7VISQRxOTnjPeFZNfE2HDwJHtl00+UFSKkn0y7aaFOVlWFKP1?=
+ =?us-ascii?Q?ggLBGQFAgrTCtCa8f8YbvZSc0atLlL7Ldzmcu4w9nK4xVSzkmjte7gzCx6rI?=
+ =?us-ascii?Q?HXRtdES0WKSKT7QMAwdQl1BbF6F8amiq/web+O08867LxSoUanXqP2debfgW?=
+ =?us-ascii?Q?Vfl9APwT4vx8k2aUPulplxd5ArzesiYth875K21NueHlVolZzaaTUmJ11CUo?=
+ =?us-ascii?Q?UV7EwFYMAXWPw9yl7F/1yZeTd/FpzMmEs3aLci9Bhkb16FNAvD+fVB2Y2V5E?=
+ =?us-ascii?Q?Ke2C0LsEAA5mmi7RscKE6tFCHYfyr2RUI/iu4eDO8PviiIxPT5NM3cG2nbIT?=
+ =?us-ascii?Q?W1VFKyArdZiCNmw7d8TlkrgLAZBexmcJ/LG7XWTcNo9yWYPxQx2FncelF+C2?=
+ =?us-ascii?Q?1USe4dR5/8Xr1oqQR5j0HGgMWKP4+j1Xm/iLIKiQJCuk8t0MpltCR4ZdtZqF?=
+ =?us-ascii?Q?KXDXC38uYFKFddJ2wI1o9Rw6wyoFP6iOiGkYKczUSb+2J+SpywV07QMrE63p?=
+ =?us-ascii?Q?OOYsgyd1X7J8KNVI7D3QSQNvgynxyRi/8PPIaSiJgtaEgJQY04kYgCTEExQd?=
+ =?us-ascii?Q?Rs0XB1MH9ybeG8PpoodzhaegPRd4Iyq6nt0sg3OmAp88+vEOrrW4tO00VC7K?=
+ =?us-ascii?Q?9Ps+HB2t2t/eu+r57mt9xI8421rLg0xQ+cm15N9kXW9MoOxupJEboEGCxSwb?=
+ =?us-ascii?Q?j54kAb8aZpUAkEkh+r67H8+mUtFCHzbRXav8RVbJIkDionmnYALyobHlruJR?=
+ =?us-ascii?Q?4A8K/nrb76Ns13Md3imS4r9sFZG6vbRxKMJf0F8Le6hPCxo5MhI7a9De8RYl?=
+ =?us-ascii?Q?JgVeH7Sqn/rTs4xgD7CBKGVFXBUDfJRSqcNsromD8OvOVwv8UIAHLeT39nRU?=
+ =?us-ascii?Q?ORPWrF/PBVOtK4Q06CiH1bgF8nA++qInQciZg8403w6D1lxefQ0Wpc5PaUd2?=
+ =?us-ascii?Q?yTJkEZI2e7ro7tMpC04MTkkB9Xp2SqyTrkeys2hIdUS0lchtqF/tXFsLaE01?=
+ =?us-ascii?Q?OxMW0lqaLVT7H6JQxn3tPQWBTS3VVACtxgCpbDRPESGNa99R5xsq7+grAjLF?=
+ =?us-ascii?Q?1ctMRdFHqRg7o2+yjaUBuaEH?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 479d6f06-0fa4-420d-5ef3-08d8f3c2489c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 84624cf4-e76b-473d-946c-08d8f3c24db2
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB3533.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 21:25:04.1387
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 21:25:12.7388
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YW8slpzheQ8YtgY7O3M1ilN1VBn+qiqMgafAZg/wgBjb5EL0V+c3MEhhiOYYzNorPvk0dvG56D17Y01eesv6Nm4RwT3an19ieV7xxpwhUD4=
+X-MS-Exchange-CrossTenant-UserPrincipalName: QKXDpl8Almwx6/03PHwtomxWUmCVmgG5Aqx0OVLHudtK2mtwU+DsD67OupkHQ8TSKzsfcnXfbyJduY5BWQak5bLoIeIvTKF0+6oQOCq+fuI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3120
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0
- mlxlogscore=999 phishscore=0 suspectscore=0 spamscore=0 adultscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2103300000 definitions=main-2103300155
-X-Proofpoint-ORIG-GUID: Iaf0wUPbZLWZXVChLsPXaYEnFKXLlCmc
-X-Proofpoint-GUID: Iaf0wUPbZLWZXVChLsPXaYEnFKXLlCmc
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
+ malwarescore=0 spamscore=0 mlxscore=0 suspectscore=0 bulkscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2103300000 definitions=main-2103300156
+X-Proofpoint-ORIG-GUID: UfBCMuY7yXcBH0vh78GwREoMME8RVcAi
+X-Proofpoint-GUID: UfBCMuY7yXcBH0vh78GwREoMME8RVcAi
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 adultscore=0
- impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=999
- priorityscore=1501 phishscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ bulkscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0 adultscore=0
+ spamscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103300000
  definitions=main-2103300156
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Preserved-across-kexec memory or PKRAM is a method for saving memory
-pages of the currently executing kernel and restoring them after kexec
-boot into a new one. This can be utilized for preserving guest VM state,
-large in-memory databases, process memory, etc. across reboot. While
-DRAM-as-PMEM or actual persistent memory could be used to accomplish
-these things, PKRAM provides the latency of DRAM with the flexibility
-of dynamically determining the amount of memory to preserve.
+PKRAM nodes are further divided into a list of objects. After a save
+operation has been initiated for a node, a save operation for an object
+associated with the node is initiated by calling pkram_prepare_save_obj().
+A new object is created and linked to the node.  The save operation for
+the object is committed by calling pkram_finish_save_obj().  After a load
+operation has been initiated, pkram_prepare_load_obj() is called to
+delete the next object from the node and prepare the corresponding
+stream for loading data from it.  After the load of object has been
+finished, pkram_finish_load_obj() is called to free the object.  Objects
+are also deleted when a save operation is discarded.
 
-The proposed API:
-
- * Preserved memory is divided into nodes which can be saved or loaded
-   independently of each other. The nodes are identified by unique name
-   strings. A PKRAM node is created when save is initiated by calling
-   pkram_prepare_save(). A PKRAM node is removed when load is initiated by
-   calling pkram_prepare_load(). See below
-
- * A node is further divided into objects. An object represents closely
-   coupled data in the form of a grouping of pages and/or a stream of
-   byte data.  For example, the pages and attributes of a file.
-   After initiating an operation on a PKRAM node, PKRAM objects are
-   initialized for saving or loading by calling pkram_prepare_save_obj()
-   or pkram_prepare_load_obj().
-
- * For saving/loading data from a PKRAM node/object instances of the
-   pkram_stream and pkram_access structs are used.  pkram_stream tracks
-   the node and object being operated on while pkram_access tracks the
-   data type and position within an object.
-
-   The pkram_stream struct is initialized by calling pkram_prepare_save()
-   or pkram_prepare_load() and then pkram_prepare_save_obj() or
-   pkram_prepare_load_obj().
-
-   Once a pkram_stream is fully initialized, a pkram_access struct
-   is initialized for each data type associated with the object.
-   After save or load of a data type for the object is complete,
-   pkram_finish_access() is called.
-
-   After save or load is complete for the object, pkram_finish_save_obj()
-   or pkram_finish_load_obj() must be called followed by pkram_finish_save()
-   or pkram_finish_load() when save or load is completed for the node.
-   If an error occurred during save, the saved data and the PKRAM node
-   may be freed by calling pkram_discard_save() instead of
-   pkram_finish_save().
-
- * Both page data and byte data can separately be streamed to a PKRAM
-   object.  pkram_save_file_page() and pkram_load_file_page() are used
-   to stream page data while pkram_write() and pkram_read() are used to
-   stream byte data.
-
-A sequence of operations for saving/loading data from PKRAM would
-look like:
-
-  * For saving data to PKRAM:
-
-    /* create a PKRAM node and do initial stream setup */
-    pkram_prepare_save()
-
-    /* create a PKRAM object associated with the PKRAM node and complete stream initialization */
-    pkram_prepare_save_obj()
-
-    /* save data to the node/object */
-    PKRAM_ACCESS(pa_pages,...)
-    PKRAM_ACCESS(pa_bytes,...)
-    pkram_save_file_page(pa_pages,...)[,...]  /* for file pages */
-    pkram_write(pa_bytes,...)[,...]           /* for a byte stream */
-    pkram_finish_access(pa_pages)
-    pkram_finish_access(pa_bytes)
-
-    pkram_finish_save_obj()
-
-    /* commit the save or discard and delete the node */
-    pkram_finish_save()          /* on success, or
-    pkram_discard_save()          * ... in case of error */
-
-  * For loading data from PKRAM:
-
-    /* remove a PKRAM node from the list and do initial stream setup */
-    pkram_prepare_load()
-
-    /* Remove a PKRAM object from the node and complete stream initializtion for loading data from it. */
-    pkram_prepare_load_obj()
-
-    /* load data from the node/object */
-    PKRAM_ACCESS(pa_pages,...)
-    PKRAM_ACCESS(pa_bytes,...)
-    pkram_load_file_page(pa_pages,...)[,...] /* for file pages */
-    pkram_read(pa_bytes,...)[,...]           /* for a byte stream */
-*/
-    pkram_finish_access(pa_pages)
-    pkram_finish_access(pa_bytes)
-
-    /* free the object */
-    pkram_finish_load_obj()
-
-    /* free the node */
-    pkram_finish_load()
-
-Originally-by: Vladimir Davydov <vdavydov.dev@gmail.com>
 Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
 ---
- include/linux/pkram.h |  47 +++++++++++++
- mm/Kconfig            |   9 +++
- mm/Makefile           |   1 +
- mm/pkram.c            | 179 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 236 insertions(+)
- create mode 100644 include/linux/pkram.h
- create mode 100644 mm/pkram.c
+ include/linux/pkram.h |  2 ++
+ mm/pkram.c            | 72 ++++++++++++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 70 insertions(+), 4 deletions(-)
 
 diff --git a/include/linux/pkram.h b/include/linux/pkram.h
-new file mode 100644
-index 000000000000..a575da2d6c79
---- /dev/null
+index 01055a876450..a4d55af392c0 100644
+--- a/include/linux/pkram.h
 +++ b/include/linux/pkram.h
-@@ -0,0 +1,47 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _LINUX_PKRAM_H
-+#define _LINUX_PKRAM_H
-+
-+#include <linux/gfp.h>
-+#include <linux/types.h>
-+#include <linux/mm_types.h>
-+
-+/**
-+ * enum pkram_data_flags - definition of data types contained in a pkram obj
-+ * @PKRAM_DATA_none: No data types configured
-+ */
-+enum pkram_data_flags {
-+	PKRAM_DATA_none		= 0x0,  /* No data types configured */
+@@ -7,6 +7,7 @@
+ #include <linux/mm_types.h>
+ 
+ struct pkram_node;
++struct pkram_obj;
+ 
+ /**
+  * enum pkram_data_flags - definition of data types contained in a pkram obj
+@@ -19,6 +20,7 @@ enum pkram_data_flags {
+ struct pkram_stream {
+ 	gfp_t gfp_mask;
+ 	struct pkram_node *node;
++	struct pkram_obj *obj;
+ };
+ 
+ struct pkram_access;
+diff --git a/mm/pkram.c b/mm/pkram.c
+index 21976df6e0ea..7c977c5982f8 100644
+--- a/mm/pkram.c
++++ b/mm/pkram.c
+@@ -6,9 +6,14 @@
+ #include <linux/mm.h>
+ #include <linux/mutex.h>
+ #include <linux/pkram.h>
++#include <linux/sched.h>
+ #include <linux/string.h>
+ #include <linux/types.h>
+ 
++struct pkram_obj {
++	__u64   obj_pfn;	/* points to the next object in the list */
 +};
 +
-+struct pkram_stream;
-+struct pkram_access;
-+
-+#define PKRAM_NAME_MAX		256	/* including nul */
-+
-+int pkram_prepare_save(struct pkram_stream *ps, const char *name,
-+		       gfp_t gfp_mask);
-+int pkram_prepare_save_obj(struct pkram_stream *ps, enum pkram_data_flags flags);
-+
-+void pkram_finish_save(struct pkram_stream *ps);
-+void pkram_finish_save_obj(struct pkram_stream *ps);
-+void pkram_discard_save(struct pkram_stream *ps);
-+
-+int pkram_prepare_load(struct pkram_stream *ps, const char *name);
-+int pkram_prepare_load_obj(struct pkram_stream *ps);
-+
-+void pkram_finish_load(struct pkram_stream *ps);
-+void pkram_finish_load_obj(struct pkram_stream *ps);
-+
-+#define PKRAM_ACCESS(name, stream, type)			\
-+	struct pkram_access name
-+
-+void pkram_finish_access(struct pkram_access *pa, bool status_ok);
-+
-+int pkram_save_file_page(struct pkram_access *pa, struct page *page);
-+struct page *pkram_load_file_page(struct pkram_access *pa, unsigned long *index);
-+
-+ssize_t pkram_write(struct pkram_access *pa, const void *buf, size_t count);
-+size_t pkram_read(struct pkram_access *pa, void *buf, size_t count);
-+
-+#endif /* _LINUX_PKRAM_H */
-diff --git a/mm/Kconfig b/mm/Kconfig
-index 24c045b24b95..ea8242c91728 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -872,4 +872,13 @@ config MAPPING_DIRTY_HELPERS
- config KMAP_LOCAL
- 	bool
+ /*
+  * Preserved memory is divided into nodes that can be saved or loaded
+  * independently of each other. The nodes are identified by unique name
+@@ -18,6 +23,7 @@
+  */
+ struct pkram_node {
+ 	__u32	flags;
++	__u64	obj_pfn;	/* points to the first obj of the node */
  
-+config PKRAM
-+	bool "Preserved-over-kexec memory storage"
-+	default n
-+	help
-+	  This option adds the kernel API that enables saving memory pages of
-+	  the currently executing kernel and restoring them after a kexec in
-+	  the newly booted one. This can be utilized for speeding up reboot by
-+	  leaving process memory and/or FS caches in-place.
-+
- endmenu
-diff --git a/mm/Makefile b/mm/Makefile
-index 72227b24a616..ab3a724769b5 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -120,3 +120,4 @@ obj-$(CONFIG_MEMFD_CREATE) += memfd.o
- obj-$(CONFIG_MAPPING_DIRTY_HELPERS) += mapping_dirty_helpers.o
- obj-$(CONFIG_PTDUMP_CORE) += ptdump.o
- obj-$(CONFIG_PAGE_REPORTING) += page_reporting.o
-+obj-$(CONFIG_PKRAM) += pkram.o
-diff --git a/mm/pkram.c b/mm/pkram.c
-new file mode 100644
-index 000000000000..59e4661b2fb7
---- /dev/null
-+++ b/mm/pkram.c
-@@ -0,0 +1,179 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/err.h>
-+#include <linux/gfp.h>
-+#include <linux/kernel.h>
-+#include <linux/mm.h>
-+#include <linux/pkram.h>
-+#include <linux/types.h>
-+
-+/**
-+ * Create a preserved memory node with name @name and initialize stream @ps
-+ * for saving data to it.
-+ *
-+ * @gfp_mask specifies the memory allocation mask to be used when saving data.
-+ *
-+ * Returns 0 on success, -errno on failure.
-+ *
-+ * After the save has finished, pkram_finish_save() (or pkram_discard_save() in
-+ * case of failure) is to be called.
-+ */
-+int pkram_prepare_save(struct pkram_stream *ps, const char *name, gfp_t gfp_mask)
+ 	__u8	name[PKRAM_NAME_MAX];
+ };
+@@ -62,6 +68,21 @@ static struct pkram_node *pkram_find_node(const char *name)
+ 	return NULL;
+ }
+ 
++static void pkram_truncate_node(struct pkram_node *node)
 +{
-+	return -ENOSYS;
++	unsigned long obj_pfn;
++	struct pkram_obj *obj;
++
++	obj_pfn = node->obj_pfn;
++	while (obj_pfn) {
++		obj = pfn_to_kaddr(obj_pfn);
++		obj_pfn = obj->obj_pfn;
++		pkram_free_page(obj);
++		cond_resched();
++	}
++	node->obj_pfn = 0;
 +}
 +
-+/**
-+ * Create a preserved memory object and initialize stream @ps for saving data
-+ * to it.
+ static void pkram_stream_init(struct pkram_stream *ps,
+ 			     struct pkram_node *node, gfp_t gfp_mask)
+ {
+@@ -124,12 +145,31 @@ int pkram_prepare_save(struct pkram_stream *ps, const char *name, gfp_t gfp_mask
+  *
+  * Returns 0 on success, -errno on failure.
+  *
++ * Error values:
++ *	%ENOMEM: insufficient memory available
 + *
-+ * Returns 0 on success, -errno on failure.
-+ *
-+ * After the save has finished, pkram_finish_save_obj() (or pkram_discard_save()
-+ * in case of failure) is to be called.
-+ */
-+int pkram_prepare_save_obj(struct pkram_stream *ps, enum pkram_data_flags flags)
-+{
-+	return -ENOSYS;
-+}
+  * After the save has finished, pkram_finish_save_obj() (or pkram_discard_save()
+  * in case of failure) is to be called.
+  */
+ int pkram_prepare_save_obj(struct pkram_stream *ps, enum pkram_data_flags flags)
+ {
+-	return -ENOSYS;
++	struct pkram_node *node = ps->node;
++	struct pkram_obj *obj;
++	struct page *page;
 +
-+/**
-+ * Commit the object started with pkram_prepare_save_obj() to preserved memory.
-+ */
-+void pkram_finish_save_obj(struct pkram_stream *ps)
-+{
-+	BUG();
-+}
++	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_SAVE);
 +
-+/**
-+ * Commit the save to preserved memory started with pkram_prepare_save().
-+ * After the call, the stream may not be used any more.
-+ */
-+void pkram_finish_save(struct pkram_stream *ps)
-+{
-+	BUG();
-+}
++	page = pkram_alloc_page(ps->gfp_mask | __GFP_ZERO);
++	if (!page)
++		return -ENOMEM;
++	obj = page_address(page);
 +
-+/**
-+ * Cancel the save to preserved memory started with pkram_prepare_save() and
-+ * destroy the corresponding preserved memory node freeing any data already
-+ * saved to it.
-+ */
-+void pkram_discard_save(struct pkram_stream *ps)
-+{
-+	BUG();
-+}
++	if (node->obj_pfn)
++		obj->obj_pfn = node->obj_pfn;
++	node->obj_pfn = page_to_pfn(page);
 +
-+/**
-+ * Remove the preserved memory node with name @name and initialize stream @ps
-+ * for loading data from it.
-+ *
-+ * Returns 0 on success, -errno on failure.
-+ *
-+ * After the load has finished, pkram_finish_load() is to be called.
-+ */
-+int pkram_prepare_load(struct pkram_stream *ps, const char *name)
-+{
-+	return -ENOSYS;
-+}
-+
-+/**
-+ * Remove the next preserved memory object from the stream @ps and
-+ * initialize stream @ps for loading data from it.
-+ *
-+ * Returns 0 on success, -errno on failure.
-+ *
-+ * After the load has finished, pkram_finish_load_obj() is to be called.
-+ */
-+int pkram_prepare_load_obj(struct pkram_stream *ps)
-+{
-+	return -ENOSYS;
-+}
-+
-+/**
-+ * Finish the load of a preserved memory object started with
-+ * pkram_prepare_load_obj() freeing the object and any data that has not
-+ * been loaded from it.
-+ */
-+void pkram_finish_load_obj(struct pkram_stream *ps)
-+{
-+	BUG();
-+}
-+
-+/**
-+ * Finish the load from preserved memory started with pkram_prepare_load()
-+ * freeing the corresponding preserved memory node and any data that has
-+ * not been loaded from it.
-+ */
-+void pkram_finish_load(struct pkram_stream *ps)
-+{
-+	BUG();
-+}
-+
-+/**
-+ * Finish the data access to or from the preserved memory node and object
-+ * associated with pkram stream access @pa.  The access must have been
-+ * initialized with PKRAM_ACCESS(). 
-+ */
-+void pkram_finish_access(struct pkram_access *pa, bool status_ok)
-+{
-+	BUG();
-+}
-+
-+/**
-+ * Save file page @page to the preserved memory node and object associated
-+ * with pkram stream access @pa. The stream must have been initialized with
-+ * pkram_prepare_save() and pkram_prepare_save_obj() and access initialized
-+ * with PKRAM_ACCESS().
-+ *
-+ * Returns 0 on success, -errno on failure.
-+ */
-+int pkram_save_file_page(struct pkram_access *pa, struct page *page)
-+{
-+	return -ENOSYS;
-+}
-+
-+/**
-+ * Load the next page from the preserved memory node and object associated
-+ * with pkram stream access @pa. The stream must have been initialized with
-+ * pkram_prepare_load() and pkram_prepare_load_obj() and access initialized
-+ * with PKRAM_ACCESS().
-+ *
-+ * If not NULL, @index is initialized with the preserved mapping offset of the
-+ * page loaded.
-+ *
-+ * Returns the page loaded or NULL if the node is empty.
-+ *
-+ * The page loaded has its refcount incremented.
-+ */
-+struct page *pkram_load_file_page(struct pkram_access *pa, unsigned long *index)
-+{
-+	return NULL;
-+}
-+
-+/**
-+ * Copy @count bytes from @buf to the preserved memory node and object
-+ * associated with pkram stream access @pa. The stream must have been
-+ * initialized with pkram_prepare_save() and pkram_prepare_save_obj()
-+ * and access initialized with PKRAM_ACCESS();
-+ *
-+ * On success, returns the number of bytes written, which is always equal to
-+ * @count. On failure, -errno is returned.
-+ */
-+ssize_t pkram_write(struct pkram_access *pa, const void *buf, size_t count)
-+{
-+	return -ENOSYS;
-+}
-+
-+/**
-+ * Copy up to @count bytes from the preserved memory node and object
-+ * associated with pkram stream access @pa to @buf. The stream must have been
-+ * initialized with pkram_prepare_load() and pkram_prepare_load_obj() and
-+ * access initialized PKRAM_ACCESS().
-+ *
-+ * Returns the number of bytes read, which may be less than @count if the node
-+ * has fewer bytes available.
-+ */
-+size_t pkram_read(struct pkram_access *pa, void *buf, size_t count)
-+{
++	ps->obj = obj;
 +	return 0;
-+}
+ }
+ 
+ /**
+@@ -137,7 +177,9 @@ int pkram_prepare_save_obj(struct pkram_stream *ps, enum pkram_data_flags flags)
+  */
+ void pkram_finish_save_obj(struct pkram_stream *ps)
+ {
+-	BUG();
++	struct pkram_node *node = ps->node;
++
++	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_SAVE);
+ }
+ 
+ /**
+@@ -169,6 +211,7 @@ void pkram_discard_save(struct pkram_stream *ps)
+ 	pkram_delete_node(node);
+ 	mutex_unlock(&pkram_mutex);
+ 
++	pkram_truncate_node(node);
+ 	pkram_free_page(node);
+ }
+ 
+@@ -216,11 +259,26 @@ int pkram_prepare_load(struct pkram_stream *ps, const char *name)
+  *
+  * Returns 0 on success, -errno on failure.
+  *
++ * Error values:
++ *	%ENODATA: Stream @ps has no preserved memory objects
++ *
+  * After the load has finished, pkram_finish_load_obj() is to be called.
+  */
+ int pkram_prepare_load_obj(struct pkram_stream *ps)
+ {
+-	return -ENOSYS;
++	struct pkram_node *node = ps->node;
++	struct pkram_obj *obj;
++
++	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_LOAD);
++
++	if (!node->obj_pfn)
++		return -ENODATA;
++
++	obj = pfn_to_kaddr(node->obj_pfn);
++	node->obj_pfn = obj->obj_pfn;
++
++	ps->obj = obj;
++	return 0;
+ }
+ 
+ /**
+@@ -230,7 +288,12 @@ int pkram_prepare_load_obj(struct pkram_stream *ps)
+  */
+ void pkram_finish_load_obj(struct pkram_stream *ps)
+ {
+-	BUG();
++	struct pkram_node *node = ps->node;
++	struct pkram_obj *obj = ps->obj;
++
++	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_LOAD);
++
++	pkram_free_page(obj);
+ }
+ 
+ /**
+@@ -244,6 +307,7 @@ void pkram_finish_load(struct pkram_stream *ps)
+ 
+ 	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_LOAD);
+ 
++	pkram_truncate_node(node);
+ 	pkram_free_page(node);
+ }
+ 
 -- 
 1.8.3.1
 
