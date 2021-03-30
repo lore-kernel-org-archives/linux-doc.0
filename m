@@ -2,71 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2F8AC433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 15:18:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C983C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 15:25:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83323619CE
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 15:18:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 60605619A7
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 15:25:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232076AbhC3PRn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 11:17:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55908 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232011AbhC3PRT (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 11:17:19 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFDFCC061762;
-        Tue, 30 Mar 2021 08:17:15 -0700 (PDT)
-Received: from ip4d14bd53.dynamic.kabel-deutschland.de ([77.20.189.83] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1lRG7F-0000L0-Es; Tue, 30 Mar 2021 17:17:13 +0200
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1617113469.git.linux@leemhuis.info>
- <762ccd7735315d2fdaa79612fccc1f474881118b.1617113469.git.linux@leemhuis.info>
-Subject: Re: [PATCH v1 3/4] docs: reporting-issues.rst: reshuffle and improve
- TLDR
-Message-ID: <457e7831-bb5e-d42e-55f5-9292a524bd4e@leemhuis.info>
-Date:   Tue, 30 Mar 2021 17:17:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S232492AbhC3PZP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 11:25:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31695 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232371AbhC3PYr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 11:24:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617117886;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=xLeIxab6mDQDke52x6DpNdNSBo2bnI3mGCEhq0K8Rj4=;
+        b=H+VfOKKPE+QkgZ7G5q/CT0XC9mIsQdhuxximuj/HvUYSJjNPk7trNn2v7f1TyHm/i8H7zh
+        WfL34RlkGmtJlk7H0gP+22BwuUbTVHj7TeKXTo6H3KIq0FeZ4U7QXsDJu6eaTcIRX2Ngzu
+        atW7sGIjqgNJFhIBLidUa8vsb6YXA0k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-209-0zBLyW5ZPFSHSmqchkwttw-1; Tue, 30 Mar 2021 11:24:42 -0400
+X-MC-Unique: 0zBLyW5ZPFSHSmqchkwttw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38B95E49E1;
+        Tue, 30 Mar 2021 15:24:40 +0000 (UTC)
+Received: from gondolin (ovpn-113-155.ams2.redhat.com [10.36.113.155])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8393160871;
+        Tue, 30 Mar 2021 15:24:34 +0000 (UTC)
+Date:   Tue, 30 Mar 2021 17:24:31 +0200
+From:   Cornelia Huck <cohuck@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Alex Williamson <alex.williamson@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, "Raj, Ashok" <ashok.raj@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Tarun Gupta <targupta@nvidia.com>
+Subject: Re: [PATCH 02/18] vfio/mdev: Add missing typesafety around
+ mdev_device
+Message-ID: <20210330172431.724282c1.cohuck@redhat.com>
+In-Reply-To: <2-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
+References: <0-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
+        <2-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <762ccd7735315d2fdaa79612fccc1f474881118b.1617113469.git.linux@leemhuis.info>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-BS
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1617117438;047b062c;
-X-HE-SMSGID: 1lRG7F-0000L0-Es
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Argh, sent this just one hour ago and I already found the first problem:
+On Tue, 23 Mar 2021 14:55:19 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-On 30.03.21 16:13, Thorsten Leemhuis wrote:
-> Make the TLDR a bit shorter while improving it at the same time by going
-> straight to the aspects readers are more interested it. The change makes
-> the process especially more straight-forward for people that hit a
-> regression in a stable or longterm kernel. Due to the changes the TLDR
-> now also matches the step by step guide better.
+> The mdev API should accept and pass a 'struct mdev_device *' in all
+> places, not pass a 'struct device *' and cast it internally with
+> to_mdev_device(). Particularly in its struct mdev_driver functions, the
+> whole point of a bus's struct device_driver wrapper is to provide type
+> safety compared to the default struct device_driver.
 > 
-> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+> Further, the driver core standard is for bus drivers to expose their
+> device structure in their public headers that can be used with
+> container_of() inlines and '&foo->dev' to go between the class levels, and
+> '&foo->dev' to be used with dev_err/etc driver core helper functions. Move
+> 'struct mdev_device' to mdev.h
 > 
->[...]
-> +Are you facing a regression with vanilla kernels from the same stable or
-> +longterm series? One still supported? Then search the `LKML
-> +<https://lore.kernel.org/lkml/>`_ and the `Linux stable mailing list
-> +<https://lore.kernel.org/stable/>_` 
+> Once done this allows moving some one instruction exported functions to
+> static inlines, which in turns allows removing one of the two grotesque
+> symbol_get()'s related to mdev in the core code.
+> 
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  .../driver-api/vfio-mediated-device.rst       |  4 +-
+>  drivers/vfio/mdev/mdev_core.c                 | 64 ++-----------------
+>  drivers/vfio/mdev/mdev_driver.c               |  4 +-
+>  drivers/vfio/mdev/mdev_private.h              | 23 +------
+>  drivers/vfio/mdev/mdev_sysfs.c                | 26 ++++----
+>  drivers/vfio/mdev/vfio_mdev.c                 |  7 +-
+>  drivers/vfio/vfio_iommu_type1.c               | 25 ++------
+>  include/linux/mdev.h                          | 58 +++++++++++++----
+>  8 files changed, 83 insertions(+), 128 deletions(-)
 
-FWIW, this needs a
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
- s!stable/>_`!stable/>`_!
-
-Sorry, this slipped through. :-/ Ciao, Thorsten
