@@ -2,448 +2,266 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B31E7C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 07:10:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A081C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 07:27:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7EBDF61999
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 07:10:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 214F961994
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 07:27:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229633AbhC3HKP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 03:10:15 -0400
-Received: from mx2.suse.de ([195.135.220.15]:45074 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229530AbhC3HJq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Mar 2021 03:09:46 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 0382EB159;
-        Tue, 30 Mar 2021 07:09:45 +0000 (UTC)
-Subject: Re: [PATCH v2 00/10] drm: Support simple-framebuffer devices and
- firmware fbs
-To:     Hans de Goede <hdegoede@redhat.com>, daniel@ffwll.ch,
-        airlied@linux.ie, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, kraxel@redhat.com, corbet@lwn.net,
-        lgirdwood@gmail.com, broonie@kernel.org, sam@ravnborg.org,
-        robh@kernel.org, emil.l.velikov@gmail.com, geert+renesas@glider.be,
-        bluescreen_avenger@verizon.net
-Cc:     virtualization@lists.linux-foundation.org,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-References: <20210318102921.21536-1-tzimmermann@suse.de>
- <d0ac63b3-dec5-58dc-2ce6-13cdef0399aa@redhat.com>
- <c88e9322-4bf1-e303-c1f1-b2b433aa439f@suse.de>
- <a85f936f-cd4c-ab0d-ed68-9e95bb93acb8@redhat.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <b2d6798f-1f7e-6fd4-eefd-b7bb4f080973@suse.de>
-Date:   Tue, 30 Mar 2021 09:09:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S229530AbhC3H1F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 03:27:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38398 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230415AbhC3H0z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 03:26:55 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6740BC0613D9
+        for <linux-doc@vger.kernel.org>; Tue, 30 Mar 2021 00:26:54 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id d13so1288078lfg.7
+        for <linux-doc@vger.kernel.org>; Tue, 30 Mar 2021 00:26:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=af4hT6RKaQH4UftQDbKN5QPOjXiK86/wlCCe+4hZGdc=;
+        b=NUla3ScpKv1xeAWa3oYor1HqrS/QBdHFVbD97Gy2NLtpj6f7l2kc1YuVycA+6xgDsi
+         9l7wkk1VeogBBuKyQgr52c9E9XztS56+62DQeXZEzEP9oeFxv1R4pBjtUE5YXoqeUmDR
+         ygTmKi3BM6um384QWqUj1HKRFKr64dVReOWoSQ/bOlimMNzeyk8RRDcabaNIj7rZs7CH
+         04Rj9WUsZ3jLmC/of9MwmcFN+nNvknx0r5TBXUfW+EsQ459b+GxjLJbw48HFQLRgf2nR
+         0j/rJpyVkw6WltmcEO5Sa5tf3UaXGLTHPOoHlWyOe9aVBQi78oClX+hFcLSfXjnPyKj2
+         d5HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=af4hT6RKaQH4UftQDbKN5QPOjXiK86/wlCCe+4hZGdc=;
+        b=YMON9KVa8jg4I5xIvNqNKPWsIdBoE3xiShB4SF/7IQj333daGHsIHLlJ4CxRF9M9FU
+         3UQU15GnVFfnORihuxdiDfIKrYE1tr/8ZURVuzmLw829RA2qAkzQJyRNPwJrAsdVygHk
+         BipY4NFqvdMeulHCVjnshLOubPskKmJvicR2tcoK/jyFeBaa16rUhigJ/CivA/A4LWRU
+         5TgKSG6XF1c8R1X/Gnw1ubVbe7NPgMQeT2wzU0M69nwLnjB1ZFD3QBTITI1uIeVRj2Pg
+         akUq8RtOPVXSWPJJVz/AQ1jRKbKzflTSUj8+Hn6YrSx7AMaCly2PeytOUkMfK5J0Rgcc
+         qzWg==
+X-Gm-Message-State: AOAM530D8rZnvosUWYoX3cSGXHYQEZtXRpO8TJ11yB9X/Xv0/VR4uBUn
+        cvIhTLE7k3qnqwEVCB8ZZg6yO7YX9pL5ql6V+Qw0og==
+X-Google-Smtp-Source: ABdhPJyXpKWyx5s4QOhIBteYopgz9DFHpopC0zHy2O9Ezg9gQDp3fJSR7hC5ck8fwafksnrhlZdfctLsahIPzGz4fGU=
+X-Received: by 2002:ac2:5970:: with SMTP id h16mr18009743lfp.108.1617089212472;
+ Tue, 30 Mar 2021 00:26:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a85f936f-cd4c-ab0d-ed68-9e95bb93acb8@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="GrNnU5D5uTGekbkZivtLPtTs6QuxygdRY"
+References: <cover.56fff82362af6228372ea82e6bd7e586e23f0966.1615914058.git-series.a.fatoum@pengutronix.de>
+ <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
+ <01e6e13d-2968-0aa5-c4c8-7458b7bde462@nxp.com> <45a9e159-2dcb-85bf-02bd-2993d50b5748@pengutronix.de>
+ <f9c0087d299be1b9b91b242f41ac6ef7b9ee3ef7.camel@linux.ibm.com>
+ <63dd7d4b-4729-9e03-cd8f-956b94eab0d9@pengutronix.de> <CAFA6WYOw_mQwOUN=onhzb7zCTyYDBrcx0E7C3LRk6nPLAVCWEQ@mail.gmail.com>
+ <557b92d2-f3b8-d136-7431-419429f0e059@pengutronix.de> <CAFA6WYNE44=Y7Erfc-xNtOrf7TkJjh+odmYH5vzhEHR6KqBfeQ@mail.gmail.com>
+ <6F812C20-7585-4718-997E-0306C4118468@sigma-star.at> <YGDpA4yPWmTWEyx+@kernel.org>
+In-Reply-To: <YGDpA4yPWmTWEyx+@kernel.org>
+From:   Sumit Garg <sumit.garg@linaro.org>
+Date:   Tue, 30 Mar 2021 12:56:41 +0530
+Message-ID: <CAFA6WYPGuyg+OEYU2+FS-uom29yj4AyN5VLwm6MYpX97D0Uy0w@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
+ CAAM-based trusted keys
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     David Gstir <david@sigma-star.at>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        =?UTF-8?Q?Horia_Geant=C4=83?= <horia.geanta@nxp.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Aymen Sghaier <aymen.sghaier@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Udit Agarwal <udit.agarwal@nxp.com>,
+        Jan Luebbe <j.luebbe@pengutronix.de>,
+        Franck Lenormand <franck.lenormand@nxp.com>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---GrNnU5D5uTGekbkZivtLPtTs6QuxygdRY
-Content-Type: multipart/mixed; boundary="GOseElHxPn8pzbotuD4CGWcFtc0n7BtoE";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Hans de Goede <hdegoede@redhat.com>, daniel@ffwll.ch, airlied@linux.ie,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, kraxel@redhat.com,
- corbet@lwn.net, lgirdwood@gmail.com, broonie@kernel.org, sam@ravnborg.org,
- robh@kernel.org, emil.l.velikov@gmail.com, geert+renesas@glider.be,
- bluescreen_avenger@verizon.net
-Cc: virtualization@lists.linux-foundation.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Message-ID: <b2d6798f-1f7e-6fd4-eefd-b7bb4f080973@suse.de>
-Subject: Re: [PATCH v2 00/10] drm: Support simple-framebuffer devices and
- firmware fbs
-References: <20210318102921.21536-1-tzimmermann@suse.de>
- <d0ac63b3-dec5-58dc-2ce6-13cdef0399aa@redhat.com>
- <c88e9322-4bf1-e303-c1f1-b2b433aa439f@suse.de>
- <a85f936f-cd4c-ab0d-ed68-9e95bb93acb8@redhat.com>
-In-Reply-To: <a85f936f-cd4c-ab0d-ed68-9e95bb93acb8@redhat.com>
-
---GOseElHxPn8pzbotuD4CGWcFtc0n7BtoE
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 29.03.21 um 16:50 schrieb Hans de Goede:
-> Hi,
->=20
-> On 3/29/21 2:31 PM, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 25.03.21 um 12:29 schrieb Hans de Goede:
->>> Hi,
->>>
->>> On 3/18/21 11:29 AM, Thomas Zimmermann wrote:
->>>> This patchset adds support for simple-framebuffer platform devices a=
-nd
->>>> a handover mechanism for native drivers to take-over control of the
->>>> hardware.
->>>>
->>>> The new driver, called simpledrm, binds to a simple-frambuffer platf=
-orm
->>>> device. The kernel's boot code creates such devices for firmware-pro=
-vided
->>>> framebuffers, such as EFI-GOP or VESA. Typically the BIOS, UEFI or b=
-oot
->>>> loader sets up the framebuffers. Description via device tree is also=
- an
->>>> option.
->>>>
->>>> Simpledrm is small enough to be linked into the kernel. The driver's=
- main
->>>> purpose is to provide graphical output during the early phases of th=
-e boot
->>>> process, before the native DRM drivers are available. Native drivers=
- are
->>>> typically loaded from an initrd ram disk. Occationally simpledrm can=
- also
->>>> serve as interim solution on graphics hardware without native DRM dr=
-iver.
->>>>
->>>> So far distributions rely on fbdev drivers, such as efifb, vesafb or=
-
->>>> simplefb, for early-boot graphical output. However fbdev is deprecat=
-ed and
->>>> the drivers do not provide DRM interfaces for modern userspace.
->>>>
->>>> Patches 1 and 2 prepare the DRM format helpers for simpledrm.
->>>>
->>>> Patches 3 and 4 add a hand-over mechanism. Simpledrm acquires it's
->>>> framebuffer's I/O-memory range and provides a callback function to b=
+On Mon, 29 Mar 2021 at 01:07, Jarkko Sakkinen <jarkko@kernel.org> wrote:
+>
+> On Sat, Mar 27, 2021 at 01:41:24PM +0100, David Gstir wrote:
+> > Hi!
+> >
+> > > On 25.03.2021, at 06:26, Sumit Garg <sumit.garg@linaro.org> wrote:
+> > >
+> > > On Wed, 24 Mar 2021 at 19:37, Ahmad Fatoum <a.fatoum@pengutronix.de> =
+wrote:
+> > >>
+> > >> Hello Sumit,
+> > >>
+> > >> On 24.03.21 11:47, Sumit Garg wrote:
+> > >>> On Wed, 24 Mar 2021 at 14:56, Ahmad Fatoum <a.fatoum@pengutronix.de=
+> wrote:
+> > >>>>
+> > >>>> Hello Mimi,
+> > >>>>
+> > >>>> On 23.03.21 19:07, Mimi Zohar wrote:
+> > >>>>> On Tue, 2021-03-23 at 17:35 +0100, Ahmad Fatoum wrote:
+> > >>>>>> On 21.03.21 21:48, Horia Geant=C4=83 wrote:
+> > >>>>>>> caam has random number generation capabilities, so it's worth u=
+sing that
+> > >>>>>>> by implementing .get_random.
+> > >>>>>>
+> > >>>>>> If the CAAM HWRNG is already seeding the kernel RNG, why not use=
+ the kernel's?
+> > >>>>>>
+> > >>>>>> Makes for less code duplication IMO.
+> > >>>>>
+> > >>>>> Using kernel RNG, in general, for trusted keys has been discussed
+> > >>>>> before.   Please refer to Dave Safford's detailed explanation for=
+ not
+> > >>>>> using it [1].
+> > >>>>
+> > >>>> The argument seems to boil down to:
+> > >>>>
+> > >>>> - TPM RNG are known to be of good quality
+> > >>>> - Trusted keys always used it so far
+> > >>>>
+> > >>>> Both are fine by me for TPMs, but the CAAM backend is new code and=
+ neither point
+> > >>>> really applies.
+> > >>>>
+> > >>>> get_random_bytes_wait is already used for generating key material =
+elsewhere.
+> > >>>> Why shouldn't new trusted key backends be able to do the same thin=
+g?
+> > >>>>
+> > >>>
+> > >>> Please refer to documented trusted keys behaviour here [1]. New
+> > >>> trusted key backends should align to this behaviour and in your cas=
 e
->>>> removed by a native driver. The native driver will remove simpledrm =
-before
->>>> taking over the hardware. The removal is integrated into existing he=
-lpers,
->>>> so drivers use it automatically.
->>>>
->>>> Patches 5 to 10 add the simpledrm driver. It's build on simple DRM h=
-elpers
->>>> and SHMEM. It supports 16-bit, 24-bit and 32-bit RGB framebuffers. D=
-uring
->>>> pageflips, SHMEM buffers are copied into the framebuffer memory, sim=
-ilar
->>>> to cirrus or mgag200. The code in patches 8 and 9 handles clocks and=
-
->>>> regulators. It's based on the simplefb drivers, but has been modifie=
-d for
->>>> DRM.
->>>
->>> Thank you for your work on this, this is very interesting.
->>>
->>>> I've also been working on fastboot support (i.e., flicker-free booti=
-ng).
->>>> This requires state-readout from simpledrm via generic interfaces, a=
+> > >>> CAAM offers HWRNG so we should be better using that.
+> > >>
+> > >> Why is it better?
+> > >>
+> > >> Can you explain what benefit a CAAM user would have if the trusted k=
+ey
+> > >> randomness comes directly out of the CAAM instead of indirectly from
+> > >> the kernel entropy pool that is seeded by it?
+> > >
+> > > IMO, user trust in case of trusted keys comes from trusted keys
+> > > backend which is CAAM here. If a user doesn't trust that CAAM would
+> > > act as a reliable source for RNG then CAAM shouldn't be used as a
+> > > trust source in the first place.
+> > >
+> > > And I think building user's trust for kernel RNG implementation with
+> > > multiple entropy contributions is pretty difficult when compared with
+> > > CAAM HWRNG implementation.
+> >
+> > Generally speaking, I=E2=80=99d say trusting the CAAM RNG and trusting =
+in it=E2=80=99s
+> > other features are two separate things. However, reading through the CA=
+AM
+> > key blob spec I=E2=80=99ve got here, CAAM key blob keys (the keys that =
+secure a blob=E2=80=99s
+> > content) are generated using its internal RNG. So I=E2=80=99d save if t=
+he CAAM RNG
+> > is insecure, so are generated key blobs. Maybe somebody with more insig=
+ht
+> > into the CAAM internals can verify that, but I don=E2=80=99t see any po=
+int in using
+> > the kernel=E2=80=99s RNG as long as we let CAAM generate the key blob k=
+eys for us.
+>
+> Here's my long'ish analysis. Please read it to the end if by ever means
+> possible, and apologies, I usually try to keep usually my comms short, bu=
+t
+> this requires some more meat than the usual.
+>
+> The Bad News
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> Now that we add multiple hardware trust sources for trusted keys, will
+> there ever be a scenario where a trusted key is originally sealed with a
+> backing hardware A, unsealed, and resealed with hardware B?
+>
+> The hardware and vendor neutral way to generate the key material would be
+> unconditionally always just the kernel RNG.
+>
+> CAAM is actually worse than TCG because it's not even a standards body, i=
+f
+> I got it right. Not a lot but at least a tiny fraction.
+>
+> This brings an open item in TEE patches: trusted_tee_get_random() is an
+> issue in generating kernel material. I would rather replace that with
+> kernel RNG *for now*, because the same open question applies also to ARM
+> TEE. It's also a single company controlled backing technology.
+>
+> By all practical means, I do trust ARM TEE in my personal life but this i=
 s
->>>> outlined in [1]. I do have some prototype code, but it will take a w=
-hile
->>>> to get this ready. Simpledrm will then support it.
->>>>
->>>> I've tested simpledrm with x86 EFI and VESA framebuffers, which both=
- work
->>>> reliably. The fbdev console and Weston work automatically. Xorg requ=
-ires
->>>> manual configuration of the device. Xorgs current modesetting driver=
- does
->>>> not work with both, platform and PCI device, for the same physical
->>>> hardware. Once configured, X11 works. I looked into X11, but couldn'=
-t see
->>>> an easy way of fixing the problem. With the push towards Wayland+Xwa=
-yland
->>>> I expect the problem to become a non-issue soon. Additional testing =
-has
->>>> been reported at [2].
->>>>
->>>> One cosmetical issue is that simpledrm's device file is card0 and th=
-e
->>>> native driver's device file is card1. After simpledrm has been kicke=
-d out,
->>>> only card1 is left. This does not seem to be a practical problem how=
-ever.
->>>>
->>>> TODO/IDEAS:
->>>>
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0* provide deferred takeover
->>>
->>> I'm not sure what you mean with this ?=C2=A0 Currently deferred-takeo=
-ver is
->>> handled in the fbcon code. Current flickerfree boot works like this
->>> (assuming a single LCD panel in a laptop):
->>>
->>> 1. EFI/GOP sets up the framebuffer, draws a vendor logo
->>> 2. The bootloader runs in silent mode and does not touch anything gfx=
- related
->>> 3. kernel boots, with a loglevel of 3 so only CRIT/EMERG messages are=
- shown
->>> 2. efifb loads; and tells fbcon that a framebuffer is now available f=
-or it to "bind"
->>>  =C2=A0=C2=A0=C2=A0 to. Since CONFIG_FRAMEBUFFER_CONSOLE_DEFERRED_TAK=
-EOVER=3Dy fbcon defers taking over
->>>  =C2=A0=C2=A0=C2=A0 the console and leaves the dummy-console driver i=
-n place (unless there have already
->>>  =C2=A0=C2=A0=C2=A0 been kernel messages logged, which there shouldn'=
-t because loglevel=3D3)
->>> 3. i915 loads, reads out the hw state compares this to the preferred-=
-mode for the
->>>  =C2=A0=C2=A0=C2=A0 panel which it would set, they match, nothing hap=
-pens. i915 takes ownership
->>>  =C2=A0=C2=A0=C2=A0 of the scanout-buffer set up by the GOP, but leav=
-es it in place.
->>>  =C2=A0=C2=A0=C2=A0 i915 also removes the efifb /dev/fb0 and installs=
- its own /dev/fb0 fbdev compat
->>>  =C2=A0=C2=A0=C2=A0 device, fbcon is notified of this, but is still d=
-eferred and leaves the dummy
->>>  =C2=A0=C2=A0=C2=A0 console driver in place as console driver.
->>> 4. Plymouth loads, allocates a new scan-out buffer at the panel's pre=
-ferred resolution,
->>>  =C2=A0=C2=A0=C2=A0 plymouth reads the vendor-logo through the BGRT A=
-CPI interface and fills the
->>>  =C2=A0=C2=A0=C2=A0 scanout-buffer with the vendor-logo + a spinner. =
-Then plymouth installs the new
->>>  =C2=A0=C2=A0=C2=A0 scanout-buffer on the crtc, this is done atomical=
-ly during vsync, so the user
->>>  =C2=A0=C2=A0=C2=A0 sees no changes, other then the spinner appearing=
+> not important.
+>
+> CAAM *and* TEE backends break the golden rule of putting as little trust =
+as
+> possible to anything, even not anything weird is clear at sight, as
+> security is essentially a game of known unknowns and unknown unknowns.
+>
+> Unfortunately, TPM trusted keys started this bad security practice, and
+> obviously it cannot be fixed without breaking uapi backwards compatibilit=
+y.
+>
+> This leaves me exactly two rational options:
+>
+> A. Add a patch to remove trusted_tee_get_random() and use kernel RNG
+>    instead.
+> B. Drop the whole TEE patch set up until I have good reasons to believe
+>    that it's the best possible idea ever to use TEE RNG.
+>
+> Doing does (A) does not disclude of doing (B) later on, if someone some
+> day sends a patch with sound reasoning.
+>
+> It's also good to understand that when some day a vendor D, other than TC=
+G,
+> CAAM or ARM, comes up, we need to go again this lenghty and messy
+> discussion. Now this already puts an already accepted patch set into a
+> risk, because by being a responsible maintainer I would have legit reason=
+s
+> just simply to drop it.
+>
+> OK, but....
+>
+> The GOOD News
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> So there's actually option (C) that also fixes the TPM trustd keys issue:
+>
+> Add a new kernel patch, which:
+>
+> 1. Adds the use of kernel RNG as a boot option.
+> 2. If this boot option is not active, the subsystem will print a warning
+>    to klog denoting this.
+> 3. Default is of course vendor RNG given the bad design issue in the TPM
+>    trusted keys, but the warning in klog will help to address it at least
+>    a bit.
+> 4. Document all this to Documentation/security/keys/trusted-encrypted.rst=
+.
+>
+> I'd prefer the choice between A, B and C be concluded rather sooner than
+> later.
 
->>>  =C2=A0=C2=A0=C2=A0 (note the active VT is now in graphical mode)
->>> 5. From here on not flickering is a userspace problem
->>>
->>> AFAICT this should work fine with simplekms too, unless it clears the=
- screen
->>> to black when it binds.
->>
->> I forgot to add the code that clears the screen, but that's the case h=
-ere.
->>
->> Instead of a plane-disable operation, simpledrm can at best clear the =
-screen. This would happen during the initial mode-config reset IIRC.
->=20
-> Hmm, clearing the screen without any (atomic) modesets being initiated =
-by either
-> an in kernel drm-client or userspace seems wrong, this is certainly dif=
-ferent from
-> what the i915 driver does. The way I see it either a drm client provide=
-s a new
-> framebuffer in which case you copy that over the old contents, effectiv=
-ely clearing
-> it. Or a drm-client gets a handle and draws to the current fb directly,=
- in which
-> case it is the clients responsibility to clear it itself first.
->=20
-> IOW I believe that simpledrm should not clear the screen itself at all.=
+Option (C) sounds reasonable to me but I would rather prefer an info
+message rather than warning as otherwise it would reflect that we are
+enforcing kernel RNG choice for a user to trust upon.
 
+-Sumit
 
-I do as well. And when I boot with simpledrm + native driver it's=20
-flicker-free from what I can tell. But drm_mode_config_reset() is=20
-supposed to reset HW and software state. There could be some corner case =
-
-where we'd have to clear the screen. For now, it should be fine.
-
-BTW if you have the time I'd appreciate your review of the patchset.
-
-Best regards
-Thomas
-
->=20
-> Regards,
->=20
-> Hans
->=20
->=20
->=20
->> But we need to keep the display content stored in a framebuffer, so re=
-ad-out helpers are required. There are more users of these read-out helpe=
-rs. Adding them at some point probably makes sense.
->>
->> Other drivers might also want to read the initial config from simpledr=
-m via read-out helpers. I think only i915 currently supports something li=
-ke that ATM.
->>
->> Best regards
->> Thomas
->>
->>>
->>> An addition to the above sequence, if at any time either the kernel o=
-r userspace
->>> prints a message to the console; and at that time a fbdev is register=
-ed then fbcon
->>> will takeover as the console driver from the dummy driver and it will=
- start drawing
->>> to the registered fbdev (1), destroying the framebuffer contents. Als=
-o if any messages
->>> where printend while no fbdev was registered, then fbcon will takeove=
-r the console
->>> as soon as a fbdev gets registered.
->>>
->>> So since we already have deferred-takeover in the fbcon code, I wonde=
-r what you
->>> mean when you are talking about "provide deferred takeover" for simpl=
-ekms?
->>>
->>> Regards,
->>>
->>> Hans
->>>
->>>
->>> 1) Except when the VT has been switched to GFX mode when this happens=
-, then fbcon
->>> will delay using the fbdev until the VT is switched back to text mode=
-=2E
->>>
->>>
->>> p.s.
->>>
->>> This has the interesting side effect then when logging into a desktop=
- GUI session:
->>> kernel -> plymouth -> gdm -> GNOME user session
->>>
->>> There never is any output to the text-console and fbcon never takes-o=
-ver, so on
->>> many Laptops running say Fedora workstation the fbcon code is actuall=
-y unused
->>> until the user manually switches to another virtual-console to log in=
- in
->>> text-mode:
->>>
->>> [hans@x1 ~]$ dmesg | grep -E 'fbcon|Console:|Truecolor'
->>> [=C2=A0=C2=A0=C2=A0 0.258904] Console: colour dummy device 80x25
->>> [=C2=A0=C2=A0=C2=A0 1.274726] efifb: Truecolor: size=3D8:8:8:8, shift=
-=3D24:16:8:0
->>> [=C2=A0=C2=A0=C2=A0 1.274768] fbcon: Deferring console take-over
->>> [=C2=A0=C2=A0=C2=A0 2.540894] fbcon: i915drmfb (fb0) is primary devic=
-e
->>> [=C2=A0=C2=A0=C2=A0 2.540896] fbcon: Deferring console take-over
->>> [hans@x1 ~]$ uptime
->>>  =C2=A0 12:29:39 up=C2=A0 4:19,=C2=A0 1 user,=C2=A0 load average: 0.5=
-8, 0.75, 0.81
->>>
->>> Look mom no fbcon
->>>
->>>
->>>
->>>
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0* provide bootsplash DRM client
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0* make simplekms usable with ARM-EFI fbs
->>>>
->>>> v2:
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0* rename to simpledrm, aperture helpers
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0* reorganized patches
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0* use hotplug helpers for removal (Daniel)
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0* added DT match tables (Rob)
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0* use shadow-plane helpers
->>>>  =C2=A0=C2=A0=C2=A0=C2=A0* lots of minor cleanups
->>>>
->>>> [1] https://lore.kernel.org/dri-devel/CAKMK7uHtqHy_oz4W7F+hmp9iqp7W5=
-Ra8CxPvJ=3D9BwmvfU-O0gg@mail.gmail.com/
->>>> [2] https://lore.kernel.org/dri-devel/1761762.3HQLrFs1K7@nerdopolis/=
-
->>>>
->>>> Thomas Zimmermann (10):
->>>>  =C2=A0=C2=A0 drm/format-helper: Pass destination pitch to drm_fb_me=
-mcpy_dstclip()
->>>>  =C2=A0=C2=A0 drm/format-helper: Add blitter functions
->>>>  =C2=A0=C2=A0 drm/aperture: Move fbdev conflict helpers into drm_ape=
-rture.h
->>>>  =C2=A0=C2=A0 drm/aperture: Add infrastructure for aperture ownershi=
-p
->>>>  =C2=A0=C2=A0 drm: Add simpledrm driver
->>>>  =C2=A0=C2=A0 drm/simpledrm: Add fbdev emulation
->>>>  =C2=A0=C2=A0 drm/simpledrm: Initialize framebuffer data from device=
--tree node
->>>>  =C2=A0=C2=A0 drm/simpledrm: Acquire clocks from DT device node
->>>>  =C2=A0=C2=A0 drm/simpledrm: Acquire regulators from DT device node
->>>>  =C2=A0=C2=A0 drm/simpledrm: Acquire memory aperture for framebuffer=
-
->>>>
->>>>  =C2=A0 Documentation/gpu/drm-internals.rst=C2=A0=C2=A0=C2=A0 |=C2=A0=
- 12 +
->>>>  =C2=A0 MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 7 +
->>>>  =C2=A0 drivers/gpu/drm/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 7 +
->>>>  =C2=A0 drivers/gpu/drm/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
->>>>  =C2=A0 drivers/gpu/drm/drm_aperture.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 287 ++++++++
->>>>  =C2=A0 drivers/gpu/drm/drm_format_helper.c=C2=A0=C2=A0=C2=A0 |=C2=A0=
- 96 ++-
->>>>  =C2=A0 drivers/gpu/drm/mgag200/mgag200_mode.c |=C2=A0=C2=A0 2 +-
->>>>  =C2=A0 drivers/gpu/drm/tiny/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 17 +
->>>>  =C2=A0 drivers/gpu/drm/tiny/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
->>>>  =C2=A0 drivers/gpu/drm/tiny/cirrus.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
->>>>  =C2=A0 drivers/gpu/drm/tiny/simpledrm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 932 +++++++++++++++++++++++++
->>>>  =C2=A0 include/drm/drm_aperture.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 96 +++
->>>>  =C2=A0 include/drm/drm_fb_helper.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 56 +-
->>>>  =C2=A0 include/drm/drm_format_helper.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 10 +-
->>>>  =C2=A0 14 files changed, 1466 insertions(+), 60 deletions(-)
->>>>  =C2=A0 create mode 100644 drivers/gpu/drm/drm_aperture.c
->>>>  =C2=A0 create mode 100644 drivers/gpu/drm/tiny/simpledrm.c
->>>>  =C2=A0 create mode 100644 include/drm/drm_aperture.h
->>>>
->>>> --=20
->>>> 2.30.1
->>>>
->>>
->>
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---GOseElHxPn8pzbotuD4CGWcFtc0n7BtoE--
-
---GrNnU5D5uTGekbkZivtLPtTs6QuxygdRY
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBizrcFAwAAAAAACgkQlh/E3EQov+A7
-hBAAzLG0voxnjXgThIj058MArVDcEKhl5/KCWLWyZHSQ6PidIynvnE5OioCgTNfuT5KX+6JdIy7j
-QpmD31w3bceSq0UIuVBudEXXCygjHP/ctHcto5tL4ptQec1pHe30r0FuBLOrdzfS2K7jGTVm7pVu
-pSJu1YeT+L4/pNGcRRCQwkLjvziNB2QE4PNb0FWPBJFYeQFUXWyc/PeOW7/U7vvgXpkRKcpb7wre
-oUO61eu5VPToaiavei3DhGzDzR/kExgM52uKJfEE7OgMBAgCyBxkrZljFT9p7M43k/fvW3mkGzk8
-yWjIci5ta3c7uQ9JQ74HITG+ePREvwozAR7j2a2/Hhyu5s5r4tJdoWTKZFcG5LEUQzrSDWtRTDoq
-3lUY4vicZCnJhsRoVBUQt4qxW4TN9FLd1cYjU2tCe6u9E82klw9rLKEGEEhLV9Y5RO+dj2hmfbpG
-75tmaNxmVgmwxPC5KhRh15Q7/k+RI2DmtVuu5HcKkdi+S2oAbbWF0eo3cX1R13ImHTFy6BH02s51
-NunbiPUoSgkdhYZuHiU/MWGU3GLc6jA+c5vt6CahMmgwCniuz6EKWlYmfv63pLdbaZ8djF1L9iOk
-4g6Xefo70K6Y8EWpaD7paZWsucB0tzlsP2zn6p33ybfXy0VwXORayiE/WOh3OPL11NzwGtLnoBoy
-VOw=
-=JRwr
------END PGP SIGNATURE-----
-
---GrNnU5D5uTGekbkZivtLPtTs6QuxygdRY--
+>
+> /Jarkko
