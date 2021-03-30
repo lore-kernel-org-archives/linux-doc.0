@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB579C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:07:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38CB2C433E1
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:07:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9C6996198A
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:07:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F107561996
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:07:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231787AbhC3JGk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 05:06:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59946 "EHLO
+        id S231667AbhC3JGm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 05:06:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231622AbhC3JGJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 05:06:09 -0400
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66E0BC061762;
-        Tue, 30 Mar 2021 02:06:09 -0700 (PDT)
-Received: by mail-qt1-x82b.google.com with SMTP id g24so11379564qts.6;
-        Tue, 30 Mar 2021 02:06:09 -0700 (PDT)
+        with ESMTP id S231697AbhC3JGO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 05:06:14 -0400
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F10FCC061762;
+        Tue, 30 Mar 2021 02:06:13 -0700 (PDT)
+Received: by mail-qv1-xf2d.google.com with SMTP id q12so7770513qvc.8;
+        Tue, 30 Mar 2021 02:06:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=CvzI94r9LiC7RH+dtcaRZqda/Y720VadPnKc/47pvNM=;
-        b=R5PUWdERG+RkIKWxog/OwoHO5kXT1/1TlXkHhb3aLxDwHrGIsXYqKYLOS4HpzvjMeI
-         SLJJ06ttW25PdsqtX+CXByEAMhTtGk7tgvyocRjXEJnCcTD12ijROBeYC4FucKjuHB/E
-         IgpJOFD+hLyRkuv0Ey5DurWKSokHx4RcljxJrCRHPSXYbNWgDyvIhXGwOTl0IugQNdem
-         lS5G86JTzLvcePdylQe3NG+ZOdem5sY791uiYtTBzg/8v6wqXcXUuOFj+JWxRbduO2B/
-         vJbW4yUno7gduLt2Fw4CU6FQrjZylzprzcLrWi4t3TMGIyxvIb8uroenBzxK2uDwSHqQ
-         ZsTA==
+        bh=W8+A/g3U4DodIE6llQ+hDjB/HFXop9Ja1bxfrVH/yAg=;
+        b=LDQ5ryqtA8+D9rvRlvwrCBUAU0iQ3DGAgoZZqK1NpuLn97qOrBSIzELw0Lsk4PMh2J
+         YPn3tbyXz1dWsFW41ERB1doJxXDTcAysZ0esZ0I3qoCfOpUiwCsTX5Z4tp/84rn3gU79
+         RlZO9tKkbm5VXJ12j0r2R/fKiMQsAa/yGzbwXdZOyrVXUynjeeHkQbZC7mF394hdcQzw
+         INvk6RcEvBT4xIvknE4BhG6uXMRYYQ9vrUAMEsi3V3sEHZzu4sRIY9qfZJu5SQ7BeJ8n
+         Mriq6Cz5bTN9w4gnkyA3HqDv747mIwXOMBPhPGIg7q1qAifafpDFT2drWLnccC8ERrT6
+         dpJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=CvzI94r9LiC7RH+dtcaRZqda/Y720VadPnKc/47pvNM=;
-        b=ihOhrqTh017IRihblTmOkhJ/8Zk4o+uG56StqF/v6yzUuv0Bu/kr72BtvEwckokj3K
-         dtHFdf8b/O5rIjP133nRFu/VGvbOnoLgZsX5Ms+B1CIYzLwHT8X5QoJL5+1pIA+G9oNo
-         ZMozE3UnkrP96mE4Xzl6EwdC2kOrcrOCoAhaCVSK71saF/IzgICgPw8TcfzGQTDxr9wu
-         S2Ei2VgN3UZXW5kefgq0QSAvuPvEDV+/42AhChb0foGsJJBX4nW/bD3ubQjC9Bx1wCjh
-         64Okl2OWbvuvUBXMIfvjBTWMR/xmkUr+QFeU8fI9pTrmvHhF2SXNUZ0PVsGh8gVyGRtw
-         dAQA==
-X-Gm-Message-State: AOAM533p6BWNNkd5GarN+f5lTAZfYNTFjRRTKkatHbaHEQvnosN+1/Gv
-        c5i5n93mT0p5pQl8lOphvco=
-X-Google-Smtp-Source: ABdhPJw/fcEzbKkgvJDaEm+Jful1mHeW1N2jv4YLlOgs/xUbbkQnP+Cj1nNonnxoZvS68qpQvVPZlQ==
-X-Received: by 2002:ac8:431e:: with SMTP id z30mr26040963qtm.216.1617095168611;
-        Tue, 30 Mar 2021 02:06:08 -0700 (PDT)
+        bh=W8+A/g3U4DodIE6llQ+hDjB/HFXop9Ja1bxfrVH/yAg=;
+        b=Z3h5Cs3VQa+9T+n4TxUzMDSb82PBfEEsC5Z8GqXBG8wJ6/fL8NZy437UY0qN3pL83w
+         nz90fTllTW8xrpr1zIp3cSLknZ98C0RnuJcRRuEfH41fn++HdI4zRwc6+n5IGtlEIaFW
+         oiOT5Vu5d3lEa9GgQFVnyVbJzbV1wykF8amVJNkVF/iNLwRGtVyWac0XG8WQxdqzNOcS
+         m/Zeg9Rq6LDppmlJ3j4WXIowonnEWjgRAiXASTgSyyae3m72BU57IJT7w67myjLBrkj7
+         9gpaClOoTbS2UxEuLzG/QEqJpCFT6c24Ionud7Tvcw8EE/cG91FPZqxZuHEGSzGqf00E
+         YDbw==
+X-Gm-Message-State: AOAM533i1JjbSBAB/pYKTWOINOtLB10m3VUzrclWG6gtcXO8Q/txQ8v4
+        xN16iIaAEo8Ch8zDxmJtZ8k=
+X-Google-Smtp-Source: ABdhPJyRjGTqSUKlNYgNG0XLD2eSfgVel59IOpaSZRQui14bQKl5x8NUFOtRE5FhU9EtAvVW+YI1+w==
+X-Received: by 2002:a05:6214:906:: with SMTP id dj6mr23121183qvb.38.1617095173219;
+        Tue, 30 Mar 2021 02:06:13 -0700 (PDT)
 Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id 8sm14630011qkc.32.2021.03.30.02.06.07
+        by smtp.gmail.com with ESMTPSA id 8sm14630011qkc.32.2021.03.30.02.06.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Mar 2021 02:06:08 -0700 (PDT)
+        Tue, 30 Mar 2021 02:06:12 -0700 (PDT)
 From:   sj38.park@gmail.com
 To:     akpm@linux-foundation.org
 Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
@@ -71,9 +71,9 @@ Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
         vdavydov.dev@gmail.com, zgf574564920@gmail.com,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v26 06/13] mm/damon: Add a tracepoint
-Date:   Tue, 30 Mar 2021 09:05:30 +0000
-Message-Id: <20210330090537.12143-7-sj38.park@gmail.com>
+Subject: [PATCH v26 08/13] mm/damon/dbgfs: Export kdamond pid to the user space
+Date:   Tue, 30 Mar 2021 09:05:32 +0000
+Message-Id: <20210330090537.12143-9-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210330090537.12143-1-sj38.park@gmail.com>
 References: <20210330090537.12143-1-sj38.park@gmail.com>
@@ -83,94 +83,76 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit adds a tracepoint for DAMON.  It traces the monitoring
-results of each region for each aggregation interval.  Using this, DAMON
-can easily integrated with tracepoints supporting tools such as perf.
+For CPU usage accounting, knowing pid of the monitoring thread could be
+helpful.  For example, users could use cpuaccount cgroups with the pid.
+
+This commit therefore exports the pid of currently running monitoring
+thread to the user space via 'kdamond_pid' file in the debugfs
+directory.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
-Reviewed-by: Leonard Foerster <foersleo@amazon.de>
-Reviewed-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 ---
- include/trace/events/damon.h | 43 ++++++++++++++++++++++++++++++++++++
- mm/damon/core.c              |  7 +++++-
- 2 files changed, 49 insertions(+), 1 deletion(-)
- create mode 100644 include/trace/events/damon.h
+ mm/damon/dbgfs.c | 38 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
 
-diff --git a/include/trace/events/damon.h b/include/trace/events/damon.h
-new file mode 100644
-index 000000000000..2f422f4f1fb9
---- /dev/null
-+++ b/include/trace/events/damon.h
-@@ -0,0 +1,43 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM damon
-+
-+#if !defined(_TRACE_DAMON_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_DAMON_H
-+
-+#include <linux/damon.h>
-+#include <linux/types.h>
-+#include <linux/tracepoint.h>
-+
-+TRACE_EVENT(damon_aggregated,
-+
-+	TP_PROTO(struct damon_target *t, struct damon_region *r,
-+		unsigned int nr_regions),
-+
-+	TP_ARGS(t, r, nr_regions),
-+
-+	TP_STRUCT__entry(
-+		__field(unsigned long, target_id)
-+		__field(unsigned int, nr_regions)
-+		__field(unsigned long, start)
-+		__field(unsigned long, end)
-+		__field(unsigned int, nr_accesses)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->target_id = t->id;
-+		__entry->nr_regions = nr_regions;
-+		__entry->start = r->ar.start;
-+		__entry->end = r->ar.end;
-+		__entry->nr_accesses = r->nr_accesses;
-+	),
-+
-+	TP_printk("target_id=%lu nr_regions=%u %lu-%lu: %u",
-+			__entry->target_id, __entry->nr_regions,
-+			__entry->start, __entry->end, __entry->nr_accesses)
-+);
-+
-+#endif /* _TRACE_DAMON_H */
-+
-+/* This part must be outside protection */
-+#include <trace/define_trace.h>
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index b36b6bdd94e2..912112662d0c 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -13,6 +13,9 @@
- #include <linux/random.h>
- #include <linux/slab.h>
- 
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/damon.h>
-+
- /* Get a random number in [l, r) */
- #define damon_rand(l, r) (l + prandom_u32_max(r - l))
- 
-@@ -388,8 +391,10 @@ static void kdamond_reset_aggregated(struct damon_ctx *c)
- 	damon_for_each_target(t, c) {
- 		struct damon_region *r;
- 
--		damon_for_each_region(r, t)
-+		damon_for_each_region(r, t) {
-+			trace_damon_aggregated(t, r, damon_nr_regions(t));
- 			r->nr_accesses = 0;
-+		}
- 	}
+diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
+index 02b27be9187a..aec2b7d81809 100644
+--- a/mm/damon/dbgfs.c
++++ b/mm/damon/dbgfs.c
+@@ -237,6 +237,32 @@ static ssize_t dbgfs_target_ids_write(struct file *file,
+ 	return ret;
  }
  
++static ssize_t dbgfs_kdamond_pid_read(struct file *file,
++		char __user *buf, size_t count, loff_t *ppos)
++{
++	struct damon_ctx *ctx = file->private_data;
++	char *kbuf;
++	ssize_t len;
++
++	kbuf = kmalloc(count, GFP_KERNEL);
++	if (!kbuf)
++		return -ENOMEM;
++
++	mutex_lock(&ctx->kdamond_lock);
++	if (ctx->kdamond)
++		len = scnprintf(kbuf, count, "%d\n", ctx->kdamond->pid);
++	else
++		len = scnprintf(kbuf, count, "none\n");
++	mutex_unlock(&ctx->kdamond_lock);
++	if (!len)
++		goto out;
++	len = simple_read_from_buffer(buf, count, ppos, kbuf, len);
++
++out:
++	kfree(kbuf);
++	return len;
++}
++
+ static int damon_dbgfs_open(struct inode *inode, struct file *file)
+ {
+ 	file->private_data = inode->i_private;
+@@ -258,10 +284,18 @@ static const struct file_operations target_ids_fops = {
+ 	.write = dbgfs_target_ids_write,
+ };
+ 
++static const struct file_operations kdamond_pid_fops = {
++	.owner = THIS_MODULE,
++	.open = damon_dbgfs_open,
++	.read = dbgfs_kdamond_pid_read,
++};
++
+ static int dbgfs_fill_ctx_dir(struct dentry *dir, struct damon_ctx *ctx)
+ {
+-	const char * const file_names[] = {"attrs", "target_ids"};
+-	const struct file_operations *fops[] = {&attrs_fops, &target_ids_fops};
++	const char * const file_names[] = {"attrs", "target_ids",
++		"kdamond_pid"};
++	const struct file_operations *fops[] = {&attrs_fops, &target_ids_fops,
++		&kdamond_pid_fops};
+ 	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(file_names); i++)
 -- 
 2.17.1
 
