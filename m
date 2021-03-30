@@ -2,101 +2,212 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44711C433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:06:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F32DBC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:16:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 09B33619BD
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:06:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D335D619B1
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:16:26 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232523AbhC3VFf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 17:05:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46846 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232492AbhC3VFd (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 17:05:33 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D3EFC061574;
-        Tue, 30 Mar 2021 14:05:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=n6MY9RJyc519hB+O3xAcfsPoosUq/Ub7s3jI4orlYqg=; b=DGMpjjZdEM899ZiaIkxW/6v/64
-        LKO23qZZwq5b7yd2zn8sTHoVyQMSEdX3+LFh/A6Y1bzYh1oN82dXRe3tqL3duDQAXVl1B3Y3/af/o
-        7oi9QreFC2VfPwvG4vKkX49lTwYSLNfBaXSSdOjZxEyKXwaTKzAEgIwp2R2Wc/fjjU3ifUpXUNmUr
-        06KP2XDCy+ufVBIuIcl2uxbOvrodIeFTrDPzDRZqpoBkB81BtBIX83eqyw/L2pH0ezHQwSisj+L4j
-        g6obsVdTQY+srFsKrkMPB2+fKxPdXw3MmMavevyTCCDcT/FP2ueEZtpc/aMHS4pgPv0dW3lX7uP43
-        ctyMm7TQ==;
-Received: from [2601:1c0:6280:3f0::4557]
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lRLY1-003bdb-Fy; Tue, 30 Mar 2021 21:05:15 +0000
-Subject: Re: [PATCH] ARM: OMAP2+: fix incorrect kernel-doc comment syntax in
- file
-To:     Aditya Srivastava <yashsri421@gmail.com>,
-        linux-kernel@vger.kernel.org
-Cc:     lukas.bulwahn@gmail.com, tony@atomide.com, linux@armlinux.org.uk,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-omap@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20210330205908.26800-1-yashsri421@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <553c1956-d6fa-0540-c3d6-c2aa59d8ccd7@infradead.org>
-Date:   Tue, 30 Mar 2021 14:05:08 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S232495AbhC3VPy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 17:15:54 -0400
+Received: from mail-ot1-f48.google.com ([209.85.210.48]:44008 "EHLO
+        mail-ot1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232450AbhC3VPs (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 17:15:48 -0400
+Received: by mail-ot1-f48.google.com with SMTP id m21-20020a9d7ad50000b02901b83efc84a0so16886379otn.10;
+        Tue, 30 Mar 2021 14:15:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4vChBJJ6EYanz1jBGjgMMr+PeNDASuUg2ns+WfjA4bE=;
+        b=Y4NdCJdErHKaL02ZuUGc2ZE1hE7jk4HCNXXd+PI46gRdVXlKemjcOUEWnIvNlnYIyK
+         Ct4YyshrTRPqXUayqy4KSqw37z5kPYGrQ93YN9F89gbIyEXdyhA96v1PgXpFb2d8QtiH
+         6Xgtjq8SKtcQrONkPcswltGHJ1/k043SPK84fDFhdkaYpqiZvtqidiigsPP6SSILnYGP
+         wb16v8OXdzs3kxZTb3cX5FAFSTX4h0zEANlkTGqttLX9Zl1Hi+6EWwrjRBi/Tj//2s3V
+         armZ7WbxKk0yxjASiBBhcR/VnWw4XDRmIQAk8J95i/r7xsaGcHe4Lx+ygCx6I0ajCitn
+         zCrg==
+X-Gm-Message-State: AOAM531fWlprwUXDfjRIx3fqm/ABvC3VjjLTMMut3oC7blWBZ46n01dS
+        GCAf9r1uD7Ehl8dmZhwqZw==
+X-Google-Smtp-Source: ABdhPJz0LTLMITQ7Y8/X5B6FbMkC38+yfV0Tx1qBMnvJjdAy8X4mInt+GzTPko2+l4MglZX/rGRzRA==
+X-Received: by 2002:a9d:171d:: with SMTP id i29mr28517424ota.294.1617138948168;
+        Tue, 30 Mar 2021 14:15:48 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id j4sm15914oom.11.2021.03.30.14.14.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Mar 2021 14:14:51 -0700 (PDT)
+Received: (nullmailer pid 729378 invoked by uid 1000);
+        Tue, 30 Mar 2021 21:14:44 -0000
+Date:   Tue, 30 Mar 2021 16:14:44 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Quan Nguyen <quan@os.amperecomputing.com>
+Cc:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        openbmc@lists.ozlabs.org,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: mfd: Add bindings for Ampere Altra
+ SMPro drivers
+Message-ID: <20210330211443.GA326528@robh.at.kernel.org>
+References: <20210329015238.19474-1-quan@os.amperecomputing.com>
+ <20210329015238.19474-2-quan@os.amperecomputing.com>
 MIME-Version: 1.0
-In-Reply-To: <20210330205908.26800-1-yashsri421@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210329015238.19474-2-quan@os.amperecomputing.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/30/21 1:59 PM, Aditya Srivastava wrote:
-> The opening comment mark '/**' is used for highlighting the beginning of
-> kernel-doc comments.
-> The header for arch/arm/mach-omap2/omap_twl.c follows this syntax, but the
-> content inside does not comply with kernel-doc.
+On Mon, Mar 29, 2021 at 08:52:35AM +0700, Quan Nguyen wrote:
+> Adds device tree bindings for SMPro drivers found on the Mt.Jade hardware
+> reference platform with Ampere's Altra Processor family.
 > 
-> This line was probably not meant for kernel-doc parsing, but is parsed
-> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-> causes unexpected warning from kernel-doc:
-> "warning: wrong kernel-doc identifier on line:
->  * OMAP and TWL PMIC specific initializations."
-> 
-> Provide a simple fix by replacing this occurrence with general comment
-> format, i.e. '/*', to prevent kernel-doc from parsing it.
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
+> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
 > ---
-> * Applies perfectly on next-20210326
+>  .../bindings/hwmon/ampere,ac01-hwmon.yaml     | 27 ++++++
+>  .../devicetree/bindings/mfd/ampere,smpro.yaml | 82 +++++++++++++++++++
+>  2 files changed, 109 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+>  create mode 100644 Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
 > 
->  arch/arm/mach-omap2/omap_twl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm/mach-omap2/omap_twl.c b/arch/arm/mach-omap2/omap_twl.c
-> index a642d3b39e50..d4dab041324d 100644
-> --- a/arch/arm/mach-omap2/omap_twl.c
-> +++ b/arch/arm/mach-omap2/omap_twl.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-only
-> -/**
-> +/*
->   * OMAP and TWL PMIC specific initializations.
->   *
->   * Copyright (C) 2010 Texas Instruments Incorporated.
-> 
+> diff --git a/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+> new file mode 100644
+> index 000000000000..015130a281f4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+> @@ -0,0 +1,27 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/hwmon/ampere,ac01-hwmon.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Hardware monitoring driver for the Ampere Altra SMPro
+> +
+> +maintainers:
+> +  - Quan Nguyen <quan@os.amperecomputing.com>
+> +
+> +description: |
+> +  This module is part of the Ampere Altra SMPro multi-function device. For more
+> +  details see ../mfd/ampere,smpro.yaml.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - ampere,ac01-hwmon
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +
+> +additionalProperties: false
+> diff --git a/Documentation/devicetree/bindings/mfd/ampere,smpro.yaml b/Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
+> new file mode 100644
+> index 000000000000..bf789c8a3d7d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
+> @@ -0,0 +1,82 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/mfd/ampere,smpro.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Ampere Altra SMPro firmware driver
+> +
+> +maintainers:
+> +  - Quan Nguyen <quan@os.amperecomputing.com>
+> +
+> +description: |
+> +  Ampere Altra SMPro firmware may contain different blocks like hardware
+> +  monitoring, error monitoring and other miscellaneous features.
+> +
+> +properties:
+> +  compatible:
+> +    const: ampere,smpro
 
+Only 1 version of SMPro? Needs to be more specific or provide details on 
+how the exact version of firmware/hardware is discovered.
 
--- 
-~Randy
+> +
+> +  reg:
+> +    description:
+> +      I2C device address.
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^hwmon(@[0-9a-f]+)?$":
+> +    $ref: ../hwmon/ampere,ac01-hwmon.yaml
+> +
+> +  "^misc(@[0-9a-f]+)?$":
+> +    type: object
+> +    description: Ampere Altra SMPro Misc driver
 
+Bindings describe h/w, not drivers.
+
+> +    properties:
+> +      compatible:
+> +        const: "ampere,ac01-misc"
+> +
+> +  "^errmon(@[0-9a-f]+)?$":
+> +    type: object
+> +    description: Ampere Altra SMPro Error Monitor driver
+> +    properties:
+> +      compatible:
+> +        const: "ampere,ac01-errmon"
+> +
+> +required:
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +  - compatible
+> +  - reg
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        smpro@4f {
+> +            compatible = "ampere,smpro";
+> +            reg = <0x4f>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            hwmon {
+> +                compatible = "ampere,ac01-hwmon";
+> +            };
+> +
+> +            misc {
+> +                compatible = "ampere,ac01-misc";
+> +            };
+> +
+> +            errmon {
+> +                compatible = "ampere,ac01-errmon";
+> +            };
+
+None of the child nodes have any resources in DT, so you don't need 
+them in DT.
+
+Rob
