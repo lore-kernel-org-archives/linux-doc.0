@@ -7,67 +7,67 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B0D6C433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:30:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D31FFC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:30:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6EFBC619B1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:30:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AFF3A619B1
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:30:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232492AbhC3V3h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 17:29:37 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:52270 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233283AbhC3V2l (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 17:28:41 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULP4EC145279;
-        Tue, 30 Mar 2021 21:27:40 GMT
+        id S233250AbhC3V3f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 17:29:35 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:43838 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233273AbhC3V2j (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 17:28:39 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULQVT2012650;
+        Tue, 30 Mar 2021 21:27:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=GZb4CKpxRwLNdd15u2UORaRNMHAWzMb1KyTaA8tHhy4=;
- b=mqRWvebD0I6wpyEJqjoYSO8ruKRCQ2WYAgSR7o2rieUPFL73AlwFyiDhp+Nsxokp/Imh
- 3ncEXPYbHcwOEDa6ZxM6IoocCjFw7GEQmCupqbf1xG7Ts+L7Xpj/++kRQ5KDYM8TCk7c
- 5BzUa/PyACJGKlUxAASVTzHrOX3nM97c11OWl9J7QRTv73MeVL34bWOIcndQvpxJ4Xai
- i3c8GfmK1bEIV+A7Ex/DNmb+fvkZEbzSJ6ra00Mjlv0SA3zyt+noK95y8xoB98TU+y8D
- MpQRWK9BUamAmjF1aI+vNp/FQ7f4FiKVHK/Ic457Kh0liVFRyyuFWGvgD4wZtRrxvJPu vQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2130.oracle.com with ESMTP id 37mad9r8j8-1
+ bh=gS3vG8u54ctfaUP8I95zzdfhlydj+cI0QRKyrDCE0ws=;
+ b=l9/qd24WwoIYMhviHj746zW45j6qpTni5G2PFlQljJsAJQMHI267hETuOWCshulFzamF
+ lGiJghFbqjix/A1hs6gB2QSqIlpQ45omznFDBU4E4qsI+1UjAhlLoa2btoSxG+n720Am
+ zarrDxsb8kU4HyaD+hlSlYMLLpiSz0AvOkpYXDmMYK1/caiWCdDw7sgLzJobrMhe7tQE
+ v9aOxUWV/TLZa/Yag+R4L2q83nANkQFf4FLKV+SNobY4pEnu56UfBo+2QNsNyZphbbU/
+ pjvIHdeC3tr1JS6T+LaVelatrCwnYV5ArY6ZRfm2P83zuu5aB0MhpSAaXbS8+toQaNlW BA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2120.oracle.com with ESMTP id 37mab3g90v-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 30 Mar 2021 21:27:39 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULPRHc105743;
-        Tue, 30 Mar 2021 21:27:39 GMT
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2042.outbound.protection.outlook.com [104.47.66.42])
-        by userp3030.oracle.com with ESMTP id 37mabkbd9u-1
+        Tue, 30 Mar 2021 21:27:50 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULPZ71125105;
+        Tue, 30 Mar 2021 21:27:49 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2048.outbound.protection.outlook.com [104.47.66.48])
+        by aserp3030.oracle.com with ESMTP id 37mabnk883-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 30 Mar 2021 21:27:39 +0000
+        Tue, 30 Mar 2021 21:27:49 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=cpI7jMc0Uc59Tx4VVJWOS2ZbVjg+g6Bei4PNGcCGVu1f60bEPUiIy9pQnk/QCq6OmrM9o8/uY4d+D0Mqx29mGsTXS3e+mpwi8fEroLtqn+1DYlBMMlSRRTiRutfmiA2sMATCAacJgBuGIhBZqBzTxKFUQPsanblezIsvTkRSm+ke21WpKLDw2mZavGjrSYjf6jvpI9+7m3cAapcy+aA54C+RtLf70N+aCdMG0mBk5ZODiURD8JiaSciPIxzrOh6kdNvNVrpv5hH6Re41oOz5feWiXSjk5TX5URnD097KxZvnnxhNmUR+lpVx6Jwhrv3umsZsRCME3XiSVMIm7+QaJQ==
+ b=VAd6h5Z8farIW7kDvlo1a7/fvIoPKXulEQNKGhoAPoeylt/6D8ShfZu5P1bSd/VRIq+vzacPxxdIsyKt3w2E1X6n6WhkNMe1RjdIdtimtuus6cjVRdA+VcHeGXDv0w0PebQpiwt6cVocNi5DrvL/SWda+EILLVrhEM8dpRHkExFGZI9dluICPHLk0pUOIC/yqfUi42czPW87w6Nf8BD4iFn7oCY2ezpoiHFdyo5TPsKaadwz8mK/PTA29v6zXequhdHfIBE2b1i5Mz6Iyoo62S38+xUgdBS5iv4V0eB18d3TR7RP16YA4kQErdPXeP+KIB8lzKadq9ln2DI0Wt7vSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GZb4CKpxRwLNdd15u2UORaRNMHAWzMb1KyTaA8tHhy4=;
- b=IIWNU6qCAlygsm08rB+7/Ed+wSdU8SaGDu0nAfL2YEQNtCl4Su0qfoNc2ebopyhguXHBMF+zaz0K8BY9Z0Wx6T13JXnRp6XmvwMqQAxx3gNG/fZ4Lygmid8D1ZExaWKI2KwhuxiOMcrnwyYsKEnN8qYmGk1TZjAecFVL+rq+Cr0lis1PeLD8v0QRR+6ldCxklJT2GceMVTA6VjrG9XJhxgzkJC/hbuz53iiuiDVY4opV5j2yyWgfMvpOxmw8snAvZ8rpXlkDornU5tCEvXZ3sCMPabp7l9jvo/3CfoliYRR5DoBAO4XPFvM5cHDERMJZBQwrWK6+bgIcSfWoOxa5jA==
+ bh=gS3vG8u54ctfaUP8I95zzdfhlydj+cI0QRKyrDCE0ws=;
+ b=W3gBoiyDJsgDaLBnjxqiPaTLiYr8rCCs0iipNoez3XDnBSJyTGc7r6JEdCIUdJR1iRiS8kBnYQu10joa3d58k2icJ7zT/kNVBM0qlTQ/zS94lcgpu2ynNr8+YlEKfzaqaV5dafMmxr4f3QQEXjsiWfK9RSeX3GK456ZVWMxrJDJbjmv+Pp0cOUSH1V3LmHbm8iX2aS4Rcdzq8SEddk65KsU2N/Hw43t3wxlqI47oDYRgR6/83amvMxlRckrC5qXAkuxdGoOccSdfMaUuvCc8+gBTN+vhnskyHpOZmU1pvnemudJblWLdtI6DA7/ulLaVevv1CyOlGfk5HHksdcVylg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GZb4CKpxRwLNdd15u2UORaRNMHAWzMb1KyTaA8tHhy4=;
- b=KVzuITmvTMKqMWq2Lo+tOy0nMXa2xnpi41r3QpF0KuC2KazTOpaq+v1JfCTX53FH1PkZylSkDeqkKoTkJ26MMNz3oZy09Pf7M6OBCuXXVkzRCE88PJhAaPg+yJE7qgoYf29jVeYKP6iiqI2R+VqA8A7ioRwgqdycdOtQzJ57EKE=
+ bh=gS3vG8u54ctfaUP8I95zzdfhlydj+cI0QRKyrDCE0ws=;
+ b=n2zYWj00cHRvDyzUsHQTGNpAKlMYE6MzjWqfxjY3AYSTnb+o2vk05eDG3PNZUnjiDITlrkCu6MJ1Q04rQXAkB0in1/nbsRxe2YI+JeNsE8UbnIb5rZ71uwvJ53g4qAA+FhP68KMBgpNY6sbrgjqa+JL+yprbXuDEe6XPWj/IoOo=
 Authentication-Results: kvack.org; dkim=none (message not signed)
  header.d=none;kvack.org; dmarc=none action=none header.from=oracle.com;
 Received: from MN2PR10MB3533.namprd10.prod.outlook.com (2603:10b6:208:118::32)
  by BLAPR10MB5265.namprd10.prod.outlook.com (2603:10b6:208:325::6) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.26; Tue, 30 Mar
- 2021 21:27:36 +0000
+ 2021 21:27:45 +0000
 Received: from MN2PR10MB3533.namprd10.prod.outlook.com
  ([fe80::cc79:c40e:430f:e254]) by MN2PR10MB3533.namprd10.prod.outlook.com
  ([fe80::cc79:c40e:430f:e254%4]) with mapi id 15.20.3977.033; Tue, 30 Mar 2021
- 21:27:36 +0000
+ 21:27:45 +0000
 From:   Anthony Yznaga <anthony.yznaga@oracle.com>
 To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
@@ -88,9 +88,9 @@ Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
         lei.l.li@intel.com, daniel.m.jordan@oracle.com,
         steven.sistare@oracle.com, linux-fsdevel@vger.kernel.org,
         linux-doc@vger.kernel.org, kexec@lists.infradead.org
-Subject: [RFC v2 36/43] PKRAM: add support for loading pages in bulk
-Date:   Tue, 30 Mar 2021 14:36:11 -0700
-Message-Id: <1617140178-8773-37-git-send-email-anthony.yznaga@oracle.com>
+Subject: [RFC v2 38/43] mm: implement splicing a list of pages to the LRU
+Date:   Tue, 30 Mar 2021 14:36:13 -0700
+Message-Id: <1617140178-8773-39-git-send-email-anthony.yznaga@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1617140178-8773-1-git-send-email-anthony.yznaga@oracle.com>
 References: <1617140178-8773-1-git-send-email-anthony.yznaga@oracle.com>
@@ -101,152 +101,201 @@ X-ClientProxiedBy: BYAPR11CA0099.namprd11.prod.outlook.com
  (2603:10b6:208:118::32)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ca-qasparc-x86-2.us.oracle.com (148.87.23.8) by BYAPR11CA0099.namprd11.prod.outlook.com (2603:10b6:a03:f4::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.26 via Frontend Transport; Tue, 30 Mar 2021 21:27:32 +0000
+Received: from ca-qasparc-x86-2.us.oracle.com (148.87.23.8) by BYAPR11CA0099.namprd11.prod.outlook.com (2603:10b6:a03:f4::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.26 via Frontend Transport; Tue, 30 Mar 2021 21:27:41 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 24a46131-2667-4eca-bd58-08d8f3c2a375
+X-MS-Office365-Filtering-Correlation-Id: 9026485b-54f8-49ef-2632-08d8f3c2a8ad
 X-MS-TrafficTypeDiagnostic: BLAPR10MB5265:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BLAPR10MB52650E5C2C3AF4C0E7D8D806EC7D9@BLAPR10MB5265.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <BLAPR10MB52650547F47440DD32284542EC7D9@BLAPR10MB5265.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ze00x5J0RiFSrqhD7dupwIb+f6ZKYyOFV3N+LvLIFVqoCG1dITM/qHKqfghXQhMPt2/79wPVTt+lO8/Ynb8OzkFMRLyDu/gsgPXhZn0pjTqik8J1WPHbIV8bnArwxDmdMPXQxSYhWpsuPY7wRp1+n02JgF4JTy/stdbxFAM++zsGOxyacPB7ceI2Gd5DX9fP8LfmeHwJSCLw8u/vpQ5LibS6E9bv6PzZ47O/+8i5RWLHuQPO1o5Plhz+uj1lQCAfR4cENh9T6On9zI4DHXbhH4c44s2DBAum36WW9LZ5NlY56QFxRvMlvxRA6AQVcEsBCF3rk5TRCcNi1eyNMBqKBOA3qQpUH/CYpe6EM3yIY1DwwtMI4iUey7Hznq4K4t6fFeCAlEyai92iknWRG046ZuaUVklZsNkIfTBRUWCcXXaaXTJRYieopK7IOi6ku2YcoGc4adyNaWKfzAahM8uHv2oBDWtgAml5M3xMu3xOIXR2Q/uUvjt9SjMwEHPRNj9dqZMTOsJNJYtV3a0TuzlBVsOxfY2rCcSToTdZkeEAm/k14zMZsL86rN6Ta598k6GTCPAnr5N2TCVJt8sfauwtyRWy2up0wXNQ00uuOgtRWNBIsflyazJ1z2Shh26JgVNeAXN/t0In/58pGJhVDM3nqg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB3533.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(396003)(136003)(346002)(376002)(39860400002)(26005)(956004)(52116002)(186003)(38100700001)(36756003)(4326008)(8676002)(44832011)(2906002)(316002)(66476007)(2616005)(7696005)(478600001)(8936002)(86362001)(6666004)(83380400001)(7416002)(66946007)(5660300002)(16526019)(6486002)(7406005)(66556008);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?KVjdA1n0AV1WT4Gc9zYDX932WmIDW4OxC/dMk1b/ZEo+yW8GNbJDQvCV6tML?=
- =?us-ascii?Q?DtUew+84kmjj5HhojABgL6+TDMD7YJAuW3n//FUkmuJLmZW5u2N/7o+NPm75?=
- =?us-ascii?Q?GeAa+CpcebQ2cdbQD199rfWBWlnwiQaATF4SuatK5wYwPRxTSD/vrcqUoD9Z?=
- =?us-ascii?Q?IFjp6Nuf93nLuCswGwSPrbB7OflpfaFX982uOV20KyWViUT4YnA+U8P79Ve4?=
- =?us-ascii?Q?BMuka/qm/pKbKaEhr7JwsNeiJvRA6asuosOeK+UoZW0KIIdnK6adCVjjozji?=
- =?us-ascii?Q?d6q5xcCkG2EFsaebyUk8tSoT8Dk0xXFcEb/YHnPZcA4NY8KVPb2ZGjCzh7Td?=
- =?us-ascii?Q?ha0jYkgnDt6DNOQrHodneKPmNA/kIb2HJ2JdQbW6mBFzOJYsttuI6T5ycoi1?=
- =?us-ascii?Q?1CQo7M5vuNPRSpFdEvSwqmA0kuk1qsGircgPfSGx1ohTvD3CWgrPdYwkCZKV?=
- =?us-ascii?Q?jw8fu1O41DWQh62ncYcdprsSBDhYj9Gxgwu+KVqUiSIVle4TKJ6ob4KvkO8S?=
- =?us-ascii?Q?9crINQS7rXkUK3IjIUI2Wtn7CU2NsLOAud7wiWKFx/usrU8vDFcyM/AeS/e4?=
- =?us-ascii?Q?5s4nmAwAuWmv2k00frGZPNksMEtZEgouHGhio2ZFxzhrMnoZCLfJBZmGe4JZ?=
- =?us-ascii?Q?N3vej2zQRg38Gu9R4G9h+D7SxStNZFaUPD7rpLSOf97r2WmwhBPHD1VIFJAk?=
- =?us-ascii?Q?p7m1ux5PiLKqNTgT50KaxS0Mv2jiPRMEYVK/wxaHY8rhQw1MYTqjSoE7qTwL?=
- =?us-ascii?Q?Ev2jRurgEOFZPfyugayEFHqZjbo3Yj12JX3d9+rTLB9D/9dffGT+TY14JRij?=
- =?us-ascii?Q?El65CiYpmAXmJr7M0nW6xyJZPNY4sIQsza8pleSSuJqrPfjlVshPHeDpvuAn?=
- =?us-ascii?Q?AlBEhVPyp8hpCnWt2ZHvl61WSbkf+XzG+snAWxLq0jiyJ8doMPohYllsfbk8?=
- =?us-ascii?Q?E2+WPX12txBCTt57216AD6NBXRsWlauux5fuCcfL2Hg+aQOKht/ClaQ7v4xT?=
- =?us-ascii?Q?KA9LHiP1FUQgmcS70yP2sRnytA175oSK8pm4vRTdkxFxnzzI4uXrkZ/sHMqb?=
- =?us-ascii?Q?38fcyi9f0d3Yikp1d69ONwJs7rRkbWnV9SH5lJbUlS7VOxXdswwezJGvgRVs?=
- =?us-ascii?Q?rVYQMNHcGgdjJrTcm2X4JFcYMn2sk5h4dbQKk4nb/jrkoiIvp+UagRkfxSrr?=
- =?us-ascii?Q?945MLY6rKAIHUaS5GMSEEUpHVpQegmX15nvR8fUik4Jno/r1c4yeSbkF9WUW?=
- =?us-ascii?Q?w4gHqw/GDdUGA+OLrgoDR7mhkrvv9K8I45ZaQ3qSS9jCfcnMzXdvjsJUS8cO?=
- =?us-ascii?Q?VU/SC49yk4Y14ziK3Hxzuc3P?=
+X-Microsoft-Antispam-Message-Info: MnJIItaxKp8tjkoUCon9IrN3svugaZizax9s/07rSN3Loi1o/JHCIgto+muTPLCjJ3njqBuPFvA9qX4jlAeOScVoTWvwpveaNWXjSdVvIR2fhZqL7AhOipCJEcbq6PvsuIgYdVWj97F9aChT5pLnUKjQJl9gVk7ZcHVwDEkssMsxHkzxch0Z8AWYC+qV+zWni1f8wXOYJgan6ezXHxHp5xKpe6UGkzXky9etBiM7FwCv4M2gEeKUKNvaqjJPEyA2ElmYLJ1doNzNKjgc4Pongl2h1YYTeOUGA68Y9e9ayYCX0Fb8XS3HexELXgXGyPT16FTWQmhQuaBJ/deQuAQ2JHQYsQ9m3JcPmFiwuwlYpXsqX2iXwq6uQ0g4JjnPXEUkqEDGuXEeCNHR161S9Ho5macfM+xW5aTaFHM0p5VjrCUrcoZJiKyscR2MN4SFuY+BnPqemH2+SJauMFUcY70PcYhWNCLG4NLnE6Jegq5sXCDyay0wOv/uUx+x0+JrX6euyrcNFrhgQpaO0mzZpLp0jXp/RNe58m2547AenwKQcIQpxfmviTrnuu83/iUIpakGqQrp0PWx59OSlrSICmIMaegcpRCg3+LJk872GdQZOsHv3Ql0Ib/15U5dZuurZfXAl+uY342xs+qL8maSvryLhjHg+rCu4O/nUF6YSHYyXAk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB3533.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(366004)(396003)(136003)(346002)(376002)(39860400002)(26005)(956004)(52116002)(186003)(38100700001)(36756003)(4326008)(8676002)(44832011)(2906002)(316002)(66476007)(2616005)(7696005)(478600001)(8936002)(86362001)(6666004)(83380400001)(7416002)(66946007)(5660300002)(16526019)(6486002)(7406005)(66556008)(21314003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?XRF6Zxwa/GKcSbl355G5fZESpiN3H2ftDoha65OHq9NJvD3YlLMUAdeeOkCw?=
+ =?us-ascii?Q?+/IcLrMEHIlBPiD2OCTvq2TpQEFm5+4q2d2P4qjHt48DrfJkJFuE09XLw2FO?=
+ =?us-ascii?Q?S1Wp4RViPyvlCUYMVutZcbpP9MiWgduCd32Khtuf1RSjMqzMuQw6ZIGlmYee?=
+ =?us-ascii?Q?DaVt3K9+OmAM9qCwSMF/savrp+LkVVRangdqs7vMvrVJXzIbcwKK+/kg4x8h?=
+ =?us-ascii?Q?RtAJP0ZRHW4ADSqMZ1dMhSq6oRDFva90Yg2qCtuLLByOxIftnkHVApC6uJuq?=
+ =?us-ascii?Q?QQFvRhyI9WyMWYBqQadhxvG8rFfDJPuD/idNtcvHklUj/YwN08cEnUfXBKzb?=
+ =?us-ascii?Q?8OqBBzhhdSxFJ1IOWXxtNyS/8hFtaDcCkQn8v4N4woARwjoZHHE1eX9DZhcf?=
+ =?us-ascii?Q?O3tAOcSYFDjGJ4vrksnw9dbTPKUacgNS44pgZqDcUZVt07fOUjKEN+azp6ot?=
+ =?us-ascii?Q?QARG1TZoDX/NxZev2XpkRIwB1QW8GOu0tEqI/JzkceJSeyPM8ZZRwgCk2Hfh?=
+ =?us-ascii?Q?bb7uU5VyxOunlR4UZdzudye4iK3jK0z+/CVXCTNhuS3P7sFbN/QiZV/BYGCG?=
+ =?us-ascii?Q?Y3qIVTuQYJ2AGYnCKbcFg5/toNVWnajGMzMfv2Tl2cc21qXGP4SMV8QKJTbs?=
+ =?us-ascii?Q?Gzg1Sp4jt2QoPhd+WLNVhMNev+cIgGR9FhXT+nLjlvSWlUgrVqeVr1TdyzYl?=
+ =?us-ascii?Q?6/y82sHIgO1FUbxf/rqZ74G/U+lSOi733RYaEpxPTae7GhY+LrrzOqYpZsE6?=
+ =?us-ascii?Q?YoH9NZN70e3a+4cAqULFLxOZWy/ukucW5h3VI5Rns/8E3vPj3x8oyJ2AwvNj?=
+ =?us-ascii?Q?J6ksfw4PUufSChxr1Merp82GjssIH0CHyzQ3MuJ/V37GgqdqKO+1UT4Dn0G4?=
+ =?us-ascii?Q?mi/pftnIHFp3H1m1Qzoga6ZM4EGBiZM7RikSXF5a9wZcBEojtQ9gX5GqW/Wm?=
+ =?us-ascii?Q?KgaPjxZiNwkwXBlNc1/9yOMChOVAOt3ozNvaDzmbTO7GSkVzMiRSUqQLXg6g?=
+ =?us-ascii?Q?pMSLEP3bkVRNo9OFlHvAm8VhZucF/5QFnZEpvkymiLa4fOjGdhCG0G7uz34Y?=
+ =?us-ascii?Q?DC67GAg4m7r9Ge0/rzOaL/Rl3B5/51QB0C9sNajw+pdFKwUQmuzeET3qOSUy?=
+ =?us-ascii?Q?7RZ/WbrTaLLpOJM/TJEQ3ispgqv/YfskDZMYROK1jLHQPHy8Ghx06Zx1IBHg?=
+ =?us-ascii?Q?zWKItn5YZImKpRbpexkdflD0p9bwCYAdcr/bBacmnLAzTDbCd1eOZ4yH+zRI?=
+ =?us-ascii?Q?K/Vox2hqY2dowhafSA6RgS+ArHFOera/yqZIi01vMh7V10xTtoI27/IReVJz?=
+ =?us-ascii?Q?h8yzKdlTI+r5q5D8WldLTscL?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24a46131-2667-4eca-bd58-08d8f3c2a375
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9026485b-54f8-49ef-2632-08d8f3c2a8ad
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB3533.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 21:27:36.6421
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 21:27:45.3579
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lx6J6g8oVLew/mQ8rJaDTzvnXWq/48/0rAOX9+LEMTljwfQjPw5etuyKfCHmYIAB0PMLZzJjvJnqf5wjVmT5chP31MsYhY5/736jHrAzTAE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: KQUtAJogR7awilxkKBv/hFhx7u4AIJt0m6FEuvWhkQpLn9TkKjZ8zE9Yyi4kD4VAvPjdZlu6hPCHfVHVNcKnbymCpTaE53fdSkd76nvdoFs=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLAPR10MB5265
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0
- mlxlogscore=999 phishscore=0 suspectscore=0 spamscore=0 adultscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 phishscore=0
+ malwarescore=0 mlxlogscore=999 adultscore=0 spamscore=0 mlxscore=0
  bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2103300000 definitions=main-2103300156
-X-Proofpoint-ORIG-GUID: N85R9sVWvAIJVK2_WzLDZcyc4B5qvzPL
-X-Proofpoint-GUID: N85R9sVWvAIJVK2_WzLDZcyc4B5qvzPL
+X-Proofpoint-ORIG-GUID: aLCqfneXsEiwzpXEDaj3edm0I6pdUiFB
+X-Proofpoint-GUID: aLCqfneXsEiwzpXEDaj3edm0I6pdUiFB
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- bulkscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0 adultscore=0
- spamscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 lowpriorityscore=0
+ spamscore=0 priorityscore=1501 phishscore=0 malwarescore=0 suspectscore=0
+ clxscore=1015 impostorscore=0 adultscore=0 bulkscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103300000
  definitions=main-2103300156
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Implement a new API function, pkram_load_file_pages(), to support
-loading pages in bulk.  A caller provided buffer not smaller than
-PKRAM_PAGES_BUFSIZE is populated with pages pointers that are contiguous
-by their original mapping index values.  The number of pages in the buffer
-and the mapping index of the first page are provided to the caller.
+Considerable contention on the LRU lock happens when multiple threads
+are used to insert pages into a shmem file in parallel. To alleviate this
+provide a way for pages to be added to the same LRU to be staged so that
+they can be added by splicing lists and updating stats once with the lock
+held. For now only unevictable pages are supported.
 
 Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
 ---
- include/linux/pkram.h |  4 ++++
- mm/pkram.c            | 46 ++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 50 insertions(+)
+ include/linux/swap.h | 13 ++++++++
+ mm/swap.c            | 86 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 99 insertions(+)
 
-diff --git a/include/linux/pkram.h b/include/linux/pkram.h
-index 977cf45a1bcf..ca46e5eafe71 100644
---- a/include/linux/pkram.h
-+++ b/include/linux/pkram.h
-@@ -96,6 +96,10 @@ int pkram_prepare_save(struct pkram_stream *ps, const char *name,
- int pkram_save_file_page(struct pkram_access *pa, struct page *page);
- struct page *pkram_load_file_page(struct pkram_access *pa, unsigned long *index);
+diff --git a/include/linux/swap.h b/include/linux/swap.h
+index 4cc6ec3bf0ab..254c9c8d71d0 100644
+--- a/include/linux/swap.h
++++ b/include/linux/swap.h
+@@ -351,6 +351,19 @@ extern void lru_note_cost(struct lruvec *lruvec, bool file,
  
-+#define PKRAM_PAGES_BUFSIZE	PAGE_SIZE
-+
-+int pkram_load_file_pages(struct pkram_access *pa, struct page *pages[], unsigned int *nr_pages, unsigned long *index);
-+
- ssize_t pkram_write(struct pkram_access *pa, const void *buf, size_t count);
- size_t pkram_read(struct pkram_access *pa, void *buf, size_t count);
+ extern void lru_cache_add_inactive_or_unevictable(struct page *page,
+ 						struct vm_area_struct *vma);
++struct lru_splice {
++	struct list_head	splice;
++	struct list_head	*lru_head;
++	struct lruvec		*lruvec;
++	enum lru_list		lru;
++	unsigned long		nr_pages[MAX_NR_ZONES];
++	unsigned long		pgculled;
++};
++#define LRU_SPLICE_INIT(name)	{ .splice = LIST_HEAD_INIT(name.splice) }
++#define LRU_SPLICE(name) \
++	struct lru_splice name = LRU_SPLICE_INIT(name)
++extern void lru_splice_add(struct page *page, struct lru_splice *splice);
++extern void add_splice_to_lru_list(struct lru_splice *splice);
  
-diff --git a/mm/pkram.c b/mm/pkram.c
-index 382ccf6f789f..b63b2a3958e7 100644
---- a/mm/pkram.c
-+++ b/mm/pkram.c
-@@ -1099,6 +1099,52 @@ struct page *pkram_load_file_page(struct pkram_access *pa, unsigned long *index)
+ /* linux/mm/vmscan.c */
+ extern unsigned long zone_reclaimable_pages(struct zone *zone);
+diff --git a/mm/swap.c b/mm/swap.c
+index 31b844d4ed94..a1db6a748608 100644
+--- a/mm/swap.c
++++ b/mm/swap.c
+@@ -200,6 +200,92 @@ int get_kernel_page(unsigned long start, int write, struct page **pages)
  }
+ EXPORT_SYMBOL_GPL(get_kernel_page);
  
- /**
-+ * Load pages from the preserved memory node and object associated with
-+ * pkram stream access @pa. The stream must have been initialized with
-+ * pkram_prepare_load() and pkram_prepare_load_obj() and access initialized
-+ * with PKRAM_ACCESS().
-+ * The page entries of a single pkram_link are processed, and @pages is
-+ * populated with the page pointers.  @nr_pages is set to the number of
-+ * pages, and @index is set to the mapping index of the first page.
-+ *
-+ * Returns 0 if one or more pages are loaded or -ENODATA if there are no
-+ * pages to load.
-+ *
-+ * The pages loaded have an incremented refcount either because the page
-+ * was initialized with a refcount of 1 at boot or because the page was
-+ * subsequently preserved which increased the refcount.
++/*
++ * Update stats and move accumulated pages from an lru_splice to the lru.
 + */
-+int pkram_load_file_pages(struct pkram_access *pa, struct page *pages[], unsigned int *nr_pages, unsigned long *index)
++void add_splice_to_lru_list(struct lru_splice *splice)
 +{
-+	struct pkram_data_stream *pds = &pa->pds;
-+	struct pkram_link *link;
-+	int nr_entries = 0;
-+	int i, ret;
++	struct lruvec *lruvec = splice->lruvec;
++	enum lru_list lru = splice->lru;
++	unsigned long flags = 0;
++	int zid;
 +
-+	ret = pkram_next_link(pds, &link);
-+	if (ret)
-+		return ret;
++	if (list_empty(&splice->splice))
++		return;
 +
-+	for (i = 0; i < PKRAM_LINK_ENTRIES_MAX; i++) {
-+		unsigned long p = link->entry[i];
-+
-+		if (!p)
-+			break;
-+
-+		pages[i] = __pkram_prep_load_page(p);
-+		nr_entries++;
++	spin_lock_irqsave(&lruvec->lru_lock, flags);
++	for (zid = 0; zid < MAX_NR_ZONES; zid++) {
++		if (splice->nr_pages[zid])
++			update_lru_size(lruvec, lru, zid, splice->nr_pages[zid]);
 +	}
-+
-+	*nr_pages = nr_entries;
-+	*index = link->index;
-+
-+	pkram_free_page(link);
-+	pds->link = NULL;
-+
-+	return 0;
++	count_vm_events(UNEVICTABLE_PGCULLED, splice->pgculled);
++	list_splice_init(&splice->splice, splice->lru_head);
++	spin_unlock_irqrestore(&lruvec->lru_lock, flags);
 +}
 +
-+/**
-  * Copy @count bytes from @buf to the preserved memory node and object
-  * associated with pkram stream access @pa. The stream must have been
-  * initialized with pkram_prepare_save() and pkram_prepare_save_obj()
++static void add_page_to_lru_splice(struct page *page, struct lru_splice *splice,
++				   struct lruvec *lruvec, enum lru_list lru)
++{
++	if (list_empty(&splice->splice)) {
++		int zid;
++
++		splice->lruvec = lruvec;
++		splice->lru_head = &lruvec->lists[lru];
++		splice->lru = lru;
++		for (zid = 0; zid < MAX_NR_ZONES; zid++)
++			splice->nr_pages[zid] = 0;
++		splice->pgculled = 0;
++	}
++
++	BUG_ON(splice->lruvec != lruvec);
++	BUG_ON(splice->lru_head != &lruvec->lists[lru]);
++
++	list_add(&page->lru, &splice->splice);
++	splice->nr_pages[page_zonenum(page)] += thp_nr_pages(page);
++}
++
++/*
++ * Similar in functionality to __pagevec_lru_add_fn() but here the page is
++ * being added to an lru_splice and the LRU lock is not held.
++ */
++static void page_lru_splice_add(struct page *page, struct lru_splice *splice, struct lruvec *lruvec)
++{
++	enum lru_list lru;
++	int was_unevictable = TestClearPageUnevictable(page);
++	int nr_pages = thp_nr_pages(page);
++
++	VM_BUG_ON_PAGE(PageLRU(page), page);
++	/* XXX only supports unevictable pages at the moment */
++	VM_BUG_ON_PAGE(was_unevictable, page);
++
++	SetPageLRU(page);
++	smp_mb__after_atomic();
++
++	lru = LRU_UNEVICTABLE;
++	ClearPageActive(page);
++	SetPageUnevictable(page);
++	if (!was_unevictable)
++		splice->pgculled += nr_pages;
++
++	add_page_to_lru_splice(page, splice, lruvec, lru);
++	trace_mm_lru_insertion(page);
++}
++
++void lru_splice_add(struct page *page, struct lru_splice *splice)
++{
++	struct lruvec *lruvec;
++
++	VM_BUG_ON_PAGE(PageActive(page) && PageUnevictable(page), page);
++	VM_BUG_ON_PAGE(PageLRU(page), page);
++
++	get_page(page);
++	lruvec = mem_cgroup_page_lruvec(page, page_pgdat(page));
++	if (lruvec != splice->lruvec)
++		add_splice_to_lru_list(splice);
++	page_lru_splice_add(page, splice, lruvec);
++	put_page(page);
++}
++
+ static void pagevec_lru_move_fn(struct pagevec *pvec,
+ 	void (*move_fn)(struct page *page, struct lruvec *lruvec))
+ {
 -- 
 1.8.3.1
 
