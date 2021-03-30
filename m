@@ -2,58 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0147CC433E0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A3BAC433E4
 	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:06:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 644156195C
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:06:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A62361989
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:06:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231599AbhC3JGI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 05:06:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59864 "EHLO
+        id S231640AbhC3JGL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 05:06:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231511AbhC3JFt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 05:05:49 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DB1DC061762;
-        Tue, 30 Mar 2021 02:05:49 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id j7so11366839qtx.5;
-        Tue, 30 Mar 2021 02:05:49 -0700 (PDT)
+        with ESMTP id S231561AbhC3JGC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 05:06:02 -0400
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACB68C061762;
+        Tue, 30 Mar 2021 02:06:02 -0700 (PDT)
+Received: by mail-qk1-x72f.google.com with SMTP id o5so15191944qkb.0;
+        Tue, 30 Mar 2021 02:06:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=yBSZywdG/7un/bYyR2/xeo3VlotzUD1O05T10urRkKY=;
-        b=FZ03S3raiPT76XkDqMvjullARZLFeeThb66sCQNMHnJIEjh+aMUJlU68hPNU2n3svX
-         s8i0JgYtQcjkU1Y/nY9Q1mDi7N92D9blHNiXNqzhA19FuFJzUdTGFd3oFzTMpUuXv9zE
-         NcNU20AcXS7LUuSDY97G71c9LNYM0o71Jt91TUbP2bHsupBS4frfNOIEvYtxW102eXI0
-         lVERUPW+gOnGRUoLYqSnLP3jX8skyKhlBaWAYmnk5+xBJGgBfE3i+Vfx57i0M+v4S5at
-         tFjOHPSD/4/z3x8TLQKyGeJkYuAsUnbwBQK4DQqzjJBYb3lJU0kIWwAx0cP6CDKXUToi
-         KMFg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=b+1Vnr8tb6LbM0SWY6J3IITj0EjR65jYOsFk4fahvOw=;
+        b=ohNhwtSRMgNjPw1tjYvJ7CMynCvAdSAxQPV1t0rNWTLs4Um3T9p+x9oPNz8syg4H1h
+         ZFTnpzLI/rREGLcvy26qpeCz/K+MuZzMT7mjlHNW39CPQyhHyBTt1+lS8FOmi/BFETae
+         dG3oL6AkGA3GMRmxYMenQDHUkqkeiQ+k+cuDfDH3KpsEsaJQ8FXYf8fBejbC2qce9myZ
+         eJnHKH9ED2ZJsG8En+Xf9raDKsqypp946b64xoHzt8m22f/Ym8IOT5AG/uqK9OjTkM8L
+         Sp6f6uW6SfeElSbE9WQW2TR+oyUUz1SDaWXl7ICKkm0rEI3JqvfMZ7+pV1ocuYrX8Kw8
+         p0lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=yBSZywdG/7un/bYyR2/xeo3VlotzUD1O05T10urRkKY=;
-        b=QM51mJqhfCcbVv99iky0hLidGCupiqtZBaqYGazlxnUjhvxJFEZpYItKbOjQMxUvWb
-         Jx0ZlNg4R592LgNWcZJVS04tBBEcKla0mdaUz4FbkNpwhxVfPeu0tGFhxHg3WiK/zO44
-         wEJ4WEWxsmDKkJon9/Q+ButSccttg93EW+HweVS6hJ2soPiskq5icCQx9XdjpqBR4Xlg
-         S/hZtgGkItclF8HqqHycIEY/zHNF9rUpFZ7gLWABYFIjRzg6ljeSP9VkuzHqhJUxxE8W
-         6XMcLWgAluFA0PffHzQ1EznY/L/NnpMJGAyoWIFlAYzHfAPJ3Fm9iQ15ky/NXr6p0KId
-         adIw==
-X-Gm-Message-State: AOAM532BbC2hBixEbueNU2/OSMfCvLPN+SfoifUEsqkZhTyUwuS9g/s0
-        wOIF6digxF21M5ORk/dqo6g=
-X-Google-Smtp-Source: ABdhPJwKx3nNcNTfHM/tvshBbgxDt8O8TtjSrD5dtsOQrcc48RjZ3zW9rE3IFNaDabkoXDnfQJCuIw==
-X-Received: by 2002:a05:622a:1716:: with SMTP id h22mr25906987qtk.273.1617095148603;
-        Tue, 30 Mar 2021 02:05:48 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=b+1Vnr8tb6LbM0SWY6J3IITj0EjR65jYOsFk4fahvOw=;
+        b=s0ULA8/GXcFObr/p7KRrminrEdKkJeEOQDcCzpX/m1rqWje1QRAIqYiXa9n/Gl13X9
+         kIhO/7WA9edXbPV9if41PVpDwnDUbOq3586TQvMtxyWu7bkvKRDwGvc8n+0wbVWomB9T
+         YFddZAFwP3sZgKaJzRuIpQ6dpos9RHzfaf6gEVRUIjnVngL8283BlcD5nl0+6Bqv8ZHR
+         LgNdis4RTjH2CnMY2FitpH1kBV9ivt+kxNi4NNLP6NECCmFC5yGwD7wcUZVvA+tATjyq
+         Z9kAxAEqJ0RBaPFyJJPNLLyc15tsMc5VuLUic86HZdySPq9OCXKH+UPoO6Ol/11hxmoy
+         MI/Q==
+X-Gm-Message-State: AOAM5322f2NF86Kdf00tvej5HfhdTfzmNEQ83sJn0yJlBQim71szwz+Q
+        yAYJJiluCGThUJThzfVu9lQ=
+X-Google-Smtp-Source: ABdhPJyvKiRPCodhZ2aTc4DxEzh1hUSZ8TSTqtrRpBFdeQ1+8YPQ37i4afayAmE5uBsPegnkZJJmhA==
+X-Received: by 2002:a37:9e56:: with SMTP id h83mr29893793qke.38.1617095161882;
+        Tue, 30 Mar 2021 02:06:01 -0700 (PDT)
 Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id 8sm14630011qkc.32.2021.03.30.02.05.47
+        by smtp.gmail.com with ESMTPSA id 8sm14630011qkc.32.2021.03.30.02.06.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Mar 2021 02:05:48 -0700 (PDT)
+        Tue, 30 Mar 2021 02:06:01 -0700 (PDT)
 From:   sj38.park@gmail.com
 To:     akpm@linux-foundation.org
 Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
@@ -70,531 +71,435 @@ Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
         vdavydov.dev@gmail.com, zgf574564920@gmail.com,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v26 00/13] Introduce Data Access MONitor (DAMON)
-Date:   Tue, 30 Mar 2021 09:05:24 +0000
-Message-Id: <20210330090537.12143-1-sj38.park@gmail.com>
+Subject: [PATCH v26 03/13] mm/damon: Adaptively adjust regions
+Date:   Tue, 30 Mar 2021 09:05:27 +0000
+Message-Id: <20210330090537.12143-4-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210330090537.12143-1-sj38.park@gmail.com>
+References: <20210330090537.12143-1-sj38.park@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-Changes from Previous Version (v25)
-===================================
-
-- Rebase on latest -mm tree (v5.12-rc4-mmots-2021-03-28-16-40)
-- Remove unnecessary test code that dependent on record feature
-- Handle special mappings having no corresponding 'struct page' (Guoju Fang)
-
-Introduction
-============
-
-DAMON is a data access monitoring framework for the Linux kernel.  The core
-mechanisms of DAMON called 'region based sampling' and 'adaptive regions
-adjustment' (refer to 'mechanisms.rst' in the 11th patch of this patchset for
-the detail) make it
-
- - accurate (The monitored information is useful for DRAM level memory
-   management. It might not appropriate for Cache-level accuracy, though.),
- - light-weight (The monitoring overhead is low enough to be applied online
-   while making no impact on the performance of the target workloads.), and
- - scalable (the upper-bound of the instrumentation overhead is controllable
-   regardless of the size of target workloads.).
-
-Using this framework, therefore, several memory management mechanisms such as
-reclamation and THP can be optimized to aware real data access patterns.
-Experimental access pattern aware memory management optimization works that
-incurring high instrumentation overhead will be able to have another try.
-
-Though DAMON is for kernel subsystems, it can be easily exposed to the user
-space by writing a DAMON-wrapper kernel subsystem.  Then, user space users who
-have some special workloads will be able to write personalized tools or
-applications for deeper understanding and specialized optimizations of their
-systems.
-
-Long-term Plan
---------------
-
-DAMON is a part of a project called Data Access-aware Operating System (DAOS).
-As the name implies, I want to improve the performance and efficiency of
-systems using fine-grained data access patterns.  The optimizations are for
-both kernel and user spaces.  I will therefore modify or create kernel
-subsystems, export some of those to user space and implement user space library
-/ tools.  Below shows the layers and components for the project.
-
-    ---------------------------------------------------------------------------
-    Primitives:     PTE Accessed bit, PG_idle, rmap, (Intel CMT), ...
-    Framework:      DAMON
-    Features:       DAMOS, virtual addr, physical addr, ...
-    Applications:   DAMON-debugfs, (DARC), ...
-    ^^^^^^^^^^^^^^^^^^^^^^^    KERNEL SPACE    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    Raw Interface:  debugfs, (sysfs), (damonfs), tracepoints, (sys_damon), ...
-
-    vvvvvvvvvvvvvvvvvvvvvvv    USER SPACE      vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-    Library:        (libdamon), ...
-    Tools:          DAMO, (perf), ...
-    ---------------------------------------------------------------------------
-
-The components in parentheses or marked as '...' are not implemented yet but in
-the future plan.  IOW, those are the TODO tasks of DAOS project.  For more
-detail, please refer to the plans:
-https://lore.kernel.org/linux-mm/20201202082731.24828-1-sjpark@amazon.com/
-
-Evaluations
-===========
-
-We evaluated DAMON's overhead, monitoring quality and usefulness using 24
-realistic workloads on my QEMU/KVM based virtual machine running a kernel that
-v24 DAMON patchset is applied.
-
-DAMON is lightweight.  It increases system memory usage by 0.39% and slows
-target workloads down by 1.16%.
-
-DAMON is accurate and useful for memory management optimizations.  An
-experimental DAMON-based operation scheme for THP, namely 'ethp', removes
-76.15% of THP memory overheads while preserving 51.25% of THP speedup.  Another
-experimental DAMON-based 'proactive reclamation' implementation, 'prcl',
-reduces 93.38% of residential sets and 23.63% of system memory footprint while
-incurring only 1.22% runtime overhead in the best case (parsec3/freqmine).
-
-NOTE that the experimental THP optimization and proactive reclamation are not
-for production but only for proof of concepts.
-
-Please refer to the official document[1] or "Documentation/admin-guide/mm: Add
-a document for DAMON" patch in this patchset for detailed evaluation setup and
-results.
-
-[1] https://damonitor.github.io/doc/html/latest-damon/admin-guide/mm/damon/eval.html
-
-Real-world User Story
-=====================
-
-In summary, DAMON has used on production systems and proved its usefulness.
-
-DAMON as a profiler
--------------------
-
-We analyzed characteristics of a large scale production systems of our
-customers using DAMON.  The systems utilize 70GB DRAM and 36 CPUs.  From this,
-we were able to find interesting things below.
-
-There were obviously different access pattern under idle workload and active
-workload.  Under the idle workload, it accessed large memory regions with low
-frequency, while the active workload accessed small memory regions with high
-freuqnecy.
-
-DAMON found a 7GB memory region that showing obviously high access frequency
-under the active workload.  We believe this is the performance-effective
-working set and need to be protected.
-
-There was a 4KB memory region that showing highest access frequency under not
-only active but also idle workloads.  We think this must be a hottest code
-section like thing that should never be paged out.
-
-For this analysis, DAMON used only 0.3-1% of single CPU time.  Because we used
-recording-based analysis, it consumed about 3-12 MB of disk space per 20
-minutes.  This is only small amount of disk space, but we can further reduce
-the disk usage by using non-recording-based DAMON features.  I'd like to argue
-that only DAMON can do such detailed analysis (finding 4KB highest region in
-70GB memory) with the light overhead.
-
-DAMON as a system optimization tool
------------------------------------
-
-We also found below potential performance problems on the systems and made
-DAMON-based solutions.
-
-The system doesn't want to make the workload suffer from the page reclamation
-and thus it utilizes enough DRAM but no swap device.  However, we found the
-system is actively reclaiming file-backed pages, because the system has
-intensive file IO.  The file IO turned out to be not performance critical for
-the workload, but the customer wanted to ensure performance critical
-file-backed pages like code section to not mistakenly be evicted.
-
-Using direct IO should or `mlock()` would be a straightforward solution, but
-modifying the user space code is not easy for the customer.  Alternatively, we
-could use DAMON-based operation scheme[1].  By using it, we can ask DAMON to
-track access frequency of each region and make
-'process_madvise(MADV_WILLNEED)[2]' call for regions having specific size and
-access frequency for a time interval.
-
-We also found the system is having high number of TLB misses.  We tried
-'always' THP enabled policy and it greatly reduced TLB misses, but the page
-reclamation also been more frequent due to the THP internal fragmentation
-caused memory bloat.  We could try another DAMON-based operation scheme that
-applies 'MADV_HUGEPAGE' to memory regions having >=2MB size and high access
-frequency, while applying 'MADV_NOHUGEPAGE' to regions having <2MB size and low
-access frequency.
-
-We do not own the systems so we only reported the analysis results and possible
-optimization solutions to the customers.  The customers satisfied about the
-analysis results and promised to try the optimization guides.
-
-[1] https://lore.kernel.org/linux-mm/20201006123931.5847-1-sjpark@amazon.com/
-[2] https://lore.kernel.org/linux-api/20200622192900.22757-4-minchan@kernel.org/
-
-Comparison with Idle Page Tracking
-==================================
-
-Idle Page Tracking allows users to set and read idleness of pages using a
-bitmap file which represents each page with each bit of the file.  One
-recommended usage of it is working set size detection.  Users can do that by
-
-    1. find PFN of each page for workloads in interest,
-    2. set all the pages as idle by doing writes to the bitmap file,
-    3. wait until the workload accesses its working set, and
-    4. read the idleness of the pages again and count pages became not idle.
-
-NOTE: While Idle Page Tracking is for user space users, DAMON is primarily
-designed for kernel subsystems though it can easily exposed to the user space.
-Hence, this section only assumes such user space use of DAMON.
-
-For what use cases Idle Page Tracking would be better?
-------------------------------------------------------
-
-1. Flexible usecases other than hotness monitoring.
-
-Because Idle Page Tracking allows users to control the primitive (Page
-idleness) by themselves, Idle Page Tracking users can do anything they want.
-Meanwhile, DAMON is primarily designed to monitor the hotness of each memory
-region.  For this, DAMON asks users to provide sampling interval and
-aggregation interval.  For the reason, there could be some use case that using
-Idle Page Tracking is simpler.
-
-2. Physical memory monitoring.
-
-Idle Page Tracking receives PFN range as input, so natively supports physical
-memory monitoring.
-
-DAMON is designed to be extensible for multiple address spaces and use cases by
-implementing and using primitives for the given use case.  Therefore, by
-theory, DAMON has no limitation in the type of target address space as long as
-primitives for the given address space exists.  However, the default primitives
-introduced by this patchset supports only virtual address spaces.
-
-Therefore, for physical memory monitoring, you should implement your own
-primitives and use it, or simply use Idle Page Tracking.
-
-Nonetheless, RFC patchsets[1] for the physical memory address space primitives
-is already available.  It also supports user memory same to Idle Page Tracking.
-
-[1] https://lore.kernel.org/linux-mm/20200831104730.28970-1-sjpark@amazon.com/
-
-For what use cases DAMON is better?
------------------------------------
-
-1. Hotness Monitoring.
-
-Idle Page Tracking let users know only if a page frame is accessed or not.  For
-hotness check, the user should write more code and use more memory.  DAMON do
-that by itself.
-
-2. Low Monitoring Overhead
-
-DAMON receives user's monitoring request with one step and then provide the
-results.  So, roughly speaking, DAMON require only O(1) user/kernel context
-switches.
-
-In case of Idle Page Tracking, however, because the interface receives
-contiguous page frames, the number of user/kernel context switches increases as
-the monitoring target becomes complex and huge.  As a result, the context
-switch overhead could be not negligible.
-
-Moreover, DAMON is born to handle with the monitoring overhead.  Because the
-core mechanism is pure logical, Idle Page Tracking users might be able to
-implement the mechanism on thier own, but it would be time consuming and the
-user/kernel context switching will still more frequent than that of DAMON.
-Also, the kernel subsystems cannot use the logic in this case.
-
-3. Page granularity working set size detection.
-
-Until v22 of this patchset, this was categorized as the thing Idle Page
-Tracking could do better, because DAMON basically maintains additional metadata
-for each of the monitoring target regions.  So, in the page granularity working
-set size detection use case, DAMON would incur (number of monitoring target
-pages * size of metadata) memory overhead.  Size of the single metadata item is
-about 54 bytes, so assuming 4KB pages, about 1.3% of monitoring target pages
-will be additionally used.
-
-All essential metadata for Idle Page Tracking are embedded in 'struct page' and
-page table entries.  Therefore, in this use case, only one counter variable for
-working set size accounting is required if Idle Page Tracking is used.
-
-There are more details to consider, but roughly speaking, this is true in most
-cases.
-
-However, the situation changed from v23.  Now DAMON supports arbitrary types of
-monitoring targets, which don't use the metadata.  Using that, DAMON can do the
-working set size detection with no additional space overhead but less
-user-kernel context switch.  A first draft for the implementation of monitoring
-primitives for this usage is available in a DAMON development tree[1].  An RFC
-patchset for it based on this patchset will also be available soon.
-
-From v24, the arbitrary type support is dropped from this patchset because this
-patchset doesn't introduce real use of the type.  You can still get it from the
-DAMON development tree[2], though.
-
-[1] https://github.com/sjp38/linux/tree/damon/pgidle_hack
-[2] https://github.com/sjp38/linux/tree/damon/master
-
-4. More future usecases
-
-While Idle Page Tracking has tight coupling with base primitives (PG_Idle and
-page table Accessed bits), DAMON is designed to be extensible for many use
-cases and address spaces.  If you need some special address type or want to use
-special h/w access check primitives, you can write your own primitives for that
-and configure DAMON to use those.  Therefore, if your use case could be changed
-a lot in future, using DAMON could be better.
-
-Can I use both Idle Page Tracking and DAMON?
---------------------------------------------
-
-Yes, though using them concurrently for overlapping memory regions could result
-in interference to each other.  Nevertheless, such use case would be rare or
-makes no sense at all.  Even in the case, the noise would bot be really
-significant.  So, you can choose whatever you want depending on the
-characteristics of your use cases.
-
-More Information
-================
-
-We prepared a showcase web site[1] that you can get more information.  There
-are
-
-- the official documentations[2],
-- the heatmap format dynamic access pattern of various realistic workloads for
-  heap area[3], mmap()-ed area[4], and stack[5] area,
-- the dynamic working set size distribution[6] and chronological working set
-  size changes[7], and
-- the latest performance test results[8].
-
-[1] https://damonitor.github.io/_index
-[2] https://damonitor.github.io/doc/html/latest-damon
-[3] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.0.png.html
-[4] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.1.png.html
-[5] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.2.png.html
-[6] https://damonitor.github.io/test/result/visual/latest/rec.wss_sz.png.html
-[7] https://damonitor.github.io/test/result/visual/latest/rec.wss_time.png.html
-[8] https://damonitor.github.io/test/result/perf/latest/html/index.html
-
-Baseline and Complete Git Trees
-===============================
-
-The patches are based on the -mm tree.  More specifically,
-v5.12-rc4-mmots-2021-03-28-16-40 of https://github.com/hnaz/linux-mm.  You can
-also clone the complete git tree:
-
-    $ git clone git://github.com/sjp38/linux -b damon/patches/v26
-
-The web is also available:
-https://github.com/sjp38/linux/releases/tag/damon/patches/v26
-
-Development Trees
------------------
-
-There are a couple of trees for entire DAMON patchset series and
-features for future release.
-
-- For latest release: https://github.com/sjp38/linux/tree/damon/master
-- For next release: https://github.com/sjp38/linux/tree/damon/next
-
-Long-term Support Trees
------------------------
-
-For people who want to test DAMON but using LTS kernels, there are another
-couple of trees based on two latest LTS kernels respectively and containing the
-'damon/master' backports.
-
-- For v5.4.y: https://github.com/sjp38/linux/tree/damon/for-v5.4.y
-- For v5.10.y: https://github.com/sjp38/linux/tree/damon/for-v5.10.y
-
-Sequence Of Patches
-===================
-
-First three patches implement the core logics of DAMON.  The 1st patch
-introduces basic sampling based hotness monitoring for arbitrary types of
-targets.  Following two patches implement the core mechanisms for control of
-overhead and accuracy, namely regions based sampling (patch 2) and adaptive
-regions adjustment (patch 3).
-
-Now the essential parts of DAMON is complete, but it cannot work unless someone
-provides monitoring primitives for a specific use case.  The following two
-patches make it just work for virtual address spaces monitoring.  The 4th patch
-makes 'PG_idle' can be used by DAMON and the 5th patch implements the virtual
-memory address space specific monitoring primitives using page table Accessed
-bits and the 'PG_idle' page flag.
-
-Now DAMON just works for virtual address space monitoring via the kernel space
-api.  To let the user space users can use DAMON, following four patches add
-interfaces for them.  The 6th patch adds a tracepoint for monitoring results.
-The 7th patch implements a DAMON application kernel module, namely damon-dbgfs,
-that simply wraps DAMON and exposes DAMON interface to the user space via the
-debugfs interface.  The 8th patch further exports pid of monitoring thread
-(kdamond) to user space for easier cpu usage accounting, and the 9th patch
-makes the debugfs interface to support multiple contexts.
-
-Three patches for maintainability follows.  The 10th patch adds documentations
-for both the user space and the kernel space.  The 11th patch provides unit
-tests (based on the kunit) while the 12th patch adds user space tests (based on
-the kselftest).
-
-Finally, the last patch (13th) updates the MAINTAINERS file.
-
-Patch History
-=============
-
-Changes from v25
-(https://lore.kernel.org/linux-mm/20210318100856.34715-1-sj38.park@gmail.com/)
-- Rebase on latest -mm tree (v5.12-rc4-mmots-2021-03-28-16-40)
-- Remove unnecessary test code that dependent on record feature
-- Handle special mappings having no corresponding 'struct page' (Guoju Fang)
-
-Changes from v24
-(https://lore.kernel.org/linux-mm/20210204153150.15948-1-sjpark@amazon.com/)
-- Rebase on latest -mm tree (v5.12-rc3-mmots-2021-03-17-22-26)
-- Ignore 'debugfs_create_{file|dir}()' return values (Greg KH)
-- Remove 'recording' feature (Shakeel Butt)
-- Remove user space tool and recording description in the documentation
-
-Changes from v23
-(https://lore.kernel.org/linux-mm/20201215115448.25633-1-sjpark@amazon.com/)
-- Wordsmith commit messages (Shakeel Butt)
-- Call missed mmu_notifier_test_young() (Shakeel Butt)
-- Add one 'Reviewed-by' tag for PG_Idle reuse patch (Shakeel Butt)
-- Rename core code to be region-neutral (Shakeel Butt)
-- Add missed null check of 'damon_new_region()' return value (Coverity SAST)
-- Put pids in dbgfs error cases (Shakeel Butt)
-- Move arbitrary target type support out of DAMON patchset series (Shakeel Butt)
-- Move user space tool patch out of DAMON patchset series
-- Update evaluation result with DAMOOS-tuned prcl schemes
-
-Changes from v22
-(https://lore.kernel.org/linux-mm/20201020085940.13875-1-sjpark@amazon.com/)
-- Support arbitrary targets; now DAMON incurs only zero space overhead for page
-  granularity idleness monitoring
-- Reorder patches for easier review (Shakeel Butt)
-  - Introduce arbitrary targets with sampling first, then the overhead-accuracy
-    control logic
-  - Introduce data structure manipulation functions when it really used.
-- Call callbacks explicitly, without macro (Shakeel Butt)
-- Rename DAMON_PRIMITIVES to DAMON_VADDR (Shakeel Butt)
-- Remove 'page_idle_lock' patch (Shakeel Butt)
-- Drop pidfd support in debugfs (Shakeel Butt)
-
-Changes from v21
-(https://lore.kernel.org/linux-doc/20201005105522.23841-1-sjpark@amazon.com/)
-- Fix build warnings and errors (kernel test robot)
-- Fix a memory leak (kmemleak)
-- Respect KUNIT_ALL_TESTS
-- Rebase on v5.9
-- Update the evaluation results
-
-Changes from v20
-(https://lore.kernel.org/linux-mm/20200817105137.19296-1-sjpark@amazon.com/)
-- s/snprintf()/scnprintf() (Marco Elver)
-- Support multiple contexts for user space users (Shakeel Butt)
-- Export pid of monitoring thread to user space (Shakeel Butt)
-- Let coexistable with Idle Page Tracking
-- Place three parts of DAMON (core, primitives, and dbgfs) in different files
-
-Changes from v19
-(https://lore.kernel.org/linux-mm/20200804091416.31039-1-sjpark@amazon.com/)
-- Place 'CREATE_TRACE_POINTS' after '#include' statements (Steven Rostedt)
-- Support large record file (Alkaid)
-- Place 'put_pid()' of virtual monitoring targets in 'cleanup' callback
-- Avoid conflict between concurrent DAMON users
-- Update evaluation result document
-
-Changes from v18
-(https://lore.kernel.org/linux-mm/20200713084144.4430-1-sjpark@amazon.com/)
-- Drop loadable module support (Mike Rapoport)
-- Select PAGE_EXTENSION if !64BIT for 'set_page_young()'
-- Take care of the MMU notification subscribers (Shakeel Butt)
-- Substitute 'struct damon_task' with 'struct damon_target' for better abstract
-- Use 'struct pid' instead of 'pid_t' as the target (Shakeel Butt)
-- Support pidfd from the debugfs interface (Shakeel Butt)
-- Fix typos (Greg Thelen)
-- Properly isolate DAMON from other pmd/pte Accessed bit users (Greg Thelen)
-- Rebase on v5.8
-
-Please refer to the v18 patchset to get older history.
-
-SeongJae Park (13):
-  mm: Introduce Data Access MONitor (DAMON)
-  mm/damon/core: Implement region-based sampling
-  mm/damon: Adaptively adjust regions
-  mm/idle_page_tracking: Make PG_idle reusable
-  mm/damon: Implement primitives for the virtual memory address spaces
-  mm/damon: Add a tracepoint
-  mm/damon: Implement a debugfs-based user space interface
-  mm/damon/dbgfs: Export kdamond pid to the user space
-  mm/damon/dbgfs: Support multiple contexts
-  Documentation: Add documents for DAMON
-  mm/damon: Add kunit tests
-  mm/damon: Add user space selftests
-  MAINTAINERS: Update for DAMON
-
- Documentation/admin-guide/mm/damon/guide.rst  | 159 ++++
- Documentation/admin-guide/mm/damon/index.rst  |  15 +
- Documentation/admin-guide/mm/damon/plans.rst  |  29 +
- Documentation/admin-guide/mm/damon/start.rst  |  97 +++
- Documentation/admin-guide/mm/damon/usage.rst  | 112 +++
- Documentation/admin-guide/mm/index.rst        |   1 +
- Documentation/vm/damon/api.rst                |  20 +
- Documentation/vm/damon/design.rst             | 166 ++++
- Documentation/vm/damon/eval.rst               | 232 ++++++
- Documentation/vm/damon/faq.rst                |  58 ++
- Documentation/vm/damon/index.rst              |  31 +
- Documentation/vm/index.rst                    |   1 +
- MAINTAINERS                                   |  12 +
- include/linux/damon.h                         | 265 +++++++
- include/linux/page-flags.h                    |   4 +-
- include/linux/page_ext.h                      |   2 +-
- include/linux/page_idle.h                     |   6 +-
- include/trace/events/damon.h                  |  43 ++
- include/trace/events/mmflags.h                |   2 +-
- mm/Kconfig                                    |  11 +
- mm/Makefile                                   |   1 +
- mm/damon/Kconfig                              |  69 ++
- mm/damon/Makefile                             |   5 +
- mm/damon/core-test.h                          | 253 ++++++
- mm/damon/core.c                               | 718 ++++++++++++++++++
- mm/damon/dbgfs-test.h                         | 126 +++
- mm/damon/dbgfs.c                              | 609 +++++++++++++++
- mm/damon/vaddr-test.h                         | 328 ++++++++
- mm/damon/vaddr.c                              | 623 +++++++++++++++
- mm/page_ext.c                                 |  12 +-
- mm/page_idle.c                                |  10 -
- tools/testing/selftests/damon/Makefile        |   7 +
- .../selftests/damon/_chk_dependency.sh        |  28 +
- .../testing/selftests/damon/debugfs_attrs.sh  |  98 +++
- 34 files changed, 4135 insertions(+), 18 deletions(-)
- create mode 100644 Documentation/admin-guide/mm/damon/guide.rst
- create mode 100644 Documentation/admin-guide/mm/damon/index.rst
- create mode 100644 Documentation/admin-guide/mm/damon/plans.rst
- create mode 100644 Documentation/admin-guide/mm/damon/start.rst
- create mode 100644 Documentation/admin-guide/mm/damon/usage.rst
- create mode 100644 Documentation/vm/damon/api.rst
- create mode 100644 Documentation/vm/damon/design.rst
- create mode 100644 Documentation/vm/damon/eval.rst
- create mode 100644 Documentation/vm/damon/faq.rst
- create mode 100644 Documentation/vm/damon/index.rst
- create mode 100644 include/linux/damon.h
- create mode 100644 include/trace/events/damon.h
- create mode 100644 mm/damon/Kconfig
- create mode 100644 mm/damon/Makefile
- create mode 100644 mm/damon/core-test.h
- create mode 100644 mm/damon/core.c
- create mode 100644 mm/damon/dbgfs-test.h
- create mode 100644 mm/damon/dbgfs.c
- create mode 100644 mm/damon/vaddr-test.h
- create mode 100644 mm/damon/vaddr.c
- create mode 100644 tools/testing/selftests/damon/Makefile
- create mode 100644 tools/testing/selftests/damon/_chk_dependency.sh
- create mode 100755 tools/testing/selftests/damon/debugfs_attrs.sh
-
+Even somehow the initial monitoring target regions are well constructed
+to fulfill the assumption (pages in same region have similar access
+frequencies), the data access pattern can be dynamically changed.  This
+will result in low monitoring quality.  To keep the assumption as much
+as possible, DAMON adaptively merges and splits each region based on
+their access frequency.
+
+For each ``aggregation interval``, it compares the access frequencies of
+adjacent regions and merges those if the frequency difference is small.
+Then, after it reports and clears the aggregated access frequency of
+each region, it splits each region into two or three regions if the
+total number of regions will not exceed the user-specified maximum
+number of regions after the split.
+
+In this way, DAMON provides its best-effort quality and minimal overhead
+while keeping the upper-bound overhead that users set.
+
+Signed-off-by: SeongJae Park <sjpark@amazon.de>
+Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+---
+ include/linux/damon.h |  23 +++--
+ mm/damon/core.c       | 214 +++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 227 insertions(+), 10 deletions(-)
+
+diff --git a/include/linux/damon.h b/include/linux/damon.h
+index 67db309ad61b..0bd5d6913a6c 100644
+--- a/include/linux/damon.h
++++ b/include/linux/damon.h
+@@ -12,6 +12,9 @@
+ #include <linux/time64.h>
+ #include <linux/types.h>
+ 
++/* Minimal region size.  Every damon_region is aligned by this. */
++#define DAMON_MIN_REGION	PAGE_SIZE
++
+ /**
+  * struct damon_addr_range - Represents an address region of [@start, @end).
+  * @start:	Start address of the region (inclusive).
+@@ -85,6 +88,8 @@ struct damon_ctx;
+  * prepared for the next access check.
+  * @check_accesses should check the accesses to each region that made after the
+  * last preparation and update the number of observed accesses of each region.
++ * It should also return max number of observed accesses that made as a result
++ * of its update.  The value will be used for regions adjustment threshold.
+  * @reset_aggregated should reset the access monitoring results that aggregated
+  * by @check_accesses.
+  * @target_valid should check whether the target is still valid for the
+@@ -95,7 +100,7 @@ struct damon_primitive {
+ 	void (*init)(struct damon_ctx *context);
+ 	void (*update)(struct damon_ctx *context);
+ 	void (*prepare_access_checks)(struct damon_ctx *context);
+-	void (*check_accesses)(struct damon_ctx *context);
++	unsigned int (*check_accesses)(struct damon_ctx *context);
+ 	void (*reset_aggregated)(struct damon_ctx *context);
+ 	bool (*target_valid)(void *target);
+ 	void (*cleanup)(struct damon_ctx *context);
+@@ -172,7 +177,9 @@ struct damon_callback {
+  * @primitive:	Set of monitoring primitives for given use cases.
+  * @callback:	Set of callbacks for monitoring events notifications.
+  *
+- * @region_targets:	Head of monitoring targets (&damon_target) list.
++ * @min_nr_regions:	The minimum number of adaptive monitoring regions.
++ * @max_nr_regions:	The maximum number of adaptive monitoring regions.
++ * @adaptive_targets:	Head of monitoring targets (&damon_target) list.
+  */
+ struct damon_ctx {
+ 	unsigned long sample_interval;
+@@ -191,7 +198,9 @@ struct damon_ctx {
+ 	struct damon_primitive primitive;
+ 	struct damon_callback callback;
+ 
+-	struct list_head region_targets;
++	unsigned long min_nr_regions;
++	unsigned long max_nr_regions;
++	struct list_head adaptive_targets;
+ };
+ 
+ #define damon_next_region(r) \
+@@ -207,10 +216,10 @@ struct damon_ctx {
+ 	list_for_each_entry_safe(r, next, &t->regions_list, list)
+ 
+ #define damon_for_each_target(t, ctx) \
+-	list_for_each_entry(t, &(ctx)->region_targets, list)
++	list_for_each_entry(t, &(ctx)->adaptive_targets, list)
+ 
+ #define damon_for_each_target_safe(t, next, ctx)	\
+-	list_for_each_entry_safe(t, next, &(ctx)->region_targets, list)
++	list_for_each_entry_safe(t, next, &(ctx)->adaptive_targets, list)
+ 
+ #ifdef CONFIG_DAMON
+ 
+@@ -224,11 +233,13 @@ struct damon_target *damon_new_target(unsigned long id);
+ void damon_add_target(struct damon_ctx *ctx, struct damon_target *t);
+ void damon_free_target(struct damon_target *t);
+ void damon_destroy_target(struct damon_target *t);
++unsigned int damon_nr_regions(struct damon_target *t);
+ 
+ struct damon_ctx *damon_new_ctx(void);
+ void damon_destroy_ctx(struct damon_ctx *ctx);
+ int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
+-		unsigned long aggr_int, unsigned long primitive_upd_int);
++		unsigned long aggr_int, unsigned long primitive_upd_int,
++		unsigned long min_nr_reg, unsigned long max_nr_reg);
+ 
+ int damon_start(struct damon_ctx **ctxs, int nr_ctxs);
+ int damon_stop(struct damon_ctx **ctxs, int nr_ctxs);
+diff --git a/mm/damon/core.c b/mm/damon/core.c
+index 94db494dcf70..b36b6bdd94e2 100644
+--- a/mm/damon/core.c
++++ b/mm/damon/core.c
+@@ -10,8 +10,12 @@
+ #include <linux/damon.h>
+ #include <linux/delay.h>
+ #include <linux/kthread.h>
++#include <linux/random.h>
+ #include <linux/slab.h>
+ 
++/* Get a random number in [l, r) */
++#define damon_rand(l, r) (l + prandom_u32_max(r - l))
++
+ static DEFINE_MUTEX(damon_lock);
+ static int nr_running_ctxs;
+ 
+@@ -87,7 +91,7 @@ struct damon_target *damon_new_target(unsigned long id)
+ 
+ void damon_add_target(struct damon_ctx *ctx, struct damon_target *t)
+ {
+-	list_add_tail(&t->list, &ctx->region_targets);
++	list_add_tail(&t->list, &ctx->adaptive_targets);
+ }
+ 
+ static void damon_del_target(struct damon_target *t)
+@@ -110,6 +114,17 @@ void damon_destroy_target(struct damon_target *t)
+ 	damon_free_target(t);
+ }
+ 
++unsigned int damon_nr_regions(struct damon_target *t)
++{
++	struct damon_region *r;
++	unsigned int nr_regions = 0;
++
++	damon_for_each_region(r, t)
++		nr_regions++;
++
++	return nr_regions;
++}
++
+ struct damon_ctx *damon_new_ctx(void)
+ {
+ 	struct damon_ctx *ctx;
+@@ -127,7 +142,10 @@ struct damon_ctx *damon_new_ctx(void)
+ 
+ 	mutex_init(&ctx->kdamond_lock);
+ 
+-	INIT_LIST_HEAD(&ctx->region_targets);
++	ctx->min_nr_regions = 10;
++	ctx->max_nr_regions = 1000;
++
++	INIT_LIST_HEAD(&ctx->adaptive_targets);
+ 
+ 	return ctx;
+ }
+@@ -157,6 +175,8 @@ void damon_destroy_ctx(struct damon_ctx *ctx)
+  * @sample_int:		time interval between samplings
+  * @aggr_int:		time interval between aggregations
+  * @primitive_upd_int:	time interval between monitoring primitive updates
++ * @min_nr_reg:		minimal number of regions
++ * @max_nr_reg:		maximum number of regions
+  *
+  * This function should not be called while the kdamond is running.
+  * Every time interval is in micro-seconds.
+@@ -164,15 +184,49 @@ void damon_destroy_ctx(struct damon_ctx *ctx)
+  * Return: 0 on success, negative error code otherwise.
+  */
+ int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
+-		    unsigned long aggr_int, unsigned long primitive_upd_int)
++		    unsigned long aggr_int, unsigned long primitive_upd_int,
++		    unsigned long min_nr_reg, unsigned long max_nr_reg)
+ {
++	if (min_nr_reg < 3) {
++		pr_err("min_nr_regions (%lu) must be at least 3\n",
++				min_nr_reg);
++		return -EINVAL;
++	}
++	if (min_nr_reg > max_nr_reg) {
++		pr_err("invalid nr_regions.  min (%lu) > max (%lu)\n",
++				min_nr_reg, max_nr_reg);
++		return -EINVAL;
++	}
++
+ 	ctx->sample_interval = sample_int;
+ 	ctx->aggr_interval = aggr_int;
+ 	ctx->primitive_update_interval = primitive_upd_int;
++	ctx->min_nr_regions = min_nr_reg;
++	ctx->max_nr_regions = max_nr_reg;
+ 
+ 	return 0;
+ }
+ 
++/* Returns the size upper limit for each monitoring region */
++static unsigned long damon_region_sz_limit(struct damon_ctx *ctx)
++{
++	struct damon_target *t;
++	struct damon_region *r;
++	unsigned long sz = 0;
++
++	damon_for_each_target(t, ctx) {
++		damon_for_each_region(r, t)
++			sz += r->ar.end - r->ar.start;
++	}
++
++	if (ctx->min_nr_regions)
++		sz /= ctx->min_nr_regions;
++	if (sz < DAMON_MIN_REGION)
++		sz = DAMON_MIN_REGION;
++
++	return sz;
++}
++
+ static bool damon_kdamond_running(struct damon_ctx *ctx)
+ {
+ 	bool running;
+@@ -339,6 +393,149 @@ static void kdamond_reset_aggregated(struct damon_ctx *c)
+ 	}
+ }
+ 
++#define sz_damon_region(r) (r->ar.end - r->ar.start)
++
++/*
++ * Merge two adjacent regions into one region
++ */
++static void damon_merge_two_regions(struct damon_region *l,
++				struct damon_region *r)
++{
++	unsigned long sz_l = sz_damon_region(l), sz_r = sz_damon_region(r);
++
++	l->nr_accesses = (l->nr_accesses * sz_l + r->nr_accesses * sz_r) /
++			(sz_l + sz_r);
++	l->ar.end = r->ar.end;
++	damon_destroy_region(r);
++}
++
++#define diff_of(a, b) (a > b ? a - b : b - a)
++
++/*
++ * Merge adjacent regions having similar access frequencies
++ *
++ * t		target affected by this merge operation
++ * thres	'->nr_accesses' diff threshold for the merge
++ * sz_limit	size upper limit of each region
++ */
++static void damon_merge_regions_of(struct damon_target *t, unsigned int thres,
++				   unsigned long sz_limit)
++{
++	struct damon_region *r, *prev = NULL, *next;
++
++	damon_for_each_region_safe(r, next, t) {
++		if (prev && prev->ar.end == r->ar.start &&
++		    diff_of(prev->nr_accesses, r->nr_accesses) <= thres &&
++		    sz_damon_region(prev) + sz_damon_region(r) <= sz_limit)
++			damon_merge_two_regions(prev, r);
++		else
++			prev = r;
++	}
++}
++
++/*
++ * Merge adjacent regions having similar access frequencies
++ *
++ * threshold	'->nr_accesses' diff threshold for the merge
++ * sz_limit	size upper limit of each region
++ *
++ * This function merges monitoring target regions which are adjacent and their
++ * access frequencies are similar.  This is for minimizing the monitoring
++ * overhead under the dynamically changeable access pattern.  If a merge was
++ * unnecessarily made, later 'kdamond_split_regions()' will revert it.
++ */
++static void kdamond_merge_regions(struct damon_ctx *c, unsigned int threshold,
++				  unsigned long sz_limit)
++{
++	struct damon_target *t;
++
++	damon_for_each_target(t, c)
++		damon_merge_regions_of(t, threshold, sz_limit);
++}
++
++/*
++ * Split a region in two
++ *
++ * r		the region to be split
++ * sz_r		size of the first sub-region that will be made
++ */
++static void damon_split_region_at(struct damon_ctx *ctx,
++				  struct damon_region *r, unsigned long sz_r)
++{
++	struct damon_region *new;
++
++	new = damon_new_region(r->ar.start + sz_r, r->ar.end);
++	if (!new)
++		return;
++
++	r->ar.end = new->ar.start;
++
++	damon_insert_region(new, r, damon_next_region(r));
++}
++
++/* Split every region in the given target into 'nr_subs' regions */
++static void damon_split_regions_of(struct damon_ctx *ctx,
++				     struct damon_target *t, int nr_subs)
++{
++	struct damon_region *r, *next;
++	unsigned long sz_region, sz_sub = 0;
++	int i;
++
++	damon_for_each_region_safe(r, next, t) {
++		sz_region = r->ar.end - r->ar.start;
++
++		for (i = 0; i < nr_subs - 1 &&
++				sz_region > 2 * DAMON_MIN_REGION; i++) {
++			/*
++			 * Randomly select size of left sub-region to be at
++			 * least 10 percent and at most 90% of original region
++			 */
++			sz_sub = ALIGN_DOWN(damon_rand(1, 10) *
++					sz_region / 10, DAMON_MIN_REGION);
++			/* Do not allow blank region */
++			if (sz_sub == 0 || sz_sub >= sz_region)
++				continue;
++
++			damon_split_region_at(ctx, r, sz_sub);
++			sz_region = sz_sub;
++		}
++	}
++}
++
++/*
++ * Split every target region into randomly-sized small regions
++ *
++ * This function splits every target region into random-sized small regions if
++ * current total number of the regions is equal or smaller than half of the
++ * user-specified maximum number of regions.  This is for maximizing the
++ * monitoring accuracy under the dynamically changeable access patterns.  If a
++ * split was unnecessarily made, later 'kdamond_merge_regions()' will revert
++ * it.
++ */
++static void kdamond_split_regions(struct damon_ctx *ctx)
++{
++	struct damon_target *t;
++	unsigned int nr_regions = 0;
++	static unsigned int last_nr_regions;
++	int nr_subregions = 2;
++
++	damon_for_each_target(t, ctx)
++		nr_regions += damon_nr_regions(t);
++
++	if (nr_regions > ctx->max_nr_regions / 2)
++		return;
++
++	/* Maybe the middle of the region has different access frequency */
++	if (last_nr_regions == nr_regions &&
++			nr_regions < ctx->max_nr_regions / 3)
++		nr_subregions = 3;
++
++	damon_for_each_target(t, ctx)
++		damon_split_regions_of(ctx, t, nr_subregions);
++
++	last_nr_regions = nr_regions;
++}
++
+ /*
+  * Check whether it is time to check and apply the target monitoring regions
+  *
+@@ -395,6 +592,8 @@ static int kdamond_fn(void *data)
+ 	struct damon_ctx *ctx = (struct damon_ctx *)data;
+ 	struct damon_target *t;
+ 	struct damon_region *r, *next;
++	unsigned int max_nr_accesses = 0;
++	unsigned long sz_limit = 0;
+ 
+ 	pr_info("kdamond (%d) starts\n", ctx->kdamond->pid);
+ 
+@@ -403,6 +602,8 @@ static int kdamond_fn(void *data)
+ 	if (ctx->callback.before_start && ctx->callback.before_start(ctx))
+ 		set_kdamond_stop(ctx);
+ 
++	sz_limit = damon_region_sz_limit(ctx);
++
+ 	while (!kdamond_need_stop(ctx)) {
+ 		if (ctx->primitive.prepare_access_checks)
+ 			ctx->primitive.prepare_access_checks(ctx);
+@@ -413,13 +614,17 @@ static int kdamond_fn(void *data)
+ 		usleep_range(ctx->sample_interval, ctx->sample_interval + 1);
+ 
+ 		if (ctx->primitive.check_accesses)
+-			ctx->primitive.check_accesses(ctx);
++			max_nr_accesses = ctx->primitive.check_accesses(ctx);
+ 
+ 		if (kdamond_aggregate_interval_passed(ctx)) {
++			kdamond_merge_regions(ctx,
++					max_nr_accesses / 10,
++					sz_limit);
+ 			if (ctx->callback.after_aggregation &&
+ 					ctx->callback.after_aggregation(ctx))
+ 				set_kdamond_stop(ctx);
+ 			kdamond_reset_aggregated(ctx);
++			kdamond_split_regions(ctx);
+ 			if (ctx->primitive.reset_aggregated)
+ 				ctx->primitive.reset_aggregated(ctx);
+ 		}
+@@ -427,6 +632,7 @@ static int kdamond_fn(void *data)
+ 		if (kdamond_need_update_primitive(ctx)) {
+ 			if (ctx->primitive.update)
+ 				ctx->primitive.update(ctx);
++			sz_limit = damon_region_sz_limit(ctx);
+ 		}
+ 	}
+ 	damon_for_each_target(t, ctx) {
 -- 
 2.17.1
 
