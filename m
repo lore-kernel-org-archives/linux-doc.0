@@ -2,140 +2,195 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0C79C433E2
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 22:47:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25947C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 22:57:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BEF0D619DD
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 22:47:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E1ADE619CA
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 22:57:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233112AbhC3Wqs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 18:46:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40234 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232984AbhC3Wqa (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 18:46:30 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF725C061574;
-        Tue, 30 Mar 2021 15:46:29 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id v107so14077978ybi.9;
-        Tue, 30 Mar 2021 15:46:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ejqbwz/4EkB7cjA6s77zDBNNeHlW7Gc17XQkwT+jGR0=;
-        b=QZHm3lIoa3bbuGYkTKiqOXnNOEwBUO0+4Go0DX4ebrfg62LFwPNDBR8Xl1Y6MyoKH0
-         YoQSDLayToitnhPDOCFVo8PFceArYaSoHSH4z98GoBGuCKpQhggnHYW/2VagdMuaOqgB
-         WemxDfM/YWX6235a3pg387TOjCH50xCzhxwVWa5eXzTxouQAoeULYvD0KEPgA3O42cXP
-         LefUsow8u6yutZIAKypyHQyufMaxT4fDGk3NDgjenArm7ikZpHwjI141jOY/y0P4E2TG
-         NdL7gBfT9fyz7h+pi4q+NHmsz9gUZotlqTEzDfskj45r1217aDQJQWXaFGH1AgVn1FbY
-         gVAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ejqbwz/4EkB7cjA6s77zDBNNeHlW7Gc17XQkwT+jGR0=;
-        b=i8vwsaCpT0qX9A8eFv/jXWa5snszSqhkq43XLjlGEB5XAZUUBX4UbesaRHsx+Y4oQR
-         +VYGaR1G3vvbiS+LbnVV9+kq6VNLnzaVq+sYSl6XoE1SM5uuyI0l+jj4hxPgDASTGf3X
-         s3cQ/aHrXytgEsvDMznvjQVXAZoQ6f5pVjc+dVNsYUvyvTdn479UtmiQ16KuGMQC36me
-         ysTEhapgl38snNiZIbEm0AF5g4O4Rw5Vt2Ibbnpi34nLJcr8JVDIuCJ1ftco86cEJxhb
-         9mw67vpG1TWZ4ESTfLApFXLcaSw5ekseIKqAgHJI4OgAZIW9H+ODGAkKslg42Gx5QnNX
-         OPlg==
-X-Gm-Message-State: AOAM531/HXY1C0iP7fSfQLFh73tEa+wzQBFqXLYaaxqLCFZXaCBKwAyQ
-        qIejgSc3sbRbQRTL9HlaOT4QUOP3A7Xv5ZWSelhbN/PP6rojQg==
-X-Google-Smtp-Source: ABdhPJw7PK2aABOUCuU4cuQR6dMOXs8J0854fsME58H+idy86dsavoSqa9LYuZpibc3jH3aZH0mf2Xo8tsiPz6E2qbA=
-X-Received: by 2002:a25:3cc6:: with SMTP id j189mr597494yba.247.1617144389096;
- Tue, 30 Mar 2021 15:46:29 -0700 (PDT)
+        id S233139AbhC3W4l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 18:56:41 -0400
+Received: from mail-eopbgr700070.outbound.protection.outlook.com ([40.107.70.70]:44576
+        "EHLO NAM04-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233132AbhC3W43 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Mar 2021 18:56:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hPvSdKzPlv1nJJzpFE8HhQvT+t5TOjpX43WwnRifFGNVSmPbdO67AvesS2QAcRqqy+WcyiR4V50tN8c2GZt/GxC/VJCTIXJHtUHeYX1TXechY10LAvpmQRtr9ojSib93/0eoNQVMwyYSTC2GUOCDz6GoUjCB6XlTiLXt1JpSKvp5BJpXpe7w0wi8C5q5sBL5a64pn6nrzfwK7v6CgWM2+UiIB+t71GiVNGhefh7zVoyQ2PMicy1ZG314+mviYcavMvInlXmRhotJxkhanRy8fH1awHERRSl4IzpWNzKXHMsa/6nNcH94OY2gTR1F7JVz0LbXEHqSEe85PuAn2ksSqQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cpi7+2Q3W8AlMH/coytc85wXVzRatzANM0nrEySTwVk=;
+ b=cLcy1oxLqy0H/emsHxpqZPZZPeempy1kPxBqERUiVVr94ZeYAxiNoGxopb1VBMO7iQv+rT6rSkwymyXvDYRaqkL4Aa/GQnF2nCkCkTYZ02oukIItfxUjsuKGu1nNJ7j7kSQdH+VW8yyV5t8wpJl/EPSGLV+Urk1f5+T9tcyONhj62drv696crRqMoZwOworWbqK0IsOluOzMNPwzPwgYUfDaG/Zrt3K421hTf+bk4zLd1OlZeZqOy1ZuNJTgFbIWZzgSMo9N8H4KlvTUzP6b+QMgMSlSHSVOdFnShm/KIMbOBuwCeYz9vbqsjWR90QFrDiltvoSr+B4B+pdYFHtjxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cpi7+2Q3W8AlMH/coytc85wXVzRatzANM0nrEySTwVk=;
+ b=D/u8EzOEf8VjPjS1cxTUs8IYcjL+Xx35S/BpOyFiChErDbHZ1CSG2F2Qs/PC8ynmZODbs/FAvTBrDRao+k7dHY+4EwNyokiZ9L7lqMMAHyCWn6lZi50WrBOUiisx2vX8SmialSNIgJGj5EZu8n6yAjTL4WEsoOZiVK9mNgYNNR4H8nVGxTfB7Sgdxr0C2kVQE8RXJeLTrmxib56mXR0vy8ki4WmKS5TmEZbyoJtm5kgpHldp74gaLvH5cO/RtYKICv/7okwFp9wptwek33X+Pz3eKhvN8Ps+Bzidi3wYZ84ZONAShNL33njeva+Pl8Ds7W2PLjUo03/7oqIkSvnTcQ==
+Received: from BN6PR13CA0018.namprd13.prod.outlook.com (2603:10b6:404:10a::28)
+ by DM6PR12MB4139.namprd12.prod.outlook.com (2603:10b6:5:214::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24; Tue, 30 Mar
+ 2021 22:56:27 +0000
+Received: from BN8NAM11FT029.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:404:10a:cafe::f6) by BN6PR13CA0018.outlook.office365.com
+ (2603:10b6:404:10a::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.16 via Frontend
+ Transport; Tue, 30 Mar 2021 22:56:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ BN8NAM11FT029.mail.protection.outlook.com (10.13.177.68) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.3955.18 via Frontend Transport; Tue, 30 Mar 2021 22:56:26 +0000
+Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 30 Mar
+ 2021 22:56:23 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     John Hubbard <jhubbard@nvidia.com>
+CC:     Jason Gunthorpe <jgg@nvidia.com>, <linux-mm@kvack.org>,
+        <nouveau@lists.freedesktop.org>, <bskeggs@redhat.com>,
+        <akpm@linux-foundation.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <kvm-ppc@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <rcampbell@nvidia.com>,
+        <jglisse@redhat.com>, <hch@infradead.org>, <daniel@ffwll.ch>,
+        <willy@infradead.org>, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v7 3/8] mm/rmap: Split try_to_munlock from try_to_unmap
+Date:   Wed, 31 Mar 2021 09:56:20 +1100
+Message-ID: <12636584.zsJ0Sx4KLp@nvdebian>
+In-Reply-To: <bce0605a-336f-99ba-5b65-a8e5a7e49e00@nvidia.com>
+References: <20210326000805.2518-1-apopple@nvidia.com> <20210330222440.GC2356281@nvidia.com> <bce0605a-336f-99ba-5b65-a8e5a7e49e00@nvidia.com>
 MIME-Version: 1.0
-References: <20210325184615.08526aed@coco.lan> <2cf44cf1fa42588632735d4fbc8e84304bdc235f.1616696051.git.mchehab+huawei@kernel.org>
- <87tuozyslu.fsf@meer.lwn.net> <20210325191435.GZ1719932@casper.infradead.org>
- <87a6qrx7wf.fsf@meer.lwn.net> <20210325221437.GA1719932@casper.infradead.org>
- <CANiq72=kRzBQsjgUeuVNXRmRVN8zXzMvMn+yTWt=YhR+r2wNEg@mail.gmail.com> <87wntooq71.fsf@intel.com>
-In-Reply-To: <87wntooq71.fsf@intel.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Wed, 31 Mar 2021 00:46:18 +0200
-Message-ID: <CANiq72kd+=LrWZEAN=eu9O49Vi+4bMBCjCN=uH6bs130kF9U9A@mail.gmail.com>
-Subject: Re: [PATCH] kernel-doc: better handle '::' sequences
-To:     Jani Nikula <jani.nikula@linux.intel.com>
-Cc:     Matthew Wilcox <willy@infradead.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a22db820-06fd-4788-658d-08d8f3cf0c8b
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4139:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB41394768A8A0A783BD70C9A7DF7D9@DM6PR12MB4139.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HRjVnFfdanjDSrRKE1YZnq3AN3oh7bHoCbPyLEjC33HeMz8iJH9GgBlCzCIsoW1Z3/24HHckunGGkXZheJ10XsskLx9RRIu71gP7MtA8B4Bm96oBuRyg7J5p7Ux0qvZzBfbm/bbjwWqmqTWnHW13iZ5DWMiLVbZ7saZVphP1Zt1EUcyomsRA6/rIs7D39ZDk92B9cvmyLdDSRsypgYdJVm1uyrXQa2oRqEQUjlCp1yhB8J+Oo2+y8WXsc+e1GG2q+3YLY3hXClc6VqASixRzKy4bzzEryQ5Uu2wGMd/ZocPHZGGEGmOZ8hXvLh/LGErfsXIgv0kbY+Y/jMXmK4mDLx8OP5WKUEyHv7U2Fa9ClqVBUSE2cSTmoUhj9mluZ8ng7RU649vZ19wDkpWFsDpYmcPkZAj+vf1kuvTGY4bV7NMJwicxdjfD/RJ59Q1C7pfJwNQ3gi0wEgw3k2j3lckUBil5bLoog8g2aQEk8jwsSHZwB58R8foAac1hcgQQAydy7yYDfGOcEE2tcY3zesd9GpgI6MDsgbzXe9Px61o0Frj/FFAVaMvgcnrOLcrhfoXQlyUVLb91+fKBxe/+W1PNYqCH0zzA9WEPlF/aECe/bL16yBZRFOzEESdjn1oioYyZqFM5J1pfjOAA1B7EOMh9bz6JV7YQRrPuXGoqCqW6dCE++q9TnpuPHVrrHeJzPPV0
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(346002)(39860400002)(376002)(396003)(46966006)(36840700001)(83380400001)(336012)(8936002)(36860700001)(6862004)(8676002)(478600001)(33716001)(16526019)(26005)(356005)(54906003)(426003)(186003)(47076005)(70206006)(9576002)(2906002)(7416002)(4326008)(316002)(53546011)(82740400003)(5660300002)(7636003)(9686003)(86362001)(70586007)(82310400003)(6636002)(36906005)(39026012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 22:56:26.5438
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a22db820-06fd-4788-658d-08d8f3cf0c8b
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT029.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4139
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 30, 2021 at 1:07 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+On Wednesday, 31 March 2021 9:43:19 AM AEDT John Hubbard wrote:
+> On 3/30/21 3:24 PM, Jason Gunthorpe wrote:
+> ...
+> >> As far as I can tell this has always been called try_to_munlock() even 
+though
+> >> it appears to do the opposite.
+> > 
+> > Maybe we should change it then?
+> > 
+> >>> /**
+> >>>   * try_to_munlock - try to munlock a page
+> >>>   * @page: the page to be munlocked
+> >>>   *
+> >>>   * Called from munlock code.  Checks all of the VMAs mapping the page
+> >>>   * to make sure nobody else has this page mlocked. The page will be
+> >>>   * returned with PG_mlocked cleared if no other vmas have it mlocked.
+> >>>   */
+> >>
+> >> In other words it sets PG_mlocked if one or more vmas has it mlocked. So
+> >> try_to_mlock() might be a better name, except that seems to have the 
+potential
+> >> for confusion as well because it's only called from the munlock code path 
+and
+> >> never for mlock.
+> > 
+> > That explanation makes more sense.. This function looks like it is
+> > 'set PG_mlocked of the page if any vm->flags has VM_LOCKED'
+> > 
+> > Maybe call it check_vm_locked or something then and reword the above
+> > comment?
+> > 
+> > (and why is it OK to read vm->flags for this without any locking?)
+> > 
+> >>> Something needs attention here..
+> >>
+> >> I think the code is correct, but perhaps the naming could be better. 
+Would be
+> >> interested hearing any thoughts on renaming try_to_munlock() to 
+try_to_mlock()
+> >> as the current name appears based on the context it is called from 
+(munlock)
+> >> rather than what it does (mlock).
+> > 
+> > The point of this patch is to make it clearer, after all, so I'd
+> > change something and maybe slightly clarify the comment.
+> > 
+
+Yep, agree with that.
+ 
+> I'd add that, after looking around the calling code, this is a really 
+unhappy
+> pre-existing situation. Anyone reading this has to remember at which point 
+in the
+> call stack the naming transitions from "do the opposite of what the name 
+says",
+> to "do what the name says".
 >
-> FWIW, and this should be obvious, I think going with what's natural for
-> documenting Rust source code is the right choice. Markdown as parsed by
-> rustdoc. People will expect Rust documentation comments to just work,
-> without some kernel specific gotchas. Don't try to reinvent the wheel
-> here, it's a dead end.
+> +1 for renaming "munlock*" items to "mlock*", where applicable. good grief.
 
-Agreed!
+At least the situation was weird enough to prompt further investigation :) 
 
-> The interesting question is, I think, figuring out if rustdoc output
-> could be incorporated into Sphinx documentation, and how. It would be
-> pretty disappointing if we ended up with two documentation silos based
-> on the module implementation language.
+Renaming to mlock* doesn't feel like the right solution to me either though. I 
+am not sure if you saw me responding to myself earlier but I am thinking 
+renaming try_to_munlock() -> page_mlocked() and try_to_munlock_one() -> 
+page_mlock_one() might be better. Thoughts?
 
-I want to have the Rust docs linked from Sphinx and uploaded as usual
-to kernel.org etc.
+This is actually inspired from a suggestion in Documentation/vm/unevictable-
+lru.rst which warns about this problem:
 
-However, please note that the implementation language implies a lot of
-things, not just the "implementation language", if that makes sense.
+try_to_munlock() Reverse Map Scan
+---------------------------------
 
-For instance, if you write your module in Rust, the idea is that you
-use the Rust infrastructure and exposed abstractions -- not that you
-call C kernel functions on your own.
+.. warning::
+   [!] TODO/FIXME: a better name might be page_mlocked() - analogous to the
+   page_referenced() reverse map walker.
 
-> At the moment it seems to me rustdoc can only output HTML, and that
-> seems pretty deeply ingrained in the tool. AFAICT, there isn't an
-> intermediate phase where it would be trivial to output the documentation
-> in Markdown (though I don't really know Rust and I only had a cursory
-> look at librustdoc). And even if it were possible, with Markdown you'd
-> have the issues with conflicting Markdown flavours, what's supported by
-> rustdoc vs. commonmark.py used by Sphinx.
+> Although, it seems reasonable to tack such renaming patches onto the tail 
+end
+> of this series. But whatever works.
 
-Please note that `rustdoc` generates HTML that is intended for Rust
-code, i.e. generating an intermediate format to then generate HTML
-from Sphinx would make the Rust docs worse, unless the mapping is
-perfect (but, at that point, why not just keep the standard Rust
-docs?).
+Unless anyone objects strongly I will roll the rename into this patch as there 
+is only one caller of try_to_munlock.
 
-> Perhaps the bare minimum is running rustdoc first, and generating the
-> results into Sphinx static pages [1], to make them part of the
-> whole. Even if the HTML style might be different. Perhaps it would be
+ - Alistair
 
-I don't think it is the "bare minimum", I think this is the optimal
-solution! :-)
+> thanks,
+> 
 
-It is also not just about the style. The Rust docs are organized for
-Rust code, the search functionality is meant for it, etc.
 
-> possible to come up with a Sphinx extensions to make it convenient to
-> reference content in the rustdoc generated HTML from reStructuredText.
 
-For C -> Rust links, the plan I suggested to Jonathan was to have
-Sphinx generate a text file with (reference, URL) pairs that then
-`rustdoc` can use as links (e.g. to link to, say, the docs for
-`printk`).
 
-I also discussed it with the `rustdoc` maintainers, and they thought
-it would be an interesting proposal, so I agreed to make an RFC for it
-(note that it can be useful not just for Rust docs that need to refer
-to C code, but also for any other kind of external content, e.g.
-imagine a math library referencing a set of papers, books, etc.
-without having to re-write the URL everywhere).
-
-Cheers,
-Miguel
