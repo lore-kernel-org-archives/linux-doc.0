@@ -2,234 +2,97 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E962DC433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 04:57:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD73AC433E1
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 05:01:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD50561989
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 04:57:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AB1DA61994
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 05:01:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230122AbhC3E4b (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 00:56:31 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62818 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S229884AbhC3E4a (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 00:56:30 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 12U4XjGh153202;
-        Tue, 30 Mar 2021 00:56:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : in-reply-to : references : date : message-id : content-type :
- mime-version; s=pp1; bh=ixon0YOaD+yk5jEcvTn+006DJtnnwrreLGNiOXPZZ8U=;
- b=pZL7kRibx+a9H6EimI/ezEXcfCF6QjiUayoDyvdmqxJPf0lE8LuGU2VsaIPLg3JHJsQl
- 6kAWgj5vbVu5MPM6i7mgOSaS8epg8738DJSfbjbGt3DnbuZ2zYoOJOD4TLqWLuHV0c5i
- HIvSDOHERRIh9h8Svl4jUtupIcIcAh+EkLIHkpda05e0s1gW264vElQ9vFZ8Vydp12hR
- jMHXN/zimRKUJYxRXpBsy/ShCJmXkLa6NatoT86T+6wXFq+BNzAzNnIrSqiolYDCYQQ7
- xNcb5+I4jMCiHsdHPE9Lqj0KHgGKE7bV55I4myqn9x5QgXtcMm6wMKsMyzsiouMcfaJw fQ== 
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com [169.63.121.186])
-        by mx0b-001b2d01.pphosted.com with ESMTP id 37jjb5m4wa-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 30 Mar 2021 00:56:23 -0400
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
-        by ppma03wdc.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 12U4pjkq017077;
-        Tue, 30 Mar 2021 04:56:22 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com [9.57.198.23])
-        by ppma03wdc.us.ibm.com with ESMTP id 37jqmn36fh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 30 Mar 2021 04:56:22 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com [9.57.199.107])
-        by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 12U4uMQJ31130042
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 30 Mar 2021 04:56:22 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 5CA69124053;
-        Tue, 30 Mar 2021 04:56:22 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 3F58A124055;
-        Tue, 30 Mar 2021 04:56:19 +0000 (GMT)
-Received: from skywalker.linux.ibm.com (unknown [9.199.52.226])
-        by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
-        Tue, 30 Mar 2021 04:56:18 +0000 (GMT)
-X-Mailer: emacs 28.0.50 (via feedmail 11-beta-1 I)
-From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-To:     Shivaprasad G Bhat <sbhat@linux.ibm.com>, sbhat@linux.vnet.ibm.com,
-        linuxppc-dev@lists.ozlabs.org, kvm-ppc@vger.kernel.org,
-        linux-nvdimm@lists.01.org, ellerman@au1.ibm.com
-Cc:     linux-doc@vger.kernel.org, vaibhav@linux.ibm.com
-Subject: Re: [PATCH v3] powerpc/papr_scm: Implement support for H_SCM_FLUSH
- hcall
-In-Reply-To: <161703936121.36.7260632399582101498.stgit@e1fbed493c87>
-References: <161703936121.36.7260632399582101498.stgit@e1fbed493c87>
-Date:   Tue, 30 Mar 2021 10:26:16 +0530
-Message-ID: <87mtul6xzj.fsf@linux.ibm.com>
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: aPcBfXRo3onOJJbKX49psqOTu0g8NSFj
-X-Proofpoint-ORIG-GUID: aPcBfXRo3onOJJbKX49psqOTu0g8NSFj
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S229530AbhC3FBB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 01:01:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35358 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231131AbhC3FAv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 01:00:51 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B396C061762;
+        Mon, 29 Mar 2021 22:00:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+        :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
+        Sender:Reply-To:Content-ID:Content-Description;
+        bh=V7tfHUX7gzDCq90JXHU3cfAk5NpLyICliFAAYBpIIDM=; b=dw8TNySkze8eJCHzodSrcGQl5v
+        VmXP9p/bUsK5T1f5xa1Rh9iYgt2Nsge5M86mRQLBhC7dZp1XoM7o0l94Pwu69p/AUeIvTSIvgnzU8
+        mVUoJnhBukYbETXOQf9CbZBwp76M1oI1WuJvTZDc5ADRjqnPWDsNJxugg5WnWYSkvB5kbx4Mx5IcF
+        pM95vp5P2xeuGc7anhDho8LhyHixBkU5llnCm8vVDA+lwkieI78xaDFII2rMl//Ewc9bvu7gfXfpC
+        GVfUKExYk0PTuvKuiCfhEInib4+bDTdfYPsNdzoQ6F4Hvexv9rX+4xYem74xAD5x5u1ai5OKmjR/u
+        CHQUvfDA==;
+Received: from [2601:1c0:6280:3f0::4557]
+        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lR6Ui-002iSV-8o; Tue, 30 Mar 2021 05:00:48 +0000
+Subject: Re: [PATCH] Documentation: crypto: add info about "fips=" boot option
+To:     Herbert Xu <herbert@gondor.apana.org.au>
+Cc:     linux-kernel@vger.kernel.org, Dexuan Cui <decui@microsoft.com>,
+        linux-crypto@vger.kernel.org, Eric Biggers <ebiggers@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20210330040001.31524-1-rdunlap@infradead.org>
+ <20210330043747.GA28166@gondor.apana.org.au>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <fb76dd26-eea8-af06-6968-25719a6dba6b@infradead.org>
+Date:   Mon, 29 Mar 2021 22:00:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-03-30_01:2021-03-26,2021-03-30 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 bulkscore=0
- mlxscore=0 impostorscore=0 adultscore=0 lowpriorityscore=0 clxscore=1011
- spamscore=0 priorityscore=1501 phishscore=0 malwarescore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103250000
- definitions=main-2103300029
+In-Reply-To: <20210330043747.GA28166@gondor.apana.org.au>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Shivaprasad G Bhat <sbhat@linux.ibm.com> writes:
+On 3/29/21 9:37 PM, Herbert Xu wrote:
+> On Mon, Mar 29, 2021 at 09:00:01PM -0700, Randy Dunlap wrote:
+>>
+>> +			If fips_enabled = 1, some crypto tests are skipped.
+> 
+> I don't think any tests are skipped.  It does however disable
+> many algorithms by essentially failing them at the testing stage.
 
-> Add support for ND_REGION_ASYNC capability if the device tree
-> indicates 'ibm,hcall-flush-required' property in the NVDIMM node.
-> Flush is done by issuing H_SCM_FLUSH hcall to the hypervisor.
->
-> If the flush request failed, the hypervisor is expected to
-> to reflect the problem in the subsequent nvdimm H_SCM_HEALTH call.
->
-> This patch prevents mmap of namespaces with MAP_SYNC flag if the
-> nvdimm requires an explicit flush[1].
->
-> References:
-> [1] https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c
+That statement was based on crypto/testmgr.c (in 4 places):
+
+		if (fips_enabled && template[i].fips_skip)
+			continue;
+
+and
+
+	if (fips_enabled && vec->fips_skip)
+		return 0;
+
+and
+
+		if (fips_enabled && !alg_test_descs[i].fips_allowed)
+			goto non_fips_alg;
+
+and
+
+	if (fips_enabled && ((i >= 0 && !alg_test_descs[i].fips_allowed) ||
+			     (j >= 0 && !alg_test_descs[j].fips_allowed)))
+		goto non_fips_alg;
 
 
-Reviewed-by: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+so it appears (at least to me) that there are some methods (infrastructure)
+for tests to be skipped, but maybe none are actually using that possiblilty.
 
->
-> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-> ---
-> v2 - https://www.spinics.net/lists/kvm-ppc/msg18799.html
-> Changes from v2:
->        - Fixed the commit message.
->        - Add dev_dbg before the H_SCM_FLUSH hcall
->
-> v1 - https://www.spinics.net/lists/kvm-ppc/msg18272.html
-> Changes from v1:
->        - Hcall semantics finalized, all changes are to accomodate them.
->
->  Documentation/powerpc/papr_hcalls.rst     |   14 ++++++++++
->  arch/powerpc/include/asm/hvcall.h         |    3 +-
->  arch/powerpc/platforms/pseries/papr_scm.c |   40 +++++++++++++++++++++++++++++
->  3 files changed, 56 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
-> index 48fcf1255a33..648f278eea8f 100644
-> --- a/Documentation/powerpc/papr_hcalls.rst
-> +++ b/Documentation/powerpc/papr_hcalls.rst
-> @@ -275,6 +275,20 @@ Health Bitmap Flags:
->  Given a DRC Index collect the performance statistics for NVDIMM and copy them
->  to the resultBuffer.
->  
-> +**H_SCM_FLUSH**
-> +
-> +| Input: *drcIndex, continue-token*
-> +| Out: *continue-token*
-> +| Return Value: *H_SUCCESS, H_Parameter, H_P2, H_BUSY*
-> +
-> +Given a DRC Index Flush the data to backend NVDIMM device.
-> +
-> +The hcall returns H_BUSY when the flush takes longer time and the hcall needs
-> +to be issued multiple times in order to be completely serviced. The
-> +*continue-token* from the output to be passed in the argument list of
-> +subsequent hcalls to the hypervisor until the hcall is completely serviced
-> +at which point H_SUCCESS or other error is returned by the hypervisor.
-> +
->  References
->  ==========
->  .. [1] "Power Architecture Platform Reference"
-> diff --git a/arch/powerpc/include/asm/hvcall.h b/arch/powerpc/include/asm/hvcall.h
-> index ed6086d57b22..9f7729a97ebd 100644
-> --- a/arch/powerpc/include/asm/hvcall.h
-> +++ b/arch/powerpc/include/asm/hvcall.h
-> @@ -315,7 +315,8 @@
->  #define H_SCM_HEALTH            0x400
->  #define H_SCM_PERFORMANCE_STATS 0x418
->  #define H_RPT_INVALIDATE	0x448
-> -#define MAX_HCALL_OPCODE	H_RPT_INVALIDATE
-> +#define H_SCM_FLUSH		0x44C
-> +#define MAX_HCALL_OPCODE	H_SCM_FLUSH
->  
->  /* Scope args for H_SCM_UNBIND_ALL */
->  #define H_UNBIND_SCOPE_ALL (0x1)
-> diff --git a/arch/powerpc/platforms/pseries/papr_scm.c b/arch/powerpc/platforms/pseries/papr_scm.c
-> index 835163f54244..b7a47fcc5aa5 100644
-> --- a/arch/powerpc/platforms/pseries/papr_scm.c
-> +++ b/arch/powerpc/platforms/pseries/papr_scm.c
-> @@ -93,6 +93,7 @@ struct papr_scm_priv {
->  	uint64_t block_size;
->  	int metadata_size;
->  	bool is_volatile;
-> +	bool hcall_flush_required;
->  
->  	uint64_t bound_addr;
->  
-> @@ -117,6 +118,39 @@ struct papr_scm_priv {
->  	size_t stat_buffer_len;
->  };
->  
-> +static int papr_scm_pmem_flush(struct nd_region *nd_region,
-> +			       struct bio *bio __maybe_unused)
-> +{
-> +	struct papr_scm_priv *p = nd_region_provider_data(nd_region);
-> +	unsigned long ret_buf[PLPAR_HCALL_BUFSIZE];
-> +	uint64_t token = 0;
-> +	int64_t rc;
-> +
-> +	dev_dbg(&p->pdev->dev, "flush drc 0x%x", p->drc_index);
-> +
-> +	do {
-> +		rc = plpar_hcall(H_SCM_FLUSH, ret_buf, p->drc_index, token);
-> +		token = ret_buf[0];
-> +
-> +		/* Check if we are stalled for some time */
-> +		if (H_IS_LONG_BUSY(rc)) {
-> +			msleep(get_longbusy_msecs(rc));
-> +			rc = H_BUSY;
-> +		} else if (rc == H_BUSY) {
-> +			cond_resched();
-> +		}
-> +	} while (rc == H_BUSY);
-> +
-> +	if (rc) {
-> +		dev_err(&p->pdev->dev, "flush error: %lld", rc);
-> +		rc = -EIO;
-> +	} else {
-> +		dev_dbg(&p->pdev->dev, "flush drc 0x%x complete", p->drc_index);
-> +	}
-> +
-> +	return rc;
-> +}
-> +
->  static LIST_HEAD(papr_nd_regions);
->  static DEFINE_MUTEX(papr_ndr_lock);
->  
-> @@ -943,6 +977,11 @@ static int papr_scm_nvdimm_init(struct papr_scm_priv *p)
->  	ndr_desc.num_mappings = 1;
->  	ndr_desc.nd_set = &p->nd_set;
->  
-> +	if (p->hcall_flush_required) {
-> +		set_bit(ND_REGION_ASYNC, &ndr_desc.flags);
-> +		ndr_desc.flush = papr_scm_pmem_flush;
-> +	}
-> +
->  	if (p->is_volatile)
->  		p->region = nvdimm_volatile_region_create(p->bus, &ndr_desc);
->  	else {
-> @@ -1088,6 +1127,7 @@ static int papr_scm_probe(struct platform_device *pdev)
->  	p->block_size = block_size;
->  	p->blocks = blocks;
->  	p->is_volatile = !of_property_read_bool(dn, "ibm,cache-flush-required");
-> +	p->hcall_flush_required = of_property_read_bool(dn, "ibm,hcall-flush-required");
->  
->  	/* We just need to ensure that set cookies are unique across */
->  	uuid_parse(uuid_str, (uuid_t *) uuid);
->
-> _______________________________________________
-> Linux-nvdimm mailing list -- linux-nvdimm@lists.01.org
-> To unsubscribe send an email to linux-nvdimm-leave@lists.01.org
+In any case, I don't mind dropping that part of the documentation.
+
+thanks.
+-- 
+~Randy
+
