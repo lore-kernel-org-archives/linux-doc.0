@@ -2,59 +2,59 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89A78C433E4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4A24C433E6
 	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:07:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 459E6619BD
+	by mail.kernel.org (Postfix) with ESMTP id 88C8C619A7
 	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:07:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231802AbhC3JGn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 05:06:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59980 "EHLO
+        id S231627AbhC3JGq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 05:06:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231722AbhC3JGQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 05:06:16 -0400
-Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E459C061762;
-        Tue, 30 Mar 2021 02:06:16 -0700 (PDT)
-Received: by mail-qv1-xf33.google.com with SMTP id x27so7793818qvd.2;
-        Tue, 30 Mar 2021 02:06:16 -0700 (PDT)
+        with ESMTP id S231593AbhC3JGX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 05:06:23 -0400
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AE5DC061762;
+        Tue, 30 Mar 2021 02:06:23 -0700 (PDT)
+Received: by mail-qt1-x830.google.com with SMTP id f12so11405357qtq.4;
+        Tue, 30 Mar 2021 02:06:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=aKeb3fcwK9W0TVkoKsvlqPl7wq54ptWNz0E2zQWWcJc=;
-        b=BYecdWPwi+adIwOrQ1jwjvyQ7upZg1baANTvcj2drxbRgYceMVktNiTwSqd/tx/yo+
-         WX71o2A9v5DIe6ivJGbFJJARhq+hgGM9OsqncEY+vvPtxTafdE9Vh0n1wQttibs8M6fK
-         ZlF7NJssAfm4ItTq9ja2YkCadxGtSp0bnwiZ/KqfCK+vkuKRxf52YGhktRHRPZUd+Sd5
-         Cak3Efu4YTS0PGGyS6vpze7+XPxv0jescjQEdBdN9XxOeCa6Gy1S5h2luqAwfbBk/qDk
-         Fna28JG/qJuNtrp4/eJv7tCBeTwVLZhGvjkjpi5pHiYt0OfRduwflUfDUf/0m2f1NmiA
-         sVww==
+        bh=92l+8w7L4L+POeiMQ+785lRXaO47cAlZxhuw/8KNqwY=;
+        b=Y5/ln7IZ+9G1HFKKFbKL7gR9g5/oFg+30yn4rBd9h1/ckg2nlh0bJDBGTwoCVIq2xj
+         srHfzDmPfX2BpjQwjGW5xlSg2y72f4xT82Ch3tHZLTaoFn69UKlbZFYH/tcRCbQVMFnx
+         s/D+GZn6hCrUhcMxa0QizJ1W6vuWObdnU0v0m/2giwNV0M03rh6qAKBKM53FOwfesGDp
+         i0dK7q4L6moW6GfptVpHtwP7kB2A7zKnRwMZ+BgO4bEAT4DzcdQ8yR8HzVF9LBnSD+dF
+         texyHWa4OmnBM1KC9GSG1zglxtLYB/HscVXS9EMENZqhWj+jTlhUrF+qIfV8HUSPomZe
+         VfMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=aKeb3fcwK9W0TVkoKsvlqPl7wq54ptWNz0E2zQWWcJc=;
-        b=nK1ZIciVFEvqwsVpktPyie20val5Y5RYaFHoqYucQncpXsTpkE6ujE70HIttkMwI0Z
-         CjvD3qGoJu7TAABcc3cssvS5KahD1e/Es62VPtIAlJbTrKR2yfb0UMZocwdBAGM5nohM
-         0Vcz3Sf1DyPYQR1RsIotzm3nOPE3TnJ+T7sfGCeBeKmUvCxXqEr+XOtzHEOM5uR5Ocpf
-         yvSMOXHJqvtyWGv0+yEm4MLzlgpqj2S32DWLXzjX3PjsCu4pkwSm0fULMHAw3CNjngZy
-         Op9O60GSpTQOIEfDwXAQbYZwZwcU94Sbs5PyBTxWaL/JvSxHgliSz+8YxyGPD1y16AEK
-         VqkA==
-X-Gm-Message-State: AOAM530jEGEfrzx3QmXlMHNHFH6xHweIc980Tu8BLvO5n2ySRg2O7lwB
-        bdKSHMv5IPEDBV30qLaSLZc=
-X-Google-Smtp-Source: ABdhPJwfDHYTBCpKxm033FM2xInt4rFZLeAs4zyzoW2C1/ifm0ZPEc/3II1YYQkBWz8eOLjQxWEnjA==
-X-Received: by 2002:a0c:f349:: with SMTP id e9mr29271201qvm.59.1617095175306;
-        Tue, 30 Mar 2021 02:06:15 -0700 (PDT)
+        bh=92l+8w7L4L+POeiMQ+785lRXaO47cAlZxhuw/8KNqwY=;
+        b=gkhauD0u4iDZBfkLT8kSl62heymQgRGpxSU16yO/+dgUzfkUQdRUAtJUX4Z+aBfVmY
+         Y7QLyiVygdE467Le3YEz5zxpcEUVfePl8wuZzYT1afRDUopZUdxwmYmrXCNWJrK0G6/h
+         6HMWJF84m2AypQQXGGhDs02hBpblBBTOuklux/q9+BBi17dBZ/L+2QBhjoxiIJ4gFZ+6
+         IbMRynnu62vDnhCF85zwa5eIm0YVHIddv8c9t+SPmriJM2U27zqdgnYp4FWszlj3+wk8
+         RbQ427ge9YkD2n+KQz2ZFKRMb8LiHBa/C24h67qFlYn3cRODFqHCowggFCDreCYnslcj
+         1x6g==
+X-Gm-Message-State: AOAM531TOG7uGLrvw/KLK9HgAbiLQe0hQEJ3LHK0vhYj0yTMKneXPV5q
+        Eu8tiMCNfo5ka2a2lMJFbs8=
+X-Google-Smtp-Source: ABdhPJynq7jM6AVwr0lv1Ds7DnOcWwNXFsT0Sw+5Qz4fW2/oldiIFf+iwgmZHCSC9eG1aAK5lDp0Mw==
+X-Received: by 2002:a05:622a:c6:: with SMTP id p6mr26728342qtw.200.1617095182335;
+        Tue, 30 Mar 2021 02:06:22 -0700 (PDT)
 Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id 8sm14630011qkc.32.2021.03.30.02.06.14
+        by smtp.gmail.com with ESMTPSA id 8sm14630011qkc.32.2021.03.30.02.06.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Mar 2021 02:06:14 -0700 (PDT)
+        Tue, 30 Mar 2021 02:06:21 -0700 (PDT)
 From:   sj38.park@gmail.com
 To:     akpm@linux-foundation.org
 Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
@@ -71,9 +71,9 @@ Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
         vdavydov.dev@gmail.com, zgf574564920@gmail.com,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v26 09/13] mm/damon/dbgfs: Support multiple contexts
-Date:   Tue, 30 Mar 2021 09:05:33 +0000
-Message-Id: <20210330090537.12143-10-sj38.park@gmail.com>
+Subject: [PATCH v26 12/13] mm/damon: Add user space selftests
+Date:   Tue, 30 Mar 2021 09:05:36 +0000
+Message-Id: <20210330090537.12143-13-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210330090537.12143-1-sj38.park@gmail.com>
 References: <20210330090537.12143-1-sj38.park@gmail.com>
@@ -83,267 +83,170 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-In some use cases, users would want to run multiple monitoring context.
-For example, if a user wants a high precision monitoring and dedicating
-multiple CPUs for the job is ok, because DAMON creates one monitoring
-thread per one context, the user can split the monitoring target regions
-into multiple small regions and create one context for each region.  Or,
-someone might want to simultaneously monitor different address spaces,
-e.g., both virtual address space and physical address space.
-
-The DAMON's API allows such usage, but 'damon-dbgfs' does not.
-Therefore, only kernel space DAMON users can do multiple contexts
-monitoring.
-
-This commit allows the user space DAMON users to use multiple contexts
-monitoring by introducing two new 'damon-dbgfs' debugfs files,
-'mk_context' and 'rm_context'.  Users can create a new monitoring
-context by writing the desired name of the new context to 'mk_context'.
-Then, a new directory with the name and having the files for setting of
-the context ('attrs', 'target_ids' and 'record') will be created under
-the debugfs directory.  Writing the name of the context to remove to
-'rm_context' will remove the related context and directory.
+This commit adds a simple user space tests for DAMON.  The tests are
+using kselftest framework.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 ---
- mm/damon/dbgfs.c | 203 ++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 201 insertions(+), 2 deletions(-)
+ tools/testing/selftests/damon/Makefile        |  7 ++
+ .../selftests/damon/_chk_dependency.sh        | 28 ++++++
+ .../testing/selftests/damon/debugfs_attrs.sh  | 98 +++++++++++++++++++
+ 3 files changed, 133 insertions(+)
+ create mode 100644 tools/testing/selftests/damon/Makefile
+ create mode 100644 tools/testing/selftests/damon/_chk_dependency.sh
+ create mode 100755 tools/testing/selftests/damon/debugfs_attrs.sh
 
-diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
-index aec2b7d81809..9edef931ed00 100644
---- a/mm/damon/dbgfs.c
-+++ b/mm/damon/dbgfs.c
-@@ -18,6 +18,7 @@
- static struct damon_ctx **dbgfs_ctxs;
- static int dbgfs_nr_ctxs;
- static struct dentry **dbgfs_dirs;
-+static DEFINE_MUTEX(damon_dbgfs_lock);
- 
- /*
-  * Returns non-empty string on success, negarive error code otherwise.
-@@ -316,6 +317,192 @@ static struct damon_ctx *dbgfs_new_ctx(void)
- 	return ctx;
- }
- 
-+static void dbgfs_destroy_ctx(struct damon_ctx *ctx)
-+{
-+	damon_destroy_ctx(ctx);
-+}
+diff --git a/tools/testing/selftests/damon/Makefile b/tools/testing/selftests/damon/Makefile
+new file mode 100644
+index 000000000000..8a3f2cd9fec0
+--- /dev/null
++++ b/tools/testing/selftests/damon/Makefile
+@@ -0,0 +1,7 @@
++# SPDX-License-Identifier: GPL-2.0
++# Makefile for damon selftests
 +
-+/*
-+ * Make a context of @name and create a debugfs directory for it.
-+ *
-+ * This function should be called while holding damon_dbgfs_lock.
-+ *
-+ * Returns 0 on success, negative error code otherwise.
-+ */
-+static int dbgfs_mk_context(char *name)
-+{
-+	struct dentry *root, **new_dirs, *new_dir;
-+	struct damon_ctx **new_ctxs, *new_ctx;
-+	int err;
++TEST_FILES = _chk_dependency.sh
++TEST_PROGS = debugfs_attrs.sh
 +
-+	if (damon_nr_running_ctxs())
-+		return -EBUSY;
++include ../lib.mk
+diff --git a/tools/testing/selftests/damon/_chk_dependency.sh b/tools/testing/selftests/damon/_chk_dependency.sh
+new file mode 100644
+index 000000000000..e090836c2bf7
+--- /dev/null
++++ b/tools/testing/selftests/damon/_chk_dependency.sh
+@@ -0,0 +1,28 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
 +
-+	new_ctxs = krealloc(dbgfs_ctxs, sizeof(*dbgfs_ctxs) *
-+			(dbgfs_nr_ctxs + 1), GFP_KERNEL);
-+	if (!new_ctxs)
-+		return -ENOMEM;
++# Kselftest framework requirement - SKIP code is 4.
++ksft_skip=4
 +
-+	new_dirs = krealloc(dbgfs_dirs, sizeof(*dbgfs_dirs) *
-+			(dbgfs_nr_ctxs + 1), GFP_KERNEL);
-+	if (!new_dirs) {
-+		kfree(new_ctxs);
-+		return -ENOMEM;
-+	}
++DBGFS=/sys/kernel/debug/damon
 +
-+	dbgfs_ctxs = new_ctxs;
-+	dbgfs_dirs = new_dirs;
++if [ $EUID -ne 0 ];
++then
++	echo "Run as root"
++	exit $ksft_skip
++fi
 +
-+	root = dbgfs_dirs[0];
-+	if (!root)
-+		return -ENOENT;
++if [ ! -d $DBGFS ]
++then
++	echo "$DBGFS not found"
++	exit $ksft_skip
++fi
 +
-+	new_dir = debugfs_create_dir(name, root);
-+	dbgfs_dirs[dbgfs_nr_ctxs] = new_dir;
++for f in attrs target_ids monitor_on
++do
++	if [ ! -f "$DBGFS/$f" ]
++	then
++		echo "$f not found"
++		exit 1
++	fi
++done
+diff --git a/tools/testing/selftests/damon/debugfs_attrs.sh b/tools/testing/selftests/damon/debugfs_attrs.sh
+new file mode 100755
+index 000000000000..4a8ab4910ee4
+--- /dev/null
++++ b/tools/testing/selftests/damon/debugfs_attrs.sh
+@@ -0,0 +1,98 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
 +
-+	new_ctx = dbgfs_new_ctx();
-+	if (!new_ctx) {
-+		debugfs_remove(new_dir);
-+		dbgfs_dirs[dbgfs_nr_ctxs] = NULL;
-+		return -ENOMEM;
-+	}
-+	dbgfs_ctxs[dbgfs_nr_ctxs] = new_ctx;
++source ./_chk_dependency.sh
 +
-+	err = dbgfs_fill_ctx_dir(dbgfs_dirs[dbgfs_nr_ctxs],
-+			dbgfs_ctxs[dbgfs_nr_ctxs]);
-+	if (err)
-+		return err;
++# Test attrs file
++file="$DBGFS/attrs"
 +
-+	dbgfs_nr_ctxs++;
-+	return 0;
-+}
++ORIG_CONTENT=$(cat $file)
 +
-+static ssize_t dbgfs_mk_context_write(struct file *file,
-+		const char __user *buf, size_t count, loff_t *ppos)
-+{
-+	char *kbuf;
-+	char *ctx_name;
-+	ssize_t ret = count;
-+	int err;
++echo 1 2 3 4 5 > $file
++if [ $? -ne 0 ]
++then
++	echo "$file write failed"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
 +
-+	kbuf = user_input_str(buf, count, ppos);
-+	if (IS_ERR(kbuf))
-+		return PTR_ERR(kbuf);
-+	ctx_name = kmalloc(count + 1, GFP_KERNEL);
-+	if (!ctx_name) {
-+		kfree(kbuf);
-+		return -ENOMEM;
-+	}
++echo 1 2 3 4 > $file
++if [ $? -eq 0 ]
++then
++	echo "$file write success (should failed)"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
 +
-+	/* Trim white space */
-+	if (sscanf(kbuf, "%s", ctx_name) != 1) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
++CONTENT=$(cat $file)
++if [ "$CONTENT" != "1 2 3 4 5" ]
++then
++	echo "$file not written"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
 +
-+	mutex_lock(&damon_dbgfs_lock);
-+	err = dbgfs_mk_context(ctx_name);
-+	if (err)
-+		ret = err;
-+	mutex_unlock(&damon_dbgfs_lock);
++echo $ORIG_CONTENT > $file
 +
-+out:
-+	kfree(kbuf);
-+	kfree(ctx_name);
-+	return ret;
-+}
++# Test target_ids file
++file="$DBGFS/target_ids"
 +
-+/*
-+ * Remove a context of @name and its debugfs directory.
-+ *
-+ * This function should be called while holding damon_dbgfs_lock.
-+ *
-+ * Return 0 on success, negative error code otherwise.
-+ */
-+static int dbgfs_rm_context(char *name)
-+{
-+	struct dentry *root, *dir, **new_dirs;
-+	struct damon_ctx **new_ctxs;
-+	int i, j;
++ORIG_CONTENT=$(cat $file)
 +
-+	if (damon_nr_running_ctxs())
-+		return -EBUSY;
++echo "1 2 3 4" > $file
++if [ $? -ne 0 ]
++then
++	echo "$file write fail"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
 +
-+	root = dbgfs_dirs[0];
-+	if (!root)
-+		return -ENOENT;
++echo "1 2 abc 4" > $file
++if [ $? -ne 0 ]
++then
++	echo "$file write fail"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
 +
-+	dir = debugfs_lookup(name, root);
-+	if (!dir)
-+		return -ENOENT;
++CONTENT=$(cat $file)
++if [ "$CONTENT" != "1 2" ]
++then
++	echo "$file not written"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
 +
-+	new_dirs = kmalloc_array(dbgfs_nr_ctxs - 1, sizeof(*dbgfs_dirs),
-+			GFP_KERNEL);
-+	if (!new_dirs)
-+		return -ENOMEM;
++echo abc 2 3 > $file
++if [ $? -ne 0 ]
++then
++	echo "$file wrong value write fail"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
 +
-+	new_ctxs = kmalloc_array(dbgfs_nr_ctxs - 1, sizeof(*dbgfs_ctxs),
-+			GFP_KERNEL);
-+	if (!new_ctxs) {
-+		kfree(new_dirs);
-+		return -ENOMEM;
-+	}
++if [ ! -z "$(cat $file)" ]
++then
++	echo "$file not cleared"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
 +
-+	for (i = 0, j = 0; i < dbgfs_nr_ctxs; i++) {
-+		if (dbgfs_dirs[i] == dir) {
-+			debugfs_remove(dbgfs_dirs[i]);
-+			dbgfs_destroy_ctx(dbgfs_ctxs[i]);
-+			continue;
-+		}
-+		new_dirs[j] = dbgfs_dirs[i];
-+		new_ctxs[j++] = dbgfs_ctxs[i];
-+	}
++echo > $file
++if [ $? -ne 0 ]
++then
++	echo "$file init fail"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
 +
-+	kfree(dbgfs_dirs);
-+	kfree(dbgfs_ctxs);
++if [ ! -z "$(cat $file)" ]
++then
++	echo "$file not initialized"
++	echo $ORIG_CONTENT > $file
++	exit 1
++fi
 +
-+	dbgfs_dirs = new_dirs;
-+	dbgfs_ctxs = new_ctxs;
-+	dbgfs_nr_ctxs--;
++echo $ORIG_CONTENT > $file
 +
-+	return 0;
-+}
-+
-+static ssize_t dbgfs_rm_context_write(struct file *file,
-+		const char __user *buf, size_t count, loff_t *ppos)
-+{
-+	char *kbuf;
-+	ssize_t ret = count;
-+	int err;
-+	char *ctx_name;
-+
-+	kbuf = user_input_str(buf, count, ppos);
-+	if (IS_ERR(kbuf))
-+		return PTR_ERR(kbuf);
-+	ctx_name = kmalloc(count + 1, GFP_KERNEL);
-+	if (!ctx_name) {
-+		kfree(kbuf);
-+		return -ENOMEM;
-+	}
-+
-+	/* Trim white space */
-+	if (sscanf(kbuf, "%s", ctx_name) != 1) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	mutex_lock(&damon_dbgfs_lock);
-+	err = dbgfs_rm_context(ctx_name);
-+	if (err)
-+		ret = err;
-+	mutex_unlock(&damon_dbgfs_lock);
-+
-+out:
-+	kfree(kbuf);
-+	kfree(ctx_name);
-+	return ret;
-+}
-+
- static ssize_t dbgfs_monitor_on_read(struct file *file,
- 		char __user *buf, size_t count, loff_t *ppos)
- {
-@@ -358,6 +545,16 @@ static ssize_t dbgfs_monitor_on_write(struct file *file,
- 	return ret;
- }
- 
-+static const struct file_operations mk_contexts_fops = {
-+	.owner = THIS_MODULE,
-+	.write = dbgfs_mk_context_write,
-+};
-+
-+static const struct file_operations rm_contexts_fops = {
-+	.owner = THIS_MODULE,
-+	.write = dbgfs_rm_context_write,
-+};
-+
- static const struct file_operations monitor_on_fops = {
- 	.owner = THIS_MODULE,
- 	.read = dbgfs_monitor_on_read,
-@@ -367,8 +564,10 @@ static const struct file_operations monitor_on_fops = {
- static int __init __damon_dbgfs_init(void)
- {
- 	struct dentry *dbgfs_root;
--	const char * const file_names[] = {"monitor_on"};
--	const struct file_operations *fops[] = {&monitor_on_fops};
-+	const char * const file_names[] = {"mk_contexts", "rm_contexts",
-+		"monitor_on"};
-+	const struct file_operations *fops[] = {&mk_contexts_fops,
-+		&rm_contexts_fops, &monitor_on_fops};
- 	int i;
- 
- 	dbgfs_root = debugfs_create_dir("damon", NULL);
++echo "PASS"
 -- 
 2.17.1
 
