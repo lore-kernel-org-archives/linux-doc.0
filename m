@@ -7,41 +7,41 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C983C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 15:25:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24069C433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 15:29:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 60605619A7
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 15:25:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E2E76619A7
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 15:29:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232492AbhC3PZP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 11:25:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31695 "EHLO
+        id S232344AbhC3P3B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 11:29:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41218 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232371AbhC3PYr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 11:24:47 -0400
+        by vger.kernel.org with ESMTP id S232299AbhC3P3A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 11:29:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617117886;
+        s=mimecast20190719; t=1617118140;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=xLeIxab6mDQDke52x6DpNdNSBo2bnI3mGCEhq0K8Rj4=;
-        b=H+VfOKKPE+QkgZ7G5q/CT0XC9mIsQdhuxximuj/HvUYSJjNPk7trNn2v7f1TyHm/i8H7zh
-        WfL34RlkGmtJlk7H0gP+22BwuUbTVHj7TeKXTo6H3KIq0FeZ4U7QXsDJu6eaTcIRX2Ngzu
-        atW7sGIjqgNJFhIBLidUa8vsb6YXA0k=
+        bh=KIwIzC8lO2M6wOAP/fBeh4ci0+vN5Fc6vXZzQHI08I8=;
+        b=DLAygyvYhGUoiskbGKEbl++MLi/RPedkCQ7SzKxsZPYc5ngMCOP4MjVzOLN81vLg4CuGBZ
+        7p2+ELM+ZGkFTR3geB7Bx5DqG4Awk5FcOriYjORC3p8+CHdmhT2PO2ngusLN6nNOe+5KT9
+        owwLfDgilV53eoJugAbVuP8/8yk9f/U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-209-0zBLyW5ZPFSHSmqchkwttw-1; Tue, 30 Mar 2021 11:24:42 -0400
-X-MC-Unique: 0zBLyW5ZPFSHSmqchkwttw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+ us-mta-35-aaT3ivg2MJOQQkLq-y2Q4Q-1; Tue, 30 Mar 2021 11:28:49 -0400
+X-MC-Unique: aaT3ivg2MJOQQkLq-y2Q4Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38B95E49E1;
-        Tue, 30 Mar 2021 15:24:40 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B53911084D6D;
+        Tue, 30 Mar 2021 15:28:46 +0000 (UTC)
 Received: from gondolin (ovpn-113-155.ams2.redhat.com [10.36.113.155])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 8393160871;
-        Tue, 30 Mar 2021 15:24:34 +0000 (UTC)
-Date:   Tue, 30 Mar 2021 17:24:31 +0200
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 20B975C3E6;
+        Tue, 30 Mar 2021 15:28:40 +0000 (UTC)
+Date:   Tue, 30 Mar 2021 17:28:38 +0200
 From:   Cornelia Huck <cohuck@redhat.com>
 To:     Jason Gunthorpe <jgg@nvidia.com>
 Cc:     Alex Williamson <alex.williamson@redhat.com>,
@@ -53,51 +53,41 @@ Cc:     Alex Williamson <alex.williamson@redhat.com>,
         Leon Romanovsky <leonro@nvidia.com>,
         Max Gurtovoy <mgurtovoy@nvidia.com>,
         Tarun Gupta <targupta@nvidia.com>
-Subject: Re: [PATCH 02/18] vfio/mdev: Add missing typesafety around
- mdev_device
-Message-ID: <20210330172431.724282c1.cohuck@redhat.com>
-In-Reply-To: <2-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
+Subject: Re: [PATCH 03/18] vfio/mdev: Simplify driver registration
+Message-ID: <20210330172838.0a2c30a7.cohuck@redhat.com>
+In-Reply-To: <3-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
 References: <0-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
-        <2-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
+        <3-v1-7dedf20b2b75+4f785-vfio2_jgg@nvidia.com>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 23 Mar 2021 14:55:19 -0300
+On Tue, 23 Mar 2021 14:55:20 -0300
 Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-> The mdev API should accept and pass a 'struct mdev_device *' in all
-> places, not pass a 'struct device *' and cast it internally with
-> to_mdev_device(). Particularly in its struct mdev_driver functions, the
-> whole point of a bus's struct device_driver wrapper is to provide type
-> safety compared to the default struct device_driver.
+> This is only done once, we don't need to generate code to initialize a
+> structure stored in the ELF .data segment. Fill in the three required
+> .driver members directly instead of copying data into them during
+> mdev_register_driver().
 > 
-> Further, the driver core standard is for bus drivers to expose their
-> device structure in their public headers that can be used with
-> container_of() inlines and '&foo->dev' to go between the class levels, and
-> '&foo->dev' to be used with dev_err/etc driver core helper functions. Move
-> 'struct mdev_device' to mdev.h
-> 
-> Once done this allows moving some one instruction exported functions to
-> static inlines, which in turns allows removing one of the two grotesque
-> symbol_get()'s related to mdev in the core code.
+> Further the to_mdev_driver() function doesn't belong in a public header,
+> just inline it into the two places that need it. Finally, we can now
+> clearly see that 'drv' derived from dev->driver cannot be NULL, firstly
+> because the driver core forbids it, and secondly because NULL won't pass
+> through the container_of(). Remove the dead code.
 > 
 > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->  .../driver-api/vfio-mediated-device.rst       |  4 +-
->  drivers/vfio/mdev/mdev_core.c                 | 64 ++-----------------
->  drivers/vfio/mdev/mdev_driver.c               |  4 +-
->  drivers/vfio/mdev/mdev_private.h              | 23 +------
->  drivers/vfio/mdev/mdev_sysfs.c                | 26 ++++----
->  drivers/vfio/mdev/vfio_mdev.c                 |  7 +-
->  drivers/vfio/vfio_iommu_type1.c               | 25 ++------
->  include/linux/mdev.h                          | 58 +++++++++++++----
->  8 files changed, 83 insertions(+), 128 deletions(-)
+>  Documentation/driver-api/vfio-mediated-device.rst |  5 +----
+>  drivers/vfio/mdev/mdev_driver.c                   | 15 +++++++--------
+>  drivers/vfio/mdev/vfio_mdev.c                     |  8 ++++++--
+>  include/linux/mdev.h                              |  6 +-----
+>  4 files changed, 15 insertions(+), 19 deletions(-)
 
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
