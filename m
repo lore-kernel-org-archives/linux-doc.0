@@ -2,106 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E6FEAC433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 08:42:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B804CC433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 08:52:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9D4FF6199A
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 08:42:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6DC9261989
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 08:52:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231519AbhC3Ilr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 04:41:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54540 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230303AbhC3Ilb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 04:41:31 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32FB3C061762;
-        Tue, 30 Mar 2021 01:41:31 -0700 (PDT)
-Received: from ip4d14bd53.dynamic.kabel-deutschland.de ([77.20.189.83] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1lR9w8-0005Lf-Ss; Tue, 30 Mar 2021 10:41:20 +0200
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     ksummit <ksummit-discuss@lists.linuxfoundation.org>,
-        Sasha Levin <sashal@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-References: <c396c91f-27c2-de36-7b05-099e03c213f4@leemhuis.info>
- <6a220d2c-568e-2e41-53a4-0800e206d0a6@leemhuis.info>
- <14d9b8a3-94ce-00a6-a17b-934ffd999697@leemhuis.info>
- <87r1jxpol6.fsf@meer.lwn.net> <YGK+M66FWJOMC8ky@kroah.com>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [1/5] reporting-issues: header and TLDR
-Message-ID: <f32b5e5b-ed6b-cad5-08f6-b7923c621b74@leemhuis.info>
-Date:   Tue, 30 Mar 2021 10:41:20 +0200
+        id S231340AbhC3Ivf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 04:51:35 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:37064 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231561AbhC3IvR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 04:51:17 -0400
+Received: from mail-wm1-f71.google.com ([209.85.128.71])
+        by youngberry.canonical.com with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <krzysztof.kozlowski@canonical.com>)
+        id 1lRA5k-0004tW-ND
+        for linux-doc@vger.kernel.org; Tue, 30 Mar 2021 08:51:16 +0000
+Received: by mail-wm1-f71.google.com with SMTP id i14so417073wmq.7
+        for <linux-doc@vger.kernel.org>; Tue, 30 Mar 2021 01:51:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=djVlT/RAmq6AwtihToV3c2qx0PjKLnFe2UuBJ80EzkM=;
+        b=VuszKKPevqLI22sRwY0oFRXTQ97qTFh8ZVUN+XPfvIuaUdZmXX06K+4o9wwlUvMEH6
+         vLmEYH4GdqNd9Hg+tJbGRn6XvB/bSSHF50jle2ratyuZXwvaDMr8IorkE9FgtIt6Eez0
+         mM0/NzZGV9fEls9QAEzkQV/hEfCeUSMn0rbFOJ+wOX9I+vhKSQ69/aMokE9ZsVuVSug0
+         c/20smZynrq2ubUrYLKSsXvE+dfpI5KLeYNkhsF2dvwyO3FRd7Gp5kz1OSWEjfBZnGxa
+         PA2PrFf3gGuLUoF+D9dndqniQ1475g5I+OlvEDqAqT8LJrJjT57Qj+JqBqAkB1fCrzV5
+         tbhg==
+X-Gm-Message-State: AOAM530rsgIEN0qOyAANEsScgZ6dv+RIjnrcybCJ7frRY6vrGTgkwxIh
+        SVoIEyVbZiRP4cOGz/1lIT/VOsF6PEhOjvz4E9tlHe2RJtEpZOZi4K7fBYHgxV8+hRuu0tK11uB
+        JMJi9cJaHgYW1vZVK4g/nAWScKHY1I4B5QU4KIw==
+X-Received: by 2002:a1c:7515:: with SMTP id o21mr2898595wmc.90.1617094276514;
+        Tue, 30 Mar 2021 01:51:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyMM+kQaqpCWb0b7OW+orw77+hmaUElyaV7pasIVj3HsWg6jELlm0lBduYBq4l8/WLCYe23Ww==
+X-Received: by 2002:a1c:7515:: with SMTP id o21mr2898587wmc.90.1617094276417;
+        Tue, 30 Mar 2021 01:51:16 -0700 (PDT)
+Received: from [192.168.1.116] (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+        by smtp.gmail.com with ESMTPSA id l6sm34969120wrn.3.2021.03.30.01.51.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Mar 2021 01:51:16 -0700 (PDT)
+Subject: Re: [PATCH] usb: dwc3: exynos: fix incorrect kernel-doc comment
+ syntax
+To:     Aditya Srivastava <yashsri421@gmail.com>, balbi@kernel.org
+Cc:     lukas.bulwahn@gmail.com, gregkh@linuxfoundation.org,
+        rdunlap@infradead.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210329140318.27742-1-yashsri421@gmail.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+Message-ID: <b341b0a5-4f78-d986-d038-8e067bf5d34e@canonical.com>
+Date:   Tue, 30 Mar 2021 10:51:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <YGK+M66FWJOMC8ky@kroah.com>
+In-Reply-To: <20210329140318.27742-1-yashsri421@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-BS
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1617093691;81938066;
-X-HE-SMSGID: 1lR9w8-0005Lf-Ss
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 30.03.21 07:59, Greg KH wrote:
-> On Mon, Mar 29, 2021 at 04:44:21PM -0600, Jonathan Corbet wrote:
->> Thorsten Leemhuis <linux@leemhuis.info> writes:
->>
->>> FWIW, on another channel someone mentioned the process in the TLDR is
->>> quite complicated when it comes to regressions in stable and longterm
->>> kernels. I looked at the text and it seemed like a valid complaint, esp.
->>> as those regressions are something we really care about.
->>>
->>> To solve this properly I sadly had to shake up the text in this section
->>> completely and rewrite parts of it. Find the result below. I'm quite
->>> happy with it, as it afaics is more straight forward and easier to
->>> understand. And it matches the step-by-step guide better. And the best
->>> thing: it's a bit shorter than the old TLDR.
->>
->> I think this is much improved - concise is good! :)
-
-Yeah, I was kinda unhappy with the old version myself and glad that
-something made be revisit this...
-
->>  I really just have one little comment...
-
-Great!
-
->>> I'll wait a day or two and then will send it through the regular review
->>> together with a few small other fixes that piled up for the text, just
->>> wanted to add it here for completeness.
->>>
->>> ---
->>> The short guide (aka TL;DR)
->>> ===========================
->>>
->>> Are you facing a regression with vanilla kernels from the same stable or
->>> longterm series? One still supported? Then search the `LKML
->>> <https://lore.kernel.org/lkml/>`_ and the `Linux stable mailing list
->>> <https://lore.kernel.org/stable/>_` archives for matching reports to
->>> join. If you don't find any, install `the latest release from that
->>> series <https://kernel.org/>`_. If it still shows the issue, report it
->>> to the stable mailing list and the stable maintainers.
->>
->> If we really want this to be a short guide that gets people to the
->> answer quickly, we might as well put the addresses to report to right
->> here rather than making people search for them.
+On 29/03/2021 16:03, Aditya Srivastava wrote:
+> The opening comment mark '/**' is used for highlighting the beginning of
+> kernel-doc comments.
+> The header for drivers/usb/dwc3/dwc3-exynos.c follows this syntax, but the
+> content inside does not comply with kernel-doc.
 > 
-> "stable@vger.kernel.org" is good to use here, no need to also cc: any
-> individuals for this type of thing.
+> This line was probably not meant for kernel-doc parsing, but is parsed
+> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+> causes unexpected warning from kernel-doc:
+> "warning: expecting prototype for dwc3(). Prototype was for DWC3_EXYNOS_MAX_CLOCKS() instead"
+> 
+> Provide a simple fix by replacing this occurrence with general comment
+> format, i.e. '/*', to prevent kernel-doc from parsing it.
 
-Ahh, good to know, will change this accordingly. Will also change other
-places in the text where this comes up.
+One sentence with error log would be enough for such trivial change. Anyway:
 
-Thx for the feedback! Ciao, Thorsten
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>
+
+Best regards,
+Krzysztof
