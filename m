@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0E90C433C1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A066CC433DB
 	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 11:49:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8DDAE6195C
+	by mail.kernel.org (Postfix) with ESMTP id 7150F61921
 	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 11:49:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231976AbhC3Lsc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 07:48:32 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:46590 "EHLO loongson.cn"
+        id S232345AbhC3Ls3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 07:48:29 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:46618 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232239AbhC3Lro (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S232242AbhC3Lro (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Tue, 30 Mar 2021 07:47:44 -0400
 Received: from LAPTOP-O8VTVVS6.localdomain (unknown [223.106.57.161])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxzcjSD2NgLF4CAA--.2278S2;
-        Tue, 30 Mar 2021 19:47:30 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxzcjSD2NgLF4CAA--.2278S4;
+        Tue, 30 Mar 2021 19:47:33 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
@@ -30,70 +30,311 @@ Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
         Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, siyanteng01@gmail.com,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v3 0/8] docs/zh_CN: add cpu-freq translation
-Date:   Tue, 30 Mar 2021 19:47:20 +0800
-Message-Id: <20210330114728.2680-1-siyanteng@loongson.cn>
+Subject: [PATCH v3 2/8] docs/zh_CN: add cpu-freq cpu-drivers.rst translation
+Date:   Tue, 30 Mar 2021 19:47:22 +0800
+Message-Id: <20210330114728.2680-3-siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210330114728.2680-1-siyanteng@loongson.cn>
+References: <20210330114728.2680-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9AxzcjSD2NgLF4CAA--.2278S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Kw1rtr15CFWrKr4fZrWkZwb_yoW8GFWUpF
-        1DKryrAF10yr17Aw1fGrW7XF15JFs7C3y5tr17JwnYyr15Jw4DtFyUtr47tF1DJr1xZFyY
-        qr48Kr1Dur1UAr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-        JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
-        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-        2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
-        Y2ka0xkIwI1lc2xSY4AK67AK6r4kMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
-        1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
-        b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0x
-        vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1l
-        IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
-        C2KfnxnUUI43ZEXa7VUbLID7UUUUU==
+X-CM-TRANSID: AQAAf9AxzcjSD2NgLF4CAA--.2278S4
+X-Coremail-Antispam: 1UD129KBjvAXoW3tFW3ZF4rGr18tF1UWw17Jrb_yoW8JFW3uo
+        WI93yYkF18JryFqF1kAr4UJry7XrnFyF4DAw48GrWa9F1DJF43J34DJw43CF13uF45tF15
+        J3Wjqr1rAF1xJr1Un29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUUOr7AC8VAFwI0_Wr0E3s1l1xkIjI8I6I8E6xAIw20EY4v20xva
+        j40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l82xGYIkIc2x26280x7IE14v26r15M28IrcIa0x
+        kI8VCY1x0267AKxVW8JVW5JwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84AC
+        jcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr
+        1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
+        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
+        8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
+        jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
+        kIwI1lc2xSY4AK67AK6r4kMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4U
+        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
+        AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r4j6ryUMIIF0xvE2Ix0
+        cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
+        80aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
+        43ZEXa7VUj0PfPUUUUU==
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series of patches:
- translates Documention/cpu-freq/* into Chinese.
- add .../zh_CN/mips to zh_CN index
- add .../zh_CN/iio to zh_CN index
- add .../zh_CN/riscv to zh_CN index
-
-v1 -> v2:
-
-Correction of some errata;
-Thanks to Jiaxun and Xiangcheng for their
-help,:)
-
-v2 -> v3:
-
-Correction of a small number of errata;
-
-Yabteng Si(8):
-docs/zh_CN: add cpu-freq core.rst translation
-docs/zh_CN: add cpu-freq cpu-drivers.rst translation
-docs/zh_CN: add cpu-freq cpufreq-stats.rst translation
-docs/zh_CN: add cpu-freq index.rst translation
-docs/zh_CN: add cpu-freq to zh_CN index
-docs/zh_CN: add mips to zh_CN index
-docs/zh_CN: add iio to zh_CN index
-docs/zh_CN: add riscv to zh_CN index
+This patch translates Documention/cpu-freq/cpu-drivers.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- Documentation/translations/zh_CN/cpu-freq/core.rst          | 105
-+++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst   | 259
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_CN/cpu-freq/cpufreq-stats.rst | 130
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_CN/cpu-freq/index.rst         |  45
-++++++++++++++++++++
- Documentation/translations/zh_CN/index.rst                  |   4 ++
- 5 files changed, 543 insertions(+)
+ .../zh_CN/cpu-freq/cpu-drivers.rst            | 259 ++++++++++++++++++
+ 1 file changed, 259 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
+
+diff --git a/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst b/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
+new file mode 100644
+index 000000000000..27a70f3a9938
+--- /dev/null
++++ b/Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst
+@@ -0,0 +1,259 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: :doc:`../../../cpu-freq/cpu-drivers`
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_cpu-drivers.rst:
++
++
++=======================================
++如何实现一个新的CPUFreq处理器驱动程序？
++=======================================
++
++作者:
++
++
++	- Dominik Brodowski  <linux@brodo.de>
++	- Rafael J. Wysocki <rafael.j.wysocki@intel.com>
++	- Viresh Kumar <viresh.kumar@linaro.org>
++
++.. Contents
++
++   1.   怎么做？
++   1.1  初始化
++   1.2  Per-CPU 初始化
++   1.3  验证
++   1.4  target/target_index 或 setpolicy?
++   1.5  target/target_index
++   1.6  setpolicy
++   1.7  get_intermediate 与 target_intermediate
++   2.   频率表助手
++
++
++
++1. 怎么做？
++===========
++
++如此，你刚刚得到了一个全新的CPU/芯片组及其数据手册，并希望为这个CPU/芯片组添加cpufreq
++支持？很好，这里有一些至关重要的提示：
++
++
++1.1 初始化
++----------
++
++首先，在__initcall_level_7 (module_init())或更靠后的函数中检查这个内核是否
++运行在正确的CPU和正确的芯片组上。如果是，则使用cpufreq_register_driver()向
++CPUfreq核心层注册一个cpufreq_driver结构体。
++
++结构体cpufreq_driver应该包含什么成员?
++
++ .name - 驱动的名字。
++
++ .init - 一个指向per-policy初始化函数的指针。
++
++ .verify - 一个指向"verification"函数的指针。
++
++ .setpolicy 或 .fast_switch 或 .target 或 .target_index - 差异见
++ 下文。
++
++并且可选择
++
++ .flags - cpufreq核的提示。
++
++ .driver_data - cpufreq驱动程序的特定数据。
++
++ .resolve_freq - 返回最适合目标频率的频率。不过并不能改变频率。
++
++ .get_intermediate 和 target_intermediate - 用于在改变CPU频率时切换到稳定
++ 的频率。
++
++ .get - 返回CPU的当前频率。
++
++ .bios_limit - 返回HW/BIOS对CPU的最大频率限制值。
++
++ .exit - 一个指向per-policy清理函数的指针，该函数在cpu热插拔过程的CPU_POST_DEAD
++ 阶段被调用。
++
++ .stop_cpu - 一个指向per-policy停止函数的指针，该函数在cpu热插拔过程的CPU_DOWN_PREPARE
++ 阶段被调用。
++
++ .suspend - 一个指向per-policy暂停函数的指针，该函数在关中断且在该策略的调节器停止
++ 后被调用。
++
++ .resume - 一个指向per-policy恢复函数的指针，该函数在关中断且在调节器再一次开始前被
++ 调用。
++
++ .ready - 一个指向per-policy准备函数的指针，该函数在策略完全初始化之后被调用。
++
++ .attr - 一个指向NULL结尾的"struct freq_attr"列表的指针，该函数允许导出值到
++ sysfs。
++
++ .boost_enabled - 如果设置，则启用提升(boost)频率。
++
++ .set_boost - 一个指向per-policy函数的指针，该函数用来开启/关闭提升(boost)频率功能。
++
++
++1.2 Per-CPU 初始化
++------------------
++
++每当一个新的CPU被注册到设备模型中，或者在cpufreq驱动注册自己之后，如果此CPU的cpufreq策
++略不存在，则会调用per-policy的初始化函数cpufreq_driver.init。请注意，.init()和.exit()程序
++只对策略调用一次，而不是对策略管理的每个CPU调用一次。它需要一个 ``struct cpufreq_policy
++*policy`` 作为参数。现在该怎么做呢？
++
++如果有必要，请在你的CPU上激活CPUfreq功能支持。
++
++然后，驱动程序必须填写以下数值:
++
+++-----------------------------------+--------------------------------------+
++|policy->cpuinfo.min_freq 和	   |					  |
++|policy->cpuinfo.max_freq	    | 该CPU支持的最低和最高频率（kHz）     |
++|				    |                                      |
++|				    | 				           |
+++-----------------------------------+--------------------------------------+
++|policy->cpuinfo.transition_latency |                                      |
++|				    | CPU在两个频率之间切换所需的时间，以  |
++|				    | 纳秒为单位（如适用，否则指定         |
++|				    | CPUFREQ_ETERNAL）                    |
+++-----------------------------------+--------------------------------------+
++|policy->cur			    | 该CPU当前的工作频率(如适用)          |
++|				    |                                      |
+++-----------------------------------+--------------------------------------+
++|policy->min,			    |					   |
++|policy->max,			    |					   |
++|policy->policy and, if necessary,  |					   |
++|policy->governor		    | 必须包含该cpu的 “默认策略”。稍后     |
++|				    | 会用这些值调用                       |
++|				    | cpufreq_driver.verify and either     |
++|				    | cpufreq_driver.setpolicy or          |
++|				    | cpufreq_driver.target/target_index   |
++|				    | 		                           |
+++-----------------------------------+--------------------------------------+
++|policy->cpus			    | 用与这个CPU一起做DVFS的(在线+离线)   |
++|				    | CPU(即与它共享时钟/电压轨)的掩码更新 |
++|				    | 这个                                 |
++|				    |                                      |
+++-----------------------------------+--------------------------------------+
++
++对于设置其中的一些值(cpuinfo.min[max]_freq, policy->min[max])，频率表助手可能会有帮
++助。关于它们的更多信息，请参见第2节。
++
++
++1.3 验证
++--------
++
++当用户决定设置一个新的策略(由 “policy,governor,min,max组成”)时，必须对这个策略进行验证，
++以便纠正不兼容的值。为了验证这些值，cpufreq_verify_within_limits(``struct cpufreq_policy
++*policy``, ``unsigned int min_freq``, ``unsigned int max_freq``)函数可能会有帮助。
++关于频率表助手的详细内容请参见第2节。
++
++您需要确保至少有一个有效频率（或工作范围）在 policy->min 和 policy->max 范围内。如果有必
++要，先增加policy->max，只有在没有办法的情况下，才减少policy->min。
++
++
++1.4 target 或 target_index 或 setpolicy 或 fast_switch?
++-------------------------------------------------------
++
++大多数cpufreq驱动甚至大多数cpu频率升降算法只允许将CPU频率设置为预定义的固定值。对于这些，你
++可以使用->target()，->target_index()或->fast_switch()回调。
++
++有些cpufreq功能的处理器可以自己在某些限制之间切换频率。这些应使用->setpolicy()回调。
++
++
++1.5. target/target_index
++------------------------
++
++target_index调用有两个参数：``struct cpufreq_policy * policy``和``unsigned int``
++索引(于列出的频率表)。
++
++当调用这里时，CPUfreq驱动必须设置新的频率。实际频率必须由freq_table[index].frequency决定。
++
++它应该总是在错误的情况下恢复到之前的频率(即policy->restore_freq)，即使我们之前切换到中间频率。
++
++已弃用
++----------
++目标调用有三个参数。``struct cpufreq_policy * policy``, unsigned int target_frequency,
++unsigned int relation.
++
++CPUfreq驱动在调用这里时必须设置新的频率。实际的频率必须使用以下规则来确定。
++
++- 紧跟 "目标频率"。
++- policy->min <= new_freq <= policy->max (这必须是有效的!!!)
++- 如果 relation==CPUFREQ_REL_L，尝试选择一个高于或等于 target_freq 的 new_freq。("L代表
++  最低，但不能低于")
++- 如果 relation==CPUFREQ_REL_H，尝试选择一个低于或等于 target_freq 的 new_freq。("H代表
++  最高，但不能高于")
++
++这里，频率表助手可能会帮助你--详见第2节。
++
++1.6. fast_switch
++----------------
++
++这个函数用于从调度器的上下文进行频率切换。并非所有的驱动都要实现它，因为不允许在这个回调中睡眠。这
++个回调必须经过高度优化，以尽可能快地进行切换。
++
++这个函数有两个参数： ``struct cpufreq_policy *policy`` 和 ``unsigned int target_frequency``。
++
++
++1.7 setpolicy
++-------------
++
++setpolicy调用只需要一个``struct cpufreq_policy * policy``作为参数。需要将处理器内或芯片组内动态频
++率切换的下限设置为policy->min，上限设置为policy->max，如果支持的话，当policy->policy为
++CPUFREQ_POLICY_PERFORMANCE时选择面向性能的设置，当CPUFREQ_POLICY_POWERSAVE时选择面向省电的设置。
++也可以查看drivers/cpufreq/longrun.c中的参考实现。
++
++1.8 get_intermediate 和 target_intermediate
++--------------------------------------------
++
++仅适用于 target_index() 和 CPUFREQ_ASYNC_NOTIFICATION 未设置的驱动。
++
++get_intermediate应该返回一个平台想要切换到的稳定的中间频率，target_intermediate()应该将CPU设置为
++该频率，然后再跳转到'index'对应的频率。核心会负责发送通知，驱动不必在target_intermediate()或
++target_index()中处理。
++
++在驱动程序不想因为某个目标频率切换到中间频率的情况下，它们可以从get_intermediate()中返回'0'。在这种情况
++下，核心将直接调用->target_index()。
++
++注意：->target_index()应该在失败的情况下恢复到policy->restore_freq，因为core会为此发送通知。
++
++
++2. 频率表助手
++=============
++
++由于大多数cpufreq处理器只允许被设置为几个特定的频率，因此，一个带有一些函数的 “频率表”可能会辅助处理器驱动
++程序的一些工作。这样的 "频率表" 由一个cpufreq_frequency_table条目构成的数组组成，"driver_data" 中包
++含了驱动程序的具体数值，"frequency" 中包含了相应的频率，并设置了标志。在表的最后，需要添加一个
++cpufreq_frequency_table条目，频率设置为CPUFREQ_TABLE_END。而如果想跳过表中的一个条目，则将频率设置为
++CPUFREQ_ENTRY_INVALID。这些条目不需要按照任何特定的顺序排序，但如果它们是cpufreq 核心会对它们进行快速的DVFS，
++因为搜索最佳匹配会更快。
++
++如果策略在其policy->freq_table字段中包含一个有效的指针，cpufreq表就会被核心自动验证。
++
++cpufreq_frequency_table_verify()保证至少有一个有效的频率在policy->min和policy->max范围内，并且所有其他
++标准都被满足。这对->verify调用很有帮助。
++
++cpufreq_frequency_table_target()是对应于->target阶段的频率表助手。只要把数值传递给这个函数，这个函数就会返
++回包含CPU要设置的频率的频率表条目。
++
++以下宏可以作为cpufreq_frequency_table的迭代器。
++
++cpufreq_for_each_entry(pos, table) - 遍历频率表的所有条目。
++
++cpufreq_for_each_valid_entry(pos, table) - 该函数遍历所有条目，不包括CPUFREQ_ENTRY_INVALID频率。
++使用参数 "pos"-一个``cpufreq_frequency_table * `` 作为循环变量，使用参数 "table"-作为你想迭代
++的``cpufreq_frequency_table * `` 。
++
++例如::
++
++	struct cpufreq_frequency_table *pos, *driver_freq_table;
++
++	cpufreq_for_each_entry(pos, driver_freq_table) {
++		/* Do something with pos */
++		pos->frequency = ...
++	}
++
++如果你需要在driver_freq_table中处理pos的位置，不要减去指针，因为它的代价相当高。相反，使用宏
++cpufreq_for_each_entry_idx() 和 cpufreq_for_each_valid_entry_idx() 。
+-- 
+2.25.1
 
