@@ -7,67 +7,67 @@ X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
 	SPF_PASS,USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A82B2C433F1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:28:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1982FC43381
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:28:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 94A47619F4
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:28:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8EE16619D3
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:28:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232820AbhC3V1c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 17:27:32 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:50814 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232611AbhC3V05 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 17:26:57 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULP9x2145305;
-        Tue, 30 Mar 2021 21:25:17 GMT
+        id S232495AbhC3V1d (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 17:27:33 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:42886 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232641AbhC3V1A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 17:27:00 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULOMhL011475;
+        Tue, 30 Mar 2021 21:25:42 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=anR3JuhOf2/kaCECJEGMHmimb81ITGwiAVS+xEPtF6M=;
- b=dOfVSRZLmdgwabn2pZONARFU7FGHUM1HEcW14B8nVrBZ0FJ3oyc1cZt9q2ogKAZPL5uS
- YS1r6BV5AWdO+5iA4ObYSQFu7OChbl4Ij+ihHU31j8LVGql83n7t66Y35qmBeSWvcKCI
- FC3T/DQX+AHL/Iq+H2zbbfgt0TJsliiZbalu8bh7uPbBvCS/xH49zxP6m5FL2A+IhhS3
- EvZUbNfc0w190TwRTq+Y8FJYD3IxL1mq492QDSu94x7vPO3DVlrN7UDATxGEW86+fQQc
- Sh2YsyF7He7gcjKcp2ZgTkrclqmdOSVPhhvxZcGu1DiMjcdfzxJUdBiSq5NSv6I3+hls tQ== 
+ bh=ys/+06gv3pRz4k4hL35/QbiXotjBjyeNpQ6nps7tU34=;
+ b=SOL77G6IO+HlfCTKPrNCCwOwu0OQQ+tCkdrGjSJS3MYQDWuxR+c+CD7057xnyhlJRQxa
+ I//0gqirhBpmFyxpnBE5l/kzObEcogOBAq23YnpuFH6jJqQBLs4WtINcxzpvYFfvfRBW
+ gtIR5F0c1h+sx32PAxNqJdRIunrP4t4CfaQWdvBR5V0nmQUpX9OtCpfqIVOAP+NT7hVi
+ NqIMXVuemdulMXLtns5eNhj+pocJtE5VLoeFNeclyLAnVjV7yPQnmlokHI+5hTFt9hYi
+ WEvNlm7bvpWbzO0r6LUlbbb6LveNe7Tlp9FXhGPCp/pr1ON2RRS6f7MQFF2PILYerxd7 LA== 
 Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2130.oracle.com with ESMTP id 37mad9r8ds-1
+        by userp2120.oracle.com with ESMTP id 37mab3g8vh-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 30 Mar 2021 21:25:17 +0000
+        Tue, 30 Mar 2021 21:25:42 +0000
 Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULOblx149856;
-        Tue, 30 Mar 2021 21:25:16 GMT
-Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2172.outbound.protection.outlook.com [104.47.55.172])
-        by userp3020.oracle.com with ESMTP id 37mac4kc6r-1
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 12ULObm5149856;
+        Tue, 30 Mar 2021 21:25:42 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2108.outbound.protection.outlook.com [104.47.58.108])
+        by userp3020.oracle.com with ESMTP id 37mac4kcx1-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 30 Mar 2021 21:25:16 +0000
+        Tue, 30 Mar 2021 21:25:41 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SMnBEyPyoyYn7HLnk2jOaisP6aZJs1SiOaKRl5iHlleYfruE9R/f6dc+WscDmaBoc7Dbvm1nXEmtZpHMNWaOx/yCyFL7i55jzXOwojf6dD4IY7PHI0X73l1OPruYsKCww+T5ji/S6b/xczpqCCEO32ZGyk/bd1w+rkEAQGTXeV4a1nulxcYbXh7Vug/m7ZBslljlepot1SPtlzewVmt4LUKK3p9x/YTnNzY8TGX8euHLezEUmPQB5XbwjBSPM8xlvmVyd5Spi5SZFR2JG4TeBPjRzDm2HPvY6g253rYQ2Omgf7K08BU4Jh38XDsgX+ckkIij7eDs4mPugCptDmTQ4A==
+ b=KIYHuYJudj/qLQ8ieSJmxHSL8/pwAa44oaQ0P/IrvrXN0KQY/91Um1R+3HqaWOqOzVUpb3pB7q1QHbi+e21eUAB9jiZl0N5WaOa+Ph+T3RbUG7nIb264vwrqcJtJ3ElVZ3iNZVfaK4BvgIyOgpR2xCi0GV0otYNJ7Z2itcIjLUyxs0+ru764MR5YR9Pd/KvA5XqfYuK/USFOo8teIL9Hx9+bS5SGu+T0wdi4IOh1lr0tXCHjluhRTY8QkE+Ket1PNzgvmjKu+3GFL6YwVcKo6ENjzfH0dSUbmHh81TqMmcZIIIl5iDIaZAqxHsqgtTyB+Wztmr7X3aAK1pQ+DCq5IQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=anR3JuhOf2/kaCECJEGMHmimb81ITGwiAVS+xEPtF6M=;
- b=dRwnIRdaVvkWBMHlwi8lYHpZxVJ0a0V7ial8IYPmWzOEtUsFToFEEAOBnBDbAAeEL6oy3ypnHha9Y7GE/Hu6RbGRG7awXI3se+a6W5v1UfBCVpTWv6srkddXooV5fa1SYzLpSuHA4omAivcU/wT5JJYimqHg27sBJWGlwxJ9kuEytZIwJvdRB124qknE5cSB6P0UBcMl+lXB5BvHNbFW0T2olWcDvYYzpOpaQUmW4SwInUT1QeK2ZK41glJvymEfTNXkIwvqoQqkorj4XETQPpPid49UQKQV6CU6z+10O1Bhs0aSiSNoyUFNeu9Siwn/I3ZIFX659cWDifjSyYM+Mw==
+ bh=ys/+06gv3pRz4k4hL35/QbiXotjBjyeNpQ6nps7tU34=;
+ b=Yk3LAZWsSMEVQFXnx1DlgGVKG1gr4velt4s/IYyW+NwOhHwMKSNFERrF0z644YGPHs7q8TyrLFSJxfp2Xl2KHcBZq+udQxn43hMjRbQlIeC9bqiMbTxSO3p+X8yWkPSeExoBkfA+Bs0X2bgWgmesgL/BeSvUeNWKyA2mBsIJ127Ox9XZdoxfESrnlpl+u2rL+qAuEDTkvGg/cDfoyRQoiHezYXfwCwxGLdV4oMKWXp0jjaCRIMvoID8Z24NsoKjWM0KGdmJCAYUKLMuIEv8PQhx4sDMLClsUPclGhtgHHEVJfeNxfY19clhu5XgPd2Cfx6Peeo4Ci21e519/zPjaxw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=anR3JuhOf2/kaCECJEGMHmimb81ITGwiAVS+xEPtF6M=;
- b=RKYdKXCKO/teL6ersbZb/sgruguN1kC6tUVSlkKzFnqt39lZMYUx7thnpBmYuNO724hUtEA2Rl9h8spIwA+mL34yP/luscSwKPUpi5+HrqB8Vp79ovN0bNAjgcpxNwgg7dLoIo8GgsPpRnkuMDydStcmDczOltm6Gh2IYlqasyU=
+ bh=ys/+06gv3pRz4k4hL35/QbiXotjBjyeNpQ6nps7tU34=;
+ b=Dmb+fpi4wD4zuw66vcQxomkjC+MafBL2cW5E1Sz0yitzCpdLLm9VcSCx6EkF9jzF/4k2lfMkbO07egJpuK0eCrKQ2aq4yqAxFNEerHN2s09IxY1dblmeN/NqKLOPwfJiyTGn2TiIc+wmLXqMpOMZj00ZmK2e8N4VS0lsBbPhzfY=
 Authentication-Results: kvack.org; dkim=none (message not signed)
  header.d=none;kvack.org; dmarc=none action=none header.from=oracle.com;
 Received: from MN2PR10MB3533.namprd10.prod.outlook.com (2603:10b6:208:118::32)
- by MN2PR10MB3120.namprd10.prod.outlook.com (2603:10b6:208:122::18) with
+ by MN2PR10MB3613.namprd10.prod.outlook.com (2603:10b6:208:115::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24; Tue, 30 Mar
- 2021 21:25:12 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Tue, 30 Mar
+ 2021 21:25:38 +0000
 Received: from MN2PR10MB3533.namprd10.prod.outlook.com
  ([fe80::cc79:c40e:430f:e254]) by MN2PR10MB3533.namprd10.prod.outlook.com
  ([fe80::cc79:c40e:430f:e254%4]) with mapi id 15.20.3977.033; Tue, 30 Mar 2021
- 21:25:12 +0000
+ 21:25:38 +0000
 From:   Anthony Yznaga <anthony.yznaga@oracle.com>
 To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
 Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
@@ -88,9 +88,9 @@ Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
         lei.l.li@intel.com, daniel.m.jordan@oracle.com,
         steven.sistare@oracle.com, linux-fsdevel@vger.kernel.org,
         linux-doc@vger.kernel.org, kexec@lists.infradead.org
-Subject: [RFC v2 03/43] mm: PKRAM: implement object load and save functions
-Date:   Tue, 30 Mar 2021 14:35:38 -0700
-Message-Id: <1617140178-8773-4-git-send-email-anthony.yznaga@oracle.com>
+Subject: [RFC v2 09/43] PKRAM: track preserved pages in a physical mapping pagetable
+Date:   Tue, 30 Mar 2021 14:35:44 -0700
+Message-Id: <1617140178-8773-10-git-send-email-anthony.yznaga@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1617140178-8773-1-git-send-email-anthony.yznaga@oracle.com>
 References: <1617140178-8773-1-git-send-email-anthony.yznaga@oracle.com>
@@ -101,256 +101,560 @@ X-ClientProxiedBy: BYAPR11CA0099.namprd11.prod.outlook.com
  (2603:10b6:208:118::32)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ca-qasparc-x86-2.us.oracle.com (148.87.23.8) by BYAPR11CA0099.namprd11.prod.outlook.com (2603:10b6:a03:f4::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.26 via Frontend Transport; Tue, 30 Mar 2021 21:25:08 +0000
+Received: from ca-qasparc-x86-2.us.oracle.com (148.87.23.8) by BYAPR11CA0099.namprd11.prod.outlook.com (2603:10b6:a03:f4::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.26 via Frontend Transport; Tue, 30 Mar 2021 21:25:34 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 84624cf4-e76b-473d-946c-08d8f3c24db2
-X-MS-TrafficTypeDiagnostic: MN2PR10MB3120:
+X-MS-Office365-Filtering-Correlation-Id: d7791852-43e6-48d0-8074-08d8f3c25d19
+X-MS-TrafficTypeDiagnostic: MN2PR10MB3613:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR10MB31205C279102FEF31D6455DCEC7D9@MN2PR10MB3120.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <MN2PR10MB3613011F484E58EB0CDF0517EC7D9@MN2PR10MB3613.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1468;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: qK1u7bhbLzniP866Jt/ifhzhVfWcUUDu8KAefS7+eYVjmZSILyCnhJKjsxkS+nb/X0fLrLBR7akgpjtSYwb1bIgwrrDcpUa9won4DJnmfZGz4tHbdsyuxOAnjo4EmT7sUhtScVS3Z4ZM/FdFjGRrPIeQ4mnSWt5gDxbCCprkfW/AdFp8sqyhM9Mv0CiZfslG5iIpplJiyc/PBgiCsuLBFUdTJ82728l0uMggFqNmWGC9di2WN8VeTCqTx5t3p4HQ7ru6WGah4wXbCX4C76GFECDtskLo2mF5EatceBkJEdgaFGiIfuYapMHSXmsZ0glipCzNPEQrBC7F146nMQQAMU4fToAPDvKxLxPKtNSCZaVPnMi0nQiCYWFGUhFQTM+oy4UYCZRACDqA+5QOomD+5/Zkz0rh/3bVLQQ5OIFniSOELmJN7KhrS2/p1OvKy/JoB2jH9bynCSXKACbjjzk5QSSb5eDQOtEhtaDp5L0qIav0gDpPLe9yuFsJC+XGQ74JlSTME5UIgw54K1H8dZxEieO+H2N4hgJharYhQCGrHrk94HAHeCCgMo404yMwfiPDSbladsA6V4dNJc6ZuL4YijU+1o3SCZZ7H9pn7oWpr+W5FtA7tLYkLBPwUIJ/ia4JNO/IuwoCY5wSmM/8V68wrbXndmBij73K09AlCJD2LKAS8HMEckoONhi/i8WXVPyi
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB3533.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(136003)(39860400002)(366004)(376002)(346002)(396003)(52116002)(316002)(186003)(6486002)(16526019)(5660300002)(2616005)(956004)(6666004)(8676002)(66556008)(44832011)(478600001)(83380400001)(7406005)(38100700001)(86362001)(7696005)(66476007)(66946007)(4326008)(2906002)(26005)(7416002)(36756003)(8936002)(134885004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?mUdEfLqk1UcJ4n+VNMunRH1K6bg4BCk4dI1J0JJKK3IBdziwcVE0yu3Tu51F?=
- =?us-ascii?Q?b1CWgeM4mnD4xSMemxXhEfMqkx1bj5QzlumgWvJ5XtwDXU9zomN7WIDWIhkw?=
- =?us-ascii?Q?N6A/xnIXtL9TNXU73C3RsAD33sm80sSMSxmQnA+M07h4NI6nRVlDcg/yI2iC?=
- =?us-ascii?Q?WAVs68t98qhn6OJL616qOxXyG2iMZ5rDE8HbGW43qQEB0tZJy/CsoCNQ/ZRy?=
- =?us-ascii?Q?HJ+cQ6oDekt7VISQRxOTnjPeFZNfE2HDwJHtl00+UFSKkn0y7aaFOVlWFKP1?=
- =?us-ascii?Q?ggLBGQFAgrTCtCa8f8YbvZSc0atLlL7Ldzmcu4w9nK4xVSzkmjte7gzCx6rI?=
- =?us-ascii?Q?HXRtdES0WKSKT7QMAwdQl1BbF6F8amiq/web+O08867LxSoUanXqP2debfgW?=
- =?us-ascii?Q?Vfl9APwT4vx8k2aUPulplxd5ArzesiYth875K21NueHlVolZzaaTUmJ11CUo?=
- =?us-ascii?Q?UV7EwFYMAXWPw9yl7F/1yZeTd/FpzMmEs3aLci9Bhkb16FNAvD+fVB2Y2V5E?=
- =?us-ascii?Q?Ke2C0LsEAA5mmi7RscKE6tFCHYfyr2RUI/iu4eDO8PviiIxPT5NM3cG2nbIT?=
- =?us-ascii?Q?W1VFKyArdZiCNmw7d8TlkrgLAZBexmcJ/LG7XWTcNo9yWYPxQx2FncelF+C2?=
- =?us-ascii?Q?1USe4dR5/8Xr1oqQR5j0HGgMWKP4+j1Xm/iLIKiQJCuk8t0MpltCR4ZdtZqF?=
- =?us-ascii?Q?KXDXC38uYFKFddJ2wI1o9Rw6wyoFP6iOiGkYKczUSb+2J+SpywV07QMrE63p?=
- =?us-ascii?Q?OOYsgyd1X7J8KNVI7D3QSQNvgynxyRi/8PPIaSiJgtaEgJQY04kYgCTEExQd?=
- =?us-ascii?Q?Rs0XB1MH9ybeG8PpoodzhaegPRd4Iyq6nt0sg3OmAp88+vEOrrW4tO00VC7K?=
- =?us-ascii?Q?9Ps+HB2t2t/eu+r57mt9xI8421rLg0xQ+cm15N9kXW9MoOxupJEboEGCxSwb?=
- =?us-ascii?Q?j54kAb8aZpUAkEkh+r67H8+mUtFCHzbRXav8RVbJIkDionmnYALyobHlruJR?=
- =?us-ascii?Q?4A8K/nrb76Ns13Md3imS4r9sFZG6vbRxKMJf0F8Le6hPCxo5MhI7a9De8RYl?=
- =?us-ascii?Q?JgVeH7Sqn/rTs4xgD7CBKGVFXBUDfJRSqcNsromD8OvOVwv8UIAHLeT39nRU?=
- =?us-ascii?Q?ORPWrF/PBVOtK4Q06CiH1bgF8nA++qInQciZg8403w6D1lxefQ0Wpc5PaUd2?=
- =?us-ascii?Q?yTJkEZI2e7ro7tMpC04MTkkB9Xp2SqyTrkeys2hIdUS0lchtqF/tXFsLaE01?=
- =?us-ascii?Q?OxMW0lqaLVT7H6JQxn3tPQWBTS3VVACtxgCpbDRPESGNa99R5xsq7+grAjLF?=
- =?us-ascii?Q?1ctMRdFHqRg7o2+yjaUBuaEH?=
+X-Microsoft-Antispam-Message-Info: yb2UGdWaxWxic4lHS+gcxx0xNGi82a5rCCZQAFc6a8IDHLgOhpPYGvnKkXLeJ3vKW7SRPA8o2HI1J3PnfOonMWOkwcySi5utN0F2Xic+cAwK0yzCOyfzgCM5GpExaP2e0HRg63CLHsIRZZ9UnfHn7uJ7CtDBrPYp6ydcSpJxEqER12cPustewuWZnMIjURpOsbHdPRI+PIlYFgU6Psp1aqwUz1KLFVDzSgayCqEQCxhaGtsPnfbBoSB8+7nK4Ur55eK+F+/6/x3KPVoAquUBPiFltv1TE/iaV5tR92c9QLFtwNli8SNgRd5r4dRYQqQTmrhBwa+V8AszrT4z058LmPqm8pu8XwfgjXggfCQMLqCchOJGRzVx3m4eURHU8+OXZjWoI2Aiji/rF919Ue+IVl56uZ9/XAyMieAn5pNXjykZ2tZzWl/Qo5H10MhGX/PxFS/CqTRXVE0Jt7QZ8N1h6s0eLXXvsoZdR74nkkvnVJYs6+gaGACwyUy6PKvOUoLxYN5R0LAHigiBkHWoT7aYa3u9+/nrT41GGcsfBHSOVlDJicA5njr54FvTiP3X0cQfm73BmNhEFqAQzQDPDzOXyJfHfxp63tPAJI+AVX4u6b4c8cb+aJwU3kikdR42qfT2BkMHASMoGmlHA1z+fZB38A==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR10MB3533.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(346002)(366004)(396003)(136003)(376002)(8676002)(26005)(44832011)(5660300002)(8936002)(4326008)(7406005)(52116002)(956004)(30864003)(186003)(7416002)(7696005)(6486002)(66476007)(2906002)(16526019)(66946007)(478600001)(38100700001)(36756003)(86362001)(6666004)(66556008)(316002)(83380400001)(2616005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?SiCYrmtcuaEa/F1G9UIGKcik9TEWpmFKLLjl7V4qnsutI0T1wlQjMQgU8+/8?=
+ =?us-ascii?Q?6UPwVqxglV0MX0DvX0CZAAuNtK1GyQLWKz0CwITTiyU9I+iJ2Y093ZNIarI6?=
+ =?us-ascii?Q?DbaNX2za4oNHXzDtorBTdiL3/Vc9ntqcNUnIBBCag/Bye2rRPyem/JlDJoM9?=
+ =?us-ascii?Q?7b3NkfzufRziHR++Bhz2jENoN4qgrGpjrbr3NmbPxpXP6RVt636a3OJSvwMV?=
+ =?us-ascii?Q?bTmZrzt0WhixnXTkuO2KY/t2M78d9UmT3gMVnYYOBFjFcgI1kjMRScJ4Xled?=
+ =?us-ascii?Q?XXjsJ+IsOJV25Z/tDqCblSCLtX1SBzlfL4qIHTDyathFDuW3+jExr+tv8BEn?=
+ =?us-ascii?Q?Io3AJ0ex/kCp26hrROcjLBhn0zEWPZtIZcV8e9ofJsxrJUKC4ab5IOhfiW1t?=
+ =?us-ascii?Q?7qz6ckuBkD0cqeWMhLB5L6a8Yco40M1+17K2V1U1bWkRLQuyPuPqlT6RE36L?=
+ =?us-ascii?Q?fBe0VTRqDEd+seTqz4MJPoKO8+2Cmv31PRWQDx0FwlQ0RZIz6cFLZvm6f9Aw?=
+ =?us-ascii?Q?uOoMgMq/Q6LD4lDGyn4Go15FLV6j8dW/E2GJb0E/ghV09Z5HR97szQYphUib?=
+ =?us-ascii?Q?nLyy8UbRHm/c1im3v7dab5B3j5a6QOdKktgtFAppM8errTga9AI1/+NX8ggx?=
+ =?us-ascii?Q?ZrJozIsgkPtCdF+J/3fC6RWCDIjzwWt97X7s07tXFWdZ8t/gOUP1R4c2lefn?=
+ =?us-ascii?Q?wdb0vwBnaRNYRyGaAItHQbnKrz5mcKMmKdgL3OsM/6MNcyYmH59BpnXZn9qC?=
+ =?us-ascii?Q?Vblretk6QROCCGN1Kz1feHZJE8sA2LQUvEkOMClOOXeH8WsTehMIgxDPFNhE?=
+ =?us-ascii?Q?sMvVzNUBDXLySpWG967BRgi1XinKEXbbjZlKel22rpVXgl4LNdlsu3Gkvbqh?=
+ =?us-ascii?Q?SaiMQQPKZ7G4Z82tRL9pIw4AiSGhyrFCoYWUtp3CwUKsERojlqPCzZXB3EW0?=
+ =?us-ascii?Q?stztv05b/kPrN9C1mas1MMzaIgXq2Q1eJH4KqKq+k4j/5SLutfk3VSmWGI1k?=
+ =?us-ascii?Q?1kjUn9VGZKL0vxJSWWc4LWW4Wfc3EdQcDJUxBtZrNnZ517tcAQ0DxrMNdDtj?=
+ =?us-ascii?Q?2u2eYH+1QOFA9oBEaU20rIMjt1LT4HKVQlqVKXLJjcD4SDDH63L5gYgq5IBD?=
+ =?us-ascii?Q?p1Tdq+gx/mrXB5oyBL8mDQpr9GqhvVdZt5UOBb112ljF31j823XxYYp/RTHb?=
+ =?us-ascii?Q?JudtgQHePBZpcVp8YyP6WC5iEe3Jarxp2vbp4WaiO11peOMnl7RV1Peb7a1K?=
+ =?us-ascii?Q?CBaZMKshQ5IJEH3BPIxh0aRTuQ8tpvj9/ySb+CVBQUYMk5syj8KTq5loW2gV?=
+ =?us-ascii?Q?A2aQI1NQE4kSww/yeHcEoBki?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 84624cf4-e76b-473d-946c-08d8f3c24db2
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7791852-43e6-48d0-8074-08d8f3c25d19
 X-MS-Exchange-CrossTenant-AuthSource: MN2PR10MB3533.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 21:25:12.7388
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 21:25:38.5002
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QKXDpl8Almwx6/03PHwtomxWUmCVmgG5Aqx0OVLHudtK2mtwU+DsD67OupkHQ8TSKzsfcnXfbyJduY5BWQak5bLoIeIvTKF0+6oQOCq+fuI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3120
+X-MS-Exchange-CrossTenant-UserPrincipalName: ddLMi5sK2RptwMUGvC9c98IB8rpCCp4KFGJ28/r7Kblwolw+JFZH2G6t+ETixPr3/HoxTFnIPDYj7xsNKMGtM1YAInLmr+pYOdfrY1DXjTE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR10MB3613
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxlogscore=999
  malwarescore=0 spamscore=0 mlxscore=0 suspectscore=0 bulkscore=0
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2103300000 definitions=main-2103300156
-X-Proofpoint-ORIG-GUID: UfBCMuY7yXcBH0vh78GwREoMME8RVcAi
-X-Proofpoint-GUID: UfBCMuY7yXcBH0vh78GwREoMME8RVcAi
+X-Proofpoint-ORIG-GUID: PM7D4WN6LX8NRO0AsWT9UFEq5MOfWWPV
+X-Proofpoint-GUID: PM7D4WN6LX8NRO0AsWT9UFEq5MOfWWPV
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9939 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
- bulkscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0 adultscore=0
- spamscore=0 mlxscore=0 mlxlogscore=999 phishscore=0 impostorscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 lowpriorityscore=0
+ spamscore=0 priorityscore=1501 phishscore=0 malwarescore=0 suspectscore=0
+ clxscore=1015 impostorscore=0 adultscore=0 bulkscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103300000
  definitions=main-2103300156
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PKRAM nodes are further divided into a list of objects. After a save
-operation has been initiated for a node, a save operation for an object
-associated with the node is initiated by calling pkram_prepare_save_obj().
-A new object is created and linked to the node.  The save operation for
-the object is committed by calling pkram_finish_save_obj().  After a load
-operation has been initiated, pkram_prepare_load_obj() is called to
-delete the next object from the node and prepare the corresponding
-stream for loading data from it.  After the load of object has been
-finished, pkram_finish_load_obj() is called to free the object.  Objects
-are also deleted when a save operation is discarded.
+Later patches in this series will need a way to efficiently identify
+physically contiguous ranges of preserved pages independent of their
+virtual addresses. To facilitate this all pages to be preserved across
+kexec are added to a pseudo identity mapping pagetable.
+
+The pagetable makes use of the existing architecture definitions for
+building a memory mapping pagetable except that a bitmap is used to
+represent the presence or absence of preserved pages at the PTE level.
 
 Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
 ---
- include/linux/pkram.h |  2 ++
- mm/pkram.c            | 72 ++++++++++++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 70 insertions(+), 4 deletions(-)
+ mm/Makefile          |   2 +-
+ mm/pkram.c           |  30 +++-
+ mm/pkram_pagetable.c | 376 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 404 insertions(+), 4 deletions(-)
+ create mode 100644 mm/pkram_pagetable.c
 
-diff --git a/include/linux/pkram.h b/include/linux/pkram.h
-index 01055a876450..a4d55af392c0 100644
---- a/include/linux/pkram.h
-+++ b/include/linux/pkram.h
-@@ -7,6 +7,7 @@
- #include <linux/mm_types.h>
- 
- struct pkram_node;
-+struct pkram_obj;
- 
- /**
-  * enum pkram_data_flags - definition of data types contained in a pkram obj
-@@ -19,6 +20,7 @@ enum pkram_data_flags {
- struct pkram_stream {
- 	gfp_t gfp_mask;
- 	struct pkram_node *node;
-+	struct pkram_obj *obj;
- };
- 
- struct pkram_access;
+diff --git a/mm/Makefile b/mm/Makefile
+index ab3a724769b5..f5c0dd0a3707 100644
+--- a/mm/Makefile
++++ b/mm/Makefile
+@@ -120,4 +120,4 @@ obj-$(CONFIG_MEMFD_CREATE) += memfd.o
+ obj-$(CONFIG_MAPPING_DIRTY_HELPERS) += mapping_dirty_helpers.o
+ obj-$(CONFIG_PTDUMP_CORE) += ptdump.o
+ obj-$(CONFIG_PAGE_REPORTING) += page_reporting.o
+-obj-$(CONFIG_PKRAM) += pkram.o
++obj-$(CONFIG_PKRAM) += pkram.o pkram_pagetable.o
 diff --git a/mm/pkram.c b/mm/pkram.c
-index 21976df6e0ea..7c977c5982f8 100644
+index 2809371a9aec..a9e6cd8ca084 100644
 --- a/mm/pkram.c
 +++ b/mm/pkram.c
-@@ -6,9 +6,14 @@
- #include <linux/mm.h>
- #include <linux/mutex.h>
- #include <linux/pkram.h>
-+#include <linux/sched.h>
- #include <linux/string.h>
- #include <linux/types.h>
+@@ -103,6 +103,9 @@ struct pkram_super_block {
+ static unsigned long pkram_sb_pfn __initdata;
+ static struct pkram_super_block *pkram_sb;
  
-+struct pkram_obj {
-+	__u64   obj_pfn;	/* points to the next object in the list */
-+};
++extern int pkram_add_identity_map(struct page *page);
++extern void pkram_remove_identity_map(struct page *page);
 +
  /*
-  * Preserved memory is divided into nodes that can be saved or loaded
-  * independently of each other. The nodes are identified by unique name
-@@ -18,6 +23,7 @@
-  */
- struct pkram_node {
- 	__u32	flags;
-+	__u64	obj_pfn;	/* points to the first obj of the node */
+  * For convenience sake PKRAM nodes are kept in an auxiliary doubly-linked list
+  * connected through the lru field of the page struct.
+@@ -121,11 +124,24 @@ static int __init parse_pkram_sb_pfn(char *arg)
  
- 	__u8	name[PKRAM_NAME_MAX];
- };
-@@ -62,6 +68,21 @@ static struct pkram_node *pkram_find_node(const char *name)
- 	return NULL;
+ static inline struct page *pkram_alloc_page(gfp_t gfp_mask)
+ {
+-	return alloc_page(gfp_mask);
++	struct page *page;
++	int err;
++
++	page = alloc_page(gfp_mask);
++	if (page) {
++		err = pkram_add_identity_map(page);
++		if (err) {
++			__free_page(page);
++			page = NULL;
++		}
++	}
++
++	return page;
  }
  
-+static void pkram_truncate_node(struct pkram_node *node)
-+{
-+	unsigned long obj_pfn;
-+	struct pkram_obj *obj;
+ static inline void pkram_free_page(void *addr)
+ {
++	pkram_remove_identity_map(virt_to_page(addr));
+ 	free_page((unsigned long)addr);
+ }
+ 
+@@ -163,6 +179,7 @@ static void pkram_truncate_link(struct pkram_link *link)
+ 		if (!p)
+ 			continue;
+ 		page = pfn_to_page(PHYS_PFN(p));
++		pkram_remove_identity_map(page);
+ 		put_page(page);
+ 	}
+ }
+@@ -615,10 +632,15 @@ static int __pkram_save_page(struct pkram_access *pa, struct page *page,
+ int pkram_save_file_page(struct pkram_access *pa, struct page *page)
+ {
+ 	struct pkram_node *node = pa->ps->node;
++	int err;
+ 
+ 	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_SAVE);
+ 
+-	return __pkram_save_page(pa, page, page->index);
++	err = __pkram_save_page(pa, page, page->index);
++	if (!err)
++		err = pkram_add_identity_map(page);
 +
-+	obj_pfn = node->obj_pfn;
-+	while (obj_pfn) {
-+		obj = pfn_to_kaddr(obj_pfn);
-+		obj_pfn = obj->obj_pfn;
-+		pkram_free_page(obj);
-+		cond_resched();
-+	}
-+	node->obj_pfn = 0;
++	return err;
+ }
+ 
+ static int __pkram_bytes_save_page(struct pkram_access *pa, struct page *page)
+@@ -652,6 +674,8 @@ static struct page *__pkram_prep_load_page(pkram_entry_t p)
+ 		prep_transhuge_page(page);
+ 	}
+ 
++	pkram_remove_identity_map(page);
++
+ 	return page;
+ }
+ 
+@@ -898,7 +922,7 @@ static int __init pkram_init_sb(void)
+ 	if (!pkram_sb) {
+ 		struct page *page;
+ 
+-		page = pkram_alloc_page(GFP_KERNEL | __GFP_ZERO);
++		page = alloc_page(GFP_KERNEL | __GFP_ZERO);
+ 		if (!page) {
+ 			pr_err("PKRAM: Failed to allocate super block\n");
+ 			return 0;
+diff --git a/mm/pkram_pagetable.c b/mm/pkram_pagetable.c
+new file mode 100644
+index 000000000000..9c5443bd7686
+--- /dev/null
++++ b/mm/pkram_pagetable.c
+@@ -0,0 +1,376 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/bitops.h>
++//#include <asm/pgtable.h>
++#include <linux/mm.h>
++
++static pgd_t *pkram_pgd;
++static DEFINE_SPINLOCK(pkram_pgd_lock);
++
++#define set_p4d(p4dp, p4d)	WRITE_ONCE(*(p4dp), (p4d))
++
++#define PKRAM_PTE_BM_BYTES	(PTRS_PER_PTE / BITS_PER_BYTE)
++#define PKRAM_PTE_BM_MASK	(PAGE_SIZE / PKRAM_PTE_BM_BYTES - 1)
++
++static pmd_t make_bitmap_pmd(unsigned long *bitmap)
++{
++	unsigned long val;
++
++	val = __pa(ALIGN_DOWN((unsigned long)bitmap, PAGE_SIZE));
++	val |= (((unsigned long)bitmap & ~PAGE_MASK) / PKRAM_PTE_BM_BYTES);
++
++	return __pmd(val);
 +}
 +
- static void pkram_stream_init(struct pkram_stream *ps,
- 			     struct pkram_node *node, gfp_t gfp_mask)
- {
-@@ -124,12 +145,31 @@ int pkram_prepare_save(struct pkram_stream *ps, const char *name, gfp_t gfp_mask
-  *
-  * Returns 0 on success, -errno on failure.
-  *
-+ * Error values:
-+ *	%ENOMEM: insufficient memory available
-+ *
-  * After the save has finished, pkram_finish_save_obj() (or pkram_discard_save()
-  * in case of failure) is to be called.
-  */
- int pkram_prepare_save_obj(struct pkram_stream *ps, enum pkram_data_flags flags)
- {
--	return -ENOSYS;
-+	struct pkram_node *node = ps->node;
-+	struct pkram_obj *obj;
-+	struct page *page;
++static unsigned long *get_bitmap_addr(pmd_t pmd)
++{
++	unsigned long val, off;
 +
-+	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_SAVE);
++	val = pmd_val(pmd);
++	off = (val & PKRAM_PTE_BM_MASK) * PKRAM_PTE_BM_BYTES;
 +
-+	page = pkram_alloc_page(ps->gfp_mask | __GFP_ZERO);
-+	if (!page)
-+		return -ENOMEM;
-+	obj = page_address(page);
++	val = (val & PAGE_MASK) + off;
 +
-+	if (node->obj_pfn)
-+		obj->obj_pfn = node->obj_pfn;
-+	node->obj_pfn = page_to_pfn(page);
++	return __va(val);
++}
 +
-+	ps->obj = obj;
++int pkram_add_identity_map(struct page *page)
++{
++	unsigned long paddr;
++	unsigned long *bitmap;
++	unsigned int index;
++	struct page *pg;
++	pgd_t *pgd;
++	p4d_t *p4d;
++	pud_t *pud;
++	pmd_t *pmd;
++
++	if (!pkram_pgd) {
++		spin_lock(&pkram_pgd_lock);
++		if (!pkram_pgd) {
++			pg = alloc_page(GFP_ATOMIC|__GFP_ZERO);
++			if (!pg)
++				goto nomem;
++			pkram_pgd = page_address(pg);
++		}
++		spin_unlock(&pkram_pgd_lock);
++	}
++
++	paddr = __pa(page_address(page));
++	pgd = pkram_pgd;
++	pgd += pgd_index(paddr);
++	if (pgd_none(*pgd)) {
++		spin_lock(&pkram_pgd_lock);
++		if (pgd_none(*pgd)) {
++			pg = alloc_page(GFP_ATOMIC|__GFP_ZERO);
++			if (!pg)
++				goto nomem;
++			p4d = page_address(pg);
++			set_pgd(pgd, __pgd(__pa(p4d)));
++		}
++		spin_unlock(&pkram_pgd_lock);
++	}
++	p4d = p4d_offset(pgd, paddr);
++	if (p4d_none(*p4d)) {
++		spin_lock(&pkram_pgd_lock);
++		if (p4d_none(*p4d)) {
++			pg = alloc_page(GFP_ATOMIC|__GFP_ZERO);
++			if (!pg)
++				goto nomem;
++			pud = page_address(pg);
++			set_p4d(p4d, __p4d(__pa(pud)));
++		}
++		spin_unlock(&pkram_pgd_lock);
++	}
++	pud = pud_offset(p4d, paddr);
++	if (pud_none(*pud)) {
++		spin_lock(&pkram_pgd_lock);
++		if (pud_none(*pud)) {
++			pg = alloc_page(GFP_ATOMIC|__GFP_ZERO);
++			if (!pg)
++				goto nomem;
++			pmd = page_address(pg);
++			set_pud(pud, __pud(__pa(pmd)));
++		}
++		spin_unlock(&pkram_pgd_lock);
++	}
++	pmd = pmd_offset(pud, paddr);
++	if (pmd_none(*pmd)) {
++		spin_lock(&pkram_pgd_lock);
++		if (pmd_none(*pmd)) {
++			if (PageTransHuge(page)) {
++				set_pmd(pmd, pmd_mkhuge(*pmd));
++				spin_unlock(&pkram_pgd_lock);
++				goto done;
++			}
++			bitmap = bitmap_zalloc(PTRS_PER_PTE, GFP_ATOMIC);
++			if (!bitmap)
++				goto nomem;
++			set_pmd(pmd, make_bitmap_pmd(bitmap));
++		} else {
++			BUG_ON(pmd_large(*pmd));
++			bitmap = get_bitmap_addr(*pmd);
++		}
++		spin_unlock(&pkram_pgd_lock);
++	} else {
++		BUG_ON(pmd_large(*pmd));
++		bitmap = get_bitmap_addr(*pmd);
++	}
++
++	index = pte_index(paddr);
++	BUG_ON(test_bit(index, bitmap));
++	set_bit(index, bitmap);
++	smp_mb__after_atomic();
++	if (bitmap_full(bitmap, PTRS_PER_PTE))
++		set_pmd(pmd, pmd_mkhuge(*pmd));
++done:
 +	return 0;
- }
- 
- /**
-@@ -137,7 +177,9 @@ int pkram_prepare_save_obj(struct pkram_stream *ps, enum pkram_data_flags flags)
-  */
- void pkram_finish_save_obj(struct pkram_stream *ps)
- {
--	BUG();
-+	struct pkram_node *node = ps->node;
++nomem:
++	return -ENOMEM;
++}
 +
-+	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_SAVE);
- }
- 
- /**
-@@ -169,6 +211,7 @@ void pkram_discard_save(struct pkram_stream *ps)
- 	pkram_delete_node(node);
- 	mutex_unlock(&pkram_mutex);
- 
-+	pkram_truncate_node(node);
- 	pkram_free_page(node);
- }
- 
-@@ -216,11 +259,26 @@ int pkram_prepare_load(struct pkram_stream *ps, const char *name)
-  *
-  * Returns 0 on success, -errno on failure.
-  *
-+ * Error values:
-+ *	%ENODATA: Stream @ps has no preserved memory objects
-+ *
-  * After the load has finished, pkram_finish_load_obj() is to be called.
-  */
- int pkram_prepare_load_obj(struct pkram_stream *ps)
- {
--	return -ENOSYS;
-+	struct pkram_node *node = ps->node;
-+	struct pkram_obj *obj;
++void pkram_remove_identity_map(struct page *page)
++{
++	unsigned long *bitmap;
++	unsigned long paddr;
++	unsigned int index;
++	pgd_t *pgd;
++	p4d_t *p4d;
++	pud_t *pud;
++	pmd_t *pmd;
 +
-+	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_LOAD);
++	/*
++	 * pkram_pgd will be null when freeing metadata pages after a reboot
++	 */
++	if (!pkram_pgd)
++		return;
 +
-+	if (!node->obj_pfn)
-+		return -ENODATA;
++	paddr = __pa(page_address(page));
++	pgd = pkram_pgd;
++	pgd += pgd_index(paddr);
++	if (pgd_none(*pgd)) {
++		WARN_ONCE(1, "PKRAM: %s: no pgd for 0x%lx\n", __func__, paddr);
++		return;
++	}
++	p4d = p4d_offset(pgd, paddr);
++	if (p4d_none(*p4d)) {
++		WARN_ONCE(1, "PKRAM: %s: no p4d for 0x%lx\n", __func__, paddr);
++		return;
++	}
++	pud = pud_offset(p4d, paddr);
++	if (pud_none(*pud)) {
++		WARN_ONCE(1, "PKRAM: %s: no pud for 0x%lx\n", __func__, paddr);
++		return;
++	}
++	pmd = pmd_offset(pud, paddr);
++	if (pmd_none(*pmd)) {
++		WARN_ONCE(1, "PKRAM: %s: no pmd for 0x%lx\n", __func__, paddr);
++		return;
++	}
++	if (PageTransHuge(page)) {
++		BUG_ON(!pmd_large(*pmd));
++		pmd_clear(pmd);
++		return;
++	}
 +
-+	obj = pfn_to_kaddr(node->obj_pfn);
-+	node->obj_pfn = obj->obj_pfn;
++	if (pmd_large(*pmd)) {
++		spin_lock(&pkram_pgd_lock);
++		if (pmd_large(*pmd))
++			set_pmd(pmd, __pmd(pte_val(pte_clrhuge(*(pte_t *)pmd))));
++		spin_unlock(&pkram_pgd_lock);
++	}
 +
-+	ps->obj = obj;
++	bitmap = get_bitmap_addr(*pmd);
++	index = pte_index(paddr);
++	clear_bit(index, bitmap);
++	smp_mb__after_atomic();
++
++	spin_lock(&pkram_pgd_lock);
++	if (!pmd_none(*pmd) && bitmap_empty(bitmap, PTRS_PER_PTE)) {
++		pmd_clear(pmd);
++		spin_unlock(&pkram_pgd_lock);
++		bitmap_free(bitmap);
++	} else {
++		spin_unlock(&pkram_pgd_lock);
++	}
++}
++
++struct pkram_pg_state {
++	int (*range_cb)(unsigned long base, unsigned long size, void *private);
++	unsigned long start_addr;
++	unsigned long curr_addr;
++	unsigned long min_addr;
++	unsigned long max_addr;
++	void *private;
++	bool tracking;
++};
++
++#define pgd_none(a)  (pgtable_l5_enabled() ? pgd_none(a) : p4d_none(__p4d(pgd_val(a))))
++
++static int note_page(struct pkram_pg_state *st, unsigned long addr, bool present)
++{
++	if (!st->tracking && present) {
++		if (addr >= st->max_addr)
++			return 1;
++		/*
++		 * addr can be < min_addr if the page straddles the
++		 * boundary
++		 */
++		st->start_addr = max(addr, st->min_addr);
++		st->tracking = true;
++	} else if (st->tracking) {
++		unsigned long base, size;
++		int ret;
++
++		/* Continue tracking if upper bound has not been reached */
++		if (present && addr < st->max_addr)
++			return 0;
++
++		addr = min(addr, st->max_addr);
++
++		base = st->start_addr;
++		size = addr - st->start_addr;
++		st->tracking = false;
++
++		ret = st->range_cb(base, size, st->private);
++
++		if (addr == st->max_addr)
++			return 1;
++		else
++			return ret;
++	}
++
 +	return 0;
- }
- 
- /**
-@@ -230,7 +288,12 @@ int pkram_prepare_load_obj(struct pkram_stream *ps)
-  */
- void pkram_finish_load_obj(struct pkram_stream *ps)
- {
--	BUG();
-+	struct pkram_node *node = ps->node;
-+	struct pkram_obj *obj = ps->obj;
++}
 +
-+	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_LOAD);
++static int walk_pte_level(struct pkram_pg_state *st, pmd_t addr, unsigned long P)
++{
++	unsigned long *bitmap;
++	int present;
++	int i, ret;
 +
-+	pkram_free_page(obj);
- }
- 
- /**
-@@ -244,6 +307,7 @@ void pkram_finish_load(struct pkram_stream *ps)
- 
- 	BUG_ON((node->flags & PKRAM_ACCMODE_MASK) != PKRAM_LOAD);
- 
-+	pkram_truncate_node(node);
- 	pkram_free_page(node);
- }
- 
++	bitmap = get_bitmap_addr(addr);
++	for (i = 0; i < PTRS_PER_PTE; i++) {
++		unsigned long curr_addr = P + i * PAGE_SIZE;
++
++		if (curr_addr < st->min_addr)
++			continue;
++		present = test_bit(i, bitmap);
++		ret = note_page(st, curr_addr, present);
++		if (ret)
++			break;
++	}
++
++	return ret;
++}
++
++static int walk_pmd_level(struct pkram_pg_state *st, pud_t addr, unsigned long P)
++{
++	pmd_t *start;
++	int i, ret;
++
++	start = (pmd_t *)pud_page_vaddr(addr);
++	for (i = 0; i < PTRS_PER_PMD; i++, start++) {
++		unsigned long curr_addr = P + i * PMD_SIZE;
++
++		if (curr_addr + PMD_SIZE <= st->min_addr)
++			continue;
++		if (!pmd_none(*start)) {
++			if (pmd_large(*start))
++				ret = note_page(st, curr_addr, true);
++			else
++				ret = walk_pte_level(st, *start, curr_addr);
++		} else
++			ret = note_page(st, curr_addr, false);
++		if (ret)
++			break;
++	}
++
++	return ret;
++}
++
++static int walk_pud_level(struct pkram_pg_state *st, p4d_t addr, unsigned long P)
++{
++	pud_t *start;
++	int i, ret;
++
++	start = (pud_t *)p4d_page_vaddr(addr);
++	for (i = 0; i < PTRS_PER_PUD; i++, start++) {
++		unsigned long curr_addr = P + i * PUD_SIZE;
++
++		if (curr_addr + PUD_SIZE <= st->min_addr)
++			continue;
++		if (!pud_none(*start)) {
++			if (pud_large(*start))
++				ret = note_page(st, curr_addr, true);
++			else
++				ret = walk_pmd_level(st, *start, curr_addr);
++		} else
++			ret = note_page(st, curr_addr, false);
++		if (ret)
++			break;
++	}
++
++	return ret;
++}
++
++static int walk_p4d_level(struct pkram_pg_state *st, pgd_t addr, unsigned long P)
++{
++	p4d_t *start;
++	int i, ret;
++
++	if (PTRS_PER_P4D == 1)
++		return walk_pud_level(st, __p4d(pgd_val(addr)), P);
++
++	start = (p4d_t *)pgd_page_vaddr(addr);
++	for (i = 0; i < PTRS_PER_P4D; i++, start++) {
++		unsigned long curr_addr = P + i * P4D_SIZE;
++
++		if (curr_addr + P4D_SIZE <= st->min_addr)
++			continue;
++		if (!p4d_none(*start)) {
++			if (p4d_large(*start))
++				ret = note_page(st, curr_addr, true);
++			else
++				ret = walk_pud_level(st, *start, curr_addr);
++		} else
++			ret = note_page(st, curr_addr, false);
++		if (ret)
++			break;
++	}
++
++	return ret;
++}
++
++void pkram_walk_pgt(struct pkram_pg_state *st, pgd_t *pgd)
++{
++	pgd_t *start = pgd;
++	int i, ret = 0;
++
++	for (i = 0; i < PTRS_PER_PGD; i++, start++) {
++		unsigned long curr_addr = i * PGDIR_SIZE;
++
++		if (curr_addr + PGDIR_SIZE <= st->min_addr)
++			continue;
++		if (!pgd_none(*start))
++			ret = walk_p4d_level(st, *start, curr_addr);
++		else
++			ret = note_page(st, curr_addr, false);
++		if (ret)
++			break;
++	}
++}
++
++void pkram_find_preserved(unsigned long start, unsigned long end, void *private, int (*callback)(unsigned long base, unsigned long size, void *private))
++{
++	struct pkram_pg_state st = {
++		.range_cb = callback,
++		.min_addr = start,
++		.max_addr = end,
++		.private = private,
++	};
++
++	if (!pkram_pgd)
++		return;
++
++	pkram_walk_pgt(&st, pkram_pgd);
++}
 -- 
 1.8.3.1
 
