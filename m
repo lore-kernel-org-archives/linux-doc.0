@@ -2,118 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB81AC433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:35:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A57BC433E1
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:48:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A34CD61953
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:35:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0555A619CF
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:48:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232776AbhC3VfZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 17:35:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53236 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232774AbhC3VfY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 17:35:24 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FDD2C061574;
-        Tue, 30 Mar 2021 14:35:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=z7gpjKduYgeN6oL2kpf0goTjGuX7Jirh6bppui9tmTw=; b=l+hnoP3v0qdie0iPZDvdZiuoBW
-        Iyfz7J0yph9CuU+XlaLvnSo8ku2k7KDd/d+krMIST6s9Fyv/egtQgT3W7t7p6hjWDOv5kSjalw4Ec
-        2UXpr36d7MW1htLT+rvF7dYmYqKfWrD8SaZnI3uaA/Y7LaB/HdZimrmGUV+X/FU5LQdQZd9MAmGR6
-        NDsGb+rIi8T+u5KgbpaQ6qj8t/KO6X+y5CJJ4Kc2mMI6iyux8Pz8u4cQL9Ig/clytqOfua63wAsCW
-        wJwqt1HMRxUeNDwlSLKt9CLSomizp6PDlJyp6MMwFMzNOVpaEZ8iCg/EbLmz5xPDO9FjDdjhTG8xR
-        N8Wq8hZw==;
-Received: from [2601:1c0:6280:3f0::4557]
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lRLyp-003dqg-0Z; Tue, 30 Mar 2021 21:33:07 +0000
-Subject: Re: [PATCH] x86/platform/intel/quark: fix incorrect kernel-doc
- comment syntax in files
-To:     Aditya Srivastava <yashsri421@gmail.com>,
-        linux-kernel@vger.kernel.org
-Cc:     lukas.bulwahn@gmail.com, dvhart@infradead.org, andy@infradead.org,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, platform-driver-x86@vger.kernel.org
-References: <20210330213022.28769-1-yashsri421@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <1f37b726-7f03-99dc-546f-7d33a1f2c6c9@infradead.org>
-Date:   Tue, 30 Mar 2021 14:32:46 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S232298AbhC3Vra (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 17:47:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48592 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232554AbhC3VrZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Mar 2021 17:47:25 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 42C3361969;
+        Tue, 30 Mar 2021 21:47:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617140841;
+        bh=efZTSeZg5XZdPMKissn/jqo8tvlWQesdN6Iq75XHvfI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=EE+/eIjWBtwuci++W9gjw+1hfjkCUOFnCek0S7tGuoWziUmlBjPnnpm164rZwfDBY
+         OETzBbgFsd4ArFeux8BOHcSaFjhgoKtxe/qad/6J515m8BJgZkS1YcysvKmP3YKncx
+         8zt6vjxgVBaG0PcEmKS/g2hq2rI50hR3FPOrHFo2OGMXjiaJ8ey50NjyxyMdSnHT+L
+         JIyEytj9VSwvDsaDn5VwomZafE9p8mhiavJyKbOggr7x4oKSarCey3IdRTKN9GotAj
+         UtMWIgxM7oa8aOBV6W1A57KLOx0kB2JZpXr1bkUDSjG3DQCRC59nKBaNJmmTPYAacD
+         d4ZR6Vnd6a7UQ==
+Date:   Tue, 30 Mar 2021 14:47:18 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Jarkko Sakkinen <jarkko@kernel.org>
+Cc:     David Gstir <david@sigma-star.at>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Aymen Sghaier <aymen.sghaier@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Udit Agarwal <udit.agarwal@nxp.com>,
+        Jan Luebbe <j.luebbe@pengutronix.de>,
+        Franck Lenormand <franck.lenormand@nxp.com>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>
+Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
+ CAAM-based trusted keys
+Message-ID: <YGOcZtkw3ZM5kvl6@gmail.com>
+References: <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
+ <01e6e13d-2968-0aa5-c4c8-7458b7bde462@nxp.com>
+ <45a9e159-2dcb-85bf-02bd-2993d50b5748@pengutronix.de>
+ <f9c0087d299be1b9b91b242f41ac6ef7b9ee3ef7.camel@linux.ibm.com>
+ <63dd7d4b-4729-9e03-cd8f-956b94eab0d9@pengutronix.de>
+ <CAFA6WYOw_mQwOUN=onhzb7zCTyYDBrcx0E7C3LRk6nPLAVCWEQ@mail.gmail.com>
+ <557b92d2-f3b8-d136-7431-419429f0e059@pengutronix.de>
+ <CAFA6WYNE44=Y7Erfc-xNtOrf7TkJjh+odmYH5vzhEHR6KqBfeQ@mail.gmail.com>
+ <6F812C20-7585-4718-997E-0306C4118468@sigma-star.at>
+ <YGDpA4yPWmTWEyx+@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20210330213022.28769-1-yashsri421@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YGDpA4yPWmTWEyx+@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/30/21 2:30 PM, Aditya Srivastava wrote:
-> The opening comment mark '/**' is used for highlighting the beginning of
-> kernel-doc comments.
-> There are certain files in arch/x86/platform/intel-quark, which follow this
-> syntax, but the content inside does not comply with kernel-doc.
-> Such lines were probably not meant for kernel-doc parsing, but are parsed
-> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-> causes unexpected warnings from kernel-doc.
+On Sun, Mar 28, 2021 at 11:37:23PM +0300, Jarkko Sakkinen wrote:
 > 
-> E.g., presence of kernel-doc like comment in the header lines for
-> arch/x86/platform/intel-quark/imr.c causes these warnings:
-> "warning: Function parameter or member 'fmt' not described in 'pr_fmt'"
-> "warning: expecting prototype for c(). Prototype was for pr_fmt() instead"
-> 
-> Similarly for arch/x86/platform/intel-quark/imr_selftest.c too.
-> 
-> Provide a simple fix by replacing these occurrences with general comment
-> format, i.e. '/*', to prevent kernel-doc from parsing it.
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-> ---
-> * Applies perfectly on next-20210326
-> 
->  arch/x86/platform/intel-quark/imr.c          | 2 +-
->  arch/x86/platform/intel-quark/imr_selftest.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/x86/platform/intel-quark/imr.c b/arch/x86/platform/intel-quark/imr.c
-> index 122e0f37b1f5..d3d456925b2a 100644
-> --- a/arch/x86/platform/intel-quark/imr.c
-> +++ b/arch/x86/platform/intel-quark/imr.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0-only
-> -/**
-> +/*
->   * imr.c -- Intel Isolated Memory Region driver
->   *
->   * Copyright(c) 2013 Intel Corporation.
-> diff --git a/arch/x86/platform/intel-quark/imr_selftest.c b/arch/x86/platform/intel-quark/imr_selftest.c
-> index 570e3062faac..761f3689f60a 100644
-> --- a/arch/x86/platform/intel-quark/imr_selftest.c
-> +++ b/arch/x86/platform/intel-quark/imr_selftest.c
-> @@ -1,5 +1,5 @@
->  // SPDX-License-Identifier: GPL-2.0
-> -/**
-> +/*
->   * imr_selftest.c -- Intel Isolated Memory Region self-test driver
->   *
->   * Copyright(c) 2013 Intel Corporation.
+> Unfortunately, TPM trusted keys started this bad security practice, and
+> obviously it cannot be fixed without breaking uapi backwards compatibility.
 > 
 
+The whole point of a randomness source is that it is random.  So userspace can't
+be depending on any particular output, and the randomness source can be changed
+without breaking backwards compatibility.
 
--- 
-~Randy
+So IMO, trusted keys should simply be fixed to use get_random_bytes().
 
+- Eric
