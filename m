@@ -2,252 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E0FDC433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 14:14:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67D1CC433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 14:52:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 010FD619CD
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 14:14:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 341B9619D9
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 14:52:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231952AbhC3ONt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 10:13:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42002 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231665AbhC3ONW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 10:13:22 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31E9CC061765;
-        Tue, 30 Mar 2021 07:13:21 -0700 (PDT)
-Received: from ip4d14bd53.dynamic.kabel-deutschland.de ([77.20.189.83] helo=truhe.fritz.box); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        id 1lRF7I-0000jw-DA; Tue, 30 Mar 2021 16:13:12 +0200
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v1 4/4] docs: reporting-issues: reduce quoting and assorted fixes
-Date:   Tue, 30 Mar 2021 16:13:07 +0200
-Message-Id: <07bca15d8465b8e234537feb8841dd2ff20243bc.1617113469.git.linux@leemhuis.info>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <cover.1617113469.git.linux@leemhuis.info>
+        id S231959AbhC3Ovj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 10:51:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54748 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232118AbhC3Ovc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Mar 2021 10:51:32 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9A07F60C41;
+        Tue, 30 Mar 2021 14:51:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1617115892;
+        bh=jQvBFhkZ2SR0hSEovncl3Olh0doa2fgmumWI1v2bnwg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Ym0XbF9jJwHKpaRE0p4tw4acwA7QutOSOEIVbwqhlFlx5MG7eyf2HZlpN23Q8Fmx/
+         cKx7EkjpBfv07MDOczh7b/OfKT+xp2UyP1hFlDhc3CLQdnkZ7Z5SEyElDk7SbeDW/B
+         gffCqYmoOuWSsy99q/ZJ/JMbCWsmnyI3DwBXKbXM=
+Date:   Tue, 30 Mar 2021 16:51:29 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Federico Vaga <federico.vaga@vaga.pv.it>
+Subject: Re: [PATCH v1 1/4] docs: make reporting-issues.rst official and
+ delete reporting-bugs.rst
+Message-ID: <YGM68Q0+aeNgjsdy@kroah.com>
 References: <cover.1617113469.git.linux@leemhuis.info>
+ <49c674c2d304d87e6259063580fda05267e8c348.1617113469.git.linux@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=yes
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1617113602;38c5c4bd;
-X-HE-SMSGID: 1lRF7I-0000jw-DA
+In-Reply-To: <49c674c2d304d87e6259063580fda05267e8c348.1617113469.git.linux@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-A pile of small fixes:
+On Tue, Mar 30, 2021 at 04:13:04PM +0200, Thorsten Leemhuis wrote:
+> Removing Documentation/admin-guide/reporting-bugs.rst will break links
+> in some of the translations. I was unsure if simply changing them to
+> Documentation/admin-guide/reporting-issue.rst was wise, so I didn't
+> touch anything for now and CCed the maintainers for the Chinese and
+> Italian translation. I couldn't find one for the Japanse translation.
+> 
+> Please advice. For completeness, this are the places where things will
+> break afaics:
+> 
+> $ grep -ri 'reporting-bugs.rst' Documentation/
+> Documentation/translations/zh_CN/SecurityBugs:是有帮助的信息，那就请重温一下admin-guide/reporting-bugs.rst文件中的概述过程。任
+> Documentation/translations/zh_CN/process/howto.rst:内核源码主目录中的:ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
+> Documentation/translations/zh_CN/admin-guide/reporting-issues.rst:   本文档将取代“Documentation/admin-guide/reporting-bugs.rst”。主要的工作
+> Documentation/translations/zh_CN/admin-guide/reporting-issues.rst:   “Documentation/admin-guide/reporting-bugs.rst”中的旧文字非常相似。它和它
+> Documentation/translations/it_IT/process/howto.rst:Il file admin-guide/reporting-bugs.rst nella cartella principale del kernel
+> Documentation/translations/ja_JP/howto.rst:admin-guide/reporting-bugs.rstはカーネルバグらしいものについてどうレポー
 
-- don't quote terms like vanilla, mainline, and stable, unless in they
-  occur in places where readers new to the kernel might see them for the
-  first time
+Traditionally translations catch up much later on, you shouldn't have to
+worry about them the authors will clean them up and submit patches for
+them when they get the chance.
 
-- make people rule out that vendor patches are interfering if they face
-  a regression in a stable or longterm kernel they saw in a vendor
-  kernel for the first time
+thanks,
 
-- s/bugs/issues/ in a selected spots
-
-- exchange two headlines that got mixed up somehow
-
-- add a few links to some of the steps in the guide
-
-- Greg mentioned sending reports to the stable mailing list is
-  sufficient, so remove the "CC stable maintainers" bits
-
-- fix a few typos and mistakes in the text, with a few very small
-  improvements along the way
-
-Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
----
- .../admin-guide/reporting-issues.rst          | 79 +++++++++++--------
- 1 file changed, 45 insertions(+), 34 deletions(-)
-
-diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-index 77d38acca282..e6137c971007 100644
---- a/Documentation/admin-guide/reporting-issues.rst
-+++ b/Documentation/admin-guide/reporting-issues.rst
-@@ -77,9 +77,9 @@ process won't feel wasted in the end:
-    will often be needed anyway to hunt down and fix issues.
- 
-  * Perform a rough search for existing reports with your favorite internet
--   search engine; additionally, check the archives of the Linux Kernel Mailing
--   List (LKML). If you find matching reports, join the discussion instead of
--   sending a new one.
-+   search engine; additionally, check the archives of the `Linux Kernel Mailing
-+   List (LKML) <https://lore.kernel.org/lkml/>`_. If you find matching reports,
-+   join the discussion instead of sending a new one.
- 
-  * See if the issue you are dealing with qualifies as regression, security
-    issue, or a really severe problem: those are 'issues of high priority' that
-@@ -181,21 +181,23 @@ regressions as quickly as possible, hence there is a streamlined process to
- report them:
- 
-  * Check if the kernel developers still maintain the Linux kernel version
--   line you care about: go to the front page of kernel.org and make sure it
--   mentions the latest release of the particular version line without an
--   '[EOL]' tag.
-+   line you care about: go to the  `front page of kernel.org
-+   <https://kernel.org/>`_ and make sure it mentions
-+   the latest release of the particular version line without an '[EOL]' tag.
- 
-- * Check the archives of the Linux stable mailing list for existing reports.
-+ * Check the archives of the `Linux stable mailing list
-+   <https://lore.kernel.org/stable/>`_ for existing reports.
- 
-  * Install the latest release from the particular version line as a vanilla
-    kernel. Ensure this kernel is not tainted and still shows the problem, as
--   the issue might have already been fixed there.
-+   the issue might have already been fixed there. If you first noticed the
-+   problem with a vendor kernel, check a vanilla build of the last version
-+   known to work performs fine as well.*
- 
-- * Send a short problem report by mail to the people and mailing lists the
--   :ref:`MAINTAINERS <maintainers>` file specifies in the section 'STABLE
--   BRANCH'. Roughly describe the issue and ideally explain how to reproduce
--   it. Mention the first version that shows the problem and the last version
--   that's working fine. Then wait for further instructions.
-+ * Send a short problem report to the Linux stable mailing list
-+   (stable@vger.kernel.org). Roughly describe the issue and ideally explain
-+   how to reproduce it. Mention the first version that shows the problem and
-+   the last version that's working fine. Then wait for further instructions.*
- 
- The reference section below explains each of these steps in more detail.
- 
-@@ -205,8 +207,8 @@ Reporting issues only occurring in older kernel version lines
- 
- This subsection is for you, if you tried the latest mainline kernel as outlined
- above, but failed to reproduce your issue there; at the same time you want to
--see the issue fixed in older version lines or a vendor kernel that's regularly
--rebased on new stable or longterm releases. If that case follow these steps:
-+see the issue fixed in a still supported stable or longterm series or vendor
-+kernels regularly rebased on those. If that the case, follow these steps:
- 
-  * Prepare yourself for the possibility that going through the next few steps
-    might not get the issue solved in older releases: the fix might be too big
-@@ -291,7 +293,7 @@ distributors are quite distant from the official Linux kernel as distributed by
- kernel.org: these kernels from these vendors are often ancient from the point of
- Linux development or heavily modified, often both.
- 
--Most of these vendor kernels are quite unsuitable for reporting bugs to the
-+Most of these vendor kernels are quite unsuitable for reporting issues to the
- Linux kernel developers: an issue you face with one of them might have been
- fixed by the Linux kernel developers months or years ago already; additionally,
- the modifications and enhancements by the vendor might be causing the issue you
-@@ -816,7 +818,7 @@ kernel for testing, as that where all fixes have to be applied first. Do not let
- that 'rc' scare you, these 'development kernels' are pretty reliable — and you
- made a backup, as you were instructed above, didn't you?
- 
--In about two out of every nine to ten weeks, 'mainline' might point you to a
-+In about two out of every nine to ten weeks, mainline might point you to a
- proper release with a version number like '5.7'. If that happens, consider
- suspending the reporting process until the first pre-release of the next
- version (5.8-rc1) shows up on kernel.org. That's because the Linux development
-@@ -1231,7 +1233,7 @@ Special handling for high priority issues
- 
- Reports for high priority issues need special handling.
- 
--**Severe bugs**: make sure the subject or ticket title as well as the first
-+**Severe issues**: make sure the subject or ticket title as well as the first
- paragraph makes the severeness obvious.
- 
- **Regressions**: If the issue is a regression add [REGRESSION] to the mail's
-@@ -1455,11 +1457,11 @@ easier. And with a bit of luck there might be someone in the team that knows a
- bit about programming and might be able to write a fix.
- 
- 
--Reference for "Reporting issues only occurring in older kernel version lines"
-------------------------------------------------------------------------------
-+Reference for "Reporting regressions within a stable and longterm kernel line"
-+------------------------------------------------------------------------------
- 
--This subsection provides details for step you need to perform if you face a
--regression within a stable and longterm kernel line.
-+This subsection provides details for the steps you need to perform if you face
-+a regression within a stable and longterm kernel line.
- 
- Make sure the particular version line still gets support
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-@@ -1475,7 +1477,7 @@ chosen and gets supported for at least two years (often six). That's why you
- need to check if the kernel developers still support the version line you care
- for.
- 
--Note, if kernel.org lists two 'stable' version lines on the front page, you
-+Note, if kernel.org lists two stable version lines on the front page, you
- should consider switching to the newer one and forget about the older one:
- support for it is likely to be abandoned soon. Then it will get a "end-of-life"
- (EOL) stamp. Version lines that reached that point still get mentioned on the
-@@ -1498,7 +1500,9 @@ Reproduce issue with the newest release
- 
-     *Install the latest release from the particular version line as a vanilla
-     kernel. Ensure this kernel is not tainted and still shows the problem, as
--    the issue might have already been fixed there.*
-+    the issue might have already been fixed there. If you first noticed the
-+    problem with a vendor kernel, check a vanilla build of the last version
-+    known to work performs fine as well.*
- 
- Before investing any more time in this process you want to check if the issue
- was already fixed in the latest release of version line you're interested in.
-@@ -1506,14 +1510,22 @@ This kernel needs to be vanilla and shouldn't be tainted before the issue
- happens, as detailed outlined already above in the section "Install a fresh
- kernel for testing".
- 
-+Did you first notice the regression with a vendor kernel? Then changes the
-+vendor applied might be interfering. You need to rule that out by performing
-+a recheck. Say something broke when you updated from 5.10.4-vendor.42 to
-+5.10.5-vendor.43. Then after testing the latest 5.10 release as outlined in
-+the previous paragraph check if a vanilla build of Linux 5.10.4 works fine as
-+well. If things are broken there, the issue does not qualify as upstream
-+regression and you need switch back to the main step-by-step guide to report
-+the issue.
-+
- Report the regression
- ~~~~~~~~~~~~~~~~~~~~~
- 
--    *Send a short problem report by mail to the people and mailing lists the
--    :ref:`MAINTAINERS <maintainers>` file specifies in the section 'STABLE
--    BRANCH'. Roughly describe the issue and ideally explain how to reproduce
--    it. Mention the first version that shows the problem and the last version
--    that's working fine. Then wait for further instructions.*
-+    *Send a short problem report to the Linux stable mailing list
-+    (stable@vger.kernel.org). Roughly describe the issue and ideally explain
-+    how to reproduce it. Mention the first version that shows the problem and
-+    the last version that's working fine. Then wait for further instructions.*
- 
- When reporting a regression that happens within a stable or longterm kernel
- line (say when updating from 5.10.4 to 5.10.5) a brief report is enough for
-@@ -1540,10 +1552,10 @@ the document 'Documentation/admin-guide/bug-bisect.rst' for details how to
- perform one.
- 
- 
--Reference for "Reporting regressions within a stable and longterm kernel line"
--------------------------------------------------------------------------------
-+Reference for "Reporting issues only occurring in older kernel version lines"
-+-----------------------------------------------------------------------------
- 
--This section provides details for steps you need to take if you could not
-+This section provides details for the steps you need to take if you could not
- reproduce your issue with a mainline kernel, but want to see it fixed in older
- version lines (aka stable and longterm kernels).
- 
-@@ -1648,8 +1660,7 @@ Ask for advice
- If the previous three steps didn't get you closer to a solution there is only
- one option left: ask for advice. Do that in a mail you sent to the maintainers
- for the subsystem where the issue seems to have its roots; CC the mailing list
--for the subsystem as well as the stable mailing list the :ref:`MAINTAINERS
--<maintainers>` file mention in the section "STABLE BRANCH".
-+for the subsystem as well as the stable mailing list (stable@vger.kernel.org).
- 
- 
- Why some issues won't get any reaction or remain unfixed after being reported
--- 
-2.30.2
-
+greg k-h
