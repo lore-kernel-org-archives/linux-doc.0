@@ -2,111 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B42AFC433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 11:00:19 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 873B0C433C1
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 11:08:29 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6964E61983
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 11:00:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 46C0F61987
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 11:08:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231529AbhC3K7r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 06:59:47 -0400
-Received: from mx2.suse.de ([195.135.220.15]:57324 "EHLO mx2.suse.de"
+        id S231794AbhC3LH4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 07:07:56 -0400
+Received: from mga05.intel.com ([192.55.52.43]:24221 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230303AbhC3K70 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Mar 2021 06:59:26 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1617101964; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qmeQCq04jT8rHPiUv6/LBiRXDPMlB3aXGtuUdtytZnk=;
-        b=li3HODFHgB9/S6azBGw7BuW78uUknYi4ocXmKFhZbr6W6SBSJ89moi2Bct3jdiNqgtIUVL
-        zb7xAfevGnBAUzJzXMb6giL32J7yimdf50q70jaNrpWD5DHROz+zbKCYb/w+TO/1l1yYL0
-        OUnPfN9/gCj4wD3kMO4ZHijf44GkbaI=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 783D7B242;
-        Tue, 30 Mar 2021 10:59:24 +0000 (UTC)
-Date:   Tue, 30 Mar 2021 12:59:23 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        peter enderborg <peter.enderborg@sony.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Baoquan He <bhe@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Dave Young <dyoung@redhat.com>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Ingo Molnar <mingo@redhat.com>, Jessica Yu <jeyu@kernel.org>,
-        Jiri Olsa <jolsa@kernel.org>, kexec@lists.infradead.org,
-        Konstantin Khlebnikov <khlebnikov@yandex-team.ru>,
-        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-        Matthew Wilcox <willy@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sasha Levin <sashal@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Vivek Goyal <vgoyal@redhat.com>, Will Deacon <will@kernel.org>,
-        x86@kernel.org
-Subject: Re: [PATCH v2 00/12] Add build ID to stacktraces
-Message-ID: <YGMEi6i8ksa9+adD@alley>
-References: <20210324020443.1815557-1-swboyd@chromium.org>
- <20210324085543.GA2660708@infradead.org>
- <dbb430e1-2223-9df0-2563-4b017d6b409d@sony.com>
- <161671450646.3012082.10177164412320557022@swboyd.mtv.corp.google.com>
+        id S231782AbhC3LHj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Mar 2021 07:07:39 -0400
+IronPort-SDR: Y4q5PucNHa4KO8Rhe8vgWNb00TIie/ZHWcXAZNsHFEFnqv2PorEN+6iyCVXW5k7g1o7uT3fp0q
+ ewbupBiucXzA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9938"; a="276913592"
+X-IronPort-AV: E=Sophos;i="5.81,290,1610438400"; 
+   d="scan'208";a="276913592"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2021 04:07:39 -0700
+IronPort-SDR: jQ93ivM6KOkmcumcWsJCaL/OZGz82ahTE/rCNKH/jjLZqV5PdkvvUCLbEvNVRAf133XhHlz80s
+ POtWoU3Cer7w==
+X-IronPort-AV: E=Sophos;i="5.81,290,1610438400"; 
+   d="scan'208";a="418126879"
+Received: from ograu-mobl.ger.corp.intel.com (HELO localhost) ([10.252.58.175])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2021 04:07:20 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] kernel-doc: better handle '::' sequences
+In-Reply-To: <CANiq72=kRzBQsjgUeuVNXRmRVN8zXzMvMn+yTWt=YhR+r2wNEg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210325184615.08526aed@coco.lan> <2cf44cf1fa42588632735d4fbc8e84304bdc235f.1616696051.git.mchehab+huawei@kernel.org> <87tuozyslu.fsf@meer.lwn.net> <20210325191435.GZ1719932@casper.infradead.org> <87a6qrx7wf.fsf@meer.lwn.net> <20210325221437.GA1719932@casper.infradead.org> <CANiq72=kRzBQsjgUeuVNXRmRVN8zXzMvMn+yTWt=YhR+r2wNEg@mail.gmail.com>
+Date:   Tue, 30 Mar 2021 14:07:14 +0300
+Message-ID: <87wntooq71.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <161671450646.3012082.10177164412320557022@swboyd.mtv.corp.google.com>
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 2021-03-25 16:21:46, Stephen Boyd wrote:
-> Quoting peter enderborg (2021-03-25 04:06:17)
-> > On 3/24/21 9:55 AM, Christoph Hellwig wrote:
-> > > On Tue, Mar 23, 2021 at 07:04:31PM -0700, Stephen Boyd wrote:
-> > >>  x5 : 0000000000000000 x4 : 0000000000000001
-> > >>  x3 : 0000000000000008 x2 : ffffff93fef25a70
-> > >>  x1 : ffffff93fef15788 x0 : ffffffe3622352e0
-> > >>  Call trace:
-> > >>   lkdtm_WARNING+0x28/0x30 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-> > >>   direct_entry+0x16c/0x1b4 [lkdtm ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-> > > Yikes.  No, please do not make the backtraces a complete mess for
-> > > something that serves absolutely no need.
-> 
-> It serves a need. Please look at the patches to understand that I'm
-> adding the buildid to automatically find the associated debug
-> information on distros.
-> 
-> > 
-> > Would a "verbose" flag be acceptable solution?    Something like write 1 to /sys/kernel/debug/verbose_stack to get the extra info.
-> > 
-> > I think I see a need for it.
-> > 
-> 
-> Or a kernel config option and a commandline parameter? That would be OK
-> for me as I said on v1 of this series. I'll add that in for the next
-> patch series given all the distaste for some more hex characters next to
-> the module name.
+On Mon, 29 Mar 2021, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
+> On Thu, Mar 25, 2021 at 11:18 PM Matthew Wilcox <willy@infradead.org> wrote:
+>>
+>> The rust code is alredy coming though ...
+>>
+>> rust/kernel/buffer.rs:/// A pre-allocated buffer that implements [`core::fmt::Write`].
+>>
+>> so now we have three formats.  Markdown and RST are _very_ similar, but
+>> not identical [1].  Oh, and even better we now have three distinct tools --
+>> kerneldoc, rustdoc and sphinx.  Have the rust people reached out to you
+>> about integrating the various docs?
+>
+> Yeah, I reached out to Jonathan a few weeks ago to discuss how we will
+> approach this, because I knew using `rustdoc` and Markdown could be
+> contentious ;-)
+>
+> This is the solution we decided to go for the RFC but, of course,
+> nothing is set in stone:
+>
+>   1. The "out-of-line" docs in `Documentation/rust/`: these will be in
+> RST as usual [*]. However, please note this does not include APIs or
+> anything like that, as it is done in the C side. Only a few "general
+> documents" that don't fit anywhere else are kept here.
+>
+>   2. The "inline" docs in Rust source files: these will be parsed by
+> `rustdoc` and written in Markdown. These will contain the majority of
+> the Rust documentation. `rustdoc` is designed for Rust code, and
+> internally uses the Rust compiler, which comes with a number of
+> advantages.
+>
+> The generated HTML docs will be showcased in the RFC. It is my hope
+> that this way we get feedback on them and see if people agree this
+> approach is worth keeping. We have put an effort (and I have been
+> annoying contributors enough to that end :-) to provide high-quality
+> documentation from the get-go.
+>
+> Please note that we chose this way knowing well that inconsistency and
+> adding "yet one more tool" needs to come with big advantages to
+> offset. We think it is the best approach nevertheless!
+>
+> [*] I discussed with Jonathan using Markdown since Sphinx supports it.
+> The main advantage would be easier refactoring of comments between the
+> out- and inline docs. But this is very minor, thus mixing two formats
+> inside `Documentation/` does not seem like worth it.
 
-IMHO, a build configure option would fit the best here.
+FWIW, and this should be obvious, I think going with what's natural for
+documenting Rust source code is the right choice. Markdown as parsed by
+rustdoc. People will expect Rust documentation comments to just work,
+without some kernel specific gotchas. Don't try to reinvent the wheel
+here, it's a dead end.
 
-It does not make sense to show the ID when the kernel vendor does
-not have a service to download the related binaries. But it makes
-sense to show the buildid by default when the provider/distro has
-the service and want to use the ID when handling bug reports.
+The interesting question is, I think, figuring out if rustdoc output
+could be incorporated into Sphinx documentation, and how. It would be
+pretty disappointing if we ended up with two documentation silos based
+on the module implementation language.
 
-We could always add boot/run time options when people really need it.
+At the moment it seems to me rustdoc can only output HTML, and that
+seems pretty deeply ingrained in the tool. AFAICT, there isn't an
+intermediate phase where it would be trivial to output the documentation
+in Markdown (though I don't really know Rust and I only had a cursory
+look at librustdoc). And even if it were possible, with Markdown you'd
+have the issues with conflicting Markdown flavours, what's supported by
+rustdoc vs. commonmark.py used by Sphinx.
 
-Best Regards,
-Petr
+Perhaps the bare minimum is running rustdoc first, and generating the
+results into Sphinx static pages [1], to make them part of the
+whole. Even if the HTML style might be different. Perhaps it would be
+possible to come up with a Sphinx extensions to make it convenient to
+reference content in the rustdoc generated HTML from reStructuredText.
+
+
+BR,
+Jani.
+
+
+[1] https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-html_static_path
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
