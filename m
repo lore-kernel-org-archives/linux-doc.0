@@ -5,65 +5,66 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F309C433E0
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 20:44:57 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83CFEC433C1
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 20:54:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7815F61996
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 20:44:57 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 51D69619CA
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 20:54:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230125AbhC3UoX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 16:44:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42226 "EHLO
+        id S232450AbhC3UyN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 16:54:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44260 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232292AbhC3UoQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 16:44:16 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0267CC061574;
-        Tue, 30 Mar 2021 13:44:16 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id c204so12971657pfc.4;
-        Tue, 30 Mar 2021 13:44:15 -0700 (PDT)
+        with ESMTP id S229734AbhC3Uxn (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 16:53:43 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC98BC061574;
+        Tue, 30 Mar 2021 13:53:41 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id s21so8396794pjq.1;
+        Tue, 30 Mar 2021 13:53:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id;
-        bh=Ikt8x9vsRo6fslY+KskypKUYg47GoKmKr0e0fK5lyqs=;
-        b=JOV+dSI+6xbFizW0GgAZEadJ7Yl6usRyPRvG8pEMD4usKP+v2u2XOL9I5igrHZ+4Ux
-         NuwtPUVfHV44u4dlDxgGdRggIolexZp8vx5fwUXRT6ElTZZ7LyLXCcSu2ZhOuYQw1luW
-         8ioLGidpIcdruYRWThFp5pkaUrgrd/ECMlam+UKE85BHzcmdLTt6Af5kTsvUPmJRWgI7
-         9E7OjOYrKdUlYjdjuOB08X9y3IlfyCJBZkzkmAC+KR6N6JPH6HXSbUeiQ8c9kSyyX/LN
-         yp9pwtsX6/L3wcGODP77YSHph3ZDvoGTuhqRN7cB68wam9MNCWyTxoVKeE5bsJ8U3V0p
-         dI6g==
+        bh=76Ftwc6j0K5A0mdhCxE35QoW2mVgwaH1Lt+VHIxvLcE=;
+        b=Xs33hE/uq+i7i05sdlY1p4nl+mEWK9rmNggt1oqffM7UMa+sAHYsFw3w9v6ReFViOK
+         PILw0yc/9qUNvp4sBCOFa9ITYvIkaAG0d2s1XrYNMhvw1djyn3hQVzq1DQQSgzg5hygY
+         HLintNu+m5cfEFGQlWFsFKpz5gNSz/fGKDlCGy+MchU71F2vpofB/34lvqUz0iIwZI4p
+         3flbBilRjtTyW3jC5V6TIpE1CxGSXIXJ5s1zSLdhR3qRKul4Zl6UiPqcEiZxnZgVgDJb
+         ji8r6U1hlxQWIbcuXXQ8fJxae/52xYDUCAaY/igmC5I9DI9RMFORgukd7ccp9fkG9oLb
+         UqIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Ikt8x9vsRo6fslY+KskypKUYg47GoKmKr0e0fK5lyqs=;
-        b=Te2iUjVkT+Pr8qoFScuTV5AfqU05JTUzwwRxa0ZRTNN/skK/7Z052i1wGerJD7pqZu
-         TaHSK8gsSCWEkEw9Yf/9ZSGpamcUOwgJ9k8Lvihmv1KpM5QZmgp3OXfMNioMErJb0ca8
-         lfSZaT3y5jfy84BhqgVc+jdzp7j0bAB9fqZhPXfmiQiMCdiLDpT7hdFsWgbRdrvX+jAI
-         zp7AAGdPjbSGQJWdQG0hyGcvq6Muasn08P8Q97w3y4nYC0EIZrj8n41GO9Vva8QvGWnY
-         xpcs0tL2w0G+Pjfpl/gvXbfSrcm6rEOd6beWrNgH3HR/y7irGYbAMCbni3cEWUm9FeRZ
-         WI3w==
-X-Gm-Message-State: AOAM531HlLwgX9e+4mGVDAB+U8hJKginEE60Xwb4G7xVTyoVHZvJ0Hzo
-        TlOeHAQxyxPfJsEekmvVaAA=
-X-Google-Smtp-Source: ABdhPJxXNIpzrMiiqr0IM1h/qYcKH97qDHg9IAvuD6XcLfhFJZwojDnKm64sW/vAW7w6ew4gvOOI3Q==
-X-Received: by 2002:a63:81:: with SMTP id 123mr29439711pga.307.1617137055341;
-        Tue, 30 Mar 2021 13:44:15 -0700 (PDT)
+        bh=76Ftwc6j0K5A0mdhCxE35QoW2mVgwaH1Lt+VHIxvLcE=;
+        b=INS4+B/Saz2FCx7shpIgIgZA0DcYC4BZzQ7DCNmI7vajkJrW9wySQdqL6Zys7UacNM
+         uZrD//2dlAU1zSY3YF/sMkjbQAWpFGEO0pU5PpSmTnbSlF1Cqh3p14ecLQV8e7WjFl59
+         kTMHGuD1SvVfBGOrJZyMLvuvyC/9rDRWFCavO1C4w3eeM1/kflDy8X3JGZhFecS9SP9T
+         VmlgF2TiPSraDUWCev9DPZxTGcirOIsqzKd0B/LnBzWRHOs1KlI5uV8Q7ryR0q5spcgA
+         zL6DT/JR0sqT+QRNqyAeCMnNHFHJ7c8Qyzm4m/yRUnggrHwSxBTw7WYuq9vkRHWs9cBF
+         F4YQ==
+X-Gm-Message-State: AOAM531tGhYWegdFCm/aHR7+DHMbfoYIdnmWjhw8ZWVCpQx+4E3j+W7b
+        mnUcbH7fbI1JMe7TAfUl9u8LqO67cWHnCA==
+X-Google-Smtp-Source: ABdhPJwUjuJTIOCOPZKJifMZmhD87LnB9We54yGCEzll7ZIcimiVPqhJskN/NOLFeEebbRsY3yaCUA==
+X-Received: by 2002:a17:90a:3cc6:: with SMTP id k6mr181610pjd.212.1617137620933;
+        Tue, 30 Mar 2021 13:53:40 -0700 (PDT)
 Received: from localhost.localdomain ([2405:201:600d:a089:d1c0:d79d:e260:a650])
-        by smtp.googlemail.com with ESMTPSA id b140sm21677434pfb.98.2021.03.30.13.44.11
+        by smtp.googlemail.com with ESMTPSA id fh19sm35622pjb.33.2021.03.30.13.53.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Mar 2021 13:44:14 -0700 (PDT)
+        Tue, 30 Mar 2021 13:53:40 -0700 (PDT)
 From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     linux@armlinux.org.uk
+To:     linux-kernel@vger.kernel.org
 Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        rdunlap@infradead.org,
+        rdunlap@infradead.org, aaro.koskinen@iki.fi, tony@atomide.com,
+        linux@armlinux.org.uk,
         linux-kernel-mentees@lists.linuxfoundation.org,
         linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] ARM: mach-sa1100: fix incorrect kernel-doc comment syntax in file
-Date:   Wed, 31 Mar 2021 02:14:07 +0530
-Message-Id: <20210330204407.25690-1-yashsri421@gmail.com>
+        linux-omap@vger.kernel.org
+Subject: [PATCH] ARM: OMAP1: fix incorrect kernel-doc comment syntax in file
+Date:   Wed, 31 Mar 2021 02:23:30 +0530
+Message-Id: <20210330205330.26345-1-yashsri421@gmail.com>
 X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
@@ -71,14 +72,13 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 The opening comment mark '/**' is used for highlighting the beginning of
 kernel-doc comments.
-The header for arch/arm/mach-sa1100/jornada720_ssp.c follows this syntax,
-but the content inside does not comply with kernel-doc.
+The header for arch/arm/mach-omap1/timer.c follows this syntax, but the
+content inside does not comply with kernel-doc.
 
 This line was probably not meant for kernel-doc parsing, but is parsed
 due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-causes these warnings from kernel-doc:
-"warning: Function parameter or member 'jornada_ssp_lock' not described in 'DEFINE_SPINLOCK'"
-"warning: expecting prototype for mac(). Prototype was for DEFINE_SPINLOCK() instead"
+causes unexpected warning from kernel-doc:
+"warning: expecting prototype for OMAP1 Dual(). Prototype was for OMAP1610_GPTIMER1_BASE() instead"
 
 Provide a simple fix by replacing this occurrence with general comment
 format, i.e. '/*', to prevent kernel-doc from parsing it.
@@ -87,20 +87,19 @@ Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 ---
 * Applies perfectly on next-20210326
 
- arch/arm/mach-sa1100/jornada720_ssp.c | 2 +-
+ arch/arm/mach-omap1/timer.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm/mach-sa1100/jornada720_ssp.c b/arch/arm/mach-sa1100/jornada720_ssp.c
-index 1dbe98948ce3..148bcee3ee58 100644
---- a/arch/arm/mach-sa1100/jornada720_ssp.c
-+++ b/arch/arm/mach-sa1100/jornada720_ssp.c
-@@ -1,5 +1,5 @@
- // SPDX-License-Identifier: GPL-2.0-only
+diff --git a/arch/arm/mach-omap1/timer.c b/arch/arm/mach-omap1/timer.c
+index 97fc2096b970..0411d5508d63 100644
+--- a/arch/arm/mach-omap1/timer.c
++++ b/arch/arm/mach-omap1/timer.c
+@@ -1,4 +1,4 @@
 -/**
 +/*
-  *  arch/arm/mac-sa1100/jornada720_ssp.c
+  * OMAP1 Dual-Mode Timers - platform device registration
   *
-  *  Copyright (C) 2006/2007 Kristoffer Ericson <Kristoffer.Ericson@gmail.com>
+  * Contains first level initialization routines which internally
 -- 
 2.17.1
 
