@@ -2,158 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,
-	SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D796CC433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 19:33:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F309C433E0
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 20:44:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8DDA6199A
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 19:33:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7815F61996
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 20:44:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233140AbhC3Tcu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 15:32:50 -0400
-Received: from mail-dm6nam12on2074.outbound.protection.outlook.com ([40.107.243.74]:61152
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233110AbhC3Tck (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Mar 2021 15:32:40 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J4mcptxhUrD5agO8aP1Ket9xR1Fb3XuYV76TCuyMEpx3x1XE0/w54Hht4mBhJQQNooAWmoAs4GFPMsqG2+Oqc1kX+vslCUWRFC3m+KU88VDFGTDCPeXWAZhkrO+r/rMsu3x7o0SckEpLEPCjMSvAz57ks1sMYplSPS4TEYSHe2uuGqTQfkwu5ph+q8k0ZO++53oMPtRXfovH1twIJXX3y1Kb/fjF8FCUE1fcr5CqpDsALfPz9zPhqwDgglGnIBbdox+gdV2o0xf5nY8JXevhGlywEgmECeF8d5Rroqg6/yDhq8ldBX5wfSgoY5OnNLIie2n1Zh4oJDCBAYVLZvgk3A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7PhcGFNlYjLV9XW95SmKtHxN8eoffs4BbapQaYBQ1UA=;
- b=ROhwzOImRxDMu8iUUztUR80UIUnAZmwXKkxkNJmCgMWMM0MYaXKqIZ48PdAnGUONdrj12NuE6S5S71qoNpEO92ayq0K3vFPiOPYAWVhWY8qFS/U6/jXQPxTFUdhyUTgWPoXpm59WpSmn6bn+sQX0zLv07gWL4J+VFX7DZdY6HU3gSem9sDKkAZTZgMQRN7YsN80o9NwT943dFyM7VBwgMJFRimwmL4HGrBfX1HMa3ylGO6VB5XK5LzlCQ6feGhB61L/0r5LSVDhudOnJ7haD2KnyIP/Vbe7vSPHRYL/EyRF3SatxdsG5KmYvbjpgY9z9RZxL3xsAtGeFr8G5MqZLeg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7PhcGFNlYjLV9XW95SmKtHxN8eoffs4BbapQaYBQ1UA=;
- b=c33WOS1+64r9W829u0ONKjgNrUnWqFQZGECxx8j47q6kqkSOf9rlmZcLVQGw/TJyNxkZS+3y7sMBCtNrpggCb6XNm8k3qqHxeE5s8uQSSQk8sJBeK8IeEgGAwx+Xw7v+QAONqXzMIuFpmxglwkS6FXyFTJleKSdIz0rnEufoCOD8lHj/iT3pFTDDB9YCxIwZTWKjHc48AhA0+QsSPH9LFQ57+bfu0cjCXfue0Ah2GKzKJLXmUCoOQaPNkOVikTSfR+5UkgI4bAJq2mol5E0b+AydzIX0eLtfLdvZaqwS6MITU1AbqtR6NfZFHDpZE4zL1qZbpwtDPc+uNTb9v5bAnw==
-Authentication-Results: nvidia.com; dkim=none (message not signed)
- header.d=none;nvidia.com; dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB1146.namprd12.prod.outlook.com (2603:10b6:3:73::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.24; Tue, 30 Mar
- 2021 19:32:36 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3977.033; Tue, 30 Mar 2021
- 19:32:36 +0000
-Date:   Tue, 30 Mar 2021 16:32:34 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Alistair Popple <apopple@nvidia.com>
-Cc:     linux-mm@kvack.org, nouveau@lists.freedesktop.org,
-        bskeggs@redhat.com, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-ppc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        jhubbard@nvidia.com, rcampbell@nvidia.com, jglisse@redhat.com,
-        hch@infradead.org, daniel@ffwll.ch, willy@infradead.org,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v7 5/8] mm: Device exclusive memory access
-Message-ID: <20210330193234.GA2356281@nvidia.com>
-References: <20210326000805.2518-1-apopple@nvidia.com>
- <20210326000805.2518-6-apopple@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210326000805.2518-6-apopple@nvidia.com>
-X-Originating-IP: [142.162.115.133]
-X-ClientProxiedBy: BLAPR03CA0141.namprd03.prod.outlook.com
- (2603:10b6:208:32e::26) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.115.133) by BLAPR03CA0141.namprd03.prod.outlook.com (2603:10b6:208:32e::26) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29 via Frontend Transport; Tue, 30 Mar 2021 19:32:36 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lRK6M-0060w4-Is; Tue, 30 Mar 2021 16:32:34 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 37fe68d8-06b5-4a41-ad3c-08d8f3b29286
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1146:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR12MB11460C0455FAD4792D2007F0C27D9@DM5PR12MB1146.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Rw/XrX6AXfYloHbskeYOeLPsHyNYLcxZg9mqf7xSYK5QvP/2wB0rK1h9GRcaV4R83EbtXfuKzolT/Lh684mkIuexpNIGyZdwIJErVeb6cki6DpsKlwlVoZrNgZPh1xPS7Q99L9YIXl6qcaPxJHbgqFYFFvDBq7JCiWNUyvfw2CGtYSIRvOipeSlsyb0mHsSu4PkLdbDLPgBOJZ5UMt1R+CQ3Lo34FUH3OrraCBAJhiFRWNh9TUCNZuYaVV/5xJThKJeWJp8b/EEx8N6Y68/A+lomGLLXvaBN6Rgw0z1i6QWKDuzSOXkpuBI+HYf+u70I54VwfFnqkIclGW0W0MFWoZJHqGXx4A5CyNKm4sOG0HIRfglCCs2pIhIbzF47OnSLepaeU0buxBi2/y95+P+EVHNcH59HgYTJu8AKfhtCMcBxjNWEq17qTyU8xynJ4iLSDQH0IuU0yyaYbVO4LkxYvxwhpRKTiaF7UogRTIHdrmcqhxVfUuHAM66DZaV0X+ztYYolJPGmxGCvPMPyDTvzFaDPVRuQNxoq24TCJ2oQ+Wni4aCUquwML9BjJYSFQL0lPwq0v8GHnSDsQNI1uFA+QNOgv1XY2uKyh5OptlmCjNj2a2st6lwrJEILCJCrNBi7foqt8LoM3VyHHyU3kdAjU9dei/nXn662l6fnNNXlZqI=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(136003)(366004)(346002)(396003)(4326008)(6636002)(8936002)(316002)(37006003)(26005)(38100700001)(7416002)(2906002)(2616005)(86362001)(33656002)(426003)(186003)(6862004)(8676002)(478600001)(5660300002)(9746002)(66476007)(1076003)(66946007)(66556008)(9786002)(36756003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?MDIS8/wu7soJaecqBUztEe5bkfyPOy1ItblRAEcrwsMe1HIcz85kqW3pkqZ9?=
- =?us-ascii?Q?sa4ANWUN879JGxX4Un77YY8CV9YrilOuGQ3wOtLNeMat9qMS1jJ99KTiPftJ?=
- =?us-ascii?Q?oe7A1jnUuuX5vaACnJx0OxokihEtyhYfpdb0HRO2JPgcAkcaxru4ZaAJLasW?=
- =?us-ascii?Q?gKPpKCmpQS1GmZVYY6pXe1Jj7y/aVaJ4o6WqvYRdGVfOODvFKG+a3/v9nmMx?=
- =?us-ascii?Q?fuzjpBQsKstz6bopnbiePCtiGV5BHseYI+ZX3kDPobW4tSK30px63QSWRt8j?=
- =?us-ascii?Q?VOnnzikj2xCtFFyVLjfWAsY70MUwjT0uFtgmrPKq6p6KIbUIiDEzVMMVLc0J?=
- =?us-ascii?Q?tvk+X2Gw2fJQu7Jht88k3FOPaf6NB4nK/fdOL24KMPLk2rI3Xzrb31h1+yDh?=
- =?us-ascii?Q?1rnHT1Gn8eiwYiBd5FUDHezsTjvvSbLaxyueOvM1Nif2KvTz76Fd6Vz7/URq?=
- =?us-ascii?Q?Keif9XVz8yAm4KpaZBUU+DJCMgkVaoudajJ/zThK/A4GdG5HpAMbaKD2ekb1?=
- =?us-ascii?Q?eE6HumMoOc8u5CJ3xprR6uhM7s/vhOk6fmLTiFoGThTJUWA6+5eMz8JSUwqs?=
- =?us-ascii?Q?YgAeX575yiq+FaobMPXdRMgGsyrBmOYczKWZELiNwz7eq3l+7IE9ssM1N5lv?=
- =?us-ascii?Q?ss7/vs/V1VVQY2VISzlpz8NYPQKOlkP75jB8Tod8q2nTXao7Gq2FnQCDIqtJ?=
- =?us-ascii?Q?/5plX6q5+MRHYeiESeBfmwgCa+/QpfmRTfiOjkfvJj7QNOUXGQlpiz0UFRr0?=
- =?us-ascii?Q?kdP3RhGiYMb55VU6Zv55aAOumBN773cznx8IoX6jNBx5I31Xy885kXK+8APL?=
- =?us-ascii?Q?nNxPSNiaz3+aykzxKbOURcKU+zBhWbHMACI1Dk285q9CJrZP8W4lFzPTD0B7?=
- =?us-ascii?Q?FjQWfYgb3ML0eKJJjFud5zpitkH7AYK6hsGL1FAQeMaIlSgIlTXw85z4nzn6?=
- =?us-ascii?Q?+zNxY/UNQPuo0h21r2kyaf8AWGTEGf/WSXNPROSf0iuuT7XRpJMI+89LzRAl?=
- =?us-ascii?Q?cn+kMqAhCPZEEj1iB8A0gsrSNrUrptJrAmwuDYav2NNzdd9avPFETYgUEV/a?=
- =?us-ascii?Q?0pRVJhaN6Z5Kf4wBxVYKmCH+Rlq1pe4wAgo1w+QS/UE6cTB2LL4PchsZJTbu?=
- =?us-ascii?Q?a4kET2LWL+wm2U0qo2qOKp2cr8eCxMD8Eh6AM+NKWkturGEwc7fFgjXMYbiz?=
- =?us-ascii?Q?ilYdCq8+rMsTpG4/Glm/MywO7NHmbCUxYTuZGz5GUa/vhzmTlRmdJEhLuuJU?=
- =?us-ascii?Q?rLi+3aTd9ErUBtmZ9ByqpiGAn0Nadrp2rL4nLNPA0xJzCyRuy0JdszxQqhZy?=
- =?us-ascii?Q?6fcsLtMVgtre0Gbku48lgZC1PMDBOtGV9cbT800G1oIpPg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37fe68d8-06b5-4a41-ad3c-08d8f3b29286
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 19:32:36.8209
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JImXeaAgtp/05FnYQTtLdXkback4yZpTgLANfcnB+9nF2JnHckQagdb/Xg1bpjaJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1146
+        id S230125AbhC3UoX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 16:44:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42226 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232292AbhC3UoQ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 16:44:16 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0267CC061574;
+        Tue, 30 Mar 2021 13:44:16 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id c204so12971657pfc.4;
+        Tue, 30 Mar 2021 13:44:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=Ikt8x9vsRo6fslY+KskypKUYg47GoKmKr0e0fK5lyqs=;
+        b=JOV+dSI+6xbFizW0GgAZEadJ7Yl6usRyPRvG8pEMD4usKP+v2u2XOL9I5igrHZ+4Ux
+         NuwtPUVfHV44u4dlDxgGdRggIolexZp8vx5fwUXRT6ElTZZ7LyLXCcSu2ZhOuYQw1luW
+         8ioLGidpIcdruYRWThFp5pkaUrgrd/ECMlam+UKE85BHzcmdLTt6Af5kTsvUPmJRWgI7
+         9E7OjOYrKdUlYjdjuOB08X9y3IlfyCJBZkzkmAC+KR6N6JPH6HXSbUeiQ8c9kSyyX/LN
+         yp9pwtsX6/L3wcGODP77YSHph3ZDvoGTuhqRN7cB68wam9MNCWyTxoVKeE5bsJ8U3V0p
+         dI6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Ikt8x9vsRo6fslY+KskypKUYg47GoKmKr0e0fK5lyqs=;
+        b=Te2iUjVkT+Pr8qoFScuTV5AfqU05JTUzwwRxa0ZRTNN/skK/7Z052i1wGerJD7pqZu
+         TaHSK8gsSCWEkEw9Yf/9ZSGpamcUOwgJ9k8Lvihmv1KpM5QZmgp3OXfMNioMErJb0ca8
+         lfSZaT3y5jfy84BhqgVc+jdzp7j0bAB9fqZhPXfmiQiMCdiLDpT7hdFsWgbRdrvX+jAI
+         zp7AAGdPjbSGQJWdQG0hyGcvq6Muasn08P8Q97w3y4nYC0EIZrj8n41GO9Vva8QvGWnY
+         xpcs0tL2w0G+Pjfpl/gvXbfSrcm6rEOd6beWrNgH3HR/y7irGYbAMCbni3cEWUm9FeRZ
+         WI3w==
+X-Gm-Message-State: AOAM531HlLwgX9e+4mGVDAB+U8hJKginEE60Xwb4G7xVTyoVHZvJ0Hzo
+        TlOeHAQxyxPfJsEekmvVaAA=
+X-Google-Smtp-Source: ABdhPJxXNIpzrMiiqr0IM1h/qYcKH97qDHg9IAvuD6XcLfhFJZwojDnKm64sW/vAW7w6ew4gvOOI3Q==
+X-Received: by 2002:a63:81:: with SMTP id 123mr29439711pga.307.1617137055341;
+        Tue, 30 Mar 2021 13:44:15 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:600d:a089:d1c0:d79d:e260:a650])
+        by smtp.googlemail.com with ESMTPSA id b140sm21677434pfb.98.2021.03.30.13.44.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Mar 2021 13:44:14 -0700 (PDT)
+From:   Aditya Srivastava <yashsri421@gmail.com>
+To:     linux@armlinux.org.uk
+Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
+        rdunlap@infradead.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] ARM: mach-sa1100: fix incorrect kernel-doc comment syntax in file
+Date:   Wed, 31 Mar 2021 02:14:07 +0530
+Message-Id: <20210330204407.25690-1-yashsri421@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 26, 2021 at 11:08:02AM +1100, Alistair Popple wrote:
-> diff --git a/mm/memory.c b/mm/memory.c
-> index 3a5705cfc891..33d11527ef77 100644
-> +++ b/mm/memory.c
-> @@ -781,6 +781,27 @@ copy_nonpresent_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
->  				pte = pte_swp_mkuffd_wp(pte);
->  			set_pte_at(src_mm, addr, src_pte, pte);
->  		}
-> +	} else if (is_device_exclusive_entry(entry)) {
-> +		page = pfn_swap_entry_to_page(entry);
-> +
-> +		get_page(page);
-> +		rss[mm_counter(page)]++;
-> +
-> +		if (is_writable_device_exclusive_entry(entry) &&
-> +		    is_cow_mapping(vm_flags)) {
-> +			/*
-> +			 * COW mappings require pages in both
-> +			 * parent and child to be set to read.
-> +			 */
-> +			entry = make_readable_device_exclusive_entry(
-> +							swp_offset(entry));
-> +			pte = swp_entry_to_pte(entry);
-> +			if (pte_swp_soft_dirty(*src_pte))
-> +				pte = pte_swp_mksoft_dirty(pte);
-> +			if (pte_swp_uffd_wp(*src_pte))
-> +				pte = pte_swp_mkuffd_wp(pte);
-> +			set_pte_at(src_mm, addr, src_pte, pte);
-> +		}
+The opening comment mark '/**' is used for highlighting the beginning of
+kernel-doc comments.
+The header for arch/arm/mach-sa1100/jornada720_ssp.c follows this syntax,
+but the content inside does not comply with kernel-doc.
 
-This needs to have the same logic as we now have in
-copy_present_page(). The page *is* present and we can't copy the PTE
-value hidden in a swap entry if we can't copy the PTE normally.
+This line was probably not meant for kernel-doc parsing, but is parsed
+due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+causes these warnings from kernel-doc:
+"warning: Function parameter or member 'jornada_ssp_lock' not described in 'DEFINE_SPINLOCK'"
+"warning: expecting prototype for mac(). Prototype was for DEFINE_SPINLOCK() instead"
 
-The code should be shared because nobody is going to remember about
-this corner case.
+Provide a simple fix by replacing this occurrence with general comment
+format, i.e. '/*', to prevent kernel-doc from parsing it.
 
-Jason
+Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+---
+* Applies perfectly on next-20210326
+
+ arch/arm/mach-sa1100/jornada720_ssp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/mach-sa1100/jornada720_ssp.c b/arch/arm/mach-sa1100/jornada720_ssp.c
+index 1dbe98948ce3..148bcee3ee58 100644
+--- a/arch/arm/mach-sa1100/jornada720_ssp.c
++++ b/arch/arm/mach-sa1100/jornada720_ssp.c
+@@ -1,5 +1,5 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+-/**
++/*
+  *  arch/arm/mac-sa1100/jornada720_ssp.c
+  *
+  *  Copyright (C) 2006/2007 Kristoffer Ericson <Kristoffer.Ericson@gmail.com>
+-- 
+2.17.1
+
