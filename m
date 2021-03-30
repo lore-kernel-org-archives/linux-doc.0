@@ -2,92 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A57BC433E1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:48:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08E07C433C1
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:58:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0555A619CF
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:48:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C8FCE61990
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 21:58:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232298AbhC3Vra (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 17:47:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48592 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232554AbhC3VrZ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Mar 2021 17:47:25 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 42C3361969;
-        Tue, 30 Mar 2021 21:47:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617140841;
-        bh=efZTSeZg5XZdPMKissn/jqo8tvlWQesdN6Iq75XHvfI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EE+/eIjWBtwuci++W9gjw+1hfjkCUOFnCek0S7tGuoWziUmlBjPnnpm164rZwfDBY
-         OETzBbgFsd4ArFeux8BOHcSaFjhgoKtxe/qad/6J515m8BJgZkS1YcysvKmP3YKncx
-         8zt6vjxgVBaG0PcEmKS/g2hq2rI50hR3FPOrHFo2OGMXjiaJ8ey50NjyxyMdSnHT+L
-         JIyEytj9VSwvDsaDn5VwomZafE9p8mhiavJyKbOggr7x4oKSarCey3IdRTKN9GotAj
-         UtMWIgxM7oa8aOBV6W1A57KLOx0kB2JZpXr1bkUDSjG3DQCRC59nKBaNJmmTPYAacD
-         d4ZR6Vnd6a7UQ==
-Date:   Tue, 30 Mar 2021 14:47:18 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     David Gstir <david@sigma-star.at>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Udit Agarwal <udit.agarwal@nxp.com>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        Franck Lenormand <franck.lenormand@nxp.com>,
-        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>
-Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
- CAAM-based trusted keys
-Message-ID: <YGOcZtkw3ZM5kvl6@gmail.com>
-References: <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
- <01e6e13d-2968-0aa5-c4c8-7458b7bde462@nxp.com>
- <45a9e159-2dcb-85bf-02bd-2993d50b5748@pengutronix.de>
- <f9c0087d299be1b9b91b242f41ac6ef7b9ee3ef7.camel@linux.ibm.com>
- <63dd7d4b-4729-9e03-cd8f-956b94eab0d9@pengutronix.de>
- <CAFA6WYOw_mQwOUN=onhzb7zCTyYDBrcx0E7C3LRk6nPLAVCWEQ@mail.gmail.com>
- <557b92d2-f3b8-d136-7431-419429f0e059@pengutronix.de>
- <CAFA6WYNE44=Y7Erfc-xNtOrf7TkJjh+odmYH5vzhEHR6KqBfeQ@mail.gmail.com>
- <6F812C20-7585-4718-997E-0306C4118468@sigma-star.at>
- <YGDpA4yPWmTWEyx+@kernel.org>
+        id S232057AbhC3V6U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 17:58:20 -0400
+Received: from fgw22-4.mail.saunalahti.fi ([62.142.5.109]:27196 "EHLO
+        fgw22-4.mail.saunalahti.fi" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S232828AbhC3V6K (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 17:58:10 -0400
+Received: from darkstar.musicnaut.iki.fi (85-76-72-22-nat.elisa-mobile.fi [85.76.72.22])
+        by fgw22.mail.saunalahti.fi (Halon) with ESMTP
+        id beb0906a-91a0-11eb-88cb-005056bdf889;
+        Wed, 31 Mar 2021 00:41:56 +0300 (EEST)
+Date:   Wed, 31 Mar 2021 00:41:54 +0300
+From:   Aaro Koskinen <aaro.koskinen@iki.fi>
+To:     Aditya Srivastava <yashsri421@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, lukas.bulwahn@gmail.com,
+        rdunlap@infradead.org, tony@atomide.com, linux@armlinux.org.uk,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-omap@vger.kernel.org
+Subject: Re: [PATCH] ARM: OMAP1: fix incorrect kernel-doc comment syntax in
+ file
+Message-ID: <20210330214154.GB120746@darkstar.musicnaut.iki.fi>
+References: <20210330205330.26345-1-yashsri421@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YGDpA4yPWmTWEyx+@kernel.org>
+In-Reply-To: <20210330205330.26345-1-yashsri421@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Mar 28, 2021 at 11:37:23PM +0300, Jarkko Sakkinen wrote:
+Hi,
+
+On Wed, Mar 31, 2021 at 02:23:30AM +0530, Aditya Srivastava wrote:
+> The opening comment mark '/**' is used for highlighting the beginning of
+> kernel-doc comments.
+> The header for arch/arm/mach-omap1/timer.c follows this syntax, but the
+> content inside does not comply with kernel-doc.
 > 
-> Unfortunately, TPM trusted keys started this bad security practice, and
-> obviously it cannot be fixed without breaking uapi backwards compatibility.
+> This line was probably not meant for kernel-doc parsing, but is parsed
+> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
+> causes unexpected warning from kernel-doc:
+> "warning: expecting prototype for OMAP1 Dual(). Prototype was for OMAP1610_GPTIMER1_BASE() instead"
 > 
+> Provide a simple fix by replacing this occurrence with general comment
+> format, i.e. '/*', to prevent kernel-doc from parsing it.
+> 
+> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
 
-The whole point of a randomness source is that it is random.  So userspace can't
-be depending on any particular output, and the randomness source can be changed
-without breaking backwards compatibility.
+Acked-by: Aaro Koskinen <aaro.koskinen@iki.fi>
 
-So IMO, trusted keys should simply be fixed to use get_random_bytes().
+A.
 
-- Eric
+> ---
+> * Applies perfectly on next-20210326
+> 
+>  arch/arm/mach-omap1/timer.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm/mach-omap1/timer.c b/arch/arm/mach-omap1/timer.c
+> index 97fc2096b970..0411d5508d63 100644
+> --- a/arch/arm/mach-omap1/timer.c
+> +++ b/arch/arm/mach-omap1/timer.c
+> @@ -1,4 +1,4 @@
+> -/**
+> +/*
+>   * OMAP1 Dual-Mode Timers - platform device registration
+>   *
+>   * Contains first level initialization routines which internally
+> -- 
+> 2.17.1
+> 
