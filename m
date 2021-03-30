@@ -2,144 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14141C433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:23:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF52FC433C1
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 10:01:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D4EF661613
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 09:23:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7FD6561999
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 10:01:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230224AbhC3JXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 05:23:21 -0400
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:41579 "EHLO
-        wnew3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231721AbhC3JWy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 05:22:54 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailnew.west.internal (Postfix) with ESMTP id ABECA17F2;
-        Tue, 30 Mar 2021 05:22:51 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute4.internal (MEProxy); Tue, 30 Mar 2021 05:22:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=MlIaANbX0g7R5hO66tttd3MFu5e
-        Tiezl/dlSwQ789Fk=; b=obbYYJtIAYkCZ9uivDSjtFcFBTb+4n3pu6VOCyx0oLA
-        vpZEwQAMNVUjVTHvuO46xKN54Tew3YKeRG1FGY2Ahtr7gdK69hRKgEsPsou/NAg4
-        NIFgf9GunbfIaw60K5MBGzK1DFln4TC2Aw1XgrAM3maXvhwcBt3c8aLV4gqkOZFo
-        0m7GJOpIY133kLk+PIrgrw+l96rllLxRgGXFDh9NYMAV3W5wGUmfzKS2tPOMD6uC
-        JBlzt175GNtYSk1M9KZ/1OdJon6ovxKMcVqYxhODY2Ge/hLz8hZmEHfY0EwuvP0H
-        GoMzP/5uw0T4K6AwzKMaRwIDVlTrnftVaGnFjkC9Hig==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=MlIaAN
-        bX0g7R5hO66tttd3MFu5eTiezl/dlSwQ789Fk=; b=uZlADrNcGBjpzSMhBwpI1V
-        0BNMdOP3oYfAQOeJPwbRnuso5jGxMGJBV9k7lGMZ1ccGLK4RIM/ixwozWRS+600n
-        jdKR3El7L1eegFVk78lnNOAriZ8dLaZ5FqKNRk0vbdMcfWHmv71jODHF3hNdJMdh
-        4Vg5mhgdJjbTGJrR5Hatu8gnCp2D2VEaBYLkgVx8jH2NQKaXMkkGuI2RQ2FH2Ghv
-        cHWOkbeB3+3zVEYd6U5TjQ0CadFnOpZYtAqv8lTmY+gfWLyXjcToZnhdXtpi2/ZU
-        gTg2h42C2Sh5w6AYBMX64OB/3faAj1hS8Dsg/Rl0z5ReM3CRPaBqqTNlmlf8mSMw
-        ==
-X-ME-Sender: <xms:5-1iYFEk09n2aS_BGfBX9QMwQpfXSkv0_8E8dZpTYlhvw_QACpxU3Q>
-    <xme:5-1iYKVYKXInEgzf5Bqh7XPNWw15_JXeCWYDdn-8uZQ2Jsi95f3I2vAhuldlms5Oe
-    DIUKjVaoShClA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudeitddgudegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
-    fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucfkphepkeef
-    rdekiedrjeegrdeigeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrih
-    hlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
-X-ME-Proxy: <xmx:5-1iYHJUu4arvazT3LhBCwqI9lOvNkUsVKpqX8SBYzuuxlK6jxWB4g>
-    <xmx:5-1iYLHMnKWpJlSt__baHPlNkM65QB86UhEIAW9Z3zUscrZVoKbOVg>
-    <xmx:5-1iYLXxGdFULGIbnunAu1ZFmiNZQD5CJUZbZD8ovLa83S_VrWwy_A>
-    <xmx:6-1iYLV39abz3I5XMpmcniIBvufVw_mXffOyas_gaQuQA0Ot5Qqh1cM_ALU>
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 3593A24005D;
-        Tue, 30 Mar 2021 05:22:47 -0400 (EDT)
-Date:   Tue, 30 Mar 2021 11:22:45 +0200
-From:   Greg KH <greg@kroah.com>
-To:     sj38.park@gmail.com
-Cc:     akpm@linux-foundation.org, SeongJae Park <sjpark@amazon.de>,
-        Jonathan.Cameron@huawei.com, acme@kernel.org,
-        alexander.shishkin@linux.intel.com, amit@kernel.org,
-        benh@kernel.crashing.org, brendanhiggins@google.com,
-        corbet@lwn.net, david@redhat.com, dwmw@amazon.com,
-        elver@google.com, fan.du@intel.com, foersleo@amazon.de,
-        gthelen@google.com, guoju.fgj@alibaba-inc.com, mgorman@suse.de,
-        minchan@kernel.org, mingo@redhat.com, namhyung@kernel.org,
-        peterz@infradead.org, riel@surriel.com, rientjes@google.com,
-        rostedt@goodmis.org, rppt@kernel.org, shakeelb@google.com,
-        shuah@kernel.org, snu@amazon.de, vbabka@suse.cz,
-        vdavydov.dev@gmail.com, zgf574564920@gmail.com,
+        id S231529AbhC3KAc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 06:00:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43390 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231623AbhC3KAB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 06:00:01 -0400
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0757C061574;
+        Tue, 30 Mar 2021 03:00:01 -0700 (PDT)
+Received: by mail-qk1-x731.google.com with SMTP id q26so15257249qkm.6;
+        Tue, 30 Mar 2021 03:00:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to;
+        bh=xBOa27jqyjYu408xi8Nc36ha7jQgQUaKKty7Tja3iFI=;
+        b=LO2FR5Jojz0dNXWOaasz+41gbLvtn2Q3zmXDHq225YydhroM0m2w/fLXk89OhVzse8
+         a4XITI1mIdXz7LiJGzMqCeuFCl3lc5HCjUNk50kw/MMbgQQx3wUVmNyUS8Iykbrf9YTK
+         rYVvBarFUo1ZHPrGcDGnU85hT/1dm//pIWhbGnRbqQjZGsDiNGnqsL7zzVLA9eIL/PL2
+         o8rdV6NtSHIKD/SR3nK4Tf1Fte6JSnPlLhaGdwc1t0wd9mqOPgJQCoCL5mbOzM4m4lPB
+         g7zkgWLKNIbBMQeh9kIhTb6dAMsM3Kzw/vu20fVTiQ1n/m4oDrLEA1J5jE67wUd+24Ts
+         W5xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to;
+        bh=xBOa27jqyjYu408xi8Nc36ha7jQgQUaKKty7Tja3iFI=;
+        b=TnWrC3+2anz710IcueD647vGsXVPuCAdpamfcE0zFdEaTtv8miLW3kaOsgTdF0b4w6
+         s9npAqX6+hpnGn3CU9jwI48A6YJwIw4hW4nw2as5tdZfu6oNoHrUG3FrqBhjKwsqDbeU
+         C+E1wAPeHMLS0U9DnR3Va0o7aAQk7TbyY9QeW45I0zYkyhJ9jDPymtjoahWhZ6lPxpAm
+         cuYtWhOvC0MRh8C4eih4ujHtt1Qz26tdcg2df19xIIh6HlXUc445C+Czkl8edBoB9HRn
+         QSohfabxjMeqreocxUqTKBg3fLLb48XfqGPnS9JDNchhXLUwRqEKq/t1iROGFyT1Dyp8
+         Zg6w==
+X-Gm-Message-State: AOAM532sWFsWWwd8oRHSPBhAZkZMlP71bvkXj6t8BU94K889rbVPA0yN
+        wQPBqDqJhwCvrVoXljPHV9U=
+X-Google-Smtp-Source: ABdhPJxUN+dwxVCJiXl92JJ6opVcoSwUqYWYnY5xpTg6gh0MztkoTi6b0yoTRvecHjd6uUCtL/XZXw==
+X-Received: by 2002:a37:8c42:: with SMTP id o63mr29447351qkd.449.1617098400927;
+        Tue, 30 Mar 2021 03:00:00 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id 18sm16043166qkr.90.2021.03.30.02.59.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Mar 2021 03:00:00 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+X-Google-Original-From: SeongJae Park <sjpark@amazon.de>
+To:     Greg KH <greg@kroah.com>
+Cc:     sj38.park@gmail.com, akpm@linux-foundation.org,
+        SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@huawei.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        amit@kernel.org, benh@kernel.crashing.org,
+        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
+        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
+        foersleo@amazon.de, gthelen@google.com, guoju.fgj@alibaba-inc.com,
+        mgorman@suse.de, minchan@kernel.org, mingo@redhat.com,
+        namhyung@kernel.org, peterz@infradead.org, riel@surriel.com,
+        rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org,
+        shakeelb@google.com, shuah@kernel.org, snu@amazon.de,
+        vbabka@suse.cz, vdavydov.dev@gmail.com, zgf574564920@gmail.com,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v26 07/13] mm/damon: Implement a debugfs-based user space
- interface
-Message-ID: <YGLt5R1AlgGrPtv4@kroah.com>
-References: <20210330090537.12143-1-sj38.park@gmail.com>
- <20210330090537.12143-8-sj38.park@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210330090537.12143-8-sj38.park@gmail.com>
+Subject: Re: [PATCH v26 07/13] mm/damon: Implement a debugfs-based user space interface
+Date:   Tue, 30 Mar 2021 09:59:50 +0000
+Message-Id: <20210330095950.33427-1-sjpark@amazon.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <YGLt5R1AlgGrPtv4@kroah.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 30, 2021 at 09:05:31AM +0000, sj38.park@gmail.com wrote:
-> +static int __init __damon_dbgfs_init(void)
-> +{
-> +	struct dentry *dbgfs_root;
-> +	const char * const file_names[] = {"monitor_on"};
-> +	const struct file_operations *fops[] = {&monitor_on_fops};
-> +	int i;
-> +
-> +	dbgfs_root = debugfs_create_dir("damon", NULL);
-> +
-> +	for (i = 0; i < ARRAY_SIZE(file_names); i++)
-> +		debugfs_create_file(file_names[i], 0600, dbgfs_root, NULL,
-> +				fops[i]);
-> +	dbgfs_fill_ctx_dir(dbgfs_root, dbgfs_ctxs[0]);
-> +
-> +	dbgfs_dirs = kmalloc_array(1, sizeof(dbgfs_root), GFP_KERNEL);
+From: SeongJae Park <sjpark@amazon.de>
 
-No error checking for memory allocation failures?
+On Tue, 30 Mar 2021 11:22:45 +0200 Greg KH <greg@kroah.com> wrote:
+
+> On Tue, Mar 30, 2021 at 09:05:31AM +0000, sj38.park@gmail.com wrote:
+> > +static int __init __damon_dbgfs_init(void)
+> > +{
+> > +	struct dentry *dbgfs_root;
+> > +	const char * const file_names[] = {"monitor_on"};
+> > +	const struct file_operations *fops[] = {&monitor_on_fops};
+> > +	int i;
+> > +
+> > +	dbgfs_root = debugfs_create_dir("damon", NULL);
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(file_names); i++)
+> > +		debugfs_create_file(file_names[i], 0600, dbgfs_root, NULL,
+> > +				fops[i]);
+> > +	dbgfs_fill_ctx_dir(dbgfs_root, dbgfs_ctxs[0]);
+> > +
+> > +	dbgfs_dirs = kmalloc_array(1, sizeof(dbgfs_root), GFP_KERNEL);
+> 
+> No error checking for memory allocation failures?
+
+Oops, I will add the check in the next spin.
+
+> 
+> 
+> > +	dbgfs_dirs[0] = dbgfs_root;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/*
+> > + * Functions for the initialization
+> > + */
+> > +
+> > +static int __init damon_dbgfs_init(void)
+> > +{
+> > +	int rc;
+> > +
+> > +	dbgfs_ctxs = kmalloc(sizeof(*dbgfs_ctxs), GFP_KERNEL);
+> 
+> No error checking?
+
+Will add in the next spin.
+
+> 
+> > +	dbgfs_ctxs[0] = dbgfs_new_ctx();
+> > +	if (!dbgfs_ctxs[0])
+> > +		return -ENOMEM;
+> > +	dbgfs_nr_ctxs = 1;
+> > +
+> > +	rc = __damon_dbgfs_init();
+> > +	if (rc)
+> > +		pr_err("%s: dbgfs init failed\n", __func__);
+> 
+> Shouldn't the error be printed out in the function that failed, not in
+> this one?
+
+I thought some other functions (in future) might want to use
+'__damon_dbgfs_init()' but siletnly handles it's failure.  Therefore I made the
+function fails silently but returns the error code explicitly.  Am I missing
+somthing?
 
 
-> +	dbgfs_dirs[0] = dbgfs_root;
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Functions for the initialization
-> + */
-> +
-> +static int __init damon_dbgfs_init(void)
-> +{
-> +	int rc;
-> +
-> +	dbgfs_ctxs = kmalloc(sizeof(*dbgfs_ctxs), GFP_KERNEL);
+Thanks,
+SeongJae Park
 
-No error checking?
-
-> +	dbgfs_ctxs[0] = dbgfs_new_ctx();
-> +	if (!dbgfs_ctxs[0])
-> +		return -ENOMEM;
-> +	dbgfs_nr_ctxs = 1;
-> +
-> +	rc = __damon_dbgfs_init();
-> +	if (rc)
-> +		pr_err("%s: dbgfs init failed\n", __func__);
-
-Shouldn't the error be printed out in the function that failed, not in
-this one?
-
-thanks,
-
-greg k-h
+> 
+> thanks,
+> 
+> greg k-h
