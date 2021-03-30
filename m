@@ -2,166 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F1710C433DB
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 22:44:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67145C433E4
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 22:44:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AE3F3619CA
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 22:44:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EBF53619D0
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 22:44:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233022AbhC3WoI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 18:44:08 -0400
-Received: from mail-bn7nam10on2056.outbound.protection.outlook.com ([40.107.92.56]:63400
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232924AbhC3Wnv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Mar 2021 18:43:51 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ktJgiPkMuYh75SbjMbqzJQDTZIwwYpADt8X2x1sgXfq3TTCrTnPIj92pv0zVqlOU6z86EK/z3DNoQY0tk5RMHcsFNP7BgfM0AG90Veg40tNYQldF2jeGjBw9kwd4LbgU5FQukWHVNU47HQiscxK1ai6IPlGjK5/EN/H5QvebkZY+pt2ovPljwDSUam8nDpOgjRHtNgKho8Q5/gpLFXBWZXGra3mXyPyo2h/25MHSxKr8W+ib8rDpExsmbdXmz0jFxpUrg0fCESP5/vGW9kzEnYrlImrE/Ytkc75YsRcfVIOsazOtYXB2ox70l/VeGJuytsD1DBlF54sRYUIqFSZHPA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SNLphClAq7f+HN0c4BR9sHNfWb2MbBIS5R+KGKXClNQ=;
- b=IE1Zq7Z13WLSZJSCacjXjXg05mfPgwNdYiO9vjyZ+Ueyx0vXKf2J/43SYlRWyAmIqItFHJoo8rZLCY+w84JbzKhNLVE3MENS53EPPxW4Cub1EwzbYgQnzS99XCsd3xWuUHAMn/S3171WiHr6Z7S8ZH6lh3TMlf1Cdsz3W73ZLyah7E8JwCPJq8fOrRW+Rgb+ZlN4ZgsnhH6ZOjaXBQzICLwgfsKnczySEqFjhNyyKbjWoDbEmygJQZbHSneK2eYi9leRS/MoGd2fnPh2TBQQVXtKMmZflQjeStJEZPUYs78jDyRgs7mx5j8WJ3mY2HjfZoQaWIYabwQHhjeZtbjJ8w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=linux-foundation.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SNLphClAq7f+HN0c4BR9sHNfWb2MbBIS5R+KGKXClNQ=;
- b=OY0tuy2zncszr861bsNbSGLklMsXHIIyOWUEKKEqNLaPwsB5GYRW7ZdptuOxJj8f4RLoctXscvrd8WmbpWs78u3qMd64sF/dr40qDLGOamwtiDmzBt5a7eIaM3knz8UQvlmvz48ADgBqu8Fg7tRohtxm8Qi7z8dYaGdPkPTpyIgI2OAfS+nTkc7VKlFv5e8anuH2hzOs5sqq2Fd3cM8xcB/KVdGKdd54ShaFw81cszanHwHd9gL9yMkt6Rf4AsSCAFAFN8v4JwUxEnDPIs5dyKNx+w3c1lkgxXLlpqyKezgMOaZkcJktHZkW9k/7QlQ+cHc6ZaGYnAXlOegORNg7gA==
-Received: from DM5PR13CA0059.namprd13.prod.outlook.com (2603:10b6:3:117::21)
- by MN2PR12MB3439.namprd12.prod.outlook.com (2603:10b6:208:cf::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Tue, 30 Mar
- 2021 22:43:49 +0000
-Received: from DM6NAM11FT004.eop-nam11.prod.protection.outlook.com
- (2603:10b6:3:117:cafe::3c) by DM5PR13CA0059.outlook.office365.com
- (2603:10b6:3:117::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.16 via Frontend
- Transport; Tue, 30 Mar 2021 22:43:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; linux-foundation.org; dkim=none (message not
- signed) header.d=none;linux-foundation.org; dmarc=pass action=none
- header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- DM6NAM11FT004.mail.protection.outlook.com (10.13.172.217) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3955.18 via Frontend Transport; Tue, 30 Mar 2021 22:43:49 +0000
-Received: from [10.2.63.109] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 30 Mar
- 2021 22:43:20 +0000
-Subject: Re: [PATCH v7 3/8] mm/rmap: Split try_to_munlock from try_to_unmap
-To:     Jason Gunthorpe <jgg@nvidia.com>,
-        Alistair Popple <apopple@nvidia.com>
-CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
-        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <rcampbell@nvidia.com>, <jglisse@redhat.com>, <hch@infradead.org>,
-        <daniel@ffwll.ch>, <willy@infradead.org>,
-        Christoph Hellwig <hch@lst.de>
-References: <20210326000805.2518-1-apopple@nvidia.com>
- <20210326000805.2518-4-apopple@nvidia.com>
- <20210330184903.GZ2356281@nvidia.com> <12442194.rtmf8Ope3M@nvdebian>
- <20210330222440.GC2356281@nvidia.com>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <bce0605a-336f-99ba-5b65-a8e5a7e49e00@nvidia.com>
-Date:   Tue, 30 Mar 2021 15:43:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        id S233026AbhC3WoJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 18:44:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57378 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S232952AbhC3WoE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Mar 2021 18:44:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ADAEF6024A;
+        Tue, 30 Mar 2021 22:44:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617144244;
+        bh=RcuXmNfF81Rze1zkENzJlhvPm4Tsn8Z1PvkmCDDnInI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=so502Er6WQx5dCh7b8ocWIkm7HIfeROPeeOkAemjKFTGL7QjWofQpoYZfyOrIkb+X
+         LSMrj3W6sULmdY7pdtOE9+7Jifd6iLpIag2pFBOeSu1T4VBPX0A6LtMtd895QLGGYP
+         fUUwHAxlvLNjI40NULfBagz5wqtSniYQ8YBbGRKhzZqR/qVqZa/q48mWZJPiTojP9x
+         zMtAHM5w2yb/RRBDY2PhbgE/1EoYB3x9EmtdwdeRYwIsJQyAhIhY+7QNxnbWORq8qx
+         JvqEXgq3Mz6dvUtJ+j67qyx60M3jkwfBwDjXjIrrHe4ArBzyKjKvsfbjzGkeKIlBoF
+         flm5sLjLr4Wvg==
+Date:   Tue, 30 Mar 2021 15:44:02 -0700
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     linux-kernel@vger.kernel.org, Dexuan Cui <decui@microsoft.com>,
+        linux-crypto@vger.kernel.org,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: crypto: add info about "fips=" boot
+ option
+Message-ID: <YGOpssfbqaGSlCl1@gmail.com>
+References: <20210330050651.13344-1-rdunlap@infradead.org>
+ <YGK3OlT3+6WdXbux@sol.localdomain>
+ <f86bb75f-e593-5b2f-943a-db2129256eab@infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <20210330222440.GC2356281@nvidia.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0d0370a3-da74-4c03-9f36-08d8f3cd494a
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3439:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB34390BCA725A6B05EDAA4C50A87D9@MN2PR12MB3439.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: yZoVVOIK+PbS8rTDmsqj9Nsrzi2ZWycM/4WXmljItK7pGeL9tNCF1Tw5rmY9zBSZqs5m12QV402mu10jNuLsm27HWtVTSUnQkOdJXl0O3f54gxnfU/2PSDpSB0vrv46uK1+RudQz0PqzyNRZzovoN626cfruycxGzyryhGcyZgJ8Y1+zrztMMLFtJayfRSJQVkGZ5xeOi4pcHy6hxFV6I35jrazjnOuJCyMPeye9tscuGNMXR6y8PqpBs0S4Rv3Sqf43Y+dAIBp4NFl7pePA18QpMykRU5YfhMHHU9nuEXCe2ezWRBc3Pq0CQVAL18+Nm3W2RzMgTVMpqxbSucHahiceG0KZNR7BCkDSTPhVF7IaiKfrHtwWqwGFzSeBHRlXRQKHyJJ9+6nMxp6bKHrJBITxgfGXS/9zoTKGBynOtxMK46IqwPjazPkFvKMupbXf0o8RRaEJO51nkUyIuNoqmGLgcQoWVLJ8z7+v+Zp6DnByyWIucTyN1Gm22q+pszcxYhF0lFns8sLwtb9yqj9iZslINaNVFAG5Tl8lZ922GzhYzEkQBzW6UqdTmxA7yNI/l5T5OZFFZ8lId0vbl7dLEShGa+LMikOYtirxK9t1zajIrvJ5XtQ+QmR7LGlmpQFU4cSZsaOQUlsn4YaGYD7NUfGWIxkxXRgGPnOu7KpFj0Xo1CgvdlPPILXnQrQNWMrS
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(136003)(346002)(396003)(39860400002)(376002)(36840700001)(46966006)(2906002)(36756003)(70586007)(26005)(186003)(426003)(86362001)(336012)(16526019)(6636002)(478600001)(356005)(4326008)(83380400001)(36860700001)(7636003)(31696002)(82310400003)(2616005)(47076005)(53546011)(54906003)(31686004)(70206006)(16576012)(316002)(5660300002)(110136005)(8676002)(82740400003)(7416002)(36906005)(8936002)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2021 22:43:49.5218
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d0370a3-da74-4c03-9f36-08d8f3cd494a
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT004.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3439
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f86bb75f-e593-5b2f-943a-db2129256eab@infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/30/21 3:24 PM, Jason Gunthorpe wrote:
-...
->> As far as I can tell this has always been called try_to_munlock() even though
->> it appears to do the opposite.
+On Tue, Mar 30, 2021 at 09:38:55AM -0700, Randy Dunlap wrote:
+> On 3/29/21 10:29 PM, Eric Biggers wrote:
+> > On Mon, Mar 29, 2021 at 10:06:51PM -0700, Randy Dunlap wrote:
+> >> Having just seen a report of using "fips=1" on the kernel command line,
+> >> I could not find it documented anywhere, so add some help for it.
+> >>
+> >> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> >> Cc: Dexuan Cui <decui@microsoft.com>
+> >> Cc: linux-crypto@vger.kernel.org
+> >> Cc: Eric Biggers <ebiggers@kernel.org>
+> >> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> >> Cc: "David S. Miller" <davem@davemloft.net>
+> >> Cc: Jonathan Corbet <corbet@lwn.net>
+> >> Cc: linux-doc@vger.kernel.org
+> >> ---
+> >> Updates/corrections welcome.
+> >>
+> >> v2: drop comment that "fips_enabled can cause some tests to be skipped".
+> >>
+> >>  Documentation/admin-guide/kernel-parameters.txt |   14 ++++++++++++++
+> >>  1 file changed, 14 insertions(+)
+> >>
+> >> --- linux-next-20210329.orig/Documentation/admin-guide/kernel-parameters.txt
+> >> +++ linux-next-20210329/Documentation/admin-guide/kernel-parameters.txt
+> >> @@ -1370,6 +1370,20 @@
+> >>  			See Documentation/admin-guide/sysctl/net.rst for
+> >>  			fb_tunnels_only_for_init_ns
+> >>  
+> >> +	fips=		Format: { 0 | 1}
+> >> +			Use to disable (0) or enable (1) FIPS mode.
+> >> +			If enabled, any process that is waiting on the
+> >> +			'fips_fail_notif_chain' will be notified of fips
+> >> +			failures.
+> >> +			This setting can also be modified via sysctl at
+> >> +			/proc/sysctl/crypto/fips_enabled, i.e.,
+> >> +			crypto.fips_enabled.
+> >> +			If fips_enabled = 1 and a test fails, it will cause a
+> >> +			kernel panic.
+> >> +			If fips_enabled = 1, RSA test requires a key size of
+> >> +			2K or larger.
+> >> +			It can also effect which ECC curve is used.
+> > 
+> > This doesn't really explain why anyone would want to give this option.
+> > What high-level thing is this option meant to be accomplishing?
+> > That's what the documentation should explain.
 > 
-> Maybe we should change it then?
+> Yes, clearly, even to me.
 > 
->>> /**
->>>   * try_to_munlock - try to munlock a page
->>>   * @page: the page to be munlocked
->>>   *
->>>   * Called from munlock code.  Checks all of the VMAs mapping the page
->>>   * to make sure nobody else has this page mlocked. The page will be
->>>   * returned with PG_mlocked cleared if no other vmas have it mlocked.
->>>   */
->>
->> In other words it sets PG_mlocked if one or more vmas has it mlocked. So
->> try_to_mlock() might be a better name, except that seems to have the potential
->> for confusion as well because it's only called from the munlock code path and
->> never for mlock.
+> But I could not find anything in the kernel source tree that would help me
+> explain that.  So to repeat:
 > 
-> That explanation makes more sense.. This function looks like it is
-> 'set PG_mlocked of the page if any vm->flags has VM_LOCKED'
+> >> Updates/corrections welcome.
 > 
-> Maybe call it check_vm_locked or something then and reword the above
-> comment?
-> 
-> (and why is it OK to read vm->flags for this without any locking?)
-> 
->>> Something needs attention here..
->>
->> I think the code is correct, but perhaps the naming could be better. Would be
->> interested hearing any thoughts on renaming try_to_munlock() to try_to_mlock()
->> as the current name appears based on the context it is called from (munlock)
->> rather than what it does (mlock).
-> 
-> The point of this patch is to make it clearer, after all, so I'd
-> change something and maybe slightly clarify the comment.
-> 
+> thanks.
+> -- 
 
-I'd add that, after looking around the calling code, this is a really unhappy
-pre-existing situation. Anyone reading this has to remember at which point in the
-call stack the naming transitions from "do the opposite of what the name says",
-to "do what the name says".
+I'm by no means an expert on this, but the main thing I have in mind is that
+(IIUC) the "fips" option is only useful if your whole kernel binary is certified
+as a "FIPS cryptographic module", *and* you actually need the FIPS compliance.
+And the upstream kernel doesn't have a FIPS certification out of the box; that's
+a task for specific Linux distributors like Red Hat, SUSE, Ubuntu, who get
+specific kernel binaries certified.
 
-+1 for renaming "munlock*" items to "mlock*", where applicable. good grief.
+So, compiling a kernel and using the "fips" option is useless by itself, as your
+kernel image won't actually have a FIPS certification in that case anyway.
 
-Although, it seems reasonable to tack such renaming patches onto the tail end
-of this series. But whatever works.
+So, I would expect an explanation like that about under what circumstances the
+"fips" option is actually useful and intended for.
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+The people who actually use this option should be able to explain it properly
+though; the above is just my understanding...
+
+- Eric
