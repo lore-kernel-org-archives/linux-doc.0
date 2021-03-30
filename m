@@ -2,205 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A26C433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 11:37:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0E90C433C1
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 11:49:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D904F6195C
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 11:37:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8DDAE6195C
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 11:49:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231742AbhC3Lga (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 07:36:30 -0400
-Received: from mga07.intel.com ([134.134.136.100]:49629 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229801AbhC3LgF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Mar 2021 07:36:05 -0400
-IronPort-SDR: BhBM94rhTZeXZgwX2b+lk1cMtAzvtzVK3hrlvSsqndWZb6KeQJbSAJfMEdtTcUgSZvkZrdoyLp
- aNaE/b/9eP0Q==
-X-IronPort-AV: E=McAfee;i="6000,8403,9938"; a="255738511"
-X-IronPort-AV: E=Sophos;i="5.81,290,1610438400"; 
-   d="scan'208";a="255738511"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2021 04:36:02 -0700
-IronPort-SDR: Qn/n0r1XTS6bViYTWeiG2zJwPkO507jha4/bTE/H7oRc42hKUx2kg8iW3rMwfbPgsgS8xyEJAT
- cCKf1t6qSVEg==
-X-IronPort-AV: E=Sophos;i="5.81,290,1610438400"; 
-   d="scan'208";a="411566797"
-Received: from ograu-mobl.ger.corp.intel.com (HELO localhost) ([10.252.58.175])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2021 04:36:00 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: better handle '::' sequences
-In-Reply-To: <20210329185843.GK351017@casper.infradead.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210325184615.08526aed@coco.lan> <2cf44cf1fa42588632735d4fbc8e84304bdc235f.1616696051.git.mchehab+huawei@kernel.org> <87tuozyslu.fsf@meer.lwn.net> <20210325191435.GZ1719932@casper.infradead.org> <87a6qrx7wf.fsf@meer.lwn.net> <20210325221437.GA1719932@casper.infradead.org> <87wntux3w7.fsf@meer.lwn.net> <20210329144204.GF351017@casper.infradead.org> <874kgtq079.fsf@intel.com> <20210329185843.GK351017@casper.infradead.org>
-Date:   Tue, 30 Mar 2021 14:35:57 +0300
-Message-ID: <87tuosoov6.fsf@intel.com>
+        id S231976AbhC3Lsc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 07:48:32 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:46590 "EHLO loongson.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232239AbhC3Lro (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 30 Mar 2021 07:47:44 -0400
+Received: from LAPTOP-O8VTVVS6.localdomain (unknown [223.106.57.161])
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9AxzcjSD2NgLF4CAA--.2278S2;
+        Tue, 30 Mar 2021 19:47:30 +0800 (CST)
+From:   Yanteng Si <siyanteng@loongson.cn>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
+        Huacai Chen <chenhuacai@gmail.com>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: [PATCH v3 0/8] docs/zh_CN: add cpu-freq translation
+Date:   Tue, 30 Mar 2021 19:47:20 +0800
+Message-Id: <20210330114728.2680-1-siyanteng@loongson.cn>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: AQAAf9AxzcjSD2NgLF4CAA--.2278S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Kw1rtr15CFWrKr4fZrWkZwb_yoW8GFWUpF
+        1DKryrAF10yr17Aw1fGrW7XF15JFs7C3y5tr17JwnYyr15Jw4DtFyUtr47tF1DJr1xZFyY
+        qr48Kr1Dur1UAr7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUU9j14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
+        JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+        CE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
+        2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
+        W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2
+        Y2ka0xkIwI1lc2xSY4AK67AK6r4kMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r
+        1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CE
+        b7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0x
+        vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1l
+        IxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvf
+        C2KfnxnUUI43ZEXa7VUbLID7UUUUU==
+X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 29 Mar 2021, Matthew Wilcox <willy@infradead.org> wrote:
-> On Mon, Mar 29, 2021 at 09:33:30PM +0300, Jani Nikula wrote:
->> On Mon, 29 Mar 2021, Matthew Wilcox <willy@infradead.org> wrote:
->> > So here's my "modest proposal":
->> >
->> >  - Similar to our ".. kernel-doc::" invocation in .rst files, handle
->> >    ".. rustdoc::" (insert weeks of hacking here)
->> >  - Now add ".. rst-doc::" which parses .c files like [1] kernel-doc
->> >    does, but interprets a different style of comment and actually does
->> >    most of the repetitive boring bits for you.
->> 
->> As a hobby, I've written a Sphinx extension to use Clang to parse the
->> code and extract pure reStructuredText documentation comments with
->> minimal conversions [1]. No additional syntax. Just use reStructuredText
->> for everything instead of inventing your own.
->> 
->> I'm not proposing to use that in kernel, at all. It was more like a
->> diversion from the kernel documentation.
->
-> Actually, that looks like my proposal, except that it uses the same /**
-> as kernel-doc, so you can't tell whether a comment is intended to be
-> interpreted by kernel-doc or hawkmoth.
->
-> https://github.com/jnikula/hawkmoth/blob/master/test/example-70-function.c
->
-> If the introduction were "/*rST" instead of "/**", would we have
-> consensus?  It gives us a path to let people intermix kernel-doc and
-> hawkmoth comments in the same file, which would be amazing.
+This series of patches:
+ translates Documention/cpu-freq/* into Chinese.
+ add .../zh_CN/mips to zh_CN index
+ add .../zh_CN/iio to zh_CN index
+ add .../zh_CN/riscv to zh_CN index
 
-If you want to allow two syntaxes for documentation comments (current
-kernel-doc and pure reStructuredText with just the comment markers and
-indentation removed) I think the natural first step would be to modify
-kernel-doc the perl script to support that. It would probably even be
-trivial.
+v1 -> v2:
 
-Hawkmoth uses Clang for parsing, with none of the kernel specific stuff
-that kernel-doc has, such as EXPORT_SYMBOL(). It makes sense for a pet
-project with a clean break. I don't know if anyone has the bandwidth or
-desire to re-implement the kernel specific stuff on top of Clang. (I
-know I don't, I started the project because I wanted that clean break to
-begin with!)
+Correction of some errata;
+Thanks to Jiaxun and Xiangcheng for their
+help,:)
 
-The real question is, is it a good idea to support multiple formats at
-all? (N.b. I'm not a fan of extending the kernel-doc syntax either.)
+v2 -> v3:
 
-BR,
-Jani.
+Correction of a small number of errata;
 
+Yabteng Si(8):
+docs/zh_CN: add cpu-freq core.rst translation
+docs/zh_CN: add cpu-freq cpu-drivers.rst translation
+docs/zh_CN: add cpu-freq cpufreq-stats.rst translation
+docs/zh_CN: add cpu-freq index.rst translation
+docs/zh_CN: add cpu-freq to zh_CN index
+docs/zh_CN: add mips to zh_CN index
+docs/zh_CN: add iio to zh_CN index
+docs/zh_CN: add riscv to zh_CN index
 
->
->> But based on my experience with the old and new kernel documentation
->> systems and the hobby one, the one takeaway is to not create new
->> syntaxes, grammars, parsers, or preprocessors to be maintained by the
->> kernel community. Just don't. Take what's working and supported by other
->> projects, and add the minimal glue using Sphinx extensions to put it
->> together, and no more.
->> 
->> Of course, we couldn't ditch kernel-doc the script, but we managed to
->> trim it down quite a bit. OTOH, there have been a number of additions
->> outside of Sphinx in Makefiles and custom tools in various languages
->> that I'm really not happy about. It's all too reminiscient of the old
->> DocBook toolchain, while Sphinx was supposed to be the one tool to tie
->> it all together, partially chosen because of the extension support.
->> 
->> 
->> BR,
->> Jani.
->> 
->> 
->> [1] https://github.com/jnikula/hawkmoth
->> 
->> 
->> >
->> > For example, xa_load:
->> >
->> > /**
->> >  * xa_load() - Load an entry from an XArray.
->> >  * @xa: XArray.
->> >  * @index: index into array.
->> >  *
->> >  * Context: Any context.  Takes and releases the RCU lock.
->> >  * Return: The entry at @index in @xa.
->> >  */
->> > void *xa_load(struct xarray *xa, unsigned long index)
->> >
->> > //rST
->> > // Load an entry from an XArray.
->> > //
->> > // :Context: Any context.  Takes and releases the RCU lock.
->> > // :Return: The entry in `xa` at `index`.
->> > void *xa_load(struct xarray *xa, unsigned long index)
->> >
->> > (more complex example below [2])
->> >
->> > Things I considered:
->> >
->> >  - Explicitly document that this is rST markup instead of Markdown or
->> >    whatever.
->> >  - Don't repeat the name of the function.  The tool can figure it out.
->> >  - Don't force documenting each parameter.  Often they are obvious
->> >    and there's really nothing interesting to say about the parameter.
->> >    Witness the number of '@foo: The foo' (of type struct foo) that we
->> >    have scattered throughout the tree.  It's not that the documenter is
->> >    lazy, it's that there's genuinely nothing to say here.
->> >  - Use `interpreted text` to refer to parameters instead of *emphasis* or
->> >    **strong emphasis**.  The tool can turn that into whatever markup
->> >    is appropriate.
->> >  - Use field lists for Context and Return instead of sections.  The markup
->> >    is simpler to use, and I think the rendered output is better.
->> >
->> > [1] by which i mean "in a completely different way from, but similar in
->> >     concept"
->> >
->> > [2] More complex example:
->> >
->> > /**
->> >  * xa_store() - Store this entry in the XArray.
->> >  * @xa: XArray.
->> >  * @index: Index into array.
->> >  * @entry: New entry.
->> >  * @gfp: Memory allocation flags.
->> >  *
->> >  * After this function returns, loads from this index will return @entry.
->> >  * Storing into an existing multi-index entry updates the entry of every index.
->> >  * The marks associated with @index are unaffected unless @entry is %NULL.
->> >  *
->> >  * Context: Any context.  Takes and releases the xa_lock.
->> >  * May sleep if the @gfp flags permit.
->> >  * Return: The old entry at this index on success, xa_err(-EINVAL) if @entry
->> >  * cannot be stored in an XArray, or xa_err(-ENOMEM) if memory allocation
->> >  * failed.
->> >  */
->> > void *xa_store(struct xarray *xa, unsigned long index, void *entry, gfp_t gfp)
->> >
->> > //rST
->> > // Store an entry in the XArray.
->> > //
->> > // After this function returns, loads from `index` will return `entry`.
->> > // Storing into an existing multi-index entry updates the entry of every index.
->> > // The marks associated with `index` are unaffected unless `entry` is ``NULL``.
->> > //
->> > // :Context: Any context.  Takes and releases the xa_lock.
->> > //    May sleep if the `gfp` flags permit.
->> > // :Return: The old entry at this index on success, xa_err(-EINVAL) if `entry`
->> > //    cannot be stored in an XArray, or xa_err(-ENOMEM) if memory allocation
->> > //    failed.
->> > void *xa_store(struct xarray *xa, unsigned long index, void *entry, gfp_t gfp)
->> >
->> 
->> -- 
->> Jani Nikula, Intel Open Source Graphics Center
+Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+---
+ Documentation/translations/zh_CN/cpu-freq/core.rst          | 105
++++++++++++++++++++++++++++++++++++++++++++++
+ Documentation/translations/zh_CN/cpu-freq/cpu-drivers.rst   | 259
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Documentation/translations/zh_CN/cpu-freq/cpufreq-stats.rst | 130
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Documentation/translations/zh_CN/cpu-freq/index.rst         |  45
+++++++++++++++++++++
+ Documentation/translations/zh_CN/index.rst                  |   4 ++
+ 5 files changed, 543 insertions(+)
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
