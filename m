@@ -2,140 +2,117 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 694FCC433C1
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 16:27:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9944EC433DB
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 16:39:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 27A0F619CE
-	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 16:27:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6994B619CB
+	for <linux-doc@archiver.kernel.org>; Tue, 30 Mar 2021 16:39:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231579AbhC3Q1U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 12:27:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42944 "EHLO
+        id S232263AbhC3QjF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 12:39:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45654 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232032AbhC3Q04 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 12:26:56 -0400
-Received: from mail-yb1-xb31.google.com (mail-yb1-xb31.google.com [IPv6:2607:f8b0:4864:20::b31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D19EC061765
-        for <linux-doc@vger.kernel.org>; Tue, 30 Mar 2021 09:26:56 -0700 (PDT)
-Received: by mail-yb1-xb31.google.com with SMTP id x189so18035153ybg.5
-        for <linux-doc@vger.kernel.org>; Tue, 30 Mar 2021 09:26:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=E84xiuP96qdI7CJTKEoKUbx5Tud8k1cz/vlbjHEw4u0=;
-        b=NhyyBx3rsxS/8TIMF2Ga2ndhdkfALclaVvdMgUn9VzeEDA9vjUxsU0hrmepA76TfLt
-         u0X4694RTY7cucG2E7Ff8cg8WyEZtc72CatSnkWj4BIkSv+WQ56l3wybCFVpC7oO8/aY
-         n7JuOd68AJouHOTeOvP+UeSvFZ0DzJGOerJU8QYdsQ3N1WYHN/oNfRba5OmHqlCHvH3X
-         O+u1FJyU6EET1HxP051/l4PrUVO0W7xz7dyvd7Eu54lhSOAPhAsK3Kb11A1ssyc9J65P
-         MH/b7aHeZJaLunKWbnTsmaRedKpwTDaFc9GgNUVHXYtTbKTaLcBqisSEGID/TuBZAjHG
-         wbPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=E84xiuP96qdI7CJTKEoKUbx5Tud8k1cz/vlbjHEw4u0=;
-        b=Z+93+fBtVVJQonESKsfPl7+wL6bGaR8pQNnH4M1N6zKcKaK7bGb5+b5of14mq11nCt
-         VmOBhGzGSjOeKxsgfbCczYnGXVHA4ORgOAdm8XH5R/dTV4xXls0NioWlUe/vl4Go9tgQ
-         PymA5bErDkbiYRas2qV+K8xUmcAB07ZGWKMJ9s97Rg7dkccKH7IEIJ9BjjZyXDeu2ZTn
-         a1JSTYkIszmZ4v9DTpwL29CkFejVh56gslT4XjJCu3DxwUfVeo5/EZdMjN5iTgHJwKXW
-         Ab3tC6Cz7aJ7jaly2rWkeAPzH7WOmT+VvNotIqSmUGfFIPhKwnaU3+pyhILtJNMjoR/x
-         k3kg==
-X-Gm-Message-State: AOAM530Dy9PW1a8iVlTgQ86p9JsEd9H4vEvQuDGvOqgdLX1eu4rDKOMU
-        YazsftxmgEPv/MPS6H3QpJEaEpiAdbduOrcBOZUFlw==
-X-Google-Smtp-Source: ABdhPJzRju2GzsjyNoiA4fXciYHN4xAXYF+zjvtaWtSDSt0ofrTYQWng9+AP3dlitSrOgxr9jUO9qbtBbt2EI9ZSqHM=
-X-Received: by 2002:a25:d3cf:: with SMTP id e198mr45556943ybf.228.1617121615342;
- Tue, 30 Mar 2021 09:26:55 -0700 (PDT)
+        with ESMTP id S232186AbhC3QjD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 12:39:03 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71898C061574;
+        Tue, 30 Mar 2021 09:39:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description;
+        bh=5ZgTo25LsQZ9TJYftKq4wyfWOvd0PUTsUqCCu69Zbns=; b=gujzTzvOxSfmax36yY/iVxvLO9
+        66+U/uXHN8lIn0N4EVxWrlFYd3c0IKcdwKm6EN2jvA/PE2Of1kXcmj58YXCYBGHHPh0cQBZex8j+3
+        iuKwU7Ni2IGqKdRUU0e5kCxhv4SwR/cJ02qqdiwVmqBU89bp+c77FbMZ2MafcLA+3jnCT8E+cxBYx
+        OGGLSrjZ3tO3uKvnIFd8CwxarZBKc77OjuBFm4qrQxA3KMhwxFS5N/3DADyROvaiXPApV069SwvN+
+        3+XuI0Vlh7A9Uy5j6H3EmTZ1dL1FNMajfy1Ze1xJpWhgdcuCbM5GqZJ5vPxU7umhhy8Wu8IcFSs1p
+        2x5BgkeA==;
+Received: from [2601:1c0:6280:3f0::4557]
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lRHOM-003IqT-TC; Tue, 30 Mar 2021 16:38:59 +0000
+Subject: Re: [PATCH v2] Documentation: crypto: add info about "fips=" boot
+ option
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, Dexuan Cui <decui@microsoft.com>,
+        linux-crypto@vger.kernel.org,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+References: <20210330050651.13344-1-rdunlap@infradead.org>
+ <YGK3OlT3+6WdXbux@sol.localdomain>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <f86bb75f-e593-5b2f-943a-db2129256eab@infradead.org>
+Date:   Tue, 30 Mar 2021 09:38:55 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-References: <20210205222644.2357303-9-saravanak@google.com>
- <20210210114435.122242-1-tudor.ambarus@microchip.com> <20210330154222.GA5411@roeck-us.net>
-In-Reply-To: <20210330154222.GA5411@roeck-us.net>
-From:   Saravana Kannan <saravanak@google.com>
-Date:   Tue, 30 Mar 2021 09:26:19 -0700
-Message-ID: <CAGETcx_k2dAHRWn4914s32KSdJ=WLDe6DeD50V2kvR+2dUPrMw@mail.gmail.com>
-Subject: Re: [PATCH] clk: Mark fwnodes when their clock provider is added
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Brown, Len" <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Android Kernel Team <kernel-team@android.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <YGK3OlT3+6WdXbux@sol.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 30, 2021 at 8:42 AM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> On Wed, Feb 10, 2021 at 01:44:34PM +0200, Tudor Ambarus wrote:
-> > This is a follow-up for:
-> > commit 3c9ea42802a1 ("clk: Mark fwnodes when their clock provider is added/removed")
-> >
-> > The above commit updated the deprecated of_clk_add_provider(),
-> > but missed to update the preferred of_clk_add_hw_provider().
-> > Update it now.
-> >
-> > Signed-off-by: Tudor Ambarus <tudor.ambarus@microchip.com>
-> > Reviewed-by: Saravana Kannan <saravanak@google.com>
-> > ---
-> >  drivers/clk/clk.c | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/drivers/clk/clk.c b/drivers/clk/clk.c
-> > index 27ff90eacb1f..9370e4dfecae 100644
-> > --- a/drivers/clk/clk.c
-> > +++ b/drivers/clk/clk.c
-> > @@ -4594,6 +4594,8 @@ int of_clk_add_hw_provider(struct device_node *np,
-> >       if (ret < 0)
-> >               of_clk_del_provider(np);
-> >
-> > +     fwnode_dev_initialized(&np->fwnode, true);
-> > +
->
-> This causes a crash when booting raspi2 images in qemu.
->
-> [   22.123618] Unable to handle kernel NULL pointer dereference at virtual address 00000028
-> [   22.123830] pgd = (ptrval)
-> [   22.123992] [00000028] *pgd=00000000
-> [   22.124579] Internal error: Oops: 5 [#1] SMP ARM
-> ...
-> [   22.141624] [<c0a2f4d8>] (of_clk_add_hw_provider) from [<c0a2f54c>] (devm_of_clk_add_hw_provider+0x48/0x80)
-> [   22.141819] [<c0a2f54c>] (devm_of_clk_add_hw_provider) from [<c0a43ad8>] (raspberrypi_clk_probe+0x25c/0x384)
-> [   22.141976] [<c0a43ad8>] (raspberrypi_clk_probe) from [<c0c18da0>] (platform_probe+0x5c/0xb8)
-> [   22.142114] [<c0c18da0>] (platform_probe) from [<c0c16654>] (really_probe+0xf0/0x39c)
-> [   22.142246] [<c0c16654>] (really_probe) from [<c0c16968>] (driver_probe_device+0x68/0xc0)
-> [   22.142377] [<c0c16968>] (driver_probe_device) from [<c0c14834>] (bus_for_each_drv+0x84/0xc8)...
->
-> np can (and will) be NULL here. See of_clk_set_defaults().
+On 3/29/21 10:29 PM, Eric Biggers wrote:
+> On Mon, Mar 29, 2021 at 10:06:51PM -0700, Randy Dunlap wrote:
+>> Having just seen a report of using "fips=1" on the kernel command line,
+>> I could not find it documented anywhere, so add some help for it.
+>>
+>> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+>> Cc: Dexuan Cui <decui@microsoft.com>
+>> Cc: linux-crypto@vger.kernel.org
+>> Cc: Eric Biggers <ebiggers@kernel.org>
+>> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+>> Cc: "David S. Miller" <davem@davemloft.net>
+>> Cc: Jonathan Corbet <corbet@lwn.net>
+>> Cc: linux-doc@vger.kernel.org
+>> ---
+>> Updates/corrections welcome.
+>>
+>> v2: drop comment that "fips_enabled can cause some tests to be skipped".
+>>
+>>  Documentation/admin-guide/kernel-parameters.txt |   14 ++++++++++++++
+>>  1 file changed, 14 insertions(+)
+>>
+>> --- linux-next-20210329.orig/Documentation/admin-guide/kernel-parameters.txt
+>> +++ linux-next-20210329/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -1370,6 +1370,20 @@
+>>  			See Documentation/admin-guide/sysctl/net.rst for
+>>  			fb_tunnels_only_for_init_ns
+>>  
+>> +	fips=		Format: { 0 | 1}
+>> +			Use to disable (0) or enable (1) FIPS mode.
+>> +			If enabled, any process that is waiting on the
+>> +			'fips_fail_notif_chain' will be notified of fips
+>> +			failures.
+>> +			This setting can also be modified via sysctl at
+>> +			/proc/sysctl/crypto/fips_enabled, i.e.,
+>> +			crypto.fips_enabled.
+>> +			If fips_enabled = 1 and a test fails, it will cause a
+>> +			kernel panic.
+>> +			If fips_enabled = 1, RSA test requires a key size of
+>> +			2K or larger.
+>> +			It can also effect which ECC curve is used.
+> 
+> This doesn't really explain why anyone would want to give this option.
+> What high-level thing is this option meant to be accomplishing?
+> That's what the documentation should explain.
 
-Thanks for the report. It was reported earlier by Marek and there's a
-discussion going on about it in the thread.
+Yes, clearly, even to me.
 
--Saravana
+But I could not find anything in the kernel source tree that would help me
+explain that.  So to repeat:
+
+>> Updates/corrections welcome.
+
+thanks.
+-- 
+~Randy
+
