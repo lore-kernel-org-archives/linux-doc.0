@@ -2,217 +2,201 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4775C433E2
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 07:57:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B416DC433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 08:29:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A7BF1619DA
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 07:57:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7DF56619E3
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 08:29:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234221AbhCaH5G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 03:57:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50884 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234042AbhCaH4v (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 03:56:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617177410;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=qTxlbCttfevuY4Yr7YqkiF6Z72PQYaAdmOgBQY9mW7c=;
-        b=PFpsKqUCpqHTMzg/RLSVlfOc3BLfSyt2Y3efJNXFxSINcLECB0PMAdJMaMtPMdpeDtlDxc
-        aGdb+P/qafq/d8nEwoKDsTAIWO+LKnstKaE6j6pxZHKLDje5kyjQwsPEsmE/EJV33Ttca+
-        Ux+c3XUkrZZj2GB6RI0EqgqlySa7pY0=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-3-_iml-69eOT6dmneCQNU5Uw-1; Wed, 31 Mar 2021 03:56:48 -0400
-X-MC-Unique: _iml-69eOT6dmneCQNU5Uw-1
-Received: by mail-ej1-f71.google.com with SMTP id rl7so423400ejb.16
-        for <linux-doc@vger.kernel.org>; Wed, 31 Mar 2021 00:56:48 -0700 (PDT)
+        id S230527AbhCaI3B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 04:29:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52342 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230350AbhCaI24 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 04:28:56 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4D7FC061574;
+        Wed, 31 Mar 2021 01:28:55 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id g10so7523203plt.8;
+        Wed, 31 Mar 2021 01:28:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=LSOlkAz8jg+syisUb5+J8kiWofFRTKNdtiq801zgT0k=;
+        b=AdWe8HdLue+b9OjCYYZHRuxs8xgRUeCnsxLgC61NH4vg9tAkiiUaLaJXkX0aBOLwR6
+         ktyl6FNfM/2413NGnm4AvMyrtUj59BlQM4kGo+5jdusSzQi/NlsrF5yR6NS0wbKKfm/U
+         A4cxM8cInzydCMG65qilnf75cF3nvBuhM0UqYIrO2MXDTWMW8R1Ht/CsLt0LSg6s4kbf
+         MA1oPM4ld9I95FhN9KKSMVwjtrCRtY2akgEm0scvkvJ5n/3fFV0lQHnlDkZtryoUe8Rt
+         q9MxtMmyrrHLQSVG1CFXOabAgmMquO14GJL+R8b/fFoCGcFwSTBuOI5MxcwqXivdPZpM
+         7zEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
-         :message-id:mime-version;
-        bh=qTxlbCttfevuY4Yr7YqkiF6Z72PQYaAdmOgBQY9mW7c=;
-        b=sBIIP2MvHN7ip/GrlRBpIih7u0OMBSejRsuyhqRPJCiM9wVAl1n0b7sxbg0TmoHLCm
-         VuD+MQNP8l0snqEHiAux+NPrxlklYsl01u60u7DqKe3N9Vq96IfSnQwIujYAWu9F/ECE
-         LS8GHX+fYQDeGNMwxlZ1w1dDizCN/stmvjE0m7q2veFBKQRMSkS3LlLHjEjXnc4YR0LL
-         HiwHzlJLfhVaWLMWDUtI4aGeqebeyqYDDIPH8BSU32lT3utvCf4h+9ZTxYOpy4mcZXgq
-         qNOziwprSAI51L/tLEbsCKEYbDyhpyL8TnUtQcEmGRNEUDbV8B0EzNXv0Pp+Tu2q7ujn
-         hptQ==
-X-Gm-Message-State: AOAM532/kWgXhkC30BmUe9LcZGIET9a4K6T0es3GH+SOgekrogGDMXIR
-        WBdsIZFoFnKKkhHF07K2lM48g3zmRNuIxamTdmBR/xFXpQ4RqGruyD1pKa6pqmsBxx71sMIcEOt
-        RrMcFIXma3gJ+Q8OGZtsD
-X-Received: by 2002:a17:906:5acd:: with SMTP id x13mr2131022ejs.211.1617177407678;
-        Wed, 31 Mar 2021 00:56:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFxYg86aXW6gt6mF+7enQi7KHzpNTvnxSHMsXQA0W96uafrJeZq+ZXQBRq2t4vfe7cU2hWCg==
-X-Received: by 2002:a17:906:5acd:: with SMTP id x13mr2131005ejs.211.1617177407440;
-        Wed, 31 Mar 2021 00:56:47 -0700 (PDT)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
-        by smtp.gmail.com with ESMTPSA id lk12sm665521ejb.14.2021.03.31.00.56.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 31 Mar 2021 00:56:46 -0700 (PDT)
-From:   Vitaly Kuznetsov <vkuznets@redhat.com>
-To:     Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
-        Alexander Graf <graf@amazon.com>,
-        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        Sean Christopherson <seanjc@google.com>
-Subject: Re: [PATCH 1/4] kvm: cpuid: adjust the returned nent field of
- kvm_cpuid2 for KVM_GET_SUPPORTED_CPUID and KVM_GET_EMULATED_CPUID
-In-Reply-To: <1be7c716-8160-926e-6d76-fb15b4adc066@redhat.com>
-References: <20210330185841.44792-1-eesposit@redhat.com>
- <20210330185841.44792-2-eesposit@redhat.com> <YGPmDbO++agqdqQL@google.com>
- <1be7c716-8160-926e-6d76-fb15b4adc066@redhat.com>
-Date:   Wed, 31 Mar 2021 09:56:45 +0200
-Message-ID: <877dlnu56q.fsf@vitty.brq.redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=LSOlkAz8jg+syisUb5+J8kiWofFRTKNdtiq801zgT0k=;
+        b=CTBr086abnsM/qqzdpm3DKljU8Am6n3mSRK7RwmArBbeqGODy4xYozhGDPF/U9IwCD
+         bOXbi5hpEcmJg1r6xLqR4VVK+h6CzQq8ccqPqiS7fm10H933yT/Ncb47c1Ro5fHUxmkN
+         Wdb56rKxcutbkt5Qgc832lYjuWGNiCmu53vv266CtsWRXWtHE//tD9akb6lF3JwV5lQ2
+         45akfeKO0yZ/U7SyD+m8vtL9i2Vnm7Av42RZFXaaXVf2hym5ytU1KmU3OzUc4eRwpcxt
+         QkOaAENvxrxmrEs60S7d1FX47ONX2dSh9XGJhPnUc+cZ9r9tyGVSbV7FPOriJGJsy3GG
+         PcBg==
+X-Gm-Message-State: AOAM532DcnSiDNIRJUUyOh1cu9VtU+SZ90+We9fhRLRQ8lXsfIOiy7Mr
+        WMOMoivg5S1zNEHmXY8gBUc=
+X-Google-Smtp-Source: ABdhPJySG41kxsf0qEO8iBvn2FDWddLbPMwCdtSXE4dBjTEsdFU7YoF1X5b8YZz8i/ZHhgu+FXJOyQ==
+X-Received: by 2002:a17:90a:e2ca:: with SMTP id fr10mr2390380pjb.154.1617179335231;
+        Wed, 31 Mar 2021 01:28:55 -0700 (PDT)
+Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
+        by smtp.gmail.com with ESMTPSA id v1sm1420991pjt.1.2021.03.31.01.28.49
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 31 Mar 2021 01:28:54 -0700 (PDT)
+From:   dillon.minfei@gmail.com
+To:     robh@kernel.org, valentin.caron@foss.st.com,
+        Alexandre.torgue@foss.st.com, rong.a.chen@intel.com,
+        a.fatoum@pengutronix.de, mcoquelin.stm32@gmail.com,
+        devicetree@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux@armlinux.org.uk, afzal.mohd.ma@gmail.com,
+        gregkh@linuxfoundation.org, erwan.leray@foss.st.com,
+        erwan.leray@st.com, linux-serial@vger.kernel.org, lkp@intel.com,
+        patrice.chotard@foss.st.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org, pali@kernel.org,
+        mchehab+huawei@kernel.org, andrew@lunn.ch
+Cc:     dillon min <dillon.minfei@gmail.com>
+Subject: [PATCH v9 0/6] ARM: STM32: add art-pi(stm32h750xbh6) board support
+Date:   Wed, 31 Mar 2021 16:28:39 +0800
+Message-Id: <1617179325-6383-1-git-send-email-dillon.minfei@gmail.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Emanuele Giuseppe Esposito <eesposit@redhat.com> writes:
+From: dillon min <dillon.minfei@gmail.com>
 
-> On 31/03/2021 05:01, Sean Christopherson wrote:
->> On Tue, Mar 30, 2021, Emanuele Giuseppe Esposito wrote:
->>> Calling the kvm KVM_GET_[SUPPORTED/EMULATED]_CPUID ioctl requires
->>> a nent field inside the kvm_cpuid2 struct to be big enough to contain
->>> all entries that will be set by kvm.
->>> Therefore if the nent field is too high, kvm will adjust it to the
->>> right value. If too low, -E2BIG is returned.
->>>
->>> However, when filling the entries do_cpuid_func() requires an
->>> additional entry, so if the right nent is known in advance,
->>> giving the exact number of entries won't work because it has to be increased
->>> by one.
->>>
->>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
->>> ---
->>>   arch/x86/kvm/cpuid.c | 6 ++++++
->>>   1 file changed, 6 insertions(+)
->>>
->>> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
->>> index 6bd2f8b830e4..5412b48b9103 100644
->>> --- a/arch/x86/kvm/cpuid.c
->>> +++ b/arch/x86/kvm/cpuid.c
->>> @@ -975,6 +975,12 @@ int kvm_dev_ioctl_get_cpuid(struct kvm_cpuid2 *cpuid,
->>>   
->>>   	if (cpuid->nent < 1)
->>>   		return -E2BIG;
->>> +
->>> +	/* if there are X entries, we need to allocate at least X+1
->>> +	 * entries but return the actual number of entries
->>> +	 */
->>> +	cpuid->nent++;
->> 
->> I don't see how this can be correct.
->> 
->> If this bonus entry really is needed, then won't that be reflected in array.nent?
->> I.e won't KVM overrun the userspace buffer?
->> 
->> If it's not reflected in array.nent, that would imply there's an off-by-one check
->> somewhere, or KVM is creating an entry that it doesn't copy to userspace.  The
->> former seems unlikely as there are literally only two checks against maxnent,
->> and they both look correct (famous last words...).
->> 
->> KVM does decrement array->nent in one specific case (CPUID.0xD.2..64), i.e. a
->> false positive is theoretically possible, but that carries a WARN and requires a
->> kernel or CPU bug as well.  And fudging nent for that case would still break
->> normal use cases due to the overrun problem.
->> 
->> What am I missing?
->
-> (Maybe I should have put this series as RFC)
->
-> The problem I see and noticed while doing the KVM_GET_EMULATED_CPUID 
-> selftest is the following: assume there are 3 kvm emulated entries, and 
-> the user sets cpuid->nent = 3. This should work because kvm sets 3 
-> array->entries[], and copies them to user space.
->
-> However, when the 3rd entry is populated inside kvm (array->entries[2]), 
-> array->nent is increased once more (do_host_cpuid and 
-> __do_cpuid_func_emulated). At that point, the loop in 
-> kvm_dev_ioctl_get_cpuid and get_cpuid_func can potentially iterate once 
-> more, going into the
->
-> if (array->nent >= array->maxnent)
-> 	return -E2BIG;
->
-> in __do_cpuid_func_emulated and do_host_cpuid, returning the error. I 
-> agree that we need that check there because the following code tries to 
-> access the array entry at array->nent index, but from what I understand 
-> that access can be potentially useless because it might just jump to the 
-> default entry in the switch statement and not set the entry, leaving 
-> array->nent to 3.
+This patchset intend to add art-pi board support, this board developed
+by rt-thread(https://www.rt-thread.org/).
 
-The problem seems to be exclusive to __do_cpuid_func_emulated(),
-do_host_cpuid() always does
+Board resources:
+8MiB QSPI flash
+16MiB SPI flash
+32MiB SDRAM
+AP6212 wifi,bt,fm comb
 
-entry = &array->entries[array->nent++];
+sw context:
+- as stm32h750 just has 128k bytes internal flash, so running a fw on
+  internal flash to download u-boot/kernel to qspi flash, boot
+  u-boot/kernel from qspi flash. this fw is based on rt-thread.
+- kernel can be xip on qspi flash or load to sdram
+- root filesystem is jffs2(created by buildroot), stored on spi flash
 
-Something like (completely untested and stupid):
+to support the boad, add following changes.
+- fix r0-r3, r12 register restore failed after svc call,
+- add dts binding
+- update yaml doc
 
-diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-index 6bd2f8b830e4..54dcabd3abec 100644
---- a/arch/x86/kvm/cpuid.c
-+++ b/arch/x86/kvm/cpuid.c
-@@ -565,14 +565,22 @@ static struct kvm_cpuid_entry2 *do_host_cpuid(struct kvm_cpuid_array *array,
-        return entry;
- }
- 
-+static bool cpuid_func_emulated(u32 func)
-+{
-+       return (func == 0) || (func == 1) || (func == 7);
-+}
-+
- static int __do_cpuid_func_emulated(struct kvm_cpuid_array *array, u32 func)
- {
-        struct kvm_cpuid_entry2 *entry;
- 
-+       if (!cpuid_func_emulated())
-+               return 0;
-+
-        if (array->nent >= array->maxnent)
-                return -E2BIG;
- 
--       entry = &array->entries[array->nent];
-+       entry = &array->entries[array->nent++];
-        entry->function = func;
-        entry->index = 0;
-        entry->flags = 0;
-@@ -580,18 +588,14 @@ static int __do_cpuid_func_emulated(struct kvm_cpuid_array *array, u32 func)
-        switch (func) {
-        case 0:
-                entry->eax = 7;
--               ++array->nent;
-                break;
-        case 1:
-                entry->ecx = F(MOVBE);
--               ++array->nent;
-                break;
-        case 7:
-                entry->flags |= KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
-                entry->eax = 0;
-                entry->ecx = F(RDPID);
--               ++array->nent;
--       default:
-                break;
-        }
+---
+changes in v9:
+- move gpio{a..k} entries from stm32h7-pinctrl.dtsi to stm32h743.dtsi
+v8 link:
+https://lore.kernel.org/lkml/1617094704-10040-1-git-send-email-dillon.minfei@gmail.com/
 
-should do the job, right?
+changes in v8:
+- drop '[PATCH v7 3/6] ARM: dts: stm32: introduce stm32h7-pinctrl.dtsi to
+  support stm32h750' - stm32h743-pinctrl.dtsi file
+- move compatible string "st,stm32h743-pinctrl" from stm32h7-pinctrl.dtsi
+  to stm32h743.dtsi
+- update stm32h743i-{dico/eval}.dtsi to include stm32h7-pinctrl.dtsi
+- move file stm32h743.dtsi submit position to [PATCH V8 3/6]
+v7 link:
+https://lore.kernel.org/lkml/1617071338-9436-1-git-send-email-dillon.minfei@gmail.com/
 
+changes in v7:
+- remove changes in
+  Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml
+  Hi Rob Herring
+  as you has already ack this patch, please ignore it. thanks
+  history link:
+  https://lore.kernel.org/lkml/1614758717-18223-4-git-send-email-dillon.minfei@gmail.com/
+  https://lore.kernel.org/lkml/20210308195033.GA2855292@robh.at.kernel.org/
+- remove "[PATCH v6 8/9] pinctrl: stm32: Add STM32H750 MCU pinctrl support"
+  remove "[PATCH v6 5/9] ARM: dts: stm32: add stm32h750-pinctrl.dtsi"
+- reference to stm32h743-pinctrl.dtsi in stm32h750i-art-pi.dts
+v6 link:
+https://lore.kernel.org/lkml/1616757302-7889-1-git-send-email-dillon.minfei@gmail.com/
+
+changes in v6:
+- add gpiox{gpio-ranges, ngpios} in stm32h7-pinctrl.dtsi
+- add status="disabled" in stm32h743.dtsi 
+
+changes in v5:
+- accroding to rob's suggestion, replace false with 'type: object'
+  of 'additionalProperties'.
+- add Tested-by: Valentin Caron <valentin.caron@foss.st.com>
+
+changes in v4:
+- use unevaluatedProperties: false to fix dtbs_check warrnings instead of
+  add 'bluetooth' in st,stm32-uart.yaml
+
+changes in v3:
+- fix dtbs_check warrning: (8002cbd78fd5 and 4bc21d3dd678)
+  >> arch/arm/boot/dts/stm32h743i-eval.dt.yaml: soc: pin-controller:
+     {'type': 'object'} is not allowed for {'#address-cells': [[1]], '#size-cells':
+     [[1]], 'ranges': [[0,
+
+  >> arch/arm/boot/dts/stm32h743i-eval.dt.yaml: soc: 'i2c@40005C00',
+     'i2c@58001C00' do not match any of the regexes: '@(0|[1-9a-f][0-9a-f]*)$',
+     '^[^@]+$', 'pinctrl-[0-9]+'
+  >> arch/arm/boot/dts/stm32h750i-art-pi.dt.yaml: serial@40004800:
+     'bluetooth' does not match any of the regexes: 'pinctrl-[0-9]+'
+
+changes in v2:
+- reorganize the pinctrl device tree about
+  stm32h7-pinctrl/stm32h743/750-pinctrl
+  stm32h7-pinctrl.dtsi --> stm32h743-pinctrl.dtsi --> stm32h743i-disco.dts
+                         |                          |-> stm32h743i-eval.dts
+                         |-> stm32h750-pinctrl.dtsi --> stm32h750i-art-pi.dts
+  same to the stm32f7/f4's pinctrl style
+- fix author name/copyright mistake
+- add compatible string st,stm32h750-pinctrl to pinctl-stm32h743.c as they
+  have same pin alternate functions, update Kconfig description
+- make item in stm32h750i-art-pi.dts sort by letter
+
+*** BLURB HERE ***
+
+dillon min (6):
+  Documentation: arm: stm32: Add stm32h750 value line doc
+  dt-bindings: arm: stm32: Add compatible strings for ART-PI board
+  ARM: dts: stm32: introduce stm32h7-pinctrl.dtsi to support stm32h750
+  ARM: dts: stm32: add support for art-pi board based on stm32h750xbh6
+  ARM: stm32: Add a new SOC - STM32H750
+  dt-bindings: serial: stm32: Use 'type: object' instead of false for
+    'additionalProperties'
+
+ Documentation/arm/index.rst                        |   1 +
+ Documentation/arm/stm32/stm32h750-overview.rst     |  34 +++
+ .../devicetree/bindings/arm/stm32/stm32.yaml       |   4 +
+ .../devicetree/bindings/serial/st,stm32-uart.yaml  |   3 +-
+ arch/arm/boot/dts/Makefile                         |   1 +
+ arch/arm/boot/dts/stm32h7-pinctrl.dtsi             | 275 ++++++++++++++++++
+ arch/arm/boot/dts/stm32h743-pinctrl.dtsi           | 306 ---------------------
+ arch/arm/boot/dts/stm32h743.dtsi                   | 176 +++++++++++-
+ arch/arm/boot/dts/stm32h743i-disco.dts             |   2 +-
+ arch/arm/boot/dts/stm32h743i-eval.dts              |   2 +-
+ arch/arm/boot/dts/stm32h750.dtsi                   |   6 +
+ arch/arm/boot/dts/stm32h750i-art-pi.dts            | 229 +++++++++++++++
+ arch/arm/mach-stm32/board-dt.c                     |   1 +
+ 13 files changed, 729 insertions(+), 311 deletions(-)
+ create mode 100644 Documentation/arm/stm32/stm32h750-overview.rst
+ create mode 100644 arch/arm/boot/dts/stm32h7-pinctrl.dtsi
+ delete mode 100644 arch/arm/boot/dts/stm32h743-pinctrl.dtsi
+ create mode 100644 arch/arm/boot/dts/stm32h750.dtsi
+ create mode 100644 arch/arm/boot/dts/stm32h750i-art-pi.dts
 
 -- 
-Vitaly
+2.7.4
 
