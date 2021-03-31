@@ -2,159 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE19FC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 07:05:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 732A0C433C1
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 07:22:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7A982619DC
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 07:05:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 43624619D3
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 07:22:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233901AbhCaHFQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 03:05:16 -0400
-Received: from mail-vs1-f44.google.com ([209.85.217.44]:35518 "EHLO
-        mail-vs1-f44.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233833AbhCaHFN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 03:05:13 -0400
-Received: by mail-vs1-f44.google.com with SMTP id h11so772176vsl.2;
-        Wed, 31 Mar 2021 00:05:12 -0700 (PDT)
+        id S234041AbhCaHVa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 03:21:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38079 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234035AbhCaHVR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 03:21:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617175276;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TiW3s6POuiBtrk66pwAu3NhlizCTRO+r/CxAonDvxF8=;
+        b=STkOkzFiqbPHGwNfLFJM0Z2FsOsDXTQptK8sAQQLhPWf+V0OZu+w9LHsKgyxAPg5TduLTc
+        i2E6+nOb5ERZp+uPe2/tUIUM5qRnvLKS71JeXTl/XL3AV1A7dFvWBITJ9Ztm/aaVeOvOOX
+        7pp+4TXvi6hBy2tYlF5lZqbTGEc7+OA=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-437-JaX9iRvHMluduNrpOmZukQ-1; Wed, 31 Mar 2021 03:21:14 -0400
+X-MC-Unique: JaX9iRvHMluduNrpOmZukQ-1
+Received: by mail-ed1-f71.google.com with SMTP id r19so637824edv.3
+        for <linux-doc@vger.kernel.org>; Wed, 31 Mar 2021 00:21:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5FcWqzUO5UA3cR6NbW4yOHK8OR5G4ZVaphs7Wom8voI=;
-        b=ljnC7bzJ+PyI0IB1/8/PJhjQD2cdKwo34oODmegXwaFIoI9IUzci4Ah4ogKkIkh7u3
-         I2uUKzpdGqt7PFKEwVjhr8KiGmWeAZa4V4LpMAwof1vL6/jaZMaVxpXlvh38hkC2JfuO
-         x9mbm2Oo+gwlQan9nu0bvazBLyf7hWJ9pn7lc4GFcPM4Oje/1nVfjAYjMgjt3LnsdoPE
-         y3cKpUUDd3K6luPZsgOHiEOvO/9FrOAZOm9QK4H6r26pkUUNa+WHLeM0DRF+GdRjuRWC
-         iGtL6Tg/1wEznYkTYXB9qe501FpezwDHdX3F1ia0v9gptZ7koFbwpd0l9zWtwGuN5zXd
-         wRDg==
-X-Gm-Message-State: AOAM533QpVQ3XU7W4j5tZqacQvGPyy02ppwX/psc8k+TRMIKo7T0Rb2n
-        3yVYZ4zcLv6qEt3PzT76ttRUz3rKLCLKviWtsZc=
-X-Google-Smtp-Source: ABdhPJz12mWOTz8tEinky2k83Ps60+VailbnPpLTMg//vGWbxzLaGxgDV6inNb8fwJdVyog4bNT7013JCqCOb6ltT/E=
-X-Received: by 2002:a05:6102:7cd:: with SMTP id y13mr691011vsg.40.1617174312465;
- Wed, 31 Mar 2021 00:05:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210205222644.2357303-9-saravanak@google.com>
- <CGME20210325133159eucas1p297b769beb681743fb32d362a86cc6e3e@eucas1p2.samsung.com>
- <d24bebc5-0f78-021f-293f-e58defa32531@samsung.com> <9b206c4d00dfe8b7f941260f18909914b2b2eecb.camel@suse.de>
- <161678243444.3012082.5031467952132861429@swboyd.mtv.corp.google.com>
- <CAMuHMdV5PGUujsFP2TXMxij4UxVnrrurh_qVhq8+480w21jJAg@mail.gmail.com>
- <161705310317.3012082.15148238105608149214@swboyd.mtv.corp.google.com>
- <CAGETcx8reqKoPoJ8dV7f9=SHYKmNhcVpkNHoCS-0L4UHCBahoA@mail.gmail.com>
- <161706920822.3012082.10047587064612237296@swboyd.mtv.corp.google.com>
- <CAMuHMdX7OxTjwQmdP8xDbVkjtZ5442qFao8K6bNpDQ5S3GPSgQ@mail.gmail.com> <161715734080.2260335.881350237641202575@swboyd.mtv.corp.google.com>
-In-Reply-To: <161715734080.2260335.881350237641202575@swboyd.mtv.corp.google.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 31 Mar 2021 09:05:00 +0200
-Message-ID: <CAMuHMdXMhiOBSSwrC2A_ijXCaekBMfC8h9PFhqLtNGhtPDba=A@mail.gmail.com>
-Subject: Re: [PATCH] clk: Mark fwnodes when their clock provider is added
-To:     Stephen Boyd <sboyd@kernel.org>
-Cc:     Saravana Kannan <saravanak@google.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=TiW3s6POuiBtrk66pwAu3NhlizCTRO+r/CxAonDvxF8=;
+        b=sXa9wS1DPUYjEE5fRGSuSNpeXHoZnEK/xH8YN0NOnZE9tWAwUZKGvx0A+emnJhitHj
+         6stvEUXtQRe4Y+RB5o/oAHxi23xlcEQ5hhHaXkMT7lCSJ99B4HtbuEOj7rgO4kGvp7Pt
+         HY+j6kjQbRcxBGVHHFxQVzhkV9fe9eXphTI9+49JWefsjn0c9ox8lpkw+H/7YgkA58bJ
+         C0dVgbVrUsP/GNsMcKaiCcKNbEh2sfuoUIDrM074g+ulOKbOtqEEBBnGWh7Xzas1bcEJ
+         l0c68gdJ+99q+W+Jws1PgZ9vTqBB0APMQkSYvxv5YbiRGetMEBh/jdaAwJyEPnFLUOTq
+         mVRQ==
+X-Gm-Message-State: AOAM532Pk67VdCiq7+HKL8Wi1h9oVuYrotUy4zKTwbg7Nr6WKIXKvr64
+        xUnUnUk42zERxencH049bTZB+MvseylDTdhuRElDGnXU839S2iZ9R7a1sFb9LvAu2RqZvQgYOgD
+        +YGfOpLGOe3GkPXUD7aJy
+X-Received: by 2002:aa7:c88e:: with SMTP id p14mr1915440eds.119.1617175273341;
+        Wed, 31 Mar 2021 00:21:13 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxwOtUMcLcAd9P6nCkRIJO4s2Udkyqh4y7phmUPuSIFRQtTdU6xxywBbPo3oVrvHX/7u38Zsg==
+X-Received: by 2002:aa7:c88e:: with SMTP id p14mr1915403eds.119.1617175273039;
+        Wed, 31 Mar 2021 00:21:13 -0700 (PDT)
+Received: from localhost.localdomain ([194.230.155.154])
+        by smtp.gmail.com with ESMTPSA id s11sm838337edt.27.2021.03.31.00.21.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 31 Mar 2021 00:21:12 -0700 (PDT)
+Subject: Re: [PATCH 1/4] kvm: cpuid: adjust the returned nent field of
+ kvm_cpuid2 for KVM_GET_SUPPORTED_CPUID and KVM_GET_EMULATED_CPUID
+To:     Sean Christopherson <seanjc@google.com>
+Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Frank Rowand <frowand.list@gmail.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Len Brown <len.brown@intel.com>, Len Brown <lenb@kernel.org>,
-        Marc Zyngier <maz@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        DOCUMENTATION <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux PM list <linux-pm@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS <devicetre e
-        @vger.kernel.org>, ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
-        Android Kernel Team <kernel-team@android.com>, linux-rpi-kernel" 
-        <linux-rpi-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
+        Alexander Graf <graf@amazon.com>,
+        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20210330185841.44792-1-eesposit@redhat.com>
+ <20210330185841.44792-2-eesposit@redhat.com> <YGPmDbO++agqdqQL@google.com>
+From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Message-ID: <1be7c716-8160-926e-6d76-fb15b4adc066@redhat.com>
+Date:   Wed, 31 Mar 2021 09:21:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
+MIME-Version: 1.0
+In-Reply-To: <YGPmDbO++agqdqQL@google.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Stephen,
 
-On Wed, Mar 31, 2021 at 4:22 AM Stephen Boyd <sboyd@kernel.org> wrote:
-> Quoting Geert Uytterhoeven (2021-03-29 23:58:23)
-> > On Tue, Mar 30, 2021 at 3:53 AM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > Quoting Saravana Kannan (2021-03-29 16:28:20)
-> > > > On Mon, Mar 29, 2021 at 2:25 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > > > Quoting Geert Uytterhoeven (2021-03-26 11:29:55)
-> > > > > > On Fri, Mar 26, 2021 at 7:13 PM Stephen Boyd <sboyd@kernel.org> wrote:
-> > > > > > > Quoting Nicolas Saenz Julienne (2021-03-25 11:25:24)
-> > > > > > > > >
-> > > > > > > > > This patch mainly revealed that clk/bcm/clk-raspberrypi.c driver calls
-> > > > > > > > > devm_of_clk_add_hw_provider(), with a device pointer, which has a NULL
-> > > > > > > > > dev->of_node. I'm not sure if adding a check for a NULL np in
-> > > > > > > > > of_clk_add_hw_provider() is a right fix, though.
-> > > > > > > >
-> > > > > > > > I believe the right fix is not to call 'devm_of_clk_add_hw_provider()' if
-> > > > > > > > 'pdev->dev.of_node == NULL'. In such case, which is RPi3's, only the CPU clock
-> > > > > > > > is used, and it's defined and queried later through
-> > > > > > > > devm_clk_hw_register_clkdev().
-> > > > > > > >
-> > > > > > > > @Marek, I don't mind taking care of it if it's OK with you.
-> > > > > > > >
-> > > > > > >
-> > > > > > > Ah I see this is related to the patch I just reviewed. Can you reference
-> > > > > > > this in the commit text? And instead of putting the change into the clk
-> > > > > > > provider let's check for NULL 'np' in of_clk_add_hw_provider() instead
-> > > > > > > and return 0 if there's nothing to do. That way we don't visit this
-> > > > > > > problem over and over again.
-> > > > > >
-> > > > > > I'm not sure the latter is what we reall want: shouldn't calling
-> > > > > > *of*_clk_add_hw_provider() with a NULL np be a bug in the provider?
-> > > > > >
-> > > > >
-> > > > > I don't have a strong opinion either way. Would it be useful if the
-> > > > > function returned an error when 'np' is NULL?
-> > > >
-> > > > I lean towards returning an error. Not a strong opinion either.
-> > >
-> > > Does it have any use?
-> >
-> > of_clk_del_provider() removes the first provider found with node == NULL.
-> > If there are two drivers calling of_clk_add_hw_provider(), and one of
-> > hem calls of_clk_del_provider() later, the wrong provider may be
-> > removed from the list.
-> >
->
-> So you're saying we shouldn't add a NULL device node pointer to the list
-> so that this can't happen? That doesn't mean returning an error from
-> of_clk_add_hw_provider() would be useful though.
-> of_clk_add_hw_provider() can return 0 if np == NULL and
-> of_clk_del_provider() can return early if np == NULL too.
 
-I don't know if I grasp all meanings of the above.
+On 31/03/2021 05:01, Sean Christopherson wrote:
+> On Tue, Mar 30, 2021, Emanuele Giuseppe Esposito wrote:
+>> Calling the kvm KVM_GET_[SUPPORTED/EMULATED]_CPUID ioctl requires
+>> a nent field inside the kvm_cpuid2 struct to be big enough to contain
+>> all entries that will be set by kvm.
+>> Therefore if the nent field is too high, kvm will adjust it to the
+>> right value. If too low, -E2BIG is returned.
+>>
+>> However, when filling the entries do_cpuid_func() requires an
+>> additional entry, so if the right nent is known in advance,
+>> giving the exact number of entries won't work because it has to be increased
+>> by one.
+>>
+>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>> ---
+>>   arch/x86/kvm/cpuid.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+>> index 6bd2f8b830e4..5412b48b9103 100644
+>> --- a/arch/x86/kvm/cpuid.c
+>> +++ b/arch/x86/kvm/cpuid.c
+>> @@ -975,6 +975,12 @@ int kvm_dev_ioctl_get_cpuid(struct kvm_cpuid2 *cpuid,
+>>   
+>>   	if (cpuid->nent < 1)
+>>   		return -E2BIG;
+>> +
+>> +	/* if there are X entries, we need to allocate at least X+1
+>> +	 * entries but return the actual number of entries
+>> +	 */
+>> +	cpuid->nent++;
+> 
+> I don't see how this can be correct.
+> 
+> If this bonus entry really is needed, then won't that be reflected in array.nent?
+> I.e won't KVM overrun the userspace buffer?
+> 
+> If it's not reflected in array.nent, that would imply there's an off-by-one check
+> somewhere, or KVM is creating an entry that it doesn't copy to userspace.  The
+> former seems unlikely as there are literally only two checks against maxnent,
+> and they both look correct (famous last words...).
+> 
+> KVM does decrement array->nent in one specific case (CPUID.0xD.2..64), i.e. a
+> false positive is theoretically possible, but that carries a WARN and requires a
+> kernel or CPU bug as well.  And fudging nent for that case would still break
+> normal use cases due to the overrun problem.
+> 
+> What am I missing?
 
-The main question is if it is valid for a driver to call
-of_clk_add_hw_provider()
-with np == NULL.
-  - If yes, should that register the provider?
-      - If yes, how to handle two drivers calling of_clk_add_hw_provider()
-        with np = NULL, as their unregistration order is not guaranteed to
-        be correct.
+(Maybe I should have put this series as RFC)
 
-If no, is that something to ignore (0), or a bug (error)?
+The problem I see and noticed while doing the KVM_GET_EMULATED_CPUID 
+selftest is the following: assume there are 3 kvm emulated entries, and 
+the user sets cpuid->nent = 3. This should work because kvm sets 3 
+array->entries[], and copies them to user space.
 
-Gr{oetje,eeting}s,
+However, when the 3rd entry is populated inside kvm (array->entries[2]), 
+array->nent is increased once more (do_host_cpuid and 
+__do_cpuid_func_emulated). At that point, the loop in 
+kvm_dev_ioctl_get_cpuid and get_cpuid_func can potentially iterate once 
+more, going into the
 
-                        Geert
+if (array->nent >= array->maxnent)
+	return -E2BIG;
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+in __do_cpuid_func_emulated and do_host_cpuid, returning the error. I 
+agree that we need that check there because the following code tries to 
+access the array entry at array->nent index, but from what I understand 
+that access can be potentially useless because it might just jump to the 
+default entry in the switch statement and not set the entry, leaving 
+array->nent to 3. Therefore with 3 kvm entries, the user would need to 
+set cpuid->nent = 4 in order to work, even though only 3 entries are set.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+There is no user space overflow because kvm uses array.nent in 
+kvm_dev_ioctl_get_cpuid to specify how many entries to copy to the user.
+My fix simply pre-increments the nent field on behalf of user space, so 
+that an additional allocation is performed just in case but if not 
+filled, it will not be copied to userspace.
+
+Of course any better solution is very welcome :)
+
+If you are wondering how a user can know in advance the exact number of 
+nentries, the only way is to initially invoke the ioctl with cpuid->nent 
+= 1000 or simply KVM_MAX_CPUID_ENTRIES, and kvm will not only set the 
+entries but also adjust the nent field. In my case it was returning 3, 
+but without this fix a successive KVM_GET_EMULATED_CPUID ioctl with nent 
+= 3 would just return -E2BIG.
+
+Thank you,
+Emanuele
+
+> 
+>> +
+>>   	if (cpuid->nent > KVM_MAX_CPUID_ENTRIES)
+>>   		cpuid->nent = KVM_MAX_CPUID_ENTRIES;
+>>   
+>> -- 
+>> 2.30.2
+>>
+> 
+
