@@ -2,103 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 677B6C43462
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 12:34:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BB114C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 12:54:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5E971619E3
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 12:28:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 77BA761964
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 12:54:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235548AbhCaM1n (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 08:27:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:23641 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235586AbhCaM1O (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 08:27:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617193634;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=i9iBaLNrNdHy5Myw5Ru7jrMYIVd0xBvqef8GrfatpKg=;
-        b=hvKxHHNaHlurVTS7kY70bGU7VjSewrgWN89UkLFD7WMoj7HeMIQ8f0amlQGEJc7X1/ZtIJ
-        bfMpZkV4rCDyyGeJNKupE2VxjedFo3YYs1ViMxpNoXt/tRSsm5GDA6ItikJpw+PBgxwV+G
-        YYqbEacvwJTlz+NSEv5qGAugHAo5VGk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-12-CDBisXgpPgyy02PVaj0T5A-1; Wed, 31 Mar 2021 08:27:12 -0400
-X-MC-Unique: CDBisXgpPgyy02PVaj0T5A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41E641922964;
-        Wed, 31 Mar 2021 12:27:10 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-114-218.ams2.redhat.com [10.36.114.218])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id E99FD1895C;
-        Wed, 31 Mar 2021 12:27:05 +0000 (UTC)
-From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To:     kvm@vger.kernel.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
-        Alexander Graf <graf@amazon.com>,
-        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: [PATCH v2 2/4] Documentation: kvm: update KVM_GET_EMULATED_CPUID ioctl description
-Date:   Wed, 31 Mar 2021 14:26:47 +0200
-Message-Id: <20210331122649.38323-3-eesposit@redhat.com>
-In-Reply-To: <20210331122649.38323-1-eesposit@redhat.com>
-References: <20210331122649.38323-1-eesposit@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+        id S235647AbhCaMyK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 08:54:10 -0400
+Received: from mail.thorsis.com ([92.198.35.195]:59344 "EHLO mail.thorsis.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235654AbhCaMyB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Mar 2021 08:54:01 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.thorsis.com (Postfix) with ESMTP id 885F93970;
+        Wed, 31 Mar 2021 14:53:59 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.thorsis.com
+Received: from mail.thorsis.com ([127.0.0.1])
+        by localhost (mail.thorsis.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id ddy8e7D0VyZZ; Wed, 31 Mar 2021 14:53:59 +0200 (CEST)
+Received: by mail.thorsis.com (Postfix, from userid 109)
+        id 53D3D390B; Wed, 31 Mar 2021 14:53:59 +0200 (CEST)
+Date:   Wed, 31 Mar 2021 14:53:48 +0200
+From:   Alexander Dahl <ada@thorsis.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Alexander Dahl <ada@thorsis.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH 1/3] docs: gpio: mockup: Fix parameter name
+Message-ID: <YGRw3PlLBYCPvPn1@ada-deb-carambola.ifak-system.com>
+Mail-Followup-To: Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linux Documentation List <linux-doc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>
+References: <20210329111648.7969-1-ada@thorsis.com>
+ <20210329111648.7969-2-ada@thorsis.com>
+ <CAHp75VdqtWS15YPvaPvy4yj5TdW7DDgFB+_bbavFqPBp1zm6eg@mail.gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VdqtWS15YPvaPvy4yj5TdW7DDgFB+_bbavFqPBp1zm6eg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-KVM_GET_EMULATED_CPUID returns -E2BIG if the nent field of
-struct kvm_cpuid2 is smaller than the actual entries, while
-it adjusts nent if the provided amount is bigger than the
-actual amount.
+Hello Andy,
 
-Update documentation accordingly. ENOMEM is just returned if the
-allocation fails, like all other calls.
+Am Wed, Mar 31, 2021 at 03:27:05PM +0300 schrieb Andy Shevchenko:
+> On Mon, Mar 29, 2021 at 2:18 PM Alexander Dahl <ada@thorsis.com> wrote:
+> >
+> > Module probing with the parameter documented yielded this in kernel log:
+> >
+> >         gpio_mockup: unknown parameter 'gpio_named_lines' ignored
+> >
+> > The parameter documented did not match the parameter actually
+> > implemented with commit 8a68ea00a62e ("gpio: mockup: implement naming
+> > the lines") long before introducing the documentation.
+> >
+> > Fixes: commit 2fd1abe99e5f ("Documentation: gpio: add documentation for gpio-mockup")
+> 
+> Alexander, in the entire series you are using the wrong format for the
+> Fixes tag.
+> I highly recommend to add in your .gitconfig file an alias:
+>         one = show -s --pretty='format:%h (\"%s\")'
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- Documentation/virt/kvm/api.rst | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+You're right. Sorry, I messed things up. I first had that line without
+the additional "commit", and added it because I thought checkpatch
+complained (which it probably did not).
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 307f2fcf1b02..8ba23bc2a625 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -3404,12 +3404,10 @@ which features are emulated by kvm instead of being present natively.
- 
- Userspace invokes KVM_GET_EMULATED_CPUID by passing a kvm_cpuid2
- structure with the 'nent' field indicating the number of entries in
--the variable-size array 'entries'. If the number of entries is too low
--to describe the cpu capabilities, an error (E2BIG) is returned. If the
--number is too high, the 'nent' field is adjusted and an error (ENOMEM)
--is returned. If the number is just right, the 'nent' field is adjusted
--to the number of valid entries in the 'entries' array, which is then
--filled.
-+the variable-size array 'entries'.
-+If the number of entries is too low to describe the cpu
-+capabilities, an error (E2BIG) is returned.  If the number is too high,
-+the 'nent' field is adjusted and the entries array is filled.
- 
- The entries returned are the set CPUID bits of the respective features
- which kvm emulates, as returned by the CPUID instruction, with unknown
--- 
-2.30.2
+The actual format is documented of course:
 
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
+
+I actually have a slightly different setting for pretty.fixes in my
+~/.gitconfig for other demands. I'll go and make that project
+dependent now.
+
+Thanks for pointing this out.
+
+Greets
+Alex
+
+> 
+> `git one <commit ID>` will give you proper value to refer to the
+> commit in question.
+> 
+> -- 
+> With Best Regards,
+> Andy Shevchenko
