@@ -2,107 +2,102 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 731DDC433F2
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 08:30:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD5D3C433C1
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 08:34:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59BC1619E5
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 08:30:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A30ED61957
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 08:34:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234381AbhCaI3g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 04:29:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52450 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234098AbhCaI3X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 04:29:23 -0400
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 445CDC061574;
-        Wed, 31 Mar 2021 01:29:22 -0700 (PDT)
-Received: by mail-pj1-x1033.google.com with SMTP id x21-20020a17090a5315b029012c4a622e4aso839168pjh.2;
-        Wed, 31 Mar 2021 01:29:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=tMbHlMOQBksugwXBraiPexKO3Alo10XSX/pY8DpNjzc=;
-        b=O9WJJ3ruoiqLzVNW7uPCFBfMEyso1s+K1/uMHnwhvj2kc016TSYf1hD/xl406Q6GQZ
-         mKz2bWnbJkIhNir8G7jFBYAVrPS2ZDlVKcsIZbbp1nWwm7hQdC61BOmBp+I68kVUWI0x
-         G6dTVBjCpB995gEgLY2+eTtMCb7ZJ7svX+mIiaetO+3qStIoK1sY6o27WEo4/pN86/Ng
-         R4HdqRJY5Nw7LrJnc0nuyiSI/y0GupNdNZ82so1ACQ5MSGQa0XL6qs1EMYd5gVO2RaYT
-         8Nf232Q4XxManJB/za08xAENqjHeJVzktwe5JaULRwW3h4HOOL59vqWbqR61BwxAkS2z
-         0PFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=tMbHlMOQBksugwXBraiPexKO3Alo10XSX/pY8DpNjzc=;
-        b=GWTF2vnVdU3torfGO6QLfwOtIxChJmlaSWgvt8x/S0ngwm2gU0ZU+AJapiWoY/kwKV
-         uit3fJboCiMTCzpWpy57dO/3d7JXH4U+wZ0P8a1pTh6UKjdnOqh/PRsHA9I+mOlGAuA5
-         nh+og//vjxvjCzv0JySZcd9T4Wt09PyumDtpMO+LugewWsyKEHdnJ+ccM9mYM3bq0Epk
-         L/etjHe18fE4KpK0WqXjmm2uQej9fJWB2Nxz4lsTc4QmGgol4XxCozsQNIFGQvQ3VsrO
-         JmmrmH8hQ8MvCwpQmReWKRvmaM487jZvsPjxwABIMy5gT7gMtDeQPDHgkMTxwf7rM4VE
-         bbLQ==
-X-Gm-Message-State: AOAM533BdlcEd8mKfm/kmkFwkr9xCMY6IehujTkbEhw/CO+CqQNthDOi
-        d9IQhCbj494Krf0eOwe6JTY=
-X-Google-Smtp-Source: ABdhPJwPtt7oyAheZL9ldgtU5oBOVHSeZHN7Uv0gqCjbJJ6ZtWHCMvSvPYH+wC+K6bEGkWHGVN41Fw==
-X-Received: by 2002:a17:90a:e64a:: with SMTP id ep10mr2463653pjb.105.1617179361933;
-        Wed, 31 Mar 2021 01:29:21 -0700 (PDT)
-Received: from fmin-OptiPlex-7060.nreal.work ([137.59.103.165])
-        by smtp.gmail.com with ESMTPSA id v1sm1420991pjt.1.2021.03.31.01.29.17
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 31 Mar 2021 01:29:21 -0700 (PDT)
-From:   dillon.minfei@gmail.com
-To:     robh@kernel.org, valentin.caron@foss.st.com,
-        Alexandre.torgue@foss.st.com, rong.a.chen@intel.com,
-        a.fatoum@pengutronix.de, mcoquelin.stm32@gmail.com,
-        devicetree@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux@armlinux.org.uk, afzal.mohd.ma@gmail.com,
-        gregkh@linuxfoundation.org, erwan.leray@foss.st.com,
-        erwan.leray@st.com, linux-serial@vger.kernel.org, lkp@intel.com,
-        patrice.chotard@foss.st.com, corbet@lwn.net,
-        linux-doc@vger.kernel.org, pali@kernel.org,
-        mchehab+huawei@kernel.org, andrew@lunn.ch
-Cc:     dillon min <dillon.minfei@gmail.com>
-Subject: [PATCH v9 5/6] ARM: stm32: Add a new SOC - STM32H750
-Date:   Wed, 31 Mar 2021 16:28:44 +0800
-Message-Id: <1617179325-6383-6-git-send-email-dillon.minfei@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1617179325-6383-1-git-send-email-dillon.minfei@gmail.com>
-References: <1617179325-6383-1-git-send-email-dillon.minfei@gmail.com>
+        id S234339AbhCaIeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 04:34:24 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:54236 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234373AbhCaId7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Mar 2021 04:33:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=cGMIpLGopqNGNJ8RtjhCfqrGOBvIa0fV5k9lD
+        6TjwrA=; b=c6bRa0dptnvgjHRsMjv0sucfkdazNFjgxm6bnDyAi/st5tSqVLnoP
+        hX4c+OHUS76pY4yOT/Kc6yZ0dml95THMexBeB31vLQm7DXaYc84rMRbXh2LER5Gc
+        07QXLqhhFYTDQUfhwM7BYNqIk/IgXynog0O6qv3w6H8c+8F9YXsUnk=
+Received: from mipc (unknown [120.238.248.129])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDnWdDhM2RgVdpDAA--.21247S2;
+        Wed, 31 Mar 2021 16:33:39 +0800 (CST)
+Date:   Wed, 31 Mar 2021 16:33:37 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Alex Shi <alexs@kernel.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v1 1/4] docs: make reporting-issues.rst official and
+ delete reporting-bugs.rst
+Message-ID: <20210331083337.GA5287@mipc>
+References: <cover.1617113469.git.linux@leemhuis.info>
+ <49c674c2d304d87e6259063580fda05267e8c348.1617113469.git.linux@leemhuis.info>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <49c674c2d304d87e6259063580fda05267e8c348.1617113469.git.linux@leemhuis.info>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgDnWdDhM2RgVdpDAA--.21247S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7Zry3WFW7ArWDZrWxtrW5Wrg_yoW8Zr13p3
+        WDKrZ2q3ZxJFn0kr1xGr12qw12va4xuayrJr48Xw1rCrs8CF1ktrWqvr90vas3ury8tFWU
+        XF4Fgr90yr1jyaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUyvb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
+        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
+        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2
+        xKxwCY02Avz4vE14v_GFyl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1U
+        JwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
+        vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
+        x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
+        xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
+        wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IUeOTmDUUUUU==
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: dillon min <dillon.minfei@gmail.com>
+Cc Alex Shi's new email <alexs@kernel.org>
 
-The STM32H750 is a Cortex-M7 MCU running at 480MHz
-and containing 128KBytes internal flash, 1MiB SRAM.
+On Tue, Mar 30, 2021 at 04:13:04PM +0200, Thorsten Leemhuis wrote:
+> Removing Documentation/admin-guide/reporting-bugs.rst will break links
+> in some of the translations. I was unsure if simply changing them to
+> Documentation/admin-guide/reporting-issue.rst was wise, so I didn't
+> touch anything for now and CCed the maintainers for the Chinese and
+> Italian translation. I couldn't find one for the Japanse translation.
+> 
+> Please advice. For completeness, this are the places where things will
+> break afaics:
+> 
+> $ grep -ri 'reporting-bugs.rst' Documentation/
+> Documentation/translations/zh_CN/SecurityBugs:是有帮助的信息，那就请重温一下admin-guide/reporting-bugs.rst文件中的概述过程。任
+> Documentation/translations/zh_CN/process/howto.rst:内核源码主目录中的:ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
+> Documentation/translations/zh_CN/admin-guide/reporting-issues.rst:   本文档将取代“Documentation/admin-guide/reporting-bugs.rst”。主要的工作
+> Documentation/translations/zh_CN/admin-guide/reporting-issues.rst:   “Documentation/admin-guide/reporting-bugs.rst”中的旧文字非常相似。它和它
 
-Signed-off-by: dillon min <dillon.minfei@gmail.com>
----
-v9: no changes
+Yeah, as Greg said, we will solve that after you patches be merged in next
+tree. Since I have translate the zh reporting-issues.rst in the next tree,
+will correct the link when I sync it with your new version. May cause 
+Warning for some days, but don't worry about it.
 
- arch/arm/mach-stm32/board-dt.c | 1 +
- 1 file changed, 1 insertion(+)
+Wu X.C.
 
-diff --git a/arch/arm/mach-stm32/board-dt.c b/arch/arm/mach-stm32/board-dt.c
-index 011d57b488c2..a766310d8dca 100644
---- a/arch/arm/mach-stm32/board-dt.c
-+++ b/arch/arm/mach-stm32/board-dt.c
-@@ -17,6 +17,7 @@ static const char *const stm32_compat[] __initconst = {
- 	"st,stm32f746",
- 	"st,stm32f769",
- 	"st,stm32h743",
-+	"st,stm32h750",
- 	"st,stm32mp157",
- 	NULL
- };
--- 
-2.7.4
+> Documentation/translations/it_IT/process/howto.rst:Il file admin-guide/reporting-bugs.rst nella cartella principale del kernel
+> Documentation/translations/ja_JP/howto.rst:admin-guide/reporting-bugs.rstはカーネルバグらしいものについてどうレポー
+> 
+> Ciao, Thorsten
 
