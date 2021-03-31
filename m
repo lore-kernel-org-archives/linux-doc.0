@@ -2,122 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9F98C433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 18:32:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86652C43462
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 18:36:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 631C861055
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 18:32:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5D52C6108E
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 18:36:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235082AbhCaSbc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 14:31:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41680 "EHLO
+        id S235071AbhCaSgV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 14:36:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235109AbhCaSb2 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 14:31:28 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52571C06174A
-        for <linux-doc@vger.kernel.org>; Wed, 31 Mar 2021 11:31:27 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id i144so22198973ybg.1
-        for <linux-doc@vger.kernel.org>; Wed, 31 Mar 2021 11:31:27 -0700 (PDT)
+        with ESMTP id S235263AbhCaSf7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 14:35:59 -0400
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE956C061574;
+        Wed, 31 Mar 2021 11:35:58 -0700 (PDT)
+Received: by mail-qt1-x82e.google.com with SMTP id 1so14518521qtb.0;
+        Wed, 31 Mar 2021 11:35:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=7jlof/pNjkC0LExRdM7E0LmWgRs1tjM6/e1u7N+Efkc=;
-        b=htVxUbA9Mfr5t0HtFExDE8JZMnNHBDy4/VRicG2GAFsRoetik0xCsQwDdbmPSW8hYL
-         djrulSGwMQaNb9JZFUoxaLN6oDL+dQ3kfmCkOUK7ioAqdZAVxq14im8uA8TDi1U+cfVD
-         F/QE63rj2NF6F3cICQaPal6wDDMfk1A3N/9kyl+5wyM3tu6564JByr8/S6LgUiAaQGrK
-         fL1XkHayuORUysW8HzeJnInGZKZ1LrqQqqJY3Eqg93coVu1Tbg572P1H5wx1gMpkdPIv
-         XsmM7k7mb99MOnyz5MBMQym++Uj1EBXyYNYPkucZod2/m8fSdIi10JYDB1vy0BxY/h92
-         tqiw==
+        bh=TnW+eMwf8VjqXvYN2+uEls9zSiM8xbgpZnfblzmT7Rk=;
+        b=OXoBi7ZQJeMNsz5QjkZ4wDlks3q4SsHCsdYtaWC8FLARKplDkQ1oZoVeQvXagLweFI
+         u2TebfZLjGY3vBcRAqPx4dw4rFPrTV+nNnVvKvl2cVdQnqSYadYbVtvFeqOfZfyASKOS
+         NTKWPtJnsqikVv4EVvkNCceKJ6caygF1WpFkWpzYCvhHOBEvxyslKPEZVcah5/lU0+p6
+         CwkIJQwb91DR41ylnG5cSt+c21CyHusgkvNlT5Aeb90vB+llYi3Gt1e3mgv8Tg/7Qayl
+         C4bSmfEzcsq/0upNzYb+KAC1WcPoRG4GoHU6JNNdp8sZEpveK5txF4k8y5tWpCdw6KRF
+         YTgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=7jlof/pNjkC0LExRdM7E0LmWgRs1tjM6/e1u7N+Efkc=;
-        b=hG3LHaI6zTD/8kAqH7+gUQJ9C1AvsyUibzIGQvFPIyJEMmW3ZtkeBncfdFQs5qOJ14
-         9ScaNpcDHO4UCIbS4VkFFxKWZngboUhFnUP1mfo11fR3DCxH0AIM08ctNIFt/k5IG7y5
-         0rKZG23Ij00BTYtAMmpeoxup+yOxEoL/tJQEvpuwXJf+U1+2IY3QkKFklTHIEdGFtfHX
-         jOmztFwhOJsL4kKvjt6OaZtHwv8mnBziPoa20EaVOcr8/Cr9qeEQ4HIfgscIOFLVTgjn
-         UoKWLlU2uhM6hVpvUyPzyU+tG5Hkl42WCjbUKgsW6ftz1c7tP4X/+RzTkZhvDXQPpKQu
-         FKyg==
-X-Gm-Message-State: AOAM531qPiMhFFL5HKMs3ZubLtgJ8G7v36G+VkhIL5PbzApR06QxJTjt
-        ZYeQdbD775MlLOlprBWOc/9OYZxHh65QPiCNS7M83Q==
-X-Google-Smtp-Source: ABdhPJxpmgjd76pWGD+FESc/KM3zqDsAUVN2y3sQ4/D6QZxHWdYPhKxrIno6Bs+eJeNOFFtdktHNc4yYXxfX4SZTU34=
-X-Received: by 2002:a25:c588:: with SMTP id v130mr6398245ybe.312.1617215486701;
- Wed, 31 Mar 2021 11:31:26 -0700 (PDT)
+        bh=TnW+eMwf8VjqXvYN2+uEls9zSiM8xbgpZnfblzmT7Rk=;
+        b=QPNnsUQX+POu+DiXBJYrJeRhA3ogtvR3qwzzcmFYHMi63mfUkQFaSHHttcfWpXeE+f
+         njVRYxvit65gC9ktWrNr5ApZqD0BhMiegh3JLm5sE0KfsRLzYkBRk6snIQljx82gXhfk
+         kcpar7jKrs7TUeXiiC3fEG9zGJ0WekGZWtThexENJfySJk928eSioHTALJu4sdqmT4/n
+         7Cd6gAbVnbsaPPla1h4dm3QwYkSB1QYBoB3cSH3MCTnYclvGl2XW9h3bw7iUnL1rlIaR
+         jDiOuXvQS4iQKknU6/GysGgM598F85lYEsrM+C11XdbEzH7u6jyr4aA/HyhGOMARLSQA
+         PCDg==
+X-Gm-Message-State: AOAM5314C9CU9aj9K2unZvjfpEcPaTqh0URp8x/9TK4TcHYGF7QilcrR
+        0NyLp4BOxtnpBhpkUQ2zH+KZSOKYvYQJ52S1Cl7caHDTQDFcPw==
+X-Google-Smtp-Source: ABdhPJynmc9icQuVpoLeW7bS+t6PyoRcSmSu5iWuqgMneHOYZDWeCoINSsrVQLU7IH+jMvVb9CuOErd/9Z5ZX29zk5Y=
+X-Received: by 2002:ac8:6d2b:: with SMTP id r11mr3644315qtu.245.1617215757388;
+ Wed, 31 Mar 2021 11:35:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210329111648.7969-1-ada@thorsis.com> <20210329111648.7969-2-ada@thorsis.com>
- <CAHp75VdqtWS15YPvaPvy4yj5TdW7DDgFB+_bbavFqPBp1zm6eg@mail.gmail.com> <YGRw3PlLBYCPvPn1@ada-deb-carambola.ifak-system.com>
-In-Reply-To: <YGRw3PlLBYCPvPn1@ada-deb-carambola.ifak-system.com>
-From:   Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Date:   Wed, 31 Mar 2021 20:31:16 +0200
-Message-ID: <CAMpxmJV6F5Q4dt71JvY6_awswDFhLFRUsNvx_oP8Wds=PfJwNA@mail.gmail.com>
-Subject: Re: [PATCH 1/3] docs: gpio: mockup: Fix parameter name
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Alexander Dahl <ada@thorsis.com>
+References: <cover.56fff82362af6228372ea82e6bd7e586e23f0966.1615914058.git-series.a.fatoum@pengutronix.de>
+ <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
+In-Reply-To: <319e558e1bd19b80ad6447c167a2c3942bdafea2.1615914058.git-series.a.fatoum@pengutronix.de>
+From:   Richard Weinberger <richard.weinberger@gmail.com>
+Date:   Wed, 31 Mar 2021 20:35:45 +0200
+Message-ID: <CAFLxGvwT_y-xxj_81kEyE4X-ydfoPiekTiOeMR1dRP1SpaOh=g@mail.gmail.com>
+Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
+ CAAM-based trusted keys
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        James Bottomley <jejb@linux.ibm.com>,
+        Mimi Zohar <zohar@linux.ibm.com>, kernel@pengutronix.de,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        =?UTF-8?Q?Horia_Geant=C4=83?= <horia.geanta@nxp.com>,
+        Aymen Sghaier <aymen.sghaier@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Udit Agarwal <udit.agarwal@nxp.com>,
+        Jan Luebbe <j.luebbe@penutronix.de>,
+        David Gstir <david@sigma-star.at>,
+        Franck LENORMAND <franck.lenormand@nxp.com>,
+        Sumit Garg <sumit.garg@linaro.org>, keyrings@vger.kernel.org,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-doc@vger.kernel.org, linux-integrity@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        LSM <linux-security-module@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 31, 2021 at 2:53 PM Alexander Dahl <ada@thorsis.com> wrote:
->
-> Hello Andy,
->
-> Am Wed, Mar 31, 2021 at 03:27:05PM +0300 schrieb Andy Shevchenko:
-> > On Mon, Mar 29, 2021 at 2:18 PM Alexander Dahl <ada@thorsis.com> wrote:
-> > >
-> > > Module probing with the parameter documented yielded this in kernel log:
-> > >
-> > >         gpio_mockup: unknown parameter 'gpio_named_lines' ignored
-> > >
-> > > The parameter documented did not match the parameter actually
-> > > implemented with commit 8a68ea00a62e ("gpio: mockup: implement naming
-> > > the lines") long before introducing the documentation.
-> > >
-> > > Fixes: commit 2fd1abe99e5f ("Documentation: gpio: add documentation for gpio-mockup")
-> >
-> > Alexander, in the entire series you are using the wrong format for the
-> > Fixes tag.
-> > I highly recommend to add in your .gitconfig file an alias:
-> >         one = show -s --pretty='format:%h (\"%s\")'
->
-> You're right. Sorry, I messed things up. I first had that line without
-> the additional "commit", and added it because I thought checkpatch
-> complained (which it probably did not).
->
-> The actual format is documented of course:
->
-> https://www.kernel.org/doc/html/latest/process/submitting-patches.html#describe-your-changes
->
-> I actually have a slightly different setting for pretty.fixes in my
-> ~/.gitconfig for other demands. I'll go and make that project
-> dependent now.
->
-> Thanks for pointing this out.
->
-> Greets
-> Alex
->
-> >
-> > `git one <commit ID>` will give you proper value to refer to the
-> > commit in question.
-> >
-> > --
-> > With Best Regards,
-> > Andy Shevchenko
+Ahmad,
 
-FYI no need to resend, I fixed it in my tree.
+On Tue, Mar 16, 2021 at 6:24 PM Ahmad Fatoum <a.fatoum@pengutronix.de> wrote:
+> +#define KEYMOD "kernel:trusted"
 
-Bart
+why is the CAAM key modifier hard coded?
+I'd love to have way to pass my own modifier.
+
+That way existing blobs can also be used with this implementation.
+IIRC the NXP vendor tree uses "SECURE_KEY" as default modifier.
+
+-- 
+Thanks,
+//richard
