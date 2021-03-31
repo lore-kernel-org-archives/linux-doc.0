@@ -2,94 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C810C43140
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F696C41603
 	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 12:33:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17C3D61A01
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 12:28:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 14363619E2
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 12:28:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235525AbhCaM1r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 08:27:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235607AbhCaM1V (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 08:27:21 -0400
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 585E7C061574;
-        Wed, 31 Mar 2021 05:27:21 -0700 (PDT)
-Received: by mail-pj1-x1031.google.com with SMTP id kr3-20020a17090b4903b02900c096fc01deso1140695pjb.4;
-        Wed, 31 Mar 2021 05:27:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XBSMntEex66iPKIFZdF6l21leD2WIluDlLwMwMUQjy0=;
-        b=IWSqarJl3ihff0wkELtkTWUfUDLeE08oFUbjg6D1AikmaBNkO8nGCnR9jmsnXZ3hZ6
-         rmqAAaBHI7og/yurW0Iae7aI5Z2hHlKoxlKY/k9adNbh9GLN6V8fQVlNsNbByak3vePd
-         gCw8Goi0AjxAbC1akmp0lPHG0wM9tzS/Bmz1FzTTIAK5zm0J2dvkwDfgFxOQafXL8YEO
-         Kz8VWQWLtIg8sgY6KD/7NkQ6m5k9IUpAtR6/MyuC8ueky2XZFgV9FBg/kfgaEnIUmlZM
-         9J47ceQ4LYXqs/scVsT5035q2dxzLMbOR1g0/LgGTLiCuEWoutK/60bQIxX26R7mOKmX
-         7CqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XBSMntEex66iPKIFZdF6l21leD2WIluDlLwMwMUQjy0=;
-        b=NA4XyMGkaXYfAf+UgOP8QFK5mjo06zJQKUMGu0JlCPI3ln6zCwrN1unEGeuEFKcv0R
-         cf9C6x8J+dBJ3O5/MX4PZI7ITxQhO89krCTE3+XN8OV6st/uvY0ke+8pRRcsDJO+3Z23
-         ztVb71m3UZZ+agBaawf5Z6c198acWyszemtf4hPY6pP/HsxuYWAG7p9lQRcDDx2sVDVq
-         9mj3wX8WON3PPd9AjBQNlGY0eWo4cwqDBFdyt5ZIU4xgEgYIRRw16mP3BfVHXieRQrOi
-         vIFiBCterZN88kTenfahXh/735A49H5tunzU5YUPtNSkaGEyAnSGCMq/+IlOEKxZ6ivb
-         wTdA==
-X-Gm-Message-State: AOAM5331ZAPc3DkWPlSgckp6g90fSGDflrhsyjB/JGDDBpG5sE7OlIhX
-        L4h2DFABOoXa4mUMhrI2D33nVOfPiTUjJn++qOA=
-X-Google-Smtp-Source: ABdhPJx3ECcz21f3ZEbz0rXPVEq69zVLoBvtvUmmQkt6g+sDul4/HOxnkqwCd3ldqlKS33g3bpWprXbEwtoj63yDjFE=
-X-Received: by 2002:a17:90a:e454:: with SMTP id jp20mr3373321pjb.129.1617193640933;
- Wed, 31 Mar 2021 05:27:20 -0700 (PDT)
+        id S235529AbhCaM1l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 08:27:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39053 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235548AbhCaM1L (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 08:27:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617193631;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=tIbQKQiXIoTeHIEctRDJOzv7hWKMM1QPTTDvevPM1vE=;
+        b=MQsR5XLIaqNrqcCxbh59sav/PLahRofZwpF/qrowTm0ah8tJmAr6ZwAxBnGoFvZdoep4LP
+        fCEcWk1dwxibfNEe/4pGRenhJLtNtT6y9OFxXSZHY8suNKHriVtuiEBj8M0RcnWnNYxISI
+        4tUtCoSnsCRqrIoGebNIQdmrUXsoT8U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410-B8Jnwc57PViAsuTEdAVRxg-1; Wed, 31 Mar 2021 08:27:06 -0400
+X-MC-Unique: B8Jnwc57PViAsuTEdAVRxg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71F521922961;
+        Wed, 31 Mar 2021 12:27:05 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-114-218.ams2.redhat.com [10.36.114.218])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2307F51C39;
+        Wed, 31 Mar 2021 12:26:57 +0000 (UTC)
+From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To:     kvm@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
+        Alexander Graf <graf@amazon.com>,
+        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [PATCH v2 1/4] kvm: cpuid: adjust the returned nent field of kvm_cpuid2 for KVM_GET_SUPPORTED_CPUID and KVM_GET_EMULATED_CPUID
+Date:   Wed, 31 Mar 2021 14:26:46 +0200
+Message-Id: <20210331122649.38323-2-eesposit@redhat.com>
+In-Reply-To: <20210331122649.38323-1-eesposit@redhat.com>
+References: <20210331122649.38323-1-eesposit@redhat.com>
 MIME-Version: 1.0
-References: <20210329111648.7969-1-ada@thorsis.com> <20210329111648.7969-2-ada@thorsis.com>
-In-Reply-To: <20210329111648.7969-2-ada@thorsis.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 31 Mar 2021 15:27:05 +0300
-Message-ID: <CAHp75VdqtWS15YPvaPvy4yj5TdW7DDgFB+_bbavFqPBp1zm6eg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] docs: gpio: mockup: Fix parameter name
-To:     Alexander Dahl <ada@thorsis.com>
-Cc:     Linux Documentation List <linux-doc@vger.kernel.org>,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Jonathan Corbet <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Mar 29, 2021 at 2:18 PM Alexander Dahl <ada@thorsis.com> wrote:
->
-> Module probing with the parameter documented yielded this in kernel log:
->
->         gpio_mockup: unknown parameter 'gpio_named_lines' ignored
->
-> The parameter documented did not match the parameter actually
-> implemented with commit 8a68ea00a62e ("gpio: mockup: implement naming
-> the lines") long before introducing the documentation.
->
-> Fixes: commit 2fd1abe99e5f ("Documentation: gpio: add documentation for gpio-mockup")
+Calling the kvm KVM_GET_[SUPPORTED/EMULATED]_CPUID ioctl requires
+a nent field inside the kvm_cpuid2 struct to be big enough to contain
+all entries that will be set by kvm.
+Therefore if the nent field is too high, kvm will adjust it to the
+right value. If too low, -E2BIG is returned.
 
-Alexander, in the entire series you are using the wrong format for the
-Fixes tag.
-I highly recommend to add in your .gitconfig file an alias:
-        one = show -s --pretty='format:%h (\"%s\")'
+However, when filling the entries do_cpuid_func() requires an
+additional entry, so if the right nent is known in advance,
+giving the exact number of entries won't work because it has to be 
+increased by one.
 
-`git one <commit ID>` will give you proper value to refer to the
-commit in question.
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+ arch/x86/kvm/cpuid.c | 35 ++++++++++++++++++-----------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
 
+diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+index 6bd2f8b830e4..02a51f921548 100644
+--- a/arch/x86/kvm/cpuid.c
++++ b/arch/x86/kvm/cpuid.c
+@@ -567,34 +567,34 @@ static struct kvm_cpuid_entry2 *do_host_cpuid(struct kvm_cpuid_array *array,
+ 
+ static int __do_cpuid_func_emulated(struct kvm_cpuid_array *array, u32 func)
+ {
+-	struct kvm_cpuid_entry2 *entry;
+-
+-	if (array->nent >= array->maxnent)
+-		return -E2BIG;
++	struct kvm_cpuid_entry2 entry;
+ 
+-	entry = &array->entries[array->nent];
+-	entry->function = func;
+-	entry->index = 0;
+-	entry->flags = 0;
++	entry.function = func;
++	entry.index = 0;
++	entry.flags = 0;
+ 
+ 	switch (func) {
+ 	case 0:
+-		entry->eax = 7;
+-		++array->nent;
++		entry.eax = 7;
+ 		break;
+ 	case 1:
+-		entry->ecx = F(MOVBE);
+-		++array->nent;
++		entry.ecx = F(MOVBE);
+ 		break;
+ 	case 7:
+-		entry->flags |= KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
+-		entry->eax = 0;
+-		entry->ecx = F(RDPID);
+-		++array->nent;
+-	default:
++		entry.flags |= KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
++		entry.eax = 0;
++		entry.ecx = F(RDPID);
+ 		break;
++	default:
++		goto out;
+ 	}
+ 
++	if (array->nent >= array->maxnent)
++		return -E2BIG;
++
++	memcpy(&array->entries[array->nent++], &entry, sizeof(entry));
++
++out:
+ 	return 0;
+ }
+ 
+@@ -975,6 +975,7 @@ int kvm_dev_ioctl_get_cpuid(struct kvm_cpuid2 *cpuid,
+ 
+ 	if (cpuid->nent < 1)
+ 		return -E2BIG;
++
+ 	if (cpuid->nent > KVM_MAX_CPUID_ENTRIES)
+ 		cpuid->nent = KVM_MAX_CPUID_ENTRIES;
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.30.2
+
