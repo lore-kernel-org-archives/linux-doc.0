@@ -4,64 +4,77 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F424C433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 20:33:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FA21C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 20:35:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6666F60200
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 20:33:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 18DC561057
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 20:35:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236413AbhCaUcj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 16:32:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39660 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236438AbhCaUcX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 16:32:23 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04CF6C061574;
-        Wed, 31 Mar 2021 13:32:22 -0700 (PDT)
+        id S236510AbhCaUes (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 16:34:48 -0400
+Received: from ms.lwn.net ([45.79.88.28]:51648 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236545AbhCaUen (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Mar 2021 16:34:43 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A1D73867;
-        Wed, 31 Mar 2021 20:32:22 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A1D73867
+        by ms.lwn.net (Postfix) with ESMTPSA id B1C49867;
+        Wed, 31 Mar 2021 20:34:40 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B1C49867
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1617222742; bh=v0IjrHFfqIojGkegIjX604oY9b4ajeeSp2r4MVDSf5o=;
-        h=From:To:Subject:In-Reply-To:References:Date:From;
-        b=bd2NSRJpfuxiltCZ+FWzuWKuS2/usGxc+jCiI8vrDLg8TjF/cP16aGt7u5xgtK1eN
-         2ShSe1PS2dSsgKAE3q7qTsHj/ArnUEl1fWfLOSqzxcWqNt2hcLTlNlf3mLHH2W9MVP
-         XEncQGMq2Qt2zI6ePuIpD7edrEf/HpBBbc5Me7CFxjYZNWrar6JW/aCA53tpFIHtiO
-         tMw60jXVnCrJCy/8+ht6B3XBxqAQs/sLmGLAEGA1i0IMZ+w9LTVJRtEYYWXpcmN1Bl
-         Ul/CdNGCKKHk3s/QgUJ5KqdnR2j0xkv9pb/maCyVpZltzf2XFVGY1IJtihr7OQ+JGd
-         d/WyddbSU1AcQ==
+        t=1617222880; bh=1i3VmWpjW5ITzSMDuKxJHRj2tK84bgQPxEi3hvtLsGk=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=ITAPKLeiVrZ9nYMZbhP0SxTCTwTyfbmRX3YWM/mWzvmfTPGwZh6hGgpnzYmEu55Ps
+         ngWXHftlYkkP2Rk866n7+A4zEoNvtw1PH64B885uyKc0YhGwvIIMZj6Mz/bGjzg1CP
+         4BS1h0q63i7gZlRGGO1M6vaEQcT/QnbYJo/CFL2/fzfX3v9SvtYmsmctamVDNhdXZv
+         5h0zSAS8x9hGf//vgaOUW1xfRo73NVPLIcvJ903220LLRzJoHH3yG6A1zwNgU/uh8a
+         fD9Cv2lQPWKir1xG9erEFu/S+GCUBv5hR3RqLqPeVoO9WpX2aqidYlSnTjAXSAxpWc
+         bsoHs+NAwCQ3w==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Wang Qing <wangqing@vivo.com>, Wang Qing <wangqing@vivo.com>,
-        Joe Perches <joe@perches.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] doc: admin-guide: remove explanation of "watchdog/%u"
-In-Reply-To: <1615801744-31548-1-git-send-email-wangqing@vivo.com>
-References: <1615801744-31548-1-git-send-email-wangqing@vivo.com>
-Date:   Wed, 31 Mar 2021 14:32:22 -0600
-Message-ID: <87mtujjc89.fsf@meer.lwn.net>
+To:     Ismael Luceno <ismael@iodev.co.uk>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ismael Luceno <ismael@iodev.co.uk>,
+        Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH] docs: reporting-issues: Remove reference to oldnoconfig
+In-Reply-To: <20210331163541.28356-1-ismael@iodev.co.uk>
+References: <20210331163541.28356-1-ismael@iodev.co.uk>
+Date:   Wed, 31 Mar 2021 14:34:40 -0600
+Message-ID: <87im57jc4f.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Wang Qing <wangqing@vivo.com> writes:
+Ismael Luceno <ismael@iodev.co.uk> writes:
 
-> "watchdog/%u" threads has be replaced by cpu_stop_work, 
-> which will mislead the reader.
+> Replace it with olddefconfig. oldnoconfig didn't do what the document
+> suggests (it aliased to olddefconfig), and isn't available since 4.19.
 >
-> Signed-off-by: Wang Qing <wangqing@vivo.com>
+> Ref: 04c459d20448 ("kconfig: remove oldnoconfig target")
+> Ref: 312ee68752fa ("kconfig: announce removal of oldnoconfig if used")
+> Signed-off-by: Ismael Luceno <ismael@iodev.co.uk>
 > ---
->  .../admin-guide/kernel-per-CPU-kthreads.rst          | 20 --------------------
->  1 file changed, 20 deletions(-)
+>  Documentation/admin-guide/reporting-issues.rst | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
+> index 07879d01fe68..ffa0d4c6e450 100644
+> --- a/Documentation/admin-guide/reporting-issues.rst
+> +++ b/Documentation/admin-guide/reporting-issues.rst
+> @@ -1000,8 +1000,7 @@ In the whole process keep in mind: an issue only qualifies as regression if the
+>  older and the newer kernel got built with a similar configuration. The best way
+>  to archive this: copy the configuration file (``.config``) from the old working
+>  kernel freshly to each newer kernel version you try. Afterwards run ``make
+> -oldnoconfig`` to adjust it for the needs of the new version without enabling
+> -any new feature, as those are allowed to cause regressions.
+> +olddefconfig`` to adjust it for the needs of the new version.
+
+[CC += Thorsten]
 
 Applied, thanks.
 
