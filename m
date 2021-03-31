@@ -2,76 +2,155 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	FROM_EXCESS_BASE64,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 57E52C433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 21:34:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31899C43461
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 23:30:26 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0472961075
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 21:34:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DC09861078
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 23:30:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229624AbhCaVeD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 17:34:03 -0400
-Received: from fallback16.mail.ru ([94.100.177.128]:60800 "EHLO
-        fallback16.mail.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231488AbhCaVdq (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 17:33:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail3;
-        h=References:In-Reply-To:Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:Cc:To:From; bh=xvljl3Jk2U7pvHM/gpWO8hgtSqcvNOOYcg5NVgFux1w=;
-        b=t1gW0+PVz8hgB74UMlnvc2Z8BbwITj4Bokjn4f3WlYOj3Twb68lo+jaAHN7f1K1t9SBjMTsJnr7ggrfxzg9OCE2c1xlP8gqDixCa680E++pZhJOCcNkklpC+W8xyLWFzyVcrHrpMz+MTkLmeD4UIzs1fJmvlgzOpXcChJvyC3gU=;
-Received: from [10.161.163.42] (port=37040 helo=f480.i.mail.ru)
-        by fallback16.i with esmtp (envelope-from <safinaskar@mail.ru>)
-        id 1lRiTA-0006ol-Pf
-        for linux-doc@vger.kernel.org; Thu, 01 Apr 2021 00:33:44 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mail.ru; s=mail3;
-        h=References:In-Reply-To:Content-Transfer-Encoding:Content-Type:Message-ID:Reply-To:Date:MIME-Version:Subject:Cc:To:From:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=xvljl3Jk2U7pvHM/gpWO8hgtSqcvNOOYcg5NVgFux1w=;
-        b=tqFNfXdv/9hOYKnsE4s8BYmEaeQcJs52HK3OyNTVhs4jjtRA5/aLpULTEceRMZPOjQh22mLMVaXff4OCOBHZCorhbTUviTPsbQsdz8yrf1Jqe4zaHhGE5bHGsnMa1ASb+2cMil6QTN5bWb79rFE0kR8uutWa0cbTex7F0h/EZVA=;
-Received: by f480.i.mail.ru with local (envelope-from <safinaskar@mail.ru>)
-        id 1lRiT6-0007nI-RF; Thu, 01 Apr 2021 00:33:41 +0300
-Received: by light.mail.ru with HTTP;
-        Thu, 01 Apr 2021 00:33:40 +0300
-From:   =?UTF-8?B?QXNrYXIgU2FmaW4=?= <safinaskar@mail.ru>
-To:     =?UTF-8?B?Sm9uYXRoYW4gQ29yYmV0?= <corbet@lwn.net>
-Cc:     =?UTF-8?B?bGludXgtZG9j?= <linux-doc@vger.kernel.org>
-Subject: =?UTF-8?B?UmVbMl06IGRvY3VtZW50YXRpb24vZmlsZXN5c3RlbXMvcGF0aC1sb29rdXA6?=
- =?UTF-8?B?IHJlcGxhY2UgIlRoZXNlIHBhdGhzIiB3aXRoICJVc3VhbGx5IHBhdGhzIg==?=
+        id S232825AbhCaX3x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 19:29:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60914 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231620AbhCaX3Y (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Mar 2021 19:29:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B823561057;
+        Wed, 31 Mar 2021 23:29:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617233364;
+        bh=JebS+wdY/3yB7SUptLSmC/sUwEFAeCuSulf8NIrcDyQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SqAPqz6e3245+08kGeFKcOh4uuGzFMATtNMfF4K+fHHKK7c7Kr+hRXR7G5pE/6bur
+         2AAhu97AchtYopAQpd7v7t2dSKJTgqspLKJRtje04wwY93yNMFxsjnLLuH5Xcqpsgt
+         nyRnchFKt0uVCzAAvKVXFwXjrBOpmBf/FDijVMKj9WrZ/0YQN9ZCkdgdJWHYQrVK4H
+         MOASZSPhGjhT7gUrSqEj93YYqJfnZyk7dLb96c51Z0+LSQEdo+Z0tKmT1sgeUNuwQS
+         wJz/irzAboWWXhLW4rxkSOn3T6RvUYPi5Ube+yGfNcneWYDq80ONpPMu8sds8946YL
+         5ceiA4W9mVfcQ==
+Date:   Thu, 1 Apr 2021 02:29:22 +0300
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Ahmad Fatoum <a.fatoum@pengutronix.de>
+Cc:     David Gstir <david@sigma-star.at>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Aymen Sghaier <aymen.sghaier@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Udit Agarwal <udit.agarwal@nxp.com>,
+        Jan Luebbe <j.luebbe@pengutronix.de>,
+        Franck Lenormand <franck.lenormand@nxp.com>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>
+Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
+ CAAM-based trusted keys
+Message-ID: <YGUF0sArOSy2gdpS@kernel.org>
+References: <01e6e13d-2968-0aa5-c4c8-7458b7bde462@nxp.com>
+ <45a9e159-2dcb-85bf-02bd-2993d50b5748@pengutronix.de>
+ <f9c0087d299be1b9b91b242f41ac6ef7b9ee3ef7.camel@linux.ibm.com>
+ <63dd7d4b-4729-9e03-cd8f-956b94eab0d9@pengutronix.de>
+ <CAFA6WYOw_mQwOUN=onhzb7zCTyYDBrcx0E7C3LRk6nPLAVCWEQ@mail.gmail.com>
+ <557b92d2-f3b8-d136-7431-419429f0e059@pengutronix.de>
+ <CAFA6WYNE44=Y7Erfc-xNtOrf7TkJjh+odmYH5vzhEHR6KqBfeQ@mail.gmail.com>
+ <6F812C20-7585-4718-997E-0306C4118468@sigma-star.at>
+ <YGDpA4yPWmTWEyx+@kernel.org>
+ <1171de9c-97b9-3936-707b-16ec34cf94d5@pengutronix.de>
 MIME-Version: 1.0
-X-Mailer: Mail.Ru Mailer 1.0
-Date:   Thu, 01 Apr 2021 00:33:40 +0300
-Reply-To: =?UTF-8?B?QXNrYXIgU2FmaW4=?= <safinaskar@mail.ru>
-X-Priority: 3 (Normal)
-Message-ID: <1617226420.857151766@f480.i.mail.ru>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
-In-Reply-To: <87v997jcsk.fsf@meer.lwn.net>
-References: <1616546322.499771404@f511.i.mail.ru>
- <87v997jcsk.fsf@meer.lwn.net>
-X-7564579A: B8F34718100C35BD
-X-77F55803: 119C1F4DF6A9251C54E3E0C6C5F9D9413389E36CD4AD6D26B23214BF37ADDD15ABF6EAE57C0FACE9644A9A743E0CADD0700D349EC4FD75C3D17234C17141B0B3B4A12753EE067DD2
-X-7FA49CB5: 70AAF3C13DB7016878DA827A17800CE719630BE8CA1034E8D82A6BABE6F325AC08BE7437D75B48FABCF491FFA38154B613377AFFFEAFD269176DF2183F8FC7C05644E22E05AA81AEB287FD4696A6DC2FA8DF7F3B2552694A4E2F5AFA99E116B42401471946AA11AF1661749BA6B977350240200614025CBB8F08D7030A58E5ADC58D69EE07B14084C6CDE5D1141D2B1C6ED0126A3A5AB16D0C76218560CD495DAC1BAF51C07162889FA2833FD35BB23D9E625A9149C048EE33AC447995A7AD18C26CFBAC0749D213D2E47CDBA5A96583BD4B6F7A4D31EC0BC014FD901B82EE079FA2833FD35BB23D27C277FBC8AE2E8B974A882099E279BDA471835C12D1D977C4224003CC8364762BB6847A3DEAEFB0F43C7A68FF6260569E8FC8737B5C2249B372FE9A2E580EFC725E5C173C3A84C31BC22E60DA9664CB089D37D7C0E48F6C5571747095F342E88FB05168BE4CE3AF
-X-B7AD71C0: AC4F5C86D027EB782CDD5689AFBDA7A24A6D60772A99906F8E1CD14B953EB46D7346F5175D3E0671355D89D7DBCDD132
-X-C1DE0DAB: 0D63561A33F958A5C32405C5EB31CF588D6132D351E0D3D565A82890C40AEC32BDC6A1CF3F042BAD6DF99611D93F60EF4280523C145DA091699F904B3F4130E343918A1A30D5E7FCCB5012B2E24CD356
-X-C8649E89: 4E36BF7865823D7055A7F0CF078B5EC49A30900B95165D34C2BE7381A0AD3DF1597F4154D26B915B637CBEC495714C6095D29FB2846895B43ACEAF98D2BD97231D7E09C32AA3244C66917BB8B5A98D2DE2A4A12391AC457935DA7DC5AF9B58C0729B2BEF169E0186
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5+wYjsrrSY/u8Y3PrTqANeitKFiSd6Yd7yPpbiiZ/d5BsxIjK0jGQgCHUM3Ry2Lt2G3MDkMauH3h0dBdQGj+BB/iPzQYh7XS329fgu+/vnDhl0YfZUulEOD6+VarhlxFGg==
-X-Mailru-Sender: 583F1D7ACE8F49BDD1A7C3169173243B809A8543EE23014891BF53AD01BD8BBA98CCD8D5CB1CCC212638FEAFD496B24D3919A3F0584408A7E277D648EEF17123F32B7A1AD1AAC36A3BEC1D9798BA4B85D186BC2F9B8D6AD3EAB4BC95F72C04283CDA0F3B3F5B9367
-X-Mras: Ok
-X-Spam: undefined
-X-7564579A: 78E4E2B564C1792B
-X-77F55803: 6242723A09DB00B4DF7173A40FF1347DA6106AACE9855D497B195A79B23E2D14049FFFDB7839CE9E06A57B16D08E84888E0DE9265CDB13FEB87F4770C5391EB3E3605DA0E1799F35
-X-C1DE0DAB: 0D63561A33F958A51A59823B2E5800F23192F4D2AC438AA83A8723C60A9E2BFED59269BC5F550898D99A6476B3ADF6B4886A5961035A09600383DAD389E261318FB05168BE4CE3AF
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5xhPKz0ZEsZ5k6NOOPWz5QAiZSCXKGQRq3/7KxbCLSB2ESzQkaOXqCBFZPLWFrEGlV1shfWe2EVcxl5toh0c/aCGOghz/frdRhzMe95NxDFdM/HWZ2FZeTebxBM20IwEYg==
-X-Mailru-MI: 800
-X-Mras: Ok
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1171de9c-97b9-3936-707b-16ec34cf94d5@pengutronix.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-PiAiVXN1YWxseSIgZG9lc24ndCBzZWVtIHJpZ2h0IGhlcmUgLSBpdCBpbXBsaWVzIHRoYXQgdGhl
-cmUgYXJlIHRpbWVzIHdoZW4KPiB0aGF0IGNhbm5vdCBiZSBkb25lLiAgQSBiZXR0ZXIgZml4IHNl
-ZW1zIGxpa2UganVzdCB0YWtpbmcgIlRoZXNlIiBvdXQuLj8KV2UgY2Fubm90IGRpdmlkZSAiLyIg
-aW50byBmaW5hbCBjb21wb25lbnQgYW5kIGV2ZXJ5dGhpbmcgZWxzZS4KCj09CkFza2FyIFNhZmlu
-Cmh0dHBzOi8vZ2l0aHViLmNvbS9zYWZpbmFza2FyCg==
+On Mon, Mar 29, 2021 at 12:11:24PM +0200, Ahmad Fatoum wrote:
+> Hello Jarkko,
+> 
+> On 28.03.21 22:37, Jarkko Sakkinen wrote:
+> > On Sat, Mar 27, 2021 at 01:41:24PM +0100, David Gstir wrote:
+> >> Generally speaking, I’d say trusting the CAAM RNG and trusting in it’s
+> >> other features are two separate things. However, reading through the CAAM
+> >> key blob spec I’ve got here, CAAM key blob keys (the keys that secure a blob’s
+> >> content) are generated using its internal RNG. So I’d save if the CAAM RNG
+> >> is insecure, so are generated key blobs. Maybe somebody with more insight
+> >> into the CAAM internals can verify that, but I don’t see any point in using
+> >> the kernel’s RNG as long as we let CAAM generate the key blob keys for us.
+> > 
+> > Here's my long'ish analysis. Please read it to the end if by ever means
+> > possible, and apologies, I usually try to keep usually my comms short, but
+> > this requires some more meat than the usual.
+> 
+> Thanks for the write-up!
+> 
+> > The Bad News
+> > ============
+> > 
+> > Now that we add multiple hardware trust sources for trusted keys, will
+> > there ever be a scenario where a trusted key is originally sealed with a
+> > backing hardware A, unsealed, and resealed with hardware B?
+> > 
+> > The hardware and vendor neutral way to generate the key material would be
+> > unconditionally always just the kernel RNG.
+> > 
+> > CAAM is actually worse than TCG because it's not even a standards body, if
+> > I got it right. Not a lot but at least a tiny fraction.
+> 
+> CAAM is how NXP calls the crypto accelerator built into some of its SoCs.
+> 
+> > This brings an open item in TEE patches: trusted_tee_get_random() is an
+> > issue in generating kernel material. I would rather replace that with
+> > kernel RNG *for now*, because the same open question applies also to ARM
+> > TEE. It's also a single company controlled backing technology.
+> > 
+> > By all practical means, I do trust ARM TEE in my personal life but this is
+> > not important.
+> > 
+> > CAAM *and* TEE backends break the golden rule of putting as little trust as
+> > possible to anything, even not anything weird is clear at sight, as
+> > security is essentially a game of known unknowns and unknown unknowns.
+> 
+> Agreed.
+> 
+> > The GOOD News
+> > =============
+> > 
+> > So there's actually option (C) that also fixes the TPM trustd keys issue:
+> > 
+> > Add a new kernel patch, which:
+> > 
+> > 1. Adds the use of kernel RNG as a boot option.
+> > 2. If this boot option is not active, the subsystem will print a warning
+> >    to klog denoting this.
+> > 3. Default is of course vendor RNG given the bad design issue in the TPM
+> >    trusted keys, but the warning in klog will help to address it at least
+> >    a bit.
+> 
+> Why should the TPM backend's choice influence later backends? We could add
+> a new option for key creation time, e.g.:
+> 
+>    keyctl add trusted kmk "new keylen rng=kernel" @s
+> 
+> The default would be rng=vendor if available with a fallback to rng=kernel,
+> which should always be available.
+
+It matters a lot because it is existing ABI - for better or worse.
+
+I think a new option is a bad idea, because it cannot easily enforced.
+Kernel command-line on the other hand can be even signed.
+
+/Jarkko
