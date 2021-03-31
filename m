@@ -2,211 +2,217 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 600B2C433DB
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 07:56:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4775C433E2
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 07:57:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CB226199A
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 07:56:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A7BF1619DA
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 07:57:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234123AbhCaHz2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 03:55:28 -0400
-Received: from mo4-p02-ob.smtp.rzone.de ([85.215.255.81]:11687 "EHLO
-        mo4-p02-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234115AbhCaHzX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 03:55:23 -0400
-X-Greylist: delayed 340 seconds by postgrey-1.27 at vger.kernel.org; Wed, 31 Mar 2021 03:55:23 EDT
-ARC-Seal: i=1; a=rsa-sha256; t=1617176960; cv=none;
-    d=strato.com; s=strato-dkim-0002;
-    b=gYKNjO/ORcmHwWCxfy1iSH5rzOZowIEg1vND5o3nteP/0xcY2bbtNjLQRHBS49H0Ql
-    PX3Z9ygxqPzR0IDguvXgfI0caC4DOjmI5aGUJw4H7XYWcaV1s89bxuAcUQMVzKoAIxJw
-    fKIqomqnSCoW2pCEbqysu3xs3ruXkZeP0ZQL9HBRH3vKeKkTAvc0nkiVDH4qpYtWhwdW
-    t4ya+UnpXdniTlMXi4x4piEVcI8O4/UYlcWrovR7nVLYU4qH1ZvE3vQBKBZvOMGnG0PL
-    GxctCijiOZH3M3LBqa2wS7SmXsv6Ep9lCAMlVIfezjVKDONBGgc/KzI7lHOxssI+Lmp/
-    BulA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1617176960;
-    s=strato-dkim-0002; d=strato.com;
-    h=References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=EhDiI8LlssXTOZMDfWRXYfD7vpJtf/F0owt41R4vWGA=;
-    b=WL28eenaB7tON1lo3+h7zGVTuf03iwvCO1qNc9GH2E4P7fCcTodE4w/eFeRc1GI35s
-    WftnNdGJCDUwnXDflmCcRMgrfScxZrCZtlsELes9VDwh78FGlzHEdCPVNlfxKdBYvvgm
-    2LsLDcWOk7JY2kdr9A7L9yQoBDYVM50+67lIwgTtu9OA+xlh6luY1FP30y7zxqeqhUY7
-    mqoWwjiAYBT+fBeHx6dE0hYHrwD0LBz3vuo46W7qhdzxWiVLKXb8lPkCxAyPGm1j+/DB
-    DF8jL1kaoYfJX9shx3rI08lo5QTKW7PaB+uFOZ1a/9+WZlP/TtUc1wYFHsUsQKxEM4wK
-    3sfA==
-ARC-Authentication-Results: i=1; strato.com;
-    dkim=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1617176960;
-    s=strato-dkim-0002; d=chronox.de;
-    h=References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Cc:Date:
-    From:Subject:Sender;
-    bh=EhDiI8LlssXTOZMDfWRXYfD7vpJtf/F0owt41R4vWGA=;
-    b=QS0j83F7Gxm74YOhrLNmvf8sfQhMUMT8lQiGkiTt2rqbnKzfD0wcarBEQjOdisoE/I
-    QEqmUcqoJrmDbVJO0r6Wk4BByIRXwYVpUmuA7yzPr3yz5ADsnJOohJ/4pbExxMhUIHCG
-    swaXWG4WdPPzBgL27sjM8YwhInG4kWBlp6IPKlYlO91DP1Yyx2ygtT7se6pMz5883LMu
-    EP98ebCC6L3JPZ+E6JkVpGQmQDxpykE4C4rE5/LQYs1KGXmsNjs7DPmct+1zC+a8dQx0
-    iJVJT2PDDp9jWi7lw4wdgtwW6l+ZWgt8PAp5q7OyyCW1WkHJqkbY9pOg/dhQQ4dS5Bnc
-    Z6hw==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":P2ERcEykfu11Y98lp/T7+hdri+uKZK8TKWEqNzyCzy1Sfr67uExK884EC0GFGHavJShEkMReN0E="
-X-RZG-CLASS-ID: mo00
-Received: from tauon.chronox.de
-    by smtp.strato.de (RZmta 47.23.1 DYNA|AUTH)
-    with ESMTPSA id e03072x2V7nJLPL
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
-        (Client did not present a certificate);
-    Wed, 31 Mar 2021 09:49:19 +0200 (CEST)
-Message-ID: <62aed524d217359363ab1c589bbfe62745b83eda.camel@chronox.de>
-Subject: Re: [PATCH v2] Documentation: crypto: add info about "fips=" boot
- option
-From:   Stephan Mueller <smueller@chronox.de>
-To:     Eric Biggers <ebiggers@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     linux-kernel@vger.kernel.org, Dexuan Cui <decui@microsoft.com>,
-        linux-crypto@vger.kernel.org,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Date:   Wed, 31 Mar 2021 09:49:18 +0200
-In-Reply-To: <YGOpssfbqaGSlCl1@gmail.com>
-References: <20210330050651.13344-1-rdunlap@infradead.org>
-         <YGK3OlT3+6WdXbux@sol.localdomain>
-         <f86bb75f-e593-5b2f-943a-db2129256eab@infradead.org>
-         <YGOpssfbqaGSlCl1@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
+        id S234221AbhCaH5G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 03:57:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50884 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234042AbhCaH4v (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 03:56:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617177410;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=qTxlbCttfevuY4Yr7YqkiF6Z72PQYaAdmOgBQY9mW7c=;
+        b=PFpsKqUCpqHTMzg/RLSVlfOc3BLfSyt2Y3efJNXFxSINcLECB0PMAdJMaMtPMdpeDtlDxc
+        aGdb+P/qafq/d8nEwoKDsTAIWO+LKnstKaE6j6pxZHKLDje5kyjQwsPEsmE/EJV33Ttca+
+        Ux+c3XUkrZZj2GB6RI0EqgqlySa7pY0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-_iml-69eOT6dmneCQNU5Uw-1; Wed, 31 Mar 2021 03:56:48 -0400
+X-MC-Unique: _iml-69eOT6dmneCQNU5Uw-1
+Received: by mail-ej1-f71.google.com with SMTP id rl7so423400ejb.16
+        for <linux-doc@vger.kernel.org>; Wed, 31 Mar 2021 00:56:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=qTxlbCttfevuY4Yr7YqkiF6Z72PQYaAdmOgBQY9mW7c=;
+        b=sBIIP2MvHN7ip/GrlRBpIih7u0OMBSejRsuyhqRPJCiM9wVAl1n0b7sxbg0TmoHLCm
+         VuD+MQNP8l0snqEHiAux+NPrxlklYsl01u60u7DqKe3N9Vq96IfSnQwIujYAWu9F/ECE
+         LS8GHX+fYQDeGNMwxlZ1w1dDizCN/stmvjE0m7q2veFBKQRMSkS3LlLHjEjXnc4YR0LL
+         HiwHzlJLfhVaWLMWDUtI4aGeqebeyqYDDIPH8BSU32lT3utvCf4h+9ZTxYOpy4mcZXgq
+         qNOziwprSAI51L/tLEbsCKEYbDyhpyL8TnUtQcEmGRNEUDbV8B0EzNXv0Pp+Tu2q7ujn
+         hptQ==
+X-Gm-Message-State: AOAM532/kWgXhkC30BmUe9LcZGIET9a4K6T0es3GH+SOgekrogGDMXIR
+        WBdsIZFoFnKKkhHF07K2lM48g3zmRNuIxamTdmBR/xFXpQ4RqGruyD1pKa6pqmsBxx71sMIcEOt
+        RrMcFIXma3gJ+Q8OGZtsD
+X-Received: by 2002:a17:906:5acd:: with SMTP id x13mr2131022ejs.211.1617177407678;
+        Wed, 31 Mar 2021 00:56:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyFxYg86aXW6gt6mF+7enQi7KHzpNTvnxSHMsXQA0W96uafrJeZq+ZXQBRq2t4vfe7cU2hWCg==
+X-Received: by 2002:a17:906:5acd:: with SMTP id x13mr2131005ejs.211.1617177407440;
+        Wed, 31 Mar 2021 00:56:47 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+        by smtp.gmail.com with ESMTPSA id lk12sm665521ejb.14.2021.03.31.00.56.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 31 Mar 2021 00:56:46 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jim Mattson <jmattson@google.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
+        Alexander Graf <graf@amazon.com>,
+        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        Sean Christopherson <seanjc@google.com>
+Subject: Re: [PATCH 1/4] kvm: cpuid: adjust the returned nent field of
+ kvm_cpuid2 for KVM_GET_SUPPORTED_CPUID and KVM_GET_EMULATED_CPUID
+In-Reply-To: <1be7c716-8160-926e-6d76-fb15b4adc066@redhat.com>
+References: <20210330185841.44792-1-eesposit@redhat.com>
+ <20210330185841.44792-2-eesposit@redhat.com> <YGPmDbO++agqdqQL@google.com>
+ <1be7c716-8160-926e-6d76-fb15b4adc066@redhat.com>
+Date:   Wed, 31 Mar 2021 09:56:45 +0200
+Message-ID: <877dlnu56q.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Am Dienstag, dem 30.03.2021 um 15:44 -0700 schrieb Eric Biggers:
-> On Tue, Mar 30, 2021 at 09:38:55AM -0700, Randy Dunlap wrote:
-> > On 3/29/21 10:29 PM, Eric Biggers wrote:
-> > > On Mon, Mar 29, 2021 at 10:06:51PM -0700, Randy Dunlap wrote:
-> > > > Having just seen a report of using "fips=1" on the kernel command
-> > > > line,
-> > > > I could not find it documented anywhere, so add some help for it.
-> > > > 
-> > > > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> > > > Cc: Dexuan Cui <decui@microsoft.com>
-> > > > Cc: linux-crypto@vger.kernel.org
-> > > > Cc: Eric Biggers <ebiggers@kernel.org>
-> > > > Cc: Herbert Xu <herbert@gondor.apana.org.au>
-> > > > Cc: "David S. Miller" <davem@davemloft.net>
-> > > > Cc: Jonathan Corbet <corbet@lwn.net>
-> > > > Cc: linux-doc@vger.kernel.org
-> > > > ---
-> > > > Updates/corrections welcome.
-> > > > 
-> > > > v2: drop comment that "fips_enabled can cause some tests to be
-> > > > skipped".
-> > > > 
-> > > >  Documentation/admin-guide/kernel-parameters.txt |   14 ++++++++++++++
-> > > >  1 file changed, 14 insertions(+)
-> > > > 
-> > > > --- linux-next-20210329.orig/Documentation/admin-guide/kernel-
-> > > > parameters.txt
-> > > > +++ linux-next-20210329/Documentation/admin-guide/kernel-
-> > > > parameters.txt
-> > > > @@ -1370,6 +1370,20 @@
-> > > >                         See Documentation/admin-guide/sysctl/net.rst
-> > > > for
-> > > >                         fb_tunnels_only_for_init_ns
-> > > >  
-> > > > +       fips=           Format: { 0 | 1}
-> > > > +                       Use to disable (0) or enable (1) FIPS mode.
-> > > > +                       If enabled, any process that is waiting on the
-> > > > +                       'fips_fail_notif_chain' will be notified of
-> > > > fips
-> > > > +                       failures.
-> > > > +                       This setting can also be modified via sysctl
-> > > > at
-> > > > +                       /proc/sysctl/crypto/fips_enabled, i.e.,
-> > > > +                       crypto.fips_enabled.
-> > > > +                       If fips_enabled = 1 and a test fails, it will
-> > > > cause a
-> > > > +                       kernel panic.
-> > > > +                       If fips_enabled = 1, RSA test requires a key
-> > > > size of
-> > > > +                       2K or larger.
-> > > > +                       It can also effect which ECC curve is used.
-> > > 
-> > > This doesn't really explain why anyone would want to give this option.
-> > > What high-level thing is this option meant to be accomplishing?
-> > > That's what the documentation should explain.
-> > 
-> > Yes, clearly, even to me.
-> > 
-> > But I could not find anything in the kernel source tree that would help me
-> > explain that.  So to repeat:
-> > 
-> > > > Updates/corrections welcome.
-> > 
-> > thanks.
-> > -- 
-> 
-> I'm by no means an expert on this, but the main thing I have in mind is that
-> (IIUC) the "fips" option is only useful if your whole kernel binary is
-> certified
-> as a "FIPS cryptographic module", *and* you actually need the FIPS
-> compliance.
-> And the upstream kernel doesn't have a FIPS certification out of the box;
-> that's
-> a task for specific Linux distributors like Red Hat, SUSE, Ubuntu, who get
-> specific kernel binaries certified.
-> 
-> So, compiling a kernel and using the "fips" option is useless by itself, as
-> your
-> kernel image won't actually have a FIPS certification in that case anyway.
-> 
-> So, I would expect an explanation like that about under what circumstances
-> the
-> "fips" option is actually useful and intended for.
-> 
-> The people who actually use this option should be able to explain it
-> properly
-> though; the above is just my understanding...
+Emanuele Giuseppe Esposito <eesposit@redhat.com> writes:
+
+> On 31/03/2021 05:01, Sean Christopherson wrote:
+>> On Tue, Mar 30, 2021, Emanuele Giuseppe Esposito wrote:
+>>> Calling the kvm KVM_GET_[SUPPORTED/EMULATED]_CPUID ioctl requires
+>>> a nent field inside the kvm_cpuid2 struct to be big enough to contain
+>>> all entries that will be set by kvm.
+>>> Therefore if the nent field is too high, kvm will adjust it to the
+>>> right value. If too low, -E2BIG is returned.
+>>>
+>>> However, when filling the entries do_cpuid_func() requires an
+>>> additional entry, so if the right nent is known in advance,
+>>> giving the exact number of entries won't work because it has to be increased
+>>> by one.
+>>>
+>>> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+>>> ---
+>>>   arch/x86/kvm/cpuid.c | 6 ++++++
+>>>   1 file changed, 6 insertions(+)
+>>>
+>>> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+>>> index 6bd2f8b830e4..5412b48b9103 100644
+>>> --- a/arch/x86/kvm/cpuid.c
+>>> +++ b/arch/x86/kvm/cpuid.c
+>>> @@ -975,6 +975,12 @@ int kvm_dev_ioctl_get_cpuid(struct kvm_cpuid2 *cpuid,
+>>>   
+>>>   	if (cpuid->nent < 1)
+>>>   		return -E2BIG;
+>>> +
+>>> +	/* if there are X entries, we need to allocate at least X+1
+>>> +	 * entries but return the actual number of entries
+>>> +	 */
+>>> +	cpuid->nent++;
+>> 
+>> I don't see how this can be correct.
+>> 
+>> If this bonus entry really is needed, then won't that be reflected in array.nent?
+>> I.e won't KVM overrun the userspace buffer?
+>> 
+>> If it's not reflected in array.nent, that would imply there's an off-by-one check
+>> somewhere, or KVM is creating an entry that it doesn't copy to userspace.  The
+>> former seems unlikely as there are literally only two checks against maxnent,
+>> and they both look correct (famous last words...).
+>> 
+>> KVM does decrement array->nent in one specific case (CPUID.0xD.2..64), i.e. a
+>> false positive is theoretically possible, but that carries a WARN and requires a
+>> kernel or CPU bug as well.  And fudging nent for that case would still break
+>> normal use cases due to the overrun problem.
+>> 
+>> What am I missing?
+>
+> (Maybe I should have put this series as RFC)
+>
+> The problem I see and noticed while doing the KVM_GET_EMULATED_CPUID 
+> selftest is the following: assume there are 3 kvm emulated entries, and 
+> the user sets cpuid->nent = 3. This should work because kvm sets 3 
+> array->entries[], and copies them to user space.
+>
+> However, when the 3rd entry is populated inside kvm (array->entries[2]), 
+> array->nent is increased once more (do_host_cpuid and 
+> __do_cpuid_func_emulated). At that point, the loop in 
+> kvm_dev_ioctl_get_cpuid and get_cpuid_func can potentially iterate once 
+> more, going into the
+>
+> if (array->nent >= array->maxnent)
+> 	return -E2BIG;
+>
+> in __do_cpuid_func_emulated and do_host_cpuid, returning the error. I 
+> agree that we need that check there because the following code tries to 
+> access the array entry at array->nent index, but from what I understand 
+> that access can be potentially useless because it might just jump to the 
+> default entry in the switch statement and not set the entry, leaving 
+> array->nent to 3.
+
+The problem seems to be exclusive to __do_cpuid_func_emulated(),
+do_host_cpuid() always does
+
+entry = &array->entries[array->nent++];
+
+Something like (completely untested and stupid):
+
+diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+index 6bd2f8b830e4..54dcabd3abec 100644
+--- a/arch/x86/kvm/cpuid.c
++++ b/arch/x86/kvm/cpuid.c
+@@ -565,14 +565,22 @@ static struct kvm_cpuid_entry2 *do_host_cpuid(struct kvm_cpuid_array *array,
+        return entry;
+ }
+ 
++static bool cpuid_func_emulated(u32 func)
++{
++       return (func == 0) || (func == 1) || (func == 7);
++}
++
+ static int __do_cpuid_func_emulated(struct kvm_cpuid_array *array, u32 func)
+ {
+        struct kvm_cpuid_entry2 *entry;
+ 
++       if (!cpuid_func_emulated())
++               return 0;
++
+        if (array->nent >= array->maxnent)
+                return -E2BIG;
+ 
+-       entry = &array->entries[array->nent];
++       entry = &array->entries[array->nent++];
+        entry->function = func;
+        entry->index = 0;
+        entry->flags = 0;
+@@ -580,18 +588,14 @@ static int __do_cpuid_func_emulated(struct kvm_cpuid_array *array, u32 func)
+        switch (func) {
+        case 0:
+                entry->eax = 7;
+-               ++array->nent;
+                break;
+        case 1:
+                entry->ecx = F(MOVBE);
+-               ++array->nent;
+                break;
+        case 7:
+                entry->flags |= KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
+                entry->eax = 0;
+                entry->ecx = F(RDPID);
+-               ++array->nent;
+-       default:
+                break;
+        }
+
+should do the job, right?
 
 
-The fips=1 flag serves the following purposes:
-
-In-kernel:
-
-- it restricts crypto algos to those which are marked as .fips_allowed in the
-testmgr.c
-
-- it causes the panic() if the signature verification of a KO providing a
-crypto algo implementation fails
-
-- it causes a specific behavior in driver/char/random.c (which was correct
-till 4.8 but then got modified - patches to correct it in current kernels were
-ignored)
-
-- elevates the priority of crypto/drbg.c to ensure that when using stdrng the
-DRBG is invoked
-
-- ensures that the Jitter RNG is allocated as one seed source for
-crypto/drbg.c
-
-In user space:
-
-- Various crypto libraries (OpenSSL, GnuTLS, libgcrypt, NSS) use the flag as
-the trigger point to enable their FIPS-compliance with the goal to have one
-central "knob" that enables the FIPS mode system-wide
-
-- The boot system (e.g. dracut) starts its FIPS work (see dracut-fips).
-
-Ciao
-Stephan
-> 
-> - Eric
-
+-- 
+Vitaly
 
