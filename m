@@ -2,100 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88DE1C4363E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C810C43140
 	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 12:33:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 94704619BD
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 12:27:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 17C3D61A01
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 12:28:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235450AbhCaM1K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 08:27:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56995 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235545AbhCaM1C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 08:27:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617193621;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=w05Yiprz2DAkrl/VfB1KsTtz5xzVGlEVY+yQ28kxkrM=;
-        b=SIY+dSUAvGt0j89PWIWggTmaD1IvkQel7beacsv5iwhu6Uf+Qjp2+qxsm1HzTFNBXydSyu
-        2EXBKgJCzOzJMGjML7+sCIuxUE0mJLNj2Lqawourzkez/MDrMqj8F9uj34yNLkDzmTQZPA
-        MGrd/c0gNtdfCoe3Qa2lulGTyhI1Uxc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-jZzSQNsxMoaIKLo1-3Tg7A-1; Wed, 31 Mar 2021 08:26:59 -0400
-X-MC-Unique: jZzSQNsxMoaIKLo1-3Tg7A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B5191018F7D;
-        Wed, 31 Mar 2021 12:26:57 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-114-218.ams2.redhat.com [10.36.114.218])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 3C04FB23E1;
-        Wed, 31 Mar 2021 12:26:52 +0000 (UTC)
-From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To:     kvm@vger.kernel.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
-        Alexander Graf <graf@amazon.com>,
-        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: [PATCH 0/4] kvm: cpuid: fix cpuid nent field
-Date:   Wed, 31 Mar 2021 14:26:45 +0200
-Message-Id: <20210331122649.38323-1-eesposit@redhat.com>
+        id S235525AbhCaM1r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 08:27:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47586 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235607AbhCaM1V (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 08:27:21 -0400
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com [IPv6:2607:f8b0:4864:20::1031])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 585E7C061574;
+        Wed, 31 Mar 2021 05:27:21 -0700 (PDT)
+Received: by mail-pj1-x1031.google.com with SMTP id kr3-20020a17090b4903b02900c096fc01deso1140695pjb.4;
+        Wed, 31 Mar 2021 05:27:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XBSMntEex66iPKIFZdF6l21leD2WIluDlLwMwMUQjy0=;
+        b=IWSqarJl3ihff0wkELtkTWUfUDLeE08oFUbjg6D1AikmaBNkO8nGCnR9jmsnXZ3hZ6
+         rmqAAaBHI7og/yurW0Iae7aI5Z2hHlKoxlKY/k9adNbh9GLN6V8fQVlNsNbByak3vePd
+         gCw8Goi0AjxAbC1akmp0lPHG0wM9tzS/Bmz1FzTTIAK5zm0J2dvkwDfgFxOQafXL8YEO
+         Kz8VWQWLtIg8sgY6KD/7NkQ6m5k9IUpAtR6/MyuC8ueky2XZFgV9FBg/kfgaEnIUmlZM
+         9J47ceQ4LYXqs/scVsT5035q2dxzLMbOR1g0/LgGTLiCuEWoutK/60bQIxX26R7mOKmX
+         7CqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XBSMntEex66iPKIFZdF6l21leD2WIluDlLwMwMUQjy0=;
+        b=NA4XyMGkaXYfAf+UgOP8QFK5mjo06zJQKUMGu0JlCPI3ln6zCwrN1unEGeuEFKcv0R
+         cf9C6x8J+dBJ3O5/MX4PZI7ITxQhO89krCTE3+XN8OV6st/uvY0ke+8pRRcsDJO+3Z23
+         ztVb71m3UZZ+agBaawf5Z6c198acWyszemtf4hPY6pP/HsxuYWAG7p9lQRcDDx2sVDVq
+         9mj3wX8WON3PPd9AjBQNlGY0eWo4cwqDBFdyt5ZIU4xgEgYIRRw16mP3BfVHXieRQrOi
+         vIFiBCterZN88kTenfahXh/735A49H5tunzU5YUPtNSkaGEyAnSGCMq/+IlOEKxZ6ivb
+         wTdA==
+X-Gm-Message-State: AOAM5331ZAPc3DkWPlSgckp6g90fSGDflrhsyjB/JGDDBpG5sE7OlIhX
+        L4h2DFABOoXa4mUMhrI2D33nVOfPiTUjJn++qOA=
+X-Google-Smtp-Source: ABdhPJx3ECcz21f3ZEbz0rXPVEq69zVLoBvtvUmmQkt6g+sDul4/HOxnkqwCd3ldqlKS33g3bpWprXbEwtoj63yDjFE=
+X-Received: by 2002:a17:90a:e454:: with SMTP id jp20mr3373321pjb.129.1617193640933;
+ Wed, 31 Mar 2021 05:27:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <20210329111648.7969-1-ada@thorsis.com> <20210329111648.7969-2-ada@thorsis.com>
+In-Reply-To: <20210329111648.7969-2-ada@thorsis.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 31 Mar 2021 15:27:05 +0300
+Message-ID: <CAHp75VdqtWS15YPvaPvy4yj5TdW7DDgFB+_bbavFqPBp1zm6eg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] docs: gpio: mockup: Fix parameter name
+To:     Alexander Dahl <ada@thorsis.com>
+Cc:     Linux Documentation List <linux-doc@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series aims to clarify the behavior of 
-KVM_GET_EMULATED_CPUID and KVM_GET_SUPPORTED
-ioctls, and fix a corner case where the nent field of the
-struct kvm_cpuid2 is matching the amount of entries that kvm returns.
+On Mon, Mar 29, 2021 at 2:18 PM Alexander Dahl <ada@thorsis.com> wrote:
+>
+> Module probing with the parameter documented yielded this in kernel log:
+>
+>         gpio_mockup: unknown parameter 'gpio_named_lines' ignored
+>
+> The parameter documented did not match the parameter actually
+> implemented with commit 8a68ea00a62e ("gpio: mockup: implement naming
+> the lines") long before introducing the documentation.
+>
+> Fixes: commit 2fd1abe99e5f ("Documentation: gpio: add documentation for gpio-mockup")
 
-Patch 1 proposes the nent field fix to cpuid.c,
-patch 2 updates the ioctl documentation accordingly and 
-patches 3 and 4 provide a selftest to check KVM_GET_EMULATED_CPUID
-accordingly.
+Alexander, in the entire series you are using the wrong format for the
+Fixes tag.
+I highly recommend to add in your .gitconfig file an alias:
+        one = show -s --pretty='format:%h (\"%s\")'
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
-v2:
-- better fix in cpuid.c, perform the nent check after the switch statement 
-- fix bug in get_emulated_cpuid.c selftest, each entry needs to have at least
-  the padding zeroed otherwise it fails.
-
-Emanuele Giuseppe Esposito (4):
-  kvm: cpuid: adjust the returned nent field of kvm_cpuid2 for
-    KVM_GET_SUPPORTED_CPUID and KVM_GET_EMULATED_CPUID
-  Documentation: kvm: update KVM_GET_EMULATED_CPUID ioctl description
-  selftests: add kvm_get_emulated_cpuid
-  selftests: kvm: add get_emulated_cpuid test
-
- Documentation/virt/kvm/api.rst                |  10 +-
- arch/x86/kvm/cpuid.c                          |  35 ++--
- tools/testing/selftests/kvm/.gitignore        |   1 +
- tools/testing/selftests/kvm/Makefile          |   1 +
- .../selftests/kvm/include/x86_64/processor.h  |   1 +
- .../selftests/kvm/lib/x86_64/processor.c      |  33 +++
- .../selftests/kvm/x86_64/get_emulated_cpuid.c | 198 ++++++++++++++++++
- 7 files changed, 256 insertions(+), 23 deletions(-)
- create mode 100644 tools/testing/selftests/kvm/x86_64/get_emulated_cpuid.c
+`git one <commit ID>` will give you proper value to refer to the
+commit in question.
 
 -- 
-2.30.2
-
+With Best Regards,
+Andy Shevchenko
