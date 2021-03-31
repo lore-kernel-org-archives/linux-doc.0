@@ -2,75 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C725C433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 20:03:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C48CBC433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 20:21:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0D7D961073
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 20:03:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 919E460FEB
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 20:21:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236348AbhCaUDR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 16:03:17 -0400
-Received: from ms.lwn.net ([45.79.88.28]:48660 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236283AbhCaUCu (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 31 Mar 2021 16:02:50 -0400
+        id S236398AbhCaUUh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 16:20:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37070 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236380AbhCaUUM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 16:20:12 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31A0FC061574
+        for <linux-doc@vger.kernel.org>; Wed, 31 Mar 2021 13:20:12 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 9F9EB9A8;
-        Wed, 31 Mar 2021 20:02:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9F9EB9A8
+        by ms.lwn.net (Postfix) with ESMTPSA id D711C867;
+        Wed, 31 Mar 2021 20:20:11 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D711C867
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1617220969; bh=O7nWcUNgLcAIWxeUj9Ev6r+Il17hVIy3TC911geK1OM=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=d2S5DRmkCKiOie0iMIJhVMKCXnNYGiTr3E4+cvKyKtMwprvcY41RzG8tcIJXOe4ta
-         rc5lD+HbRWVq9CPoHXYRVexQtCsqX1hqC+XXSrcof+2TV1UHXyqf+ODF4JTEc930CT
-         Xiy9WfCpluAuAg/XsG8Ln4VyirfnWSQDEM8fIWQgR2CqPD/c0XZ8RJf7UKk0JZptSr
-         pyuVxEzd405SqCv0y6syaFkzVcXFzLhRRRUN+k+yAQjS1/0yD+8M1a2pPCxt3GNdzj
-         40gdiDEb5TqQM9kyB6Sw9v+ujnTIYWgp/opU7ylzxiuUp8kFwC06a0p6LlbAzH2xkI
-         nhfPuUils7BCQ==
+        t=1617222012; bh=ewunRzsXfGOo/9F8OJKrm7DodBhAjDNJt4cXkZYgzQQ=;
+        h=From:To:Subject:In-Reply-To:References:Date:From;
+        b=HVUTTWrqapDCJ4yndjbca7rNyRfLOgPsmWLRPDyLKEJK0qoZAk9Oa05caGfApvzOL
+         kqwrmjz1UQAERNN6pKjUL9/+l0vpIuFxY5/VTW+irn3kcEmt1Uo9go+DngpxWGoU+2
+         J/ldK/6NuJj+I6RZ4HVYhe+iIscmTt/5MixMGkfa4pFkRKKelX6Pp3Hbob3LHLFBQU
+         4MgIghC6s6gZyvcXAggmZByTwE4PzuwgMuh5DzgNi1xSS6Ci79kYe8gWkP2Tkr7F/T
+         Pr/gM1usA3MwhR9J3A0aNRmyuxchfsyxnDJBMYvkcNVIREs4Dhhul9m1MU7lBvvJ03
+         3ZzklCJyWDXKw==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Minchan Kim <minchan@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH v2 0/7] Fix some issues at get_abi.pl script
-In-Reply-To: <cover.1616668017.git.mchehab+huawei@kernel.org>
-References: <cover.1616668017.git.mchehab+huawei@kernel.org>
-Date:   Wed, 31 Mar 2021 14:02:49 -0600
-Message-ID: <87zgyjjdli.fsf@meer.lwn.net>
+To:     Askar Safin <safinaskar@mail.ru>,
+        linux-doc <linux-doc@vger.kernel.org>
+Subject: Re: documentation/filesystems/path-lookup: replace "These paths"
+ with "Usually paths"
+In-Reply-To: <1616546322.499771404@f511.i.mail.ru>
+References: <1616546322.499771404@f511.i.mail.ru>
+Date:   Wed, 31 Mar 2021 14:20:11 -0600
+Message-ID: <87v997jcsk.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+Askar Safin <safinaskar@mail.ru> writes:
 
-> This series replace this patch:
-> 	https://lore.kernel.org/linux-doc/20210324191722.08d352e4@coco.lan/T/#t
+> Reader may think "These paths" refer to empty paths, so changing to "Usually paths"
 >
-> It turns that there were multiple bugs at the get_abi.pl code that
-> create cross-references.
->
-> Patches 1 to 6 fix those issues, and should apply cleanly on the top of
-> the docs tree (although I tested against next-20210323).
->
-> Patch 7 is optional, and independent from the other patches. It is meant
-> to be applied against akpm's tree.  It makes the description (IMHO) 
-> clearer, while producing cross references for the two mentioned symbols.
+> Signed-off-by: Askar Safin <safinaskar@mail.ru>
+> ---
+> diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
+> index c482e1619e77..c68d6f275935 100644
+> --- a/Documentation/filesystems/path-lookup.rst
+> +++ b/Documentation/filesystems/path-lookup.rst
+> @@ -57,7 +57,7 @@ example, if you have an open file descriptor on an executable file you
+>  can execute it by calling `execveat() <execveat_>`_ passing
+>  the file descriptor, an empty path, and the ``AT_EMPTY_PATH`` flag.
+>  
+> -These paths can be divided into two sections: the final component and
+> +Usually paths can be divided into two sections: the final component and
+>  everything else.  The "everything else" is the easy bit.  In all cases
+>  it must identify a directory that already exists, otherwise an error
+>  such as ``ENOENT`` or ``ENOTDIR`` will be reported.
 
-I've gone ahead and applied the set, with the exception of #7 which
-doesn't apply here.
+"Usually" doesn't seem right here - it implies that there are times when
+that cannot be done.  A better fix seems like just taking "These" out..?
 
 Thanks,
 
