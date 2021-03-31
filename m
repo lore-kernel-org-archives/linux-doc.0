@@ -2,144 +2,192 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C488BC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 18:44:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13BC9C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 19:15:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 900316105A
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 18:44:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D31B761056
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 19:15:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234932AbhCaSo3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 14:44:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44460 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234743AbhCaSoR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 14:44:17 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 570A3C061574;
-        Wed, 31 Mar 2021 11:44:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-        :In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:
-        Sender:Reply-To:Content-ID:Content-Description;
-        bh=foqFS80zPOxuSFemW+uOI8Rh0rNdKKPnoCESHBhVtec=; b=rLaTSHz/edMFCMAm0d8R9GS5dT
-        mzZd5Z683y2gSfufpO6MSi8aCCn+CslJugFCy+o2M2xLpjzsTc/iXp5FfrOq0vBLlmPi9PjXaIPZr
-        50eghi+2A+eM6gsSwEfkHDExnMVy8lt5/rqpyUDq2kqL60CZ2uG2VDv1HYJZl6qFyEPhOtGi1vYJU
-        LPDaRgLsffbfSHe+VCeOG+ZCDy51UefrT9MdH5imqG8+HlfOGJh76PvSHRgTZ/RNCw8oiVOQjtfyu
-        8oth72Zg/wbJvxIE5t9vRKwgIBMLDKjW8QfXralXKcJAWpXjbFfg6iglwgY0i6OagwCVwUULhyPJc
-        +H3vYPJw==;
-Received: from [2601:1c0:6280:3f0::e0e1]
-        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lRfp0-007J0X-Gx; Wed, 31 Mar 2021 18:44:06 +0000
-Subject: Re: [RFC v2 01/43] mm: add PKRAM API stubs and Kconfig
-To:     Anthony Yznaga <anthony.yznaga@oracle.com>, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
-Cc:     willy@infradead.org, corbet@lwn.net, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-        dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-        rppt@kernel.org, akpm@linux-foundation.org, hughd@google.com,
-        ebiederm@xmission.com, keescook@chromium.org, ardb@kernel.org,
-        nivedita@alum.mit.edu, jroedel@suse.de, masahiroy@kernel.org,
-        nathan@kernel.org, terrelln@fb.com, vincenzo.frascino@arm.com,
-        martin.b.radev@gmail.com, andreyknvl@google.com,
-        daniel.kiper@oracle.com, rafael.j.wysocki@intel.com,
-        dan.j.williams@intel.com, Jonathan.Cameron@huawei.com,
-        bhe@redhat.com, rminnich@gmail.com, ashish.kalra@amd.com,
-        guro@fb.com, hannes@cmpxchg.org, mhocko@kernel.org,
-        iamjoonsoo.kim@lge.com, vbabka@suse.cz, alex.shi@linux.alibaba.com,
-        david@redhat.com, richard.weiyang@gmail.com,
-        vdavydov.dev@gmail.com, graf@amazon.com, jason.zeng@intel.com,
-        lei.l.li@intel.com, daniel.m.jordan@oracle.com,
-        steven.sistare@oracle.com, linux-fsdevel@vger.kernel.org,
-        linux-doc@vger.kernel.org, kexec@lists.infradead.org
-References: <1617140178-8773-1-git-send-email-anthony.yznaga@oracle.com>
- <1617140178-8773-2-git-send-email-anthony.yznaga@oracle.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <b7c635e2-e607-03bb-30f4-66bd00bff69e@infradead.org>
-Date:   Wed, 31 Mar 2021 11:43:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S235831AbhCaTOk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 15:14:40 -0400
+Received: from mga02.intel.com ([134.134.136.20]:17285 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233888AbhCaTOM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Mar 2021 15:14:12 -0400
+IronPort-SDR: xXxMAkmZb2yeq4czBxNkl9VVUqyqnMfdnNR+jH1leY/aDc7T4PUGasLiBybNm7V17bNQ9DpovM
+ cfzOKlMbfuIg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9940"; a="179204164"
+X-IronPort-AV: E=Sophos;i="5.81,293,1610438400"; 
+   d="scan'208";a="179204164"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2021 12:14:11 -0700
+IronPort-SDR: PjuSSMEmUHBKVyAwvm1zM57b9sQeSqf7PX8y2kT2iIS9ra3b9PGr/R4NE07WBnOf6tCSFYO1wz
+ tMG3uWwP+4sg==
+X-IronPort-AV: E=Sophos;i="5.81,293,1610438400"; 
+   d="scan'208";a="418821780"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2021 12:14:11 -0700
+From:   ira.weiny@intel.com
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Ira Weiny <ira.weiny@intel.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [PATCH V5 00/10] PKS: Add Protection Key Supervisor support
+Date:   Wed, 31 Mar 2021 12:13:55 -0700
+Message-Id: <20210331191405.341999-1-ira.weiny@intel.com>
+X-Mailer: git-send-email 2.28.0.rc0.12.gb6a658bd00c9
 MIME-Version: 1.0
-In-Reply-To: <1617140178-8773-2-git-send-email-anthony.yznaga@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/30/21 2:35 PM, Anthony Yznaga wrote:
-> Preserved-across-kexec memory or PKRAM is a method for saving memory
-> pages of the currently executing kernel and restoring them after kexec
-> boot into a new one. This can be utilized for preserving guest VM state,
-> large in-memory databases, process memory, etc. across reboot. While
-> DRAM-as-PMEM or actual persistent memory could be used to accomplish
-> these things, PKRAM provides the latency of DRAM with the flexibility
-> of dynamically determining the amount of memory to preserve.
-> 
-...
+From: Ira Weiny <ira.weiny@intel.com>
 
-> 
-> Originally-by: Vladimir Davydov <vdavydov.dev@gmail.com>
-> Signed-off-by: Anthony Yznaga <anthony.yznaga@oracle.com>
-> ---
->  include/linux/pkram.h |  47 +++++++++++++
->  mm/Kconfig            |   9 +++
->  mm/Makefile           |   1 +
->  mm/pkram.c            | 179 ++++++++++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 236 insertions(+)
->  create mode 100644 include/linux/pkram.h
->  create mode 100644 mm/pkram.c
-> 
-> diff --git a/mm/pkram.c b/mm/pkram.c
-> new file mode 100644
-> index 000000000000..59e4661b2fb7
-> --- /dev/null
-> +++ b/mm/pkram.c
-> @@ -0,0 +1,179 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +#include <linux/err.h>
-> +#include <linux/gfp.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mm.h>
-> +#include <linux/pkram.h>
-> +#include <linux/types.h>
-> +
+Introduce a new page protection mechanism for supervisor pages, Protection Key
+Supervisor (PKS).
 
-Hi,
+Generally PKS enables protections on 'domains' of supervisor pages to limit
+supervisor mode access to pages beyond the normal paging protections.  PKS
+works in a similar fashion to user space pkeys, PKU.  As with PKU, supervisor
+pkeys are checked in addition to normal paging protections and Access or Writes
+can be disabled via a MSR update without TLB flushes when permissions change.
 
-There are several doc blocks that begin with "/**" but that are not
-in kernel-doc format (/** means kernel-doc format when inside the kernel
-source tree).
+Also like PKU, a page mapping is assigned to a domain by setting pkey bits in
+the page table entry for that mapping.
 
-Please either change those to "/*" or convert them to kernel-doc format.
-The latter is preferable for exported interfaces.
+Access is controlled through a PKRS register which is updated via WRMSR/RDMSR.
 
-> +/**
-> + * Create a preserved memory node with name @name and initialize stream @ps
-> + * for saving data to it.
-> + *
-> + * @gfp_mask specifies the memory allocation mask to be used when saving data.
-> + *
-> + * Returns 0 on success, -errno on failure.
-> + *
-> + * After the save has finished, pkram_finish_save() (or pkram_discard_save() in
-> + * case of failure) is to be called.
-> + */
+XSAVE is not supported for the PKRS MSR.  Therefore the implementation
+saves/restores the MSR across context switches and during exceptions.  Nested
+exceptions are supported by each exception getting a new PKS state.
+
+For consistent behavior with current paging protections, pkey 0 is reserved and
+configured to allow full access via the pkey mechanism, thus preserving the
+default paging protections on mappings with the default pkey value of 0.
+
+Other keys, (1-15) are allocated by an allocator which prepares us for key
+contention from day one.  Kernel users should be prepared for the allocator to
+fail either because of key exhaustion or due to PKS not being supported on the
+CPU instance.
+
+The following are key attributes of PKS.
+
+	1) Fast switching of permissions
+		1a) Prevents access without page table manipulations
+		1b) No TLB flushes required
+	2) Works on a per thread basis
+
+PKS is available with 4 and 5 level paging.  Like PKRU it consumes 4 bits from
+the PTE to store the pkey within the entry.
+
+All code to support PKS is configured via ARCH_ENABLE_SUPERVISOR_PKEYS which
+is designed to only be turned on when a user is configured on in the kernel.
+Those users must depend on ARCH_HAS_SUPERVISOR_PKEYS to properly work with
+other architectures which do not yet support PKS.
+
+Originally this series was submitted as part of a large patch set which
+converted the kmap call sites.[1]
+
+Many follow on discussions revealed a few problems.  The first of which was
+that some callers leak a kmap mapping across threads rather than containing it
+to a critical section.  Attempts were made to see if these 'global kmaps' could
+be supported.[2]  However, supporting global kmaps had many problems.  Work is
+being done in parallel on converting as many kmap calls to the new
+kmap_local_page().[3]
 
 
-b) from patch 00/43:
+Changes from V4 [5]
+	From kernel test robot <lkp@intel.com>
+		Fix i386 build: pks_init_task not found
+	Move MSR_IA32_PKRS and INIT_PKRS_VALUE into patch 5 where they are
+		first 'used'.  (Technically nothing is 'used' until the final
+		test patch.  But review wise this is much cleaner.)
+	From Sean Christoperson
+		Add documentation details on what happens if the pkey is violated
+		Change cpu_feature_enabled to be in WARN_ON check
+		Clean up commit message of patch 6
+	Fix some checkpatch errors
 
- documentation/core-api/xarray.rst       |    8 +
 
-How did "documentation" become lower case (instead of Documentation)?
+[1] https://lore.kernel.org/lkml/20201009195033.3208459-1-ira.weiny@intel.com/
+
+[2] https://lore.kernel.org/lkml/87mtycqcjf.fsf@nanos.tec.linutronix.de/
+
+[3] https://lore.kernel.org/lkml/20210128061503.1496847-1-ira.weiny@intel.com/
+    https://lore.kernel.org/lkml/20210210062221.3023586-1-ira.weiny@intel.com/
+    https://lore.kernel.org/lkml/20210205170030.856723-1-ira.weiny@intel.com/
+    https://lore.kernel.org/lkml/20210217024826.3466046-1-ira.weiny@intel.com/
+
+[4] https://lore.kernel.org/lkml/20201106232908.364581-1-ira.weiny@intel.com/
+
+[5] https://lore.kernel.org/lkml/20210322053020.2287058-1-ira.weiny@intel.com/
 
 
-thanks.
+Fenghua Yu (1):
+  x86/pks: Add PKS kernel API
+
+Ira Weiny (9):
+  x86/pkeys: Create pkeys_common.h
+  x86/fpu: Refactor arch_set_user_pkey_access() for PKS support
+  x86/pks: Add additional PKEY helper macros
+  x86/pks: Add PKS defines and Kconfig options
+  x86/pks: Add PKS setup code
+  x86/fault: Adjust WARN_ON for PKey fault
+  x86/pks: Preserve the PKRS MSR on context switch
+  x86/entry: Preserve PKRS MSR across exceptions
+  x86/pks: Add PKS test code
+
+ Documentation/core-api/protection-keys.rst  | 112 +++-
+ arch/x86/Kconfig                            |   1 +
+ arch/x86/entry/calling.h                    |  26 +
+ arch/x86/entry/common.c                     |  58 ++
+ arch/x86/entry/entry_64.S                   |  22 +-
+ arch/x86/entry/entry_64_compat.S            |   6 +-
+ arch/x86/include/asm/cpufeatures.h          |   1 +
+ arch/x86/include/asm/disabled-features.h    |   8 +-
+ arch/x86/include/asm/msr-index.h            |   1 +
+ arch/x86/include/asm/pgtable.h              |  10 +-
+ arch/x86/include/asm/pgtable_types.h        |  12 +
+ arch/x86/include/asm/pkeys.h                |   4 +
+ arch/x86/include/asm/pkeys_common.h         |  34 +
+ arch/x86/include/asm/pks.h                  |  54 ++
+ arch/x86/include/asm/processor-flags.h      |   2 +
+ arch/x86/include/asm/processor.h            |  47 +-
+ arch/x86/include/uapi/asm/processor-flags.h |   2 +
+ arch/x86/kernel/cpu/common.c                |   2 +
+ arch/x86/kernel/fpu/xstate.c                |  22 +-
+ arch/x86/kernel/head_64.S                   |   7 +-
+ arch/x86/kernel/process.c                   |   3 +
+ arch/x86/kernel/process_64.c                |   2 +
+ arch/x86/mm/fault.c                         |  31 +-
+ arch/x86/mm/pkeys.c                         | 218 +++++-
+ include/linux/pgtable.h                     |   4 +
+ include/linux/pkeys.h                       |  34 +
+ kernel/entry/common.c                       |  14 +-
+ lib/Kconfig.debug                           |  11 +
+ lib/Makefile                                |   3 +
+ lib/pks/Makefile                            |   3 +
+ lib/pks/pks_test.c                          | 693 ++++++++++++++++++++
+ mm/Kconfig                                  |   5 +
+ tools/testing/selftests/x86/Makefile        |   3 +-
+ tools/testing/selftests/x86/test_pks.c      | 150 +++++
+ 34 files changed, 1528 insertions(+), 77 deletions(-)
+ create mode 100644 arch/x86/include/asm/pkeys_common.h
+ create mode 100644 arch/x86/include/asm/pks.h
+ create mode 100644 lib/pks/Makefile
+ create mode 100644 lib/pks/pks_test.c
+ create mode 100644 tools/testing/selftests/x86/test_pks.c
+
 -- 
-~Randy
+2.28.0.rc0.12.gb6a658bd00c9
 
