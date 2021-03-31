@@ -2,202 +2,525 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
+	WEIRD_QUOTING autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B8BEC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 13:46:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F84FC433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 15:36:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E028B6054E
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 13:46:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0880961019
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 15:36:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235876AbhCaNqX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 09:46:23 -0400
-Received: from conssluserg-02.nifty.com ([210.131.2.81]:50066 "EHLO
-        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235842AbhCaNqP (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 09:46:15 -0400
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177]) (authenticated)
-        by conssluserg-02.nifty.com with ESMTP id 12VDk1wK014128;
-        Wed, 31 Mar 2021 22:46:02 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 12VDk1wK014128
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1617198362;
-        bh=+Wv9DWGrv+mFQSDa9ZPLJJyRfOGQozwUexiaDJL3Y8c=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=urRWFJPyP9Yubthut60Dxrk/VrnNDdKXkCjdwXiUircAASMtboAOnBN9RnPsryuu7
-         LugGfC7tRetUpJjXev1io6recadoShvRl2H9BMy72TrP3YpLtYpNEb15tAdV2ip0xO
-         QRgWNbsbt73XZRgSd/0v9p2CPV3OFaxd9+HBA6fCY+7gNlDuoFjgWM0QUqvs8jA//R
-         tw+czXaemaZPSMMyxtg2IVr9CpI+peGW249JsdScLKw/RMJSlylLWSqoBAIv7fHLd/
-         AEenSKd2RxGBD1vx28UoscWqYSwKikIKnePrSDZ/17HxBjf3MIhATLa7jRAzFlF5pT
-         JmDCR3/W8z8GQ==
-X-Nifty-SrcIP: [209.85.214.177]
-Received: by mail-pl1-f177.google.com with SMTP id h8so7929750plt.7;
-        Wed, 31 Mar 2021 06:46:02 -0700 (PDT)
-X-Gm-Message-State: AOAM531fzuhq6arfAvDFgQ0/GeoInw5PoTHZiJzbQy1YR9C/vNtrM91e
-        ZAJEgVZfcStORdFneArwYQRDY1kGETXfxBHtzG4=
-X-Google-Smtp-Source: ABdhPJw7d5TsfqLGmOcT61yOXkS0uApMWd9Znjmyuc1BgedU5sR6XAyvI+3cOd0wEh3lQqcEusuCNuVC5XPz1rWpfww=
-X-Received: by 2002:a17:90a:fb54:: with SMTP id iq20mr3390477pjb.153.1617198361204;
- Wed, 31 Mar 2021 06:46:01 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210302141822.504773-1-masahiroy@kernel.org>
-In-Reply-To: <20210302141822.504773-1-masahiroy@kernel.org>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Wed, 31 Mar 2021 22:45:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQUHbBgJdAtfqzn=X5f_+Nram00VtMQfZwOQdYLCygChA@mail.gmail.com>
-Message-ID: <CAK7LNAQUHbBgJdAtfqzn=X5f_+Nram00VtMQfZwOQdYLCygChA@mail.gmail.com>
-Subject: Re: [PATCH] docs: Remove make headers_check from checklist in translations
-To:     Jonathan Corbet <corbet@lwn.net>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        id S235520AbhCaPfs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 11:35:48 -0400
+Received: from m32-153.88.com ([43.250.32.153]:64498 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S235470AbhCaPfb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Mar 2021 11:35:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=1kqWvACgu23sUM/C7sF27jMVKhsnEkYmussM7
+        2M45U8=; b=CuLLze+7spqdWT3cZ0VCQ8w6edXLJ3Ef31Ofo9FcEXFuHw6IMk4HK
+        if/DXgpXf1my1dmw2VU91sf2g/fw1BTVIMgD3pGkQHxGz8au4ph8GcOfkNRF8bQ9
+        EjGC6iWC3IdpOGCNBe86XxdDFe/xsGlYQg/HnpkmkP8lsefSwrYmtA=
+Received: from mipc (unknown [120.238.248.129])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAXoiKslmRgkUtTAA--.52689S2;
+        Wed, 31 Mar 2021 23:35:11 +0800 (CST)
+Date:   Wed, 31 Mar 2021 23:35:03 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Bernard Zhao <bernard@vivo.com>
+Cc:     Harry Wei <harryxiyou@gmail.com>,
         Alex Shi <alex.shi@linux.alibaba.com>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Harry Wei <harryxiyou@gmail.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        clang-built-linux@googlegroups.com, opensource.kernel@vivo.com
+Subject: Re: [PATCH] translations/zh_CN: add translations to dev-tools gcov
+Message-ID: <20210331153503.GA19439@mipc>
+References: <20210331131408.61061-1-bernard@vivo.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210331131408.61061-1-bernard@vivo.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgAXoiKslmRgkUtTAA--.52689S2
+X-Coremail-Antispam: 1UD129KBjvAXoW3uw18JF43JFy3CF45GryUWrg_yoW8GF45to
+        W09w4rAw1UCF43Aw15GFW3JFyjyFnxWFZrAr43trn8W34UJF1fZ3WUAw43KryrZrW3Jw15
+        tr98JrWrW3WDJFnxn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+        AaLaJ3UjIYCTnIWjp_UUU5u7k0a2IF6w4kM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
+        0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
+        IYx2IY67AKxVWUJVWUCwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vE
+        x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
+        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
+        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxGxcIEc7CjxVA2Y2ka0x
+        kIwI1l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE
+        7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI
+        8E67AF67kF1VAFwI0_Jw0_GFylIxkvb40E47kJMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8I
+        cVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI
+        8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v2
+        6r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUmb4SUUUUU
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-SGkgSm9uLA0KDQoNCk9uIFR1ZSwgTWFyIDIsIDIwMjEgYXQgMTE6MTkgUE0gTWFzYWhpcm8gWWFt
-YWRhIDxtYXNhaGlyb3lAa2VybmVsLm9yZz4gd3JvdGU6DQo+DQo+IENvbW1pdCAxYTYzZjljY2U3
-YjcgKCJkb2NzOiBSZW1vdmUgbWFrZSBoZWFkZXJzX2NoZWNrIGZyb20gY2hlY2tsaXN0IikNCj4g
-Zml4ZWQgb25seSB0aGUgRW5nbGlzaCB2ZXJzaW9uLg0KPg0KPiBMZXQncyBmaXggdGhlIHRyYW5z
-bGF0ZWQgdmFyaWFudHMgdG9vLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBNYXNhaGlybyBZYW1hZGEg
-PG1hc2FoaXJveUBrZXJuZWwub3JnPg0KDQpwaW5nPw0KDQoNCg0KPiAtLS0NCj4NCj4gIC4uLi9p
-dF9JVC9wcm9jZXNzL3N1Ym1pdC1jaGVja2xpc3QucnN0ICAgICAgICAgICAgIHwgMTQgKysrKysr
-LS0tLS0tLS0NCj4gIERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL1N1Ym1pdENoZWNr
-bGlzdCAgIHwgIDggKysrLS0tLS0NCj4gIC4uLi96aF9DTi9wcm9jZXNzL3N1Ym1pdC1jaGVja2xp
-c3QucnN0ICAgICAgICAgICAgIHwgMTQgKysrKysrLS0tLS0tLS0NCj4gIDMgZmlsZXMgY2hhbmdl
-ZCwgMTUgaW5zZXJ0aW9ucygrKSwgMjEgZGVsZXRpb25zKC0pDQo+DQo+IGRpZmYgLS1naXQgYS9E
-b2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9pdF9JVC9wcm9jZXNzL3N1Ym1pdC1jaGVja2xpc3Qu
-cnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvaXRfSVQvcHJvY2Vzcy9zdWJtaXQtY2hl
-Y2tsaXN0LnJzdA0KPiBpbmRleCA2MTRmYzE3ZDkwODYuLjYyYmE0NzE5MjFiNiAxMDA2NDQNCj4g
-LS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvaXRfSVQvcHJvY2Vzcy9zdWJtaXQtY2hl
-Y2tsaXN0LnJzdA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy9pdF9JVC9wcm9j
-ZXNzL3N1Ym1pdC1jaGVja2xpc3QucnN0DQo+IEBAIC05NSwzMSArOTUsMjkgQEAgc290dG9taXNz
-aW9uZSBkZWxsZSBwYXRjaCwgaW4gcGFydGljb2xhcmUNCj4gICAgICBpbmZvcm1hemlvbmkuICBM
-ZSBwYXRjaCBjaGUgbW9kaWZpY2FubyBsZSBpbnRlcmZhY2NlIHV0ZW50ZSBkb3ZyZWJiZXJvDQo+
-ICAgICAgZXNzZXJlIGludmlhdGUgaW4gY29waWEgYW5jaGUgYSBsaW51eC1hcGlAdmdlci5rZXJu
-ZWwub3JnLg0KPg0KPiAtMjApIFZlcmlmaWNhIGNoZSBpbCBrZXJuZWwgcGFzc2kgY29uIHN1Y2Nl
-c3NvIGBgbWFrZSBoZWFkZXJzX2NoZWNrYGANCj4gLQ0KPiAtMjEpIExhIHBhdGNoIMOoIHN0YXRh
-IHZlcmlmaWNhdGEgY29uIGwnaW5pZXppb25lIGRpIGZhbGxpbWVudGkgaW4gc2xhYiBlDQo+ICsy
-MCkgTGEgcGF0Y2ggw6ggc3RhdGEgdmVyaWZpY2F0YSBjb24gbCdpbmllemlvbmUgZGkgZmFsbGlt
-ZW50aSBpbiBzbGFiIGUNCj4gICAgICBuZWxsJ2FsbG9jYXppb25lIGRpIHBhZ2luZS4gIFZlZGVy
-ZSBgYERvY3VtZW50YXRpb24vZmF1bHQtaW5qZWN0aW9uL2BgLg0KPg0KPiAgICAgIFNlIGlsIG51
-b3ZvIGNvZGljZSDDqCBjb3Jwb3NvLCBwb3RyZWJiZSBlc3NlcmUgb3Bwb3J0dW5vIGFnZ2l1bmdl
-cmUNCj4gICAgICBsJ2luaWV6aW9uZSBkaSBmYWxsaW1lbnRpIHNwZWNpZmljaSBwZXIgaWwgc290
-dG9zaXN0ZW1hLg0KPg0KPiAtMjIpIElsIG51b3ZvIGNvZGljZSDDqCBzdGF0byBjb21waWxhdG8g
-Y29uIGBgZ2NjIC1XYGAgKHVzYXRlDQo+ICsyMSkgSWwgbnVvdm8gY29kaWNlIMOoIHN0YXRvIGNv
-bXBpbGF0byBjb24gYGBnY2MgLVdgYCAodXNhdGUNCj4gICAgICBgYG1ha2UgS0NGTEFHUz0tV2Bg
-KS4gIFF1ZXN0byBnZW5lcmVyw6AgbW9sdGkgYXZ2aXNpLCBtYSDDqCBvdHRpbW8NCj4gICAgICBw
-ZXIgc2NvdmFyZSBiYWNoaSBjb21lICAid2FybmluZzogY29tcGFyaXNvbiBiZXR3ZWVuIHNpZ25l
-ZCBhbmQgdW5zaWduZWQiLg0KPg0KPiAtMjMpIExhIHBhdGNoIMOoIHN0YXRhIHZlcmlmaWNhdGEg
-ZG9wbyBlc3NlcmUgc3RhdGEgaW5jbHVzYSBuZWxsYSBzZXJpZSBkaSBwYXRjaA0KPiArMjIpIExh
-IHBhdGNoIMOoIHN0YXRhIHZlcmlmaWNhdGEgZG9wbyBlc3NlcmUgc3RhdGEgaW5jbHVzYSBuZWxs
-YSBzZXJpZSBkaSBwYXRjaA0KPiAgICAgIC1tbTsgcXVlc3RvIGFsIGZpbmUgZGkgYXNzaWN1cmFy
-c2kgY2hlIGNvbnRpbnVpIGEgZnVuemlvbmFyZSBhc3NpZW1lIGENCj4gICAgICB0dXR0ZSBsZSBh
-bHRyZSBwYXRjaCBpbiBjb2RhIGUgaSB2YXJpIGNhbWJpYW1lbnRpIG5laSBzb3R0b3Npc3RlbWkg
-Vk0sIFZGUw0KPiAgICAgIGUgYWx0cmkuDQo+DQo+IC0yNCkgVHV0dGUgbGUgYmFycmllcmUgZGkg
-c2luY3Jvbml6emF6aW9uZSB7cGVyIGVzZW1waW8sIGBgYmFycmllcigpYGAsDQo+ICsyMykgVHV0
-dGUgbGUgYmFycmllcmUgZGkgc2luY3Jvbml6emF6aW9uZSB7cGVyIGVzZW1waW8sIGBgYmFycmll
-cigpYGAsDQo+ICAgICAgYGBybWIoKWBgLCBgYHdtYigpYGB9IGRldm9ubyBlc3NlcmUgYWNjb21w
-YWduYXRlIGRhIHVuIGNvbW1lbnRvIG5laQ0KPiAgICAgIHNvcmdlbnRpIGNoZSBuZSBzcGllZ2hp
-IGxhIGxvZ2ljYTogY29zYSBmYW5ubyBlIHBlcmNow6kuDQo+DQo+IC0yNSkgU2UgbGEgcGF0Y2gg
-YWdnaXVuZ2UgbnVvdmUgY2hpYW1hdGUgaW9jdGwsIGFsbG9yYSBhZ2dpb3JuYXRlDQo+ICsyNCkg
-U2UgbGEgcGF0Y2ggYWdnaXVuZ2UgbnVvdmUgY2hpYW1hdGUgaW9jdGwsIGFsbG9yYSBhZ2dpb3Ju
-YXRlDQo+ICAgICAgYGBEb2N1bWVudGF0aW9uL3VzZXJzcGFjZS1hcGkvaW9jdGwvaW9jdGwtbnVt
-YmVyLnJzdGBgLg0KPg0KPiAtMjYpIFNlIGlsIGNvZGljZSBjaGUgYXZldGUgbW9kaWZpY2F0byBk
-aXBlbmRlIG8gdXNhIHVuYSBxdWFsc2lhc2kgaW50ZXJmYWNjaWEgbw0KPiArMjUpIFNlIGlsIGNv
-ZGljZSBjaGUgYXZldGUgbW9kaWZpY2F0byBkaXBlbmRlIG8gdXNhIHVuYSBxdWFsc2lhc2kgaW50
-ZXJmYWNjaWEgbw0KPiAgICAgIGZ1bnppb25hbGl0w6AgZGVsIGtlcm5lbCBjaGUgw6ggYXNzb2Np
-YXRhIGEgdW5vIGRlaSBzZWd1ZW50aSBzaW1ib2xpDQo+ICAgICAgYGBLY29uZmlnYGAsIGFsbG9y
-YSB2ZXJpZmljYXRlIGNoZSBpbCBrZXJuZWwgY29tcGlsaSBjb24gZGl2ZXJzZQ0KPiAgICAgIGNv
-bmZpZ3VyYXppb25pIGRvdmUgaSBzaW1ib2xpIHNvbm8gZGlzYWJpbGl0YXRpIGUvbyBgYD1tYGAg
-KHNlIGMnw6ggbGENCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2ph
-X0pQL1N1Ym1pdENoZWNrbGlzdCBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL1N1
-Ym1pdENoZWNrbGlzdA0KPiBpbmRleCBiNDIyMjBkM2Q0NmMuLjQ0Mjk0NDdiMDk2NSAxMDA2NDQN
-Cj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvamFfSlAvU3VibWl0Q2hlY2tsaXN0
-DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL2phX0pQL1N1Ym1pdENoZWNrbGlz
-dA0KPiBAQCAtODgsMjAgKzg4LDE4IEBAIExpbnV4IOOCq+ODvOODjeODq+ODkeODg+ODgeaKleeo
-v+iAheWQkeOBkeODgeOCp+ODg+OCr+ODquOCueODiA0KPiAgMTg6IOaWsOOBl+OBhHVzZXJzcGFj
-ZeOCpOODs+OCv+ODleOCp+ODvOOCueOCkuS9nOaIkOOBl+OBn+WgtOWQiOOBq+OBr+OAgURvY3Vt
-ZW50YXRpb24vQUJJLyDjgasNCj4gICAgICBEb2N1bWVudGF0aW9uL0FCSS9SRUFETUUg44KS5Y+C
-6ICD44Gr44GX44Gm5b+F44Ga44OJ44Kt44Ol44Oh44Oz44OI44KS6L+95Yqg44GX44Gm44GP44Gg
-44GV44GE44CCDQo+DQo+IC0xOTogJ21ha2UgaGVhZGVyc19jaGVjayfjgpLlrp/ooYzjgZfjgabl
-hajjgY/llY/poYzjgYzjgarjgYTjgZPjgajjgpLnorroqo3jgZfjgabjgY/jgaDjgZXjgYTjgIIN
-Cj4gLQ0KPiAtMjA6IOWwkeOBquOBj+OBqOOCgnNsYWLjgqLjg63jgrHjg7zjgrfjg6fjg7Pjgahw
-YWdl44Ki44Ot44Kx44O844K344On44Oz44Gr5aSx5pWX44GX44Gf5aC05ZCI44GuDQo+ICsxOTog
-5bCR44Gq44GP44Go44KCc2xhYuOCouODreOCseODvOOCt+ODp+ODs+OBqHBhZ2XjgqLjg63jgrHj
-g7zjgrfjg6fjg7PjgavlpLHmlZfjgZfjgZ/loLTlkIjjga4NCj4gICAgICDmjJnli5XjgavjgaTj
-gYTjgabjgIFmYXVsdC1pbmplY3Rpb27jgpLliKnnlKjjgZfjgabnorroqo3jgZfjgabjgY/jgaDj
-gZXjgYTjgIINCj4gICAgICBEb2N1bWVudGF0aW9uL2ZhdWx0LWluamVjdGlvbi8g44KS5Y+C54Wn
-44GX44Gm44GP44Gg44GV44GE44CCDQo+DQo+ICAgICAg6L+95Yqg44GX44Gf44Kz44O844OJ44GM
-44GL44Gq44KK44Gu6YeP44Gn44GC44Gj44Gf44Gq44KJ44Gw44CB44K144OW44K344K544OG44Og
-54m55pyJ44GuDQo+ICAgICAgZmF1bHQtaW5qZWN0aW9u44KS6L+95Yqg44GX44Gf44G744GG44GM
-6Imv44GE44GL44KC44GX44KM44G+44Gb44KT44CCDQo+DQo+IC0yMTog5paw44Gf44Gr6L+95Yqg
-44GX44Gf44Kz44O844OJ44Gv44CBYGdjYyAtVyfjgafjgrPjg7Pjg5HjgqTjg6vjgZfjgabjgY/j
-gaDjgZXjgYTjgIINCj4gKzIwOiDmlrDjgZ/jgavov73liqDjgZfjgZ/jgrPjg7zjg4njga/jgIFg
-Z2NjIC1XJ+OBp+OCs+ODs+ODkeOCpOODq+OBl+OBpuOBj+OBoOOBleOBhOOAgg0KPiAgICAgIOOB
-k+OBruOCquODl+OCt+ODp+ODs+OBr+Wkp+mHj+OBruS4jeimgeOBquODoeODg+OCu+ODvOOCuOOC
-kuWHuuWKm+OBl+OBvuOBmeOBjOOAgQ0KPiAgICAgICJ3YXJuaW5nOiBjb21wYXJpc29uIGJldHdl
-ZW4gc2lnbmVkIGFuZCB1bnNpZ25lZCIg44Gu44KI44GG44Gq44Oh44OD44K744O844K444Gv44CB
-DQo+ICAgICAg44OQ44Kw44KS6KaL44Gk44GR44KL44Gu44Gr5b2544Gr56uL44Gh44G+44GZ44CC
-DQo+DQo+IC0yMjog5oqV56i/44GX44Gf44OR44OD44OB44GMIC1tbSDjg5Hjg4Pjg4Hjgrvjg4Pj
-g4jjgavjg57jg7zjgrjjgZXjgozjgZ/lvozjgIHlhajjgabjga7ml6LlrZjjga7jg5Hjg4Pjg4Hj
-goQNCj4gKzIxOiDmipXnqL/jgZfjgZ/jg5Hjg4Pjg4HjgYwgLW1tIOODkeODg+ODgeOCu+ODg+OD
-iOOBq+ODnuODvOOCuOOBleOCjOOBn+W+jOOAgeWFqOOBpuOBruaXouWtmOOBruODkeODg+ODgeOC
-hA0KPiAgICAgIFZNLCBWRlMg44GK44KI44Gz44Gd44Gu5LuW44Gu44K144OW44K344K544OG44Og
-44Gr6Zai44GZ44KL5qeY44CF44Gq5aSJ5pu044Go44CB54++5pmC54K544Gn44KC5YWx5a2YDQo+
-ICAgICAg44Gn44GN44KL44GT44Go44KS56K66KqN44GZ44KL44OG44K544OI44KS6KGM44Gj44Gm
-44GP44Gg44GV44GE44CCDQo+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
-cy96aF9DTi9wcm9jZXNzL3N1Ym1pdC1jaGVja2xpc3QucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vcHJvY2Vzcy9zdWJtaXQtY2hlY2tsaXN0LnJzdA0KPiBpbmRleCA1MDM4
-NmUwZTQyZTcuLmE2NDg1OGQzMjFmYyAxMDA2NDQNCj4gLS0tIGEvRG9jdW1lbnRhdGlvbi90cmFu
-c2xhdGlvbnMvemhfQ04vcHJvY2Vzcy9zdWJtaXQtY2hlY2tsaXN0LnJzdA0KPiArKysgYi9Eb2N1
-bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9wcm9jZXNzL3N1Ym1pdC1jaGVja2xpc3QucnN0
-DQo+IEBAIC04MiwyNCArODIsMjIgQEAgTGludXjlhoXmoLjooaXkuIHmj5DkuqTmuIXljZUNCj4g
-ICAgICDor7flj4LpmIUgYGBEb2N1bWVudGF0aW9uL0FCSS9SRUFETUVgYCDjgILmm7TmlLnnlKjm
-iLfnqbrpl7TmjqXlj6PnmoTooaXkuIHlupTor6XmioTpgIENCj4gICAgICBsaW51eC1hcGlAdmdl
-ci5rZXJuZWwub3Jn44CCDQo+DQo+IC0yMCkg5qOA5p+l5piv5ZCm5YWo6YOo6YCa6L+HIGBgbWFr
-ZSBoZWFkZXJzX2NoZWNrYGAg44CCDQo+IC0NCj4gLTIxKSDlt7LpgJrov4foh7PlsJHms6jlhaVz
-bGFi5ZKMcGFnZeWIhumFjeWksei0pei/m+ihjOajgOafpeOAguivt+WPgumYhSBgYERvY3VtZW50
-YXRpb24vZmF1bHQtaW5qZWN0aW9uL2BgDQo+ICsyMCkg5bey6YCa6L+H6Iez5bCR5rOo5YWlc2xh
-YuWSjHBhZ2XliIbphY3lpLHotKXov5vooYzmo4Dmn6XjgILor7flj4LpmIUgYGBEb2N1bWVudGF0
-aW9uL2ZhdWx0LWluamVjdGlvbi9gYA0KPiAgICAgIOWmguaenOaWsOS7o+eggeaYr+Wunui0qOaA
-p+eahO+8jOmCo+S5iOa3u+WKoOWtkOezu+e7n+eJueWumueahOaVhemanOazqOWFpeWPr+iDveaY
-r+WQiOmAgueahOOAgg0KPg0KPiAtMjIpIOaWsOa3u+WKoOeahOS7o+eggeW3sue7j+eUqCBgYGdj
-YyAtV2BgIOe8luivke+8iOS9v+eUqCBgYG1ha2UgRVhUUkEtQ0ZMQUdTPS1XYGAg77yJ44CC6L+Z
-DQo+ICsyMSkg5paw5re75Yqg55qE5Luj56CB5bey57uP55SoIGBgZ2NjIC1XYGAg57yW6K+R77yI
-5L2/55SoIGBgbWFrZSBFWFRSQS1DRkxBR1M9LVdgYCDvvInjgILov5kNCj4gICAgICDlsIbkuqfn
-lJ/lpKfph4/lmarlo7DvvIzkvYblr7nkuo7mn6Xmib7or7jlpoLigJzorablkYrvvJrmnInnrKbl
-j7flkozml6DnrKblj7fkuYvpl7TnmoTmr5TovoPigJ3kuYvnsbvnmoTplJnor68NCj4gICAgICDl
-vojmnInnlKjjgIINCj4NCj4gLTIzKSDlnKjlroPooqvlkIjlubbliLAtbW3ooaXkuIHpm4bkuK3k
-uYvlkI7ov5vooYzmtYvor5XvvIzku6Xnoa7kv53lroPku43nhLbkuI7miYDmnInlhbbku5bmjpLp
-mJ/nmoTooaXkuIHku6UNCj4gKzIyKSDlnKjlroPooqvlkIjlubbliLAtbW3ooaXkuIHpm4bkuK3k
-uYvlkI7ov5vooYzmtYvor5XvvIzku6Xnoa7kv53lroPku43nhLbkuI7miYDmnInlhbbku5bmjpLp
-mJ/nmoTooaXkuIHku6UNCj4gICAgICDlj4pWTeOAgVZGU+WSjOWFtuS7luWtkOezu+e7n+S4reea
-hOWQhOenjeabtOaUueS4gOi1t+W3peS9nOOAgg0KPg0KPiAtMjQpIOaJgOacieWGheWtmOWxj+ma
-nOS+i+WmgiBgYGJhcnJpZXIoKWBgLCBgYHJtYigpYGAsIGBgd21iKClgYCDpg73pnIDopoHmupDk
-u6PnoIHkuK3nmoTms6gNCj4gKzIzKSDmiYDmnInlhoXlrZjlsY/pmpzkvovlpoIgYGBiYXJyaWVy
-KClgYCwgYGBybWIoKWBgLCBgYHdtYigpYGAg6YO96ZyA6KaB5rqQ5Luj56CB5Lit55qE5rOoDQo+
-ICAgICAg6YeK5p2l6Kej6YeK5a6D5Lus5q2j5Zyo5omn6KGM55qE5pON5L2c5Y+K5YW25Y6f5Zug
-55qE6YC76L6R44CCDQo+DQo+IC0yNSkg5aaC5p6c6KGl5LiB5re75Yqg5LqG5Lu75L2VaW9jdGzv
-vIzpgqPkuYjkuZ/opoHmm7TmlrAgYGBEb2N1bWVudGF0aW9uL3VzZXJzcGFjZS1hcGkvaW9jdGwv
-aW9jdGwtbnVtYmVyLnJzdGBgDQo+ICsyNCkg5aaC5p6c6KGl5LiB5re75Yqg5LqG5Lu75L2VaW9j
-dGzvvIzpgqPkuYjkuZ/opoHmm7TmlrAgYGBEb2N1bWVudGF0aW9uL3VzZXJzcGFjZS1hcGkvaW9j
-dGwvaW9jdGwtbnVtYmVyLnJzdGBgDQo+DQo+IC0yNikg5aaC5p6c5L+u5pS55ZCO55qE5rqQ5Luj
-56CB5L6d6LWW5oiW5L2/55So5LiO5Lul5LiLIGBgS2NvbmZpZ2BgIOespuWPt+ebuOWFs+eahOS7
-u+S9leWGheaguEFQSeaIlg0KPiArMjUpIOWmguaenOS/ruaUueWQjueahOa6kOS7o+eggeS+nei1
-luaIluS9v+eUqOS4juS7peS4iyBgYEtjb25maWdgYCDnrKblj7fnm7jlhbPnmoTku7vkvZXlhoXm
-oLhBUEnmiJYNCj4gICAgICDlip/og73vvIzliJnlnKjnpoHnlKjnm7jlhbMgYGBLY29uZmlnYGAg
-56ym5Y+35ZKML+aIliBgYD1tYGAg77yI5aaC5p6c6K+l6YCJ6aG55Y+v55So77yJ55qE5oOF5Ya1
-DQo+ICAgICAg5LiL5rWL6K+V5Lul5LiL5aSa5Liq5p6E5bu6W+W5tumdnuaJgOaciei/meS6m+mD
-veWQjOaXtuWtmOWcqO+8jOWPquaYr+Wug+S7rOeahOWQhOenjS/pmo/mnLrnu4TlkIhd77yaDQo+
-DQo+IC0tDQo+IDIuMjcuMA0KPg0KDQoNCi0tIA0KQmVzdCBSZWdhcmRzDQpNYXNhaGlybyBZYW1h
-ZGENCg==
+Hi Bernard,
+
+I'd like to help Alex to make a pre-review.
+
+On Wed, Mar 31, 2021 at 06:14:05AM -0700, Bernard Zhao wrote:
+> Add translations to dev-tools gcov
+> 
+> Signed-off-by: Bernard Zhao <bernard@vivo.com>
+> ---
+>  .../translations/zh_CN/dev-tools/gcov.rst     | 274 ++++++++++++++++++
+>  1 file changed, 274 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/dev-tools/gcov.rst
+
+It seems that you are the first person who add zh translation in
+zh_CN/dev-tools, so please also add the zh_CN/dev-tools/index.rst and link
+it to zh_CN/index.rst, or your work will not appear when building docs.
+
+You could mark the un-translated docs of dev-tools in 'TodoList', just
+as zh_CN/admin-guide/index.rst.
+
+> 
+> diff --git a/Documentation/translations/zh_CN/dev-tools/gcov.rst b/Documentation/translations/zh_CN/dev-tools/gcov.rst
+> new file mode 100644
+> index 000000000000..5ebbc55e5881
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/dev-tools/gcov.rst
+> @@ -0,0 +1,274 @@
+
+<<<<<<<<<<<<<<<
+
+> +Chinese translated version of Documentation/dev-tools/gcov.rst
+> +
+> +If you have any comment or update to the content, please contact the
+> +original document maintainer directly.  However, if you have a problem
+> +communicating in English you can also ask the Chinese maintainer for
+> +help.  Contact the Chinese maintainer if this translation is outdated
+> +or if there is a problem with the translation.
+> +
+> +Chinese maintainer: Bernard Zhao <bernard@vivo.com>
+> +---------------------------------------------------------------------
+> +Documentation/dev-tools/gcov.rst 的中文翻译
+> +
+> +如果想评论或更新本文的内容，请直接联系原文档的维护者。如果你使用英文
+> +交流有困难的话，也可以向中文版维护者求助。如果本翻译更新不及时或者翻
+> +译存在问题，请联系中文版维护者。
+> +
+> +中文版维护者： 赵军奎 Bernard Zhao <bernard@vivo.com>
+> +中文版翻译者： 赵军奎 Bernard Zhao <bernard@vivo.com>
+> +
+> +以下为正文
+> +---------------------------------------------------------------------
+
+<<<<<<<<<<<<<<<
+
+You seems use the old style of zh translation header. Please follow this:
+
+.. include:: ../disclaimer-zh_CN.rst
+
+:Original: Documentation/dev-tools/gcov.rst
+
+:Translator: 赵军奎 Bernard Zhao <bernard@vivo.com>
+
+The 'include' will give the unified declaration, and use tags for other
+informations.
+
+Example see:
+  Documentation/translations/zh_CN/process/1.Intro.rst
+
+> +
+> +在Linux内核里使用gcov做代码覆盖率检查
+> +===============================
+
+Here, = line must longer than title text. Please make before send
+patch, will find a warning. And need a empty line under the = line.
+
+Reference:
+  Documentation/doc-guide/sphinx.rst
+
+> +gcov是linux中已经集成的一个分析模块，该模块在内核中对GCC的代码覆盖率统
+> +计提供了支持。
+> +linux内核运行时的代码覆盖率数据会以gcov兼容的格式存储在debug-fs中，可
+> +以通过如下的方式获得指定文件的代码运行覆盖率统计数据（需要跳转到内核
+> +编译路径下并且要有root权限）：
+                               ^^
+You missed "use gcov with the ``-o`` option as follows"
+
+'::' is a special symbol for ReST, do not use '：' to replace it. 
+Make test will also help with this point.
+
+> +
+> +    # cd /tmp/linux-out
+> +    # gcov -o /sys/kernel/debug/gcov/tmp/linux-out/kernel spinlock.c
+> +
+> +这个命令会在当前编译路径下创建带有注释的代码实际运行次数的计数源文件。
+
+这将在当前目录中创建带有执行计数注释的源代码文件。
+
+> +在获得这些统计文件后，可以使用图形化的gcov前端工具（比如lcov），
+> +来实现自动化处理linux kernel的覆盖率运行数据，同时生成易于阅读的HTML格
+                         ^^^^^^
+                         内核
+
+本文所有kernel是否翻译请注意统一，建议能译全译
+
+> +式文件。
+> +
+> +可能的用途：
+> +
+> +* 调试（用来判断每一行的代码是否已经运行过）
+> +* 测试改进（如何修改测试代码，尽可能地覆盖到没有运行过的代码）
+> +* 内核配置优化（对于某一个config配置，如果关联的代码从来没有运行过，是
+                             ^^^^^^
+                   option    选项
+
+> +否还需要这个配置）
+> +
+> +gcov和lcov的关联网站
+
+This line no need. Follow two lines are ReST tags.
+
+> +.. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
+> +.. _lcov: http://ltp.sourceforge.net/coverage/lcov.php
+
+Maybe you need to change tags for the two lines, same tag in zh and en will
+cause warning. 
+
+> +
+> +
+> +准备
+> +-----------
+> +
+> +打开如下配置：
+> +
+> +        CONFIG_DEBUG_FS=y
+> +        CONFIG_GCOV_KERNEL=y
+> +
+> +获取整个内核的覆盖率数据，还需要打开：
+> +
+> +        CONFIG_GCOV_PROFILE_ALL=y
+> +
+> +需要注意的是，整个kernel开启覆盖率统计回造成kernel镜像文件尺寸的增大
+                     ^^^^^^              ^^      ^^^^^
+                                         会
+
+> +同时kernel运行的也会变慢一些。
+> +另外，并不是所有的架构都支持整个kernel开启覆盖率统计。
+> +
+> +代码运行覆盖率数据只在debugfs挂载完成后才可以访问：
+                                                    ^^
+                                                    ::
+
+> +
+> +        mount -t debugfs none /sys/kernel/debug
+> +
+> +
+> +客制化
+> +-------------
+> +
+> +如果要单独针对某一个路径或者文件进行代码覆盖率统计，可以在kernel相应路
+                                                             ^^^^^^
+
+> +径的Makefile中增加如下的配置：
+> +
+> +- 单独统计单个文件（例如main.o）
+> +
+> +	GCOV_PROFILE_main.o := y
+> +
+> +- 单独统计某一个路径
+> +
+> +	GCOV_PROFILE := y
+> +
+> +如果要在整个kernel的覆盖率统计（开启CONFIG_GCOV_PROFILE_ALL）中单独排除
+> +某一个文件或者路径，可以使用如下的方法：
+                                         ^^
+                                         ::
+
+> +
+> +- 不统计单个文件（例如main.o）
+
+Please do not change original content structure. If you want to change that, 
+please modify en version first.
+
+	GCOV_PROFILE_main.o := n
+
+和::
+
+	GCOV_PROFILE := n
+
+> +
+> +	GCOV_PROFILE_main.o := n
+> +
+> +- 不统计某一个路径
+> +
+> +	GCOV_PROFILE := n
+> +
+
+Missed follow sentence：
+
+Only files which are linked to the main kernel image or are compiled as
+kernel modules are supported by this mechanism.
+
+> +
+> +关联的文件
+
+相关文件
+
+> +-------------
+> +
+> +gcov功能需要在debugfs中创建如下文件
+> +
+> +``/sys/kernel/debug/gcov``
+> +    gcov相关功能的根路径
+> +
+> +``/sys/kernel/debug/gcov/reset``
+> +    gcov复位，向该文件写入数据后会将所有的gcov统计数据清0
+       ^^^^^^^^^
+Global reset file:
+全局复位文件：
+
+> +
+> +``/sys/kernel/debug/gcov/path/to/compile/dir/file.gcda``
+> +    gcov工具可以识别的覆盖率统计数据文件
+
+Missed "Resets file coverage data to zero when written to."
+
+> +
+> +``/sys/kernel/debug/gcov/path/to/compile/dir/file.gcno``
+> +    gcov工具需要的软连接文件（指向编译时生成的信息统计文件），这个文件是
+> +    在gcc编译时如果配置了选项-ftest-coverage时生成的。
+
+``-ftest-coverage``
+
+> +
+> +
+> +针对module的统计
+
+模块
+
+> +-------
+
+Too short
+
+> +
+> +kernel中的模块会动态的加载和卸载，模块卸载时对应的数据会被清除掉。
+
+Kernel modules may contain cleanup code which is only run during
+module unload time.
+
+Please be faithful to the original text.
+
+> +gcov提供了一种机制，通过保留相关数据的副本来收集这部分卸载模块的覆盖率数据。
+> +模块卸载后这些备份数据在debugfs中会继续存在。
+> +一旦这个模块重新加载，模块关联的运行统计会被初始化成debugfs中备份的数据。
+> +
+> +可以通过对内核参数gcov_persist的修改来停用gcov对module的备份机制：
+                                                                   ^^
+                                                                   ::
+
+> +
+> +        gcov_persist = 0
+> +
+> +在运行时，用户还可以通过写入模块的数据文件或者写入gcov复位文件来丢弃已卸
+> +载模块的数据。
+> +
+> +
+> +分离的编译和运行设备
+> +---------------------------------
+> +
+> +gcov的内核分析架构支持内核的编译和分析是在同一台设备上，也可以编译和运
+> +行是在不同的设备上。
+> +如果内核编译和运行是不同的设备，那么需要额外的准备工作，这取决于gcov tools
+
+gcov tools是否翻译请统一，或在第一次翻译时括注英文
+
+> +是在哪里使用的：
+> +
+> +a) gcov如果运行在测试设备上
+
+若gcov运行在测试设备上
+
+> +
+> +    测试设备上面gcov工具的版本必须要跟设备内核编译使用的gcc版本相兼容，
+> +    同时下面的文件要从编译设备拷贝到测试设备上：
+> +
+> +    从源代码中：
+> +      - 所有的C文件和头文件
+> +	  
+> +    从编译目录中：
+> +      - 所有的C文件和头文件
+> +      - 所有的.gcda文件和.gcno文件
+> +      - 所有目录的链接
+> +
+> +    需要注意的是，测试机器上面的目录结构跟编译机器上面的目录机构必须完全一致。
+
+It is important to note
+特别需要注意
+
+> +    如果文件是软链接，需要替换成真正的目录文件（这是由make的当前工作目录变量
+> +    CURDIR引起的）。
+> +
+> +b) gcov如果运行在编译设备上
+
+若gcov运行在编译设备上
+
+> +
+> +    测试用例运行结束后，如下的文件需要从测试设备中拷贝到编译设备上：
+> +	
+> +    从sysfs中的gcov目录中：
+> +      - 所有的.gcda文件
+> +      - 所有的.gcno文件软链接
+> +
+> +    这些文件可以拷贝到编译设备的任意目录下，gcov使用-o选项指定拷贝的目录。
+> +	
+> +    比如一个是示例的目录结构如下：
+                                   ^^
+                                   ::
+and a empty line
+
+> +      /tmp/linux:    内核源码目录
+> +      /tmp/out:      内核编译文件路径（make O=指定）
+> +      /tmp/coverage: 从测试机器上面拷贝的数据文件路径
+> +	
+> +      [user@build] cd /tmp/out
+> +      [user@build] gcov -o /tmp/coverage/tmp/out/init main.c
+> +
+> +
+> +关于编译器的注意事项
+> +-----------------
+
+Too short
+
+> +
+> +GCC和LLVM gcov工具不一定兼容。
+> +如果编译器是GCC，使用gcov_来处理.gcno和.gcda文件，如果是Clang编译器，
+> +则使用llvm-cov_。
+> +
+> +gcc gcov和llvm cov的关联网站
+
+No need above line.
+And duplicate tags below。
+
+> +.. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
+> +.. _llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
+> +
+> +GCC和Clang gcov之间的版本差异由Kconfig处理的。
+> +kconfig会根据编译工具链的检查自动选择合适的gcov格式。
+> +
+> +问题定位
+> +---------------
+> +
+> +可能出现的问题1
+> +    编译到链接阶段报错终止
+> +
+> +问题原因
+> +    分析标志指定在了源文件但是没有链接到主内核，或者客制化了链接程序
+> +
+> +解决方法
+> +    通过在Makefile中使用GCOV_PROFILE := n或者
+> +    GCOV_PROFILE_basename.o := n来将链接报错的文件排除掉
+
+corresponding Makefile
+
+``GCOV_PROFILE := n``
+``GCOV_PROFILE_basename.o := n``
+
+> +
+> +可能出现的问题2
+> +    文件从sysfs拷贝时不存在或者不可访问
+
+Files copied from sysfs appear empty or incomplete.
+从sysfs复制的文件显示为空或不完整。
+
+> +
+> +问题原因
+> +    由于seq_file的工作方式，某些工具（例如cp或tar）可能无法正确地从
+> +    sysfs复制文件。
+> +
+> +解决方法
+> +    使用cat读取.gcda文件，使用cp -d复制链接，或者使用附录B中所示的
+
+``cat``
+``.gcda``
+``cp -d`` 
+
+> +    机制。
+> +
+> +
+> +附录A：collect_on_build.sh
+> +------------------------------
+> +
+> +用于在编译设备上收集覆盖率编译中间数据文件的示例脚本
+> +
+> +.. code-block:: sh
+> +
+> +    #!/bin/bash
+> +
+> +    KSRC=$1
+> +    KOBJ=$2
+> +    DEST=$3
+> +
+> +    if [ -z "$KSRC" ] || [ -z "$KOBJ" ] || [ -z "$DEST" ]; then
+> +      echo "Usage: $0 <ksrc directory> <kobj directory> <output.tar.gz>" >&2
+> +      exit 1
+> +    fi
+> +
+> +    KSRC=$(cd $KSRC; printf "all:\n\t@echo \${CURDIR}\n" | make -f -)
+> +    KOBJ=$(cd $KOBJ; printf "all:\n\t@echo \${CURDIR}\n" | make -f -)
+> +
+> +    find $KSRC $KOBJ \( -name '*.gcno' -o -name '*.[ch]' -o -type l \) -a \
+> +                     -perm /u+r,g+r | tar cfz $DEST -P -T -
+> +
+> +    if [ $? -eq 0 ] ; then
+> +      echo "$DEST successfully created, copy to test system and unpack with:"
+> +      echo "  tar xfz $DEST -P"
+> +    else
+> +      echo "Could not create file $DEST"
+> +    fi
+> +
+> +
+> +附录B：collect_on_test.sh
+> +-----------------------------
+> +
+> +用于在测试设备上收集覆盖里统计数据数据文件的示例脚本
+
+Missed "(see 6b):"
+This tag seems not good, but just follow it.
+
+> +
+> +.. code-block:: sh
+> +
+> +    #!/bin/bash -e
+> +
+> +    DEST=$1
+> +    GCDA=/sys/kernel/debug/gcov
+> +
+> +    if [ -z "$DEST" ] ; then
+> +      echo "Usage: $0 <output.tar.gz>" >&2
+> +      exit 1
+> +    fi
+> +
+> +    TEMPDIR=$(mktemp -d)
+> +    echo Collecting data..
+> +    find $GCDA -type d -exec mkdir -p $TEMPDIR/\{\} \;
+> +    find $GCDA -name '*.gcda' -exec sh -c 'cat < $0 > '$TEMPDIR'/$0' {} \;
+> +    find $GCDA -name '*.gcno' -exec sh -c 'cp -d $0 '$TEMPDIR'/$0' {} \;
+> +    tar czf $DEST -C $TEMPDIR sys
+> +    rm -rf $TEMPDIR
+> +
+> +    echo "$DEST successfully created, copy to build system and unpack with:"
+> +    echo "  tar xfz $DEST"
+>  
+
+Thanks!
+
+Wu X.C.
+
