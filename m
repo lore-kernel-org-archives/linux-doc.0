@@ -2,108 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA11BC433E0
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 02:57:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23C58C433DB
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 03:03:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id ACEEA619DC
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 02:57:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D7244619D6
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 03:03:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233366AbhCaC4c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 30 Mar 2021 22:56:32 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34472 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233340AbhCaC4V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 30 Mar 2021 22:56:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0C159619D8;
-        Wed, 31 Mar 2021 02:56:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617159380;
-        bh=u773bDbsKRyPswjZDFIZbgSjt0NBivr0gD8iiCtpke0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=atRZlUClz2KWQhd2L7kr8ViPVzNOyxB7TFuVTEz33kBF3GObAwPE4tSucGLgYpMEJ
-         dgFTw4zsx3RclH0+S5IkneNsawvFPqtZOTb+UCJrXY2KuhSenPdW6/4PaP8+bXhljE
-         qmHRzfaGB863IsXwKCHmw6V8gVidqRLKgx5Cus5PXItXhrKzmyUi75s3sQ/tmFriIU
-         R7h2fd+cjKBYsCxWHgXzHW4EqO94ZOwgfPU6xHOxkjF7Gtk8pOiEJCKT1v6EonieAW
-         vUM2+KQsdJnLgVklRQXB6Yhs0z5O1WqHW5833hY2Mp7HmqTvngobWS5tBelHCXQ8t5
-         J/4Z5dspEhXiA==
-Date:   Wed, 31 Mar 2021 05:56:18 +0300
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Aditya Srivastava <yashsri421@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, lukas.bulwahn@gmail.com,
-        rdunlap@infradead.org, dave.hansen@linux.intel.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-        hpa@zytor.com, linux-sgx@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org
-Subject: Re: [PATCH] x86/sgx: fix incorrect kernel-doc comment syntax in files
-Message-ID: <YGPk0h8OikOdRnyb@kernel.org>
-References: <20210330211813.28030-1-yashsri421@gmail.com>
+        id S233309AbhCaDC2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 30 Mar 2021 23:02:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38438 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232874AbhCaDBj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 30 Mar 2021 23:01:39 -0400
+Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 144E5C06175F
+        for <linux-doc@vger.kernel.org>; Tue, 30 Mar 2021 20:01:39 -0700 (PDT)
+Received: by mail-pj1-x1036.google.com with SMTP id x21-20020a17090a5315b029012c4a622e4aso479047pjh.2
+        for <linux-doc@vger.kernel.org>; Tue, 30 Mar 2021 20:01:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=stnuRek4sOjIWVbHiF6Zw30QkQ1wKjPo9ZYhQ5gXeIc=;
+        b=niXRWlsP6nWYOz464OcK85FUi8OH0IvOD5tYyB/n4qHA/fz+1UeCwrVgIj9QbSKuJs
+         9In3WzOp3YhE4aF7+nrgA0j3qQcaR2Ip29sgsP1IuNG6cdVgq7gY8lZe1WCrD2TQJenI
+         ORcasWtvvKCFXDM/Fh4//SyDQ3gtU63zmWQ5KS7tS8Pbb5W9fhidBezi8/AEOg9HbmjZ
+         k6fL5ju5NVz4MXfKI88aR2rVlZ6HFrSrEYbWH8lTzBYqcWo/QJTstjygBi1tebOXObXF
+         d0d5C2yxDVZJemqMLcwdyWiLGKNjvdqITv++rg+ZHPn6OK5imYyRQZqVtPmkWcscIftT
+         zYJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=stnuRek4sOjIWVbHiF6Zw30QkQ1wKjPo9ZYhQ5gXeIc=;
+        b=ay+MiyDBIZsj+QMrbp7p4SqbW0K800g4EbdGPKYQBz7VhhqITFBmA65+eeBhpUTL2h
+         yQnbF3QON0gVbDVUXGsyujSEUNBeg2SBDHp78d3kktVxrgg6BJvz8vGT7mUOtDhxZR+x
+         rmZN1vi2DsnGi20sIWVz5d0J4zRw5nqIupd3wX8QdlqRlyjzTJ4Mseh+9bz4ntb5vcIN
+         dV3n8UF/D77wkXzYY78coglXxB2yIJVJ4fGkrZO8c/o3o8m/QYI+FJBFkoq1Ag2R7yvA
+         j3zAA9IC8whzVQ5gWjBEFzwecYv6pyLHuiC5Bx/fPzzfnSkXRLGyICOLwkRlRoJ0EitB
+         QFWw==
+X-Gm-Message-State: AOAM530tPRjxOxwdZBA5V1aVUvUjR3gJys2rDuPJPWYPnNg+Ik7CA9a3
+        LOUKy4/iMfzCWL4tE01vz4i+Yg==
+X-Google-Smtp-Source: ABdhPJzGQXAE+cVEv4iUgsow9YdddJYSNGV5fSw+Q1hZhK7KifScyxTT+YTaUQqGdwqKrP1GWz8PZg==
+X-Received: by 2002:a17:902:c408:b029:e7:3242:5690 with SMTP id k8-20020a170902c408b02900e732425690mr1241746plk.85.1617159697700;
+        Tue, 30 Mar 2021 20:01:37 -0700 (PDT)
+Received: from google.com (240.111.247.35.bc.googleusercontent.com. [35.247.111.240])
+        by smtp.gmail.com with ESMTPSA id w84sm360419pfc.142.2021.03.30.20.01.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Mar 2021 20:01:36 -0700 (PDT)
+Date:   Wed, 31 Mar 2021 03:01:33 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
+        Alexander Graf <graf@amazon.com>,
+        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 1/4] kvm: cpuid: adjust the returned nent field of
+ kvm_cpuid2 for KVM_GET_SUPPORTED_CPUID and KVM_GET_EMULATED_CPUID
+Message-ID: <YGPmDbO++agqdqQL@google.com>
+References: <20210330185841.44792-1-eesposit@redhat.com>
+ <20210330185841.44792-2-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210330211813.28030-1-yashsri421@gmail.com>
+In-Reply-To: <20210330185841.44792-2-eesposit@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 31, 2021 at 02:48:13AM +0530, Aditya Srivastava wrote:
-> The opening comment mark '/**' is used for highlighting the beginning of
-> kernel-doc comments.
-> There are certain files in arch/x86/kernel/cpu/sgx, which follow this
-> syntax, but the content inside does not comply with kernel-doc.
-> Such lines were probably not meant for kernel-doc parsing, but are parsed
-> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-> causes unexpected warnings from kernel-doc.
+On Tue, Mar 30, 2021, Emanuele Giuseppe Esposito wrote:
+> Calling the kvm KVM_GET_[SUPPORTED/EMULATED]_CPUID ioctl requires
+> a nent field inside the kvm_cpuid2 struct to be big enough to contain
+> all entries that will be set by kvm.
+> Therefore if the nent field is too high, kvm will adjust it to the
+> right value. If too low, -E2BIG is returned.
 > 
-> E.g., presence of kernel-doc like comment in the header lines for
-> arch/x86/kernel/cpu/sgx/encl.h causes this warning:
-> "warning: expecting prototype for 2016(). Prototype was for _X86_ENCL_H() instead"
+> However, when filling the entries do_cpuid_func() requires an
+> additional entry, so if the right nent is known in advance,
+> giving the exact number of entries won't work because it has to be increased
+> by one.
 > 
-> Similarly for arch/x86/kernel/cpu/sgx/arch.h too.
-> 
-> Provide a simple fix by replacing these occurrences with general comment
-> format, i.e. '/*', to prevent kernel-doc from parsing it.
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 > ---
-> * Applies perfectly on next-20210326
+>  arch/x86/kvm/cpuid.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
->  arch/x86/kernel/cpu/sgx/arch.h | 2 +-
->  arch/x86/kernel/cpu/sgx/encl.h | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/x86/kernel/cpu/sgx/arch.h b/arch/x86/kernel/cpu/sgx/arch.h
-> index 26315bea1cb4..70b84bbdaa1d 100644
-> --- a/arch/x86/kernel/cpu/sgx/arch.h
-> +++ b/arch/x86/kernel/cpu/sgx/arch.h
-> @@ -1,5 +1,5 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
-> -/**
-> +/*
->   * Copyright(c) 2016-20 Intel Corporation.
->   *
->   * Contains data structures defined by the SGX architecture.  Data structures
-> diff --git a/arch/x86/kernel/cpu/sgx/encl.h b/arch/x86/kernel/cpu/sgx/encl.h
-> index d8d30ccbef4c..76b9bc1c5c30 100644
-> --- a/arch/x86/kernel/cpu/sgx/encl.h
-> +++ b/arch/x86/kernel/cpu/sgx/encl.h
-> @@ -1,5 +1,5 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
-> -/**
-> +/*
->   * Copyright(c) 2016-20 Intel Corporation.
->   *
->   * Contains the software defined data structures for enclaves.
+> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+> index 6bd2f8b830e4..5412b48b9103 100644
+> --- a/arch/x86/kvm/cpuid.c
+> +++ b/arch/x86/kvm/cpuid.c
+> @@ -975,6 +975,12 @@ int kvm_dev_ioctl_get_cpuid(struct kvm_cpuid2 *cpuid,
+>  
+>  	if (cpuid->nent < 1)
+>  		return -E2BIG;
+> +
+> +	/* if there are X entries, we need to allocate at least X+1
+> +	 * entries but return the actual number of entries
+> +	 */
+> +	cpuid->nent++;
+
+I don't see how this can be correct.
+
+If this bonus entry really is needed, then won't that be reflected in array.nent?
+I.e won't KVM overrun the userspace buffer?
+
+If it's not reflected in array.nent, that would imply there's an off-by-one check
+somewhere, or KVM is creating an entry that it doesn't copy to userspace.  The
+former seems unlikely as there are literally only two checks against maxnent,
+and they both look correct (famous last words...).
+
+KVM does decrement array->nent in one specific case (CPUID.0xD.2..64), i.e. a
+false positive is theoretically possible, but that carries a WARN and requires a
+kernel or CPU bug as well.  And fudging nent for that case would still break
+normal use cases due to the overrun problem.
+
+What am I missing?
+
+> +
+>  	if (cpuid->nent > KVM_MAX_CPUID_ENTRIES)
+>  		cpuid->nent = KVM_MAX_CPUID_ENTRIES;
+>  
 > -- 
-> 2.17.1
+> 2.30.2
 > 
-> 
-
-Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
-
-/Jarkko
