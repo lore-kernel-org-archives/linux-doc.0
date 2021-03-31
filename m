@@ -2,102 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD5D3C433C1
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 08:34:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 456F4C433E0
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 09:40:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A30ED61957
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 08:34:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A89D619BD
+	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 09:40:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234339AbhCaIeY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 04:34:24 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:54236 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234373AbhCaId7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 31 Mar 2021 04:33:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=cGMIpLGopqNGNJ8RtjhCfqrGOBvIa0fV5k9lD
-        6TjwrA=; b=c6bRa0dptnvgjHRsMjv0sucfkdazNFjgxm6bnDyAi/st5tSqVLnoP
-        hX4c+OHUS76pY4yOT/Kc6yZ0dml95THMexBeB31vLQm7DXaYc84rMRbXh2LER5Gc
-        07QXLqhhFYTDQUfhwM7BYNqIk/IgXynog0O6qv3w6H8c+8F9YXsUnk=
-Received: from mipc (unknown [120.238.248.129])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDnWdDhM2RgVdpDAA--.21247S2;
-        Wed, 31 Mar 2021 16:33:39 +0800 (CST)
-Date:   Wed, 31 Mar 2021 16:33:37 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Alex Shi <alexs@kernel.org>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v1 1/4] docs: make reporting-issues.rst official and
- delete reporting-bugs.rst
-Message-ID: <20210331083337.GA5287@mipc>
-References: <cover.1617113469.git.linux@leemhuis.info>
- <49c674c2d304d87e6259063580fda05267e8c348.1617113469.git.linux@leemhuis.info>
+        id S234693AbhCaJjt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 05:39:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50234 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234689AbhCaJjo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Mar 2021 05:39:44 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C399E61954;
+        Wed, 31 Mar 2021 09:39:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617183583;
+        bh=f+fwWDGLY+gVOzJtajN7go3Pyscihbt/vp3GyZITTT0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fVw2zSj1KYLYpU1NanCuviovXBPPaQW53oxlVvKT4kv+NXQU56Os/FC0jiSRN3Xbe
+         ieiKPEgtSx3/ECd4q9QdYNPjy8fltYD5QR0BqGhPg9ZF2dzk8IrafRXk1wBcHuwlGV
+         W5v1vPItC6bMtnRmSybyGhPBofiUJB9nlhNMhP59aUfFzErWJB8w436TGHwdHzErrF
+         BWYr40/g1YRP+LJemrmvVhAiCBqT1lbG/ZStqAVio9909B9rrZXFfvAnqt6Pg3dHvF
+         T4fwnmKaEu9eqzhEj/d6m4qNEUsJLoxQ5PXX5cPgAoxkhwZETHr1j+wwR6ER424rZq
+         gcHglVtHEddug==
+Date:   Wed, 31 Mar 2021 12:39:36 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+        Joe Perches <joe@perches.com>,
+        Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+        linux-doc@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] MAINTAINERS: assign pagewalk.h to MEMORY MANAGEMENT
+Message-ID: <YGRDWLUea442tV7f@kernel.org>
+References: <20210322122542.15072-1-lukas.bulwahn@gmail.com>
+ <20210322122542.15072-2-lukas.bulwahn@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <49c674c2d304d87e6259063580fda05267e8c348.1617113469.git.linux@leemhuis.info>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgDnWdDhM2RgVdpDAA--.21247S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Zry3WFW7ArWDZrWxtrW5Wrg_yoW8Zr13p3
-        WDKrZ2q3ZxJFn0kr1xGr12qw12va4xuayrJr48Xw1rCrs8CF1ktrWqvr90vas3ury8tFWU
-        XF4Fgr90yr1jyaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUyvb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
-        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
-        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2
-        xKxwCY02Avz4vE14v_GFyl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1U
-        JwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-        vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
-        x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26c
-        xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
-        wI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IUeOTmDUUUUU==
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+In-Reply-To: <20210322122542.15072-2-lukas.bulwahn@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Cc Alex Shi's new email <alexs@kernel.org>
-
-On Tue, Mar 30, 2021 at 04:13:04PM +0200, Thorsten Leemhuis wrote:
-> Removing Documentation/admin-guide/reporting-bugs.rst will break links
-> in some of the translations. I was unsure if simply changing them to
-> Documentation/admin-guide/reporting-issue.rst was wise, so I didn't
-> touch anything for now and CCed the maintainers for the Chinese and
-> Italian translation. I couldn't find one for the Japanse translation.
+On Mon, Mar 22, 2021 at 01:25:41PM +0100, Lukas Bulwahn wrote:
+> Commit a520110e4a15 ("mm: split out a new pagewalk.h header from mm.h")
+> adds a new file in ./include/linux, but misses to update MAINTAINERS
+> accordingly. Hence, ./scripts/get_maintainers.pl ./include/linux/pagewalk.h
+> points only to lkml as general fallback for all files, whereas the original
+> ./include/linux/mm.h clearly marks this file part of MEMORY MANAGEMENT.
 > 
-> Please advice. For completeness, this are the places where things will
-> break afaics:
+> Assign ./include/linux/pagewalk.h to MEMORY MANAGEMENT.
 > 
-> $ grep -ri 'reporting-bugs.rst' Documentation/
-> Documentation/translations/zh_CN/SecurityBugs:是有帮助的信息，那就请重温一下admin-guide/reporting-bugs.rst文件中的概述过程。任
-> Documentation/translations/zh_CN/process/howto.rst:内核源码主目录中的:ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
-> Documentation/translations/zh_CN/admin-guide/reporting-issues.rst:   本文档将取代“Documentation/admin-guide/reporting-bugs.rst”。主要的工作
-> Documentation/translations/zh_CN/admin-guide/reporting-issues.rst:   “Documentation/admin-guide/reporting-bugs.rst”中的旧文字非常相似。它和它
-
-Yeah, as Greg said, we will solve that after you patches be merged in next
-tree. Since I have translate the zh reporting-issues.rst in the next tree,
-will correct the link when I sync it with your new version. May cause 
-Warning for some days, but don't worry about it.
-
-Wu X.C.
-
-> Documentation/translations/it_IT/process/howto.rst:Il file admin-guide/reporting-bugs.rst nella cartella principale del kernel
-> Documentation/translations/ja_JP/howto.rst:admin-guide/reporting-bugs.rstはカーネルバグらしいものについてどうレポー
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Ciao, Thorsten
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 728216e3919c..46a1eddbc3e4 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11622,6 +11622,7 @@ F:	include/linux/gfp.h
+>  F:	include/linux/memory_hotplug.h
+>  F:	include/linux/mm.h
+>  F:	include/linux/mmzone.h
+> +F:	include/linux/pagewalk.h
 
+I'd say that we miss all include/linux/page* here, not only pagewalk.h
+
+>  F:	include/linux/vmalloc.h
+>  F:	mm/
+>  
+> -- 
+> 2.17.1
+> 
+
+-- 
+Sincerely yours,
+Mike.
