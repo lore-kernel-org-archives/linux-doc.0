@@ -2,180 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
+	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48583C43462
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:38:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37113C433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 19:05:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20EBA6023B
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:38:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0A5E96101A
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 19:05:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234103AbhDASiO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:38:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47020 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S237420AbhDASdO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 14:33:14 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617301994;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=tiQ9rOWn5ijyokOAeU30eSmsI7AHHfrMvUwmLdRJ+Rw=;
-        b=BHZ4YmHa8cbNFLoxyqK+U4vRWwJIqMxnHBYktM6Fx+PJMfHKanr9PmTqjZ9SZK8PONHO20
-        1rm1maf7YlUZOBsD1L/m5C0qm+jIzMSR6Aej3v8o3QTEAbaqeIbrIBXZu7sheBjKR7OPf6
-        BdFqdNAosXo4q0J8vVa3O6yIOwg9plE=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-jSqDhY8MOD-XiTp2fYbx4g-1; Thu, 01 Apr 2021 10:31:39 -0400
-X-MC-Unique: jSqDhY8MOD-XiTp2fYbx4g-1
-Received: by mail-ed1-f71.google.com with SMTP id j18so2931260edv.6
-        for <linux-doc@vger.kernel.org>; Thu, 01 Apr 2021 07:31:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=tiQ9rOWn5ijyokOAeU30eSmsI7AHHfrMvUwmLdRJ+Rw=;
-        b=G+j/DAHgVZaWGCSSMAaRWoA8larqBb13cjpRHA7x6SOYM4S9HdtN0N42zhMzMThNv+
-         +v1hS75IcmshKILV4/upVgU138Ch6bwD+s94egwV2dDlzw2MsB4dqBf17Ju+zN9mSdCt
-         z9q4FZPd30bGbv7PepeNd221jVCg3MdCEIhmBCS5lndjcEJ6j1jtz86Bh4U0iZPSJbfa
-         CKMtTw9zG2z57FTFzFhE36EYFUY6bmxai05RZt4q+CEtNHqfK3CXR3H436gD5T91YAKT
-         S3RZ5OuEGI9irBkwmwdDjfz0+QC3iVXMIf+BoUtljQ1nGd5tJ2/5dO80i0D0uQawI8Mi
-         Oaig==
-X-Gm-Message-State: AOAM530A7SS3QfLQPql3HolnkzwTV1mVShhfnlmoxgA2HPfZu3u8ttpY
-        m3oZUC0a0rYvKpuEjEvlmeRbAvlkZdBpd/cs99oqgZQUmWWq/RB1s8w57VZk19r821r88MsnABJ
-        ZbjvkNxXX2dvACR4BVGuM8wFmBawUPXthxg6mMhR4F/ykBzsIK9IvSOVPQeGuscHFTHLgzapv
-X-Received: by 2002:aa7:c4d1:: with SMTP id p17mr10264949edr.387.1617287497514;
-        Thu, 01 Apr 2021 07:31:37 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw6mU+Q/LOu84yiIIy4TEIjyXFKZ+mtVxpbEX19K1qtpR2QGe4UfmJAUakTOFz0J6BZmPkLow==
-X-Received: by 2002:aa7:c4d1:: with SMTP id p17mr10264911edr.387.1617287497272;
-        Thu, 01 Apr 2021 07:31:37 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id gn19sm2760705ejc.4.2021.04.01.07.31.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Apr 2021 07:31:36 -0700 (PDT)
-Subject: Re: [PATCH 2/6] KVM: nSVM: call nested_svm_load_cr3 on nested state
- load
-To:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
-Cc:     "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Jim Mattson <jmattson@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" 
-        <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20210401141814.1029036-1-mlevitsk@redhat.com>
- <20210401141814.1029036-3-mlevitsk@redhat.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d8d2f348-c16e-a531-21b7-31af92b12125@redhat.com>
-Date:   Thu, 1 Apr 2021 16:31:35 +0200
+        id S235132AbhDATE7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 15:04:59 -0400
+Received: from vern.gendns.com ([98.142.107.122]:49660 "EHLO vern.gendns.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235887AbhDAS7B (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Apr 2021 14:59:01 -0400
+X-Greylist: delayed 4503 seconds by postgrey-1.27 at vger.kernel.org; Thu, 01 Apr 2021 14:59:01 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=lechnology.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=RNTCZdBbhMjO2dSPgQllX07OBfeYeDmdhR8sOt+nJoE=; b=vwbwnsmAtNcVyjR8tkrz0eRMBh
+        CnyXQ6lqeYRkpUIOZKS0A7ZbmOuy6x9rnrLNOKkC7c+umNbC8CisM4UIkzjWlauPZwcnxin/7/jS2
+        tS1zslG3PeZcBvsUUsmEYGF5xgP53MAFQpT4Z2dFSuPX2xGQi7E8JNwFta/Fu/aP5PuTL4NuNW/uS
+        NmQAyubwdxboI/QLNyTqOOyXCY+D/34jZK7/4CJHbrySh6hqYWzMrSFxDfDnLB3hmozeuJo2ARCyl
+        Z+vmkTCFFkF5IdCLrHJRKH4SOu6gQf6FPz6uo0j9utqvAJv98WW+I6DU18pRbz5Y3bU6oHPfJzShw
+        K53VXlsw==;
+Received: from 108-198-5-147.lightspeed.okcbok.sbcglobal.net ([108.198.5.147]:43322 helo=[192.168.0.134])
+        by vern.gendns.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.94)
+        (envelope-from <david@lechnology.com>)
+        id 1lRzQv-00056q-AA; Thu, 01 Apr 2021 11:40:33 -0400
+Subject: Re: [PATCH 12/32] MAINTAINERS: update lego,ev3-battery.yaml reference
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+        Sebastian Reichel <sebastian.reichel@collabora.com>,
+        linux-kernel@vger.kernel.org
+References: <cover.1617279355.git.mchehab+huawei@kernel.org>
+ <be4e2f1c7f6b2cfbda4fc98ca2177b048a3ed575.1617279355.git.mchehab+huawei@kernel.org>
+From:   David Lechner <david@lechnology.com>
+Message-ID: <a727e107-a322-7720-3438-a165b3297a32@lechnology.com>
+Date:   Thu, 1 Apr 2021 10:40:32 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210401141814.1029036-3-mlevitsk@redhat.com>
+In-Reply-To: <be4e2f1c7f6b2cfbda4fc98ca2177b048a3ed575.1617279355.git.mchehab+huawei@kernel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - vern.gendns.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lechnology.com
+X-Get-Message-Sender-Via: vern.gendns.com: authenticated_id: davidmain+lechnology.com/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: vern.gendns.com: davidmain@lechnology.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/04/21 16:18, Maxim Levitsky wrote:
-> While KVM's MMU should be fully reset by loading of nested CR0/CR3/CR4
-> by KVM_SET_SREGS, we are not in nested mode yet when we do it and therefore
-> only root_mmu is reset.
+On 4/1/21 7:17 AM, Mauro Carvalho Chehab wrote:
+> Changeset 3004e581d92a ("dt-bindings: power: supply: lego-ev3-battery: Convert to DT schema format")
+> renamed: Documentation/devicetree/bindings/power/supply/lego_ev3_battery.txt
+> to: Documentation/devicetree/bindings/power/supply/lego,ev3-battery.yaml.
 > 
-> On regular nested entries we call nested_svm_load_cr3 which both updates
-> the guest's CR3 in the MMU when it is needed, and it also initializes
-> the mmu again which makes it initialize the walk_mmu as well when nested
-> paging is enabled in both host and guest.
+> Update its cross-reference accordingly.
 > 
-> Since we don't call nested_svm_load_cr3 on nested state load,
-> the walk_mmu can be left uninitialized, which can lead to a NULL pointer
-> dereference while accessing it if we happen to get a nested page fault
-> right after entering the nested guest first time after the migration and
-> we decide to emulate it, which leads to the emulator trying to access
-> walk_mmu->gva_to_gpa which is NULL.
-> 
-> Therefore we should call this function on nested state load as well.
-> 
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> Fixes: 3004e581d92a ("dt-bindings: power: supply: lego-ev3-battery: Convert to DT schema format")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 > ---
->   arch/x86/kvm/svm/nested.c | 40 +++++++++++++++++++++------------------
->   1 file changed, 22 insertions(+), 18 deletions(-)
-> 
-> diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
-> index 8523f60adb92..ac5e3e17bda4 100644
-> --- a/arch/x86/kvm/svm/nested.c
-> +++ b/arch/x86/kvm/svm/nested.c
-> @@ -215,24 +215,6 @@ static bool nested_svm_vmrun_msrpm(struct vcpu_svm *svm)
->   	return true;
->   }
->   
-> -static bool svm_get_nested_state_pages(struct kvm_vcpu *vcpu)
-> -{
-> -	struct vcpu_svm *svm = to_svm(vcpu);
-> -
-> -	if (WARN_ON(!is_guest_mode(vcpu)))
-> -		return true;
-> -
-> -	if (!nested_svm_vmrun_msrpm(svm)) {
-> -		vcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;
-> -		vcpu->run->internal.suberror =
-> -			KVM_INTERNAL_ERROR_EMULATION;
-> -		vcpu->run->internal.ndata = 0;
-> -		return false;
-> -	}
-> -
-> -	return true;
-> -}
-> -
->   static bool nested_vmcb_check_controls(struct vmcb_control_area *control)
->   {
->   	if (CC(!vmcb_is_intercept(control, INTERCEPT_VMRUN)))
-> @@ -1312,6 +1294,28 @@ static int svm_set_nested_state(struct kvm_vcpu *vcpu,
->   	return ret;
->   }
->   
-> +static bool svm_get_nested_state_pages(struct kvm_vcpu *vcpu)
-> +{
-> +	struct vcpu_svm *svm = to_svm(vcpu);
-> +
-> +	if (WARN_ON(!is_guest_mode(vcpu)))
-> +		return true;
-> +
-> +	if (nested_svm_load_cr3(&svm->vcpu, vcpu->arch.cr3,
-> +				nested_npt_enabled(svm)))
-> +		return false;
-> +
-> +	if (!nested_svm_vmrun_msrpm(svm)) {
-> +		vcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;
-> +		vcpu->run->internal.suberror =
-> +			KVM_INTERNAL_ERROR_EMULATION;
-> +		vcpu->run->internal.ndata = 0;
-> +		return false;
-> +	}
-> +
-> +	return true;
-> +}
-> +
->   struct kvm_x86_nested_ops svm_nested_ops = {
->   	.check_events = svm_check_nested_events,
->   	.triple_fault = nested_svm_triple_fault,
-> 
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: David Lechner <david@lechnology.com>
 
