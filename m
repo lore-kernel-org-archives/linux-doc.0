@@ -2,52 +2,48 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
+	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 764FDC433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:11 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C199C43462
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:12 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 56DFD60BBB
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:11 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 790D760BBB
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:12 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238103AbhDAS2G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:28:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45710 "EHLO mail.kernel.org"
+        id S237330AbhDAS2K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:28:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45700 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239661AbhDASQp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Apr 2021 14:16:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 726AC611CA;
-        Thu,  1 Apr 2021 12:17:56 +0000 (UTC)
+        id S236986AbhDASSo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Apr 2021 14:18:44 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A41D4610F7;
+        Thu,  1 Apr 2021 12:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617279476;
-        bh=BnEWnVkqMrbAWG8jRB7Ad1C4L7HMZywQ6hzq4TbT8UM=;
+        s=k20201202; t=1617279475;
+        bh=iqEkzOwfz35mssL71H++7gGTRC+bi3L+mvzkZz9ceyA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LPnQs3u0SA4q5hbHfq4RzSQs+FvcWBNcfhCTKN6bcNlYj9sKG8msZVimUxSaFruSC
-         8f1cqbBCUwjkAGluou0uqBj+uvjPB8fqBsalkQmfIuD+D3wwo5qv8hiqVsQ59y9VCe
-         kbXqitfXDA+PXFQ7KGEcMYafOmZA6tKtx8Ill50H7BtHyJLojLog+YntFnsrwsTSa9
-         bT5TlGv2GcTzHNPMD7kXNU4DfRmzv7R5HmIeqHBXovFPOROhDgi4oEYGohT0HzVJtu
-         qflkxbJCbDg+Xx/5q6vRLu1FjoQlsj3yct872Nt8rh29A1TOt+ToVBfFbGzycP4PiK
-         hnOfig097Jhdg==
+        b=hlxb/2DC/BLzpzjxnwk9uwYPsGo3eRl4yUxy/aYWMI6M26Q+gxOwPH5rdaRFhc9Pb
+         yMvOjiAfjIHnOUTzvYB0RNxUObBvQ7Lltc8iq3N4G0ZpZhjm92TZDt83BSXr1tmhae
+         bm1eWhbtr1jKDI7wG9LQqb6axjoYoxkEqCpdFW3//nGcjN+tzI10NrWBcKAbcrgm6m
+         uEIfxySMaE6A+BLVGbWFGjMdhmC5h8riuLE46Q6AxZ/mY4po1ny58SoYCth2PSckfy
+         2s8pI6zLI72fzqUu+NlWK96JKOTPorKz5i+Yg+RLPszfzj7u+GWDsPCE6SfXp6ddLm
+         DH3Qsug0CgrzQ==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lRwGo-001c3a-HY; Thu, 01 Apr 2021 14:17:54 +0200
+        id 1lRwGn-001c2S-KF; Thu, 01 Apr 2021 14:17:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        =?UTF-8?q?Przemys=C5=82aw=20Gaj?= <pgaj@cadence.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Vitor Soares <vitor.soares@synopsys.com>,
-        devicetree@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 27/32] dt-bindings: i3c: update i3c.yaml references
-Date:   Thu,  1 Apr 2021 14:17:47 +0200
-Message-Id: <22b7b53af1907f7cae27e26be725470c04b84725.1617279356.git.mchehab+huawei@kernel.org>
+        Ionut-robert Aron <ionut-robert.aron@nxp.com>,
+        Laurentiu Tudor <laurentiu.tudor@nxp.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 04/32] MAINTAINERS: update fsl,dpaa2-console.yaml reference
+Date:   Thu,  1 Apr 2021 14:17:24 +0200
+Message-Id: <188e930100ecb7d4bd476681f3cc29fa536bdcde.1617279355.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617279355.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
@@ -58,73 +54,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 5e4cdca887fd ("dt-bindings: i3c: Convert the bus description to yaml")
-renamed: Documentation/devicetree/bindings/i3c/i3c.txt
-to: Documentation/devicetree/bindings/i3c/i3c.yaml.
+Changeset 616fde2dd60f ("dt-bindings: misc: convert fsl,dpaa2-console from txt to YAML")
+renamed: Documentation/devicetree/bindings/misc/fsl,dpaa2-console.txt
+to: Documentation/devicetree/bindings/misc/fsl,dpaa2-console.yaml.
 
-Update the cross-references accordingly.
+Update its cross-reference accordingly.
 
-Fixes: 5e4cdca887fd ("dt-bindings: i3c: Convert the bus description to yaml")
+Fixes: 616fde2dd60f ("dt-bindings: misc: convert fsl,dpaa2-console from txt to YAML")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt   | 6 +++---
- .../devicetree/bindings/i3c/snps,dw-i3c-master.txt          | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt b/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
-index 1cf6182f888c..3716589d6999 100644
---- a/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
-+++ b/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
-@@ -10,19 +10,19 @@ Required properties:
- - reg: I3C master registers
- 
- Mandatory properties defined by the generic binding (see
--Documentation/devicetree/bindings/i3c/i3c.txt for more details):
-+Documentation/devicetree/bindings/i3c/i3c.yaml for more details):
- 
- - #address-cells: shall be set to 1
- - #size-cells: shall be set to 0
- 
- Optional properties defined by the generic binding (see
--Documentation/devicetree/bindings/i3c/i3c.txt for more details):
-+Documentation/devicetree/bindings/i3c/i3c.yaml for more details):
- 
- - i2c-scl-hz
- - i3c-scl-hz
- 
- I3C device connected on the bus follow the generic description (see
--Documentation/devicetree/bindings/i3c/i3c.txt for more details).
-+Documentation/devicetree/bindings/i3c/i3c.yaml for more details).
- 
- Example:
- 
-diff --git a/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt b/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
-index 5020eb71eb8d..07f35f36085d 100644
---- a/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
-+++ b/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
-@@ -9,19 +9,19 @@ Required properties:
- - reg: Offset and length of I3C master registers
- 
- Mandatory properties defined by the generic binding (see
--Documentation/devicetree/bindings/i3c/i3c.txt for more details):
-+Documentation/devicetree/bindings/i3c/i3c.yaml for more details):
- 
- - #address-cells: shall be set to 3
- - #size-cells: shall be set to 0
- 
- Optional properties defined by the generic binding (see
--Documentation/devicetree/bindings/i3c/i3c.txt for more details):
-+Documentation/devicetree/bindings/i3c/i3c.yaml for more details):
- 
- - i2c-scl-hz
- - i3c-scl-hz
- 
- I3C device connected on the bus follow the generic description (see
--Documentation/devicetree/bindings/i3c/i3c.txt for more details).
-+Documentation/devicetree/bindings/i3c/i3c.yaml for more details).
- 
- Example:
- 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 53c66a6908b7..de9637196526 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7274,7 +7274,7 @@ M:	Li Yang <leoyang.li@nxp.com>
+ L:	linuxppc-dev@lists.ozlabs.org
+ L:	linux-arm-kernel@lists.infradead.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/misc/fsl,dpaa2-console.txt
++F:	Documentation/devicetree/bindings/misc/fsl,dpaa2-console.yaml
+ F:	Documentation/devicetree/bindings/soc/fsl/
+ F:	drivers/soc/fsl/
+ F:	include/linux/fsl/
 -- 
 2.30.2
 
