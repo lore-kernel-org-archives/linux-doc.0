@@ -2,44 +2,45 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF7F3C433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26E3FC433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1F0360FDA
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 09BA360FD9
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238088AbhDAS2X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:28:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:37847 "EHLO
+        id S238230AbhDAS2c (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:28:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42062 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235348AbhDASVD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 14:21:03 -0400
+        by vger.kernel.org with ESMTP id S234844AbhDASVG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 14:21:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617301262;
+        s=mimecast20190719; t=1617301265;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=Gy/ng5zCwEi0kvaEHLz2eineziKHWcaMJpVr9bUxhnU=;
-        b=eVbfKshU0rpWhdVZISL+3gKcPPe2dx13MEssTleOKUce4PvALxlsUje8ppFQOOpgjg6QPq
-        uWgTHCR2w9j/BP28yGgsrQjqRHFePTQ0gcE+BsWyrDXNd2dnY+JiWb4PkxVGfUfrMQ13x+
-        lFe5teYzKZrUOMTpY9KPqIW9txVZX4Q=
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=M16ZJaJZ+NL22pADrEtYc0OkKhjeTILetSpppsN0Jrg=;
+        b=h6271OZ8qGQDSzEc0YX7Ns2A6kpp7YGDdOppdsBQBuQ6S+GTn+KTNKynP6okJuP9S7WU0S
+        ajsC4GJY7cvVDDJzhMW4JWu5WWdGfS9cQcWixSQ0KgZixK3fUTQi095SR+wvnkPwVcNDDQ
+        d+Q5FRpv/K6Fy6d6bF2HO4ggFc6um+o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-o6gNyiRcMtqFtV05SKEVdg-1; Thu, 01 Apr 2021 10:19:01 -0400
-X-MC-Unique: o6gNyiRcMtqFtV05SKEVdg-1
+ us-mta-378-sBYoBrEVPPqJd9FR_V-Otw-1; Thu, 01 Apr 2021 10:19:02 -0400
+X-MC-Unique: sBYoBrEVPPqJd9FR_V-Otw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17C831853032;
-        Thu,  1 Apr 2021 14:18:20 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C820180A09B;
+        Thu,  1 Apr 2021 14:18:32 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.35.206.58])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id EC2AA6F7EA;
-        Thu,  1 Apr 2021 14:18:15 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id B0F0959464;
+        Thu,  1 Apr 2021 14:18:28 +0000 (UTC)
 From:   Maxim Levitsky <mlevitsk@redhat.com>
 To:     kvm@vger.kernel.org
 Cc:     x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
@@ -56,60 +57,61 @@ Cc:     x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
         Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
         linux-doc@vger.kernel.org (open list:DOCUMENTATION),
         Maxim Levitsky <mlevitsk@redhat.com>
-Subject: [PATCH 0/6] Introduce KVM_{GET|SET}_SREGS2 and fix PDPTR migration
-Date:   Thu,  1 Apr 2021 17:18:08 +0300
-Message-Id: <20210401141814.1029036-1-mlevitsk@redhat.com>
+Subject: [PATCH 3/6] KVM: x86: introduce kvm_register_clear_available
+Date:   Thu,  1 Apr 2021 17:18:11 +0300
+Message-Id: <20210401141814.1029036-4-mlevitsk@redhat.com>
+In-Reply-To: <20210401141814.1029036-1-mlevitsk@redhat.com>
+References: <20210401141814.1029036-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch set aims to fix few flaws that were discovered=0D
-in KVM_{GET|SET}_SREGS on x86:=0D
-=0D
-* There is no support for reading/writing PDPTRs although=0D
-  these are considered to be part of the guest state.=0D
-=0D
-* There is useless interrupt bitmap which isn't needed=0D
-=0D
-* No support for future extensions (via flags and such)=0D
-=0D
-Final two patches in this patch series allow to=0D
-correctly migrate PDPTRs when new API is used.=0D
-=0D
-This patch series was tested by doing nested migration test=0D
-of 32 bit PAE L1 + 32 bit PAE L2 on AMD and Intel and by=0D
-nested migration test of 64 bit L1 + 32 bit PAE L2 on AMD.=0D
-The later test currently fails on Intel (regardless of my patches).=0D
-=0D
-Finally patch 2 in this patch series fixes a rare L0 kernel oops,=0D
-which I can trigger by migrating a hyper-v machine.=0D
-=0D
-Best regards,=0D
-	Maxim Levitskky=0D
-=0D
-Maxim Levitsky (6):=0D
-  KVM: nVMX: delay loading of PDPTRs to KVM_REQ_GET_NESTED_STATE_PAGES=0D
-  KVM: nSVM: call nested_svm_load_cr3 on nested state load=0D
-  KVM: x86: introduce kvm_register_clear_available=0D
-  KVM: x86: Introduce KVM_GET_SREGS2 / KVM_SET_SREGS2=0D
-  KVM: nSVM: avoid loading PDPTRs after migration when possible=0D
-  KVM: nVMX: avoid loading PDPTRs after migration when possible=0D
-=0D
- Documentation/virt/kvm/api.rst  |  43 ++++++++++=0D
- arch/x86/include/asm/kvm_host.h |   7 ++=0D
- arch/x86/include/uapi/asm/kvm.h |  13 +++=0D
- arch/x86/kvm/kvm_cache_regs.h   |  12 +++=0D
- arch/x86/kvm/svm/nested.c       |  55 ++++++++-----=0D
- arch/x86/kvm/svm/svm.c          |   6 +-=0D
- arch/x86/kvm/vmx/nested.c       |  26 ++++--=0D
- arch/x86/kvm/x86.c              | 136 ++++++++++++++++++++++++++------=0D
- include/uapi/linux/kvm.h        |   5 ++=0D
- 9 files changed, 249 insertions(+), 54 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+Small refactoring that will be used in the next patch.
+
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ arch/x86/kvm/kvm_cache_regs.h | 7 +++++++
+ arch/x86/kvm/svm/svm.c        | 6 ++----
+ 2 files changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/arch/x86/kvm/kvm_cache_regs.h b/arch/x86/kvm/kvm_cache_regs.h
+index 2e11da2f5621..07d607947805 100644
+--- a/arch/x86/kvm/kvm_cache_regs.h
++++ b/arch/x86/kvm/kvm_cache_regs.h
+@@ -55,6 +55,13 @@ static inline void kvm_register_mark_available(struct kvm_vcpu *vcpu,
+ 	__set_bit(reg, (unsigned long *)&vcpu->arch.regs_avail);
+ }
+ 
++static inline void kvm_register_clear_available(struct kvm_vcpu *vcpu,
++					       enum kvm_reg reg)
++{
++	__clear_bit(reg, (unsigned long *)&vcpu->arch.regs_avail);
++	__clear_bit(reg, (unsigned long *)&vcpu->arch.regs_dirty);
++}
++
+ static inline void kvm_register_mark_dirty(struct kvm_vcpu *vcpu,
+ 					   enum kvm_reg reg)
+ {
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index 271196400495..2843732299a2 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -3880,10 +3880,8 @@ static __no_kcsan fastpath_t svm_vcpu_run(struct kvm_vcpu *vcpu)
+ 		vcpu->arch.apf.host_apf_flags =
+ 			kvm_read_and_reset_apf_flags();
+ 
+-	if (npt_enabled) {
+-		vcpu->arch.regs_avail &= ~(1 << VCPU_EXREG_PDPTR);
+-		vcpu->arch.regs_dirty &= ~(1 << VCPU_EXREG_PDPTR);
+-	}
++	if (npt_enabled)
++		kvm_register_clear_available(vcpu, VCPU_EXREG_PDPTR);
+ 
+ 	/*
+ 	 * We need to handle MC intercepts here before the vcpu has a chance to
+-- 
+2.26.2
 
