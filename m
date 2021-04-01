@@ -4,52 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D4BCC433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B582C433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DA94060BBB
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1AEC960BBB
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236600AbhDAS1i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:27:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45702 "EHLO mail.kernel.org"
+        id S237128AbhDAS1m (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:27:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45704 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238881AbhDASPC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S238938AbhDASPC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 1 Apr 2021 14:15:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BB70F6120B;
-        Thu,  1 Apr 2021 12:17:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B3F4561103;
+        Thu,  1 Apr 2021 12:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617279476;
-        bh=aIaHOdFey7Z7GKG0WRgu6xNsU+0S+q6J6KdRUfFekW4=;
+        s=k20201202; t=1617279475;
+        bh=vW/LERpdsUzSzE7KQ13xROwk34nGxHd7fjfMMDyTTj0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ohuR04tBW6By1uQ9X4BJ/dxUkto+wUBuccw31LCX8m2nQDXv32ZKMHTyw02lBrGAr
-         7fFO61qnp6Lo6c6HKDiDYw7B/8KgCtoTitRYvcS5nGg7PMI3JfFwe8t2X9h0JYpjfg
-         aSAXbHDCXko1nXIkoDc+DI7QpLqp5ng1Hl81ATruiB2ioL0VVljGlI7XGq/7+k54+7
-         uyAAyxb4UUxjMBX0AjG+ihWGehw1/3cps3a776aTLPun8f2Oj8DqX90Sz8fcMVLQMA
-         c1lObDl8pHcoyReRD/IcpF2KiHDoxoV408yHKMhDmA7cM1zSdrPyEcUokievyzHwe0
-         VRMafKYPf9ohw==
+        b=YTau8xEfkCCi/3DZwU9/26rwPDdpMOQoLgOmz/tAU88KWWnH3czj84vCBJI2zkiyp
+         lPmZ9j0MWLnBKctuFuYHo19uY8waPVkg0kQSwur4Dgq7MIfl2qDyh1MyEJicfsZkuK
+         y3OzATY41SnQwfr9OMMQ8Fr4EqozAoiKw22uG7TsjS2N+nDf9geGabTVcQ16s7odDX
+         IEZap/4HO48u2Yv1IIk2hQ4TMkPDyPQTSCF6Cc470OasB0oQrQaJsDV4gZlCZO8ghK
+         bSdT6t/MjQVP9pleuYGPBsxChdGjmsuiKj0bam2i2WvXQpGcLcQdqfriNRcqiVam7x
+         D5cKetAIlj5pw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lRwGo-001c3h-L3; Thu, 01 Apr 2021 14:17:54 +0200
+        id 1lRwGn-001c2M-Gw; Thu, 01 Apr 2021 14:17:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Jonathan Corbet" <corbet@lwn.net>, Andrew Lunn <andrew@lunn.ch>,
-        Benedikt Spranger <b.spranger@linutronix.de>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Hyunchul Lee <hyc.lee@gmail.com>,
-        Namjae Jeon <namjae.jeon@samsung.com>,
-        Ronnie Sahlberg <lsahlber@redhat.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steve French <stfrench@microsoft.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 30/32] Documentation: net: dsa: update configuration.rst reference
-Date:   Thu,  1 Apr 2021 14:17:50 +0200
-Message-Id: <a3d52c1380624f34b4a04e9698f67e1e6d8d23f8.1617279356.git.mchehab+huawei@kernel.org>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 01/32] MAINTAINERS: update adi,ad5758.yaml reference
+Date:   Thu,  1 Apr 2021 14:17:21 +0200
+Message-Id: <ca35b929c098163cfda9682ce791572629b763e2.1617279355.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617279355.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
@@ -60,31 +53,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The file name: Documentation/configuration.txt
-should be, instead: Documentation/networking/dsa/configuration.rst.
+Changeset 1e6536ee349b ("dt-bindings:iio:dac:adi,ad5758 yaml conversion")
+renamed: Documentation/devicetree/bindings/iio/dac/ad5758.txt
+to: Documentation/devicetree/bindings/iio/dac/adi,ad5758.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 75b8988dfe83 ("cifsd: add server handler for central processing and tranport layers")
-Fixes: 58dd7a8d9d02 ("Documentation: net: dsa: Describe DSA switch configuration")
+Fixes: 1e6536ee349b ("dt-bindings:iio:dac:adi,ad5758 yaml conversion")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/filesystems/cifs/cifsd.rst | 2 +-
+ MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/filesystems/cifs/cifsd.rst b/Documentation/filesystems/cifs/cifsd.rst
-index 48ae58f2a53c..082a839535e7 100644
---- a/Documentation/filesystems/cifs/cifsd.rst
-+++ b/Documentation/filesystems/cifs/cifsd.rst
-@@ -114,7 +114,7 @@ How to run
- 	# ksmbd.adduser -a <Enter USERNAME for SMB share access>
- 
- 3. Create /etc/ksmbd/smb.conf file, add SMB share in smb.conf file
--	- Refer smb.conf.example and Documentation/configuration.txt
-+	- Refer smb.conf.example and Documentation/networking/dsa/configuration.rst
- 	  in ksmbd-tools
- 
- 4. Insert ksmbd.ko module
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 38d823d72e52..4c8a926ef201 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1141,7 +1141,7 @@ W:	http://ez.analog.com/community/linux-device-drivers
+ F:	Documentation/ABI/testing/sysfs-bus-iio-frequency-ad9523
+ F:	Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4350
+ F:	Documentation/devicetree/bindings/iio/*/adi,*
+-F:	Documentation/devicetree/bindings/iio/dac/ad5758.txt
++F:	Documentation/devicetree/bindings/iio/dac/adi,ad5758.yaml
+ F:	drivers/iio/*/ad*
+ F:	drivers/iio/adc/ltc249*
+ F:	drivers/iio/amplifiers/hmc425a.c
 -- 
 2.30.2
 
