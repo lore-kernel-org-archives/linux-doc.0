@@ -2,48 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-24.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4574BC43462
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD056C43460
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 20900601FC
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8FA24601FC
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238309AbhDAS2R (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:28:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46022 "EHLO mail.kernel.org"
+        id S238289AbhDAS2M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:28:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45702 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237022AbhDASSp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Apr 2021 14:18:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A8FF2610F9;
+        id S236989AbhDASSo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Apr 2021 14:18:44 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id ADE11610EA;
         Thu,  1 Apr 2021 12:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617279475;
-        bh=NdeTd6q6PkZJqKLM05Vg9LkVZEBc49fko76Eywoja8A=;
+        bh=qY7yRKYLQQw52+8ORVZxJA0MGftwIHF+RJBN/4jSMug=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kjcBIsT8hj+p5ZuWUPs49kni+mETOGt745FCzZzqPTo1p+Y+fnlSEo3zcqqxHSRao
-         Zd+WPyfkbxoG3uvTMXPsX4S/Vi24JWD7YiPddotb/nEnGSrw9kDSfzD6BcziF7AWVu
-         HbgSnz7i0p+L3/3Rwy5+oj+yZNDIlSa4ctANBp7Cj42D+Ep3m53K2EVbmL+UQO/+tW
-         6l7hsiBHdwJeEwLb5xOEUDrE6ghEN5GTZ2jCsAalPTIg7WC+ryap6z3Zguo9VibXJ1
-         sMbN8KoArPKoVCaRkTGvpNhF5JtI+NI6QF8stP7rnKW+ra4hR2x7ksiH6VTEJ6HzRr
-         +jW4hu0TVt6/w==
+        b=OL4+Uqgk4JLZ9lraI4paAFEjvIPwpUE674NFtIdQe/Y7xUy02uuwAwi9PTQLYff3Y
+         I0uqFpCF1Y4LvxjEXu9ANq068QvYlNcHR/1GSRckkWmVGKjjFSciZtVUT39rKD66zg
+         7WKw/uWEhDBIvOx9z/yytqVyT9gD2X8NIOn8jAOw6VektuMakgwfc7199Bj9O7Xndl
+         pZB2Oq5zJyvkj+K5cjBoJbV/OxMVwJLFwxZYmpg+VqcI9k0Afoy81G7eWSrM67IWmb
+         mj4qEn8mTuaDnDXrYZF6Edvlmr/W30rNoPGsPZfCiEuYrz2UTNu8FClrWwnjCntCgk
+         3F+XILpVBkw8w==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lRwGn-001c2O-I8; Thu, 01 Apr 2021 14:17:53 +0200
+        id 1lRwGn-001c2Y-Ms; Thu, 01 Apr 2021 14:17:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 02/32] MAINTAINERS: update ste,mcde.yaml reference
-Date:   Thu,  1 Apr 2021 14:17:22 +0200
-Message-Id: <d7d064ecdc014266479fc1455c4566dd9c11798e.1617279355.git.mchehab+huawei@kernel.org>
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 06/32] MAINTAINERS: update dpot-dac.yaml reference
+Date:   Thu,  1 Apr 2021 14:17:26 +0200
+Message-Id: <efda999adce3332dc1b5c20a998f3824c1cc1b0f.1617279355.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617279355.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
@@ -54,31 +53,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 2abb0b994db5 ("dt-bindings: display: mcde: Convert to YAML schema")
-renamed: Documentation/devicetree/bindings/display/ste,mcde.txt
-to: Documentation/devicetree/bindings/display/ste,mcde.yaml.
+Changeset 06d2ff6fe11e ("dt-bindings:iio:dac:dpot-dac: yaml conversion.")
+renamed: Documentation/devicetree/bindings/iio/dac/dpot-dac.txt
+to: Documentation/devicetree/bindings/iio/dac/dpot-dac.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 2abb0b994db5 ("dt-bindings: display: mcde: Convert to YAML schema")
+Fixes: 06d2ff6fe11e ("dt-bindings:iio:dac:dpot-dac: yaml conversion.")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 4c8a926ef201..069cbf59da86 100644
+index 1985d75d59c7..52ce258fab37 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -5857,7 +5857,7 @@ DRM DRIVER FOR ST-ERICSSON MCDE
- M:	Linus Walleij <linus.walleij@linaro.org>
+@@ -8753,7 +8753,7 @@ M:	Peter Rosin <peda@axentia.se>
+ L:	linux-iio@vger.kernel.org
  S:	Maintained
- T:	git git://anongit.freedesktop.org/drm/drm-misc
--F:	Documentation/devicetree/bindings/display/ste,mcde.txt
-+F:	Documentation/devicetree/bindings/display/ste,mcde.yaml
- F:	drivers/gpu/drm/mcde/
+ F:	Documentation/ABI/testing/sysfs-bus-iio-dac-dpot-dac
+-F:	Documentation/devicetree/bindings/iio/dac/dpot-dac.txt
++F:	Documentation/devicetree/bindings/iio/dac/dpot-dac.yaml
+ F:	drivers/iio/dac/dpot-dac.c
  
- DRM DRIVER FOR TDFX VIDEO CARDS
+ IIO ENVELOPE DETECTOR
 -- 
 2.30.2
 
