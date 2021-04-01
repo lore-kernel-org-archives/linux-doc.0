@@ -2,109 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE621C433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 09:58:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A17BBC433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 10:07:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C2C9610CA
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 09:58:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 56C346108B
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 10:07:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233616AbhDAJ6H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 05:58:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44390 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233736AbhDAJ57 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 05:57:59 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D0DAC0613E6
-        for <linux-doc@vger.kernel.org>; Thu,  1 Apr 2021 02:57:59 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id gb6so902726pjb.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 Apr 2021 02:57:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=RFGlNVKgaLKR7sIVL9m2l+nAr8BgS+6SahEqv86zsz0=;
-        b=he0ufgFAdFfUy8uVJltbxJ0D1a51hCHNZYbZ6MqxWde5yTC5dt6C/fwlvQfr8EPxtS
-         b24ed/xPLJNbQ+DAhk3BT7Ang+hT1K+BHZHEs1D3sYQO2JiEHSsqk619G53Rft+ata0m
-         VTfLSQwtTZ+WeqdMaucTJwo7A7czugzPIUUxf/ScQnpDM4vxWJb40LAhotMpthMIaTZ9
-         z35DbWLUbfNL+8q4dIFSWuJzBK/YnmriYvrn5UzaGDp973evc+pBRn9W2aTmFsqHxvc8
-         Se36Bcf1pbZubzj3yD749mwZfvCUFfCCWfJl80b8TaF8u90Zwoby4NM+EwM0DtqizFRE
-         yaeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=RFGlNVKgaLKR7sIVL9m2l+nAr8BgS+6SahEqv86zsz0=;
-        b=ZVAi2w3KMh2kOeJfUVRF4Wd1b3/000Wug+YSAUPz7VfAiyIb/NutsOueWiOIPIcWlo
-         r0GYVk2Yz4ePxaA87HnYHXFwBKlxL+kzDLbrC13GgllWc+9qwq/DARfZFJGzcVu3baTC
-         cPOhGYbIyLjQTeYEtcw0+ie2Z3EFidgJnGq2ArWKxloqRXGuYhHEZjm496bA3c+5yVSU
-         O5JeKceR5vjVXa7VQDYV6ZRnpbyHEZC8hvs4S8cssdQzSrJw58u1wC1PTcd5YF+U5fCT
-         eSI02/BOZfme5mJD8tU2xkppFUtmeA17pXsyyg29XDUw3+mtbIGA0pghbBNVa1Jaqagi
-         mBBw==
-X-Gm-Message-State: AOAM531t7tCZRrzCRpeef7svhml0M4p2uIPJffmhPdHM53xlniZxjAbf
-        8zwtQPeIdg3FFTkSZbfH8uNBR16x7IO+ZA==
-X-Google-Smtp-Source: ABdhPJwcH+2X7D0HOyjiUpwaVKx9A4xNrg+yKZkslle1NoRebxihLjKW0JHcE/lUXBLlTHpWbx/zBw==
-X-Received: by 2002:a17:90b:92:: with SMTP id bb18mr7795381pjb.40.1617271078383;
-        Thu, 01 Apr 2021 02:57:58 -0700 (PDT)
-Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id 77sm1251846pgf.55.2021.04.01.02.57.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Apr 2021 02:57:58 -0700 (PDT)
-Subject: Re: [PATCH 0/5] docs/zh_CN: Add translations in zh_CN/doc-guide/
-To:     Wu XiangCheng <bobwxc@email.cn>, Alex Shi <alexs@kernel.org>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <cover.1617260163.git.bobwxc@email.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <62f16e84-d583-5cfd-8fb5-19217eccd19e@gmail.com>
-Date:   Thu, 1 Apr 2021 17:57:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S233383AbhDAKHW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 06:07:22 -0400
+Received: from mxout70.expurgate.net ([194.37.255.70]:51295 "EHLO
+        mxout70.expurgate.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S234004AbhDAKHD (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 06:07:03 -0400
+Received: from [127.0.0.1] (helo=localhost)
+        by relay.expurgate.net with smtp (Exim 4.90)
+        (envelope-from <ms@dev.tdt.de>)
+        id 1lRuDp-0005br-Lw; Thu, 01 Apr 2021 12:06:41 +0200
+Received: from [195.243.126.94] (helo=securemail.tdt.de)
+        by relay.expurgate.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90)
+        (envelope-from <ms@dev.tdt.de>)
+        id 1lRuDo-000Ffc-EW; Thu, 01 Apr 2021 12:06:40 +0200
+Received: from securemail.tdt.de (localhost [127.0.0.1])
+        by securemail.tdt.de (Postfix) with ESMTP id D96B0240041;
+        Thu,  1 Apr 2021 12:06:39 +0200 (CEST)
+Received: from mail.dev.tdt.de (unknown [10.2.4.42])
+        by securemail.tdt.de (Postfix) with ESMTP id 44BAB240040;
+        Thu,  1 Apr 2021 12:06:39 +0200 (CEST)
+Received: from mail.dev.tdt.de (localhost [IPv6:::1])
+        by mail.dev.tdt.de (Postfix) with ESMTP id BB94C20072;
+        Thu,  1 Apr 2021 12:06:38 +0200 (CEST)
 MIME-Version: 1.0
-In-Reply-To: <cover.1617260163.git.bobwxc@email.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Thu, 01 Apr 2021 12:06:38 +0200
+From:   Martin Schiller <ms@dev.tdt.de>
+To:     Xie He <xie.he.0141@gmail.com>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Halasa <khc@pm.waw.pl>,
+        Linux X25 <linux-x25@vger.kernel.org>,
+        Linux Kernel Network Developers <netdev@vger.kernel.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH net-next v4] net: x25: Queue received packets in the
+ drivers instead of per-CPU queues
+Organization: TDT AG
+In-Reply-To: <CAJht_EMVAV1eyredF+VEF=hxTTMVRMx+89XdpVAWpD5Lq1Y9Tw@mail.gmail.com>
+References: <20210328221205.726511-1-xie.he.0141@gmail.com>
+ <CAJht_EMVAV1eyredF+VEF=hxTTMVRMx+89XdpVAWpD5Lq1Y9Tw@mail.gmail.com>
+Message-ID: <21ec9eafa230f2e20dd88d31fd95faa0@dev.tdt.de>
+X-Sender: ms@dev.tdt.de
+User-Agent: Roundcube Webmail/1.3.16
+X-purgate-type: clean
+X-purgate-ID: 151534::1617271601-0000718E-4D93F7FF/0/0
+X-purgate: clean
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Cc Yanteng Si <siyanteng@loongson.cn>
-
-On 2021/4/1 下午3:05, Wu XiangCheng wrote:
-> Hi all,
+On 2021-03-31 20:41, Xie He wrote:
+> Hi Martin,
 > 
-> This set of patches add some translations in zh_CN/doc-guide/
+> Could you ack this patch again? The only change from the RFC version
+> (that you previously acked) is the addition of the "__GFP_NOMEMALLOC"
+> flag in "dev_alloc_skb". This is because I want to prevent pfmemalloc
+> skbs (which can't be handled by netif_receive_skb_core) from
+> occurring.
 > 
 > Thanks!
-> 
-> base: next tree
->   commit 3501c960dfda ("docs/zh_CN: Add translations in zh_CN/kernel-hacking/")
-> 
-> Wu XiangCheng (5):
->   docs/zh_CN: Add translation zh_CN/doc-guide/index.rst
->   docs/zh_CN: Link zh_CN/doc-guide to zh_CN/index.rst
->   docs/zh_CN: Add translation zh_CN/doc-guide/sphinx.rst
->   docs/zh_CN: Add two image example files
->   docs/zh_CN: Add translation zh_CN/doc-guide/kernel-doc.rst
-> 
->  .../translations/zh_CN/doc-guide/hello.dot    |   3 +
->  .../translations/zh_CN/doc-guide/index.rst    |  30 ++
->  .../zh_CN/doc-guide/kernel-doc.rst            | 497 ++++++++++++++++++
->  .../translations/zh_CN/doc-guide/sphinx.rst   | 415 +++++++++++++++
->  .../zh_CN/doc-guide/svg_image.svg             |  10 +
->  Documentation/translations/zh_CN/index.rst    |   1 +
->  6 files changed, 956 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/doc-guide/hello.dot
->  create mode 100644 Documentation/translations/zh_CN/doc-guide/index.rst
->  create mode 100644 Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
->  create mode 100644 Documentation/translations/zh_CN/doc-guide/sphinx.rst
->  create mode 100644 Documentation/translations/zh_CN/doc-guide/svg_image.svg
-> 
+
+Hi!
+
+Sorry for my late answer.
+Can you please also fix this line length warning?
+https://patchwork.hopto.org/static/nipa/442445/12117801/checkpatch/stdout
+
+- Martin
