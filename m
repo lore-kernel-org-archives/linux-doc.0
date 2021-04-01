@@ -2,444 +2,339 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1AA7C433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:53:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B797AC43460
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:56:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 88BA2610A0
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:53:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 99969611C9
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:56:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235530AbhDARxH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 13:53:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59540 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236822AbhDARr0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:47:26 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 451B4C031179
-        for <linux-doc@vger.kernel.org>; Thu,  1 Apr 2021 10:10:36 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id h20so1341347plr.4
-        for <linux-doc@vger.kernel.org>; Thu, 01 Apr 2021 10:10:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=qi9DWPzvh8xpthzD7m23b/+Ii/SCe/hILaqXm6TmfaI=;
-        b=WeAQQTrFYBn3LyIPqzSZRr7exlJPDULAQ60xJK7IHW5jd7VnwqpTEQn7SK+nemL6M1
-         OWEwIxB+vFp2hyec6Gyz2PirlcNb/4K+9MzSFeMgt3qD9NaSsbezJMQl20Nbtoj1K2j7
-         whwLPhjzmutCSpWAoC0w40hiWuojMbtfe4EWtsQdEL+fIku3RUsOanHToece+fvv9Nqf
-         h7DOT67h3XfI8fyArkKVoqIN9he+KkGDkXV6e+zSnrKTd0LAtTvVxSHv5UyADcZfbQgN
-         qtrIw/t909RgPRWh/2alL2keXDq/AzQYYN4hRemsrbgdcT1gnInBsr7o4rIDDLwzQILa
-         k3Mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qi9DWPzvh8xpthzD7m23b/+Ii/SCe/hILaqXm6TmfaI=;
-        b=rCWozwSpQByfhEVhjwjSZ9v8NOOO4EHAIcoL7QkknoYPDaxGaFjVBzZWy42Baga7Jd
-         lDpjq5XvP88GkhMmWp62/4ES6alFBsSfVrHtM4vKk5e0q73edpejWIaQtQLdA4bQXDVE
-         3JVe8snIiR2OcaECw7IcxLJ3jXBBaWJx0UK96veAOPqAwJ+7zlAXLZXXrrx1oYBxTxhq
-         z681wz8e93KxLLsvfk/EK17qNQD5tLmBY1FOa7yB20HUk+MB7XGROfF/fbhzbSerO+hU
-         9af/eCbArl5z6j8IC5Wbhey6oUvt9sJsPw/YbwR6az8u9nx6+FVD0Dl3AdmaRn7tNf4/
-         LeIw==
-X-Gm-Message-State: AOAM533uikJcEJFj+mkroeJ5SsemxRgC+8aAtsKV64/L8ATBiCbh0Stn
-        JdRMJPS51llQoNXG2NSLNimBEvpC3AuBXA==
-X-Google-Smtp-Source: ABdhPJywbgy7WN5poUvMMyIvtg6Ri38Bn6vafakosDHUzQngWr6TxThc+KHIGjqNbC7TfzHz6VSuKQ==
-X-Received: by 2002:a17:90a:c7d5:: with SMTP id gf21mr9506249pjb.165.1617297035636;
-        Thu, 01 Apr 2021 10:10:35 -0700 (PDT)
-Received: from xps15 (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
-        by smtp.gmail.com with ESMTPSA id 81sm6170305pfu.164.2021.04.01.10.10.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 10:10:34 -0700 (PDT)
-Date:   Thu, 1 Apr 2021 11:10:32 -0600
-From:   Mathieu Poirier <mathieu.poirier@linaro.org>
-To:     Mike Leach <mike.leach@linaro.org>
-Cc:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-        linux-doc@vger.kernel.org, suzuki.poulose@arm.com,
-        yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
-        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 07/10] coresight: etm4x: Add complex configuration
- handlers to etmv4
-Message-ID: <20210401171032.GC145043@xps15>
-References: <20210316180400.7184-1-mike.leach@linaro.org>
- <20210316180400.7184-8-mike.leach@linaro.org>
+        id S235498AbhDAR43 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 13:56:29 -0400
+Received: from m34-101.88.com ([104.250.34.101]:33974 "EHLO 88.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S237277AbhDARvP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Apr 2021 13:51:15 -0400
+X-Greylist: delayed 358 seconds by postgrey-1.27 at vger.kernel.org; Thu, 01 Apr 2021 13:51:14 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=ASbMt47A/MRnnixjOGpwSexCafpygq/mpK+s+
+        hHb9OA=; b=WZjjy43wATaZb7E72/AQ27h+R9Il7mePUfvid3zQkUypmMjxDxHGj
+        5dZDOLEi2KHwNUnYmsexpRvMXVNAQh13EWV6CANXkaO67oMdKwk/hZDlR4UGS9dM
+        MlYJLpQsedT6q7QtUkLFxGYqpeyWxD+w9EvqURuATMAM8P1hfWvIao=
+Received: from mipc (unknown [120.238.248.129])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDHOdAXzmVgkydGAA--.26878S2;
+        Thu, 01 Apr 2021 21:43:52 +0800 (CST)
+Date:   Thu, 1 Apr 2021 21:43:51 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     teng sterling <sterlingteng@gmail.com>
+Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <seakeel@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 3/5] docs/zh_CN: Add translation
+ zh_CN/doc-guide/sphinx.rst
+Message-ID: <20210401134350.GA27759@mipc>
+References: <cover.1617260163.git.bobwxc@email.cn>
+ <8e7152f494d93b9eac04ff5fce8b46f1236f1542.1617260163.git.bobwxc@email.cn>
+ <CAMU9jJodfzup_-rxc7Y6Fn89MkGnsoAoY+YwCcHpzV99itB6_Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210316180400.7184-8-mike.leach@linaro.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMU9jJodfzup_-rxc7Y6Fn89MkGnsoAoY+YwCcHpzV99itB6_Q@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgDHOdAXzmVgkydGAA--.26878S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3XFWxuFy3Gw15ArWDKFWUtwb_yoWftw1DpF
+        sIg397KF4kJry8JrWxKrsrZw1akrW8AF12qF18tFyIyrnayFyDtrWjvr1rWFWxWFy8AFyj
+        vF17WrW7Cry8C3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUyjb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
+        z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
+        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
+        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc2xSY4AK67AK6ry8MxAIw2
+        8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_
+        Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
+        CE14v26r126r1DMIIYY7kG6xAYrwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j
+        6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr
+        0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUv
+        cSsGvfC2KfnxnUUI43ZEXa7IU5rgA7UUUUU==
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 16, 2021 at 06:03:57PM +0000, Mike Leach wrote:
-> Adds in handlers to allow the ETMv4 to use the complex configuration
-> support. Features and configurations can be loaded and selected in the
-> device.
-> 
-> Signed-off-by: Mike Leach <mike.leach@linaro.org>
-> ---
->  drivers/hwtracing/coresight/Makefile          |   3 +-
->  .../hwtracing/coresight/coresight-etm4x-cfg.c | 182 ++++++++++++++++++
->  .../hwtracing/coresight/coresight-etm4x-cfg.h |  15 ++
->  .../coresight/coresight-etm4x-core.c          |  38 +++-
->  .../coresight/coresight-etm4x-sysfs.c         |   3 +
->  5 files changed, 238 insertions(+), 3 deletions(-)
->  create mode 100644 drivers/hwtracing/coresight/coresight-etm4x-cfg.c
->  create mode 100644 drivers/hwtracing/coresight/coresight-etm4x-cfg.h
->
+Hi,
 
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
- 
-> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
-> index daad9f103a78..ea544206204d 100644
-> --- a/drivers/hwtracing/coresight/Makefile
-> +++ b/drivers/hwtracing/coresight/Makefile
-> @@ -16,7 +16,8 @@ obj-$(CONFIG_CORESIGHT_SOURCE_ETM3X) += coresight-etm3x.o
->  coresight-etm3x-y := coresight-etm3x-core.o coresight-etm-cp14.o \
->  		     coresight-etm3x-sysfs.o
->  obj-$(CONFIG_CORESIGHT_SOURCE_ETM4X) += coresight-etm4x.o
-> -coresight-etm4x-y := coresight-etm4x-core.o coresight-etm4x-sysfs.o
-> +coresight-etm4x-y := coresight-etm4x-core.o coresight-etm4x-sysfs.o \
-> +			coresight-etm4x-cfg.o
->  obj-$(CONFIG_CORESIGHT_STM) += coresight-stm.o
->  obj-$(CONFIG_CORESIGHT_CPU_DEBUG) += coresight-cpu-debug.o
->  obj-$(CONFIG_CORESIGHT_CATU) += coresight-catu.o
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
-> new file mode 100644
-> index 000000000000..de612498b29d
-> --- /dev/null
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
-> @@ -0,0 +1,182 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright(C) 2020 Linaro Limited. All rights reserved.
-> + * Author: Mike Leach <mike.leach@linaro.org>
-> + */
-> +
-> +#include "coresight-etm4x.h"
-> +#include "coresight-etm4x-cfg.h"
-> +#include "coresight-priv.h"
-> +#include "coresight-syscfg.h"
-> +
-> +/* defines to associate register IDs with driver data locations */
-> +#define CHECKREG(cval, elem) \
-> +	{ \
-> +		if (offset == cval) { \
-> +			reg_csdev->driver_regval = &drvcfg->elem; \
-> +			err = 0; \
-> +			break; \
-> +		} \
-> +	}
-> +
-> +#define CHECKREGIDX(cval, elem, off_idx, mask)	\
-> +	{ \
-> +		if (mask == cval) { \
-> +			reg_csdev->driver_regval = &drvcfg->elem[off_idx]; \
-> +			err = 0; \
-> +			break; \
-> +		} \
-> +	}
-> +
-> +/**
-> + * etm4_cfg_map_reg_offset - validate and map the register offset into a
-> + *			     location in the driver config struct.
-> + *
-> + * Limits the number of registers that can be accessed and programmed in
-> + * features, to those which are used to control the trace capture parameters.
-> + *
-> + * Omits or limits access to those which the driver must use exclusively.
-> + *
-> + * Invalid offsets will result in fail code return and feature load failure.
-> + *
-> + * @drvdata:	driver data to map into.
-> + * @reg:	register to map.
-> + * @offset:	device offset for the register
-> + */
-> +static int etm4_cfg_map_reg_offset(struct etmv4_drvdata *drvdata,
-> +				   struct cscfg_regval_csdev *reg_csdev, u32 offset)
-> +{
-> +	int err = -EINVAL, idx;
-> +	struct etmv4_config *drvcfg = &drvdata->config;
-> +	u32 off_mask;
-> +
-> +	if (((offset >= TRCEVENTCTL0R) && (offset <= TRCVIPCSSCTLR)) ||
-> +	    ((offset >= TRCSEQRSTEVR) && (offset <= TRCEXTINSELR)) ||
-> +	    ((offset >= TRCCIDCCTLR0) && (offset <= TRCVMIDCCTLR1))) {
-> +		do {
-> +			CHECKREG(TRCEVENTCTL0R, eventctrl0);
-> +			CHECKREG(TRCEVENTCTL1R, eventctrl1);
-> +			CHECKREG(TRCSTALLCTLR, stall_ctrl);
-> +			CHECKREG(TRCTSCTLR, ts_ctrl);
-> +			CHECKREG(TRCSYNCPR, syncfreq);
-> +			CHECKREG(TRCCCCTLR, ccctlr);
-> +			CHECKREG(TRCBBCTLR, bb_ctrl);
-> +			CHECKREG(TRCVICTLR, vinst_ctrl);
-> +			CHECKREG(TRCVIIECTLR, viiectlr);
-> +			CHECKREG(TRCVISSCTLR, vissctlr);
-> +			CHECKREG(TRCVIPCSSCTLR, vipcssctlr);
-> +			CHECKREG(TRCSEQRSTEVR, seq_rst);
-> +			CHECKREG(TRCSEQSTR, seq_state);
-> +			CHECKREG(TRCEXTINSELR, ext_inp);
-> +			CHECKREG(TRCCIDCCTLR0, ctxid_mask0);
-> +			CHECKREG(TRCCIDCCTLR1, ctxid_mask1);
-> +			CHECKREG(TRCVMIDCCTLR0, vmid_mask0);
-> +			CHECKREG(TRCVMIDCCTLR1, vmid_mask1);
-> +		} while (0);
-> +	} else if ((offset & GENMASK(11, 4)) == TRCSEQEVRn(0)) {
-> +		/* sequencer state control registers */
-> +		idx = (offset & GENMASK(3, 0)) / 4;
-> +		if (idx < ETM_MAX_SEQ_STATES) {
-> +			reg_csdev->driver_regval = &drvcfg->seq_ctrl[idx];
-> +			err = 0;
-> +		}
-> +	} else if ((offset >= TRCSSCCRn(0)) && (offset <= TRCSSPCICRn(7))) {
-> +		/* 32 bit, 8 off indexed register sets */
-> +		idx = (offset & GENMASK(4, 0)) / 4;
-> +		off_mask =  (offset & GENMASK(11, 5));
-> +		do {
-> +			CHECKREGIDX(TRCSSCCRn(0), ss_ctrl, idx, off_mask);
-> +			CHECKREGIDX(TRCSSCSRn(0), ss_status, idx, off_mask);
-> +			CHECKREGIDX(TRCSSPCICRn(0), ss_pe_cmp, idx, off_mask);
-> +		} while (0);
-> +	} else if ((offset >= TRCCIDCVRn(0)) && (offset <= TRCVMIDCVRn(7))) {
-> +		/* 64 bit, 8 off indexed register sets */
-> +		idx = (offset & GENMASK(5, 0)) / 8;
-> +		off_mask = (offset & GENMASK(11, 6));
-> +		do {
-> +			CHECKREGIDX(TRCCIDCVRn(0), ctxid_pid, idx, off_mask);
-> +			CHECKREGIDX(TRCVMIDCVRn(0), vmid_val, idx, off_mask);
-> +		} while (0);
-> +	} else if ((offset >= TRCRSCTLRn(2)) &&
-> +		   (offset <= TRCRSCTLRn((ETM_MAX_RES_SEL - 1)))) {
-> +		/* 32 bit resource selection regs, 32 off, skip fixed 0,1 */
-> +		idx = (offset & GENMASK(6, 0)) / 4;
-> +		if (idx < ETM_MAX_RES_SEL) {
-> +			reg_csdev->driver_regval = &drvcfg->res_ctrl[idx];
-> +			err = 0;
-> +		}
-> +	} else if ((offset >= TRCACVRn(0)) &&
-> +		   (offset <= TRCACATRn((ETM_MAX_SINGLE_ADDR_CMP - 1)))) {
-> +		/* 64 bit addr cmp regs, 16 off */
-> +		idx = (offset & GENMASK(6, 0)) / 8;
-> +		off_mask = offset & GENMASK(11, 7);
-> +		do {
-> +			CHECKREGIDX(TRCACVRn(0), addr_val, idx, off_mask);
-> +			CHECKREGIDX(TRCACATRn(0), addr_acc, idx, off_mask);
-> +		} while (0);
-> +	} else if ((offset >= TRCCNTRLDVRn(0)) &&
-> +		   (offset <= TRCCNTVRn((ETMv4_MAX_CNTR - 1)))) {
-> +		/* 32 bit counter regs, 4 off (ETMv4_MAX_CNTR - 1) */
-> +		idx = (offset &  GENMASK(3, 0)) / 4;
-> +		off_mask = offset &  GENMASK(11, 4);
-> +		do {
-> +			CHECKREGIDX(TRCCNTRLDVRn(0), cntrldvr, idx, off_mask);
-> +			CHECKREGIDX(TRCCNTCTLRn(0), cntr_ctrl, idx, off_mask);
-> +			CHECKREGIDX(TRCCNTVRn(0), cntr_val, idx, off_mask);
-> +		} while (0);
-> +	}
-> +	return err;
-> +}
-> +
-> +/**
-> + * etm4_cfg_load_feature - load a feature into a device instance.
-> + *
-> + * @csdev:	An ETMv4 CoreSight device.
-> + * @feat:	The feature to be loaded.
-> + *
-> + * The function will load a feature instance into the device, checking that
-> + * the register definitions are valid for the device.
-> + *
-> + * Parameter and register definitions will be converted into internal
-> + * structures that are used to set the values in the driver when the
-> + * feature is enabled for the device.
-> + *
-> + * The feature spinlock pointer is initialised to the same spinlock
-> + * that the driver uses to protect the internal register values.
-> + */
-> +static int etm4_cfg_load_feature(struct coresight_device *csdev,
-> +				 struct cscfg_feature_csdev *feat_csdev)
-> +{
-> +	struct device *dev = csdev->dev.parent;
-> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev);
-> +	const struct cscfg_feature_desc *feat_desc = feat_csdev->feat_desc;
-> +	u32 offset;
-> +	int i = 0, err = 0;
-> +
-> +	/*
-> +	 * essential we set the device spinlock - this is used in the generic
-> +	 * programming routines when copying values into the drvdata structures
-> +	 * via the pointers setup in etm4_cfg_map_reg_offset().
-> +	 */
-> +	feat_csdev->drv_spinlock = &drvdata->spinlock;
-> +
-> +	/* process the register descriptions */
-> +	for (i = 0; i < feat_csdev->nr_regs && !err; i++) {
-> +		offset = feat_desc->regs_desc[i].offset;
-> +		err = etm4_cfg_map_reg_offset(drvdata, &feat_csdev->regs_csdev[i], offset);
-> +	}
-> +	return err;
-> +}
-> +
-> +/* match information when loading configurations */
-> +#define CS_CFG_ETM4_MATCH_FLAGS	(CS_CFG_MATCH_CLASS_SRC_ALL | \
-> +				 CS_CFG_MATCH_CLASS_SRC_ETM4)
-> +
-> +int etm4_cscfg_register(struct coresight_device *csdev, const char *dev_name)
-> +{
-> +	struct cscfg_csdev_feat_ops ops;
-> +
-> +	ops.load_feat = &etm4_cfg_load_feature;
-> +
-> +	return cscfg_register_csdev(csdev, CS_CFG_ETM4_MATCH_FLAGS, &ops);
-> +}
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.h b/drivers/hwtracing/coresight/coresight-etm4x-cfg.h
-> new file mode 100644
-> index 000000000000..7ec65771ee58
-> --- /dev/null
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.h
-> @@ -0,0 +1,15 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2014-2020, The Linux Foundation. All rights reserved.
-> + */
-> +
-> +#ifndef _CORESIGHT_ETM4X_CFG_H
-> +#define _CORESIGHT_ETM4X_CFG_H
-> +
-> +#include "coresight-config.h"
-> +#include "coresight-etm4x.h"
-> +
-> +/* ETMv4 specific config functions */
-> +int etm4_cscfg_register(struct coresight_device *csdev, const char *dev_name);
-> +
-> +#endif /* CORESIGHT_ETM4X_CFG_H */
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> index 15016f757828..fb82a33f2606 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> @@ -38,6 +38,8 @@
->  
->  #include "coresight-etm4x.h"
->  #include "coresight-etm-perf.h"
-> +#include "coresight-etm4x-cfg.h"
-> +#include "coresight-syscfg.h"
->  
->  static int boot_enable;
->  module_param(boot_enable, int, 0444);
-> @@ -492,12 +494,15 @@ static int etm4_config_timestamp_event(struct etmv4_drvdata *drvdata)
->  	return ret;
->  }
->  
-> -static int etm4_parse_event_config(struct etmv4_drvdata *drvdata,
-> +static int etm4_parse_event_config(struct coresight_device *csdev,
->  				   struct perf_event *event)
->  {
->  	int ret = 0;
-> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
->  	struct etmv4_config *config = &drvdata->config;
->  	struct perf_event_attr *attr = &event->attr;
-> +	unsigned long cfg_hash;
-> +	int preset;
->  
->  	if (!attr) {
->  		ret = -EINVAL;
-> @@ -568,6 +573,20 @@ static int etm4_parse_event_config(struct etmv4_drvdata *drvdata,
->  		/* bit[12], Return stack enable bit */
->  		config->cfg |= BIT(12);
->  
-> +	/*
-> +	 * Set any selected configuration and preset.
-> +	 *
-> +	 * This extracts the values of PMU_FORMAT_ATTR(configid) and PMU_FORMAT_ATTR(preset)
-> +	 * in the perf attributes defined in coresight-etm-perf.c.
-> +	 * configid uses bits 63:32 of attr->config2, preset uses bits 3:0 of attr->config.
-> +	 * A zero configid means no configuration active, preset = 0 means no preset selected.
-> +	 */
-> +	if (attr->config2 & GENMASK_ULL(63, 32)) {
-> +		cfg_hash = (u32)(attr->config2 >> 32);
-> +		preset = attr->config & 0xF;
-> +		ret = cscfg_csdev_enable_active_config(csdev, cfg_hash, preset);
-> +	}
-> +
->  out:
->  	return ret;
->  }
-> @@ -584,7 +603,7 @@ static int etm4_enable_perf(struct coresight_device *csdev,
->  	}
->  
->  	/* Configure the tracer based on the session's specifics */
-> -	ret = etm4_parse_event_config(drvdata, event);
-> +	ret = etm4_parse_event_config(csdev, event);
->  	if (ret)
->  		goto out;
->  	/* And enable it */
-> @@ -715,11 +734,18 @@ static int etm4_disable_perf(struct coresight_device *csdev,
->  	u32 control;
->  	struct etm_filters *filters = event->hw.addr_filters;
->  	struct etmv4_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-> +	struct perf_event_attr *attr = &event->attr;
->  
->  	if (WARN_ON_ONCE(drvdata->cpu != smp_processor_id()))
->  		return -EINVAL;
->  
->  	etm4_disable_hw(drvdata);
-> +	/*
-> +	 * The config_id occupies bits 63:32 of the config2 perf event attr
-> +	 * field. If this is non-zero then we will have enabled a config.
-> +	 */
-> +	if (attr->config2 & GENMASK_ULL(63, 32))
-> +		cscfg_csdev_disable_active_config(csdev);
->  
->  	/*
->  	 * Check if the start/stop logic was active when the unit was stopped.
-> @@ -1831,6 +1857,13 @@ static int etm4_probe(struct device *dev, void __iomem *base, u32 etm_pid)
->  		return ret;
->  	}
->  
-> +	/* register with config infrastructure & load any current features */
-> +	ret = etm4_cscfg_register(drvdata->csdev, dev_name(dev));
-> +	if (ret) {
-> +		coresight_unregister(drvdata->csdev);
-> +		return ret;
-> +	}
-> +
->  	etmdrvdata[drvdata->cpu] = drvdata;
->  
->  	dev_info(&drvdata->csdev->dev, "CPU%d: ETM v%d.%d initialized\n",
-> @@ -1918,6 +1951,7 @@ static int __exit etm4_remove_dev(struct etmv4_drvdata *drvdata)
->  
->  	cpus_read_unlock();
->  
-> +	cscfg_unregister_csdev(drvdata->csdev);
->  	coresight_unregister(drvdata->csdev);
->  
->  	return 0;
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> index 0995a10790f4..71593b605bd5 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-sysfs.c
-> @@ -9,6 +9,7 @@
->  #include <linux/sysfs.h>
->  #include "coresight-etm4x.h"
->  #include "coresight-priv.h"
-> +#include "coresight-syscfg.h"
->  
->  static int etm4_set_mode_exclude(struct etmv4_drvdata *drvdata, bool exclude)
->  {
-> @@ -269,6 +270,8 @@ static ssize_t reset_store(struct device *dev,
->  
->  	spin_unlock(&drvdata->spinlock);
->  
-> +	cscfg_csdev_reset_feats(to_coresight_device(dev));
-> +
->  	return size;
->  }
->  static DEVICE_ATTR_WO(reset);
-> -- 
-> 2.17.1
+On Thu, Apr 01, 2021 at 08:44:07PM +0800, teng sterling wrote:
+> Hi~
+> Xiang cheng
 > 
+> Wu XiangCheng <bobwxc@email.cn> 于2021年4月1日周四 下午3:08写道：
+> >
+> > Add new translation
+> >   Documentation/translations/zh_CN/doc-guide/sphinx.rst
+> >
+> > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+> > ---
+> >  .../translations/zh_CN/doc-guide/sphinx.rst   | 415 ++++++++++++++++++
+> >  1 file changed, 415 insertions(+)
+> >  create mode 100644 Documentation/translations/zh_CN/doc-guide/sphinx.rst
+> >
+> > diff --git a/Documentation/translations/zh_CN/doc-guide/sphinx.rst b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
+> > new file mode 100644
+> > index 000000000000..6c2555c98dd3
+> > --- /dev/null
+> > +++ b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
+[...]
+> > +
+> > +检查Sphinx依赖项
+> > +--------------------------------
+> > +
+> > +这有一个脚本可以自动检查Sphinx依赖项。如果它认得您的发行版，还会提示您所用发行
+> > +版的安装命令::
+> > +
+> > +       $ ./scripts/sphinx-pre-install
+> > +       Checking if the needed tools for Fedora release 26 (Twenty Six) are available
+> > +       Warning: better to also install "texlive-luatex85".
+> > +       You should run:
+> translate？:)
+> > +
+> > +               sudo dnf install -y texlive-luatex85
+> > +               /usr/bin/virtualenv sphinx_1.7.9
+> > +               . sphinx_1.7.9/bin/activate
+> > +               pip install -r Documentation/sphinx/requirements.txt
+> > +
+> > +       Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 468.
+> translate？:)
+
+These two are actually the *output* of the script
+	`./scripts/sphinx-pre-install`
+They are rendered as a code block. I think no need for translating.
+
+> > +
+> > +默认情况下，它会检查html和PDF的所有依赖项，包括图像、数学表达式和LaTeX构建的
+> > +需求，并假设将使用虚拟Python环境。html构建所需的部分被认为是必需的，其他部分
+> 部分 -> 依赖项？
+
+OK.
+
+> > +则是可选的。
+> > +
+> > +它支持两个可选参数：
+> > +
+> > +``--no-pdf``
+> > +
+> > +       禁用PDF检查；
+> > +
+> > +``--no-virtualenv``
+> > +
+> > +       使用Sphinx的系统打包，而不是Python虚拟环境。
+> Maybe the translation is wrong？:)
+
+This means to use the Sphinx package provied by os package manager such
+as apt/yum, instead of using `python -m venv` then `pip install ...`.
+
+> > +
+> > +Sphinx构建
+> > +============
+> > +
+> > +生成文档的常用方法是运行 ``make htmldocs`` 或 ``make pdfdocs`` 。还有其他可用
+> 其他 -> 其它
+
+OK.
+
+> > +的格式：请参阅 ``make help`` 的文档部分。生成的文档放在 ``Documentation/output``
+> > +下各个格式的子目录中。
+> Any better translation？
+
+相应格式的子目录
+
+> > +
+> > +要生成文档，显然必须安装Sphinx（ ``sphinx-build`` ）。要让HTML输出更漂亮，可以
+> > +使用Read the Docs Sphinx主题（ ``sphinx_rtd_theme`` ）。对于PDF输出，您还需要
+> > +``XeLaTeX`` 和来自ImageMagick（https://www.imagemagick.org）的 ``convert(1)`` 。
+> > +所有这些在一般发行版中都有可用打包。
+> 所有这些软件包都是广泛存在的，并且被打包进发行版。？
+
+All of these are widely available and packaged in distributions.
+use this 所有这些软件在大多发行版中都可用或已打包。
+
+> > +
+> > +要传递额外的选项给Sphinx，可以使用 ``SPHINXOPTS`` make变量。例如，使用
+> 可以使用make变量 ``SPHINXOPTS``。？
+
+OK.
+
+> > +``make SPHINXOPTS=-v htmldocs`` 获得更详细的输出。
+> > +
+> > +
+> > +要删除生成的文档，请运行 ``make cleandocs`` 。
+> > +
+> > +编写文档
+> > +=====================
+> > +
+> > +添加新文档很容易，只需：
+> > +
+> > +1. 在 ``Documentation`` 下某处添加一个新的 ``.rst`` 文件。
+> > +2. 从 ``Documentation/index.rst`` 中的Sphinx `主目录树`_ 链接到它。
+> > +
+> > +.. _主目录树: http://www.sphinx-doc.org/en/stable/markup/toctree.html
+> > +
+> > +对于简单的文档（比如您现在正在阅读的文档），这通常已经足够好了，但是对于较大
+> > +的文档，最好创建一个子目录（或者使用现有的子目录）。例如，图形子系统文档位于
+> > +``Documentation/gpu`` 下，拆分为多个 ``.rst`` 文件，并具有从主目录链接来的单
+> > +独索引 ``index.rst`` （有自己的目录树 ``toctree`` ）。
+> > +
+> > +请参阅 `Sphinx <http://www.sphinx-doc.org/>`_ 和 `reStructuredText
+> > +<http://docutils.sourceforge.net/rst.html>`_ 的文档，以了解如何使用它们。
+> > +特别是Sphinx `reStructuredText 基础`_ 这是开始学习使用reStructuredText的
+> > +好地方。还有一些 `Sphinx 特殊标记结构`_ 。
+> > +
+> > +.. _reStructuredText 基础: http://www.sphinx-doc.org/en/stable/rest.html
+> > +.. _Sphinx 特殊标记结构: http://www.sphinx-doc.org/en/stable/markup/index.html
+> > +
+> > +内核文档的具体指南
+> > +------------------------------------------------
+> > +
+> > +这是一些内核文档的具体指南：
+> > +
+> > +* 请不要过于痴迷转换格式到reStructuredText。保持简单。在大多数情况下，文档
+> > +  应该是纯文本，格式应足够一致，以便可以转换为其他格式。
+> > +
+> > +* 将现有文档转换为reStructuredText时，请尽量减少格式更改。P
+> what is P？
+
+Will delete it.
+'P' is paste in vim :P
+
+> > +
+> > +* 在转换文档时，还要更新内容，而不仅仅是格式。
+> > +
+> > +* 请遵循标题修饰符的顺序：
+> > +
+> > +  1. ``=`` 文档标题，要有上线::
+> > +
+> > +       ==============
+> > +       文档标题
+> > +       ==============
+> > +
+> > +  2. ``=`` 章::
+> > +
+> > +       章标题
+> > +       ========
+> > +
+> > +  3. ``-`` 节::
+> > +
+> > +       节标题
+> > +       -------
+> > +
+> > +  4. ``~`` 小节::
+> > +
+> > +       小节标题
+> > +       ~~~~~~~~~~
+> > +
+> > +  尽管RST没有规定具体的顺序（“没有强加一个固定数量和顺序的节标题装饰风格，最终
+> > +  按照的顺序将是实际遇到的顺序。”），但是拥有一个通用级别的文档更容易遵循。
+> > +
+> > +* 对于插入固定宽度的文本块（用于代码样例、用例等）： ``::`` 用于语法高亮意义不
+> > +  大的内容，尤其是短代码段； ``.. code-block:: <language>`` 用于需要语法高亮的
+> > +  较长代码块。对于嵌入到文本中的简短代码片段，请使用 \`\` 。
+> > +
+> > +
+> > +C域
+> > +------------
+> > +
+> > +**Sphinx C域（Domain）** （name c）适用于C API文档。例如，功能原型：
+> 函数原型？
+
+OK!
+
+[...]
+> > +交叉引用
+> > +-----------------
+> > +
+> > +从一页文档到另一页文档的交叉引用可以通过简单地写出文件路径来完成，无特殊格式
+> > +要求。路径可以是绝对路径或相对路径。绝对路径从“Documentation/”开始。例如，要
+> > +交叉引用此页，以下写法皆可，取决于具体的文档目录（注意 ``.rst`` 扩展名是可选
+> > +的）::
+> > +
+> > +    See Documentation/doc-guide/sphinx.rst. This always works.
+> > +    Take a look at sphinx.rst, which is at this same directory.
+> > +    Read ../sphinx.rst, which is one directory above.
+> translate？
+
+OK
+
+> > +
+> > +如果要使用相对路径，则需要使用Sphinx的 ``doc`` 修饰。例如，从同一目录引用此页
+> > +的操作如下::
+> > +
+> > +    See :doc:`my custom link text for document sphinx <sphinx>`.
+> translate？
+
+OK
+
+> > +
+> > +对于大多数用例，前者是首选，因为它更干净，更适合阅读源文件的人。如果您遇到一
+> > +个没有任何特殊作用的 ``:doc:`` 用法，请将其转换为文档路径。
+> > +
+> > +有关交叉引用kernel-doc函数或类型的信息，请参阅
+> > +Documentation/doc-guide/kernel-doc.rst 。
+> > +
+> > +.. _sphinx_kfigure_zh:
+> > +
+> > +图形图片
+> > +================
+> > +
+> > +如果要添加图片，应该使用 ``kernel-figure`` 和 ``kernel-image`` 指令。例如，
+> > +要插入具有可缩放图像格式的图形，请使用SVG（:ref:`svg_image_example_zh` ）::
+> > +
+> > +    .. kernel-figure::  svg_image.svg
+> > +       :alt:    简易 SVG 图片
+> > +
+> > +       SVG 图片示例
+> > +
+> > +.. _svg_image_example_zh:
+> > +
+> > +.. kernel-figure::  svg_image.svg
+> > +   :alt:    简易 SVG 图片
+> > +
+> > +   SVG 图片示例
+> > +
+> > +内核figure（和image）指令支持 DOT 格式文件，请参阅
+> > +
+> > +* DOT：http://graphviz.org/pdf/dotguide.pdf
+> > +* Graphviz：http://www.graphviz.org/content/dot-language
+> > +
+> > +一个简单的例子（:ref:`hello_dot_file_zh` ）::
+> > +
+> > +  .. kernel-figure::  hello.dot
+> > +     :alt:    你好，世界
+> > +
+> > +     DOT 示例
+> > +
+> > +.. _hello_dot_file_zh:
+> > +
+> > +.. kernel-figure::  hello.dot
+> > +   :alt:    你好，世界
+> > +
+> > +   DOT 示例
+> any better translation？
+
+Nope. It will act as the title of this figure.
+Keep simple.
+
+[...]
+> > --
+> > 2.20.1
+> >
+> 
+> Thanks！
+> 
+> Yanteng
+
