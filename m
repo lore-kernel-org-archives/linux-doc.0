@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAD1CC433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:01:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43224C433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:01:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8EADD611C9
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:01:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1AA9F611CB
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:01:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235015AbhDASBX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:01:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38383 "EHLO
+        id S235096AbhDASB3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:01:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46538 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236562AbhDAR6C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:58:02 -0400
+        by vger.kernel.org with ESMTP id S236605AbhDAR6T (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:58:19 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617299882;
+        s=mimecast20190719; t=1617299897;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=/dm8QNSV3W7Q2lqn5B08UjvbkkAU4JlmGE1UT9JWvOc=;
-        b=FTqQx+kfblLSKw7Q4+/P86WRGaLZHih6IuxmZwqTOoC97GmugjZuIBacqheFekb7FTTfF+
-        pfkn/O/0MjffFHO4pjwcmc3biOOsfHtSP75aktF8+2ad10OpNUMeW6xObcVtLbUP7gT3Gr
-        J68UtY0wLxomCn87cY/k4AXDq1R1Ghc=
+        bh=IeSCqCBagWzFXJCY1w7HB1qDOO9KpHIs4Tyewq8aOvs=;
+        b=ar7aOMnFMdHtDTUSshakV5lV7ZZLlgXNxsiIxlMLZu6kb2DM0cQe7VQRhArdbIbu810Uai
+        9EmsGTJONBt1UcQGDcWy5s5R/yzl7UrThyaUPmICnm/8YBucPEtOpUQj2ZblCReXAB5wl2
+        L0z+CaOCm4MVr63RDazzEgEOmXuDLPs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-254-yq_OfL5MPOGvWLd5Bn-5ug-1; Thu, 01 Apr 2021 09:55:29 -0400
-X-MC-Unique: yq_OfL5MPOGvWLd5Bn-5ug-1
+ us-mta-221-tafvrKJ1O3-YC537vN-qRQ-1; Thu, 01 Apr 2021 09:57:12 -0400
+X-MC-Unique: tafvrKJ1O3-YC537vN-qRQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 368F41084CA4;
-        Thu,  1 Apr 2021 13:55:11 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 807611853020;
+        Thu,  1 Apr 2021 13:57:08 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.35.206.58])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 0E0395D6B1;
-        Thu,  1 Apr 2021 13:55:02 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8A617627DD;
+        Thu,  1 Apr 2021 13:56:27 +0000 (UTC)
 From:   Maxim Levitsky <mlevitsk@redhat.com>
 To:     kvm@vger.kernel.org
 Cc:     x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
@@ -78,9 +78,9 @@ Cc:     x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
         linux-doc@vger.kernel.org (open list:DOCUMENTATION),
         linux-arm-kernel@lists.infradead.org (moderated list:KERNEL VIRTUAL
         MACHINE FOR ARM64 (KVM/arm64)), James Morse <james.morse@arm.com>
-Subject: [PATCH v2 1/9] scripts/gdb: rework lx-symbols gdb script
-Date:   Thu,  1 Apr 2021 16:54:43 +0300
-Message-Id: <20210401135451.1004564-2-mlevitsk@redhat.com>
+Subject: [PATCH v2 9/9] KVM: SVM: implement force_intercept_exceptions_mask
+Date:   Thu,  1 Apr 2021 16:54:51 +0300
+Message-Id: <20210401135451.1004564-10-mlevitsk@redhat.com>
 In-Reply-To: <20210401135451.1004564-1-mlevitsk@redhat.com>
 References: <20210401135451.1004564-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -90,332 +90,191 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Fix several issues that are present in lx-symbols script:
-
-* Track module unloads by placing another software breakpoint at
-  'free_module'
-  (force uninline this symbol just in case), and use remove-symbol-file
-  gdb command to unload the symobls of the module that is unloading.
-
-  That gives the gdb a chance to mark all software breakpoints from
-  this module as pending again.
-  Also remove the module from the 'known' module list once it is unloaded.
-
-* Since we now track module unload, we don't need to reload all
-  symbols anymore when 'known' module loaded again
-  (that can't happen anymore).
-  This allows reloading a module in the debugged kernel to finish
-  much faster, while lx-symbols tracks module loads and unloads.
-
-* Disable/enable all gdb breakpoints on both module load and unload
-  breakpoint hits, and not only in 'load_all_symbols' as was done before.
-  (load_all_symbols is no longer called on breakpoint hit)
-  That allows gdb to avoid getting confused about the state of the
-  (now two) internal breakpoints we place.
-  Otherwise it will leave them in the kernel code segment, when
-  continuing which triggers a guest kernel panic as soon as it skips
-  over the 'int3' instruction and executes the garbage tail of the optcode
-  on which the breakpoint was placed.
-
-* Block SIGINT while symbols are reloading as this seems to crash gdb.
-  (new in V2)
-
-* Add a basic check that kernel is already loaded into the guest memory
-  to avoid confusing errors.
-  (new in V2)
+Currently #TS interception is only done once.
+Also exception interception is not enabled for SEV guests.
 
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- kernel/module.c              |   8 +-
- scripts/gdb/linux/symbols.py | 203 +++++++++++++++++++++++------------
- 2 files changed, 143 insertions(+), 68 deletions(-)
+ arch/x86/include/asm/kvm_host.h |  2 +
+ arch/x86/kvm/svm/svm.c          | 70 +++++++++++++++++++++++++++++++++
+ arch/x86/kvm/svm/svm.h          |  6 ++-
+ arch/x86/kvm/x86.c              |  5 ++-
+ 4 files changed, 80 insertions(+), 3 deletions(-)
 
-diff --git a/kernel/module.c b/kernel/module.c
-index 30479355ab85..ea81fc06ea1f 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -901,8 +901,12 @@ int module_refcount(struct module *mod)
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index 8c529ae9dbbe..d15ae64a2c4e 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -1574,6 +1574,8 @@ int kvm_emulate_rdpmc(struct kvm_vcpu *vcpu);
+ void kvm_queue_exception(struct kvm_vcpu *vcpu, unsigned nr);
+ void kvm_queue_exception_e(struct kvm_vcpu *vcpu, unsigned nr, u32 error_code);
+ void kvm_queue_exception_p(struct kvm_vcpu *vcpu, unsigned nr, unsigned long payload);
++void kvm_queue_exception_e_p(struct kvm_vcpu *vcpu, unsigned nr,
++			     u32 error_code, unsigned long payload);
+ void kvm_requeue_exception(struct kvm_vcpu *vcpu, unsigned nr);
+ void kvm_requeue_exception_e(struct kvm_vcpu *vcpu, unsigned nr, u32 error_code);
+ void kvm_inject_page_fault(struct kvm_vcpu *vcpu, struct x86_exception *fault);
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index 2aa951bc470c..de7fd7922ec7 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -220,6 +220,8 @@ static const u32 msrpm_ranges[] = {0, 0xc0000000, 0xc0010000};
+ #define MSRS_RANGE_SIZE 2048
+ #define MSRS_IN_RANGE (MSRS_RANGE_SIZE * 8 / 2)
+ 
++static int svm_handle_invalid_exit(struct kvm_vcpu *vcpu, u64 exit_code);
++
+ u32 svm_msrpm_offset(u32 msr)
+ {
+ 	u32 offset;
+@@ -1113,6 +1115,22 @@ static void svm_check_invpcid(struct vcpu_svm *svm)
+ 	}
  }
- EXPORT_SYMBOL(module_refcount);
  
--/* This exists whether we can unload or not */
--static void free_module(struct module *mod);
-+/* This exists whether we can unload or not
-+ * Keep it uninlined to provide a reliable breakpoint target,
-+ * e.g. for the gdb helper command 'lx-symbols'.
-+ */
++static void svm_init_force_exceptions_intercepts(struct vcpu_svm *svm)
++{
++	int exc;
 +
-+static noinline void free_module(struct module *mod);
++	svm->force_intercept_exceptions_mask = force_intercept_exceptions_mask;
++	for (exc = 0 ; exc < 32 ; exc++) {
++		if (!(svm->force_intercept_exceptions_mask & (1 << exc)))
++			continue;
++
++		/* Those are defined to have undefined behavior in the SVM spec */
++		if (exc != 2 && exc != 9)
++			continue;
++		set_exception_intercept(svm, exc);
++	}
++}
++
+ static void init_vmcb(struct kvm_vcpu *vcpu)
+ {
+ 	struct vcpu_svm *svm = to_svm(vcpu);
+@@ -1288,6 +1306,9 @@ static void init_vmcb(struct kvm_vcpu *vcpu)
  
- SYSCALL_DEFINE2(delete_module, const char __user *, name_user,
- 		unsigned int, flags)
-diff --git a/scripts/gdb/linux/symbols.py b/scripts/gdb/linux/symbols.py
-index 1be9763cf8bb..e1374a6e06f7 100644
---- a/scripts/gdb/linux/symbols.py
-+++ b/scripts/gdb/linux/symbols.py
-@@ -14,45 +14,23 @@
- import gdb
- import os
- import re
-+import signal
+ 	enable_gif(svm);
  
- from linux import modules, utils
++	if (!sev_es_guest(vcpu->kvm))
++		svm_init_force_exceptions_intercepts(svm);
++
+ }
  
+ static void svm_vcpu_reset(struct kvm_vcpu *vcpu, bool init_event)
+@@ -1913,6 +1934,17 @@ static int pf_interception(struct kvm_vcpu *vcpu)
+ 	u64 fault_address = svm->vmcb->control.exit_info_2;
+ 	u64 error_code = svm->vmcb->control.exit_info_1;
  
- if hasattr(gdb, 'Breakpoint'):
--    class LoadModuleBreakpoint(gdb.Breakpoint):
--        def __init__(self, spec, gdb_command):
--            super(LoadModuleBreakpoint, self).__init__(spec, internal=True)
++	if ((svm->force_intercept_exceptions_mask & (1 << PF_VECTOR)))
++		if (npt_enabled && !vcpu->arch.apf.host_apf_flags) {
++			/* If the #PF was only intercepted for debug, inject
++			 * it directly to the guest, since the kvm's mmu code
++			 * is not ready to deal with such page faults.
++			 */
++			kvm_queue_exception_e_p(vcpu, PF_VECTOR,
++						error_code, fault_address);
++			return 1;
++		}
 +
-+    class BreakpointWrapper(gdb.Breakpoint):
-+        def __init__(self, callback, **kwargs):
-+            super(BreakpointWrapper, self).__init__(internal=True, **kwargs)
-             self.silent = True
--            self.gdb_command = gdb_command
-+            self.callback = callback
+ 	return kvm_handle_page_fault(vcpu, error_code, fault_address,
+ 			static_cpu_has(X86_FEATURE_DECODEASSISTS) ?
+ 			svm->vmcb->control.insn_bytes : NULL,
+@@ -1988,6 +2020,40 @@ static int ac_interception(struct kvm_vcpu *vcpu)
+ 	return 1;
+ }
  
-         def stop(self):
--            module = gdb.parse_and_eval("mod")
--            module_name = module['name'].string()
--            cmd = self.gdb_command
--
--            # enforce update if object file is not found
--            cmd.module_files_updated = False
--
--            # Disable pagination while reporting symbol (re-)loading.
--            # The console input is blocked in this context so that we would
--            # get stuck waiting for the user to acknowledge paged output.
--            show_pagination = gdb.execute("show pagination", to_string=True)
--            pagination = show_pagination.endswith("on.\n")
--            gdb.execute("set pagination off")
--
--            if module_name in cmd.loaded_modules:
--                gdb.write("refreshing all symbols to reload module "
--                          "'{0}'\n".format(module_name))
--                cmd.load_all_symbols()
--            else:
--                cmd.load_module_symbols(module)
--
--            # restore pagination state
--            gdb.execute("set pagination %s" % ("on" if pagination else "off"))
--
-+            self.callback()
-             return False
++static int gen_exc_interception(struct kvm_vcpu *vcpu)
++{
++	/*
++	 * Generic exception intercept handler which forwards a guest exception
++	 * as-is to the guest.
++	 * For exceptions that don't have a special intercept handler.
++	 *
++	 * Used only for 'force_intercept_exceptions_mask' KVM debug feature.
++	 */
++	struct vcpu_svm *svm = to_svm(vcpu);
++	int exc = svm->vmcb->control.exit_code - SVM_EXIT_EXCP_BASE;
++
++	/* SVM doesn't provide us with an error code for the #DF */
++	u32 err_code = exc == DF_VECTOR ? 0 : svm->vmcb->control.exit_info_1;
++
++	if (!(svm->force_intercept_exceptions_mask & (1 << exc)))
++		return svm_handle_invalid_exit(vcpu, svm->vmcb->control.exit_code);
++
++	if (exc == TS_VECTOR) {
++		/*
++		 * SVM doesn't provide us with an error code to be able to
++		 * re-inject the #TS exception, so just disable its
++		 * intercept, and let the guest re-execute the instruction.
++		 */
++		vmcb_clr_intercept(&svm->vmcb01.ptr->control,
++				   INTERCEPT_EXCEPTION_OFFSET + TS_VECTOR);
++		recalc_intercepts(svm);
++	} else if (x86_exception_has_error_code(exc))
++		kvm_queue_exception_e(vcpu, exc, err_code);
++	else
++		kvm_queue_exception(vcpu, exc);
++	return 1;
++}
++
+ static bool is_erratum_383(void)
+ {
+ 	int err, i;
+@@ -3051,6 +3117,10 @@ static int (*const svm_exit_handlers[])(struct kvm_vcpu *vcpu) = {
+ 	[SVM_EXIT_WRITE_DR5]			= dr_interception,
+ 	[SVM_EXIT_WRITE_DR6]			= dr_interception,
+ 	[SVM_EXIT_WRITE_DR7]			= dr_interception,
++
++	[SVM_EXIT_EXCP_BASE ...
++	SVM_EXIT_EXCP_BASE + 31]		= gen_exc_interception,
++
+ 	[SVM_EXIT_EXCP_BASE + DB_VECTOR]	= db_interception,
+ 	[SVM_EXIT_EXCP_BASE + BP_VECTOR]	= bp_interception,
+ 	[SVM_EXIT_EXCP_BASE + UD_VECTOR]	= ud_interception,
+diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
+index 8e276c4fb33d..79d0aea87753 100644
+--- a/arch/x86/kvm/svm/svm.h
++++ b/arch/x86/kvm/svm/svm.h
+@@ -183,6 +183,7 @@ struct vcpu_svm {
+ 	bool ghcb_sa_free;
  
--
- class LxSymbols(gdb.Command):
-     """(Re-)load symbols of Linux kernel and currently loaded modules.
+ 	bool guest_state_loaded;
++	u32 force_intercept_exceptions_mask;
+ };
  
-@@ -61,15 +39,52 @@ are scanned recursively, starting in the same directory. Optionally, the module
- search path can be extended by a space separated list of paths passed to the
- lx-symbols command."""
+ struct svm_cpu_data {
+@@ -333,8 +334,11 @@ static inline void clr_exception_intercept(struct vcpu_svm *svm, u32 bit)
+ 	struct vmcb *vmcb = svm->vmcb01.ptr;
  
--    module_paths = []
--    module_files = []
--    module_files_updated = False
--    loaded_modules = []
--    breakpoint = None
--
-     def __init__(self):
-         super(LxSymbols, self).__init__("lx-symbols", gdb.COMMAND_FILES,
-                                         gdb.COMPLETE_FILENAME)
-+        self.module_paths = []
-+        self.module_files = []
-+        self.module_files_updated = False
-+        self.loaded_modules = {}
-+        self.internal_breakpoints = []
-+
-+    # prepare GDB for loading/unloading a module
-+    def _prepare_for_module_load_unload(self):
-+
-+        self.blocked_sigint = False
-+
-+        # block SIGINT during execution to avoid gdb crash
-+        sigmask = signal.pthread_sigmask(signal.SIG_BLOCK, [])
-+        if not signal.SIGINT in sigmask:
-+            self.blocked_sigint = True
-+            signal.pthread_sigmask(signal.SIG_BLOCK, {signal.SIGINT})
-+
-+        # disable all breakpoints to workaround a GDB bug where it would
-+        # not correctly resume from an internal breakpoint we placed
-+        # in do_module_init/free_module (it leaves the int3
-+        self.saved_breakpoints = []
-+        if hasattr(gdb, 'breakpoints') and not gdb.breakpoints() is None:
-+            for bp in gdb.breakpoints():
-+                self.saved_breakpoints.append({'breakpoint': bp, 'enabled': bp.enabled})
-+                bp.enabled = False
-+
-+        # disable pagination to avoid asking user for continue
-+        show_pagination = gdb.execute("show pagination", to_string=True)
-+        self.saved_pagination = show_pagination.endswith("on.\n")
-+        gdb.execute("set pagination off")
-+
-+    def _unprepare_for_module_load_unload(self):
-+        # restore breakpoint state
-+        for breakpoint in self.saved_breakpoints:
-+            breakpoint['breakpoint'].enabled = breakpoint['enabled']
-+
-+        # restore pagination state
-+        gdb.execute("set pagination %s" % ("on" if self.saved_pagination else "off"))
-+
-+        # unblock SIGINT
-+        if self.blocked_sigint:
-+            sigmask = signal.pthread_sigmask(signal.SIG_UNBLOCK, {signal.SIGINT})
-+            self.blocked_sigint = False
+ 	WARN_ON_ONCE(bit >= 32);
+-	vmcb_clr_intercept(&vmcb->control, INTERCEPT_EXCEPTION_OFFSET + bit);
  
-     def _update_module_files(self):
-         self.module_files = []
-@@ -107,7 +122,7 @@ lx-symbols command."""
-                     name=section_name, addr=str(address)))
-         return "".join(args)
++	if ((1 << bit) & svm->force_intercept_exceptions_mask)
++		return;
++
++	vmcb_clr_intercept(&vmcb->control, INTERCEPT_EXCEPTION_OFFSET + bit);
+ 	recalc_intercepts(svm);
+ }
  
--    def load_module_symbols(self, module):
-+    def _do_load_module_symbols(self, module):
-         module_name = module['name'].string()
-         module_addr = str(module['core_layout']['base']).split()[0]
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 1a51031d64d8..ae57816fe6d9 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -630,12 +630,13 @@ void kvm_queue_exception_p(struct kvm_vcpu *vcpu, unsigned nr,
+ }
+ EXPORT_SYMBOL_GPL(kvm_queue_exception_p);
  
-@@ -130,55 +145,111 @@ lx-symbols command."""
-                 addr=module_addr,
-                 sections=self._section_arguments(module))
-             gdb.execute(cmdline, to_string=True)
--            if module_name not in self.loaded_modules:
--                self.loaded_modules.append(module_name)
-+
-+            self.loaded_modules[module_name] = {"module_file": module_file,
-+                                                "module_addr": module_addr}
-         else:
-             gdb.write("no module object found for '{0}'\n".format(module_name))
+-static void kvm_queue_exception_e_p(struct kvm_vcpu *vcpu, unsigned nr,
+-				    u32 error_code, unsigned long payload)
++void kvm_queue_exception_e_p(struct kvm_vcpu *vcpu, unsigned nr,
++			     u32 error_code, unsigned long payload)
+ {
+ 	kvm_multiple_exception(vcpu, nr, true, error_code,
+ 			       true, payload, false);
+ }
++EXPORT_SYMBOL_GPL(kvm_queue_exception_e_p);
  
-+
-+    def load_module_symbols(self):
-+        module = gdb.parse_and_eval("mod")
-+
-+                # module already loaded, false alarm
-+        # can happen if 'do_init_module' breakpoint is hit multiple times
-+        # due to interrupts
-+        module_name = module['name'].string()
-+        if module_name in self.loaded_modules:
-+            gdb.write("spurious module load breakpoint\n")
-+            return
-+
-+        # enforce update if object file is not found
-+        self.module_files_updated = False
-+        self._prepare_for_module_load_unload()
-+        try:
-+            self._do_load_module_symbols(module)
-+        finally:
-+            self._unprepare_for_module_load_unload()
-+
-+
-+    def unload_module_symbols(self):
-+        module = gdb.parse_and_eval("mod")
-+        module_name = module['name'].string()
-+
-+        # module already unloaded, false alarm
-+        # can happen if 'free_module' breakpoint is hit multiple times
-+        # due to interrupts
-+        if not module_name in self.loaded_modules:
-+            gdb.write("spurious module unload breakpoint\n")
-+            return
-+
-+        module_file = self.loaded_modules[module_name]["module_file"]
-+        module_addr = self.loaded_modules[module_name]["module_addr"]
-+
-+        self._prepare_for_module_load_unload()
-+        try:
-+            gdb.write("unloading @{addr}: {filename}\n".format(
-+                addr=module_addr, filename=module_file))
-+            cmdline = "remove-symbol-file {filename}".format(
-+                filename=module_file)
-+            gdb.execute(cmdline, to_string=True)
-+            del self.loaded_modules[module_name]
-+
-+        finally:
-+            self._unprepare_for_module_load_unload()
-+
-     def load_all_symbols(self):
-         gdb.write("loading vmlinux\n")
- 
--        # Dropping symbols will disable all breakpoints. So save their states
--        # and restore them afterward.
--        saved_states = []
--        if hasattr(gdb, 'breakpoints') and not gdb.breakpoints() is None:
--            for bp in gdb.breakpoints():
--                saved_states.append({'breakpoint': bp, 'enabled': bp.enabled})
--
--        # drop all current symbols and reload vmlinux
--        orig_vmlinux = 'vmlinux'
--        for obj in gdb.objfiles():
--            if obj.filename.endswith('vmlinux'):
--                orig_vmlinux = obj.filename
--        gdb.execute("symbol-file", to_string=True)
--        gdb.execute("symbol-file {0}".format(orig_vmlinux))
--
--        self.loaded_modules = []
--        module_list = modules.module_list()
--        if not module_list:
--            gdb.write("no modules found\n")
--        else:
--            [self.load_module_symbols(module) for module in module_list]
-+        self._prepare_for_module_load_unload()
-+        try:
-+            # drop all current symbols and reload vmlinux
-+            orig_vmlinux = 'vmlinux'
-+            for obj in gdb.objfiles():
-+                if obj.filename.endswith('vmlinux'):
-+                    orig_vmlinux = obj.filename
-+            gdb.execute("symbol-file", to_string=True)
-+            gdb.execute("symbol-file {0}".format(orig_vmlinux))
-+            self.loaded_modules = {}
-+            module_list = modules.module_list()
-+            if not module_list:
-+                gdb.write("no modules found\n")
-+            else:
-+                [self._do_load_module_symbols(module) for module in module_list]
-+        finally:
-+            self._unprepare_for_module_load_unload()
- 
--        for saved_state in saved_states:
--            saved_state['breakpoint'].enabled = saved_state['enabled']
-+        self._unprepare_for_module_load_unload()
- 
-     def invoke(self, arg, from_tty):
-         self.module_paths = [os.path.expanduser(p) for p in arg.split()]
-         self.module_paths.append(os.getcwd())
- 
-+        try:
-+            gdb.parse_and_eval("*start_kernel").fetch_lazy()
-+        except gdb.MemoryError:
-+            gdb.write("Error: Kernel is not yet loaded\n")
-+            return
-+
-         # enforce update
-         self.module_files = []
-         self.module_files_updated = False
- 
-+        for bp in self.internal_breakpoints:
-+            bp.delete()
-+        self.internal_breakpoints = []
-+
-         self.load_all_symbols()
- 
-         if hasattr(gdb, 'Breakpoint'):
--            if self.breakpoint is not None:
--                self.breakpoint.delete()
--                self.breakpoint = None
--            self.breakpoint = LoadModuleBreakpoint(
--                "kernel/module.c:do_init_module", self)
-+            self.internal_breakpoints.append(
-+                BreakpointWrapper(self.load_module_symbols,
-+                                  spec="kernel/module.c:do_init_module",
-+                                  ))
-+            self.internal_breakpoints.append(
-+                BreakpointWrapper(self.unload_module_symbols,
-+                                  spec="kernel/module.c:free_module",
-+                                  ))
-         else:
-             gdb.write("Note: symbol update on module loading not supported "
-                       "with this gdb version\n")
+ int kvm_complete_insn_gp(struct kvm_vcpu *vcpu, int err)
+ {
 -- 
 2.26.2
 
