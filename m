@@ -2,144 +2,164 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_2 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E8CEC43600
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:47:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D0BFC43460
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:48:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB24161285
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:47:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 002CF61108
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:48:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236842AbhDARre (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 13:47:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42944 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235596AbhDARnA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Apr 2021 13:43:00 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0398561285;
-        Thu,  1 Apr 2021 14:07:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617286054;
-        bh=V9bgGYiXE/LDBTtHWvl7WWQChZzjc4Q9/uN+D4DIQy0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=EOF9Y/ffwJdLpVX103cX18Q3xPEvwbjUOBxWoJakgB0+ZUiWZBijfZ+bnYgMESBUk
-         0k/HgFAi3Wwk/R1XtRMpAhFU2su5ZHMBU+xO2Ph2VFV5FKZW0fpFuFgb5x3bg/gId9
-         nWg83yDf4xdEnfZcPgMxtrSWXkjeW3kZjGkCAN9L87o3hNjU5pMIJA/CAxDpnb/jsC
-         Rs195DiAnGhJ9UsWS26pcpcYv6koBJTVFQiSpW9DdOByGyKBiqfJulxtBLDkkupDYq
-         6tVeoKcLiVUkJRYA0ReZCa5kn+rpxZhLU4ce88Pr+jR5x7MO2h4GncVNEl+IDkhd6J
-         p9DZgt1NYdCOg==
-Date:   Thu, 1 Apr 2021 16:07:29 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Andrew Lunn <andrew@lunn.ch>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Benedikt Spranger <b.spranger@linutronix.de>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Hyunchul Lee <hyc.lee@gmail.com>,
-        Namjae Jeon <namjae.jeon@samsung.com>,
-        Ronnie Sahlberg <lsahlber@redhat.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steve French <stfrench@microsoft.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 30/32] Documentation: net: dsa: update configuration.rst
+        id S236808AbhDARrY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 13:47:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58328 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235055AbhDARmJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:42:09 -0400
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com (mail-he1eur02on062a.outbound.protection.outlook.com [IPv6:2a01:111:f400:fe05::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9863C05BD2F;
+        Thu,  1 Apr 2021 06:02:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TBet6B8oWMV3SzfO/28o6dh+GYNTBrBPKV6QdGVKxnsj7DDS2Wq+Zj0xbfPvqp1rxlSGwfdbRbm5hDJYiZWCsBYehgdK0iVt4mJ/DAYVJY+oezMgnEyq2YbZlljHOXOqFFW38xorpf3Px7wKgQbw810ZgtOv8GgLsQpxPq7Mm2msvXS9zLEmqziZKkOOG5tFocOPGqJ701DbIctlPvExKxZPjqV4pLktinIrxJ2l0d1xEiwxO3lP7epPReZtVqny0x5VGkbiAuO1EbuAn6HN0A0lCMdJU9tqA5uwx/d/cx8pfMPr/I8klZk9YAwevTDekeltsm0m85MpyucsTRS7BQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oM8pup9HZnersTNG4Zf7j5pD01vFQUAtb7lX2uqFDoY=;
+ b=i5DylKz9di48kqQNYSSCUlImUQ4JzEvX8+mG6AHegz7FEHKDbP+1LgFacC1kGme/Y/Yb4yknVYUamSz6pxsnf4Av09NZR7F9Yu8YJZopr6KXL4CnH0ackTJhm7zRXw7B5QO1az81XzkeOgRw5bQJSNvIdB3KJraN/b0cFWQfwSoi9lv4PqSyuPxIvfdQbD7X3i0U8EfVqIPudejPFNxfTJu+iHmsx2hP9IyyuHH/YmpLKUokm0gQwBPoM154S1lypZQ2sYdJYFy0aPVs7N4P0UFAlzKXRBlwc/uEJUvtnmqCn/APGbe0JhLRi2ctGF46hrBKYQ61Vxn25Nx6Doz4BQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oM8pup9HZnersTNG4Zf7j5pD01vFQUAtb7lX2uqFDoY=;
+ b=oq9F5fOOWVjxo9ljcU2bEVa4onNEj2f0TPMwN2/Fr6YrRfQHOcW4xNmIIeFZZbZmwg0xOjWdk9Y3ALV1hcvkvNbVYiLyWDgMnPgBhltBvp+LixVebAy7nou3hNNaKcCwh5/TCjwdlhFhrZ2pkqdrp6nr1+a33sHBepaD5yTN1yk=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none header.from=nxp.com;
+Received: from VI1PR0402MB3405.eurprd04.prod.outlook.com (2603:10a6:803:3::26)
+ by VI1PR04MB4238.eurprd04.prod.outlook.com (2603:10a6:803:4e::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.28; Thu, 1 Apr
+ 2021 12:32:51 +0000
+Received: from VI1PR0402MB3405.eurprd04.prod.outlook.com
+ ([fe80::d68:ed11:c239:892b]) by VI1PR0402MB3405.eurprd04.prod.outlook.com
+ ([fe80::d68:ed11:c239:892b%7]) with mapi id 15.20.3999.027; Thu, 1 Apr 2021
+ 12:32:51 +0000
+Subject: Re: [PATCH 04/32] MAINTAINERS: update fsl,dpaa2-console.yaml
  reference
-Message-ID: <20210401160729.6ee45872@coco.lan>
-In-Reply-To: <YGW/a8FuCO+Q6hEg@lunn.ch>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Ionut-robert Aron <ionut-robert.aron@nxp.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
-        <a3d52c1380624f34b4a04e9698f67e1e6d8d23f8.1617279356.git.mchehab+huawei@kernel.org>
-        <YGW/a8FuCO+Q6hEg@lunn.ch>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+ <188e930100ecb7d4bd476681f3cc29fa536bdcde.1617279355.git.mchehab+huawei@kernel.org>
+From:   Laurentiu Tudor <laurentiu.tudor@nxp.com>
+Message-ID: <a0bf8d46-3079-6246-647f-f92accbd3402@nxp.com>
+Date:   Thu, 1 Apr 2021 15:32:48 +0300
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.9.0
+In-Reply-To: <188e930100ecb7d4bd476681f3cc29fa536bdcde.1617279355.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Originating-IP: [78.96.81.175]
+X-ClientProxiedBy: AM0PR10CA0062.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:15::15) To VI1PR0402MB3405.eurprd04.prod.outlook.com
+ (2603:10a6:803:3::26)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.0.27] (78.96.81.175) by AM0PR10CA0062.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.26 via Frontend Transport; Thu, 1 Apr 2021 12:32:50 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 58bb9e97-93b7-4b7f-387f-08d8f50a4417
+X-MS-TrafficTypeDiagnostic: VI1PR04MB4238:
+X-Microsoft-Antispam-PRVS: <VI1PR04MB42388F6A7E3B0475CBBA29C3EC7B9@VI1PR04MB4238.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:497;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: GhuaI7gG8vrlAerSvtNk6M8ErXg2L93ns4UWOsKlt2JVyTJZ1WJ7Y5eN3bUob2huGl3IepXLcVemGY9yGX+4N1sWc2xhkmWq2WrJFBi/IyL4fOnVbeGzh60OOFjs18n5EF341taH+buV6tum8zaqa+GALf1ngZv89WVuoxvmRDpMhpRocVxEYN9Ka/b2tnLdNSW4kBjfjvGDeEmnJskrBSur7+xKEIULRf5R11fNR2nv/HfWDvfJPYeLjYj4btABk4Di2DFJDp6Nrdu92ayHE6lmnDeBX7Z5ogN39GUgCk5uTgej+BSo8ZBt29C+ogkP2PWxdO3cjmf6xe2Le/f1OMRlJR88bs4r1eXY+3/Q5gTCFR4mDdE0hGorDjsO1IcKsv+LcxUa10t9pxHuV7AflUygrNsLnjJX3c7oLImYd5A1UrItpZO88zPDmcj0AF+H62nuBfuqoW4pNKuvsVHUoeyAVHmoggagYffMAwqD0k9w0U7pwRh2xsxJf8z3xeTEU8jjdPWwd/tskc1NExFyxrBB170x+YFzveo4kzuIqHyql3u+3wwQFHI2ryyeT6pybp6MaKfkth4w8upUGW9KXf9DQYKgEYqIwnT2/E1IuICJYcBdixfpzAFnHzGbJ7KUpqnjxiAAUq0VaZgjiGovmtI95xT6eZxN7QiGYsyHvbqmYPubIEoEoC1OWnUiVZT/MYVFSxRwJ6j+FV8bNsDNfQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR0402MB3405.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(366004)(376002)(346002)(396003)(39850400004)(86362001)(110136005)(16576012)(54906003)(6486002)(66946007)(52116002)(66476007)(36756003)(31696002)(66556008)(26005)(8936002)(44832011)(15650500001)(186003)(478600001)(5660300002)(8676002)(53546011)(956004)(2616005)(4326008)(38100700001)(83380400001)(16526019)(2906002)(31686004)(316002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?c21Jd3c3eWIvZnk5U1IzdThsazZIUEpnc3RyQVJQNHN6WjRVUnQ1bmZlWDNC?=
+ =?utf-8?B?L29DamU0ZFQ4b2dlbFdINWN5dkZpTEJ3UmlFNHczdWpCZjY1T2F2Vm5NUTBI?=
+ =?utf-8?B?Z2xSeFlYbEtkM05yWlBtUVcwTGc2ZnJOZE4xVFE2L2ZQUFZ4SnkzM2F4Y3hZ?=
+ =?utf-8?B?VXQ5RXRuS0VvdHlmNU1XNEgzQ2pDb1dGbzNtWnBBY05VNksyWWhCejk3TmNY?=
+ =?utf-8?B?STdWTzZNRldOTHBVSjJXMGN4SUVoSEFOV3RNclFYeWRaK1NJdkthR2duSlNs?=
+ =?utf-8?B?SW5TQ3JYL0U3WTl1VHBqNW5uU3VCYi9SSGFoVXNxRzBJZ1RiVEJCUWtUNmxG?=
+ =?utf-8?B?cWR4NzN4RXlGMzlPRENWNXc0ZEZOZEdiUnY5RUJMbkh4Mnc2ZFo5aExmaTQx?=
+ =?utf-8?B?SDRQR3crMzd0YVl2ZEVnYVVwZGNJVmhMWlg2OVlvUnF4aUphVWdVTUtNMFNL?=
+ =?utf-8?B?di9uc040aW1BYXFyQzV2TCt0a29Ib3A1WDlvS3Z1U01SZDdpcm9ac0ttZGJ4?=
+ =?utf-8?B?a1VwZ2s2bCt0WVpwWFRyYlV1R3RxNWRPQVJuUDhqRTFVQS9iSXVFbzMySklt?=
+ =?utf-8?B?cm50NVV4R0ZtTWxnRk10YllqTGxGUFlXZ3RvL0tDSTZRZnZ0VkdWUkhIczRE?=
+ =?utf-8?B?WkE4cTlUMU8wS21TS0dZNDROMitlQU92UG9BZFN3R2hyQmhQb3dtOXE1THA2?=
+ =?utf-8?B?YlU3S3cvVFIyVDFsUVZYNVhZME9GTklQQzZsNkgxVDNXdTBvOW5XdU5CUG05?=
+ =?utf-8?B?ZjAzb2FMNG5PcHR4ZEpNcHJxT1hIMnFWTjFRQURPV0w1WkFBVnQwMjlQdk5E?=
+ =?utf-8?B?N3V0clYrdE5zMW4vVlhaaWlpK00wU3VEZTM4MVg2WU5RQXVNRTFmUWYyOTNM?=
+ =?utf-8?B?UzQvSVk3eUtHV2hUWEtzblBmcEg1TWl0ZUVablFNRTVnQmJEWUlzQ0ZVamVG?=
+ =?utf-8?B?QklNamNJOUhINVE4NTNXMzJzcTloVm1ySTN6bDJlK1NMMTljZ1dCMjZ3cDI0?=
+ =?utf-8?B?dXBlNHVUL0thbFN6cUFhK3NzcWpFWVcxWEMrd1A3NHpFYnYrVHNTUVpnZ0VG?=
+ =?utf-8?B?b0ZWdm9HM29XaFFnZ2NMYXBtZWp1R3lCOWdxMWRUbVF4UVN5cHRlT2d1Q2Fr?=
+ =?utf-8?B?bWowWlhmcW0xYlJYb1BEa0hGRXlVZzZkKzg4T2VrazJ6U2VyaUgzdDF3ZzVZ?=
+ =?utf-8?B?aU9HcnpJMXJSc0RPQUxhcjdrQUpLV25ZL1dhS3dQNEYvSi9hY2d6cVJ0MXdX?=
+ =?utf-8?B?QlE3NkRGcW93WkNKZU82SSszVE84ZW9qMnYzSkNvWEEzTUl0Y2tGNUIrTnBI?=
+ =?utf-8?B?dXNYMFM5QjhIQjlvMEh4S2V2NzhzRGRmUWlsajBROWNENUY2UWw4Nll0MnNw?=
+ =?utf-8?B?cXVROElXL3kweXZ5d2FCbmhUcEVNd2JLSVFDanFHaDNPNHBWRWRCblZUUHpt?=
+ =?utf-8?B?d25ETEs1MFNXWjUvUE1OMGd3T253T3JlM1YrREpqdkphTzVmYVl5QW4wb2tz?=
+ =?utf-8?B?dnc3bWprWXVRaG1naHMzVEpOYTFKeXV6c0tQbTVLU0x6MTJLbXRzK1Nmblpu?=
+ =?utf-8?B?c0NWQ0JwdU1nYmN6OXc4ajFVZnlESThlYnFoK3o3c2MwaklIUmJ2YVZrYS9h?=
+ =?utf-8?B?RGdRRG9lZXAycHhNYVlMUXY2YU5RWWl2YjlRNFRXYU1Fb0RTcWxMVjE4cUFN?=
+ =?utf-8?B?MTNtSytwWUJYdG9Ua0dSL1FuNFoyNkJEZTg4am53VGdZTm5EeThBTVlRT3Zh?=
+ =?utf-8?Q?GYp7m0lvxpYEhlRh0oCDxBy5ybQDeYxmfDckA/4?=
+X-MS-Exchange-Transport-Forked: True
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58bb9e97-93b7-4b7f-387f-08d8f50a4417
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR0402MB3405.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2021 12:32:51.5941
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9H3JiV+iCMogfuFu3AfvCe7IYMWiUh8jhamf7c+QP04ZJYU/PjQUO4df2s+2trkqy7PxAFOZ/ak7x5V4xMwNJA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB4238
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Thu, 1 Apr 2021 14:41:15 +0200
-Andrew Lunn <andrew@lunn.ch> escreveu:
 
-> On Thu, Apr 01, 2021 at 02:17:50PM +0200, Mauro Carvalho Chehab wrote:
-> > The file name: Documentation/configuration.txt
-> > should be, instead: Documentation/networking/dsa/configuration.rst.
-> > 
-> > Update its cross-reference accordingly.
-> > 
-> > Fixes: 75b8988dfe83 ("cifsd: add server handler for central processing and tranport layers")
-> > Fixes: 58dd7a8d9d02 ("Documentation: net: dsa: Describe DSA switch configuration")
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  Documentation/filesystems/cifs/cifsd.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/filesystems/cifs/cifsd.rst b/Documentation/filesystems/cifs/cifsd.rst
-> > index 48ae58f2a53c..082a839535e7 100644
-> > --- a/Documentation/filesystems/cifs/cifsd.rst
-> > +++ b/Documentation/filesystems/cifs/cifsd.rst
-> > @@ -114,7 +114,7 @@ How to run
-> >  	# ksmbd.adduser -a <Enter USERNAME for SMB share access>
-> >  
-> >  3. Create /etc/ksmbd/smb.conf file, add SMB share in smb.conf file
-> > -	- Refer smb.conf.example and Documentation/configuration.txt
-> > +	- Refer smb.conf.example and Documentation/networking/dsa/configuration.rst
-> >  	  in ksmbd-tools  
+
+On 4/1/2021 3:17 PM, Mauro Carvalho Chehab wrote:
+> Changeset 616fde2dd60f ("dt-bindings: misc: convert fsl,dpaa2-console from txt to YAML")
+> renamed: Documentation/devicetree/bindings/misc/fsl,dpaa2-console.txt
+> to: Documentation/devicetree/bindings/misc/fsl,dpaa2-console.yaml.
 > 
-> Hi Mauro
+> Update its cross-reference accordingly.
 > 
-> This looks wrong. There is no relationship between SMB and DSA. I
-> suspect you are looking for some other configuration.txt
+> Fixes: 616fde2dd60f ("dt-bindings: misc: convert fsl,dpaa2-console from txt to YAML")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Thanks for reviewing it.
+Reviewed-by: Laurentiu Tudor <laurentiu.tudor@nxp.com>
 
-I'll drop the patch from my series.
+---
+Best Regards, Laurentiu
 
-After re-reading cifsd.rst, I suspect that it is actually trying to
-refer to:
-
-	https://github.com/cifsd-team/ksmbd-tools/blob/master/Documentation/configuration.txt
-
-and not to a local file.
-
-So, IMO, the right thing to do is to apply the enclosed patch instead.
-	
-
-Thanks,
-Mauro
-
-[PATCH] docs: cifsd: change the reference to configuration.txt
-
-Changeset 75b8988dfe83 ("cifsd: add server handler for central processing and tranport layers")
-added documentation for cifsd. There, it points to a file
-named:
-	Documentation/configuration.txt
-
-This confuses Kernel scripts, as they think that this is a
-document within the Kernel tree, instead of a file from
-some other place.
-
-Replace it by an hyperlink to the ksmbd-tools tree, in order
-to avoid false-positives.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-diff --git a/Documentation/filesystems/cifs/cifsd.rst b/Documentation/filesystems/cifs/cifsd.rst
-index 48ae58f2a53c..a6ab85e68252 100644
---- a/Documentation/filesystems/cifs/cifsd.rst
-+++ b/Documentation/filesystems/cifs/cifsd.rst
-@@ -114,8 +114,8 @@ How to run
- 	# ksmbd.adduser -a <Enter USERNAME for SMB share access>
- 
- 3. Create /etc/ksmbd/smb.conf file, add SMB share in smb.conf file
--	- Refer smb.conf.example and Documentation/configuration.txt
--	  in ksmbd-tools
-+	- Refer smb.conf.example and
-+	  https://github.com/cifsd-team/ksmbd-tools/blob/master/Documentation/configuration.txt
- 
- 4. Insert ksmbd.ko module
- 
-
-
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 53c66a6908b7..de9637196526 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7274,7 +7274,7 @@ M:	Li Yang <leoyang.li@nxp.com>
+>  L:	linuxppc-dev@lists.ozlabs.org
+>  L:	linux-arm-kernel@lists.infradead.org
+>  S:	Maintained
+> -F:	Documentation/devicetree/bindings/misc/fsl,dpaa2-console.txt
+> +F:	Documentation/devicetree/bindings/misc/fsl,dpaa2-console.yaml
+>  F:	Documentation/devicetree/bindings/soc/fsl/
+>  F:	drivers/soc/fsl/
+>  F:	include/linux/fsl/
+> 
