@@ -7,43 +7,42 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 504B3C43470
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94AD3C433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 026F060725
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 71942601FC
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236862AbhDAS2B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:28:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46024 "EHLO mail.kernel.org"
+        id S237981AbhDAS2C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:28:02 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45712 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239651AbhDASQo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S239655AbhDASQo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 1 Apr 2021 14:16:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3505661178;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 34ADE61176;
         Thu,  1 Apr 2021 12:17:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617279476;
-        bh=WmmeVF3e2MgvPdqjDqGLuQIv1srgNyiWO6uwFC8Q6cM=;
+        bh=XU02mroyMGGRNt0K9S9cUjAETj+4JkpRRKM6C2MXloE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=dcetZXDkNnck6wWX7t+65uQ0KzyM6OBLJDgcgF54vzUZmrMvg3zNEoc+Bv2J4XTpd
-         GyyIhslJKSGIjD77J+I4VYLEiFY7XnUwjFkSBvUj7MVDUhAchr1C0qu2F9EO7xWe3x
-         Xprv3Nnw+g3pA1y/pRo74gjUtnzDaP5O2zXHXnLazRZF3HhYAyVozIM6k4MjJdKGZN
-         yuSbygDuRNJ8cl94hcn6JRbgwdmjtMB/bgf+fHauSs0BFlwvmTjpwXOGTi04E4MMdX
-         FE2Wgb0nIxO2hY/G+kBj28Kilq4pV/UCGjbdqgpRMuCUNaVj/c4HatXmO0J65/lcWv
-         sYttIlSOGaRCg==
+        b=msm/hvskl/qCOHX/HeMNMQpM5NYbN0yo4i6lLjJBb306VxfT+sin5JGVIg/KZo9gY
+         Np0J6aXwNwqW5pyGAietwEHHwAYsij0TAY41HGEbpuHU9rRVToDbtuP3h3cqFcZoa+
+         sAfvurhoyPgWnsV5PYenzyS56iJIzSZEtmPIFdjBbNv4/tkPsy5/7nIKfLqQDDSTWp
+         bOzv/NstJVFlrhTdNHbHhE/mJ/GknTlmwkd+tPwZritHVA1/yCB7Yuo/Rki9CP0eTt
+         OhBZXAl8lj4NdceWabZme2JpP8U9oUoVskuCeDngBJj6Niu5vmcJdDuIKSp/1LnIdz
+         BA6YZq6WXEnMA==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lRwGo-001c3F-8L; Thu, 01 Apr 2021 14:17:54 +0200
+        id 1lRwGo-001c39-6J; Thu, 01 Apr 2021 14:17:54 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Ricardo Ribalda <ribalda@kernel.org>,
         Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 21/32] MAINTAINERS: update ti,dac7612.yaml reference
-Date:   Thu,  1 Apr 2021 14:17:41 +0200
-Message-Id: <04039b6991838f0107a42ccb0d9774cb8873a61a.1617279355.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 19/32] MAINTAINERS: update st,vl53l0x.yaml reference
+Date:   Thu,  1 Apr 2021 14:17:39 +0200
+Message-Id: <c315ff7435bb4382b9c729a6242d098befb7796d.1617279355.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617279355.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
@@ -54,31 +53,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 8b74e06b0f4d ("dt-bindings:iio:dac:ti,dac7612 yaml conversion")
-renamed: Documentation/devicetree/bindings/iio/dac/ti,dac7612.txt
-to: Documentation/devicetree/bindings/iio/dac/ti,dac7612.yaml.
+Changeset b4be8bd1c6a2 ("dt-bindings:iio:proximity:st,vl53l0x yaml conversion")
+renamed: Documentation/devicetree/bindings/iio/proximity/vl53l0x.txt
+to: Documentation/devicetree/bindings/iio/proximity/st,vl53l0x.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 8b74e06b0f4d ("dt-bindings:iio:dac:ti,dac7612 yaml conversion")
+Fixes: b4be8bd1c6a2 ("dt-bindings:iio:proximity:st,vl53l0x yaml conversion")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 6b0a6f251e6b..2f63ebd2cfc8 100644
+index 54c469933f66..d6708b3fdbd9 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -17907,7 +17907,7 @@ TEXAS INSTRUMENTS' DAC7612 DAC DRIVER
- M:	Ricardo Ribalda <ribalda@kernel.org>
+@@ -17171,7 +17171,7 @@ ST VL53L0X ToF RANGER(I2C) IIO DRIVER
+ M:	Song Qiang <songqiang1304521@gmail.com>
  L:	linux-iio@vger.kernel.org
- S:	Supported
--F:	Documentation/devicetree/bindings/iio/dac/ti,dac7612.txt
-+F:	Documentation/devicetree/bindings/iio/dac/ti,dac7612.yaml
- F:	drivers/iio/dac/ti-dac7612.c
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/iio/proximity/vl53l0x.txt
++F:	Documentation/devicetree/bindings/iio/proximity/st,vl53l0x.yaml
+ F:	drivers/iio/proximity/vl53l0x-i2c.c
  
- TEXAS INSTRUMENTS DMA DRIVERS
+ STABLE BRANCH
 -- 
 2.30.2
 
