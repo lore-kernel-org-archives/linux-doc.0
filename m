@@ -2,89 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1335C43461
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 23:35:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C41AC433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 00:47:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 711F561090
-	for <linux-doc@archiver.kernel.org>; Wed, 31 Mar 2021 23:35:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C786461055
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 00:47:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232356AbhCaXep (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 19:34:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34808 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229515AbhCaXec (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 31 Mar 2021 19:34:32 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 29A7C60724;
-        Wed, 31 Mar 2021 23:34:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617233671;
-        bh=VHAWYRxy4bXutKQaag3jfIG0mzVbXNUJpeALfhV5//A=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lS+AwwMVCTIo09zlTKi4crYXm1RZfX3vKkF85+eCjryasiCbM1xrvOtDv+/mxAKZg
-         4Ri8i+9lw2Fn3FRPM0x9Sf66YU7FqFO5U8fv30kRzJkWUfiOCPMFkV1Yg8bA0opOhZ
-         Q5yAi3Cr1SogpVAe6mlqngN4ZUpiI0n8fupFhxJMHf7p9QyrR0cCuzkubdw0tQwsfF
-         Bf6tbldLGu/mKxRzmNJd/09arSK6lVgEzksGj+ORJXiTXj34GxRDgPQEcHNF6uSc/c
-         pMZSpd/2hZtjMog6+w33jGso1J6W7rqp/AvMRU8Szfb0K//JHWDVBh66LD2Ip7Cr19
-         Fe7xvtDDgbqVw==
-Date:   Wed, 31 Mar 2021 16:34:29 -0700
-From:   Eric Biggers <ebiggers@kernel.org>
-To:     Jarkko Sakkinen <jarkko@kernel.org>
-Cc:     David Gstir <david@sigma-star.at>,
-        Sumit Garg <sumit.garg@linaro.org>,
-        Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        David Howells <dhowells@redhat.com>,
-        James Bottomley <jejb@linux.ibm.com>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Aymen Sghaier <aymen.sghaier@nxp.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Udit Agarwal <udit.agarwal@nxp.com>,
-        Jan Luebbe <j.luebbe@pengutronix.de>,
-        Franck Lenormand <franck.lenormand@nxp.com>,
-        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
-        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-security-module@vger.kernel.org" 
-        <linux-security-module@vger.kernel.org>
-Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
- CAAM-based trusted keys
-Message-ID: <YGUHBelwhvJDhKoo@gmail.com>
-References: <45a9e159-2dcb-85bf-02bd-2993d50b5748@pengutronix.de>
- <f9c0087d299be1b9b91b242f41ac6ef7b9ee3ef7.camel@linux.ibm.com>
- <63dd7d4b-4729-9e03-cd8f-956b94eab0d9@pengutronix.de>
- <CAFA6WYOw_mQwOUN=onhzb7zCTyYDBrcx0E7C3LRk6nPLAVCWEQ@mail.gmail.com>
- <557b92d2-f3b8-d136-7431-419429f0e059@pengutronix.de>
- <CAFA6WYNE44=Y7Erfc-xNtOrf7TkJjh+odmYH5vzhEHR6KqBfeQ@mail.gmail.com>
- <6F812C20-7585-4718-997E-0306C4118468@sigma-star.at>
- <YGDpA4yPWmTWEyx+@kernel.org>
- <YGOcZtkw3ZM5kvl6@gmail.com>
- <YGUGYi4Q3Uxyol6r@kernel.org>
+        id S230349AbhDAAqg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 20:46:36 -0400
+Received: from mail-bn7nam10on2042.outbound.protection.outlook.com ([40.107.92.42]:4736
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230073AbhDAAqH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 31 Mar 2021 20:46:07 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=R0EFZsRHuAzc3tMved96zuBYBl5NlZhIaZo23wO/IDZWpGCYKDnMukW2tBKkWZZWR/dFZNuBf5ikniyLRJEkqOotuGEL09ul2yTN7NPOQ0eyVtmU8IXcf+zbq+91WZIEETeYYJcPpb9G/YKbbX9BH3rBlYHadMaLR3avOk2UQ5d8YvCmKrV5eFWoYCkT9yhq5WiV/R231MTJw0lXn1FYglCRnoCbkUlZwflajWFHTREesFetptaI76ojIk/mF4UJE9aIBRpZEsBZMT3NYEYyBv7B/5x75e2uaxHKrl6sm9KmKy+xYpZ3qAR7l8N3rGVVaeGenCKvPDzeYEox+jbBtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=02dqO4PC113SnNoKYRD+v4Jz0t8gBaTnBaGti0otKxg=;
+ b=Dh8NzFKnfBSYHbFRVaXq5QoKXQyp9U7IebgXlVRk3e8FCg+8lIZGwB5wLPmRq3l8WUDsyumY5XrqimYSPhZGcpVZptJ5GPihixnleLluP9G23YcILsjP1iG9pc3uj5JmrEIPyOLyfZHa33tSeDX+VRptX3z0j8s8vfZWNxJXL0JrIwKKH+CynUJELVTGwTPISTL+3AnN+ht7bcdv3yqwr07TrwQUf/Fn5BIonabMOv6aulwr59+xXXrRPqzmA2a4YGkVkxY5Fj5nlzlaO2lZsUn4TmwYcH1wdVD5bCFQVhAky6OIs9JyM9dnQy79I6doYMuxmiYceuiRpK2jSNTrzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.112.34) smtp.rcpttodomain=infradead.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=02dqO4PC113SnNoKYRD+v4Jz0t8gBaTnBaGti0otKxg=;
+ b=W78ahZZqCXEfWmX8+zuL7Bm1gB2PN4i8ypE409XbpV8HyFbCZvSyr/BgcuHmHYh0iMwmJuLCcZZsi+29iCZW1wX8+bQ1vKp5ID4QltRFfKrPSfs5q4Qr7kjJUmfYeTFk9ELOjyyr1EN7z7cZYGtoZXJ0l3aRxCeilPaRLO8MhPRaYSRPx2V/vw0kRVLP39UCEClPxHaHKmetcHEGdkf+zIYlAiq4AkmDdzVg9riZaeWZcaAt+OZLiDFoT/imdRzoq6N5eBxg1uV3gIm2ITpsaKRvMuyo5oE3oGz4vZpxrvXUCOpGpKkMHAWOwbPLW4RSXneh3kKqImKW+frzJMk/ng==
+Received: from MW4PR04CA0053.namprd04.prod.outlook.com (2603:10b6:303:6a::28)
+ by SN6PR12MB2622.namprd12.prod.outlook.com (2603:10b6:805:72::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.29; Thu, 1 Apr
+ 2021 00:46:05 +0000
+Received: from CO1NAM11FT065.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:6a:cafe::90) by MW4PR04CA0053.outlook.office365.com
+ (2603:10b6:303:6a::28) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.28 via Frontend
+ Transport; Thu, 1 Apr 2021 00:46:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
+ smtp.mailfrom=nvidia.com; infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.112.34; helo=mail.nvidia.com;
+Received: from mail.nvidia.com (216.228.112.34) by
+ CO1NAM11FT065.mail.protection.outlook.com (10.13.174.62) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.20.3999.28 via Frontend Transport; Thu, 1 Apr 2021 00:46:03 +0000
+Received: from nvdebian.localnet (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 1 Apr
+ 2021 00:45:59 +0000
+From:   Alistair Popple <apopple@nvidia.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+CC:     <linux-mm@kvack.org>, <nouveau@lists.freedesktop.org>,
+        <bskeggs@redhat.com>, <akpm@linux-foundation.org>,
+        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <kvm-ppc@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <jhubbard@nvidia.com>, <rcampbell@nvidia.com>,
+        <jglisse@redhat.com>, <hch@infradead.org>, <daniel@ffwll.ch>,
+        <willy@infradead.org>, "Christoph Hellwig" <hch@lst.de>
+Subject: Re: [PATCH v7 5/8] mm: Device exclusive memory access
+Date:   Thu, 1 Apr 2021 11:45:57 +1100
+Message-ID: <35941260.J9UuDlmC3F@nvdebian>
+In-Reply-To: <20210331134604.GK1463678@nvidia.com>
+References: <20210326000805.2518-1-apopple@nvidia.com> <2124945.3NMGunUBXV@nvdebian> <20210331134604.GK1463678@nvidia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YGUGYi4Q3Uxyol6r@kernel.org>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 18e4ec86-f40a-4d16-04e4-08d8f4a786e6
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2622:
+X-Microsoft-Antispam-PRVS: <SN6PR12MB26224C80274B4A5038000C8DDF7B9@SN6PR12MB2622.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: +7zgNVU6kzXagGya9Md1qxWL8t946Q5MwzkB/MSIhLk86SDO+RSFa/H62t3ixR9+22DI+cavyIoac8kH7/b1LSqzkchCHRyTW5PXgYDmFw85M5ILqkoA55Hz+Eec5PXWrI3PCnBMwvNc4HZFz2gk5IaKLMekeWGCnlIlCfp4LkgOGqCuynzgJkcpjc0pOEwePkpRIANNPLdk9q9AHG0umAngJM3HIJp2LEfMfe4QJYsQhRnSB866EBp/vP5JziSxOEVyGNhyN1xcobVGU+g1EjMfV3E4azK/omZrC/WiL/QiJy52uhnSYiZpDllY+M7NdwjTVaOFUDsM5tc9gyVobahEzNRyghNSEO2ajmpdgO4OzyBKmpOrj+xHZF8xm6sTEJSCObgKSsGz9YMFGFfQVDmU5qmrSSKdi9rxMx8PKuXIMlgkd5GH1rCcKbRaPs5f5KmiESOz/h9MH2MXemKmeu4nsi/eEibxwgXEpJy3S+M0UW2fBIIlga2imeujTlsbhOiFzFHHJQQXhefdhqzjLrrgJJ2uxyprwPfc5DPp0nL5HI7rIwP17QInwKYiy6Q7PyqdUghMads5x8P9t4kQFf09+k1nI2zTN8w2KQON35qsuqHsL8ek++L2qL2hVqFlwQ90Iy3zl382NQKFg5n96tMiDQUV0wZ8oXXTJBqnSBuEPmdLBaN+18A7IMOkxlpz
+X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(46966006)(36840700001)(186003)(82310400003)(16526019)(9576002)(356005)(83380400001)(336012)(86362001)(8676002)(7636003)(6862004)(498600001)(426003)(5660300002)(8936002)(7416002)(70206006)(54906003)(47076005)(36906005)(2906002)(36860700001)(33716001)(26005)(70586007)(4326008)(9686003)(6636002)(39026012);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2021 00:46:03.1763
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 18e4ec86-f40a-4d16-04e4-08d8f4a786e6
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT065.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2622
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 01, 2021 at 02:31:46AM +0300, Jarkko Sakkinen wrote:
+On Thursday, 1 April 2021 12:46:04 AM AEDT Jason Gunthorpe wrote:
+> On Thu, Apr 01, 2021 at 12:27:52AM +1100, Alistair Popple wrote:
+> > On Thursday, 1 April 2021 12:18:54 AM AEDT Jason Gunthorpe wrote:
+> > > On Wed, Mar 31, 2021 at 11:59:28PM +1100, Alistair Popple wrote:
+> > > 
+> > > > I guess that makes sense as the split could go either way at the
+> > > > moment but I should add a check to make sure this isn't used with
+> > > > pinned pages anyway.
+> > > 
+> > > Is it possible to have a pinned page under one of these things? If I
+> > > pin it before you migrate it then it remains pinned but hidden under
+> > > the swap entry?
+> > 
+> > At the moment yes. But I had planned (and this reminded me) to add a check 
+to 
+> > prevent marking pinned pages for exclusive access. 
 > 
-> It's a bummer but uapi is the god in the end. Since TPM does not do it
-> today, that behaviour must be supported forever. That's why a boot option
-> AND a warning would be the best compromise.
+> How do you even do that without races with GUP fast?
+
+Unless I've missed something I think I've convinced myself it should be safe 
+to do the pin check after make_device_exclusive() has replaced all the PTEs 
+with exclusive entries.
+
+GUP fast sequence:
+1. Read PTE
+2. Pin page
+3. Check PTE
+4. if PTE changed -> unpin and fallback
+
+If make_device_exclusive() runs after (1) it will either succeed or see the 
+pin from (2) and fail (as desired). GUP should always see the PTE change and 
+fallback which will revoke the exclusive access.
+
+ - Alistair
+
+> Jason
 > 
 
-It's not UAPI if there is no way for userspace to tell if it changed.
 
-- Eric
+
+
