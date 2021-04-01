@@ -4,50 +4,61 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,TVD_SPACE_RATIO,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 222C6C43461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A20E1C43462
 	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0672A60BBB
+	by mail.kernel.org (Postfix) with ESMTP id 769F060BBB
 	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236144AbhDAS2D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:28:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46034 "EHLO mail.kernel.org"
+        id S237993AbhDAS2E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:28:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45718 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239674AbhDASQp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S239673AbhDASQp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 1 Apr 2021 14:16:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C419E6121D;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D152561222;
         Thu,  1 Apr 2021 12:17:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617279476;
-        bh=9PoexKn9B5sUWryT4Sa8hCkGzVDwIievA60/TyPSyHs=;
+        s=k20201202; t=1617279477;
+        bh=0AGwy6Tl68VsWBu68wDgwZ5CzpVE/d5ORNGmhEDws2g=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iFRlkOcszOpL6rWYIXnLOz+v6RhlW0xR5evg1Ll2AA62ktfi/CR1Z40nb9/3TKtyM
-         Ij7WycN2aDV9Vte8hYEs2IKLipd7tYAbRADCjP8Z6vVtwZ0AJ07X9qR7Zaso83jQwH
-         /lGiwH1uRCD8wPDNkTGZ+Mrx+ndm+ArqMweiUnE5+9AyevgTCc05fvQjhEL5XTLJ0j
-         IobUl/1sEL+cdG45cX0iGS7jIff4q243+Cs0tKiMGa3dP3qvS3L9XyHJIRmxDTOj5c
-         mKGDsjiQlwnMMIbmmmtIrloOb85ZpfgMyVHQVMbBakxVk40r4CETe1quWzCI7L3ozn
-         hyLHuE4zBYZXg==
+        b=j9+6sIJKmL+XOmxe06aUOTq1k9rbWG1ko3gLDYYloZawQ+uPzb6HyLO0axwBtY/Ml
+         jEkUoJ6zUkX7bndJh8cFEKmiybNNqXDM2/N51fsLAcRv8KSFdfsOq6t2Lqw1c+7owx
+         JlUeuTdafy2N/TkneDHlThe1fAG/peHgxaKuZ5irClbtzrgNvwG8Cu6cjpJDu8Pyqw
+         VQJfPHNNFDlpcQ/t/ynxrYUdvt5ngXcTEQpbbm6CBM3/TsOtiSwbO6j9L3XnbMHcrh
+         42PaDgiDzIgzIOab1guPYd/uAMB7PqTriadjZY+MZAe3kyHidi2bMjqQMX6tN1Jeq0
+         7oNNkgvReRKmw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lRwGo-001c3n-OB; Thu, 01 Apr 2021 14:17:54 +0200
+        id 1lRwGo-001c3X-GL; Thu, 01 Apr 2021 14:17:54 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Charles Keepax <ckeepax@opensource.cirrus.com>,
-        Drew Fustini <drew@beagleboard.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Richard Fitzgerald <rf@opensource.cirrus.com>,
-        alsa-devel@alsa-project.org, linux-gpio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
-Subject: [PATCH 32/32] pinctrl: update pin-control.rst references
-Date:   Thu,  1 Apr 2021 14:17:52 +0200
-Message-Id: <f056e1e16adff1df42416f0033fdb730169edf44.1617279356.git.mchehab+huawei@kernel.org>
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Bin Liu <bin.liu@mediatek.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rick Chang <rick.chang@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: [PATCH 26/32] dt-bindings: iommu: mediatek: update mediatek,iommu.yaml references
+Date:   Thu,  1 Apr 2021 14:17:46 +0200
+Message-Id: <f1a798e2d5ffa829d0324333a1af91f1b3a63dad.1617279356.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617279355.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
@@ -58,59 +69,87 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 5513b411ea5b ("Documentation: rename pinctl to pin-control")
-renamed: Documentation/driver-api/pinctl.rst
-to: Documentation/driver-api/pin-control.rst.
+Changeset bca28426805d ("dt-bindings: iommu: mediatek: Convert IOMMU to DT schema")
+renamed: Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+to: Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml.
 
 Update the cross-references accordingly.
 
-Fixes: 5513b411ea5b ("Documentation: rename pinctl to pin-control")
+Fixes: bca28426805d ("dt-bindings: iommu: mediatek: Convert IOMMU to DT schema")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/device.h                  | 2 +-
- include/linux/mfd/madera/pdata.h        | 2 +-
- include/linux/pinctrl/pinconf-generic.h | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .../devicetree/bindings/display/mediatek/mediatek,disp.txt      | 2 +-
+ .../devicetree/bindings/media/mediatek-jpeg-decoder.txt         | 2 +-
+ .../devicetree/bindings/media/mediatek-jpeg-encoder.txt         | 2 +-
+ Documentation/devicetree/bindings/media/mediatek-mdp.txt        | 2 +-
+ Documentation/devicetree/bindings/media/mediatek-vcodec.txt     | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 38a2071cf776..d1183cfdc8fb 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -399,7 +399,7 @@ struct dev_links_info {
-  * 		along with subsystem-level and driver-level callbacks.
-  * @em_pd:	device's energy model performance domain
-  * @pins:	For device pin management.
-- *		See Documentation/driver-api/pinctl.rst for details.
-+ *		See Documentation/driver-api/pin-control.rst for details.
-  * @msi_list:	Hosts MSI descriptors
-  * @msi_domain: The generic MSI domain this device is using.
-  * @numa_node:	NUMA node this device is close to.
-diff --git a/include/linux/mfd/madera/pdata.h b/include/linux/mfd/madera/pdata.h
-index 601cbbc10370..32e3470708ed 100644
---- a/include/linux/mfd/madera/pdata.h
-+++ b/include/linux/mfd/madera/pdata.h
-@@ -31,7 +31,7 @@ struct pinctrl_map;
-  * @irq_flags:	    Mode for primary IRQ (defaults to active low)
-  * @gpio_base:	    Base GPIO number
-  * @gpio_configs:   Array of GPIO configurations (See
-- *		    Documentation/driver-api/pinctl.rst)
-+ *		    Documentation/driver-api/pin-control.rst)
-  * @n_gpio_configs: Number of entries in gpio_configs
-  * @gpsw:	    General purpose switch mode setting. Depends on the external
-  *		    hardware connected to the switch. (See the SW1_MODE field
-diff --git a/include/linux/pinctrl/pinconf-generic.h b/include/linux/pinctrl/pinconf-generic.h
-index 6aeb711f7cd1..fdcd773adba3 100644
---- a/include/linux/pinctrl/pinconf-generic.h
-+++ b/include/linux/pinctrl/pinconf-generic.h
-@@ -88,7 +88,7 @@ struct pinctrl_map;
-  * 	it.
-  * @PIN_CONFIG_OUTPUT: this will configure the pin as an output and drive a
-  * 	value on the line. Use argument 1 to indicate high level, argument 0 to
-- *	indicate low level. (Please see Documentation/driver-api/pinctl.rst,
-+ *	indicate low level. (Please see Documentation/driver-api/pin-control.rst,
-  *	section "GPIO mode pitfalls" for a discussion around this parameter.)
-  * @PIN_CONFIG_POWER_SOURCE: if the pin can select between different power
-  *	supplies, the argument to this parameter (on a custom format) tells
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+index 93b160df3eec..fbb59c9ddda6 100644
+--- a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+@@ -64,7 +64,7 @@ Required properties (DMA function blocks):
+ - larb: Should contain a phandle pointing to the local arbiter device as defined
+   in Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
+ - iommus: Should point to the respective IOMMU block with master port as
+-  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
++  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+   for details.
+ 
+ Optional properties (RDMA function blocks):
+diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt
+index cf60c5acc0e4..39c1028b2dfb 100644
+--- a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt
++++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt
+@@ -19,7 +19,7 @@ Required properties:
+   Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
+   for details.
+ - iommus: should point to the respective IOMMU block with master port as
+-  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
++  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+   for details.
+ 
+ Example:
+diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt b/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
+index acfb50375b8a..5e53c6ab52d0 100644
+--- a/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
++++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
+@@ -17,7 +17,7 @@ Required properties:
+   Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
+   for details.
+ - iommus: should point to the respective IOMMU block with master port as
+-  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
++  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+   for details.
+ 
+ Example:
+diff --git a/Documentation/devicetree/bindings/media/mediatek-mdp.txt b/Documentation/devicetree/bindings/media/mediatek-mdp.txt
+index f4798d04e925..caa24943da33 100644
+--- a/Documentation/devicetree/bindings/media/mediatek-mdp.txt
++++ b/Documentation/devicetree/bindings/media/mediatek-mdp.txt
+@@ -25,7 +25,7 @@ Required properties (DMA function blocks, child node):
+         "mediatek,mt8173-mdp-wdma"
+         "mediatek,mt8173-mdp-wrot"
+ - iommus: should point to the respective IOMMU block with master port as
+-  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
++  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+   for details.
+ - mediatek,larb: must contain the local arbiters in the current Socs, see
+   Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
+diff --git a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+index 8217424fd4bd..a83ebc1a1c7f 100644
+--- a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
++++ b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+@@ -18,7 +18,7 @@ Required properties:
+   "univpll_d2", "clk_cci400_sel", "vdec_sel", "vdecpll", "vencpll",
+   "venc_lt_sel", "vdec_bus_clk_src".
+ - iommus : should point to the respective IOMMU block with master port as
+-  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
++  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
+   for details.
+ One of the two following nodes:
+ - mediatek,vpu : the node of the video processor unit, if using VPU.
 -- 
 2.30.2
 
