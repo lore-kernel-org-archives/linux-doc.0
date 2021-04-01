@@ -2,82 +2,78 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AEB9C433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 04:49:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74904C433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 04:51:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 36BB161006
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 04:49:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2AD79610CA
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 04:51:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229539AbhDAEst (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 00:48:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33624 "EHLO
+        id S229515AbhDAEub (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 00:50:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbhDAEsh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 00:48:37 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60D77C0613E6
-        for <linux-doc@vger.kernel.org>; Wed, 31 Mar 2021 21:48:37 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id v10so760296pgs.12
-        for <linux-doc@vger.kernel.org>; Wed, 31 Mar 2021 21:48:37 -0700 (PDT)
+        with ESMTP id S229473AbhDAEuP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 00:50:15 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03410C0613E6
+        for <linux-doc@vger.kernel.org>; Wed, 31 Mar 2021 21:50:15 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id q6-20020a17090a4306b02900c42a012202so333839pjg.5
+        for <linux-doc@vger.kernel.org>; Wed, 31 Mar 2021 21:50:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=k3XKZ3X2roLd3J9CBGVYTihNfX4riQORgLIKFItPtXQ=;
-        b=FLH4kPje1BCsqiUc3BhO32k6Kl71FE/36E3Dj3H5I9XFIlmBiiOINHj/QKL+WlDVmp
-         lfwoKSR44IUeAbfgEUEn4qc7zB+leFFtW6gYngCMxcwwCS7XHGTFZ+JRJcmHByWaYsdH
-         XQzQVPLbOMFvJQhv0/F8Ex3jmoGhcs5apkPudNq8mHkF8dAh8w/bvMppR4bw7fhgfytG
-         +i50LF6X4y3yWbgpUgyHu0JiPPlFHBSwPSE4CPeNQTkTE/JKb7izNeH1m0XaG/hRuyvF
-         G3HstVMAbT64dAtzk9JXFK5TCltoRRx2N/aQIdmskBd8BfVo8HGLKA79jMLNI5XxqzVs
-         rL7g==
+        bh=DbKxgZHakLb/Lx1muV22F3nQX3mlIIEOvmFgH3Hd1cU=;
+        b=sGCtP1wHRN6UCuOVz7MfpLfHivaXwZaSmzlTfI3Or6GlbZ7E8NO8mh+mUcZuMs0pkY
+         qYBl2D0xZhsAopapSurbMoBYSqufVTx3hkvEx7QE1TMOIIvECHhn/TtViGbHKyx22sLF
+         LP1HN/iS/+WlqrsHzS39Y3mzXk7PxjOzTLKV3WiWQdIUlvbdJKb5U9PrLGlJiT2mEWzB
+         D2JnKYjfz1nSW5WoB+0ZpSgKj3dTpuDTlsIzkD9iMO2oXoXiL52L13VH+2iDOxUIBvUv
+         Jq6lnaNedgQ9wjj2s9E50GlR6qanULdRhFTKTK+JJNE32o+TKp5baHZ2WfwKlwdwBqlp
+         0Z+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=k3XKZ3X2roLd3J9CBGVYTihNfX4riQORgLIKFItPtXQ=;
-        b=mczdG557mp461RSG9+WSDH2iX9pszoaKHZEJdrBU9LuaKaIX+QHIknvBh14/pC+oct
-         xe0cdV/zDwcmAoAG/3Uhczdj0l9Nq5wJrlOg5UbeUln4iMNsR5oMXPff/UoPYZre/pZe
-         Hr9GZVsuSCWCD5Ui4IyoFPjzJfJUURlkGuiTfCaL9Xoi7ejzZ4LT5yGyIYoXKLq3jUoi
-         byClH5zNw1g53E4AKdSAc1kML5/jiurtBIrSGRQU/dC+2UAF3WYA53KIfV9jh2qgKCLO
-         uA1ePRRejS/ecGyH/TNVj7muI/EdBWLKd6b8DsrQx1EEQ9n/9fkapLHfAxsJp1n5ANfy
-         5vVA==
-X-Gm-Message-State: AOAM530WaJyiCazwc7Mao6PSUu2P6GZ3n+rYnqU63ob+Ynopr6GGktXr
-        LQfTveiD/Yd8++wBAW31wIo=
-X-Google-Smtp-Source: ABdhPJwAQBsjkPEs/foVIYs656PFw0RRWaOqCR9zLQYOG07ltuFRW+yN03h1zmAD7ajFUwehHfTBEw==
-X-Received: by 2002:a63:5a0c:: with SMTP id o12mr5978807pgb.76.1617252516918;
-        Wed, 31 Mar 2021 21:48:36 -0700 (PDT)
+        bh=DbKxgZHakLb/Lx1muV22F3nQX3mlIIEOvmFgH3Hd1cU=;
+        b=e9cLfXB5oBMYmVElfrA6uPz0c1Fo8aHaQ+pS2hjxU2ykCbi6u2QLI5IT/SI5Ly+WPw
+         4mDYk3+O4LrONSydW477Bd8xHYlwhWLh777tAEwEN7fMgRQaDrY14ah4i2PuU1Mta5Ft
+         egyEcTdVEASCo76KAX6AHsOZduOzMUk7hhlqmO9PzS0hQo7rOKSB2LCIpIKmuvewWGxB
+         P4X1A/YEK2RRSQvNQtje/m+4FuUrNa8z8svzQq743Y7zdt7Xexv/rDBkyW6B37gFrdUb
+         hKvrDI6naW/kURlkffDJi1wSKwsFPlkqzcDUzv7o+vRtJ0WQJHfVSfcJnYF9Jcqzfruj
+         tXRw==
+X-Gm-Message-State: AOAM5312gSfYErFldtER73Wo8uwhNuSPx3bvqe5V5Luiu87xnSb8w0NL
+        g+8KdTMRwx30eOzWp1AlIsIb3aZab7EwUw==
+X-Google-Smtp-Source: ABdhPJwl9OIwW1LJ9LEi2sjp9R3XrO9X81stWG3YgPN1FYkNiPl4CJ7Ek5FwhuVPf9NDm/8gBrpTcg==
+X-Received: by 2002:a17:90b:1044:: with SMTP id gq4mr6873012pjb.232.1617252614603;
+        Wed, 31 Mar 2021 21:50:14 -0700 (PDT)
 Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id cp22sm3790039pjb.15.2021.03.31.21.48.32
+        by smtp.gmail.com with ESMTPSA id r1sm4333127pfh.153.2021.03.31.21.50.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Mar 2021 21:48:36 -0700 (PDT)
-Subject: Re: [PATCH v2 3/8] docs/zh_CN: add cpu-freq cpufreq-stats.rst
- translation
-To:     "Wu X.C." <bobwxc@email.cn>, yanteng si <siyanteng01@gmail.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
+        Wed, 31 Mar 2021 21:50:14 -0700 (PDT)
+Subject: Re: [PATCH v3 4/8] docs/zh_CN: add cpu-freq index.rst translation
+To:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
         Huacai Chen <chenhuacai@gmail.com>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
         Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        Puyu Wang <realpuyuwang@gmail.com>
-References: <20210329025144.9776-1-siyanteng@loongson.cn>
- <20210329025144.9776-4-siyanteng@loongson.cn> <20210329062342.GB8845@mipc>
- <CAEensMxBMjT1D31-dbQ2Y14Rp61=-vuxmoej2-Xyyw6w1K7Dnw@mail.gmail.com>
- <20210329131357.GA5608@mipc>
+        realpuyuwang@gmail.com, siyanteng01@gmail.com, bobwxc@email.cn
+References: <20210330114728.2680-1-siyanteng@loongson.cn>
+ <20210330114728.2680-5-siyanteng@loongson.cn>
 From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <c82683b1-3f8a-55e0-52e2-b38d8ad0ff9a@gmail.com>
-Date:   Thu, 1 Apr 2021 12:48:30 +0800
+Message-ID: <3d2eb42a-2ff3-3984-253e-397eea64c227@gmail.com>
+Date:   Thu, 1 Apr 2021 12:50:08 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210329131357.GA5608@mipc>
+In-Reply-To: <20210330114728.2680-5-siyanteng@loongson.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -85,36 +81,68 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Reviewed-by: Alex Shi <alexs@kernel.org>
 
+Cc: Wu X.C. <bobwxc@email.cn>
 
-On 2021/3/29 下午9:13, Wu X.C. wrote:
-> On Mon, Mar 29, 2021 at 08:19:23PM +0800, yanteng si wrote:
->> Hi~
->>
->> Do you mind if I add the following?
->>
->> +:校译:
->> +
->> + 吴想成 Wu XiangCheng <bobwxc@email.cn>
+On 2021/3/30 下午7:47, Yanteng Si wrote:
+> This patch translates Documention/cpu-freq/index.rst into Chinese.
 > 
-> Ah, thank you very much.
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  .../translations/zh_CN/cpu-freq/index.rst     | 45 +++++++++++++++++++
+>  1 file changed, 45 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/cpu-freq/index.rst
 > 
-> I really appreciate your willingness to do so. It's really an honor, 
-> but I have only done some minor work. :) Just put it on hold. 
-> Many people will review your works continually. If someone modify your 
-> translation later, add them.
-
-Hi Xiangcheng,
-
-You are so humble. :)
-Compare to a honor of your sign, I'd like to see more responsibility from
-the signing. So please take it if it's passed your review. And also a 
-"reviewed-by:" is another kind of generous commitment. :)
-
-Thanks
-Alex
- 
-> 
-> Sincerely,
-> Wu X.C.
+> diff --git a/Documentation/translations/zh_CN/cpu-freq/index.rst b/Documentation/translations/zh_CN/cpu-freq/index.rst
+> new file mode 100644
+> index 000000000000..39d4b058fd7f
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/cpu-freq/index.rst
+> @@ -0,0 +1,45 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. include:: ../disclaimer-zh_CN.rst
+> +
+> +:Original: :doc:`../../../cpu-freq/index`
+> +:Translator: Yanteng Si <siyanteng@loongson.cn>
+> +
+> +.. _cn_index.rst:
+> +
+> +
+> +=======================================================
+> +Linux CPUFreq - Linux(TM)内核中的CPU频率和电压升降代码
+> +=======================================================
+> +
+> +Author: Dominik Brodowski  <linux@brodo.de>
+> +
+> +      时钟升降允许你在运行中改变CPU的时钟速度。这是一个很好的节省电池电量的方法，因为时
+> +      钟速度越低，CPU消耗的电量越少。
+> +
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   core
+> +   cpu-drivers
+> +   cpufreq-stats
+> +
+> +邮件列表
+> +------------
+> +这里有一个 CPU 频率变化的 CVS 提交和通用列表，您可以在这里报告bug、问题或提交补丁。要发
+> +布消息，请发送电子邮件到 linux-pm@vger.kernel.org。
+> +
+> +链接
+> +-----
+> +FTP档案:
+> +* ftp://ftp.linux.org.uk/pub/linux/cpufreq/
+> +
+> +如何访问CVS仓库:
+> +* http://cvs.arm.linux.org.uk/
+> +
+> +CPUFreq邮件列表:
+> +* http://vger.kernel.org/vger-lists.html#linux-pm
+> +
+> +SA-1100的时钟和电压标度:
+> +* http://www.lartmaker.nl/projects/scaling
 > 
