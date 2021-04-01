@@ -2,157 +2,236 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22495C433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 21:57:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAEE3C433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 22:11:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BCCAD610F9
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 21:57:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D6DD61105
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 22:11:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234047AbhDAV5V (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 17:57:21 -0400
-Received: from mail-bn8nam12on2080.outbound.protection.outlook.com ([40.107.237.80]:54144
-        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233974AbhDAV5V (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Apr 2021 17:57:21 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jp0jZ2pLJwqRDagQm61EFVTNwuiwmEt+iIz8WbHnjGf5UdbAezXVV/hRmdN7vd+lTNDfovJbHnvG+oTjnUJZfO1nBCIEp0V1Iw6Ttjc0csk4if/g9IAshilLfAchFv/6OQwe778OPN8DoJelA6Gjkmkxe2aYN3cpp7soSalyzAWglEKuHAVA86dMH5eYRl3t51GdNtTM5NQ1O2xkI4NA63zpuWAxIafgXLOL2VZCcjpJBrN2Jt4JmBhw5g6tNOVD5N4s8wpbIf1xfPPRF7dlHOHt4wh4CvS1gvPVMVJwOCNTZCglrN28tiL/zvZUpCh5cbEpa/mzMo+Clpma2vLHDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kiF+Ekaciqls+yFBaM3+dQvUKpVWCYwn5J82sDaQ6XI=;
- b=DQA+Cr0fLUAM0byNVFdArSyJL9hObF0iCCYtEB8PhuqXTmHE6GYvbZaJE25WtjvgqshGWjUcJ0qKgfnnnBQyhYj9fV1AHVa5INnHgaJkIZH6M8YvDDf8Ht0/Tbx0AKo3c+Qs3MsgL7gH4HsyfPB7/yJpATNRWQZVikV8sNPuK+MEDQtcBN3OWXKL8dlp6aVnX1rgEkJQjpu/BT9TPRsMzEAL6Pau12HNn/ruHuGvA3kTeSiWtJOO4POmxJIq/WgHbMrGry0d/04Wez/lZOk7s/mx6fivTl4ez6DBDaeZ3zVmgUzeRO6enGu25CDsuohdpePbHwsmrjXVpCfKaKEbTg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.112.34) smtp.rcpttodomain=lwn.net smtp.mailfrom=nvidia.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kiF+Ekaciqls+yFBaM3+dQvUKpVWCYwn5J82sDaQ6XI=;
- b=h4JL8USQqOv21wyJSTmDsUY3NVN5uSYmbgBVCNxNm+jQTpf0S1nV7xEP/IWojPVCyRXKOMV5DzKDfD6EOyFtubxq9KH26pAjSmixl9UI3rI+3aaDj6/6P/8SReBUXIxn6l1lIp1uv5L8dJn0z7xQGOgdU4GjSmn7ZYd2Zox9Kk9eStRRRLbWrO4DmYFxJzAck3KTWQqv9OwQQX0Bxwq/FtqLKQ4zv8TVPZAuQoV04JnhUKf4uIxke9pPQpqYTJoEe1ViSYyfWNVfHquIvm4QdGDOQmWgk2z6bnlEHjy6SdlrLLykqwQeEWGjnAeZX407lXcmguLutW+fYiUIjWnw1A==
-Received: from MWHPR04CA0039.namprd04.prod.outlook.com (2603:10b6:300:ee::25)
- by DM6PR12MB3435.namprd12.prod.outlook.com (2603:10b6:5:39::26) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.25; Thu, 1 Apr
- 2021 21:56:06 +0000
-Received: from CO1NAM11FT068.eop-nam11.prod.protection.outlook.com
- (2603:10b6:300:ee:cafe::b2) by MWHPR04CA0039.outlook.office365.com
- (2603:10b6:300:ee::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.26 via Frontend
- Transport; Thu, 1 Apr 2021 21:56:06 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.112.34)
- smtp.mailfrom=nvidia.com; lwn.net; dkim=none (message not signed)
- header.d=none;lwn.net; dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.112.34 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.112.34; helo=mail.nvidia.com;
-Received: from mail.nvidia.com (216.228.112.34) by
- CO1NAM11FT068.mail.protection.outlook.com (10.13.175.142) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.20.3999.28 via Frontend Transport; Thu, 1 Apr 2021 21:56:06 +0000
-Received: from [10.2.63.109] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 1 Apr
- 2021 21:56:06 +0000
-Subject: Re: [PATCH v2 7/7] ABI: sysfs-kernel-mm-cma: fix two cross-references
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S233974AbhDAWLU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 18:11:20 -0400
+Received: from mga11.intel.com ([192.55.52.93]:34672 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233816AbhDAWLT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Apr 2021 18:11:19 -0400
+IronPort-SDR: uVRUUPbjgbFTKe9KqUsaOiwYsZ4iMkAKg7n+WKb1jNnL3g7wcAGVh7nDz8NdprMiUERIv1pE9d
+ 925A3zxz1MLA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9941"; a="189084509"
+X-IronPort-AV: E=Sophos;i="5.81,296,1610438400"; 
+   d="scan'208";a="189084509"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2021 15:11:19 -0700
+IronPort-SDR: CLJYmJfTc/21Pc/BayLqoTW3ht0ZjE8uZfmBGtHDSlKZVGESQgFaKT7x2SHPzLjpIKODqysA+E
+ 52WiiNpYK/6g==
+X-IronPort-AV: E=Sophos;i="5.81,296,1610438400"; 
+   d="scan'208";a="517513838"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2021 15:11:19 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Andrew Morton <akpm@linux-foundation.org>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Minchan Kim <minchan@kernel.org>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        <linux-kernel@vger.kernel.org>
-References: <cover.1616668017.git.mchehab+huawei@kernel.org>
- <87907316390311c6b42e86c3ba9fb2f2903d9499.1616668017.git.mchehab+huawei@kernel.org>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <07220859-0a4e-34fb-9349-b3c7d011a108@nvidia.com>
-Date:   Thu, 1 Apr 2021 14:56:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v24 00/30] Control-flow Enforcement: Shadow Stack
+Date:   Thu,  1 Apr 2021 15:10:34 -0700
+Message-Id: <20210401221104.31584-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <87907316390311c6b42e86c3ba9fb2f2903d9499.1616668017.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e16a42ed-78b3-4827-e090-08d8f558f376
-X-MS-TrafficTypeDiagnostic: DM6PR12MB3435:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB3435977505BB1A1CD31BE0F8A87B9@DM6PR12MB3435.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lJtMtndmQc4ORwkz1oCa/HeiEMOg7oQQ9A6VW8Z8EO0GdNCFy5Iekp/zVlskUdhN7sOASDIVU3QwLqZnPPTyYQfXEaTZ0pdFVhAWZez6uRD9yoU15PlfZb/399b2YjfIhF74oUjexxkaUy9R+NmpAbYpy6pRJxbQmL7jQSDJ8W/hR0rysmffYbfp1qQadgYLmkNUDtRkSFLtXfYOiG2IKM2pu/28/Jbgvu0NlK6zitwkkMOK0ljk2R8L1hs9HoEnOAIhsb+aJ1bK5V3BExrMlzYsh9kdvFIejnd9LANEX3tRt1LvS2wGqiEXnN89T4RuQnistBG8gVTNiLwAYNrH49yyltpVAFUQAF5oPmNwXKrs9rbAaLl4Y4wYcjJwlcgo0dAK0kKJuDRPc+Y0JPwnpFnb44UH+XQ0njdl1Y9XanaEwiMb1uQTss00wASshiZ4FvMdui2vqXI2byy9lx8KogVZtSls54iP+ffYvpL2YotobkSOhaLpouoentFNUZoIwKMIXQSMoe1ROxADVLMTa5tJJN6Ek8JGI+GDG/+3vd9xtTZ5Fw3kwkvNw2zasL8RqUhQtSMmDZscPzwAQWb3BvJ4ecTrln1PVrpOc928bZZ8s0EOJC8eI0/2rUkjW5jLGJZBs8RfJi31EoHA464yoAxIIUdKZnZE5Qaqki+vF61tkvAH/d1aMTZePYegb7tJ
-X-Forefront-Antispam-Report: CIP:216.228.112.34;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:schybrid03.nvidia.com;CAT:NONE;SFS:(4636009)(39860400002)(376002)(346002)(396003)(136003)(36840700001)(46966006)(16526019)(31686004)(356005)(86362001)(82310400003)(316002)(336012)(70206006)(82740400003)(47076005)(26005)(8936002)(70586007)(4326008)(54906003)(36756003)(36906005)(16576012)(110136005)(83380400001)(7636003)(2906002)(186003)(31696002)(53546011)(5660300002)(426003)(2616005)(8676002)(478600001)(36860700001)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2021 21:56:06.2457
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e16a42ed-78b3-4827-e090-08d8f558f376
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.112.34];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT068.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3435
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 3/25/21 3:38 AM, Mauro Carvalho Chehab wrote:
-> Change the text in order to generate cross-references for
-> alloc_pages_success and alloc_pages_fail symbols.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->   Documentation/ABI/testing/sysfs-kernel-mm-cma | 8 +++-----
->   1 file changed, 3 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/ABI/testing/sysfs-kernel-mm-cma b/Documentation/ABI/testing/sysfs-kernel-mm-cma
-> index 02b2bb60c296..86e261185561 100644
-> --- a/Documentation/ABI/testing/sysfs-kernel-mm-cma
-> +++ b/Documentation/ABI/testing/sysfs-kernel-mm-cma
-> @@ -5,12 +5,10 @@ Description:
->   		/sys/kernel/mm/cma/ contains a subdirectory for each CMA
->   		heap name (also sometimes called CMA areas).
->   
-> -		Each CMA heap subdirectory (that is, each
-> -		/sys/kernel/mm/cma/<cma-heap-name> directory) contains the
-> -		following items:
-> +		Each CMA heap subdirectory contains the following items:
->   
-> -			alloc_pages_success
-> -			alloc_pages_fail
-> +			- /sys/kernel/mm/cma/<cma-heap-name>/alloc_pages_success
-> +			- /sys/kernel/mm/cma/<cma-heap-name>/alloc_pages_fail
->   
+Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+return/jump-oriented programming attacks.  Details are in "Intel 64 and
+IA-32 Architectures Software Developer's Manual" [1].
 
-I agree that this is clearer and easier on the reader, who can now see
-directly what the full path to each item is.
+CET can protect applications and the kernel.  This series enables only
+application-level protection, and has three parts:
 
-As for calling it a "fix", that seems a bit much. It's an upgrade.
-I'm not sure how many people realize that this sort of change causes
-cross refs to magically start working. I certainly didn't until now.
+  - Shadow stack [2],
+  - Indirect branch tracking [3], and
+  - Selftests [4].
 
-But either way, this improvement is nice to have, so:
+I have run tests on these patches for quite some time, and they have been
+very stable.  Linux distributions with CET are available now, and Intel
+processors with CET are already on the market.  It would be nice if CET
+support can be accepted into the kernel.  I will be working to address any
+issues should they come up.
 
-Reviewed-by: John Hubbard <jhubbard@nvidia.com>
+Changes in v24:
+- Split shadow stack and IBT into separate Kconfig options and source
+  files, update related areas accordingly.  Specific changes are called out
+  in each patch's commit log.
+- Patch #15: Instead of arch_maybe_mkwrite(), create x86 versions of
+  maybe*_mkwrite().
+- Patch #17: Instead changing vm_*_gap(), create x86 versions.
+- Patch #24, #25: Split signal handling into two patches, update comments/
+  logs.
+- Patch #29, #30: Update arch_validate_flags() and use that for checking
+  PROT_SHSTK.
+- Rebase to Linus tree v5.12-rc5.
 
-thanks,
+[1] Intel 64 and IA-32 Architectures Software Developer's Manual:
+
+    https://software.intel.com/en-us/download/intel-64-and-ia-32-
+    architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4
+
+[2] CET Shadow Stack patches v23:
+
+    https://lore.kernel.org/r/20210316151054.5405-1-yu-cheng.yu@intel.com/
+
+[3] Indirect Branch Tracking patches v23.
+
+    https://lore.kernel.org/r/20210316151320.6123-1-yu-cheng.yu@intel.com/
+
+[4] I am holding off the selftests changes and working to get Reviewed-by's.
+    The earlier version of the selftests patches:
+
+    https://lkml.kernel.org/r/20200521211720.20236-1-yu-cheng.yu@intel.com/
+
+[5] The kernel ptrace patch is tested with an Intel-internal updated GDB.
+    I am holding off the kernel ptrace patch to re-test it with my earlier
+    patch for fixing regset holes.
+
+Yu-cheng Yu (30):
+  Documentation/x86: Add CET description
+  x86/cet/shstk: Add Kconfig option for Shadow Stack
+  x86/cpufeatures: Add CET CPU feature flags for Control-flow
+    Enforcement Technology (CET)
+  x86/cpufeatures: Introduce X86_FEATURE_CET and setup functions
+  x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
+  x86/cet: Add control-protection fault handler
+  x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+  x86/mm: Move pmd_write(), pud_write() up in the file
+  x86/mm: Introduce _PAGE_COW
+  drm/i915/gvt: Change _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Update pte_modify for _PAGE_COW
+  x86/mm: Update ptep_set_wrprotect() and pmdp_set_wrprotect() for
+    transition from _PAGE_DIRTY to _PAGE_COW
+  mm: Introduce VM_SHADOW_STACK for shadow stack memory
+  x86/mm: Shadow Stack page fault error checking
+  x86/mm: Update maybe_mkwrite() for shadow stack
+  mm: Fixup places that call pte_mkwrite() directly
+  mm: Add guard pages around a shadow stack.
+  mm/mmap: Add shadow stack pages to memory accounting
+  mm: Update can_follow_write_pte() for shadow stack
+  mm/mprotect: Exclude shadow stack from preserve_write
+  mm: Re-introduce vm_flags to do_mmap()
+  x86/cet/shstk: Add user-mode shadow stack support
+  x86/cet/shstk: Handle thread shadow stack
+  x86/cet/shstk: Introduce shadow stack token setup/verify routines
+  x86/cet/shstk: Handle signals for shadow stack
+  ELF: Introduce arch_setup_elf_property()
+  x86/cet/shstk: Add arch_prctl functions for shadow stack
+  mm: Move arch_calc_vm_prot_bits() to arch/x86/include/asm/mman.h
+  mm: Update arch_validate_flags() to include vma anonymous
+  mm: Introduce PROT_SHSTK for shadow stack
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/filesystems/proc.rst            |   1 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 136 ++++++++
+ arch/arm64/include/asm/elf.h                  |   5 +
+ arch/arm64/include/asm/mman.h                 |   4 +-
+ arch/sparc/include/asm/mman.h                 |   4 +-
+ arch/x86/Kconfig                              |  28 ++
+ arch/x86/Kconfig.assembler                    |   5 +
+ arch/x86/ia32/ia32_signal.c                   |  16 +
+ arch/x86/include/asm/cet.h                    |  52 +++
+ arch/x86/include/asm/cpufeatures.h            |   4 +-
+ arch/x86/include/asm/disabled-features.h      |  17 +-
+ arch/x86/include/asm/elf.h                    |  13 +
+ arch/x86/include/asm/fpu/internal.h           |   2 +
+ arch/x86/include/asm/fpu/types.h              |  23 +-
+ arch/x86/include/asm/fpu/xstate.h             |   6 +-
+ arch/x86/include/asm/idtentry.h               |   4 +
+ arch/x86/include/asm/mman.h                   |  87 +++++
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  19 ++
+ arch/x86/include/asm/page_types.h             |  17 +
+ arch/x86/include/asm/pgtable.h                | 298 +++++++++++++++--
+ arch/x86/include/asm/pgtable_types.h          |  48 ++-
+ arch/x86/include/asm/processor.h              |   5 +
+ arch/x86/include/asm/special_insns.h          |  32 ++
+ arch/x86/include/asm/trap_pf.h                |   2 +
+ arch/x86/include/uapi/asm/mman.h              |  28 +-
+ arch/x86/include/uapi/asm/prctl.h             |   4 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/include/uapi/asm/sigcontext.h        |   9 +
+ arch/x86/kernel/Makefile                      |   3 +
+ arch/x86/kernel/cet_prctl.c                   |  60 ++++
+ arch/x86/kernel/cpu/common.c                  |  14 +
+ arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
+ arch/x86/kernel/cpu/intel.c                   |   3 +
+ arch/x86/kernel/fpu/signal.c                  | 143 ++++++++
+ arch/x86/kernel/fpu/xstate.c                  |  10 +-
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |  21 +-
+ arch/x86/kernel/process_64.c                  |  32 ++
+ arch/x86/kernel/shstk.c                       | 309 ++++++++++++++++++
+ arch/x86/kernel/signal.c                      |   9 +
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  63 ++++
+ arch/x86/mm/fault.c                           |  19 ++
+ arch/x86/mm/mmap.c                            |  38 +++
+ arch/x86/mm/pat/set_memory.c                  |   2 +-
+ arch/x86/mm/pgtable.c                         |  27 ++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/aio.c                                      |   2 +-
+ fs/binfmt_elf.c                               |   4 +
+ fs/proc/task_mmu.c                            |   3 +
+ include/linux/elf.h                           |   6 +
+ include/linux/mm.h                            |  18 +-
+ include/linux/mman.h                          |   2 +-
+ include/linux/pgtable.h                       |  11 +
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |   9 +
+ ipc/shm.c                                     |   2 +-
+ mm/gup.c                                      |   8 +-
+ mm/huge_memory.c                              |  17 +-
+ mm/memory.c                                   |   5 +-
+ mm/migrate.c                                  |   3 +-
+ mm/mmap.c                                     |  17 +-
+ mm/mprotect.c                                 |  13 +-
+ mm/nommu.c                                    |   4 +-
+ mm/util.c                                     |   2 +-
+ 68 files changed, 1664 insertions(+), 109 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/include/asm/mman.h
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100644 arch/x86/kernel/shstk.c
+
 -- 
-John Hubbard
-NVIDIA
-
->   What:		/sys/kernel/mm/cma/<cma-heap-name>/alloc_pages_success
->   Date:		Feb 2021
-> 
+2.21.0
 
