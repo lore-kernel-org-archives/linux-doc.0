@@ -2,120 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1F80C433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 05:00:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07161C433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 05:47:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83827610CA
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 05:00:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC31C6113A
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 05:47:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229473AbhDAE7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 00:59:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35988 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbhDAE7i (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 00:59:38 -0400
-Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7498C0613E6;
-        Wed, 31 Mar 2021 21:59:38 -0700 (PDT)
-Received: by mail-pg1-x52f.google.com with SMTP id f3so838280pgv.0;
-        Wed, 31 Mar 2021 21:59:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=GNOAI81wqIgifIzVXlS3hqwsnur1loPU+qLes91JfVs=;
-        b=S3yQ/S6woUAIlwD6v1v+OYItKf3gixHFTSsg6Mq2C+qpT+peBbzOnwem6YlB88VPic
-         eUOxjB72QkzZ4QcVGY9CnK0wgmJe0KZF6guu8XcWVfEnIXaxoJOpZ0t6eld0FDqx4Jq8
-         ocnlk8Fu9Hqng1Dd7RMvNZ3FklXWWG7MYqLyNHbmAFxlKixUUmbc3v2LoU7lDmOhu9RY
-         je+puR1k8ksYevJnWoJoYxpe0YKttRf99XpJw2Df84wfM5xYYz6EuRXUM25aggBe2vDS
-         gSMr2aeOJU8Ot5eVGbTn0RflTC87L3hJD4+FYOb2AAjHxoksHWJ4dZUViiAdL8MjY9U/
-         BJxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=GNOAI81wqIgifIzVXlS3hqwsnur1loPU+qLes91JfVs=;
-        b=pP0qPtG7Ar149YapKW1Puwk/9N05fY1Q22QOWsHL2cMyBmqjDQz+kSCtGhLuF00XD9
-         nIp3OOhQ7htWVPflM/BndY5wErzSALqz0B1eIzLzalNgBdSrJjNS+jEaVDD6N4ILf2pQ
-         foImYRLuBYXFwEpWwpC4uSErOVDzYOe5fo2kS1obB6FpbFA+rNS7C4NZkoDNUBrWkx+5
-         /vHtFiEQCFiHXh/3SlcUZvsQycybD17NXccNApQmpytviU83nvHdl9LkceVb65kOMux9
-         1QkTihDnt3eQ3Fkb9AClRRn2MJsNTfGNa04PzqjvNVYhlwI7vdqGFMcEKKhJkk/cQlvh
-         iuGQ==
-X-Gm-Message-State: AOAM532FH/GvxPjexpr2JWhWHG5uR0VXkzGlqyFy73jqUM0F1rLtb+UB
-        20VeRh3C9Zc8WqQVvA3wgbo=
-X-Google-Smtp-Source: ABdhPJyqj0mkab+OeT0S0x+MsYP14fRXt0oLJGrrfQkHNzFMBCQMB+lrS3SXU6hfYl6YpxPocmGiBA==
-X-Received: by 2002:a62:b412:0:b029:21f:6b06:7bdd with SMTP id h18-20020a62b4120000b029021f6b067bddmr6004419pfn.51.1617253178416;
-        Wed, 31 Mar 2021 21:59:38 -0700 (PDT)
-Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id ge16sm3670854pjb.43.2021.03.31.21.59.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Mar 2021 21:59:37 -0700 (PDT)
-Subject: Re: [PATCH v1 1/4] docs: make reporting-issues.rst official and
- delete reporting-bugs.rst
-To:     "Wu X.C." <bobwxc@email.cn>,
-        Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Alex Shi <alexs@kernel.org>,
-        Federico Vaga <federico.vaga@vaga.pv.it>,
-        Greg KH <gregkh@linuxfoundation.org>
-References: <cover.1617113469.git.linux@leemhuis.info>
- <49c674c2d304d87e6259063580fda05267e8c348.1617113469.git.linux@leemhuis.info>
- <20210331083337.GA5287@mipc>
-From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <c55a51bf-d967-02ad-41b5-189dce226d1c@gmail.com>
-Date:   Thu, 1 Apr 2021 12:59:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S232565AbhDAFqi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 01:46:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44980 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229459AbhDAFqS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Apr 2021 01:46:18 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C465061105;
+        Thu,  1 Apr 2021 05:46:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617255978;
+        bh=gxlixb9ixquq1ytVeiB0zWryyTuL9Sy+kKcjFn97ypc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DJuDKPMURR1uM8Jva7ld8d3o1JQmXobSSyzpuhX17V1zmixlgUMSqI89FoUzr627J
+         zuWG9c6TjUdH1avGicc8aiQ660VrJKuvqT6FhxGWVsnd40sSxddxKHlwjgKdHKInYG
+         YsMHr+D8kTvE9/Dw7sUIjFi+2yvJD0aIqfsCSiqoSd6HTA6AX/jPR8iwMywSfOqu0s
+         aaHKat+asI7ZAmwTKFI8P+OE/2nPqCUZp7tD8DitfRaH79OJ696D5uDYIkvnR/ydXZ
+         g1KzVW3HnNolU9EKka11lTfR0roEffxv+rLyr3XTTwwm7P0AjAbWOeZxSh7QG5qA69
+         22El4veFSw2Yg==
+Date:   Thu, 1 Apr 2021 08:46:16 +0300
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Eric Biggers <ebiggers@kernel.org>
+Cc:     David Gstir <david@sigma-star.at>,
+        Sumit Garg <sumit.garg@linaro.org>,
+        Ahmad Fatoum <a.fatoum@pengutronix.de>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Horia =?utf-8?Q?Geant=C4=83?= <horia.geanta@nxp.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        David Howells <dhowells@redhat.com>,
+        James Bottomley <jejb@linux.ibm.com>,
+        "kernel@pengutronix.de" <kernel@pengutronix.de>,
+        James Morris <jmorris@namei.org>,
+        "Serge E. Hallyn" <serge@hallyn.com>,
+        Aymen Sghaier <aymen.sghaier@nxp.com>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
+        "David S. Miller" <davem@davemloft.net>,
+        Udit Agarwal <udit.agarwal@nxp.com>,
+        Jan Luebbe <j.luebbe@pengutronix.de>,
+        Franck Lenormand <franck.lenormand@nxp.com>,
+        "keyrings@vger.kernel.org" <keyrings@vger.kernel.org>,
+        "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-integrity@vger.kernel.org" <linux-integrity@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-security-module@vger.kernel.org" 
+        <linux-security-module@vger.kernel.org>
+Subject: Re: [PATCH v1 3/3] KEYS: trusted: Introduce support for NXP
+ CAAM-based trusted keys
+Message-ID: <YGVeKPcrySJCJfhp@kernel.org>
+References: <f9c0087d299be1b9b91b242f41ac6ef7b9ee3ef7.camel@linux.ibm.com>
+ <63dd7d4b-4729-9e03-cd8f-956b94eab0d9@pengutronix.de>
+ <CAFA6WYOw_mQwOUN=onhzb7zCTyYDBrcx0E7C3LRk6nPLAVCWEQ@mail.gmail.com>
+ <557b92d2-f3b8-d136-7431-419429f0e059@pengutronix.de>
+ <CAFA6WYNE44=Y7Erfc-xNtOrf7TkJjh+odmYH5vzhEHR6KqBfeQ@mail.gmail.com>
+ <6F812C20-7585-4718-997E-0306C4118468@sigma-star.at>
+ <YGDpA4yPWmTWEyx+@kernel.org>
+ <YGOcZtkw3ZM5kvl6@gmail.com>
+ <YGUGYi4Q3Uxyol6r@kernel.org>
+ <YGUHBelwhvJDhKoo@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210331083337.GA5287@mipc>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YGUHBelwhvJDhKoo@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-
-On 2021/3/31 下午4:33, Wu X.C. wrote:
-> Cc Alex Shi's new email <alexs@kernel.org>
+On Wed, Mar 31, 2021 at 04:34:29PM -0700, Eric Biggers wrote:
+> On Thu, Apr 01, 2021 at 02:31:46AM +0300, Jarkko Sakkinen wrote:
+> > 
+> > It's a bummer but uapi is the god in the end. Since TPM does not do it
+> > today, that behaviour must be supported forever. That's why a boot option
+> > AND a warning would be the best compromise.
+> > 
 > 
-> On Tue, Mar 30, 2021 at 04:13:04PM +0200, Thorsten Leemhuis wrote:
->> Removing Documentation/admin-guide/reporting-bugs.rst will break links
->> in some of the translations. I was unsure if simply changing them to
->> Documentation/admin-guide/reporting-issue.rst was wise, so I didn't
-
-A bit time info late won't hurt sth, people would update them soon if it's
-their care.
-
->> touch anything for now and CCed the maintainers for the Chinese and
->> Italian translation. I couldn't find one for the Japanse translation.
->>
->> Please advice. For completeness, this are the places where things will
->> break afaics:
->>
->> $ grep -ri 'reporting-bugs.rst' Documentation/
->> Documentation/translations/zh_CN/SecurityBugs:是有帮助的信息，那就请重温一下admin-guide/reporting-bugs.rst文件中的概述过程。任
->> Documentation/translations/zh_CN/process/howto.rst:内核源码主目录中的:ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
->> Documentation/translations/zh_CN/admin-guide/reporting-issues.rst:   本文档将取代“Documentation/admin-guide/reporting-bugs.rst”。主要的工作
->> Documentation/translations/zh_CN/admin-guide/reporting-issues.rst:   “Documentation/admin-guide/reporting-bugs.rst”中的旧文字非常相似。它和它
+> It's not UAPI if there is no way for userspace to tell if it changed.
 > 
-> Yeah, as Greg said, we will solve that after you patches be merged in next
-> tree. Since I have translate the zh reporting-issues.rst in the next tree,
-> will correct the link when I sync it with your new version. May cause 
-> Warning for some days, but don't worry about it.
+> - Eric
 
-yes, also thanks for generous commitment!
+It's enough uapi for me. People might assume that the entropy source is
+TPM for this, since it has been so far.
 
-thanks
-Alex
+/Jarkko
