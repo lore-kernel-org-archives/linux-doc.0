@@ -2,175 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED8A5C4360C
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:45:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD4BBC433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:45:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D4EA2613CA
+	by mail.kernel.org (Postfix) with ESMTP id 5F785613C6
 	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:45:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234926AbhDARoF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 13:44:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57200 "EHLO
+        id S234442AbhDARoC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 13:44:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57208 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234872AbhDARk6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:40:58 -0400
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on20601.outbound.protection.outlook.com [IPv6:2a01:111:f400:7eaa::601])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F54DC05BD1A;
-        Thu,  1 Apr 2021 05:55:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MGzWC5xQkrPoKeGNrjfeqZ5ROQtlX6ZKUaXI7U3HMQ5SI1P+eI/TO4f9IN/BRuv21UvZbSTBsZls7kMAVtYLgn04+JWLpd3AezGZ/syuSVIDnaMvDx15RS3OjYBhtHwUhUWQM9PuFYaHsTr/zUrUi8HqJ7NKowhhAh2N88qt4yccbklZtphWpkY7IMRlG4a8b1n3+EPbcJz7rLOB5RTb/pLzWKYg7StiYMMpcDJB4rHepRqn8JJSPspUmFeLN5f92jXyoeQ7MtE0JrP/RhUZtg5/41dXRw8J9MeiEd1PY3v+IRlNClXwVrNd5yUV/2WCGoJPuvcSnHaVF8jWbTsqEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/anNxsoy5vzfvhIHE3TZV7QT/7MV5nFOcgmLayLRY48=;
- b=IP5+RoM6LGxDFn7Nw3iIO8m8jgKppP/29VlYgKRFcgANASdnn0lbAzUorzlm83t4byl5R4dsmpPQ7KVkAjByu79nDpBwa0zIOhry4/u42c59iEGq7YOkoYGrXjH/sUsHPZkNJYPlzE7EmnyFf2aC6OjAs+XmIfA/OmKaNKevR4P1+NlPkesVLGSFvS1LDcpW+xwA/a1BJru2QqsddUOY9CBcz/X2a+UzM8BIdZjst2TNeTDeIhaIRwxVH+kueSZbBW/SSFrUkQr4nvrxA3kW3X3dLjFqSGdoJBWpELkd3/VJZAG0tmzDnh1tbwWuk9t8vcz+nYPKvzuNPLLxSgItuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/anNxsoy5vzfvhIHE3TZV7QT/7MV5nFOcgmLayLRY48=;
- b=LUfjBEmC2Cc9lxEVmd5cM7ADR/xsayJ0vjavNaAvCS5kxR02KpPtyFJh5QM1sDY7kZPwUlOmfFKYK3k0QVe10tgxsaoP690aCSwDTQ4v0yms84qhRUpdSldK4yOeKOH3f4AM78GDk/pABPZYvKg1J9hB857boJ9CbSekV5xT/DQUhAeHm+Iq8/IYH/YLToruk7vyRopWTcrDnl0YeokUH3Da7JmAwgBtDBjPD8Ald/vWz9sUcpBd7gMLMLGxxWwydhgcEbA0SzWvstxr0AMXYa83uKs66rDgZDtC9g+iFVQ9wN8hHPsm+3lxOpWGTR4TgnRx4PbI+QqXb5z1YvZXgA==
-Authentication-Results: nvidia.com; dkim=none (message not signed)
- header.d=none;nvidia.com; dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB4619.namprd12.prod.outlook.com (2603:10b6:5:7c::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3977.25; Thu, 1 Apr
- 2021 11:55:25 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3999.028; Thu, 1 Apr 2021
- 11:55:25 +0000
-Date:   Thu, 1 Apr 2021 08:55:23 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Alistair Popple <apopple@nvidia.com>
-Cc:     linux-mm@kvack.org, nouveau@lists.freedesktop.org,
-        bskeggs@redhat.com, akpm@linux-foundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kvm-ppc@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        jhubbard@nvidia.com, rcampbell@nvidia.com, jglisse@redhat.com,
-        hch@infradead.org, daniel@ffwll.ch, willy@infradead.org,
-        Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v7 5/8] mm: Device exclusive memory access
-Message-ID: <20210401115523.GZ1463678@nvidia.com>
-References: <20210326000805.2518-1-apopple@nvidia.com>
- <35941260.J9UuDlmC3F@nvdebian>
- <20210401004813.GT1463678@nvidia.com>
- <9244031.kThbcIvB84@nvdebian>
+        with ESMTP id S234670AbhDARjG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:39:06 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90FABC031169
+        for <linux-doc@vger.kernel.org>; Thu,  1 Apr 2021 09:53:56 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id lr1-20020a17090b4b81b02900ea0a3f38c1so4998894pjb.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 Apr 2021 09:53:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=opZpqvsKBsI6VYq138fXrWfaN6YGeUQyxcS+8w6v06c=;
+        b=zyQRNsvsA9LyQidoA1ch2aMxTysyo4s72aUu6/nXPD6YOT0doXN4COWofYcRSdBXLK
+         fxF7ePO8YBbA1bIPzpxIL0mmgajnn9eT1XlKIN97lsNhc3y0oYb2Lc7icx3Pf1aDnzr/
+         +sx6AW/ZGNo25YgzOQIuE2/r1Xa7zEAVi42VDyPxtHWv/I6nbOnZkFcsjCerQny1sT2m
+         0mqdRRXI9xNjCtMgAyv3B0b9OjMphUbiH66QnOihnMF49qQi7b+6pOyrz3GpriebnP6o
+         BxZ22EI/QELKYnvdueqv8l3eg41xRX6W6NRgn3R7SNZLJEFcJ1sg2FO9uaocJwzuouqG
+         n02Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=opZpqvsKBsI6VYq138fXrWfaN6YGeUQyxcS+8w6v06c=;
+        b=MM/DIV4TmKuwz26rvZAVi7+txYZtxF5fF705MdA/Jtb9hOELbWpjDEvpACXrk7VNML
+         xelV9RjEElSOLgbLnncXyUtVFRdwBbOtP8uaGM/1YUSrNf/WC+9WR86mlxv0bz9JSQ/i
+         5jXYUHTxTY3kOMDhi/dxRX7UlLIgs3gxvYMg+NcB/kkw3Bj+YoaNdz11E1td5O3IJzU1
+         K/LbguPyQg6/jWjeksccPyr4r1Mjo1AUFYuTMaRmzVm4P4ZfylfZVOQMYUB4w5FASnB9
+         6IeSCF5JChG7m0+ek61zZlYtvsDksnTRCapLxiyVF4iha6ltWx1ZS7ikWdCE6MljO6UN
+         Inwg==
+X-Gm-Message-State: AOAM530kv7VqeUXbQS82W6PemnCb+FrwRV9CN1hL0tVCGlwaR21QtR9g
+        BUremGQ8VF/ccNXBDqzG8if9Lg==
+X-Google-Smtp-Source: ABdhPJzebmFG08KQlbsAdWpiNfw7N9cydtdTFMIvPyPRVFw/mXPRQEzgELZQ7HN3vPDPmXw8q9kobQ==
+X-Received: by 2002:a17:902:7d95:b029:e7:3780:3c5f with SMTP id a21-20020a1709027d95b02900e737803c5fmr8793961plm.59.1617296036123;
+        Thu, 01 Apr 2021 09:53:56 -0700 (PDT)
+Received: from xps15 (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+        by smtp.gmail.com with ESMTPSA id j10sm5817403pjs.11.2021.04.01.09.53.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Apr 2021 09:53:55 -0700 (PDT)
+Date:   Thu, 1 Apr 2021 10:53:53 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Mike Leach <mike.leach@linaro.org>
+Cc:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        linux-doc@vger.kernel.org, suzuki.poulose@arm.com,
+        yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
+        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 06/10] coresight: etm-perf: Update to activate
+ selected configuration
+Message-ID: <20210401165353.GB145043@xps15>
+References: <20210316180400.7184-1-mike.leach@linaro.org>
+ <20210316180400.7184-7-mike.leach@linaro.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9244031.kThbcIvB84@nvdebian>
-X-Originating-IP: [142.162.115.133]
-X-ClientProxiedBy: MN2PR20CA0019.namprd20.prod.outlook.com
- (2603:10b6:208:e8::32) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.115.133) by MN2PR20CA0019.namprd20.prod.outlook.com (2603:10b6:208:e8::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.28 via Frontend Transport; Thu, 1 Apr 2021 11:55:25 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lRvv1-006jEO-G9; Thu, 01 Apr 2021 08:55:23 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 91971180-879c-40af-4e05-08d8f505092a
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4619:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4619B5F96C108221BFCB491BC27B9@DM6PR12MB4619.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fNVOEFDIyINxpvvyudo3HUcTq03h3ntJy+THrHyDNw2lLFvSVYoIREpmdCvn3Rl5V5P6/yBDU2bbK6eVIszZuOGTVgiCyq+TT5JljueOvS0UfDCogpWQBQkQbv1TfkpEK2/fQJLtlWnCGLBcZctZLXBb/YCqEca65emIhxdLKhlQU4d5qACMEV/N9YxTr493x4+jGLNGuyxpSqg1LjxQQHuKtIObMaJ9hnzueTMap+RcuGDEihP/7I329wE2krwjghs1O8srtLvb0IgBHPLWyI0OczkPvNgcujR1aQIV0TdG9ZHJfSQ0s8JZ8Y48YLUkTCeUZ+/O1AvHLVVrwVffN0+WMUoVbLhUswT59xRKS1mVaANfBsaiAs6Bh/B6+F5/h02NUY1tGvpG6mWuwGaT9jRDfmA0B8kYNzPx9u9c2BNNTKY63Jo5yBVGAJqGdYL2Za9tUC8sxfS4bPDYT5hh4pAk4d+xWrnIx7YlXTGYAO6EQZknQddW52aDAiZwd78Bq2V0hRLamKy86gfJAn/ttTiiN9r9w5xnafWuj3TR/BeSQzZgUSGoUns6hTC9ctvApy/0sF6lfDjaBtYI1WtKzhxV2MPVpO+LYNHukeBci9jQ8oZZPSQqzGzIwybc5+QWuwmfNJynlv1DsE3fONY8hiJKvW4lI+ARHdmOZ2nNyoo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(39860400002)(396003)(376002)(136003)(366004)(1076003)(316002)(33656002)(4326008)(186003)(66946007)(9746002)(5660300002)(86362001)(37006003)(2616005)(26005)(83380400001)(38100700001)(36756003)(6862004)(478600001)(66476007)(426003)(2906002)(66556008)(6636002)(9786002)(8936002)(7416002)(8676002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?FrSGC0T4QimKulGn7nJDJu2YCqkkVTf21itqOLon+0rGZ5PSfNshf1/sCZuF?=
- =?us-ascii?Q?Gr0mmiTIg1zBVkxsIQMrsSx/S1ts46y+6TVveH9fnO0V1Gegt77H0dN3b9+U?=
- =?us-ascii?Q?Gf5lf3B1tfL9PemcO0bSb4WaOdp7kSCsJ8CQFwWaiWu8+PzS6SwnUGy3+aoq?=
- =?us-ascii?Q?r3UhA2qui/LlukRU0l/Dahm1yLemu11zS+XvCgtHPhw1GeTMRmcAG8XdJ5KX?=
- =?us-ascii?Q?J/U/Rnr7Crme8T0FdCUwwwjwv73fQZszD8HEFLt6kNATaLAYDS1AxfkzBgMb?=
- =?us-ascii?Q?CSm+/LWivnh/cp2ESfOu1CctSj3jjxVBBkZBjcWRrOeq1OZ/8uQ4wjf+af/C?=
- =?us-ascii?Q?ia3v62n0WkkyVWDrOQpC2bTTwQpYHgX1BK3IbVM89HPcW2Qin/hEbZi+Q8I+?=
- =?us-ascii?Q?nHzqmLQsQyVMMy+NNuW/mEVN/4jtMyb6PgLGcQCRu4ZCQTlOEZI9nwiAmlvj?=
- =?us-ascii?Q?kqla4aQoUQ71WyO0og5jbLQqOKuqvdRjo0m5mnv8+i3nUs0ngksbTMVlOdSX?=
- =?us-ascii?Q?oKuzOhgJi68nQFt+IjDSmpe5pvl2j8CTTX6ztIqDU7OhdrzfThj1JaQtl0QE?=
- =?us-ascii?Q?KxTHm/qnzww9uHZ9xLUi5ZejcvU3JlpADTQyJ2UgNoXoSbdb7B+X/58g9pjr?=
- =?us-ascii?Q?9n+AEnkZoa2Bn3xsw09lxpAj3aMDFp6AANLJMxv76QZiq3ME9ur9NUtF4+bk?=
- =?us-ascii?Q?rymwl7KZgqEi/+9CmMQ8oSv+ys7U5XgZQCYpb35OGqqxtZrc4B9ianpB5yK8?=
- =?us-ascii?Q?qbW1TGNqbsHepst/X4pTSgubJ9QQKhEbypS7cXtBLMPooChWIhGDcehwGZqq?=
- =?us-ascii?Q?NgD8o/c0h52C12aHCKoXp1ofi/zeIzvWW5kDxOso7qSfCR6f/umITYmfz2RV?=
- =?us-ascii?Q?t7/HWj07H1RzamsnO7DscWOu5Z/hHgLKS7+UeLq9XEg+yBcxYyz8tOd2YGC0?=
- =?us-ascii?Q?ULy8Ib/+Ukdl5SHjSzTKk69IpZsAaAAZD6HbYL0SJJ6PaGvzsk4at/4JveEt?=
- =?us-ascii?Q?GbsQ3utDRCE0i0xzz9Oli0oVTuLWlYBCJiNalHRQWocjNl3hIU0l+yXXVzuw?=
- =?us-ascii?Q?Jk6ngZGpsHxfvCwjj6oykAlOWRAnYBF1O4MWGtX2TkI8i5IXNfuV1W6R7BT1?=
- =?us-ascii?Q?PwqBe9jAT/EJ2ARBZjz4fuaUdEGyjzJd1F4+FXKHFzunDyLLAeLkgYgnomm0?=
- =?us-ascii?Q?y7qfiFN1Y2D1u4E+RZm0Lv2KAOFT/Yb3SqEcck3hNHZ0dxyCP4jnumlOpzWW?=
- =?us-ascii?Q?53tque2LaVp7RKtMx2S7g0PrtI/NrNq76+6T6Kfar0hGRzAcsge9UN8IY6Q7?=
- =?us-ascii?Q?repubB0L+EFogLDSvJNsPdGhC196JeiQ0tXdW5SFfUhVgQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 91971180-879c-40af-4e05-08d8f505092a
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2021 11:55:25.3722
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1LWivyd5MErq9MyDKtkkmYd8RuuHLRHSgxJk6pGjCfgGuq5bjCrIKRYKK8CIMSLP
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4619
+In-Reply-To: <20210316180400.7184-7-mike.leach@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 01, 2021 at 01:20:05PM +1100, Alistair Popple wrote:
-> On Thursday, 1 April 2021 11:48:13 AM AEDT Jason Gunthorpe wrote:
-> > On Thu, Apr 01, 2021 at 11:45:57AM +1100, Alistair Popple wrote:
-> > > On Thursday, 1 April 2021 12:46:04 AM AEDT Jason Gunthorpe wrote:
-> > > > On Thu, Apr 01, 2021 at 12:27:52AM +1100, Alistair Popple wrote:
-> > > > > On Thursday, 1 April 2021 12:18:54 AM AEDT Jason Gunthorpe wrote:
-> > > > > > On Wed, Mar 31, 2021 at 11:59:28PM +1100, Alistair Popple wrote:
-> > > > > > 
-> > > > > > > I guess that makes sense as the split could go either way at the
-> > > > > > > moment but I should add a check to make sure this isn't used with
-> > > > > > > pinned pages anyway.
-> > > > > > 
-> > > > > > Is it possible to have a pinned page under one of these things? If I
-> > > > > > pin it before you migrate it then it remains pinned but hidden under
-> > > > > > the swap entry?
-> > > > > 
-> > > > > At the moment yes. But I had planned (and this reminded me) to add a 
-> check 
-> > > to 
-> > > > > prevent marking pinned pages for exclusive access. 
-> > > > 
-> > > > How do you even do that without races with GUP fast?
-> > > 
-> > > Unless I've missed something I think I've convinced myself it should be 
-> safe 
-> > > to do the pin check after make_device_exclusive() has replaced all the 
-> PTEs 
-> > > with exclusive entries.
-> > > 
-> > > GUP fast sequence:
-> > > 1. Read PTE
-> > > 2. Pin page
-> > > 3. Check PTE
-> > > 4. if PTE changed -> unpin and fallback
-> > > 
-> > > If make_device_exclusive() runs after (1) it will either succeed or see 
-> the 
-> > > pin from (2) and fail (as desired). GUP should always see the PTE change 
-> and 
-> > > fallback which will revoke the exclusive access.
-> > 
-> > AFAICT the user can trigger fork at that instant and fork will try to
-> > copy the desposited migration entry before it has been checked
+On Tue, Mar 16, 2021 at 06:03:56PM +0000, Mike Leach wrote:
+> Add calls to activate the selected configuration as perf starts
+> and stops the tracing session.
 > 
-> In that case the child will get a read-only exclusive entry and eventually a 
-> page copy via do_wp_page() 
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
 
-Having do_wp_page() do a copy is a security bug. We closed it with the
-at-fork checks.
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
 
-Jason
+> ---
+>  drivers/hwtracing/coresight/coresight-etm-perf.c | 14 +++++++++++++-
+>  drivers/hwtracing/coresight/coresight-etm-perf.h |  2 ++
+>  2 files changed, 15 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+> index 66bda452a2f4..9128f59864a8 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+> @@ -196,6 +196,10 @@ static void free_event_data(struct work_struct *work)
+>  	/* Free the sink buffers, if there are any */
+>  	free_sink_buffer(event_data);
+>  
+> +	/* clear any configuration we were using */
+> +	if (event_data->cfg_hash)
+> +		cscfg_deactivate_config(event_data->cfg_hash);
+> +
+>  	for_each_cpu(cpu, mask) {
+>  		struct list_head **ppath;
+>  
+> @@ -254,7 +258,7 @@ static void etm_free_aux(void *data)
+>  static void *etm_setup_aux(struct perf_event *event, void **pages,
+>  			   int nr_pages, bool overwrite)
+>  {
+> -	u32 id;
+> +	u32 id, cfg_hash;
+>  	int cpu = event->cpu;
+>  	cpumask_t *mask;
+>  	struct coresight_device *sink = NULL;
+> @@ -271,6 +275,14 @@ static void *etm_setup_aux(struct perf_event *event, void **pages,
+>  		sink = coresight_get_sink_by_id(id);
+>  	}
+>  
+> +	/* check if user wants a coresight configuration selected */
+> +	cfg_hash = (u32)((event->attr.config2 & GENMASK_ULL(63, 32)) >> 32);
+> +	if (cfg_hash) {
+> +		if (cscfg_activate_config(cfg_hash))
+> +			goto err;
+> +		event_data->cfg_hash = cfg_hash;
+> +	}
+> +
+>  	mask = &event_data->mask;
+>  
+>  	/*
+> diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.h b/drivers/hwtracing/coresight/coresight-etm-perf.h
+> index ba617fe2217e..468f7799ab4f 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm-perf.h
+> +++ b/drivers/hwtracing/coresight/coresight-etm-perf.h
+> @@ -49,12 +49,14 @@ struct etm_filters {
+>   * @work:		Handle to free allocated memory outside IRQ context.
+>   * @mask:		Hold the CPU(s) this event was set for.
+>   * @snk_config:		The sink configuration.
+> + * @cfg_hash:		The hash id of any coresight config selected.
+>   * @path:		An array of path, each slot for one CPU.
+>   */
+>  struct etm_event_data {
+>  	struct work_struct work;
+>  	cpumask_t mask;
+>  	void *snk_config;
+> +	u32 cfg_hash;
+>  	struct list_head * __percpu *path;
+>  };
+>  
+> -- 
+> 2.17.1
+> 
