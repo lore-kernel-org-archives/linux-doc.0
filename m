@@ -2,141 +2,140 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FB0CC433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:38:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C93B2C43460
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:38:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7612F60724
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:38:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A2FCE60724
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:38:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234089AbhDASiC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:38:02 -0400
-Received: from mail1.bemta24.messagelabs.com ([67.219.250.112]:29628 "EHLO
-        mail1.bemta24.messagelabs.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S240344AbhDASaJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 14:30:09 -0400
-Received: from [100.112.134.153] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
-        by server-1.bemta.az-b.us-west-2.aws.symcld.net id 2C/76-17150-FC1E5606; Thu, 01 Apr 2021 15:07:59 +0000
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkleJIrShJLcpLzFFi42JJl3vFpnvuYWq
-  CQfM5RYsnB9oZLd4cn85ksbBtCYvF5V1z2Cwezr7KaPF4xVt2BzaPxXteMnlsWtUJZPVNZvV4
-  v+8qm8fnTXIBrFGsmXlJ+RUJrBnHnl9lLLjKU3HweRNTA+M9ri5GLg4hgf+MEh9Xb2eBcJ4zS
-  vw93MHaxcjJISyQKnHgwlywhIjABEaJV90nwBLMAuUSW1ffgOo4wijxZupWNpAEm4C2xJYtv4
-  BsDg5eAVuJS584QEwWARWJAyviQCpEBcIleq/cBhvDKyAocXLmExYQm1PATmLK1DNMIOXMApo
-  S63fpQ2wSl7j1ZD4ThC0vsf3tHGaQEgkBBYm1P8B2SggkSPT8e8Q2gVFwFpKhsxAGzUIyaBaS
-  QQsYWVYxWiQVZaZnlOQmZuboGhoY6BoaGukaGhvpGhlY6CVW6SbplRbrlqcWl+ga6SWWF+sVV
-  +Ym56To5aWWbGIExlBKQcuFHYzr3nzQO8QoycGkJMo7ZVpKghBfUn5KZUZicUZ8UWlOavEhRh
-  kODiUJ3jX3UhOEBItS01Mr0jJzgPEMk5bg4FES4Y19AJTmLS5IzC3OTIdInWJUlBLnXQOSEAB
-  JZJTmwbXBUsglRlkpYV5GBgYGIZ6C1KLczBJU+VeM4hyMSsK8LMCEJMSTmVcCN/0V0GImoMWu
-  N8AWlyQipKQamC69nzh3WUW7Qsa31upWwRVrexfqJZ5R27j40Y97G1cltb4VWrDnpArPh+dyw
-  d2ldq4KbPcNmlub92d1/djYvPr8MRO7eSFP9N/+TsvZr/B2ifmixdza3CdzlFrPqulXCet/YJ
-  0UvcfTWXDiil06Vv8DbwQe89DzKGcsYStbdkTR2nqRlfyWY192rGR899HRQ32f9EXvHmP3uyw
-  NutPYEvf0M82vmjrZTm2j6lktzYqJO+9GP+jdrybQ+jX55Msll8x9BbbNzKrYJbB2Z+YivVy5
-  s381lpe3PuAWLZaea/34XaTr541u8gf7cz64zQzT5Lj8+16AwPmvux9/WOgw8dzdFNenzx3KF
-  UT42+7X9yixFGckGmoxFxUnAgDnzIpOnAMAAA==
-X-Env-Sender: markpearson@lenovo.com
-X-Msg-Ref: server-27.tower-356.messagelabs.com!1617289676!60248!1
-X-Originating-IP: [103.30.234.6]
-X-SYMC-ESS-Client-Auth: outbound-route-from=pass
-X-StarScan-Received: 
-X-StarScan-Version: 9.60.3; banners=-,-,-
-X-VirusChecked: Checked
-Received: (qmail 17845 invoked from network); 1 Apr 2021 15:07:58 -0000
-Received: from unknown (HELO lenovo.com) (103.30.234.6)
-  by server-27.tower-356.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 1 Apr 2021 15:07:58 -0000
-Received: from reswpmail01.lenovo.com (unknown [10.62.32.20])
-        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by Forcepoint Email with ESMTPS id 3305AC9AC3AC72103416;
-        Thu,  1 Apr 2021 23:07:55 +0800 (CST)
-Received: from localhost.localdomain (10.38.99.122) by reswpmail01.lenovo.com
- (10.62.32.20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2106.2; Thu, 1 Apr 2021
- 11:07:52 -0400
-Subject: Re: [External] Re: [PATCH 31/32] Documentation: update
- sysfs-platform_profile.rst reference
-To:     Hans de Goede <hdegoede@redhat.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-CC:     Jonathan Corbet <corbet@lwn.net>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        <linux-kernel@vger.kernel.org>
-References: <cover.1617279355.git.mchehab+huawei@kernel.org>
- <828434d891e40234255e3f06c13827b7996b1ad1.1617279356.git.mchehab+huawei@kernel.org>
- <e042f8f8-0ba1-098d-2503-8c319c3c2bf9@redhat.com>
-From:   Mark Pearson <markpearson@lenovo.com>
-Message-ID: <79ad4a98-a70c-2f7d-3ce6-8202fcc83857@lenovo.com>
-Date:   Thu, 1 Apr 2021 11:07:52 -0400
+        id S238263AbhDASiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:38:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21190 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236594AbhDASca (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 14:32:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617301948;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=XtDBz7ykDKRMTtDTrLTSXxwTFQJuBtQJjv1Xfg77ytQ=;
+        b=DbVbwlGxtlcXFEDQwfSp9D2ehX1VaZymkxxa2q2jMFHWLcv0IMhKQrITwH3JFKeigx+zag
+        nwTNW/rofzNssjOlyxc07GgSWr4pYH6KkuzT8h4DWLi8E7rPo6pHF+yb8vYvZNoPdY0ElY
+        kctuDRS6b59oYGWrsLbVaBT8vsxBRFE=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-202-HzpGK0TzPkeaJBIi486F7w-1; Thu, 01 Apr 2021 10:31:44 -0400
+X-MC-Unique: HzpGK0TzPkeaJBIi486F7w-1
+Received: by mail-ed1-f70.google.com with SMTP id v27so2942368edx.1
+        for <linux-doc@vger.kernel.org>; Thu, 01 Apr 2021 07:31:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=XtDBz7ykDKRMTtDTrLTSXxwTFQJuBtQJjv1Xfg77ytQ=;
+        b=Eug/W+g7PdctCRCITYaz2ie4S31laTmgCQDFwJXx60KcygYG9pvUovXIGxQcuhU01K
+         0uxwhxMTN/LNrM43hAldF8Dzdy/0qj55lQgkt2uTjOi7/mvX5hbbc9JI7Q1s2YAkJDJd
+         SIQRyTMN0h5KPneXIvTZsgiL3ouR+VmazG5RswTxbLWRPqgkN5Yf+jxyXtHQUsPLW6C2
+         FgrKln0RwMhxI3ecvqKgyWMSHdeMzdVXHKuXV3hSv7b3FQKJKwaI6pRYEdl3uDeDBpGX
+         9LbWePcDyEg5Bg8b9+Ch6eyeY4jXvK5bDqRCN2w5am8MiqejfbP5HYIksppEXMpbsE+w
+         0gCA==
+X-Gm-Message-State: AOAM5311yqlRLTJNuyiXtiij8M5p04GAywccEZKf6H7jHyGiDiK1dcqK
+        na4c++1zHcu0FRjShpSP/pFbpHWJs2JCA/rFLEigpmgMGj7q1RRsPZjBdnjS3G795INzeAe9+44
+        w3iWOv0m7wHKP/SqQYxbxMgrjOjyvkDXXxjvRYzISP5afxOB4PPJESSmSQcVRbESpv04yrCrS
+X-Received: by 2002:a50:fe08:: with SMTP id f8mr10085914edt.217.1617287501468;
+        Thu, 01 Apr 2021 07:31:41 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzrkplglsUx4FWy5ZDzoNBFaTl9LRJrAQoJMJg7M+SOTlXx6lpwIPeSi7qSlRenq6FjNWqKjg==
+X-Received: by 2002:a50:fe08:: with SMTP id f8mr10085877edt.217.1617287501236;
+        Thu, 01 Apr 2021 07:31:41 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.gmail.com with ESMTPSA id nd36sm2840882ejc.21.2021.04.01.07.31.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Apr 2021 07:31:40 -0700 (PDT)
+Subject: Re: [PATCH 3/6] KVM: x86: introduce kvm_register_clear_available
+To:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
+Cc:     "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Jim Mattson <jmattson@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" 
+        <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+References: <20210401141814.1029036-1-mlevitsk@redhat.com>
+ <20210401141814.1029036-4-mlevitsk@redhat.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <75dc7aba-fc9e-8217-e120-9c6ef3a601c8@redhat.com>
+Date:   Thu, 1 Apr 2021 16:31:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <e042f8f8-0ba1-098d-2503-8c319c3c2bf9@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210401141814.1029036-4-mlevitsk@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.38.99.122]
-X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
- reswpmail01.lenovo.com (10.62.32.20)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 01/04/21 16:18, Maxim Levitsky wrote:
+> Small refactoring that will be used in the next patch.
+> 
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> ---
+>   arch/x86/kvm/kvm_cache_regs.h | 7 +++++++
+>   arch/x86/kvm/svm/svm.c        | 6 ++----
+>   2 files changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/arch/x86/kvm/kvm_cache_regs.h b/arch/x86/kvm/kvm_cache_regs.h
+> index 2e11da2f5621..07d607947805 100644
+> --- a/arch/x86/kvm/kvm_cache_regs.h
+> +++ b/arch/x86/kvm/kvm_cache_regs.h
+> @@ -55,6 +55,13 @@ static inline void kvm_register_mark_available(struct kvm_vcpu *vcpu,
+>   	__set_bit(reg, (unsigned long *)&vcpu->arch.regs_avail);
+>   }
+>   
+> +static inline void kvm_register_clear_available(struct kvm_vcpu *vcpu,
+> +					       enum kvm_reg reg)
+> +{
+> +	__clear_bit(reg, (unsigned long *)&vcpu->arch.regs_avail);
+> +	__clear_bit(reg, (unsigned long *)&vcpu->arch.regs_dirty);
+> +}
+> +
+>   static inline void kvm_register_mark_dirty(struct kvm_vcpu *vcpu,
+>   					   enum kvm_reg reg)
+>   {
+> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+> index 271196400495..2843732299a2 100644
+> --- a/arch/x86/kvm/svm/svm.c
+> +++ b/arch/x86/kvm/svm/svm.c
+> @@ -3880,10 +3880,8 @@ static __no_kcsan fastpath_t svm_vcpu_run(struct kvm_vcpu *vcpu)
+>   		vcpu->arch.apf.host_apf_flags =
+>   			kvm_read_and_reset_apf_flags();
+>   
+> -	if (npt_enabled) {
+> -		vcpu->arch.regs_avail &= ~(1 << VCPU_EXREG_PDPTR);
+> -		vcpu->arch.regs_dirty &= ~(1 << VCPU_EXREG_PDPTR);
+> -	}
+> +	if (npt_enabled)
+> +		kvm_register_clear_available(vcpu, VCPU_EXREG_PDPTR);
+>   
+>   	/*
+>   	 * We need to handle MC intercepts here before the vcpu has a chance to
+> 
 
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-On 01/04/2021 09:49, Hans de Goede wrote:
-> Hi,
-> 
-> On 4/1/21 2:17 PM, Mauro Carvalho Chehab wrote:
->> The file name: Documentation/ABI/testing/sysfs-platform_profile.rst
->> should be, instead: Documentation/userspace-api/sysfs-platform_profile.rst.
->>
->> Update its cross-reference accordingly.
->>
->> Fixes: a2ff95e018f1 ("ACPI: platform: Add platform profile support")
->> Fixes: 8e0cbf356377 ("Documentation: Add documentation for new platform_profile sysfs attribute")
->> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> 
-> Thanks, patch looks good to me:
-> 
-> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> 
-> Rafael, I assume you will merge this through your tree?
-> 
-> Regards,
-> 
-> Hans
-> 
-Looks good to me too - though I'd missed the fact the file had moved
-somehow :)
-
-Not sure if my reviewed tag has any value but if it's useful:
-Reviewed-by: Mark Pearson <markpearson@lenovo.com>
-
-Just for my education - how do things get moved from testing to
-somewhere else, is there a decision process etc?
-
-Thank you!
-Mark
-
->> ---
->>  include/linux/platform_profile.h | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/include/linux/platform_profile.h b/include/linux/platform_profile.h
->> index a6329003aee7..e5cbb6841f3a 100644
->> --- a/include/linux/platform_profile.h
->> +++ b/include/linux/platform_profile.h
->> @@ -2,7 +2,7 @@
->>  /*
->>   * Platform profile sysfs interface
->>   *
->> - * See Documentation/ABI/testing/sysfs-platform_profile.rst for more
->> + * See Documentation/userspace-api/sysfs-platform_profile.rst for more
->>   * information.
->>   */
->>  
->>
-> 
