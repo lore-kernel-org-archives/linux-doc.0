@@ -2,78 +2,82 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-4.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D922C433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 04:53:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1F80C433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 05:00:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5AC00610C7
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 04:53:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 83827610CA
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 05:00:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232491AbhDAExZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 00:53:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34528 "EHLO
+        id S229473AbhDAE7s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 00:59:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229514AbhDAEwu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 00:52:50 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64FD4C0613E6
-        for <linux-doc@vger.kernel.org>; Wed, 31 Mar 2021 21:52:50 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id x126so536263pfc.13
-        for <linux-doc@vger.kernel.org>; Wed, 31 Mar 2021 21:52:50 -0700 (PDT)
+        with ESMTP id S229459AbhDAE7i (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 00:59:38 -0400
+Received: from mail-pg1-x52f.google.com (mail-pg1-x52f.google.com [IPv6:2607:f8b0:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7498C0613E6;
+        Wed, 31 Mar 2021 21:59:38 -0700 (PDT)
+Received: by mail-pg1-x52f.google.com with SMTP id f3so838280pgv.0;
+        Wed, 31 Mar 2021 21:59:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UhwdD2gO8nOO5tCisCra55ciclH3EOXOGC4jrUducKI=;
-        b=cBNM4UsA6wOjik1bhm4Z2DOfIvD1YHDwV5/GAueU8WyRrXIrE70n5u146i0HNY51AB
-         waxilslGigDVQ3kyRU5vHkiaAHjM7EuQA/93lxlw1NkQGgSYKDBARLyrtfYzhnK/ARUK
-         NgatAGR3npqIcyDxb/TfWXPZp62u8BSClcbbZbztt/ZlSyWxt4+iYm0Qzj9H5h0SXNfW
-         duy8O8GA10hHYhL8tgifNx0VgZLY/ifytpdvbBABUVpzSro7eL9u6pyKG0FzyFxeVR5T
-         OU5vGrFK+FKg0wMjll6JYtOk+OP4NZyqykPL89bMY45eKmBZT4bmk4AF57STkvcbpv8K
-         gDQA==
+        bh=GNOAI81wqIgifIzVXlS3hqwsnur1loPU+qLes91JfVs=;
+        b=S3yQ/S6woUAIlwD6v1v+OYItKf3gixHFTSsg6Mq2C+qpT+peBbzOnwem6YlB88VPic
+         eUOxjB72QkzZ4QcVGY9CnK0wgmJe0KZF6guu8XcWVfEnIXaxoJOpZ0t6eld0FDqx4Jq8
+         ocnlk8Fu9Hqng1Dd7RMvNZ3FklXWWG7MYqLyNHbmAFxlKixUUmbc3v2LoU7lDmOhu9RY
+         je+puR1k8ksYevJnWoJoYxpe0YKttRf99XpJw2Df84wfM5xYYz6EuRXUM25aggBe2vDS
+         gSMr2aeOJU8Ot5eVGbTn0RflTC87L3hJD4+FYOb2AAjHxoksHWJ4dZUViiAdL8MjY9U/
+         BJxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=UhwdD2gO8nOO5tCisCra55ciclH3EOXOGC4jrUducKI=;
-        b=nYVGimWwBDMvcQAEoCYR7DsP7R7vIH5PgexhEgLtY/DJRwqggodNo+k1tYKBUpAIOU
-         6Oj46tu6VEjr7SUE+3b6AVWzEa5eKJoWrcbWgZ+VJxERxY7rsai0wqa4fF8BnrJBmH6q
-         fHeQ/oUTzAfnjdzrg7jz2onDMKRFE2cAbxIQxLYHj67VAyo52Ejm4LygeigBRmIdldRp
-         wShu++NPBS/QBsOMMc6eX2u3njRsaZh5aD3cbyifKzYEdJTkJEV7oExCtzm8z1rtxahS
-         owpiFtoZ1l5Xz0q6CUMT4ztRjpQ/nur0y8VAYKhb2naBpQH4mDrIEsHnrB4k4vJpvUxG
-         Y+Aw==
-X-Gm-Message-State: AOAM531XPjIfrKyl5CHqRc1UPlftBoAO/WXkvvIC4JVS5SR1DiatKjLt
-        AWp3g/D5Obh9cNsGL/uVlNvriHfVbBB9Xw==
-X-Google-Smtp-Source: ABdhPJxfiWm0esUmP9wlU/ltfTMgtdfgC2ZqOGnLaAunhkGIrS3r8ycKNt/eI8crQ8PAtz2laxrRXA==
-X-Received: by 2002:a63:28c2:: with SMTP id o185mr2805556pgo.40.1617252770015;
-        Wed, 31 Mar 2021 21:52:50 -0700 (PDT)
+        bh=GNOAI81wqIgifIzVXlS3hqwsnur1loPU+qLes91JfVs=;
+        b=pP0qPtG7Ar149YapKW1Puwk/9N05fY1Q22QOWsHL2cMyBmqjDQz+kSCtGhLuF00XD9
+         nIp3OOhQ7htWVPflM/BndY5wErzSALqz0B1eIzLzalNgBdSrJjNS+jEaVDD6N4ILf2pQ
+         foImYRLuBYXFwEpWwpC4uSErOVDzYOe5fo2kS1obB6FpbFA+rNS7C4NZkoDNUBrWkx+5
+         /vHtFiEQCFiHXh/3SlcUZvsQycybD17NXccNApQmpytviU83nvHdl9LkceVb65kOMux9
+         1QkTihDnt3eQ3Fkb9AClRRn2MJsNTfGNa04PzqjvNVYhlwI7vdqGFMcEKKhJkk/cQlvh
+         iuGQ==
+X-Gm-Message-State: AOAM532FH/GvxPjexpr2JWhWHG5uR0VXkzGlqyFy73jqUM0F1rLtb+UB
+        20VeRh3C9Zc8WqQVvA3wgbo=
+X-Google-Smtp-Source: ABdhPJyqj0mkab+OeT0S0x+MsYP14fRXt0oLJGrrfQkHNzFMBCQMB+lrS3SXU6hfYl6YpxPocmGiBA==
+X-Received: by 2002:a62:b412:0:b029:21f:6b06:7bdd with SMTP id h18-20020a62b4120000b029021f6b067bddmr6004419pfn.51.1617253178416;
+        Wed, 31 Mar 2021 21:59:38 -0700 (PDT)
 Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id o197sm3960835pfd.42.2021.03.31.21.52.46
+        by smtp.gmail.com with ESMTPSA id ge16sm3670854pjb.43.2021.03.31.21.59.34
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 31 Mar 2021 21:52:49 -0700 (PDT)
-Subject: Re: [PATCH v3 7/8] docs/zh_CN: add iio to zh_CN index
-To:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@gmail.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-References: <20210330114728.2680-1-siyanteng@loongson.cn>
- <20210330114728.2680-8-siyanteng@loongson.cn>
+        Wed, 31 Mar 2021 21:59:37 -0700 (PDT)
+Subject: Re: [PATCH v1 1/4] docs: make reporting-issues.rst official and
+ delete reporting-bugs.rst
+To:     "Wu X.C." <bobwxc@email.cn>,
+        Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Alex Shi <alexs@kernel.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Greg KH <gregkh@linuxfoundation.org>
+References: <cover.1617113469.git.linux@leemhuis.info>
+ <49c674c2d304d87e6259063580fda05267e8c348.1617113469.git.linux@leemhuis.info>
+ <20210331083337.GA5287@mipc>
 From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <7a44c484-e12d-8b62-e4d1-0811d552e6d8@gmail.com>
-Date:   Thu, 1 Apr 2021 12:52:44 +0800
+Message-ID: <c55a51bf-d967-02ad-41b5-189dce226d1c@gmail.com>
+Date:   Thu, 1 Apr 2021 12:59:32 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210330114728.2680-8-siyanteng@loongson.cn>
+In-Reply-To: <20210331083337.GA5287@mipc>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -81,27 +85,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Alex Shi <alexs@kernel.org>
 
-On 2021/3/30 下午7:47, Yanteng Si wrote:
-> All the files in the iio directory have been translated into
-> Chinese and it is time to add them to the zh_CN index.
+
+On 2021/3/31 下午4:33, Wu X.C. wrote:
+> Cc Alex Shi's new email <alexs@kernel.org>
 > 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  Documentation/translations/zh_CN/index.rst | 1 +
->  1 file changed, 1 insertion(+)
+> On Tue, Mar 30, 2021 at 04:13:04PM +0200, Thorsten Leemhuis wrote:
+>> Removing Documentation/admin-guide/reporting-bugs.rst will break links
+>> in some of the translations. I was unsure if simply changing them to
+>> Documentation/admin-guide/reporting-issue.rst was wise, so I didn't
+
+A bit time info late won't hurt sth, people would update them soon if it's
+their care.
+
+>> touch anything for now and CCed the maintainers for the Chinese and
+>> Italian translation. I couldn't find one for the Japanse translation.
+>>
+>> Please advice. For completeness, this are the places where things will
+>> break afaics:
+>>
+>> $ grep -ri 'reporting-bugs.rst' Documentation/
+>> Documentation/translations/zh_CN/SecurityBugs:是有帮助的信息，那就请重温一下admin-guide/reporting-bugs.rst文件中的概述过程。任
+>> Documentation/translations/zh_CN/process/howto.rst:内核源码主目录中的:ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
+>> Documentation/translations/zh_CN/admin-guide/reporting-issues.rst:   本文档将取代“Documentation/admin-guide/reporting-bugs.rst”。主要的工作
+>> Documentation/translations/zh_CN/admin-guide/reporting-issues.rst:   “Documentation/admin-guide/reporting-bugs.rst”中的旧文字非常相似。它和它
 > 
-> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-> index 16641203dc88..51c50f319487 100644
-> --- a/Documentation/translations/zh_CN/index.rst
-> +++ b/Documentation/translations/zh_CN/index.rst
-> @@ -23,6 +23,7 @@
->     sound/index
->     cpu-freq/index
->     mips/index
-> +   iio/index
->  
->  目录和表格
->  ----------
-> 
+> Yeah, as Greg said, we will solve that after you patches be merged in next
+> tree. Since I have translate the zh reporting-issues.rst in the next tree,
+> will correct the link when I sync it with your new version. May cause 
+> Warning for some days, but don't worry about it.
+
+yes, also thanks for generous commitment!
+
+thanks
+Alex
