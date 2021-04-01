@@ -2,155 +2,196 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 69340C43600
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:53:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5057C433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:53:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 308E460FEE
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:53:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 960D9610A0
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:53:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235449AbhDARxG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S235481AbhDARxG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 1 Apr 2021 13:53:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45728 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236498AbhDARpR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:45:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617299116;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=5cXKDMg3hKjPJQxwPGQ5ktY0E9OHOmBfWVuhkV+IFpg=;
-        b=H7g0bcsE7OmJVh8n14J+ms3Zdmj2YSUOYKffGCc00W01mGQ5tGBxIu1lRrxMnFZxD2qTK5
-        qvrtNKddmsY09u3BU/R5OebARg0m0LilhKILEQWRPDUPN1hCcNVN7Ig7z7koyiRywBBaQg
-        FCtqEl/AxbDzlrW2kT9NWGXWx/1o5nc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-0UV8chBxNRCK6aEJQepffA-1; Thu, 01 Apr 2021 10:44:17 -0400
-X-MC-Unique: 0UV8chBxNRCK6aEJQepffA-1
-Received: by mail-ej1-f70.google.com with SMTP id h14so2322101ejg.7
-        for <linux-doc@vger.kernel.org>; Thu, 01 Apr 2021 07:44:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:subject:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=5cXKDMg3hKjPJQxwPGQ5ktY0E9OHOmBfWVuhkV+IFpg=;
-        b=oIzsXhzlvPUcDgnPZdCmgQ8UcylaXWGeUJwZdrHTcCPGd7DxmK/TA4rEKNC8sOrrQM
-         RknwNqbB8z1XZNMUF1J0zgKOTVd5lsVGjGHda2cbFSlgCLwIW44jc9nJpSLDWcYwQYZF
-         XZTTJXOTw+3GbRyNMvNez7UmbJd10gRhzfKefpm2MnO9gIp76/VFV6osj5k9bRYGKrDs
-         plHxGhr+nNX9NxPJiV8QXPD5ASzM0iqCGG5cn2pwIfYENTQobgZ06mUW/z8xCvxnAKQ1
-         XYYuehKrNCY7ESSIuan+6EnaHZtrBmcYKeRDRKqvOKZsS2v11NO6hsJ5wgKd+Z+7Xbp9
-         t8hg==
-X-Gm-Message-State: AOAM530QNpL2YEXevNbXVTD65ZQC+DjWh81KYU6SYJYEPX3mfEnAhmtD
-        IIREpQ0JdCCiT4jproWgrk6zZvdJY4pdj0Gc4oTh9rJ6f4ylyzgE2pUK8opHQkIHYqPqpzAuD6c
-        3qLS7+KzIIfgyDtdSS+wdQVGzf1aT7JNq3EuhAhAVW5odx/yTye86aCzLGn9GueduNOaUG2lk
-X-Received: by 2002:a17:906:7cc:: with SMTP id m12mr9198958ejc.171.1617288255583;
-        Thu, 01 Apr 2021 07:44:15 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxBvqVmNf7jxxrmZVvbLGCfGGoUZuyyx3hDl4qqpBdw1aJqT1wubt4ceARSA8kiv/b6Aoi4tw==
-X-Received: by 2002:a17:906:7cc:: with SMTP id m12mr9198931ejc.171.1617288255332;
-        Thu, 01 Apr 2021 07:44:15 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id si3sm2877618ejb.90.2021.04.01.07.44.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Apr 2021 07:44:14 -0700 (PDT)
-To:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
-Cc:     "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Jim Mattson <jmattson@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" 
-        <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58406 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236535AbhDARpZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:45:25 -0400
+Received: from smtp-bc09.mail.infomaniak.ch (smtp-bc09.mail.infomaniak.ch [IPv6:2001:1600:3:17::bc09])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE077C03117F;
+        Thu,  1 Apr 2021 10:11:06 -0700 (PDT)
+Received: from smtp-3-0001.mail.infomaniak.ch (unknown [10.4.36.108])
+        by smtp-2-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4FB8pb136rzMqMD8;
+        Thu,  1 Apr 2021 19:11:03 +0200 (CEST)
+Received: from ns3096276.ip-94-23-54.eu (unknown [23.97.221.149])
+        by smtp-3-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4FB8pQ6Nzrzlh8TN;
+        Thu,  1 Apr 2021 19:10:54 +0200 (CEST)
+Subject: Re: [PATCH v31 07/12] landlock: Support filesystem access-control
+To:     Al Viro <viro@zeniv.linux.org.uk>
+Cc:     Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@amacapital.net>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Casey Schaufler <casey@schaufler-ca.com>,
+        David Howells <dhowells@redhat.com>,
+        Jeff Dike <jdike@addtoit.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-References: <20210401141814.1029036-1-mlevitsk@redhat.com>
- <20210401141814.1029036-5-mlevitsk@redhat.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 4/6] KVM: x86: Introduce KVM_GET_SREGS2 / KVM_SET_SREGS2
-Message-ID: <b1a36c94-6dd5-88ef-a503-f6d91eb2d267@redhat.com>
-Date:   Thu, 1 Apr 2021 16:44:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        Michael Kerrisk <mtk.manpages@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Shuah Khan <shuah@kernel.org>,
+        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
+        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        linux-security-module@vger.kernel.org, x86@kernel.org,
+        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@linux.microsoft.com>,
+        James Morris <jmorris@namei.org>,
+        "Serge E . Hallyn" <serge@hallyn.com>
+References: <20210324191520.125779-1-mic@digikod.net>
+ <20210324191520.125779-8-mic@digikod.net>
+ <d2764451-8970-6cbd-e2bf-254a42244ffc@digikod.net>
+ <YGUslUPwp85Zrp4t@zeniv-ca.linux.org.uk>
+From:   =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
+Message-ID: <84e1cd29-0f09-1ed4-c680-65ca8c6988a3@digikod.net>
+Date:   Thu, 1 Apr 2021 19:12:05 +0200
+User-Agent: 
 MIME-Version: 1.0
-In-Reply-To: <20210401141814.1029036-5-mlevitsk@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <YGUslUPwp85Zrp4t@zeniv-ca.linux.org.uk>
+Content-Type: text/plain; charset=iso-8859-15
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Just a quick review on the API:
 
-On 01/04/21 16:18, Maxim Levitsky wrote:
-> +struct kvm_sregs2 {
-> +	/* out (KVM_GET_SREGS2) / in (KVM_SET_SREGS2) */
-> +	struct kvm_segment cs, ds, es, fs, gs, ss;
-> +	struct kvm_segment tr, ldt;
-> +	struct kvm_dtable gdt, idt;
-> +	__u64 cr0, cr2, cr3, cr4, cr8;
-> +	__u64 efer;
-> +	__u64 apic_base;
-> +	__u64 flags; /* must be zero*/
+On 01/04/2021 04:14, Al Viro wrote:
+> On Wed, Mar 31, 2021 at 07:33:50PM +0200, Mickaël Salaün wrote:
+> 
+>>> +static inline u64 unmask_layers(
+>>> +		const struct landlock_ruleset *const domain,
+>>> +		const struct path *const path, const u32 access_request,
+>>> +		u64 layer_mask)
+>>> +{
+>>> +	const struct landlock_rule *rule;
+>>> +	const struct inode *inode;
+>>> +	size_t i;
+>>> +
+>>> +	if (d_is_negative(path->dentry))
+>>> +		/* Continues to walk while there is no mapped inode. */
+> 				     ^^^^^
+> Odd comment, that...
 
-I think it would make sense to define a flag bit for the PDPTRs, so that 
-userspace can use KVM_SET_SREGS2 unconditionally (e.g. even when 
-migrating from a source that uses KVM_GET_SREGS and therefore doesn't 
-provide the PDPTRs).
+I'll replace that with something more appropriate, e.g. "Ignore
+nonexistent leafs".
 
-> +	__u64 pdptrs[4];
-> +	__u64 padding;
+> 
+>>> +static int check_access_path(const struct landlock_ruleset *const domain,
+>>> +		const struct path *const path, u32 access_request)
+>>> +{
+> 
+>>> +	walker_path = *path;
+>>> +	path_get(&walker_path);
+> 
+>>> +	while (true) {
+>>> +		struct dentry *parent_dentry;
+>>> +
+>>> +		layer_mask = unmask_layers(domain, &walker_path,
+>>> +				access_request, layer_mask);
+>>> +		if (layer_mask == 0) {
+>>> +			/* Stops when a rule from each layer grants access. */
+>>> +			allowed = true;
+>>> +			break;
+>>> +		}
+>>> +
+>>> +jump_up:
+>>> +		if (walker_path.dentry == walker_path.mnt->mnt_root) {
+>>> +			if (follow_up(&walker_path)) {
+>>> +				/* Ignores hidden mount points. */
+>>> +				goto jump_up;
+>>> +			} else {
+>>> +				/*
+>>> +				 * Stops at the real root.  Denies access
+>>> +				 * because not all layers have granted access.
+>>> +				 */
+>>> +				allowed = false;
+>>> +				break;
+>>> +			}
+>>> +		}
+>>> +		if (unlikely(IS_ROOT(walker_path.dentry))) {
+>>> +			/*
+>>> +			 * Stops at disconnected root directories.  Only allows
+>>> +			 * access to internal filesystems (e.g. nsfs, which is
+>>> +			 * reachable through /proc/<pid>/ns/<namespace>).
+>>> +			 */
+>>> +			allowed = !!(walker_path.mnt->mnt_flags & MNT_INTERNAL);
+>>> +			break;
+>>> +		}
+>>> +		parent_dentry = dget_parent(walker_path.dentry);
+>>> +		dput(walker_path.dentry);
+>>> +		walker_path.dentry = parent_dentry;
+>>> +	}
+>>> +	path_put(&walker_path);
+>>> +	return allowed ? 0 : -EACCES;
+> 
+> That's a whole lot of grabbing/dropping references...  I realize that it's
+> an utterly tactless question, but... how costly it is?  IOW, do you have
+> profiling data?
 
-No need to add padding; if we add more fields in the future we can use 
-the flags to determine the length of the userspace data, similar to 
-KVM_GET/SET_NESTED_STATE.
+It looks like a legitimate question.
+
+First, Landlock may not be appropriate for every workloads. The
+check_access_path()'s complexity is now linear, which is a consequence
+of the "unprivileged" target (i.e. multiple layers of file hierarchies).
+Adding caching should help a lot to improve performance (i.e. limit the
+path walking), but it will come with future improvements.
+
+I profiled a "find" loop on the linux-5.12-rc3 source tree in a tmpfs
+(and with cached entries): openat(2) calls spend ~30% of their time in
+check_access_path() with a base directory of one parent (/linux) and
+~45% with a base directory of ten parents (/1/2/3/4/5/6/7/8/9/linux).
+Overall, the performance impact is between 3.0% (with a minimum depth of
+1) and 5.4% (with a minimum depth of 10) of the full execution time of
+these worse case scenarios, which are ~4800 openat(2) calls. This is not
+a surprise and doesn't seem so bad without optimization.
 
 
 > 
-> +	idx = srcu_read_lock(&vcpu->kvm->srcu);
-> +	if (is_pae_paging(vcpu)) {
-> +		for (i = 0 ; i < 4 ; i++)
-> +			kvm_pdptr_write(vcpu, i, sregs2->pdptrs[i]);
-> +		kvm_register_mark_dirty(vcpu, VCPU_EXREG_PDPTR);
-> +		mmu_reset_needed = 1;
-> +	}
-> +	srcu_read_unlock(&vcpu->kvm->srcu, idx);
-> +
+>>> +/*
+>>> + * pivot_root(2), like mount(2), changes the current mount namespace.  It must
+>>> + * then be forbidden for a landlocked process.
+> 
+> ... and cross-directory rename(2) can change the tree topology.  Do you ban that
+> as well?
+> 
+> [snip]
+> 
+>>> +static int hook_path_rename(const struct path *const old_dir,
+>>> +		struct dentry *const old_dentry,
+>>> +		const struct path *const new_dir,
+>>> +		struct dentry *const new_dentry)
+>>> +{
+>>> +	const struct landlock_ruleset *const dom =
+>>> +		landlock_get_current_domain();
+>>> +
+>>> +	if (!dom)
+>>> +		return 0;
+>>> +	/* The mount points are the same for old and new paths, cf. EXDEV. */
+>>> +	if (old_dir->dentry != new_dir->dentry)
+>>> +		/* For now, forbids reparenting. */
+>>> +		return -EACCES;
+> 
+> You do, apparently, and not in a way that would have the userland fall
+> back to copy+unlink.  Lovely...  Does e.g. git survive such restriction?
+> Same question for your average package build...
 
-SRCU should not be needed here?
+As explained in the documentation, there is some limitations that make
+this first step not appropriate for all use cases. I'll use EXDEV to
+gracefully forbid reparenting, which gives a chance to userspace to deal
+with that. It may not be enough for package management though. I plan to
+address such limitation with future evolutions.
 
-> +	case KVM_GET_SREGS2: {
-> +		u.sregs2 = kzalloc(sizeof(struct kvm_sregs2), GFP_KERNEL_ACCOUNT);
-> +		r = -ENOMEM;
-> +		if (!u.sregs2)
-> +			goto out;
-
-No need to account, I think it's a little slower and this allocation is 
-very short lived.
-
->  #define KVM_CAP_PPC_DAWR1 194
-> +#define KVM_CAP_SREGS2 196
-
-195, not 196.
-
->  #define KVM_XEN_VCPU_GET_ATTR	_IOWR(KVMIO, 0xca, struct kvm_xen_vcpu_attr)
->  #define KVM_XEN_VCPU_SET_ATTR	_IOW(KVMIO,  0xcb, struct kvm_xen_vcpu_attr)
-> +
-> +#define KVM_GET_SREGS2             _IOR(KVMIO,  0xca, struct kvm_sregs2)
-> +#define KVM_SET_SREGS2             _IOW(KVMIO,  0xcb, struct kvm_sregs2)
-> +
-
-It's not exactly overlapping, but please bump the ioctls to 0xcc/0xcd.
-
-Paolo
-
+Thanks for these suggestions.
