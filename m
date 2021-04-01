@@ -5,44 +5,48 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EAFBCC433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 039BBC433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB62560C3E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2B1460C3E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236525AbhDAS13 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:27:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45706 "EHLO mail.kernel.org"
+        id S236545AbhDAS1a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:27:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45700 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238941AbhDASPC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S238898AbhDASPC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 1 Apr 2021 14:15:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B0D89610FC;
-        Thu,  1 Apr 2021 12:17:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 824EF611F2;
+        Thu,  1 Apr 2021 12:17:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617279475;
-        bh=ZVqkqrRzsnqvatptdV3JtB9vGyjykIcw84TAnIHuXZI=;
+        s=k20201202; t=1617279476;
+        bh=Y8Sbo9hVCbxTKSZ3zBFEyFuLdewEeU0DD4dDrcxymF0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=L0nbihXMUCovcH5RoKHdyOg6EkjtYka+6SFeDdO25ou7sTmhAc8Qymfial4WLeiIj
-         owdJLkhZkl87U9MXUQrS/6MbnJgNOfs67cXVgggrrt2O2NM5H/u9IYAclxMTAwwNtY
-         jbx+rB8fi5C7WnmHs8oyUr4S9HEp7UZZu91sWpuwqnaRxSqw5k+xGf+TNEyLZLLa5T
-         ivN7RIk+LpK42Zmzi+jH8pqwc2zLhPtPc0ICIZDjI1eLtxkogibtDTB1lx+GBpbAZG
-         VLuCfnT6DhtHU3xtuc9OZD+P5opfz3i8PC7eOD6p+adaNG1jm23AQxs2S/7o/vTbE6
-         1GnNiOZ4+CwkA==
+        b=XmXJNkMDY6HjzWIpoy0p2LCBxwlOqEEt6xAj60aeGL/k5ZOXg8edAZgjaThxHz3+1
+         8bjY/8yuiwRvtWue1O2n3R67vGOdtPc2uerijwSRwnurgfL5kqEbPfi3BznuSYqGnc
+         OexgBFaq61MtJ9rZmpF5NwR7W5RsR9LAYjXFbYeFREEBNWtL2eNMs2Y4bo02Kg+KQg
+         HoIRs1osqCoXVhOaDOtwbkE/k/dCKDzbCxHnQ7cGzzsVAA0GM5BMGbsZrmQovtBjID
+         9UHzj3FbyuBDVqJQSCn+6l2XG27EDo6waC1eQUt9KUP5bFfrJwfT+Gux8TPSH/t+yg
+         yGzmFDyuRF5kg==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lRwGn-001c2a-Nu; Thu, 01 Apr 2021 14:17:53 +0200
+        id 1lRwGo-001c3e-Jw; Thu, 01 Apr 2021 14:17:54 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 07/32] MAINTAINERS: update envelope-detector.yaml reference
-Date:   Thu,  1 Apr 2021 14:17:27 +0200
-Message-Id: <d4ccc625ccb89730c03204b7aae98fd94ea97fc2.1617279355.git.mchehab+huawei@kernel.org>
+        Andy Whitcroft <apw@canonical.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 29/32] docs: dt: update writing-schema.rst references
+Date:   Thu,  1 Apr 2021 14:17:49 +0200
+Message-Id: <7cfddf303f1508d26f90d87546d3812faebfc5ba.1617279356.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617279355.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
@@ -53,31 +57,45 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 66a6dcc20e63 ("dt-bindings:iio:adc:envelope-detector: txt to yaml conversion.")
-renamed: Documentation/devicetree/bindings/iio/adc/envelope-detector.txt
-to: Documentation/devicetree/bindings/iio/adc/envelope-detector.yaml.
+Changeset b83db5b84900 ("docs: dt: Group DT docs into relevant sub-sections")
+renamed: Documentation/devicetree/writing-schema.rst
+to: Documentation/devicetree/bindings/writing-schema.rst.
 
-Update its cross-reference accordingly.
+Update the cross-references accordingly.
 
-Fixes: 66a6dcc20e63 ("dt-bindings:iio:adc:envelope-detector: txt to yaml conversion.")
+Fixes: b83db5b84900 ("docs: dt: Group DT docs into relevant sub-sections")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/devicetree/bindings/submitting-patches.rst | 2 +-
+ scripts/checkpatch.pl                                    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 52ce258fab37..82220a72eba2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -8761,7 +8761,7 @@ M:	Peter Rosin <peda@axentia.se>
- L:	linux-iio@vger.kernel.org
- S:	Maintained
- F:	Documentation/ABI/testing/sysfs-bus-iio-adc-envelope-detector
--F:	Documentation/devicetree/bindings/iio/adc/envelope-detector.txt
-+F:	Documentation/devicetree/bindings/iio/adc/envelope-detector.yaml
- F:	drivers/iio/adc/envelope-detector.c
+diff --git a/Documentation/devicetree/bindings/submitting-patches.rst b/Documentation/devicetree/bindings/submitting-patches.rst
+index ee4feb53f8d0..104fa8fb2c17 100644
+--- a/Documentation/devicetree/bindings/submitting-patches.rst
++++ b/Documentation/devicetree/bindings/submitting-patches.rst
+@@ -25,7 +25,7 @@ I. For patch submitters
  
- IIO MULTIPLEXER
+        make dt_binding_check
+ 
+-     See Documentation/devicetree/writing-schema.rst for more details about
++     See Documentation/devicetree/bindings/writing-schema.rst for more details about
+      schema and tools setup.
+ 
+   3) DT binding files should be dual licensed. The preferred license tag is
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 4dbda85fd7e5..3870c8a01987 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -3245,7 +3245,7 @@ sub process {
+ 		    ($line =~ /^new file mode\s*\d+\s*$/) &&
+ 		    ($realfile =~ m@^Documentation/devicetree/bindings/.*\.txt$@)) {
+ 			WARN("DT_SCHEMA_BINDING_PATCH",
+-			     "DT bindings should be in DT schema format. See: Documentation/devicetree/writing-schema.rst\n");
++			     "DT bindings should be in DT schema format. See: Documentation/devicetree/bindings/writing-schema.rst\n");
+ 		}
+ 
+ # Check for wrappage within a valid hunk of the file
 -- 
 2.30.2
 
