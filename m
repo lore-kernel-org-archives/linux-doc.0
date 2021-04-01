@@ -2,158 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24E15C43470
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 02:16:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D26CAC433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 02:20:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D72CC610A0
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 02:16:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8A05661055
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 02:20:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233026AbhDACP3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 22:15:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57274 "EHLO
+        id S230284AbhDACTt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 22:19:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232994AbhDACPV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 22:15:21 -0400
+        with ESMTP id S232672AbhDACTP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 22:19:15 -0400
 Received: from zeniv-ca.linux.org.uk (zeniv-ca.linux.org.uk [IPv6:2607:5300:60:148a::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD14C061574;
-        Wed, 31 Mar 2021 19:15:19 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA267C061574;
+        Wed, 31 Mar 2021 19:19:15 -0700 (PDT)
 Received: from viro by zeniv-ca.linux.org.uk with local (Exim 4.94 #2 (Red Hat Linux))
-        id 1lRmr7-001X2U-Bm; Thu, 01 Apr 2021 02:14:45 +0000
-Date:   Thu, 1 Apr 2021 02:14:45 +0000
+        id 1lRmvQ-001X5H-Kb; Thu, 01 Apr 2021 02:19:12 +0000
+Date:   Thu, 1 Apr 2021 02:19:12 +0000
 From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc:     Jann Horn <jannh@google.com>, Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Casey Schaufler <casey@schaufler-ca.com>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org,
-        =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@linux.microsoft.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E . Hallyn" <serge@hallyn.com>
-Subject: Re: [PATCH v31 07/12] landlock: Support filesystem access-control
-Message-ID: <YGUslUPwp85Zrp4t@zeniv-ca.linux.org.uk>
-References: <20210324191520.125779-1-mic@digikod.net>
- <20210324191520.125779-8-mic@digikod.net>
- <d2764451-8970-6cbd-e2bf-254a42244ffc@digikod.net>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] fs/namespace: corrent/improve kernel-doc notation
+Message-ID: <YGUtoI+rsdm1cKWr@zeniv-ca.linux.org.uk>
+References: <20210318025227.4162-1-rdunlap@infradead.org>
+ <87r1jvjclp.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <d2764451-8970-6cbd-e2bf-254a42244ffc@digikod.net>
+In-Reply-To: <87r1jvjclp.fsf@meer.lwn.net>
 Sender: Al Viro <viro@ftp.linux.org.uk>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Mar 31, 2021 at 07:33:50PM +0200, Mickaël Salaün wrote:
+On Wed, Mar 31, 2021 at 02:24:18PM -0600, Jonathan Corbet wrote:
+> Randy Dunlap <rdunlap@infradead.org> writes:
+> 
+> > Fix kernel-doc warnings in fs/namespace.c:
+> >
+> > ./fs/namespace.c:1379: warning: Function parameter or member 'm' not described in 'may_umount_tree'
+> > ./fs/namespace.c:1379: warning: Excess function parameter 'mnt' description in 'may_umount_tree'
+> > ./fs/namespace.c:1950: warning: Function parameter or member 'path' not described in 'clone_private_mount'
+> >
+> > Also convert path_is_mountpoint() comments to kernel-doc.
+> >
+> > Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> > Cc: Al Viro <viro@zeniv.linux.org.uk>
+> > Cc: Jonathan Corbet <corbet@lwn.net>
+> > Cc: linux-doc@vger.kernel.org
+> > ---
+> > Jon, Al has OK-ed you to merge this patch (and the next one, please).
+> >
+> >  fs/namespace.c |   14 ++++++++------
+> >  1 file changed, 8 insertions(+), 6 deletions(-)
+> 
+> An actual acked-by would have been nice, oh well.  Meanwhile, I've
+> applied them with fixes to the typos in both changelogs :)
 
-> > +static inline u64 unmask_layers(
-> > +		const struct landlock_ruleset *const domain,
-> > +		const struct path *const path, const u32 access_request,
-> > +		u64 layer_mask)
-> > +{
-> > +	const struct landlock_rule *rule;
-> > +	const struct inode *inode;
-> > +	size_t i;
-> > +
-> > +	if (d_is_negative(path->dentry))
-> > +		/* Continues to walk while there is no mapped inode. */
-				     ^^^^^
-Odd comment, that...
+Generally speaking, I'm only glad to leave handling kernel-doc patches
+to somebody else, especially when they are that trivial ;-)
 
-> > +static int check_access_path(const struct landlock_ruleset *const domain,
-> > +		const struct path *const path, u32 access_request)
-> > +{
-
-> > +	walker_path = *path;
-> > +	path_get(&walker_path);
-
-> > +	while (true) {
-> > +		struct dentry *parent_dentry;
-> > +
-> > +		layer_mask = unmask_layers(domain, &walker_path,
-> > +				access_request, layer_mask);
-> > +		if (layer_mask == 0) {
-> > +			/* Stops when a rule from each layer grants access. */
-> > +			allowed = true;
-> > +			break;
-> > +		}
-> > +
-> > +jump_up:
-> > +		if (walker_path.dentry == walker_path.mnt->mnt_root) {
-> > +			if (follow_up(&walker_path)) {
-> > +				/* Ignores hidden mount points. */
-> > +				goto jump_up;
-> > +			} else {
-> > +				/*
-> > +				 * Stops at the real root.  Denies access
-> > +				 * because not all layers have granted access.
-> > +				 */
-> > +				allowed = false;
-> > +				break;
-> > +			}
-> > +		}
-> > +		if (unlikely(IS_ROOT(walker_path.dentry))) {
-> > +			/*
-> > +			 * Stops at disconnected root directories.  Only allows
-> > +			 * access to internal filesystems (e.g. nsfs, which is
-> > +			 * reachable through /proc/<pid>/ns/<namespace>).
-> > +			 */
-> > +			allowed = !!(walker_path.mnt->mnt_flags & MNT_INTERNAL);
-> > +			break;
-> > +		}
-> > +		parent_dentry = dget_parent(walker_path.dentry);
-> > +		dput(walker_path.dentry);
-> > +		walker_path.dentry = parent_dentry;
-> > +	}
-> > +	path_put(&walker_path);
-> > +	return allowed ? 0 : -EACCES;
-
-That's a whole lot of grabbing/dropping references...  I realize that it's
-an utterly tactless question, but... how costly it is?  IOW, do you have
-profiling data?
-
-> > +/*
-> > + * pivot_root(2), like mount(2), changes the current mount namespace.  It must
-> > + * then be forbidden for a landlocked process.
-
-... and cross-directory rename(2) can change the tree topology.  Do you ban that
-as well?
-
-[snip]
-
-> > +static int hook_path_rename(const struct path *const old_dir,
-> > +		struct dentry *const old_dentry,
-> > +		const struct path *const new_dir,
-> > +		struct dentry *const new_dentry)
-> > +{
-> > +	const struct landlock_ruleset *const dom =
-> > +		landlock_get_current_domain();
-> > +
-> > +	if (!dom)
-> > +		return 0;
-> > +	/* The mount points are the same for old and new paths, cf. EXDEV. */
-> > +	if (old_dir->dentry != new_dir->dentry)
-> > +		/* For now, forbids reparenting. */
-> > +		return -EACCES;
-
-You do, apparently, and not in a way that would have the userland fall
-back to copy+unlink.  Lovely...  Does e.g. git survive such restriction?
-Same question for your average package build...
+Anyway,
+Acked-by: Al Viro <viro@zeniv.linux.org.uk>
