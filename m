@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68F8FC43460
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE154C433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3FAD160FDB
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 89B70610F8
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234733AbhDAS2e (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:28:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:48525 "EHLO
+        id S237158AbhDAS2h (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:28:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21261 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235874AbhDASVV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 14:21:21 -0400
+        by vger.kernel.org with ESMTP id S237605AbhDASXK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 14:23:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617301280;
+        s=mimecast20190719; t=1617301389;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=WlBzUmQIaLiHOw5/yjj3BVYLHvfo1ik70BDKHEskwu8=;
-        b=UdWKTfC9Dzrb7vKR8T4FVKF2LzV9hr4C9AIE5ZgV4kLz5ZbTSvS1fnUSdNS23yMze/ukTF
-        eF95e2/tV3QpxrX+4Tv40J9aqzzKnojoTXXeOYHqAYL+wS5xy0HZvuLVrURN6D1D3reaZe
-        JfYSZL7vu4pAQbszkFz/ZG6rGnRUmKc=
+        bh=fkC1sdkerI8F8vOf005GBPiJgNfEMNHeDOPdciRJ6BE=;
+        b=R99L3yB916Is9LR0I+UH/mpkmR+UX+QRNuTKJNjrCo2+0k+Ek9/DupD+2GZy7tFcJuFmOT
+        Spfnuzo0UHDfSF5qEoSKu8wL+Nh9AI97SxdB7EsT/wARIRhiGWi0Mo5YMAtHb6xheuDzKD
+        lcOtuWfJMAInHQg7ik53t9VEEc+DQog=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-ImBqt0amPAeNy_P23ZThQQ-1; Thu, 01 Apr 2021 10:18:52 -0400
-X-MC-Unique: ImBqt0amPAeNy_P23ZThQQ-1
+ us-mta-238-wC2CLdPINA-Ph_XASs6Mjw-1; Thu, 01 Apr 2021 10:19:05 -0400
+X-MC-Unique: wC2CLdPINA-Ph_XASs6Mjw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93372100A67B;
-        Thu,  1 Apr 2021 14:18:47 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 516FA107AD64;
+        Thu,  1 Apr 2021 14:18:28 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.35.206.58])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id D42E659464;
-        Thu,  1 Apr 2021 14:18:43 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 91E915945C;
+        Thu,  1 Apr 2021 14:18:24 +0000 (UTC)
 From:   Maxim Levitsky <mlevitsk@redhat.com>
 To:     kvm@vger.kernel.org
 Cc:     x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
@@ -57,9 +57,9 @@ Cc:     x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
         Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
         linux-doc@vger.kernel.org (open list:DOCUMENTATION),
         Maxim Levitsky <mlevitsk@redhat.com>
-Subject: [PATCH 6/6] KVM: nVMX: avoid loading PDPTRs after migration when possible
-Date:   Thu,  1 Apr 2021 17:18:14 +0300
-Message-Id: <20210401141814.1029036-7-mlevitsk@redhat.com>
+Subject: [PATCH 2/6] KVM: nSVM: call nested_svm_load_cr3 on nested state load
+Date:   Thu,  1 Apr 2021 17:18:10 +0300
+Message-Id: <20210401141814.1029036-3-mlevitsk@redhat.com>
 In-Reply-To: <20210401141814.1029036-1-mlevitsk@redhat.com>
 References: <20210401141814.1029036-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -69,59 +69,88 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-if new KVM_*_SREGS2 ioctls are used, the PDPTRs are
-part of the migration state and thus are loaded
-by those ioctls.
+While KVM's MMU should be fully reset by loading of nested CR0/CR3/CR4
+by KVM_SET_SREGS, we are not in nested mode yet when we do it and therefore
+only root_mmu is reset.
 
+On regular nested entries we call nested_svm_load_cr3 which both updates
+the guest's CR3 in the MMU when it is needed, and it also initializes
+the mmu again which makes it initialize the walk_mmu as well when nested
+paging is enabled in both host and guest.
+
+Since we don't call nested_svm_load_cr3 on nested state load,
+the walk_mmu can be left uninitialized, which can lead to a NULL pointer
+dereference while accessing it if we happen to get a nested page fault
+right after entering the nested guest first time after the migration and
+we decide to emulate it, which leads to the emulator trying to access
+walk_mmu->gva_to_gpa which is NULL.
+
+Therefore we should call this function on nested state load as well.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- arch/x86/kvm/vmx/nested.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ arch/x86/kvm/svm/nested.c | 40 +++++++++++++++++++++------------------
+ 1 file changed, 22 insertions(+), 18 deletions(-)
 
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index b44f1f6b68db..f2291165995e 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -1115,7 +1115,7 @@ static int nested_vmx_load_cr3(struct kvm_vcpu *vcpu, unsigned long cr3, bool ne
- 	 * must not be dereferenced.
- 	 */
- 	if (!nested_ept && is_pae_paging(vcpu) &&
--	    (cr3 != kvm_read_cr3(vcpu) || pdptrs_changed(vcpu))) {
-+	    (cr3 != kvm_read_cr3(vcpu) || !kvm_register_is_available(vcpu, VCPU_EXREG_PDPTR))) {
- 		if (CC(!load_pdptrs(vcpu, vcpu->arch.walk_mmu, cr3))) {
- 			*entry_failure_code = ENTRY_FAIL_PDPTE;
- 			return -EINVAL;
-@@ -3110,6 +3110,14 @@ static bool nested_get_vmcs12_pages(struct kvm_vcpu *vcpu)
- 	struct page *page;
- 	u64 hpa;
+diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
+index 8523f60adb92..ac5e3e17bda4 100644
+--- a/arch/x86/kvm/svm/nested.c
++++ b/arch/x86/kvm/svm/nested.c
+@@ -215,24 +215,6 @@ static bool nested_svm_vmrun_msrpm(struct vcpu_svm *svm)
+ 	return true;
+ }
  
-+	if (vcpu->arch.reload_pdptrs_on_nested_entry) {
-+		/* if legacy KVM_SET_SREGS API was used, it might have loaded
-+		 * wrong PDPTRs from memory so we have to reload them here
-+		 * (which is against x86 spec)
-+		 */
-+		kvm_register_clear_available(vcpu, VCPU_EXREG_PDPTR);
+-static bool svm_get_nested_state_pages(struct kvm_vcpu *vcpu)
+-{
+-	struct vcpu_svm *svm = to_svm(vcpu);
+-
+-	if (WARN_ON(!is_guest_mode(vcpu)))
+-		return true;
+-
+-	if (!nested_svm_vmrun_msrpm(svm)) {
+-		vcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;
+-		vcpu->run->internal.suberror =
+-			KVM_INTERNAL_ERROR_EMULATION;
+-		vcpu->run->internal.ndata = 0;
+-		return false;
+-	}
+-
+-	return true;
+-}
+-
+ static bool nested_vmcb_check_controls(struct vmcb_control_area *control)
+ {
+ 	if (CC(!vmcb_is_intercept(control, INTERCEPT_VMRUN)))
+@@ -1312,6 +1294,28 @@ static int svm_set_nested_state(struct kvm_vcpu *vcpu,
+ 	return ret;
+ }
+ 
++static bool svm_get_nested_state_pages(struct kvm_vcpu *vcpu)
++{
++	struct vcpu_svm *svm = to_svm(vcpu);
++
++	if (WARN_ON(!is_guest_mode(vcpu)))
++		return true;
++
++	if (nested_svm_load_cr3(&svm->vcpu, vcpu->arch.cr3,
++				nested_npt_enabled(svm)))
++		return false;
++
++	if (!nested_svm_vmrun_msrpm(svm)) {
++		vcpu->run->exit_reason = KVM_EXIT_INTERNAL_ERROR;
++		vcpu->run->internal.suberror =
++			KVM_INTERNAL_ERROR_EMULATION;
++		vcpu->run->internal.ndata = 0;
++		return false;
 +	}
 +
- 	if (nested_vmx_load_cr3(vcpu, vmcs12->guest_cr3, nested_cpu_has_ept(vmcs12),
- 				&entry_failure_code))
- 		return false;
-@@ -3357,6 +3365,7 @@ enum nvmx_vmentry_status nested_vmx_enter_non_root_mode(struct kvm_vcpu *vcpu,
- 	}
- 
- 	if (from_vmentry) {
-+		kvm_register_clear_available(vcpu, VCPU_EXREG_PDPTR);
- 		if (nested_vmx_load_cr3(vcpu, vmcs12->guest_cr3,
- 		    nested_cpu_has_ept(vmcs12), &entry_failure_code))
- 			goto vmentry_fail_vmexit_guest_mode;
-@@ -4195,6 +4204,7 @@ static void load_vmcs12_host_state(struct kvm_vcpu *vcpu,
- 	 * Only PDPTE load can fail as the value of cr3 was checked on entry and
- 	 * couldn't have changed.
- 	 */
-+	kvm_register_clear_available(vcpu, VCPU_EXREG_PDPTR);
- 	if (nested_vmx_load_cr3(vcpu, vmcs12->host_cr3, false, &ignored))
- 		nested_vmx_abort(vcpu, VMX_ABORT_LOAD_HOST_PDPTE_FAIL);
- 
++	return true;
++}
++
+ struct kvm_x86_nested_ops svm_nested_ops = {
+ 	.check_events = svm_check_nested_events,
+ 	.triple_fault = nested_svm_triple_fault,
 -- 
 2.26.2
 
