@@ -2,50 +2,47 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-24.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B770C43461
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75245C433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 615CC60C3E
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 57D77601FC
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236376AbhDAS2K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:28:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45706 "EHLO mail.kernel.org"
+        id S238277AbhDAS2L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:28:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46018 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237001AbhDASSo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S236988AbhDASSo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 1 Apr 2021 14:18:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A6AE1610F8;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AB4F9610FA;
         Thu,  1 Apr 2021 12:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617279475;
-        bh=T/GXlpXW8ul7Ps8wou3KSUek2HsmaK6PZyYYBhRZni0=;
+        bh=Yac+gq42EgnvO+acWY11r9xJy+v6ovzObs2Bl3xQFMA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZelJAP2fnqkCPf+CzHRaW1rzs9TbjF2mgXPjvXvTVK7kGsbq7vJ+ty6MU4j2hm2Y2
-         dWtTs1yfVyT5fa9j2h6UZDBAImfLi867+RIqPh0DlFKiOEeRBFfbgRMT7uxi4JxzBD
-         0JcDTMKB2yrgC8GSo29jA3igx8JR/x0PKmm7asECFalH/y3MmS1SSZ1pqxMFv9BSI+
-         oiMQx71YAX5J/7NMbySKVQw8ci53L/3J27gdmga/aQ5F/zTz9WaoLXjDoDXLCVv7wk
-         h/qhMtmLHHB82O4Mmh9mLyk4F6VGc3rGR4vG9vqZWNh/qJ4eDgb5qWYDIKq3mkkrsv
-         LgCaFVPKBD7jQ==
+        b=jaQ6rqAbTXVAZdbcor5siu+sYuEMKc+D1Oc6fgZZdCEH/uMe/XN3VZZbBv7SkQBlc
+         C79ZK+R4kcOkPznPcnG77lGnTwDN1Wra/YrSEUVxPihxmv7p+k98f6Zmc7T+1oSv7Z
+         yNKYj9H7BV7KIv3vB2qVSUUUccREsJttIxMdqW0qXE8D9M1ZrwjcW4O5iOJAJJho8H
+         dLeOg0rAcqKvIGsZM8ps3IPH7/d45Mad0YEZK14W7R1Bt/1IP5ZYljP5h3rUOshP4w
+         3+lyOEV5AqgqOM+0/Z04AexxaHFv7BZsCrb8puYkzNAr5B5rFr6lZia047XH+3GArP
+         B4guOwN5D3F7w==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lRwGn-001c2Q-Is; Thu, 01 Apr 2021 14:17:53 +0200
+        id 1lRwGn-001c2V-Lj; Thu, 01 Apr 2021 14:17:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Maxime Ripard <mripard@kernel.org>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Rob Herring <robh@kernel.org>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 03/32] MAINTAINERS: update brcm,bcm-v3d.yaml reference
-Date:   Thu,  1 Apr 2021 14:17:23 +0200
-Message-Id: <461b3766c00fb60d6223835df3d64364a55f1619.1617279355.git.mchehab+huawei@kernel.org>
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 05/32] MAINTAINERS: update st,hts221.yaml reference
+Date:   Thu,  1 Apr 2021 14:17:25 +0200
+Message-Id: <a83cf29bbd27b26eb22e0046c41efebf488e7e4d.1617279355.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617279355.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
@@ -56,31 +53,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset cb18a7979a35 ("dt-bindings: gpu: Convert v3d to json-schema")
-renamed: Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
-to: Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml.
+Changeset 9a6ac3138258 ("dt-bindings:iio:humidity:st,hts221 yaml conversion.")
+renamed: Documentation/devicetree/bindings/iio/humidity/hts221.txt
+to: Documentation/devicetree/bindings/iio/humidity/st,hts221.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: cb18a7979a35 ("dt-bindings: gpu: Convert v3d to json-schema")
+Fixes: 9a6ac3138258 ("dt-bindings:iio:humidity:st,hts221 yaml conversion.")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 069cbf59da86..53c66a6908b7 100644
+index de9637196526..1985d75d59c7 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -6131,7 +6131,7 @@ DRM DRIVERS FOR V3D
- M:	Eric Anholt <eric@anholt.net>
- S:	Supported
- T:	git git://anongit.freedesktop.org/drm/drm-misc
--F:	Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
-+F:	Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
- F:	drivers/gpu/drm/v3d/
- F:	include/uapi/drm/v3d_drm.h
+@@ -8287,7 +8287,7 @@ M:	Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>
+ L:	linux-iio@vger.kernel.org
+ S:	Maintained
+ W:	http://www.st.com/
+-F:	Documentation/devicetree/bindings/iio/humidity/hts221.txt
++F:	Documentation/devicetree/bindings/iio/humidity/st,hts221.yaml
+ F:	drivers/iio/humidity/hts221*
  
+ HUAWEI ETHERNET DRIVER
 -- 
 2.30.2
 
