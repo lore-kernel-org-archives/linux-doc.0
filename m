@@ -2,229 +2,329 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34F1FC433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 08:09:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B50A4C433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 09:20:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 06856610CA
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 08:09:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 74153610CA
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 09:20:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233333AbhDAIJS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 04:09:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229459AbhDAIJF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 04:09:05 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45624C0613E6;
-        Thu,  1 Apr 2021 01:09:05 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id f19so1348455ion.3;
-        Thu, 01 Apr 2021 01:09:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=A6uTioFFI2mA1umowAyrf1ZY8lbnSzFQamQEl/GqrWI=;
-        b=UpP5x8QXz3WhOsg8VCxI3+IU0/3rOJbQkcf3W69B5yaf683v8wMVYtviN2bHj+3UU6
-         Xh9JeVwRYA1QgigPAPYMEtLbf6WclAXVaCqjk7X5JHlKzjMoKoULtj4qV8EfjNl31pnB
-         oUCf482TjXOrLrYD15r/AKY6a413rNDkw9H3Pu54exd6LxbrXN5MgyP2uk94pa7YkpBL
-         91QrWwvKZ5kjjv8V4rJctvi6Fo7wtEgxoismtJKyi7gB7vn1mexXX6ydAVtRIuMYZRwE
-         6SaF839TZheDd61r6e9eVd9k70z7DjM9OCl+1GCYYU15sjxRqBRlhvmIF2537quQMpWM
-         0uXA==
+        id S233752AbhDAJUT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 05:20:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46806 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233712AbhDAJUP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 05:20:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617268814;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=tqkY/KklJbUlRX7wYqGwlwbzfBKDIW/dEIBw+UVuq/Y=;
+        b=gFNfzgTBJs7PWA51REdjVqmWkP9JjE65aOG8cM/AX/Wxhdq3kM8tuKlSRhnqtFTRYpVXXP
+        eFctuFUsloUYLZ9PBVzyHJKsZPncdKcKsriOhdd2kWdhJQXtGby3QlcXOfiqc21xkXzIZL
+        nb3EFKG6KxA/hjNEAYG9lGMpaqvkda4=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-JAji9FZ4MmWKH5iYR8Ghsg-1; Thu, 01 Apr 2021 05:20:13 -0400
+X-MC-Unique: JAji9FZ4MmWKH5iYR8Ghsg-1
+Received: by mail-ej1-f71.google.com with SMTP id jo6so1962135ejb.13
+        for <linux-doc@vger.kernel.org>; Thu, 01 Apr 2021 02:20:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=A6uTioFFI2mA1umowAyrf1ZY8lbnSzFQamQEl/GqrWI=;
-        b=RdVvgz9LP9KQ5Jgj+N1yj/t1aQVzMSeHc5DkqvKhaQ8n4RqWki5h9qLQBMXOV9LFqm
-         S+Zh09c476iA/Boea5KX00TYtzOsV6kkWo2uu99ON720tX6a2buQNO/xEFfZVOVRbNnZ
-         I7/MyCSUdGcCOkeF3nS3Sd0pp1FlE+/9M1IatNDCdugURF1GNjBFyrltS9jFQe/V89cq
-         oD5XJAxeeAmwLowa35R2Uxxp3005lxkap+VkHzngX6zBHMlpQsyO7gao66FRF27zh+vd
-         N1m6BWeF6Desn+3aMX1NODYMPT1pP6kabYR0pofz5G0nygGfy4IwVpKGPS3i4hU7GW2B
-         LqhA==
-X-Gm-Message-State: AOAM531072efWQyBe7uQn5s4wwUeFnJirNdWoj38Xf2tkWp0JrzOavvb
-        9QyYp6Vf/6Zccn7EG/X5eUT+CRB5HrZnGPAPhN0=
-X-Google-Smtp-Source: ABdhPJx5kfCrTs6nWJQLQmv9XjTXxSl0LIr3Mm/dlZbZ15m4vUZH8QtlFhc9ZWN8zC+yz/LAtzwjKvqpRrY+K5B05gA=
-X-Received: by 2002:a05:6638:d47:: with SMTP id d7mr6750776jak.2.1617264544745;
- Thu, 01 Apr 2021 01:09:04 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+         :message-id:mime-version;
+        bh=tqkY/KklJbUlRX7wYqGwlwbzfBKDIW/dEIBw+UVuq/Y=;
+        b=S14kIyWyO3x/V53Jns+hEx76MdFKdk+dgYxKWRT+o7LjNw2hwdJumKDJQhxKF+wESj
+         ZHar29qCyhPyoJU79/5qy4thosY8x59iKnSC3dHyglyE5IejuH/aS7yI/zFqn0rzlf09
+         xfGJHmygfoFt//T8PwSjJvD7exCo1GBmuiKJ2UdL5WUa7U1/l1wuHKZRwjhKtFZLIWE3
+         iGdmLhkkiQARkkF9I4RHiOyJ1W0PogjJoKO/5Hw3gzen7QqM2USvMLIuyhtlgxr1M+CU
+         LGSkEUIWQikQU6AchphsT24SXN72Uj+Nn5vfFh2VXkQKtGgyukeAronp61VLykfMDrb4
+         epUg==
+X-Gm-Message-State: AOAM533nOASpL/D+h+cwHG7iU+m8i7wEmxmQOZD9ebuly/BkQ4g18Cpj
+        YqR2XReqLnEd11NqaVCbiIgrGSUCnn1eLX6IqXKrjAvn11tDQvxuWpJDU13IrJzW7Y5oQRiOxm+
+        fiYq6vCcNgxUVauFGru2h
+X-Received: by 2002:a17:906:845b:: with SMTP id e27mr7866955ejy.487.1617268812365;
+        Thu, 01 Apr 2021 02:20:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxOGG2JuaAQQ9FEvsR/6XcZyMErwwdTF32DTdaLR3mVZUquT9DGaRJ4UimdafWZKrfQNo8MTw==
+X-Received: by 2002:a17:906:845b:: with SMTP id e27mr7866946ejy.487.1617268812200;
+        Thu, 01 Apr 2021 02:20:12 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+        by smtp.gmail.com with ESMTPSA id c17sm3643770edw.32.2021.04.01.02.20.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Apr 2021 02:20:11 -0700 (PDT)
+From:   Vitaly Kuznetsov <vkuznets@redhat.com>
+To:     Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+        kvm@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Jim Mattson <jmattson@google.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
+        Alexander Graf <graf@amazon.com>,
+        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH 4/4] selftests: kvm: add get_emulated_cpuid test
+In-Reply-To: <20210330185841.44792-5-eesposit@redhat.com>
+References: <20210330185841.44792-1-eesposit@redhat.com>
+ <20210330185841.44792-5-eesposit@redhat.com>
+Date:   Thu, 01 Apr 2021 11:20:11 +0200
+Message-ID: <87k0pms6no.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-References: <1617179325-6383-1-git-send-email-dillon.minfei@gmail.com> <50cee64f-a264-4073-bafa-1e6775608169@foss.st.com>
-In-Reply-To: <50cee64f-a264-4073-bafa-1e6775608169@foss.st.com>
-From:   dillon min <dillon.minfei@gmail.com>
-Date:   Thu, 1 Apr 2021 16:08:28 +0800
-Message-ID: <CAL9mu0KQWLkNc8HfrsmCu7qq72txiou6N_NRBxTdoN1_XHSpKA@mail.gmail.com>
-Subject: Re: [PATCH v9 0/6] ARM: STM32: add art-pi(stm32h750xbh6) board support
-To:     Alexandre TORGUE <alexandre.torgue@foss.st.com>
-Cc:     Rob Herring <robh@kernel.org>,
-        Valentin CARON - foss <valentin.caron@foss.st.com>,
-        rong.a.chen@intel.com, Ahmad Fatoum <a.fatoum@pengutronix.de>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux@armlinux.org.uk, afzal.mohd.ma@gmail.com,
-        gregkh@linuxfoundation.org,
-        Erwan LE-RAY - foss <erwan.leray@foss.st.com>,
-        Erwan LE RAY <erwan.leray@st.com>,
-        linux-serial@vger.kernel.org, lkp@intel.com,
-        Patrice CHOTARD <patrice.chotard@foss.st.com>, corbet@lwn.net,
-        linux-doc@vger.kernel.org, pali@kernel.org,
-        mchehab+huawei@kernel.org, andrew@lunn.ch
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 1, 2021 at 4:00 PM Alexandre TORGUE
-<alexandre.torgue@foss.st.com> wrote:
->
-> Hi Dillon
->
-> On 3/31/21 10:28 AM, dillon.minfei@gmail.com wrote:
-> > From: dillon min <dillon.minfei@gmail.com>
-> >
-> > This patchset intend to add art-pi board support, this board developed
-> > by rt-thread(https://www.rt-thread.org/).
-> >
-> > Board resources:
-> > 8MiB QSPI flash
-> > 16MiB SPI flash
-> > 32MiB SDRAM
-> > AP6212 wifi,bt,fm comb
-> >
-> > sw context:
-> > - as stm32h750 just has 128k bytes internal flash, so running a fw on
-> >    internal flash to download u-boot/kernel to qspi flash, boot
-> >    u-boot/kernel from qspi flash. this fw is based on rt-thread.
-> > - kernel can be xip on qspi flash or load to sdram
-> > - root filesystem is jffs2(created by buildroot), stored on spi flash
-> >
-> > to support the boad, add following changes.
-> > - fix r0-r3, r12 register restore failed after svc call,
-> > - add dts binding
-> > - update yaml doc
-> >
->
-> Thanks for adding this new STM32 MCU board. Series applied on
-> stm32-next. As discussed I made some changes applying the series.
+Emanuele Giuseppe Esposito <eesposit@redhat.com> writes:
 
-Thanks for your work, just check your stm32-next tree, commit message
-is more clear than my version. thanks.
-Finally, you keep the stm32h750.dtsi, it's fine with me, I'll update crypto node
-to this file when i get time to test.
+> Introduce a new selftest for the KVM_GET_EMULATED_CPUID
+> ioctl. Since the behavior and functionality is similar to
+> get_cpuid_test, the test checks:
+>
+> 1) checks for corner case in the nent field of the struct kvm_cpuid2.
+> 2) sets and gets it as cpuid from the guest VM
+>
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  tools/testing/selftests/kvm/.gitignore        |   1 +
+>  tools/testing/selftests/kvm/Makefile          |   1 +
+>  .../selftests/kvm/x86_64/get_emulated_cpuid.c | 183 ++++++++++++++++++
+>  3 files changed, 185 insertions(+)
+>  create mode 100644 tools/testing/selftests/kvm/x86_64/get_emulated_cpuid.c
+>
+> diff --git a/tools/testing/selftests/kvm/.gitignore b/tools/testing/selftests/kvm/.gitignore
+> index 7bd7e776c266..f1523f3bfd04 100644
+> --- a/tools/testing/selftests/kvm/.gitignore
+> +++ b/tools/testing/selftests/kvm/.gitignore
+> @@ -8,6 +8,7 @@
+>  /x86_64/debug_regs
+>  /x86_64/evmcs_test
+>  /x86_64/get_cpuid_test
+> +x86_64/get_emulated_cpuid
+>  /x86_64/get_msr_index_features
+>  /x86_64/kvm_pv_test
+>  /x86_64/hyperv_clock
+> diff --git a/tools/testing/selftests/kvm/Makefile b/tools/testing/selftests/kvm/Makefile
+> index 67eebb53235f..0d8d3bd5a7c7 100644
+> --- a/tools/testing/selftests/kvm/Makefile
+> +++ b/tools/testing/selftests/kvm/Makefile
+> @@ -40,6 +40,7 @@ LIBKVM_s390x = lib/s390x/processor.c lib/s390x/ucall.c lib/s390x/diag318_test_ha
+>  
+>  TEST_GEN_PROGS_x86_64 = x86_64/cr4_cpuid_sync_test
+>  TEST_GEN_PROGS_x86_64 += x86_64/get_msr_index_features
+> +TEST_GEN_PROGS_x86_64 += x86_64/get_emulated_cpuid
+>  TEST_GEN_PROGS_x86_64 += x86_64/evmcs_test
+>  TEST_GEN_PROGS_x86_64 += x86_64/get_cpuid_test
+>  TEST_GEN_PROGS_x86_64 += x86_64/hyperv_clock
+> diff --git a/tools/testing/selftests/kvm/x86_64/get_emulated_cpuid.c b/tools/testing/selftests/kvm/x86_64/get_emulated_cpuid.c
+> new file mode 100644
+> index 000000000000..f5294dc4b8ff
+> --- /dev/null
+> +++ b/tools/testing/selftests/kvm/x86_64/get_emulated_cpuid.c
+> @@ -0,0 +1,183 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2021, Red Hat Inc.
+> + *
+> + * Generic tests for KVM CPUID set/get ioctls
+> + */
+> +#include <asm/kvm_para.h>
+> +#include <linux/kvm_para.h>
+> +#include <stdint.h>
+> +
+> +#include "test_util.h"
+> +#include "kvm_util.h"
+> +#include "processor.h"
+> +
+> +#define VCPU_ID 0
+> +#define MAX_NENT 1000
+> +
+> +/* CPUIDs known to differ */
+> +struct {
+> +	u32 function;
+> +	u32 index;
+> +} mangled_cpuids[] = {
+> +	{.function = 0xd, .index = 0},
+> +};
+> +
+> +static void guest_main(void)
+> +{
+> +
+> +}
+> +
+> +static bool is_cpuid_mangled(struct kvm_cpuid_entry2 *entrie)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < sizeof(mangled_cpuids); i++) {
+> +		if (mangled_cpuids[i].function == entrie->function &&
+> +		    mangled_cpuids[i].index == entrie->index)
+> +			return true;
+> +	}
+> +
+> +	return false;
+> +}
+> +
+> +static void check_cpuid(struct kvm_cpuid2 *cpuid, struct kvm_cpuid_entry2 *entrie)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < cpuid->nent; i++) {
+> +		if (cpuid->entries[i].function == entrie->function &&
+> +		    cpuid->entries[i].index == entrie->index) {
+> +			if (is_cpuid_mangled(entrie))
+> +				return;
+> +
+> +			TEST_ASSERT(cpuid->entries[i].eax == entrie->eax &&
+> +				    cpuid->entries[i].ebx == entrie->ebx &&
+> +				    cpuid->entries[i].ecx == entrie->ecx &&
+> +				    cpuid->entries[i].edx == entrie->edx,
+> +				    "CPUID 0x%x.%x differ: 0x%x:0x%x:0x%x:0x%x vs 0x%x:0x%x:0x%x:0x%x",
+> +				    entrie->function, entrie->index,
+> +				    cpuid->entries[i].eax, cpuid->entries[i].ebx,
+> +				    cpuid->entries[i].ecx, cpuid->entries[i].edx,
+> +				    entrie->eax, entrie->ebx, entrie->ecx, entrie->edx);
+> +			return;
+> +		}
+> +	}
+> +
+> +	TEST_ASSERT(false, "CPUID 0x%x.%x not found", entrie->function, entrie->index);
+> +}
+> +
+> +static void compare_cpuids(struct kvm_cpuid2 *cpuid1,
+> +						   struct kvm_cpuid2 *cpuid2)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < cpuid1->nent; i++)
+> +		check_cpuid(cpuid2, &cpuid1->entries[i]);
+> +
+> +	for (i = 0; i < cpuid2->nent; i++)
+> +		check_cpuid(cpuid1, &cpuid2->entries[i]);
+> +}
 
-Thanks again.
+CPUID comparison here seems to be borrowed from get_cpuid_test.c, I
+think we can either put it to a library or (my preference) just merge
+these two selftests together. 'get_cpuid_test' name is generic enough to
+be used for KVM_GET_EMULATED_CPUID too.
 
-Regards
-Dillon
->
-> Regards
-> Alex
->
->
->
-> > ---
-> > changes in v9:
-> > - move gpio{a..k} entries from stm32h7-pinctrl.dtsi to stm32h743.dtsi
-> > v8 link:
-> > https://lore.kernel.org/lkml/1617094704-10040-1-git-send-email-dillon.minfei@gmail.com/
-> >
-> > changes in v8:
-> > - drop '[PATCH v7 3/6] ARM: dts: stm32: introduce stm32h7-pinctrl.dtsi to
-> >    support stm32h750' - stm32h743-pinctrl.dtsi file
-> > - move compatible string "st,stm32h743-pinctrl" from stm32h7-pinctrl.dtsi
-> >    to stm32h743.dtsi
-> > - update stm32h743i-{dico/eval}.dtsi to include stm32h7-pinctrl.dtsi
-> > - move file stm32h743.dtsi submit position to [PATCH V8 3/6]
-> > v7 link:
-> > https://lore.kernel.org/lkml/1617071338-9436-1-git-send-email-dillon.minfei@gmail.com/
-> >
-> > changes in v7:
-> > - remove changes in
-> >    Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml
-> >    Hi Rob Herring
-> >    as you has already ack this patch, please ignore it. thanks
-> >    history link:
-> >    https://lore.kernel.org/lkml/1614758717-18223-4-git-send-email-dillon.minfei@gmail.com/
-> >    https://lore.kernel.org/lkml/20210308195033.GA2855292@robh.at.kernel.org/
-> > - remove "[PATCH v6 8/9] pinctrl: stm32: Add STM32H750 MCU pinctrl support"
-> >    remove "[PATCH v6 5/9] ARM: dts: stm32: add stm32h750-pinctrl.dtsi"
-> > - reference to stm32h743-pinctrl.dtsi in stm32h750i-art-pi.dts
-> > v6 link:
-> > https://lore.kernel.org/lkml/1616757302-7889-1-git-send-email-dillon.minfei@gmail.com/
-> >
-> > changes in v6:
-> > - add gpiox{gpio-ranges, ngpios} in stm32h7-pinctrl.dtsi
-> > - add status="disabled" in stm32h743.dtsi
-> >
-> > changes in v5:
-> > - accroding to rob's suggestion, replace false with 'type: object'
-> >    of 'additionalProperties'.
-> > - add Tested-by: Valentin Caron <valentin.caron@foss.st.com>
-> >
-> > changes in v4:
-> > - use unevaluatedProperties: false to fix dtbs_check warrnings instead of
-> >    add 'bluetooth' in st,stm32-uart.yaml
-> >
-> > changes in v3:
-> > - fix dtbs_check warrning: (8002cbd78fd5 and 4bc21d3dd678)
-> >    >> arch/arm/boot/dts/stm32h743i-eval.dt.yaml: soc: pin-controller:
-> >       {'type': 'object'} is not allowed for {'#address-cells': [[1]], '#size-cells':
-> >       [[1]], 'ranges': [[0,
-> >
-> >    >> arch/arm/boot/dts/stm32h743i-eval.dt.yaml: soc: 'i2c@40005C00',
-> >       'i2c@58001C00' do not match any of the regexes: '@(0|[1-9a-f][0-9a-f]*)$',
-> >       '^[^@]+$', 'pinctrl-[0-9]+'
-> >    >> arch/arm/boot/dts/stm32h750i-art-pi.dt.yaml: serial@40004800:
-> >       'bluetooth' does not match any of the regexes: 'pinctrl-[0-9]+'
-> >
-> > changes in v2:
-> > - reorganize the pinctrl device tree about
-> >    stm32h7-pinctrl/stm32h743/750-pinctrl
-> >    stm32h7-pinctrl.dtsi --> stm32h743-pinctrl.dtsi --> stm32h743i-disco.dts
-> >                           |                          |-> stm32h743i-eval.dts
-> >                           |-> stm32h750-pinctrl.dtsi --> stm32h750i-art-pi.dts
-> >    same to the stm32f7/f4's pinctrl style
-> > - fix author name/copyright mistake
-> > - add compatible string st,stm32h750-pinctrl to pinctl-stm32h743.c as they
-> >    have same pin alternate functions, update Kconfig description
-> > - make item in stm32h750i-art-pi.dts sort by letter
-> >
-> > *** BLURB HERE ***
-> >
-> > dillon min (6):
-> >    Documentation: arm: stm32: Add stm32h750 value line doc
-> >    dt-bindings: arm: stm32: Add compatible strings for ART-PI board
-> >    ARM: dts: stm32: introduce stm32h7-pinctrl.dtsi to support stm32h750
-> >    ARM: dts: stm32: add support for art-pi board based on stm32h750xbh6
-> >    ARM: stm32: Add a new SOC - STM32H750
-> >    dt-bindings: serial: stm32: Use 'type: object' instead of false for
-> >      'additionalProperties'
-> >
-> >   Documentation/arm/index.rst                        |   1 +
-> >   Documentation/arm/stm32/stm32h750-overview.rst     |  34 +++
-> >   .../devicetree/bindings/arm/stm32/stm32.yaml       |   4 +
-> >   .../devicetree/bindings/serial/st,stm32-uart.yaml  |   3 +-
-> >   arch/arm/boot/dts/Makefile                         |   1 +
-> >   arch/arm/boot/dts/stm32h7-pinctrl.dtsi             | 275 ++++++++++++++++++
-> >   arch/arm/boot/dts/stm32h743-pinctrl.dtsi           | 306 ---------------------
-> >   arch/arm/boot/dts/stm32h743.dtsi                   | 176 +++++++++++-
-> >   arch/arm/boot/dts/stm32h743i-disco.dts             |   2 +-
-> >   arch/arm/boot/dts/stm32h743i-eval.dts              |   2 +-
-> >   arch/arm/boot/dts/stm32h750.dtsi                   |   6 +
-> >   arch/arm/boot/dts/stm32h750i-art-pi.dts            | 229 +++++++++++++++
-> >   arch/arm/mach-stm32/board-dt.c                     |   1 +
-> >   13 files changed, 729 insertions(+), 311 deletions(-)
-> >   create mode 100644 Documentation/arm/stm32/stm32h750-overview.rst
-> >   create mode 100644 arch/arm/boot/dts/stm32h7-pinctrl.dtsi
-> >   delete mode 100644 arch/arm/boot/dts/stm32h743-pinctrl.dtsi
-> >   create mode 100644 arch/arm/boot/dts/stm32h750.dtsi
-> >   create mode 100644 arch/arm/boot/dts/stm32h750i-art-pi.dts
-> >
+> +
+> +struct kvm_cpuid2 *vcpu_alloc_cpuid(struct kvm_vm *vm, vm_vaddr_t *p_gva, struct kvm_cpuid2 *cpuid)
+> +{
+> +	int size = sizeof(*cpuid) + cpuid->nent * sizeof(cpuid->entries[0]);
+> +	vm_vaddr_t gva = vm_vaddr_alloc(vm, size,
+> +					getpagesize(), 0, 0);
+> +	struct kvm_cpuid2 *guest_cpuids = addr_gva2hva(vm, gva);
+> +
+> +	memcpy(guest_cpuids, cpuid, size);
+> +
+> +	*p_gva = gva;
+> +	return guest_cpuids;
+> +}
+> +
+> +static struct kvm_cpuid2 *alloc_custom_kvm_cpuid2(int nent)
+> +{
+> +	struct kvm_cpuid2 *cpuid;
+> +	size_t size;
+> +
+> +	size = sizeof(*cpuid);
+> +	size += nent * sizeof(struct kvm_cpuid_entry2);
+> +	cpuid = calloc(1, size);
+> +	if (!cpuid) {
+> +		perror("malloc");
+> +		abort();
+> +	}
+> +
+> +	cpuid->nent = nent;
+> +
+> +	return cpuid;
+> +}
+> +
+> +static void test_emulated_entries(struct kvm_vm *vm)
+> +{
+> +	int res, right_nent;
+> +	struct kvm_cpuid2 *cpuid;
+> +
+> +	cpuid = alloc_custom_kvm_cpuid2(MAX_NENT);
+> +
+> +	/* 0 nent, return E2BIG */
+> +	cpuid->nent = 0;
+> +	res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
+> +	TEST_ASSERT(res == -1 && errno == E2BIG,
+> +				"KVM_GET_EMULATED_CPUID should fail E2BIG with nent=0");
+> +
+> +	/* high nent, set the entries and adjust */
+> +	cpuid->nent = MAX_NENT;
+> +	res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
+> +	printf("%d %d\n", res, errno);
+> +	TEST_ASSERT(res == 0,
+> +			"KVM_GET_EMULATED_CPUID should not fail with nent > actual nent");
+> +	right_nent = cpuid->nent;
+> +
+> +	/* high nent, set the entries and adjust */
+> +	cpuid->nent++;
+> +	res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
+> +	TEST_ASSERT(res == 0,
+> +			"KVM_GET_EMULATED_CPUID should not fail with nent > actual nent");
+> +	TEST_ASSERT(right_nent == cpuid->nent,
+> +				"KVM_GET_EMULATED_CPUID nent should be always the same");
+> +
+> +	/* low nent, return E2BIG */
+> +	if (right_nent > 1) {
+> +		cpuid->nent = 1;
+> +		res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
+> +		TEST_ASSERT(res == -1 && errno == E2BIG,
+> +					"KVM_GET_EMULATED_CPUID should fail with nent=1");
+> +	}
+> +
+> +	/* exact nent */
+> +	cpuid->nent = right_nent;
+> +	res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
+> +	TEST_ASSERT(res == 0,
+> +			"KVM_GET_EMULATED_CPUID should not fail with nent == actual nent");
+> +	TEST_ASSERT(cpuid->nent == right_nent,
+> +			"KVM_GET_EMULATED_CPUID should be invaried when nent is exact");
+> +
+> +	free(cpuid);
+> +}
+> +
+> +// emulated is all emulated
+> +// supported is only hw + kvm
+
+/*
+ * ...
+ */
+
+comments please
+
+> +int main(void)
+> +{
+> +	struct kvm_cpuid2 *emul_cpuid, *cpuid2;
+> +	struct kvm_vm *vm;
+> +
+> +	if (!kvm_check_cap(KVM_CAP_EXT_EMUL_CPUID)) {
+> +		print_skip("KVM_GET_EMULATED_CPUID not available");
+> +		return 0;
+> +	}
+> +
+> +	vm = vm_create_default(VCPU_ID, 0, guest_main);
+> +
+> +	emul_cpuid = kvm_get_emulated_cpuid();
+> +	vcpu_set_cpuid(vm, VCPU_ID, emul_cpuid);
+> +	cpuid2 = vcpu_get_cpuid(vm, VCPU_ID);
+> +
+> +	test_emulated_entries(vm);
+> +	compare_cpuids(emul_cpuid, cpuid2);
+> +
+> +	kvm_vm_free(vm);
+> +}
+
+-- 
+Vitaly
+
