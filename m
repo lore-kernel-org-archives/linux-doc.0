@@ -2,96 +2,50 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 006EBC46466
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83F37C433B4
 	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:06:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFE76613AB
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:06:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4E31F60FE6
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:06:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234558AbhDASGg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:06:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34008 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235093AbhDASBg (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 14:01:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C9AAC02FE95;
-        Thu,  1 Apr 2021 09:01:45 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D94A589B;
-        Thu,  1 Apr 2021 18:01:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1617292901;
-        bh=9PpGK5DYSDHyjsBaiZozxLkq3MRlWpOKUyVcUk0phsM=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=Uiw4WeVEXPnxxHr7LLQidTggt4sWeyauxEFAhUcE0FUK7yFqCD2KdFq8rV2lw76U+
-         gkiQAf9iyDxgO+JlkvUSWu9vQgIxmbPZXOwy0enYuP9Xrh4qz4q8Vgxrc2Yoag0hry
-         2siBoSR0PL/6S54FPzmolSfRMU2WcluNHE9owqUg=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH 24/32] MAINTAINERS: update imi,rdacm2x-gmsl.yaml reference
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Rob Herring <robh@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org
-References: <cover.1617279355.git.mchehab+huawei@kernel.org>
- <b03a41b5051b6cb115b2aa9c3d610e75d84dcfea.1617279356.git.mchehab+huawei@kernel.org>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <aee4c49c-04f8-c553-63ce-868c46ade0e8@ideasonboard.com>
-Date:   Thu, 1 Apr 2021 17:01:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S234744AbhDASGk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:06:40 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37006 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236816AbhDASDB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Apr 2021 14:03:01 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E8E45611CC;
+        Thu,  1 Apr 2021 12:37:05 +0000 (UTC)
+From:   Catalin Marinas <catalin.marinas@arm.com>
+To:     corbet@lwn.net, will@kernel.org, He Ying <heying24@huawei.com>
+Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH -next] docs: arm64: Fix a grammar error
+Date:   Thu,  1 Apr 2021 13:37:04 +0100
+Message-Id: <161728062026.15531.9076497905075968278.b4-ty@arm.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210330085817.86185-1-heying24@huawei.com>
+References: <20210330085817.86185-1-heying24@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <b03a41b5051b6cb115b2aa9c3d610e75d84dcfea.1617279356.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
+On Tue, 30 Mar 2021 04:58:17 -0400, He Ying wrote:
+> depending -> depending on
 
-On 01/04/2021 13:17, Mauro Carvalho Chehab wrote:
-> The file name: Documentation/devicetree/bindings/media/i2c/rdacm2x-gmsl.yaml
-> should be, instead: Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml.
-> 
-> Update its cross-reference accordingly.
-> 
-> Fixes: 34009bffc1c6 ("media: i2c: Add RDACM20 driver")
-> Fixes: e9f817689789 ("media: dt-bindings: media: i2c: Add bindings for IMI RDACM2x")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Applied to arm64 (for-next/misc), thanks!
 
-Indeed, confirmed,
+[1/1] docs: arm64: Fix a grammar error
+      https://git.kernel.org/arm64/c/68f638a432df
 
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1644b6e9697c..b405ee71f730 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15258,7 +15258,7 @@ M:	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->  M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
-> -F:	Documentation/devicetree/bindings/media/i2c/rdacm2x-gmsl.yaml
-> +F:	Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
->  F:	drivers/media/i2c/max9271.c
->  F:	drivers/media/i2c/max9271.h
->  F:	drivers/media/i2c/rdacm21.c
-> 
+-- 
+Catalin
 
