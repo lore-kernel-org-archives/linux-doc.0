@@ -4,45 +4,50 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94AD3C433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 222C6C43461
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71942601FC
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0672A60BBB
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237981AbhDAS2C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:28:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45712 "EHLO mail.kernel.org"
+        id S236144AbhDAS2D (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:28:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46034 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239655AbhDASQo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Apr 2021 14:16:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 34ADE61176;
+        id S239674AbhDASQp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Apr 2021 14:16:45 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C419E6121D;
         Thu,  1 Apr 2021 12:17:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617279476;
-        bh=XU02mroyMGGRNt0K9S9cUjAETj+4JkpRRKM6C2MXloE=;
+        bh=9PoexKn9B5sUWryT4Sa8hCkGzVDwIievA60/TyPSyHs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=msm/hvskl/qCOHX/HeMNMQpM5NYbN0yo4i6lLjJBb306VxfT+sin5JGVIg/KZo9gY
-         Np0J6aXwNwqW5pyGAietwEHHwAYsij0TAY41HGEbpuHU9rRVToDbtuP3h3cqFcZoa+
-         sAfvurhoyPgWnsV5PYenzyS56iJIzSZEtmPIFdjBbNv4/tkPsy5/7nIKfLqQDDSTWp
-         bOzv/NstJVFlrhTdNHbHhE/mJ/GknTlmwkd+tPwZritHVA1/yCB7Yuo/Rki9CP0eTt
-         OhBZXAl8lj4NdceWabZme2JpP8U9oUoVskuCeDngBJj6Niu5vmcJdDuIKSp/1LnIdz
-         BA6YZq6WXEnMA==
+        b=iFRlkOcszOpL6rWYIXnLOz+v6RhlW0xR5evg1Ll2AA62ktfi/CR1Z40nb9/3TKtyM
+         Ij7WycN2aDV9Vte8hYEs2IKLipd7tYAbRADCjP8Z6vVtwZ0AJ07X9qR7Zaso83jQwH
+         /lGiwH1uRCD8wPDNkTGZ+Mrx+ndm+ArqMweiUnE5+9AyevgTCc05fvQjhEL5XTLJ0j
+         IobUl/1sEL+cdG45cX0iGS7jIff4q243+Cs0tKiMGa3dP3qvS3L9XyHJIRmxDTOj5c
+         mKGDsjiQlwnMMIbmmmtIrloOb85ZpfgMyVHQVMbBakxVk40r4CETe1quWzCI7L3ozn
+         hyLHuE4zBYZXg==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lRwGo-001c39-6J; Thu, 01 Apr 2021 14:17:54 +0200
+        id 1lRwGo-001c3n-OB; Thu, 01 Apr 2021 14:17:54 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 19/32] MAINTAINERS: update st,vl53l0x.yaml reference
-Date:   Thu,  1 Apr 2021 14:17:39 +0200
-Message-Id: <c315ff7435bb4382b9c729a6242d098befb7796d.1617279355.git.mchehab+huawei@kernel.org>
+        Charles Keepax <ckeepax@opensource.cirrus.com>,
+        Drew Fustini <drew@beagleboard.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        alsa-devel@alsa-project.org, linux-gpio@vger.kernel.org,
+        linux-kernel@vger.kernel.org, patches@opensource.cirrus.com
+Subject: [PATCH 32/32] pinctrl: update pin-control.rst references
+Date:   Thu,  1 Apr 2021 14:17:52 +0200
+Message-Id: <f056e1e16adff1df42416f0033fdb730169edf44.1617279356.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617279355.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
@@ -53,31 +58,59 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset b4be8bd1c6a2 ("dt-bindings:iio:proximity:st,vl53l0x yaml conversion")
-renamed: Documentation/devicetree/bindings/iio/proximity/vl53l0x.txt
-to: Documentation/devicetree/bindings/iio/proximity/st,vl53l0x.yaml.
+Changeset 5513b411ea5b ("Documentation: rename pinctl to pin-control")
+renamed: Documentation/driver-api/pinctl.rst
+to: Documentation/driver-api/pin-control.rst.
 
-Update its cross-reference accordingly.
+Update the cross-references accordingly.
 
-Fixes: b4be8bd1c6a2 ("dt-bindings:iio:proximity:st,vl53l0x yaml conversion")
+Fixes: 5513b411ea5b ("Documentation: rename pinctl to pin-control")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/device.h                  | 2 +-
+ include/linux/mfd/madera/pdata.h        | 2 +-
+ include/linux/pinctrl/pinconf-generic.h | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 54c469933f66..d6708b3fdbd9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17171,7 +17171,7 @@ ST VL53L0X ToF RANGER(I2C) IIO DRIVER
- M:	Song Qiang <songqiang1304521@gmail.com>
- L:	linux-iio@vger.kernel.org
- S:	Maintained
--F:	Documentation/devicetree/bindings/iio/proximity/vl53l0x.txt
-+F:	Documentation/devicetree/bindings/iio/proximity/st,vl53l0x.yaml
- F:	drivers/iio/proximity/vl53l0x-i2c.c
- 
- STABLE BRANCH
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 38a2071cf776..d1183cfdc8fb 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -399,7 +399,7 @@ struct dev_links_info {
+  * 		along with subsystem-level and driver-level callbacks.
+  * @em_pd:	device's energy model performance domain
+  * @pins:	For device pin management.
+- *		See Documentation/driver-api/pinctl.rst for details.
++ *		See Documentation/driver-api/pin-control.rst for details.
+  * @msi_list:	Hosts MSI descriptors
+  * @msi_domain: The generic MSI domain this device is using.
+  * @numa_node:	NUMA node this device is close to.
+diff --git a/include/linux/mfd/madera/pdata.h b/include/linux/mfd/madera/pdata.h
+index 601cbbc10370..32e3470708ed 100644
+--- a/include/linux/mfd/madera/pdata.h
++++ b/include/linux/mfd/madera/pdata.h
+@@ -31,7 +31,7 @@ struct pinctrl_map;
+  * @irq_flags:	    Mode for primary IRQ (defaults to active low)
+  * @gpio_base:	    Base GPIO number
+  * @gpio_configs:   Array of GPIO configurations (See
+- *		    Documentation/driver-api/pinctl.rst)
++ *		    Documentation/driver-api/pin-control.rst)
+  * @n_gpio_configs: Number of entries in gpio_configs
+  * @gpsw:	    General purpose switch mode setting. Depends on the external
+  *		    hardware connected to the switch. (See the SW1_MODE field
+diff --git a/include/linux/pinctrl/pinconf-generic.h b/include/linux/pinctrl/pinconf-generic.h
+index 6aeb711f7cd1..fdcd773adba3 100644
+--- a/include/linux/pinctrl/pinconf-generic.h
++++ b/include/linux/pinctrl/pinconf-generic.h
+@@ -88,7 +88,7 @@ struct pinctrl_map;
+  * 	it.
+  * @PIN_CONFIG_OUTPUT: this will configure the pin as an output and drive a
+  * 	value on the line. Use argument 1 to indicate high level, argument 0 to
+- *	indicate low level. (Please see Documentation/driver-api/pinctl.rst,
++ *	indicate low level. (Please see Documentation/driver-api/pin-control.rst,
+  *	section "GPIO mode pitfalls" for a discussion around this parameter.)
+  * @PIN_CONFIG_POWER_SOURCE: if the pin can select between different power
+  *	supplies, the argument to this parameter (on a custom format) tells
 -- 
 2.30.2
 
