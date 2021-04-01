@@ -2,89 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1514C43460
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FB0CC433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:38:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B4E7B60FDB
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7612F60724
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:38:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238046AbhDAS2i (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:28:38 -0400
-Received: from mslow1.mail.gandi.net ([217.70.178.240]:56799 "EHLO
-        mslow1.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239548AbhDAS0F (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 14:26:05 -0400
-X-Greylist: delayed 2385 seconds by postgrey-1.27 at vger.kernel.org; Thu, 01 Apr 2021 14:26:04 EDT
-Received: from relay3-d.mail.gandi.net (unknown [217.70.183.195])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 969B4D2E8F;
-        Thu,  1 Apr 2021 15:45:59 +0000 (UTC)
-X-Originating-IP: 93.61.96.190
-Received: from uno.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id E413960007;
-        Thu,  1 Apr 2021 15:45:36 +0000 (UTC)
-Date:   Thu, 1 Apr 2021 17:46:12 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Rob Herring <robh@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 24/32] MAINTAINERS: update imi,rdacm2x-gmsl.yaml reference
-Message-ID: <20210401154612.v4wjdgq27ozwhfye@uno.localdomain>
+        id S234089AbhDASiC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:38:02 -0400
+Received: from mail1.bemta24.messagelabs.com ([67.219.250.112]:29628 "EHLO
+        mail1.bemta24.messagelabs.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240344AbhDASaJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 14:30:09 -0400
+Received: from [100.112.134.153] (using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256 bits))
+        by server-1.bemta.az-b.us-west-2.aws.symcld.net id 2C/76-17150-FC1E5606; Thu, 01 Apr 2021 15:07:59 +0000
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupkleJIrShJLcpLzFFi42JJl3vFpnvuYWq
+  CQfM5RYsnB9oZLd4cn85ksbBtCYvF5V1z2Cwezr7KaPF4xVt2BzaPxXteMnlsWtUJZPVNZvV4
+  v+8qm8fnTXIBrFGsmXlJ+RUJrBnHnl9lLLjKU3HweRNTA+M9ri5GLg4hgf+MEh9Xb2eBcJ4zS
+  vw93MHaxcjJISyQKnHgwlywhIjABEaJV90nwBLMAuUSW1ffgOo4wijxZupWNpAEm4C2xJYtv4
+  BsDg5eAVuJS584QEwWARWJAyviQCpEBcIleq/cBhvDKyAocXLmExYQm1PATmLK1DNMIOXMApo
+  S63fpQ2wSl7j1ZD4ThC0vsf3tHGaQEgkBBYm1P8B2SggkSPT8e8Q2gVFwFpKhsxAGzUIyaBaS
+  QQsYWVYxWiQVZaZnlOQmZuboGhoY6BoaGukaGhvpGhlY6CVW6SbplRbrlqcWl+ga6SWWF+sVV
+  +Ym56To5aWWbGIExlBKQcuFHYzr3nzQO8QoycGkJMo7ZVpKghBfUn5KZUZicUZ8UWlOavEhRh
+  kODiUJ3jX3UhOEBItS01Mr0jJzgPEMk5bg4FES4Y19AJTmLS5IzC3OTIdInWJUlBLnXQOSEAB
+  JZJTmwbXBUsglRlkpYV5GBgYGIZ6C1KLczBJU+VeM4hyMSsK8LMCEJMSTmVcCN/0V0GImoMWu
+  N8AWlyQipKQamC69nzh3WUW7Qsa31upWwRVrexfqJZ5R27j40Y97G1cltb4VWrDnpArPh+dyw
+  d2ldq4KbPcNmlub92d1/djYvPr8MRO7eSFP9N/+TsvZr/B2ifmixdza3CdzlFrPqulXCet/YJ
+  0UvcfTWXDiil06Vv8DbwQe89DzKGcsYStbdkTR2nqRlfyWY192rGR899HRQ32f9EXvHmP3uyw
+  NutPYEvf0M82vmjrZTm2j6lktzYqJO+9GP+jdrybQ+jX55Msll8x9BbbNzKrYJbB2Z+YivVy5
+  s381lpe3PuAWLZaea/34XaTr541u8gf7cz64zQzT5Lj8+16AwPmvux9/WOgw8dzdFNenzx3KF
+  UT42+7X9yixFGckGmoxFxUnAgDnzIpOnAMAAA==
+X-Env-Sender: markpearson@lenovo.com
+X-Msg-Ref: server-27.tower-356.messagelabs.com!1617289676!60248!1
+X-Originating-IP: [103.30.234.6]
+X-SYMC-ESS-Client-Auth: outbound-route-from=pass
+X-StarScan-Received: 
+X-StarScan-Version: 9.60.3; banners=-,-,-
+X-VirusChecked: Checked
+Received: (qmail 17845 invoked from network); 1 Apr 2021 15:07:58 -0000
+Received: from unknown (HELO lenovo.com) (103.30.234.6)
+  by server-27.tower-356.messagelabs.com with ECDHE-RSA-AES256-GCM-SHA384 encrypted SMTP; 1 Apr 2021 15:07:58 -0000
+Received: from reswpmail01.lenovo.com (unknown [10.62.32.20])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by Forcepoint Email with ESMTPS id 3305AC9AC3AC72103416;
+        Thu,  1 Apr 2021 23:07:55 +0800 (CST)
+Received: from localhost.localdomain (10.38.99.122) by reswpmail01.lenovo.com
+ (10.62.32.20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2106.2; Thu, 1 Apr 2021
+ 11:07:52 -0400
+Subject: Re: [External] Re: [PATCH 31/32] Documentation: update
+ sysfs-platform_profile.rst reference
+To:     Hans de Goede <hdegoede@redhat.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        <linux-kernel@vger.kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
- <b03a41b5051b6cb115b2aa9c3d610e75d84dcfea.1617279356.git.mchehab+huawei@kernel.org>
+ <828434d891e40234255e3f06c13827b7996b1ad1.1617279356.git.mchehab+huawei@kernel.org>
+ <e042f8f8-0ba1-098d-2503-8c319c3c2bf9@redhat.com>
+From:   Mark Pearson <markpearson@lenovo.com>
+Message-ID: <79ad4a98-a70c-2f7d-3ce6-8202fcc83857@lenovo.com>
+Date:   Thu, 1 Apr 2021 11:07:52 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b03a41b5051b6cb115b2aa9c3d610e75d84dcfea.1617279356.git.mchehab+huawei@kernel.org>
+In-Reply-To: <e042f8f8-0ba1-098d-2503-8c319c3c2bf9@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.38.99.122]
+X-ClientProxiedBy: reswpmail04.lenovo.com (10.62.32.23) To
+ reswpmail01.lenovo.com (10.62.32.20)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
 
-On Thu, Apr 01, 2021 at 02:17:44PM +0200, Mauro Carvalho Chehab wrote:
-> The file name: Documentation/devicetree/bindings/media/i2c/rdacm2x-gmsl.yaml
-> should be, instead: Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml.
->
-> Update its cross-reference accordingly.
->
-> Fixes: 34009bffc1c6 ("media: i2c: Add RDACM20 driver")
-> Fixes: e9f817689789 ("media: dt-bindings: media: i2c: Add bindings for IMI RDACM2x")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Thanks
+On 01/04/2021 09:49, Hans de Goede wrote:
+> Hi,
+> 
+> On 4/1/21 2:17 PM, Mauro Carvalho Chehab wrote:
+>> The file name: Documentation/ABI/testing/sysfs-platform_profile.rst
+>> should be, instead: Documentation/userspace-api/sysfs-platform_profile.rst.
+>>
+>> Update its cross-reference accordingly.
+>>
+>> Fixes: a2ff95e018f1 ("ACPI: platform: Add platform profile support")
+>> Fixes: 8e0cbf356377 ("Documentation: Add documentation for new platform_profile sysfs attribute")
+>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> 
+> Thanks, patch looks good to me:
+> 
+> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> 
+> Rafael, I assume you will merge this through your tree?
+> 
+> Regards,
+> 
+> Hans
+> 
+Looks good to me too - though I'd missed the fact the file had moved
+somehow :)
 
-Acked-by: Jacopo Mondi <jacopo@jmondi.org>
+Not sure if my reviewed tag has any value but if it's useful:
+Reviewed-by: Mark Pearson <markpearson@lenovo.com>
 
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1644b6e9697c..b405ee71f730 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15258,7 +15258,7 @@ M:	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->  M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
-> -F:	Documentation/devicetree/bindings/media/i2c/rdacm2x-gmsl.yaml
-> +F:	Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
->  F:	drivers/media/i2c/max9271.c
->  F:	drivers/media/i2c/max9271.h
->  F:	drivers/media/i2c/rdacm21.c
-> --
-> 2.30.2
->
+Just for my education - how do things get moved from testing to
+somewhere else, is there a decision process etc?
+
+Thank you!
+Mark
+
+>> ---
+>>  include/linux/platform_profile.h | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/include/linux/platform_profile.h b/include/linux/platform_profile.h
+>> index a6329003aee7..e5cbb6841f3a 100644
+>> --- a/include/linux/platform_profile.h
+>> +++ b/include/linux/platform_profile.h
+>> @@ -2,7 +2,7 @@
+>>  /*
+>>   * Platform profile sysfs interface
+>>   *
+>> - * See Documentation/ABI/testing/sysfs-platform_profile.rst for more
+>> + * See Documentation/userspace-api/sysfs-platform_profile.rst for more
+>>   * information.
+>>   */
+>>  
+>>
+> 
