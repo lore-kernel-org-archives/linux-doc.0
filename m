@@ -2,123 +2,168 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DA76C43462
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:57:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFBEEC43461
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:58:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2FB5610CE
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:57:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7BB166112E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:58:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236374AbhDAR5w (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 13:57:52 -0400
-Received: from m34-101.88.com ([104.250.34.101]:49985 "EHLO 88.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236382AbhDARyT (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Apr 2021 13:54:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=f7RlGg0aEU2tgMSyKfVBbwhIcx9nWJDynfhEe
-        vV0EAI=; b=gGTofAVvHIGBbKGxHDaTuXz6nxq/E1ag7Afo3u8dbcAwY3QnM7JIA
-        /39b78Xis0MYWKXeWiR2g12oI37mclzJ+qm+2KmRboCMj4BV6tjlkfLEjWFc11cY
-        1MuxynRYDNN7ACZ0Wx1SFxPFw5guh5F6sDcbuayw/9Vbq7qLhnTLJc=
-Received: from mipc (unknown [120.238.248.129])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAXoiLPzmVg7VJVAA--.57057S2;
-        Thu, 01 Apr 2021 21:46:56 +0800 (CST)
-Date:   Thu, 1 Apr 2021 21:46:54 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     teng sterling <sterlingteng@gmail.com>
-Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <seakeel@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/5] docs/zh_CN: Add translation
- zh_CN/doc-guide/kernel-doc.rst
-Message-ID: <20210401134654.GB27759@mipc>
-References: <cover.1617260163.git.bobwxc@email.cn>
- <7655ab75cf3f7cfc5c1788ceb70a7ba822f34335.1617260163.git.bobwxc@email.cn>
- <CAMU9jJopesz8zvy4yppcecxMQT7JVsadqkJJcSDEdNfiMGFm-w@mail.gmail.com>
+        id S236867AbhDAR6x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 13:58:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:36855 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236959AbhDAR4I (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:56:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617299768;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=CqTbGA2nnEQCoezWyE1Fpgf0IZLhERcQWs6PZNwBkg4=;
+        b=jFiEEP1ySKt+P33XvxoDDxTYKWJSCcrP6KcaK1ncFumMvSJSIyDlhkiDVVQ+YJJCh0b6B3
+        oW/crAi4Jc+xaGNTetGQrHI8f65REIM8SsY9AC5DQlEzKNenm8Y+DD4sjJrCOkJio4y0pa
+        DDAXlb8AGKCzQbZfOc2xwboeHxiSUaA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-450-PwIa3jVQOJCoHvlqWy6ukQ-1; Thu, 01 Apr 2021 09:55:06 -0400
+X-MC-Unique: PwIa3jVQOJCoHvlqWy6ukQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A55FC107B789;
+        Thu,  1 Apr 2021 13:55:02 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.35.206.58])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 8D0E15D6B1;
+        Thu,  1 Apr 2021 13:54:52 +0000 (UTC)
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     kvm@vger.kernel.org
+Cc:     x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        Ingo Molnar <mingo@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sean Christopherson <seanjc@google.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        linux-kernel@vger.kernel.org (open list),
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jessica Yu <jeyu@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Will Deacon <will@kernel.org>,
+        kvmarm@lists.cs.columbia.edu (open list:KERNEL VIRTUAL MACHINE FOR
+        ARM64 (KVM/arm64)), Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Jim Mattson <jmattson@google.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-s390@vger.kernel.org (open list:S390),
+        Heiko Carstens <hca@linux.ibm.com>,
+        Kieran Bingham <kbingham@kernel.org>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-arm-kernel@lists.infradead.org (moderated list:KERNEL VIRTUAL
+        MACHINE FOR ARM64 (KVM/arm64)), James Morse <james.morse@arm.com>
+Subject: [PATCH v2 0/9] KVM: my debug patch queue
+Date:   Thu,  1 Apr 2021 16:54:42 +0300
+Message-Id: <20210401135451.1004564-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMU9jJopesz8zvy4yppcecxMQT7JVsadqkJJcSDEdNfiMGFm-w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgAXoiLPzmVg7VJVAA--.57057S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uFyftr4fJF43tF15Aw43Jrb_yoW8AF4fpr
-        1kKrWfGFsayFy7Gw1fWr1xCrWrAr4xWw4Ygr4xtw1Fqr9Igr4qqr4UKry7uryIgrW0yFW5
-        CF1jvFWj93y7Z3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgab7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
-        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
-        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc2xSY4AK67AK6ry8MxAIw2
-        8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_
-        Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
-        CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
-        I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
-        8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73
-        UjIFyTuYvjxU1_MaUUUUU
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 01, 2021 at 08:54:46PM +0800, teng sterling wrote:
-> Hi~
-> Xiangcheng
-> 
-> Wu XiangCheng <bobwxc@email.cn> 于2021年4月1日周四 下午3:08写道：
-> >
-> > Add new translation
-> >   Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> >
-> > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-> > ---
-> >  .../zh_CN/doc-guide/kernel-doc.rst            | 497 ++++++++++++++++++
-> >  1 file changed, 497 insertions(+)
-> >  create mode 100644 Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> >
-> > diff --git a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> > new file mode 100644
-> > index 000000000000..84f91eeedf61
-> > --- /dev/null
-> > +++ b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> > @@ -0,0 +1,497 @@
-> > +.. include:: ../disclaimer-zh_CN.rst
-> > +
-> > +:Original: Documentation/doc-guide/kernel-doc.rst
-> > +
-> > +:译者: 吴想成 Wu XiangCheng <bobwxc@email.cn>
-> > +
-> > +编写kernel-doc注释
-> > +===========================
-> > +
-> > +Linux内核源文件可以包含kernel-doc格式的结构化文档注释，用以描述代码的函数、
-> > +类型和设计。将文档嵌入源文件更容易保持文档最新。
-> > +
-> > +.. note:: 内核文档格式与javadoc、gtk-doc或Doxygen看似很相似，但由于历史原因，
-> > +          实际有着明显的不同。内核源包含成千上万个kernel-doc注释。请坚持遵循
-> > +          此处描述的风格。
->
-> Missing two lines！！！
-
-Ah, ok.
-The two have been in next tree for 22h.
-
-[...]
-> > --
-> > 2.20.1
-> >
-> 
-> Thanks！
-> 
-> Yanteng
-
-Thanks for your review!
-
-Wu X.C.
+Hi!=0D
+=0D
+I would like to publish two debug features which were needed for other stuf=
+f=0D
+I work on.=0D
+=0D
+One is the reworked lx-symbols script which now actually works on at least=
+=0D
+gdb 9.1 (gdb 9.2 was reported to fail to load the debug symbols from the ke=
+rnel=0D
+for some reason, not related to this patch) and upstream qemu.=0D
+=0D
+The other feature is the ability to trap all guest exceptions (on SVM for n=
+ow)=0D
+and see them in kvmtrace prior to potential merge to double/triple fault.=0D
+=0D
+This can be very useful and I already had to manually patch KVM a few=0D
+times for this.=0D
+I will, once time permits, implement this feature on Intel as well.=0D
+=0D
+V2:=0D
+=0D
+ * Some more refactoring and workarounds for lx-symbols script=0D
+=0D
+ * added KVM_GUESTDBG_BLOCKEVENTS flag to enable 'block interrupts on=0D
+   single step' together with KVM_CAP_SET_GUEST_DEBUG2 capability=0D
+   to indicate which guest debug flags are supported.=0D
+=0D
+   This is a replacement for unconditional block of interrupts on single=0D
+   step that was done in previous version of this patch set.=0D
+   Patches to qemu to use that feature will be sent soon.=0D
+=0D
+ * Reworked the the 'intercept all exceptions for debug' feature according=
+=0D
+   to the review feedback:=0D
+=0D
+   - renamed the parameter that enables the feature and=0D
+     moved it to common kvm module.=0D
+     (only SVM part is currently implemented though)=0D
+=0D
+   - disable the feature for SEV guests as was suggested during the review=
+=0D
+   - made the vmexit table const again, as was suggested in the review as w=
+ell.=0D
+=0D
+Best regards,=0D
+	Maxim Levitsky=0D
+=0D
+Maxim Levitsky (9):=0D
+  scripts/gdb: rework lx-symbols gdb script=0D
+  KVM: introduce KVM_CAP_SET_GUEST_DEBUG2=0D
+  KVM: x86: implement KVM_CAP_SET_GUEST_DEBUG2=0D
+  KVM: aarch64: implement KVM_CAP_SET_GUEST_DEBUG2=0D
+  KVM: s390x: implement KVM_CAP_SET_GUEST_DEBUG2=0D
+  KVM: x86: implement KVM_GUESTDBG_BLOCKEVENTS=0D
+  KVM: SVM: split svm_handle_invalid_exit=0D
+  KVM: x86: add force_intercept_exceptions_mask=0D
+  KVM: SVM: implement force_intercept_exceptions_mask=0D
+=0D
+ Documentation/virt/kvm/api.rst    |   4 +=0D
+ arch/arm64/include/asm/kvm_host.h |   4 +=0D
+ arch/arm64/kvm/arm.c              |   2 +=0D
+ arch/arm64/kvm/guest.c            |   5 -=0D
+ arch/s390/include/asm/kvm_host.h  |   4 +=0D
+ arch/s390/kvm/kvm-s390.c          |   3 +=0D
+ arch/x86/include/asm/kvm_host.h   |  12 ++=0D
+ arch/x86/include/uapi/asm/kvm.h   |   1 +=0D
+ arch/x86/kvm/svm/svm.c            |  87 +++++++++++--=0D
+ arch/x86/kvm/svm/svm.h            |   6 +-=0D
+ arch/x86/kvm/x86.c                |  14 ++-=0D
+ arch/x86/kvm/x86.h                |   2 +=0D
+ include/uapi/linux/kvm.h          |   1 +=0D
+ kernel/module.c                   |   8 +-=0D
+ scripts/gdb/linux/symbols.py      | 203 ++++++++++++++++++++----------=0D
+ 15 files changed, 272 insertions(+), 84 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
