@@ -2,26 +2,25 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE440C433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 03:32:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 34EF1C433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 03:33:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CB58E610E9
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 03:32:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 123A961006
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 03:33:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233549AbhDADcW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 31 Mar 2021 23:32:22 -0400
-Received: from mail-m118208.qiye.163.com ([115.236.118.208]:38270 "EHLO
+        id S233533AbhDADcV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 31 Mar 2021 23:32:21 -0400
+Received: from mail-m118208.qiye.163.com ([115.236.118.208]:37146 "EHLO
         mail-m118208.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233255AbhDADb6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 23:31:58 -0400
+        with ESMTP id S233524AbhDADbv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 31 Mar 2021 23:31:51 -0400
 Received: from vivo-HP-ProDesk-680-G4-PCI-MT.vivo.xyz (unknown [58.251.74.232])
-        by mail-m118208.qiye.163.com (Hmail) with ESMTPA id 66D1FE0282;
-        Thu,  1 Apr 2021 11:31:55 +0800 (CST)
+        by mail-m118208.qiye.163.com (Hmail) with ESMTPA id 88740E020C;
+        Thu,  1 Apr 2021 11:31:48 +0800 (CST)
 From:   Wang Qing <wangqing@vivo.com>
 To:     Jonathan Corbet <corbet@lwn.net>, Joe Perches <joe@perches.com>,
         Wang Qing <wangqing@vivo.com>,
@@ -36,79 +35,39 @@ To:     Jonathan Corbet <corbet@lwn.net>, Joe Perches <joe@perches.com>,
         Petr Mladek <pmladek@suse.com>,
         Vlastimil Babka <vbabka@suse.cz>,
         Santosh Sivaraj <santosh@fossix.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alexey Budankov <alexey.budankov@linux.intel.com>,
-        Al Viro <viro@zeniv.linux.org.uk>, Andrey Ignatov <rdna@fb.com>
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     gregkh@linuxfoundation.org
-Subject: [PATCH V2 1/4] kernel: watchdog: Modify the explanation related to watchdog thread
-Date:   Thu,  1 Apr 2021 11:31:31 +0800
-Message-Id: <1617247900-23813-2-git-send-email-wangqing@vivo.com>
+Subject: [PATCH V2 0/4] kernel/watchdog: Modify the explanation and doc related to watchdog thread
+Date:   Thu,  1 Apr 2021 11:31:30 +0800
+Message-Id: <1617247900-23813-1-git-send-email-wangqing@vivo.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1617247900-23813-1-git-send-email-wangqing@vivo.com>
-References: <1617247900-23813-1-git-send-email-wangqing@vivo.com>
 X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZH0NIGB8YSExIHktDVkpNSkxJT0xCSk1KQkNVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
+        oVCBIfWUFZGkkZSElJShhMHhhDVkpNSkxJT0xCS0JJTUxVEwETFhoSFyQUDg9ZV1kWGg8SFR0UWU
         FZT0tIVUpKS0hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6OTI6LBw4Aj8KMDQNFBE6PTZI
-        DAsKC09VSlVKTUpMSU9MQkpNTktIVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
-        SU5KVUxPVUlISVlXWQgBWUFPSUhPNwY+
-X-HM-Tid: 0a788b7cd04e2c17kusn66d1fe0282
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6NRg6Agw6MD8RLDQjFBEhPk4S
+        KAIwChBVSlVKTUpMSU9MQktCTk1IVTMWGhIXVQwaFRwKEhUcOw0SDRRVGBQWRVlXWRILWUFZTkNV
+        SU5KVUxPVUlISVlXWQgBWUFJTk5MNwY+
+X-HM-Tid: 0a788b7cb53f2c17kusn88740e020c
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The watchdog thread has been replaced by cpu_stop_work, modify the 
-explanation related.
+"watchdog/%u" threads has be replaced by cpu_stop_work. The current 
+description is extremely misleading, so we need to modify the 
+explanation and documentation related to this.
 
-Signed-off-by: Wang Qing <wangqing@vivo.com>
----
- kernel/watchdog.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+Wang Qing (4):
+  kernel: watchdog: Modify the explanation related to watchdog thread
+  doc: watchdog: Delete the explanation about "watchdog/%u".
+  doc: watchdog: Modify the explanation related to watchdog thread
+  doc: watchdog: Modify the doc related to "watchdog/%u"
 
-diff --git a/kernel/watchdog.c b/kernel/watchdog.c
-index 7110906..d7fb4fb
---- a/kernel/watchdog.c
-+++ b/kernel/watchdog.c
-@@ -92,7 +92,7 @@ __setup("nmi_watchdog=", hardlockup_panic_setup);
-  * own hardlockup detector.
-  *
-  * watchdog_nmi_enable/disable can be implemented to start and stop when
-- * softlockup watchdog threads start and stop. The arch must select the
-+ * softlockup watchdog start and stop. The arch must select the
-  * SOFTLOCKUP_DETECTOR Kconfig.
-  */
- int __weak watchdog_nmi_enable(unsigned int cpu)
-@@ -322,7 +322,7 @@ static DEFINE_PER_CPU(struct completion, softlockup_completion);
- static DEFINE_PER_CPU(struct cpu_stop_work, softlockup_stop_work);
- 
- /*
-- * The watchdog thread function - touches the timestamp.
-+ * The watchdog feed function - touches the timestamp.
-  *
-  * It only runs once every sample_period seconds (4 seconds by
-  * default) to reset the softlockup timestamp. If this gets delayed
-@@ -551,11 +551,7 @@ static void lockup_detector_reconfigure(void)
- }
- 
- /*
-- * Create the watchdog thread infrastructure and configure the detector(s).
-- *
-- * The threads are not unparked as watchdog_allowed_mask is empty.  When
-- * the threads are successfully initialized, take the proper locks and
-- * unpark the threads in the watchdog_cpumask if the watchdog is enabled.
-+ * Create the watchdog infrastructure and configure the detector(s).
-  */
- static __init void lockup_detector_setup(void)
- {
-@@ -621,7 +617,7 @@ void lockup_detector_soft_poweroff(void)
- 
- #ifdef CONFIG_SYSCTL
- 
--/* Propagate any changes to the watchdog threads */
-+/* Propagate any changes to the watchdog infrastructure */
- static void proc_watchdog_update(void)
- {
- 	/* Remove impossible cpus to keep sysctl output clean. */
+ .../admin-guide/kernel-per-CPU-kthreads.rst          | 20 --------------------
+ Documentation/admin-guide/lockup-watchdogs.rst       |  4 ++--
+ Documentation/admin-guide/sysctl/kernel.rst          | 10 +++++-----
+ kernel/watchdog.c                                    | 12 ++++--------
+ 4 files changed, 11 insertions(+), 35 deletions(-)
+
 -- 
 2.7.4
 
