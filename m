@@ -2,115 +2,171 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,HK_RANDOM_FROM,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_NONE,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13751C4363F
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:45:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 022B1C001BF
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:45:54 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5DD44613C9
+	by mail.kernel.org (Postfix) with ESMTP id 1FD00613C7
 	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:45:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236249AbhDARoM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 13:44:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57160 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234899AbhDARlL (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:41:11 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06645C08EA7D;
-        Thu,  1 Apr 2021 06:30:54 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id n11-20020a05600c4f8bb029010e5cf86347so3867290wmq.1;
-        Thu, 01 Apr 2021 06:30:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=xkmJRNyHZF6zO/+Ccr4Et1V1ZjM78NEZ05svjz/naMI=;
-        b=lILFftuC0IPr3uLEncMP2OrLr9zLpsfw4zdDDm7j/WvMTg4Db4ko0/YIULamJlFGkE
-         y+BZXopV/bNZnncS7HNQPDTUOcOum/4KbED+UvkANuDAxpcXKe1e12G1o/jmxWbwYMcf
-         eP6vU4RDt7W3qNd3u/u0T7m/mqjicz6H+sJ58bgAcl4H5txfKWEJf9eErSX7BbyyKRMs
-         2CAvYaa4b98Yw8cKEgUd2FqQpG0gEaeYsU8BsEM1sn9BkuogXAe5uqI4Hotknm5m8tBl
-         /m9NP93JunHEhR+8kzHXvkKsypa3MSEyYzvQNPY+xsxzIu26e0+NXxJZ/DohMz19MwNu
-         lj7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=xkmJRNyHZF6zO/+Ccr4Et1V1ZjM78NEZ05svjz/naMI=;
-        b=NQ5R8gTfd/bkXQFSCcNwDEjku+FZGamUrcAVZot9ZyY1COXp5dlzVnZtd52sRo/mvn
-         Y/SHTSCwqpHvZ3cobey2kWOApr717MVxTqBQE/pQ8O1Wk24DAHE3OAY1toQitMipXADw
-         CxcpyBxg5TzChsP5W9VgxtWnO2TpJKwdZk0hhHIbKUTeIy04p5BgIzgUU+hM9BS+A67x
-         ZbS9nG1WSxavBAwTZ2ElnzJ+FMzoDXklA0L1HVxykhW2xpl6imeuHQdeDDmNmgkCGsJz
-         JQ/cdqYJsDjGiZLZik7oqYDI0dbwFW62VZELJeGCB8UQiKKava1biurf7mkldwx/YSoV
-         FwSA==
-X-Gm-Message-State: AOAM531+nmydr0w0abGqDaYPp6asYyzWt1YITxhN4Pb6y6l94HtLt/VR
-        1MWGfC58Vcx0q5RK59alLsg=
-X-Google-Smtp-Source: ABdhPJyCyaREQFPgcDkUYPNV4ggRYGiB0YNKqwnW2+WJUTFQMJ4jUJs75EA85o1xxpFIvrmPyn/t4g==
-X-Received: by 2002:a1c:b006:: with SMTP id z6mr7775346wme.19.1617283852803;
-        Thu, 01 Apr 2021 06:30:52 -0700 (PDT)
-Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id l15sm8215400wme.43.2021.04.01.06.30.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Apr 2021 06:30:52 -0700 (PDT)
-Date:   Thu, 1 Apr 2021 14:30:50 +0100
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S235029AbhDARoI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 13:44:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51996 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234875AbhDARlA (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:41:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617298859;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=/DmKnXvfMsDsqJmp2i9gQ0b8U5NbC/IHrSRuv8yD1DA=;
+        b=EDCvX8Tqy5VbjSFVP0JOe4Fl2p7SJNVsUjni3YJaUkQMGYci99DoL56iXwcyCS7yByS90P
+        zIHrnUlW3St0/4rqRR2otEOrd9iIGpUEEk00SxQp96jy9mDuyNldF+nyFm6/2rptioh7yJ
+        rcS169/Didxe7pMBxkJX0nJE1M4TUuo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-534-O5uQh4liNO-3fml1QQs6rQ-1; Thu, 01 Apr 2021 13:10:31 -0400
+X-MC-Unique: O5uQh4liNO-3fml1QQs6rQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1DF7817469;
+        Thu,  1 Apr 2021 17:10:29 +0000 (UTC)
+Received: from starship (unknown [10.35.206.58])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 2172C59469;
+        Thu,  1 Apr 2021 17:10:25 +0000 (UTC)
+Message-ID: <0b3a93e3d1ba6a89da327b93be2ecf47f22010d4.camel@redhat.com>
+Subject: Re: [PATCH 4/6] KVM: x86: Introduce KVM_GET_SREGS2 / KVM_SET_SREGS2
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
+Cc:     "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Jim Mattson <jmattson@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Sean Christopherson <seanjc@google.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" 
+        <linux-kernel@vger.kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
         Jonathan Corbet <corbet@lwn.net>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rob Herring <robh@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 23/32] MAINTAINERS: update ovti,ov2680.yaml reference
-Message-ID: <20210401133050.dmnteppqmtst37f5@arch-thunder.localdomain>
-References: <cover.1617279355.git.mchehab+huawei@kernel.org>
- <f6474fa072117ec42bef82379abb5df958fab426.1617279355.git.mchehab+huawei@kernel.org>
+        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Date:   Thu, 01 Apr 2021 20:10:24 +0300
+In-Reply-To: <b1a36c94-6dd5-88ef-a503-f6d91eb2d267@redhat.com>
+References: <20210401141814.1029036-1-mlevitsk@redhat.com>
+         <20210401141814.1029036-5-mlevitsk@redhat.com>
+         <b1a36c94-6dd5-88ef-a503-f6d91eb2d267@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f6474fa072117ec42bef82379abb5df958fab426.1617279355.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
-Thanks for fixing this.
+On Thu, 2021-04-01 at 16:44 +0200, Paolo Bonzini wrote:
+> Just a quick review on the API:
+> 
+> On 01/04/21 16:18, Maxim Levitsky wrote:
+> > +struct kvm_sregs2 {
+> > +	/* out (KVM_GET_SREGS2) / in (KVM_SET_SREGS2) */
+> > +	struct kvm_segment cs, ds, es, fs, gs, ss;
+> > +	struct kvm_segment tr, ldt;
+> > +	struct kvm_dtable gdt, idt;
+> > +	__u64 cr0, cr2, cr3, cr4, cr8;
+> > +	__u64 efer;
+> > +	__u64 apic_base;
+> > +	__u64 flags; /* must be zero*/
+> 
+> I think it would make sense to define a flag bit for the PDPTRs, so that 
+> userspace can use KVM_SET_SREGS2 unconditionally (e.g. even when 
+> migrating from a source that uses KVM_GET_SREGS and therefore doesn't 
+> provide the PDPTRs).
+Yes, I didn't think about this case! I'll add this to the next version.
+Thanks!
 
-On Thu, Apr 01, 2021 at 02:17:43PM +0200, Mauro Carvalho Chehab wrote:
-> The file name: Documentation/devicetree/bindings/media/i2c/ov2680.yaml
-> should be, instead: Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml.
 > 
-> Update its cross-reference accordingly.
+> > +	__u64 pdptrs[4];
+> > +	__u64 padding;
 > 
-> Fixes: 57226cd8c8bf ("media: dt-bindings: ov2680: convert bindings to yaml")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> No need to add padding; if we add more fields in the future we can use 
+> the flags to determine the length of the userspace data, similar to 
+> KVM_GET/SET_NESTED_STATE.
+Got it, will fix. I added it just in case.
 
-Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> 
+> 
+> > +	idx = srcu_read_lock(&vcpu->kvm->srcu);
+> > +	if (is_pae_paging(vcpu)) {
+> > +		for (i = 0 ; i < 4 ; i++)
+> > +			kvm_pdptr_write(vcpu, i, sregs2->pdptrs[i]);
+> > +		kvm_register_mark_dirty(vcpu, VCPU_EXREG_PDPTR);
+> > +		mmu_reset_needed = 1;
+> > +	}
+> > +	srcu_read_unlock(&vcpu->kvm->srcu, idx);
+> > +
+> 
+> SRCU should not be needed here?
 
-------
-Cheers,
-     Rui
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+I haven't yet studied in depth the locking that is used in the kvm,
+so I put this to be on the safe side.
+
+I looked at it a bit and it looks like the pdptr reading code takes
+this lock because it accesses the memslots, which is not done here,
+and therefore the lock is indeed not needed here.
+
+I need to study in depth how locking is done in kvm to be 100% sure
+about this.
+
+
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 0ee42d68a269..1644b6e9697c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13351,7 +13351,7 @@ M:	Rui Miguel Silva <rmfrfs@gmail.com>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
-> -F:	Documentation/devicetree/bindings/media/i2c/ov2680.yaml
-> +F:	Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
->  F:	drivers/media/i2c/ov2680.c
->  
->  OMNIVISION OV2685 SENSOR DRIVER
-> -- 
-> 2.30.2
+> > +	case KVM_GET_SREGS2: {
+> > +		u.sregs2 = kzalloc(sizeof(struct kvm_sregs2), GFP_KERNEL_ACCOUNT);
+> > +		r = -ENOMEM;
+> > +		if (!u.sregs2)
+> > +			goto out;
 > 
+> No need to account, I think it's a little slower and this allocation is 
+> very short lived.
+Right, I will fix this in the next version.
+
+> 
+> >  #define KVM_CAP_PPC_DAWR1 194
+> > +#define KVM_CAP_SREGS2 196
+> 
+> 195, not 196.
+
+I am also planning to add KVM_CAP_SET_GUEST_DEBUG2 for which I
+used 195.
+Prior to sending I rebased all of my patch series on top of kvm/queue,
+but I kept the numbers just in case.
+
+> 
+> >  #define KVM_XEN_VCPU_GET_ATTR	_IOWR(KVMIO, 0xca, struct kvm_xen_vcpu_attr)
+> >  #define KVM_XEN_VCPU_SET_ATTR	_IOW(KVMIO,  0xcb, struct kvm_xen_vcpu_attr)
+> > +
+> > +#define KVM_GET_SREGS2             _IOR(KVMIO,  0xca, struct kvm_sregs2)
+> > +#define KVM_SET_SREGS2             _IOW(KVMIO,  0xcb, struct kvm_sregs2)
+> > +
+> 
+> It's not exactly overlapping, but please bump the ioctls to 0xcc/0xcd.
+Will do.
+
+
+Thanks a lot for the review!
+
+Best regards,
+	Maxim Levitsky
+
+> 
+> Paolo
+> 
+
+
