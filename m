@@ -4,61 +4,45 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,TVD_SPACE_RATIO,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A20E1C43462
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C057FC43460
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 769F060BBB
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A74F7601FC
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:28:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237993AbhDAS2E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:28:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45718 "EHLO mail.kernel.org"
+        id S234922AbhDAS2F (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:28:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46030 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S239673AbhDASQp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S239668AbhDASQp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 1 Apr 2021 14:16:45 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D152561222;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1B81761156;
         Thu,  1 Apr 2021 12:17:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617279477;
-        bh=0AGwy6Tl68VsWBu68wDgwZ5CzpVE/d5ORNGmhEDws2g=;
+        s=k20201202; t=1617279476;
+        bh=4m1LMXNQLKEULRzw9a/ker9aMb6QrWwHEPQ0MMmnRwk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=j9+6sIJKmL+XOmxe06aUOTq1k9rbWG1ko3gLDYYloZawQ+uPzb6HyLO0axwBtY/Ml
-         jEkUoJ6zUkX7bndJh8cFEKmiybNNqXDM2/N51fsLAcRv8KSFdfsOq6t2Lqw1c+7owx
-         JlUeuTdafy2N/TkneDHlThe1fAG/peHgxaKuZ5irClbtzrgNvwG8Cu6cjpJDu8Pyqw
-         VQJfPHNNFDlpcQ/t/ynxrYUdvt5ngXcTEQpbbm6CBM3/TsOtiSwbO6j9L3XnbMHcrh
-         42PaDgiDzIgzIOab1guPYd/uAMB7PqTriadjZY+MZAe3kyHidi2bMjqQMX6tN1Jeq0
-         7oNNkgvReRKmw==
+        b=ZYlmrc4nlyup/WyuOh1UF0vhkGPngnnNqQhMdqEks+S3AbthKuIQ3dNw0b8QCDn/n
+         8fWeFf73zEL9ePe1aQFuF98OcBqyBNITeAn1Hq6apx2pS9MfEVBFQQdL6bY/eVIZ/K
+         hm38mRws9r/DT9XQI4ov+jSBuEQxU9LIYPJj9+s09q/y92amO2x00AMXcElqygCEXj
+         pAJLhE6Qz6x3m84ngCHbrgquSEvgBVQpinLqSBGR/n9lF0kHY1L2J1LKO/qXwbyF8C
+         f4PXEPptWCmi9IPKh19ZB4tXCEOIGE+YqjqOqqL3LQ+JPU02+q11jha9NvoWto7fNJ
+         fHtWj9scguwbA==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lRwGo-001c3X-GL; Thu, 01 Apr 2021 14:17:54 +0200
+        id 1lRwGo-001c33-4G; Thu, 01 Apr 2021 14:17:54 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Bin Liu <bin.liu@mediatek.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rick Chang <rick.chang@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Will Deacon <will@kernel.org>, Yong Wu <yong.wu@mediatek.com>,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: [PATCH 26/32] dt-bindings: iommu: mediatek: update mediatek,iommu.yaml references
-Date:   Thu,  1 Apr 2021 14:17:46 +0200
-Message-Id: <f1a798e2d5ffa829d0324333a1af91f1b3a63dad.1617279356.git.mchehab+huawei@kernel.org>
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 17/32] MAINTAINERS: update renesas,rcar-gyroadc.yaml reference
+Date:   Thu,  1 Apr 2021 14:17:37 +0200
+Message-Id: <aa999b76bb0b6c3ca4cb0c1a8679c22c91690429.1617279355.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617279355.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
@@ -69,87 +53,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset bca28426805d ("dt-bindings: iommu: mediatek: Convert IOMMU to DT schema")
-renamed: Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-to: Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml.
+Changeset 8c41245872e2 ("dt-bindings:iio:adc:renesas,rcar-gyroadc: txt to yaml conversion.")
+renamed: Documentation/devicetree/bindings/iio/adc/renesas,gyroadc.txt
+to: Documentation/devicetree/bindings/iio/adc/renesas,rcar-gyroadc.yaml.
 
-Update the cross-references accordingly.
+Update its cross-reference accordingly.
 
-Fixes: bca28426805d ("dt-bindings: iommu: mediatek: Convert IOMMU to DT schema")
+Fixes: 8c41245872e2 ("dt-bindings:iio:adc:renesas,rcar-gyroadc: txt to yaml conversion.")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../devicetree/bindings/display/mediatek/mediatek,disp.txt      | 2 +-
- .../devicetree/bindings/media/mediatek-jpeg-decoder.txt         | 2 +-
- .../devicetree/bindings/media/mediatek-jpeg-encoder.txt         | 2 +-
- Documentation/devicetree/bindings/media/mediatek-mdp.txt        | 2 +-
- Documentation/devicetree/bindings/media/mediatek-vcodec.txt     | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-index 93b160df3eec..fbb59c9ddda6 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-@@ -64,7 +64,7 @@ Required properties (DMA function blocks):
- - larb: Should contain a phandle pointing to the local arbiter device as defined
-   in Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
- - iommus: Should point to the respective IOMMU block with master port as
--  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-+  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-   for details.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 636b29fd2d4b..97763e68b8e3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15437,7 +15437,7 @@ RENESAS R-CAR GYROADC DRIVER
+ M:	Marek Vasut <marek.vasut@gmail.com>
+ L:	linux-iio@vger.kernel.org
+ S:	Supported
+-F:	Documentation/devicetree/bindings/iio/adc/renesas,gyroadc.txt
++F:	Documentation/devicetree/bindings/iio/adc/renesas,rcar-gyroadc.yaml
+ F:	drivers/iio/adc/rcar-gyroadc.c
  
- Optional properties (RDMA function blocks):
-diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt
-index cf60c5acc0e4..39c1028b2dfb 100644
---- a/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt
-+++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt
-@@ -19,7 +19,7 @@ Required properties:
-   Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
-   for details.
- - iommus: should point to the respective IOMMU block with master port as
--  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-+  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-   for details.
- 
- Example:
-diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt b/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
-index acfb50375b8a..5e53c6ab52d0 100644
---- a/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
-+++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
-@@ -17,7 +17,7 @@ Required properties:
-   Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
-   for details.
- - iommus: should point to the respective IOMMU block with master port as
--  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-+  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-   for details.
- 
- Example:
-diff --git a/Documentation/devicetree/bindings/media/mediatek-mdp.txt b/Documentation/devicetree/bindings/media/mediatek-mdp.txt
-index f4798d04e925..caa24943da33 100644
---- a/Documentation/devicetree/bindings/media/mediatek-mdp.txt
-+++ b/Documentation/devicetree/bindings/media/mediatek-mdp.txt
-@@ -25,7 +25,7 @@ Required properties (DMA function blocks, child node):
-         "mediatek,mt8173-mdp-wdma"
-         "mediatek,mt8173-mdp-wrot"
- - iommus: should point to the respective IOMMU block with master port as
--  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-+  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-   for details.
- - mediatek,larb: must contain the local arbiters in the current Socs, see
-   Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.yaml
-diff --git a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
-index 8217424fd4bd..a83ebc1a1c7f 100644
---- a/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
-+++ b/Documentation/devicetree/bindings/media/mediatek-vcodec.txt
-@@ -18,7 +18,7 @@ Required properties:
-   "univpll_d2", "clk_cci400_sel", "vdec_sel", "vdecpll", "vencpll",
-   "venc_lt_sel", "vdec_bus_clk_src".
- - iommus : should point to the respective IOMMU block with master port as
--  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-+  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml
-   for details.
- One of the two following nodes:
- - mediatek,vpu : the node of the video processor unit, if using VPU.
+ RENESAS R-CAR I2C DRIVERS
 -- 
 2.30.2
 
