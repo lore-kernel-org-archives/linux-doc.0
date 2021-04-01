@@ -2,171 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 022B1C001BF
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:45:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E707C433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:47:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1FD00613C7
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:45:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DDAB960FDC
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 17:47:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235029AbhDARoI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 13:44:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51996 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S234875AbhDARlA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:41:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617298859;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=/DmKnXvfMsDsqJmp2i9gQ0b8U5NbC/IHrSRuv8yD1DA=;
-        b=EDCvX8Tqy5VbjSFVP0JOe4Fl2p7SJNVsUjni3YJaUkQMGYci99DoL56iXwcyCS7yByS90P
-        zIHrnUlW3St0/4rqRR2otEOrd9iIGpUEEk00SxQp96jy9mDuyNldF+nyFm6/2rptioh7yJ
-        rcS169/Didxe7pMBxkJX0nJE1M4TUuo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-534-O5uQh4liNO-3fml1QQs6rQ-1; Thu, 01 Apr 2021 13:10:31 -0400
-X-MC-Unique: O5uQh4liNO-3fml1QQs6rQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1DF7817469;
-        Thu,  1 Apr 2021 17:10:29 +0000 (UTC)
-Received: from starship (unknown [10.35.206.58])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2172C59469;
-        Thu,  1 Apr 2021 17:10:25 +0000 (UTC)
-Message-ID: <0b3a93e3d1ba6a89da327b93be2ecf47f22010d4.camel@redhat.com>
-Subject: Re: [PATCH 4/6] KVM: x86: Introduce KVM_GET_SREGS2 / KVM_SET_SREGS2
-From:   Maxim Levitsky <mlevitsk@redhat.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Cc:     "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Jim Mattson <jmattson@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Sean Christopherson <seanjc@google.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" 
-        <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        id S236796AbhDARrX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 13:47:23 -0400
+Received: from mx0a-001ae601.pphosted.com ([67.231.149.25]:20746 "EHLO
+        mx0b-001ae601.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S234950AbhDARlj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:41:39 -0400
+Received: from pps.filterd (m0077473.ppops.net [127.0.0.1])
+        by mx0a-001ae601.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 131CQciw030126;
+        Thu, 1 Apr 2021 07:40:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cirrus.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=PODMain02222019;
+ bh=ykBmYInzEvGFT1JMPiXc1lkaeT/jxWDhFNP9Q/A6/08=;
+ b=JBN2pNqg6a9pM8wgveEEAANKekva129o80Za/JlxEa8yD9XTaahdQCrZWxWqWjBwfcYA
+ 0XYzN9+i9q1Ss9rGlQnUB195BidXC4ru+YqBxESdQ4N7OZLyoJecSdcAkjJpuyEvnTvt
+ FNJaZW69K+/zJ8SgI/MnMCZ50GOWsh0fhKFwGI5udmLIsQlczCRU/3VhYx97IEAzXf1k
+ LYUXLt17d7ZQyRHP+iKYdWEtgulGMPeNxam5CdJ2GKWfv803Y1Sz7l19l4npFT2ajTIH
+ 1saSDKNKacvdUPxwIl2wJKSfGee1JrZJWiO+bDuNW66PDn2kQr8QOI45ayj7ASVEpdWS JA== 
+Received: from ediex01.ad.cirrus.com ([87.246.76.36])
+        by mx0a-001ae601.pphosted.com with ESMTP id 37n2948wfu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+        Thu, 01 Apr 2021 07:40:16 -0500
+Received: from EDIEX01.ad.cirrus.com (198.61.84.80) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Thu, 1 Apr 2021
+ 13:40:14 +0100
+Received: from ediswmail.ad.cirrus.com (198.61.86.93) by EDIEX01.ad.cirrus.com
+ (198.61.84.80) with Microsoft SMTP Server id 15.1.2176.2 via Frontend
+ Transport; Thu, 1 Apr 2021 13:40:14 +0100
+Received: from ediswmail.ad.cirrus.com (ediswmail.ad.cirrus.com [198.61.86.93])
+        by ediswmail.ad.cirrus.com (Postfix) with ESMTP id 7C81E11D6;
+        Thu,  1 Apr 2021 12:40:13 +0000 (UTC)
+Date:   Thu, 1 Apr 2021 12:40:13 +0000
+From:   Charles Keepax <ckeepax@opensource.cirrus.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Date:   Thu, 01 Apr 2021 20:10:24 +0300
-In-Reply-To: <b1a36c94-6dd5-88ef-a503-f6d91eb2d267@redhat.com>
-References: <20210401141814.1029036-1-mlevitsk@redhat.com>
-         <20210401141814.1029036-5-mlevitsk@redhat.com>
-         <b1a36c94-6dd5-88ef-a503-f6d91eb2d267@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+        Drew Fustini <drew@beagleboard.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Richard Fitzgerald <rf@opensource.cirrus.com>,
+        <alsa-devel@alsa-project.org>, <linux-gpio@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <patches@opensource.cirrus.com>
+Subject: Re: [PATCH 32/32] pinctrl: update pin-control.rst references
+Message-ID: <20210401124013.GT106851@ediswmail.ad.cirrus.com>
+References: <cover.1617279355.git.mchehab+huawei@kernel.org>
+ <f056e1e16adff1df42416f0033fdb730169edf44.1617279356.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <f056e1e16adff1df42416f0033fdb730169edf44.1617279356.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Proofpoint-GUID: Io7iL6F3WDP7ZvGws1tN_zCpZy0zXWMf
+X-Proofpoint-ORIG-GUID: Io7iL6F3WDP7ZvGws1tN_zCpZy0zXWMf
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=979 phishscore=0
+ bulkscore=0 mlxscore=0 lowpriorityscore=0 priorityscore=1501 spamscore=0
+ malwarescore=0 clxscore=1011 adultscore=0 impostorscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2103310000
+ definitions=main-2104010088
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 2021-04-01 at 16:44 +0200, Paolo Bonzini wrote:
-> Just a quick review on the API:
+On Thu, Apr 01, 2021 at 02:17:52PM +0200, Mauro Carvalho Chehab wrote:
+> Changeset 5513b411ea5b ("Documentation: rename pinctl to pin-control")
+> renamed: Documentation/driver-api/pinctl.rst
+> to: Documentation/driver-api/pin-control.rst.
 > 
-> On 01/04/21 16:18, Maxim Levitsky wrote:
-> > +struct kvm_sregs2 {
-> > +	/* out (KVM_GET_SREGS2) / in (KVM_SET_SREGS2) */
-> > +	struct kvm_segment cs, ds, es, fs, gs, ss;
-> > +	struct kvm_segment tr, ldt;
-> > +	struct kvm_dtable gdt, idt;
-> > +	__u64 cr0, cr2, cr3, cr4, cr8;
-> > +	__u64 efer;
-> > +	__u64 apic_base;
-> > +	__u64 flags; /* must be zero*/
+> Update the cross-references accordingly.
 > 
-> I think it would make sense to define a flag bit for the PDPTRs, so that 
-> userspace can use KVM_SET_SREGS2 unconditionally (e.g. even when 
-> migrating from a source that uses KVM_GET_SREGS and therefore doesn't 
-> provide the PDPTRs).
-Yes, I didn't think about this case! I'll add this to the next version.
-Thanks!
+> Fixes: 5513b411ea5b ("Documentation: rename pinctl to pin-control")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
 
-> 
-> > +	__u64 pdptrs[4];
-> > +	__u64 padding;
-> 
-> No need to add padding; if we add more fields in the future we can use 
-> the flags to determine the length of the userspace data, similar to 
-> KVM_GET/SET_NESTED_STATE.
-Got it, will fix. I added it just in case.
+Acked-by: Charles Keepax <ckeepax@opensource.cirrus.com>
 
-> 
-> 
-> > +	idx = srcu_read_lock(&vcpu->kvm->srcu);
-> > +	if (is_pae_paging(vcpu)) {
-> > +		for (i = 0 ; i < 4 ; i++)
-> > +			kvm_pdptr_write(vcpu, i, sregs2->pdptrs[i]);
-> > +		kvm_register_mark_dirty(vcpu, VCPU_EXREG_PDPTR);
-> > +		mmu_reset_needed = 1;
-> > +	}
-> > +	srcu_read_unlock(&vcpu->kvm->srcu, idx);
-> > +
-> 
-> SRCU should not be needed here?
-
-I haven't yet studied in depth the locking that is used in the kvm,
-so I put this to be on the safe side.
-
-I looked at it a bit and it looks like the pdptr reading code takes
-this lock because it accesses the memslots, which is not done here,
-and therefore the lock is indeed not needed here.
-
-I need to study in depth how locking is done in kvm to be 100% sure
-about this.
-
-
-> 
-> > +	case KVM_GET_SREGS2: {
-> > +		u.sregs2 = kzalloc(sizeof(struct kvm_sregs2), GFP_KERNEL_ACCOUNT);
-> > +		r = -ENOMEM;
-> > +		if (!u.sregs2)
-> > +			goto out;
-> 
-> No need to account, I think it's a little slower and this allocation is 
-> very short lived.
-Right, I will fix this in the next version.
-
-> 
-> >  #define KVM_CAP_PPC_DAWR1 194
-> > +#define KVM_CAP_SREGS2 196
-> 
-> 195, not 196.
-
-I am also planning to add KVM_CAP_SET_GUEST_DEBUG2 for which I
-used 195.
-Prior to sending I rebased all of my patch series on top of kvm/queue,
-but I kept the numbers just in case.
-
-> 
-> >  #define KVM_XEN_VCPU_GET_ATTR	_IOWR(KVMIO, 0xca, struct kvm_xen_vcpu_attr)
-> >  #define KVM_XEN_VCPU_SET_ATTR	_IOW(KVMIO,  0xcb, struct kvm_xen_vcpu_attr)
-> > +
-> > +#define KVM_GET_SREGS2             _IOR(KVMIO,  0xca, struct kvm_sregs2)
-> > +#define KVM_SET_SREGS2             _IOW(KVMIO,  0xcb, struct kvm_sregs2)
-> > +
-> 
-> It's not exactly overlapping, but please bump the ioctls to 0xcc/0xcd.
-Will do.
-
-
-Thanks a lot for the review!
-
-Best regards,
-	Maxim Levitsky
-
-> 
-> Paolo
-> 
-
-
+Thanks,
+Charles
