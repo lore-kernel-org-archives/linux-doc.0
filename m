@@ -2,47 +2,48 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.2 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D435DC43603
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C43CCC433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:49 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B397E601FC
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A1EEE601FC
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:49 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236284AbhDAS1q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:27:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45712 "EHLO mail.kernel.org"
+        id S236891AbhDAS1s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:27:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45716 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238932AbhDASPC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S238945AbhDASPC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 1 Apr 2021 14:15:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BA11A610FB;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BFE4F61107;
         Thu,  1 Apr 2021 12:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617279475;
-        bh=itOTsA9Hc55jfhAjB7JLE43YXbSusvTI5DNzBrhqvdc=;
+        bh=VxV7a1BDK09gUV3E/njBQ9kxTgw4vACvYtSp+lMu5Xk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=me9DSodJd3C5oZ8FKtXHoM9ictPvn/3gBxWjASdbrSaFLgtFJmaU3jvRsXGfoYZ2l
-         jFdZ4dSWh/9pmYkIxRU4Cv0RLoDHYKfxkpnBNVbz2G94AAiwvBHpeo355hv6vf4RlC
-         aJj4WUWsFN9H7NDq2qHP3jdFMomNUIYX8nXRA+9hSfRPEAhvX9FSbTWxo0krv4mFyL
-         AVh3aaLltdlNTOXPKByKxca7LfgDiBjVBKWu9fsjFXLzxnbhVN9SUK5wX06HAw1wmu
-         cVBNRxnX/Cpt2d5TkQ1dgjvq1h7pdyLFIMYkEaihXdPaByJIcF+7zsvRSbKIEX574m
-         VCOzqcjz2WCnQ==
+        b=jUxHnM1NH3sfPYy4tBsrkCmLCFgZ1ndvZYvQ5hK77lIMZO1IDt2R7c0ZS6AZAT61T
+         XtblBxQHNa4cK0v/TiQcfhPdjKuEHn8arm3XTamCXrLuAzuC6gZMGLlHpMy8cRIoIe
+         jVA3av7g5JeUmfgnbr4llY7cKXYF7ZVpWOGpH3toDFkmoj+q6QS9qdl+8yufo1TkUX
+         YiIowEfbynGujF/gagd6ZWmN2+oRuccJ6TDPliWwN2xWV93Df3YZD/asm0sysPFw9g
+         RYxX7sDJQ6bJNljI8qutpSOv3NjR3fUkaFQoOs4NjsBUY644gPUAs5mVHLyt64niba
+         UIwXgmX7TH0tQ==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lRwGn-001c2d-PT; Thu, 01 Apr 2021 14:17:53 +0200
+        id 1lRwGn-001c2n-TR; Thu, 01 Apr 2021 14:17:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
         Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 08/32] MAINTAINERS: update current-sense-amplifier.yaml reference
-Date:   Thu,  1 Apr 2021 14:17:28 +0200
-Message-Id: <d0008b06f8ca65108eb1e7734ec6e3e32ec28172.1617279355.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 11/32] MAINTAINERS: update invensense,mpu3050.yaml reference
+Date:   Thu,  1 Apr 2021 14:17:31 +0200
+Message-Id: <1c99edf0f5c78e78bbec71fa2a5d7bc6087edddd.1617279355.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617279355.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
@@ -53,31 +54,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset fbac26b9ad21 ("dt-bindings:iio:afe:current-sense-amplifier: txt to yaml conversion.")
-renamed: Documentation/devicetree/bindings/iio/afe/current-sense-amplifier.txt
-to: Documentation/devicetree/bindings/iio/afe/current-sense-amplifier.yaml.
+Changeset 749787477ae4 ("dt-bindings:iio:gyro:invensense,mpu3050: txt to yaml format conversion.")
+renamed: Documentation/devicetree/bindings/iio/gyroscope/invensense,mpu3050.txt
+to: Documentation/devicetree/bindings/iio/gyroscope/invensense,mpu3050.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: fbac26b9ad21 ("dt-bindings:iio:afe:current-sense-amplifier: txt to yaml conversion.")
+Fixes: 749787477ae4 ("dt-bindings:iio:gyro:invensense,mpu3050: txt to yaml format conversion.")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 82220a72eba2..c7168833da8f 100644
+index 5110f47ebf85..ce675a0b3819 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -8795,7 +8795,7 @@ IIO UNIT CONVERTER
- M:	Peter Rosin <peda@axentia.se>
+@@ -9414,7 +9414,7 @@ INVENSENSE MPU-3050 GYROSCOPE DRIVER
+ M:	Linus Walleij <linus.walleij@linaro.org>
  L:	linux-iio@vger.kernel.org
  S:	Maintained
--F:	Documentation/devicetree/bindings/iio/afe/current-sense-amplifier.txt
-+F:	Documentation/devicetree/bindings/iio/afe/current-sense-amplifier.yaml
- F:	Documentation/devicetree/bindings/iio/afe/current-sense-shunt.txt
- F:	Documentation/devicetree/bindings/iio/afe/voltage-divider.txt
- F:	drivers/iio/afe/iio-rescale.c
+-F:	Documentation/devicetree/bindings/iio/gyroscope/invensense,mpu3050.txt
++F:	Documentation/devicetree/bindings/iio/gyroscope/invensense,mpu3050.yaml
+ F:	drivers/iio/gyro/mpu3050*
+ 
+ IOC3 ETHERNET DRIVER
 -- 
 2.30.2
 
