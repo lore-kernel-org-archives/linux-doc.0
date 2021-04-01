@@ -2,81 +2,389 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DATE_IN_PAST_03_06,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6477C43461
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:11:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DC44C43470
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:11:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 858D960FE6
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:11:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 149DD6112E
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:11:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236690AbhDASLZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:11:25 -0400
-Received: from vps0.lunn.ch ([185.16.172.187]:58858 "EHLO vps0.lunn.ch"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237870AbhDASEr (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Apr 2021 14:04:47 -0400
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94)
-        (envelope-from <andrew@lunn.ch>)
-        id 1lRwdP-00EKSD-DR; Thu, 01 Apr 2021 14:41:15 +0200
-Date:   Thu, 1 Apr 2021 14:41:15 +0200
-From:   Andrew Lunn <andrew@lunn.ch>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Benedikt Spranger <b.spranger@linutronix.de>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Hyunchul Lee <hyc.lee@gmail.com>,
-        Namjae Jeon <namjae.jeon@samsung.com>,
-        Ronnie Sahlberg <lsahlber@redhat.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steve French <stfrench@microsoft.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 30/32] Documentation: net: dsa: update configuration.rst
- reference
-Message-ID: <YGW/a8FuCO+Q6hEg@lunn.ch>
-References: <cover.1617279355.git.mchehab+huawei@kernel.org>
- <a3d52c1380624f34b4a04e9698f67e1e6d8d23f8.1617279356.git.mchehab+huawei@kernel.org>
+        id S236379AbhDASLl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:11:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35378 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238179AbhDASFj (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 14:05:39 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB1A7C0319D0
+        for <linux-doc@vger.kernel.org>; Thu,  1 Apr 2021 10:21:46 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id lr1-20020a17090b4b81b02900ea0a3f38c1so5033863pjb.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 Apr 2021 10:21:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=HQkgqdbyg+KsVrzhWJbdYadcxTvy4xTSHTJeOuFB150=;
+        b=bRKhUAVG7mnHqf1ZPUlVS/53J8a5HbajWgEa894XiijmTNYL+GjIMY5Pub73xEXIuC
+         CFEpobTQq4D2O/B/UG65pfUVVsZPVVZI6B4LnNfSQ+IYOqUzaOIqNxzrmJ/lSGmqkEQf
+         Dt7BnEMumIAltP1/JqwOVcv+YG9VbKF85dSMpeqXANnBfSPo1OC5/Dj2sFEUoNnTT8/5
+         hpbCfNq+1h52QvJWuM1UYArzX2moCmiKFaRkLZrZYR2mdVWnbWEFB9FX1mDXP8MdsJcb
+         DnUltfXCG5nH4OyCKQmqKcwdPl6K4vdTJb4OakY92V+jbOd7odhMr1f3csjqy+pIxWDf
+         81dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HQkgqdbyg+KsVrzhWJbdYadcxTvy4xTSHTJeOuFB150=;
+        b=H8cQR1F6mLPL1lSaq44QyVKY3kpPWHNIrMHLNRSy/KfVsHc+d3hhDH7G4BZ2oFfBU2
+         1T1YsRiA+kyp2Mf8BmB/bIOznz4GotOqLo46qxlQtTMSyYwcTJoCB+Kjdfqtz9HGqUna
+         6rtwEXBi2Z0vBDLoxgsckxVXWNgvEGczn+NNWNV7TDxZAgOG6AdTrM/ra1p+B8NungbH
+         sKciLvYx4c3ZmIR+qc9bGbKMyKLnUuAXi/aAZ1iCF0d+e2an5UWtfXzeWb3cTN85Q3H1
+         W0g7MFAVAqxWVo52zVxn+OiF796sQTsiAeJJjDu0VQ1gw5vkBAiCDGVlh5QYUlhqMfsg
+         YlNQ==
+X-Gm-Message-State: AOAM531jnipi9ide/CX3aOoPqzS7OUVjKevz/VLhmWkIPHdxZxckNz2E
+        ZbwcYgCVUMHj4EdZAobnirFiXg==
+X-Google-Smtp-Source: ABdhPJxsRd9RQbYjGTbiVavxNjTTYp5aECkIabvvkcnEYQ5+9pV2iJZ47Vmcz+pOsbQEXAwzMvgibA==
+X-Received: by 2002:a17:90a:8b0c:: with SMTP id y12mr9763863pjn.10.1617297706160;
+        Thu, 01 Apr 2021 10:21:46 -0700 (PDT)
+Received: from xps15 (S0106889e681aac74.cg.shawcable.net. [68.147.0.187])
+        by smtp.gmail.com with ESMTPSA id t22sm5919823pjo.45.2021.04.01.10.21.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Apr 2021 10:21:45 -0700 (PDT)
+Date:   Thu, 1 Apr 2021 11:21:43 -0600
+From:   Mathieu Poirier <mathieu.poirier@linaro.org>
+To:     Mike Leach <mike.leach@linaro.org>
+Cc:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        linux-doc@vger.kernel.org, suzuki.poulose@arm.com,
+        yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
+        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 08/10] coresight: config: Add preloaded configurations
+Message-ID: <20210401172143.GD145043@xps15>
+References: <20210316180400.7184-1-mike.leach@linaro.org>
+ <20210316180400.7184-9-mike.leach@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a3d52c1380624f34b4a04e9698f67e1e6d8d23f8.1617279356.git.mchehab+huawei@kernel.org>
+In-Reply-To: <20210316180400.7184-9-mike.leach@linaro.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 01, 2021 at 02:17:50PM +0200, Mauro Carvalho Chehab wrote:
-> The file name: Documentation/configuration.txt
-> should be, instead: Documentation/networking/dsa/configuration.rst.
+On Tue, Mar 16, 2021 at 06:03:58PM +0000, Mike Leach wrote:
+> Preload set of configurations.
 > 
-> Update its cross-reference accordingly.
+> This patch creates a small set of preloaded configurations and features
+> that are available immediately after coresight has been initialised.
 > 
-> Fixes: 75b8988dfe83 ("cifsd: add server handler for central processing and tranport layers")
-> Fixes: 58dd7a8d9d02 ("Documentation: net: dsa: Describe DSA switch configuration")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> The current set provides a strobing feature for ETMv4, that creates a
+> periodic sampling of trace by switching trace generation on and off
+> using counters in the ETM.
+> 
+> A configuration called "autofdo" is also provided that uses the 'strobing'
+> feature and provides a couple of preset values, selectable on the perf
+> command line.
+> 
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
 > ---
->  Documentation/filesystems/cifs/cifsd.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/hwtracing/coresight/Makefile          |   3 +-
+>  .../hwtracing/coresight/coresight-cfg-afdo.c  | 149 ++++++++++++++++++
+>  .../coresight/coresight-cfg-preload.c         |  27 ++++
+>  .../coresight/coresight-cfg-preload.h         |  11 ++
+>  .../hwtracing/coresight/coresight-etm4x-cfg.h |  15 ++
+>  .../hwtracing/coresight/coresight-syscfg.c    |   9 ++
+>  .../hwtracing/coresight/coresight-syscfg.h    |   1 +
+>  7 files changed, 214 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/hwtracing/coresight/coresight-cfg-afdo.c
+>  create mode 100644 drivers/hwtracing/coresight/coresight-cfg-preload.c
+>  create mode 100644 drivers/hwtracing/coresight/coresight-cfg-preload.h
 > 
-> diff --git a/Documentation/filesystems/cifs/cifsd.rst b/Documentation/filesystems/cifs/cifsd.rst
-> index 48ae58f2a53c..082a839535e7 100644
-> --- a/Documentation/filesystems/cifs/cifsd.rst
-> +++ b/Documentation/filesystems/cifs/cifsd.rst
-> @@ -114,7 +114,7 @@ How to run
->  	# ksmbd.adduser -a <Enter USERNAME for SMB share access>
+
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+
+> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
+> index ea544206204d..2707bfef1b76 100644
+> --- a/drivers/hwtracing/coresight/Makefile
+> +++ b/drivers/hwtracing/coresight/Makefile
+> @@ -4,7 +4,8 @@
+>  #
+>  obj-$(CONFIG_CORESIGHT) += coresight.o
+>  coresight-y := coresight-core.o  coresight-etm-perf.o coresight-platform.o \
+> -		coresight-sysfs.o coresight-syscfg.o coresight-config.o
+> +		coresight-sysfs.o coresight-syscfg.o coresight-config.o \
+> +		coresight-cfg-preload.o coresight-cfg-afdo.o
+>  obj-$(CONFIG_CORESIGHT_LINK_AND_SINK_TMC) += coresight-tmc.o
+>  coresight-tmc-y := coresight-tmc-core.o coresight-tmc-etf.o \
+>  		      coresight-tmc-etr.o
+> diff --git a/drivers/hwtracing/coresight/coresight-cfg-afdo.c b/drivers/hwtracing/coresight/coresight-cfg-afdo.c
+> new file mode 100644
+> index 000000000000..44d60ca1da49
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-cfg-afdo.c
+> @@ -0,0 +1,149 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright(C) 2020 Linaro Limited. All rights reserved.
+> + * Author: Mike Leach <mike.leach@linaro.org>
+> + */
+> +
+> +#include "coresight-config.h"
+> +#include "coresight-etm4x-cfg.h"
+> +
+> +/* preload configurations and features */
+> +
+> +/* preload in features for ETMv4 */
+> +
+> +/* strobe feature */
+> +static struct cscfg_parameter_desc strobe_params[] = {
+> +	{
+> +		.name = "window",
+> +		.value = 5000,
+> +	},
+> +	{
+> +		.name = "period",
+> +		.value = 10000,
+> +	},
+> +};
+> +
+> +static struct cscfg_regval_desc strobe_regs[] = {
+> +	/* resource selectors */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCRSCTLRn(2),
+> +		.hw_info = ETM4_CFG_RES_SEL,
+> +		.val32 = 0x20001,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCRSCTLRn(3),
+> +		.hw_info = ETM4_CFG_RES_SEQ,
+> +		.val32 = 0x20002,
+> +	},
+> +	/* strobe window counter 0 - reload from param 0 */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE | CS_CFG_REG_TYPE_VAL_SAVE,
+> +		.offset = TRCCNTVRn(0),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE | CS_CFG_REG_TYPE_VAL_PARAM,
+> +		.offset = TRCCNTRLDVRn(0),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +		.val32 = 0,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCCNTCTLRn(0),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +		.val32 = 0x10001,
+> +	},
+> +	/* strobe period counter 1 - reload from param 1 */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE | CS_CFG_REG_TYPE_VAL_SAVE,
+> +		.offset = TRCCNTVRn(1),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE | CS_CFG_REG_TYPE_VAL_PARAM,
+> +		.offset = TRCCNTRLDVRn(1),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +		.val32 = 1,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCCNTCTLRn(1),
+> +		.hw_info = ETM4_CFG_RES_CTR,
+> +		.val32 = 0x8102,
+> +	},
+> +	/* sequencer */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCSEQEVRn(0),
+> +		.hw_info = ETM4_CFG_RES_SEQ,
+> +		.val32 = 0x0081,
+> +	},
+> +	{
+> +		.type = CS_CFG_REG_TYPE_RESOURCE,
+> +		.offset = TRCSEQEVRn(1),
+> +		.hw_info = ETM4_CFG_RES_SEQ,
+> +		.val32 = 0x0000,
+> +	},
+> +	/* view-inst */
+> +	{
+> +		.type = CS_CFG_REG_TYPE_STD | CS_CFG_REG_TYPE_VAL_MASK,
+> +		.offset = TRCVICTLR,
+> +		.val32 = 0x0003,
+> +		.mask32 = 0x0003,
+> +	},
+> +	/* end of regs */
+> +};
+> +
+> +struct cscfg_feature_desc strobe = {
+> +	.name = "strobing",
+> +	.description = "Generate periodic trace capture windows.\n"
+> +		       "parameter \'window\': a number of CPU cycles (W)\n"
+> +		       "parameter \'period\': trace enabled for W cycles every period x W cycles\n",
+> +	.match_flags = CS_CFG_MATCH_CLASS_SRC_ETM4,
+> +	.nr_params = ARRAY_SIZE(strobe_params),
+> +	.params_desc = strobe_params,
+> +	.nr_regs = ARRAY_SIZE(strobe_regs),
+> +	.regs_desc = strobe_regs,
+> +};
+> +
+> +/* create an autofdo configuration */
+> +
+> +/* we will provide 9 sets of preset parameter values */
+> +#define AFDO_NR_PRESETS	9
+> +/* the total number of parameters in used features */
+> +#define AFDO_NR_PARAMS	ARRAY_SIZE(strobe_params)
+> +
+> +#define AFDO_MATCH_STROBING (CS_CFG_MATCH_INST_ANY | CS_CFG_MATCH_CLASS_SRC_ETM4)
+> +
+> +static const char *afdo_ref_names[] = {
+> +	"strobing",
+> +};
+> +
+> +/*
+> + * set of presets leaves strobing window constant while varying period to allow
+> + * experimentation with mark / space ratios for various workloads
+> + */
+> +static u64 afdo_presets[AFDO_NR_PRESETS][AFDO_NR_PARAMS] = {
+> +	{ 5000, 2 },
+> +	{ 5000, 4 },
+> +	{ 5000, 8 },
+> +	{ 5000, 16 },
+> +	{ 5000, 64 },
+> +	{ 5000, 128 },
+> +	{ 5000, 512 },
+> +	{ 5000, 1024 },
+> +	{ 5000, 4096 },
+> +};
+> +
+> +struct cscfg_config_desc afdo = {
+> +	.name = "autofdo",
+> +	.description = "Setup ETMs with strobing for autofdo\n"
+> +	"Supplied presets allow experimentation with mark-space ratio for various loads\n",
+> +	.nr_feat_refs = ARRAY_SIZE(afdo_ref_names),
+> +	.feat_ref_names = afdo_ref_names,
+> +	.nr_presets = AFDO_NR_PRESETS,
+> +	.nr_total_params = AFDO_NR_PARAMS,
+> +	.presets = &afdo_presets[0][0],
+> +};
+> diff --git a/drivers/hwtracing/coresight/coresight-cfg-preload.c b/drivers/hwtracing/coresight/coresight-cfg-preload.c
+> new file mode 100644
+> index 000000000000..9ed0f029a335
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-cfg-preload.c
+> @@ -0,0 +1,27 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright(C) 2020 Linaro Limited. All rights reserved.
+> + * Author: Mike Leach <mike.leach@linaro.org>
+> + */
+> +
+> +#include "coresight-cfg-preload.h"
+> +#include "coresight-config.h"
+> +#include "coresight-syscfg.h"
+> +
+> +/* Basic features and configurations pre-loaded on initialisation */
+> +
+> +static struct cscfg_feature_desc *preload_feats[] = {
+> +	&strobe,
+> +	0
+> +};
+> +
+> +static struct cscfg_config_desc *preload_cfgs[] = {
+> +	&afdo,
+> +	0
+> +};
+> +
+> +/* preload called on initialisation */
+> +int cscfg_preload(void)
+> +{
+> +	return cscfg_load_config_sets(preload_cfgs, preload_feats);
+> +}
+> diff --git a/drivers/hwtracing/coresight/coresight-cfg-preload.h b/drivers/hwtracing/coresight/coresight-cfg-preload.h
+> new file mode 100644
+> index 000000000000..fc4ac7faa93d
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-cfg-preload.h
+> @@ -0,0 +1,11 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright(C) 2020 Linaro Limited. All rights reserved.
+> + * Author: Mike Leach <mike.leach@linaro.org>
+> + */
+> +
+> +/* declare preloaded configurations and features */
+> +
+> +/* from coresight-cfg-afdo.c */
+> +extern struct cscfg_feature_desc strobe;
+> +extern struct cscfg_config_desc afdo;
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.h b/drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+> index 7ec65771ee58..1f5477883818 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+> @@ -9,6 +9,21 @@
+>  #include "coresight-config.h"
+>  #include "coresight-etm4x.h"
 >  
->  3. Create /etc/ksmbd/smb.conf file, add SMB share in smb.conf file
-> -	- Refer smb.conf.example and Documentation/configuration.txt
-> +	- Refer smb.conf.example and Documentation/networking/dsa/configuration.rst
->  	  in ksmbd-tools
-
-Hi Mauro
-
-This looks wrong. There is no relationship between SMB and DSA. I
-suspect you are looking for some other configuration.txt
-
-	Andrew
+> +/* ETMv4 specific config defines */
+> +
+> +/* resource IDs */
+> +
+> +#define ETM4_CFG_RES_CTR	0x001
+> +#define ETM4_CFG_RES_CMP	0x002
+> +#define ETM4_CFG_RES_CMP_PAIR0	0x003
+> +#define ETM4_CFG_RES_CMP_PAIR1	0x004
+> +#define ETM4_CFG_RES_SEL	0x005
+> +#define ETM4_CFG_RES_SEL_PAIR0	0x006
+> +#define ETM4_CFG_RES_SEL_PAIR1	0x007
+> +#define ETM4_CFG_RES_SEQ	0x008
+> +#define ETM4_CFG_RES_TS		0x009
+> +#define ETM4_CFG_RES_MASK	0x00F
+> +
+>  /* ETMv4 specific config functions */
+>  int etm4_cscfg_register(struct coresight_device *csdev, const char *dev_name);
+>  
+> diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
+> index c44746d6cd6d..befc379b85b9 100644
+> --- a/drivers/hwtracing/coresight/coresight-syscfg.c
+> +++ b/drivers/hwtracing/coresight/coresight-syscfg.c
+> @@ -642,8 +642,17 @@ int __init cscfg_init(void)
+>  	INIT_LIST_HEAD(&cscfg_mgr->config_desc_list);
+>  	atomic_set(&cscfg_mgr->sys_active_cnt, 0);
+>  
+> +	/* preload built-in configurations */
+> +	err = cscfg_preload();
+> +	if (err)
+> +		goto exit_err;
+> +
+>  	dev_info(cscfg_device(), "CoreSight Configuration manager initialised");
+>  	return 0;
+> +
+> +exit_err:
+> +	cscfg_clear_device();
+> +	return err;
+>  }
+>  
+>  void cscfg_exit(void)
+> diff --git a/drivers/hwtracing/coresight/coresight-syscfg.h b/drivers/hwtracing/coresight/coresight-syscfg.h
+> index a52775890670..7bb8c8e497ba 100644
+> --- a/drivers/hwtracing/coresight/coresight-syscfg.h
+> +++ b/drivers/hwtracing/coresight/coresight-syscfg.h
+> @@ -56,6 +56,7 @@ struct cscfg_registered_csdev {
+>  /* internal core operations for cscfg */
+>  int __init cscfg_init(void);
+>  void cscfg_exit(void);
+> +int cscfg_preload(void);
+>  
+>  /* syscfg manager external API */
+>  int cscfg_load_config_sets(struct cscfg_config_desc **cfg_descs,
+> -- 
+> 2.17.1
+> 
