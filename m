@@ -7,42 +7,42 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B188C43611
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66B85C43461
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 44000601FC
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 385DB601FC
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:27:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236904AbhDAS1r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:27:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45710 "EHLO mail.kernel.org"
+        id S236978AbhDAS1s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:27:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45702 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S238919AbhDASPC (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Apr 2021 14:15:02 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B684261104;
+        id S239625AbhDASQn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 1 Apr 2021 14:16:43 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 04A9561152;
         Thu,  1 Apr 2021 12:17:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617279475;
-        bh=tf6mk4tDSkuuXHih9C91KDP5x2yd9YzWtjieeb+uIOI=;
+        s=k20201202; t=1617279476;
+        bh=ZbBNdR6/lKLsrThW7zQ1YGJB9s6d5kBVitky4KDqGfY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IjhGV0vnXDznyg+t9b/saMyTnVwFU8RYvADa4YtZlBAxzVvevARcAKWBR57iAHNQB
-         ggC0ly8aLtlJYtjdqGUNRV50ROswN+3VQGBjMEqWjEFqBzumtrGCV3ShDjmf8D/opZ
-         pQmZQMkSGqznANKoJjQqM17LjexgH9ism9kx5cbM2w52ynh/bdQSoWbIFnb6Zi0aPJ
-         tyWKY2ZpvQE418g9pMOiP1Yi1BFbiZaWlI+bP2g+ckWsfA1U5PdPnXWZ86CL8DOlDD
-         pL8kBeloraRVfPY4AIF1Ub1MqnVaXk0VgXrm8h3ZT3gkZXRlSVf3iVwskj3xRjP30Y
-         yL5p9XUpoR1dg==
+        b=XkWKj50moZkWD+BcOpQblaBDy8D7qjhWuJK4PFmavA/ctdyo/ypOX8J0QQKyhLSF2
+         CM4CB8g+CQZHCce2QIJ1uN6nQMjqIkk22yon4aMiNvSRsQ64VHdLTOOePE5/b24jWy
+         bLy7rX1k4Ps+Jsrbq7qY/FQlsjWSopnGEZ92FPl1BT7NAkU76cgrc5IwDgXuwZk6uR
+         y0vr5SJ0340t2VLgnFly69n4cHTAIdwdqhK9aeQvHgJdO6ok4ZgXYhrQT+ZmOYtH3s
+         nLsWo+6XHXJWbP6LVhlUw0Lf9IE7WchvUvax4VPU4FN6y8IDY2SjgpyPBuK7Dg9JdC
+         0UUBuGvApNlxw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lRwGn-001c2g-R3; Thu, 01 Apr 2021 14:17:53 +0200
+        id 1lRwGo-001c2z-21; Thu, 01 Apr 2021 14:17:54 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/32] MAINTAINERS: update current-sense-shunt.yaml reference
-Date:   Thu,  1 Apr 2021 14:17:29 +0200
-Message-Id: <49371c37a988ffcae9188cbe4735e6eab920b2e0.1617279355.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 15/32] MAINTAINERS: update atmel,sama5d2-adc.yaml reference
+Date:   Thu,  1 Apr 2021 14:17:35 +0200
+Message-Id: <4574e4b7612f5fd683fddbcd7d7307d5e6d02988.1617279355.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617279355.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
@@ -53,30 +53,30 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset ce66e52b6c16 ("dt-bindings:iio:afe:current-sense-shunt: txt to yaml conversion.")
-renamed: Documentation/devicetree/bindings/iio/afe/current-sense-shunt.txt
-to: Documentation/devicetree/bindings/iio/afe/current-sense-shunt.yaml.
+Changeset 58ff1b519753 ("dt-bindings:iio:adc:atmel,sama5d2-adc: txt to yaml conversion")
+renamed: Documentation/devicetree/bindings/iio/adc/at91-sama5d2_adc.txt
+to: Documentation/devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: ce66e52b6c16 ("dt-bindings:iio:afe:current-sense-shunt: txt to yaml conversion.")
+Fixes: 58ff1b519753 ("dt-bindings:iio:adc:atmel,sama5d2-adc: txt to yaml conversion")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index c7168833da8f..71950316c736 100644
+index 576d1bcabb20..89ed435ca6c3 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -8796,7 +8796,7 @@ M:	Peter Rosin <peda@axentia.se>
+@@ -11930,7 +11930,7 @@ MICROCHIP SAMA5D2-COMPATIBLE ADC DRIVER
+ M:	Eugen Hristev <eugen.hristev@microchip.com>
  L:	linux-iio@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/iio/afe/current-sense-amplifier.yaml
--F:	Documentation/devicetree/bindings/iio/afe/current-sense-shunt.txt
-+F:	Documentation/devicetree/bindings/iio/afe/current-sense-shunt.yaml
- F:	Documentation/devicetree/bindings/iio/afe/voltage-divider.txt
- F:	drivers/iio/afe/iio-rescale.c
+ S:	Supported
+-F:	Documentation/devicetree/bindings/iio/adc/at91-sama5d2_adc.txt
++F:	Documentation/devicetree/bindings/iio/adc/atmel,sama5d2-adc.yaml
+ F:	drivers/iio/adc/at91-sama5d2_adc.c
+ F:	include/dt-bindings/iio/adc/at91-sama5d2_adc.h
  
 -- 
 2.30.2
