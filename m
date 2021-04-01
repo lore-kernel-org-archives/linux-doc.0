@@ -8,59 +8,60 @@ X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C93B2C43460
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:38:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42B64C433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:38:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A2FCE60724
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:38:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1BC9460724
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:38:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238263AbhDASiJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:38:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21190 "EHLO
+        id S234380AbhDASiM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:38:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20173 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236594AbhDASca (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 14:32:30 -0400
+        by vger.kernel.org with ESMTP id S237287AbhDASdH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 14:33:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617301948;
+        s=mimecast20190719; t=1617301986;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=XtDBz7ykDKRMTtDTrLTSXxwTFQJuBtQJjv1Xfg77ytQ=;
-        b=DbVbwlGxtlcXFEDQwfSp9D2ehX1VaZymkxxa2q2jMFHWLcv0IMhKQrITwH3JFKeigx+zag
-        nwTNW/rofzNssjOlyxc07GgSWr4pYH6KkuzT8h4DWLi8E7rPo6pHF+yb8vYvZNoPdY0ElY
-        kctuDRS6b59oYGWrsLbVaBT8vsxBRFE=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-202-HzpGK0TzPkeaJBIi486F7w-1; Thu, 01 Apr 2021 10:31:44 -0400
-X-MC-Unique: HzpGK0TzPkeaJBIi486F7w-1
-Received: by mail-ed1-f70.google.com with SMTP id v27so2942368edx.1
-        for <linux-doc@vger.kernel.org>; Thu, 01 Apr 2021 07:31:44 -0700 (PDT)
+        bh=2iOhHbxMedJSywyx5Vlr9ArD7zHkmFtWfLJYsTiO5+g=;
+        b=JJCiS6pCwKG44eEWke5fu96QURAsgIjMmT1+Hc+tfNfSGMKbOoxmMIBGRq18PsiTkOrWEc
+        D3ZqAoZfPSs/WkK0BBGP1wdHMnjwY28a1E9bl1vycyBFxaWo5FtFzCUV2yFOpxOrn6CUC0
+        4fWvL8p1FIH+S9DXssLbVeZjVxBUjPU=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-5-MPKW4xOV64ZnqAonRRrg-1; Thu, 01 Apr 2021 10:31:33 -0400
+X-MC-Unique: 5-MPKW4xOV64ZnqAonRRrg-1
+Received: by mail-ej1-f70.google.com with SMTP id k16so2295218ejg.9
+        for <linux-doc@vger.kernel.org>; Thu, 01 Apr 2021 07:31:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=XtDBz7ykDKRMTtDTrLTSXxwTFQJuBtQJjv1Xfg77ytQ=;
-        b=Eug/W+g7PdctCRCITYaz2ie4S31laTmgCQDFwJXx60KcygYG9pvUovXIGxQcuhU01K
-         0uxwhxMTN/LNrM43hAldF8Dzdy/0qj55lQgkt2uTjOi7/mvX5hbbc9JI7Q1s2YAkJDJd
-         SIQRyTMN0h5KPneXIvTZsgiL3ouR+VmazG5RswTxbLWRPqgkN5Yf+jxyXtHQUsPLW6C2
-         FgrKln0RwMhxI3ecvqKgyWMSHdeMzdVXHKuXV3hSv7b3FQKJKwaI6pRYEdl3uDeDBpGX
-         9LbWePcDyEg5Bg8b9+Ch6eyeY4jXvK5bDqRCN2w5am8MiqejfbP5HYIksppEXMpbsE+w
-         0gCA==
-X-Gm-Message-State: AOAM5311yqlRLTJNuyiXtiij8M5p04GAywccEZKf6H7jHyGiDiK1dcqK
-        na4c++1zHcu0FRjShpSP/pFbpHWJs2JCA/rFLEigpmgMGj7q1RRsPZjBdnjS3G795INzeAe9+44
-        w3iWOv0m7wHKP/SqQYxbxMgrjOjyvkDXXxjvRYzISP5afxOB4PPJESSmSQcVRbESpv04yrCrS
-X-Received: by 2002:a50:fe08:: with SMTP id f8mr10085914edt.217.1617287501468;
-        Thu, 01 Apr 2021 07:31:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzrkplglsUx4FWy5ZDzoNBFaTl9LRJrAQoJMJg7M+SOTlXx6lpwIPeSi7qSlRenq6FjNWqKjg==
-X-Received: by 2002:a50:fe08:: with SMTP id f8mr10085877edt.217.1617287501236;
-        Thu, 01 Apr 2021 07:31:41 -0700 (PDT)
+        bh=2iOhHbxMedJSywyx5Vlr9ArD7zHkmFtWfLJYsTiO5+g=;
+        b=IzfkpgoNFDaC2xr4MD6c0nMS0Y3Iqlu0vQKaH+hcDpprg9ngr/1t7OAOuETTrpdIlm
+         LCLSMQJokmxaD4YNuYLLzvmbMbjzjvaEE/BTMzljAjIvGj9DyVj0/mRYrMMC0x2gnjqg
+         x5R91uN6YUwREIxDbBnfgH21VrpaqQA/Hsqq4yEHIB5DJ5X4clf+gJfpZElqfeNr8Q21
+         coFNRyatU7hDECibTeYxvGUR7ZijSUCWy8WXdeHrp+d3KQBWTuGzMxQXFMUZ6UM66YG8
+         efrjXps2Z7BIitBGYOwR1DMHRQbF56GN8L37L5VtWrhDEO2JNssOUdSjlBhxjwln1SUn
+         L7JA==
+X-Gm-Message-State: AOAM533vQ9qO2YbttAI4o/lVP0nw/n0OOFAL7jMZr4o1nWgAClbnpAcO
+        9czLTZ4KwQzhg8ShztXuQij+kWnSNUqJQe9TQ5nO5TM/TyRT4OFpDkZHMHwQp9eWmACOe3jEheq
+        /3Bz7qGtY+gPLj2ih4DTV2lJ6pStJmRnZP/CgrwrmoiKRJwZysSwCcIh5Gu/1JnmOFPuG1ww1
+X-Received: by 2002:aa7:dc49:: with SMTP id g9mr9943113edu.60.1617287491731;
+        Thu, 01 Apr 2021 07:31:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwTSGFYcIRvJwIl/MvgfmmaGM8Lf2WtHk0Dyw4IsR6yYnaPrTVvaOCbY4n+m60DH7XOCm25QA==
+X-Received: by 2002:aa7:dc49:: with SMTP id g9mr9943078edu.60.1617287491495;
+        Thu, 01 Apr 2021 07:31:31 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id nd36sm2840882ejc.21.2021.04.01.07.31.39
+        by smtp.gmail.com with ESMTPSA id z17sm2949165eju.27.2021.04.01.07.31.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 01 Apr 2021 07:31:40 -0700 (PDT)
-Subject: Re: [PATCH 3/6] KVM: x86: introduce kvm_register_clear_available
+        Thu, 01 Apr 2021 07:31:30 -0700 (PDT)
+Subject: Re: [PATCH 1/6] KVM: nVMX: delay loading of PDPTRs to
+ KVM_REQ_GET_NESTED_STATE_PAGES
 To:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
 Cc:     "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         Jim Mattson <jmattson@google.com>,
@@ -76,14 +77,14 @@ Cc:     "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
         Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
         "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
 References: <20210401141814.1029036-1-mlevitsk@redhat.com>
- <20210401141814.1029036-4-mlevitsk@redhat.com>
+ <20210401141814.1029036-2-mlevitsk@redhat.com>
 From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <75dc7aba-fc9e-8217-e120-9c6ef3a601c8@redhat.com>
-Date:   Thu, 1 Apr 2021 16:31:39 +0200
+Message-ID: <0e9b0edc-ea1b-af10-830c-296b328593c3@redhat.com>
+Date:   Thu, 1 Apr 2021 16:31:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210401141814.1029036-4-mlevitsk@redhat.com>
+In-Reply-To: <20210401141814.1029036-2-mlevitsk@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -92,49 +93,59 @@ List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
 On 01/04/21 16:18, Maxim Levitsky wrote:
-> Small refactoring that will be used in the next patch.
+> Similar to the rest of guest page accesses after migration,
+> this should be delayed to KVM_REQ_GET_NESTED_STATE_PAGES
+> request.
 > 
 > Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 > ---
->   arch/x86/kvm/kvm_cache_regs.h | 7 +++++++
->   arch/x86/kvm/svm/svm.c        | 6 ++----
->   2 files changed, 9 insertions(+), 4 deletions(-)
+>   arch/x86/kvm/vmx/nested.c | 14 +++++++++-----
+>   1 file changed, 9 insertions(+), 5 deletions(-)
 > 
-> diff --git a/arch/x86/kvm/kvm_cache_regs.h b/arch/x86/kvm/kvm_cache_regs.h
-> index 2e11da2f5621..07d607947805 100644
-> --- a/arch/x86/kvm/kvm_cache_regs.h
-> +++ b/arch/x86/kvm/kvm_cache_regs.h
-> @@ -55,6 +55,13 @@ static inline void kvm_register_mark_available(struct kvm_vcpu *vcpu,
->   	__set_bit(reg, (unsigned long *)&vcpu->arch.regs_avail);
->   }
+> diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
+> index fd334e4aa6db..b44f1f6b68db 100644
+> --- a/arch/x86/kvm/vmx/nested.c
+> +++ b/arch/x86/kvm/vmx/nested.c
+> @@ -2564,11 +2564,6 @@ static int prepare_vmcs02(struct kvm_vcpu *vcpu, struct vmcs12 *vmcs12,
+>   		return -EINVAL;
+>   	}
 >   
-> +static inline void kvm_register_clear_available(struct kvm_vcpu *vcpu,
-> +					       enum kvm_reg reg)
-> +{
-> +	__clear_bit(reg, (unsigned long *)&vcpu->arch.regs_avail);
-> +	__clear_bit(reg, (unsigned long *)&vcpu->arch.regs_dirty);
-> +}
-> +
->   static inline void kvm_register_mark_dirty(struct kvm_vcpu *vcpu,
->   					   enum kvm_reg reg)
->   {
-> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-> index 271196400495..2843732299a2 100644
-> --- a/arch/x86/kvm/svm/svm.c
-> +++ b/arch/x86/kvm/svm/svm.c
-> @@ -3880,10 +3880,8 @@ static __no_kcsan fastpath_t svm_vcpu_run(struct kvm_vcpu *vcpu)
->   		vcpu->arch.apf.host_apf_flags =
->   			kvm_read_and_reset_apf_flags();
->   
-> -	if (npt_enabled) {
-> -		vcpu->arch.regs_avail &= ~(1 << VCPU_EXREG_PDPTR);
-> -		vcpu->arch.regs_dirty &= ~(1 << VCPU_EXREG_PDPTR);
-> -	}
-> +	if (npt_enabled)
-> +		kvm_register_clear_available(vcpu, VCPU_EXREG_PDPTR);
->   
+> -	/* Shadow page tables on either EPT or shadow page tables. */
+> -	if (nested_vmx_load_cr3(vcpu, vmcs12->guest_cr3, nested_cpu_has_ept(vmcs12),
+> -				entry_failure_code))
+> -		return -EINVAL;
+> -
 >   	/*
->   	 * We need to handle MC intercepts here before the vcpu has a chance to
+>   	 * Immediately write vmcs02.GUEST_CR3.  It will be propagated to vmcs12
+>   	 * on nested VM-Exit, which can occur without actually running L2 and
+> @@ -3109,11 +3104,16 @@ static bool nested_get_evmcs_page(struct kvm_vcpu *vcpu)
+>   static bool nested_get_vmcs12_pages(struct kvm_vcpu *vcpu)
+>   {
+>   	struct vmcs12 *vmcs12 = get_vmcs12(vcpu);
+> +	enum vm_entry_failure_code entry_failure_code;
+>   	struct vcpu_vmx *vmx = to_vmx(vcpu);
+>   	struct kvm_host_map *map;
+>   	struct page *page;
+>   	u64 hpa;
+>   
+> +	if (nested_vmx_load_cr3(vcpu, vmcs12->guest_cr3, nested_cpu_has_ept(vmcs12),
+> +				&entry_failure_code))
+> +		return false;
+> +
+>   	if (nested_cpu_has2(vmcs12, SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES)) {
+>   		/*
+>   		 * Translate L1 physical address to host physical
+> @@ -3357,6 +3357,10 @@ enum nvmx_vmentry_status nested_vmx_enter_non_root_mode(struct kvm_vcpu *vcpu,
+>   	}
+>   
+>   	if (from_vmentry) {
+> +		if (nested_vmx_load_cr3(vcpu, vmcs12->guest_cr3,
+> +		    nested_cpu_has_ept(vmcs12), &entry_failure_code))
+> +			goto vmentry_fail_vmexit_guest_mode;
+> +
+>   		failed_index = nested_vmx_load_msr(vcpu,
+>   						   vmcs12->vm_entry_msr_load_addr,
+>   						   vmcs12->vm_entry_msr_load_count);
 > 
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
