@@ -4,43 +4,43 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 007E1C43460
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:01:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1722C433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:01:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C9C8861139
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:01:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 88BE2611CB
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:01:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234185AbhDASBR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 1 Apr 2021 14:01:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:39948 "EHLO
+        id S234893AbhDASBT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 1 Apr 2021 14:01:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39668 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235928AbhDAR5S (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:57:18 -0400
+        by vger.kernel.org with ESMTP id S236566AbhDAR6C (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:58:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617299836;
+        s=mimecast20190719; t=1617299882;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=NuvXglGlpdJ/QEHoOnrFCNfTazwjmv2hUiB2qqpR7J0=;
-        b=Jye7GeSkBzrxqwy0zimxvYAkC2KSdtxlVDWoMWzH+h1N9FwV8k4Wuy5glWpXEIZ01vObe7
-        ZjsBobGpzrpF5X1pOAEc2KFcNg1pDsvspDUvhzNlX/phEbw7jwSdxUKfN6bu1qqPobFQZ9
-        Ag1XHm5grgum6VUkjk8gv9jYeMbMJ0k=
+        bh=fL+sm3fDoeQVw/phEkL72DmeE0hZ8upmmmSY12kpjHo=;
+        b=fPiRrvTBK0hXT7v/XKBrAIUebpXjYLdMEpsExL6H8K0hyFAtmB653LDTjG0ZkXpUMa+wjB
+        kwYpnb9MzeDAYCeR5T3VmXUd6GRftoh6sj0ZxkSUxTTwdTVbX8BbOyANUYW48jEgj1QaEJ
+        mawCACHv21yPkNXR5RZnksWHGlQI1No=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-YmW1MhWNNkGN89uyV9ZwLg-1; Thu, 01 Apr 2021 09:55:56 -0400
-X-MC-Unique: YmW1MhWNNkGN89uyV9ZwLg-1
+ us-mta-266-zaaTPaldOCWh5S3hVw1eLA-1; Thu, 01 Apr 2021 09:56:30 -0400
+X-MC-Unique: zaaTPaldOCWh5S3hVw1eLA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
         (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 363BA802690;
-        Thu,  1 Apr 2021 13:55:53 +0000 (UTC)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CDF5107ACCD;
+        Thu,  1 Apr 2021 13:56:27 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.35.206.58])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 2FC8D5D6B1;
-        Thu,  1 Apr 2021 13:55:44 +0000 (UTC)
+        by smtp.corp.redhat.com (Postfix) with ESMTP id A83185D6B1;
+        Thu,  1 Apr 2021 13:56:15 +0000 (UTC)
 From:   Maxim Levitsky <mlevitsk@redhat.com>
 To:     kvm@vger.kernel.org
 Cc:     x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
@@ -77,10 +77,11 @@ Cc:     x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
         Kieran Bingham <kbingham@kernel.org>,
         linux-doc@vger.kernel.org (open list:DOCUMENTATION),
         linux-arm-kernel@lists.infradead.org (moderated list:KERNEL VIRTUAL
-        MACHINE FOR ARM64 (KVM/arm64)), James Morse <james.morse@arm.com>
-Subject: [PATCH v2 5/9] KVM: s390x: implement KVM_CAP_SET_GUEST_DEBUG2
-Date:   Thu,  1 Apr 2021 16:54:47 +0300
-Message-Id: <20210401135451.1004564-6-mlevitsk@redhat.com>
+        MACHINE FOR ARM64 (KVM/arm64)), James Morse <james.morse@arm.com>,
+        Borislav Petkov <bp@suse.de>
+Subject: [PATCH v2 8/9] KVM: x86: add force_intercept_exceptions_mask
+Date:   Thu,  1 Apr 2021 16:54:50 +0300
+Message-Id: <20210401135451.1004564-9-mlevitsk@redhat.com>
 In-Reply-To: <20210401135451.1004564-1-mlevitsk@redhat.com>
 References: <20210401135451.1004564-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
@@ -90,44 +91,49 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Define KVM_GUESTDBG_VALID_MASK and use it to implement this capabiity.
-Compile tested only.
+This parameter will be used by VMX and SVM code to force
+interception of a set of exceptions, given by a bitmask
+for guest debug and/or kvm debug.
 
+This option is not intended for production.
+
+This is based on an idea first shown here:
+https://patchwork.kernel.org/project/kvm/patch/20160301192822.GD22677@pd.tnic/
+
+CC: Borislav Petkov <bp@suse.de>
 Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 ---
- arch/s390/include/asm/kvm_host.h | 4 ++++
- arch/s390/kvm/kvm-s390.c         | 3 +++
- 2 files changed, 7 insertions(+)
+ arch/x86/kvm/x86.c | 3 +++
+ arch/x86/kvm/x86.h | 2 ++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/arch/s390/include/asm/kvm_host.h b/arch/s390/include/asm/kvm_host.h
-index 6bcfc5614bbc..a3902b57b825 100644
---- a/arch/s390/include/asm/kvm_host.h
-+++ b/arch/s390/include/asm/kvm_host.h
-@@ -700,6 +700,10 @@ struct kvm_hw_bp_info_arch {
- #define guestdbg_exit_pending(vcpu) (guestdbg_enabled(vcpu) && \
- 		(vcpu->guest_debug & KVM_GUESTDBG_EXIT_PENDING))
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 3627ce8fe5bb..1a51031d64d8 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -176,6 +176,9 @@ module_param(force_emulation_prefix, bool, S_IRUGO);
+ int __read_mostly pi_inject_timer = -1;
+ module_param(pi_inject_timer, bint, S_IRUGO | S_IWUSR);
  
-+#define KVM_GUESTDBG_VALID_MASK \
-+		(KVM_GUESTDBG_ENABLE | KVM_GUESTDBG_SINGLESTEP |\
-+		KVM_GUESTDBG_USE_HW_BP | KVM_GUESTDBG_EXIT_PENDING)
++uint force_intercept_exceptions_mask;
++module_param(force_intercept_exceptions_mask, uint, S_IRUGO | S_IWUSR);
++EXPORT_SYMBOL_GPL(force_intercept_exceptions_mask);
+ /*
+  * Restoring the host value for MSRs that are only consumed when running in
+  * usermode, e.g. SYSCALL MSRs and TSC_AUX, can be deferred until the CPU
+diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
+index daccf20fbcd5..644480711ff7 100644
+--- a/arch/x86/kvm/x86.h
++++ b/arch/x86/kvm/x86.h
+@@ -311,6 +311,8 @@ extern struct static_key kvm_no_apic_vcpu;
+ 
+ extern bool report_ignored_msrs;
+ 
++extern uint force_intercept_exceptions_mask;
 +
- struct kvm_guestdbg_info_arch {
- 	unsigned long cr0;
- 	unsigned long cr9;
-diff --git a/arch/s390/kvm/kvm-s390.c b/arch/s390/kvm/kvm-s390.c
-index 2f09e9d7dc95..2049fc8c222a 100644
---- a/arch/s390/kvm/kvm-s390.c
-+++ b/arch/s390/kvm/kvm-s390.c
-@@ -544,6 +544,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_S390_DIAG318:
- 		r = 1;
- 		break;
-+	case KVM_CAP_SET_GUEST_DEBUG2:
-+		r = KVM_GUESTDBG_VALID_MASK;
-+		break;
- 	case KVM_CAP_S390_HPAGE_1M:
- 		r = 0;
- 		if (hpage && !kvm_is_ucontrol(kvm))
+ static inline u64 nsec_to_cycles(struct kvm_vcpu *vcpu, u64 nsec)
+ {
+ 	return pvclock_scale_delta(nsec, vcpu->arch.virtual_tsc_mult,
 -- 
 2.26.2
 
