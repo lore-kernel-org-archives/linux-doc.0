@@ -2,50 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83F37C433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:06:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B055EC433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:06:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E31F60FE6
-	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:06:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8476D61001
+	for <linux-doc@archiver.kernel.org>; Thu,  1 Apr 2021 18:06:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234744AbhDASGk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S234663AbhDASGk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 1 Apr 2021 14:06:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37006 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236816AbhDASDB (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Apr 2021 14:03:01 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id E8E45611CC;
-        Thu,  1 Apr 2021 12:37:05 +0000 (UTC)
-From:   Catalin Marinas <catalin.marinas@arm.com>
-To:     corbet@lwn.net, will@kernel.org, He Ying <heying24@huawei.com>
-Cc:     linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH -next] docs: arm64: Fix a grammar error
-Date:   Thu,  1 Apr 2021 13:37:04 +0100
-Message-Id: <161728062026.15531.9076497905075968278.b4-ty@arm.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210330085817.86185-1-heying24@huawei.com>
-References: <20210330085817.86185-1-heying24@huawei.com>
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44662 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S236143AbhDAR7B (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 1 Apr 2021 13:59:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617299941;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Beke6p3SuuLc9PEBd5EVBwfI5FcHk7u5ME5KWl6tIhg=;
+        b=BE/3S1SRQcU9krpV8ZkcZ6SLjR+BU4vuC5IQEPwp42yklVH/QQwazV9Ur2iBm8afdZMPKi
+        ronHmfMfNoifQXqe9zIBV8iwyVpaJVbbKFr0NInZBKjdN0ezBXckqzOmU037sIhTGMXz/r
+        vgXO9KY8j2nYzkHUHjMZH4cWb26UdCs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-99-_HcijJiUNj-mXO3Df2jx2A-1; Thu, 01 Apr 2021 09:55:49 -0400
+X-MC-Unique: _HcijJiUNj-mXO3Df2jx2A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com [10.5.11.15])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C75BD107BEF6;
+        Thu,  1 Apr 2021 13:55:44 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.35.206.58])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 32E505D6B1;
+        Thu,  1 Apr 2021 13:55:32 +0000 (UTC)
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     kvm@vger.kernel.org
+Cc:     x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+        Ingo Molnar <mingo@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sean Christopherson <seanjc@google.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        linux-kernel@vger.kernel.org (open list),
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jessica Yu <jeyu@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Will Deacon <will@kernel.org>,
+        kvmarm@lists.cs.columbia.edu (open list:KERNEL VIRTUAL MACHINE FOR
+        ARM64 (KVM/arm64)), Paolo Bonzini <pbonzini@redhat.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Jim Mattson <jmattson@google.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Maxim Levitsky <mlevitsk@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        linux-s390@vger.kernel.org (open list:S390),
+        Heiko Carstens <hca@linux.ibm.com>,
+        Kieran Bingham <kbingham@kernel.org>,
+        linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+        linux-arm-kernel@lists.infradead.org (moderated list:KERNEL VIRTUAL
+        MACHINE FOR ARM64 (KVM/arm64)), James Morse <james.morse@arm.com>
+Subject: [PATCH v2 4/9] KVM: aarch64: implement KVM_CAP_SET_GUEST_DEBUG2
+Date:   Thu,  1 Apr 2021 16:54:46 +0300
+Message-Id: <20210401135451.1004564-5-mlevitsk@redhat.com>
+In-Reply-To: <20210401135451.1004564-1-mlevitsk@redhat.com>
+References: <20210401135451.1004564-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, 30 Mar 2021 04:58:17 -0400, He Ying wrote:
-> depending -> depending on
+Move KVM_GUESTDBG_VALID_MASK to kvm_host.h
+and use it to return the value of this capability.
+Compile tested only.
 
-Applied to arm64 (for-next/misc), thanks!
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ arch/arm64/include/asm/kvm_host.h | 4 ++++
+ arch/arm64/kvm/arm.c              | 2 ++
+ arch/arm64/kvm/guest.c            | 5 -----
+ 3 files changed, 6 insertions(+), 5 deletions(-)
 
-[1/1] docs: arm64: Fix a grammar error
-      https://git.kernel.org/arm64/c/68f638a432df
-
+diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+index 3d10e6527f7d..613421454ab6 100644
+--- a/arch/arm64/include/asm/kvm_host.h
++++ b/arch/arm64/include/asm/kvm_host.h
+@@ -401,6 +401,10 @@ struct kvm_vcpu_arch {
+ #define KVM_ARM64_PENDING_EXCEPTION	(1 << 8) /* Exception pending */
+ #define KVM_ARM64_EXCEPT_MASK		(7 << 9) /* Target EL/MODE */
+ 
++#define KVM_GUESTDBG_VALID_MASK (KVM_GUESTDBG_ENABLE | \
++				 KVM_GUESTDBG_USE_SW_BP | \
++				 KVM_GUESTDBG_USE_HW | \
++				 KVM_GUESTDBG_SINGLESTEP)
+ /*
+  * When KVM_ARM64_PENDING_EXCEPTION is set, KVM_ARM64_EXCEPT_MASK can
+  * take the following values:
+diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+index 7f06ba76698d..e575eff76e97 100644
+--- a/arch/arm64/kvm/arm.c
++++ b/arch/arm64/kvm/arm.c
+@@ -208,6 +208,8 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 	case KVM_CAP_VCPU_ATTRIBUTES:
+ 		r = 1;
+ 		break;
++	case KVM_CAP_SET_GUEST_DEBUG2:
++		return KVM_GUESTDBG_VALID_MASK;
+ 	case KVM_CAP_ARM_SET_DEVICE_ADDR:
+ 		r = 1;
+ 		break;
+diff --git a/arch/arm64/kvm/guest.c b/arch/arm64/kvm/guest.c
+index 9bbd30e62799..6cb39ee74acd 100644
+--- a/arch/arm64/kvm/guest.c
++++ b/arch/arm64/kvm/guest.c
+@@ -888,11 +888,6 @@ int kvm_arch_vcpu_ioctl_translate(struct kvm_vcpu *vcpu,
+ 	return -EINVAL;
+ }
+ 
+-#define KVM_GUESTDBG_VALID_MASK (KVM_GUESTDBG_ENABLE |    \
+-			    KVM_GUESTDBG_USE_SW_BP | \
+-			    KVM_GUESTDBG_USE_HW | \
+-			    KVM_GUESTDBG_SINGLESTEP)
+-
+ /**
+  * kvm_arch_vcpu_ioctl_set_guest_debug - set up guest debugging
+  * @kvm:	pointer to the KVM struct
 -- 
-Catalin
+2.26.2
 
