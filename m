@@ -2,98 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31DCDC43461
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:03:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 125B5C433ED
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:04:58 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F078561104
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:03:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CCA3861105
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:04:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233718AbhDBJDu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Apr 2021 05:03:50 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:39118 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229553AbhDBJDu (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Apr 2021 05:03:50 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8E0972C1;
-        Fri,  2 Apr 2021 11:03:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1617354228;
-        bh=Kzbj82j6a5RIuhqwfbtA9bXvsFhNaTtuBCtplxFGb1Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Mg4cWSYr/Y24IuZbFVB601DItDd7WRI6xF576+OABSC0pu14BnvhI2VVK5xXvIMJW
-         BXSKYgw7VQhhzsAtiD26jEM3W3Lh5u+ZimdJhUhTrs8cbuotvH3p0NDyiRfs7dem/i
-         B+3XtTqFrpv0Q2ctrWkenZZopY+J9G282oT1+WcI=
-Date:   Fri, 2 Apr 2021 12:03:04 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        id S229722AbhDBJE5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Apr 2021 05:04:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50498 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229553AbhDBJE5 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Apr 2021 05:04:57 -0400
+Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 944F160724;
+        Fri,  2 Apr 2021 09:04:54 +0000 (UTC)
+Date:   Fri, 2 Apr 2021 10:05:03 +0100
+From:   Jonathan Cameron <jic23@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Rob Herring <robh@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 24/32] MAINTAINERS: update imi,rdacm2x-gmsl.yaml reference
-Message-ID: <YGbdyLeLSFJ3uxcv@pendragon.ideasonboard.com>
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/32] MAINTAINERS: update adi,ad5758.yaml reference
+Message-ID: <20210402100503.7d497d48@jic23-huawei>
+In-Reply-To: <ca35b929c098163cfda9682ce791572629b763e2.1617279355.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
- <b03a41b5051b6cb115b2aa9c3d610e75d84dcfea.1617279356.git.mchehab+huawei@kernel.org>
- <YGbdbL6Bf4293Pno@pendragon.ideasonboard.com>
+        <ca35b929c098163cfda9682ce791572629b763e2.1617279355.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YGbdbL6Bf4293Pno@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 02, 2021 at 12:01:35PM +0300, Laurent Pinchart wrote:
-> Hi Mauro,
+On Thu,  1 Apr 2021 14:17:21 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+
+> Changeset 1e6536ee349b ("dt-bindings:iio:dac:adi,ad5758 yaml conversion")
+> renamed: Documentation/devicetree/bindings/iio/dac/ad5758.txt
+> to: Documentation/devicetree/bindings/iio/dac/adi,ad5758.yaml.
 > 
-> Thank you for the patch.
+> Update its cross-reference accordingly.
 > 
-> On Thu, Apr 01, 2021 at 02:17:44PM +0200, Mauro Carvalho Chehab wrote:
-> > The file name: Documentation/devicetree/bindings/media/i2c/rdacm2x-gmsl.yaml
-> > should be, instead: Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml.
+> Fixes: 1e6536ee349b ("dt-bindings:iio:dac:adi,ad5758 yaml conversion")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Hi Mauro,
+
+Oops. These have been on my todo list for a while to tidy up. I kind
+of forgot to check MAINTAINERS whilst doing the conversions.
+
+Ah well, thanks for tidying up.
+
+Applied to the togreg branch of iio.git and pushed out as testing for
+autobuilders to probably not notice.
+
+Thanks
+
+Jonathan
+
+p.s. For anything IIO related I'll notice more quickly in general
+if linux-iio@vger.kernel.org is cc'd.
+
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> While at it, shouldn't we also rename the file to imi,rdacm2x.yaml ?
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 38d823d72e52..4c8a926ef201 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1141,7 +1141,7 @@ W:	http://ez.analog.com/community/linux-device-drivers
+>  F:	Documentation/ABI/testing/sysfs-bus-iio-frequency-ad9523
+>  F:	Documentation/ABI/testing/sysfs-bus-iio-frequency-adf4350
+>  F:	Documentation/devicetree/bindings/iio/*/adi,*
+> -F:	Documentation/devicetree/bindings/iio/dac/ad5758.txt
+> +F:	Documentation/devicetree/bindings/iio/dac/adi,ad5758.yaml
+>  F:	drivers/iio/*/ad*
+>  F:	drivers/iio/adc/ltc249*
+>  F:	drivers/iio/amplifiers/hmc425a.c
 
-I spoke too fast, sorry. There are RDACM2x cameras that use FPD-Link III
-(RDACM23, 24, 25, 28, 29).
-
-> > Update its cross-reference accordingly.
-> > 
-> > Fixes: 34009bffc1c6 ("media: i2c: Add RDACM20 driver")
-> > Fixes: e9f817689789 ("media: dt-bindings: media: i2c: Add bindings for IMI RDACM2x")
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> > ---
-> >  MAINTAINERS | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 1644b6e9697c..b405ee71f730 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -15258,7 +15258,7 @@ M:	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >  M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> >  L:	linux-media@vger.kernel.org
-> >  S:	Maintained
-> > -F:	Documentation/devicetree/bindings/media/i2c/rdacm2x-gmsl.yaml
-> > +F:	Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
-> >  F:	drivers/media/i2c/max9271.c
-> >  F:	drivers/media/i2c/max9271.h
-> >  F:	drivers/media/i2c/rdacm21.c
-
--- 
-Regards,
-
-Laurent Pinchart
