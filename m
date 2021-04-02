@@ -7,32 +7,29 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D70E5C433ED
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:02:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31DCDC43461
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:03:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 95BF361105
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:02:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F078561104
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:03:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234389AbhDBJCU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Apr 2021 05:02:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59784 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233894AbhDBJCU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Apr 2021 05:02:20 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 594E3C0613E6;
-        Fri,  2 Apr 2021 02:02:19 -0700 (PDT)
+        id S233718AbhDBJDu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Apr 2021 05:03:50 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:39118 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229553AbhDBJDu (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Apr 2021 05:03:50 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C0E452C1;
-        Fri,  2 Apr 2021 11:02:17 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8E0972C1;
+        Fri,  2 Apr 2021 11:03:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1617354137;
-        bh=m6ZGYgbYLj1bfOfHZhYxK0ZYKThedUquzSx1M4VPGJ0=;
+        s=mail; t=1617354228;
+        bh=Kzbj82j6a5RIuhqwfbtA9bXvsFhNaTtuBCtplxFGb1Q=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bSSBmsRNzTmOU9YZJaT9Z80yzzGWowTKNNTJq2687wUnHDO5/9oRQ33zFw6Gj44xa
-         P1FxayPZjFmx4aCyDYnBBMMTZ73OPUfcofIdIWQK4rYL+hJkQkzki2DK2tqy/atG1m
-         u2yWvO3pjDqc8gpqxgxy6bh1znbL9+SFBcvMgWMw=
-Date:   Fri, 2 Apr 2021 12:01:32 +0300
+        b=Mg4cWSYr/Y24IuZbFVB601DItDd7WRI6xF576+OABSC0pu14BnvhI2VVK5xXvIMJW
+         BXSKYgw7VQhhzsAtiD26jEM3W3Lh5u+ZimdJhUhTrs8cbuotvH3p0NDyiRfs7dem/i
+         B+3XtTqFrpv0Q2ctrWkenZZopY+J9G282oT1+WcI=
+Date:   Fri, 2 Apr 2021 12:03:04 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -43,50 +40,58 @@ Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 24/32] MAINTAINERS: update imi,rdacm2x-gmsl.yaml reference
-Message-ID: <YGbdbL6Bf4293Pno@pendragon.ideasonboard.com>
+Message-ID: <YGbdyLeLSFJ3uxcv@pendragon.ideasonboard.com>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
  <b03a41b5051b6cb115b2aa9c3d610e75d84dcfea.1617279356.git.mchehab+huawei@kernel.org>
+ <YGbdbL6Bf4293Pno@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b03a41b5051b6cb115b2aa9c3d610e75d84dcfea.1617279356.git.mchehab+huawei@kernel.org>
+In-Reply-To: <YGbdbL6Bf4293Pno@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Mauro,
-
-Thank you for the patch.
-
-On Thu, Apr 01, 2021 at 02:17:44PM +0200, Mauro Carvalho Chehab wrote:
-> The file name: Documentation/devicetree/bindings/media/i2c/rdacm2x-gmsl.yaml
-> should be, instead: Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml.
-
-While at it, shouldn't we also rename the file to imi,rdacm2x.yaml ?
-
-> Update its cross-reference accordingly.
+On Fri, Apr 02, 2021 at 12:01:35PM +0300, Laurent Pinchart wrote:
+> Hi Mauro,
 > 
-> Fixes: 34009bffc1c6 ("media: i2c: Add RDACM20 driver")
-> Fixes: e9f817689789 ("media: dt-bindings: media: i2c: Add bindings for IMI RDACM2x")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Thank you for the patch.
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1644b6e9697c..b405ee71f730 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15258,7 +15258,7 @@ M:	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->  M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
-> -F:	Documentation/devicetree/bindings/media/i2c/rdacm2x-gmsl.yaml
-> +F:	Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
->  F:	drivers/media/i2c/max9271.c
->  F:	drivers/media/i2c/max9271.h
->  F:	drivers/media/i2c/rdacm21.c
+> On Thu, Apr 01, 2021 at 02:17:44PM +0200, Mauro Carvalho Chehab wrote:
+> > The file name: Documentation/devicetree/bindings/media/i2c/rdacm2x-gmsl.yaml
+> > should be, instead: Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml.
+> 
+> While at it, shouldn't we also rename the file to imi,rdacm2x.yaml ?
+
+I spoke too fast, sorry. There are RDACM2x cameras that use FPD-Link III
+(RDACM23, 24, 25, 28, 29).
+
+> > Update its cross-reference accordingly.
+> > 
+> > Fixes: 34009bffc1c6 ("media: i2c: Add RDACM20 driver")
+> > Fixes: e9f817689789 ("media: dt-bindings: media: i2c: Add bindings for IMI RDACM2x")
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> > ---
+> >  MAINTAINERS | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 1644b6e9697c..b405ee71f730 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -15258,7 +15258,7 @@ M:	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> >  M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> >  L:	linux-media@vger.kernel.org
+> >  S:	Maintained
+> > -F:	Documentation/devicetree/bindings/media/i2c/rdacm2x-gmsl.yaml
+> > +F:	Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
+> >  F:	drivers/media/i2c/max9271.c
+> >  F:	drivers/media/i2c/max9271.h
+> >  F:	drivers/media/i2c/rdacm21.c
 
 -- 
 Regards,
