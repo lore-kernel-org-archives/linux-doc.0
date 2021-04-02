@@ -6,36 +6,37 @@ X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F015C433ED
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:24:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 744EFC433B4
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:27:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 22F5361106
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:24:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3260161106
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:27:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234432AbhDBJYi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Apr 2021 05:24:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59430 "EHLO mail.kernel.org"
+        id S234649AbhDBJ1K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Apr 2021 05:27:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60060 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231160AbhDBJYi (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Apr 2021 05:24:38 -0400
+        id S231160AbhDBJ1K (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Apr 2021 05:27:10 -0400
 Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C45E160FD9;
-        Fri,  2 Apr 2021 09:24:34 +0000 (UTC)
-Date:   Fri, 2 Apr 2021 10:24:46 +0100
+        by mail.kernel.org (Postfix) with ESMTPSA id AEAF261105;
+        Fri,  2 Apr 2021 09:27:07 +0000 (UTC)
+Date:   Fri, 2 Apr 2021 10:27:20 +0100
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 21/32] MAINTAINERS: update ti,dac7612.yaml reference
-Message-ID: <20210402102446.7ac6d921@jic23-huawei>
-In-Reply-To: <04039b6991838f0107a42ccb0d9774cb8873a61a.1617279355.git.mchehab+huawei@kernel.org>
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Rob Herring <robh@kernel.org>, linux-iio@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 25/32] dt-bindings:iio:dac: update
+ microchip,mcp4725.yaml reference
+Message-ID: <20210402102720.537daedc@jic23-huawei>
+In-Reply-To: <82fb54974e8a22be15e64343260a6de39a18edda.1617279356.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
-        <04039b6991838f0107a42ccb0d9774cb8873a61a.1617279355.git.mchehab+huawei@kernel.org>
+        <82fb54974e8a22be15e64343260a6de39a18edda.1617279356.git.mchehab+huawei@kernel.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -44,35 +45,37 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  1 Apr 2021 14:17:41 +0200
+On Thu,  1 Apr 2021 14:17:45 +0200
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> Changeset 8b74e06b0f4d ("dt-bindings:iio:dac:ti,dac7612 yaml conversion")
-> renamed: Documentation/devicetree/bindings/iio/dac/ti,dac7612.txt
-> to: Documentation/devicetree/bindings/iio/dac/ti,dac7612.yaml.
+> Changeset 6ced946a4bba ("dt-bindings:iio:dac:microchip,mcp4725 yaml conversion")
+> renamed: Documentation/devicetree/bindings/iio/dac/mcp4725.txt
+> to: Documentation/devicetree/bindings/iio/dac/microchip,mcp4725.yaml.
 > 
 > Update its cross-reference accordingly.
 > 
-> Fixes: 8b74e06b0f4d ("dt-bindings:iio:dac:ti,dac7612 yaml conversion")
+> Fixes: 6ced946a4bba ("dt-bindings:iio:dac:microchip,mcp4725 yaml conversion")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Applied,
+Applied thanks.
+
+Jonathan
 
 > ---
->  MAINTAINERS | 2 +-
+>  include/linux/iio/dac/mcp4725.h | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 6b0a6f251e6b..2f63ebd2cfc8 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17907,7 +17907,7 @@ TEXAS INSTRUMENTS' DAC7612 DAC DRIVER
->  M:	Ricardo Ribalda <ribalda@kernel.org>
->  L:	linux-iio@vger.kernel.org
->  S:	Supported
-> -F:	Documentation/devicetree/bindings/iio/dac/ti,dac7612.txt
-> +F:	Documentation/devicetree/bindings/iio/dac/ti,dac7612.yaml
->  F:	drivers/iio/dac/ti-dac7612.c
->  
->  TEXAS INSTRUMENTS DMA DRIVERS
+> diff --git a/include/linux/iio/dac/mcp4725.h b/include/linux/iio/dac/mcp4725.h
+> index e9801c8d49c0..1f7e53c506b6 100644
+> --- a/include/linux/iio/dac/mcp4725.h
+> +++ b/include/linux/iio/dac/mcp4725.h
+> @@ -15,7 +15,7 @@
+>   * @vref_buffered: Controls buffering of the external reference voltage.
+>   *
+>   * Vref related settings are available only on MCP4756. See
+> - * Documentation/devicetree/bindings/iio/dac/mcp4725.txt for more information.
+> + * Documentation/devicetree/bindings/iio/dac/microchip,mcp4725.yaml for more information.
+>   */
+>  struct mcp4725_platform_data {
+>  	bool use_vref;
 
