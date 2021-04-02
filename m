@@ -2,194 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E75D5C433ED
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 17:27:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A535C433ED
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 17:38:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C909261164
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 17:27:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C4D746113E
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 17:38:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234738AbhDBR1k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Apr 2021 13:27:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234717AbhDBR1k (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Apr 2021 13:27:40 -0400
-Received: from mail-pg1-x533.google.com (mail-pg1-x533.google.com [IPv6:2607:f8b0:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 281C4C0613E6
-        for <linux-doc@vger.kernel.org>; Fri,  2 Apr 2021 10:27:39 -0700 (PDT)
-Received: by mail-pg1-x533.google.com with SMTP id t140so3921776pgb.13
-        for <linux-doc@vger.kernel.org>; Fri, 02 Apr 2021 10:27:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=0KRHAFf6XYp/bIiHPeRWhSXO2Fw44pBrmTOiP09/NiQ=;
-        b=a18oCvVbYo2yphryIVjdJRy+DbRMfRN0xfjZwQvlwjPcIHY+MygsRh50jP3Xehco+8
-         k5X3gk6Zo2fV+JBa1OCj9K5pYrTlbFIW/w6L0fDuT2TqrR2NZ8v/6WAZvm7Rsn5Qi7lf
-         b0SA2uAmZ1Cjgn4GDNN7dcpsUHIPT8s+M79s6N6lwuT2cyd6Qu0m5CyFN8W93dWln+0p
-         Df35hKz+/kVB2yc5yEXtZNUzmQ+9lE7y+ia7lAvd8iu16TwyefpeI9KYisb+58SOep7c
-         sgMNQuAAHwuqele4MJ4vZy2eXVCBFYBUYTvA/TeyFVVqH3Zm5zhpMpW8m+V0qGBQ1mjX
-         xjjg==
+        id S235477AbhDBRiu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Apr 2021 13:38:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48921 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235421AbhDBRit (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Apr 2021 13:38:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617385128;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TKDRlulogoRtKYWAUF1pyaqEOli9TuwMVFnHg7gDyqg=;
+        b=jPjmwW4Maiw5/Wr96xRRg2D2wYRBXmYwSyF53aMGmYCU1E9H+kaPc10HbRHe9L/ygygc4D
+        dCo2Wx7wiaBbcFY7xYwLsA+BTUSdpzX2/tK0kJmk/LLjv4KffJ+udD8QzGN1rHHa4uh5Uk
+        3mXRZKMHPTPIWZrupsIGJK4jFmhbmCw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-415-V9_-ME3iPBGvYDAtQs-yYQ-1; Fri, 02 Apr 2021 13:38:44 -0400
+X-MC-Unique: V9_-ME3iPBGvYDAtQs-yYQ-1
+Received: by mail-ed1-f69.google.com with SMTP id y23so191308edl.19
+        for <linux-doc@vger.kernel.org>; Fri, 02 Apr 2021 10:38:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0KRHAFf6XYp/bIiHPeRWhSXO2Fw44pBrmTOiP09/NiQ=;
-        b=QVCqkr+qtw18L5bY37GqzE3ESonH4MnUHUsr2iQ/6jy51y8Hf9mDeBvjEV1/lbgHZb
-         SQlw4Omghp5k54hNCHXIA+qoVH7FfKW35Azyhq+yz0I/QWuxJmMWJQGUatrmsYiVQ1Jm
-         BCYCs7vcl8a9W8/trTFoj7Eu+etlbwGQ7jLlg2n6lsW21NaMhrM/C7YcAfOdyZCHwX2o
-         odKORusFg9vLokW+EK7gtbxRdcbKBBRDu0eQPeV06cI5K5CnLoVxUQeHvyT/87/YNilO
-         Rml644WJ3pmY001PGWBGSeXjL3/5Of75zRhJLWD5xBbR3vHx/1j1ZENddezoyUmvBwxd
-         TAAw==
-X-Gm-Message-State: AOAM531klMC87NeTBVKxR/qYrXFSH6EMwHtqKDa9YYsr9BBQv/CGt1uh
-        5b+pErc426Zmf6WI27HqpMxwWw==
-X-Google-Smtp-Source: ABdhPJzo+3KlTDJrjXzNNeTy6ALg+P20+MFZnlIQdhKLAx2tZEkAbrp1t5yZq6L3AGKpuwtvSbGthg==
-X-Received: by 2002:a63:4460:: with SMTP id t32mr12530863pgk.139.1617384458489;
-        Fri, 02 Apr 2021 10:27:38 -0700 (PDT)
-Received: from google.com (240.111.247.35.bc.googleusercontent.com. [35.247.111.240])
-        by smtp.gmail.com with ESMTPSA id n5sm8859941pfq.44.2021.04.02.10.27.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Apr 2021 10:27:37 -0700 (PDT)
-Date:   Fri, 2 Apr 2021 17:27:34 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Maxim Levitsky <mlevitsk@redhat.com>
-Cc:     kvm@vger.kernel.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Jim Mattson <jmattson@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" 
-        <linux-kernel@vger.kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=TKDRlulogoRtKYWAUF1pyaqEOli9TuwMVFnHg7gDyqg=;
+        b=AqHt1Z6f2rllRXoyRUYrl1G/l7znDIFxQY+PYA5r2JozVEm0zP2XFqGY70r8M03lFx
+         zPHxEbqua5VCadEHV7GCMS93O9EOR7WcYEU5PEzFVc+sqOGN9FtBkcOMLls96e5Wxk2g
+         LYmhR6KOatVTbd5+qFSc1LA+ukLHy2VAKBrRRTGOvjY07BHwkvsJxkYelTNpc1fiURSm
+         EtfXGOeIIbIFe67FzmhVk0GzQvpdxkguGSlgP6aoGcuLmHrhP1jW0iZsA/N+yZZFb2QG
+         xCW/cN+oP0RKLVbWEi1yjzr9Hkct/Nf8nTV9J24rmLV5/SkgL+mg7Rf2KWwcbebkJ++v
+         sD5Q==
+X-Gm-Message-State: AOAM530EWD2Zlye+FHz1nruXMV+zkc3iAYIlHz28IrYALva3MMQdDJF2
+        +MaTJ0W4zA/2TPFL4M0GEyM2ffeJimMdwB5KOsOrgw8jzNbBXKG+C095KKM3AsSvpHlNcIJvM2L
+        BKOVEvd2Cw6xTNvFIrtRe
+X-Received: by 2002:a17:907:3f10:: with SMTP id hq16mr2635471ejc.181.1617385123129;
+        Fri, 02 Apr 2021 10:38:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzAS7ZbtJVwnzUWnA/6X0McPrVes3ar3lqem09HSmYxMrqLZW+HviZElaAarzltynI2Jr8wwA==
+X-Received: by 2002:a17:907:3f10:: with SMTP id hq16mr2635443ejc.181.1617385122924;
+        Fri, 02 Apr 2021 10:38:42 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+        by smtp.gmail.com with ESMTPSA id y17sm4462135ejf.116.2021.04.02.10.38.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Apr 2021 10:38:42 -0700 (PDT)
+Subject: Re: [PATCH v2 0/9] KVM: my debug patch queue
+To:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
+Cc:     "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         Thomas Gleixner <tglx@linutronix.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 1/6] KVM: nVMX: delay loading of PDPTRs to
- KVM_REQ_GET_NESTED_STATE_PAGES
-Message-ID: <YGdUBvliVWoF0tVl@google.com>
-References: <20210401141814.1029036-1-mlevitsk@redhat.com>
- <20210401141814.1029036-2-mlevitsk@redhat.com>
+        Sean Christopherson <seanjc@google.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jessica Yu <jeyu@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Will Deacon <will@kernel.org>,
+        "open list:KERNEL VIRTUAL MACHINE FOR ARM64 (KVM/arm64)" 
+        <kvmarm@lists.cs.columbia.edu>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Jim Mattson <jmattson@google.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "open list:S390" <linux-s390@vger.kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Kieran Bingham <kbingham@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "moderated list:KERNEL VIRTUAL MACHINE FOR ARM64 (KVM/arm64)" 
+        <linux-arm-kernel@lists.infradead.org>,
+        James Morse <james.morse@arm.com>
+References: <20210401135451.1004564-1-mlevitsk@redhat.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <cb7f918c-932f-d558-76ec-801ed8ed1f62@redhat.com>
+Date:   Fri, 2 Apr 2021 19:38:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210401141814.1029036-2-mlevitsk@redhat.com>
+In-Reply-To: <20210401135451.1004564-1-mlevitsk@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 01, 2021, Maxim Levitsky wrote:
-> Similar to the rest of guest page accesses after migration,
-> this should be delayed to KVM_REQ_GET_NESTED_STATE_PAGES
-> request.
-
-FWIW, I still object to this approach, and this patch has a plethora of issues.
-
-I'm not against deferring various state loading to KVM_RUN, but wholesale moving
-all of GUEST_CR3 processing without in-depth consideration of all the side
-effects is a really bad idea.
-
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->  arch/x86/kvm/vmx/nested.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
+On 01/04/21 15:54, Maxim Levitsky wrote:
+> Hi!
 > 
-> diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-> index fd334e4aa6db..b44f1f6b68db 100644
-> --- a/arch/x86/kvm/vmx/nested.c
-> +++ b/arch/x86/kvm/vmx/nested.c
-> @@ -2564,11 +2564,6 @@ static int prepare_vmcs02(struct kvm_vcpu *vcpu, struct vmcs12 *vmcs12,
->  		return -EINVAL;
->  	}
->  
-> -	/* Shadow page tables on either EPT or shadow page tables. */
-> -	if (nested_vmx_load_cr3(vcpu, vmcs12->guest_cr3, nested_cpu_has_ept(vmcs12),
-> -				entry_failure_code))
-> -		return -EINVAL;
-> -
->  	/*
->  	 * Immediately write vmcs02.GUEST_CR3.  It will be propagated to vmcs12
->  	 * on nested VM-Exit, which can occur without actually running L2 and
-> @@ -3109,11 +3104,16 @@ static bool nested_get_evmcs_page(struct kvm_vcpu *vcpu)
->  static bool nested_get_vmcs12_pages(struct kvm_vcpu *vcpu)
->  {
->  	struct vmcs12 *vmcs12 = get_vmcs12(vcpu);
-> +	enum vm_entry_failure_code entry_failure_code;
->  	struct vcpu_vmx *vmx = to_vmx(vcpu);
->  	struct kvm_host_map *map;
->  	struct page *page;
->  	u64 hpa;
->  
-> +	if (nested_vmx_load_cr3(vcpu, vmcs12->guest_cr3, nested_cpu_has_ept(vmcs12),
-> +				&entry_failure_code))
-
-This results in KVM_RUN returning 0 without filling vcpu->run->exit_reason.
-Speaking from experience, debugging those types of issues is beyond painful.
-
-It also means CR3 is double loaded in the from_vmentry case.
-
-And it will cause KVM to incorrectly return NVMX_VMENTRY_KVM_INTERNAL_ERROR
-if a consistency check fails when nested_get_vmcs12_pages() is called on
-from_vmentry.  E.g. run unit tests with this and it will silently disappear.
-
-diff --git a/x86/vmx_tests.c b/x86/vmx_tests.c
-index bbb006a..b8ccc69 100644
---- a/x86/vmx_tests.c
-+++ b/x86/vmx_tests.c
-@@ -8172,6 +8172,16 @@ static void test_guest_segment_base_addr_fields(void)
-        vmcs_write(GUEST_AR_ES, ar_saved);
- }
-
-+static void test_guest_cr3(void)
-+{
-+       u64 cr3_saved = vmcs_read(GUEST_CR3);
-+
-+       vmcs_write(GUEST_CR3, -1ull);
-+       test_guest_state("Bad CR3 fails VM-Enter", true, -1ull, "GUEST_CR3");
-+
-+       vmcs_write(GUEST_DR7, cr3_saved);
-+}
-+
- /*
-  * Check that the virtual CPU checks the VMX Guest State Area as
-  * documented in the Intel SDM.
-@@ -8181,6 +8191,8 @@ static void vmx_guest_state_area_test(void)
-        vmx_set_test_stage(1);
-        test_set_guest(guest_state_test_main);
-
-+       test_guest_cr3();
-+
-        /*
-         * The IA32_SYSENTER_ESP field and the IA32_SYSENTER_EIP field
-         * must each contain a canonical address.
-
-
-> +		return false;
-> +
->  	if (nested_cpu_has2(vmcs12, SECONDARY_EXEC_VIRTUALIZE_APIC_ACCESSES)) {
->  		/*
->  		 * Translate L1 physical address to host physical
-> @@ -3357,6 +3357,10 @@ enum nvmx_vmentry_status nested_vmx_enter_non_root_mode(struct kvm_vcpu *vcpu,
->  	}
->  
->  	if (from_vmentry) {
-> +		if (nested_vmx_load_cr3(vcpu, vmcs12->guest_cr3,
-> +		    nested_cpu_has_ept(vmcs12), &entry_failure_code))
-
-This alignment is messed up; it looks like two separate function calls.
-
-> +			goto vmentry_fail_vmexit_guest_mode;
-> +
->  		failed_index = nested_vmx_load_msr(vcpu,
->  						   vmcs12->vm_entry_msr_load_addr,
->  						   vmcs12->vm_entry_msr_load_count);
-> -- 
-> 2.26.2
+> I would like to publish two debug features which were needed for other stuff
+> I work on.
 > 
+> One is the reworked lx-symbols script which now actually works on at least
+> gdb 9.1 (gdb 9.2 was reported to fail to load the debug symbols from the kernel
+> for some reason, not related to this patch) and upstream qemu.
+
+Queued patches 2-5 for now.  6 is okay but it needs a selftest. (e.g. 
+using KVM_VCPU_SET_EVENTS) and the correct name for the constant.
+
+Paolo
+
+> The other feature is the ability to trap all guest exceptions (on SVM for now)
+> and see them in kvmtrace prior to potential merge to double/triple fault.
+> 
+> This can be very useful and I already had to manually patch KVM a few
+> times for this.
+> I will, once time permits, implement this feature on Intel as well.
+> 
+> V2:
+> 
+>   * Some more refactoring and workarounds for lx-symbols script
+> 
+>   * added KVM_GUESTDBG_BLOCKEVENTS flag to enable 'block interrupts on
+>     single step' together with KVM_CAP_SET_GUEST_DEBUG2 capability
+>     to indicate which guest debug flags are supported.
+> 
+>     This is a replacement for unconditional block of interrupts on single
+>     step that was done in previous version of this patch set.
+>     Patches to qemu to use that feature will be sent soon.
+> 
+>   * Reworked the the 'intercept all exceptions for debug' feature according
+>     to the review feedback:
+> 
+>     - renamed the parameter that enables the feature and
+>       moved it to common kvm module.
+>       (only SVM part is currently implemented though)
+> 
+>     - disable the feature for SEV guests as was suggested during the review
+>     - made the vmexit table const again, as was suggested in the review as well.
+> 
+> Best regards,
+> 	Maxim Levitsky
+> 
+> Maxim Levitsky (9):
+>    scripts/gdb: rework lx-symbols gdb script
+>    KVM: introduce KVM_CAP_SET_GUEST_DEBUG2
+>    KVM: x86: implement KVM_CAP_SET_GUEST_DEBUG2
+>    KVM: aarch64: implement KVM_CAP_SET_GUEST_DEBUG2
+>    KVM: s390x: implement KVM_CAP_SET_GUEST_DEBUG2
+>    KVM: x86: implement KVM_GUESTDBG_BLOCKEVENTS
+>    KVM: SVM: split svm_handle_invalid_exit
+>    KVM: x86: add force_intercept_exceptions_mask
+>    KVM: SVM: implement force_intercept_exceptions_mask
+> 
+>   Documentation/virt/kvm/api.rst    |   4 +
+>   arch/arm64/include/asm/kvm_host.h |   4 +
+>   arch/arm64/kvm/arm.c              |   2 +
+>   arch/arm64/kvm/guest.c            |   5 -
+>   arch/s390/include/asm/kvm_host.h  |   4 +
+>   arch/s390/kvm/kvm-s390.c          |   3 +
+>   arch/x86/include/asm/kvm_host.h   |  12 ++
+>   arch/x86/include/uapi/asm/kvm.h   |   1 +
+>   arch/x86/kvm/svm/svm.c            |  87 +++++++++++--
+>   arch/x86/kvm/svm/svm.h            |   6 +-
+>   arch/x86/kvm/x86.c                |  14 ++-
+>   arch/x86/kvm/x86.h                |   2 +
+>   include/uapi/linux/kvm.h          |   1 +
+>   kernel/module.c                   |   8 +-
+>   scripts/gdb/linux/symbols.py      | 203 ++++++++++++++++++++----------
+>   15 files changed, 272 insertions(+), 84 deletions(-)
+> 
+
