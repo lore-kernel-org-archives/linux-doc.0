@@ -6,35 +6,35 @@ X-Spam-Status: No, score=-15.5 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51825C433ED
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:21:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58F37C433ED
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:23:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28F0E61106
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:21:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 224B560FD9
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 09:23:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234442AbhDBJVd (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Apr 2021 05:21:33 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58048 "EHLO mail.kernel.org"
+        id S229599AbhDBJXI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Apr 2021 05:23:08 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58866 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229599AbhDBJVc (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 2 Apr 2021 05:21:32 -0400
+        id S234496AbhDBJXH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Apr 2021 05:23:07 -0400
 Received: from jic23-huawei (cpc108967-cmbg20-2-0-cust86.5-4.cable.virginm.net [81.101.6.87])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D320161008;
-        Fri,  2 Apr 2021 09:21:29 +0000 (UTC)
-Date:   Fri, 2 Apr 2021 10:21:40 +0100
+        by mail.kernel.org (Postfix) with ESMTPSA id 2BDED60FF3;
+        Fri,  2 Apr 2021 09:23:03 +0000 (UTC)
+Date:   Fri, 2 Apr 2021 10:23:14 +0100
 From:   Jonathan Cameron <jic23@kernel.org>
 To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
         Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Rob Herring <robh@kernel.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 18/32] MAINTAINERS: update st,lsm6dsx.yaml reference
-Message-ID: <20210402102140.1d916db7@jic23-huawei>
-In-Reply-To: <e058dc096c39933eb7647a86c57b3489906c89c3.1617279355.git.mchehab+huawei@kernel.org>
+Subject: Re: [PATCH 19/32] MAINTAINERS: update st,vl53l0x.yaml reference
+Message-ID: <20210402102314.2508d39f@jic23-huawei>
+In-Reply-To: <c315ff7435bb4382b9c729a6242d098befb7796d.1617279355.git.mchehab+huawei@kernel.org>
 References: <cover.1617279355.git.mchehab+huawei@kernel.org>
-        <e058dc096c39933eb7647a86c57b3489906c89c3.1617279355.git.mchehab+huawei@kernel.org>
+        <c315ff7435bb4382b9c729a6242d098befb7796d.1617279355.git.mchehab+huawei@kernel.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -43,35 +43,39 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu,  1 Apr 2021 14:17:38 +0200
+On Thu,  1 Apr 2021 14:17:39 +0200
 Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> Changeset 7a2cf8e91390 ("dt-bindings:iio:imu:st,lsm6dsx: txt to yaml conversion")
-> renamed: Documentation/devicetree/bindings/iio/imu/st_lsm6dsx.txt
-> to: Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml.
+> Changeset b4be8bd1c6a2 ("dt-bindings:iio:proximity:st,vl53l0x yaml conversion")
+> renamed: Documentation/devicetree/bindings/iio/proximity/vl53l0x.txt
+> to: Documentation/devicetree/bindings/iio/proximity/st,vl53l0x.yaml.
 > 
 > Update its cross-reference accordingly.
 > 
-> Fixes: 7a2cf8e91390 ("dt-bindings:iio:imu:st,lsm6dsx: txt to yaml conversion")
+> Fixes: b4be8bd1c6a2 ("dt-bindings:iio:proximity:st,vl53l0x yaml conversion")
 > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 Applied,
+
+Thanks,
+
+Jonathan
 
 > ---
 >  MAINTAINERS | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/MAINTAINERS b/MAINTAINERS
-> index 97763e68b8e3..54c469933f66 100644
+> index 54c469933f66..d6708b3fdbd9 100644
 > --- a/MAINTAINERS
 > +++ b/MAINTAINERS
-> @@ -17142,7 +17142,7 @@ M:	Lorenzo Bianconi <lorenzo.bianconi83@gmail.com>
+> @@ -17171,7 +17171,7 @@ ST VL53L0X ToF RANGER(I2C) IIO DRIVER
+>  M:	Song Qiang <songqiang1304521@gmail.com>
 >  L:	linux-iio@vger.kernel.org
 >  S:	Maintained
->  W:	http://www.st.com/
-> -F:	Documentation/devicetree/bindings/iio/imu/st_lsm6dsx.txt
-> +F:	Documentation/devicetree/bindings/iio/imu/st,lsm6dsx.yaml
->  F:	drivers/iio/imu/st_lsm6dsx/
+> -F:	Documentation/devicetree/bindings/iio/proximity/vl53l0x.txt
+> +F:	Documentation/devicetree/bindings/iio/proximity/st,vl53l0x.yaml
+>  F:	drivers/iio/proximity/vl53l0x-i2c.c
 >  
->  ST MIPID02 CSI-2 TO PARALLEL BRIDGE DRIVER
+>  STABLE BRANCH
 
