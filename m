@@ -2,540 +2,248 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
-	WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D40FC433ED
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 04:00:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AD58C433ED
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 06:28:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 54069610E7
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 04:00:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28BB6610E7
+	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 06:28:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233740AbhDBEAA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Apr 2021 00:00:00 -0400
-Received: from m34-101.88.com ([104.250.34.101]:16305 "EHLO 88.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233718AbhDBD77 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 1 Apr 2021 23:59:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=nXBh8i0olLeu1pRPuUQnUh9dQp3obguK3tDR3
-        JHeJS4=; b=hJ9fIml+VjAoZjUHp+4Hk0gyPQsuXCK9/BN2zR/yJWbpw0E+InJI5
-        c3T8HSSUd9xEADBaThaXXWPQP9bQRz7ephvejKzxYglKgwOBuKkIlF5/shOlXdH1
-        NoZRxsO53MtxQ36pHvEolUYu8ChQmmOZXrBeks/bdRSGrZpsfhRShk=
-Received: from mipc (unknown [120.238.248.129])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAXoiJjlmZgxJlWAA--.59891S2;
-        Fri, 02 Apr 2021 11:58:29 +0800 (CST)
-Date:   Fri, 2 Apr 2021 11:58:27 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Bernard Zhao <bernard@vivo.com>
-Cc:     Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com, opensource.kernel@vivo.com
-Subject: Re: [PATCH v2] Documentation/translations/zh_CN/dev-tools/
-Message-ID: <20210402035826.GA16473@mipc>
-References: <20210401132732.70612-1-bernard@vivo.com>
+        id S229553AbhDBG2E (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Apr 2021 02:28:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54774 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229522AbhDBG2E (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Apr 2021 02:28:04 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB199C0613E6
+        for <linux-doc@vger.kernel.org>; Thu,  1 Apr 2021 23:28:03 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id x7-20020a17090a2b07b02900c0ea793940so4202393pjc.2
+        for <linux-doc@vger.kernel.org>; Thu, 01 Apr 2021 23:28:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=8QK7qLVqRPBYEWA7dEaEQlfYuRKYgnMqsdf9VFs9kFc=;
+        b=e+cvJ3SRBbwB+OqvdrDqLEFXFM57TBTcb0ey/sbZ5IvSQcVrv3MhycQziQECt8vLkk
+         EHzWIHuCtE1EkNNm5313et1FBM9xXy21RjeslS6h7sEnMC9wmNA1VUrVtMdIdqfUSu+d
+         wOmvzvJI5hf8gB3IkgROrEVZ79bO7dMbAsmiGAOLuKNgelH/42zQB1AZ0BAvbjn2S7Jj
+         2LbECaoj1Gd5R8J9sEqXNktkpxG2JQwLe3TScwf3Rl4WFWvhgtKeghxRPEiDrnZEEAZw
+         bWOHKY2v5qeN6+35q9ebVdrQ0ibxQPSiEAdulcLbdNy4WmvkuNQqnCoJmeBhYGiA40tl
+         MIFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=8QK7qLVqRPBYEWA7dEaEQlfYuRKYgnMqsdf9VFs9kFc=;
+        b=AUSBFcUM6NtxTWE3Mdttr4GNVH0PgywrO7LKF0HDA3UwtYEL6ymiTlemamQ3BXq01L
+         Pg9wiBd1CAQRAYKGYHHgShg74ePsNQPOFo2yVg0B5i3t8z8FPmbeaaq+DjwCCKIb0yyI
+         Xs/BVAB2Jk746h5d4vj8hrZbIPE2Nvr5SOMRtw2i//YKkFfTqonH5NnxHr+iyVO0oj8J
+         oaIDatpsoFDfQXDAo2XKCNd38Gy3ogBFnN51JcpgfTwN5pYfG5aeP4RKc3uJ+2orpVXY
+         EA2JoyFNBSBlGrpFCqEvXhLmF5fK/eFbNvSqARHaUv4TrHOw1Yxd5sTd8EJl3zlUOpA8
+         H6XQ==
+X-Gm-Message-State: AOAM532Pdooli+cIVpnBqCmq123n6jO+7X99xOS1dZdU/t4UrksOyGZU
+        PgvYiuhYKclGLs5/C/61R5tiVbx/4N9GTeKTgmA=
+X-Google-Smtp-Source: ABdhPJy7kIJGlz9zq4j4nVvbFiRNFG2LfQvPtDppXtBX2BXPATbiRBMa+G0JdTWL+6y6WIQ6Q2dzI3JrbTiy17Vi1W8=
+X-Received: by 2002:a17:90b:2304:: with SMTP id mt4mr12943364pjb.179.1617344883002;
+ Thu, 01 Apr 2021 23:28:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210401132732.70612-1-bernard@vivo.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgAXoiJjlmZgxJlWAA--.59891S2
-X-Coremail-Antispam: 1UD129KBjvAXoW3tFyxJFy7Xw48KFWkWr1fCrg_yoW8XF18Ko
-        Wj9w4rCw47CFW5Aw15CrZxJr1YkF17WFZ7Aw43Kr98W345tF1fZ3WUAw15K3yfZrW3JF13
-        tr9rXr4fJan8A3Zxn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-        AaLaJ3UjIYCTnIWjp_UUU5_7k0a2IF6w4kM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
-        0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
-        IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vE
-        x4A2jsIE14v26r4UJVWxJr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262
-        IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx2
-        6F4UJr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2
-        kIc2xKxwCY02Avz4vE14v_Gr4l42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWx
-        Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E74
-        80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0
-        I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04
-        k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
-        xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jABM_UUUUU=
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+References: <cover.1617260163.git.bobwxc@email.cn> <8e7152f494d93b9eac04ff5fce8b46f1236f1542.1617260163.git.bobwxc@email.cn>
+ <CAMU9jJodfzup_-rxc7Y6Fn89MkGnsoAoY+YwCcHpzV99itB6_Q@mail.gmail.com> <20210401134350.GA27759@mipc>
+In-Reply-To: <20210401134350.GA27759@mipc>
+From:   teng sterling <sterlingteng@gmail.com>
+Date:   Fri, 2 Apr 2021 14:27:52 +0800
+Message-ID: <CAMU9jJpPM0s7MR8bj559e80U65NntQxFC=TtzfrzuuOjnV+mCg@mail.gmail.com>
+Subject: Re: [PATCH 3/5] docs/zh_CN: Add translation zh_CN/doc-guide/sphinx.rst
+To:     "Wu X.C." <bobwxc@email.cn>
+Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <seakeel@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Bernard,
-
-On Thu, Apr 01, 2021 at 06:27:16AM -0700, Bernard Zhao wrote:
-
-Why the charset in your email header is 'y' ?
-    "Content-Type: text/plain; charset=y"
-<https://lore.kernel.org/linux-doc/20210401132732.70612-1-bernard@vivo.com/raw>
-
-> Add translations to dev-tools gcov
-> 
-> Signed-off-by: Bernard Zhao <bernard@vivo.com>
-> Reviewed-by: Wu X.C <bobwxc@email.cn>
-  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  This reviewed-by tag is invalid.
-
-Please do not pick review-by tag before one give it.
-
-> ---
-> Changes since V1:
-> * add index.rst in dev-tools and link to to zh_CN/index.rst
-> * fix some inaccurate translation
-> 
-> Link for V1:
-> *https://lore.kernel.org/patchwork/patch/1405740/
-> ---
->  .../translations/zh_CN/dev-tools/gcov.rst     | 279 ++++++++++++++++++
->  .../translations/zh_CN/dev-tools/index.rst    |  39 +++
->  Documentation/translations/zh_CN/index.rst    |   1 +
->  3 files changed, 319 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/dev-tools/gcov.rst
->  create mode 100644 Documentation/translations/zh_CN/dev-tools/index.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/dev-tools/gcov.rst b/Documentation/translations/zh_CN/dev-tools/gcov.rst
-> new file mode 100644
-> index 000000000000..e8ffb99b566d
-
-Why replaced all '，' '。' with ',' '.' in zh_CN/dev-tools/gcov.rst ？
-And also the columns in the v2 are much shorter than v1.
-Please recover the above two points.
-
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/dev-tools/gcov.rst
-> @@ -0,0 +1,279 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :ref:`Documentation/dev-tools/gcov.rst <dev-tools_gcov>`
-
-the original text have no article tag, simply use this
-:Original: Documentation/dev-tools/gcov.rst
-
-> +:Translator: 赵军奎 Bernard Zhao <bernard@vivo.com>
-> +
-> +.. _dev-tools_gcov:
-
-Please remove above line, no need
-
-> +
-> +在Linux内核里使用gcov做代码覆盖率检查
-> +====================================
-
-Still got a lot of warning.
-Please using monospaced font to fix this.
-Build log:
-
-/test/linux/Documentation/translations/zh_CN/dev-tools/gcov.rst:11: WARNING: Title underline too short.
-
-在Linux内核里使用gcov做代码覆盖率检查
-====================================
-/test/linux/Documentation/translations/zh_CN/dev-tools/gcov.rst:110: WARNING: Title underline too short.
-
-针对模块的统计
--------
-/test/linux/Documentation/translations/zh_CN/dev-tools/gcov.rst:110: WARNING: Title underline too short.
-
-针对模块的统计
--------
-/test/linux/Documentation/translations/zh_CN/dev-tools/gcov.rst:154: WARNING: Block quote ends without a blank line; unexpected unindent.
-/test/linux/Documentation/translations/zh_CN/dev-tools/gcov.rst:179: WARNING: Title underline too short.
-
-关于编译器的注意事项
------------------
-/test/linux/Documentation/translations/zh_CN/dev-tools/gcov.rst:179: WARNING: Title underline too short.
-
-关于编译器的注意事项
------------------
-
-
-> +
-> +gcov是linux中已经集成的一个分析模块,该模块在内核中对
-> +GCC的代码覆盖率统计提供了支持.
-> +linux内核运行时的代码覆盖率数据会以gcov兼容的格式存储
-> +在debug-fs中,可以通过gcov的“-o”选项（如下示例）获得
-> +指定文件的代码运行覆盖率统计数据（需要跳转到内核编
-> +译路径下并且要有root权限）::
-> +
-> +    # cd /tmp/linux-out
-> +    # gcov -o /sys/kernel/debug/gcov/tmp/linux-out/kernel spinlock.c
-> +
-> +这将在当前目录中创建带有执行计数注释的源代码文件.
-> +在获得这些统计文件后,可以使用图形化的gcov[1]前端工
-> +具（比如lcov[2]）,来实现自动化处理linux 内核的覆
-> +盖率运行数据,同时生成易于阅读的HTML格式文件.
-
-Sorry for the inconvenience,
-I test again, found the url tags seems would not make namespace conflicts.
-Thus,
-
-在获得这些统计文件后,可以使用图形化的 gcov_ 前端工
-具（比如 lcov_ ）,来实现自动化处理linux 内核的覆
-
-> +
-> +可能的用途:
-> +
-> +* 调试（用来判断每一行的代码是否已经运行过）
-> +* 测试改进（如何修改测试代码,尽可能地覆盖到没有运
-> +  行过的代码）
-> +* 内核配置优化（对于某一个选项配置,如果关联的代码
-> +  从来没有运行过,是否还需要这个配置）
-> +
-> +[1]_gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
-> +[2]_lcov: http://ltp.sourceforge.net/coverage/lcov.php
-
-.. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
-.. _lcov: http://ltp.sourceforge.net/coverage/lcov.php
-
-> +
-> +
-> +准备
-> +-----------
-> +
-> +内核打开如下配置::
-> +
-> +        CONFIG_DEBUG_FS=y
-> +        CONFIG_GCOV_KERNEL=y
-> +
-> +获取整个内核的覆盖率数据,还需要打开::
-> +
-> +        CONFIG_GCOV_PROFILE_ALL=y
-> +
-> +需要注意的是,整个内核开启覆盖率统计会造成内核镜像
-> +文件尺寸的增大,同时内核运行的也会变慢一些.
-> +另外,并不是所有的架构都支持整个内核开启覆盖率统计
-> +
-> +代码运行覆盖率数据只在debugfs挂载完成后才可以访问::
-> +
-> +        mount -t debugfs none /sys/kernel/debug
-> +
-> +
-> +客制化
-> +-------------
-> +
-> +如果要单独针对某一个路径或者文件进行代码覆盖率统计
-> +可以在内核相应路径的Makefile中增加如下的配置:
-> +
-> +- 单独统计单个文件（例如main.o）::
-> +
-> +    GCOV_PROFILE_main.o := y
-> +
-> +- 单独统计某一个路径::
-> +
-> +    GCOV_PROFILE := y
-> +
-> +如果要在整个内核的覆盖率统计（CONFIG_GCOV_PROFILE_ALL）
-> +中单独排除某一个文件或者路径,可以使用如下的方法::
-> +
-> +    GCOV_PROFILE_main.o := n
-> +
-> +和::
-> +
-> +    GCOV_PROFILE := n
-> +
-> +此机制仅支持链接到内核镜像或编译为内核模块的文件.
-> +
-> +
-> +相关文件
-> +-------------
-> +
-> +gcov功能需要在debugfs中创建如下文件:
-> +
-> +``/sys/kernel/debug/gcov``
-> +    gcov相关功能的根路径
-> +
-> +``/sys/kernel/debug/gcov/reset``
-> +    全局复位文件:向该文件写入数据后会将所有的gcov统计
-> +    数据清0
-> +
-> +``/sys/kernel/debug/gcov/path/to/compile/dir/file.gcda``
-> +    gcov工具可以识别的覆盖率统计数据文件,向该文件写入
-> +    数据后会将本文件的gcov统计数据清0
-> +
-> +``/sys/kernel/debug/gcov/path/to/compile/dir/file.gcno``
-> +    gcov工具需要的软连接文件（指向编译时生成的信息统
-> +    计文件）,这个文件是在gcc编译时如果配置了选项
-> +    “-ftest-coverage”时生成的.
-
-``something`` is a code style mark, do not replace it with “”
-
-``-ftest-coverage``
-
-> +
-> +
-> +针对模块的统计
-> +-------
-> +
-> +内核中的模块会动态的加载和卸载,模块卸载时对应的
-> +数据会被清除掉.
-> +gcov提供了一种机制,通过保留相关数据的副本来收集
-> +这部分卸载模块的覆盖率数据.
-> +模块卸载后这些备份数据在debugfs中会继续存在.
-> +一旦这个模块重新加载,模块关联的运行统计会被初始
-> +化成debugfs中备份的数据.
-> +
-> +可以通过对内核参数gcov_persist的修改来停用gcov
-> +对模块的备份机制::
-> +
-> +        gcov_persist = 0
-> +
-> +在运行时,用户还可以通过写入模块的数据文件或者写入
-> +gcov复位文件来丢弃已卸载模块的数据.
-> +
-> +
-> +分离的编译和运行设备
-> +---------------------------------
-> +
-> +gcov的内核分析架构支持内核的编译和分析是在同一台
-> +设备上,也可以编译和运行是在不同的设备上.
-> +如果内核编译和运行是不同的设备,那么需要额外的准备
-> +工作,这取决于gcov工具是在哪里使用的:
-> +
-> +a) 若gcov运行在测试设备上
-> +
-> +    测试设备上面gcov工具的版本必须要跟设备内核编
-> +    译使用的gcc版本相兼容,同时下面的文件要从编译
-> +    设备拷贝到测试设备上:
-> +
-> +    从源代码中:
-> +      - 所有的C文件和头文件
-> +
-> +    从编译目录中:
-> +      - 所有的C文件和头文件
-> +      - 所有的.gcda文件和.gcno文件
-> +      - 所有目录的链接
-> +
-> +    特别需要注意,测试机器上面的目录结构跟编译机器
-> +    上面的目录机构必须完全一致.
-> +    如果文件是软链接,需要替换成真正的目录文件
-> +   （这是由make的当前工作目录变量CURDIR引起的）
-> +
-> +b) 若gcov运行在编译设备上
-> +
-> +    测试用例运行结束后,如下的文件需要从测试设备中
-> +    拷贝到编译设备上:
-> +
-> +    从sysfs中的gcov目录中:
-> +      - 所有的.gcda文件
-> +      - 所有的.gcno文件软链接
-> +
-> +    这些文件可以拷贝到编译设备的任意目录下,gcov使
-> +    用-o选项指定拷贝的目录.
-> +
-> +    比如一个是示例的目录结构如下::
-> +
-> +      /tmp/linux:    内核源码目录
-> +      /tmp/out:      内核编译文件路径（make O=指定）
-> +      /tmp/coverage: 从测试机器上面拷贝的数据文件路径
-> +
-> +      [user@build] cd /tmp/out
-> +      [user@build] gcov -o /tmp/coverage/tmp/out/init main.c
-> +
-> +
-> +关于编译器的注意事项
-> +-----------------
-> +
-> +GCC和LLVM gcov工具不一定兼容.
-> +如果编译器是GCC,使用gcov_[3]来处理.gcno和.gcda文件
-> +如果是Clang编译器,则使用llvm-cov_[4].
-> +
-
-如果编译器是GCC，使用 gcov_ 来处理.gcno和.gcda文件
-如果是Clang编译器，则使用 llvm-cov_ 。
-
-> +[3]_gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
-> +[4]_llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
-
-.. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
-.. _llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
-
-> +
-> +GCC和Clang gcov之间的版本差异由Kconfig处理的.
-> +kconfig会根据编译工具链的检查自动选择合适的gcov格式.
-> +
-> +问题定位
-> +---------------
-> +
-> +可能出现的问题1
-> +    编译到链接阶段报错终止
-> +
-> +问题原因
-> +    分析标志指定在了源文件但是没有链接到主内核
-> +    或者客制化了链接程序
-> +
-> +解决方法
-> +    通过在相应的Makefile中使用“GCOV_PROFILE := n”
-> +    或者“GCOV_PROFILE_basename.o := n”来将链接报错的文件
-> +    排除掉
-
-same `` problem
-
-``GCOV_PROFILE := n``
-``GCOV_PROFILE_basename.o := n``
-
-> +
-> +可能出现的问题2
-> +    从sysfs复制的文件显示为空或不完整
-> +
-> +问题原因
-> +    由于seq_file的工作方式,某些工具（例如cp或tar）
-> +    可能无法正确地从sysfs复制文件.
-> +
-> +解决方法
-> +    使用“cat”读取“.gcda”文件,使用“cp -d”复制链接
-> +    或者使用附录B中所示的机制.
-
-same ``
-
-``cat``
-``.gcda``
-``cp -d``
-
-> +
-> +
-> +附录A::collect_on_build.sh
-> +------------------------------
-> +
-> +用于在编译设备上收集覆盖率编译中间数据文件
-> +的示例脚本
-> +（如下6a示例）
-
-actually is 上
-
-> +
-> +.. code-block:: sh
-> +
-> +    #!/bin/bash
-> +
-> +    KSRC=$1
-> +    KOBJ=$2
-> +    DEST=$3
-> +
-> +    if [ -z "$KSRC" ] || [ -z "$KOBJ" ] || [ -z "$DEST" ]; then
-> +      echo "Usage: $0 <ksrc directory> <kobj directory> <output.tar.gz>" >&2
-> +      exit 1
-> +    fi
-> +
-> +    KSRC=$(cd $KSRC; printf "all:\n\t@echo \${CURDIR}\n" | make -f -)
-> +    KOBJ=$(cd $KOBJ; printf "all:\n\t@echo \${CURDIR}\n" | make -f -)
-> +
-> +    find $KSRC $KOBJ \( -name '*.gcno' -o -name '*.[ch]' -o -type l \) -a \
-> +                     -perm /u+r,g+r | tar cfz $DEST -P -T -
-> +
-> +    if [ $? -eq 0 ] ; then
-> +      echo "$DEST successfully created, copy to test system and unpack with:"
-> +      echo "  tar xfz $DEST -P"
-> +    else
-> +      echo "Could not create file $DEST"
-> +    fi
-> +
-> +
-> +附录B::collect_on_test.sh
-> +-----------------------------
-> +
-> +用于在测试设备上收集覆盖里统计数据数据文件的示例脚本
-> +（如下6b示例）
-
-actually is 上
-
-> +
-> +.. code-block:: sh
-> +
-> +    #!/bin/bash -e
-> +
-> +    DEST=$1
-> +    GCDA=/sys/kernel/debug/gcov
-> +
-> +    if [ -z "$DEST" ] ; then
-> +      echo "Usage: $0 <output.tar.gz>" >&2
-> +      exit 1
-> +    fi
-> +
-> +    TEMPDIR=$(mktemp -d)
-> +    echo Collecting data..
-> +    find $GCDA -type d -exec mkdir -p $TEMPDIR/\{\} \;
-> +    find $GCDA -name '*.gcda' -exec sh -c 'cat < $0 > '$TEMPDIR'/$0' {} \;
-> +    find $GCDA -name '*.gcno' -exec sh -c 'cp -d $0 '$TEMPDIR'/$0' {} \;
-> +    tar czf $DEST -C $TEMPDIR sys
-> +    rm -rf $TEMPDIR
-> +
-> +    echo "$DEST successfully created, copy to build system and unpack with:"
-> +    echo "  tar xfz $DEST"
-> diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
-> new file mode 100644
-> index 000000000000..0c6b5c2f4a7f
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/dev-tools/index.rst
-> @@ -0,0 +1,39 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :ref:`Documentation/dev-tools/gcov.rst <development_dev-tools_index>`
-
-:Original: Documentation/dev-tools/gcov.rst
-
-> +:Translator: 赵军奎 Bernard Zhao <bernard@vivo.com>
-> +
-> +.. _development_dev-tools_index:
-
-remove above line
-
-> +
-> +================================
-> +内核开发工具
-> +================================
-> +
-> +本文档是有关内核开发工具文档的合集。
-> +目前这些文档已经整理在一起，不需要再花费额外的精力。
-> +欢迎任何补丁。
-> +
-> +.. class:: toc-title
-> +
-> +   目录
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   gcov
-> +
-> +Todolist:
-> +
-> +   coccinelle
-> +   sparse
-> +   kcov
-> +   kasan
-> +   ubsan
-> +   kmemleak
-> +   kcsan
-> +   gdb-kernel-debugging
-> +   kgdb
-> +   kselftest
-> +   kunit/index
-> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-> index be6f11176200..a5e483b0c7f2 100644
-> --- a/Documentation/translations/zh_CN/index.rst
-> +++ b/Documentation/translations/zh_CN/index.rst
-> @@ -20,6 +20,7 @@
->     process/index
->     filesystems/index
->     arm64/index
-> +   dev-tools/index
->  
->  目录和表格
->  ----------
-> -- 
-> 2.31.0
-
-Thanks!
-
-Wu X.C.
-
+QWxsIGxvb2tzIGZpbmUgZm9yIG1lLg0KVGhhbmtzDQoNCllhbnRlbmcNCg0KV3UgWC5DLiA8Ym9i
+d3hjQGVtYWlsLmNuPiDkuo4yMDIx5bm0NOaciDHml6Xlkajlm5sg5LiL5Y2IOTo0NOWGmemBk++8
+mg0KPg0KPiBIaSwNCj4NCj4gT24gVGh1LCBBcHIgMDEsIDIwMjEgYXQgMDg6NDQ6MDdQTSArMDgw
+MCwgdGVuZyBzdGVybGluZyB3cm90ZToNCj4gPiBIaX4NCj4gPiBYaWFuZyBjaGVuZw0KPiA+DQo+
+ID4gV3UgWGlhbmdDaGVuZyA8Ym9id3hjQGVtYWlsLmNuPiDkuo4yMDIx5bm0NOaciDHml6Xlkajl
+m5sg5LiL5Y2IMzowOOWGmemBk++8mg0KPiA+ID4NCj4gPiA+IEFkZCBuZXcgdHJhbnNsYXRpb24N
+Cj4gPiA+ICAgRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZG9jLWd1aWRlL3NwaGlu
+eC5yc3QNCj4gPiA+DQo+ID4gPiBTaWduZWQtb2ZmLWJ5OiBXdSBYaWFuZ0NoZW5nIDxib2J3eGNA
+ZW1haWwuY24+DQo+ID4gPiAtLS0NCj4gPiA+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL2RvYy1n
+dWlkZS9zcGhpbngucnN0ICAgfCA0MTUgKysrKysrKysrKysrKysrKysrDQo+ID4gPiAgMSBmaWxl
+IGNoYW5nZWQsIDQxNSBpbnNlcnRpb25zKCspDQo+ID4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERv
+Y3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2RvYy1ndWlkZS9zcGhpbngucnN0DQo+ID4g
+Pg0KPiA+ID4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Rv
+Yy1ndWlkZS9zcGhpbngucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZG9j
+LWd1aWRlL3NwaGlueC5yc3QNCj4gPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gPiBpbmRl
+eCAwMDAwMDAwMDAwMDAuLjZjMjU1NWM5OGRkMw0KPiA+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ID4g
+KysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZG9jLWd1aWRlL3NwaGlueC5y
+c3QNCj4gWy4uLl0NCj4gPiA+ICsNCj4gPiA+ICvmo4Dmn6VTcGhpbnjkvp3otZbpobkNCj4gPiA+
+ICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ID4gKw0KPiA+ID4gK+i/meac
+ieS4gOS4quiEmuacrOWPr+S7peiHquWKqOajgOafpVNwaGlueOS+nei1lumhueOAguWmguaenOWu
+g+iupOW+l+aCqOeahOWPkeihjOeJiO+8jOi/mOS8muaPkOekuuaCqOaJgOeUqOWPkeihjA0KPiA+
+ID4gK+eJiOeahOWuieijheWRveS7pDo6DQo+ID4gPiArDQo+ID4gPiArICAgICAgICQgLi9zY3Jp
+cHRzL3NwaGlueC1wcmUtaW5zdGFsbA0KPiA+ID4gKyAgICAgICBDaGVja2luZyBpZiB0aGUgbmVl
+ZGVkIHRvb2xzIGZvciBGZWRvcmEgcmVsZWFzZSAyNiAoVHdlbnR5IFNpeCkgYXJlIGF2YWlsYWJs
+ZQ0KPiA+ID4gKyAgICAgICBXYXJuaW5nOiBiZXR0ZXIgdG8gYWxzbyBpbnN0YWxsICJ0ZXhsaXZl
+LWx1YXRleDg1Ii4NCj4gPiA+ICsgICAgICAgWW91IHNob3VsZCBydW46DQo+ID4gdHJhbnNsYXRl
+77yfOikNCj4gPiA+ICsNCj4gPiA+ICsgICAgICAgICAgICAgICBzdWRvIGRuZiBpbnN0YWxsIC15
+IHRleGxpdmUtbHVhdGV4ODUNCj4gPiA+ICsgICAgICAgICAgICAgICAvdXNyL2Jpbi92aXJ0dWFs
+ZW52IHNwaGlueF8xLjcuOQ0KPiA+ID4gKyAgICAgICAgICAgICAgIC4gc3BoaW54XzEuNy45L2Jp
+bi9hY3RpdmF0ZQ0KPiA+ID4gKyAgICAgICAgICAgICAgIHBpcCBpbnN0YWxsIC1yIERvY3VtZW50
+YXRpb24vc3BoaW54L3JlcXVpcmVtZW50cy50eHQNCj4gPiA+ICsNCj4gPiA+ICsgICAgICAgQ2Fu
+J3QgYnVpbGQgYXMgMSBtYW5kYXRvcnkgZGVwZW5kZW5jeSBpcyBtaXNzaW5nIGF0IC4vc2NyaXB0
+cy9zcGhpbngtcHJlLWluc3RhbGwgbGluZSA0NjguDQo+ID4gdHJhbnNsYXRl77yfOikNCj4NCj4g
+VGhlc2UgdHdvIGFyZSBhY3R1YWxseSB0aGUgKm91dHB1dCogb2YgdGhlIHNjcmlwdA0KPiAgICAg
+ICAgIGAuL3NjcmlwdHMvc3BoaW54LXByZS1pbnN0YWxsYA0KPiBUaGV5IGFyZSByZW5kZXJlZCBh
+cyBhIGNvZGUgYmxvY2suIEkgdGhpbmsgbm8gbmVlZCBmb3IgdHJhbnNsYXRpbmcuDQo+DQo+ID4g
+PiArDQo+ID4gPiAr6buY6K6k5oOF5Ya15LiL77yM5a6D5Lya5qOA5p+laHRtbOWSjFBERueahOaJ
+gOacieS+nei1lumhue+8jOWMheaLrOWbvuWDj+OAgeaVsOWtpuihqOi+vuW8j+WSjExhVGVY5p6E
+5bu655qEDQo+ID4gPiAr6ZyA5rGC77yM5bm25YGH6K6+5bCG5L2/55So6Jma5oufUHl0aG9u546v
+5aKD44CCaHRtbOaehOW7uuaJgOmcgOeahOmDqOWIhuiiq+iupOS4uuaYr+W/hemcgOeahO+8jOWF
+tuS7lumDqOWIhg0KPiA+IOmDqOWIhiAtPiDkvp3otZbpobnvvJ8NCj4NCj4gT0suDQo+DQo+ID4g
+PiAr5YiZ5piv5Y+v6YCJ55qE44CCDQo+ID4gPiArDQo+ID4gPiAr5a6D5pSv5oyB5Lik5Liq5Y+v
+6YCJ5Y+C5pWw77yaDQo+ID4gPiArDQo+ID4gPiArYGAtLW5vLXBkZmBgDQo+ID4gPiArDQo+ID4g
+PiArICAgICAgIOemgeeUqFBERuajgOafpe+8mw0KPiA+ID4gKw0KPiA+ID4gK2BgLS1uby12aXJ0
+dWFsZW52YGANCj4gPiA+ICsNCj4gPiA+ICsgICAgICAg5L2/55SoU3BoaW5455qE57O757uf5omT
+5YyF77yM6ICM5LiN5pivUHl0aG9u6Jma5ouf546v5aKD44CCDQo+ID4gTWF5YmUgdGhlIHRyYW5z
+bGF0aW9uIGlzIHdyb25n77yfOikNCj4NCj4gVGhpcyBtZWFucyB0byB1c2UgdGhlIFNwaGlueCBw
+YWNrYWdlIHByb3ZpZWQgYnkgb3MgcGFja2FnZSBtYW5hZ2VyIHN1Y2gNCj4gYXMgYXB0L3l1bSwg
+aW5zdGVhZCBvZiB1c2luZyBgcHl0aG9uIC1tIHZlbnZgIHRoZW4gYHBpcCBpbnN0YWxsIC4uLmAu
+DQo+DQo+ID4gPiArDQo+ID4gPiArU3BoaW545p6E5bu6DQo+ID4gPiArPT09PT09PT09PT09DQo+
+ID4gPiArDQo+ID4gPiAr55Sf5oiQ5paH5qGj55qE5bi455So5pa55rOV5piv6L+Q6KGMIGBgbWFr
+ZSBodG1sZG9jc2BgIOaIliBgYG1ha2UgcGRmZG9jc2BgIOOAgui/mOacieWFtuS7luWPr+eUqA0K
+PiA+IOWFtuS7liAtPiDlhbblroMNCj4NCj4gT0suDQo+DQo+ID4gPiAr55qE5qC85byP77ya6K+3
+5Y+C6ZiFIGBgbWFrZSBoZWxwYGAg55qE5paH5qGj6YOo5YiG44CC55Sf5oiQ55qE5paH5qGj5pS+
+5ZyoIGBgRG9jdW1lbnRhdGlvbi9vdXRwdXRgYA0KPiA+ID4gK+S4i+WQhOS4quagvOW8j+eahOWt
+kOebruW9leS4reOAgg0KPiA+IEFueSBiZXR0ZXIgdHJhbnNsYXRpb27vvJ8NCj4NCj4g55u45bqU
+5qC85byP55qE5a2Q55uu5b2VDQo+DQo+ID4gPiArDQo+ID4gPiAr6KaB55Sf5oiQ5paH5qGj77yM
+5pi+54S25b+F6aG75a6J6KOFU3BoaW5477yIIGBgc3BoaW54LWJ1aWxkYGAg77yJ44CC6KaB6K6p
+SFRNTOi+k+WHuuabtOa8guS6ru+8jOWPr+S7pQ0KPiA+ID4gK+S9v+eUqFJlYWQgdGhlIERvY3Mg
+U3BoaW545Li76aKY77yIIGBgc3BoaW54X3J0ZF90aGVtZWBgIO+8ieOAguWvueS6jlBERui+k+WH
+uu+8jOaCqOi/mOmcgOimgQ0KPiA+ID4gK2BgWGVMYVRlWGBgIOWSjOadpeiHqkltYWdlTWFnaWNr
+77yIaHR0cHM6Ly93d3cuaW1hZ2VtYWdpY2sub3Jn77yJ55qEIGBgY29udmVydCgxKWBgIOOAgg0K
+PiA+ID4gK+aJgOaciei/meS6m+WcqOS4gOiIrOWPkeihjOeJiOS4remDveacieWPr+eUqOaJk+WM
+heOAgg0KPiA+IOaJgOaciei/meS6m+i9r+S7tuWMhemDveaYr+W5v+azm+WtmOWcqOeahO+8jOW5
+tuS4lOiiq+aJk+WMhei/m+WPkeihjOeJiOOAgu+8nw0KPg0KPiBBbGwgb2YgdGhlc2UgYXJlIHdp
+ZGVseSBhdmFpbGFibGUgYW5kIHBhY2thZ2VkIGluIGRpc3RyaWJ1dGlvbnMuDQo+IHVzZSB0aGlz
+IOaJgOaciei/meS6m+i9r+S7tuWcqOWkp+WkmuWPkeihjOeJiOS4remDveWPr+eUqOaIluW3suaJ
+k+WMheOAgg0KPg0KPiA+ID4gKw0KPiA+ID4gK+imgeS8oOmAkumineWklueahOmAiemhuee7mVNw
+aGlueO+8jOWPr+S7peS9v+eUqCBgYFNQSElOWE9QVFNgYCBtYWtl5Y+Y6YeP44CC5L6L5aaC77yM
+5L2/55SoDQo+ID4g5Y+v5Lul5L2/55SobWFrZeWPmOmHjyBgYFNQSElOWE9QVFNgYOOAgu+8nw0K
+Pg0KPiBPSy4NCj4NCj4gPiA+ICtgYG1ha2UgU1BISU5YT1BUUz0tdiBodG1sZG9jc2BgIOiOt+W+
+l+abtOivpue7hueahOi+k+WHuuOAgg0KPiA+ID4gKw0KPiA+ID4gKw0KPiA+ID4gK+imgeWIoOmZ
+pOeUn+aIkOeahOaWh+aho++8jOivt+i/kOihjCBgYG1ha2UgY2xlYW5kb2NzYGAg44CCDQo+ID4g
+PiArDQo+ID4gPiAr57yW5YaZ5paH5qGjDQo+ID4gPiArPT09PT09PT09PT09PT09PT09PT09DQo+
+ID4gPiArDQo+ID4gPiAr5re75Yqg5paw5paH5qGj5b6I5a655piT77yM5Y+q6ZyA77yaDQo+ID4g
+PiArDQo+ID4gPiArMS4g5ZyoIGBgRG9jdW1lbnRhdGlvbmBgIOS4i+afkOWkhOa3u+WKoOS4gOS4
+quaWsOeahCBgYC5yc3RgYCDmlofku7bjgIINCj4gPiA+ICsyLiDku44gYGBEb2N1bWVudGF0aW9u
+L2luZGV4LnJzdGBgIOS4reeahFNwaGlueCBg5Li755uu5b2V5qCRYF8g6ZO+5o6l5Yiw5a6D44CC
+DQo+ID4gPiArDQo+ID4gPiArLi4gX+S4u+ebruW9leagkTogaHR0cDovL3d3dy5zcGhpbngtZG9j
+Lm9yZy9lbi9zdGFibGUvbWFya3VwL3RvY3RyZWUuaHRtbA0KPiA+ID4gKw0KPiA+ID4gK+WvueS6
+jueugOWNleeahOaWh+aho++8iOavlOWmguaCqOeOsOWcqOato+WcqOmYheivu+eahOaWh+aho++8
+ie+8jOi/memAmuW4uOW3sue7j+i2s+Wkn+WlveS6hu+8jOS9huaYr+WvueS6jui+g+Wkpw0KPiA+
+ID4gK+eahOaWh+aho++8jOacgOWlveWIm+W7uuS4gOS4quWtkOebruW9le+8iOaIluiAheS9v+eU
+qOeOsOacieeahOWtkOebruW9le+8ieOAguS+i+Wmgu+8jOWbvuW9ouWtkOezu+e7n+aWh+aho+S9
+jeS6jg0KPiA+ID4gK2BgRG9jdW1lbnRhdGlvbi9ncHVgYCDkuIvvvIzmi4bliIbkuLrlpJrkuKog
+YGAucnN0YGAg5paH5Lu277yM5bm25YW35pyJ5LuO5Li755uu5b2V6ZO+5o6l5p2l55qE5Y2VDQo+
+ID4gPiAr54us57Si5byVIGBgaW5kZXgucnN0YGAg77yI5pyJ6Ieq5bex55qE55uu5b2V5qCRIGBg
+dG9jdHJlZWBgIO+8ieOAgg0KPiA+ID4gKw0KPiA+ID4gK+ivt+WPgumYhSBgU3BoaW54IDxodHRw
+Oi8vd3d3LnNwaGlueC1kb2Mub3JnLz5gXyDlkowgYHJlU3RydWN0dXJlZFRleHQNCj4gPiA+ICs8
+aHR0cDovL2RvY3V0aWxzLnNvdXJjZWZvcmdlLm5ldC9yc3QuaHRtbD5gXyDnmoTmlofmoaPvvIzk
+u6Xkuobop6PlpoLkvZXkvb/nlKjlroPku6zjgIINCj4gPiA+ICvnibnliKvmmK9TcGhpbnggYHJl
+U3RydWN0dXJlZFRleHQg5Z+656GAYF8g6L+Z5piv5byA5aeL5a2m5Lmg5L2/55SocmVTdHJ1Y3R1
+cmVkVGV4dOeahA0KPiA+ID4gK+WlveWcsOaWueOAgui/mOacieS4gOS6myBgU3BoaW54IOeJueau
+iuagh+iusOe7k+aehGBfIOOAgg0KPiA+ID4gKw0KPiA+ID4gKy4uIF9yZVN0cnVjdHVyZWRUZXh0
+IOWfuuehgDogaHR0cDovL3d3dy5zcGhpbngtZG9jLm9yZy9lbi9zdGFibGUvcmVzdC5odG1sDQo+
+ID4gPiArLi4gX1NwaGlueCDnibnmrormoIforrDnu5PmnoQ6IGh0dHA6Ly93d3cuc3BoaW54LWRv
+Yy5vcmcvZW4vc3RhYmxlL21hcmt1cC9pbmRleC5odG1sDQo+ID4gPiArDQo+ID4gPiAr5YaF5qC4
+5paH5qGj55qE5YW35L2T5oyH5Y2XDQo+ID4gPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ID4gPiArDQo+ID4gPiAr6L+Z5piv5LiA5Lqb5YaF5qC4
+5paH5qGj55qE5YW35L2T5oyH5Y2X77yaDQo+ID4gPiArDQo+ID4gPiArKiDor7fkuI3opoHov4fk
+uo7nl7Tov7fovazmjaLmoLzlvI/liLByZVN0cnVjdHVyZWRUZXh044CC5L+d5oyB566A5Y2V44CC
+5Zyo5aSn5aSa5pWw5oOF5Ya15LiL77yM5paH5qGjDQo+ID4gPiArICDlupTor6XmmK/nuq/mlofm
+nKzvvIzmoLzlvI/lupTotrPlpJ/kuIDoh7TvvIzku6Xkvr/lj6/ku6XovazmjaLkuLrlhbbku5bm
+oLzlvI/jgIINCj4gPiA+ICsNCj4gPiA+ICsqIOWwhueOsOacieaWh+aho+i9rOaNouS4unJlU3Ry
+dWN0dXJlZFRleHTml7bvvIzor7flsL3ph4/lh4/lsJHmoLzlvI/mm7TmlLnjgIJQDQo+ID4gd2hh
+dCBpcyBQ77yfDQo+DQo+IFdpbGwgZGVsZXRlIGl0Lg0KPiAnUCcgaXMgcGFzdGUgaW4gdmltIDpQ
+DQo+DQo+ID4gPiArDQo+ID4gPiArKiDlnKjovazmjaLmlofmoaPml7bvvIzov5jopoHmm7TmlrDl
+hoXlrrnvvIzogIzkuI3ku4Xku4XmmK/moLzlvI/jgIINCj4gPiA+ICsNCj4gPiA+ICsqIOivt+mB
+teW+quagh+mimOS/rumlsOespueahOmhuuW6j++8mg0KPiA+ID4gKw0KPiA+ID4gKyAgMS4gYGA9
+YGAg5paH5qGj5qCH6aKY77yM6KaB5pyJ5LiK57q/OjoNCj4gPiA+ICsNCj4gPiA+ICsgICAgICAg
+PT09PT09PT09PT09PT0NCj4gPiA+ICsgICAgICAg5paH5qGj5qCH6aKYDQo+ID4gPiArICAgICAg
+ID09PT09PT09PT09PT09DQo+ID4gPiArDQo+ID4gPiArICAyLiBgYD1gYCDnq6A6Og0KPiA+ID4g
+Kw0KPiA+ID4gKyAgICAgICDnq6DmoIfpopgNCj4gPiA+ICsgICAgICAgPT09PT09PT0NCj4gPiA+
+ICsNCj4gPiA+ICsgIDMuIGBgLWBgIOiKgjo6DQo+ID4gPiArDQo+ID4gPiArICAgICAgIOiKguag
+h+mimA0KPiA+ID4gKyAgICAgICAtLS0tLS0tDQo+ID4gPiArDQo+ID4gPiArICA0LiBgYH5gYCDl
+sI/oioI6Og0KPiA+ID4gKw0KPiA+ID4gKyAgICAgICDlsI/oioLmoIfpopgNCj4gPiA+ICsgICAg
+ICAgfn5+fn5+fn5+fg0KPiA+ID4gKw0KPiA+ID4gKyAg5bC9566hUlNU5rKh5pyJ6KeE5a6a5YW3
+5L2T55qE6aG65bqP77yI4oCc5rKh5pyJ5by65Yqg5LiA5Liq5Zu65a6a5pWw6YeP5ZKM6aG65bqP
+55qE6IqC5qCH6aKY6KOF6aWw6aOO5qC877yM5pyA57uIDQo+ID4gPiArICDmjInnhafnmoTpobrl
+uo/lsIbmmK/lrp7pmYXpgYfliLDnmoTpobrluo/jgILigJ3vvInvvIzkvYbmmK/mi6XmnInkuIDk
+uKrpgJrnlKjnuqfliKvnmoTmlofmoaPmm7TlrrnmmJPpgbXlvqrjgIINCj4gPiA+ICsNCj4gPiA+
+ICsqIOWvueS6juaPkuWFpeWbuuWumuWuveW6pueahOaWh+acrOWdl++8iOeUqOS6juS7o+eggeag
+t+S+i+OAgeeUqOS+i+etie+8ie+8miBgYDo6YGAg55So5LqO6K+t5rOV6auY5Lqu5oSP5LmJ5LiN
+DQo+ID4gPiArICDlpKfnmoTlhoXlrrnvvIzlsKTlhbbmmK/nn63ku6PnoIHmrrXvvJsgYGAuLiBj
+b2RlLWJsb2NrOjogPGxhbmd1YWdlPmBgIOeUqOS6jumcgOimgeivreazlemrmOS6rueahA0KPiA+
+ID4gKyAg6L6D6ZW/5Luj56CB5Z2X44CC5a+55LqO5bWM5YWl5Yiw5paH5pys5Lit55qE566A55+t
+5Luj56CB54mH5q6177yM6K+35L2/55SoIFxgXGAg44CCDQo+ID4gPiArDQo+ID4gPiArDQo+ID4g
+PiArQ+Wfnw0KPiA+ID4gKy0tLS0tLS0tLS0tLQ0KPiA+ID4gKw0KPiA+ID4gKyoqU3BoaW54IEPl
+n5/vvIhEb21haW7vvIkqKiDvvIhuYW1lIGPvvInpgILnlKjkuo5DIEFQSeaWh+aho+OAguS+i+Wm
+gu+8jOWKn+iDveWOn+Wei++8mg0KPiA+IOWHveaVsOWOn+Wei++8nw0KPg0KPiBPSyENCj4NCj4g
+Wy4uLl0NCj4gPiA+ICvkuqTlj4nlvJXnlKgNCj4gPiA+ICstLS0tLS0tLS0tLS0tLS0tLQ0KPiA+
+ID4gKw0KPiA+ID4gK+S7juS4gOmhteaWh+aho+WIsOWPpuS4gOmhteaWh+aho+eahOS6pOWPieW8
+leeUqOWPr+S7pemAmui/h+eugOWNleWcsOWGmeWHuuaWh+S7tui3r+W+hOadpeWujOaIkO+8jOaX
+oOeJueauiuagvOW8jw0KPiA+ID4gK+imgeaxguOAgui3r+W+hOWPr+S7peaYr+e7neWvuei3r+W+
+hOaIluebuOWvuei3r+W+hOOAgue7neWvuei3r+W+hOS7juKAnERvY3VtZW50YXRpb24v4oCd5byA
+5aeL44CC5L6L5aaC77yM6KaBDQo+ID4gPiAr5Lqk5Y+J5byV55So5q2k6aG177yM5Lul5LiL5YaZ
+5rOV55qG5Y+v77yM5Y+W5Yaz5LqO5YW35L2T55qE5paH5qGj55uu5b2V77yI5rOo5oSPIGBgLnJz
+dGBgIOaJqeWxleWQjeaYr+WPr+mAiQ0KPiA+ID4gK+eahO+8iTo6DQo+ID4gPiArDQo+ID4gPiAr
+ICAgIFNlZSBEb2N1bWVudGF0aW9uL2RvYy1ndWlkZS9zcGhpbngucnN0LiBUaGlzIGFsd2F5cyB3
+b3Jrcy4NCj4gPiA+ICsgICAgVGFrZSBhIGxvb2sgYXQgc3BoaW54LnJzdCwgd2hpY2ggaXMgYXQg
+dGhpcyBzYW1lIGRpcmVjdG9yeS4NCj4gPiA+ICsgICAgUmVhZCAuLi9zcGhpbngucnN0LCB3aGlj
+aCBpcyBvbmUgZGlyZWN0b3J5IGFib3ZlLg0KPiA+IHRyYW5zbGF0Ze+8nw0KPg0KPiBPSw0KPg0K
+PiA+ID4gKw0KPiA+ID4gK+WmguaenOimgeS9v+eUqOebuOWvuei3r+W+hO+8jOWImemcgOimgeS9
+v+eUqFNwaGlueOeahCBgYGRvY2BgIOS/rumlsOOAguS+i+Wmgu+8jOS7juWQjOS4gOebruW9leW8
+leeUqOatpOmhtQ0KPiA+ID4gK+eahOaTjeS9nOWmguS4izo6DQo+ID4gPiArDQo+ID4gPiArICAg
+IFNlZSA6ZG9jOmBteSBjdXN0b20gbGluayB0ZXh0IGZvciBkb2N1bWVudCBzcGhpbnggPHNwaGlu
+eD5gLg0KPiA+IHRyYW5zbGF0Ze+8nw0KPg0KPiBPSw0KPg0KPiA+ID4gKw0KPiA+ID4gK+WvueS6
+juWkp+WkmuaVsOeUqOS+i++8jOWJjeiAheaYr+mmlumAie+8jOWboOS4uuWug+abtOW5suWHgO+8
+jOabtOmAguWQiOmYheivu+a6kOaWh+S7tueahOS6uuOAguWmguaenOaCqOmBh+WIsOS4gA0KPiA+
+ID4gK+S4quayoeacieS7u+S9leeJueauiuS9nOeUqOeahCBgYDpkb2M6YGAg55So5rOV77yM6K+3
+5bCG5YW26L2s5o2i5Li65paH5qGj6Lev5b6E44CCDQo+ID4gPiArDQo+ID4gPiAr5pyJ5YWz5Lqk
+5Y+J5byV55Soa2VybmVsLWRvY+WHveaVsOaIluexu+Wei+eahOS/oeaBr++8jOivt+WPgumYhQ0K
+PiA+ID4gK0RvY3VtZW50YXRpb24vZG9jLWd1aWRlL2tlcm5lbC1kb2MucnN0IOOAgg0KPiA+ID4g
+Kw0KPiA+ID4gKy4uIF9zcGhpbnhfa2ZpZ3VyZV96aDoNCj4gPiA+ICsNCj4gPiA+ICvlm77lvaLl
+m77niYcNCj4gPiA+ICs9PT09PT09PT09PT09PT09DQo+ID4gPiArDQo+ID4gPiAr5aaC5p6c6KaB
+5re75Yqg5Zu+54mH77yM5bqU6K+l5L2/55SoIGBga2VybmVsLWZpZ3VyZWBgIOWSjCBgYGtlcm5l
+bC1pbWFnZWBgIOaMh+S7pOOAguS+i+Wmgu+8jA0KPiA+ID4gK+imgeaPkuWFpeWFt+acieWPr+e8
+qeaUvuWbvuWDj+agvOW8j+eahOWbvuW9ou+8jOivt+S9v+eUqFNWR++8iDpyZWY6YHN2Z19pbWFn
+ZV9leGFtcGxlX3poYCDvvIk6Og0KPiA+ID4gKw0KPiA+ID4gKyAgICAuLiBrZXJuZWwtZmlndXJl
+OjogIHN2Z19pbWFnZS5zdmcNCj4gPiA+ICsgICAgICAgOmFsdDogICAg566A5piTIFNWRyDlm77n
+iYcNCj4gPiA+ICsNCj4gPiA+ICsgICAgICAgU1ZHIOWbvueJh+ekuuS+iw0KPiA+ID4gKw0KPiA+
+ID4gKy4uIF9zdmdfaW1hZ2VfZXhhbXBsZV96aDoNCj4gPiA+ICsNCj4gPiA+ICsuLiBrZXJuZWwt
+ZmlndXJlOjogIHN2Z19pbWFnZS5zdmcNCj4gPiA+ICsgICA6YWx0OiAgICDnroDmmJMgU1ZHIOWb
+vueJhw0KPiA+ID4gKw0KPiA+ID4gKyAgIFNWRyDlm77niYfnpLrkvosNCj4gPiA+ICsNCj4gPiA+
+ICvlhoXmoLhmaWd1cmXvvIjlkoxpbWFnZe+8ieaMh+S7pOaUr+aMgSBET1Qg5qC85byP5paH5Lu2
+77yM6K+35Y+C6ZiFDQo+ID4gPiArDQo+ID4gPiArKiBET1TvvJpodHRwOi8vZ3JhcGh2aXoub3Jn
+L3BkZi9kb3RndWlkZS5wZGYNCj4gPiA+ICsqIEdyYXBodml677yaaHR0cDovL3d3dy5ncmFwaHZp
+ei5vcmcvY29udGVudC9kb3QtbGFuZ3VhZ2UNCj4gPiA+ICsNCj4gPiA+ICvkuIDkuKrnroDljZXn
+moTkvovlrZDvvIg6cmVmOmBoZWxsb19kb3RfZmlsZV96aGAg77yJOjoNCj4gPiA+ICsNCj4gPiA+
+ICsgIC4uIGtlcm5lbC1maWd1cmU6OiAgaGVsbG8uZG90DQo+ID4gPiArICAgICA6YWx0OiAgICDk
+vaDlpb3vvIzkuJbnlYwNCj4gPiA+ICsNCj4gPiA+ICsgICAgIERPVCDnpLrkvosNCj4gPiA+ICsN
+Cj4gPiA+ICsuLiBfaGVsbG9fZG90X2ZpbGVfemg6DQo+ID4gPiArDQo+ID4gPiArLi4ga2VybmVs
+LWZpZ3VyZTo6ICBoZWxsby5kb3QNCj4gPiA+ICsgICA6YWx0OiAgICDkvaDlpb3vvIzkuJbnlYwN
+Cj4gPiA+ICsNCj4gPiA+ICsgICBET1Qg56S65L6LDQo+ID4gYW55IGJldHRlciB0cmFuc2xhdGlv
+bu+8nw0KPg0KPiBOb3BlLiBJdCB3aWxsIGFjdCBhcyB0aGUgdGl0bGUgb2YgdGhpcyBmaWd1cmUu
+DQo+IEtlZXAgc2ltcGxlLg0KPg0KPiBbLi4uXQ0KPiA+ID4gLS0NCj4gPiA+IDIuMjAuMQ0KPiA+
+ID4NCj4gPg0KPiA+IFRoYW5rc++8gQ0KPiA+DQo+ID4gWWFudGVuZw0KPg0K
