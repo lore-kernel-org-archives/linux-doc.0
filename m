@@ -2,188 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A535C433ED
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 17:38:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E1E1C433ED
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 01:24:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C4D746113E
-	for <linux-doc@archiver.kernel.org>; Fri,  2 Apr 2021 17:38:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F335C611AC
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 01:24:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235477AbhDBRiu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Apr 2021 13:38:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48921 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S235421AbhDBRit (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Apr 2021 13:38:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617385128;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TKDRlulogoRtKYWAUF1pyaqEOli9TuwMVFnHg7gDyqg=;
-        b=jPjmwW4Maiw5/Wr96xRRg2D2wYRBXmYwSyF53aMGmYCU1E9H+kaPc10HbRHe9L/ygygc4D
-        dCo2Wx7wiaBbcFY7xYwLsA+BTUSdpzX2/tK0kJmk/LLjv4KffJ+udD8QzGN1rHHa4uh5Uk
-        3mXRZKMHPTPIWZrupsIGJK4jFmhbmCw=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-V9_-ME3iPBGvYDAtQs-yYQ-1; Fri, 02 Apr 2021 13:38:44 -0400
-X-MC-Unique: V9_-ME3iPBGvYDAtQs-yYQ-1
-Received: by mail-ed1-f69.google.com with SMTP id y23so191308edl.19
-        for <linux-doc@vger.kernel.org>; Fri, 02 Apr 2021 10:38:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=TKDRlulogoRtKYWAUF1pyaqEOli9TuwMVFnHg7gDyqg=;
-        b=AqHt1Z6f2rllRXoyRUYrl1G/l7znDIFxQY+PYA5r2JozVEm0zP2XFqGY70r8M03lFx
-         zPHxEbqua5VCadEHV7GCMS93O9EOR7WcYEU5PEzFVc+sqOGN9FtBkcOMLls96e5Wxk2g
-         LYmhR6KOatVTbd5+qFSc1LA+ukLHy2VAKBrRRTGOvjY07BHwkvsJxkYelTNpc1fiURSm
-         EtfXGOeIIbIFe67FzmhVk0GzQvpdxkguGSlgP6aoGcuLmHrhP1jW0iZsA/N+yZZFb2QG
-         xCW/cN+oP0RKLVbWEi1yjzr9Hkct/Nf8nTV9J24rmLV5/SkgL+mg7Rf2KWwcbebkJ++v
-         sD5Q==
-X-Gm-Message-State: AOAM530EWD2Zlye+FHz1nruXMV+zkc3iAYIlHz28IrYALva3MMQdDJF2
-        +MaTJ0W4zA/2TPFL4M0GEyM2ffeJimMdwB5KOsOrgw8jzNbBXKG+C095KKM3AsSvpHlNcIJvM2L
-        BKOVEvd2Cw6xTNvFIrtRe
-X-Received: by 2002:a17:907:3f10:: with SMTP id hq16mr2635471ejc.181.1617385123129;
-        Fri, 02 Apr 2021 10:38:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzAS7ZbtJVwnzUWnA/6X0McPrVes3ar3lqem09HSmYxMrqLZW+HviZElaAarzltynI2Jr8wwA==
-X-Received: by 2002:a17:907:3f10:: with SMTP id hq16mr2635443ejc.181.1617385122924;
-        Fri, 02 Apr 2021 10:38:42 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a? ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
-        by smtp.gmail.com with ESMTPSA id y17sm4462135ejf.116.2021.04.02.10.38.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Apr 2021 10:38:42 -0700 (PDT)
-Subject: Re: [PATCH v2 0/9] KVM: my debug patch queue
-To:     Maxim Levitsky <mlevitsk@redhat.com>, kvm@vger.kernel.org
-Cc:     "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sean Christopherson <seanjc@google.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, Jessica Yu <jeyu@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Will Deacon <will@kernel.org>,
-        "open list:KERNEL VIRTUAL MACHINE FOR ARM64 (KVM/arm64)" 
-        <kvmarm@lists.cs.columbia.edu>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Jim Mattson <jmattson@google.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "open list:S390" <linux-s390@vger.kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Kieran Bingham <kbingham@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "moderated list:KERNEL VIRTUAL MACHINE FOR ARM64 (KVM/arm64)" 
-        <linux-arm-kernel@lists.infradead.org>,
-        James Morse <james.morse@arm.com>
-References: <20210401135451.1004564-1-mlevitsk@redhat.com>
-From:   Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <cb7f918c-932f-d558-76ec-801ed8ed1f62@redhat.com>
-Date:   Fri, 2 Apr 2021 19:38:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+        id S234821AbhDCBYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Apr 2021 21:24:04 -0400
+Received: from m32-153.88.com ([43.250.32.153]:24744 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S234488AbhDCBYD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 2 Apr 2021 21:24:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=0VZRqpo4WvX3JU1xbEj+nx0pgMJXLjx8r71rt
+        PPhOas=; b=bfMCoh8lB+kXjOziUW4VSdd7lkMDaLIPpWq/wphH7yjUcLJU0NPgh
+        LU0CYYsCFI6+xBVgj0vSFgVVBysMAomWRcGNE+BzLLWoOVghOVlNa9Ie9WBf79Yz
+        ZwUClLPvZ3j+Gu84DnMW3NfANaZCxmtVr2wyKyc8t4F/SNuqcxJDmQ=
+Received: from mipc (unknown [120.238.248.129])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAXoiKkw2dg3oJYAA--.64137S2;
+        Sat, 03 Apr 2021 09:23:50 +0800 (CST)
+Date:   Sat, 3 Apr 2021 09:23:48 +0800
+From:   Wu XiangCheng <bobwxc@email.cn>
+To:     Alex Shi <alexs@kernel.org>
+Cc:     Alex Shi <seakeel@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        YanTeng Si <sterlingteng@gmail.com>, linux-doc@vger.kernel.org
+Subject: [PATCH v2 0/5] docs/zh_CN: Add translations in zh_CN/doc-guide/
+Message-ID: <cover.1617412012.git.bobwxc@email.cn>
 MIME-Version: 1.0
-In-Reply-To: <20210401135451.1004564-1-mlevitsk@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgAXoiKkw2dg3oJYAA--.64137S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7WFWrAFWfXr4rAFW3Kry5twb_yoW8Wr4xpF
+        45KryfG3WqvF15K3yfGFWUCF1rCa1xuws5K34Iqw1rtr95Kr4vvrWDKry2grZxAr40yFn0
+        vF4Skr1Uu3yUCFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgYb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
+        z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzx
+        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
+        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkIecxEwVAFwVWkMxAIw28Icx
+        kI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1l
+        x2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14
+        v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IY
+        x2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87
+        Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZF
+        pf9x07UniSdUUUUU=
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 01/04/21 15:54, Maxim Levitsky wrote:
-> Hi!
-> 
-> I would like to publish two debug features which were needed for other stuff
-> I work on.
-> 
-> One is the reworked lx-symbols script which now actually works on at least
-> gdb 9.1 (gdb 9.2 was reported to fail to load the debug symbols from the kernel
-> for some reason, not related to this patch) and upstream qemu.
+Hi all,
 
-Queued patches 2-5 for now.  6 is okay but it needs a selftest. (e.g. 
-using KVM_VCPU_SET_EVENTS) and the correct name for the constant.
+This set of patches add some translations in zh_CN/doc-guide/
 
-Paolo
+V2:
+* Modify some words and add missed sentences under YanTeng Si's
+  suggestion. Thanks for his rewiew!
+* Specific changes see <http://fars.ee/n5rt/diff>
+* Add Cc: tag for YanTeng Si.
 
-> The other feature is the ability to trap all guest exceptions (on SVM for now)
-> and see them in kvmtrace prior to potential merge to double/triple fault.
-> 
-> This can be very useful and I already had to manually patch KVM a few
-> times for this.
-> I will, once time permits, implement this feature on Intel as well.
-> 
-> V2:
-> 
->   * Some more refactoring and workarounds for lx-symbols script
-> 
->   * added KVM_GUESTDBG_BLOCKEVENTS flag to enable 'block interrupts on
->     single step' together with KVM_CAP_SET_GUEST_DEBUG2 capability
->     to indicate which guest debug flags are supported.
-> 
->     This is a replacement for unconditional block of interrupts on single
->     step that was done in previous version of this patch set.
->     Patches to qemu to use that feature will be sent soon.
-> 
->   * Reworked the the 'intercept all exceptions for debug' feature according
->     to the review feedback:
-> 
->     - renamed the parameter that enables the feature and
->       moved it to common kvm module.
->       (only SVM part is currently implemented though)
-> 
->     - disable the feature for SEV guests as was suggested during the review
->     - made the vmexit table const again, as was suggested in the review as well.
-> 
-> Best regards,
-> 	Maxim Levitsky
-> 
-> Maxim Levitsky (9):
->    scripts/gdb: rework lx-symbols gdb script
->    KVM: introduce KVM_CAP_SET_GUEST_DEBUG2
->    KVM: x86: implement KVM_CAP_SET_GUEST_DEBUG2
->    KVM: aarch64: implement KVM_CAP_SET_GUEST_DEBUG2
->    KVM: s390x: implement KVM_CAP_SET_GUEST_DEBUG2
->    KVM: x86: implement KVM_GUESTDBG_BLOCKEVENTS
->    KVM: SVM: split svm_handle_invalid_exit
->    KVM: x86: add force_intercept_exceptions_mask
->    KVM: SVM: implement force_intercept_exceptions_mask
-> 
->   Documentation/virt/kvm/api.rst    |   4 +
->   arch/arm64/include/asm/kvm_host.h |   4 +
->   arch/arm64/kvm/arm.c              |   2 +
->   arch/arm64/kvm/guest.c            |   5 -
->   arch/s390/include/asm/kvm_host.h  |   4 +
->   arch/s390/kvm/kvm-s390.c          |   3 +
->   arch/x86/include/asm/kvm_host.h   |  12 ++
->   arch/x86/include/uapi/asm/kvm.h   |   1 +
->   arch/x86/kvm/svm/svm.c            |  87 +++++++++++--
->   arch/x86/kvm/svm/svm.h            |   6 +-
->   arch/x86/kvm/x86.c                |  14 ++-
->   arch/x86/kvm/x86.h                |   2 +
->   include/uapi/linux/kvm.h          |   1 +
->   kernel/module.c                   |   8 +-
->   scripts/gdb/linux/symbols.py      | 203 ++++++++++++++++++++----------
->   15 files changed, 272 insertions(+), 84 deletions(-)
-> 
+V1:
+<https://lore.kernel.org/linux-doc/cover.1617260163.git.bobwxc@email.cn/T/>
+
+base: next tree
+  commit 3501c960dfda ("docs/zh_CN: Add translations in zh_CN/kernel-hacking/")
+
+Thanks!
+
+Wu XiangCheng (5):
+  docs/zh_CN: Add translation zh_CN/doc-guide/index.rst
+  docs/zh_CN: Link zh_CN/doc-guide to zh_CN/index.rst
+  docs/zh_CN: Add translation zh_CN/doc-guide/sphinx.rst
+  docs/zh_CN: Add two image example files
+  docs/zh_CN: Add translation zh_CN/doc-guide/kernel-doc.rst
+
+ .../translations/zh_CN/doc-guide/hello.dot    |   3 +
+ .../translations/zh_CN/doc-guide/index.rst    |  30 ++
+ .../zh_CN/doc-guide/kernel-doc.rst            | 500 ++++++++++++++++++
+ .../translations/zh_CN/doc-guide/sphinx.rst   | 415 +++++++++++++++
+ .../zh_CN/doc-guide/svg_image.svg             |  10 +
+ Documentation/translations/zh_CN/index.rst    |   1 +
+ 6 files changed, 959 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/doc-guide/hello.dot
+ create mode 100644 Documentation/translations/zh_CN/doc-guide/index.rst
+ create mode 100644 Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
+ create mode 100644 Documentation/translations/zh_CN/doc-guide/sphinx.rst
+ create mode 100644 Documentation/translations/zh_CN/doc-guide/svg_image.svg
+
+-- 
+2.20.1
 
