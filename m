@@ -8,57 +8,58 @@ X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EEFB0C433B4
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 03:10:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2087C433B4
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 03:11:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BDBCB611CC
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 03:10:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6BA7E611CC
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 03:11:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235979AbhDCDKk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 2 Apr 2021 23:10:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40786 "EHLO
+        id S236035AbhDCDLE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 2 Apr 2021 23:11:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231256AbhDCDKk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Apr 2021 23:10:40 -0400
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0D0FC0613E6
-        for <linux-doc@vger.kernel.org>; Fri,  2 Apr 2021 20:10:35 -0700 (PDT)
-Received: by mail-pf1-x42e.google.com with SMTP id c204so892800pfc.4
-        for <linux-doc@vger.kernel.org>; Fri, 02 Apr 2021 20:10:35 -0700 (PDT)
+        with ESMTP id S236001AbhDCDLE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 2 Apr 2021 23:11:04 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 854F3C0613E6
+        for <linux-doc@vger.kernel.org>; Fri,  2 Apr 2021 20:11:02 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id y3so303231pgi.0
+        for <linux-doc@vger.kernel.org>; Fri, 02 Apr 2021 20:11:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=QS5cj1fj/12Gjz6KRUWFU8we4wF47npgi+U8WH/Y+iw=;
-        b=LduQ3EIJhYGr4rCj8XONPBflihtEhbw6LEvS7OMmXtj/+/Q7V1COFR3IM8zzcpWvOJ
-         tScXrMHcKuhtnO9mi+yNfEQ3R8PUzBN9QIrG0MULwMLJhPyW/Pa/Bn1WNyoHIr8UF6tI
-         CGlIaa1xDkOYq8zx9uCN1yaelbNCweINn7si0x8ldBi1DxDv7wDCUZxUBaqrG8MuWoAE
-         lcZxAMWFyga2Bvzn54Vzd8Qrvta7cPNGl4hyc2KKShtXJjhqXQ1t7ApEtG/yheMQ403Y
-         ovKkkHvIkobCMLeqIgQt+RdkhcxNB6klZhiZWtWyL3Kn1RFIz7uN1OJeSw0mvupLPWvG
-         olNQ==
+        bh=s0+pNrHAUkM55mVGeeupfQ/KQgWXQ88I5UxGETqejPs=;
+        b=lj5qGjB9n7K1foVsBmCaxTywSbBI0zLdSAb+L6tZPbLAFCz4YeywRfpBfrf+FJRWJH
+         vUelcIs6dBD335FABjlVnxvELxOQ4lUlgUX+cwWB90mg8PGQoQiucRUKbOcUDIVwptkR
+         CxQqAS12tpx8r+wcej0cn4/hKvzTmqeusPQcTutrb7s2dt3/yk1SJu9KpLS26dqL1VQs
+         gHbXiJPtVd7D7qIOb3Fz08TtXM90wnE627qijJ6ISD4ecdaBYRaHbdsVgZBDAG+dq1u9
+         W8Tnd1qtwLOuw1dYRWgPPrE/0LbhVCpcBPEqA2Ykcs72zO5l00StTy75dYEM+h208fMr
+         zFGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=QS5cj1fj/12Gjz6KRUWFU8we4wF47npgi+U8WH/Y+iw=;
-        b=uA2Gt9cv8c0WrdHHIb3fTgatv5xJ7GPC8m2hmT6Fzad9iCYt/Km5Sj5vG21OuvW0fD
-         de/TYF6gGZr59vBsnCs/RzYtxVbAkbZtGRBbxMyf8OzAkx4Q5W4qw2iDvVjYLN5ZYDa6
-         UYvzj/zf9dh//XkSc+BuwTeWc+WvSyX1yHjYxdpcNDZ2HmHLphQilBL8B4Szkjd/ctIK
-         lTj5WNfyZL4AD0SZu3/v8obgo709ClR7s+1yPEsxWMMTkFr38sDLnzoX+4zH5JLLOeSs
-         ViscmdDSI2CmmvUqjUVsPBrAmAqDuIFSt0lPDbzdUjoJkiJbJtBcHgkLoW3TXDKI81i0
-         itTg==
-X-Gm-Message-State: AOAM533JGpPCx2+BT5JNfpdqjO/P+Pe91QGuq0iismu/0YBcaAjYRxdn
-        Gcdw9KPiNKhe+VY+NyRit0qHdLMwPd+yHAlp/R8=
-X-Google-Smtp-Source: ABdhPJyR9PbSLSc6ai/NeLRz5fx4sCFwYOsLq2tzxzt7Xh9MnssSlhpVE4oqnL88LCd/iiqrOeCvwUPn4P0IAz92KBk=
-X-Received: by 2002:a63:d449:: with SMTP id i9mr13804507pgj.227.1617419435231;
- Fri, 02 Apr 2021 20:10:35 -0700 (PDT)
+        bh=s0+pNrHAUkM55mVGeeupfQ/KQgWXQ88I5UxGETqejPs=;
+        b=pS2UZvt3dhZEa42zlJdeueJyE1zR+K0pAYC32cus4iATuSzMKCC02TPrN2c6Fap9Tx
+         oYh6MhPBA5wsVWZ4RwCTb1JG+JKQQiH4GF44BjxKDdpbELZcj3mIIFvyBPoqKTswiGUN
+         GbPOwiTQAacKHqGxmdHI6g44ZdMmt0aclUG4WmThe0FLvXGOr7oBqr56W9nbuO4rYqWp
+         7WgocPpLbbsobFEY6Xq8v1wvfrSJpgpcq+fjVJ0fGeL/NtJt2Aj2JhNCsgLf3iXMEHJ1
+         /FvXpNWanTONEAoi4LqEMX/NCHsDB0Od2L+SvMIPEMd0GUriYp66WrvtgQ9OxsBwBS6E
+         4OLw==
+X-Gm-Message-State: AOAM532cNTzXsa3gTr4d2aC3IK+vWnhhV40zY09Om3an95DRhfvYt0wv
+        BJ75lTJtiebf69aS1UHzbwsh/C2+f25HiKe/N632h2Z7IpsekQ==
+X-Google-Smtp-Source: ABdhPJyjiId8YrsCGAMNWe16yg2Xl95VsQsoFsprbV6Or0lXLXeCwP9ZMrcDPZPPSBP/I1/6XYwK3Icpw85m81O2mZ0=
+X-Received: by 2002:aa7:8649:0:b029:1fb:283:6047 with SMTP id
+ a9-20020aa786490000b02901fb02836047mr14844240pfo.62.1617419462173; Fri, 02
+ Apr 2021 20:11:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1617412012.git.bobwxc@email.cn> <066b972c0ef496004dcd9a2c6adff4a53504b600.1617412012.git.bobwxc@email.cn>
-In-Reply-To: <066b972c0ef496004dcd9a2c6adff4a53504b600.1617412012.git.bobwxc@email.cn>
+References: <cover.1617412012.git.bobwxc@email.cn> <fdc591a9f5449aa59269f6d9667c8c5d28b77567.1617412012.git.bobwxc@email.cn>
+In-Reply-To: <fdc591a9f5449aa59269f6d9667c8c5d28b77567.1617412012.git.bobwxc@email.cn>
 From:   teng sterling <sterlingteng@gmail.com>
-Date:   Sat, 3 Apr 2021 11:10:30 +0800
-Message-ID: <CAMU9jJqqpRncO0SYx=KB3tiNixSndocGqynNrG8EXkndy6E5Aw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] docs/zh_CN: Add translation zh_CN/doc-guide/index.rst
+Date:   Sat, 3 Apr 2021 11:10:58 +0800
+Message-ID: <CAMU9jJqUdxLNp0PyA1qkLmtLLUDbYFoUJVLyhXQo7q8stVZS5A@mail.gmail.com>
+Subject: Re: [PATCH v2 2/5] docs/zh_CN: Link zh_CN/doc-guide to zh_CN/index.rst
 To:     Wu XiangCheng <bobwxc@email.cn>
 Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <seakeel@gmail.com>,
         Alex Shi <alex.shi@linux.alibaba.com>,
@@ -74,53 +75,26 @@ Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 Wu XiangCheng <bobwxc@email.cn> =E4=BA=8E2021=E5=B9=B44=E6=9C=883=E6=97=A5=
 =E5=91=A8=E5=85=AD =E4=B8=8A=E5=8D=889:24=E5=86=99=E9=81=93=EF=BC=9A
 >
-> Add new translation
->   Documentation/translations/zh_CN/doc-guide/index.rst
+> Add zh_CN/doc-guide entry in zh_CN/index.rst
 >
 > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
 > ---
->  .../translations/zh_CN/doc-guide/index.rst    | 30 +++++++++++++++++++
->  1 file changed, 30 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/doc-guide/index.rst
+>  Documentation/translations/zh_CN/index.rst | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/Documentation/translations/zh_CN/doc-guide/index.rst b/Docum=
-entation/translations/zh_CN/doc-guide/index.rst
-> new file mode 100644
-> index 000000000000..b835c8d95f0e
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/doc-guide/index.rst
-> @@ -0,0 +1,30 @@
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/doc-guide/index.rst
-> +
-> +:=E8=AF=91=E8=80=85: =E5=90=B4=E6=83=B3=E6=88=90 Wu XiangCheng <bobwxc@e=
-mail.cn>
-> +
-> +.. _doc_guide_zh:
-> +
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +=E5=A6=82=E4=BD=95=E7=BC=96=E5=86=99=E5=86=85=E6=A0=B8=E6=96=87=E6=A1=A3
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   sphinx
-> +   kernel-doc
-> +
-> +TodoList:
-> +
-> +* parse-headers
-> +* contributing
-> +* maintainer-profile
-> +
-> +.. only::  =E5=AD=90=E9=A1=B9=E7=9B=AE=E4=B8=8EHTML
-> +
-> +   =E7=9B=AE=E5=BD=95
-> +   =3D=3D=3D=3D=3D=3D=3D
-> +
-> +   * :ref:`genindex`
+> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/t=
+ranslations/zh_CN/index.rst
+> index 4fdd57417ffb..4258006f4763 100644
+> --- a/Documentation/translations/zh_CN/index.rst
+> +++ b/Documentation/translations/zh_CN/index.rst
+> @@ -18,6 +18,7 @@
+>
+>     admin-guide/index
+>     process/index
+> +   doc-guide/index
+>     kernel-hacking/index
+>     filesystems/index
+>     arm64/index
 > --
 > 2.20.1
 >
