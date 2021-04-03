@@ -2,298 +2,182 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DF35BC433ED
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 12:01:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 084B7C433ED
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 12:43:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A097E600D3
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 12:01:03 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C1C5E61158
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 12:43:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236506AbhDCMBE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Apr 2021 08:01:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41182 "EHLO
+        id S231755AbhDCMns (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Apr 2021 08:43:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236431AbhDCMBE (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Apr 2021 08:01:04 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEAE3C061788
-        for <linux-doc@vger.kernel.org>; Sat,  3 Apr 2021 05:01:01 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id gv19-20020a17090b11d3b029014c516f4eb5so1906413pjb.0
-        for <linux-doc@vger.kernel.org>; Sat, 03 Apr 2021 05:01:01 -0700 (PDT)
+        with ESMTP id S231681AbhDCMns (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Apr 2021 08:43:48 -0400
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41331C0613E6;
+        Sat,  3 Apr 2021 05:43:45 -0700 (PDT)
+Received: by mail-pl1-x62a.google.com with SMTP id h8so3630032plt.7;
+        Sat, 03 Apr 2021 05:43:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iroyHTNJPayrVAXpDAXqHoA24HMKA1INuB3nlq5+avQ=;
-        b=tNA62n/S6nZ9yI7AVZl8bjuaNN51gzR+f8rhJXMIaBeH4/m4cb8yWFmAzt7+z+mCL3
-         3dDBZaLtDDIgNamKEQsK2iNUSIg7iEhaP/nIcUWomBF9i/WqftG2eZm2C4tVsYH5JrpZ
-         gNstMWlMNiFZSceJkHS1XLbjKabFsO4RhZ18uoJW4R+cJNgmu3oCDvVQsZtvCzvFuiXu
-         /r0qIsyQ85w6216OpT1KuepVd6U5/4pgo6mNjvCra6bSn7EMZVf58s0m5sXGMrhmscWL
-         2qeZL23BO6h8CJNjxt6864Jy6inkvucOP+maplwpYOKoEbU1dqPzsgdupeyUY9s+0I5F
-         N88g==
+        d=gmail.com; s=20161025;
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=l9J7Rrtr5vX5sTUcC2BnLF28M3UYe4/pHrGKjFh6MSM=;
+        b=rAvyolEtINNdsn5rcy3zoxvT4KgaWso521j7kK32Tou5ahiOGCzNYoJ/C4JX+3MyMz
+         RuO8HtjcUj6jQbZ0zPkrFOvwSHYK7c4sFBj0SALgClqXcSnkc625rREamCwz8icGWz8B
+         HdRZDnhHJ1gD6QFeGH17t+PXvSbMnVkJ5S6a6avakA5oVvrCmjXiEr2t0l6gzarNTf/v
+         lkqakN/ko91X4kdjY+DifBrSEwT74Hfi4Br6zngZ55TRS5PfVtAqWtouvQxlQqqOL/5g
+         01ZPIjSK4reAESN0t6s8FrUTYvIqqBhBflJQC3U9LL8HOYkMbRBHGVhY1VUJXYBe3J0R
+         T19w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=iroyHTNJPayrVAXpDAXqHoA24HMKA1INuB3nlq5+avQ=;
-        b=kXOvnrT92Spw3NIduAxjPt5OmUATSHFVKIcU9vQI4AhrtCZePam9fv8cv/3PE8P7BV
-         u9m5py4Ya/38e0T7mOlDRqqZuoge2+ruOpNwtCweuFPqIOZJlNEQYYoHHP+NRLJFqMXF
-         dJrNt/ckoBeECpgR0opWcQkAm+KiEIFyxsYP9TLC/iqXhueLk7FHHmBlWK9SVOf92lcS
-         FmRGpqS1pLirgUjRAPvBl8y3nJuuust3uqiu88AeUHWORyZAJ/foQkoh8kSCnyKLbDa8
-         eTGOFhx/KmzO1W0KoJNsUu3zvwUDy0gMghafzyVzgkat0faW9FiSdrCZkcuOHOfZThOX
-         6lGg==
-X-Gm-Message-State: AOAM532rmWZEa4/bNcrDC8qNb3liJsaXZs192OhblBqHhu7V2GQeK7c6
-        kD6GvqW2RW/t+sYS+kBkMz+oNVBjrpX6
-X-Google-Smtp-Source: ABdhPJz0ZhLVxWaznlUl2dz406DyrC4TCJr11aOvL5vAKcoPhqK1b66ZlJKWpMX+zjl89j+2zbqyoQ==
-X-Received: by 2002:a17:90a:3d01:: with SMTP id h1mr18476605pjc.124.1617451260894;
-        Sat, 03 Apr 2021 05:01:00 -0700 (PDT)
-Received: from localhost.localdomain ([103.77.37.190])
-        by smtp.gmail.com with ESMTPSA id g21sm10748187pjl.28.2021.04.03.05.00.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Apr 2021 05:01:00 -0700 (PDT)
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     corbet@lwn.net
-Cc:     gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Subject: [PATCH] docs: driver-model: Update the documentation for device class
-Date:   Sat,  3 Apr 2021 17:30:50 +0530
-Message-Id: <20210403120050.4756-1-manivannan.sadhasivam@linaro.org>
-X-Mailer: git-send-email 2.25.1
+        bh=l9J7Rrtr5vX5sTUcC2BnLF28M3UYe4/pHrGKjFh6MSM=;
+        b=ATuJcP3S8Wp1GbjYNlaIWb3AYfymkVZYyftKGwFlFJFYd5hGWmku4YYQkUd9exV4s5
+         kz/E07hxYU5EiT3mpCRL9HLF0iG43Utb45bB+jWsqUPzRCUCLhTsChfVDX8HH4NpjiAj
+         un0/xgUUWTViquRM1ijIOJeKnZi4sSP59fLjeJYjn9YIJq9kTHT0on9XjMuxlr2HdwFh
+         fMhVg7cyFhJ/KYhjSkEvOqpKYDZih1i3LNhf58QKCRO0esTLNKr6Rbn8QQ6x9grjyJ1a
+         jeHZz71CXPh13l/MtdupSPg8bNRic1s9aQ3HP1R7qBMWQgG5oeNeAJg10l40KN7NgSju
+         XNfQ==
+X-Gm-Message-State: AOAM532/UwnKnMA/Db6o82cA3BwxBrs+e9OL0t6K9YOZP+vE7s5aGOoY
+        dr6Yfae8kahoRv94nTBa+VdROIVORqjZWQ==
+X-Google-Smtp-Source: ABdhPJw9MyAP3c9lzuu0qApDj+cYYiZVnB1RR6reKtnceMO8i0UaIlAmY2rHQmXQ9cZHZD59gERA2Q==
+X-Received: by 2002:a17:90a:1b0e:: with SMTP id q14mr17620107pjq.41.1617453824146;
+        Sat, 03 Apr 2021 05:43:44 -0700 (PDT)
+Received: from ?IPv6:2405:201:600d:a089:150c:a6c7:d4:6d35? ([2405:201:600d:a089:150c:a6c7:d4:6d35])
+        by smtp.gmail.com with ESMTPSA id g4sm11158310pgu.46.2021.04.03.05.43.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 03 Apr 2021 05:43:43 -0700 (PDT)
+From:   Aditya Srivastava <yashsri421@gmail.com>
+Subject: Re: [PATCH] scripts: kernel-doc: add warning for comment not
+ following kernel-doc syntax
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20210329092945.13152-1-yashsri421@gmail.com>
+ <87czvit65m.fsf@meer.lwn.net>
+ <a35096d5-99e7-6b69-c959-1136d511a0ff@gmail.com>
+ <87mtujktl2.fsf@meer.lwn.net>
+Message-ID: <0b5cedae-d89e-e558-906d-846ed01f27ca@gmail.com>
+Date:   Sat, 3 Apr 2021 18:13:36 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <87mtujktl2.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The current documentation about the device class is out of date such
-that it refers to non-existent APIs and structures. This commit updates
-them to the current device class APIs and structures, removes wordings
-that no longer valid while trying to keep the original content intact.
+On 1/4/21 1:02 am, Jonathan Corbet wrote:
+> Aditya Srivastava <yashsri421@gmail.com> writes:
+>
+>> On 29/3/21 7:26 pm, Jonathan Corbet wrote:
+>>> Aditya Srivastava <yashsri421@gmail.com> writes:
+>>>
+>>>> Currently, kernel-doc start parsing the comment as a kernel-doc comment if
+>>>> it starts with '/**', but does not take into account if the content inside
+>>>> the comment too, adheres with the expected format.
+>>>> This results in unexpected and unclear warnings for the user.
+>>>>
+>>>> E.g., running scripts/kernel-doc -none mm/memcontrol.c emits:
+>>>> "mm/memcontrol.c:961: warning: expecting prototype for do not fallback to current(). Prototype was for get_mem_cgroup_from_current() instead"
+>>>>
+>>>> Here kernel-doc parses the corresponding comment as a kernel-doc comment
+>>>> and expects prototype for it in the next lines, and as a result causing
+>>>> this warning.
+>>>>
+>>>> Provide a clearer warning message to the users regarding the same, if the
+>>>> content inside the comment does not follow the kernel-doc expected format.
+>>>>
+>>>> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+>>>> ---
+>>>>  scripts/kernel-doc | 17 +++++++++++++----
+>>>>  1 file changed, 13 insertions(+), 4 deletions(-)
+>>>
+>>> This is definitely a capability we want, but I really don't think that
+>>> we can turn it on by default - for now.  Experience shows that if you
+>>> create a blizzard of warnings, nobody sees any of them.  How many
+>>> warnings does this add to a full docs build?
+>>>
+>>
+>> Hi Jonathan, here's the diff I have created for the warnings before
+>> and after the changes:
+>> https://github.com/AdityaSrivast/kernel-tasks/blob/master/random/kernel-doc/kernel_doc_comment_syntax.txt
+>>
+>> Around ~1320 new warnings of this type are added to the kernel tree,
+>> and around ~1580 warnings are removed.
+>
+> So I finally got around to looking at this again...  How did you
+> generate that file?
+>
 
-Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
----
- .../driver-api/driver-model/class.rst         | 144 ++++++++----------
- 1 file changed, 66 insertions(+), 78 deletions(-)
+I ran scripts/kernel-doc -none on all the files in the kernel tree
+before and after appying the changes, and then generated their diff to
+find the warnings removed and added.
 
-diff --git a/Documentation/driver-api/driver-model/class.rst b/Documentation/driver-api/driver-model/class.rst
-index fff55b80e86a..4e1779a37939 100644
---- a/Documentation/driver-api/driver-model/class.rst
-+++ b/Documentation/driver-api/driver-model/class.rst
-@@ -5,12 +5,7 @@ Device Classes
- Introduction
- ~~~~~~~~~~~~
- A device class describes a type of device, like an audio or network
--device. The following device classes have been identified:
--
--<Insert List of Device Classes Here>
--
--
--Each device class defines a set of semantics and a programming interface
-+device. It defines a set of semantics and a programming interface
- that devices of that class adhere to. Device drivers are the
- implementation of that programming interface for a particular device on
- a particular bus.
-@@ -18,23 +13,27 @@ a particular bus.
- Device classes are agnostic with respect to what bus a device resides
- on.
- 
--
- Programming Interface
- ~~~~~~~~~~~~~~~~~~~~~
- The device class structure looks like::
- 
-+  struct class {
-+        const char              *name;
-+        struct module           *owner;
- 
--  typedef int (*devclass_add)(struct device *);
--  typedef void (*devclass_remove)(struct device *);
-+        const struct attribute_group    **class_groups;
-+        const struct attribute_group    **dev_groups;
-+        struct kobject                  *dev_kobj;
-+        ...
-+  };
- 
- See the kerneldoc for the struct class.
- 
- A typical device class definition would look like::
- 
--  struct device_class input_devclass = {
--        .name		= "input",
--        .add_device	= input_add_device,
--	.remove_device	= input_remove_device,
-+  struct class input_class = {
-+        .name           = "input",
-+        .dev_release    = input_dev_release,
-   };
- 
- Each device class structure should be exported in a header file so it
-@@ -42,101 +41,84 @@ can be used by drivers, extensions and interfaces.
- 
- Device classes are registered and unregistered with the core using::
- 
--  int devclass_register(struct device_class * cls);
--  void devclass_unregister(struct device_class * cls);
--
-+  int class_register(struct class *class);
-+  void class_unregister(struct class *class);
- 
- Devices
- ~~~~~~~
--As devices are bound to drivers, they are added to the device class
--that the driver belongs to. Before the driver model core, this would
--typically happen during the driver's probe() callback, once the device
--has been initialized. It now happens after the probe() callback
--finishes from the core.
--
--The device is enumerated in the class. Each time a device is added to
--the class, the class's devnum field is incremented and assigned to the
--device. The field is never decremented, so if the device is removed
--from the class and re-added, it will receive a different enumerated
--value.
--
--The class is allowed to create a class-specific structure for the
--device and store it in the device's class_data pointer.
--
--There is no list of devices in the device class. Each driver has a
--list of devices that it supports. The device class has a list of
--drivers of that particular class. To access all of the devices in the
--class, iterate over the device lists of each driver in the class.
-+When a device is added, it is also added to the 'klist_devices' inside
-+the 'subsys_private' struct of the class. Later, the devices belonging
-+to the class are accessed using::
- 
-+  class_dev_iter_next()
-+  class_find_device()
-+  class_find_device_by_name()
- 
--Device Drivers
--~~~~~~~~~~~~~~
--Device drivers are added to device classes when they are registered
--with the core. A driver specifies the class it belongs to by setting
--the struct device_driver::devclass field.
-+It is also possible to access the devices of a class in a platform
-+dependent way using::
- 
-+  class_find_device_by_of_node()
-+  class_find_device_by_acpi_dev()
- 
- sysfs directory structure
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- There is a top-level sysfs directory named 'class'.
- 
--Each class gets a directory in the class directory, along with two
--default subdirectories::
-+Each class gets a directory in the top-level class directory::
- 
--        class/
--        `-- input
--            |-- devices
--            `-- drivers
-+  class/
-+      |-- input
-+      |-- block
-+      |-- drm
-+      |-- nvme
- 
--
--Drivers registered with the class get a symlink in the drivers/ directory
--that points to the driver's directory (under its bus directory)::
--
--   class/
--   `-- input
--       |-- devices
--       `-- drivers
--           `-- usb:usb_mouse -> ../../../bus/drivers/usb_mouse/
--
--
--Each device gets a symlink in the devices/ directory that points to the
-+Each device gets a symlink in the class directory that points to the
- device's directory in the physical hierarchy::
- 
--   class/
--   `-- input
--       |-- devices
--       |   `-- 1 -> ../../../root/pci0/00:1f.0/usb_bus/00:1f.2-1:0/
--       `-- drivers
--
-+  class/
-+  |-- input
-+           |-- input0 -> ../../devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0E:00/input/input0
-+           |-- input1 -> ../../devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0D:00/input/input1
-+           |-- event0 -> ../../devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0E:00/input/input0/event0
-+           `-- event1 -> ../../devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0D:00/input/input1/event1
- 
- Exporting Attributes
- ~~~~~~~~~~~~~~~~~~~~
- 
- ::
- 
--  struct devclass_attribute {
--        struct attribute        attr;
--        ssize_t (*show)(struct device_class *, char * buf, size_t count, loff_t off);
--        ssize_t (*store)(struct device_class *, const char * buf, size_t count, loff_t off);
-+  struct class_attribute {
-+        struct attribute attr;
-+        ssize_t (*show)(struct class *class, struct class_attribute *attr,
-+                        char *buf);
-+        ssize_t (*store)(struct class *class, struct class_attribute *attr,
-+                        const char *buf, size_t count);
-   };
- 
--Class drivers can export attributes using the DEVCLASS_ATTR macro that works
--similarly to the DEVICE_ATTR macro for devices. For example, a definition
-+Class drivers can export attributes using the CLASS_ATTR_* macros that works
-+similarly to the DEVICE_ATTR_* macros for devices. For example, a definition
- like this::
- 
--  static DEVCLASS_ATTR(debug,0644,show_debug,store_debug);
-+  static CLASS_ATTR_RW(debug, 0644, show_debug, store_debug);
- 
- is equivalent to declaring::
- 
--  static devclass_attribute devclass_attr_debug;
-+  static struct class_attribute class_attr_debug = {
-+        .attr = {
-+              .name = debug,
-+              .mode = 0644,
-+        },
-+        .show = show_debug,
-+        .store = store_debug,
-+  };
- 
--The bus driver can add and remove the attribute from the class's
--sysfs directory using::
-+The drivers can add and remove the attribute from the class's sysfs
-+directory using::
- 
--  int devclass_create_file(struct device_class *, struct devclass_attribute *);
--  void devclass_remove_file(struct device_class *, struct devclass_attribute *);
-+  int class_create_file(struct class *, struct class_attribute *);
-+  void class_remove_file(struct class *, struct class_attribute *);
- 
--In the example above, the file will be named 'debug' in placed in the
-+In the example above, a file named 'debug' will be placed in the
- class's directory in sysfs.
- 
- 
-@@ -146,4 +128,10 @@ There may exist multiple mechanisms for accessing the same device of a
- particular class type. Device interfaces describe these mechanisms.
- 
- When a device is added to a device class, the core attempts to add it
--to every interface that is registered with the device class.
-+to every interface that is registered with the device class. The
-+interfaces can be added and removed from the class using::
-+
-+  int class_interface_register(struct class_interface *);
-+  void class_interface_unregister(struct class_interface *);
-+
-+For further information, see <linux/device/class.h>.
--- 
-2.25.1
+> I tried applying the patch and doing a normal full htmldocs build and
+> got all of four warnings:
+>
+>   ./include/linux/seqlock.h:829: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+>    * DEFINE_SEQLOCK(sl) - Define a statically allocated seqlock_t
+>   ./fs/jbd2/journal.c:1391: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+>    *  journal_t * jbd2_journal_init_dev() - creates and initialises a journal structure
+>   ./fs/jbd2/journal.c:1422: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+>    *  journal_t * jbd2_journal_init_inode () - creates a journal which maps to a inode.
+>   ./include/linux/dcache.h:309: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+>    *      dget, dget_dlock -      get a reference to a dentry
+>
 
+I think there should be more warnings. For e.g., running kernel-doc
+-none ./drivers/usb/mtu3/mtu3.h gives these warnings:
+
+./drivers/usb/mtu3/mtu3.h:75: warning: This comment starts with '/**',
+but isn't a kernel-doc comment. Refer
+Documentation/doc-guide/kernel-doc.rst
+./drivers/usb/mtu3/mtu3.h:86: warning: This comment starts with '/**',
+but isn't a kernel-doc comment. Refer
+Documentation/doc-guide/kernel-doc.rst
+./drivers/usb/mtu3/mtu3.h:143: warning: This comment starts with
+'/**', but isn't a kernel-doc comment. Refer
+Documentation/doc-guide/kernel-doc.rst
+
+> Two observations:
+>
+>  - This is not an awful lot of warnings - not the blizzard I had
+>    feared.  At this level, I think we can just merge the patch and
+>    then, hopefully, fix those cases.
+>
+>  - All of the warned-about places are *attempts* to write real kerneldoc
+>    comments, they just got the syntax wrong in one way or another.  It's
+>    probably not worth the effort to try to detect this case - the
+>    warning is enough to draw attention to the comment in question.
+>
+
+I agree. Above are some of the cases which are not getting detected by
+this patch.
+This may be so as I am only allowing the function syntax as mentioned
+in the rst file, i.e., "^\s*\*\s*([\w\s]+?)(\(\))?\s*([-:].*)?$" or
+("* foo(\(\))? - description")
+
+I probably need to check for pointers as well and other similar case(s).
+Maybe I should design a separate check for functions than assigning
+$decl_type = 'function' in the first check.
+
+What do you think?
+
+Thanks
+Aditya
