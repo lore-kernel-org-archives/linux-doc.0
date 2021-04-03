@@ -2,111 +2,298 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 258B5C433ED
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 11:38:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF35BC433ED
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 12:01:03 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E4113611CE
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 11:38:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A097E600D3
+	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 12:01:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231681AbhDCLiN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Apr 2021 07:38:13 -0400
-Received: from m32-153.88.com ([43.250.32.153]:21587 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S236506AbhDCLiK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 3 Apr 2021 07:38:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=vkOpUWJHp7drcs4JGSHRaXdMShhKZ+MO31bB9
-        HfGks0=; b=KbkzgQCIRe0TCQaq+zB4jNiahcJQGDmYOWqLfHii9lzorJGGfaAHM
-        8GpEWSoqODiPZbnXTV+zY0D5SGousChhK0wkGEOVue2041XHrrqfgwVZ0wtq0fSg
-        Xm/YOKAnYP6xorv3svZm9FKVPe7QClV5zhSh7ze36sw1NCMeOPColA=
-Received: from mipc (unknown [120.238.248.129])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgBX4iKSU2hgF2xZAA--.11998S2;
-        Sat, 03 Apr 2021 19:37:56 +0800 (CST)
-Date:   Sat, 3 Apr 2021 19:37:54 +0800
-From:   Wu XiangCheng <bobwxc@email.cn>
-To:     Peter Oberparleiter <oberpar@linux.ibm.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: [PATCH] docs/gcov: Convert two tags to ref in dev-tools/gov.rst
-Message-ID: <20210403113752.GA32236@mipc>
+        id S236506AbhDCMBE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 3 Apr 2021 08:01:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41182 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236431AbhDCMBE (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Apr 2021 08:01:04 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEAE3C061788
+        for <linux-doc@vger.kernel.org>; Sat,  3 Apr 2021 05:01:01 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id gv19-20020a17090b11d3b029014c516f4eb5so1906413pjb.0
+        for <linux-doc@vger.kernel.org>; Sat, 03 Apr 2021 05:01:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iroyHTNJPayrVAXpDAXqHoA24HMKA1INuB3nlq5+avQ=;
+        b=tNA62n/S6nZ9yI7AVZl8bjuaNN51gzR+f8rhJXMIaBeH4/m4cb8yWFmAzt7+z+mCL3
+         3dDBZaLtDDIgNamKEQsK2iNUSIg7iEhaP/nIcUWomBF9i/WqftG2eZm2C4tVsYH5JrpZ
+         gNstMWlMNiFZSceJkHS1XLbjKabFsO4RhZ18uoJW4R+cJNgmu3oCDvVQsZtvCzvFuiXu
+         /r0qIsyQ85w6216OpT1KuepVd6U5/4pgo6mNjvCra6bSn7EMZVf58s0m5sXGMrhmscWL
+         2qeZL23BO6h8CJNjxt6864Jy6inkvucOP+maplwpYOKoEbU1dqPzsgdupeyUY9s+0I5F
+         N88g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iroyHTNJPayrVAXpDAXqHoA24HMKA1INuB3nlq5+avQ=;
+        b=kXOvnrT92Spw3NIduAxjPt5OmUATSHFVKIcU9vQI4AhrtCZePam9fv8cv/3PE8P7BV
+         u9m5py4Ya/38e0T7mOlDRqqZuoge2+ruOpNwtCweuFPqIOZJlNEQYYoHHP+NRLJFqMXF
+         dJrNt/ckoBeECpgR0opWcQkAm+KiEIFyxsYP9TLC/iqXhueLk7FHHmBlWK9SVOf92lcS
+         FmRGpqS1pLirgUjRAPvBl8y3nJuuust3uqiu88AeUHWORyZAJ/foQkoh8kSCnyKLbDa8
+         eTGOFhx/KmzO1W0KoJNsUu3zvwUDy0gMghafzyVzgkat0faW9FiSdrCZkcuOHOfZThOX
+         6lGg==
+X-Gm-Message-State: AOAM532rmWZEa4/bNcrDC8qNb3liJsaXZs192OhblBqHhu7V2GQeK7c6
+        kD6GvqW2RW/t+sYS+kBkMz+oNVBjrpX6
+X-Google-Smtp-Source: ABdhPJz0ZhLVxWaznlUl2dz406DyrC4TCJr11aOvL5vAKcoPhqK1b66ZlJKWpMX+zjl89j+2zbqyoQ==
+X-Received: by 2002:a17:90a:3d01:: with SMTP id h1mr18476605pjc.124.1617451260894;
+        Sat, 03 Apr 2021 05:01:00 -0700 (PDT)
+Received: from localhost.localdomain ([103.77.37.190])
+        by smtp.gmail.com with ESMTPSA id g21sm10748187pjl.28.2021.04.03.05.00.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Apr 2021 05:01:00 -0700 (PDT)
+From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To:     corbet@lwn.net
+Cc:     gregkh@linuxfoundation.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [PATCH] docs: driver-model: Update the documentation for device class
+Date:   Sat,  3 Apr 2021 17:30:50 +0530
+Message-Id: <20210403120050.4756-1-manivannan.sadhasivam@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgBX4iKSU2hgF2xZAA--.11998S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZF45ur1xuF15tFyUXFWUJwb_yoW8WFyUpa
-        13WrW2qF1kZFyrXw1UA3W7WrW5Aa4fWa95GF97tws5tFn8Cr48Kry3tw10vFW5JFW8ZFWU
-        uw1kKry7JwnrAa7anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgab7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
-        z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcx
-        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
-        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc2xSY4AK67AK6r4kMxAIw2
-        8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_
-        Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
-        CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
-        I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
-        8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73
-        UjIFyTuYvjxUf73vUUUUU
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Htmldocs does not display the chapter number, convert the two manual
-chapter number tags to ref tags.
+The current documentation about the device class is out of date such
+that it refers to non-existent APIs and structures. This commit updates
+them to the current device class APIs and structures, removes wordings
+that no longer valid while trying to keep the original content intact.
 
-Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 ---
- Documentation/dev-tools/gcov.rst | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ .../driver-api/driver-model/class.rst         | 144 ++++++++----------
+ 1 file changed, 66 insertions(+), 78 deletions(-)
 
-diff --git a/Documentation/dev-tools/gcov.rst b/Documentation/dev-tools/gcov.rst
-index 9e989baae154..5fce2b06f229 100644
---- a/Documentation/dev-tools/gcov.rst
-+++ b/Documentation/dev-tools/gcov.rst
-@@ -124,6 +124,8 @@ box for setups where kernels are built and run on the same machine. In
- cases where the kernel runs on a separate machine, special preparations
- must be made, depending on where the gcov tool is used:
+diff --git a/Documentation/driver-api/driver-model/class.rst b/Documentation/driver-api/driver-model/class.rst
+index fff55b80e86a..4e1779a37939 100644
+--- a/Documentation/driver-api/driver-model/class.rst
++++ b/Documentation/driver-api/driver-model/class.rst
+@@ -5,12 +5,7 @@ Device Classes
+ Introduction
+ ~~~~~~~~~~~~
+ A device class describes a type of device, like an audio or network
+-device. The following device classes have been identified:
+-
+-<Insert List of Device Classes Here>
+-
+-
+-Each device class defines a set of semantics and a programming interface
++device. It defines a set of semantics and a programming interface
+ that devices of that class adhere to. Device drivers are the
+ implementation of that programming interface for a particular device on
+ a particular bus.
+@@ -18,23 +13,27 @@ a particular bus.
+ Device classes are agnostic with respect to what bus a device resides
+ on.
  
-+.. _gcov-test:
+-
+ Programming Interface
+ ~~~~~~~~~~~~~~~~~~~~~
+ The device class structure looks like::
+ 
++  struct class {
++        const char              *name;
++        struct module           *owner;
+ 
+-  typedef int (*devclass_add)(struct device *);
+-  typedef void (*devclass_remove)(struct device *);
++        const struct attribute_group    **class_groups;
++        const struct attribute_group    **dev_groups;
++        struct kobject                  *dev_kobj;
++        ...
++  };
+ 
+ See the kerneldoc for the struct class.
+ 
+ A typical device class definition would look like::
+ 
+-  struct device_class input_devclass = {
+-        .name		= "input",
+-        .add_device	= input_add_device,
+-	.remove_device	= input_remove_device,
++  struct class input_class = {
++        .name           = "input",
++        .dev_release    = input_dev_release,
+   };
+ 
+ Each device class structure should be exported in a header file so it
+@@ -42,101 +41,84 @@ can be used by drivers, extensions and interfaces.
+ 
+ Device classes are registered and unregistered with the core using::
+ 
+-  int devclass_register(struct device_class * cls);
+-  void devclass_unregister(struct device_class * cls);
+-
++  int class_register(struct class *class);
++  void class_unregister(struct class *class);
+ 
+ Devices
+ ~~~~~~~
+-As devices are bound to drivers, they are added to the device class
+-that the driver belongs to. Before the driver model core, this would
+-typically happen during the driver's probe() callback, once the device
+-has been initialized. It now happens after the probe() callback
+-finishes from the core.
+-
+-The device is enumerated in the class. Each time a device is added to
+-the class, the class's devnum field is incremented and assigned to the
+-device. The field is never decremented, so if the device is removed
+-from the class and re-added, it will receive a different enumerated
+-value.
+-
+-The class is allowed to create a class-specific structure for the
+-device and store it in the device's class_data pointer.
+-
+-There is no list of devices in the device class. Each driver has a
+-list of devices that it supports. The device class has a list of
+-drivers of that particular class. To access all of the devices in the
+-class, iterate over the device lists of each driver in the class.
++When a device is added, it is also added to the 'klist_devices' inside
++the 'subsys_private' struct of the class. Later, the devices belonging
++to the class are accessed using::
+ 
++  class_dev_iter_next()
++  class_find_device()
++  class_find_device_by_name()
+ 
+-Device Drivers
+-~~~~~~~~~~~~~~
+-Device drivers are added to device classes when they are registered
+-with the core. A driver specifies the class it belongs to by setting
+-the struct device_driver::devclass field.
++It is also possible to access the devices of a class in a platform
++dependent way using::
+ 
++  class_find_device_by_of_node()
++  class_find_device_by_acpi_dev()
+ 
+ sysfs directory structure
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ There is a top-level sysfs directory named 'class'.
+ 
+-Each class gets a directory in the class directory, along with two
+-default subdirectories::
++Each class gets a directory in the top-level class directory::
+ 
+-        class/
+-        `-- input
+-            |-- devices
+-            `-- drivers
++  class/
++      |-- input
++      |-- block
++      |-- drm
++      |-- nvme
+ 
+-
+-Drivers registered with the class get a symlink in the drivers/ directory
+-that points to the driver's directory (under its bus directory)::
+-
+-   class/
+-   `-- input
+-       |-- devices
+-       `-- drivers
+-           `-- usb:usb_mouse -> ../../../bus/drivers/usb_mouse/
+-
+-
+-Each device gets a symlink in the devices/ directory that points to the
++Each device gets a symlink in the class directory that points to the
+ device's directory in the physical hierarchy::
+ 
+-   class/
+-   `-- input
+-       |-- devices
+-       |   `-- 1 -> ../../../root/pci0/00:1f.0/usb_bus/00:1f.2-1:0/
+-       `-- drivers
+-
++  class/
++  |-- input
++           |-- input0 -> ../../devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0E:00/input/input0
++           |-- input1 -> ../../devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0D:00/input/input1
++           |-- event0 -> ../../devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0E:00/input/input0/event0
++           `-- event1 -> ../../devices/LNXSYSTM:00/LNXSYBUS:00/PNP0C0D:00/input/input1/event1
+ 
+ Exporting Attributes
+ ~~~~~~~~~~~~~~~~~~~~
+ 
+ ::
+ 
+-  struct devclass_attribute {
+-        struct attribute        attr;
+-        ssize_t (*show)(struct device_class *, char * buf, size_t count, loff_t off);
+-        ssize_t (*store)(struct device_class *, const char * buf, size_t count, loff_t off);
++  struct class_attribute {
++        struct attribute attr;
++        ssize_t (*show)(struct class *class, struct class_attribute *attr,
++                        char *buf);
++        ssize_t (*store)(struct class *class, struct class_attribute *attr,
++                        const char *buf, size_t count);
+   };
+ 
+-Class drivers can export attributes using the DEVCLASS_ATTR macro that works
+-similarly to the DEVICE_ATTR macro for devices. For example, a definition
++Class drivers can export attributes using the CLASS_ATTR_* macros that works
++similarly to the DEVICE_ATTR_* macros for devices. For example, a definition
+ like this::
+ 
+-  static DEVCLASS_ATTR(debug,0644,show_debug,store_debug);
++  static CLASS_ATTR_RW(debug, 0644, show_debug, store_debug);
+ 
+ is equivalent to declaring::
+ 
+-  static devclass_attribute devclass_attr_debug;
++  static struct class_attribute class_attr_debug = {
++        .attr = {
++              .name = debug,
++              .mode = 0644,
++        },
++        .show = show_debug,
++        .store = store_debug,
++  };
+ 
+-The bus driver can add and remove the attribute from the class's
+-sysfs directory using::
++The drivers can add and remove the attribute from the class's sysfs
++directory using::
+ 
+-  int devclass_create_file(struct device_class *, struct devclass_attribute *);
+-  void devclass_remove_file(struct device_class *, struct devclass_attribute *);
++  int class_create_file(struct class *, struct class_attribute *);
++  void class_remove_file(struct class *, struct class_attribute *);
+ 
+-In the example above, the file will be named 'debug' in placed in the
++In the example above, a file named 'debug' will be placed in the
+ class's directory in sysfs.
+ 
+ 
+@@ -146,4 +128,10 @@ There may exist multiple mechanisms for accessing the same device of a
+ particular class type. Device interfaces describe these mechanisms.
+ 
+ When a device is added to a device class, the core attempts to add it
+-to every interface that is registered with the device class.
++to every interface that is registered with the device class. The
++interfaces can be added and removed from the class using::
 +
- a) gcov is run on the TEST machine
- 
-     The gcov tool version on the test machine must be compatible with the
-@@ -143,6 +145,8 @@ a) gcov is run on the TEST machine
-     machine. If any of the path components is symbolic link, the actual
-     directory needs to be used instead (due to make's CURDIR handling).
- 
-+.. _gcov-build:
++  int class_interface_register(struct class_interface *);
++  void class_interface_unregister(struct class_interface *);
 +
- b) gcov is run on the BUILD machine
- 
-     The following files need to be copied after each test case from test
-@@ -211,7 +215,7 @@ Appendix A: gather_on_build.sh
- ------------------------------
- 
- Sample script to gather coverage meta files on the build machine
--(see 6a):
-+(see :ref:`Separated build and test machines a. <gcov-test>`):
- 
- .. code-block:: sh
- 
-@@ -244,7 +248,7 @@ Appendix B: gather_on_test.sh
- -----------------------------
- 
- Sample script to gather coverage data files on the test machine
--(see 6b):
-+(see :ref:`Separated build and test machines b. <gcov-build>`):
- 
- .. code-block:: sh
- 
++For further information, see <linux/device/class.h>.
 -- 
-2.20.1
+2.25.1
 
