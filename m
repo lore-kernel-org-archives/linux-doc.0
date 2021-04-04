@@ -2,125 +2,141 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 659C9C433ED
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 13:40:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2292C43460
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Apr 2021 15:54:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2DE18611BD
-	for <linux-doc@archiver.kernel.org>; Sat,  3 Apr 2021 13:40:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A896161382
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Apr 2021 15:54:41 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236697AbhDCNkk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 3 Apr 2021 09:40:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34200 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231800AbhDCNkk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 3 Apr 2021 09:40:40 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E5E9C0613E6
-        for <linux-doc@vger.kernel.org>; Sat,  3 Apr 2021 06:40:37 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id w8so3914045pjf.4
-        for <linux-doc@vger.kernel.org>; Sat, 03 Apr 2021 06:40:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=0ArNU7gt6dneGNTf37Gm83e3lkSbpvkl1oGeT7Dbgcg=;
-        b=pASBcTojxSFlMyEs8ZoQ4UT2DPrY8soJN2PtUTEvPQ+X+BHCBiCu4un3hBvR+T5ZRP
-         800UjyINxizBbJuVBojD/5l35/CSQKXLkSu5ECiiWVPUa3wonjf2gOA696z0GMTjAPbp
-         R1eebeBhefpfroHpBFeGV82gqy6Vs7P5iHRGXqVlIe8ITuqZimvWU7+L/zyUzvKqqnUf
-         UqCP2nvhjij8Npl1RHnJhyiMObZSl69q2FuJA3KRs+31kIbDmkmkb1HW6huVZwx8WqPx
-         0cgQDPDxT9x60DwNNlv9JvgtBdY61WO5YISI/t6Xm6+EqejmhRRP6CyK9qzMpOrMJedK
-         DVBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0ArNU7gt6dneGNTf37Gm83e3lkSbpvkl1oGeT7Dbgcg=;
-        b=sF3z4oIhVjU521oQi1/NoLUtkukEb9Qs6ukfWDSO+fPFCvi9WVS/IqgtmdXbI8cyOl
-         K/bd2AacdNskKBmhpSTdxvSHVJx2+z47SbM5gXlPj7Gv/PHmws7LPmQUrtqYmHt2uALZ
-         avntHtVZ/6Ts47815v+mFfVs9Uzc1NpC563UXQ6KVTf5v0FsDWMfDxV4d5MkYyHIbDrn
-         AhE8VR1X0/RwCh5QyOFa3E0i1M0lFIl4Nf2DpMojbi7INeZSzCMG3oiu2fKc7VPE6lL8
-         K0toTnEIsP6cBVMWGzanP84g58XPfeCStyMzdjrYGoqbGV6HgET4Yu8sCV2GUrUZtOFK
-         1gRg==
-X-Gm-Message-State: AOAM531u/HjC6BmuJV7vaXvts8+2PcHqf3pY/dj/YB6S3e6ExIGatK0g
-        EufrP+Uhbs21chiCy0RmZqRS
-X-Google-Smtp-Source: ABdhPJw+qqTyOeGbpzfO2p8wlC0TPoe1z4BLUPGQPpn+fvRzxecxS1G3JJT2WF4J6JkJsWPgjLZZRA==
-X-Received: by 2002:a17:902:ec06:b029:e8:e57f:680 with SMTP id l6-20020a170902ec06b02900e8e57f0680mr1440095pld.8.1617457236896;
-        Sat, 03 Apr 2021 06:40:36 -0700 (PDT)
-Received: from thinkpad ([103.77.37.145])
-        by smtp.gmail.com with ESMTPSA id w2sm5926700pfb.174.2021.04.03.06.40.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Apr 2021 06:40:36 -0700 (PDT)
-Date:   Sat, 3 Apr 2021 19:10:32 +0530
-From:   Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     corbet@lwn.net, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: driver-model: Update the documentation for device
- class
-Message-ID: <20210403134032.GA3817@thinkpad>
-References: <20210403120050.4756-1-manivannan.sadhasivam@linaro.org>
- <YGhn6u3GrWZyrXuI@kroah.com>
+        id S230210AbhDDPyp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Apr 2021 11:54:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47396 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230039AbhDDPyo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 4 Apr 2021 11:54:44 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8BDF561368;
+        Sun,  4 Apr 2021 15:54:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617551680;
+        bh=Y+EXlFwOcupRcJHejpzX9O0l3XK9lB+QcIyNrCwXUZg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XwqnVFHquFYuCIg7xJmXG5NoG4GTtS3nhGBRNZQq9WvMNiHQ4ULTf9bkymZx+Kd7j
+         ENn7ChaWWxdC2UvBl8qajs2NkEln3JuqbCR4LFbfRYrIPpCs4XEaLfe+SbDODSBexz
+         930qW/iWzfaIkJtlUDqBln4fecgjZVgKidnqkdABU/GD7yNkwNzBnZV/esL3K7D8SB
+         8BHevk1he7oHwcuvEk9l/Kk2ZzhFILOcCHWEIi2H9b1eHY9vZctMXPP/oaPNjb3+JR
+         VP7dlUhnhpLGrXXiXslFWQGV1lj62lK1ajJjDSttB64ZjSQ/1h96ngUCM4oPiKSV37
+         L4c7QJ5hxJaQw==
+Date:   Sun, 4 Apr 2021 18:54:37 +0300
+From:   Jarkko Sakkinen <jarkko@kernel.org>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v24 9/9] x86/vdso: Add ENDBR to __vdso_sgx_enter_enclave
+Message-ID: <YGnhPc8USFh/AnqJ@kernel.org>
+References: <20210401221403.32253-1-yu-cheng.yu@intel.com>
+ <20210401221403.32253-10-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YGhn6u3GrWZyrXuI@kroah.com>
+In-Reply-To: <20210401221403.32253-10-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Apr 03, 2021 at 03:04:42PM +0200, Greg KH wrote:
-> On Sat, Apr 03, 2021 at 05:30:50PM +0530, Manivannan Sadhasivam wrote:
-> > The current documentation about the device class is out of date such
-> > that it refers to non-existent APIs and structures. This commit updates
-> > them to the current device class APIs and structures, removes wordings
-> > that no longer valid while trying to keep the original content intact.
+On Thu, Apr 01, 2021 at 03:14:03PM -0700, Yu-cheng Yu wrote:
+> ENDBR is a special new instruction for the Indirect Branch Tracking (IBT)
+> component of CET.  IBT prevents attacks by ensuring that (most) indirect
+> branches and function calls may only land at ENDBR instructions.  Branches
+> that don't follow the rules will result in control flow (#CF) exceptions.
 > 
-> Thanks for working on this!
+> ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
+> instructions are inserted automatically by the compiler, but branch
+> targets written in assembly must have ENDBR added manually.
 > 
-> One thing that instantly jumped out at me:
+> Add ENDBR to __vdso_sgx_enter_enclave() branch targets.
 > 
-> > -Class drivers can export attributes using the DEVCLASS_ATTR macro that works
-> > -similarly to the DEVICE_ATTR macro for devices. For example, a definition
-> > +Class drivers can export attributes using the CLASS_ATTR_* macros that works
-> > +similarly to the DEVICE_ATTR_* macros for devices. For example, a definition
-> >  like this::
-> >  
-> > -  static DEVCLASS_ATTR(debug,0644,show_debug,store_debug);
-> > +  static CLASS_ATTR_RW(debug, 0644, show_debug, store_debug);
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Cc: Andy Lutomirski <luto@kernel.org>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Jarkko Sakkinen <jarkko@kernel.org>
+> Cc: Peter Zijlstra <peterz@infradead.org>
+
+Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
+
+> ---
+>  arch/x86/entry/vdso/vsgx.S | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> CLASS_ATTR_RW(debug);
-> is the correct way to write the above, what you added there will not
-> build.
+> diff --git a/arch/x86/entry/vdso/vsgx.S b/arch/x86/entry/vdso/vsgx.S
+> index 86a0e94f68df..c63eafa54abd 100644
+> --- a/arch/x86/entry/vdso/vsgx.S
+> +++ b/arch/x86/entry/vdso/vsgx.S
+> @@ -4,6 +4,7 @@
+>  #include <asm/export.h>
+>  #include <asm/errno.h>
+>  #include <asm/enclu.h>
+> +#include <asm/vdso.h>
+>  
+>  #include "extable.h"
+>  
+> @@ -27,6 +28,7 @@
+>  SYM_FUNC_START(__vdso_sgx_enter_enclave)
+>  	/* Prolog */
+>  	.cfi_startproc
+> +	ENDBR
+>  	push	%rbp
+>  	.cfi_adjust_cfa_offset	8
+>  	.cfi_rel_offset		%rbp, 0
+> @@ -62,6 +64,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
+>  .Lasync_exit_pointer:
+>  .Lenclu_eenter_eresume:
+>  	enclu
+> +	ENDBR
+>  
+>  	/* EEXIT jumps here unless the enclave is doing something fancy. */
+>  	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
+> @@ -91,6 +94,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
+>  	jmp	.Lout
+>  
+>  .Lhandle_exception:
+> +	ENDBR
+>  	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
+>  
+>  	/* Set the exception info. */
+> -- 
+> 2.21.0
+> 
 > 
 
-Oops... I just did a blind replace there, thanks for spotting.
-
-> But a meta-comment, should stuff like this go directly into the .c files
-> itself so that the documentation is created automatically?  the fact
-> that this lives so "far away" from the source ensures that it will
-> always be out of date.  I know other subsystems (graphics, v4l2) have
-> tied the documentation into their code files much better so I think the
-> build and markup infrastructure is there today to do this.
-> 
-
-Well you're right that this documentation is far from its implementation but
-that applies to most of the stuffs inside kernel, right? Also, I think if we
-move these into .c file, then it will flood the whole file IMO.
-
-We already have the kernel doc for most of the APIs/structures and that should
-be enough for the .c/.h code in my perspective. If a developer wants to obtain
-more information other than the API/struct definitions, then they should land
-in documentation.
-
-It should be responsibility of the maintainer to keep the doc up-to date :)
-
-Thanks,
-Mani
-
-> thanks,
-> 
-> greg k-h
+/Jarkko
