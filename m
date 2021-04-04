@@ -2,141 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2292C43460
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Apr 2021 15:54:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 951EDC433B4
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Apr 2021 17:35:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A896161382
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Apr 2021 15:54:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4559E61287
+	for <linux-doc@archiver.kernel.org>; Sun,  4 Apr 2021 17:35:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230210AbhDDPyp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Apr 2021 11:54:45 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47396 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230039AbhDDPyo (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 4 Apr 2021 11:54:44 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8BDF561368;
-        Sun,  4 Apr 2021 15:54:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617551680;
-        bh=Y+EXlFwOcupRcJHejpzX9O0l3XK9lB+QcIyNrCwXUZg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XwqnVFHquFYuCIg7xJmXG5NoG4GTtS3nhGBRNZQq9WvMNiHQ4ULTf9bkymZx+Kd7j
-         ENn7ChaWWxdC2UvBl8qajs2NkEln3JuqbCR4LFbfRYrIPpCs4XEaLfe+SbDODSBexz
-         930qW/iWzfaIkJtlUDqBln4fecgjZVgKidnqkdABU/GD7yNkwNzBnZV/esL3K7D8SB
-         8BHevk1he7oHwcuvEk9l/Kk2ZzhFILOcCHWEIi2H9b1eHY9vZctMXPP/oaPNjb3+JR
-         VP7dlUhnhpLGrXXiXslFWQGV1lj62lK1ajJjDSttB64ZjSQ/1h96ngUCM4oPiKSV37
-         L4c7QJ5hxJaQw==
-Date:   Sun, 4 Apr 2021 18:54:37 +0300
-From:   Jarkko Sakkinen <jarkko@kernel.org>
-To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Subject: Re: [PATCH v24 9/9] x86/vdso: Add ENDBR to __vdso_sgx_enter_enclave
-Message-ID: <YGnhPc8USFh/AnqJ@kernel.org>
-References: <20210401221403.32253-1-yu-cheng.yu@intel.com>
- <20210401221403.32253-10-yu-cheng.yu@intel.com>
+        id S230494AbhDDRfi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Apr 2021 13:35:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53346 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229861AbhDDRfb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Apr 2021 13:35:31 -0400
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77543C061756;
+        Sun,  4 Apr 2021 10:35:24 -0700 (PDT)
+Received: by mail-qk1-x72a.google.com with SMTP id i9so9696949qka.2;
+        Sun, 04 Apr 2021 10:35:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=33J8OtutelowSioLnJ+BV370Ve8/xBpuUEz5H46uwPQ=;
+        b=DpC5OcjNicGSE5IHLbNl9o0O/n6y7SZQIRP1OF7pZYWEW8TYxgpEXUHI0e7ZPfxSEm
+         A+O7GebbfT58u7Lpmiv6sBL3Yk+EujsWCCzrB3aDx97xfLrwLc7CEIA8SeXMDdCVwmsY
+         BPqIQTgWEwBURoGagdqHuCG92UlwBGsrjntu1SWK8cLpRmxtUAgouhJt3WpC0vh9OdW9
+         /I9txAgZWSB1mY1LSilQo4XMQDZA+0riwckuXe5LjY1cgRMODU/Q+/YhfbHA3JSSUHSn
+         Ns1fZL7rLbr7viGLe8jOTv5XiK3tpOFOFQJ5gwIh9kukMUGZbtQgthNUDTrY1AdaBS8H
+         2Dkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to;
+        bh=33J8OtutelowSioLnJ+BV370Ve8/xBpuUEz5H46uwPQ=;
+        b=lahu8UBP+wAlQNbXaTnty0HzuPumwn1j963aHKGjtUzkgd3zo3js0O7n74sRrMq7yw
+         nL6GxG3mi+jSxSwBD8/B4xjZRnw3OA7GE0mieggtWoHilIkpL6BER5ZTiaayYahWGfSE
+         Gxgmr8H5BVGHmRA6UgNDTShWhhTgeQiEz3FKlxcu5qaZ+rHtJZ0AYtTtJFzv5YQn0kuL
+         0hG+9fz+2/KtQgPlAfp8topDJCA7Iim3soM6F2q6GFaS8yMQIaNS1yITErah+izfxnVD
+         upfdfazB2h58wHG5lKpmo3hHzv14MBr4KkX/OmDgHLt/AtfF2HABEDkzVBKleKXV7it+
+         tfYw==
+X-Gm-Message-State: AOAM531C/ff+++GgUF3IBQab2MP9E6XE86ctgWoFyuFCdQx/MPoUAKfE
+        2A5npCrxLr86kTfY/NV0cy8=
+X-Google-Smtp-Source: ABdhPJzymD6qe59ckoaxT0GUwxUpiC8bP3gyvGuaN3f4jU+CgDo/aeVmQ14oOVOMQ13+4UWZAekMYA==
+X-Received: by 2002:a05:620a:14f:: with SMTP id e15mr21094562qkn.315.1617557723397;
+        Sun, 04 Apr 2021 10:35:23 -0700 (PDT)
+Received: from localhost (dhcp-6c-ae-f6-dc-d8-61.cpe.echoes.net. [199.96.183.179])
+        by smtp.gmail.com with ESMTPSA id w5sm11732174qkc.85.2021.04.04.10.35.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Apr 2021 10:35:22 -0700 (PDT)
+Sender: Tejun Heo <htejun@gmail.com>
+Date:   Sun, 4 Apr 2021 13:35:21 -0400
+From:   Tejun Heo <tj@kernel.org>
+To:     Vipin Sharma <vipinsh@google.com>
+Cc:     mkoutny@suse.com, jacob.jun.pan@intel.com, rdunlap@infradead.org,
+        thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
+        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
+        frankja@linux.ibm.com, borntraeger@de.ibm.com, corbet@lwn.net,
+        seanjc@google.com, vkuznets@redhat.com, wanpengli@tencent.com,
+        jmattson@google.com, joro@8bytes.org, tglx@linutronix.de,
+        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, gingell@google.com,
+        rientjes@google.com, kvm@vger.kernel.org, x86@kernel.org,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] cgroup: New misc cgroup controller
+Message-ID: <YGn42SKCPg2HWtQc@mtj.duckdns.org>
+References: <20210330044206.2864329-1-vipinsh@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210401221403.32253-10-yu-cheng.yu@intel.com>
+In-Reply-To: <20210330044206.2864329-1-vipinsh@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 01, 2021 at 03:14:03PM -0700, Yu-cheng Yu wrote:
-> ENDBR is a special new instruction for the Indirect Branch Tracking (IBT)
-> component of CET.  IBT prevents attacks by ensuring that (most) indirect
-> branches and function calls may only land at ENDBR instructions.  Branches
-> that don't follow the rules will result in control flow (#CF) exceptions.
-> 
-> ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
-> instructions are inserted automatically by the compiler, but branch
-> targets written in assembly must have ENDBR added manually.
-> 
-> Add ENDBR to __vdso_sgx_enter_enclave() branch targets.
-> 
-> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Cc: Andy Lutomirski <luto@kernel.org>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: Jarkko Sakkinen <jarkko@kernel.org>
-> Cc: Peter Zijlstra <peterz@infradead.org>
+Applied to cgroup/for-5.13. If there are further issues, let's address them
+incrementally.
 
-Acked-by: Jarkko Sakkinen <jarkko@kernel.org>
+Thanks.
 
-> ---
->  arch/x86/entry/vdso/vsgx.S | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/arch/x86/entry/vdso/vsgx.S b/arch/x86/entry/vdso/vsgx.S
-> index 86a0e94f68df..c63eafa54abd 100644
-> --- a/arch/x86/entry/vdso/vsgx.S
-> +++ b/arch/x86/entry/vdso/vsgx.S
-> @@ -4,6 +4,7 @@
->  #include <asm/export.h>
->  #include <asm/errno.h>
->  #include <asm/enclu.h>
-> +#include <asm/vdso.h>
->  
->  #include "extable.h"
->  
-> @@ -27,6 +28,7 @@
->  SYM_FUNC_START(__vdso_sgx_enter_enclave)
->  	/* Prolog */
->  	.cfi_startproc
-> +	ENDBR
->  	push	%rbp
->  	.cfi_adjust_cfa_offset	8
->  	.cfi_rel_offset		%rbp, 0
-> @@ -62,6 +64,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
->  .Lasync_exit_pointer:
->  .Lenclu_eenter_eresume:
->  	enclu
-> +	ENDBR
->  
->  	/* EEXIT jumps here unless the enclave is doing something fancy. */
->  	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
-> @@ -91,6 +94,7 @@ SYM_FUNC_START(__vdso_sgx_enter_enclave)
->  	jmp	.Lout
->  
->  .Lhandle_exception:
-> +	ENDBR
->  	mov	SGX_ENCLAVE_OFFSET_OF_RUN(%rbp), %rbx
->  
->  	/* Set the exception info. */
-> -- 
-> 2.21.0
-> 
-> 
-
-/Jarkko
+-- 
+tejun
