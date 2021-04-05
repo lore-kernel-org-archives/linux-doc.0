@@ -2,108 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4023FC433ED
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 16:44:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55353C433B4
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 17:01:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C89F613B5
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 16:44:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 20DBF613AE
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 17:01:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242605AbhDEQoO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Apr 2021 12:44:14 -0400
-Received: from foss.arm.com ([217.140.110.172]:56134 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S242683AbhDEQoJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 5 Apr 2021 12:44:09 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1BA401424;
-        Mon,  5 Apr 2021 09:44:03 -0700 (PDT)
-Received: from ewhatever.cambridge.arm.com (ewhatever.cambridge.arm.com [10.1.197.1])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3994D3F694;
-        Mon,  5 Apr 2021 09:44:01 -0700 (PDT)
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-To:     maz@kernel.org, mathieu.poirier@linaro.org
-Cc:     coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, anshuman.khandual@arm.com,
-        mike.leach@linaro.org, catalin.marinas@arm.com, will@kernel.org,
-        peterz@infradead.org, leo.yan@linaro.org, robh@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-        Suzuki K Poulose <suzuki.poulose@arm.com>
-Subject: [PATCH v6 19/20] Documentation: trace: Add documentation for TRBE
-Date:   Mon,  5 Apr 2021 17:43:06 +0100
-Message-Id: <20210405164307.1720226-20-suzuki.poulose@arm.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20210405164307.1720226-1-suzuki.poulose@arm.com>
-References: <20210405164307.1720226-1-suzuki.poulose@arm.com>
+        id S232147AbhDERB6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Apr 2021 13:01:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45728 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232676AbhDERB6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Apr 2021 13:01:58 -0400
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E764EC061788
+        for <linux-doc@vger.kernel.org>; Mon,  5 Apr 2021 10:01:51 -0700 (PDT)
+Received: by mail-pg1-x52e.google.com with SMTP id z16so1105628pga.1
+        for <linux-doc@vger.kernel.org>; Mon, 05 Apr 2021 10:01:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=JofV4HZR03mpEzOFKM8Vp0AM9IHnnmscM74M1/661Ws=;
+        b=N7R1edXpxKL54f3bqcC4+fLaznKqZCYbSZF1GAwC07lVtY84OP/Df1x2DMzuOGNgCo
+         yOu40YToRKkKizUbxXdtxPDWw8P3nQjBjVvcQMLPuROTezkMlTcc/94SJBfsuJXTLy27
+         WbVIkuKGD5lMPFqKlzDY2owZdM22Hnpqk/ofiPRO2HPtdgtXbJVpNlA929FXsl8uk+eq
+         5Ngyrh208REL+TSmLbAIcIhEXSKb/GV6PDojObJWQqxxPhvAUPBd07AdYN9UsncgBYyw
+         Ow3ys6peXSccRXxAkKHV7+hEx4qALubJCSVz0pjM1Hm4UvRBMbxViUEexXfidfTdRopB
+         s7XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=JofV4HZR03mpEzOFKM8Vp0AM9IHnnmscM74M1/661Ws=;
+        b=pXqZUJoNO8hhYjQ5ZKUpBq/1U2HVjt6jL1O7OO4UQnSd2Ud3FSM6qCSRRmcWRNIonI
+         W3+/gEThebcx1DRF8YTyRfG+ZMbdYWtLYedPXpE0OTIyHwtRqtbRoSab85apVg9xvIOR
+         wY9b6TT+CvXsXv2zWaZMueZTVh0tfjfg/3PpL1UUYL9ifiDRrY8kgHiAqyY6QcrWwfix
+         xFvcx3BqhpUOB+48ESf/ZkYTunL4ztimKG5ma37dNofAnLpdgwCnr6Vdt2ma2A7V4ZkM
+         abiBNLnP9tEarLIsqPzibPOed6aCPNnPvAXn6t+wE/JluXydo3hVHYgt0/wXOC10NakM
+         pSGQ==
+X-Gm-Message-State: AOAM5307j9Y2Q/qOAH19dYM9EFryWnYhuhdbg4VKiZ9CONfHbYikGTby
+        C66EfHL/ElCO6k4+hJOmrQNpBg==
+X-Google-Smtp-Source: ABdhPJzQtcO+BROgFlDuCeD6hIX35J0fel0VCwBvQ4Mnht7T6GdfpnRLM+P5x0v6rDGPYoODFISPTw==
+X-Received: by 2002:a63:67c7:: with SMTP id b190mr23173450pgc.162.1617642111369;
+        Mon, 05 Apr 2021 10:01:51 -0700 (PDT)
+Received: from google.com (240.111.247.35.bc.googleusercontent.com. [35.247.111.240])
+        by smtp.gmail.com with ESMTPSA id d6sm16016464pfn.197.2021.04.05.10.01.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Apr 2021 10:01:50 -0700 (PDT)
+Date:   Mon, 5 Apr 2021 17:01:46 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Maxim Levitsky <mlevitsk@redhat.com>
+Cc:     kvm@vger.kernel.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Jim Mattson <jmattson@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" 
+        <linux-kernel@vger.kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 5/6] KVM: nSVM: avoid loading PDPTRs after migration when
+ possible
+Message-ID: <YGtCeiyzUrRbbNKG@google.com>
+References: <20210401141814.1029036-1-mlevitsk@redhat.com>
+ <20210401141814.1029036-6-mlevitsk@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210401141814.1029036-6-mlevitsk@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Anshuman Khandual <anshuman.khandual@arm.com>
+On Thu, Apr 01, 2021, Maxim Levitsky wrote:
+> if new KVM_*_SREGS2 ioctls are used, the PDPTRs are
+> part of the migration state and thus are loaded
+> by those ioctls.
+> 
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+> ---
+>  arch/x86/kvm/svm/nested.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
+> index ac5e3e17bda4..b94916548cfa 100644
+> --- a/arch/x86/kvm/svm/nested.c
+> +++ b/arch/x86/kvm/svm/nested.c
+> @@ -373,10 +373,9 @@ static int nested_svm_load_cr3(struct kvm_vcpu *vcpu, unsigned long cr3,
+>  		return -EINVAL;
+>  
+>  	if (!nested_npt && is_pae_paging(vcpu) &&
+> -	    (cr3 != kvm_read_cr3(vcpu) || pdptrs_changed(vcpu))) {
+> +	    (cr3 != kvm_read_cr3(vcpu) || !kvm_register_is_available(vcpu, VCPU_EXREG_PDPTR)))
+>  		if (CC(!load_pdptrs(vcpu, vcpu->arch.walk_mmu, cr3)))
 
-Add documentation for the  TRBE under trace/coresight.
+What if we ditch the optimizations[*] altogether and just do:
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
-Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-[ Split from the TRBE driver patch ]
-Signed-off-by: Suzuki K Poulose <suzuki.poulose@arm.com>
----
- .../trace/coresight/coresight-trbe.rst        | 38 +++++++++++++++++++
- 1 file changed, 38 insertions(+)
- create mode 100644 Documentation/trace/coresight/coresight-trbe.rst
+	if (!nested_npt && is_pae_paging(vcpu) &&
+	    CC(!load_pdptrs(vcpu, vcpu->arch.walk_mmu, cr3))
+		return -EINVAL;
 
-diff --git a/Documentation/trace/coresight/coresight-trbe.rst b/Documentation/trace/coresight/coresight-trbe.rst
-new file mode 100644
-index 000000000000..b9928ef148da
---- /dev/null
-+++ b/Documentation/trace/coresight/coresight-trbe.rst
-@@ -0,0 +1,38 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================
-+Trace Buffer Extension (TRBE).
-+==============================
-+
-+    :Author:   Anshuman Khandual <anshuman.khandual@arm.com>
-+    :Date:     November 2020
-+
-+Hardware Description
-+--------------------
-+
-+Trace Buffer Extension (TRBE) is a percpu hardware which captures in system
-+memory, CPU traces generated from a corresponding percpu tracing unit. This
-+gets plugged in as a coresight sink device because the corresponding trace
-+generators (ETE), are plugged in as source device.
-+
-+The TRBE is not compliant to CoreSight architecture specifications, but is
-+driven via the CoreSight driver framework to support the ETE (which is
-+CoreSight compliant) integration.
-+
-+Sysfs files and directories
-+---------------------------
-+
-+The TRBE devices appear on the existing coresight bus alongside the other
-+coresight devices::
-+
-+	>$ ls /sys/bus/coresight/devices
-+	trbe0  trbe1  trbe2 trbe3
-+
-+The ``trbe<N>`` named TRBEs are associated with a CPU.::
-+
-+	>$ ls /sys/bus/coresight/devices/trbe0/
-+        align flag
-+
-+*Key file items are:-*
-+   * ``align``: TRBE write pointer alignment
-+   * ``flag``: TRBE updates memory with access and dirty flags
--- 
-2.24.1
+Won't that obviate the need for KVM_{GET|SET}_SREGS2 since KVM will always load
+the PDPTRs from memory?  IMO, nested migration with shadowing paging doesn't
+warrant this level of optimization complexity.
 
+[*] For some definitions of "optimization", since the extra pdptrs_changed()
+    check in the existing code is likely a net negative.
+
+>  			return -EINVAL;
+> -	}
+>  
+>  	/*
+>  	 * TODO: optimize unconditional TLB flush/MMU sync here and in
