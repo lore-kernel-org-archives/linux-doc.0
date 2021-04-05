@@ -2,87 +2,92 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 951EDC433B4
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Apr 2021 17:35:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0339AC433B4
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 00:30:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4559E61287
-	for <linux-doc@archiver.kernel.org>; Sun,  4 Apr 2021 17:35:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C946C6136A
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 00:30:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230494AbhDDRfi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Apr 2021 13:35:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53346 "EHLO
+        id S231716AbhDEAaY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Apr 2021 20:30:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229861AbhDDRfb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Apr 2021 13:35:31 -0400
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com [IPv6:2607:f8b0:4864:20::72a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77543C061756;
-        Sun,  4 Apr 2021 10:35:24 -0700 (PDT)
-Received: by mail-qk1-x72a.google.com with SMTP id i9so9696949qka.2;
-        Sun, 04 Apr 2021 10:35:24 -0700 (PDT)
+        with ESMTP id S231708AbhDEAaX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Apr 2021 20:30:23 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96DACC061788
+        for <linux-doc@vger.kernel.org>; Sun,  4 Apr 2021 17:30:17 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id o16so11121790ljp.3
+        for <linux-doc@vger.kernel.org>; Sun, 04 Apr 2021 17:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=33J8OtutelowSioLnJ+BV370Ve8/xBpuUEz5H46uwPQ=;
-        b=DpC5OcjNicGSE5IHLbNl9o0O/n6y7SZQIRP1OF7pZYWEW8TYxgpEXUHI0e7ZPfxSEm
-         A+O7GebbfT58u7Lpmiv6sBL3Yk+EujsWCCzrB3aDx97xfLrwLc7CEIA8SeXMDdCVwmsY
-         BPqIQTgWEwBURoGagdqHuCG92UlwBGsrjntu1SWK8cLpRmxtUAgouhJt3WpC0vh9OdW9
-         /I9txAgZWSB1mY1LSilQo4XMQDZA+0riwckuXe5LjY1cgRMODU/Q+/YhfbHA3JSSUHSn
-         Ns1fZL7rLbr7viGLe8jOTv5XiK3tpOFOFQJ5gwIh9kukMUGZbtQgthNUDTrY1AdaBS8H
-         2Dkg==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=4djxblumYsM0MYjaTI3gAeclQoo4tMzFZGJUydviNoY=;
+        b=k9XPOH16pkp6wIhN6fUXTfgtf00C1nX1vfWzkAoJCwZhTPryGhPETEbWtKNuql8dcT
+         J66HvvN+nGIGX/hWkB2rtYjC7ogWFD4Rd4IZkQ0bS/rYf5HmIGTyE/ZylI39cDqXlZLQ
+         DrwfgJgtrdAYa4RnReHlFBjkf09I61p5QCpFtdcJBiTqN5do0FBlf/GNBAM4Sa4K9fTt
+         O0Sc6EJP96oqfCYeJaor+ktU4xDDekqEt6oEKns8rGYAeQWl4AQoPK1E7sIISi8w1r2q
+         CU1BS4YW9udqw0T/oEayc0e8nZsTv0pujP4QcRjuay7oCDxyx5293bIck4CW+rAYTTaJ
+         a32w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=33J8OtutelowSioLnJ+BV370Ve8/xBpuUEz5H46uwPQ=;
-        b=lahu8UBP+wAlQNbXaTnty0HzuPumwn1j963aHKGjtUzkgd3zo3js0O7n74sRrMq7yw
-         nL6GxG3mi+jSxSwBD8/B4xjZRnw3OA7GE0mieggtWoHilIkpL6BER5ZTiaayYahWGfSE
-         Gxgmr8H5BVGHmRA6UgNDTShWhhTgeQiEz3FKlxcu5qaZ+rHtJZ0AYtTtJFzv5YQn0kuL
-         0hG+9fz+2/KtQgPlAfp8topDJCA7Iim3soM6F2q6GFaS8yMQIaNS1yITErah+izfxnVD
-         upfdfazB2h58wHG5lKpmo3hHzv14MBr4KkX/OmDgHLt/AtfF2HABEDkzVBKleKXV7it+
-         tfYw==
-X-Gm-Message-State: AOAM531C/ff+++GgUF3IBQab2MP9E6XE86ctgWoFyuFCdQx/MPoUAKfE
-        2A5npCrxLr86kTfY/NV0cy8=
-X-Google-Smtp-Source: ABdhPJzymD6qe59ckoaxT0GUwxUpiC8bP3gyvGuaN3f4jU+CgDo/aeVmQ14oOVOMQ13+4UWZAekMYA==
-X-Received: by 2002:a05:620a:14f:: with SMTP id e15mr21094562qkn.315.1617557723397;
-        Sun, 04 Apr 2021 10:35:23 -0700 (PDT)
-Received: from localhost (dhcp-6c-ae-f6-dc-d8-61.cpe.echoes.net. [199.96.183.179])
-        by smtp.gmail.com with ESMTPSA id w5sm11732174qkc.85.2021.04.04.10.35.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Apr 2021 10:35:22 -0700 (PDT)
-Sender: Tejun Heo <htejun@gmail.com>
-Date:   Sun, 4 Apr 2021 13:35:21 -0400
-From:   Tejun Heo <tj@kernel.org>
-To:     Vipin Sharma <vipinsh@google.com>
-Cc:     mkoutny@suse.com, jacob.jun.pan@intel.com, rdunlap@infradead.org,
-        thomas.lendacky@amd.com, brijesh.singh@amd.com, jon.grimm@amd.com,
-        eric.vantassell@amd.com, pbonzini@redhat.com, hannes@cmpxchg.org,
-        frankja@linux.ibm.com, borntraeger@de.ibm.com, corbet@lwn.net,
-        seanjc@google.com, vkuznets@redhat.com, wanpengli@tencent.com,
-        jmattson@google.com, joro@8bytes.org, tglx@linutronix.de,
-        mingo@redhat.com, bp@alien8.de, hpa@zytor.com, gingell@google.com,
-        rientjes@google.com, kvm@vger.kernel.org, x86@kernel.org,
-        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 0/3] cgroup: New misc cgroup controller
-Message-ID: <YGn42SKCPg2HWtQc@mtj.duckdns.org>
-References: <20210330044206.2864329-1-vipinsh@google.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=4djxblumYsM0MYjaTI3gAeclQoo4tMzFZGJUydviNoY=;
+        b=VMzr3CA24eN88SF+4025UBV3Av/OxxPiBQzVzlVsCIk6EWX6SHyaAu/aJD/FpNGkEN
+         qMst6hVJRiDEgOQy5qr+Jc23+x2dDzh0spBWhcgjDLfmpz4jL6JyKfDhQI1aAI9f9oe1
+         ZlZq8g1jaJfJzkMcuhVVK9ZfdS7RKtyJnAjhqRe3CI+dH6o6nB0hC6GHOGbRfTR5Knl7
+         3SotWe3VZPdSK6d2YBFE6VzJZHDoiaJQZJ9okd0uaE2cp46KDcsW/LtjHte3Mtjg1zQh
+         OKNnLzoYMDHDUe4o0m+T8Q2lku7CAW3yl2aAiGaC0BZzVgqS1GvzImaHr3bPXdMOAMh8
+         zTWg==
+X-Gm-Message-State: AOAM530zZIwvkkwsnVithpvxT2zPaIKhub/OwYwS+U3jSkZcwLew/xdf
+        AhgSrNmJDa7xbhnCVxm5ROb3ZFl2Z95UVhPyda54Gg==
+X-Google-Smtp-Source: ABdhPJya1pQ3m+PBzENKSEcDzB6ja6iy+5Hr6CE5/UQqlDXSenL4ol3iYtZBtv3DVLGum6BVeQ8oNUuY6m+mGf4u65w=
+X-Received: by 2002:a2e:87d8:: with SMTP id v24mr14196684ljj.387.1617582615756;
+ Sun, 04 Apr 2021 17:30:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210330044206.2864329-1-vipinsh@google.com>
+References: <20210330044206.2864329-1-vipinsh@google.com> <YGn42SKCPg2HWtQc@mtj.duckdns.org>
+In-Reply-To: <YGn42SKCPg2HWtQc@mtj.duckdns.org>
+From:   Vipin Sharma <vipinsh@google.com>
+Date:   Sun, 4 Apr 2021 17:29:59 -0700
+Message-ID: <CAHVum0fhWSOFRS-t7cF=zCRf_SUoMN5UOYBChWSpmhJVcuMbsg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] cgroup: New misc cgroup controller
+To:     Tejun Heo <tj@kernel.org>
+Cc:     =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+        Jacob Pan <jacob.jun.pan@intel.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Tom Lendacky <thomas.lendacky@amd.com>,
+        Brijesh <brijesh.singh@amd.com>, Jon <jon.grimm@amd.com>,
+        Eric <eric.vantassell@amd.com>, pbonzini@redhat.com,
+        hannes@cmpxchg.org, Janosch Frank <frankja@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>, corbet@lwn.net,
+        Sean Christopherson <seanjc@google.com>, vkuznets@redhat.com,
+        wanpengli@tencent.com, Jim Mattson <jmattson@google.com>,
+        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
+        bp@alien8.de, hpa@zytor.com, Matt Gingell <gingell@google.com>,
+        David Rientjes <rientjes@google.com>, kvm@vger.kernel.org,
+        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Applied to cgroup/for-5.13. If there are further issues, let's address them
-incrementally.
+On Sun, Apr 4, 2021 at 10:35 AM Tejun Heo <tj@kernel.org> wrote:
+>
+> Applied to cgroup/for-5.13. If there are further issues, let's address them
+> incrementally.
+>
+> Thanks.
+>
+> --
+> tejun
 
-Thanks.
-
--- 
-tejun
+Thanks Tejun for accepting and guiding through each version of this
+patch series.
