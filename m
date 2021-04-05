@@ -2,188 +2,76 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD259C433ED
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 17:16:39 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DAD5C433ED
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 19:34:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8FED613B2
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 17:16:39 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 000206139E
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 19:34:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237186AbhDERQo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Apr 2021 13:16:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48956 "EHLO
+        id S240190AbhDETe1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Apr 2021 15:34:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237134AbhDERQo (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Apr 2021 13:16:44 -0400
-Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C2C6C061797
-        for <linux-doc@vger.kernel.org>; Mon,  5 Apr 2021 10:16:38 -0700 (PDT)
-Received: by mail-pj1-x1030.google.com with SMTP id j6-20020a17090adc86b02900cbfe6f2c96so6191425pjv.1
-        for <linux-doc@vger.kernel.org>; Mon, 05 Apr 2021 10:16:38 -0700 (PDT)
+        with ESMTP id S232942AbhDETe0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Apr 2021 15:34:26 -0400
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B81FDC061756;
+        Mon,  5 Apr 2021 12:34:18 -0700 (PDT)
+Received: by mail-pl1-x62b.google.com with SMTP id g10so6161445plt.8;
+        Mon, 05 Apr 2021 12:34:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ai3CdCbkrXPSlQhahzdlfMoVkl12Ktt9EKKlkNpbqIk=;
-        b=T5OZIJi1a+S0UmB8ju9dRtp9RWLpyoSfUudALSFJBsooFu63xRQSZft0M3qzy93k0r
-         z7x2JAHldp19Jlo5384VoYUVNQ2yeLvjJ5z5R7QVmttinVeV9VjzoAdj8fejaeiR8lyF
-         62143nJ12x8hml5vfS8LwEeOZj9TXLo/W5cC4=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=qs2UgpNHrs9qIOZOqKSGGqFmmr2tm9Rf+HF/JQPX6rg=;
+        b=Bog2xAWbsFjf4t2sh5sRaIdqTHdj0i1/lahuvIcL897SGc7Yh4M2/rxw8y0Pvs2FKA
+         XNY7bfly/L7IZSl1kPoI/tADIPhvjaBbo1SKkU1yj2kpO7gL2SsUxlyVtWOT0RJ2VWbU
+         LXxfz1CYFLOeXGqyWFiih97wL0fTjlsAU6YscJYvD3Axfku6QiQIAQhV6HKomlGuEsnR
+         7Z07fNbBwIS5BC/iETs4MjEvOfX3O1/eKDdWAC8OJdif0U0ituoq8ohJ4DMmdqs/qvGE
+         iQsyn+9xaEvoUeuwUtYVeNdQJHob4kABvi6K4N4/qcY+LjCn+Eb5iMrlPC8mypO3wYuA
+         5ItA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ai3CdCbkrXPSlQhahzdlfMoVkl12Ktt9EKKlkNpbqIk=;
-        b=cY33u7um/hA7bGXHLV7NQ5LDP1pUpbNtw9RIWG0T6kwitW3YD4AuIEcFWheKEYJNfS
-         fZyFIhK63/vRScptOlfh5dD8gEkGr5WQb4E751wGMgV8sXyex0lohCuvOu4G7qPvPkD0
-         n6bwF6GrI/kn4ZIP9mW5hKs8g1rc0Yj8rso0Hkg1PDXFopgK9vj1CWCyVCgVrCISCwbF
-         I7ZzIpC0lE+hx0/mWcYjUInyQXX96UaTYJa+1EL2msuBOKOicE5GVhRUQ0H5GwGBp2Uw
-         3ynvjc/Sxprg5GMf/NhYczGM+2ICf333X/FSOyjCdk44QPePw7V1qMXNfG8OngmdtZfs
-         OP1w==
-X-Gm-Message-State: AOAM5330kW0ghe6plYTQIeUuRS6gxJ0mGR5eV0CsVCtPty4s+lHLsg4I
-        50LYuG1YdoXHIYEiW1sBArdQ4Q==
-X-Google-Smtp-Source: ABdhPJz2wXjLIg6rNu7hKfJ8t7qCHdoSv+LbFw67gBgLuT/syvhnAuVwrV+h3lzUsevbyEgwDBzhiQ==
-X-Received: by 2002:a17:902:6546:b029:e9:1e31:3351 with SMTP id d6-20020a1709026546b02900e91e313351mr3882734pln.26.1617642997543;
-        Mon, 05 Apr 2021 10:16:37 -0700 (PDT)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id t18sm16339996pfh.57.2021.04.05.10.16.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Apr 2021 10:16:36 -0700 (PDT)
-Date:   Mon, 5 Apr 2021 10:16:35 -0700
-From:   Kees Cook <keescook@chromium.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Hillf Danton <hdanton@sina.com>,
-        Michal Hocko <mhocko@suse.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Minchan Kim <minchan@kernel.org>,
-        huang ying <huang.ying.caritas@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Russell King <linux@armlinux.org.uk>,
-        Liviu Dudau <liviu.dudau@arm.com>,
-        Sudeep Holla <sudeep.holla@arm.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Brian Cain <bcain@codeaurora.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>,
-        Rich Felker <dalias@libc.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Rob Herring <robh@kernel.org>,
-        "Pavel Machek (CIP)" <pavel@denx.de>,
-        Theodore Dubois <tblodt@icloud.com>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Pavel Machek <pavel@ucw.cz>, Sam Ravnborg <sam@ravnborg.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>,
-        "Eric W. Biederman" <ebiederm@xmission.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Xiaoming Ni <nixiaoming@huawei.com>,
-        Robert Richter <rric@kernel.org>,
-        William Cohen <wcohen@redhat.com>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Kairui Song <kasong@redhat.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        uclinux-h8-devel@lists.sourceforge.jp,
-        linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        openrisc@lists.librecores.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        linux-fsdevel@vger.kernel.org,
-        Linux API <linux-api@vger.kernel.org>
-Subject: Re: [PATCH RFC 1/3] drivers/char: remove /dev/kmem for good
-Message-ID: <202104051013.F432CAC4@keescook>
-References: <20210319143452.25948-1-david@redhat.com>
- <20210319143452.25948-2-david@redhat.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=qs2UgpNHrs9qIOZOqKSGGqFmmr2tm9Rf+HF/JQPX6rg=;
+        b=IVCi51rrh5FP3aUELC4pDolcYEqLKImOnzj5K1pANnnJCzxQ3Wa6IfcZc9s/Jcn8bX
+         PpIpls1lhEnF5KYGVomUXwJsvwy8bGd9s7wSgRIikc8pKSflJZH4Iy9dAAPXRV2j7oHK
+         JxupfJkgf7d3mCR9ibkseDDTmlHB3pk8aMlKQ6w2S0hMVbuKaj0Fkbm5Ca5ZPQjSnhr7
+         BDANOtNGvDuLoPvbCGpGmA+kewet/yvyHaQTJw0Qbi6U59lKQ65Kwo14GSsIi75KqXch
+         g+mAXwcHF6yAyAuEkamXZXiDcBRpc6PYTdbCN5TOlTk8Sam4HgUDZTaHiFiNDs42N6x0
+         9R/g==
+X-Gm-Message-State: AOAM533hUFNFU0057kUlyak00wEok51FqgJRLQ2bFRhrEGbF7rg8aERE
+        vYFhf+6Bzy8GKIwvyyPRkvyG6HJAtTniH5W9ae4=
+X-Google-Smtp-Source: ABdhPJxttNkctIZiZSTjh6iJY+hhTlSN2SkKa5dAVTPTSZEte2VCI3e1D0ry3xRZ2KcE0C1LzCvriUMVgHzwmKL3ENc=
+X-Received: by 2002:a17:903:22c7:b029:e6:faf5:eb3a with SMTP id
+ y7-20020a17090322c7b02900e6faf5eb3amr25518927plg.23.1617651258303; Mon, 05
+ Apr 2021 12:34:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210319143452.25948-2-david@redhat.com>
+References: <20210402093000.72965-1-xie.he.0141@gmail.com>
+In-Reply-To: <20210402093000.72965-1-xie.he.0141@gmail.com>
+From:   Xie He <xie.he.0141@gmail.com>
+Date:   Mon, 5 Apr 2021 12:34:07 -0700
+Message-ID: <CAJht_EO7ufuRPj2Bbp7PyXbBT+jrpxR2pckT9JOPyve_tWj9DA@mail.gmail.com>
+Subject: Re: [PATCH net-next v5] net: x25: Queue received packets in the
+ drivers instead of per-CPU queues
+To:     Martin Schiller <ms@dev.tdt.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Halasa <khc@pm.waw.pl>,
+        Linux X25 <linux-x25@vger.kernel.org>,
+        Linux Kernel Network Developers <netdev@vger.kernel.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Mar 19, 2021 at 03:34:50PM +0100, David Hildenbrand wrote:
-> Exploring /dev/kmem and /dev/mem in the context of memory hot(un)plug and
-> memory ballooning, I started questioning the existance of /dev/kmem.
-> 
-> Comparing it with the /proc/kcore implementation, it does not seem to be
-> able to deal with things like
-> a) Pages unmapped from the direct mapping (e.g., to be used by secretmem)
->   -> kern_addr_valid(). virt_addr_valid() is not sufficient.
-> b) Special cases like gart aperture memory that is not to be touched
->   -> mem_pfn_is_ram()
-> Unless I am missing something, it's at least broken in some cases and might
-> fault/crash the machine.
-> 
-> Looks like its existance has been questioned before in 2005 and 2010
-> [1], after ~11 additional years, it might make sense to revive the
-> discussion.
-> 
-> CONFIG_DEVKMEM is only enabled in a single defconfig (on purpose or by
-> mistake?). All distributions I looked at disable it.
-> 
-> 1) /dev/kmem was popular for rootkits [2] before it got disabled
->    basically everywhere. Ubuntu documents [3] "There is no modern user of
->    /dev/kmem any more beyond attackers using it to load kernel rootkits.".
->    RHEL documents in a BZ [5] "it served no practical purpose other than to
->    serve as a potential security problem or to enable binary module drivers
->    to access structures/functions they shouldn't be touching"
-> 
-> 2) /proc/kcore is a decent interface to have a controlled way to read
->    kernel memory for debugging puposes. (will need some extensions to
->    deal with memory offlining/unplug, memory ballooning, and poisoned
->    pages, though)
-> 
-> 3) It might be useful for corner case debugging [1]. KDB/KGDB might be a
->    better fit, especially, to write random memory; harder to shoot
->    yourself into the foot.
-> 
-> 4) "Kernel Memory Editor" hasn't seen any updates since 2000 and seems
->    to be incompatible with 64bit [1]. For educational purposes,
->    /proc/kcore might be used to monitor value updates -- or older
->    kernels can be used.
-> 
-> 5) It's broken on arm64, and therefore, completely disabled there.
-> 
-> Looks like it's essentially unused and has been replaced by better
-> suited interfaces for individual tasks (/proc/kcore, KDB/KGDB). Let's
-> just remove it.
-> 
-> [1] https://lwn.net/Articles/147901/
-> [2] https://www.linuxjournal.com/article/10505
-> [3] https://wiki.ubuntu.com/Security/Features#A.2Fdev.2Fkmem_disabled
-> [4] https://sourceforge.net/projects/kme/
-> [5] https://bugzilla.redhat.com/show_bug.cgi?id=154796
-> 
-> [...]
-> Cc: Linux API <linux-api@vger.kernel.org>
-> Signed-off-by: David Hildenbrand <david@redhat.com>
+Hi Martin,
 
-Yes please! As James Troup pointed out already, this was turned off in
-Ubuntu in 2008. I don't remember a single complaint from anyone who
-wasn't a rootkit author. ;)
-
-Acked-by: Kees Cook <keescook@chromium.org>
-
--- 
-Kees Cook
+Could you ack? Thanks!
