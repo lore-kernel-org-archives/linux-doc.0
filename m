@@ -2,92 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0339AC433B4
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 00:30:21 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84AADC433ED
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 03:47:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C946C6136A
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 00:30:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5A77261287
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 03:47:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231716AbhDEAaY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 4 Apr 2021 20:30:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57206 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231708AbhDEAaX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Apr 2021 20:30:23 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96DACC061788
-        for <linux-doc@vger.kernel.org>; Sun,  4 Apr 2021 17:30:17 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id o16so11121790ljp.3
-        for <linux-doc@vger.kernel.org>; Sun, 04 Apr 2021 17:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4djxblumYsM0MYjaTI3gAeclQoo4tMzFZGJUydviNoY=;
-        b=k9XPOH16pkp6wIhN6fUXTfgtf00C1nX1vfWzkAoJCwZhTPryGhPETEbWtKNuql8dcT
-         J66HvvN+nGIGX/hWkB2rtYjC7ogWFD4Rd4IZkQ0bS/rYf5HmIGTyE/ZylI39cDqXlZLQ
-         DrwfgJgtrdAYa4RnReHlFBjkf09I61p5QCpFtdcJBiTqN5do0FBlf/GNBAM4Sa4K9fTt
-         O0Sc6EJP96oqfCYeJaor+ktU4xDDekqEt6oEKns8rGYAeQWl4AQoPK1E7sIISi8w1r2q
-         CU1BS4YW9udqw0T/oEayc0e8nZsTv0pujP4QcRjuay7oCDxyx5293bIck4CW+rAYTTaJ
-         a32w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4djxblumYsM0MYjaTI3gAeclQoo4tMzFZGJUydviNoY=;
-        b=VMzr3CA24eN88SF+4025UBV3Av/OxxPiBQzVzlVsCIk6EWX6SHyaAu/aJD/FpNGkEN
-         qMst6hVJRiDEgOQy5qr+Jc23+x2dDzh0spBWhcgjDLfmpz4jL6JyKfDhQI1aAI9f9oe1
-         ZlZq8g1jaJfJzkMcuhVVK9ZfdS7RKtyJnAjhqRe3CI+dH6o6nB0hC6GHOGbRfTR5Knl7
-         3SotWe3VZPdSK6d2YBFE6VzJZHDoiaJQZJ9okd0uaE2cp46KDcsW/LtjHte3Mtjg1zQh
-         OKNnLzoYMDHDUe4o0m+T8Q2lku7CAW3yl2aAiGaC0BZzVgqS1GvzImaHr3bPXdMOAMh8
-         zTWg==
-X-Gm-Message-State: AOAM530zZIwvkkwsnVithpvxT2zPaIKhub/OwYwS+U3jSkZcwLew/xdf
-        AhgSrNmJDa7xbhnCVxm5ROb3ZFl2Z95UVhPyda54Gg==
-X-Google-Smtp-Source: ABdhPJya1pQ3m+PBzENKSEcDzB6ja6iy+5Hr6CE5/UQqlDXSenL4ol3iYtZBtv3DVLGum6BVeQ8oNUuY6m+mGf4u65w=
-X-Received: by 2002:a2e:87d8:: with SMTP id v24mr14196684ljj.387.1617582615756;
- Sun, 04 Apr 2021 17:30:15 -0700 (PDT)
+        id S231811AbhDEDrY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 4 Apr 2021 23:47:24 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39998 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S231694AbhDEDrX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 4 Apr 2021 23:47:23 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 1353Xu4r178885;
+        Sun, 4 Apr 2021 23:47:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=subject : to : cc :
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=fS17YGZlnRxBEsmZlS1zMSRS74sXkIfkrqbZYkQdVTE=;
+ b=Of5P/9TMdqd/JA+rfgdQdOkuVW2HOFBFA318v5JCtIy9CI+L5WSFZ54RLcwD3so6euEy
+ LVrHYuetP61X2WepS9CXRa+W4LjaWipQiQ0k45FbhiUmixdOz7v9Cxlow9rhZ9/2wmL8
+ /KCEnR2HDBHQkBJMhT0DUiAx9HWH2R0AiyHWKCGeWby9++jQLjfPlObszZ5WJNuryrYH
+ F3y8q+z8S5q0oW0pRgKIQCbTKKll6XD7/wWhTQy4XXRKH8UOPL2sfZYgdYfO4DfvZzbl
+ I0eJwg8zpikYy6jmDqSLBkTBvu2IFxMp7fmeihRPnIzFSwWKbk7yv3/N7yrLnsaHVs3i LQ== 
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com [169.51.49.99])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 37q603wwag-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Sun, 04 Apr 2021 23:47:10 -0400
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+        by ppma04ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 1353gmIm009827;
+        Mon, 5 Apr 2021 03:47:09 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma04ams.nl.ibm.com with ESMTP id 37q2n2ry2w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 05 Apr 2021 03:47:08 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 1353kjT932768468
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 5 Apr 2021 03:46:45 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BD8A14C04A;
+        Mon,  5 Apr 2021 03:47:05 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 2FC3A4C040;
+        Mon,  5 Apr 2021 03:47:04 +0000 (GMT)
+Received: from [9.85.75.170] (unknown [9.85.75.170])
+        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+        Mon,  5 Apr 2021 03:47:03 +0000 (GMT)
+Subject: Re: [PATCH v3] powerpc/papr_scm: Implement support for H_SCM_FLUSH
+ hcall
+To:     Michael Ellerman <ellerman@au1.ibm.com>,
+        Shivaprasad G Bhat <sbhat@linux.ibm.com>,
+        sbhat@linux.vnet.ibm.com, linuxppc-dev@lists.ozlabs.org,
+        kvm-ppc@vger.kernel.org, linux-nvdimm@lists.01.org
+Cc:     linux-doc@vger.kernel.org, vaibhav@linux.ibm.com
+References: <161703936121.36.7260632399582101498.stgit@e1fbed493c87>
+ <87mtul6xzj.fsf@linux.ibm.com> <87zgyjwrnv.fsf@mpe.ellerman.id.au>
+From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+Message-ID: <cbc59da3-3206-9ad5-fa8f-8fcd1df510ec@linux.ibm.com>
+Date:   Mon, 5 Apr 2021 09:17:03 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
+In-Reply-To: <87zgyjwrnv.fsf@mpe.ellerman.id.au>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: c7pV3CUuqn9-sktYxpG-_Wg-MSbId8oQ
+X-Proofpoint-GUID: c7pV3CUuqn9-sktYxpG-_Wg-MSbId8oQ
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20210330044206.2864329-1-vipinsh@google.com> <YGn42SKCPg2HWtQc@mtj.duckdns.org>
-In-Reply-To: <YGn42SKCPg2HWtQc@mtj.duckdns.org>
-From:   Vipin Sharma <vipinsh@google.com>
-Date:   Sun, 4 Apr 2021 17:29:59 -0700
-Message-ID: <CAHVum0fhWSOFRS-t7cF=zCRf_SUoMN5UOYBChWSpmhJVcuMbsg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] cgroup: New misc cgroup controller
-To:     Tejun Heo <tj@kernel.org>
-Cc:     =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
-        Jacob Pan <jacob.jun.pan@intel.com>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Tom Lendacky <thomas.lendacky@amd.com>,
-        Brijesh <brijesh.singh@amd.com>, Jon <jon.grimm@amd.com>,
-        Eric <eric.vantassell@amd.com>, pbonzini@redhat.com,
-        hannes@cmpxchg.org, Janosch Frank <frankja@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>, corbet@lwn.net,
-        Sean Christopherson <seanjc@google.com>, vkuznets@redhat.com,
-        wanpengli@tencent.com, Jim Mattson <jmattson@google.com>,
-        joro@8bytes.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, hpa@zytor.com, Matt Gingell <gingell@google.com>,
-        David Rientjes <rientjes@google.com>, kvm@vger.kernel.org,
-        x86@kernel.org, cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
+ definitions=2021-04-05_02:2021-04-01,2021-04-05 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 priorityscore=1501
+ adultscore=0 suspectscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104030000 definitions=main-2104050022
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Apr 4, 2021 at 10:35 AM Tejun Heo <tj@kernel.org> wrote:
->
-> Applied to cgroup/for-5.13. If there are further issues, let's address them
-> incrementally.
->
-> Thanks.
->
-> --
-> tejun
+On 3/31/21 3:50 PM, Michael Ellerman wrote:
+> "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com> writes:
+>> Shivaprasad G Bhat <sbhat@linux.ibm.com> writes:
+>>
+>>> Add support for ND_REGION_ASYNC capability if the device tree
+>>> indicates 'ibm,hcall-flush-required' property in the NVDIMM node.
+>>> Flush is done by issuing H_SCM_FLUSH hcall to the hypervisor.
+>>>
+>>> If the flush request failed, the hypervisor is expected to
+>>> to reflect the problem in the subsequent nvdimm H_SCM_HEALTH call.
+>>>
+>>> This patch prevents mmap of namespaces with MAP_SYNC flag if the
+>>> nvdimm requires an explicit flush[1].
+>>>
+>>> References:
+>>> [1] https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c
+>>
+>>
+>> Reviewed-by: Aneesh Kumar K.V <aneesh.kumar@linux.ibm.com>
+> 
+> Do we need an ack from nvdimm folks on this?
+> 
+> Or is it entirely powerpc internal (seems like it from the diffstat)?
+> 
 
-Thanks Tejun for accepting and guiding through each version of this
-patch series.
+This is within powerpc and we are implementing details w.r.t PAPR spec. 
+There is a Qemu implementation that is getting reviewed here
+https://lore.kernel.org/linux-nvdimm/161650723087.2959.8703728357980727008.stgit@6532096d84d3
+
+But with respect to this patch, we can take that independent of the Qemu 
+backend implementation.
+
+-aneesh
+
