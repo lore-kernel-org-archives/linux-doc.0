@@ -2,137 +2,188 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F7D5C433ED
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 17:03:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD259C433ED
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 17:16:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 59D35613B5
-	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 17:03:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A8FED613B2
+	for <linux-doc@archiver.kernel.org>; Mon,  5 Apr 2021 17:16:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233104AbhDERDV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 5 Apr 2021 13:03:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46046 "EHLO
+        id S237186AbhDERQo (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 5 Apr 2021 13:16:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232938AbhDERDV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Apr 2021 13:03:21 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F022C06178C
-        for <linux-doc@vger.kernel.org>; Mon,  5 Apr 2021 10:03:15 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id x126so3549418pfc.13
-        for <linux-doc@vger.kernel.org>; Mon, 05 Apr 2021 10:03:15 -0700 (PDT)
+        with ESMTP id S237134AbhDERQo (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 5 Apr 2021 13:16:44 -0400
+Received: from mail-pj1-x1030.google.com (mail-pj1-x1030.google.com [IPv6:2607:f8b0:4864:20::1030])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C2C6C061797
+        for <linux-doc@vger.kernel.org>; Mon,  5 Apr 2021 10:16:38 -0700 (PDT)
+Received: by mail-pj1-x1030.google.com with SMTP id j6-20020a17090adc86b02900cbfe6f2c96so6191425pjv.1
+        for <linux-doc@vger.kernel.org>; Mon, 05 Apr 2021 10:16:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
+        d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=H6rn7p+vVu7v3cm9ggHsAaaGPQfvah3STH9aVY90oQ0=;
-        b=sPm3lazYQmNyXZyNZwqe3R9UHhfNsl5/ShT7hPs3TtJJhgVVYq8UgkcXx2rAi/Dcfa
-         V/fxOlwOjx3j/UhDO8hOJfR9dFnx+psTIUzKtGNIzps+yoYpP5ruuljEl4pGNCcWXYOh
-         iImfIRnO/mX63IgjMHuI8b6cZ+ajICxv/9f+e+eAgCyE40Pjl+/09AEP7xxNg4o09aY9
-         SASbcyBaPTgS0V0iwbtvXB8XKL5AfBauJR+IAqlDbtnvo76br0fAQOGODJK+zcEMnKrA
-         GTzev8aA0OHMthRZQRn6Ip5JNcVHZ8atYPOYVn4qB+K2yFZJcKFwv0KQSg3glhzvhsMw
-         OY6Q==
+        bh=ai3CdCbkrXPSlQhahzdlfMoVkl12Ktt9EKKlkNpbqIk=;
+        b=T5OZIJi1a+S0UmB8ju9dRtp9RWLpyoSfUudALSFJBsooFu63xRQSZft0M3qzy93k0r
+         z7x2JAHldp19Jlo5384VoYUVNQ2yeLvjJ5z5R7QVmttinVeV9VjzoAdj8fejaeiR8lyF
+         62143nJ12x8hml5vfS8LwEeOZj9TXLo/W5cC4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=H6rn7p+vVu7v3cm9ggHsAaaGPQfvah3STH9aVY90oQ0=;
-        b=uSRAeBYhy5ct2R5JeQgfh5PWC+HD25lntz7nFR6xCLsrGbWeZ8E2s/nNDfg36W4HHp
-         57+UJaKAb3IZZ8CB8X6hiN7FK3zO8rqTV48/20duvwJv+8eFWe23DCR89MdZCCfn5QDJ
-         boVhKpxI/F2Dp3DBo1pH6LXxaTvJ/Q6Mz5CfzzW6D4nL6ZO7vvduZNK9cG8Gn4Dpi8Nh
-         wSWhnYthorKUKyHVCfSha7K9+yVP3Fdy/yrKbpPl9lWQ+frKpk9oTVBlAx5BGjF5FQkW
-         /x9xUo5oaxHRiZm7h2JW5vwHfWq/jXJd5cJo7B6dgWWcLTzMqecer7cz8W3mBTYkrVzI
-         ktHw==
-X-Gm-Message-State: AOAM532jbIN71QwimMNshhHHGH8bumbwZ5kcsUyuug5hRCOlA9+geL7a
-        7kFp/KLcaZuoRmptg4YvezHfVg==
-X-Google-Smtp-Source: ABdhPJzHaUJR34DNX2bq1apPA9eX7C5JcfO8192VNXCy3QSvBk/c9bga925ePSoKMGO8XMoOp5DIGA==
-X-Received: by 2002:a63:4547:: with SMTP id u7mr6253524pgk.351.1617642194450;
-        Mon, 05 Apr 2021 10:03:14 -0700 (PDT)
-Received: from google.com (240.111.247.35.bc.googleusercontent.com. [35.247.111.240])
-        by smtp.gmail.com with ESMTPSA id h19sm16586915pfc.172.2021.04.05.10.03.13
+        bh=ai3CdCbkrXPSlQhahzdlfMoVkl12Ktt9EKKlkNpbqIk=;
+        b=cY33u7um/hA7bGXHLV7NQ5LDP1pUpbNtw9RIWG0T6kwitW3YD4AuIEcFWheKEYJNfS
+         fZyFIhK63/vRScptOlfh5dD8gEkGr5WQb4E751wGMgV8sXyex0lohCuvOu4G7qPvPkD0
+         n6bwF6GrI/kn4ZIP9mW5hKs8g1rc0Yj8rso0Hkg1PDXFopgK9vj1CWCyVCgVrCISCwbF
+         I7ZzIpC0lE+hx0/mWcYjUInyQXX96UaTYJa+1EL2msuBOKOicE5GVhRUQ0H5GwGBp2Uw
+         3ynvjc/Sxprg5GMf/NhYczGM+2ICf333X/FSOyjCdk44QPePw7V1qMXNfG8OngmdtZfs
+         OP1w==
+X-Gm-Message-State: AOAM5330kW0ghe6plYTQIeUuRS6gxJ0mGR5eV0CsVCtPty4s+lHLsg4I
+        50LYuG1YdoXHIYEiW1sBArdQ4Q==
+X-Google-Smtp-Source: ABdhPJz2wXjLIg6rNu7hKfJ8t7qCHdoSv+LbFw67gBgLuT/syvhnAuVwrV+h3lzUsevbyEgwDBzhiQ==
+X-Received: by 2002:a17:902:6546:b029:e9:1e31:3351 with SMTP id d6-20020a1709026546b02900e91e313351mr3882734pln.26.1617642997543;
+        Mon, 05 Apr 2021 10:16:37 -0700 (PDT)
+Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
+        by smtp.gmail.com with ESMTPSA id t18sm16339996pfh.57.2021.04.05.10.16.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Apr 2021 10:03:13 -0700 (PDT)
-Date:   Mon, 5 Apr 2021 17:03:10 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Maxim Levitsky <mlevitsk@redhat.com>
-Cc:     kvm@vger.kernel.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Jim Mattson <jmattson@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        "open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)" 
-        <linux-kernel@vger.kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        Mon, 05 Apr 2021 10:16:36 -0700 (PDT)
+Date:   Mon, 5 Apr 2021 10:16:35 -0700
+From:   Kees Cook <keescook@chromium.org>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Hillf Danton <hdanton@sina.com>,
+        Michal Hocko <mhocko@suse.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Oleksiy Avramchenko <oleksiy.avramchenko@sonymobile.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Minchan Kim <minchan@kernel.org>,
+        huang ying <huang.ying.caritas@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Borislav Petkov <bp@alien8.de>, Ingo Molnar <mingo@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 3/6] KVM: x86: introduce kvm_register_clear_available
-Message-ID: <YGtCzhDbnAQVgI+8@google.com>
-References: <20210401141814.1029036-1-mlevitsk@redhat.com>
- <20210401141814.1029036-4-mlevitsk@redhat.com>
+        Russell King <linux@armlinux.org.uk>,
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Sudeep Holla <sudeep.holla@arm.com>,
+        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Brian Cain <bcain@codeaurora.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jonas Bonn <jonas@southpole.se>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Stafford Horne <shorne@gmail.com>,
+        Rich Felker <dalias@libc.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Chris Zankel <chris@zankel.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Rob Herring <robh@kernel.org>,
+        "Pavel Machek (CIP)" <pavel@denx.de>,
+        Theodore Dubois <tblodt@icloud.com>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Pavel Machek <pavel@ucw.cz>, Sam Ravnborg <sam@ravnborg.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        "Eric W. Biederman" <ebiederm@xmission.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Xiaoming Ni <nixiaoming@huawei.com>,
+        Robert Richter <rric@kernel.org>,
+        William Cohen <wcohen@redhat.com>,
+        Corentin Labbe <clabbe@baylibre.com>,
+        Kairui Song <kasong@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        uclinux-h8-devel@lists.sourceforge.jp,
+        linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        openrisc@lists.librecores.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-fsdevel@vger.kernel.org,
+        Linux API <linux-api@vger.kernel.org>
+Subject: Re: [PATCH RFC 1/3] drivers/char: remove /dev/kmem for good
+Message-ID: <202104051013.F432CAC4@keescook>
+References: <20210319143452.25948-1-david@redhat.com>
+ <20210319143452.25948-2-david@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210401141814.1029036-4-mlevitsk@redhat.com>
+In-Reply-To: <20210319143452.25948-2-david@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 01, 2021, Maxim Levitsky wrote:
-> Small refactoring that will be used in the next patch.
+On Fri, Mar 19, 2021 at 03:34:50PM +0100, David Hildenbrand wrote:
+> Exploring /dev/kmem and /dev/mem in the context of memory hot(un)plug and
+> memory ballooning, I started questioning the existance of /dev/kmem.
 > 
-> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-> ---
->  arch/x86/kvm/kvm_cache_regs.h | 7 +++++++
->  arch/x86/kvm/svm/svm.c        | 6 ++----
->  2 files changed, 9 insertions(+), 4 deletions(-)
+> Comparing it with the /proc/kcore implementation, it does not seem to be
+> able to deal with things like
+> a) Pages unmapped from the direct mapping (e.g., to be used by secretmem)
+>   -> kern_addr_valid(). virt_addr_valid() is not sufficient.
+> b) Special cases like gart aperture memory that is not to be touched
+>   -> mem_pfn_is_ram()
+> Unless I am missing something, it's at least broken in some cases and might
+> fault/crash the machine.
 > 
-> diff --git a/arch/x86/kvm/kvm_cache_regs.h b/arch/x86/kvm/kvm_cache_regs.h
-> index 2e11da2f5621..07d607947805 100644
-> --- a/arch/x86/kvm/kvm_cache_regs.h
-> +++ b/arch/x86/kvm/kvm_cache_regs.h
-> @@ -55,6 +55,13 @@ static inline void kvm_register_mark_available(struct kvm_vcpu *vcpu,
->  	__set_bit(reg, (unsigned long *)&vcpu->arch.regs_avail);
->  }
->  
-> +static inline void kvm_register_clear_available(struct kvm_vcpu *vcpu,
+> Looks like its existance has been questioned before in 2005 and 2010
+> [1], after ~11 additional years, it might make sense to revive the
+> discussion.
+> 
+> CONFIG_DEVKMEM is only enabled in a single defconfig (on purpose or by
+> mistake?). All distributions I looked at disable it.
+> 
+> 1) /dev/kmem was popular for rootkits [2] before it got disabled
+>    basically everywhere. Ubuntu documents [3] "There is no modern user of
+>    /dev/kmem any more beyond attackers using it to load kernel rootkits.".
+>    RHEL documents in a BZ [5] "it served no practical purpose other than to
+>    serve as a potential security problem or to enable binary module drivers
+>    to access structures/functions they shouldn't be touching"
+> 
+> 2) /proc/kcore is a decent interface to have a controlled way to read
+>    kernel memory for debugging puposes. (will need some extensions to
+>    deal with memory offlining/unplug, memory ballooning, and poisoned
+>    pages, though)
+> 
+> 3) It might be useful for corner case debugging [1]. KDB/KGDB might be a
+>    better fit, especially, to write random memory; harder to shoot
+>    yourself into the foot.
+> 
+> 4) "Kernel Memory Editor" hasn't seen any updates since 2000 and seems
+>    to be incompatible with 64bit [1]. For educational purposes,
+>    /proc/kcore might be used to monitor value updates -- or older
+>    kernels can be used.
+> 
+> 5) It's broken on arm64, and therefore, completely disabled there.
+> 
+> Looks like it's essentially unused and has been replaced by better
+> suited interfaces for individual tasks (/proc/kcore, KDB/KGDB). Let's
+> just remove it.
+> 
+> [1] https://lwn.net/Articles/147901/
+> [2] https://www.linuxjournal.com/article/10505
+> [3] https://wiki.ubuntu.com/Security/Features#A.2Fdev.2Fkmem_disabled
+> [4] https://sourceforge.net/projects/kme/
+> [5] https://bugzilla.redhat.com/show_bug.cgi?id=154796
+> 
+> [...]
+> Cc: Linux API <linux-api@vger.kernel.org>
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-I don't love the name, because it makes me think too hard about available vs.
-dirty.  :-)   If we drop the optimizations, what if we also drop this patch to
-avoid bikeshedding the name?
+Yes please! As James Troup pointed out already, this was turned off in
+Ubuntu in 2008. I don't remember a single complaint from anyone who
+wasn't a rootkit author. ;)
 
-> +					       enum kvm_reg reg)
-> +{
-> +	__clear_bit(reg, (unsigned long *)&vcpu->arch.regs_avail);
-> +	__clear_bit(reg, (unsigned long *)&vcpu->arch.regs_dirty);
-> +}
-> +
->  static inline void kvm_register_mark_dirty(struct kvm_vcpu *vcpu,
->  					   enum kvm_reg reg)
->  {
-> diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-> index 271196400495..2843732299a2 100644
-> --- a/arch/x86/kvm/svm/svm.c
-> +++ b/arch/x86/kvm/svm/svm.c
-> @@ -3880,10 +3880,8 @@ static __no_kcsan fastpath_t svm_vcpu_run(struct kvm_vcpu *vcpu)
->  		vcpu->arch.apf.host_apf_flags =
->  			kvm_read_and_reset_apf_flags();
->  
-> -	if (npt_enabled) {
-> -		vcpu->arch.regs_avail &= ~(1 << VCPU_EXREG_PDPTR);
-> -		vcpu->arch.regs_dirty &= ~(1 << VCPU_EXREG_PDPTR);
-> -	}
-> +	if (npt_enabled)
-> +		kvm_register_clear_available(vcpu, VCPU_EXREG_PDPTR);
->  
->  	/*
->  	 * We need to handle MC intercepts here before the vcpu has a chance to
-> -- 
-> 2.26.2
-> 
+Acked-by: Kees Cook <keescook@chromium.org>
+
+-- 
+Kees Cook
