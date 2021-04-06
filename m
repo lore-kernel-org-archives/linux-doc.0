@@ -2,176 +2,178 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41AB3C43461
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 11:51:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40442C43460
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 11:59:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1502F613B8
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 11:51:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 17BE0611AF
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 11:59:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343513AbhDFLvL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 07:51:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36580 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343506AbhDFLvK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 07:51:10 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11C5FC06174A
-        for <linux-doc@vger.kernel.org>; Tue,  6 Apr 2021 04:51:03 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id n2so15179013ejy.7
-        for <linux-doc@vger.kernel.org>; Tue, 06 Apr 2021 04:51:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=hzGzDb6sOnF8N0SPvMe9bIQjSerHc8BoxV7MjmHw1gQ=;
-        b=IL+lXi7Fck9ycEgSFxeRCwY7mk/0gG/lD8v/DGs+ApV4x0yjzBOGKSSj4zh4rsr5L0
-         MTHLdDmCOjeYjooVIIrGBjR7WfByvqIKcZWlDvz7aQ3MhkhCGUhXu7MRcLkmhfbhe4iY
-         qRVGt0qEHm9oSh1cU7lpnPkPqhTr6iA60X8esrx7G0NVOEbGVauQsedlJ9aAJhFS2oPC
-         Geq64csMdLDqXYqQXVb3ZC6SfvDRzYt8sh+IgrTW4r0OifhpVaJ7MsaATNETdPQA6/9M
-         rgCwWphz1yCC9btuEOy1fZlo61OKvRRdhHn1FhYotLMo56rePhwdO6bLRFvKGj/0WTuJ
-         DJSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=hzGzDb6sOnF8N0SPvMe9bIQjSerHc8BoxV7MjmHw1gQ=;
-        b=W5YzxGruElSsZKWfImO6ZN2IRFtjq22yUIS9SLnc3Db0HpL4AcFx67UXxTCVFefOVL
-         uTMJHXN2XQzn1l8bFUYlqesRXm349F14T/NviIPYQC9rcq5hQzdzxpPOMbvCQRoMMSwq
-         bSi5UhJlh9rtX1sHZy9iE9Soi11wk2BHOJrVsClNR8hp8l3gm8hzP5OS+0AEZ+kCKc28
-         bWkWws3fGkQnuHMwSAKWh92K7hz3P9ekjYtzdrauESaikKcP36htv2KVnnUH4lCtTHPO
-         OiEnb3FP/83CIYGAvPB0Y64eThYeendHyswzOfYja/7pJsRutHkKgTwOt+vS2Aof57/b
-         AQog==
-X-Gm-Message-State: AOAM532FuICJpdJQfV2n4o9rIfE/kc1cJB/yKE2dTWnJvr8wsbzcm16k
-        sFrN104gOMTlxIkDiDYOu9DPjQ==
-X-Google-Smtp-Source: ABdhPJxVIkWAfkyagvnr/hajx6i0wdgR6FCHCK48yFCzBoqf60AQFNZf+XxE5V+k5AXr5mNEEcz5lA==
-X-Received: by 2002:a17:906:6c4:: with SMTP id v4mr32866953ejb.198.1617709861716;
-        Tue, 06 Apr 2021 04:51:01 -0700 (PDT)
-Received: from gkim-laptop.fkb.profitbricks.net (ip5f5aeee5.dynamic.kabel-deutschland.de. [95.90.238.229])
-        by smtp.googlemail.com with ESMTPSA id t1sm855964eds.53.2021.04.06.04.51.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 04:51:01 -0700 (PDT)
-From:   Gioh Kim <gi-oh.kim@ionos.com>
-To:     linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     bvanassche@acm.org, leon@kernel.org, dledford@redhat.com,
-        jgg@ziepe.ca, haris.iqbal@ionos.com, jinpu.wang@ionos.com,
-        akinobu.mita@gmail.com, corbet@lwn.net,
-        Gioh Kim <gi-oh.kim@cloud.ionos.com>
-Subject: [PATCH 4/4] docs: fault-injection: Add fault-injection manual of RTRS
-Date:   Tue,  6 Apr 2021 13:50:49 +0200
-Message-Id: <20210406115049.196527-5-gi-oh.kim@ionos.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210406115049.196527-1-gi-oh.kim@ionos.com>
-References: <20210406115049.196527-1-gi-oh.kim@ionos.com>
+        id S1343642AbhDFL7p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 07:59:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28082 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1343637AbhDFL7n (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 07:59:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617710375;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=2esLg1da59fOJXVhXC5LxhBQc2Y9aIayppe+mCmRoS0=;
+        b=AT9QXgQqoakIApvxykbpO02G+90g/nd6mzXYErWmuHgM8fwMvpVKqIuMTB+vjcmDEfQyTe
+        dGCkdkS+U3t9xdMV1lNe6SXsm6qxbT+tvzcUfuT2QQvdUnPvNT8XAbX/pu45IbvJpp7jOm
+        EFNucfG3TBGaW3PgpJn2ybx68h2Bj2M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-466-trrCjbsPNv6uojW5o92q1A-1; Tue, 06 Apr 2021 07:59:32 -0400
+X-MC-Unique: trrCjbsPNv6uojW5o92q1A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5B6F81746A;
+        Tue,  6 Apr 2021 11:59:28 +0000 (UTC)
+Received: from starship (unknown [10.35.206.65])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id DA0176B8E8;
+        Tue,  6 Apr 2021 11:59:15 +0000 (UTC)
+Message-ID: <27193ea74081023b67ab9c98d7050b1e22655e79.camel@redhat.com>
+Subject: Re: [PATCH v2 0/9] KVM: my debug patch queue
+From:   Maxim Levitsky <mlevitsk@redhat.com>
+To:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
+Cc:     "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sean Christopherson <seanjc@google.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Stefano Garzarella <sgarzare@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Jonathan Corbet <corbet@lwn.net>, Jessica Yu <jeyu@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>,
+        Jan Kiszka <jan.kiszka@siemens.com>,
+        Will Deacon <will@kernel.org>,
+        "open list:KERNEL VIRTUAL MACHINE FOR ARM64 (KVM/arm64)" 
+        <kvmarm@lists.cs.columbia.edu>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Joerg Roedel <joro@8bytes.org>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Jim Mattson <jmattson@google.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        David Hildenbrand <david@redhat.com>,
+        Wanpeng Li <wanpengli@tencent.com>,
+        Janosch Frank <frankja@linux.ibm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        "open list:S390" <linux-s390@vger.kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Kieran Bingham <kbingham@kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "moderated list:KERNEL VIRTUAL MACHINE FOR ARM64 (KVM/arm64)" 
+        <linux-arm-kernel@lists.infradead.org>,
+        James Morse <james.morse@arm.com>
+Date:   Tue, 06 Apr 2021 14:59:14 +0300
+In-Reply-To: <cb7f918c-932f-d558-76ec-801ed8ed1f62@redhat.com>
+References: <20210401135451.1004564-1-mlevitsk@redhat.com>
+         <cb7f918c-932f-d558-76ec-801ed8ed1f62@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Gioh Kim <gi-oh.kim@cloud.ionos.com>
+On Fri, 2021-04-02 at 19:38 +0200, Paolo Bonzini wrote:
+> On 01/04/21 15:54, Maxim Levitsky wrote:
+> > Hi!
+> > 
+> > I would like to publish two debug features which were needed for other stuff
+> > I work on.
+> > 
+> > One is the reworked lx-symbols script which now actually works on at least
+> > gdb 9.1 (gdb 9.2 was reported to fail to load the debug symbols from the kernel
+> > for some reason, not related to this patch) and upstream qemu.
+> 
+> Queued patches 2-5 for now.  6 is okay but it needs a selftest. (e.g. 
+> using KVM_VCPU_SET_EVENTS) and the correct name for the constant.
 
-It describes how to use the fault-injection of RTRS.
+Thanks!
+I will do this very soon.
 
-Signed-off-by: Gioh Kim <gi-oh.kim@cloud.ionos.com>
----
- .../fault-injection/rtrs-fault-injection.rst  | 83 +++++++++++++++++++
- 1 file changed, 83 insertions(+)
- create mode 100644 Documentation/fault-injection/rtrs-fault-injection.rst
+Best regards,
+	Maxim Levitsky
+> 
+> Paolo
+> 
+> > The other feature is the ability to trap all guest exceptions (on SVM for now)
+> > and see them in kvmtrace prior to potential merge to double/triple fault.
+> > 
+> > This can be very useful and I already had to manually patch KVM a few
+> > times for this.
+> > I will, once time permits, implement this feature on Intel as well.
+> > 
+> > V2:
+> > 
+> >   * Some more refactoring and workarounds for lx-symbols script
+> > 
+> >   * added KVM_GUESTDBG_BLOCKEVENTS flag to enable 'block interrupts on
+> >     single step' together with KVM_CAP_SET_GUEST_DEBUG2 capability
+> >     to indicate which guest debug flags are supported.
+> > 
+> >     This is a replacement for unconditional block of interrupts on single
+> >     step that was done in previous version of this patch set.
+> >     Patches to qemu to use that feature will be sent soon.
+> > 
+> >   * Reworked the the 'intercept all exceptions for debug' feature according
+> >     to the review feedback:
+> > 
+> >     - renamed the parameter that enables the feature and
+> >       moved it to common kvm module.
+> >       (only SVM part is currently implemented though)
+> > 
+> >     - disable the feature for SEV guests as was suggested during the review
+> >     - made the vmexit table const again, as was suggested in the review as well.
+> > 
+> > Best regards,
+> > 	Maxim Levitsky
+> > 
+> > Maxim Levitsky (9):
+> >    scripts/gdb: rework lx-symbols gdb script
+> >    KVM: introduce KVM_CAP_SET_GUEST_DEBUG2
+> >    KVM: x86: implement KVM_CAP_SET_GUEST_DEBUG2
+> >    KVM: aarch64: implement KVM_CAP_SET_GUEST_DEBUG2
+> >    KVM: s390x: implement KVM_CAP_SET_GUEST_DEBUG2
+> >    KVM: x86: implement KVM_GUESTDBG_BLOCKEVENTS
+> >    KVM: SVM: split svm_handle_invalid_exit
+> >    KVM: x86: add force_intercept_exceptions_mask
+> >    KVM: SVM: implement force_intercept_exceptions_mask
+> > 
+> >   Documentation/virt/kvm/api.rst    |   4 +
+> >   arch/arm64/include/asm/kvm_host.h |   4 +
+> >   arch/arm64/kvm/arm.c              |   2 +
+> >   arch/arm64/kvm/guest.c            |   5 -
+> >   arch/s390/include/asm/kvm_host.h  |   4 +
+> >   arch/s390/kvm/kvm-s390.c          |   3 +
+> >   arch/x86/include/asm/kvm_host.h   |  12 ++
+> >   arch/x86/include/uapi/asm/kvm.h   |   1 +
+> >   arch/x86/kvm/svm/svm.c            |  87 +++++++++++--
+> >   arch/x86/kvm/svm/svm.h            |   6 +-
+> >   arch/x86/kvm/x86.c                |  14 ++-
+> >   arch/x86/kvm/x86.h                |   2 +
+> >   include/uapi/linux/kvm.h          |   1 +
+> >   kernel/module.c                   |   8 +-
+> >   scripts/gdb/linux/symbols.py      | 203 ++++++++++++++++++++----------
+> >   15 files changed, 272 insertions(+), 84 deletions(-)
+> > 
 
-diff --git a/Documentation/fault-injection/rtrs-fault-injection.rst b/Documentation/fault-injection/rtrs-fault-injection.rst
-new file mode 100644
-index 000000000000..463869877a85
---- /dev/null
-+++ b/Documentation/fault-injection/rtrs-fault-injection.rst
-@@ -0,0 +1,83 @@
-+RTRS (RDMA Transport) Fault Injection
-+=====================================
-+This document introduces how to enable and use the error injection of RTRS
-+via debugfs in the /sys/kernel/debug directory. When enabled, users can
-+enable specific error injection point and change the default status code
-+via the debugfs.
-+
-+Following examples show how to inject an error into the RTRS.
-+
-+First, enable CONFIG_FAULT_INJECTION_DEBUG_FS kernel config,
-+recompile the kernel. After booting up the kernel, map a target device.
-+
-+After mapping, /sys/kernel/debug/<session-name> directory is created
-+on both of the client and the server.
-+
-+Example 1: Inject an error into request processing of rtrs-client
-+-----------------------------------------------------------------
-+
-+Generate an error on one session of rtrs-client::
-+
-+  echo 100 > /sys/kernel/debug/ip\:192.168.123.144@ip\:192.168.123.190/fault_inject/probability
-+  echo 1 > /sys/kernel/debug/ip\:192.168.123.144@ip\:192.168.123.190/fault_inject/times
-+  echo 1 > /sys/kernel/debug/ip\:192.168.123.144@ip\:192.168.123.190/fault_inject/fail-request
-+  dd if=/dev/rnbd0 of=./dd bs=1k count=10
-+
-+Expected Result::
-+
-+  dd succeeds but generates an IO error
-+
-+Message from dmesg::
-+
-+  FAULT_INJECTION: forcing a failure.
-+  name fault_inject, interval 1, probability 100, space 0, times 1
-+  CPU: 0 PID: 799 Comm: dd Tainted: G           O      5.4.77-pserver+ #169
-+  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.13.0-1ubuntu1.1 04/01/2014
-+  Call Trace:
-+    dump_stack+0x97/0xe0
-+    should_fail.cold+0x5/0x11
-+    rtrs_clt_should_fail_request+0x2f/0x50 [rtrs_client]
-+    rtrs_clt_request+0x223/0x540 [rtrs_client]
-+    rnbd_queue_rq+0x347/0x800 [rnbd_client]
-+    __blk_mq_try_issue_directly+0x268/0x380
-+    blk_mq_request_issue_directly+0x9a/0xe0
-+    blk_mq_try_issue_list_directly+0xa3/0x170
-+    blk_mq_sched_insert_requests+0x1de/0x340
-+    blk_mq_flush_plug_list+0x488/0x620
-+    blk_flush_plug_list+0x20f/0x250
-+    blk_finish_plug+0x3c/0x54
-+    read_pages+0x104/0x2b0
-+    __do_page_cache_readahead+0x28b/0x2b0
-+    ondemand_readahead+0x2cc/0x610
-+    generic_file_read_iter+0xde0/0x11f0
-+    new_sync_read+0x246/0x360
-+    vfs_read+0xc1/0x1b0
-+    ksys_read+0xc3/0x160
-+    do_syscall_64+0x68/0x260
-+    entry_SYSCALL_64_after_hwframe+0x49/0xbe
-+  RIP: 0033:0x7f7ff4296461
-+  Code: fe ff ff 50 48 8d 3d fe d0 09 00 e8 e9 03 02 00 66 0f 1f 84 00 00 00 00 00 48 8d 05 99 62 0d 00 8b 00 85 c0 75 13 31 c0 0f 05 <48> 3d 00 f0 ff ff 77 57 c3 66 0f 1f 44 00 00 41 54 49 89 d4 55 48
-+  RSP: 002b:00007fffdceca5b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-+  RAX: ffffffffffffffda RBX: 000055c5eab6e3e0 RCX: 00007f7ff4296461
-+  RDX: 0000000000000400 RSI: 000055c5ead27000 RDI: 0000000000000000
-+  RBP: 0000000000000400 R08: 0000000000000003 R09: 00007f7ff4368260
-+  R10: ffffffffffffff3b R11: 0000000000000246 R12: 000055c5ead27000
-+  R13: 0000000000000000 R14: 0000000000000000 R15: 000055c5ead27000
-+
-+Example 2: rtrs-server does not send ACK to the heart-beat of rtrs-client
-+-------------------------------------------------------------------------
-+
-+::
-+
-+  echo 100 > /sys/kernel/debug/ip\:192.168.123.190@ip\:192.168.123.144/fault_inject/probability
-+  echo 5 > /sys/kernel/debug/ip\:192.168.123.190@ip\:192.168.123.144/fault_inject/times
-+  echo 1 > /sys/kernel/debug/ip\:192.168.123.190@ip\:192.168.123.144/fault_inject/fail-hb-ack
-+
-+Expected Result::
-+
-+  If rtrs-server does not send ACK more than 5 times, rtrs-client tries reconnection.
-+
-+Check how many times rtrs-client did reconnection::
-+
-+  cat /sys/devices/virtual/rtrs-client/bla/paths/ip\:192.168.122.142@ip\:192.168.122.130/stats/reconnects
-+  1 0
--- 
-2.25.1
 
