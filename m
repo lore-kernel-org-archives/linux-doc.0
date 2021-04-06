@@ -2,77 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60D20C433B4
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 14:58:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 565BDC43461
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:05:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 25A09610E8
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 14:58:29 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 256B4613C6
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:05:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240450AbhDFO6f (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 10:58:35 -0400
-Received: from mga02.intel.com ([134.134.136.20]:39841 "EHLO mga02.intel.com"
+        id S1345414AbhDFPFU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 11:05:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52990 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233155AbhDFO6f (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Apr 2021 10:58:35 -0400
-IronPort-SDR: DVbJorUWv6hFl/uJAqjtTuRQKzV9PF8LL2bgZx41Vqry2Dz1/xSu3ZpjRZaBkYPGCXZjP9rNpK
- Smg8sLMithYA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9946"; a="180212868"
-X-IronPort-AV: E=Sophos;i="5.81,309,1610438400"; 
-   d="scan'208";a="180212868"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2021 07:58:17 -0700
-IronPort-SDR: fiFrUVJOYBijNDSYd8YfSnVrVO43Eiwcw7E79dUIh9AmdPS/0mn11FiveoK1e64UsqswJHiCu7
- P4dGbcu4gEtA==
-X-IronPort-AV: E=Sophos;i="5.81,309,1610438400"; 
-   d="scan'208";a="519067118"
-Received: from gna-dev.igk.intel.com (HELO localhost) ([10.102.80.34])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2021 07:58:14 -0700
-References: <20210324183610.4574-1-maciej.kwapulinski@linux.intel.com> <20210324183610.4574-3-maciej.kwapulinski@linux.intel.com> <CAHp75Vdbb2f10MyN_xwZNk8fjB2d2MjP3qCVoSZqbrOrJ_DHNQ@mail.gmail.com>
-User-agent: mu4e 1.4.13; emacs 26.3
-From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Savo Novakovic <savox.novakovic@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: Re: [PATCH v2 02/13] intel_gna: add component of hardware operation
-In-reply-to: <CAHp75Vdbb2f10MyN_xwZNk8fjB2d2MjP3qCVoSZqbrOrJ_DHNQ@mail.gmail.com>
-Date:   Tue, 06 Apr 2021 16:58:12 +0200
-Message-ID: <85wntfo3y3.fsf@linux.intel.com>
+        id S1345405AbhDFPFU (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Apr 2021 11:05:20 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5DF58613C4;
+        Tue,  6 Apr 2021 15:05:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617721512;
+        bh=7iQanJzKQUiAwokRah7xkgA0KA/RfUKHf9XCaEnQ3I0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=tLpDgW3GH0HOTPKgFGtybRIQ7aUXXnmj7Xu80t4Jc5y/NQmmYJZ8Xyv2fsrhwV3Pp
+         b2kJ+CmBVC8nkJxTbr/NI/vC43JrkkF//kP2EtTEKkmkWcFXpDCyDzr8Gl4TZ9iT2f
+         i+jOzBf1dOcCZtvlBDgsEiQ4UVQ1m7EX1EB+ZuQevrVUwt3wxd43WN3U1aisS3x0Rs
+         d0s0Y5ynNalJp/pw6IYnkSXuiy2g2YiFOPq5eZaPigKRkC7nAlzVDpzg7OrgE72mZM
+         cpJuF5iL5BOzbvU6rR2xL3gZUVGDegLsuboXL5N53R6GOi495gp5LMJzhuWaebz0nc
+         D5hC+6MzwkFDw==
+Received: by mail-ed1-f42.google.com with SMTP id z1so16986935edb.8;
+        Tue, 06 Apr 2021 08:05:12 -0700 (PDT)
+X-Gm-Message-State: AOAM530ZmAy1u3zFyeo3vSJvuJFGCON6t0hAI/ZaHk7bkAa3o1cuYZKA
+        WFHmt9OPApW0Vy118usVR5VaxwBnf3Rlo7XaKQ==
+X-Google-Smtp-Source: ABdhPJy1oGbKaD5Eu/UpP1JvI7d/oPzMxONRy4B7sTEgebFMaVwAv+8uZ1k33axIYdoWmdnhcD93mzJGHFqyYUcVDDU=
+X-Received: by 2002:a05:6402:5252:: with SMTP id t18mr39201278edd.258.1617721511023;
+ Tue, 06 Apr 2021 08:05:11 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <cover.1617279355.git.mchehab+huawei@kernel.org> <7cfddf303f1508d26f90d87546d3812faebfc5ba.1617279356.git.mchehab+huawei@kernel.org>
+In-Reply-To: <7cfddf303f1508d26f90d87546d3812faebfc5ba.1617279356.git.mchehab+huawei@kernel.org>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Tue, 6 Apr 2021 10:04:57 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+3kqzQi+7emMWkuhyh2aj8qLy6nLS--J2P57Bw_jOCvw@mail.gmail.com>
+Message-ID: <CAL_Jsq+3kqzQi+7emMWkuhyh2aj8qLy6nLS--J2P57Bw_jOCvw@mail.gmail.com>
+Subject: Re: [PATCH 29/32] docs: dt: update writing-schema.rst references
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Andy Whitcroft <apw@canonical.com>,
+        Dwaipayan Ray <dwaipayanray1@gmail.com>,
+        Joe Perches <joe@perches.com>,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-Andy Shevchenko <andy.shevchenko@gmail.com> writes:
-
-> On Wed, Mar 24, 2021 at 8:38 PM Maciej Kwapulinski
-> <maciej.kwapulinski@linux.intel.com> wrote:
->> +#define gna_reg_write(addr, offset, value)     writel((value), (addr) + (offset))
+On Thu, Apr 1, 2021 at 7:17 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
 >
-> No point And make them functions, not macros.
+> Changeset b83db5b84900 ("docs: dt: Group DT docs into relevant sub-sections")
+> renamed: Documentation/devicetree/writing-schema.rst
+> to: Documentation/devicetree/bindings/writing-schema.rst.
 >
->> +
->> +#endif // __GNA_HW_H__
->> --
->> 2.28.0
->>
+> Update the cross-references accordingly.
+>
+> Fixes: b83db5b84900 ("docs: dt: Group DT docs into relevant sub-sections")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/submitting-patches.rst | 2 +-
+>  scripts/checkpatch.pl                                    | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/submitting-patches.rst b/Documentation/devicetree/bindings/submitting-patches.rst
+> index ee4feb53f8d0..104fa8fb2c17 100644
+> --- a/Documentation/devicetree/bindings/submitting-patches.rst
+> +++ b/Documentation/devicetree/bindings/submitting-patches.rst
+> @@ -25,7 +25,7 @@ I. For patch submitters
+>
+>         make dt_binding_check
+>
+> -     See Documentation/devicetree/writing-schema.rst for more details about
+> +     See Documentation/devicetree/bindings/writing-schema.rst for more details about
 
-Andy, Thank You for all Your comments on these two patches.
+We should make this a rSt link instead.
 
-I'm starting to work with them. Just as with v1 patch series, I'll
-get back to You in case of any questions
-Regards,
-Maciej
+>       schema and tools setup.
+>
+>    3) DT binding files should be dual licensed. The preferred license tag is
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 4dbda85fd7e5..3870c8a01987 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -3245,7 +3245,7 @@ sub process {
+>                     ($line =~ /^new file mode\s*\d+\s*$/) &&
+>                     ($realfile =~ m@^Documentation/devicetree/bindings/.*\.txt$@)) {
+>                         WARN("DT_SCHEMA_BINDING_PATCH",
+> -                            "DT bindings should be in DT schema format. See: Documentation/devicetree/writing-schema.rst\n");
+> +                            "DT bindings should be in DT schema format. See: Documentation/devicetree/bindings/writing-schema.rst\n");
+>                 }
+>
+>  # Check for wrappage within a valid hunk of the file
+> --
+> 2.30.2
+>
