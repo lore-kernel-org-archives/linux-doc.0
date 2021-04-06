@@ -2,110 +2,291 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C7F5BC433ED
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 12:32:07 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A29ABC433B4
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 12:48:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8E636613CA
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 12:32:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 66775613C8
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 12:48:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344012AbhDFMcO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 08:32:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45720 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243177AbhDFMcN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 08:32:13 -0400
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CB05C06174A
-        for <linux-doc@vger.kernel.org>; Tue,  6 Apr 2021 05:32:06 -0700 (PDT)
-Received: by mail-oi1-x22b.google.com with SMTP id a8so14872423oic.11
-        for <linux-doc@vger.kernel.org>; Tue, 06 Apr 2021 05:32:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=mOGYTloogX7Yy/qlD5Wx++js30ffTWh/96k1TeD3NDI=;
-        b=U8QdFcZYCVqvdu3cWbGjh+mmGTTK3ZgoixxAlHl589sSrlTYc2auaiPUffXsfOW35c
-         LN6PyTSTORbwTxGFi4T9/jlDeIsKKx0Bm+xuv2Hv/JOXNDhbdipCmfLOXJNnk6WLrzJw
-         x1vTnVWekUHZHszzrlZxRtjD+sAr8Md3ieY/o8C5LzoPRqV4uPme+hAZFFAvR8CgI2FD
-         wYQ9cYG7HgxTHJaPKbC82fvylB7++2puvpsMtRgsrCemtLqTJHYIKg0q0z0YLXUhrXCO
-         TlzZGr2v4pm8fn/6WVHe5wthzU9b9USN6M8xpdX+Hd38FQQ9DsQdyLlbZry56w2m7HJe
-         EiQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=mOGYTloogX7Yy/qlD5Wx++js30ffTWh/96k1TeD3NDI=;
-        b=oV6SqJNWJTxt9Qq5FeSy8R9nTFXhL6yrbsoDj7BAhcHRJkl3CRRAczkpz9YpiBkUSK
-         aMqWnKEhc3ClbSH4qMEZDIxlWKS0ZrriNwMTAnK8n07h9OUKxojFgjtUekt+89BGY5qi
-         NjPGg/9FrPxGao8jQopQ+4lrOfCRcR7cNLrHHCxQufs05RgffCZqDnJcsKNwI1rYorpR
-         5G7k/vEHt27y555dv2YyfX4CrYXW2NcX0pvC4tnJNDI23knD6452qciGRHYzTWNzlxNZ
-         zwlkChPguum0oJMUV8NA2vrZsFDiE4QsC9G3neNt4L6EZgZ7PG5ZmwlRh9Eujz6Ug/Pn
-         WBAA==
-X-Gm-Message-State: AOAM533/cGdGw/UJFDcaJiWQC0WAcoFFquP4/MXFTc+gI3Nw+fuJ1oxr
-        icHzvPTG9S3gG4sw+yoyJBr5+fgCMbUJuyocBa+GO3KXEfI=
-X-Google-Smtp-Source: ABdhPJz6mT2L7jR6KUrOaYxO7Qkl+E8gQg+Qb5li+w9c6yMJSGfBW0A5pljJHr6E8MhYZqH9r6tbg89VYzWDhhMEkzA=
-X-Received: by 2002:a54:4507:: with SMTP id l7mr3018654oil.165.1617712325776;
- Tue, 06 Apr 2021 05:32:05 -0700 (PDT)
+        id S243280AbhDFMsq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 08:48:46 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:15923 "EHLO
+        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243186AbhDFMsp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 08:48:45 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FF6jP0c9lzkhq8;
+        Tue,  6 Apr 2021 20:46:49 +0800 (CST)
+Received: from localhost.localdomain (10.67.165.24) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 6 Apr 2021 20:48:28 +0800
+From:   Yicong Yang <yangyicong@hisilicon.com>
+To:     <alexander.shishkin@linux.intel.com>, <helgaas@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>
+CC:     <lorenzo.pieralisi@arm.com>, <gregkh@linuxfoundation.org>,
+        <jonathan.cameron@huawei.com>, <song.bao.hua@hisilicon.com>,
+        <prime.zeng@huawei.com>, <yangyicong@hisilicon.com>,
+        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>
+Subject: [PATCH 2/4] hwtracing: Add tune function support for HiSilicon PCIe Tune and Trace device
+Date:   Tue, 6 Apr 2021 20:45:52 +0800
+Message-ID: <1617713154-35533-3-git-send-email-yangyicong@hisilicon.com>
+X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1617713154-35533-1-git-send-email-yangyicong@hisilicon.com>
+References: <1617713154-35533-1-git-send-email-yangyicong@hisilicon.com>
 MIME-Version: 1.0
-From:   =?UTF-8?Q?St=C3=A9phane_Blondon?= <stephane.blondon@gmail.com>
-Date:   Tue, 6 Apr 2021 14:31:50 +0200
-Message-ID: <CAOy+up7EdTf4ouh5onVy_ZzXFWGBEP+P6CPqY-=E+1UFwCeq8w@mail.gmail.com>
-Subject: Minor spellcheck in spi documentation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org
-Content-Type: multipart/mixed; boundary="00000000000087217705bf4d0092"
+Content-Type: text/plain
+X-Originating-IP: [10.67.165.24]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
---00000000000087217705bf4d0092
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Add tune function for the HiSilicon Tune and Trace device. The interface
+of tune is also exposed through debugfs.
 
-Hello,
+Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+---
+ drivers/hwtracing/hisilicon/hisi_ptt.c | 187 +++++++++++++++++++++++++++++++++
+ 1 file changed, 187 insertions(+)
 
-I attached a patch fixing the wrong spelling ('ciruit' to 'circuit').
+diff --git a/drivers/hwtracing/hisilicon/hisi_ptt.c b/drivers/hwtracing/hisilicon/hisi_ptt.c
+index a1feece..2e3631b 100644
+--- a/drivers/hwtracing/hisilicon/hisi_ptt.c
++++ b/drivers/hwtracing/hisilicon/hisi_ptt.c
+@@ -72,6 +72,7 @@ struct hisi_ptt_debugfs_file_desc {
+ 	struct hisi_ptt *hisi_ptt;
+ 	const char *name;
+ 	const struct file_operations *fops;
++	struct hisi_ptt_tune_event_desc *private;
+ };
+ 
+ #define PTT_FILE_INIT(__name, __fops)	\
+@@ -85,6 +86,15 @@ struct hisi_ptt_trace_event_desc {
+ #define PTT_TRACE_EVENT_INIT(__name, __event_code) \
+ 	{ .name = __name, .event_code = __event_code }
+ 
++struct hisi_ptt_tune_event_desc {
++	const char *name;
++	u32 event_code;
++	int (*set)(struct hisi_ptt *hisi_ptt, void *data);
++	int (*get)(struct hisi_ptt *hisi_ptt, void *data);
++};
++#define PTT_TUNE_EVENT_INIT(__name, __event_code, __set, __get)	\
++	{ .name = __name, .event_code = __event_code, .set = __set, .get = __get }
++
+ enum hisi_ptt_trace_rxtx {
+ 	HISI_PTT_TRACE_RX = 0,
+ 	HISI_PTT_TRACE_TX,
+@@ -217,6 +227,8 @@ struct hisi_ptt {
+ 		bool is_port;
+ 		u16 val;
+ 	} cur_filter;
++
++	u32 tune_event;
+ };
+ 
+ static int hisi_ptt_write_to_buffer(void *buf, size_t len, loff_t *pos,
+@@ -234,6 +246,131 @@ static int hisi_ptt_write_to_buffer(void *buf, size_t len, loff_t *pos,
+ 	return 0;
+ }
+ 
++static int hisi_ptt_wait_tuning_finish(struct hisi_ptt *hisi_ptt)
++{
++	u32 val;
++
++	return readl_poll_timeout(hisi_ptt->iobase + HISI_PTT_TUNING_INT_STAT,
++				  val, !(val & HISI_PTT_TUNING_INT_STAT_MASK),
++				  HISI_PTT_WAIT_POLL_INTERVAL_US,
++				  HISI_PTT_WAIT_TIMEOUT_US);
++}
++
++static int hisi_ptt_tune_data_get(struct hisi_ptt *hisi_ptt, void *data)
++{
++	u32 *val = data, reg;
++
++	reg = readl(hisi_ptt->iobase + HISI_PTT_TUNING_CTRL);
++	reg &= ~(HISI_PTT_TUNING_CTRL_CODE | HISI_PTT_TUNING_CTRL_SUB);
++	reg |= FIELD_PREP(HISI_PTT_TUNING_CTRL_CODE | HISI_PTT_TUNING_CTRL_SUB,
++			  hisi_ptt->tune_event);
++	writel(reg, hisi_ptt->iobase + HISI_PTT_TUNING_CTRL);
++	/* Write all 1 to indicates it's the read process */
++	writel(HISI_PTT_TUNING_DATA_VAL_MASK,
++	       hisi_ptt->iobase + HISI_PTT_TUNING_DATA);
++
++	if (hisi_ptt_wait_tuning_finish(hisi_ptt)) {
++		pci_err(hisi_ptt->pdev, "failed to read tune data, device timeout.\n");
++		return -ETIMEDOUT;
++	}
++
++	*val = readl(hisi_ptt->iobase + HISI_PTT_TUNING_DATA);
++	*val &= HISI_PTT_TUNING_DATA_VAL_MASK;
++
++	return 0;
++}
++
++static int hisi_ptt_tune_data_set(struct hisi_ptt *hisi_ptt, void *data)
++{
++	u32 *val = data, reg;
++
++	reg = readl(hisi_ptt->iobase + HISI_PTT_TUNING_CTRL);
++	reg &= ~(HISI_PTT_TUNING_CTRL_CODE | HISI_PTT_TUNING_CTRL_SUB);
++	reg |= FIELD_PREP(HISI_PTT_TUNING_CTRL_CODE | HISI_PTT_TUNING_CTRL_SUB,
++			  hisi_ptt->tune_event);
++	writel(reg, hisi_ptt->iobase + HISI_PTT_TUNING_CTRL);
++	*val &= HISI_PTT_TUNING_DATA_VAL_MASK;
++	writel(*val, hisi_ptt->iobase + HISI_PTT_TUNING_DATA);
++
++	if (hisi_ptt_wait_tuning_finish(hisi_ptt)) {
++		pci_err(hisi_ptt->pdev, "failed to write tune data, device timeout.\n");
++		return -ETIMEDOUT;
++	}
++
++	return 0;
++}
++
++static ssize_t hisi_ptt_tune_common_read(struct file *filp, char __user *buf,
++					 size_t count, loff_t *pos)
++{
++	struct hisi_ptt_debugfs_file_desc *desc = filp->private_data;
++	struct hisi_ptt *hisi_ptt = desc->hisi_ptt;
++	struct hisi_ptt_tune_event_desc *e_desc = desc->private;
++	char tbuf[HISI_PTT_CTRL_STR_LEN];
++	int len, ret;
++	u32 val;
++
++	if (!mutex_trylock(&hisi_ptt->mutex))
++		return -EBUSY;
++
++	hisi_ptt->tune_event = e_desc->event_code;
++	ret = e_desc->get(hisi_ptt, &val);
++	mutex_unlock(&hisi_ptt->mutex);
++	if (ret)
++		return ret;
++
++	len = snprintf(tbuf, HISI_PTT_CTRL_STR_LEN, "%d\n", val);
++
++	return simple_read_from_buffer(buf, count, pos, tbuf, len);
++}
++
++static ssize_t hisi_ptt_tune_common_write(struct file *filp,
++					  const char __user *buf,
++					  size_t count, loff_t *pos)
++{
++	struct hisi_ptt_debugfs_file_desc *desc = filp->private_data;
++	struct hisi_ptt *hisi_ptt = desc->hisi_ptt;
++	struct hisi_ptt_tune_event_desc *e_desc = desc->private;
++	char tbuf[HISI_PTT_CTRL_STR_LEN];
++	int ret;
++	u16 val;
++
++	if (hisi_ptt_write_to_buffer(tbuf, HISI_PTT_CTRL_STR_LEN - 1,
++				     pos, buf, count))
++		return -EINVAL;
++
++	if (kstrtou16(tbuf, 0, &val))
++		return -EINVAL;
++
++	if (!mutex_trylock(&hisi_ptt->mutex))
++		return -EBUSY;
++
++	hisi_ptt->tune_event = e_desc->event_code;
++	ret = e_desc->set(hisi_ptt, &val);
++
++	mutex_unlock(&hisi_ptt->mutex);
++	return ret ? ret : count;
++}
++
++static const struct file_operations tune_common_fops = {
++	.owner		= THIS_MODULE,
++	.open		= simple_open,
++	.read		= hisi_ptt_tune_common_read,
++	.write		= hisi_ptt_tune_common_write,
++	.llseek		= no_llseek,
++};
++
++#define PTT_SIMPLE_TUNE_EVENTS(__name, __event_code)	\
++	PTT_TUNE_EVENT_INIT(__name, __event_code, hisi_ptt_tune_data_set, hisi_ptt_tune_data_get)
++
++static struct hisi_ptt_tune_event_desc tune_events[] = {
++	PTT_SIMPLE_TUNE_EVENTS("qos_tx_cpl",			(0x4 | (3 << 16))),
++	PTT_SIMPLE_TUNE_EVENTS("qos_tx_np",			(0x4 | (4 << 16))),
++	PTT_SIMPLE_TUNE_EVENTS("qos_tx_p",			(0x4 | (5 << 16))),
++	PTT_SIMPLE_TUNE_EVENTS("tx_path_rx_req_alloc_buf_level",	(0x5 | (6 << 16))),
++	PTT_SIMPLE_TUNE_EVENTS("tx_path_tx_req_alloc_buf_level",	(0x5 | (7 << 16))),
++};
++
+ static u16 hisi_ptt_get_filter_val(struct pci_dev *pdev)
+ {
+ 	if (pci_pcie_type(pdev) == PCI_EXP_TYPE_ROOT_PORT)
+@@ -1241,6 +1378,49 @@ static void hisi_ptt_init_ctrls(struct hisi_ptt *hisi_ptt)
+ 	hisi_ptt->trace_ctrl.tr_event = HISI_PTT_TRACE_DEFAULT_EVENT.event_code;
+ }
+ 
++static int hisi_ptt_create_tune_entries(struct hisi_ptt *hisi_ptt)
++{
++	struct hisi_ptt_debugfs_file_desc *tune_files;
++	struct dentry *dir;
++	int i, ret = 0;
++
++	dir = debugfs_create_dir("tune", hisi_ptt->debugfs_dir);
++	if (IS_ERR(dir))
++		return PTR_ERR(dir);
++
++	tune_files = devm_kcalloc(&hisi_ptt->pdev->dev, ARRAY_SIZE(tune_events),
++				  sizeof(struct hisi_ptt_debugfs_file_desc),
++				  GFP_KERNEL);
++	if (IS_ERR(tune_files)) {
++		ret = PTR_ERR(tune_files);
++		goto err;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(tune_events); ++i) {
++		struct dentry *file;
++
++		tune_files[i].hisi_ptt = hisi_ptt;
++
++		/* We use tune event string as control file name. */
++		tune_files[i].name = tune_events[i].name;
++		tune_files[i].fops = &tune_common_fops;
++		tune_files[i].private = &tune_events[i];
++		file = debugfs_create_file(tune_files[i].name, 0600,
++					   dir, &tune_files[i],
++					   &tune_common_fops);
++		if (IS_ERR(file)) {
++			ret = PTR_ERR(file);
++			goto err;
++		}
++	}
++
++	return 0;
++
++err:
++	debugfs_remove_recursive(dir);
++	return ret;
++}
++
+ static int hisi_ptt_create_trace_entries(struct hisi_ptt *hisi_ptt)
+ {
+ 	struct hisi_ptt_debugfs_file_desc *trace_files;
+@@ -1294,6 +1474,13 @@ static int hisi_ptt_create_debugfs_entries(struct hisi_ptt *hisi_ptt)
+ 		return ret;
+ 	}
+ 
++	ret = hisi_ptt_create_tune_entries(hisi_ptt);
++	if (ret) {
++		pci_err(hisi_ptt->pdev, "failed to create tune entries.\n");
++		debugfs_remove_recursive(hisi_ptt->debugfs_dir);
++		return ret;
++	}
++
+ 	return 0;
+ }
+ 
+-- 
+2.8.1
 
-I temporarily subscribed to the linux-doc mailing list if replies are neede=
-d.
-
-Regards,
---=20
-St=C3=A9phane
-
---00000000000087217705bf4d0092
-Content-Type: text/x-diff; charset="UTF-8"; name="spellcheck_spi_documentation.patch"
-Content-Disposition: attachment; 
-	filename="spellcheck_spi_documentation.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_kn601wuj0>
-X-Attachment-Id: f_kn601wuj0
-
-RnJvbSAyMzNlMDBjMzQ3OTcwOWNjNTI0NDhiNTQxZDA3M2E1ZTRjODU2OGFlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiA9P1VURi04P3E/U3Q9QzM9QTlwaGFuZT0yMEJsb25kb24/PSA8
-c3RlcGhhbmUuYmxvbmRvbkBnbWFpbC5jb20+CkRhdGU6IFR1ZSwgNiBBcHIgMjAyMSAxNDoxMjoy
-MiArMDIwMApTdWJqZWN0OiBbUEFUQ0hdIEZpeDogc3BlbGxjaGVjayAnY2lydWl0JyB0byAnY2ly
-Y3VpdCcKTUlNRS1WZXJzaW9uOiAxLjAKQ29udGVudC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0
-PVVURi04CkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDhiaXQKClNpZ25lZC1vZmYtYnk6IFN0
-w6lwaGFuZSBCbG9uZG9uIDxzdGVwaGFuZS5ibG9uZG9uQGdtYWlsLmNvbT4KLS0tCiBEb2N1bWVu
-dGF0aW9uL3NwaS9idXR0ZXJmbHkucnN0IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9zcGkvYnV0
-dGVyZmx5LnJzdCBiL0RvY3VtZW50YXRpb24vc3BpL2J1dHRlcmZseS5yc3QKaW5kZXggZTYxNGE1
-ODk1NDdjLi41NjA4OGZiMDkwYzcgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vc3BpL2J1dHRl
-cmZseS5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi9zcGkvYnV0dGVyZmx5LnJzdApAQCAtMTEsNyAr
-MTEsNyBAQCBkZXZlbG9wIGZpcm13YXJlIGZvciB0aGlzLCBhbmQgZmxhc2ggaXQgdXNpbmcgdGhp
-cyBhZGFwdGVyIGNhYmxlLgogCiBZb3UgY2FuIG1ha2UgdGhpcyBhZGFwdGVyIGZyb20gYW4gb2xk
-IHByaW50ZXIgY2FibGUgYW5kIHNvbGRlciB0aGluZ3MKIGRpcmVjdGx5IHRvIHRoZSBCdXR0ZXJm
-bHkuICBPciAoaWYgeW91IGhhdmUgdGhlIHBhcnRzIGFuZCBza2lsbHMpIHlvdQotY2FuIGNvbWUg
-dXAgd2l0aCBzb21ldGhpbmcgZmFuY2llciwgcHJvdmlkaW5nIGNpcnVpdCBwcm90ZWN0aW9uIHRv
-IHRoZQorY2FuIGNvbWUgdXAgd2l0aCBzb21ldGhpbmcgZmFuY2llciwgcHJvdmlkaW5nIGNpcmN1
-aXQgcHJvdGVjdGlvbiB0byB0aGUKIEJ1dHRlcmZseSBhbmQgdGhlIHByaW50ZXIgcG9ydCwgb3Ig
-d2l0aCBhIGJldHRlciBwb3dlciBzdXBwbHkgdGhhbiB0d28KIHNpZ25hbCBwaW5zIGZyb20gdGhl
-IHByaW50ZXIgcG9ydC4gIE9yIGZvciB0aGF0IG1hdHRlciwgeW91IGNhbiB1c2UKIHNpbWlsYXIg
-Y2FibGVzIHRvIHRhbGsgdG8gbWFueSBBVlIgYm9hcmRzLCBldmVuIGEgYnJlYWRib2FyZC4KLS0g
-CjIuMjAuMQoK
---00000000000087217705bf4d0092--
