@@ -2,130 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21AB6C433ED
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 19:21:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94444C43460
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 19:39:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E20FE613A0
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 19:21:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B80F613D0
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 19:39:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240979AbhDFTWF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 15:22:05 -0400
-Received: from marcansoft.com ([212.63.210.85]:49944 "EHLO mail.marcansoft.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229488AbhDFTWF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Apr 2021 15:22:05 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        id S244928AbhDFTjL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 15:39:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28214 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S235313AbhDFTi6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 15:38:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617737928;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=vI8YDIonPiHpIWfhl9xXg/leetNX2/MBMNKFn6NXfmo=;
+        b=LxaYdL+XRSr7m/iiggLVly/izGgVQxhyr+RS7CPrWEMZb1Nhc2VY/wDjCzCLtDnrsuM0bZ
+        gVc1RgaL06vRdRuHrHzVKFeLHUUJSpqK7ald4k5EsThv1gSs0g0yusZpptb92Trnn75HHd
+        /4hm4oM5Y9N6uZstRpeFCTIaDQqqVtE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-110-F--7sEJ2MbaF1knlcyyofg-1; Tue, 06 Apr 2021 15:38:21 -0400
+X-MC-Unique: F--7sEJ2MbaF1knlcyyofg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: marcan@marcan.st)
-        by mail.marcansoft.com (Postfix) with ESMTPSA id 30DF941E64;
-        Tue,  6 Apr 2021 19:21:48 +0000 (UTC)
-To:     Marc Zyngier <maz@kernel.org>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Rob Herring <robh@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01C918189C8;
+        Tue,  6 Apr 2021 19:38:18 +0000 (UTC)
+Received: from omen (ovpn-112-85.phx2.redhat.com [10.3.112.85])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 4390A1750D;
+        Tue,  6 Apr 2021 19:38:16 +0000 (UTC)
+Date:   Tue, 6 Apr 2021 13:38:15 -0600
+From:   Alex Williamson <alex.williamson@redhat.com>
+To:     Jason Gunthorpe <jgg@nvidia.com>
+Cc:     Cornelia Huck <cohuck@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20210402090542.131194-1-marcan@marcan.st>
- <20210402090542.131194-16-marcan@marcan.st> <87ft03p9cd.wl-maz@kernel.org>
-From:   Hector Martin <marcan@marcan.st>
-Subject: Re: [PATCH v4 15/18] irqchip/apple-aic: Add support for the Apple
- Interrupt Controller
-Message-ID: <5a4a0ab4-5a4e-1f1c-f6c6-97439b95e7ee@marcan.st>
-Date:   Wed, 7 Apr 2021 04:21:46 +0900
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        Eric Auger <eric.auger@redhat.com>, kvm@vger.kernel.org,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org, "Raj, Ashok" <ashok.raj@intel.com>,
+        Bharat Bhushan <Bharat.Bhushan@nxp.com>,
+        Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christoph Hellwig <hch@lst.de>,
+        Jike Song <jike.song@intel.com>,
+        Kevin Tian <kevin.tian@intel.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Tarun Gupta <targupta@nvidia.com>,
+        Liu Yi L <yi.l.liu@intel.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>
+Subject: Re: [PATCH v3 00/14] Embed struct vfio_device in all sub-structures
+Message-ID: <20210406133815.40cc1503@omen>
+In-Reply-To: <0-v3-225de1400dfc+4e074-vfio1_jgg@nvidia.com>
+References: <0-v3-225de1400dfc+4e074-vfio1_jgg@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <87ft03p9cd.wl-maz@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: es-ES
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/04/2021 03.16, Marc Zyngier wrote:
-> Hi Hector,
+On Tue, 23 Mar 2021 13:14:52 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 > 
-> On Fri, 02 Apr 2021 10:05:39 +0100,
-> Hector Martin <marcan@marcan.st> wrote:
->> +		/*
->> +		 * In EL1 the non-redirected registers are the guest's,
->> +		 * not EL2's, so remap the hwirqs to match.
->> +		 */
->> +		if (!is_kernel_in_hyp_mode()) {
->> +			switch (fwspec->param[1]) {
->> +			case AIC_TMR_GUEST_PHYS:
->> +				*hwirq = ic->nr_hw + AIC_TMR_HV_PHYS;
->> +				break;
->> +			case AIC_TMR_GUEST_VIRT:
->> +				*hwirq = ic->nr_hw + AIC_TMR_HV_VIRT;
->> +				break;
->> +			case AIC_TMR_HV_PHYS:
->> +			case AIC_TMR_HV_VIRT:
->> +				return -ENOENT;
->> +			default:
->> +				break;
->> +			}
->> +		}
-> 
-> Urgh, this is nasty. You are internally remapping the hwirq from one
-> timer to another in order to avoid accessing the enable register
-> which happens to be an EL2 only register?
+>  Documentation/driver-api/vfio.rst             |  48 ++--
+>  drivers/vfio/fsl-mc/vfio_fsl_mc.c             | 127 +++++----
+>  drivers/vfio/fsl-mc/vfio_fsl_mc_private.h     |   1 +
+>  drivers/vfio/mdev/mdev_private.h              |   5 +-
+>  drivers/vfio/mdev/vfio_mdev.c                 |  53 ++--
+>  drivers/vfio/pci/vfio_pci.c                   | 253 ++++++++++--------
+>  drivers/vfio/pci/vfio_pci_private.h           |   1 +
+>  drivers/vfio/platform/vfio_amba.c             |   8 +-
+>  drivers/vfio/platform/vfio_platform.c         |  20 +-
+>  drivers/vfio/platform/vfio_platform_common.c  |  56 ++--
+>  drivers/vfio/platform/vfio_platform_private.h |   5 +-
+>  drivers/vfio/vfio.c                           | 210 +++++----------
+>  include/linux/vfio.h                          |  37 ++-
+>  13 files changed, 417 insertions(+), 407 deletions(-)
+ 
 
-The remapping is to make the IRQs route properly at all.
+Applied to vfio next branch for v5.13.  Thanks!
 
-There are EL2 and EL0 timers, and on GIC each timer goes to its own IRQ. 
-But here there are no real IRQs, everything's a FIQ. However, thanks to 
-VHE, the EL2 timer shows up as the EL0 timer, and the EL0 timer is 
-accessed via EL02 registers, when in EL2. So in EL2/VHE mode, "HV" means 
-EL0 and "guest" means EL02, while in EL1, there is no HV and "guest" 
-means EL0. And since we figure out which IRQ fired by reading timer 
-registers, this is what matters. So I map the guest IRQs to the HV 
-hwirqs in EL1 mode, which makes this all work out. Then the timer code 
-goes and ends up undoing all this logic again, so we map to separate 
-fake "IRQs" only to end up right back at using the same timer registers 
-anuway :-)
+Alex
 
-Really, the ugliness here is that the constant meaning is overloaded. In 
-fwspec context they mean what they say on the tin, while in hwirq 
-context "HV" means EL0 and "guest" means EL02 (other FIQs would be 
-passed through unchanged). Perhaps some additional defines might help 
-clarify this? Say, at the top of this file (not in the binding),
-
-/*
-  * Pass-through mapping from real timers to the correct registers to
-  * access them in EL2/VHE mode. When running in EL1, this gets
-  * overridden to access the guest timer using EL0 registers.
-  */
-#define AIC_TMR_EL0_PHYS AIC_TMR_HV_PHYS
-#define AIC_TMR_EL0_VIRT AIC_TMR_HV_VIRT
-#define AIC_TMR_EL02_PHYS AIC_TMR_GUEST_PHYS
-#define AIC_TMR_EL02_VIRT AIC_TMR_GUEST_VIRT
-
-Then the irqchip/FIQ dispatch side can use the EL* constants, the 
-default pass-through mapping is appropriate for VHE/EL2 mode, and 
-translation can adjust it for EL1 mode.
-
--- 
-Hector Martin (marcan@marcan.st)
-Public Key: https://mrcn.st/pub
