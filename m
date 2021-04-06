@@ -2,117 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0E85C43462
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 11:44:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B40A6C43460
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 11:51:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BBA58613B7
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 11:44:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B924613B8
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 11:51:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245734AbhDFLoi (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 07:44:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60454 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S245749AbhDFLoV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Apr 2021 07:44:21 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 54559613A3;
-        Tue,  6 Apr 2021 11:44:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617709453;
-        bh=2Vm9ityjyZldn07RFATp/5Z6vJvrtF34+UIuw8/w51g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GReFQWQpMbEkyEVsTKHs7ItqEeoFaP16m5Z3rbHGee/xUg8t97DrCK353XkdbGbf9
-         lao7igukf7FQKFGApt0frZlorzz/1m9K6PSQnaNs8KWGe74p49eVqMnMWSMWr/eWb6
-         h0E6V8WCjhzowkzHQKaBkT6y+Zl0z1OLo0UBhroRVCHDhJe0Nw2db833UnCeJjEsF5
-         vFXsftpWcfKnGw/Wg7KJBeV7IdlAJh6JaV2qku9wWyxeJQCnvfMWFJ4nXmMzAkQKYp
-         MBgfG9A4tCMG1nh+ayjA722WXw/iGJ434k7CUQ3wegQio0D9yZSJwuwQyNNFxp3+dF
-         yc6IGZsD1CfUg==
-Date:   Tue, 6 Apr 2021 12:43:57 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Support Opensource <support.opensource@diasemi.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Nicolas Ferre <nicolas.ferre@microchip.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Ludovic Desroches <ludovic.desroches@microchip.com>,
-        Claudiu Beznea <claudiu.beznea@microchip.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Fabrice Gasnier <fabrice.gasnier@st.com>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Jingoo Han <jingoohan1@gmail.com>, linux-pwm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-clk@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH] pwm: Rename pwm_get_state() to better reflect its
- semantic
-Message-ID: <20210406114357.GC6443@sirena.org.uk>
-References: <20210406073036.26857-1-u.kleine-koenig@pengutronix.de>
+        id S1343504AbhDFLvH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 07:51:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36550 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232884AbhDFLvG (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 07:51:06 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8FD40C06174A
+        for <linux-doc@vger.kernel.org>; Tue,  6 Apr 2021 04:50:58 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id r22so3692591edq.9
+        for <linux-doc@vger.kernel.org>; Tue, 06 Apr 2021 04:50:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ionos.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8qEgfGkEH/4geB+vsRguqEiTYghExirAxMsBMTZDkxo=;
+        b=L5EBAuUn6Duc93ViZh2kS/yNB9fVN7CY+w5Gt7cS16OrCR0hyv2YCmr7M5ERRGa93Z
+         VgHaKTck15dl5prehWPTnLz7NEMiMxZ94DpylGaTtYjIJrjm6Utdx12XH5uEDjjLRolF
+         JASfucoAVbX8s+ls/X3AJxSEiA9e1JHzrWfXJnBP9B1fjal3kHR2ATd7xlv97lvIQjbA
+         LGDdi7nL82SJSlOj8rhEsiRqiZHj1TlNN99jsFpPOJ+VuF23Nx9527jD8Ft0GlQm+SUT
+         5VvYmYYgzOOEw1FsP4Q3vpRFZ6PH0/8Lgod7f+IfMPeGdtTJwklCCsZ7DM0A52HMN4Pr
+         R5Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8qEgfGkEH/4geB+vsRguqEiTYghExirAxMsBMTZDkxo=;
+        b=DB99dNmD/kU/im8Bk+uEXsqdd86dPXFPTaOdoIW/x/jd+o/6ylugx25BSkufMTZDL8
+         LTkJgNAw8+tXP1rNndhb/Xee2AMilL+Dhp1JZkOub1j5YFWj0IhmFwkDI5DGF/gFDH+B
+         eLKD4GJkyX7mlbj+q1Ua8bF85Vz6tcKHn+1qIyjmWJ9/1z5ogllxQwE6xYK3wGonbrJj
+         zcfOkKKhCb2mht47fGo8nAEng78Jiu9oGZOI5tICrMi1WWlrIB0mFgg3Pqs1PeapywrL
+         zx804+mzQDOzgP+3EYyiRd2gfK1sF5xdKvrURIE3hvTHpIOYg8bpV1t7QAuP0+/JMXSO
+         uUFg==
+X-Gm-Message-State: AOAM531BWwLMQXCGJLpMgpSeDvRoipnYSXEOxMDbtgdwE2pFU5IUZ1vB
+        IxwX8tJfX2RXnikw7eLoAIwN6g==
+X-Google-Smtp-Source: ABdhPJwEc8Q+BidNwrVcAZ08ycPeZUQXQlxlJ27moaWipmKzJsTe4W4Vf3I2pNmsRAxbrsIYFD/Wuw==
+X-Received: by 2002:aa7:db51:: with SMTP id n17mr38765588edt.259.1617709857301;
+        Tue, 06 Apr 2021 04:50:57 -0700 (PDT)
+Received: from gkim-laptop.fkb.profitbricks.net (ip5f5aeee5.dynamic.kabel-deutschland.de. [95.90.238.229])
+        by smtp.googlemail.com with ESMTPSA id t1sm855964eds.53.2021.04.06.04.50.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Apr 2021 04:50:57 -0700 (PDT)
+From:   Gioh Kim <gi-oh.kim@ionos.com>
+To:     linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     bvanassche@acm.org, leon@kernel.org, dledford@redhat.com,
+        jgg@ziepe.ca, haris.iqbal@ionos.com, jinpu.wang@ionos.com,
+        akinobu.mita@gmail.com, corbet@lwn.net,
+        Gioh Kim <gi-oh.kim@ionos.com>
+Subject: [PATCH 0/4] Enable Fault Injection for RTRS
+Date:   Tue,  6 Apr 2021 13:50:45 +0200
+Message-Id: <20210406115049.196527-1-gi-oh.kim@ionos.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="UFHRwCdBEJvubb2X"
-Content-Disposition: inline
-In-Reply-To: <20210406073036.26857-1-u.kleine-koenig@pengutronix.de>
-X-Cookie: BARBARA STANWYCK makes me nervous!!
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+My colleagues and I would like to apply the fault injection
+of the Linux to test error handling of RTRS module. RTRS module
+consists of client and server modules that are connected via
+Infiniband network. So it is important for the client to receive
+the error of the server and handle it smoothly.
 
---UFHRwCdBEJvubb2X
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When debugfs is enabled, RTRS is able to export interfaces
+to fail RTRS client and server.
+Following fault injection points are enabled:
+- fail a request processing on RTRS client side
+- fail a heart-beat transferation on RTRS server side
 
-On Tue, Apr 06, 2021 at 09:30:36AM +0200, Uwe Kleine-K=F6nig wrote:
-> Given that lowlevel drivers usually cannot implement exactly what a
-> consumer requests with pwm_apply_state() there is some rounding involved.
+This patch set is just a starting point. We will enable various
+faults and test as many error cases as possible.
 
-Acked-by: Mark Brown <broonie@kernel.org>
+Best regards
 
---UFHRwCdBEJvubb2X
-Content-Type: application/pgp-signature; name="signature.asc"
+Gioh Kim (4):
+  RDMA/rtrs: Enable the fault-injection
+  RDMA/rtrs-clt: Inject a fault at request processing
+  RDMA/rtrs-srv: Inject a fault at heart-beat sending
+  docs: fault-injection: Add fault-injection manual of RTRS
 
------BEGIN PGP SIGNATURE-----
+ .../fault-injection/rtrs-fault-injection.rst  | 83 +++++++++++++++++++
+ drivers/infiniband/ulp/rtrs/Makefile          |  2 +
+ drivers/infiniband/ulp/rtrs/rtrs-clt-sysfs.c  | 44 ++++++++++
+ drivers/infiniband/ulp/rtrs/rtrs-clt.c        |  7 ++
+ drivers/infiniband/ulp/rtrs/rtrs-clt.h        | 13 +++
+ drivers/infiniband/ulp/rtrs/rtrs-fault.c      | 52 ++++++++++++
+ drivers/infiniband/ulp/rtrs/rtrs-fault.h      | 28 +++++++
+ drivers/infiniband/ulp/rtrs/rtrs-srv-sysfs.c  | 44 ++++++++++
+ drivers/infiniband/ulp/rtrs/rtrs-srv.c        |  5 ++
+ drivers/infiniband/ulp/rtrs/rtrs-srv.h        | 13 +++
+ 10 files changed, 291 insertions(+)
+ create mode 100644 Documentation/fault-injection/rtrs-fault-injection.rst
+ create mode 100644 drivers/infiniband/ulp/rtrs/rtrs-fault.c
+ create mode 100644 drivers/infiniband/ulp/rtrs/rtrs-fault.h
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmBsSXwACgkQJNaLcl1U
-h9CeAAgAg9/Q2RgSOxhbh64cI3whEBi2rDoy4JrnVOIaezDbl1KVpYtyba0y715D
-Y+27eAxh97zRr3AOb8di8IGVTcKZqEJvwbFWeAxIYTqr7yewyfFV2r3+aj1n6uji
-E06xtLVSajGadFJ8cwDdQmB2HGTiOraS8BIQTq8UgV4X6S2LOC6RRZ/BADXxlSXZ
-awgIor1dw+uVGentYfCseXYt3xOeoBGm1kcv2bLWZOf7p34NrBErZxEelYeZycnR
-FVaAHx4aGe2/1xPGOYGRdXxub+JSiKOXp8tFNWDNnrr/343S2A8pBE8u1GWqB2tu
-i/C2E1EQmwot6hIKN5/6hIg/LOb4cA==
-=bscb
------END PGP SIGNATURE-----
+-- 
+2.25.1
 
---UFHRwCdBEJvubb2X--
