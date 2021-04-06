@@ -2,205 +2,84 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90D2DC433ED
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 08:27:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F977C433B4
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 08:49:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 68DA4613C0
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 08:27:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0C85D613C3
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 08:49:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232753AbhDFI1k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 04:27:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21302 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S244344AbhDFI1h (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 04:27:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617697649;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=huJU/7eTGA9L+HVGecfG2Pp+AIuWsVkRoZrlV5LSukk=;
-        b=Z0NrYMK1cFozuFadwgkHxX+C1ZoQwH9W1NchDQmY6kabawRVF6xK3i0rBKY2b3Y+Lg2os1
-        GAWQs4Ew+dtn/kwCTGw+jcuZ//6nLe+j19I8P+CoyBFHEsRjS9cWOP9dsIUGS+0Ry3+YuC
-        RSQRuCdEMSeNuvMAxiC9ri5ge7n0DuU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-mSbVVsygNgS1L7Mhxqab1g-1; Tue, 06 Apr 2021 04:27:26 -0400
-X-MC-Unique: mSbVVsygNgS1L7Mhxqab1g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 656401800D50;
-        Tue,  6 Apr 2021 08:27:24 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-114-253.ams2.redhat.com [10.36.114.253])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 835D55D9D0;
-        Tue,  6 Apr 2021 08:27:18 +0000 (UTC)
-From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To:     kvm@vger.kernel.org
-Cc:     Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Emanuele Giuseppe Esposito <eesposit@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
-        Alexander Graf <graf@amazon.com>,
-        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: [PATCH v3 4/4] selftests: KVM: extend get_cpuid_test to include KVM_GET_EMULATED_CPUID
-Date:   Tue,  6 Apr 2021 10:26:42 +0200
-Message-Id: <20210406082642.20115-5-eesposit@redhat.com>
-In-Reply-To: <20210406082642.20115-1-eesposit@redhat.com>
-References: <20210406082642.20115-1-eesposit@redhat.com>
+        id S234605AbhDFItj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 04:49:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53076 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232593AbhDFItf (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 04:49:35 -0400
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBCB9C06174A;
+        Tue,  6 Apr 2021 01:49:25 -0700 (PDT)
+Received: by mail-pg1-x52d.google.com with SMTP id h25so9880874pgm.3;
+        Tue, 06 Apr 2021 01:49:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=gCYr1I03X+k+4zRvDqbVMs/E1N9JK1gf4mt4xGLcXBw=;
+        b=R9QcK1HUWPmv4xUu7Lrnago7GFe0qYseGzj5RjG23v7PgZimeVXCpuAjRijP0Akdi6
+         UCK3dGgVSFawUntzQk955de9zWVkxoZcAsE5EqxjVaRPnPwdDlQDnmbpv8MmWA+4XSts
+         8NIw5SN3O06dPQYesj3bjUyOoUhjdC+rn3MjkHKZz/B6KME8y5bjZNOhlqhG8ObrZ25D
+         X3U6KPG1KkPbZSicK2A8KWQqpbqiDaIPQlmaKAowdcO/VmBWBel3dz1FadyLczeWR/WQ
+         ZV9BJO3J6yVm5WtBZRR61sTWD2kxYSZgJsh/qOsMsQT/WXLd3ibdZo67BpM6m6PVYJK2
+         F0tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=gCYr1I03X+k+4zRvDqbVMs/E1N9JK1gf4mt4xGLcXBw=;
+        b=CpRSMJFr2tHXSDiQv/ylioKVu6bhEyNA9hkA2QlfBM8HEkUR3RV8eOXqZCFSytCXIA
+         62BuJdWq95Rfa9wm4y3/0EC+ZkilPGVWvai1SsXlkd+yLD4YKSla4Br78kDHHFggr11M
+         k3oSnHqfiP2iw0198X9QyMb2EVzgJif0cALQ9s9zsMrWT6km57k8RA1UJHZi3alLJLS9
+         GBh4+ZbRKGww0W6+yRSBc6PE2E0cIVPcGTUVxeW0oMxu30yQoVZSQuZ6r6rrWkT+Kb8o
+         08Pek2WPTNxc0RAkL0dRrmHtI0EFgKMoIqUtkWfXY4lTJpRsXMT/3wYnkbGAoT3R0p8i
+         LY9Q==
+X-Gm-Message-State: AOAM531J8V1HSxIcVNtiAkHTfKUPknjZw+Q9EKF/NYlD0fKKugAnSzw5
+        esqAXQXxwb2hqnqERtZf8a59CeyT+odWggih8sWHwSZy
+X-Google-Smtp-Source: ABdhPJzbVFwnnS9oCnqT9FS/H+Qx2rf1dqM/EHSOsA59l+MNV9oc4L2p0OgUhI7RWtf1gkWEVC1tUdBFUSSkzGYVVRQ=
+X-Received: by 2002:a65:480a:: with SMTP id h10mr25881241pgs.63.1617698965528;
+ Tue, 06 Apr 2021 01:49:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+References: <20210402093000.72965-1-xie.he.0141@gmail.com> <CAJht_EO7ufuRPj2Bbp7PyXbBT+jrpxR2pckT9JOPyve_tWj9DA@mail.gmail.com>
+ <f77ea411add46de10d1b9e72576a0ec2@dev.tdt.de>
+In-Reply-To: <f77ea411add46de10d1b9e72576a0ec2@dev.tdt.de>
+From:   Xie He <xie.he.0141@gmail.com>
+Date:   Tue, 6 Apr 2021 01:49:14 -0700
+Message-ID: <CAJht_EPxzyLe-byO8heA-YNHG6RAG5=6MPDZ4=MHnDP2vy5xRg@mail.gmail.com>
+Subject: Re: [PATCH net-next v5] net: x25: Queue received packets in the
+ drivers instead of per-CPU queues
+To:     Martin Schiller <ms@dev.tdt.de>
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Krzysztof Halasa <khc@pm.waw.pl>,
+        Linux X25 <linux-x25@vger.kernel.org>,
+        Linux Kernel Network Developers <netdev@vger.kernel.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Extend the get_cpuid_test.c selftest to include the KVM_GET_EMULATED_CPUID
-ioctl. Since the behavior and functionality is similar to
-KVM_GET_SUPPORTED_CPUID, we only check additionally:
+On Mon, Apr 5, 2021 at 11:17 PM Martin Schiller <ms@dev.tdt.de> wrote:
+>
+> Acked-by: Martin Schiller <ms@dev.tdt.de>
+>
+> Just for the record: I'm certainly not always the fastest,
+> but I don't work holidays or weekends. So you also need to have some
+> patience.
 
-1) checks for corner case in the nent field of the struct kvm_cpuid2.
-2) sets and gets it as cpuid from the guest VM
-
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- .../selftests/kvm/x86_64/get_cpuid_test.c     | 90 ++++++++++++++++++-
- 1 file changed, 88 insertions(+), 2 deletions(-)
-
-diff --git a/tools/testing/selftests/kvm/x86_64/get_cpuid_test.c b/tools/testing/selftests/kvm/x86_64/get_cpuid_test.c
-index 9b78e8889638..b9f0fba1b0ea 100644
---- a/tools/testing/selftests/kvm/x86_64/get_cpuid_test.c
-+++ b/tools/testing/selftests/kvm/x86_64/get_cpuid_test.c
-@@ -13,6 +13,7 @@
- #include "processor.h"
- 
- #define VCPU_ID 0
-+#define MAX_NENT 1000
- 
- /* CPUIDs known to differ */
- struct {
-@@ -137,7 +138,8 @@ static void run_vcpu(struct kvm_vm *vm, uint32_t vcpuid, int stage)
- 	}
- }
- 
--struct kvm_cpuid2 *vcpu_alloc_cpuid(struct kvm_vm *vm, vm_vaddr_t *p_gva, struct kvm_cpuid2 *cpuid)
-+static struct kvm_cpuid2 *vcpu_alloc_cpuid(struct kvm_vm *vm, vm_vaddr_t *p_gva,
-+					struct kvm_cpuid2 *cpuid)
- {
- 	int size = sizeof(*cpuid) + cpuid->nent * sizeof(cpuid->entries[0]);
- 	vm_vaddr_t gva = vm_vaddr_alloc(vm, size,
-@@ -150,9 +152,84 @@ struct kvm_cpuid2 *vcpu_alloc_cpuid(struct kvm_vm *vm, vm_vaddr_t *p_gva, struct
- 	return guest_cpuids;
- }
- 
-+static struct kvm_cpuid2 *alloc_custom_kvm_cpuid2(int nent)
-+{
-+	struct kvm_cpuid2 *cpuid;
-+	size_t size;
-+
-+	size = sizeof(*cpuid);
-+	size += nent * sizeof(struct kvm_cpuid_entry2);
-+	cpuid = calloc(1, size);
-+	if (!cpuid) {
-+		perror("malloc");
-+		abort();
-+	}
-+
-+	cpuid->nent = nent;
-+
-+	return cpuid;
-+}
-+
-+static void clean_entries_kvm_cpuid2(struct kvm_cpuid2 *cpuid)
-+{
-+	size_t size;
-+	int old_nent = cpuid->nent;
-+
-+	size = sizeof(*cpuid);
-+	size += MAX_NENT * sizeof(struct kvm_cpuid_entry2);
-+	memset(cpuid, 0, size);
-+	cpuid->nent = old_nent;
-+}
-+
-+static void test_emulated_entries(struct kvm_vm *vm)
-+{
-+	int res, right_nent;
-+	struct kvm_cpuid2 *cpuid;
-+
-+	cpuid = alloc_custom_kvm_cpuid2(MAX_NENT);
-+
-+	/* 0 nent, return E2BIG */
-+	cpuid->nent = 0;
-+	res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
-+	TEST_ASSERT(res == -1 && errno == E2BIG, "nent=0 should fail as E2BIG");
-+	clean_entries_kvm_cpuid2(cpuid);
-+
-+	/* high nent, set the entries and adjust */
-+	cpuid->nent = MAX_NENT;
-+	res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
-+	TEST_ASSERT(res == 0, "nent > actual nent should not fail");
-+	right_nent = cpuid->nent;
-+	clean_entries_kvm_cpuid2(cpuid);
-+
-+	/* high nent, set the entries and adjust */
-+	cpuid->nent++;
-+	res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
-+	TEST_ASSERT(res == 0, "nent > actual nent should not fail");
-+	TEST_ASSERT(right_nent == cpuid->nent, "nent should be always the same");
-+	clean_entries_kvm_cpuid2(cpuid);
-+
-+	/* low nent, return E2BIG */
-+	if (right_nent > 1) {
-+		cpuid->nent = 1;
-+		res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
-+		TEST_ASSERT(res == -1 && errno == E2BIG, "nent=1 should fail");
-+		clean_entries_kvm_cpuid2(cpuid);
-+	}
-+
-+	/* exact nent */
-+	cpuid->nent = right_nent;
-+	res = _kvm_ioctl(vm, KVM_GET_EMULATED_CPUID, cpuid);
-+	TEST_ASSERT(res == 0, "nent == actual nent should not fail");
-+	TEST_ASSERT(cpuid->nent == right_nent,
-+		"KVM_GET_EMULATED_CPUID should be invaried when nent is exact");
-+	clean_entries_kvm_cpuid2(cpuid);
-+
-+	free(cpuid);
-+}
-+
- int main(void)
- {
--	struct kvm_cpuid2 *supp_cpuid, *cpuid2;
-+	struct kvm_cpuid2 *supp_cpuid, *emul_cpuid, *cpuid2;
- 	vm_vaddr_t cpuid_gva;
- 	struct kvm_vm *vm;
- 	int stage;
-@@ -171,5 +248,14 @@ int main(void)
- 	for (stage = 0; stage < 3; stage++)
- 		run_vcpu(vm, VCPU_ID, stage);
- 
-+	if (kvm_check_cap(KVM_CAP_EXT_EMUL_CPUID)) {
-+		emul_cpuid = kvm_get_emulated_cpuid();
-+		vcpu_set_cpuid(vm, VCPU_ID, emul_cpuid);
-+		cpuid2 = vcpu_get_cpuid(vm, VCPU_ID);
-+
-+		test_emulated_entries(vm);
-+		compare_cpuids(emul_cpuid, cpuid2);
-+	}
-+
- 	kvm_vm_free(vm);
- }
--- 
-2.30.2
-
+Oh. Thank you! Sorry, I didn't know there was a holiday in Germany.
+Happy holiday! :)
