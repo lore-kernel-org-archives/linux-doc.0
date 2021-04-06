@@ -2,163 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
+	WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68584C433ED
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:09:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D94C4C43461
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:13:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3A66761284
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:09:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4E5A613CB
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:13:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346269AbhDFQJP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 12:09:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37256 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346249AbhDFQJM (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 12:09:12 -0400
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com [IPv6:2607:f8b0:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9CBFC06175F
-        for <linux-doc@vger.kernel.org>; Tue,  6 Apr 2021 09:09:04 -0700 (PDT)
-Received: by mail-pg1-x529.google.com with SMTP id g35so5949273pgg.9
-        for <linux-doc@vger.kernel.org>; Tue, 06 Apr 2021 09:09:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=4a/4YHv3JxQpEzv09S9kusNf9ICn+oYA1ZctOwQOXqY=;
-        b=rPv/WPI61zJvR+SqeD/PRp7WZPQP1azAMVLLxsGmCg9WwJ6GYAEv0dJivPlEOOcrFr
-         HUIwY60rXdiDjDETsyDc8s77pIyU2BeB97Ty9Eo/xI3skX2FKW6xTv2vJ6R5mXyTjMlZ
-         vbQiN+xdFD2TJ/TpayLtC2CwkRSEJ9InmUmX9e2WkAcmEm2mCyYu+YBksoBHaII87XOh
-         3wXn8ILoPEDnwofbjwneHEkX+k8H+vZ0AAV4/T+u66gAZVmnahqjaJVYLq0jxT7Gd8xv
-         2/6SvqpDy9Cd7eXZBtlnNfsv8P15w8iBLW4I2lYWPh2QHuTbryA319hwOobBNhL39n6+
-         N26A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=4a/4YHv3JxQpEzv09S9kusNf9ICn+oYA1ZctOwQOXqY=;
-        b=TmffFp3TGiJOnTOOFzxolU5mhXCsYUFCcxFMcxXOBYSoQiQibf6blRoi15jnSfYhKe
-         i4J7WMBTf7tD2aIvnGdLtckg1UxJS8+v9TdxO1MoLdDlVeHmJKx85o3Dvxa7erBYKUmi
-         DGimfd2JS+kOmp25yn1goh7ERRB9TigqAJ4qvB0lDYBqQyA4yp/d2sp3ZXCvyI2wNOxH
-         isLSp+N9aaAdQJgCKq4QGqGnr2T/g8Vd6f7x0PlzKhEuElD5QAZiTngWu4b8NgFNN5ab
-         mJhq9J4PBJvlQ15dEpt15yaFWZ4i+N/5Pg5CEU46FqSAEUg4V4oECa+hNVfKhs2g8h36
-         WfFA==
-X-Gm-Message-State: AOAM531SxorFPdpE9Vp3Axpp2XIODXaanQhjp4P+tcgB0aS9iByK0IAP
-        ym1yMdbsn0huEiCm/7KgO+kwWw==
-X-Google-Smtp-Source: ABdhPJx1YgZHW/piOT0X4kjZvHal1VF7O1qAiZkkNs2f/l+keI/fNoptH0eWbnXx1/x5zT0YD1LPMg==
-X-Received: by 2002:a63:ea50:: with SMTP id l16mr28420726pgk.70.1617725344407;
-        Tue, 06 Apr 2021 09:09:04 -0700 (PDT)
-Received: from google.com (240.111.247.35.bc.googleusercontent.com. [35.247.111.240])
-        by smtp.gmail.com with ESMTPSA id a21sm2906605pfo.189.2021.04.06.09.09.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 09:09:03 -0700 (PDT)
-Date:   Tue, 6 Apr 2021 16:09:00 +0000
-From:   Sean Christopherson <seanjc@google.com>
-To:     Vitaly Kuznetsov <vkuznets@redhat.com>
-Cc:     Emanuele Giuseppe Esposito <eesposit@redhat.com>,
-        kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jim Mattson <jmattson@google.com>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
-        Alexander Graf <graf@amazon.com>,
-        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] KVM: x86: Fix a spurious -E2BIG in
- KVM_GET_EMULATED_CPUID
-Message-ID: <YGyHnLXhV3Iy/AtE@google.com>
-References: <20210406082642.20115-1-eesposit@redhat.com>
- <20210406082642.20115-2-eesposit@redhat.com>
- <87k0pfcx4b.fsf@vitty.brq.redhat.com>
+        id S229869AbhDFQNy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 12:13:54 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:4936 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232664AbhDFQNx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Apr 2021 12:13:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=8AygV2Zq9hwc4t53Y/c5WX/qC9uP4NzMTC4/7
+        cqeoro=; b=dL53AZGf+PxH86RXq7ZQljsu0dAykf0geTXRfFs3tk7Dk/jD2Q5P6
+        3beOuqkxpW/7seKiuSXhOI+tU7NtgEVrZ32lBM40FTrfncg8XfGZadUlGAJMSbDK
+        5HxNbtbSdtccGPwO8/3l56KrflGfGmiM3NSwEP7YgTcEDCEKjuzYdQ=
+Received: from bobwxc.top (unknown [112.96.109.30])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgD3atGiiGxgJ1xPAA--.46417S2;
+        Wed, 07 Apr 2021 00:13:25 +0800 (CST)
+Date:   Wed, 7 Apr 2021 00:13:22 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com
+Subject: Re: [PATCH 04/11] docs/zh_CN: add core-api irq irqflags-tracing.rst
+ translation
+Message-ID: <20210406161250.GD15259@bobwxc.top>
+References: <20210406130210.2725075-1-siyanteng@loongson.cn>
+ <20210406130210.2725075-5-siyanteng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <87k0pfcx4b.fsf@vitty.brq.redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210406130210.2725075-5-siyanteng@loongson.cn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgD3atGiiGxgJ1xPAA--.46417S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxZF45XF4DuF1xuF43XrW8Zwb_yoWrAr47pF
+        WkKFyfWa13ArW8ZFWxur48Ar4rAF4kWFs7Aa97J3Z3XFWkXrWjqr18KF1YyF4fuFy8Aa4j
+        kF45ArWF9F15AFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUglb7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzx
+        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
+        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04
+        v7MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Y
+        z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
+        AF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4l
+        IxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
+        CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVF
+        xhVjvjDU0xZFpf9x07UbyCJUUUUU=
+X-Originating-IP: [112.96.109.30]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 06, 2021, Vitaly Kuznetsov wrote:
-> Emanuele Giuseppe Esposito <eesposit@redhat.com> writes:
+On Tue, Apr 06, 2021 at 09:02:03PM +0800, Yanteng Si wrote:
+> This patch translates Documentation/core-api/irq/irqflags-tracing.rst into Chinese.
 > 
-> > When retrieving emulated CPUID entries, check for an insufficient array
-> > size if and only if KVM is actually inserting an entry.
-> > If userspace has a priori knowledge of the exact array size,
-> > KVM_GET_EMULATED_CPUID will incorrectly fail due to effectively requiring
-> > an extra, unused entry.
-> >
-> > Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> > ---
-> >  arch/x86/kvm/cpuid.c | 33 ++++++++++++++++-----------------
-> >  1 file changed, 16 insertions(+), 17 deletions(-)
-> >
-> > diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
-> > index 6bd2f8b830e4..27059ddf9f0a 100644
-> > --- a/arch/x86/kvm/cpuid.c
-> > +++ b/arch/x86/kvm/cpuid.c
-> > @@ -567,34 +567,33 @@ static struct kvm_cpuid_entry2 *do_host_cpuid(struct kvm_cpuid_array *array,
-> >  
-> >  static int __do_cpuid_func_emulated(struct kvm_cpuid_array *array, u32 func)
-> >  {
-> > -	struct kvm_cpuid_entry2 *entry;
-> > -
-> > -	if (array->nent >= array->maxnent)
-> > -		return -E2BIG;
-> > +	struct kvm_cpuid_entry2 entry;
-> >  
-> > -	entry = &array->entries[array->nent];
-> > -	entry->function = func;
-> > -	entry->index = 0;
-> > -	entry->flags = 0;
-> > +	memset(&entry, 0, sizeof(entry));
-> > +	entry.function = func;
-> >  
-> >  	switch (func) {
-> >  	case 0:
-> > -		entry->eax = 7;
-> > -		++array->nent;
-> > +		entry.eax = 7;
-> >  		break;
-> >  	case 1:
-> > -		entry->ecx = F(MOVBE);
-> > -		++array->nent;
-> > +		entry.ecx = F(MOVBE);
-> >  		break;
-> >  	case 7:
-> > -		entry->flags |= KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
-> > -		entry->eax = 0;
-> > -		entry->ecx = F(RDPID);
-> > -		++array->nent;
-> > -	default:
-> > +		entry.flags |= KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
-> > +		entry.eax = 0;
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> ---
+>  .../zh_CN/core-api/irq/irqflags-tracing.rst   | 46 +++++++++++++++++++
+>  1 file changed, 46 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst
 > 
-> Nitpick: there's no need to set entry.eax = 0 as the whole structure was
-> zeroed. Also, '|=' for flags could be just '='.
+> diff --git a/Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst b/Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst
+> new file mode 100644
+> index 000000000000..2a3f577ac6b5
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst
+> @@ -0,0 +1,45 @@
+> +.. include:: ../../disclaimer-zh_CN.rst
+> +
+> +:Original: :doc:`../../../../core-api/irq/irqflags-tracing`
+> +:Translator: Yanteng Si <siyanteng@loongson.cn>
+> +
+> +.. _cn_irqflags-tracing.rst:
+> +
+> +
+> +=======================
+> +IRQ-flags状态追踪
+> +=======================
+> +
+> +:Author: 最初由Ingo Molnar <mingo@redhat.com>开始撰写
+> +
+> +"irq-flags tracing" 功能可以 "追踪" hardirq和softirq的状态，它让感兴趣的子
 
-Agreed on dropping "entry.eax = 0".  I could go either way on flags; I do like
-that the "|=" is consistent with do_host_cpuid().
+"irq-flags tracing"（中断标志追踪） ？
 
-> > +		entry.ecx = F(RDPID);
-> >  		break;
-> > +	default:
-> > +		goto out;
-> >  	}
-> >  
-> > +	if (array->nent >= array->maxnent)
-> > +		return -E2BIG;
-> > +
-> > +	memcpy(&array->entries[array->nent++], &entry, sizeof(entry));
-> > +
-> > +out:
-> >  	return 0;
-> >  }
-> 
-> Reviewed-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> 
+> +系统有机会了解到到内核中发生的每一个
+> +hardirqs-off/hardirqs-on、softirqs-off/softirqs-on事件。
+> +
+> +CONFIG_TRACE_IRQFLAGS_SUPPORT是通用锁调试代码提供的CONFIG_PROVE_SPIN_LOCKING
+> +和CONFIG_PROVE_RW_LOCKING所需要的。否则将只有CONFIG_PROVE_MUTEX_LOCKING和
+> +CONFIG_PROVE_RWSEM_LOCKING在一个架构上被提供--这些都是不在IRQ上下文中使用的
+> +锁API。(rwsems的一个异常是可以解决的)
+> +
+> +架构对这一点的支持当然不属于 "琐碎 "的范畴，因为很多低级的汇编代码都要处理irq-flags
+
+quotation marks
+“琐碎”
+
+> +的状态变化。但是一个架构可以以一种相当直接且无风险的方式启用irq-flags-tracing。
+> +
+> +架构如果想支持这个，需要先做一些代码组织上的改变:
+> +
+> +- 在他们的arch级Kconfig文件中添加并启用TRACE_IRQFLAGS_SUPPORT。
+> +
+> +然后还需要做一些功能上的改变来实现对irq-flags-tracing的支持:
+> +
+> +- 在低级入口代码中增加(构建条件)对trace_hardirqs_off()/trace_hardirqs_on()
+
+brackets
+（构建条件）
+
+> +  函数的调用。锁验证器会密切关注 "真实 "的irq-flags是否与 "虚拟 "的irq-flags
+
+“真实”  “虚拟”
+
+> +  状态相匹配，如果两者不匹配，则会大声抱怨（并关闭自己）。通常对于arch支持
+
+大声抱怨 -> 发出警告 ？
+so as followed 抱怨
+
+> +  irq-flags-track的大部分时间都是在这种状态下度过的：看看lockdep的抱怨，试着
+
+Maybe this is better
+通常维护arch中irq-flags-track的大部分时间...
+
+> +  找出我们还没有涉及的汇编代码。修复并重复。一旦系统启动，并且在irq-flags跟踪功
+
+...还没有搞定的汇编代码，修复并重复。
+
+irq-flags-tracing  check this term's translation
+
+> +  能中没有出现lockdep抱怨的情况下，arch支持就完成了。
+> +
+> +- 如果该架构有不可屏蔽的中断，那么需要通过lockdep_off()/lockdep_on()将这些中
+> +  断从irq跟踪[和锁验证]机制中排除。
+> +
+
+wrong indent for next paragraph
+
+> +  一般来说，在一个架构中，不完整的irq-flags-tracing实现是没有风险的：lockdep
+> +  会检测到这一点，并将自己关闭。即锁验证器仍然可靠。应该不会因为irq-tracing的错
+> +  误而崩溃。(除非通过修改不该修改的条件来更改汇编或寄存器而破坏其他代码)
 > -- 
-> Vitaly
-> 
+> 2.27.0
+
