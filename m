@@ -2,178 +2,110 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40442C43460
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 11:59:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C7F5BC433ED
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 12:32:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 17BE0611AF
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 11:59:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8E636613CA
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 12:32:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343642AbhDFL7p (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 07:59:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:28082 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1343637AbhDFL7n (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 07:59:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1617710375;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=2esLg1da59fOJXVhXC5LxhBQc2Y9aIayppe+mCmRoS0=;
-        b=AT9QXgQqoakIApvxykbpO02G+90g/nd6mzXYErWmuHgM8fwMvpVKqIuMTB+vjcmDEfQyTe
-        dGCkdkS+U3t9xdMV1lNe6SXsm6qxbT+tvzcUfuT2QQvdUnPvNT8XAbX/pu45IbvJpp7jOm
-        EFNucfG3TBGaW3PgpJn2ybx68h2Bj2M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-trrCjbsPNv6uojW5o92q1A-1; Tue, 06 Apr 2021 07:59:32 -0400
-X-MC-Unique: trrCjbsPNv6uojW5o92q1A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com [10.5.11.16])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5B6F81746A;
-        Tue,  6 Apr 2021 11:59:28 +0000 (UTC)
-Received: from starship (unknown [10.35.206.65])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id DA0176B8E8;
-        Tue,  6 Apr 2021 11:59:15 +0000 (UTC)
-Message-ID: <27193ea74081023b67ab9c98d7050b1e22655e79.camel@redhat.com>
-Subject: Re: [PATCH v2 0/9] KVM: my debug patch queue
-From:   Maxim Levitsky <mlevitsk@redhat.com>
-To:     Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org
-Cc:     "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sean Christopherson <seanjc@google.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        open list <linux-kernel@vger.kernel.org>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Stefano Garzarella <sgarzare@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>, Jessica Yu <jeyu@kernel.org>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        Jan Kiszka <jan.kiszka@siemens.com>,
-        Will Deacon <will@kernel.org>,
-        "open list:KERNEL VIRTUAL MACHINE FOR ARM64 (KVM/arm64)" 
-        <kvmarm@lists.cs.columbia.edu>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Joerg Roedel <joro@8bytes.org>,
-        Claudio Imbrenda <imbrenda@linux.ibm.com>,
-        Jim Mattson <jmattson@google.com>,
-        Cornelia Huck <cohuck@redhat.com>,
-        David Hildenbrand <david@redhat.com>,
-        Wanpeng Li <wanpengli@tencent.com>,
-        Janosch Frank <frankja@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        "open list:S390" <linux-s390@vger.kernel.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Kieran Bingham <kbingham@kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        "moderated list:KERNEL VIRTUAL MACHINE FOR ARM64 (KVM/arm64)" 
-        <linux-arm-kernel@lists.infradead.org>,
-        James Morse <james.morse@arm.com>
-Date:   Tue, 06 Apr 2021 14:59:14 +0300
-In-Reply-To: <cb7f918c-932f-d558-76ec-801ed8ed1f62@redhat.com>
-References: <20210401135451.1004564-1-mlevitsk@redhat.com>
-         <cb7f918c-932f-d558-76ec-801ed8ed1f62@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 (3.36.5-2.fc32) 
+        id S1344012AbhDFMcO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 08:32:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243177AbhDFMcN (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 08:32:13 -0400
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CB05C06174A
+        for <linux-doc@vger.kernel.org>; Tue,  6 Apr 2021 05:32:06 -0700 (PDT)
+Received: by mail-oi1-x22b.google.com with SMTP id a8so14872423oic.11
+        for <linux-doc@vger.kernel.org>; Tue, 06 Apr 2021 05:32:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to:cc;
+        bh=mOGYTloogX7Yy/qlD5Wx++js30ffTWh/96k1TeD3NDI=;
+        b=U8QdFcZYCVqvdu3cWbGjh+mmGTTK3ZgoixxAlHl589sSrlTYc2auaiPUffXsfOW35c
+         LN6PyTSTORbwTxGFi4T9/jlDeIsKKx0Bm+xuv2Hv/JOXNDhbdipCmfLOXJNnk6WLrzJw
+         x1vTnVWekUHZHszzrlZxRtjD+sAr8Md3ieY/o8C5LzoPRqV4uPme+hAZFFAvR8CgI2FD
+         wYQ9cYG7HgxTHJaPKbC82fvylB7++2puvpsMtRgsrCemtLqTJHYIKg0q0z0YLXUhrXCO
+         TlzZGr2v4pm8fn/6WVHe5wthzU9b9USN6M8xpdX+Hd38FQQ9DsQdyLlbZry56w2m7HJe
+         EiQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+        bh=mOGYTloogX7Yy/qlD5Wx++js30ffTWh/96k1TeD3NDI=;
+        b=oV6SqJNWJTxt9Qq5FeSy8R9nTFXhL6yrbsoDj7BAhcHRJkl3CRRAczkpz9YpiBkUSK
+         aMqWnKEhc3ClbSH4qMEZDIxlWKS0ZrriNwMTAnK8n07h9OUKxojFgjtUekt+89BGY5qi
+         NjPGg/9FrPxGao8jQopQ+4lrOfCRcR7cNLrHHCxQufs05RgffCZqDnJcsKNwI1rYorpR
+         5G7k/vEHt27y555dv2YyfX4CrYXW2NcX0pvC4tnJNDI23knD6452qciGRHYzTWNzlxNZ
+         zwlkChPguum0oJMUV8NA2vrZsFDiE4QsC9G3neNt4L6EZgZ7PG5ZmwlRh9Eujz6Ug/Pn
+         WBAA==
+X-Gm-Message-State: AOAM533/cGdGw/UJFDcaJiWQC0WAcoFFquP4/MXFTc+gI3Nw+fuJ1oxr
+        icHzvPTG9S3gG4sw+yoyJBr5+fgCMbUJuyocBa+GO3KXEfI=
+X-Google-Smtp-Source: ABdhPJz6mT2L7jR6KUrOaYxO7Qkl+E8gQg+Qb5li+w9c6yMJSGfBW0A5pljJHr6E8MhYZqH9r6tbg89VYzWDhhMEkzA=
+X-Received: by 2002:a54:4507:: with SMTP id l7mr3018654oil.165.1617712325776;
+ Tue, 06 Apr 2021 05:32:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+From:   =?UTF-8?Q?St=C3=A9phane_Blondon?= <stephane.blondon@gmail.com>
+Date:   Tue, 6 Apr 2021 14:31:50 +0200
+Message-ID: <CAOy+up7EdTf4ouh5onVy_ZzXFWGBEP+P6CPqY-=E+1UFwCeq8w@mail.gmail.com>
+Subject: Minor spellcheck in spi documentation
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     linux-doc@vger.kernel.org
+Content-Type: multipart/mixed; boundary="00000000000087217705bf4d0092"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, 2021-04-02 at 19:38 +0200, Paolo Bonzini wrote:
-> On 01/04/21 15:54, Maxim Levitsky wrote:
-> > Hi!
-> > 
-> > I would like to publish two debug features which were needed for other stuff
-> > I work on.
-> > 
-> > One is the reworked lx-symbols script which now actually works on at least
-> > gdb 9.1 (gdb 9.2 was reported to fail to load the debug symbols from the kernel
-> > for some reason, not related to this patch) and upstream qemu.
-> 
-> Queued patches 2-5 for now.  6 is okay but it needs a selftest. (e.g. 
-> using KVM_VCPU_SET_EVENTS) and the correct name for the constant.
+--00000000000087217705bf4d0092
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
-I will do this very soon.
+Hello,
 
-Best regards,
-	Maxim Levitsky
-> 
-> Paolo
-> 
-> > The other feature is the ability to trap all guest exceptions (on SVM for now)
-> > and see them in kvmtrace prior to potential merge to double/triple fault.
-> > 
-> > This can be very useful and I already had to manually patch KVM a few
-> > times for this.
-> > I will, once time permits, implement this feature on Intel as well.
-> > 
-> > V2:
-> > 
-> >   * Some more refactoring and workarounds for lx-symbols script
-> > 
-> >   * added KVM_GUESTDBG_BLOCKEVENTS flag to enable 'block interrupts on
-> >     single step' together with KVM_CAP_SET_GUEST_DEBUG2 capability
-> >     to indicate which guest debug flags are supported.
-> > 
-> >     This is a replacement for unconditional block of interrupts on single
-> >     step that was done in previous version of this patch set.
-> >     Patches to qemu to use that feature will be sent soon.
-> > 
-> >   * Reworked the the 'intercept all exceptions for debug' feature according
-> >     to the review feedback:
-> > 
-> >     - renamed the parameter that enables the feature and
-> >       moved it to common kvm module.
-> >       (only SVM part is currently implemented though)
-> > 
-> >     - disable the feature for SEV guests as was suggested during the review
-> >     - made the vmexit table const again, as was suggested in the review as well.
-> > 
-> > Best regards,
-> > 	Maxim Levitsky
-> > 
-> > Maxim Levitsky (9):
-> >    scripts/gdb: rework lx-symbols gdb script
-> >    KVM: introduce KVM_CAP_SET_GUEST_DEBUG2
-> >    KVM: x86: implement KVM_CAP_SET_GUEST_DEBUG2
-> >    KVM: aarch64: implement KVM_CAP_SET_GUEST_DEBUG2
-> >    KVM: s390x: implement KVM_CAP_SET_GUEST_DEBUG2
-> >    KVM: x86: implement KVM_GUESTDBG_BLOCKEVENTS
-> >    KVM: SVM: split svm_handle_invalid_exit
-> >    KVM: x86: add force_intercept_exceptions_mask
-> >    KVM: SVM: implement force_intercept_exceptions_mask
-> > 
-> >   Documentation/virt/kvm/api.rst    |   4 +
-> >   arch/arm64/include/asm/kvm_host.h |   4 +
-> >   arch/arm64/kvm/arm.c              |   2 +
-> >   arch/arm64/kvm/guest.c            |   5 -
-> >   arch/s390/include/asm/kvm_host.h  |   4 +
-> >   arch/s390/kvm/kvm-s390.c          |   3 +
-> >   arch/x86/include/asm/kvm_host.h   |  12 ++
-> >   arch/x86/include/uapi/asm/kvm.h   |   1 +
-> >   arch/x86/kvm/svm/svm.c            |  87 +++++++++++--
-> >   arch/x86/kvm/svm/svm.h            |   6 +-
-> >   arch/x86/kvm/x86.c                |  14 ++-
-> >   arch/x86/kvm/x86.h                |   2 +
-> >   include/uapi/linux/kvm.h          |   1 +
-> >   kernel/module.c                   |   8 +-
-> >   scripts/gdb/linux/symbols.py      | 203 ++++++++++++++++++++----------
-> >   15 files changed, 272 insertions(+), 84 deletions(-)
-> > 
+I attached a patch fixing the wrong spelling ('ciruit' to 'circuit').
 
+I temporarily subscribed to the linux-doc mailing list if replies are neede=
+d.
 
+Regards,
+--=20
+St=C3=A9phane
+
+--00000000000087217705bf4d0092
+Content-Type: text/x-diff; charset="UTF-8"; name="spellcheck_spi_documentation.patch"
+Content-Disposition: attachment; 
+	filename="spellcheck_spi_documentation.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_kn601wuj0>
+X-Attachment-Id: f_kn601wuj0
+
+RnJvbSAyMzNlMDBjMzQ3OTcwOWNjNTI0NDhiNTQxZDA3M2E1ZTRjODU2OGFlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiA9P1VURi04P3E/U3Q9QzM9QTlwaGFuZT0yMEJsb25kb24/PSA8
+c3RlcGhhbmUuYmxvbmRvbkBnbWFpbC5jb20+CkRhdGU6IFR1ZSwgNiBBcHIgMjAyMSAxNDoxMjoy
+MiArMDIwMApTdWJqZWN0OiBbUEFUQ0hdIEZpeDogc3BlbGxjaGVjayAnY2lydWl0JyB0byAnY2ly
+Y3VpdCcKTUlNRS1WZXJzaW9uOiAxLjAKQ29udGVudC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0
+PVVURi04CkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDhiaXQKClNpZ25lZC1vZmYtYnk6IFN0
+w6lwaGFuZSBCbG9uZG9uIDxzdGVwaGFuZS5ibG9uZG9uQGdtYWlsLmNvbT4KLS0tCiBEb2N1bWVu
+dGF0aW9uL3NwaS9idXR0ZXJmbHkucnN0IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
+aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9zcGkvYnV0
+dGVyZmx5LnJzdCBiL0RvY3VtZW50YXRpb24vc3BpL2J1dHRlcmZseS5yc3QKaW5kZXggZTYxNGE1
+ODk1NDdjLi41NjA4OGZiMDkwYzcgMTAwNjQ0Ci0tLSBhL0RvY3VtZW50YXRpb24vc3BpL2J1dHRl
+cmZseS5yc3QKKysrIGIvRG9jdW1lbnRhdGlvbi9zcGkvYnV0dGVyZmx5LnJzdApAQCAtMTEsNyAr
+MTEsNyBAQCBkZXZlbG9wIGZpcm13YXJlIGZvciB0aGlzLCBhbmQgZmxhc2ggaXQgdXNpbmcgdGhp
+cyBhZGFwdGVyIGNhYmxlLgogCiBZb3UgY2FuIG1ha2UgdGhpcyBhZGFwdGVyIGZyb20gYW4gb2xk
+IHByaW50ZXIgY2FibGUgYW5kIHNvbGRlciB0aGluZ3MKIGRpcmVjdGx5IHRvIHRoZSBCdXR0ZXJm
+bHkuICBPciAoaWYgeW91IGhhdmUgdGhlIHBhcnRzIGFuZCBza2lsbHMpIHlvdQotY2FuIGNvbWUg
+dXAgd2l0aCBzb21ldGhpbmcgZmFuY2llciwgcHJvdmlkaW5nIGNpcnVpdCBwcm90ZWN0aW9uIHRv
+IHRoZQorY2FuIGNvbWUgdXAgd2l0aCBzb21ldGhpbmcgZmFuY2llciwgcHJvdmlkaW5nIGNpcmN1
+aXQgcHJvdGVjdGlvbiB0byB0aGUKIEJ1dHRlcmZseSBhbmQgdGhlIHByaW50ZXIgcG9ydCwgb3Ig
+d2l0aCBhIGJldHRlciBwb3dlciBzdXBwbHkgdGhhbiB0d28KIHNpZ25hbCBwaW5zIGZyb20gdGhl
+IHByaW50ZXIgcG9ydC4gIE9yIGZvciB0aGF0IG1hdHRlciwgeW91IGNhbiB1c2UKIHNpbWlsYXIg
+Y2FibGVzIHRvIHRhbGsgdG8gbWFueSBBVlIgYm9hcmRzLCBldmVuIGEgYnJlYWRib2FyZC4KLS0g
+CjIuMjAuMQoK
+--00000000000087217705bf4d0092--
