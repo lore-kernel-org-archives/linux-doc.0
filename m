@@ -2,146 +2,108 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6378EC433B4
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:20:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66DEFC433B4
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:21:32 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 29D4A61380
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:20:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 175AB61394
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:21:32 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345585AbhDFPUx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 11:20:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54712 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345588AbhDFPUw (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 11:20:52 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA243C061756
-        for <linux-doc@vger.kernel.org>; Tue,  6 Apr 2021 08:20:44 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id qo10so12201010ejb.6
-        for <linux-doc@vger.kernel.org>; Tue, 06 Apr 2021 08:20:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nDwJiLco4G2YxXOMk6DqG6IU0iXQSCZkWcN0h8cbo08=;
-        b=b2FM3Nziaalt3+fcItmukxzfJUKusu7jA+qQg1eSgJ3mxyYKR5inViY/tDkfa9xWAV
-         vgnv01l6CzKO2GOI1Ac3uYg7D9j8+kebtKWGM21wbIKTIjovxxn8VSImwiNxMsPMzhFx
-         Ewz8nZWZ+fCcn1JJWRtBUoGh7OhGDEth/HhtYbFWU8vf6qQvgkJGtNG3Edr8igIHGf/Q
-         reVYfona/uEga4aKR9IxEB5Jj1HzpiJ6g2m9/sPz3Lwb/taswLPTxiyIXUSsJ1/zc9XI
-         E2V+ThWOhx2phVplC5v7c5mtlIk39mL1B/gaUKhvOBwsemUi93eik8cNfUJfcpXbNJAA
-         WVWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nDwJiLco4G2YxXOMk6DqG6IU0iXQSCZkWcN0h8cbo08=;
-        b=PT6wg17RFcjQJ+J5/7pw7ltwNFIm/0A9EVZhm0ox7Vb+PuG8Q1UUnmz5dPPVEBBNZh
-         /cMJXdPmRsfMb3KYYhyiEt9bvoF+6VRfnClw99FeGj9q6iIvJ+5fK2k8rtEBlspoPLc4
-         SD4D7Pgwz8Q6lepuUW/n3PqZoPO1hFhD2oKELd3ZkeEIfy67Lxq535XchjoYDoq4k6TI
-         t22OYoGtjCum06IlKheftvYAPtFtBTVUFCJREUDb2kYaui4Kn9WrQkVD2pcCM++JvwpE
-         vSOeXFAbQzOXpxcPevPF9lo66NkA7HtmRkuu5qa7y5G8v3CFdHxSfmJqiUbC2mMlLfhs
-         05JA==
-X-Gm-Message-State: AOAM5334mA7iqp0hmVo/0AtEs8PU9FOEs6zuqphIgaa1N3XcURRvX34j
-        aWRH5mCYK8Ek432DhHx5Tfb6EbyQILNT0ARDLxRIug==
-X-Google-Smtp-Source: ABdhPJxf4Wal1XDPlYEgQfXA/wpJ0hGRyL6qbv1NSRs9R18eAuYpCRPKFJzw9dE4YVz6zVPItGB/9ZTwr/qTvKc6o+o=
-X-Received: by 2002:a17:906:190d:: with SMTP id a13mr12743433eje.330.1617722443402;
- Tue, 06 Apr 2021 08:20:43 -0700 (PDT)
+        id S238560AbhDFPVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 11:21:39 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:61033 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233393AbhDFPVj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Apr 2021 11:21:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=r2/l2QMNWXh3BGi16mMFjsc+yIZCmuAVoQb3l
+        ZuhCxA=; b=QOntpClymIR+SZcPlCDONU8AKzbfSdKTSBMf3nAcZ9912SS76XqeL
+        nJ6s/AlS0XVFbtRMBVLbli3yxKZd1arEniRtCOU8/OfjN1NfxGTIUjO0qJ0ad7pX
+        Jz/8KvzbZa5zW/uqaleWwdKMb5kS1x3wHYRAxAEFKOQCCO3Gu4KdkA=
+Received: from bobwxc.top (unknown [120.238.248.129])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDnWdBtfGxgUU5PAA--.46234S2;
+        Tue, 06 Apr 2021 23:21:19 +0800 (CST)
+Date:   Tue, 6 Apr 2021 23:21:17 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com
+Subject: Re: [PATCH 05/11] docs/zh_CN: add core-api irq index.rst translation
+Message-ID: <20210406152117.GB15259@bobwxc.top>
+References: <20210406130210.2725075-1-siyanteng@loongson.cn>
+ <20210406130210.2725075-6-siyanteng@loongson.cn>
 MIME-Version: 1.0
-References: <20210406115049.196527-1-gi-oh.kim@ionos.com> <6DBCD231-E108-4F4C-AFBF-688E988DACD7@oracle.com>
-In-Reply-To: <6DBCD231-E108-4F4C-AFBF-688E988DACD7@oracle.com>
-From:   Gioh Kim <gi-oh.kim@ionos.com>
-Date:   Tue, 6 Apr 2021 17:20:07 +0200
-Message-ID: <CAJX1YtYcGJkTH6CyV7uoudVuRamYUVeA6UbmQkEfYq+rxTH=Gw@mail.gmail.com>
-Subject: Re: [PATCH 0/4] Enable Fault Injection for RTRS
-To:     Chuck Lever III <chuck.lever@oracle.com>
-Cc:     linux-rdma <linux-rdma@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "bvanassche@acm.org" <bvanassche@acm.org>,
-        "leon@kernel.org" <leon@kernel.org>,
-        "dledford@redhat.com" <dledford@redhat.com>,
-        "jgg@ziepe.ca" <jgg@ziepe.ca>,
-        "haris.iqbal@ionos.com" <haris.iqbal@ionos.com>,
-        "jinpu.wang@ionos.com" <jinpu.wang@ionos.com>,
-        "akinobu.mita@gmail.com" <akinobu.mita@gmail.com>,
-        "corbet@lwn.net" <corbet@lwn.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210406130210.2725075-6-siyanteng@loongson.cn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgDnWdBtfGxgUU5PAA--.46234S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jw1fXF4DGw43AF47ZFW3Awb_yoWkGwb_Cw
+        4kJFW0kF4YyF1ftayrJr1DJr1I9FWFk3WIkFn0ya98u34Y9ws7Gr1kWF93WF1UGanxurs3
+        CFZrur1xXrnFgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbwkYjsxI4VWDJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+        8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzx
+        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
+        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04
+        v7MxkIecxEwVAFwVW5WwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1U
+        MxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
+        AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
+        0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4
+        v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AK
+        xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUjxu4UUUUUU==
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 6, 2021 at 4:20 PM Chuck Lever III <chuck.lever@oracle.com> wrote:
->
->
->
-> > On Apr 6, 2021, at 7:50 AM, Gioh Kim <gi-oh.kim@ionos.com> wrote:
-> >
-> > My colleagues and I would like to apply the fault injection
-> > of the Linux to test error handling of RTRS module. RTRS module
-> > consists of client and server modules that are connected via
-> > Infiniband network. So it is important for the client to receive
-> > the error of the server and handle it smoothly.
->
-> I am a fan of fault injection. In fact I added a disconnect fault
-> injector for RPC that's in the kernel now, and it uses debugfs
-> as its control interface.
->
-> But that was years ago. If I were doing this today, I'd consider
-> kprobes, since fault injection is generally not something that
-> is consumed by users or administrators in a distributed kernel.
->
-> Have you considered injection via kprobes or eBPF instead of
-> adding permanent code?
+On Tue, Apr 06, 2021 at 09:02:04PM +0800, Yanteng Si wrote:
+> This patch translates Documentation/core-api/irq/index.rst into Chinese.
+> 
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 
-I have not considered the eBPF yet.
-I will have a discussion with my colleagues about that.
-Thank you for the information.
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
 
+> ---
+>  .../translations/zh_CN/core-api/irq/index.rst | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/irq/index.rst
+> 
+> diff --git a/Documentation/translations/zh_CN/core-api/irq/index.rst b/Documentation/translations/zh_CN/core-api/irq/index.rst
+> new file mode 100644
+> index 000000000000..910ccabf041f
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/core-api/irq/index.rst
+> @@ -0,0 +1,19 @@
+> +.. include:: ../../disclaimer-zh_CN.rst
+> +
+> +:Original: :doc:`../../../../core-api/irq/index`
+> +:Translator: Yanteng Si <siyanteng@loongson.cn>
+> +
+> +.. _cn_irq_index.rst:
+> +
+> +
+> +====
+> +IRQs
+> +====
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   concepts
+> +   irq-affinity
+> +   irq-domain
+> +   irqflags-tracing
+> -- 
+> 2.27.0
 
->
->
-> > When debugfs is enabled, RTRS is able to export interfaces
-> > to fail RTRS client and server.
-> > Following fault injection points are enabled:
-> > - fail a request processing on RTRS client side
-> > - fail a heart-beat transferation on RTRS server side
-> >
-> > This patch set is just a starting point. We will enable various
-> > faults and test as many error cases as possible.
-> >
-> > Best regards
-> >
-> > Gioh Kim (4):
-> >  RDMA/rtrs: Enable the fault-injection
-> >  RDMA/rtrs-clt: Inject a fault at request processing
-> >  RDMA/rtrs-srv: Inject a fault at heart-beat sending
-> >  docs: fault-injection: Add fault-injection manual of RTRS
-> >
-> > .../fault-injection/rtrs-fault-injection.rst  | 83 +++++++++++++++++++
-> > drivers/infiniband/ulp/rtrs/Makefile          |  2 +
-> > drivers/infiniband/ulp/rtrs/rtrs-clt-sysfs.c  | 44 ++++++++++
-> > drivers/infiniband/ulp/rtrs/rtrs-clt.c        |  7 ++
-> > drivers/infiniband/ulp/rtrs/rtrs-clt.h        | 13 +++
-> > drivers/infiniband/ulp/rtrs/rtrs-fault.c      | 52 ++++++++++++
-> > drivers/infiniband/ulp/rtrs/rtrs-fault.h      | 28 +++++++
-> > drivers/infiniband/ulp/rtrs/rtrs-srv-sysfs.c  | 44 ++++++++++
-> > drivers/infiniband/ulp/rtrs/rtrs-srv.c        |  5 ++
-> > drivers/infiniband/ulp/rtrs/rtrs-srv.h        | 13 +++
-> > 10 files changed, 291 insertions(+)
-> > create mode 100644 Documentation/fault-injection/rtrs-fault-injection.rst
-> > create mode 100644 drivers/infiniband/ulp/rtrs/rtrs-fault.c
-> > create mode 100644 drivers/infiniband/ulp/rtrs/rtrs-fault.h
-> >
-> > --
-> > 2.25.1
-> >
->
-> --
-> Chuck Lever
->
->
->
