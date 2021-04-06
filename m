@@ -2,180 +2,791 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-20.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,PDS_BAD_THREAD_QP_64,SPF_HELO_NONE,SPF_PASS
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED6BDC433B4
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 10:32:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FE3FC433B4
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 11:08:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BDF20613AE
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 10:32:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 15479613C6
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 11:08:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237286AbhDFKcl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 06:32:41 -0400
-Received: from mx0a-0014ca01.pphosted.com ([208.84.65.235]:65466 "EHLO
-        mx0a-0014ca01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233025AbhDFKck (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 06:32:40 -0400
-Received: from pps.filterd (m0042385.ppops.net [127.0.0.1])
-        by mx0a-0014ca01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 136AR8C1026067;
-        Tue, 6 Apr 2021 03:31:52 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com; h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=proofpoint;
- bh=jC0YyPX74JjDn2FRGPBJ4UZjcWHzfme0mr8ebDHmBss=;
- b=PUAIQUVnV3K6jO/w9tCghEdUgCgt13339JYEtlU2oFh3tAMkQEwzUE4bdHVly7Rr7nVS
- Tq0prtgAqBfazDqUC10KJI7k6x2GIdLZ/0HqP+wWq3H3Q5tVzWmlpy5bku6vgD4VWExR
- 1WjEoeWytByNGYpglc/f43WUIKLaVtSy7hJzS9EqZt/Ko5FfpyKrUoTJFp1KNYV1lfjF
- jzwQ4AdPfCAYLgwrSyJYtyM4jqv4GMFu+F8wnv/6XE5CDBlOt4PXPMWuBRL+SLj4SFYI
- Ss8wlcPMgYFgUfYY85780Uwo9LtjgLYl7zq1ketldBMuHYap0bJOvpRHLgF1ohs5Ubrr 3g== 
-Received: from nam04-co1-obe.outbound.protection.outlook.com (mail-co1nam04lp2058.outbound.protection.outlook.com [104.47.45.58])
-        by mx0a-0014ca01.pphosted.com with ESMTP id 37rh02ruy1-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 06 Apr 2021 03:31:52 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GXDyVUFhj1sS3GeRoo4Iq4yFPKQI0V2Yt+QucFPnMk8jKR65PStwJprz7mP+v0mhU0Y5jrSU6QBiqquliHpq0Ts5mwkWwEc8Bzy9nZuuTKKpikkXQomZnV2tal/H7aWtuMlopxY9MZhDu+WiLvGJ0E9X+K95ViwqnZOWj9PgaK/7vIuUPqrq3AFH+02exqFl431AaI0ftD9Lx9si/KhjBJyP+j2+/zG93dSaOwzUEan7r9WVRRbE/2Yog+zuUCFHpn9+hAak7H5zo8fcIOxNolszig663P+B+bUpHequ5LyVsmsj2ypg3EFRlPL5az5iph4QZfrxGmFEn9WZ9xbH5w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jC0YyPX74JjDn2FRGPBJ4UZjcWHzfme0mr8ebDHmBss=;
- b=SCNmlbI3PZycJN11jr1ZAT9aGnJdJNR90Wvy5lVlx4txGPKo+dfo/9Tb4j/GRpO1IGjpZyjiFzpKFoonY4FcBXGQcFZobr/iQ+ln8qDtc5157aXd3KG/BYRBH94qT5dy8+Z6651nf3pPE/ycSqmzPnyD9PrxY+WUls18aHTxludpw0ONEoE/3C+Q0oI5kuUT4NZdN/sR2rTpEq/6zuqA7LyHLvnOzNE239d17ZfwmI+qTf9bH8bETFFfMB0NL2Cmiq51c0R9IzdH02cqVP9lzzLLHowRavyXAwP9zFSYOzzy7KvQCak6Qmdk9T845NsW82jOulv9ro2B4NEgiwLjlg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cadence.com; dmarc=pass action=none header.from=cadence.com;
- dkim=pass header.d=cadence.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cadence.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jC0YyPX74JjDn2FRGPBJ4UZjcWHzfme0mr8ebDHmBss=;
- b=uD93RIGT12KZnjURg42sPcAp4UyhiSBCC2597vhxnWgdpsZqObqV9S2ov0qOo4YTdfWwRpSMRBhAc4LwnVtjmCm6sYErsPd0CXMZa2stX9UqY+zSDWdn6rVncRQV6b8Xv3mz52ylLSoZGq6uqabvsDVlz2Ubg8VbqjRrLX6tG4w=
-Received: from MN2PR07MB6208.namprd07.prod.outlook.com (2603:10b6:208:111::32)
- by MN2PR07MB6365.namprd07.prod.outlook.com (2603:10b6:208:119::30) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.28; Tue, 6 Apr
- 2021 10:31:50 +0000
-Received: from MN2PR07MB6208.namprd07.prod.outlook.com
- ([fe80::79fd:abf6:7b49:e2c2]) by MN2PR07MB6208.namprd07.prod.outlook.com
- ([fe80::79fd:abf6:7b49:e2c2%5]) with mapi id 15.20.3999.032; Tue, 6 Apr 2021
- 10:31:48 +0000
-From:   Tom Joseph <tjoseph@cadence.com>
-To:     Kishon Vijay Abraham I <kishon@ti.com>,
-        Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Rob Herring <robh+dt@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Gustavo Pimentel <gustavo.pimentel@synopsys.com>,
-        Marek Vasut <marek.vasut+renesas@gmail.com>,
-        Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-        Shawn Lin <shawn.lin@rock-chips.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Athani Nadeem Ladkhan <nadeem@cadence.com>
-CC:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-renesas-soc@vger.kernel.org" 
-        <linux-renesas-soc@vger.kernel.org>,
-        "linux-rockchip@lists.infradead.org" 
-        <linux-rockchip@lists.infradead.org>,
-        Lokesh Vutla <lokeshvutla@ti.com>
-Subject: RE: [PATCH v4 5/7] PCI: cadence: Add support to configure virtual
- functions
-Thread-Topic: [PATCH v4 5/7] PCI: cadence: Add support to configure virtual
- functions
-Thread-Index: AQHXFcfrU70Ry7+PnUif6l0rSHy4YaqgCVQA
-Date:   Tue, 6 Apr 2021 10:31:48 +0000
-Message-ID: <MN2PR07MB6208CFBF96B74CA8531E21CCA1769@MN2PR07MB6208.namprd07.prod.outlook.com>
-References: <20210310160943.7606-1-kishon@ti.com>
- <20210310160943.7606-6-kishon@ti.com>
-In-Reply-To: <20210310160943.7606-6-kishon@ti.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-dg-ref: PG1ldGE+PGF0IG5tPSJib2R5LnR4dCIgcD0iYzpcdXNlcnNcdGpvc2VwaFxhcHBkYXRhXHJvYW1pbmdcMDlkODQ5YjYtMzJkMy00YTQwLTg1ZWUtNmI4NGJhMjllMzViXG1zZ3NcbXNnLTQ5ODVjMDVhLTk2YzMtMTFlYi04OTQxLTUwN2I5ZDg0NGVhMlxhbWUtdGVzdFw0OTg1YzA1Yi05NmMzLTExZWItODk0MS01MDdiOWQ4NDRlYTJib2R5LnR4dCIgc3o9IjY2MyIgdD0iMTMyNjIxNzg3MDcxOTAyOTg4IiBoPSJELzVkRmhmVE0vaXFaeEMrZlpBcHVHclZHeWs9IiBpZD0iIiBibD0iMCIgYm89IjEiLz48L21ldGE+
-x-dg-rorf: true
-authentication-results: ti.com; dkim=none (message not signed)
- header.d=none;ti.com; dmarc=none action=none header.from=cadence.com;
-x-originating-ip: [185.217.253.59]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d54b4999-9be6-491d-5e5a-08d8f8e72f42
-x-ms-traffictypediagnostic: MN2PR07MB6365:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR07MB6365C73B14200E3DA7071FB9A1769@MN2PR07MB6365.namprd07.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4303;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: UgZZd30JS4ahgEYVwSWdJ8d9ybf+mmI/Q7ZVPAMHE9M2zq18QMBq8z67zwXnH1Q9pAW1w4GK3el1sWUVEfVBGru8ua1wo80B6fPYETvNMWS6v3Lyt/tv1NETwuK1OvFDtLULJNONwZbfizZvcNpw5xciq4NhANpiK9H0KnHkeJ4vrmCIyGKPjIh7GSDMJPTOip6invE48M/ZI8KnZFfcT101lYRLXE5afo1TuiohjhoMZT8ICrqmHpo1IO8gBHNQIbBxBGqq527b/xmvwA1vqIUBvJEAo6wiMQP4/mogbSjFXO767bh83LNU3CwkNyzRsW/r6xChQmS5O8v9aVJ/KmxdLYtSA4preEnfijT34Zsx+QyxcTzaU7/cooLcROcj5XTPc72EHvbhhOaxuTNu/kiHXcpxuuVxOELo4X3Z4FMwwH0U/aZiyOrzCNwOPHa4v60OBoadpGci5F4gJ98Mcunl/Ve256BlJe1c2Mt8M8wXizMQEBTkvnN4A/DgQJnhY0LUqC2pxfVhbSC2ir+X74wTcjlbWMD8WHKb7g0Z6RfHKfpy037rJswWWAS7Exb0DEn/4k+ndK5uuLSUcIrto7edwBLGtToLRVLx3PBcgVyLLa0P5RuoH6kC43zW5hSdEZsOk89Nh7WFi5u/bQWaxPC3d+zjZ+PyHtBm9PZqSLVayYifYvOn9AkeGt/rQKL7ARJsV5hM5t+dw4WAaF1Wxg==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR07MB6208.namprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(39860400002)(396003)(366004)(136003)(346002)(36092001)(76116006)(8676002)(921005)(6636002)(9686003)(8936002)(186003)(4326008)(66476007)(38100700001)(26005)(110136005)(71200400001)(4744005)(33656002)(83380400001)(55016002)(86362001)(316002)(54906003)(7696005)(2906002)(6506007)(5660300002)(478600001)(7416002)(66556008)(66446008)(66946007)(64756008)(52536014);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?pubkSshVI/z3TY0MeRnbnNL12Up9NfCOEMcZoeruCfFtKYMoos9o6YYZMgcq?=
- =?us-ascii?Q?U0u0yn60KRsZiR0PvOax0s/ye3wtkLWJC7APaWbwAwj2tsWzebib8PodMkf0?=
- =?us-ascii?Q?XU70VLgICapsCVrRR4+WMByRA4TqfpV404rf6ph+j4KmBqE/RYSKPiIfqsny?=
- =?us-ascii?Q?2qafPSJUtelrgv8WPRbh3P67MbEAZe5kwXnl+ZFj3FcjIL/Idf2nIs2gdpEo?=
- =?us-ascii?Q?XwbIBT0leDmFbD0/ZlKLwhp0qzn9Ryqo9wktcA7L9LQT6YrYgmR2PptqC/AM?=
- =?us-ascii?Q?02bjNjsyYj/KQ1I0xZND3MPzQ0Ww5+FjhquhyFxCanAzJS/RfaNBJYXlY0xf?=
- =?us-ascii?Q?uKqR+Njt9bhZyCnUUtxRGToTQahz6jO2LZWS4OKDvYv/VJ1ohz6OzhfsKCjQ?=
- =?us-ascii?Q?B64vD5S0sCippXURtPRmMmv+IXZjdARhx+aM/5/KSSBwLH08sTCGt6pfWc5i?=
- =?us-ascii?Q?jNU7X/idgHlCvAYbOQqYcVmAL4QtUn7Ktz5IA/Mk59JQd1uNM4PUPumorOy+?=
- =?us-ascii?Q?fdHXByYDMz+i1fvsifCadzPkYjs+GBrFFAVTkZ8CI1cbl+UWtSmYFQQDzMag?=
- =?us-ascii?Q?Ks5Kt05YP1TthlCAcm65Hi38DUDR6XSH1yQmnZUII49Op6EdWV/XzTzbI2U2?=
- =?us-ascii?Q?t2ZuU7+2WU/k46vjFDDHx44iEv6YR+iYu9foIqflsTpMmWlQLsmqj8SbmKuP?=
- =?us-ascii?Q?T7OcDlJDuJlv+sJ/hgnqERQdkYfcso7fbwYw9b2rsKzlen3EBdXXlSz3hnup?=
- =?us-ascii?Q?d3WY15MB10ajzJ77FvIpJmKEC14z+Y+7k3eu2xyBt5zihX5H5GXPG+qETAlP?=
- =?us-ascii?Q?BbKZXS3H8kuck2ledt9r3M8wBo3quARouwZ+srTOBOLsWFDM/YQfk4w/Iol8?=
- =?us-ascii?Q?xapijitqIoa4K/95OfptoHN0LmW1UdSVd9gYe+nV4ee+E1P23NzedWxxa81+?=
- =?us-ascii?Q?JvCRTDp73+XjXF3lqjGvyubI5vo5RmmSqp/1pMWl1BHq+fUGo53sWvxNoJc9?=
- =?us-ascii?Q?USt/0cEIXDXY8ygTxPyWNGialLA2DJNUT5iC4uz3iUbynm2QL8B3xh61BCUQ?=
- =?us-ascii?Q?K+ruO+MtCF7u7vR6X6JWdwX4dbLaz/iWNE1O5P5fL2IdUsBj7cHDjFzX2dzM?=
- =?us-ascii?Q?r5SHjOQRORjLht5EITIjgO3WcwY7aj0crBU5xMo6cE5qtxAOGWbFf+3/jX4z?=
- =?us-ascii?Q?xgkokK95jmVpMP2SW7sMkRZTvYdIWmNtcOBLjWMWvGZZJ2x3IIleyuinmxwd?=
- =?us-ascii?Q?6QxtheYRtvEivL51Z+W8Yid1juYmP2U0Tmy3fj4cEjto/Tq0dmkOahPa+nvU?=
- =?us-ascii?Q?M9IFNBfXlTuT0am9DVdeJ0Qr?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S245355AbhDFLIk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 07:08:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55298 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S241252AbhDFLIk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 07:08:40 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43CC4C061756
+        for <linux-doc@vger.kernel.org>; Tue,  6 Apr 2021 04:08:32 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id e18so13759289wrt.6
+        for <linux-doc@vger.kernel.org>; Tue, 06 Apr 2021 04:08:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=t2wvi5ea3DvskPYe1ITdPVdeR/Trn2hnbutBacY8vko=;
+        b=lLfNyM5Y0h25d9k6NVxcrynDJXgZASMu8zGhs3ypHfNPZA4XLGKue4HcOZRUsHITpo
+         wjzNo58sPPcqLaKiNNNXz8ZzWblmJUVEJ53E+u9bHhtkYHeVcYwYjLBH4xqMsAuqWTr9
+         pQA2TNnMMQuEQxz4NZ+D0WK3dbXLpmHWDbRRZqUuPJ3jOzSi4qoIo2am/yUIijbGxxPG
+         mnd55a3U27c3Nv8e+lyKt+mwMEe0eD3CHa+euEtQCIh1mv5HuMnlKBzEbhPAd9EtNlEG
+         HlHhcWcuj+7qxZ/WeEjDvPu1DTVMJn6xKhLrMAhTBMs9iasXRJkfwyRrPHSVr/fCTcTa
+         /r3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=t2wvi5ea3DvskPYe1ITdPVdeR/Trn2hnbutBacY8vko=;
+        b=BX/94j+MTlHHQdnAMhUcsBjfKkmOkXVSx1jwUNGsPGoblcKMOqULiqeJew46AS0R/p
+         ETsE0oR7+QCbjt8Vttikqyl6g5htBgCYAmrxTU1hNtyx8AANEBOlS3+/dff1u/A+tcgc
+         GBJcHocas/TrNWG83PsePklSJ5qTOFnIuWEph4JRKxwOYczLXfG6ZHa7wnDhtJw9C6yI
+         SKzqSoJ2cIDLuuComvsvAsLMnaTrd2WQ6J1RvLC+Y2Y51ymEUT4Nx5dJBWNz+rEbCijZ
+         0AXojHxIXUp+/bTORWBKgHtv5nS1+uZHiBjHX9RnesTqWf3DcCiKxS6YQElg/nkT31HV
+         lupw==
+X-Gm-Message-State: AOAM532LcgYuLjTRZaoOvv+aaeGYJqs6L9sjjayuyUghrHvDBHjI+ud1
+        L4nOBmYE7FDllBLEwNAOakVnziOKv0F1T0FAtDTmNQ==
+X-Google-Smtp-Source: ABdhPJw9Me/g3JtHZ6AYOjYikd0HzszQwQqNAhG5vHzroT9Q5K7Q7QfMJcXW95DHcYY6BQj3mLO0uj1ROnyh/Pl9ZJo=
+X-Received: by 2002:adf:efc7:: with SMTP id i7mr33886224wrp.182.1617707310748;
+ Tue, 06 Apr 2021 04:08:30 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: cadence.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR07MB6208.namprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d54b4999-9be6-491d-5e5a-08d8f8e72f42
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Apr 2021 10:31:48.6467
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d36035c5-6ce6-4662-a3dc-e762e61ae4c9
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: n4it1ta8ymo5iNNUKuEFeGa03luI/73UOX9aTnWHxQfViuhN+GkGk0qV/5wBRmROs3fhjT+AnfYUbCA+Kub0peioFd+UW5JxA4wQoX7jLyA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR07MB6365
-X-Proofpoint-GUID: AIH3SF8bDapgLhh7inckgJSbOF8jTuxH
-X-Proofpoint-ORIG-GUID: AIH3SF8bDapgLhh7inckgJSbOF8jTuxH
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369,18.0.761
- definitions=2021-04-06_02:2021-04-01,2021-04-06 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_check_notspam policy=outbound_check score=0 clxscore=1011
- bulkscore=0 mlxscore=0 spamscore=0 malwarescore=0 adultscore=0
- priorityscore=1501 mlxlogscore=999 phishscore=0 impostorscore=0
- suspectscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2104030000 definitions=main-2104060071
+References: <20210316180400.7184-1-mike.leach@linaro.org> <20210316180400.7184-10-mike.leach@linaro.org>
+ <20210405205613.GE145043@xps15>
+In-Reply-To: <20210405205613.GE145043@xps15>
+From:   Mike Leach <mike.leach@linaro.org>
+Date:   Tue, 6 Apr 2021 12:08:19 +0100
+Message-ID: <CAJ9a7Vj==w=4ai=DCbT=Ssn=xucvbMFCtsWCVEf3FbBgmHdpPw@mail.gmail.com>
+Subject: Re: [PATCH v5 09/10] coresight: syscfg: Add initial configfs support
+To:     Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc:     linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Coresight ML <coresight@lists.linaro.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        "Suzuki K. Poulose" <suzuki.poulose@arm.com>,
+        Yabin Cui <yabinc@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, Leo Yan <leo.yan@linaro.org>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Tingwei Zhang <tingwei@codeaurora.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+Hi Mathieu,
 
-> -----Original Message-----
-> From: Kishon Vijay Abraham I <kishon@ti.com>
-> Sent: 10 March 2021 16:10
->=20
-> Now that support for SR-IOV is added in PCIe endpoint core, add support
-> to configure virtual functions in the Cadence PCIe EP driver.
->=20
-> Signed-off-by: Kishon Vijay Abraham I <kishon@ti.com>
-> ---
->  .../pci/controller/cadence/pcie-cadence-ep.c  | 207 ++++++++++++++++--
->  drivers/pci/controller/cadence/pcie-cadence.h |   7 +
->  2 files changed, 197 insertions(+), 17 deletions(-)
->=20
-Acked-by: Tom Joseph <tjoseph@cadence.com>
+On Mon, 5 Apr 2021 at 21:56, Mathieu Poirier <mathieu.poirier@linaro.org> wrote:
+>
+> On Tue, Mar 16, 2021 at 06:03:59PM +0000, Mike Leach wrote:
+> > Adds configfs subsystem and attributes to the configuration manager
+> > to enable the listing of loaded configurations and features.
+> >
+> > The default values of feature parameters can be accessed and altered
+> > from these attributes to affect all installed devices using the feature.
+> >
+> > Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> > ---
+> >  drivers/hwtracing/coresight/Makefile          |   3 +-
+> >  .../coresight/coresight-syscfg-configfs.c     | 399 ++++++++++++++++++
+> >  .../coresight/coresight-syscfg-configfs.h     |  45 ++
+> >  .../hwtracing/coresight/coresight-syscfg.c    |  77 ++++
+> >  .../hwtracing/coresight/coresight-syscfg.h    |   7 +
+> >  5 files changed, 530 insertions(+), 1 deletion(-)
+> >  create mode 100644 drivers/hwtracing/coresight/coresight-syscfg-configfs.c
+> >  create mode 100644 drivers/hwtracing/coresight/coresight-syscfg-configfs.h
+> >
+> > diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
+> > index 2707bfef1b76..391c93a08902 100644
+> > --- a/drivers/hwtracing/coresight/Makefile
+> > +++ b/drivers/hwtracing/coresight/Makefile
+> > @@ -5,7 +5,8 @@
+> >  obj-$(CONFIG_CORESIGHT) += coresight.o
+> >  coresight-y := coresight-core.o  coresight-etm-perf.o coresight-platform.o \
+> >               coresight-sysfs.o coresight-syscfg.o coresight-config.o \
+> > -             coresight-cfg-preload.o coresight-cfg-afdo.o
+> > +             coresight-cfg-preload.o coresight-cfg-afdo.o \
+> > +             coresight-syscfg-configfs.o
+> >  obj-$(CONFIG_CORESIGHT_LINK_AND_SINK_TMC) += coresight-tmc.o
+> >  coresight-tmc-y := coresight-tmc-core.o coresight-tmc-etf.o \
+> >                     coresight-tmc-etr.o
+> > diff --git a/drivers/hwtracing/coresight/coresight-syscfg-configfs.c b/drivers/hwtracing/coresight/coresight-syscfg-configfs.c
+> > new file mode 100644
+> > index 000000000000..7cefad81d1f6
+> > --- /dev/null
+> > +++ b/drivers/hwtracing/coresight/coresight-syscfg-configfs.c
+> > @@ -0,0 +1,399 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (c) 2020 Linaro Limited, All rights reserved.
+> > + * Author: Mike Leach <mike.leach@linaro.org>
+> > + */
+> > +
+> > +#include <linux/configfs.h>
+> > +
+> > +#include "coresight-syscfg-configfs.h"
+> > +
+> > +/* create a default ci_type. */
+> > +static inline struct config_item_type *cscfg_create_ci_type(void)
+> > +{
+> > +     struct config_item_type *ci_type;
+> > +
+> > +     ci_type = devm_kzalloc(cscfg_device(), sizeof(*ci_type), GFP_KERNEL);
+> > +     if (ci_type)
+> > +             ci_type->ct_owner = THIS_MODULE;
+> > +
+> > +     return ci_type;
+> > +}
+> > +
+> > +/* configurations sub-group */
+> > +
+> > +/* attributes for the config view group */
+> > +static ssize_t cscfg_cfg_description_show(struct config_item *item, char *page)
+> > +{
+> > +     struct cscfg_fs_config *fs_config = container_of(to_config_group(item),
+> > +                                                      struct cscfg_fs_config, group);
+> > +
+> > +     return scnprintf(page, PAGE_SIZE, "%s\n", fs_config->config_desc->description);
+> > +}
+> > +CONFIGFS_ATTR_RO(cscfg_cfg_, description);
+> > +
+> > +static ssize_t cscfg_cfg_feature_refs_show(struct config_item *item, char *page)
+> > +{
+> > +     struct cscfg_fs_config *fs_config = container_of(to_config_group(item),
+> > +                                                      struct cscfg_fs_config, group);
+> > +     const struct cscfg_config_desc *config_desc = fs_config->config_desc;
+> > +     ssize_t ch_used = 0;
+> > +     int i;
+> > +
+> > +     if (config_desc->nr_feat_refs) {
+>
+> This check isn't needed.
+>
+Agreed.
+
+> > +             for (i = 0; i < config_desc->nr_feat_refs; i++) {
+> > +                     ch_used += scnprintf(page + ch_used, PAGE_SIZE - ch_used,
+> > +                                          "%s\n", config_desc->feat_ref_names[i]);
+> > +             }
+> > +     }
+> > +     return ch_used;
+> > +}
+> > +CONFIGFS_ATTR_RO(cscfg_cfg_, feature_refs);
+> > +
+> > +/* list preset values in order of features and params */
+> > +static ssize_t cscfg_cfg_values_show(struct config_item *item, char *page)
+> > +{
+> > +     const struct cscfg_feature_desc *feat_desc;
+> > +     const struct cscfg_config_desc *config_desc;
+> > +     struct cscfg_fs_preset *fs_preset;
+> > +     int i, j, val_idx, preset_idx;
+> > +     ssize_t used = 0;
+> > +
+> > +     fs_preset = container_of(to_config_group(item), struct cscfg_fs_preset, group);
+> > +     config_desc = fs_preset->config_desc;
+> > +
+> > +     if (!config_desc->nr_presets)
+> > +             return 0;
+> > +
+> > +     preset_idx = fs_preset->preset_num - 1;
+> > +
+> > +     /* start index on the correct array line */
+> > +     val_idx = config_desc->nr_total_params * preset_idx;
+> > +
+> > +     /*
+> > +      * A set of presets is the sum of all params in used features,
+> > +      * in order of declaration of features and params in the features
+> > +      */
+> > +     for (i = 0; i < config_desc->nr_feat_refs; i++) {
+> > +             feat_desc = cscfg_get_named_feat_desc(config_desc->feat_ref_names[i]);
+> > +             for (j = 0; j < feat_desc->nr_params; j++) {
+> > +                     used += scnprintf(page + used, PAGE_SIZE - used,
+> > +                                       "%s.%s = 0x%llx ",
+> > +                                       feat_desc->name,
+> > +                                       feat_desc->params_desc[j].name,
+> > +                                       config_desc->presets[val_idx++]);
+> > +             }
+> > +     }
+> > +     used += scnprintf(page + used, PAGE_SIZE - used, "\n");
+> > +
+> > +     return used;
+> > +}
+> > +CONFIGFS_ATTR_RO(cscfg_cfg_, values);
+> > +
+> > +static struct configfs_attribute *cscfg_config_view_attrs[] = {
+> > +     &cscfg_cfg_attr_description,
+> > +     &cscfg_cfg_attr_feature_refs,
+> > +     NULL,
+> > +};
+> > +
+> > +static struct config_item_type cscfg_config_view_type = {
+> > +     .ct_owner = THIS_MODULE,
+> > +     .ct_attrs = cscfg_config_view_attrs,
+> > +};
+> > +
+> > +static struct configfs_attribute *cscfg_config_preset_attrs[] = {
+> > +     &cscfg_cfg_attr_values,
+> > +     NULL,
+> > +};
+> > +
+> > +static struct config_item_type cscfg_config_preset_type = {
+> > +     .ct_owner = THIS_MODULE,
+> > +     .ct_attrs = cscfg_config_preset_attrs,
+> > +};
+> > +
+> > +static int cscfg_add_preset_groups(struct cscfg_fs_config *cfg_view)
+> > +{
+> > +     int preset_num;
+> > +     struct cscfg_fs_preset *cfg_fs_preset;
+> > +     struct cscfg_config_desc *config_desc = cfg_view->config_desc;
+> > +     char name[CONFIGFS_ITEM_NAME_LEN];
+> > +
+> > +     if (!config_desc->nr_presets)
+> > +             return 0;
+> > +
+> > +     for (preset_num = 1; preset_num <= config_desc->nr_presets; preset_num++) {
+> > +             cfg_fs_preset = devm_kzalloc(cscfg_device(),
+> > +                                          sizeof(struct cscfg_fs_preset), GFP_KERNEL);
+> > +
+> > +             if (!cfg_fs_preset)
+> > +                     return -ENOMEM;
+> > +
+> > +             snprintf(name, CONFIGFS_ITEM_NAME_LEN, "preset%d", preset_num);
+> > +             cfg_fs_preset->preset_num = preset_num;
+> > +             cfg_fs_preset->config_desc = cfg_view->config_desc;
+> > +             config_group_init_type_name(&cfg_fs_preset->group, name,
+> > +                                         &cscfg_config_preset_type);
+> > +             configfs_add_default_group(&cfg_fs_preset->group, &cfg_view->group);
+> > +     }
+> > +     return 0;
+> > +}
+> > +
+> > +static struct config_group *cscfg_create_config_group(struct cscfg_config_desc *config_desc)
+> > +{
+> > +     struct cscfg_fs_config *cfg_view;
+> > +     struct device *dev = cscfg_device();
+> > +     int err;
+> > +
+> > +     if (!dev)
+> > +             return ERR_PTR(-EINVAL);
+> > +
+> > +     cfg_view = devm_kzalloc(dev, sizeof(struct cscfg_fs_config), GFP_KERNEL);
+> > +     if (!cfg_view)
+> > +             return ERR_PTR(-ENOMEM);
+> > +
+> > +     cfg_view->config_desc = config_desc;
+> > +     config_group_init_type_name(&cfg_view->group, config_desc->name, &cscfg_config_view_type);
+> > +
+> > +     /* add in a preset<n> dir for each preset */
+> > +     err = cscfg_add_preset_groups(cfg_view);
+> > +     if (err)
+> > +             return ERR_PTR(err);
+> > +
+> > +     return &cfg_view->group;
+> > +}
+> > +
+> > +/* attributes for features view */
+> > +
+> > +static ssize_t cscfg_feat_description_show(struct config_item *item, char *page)
+> > +{
+> > +     struct cscfg_fs_feature *fs_feat = container_of(to_config_group(item),
+> > +                                                     struct cscfg_fs_feature, group);
+> > +
+> > +     return scnprintf(page, PAGE_SIZE, "%s\n", fs_feat->feat_desc->description);
+>
+> Either remove the '\n' at the end of fs_feat->feat_desc->description or above,
+> with a preference toward the former.  The same thing should be done for
+> cscfg_cfg_description_show().
+>
+> Otherwise it creates and exta new line when quering from the command line and it
+> is only a matter of time before the automated tools point it out.
+>
+
+Will remove here - we cannot control what users are going to put in
+their own descriptions. Moreover - it seems that multi-line is
+permissible in configfs - see descriptions in the sample code in
+./samples/configfs.
+
+
+> > +}
+> > +CONFIGFS_ATTR_RO(cscfg_feat_, description);
+> > +
+> > +static ssize_t cscfg_feat_matches_show(struct config_item *item, char *page)
+> > +{
+> > +     struct cscfg_fs_feature *fs_feat = container_of(to_config_group(item),
+> > +                                                     struct cscfg_fs_feature, group);
+> > +     u32 match_flags = fs_feat->feat_desc->match_flags;
+> > +     int used = 0;
+> > +
+> > +     if (match_flags & CS_CFG_MATCH_CLASS_SRC_ALL)
+> > +             used = scnprintf(page, PAGE_SIZE, "SRC_ALL ");
+> > +
+> > +     if (match_flags & CS_CFG_MATCH_CLASS_SRC_ETM4)
+> > +             used += scnprintf(page + used, PAGE_SIZE - used, "SRC_ETMV4 ");
+> > +
+> > +     used += scnprintf(page + used, PAGE_SIZE - used, "\n");
+> > +     return used;
+> > +}
+> > +CONFIGFS_ATTR_RO(cscfg_feat_, matches);
+> > +
+> > +static ssize_t cscfg_feat_nr_params_show(struct config_item *item, char *page)
+> > +{
+> > +     struct cscfg_fs_feature *fs_feat = container_of(to_config_group(item),
+> > +                                                     struct cscfg_fs_feature, group);
+> > +
+> > +     return scnprintf(page, PAGE_SIZE, "%d\n", fs_feat->feat_desc->nr_params);
+> > +}
+> > +CONFIGFS_ATTR_RO(cscfg_feat_, nr_params);
+> > +
+> > +/* base feature desc attrib structures */
+> > +static struct configfs_attribute *cscfg_feature_view_attrs[] = {
+> > +     &cscfg_feat_attr_description,
+> > +     &cscfg_feat_attr_matches,
+> > +     &cscfg_feat_attr_nr_params,
+> > +     NULL,
+> > +};
+> > +
+> > +static struct config_item_type cscfg_feature_view_type = {
+> > +     .ct_owner = THIS_MODULE,
+> > +     .ct_attrs = cscfg_feature_view_attrs,
+> > +};
+> > +
+> > +static ssize_t cscfg_param_value_show(struct config_item *item, char *page)
+> > +{
+> > +     struct cscfg_fs_param *param_item = container_of(to_config_group(item),
+> > +                                                      struct cscfg_fs_param, group);
+> > +     u64 value = param_item->feat_desc->params_desc[param_item->param_idx].value;
+> > +
+> > +     return scnprintf(page, PAGE_SIZE, "0x%llx\n", value);
+> > +}
+> > +
+> > +static ssize_t cscfg_param_value_store(struct config_item *item,
+> > +                                    const char *page, size_t size)
+> > +{
+> > +     struct cscfg_fs_param *param_item = container_of(to_config_group(item),
+> > +                                                      struct cscfg_fs_param, group);
+> > +     struct cscfg_feature_desc *feat_desc = param_item->feat_desc;
+> > +     int param_idx = param_item->param_idx;
+> > +     u64 value;
+> > +     int err;
+> > +
+> > +     err = kstrtoull(page, 0, &value);
+> > +     if (!err)
+> > +             err = cscfg_update_feat_param_val(feat_desc, param_idx, value);
+> > +
+> > +     return err ? err : size;
+> > +}
+> > +CONFIGFS_ATTR(cscfg_param_, value);
+> > +
+> > +static struct configfs_attribute *cscfg_param_view_attrs[] = {
+> > +     &cscfg_param_attr_value,
+> > +     NULL,
+> > +};
+> > +
+> > +static struct config_item_type cscfg_param_view_type = {
+> > +     .ct_owner = THIS_MODULE,
+> > +     .ct_attrs = cscfg_param_view_attrs,
+> > +};
+> > +
+> > +/*
+> > + * configfs has far less functionality provided to add attributes dynamically than sysfs,
+> > + * and the show and store fns pass the enclosing config_item so the actual attribute cannot
+> > + * be determined. Therefore we add each item as a group directory, with a value attribute.
+> > + */
+> > +static int cscfg_create_params_group_items(struct cscfg_feature_desc *feat_desc,
+> > +                                        struct config_group *params_group)
+> > +{
+> > +     struct device *dev = cscfg_device();
+> > +     struct cscfg_fs_param *param_item;
+> > +     int i;
+> > +
+> > +     /* parameter items - as groups with default_value attribute */
+> > +     for (i = 0; i < feat_desc->nr_params; i++) {
+> > +             param_item = devm_kzalloc(dev, sizeof(struct cscfg_fs_param), GFP_KERNEL);
+> > +             if (!param_item)
+> > +                     return -ENOMEM;
+> > +             param_item->feat_desc = feat_desc;
+> > +             param_item->param_idx = i;
+> > +             config_group_init_type_name(&param_item->group,
+> > +                                         feat_desc->params_desc[i].name,
+> > +                                         &cscfg_param_view_type);
+> > +             configfs_add_default_group(&param_item->group, params_group);
+> > +     }
+> > +     return 0;
+> > +}
+> > +
+> > +static struct config_group *cscfg_create_feature_group(struct cscfg_feature_desc *feat_desc)
+> > +{
+> > +     struct cscfg_fs_feature *feat_view;
+> > +     struct config_item_type *params_group_type;
+> > +     struct config_group *params_group = NULL;
+> > +     struct device *dev = cscfg_device();
+> > +     int item_err;
+> > +
+> > +     if (!dev)
+> > +             return ERR_PTR(-EINVAL);
+> > +
+> > +     feat_view = devm_kzalloc(dev, sizeof(struct cscfg_fs_feature), GFP_KERNEL);
+> > +     if (!feat_view)
+> > +             return ERR_PTR(-ENOMEM);
+> > +
+> > +     if (feat_desc->nr_params) {
+> > +             params_group = devm_kzalloc(dev, sizeof(struct config_group), GFP_KERNEL);
+> > +             if (!params_group)
+> > +                     return ERR_PTR(-ENOMEM);
+> > +
+> > +             params_group_type = cscfg_create_ci_type();
+> > +             if (!params_group_type)
+> > +                     return ERR_PTR(-ENOMEM);
+> > +     }
+> > +
+> > +     feat_view->feat_desc = feat_desc;
+> > +     config_group_init_type_name(&feat_view->group,
+> > +                                 feat_desc->name,
+> > +                                 &cscfg_feature_view_type);
+> > +     if (params_group) {
+> > +             config_group_init_type_name(params_group, "params", params_group_type);
+> > +             configfs_add_default_group(params_group, &feat_view->group);
+> > +             item_err = cscfg_create_params_group_items(feat_desc, params_group);
+> > +             if (item_err)
+> > +                     return ERR_PTR(item_err);
+> > +     }
+> > +     return &feat_view->group;
+> > +}
+> > +
+> > +static struct config_item_type cscfg_configs_type = {
+> > +     .ct_owner = THIS_MODULE,
+> > +};
+> > +
+> > +static struct config_group cscfg_configs_grp = {
+> > +     .cg_item = {
+> > +             .ci_namebuf = "configurations",
+> > +             .ci_type = &cscfg_configs_type,
+> > +     },
+> > +};
+> > +
+> > +/* add configuration to configurations group */
+> > +int cscfg_configfs_add_config(struct cscfg_config_desc *config_desc)
+> > +{
+> > +     struct config_group *new_group;
+> > +     int err;
+> > +
+> > +     new_group = cscfg_create_config_group(config_desc);
+> > +     if (IS_ERR(new_group))
+> > +             return PTR_ERR(new_group);
+> > +     err =  configfs_register_group(&cscfg_configs_grp, new_group);
+> > +     return err;
+> > +}
+> > +
+> > +static struct config_item_type cscfg_features_type = {
+> > +     .ct_owner = THIS_MODULE,
+> > +};
+> > +
+> > +static struct config_group cscfg_features_grp = {
+> > +     .cg_item = {
+> > +             .ci_namebuf = "features",
+> > +             .ci_type = &cscfg_features_type,
+> > +     },
+> > +};
+> > +
+> > +/* add feature to features group */
+> > +int cscfg_configfs_add_feature(struct cscfg_feature_desc *feat_desc)
+> > +{
+> > +     struct config_group *new_group;
+> > +     int err;
+> > +
+> > +     new_group = cscfg_create_feature_group(feat_desc);
+> > +     if (IS_ERR(new_group))
+> > +             return PTR_ERR(new_group);
+> > +     err =  configfs_register_group(&cscfg_features_grp, new_group);
+> > +     return err;
+> > +}
+> > +
+> > +int cscfg_configfs_init(struct cscfg_manager *cscfg_mgr)
+> > +{
+> > +     struct configfs_subsystem *subsys;
+> > +     struct config_item_type *ci_type;
+> > +
+> > +     if (!cscfg_mgr)
+> > +             return -EINVAL;
+> > +
+> > +     ci_type = cscfg_create_ci_type();
+> > +     if (!ci_type)
+> > +             return -ENOMEM;
+> > +
+> > +     subsys = &cscfg_mgr->cfgfs_subsys;
+> > +     config_item_set_name(&subsys->su_group.cg_item, CSCFG_FS_SUBSYS_NAME);
+> > +     subsys->su_group.cg_item.ci_type = ci_type;
+> > +
+> > +     config_group_init(&subsys->su_group);
+> > +     mutex_init(&subsys->su_mutex);
+> > +
+> > +     /* Add default groups to subsystem */
+> > +     config_group_init(&cscfg_configs_grp);
+> > +     configfs_add_default_group(&cscfg_configs_grp, &subsys->su_group);
+> > +
+> > +     config_group_init(&cscfg_features_grp);
+> > +     configfs_add_default_group(&cscfg_features_grp, &subsys->su_group);
+> > +
+> > +     return configfs_register_subsystem(subsys);
+> > +}
+> > +
+> > +void cscfg_configfs_release(struct cscfg_manager *cscfg_mgr)
+> > +{
+> > +     configfs_unregister_subsystem(&cscfg_mgr->cfgfs_subsys);
+> > +}
+> > diff --git a/drivers/hwtracing/coresight/coresight-syscfg-configfs.h b/drivers/hwtracing/coresight/coresight-syscfg-configfs.h
+> > new file mode 100644
+> > index 000000000000..7d6ffe35ca4c
+> > --- /dev/null
+> > +++ b/drivers/hwtracing/coresight/coresight-syscfg-configfs.h
+> > @@ -0,0 +1,45 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +/*
+> > + * Coresight system configuration driver - support for configfs.
+> > + */
+> > +
+> > +#ifndef CORESIGHT_SYSCFG_CONFIGFS_H
+> > +#define CORESIGHT_SYSCFG_CONFIGFS_H
+> > +
+> > +#include <linux/configfs.h>
+> > +#include "coresight-syscfg.h"
+> > +
+> > +#define CSCFG_FS_SUBSYS_NAME "cs-syscfg"
+> > +
+> > +/* container for configuration view */
+> > +struct cscfg_fs_config {
+> > +     struct cscfg_config_desc *config_desc;
+> > +     struct config_group group;
+> > +};
+> > +
+> > +/* container for feature view */
+> > +struct cscfg_fs_feature {
+> > +     struct cscfg_feature_desc *feat_desc;
+> > +     struct config_group group;
+> > +};
+> > +
+> > +/* container for parameter view */
+> > +struct cscfg_fs_param {
+> > +     int param_idx;
+> > +     struct cscfg_feature_desc *feat_desc;
+> > +     struct config_group group;
+> > +};
+> > +
+> > +/* container for preset view */
+> > +struct cscfg_fs_preset {
+> > +     int preset_num;
+> > +     struct cscfg_config_desc *config_desc;
+> > +     struct config_group group;
+> > +};
+> > +
+> > +int cscfg_configfs_init(struct cscfg_manager *cscfg_mgr);
+> > +void cscfg_configfs_release(struct cscfg_manager *cscfg_mgr);
+> > +int cscfg_configfs_add_config(struct cscfg_config_desc *config_desc);
+> > +int cscfg_configfs_add_feature(struct cscfg_feature_desc *feat_desc);
+> > +
+> > +#endif /* CORESIGHT_SYSCFG_CONFIGFS_H */
+> > diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
+> > index befc379b85b9..3be3828a40a7 100644
+> > --- a/drivers/hwtracing/coresight/coresight-syscfg.c
+> > +++ b/drivers/hwtracing/coresight/coresight-syscfg.c
+> > @@ -9,6 +9,7 @@
+> >  #include "coresight-config.h"
+> >  #include "coresight-etm-perf.h"
+> >  #include "coresight-syscfg.h"
+> > +#include "coresight-syscfg-configfs.h"
+> >
+> >  /*
+> >   * cscfg_ API manages configurations and features for the entire coresight
+> > @@ -288,6 +289,72 @@ static int cscfg_load_config(struct cscfg_config_desc *config_desc)
+> >       return 0;
+> >  }
+> >
+> > +/* get a feature descriptor by name */
+> > +const struct cscfg_feature_desc *cscfg_get_named_feat_desc(const char *name)
+> > +{
+> > +     const struct cscfg_feature_desc *feat_desc = NULL, *feat_desc_item;
+> > +
+> > +     mutex_lock(&cscfg_mutex);
+> > +
+> > +     list_for_each_entry(feat_desc_item, &cscfg_mgr->feat_desc_list, item) {
+> > +             if (strcmp(feat_desc_item->name, name) == 0) {
+> > +                     feat_desc = feat_desc_item;
+> > +                     break;
+> > +             }
+> > +     }
+> > +
+> > +     mutex_unlock(&cscfg_mutex);
+> > +     return feat_desc;
+> > +}
+> > +
+> > +/* called with cscfg_mutex held */
+> > +static struct cscfg_feature_csdev *
+> > +cscfg_csdev_get_feat_from_desc(struct coresight_device *csdev,
+> > +                            struct cscfg_feature_desc *feat_desc)
+> > +{
+> > +     struct cscfg_feature_csdev *feat_csdev;
+> > +
+> > +     list_for_each_entry(feat_csdev, &csdev->feature_csdev_list, node) {
+> > +             if (feat_csdev->feat_desc == feat_desc)
+> > +                     return feat_csdev;
+> > +     }
+> > +     return NULL;
+> > +}
+> > +
+> > +int cscfg_update_feat_param_val(struct cscfg_feature_desc *feat_desc,
+> > +                             int param_idx, u64 value)
+> > +{
+> > +     int err = 0;
+> > +     struct cscfg_feature_csdev *feat_csdev;
+> > +     struct cscfg_registered_csdev *csdev_item;
+> > +
+> > +     mutex_lock(&cscfg_mutex);
+> > +
+> > +     /* check if any config active & return busy */
+> > +     if (atomic_read(&cscfg_mgr->sys_active_cnt)) {
+> > +             err = -EBUSY;
+> > +             goto unlock_exit;
+> > +     }
+> > +
+> > +     /* set the value */
+> > +     if ((param_idx < 0) || (param_idx >= feat_desc->nr_params)) {
+> > +             err = -EINVAL;
+> > +             goto unlock_exit;
+> > +     }
+> > +     feat_desc->params_desc[param_idx].value = value;
+> > +
+> > +     /* update loaded instances.*/
+> > +     list_for_each_entry(csdev_item, &cscfg_mgr->csdev_desc_list, item) {
+> > +             feat_csdev = cscfg_csdev_get_feat_from_desc(csdev_item->csdev, feat_desc);
+> > +             if (feat_csdev)
+> > +                     feat_csdev->params_csdev[param_idx].current_value = value;
+> > +     }
+> > +
+> > +unlock_exit:
+> > +     mutex_unlock(&cscfg_mutex);
+> > +     return err;
+> > +}
+> > +
+> >  /*
+> >   * External API function to load feature and config sets.
+> >   * Take a 0 terminated array of feature descriptors and/or configuration
+> > @@ -305,6 +372,8 @@ int cscfg_load_config_sets(struct cscfg_config_desc **config_descs,
+> >       if (feat_descs) {
+> >               while (feat_descs[i]) {
+> >                       err = cscfg_load_feat(feat_descs[i]);
+> > +                     if (!err)
+> > +                             err = cscfg_configfs_add_feature(feat_descs[i]);
+> >                       if (err) {
+> >                               pr_err("coresight-syscfg: Failed to load feature %s\n",
+> >                                      feat_descs[i]->name);
+> > @@ -319,6 +388,8 @@ int cscfg_load_config_sets(struct cscfg_config_desc **config_descs,
+> >       if (config_descs) {
+> >               while (config_descs[i]) {
+> >                       err = cscfg_load_config(config_descs[i]);
+> > +                     if (!err)
+> > +                             err = cscfg_configfs_add_config(config_descs[i]);
+> >                       if (err) {
+> >                               pr_err("coresight-syscfg: Failed to load configuration %s\n",
+> >                                      config_descs[i]->name);
+> > @@ -608,6 +679,7 @@ int cscfg_create_device(void)
+> >       dev->init_name = "cs_system_cfg";
+> >
+> >       err = device_register(dev);
+> > +
+>
+> Spurious change
+>
+> I am done reviewing your work.  Before sending another revision please
+> ensure everything works properly when applied on top of the ETE/TRBE patchset[1].
+> It applies correctly but I'm not sure it does the right thing, especially in
+> etm_setup_aux() with the per CPU handle changes that have been introduced.
+>
+
+I didn't spot anything that would conflict between the two sets when
+reviewing ETE/TRBE a couple of weeks ago - but will check & test
+against the suggested branch prior to releasing a v6.
+
+Thanks for the reviews.
+
+Mike
+
+
+> Thanks,
+> Mathieu
+>
+> [1]. https://git.kernel.org/pub/scm/linux/kernel/git/coresight/linux.git/log/?h=next-ETE-TRBE
+>
+>
+> >       if (err)
+> >               cscfg_dev_release(dev);
+> >
+> > @@ -624,6 +696,7 @@ void cscfg_clear_device(void)
+> >       list_for_each_entry(cfg_desc, &cscfg_mgr->config_desc_list, item) {
+> >               etm_perf_del_symlink_cscfg(cfg_desc);
+> >       }
+> > +     cscfg_configfs_release(cscfg_mgr);
+> >       device_unregister(cscfg_device());
+> >       mutex_unlock(&cscfg_mutex);
+> >  }
+> > @@ -637,6 +710,10 @@ int __init cscfg_init(void)
+> >       if (err)
+> >               return err;
+> >
+> > +     err = cscfg_configfs_init(cscfg_mgr);
+> > +     if (err)
+> > +             goto exit_err;
+> > +
+> >       INIT_LIST_HEAD(&cscfg_mgr->csdev_desc_list);
+> >       INIT_LIST_HEAD(&cscfg_mgr->feat_desc_list);
+> >       INIT_LIST_HEAD(&cscfg_mgr->config_desc_list);
+> > diff --git a/drivers/hwtracing/coresight/coresight-syscfg.h b/drivers/hwtracing/coresight/coresight-syscfg.h
+> > index 7bb8c8e497ba..8d018efd6ead 100644
+> > --- a/drivers/hwtracing/coresight/coresight-syscfg.h
+> > +++ b/drivers/hwtracing/coresight/coresight-syscfg.h
+> > @@ -6,6 +6,7 @@
+> >  #ifndef CORESIGHT_SYSCFG_H
+> >  #define CORESIGHT_SYSCFG_H
+> >
+> > +#include <linux/configfs.h>
+> >  #include <linux/coresight.h>
+> >  #include <linux/device.h>
+> >
+> > @@ -25,6 +26,7 @@
+> >   * @feat_desc_list:  List of feature descriptors to load into registered devices.
+> >   * @config_desc_list:        List of system configuration descriptors to load into registered devices.
+> >   * @sys_active_cnt:  Total number of active config descriptor references.
+> > + * @cfgfs_subsys:    configfs subsystem used to manage configurations.
+> >   */
+> >  struct cscfg_manager {
+> >       struct device dev;
+> > @@ -32,6 +34,7 @@ struct cscfg_manager {
+> >       struct list_head feat_desc_list;
+> >       struct list_head config_desc_list;
+> >       atomic_t sys_active_cnt;
+> > +     struct configfs_subsystem cfgfs_subsys;
+> >  };
+> >
+> >  /* get reference to dev in cscfg_manager */
+> > @@ -57,6 +60,10 @@ struct cscfg_registered_csdev {
+> >  int __init cscfg_init(void);
+> >  void cscfg_exit(void);
+> >  int cscfg_preload(void);
+> > +const struct cscfg_feature_desc *cscfg_get_named_feat_desc(const char *name);
+> > +int cscfg_update_feat_param_val(struct cscfg_feature_desc *feat_desc,
+> > +                             int param_idx, u64 value);
+> > +
+> >
+> >  /* syscfg manager external API */
+> >  int cscfg_load_config_sets(struct cscfg_config_desc **cfg_descs,
+> > --
+> > 2.17.1
+> >
+
+
+
+-- 
+Mike Leach
+Principal Engineer, ARM Ltd.
+Manchester Design Centre. UK
