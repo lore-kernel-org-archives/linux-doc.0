@@ -2,32 +2,32 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1,
-	WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D94C4C43461
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:13:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7815AC433B4
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:39:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B4E5A613CB
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:13:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 52F0E613D8
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:39:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229869AbhDFQNy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 12:13:54 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:4936 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232664AbhDFQNx (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Apr 2021 12:13:53 -0400
+        id S244209AbhDFQjt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 12:39:49 -0400
+Received: from m32-153.88.com ([43.250.32.153]:12690 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S239377AbhDFQjt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Apr 2021 12:39:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=8AygV2Zq9hwc4t53Y/c5WX/qC9uP4NzMTC4/7
-        cqeoro=; b=dL53AZGf+PxH86RXq7ZQljsu0dAykf0geTXRfFs3tk7Dk/jD2Q5P6
-        3beOuqkxpW/7seKiuSXhOI+tU7NtgEVrZ32lBM40FTrfncg8XfGZadUlGAJMSbDK
-        5HxNbtbSdtccGPwO8/3l56KrflGfGmiM3NSwEP7YgTcEDCEKjuzYdQ=
+        s=dkim; h=Date:From:To; bh=jJXUU9JpIeAF/Sce26LTsNw1xAzWpzwBvWui5
+        3z9y+4=; b=gwbWnG/lv1X+4VVimGs6sTpiDURbA6/1n7H3UhfmV1kvd5MVxPxEr
+        sRXf5mJ1q5U10pvC8Kg5SNpsY3JOjpuqSmTJMEDAdK3FfvMvfyDH4lIc2Jyen61b
+        yOs8kT30U4iCZQGs4QcKGVjb9VBMaF6Or0pwGflgfExhGXnjP9uCNE=
 Received: from bobwxc.top (unknown [112.96.109.30])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgD3atGiiGxgJ1xPAA--.46417S2;
-        Wed, 07 Apr 2021 00:13:25 +0800 (CST)
-Date:   Wed, 7 Apr 2021 00:13:22 +0800
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgBX4iLCjmxgFxRgAA--.27011S2;
+        Wed, 07 Apr 2021 00:39:33 +0800 (CST)
+Date:   Wed, 7 Apr 2021 00:39:30 +0800
 From:   "Wu X.C." <bobwxc@email.cn>
 To:     Yanteng Si <siyanteng@loongson.cn>
 Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
@@ -36,129 +36,216 @@ Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
         Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
         realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: Re: [PATCH 04/11] docs/zh_CN: add core-api irq irqflags-tracing.rst
- translation
-Message-ID: <20210406161250.GD15259@bobwxc.top>
+Subject: Re: [PATCH 06/11] docs/zh_CN: add core-api/index.rst translation
+Message-ID: <20210406163930.GA17278@bobwxc.top>
 References: <20210406130210.2725075-1-siyanteng@loongson.cn>
- <20210406130210.2725075-5-siyanteng@loongson.cn>
+ <20210406130210.2725075-7-siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210406130210.2725075-5-siyanteng@loongson.cn>
+In-Reply-To: <20210406130210.2725075-7-siyanteng@loongson.cn>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgD3atGiiGxgJ1xPAA--.46417S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxZF45XF4DuF1xuF43XrW8Zwb_yoWrAr47pF
-        WkKFyfWa13ArW8ZFWxur48Ar4rAF4kWFs7Aa97J3Z3XFWkXrWjqr18KF1YyF4fuFy8Aa4j
-        kF45ArWF9F15AFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUglb7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-CM-TRANSID: GiKnCgBX4iLCjmxgFxRgAA--.27011S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxWFW3GryDGrWxJFW8tFWfGrg_yoWrGF45pr
+        97GryfKF47Xry7AF1xGr1jqr1DG3W8WanrG3yxXr1qqr1DWFW7Ar4Uta43GrW7Kr1UAFy8
+        ZF4rtFyqy342yrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgGb7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
         cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
         v20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzx
+        z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzx
         vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
         Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04
         v7MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Y
         z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
         AF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4l
         IxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
-        CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVF
-        xhVjvjDU0xZFpf9x07UbyCJUUUUU=
+        CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnI
+        WIevJa73UjIFyTuYvjxUUPEfUUUUU
 X-Originating-IP: [112.96.109.30]
 X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 06, 2021 at 09:02:03PM +0800, Yanteng Si wrote:
-> This patch translates Documentation/core-api/irq/irqflags-tracing.rst into Chinese.
+On Tue, Apr 06, 2021 at 09:02:05PM +0800, Yanteng Si wrote:
+> This patch translates Documentation/core-api/index.rst into Chinese.
+> add Documentation/translations/zh_CN/core-api/irq/* to zh_CN/core-api/index.rst.
 > 
 > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 > ---
->  .../zh_CN/core-api/irq/irqflags-tracing.rst   | 46 +++++++++++++++++++
->  1 file changed, 46 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst
+>  .../translations/zh_CN/core-api/index.rst     | 126 ++++++++++++++++++
+>  1 file changed, 126 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/core-api/index.rst
 > 
-> diff --git a/Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst b/Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst
+> diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
 > new file mode 100644
-> index 000000000000..2a3f577ac6b5
+> index 000000000000..1d0e73b03858
 > --- /dev/null
-> +++ b/Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst
-> @@ -0,0 +1,45 @@
-> +.. include:: ../../disclaimer-zh_CN.rst
+> +++ b/Documentation/translations/zh_CN/core-api/index.rst
+> @@ -0,0 +1,126 @@
+> +.. include:: ../disclaimer-zh_CN.rst
 > +
-> +:Original: :doc:`../../../../core-api/irq/irqflags-tracing`
+> +:Original: :doc:`../../../core-api/irq/index`
 > +:Translator: Yanteng Si <siyanteng@loongson.cn>
 > +
-> +.. _cn_irqflags-tracing.rst:
+> +.. _cn_core-api_index.rst:
 > +
 > +
-> +=======================
-> +IRQ-flags状态追踪
-> +=======================
+> +======================
+> +核心API文档
+> +======================
 > +
-> +:Author: 最初由Ingo Molnar <mingo@redhat.com>开始撰写
+> +这是核心内核API手册的开端。 非常感谢为本手册转换(和编写!)的文档!
+
+手册的首页
+
 > +
-> +"irq-flags tracing" 功能可以 "追踪" hardirq和softirq的状态，它让感兴趣的子
+> +核心公用程序
 
-"irq-flags tracing"（中断标志追踪） ？
+实用程序
 
-> +系统有机会了解到到内核中发生的每一个
-> +hardirqs-off/hardirqs-on、softirqs-off/softirqs-on事件。
+规范用词:	实用程序
+英语名:		utility program，utility
+台湾名:		公用程式，公用常式
+见载:		海峡两岸信息科学技术名词
+学科:		信息科学技术
+公布年度:	2008
+
+> +==============
 > +
-> +CONFIG_TRACE_IRQFLAGS_SUPPORT是通用锁调试代码提供的CONFIG_PROVE_SPIN_LOCKING
-> +和CONFIG_PROVE_RW_LOCKING所需要的。否则将只有CONFIG_PROVE_MUTEX_LOCKING和
-> +CONFIG_PROVE_RWSEM_LOCKING在一个架构上被提供--这些都是不在IRQ上下文中使用的
-> +锁API。(rwsems的一个异常是可以解决的)
+> +本节有通用文件和 "核心中的核心" 文件。 第一部分是 docbook 时期遗留下
+
+本节包含通用的和“核心中的核心”文档。
+
+> +来的大量 kerneldoc 信息；有朝一日，当有人找到精力去做的时候，真的
+> +应该把它拆分出来。
+
+若有人之后有动力的话，应当把它们拆分出来。
+
 > +
-> +架构对这一点的支持当然不属于 "琐碎 "的范畴，因为很多低级的汇编代码都要处理irq-flags
-
-quotation marks
-“琐碎”
-
-> +的状态变化。但是一个架构可以以一种相当直接且无风险的方式启用irq-flags-tracing。
+> +Todolist:
 > +
-> +架构如果想支持这个，需要先做一些代码组织上的改变:
+> +   kernel-api
+> +   workqueue
+> +   printk-basics
+> +   printk-formats
+> +   symbol-namespaces
 > +
-> +- 在他们的arch级Kconfig文件中添加并启用TRACE_IRQFLAGS_SUPPORT。
+> +数据结构和低级公用程序
+
+实用程序
+
+> +=======================================
 > +
-> +然后还需要做一些功能上的改变来实现对irq-flags-tracing的支持:
+> +在整个内核中使用的函数库。
+
+missing 'functionality'
+
+功能在整个内核中被使用的函数库。
+
 > +
-> +- 在低级入口代码中增加(构建条件)对trace_hardirqs_off()/trace_hardirqs_on()
-
-brackets
-（构建条件）
-
-> +  函数的调用。锁验证器会密切关注 "真实 "的irq-flags是否与 "虚拟 "的irq-flags
-
-“真实”  “虚拟”
-
-> +  状态相匹配，如果两者不匹配，则会大声抱怨（并关闭自己）。通常对于arch支持
-
-大声抱怨 -> 发出警告 ？
-so as followed 抱怨
-
-> +  irq-flags-track的大部分时间都是在这种状态下度过的：看看lockdep的抱怨，试着
-
-Maybe this is better
-通常维护arch中irq-flags-track的大部分时间...
-
-> +  找出我们还没有涉及的汇编代码。修复并重复。一旦系统启动，并且在irq-flags跟踪功
-
-...还没有搞定的汇编代码，修复并重复。
-
-irq-flags-tracing  check this term's translation
-
-> +  能中没有出现lockdep抱怨的情况下，arch支持就完成了。
+> +Todolist:
 > +
-> +- 如果该架构有不可屏蔽的中断，那么需要通过lockdep_off()/lockdep_on()将这些中
-> +  断从irq跟踪[和锁验证]机制中排除。
+> +   kobject
+> +   kref
+> +   assoc_array
+> +   xarray
+> +   idr
+> +   circular-buffers
+> +   rbtree
+> +   generic-radix-tree
+> +   packing
+> +   bus-virt-phys-mapping
+> +   this_cpu_ops
+> +   timekeeping
+> +   errseq
 > +
+> +并发原语
+> +======================
+> +
+> +Linux如何让一切同时发生。 详情请参阅
+> +:doc:`/locking/index`
 
-wrong indent for next paragraph
+I'm not sure if the path suitable for tanslation dir?
 
-> +  一般来说，在一个架构中，不完整的irq-flags-tracing实现是没有风险的：lockdep
-> +  会检测到这一点，并将自己关闭。即锁验证器仍然可靠。应该不会因为irq-tracing的错
-> +  误而崩溃。(除非通过修改不该修改的条件来更改汇编或寄存器而破坏其他代码)
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   irq/index
+> +
+> +Todolist:
+> +
+> +   refcount-vs-atomic
+> +   local_ops
+> +   padata
+> +   ../RCU/index
+> +
+> +低级硬件管理
+> +=============================
+> +
+> +缓存管理，CPU热插拔管理等。
+> +
+> +Todolist:
+> +
+> +   cachetlb
+> +   cpu_hotplug
+> +   memory-hotplug
+> +   genericirq
+> +   protection-keys
+> +
+> +
+> +内存管理
+> +=================
+> +
+> +如何在内核中分配和使用内存。请注意，在
+> +:doc:`/vm/index` 中有更多的内存管理文档。
+
+so as above
+
+> +
+> +Todolist:
+> +
+> +   memory-allocation
+> +   unaligned-memory-access
+> +   dma-api
+> +   dma-api-howto
+> +   dma-attributes
+> +   dma-isa-lpc
+> +   mm-api
+> +   genalloc
+> +   pin_user_pages
+> +   boot-time-mm
+> +   gfp_mask-from-fs-io
+> +
+> +内核调试的接口
+> +===============================
+> +
+> +Todolist:
+> +
+> +   debug-objects
+> +   tracepoint
+> +   debugging-via-ohci1394
+> +
+> +其它一切文档
+
+maybe remove 一切 ?
+
+> +===============
+> +
+> +不适合放在其它地方或尚未归类的文件；
+> +
+> +Todolist:
+> +
+> +   librs
+> +
+> +.. only:: subproject and html
+> +
+> +   Indices
+> +   =======
+> +
+> +   * :ref:`genindex`
 > -- 
 > 2.27.0
 
