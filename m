@@ -2,101 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15EB3C43470
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 07:37:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6906EC43460
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 08:26:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DFFF6613CB
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 07:37:49 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 287AB613C8
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 08:26:55 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235319AbhDFHh4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 03:37:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37390 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235239AbhDFHhz (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 03:37:55 -0400
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D114FC06174A
-        for <linux-doc@vger.kernel.org>; Tue,  6 Apr 2021 00:37:47 -0700 (PDT)
-Received: by mail-ej1-x635.google.com with SMTP id a7so20352475ejs.3
-        for <linux-doc@vger.kernel.org>; Tue, 06 Apr 2021 00:37:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=WQDJlaw0FtQm0N9dNhdmtBw67bwGouq09B/Vh9aj0v4=;
-        b=G6sj94IIoTtt7IxmOGmJiXpTDYpwa0kvxB6wvAOg5C+LtbIs52DCng15hf+DFlyB38
-         rVqLdBAO2DAAsmC/mGWFuUtLEwAUfdx7/xZhmXpbLcxPyOu9ylDno6jYEiptKz14ZLmk
-         dOl6LLY6ULoK/2kOb7nvARMhTxbWdwmm0a56PE8Ua4wb09FI/cmNdKMwlYz+EQ5GvKeL
-         r8eb18fkkwmA5v9WUB9MRXjF2ZNM02fUhS6UD3JuQyahArlWIiNlP2LST4THF0YgjSje
-         2AWDdNYO/m2be2Hp7ktAVh6xiep3Na6qQhbkQzGWFoG8FpI0vBX3KFmlIejHx9G3fEuB
-         LHlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=WQDJlaw0FtQm0N9dNhdmtBw67bwGouq09B/Vh9aj0v4=;
-        b=hyADapWdijH21BMoyz2OVGYNQr3+dYq9vmZ/oOhDArUhOTiRkWrSRHRL9/JkMjPjp7
-         Ktk8N3omkau0fXvH0NozFGW5IG+HSGwzceSZUT/HOkbisCKlNoS6eyCM+mcBnFQ6TBr5
-         xx8APowrT8Q1UGmpugh4fRIMeWHszbXMssE8E7gXmNrZp8Ht9WIe9uvCBs/9Mw+5N6LT
-         LdLtmtHdDRH9CAWHb3zyv0SGJUnArj9yzWQvGiOh+axxa/gmUPRMCrWa5rO4mWwEFP9W
-         fPjIIGzoFtxPBZAo4QK089jvPsZJkIwHhhr117EOwnGPI54FRdxZvPmONJb3KVzcFXfD
-         oD3A==
-X-Gm-Message-State: AOAM531J1EgTcEdDz8eAF5cJS84Q4EXuPbvOKV1MfX/+ZafrZvFiwLEG
-        FEkYT7NiG+3+6QQbclCFgEg6Tg==
-X-Google-Smtp-Source: ABdhPJzNhg99FKLftecF7uaQKNlLMGFGYAm8LAv+c6Dxo3BIxf0CQPx8YGLQzibttwuEA2Rs09orCw==
-X-Received: by 2002:a17:906:a51:: with SMTP id x17mr32914560ejf.25.1617694666608;
-        Tue, 06 Apr 2021 00:37:46 -0700 (PDT)
-Received: from gkim-laptop.fkb.profitbricks.net (ip5f5aeee5.dynamic.kabel-deutschland.de. [95.90.238.229])
-        by smtp.googlemail.com with ESMTPSA id o6sm12843305edw.24.2021.04.06.00.37.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 00:37:46 -0700 (PDT)
-From:   Gioh Kim <gi-oh.kim@ionos.com>
-To:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org
-Cc:     axboe@kernel.dk, akinobu.mita@gmail.com, corbet@lwn.net,
-        hch@infradead.org, sagi@grimberg.me, bvanassche@acm.org,
-        haris.iqbal@ionos.com, jinpu.wang@ionos.com,
-        Gioh Kim <gi-oh.kim@cloud.ionos.com>,
-        Jack Wang <jinpu.wang@cloud.ionos.com>
-Subject: [PATCH for-next 5/5] docs: Add RTRS/RNBD to the index of fault-injection
-Date:   Tue,  6 Apr 2021 09:37:27 +0200
-Message-Id: <20210406073727.172380-6-gi-oh.kim@ionos.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210406073727.172380-1-gi-oh.kim@ionos.com>
-References: <20210406073727.172380-1-gi-oh.kim@ionos.com>
+        id S240166AbhDFI1B (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 04:27:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33629 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S240123AbhDFI1A (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 04:27:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617697612;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=70z9esMo2B49i245lsCrvtnfLxOMXAVc5hPbm8uKJwE=;
+        b=DYV1A+dzrLPLwJktCfKlyZ52LcycmX9f/m/nJBFZVfreVGyHcY8Wvc916wC4YqRc4TT7MW
+        1PtHcLbxrW3TplaaNc9bJgQf9vLVQ3JYXIyHLw+98Z6KxuKxZdlsvovj6Yts6sngRMyEq4
+        Ui5uGK3t2T6LZG0vTMniXe8BEsy/Xkw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-376-35f28TuHNUqwLkCHV8l62Q-1; Tue, 06 Apr 2021 04:26:51 -0400
+X-MC-Unique: 35f28TuHNUqwLkCHV8l62Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com [10.5.11.14])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7723C81425A;
+        Tue,  6 Apr 2021 08:26:49 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-114-253.ams2.redhat.com [10.36.114.253])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 3531C5D9E3;
+        Tue,  6 Apr 2021 08:26:43 +0000 (UTC)
+From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To:     kvm@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
+        Alexander Graf <graf@amazon.com>,
+        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [PATCH v3 0/4] KVM: cpuid: fix KVM_GET_EMULATED_CPUID implementation
+Date:   Tue,  6 Apr 2021 10:26:38 +0200
+Message-Id: <20210406082642.20115-1-eesposit@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Gioh Kim <gi-oh.kim@cloud.ionos.com>
+This series aims to clarify the behavior of the KVM_GET_EMULATED_CPUID
+ioctl, and fix a corner case where -E2BIG is returned when
+the nent field of struct kvm_cpuid2 is matching the amount of
+emulated entries that kvm returns.
 
-Add new documents for RTRS and RNBD to the index file.
+Patch 1 proposes the nent field fix to cpuid.c,
+patch 2 updates the ioctl documentation accordingly and
+patches 3 and 4 extend the x86_64/get_cpuid_test.c selftest to check
+the intended behavior of KVM_GET_EMULATED_CPUID.
 
-Signed-off-by: Gioh Kim <gi-oh.kim@cloud.ionos.com>
-Signed-off-by: Jack Wang <jinpu.wang@cloud.ionos.com>
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 ---
- Documentation/fault-injection/index.rst | 2 ++
- 1 file changed, 2 insertions(+)
+v3:
+- clearer commit message and problem explanation 
+- pre-initialize the stack variable 'entry' in __do_cpuid_func_emulated
+so that the various eax/ebx/ecx are initialized if not set by func.
 
-diff --git a/Documentation/fault-injection/index.rst b/Documentation/fault-injection/index.rst
-index 8408a8a91b34..669d146af874 100644
---- a/Documentation/fault-injection/index.rst
-+++ b/Documentation/fault-injection/index.rst
-@@ -11,6 +11,8 @@ fault-injection
-     notifier-error-inject
-     nvme-fault-injection
-     provoke-crashes
-+    rnbd-fault-injection
-+    rtrs-fault-injection
- 
- .. only::  subproject and html
- 
+
+Emanuele Giuseppe Esposito (4):
+  KVM: x86: Fix a spurious -E2BIG in KVM_GET_EMULATED_CPUID
+  Documentation: KVM: update KVM_GET_EMULATED_CPUID ioctl description
+  selftests: add kvm_get_emulated_cpuid to processor.h
+  selftests: KVM: extend get_cpuid_test to include
+    KVM_GET_EMULATED_CPUID
+
+ Documentation/virt/kvm/api.rst                | 10 +--
+ arch/x86/kvm/cpuid.c                          | 33 ++++---
+ .../selftests/kvm/include/x86_64/processor.h  |  1 +
+ .../selftests/kvm/lib/x86_64/processor.c      | 33 +++++++
+ .../selftests/kvm/x86_64/get_cpuid_test.c     | 90 ++++++++++++++++++-
+ 5 files changed, 142 insertions(+), 25 deletions(-)
+
 -- 
-2.25.1
+2.30.2
 
