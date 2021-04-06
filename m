@@ -2,182 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 062DEC433B4
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:47:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A250C43460
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:50:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C6A9D613CD
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:47:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4A40613D0
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:50:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236276AbhDFQr7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 12:47:59 -0400
-Received: from mail-oo1-f49.google.com ([209.85.161.49]:44911 "EHLO
-        mail-oo1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232032AbhDFQr7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 12:47:59 -0400
-Received: by mail-oo1-f49.google.com with SMTP id p2-20020a4aa8420000b02901bc7a7148c4so3834382oom.11;
-        Tue, 06 Apr 2021 09:47:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=KsEFQn5ynPj9Q6od5ymvE84NEzlALObqjlPA4SQWRs8=;
-        b=Caw06k2MWg1OwP78wZ8gxa1iBXixjWgwRK2lx5HicQ+kWOMh530QGvjE3JBelhmRd0
-         l07PZY89Xc+IP2Fe3Q07P00Zrud9P99oyC3rVkj5hNHogjeFOs2WXWYX6NHrkcS77WDB
-         P94qXGk/+0YrRAgXMMq1WAsVWu8yQuFD3GSljzjKlW2YkKn3Ln9bZZmwVfedZBvP9wye
-         sb+bJ+cmCDA7UEeKzcLBmFvfHHy+K6I9ZkNz1T//ij1po0BAvYPxqH/ngulIh+neVnwM
-         dBeZx5xLXFV3/2z9Ru2STWfxz+G2LpmUaRNkVTanJflI0gOfcrhU00ZS71tPKGEe4II+
-         yk1w==
-X-Gm-Message-State: AOAM533bh+Z9JfB6jSH1+OBEj7zpjZAA7gedjUbhfsCpclV+KT8gGytY
-        EzrbMCvb+rUCHrDKj0jiVw==
-X-Google-Smtp-Source: ABdhPJwPZn4vyuV4WbEQb7jrirEmMI3mRcpb+G+wNqe7KnEHeN8KG33o//cShwHkWNjdpn2Mmze2sA==
-X-Received: by 2002:a4a:d354:: with SMTP id d20mr27213126oos.12.1617727670969;
-        Tue, 06 Apr 2021 09:47:50 -0700 (PDT)
-Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id m16sm4687480otj.11.2021.04.06.09.47.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Apr 2021 09:47:50 -0700 (PDT)
-Received: (nullmailer pid 1942347 invoked by uid 1000);
-        Tue, 06 Apr 2021 16:47:48 -0000
-Date:   Tue, 6 Apr 2021 11:47:48 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Hector Martin <marcan@marcan.st>
-Cc:     linux-arm-kernel@lists.infradead.org,
-        Marc Zyngier <maz@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 12/18] of/address: Add infrastructure to declare MMIO
- as non-posted
-Message-ID: <20210406164748.GA1937719@robh.at.kernel.org>
-References: <20210402090542.131194-1-marcan@marcan.st>
- <20210402090542.131194-13-marcan@marcan.st>
+        id S239963AbhDFQuu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 12:50:50 -0400
+Received: from m32-153.88.com ([43.250.32.153]:13906 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S239936AbhDFQut (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Apr 2021 12:50:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=YRrkQG5gX+xiJwB4gemZwAc+CBZ035JwOlofR
+        3z6QIc=; b=A8zH4PiIB9GAIamjMu6LMWCJqpAm6ccaq2JcL6EFeGNBVEH0e6iXJ
+        V8nMvt4EPEs5DMYj0OauIV7O/QPaOJpTXSSeXJN+uxrVLl408ZQR5C3ljt0KxZG/
+        OzEFceIkLf1xg7WUMYuuijHEhyuhJxloByVCiv2OGoHEuT5ySwpluk=
+Received: from bobwxc.top (unknown [112.96.109.30])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgBX4iJPkWxgExhgAA--.27042S2;
+        Wed, 07 Apr 2021 00:50:25 +0800 (CST)
+Date:   Wed, 7 Apr 2021 00:50:23 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com
+Subject: Re: [PATCH 09/11] docs/zh_CN: add openrisc/todo.rst translation
+Message-ID: <20210406165023.GC17278@bobwxc.top>
+References: <20210406130210.2725075-1-siyanteng@loongson.cn>
+ <20210406130210.2725075-10-siyanteng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210402090542.131194-13-marcan@marcan.st>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210406130210.2725075-10-siyanteng@loongson.cn>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgBX4iJPkWxgExhgAA--.27042S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tFy5Aw4fXw45WrW7KFyUZFb_yoW8ArW8pF
+        WqkFyfGa1xAasFyw1Sgw17Xr1fCFWxWay7Ga92qwn3KF98tw18tr13t3sxKw4fCr1IvFyq
+        vFs8KFyj9ryUCaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgGb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzx
+        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
+        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04
+        v7MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Y
+        z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
+        AF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4l
+        IxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
+        CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnI
+        WIevJa73UjIFyTuYvjxUUVyIUUUUU
+X-Originating-IP: [112.96.109.30]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 02, 2021 at 06:05:36PM +0900, Hector Martin wrote:
-> This implements the 'nonposted-mmio' boolean property. Placing this
-> property in a bus marks all direct child devices as requiring
-> non-posted MMIO mappings. If no such property is found, the default
-> is posted MMIO.
+On Tue, Apr 06, 2021 at 09:02:08PM +0800, Yanteng Si wrote:
+> This patch translates Documentation/openrisc/todo.rst into Chinese.
 > 
-> of_mmio_is_nonposted() performs this check to determine if a given
-> device has requested non-posted MMIO.
-> 
-> of_address_to_resource() uses this to set the IORESOURCE_MEM_NONPOSTED
-> flag on resources that require non-posted MMIO.
-> 
-> of_iomap() and of_io_request_and_map() then use this flag to pick the
-> correct ioremap() variant.
-> 
-> This mechanism is currently restricted to builds that support Apple ARM
-> platforms, as an optimization.
-> 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 > ---
->  drivers/of/address.c       | 43 ++++++++++++++++++++++++++++++++++++--
->  include/linux/of_address.h |  1 +
->  2 files changed, 42 insertions(+), 2 deletions(-)
+>  .../translations/zh_CN/openrisc/todo.rst      | 20 +++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/openrisc/todo.rst
 > 
-> diff --git a/drivers/of/address.c b/drivers/of/address.c
-> index 73ddf2540f3f..6485cc536e81 100644
-> --- a/drivers/of/address.c
-> +++ b/drivers/of/address.c
-> @@ -847,6 +847,9 @@ static int __of_address_to_resource(struct device_node *dev,
->  		return -EINVAL;
->  	memset(r, 0, sizeof(struct resource));
->  
-> +	if (of_mmio_is_nonposted(dev))
-> +		flags |= IORESOURCE_MEM_NONPOSTED;
+> diff --git a/Documentation/translations/zh_CN/openrisc/todo.rst b/Documentation/translations/zh_CN/openrisc/todo.rst
+> new file mode 100644
+> index 000000000000..0e5d1c9122f8
+> --- /dev/null
+> +++ b/Documentation/translations/zh_CN/openrisc/todo.rst
+> @@ -0,0 +1,20 @@
+> +.. include:: ../disclaimer-zh_CN.rst
 > +
->  	r->start = taddr;
->  	r->end = taddr + size - 1;
->  	r->flags = flags;
-> @@ -896,7 +899,10 @@ void __iomem *of_iomap(struct device_node *np, int index)
->  	if (of_address_to_resource(np, index, &res))
->  		return NULL;
->  
-> -	return ioremap(res.start, resource_size(&res));
-> +	if (res.flags & IORESOURCE_MEM_NONPOSTED)
-> +		return ioremap_np(res.start, resource_size(&res));
-> +	else
-> +		return ioremap(res.start, resource_size(&res));
->  }
->  EXPORT_SYMBOL(of_iomap);
->  
-> @@ -928,7 +934,11 @@ void __iomem *of_io_request_and_map(struct device_node *np, int index,
->  	if (!request_mem_region(res.start, resource_size(&res), name))
->  		return IOMEM_ERR_PTR(-EBUSY);
->  
-> -	mem = ioremap(res.start, resource_size(&res));
-> +	if (res.flags & IORESOURCE_MEM_NONPOSTED)
-> +		mem = ioremap_np(res.start, resource_size(&res));
-> +	else
-> +		mem = ioremap(res.start, resource_size(&res));
+> +:Original: :doc:`../../../openrisc/todo`
+> +:Translator: Yanteng Si <siyanteng@loongson.cn>
 > +
->  	if (!mem) {
->  		release_mem_region(res.start, resource_size(&res));
->  		return IOMEM_ERR_PTR(-ENOMEM);
-> @@ -1094,3 +1104,32 @@ bool of_dma_is_coherent(struct device_node *np)
->  	return false;
->  }
->  EXPORT_SYMBOL_GPL(of_dma_is_coherent);
+> +.. _cn_openrisc_todo.rst:
 > +
-> +/**
-> + * of_mmio_is_nonposted - Check if device uses non-posted MMIO
-> + * @np:	device node
-> + *
-> + * Returns true if the "nonposted-mmio" property was found for
-> + * the device's bus.
-> + *
-> + * This is currently only enabled on builds that support Apple ARM devices, as
-> + * an optimization.
-> + */
-> +bool of_mmio_is_nonposted(struct device_node *np)
-> +{
-> +	struct device_node *parent;
-> +	bool nonposted;
-> +
-> +	if (!IS_ENABLED(CONFIG_ARCH_APPLE))
-> +		return false;
-> +
-> +	parent = of_get_parent(np);
-> +	if (!parent)
-> +		return false;
-> +
-> +	nonposted = of_property_read_bool(parent, "nonposted-mmio");
-> +
-> +	of_node_put(parent);
-> +	return nonposted;
-> +}
-> +EXPORT_SYMBOL_GPL(of_mmio_is_nonposted);
+> +===========
+> +代办事项
 
-Is this needed outside of of/address.c? If not, please make it static 
-and don't export.
+？？
+待办
 
-With that,
+> +===========
+> +
+> +OpenRISC Linux的移植已经完全投入使用，并且从 2.6.35 开始就一直在上游同步。
+> +然而，还有一些剩余的项目需要在未来几个月内完成。 下面是一个已知的不如意的
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+不如意 -> 不尽完美 ? decide it by yourself
+
+> +项目列表，即我们的待办事项列表。
+
+missing "that are due for investigation shortly"
+
+> +
+> +-   实现其余的DMA API......dma_map_sg等。
+
+Chinses ellipsis U+2026
+……
+
+> +
+> +-   完成重命名清理工作......代码中提到了or32，这是架构的一个老名字。 我们
+
+……
+
+> +    已经确定的名字是or1k，这个改变正在以缓慢积累的方式进行。 目前，or32相当
+> +    于or1k。
+> -- 
+> 2.27.0
+
