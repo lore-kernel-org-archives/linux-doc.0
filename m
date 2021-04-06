@@ -2,84 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F977C433B4
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 08:49:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62345C433B4
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 09:33:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0C85D613C3
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 08:49:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D237613CA
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 09:33:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234605AbhDFItj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 04:49:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53076 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232593AbhDFItf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 04:49:35 -0400
-Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com [IPv6:2607:f8b0:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBCB9C06174A;
-        Tue,  6 Apr 2021 01:49:25 -0700 (PDT)
-Received: by mail-pg1-x52d.google.com with SMTP id h25so9880874pgm.3;
-        Tue, 06 Apr 2021 01:49:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gCYr1I03X+k+4zRvDqbVMs/E1N9JK1gf4mt4xGLcXBw=;
-        b=R9QcK1HUWPmv4xUu7Lrnago7GFe0qYseGzj5RjG23v7PgZimeVXCpuAjRijP0Akdi6
-         UCK3dGgVSFawUntzQk955de9zWVkxoZcAsE5EqxjVaRPnPwdDlQDnmbpv8MmWA+4XSts
-         8NIw5SN3O06dPQYesj3bjUyOoUhjdC+rn3MjkHKZz/B6KME8y5bjZNOhlqhG8ObrZ25D
-         X3U6KPG1KkPbZSicK2A8KWQqpbqiDaIPQlmaKAowdcO/VmBWBel3dz1FadyLczeWR/WQ
-         ZV9BJO3J6yVm5WtBZRR61sTWD2kxYSZgJsh/qOsMsQT/WXLd3ibdZo67BpM6m6PVYJK2
-         F0tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gCYr1I03X+k+4zRvDqbVMs/E1N9JK1gf4mt4xGLcXBw=;
-        b=CpRSMJFr2tHXSDiQv/ylioKVu6bhEyNA9hkA2QlfBM8HEkUR3RV8eOXqZCFSytCXIA
-         62BuJdWq95Rfa9wm4y3/0EC+ZkilPGVWvai1SsXlkd+yLD4YKSla4Br78kDHHFggr11M
-         k3oSnHqfiP2iw0198X9QyMb2EVzgJif0cALQ9s9zsMrWT6km57k8RA1UJHZi3alLJLS9
-         GBh4+ZbRKGww0W6+yRSBc6PE2E0cIVPcGTUVxeW0oMxu30yQoVZSQuZ6r6rrWkT+Kb8o
-         08Pek2WPTNxc0RAkL0dRrmHtI0EFgKMoIqUtkWfXY4lTJpRsXMT/3wYnkbGAoT3R0p8i
-         LY9Q==
-X-Gm-Message-State: AOAM531J8V1HSxIcVNtiAkHTfKUPknjZw+Q9EKF/NYlD0fKKugAnSzw5
-        esqAXQXxwb2hqnqERtZf8a59CeyT+odWggih8sWHwSZy
-X-Google-Smtp-Source: ABdhPJzbVFwnnS9oCnqT9FS/H+Qx2rf1dqM/EHSOsA59l+MNV9oc4L2p0OgUhI7RWtf1gkWEVC1tUdBFUSSkzGYVVRQ=
-X-Received: by 2002:a65:480a:: with SMTP id h10mr25881241pgs.63.1617698965528;
- Tue, 06 Apr 2021 01:49:25 -0700 (PDT)
+        id S237381AbhDFJdo convert rfc822-to-8bit (ORCPT
+        <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 05:33:44 -0400
+Received: from mga12.intel.com ([192.55.52.136]:14984 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236696AbhDFJdn (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Apr 2021 05:33:43 -0400
+IronPort-SDR: nAQjvgOFpT76wHt/4rwAtdtVM+I8aU2LkBV0j3hYQEzISCCMCT9ZyS0fQq/9qKYWSduU4RCbMx
+ TwZF7dbCmFTw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9945"; a="172502141"
+X-IronPort-AV: E=Sophos;i="5.81,309,1610438400"; 
+   d="scan'208";a="172502141"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2021 02:33:34 -0700
+IronPort-SDR: yNx+NRizR5mkR8GcZPzlI8J7Pj0MjByUv03J9PMpLpN8+8z9CtxNE4aHX/zeWYKFAFUMA0T4x4
+ hC15JwVa90TA==
+X-IronPort-AV: E=Sophos;i="5.81,309,1610438400"; 
+   d="scan'208";a="457817452"
+Received: from oowomilo-mobl2.ger.corp.intel.com (HELO localhost) ([10.249.33.55])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2021 02:33:03 -0700
+From:   Jani Nikula <jani.nikula@linux.intel.com>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, linux-pwm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH] pwm: Rename pwm_get_state() to better reflect its semantic
+In-Reply-To: <20210406073036.26857-1-u.kleine-koenig@pengutronix.de>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210406073036.26857-1-u.kleine-koenig@pengutronix.de>
+Date:   Tue, 06 Apr 2021 12:32:58 +0300
+Message-ID: <87tuojlpv9.fsf@intel.com>
 MIME-Version: 1.0
-References: <20210402093000.72965-1-xie.he.0141@gmail.com> <CAJht_EO7ufuRPj2Bbp7PyXbBT+jrpxR2pckT9JOPyve_tWj9DA@mail.gmail.com>
- <f77ea411add46de10d1b9e72576a0ec2@dev.tdt.de>
-In-Reply-To: <f77ea411add46de10d1b9e72576a0ec2@dev.tdt.de>
-From:   Xie He <xie.he.0141@gmail.com>
-Date:   Tue, 6 Apr 2021 01:49:14 -0700
-Message-ID: <CAJht_EPxzyLe-byO8heA-YNHG6RAG5=6MPDZ4=MHnDP2vy5xRg@mail.gmail.com>
-Subject: Re: [PATCH net-next v5] net: x25: Queue received packets in the
- drivers instead of per-CPU queues
-To:     Martin Schiller <ms@dev.tdt.de>
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Krzysztof Halasa <khc@pm.waw.pl>,
-        Linux X25 <linux-x25@vger.kernel.org>,
-        Linux Kernel Network Developers <netdev@vger.kernel.org>,
-        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 5, 2021 at 11:17 PM Martin Schiller <ms@dev.tdt.de> wrote:
+On Tue, 06 Apr 2021, Uwe Kleine-König <u.kleine-koenig@pengutronix.de> wrote:
+> Given that lowlevel drivers usually cannot implement exactly what a
+> consumer requests with pwm_apply_state() there is some rounding involved.
 >
-> Acked-by: Martin Schiller <ms@dev.tdt.de>
+> pwm_get_state() traditionally returned the setting that was requested most
+> recently by the consumer (opposed to what was actually implemented in
+> hardware in reply to the last request). To make this semantic obvious
+> rename the function.
 >
-> Just for the record: I'm certainly not always the fastest,
-> but I don't work holidays or weekends. So you also need to have some
-> patience.
+> Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> ---
 
-Oh. Thank you! Sorry, I didn't know there was a holiday in Germany.
-Happy holiday! :)
+>  drivers/gpu/drm/i915/display/intel_panel.c |  4 +--
+
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
