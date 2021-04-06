@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 212A7C43460
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 13:01:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF1ECC433ED
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 13:01:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E61E8613D2
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 13:01:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B03DB613CA
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 13:01:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243468AbhDFNBm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 09:01:42 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:49430 "EHLO loongson.cn"
+        id S242330AbhDFNBq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 09:01:46 -0400
+Received: from mail.loongson.cn ([114.242.206.163]:49512 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S243477AbhDFNBj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Apr 2021 09:01:39 -0400
+        id S1344304AbhDFNBp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Apr 2021 09:01:45 -0400
 Received: from localhost.localdomain (unknown [223.106.57.161])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Ax_cifW2xg9tQEAA--.6047S8;
-        Tue, 06 Apr 2021 21:01:26 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Ax_cifW2xg9tQEAA--.6047S11;
+        Tue, 06 Apr 2021 21:01:33 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
@@ -31,20 +31,20 @@ Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
         realpuyuwang@gmail.com, siyanteng01@gmail.com,
         Wu XiangCheng <bobwxc@email.cn>,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH 06/11] docs/zh_CN: add core-api/index.rst translation
-Date:   Tue,  6 Apr 2021 21:02:05 +0800
-Message-Id: <20210406130210.2725075-7-siyanteng@loongson.cn>
+Subject: [PATCH 09/11] docs/zh_CN: add openrisc/todo.rst translation
+Date:   Tue,  6 Apr 2021 21:02:08 +0800
+Message-Id: <20210406130210.2725075-10-siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210406130210.2725075-1-siyanteng@loongson.cn>
 References: <20210406130210.2725075-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Ax_cifW2xg9tQEAA--.6047S8
-X-Coremail-Antispam: 1UD129KBjvJXoWxZFW8Xw15Xr1UZw1DGw18uFg_yoW5AFWkpF
-        nrXryfKa1UJry7Ar1xGr1UWr18Ga4kuF4DGw4xXrn0qF1DXFWUAr4Utry7tryxGr4vyFyr
-        AF4fKrWjyry2vr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUP214x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+X-CM-TRANSID: AQAAf9Ax_cifW2xg9tQEAA--.6047S11
+X-Coremail-Antispam: 1UD129KBjvJXoW7tFyfKryrCr43KF1DuF1Dtrb_yoW8Xr4fpF
+        Wq9a4fGa17AasIyw1Sg347Xr1fCFWxWay7Ga92qwn3tF98twnYqr13G3srtayfCry0vFWU
+        ZFs0kFyj9FyUC3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPa14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
         rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
         kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
         z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
@@ -55,155 +55,48 @@ X-Coremail-Antispam: 1UD129KBjvJXoWxZFW8Xw15Xr1UZw1DGw18uFg_yoW5AFWkpF
         kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
         14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
         kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAF
-        wI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JV
-        WxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbmZ
-        X7UUUUU==
+        wI0_Gr1j6F4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr
+        0_Gr1UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU
+        OBTYUUUUU
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch translates Documentation/core-api/index.rst into Chinese.
-add Documentation/translations/zh_CN/core-api/irq/* to zh_CN/core-api/index.rst.
+This patch translates Documentation/openrisc/todo.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 ---
- .../translations/zh_CN/core-api/index.rst     | 126 ++++++++++++++++++
- 1 file changed, 126 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/core-api/index.rst
+ .../translations/zh_CN/openrisc/todo.rst      | 20 +++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/openrisc/todo.rst
 
-diff --git a/Documentation/translations/zh_CN/core-api/index.rst b/Documentation/translations/zh_CN/core-api/index.rst
+diff --git a/Documentation/translations/zh_CN/openrisc/todo.rst b/Documentation/translations/zh_CN/openrisc/todo.rst
 new file mode 100644
-index 000000000000..1d0e73b03858
+index 000000000000..0e5d1c9122f8
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/index.rst
-@@ -0,0 +1,126 @@
++++ b/Documentation/translations/zh_CN/openrisc/todo.rst
+@@ -0,0 +1,20 @@
 +.. include:: ../disclaimer-zh_CN.rst
 +
-+:Original: :doc:`../../../core-api/irq/index`
++:Original: :doc:`../../../openrisc/todo`
 +:Translator: Yanteng Si <siyanteng@loongson.cn>
 +
-+.. _cn_core-api_index.rst:
++.. _cn_openrisc_todo.rst:
 +
++===========
++代办事项
++===========
 +
-+======================
-+核心API文档
-+======================
++OpenRISC Linux的移植已经完全投入使用，并且从 2.6.35 开始就一直在上游同步。
++然而，还有一些剩余的项目需要在未来几个月内完成。 下面是一个已知的不如意的
++项目列表，即我们的待办事项列表。
 +
-+这是核心内核API手册的开端。 非常感谢为本手册转换(和编写!)的文档!
++-   实现其余的DMA API......dma_map_sg等。
 +
-+核心公用程序
-+==============
-+
-+本节有通用文件和 "核心中的核心" 文件。 第一部分是 docbook 时期遗留下
-+来的大量 kerneldoc 信息；有朝一日，当有人找到精力去做的时候，真的
-+应该把它拆分出来。
-+
-+Todolist:
-+
-+   kernel-api
-+   workqueue
-+   printk-basics
-+   printk-formats
-+   symbol-namespaces
-+
-+数据结构和低级公用程序
-+=======================================
-+
-+在整个内核中使用的函数库。
-+
-+Todolist:
-+
-+   kobject
-+   kref
-+   assoc_array
-+   xarray
-+   idr
-+   circular-buffers
-+   rbtree
-+   generic-radix-tree
-+   packing
-+   bus-virt-phys-mapping
-+   this_cpu_ops
-+   timekeeping
-+   errseq
-+
-+并发原语
-+======================
-+
-+Linux如何让一切同时发生。 详情请参阅
-+:doc:`/locking/index`
-+
-+.. toctree::
-+   :maxdepth: 1
-+
-+   irq/index
-+
-+Todolist:
-+
-+   refcount-vs-atomic
-+   local_ops
-+   padata
-+   ../RCU/index
-+
-+低级硬件管理
-+=============================
-+
-+缓存管理，CPU热插拔管理等。
-+
-+Todolist:
-+
-+   cachetlb
-+   cpu_hotplug
-+   memory-hotplug
-+   genericirq
-+   protection-keys
-+
-+
-+内存管理
-+=================
-+
-+如何在内核中分配和使用内存。请注意，在
-+:doc:`/vm/index` 中有更多的内存管理文档。
-+
-+Todolist:
-+
-+   memory-allocation
-+   unaligned-memory-access
-+   dma-api
-+   dma-api-howto
-+   dma-attributes
-+   dma-isa-lpc
-+   mm-api
-+   genalloc
-+   pin_user_pages
-+   boot-time-mm
-+   gfp_mask-from-fs-io
-+
-+内核调试的接口
-+===============================
-+
-+Todolist:
-+
-+   debug-objects
-+   tracepoint
-+   debugging-via-ohci1394
-+
-+其它一切文档
-+===============
-+
-+不适合放在其它地方或尚未归类的文件；
-+
-+Todolist:
-+
-+   librs
-+
-+.. only:: subproject and html
-+
-+   Indices
-+   =======
-+
-+   * :ref:`genindex`
++-   完成重命名清理工作......代码中提到了or32，这是架构的一个老名字。 我们
++    已经确定的名字是or1k，这个改变正在以缓慢积累的方式进行。 目前，or32相当
++    于or1k。
 -- 
 2.27.0
 
