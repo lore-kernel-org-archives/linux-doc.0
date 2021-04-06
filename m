@@ -2,121 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F245EC433B4
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:56:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4532C433ED
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:56:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C9AB6613AD
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:56:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AD4B0613D2
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 16:56:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232598AbhDFQ4g (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 12:56:36 -0400
-Received: from m32-153.88.com ([43.250.32.153]:14364 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S244303AbhDFQ4f (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Apr 2021 12:56:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=HQJgLaxwxCnfUF3fhRami2fX+4VTs43PJMzwY
-        L+aD/0=; b=CbWUT6BjoExeRkLNBUnLP/VQ4nHZKfbEFqFuJlgf2ekNxsBLIjqnT
-        x9rBigC4XRePXEuf4HgzcRhmO+ssCMSsmQjzWznQpdBga9b/4CudHKju+NSiIm7K
-        lSW6phpYIpba+DxYSjgJF01stxuLdweTEJbNcmYufKL9Mhlsv/hlWA=
-Received: from bobwxc.top (unknown [112.96.109.30])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgBX4iKzkmxg2xlgAA--.27062S2;
-        Wed, 07 Apr 2021 00:56:22 +0800 (CST)
-Date:   Wed, 7 Apr 2021 00:56:19 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: Re: [PATCH 10/11] docs/zh_CN: add openrisc/index.rst translation
-Message-ID: <20210406165617.GA18875@bobwxc.top>
-References: <20210406130210.2725075-1-siyanteng@loongson.cn>
- <20210406130210.2725075-11-siyanteng@loongson.cn>
+        id S1346694AbhDFQ44 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 12:56:56 -0400
+Received: from mail-ot1-f50.google.com ([209.85.210.50]:34517 "EHLO
+        mail-ot1-f50.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S244303AbhDFQ4z (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 12:56:55 -0400
+Received: by mail-ot1-f50.google.com with SMTP id k14-20020a9d7dce0000b02901b866632f29so15314482otn.1;
+        Tue, 06 Apr 2021 09:56:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Tw0RwiCoCBJBLCCQqWVxF82QKnUlb6tubclo5gd7EQs=;
+        b=FAi3EaISmRvoOVK+A/2FL5Jkp39dndzKJmBIYJ18R6/TnGJ5U+iqOfTc9mmZtZ/WbV
+         otedU8fHCsHkYKICRwyU4Xnh5VO+a2m3cOnJFB8eboMlSFV3jj0akQdyZ4R+VUZiKk0J
+         To/Dak85EJrvkA8pwdPcAq3DJOe7wIDkAi/2pfKlkGWKDkLQeW8eab7sJbwrk7a95AqM
+         MG3m032nzM/LGsZJHks4X2yC/ItHYUxOfETBnrYseATR0h75DC7Pl1ypEu2eOG3ZT4ZX
+         Fij3OFA/0OtkFjAvXZzjfBTCFqOdUMn3d8EkjCaBtyD+sjV+lw02bT16T4WxEnBRt0Qi
+         bLqg==
+X-Gm-Message-State: AOAM531xmR+KnP5k/z/l1pCTN7xKcI0AXvRqpMuY8R5b9G0FkwzetdSL
+        niWxwrH8p287AFr2Ywrm4m8pbAt1Uw==
+X-Google-Smtp-Source: ABdhPJwuTaLBj6OVzKDmR7D6lssAr7pKAt8+c7cwsu0N0mLd6fP4Ld2cWsAeBv7ptocA7Ga09sQE2w==
+X-Received: by 2002:a9d:7086:: with SMTP id l6mr27135972otj.187.1617728207079;
+        Tue, 06 Apr 2021 09:56:47 -0700 (PDT)
+Received: from robh.at.kernel.org (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id a16sm4808802otk.62.2021.04.06.09.56.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Apr 2021 09:56:46 -0700 (PDT)
+Received: (nullmailer pid 1960990 invoked by uid 1000);
+        Tue, 06 Apr 2021 16:56:45 -0000
+Date:   Tue, 6 Apr 2021 11:56:45 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Hector Martin <marcan@marcan.st>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Marc Zyngier <maz@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Will Deacon <will@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 18/18] arm64: apple: Add initial Apple Mac mini (M1,
+ 2020) devicetree
+Message-ID: <20210406165645.GA1942466@robh.at.kernel.org>
+References: <20210402090542.131194-1-marcan@marcan.st>
+ <20210402090542.131194-19-marcan@marcan.st>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210406130210.2725075-11-siyanteng@loongson.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgBX4iKzkmxg2xlgAA--.27062S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tryrKFy8CFyxKryxCFWrGrg_yoW8Jw1fpF
-        ykG34fGF4xJ3sFk3WfKF1Igr1kCw4xJwsrJa97X3sYgr1Dtr1Utr15t3y5KrW8GrsYva4U
-        Xan7KFy8Kryjk3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgGb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzx
-        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
-        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04
-        v7MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Y
-        z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
-        AF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4l
-        IxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
-        CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnI
-        WIevJa73UjIFyTuYvjxUUVyIUUUUU
-X-Originating-IP: [112.96.109.30]
-X-CM-SenderInfo: pere453f6hztlloou0/
+In-Reply-To: <20210402090542.131194-19-marcan@marcan.st>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 06, 2021 at 09:02:09PM +0800, Yanteng Si wrote:
-> This patch translates Documentation/openrisc/index.rst into Chinese.
+On Fri, Apr 02, 2021 at 06:05:42PM +0900, Hector Martin wrote:
+> This currently supports:
 > 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> * SMP (via spin-tables)
+> * AIC IRQs
+> * Serial (with earlycon)
+> * Framebuffer
+> 
+> A number of properties are dynamic, and based on system firmware
+> decisions that vary from version to version. These are expected
+> to be filled in by the loader.
+> 
+> Signed-off-by: Hector Martin <marcan@marcan.st>
 > ---
->  .../translations/zh_CN/openrisc/index.rst     | 27 +++++++++++++++++++
->  1 file changed, 27 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/openrisc/index.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/openrisc/index.rst b/Documentation/translations/zh_CN/openrisc/index.rst
-> new file mode 100644
-> index 000000000000..89432b9cf8e1
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/openrisc/index.rst
-> @@ -0,0 +1,27 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :doc:`../../../openrisc/index`
-> +:Translator: Yanteng Si <siyanteng@loongson.cn>
-> +
-> +.. _cn_openrisc_index:
-> +
-> +
-> +=====================
-> +OpenRISC 体系架构
-> +=====================
-> +
-> +.. toctree::
-> +   :maxdepth: 2
-> +
-> +   openrisc_port
-> +   todo
-> +
+>  MAINTAINERS                              |   1 +
+>  arch/arm64/boot/dts/Makefile             |   1 +
+>  arch/arm64/boot/dts/apple/Makefile       |   2 +
+>  arch/arm64/boot/dts/apple/t8103-j274.dts |  45 ++++++++
+>  arch/arm64/boot/dts/apple/t8103.dtsi     | 135 +++++++++++++++++++++++
+>  5 files changed, 184 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/apple/Makefile
+>  create mode 100644 arch/arm64/boot/dts/apple/t8103-j274.dts
+>  create mode 100644 arch/arm64/boot/dts/apple/t8103.dtsi
 
-It seems missed the TodoList of "features", please add it if you have
-time.
-And a reviewed-by
-
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-
-> +
-> +.. only::  subproject and html
-> +
-> +   Indices
-> +   =======
-> +
-> +   * :ref:`genindex`
-> -- 
-> 2.27.0
-
+Reviewed-by: Rob Herring <robh@kernel.org>
