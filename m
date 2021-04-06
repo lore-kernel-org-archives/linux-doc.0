@@ -2,108 +2,105 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66DEFC433B4
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:21:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0F6BC43460
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:27:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 175AB61394
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:21:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8494A613A0
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:27:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238560AbhDFPVj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 11:21:39 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:61033 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233393AbhDFPVj (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Apr 2021 11:21:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=r2/l2QMNWXh3BGi16mMFjsc+yIZCmuAVoQb3l
-        ZuhCxA=; b=QOntpClymIR+SZcPlCDONU8AKzbfSdKTSBMf3nAcZ9912SS76XqeL
-        nJ6s/AlS0XVFbtRMBVLbli3yxKZd1arEniRtCOU8/OfjN1NfxGTIUjO0qJ0ad7pX
-        Jz/8KvzbZa5zW/uqaleWwdKMb5kS1x3wHYRAxAEFKOQCCO3Gu4KdkA=
-Received: from bobwxc.top (unknown [120.238.248.129])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDnWdBtfGxgUU5PAA--.46234S2;
-        Tue, 06 Apr 2021 23:21:19 +0800 (CST)
-Date:   Tue, 6 Apr 2021 23:21:17 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: Re: [PATCH 05/11] docs/zh_CN: add core-api irq index.rst translation
-Message-ID: <20210406152117.GB15259@bobwxc.top>
-References: <20210406130210.2725075-1-siyanteng@loongson.cn>
- <20210406130210.2725075-6-siyanteng@loongson.cn>
+        id S1345655AbhDFP1z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 11:27:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56234 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230366AbhDFP1w (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 11:27:52 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06D1BC06175F
+        for <linux-doc@vger.kernel.org>; Tue,  6 Apr 2021 08:27:40 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id il9-20020a17090b1649b0290114bcb0d6c2so9880827pjb.0
+        for <linux-doc@vger.kernel.org>; Tue, 06 Apr 2021 08:27:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=teujLeIT57PU4D6WHjfymxQZCq3L6iGxMlAJKaKbG+0=;
+        b=yf22qUb+YRX9s4PLuKSN5MkcxpKtBgmhFGO0UFROZkFxAS4R7A0N7BysESW4YImDUy
+         VxZjvIPIYgFn1JQCy/ShbhxBuNnxSSlWz8Khr9aOQJvNv8m+dCiHPwSagAa06L+hNHas
+         8hT17gGxqn8J5/TBTRKYJL7n5vFqwwgcgVqPLEhih9+Aft1Hi7X7uftbp1RyVzKRVYjw
+         e82GKjf8rRy0nN/JMzYkm/ro4Sji5iErHiWJeSpe1D7nF1lNOj3+/04d5aUcsCVm5Nsl
+         ESYj0uzgV9oyOdP1Oc7xvQ1V4jirXtv3SHCXmXJULHFfn7fNLecldLnfFhKptoo446JC
+         CtBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=teujLeIT57PU4D6WHjfymxQZCq3L6iGxMlAJKaKbG+0=;
+        b=JpcAQQiwBw3ytajMeTyQws2hfZfS1EW+z2Bp8aXqAyeKWpfixln1N0ayZFS+vtqp2q
+         JzzqyCL/9dD9zQPJf+gxWp2p8xIk/4PVqkyxgv3Qb5ERHStQD+iFROPAhzkNgKnf1s74
+         qj53YHbzzSQwK7uVf3M9/LjPoPUCe600B4iYUgM6g2axIORnLsAqdqA34+W9n7sAUlPw
+         GlVbVxqdqcSARAMXHw78+RfGdDN3pQeBgDOgr2xcmjNrISUF9cYGEJ/wPaLx+8rU/7hY
+         /hcA0OSxt9JMG7Q6IwyHgoAIYiOAzrUk9iFDRAyUVIVSLoQC6XF+SxufcgadvLod0hBB
+         wa4w==
+X-Gm-Message-State: AOAM530wNZSq+IW6vA8dKVEUPtbKKL9nCr3EjDKcW8GZAAZUsEqYI6rG
+        0GSv0bLZh8iX17LLx8MBpQ87IwViE2jThQ==
+X-Google-Smtp-Source: ABdhPJx5cwlVZ4C8U2nzBNJarhHwx7Cyi7BG9Ti2l4K+YRAAq0eVpHgxfNnEl0oXq1AYcCxoOy5x0A==
+X-Received: by 2002:a17:902:b188:b029:e8:bd90:3f99 with SMTP id s8-20020a170902b188b02900e8bd903f99mr19788771plr.6.1617722860475;
+        Tue, 06 Apr 2021 08:27:40 -0700 (PDT)
+Received: from [192.168.4.41] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
+        by smtp.gmail.com with ESMTPSA id m1sm2813532pjk.24.2021.04.06.08.27.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 06 Apr 2021 08:27:39 -0700 (PDT)
+Subject: Re: [PATCH 0/3] ata: Module parameter clean-ups for pata_legacy and
+ pata_platform
+To:     "Maciej W. Rozycki" <macro@orcam.me.uk>, linux-ide@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Christoph Hellwig <hch@lst.de>
+References: <alpine.DEB.2.21.2103202152120.21463@angie.orcam.me.uk>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <9d8c309b-a4b5-c152-7edb-3c74278b2d90@kernel.dk>
+Date:   Tue, 6 Apr 2021 09:27:41 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <alpine.DEB.2.21.2103202152120.21463@angie.orcam.me.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210406130210.2725075-6-siyanteng@loongson.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgDnWdBtfGxgUU5PAA--.46234S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Jw1fXF4DGw43AF47ZFW3Awb_yoWkGwb_Cw
-        4kJFW0kF4YyF1ftayrJr1DJr1I9FWFk3WIkFn0ya98u34Y9ws7Gr1kWF93WF1UGanxurs3
-        CFZrur1xXrnFgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbwkYjsxI4VWDJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-        8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzx
-        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
-        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04
-        v7MxkIecxEwVAFwVW5WwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1U
-        MxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwV
-        AFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv2
-        0xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4
-        v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AK
-        xVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUjxu4UUUUUU==
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 06, 2021 at 09:02:04PM +0800, Yanteng Si wrote:
-> This patch translates Documentation/core-api/irq/index.rst into Chinese.
+On 3/21/21 1:55 PM, Maciej W. Rozycki wrote:
+> Hi,
 > 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-
-> ---
->  .../translations/zh_CN/core-api/irq/index.rst | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/core-api/irq/index.rst
+>  In the course of looking into Christoph's recent proposal to drop legacy 
+> IDE drivers I have come across a number of issues with module parameters 
+> of the pata_legacy and pata_platform drivers: errors in documentation 
+> present in the comment form, missing user-visible documentation, and 
+> unconditional poking at ISA I/O ports in pata_legacy that isn't there with 
+> the old ide-generic driver (the lack of `probe_mask' parameter).
 > 
-> diff --git a/Documentation/translations/zh_CN/core-api/irq/index.rst b/Documentation/translations/zh_CN/core-api/irq/index.rst
-> new file mode 100644
-> index 000000000000..910ccabf041f
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/core-api/irq/index.rst
-> @@ -0,0 +1,19 @@
-> +.. include:: ../../disclaimer-zh_CN.rst
-> +
-> +:Original: :doc:`../../../../core-api/irq/index`
-> +:Translator: Yanteng Si <siyanteng@loongson.cn>
-> +
-> +.. _cn_irq_index.rst:
-> +
-> +
-> +====
-> +IRQs
-> +====
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   concepts
-> +   irq-affinity
-> +   irq-domain
-> +   irqflags-tracing
-> -- 
-> 2.27.0
+>  Here's a small patch series that addresses these issues.  Overall I 
+> find the design of the pata_legacy driver's options a bit messy, e.g. the 
+> `all' vs the `probe_all' parameter, and the interpretation of masks where 
+> bits correspond to probed PATA locations in a particular system (rather 
+> than either all known or all existing), but it's been there long enough I 
+> think we have to keep it, so I merely tried to describe the current 
+> semantics.  See the individual change descriptions for details.
+> 
+>  The changes have been run-time verified with an EISA system and a single 
+> ISA PATA adapter at the usual primary I/O location.  They have also been 
+> verified (mainly for the correctness of MODULE_PARM_DESC use) with an 
+> x86/PC build (for pata_legacy) and a MIPS/SWARM build (for pata_platform).
+
+Applied, thanks.
+
+-- 
+Jens Axboe
 
