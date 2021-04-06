@@ -2,172 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2424CC43460
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:36:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE6C3C433ED
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:57:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EA2F8613A0
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:36:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 935F1613BE
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 15:57:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243744AbhDFPgU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 11:36:20 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:62305 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S243891AbhDFPfb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 6 Apr 2021 11:35:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=6iURr3Zo0D0Pm1JJKWAKYjPFOE2qQH4H6xXLf
-        QFCOxQ=; b=asP6mGoIZ5kPUXkRxlt2Tw3zPJcDGuPBWHONHTqQOTD2SKLy+HwKu
-        UhAFSnjAOEw65JuKOUxEzihqjacvajk9B5Zy68PMVsFR9FmJiofAWVsBVXc4Sf7D
-        JdSv0127An6JAi6LF3lFll2nQAej6NejT9CtwXCTmymcHyOUhOwUoo=
-Received: from bobwxc.top (unknown [120.238.248.129])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDnWdCpf2xgQ1JPAA--.46265S2;
-        Tue, 06 Apr 2021 23:35:07 +0800 (CST)
-Date:   Tue, 6 Apr 2021 23:35:05 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: Re: [PATCH 02/11] docs/zh_CN: add core-api irq irq-affinity.rst
- translation
-Message-ID: <20210406153505.GC15259@bobwxc.top>
-References: <20210406130210.2725075-1-siyanteng@loongson.cn>
- <20210406130210.2725075-3-siyanteng@loongson.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+        id S1346103AbhDFP6G (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 11:58:06 -0400
+Received: from mail-dm6nam10on2083.outbound.protection.outlook.com ([40.107.93.83]:35809
+        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232363AbhDFP6F (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Apr 2021 11:58:05 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QG1N/m+a+UsFKezkBtkE93yeQbdOfi2TM45QYbbtYB/sM3wRI8BkZPI0Sbo2Pq5y/uHCfg0M/WTlup5N9EQZtD5qZAqRPxbvwFyHwUys1znCpMt58c6VDTlYIIO6Uu+4K0mXHBdaody+0djT60/Sh3SjaSEZUEU1M+KbrAMPbMPTfh5v6+dE5ve+9RNhpIuwSAH3lQAycF1NQRtWDCw7/q9dvNvp/5/ZIlthAJ/m+cboTE/HdFg/58MseTdY5snYWEnRSyjI9WkvyBIOljkAUVp6CHNGFVzBqXDQ3CqPNZTp0H8+Tx55TJbIQS0forQgJz8pktwqlD9IzImG2rDeTA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CoM0K/4Ahnh4JmbdTsJi4PL9iRPS82VyiOqvv3oPOtw=;
+ b=ddmeKG0v+ICbx1xr7YFdfLGnfmSdKRBSg/FkUJN+4ZpHNexZWzrAf/caxbSbsWY39UmBJYy4DEJub1l4QTIG0elzBqGjzQtZdpRUhxe641nEwmkMsNhFO86CM+NZMbNzDPmRCX9kH9H653sGHm03Tsl1Ozw0+qTF3YT5rLuDTJsC81OqsvgM5+L8V+E2FV5dbpQw311pUsh7YPniEh+Dk7Ar4vG0k0BFzS0YYCEU30LmIaFjPvvQOjf/+c918blW0cNorlB63XO8l+77A+n47IkQ4GNeEzGaj9oNDkJwmBpFvN/qleC08Jp2+JO9A7LM1T9S5GY6AfVUS683eag+MA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CoM0K/4Ahnh4JmbdTsJi4PL9iRPS82VyiOqvv3oPOtw=;
+ b=BUUXFcmG5U+H/vGPkdAKJHkQJ0MJIdH9PWbzVuHMDqgTUW76aXGqmYpFqto2dum4FRGY9o2q/+LTBGsP8g4CtKlYlWxYI/Dzco6pSW07jYiiywrupqudg7pJyS3Wwad76N90cZkF2qR16qxBJ6kp2pU8rRzak6ftfIT0JesKyJSRADCGVpHrvHqpHsOKoN9MCQcYMZkTcxQZAh5xh2/47mL+Rb2DCiFLuKwUp4hjRKtdE9N9PcF/1SeakqVIPPsVAOtsVV/PDFwGb1W2jsYTc2F2CdeHnU4IAdG4f0x4n4XSLj2d5PFFIVLBCF+S7HVpyPuetY0RCso8pu0r/MPW+Q==
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB4619.namprd12.prod.outlook.com (2603:10b6:5:7c::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3999.32; Tue, 6 Apr
+ 2021 15:57:56 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.3999.032; Tue, 6 Apr 2021
+ 15:57:56 +0000
+Date:   Tue, 6 Apr 2021 12:57:55 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Alex Williamson <alex.williamson@redhat.com>,
+        Cornelia Huck <cohuck@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Diana Craciun <diana.craciun@oss.nxp.com>,
+        Eric Auger <eric.auger@redhat.com>, kvm@vger.kernel.org,
+        Kirti Wankhede <kwankhede@nvidia.com>,
+        linux-doc@vger.kernel.org
+Cc:     "Raj, Ashok" <ashok.raj@intel.com>,
+        Bharat Bhushan <Bharat.Bhushan@nxp.com>,
+        Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christoph Hellwig <hch@lst.de>,
+        Jike Song <jike.song@intel.com>,
+        Kevin Tian <kevin.tian@intel.com>,
+        Leon Romanovsky <leonro@nvidia.com>,
+        Max Gurtovoy <mgurtovoy@nvidia.com>,
+        Tarun Gupta <targupta@nvidia.com>,
+        Liu Yi L <yi.l.liu@intel.com>,
+        Zhenyu Wang <zhenyuw@linux.intel.com>,
+        Zhi Wang <zhi.a.wang@intel.com>
+Subject: Re: [PATCH v3 00/14] Embed struct vfio_device in all sub-structures
+Message-ID: <20210406155755.GA280925@nvidia.com>
+References: <0-v3-225de1400dfc+4e074-vfio1_jgg@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210406130210.2725075-3-siyanteng@loongson.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgDnWdCpf2xgQ1JPAA--.46265S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxAr1xXF4rKr1ktFWUZFyDtrb_yoWrGrW5pF
-        47Kas3Ca1xXrnrAF17C3WYyr1qqFyxWay7A397Aas7Arn5WwsrZr43Kry5GrWxGFW0va47
-        uFs7JFW0yryjyrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUymb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
-        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
-        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402YVCY1x02628vn2kIc2
-        xKxwCY02Avz4vE14v_XrWl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1U
-        JwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-        vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
-        x2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
-        xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAF
-        wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07UIFAJUUUUU=
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+In-Reply-To: <0-v3-225de1400dfc+4e074-vfio1_jgg@nvidia.com>
+X-Originating-IP: [142.162.115.133]
+X-ClientProxiedBy: MN2PR10CA0011.namprd10.prod.outlook.com
+ (2603:10b6:208:120::24) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.162.115.133) by MN2PR10CA0011.namprd10.prod.outlook.com (2603:10b6:208:120::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.16 via Frontend Transport; Tue, 6 Apr 2021 15:57:56 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lTo5T-001B9A-Ca; Tue, 06 Apr 2021 12:57:55 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 453fbe65-86c8-458e-ea7a-08d8f914be8f
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4619:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB46190E7CE9DCA4D41B1B13EAC2769@DM6PR12MB4619.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: os+Sa6+kRFfK2hr8FGiaR4P6yoYB1/qqcb8HihAUrXb3SETZYwwLUH2FLtUDYc9Nlkv2reUuRYo7b4BRJCs+46RIOCKuR38DFtuM4usr9Sdd5rLsUoWU6VMP6JYVY+v8OUR6/W6q6RV8VKlDyM6Et4fdKBJVf2OhKedhXQo5NyUWAgw8BergfOWVvDfz9tILZtFJWnJwrCQGq65zNvMjZYQ9oHdFiZsPbJpDDokIwK1n0iVilnvEMTyhMB85e0apYJlciLa/wPfeid8JXgOEPSwBs2o14rRYI79IWmHr4try7Mnv2mieYgz5IkvXR4m3lhhoZjqq806xXDdBh9I4pjQDuDZtaEo6x3Qw3zs0ZNyXWFsSkPFULA4Lu/n1ODGLf6dkOK/udGQ3BK871ZFzWTmdKQaxz0pv46a75gE1G0oRVGQqaXyUV7t/goApvf7kQ3rr0J3B7ds9DzQrn2znudMypUyJXhyp+NFBeQULOTBnT0ZVlEV7P0xPIk9e/qFU9xqeaaUazYg6JC9iiBQGeUYj7qw591xV3dzbbNbsqAVlvOBpdT/MIxWJ3rRPhSFD6a+wk2XeibkiTLxazdbw8x0/aHLVy0ZCR1UChidyA0nuxr9mzX4DmKjBEJJdtsyN1ihwWng93Qy3qD/Hf9HqT8HIBhx7mcOZ8aGoUIWFhePlZ0Kn6JIJAz59h8jKU7kP
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(376002)(346002)(39860400002)(366004)(396003)(5660300002)(36756003)(4744005)(54906003)(66476007)(66556008)(83380400001)(38100700001)(26005)(186003)(1076003)(4326008)(2616005)(426003)(478600001)(33656002)(9786002)(86362001)(9746002)(316002)(110136005)(2906002)(66946007)(8936002)(8676002)(7416002)(27376004);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?SEsORJCuA3p8QGFTxXZ51mY74ytDdWeLkffD2u95yTJ+1RBQeG5LRyJ8rQPV?=
+ =?us-ascii?Q?H10GPgQzrJB/iPyaLjTA0Oak3kgbFCkYrO/eXsHIjcXv1Q+8vnVc/W06itxC?=
+ =?us-ascii?Q?COaaErfeC8MzA/Gy/Kb4ad2+KoD1Pc+PM1TxlytMsmGn58yvz/FQcqEIK6LW?=
+ =?us-ascii?Q?NGdyQYRZ3zLmZrrje++Jt6NgU27NIg9Fi6ZcDI4kPmexwpcR6bGMHqpfuhtT?=
+ =?us-ascii?Q?DG+CMUqzBjJEyT8e6RWDOhb/gOMfWu0iyAsum+mz7Unue+KxB+vpiyxp4iaa?=
+ =?us-ascii?Q?RQJxWxeOIH+n/joGXbWWccdqhz/9HjnLrkktygYQbp+2qyOjAonDlfERLOcg?=
+ =?us-ascii?Q?QujJ34CSDSbXKovIVXyeVNGq2iVExwcPSRsBP0nqBppwlR2E70P9mOV15nzO?=
+ =?us-ascii?Q?ZcOS8NQLs+n068s/eN6jJHk0pyYz9jEvZgVWgCveLm6icpKWkQ8Tmy9RLiyP?=
+ =?us-ascii?Q?exc8bSroHzGodO+ZAktLifl4tJwCEzYCyueEWVdZQJZI+GcNOm/AZJ+humrW?=
+ =?us-ascii?Q?Mk65uIb95dCA/Ca3gSNEuUYxyP6myVx1HrTL0PMfvtUXbDkG/m6ctWwBYORw?=
+ =?us-ascii?Q?AP5iQ0c3hLeUKT829t+ZrNqxOcIPCIuAvaJvf2IAZAI/NvYQvlMe5J/WFQvd?=
+ =?us-ascii?Q?MMR1WIgIn7xHWPo8JDDuoj+KYHot4KqYQxmPw2UecO6Qz3jHPHvqrldrDDel?=
+ =?us-ascii?Q?pzBkl+D7caAFEJ9T3bgVDfQdM9fOJI2+6JozbRKE8MQvnBXF2DpTVV+09SFw?=
+ =?us-ascii?Q?oo1SKUHAV9yJa4IWGivICvURIoNkJcVh8pQ628MhOaIGCM6C3lS9bVXGCvdK?=
+ =?us-ascii?Q?ypEhR1oQdA30mv/0yW2CLtm5f5ky0Tp7UytwH9pPq51G+i0bYrTGw32pmVC4?=
+ =?us-ascii?Q?1WHzdXCflboWrhsmZCCmu/s0m9Akgcmn+BphNR/srqBwDo+UKL2U6JG9PvWn?=
+ =?us-ascii?Q?fcdrI4SlWR33rsqwcLPoBn0R7J6Pqzzh6zuzFl2Yzv36fM7vCwO37sIZhkR+?=
+ =?us-ascii?Q?Lk9qm35Ak1VK0iAQ37I7rs7Goj01YQLPSdyTFlCx6fzkdYjVAnmDFmW5muI8?=
+ =?us-ascii?Q?zmcXGTn1xnSCUjHE2PJShrpBdfSG+Ew0rP/VfT/pDRnDftUrlYEBlEnLJv+n?=
+ =?us-ascii?Q?1oBLFPtKR6r7ktDdrlI4yoFX4lrHsgHYs0WFq9GSNIzo/WI/MNo+CbQga8Lv?=
+ =?us-ascii?Q?AH+kITTpk2fUITjM++R9W5x6sz5ULJkuNt6/PIns4ZLtXt/sJMGl+USxGh7h?=
+ =?us-ascii?Q?IpglG6CNi36WqAUvB7hDK+WOWmlPm/SuMd1iTNnJLuVbui+BKpqMPR5aS76I?=
+ =?us-ascii?Q?GrLEfp1SEVTjaOLLz2XyXJ69PwevOIZ0eOuvLOo4VtmgJQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 453fbe65-86c8-458e-ea7a-08d8f914be8f
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2021 15:57:56.6209
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ym6kWjLSteB1Hae9lSHaZ3PboFSDsIZqM9u57orq7YRYLN+H/qHMBARmuDdW3mbH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4619
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 06, 2021 at 09:02:01PM +0800, Yanteng Si wrote:
-> This patch translates Documentation/core-api/irq/irq-affinity.rst into Chinese.
-> 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  .../zh_CN/core-api/irq/irq-affinity.rst       | 73 +++++++++++++++++++
->  1 file changed, 73 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst b/Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst
-> new file mode 100644
-> index 000000000000..34aaf0d1ddc2
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst
-> @@ -0,0 +1,73 @@
-> +.. include:: ../../disclaimer-zh_CN.rst
-> +
-> +:Original: :doc:`../../../../core-api/irq/irq-affinity`
-> +:Translator: Yanteng Si <siyanteng@loongson.cn>
-> +
-> +.. _cn_irq-affinity.rst:
-> +
-> +
-> +================
-> +SMP IRQ 亲和性
-> +================
-> +
-> +变更记录:
-> +	- 作者：最初由Ingo Molnar <mingo@redhat.com>开始撰写
-> +	- 后期更新维护： Max Krasnyansky <maxk@qualcomm.com>
-> +
-> +
-> +/proc/irq/IRQ#/smp_affinity和/proc/irq/IRQ#/smp_affinity_list指明了给定IRQ源
-> +允许哪些目标CPU使用。它是被允许的CPU的位掩码(smp_affinity)或cpu列表(smp_affinity_list)。
-> +它不允许关闭所有的CPU，如果一个IRQ控制器不支持IRQ亲和性，那么所有cpu的默认值将不会发生
+On Tue, Mar 23, 2021 at 01:14:52PM -0300, Jason Gunthorpe wrote:
 
-关闭 -> 禁止？
+> Jason Gunthorpe (14):
+>   vfio: Remove extra put/gets around vfio_device->group
+>   vfio: Simplify the lifetime logic for vfio_device
+>   vfio: Split creation of a vfio_device into init and register ops
+>   vfio/platform: Use vfio_init/register/unregister_group_dev
+>   vfio/fsl-mc: Re-order vfio_fsl_mc_probe()
+>   vfio/fsl-mc: Use vfio_init/register/unregister_group_dev
+>   vfio/pci: Move VGA and VF initialization to functions
+>   vfio/pci: Re-order vfio_pci_probe()
+>   vfio/pci: Use vfio_init/register/unregister_group_dev
+>   vfio/mdev: Use vfio_init/register/unregister_group_dev
+>   vfio/mdev: Make to_mdev_device() into a static inline
+>   vfio: Make vfio_device_ops pass a 'struct vfio_device *' instead of
+>     'void *'
+>   vfio/pci: Replace uses of vfio_device_data() with container_of
+>   vfio: Remove device_data from the vfio bus driver API
 
-> +变化。
-> +
-> +/proc/irq/default_smp_affinity指明了适用于所有非激活IRQ的默认亲和性掩码。一旦IRQ被
-> +分配/激活，它的亲和位掩码将被设置为默认掩码。然后可以如上所述改变它。默认掩码是0xffffffffff。
+Hi Alex,
 
-0xffffffff
-eight f
+Can you put this someplace to get zero day coverage? We are at rc6 now
 
-> +
-> +下面是一个先将IRQ44(eth1)限制在CPU0-3上，然后限制在CPU4-7上的例子(这是一个8CPU的SMP box)
-a empty line
-> +::
-> +
-> +	[root@moon 44]# cd /proc/irq/44
-> +	[root@moon 44]# cat smp_affinity
-> +	ffffffff
-> +
-> +	[root@moon 44]# echo 0f > smp_affinity
-> +	[root@moon 44]# cat smp_affinity
-> +	0000000f
-> +	[root@moon 44]# ping -f h
-> +	PING hell (195.4.7.3): 56 data bytes
-> +	...
-> +	--- hell ping statistics ---
-> +	6029 packets transmitted, 6027 packets received, 0% packet loss
-> +	round-trip min/avg/max = 0.1/0.1/0.4 ms
-> +	[root@moon 44]# cat /proc/interrupts | grep 'CPU\|44:'
-> +		CPU0       CPU1       CPU2       CPU3      CPU4       CPU5        CPU6       CPU7
-> +	44:       1068       1785       1785       1783         0          0           0         0    IO-APIC-level  eth1
-> +
-> +从上面一行可以看出，IRQ44只传递给前四个处理器（0-3）。
-> +现在让我们把这个IRQ限制在CPU(4-7)。
-> +
-> +::
-> +
-> +	[root@moon 44]# echo f0 > smp_affinity
-> +	[root@moon 44]# cat smp_affinity
-> +	000000f0
-> +	[root@moon 44]# ping -f h
-> +	PING hell (195.4.7.3): 56 data bytes
-> +	..
-> +	--- hell ping statistics ---
-> +	2779 packets transmitted, 2777 packets received, 0% packet loss
-> +	round-trip min/avg/max = 0.1/0.5/585.4 ms
-> +	[root@moon 44]# cat /proc/interrupts |  'CPU\|44:'
-> +		CPU0       CPU1       CPU2       CPU3      CPU4       CPU5        CPU6       CPU7
-> +	44:       1068       1785       1785       1783      1784       1069        1070       1069   IO-APIC-level  eth1
-> +
-> +这次IRQ44只传递给最后四个处理器。
-> +即CPU0-3的计数器没有变化。
-> +
-> +下面是一个将相同的irq(44)限制在cpus 1024到1031的例子：。
-                                                       ^^^
-                                             ： ->     ::
-
-> +
-> +	[root@moon 44]# echo 1024-1031 > smp_affinity_list
-> +	[root@moon 44]# cat smp_affinity_list
-> +	1024-1031
-> +
-> +需要注意的是，如果要用位掩码来做这件事，就需要32个为0的位掩码来追踪其相关的一个。
-> -- 
-> 2.27.0
-
+Thanks,
+Jason
