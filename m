@@ -2,82 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD674C433B4
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 18:07:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FD2BC433B4
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 18:16:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E145613D0
-	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 18:07:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 155E5613B8
+	for <linux-doc@archiver.kernel.org>; Tue,  6 Apr 2021 18:16:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237312AbhDFSIC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 14:08:02 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.73.133]:35854 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232876AbhDFSIC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 14:08:02 -0400
-Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        id S237108AbhDFSQb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 6 Apr 2021 14:16:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44054 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S236444AbhDFSQa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 6 Apr 2021 14:16:30 -0400
+Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id A43A540031;
-        Tue,  6 Apr 2021 18:07:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1617732474; bh=S6cOsqxe037fjdIYzX+/jnn4hCGE134NlmKz+eWZVUg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=ab29aTfWlhRXDKAUxOiTn1gzoyrtz2GzTzLvvl2BWPmZswZQDxfbdB6GRo+AyqNrZ
-         ZZeTkV+0M4RMERGby+6Peaibli6cGFDMAznSrYWkdrZWalIZaOIPz6wWhckNE6Kbyk
-         /jdrWwCZICbe1c1D6kyNxKjoONoKOOkkzoK4LSF5T6ZvnhmfmnKoyk8VvG+BuWBE2w
-         1wrspuoDhuwsckwie8ZRx3PZYRWv+XukliP+BG/UIvxVG2Wk7twVGWhi+kWVQPvU0G
-         gJMcJg1IS6FSFdKQ7gZ5AB92iR91OXhAovn0Z/WbFUhcZNSv1zvu+cZV0fyumVKbJW
-         GrWPERR44xwXw==
-Received: from de02dwvm009.internal.synopsys.com (de02dwvm009.internal.synopsys.com [10.225.17.73])
-        by mailhost.synopsys.com (Postfix) with ESMTP id 07864A022E;
-        Tue,  6 Apr 2021 18:07:50 +0000 (UTC)
-X-SNPS-Relay: synopsys.com
-From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-To:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        by mail.kernel.org (Postfix) with ESMTPSA id 20996613B3;
+        Tue,  6 Apr 2021 18:16:22 +0000 (UTC)
+Received: from 78.163-31-62.static.virginmediabusiness.co.uk ([62.31.163.78] helo=why.misterjones.org)
+        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94)
+        (envelope-from <maz@kernel.org>)
+        id 1lTqFQ-005uvp-1y; Tue, 06 Apr 2021 19:16:20 +0100
+Date:   Tue, 06 Apr 2021 19:16:18 +0100
+Message-ID: <87ft03p9cd.wl-maz@kernel.org>
+From:   Marc Zyngier <maz@kernel.org>
+To:     Hector Martin <marcan@marcan.st>
+Cc:     linux-arm-kernel@lists.infradead.org,
+        Rob Herring <robh@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
+        Olof Johansson <olof@lixom.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Mark Kettenis <mark.kettenis@xs4all.nl>,
+        Tony Lindgren <tony@atomide.com>,
+        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
+        Stan Skowronek <stan@corellium.com>,
+        Alexander Graf <graf@amazon.com>,
+        Will Deacon <will@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Cc:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Subject: [PATCH] Documentation: misc-devices: Add missing entry on the table of content related to dw-xdata-pcie
-Date:   Tue,  6 Apr 2021 20:07:43 +0200
-Message-Id: <1fedd7b269b5d5543333340c44f0a917f578389d.1617732463.git.gustavo.pimentel@synopsys.com>
-X-Mailer: git-send-email 2.7.4
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 15/18] irqchip/apple-aic: Add support for the Apple Interrupt Controller
+In-Reply-To: <20210402090542.131194-16-marcan@marcan.st>
+References: <20210402090542.131194-1-marcan@marcan.st>
+        <20210402090542.131194-16-marcan@marcan.st>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
+ (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 62.31.163.78
+X-SA-Exim-Rcpt-To: marcan@marcan.st, linux-arm-kernel@lists.infradead.org, robh@kernel.org, arnd@kernel.org, olof@lixom.net, krzk@kernel.org, mark.kettenis@xs4all.nl, tony@atomide.com, mohamed.mediouni@caramail.com, stan@corellium.com, graf@amazon.com, will@kernel.org, linus.walleij@linaro.org, mark.rutland@arm.com, andy.shevchenko@gmail.com, corbet@lwn.net, catalin.marinas@arm.com, hch@infradead.org, davem@davemloft.net, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add missing entry on the table of content related to dw-xdata-pcie misc
-driver reported in a warning by doing *make htmldocs*.
+Hi Hector,
 
-Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
----
- Documentation/misc-devices/index.rst | 1 +
- 1 file changed, 1 insertion(+)
+On Fri, 02 Apr 2021 10:05:39 +0100,
+Hector Martin <marcan@marcan.st> wrote:
+> 
+> This is the root interrupt controller used on Apple ARM SoCs such as the
+> M1. This irqchip driver performs multiple functions:
+> 
+> * Handles both IRQs and FIQs
+> 
+> * Drives the AIC peripheral itself (which handles IRQs)
+> 
+> * Dispatches FIQs to downstream hard-wired clients (currently the ARM
+>   timer).
+> 
+> * Implements a virtual IPI multiplexer to funnel multiple Linux IPIs
+>   into a single hardware IPI
+> 
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> ---
+>  MAINTAINERS                     |   2 +
+>  drivers/irqchip/Kconfig         |   8 +
+>  drivers/irqchip/Makefile        |   1 +
+>  drivers/irqchip/irq-apple-aic.c | 837 ++++++++++++++++++++++++++++++++
+>  include/linux/cpuhotplug.h      |   1 +
+>  5 files changed, 849 insertions(+)
+>  create mode 100644 drivers/irqchip/irq-apple-aic.c
 
-diff --git a/Documentation/misc-devices/index.rst b/Documentation/misc-devices/index.rst
-index 64420b331..30ac58f 100644
---- a/Documentation/misc-devices/index.rst
-+++ b/Documentation/misc-devices/index.rst
-@@ -19,6 +19,7 @@ fit into other categories.
-    bh1770glc
-    eeprom
-    c2port
-+   dw-xdata-pcie
-    ibmvmc
-    ics932s401
-    isl29003
+[...]
+
+> +static int aic_irq_domain_translate(struct irq_domain *id,
+> +				    struct irq_fwspec *fwspec,
+> +				    unsigned long *hwirq,
+> +				    unsigned int *type)
+> +{
+> +	struct aic_irq_chip *ic = id->host_data;
+> +
+> +	if (fwspec->param_count != 3 || !is_of_node(fwspec->fwnode))
+> +		return -EINVAL;
+> +
+> +	switch (fwspec->param[0]) {
+> +	case AIC_IRQ:
+> +		if (fwspec->param[1] >= ic->nr_hw)
+> +			return -EINVAL;
+> +		*hwirq = fwspec->param[1];
+> +		break;
+> +	case AIC_FIQ:
+> +		if (fwspec->param[1] >= AIC_NR_FIQ)
+> +			return -EINVAL;
+> +		*hwirq = ic->nr_hw + fwspec->param[1];
+> +
+> +		/*
+> +		 * In EL1 the non-redirected registers are the guest's,
+> +		 * not EL2's, so remap the hwirqs to match.
+> +		 */
+> +		if (!is_kernel_in_hyp_mode()) {
+> +			switch (fwspec->param[1]) {
+> +			case AIC_TMR_GUEST_PHYS:
+> +				*hwirq = ic->nr_hw + AIC_TMR_HV_PHYS;
+> +				break;
+> +			case AIC_TMR_GUEST_VIRT:
+> +				*hwirq = ic->nr_hw + AIC_TMR_HV_VIRT;
+> +				break;
+> +			case AIC_TMR_HV_PHYS:
+> +			case AIC_TMR_HV_VIRT:
+> +				return -ENOENT;
+> +			default:
+> +				break;
+> +			}
+> +		}
+
+Urgh, this is nasty. You are internally remapping the hwirq from one
+timer to another in order to avoid accessing the enable register
+which happens to be an EL2 only register?
+
+The way we normally deal with this kind of things is by providing a
+different set of irq_chip callbacks. In this particular case, this
+would leave mask/unmask as empty stubs. Or you could move the FIQ
+handling to use handle_simple_irq(), because there isn't any callback
+that is actually applicable.
+
+It isn't a big deal for now, but that's something we should consider
+addressing in the future. With that in mind:
+
+Reviewed-by: Marc Zyngier <maz@kernel.org>
+
+Thanks,
+
+	M.
+
 -- 
-2.7.4
-
+Without deviation from the norm, progress is not possible.
