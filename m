@@ -2,146 +2,199 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13C07C433B4
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 14:47:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 087A8C433ED
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 14:54:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DFEE16121E
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 14:47:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D030B6136A
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 14:54:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238882AbhDGOrb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 10:47:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51984 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233599AbhDGOrb (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 10:47:31 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC19AC061756
-        for <linux-doc@vger.kernel.org>; Wed,  7 Apr 2021 07:47:21 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id ay2so9462149plb.3
-        for <linux-doc@vger.kernel.org>; Wed, 07 Apr 2021 07:47:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=1eo6YsO1h241ad2d5tDf0CxxcnB2bGfHBv3T0aCiOAo=;
-        b=Nj4EB7+EN3/vxU55WMMVesgrSLYb3V0kSbCIqFpdw5yGx/yJkuRorWRq0rMnG/kexu
-         fK3YDqMifK/Clzct525emhJvU0eRVFestgKph/aaJPAQS7JBr0yYmY+OV5QNGSszLjom
-         CpTIma+WL9QnkoRNhQqTQ08vKrqMt55nn2JDvQJme+tofUJ4LxQKsK/CImQ6WtXOqv7A
-         yWoEKv820ZnSnrAgGJj+PKZTndV2HK511zL+XHQaGHRAGED8lCd4oDkC/C6QNRCGkNh1
-         yC1y8ueiUjuitFLUcz/1SX/I9JvEy96JoI4mv01P7+aYIbhJWtZD+hc0LfSDiRTkUPII
-         v69A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=1eo6YsO1h241ad2d5tDf0CxxcnB2bGfHBv3T0aCiOAo=;
-        b=FmvcieJpl1T814u7d+4iIdP47TdzvDovEI+dyHZyBWupsUbYDOms5gZSS3ImmTM4oh
-         3AgSQt0KGDf4tn88TgZDvOgOV5RqxUuu2lvpedrZePJvpfruUmon5+mc5BEsXOmuzNr1
-         NCNvi+28tZVpIP5+ZNE3idg0gY+t0pvtRNl4BiZ0gJuX7AQc6MqODR0BV2l+2HydIb3X
-         Np5nRtAx61mS0YPVSMTn9tb0Nlq9bXoghOUp1LK//vcllpxp6Bi4ikNbBDTb25iOqhSq
-         MKY38TXeCsqdgEsdfcHJ6pml1CXJXtnw8wKFtdHehy/Gg54ezYIaPv/klxiJC90+pTkX
-         jnRg==
-X-Gm-Message-State: AOAM5337YbQ6/ops64zm7NsytPZ41HWbHZLhvwLdkgJMRkrQoxbehoo0
-        J7h4zZq8zFMdxzdcApkXC/Ne5o6cRUCIoNbI23HDyfkRUlzoHg==
-X-Google-Smtp-Source: ABdhPJyE9dYauHmwiXykEXXa/e3Q121Ir2vbNgbIP6h/JBJnvAjB1GYyome/+VeB08oiguvKjijj8ikfQ9Gf9OEgVDI=
-X-Received: by 2002:a17:903:2490:b029:e6:faf5:86df with SMTP id
- p16-20020a1709032490b02900e6faf586dfmr3126751plw.69.1617806841355; Wed, 07
- Apr 2021 07:47:21 -0700 (PDT)
+        id S232564AbhDGOyq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 10:54:46 -0400
+Received: from mx2.suse.de ([195.135.220.15]:57278 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229777AbhDGOyp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 10:54:45 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1617807274; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=DQDvV6O5oeVaS/yN3NwHYisGy5rzTbhXoebeh+w3qGc=;
+        b=udCJSXP5OspQSqJo5LqGzS6IAGnkaUxO5aFdlPC6+JxywEiXJyTiDqapHJvVNhoOUKMsy3
+        Y1bsBfSvQURgR2fM64601+F3S2H7Ba/wCiywAzsYCugwdobDoVNJCzMIcZo5wEZkwxIlAr
+        XvrlvFAnaYa1FkN5otyTuJzSaa7NQCQ=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id A0976B02B;
+        Wed,  7 Apr 2021 14:54:34 +0000 (UTC)
+Date:   Wed, 7 Apr 2021 16:54:33 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v3 04/12] module: Add printk format to add module build
+ ID to stacktraces
+Message-ID: <YG3HqcI173aPn0l+@alley>
+References: <20210331030520.3816265-1-swboyd@chromium.org>
+ <20210331030520.3816265-5-swboyd@chromium.org>
 MIME-Version: 1.0
-References: <cover.1617699755.git.bobwxc@email.cn> <c2c2d12ac6b85a357ef76889bcb3797efbad1fd4.1617699755.git.bobwxc@email.cn>
- <CAMU9jJrhExJZyGKZFtSCdfTcT_E4LMznn5NMdSNHYe+na5e=Lg@mail.gmail.com> <20210407091805.GA2492@bobwxc.top>
-In-Reply-To: <20210407091805.GA2492@bobwxc.top>
-From:   teng sterling <sterlingteng@gmail.com>
-Date:   Wed, 7 Apr 2021 22:47:09 +0800
-Message-ID: <CAMU9jJokdPkSAz-aDMEOxytjJVtyze3Ls8eqVkA39FyRdL+gPQ@mail.gmail.com>
-Subject: Re: [PATCH v3 6/8] docs/zh_CN: Add translation zh_CN/doc-guide/maintainer-profile.rst
-To:     "Wu X.C." <bobwxc@email.cn>
-Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <seakeel@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210331030520.3816265-5-swboyd@chromium.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-UmV2aWV3ZWQtYnk6IFlhbnRlbmcgU2kgPHNpeWFudGVuZ0Bsb29uZ3Nvbi5jbj4NCg0KV3UgWC5D
-LiA8Ym9id3hjQGVtYWlsLmNuPiDkuo4yMDIx5bm0NOaciDfml6XlkajkuIkg5LiL5Y2INToxOOWG
-memBk++8mg0KPg0KPiBPbiBXZWQsIEFwciAwNywgMjAyMSBhdCAwNDoyODoyNVBNICswODAwLCB0
-ZW5nIHN0ZXJsaW5nIHdyb3RlOg0KPiA+IFd1IFhpYW5nQ2hlbmcgPGJvYnd4Y0BlbWFpbC5jbj4g
-5LqOMjAyMeW5tDTmnIg35pel5ZGo5LiJIOS4i+WNiDM6NTHlhpnpgZPvvJoNCj4gPiA+DQo+ID4g
-PiBBZGQgbmV3IHRyYW5zbGF0aW9uDQo+ID4gPiAgIERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
-L3poX0NOL2RvYy1ndWlkZS9tYWludGFpbmVyLXByb2ZpbGUucnN0DQo+ID4gPg0KPiA+ID4gU2ln
-bmVkLW9mZi1ieTogV3UgWGlhbmdDaGVuZyA8Ym9id3hjQGVtYWlsLmNuPg0KPiA+ID4gLS0tDQo+
-ID4gPiAgLi4uL3poX0NOL2RvYy1ndWlkZS9tYWludGFpbmVyLXByb2ZpbGUucnN0ICAgIHwgNDMg
-KysrKysrKysrKysrKysrKysrKw0KPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCA0MyBpbnNlcnRpb25z
-KCspDQo+ID4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNsYXRpb25z
-L3poX0NOL2RvYy1ndWlkZS9tYWludGFpbmVyLXByb2ZpbGUucnN0DQo+ID4gPg0KPiA+ID4gZGlm
-ZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2RvYy1ndWlkZS9tYWlu
-dGFpbmVyLXByb2ZpbGUucnN0IGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZG9j
-LWd1aWRlL21haW50YWluZXItcHJvZmlsZS5yc3QNCj4gPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0
-DQo+ID4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLmUzZTEwMjg3YWVmMA0KPiA+ID4gLS0tIC9kZXYv
-bnVsbA0KPiA+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZG9jLWd1
-aWRlL21haW50YWluZXItcHJvZmlsZS5yc3QNCj4gPiA+IEBAIC0wLDAgKzEsNDMgQEANCj4gPiA+
-ICsuLiBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogR1BMLTIuMA0KPiA+ID4gKw0KPiA+ID4gKy4u
-IGluY2x1ZGU6OiAuLi9kaXNjbGFpbWVyLXpoX0NOLnJzdA0KPiA+ID4gKw0KPiA+ID4gKzpPcmln
-aW5hbDogRG9jdW1lbnRhdGlvbi9kb2MtZ3VpZGUvbWFpbnRhaW5lci1wcm9maWxlLnJzdA0KPiA+
-ID4gKw0KPiA+ID4gKzror5HogIU6IOWQtOaDs+aIkCBXdSBYaWFuZ0NoZW5nIDxib2J3eGNAZW1h
-aWwuY24+DQo+ID4gPiArDQo+ID4gPiAr5paH5qGj5a2Q57O757uf57u05oqk5Lq65ZGY5p2h55uu
-5qaC6L+wDQo+ID4gPiArPT09PT09PT09PT09PT09PT09PT09PT09PT09DQo+ID4gPiArDQo+ID4g
-PiAr5paH5qGj4oCc5a2Q57O757uf4oCd5piv5YaF5qC45paH5qGj5ZKM55u45YWz5Z+656GA6K6+
-5pa955qE5Lit5b+D5Y2P6LCD54K544CC5a6D5ra155uW5LqGIERvY3VtZW50YXRpb24vIOS4iw0K
-PiA+ID4gK+eahOaWh+S7tuWxgue6p++8iERvY3VtZW50YXRpb24vZGV2aWNldHJlZSDpmaTlpJbv
-vInjgIFzY3JpcHRzLyDkuIvnmoTlkITnp43lrp7nlKjnqIvluo/vvIzlubbkuJQNCj4gPiA+ICvl
-nKjmn5Dkupvmg4XlhrXkuIvnmoTkuZ/ljIXmi6wgTElDRU5TRVMvIOOAgg0KPiA+ID4gKw0KPiA+
-ID4gK+S4jei/h+WAvOW+l+azqOaEj+eahOaYr++8jOi/meS4quWtkOezu+e7n+eahOi+ueeVjOav
-lOmAmuW4uOabtOWKoOaooeeziuOAguiuuOWkmuWFtuS7luWtkOezu+e7n+e7tOaKpOS6uuWRmOmc
-gOimgQ0KPiA+ID4gK+S/neaMgeWvuSBEb2N1bWVudGF0aW9uLyDmn5Dkupvpg6jliIbnmoTmjqfl
-iLbvvIzku6Xkvr/kuo7lj6/ku6Xmm7Toh6rnlLHlnLDlgZrmm7TmlLnjgILpmaTmraTkuYvlpJbv
-vIwNCj4gPiA+ICvorrjlpJrlhoXmoLjmlofmoaPpg73ku6VrZXJuZWwtZG9j5rOo6YeK55qE5b2i
-5byP5Ye6546w5Zyo5rqQ5Luj56CB5Lit77yb6L+Z5Lqb5rOo6YeK6YCa5bi477yI5L2G5LiN5oC7
-5piv77yJDQo+ID4gPiAr55Sx55u45YWz55qE5a2Q57O757uf57u05oqk5Lq65ZGY57u05oqk44CC
-DQo+ID4gPiArDQo+ID4gPiAr5paH5qGj5a2Q57O757uf55qE6YKu5Lu25YiX6KGo5pivPGxpbnV4
-LWRvY0B2Z2VyLmtlcm5lbC5vcmc+44CCDQo+ID4gPiAr6KGl5LiB5bqU5bC96YeP6ZKI5a+5ZG9j
-cy1uZXh05qCR44CCDQo+ID4gPiArDQo+ID4gPiAr5o+Q5Lqk5qOA5p+l5Y2V6KGl6YGXDQo+ID4g
-PiArLS0tLS0tLS0tLS0tLS0tDQo+ID4gPiArDQo+ID4gPiAr5Zyo6L+b6KGM5paH5qGj5pu05pS5
-5pe277yM5oKo5bqU5b2T5p6E5bu65paH5qGj5Lul5rWL6K+V77yM5bm256Gu5L+d5rKh5pyJ5byV
-5YWl5paw55qE6ZSZ6K+v5oiW6K2m5ZGK44CC55Sf5oiQDQo+ID4gPiArSFRNTOaWh+aho+W5tuaf
-peeci+e7k+aenOWwhuacieWKqeS6jumBv+WFjeWvueaWh+aho+a4suafk+e7k+aenOeahOS4jeW/
-heimgeS6ieaJp+OAgg0KPiA+ID4gKw0KPiA+ID4gK+W8gOWPkeWRqOacn+eahOWFs+mUruiKgueC
-uQ0KPiA+ID4gKy0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiA+ICsNCj4gPiA+ICvooaXkuIHlj6/k
-u6Xpmo/ml7blj5HpgIHvvIzkvYblnKjlkIjlubbnqpflj6PmnJ/pl7TvvIzlk43lupTlsIbmr5Tp
-gJrluLjmhaLjgILmlofmoaPmoJHlvoDlvoDlnKjlkIjlubbnqpflj6PmiZPlvIANCj4gPiA+ICvk
-uYvliY3lhbPpl63lvpfmr5TovoPmmZrvvIzlm6DkuLrmlofmoaPooaXkuIHlr7zoh7Tlm57lvZLn
-moTpo47pmanlvojlsI/jgIINCj4gPiDlm57lvZIgLT4g5Zue5ruaIG9yIOWbnumAgOaMh+mSiO+8
-nw0KPg0KPiBUaGlzIGlzIGEgdGVybSBvZiBhIGtpbmQgb2Yga2VybmVsIGJ1Zy4NCj4gSSBoYXZl
-IGRpc2N1c3NlZCB0aGlzIHdvcmQgd2l0aCBBbGV4IFNoaSBpbg0KPiA8aHR0cHM6Ly9sb3JlLmtl
-cm5lbC5vcmcvbGludXgtZG9jLzIwMjEwMjIwMDkzMDA3LkdBMTc5ODdAbWlwYy8+DQo+DQo+IEZZ
-SToNCj4gPiA+ID4gMjguDQo+ID4gPiA+IFJlZ3Jlc3Npb25zDQo+ID4gPiA+IC3lm57lvZINCj4g
-PiA+ID4gK+WbnumAgA0KPiA+ID4gPiAgICAgIlJlZ3Jlc3Npb24iIGFzIGEgc29mdHdhcmUgdGVy
-bSBjYW4gYmUgdHJhbnNsYXRlZCB0byAi5Zue5b2SIiwgYnV0ICLlm57lvZIiDQo+ID4gPiA+ICAg
-ICBvZnRlbiByZWZlcnMgdG8gdGhlIG1hdGhlbWF0aWNhbCBuYW1lIG9yIGJlbG9uZ2luZyBzdGF0
-ZSwgYW5kIHdlIGFsc28NCj4gPiA+ID4gICAgIHVzZSAi5Zue5b2S5rWL6K+VIiBhcyAicmVncmVz
-c2lvbiB0ZXN0Ii4NCj4gPiA+ID4gICAgIEJlc2lkZXMsIHRoZXJlIGlzIGFsc28gInJvbGxiYWNr
-IiBidXQgcm9sbGJhY2sgaXMgb2J2aW91c2x5IGRpZmZlcmVudA0KPiA+ID4gPiAgICAgZnJvbSBy
-ZWdyZXNzaW9uLCBzbyB3ZSBjYW4ndCB1c2UgIuWbnua7miIuDQo+ID4gPiA+ICAgICBTbywgd2hp
-Y2ggd29yZCBzaG91bGQgd2UgdXNlIHRvIHRyYW5zbGF0ZSB0aGUgcHJvcGVyIHRlcm0gZm9yIGtl
-cm5lbA0KPiA+ID4gPiAgICAgZXJyb3IsICLlm57pgIAiIG9yIGp1c3QgdXNlICLlm57lvZIiID8N
-Cj4gPiA+DQo+ID4gPiAncmVncmVzc2lvbicgaGVyZSBoYXMgc2FtZSBtZWFuaW5nZnVsIHdpdGgg
-J3JlZ3Jlc3Npb24gdGVzdCcuIGJldHRlciBubyBjaGFuZ2UuDQo+ID4gT2suDQo+DQo+DQo+ID4g
-PiArDQo+ID4gPiAr5a6h6ZiF6IqC5aWPDQo+ID4gPiArLS0tLS0tLS0tDQo+ID4gPiArDQo+ID4g
-PiAr5oiR77yI6K+R5rOo77ya5oyHSm9uYXRoYW4gQ29yYmV0IDxjb3JiZXRAbHduLm5ldD7vvInm
-mK/mlofmoaPlrZDns7vnu5/nmoTllK/kuIDnu7TmiqTogIXvvIzmiJHlnKgNCj4gPiA+ICvoh6rl
-t7HnmoTml7bpl7Tph4zlrozmiJDov5npobnlt6XkvZzvvIzmiYDku6Xlr7nooaXkuIHnmoTlk43l
-upTmnInml7bkvJrlvojmhaLjgILlvZPooaXkuIHooqvlkIjlubbml7bvvIjmiJblvZPmiJENCj4g
-PiA+ICvlhrPlrprmi5Lnu53lkIjlubbooaXkuIHml7bvvInvvIzmiJHpg73kvJrlj5HpgIHpgJrn
-n6XjgILlpoLmnpzmgqjlnKjlj5HpgIHooaXkuIHlkI7kuIDlkajlhoXmsqHmnInmlLbliLDlm57l
-pI3vvIwNCj4gPiA+ICvor7fkuI3opoHnirnosavvvIzlj5HpgIHmj5DphpLlsLHlpb3jgIINCj4g
-PiA+ICsNCj4gPiA+IC0tDQo+ID4gPiAyLjIwLjENCj4gPiA+DQo+ID4NCj4gPiBUaGFua3MNCj4g
-Pg0KPiA+IFlhbnRlbmcNCj4NCg==
+On Tue 2021-03-30 20:05:12, Stephen Boyd wrote:
+> Let's make kernel stacktraces easier to identify by including the build
+> ID[1] of a module if the stacktrace is printing a symbol from a module.
+> This makes it simpler for developers to locate a kernel module's full
+> debuginfo for a particular stacktrace. Combined with
+> scripts/decode_stracktrace.sh, a developer can download the matching
+> debuginfo from a debuginfod[2] server and find the exact file and line
+> number for the functions plus offsets in a stacktrace that match the
+> module. This is especially useful for pstore crash debugging where the
+> kernel crashes are recorded in something like console-ramoops and the
+> recovery kernel/modules are different or the debuginfo doesn't exist on
+> the device due to space concerns (the debuginfo can be too large for
+> space limited devices).
+> 
+> Originally, I put this on the %pS format, but that was quickly rejected
+> given that %pS is used in other places such as ftrace where build IDs
+> aren't meaningful. There was some discussions on the list to put every
+> module build ID into the "Modules linked in:" section of the stacktrace
+> message but that quickly becomes very hard to read once you have more
+> than three or four modules linked in. It also provides too much
+> information when we don't expect each module to be traversed in a
+> stacktrace. Having the build ID for modules that aren't important just
+> makes things messy. Splitting it to multiple lines for each module
+> quickly explodes the number of lines printed in an oops too, possibly
+> wrapping the warning off the console. And finally, trying to stash away
+> each module used in a callstack to provide the ID of each symbol printed
+> is cumbersome and would require changes to each architecture to stash
+> away modules and return their build IDs once unwinding has completed.
+> 
+> Instead, we opt for the simpler approach of introducing a new printk
+> format '%pS[R]b' for "pointer symbolic backtrace with module build ID"
+> and then updating the few places in the architecture layer where the
+> stacktrace is printed to use this new format.
+> 
+> Example:
+> 
+>  WARNING: CPU: 3 PID: 3373 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x28/0x30 [lkdtm]
+>  Modules linked in: lkdtm rfcomm algif_hash algif_skcipher af_alg xt_cgroup uinput xt_MASQUERADE hci_uart <modules trimmed>
+>  CPU: 3 PID: 3373 Comm: bash Not tainted 5.11 #12 a8c0d47f7051f3e6670ceaea724af66a39c6cec8
+>  Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+>  pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=--)
+>  pc : lkdtm_WARNING+0x28/0x30 [lkdtm]
+>  lr : lkdtm_do_action+0x24/0x40 [lkdtm]
+>  sp : ffffffc013febca0
+>  x29: ffffffc013febca0 x28: ffffff88d9438040
+>  x27: 0000000000000000 x26: 0000000000000000
+>  x25: 0000000000000000 x24: ffffffdd0e9772c0
+>  x23: 0000000000000020 x22: ffffffdd0e975366
+>  x21: ffffffdd0e9772e0 x20: ffffffc013febde0
+>  x19: 0000000000000008 x18: 0000000000000000
+>  x17: 0000000000000000 x16: 0000000000000037
+>  x15: ffffffdd102ab174 x14: 0000000000000003
+>  x13: 0000000000000004 x12: 0000000000000000
+>  x11: 0000000000000000 x10: 0000000000000000
+>  x9 : 0000000000000001 x8 : ffffffdd0e979000
+>  x7 : 0000000000000000 x6 : ffffffdd10ff6b54
+>  x5 : 0000000000000000 x4 : 0000000000000000
+>  x3 : ffffffc013feb938 x2 : ffffff89fef05a70
+>  x1 : ffffff89feef5788 x0 : ffffffdd0e9772e0
+>  Call trace:
+>   lkdtm_WARNING+0x28/0x30 [lkdtm 6c2215028606bda50de823490723dc4bc5bf46f9]
+>   direct_entry+0x16c/0x1b4 [lkdtm 6c2215028606bda50de823490723dc4bc5bf46f9]
+>   full_proxy_write+0x74/0xa4
+>   vfs_write+0xec/0x2e8
+>   ksys_write+0x84/0xf0
+>   __arm64_sys_write+0x24/0x30
+>   el0_svc_common+0xf4/0x1c0
+>   do_el0_svc_compat+0x28/0x3c
+>   el0_svc_compat+0x10/0x1c
+>   el0_sync_compat_handler+0xa8/0xcc
+>   el0_sync_compat+0x178/0x180
+>  ---[ end trace f89bc7f5417cbcc6 ]---
+
+I used this test patch:
+
+diff --git a/lib/test_printf.c b/lib/test_printf.c
+index 95a2f82427c7..06716948de3c 100644
+--- a/lib/test_printf.c
++++ b/lib/test_printf.c
+@@ -686,6 +686,7 @@ test_pointer(void)
+        kernel_ptr();
+        struct_resource();
+        addr();
++       BUG();
+        escaped_str();
+        hex_string();
+        mac();
+
+Then I did
+
+  # modprobe test_printf
+
+and got the following:
+
+[  125.707281][ T1837] test_printf: loaded.
+[  125.707707][ T1837] ------------[ cut here ]------------
+[  125.708227][ T1837] kernel BUG at lib/test_printf.c:689!
+[  125.709102][ T1837] invalid opcode: 0000 [#1] SMP NOPTI
+[  125.709111][ T1837] CPU: 3 PID: 1837 Comm: modprobe Kdump: loaded Tainted: G            E     5.12.0-rc6-default+ #171 00000080ffffffff000000000000000000000000
+[  125.712102][ T1837] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba527-rebuilt.opensuse.org 04/01/2014
+[  125.712191][ T1837] RIP: 0010:test_printf_init+0x561/0xc99 [test_printf c2388ff0552611501b4d2ad58d8e5ca441d9a350]
+[  125.712233][ T1837] Code: 00 48 c7 c7 b8 96 0f c0 e8 19 f9 ff ff b9 ab 00 00 00 48 c7 c2 93 96 0f c0 be 08 00 00 00 48 c7 c7 af 96 0f c0 e8 fc f8 ff ff <0f> 0b 8b 05 44 07 00 00 8b 35 3a 07 00 00 8b 1d 3c 07 00 00 85 c0
+[  125.712235][ T1837] RSP: 0018:ffffb060004abc78 EFLAGS: 00010282
+[  125.712240][ T1837] RAX: 0000000000000000 RBX: ffffb060004abc80 RCX: ffffd05fffc00b70
+[  125.712241][ T1837] RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffffffad352fd5
+[  125.712242][ T1837] RBP: ffffffffc00fd367 R08: 0000000000000001 R09: 0000000000000001
+[  125.712243][ T1837] R10: 0000000000000000 R11: 0000000000000001 R12: ffff9b6cc49ffc00
+[  125.712244][ T1837] R13: 0000000000000001 R14: ffff9b6cc2ee0000 R15: ffffb060004abe90
+[  125.712247][ T1837] FS:  00007f70c4466b80(0000) GS:ffff9b6d3fc00000(0000) knlGS:0000000000000000
+[  125.712248][ T1837] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  125.712249][ T1837] CR2: 00007ffdb02e8b38 CR3: 000000010b6f2002 CR4: 0000000000370ee0
+[  125.712257][ T1837] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[  125.712257][ T1837] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[  125.712258][ T1837] Call Trace:
+[  125.712275][ T1837]  ? __test+0x13c/0x149 [test_printf]
+[  125.723404][ T1837]  ? rcu_read_lock_sched_held+0x52/0x80
+[  125.723425][ T1837]  do_one_initcall+0x5b/0x2d0
+[  125.724367][ T1837]  do_init_module+0x5b/0x21c
+[  125.724377][ T1837]  load_module+0x1eaa/0x23c0
+[  125.725381][ T1837]  ? show_modinfo_version+0x30/0x30
+[  125.725422][ T1837]  ? __do_sys_finit_module+0xad/0x110
+[  125.725425][ T1837]  __do_sys_finit_module+0xad/0x110
+[  125.725431][ T1837]  do_syscall_64+0x33/0x40
+[  125.725464][ T1837]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+
+It shows wrong build id for vmlinux.
+And it does not show the build if for the module at all.
+
+
+readelf shows the following:
+
+# readelf -Wn /lib/modules/5.12.0-rc6-default+/kernel/lib/test_printf.ko
+
+Displaying notes found in: .note.gnu.build-id
+  Owner                 Data size       Description
+  GNU                  0x00000014       NT_GNU_BUILD_ID (unique build ID bitstring)         Build ID: c2388ff0552611501b4d2ad58d8e5ca441d9a350
+
+
+Best Regards,
+Petr
