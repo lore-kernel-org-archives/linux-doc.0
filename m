@@ -2,243 +2,181 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7C7BC433ED
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 19:36:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8045CC433ED
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 20:32:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6031D6124B
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 19:36:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5381F610D2
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 20:32:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243389AbhDGTgS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 15:36:18 -0400
-Received: from mga09.intel.com ([134.134.136.24]:30011 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1345628AbhDGTgR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Apr 2021 15:36:17 -0400
-IronPort-SDR: TdEZj9cmyPaIWVjf2/EKdRQ/MEP2ty4BQrWm5MmqCmz4urQoWL+LUS7UMnK6gpVtcNqSCTNszz
- yo9nMxPOyu5w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9947"; a="193499952"
-X-IronPort-AV: E=Sophos;i="5.82,203,1613462400"; 
-   d="scan'208";a="193499952"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2021 12:36:07 -0700
-IronPort-SDR: rAPVXak+nGDVnXg9E3NIe27rAWHjK35mnoyvbDaT6d99UCplYkjy2wqj9cOCpfHty8nh69qdk1
- E3HjT8/jTPWA==
-X-IronPort-AV: E=Sophos;i="5.82,203,1613462400"; 
-   d="scan'208";a="448370025"
-Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.254.186.83]) ([10.254.186.83])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2021 12:36:05 -0700
-Subject: Re: [PATCH v24 25/30] x86/cet/shstk: Handle signals for shadow stack
-To:     Andy Lutomirski <luto@kernel.org>
-Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux-MM <linux-mm@kvack.org>,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux API <linux-api@vger.kernel.org>,
+        id S235408AbhDGUcU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 16:32:20 -0400
+Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:35192 "EHLO
+        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234326AbhDGUcS (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 16:32:18 -0400
+Received: from mailhost.synopsys.com (mdc-mailhost1.synopsys.com [10.225.0.209])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id CCB90C0968;
+        Wed,  7 Apr 2021 20:32:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+        t=1617827528; bh=wpjbAZiEScHdjICXEd8kp+dWyXu3MmJRyQaO1oa27is=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:In-Reply-To:
+         References:From;
+        b=mCE/jU522M16vZ2tcE7+1Zrgr4WHmWsdS7UBfp3LmLDO99bR3JvHXkVTAxj/x4afE
+         +GE5bMCoAsQcv+IYO//CuW6lWqFpHooRKvrCnssDHtTwU3ENqOjmI4F6PvlAHUJZDC
+         Pv0tgCY2irE8uwxsqTdZ19QJew2P2mGz3Oqjp5Zi1L+2F7vPOR0HtidRyxT1gW3GtI
+         CMs6lMFZEsb8LBC+HX0tZNQRwJXt7UKtRi1XQO9AToXTm8EPJGkVb30JOOzHMrk3Th
+         I3rA5w/vGq0h++urwLvLEYlAE5ZM/uHnQ/Vi2XjhfukgMPNUahLRlJ/FFG5TjSGrXb
+         bky0H6GkGacbw==
+Received: from de02dwvm009.internal.synopsys.com (de02dwvm009.internal.synopsys.com [10.225.17.73])
+        by mailhost.synopsys.com (Postfix) with ESMTP id 07211A0231;
+        Wed,  7 Apr 2021 20:32:05 +0000 (UTC)
+X-SNPS-Relay: synopsys.com
+From:   Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+To:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Derek Kiernan <derek.kiernan@xilinx.com>,
+        Dragan Cvetic <dragan.cvetic@xilinx.com>,
         Arnd Bergmann <arnd@arndb.de>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-References: <20210401221104.31584-1-yu-cheng.yu@intel.com>
- <20210401221104.31584-26-yu-cheng.yu@intel.com>
- <CALCETrWa+gjf2c2WDVxk23xd11kTnrUmiqrMsOVXOKPL4Eg-JA@mail.gmail.com>
-From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
-Message-ID: <76743437-24b3-7c33-2570-6100c8811165@intel.com>
-Date:   Wed, 7 Apr 2021 12:36:04 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
-MIME-Version: 1.0
-In-Reply-To: <CALCETrWa+gjf2c2WDVxk23xd11kTnrUmiqrMsOVXOKPL4Eg-JA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Bjorn Helgaas <bhelgaas@google.com>,
+        =?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>,
+        Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Cc:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Subject: [PATCH v3 1/2] dw-xdata-pcie: Fix documentation build warns and update outdated info
+Date:   Wed,  7 Apr 2021 22:31:48 +0200
+Message-Id: <5e1bc55d098322908ebdf1c32512acad5b65d4d7.1617827290.git.gustavo.pimentel@synopsys.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1617827290.git.gustavo.pimentel@synopsys.com>
+References: <cover.1617827290.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <cover.1617827290.git.gustavo.pimentel@synopsys.com>
+References: <cover.1617827290.git.gustavo.pimentel@synopsys.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/6/2021 3:50 PM, Andy Lutomirski wrote:
-> On Thu, Apr 1, 2021 at 3:11 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
->>
->> When shadow stack is enabled, a task's shadow stack states must be saved
->> along with the signal context and later restored in sigreturn.  However,
->> currently there is no systematic facility for extending a signal context.
->>
->> Introduce a signal context extension struct 'sc_ext', which is used to save
->> shadow stack restore token address and WAIT_ENDBR status[1].  The extension
->> is located above the fpu states, plus alignment.
->>
->> Introduce routines for the allocation, save, and restore for sc_ext:
->> - fpu__alloc_sigcontext_ext(),
->> - save_extra_state_to_sigframe(),
->> - get_extra_state_from_sigframe(),
->> - restore_extra_state().
->>
->> [1] WAIT_ENDBR will be introduced later in the Indirect Branch Tracking
->>      series, but add that into sc_ext now to keep the struct stable in case
->>      the IBT series is applied later.
-> 
-> Please don't.  Instead, please figure out how that structure gets
-> extended for real, and organize your patches to demonstrate that the
-> extension works.
-> 
->>
->> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
->> Cc: Kees Cook <keescook@chromium.org>
->> ---
->> v24:
->> - Split out shadow stack token routines to a separate patch.
->> - Put signal frame save/restore routines to fpu/signal.c and re-name accordingly.
->>
->>   arch/x86/ia32/ia32_signal.c            |  16 +++
->>   arch/x86/include/asm/cet.h             |   2 +
->>   arch/x86/include/asm/fpu/internal.h    |   2 +
->>   arch/x86/include/uapi/asm/sigcontext.h |   9 ++
->>   arch/x86/kernel/fpu/signal.c           | 143 +++++++++++++++++++++++++
->>   arch/x86/kernel/signal.c               |   9 ++
->>   6 files changed, 181 insertions(+)
->>
+Fixes documentation build warnings related to indentation and text
+formatting, such as:
 
-[...]
+Documentation/misc-devices/dw-xdata-pcie.rst:20: WARNING: Unexpected
+indentation.
+Documentation/misc-devices/dw-xdata-pcie.rst:24: WARNING: Unexpected
+indentation.
+Documentation/misc-devices/dw-xdata-pcie.rst:25: WARNING: Block quote
+ends without a blank line; unexpected unindent.
+Documentation/misc-devices/dw-xdata-pcie.rst:30: WARNING: Unexpected
+indentation.
+Documentation/misc-devices/dw-xdata-pcie.rst:34: WARNING: Unexpected
+indentation.
+Documentation/misc-devices/dw-xdata-pcie.rst:35: WARNING: Block quote
+ends without a blank line; unexpected unindent.
+Documentation/misc-devices/dw-xdata-pcie.rst:40: WARNING: Unexpected
+indentation.
 
->> diff --git a/arch/x86/include/uapi/asm/sigcontext.h b/arch/x86/include/uapi/asm/sigcontext.h
->> index 844d60eb1882..cf2d55db3be4 100644
->> --- a/arch/x86/include/uapi/asm/sigcontext.h
->> +++ b/arch/x86/include/uapi/asm/sigcontext.h
->> @@ -196,6 +196,15 @@ struct _xstate {
->>          /* New processor state extensions go here: */
->>   };
->>
->> +/*
->> + * Located at the end of sigcontext->fpstate, aligned to 8.
->> + */
->> +struct sc_ext {
->> +       unsigned long total_size;
->> +       unsigned long ssp;
->> +       unsigned long wait_endbr;
->> +};
-> 
-> We need some proper documentation and an extensibility story for this.
-> This won't be the last time we extend the signal state.  Keep in mind
-> that the FPU state is very likely to become genuinely variable sized
-> due to AVX-512 and AMX.
-> 
+Also fixes some outdated information related to stop file interface in sysfs.
 
-Right now, on the signal stack, we have:
+Fixes: e1181b5bbc3c ("Documentation: misc-devices: Add Documentation for dw-xdata-pcie driver")
+Link: https://lore.kernel.org/linux-next/20210406214615.40cf3493@canb.auug.org.au/
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+---
+ Documentation/misc-devices/dw-xdata-pcie.rst | 62 +++++++++++++++++++---------
+ 1 file changed, 43 insertions(+), 19 deletions(-)
 
-- siginfo, ucontext,
-- fpu states (xsave state),
+diff --git a/Documentation/misc-devices/dw-xdata-pcie.rst b/Documentation/misc-devices/dw-xdata-pcie.rst
+index fd75c93..a956e1a 100644
+--- a/Documentation/misc-devices/dw-xdata-pcie.rst
++++ b/Documentation/misc-devices/dw-xdata-pcie.rst
+@@ -4,37 +4,61 @@
+ Driver for Synopsys DesignWare PCIe traffic generator (also known as xData)
+ ===========================================================================
+ 
++Supported chips:
++Synopsys DesignWare PCIe prototype solution
++
++Data sheet:
++Not freely available
++
++Author:
++Gustavo Pimentel <gustavo.pimentel@synopsys.com>
++
++Description
++-----------
++
+ This driver should be used as a host-side (Root Complex) driver and Synopsys
+ DesignWare prototype that includes this IP.
+ 
+-The "dw-xdata-pcie" driver can be used to enable/disable PCIe traffic
++The dw-xdata-pcie driver can be used to enable/disable PCIe traffic
+ generator in either direction (mutual exclusion) besides allowing the
+ PCIe link performance analysis.
+ 
+ The interaction with this driver is done through the module parameter and
+ can be changed in runtime. The driver outputs the requested command state
+-information to /var/log/kern.log or dmesg.
++information to ``/var/log/kern.log`` or dmesg.
++
++Example
++-------
++
++Write TLPs traffic generation - Root Complex to Endpoint direction
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Generate traffic::
++
++        # echo 1 > /sys/class/misc/dw-xdata-pcie.0/write
+ 
+-Request write TLPs traffic generation - Root Complex to Endpoint direction
+-- Command:
+-	echo 1 > /sys/class/misc/dw-xdata-pcie/write
++Get link throughput in MB/s::
+ 
+-Get write TLPs traffic link throughput in MB/s
+-- Command:
+-        cat /sys/class/misc/dw-xdata-pcie/write
+-- Output example:
++        # cat /sys/class/misc/dw-xdata-pcie.0/write
+ 	204
+ 
+-Request read TLPs traffic generation - Endpoint to Root Complex direction:
+-- Command:
+-	echo 1 > /sys/class/misc/dw-xdata-pcie/read
++Stop traffic in any direction::
+ 
+-Get read TLPs traffic link throughput in MB/s
+-- Command:
+-        cat /sys/class/misc/dw-xdata-pcie/read
+-- Output example:
++        # echo 0 > /sys/class/misc/dw-xdata-pcie.0/write
++
++Read TLPs traffic generation - Endpoint to Root Complex direction
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++Generate traffic::
++
++        # echo 1 > /sys/class/misc/dw-xdata-pcie.0/read
++
++Get link throughput in MB/s::
++
++        # cat /sys/class/misc/dw-xdata-pcie.0/read
+ 	199
+ 
+-Request to stop any current TLP transfer:
+-- Command:
+-	echo 1 > /sys/class/misc/dw-xdata-pcie/stop
++Stop traffic in any direction::
++
++        # echo 0 > /sys/class/misc/dw-xdata-pcie.0/read
++
+-- 
+2.7.4
 
-We might not want to change ucontext.  The concern is breaking existing 
-app's.
-
-Fpu states are all user states (vs. ssp, wait_endbr are supervisor 
-states).  Therefore, we cannot put ssp and wait_endbr in fpu states. 
-Fpu states can grow to whatever size (AVX-512 etc.), the extension is 
-always above it if the user stack has room.  If the user stack does not 
-have enough room, fpu__aloc_mathframe() fails.
-
-The struct sc_ext has a simple 'total_size' field for error checking. 
-To extend it, newer fields are always added to the end and total_size 
-keeps track of it.  I will put more comments about this.
-
-> We also have the ability to extend ucontext, I believe, and I'd like
-> some analysis of why we want to put ssp and wait_endbr into the FPU
-> context instead of the ucontext.
-> 
-
-[...]
-
->> diff --git a/arch/x86/kernel/fpu/signal.c b/arch/x86/kernel/fpu/signal.c
->> index a4ec65317a7f..2e56f2fe8be0 100644
->> --- a/arch/x86/kernel/fpu/signal.c
->> +++ b/arch/x86/kernel/fpu/signal.c
-
-[...]
-
->> +
->> +/*
->> + * Called from __fpu__restore_sig() and XSAVES buffer is protected by
->> + * set_thread_flag(TIF_NEED_FPU_LOAD) in the slow path.
->> + */
->> +void restore_extra_state(struct sc_ext *sc_ext)
->> +{
->> +#ifdef CONFIG_X86_CET
->> +       struct cet_status *cet = &current->thread.cet;
->> +       struct cet_user_state *cet_user_state;
->> +       u64 msr_val = 0;
->> +
->> +       if (!cpu_feature_enabled(X86_FEATURE_CET))
->> +               return;
->> +
->> +       cet_user_state = get_xsave_addr(&current->thread.fpu.state.xsave,
->> +                                       XFEATURE_CET_USER);
->> +       if (!cet_user_state)
->> +               return;
->> +
->> +       if (cet->shstk_size) {
-> 
-> Is fpregs_lock() needed?
-
-This path is already protected.
-
-> 
->> +               if (test_thread_flag(TIF_NEED_FPU_LOAD))
->> +                       cet_user_state->user_ssp = sc_ext->ssp;
->> +               else
->> +                       wrmsrl(MSR_IA32_PL3_SSP, sc_ext->ssp);
-> 
-> wrmsrl_safe() please.
-> 
->> +
->> +               msr_val |= CET_SHSTK_EN;
->> +       }
->> +
->> +       if (test_thread_flag(TIF_NEED_FPU_LOAD))
->> +               cet_user_state->user_cet = msr_val;
->> +       else
->> +               wrmsrl(MSR_IA32_U_CET, msr_val);
->> +#endif
-> 
-> I don't understand. Why are you recomputing MSR_IA32_U_CET here?
-> 
-> As another general complaint about this patch set, there's
-> cet->shstk_size and there's MSR_IA32_U_CET (and its copy in the fpu
-> state), and they seem to be used somewhat interchangably.  Why are
-> both needed?  Could there be some new helpers to help manage them all
-> in a unified way?
-> 
-
-Indeed, shadow stack/IBT states are cached in the thread header.  Their 
-MSRs and XSAVES states are accessed only when necessary.  The signal 
-restore path has been optimized in the past and I hope not to put in 
-code that negates past work.
-
-I agree with your other comments for the patch and will update in the 
-next revision.
-
-Thanks,
-Yu-cheng
