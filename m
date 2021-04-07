@@ -2,71 +2,127 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 05659C433B4
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 11:24:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDD02C43460
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 11:34:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CDB0B6102A
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 11:24:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9DF7B61382
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 11:34:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235159AbhDGLYq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 07:24:46 -0400
-Received: from mx2.suse.de ([195.135.220.15]:39542 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234598AbhDGLYp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Apr 2021 07:24:45 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1617794674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=EX89A7I8KJ0WNWHj7E773fhDOiKl0/iF1rrIuwsuKt4=;
-        b=ZI8eSMhy8X6aezbX0iS8SXUWNkXQWkt1ZcSe0w84MhW+MYGEq5g+OqX9FiKc23EgAbGyVS
-        Ze6J3MDvBgRBwLG1LGIVVTFZByyMTcoarCmc8BHW+bNoh1DibTHNcelwKUVQNR1GhUD5nV
-        gs5THGBftS/USBlpAp/F5MIQNeVbtJo=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 8482FB120;
-        Wed,  7 Apr 2021 11:24:34 +0000 (UTC)
-Date:   Wed, 7 Apr 2021 13:24:33 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Vlastimil Babka <vbabka@suse.cz>
-Cc:     Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        id S1343817AbhDGLej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 07:34:39 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:37397 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1343726AbhDGLec (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 07:34:32 -0400
+X-Originating-IP: 90.65.108.55
+Received: from localhost (lfbn-lyo-1-1676-55.w90-65.abo.wanadoo.fr [90.65.108.55])
+        (Authenticated sender: alexandre.belloni@bootlin.com)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id F204D2000A;
+        Wed,  7 Apr 2021 11:34:20 +0000 (UTC)
+Date:   Wed, 7 Apr 2021 13:34:20 +0200
+From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Timur Tabi <timur@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Marco Elver <elver@google.com>,
-        Matthew Wilcox <willy@infradead.org>
-Subject: Re: [PATCH] printk: clarify the documentation for plain pointer
- printing
-Message-ID: <YG2WcallnIMRBtvw@alley>
-References: <20210225164639.27212-1-vbabka@suse.cz>
+        =?utf-8?Q?Przemys=C5=82aw?= Gaj <pgaj@cadence.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vitor Soares <vitor.soares@synopsys.com>,
+        devicetree@vger.kernel.org, linux-i3c@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v2 09/19] dt-bindings: i3c: update i3c.yaml references
+Message-ID: <YG2YvD2WABchrVAA@piout.net>
+References: <cover.1617783062.git.mchehab+huawei@kernel.org>
+ <8bb8923b4d98b4e8a6336a4c0b548c714e01aef5.1617783062.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210225164639.27212-1-vbabka@suse.cz>
+In-Reply-To: <8bb8923b4d98b4e8a6336a4c0b548c714e01aef5.1617783062.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu 2021-02-25 17:46:39, Vlastimil Babka wrote:
-> We have several modifiers for plain pointers (%p, %px and %pK) and now also
-> the no_hash_pointers boot parameter. The documentation should help to choose
-> which variant to use. Importantly, we should discourage %px in favour of %p
-> (with the new boot parameter when debugging), and stress that %pK should be
-> only used for procfs and similar files, not dmesg buffer. This patch clarifies
-> the documentation in that regard.
+On 07/04/2021 10:20:48+0200, Mauro Carvalho Chehab wrote:
+> Changeset 5e4cdca887fd ("dt-bindings: i3c: Convert the bus description to yaml")
+> renamed: Documentation/devicetree/bindings/i3c/i3c.txt
+> to: Documentation/devicetree/bindings/i3c/i3c.yaml.
 > 
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> Update the cross-references accordingly.
+> 
+> Fixes: 5e4cdca887fd ("dt-bindings: i3c: Convert the bus description to yaml")
+> Acked-by: Rob Herring <robh@kernel.org>
+Acked-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
-The patch has been committed into printk/linux.git, branch for-5.13.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt   | 6 +++---
+>  .../devicetree/bindings/i3c/snps,dw-i3c-master.txt          | 6 +++---
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt b/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
+> index 1cf6182f888c..3716589d6999 100644
+> --- a/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
+> +++ b/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
+> @@ -10,19 +10,19 @@ Required properties:
+>  - reg: I3C master registers
+>  
+>  Mandatory properties defined by the generic binding (see
+> -Documentation/devicetree/bindings/i3c/i3c.txt for more details):
+> +Documentation/devicetree/bindings/i3c/i3c.yaml for more details):
+>  
+>  - #address-cells: shall be set to 1
+>  - #size-cells: shall be set to 0
+>  
+>  Optional properties defined by the generic binding (see
+> -Documentation/devicetree/bindings/i3c/i3c.txt for more details):
+> +Documentation/devicetree/bindings/i3c/i3c.yaml for more details):
+>  
+>  - i2c-scl-hz
+>  - i3c-scl-hz
+>  
+>  I3C device connected on the bus follow the generic description (see
+> -Documentation/devicetree/bindings/i3c/i3c.txt for more details).
+> +Documentation/devicetree/bindings/i3c/i3c.yaml for more details).
+>  
+>  Example:
+>  
+> diff --git a/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt b/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+> index 5020eb71eb8d..07f35f36085d 100644
+> --- a/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+> +++ b/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+> @@ -9,19 +9,19 @@ Required properties:
+>  - reg: Offset and length of I3C master registers
+>  
+>  Mandatory properties defined by the generic binding (see
+> -Documentation/devicetree/bindings/i3c/i3c.txt for more details):
+> +Documentation/devicetree/bindings/i3c/i3c.yaml for more details):
+>  
+>  - #address-cells: shall be set to 3
+>  - #size-cells: shall be set to 0
+>  
+>  Optional properties defined by the generic binding (see
+> -Documentation/devicetree/bindings/i3c/i3c.txt for more details):
+> +Documentation/devicetree/bindings/i3c/i3c.yaml for more details):
+>  
+>  - i2c-scl-hz
+>  - i3c-scl-hz
+>  
+>  I3C device connected on the bus follow the generic description (see
+> -Documentation/devicetree/bindings/i3c/i3c.txt for more details).
+> +Documentation/devicetree/bindings/i3c/i3c.yaml for more details).
+>  
+>  Example:
+>  
+> -- 
+> 2.30.2
+> 
 
-Best Regards,
-Petr
+-- 
+Alexandre Belloni, co-owner and COO, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
