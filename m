@@ -2,90 +2,124 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-14.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7436C433B4
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:03:55 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBB45C433B4
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:10:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D0FC6139E
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:03:55 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A826C61382
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:10:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350571AbhDGKEB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 06:04:01 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:16379 "EHLO
-        szxga06-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1350489AbhDGKD3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 06:03:29 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4FFg0C2Z4ZzjYZn;
-        Wed,  7 Apr 2021 18:01:31 +0800 (CST)
-Received: from [127.0.0.1] (10.69.38.196) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.498.0; Wed, 7 Apr 2021
- 18:03:11 +0800
-Subject: Re: [PATCH 0/4] Add support for HiSilicon PCIe Tune and Trace device
-To:     Greg KH <gregkh@linuxfoundation.org>
-CC:     <alexander.shishkin@linux.intel.com>, <helgaas@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-        <lorenzo.pieralisi@arm.com>, <jonathan.cameron@huawei.com>,
-        <song.bao.hua@hisilicon.com>, <prime.zeng@huawei.com>,
-        <linux-doc@vger.kernel.org>, <linuxarm@huawei.com>,
-        "liuqi (BA)" <liuqi115@huawei.com>
-References: <1617713154-35533-1-git-send-email-yangyicong@hisilicon.com>
- <YGxm49c9cT69NV5Q@kroah.com>
-From:   Yicong Yang <yangyicong@hisilicon.com>
-Message-ID: <01b6e8f7-3282-514e-818d-0e768dcc5ba3@hisilicon.com>
-Date:   Wed, 7 Apr 2021 18:03:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        id S234217AbhDGKKO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 06:10:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47058 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233394AbhDGKKO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 06:10:14 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C726C061756
+        for <linux-doc@vger.kernel.org>; Wed,  7 Apr 2021 03:10:04 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id w10so7180377pgh.5
+        for <linux-doc@vger.kernel.org>; Wed, 07 Apr 2021 03:10:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=jhAmNpG6st01IIqlkM0iXgCJpeEg4gccz3WhjJt+s6k=;
+        b=icprrkgB2wd84gMdtcGt/LXr2ZM9zgAuaxBmHPVN7cRk7G4g1LB4H+y7iUqkblh9Si
+         oIPUqErkSxJU5vXDn8kMByrKvW8Y4HLDcOm/5LUmjjAOJBB5ZK3ZmjwI4PJxKgqwEPZq
+         M2ZPTJ4HIEU+DyNrOHYPYZfIZQDUukhXSyquW0kfbN+GGJY98hkFlLamHhfa2cyIzze8
+         +BhNX6lsmohkIyzAC5Vibf24gGv3i1TUqDzILFGY5KSqDehWwrfTWPogoZERPKJonc6k
+         h+Yu2/YQu9lpa5zE8e4P6ZBnzrbGPcaasP7G4H+pXPPy0i6vp1TX7bpT9wRT7WxT7A4a
+         4ECg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=jhAmNpG6st01IIqlkM0iXgCJpeEg4gccz3WhjJt+s6k=;
+        b=k3wSIUZpur7JE0/vdPwAnA7x+pgSpzyevE/C7a89G3nviLPUSkR8emkftzyJuwcfZP
+         dJqmEvrXRllS8UycT3BoRgdBT08xzOr5tCqIgD65mj+tXBzVFI4crsQxG+tThSc4Kw6u
+         2Rtpwo9LLTvJPObWM4YAvbt1zyl0h/CAckfxKXfLW5FLgVhYKqhuLHf9BljU/OM7CR9i
+         xZYE3c4pNeuO/nR7/xunAZJUEZn2zYgS6dGHGQIe1IGDdkyixuLfvdrg6wyvQM+E54mf
+         Rb1ZTqhFWnnHKv05KM1E+1z7fHrG2ceLWSom8MOOJT2hcEVfnHJuElrRq3E89XHrdu0P
+         yloQ==
+X-Gm-Message-State: AOAM530636qGcCcH5qJ9t8OWqf9AdBtUhDL6cQlDfzhkVuGMYFVpx3Ab
+        wHnEzH6bej0aWIyda6gSqeCtivPSKPQ=
+X-Google-Smtp-Source: ABdhPJxRlS/Y49hsL2OvlJFdr59iM0ROTYmVsBJ2ZsJXxMnIGyqda+smocVAGORezRBedVPYcNmEHw==
+X-Received: by 2002:a62:7594:0:b029:203:2d6c:cea1 with SMTP id q142-20020a6275940000b02902032d6ccea1mr2244789pfc.33.1617790203760;
+        Wed, 07 Apr 2021 03:10:03 -0700 (PDT)
+Received: from [192.168.11.2] (KD106167171201.ppp-bb.dion.ne.jp. [106.167.171.201])
+        by smtp.gmail.com with ESMTPSA id y5sm20778976pfl.191.2021.04.07.03.10.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Apr 2021 03:10:03 -0700 (PDT)
+Subject: Re: [PATCH v2 15/19] docs: update rcu_dereference.rst reference
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        "Paul E. McKenney" <paulmck@kernel.org>
+References: <cover.1617783062.git.mchehab+huawei@kernel.org>
+ <ea2236875b0f5159ab07853d78f1e3c2f565a5e7.1617783062.git.mchehab+huawei@kernel.org>
+From:   Akira Yokosawa <akiyks@gmail.com>
+Message-ID: <5e171c69-4d76-9f7f-d0ee-1d4f31ad7e2c@gmail.com>
+Date:   Wed, 7 Apr 2021 19:10:00 +0900
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <YGxm49c9cT69NV5Q@kroah.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <ea2236875b0f5159ab07853d78f1e3c2f565a5e7.1617783062.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.69.38.196]
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 2021/4/6 21:49, Greg KH wrote:
-> On Tue, Apr 06, 2021 at 08:45:50PM +0800, Yicong Yang wrote:
->> HiSilicon PCIe tune and trace device(PTT) is a PCIe Root Complex
->> integrated Endpoint(RCiEP) device, providing the capability
->> to dynamically monitor and tune the PCIe traffic(tune),
->> and trace the TLP headers(trace). The driver exposes the user
->> interface through debugfs, so no need for extra user space tools.
->> The usage is described in the document.
+Hello Mauro,
+
+(Dropped most CC)
+
+On Wed,  7 Apr 2021 10:20:54 +0200, Mauro Carvalho Chehab wrote:
+> Changeset b00aedf978aa ("doc: Convert to rcu_dereference.txt to rcu_dereference.rst")
+> renamed: Documentation/RCU/rcu_dereference.txt
+> to: Documentation/RCU/rcu_dereference.rst.
 > 
-> Why use debugfs and not the existing perf tools for debugging?
+> Update its cross-reference accordingly.
 > 
+> Fixes: b00aedf978aa ("doc: Convert to rcu_dereference.txt to rcu_dereference.rst")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
 
-The perf doesn't match our device as we've analyzed.
+Paul has sent a pull request to mingo for v5.13 including v1 of
+this patch.
 
-For the tune function it doesn't do the sampling at all.
-User specifys one link parameter and reads its current value or set
-the desired one. The process is static. We didn't find a
-way to adapt to perf.
+> Mauro Carvalho Chehab (2):
+>       rcu: Fix kfree_rcu() docbook errors
+>       doc: Update rcu_dereference.rst reference   <---
 
-For the trace function, we may barely adapt to the perf framework
-but it doesn't seems like a better choice. We have our own format
-of data and don't need perf doing the parsing, and we'll get extra
-information added by perf as well. The settings through perf tools
-won't satisfy our needs, we cannot present available settings
-(filter BDF number, TLP types, buffer controls) to
-the user and user cannot set in a friendly way. For example,
-we cannot count on perf to decode the usual format BDF number like
-<domain>:<bus>:<dev>.<fn>, which user can use filter the TLP
-headers.
+See: https://lore.kernel.org/lkml/20210331192934.GA8127@paulmck-ThinkPad-P72/
 
-So we intended to make the operation of this driver a bit like
-ftrace. user sets the control settings through control files
-and get the result through files as well. No additional tools
-is necessay. A user space tool is necessary if we use a character
-device or misc device for implementing this. The trace data maybe
-hundreds of megabytes, and debugfs file can just satisfy it.
+Hmm, your email address is on the CC list...
 
-Thanks,
-Yicong
+        Thanks, Akira
 
+>  tools/memory-model/Documentation/glossary.txt | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tools/memory-model/Documentation/glossary.txt b/tools/memory-model/Documentation/glossary.txt
+> index b2da6365be63..6f3d16dbf467 100644
+> --- a/tools/memory-model/Documentation/glossary.txt
+> +++ b/tools/memory-model/Documentation/glossary.txt
+> @@ -19,7 +19,7 @@ Address Dependency:  When the address of a later memory access is computed
+>  	 from the value returned by the rcu_dereference() on line 2, the
+>  	 address dependency extends from that rcu_dereference() to that
+>  	 "p->a".  In rare cases, optimizing compilers can destroy address
+> -	 dependencies.	Please see Documentation/RCU/rcu_dereference.txt
+> +	 dependencies.	Please see Documentation/RCU/rcu_dereference.rst
+>  	 for more information.
+>  
+>  	 See also "Control Dependency" and "Data Dependency".
+> 
