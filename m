@@ -2,166 +2,107 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88D9DC43461
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 17:22:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 814B2C433ED
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 17:35:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5D23D61284
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 17:22:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4F36161262
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 17:35:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354829AbhDGRW5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 13:22:57 -0400
-Received: from mga03.intel.com ([134.134.136.65]:44718 "EHLO mga03.intel.com"
+        id S1354897AbhDGRfb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 13:35:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50656 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1354793AbhDGRW4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Apr 2021 13:22:56 -0400
-IronPort-SDR: NvYdEg7dBCcx2y7w/UeX8UUFtbIW3h2I0w/n0cm4RP9TDI4V5uPElchIwyoNIRPs7FiXKgk/zM
- 2bOIbvlXFh4A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9947"; a="193402814"
-X-IronPort-AV: E=Sophos;i="5.82,203,1613462400"; 
-   d="scan'208";a="193402814"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2021 10:22:46 -0700
-IronPort-SDR: KwRl/Bnk4CW00c6/1V3Y0pBj3HWwW469ITP0J+7ckACoT5J/yen/fYNsRM+UpncpcDyIEyF8sr
- 7soW871bFdKw==
-X-IronPort-AV: E=Sophos;i="5.82,203,1613462400"; 
-   d="scan'208";a="519516437"
-Received: from gna-dev.igk.intel.com (HELO localhost) ([10.102.80.34])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2021 10:22:43 -0700
-References: <20210324183610.4574-1-maciej.kwapulinski@linux.intel.com> <20210324183610.4574-2-maciej.kwapulinski@linux.intel.com> <CAHp75Vf54GNsw_xWqiOhZx5aHHnQ_-wUWugQ8w9vJPRheLxHFA@mail.gmail.com>
-User-agent: mu4e 1.4.13; emacs 26.3
-From:   Maciej Kwapulinski <maciej.kwapulinski@linux.intel.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Jonathan Corbet <corbet@lwn.net>,
+        id S232356AbhDGRfa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 13:35:30 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9EB7861359;
+        Wed,  7 Apr 2021 17:35:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1617816919;
+        bh=DJKF3mtl+EHxdpObT36wNiXsVe+AFPcJJOhQgKgWBRs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WXyM+1WfBORK3yhGZkxvb6do5kfLE5WyjwfwjPtMqhcMyOMYq83GuHMK2WuTMEGly
+         JuorDZ1mEqFscvAzyD2rG9/8FL4tsGaaEMfmdQtxJ1eKh4cPhHYbnY7st+bab28dYE
+         8qiRpQQItTEU1+iX+/WmuyvtL0ph7gzms4puoy1k=
+Date:   Wed, 7 Apr 2021 19:35:16 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
+Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Derek Kiernan <derek.kiernan@xilinx.com>,
         Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Tomasz Jankowski <tomasz1.jankowski@intel.com>,
-        Savo Novakovic <savox.novakovic@intel.com>,
-        Jianxun Zhang <jianxun.zhang@linux.intel.com>
-Subject: Re: [PATCH v2 01/13] intel_gna: add driver module
-In-reply-to: <CAHp75Vf54GNsw_xWqiOhZx5aHHnQ_-wUWugQ8w9vJPRheLxHFA@mail.gmail.com>
-Date:   Wed, 07 Apr 2021 19:22:40 +0200
-Message-ID: <85sg42nh5r.fsf@linux.intel.com>
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
+        Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH v2 1/2] Documentation: misc-devices: Fix indentation,
+ formatting, and update outdated info
+Message-ID: <YG3tVEnjUEg5g7mz@kroah.com>
+References: <cover.1617743702.git.gustavo.pimentel@synopsys.com>
+ <95bef5f98380bc91b4d321c2638d08da61ef6d6e.1617743702.git.gustavo.pimentel@synopsys.com>
+ <YG1OaKU7slMHfweX@kroah.com>
+ <DM5PR12MB183598B5F93D4DBC515F61B1DA759@DM5PR12MB1835.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM5PR12MB183598B5F93D4DBC515F61B1DA759@DM5PR12MB1835.namprd12.prod.outlook.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Wed, Apr 07, 2021 at 03:57:31PM +0000, Gustavo Pimentel wrote:
+> On Wed, Apr 7, 2021 at 7:17:12, Greg Kroah-Hartman 
+> <gregkh@linuxfoundation.org> wrote:
+> 
+> > On Tue, Apr 06, 2021 at 11:17:48PM +0200, Gustavo Pimentel wrote:
+> > > Fixes indentation issues reported by doing *make htmldocs* as well some
+> > > text formatting.
+> > > 
+> > > Besides these fixes, there was some outdated information related to stop
+> > > file interface in sysfs.
+> > 
+> > You are not doing this for all "misc-devices", you are doing this only
+> > for one specific driver file.
+> > 
+> > Please look at the example I provided for how to name this and fix up.
+> 
+> Sorry Greg, I didn't see an example provided. Perhaps you forgot it?
 
-Andy Shevchenko <andy.shevchenko@gmail.com> writes:
+Nope: https://lore.kernel.org/r/YGyl7OWHJm1NuaV2@kroah.com
 
-> On Wed, Mar 24, 2021 at 8:38 PM Maciej Kwapulinski
-> <maciej.kwapulinski@linux.intel.com> wrote:
->>
-....
->> diff --git a/include/uapi/misc/intel/gna.h b/include/uapi/misc/intel/gna.h
->> new file mode 100644
->> index 000000000000..a7e435b74a0a
->> --- /dev/null
->> +++ b/include/uapi/misc/intel/gna.h
->> @@ -0,0 +1,155 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only WITH Linux-syscall-note */
->> +/* Copyright(c) 2017-2021 Intel Corporation */
->> +
->> +#ifndef _UAPI_GNA_H_
->> +#define _UAPI_GNA_H_
->> +
->> +#if defined(__cplusplus)
->> +extern "C" {
->> +#endif
->
->> +#include <linux/types.h>
->> +#include <linux/ioctl.h>
->> +#include <linux/const.h>
->
-> Ordered?
->
-What do You mean?
+> 
+> > 
+> > > 
+> > > Fixes: e1181b5bbc3c ("Documentation: misc-devices: Add Documentation for dw-xdata-pcie driver")
+> > > Link: https://urldefense.com/v3/__https://lore.kernel.org/linux-next/20210406214615.40cf3493@canb.auug.org.au/__;!!A4F2R9G_pg!MeIXpmOYi4yJTBq19JEADll7-g6cYBmmwG92EWipqsBiPzeubfMGVllrpMt8FpwvW5ZemHY$ 
+> > > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> > > Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
+> > > ---
+> > >  Documentation/misc-devices/dw-xdata-pcie.rst | 62 +++++++++++++++++++---------
+> > >  1 file changed, 43 insertions(+), 19 deletions(-)
+> > 
+> > What changed from v1?  Always put that below the --- line.
+> 
+> I've considered the V1 the 2 patches sent wrongly separately, based on 
+> your feedback I've generated a v2 to include the cover letter and the 
+> reported-by, link, and fixes tags.
+> Was this wrong?
 
->>
-......
->> +struct gna_compute_cfg {
->> +       __u32 layer_base;
->> +       __u32 layer_count;
->> +
->> +       /* List of GNA memory buffers */
->> +       __u64 buffers_ptr;
->> +       __u64 buffer_count;
->> +
->> +       __u8 active_list_on;
->> +       __u8 gna_mode;
->> +       __u8 hw_perf_encoding;
->> +       __u8 pad[5];
->> +};
->> +
->> +union gna_parameter {
->> +       struct {
->> +               __u64 id;
->> +       } in;
->> +
->> +       struct {
->> +               __u64 value;
->> +       } out;
->> +};
->> +
->> +union gna_memory_map {
->> +       struct {
->> +               __u64 address;
->> +               __u32 size;
->> +               __u32 pad;
->> +       } in;
->> +
->> +       struct {
->> +               __u64 memory_id;
->> +       } out;
->> +};
->> +
->> +union gna_compute {
->> +       struct {
->> +               struct gna_compute_cfg config;
->> +       } in;
->> +
->> +       struct {
->> +               __u64 request_id;
->> +       } out;
->> +};
->> +
->> +union gna_wait {
->> +       struct {
->> +               __u64 request_id;
->> +               __u32 timeout;
->> +               __u32 pad;
->> +       } in;
->> +
->> +       struct {
->> +               __u32 hw_status;
->> +               __u32 pad;
->> +               struct gna_drv_perf drv_perf;
->> +               struct gna_hw_perf hw_perf;
->> +       } out;
->> +};
->
-> For all unions:
-> How do you know which branch is used (out, in)? What field and where
-> in the ABI points to that?
+No, but you need to say that here, otherwise how do we know this?
 
-each of the unions above plays the role of in/out argument to its
-corresponding ioctl call.
+> I also placed the change list on the cover letter. Or do you prefer on 
+> each patch?
 
-'in' part is used when ioctl() is called by client (userland
-application) - data is written by app.
+Ah, if you put it in the cover letter, that's fine, but I almost never
+read them :)
 
-'out' part is read by app on exit from ioctl(), but only when ioctl()
-retuns 0.
+thanks,
 
-do You suggest adding the comment to gna.h for the above?
-
-> .....
+greg k-h
