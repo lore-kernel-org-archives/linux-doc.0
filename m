@@ -2,319 +2,740 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-9.9 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNWANTED_LANGUAGE_BODY,
-	URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC667C433ED
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 07:37:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5DFDC433ED
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 07:42:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9F0096139B
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 07:37:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 796756139B
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 07:42:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244350AbhDGHhW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 03:37:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41380 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349483AbhDGHhN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 03:37:13 -0400
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com [IPv6:2607:f8b0:4864:20::c31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E49FC06174A
-        for <linux-doc@vger.kernel.org>; Wed,  7 Apr 2021 00:37:03 -0700 (PDT)
-Received: by mail-oo1-xc31.google.com with SMTP id x187-20020a4a41c40000b02901b664cf3220so4326863ooa.10
-        for <linux-doc@vger.kernel.org>; Wed, 07 Apr 2021 00:37:03 -0700 (PDT)
+        id S240883AbhDGHmS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 03:42:18 -0400
+Received: from mail-co1nam11on2117.outbound.protection.outlook.com ([40.107.220.117]:50592
+        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233952AbhDGHmS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 03:42:18 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B4Xq2kx8Ogz6Nq/Dp3JcJ00UQloPD7dYk2p4xq9LJI7bPPTimFcOdduUaseYt1WA+TUjmb6pbMAeA2+f5lm0kmzaFW0u/B2yUBGmM3L8P9O7C1leVaQusTWpnN5XyEY7VNC7PfNuHzU3E+iwij5/XpWZpKikz88UDF3j5avFzUwH0r41AtvN1RXXlDBZBPaH5zM2Pi5digWX7WAx5KJqX6P+j8DLOGmMpA/zFLND0lb3Wm5rm4m+q3bve/9oBN7qX79DSMJaN3RvmjyZ3W9cEthQSh24m1LqQnfbj5LGx/D+7ZUMMugQlkzBnq3+i8dwcG9NTANHILaUK/H/LqB+tA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LIGOq+dl5G4/qXIsa8Ah81DBmDLkKB6FbALIUbDhBac=;
+ b=bDHxmBlv8FSXzmBPnrqy4/vf6OfWgPxq4htMRrHuFh30R+bQC7CqE1rjeRq6EVkUUH+Cs3xNSFVLdCz3B+R2IDDdPyDpuc13s/gVuZa9t/iikOWt4uMD0rqqRkTZIqyMtElS0BNTZaU4n0hcQvPttH0EQh9lpTY221E8FVzS9VurHgnbne/p3CpOOWurzaY90wuUte2ISY7K0l2/NfI2JsJu6GPrEIsn+b7eGeHWnkCUJC8vRT9Er7Yf7NAAlRpUVza1UK1XBw89EErlvAEn7/8TXhcBwvRRaNFtHdyIYMBFtA3zCPWuhpmBGriMyjzmLMEAWjNwiTIhejQD72RZDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=vowcebJ65bjP0hZYW6o8qc5O5Eu48uyRJcirmvEot0E=;
-        b=R2kOoDbvtZEACmHwI32OgLIXTVNJcDk0IXG/WgtIY+LSyqIvCVySd3sIKHOh/NDPlk
-         V8vQalNTv2jpXjnoyh6Ri6mPCVdJwoYXWJNv2wWwWYDGBK2JVn8GkC7cN+btj3AjfiLx
-         DEGQ6ACAdOCliTpqZzaTcFFrxRmG+1aCTJ64TxtTrub2GDsPY9dhHfUvllM0RqSDaP0M
-         6xJOpVuse4befkBmQ0m/ytmQz4Y7s43W6XThomMHWcbmNLn5vIk9SvcWSkHaLxgvijIR
-         Lu+rbDRx8dolsH6wr5b0vA0ER1B6YmhmNyDGHqVk8Ay7moQ5ZxeALZCGJj+l10lPlsQX
-         poEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=vowcebJ65bjP0hZYW6o8qc5O5Eu48uyRJcirmvEot0E=;
-        b=IyPK79z6k7hTHmgL2LfTJ2fxPbhKNVj6qocQ0R7azHLUh58JtQGwr/n067MZg+DVEC
-         Ob4QYldWGaj8mm+g0GPaiKssVPC9vV+1EFVeXuNl5dUFD3RCF+HWcb4ChPioPTR69n4j
-         x1ifl/FsXD5m7Nr2YWIB7j3Q8HhpqhvNiMICafaKkofkP4ZJfanrE8v0mze9vOzvEqNV
-         QjPPMeiKNQoKJf12kc3tTV2LwmELEi3rY0GhQL3+CaGNNZVNx4VTxlYDwY9/Ytgt9ESp
-         7j07Vvs+a+Q6OgIc7nfYP3qPKr+zbbzqyi1KcFB6W5qj1NgswV8+sS0nGmw1iNkOJuh1
-         4wlw==
-X-Gm-Message-State: AOAM533JdGA3x5AHAeTpoFWaYlzVpisKxf+dDEBhAYEZiFewbGMZ5wtm
-        VHhtRM6EXaUvJQ4D+REEQ2cUFNBkzARza3qzFg4=
-X-Google-Smtp-Source: ABdhPJz1nz29FiGmPmEWlNqViM0tICli/pXO4VhGNAMj6ffMi5iW+UANyioyhNBEPoEz9VjjNONs7+cQHRwElQ1+ICA=
-X-Received: by 2002:a4a:e08c:: with SMTP id w12mr1990797oos.48.1617781022726;
- Wed, 07 Apr 2021 00:37:02 -0700 (PDT)
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LIGOq+dl5G4/qXIsa8Ah81DBmDLkKB6FbALIUbDhBac=;
+ b=aKQI9bS0UqFpCUFL4EfTbv5UAqUrrqdUpnMPeXh02V+LdOEGIvJ/WfrPmq6bHca9rnYhmuyUAqhNS4kbivqF73k5LjXEBCrAIkloOcLKmblCi2x5w5INZ8i3uymKx6UP58ZuBBc73lkrZIVdbflYgFd8NXfFPI9FPtQ5nbApEr8=
+Authentication-Results: os.amperecomputing.com; dkim=none (message not signed)
+ header.d=none;os.amperecomputing.com; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
+ MW4PR01MB6466.prod.exchangelabs.com (2603:10b6:303:78::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3999.27; Wed, 7 Apr 2021 07:42:04 +0000
+Received: from MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503]) by MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503%5]) with mapi id 15.20.4020.016; Wed, 7 Apr 2021
+ 07:42:02 +0000
+Subject: Re: [PATCH v2 3/4] hwmon: smpro: Add Ampere's Altra smpro-hwmon
+ driver
+To:     Guenter Roeck <linux@roeck-us.net>, Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@aj.id.au>,
+        Jean Delvare <jdelvare@suse.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        openbmc@lists.ozlabs.org
+Cc:     Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
+References: <20210329015238.19474-1-quan@os.amperecomputing.com>
+ <20210329015238.19474-4-quan@os.amperecomputing.com>
+ <bac92db0-3ef6-1615-0e92-aabd54fd0580@roeck-us.net>
+From:   Quan Nguyen <quan@os.amperecomputing.com>
+Message-ID: <136d036c-1d10-cecd-abcb-d206a0c6fa51@os.amperecomputing.com>
+Date:   Wed, 7 Apr 2021 14:41:49 +0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.9.0
+In-Reply-To: <bac92db0-3ef6-1615-0e92-aabd54fd0580@roeck-us.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [118.69.219.201]
+X-ClientProxiedBy: HKAPR04CA0003.apcprd04.prod.outlook.com
+ (2603:1096:203:d0::13) To MW2PR0102MB3482.prod.exchangelabs.com
+ (2603:10b6:302:c::32)
 MIME-Version: 1.0
-References: <20210406130210.2725075-1-siyanteng@loongson.cn>
- <20210406130210.2725075-4-siyanteng@loongson.cn> <20210407070106.GA23907@bobwxc.top>
-In-Reply-To: <20210407070106.GA23907@bobwxc.top>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Wed, 7 Apr 2021 15:36:51 +0800
-Message-ID: <CAEensMy3=MHsxP2x6jz7oUv+QFyKn6fyLyxCgp03WaDNSF8Byg@mail.gmail.com>
-Subject: Re: [PATCH 03/11] docs/zh_CN: add core-api/irq/irq-domain.rst translation
-To:     "Wu X.C." <bobwxc@email.cn>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        Puyu Wang <realpuyuwang@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.38.33.17] (118.69.219.201) by HKAPR04CA0003.apcprd04.prod.outlook.com (2603:1096:203:d0::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend Transport; Wed, 7 Apr 2021 07:41:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 7ac248b1-8fde-420f-a67a-08d8f998a1ac
+X-MS-TrafficTypeDiagnostic: MW4PR01MB6466:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MW4PR01MB646638B2A1AB4AB32BC34961F2759@MW4PR01MB6466.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aJerB4+VPCEnV9GW3PO3PCSIiI3kIlYpODIEx7WHBEa8UZ4uHtTWr+LVncbXOiya6s/5khoxMYyGhFomOlkuP16KiysNRyA8W8XIHaMXXIllpoYrS+03zfACCMT4vlEFVtPO8u2F0rA3OitIjjeKjpmCEQWttp/G396IyZijSnJ8QkO/e/9v9FNxpN/11EsIqqZ53+l6U5hadx4d8EdvR1+ii9hoDymgbDCAmGq+MNYxQq0R57ozJE1tczHo7dUlCW7rnCxW/KBCbYwAc+JNSnU0u9biMMGp1tVlsX87iL53lRtrtMdocfrQ/xa70+jp9Khf85BxmmAtJkC5wMVgI++5e34M2N7+AQGpgZNLA29MoF29RopXnE0Wo3WAJl4YQmLlX9c6fzAnng9JTBxIajVwhc83nZAlpVardoQWvsv6sMHCxSXj9tYlsa6+m/BqcSeQKP/AJPLMQzDqJLzAuQTT6lbyg8D+bJn0m5Pb6NDAHEj19ColTs7Jur5kwQB52seFZwuia5cCOLD6yL5mJAc3EGuqjOny6nbWKqKYT7DH6Fib5xIWqpdLCYgX6+SmkmbsVS1SJ7zqiSww0ObyphKcZTumaQDAuRwAUM6mw9vvyhORyNoH1BAlwynVNI3Xb0UnJlrD9I1izOi45Nj9u2n2BLVZEoEDCVb2olXlHs5fHdFwvVZppyMv7DZLg7dsD13ZmgRYywo/Du+FTtu5xw/hsTeo2FWZLDn3bmehyxSg+H7V1P6CROSgYKE5AMNyrH3EDwjNRAB6VxinzCy7Mw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR0102MB3482.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(376002)(39840400004)(396003)(136003)(7416002)(31686004)(83380400001)(66946007)(921005)(66556008)(956004)(2616005)(52116002)(66476007)(38100700001)(38350700001)(31696002)(107886003)(4326008)(6486002)(53546011)(6666004)(26005)(316002)(2906002)(110136005)(16526019)(16576012)(186003)(478600001)(5660300002)(86362001)(8676002)(54906003)(8936002)(30864003)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?YWxqYlFGMS9IUDZWVU5zL0F0QU1BbG5hN2JpbUZVdTd2STBGSG9HN2xvaGts?=
+ =?utf-8?B?MWJZYSsxRFBiZHBXRGNJNExyTzZFRkJ4WFdmU1QwQkZiUGp0NGFEeVQ4Q1Ni?=
+ =?utf-8?B?d0dOS210RHFZYjIyS1JmcFhyd3cxMW5yL3cySk56emVheDlzc25KRHZnYTVE?=
+ =?utf-8?B?YmxmOWpVU3ZqZHE2RTJ4R0EyN2Y2TGtyeVlabVBHbWZ6N1dKNWlqMzlnV3hw?=
+ =?utf-8?B?NElRejJQSHFLVmpVYm5LdGpNalpyR0Y4eEVWR1Vod3FrUVI4Qm8vRi9qYzB3?=
+ =?utf-8?B?MmptdEl3OS94TmlLQ2NKQjFITFBnRnFLQm5wei93Z3dMZEcrRXl0VlZIRHlT?=
+ =?utf-8?B?RUhhd0RBT0x3aEY3cTdkdmpHem5VV1JwRlVNVjUzUnhuYm9hQ2YyN3kwK0xJ?=
+ =?utf-8?B?UXJoVjg1MUVxd3Q4eTZ2ZkJ2YkREclJ3b0hXQnZFajI1dklmQ0g1eHlyYmdR?=
+ =?utf-8?B?VSt1dXVVN3pHbG5ocEo1K2U1NmJxR2lVeHZHN09mYTF3K1dXNnRyS28vLzdp?=
+ =?utf-8?B?ZThqeXRUdTBUeUZ5OG1Ra1oxMlNUVFhmTHhsNlZMczJrSHZzRDRvcUhkUS8y?=
+ =?utf-8?B?S25oVWYwUmRvbjdHNzhyUEhxRDRYTlJUOHdGZlQvUnZPTGF4NnhRa1p2b2dR?=
+ =?utf-8?B?Ymk2ZXVQN3JBbGNQTE9pU3JEV0VkUkZzelhjcVRYZi8xOVJtQy96MFBUUTQy?=
+ =?utf-8?B?NjdRVVdvdUMrdjhDMFhpWldGSjhzdUdoQXprZG1yVlp3N2t1ZGFENlArcUtp?=
+ =?utf-8?B?S2pnYlZTbWdPUGwyRHRieUMyejNMOTlNREJNSU93MkhSV2pLbGhpbGRMKzdN?=
+ =?utf-8?B?NWZVUUlZZzZ1aTdwMnBaMjF3Z215Qko1dC96ODBYdS94OWQxRFZpUGFCUFpa?=
+ =?utf-8?B?RWRlSDVrWWxGcFpSQi92bVBla2RoL0xST253ajU4RnFmS01Yem9CVmVma1M3?=
+ =?utf-8?B?UnFuTzlsb2FwbDdiMmxTdU9BVE9jMUlDTXkzbm5QRWpXLzVSYkhxWXFjUWlY?=
+ =?utf-8?B?WkRoWlFpbVJjVUdkUk1BQm9xby9iVTNYbkJ3aHNDVUw5dW1rWHdUNCtHUTk4?=
+ =?utf-8?B?ZllwRGRUelV3dGFpRGpQWnp4Y1lDamNhMkdRYTJoRmZiRmhNSEIwWmQ5RXkr?=
+ =?utf-8?B?YTNqMGplTlowc2UyVUNiMGxaMmt1Y3NoTTJ6My92QmNZaWxPb0ltL3dYRXdL?=
+ =?utf-8?B?UFNQTDFMeWFOZHlRVVhUd1hhS1N1bkRWa3NlOHo4dnA2RkRDeWgrTjBaQ0JS?=
+ =?utf-8?B?ankvbEdpdTBiMThKdys2cTk0K1o2QUxSK2hDN1dEUzBweGUyaTFQVExtQkRG?=
+ =?utf-8?B?MDQzRjNLak5ta2hYSWFaZlRENDNHdnZzY1RESGRXSnJ3TUhzbDlHQWtxUVZa?=
+ =?utf-8?B?SWVZdUFQRlp3RGp3cmdKNGdvNGdsK1RrQXlaSjRWYitJd1RacXpobzNUNzNl?=
+ =?utf-8?B?S3lwdDVadUZneG1kSFp6SnJqbnY0bHErdi9wbzRPR21UNEVnTnN6RHhvSVZt?=
+ =?utf-8?B?elcrMW0vS2s4RGVlTHIxenNTdllKbU85cHo1RTRoYkRHYjdURjBzUXpUNDhm?=
+ =?utf-8?B?L2xQYWQ3Q3Y0aHQ3cVBSUjhkdlZ1czhoaWNDNmlPTHl0cXV2RjJ1cGc4WUhv?=
+ =?utf-8?B?SlNGbld6M2xacDV3N0w0ZlNldml5MUlsSEttRm1WZSs4NTk4TjhzUndiczZ2?=
+ =?utf-8?B?ZWpseGFSVlErMFJJWFZvdWJWZmJVOHRFeWlJSEtjRmsrQVRYMnY4SG1DTEw4?=
+ =?utf-8?Q?W13POMULu1ZSYFhLr9j8tBiQzkBVE2YeiUw1orh?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ac248b1-8fde-420f-a67a-08d8f998a1ac
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2021 07:42:01.9614
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ASMLK9nFsve5BDHvUcAgT58YZ3WcaZucl9bZRKWe/Imtrdsd6+JY+Z40apd2NV/kvWUVqWjSdhcm3mApLIsqTx6dSR7IA4uQHQsDdWssXCk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR01MB6466
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-V3UgWC5DLiA8Ym9id3hjQGVtYWlsLmNuPiDkuo4yMDIx5bm0NOaciDfml6XlkajkuIkg5LiL5Y2I
-MzowMeWGmemBk++8mg0KPg0KPiBPbiBUdWUsIEFwciAwNiwgMjAyMSBhdCAwOTowMjowMlBNICsw
-ODAwLCBZYW50ZW5nIFNpIHdyb3RlOg0KPiA+IFRoaXMgcGF0Y2ggdHJhbnNsYXRlcyBEb2N1bWVu
-dGF0aW9uL2NvcmUtYXBpL2lycS9pcnEtZG9tYWluLnJzdCBpbnRvIENoaW5lc2UuDQo+ID4NCj4g
-PiBTaWduZWQtb2ZmLWJ5OiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ID4g
-LS0tDQo+ID4gIC4uLi96aF9DTi9jb3JlLWFwaS9pcnEvaXJxLWRvbWFpbi5yc3QgICAgICAgICB8
-IDIyOCArKysrKysrKysrKysrKysrKysNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDIyOCBpbnNlcnRp
-b25zKCspDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9u
-cy96aF9DTi9jb3JlLWFwaS9pcnEvaXJxLWRvbWFpbi5yc3QNCj4gPg0KPiA+IGRpZmYgLS1naXQg
-YS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9pcnEvaXJxLWRvbWFp
-bi5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9pcnEvaXJx
-LWRvbWFpbi5yc3QNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAw
-MDAwMC4uMDNkM2I3OTUzZTA4DQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL0RvY3VtZW50
-YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL2lycS9pcnEtZG9tYWluLnJzdA0KPiA+
-IEBAIC0wLDAgKzEsMjI4IEBADQo+ID4gKy4uIGluY2x1ZGU6OiAuLi8uLi9kaXNjbGFpbWVyLXpo
-X0NOLnJzdA0KPiA+ICsNCj4gPiArOk9yaWdpbmFsOiA6ZG9jOmAuLi8uLi8uLi8uLi9jb3JlLWFw
-aS9pcnEvaXJxLWRvbWFpbmANCj4gPiArOlRyYW5zbGF0b3I6IFlhbnRlbmcgU2kgPHNpeWFudGVu
-Z0Bsb29uZ3Nvbi5jbj4NCj4gPiArDQo+ID4gKy4uIF9jbl9pcnEtZG9tYWluLnJzdDoNCj4gPiAr
-DQo+ID4gKw0KPiA+ICs9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PQ0KPiA+ICtpcnFfZG9tYWluIOS4reaWreWPt+aYoOWwhOW6k+OAgg0KPg0KPiByZW1vdmUg
-dGhlIOOAgg0KPg0KT0vvvIENCj4gPiArPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT0NCj4gPiArDQo+ID4gK+ebruWJjUxpbnV45YaF5qC455qE6K6+6K6h5L2/
-55So5LqG5LiA5Liq5beo5aSn55qE5pWw5a2X56m66Ze077yM5q+P5Liq54us56uL55qESVJR5rqQ
-6YO96KKr5YiG6YWN5LqG5LiA5Liq5LiNDQo+ID4gK+WQjOeahOaVsOWtl+OAgg0KPiBObyBlbXB0
-eSBsaW5lIGJldHdlZW4gdGhlIHR3byBzZW50ZW5jZXMuDQpPSyENCj4gPiArDQo+ID4gK+W9k+WP
-quacieS4gOS4quS4reaWreaOp+WItuWZqOaXtu+8jOi/meW+iOeugOWNle+8jOS9huWcqOacieWk
-muS4quS4reaWreaOp+WItuWZqOeahOezu+e7n+S4re+8jOWGheaguOW/hemhu+ehruS/neavjw0K
-PiA+ICvkuKrkuK3mlq3mjqfliLblmajpg73og73lvpfliLDpnZ7ph43lpI3nmoRMaW51eCBJUlHl
-j7fvvIjmlbDlrZfvvInliIbphY3jgIINCj4gPiArDQo+ID4gK+azqOWGjOS4uuWUr+S4gOeahGly
-cWNoaXBz55qE5Lit5pat5o6n5Yi25Zmo57yW5Y+35ZGI546w5Ye65LiK5Y2H55qE6LaL5Yq/77ya
-5L6L5aaCR1BJT+aOp+WItuWZqOetieS4jeWQjA0KPiA+ICvnp43nsbvnmoTlrZDpqbHliqjnqIvl
-uo/pgJrov4flsIblhbbkuK3mlq3lpITnkIbnqIvluo/lu7rmqKHkuLppcnFjaGlwc++8jOWNs+Wu
-numZheS4iuaYr+e6p+iBlOS4reaWreaOp+WItuWZqO+8jA0KPiA+ICvpgb/lhY3kuobph43mlrDl
-rp7njrDkuI5JUlHmoLjlv4Pns7vnu5/nm7jlkIznmoTlm57osIPmnLrliLbjgIINCj4gPiArDQo+
-ID4gK+WcqOi/memHjO+8jOS4reaWreWPt+S4juehrOS7tuS4reaWreWPt+emu+aVo+S6huaJgOac
-ieenjeexu+eahOWvueW6lOWFs+ezu++8muiAjOWcqOi/h+WOu++8jElSUeWPt+WPr+S7pemAieaL
-qe+8jA0KPiA+ICvkvb/lroPku6zkuI7noazku7ZJUlHnur/ov5vlhaXmoLnkuK3mlq3mjqfliLbl
-majvvIjljbPlrp7pmYXlkJFDUFXlj5HlsITkuK3mlq3nur/nmoTnu4Tku7bvvInnm7jljLnphY3v
-vIznjrANCj4gPiAr5Zyo6L+Z5Liq57yW5Y+35LuF5LuF5piv5LiA5Liq5pWw5a2X44CCDQo+ID4g
-Kw0KPiA+ICvlh7rkuo7ov5nkuKrljp/lm6DvvIzmiJHku6zpnIDopoHkuIDnp43mnLrliLblsIbm
-jqfliLblmajmnKzlnLDkuK3mlq3lj7fvvIjnp7DkuLrnoazku7ZpcnEnc++8ieS4jkxpbnV4IElS
-UQ0KPg0KPiBNYXliZSB0aGlzIG1lYW5zOg0KPiDvvIjljbPnoazku7ZpcnHnvJblj7fvvIkNCk9L
-IQ0KPg0KPiA+ICvlj7fliIblvIDjgIINCj4gPiArDQo+ID4gK2lycV9hbGxvY19kZXNjKigp5ZKM
-aXJxX2ZyZWVfZGVzYyooKUFQSeaPkOS+m+S6huWvuWlyceWPt+eahOWIhumFje+8jOS9huWug+S7
-rOS4jeaPkOS+mw0KPg0KPiBpcnFfZnJlZV9kZXNjKigpIEFQSQ0KPiAgICAgICAgICAgICAgICAg
-XiBuZWVkIGEgc3BhY2UNCj4NCj4gPiAr5Lu75L2V5a+55o6n5Yi25Zmo5pys5ZywSVJRKGh3aXJx
-KeWPt+WIsExpbnV4IElSUeWPt+epuumXtOeahOWPjeWQkeaYoOWwhOeahOaUr+aMgeOAgg0KPiA+
-ICsNCj4gPiAraXJxX2RvbWFpbiDlupPlnKggaXJxX2FsbG9jX2Rlc2MqKCkgQVBJIOeahOWfuueh
-gOS4iuWinuWKoOS6hiBod2lycSDlkowgSVJRIOWPt+eggQ0KPiA+ICvkuYvpl7TnmoTmmKDlsITj
-gIIg55u45q+U5LqO5Lit5pat5o6n5Yi25Zmo6amx5Yqo5byA5pS+57yW56CB6Ieq5bex55qE5Y+N
-5ZCR5pig5bCE5pa55qGI77yM5oiR5Lus5pu05Zac5qyi55SoDQo+ID4gK2lycV9kb21haW7mnaXn
-rqHnkIbmmKDlsITjgIINCj4gPiArDQo+ID4gK2lycV9kb21haW7ov5jlrp7njrDkuobku47mir3o
-saHnmoRpcnFfZndzcGVj57uT5p6E5L2T5YiwaHdpcnHlj7fnmoTovazmjaLvvIjliLDnm67liY3k
-uLrmraLmmK8NCj4gPiArRGV2aWNlIFRyZWXlkoxBQ1BJIEdTSe+8ie+8jOW5tuS4lOWPr+S7peW+
-iOWuueaYk+WcsOaJqeWxleS7peaUr+aMgeWFtuWug0lSUeaLk+aJkeaVsOaNrua6kOOAgg0KPiA+
-ICsNCj4gPiAraXJxX2RvbWFpbueahOeUqOazlQ0KPiA+ICs9PT09PT09PT09PT09PT09DQo+ID4g
-Kw0KPiA+ICvkuK3mlq3mjqfliLblmajpqbHliqjnqIvluo/pgJrov4fku6XkuIvmlrnlvI/liJvl
-u7rlubbms6jlhozkuIDkuKppcnFfZG9tYWlu44CC6LCD55SoDQo+ID4gK2lycV9kb21haW5fYWRk
-XyooKSDmiJYgaXJxX2RvbWFpbl9jcmVhdGVfKigp5Ye95pWw5LmL5LiAKOavj+S4quaYoOWwhOaW
-ueazlemDveacieS4jQ0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBeDQo+ID4gK+WQjOeahOWIhumFjeWZqOWHveaVsO+8jOWQjumdouS8muiv
-pue7huS7i+e7jSku5Ye95pWw5oiQ5Yqf5ZCO5Lya6L+U5Zue5LiA5Liq5oyH5ZCRaXJxX2RvbWFp
-bueahOaMh+mSiOOAgg0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeXg0KPiDv
-vIjvvInjgIINCk9L77yBDQo+DQo+ID4gK+iwg+eUqOiAheW/hemhu+WQkeWIhumFjeWZqOWHveaV
-sOaPkOS+m+S4gOS4qmlycV9kb21haW5fb3Bz57uT5p6E5L2T44CCDQo+ID4gKw0KPiA+ICvlnKjl
-pKflpJrmlbDmg4XlhrXkuIvvvIxpcnFfZG9tYWlu5Zyo5byA5aeL5pe25piv56m655qE77yM5rKh
-5pyJ5Lu75L2VaHdpcnHlkoxJUlHlj7fkuYvpl7TnmoTmmKDlsITjgIINCj4gPiAr6YCa6L+H6LCD
-55SoaXJxX2NyZWF0ZV9tYXBwaW5nKCnlsIbmmKDlsITmt7vliqDliLBpcnFfZG9tYWlu5Lit77yM
-6K+l5Ye95pWw5o6l5Y+XDQo+ID4gK2lycV9kb21haW7lkozkuIDkuKpod2lyceWPt+S9nOS4uuWP
-guaVsOOAgiDlpoLmnpxod2lyceeahOaYoOWwhOi/mOS4jeWtmOWcqO+8jOmCo+S5iOWug+WwhuWI
-humFjQ0KPiA+ICvkuIDkuKrmlrDnmoRMaW51eCBpcnFfZGVzY++8jOWwhuWFtuS4jmh3aXJx5YWz
-6IGU6LW35p2l77yM5bm26LCD55SoLm1hcCgp5Zue6LCD77yM6L+Z5qC36amx5YqoDQo+ID4gK+eo
-i+W6j+WwseWPr+S7peaJp+ihjOS7u+S9leW/heimgeeahOehrOS7tuiuvue9ruOAgg0KPiA+ICsN
-Cj4gPiAr5b2T5o6l5pS25Yiw5LiA5Liq5Lit5pat5pe277yM5bqU6K+l5L2/55SoaXJxX2ZpbmRf
-bWFwcGluZygp5Ye95pWw5LuOaHdpcnHlj7fkuK3mib7liLANCj4gPiArTGludXggSVJR5Y+344CC
-DQo+ID4gKw0KPiA+ICvlnKjosIPnlKhpcnFfZmluZF9tYXBwaW5nKCnkuYvliY3vvIzoh7PlsJHo
-poHosIPnlKjkuIDmrKFpcnFfY3JlYXRlX21hcHBpbmcoKeWHveaVsO+8jA0KPiA+ICvku6XlhY3m
-j4/ov7DnrKbkuI3og73ooqvliIbphY3jgIINCj4gPiArDQo+ID4gK+WmguaenOmpseWKqOeoi+W6
-j+aciUxpbnV455qESVJR5Y+35oiWaXJxX2RhdGHmjIfpkojvvIzlubbkuJTpnIDopoHnn6XpgZPn
-m7jlhbPnmoRod2lyceWPt++8iOavlA0KPiA+ICvlpoLlnKhpcnFfY2hpcOWbnuiwg+S4re+8ie+8
-jOmCo+S5iOWPr+S7peebtOaOpeS7jmlycV9kYXRhLT5od2lyceS4reiOt+W+l+OAgg0KPiA+ICsN
-Cj4gPiAraXJxX2RvbWFpbuaYoOWwhOeahOexu+Weiw0KPiA+ICs9PT09PT09PT09PT09PT09PT09
-PT09PT09PT09DQo+ID4gKw0KPiA+ICvku45od2lyceWIsExpbnV4IGlyceeahOWPjeWQkeaYoOWw
-hOacieWHoOenjeacuuWItu+8jOavj+enjeacuuWItuS9v+eUqOS4jeWQjOeahOWIhumFjeWHveaV
-sOOAguW6lOivpQ0KPiA+ICvkvb/nlKjlk6rnp43lj43lkJHmmKDlsITnsbvlnovlj5blhrPkuo7n
-lKjkvovjgIIg5LiL6Z2i5LuL57uN5q+P5LiA56eN5Y+N5ZCR5pig5bCE57G75Z6L77yaDQo+ID4g
-Kw0KPiA+ICvnur/mgKfmmKDlsIQNCj4gPiArLS0tLS0tLS0tLQ0KPiA+ICsNCj4gPiArOjoNCj4g
-PiArDQo+ID4gKyAgICAgaXJxX2RvbWFpbl9hZGRfbGluZWFyKCkNCj4gPiArICAgICBpcnFfZG9t
-YWluX2NyZWF0ZV9saW5lYXIoKQ0KPiA+ICsNCj4gPiAr57q/5oCn5Y+N5ZCR5pig5bCE57u05oqk
-5LqG5LiA5Liq5Zu65a6a5aSn5bCP55qE6KGo77yM6K+l6KGo5LulaHdpcnHlj7fkuLrntKLlvJXj
-gIIg5b2T5LiA5LiqaHdpcnHooqvmmKDlsIQNCj4gPiAr5pe277yM5Lya57uZaHdpcnHliIbphY3k
-uIDkuKppcnFfZGVzY++8jOW5tuWwhmlyceWPt+WtmOWCqOWcqOihqOS4reOAgg0KPiA+ICsNCj4g
-PiAr5b2T5pyA5aSn55qEaHdpcnHlj7flm7rlrprkuJTmlbDph4/nm7jlr7novoPlsJHml7bvvIzn
-ur/mgKflm77mmK/kuIDkuKrlvojlpb3nmoTpgInmi6nvvIh+PDI1Nu+8ieOAgiDov5nnp40NCj4N
-Cj4g5b2T5pyA5aSn55qEaHdpcnHlj7flm7rlrprkuJTmlbDph4/nm7jlr7novoPlsJHml7bvvIh+
-IDwgMjU277yJ77yM57q/5oCn5Zu+5piv5LiA5Liq5b6I5aW955qE6YCJ5oup44CCDQo+DQo+ID4g
-K+aYoOWwhOeahOS8mOeCueaYr+WbuuWumuaXtumXtOafpeaJvklSUeWPt++8jOiAjOS4lGlycV9k
-ZXNjc+WPquWIhumFjee7meWcqOeUqOeahElSUeOAgue8uueCueaYr+ivpeihqA0KPiA+ICvlv4Xp
-obvlsL3lj6/og73lpKfnmoRod2lyceWPt+OAgg0KPiA+ICsNCj4gPiAraXJxX2RvbWFpbl9hZGRf
-bGluZWFyKCnlkoxpcnFfZG9tYWluX2NyZWF0ZV9saW5lYXIoKeWcqOWKn+iDveS4iuaYr+etieS7
-t+eahO+8jA0KPiA+ICvpmaTkuobnrKzkuIDkuKrlj4LmlbDkuI3lkIwtLeWJjeiAheaOpeWPl+S4
-gOS4qk9wZW4gRmlybXdhcmXnibnlrprnmoQgYHN0cnVjdCBkZXZpY2Vfbm9kZWAg6ICMDQo+ID4g
-K+WQjuiAheaOpeWPl+S4gOS4quabtOmAmueUqOeahOaKveixoSBgc3RydWN0IGZ3bm9kZV9oYW5k
-bGVgIOOAgg0KPg0KPiBXaHkgdXNpbmcgYCBub3QgJywgIiBvciDigJjigJksIOKAnOKAnSDvvJ8N
-Cj4gVGhlIGZvbGxvd2luZyBwYXJ0IGhhcyB0aGUgc2FtZSBwcm9ibGVt77yMIHBsZWFzZSBkbyBh
-IHNlYXJjaC4NCj4NCk9L77yBDQo+ID4gKw0KPiA+ICvlpKflpJrmlbDpqbHliqjlupTor6XnlKjk
-uo7nur/mgKfmmKDlsIQNCj4NCj4g5aSn5aSa5pWw6amx5Yqo5bqU6K+l5L2/55So57q/5oCn5pig
-5bCE44CCDQo+DQpPS++8gQ0KPiA+ICsNCj4gPiAr5qCR54q25pig5bCEDQo+ID4gKy0tLS0tLS0t
-LS0NCj4gPiArDQo+ID4gKzo6DQo+ID4gKw0KPiA+ICsgICAgIGlycV9kb21haW5fYWRkX3RyZWUo
-KQ0KPiA+ICsgICAgIGlycV9kb21haW5fY3JlYXRlX3RyZWUoKQ0KPiA+ICsNCj4gPiAraXJxX2Rv
-bWFpbue7tOaKpOedgOS7jmh3aXJx5Y+35YiwTGludXggSVJR55qEcmFkaXjnmoTmoJHnirbmmKDl
-sITjgIIg5b2T5LiA5LiqaHdpcnHooqvmmKDlsITml7bvvIwNCj4gPiAr5LiA5LiqaXJxX2Rlc2Po
-oqvliIbphY3vvIxod2lyceiiq+eUqOS9nHJhZGl45qCR55qE5p+l5om+6ZSu44CCDQo+ID4gKw0K
-PiA+ICvlpoLmnpxod2lyceWPt+WPr+S7pemdnuW4uOWkp++8jOagkeeKtuaYoOWwhOaYr+S4gOS4
-quW+iOWlveeahOmAieaLqe+8jOWboOS4uuWug+S4jemcgOimgeWIhumFjeS4gOS4quWSjOacgOWk
-p2h3aXJxDQo+ID4gK+WPt+S4gOagt+Wkp+eahOihqOOAgiDnvLrngrnmmK/vvIxod2lyceWIsElS
-UeWPt+eahOafpeaJvuWPluWGs+S6juihqOS4reacieWkmuWwkeadoeebruOAgg0KPiA+ICsNCj4g
-PiAraXJxX2RvbWFpbl9hZGRfdHJlZSgp5ZKMaXJxX2RvbWFpbl9jcmVhdGVfdHJlZSgp5Zyo5Yqf
-6IO95LiK5piv562J5Lu355qE77yM6Zmk5LqG56ys5LiADQo+ID4gK+S4quWPguaVsOS4jeWQjC0t
-5YmN6ICF5o6l5Y+X5LiA5LiqT3BlbiBGaXJtd2FyZeeJueWumueahCBgc3RydWN0IGRldmljZV9u
-b2RlYCDvvIzogIzlkI7ogIXmjqXlj5cNCj4NCj4gVG8gYmUgc3RyaWN0bHksICctLScgdHdvIGh5
-cGhlbnMgc2hvdWxkIGJlIHJlcGxhY2VkIHdpdGggJ+KAlOKAlCcgdHdvIGVtIGRhc2hlcy4NCk9L
-77yBDQo+DQo+ID4gK+S4gOS4quabtOmAmueUqOeahOaKveixoSBgc3RydWN0IGZ3bm9kZV9oYW5k
-bGVgIOOAgg0KPiA+ICsNCj4gPiAr5b6I5bCR5pyJ6amx5Yqo5bqU6K+l6ZyA6KaB6L+Z5Liq5pig
-5bCE44CCDQo+ID4gKw0KPiA+ICvml6DmmKDlsIQNCj4gPiArLS0tLS0tLS0NCj4gPiArDQo+ID4g
-Kzo6DQo+ID4gKw0KPiA+ICsgICAgIGlycV9kb21haW5fYWRkX25vbWFwKCkNCj4gPiArDQo+ID4g
-K+W9k+ehrOS7tuS4reeahGh3aXJx5Y+35piv5Y+v57yW56iL55qE5pe25YCZ77yM5bCx5Y+v5Lul
-6YeH55So5peg5pig5bCE57G75Z6L44CCIOWcqOi/meenjeaDheWGteS4i++8jOacgOWlveWwhg0K
-PiA+ICtMaW51eCBJUlHlj7fnvJblhaXnoazku7bmnKzouqvvvIzov5nmoLflsLHkuI3pnIDopoHm
-mKDlsITkuobjgIIg6LCD55SoaXJxX2NyZWF0ZV9kaXJlY3RfbWFwcGluZygpDQo+ID4gK+S8muWI
-humFjeS4gOS4qkxpbnV4IElSUeWPt++8jOW5tuiwg+eUqC5tYXAoKeWbnuiwg++8jOi/meagt+mp
-seWKqOWwseWPr+S7peWwhkxpbnV4IElSUeWPt+e8luWFpeehrOS7tuS4reOAgg0KPiA+ICsNCj4g
-PiAr5aSn5aSa5pWw6amx5Yqo56iL5bqP5LiN6IO95L2/55So6L+Z5Liq5pig5bCE44CCDQo+ID4g
-Kw0KPiA+ICvkvKDnu5/mmKDlsITnsbvlnosNCj4gPiArLS0tLS0tLS0tLS0tLS0NCj4gPiArDQo+
-ID4gKzo6DQo+ID4gKw0KPiA+ICsgICAgIGlycV9kb21haW5fYWRkX3NpbXBsZSgpDQo+ID4gKyAg
-ICAgaXJxX2RvbWFpbl9hZGRfbGVnYWN5KCkNCj4gPiArICAgICBpcnFfZG9tYWluX2FkZF9sZWdh
-Y3lfaXNhKCkNCj4gPiArICAgICBpcnFfZG9tYWluX2NyZWF0ZV9zaW1wbGUoKQ0KPiA+ICsgICAg
-IGlycV9kb21haW5fY3JlYXRlX2xlZ2FjeSgpDQo+ID4gKw0KPiA+ICvkvKDnu5/mmKDlsITmmK/l
-t7Lnu4/kuLogaHdpcnFzIOWIhumFjeS6huS4gOezu+WIlyBpcnFfZGVzY3Mg55qE6amx5Yqo56iL
-5bqP55qE54m55q6K5oOF5Ya144CCIOW9k+mpseWKqOeoiw0KPiA+ICvluo/kuI3og73nq4vljbPo
-vazmjaLkuLrkvb/nlKjnur/mgKfmmKDlsITml7bvvIzlsLHkvJrkvb/nlKjlroPjgIIg5L6L5aaC
-77yM6K645aSa5bWM5YWl5byP57O757uf5p2/5Y2h5pSv5oyB5paH5Lu25L2/55SoDQo+ID4gK+S4
-gOe7hOeUqOS6jklSUeWPt+eahOWumuS5ie+8iCNkZWZpbmXvvInvvIzov5nkupvlrprkuYnooqvk
-vKDpgJLnu5lzdHJ1Y3Torr7lpIfms6jlhozjgIIg5Zyo6L+Z56eN5oOF5Ya15LiL77yMDQo+ID4g
-K+S4jeiDveWKqOaAgeWIhumFjUxpbnV4IElSUeWPt++8jOW6lOivpeS9v+eUqOS8oOe7n+aYoOWw
-hOOAgg0KPiA+ICsNCj4gPiAr5Lyg57uf5pig5bCE5YGH6K6+5bey57uP5Li65o6n5Yi25Zmo5YiG
-6YWN5LqG5LiA5Liq6L+e57ut55qESVJR5Y+36IyD5Zu077yM5bm25LiU5Y+v5Lul6YCa6L+H5ZCR
-aHdpcnHlj7fmt7vliqDkuIANCj4gPiAr5Liq5Zu65a6a55qE5YGP56e75p2l6K6h566XSVJR5Y+3
-77yM5Y+N5LmL5Lqm54S244CCIOe8uueCueaYr+mcgOimgeS4reaWreaOp+WItuWZqOeuoeeQhklS
-UeWIhumFje+8jOW5tuS4lOmcgOimgeS4uuavjw0KPiA+ICvkuKpod2lyceWIhumFjeS4gOS4qmly
-cV9kZXNj77yM5Y2z5L2/5a6D5rKh5pyJ6KKr5L2/55So44CCDQo+ID4gKw0KPiA+ICvlj6rmnInl
-nKjlv4XpobvmlK/mjIHlm7rlrprnmoRJUlHmmKDlsITml7bvvIzmiY3lupTkvb/nlKjkvKDnu5/m
-mKDlsITjgIIg5L6L5aaC77yMSVNB5o6n5Yi25Zmo5bCG5L2/55So5Lyg57uf5pig5bCE5p2lDQo+
-ID4gK+aYoOWwhExpbnV4IElSUSAwLTE177yM6L+Z5qC3546w5pyJ55qESVNB6amx5Yqo56iL5bqP
-5bCx6IO95b6X5Yiw5q2j56Gu55qESVJR5Y+344CCDQo+ID4gKw0KPiA+ICvlpKflpJrmlbDkvb/n
-lKjkvKDnu5/mmKDlsITnmoTnlKjmiLflupTor6Xkvb/nlKhpcnFfZG9tYWluX2FkZF9zaW1wbGUo
-KeaIlg0KPiA+ICtpcnFfZG9tYWluX2NyZWF0ZV9zaW1wbGUoKe+8jOWPquacieWcqOezu+e7n+aP
-kOS+m0lSUeiMg+WbtOaXtuaJjeS8muS9v+eUqOS8oOe7n+Wfn++8jOWQpuWImeWwhuS9v+eUqA0K
-PiA+ICvnur/mgKfln5/mmKDlsITjgILov5nkuKrosIPnlKjnmoTor63kuYnmmK/ov5nmoLfnmoTv
-vJrlpoLmnpzmjIflrprkuobkuIDkuKpJUlHojIPlm7TvvIzpgqPkuYjmj4/ov7DnrKblsIbooqvl
-jbPml7bliIbphY0NCj4gPiAr57uZ5a6D77yM5aaC5p6c5rKh5pyJ6IyD5Zu06KKr5YiG6YWN77yM
-5a6D5bCG5LiN5Lya5omn6KGMIGlycV9kb21haW5fYWRkX2xpbmVhcigpIOaIlg0KPiA+ICtpcnFf
-ZG9tYWluX2NyZWF0ZV9saW5lYXIoKe+8jOi/meaEj+WRs+edgCAqbm8qIGlycSDmj4/ov7DnrKbl
-sIbooqvliIbphY3jgIINCj4gPiArDQo+ID4gK+S4gOS4queugOWNleWfn+eahOWFuOWei+eUqOS+
-i+aYr++8jGlycWNoaXDkvpvlupTllYblkIzml7bmlK/mjIHliqjmgIHlkozpnZnmgIFJUlHliIbp
-hY3jgIINCj4gPiArDQo+ID4gK+S4uuS6humBv+WFjeacgOe7iOWHuueOsOS9v+eUqOe6v+aAp+Wf
-n+iAjOayoeacieaPj+i/sOespuiiq+WIhumFjeeahOaDheWGte+8jOehruS/neS9v+eUqOeugOWN
-leWfn+eahOmpseWKqOeoi+W6j+WcqOS7u+S9lQ0KPiA+ICtpcnFfZmluZF9tYXBwaW5nKCnkuYvl
-iY3osIPnlKhpcnFfY3JlYXRlX21hcHBpbmcoKeaYr+mdnuW4uOmHjeimgeeahO+8jOWboOS4uuWQ
-juiAheWunumZheS4ig0KPiA+ICvlsIbnlKjkuo7pnZnmgIFJUlHliIbphY3mg4XlhrXjgIINCj4g
-PiArDQo+ID4gK2lycV9kb21haW5fYWRkX3NpbXBsZSgp5ZKMaXJxX2RvbWFpbl9jcmVhdGVfc2lt
-cGxlKCnku6Xlj4oNCj4gPiAraXJxX2RvbWFpbl9hZGRfbGVnYWN5KCnlkoxpcnFfZG9tYWluX2Ny
-ZWF0ZV9sZWdhY3koKeWcqOWKn+iDveS4iuaYr+etieS7t+eahO+8jOWPqg0KPiA+ICvmmK/nrKzk
-uIDkuKrlj4LmlbDkuI3lkIwtLeWJjeiAheaOpeWPl09wZW4gRmlybXdhcmXnibnlrprnmoQgYHN0
-cnVjdCBkZXZpY2Vfbm9kZWAg77yM6ICM5ZCO6ICFDQo+ID4gK+aOpeWPl+S4gOS4quabtOmAmueU
-qOeahOaKveixoSBgc3RydWN0IGZ3bm9kZV9oYW5kbGVgIOOAgg0KPiA+ICsNCj4gPiArSGllcmFy
-Y2h5IElSUSBkb21haW4NCj4NCj4gTmVlZCB0cmFuc2xhdGlvbi4NCj4gTWF5YmU6IElSUeWfn+Wx
-gue6p+e7k+aehA0KT0vvvIENCj4NCj4gPiArLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiArDQo+
-ID4gK+WcqOafkOS6m+aetuaehOS4iu+8jOWPr+iDveacieWkmuS4quS4reaWreaOp+WItuWZqOWP
-guS4juWwhuS4gOS4quS4reaWreS7juiuvuWkh+S8oOmAgeWIsOebruagh0NQVeOAgg0KPiA+ICvo
-rqnmiJHku6zmnaXnnIvnnIt4ODblubPlj7DkuIrlhbjlnovnmoTkuK3mlq3kvKDpgJLot6/lvoTl
-kKcNCj4gPiArOjoNCj4gPiArDQo+ID4gKyAgRGV2aWNlIC0tPiBJT0FQSUMgLT4gSW50ZXJydXB0
-IHJlbWFwcGluZyBDb250cm9sbGVyIC0+IExvY2FsIEFQSUMgLT4gQ1BVDQo+ID4gKw0KPiA+ICvm
-tonlj4rliLDnmoTkuK3mlq3mjqfliLblmajmnInkuInkuKo6DQo+ID4gKw0KPiA+ICsxKSBJT0FQ
-SUMg5o6n5Yi25ZmoDQo+ID4gKzIpIOS4reaWremHjeaYoOWwhOaOp+WItuWZqA0KPiA+ICszKSBM
-b2NhbCBBUElDIOaOp+WItuWZqA0KPiA+ICsNCj4gPiAr5Li65LqG5pSv5oyB6L+Z5qC355qE56Gs
-5Lu25ouT5omR57uT5p6E77yM5L2/6L2v5Lu25p625p6E5LiO56Gs5Lu25p625p6E55u45Yy56YWN
-77yM5Li65q+P5Liq5Lit5pat5o6n5Yi25Zmo5bu656uL5LiADQo+ID4gK+S4qmlycV9kb21haW7m
-lbDmja7nu5PmnoTvvIzlubblsIbov5nkuptpcnFfZG9tYWlu57uE57uH5oiQ5bGC5qyh57uT5p6E
-44CCDQo+ID4gKw0KPiA+ICvlnKjlu7rnq4tpcnFfZG9tYWlu5bGC5qyh57uT5p6E5pe277yM6Z2g
-6L+R6K6+5aSH55qEaXJxX2RvbWFpbuS4uuWtkOWfn++8jOmdoOi/kUNQVeeahA0KPiA+ICtpcnFf
-ZG9tYWlu5Li654i25Z+f44CC5omA5Lul5Zyo5LiK6Z2i55qE5L6L5a2Q5Lit77yM5bCG5bu656uL
-5aaC5LiL55qE5bGC5qyh57uT5p6E44CCDQo+ID4gKzo6DQo+ID4gKw0KPiA+ICsgICAgIENQVSBW
-ZWN0b3IgaXJxX2RvbWFpbiAocm9vdCBpcnFfZG9tYWluIHRvIG1hbmFnZSBDUFUgdmVjdG9ycykN
-Cj4gPiArICAgICAgICAgICAgIF4NCj4gPiArICAgICAgICAgICAgIHwNCj4gPiArICAgICBJbnRl
-cnJ1cHQgUmVtYXBwaW5nIGlycV9kb21haW4gKG1hbmFnZSBpcnFfcmVtYXBwaW5nIGVudHJpZXMp
-DQo+ID4gKyAgICAgICAgICAgICBeDQo+ID4gKyAgICAgICAgICAgICB8DQo+ID4gKyAgICAgSU9B
-UElDIGlycV9kb21haW4gKG1hbmFnZSBJT0FQSUMgZGVsaXZlcnkgZW50cmllcy9waW5zKQ0KPiA+
-ICsNCj4gPiAr5L2/55SoaXJxX2RvbWFpbuWxguasoee7k+aehOeahOS4u+imgeaOpeWPo+acieWb
-m+S4qjoNCj4gPiArDQo+ID4gKzEpIGlycV9kb21haW5fYWxsb2NfaXJxcygpOiDliIbphY1JUlHm
-j4/ov7DnrKblkozkuI7kuK3mlq3mjqfliLblmajnm7jlhbPnmoTotYTmupDmnaXkvKDpgJLov5nk
-upvkuK3mlq3jgIINCj4gPiArMikgaXJxX2RvbWFpbl9mcmVlX2lycXMoKTog6YeK5pS+SVJR5o+P
-6L+w56ym5ZKM5LiO6L+Z5Lqb5Lit5pat55u45YWz55qE5Lit5pat5o6n5Yi25Zmo6LWE5rqQ44CC
-DQo+ID4gKzMpIGlycV9kb21haW5fYWN0aXZhdGVfaXJxKCk6IOa/gOa0u+S4reaWreaOp+WItuWZ
-qOehrOS7tuS7peS8oOmAkuS4reaWreOAgg0KPiA+ICs0KSBpcnFfZG9tYWluX2RlYWN0aXZhdGVf
-aXJxKCk6IOWBnOeUqOS4reaWreaOp+WItuWZqOehrOS7tu+8jOWBnOatouS8oOmAkuS4reaWreOA
-gg0KPiA+ICsNCj4gPiAr5Li65LqG5pSv5oyBaXJxX2RvbWFpbuWxguasoee7k+aehO+8jOmcgOim
-geWBmuWmguS4i+S/ruaUuToNCj4gPiArDQo+ID4gKzEpIOS4gOS4quaWsOeahOWtl+autSBgcGFy
-ZW50YCDooqvmt7vliqDliLBpcnFfZG9tYWlu57uT5p6E5Lit77yb5a6D55So5LqO57u05oqkaXJx
-X2RvbWFpbueahOWxguasoeS/oeaBr+OAgg0KPiA+ICsyKSDkuIDkuKrmlrDnmoTlrZfmrrUgYHBh
-cmVudF9kYXRhYCDooqvmt7vliqDliLBpcnFfZGF0Yee7k+aehOS4re+8m+Wug+eUqOS6juW7uuer
-i+Wxguasoee7k+aehGlycV9kYXRh5LulDQo+ID4gKyAgIOWMuemFjWlycV9kb21haW7lsYLmrKHn
-u5PmnoRz44CCaXJxX2RhdGHnlKjkuo7lrZjlgqhpcnFfZG9tYWlu5oyH6ZKI5ZKM56Gs5Lu2aXJx
-5Y+344CCDQo+ID4gKzMpIOaWsOeahOWbnuiwg+iiq+a3u+WKoOWIsGlycV9kb21haW5fb3Bz57uT
-5p6E5Lit77yM5Lul5pSv5oyB5bGC5qyh57uT5p6E55qEaXJxX2RvbWFpbuaTjeS9nOOAgg0KPiA+
-ICsNCj4gPiAr5Zyo5pSv5oyB5YiG5bGCaXJxX2RvbWFpbuWSjOWIhuWxgmlycV9kYXRh5YeG5aSH
-5bCx57uq5ZCO77yM5Li65q+P5Liq5Lit5pat5o6n5Yi25Zmo5bu656uL5LiA5LiqaXJxX2RvbWFp
-bue7kw0KPiA+ICvmnoTvvIzlubbkuLrmr4/kuKrkuI5JUlHnm7jlhbPogZTnmoRpcnFfZG9tYWlu
-5YiG6YWN5LiA5LiqaXJxX2RhdGHnu5PmnoTjgILnjrDlnKjmiJHku6zlj6/ku6Xlho3ov5vkuIDm
-raXmlK/mjIHloIYNCj4gPiAr5qCI5byPKOWxguasoee7k+aehCnnmoRpcnFfY2hpcOOAguS5n+Ww
-seaYr+ivtO+8jOS4gOS4qmlycV9jaGlw5LiO5bGC5qyh57uT5p6E5Lit55qE5q+P5LiqaXJxX2Rh
-dGHnm7jlhbPogZTjgIINCj4gPiAr5LiA5Liq5a2QaXJxX2NoaXDlj6/ku6Xoh6rlt7HmiJbpgJro
-v4fkuI7lroPnmoTniLZpcnFfY2hpcOWQiOS9nOadpeWunueOsOS4gOS4quaJgOmcgOeahOaTjeS9
-nOOAgg0KPiA+ICsNCj4gPiAr6YCa6L+H5aCG5qCI5byP55qEaXJxX2NoaXDvvIzkuK3mlq3mjqfl
-iLblmajpqbHliqjlj6rpnIDopoHlpITnkIboh6rlt7HnrqHnkIbnmoTnoazku7bvvIzlnKjpnIDo
-poHnmoTml7blgJnlj6/ku6XlkJHlhbbniLYNCj4gPiAraXJxX2NoaXDor7fmsYLmnI3liqHjgILm
-iYDku6XmiJHku6zlj6/ku6Xlrp7njrDmm7TnroDmtIHnmoTova/ku7bmnrbmnoTjgIINCj4gPiAr
-DQo+ID4gK+S4uuS6huiuqeS4reaWreaOp+WItuWZqOmpseWKqOeoi+W6j+aUr+aMgWlycV9kb21h
-aW7lsYLmrKHnu5PmnoTvvIzlroPpnIDopoHlgZrliLDku6XkuIvlh6Dngrk6DQo+ID4gKw0KPiA+
-ICsxKSDlrp7njrAgaXJxX2RvbWFpbl9vcHMuYWxsb2Mg5ZKMIGlycV9kb21haW5fb3BzLmZyZWUN
-Cj4gPiArMikg5Y+v6YCJ5oup5Zyw5a6e546wIGlycV9kb21haW5fb3BzLmFjdGl2YXRlIOWSjCBp
-cnFfZG9tYWluX29wcy5kZWFjdGl2YXRlLg0KPiA+ICszKSDlj6/pgInmi6nlnLDlrp7njrDkuIDk
-uKppcnFfY2hpcOadpeeuoeeQhuS4reaWreaOp+WItuWZqOehrOS7tuOAgg0KPiA+ICs0KSDkuI3p
-nIDopoHlrp7njrBpcnFfZG9tYWluX29wcy5tYXDlkoxpcnFfZG9tYWluX29wcy51bm1hcO+8jOWu
-g+S7rOWcqOWxguasoee7k+aehA0KPiA+ICsgICBpcnFfZG9tYWlu5Lit5piv5LiN55So55qE44CC
-DQo+ID4gKw0KPiA+ICtpcnFfZG9tYWlu5bGC5qyh57uT5p6E57ud5LiN5piveDg254m55pyJ55qE
-77yM5aSn6YeP55So5LqO5pSv5oyB5YW25LuW5p625p6E77yM5aaCQVJN44CBQVJNNjTnrYnjgIIN
-Cj4gPiArDQo+ID4gK+iwg+ivleWKn+iDvQ0KPiA+ICs9PT09PT09PT0NCj4gPiArDQo+ID4gK+mA
-mui/h+aJk+W8gENPTkZJR19HRU5FUklDX0lSUV9ERUJVR0ZTIG9uLnBpbmfvvIxJUlHlrZDns7vn
-u5/nmoTlpKfpg6jliIblhoXpg6jnu5PmnoTpg73lnKhkZWJ1Z2Zz5Lit5pq06Zyy5Ye65p2l44CC
-DQo+DQo+IOaJk+W8gENPTkZJR19HRU5FUklDX0lSUV9ERUJVR0ZT6YCJ6aG577yM5Y+v6K6pSVJR
-5a2Q57O757uf55qE5aSn6YOo5YiG5YaF6YOo57uT5p6E5ZyoZGVidWdmc+S4reaatOmcsuWHuuad
-peOAgg0KPg0KT0vvvIENCj4gPiAtLQ0KPiA+IDIuMjcuMA0KPg0KPiBUaGFua3MhDQo+DQo+IFd1
-IFguQy4NCj4NCg0KVGhhbmtzIQ0KDQpZYW50ZW5nDQo=
+On 30/03/2021 08:43, Guenter Roeck wrote:
+> On 3/28/21 6:52 PM, Quan Nguyen wrote:
+>> This commit adds support for Ampere SMpro hwmon driver. This driver
+>> supports accessing various CPU sensors provided by the SMpro co-processor
+>> including temperature, power, voltages, and current.
+>>
+>> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+>> ---
+>>   drivers/hwmon/Kconfig       |   8 +
+>>   drivers/hwmon/Makefile      |   1 +
+>>   drivers/hwmon/smpro-hwmon.c | 494 ++++++++++++++++++++++++++++++++++++
+>>   3 files changed, 503 insertions(+)
+>>   create mode 100644 drivers/hwmon/smpro-hwmon.c
+>>
+>> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+>> index 0ddc974b102e..ba4b5a911baf 100644
+>> --- a/drivers/hwmon/Kconfig
+>> +++ b/drivers/hwmon/Kconfig
+>> @@ -67,6 +67,14 @@ config SENSORS_ABITUGURU3
+>>   	  This driver can also be built as a module. If so, the module
+>>   	  will be called abituguru3.
+>>   
+>> +config SENSORS_SMPRO
+>> +	tristate "Ampere's Altra SMpro hardware monitoring driver"
+>> +	depends on MFD_SMPRO
+>> +	help
+>> +	  If you say yes here you get support for the thermal, voltage,
+>> +	  current and power sensors of Ampere's Altra processor family SoC
+>> +	  with SMpro co-processor.
+>> +
+>>   config SENSORS_AD7314
+>>   	tristate "Analog Devices AD7314 and compatibles"
+>>   	depends on SPI
+>> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+>> index 59e78bc212cf..b25391f9c651 100644
+>> --- a/drivers/hwmon/Makefile
+>> +++ b/drivers/hwmon/Makefile
+>> @@ -174,6 +174,7 @@ obj-$(CONFIG_SENSORS_SHT3x)	+= sht3x.o
+>>   obj-$(CONFIG_SENSORS_SHTC1)	+= shtc1.o
+>>   obj-$(CONFIG_SENSORS_SIS5595)	+= sis5595.o
+>>   obj-$(CONFIG_SENSORS_SMM665)	+= smm665.o
+>> +obj-$(CONFIG_SENSORS_SMPRO)	+= smpro-hwmon.o
+>>   obj-$(CONFIG_SENSORS_SMSC47B397)+= smsc47b397.o
+>>   obj-$(CONFIG_SENSORS_SMSC47M1)	+= smsc47m1.o
+>>   obj-$(CONFIG_SENSORS_SMSC47M192)+= smsc47m192.o
+>> diff --git a/drivers/hwmon/smpro-hwmon.c b/drivers/hwmon/smpro-hwmon.c
+>> new file mode 100644
+>> index 000000000000..4277736ebc6e
+>> --- /dev/null
+>> +++ b/drivers/hwmon/smpro-hwmon.c
+>> @@ -0,0 +1,494 @@
+>> +// SPDX-License-Identifier: GPL-2.0+
+>> +/*
+>> + * Ampere Computing SoC's SMPro Hardware Monitoring Driver
+>> + *
+>> + * Copyright (c) 2021, Ampere Computing LLC
+>> + */
+>> +#include <linux/bitfield.h>
+>> +#include <linux/hwmon.h>
+>> +#include <linux/hwmon-sysfs.h>
+>> +#include <linux/kernel.h>
+>> +#include <linux/mod_devicetable.h>
+>> +#include <linux/module.h>
+>> +#include <linux/platform_device.h>
+>> +#include <linux/property.h>
+>> +#include <linux/regmap.h>
+>> +
+>> +/* Identification Registers */
+>> +#define MANUFACTURER_ID_REG		0x02
+>> +#define AMPERE_MANUFACTURER_ID		0xCD3A
+>> +
+>> +/* Logical Power Sensor Registers */
+>> +#define SOC_TEMP_REG			0x10
+>> +#define SOC_VRD_TEMP_REG		0x11
+>> +#define DIMM_VRD_TEMP_REG		0x12
+>> +#define CORE_VRD_TEMP_REG		0x13
+>> +#define CH0_DIMM_TEMP_REG		0x14
+>> +#define CH1_DIMM_TEMP_REG		0x15
+>> +#define CH2_DIMM_TEMP_REG		0x16
+>> +#define CH3_DIMM_TEMP_REG		0x17
+>> +#define CH4_DIMM_TEMP_REG		0x18
+>> +#define CH5_DIMM_TEMP_REG		0x19
+>> +#define CH6_DIMM_TEMP_REG		0x1A
+>> +#define CH7_DIMM_TEMP_REG		0x1B
+>> +#define RCA_VRD_TEMP_REG		0x1C
+>> +
+>> +#define CORE_VRD_PWR_REG		0x20
+>> +#define SOC_PWR_REG			0x21
+>> +#define DIMM_VRD1_PWR_REG		0x22
+>> +#define DIMM_VRD2_PWR_REG		0x23
+>> +#define CORE_VRD_PWR_MW_REG		0x26
+>> +#define SOC_PWR_MW_REG			0x27
+>> +#define DIMM_VRD1_PWR_MW_REG		0x28
+>> +#define DIMM_VRD2_PWR_MW_REG		0x29
+>> +#define RCA_VRD_PWR_REG			0x2A
+>> +#define RCA_VRD_PWR_MW_REG		0x2B
+>> +
+>> +#define MEM_HOT_THRESHOLD_REG		0x32
+>> +#define SOC_VR_HOT_THRESHOLD_REG	0x33
+>> +#define CORE_VRD_VOLT_REG		0x34
+>> +#define SOC_VRD_VOLT_REG		0x35
+>> +#define DIMM_VRD1_VOLT_REG		0x36
+>> +#define DIMM_VRD2_VOLT_REG		0x37
+>> +#define RCA_VRD_VOLT_REG		0x38
+>> +
+>> +#define CORE_VRD_CURR_REG		0x39
+>> +#define SOC_VRD_CURR_REG		0x3A
+>> +#define DIMM_VRD1_CURR_REG		0x3B
+>> +#define DIMM_VRD2_CURR_REG		0x3C
+>> +#define RCA_VRD_CURR_REG		0x3D
+>> +
+>> +struct smpro_hwmon {
+>> +	struct regmap *regmap;
+>> +};
+>> +
+>> +struct smpro_sensor {
+>> +	const u8 reg;
+>> +	const u8 reg_ext;
+>> +	const char *label;
+>> +};
+>> +
+>> +static const struct smpro_sensor temperature[] = {
+>> +	{
+>> +		.reg = SOC_TEMP_REG,
+>> +		.label = "temp1 SoC"
+>> +	},
+>> +	{
+>> +		.reg = SOC_VRD_TEMP_REG,
+>> +		.label = "temp2 SoC VRD"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD_TEMP_REG,
+>> +		.label = "temp3 DIMM VRD"
+>> +	},
+>> +	{
+>> +		.reg = CORE_VRD_TEMP_REG,
+>> +		.label = "temp4 CORE VRD"
+>> +	},
+>> +	{
+>> +		.reg = CH0_DIMM_TEMP_REG,
+>> +		.label = "temp5 CH0 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH1_DIMM_TEMP_REG,
+>> +		.label = "temp6 CH1 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH2_DIMM_TEMP_REG,
+>> +		.label = "temp7 CH2 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH3_DIMM_TEMP_REG,
+>> +		.label = "temp8 CH3 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH4_DIMM_TEMP_REG,
+>> +		.label = "temp9 CH4 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH5_DIMM_TEMP_REG,
+>> +		.label = "temp10 CH5 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH6_DIMM_TEMP_REG,
+>> +		.label = "temp11 CH6 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = CH7_DIMM_TEMP_REG,
+>> +		.label = "temp12 CH7 DIMM"
+>> +	},
+>> +	{
+>> +		.reg = RCA_VRD_TEMP_REG,
+>> +		.label = "temp13 RCA VRD"
+>> +	},
+>> +};
+>> +
+>> +static const struct smpro_sensor voltage[] = {
+>> +	{
+>> +		.reg = CORE_VRD_VOLT_REG,
+>> +		.label = "vout0 CORE VRD"
+>> +	},
+>> +	{
+>> +		.reg = SOC_VRD_VOLT_REG,
+>> +		.label = "vout1 SoC VRD"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD1_VOLT_REG,
+>> +		.label = "vout2 DIMM VRD1"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD2_VOLT_REG,
+>> +		.label = "vout3 DIMM VRD2"
+>> +	},
+>> +	{
+>> +		.reg = RCA_VRD_VOLT_REG,
+>> +		.label = "vout4 RCA VRD"
+>> +	},
+>> +};
+>> +
+>> +static const struct smpro_sensor curr_sensor[] = {
+>> +	{
+>> +		.reg = CORE_VRD_CURR_REG,
+>> +		.label = "iout1 CORE VRD"
+>> +	},
+>> +	{
+>> +		.reg = SOC_VRD_CURR_REG,
+>> +		.label = "iout2 SoC VRD"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD1_CURR_REG,
+>> +		.label = "iout3 DIMM VRD1"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD2_CURR_REG,
+>> +		.label = "iout4 DIMM VRD2"
+>> +	},
+>> +	{
+>> +		.reg = RCA_VRD_CURR_REG,
+>> +		.label = "iout5 RCA VRD"
+>> +	},
+>> +};
+>> +
+>> +static const struct smpro_sensor power[] = {
+>> +	{
+>> +		.reg = CORE_VRD_PWR_REG,
+>> +		.reg_ext = CORE_VRD_PWR_MW_REG,
+>> +		.label = "power1 CORE VRD"
+>> +	},
+>> +	{
+>> +		.reg = SOC_PWR_REG,
+>> +		.reg_ext = SOC_PWR_MW_REG,
+>> +		.label = "power2 SoC"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD1_PWR_REG,
+>> +		.reg_ext = DIMM_VRD1_PWR_MW_REG,
+>> +		.label = "power3 DIMM VRD1"
+>> +	},
+>> +	{
+>> +		.reg = DIMM_VRD2_PWR_REG,
+>> +		.reg_ext = DIMM_VRD2_PWR_MW_REG,
+>> +		.label = "power4 DIMM VRD2"
+>> +	},
+>> +	{
+>> +		.reg = RCA_VRD_PWR_REG,
+>> +		.reg_ext = RCA_VRD_PWR_MW_REG,
+>> +		.label = "power5 RCA VRD"
+>> +	},
+>> +};
+>> +
+>> +static int smpro_read_temp(struct device *dev, u32 attr, int channel, long *val)
+>> +{
+>> +	struct smpro_hwmon *hwmon = dev_get_drvdata(dev);
+>> +	unsigned int value;
+>> +	int ret;
+>> +
+>> +	switch (attr) {
+>> +	case hwmon_temp_input:
+>> +		ret = regmap_read(hwmon->regmap,
+>> +				  temperature[channel].reg, &value);
+>> +		if (ret)
+>> +			return ret;
+>> +		*val = (value & 0x1ff) * 1000;
+>> +		break;
+>> +	case hwmon_temp_crit:
+>> +		if (temperature[channel].reg == SOC_VRD_TEMP_REG) {
+>> +			ret = regmap_read(hwmon->regmap, SOC_VR_HOT_THRESHOLD_REG, &value);
+>> +			if (ret)
+>> +				return ret;
+>> +			*val = (value & 0x1ff) * 1000;
+>> +		} else {
+>> +			/* Report same MEM HOT threshold across DIMM channels */
+>> +			ret = regmap_read(hwmon->regmap, MEM_HOT_THRESHOLD_REG, &value);
+>> +			if (ret)
+>> +				return ret;
+>> +			*val = (value & 0x1ff) * 1000;
+>> +		}
+> 
+> To avoid code duplication:
+> 
+> 		reg = temperature[channel].reg == SOC_VRD_TEMP_REG ? SOC_VR_HOT_THRESHOLD_REG : MEM_HOT_THRESHOLD_REG;
+> 		ret = regmap_read(hwmon->regmap, reg, &value);
+> 		if (ret)
+> 			return ret;
+> 
+> But then why don't you just use reg_ext to store SOC_VR_HOT_THRESHOLD_REG
+> or MEM_HOT_THRESHOLD_REG ? It is already available, after all, and with it
+> the code could be simplified to
+> 
+> 		ret = regmap_read(hwmon->regmap, temperature[channel].reg_ext, &value);
+> 		if (ret)
+> 			return ret;
+> 
+Thank you for the comment.
+
+Will change code follow this suggestion, will include in next version
+
+> I don't have a datasheet, but I do wonder what is in bit 9..15. Any idea ?
+> Main question is if there is a sign bit, as theoretic as it may be.
+> 
+The original intention was to use this as 9-bit 2-complement value 
+follow LM75, but the fact is that the operation temperature is 0-125 C 
+degree, so we simply use it as-is.
+
+>> +		break;
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +	return 0;
+>> +}
+>> +
+>> +static int smpro_read_in(struct device *dev, u32 attr, int channel, long *val)
+>> +{
+>> +	struct smpro_hwmon *hwmon = dev_get_drvdata(dev);
+>> +	unsigned int value;
+>> +	int ret;
+>> +
+>> +	switch (attr) {
+>> +	case hwmon_in_input:
+>> +		ret = regmap_read(hwmon->regmap, voltage[channel].reg, &value);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +		/* Scale reported by the hardware is 1mV */
+>> +		*val = value & 0x7fff;
+> 
+> What is in bit 15 ?
+> 
+This is 15-bit voltage in mV so the bit 15 (0-15) is unused.
+
+>> +		return 0;
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +}
+>> +
+>> +static int smpro_read_curr(struct device *dev, u32 attr, int channel, long *val)
+>> +{
+>> +	struct smpro_hwmon *hwmon = dev_get_drvdata(dev);
+>> +	unsigned int value;
+>> +	int ret;
+>> +
+>> +	switch (attr) {
+>> +	case hwmon_curr_input:
+>> +		ret = regmap_read(hwmon->regmap, curr_sensor[channel].reg, &value);
+>> +		if (ret < 0)
+>> +			return ret;
+>> +		/* Scale reported by the hardware is 1mA */
+>> +		*val = value & 0x7fff;
+>> +		return 0;
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +}
+>> +
+>> +static int smpro_read_power(struct device *dev, u32 attr, int channel, long *val_pwr)
+>> +{
+>> +	struct smpro_hwmon *hwmon = dev_get_drvdata(dev);
+>> +	unsigned int val = 0, val_mw = 0;
+>> +	int ret;
+>> +
+>> +	switch (attr) {
+>> +	case hwmon_power_input:
+>> +		ret = regmap_read(hwmon->regmap, power[channel].reg, &val);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		ret = regmap_read(hwmon->regmap, power[channel].reg_ext, &val_mw);
+>> +		if (ret)
+>> +			return ret;
+>> +
+>> +		*val_pwr = val * 1000000 + val_mw * 1000;
+>> +		return 0;
+>> +
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +}
+>> +
+>> +static int smpro_read(struct device *dev, enum hwmon_sensor_types type,
+>> +		      u32 attr, int channel, long *val)
+>> +{
+>> +	switch (type) {
+>> +	case hwmon_temp:
+>> +		return smpro_read_temp(dev, attr, channel, val);
+>> +	case hwmon_in:
+>> +		return smpro_read_in(dev, attr, channel, val);
+>> +	case hwmon_power:
+>> +		return smpro_read_power(dev, attr, channel, val);
+>> +	case hwmon_curr:
+>> +		return smpro_read_curr(dev, attr, channel, val);
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +}
+>> +
+>> +static int smpro_write(struct device *dev, enum hwmon_sensor_types type,
+>> +		       u32 attr, int channel, long val)
+>> +{
+>> +	return -EOPNOTSUPP;
+>> +}
+> 
+> There are no writeable attributes, thus the write function is not needed.
+> 
+Agree, will remove in next version
+
+>> +
+>> +static int smpro_read_string(struct device *dev, enum hwmon_sensor_types type,
+>> +			     u32 attr, int channel, const char **str)
+>> +{
+>> +	switch (type) {
+>> +	case hwmon_temp:
+>> +		switch (attr) {
+>> +		case hwmon_temp_label:
+>> +			*str = temperature[channel].label;
+>> +			return 0;
+>> +		default:
+>> +			return -EOPNOTSUPP;
+>> +		}
+>> +		break;
+>> +
+>> +	case hwmon_in:
+>> +		switch (attr) {
+>> +		case hwmon_in_label:
+>> +			*str = voltage[channel].label;
+>> +			return 0;
+>> +		default:
+>> +			return -EOPNOTSUPP;
+>> +		}
+>> +		break;
+>> +
+>> +	case hwmon_curr:
+>> +		switch (attr) {
+>> +		case hwmon_curr_label:
+>> +			*str = curr_sensor[channel].label;
+>> +			return 0;
+>> +		default:
+>> +			return -EOPNOTSUPP;
+>> +		}
+>> +		break;
+>> +
+>> +	case hwmon_power:
+>> +		switch (attr) {
+>> +		case hwmon_power_label:
+>> +			*str = power[channel].label;
+>> +			return 0;
+>> +		default:
+>> +			return -EOPNOTSUPP;
+>> +		}
+>> +		break;
+>> +	default:
+>> +		return -EOPNOTSUPP;
+>> +	}
+>> +
+>> +	return -EOPNOTSUPP;
+> 
+> If you are returning -ENOPSUPP by default, might as well replace
+> all the same returns above with break;
+> 
+Yes, will fix as you suggested. Will include in next version
+
+>> +}
+>> +
+>> +static umode_t smpro_is_visible(const void *data, enum hwmon_sensor_types type,
+>> +				u32 attr, int channel)
+>> +{
+>> +	const struct smpro_hwmon *hwmon = data;
+>> +	unsigned int value;
+>> +	int ret;
+>> +
+>> +	switch (type) {
+>> +	case hwmon_temp:
+>> +		switch (attr) {
+>> +		case hwmon_temp_input:
+>> +		case hwmon_temp_label:
+>> +		case hwmon_temp_crit:
+>> +			ret = regmap_read(hwmon->regmap, temperature[channel].reg, &value);
+>> +			if (ret || value == 0xFFFF)
+>> +				return 0;
+>> +		break;
+>> +		}
+>> +	default:
+>> +		break;
+>> +	}
+>> +
+>> +	return 0444;
+>> +}
+>> +
+>> +static const struct hwmon_channel_info *smpro_info[] = {
+>> +	HWMON_CHANNEL_INFO(temp,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL | HWMON_T_CRIT,
+>> +			   HWMON_T_INPUT | HWMON_T_LABEL),
+>> +	HWMON_CHANNEL_INFO(in,
+>> +			   HWMON_I_INPUT | HWMON_I_LABEL,
+>> +			   HWMON_I_INPUT | HWMON_I_LABEL,
+>> +			   HWMON_I_INPUT | HWMON_I_LABEL,
+>> +			   HWMON_I_INPUT | HWMON_I_LABEL,
+>> +			   HWMON_I_INPUT | HWMON_I_LABEL),
+>> +	HWMON_CHANNEL_INFO(power,
+>> +			   HWMON_P_INPUT | HWMON_P_LABEL,
+>> +			   HWMON_P_INPUT | HWMON_P_LABEL,
+>> +			   HWMON_P_INPUT | HWMON_P_LABEL,
+>> +			   HWMON_P_INPUT | HWMON_P_LABEL,
+>> +			   HWMON_P_INPUT | HWMON_P_LABEL),
+>> +	HWMON_CHANNEL_INFO(curr,
+>> +			   HWMON_C_INPUT | HWMON_C_LABEL,
+>> +			   HWMON_C_INPUT | HWMON_C_LABEL,
+>> +			   HWMON_C_INPUT | HWMON_C_LABEL,
+>> +			   HWMON_C_INPUT | HWMON_C_LABEL,
+>> +			   HWMON_C_INPUT | HWMON_C_LABEL),
+>> +	NULL
+>> +};
+>> +
+>> +static const struct hwmon_ops smpro_hwmon_ops = {
+>> +	.is_visible = smpro_is_visible,
+>> +	.read = smpro_read,
+>> +	.write = smpro_write,
+>> +	.read_string = smpro_read_string,
+>> +};
+>> +
+>> +static const struct hwmon_chip_info smpro_chip_info = {
+>> +	.ops = &smpro_hwmon_ops,
+>> +	.info = smpro_info,
+>> +};
+>> +
+>> +static bool is_valid_id(struct regmap *regmap)
+>> +{
+>> +	unsigned int val;
+>> +	int ret;
+>> +
+>> +	ret = regmap_read(regmap, MANUFACTURER_ID_REG, &val);
+>> +
+>> +	return  (ret || (val != AMPERE_MANUFACTURER_ID)) ? false : true;
+> 
+> I am quite concerned about this: The calling code will translate it to
+> -EPROBE_DEFER even if the manufacturer ID is wrong. It should return
+> -ENODEV in that case. There should be a better means to determine if the
+> controller is not available at all, or not yet.
+> 
+Yes, I agree
+
+Will fix in next version:
+   + if the regmap_read return error, return -EPROBE_DEFER
+   + if manufacturer ID is wrong, return -ENODEV
+
+>> +}
+>> +
+>> +static int smpro_hwmon_probe(struct platform_device *pdev)
+>> +{
+>> +	struct smpro_hwmon *hwmon;
+>> +	struct device *hwmon_dev;
+>> +
+>> +	hwmon = devm_kzalloc(&pdev->dev, sizeof(struct smpro_hwmon), GFP_KERNEL);
+>> +	if (!hwmon)
+>> +		return -ENOMEM;
+>> +
+>> +	hwmon->regmap = dev_get_regmap(pdev->dev.parent, NULL);
+>> +	if (!hwmon->regmap)
+>> +		return -ENODEV;
+>> +
+>> +	/* Check for valid ID */
+>> +	if (!is_valid_id(hwmon->regmap))
+>> +		return -EPROBE_DEFER;
+>> +
+>> +	hwmon_dev = devm_hwmon_device_register_with_info(&pdev->dev, "smpro_hwmon",
+>> +							 hwmon, &smpro_chip_info, NULL);
+>> +
+>> +	return PTR_ERR_OR_ZERO(hwmon_dev);
+>> +}
+>> +
+>> +static const struct of_device_id smpro_hwmon_of_match[] = {
+>> +	{ .compatible = "ampere,ac01-hwmon" },
+>> +	{}
+>> +};
+>> +MODULE_DEVICE_TABLE(of, smpro_hwmon_of_match);
+>> +
+>> +static struct platform_driver smpro_hwmon_driver = {
+>> +	.probe		= smpro_hwmon_probe,
+>> +	.driver = {
+>> +		.name	= "smpro-hwmon",
+>> +		.of_match_table = smpro_hwmon_of_match,
+>> +	},
+>> +};
+>> +
+>> +module_platform_driver(smpro_hwmon_driver);
+>> +
+>> +MODULE_AUTHOR("Thu Nguyen <thu@os.amperecomputing.com>");
+>> +MODULE_AUTHOR("Quan Nguyen <quan@os.amperecomputing.com>");
+>> +MODULE_DESCRIPTION("Ampere Altra SMPro hwmon driver");
+>> +MODULE_LICENSE("GPL v2");
+>>
+> 
+
