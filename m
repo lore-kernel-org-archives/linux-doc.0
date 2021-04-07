@@ -2,56 +2,61 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-22.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FCA1C433ED
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 07:01:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21A99C433ED
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 07:04:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF17861260
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 07:01:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D992561007
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 07:04:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346052AbhDGHCA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 03:02:00 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:22971 "EHLO email.cn"
+        id S1346124AbhDGHEg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 03:04:36 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:23207 "EHLO email.cn"
         rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233740AbhDGHB7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Apr 2021 03:01:59 -0400
+        id S1346051AbhDGHEf (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 03:04:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=3D/yMnL/H7/Y2iJ3dzx8hFYgJKQrQ86XeBwyz
-        gF5jaw=; b=dQmtH8/l6eiavOv6q6wPRPw6TAIhZT6GZBttbrogiHXPlndrK5G2x
-        VqYwsh6iN4yNjxdKUk/kfIUUFM9GhYd5Qh1uXlac89ddr4v4iNhixP8BJ0kaglv9
-        7ALtNxikirHY0POljbd2uYQKHILgvl6T89ObxgWIcEQu1YYMSDF+jU=
+        s=dkim; h=Date:From:To; bh=w4xKxlquTmIy+mjc7I5SPByN7GARfIwip0xtO
+        UTf3GQ=; b=OZ/1nnmajYeTAfusYRKWy/7oVtpVG//Q12JwWBnqEuwMkhbPeNR9M
+        DIxNMTFcdfD7YEhJA4UkRNtFWbE/DwWIBoifOxmNmj2I7gS0BHJcdRhTB+XW1s7+
+        H+NMkvMngwZ4BTa2NVDysW00iJnMO6fvC4b7Vn4jxGfhSJvCcjojTM=
 Received: from bobwxc.top (unknown [120.238.248.129])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgAXi9HMWG1gvVFQAA--.49723S2;
-        Wed, 07 Apr 2021 15:01:34 +0800 (CST)
-Date:   Wed, 7 Apr 2021 15:01:32 +0800
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgA3qtBsWW1ggVJQAA--.48711S2;
+        Wed, 07 Apr 2021 15:04:14 +0800 (CST)
+Date:   Wed, 7 Apr 2021 15:04:12 +0800
 From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+To:     yanteng si <siyanteng01@gmail.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
         Alex Shi <alex.shi@linux.alibaba.com>,
         Huacai Chen <chenhuacai@kernel.org>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
         Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: Re: [PATCH 08/11] docs/zh_CN: add openrisc openrisc_port.rst
+        Puyu Wang <realpuyuwang@gmail.com>
+Subject: Re: [PATCH 02/11] docs/zh_CN: add core-api irq irq-affinity.rst
  translation
-Message-ID: <20210407070132.GB23907@bobwxc.top>
+Message-ID: <20210407070412.GC23907@bobwxc.top>
 References: <20210406130210.2725075-1-siyanteng@loongson.cn>
- <20210406130210.2725075-9-siyanteng@loongson.cn>
+ <20210406130210.2725075-3-siyanteng@loongson.cn>
+ <20210406153505.GC15259@bobwxc.top>
+ <CAEensMxkgSauL9SFiiY1-E8dWHj9AuBGyGFf52Bc0F0cd4FAtA@mail.gmail.com>
+ <20210407045907.GA20005@bobwxc.top>
+ <CAEensMwoGc7DbENCyW_81HQ7-MGB3J6RMXKQCYt6gxLv0yx+Tg@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210406130210.2725075-9-siyanteng@loongson.cn>
+In-Reply-To: <CAEensMwoGc7DbENCyW_81HQ7-MGB3J6RMXKQCYt6gxLv0yx+Tg@mail.gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgAXi9HMWG1gvVFQAA--.49723S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Ar47tw4rCr1DGw1DCryDZFb_yoW7uw4rpF
-        ZxGryfJr1UAryUt3W7Kr1UXr1UAw18Jr4UGas7Xr18Jr1DAry7Jr1DG3W8JrZ8GryjyryU
-        Xr1UKr17GF1UJrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUylb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+X-CM-TRANSID: LCKnCgA3qtBsWW1ggVJQAA--.48711S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxuw4fJF48Ww1rAry7KrW7Arb_yoW7Cw15pr
+        4jg3ZYyF47Jr1DAr17Kw1YvrnFqa4xX3y7X3s7Kas7Ar1q9FsrZr45try5Gr1xGrW8Za47
+        ZF47Jr4xAr15AFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUyGb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
         cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
         v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
         z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
@@ -61,171 +66,151 @@ X-Coremail-Antispam: 1UD129KBjvJXoW3Ar47tw4rCr1DGw1DCryDZFb_yoW7uw4rpF
         Jr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
         xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
         cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
-        AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
-        14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUTq2MUUUUU
+        AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E
+        14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7IUUHKZJUUUUU==
 X-Originating-IP: [120.238.248.129]
 X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 06, 2021 at 09:02:07PM +0800, Yanteng Si wrote:
-> This patch tranlates Documentation/openrisc/openrisc_port.rst into Chinese
+On Wed, Apr 07, 2021 at 02:59:22PM +0800, yanteng si wrote:
+> Wu X.C. <bobwxc@email.cn> 于2021年4月7日周三 下午12:59写道：
+> >
+> > On Wed, Apr 07, 2021 at 10:08:38AM +0800, yanteng si wrote:
+> > > Wu X.C. <bobwxc@email.cn> 于2021年4月6日周二 下午11:35写道：
+> > > >
+> > > > On Tue, Apr 06, 2021 at 09:02:01PM +0800, Yanteng Si wrote:
+> > > > > This patch translates Documentation/core-api/irq/irq-affinity.rst into Chinese.
+> > > > >
+> > > > > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> > > > > ---
+> > > > >  .../zh_CN/core-api/irq/irq-affinity.rst       | 73 +++++++++++++++++++
+> > > > >  1 file changed, 73 insertions(+)
+> > > > >  create mode 100644 Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst
+> > > > >
+> > > > > diff --git a/Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst b/Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst
+> > > > > new file mode 100644
+> > > > > index 000000000000..34aaf0d1ddc2
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst
+> > > > > @@ -0,0 +1,73 @@
+> > > > > +.. include:: ../../disclaimer-zh_CN.rst
+> > > > > +
+> > > > > +:Original: :doc:`../../../../core-api/irq/irq-affinity`
+> > > > > +:Translator: Yanteng Si <siyanteng@loongson.cn>
+> > > > > +
+> > > > > +.. _cn_irq-affinity.rst:
+> > > > > +
+> > > > > +
+> > > > > +================
+> > > > > +SMP IRQ 亲和性
+> > > > > +================
+> > > > > +
+> > > > > +变更记录:
+> > > > > +     - 作者：最初由Ingo Molnar <mingo@redhat.com>开始撰写
+> > > > > +     - 后期更新维护： Max Krasnyansky <maxk@qualcomm.com>
+> > > > > +
+> > > > > +
+> > > > > +/proc/irq/IRQ#/smp_affinity和/proc/irq/IRQ#/smp_affinity_list指明了给定IRQ源
+> > > > > +允许哪些目标CPU使用。它是被允许的CPU的位掩码(smp_affinity)或cpu列表(smp_affinity_list)。
+> > > > > +它不允许关闭所有的CPU，如果一个IRQ控制器不支持IRQ亲和性，那么所有cpu的默认值将不会发生
+> > > >
+> > > > 关闭 -> 禁止？
+> > > emmmmm……
+> > > I looked up the English-Chinese dictionary：turn off -> 关闭，关掉电器、水龙头……
+> > > maybe：不允许关闭 -> 禁止关闭？
+> >
+> > 我是想着是不是要跟前面的“允许”目标CPU使用对应
+> > Both ok, choose the one you pefer
+> >
+> > Thanks!
+> >
+> emmmmm……
+> The previous translation was a bit obscure and I did some optimization：
 > 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
->  .../zh_CN/openrisc/openrisc_port.rst          | 124 ++++++++++++++++++
->  1 file changed, 124 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/openrisc/openrisc_port.rst
-> 
-> diff --git a/Documentation/translations/zh_CN/openrisc/openrisc_port.rst b/Documentation/translations/zh_CN/openrisc/openrisc_port.rst
-> new file mode 100644
-> index 000000000000..77754f2639cf
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/openrisc/openrisc_port.rst
-> @@ -0,0 +1,124 @@
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: :doc:`../../../openrisc/openrisc_port`
-> +:Translator: Yanteng Si <siyanteng@loongson.cn>
-> +
-> +.. _cn_openrisc_port:
-> +
-> +==============
-> +OpenRISC Linux
-> +==============
-> +
-> +这是Linux对OpenRISC类微处理器的移植；具体来说，最早移植目标是32位
-> +OpenRISC 1000系列（或1k）。
-> +
-> +关于OpenRISC处理器和正在进行中的开发的信息:
-> +
-> +	=======		=============================
-> +	网站		https://openrisc.io
-> +	邮箱		openrisc@lists.librecores.org
-> +	=======		=============================
-> +
-> +---------------------------------------------------------------------
-> +
-> +OpenRISC工具链和Linux的构建指南
-> +===================================================
-> +
-> +为了构建和运行Linux for OpenRISC，你至少需要一个基本的工具链，或许
-> +还需要架构模拟器。 这里概述了准备就位这些部分的步骤。
-> +
-> +1) 工具链
-> +
-> +工具链二进制文件可以从openrisc.io或我们的github发布页面获得。不同
-> +工具链的构建指南可以在openrisc.io或Stafford的工具链构建和发布脚本
-> +中找到。
-> +
-> +	==========	=================================================
-> +	二进制          https://github.com/openrisc/or1k-gcc/releases
-> +	工具链          https://openrisc.io/software
-> +	构建            https://github.com/stffrdhrn/or1k-toolchain-build
-> +	==========	=================================================
-> +
-> +2) 构建
-> +
-> +像往常一样构建Linux内核::
-> +
-> +	make ARCH=openrisc CROSS_COMPILE="or1k-linux-" defconfig
-> +	make ARCH=openrisc CROSS_COMPILE="or1k-linux-"
-> +
-> +3) 在FPGA上运行（可选)
-> +
-> +OpenRISC社区通常使用FuseSoC来管理构建和编程SoC到FPGA中。 下面是用
-> +OpenRISC SoC对De0 Nano开发板进行编程的一个例子。 在构建过程中，
-> +FPGA RTL是从FuseSoC IP核库中下载的代码，并使用FPGA供应商工具构建。
-> +二进制文件用openocd加载到电路板上。
-> +
-> +::
-> +
-> +	git clone https://github.com/olofk/fusesoc
-> +	cd fusesoc
-> +	sudo pip install -e .
-> +
-> +	fusesoc init
-> +	fusesoc build de0_nano
-> +	fusesoc pgm de0_nano
-> +
-> +	openocd -f interface/altera-usb-blaster.cfg \
-> +		-f board/or1k_generic.cfg
-> +
-> +	telnet localhost 4444
-> +	> init
-> +	> halt; load_image vmlinux ; reset
-> +
-> +4) 在模拟器上运行（可选）
-> +
-> +QEMU是一个处理器仿真器，我们推荐它来模拟OpenRISC平台。 请按照QEMU网
-> +站上的OpenRISC说明，让Linux在QEMU上运行。 你可以自己构建QEMU，但你的
-> +Linux发行版可能提供了支持OpenRISC的二进制包。
-> +
-> +	=============	======================================================
-> +	qemu openrisc	https://wiki.qemu.org/Documentation/Platforms/OpenRISC
-> +	=============	======================================================
-> +
-> +---------------------------------------------------------------------
-> +
-> +术语表
-> +===========
-> +i
+> /proc/irq/IRQ#/smp_affinity和/proc/irq/IRQ#/smp_affinity_list指定了哪些CPU能
+> 够关联到一个给定的IRQ源，这两个文件包含了这些指定cpu的cpu位掩码(smp_affinity)和cpu列
+> 表(smp_affinity_list)。它不允许关闭所有CPU， 同时如果IRQ控制器不支持中断请求亲和
+> (IRQ affinity)，那么所有cpu的默认值将保持不变(既关联到所有CPU)。
 
-remove the 'i'
-
-> +在代码中，为了将范围限制在或多或少的特定处理器实现上，在符号上使用了以下约定。
-
-Maybe this better:
-
-代码中使用了以下符号约定以将范围限制在几个特定处理器实现上，：
-
-> +
-> +========= =======================================
-> +openrisc: OpenRISC类型处理器
-> +or1k:     OpenRISC 1000系列处理器
-> +or1200:   OpenRISC 1200处理器
-> +========= =======================================
-> +
-> +---------------------------------------------------------------------
-> +
-> +历史
-> +========
-
-In following part， please check the using of Tab and Space.
-
-> +
-> +18-11-2003	Matjaz Breskvar (phoenix@bsemi.com)
-
-maybe YYYY-MM-DD is better for zh translation.
-
-> +    将linux初步移植到OpenRISC或32架构。
-> +        所有的核心功能都实现了，并且可以使用。
-> +
-> +08-12-2003	Matjaz Breskvar (phoenix@bsemi.com)
-> +    彻底改变TLB失误处理。
-> +    重写异常处理。
-> +    在默认的initrd中实现了sash-3.6的所有功能。
-> +    大幅改进的版本。
-> +
-> +10-04-2004	Matjaz Breskvar (phoenix@bsemi.com)
-> +    大量的bug修复。
-> +    支持以太网，http和telnet服务器功能。
-> +    可以运行许多标准的linux应用程序。
-> +
-> +26-06-2004	Matjaz Breskvar (phoenix@bsemi.com)
-> +	移植到2.6.x。
-> +
-> +30-11-2004	Matjaz Breskvar (phoenix@bsemi.com)
-> +    大量的bug修复和增强功能。
-> +    增加了opencores framebuffer驱动。
-> +
-> +09-10-2010    Jonas Bonn (jonas@southpole.se)
-> +	重大重写，使其与上游的Linux 2.6.36看齐。
-> -- 
-> 2.27.0
-
-Thanks!
+Look good to me.
 
 Wu X.C.
+
+> 
+> 
+> > > >
+> > > > > +变化。
+> > > > > +
+> > > > > +/proc/irq/default_smp_affinity指明了适用于所有非激活IRQ的默认亲和性掩码。一旦IRQ被
+> > > > > +分配/激活，它的亲和位掩码将被设置为默认掩码。然后可以如上所述改变它。默认掩码是0xffffffffff。
+> > > >
+> > > > 0xffffffff
+> > > > eight f
+> > > >
+> > > OK!
+> > > > > +
+> > > > > +下面是一个先将IRQ44(eth1)限制在CPU0-3上，然后限制在CPU4-7上的例子(这是一个8CPU的SMP box)
+> > > > a empty line
+> > > OK!
+> > > > > +::
+> > > > > +
+> > > > > +     [root@moon 44]# cd /proc/irq/44
+> > > > > +     [root@moon 44]# cat smp_affinity
+> > > > > +     ffffffff
+> > > > > +
+> > > > > +     [root@moon 44]# echo 0f > smp_affinity
+> > > > > +     [root@moon 44]# cat smp_affinity
+> > > > > +     0000000f
+> > > > > +     [root@moon 44]# ping -f h
+> > > > > +     PING hell (195.4.7.3): 56 data bytes
+> > > > > +     ...
+> > > > > +     --- hell ping statistics ---
+> > > > > +     6029 packets transmitted, 6027 packets received, 0% packet loss
+> > > > > +     round-trip min/avg/max = 0.1/0.1/0.4 ms
+> > > > > +     [root@moon 44]# cat /proc/interrupts | grep 'CPU\|44:'
+> > > > > +             CPU0       CPU1       CPU2       CPU3      CPU4       CPU5        CPU6       CPU7
+> > > > > +     44:       1068       1785       1785       1783         0          0           0         0    IO-APIC-level  eth1
+> > > > > +
+> > > > > +从上面一行可以看出，IRQ44只传递给前四个处理器（0-3）。
+> > > > > +现在让我们把这个IRQ限制在CPU(4-7)。
+> > > > > +
+> > > > > +::
+> > > > > +
+> > > > > +     [root@moon 44]# echo f0 > smp_affinity
+> > > > > +     [root@moon 44]# cat smp_affinity
+> > > > > +     000000f0
+> > > > > +     [root@moon 44]# ping -f h
+> > > > > +     PING hell (195.4.7.3): 56 data bytes
+> > > > > +     ..
+> > > > > +     --- hell ping statistics ---
+> > > > > +     2779 packets transmitted, 2777 packets received, 0% packet loss
+> > > > > +     round-trip min/avg/max = 0.1/0.5/585.4 ms
+> > > > > +     [root@moon 44]# cat /proc/interrupts |  'CPU\|44:'
+> > > > > +             CPU0       CPU1       CPU2       CPU3      CPU4       CPU5        CPU6       CPU7
+> > > > > +     44:       1068       1785       1785       1783      1784       1069        1070       1069   IO-APIC-level  eth1
+> > > > > +
+> > > > > +这次IRQ44只传递给最后四个处理器。
+> > > > > +即CPU0-3的计数器没有变化。
+> > > > > +
+> > > > > +下面是一个将相同的irq(44)限制在cpus 1024到1031的例子：。
+> > > >                                                        ^^^
+> > > >                                              ： ->     ::
+> > > >
+> > > OK!
+> > > > > +
+> > > > > +     [root@moon 44]# echo 1024-1031 > smp_affinity_list
+> > > > > +     [root@moon 44]# cat smp_affinity_list
+> > > > > +     1024-1031
+> > > > > +
+> > > > > +需要注意的是，如果要用位掩码来做这件事，就需要32个为0的位掩码来追踪其相关的一个。
+> > > > > --
+> > > > > 2.27.0
+> > > >
+> > >
+> > > Thanks!
+> > >
+> > > Yanteng
+> >
 
