@@ -2,110 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,
-	UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB206C43600
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:39:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2A40C433ED
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:51:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 71B97613A0
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:39:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BFF3B6139C
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:51:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351194AbhDGKkF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 06:40:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53626 "EHLO
+        id S242696AbhDGKv5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 06:51:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56372 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351158AbhDGKkA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 06:40:00 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F489C061756;
-        Wed,  7 Apr 2021 03:39:51 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: sre)
-        with ESMTPSA id E79D01F453CF
-Received: by earth.universe (Postfix, from userid 1000)
-        id 2F75D3C0C96; Wed,  7 Apr 2021 12:39:46 +0200 (CEST)
-Date:   Wed, 7 Apr 2021 12:39:46 +0200
-From:   Sebastian Reichel <sebastian.reichel@collabora.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Artur Rojek <contact@artur-rojek.eu>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH v2 07/19] dt-bindings: fix references for iio-bindings.txt
-Message-ID: <20210407103946.hxr3yoeasumuzsdk@earth.universe>
-References: <cover.1617783062.git.mchehab+huawei@kernel.org>
- <c4e3cfcc666552084df5155c4f3957134b72ef7a.1617783062.git.mchehab+huawei@kernel.org>
+        with ESMTP id S234957AbhDGKv4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 06:51:56 -0400
+Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 787CDC061756;
+        Wed,  7 Apr 2021 03:51:47 -0700 (PDT)
+Received: from ip4d14bd53.dynamic.kabel-deutschland.de ([77.20.189.83] helo=[192.168.66.200]); authenticated
+        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        id 1lU5mh-00042E-JK; Wed, 07 Apr 2021 12:51:43 +0200
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1617786974.git.linux@leemhuis.info>
+ <f959331ed0e1a8ed59be9771fcab64378bd6977d.1617786974.git.linux@leemhuis.info>
+ <YG2BxMBLqEt4mkgS@kroah.com>
+From:   Thorsten Leemhuis <linux@leemhuis.info>
+Subject: Re: [RFC PATCH v1 1/2] MAINTAINERS: add regressions mailing list
+Message-ID: <3121a1cd-47c6-b26e-0cb3-71872d5ffc65@leemhuis.info>
+Date:   Wed, 7 Apr 2021 12:51:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="2ca4km7phoijhn6n"
-Content-Disposition: inline
-In-Reply-To: <c4e3cfcc666552084df5155c4f3957134b72ef7a.1617783062.git.mchehab+huawei@kernel.org>
+In-Reply-To: <YG2BxMBLqEt4mkgS@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-BS
+Content-Transfer-Encoding: 8bit
+X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1617792707;81c5ff40;
+X-HE-SMSGID: 1lU5mh-00042E-JK
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 07.04.21 11:56, Greg KH wrote:
+> On Wed, Apr 07, 2021 at 11:21:55AM +0200, Thorsten Leemhuis wrote:
+>> Add the newly created regression mailing list finally created after it
+>> already had been agreed on during the maintainers summit 2017 (see
+>> https://lwn.net/Articles/738216/ ). The topic was recently discussed
+>> again, where an idea to create a broader list for all issues was
+>> discussed, but Linus preferred a more targeted list:
+>> https://lkml.kernel.org/r/CAHk-=wgiYqqLzsb9-UpfH+=ktk7ra-2fOsdc_ZJ7WF47wS73CA@mail.gmail.com/
+>>
+>> Hence, the creation for that list was asked for and granted:
+>> https://bugzilla.kernel.org/show_bug.cgi?id=212557
+>>
+>> In the end it became regressions@lists.linux.dev instead of
+>> linux-regressions@lists.linux.dev as 'Linux' is redundant in the latter
+>> case.
+>>
+>> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
+>> ---
+>> I was a bit unsure how to add that list to MAINTAINERS. I considered
+>> adding a 'M:' with my name and email address there as well, but getting
+>> CCed on a lot of regression reports might be a bit much. I also left a
+>> 'S: supported' out, as that doesn't make much sense in this case afaics;
+>> and I checked, there are other entries that don't have those two (but
+>> it's rare).
+> 
+> Put your name there, you are the "maintainer of regressions!"  :)
 
---2ca4km7phoijhn6n
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Okay, will do. :-D
 
-Hi,
+/me wonders why he suddenly feels like entering a self-made trap ;-)
 
-On Wed, Apr 07, 2021 at 10:20:46AM +0200, Mauro Carvalho Chehab wrote:
-> The iio-bindings.txt was converted into two files and merged
-> at the dt-schema git tree at:
->=20
-> 	https://github.com/devicetree-org/dt-schema
->=20
-> Yet, some documents still refer to the old file. Fix their
-> references, in order to point to the right URL.
->=20
-> Fixes: dba91f82d580 ("dt-bindings:iio:iio-binding.txt Drop file as conten=
-t now in dt-schema")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
+> [...]
+>> +REGRESSIONS
+>> +L:	regressions@lists.linux.dev
+>> +K:	regression
+> 
+> A bit more information here perhaps?  This will not really help anyone
+> out to know what to do.
 
-[...]
+Did you mean a different headline for the entry?  Or would you suggest
+to use a webpage (W:) for that or a Subsystem Profile document (P:)
+here? Using either of the two latter was the plan, but for now I'm a bit
+unsure what to write there except maybe "Thorsten is working on a
+semi-automatic solution for tracking Linux kernel regressions. Details
+will follow. For now report regressions as outlined in
+reporting-issues.rst; but in case you have any problem or think there is
+a regressions not handled appropriately by the maintainers, get him
+involved, he'll try to help".
 
->  .../devicetree/bindings/power/supply/da9150-charger.txt      | 2 +-
+Or did you have something totally different in mind?
 
-This file got converted to YAML in my tree and no longer exists in
-linux-next. The new YAML file no longer references iio-bindings.txt.
-
--- Sebastian
-
---2ca4km7phoijhn6n
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmBti+YACgkQ2O7X88g7
-+ppT7Q/+MFaaDYk56GF+wi+QyV+vfgvcoBWD2eDgLGinJVCETdwJNtd7P8qw9BdT
-yHp+Mzz5Zq+fpJrZg9JvfEw/kL6eHJfoOimW/r6qQAA4tdHYD053pZXPa9lSPlSU
-NgK+TR0UlM6vDXIcl2tUSo0ps/eofdUSvjLmjfAXC+WBOvbokDtijr9FDCm5eXAE
-iEtUplHH1SLkxrIBDZhnNoIiHc4xj/D5AaZSg9LB4zHuJsF66vG763wwKyTgtE8A
-MqF8F/IR0ZFRuCAlmJDogQ3HM/1lirXhqPX3Ife1uuyzSA1Zz0vqkCRwEV/9itwT
-qH0YFWVo/GU2MZeshUOgsP/rMHPEiXIH8pG2s+FUMx3BISgk/CH7WysSei58SSJE
-tUyC+ByP3mukLaDYtVBEZVlIDDgypcdO+UH6WrMyPhMaTpVSVYWJ9p2nEgUX5qF5
-jWwi6lmeExNir9fqnCsXp4O5V2bk11w0jKr2QepOtRx4ak/7HQJkznQEj+Wmv+DW
-Zz60FghpDaMs8yG8x7v8xOcOf0PPtREEYNhCIPffQsIqPclRYS3hgEt+nuU2CxkU
-ayf7dN4DsDVG/amwymw40QvKRGjugmGjxK80kkXoPhZ/yVxH0pyjolWkaox2XjxN
-LnqE/vsJZGi1NLTbWgg7/MSRIxuGAEmJJCEJLCtPhiCyDv06aas=
-=RoNN
------END PGP SIGNATURE-----
-
---2ca4km7phoijhn6n--
+Ciao, Thorsten
