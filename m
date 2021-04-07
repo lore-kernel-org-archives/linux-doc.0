@@ -2,91 +2,90 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E114C433ED
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:21:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46059C433B4
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:25:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28CFF6113B
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:21:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id F1D746124B
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:25:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238991AbhDGKVR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 06:21:17 -0400
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2783 "EHLO
-        frasgout.his.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237262AbhDGKVO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 06:21:14 -0400
-Received: from fraeml708-chm.china.huawei.com (unknown [172.18.147.200])
-        by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4FFgGM2QzQz686lg;
-        Wed,  7 Apr 2021 18:13:47 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml708-chm.china.huawei.com (10.206.15.36) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 7 Apr 2021 12:20:47 +0200
-Received: from localhost (10.47.92.157) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 7 Apr 2021
- 11:20:46 +0100
-Date:   Wed, 7 Apr 2021 11:19:22 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-CC:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Adam Thomson <Adam.Thomson.Opensource@diasemi.com>,
-        "Lee Jones" <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 11/19] dt-bindings:iio:adc: update
- dlg,da9150-gpadc.yaml reference
-Message-ID: <20210407111922.00003831@Huawei.com>
-In-Reply-To: <79ece2a12759a375bfa0d492e2931f48acc11e39.1617783062.git.mchehab+huawei@kernel.org>
-References: <cover.1617783062.git.mchehab+huawei@kernel.org>
-        <79ece2a12759a375bfa0d492e2931f48acc11e39.1617783062.git.mchehab+huawei@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+        id S234085AbhDGKZr (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 06:25:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45806 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S237037AbhDGKZl (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 06:25:41 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E92E561205;
+        Wed,  7 Apr 2021 10:25:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1617791131;
+        bh=KFY6DkBGO8PkHrXfq2QtFu4irgvTcd2AKSHcPzk36Ac=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=p3QrEN2T1UXyDuZRiMK7s6k8UOKm3Cq1d69CJtUQr8J+5Bs+fmSXz8yG1bHn+GJrF
+         uFepS6EreuItH+Yv33EhGEtqjfAVPFAetjhM6453EXHwNxOEC2q8bowGG9e+YRNWOv
+         sfYP2VNN89BxMff5bYF4VE9rOagb0RY99gnCemg8=
+Date:   Wed, 7 Apr 2021 12:25:29 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Yicong Yang <yangyicong@hisilicon.com>
+Cc:     alexander.shishkin@linux.intel.com, helgaas@kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        lorenzo.pieralisi@arm.com, jonathan.cameron@huawei.com,
+        song.bao.hua@hisilicon.com, prime.zeng@huawei.com,
+        linux-doc@vger.kernel.org, linuxarm@huawei.com,
+        "liuqi (BA)" <liuqi115@huawei.com>
+Subject: Re: [PATCH 0/4] Add support for HiSilicon PCIe Tune and Trace device
+Message-ID: <YG2Imet/tbyzYcOo@kroah.com>
+References: <1617713154-35533-1-git-send-email-yangyicong@hisilicon.com>
+ <YGxm49c9cT69NV5Q@kroah.com>
+ <01b6e8f7-3282-514e-818d-0e768dcc5ba3@hisilicon.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.92.157]
-X-ClientProxiedBy: lhreml752-chm.china.huawei.com (10.201.108.202) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <01b6e8f7-3282-514e-818d-0e768dcc5ba3@hisilicon.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, 7 Apr 2021 10:20:50 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-
-> Changeset e13b686b18e3 ("dt-bindings:iio:adc:dlg,da9150-gpadc yaml conversion")
-> renamed: Documentation/devicetree/bindings/iio/adc/da9150-gpadc.txt
-> to: Documentation/devicetree/bindings/iio/adc/dlg,da9150-gpadc.yaml.
+On Wed, Apr 07, 2021 at 06:03:11PM +0800, Yicong Yang wrote:
+> On 2021/4/6 21:49, Greg KH wrote:
+> > On Tue, Apr 06, 2021 at 08:45:50PM +0800, Yicong Yang wrote:
+> >> HiSilicon PCIe tune and trace device(PTT) is a PCIe Root Complex
+> >> integrated Endpoint(RCiEP) device, providing the capability
+> >> to dynamically monitor and tune the PCIe traffic(tune),
+> >> and trace the TLP headers(trace). The driver exposes the user
+> >> interface through debugfs, so no need for extra user space tools.
+> >> The usage is described in the document.
+> > 
+> > Why use debugfs and not the existing perf tools for debugging?
+> > 
 > 
-> Update its cross-reference accordingly.
+> The perf doesn't match our device as we've analyzed.
 > 
-> Fixes: e13b686b18e3 ("dt-bindings:iio:adc:dlg,da9150-gpadc yaml conversion")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-> ---
->  Documentation/devicetree/bindings/mfd/da9150.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> For the tune function it doesn't do the sampling at all.
+> User specifys one link parameter and reads its current value or set
+> the desired one. The process is static. We didn't find a
+> way to adapt to perf.
 > 
-> diff --git a/Documentation/devicetree/bindings/mfd/da9150.txt b/Documentation/devicetree/bindings/mfd/da9150.txt
-> index 763e0b639a82..b7afa39d6260 100644
-> --- a/Documentation/devicetree/bindings/mfd/da9150.txt
-> +++ b/Documentation/devicetree/bindings/mfd/da9150.txt
-> @@ -19,7 +19,7 @@ Required properties:
->     further information relating to interrupt properties)
->  
->  Sub-devices:
-> -- da9150-gpadc: See Documentation/devicetree/bindings/iio/adc/da9150-gpadc.txt
-> +- da9150-gpadc: See Documentation/devicetree/bindings/iio/adc/dlg,da9150-gpadc.yaml
->  - da9150-charger: See Documentation/devicetree/bindings/power/da9150-charger.txt
->  - da9150-fg: See Documentation/devicetree/bindings/power/da9150-fg.txt
->  
+> For the trace function, we may barely adapt to the perf framework
+> but it doesn't seems like a better choice. We have our own format
+> of data and don't need perf doing the parsing, and we'll get extra
+> information added by perf as well. The settings through perf tools
+> won't satisfy our needs, we cannot present available settings
+> (filter BDF number, TLP types, buffer controls) to
+> the user and user cannot set in a friendly way. For example,
+> we cannot count on perf to decode the usual format BDF number like
+> <domain>:<bus>:<dev>.<fn>, which user can use filter the TLP
+> headers.
 
+Please work with the perf developers to come up with a solution.  I find
+it hard to believe that your hardware is so different than all the other
+hardware that perf currently supports.  I would need their agreement
+that you can not use perf before accepting this patchset.
+
+thanks,
+
+greg k-h
