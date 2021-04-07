@@ -2,137 +2,243 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B633C433ED
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 19:14:14 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7C7BC433ED
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 19:36:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B61C661262
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 19:14:13 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6031D6124B
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 19:36:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242317AbhDGTOW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 15:14:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54506 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229512AbhDGTOW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 15:14:22 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CFDBC06175F;
-        Wed,  7 Apr 2021 12:14:12 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: sre)
-        with ESMTPSA id B97081F45811
-Received: by earth.universe (Postfix, from userid 1000)
-        id 1025B3C0C96; Wed,  7 Apr 2021 21:14:09 +0200 (CEST)
-Date:   Wed, 7 Apr 2021 21:14:08 +0200
-From:   Sebastian Reichel <sebastian.reichel@collabora.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        id S243389AbhDGTgS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 15:36:18 -0400
+Received: from mga09.intel.com ([134.134.136.24]:30011 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1345628AbhDGTgR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 15:36:17 -0400
+IronPort-SDR: TdEZj9cmyPaIWVjf2/EKdRQ/MEP2ty4BQrWm5MmqCmz4urQoWL+LUS7UMnK6gpVtcNqSCTNszz
+ yo9nMxPOyu5w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9947"; a="193499952"
+X-IronPort-AV: E=Sophos;i="5.82,203,1613462400"; 
+   d="scan'208";a="193499952"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2021 12:36:07 -0700
+IronPort-SDR: rAPVXak+nGDVnXg9E3NIe27rAWHjK35mnoyvbDaT6d99UCplYkjy2wqj9cOCpfHty8nh69qdk1
+ E3HjT8/jTPWA==
+X-IronPort-AV: E=Sophos;i="5.82,203,1613462400"; 
+   d="scan'208";a="448370025"
+Received: from yyu32-mobl1.amr.corp.intel.com (HELO [10.254.186.83]) ([10.254.186.83])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2021 12:36:05 -0700
+Subject: Re: [PATCH v24 25/30] x86/cet/shstk: Handle signals for shadow stack
+To:     Andy Lutomirski <luto@kernel.org>
+Cc:     X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        linux-arch <linux-arch@vger.kernel.org>,
+        Linux API <linux-api@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 12/19] dt-bindings: power: supply: da9150: update
- da9150-charger.txt reference
-Message-ID: <20210407191408.nugrjqrmz5vby44k@earth.universe>
-References: <cover.1617783062.git.mchehab+huawei@kernel.org>
- <77aa40c58600dfc1f047ce2d86ad1d1cd67d67e4.1617783062.git.mchehab+huawei@kernel.org>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+References: <20210401221104.31584-1-yu-cheng.yu@intel.com>
+ <20210401221104.31584-26-yu-cheng.yu@intel.com>
+ <CALCETrWa+gjf2c2WDVxk23xd11kTnrUmiqrMsOVXOKPL4Eg-JA@mail.gmail.com>
+From:   "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Message-ID: <76743437-24b3-7c33-2570-6100c8811165@intel.com>
+Date:   Wed, 7 Apr 2021 12:36:04 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="eqhquad7psvwpyfu"
-Content-Disposition: inline
-In-Reply-To: <77aa40c58600dfc1f047ce2d86ad1d1cd67d67e4.1617783062.git.mchehab+huawei@kernel.org>
+In-Reply-To: <CALCETrWa+gjf2c2WDVxk23xd11kTnrUmiqrMsOVXOKPL4Eg-JA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On 4/6/2021 3:50 PM, Andy Lutomirski wrote:
+> On Thu, Apr 1, 2021 at 3:11 PM Yu-cheng Yu <yu-cheng.yu@intel.com> wrote:
+>>
+>> When shadow stack is enabled, a task's shadow stack states must be saved
+>> along with the signal context and later restored in sigreturn.  However,
+>> currently there is no systematic facility for extending a signal context.
+>>
+>> Introduce a signal context extension struct 'sc_ext', which is used to save
+>> shadow stack restore token address and WAIT_ENDBR status[1].  The extension
+>> is located above the fpu states, plus alignment.
+>>
+>> Introduce routines for the allocation, save, and restore for sc_ext:
+>> - fpu__alloc_sigcontext_ext(),
+>> - save_extra_state_to_sigframe(),
+>> - get_extra_state_from_sigframe(),
+>> - restore_extra_state().
+>>
+>> [1] WAIT_ENDBR will be introduced later in the Indirect Branch Tracking
+>>      series, but add that into sc_ext now to keep the struct stable in case
+>>      the IBT series is applied later.
+> 
+> Please don't.  Instead, please figure out how that structure gets
+> extended for real, and organize your patches to demonstrate that the
+> extension works.
+> 
+>>
+>> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+>> Cc: Kees Cook <keescook@chromium.org>
+>> ---
+>> v24:
+>> - Split out shadow stack token routines to a separate patch.
+>> - Put signal frame save/restore routines to fpu/signal.c and re-name accordingly.
+>>
+>>   arch/x86/ia32/ia32_signal.c            |  16 +++
+>>   arch/x86/include/asm/cet.h             |   2 +
+>>   arch/x86/include/asm/fpu/internal.h    |   2 +
+>>   arch/x86/include/uapi/asm/sigcontext.h |   9 ++
+>>   arch/x86/kernel/fpu/signal.c           | 143 +++++++++++++++++++++++++
+>>   arch/x86/kernel/signal.c               |   9 ++
+>>   6 files changed, 181 insertions(+)
+>>
 
---eqhquad7psvwpyfu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+[...]
 
-Hi,
+>> diff --git a/arch/x86/include/uapi/asm/sigcontext.h b/arch/x86/include/uapi/asm/sigcontext.h
+>> index 844d60eb1882..cf2d55db3be4 100644
+>> --- a/arch/x86/include/uapi/asm/sigcontext.h
+>> +++ b/arch/x86/include/uapi/asm/sigcontext.h
+>> @@ -196,6 +196,15 @@ struct _xstate {
+>>          /* New processor state extensions go here: */
+>>   };
+>>
+>> +/*
+>> + * Located at the end of sigcontext->fpstate, aligned to 8.
+>> + */
+>> +struct sc_ext {
+>> +       unsigned long total_size;
+>> +       unsigned long ssp;
+>> +       unsigned long wait_endbr;
+>> +};
+> 
+> We need some proper documentation and an extensibility story for this.
+> This won't be the last time we extend the signal state.  Keep in mind
+> that the FPU state is very likely to become genuinely variable sized
+> due to AVX-512 and AMX.
+> 
 
-On Wed, Apr 07, 2021 at 10:20:51AM +0200, Mauro Carvalho Chehab wrote:
-> Changeset f3332532463f ("power/supply: unify DT documentation")
-> renamed: Documentation/devicetree/bindings/power/da9150-charger.txt
-> to: Documentation/devicetree/bindings/power/supply/da9150-charger.txt.
->=20
-> Update its cross-reference accordingly.
->=20
-> Fixes: f3332532463f ("power/supply: unify DT documentation")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  Documentation/devicetree/bindings/mfd/da9150.txt | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/mfd/da9150.txt b/Documenta=
-tion/devicetree/bindings/mfd/da9150.txt
-> index b7afa39d6260..f4db2b520327 100644
-> --- a/Documentation/devicetree/bindings/mfd/da9150.txt
-> +++ b/Documentation/devicetree/bindings/mfd/da9150.txt
-> @@ -20,7 +20,7 @@ Required properties:
-> =20
->  Sub-devices:
->  - da9150-gpadc: See Documentation/devicetree/bindings/iio/adc/dlg,da9150=
--gpadc.yaml
-> -- da9150-charger: See Documentation/devicetree/bindings/power/da9150-cha=
-rger.txt
-> +- da9150-charger: See Documentation/devicetree/bindings/power/supply/da9=
-150-charger.txt
->  - da9150-fg: See Documentation/devicetree/bindings/power/da9150-fg.txt
+Right now, on the signal stack, we have:
 
-This got "renamed" again in -next. Also I do not see the point to
-update the next line in its own patch.
+- siginfo, ucontext,
+- fpu states (xsave state),
 
-git show --stat 59604ba75633
-commit 59604ba756334377deca54bc0526da739bfc0c51
-Author: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date:   Wed Mar 17 14:48:55 2021 +0100
+We might not want to change ucontext.  The concern is breaking existing 
+app's.
 
-    dt-bindings: power: supply: da9150: Convert to DT schema format
-   =20
-    Convert the binding to DT schema format.
-   =20
-    Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-    Reviewed-by: Rob Herring <robh@kernel.org>
+Fpu states are all user states (vs. ssp, wait_endbr are supervisor 
+states).  Therefore, we cannot put ssp and wait_endbr in fpu states. 
+Fpu states can grow to whatever size (AVX-512 etc.), the extension is 
+always above it if the user stack has room.  If the user stack does not 
+have enough room, fpu__aloc_mathframe() fails.
 
- Documentation/devicetree/bindings/power/supply/da9150-charger.txt         =
-| 26 --------------------------
- Documentation/devicetree/bindings/power/supply/da9150-fg.txt              =
-| 23 -----------------------
- Documentation/devicetree/bindings/power/supply/dlg,da9150-charger.yaml    =
-| 52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- Documentation/devicetree/bindings/power/supply/dlg,da9150-fuel-gauge.yaml =
-| 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 103 insertions(+), 49 deletions(-)
+The struct sc_ext has a simple 'total_size' field for error checking. 
+To extend it, newer fields are always added to the end and total_size 
+keeps track of it.  I will put more comments about this.
+
+> We also have the ability to extend ucontext, I believe, and I'd like
+> some analysis of why we want to put ssp and wait_endbr into the FPU
+> context instead of the ucontext.
+> 
+
+[...]
+
+>> diff --git a/arch/x86/kernel/fpu/signal.c b/arch/x86/kernel/fpu/signal.c
+>> index a4ec65317a7f..2e56f2fe8be0 100644
+>> --- a/arch/x86/kernel/fpu/signal.c
+>> +++ b/arch/x86/kernel/fpu/signal.c
+
+[...]
+
+>> +
+>> +/*
+>> + * Called from __fpu__restore_sig() and XSAVES buffer is protected by
+>> + * set_thread_flag(TIF_NEED_FPU_LOAD) in the slow path.
+>> + */
+>> +void restore_extra_state(struct sc_ext *sc_ext)
+>> +{
+>> +#ifdef CONFIG_X86_CET
+>> +       struct cet_status *cet = &current->thread.cet;
+>> +       struct cet_user_state *cet_user_state;
+>> +       u64 msr_val = 0;
+>> +
+>> +       if (!cpu_feature_enabled(X86_FEATURE_CET))
+>> +               return;
+>> +
+>> +       cet_user_state = get_xsave_addr(&current->thread.fpu.state.xsave,
+>> +                                       XFEATURE_CET_USER);
+>> +       if (!cet_user_state)
+>> +               return;
+>> +
+>> +       if (cet->shstk_size) {
+> 
+> Is fpregs_lock() needed?
+
+This path is already protected.
+
+> 
+>> +               if (test_thread_flag(TIF_NEED_FPU_LOAD))
+>> +                       cet_user_state->user_ssp = sc_ext->ssp;
+>> +               else
+>> +                       wrmsrl(MSR_IA32_PL3_SSP, sc_ext->ssp);
+> 
+> wrmsrl_safe() please.
+> 
+>> +
+>> +               msr_val |= CET_SHSTK_EN;
+>> +       }
+>> +
+>> +       if (test_thread_flag(TIF_NEED_FPU_LOAD))
+>> +               cet_user_state->user_cet = msr_val;
+>> +       else
+>> +               wrmsrl(MSR_IA32_U_CET, msr_val);
+>> +#endif
+> 
+> I don't understand. Why are you recomputing MSR_IA32_U_CET here?
+> 
+> As another general complaint about this patch set, there's
+> cet->shstk_size and there's MSR_IA32_U_CET (and its copy in the fpu
+> state), and they seem to be used somewhat interchangably.  Why are
+> both needed?  Could there be some new helpers to help manage them all
+> in a unified way?
+> 
+
+Indeed, shadow stack/IBT states are cached in the thread header.  Their 
+MSRs and XSAVES states are accessed only when necessary.  The signal 
+restore path has been optimized in the past and I hope not to put in 
+code that negates past work.
+
+I agree with your other comments for the patch and will update in the 
+next revision.
 
 Thanks,
-
--- Sebastian
-
---eqhquad7psvwpyfu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmBuBHgACgkQ2O7X88g7
-+prPfQ/8CnvlgjbLH5VDSNzgIbCevKqe31jK7FvR4kW5YjijJHfPAHGqB0n1yNOG
-kp+p7K4DSipqTAyAraixrRZE/7oNgUXLDug5bbWmqlNZ5Y/elf6wzf2wq4LEyzZX
-X5gR6StvSTKXW/pvkAfcjY8Z1UMs94XkmX9gby/lQhC09KDda38RZlfeFvxNVH4M
-OjRCkiQtpmN9H73j03obNZ3oI+Maf/Wu9fpI88Z9KFbT+55t9gPP3loQt9p1fdFg
-R3HmydW8/EWiD44YOXJBpxt5t6Em70n1ukjT/LlWikaqN780alhjBQwxdM9G2ju8
-NURmF9DE3Wo+2unmuCxlIH/WYtRpsxuHyTKjZxzjvs2Xx/V1ky7fw4Z4yCxEYN/V
-ttoc/UcbG6o3gQAB25O3YP1tJR1Dm2tV2s/r7JpG5yppUlOOO6XWL8HKFigvtk0O
-dgX1CAOS4yfEN12SHoM0N0Kw91mSHXXilsXe1GLb/tf/szsKY8xK+eBjwjaLfd+p
-kc9wB/p3VTqLtWICwRbNokNTQmLuueK0Qx9SysC6CyvqZIl/tVI2b4FMC9j1Pol8
-K6tcyM6w4imuuqSaAfgFuFy/aPzgKZCjbkY1cRV1HoSBtlyS7lQtwQM3pJ3q+6wE
-zBfuJ6luf+iEc9ISY1omJiDkne8HrUAb/G14tL9GnFnb/erk9yg=
-=z4D9
------END PGP SIGNATURE-----
-
---eqhquad7psvwpyfu--
+Yu-cheng
