@@ -4,116 +4,110 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 999FAC43460
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 14:57:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88162C433ED
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 14:58:07 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 61FE96136A
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 14:57:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 54D6E6139B
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 14:58:07 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353197AbhDGO52 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 10:57:28 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58828 "EHLO mail.kernel.org"
+        id S1345804AbhDGO6Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 10:58:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59166 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1353171AbhDGO51 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Apr 2021 10:57:27 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AE73E6113D;
-        Wed,  7 Apr 2021 14:57:13 +0000 (UTC)
+        id S1348937AbhDGO6P (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 10:58:15 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D2EB16113D;
+        Wed,  7 Apr 2021 14:58:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1617807434;
-        bh=tUfOgaHcl8ljWu0Wz4/Ge0t5B4gD7a3bBu4ayfksIec=;
+        s=korg; t=1617807483;
+        bh=siJkpUcD6mCFNMaKE6gxT+MWCGaL80N43ZT+j1EpZZc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=tbDifmJtZHVDm4kG2+oWzWbeF+rTRt7NhGUFOHuDZXvgQsUUm3WyLxk1zQ4qzDxzJ
-         k0CUR6uIV/wS1Z7rlVAnRfXPMfZXjE03zZGg6Hh+gsmwTpRLR87kOnN0iWlgiBwieO
-         5Q9dN09ZoJ3cgfBEObPbXnfkihVrXNIMDDrWthhE=
-Date:   Wed, 7 Apr 2021 16:56:43 +0200
+        b=UF3JhGnv3AE/QpcsNjwWD9yfEgfo83GxMxeebxv1AvU7JC3DrjbOjVtEiqHhtGwrU
+         qyCzwVU2ePZl6YJackWQFy2Jk/ClOkjDpWep2FYexMRtvoasvZk8JlqOGRCtlob2R4
+         QbdvKYSaQleLFhGQcqlW+caBbS29/Np5uBUwYWQ8=
+Date:   Wed, 7 Apr 2021 16:58:00 +0200
 From:   Greg KH <gregkh@linuxfoundation.org>
 To:     Thorsten Leemhuis <linux@leemhuis.info>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         Linus Torvalds <torvalds@linux-foundation.org>,
         Randy Dunlap <rdunlap@infradead.org>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 1/2] MAINTAINERS: add regressions mailing list
-Message-ID: <YG3IK46M4LNWp3EO@kroah.com>
+Subject: Re: [RFC PATCH v1 2/2] docs: reporting-issues: make everyone CC the
+ regressions list
+Message-ID: <YG3IePOftDLd5W+d@kroah.com>
 References: <cover.1617786974.git.linux@leemhuis.info>
- <f959331ed0e1a8ed59be9771fcab64378bd6977d.1617786974.git.linux@leemhuis.info>
- <YG2BxMBLqEt4mkgS@kroah.com>
- <3121a1cd-47c6-b26e-0cb3-71872d5ffc65@leemhuis.info>
+ <813fc7b082a4b47ec6d34542971e9bba74fd4a51.1617786974.git.linux@leemhuis.info>
+ <YG2CztxS4jTia8wM@kroah.com>
+ <3df9566e-bb08-f1e2-7afb-a14a28d2d64f@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <3121a1cd-47c6-b26e-0cb3-71872d5ffc65@leemhuis.info>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3df9566e-bb08-f1e2-7afb-a14a28d2d64f@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 07, 2021 at 12:51:43PM +0200, Thorsten Leemhuis wrote:
-> On 07.04.21 11:56, Greg KH wrote:
-> > On Wed, Apr 07, 2021 at 11:21:55AM +0200, Thorsten Leemhuis wrote:
-> >> Add the newly created regression mailing list finally created after it
-> >> already had been agreed on during the maintainers summit 2017 (see
-> >> https://lwn.net/Articles/738216/ ). The topic was recently discussed
-> >> again, where an idea to create a broader list for all issues was
-> >> discussed, but Linus preferred a more targeted list:
-> >> https://lkml.kernel.org/r/CAHk-=wgiYqqLzsb9-UpfH+=ktk7ra-2fOsdc_ZJ7WF47wS73CA@mail.gmail.com/
+On Wed, Apr 07, 2021 at 01:21:28PM +0200, Thorsten Leemhuis wrote:
+> 
+> On 07.04.21 12:00, Greg KH wrote:
+> > On Wed, Apr 07, 2021 at 11:21:56AM +0200, Thorsten Leemhuis wrote:
+> >> Make people CC the recently created mailing list dedicated to Linux
+> >> kernel regressions when reporting one. Some paragraphs had to be
+> >> reshuffled and slightly rewritten during the process, as the text
+> >> otherwise would have gotten unnecessarily hard to follow.
 > >>
-> >> Hence, the creation for that list was asked for and granted:
-> >> https://bugzilla.kernel.org/show_bug.cgi?id=212557
-> >>
-> >> In the end it became regressions@lists.linux.dev instead of
-> >> linux-regressions@lists.linux.dev as 'Linux' is redundant in the latter
-> >> case.
-> >>
-> >> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
-> >> ---
-> >> I was a bit unsure how to add that list to MAINTAINERS. I considered
-> >> adding a 'M:' with my name and email address there as well, but getting
-> >> CCed on a lot of regression reports might be a bit much. I also left a
-> >> 'S: supported' out, as that doesn't make much sense in this case afaics;
-> >> and I checked, there are other entries that don't have those two (but
-> >> it's rare).
+> >> The new text also makes reporters include a line useful for automatic
+> >> regression tracking solution which does not exist yet, but is planned.
+> >> The term "#regzb" (short for regression bot) is inspired by the "#syz"
+> >> which can be used to communicate with syszbot (see
+> >> https://github.com/google/syzkaller/blob/master/docs/syzbot.md).
 > > 
-> > Put your name there, you are the "maintainer of regressions!"  :)
-> 
-> Okay, will do. :-D
-> 
-> /me wonders why he suddenly feels like entering a self-made trap ;-)
-> 
-> > [...]
-> >> +REGRESSIONS
-> >> +L:	regressions@lists.linux.dev
-> >> +K:	regression
+> > While I understand the wish to automate things like this, the #syz
+> > marking will actually cause something to go off and do some work, and is
+> > only relevant for a very small number of developers, all of whom know to
+> > look up the instructions before doing so.  But the #regzb marking will
+> > be requested to be added by random users who never have submitted a
+> > problem report before, OR from long-time kernel developers who are lucky
+> > to ever remember to read the documentation as they "know" how to do
+> > this.
 > > 
-> > A bit more information here perhaps?  This will not really help anyone
-> > out to know what to do.
+> > So this increased workload by people on the two ends of experience is
+> > going to be rough, I predict a very low rate of adoption :(
 > 
-> Did you mean a different headline for the entry?  Or would you suggest
-> to use a webpage (W:) for that or a Subsystem Profile document (P:)
-> here? Using either of the two latter was the plan, but for now I'm a bit
-> unsure what to write there except maybe "Thorsten is working on a
-> semi-automatic solution for tracking Linux kernel regressions. Details
-> will follow. For now report regressions as outlined in
-> reporting-issues.rst; but in case you have any problem or think there is
-> a regressions not handled appropriately by the maintainers, get him
-> involved, he'll try to help".
+> Yup, I'm aware of that. And also well aware that I will need to keep an
+> eye on things and jump in and reply with mails to add such tags every
+> time they are missing.
+> But I think that direction it the best shot, as tying putting all the
+> burden on one person (me) is likely to fail, as our history with
+> regression tracking showed. And I think such tags with some bot in the
+> background
+> (as outlined roughly in
+> https://linux-regtracking.leemhuis.info/post/hello-world/ ) have at
+> least the best chance, as things are not out-of-band like tracking them
+> in bugzilla would be – or do you think that would be a better approach
+> together with its email-interface?
+
+Ok, we can try it, I'm not going to say it's not going to work, just
+that it's going to be a marketing effort to tell people how to do this
+:)
+
+> > What is the tag going to be good for?  The reports will need to be
+> > handled by a person anyway and classified and tracked out-of-band from
+> > the list somehow.  Will a tag do all that much here?
 > 
-> Or did you have something totally different in mind?
+> I think is has, as then a good regression report will make the
+> still-to-be-written regression-bot create and entry that links to the
+> report and send a reply with a unique ID; then that ID needs to end up
+> in the commit that fixes the regression later (similar to how the IDs
+> for issues found by syzbot are mentioned there, which afaics works quite
+> well for people) and the regression-bot can close the entry automatically.
 
-Well, "K:	regression" is not a regex, so that's not going to
-really help much.
-
-How about something simple like:
-	KERNEL REGRESSIONS:
-	M:	Thorsten Leemhuis <linux@leemhuis.info>
-	L:	regressions@lists.linux.dev
-	S:	Supported
-
-That looks a bit more like other entries, has a name and a list and a
-state of your status for this work.
-
-Would that work?
+Ah, ok, that makes more sense, nevermind, no objection from me, sorry
+for the noise.
 
 thanks,
 
