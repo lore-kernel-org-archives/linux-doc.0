@@ -2,98 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-24.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_2
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BEDCC433ED
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:06:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0B67C433ED
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:21:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CBC62613AF
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:06:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8B0236139E
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:21:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234933AbhDGIGs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 04:06:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40858 "EHLO mail.kernel.org"
+        id S240164AbhDGIVQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 04:21:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48158 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233970AbhDGIGm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Apr 2021 04:06:42 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8F3F961222;
-        Wed,  7 Apr 2021 08:06:30 +0000 (UTC)
+        id S234102AbhDGIVL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 04:21:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 34A8F61363;
+        Wed,  7 Apr 2021 08:21:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617782793;
-        bh=Saui7R6VgfinD0aYuADSUqh2OGbSYGStZdRURn73p8Q=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=CaQS81BmyDfetD8FswzLLV7h6/zoDjIyjLT15jD5RY5SFKpj834sHX1cqTmUxj7HF
-         tdLn2UaFdycx2uLhSLTyzP+chLrpEN7uIC+nGL9LDhG9tJU+ue7zleKV753cnW6Wfg
-         nppLNQ/JyeS633dDWM0YC3HBygcPZ1TSSlJRPfSJktIpQRAqJDfTWnha+kCMAS+8bS
-         ne9wpH4kn9Wx6Is5UMWw9aL/7zxpgohjtxYOWY6iSUI38HS56YMYIxrzi2h+pp+UWw
-         1Y2UhGFZIdfap22sxk+s9m/KkDZoMcKPsksDKEMY4t35lQl2HBguzAeWeeTavOgrd9
-         fqSeTNLU4bblA==
-Date:   Wed, 7 Apr 2021 10:06:27 +0200
+        s=k20201202; t=1617783662;
+        bh=nzYUbxWuELJbtrmYufmtVzvZIETB4Z9oWnwJLiMSquQ=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=YB6nRfEynua3bicMchbwddo3ZhpR2K/w9LShFouOHE4o9eT1HKx6rYBYGM9fxLFgR
+         gOyfC4rZiHy9JPVUZNnHWlPVQgq3jtRC7YeRKQvT4x4dwan+pXDqSB8WMKXJDvyFhn
+         gfqtrkZ1cxAF0azUc7dNHIEOiGiMxI52TG+ZEwkrgA8UAOPbDXGnjYv0lLFA5NlhKd
+         gF0J76/l31UOT3vsVj+uEplcLEGGAjrlG35WQBJNgwYnHG8toNjhGPiyrAhaqrdzel
+         AY+b9LGrLuXDNVBwk28LjPR3fdL1Qonp7ZE1tq4nS5q1g3PTHEE3MigYvjdDJ0yEco
+         PSRR1XJCiy7ew==
+Received: by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1lU3Qq-005i26-6O; Wed, 07 Apr 2021 10:21:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Andy Whitcroft <apw@canonical.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Joe Perches <joe@perches.com>,
-        Lukas Bulwahn <lukas.bulwahn@gmail.com>,
-        devicetree@vger.kernel.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 29/32] docs: dt: update writing-schema.rst references
-Message-ID: <20210407100627.13071b72@coco.lan>
-In-Reply-To: <CAL_Jsq+3kqzQi+7emMWkuhyh2aj8qLy6nLS--J2P57Bw_jOCvw@mail.gmail.com>
-References: <cover.1617279355.git.mchehab+huawei@kernel.org>
-        <7cfddf303f1508d26f90d87546d3812faebfc5ba.1617279356.git.mchehab+huawei@kernel.org>
-        <CAL_Jsq+3kqzQi+7emMWkuhyh2aj8qLy6nLS--J2P57Bw_jOCvw@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Rob Herring <robh@kernel.org>, Sam Ravnborg <sam@ravnborg.org>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 01/19] MAINTAINERS: update ste,mcde.yaml reference
+Date:   Wed,  7 Apr 2021 10:20:40 +0200
+Message-Id: <9ffac92903de5a1f295e02206103db2b2d34ba83.1617783062.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1617783062.git.mchehab+huawei@kernel.org>
+References: <cover.1617783062.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Em Tue, 6 Apr 2021 10:04:57 -0500
-Rob Herring <robh+dt@kernel.org> escreveu:
+Changeset 2abb0b994db5 ("dt-bindings: display: mcde: Convert to YAML schema")
+renamed: Documentation/devicetree/bindings/display/ste,mcde.txt
+to: Documentation/devicetree/bindings/display/ste,mcde.yaml.
 
-> On Thu, Apr 1, 2021 at 7:17 AM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> >
-> > Changeset b83db5b84900 ("docs: dt: Group DT docs into relevant sub-sections")
-> > renamed: Documentation/devicetree/writing-schema.rst
-> > to: Documentation/devicetree/bindings/writing-schema.rst.
-> >
-> > Update the cross-references accordingly.
-> >
-> > Fixes: b83db5b84900 ("docs: dt: Group DT docs into relevant sub-sections")
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  Documentation/devicetree/bindings/submitting-patches.rst | 2 +-
-> >  scripts/checkpatch.pl                                    | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/submitting-patches.rst b/Documentation/devicetree/bindings/submitting-patches.rst
-> > index ee4feb53f8d0..104fa8fb2c17 100644
-> > --- a/Documentation/devicetree/bindings/submitting-patches.rst
-> > +++ b/Documentation/devicetree/bindings/submitting-patches.rst
-> > @@ -25,7 +25,7 @@ I. For patch submitters
-> >
-> >         make dt_binding_check
-> >
-> > -     See Documentation/devicetree/writing-schema.rst for more details about
-> > +     See Documentation/devicetree/bindings/writing-schema.rst for more details about  
-> 
-> We should make this a rSt link instead.
+Update its cross-reference accordingly.
 
-It shouldn't be needed, as Documentation/sphinx/automarkup.py has a rule
-which converts Documentation/* into a cross reference using this
-regex:
+Fixes: 2abb0b994db5 ("dt-bindings: display: mcde: Convert to YAML schema")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	RE_doc = re.compile(r'(\bDocumentation/)?((\.\./)*[\w\-/]+)\.(rst|txt)')
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 03b2096a5f8f..92e5039b90ba 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -5794,7 +5794,7 @@ DRM DRIVER FOR ST-ERICSSON MCDE
+ M:	Linus Walleij <linus.walleij@linaro.org>
+ S:	Maintained
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+-F:	Documentation/devicetree/bindings/display/ste,mcde.txt
++F:	Documentation/devicetree/bindings/display/ste,mcde.yaml
+ F:	drivers/gpu/drm/mcde/
+ 
+ DRM DRIVER FOR TDFX VIDEO CARDS
+-- 
+2.30.2
 
-
-Thanks,
-Mauro
