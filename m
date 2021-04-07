@@ -2,49 +2,50 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-24.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8622C43461
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:21:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2E1AC433B4
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:21:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6C0C613A7
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:21:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 894FB61363
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:21:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244827AbhDGIVR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 04:21:17 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48212 "EHLO mail.kernel.org"
+        id S1346944AbhDGIVS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 04:21:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48216 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237335AbhDGIVL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S237439AbhDGIVL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 7 Apr 2021 04:21:11 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4798F61246;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 453C9613A0;
         Wed,  7 Apr 2021 08:21:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617783662;
-        bh=Rfxsd1gJB9wN8MiDPb4ZjhB+fZI/Qc2ZbwxqA8pwT7g=;
+        bh=Bfh0vLlmRAVdyPU4dpneOmQxWEVy3QVZB51kIaWuNIk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YL3mOOGYjs3nqsB7WzBZsarry/FtXZ/BQj9GYSkLmkB86EGXQ3p59njs7GOAul64g
-         JObZyrb8vzQem7vY5TWpUbivvSkh8MjaCv+d52ebPvnuF4aP5hChaR3Y8KyowoaqmU
-         sXfX04dIQwr9sv3XxN12HwUPHSrlRE2WFCvRqJbFGihXa+94gdBLWew/6csdvNbPxQ
-         fLrBDv4Kqtq6qrtbJqrXwPYcGgP0qgttOqGnt+vFp91ZfAdvW8jNuaPx9STY235uup
-         H9gDPTf8XSFLfGI3OXhDWU8Cr967urmyyNwfErH3HT3YpsiSiulNyBS+OJfBaHatRf
-         TIrlvrfZmrj0w==
+        b=j/dpKWaHSM0jWi9xx/2/i1dDTXIeNXl5gCznn3gIZztwZL7re1vAHcin29JYD8WxH
+         NJinLfn+RjA/xMkELZHP/B3ozHWSCgtca3u72aL+WqIRTAo+nukFg7qnj4TmSsdzL4
+         NYEOXg2+qqgSoESNW/P4d28sMAumUbEdNNnls0qrF2sDcXl+QV3dsxyYoJ1Mhxwqsa
+         FZFvKkxH4GLAnzaeZJwtMfey2nN90BezUB0Ja81kYbWPnlwvaLI2WN3fs21XDHQVk8
+         hmqILmRyNMTEvyDA6XcCdGpzjvCBBKBb6D+lLYtF3EAk+aLuSrmeRMnjTAD+QxuNek
+         R8b5y8BDm7jUw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lU3Qq-005i2E-CW; Wed, 07 Apr 2021 10:21:00 +0200
+        id 1lU3Qq-005i28-8B; Wed, 07 Apr 2021 10:21:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
         Rob Herring <robh@kernel.org>,
-        Sia Jee Heng <jee.heng.sia@intel.com>,
-        Vinod Koul <vkoul@kernel.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 05/19] MAINTAINERS: update snps,dw-axi-dmac.yaml reference
-Date:   Wed,  7 Apr 2021 10:20:44 +0200
-Message-Id: <133179ca2d6597ced45da402d6d9324138f3ff39.1617783062.git.mchehab+huawei@kernel.org>
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 02/19] MAINTAINERS: update brcm,bcm-v3d.yaml reference
+Date:   Wed,  7 Apr 2021 10:20:41 +0200
+Message-Id: <df6af25cdf42e7aaa497edb234d72721ed8a0773.1617783062.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617783062.git.mchehab+huawei@kernel.org>
 References: <cover.1617783062.git.mchehab+huawei@kernel.org>
@@ -55,31 +56,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset 8c70fb7e0a0a ("dt-bindings: dma: Add YAML schemas for dw-axi-dmac")
-renamed: Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.txt
-to: Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml.
+Changeset cb18a7979a35 ("dt-bindings: gpu: Convert v3d to json-schema")
+renamed: Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
+to: Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml.
 
 Update its cross-reference accordingly.
 
-Fixes: 8c70fb7e0a0a ("dt-bindings: dma: Add YAML schemas for dw-axi-dmac")
+Fixes: cb18a7979a35 ("dt-bindings: gpu: Convert v3d to json-schema")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 735d48d18a57..dbc123bde7dd 100644
+index 92e5039b90ba..16a9c89755f1 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -17285,7 +17285,7 @@ F:	drivers/spi/spi-dw*
- SYNOPSYS DESIGNWARE AXI DMAC DRIVER
- M:	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
- S:	Maintained
--F:	Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.txt
-+F:	Documentation/devicetree/bindings/dma/snps,dw-axi-dmac.yaml
- F:	drivers/dma/dw-axi-dmac/
+@@ -6069,7 +6069,7 @@ DRM DRIVERS FOR V3D
+ M:	Eric Anholt <eric@anholt.net>
+ S:	Supported
+ T:	git git://anongit.freedesktop.org/drm/drm-misc
+-F:	Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.txt
++F:	Documentation/devicetree/bindings/gpu/brcm,bcm-v3d.yaml
+ F:	drivers/gpu/drm/v3d/
+ F:	include/uapi/drm/v3d_drm.h
  
- SYNOPSYS DESIGNWARE DMAC DRIVER
 -- 
 2.30.2
 
