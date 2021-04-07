@@ -2,80 +2,77 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A491C433ED
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:02:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4701AC433B4
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:03:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DB6D66139C
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:02:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 054076139B
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 10:03:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350461AbhDGKBB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 06:01:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38762 "EHLO mail.kernel.org"
+        id S1346414AbhDGKDs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 06:03:48 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43624 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1350474AbhDGKA6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Apr 2021 06:00:58 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 17CFD6139E;
-        Wed,  7 Apr 2021 10:00:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1617789648;
-        bh=dq2l8SzGida214C1HlxuWOTmoGpBfHB90BZbdJOThsU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JC6mTEvv+Be4FbH6f9gqgw8eaHBOhDYEsLixBL6cvDGpiGvGCnDymRSWcfCYfVwRH
-         f556wNaG/XlCw3/UYlMSUcVYb2bDQnaLubTjVMKfbjk9z1JuiDocJoBKG80EzE1DFj
-         v463JOEJhvpr3902AGn7sDs/kTfETn3jon9c7wy8=
-Date:   Wed, 7 Apr 2021 12:00:46 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Thorsten Leemhuis <linux@leemhuis.info>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        id S1350484AbhDGKC4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 06:02:56 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1617789766; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=TLGsEfIq3wKbs6ZbBvf+ZatbkwXb7TlSnPIiD3sLXOI=;
+        b=aaEHV0JtLfkohjGyNyemPWMcejrDl8cZmSqYAC7wUgphMBhGElVzDVxa1Uetb87Fd8NkWx
+        OgmhRX4z+MKtGy0wLKyTDnfUoI9y6zkvul4e5R2m41ZT3KuNS2agbVHSExoqUSz9uVuOSG
+        yKjDC+dvh5uxFXFHeYohSCEZ6p2Yvb4=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id E1A2CB066;
+        Wed,  7 Apr 2021 10:02:45 +0000 (UTC)
+Date:   Wed, 7 Apr 2021 12:02:44 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Wang Qing <wangqing@vivo.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Joe Perches <joe@perches.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Stephen Kitt <steve@sk2.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kees Cook <keescook@chromium.org>,
         Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1 2/2] docs: reporting-issues: make everyone CC the
- regressions list
-Message-ID: <YG2CztxS4jTia8wM@kroah.com>
-References: <cover.1617786974.git.linux@leemhuis.info>
- <813fc7b082a4b47ec6d34542971e9bba74fd4a51.1617786974.git.linux@leemhuis.info>
+        "Guilherme G. Piccoli" <gpiccoli@canonical.com>,
+        Eric Biggers <ebiggers@google.com>,
+        Qais Yousef <qais.yousef@arm.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Santosh Sivaraj <santosh@fossix.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        gregkh@linuxfoundation.org
+Subject: Re: [PATCH V2 0/4] kernel/watchdog: Modify the explanation and doc
+ related to watchdog thread
+Message-ID: <YG2DRKf6YDApaH/1@alley>
+References: <1617247900-23813-1-git-send-email-wangqing@vivo.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <813fc7b082a4b47ec6d34542971e9bba74fd4a51.1617786974.git.linux@leemhuis.info>
+In-Reply-To: <1617247900-23813-1-git-send-email-wangqing@vivo.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 07, 2021 at 11:21:56AM +0200, Thorsten Leemhuis wrote:
-> Make people CC the recently created mailing list dedicated to Linux
-> kernel regressions when reporting one. Some paragraphs had to be
-> reshuffled and slightly rewritten during the process, as the text
-> otherwise would have gotten unnecessarily hard to follow.
+On Thu 2021-04-01 11:31:30, Wang Qing wrote:
+> "watchdog/%u" threads has be replaced by cpu_stop_work. The current 
+> description is extremely misleading, so we need to modify the 
+> explanation and documentation related to this.
 > 
-> The new text also makes reporters include a line useful for automatic
-> regression tracking solution which does not exist yet, but is planned.
-> The term "#regzb" (short for regression bot) is inspired by the "#syz"
-> which can be used to communicate with syszbot (see
-> https://github.com/google/syzkaller/blob/master/docs/syzbot.md).
+> Wang Qing (4):
+>   kernel: watchdog: Modify the explanation related to watchdog thread
+>   doc: watchdog: Delete the explanation about "watchdog/%u".
+>   doc: watchdog: Modify the explanation related to watchdog thread
+>   doc: watchdog: Modify the doc related to "watchdog/%u"
 
-While I understand the wish to automate things like this, the #syz
-marking will actually cause something to go off and do some work, and is
-only relevant for a very small number of developers, all of whom know to
-look up the instructions before doing so.  But the #regzb marking will
-be requested to be added by random users who never have submitted a
-problem report before, OR from long-time kernel developers who are lucky
-to ever remember to read the documentation as they "know" how to do
-this.
+All four patches make sense to me:
 
-So this increased workload by people on the two ends of experience is
-going to be rough, I predict a very low rate of adoption :(
+Reviewed-by: Petr Mladek <pmladek@suse.com>
 
-What is the tag going to be good for?  The reports will need to be
-handled by a person anyway and classified and tracked out-of-band from
-the list somehow.  Will a tag do all that much here?
-
-thanks,
-
-greg k-h
+Best Regards,
+Petr
