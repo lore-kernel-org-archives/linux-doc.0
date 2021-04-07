@@ -2,65 +2,34 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DA29C433B4
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 03:31:00 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEB57C433B4
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 04:59:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4180F6128D
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 03:31:00 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 97E61613C6
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 04:59:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233520AbhDGDbH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 6 Apr 2021 23:31:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44370 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234254AbhDGDbG (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 6 Apr 2021 23:31:06 -0400
-Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com [IPv6:2607:f8b0:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C80F1C06174A
-        for <linux-doc@vger.kernel.org>; Tue,  6 Apr 2021 20:30:54 -0700 (PDT)
-Received: by mail-oi1-x22d.google.com with SMTP id c16so17404236oib.3
-        for <linux-doc@vger.kernel.org>; Tue, 06 Apr 2021 20:30:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=to1j7vqcA1+VUKoaOw4nGfhrzL1Ziy48gxItT1t1Ul8=;
-        b=eRw9Q5MmmHjSGG6acNJD2gaEcP4IBfqHDpWqDkJfSxMNQjHcBO6SRFJjvF3v5JMIB3
-         Af+cIkH6v+oHtHMkYYM0neIoN3jwvV0834/xwGB+wXaoLcVXHPl93PTRKR7wQl5QeEDq
-         W/jlfqsjBXS7CKu/EVf6Gdf0qbC6Iorx5V3f93QU0K10QIYfTnVzivh2yTCFpxajKGLZ
-         qaa4IQTm4rFsl1n5X4z6QfXl4EL6TmaqM9zWwJKHhJW7/gGfCJl1u5DJxJjTGTgHJFaP
-         ZlVJC2YW20rLToQ1jYv3hilTTohoydQne1XTNcVOU3Wuj7Bc3MYToWdhAHup0umCZ4Wu
-         TOpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=to1j7vqcA1+VUKoaOw4nGfhrzL1Ziy48gxItT1t1Ul8=;
-        b=ERnAn/jCiyHR0SDRO3A3K30UXlU1X/V48PTU5+SHuPaE+BvROi0N7uFf1mMa27fkg2
-         qazWwHDRl/c35jqt0ToXVqNvc9BrQ4cXC4011DkjTmisjZTdJgkRmPtGfH5zlN40iCOD
-         1by9TjbcN7+2lyupPpb/BTpGl/RzPBbz4f0wQdNoBfE/z0V7Q9zW4MFb8pSbcWZCzu2M
-         hXCoS1xCLjWFtLvtCu3Zz09dJt/zqn5iCg2oYoBocGXIBBO2CLXHW6QqGVokJN/OtLuH
-         9mFyRaCltFXo6aC0lxeAa3Q2xd3JDDm8MT3v+CABDy2lSUisWaJ8FsH5/tSnTGzDi1G6
-         NdGw==
-X-Gm-Message-State: AOAM532MoSatEE6wc8kkc6r16aouHe2DFdUiGyhZ9XEUO5qL3sBT5MH7
-        94GXC1+r6Woyx53DI4Mjz2kyoa5TqPavFD9FZsY=
-X-Google-Smtp-Source: ABdhPJxJmkqDcZ0z6RPq24WuluQoSGlUVQzvOnQcHHXePnO97M0oXkDLbvkKKw/LD1E+4rTsN8+W6fxvaJPTxLKy6Vw=
-X-Received: by 2002:aca:4104:: with SMTP id o4mr790288oia.127.1617766254238;
- Tue, 06 Apr 2021 20:30:54 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210406130210.2725075-1-siyanteng@loongson.cn>
- <20210406130210.2725075-7-siyanteng@loongson.cn> <20210406163930.GA17278@bobwxc.top>
-In-Reply-To: <20210406163930.GA17278@bobwxc.top>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Wed, 7 Apr 2021 11:30:44 +0800
-Message-ID: <CAEensMz20X=Oj8qc5Rd6=iRT1CsmfWpF3jS74KQEXe4H4CEmrQ@mail.gmail.com>
-Subject: Re: [PATCH 06/11] docs/zh_CN: add core-api/index.rst translation
-To:     "Wu X.C." <bobwxc@email.cn>
+        id S233651AbhDGE7a (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 00:59:30 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:11307 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232421AbhDGE7a (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 00:59:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=1kN5T1Q0dgY4+DLeEodgJ6IOPn8F+PVKol2Eu
+        SRdCOY=; b=YxF0WxvSSuGZmwJyEN0EEr6e6iQ1dlhOCteOdP7FgeWi3bRJ3OGq7
+        f5JhMPpxtqKX4o/99CID1fgXK/ikczmXXYW2rXFvnpI1w78ND8o016liu64tvE+f
+        f9c50zmPzl0HbUOGa+trggBdoElGxntPtsFq3YdLtEeewsWb6OM01Y=
+Received: from bobwxc.top (unknown [120.238.248.129])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgB36c8bPG1gsTFQAA--.47736S2;
+        Wed, 07 Apr 2021 12:59:09 +0800 (CST)
+Date:   Wed, 7 Apr 2021 12:59:07 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     yanteng si <siyanteng01@gmail.com>
 Cc:     Yanteng Si <siyanteng@loongson.cn>,
         Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
         Alex Shi <alex.shi@linux.alibaba.com>,
@@ -68,93 +37,160 @@ Cc:     Yanteng Si <siyanteng@loongson.cn>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
         Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
         Puyu Wang <realpuyuwang@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
+Subject: Re: [PATCH 02/11] docs/zh_CN: add core-api irq irq-affinity.rst
+ translation
+Message-ID: <20210407045907.GA20005@bobwxc.top>
+References: <20210406130210.2725075-1-siyanteng@loongson.cn>
+ <20210406130210.2725075-3-siyanteng@loongson.cn>
+ <20210406153505.GC15259@bobwxc.top>
+ <CAEensMxkgSauL9SFiiY1-E8dWHj9AuBGyGFf52Bc0F0cd4FAtA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEensMxkgSauL9SFiiY1-E8dWHj9AuBGyGFf52Bc0F0cd4FAtA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgB36c8bPG1gsTFQAA--.47736S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCF1xJrWUAFWrCF17try3twb_yoWrurW8pF
+        4UK3Zaka1xXrnrAr17K3WYvryjva4fWay7C3s7tas7Ar1v9anrZr45Kry5Gr1xGrW0va42
+        vF47JFWIyryYyFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUyGb7Iv0xC_Zr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0x
+        vYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_
+        Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2
+        IY04v7MxkIecxEwVAFwVW8XwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4U
+        Jr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
+        xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
+        jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
+        0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
+        67AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUjaLvtUUUUU==
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-V3UgWC5DLiA8Ym9id3hjQGVtYWlsLmNuPiDkuo4yMDIx5bm0NOaciDfml6XlkajkuIkg5LiK5Y2I
-MTI6MznlhpnpgZPvvJoNCj4NCj4gT24gVHVlLCBBcHIgMDYsIDIwMjEgYXQgMDk6MDI6MDVQTSAr
-MDgwMCwgWWFudGVuZyBTaSB3cm90ZToNCj4gPiBUaGlzIHBhdGNoIHRyYW5zbGF0ZXMgRG9jdW1l
-bnRhdGlvbi9jb3JlLWFwaS9pbmRleC5yc3QgaW50byBDaGluZXNlLg0KPiA+IGFkZCBEb2N1bWVu
-dGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9pcnEvKiB0byB6aF9DTi9jb3JlLWFw
-aS9pbmRleC5yc3QuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBZYW50ZW5nIFNpIDxzaXlhbnRl
-bmdAbG9vbmdzb24uY24+DQo+ID4gLS0tDQo+ID4gIC4uLi90cmFuc2xhdGlvbnMvemhfQ04vY29y
-ZS1hcGkvaW5kZXgucnN0ICAgICB8IDEyNiArKysrKysrKysrKysrKysrKysNCj4gPiAgMSBmaWxl
-IGNoYW5nZWQsIDEyNiBpbnNlcnRpb25zKCspDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1
-bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9pbmRleC5yc3QNCj4gPg0KPiA+
-IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9p
-bmRleC5yc3QgYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9jb3JlLWFwaS9pbmRl
-eC5yc3QNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAwMDAwMC4u
-MWQwZTczYjAzODU4DQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24v
-dHJhbnNsYXRpb25zL3poX0NOL2NvcmUtYXBpL2luZGV4LnJzdA0KPiA+IEBAIC0wLDAgKzEsMTI2
-IEBADQo+ID4gKy4uIGluY2x1ZGU6OiAuLi9kaXNjbGFpbWVyLXpoX0NOLnJzdA0KPiA+ICsNCj4g
-PiArOk9yaWdpbmFsOiA6ZG9jOmAuLi8uLi8uLi9jb3JlLWFwaS9pcnEvaW5kZXhgDQo+ID4gKzpU
-cmFuc2xhdG9yOiBZYW50ZW5nIFNpIDxzaXlhbnRlbmdAbG9vbmdzb24uY24+DQo+ID4gKw0KPiA+
-ICsuLiBfY25fY29yZS1hcGlfaW5kZXgucnN0Og0KPiA+ICsNCj4gPiArDQo+ID4gKz09PT09PT09
-PT09PT09PT09PT09PT0NCj4gPiAr5qC45b+DQVBJ5paH5qGjDQo+ID4gKz09PT09PT09PT09PT09
-PT09PT09PT0NCj4gPiArDQo+ID4gK+i/meaYr+aguOW/g+WGheaguEFQSeaJi+WGjOeahOW8gOer
-r+OAgiDpnZ7luLjmhJ/osKLkuLrmnKzmiYvlhozovazmjaIo5ZKM57yW5YaZISnnmoTmlofmoaMh
-DQo+DQo+IOaJi+WGjOeahOmmlumhtQ0KT0shDQpJdCdzIGJlZW4gY29uZnVzaW5nIG1lIGZvciBh
-IGxvbmcgdGltZe+8jHRoYW5rIHlvdSB2ZXJ5IG11Y2jvvIENCj4NCj4gPiArDQo+ID4gK+aguOW/
-g+WFrOeUqOeoi+W6jw0KPg0KPiDlrp7nlKjnqIvluo8NCj4NCj4g6KeE6IyD55So6K+NOiAgIOWu
-nueUqOeoi+W6jw0KPiDoi7Hor63lkI06ICAgICAgICAgICAgdXRpbGl0eSBwcm9ncmFt77yMdXRp
-bGl0eQ0KPiDlj7Dmub7lkI06ICAgICAgICAgICAg5YWs55So56iL5byP77yM5YWs55So5bi45byP
-DQo+IOingei9vTogICAgICAgICAgICAg5rW35bOh5Lik5bK45L+h5oGv56eR5a2m5oqA5pyv5ZCN
-6K+NDQo+IOWtpuenkTogICAgICAgICAgICAg5L+h5oGv56eR5a2m5oqA5pyvDQo+IOWFrOW4g+W5
-tOW6pjogICAyMDA4DQo+DQpPSyENCj4gPiArPT09PT09PT09PT09PT0NCj4gPiArDQo+ID4gK+ac
-rOiKguaciemAmueUqOaWh+S7tuWSjCAi5qC45b+D5Lit55qE5qC45b+DIiDmlofku7bjgIIg56ys
-5LiA6YOo5YiG5pivIGRvY2Jvb2sg5pe25pyf6YGX55WZ5LiLDQo+DQo+IOacrOiKguWMheWQq+mA
-mueUqOeahOWSjOKAnOaguOW/g+S4reeahOaguOW/g+KAneaWh+aho+OAgg0KPg0KT0shDQo+ID4g
-K+adpeeahOWkp+mHjyBrZXJuZWxkb2Mg5L+h5oGv77yb5pyJ5pyd5LiA5pel77yM5b2T5pyJ5Lq6
-5om+5Yiw57K+5Yqb5Y675YGa55qE5pe25YCZ77yM55yf55qEDQo+ID4gK+W6lOivpeaKiuWug+aL
-huWIhuWHuuadpeOAgg0KPg0KPiDoi6XmnInkurrkuYvlkI7mnInliqjlipvnmoTor53vvIzlupTl
-vZPmiorlroPku6zmi4bliIblh7rmnaXjgIINCuKAneacieacneS4gOaXpeKAnCBjb25mbGljdHMg
-d2l0aCDigJ3kuYvlkI7igJwNCmRlbCAi5LmL5ZCO4oCdDQpPS++8nw0KPg0KPiA+ICsNCj4gPiAr
-VG9kb2xpc3Q6DQo+ID4gKw0KPiA+ICsgICBrZXJuZWwtYXBpDQo+ID4gKyAgIHdvcmtxdWV1ZQ0K
-PiA+ICsgICBwcmludGstYmFzaWNzDQo+ID4gKyAgIHByaW50ay1mb3JtYXRzDQo+ID4gKyAgIHN5
-bWJvbC1uYW1lc3BhY2VzDQo+ID4gKw0KPiA+ICvmlbDmja7nu5PmnoTlkozkvY7nuqflhaznlKjn
-qIvluo8NCj4NCj4g5a6e55So56iL5bqPDQo+DQpPSyENCj4gPiArPT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09DQo+ID4gKw0KPiA+ICvlnKjmlbTkuKrlhoXmoLjkuK3kvb/n
-lKjnmoTlh73mlbDlupPjgIINCj4NCj4gbWlzc2luZyAnZnVuY3Rpb25hbGl0eScNCj4NCj4g5Yqf
-6IO95Zyo5pW05Liq5YaF5qC45Lit6KKr5L2/55So55qE5Ye95pWw5bqT44CCDQo+DQpmdW5jdGlv
-biAtPiDlh73mlbDvvIjljZXkuKrpu5HljKPlrZDvvIkNCmZ1bmN0aW9uYWxpdHkgLT4g5Ye95pWw
-77yI57Sv56ev55qE6YKj56eN77yM5b6I5aSa5Liq6buR5Yyj5a2Q77yJDQpMaWJyYXJ5IC0+IOW6
-kw0KPiA+ICsNCj4gPiArVG9kb2xpc3Q6DQo+ID4gKw0KPiA+ICsgICBrb2JqZWN0DQo+ID4gKyAg
-IGtyZWYNCj4gPiArICAgYXNzb2NfYXJyYXkNCj4gPiArICAgeGFycmF5DQo+ID4gKyAgIGlkcg0K
-PiA+ICsgICBjaXJjdWxhci1idWZmZXJzDQo+ID4gKyAgIHJidHJlZQ0KPiA+ICsgICBnZW5lcmlj
-LXJhZGl4LXRyZWUNCj4gPiArICAgcGFja2luZw0KPiA+ICsgICBidXMtdmlydC1waHlzLW1hcHBp
-bmcNCj4gPiArICAgdGhpc19jcHVfb3BzDQo+ID4gKyAgIHRpbWVrZWVwaW5nDQo+ID4gKyAgIGVy
-cnNlcQ0KPiA+ICsNCj4gPiAr5bm25Y+R5Y6f6K+tDQo+ID4gKz09PT09PT09PT09PT09PT09PT09
-PT0NCj4gPiArDQo+ID4gK0xpbnV45aaC5L2V6K6p5LiA5YiH5ZCM5pe25Y+R55Sf44CCIOivpuaD
-heivt+WPgumYhQ0KPiA+ICs6ZG9jOmAvbG9ja2luZy9pbmRleGANCj4NCj4gSSdtIG5vdCBzdXJl
-IGlmIHRoZSBwYXRoIHN1aXRhYmxlIGZvciB0YW5zbGF0aW9uIGRpcj8NCkkgaGF2ZSB0ZXN0ZWQg
-aXQgYmVmb3JlIGFuZCBldmVyeXRoaW5nIGlzIGZpbmXvvIENCj4NCj4gPiArDQo+ID4gKy4uIHRv
-Y3RyZWU6Og0KPiA+ICsgICA6bWF4ZGVwdGg6IDENCj4gPiArDQo+ID4gKyAgIGlycS9pbmRleA0K
-PiA+ICsNCj4gPiArVG9kb2xpc3Q6DQo+ID4gKw0KPiA+ICsgICByZWZjb3VudC12cy1hdG9taWMN
-Cj4gPiArICAgbG9jYWxfb3BzDQo+ID4gKyAgIHBhZGF0YQ0KPiA+ICsgICAuLi9SQ1UvaW5kZXgN
-Cj4gPiArDQo+ID4gK+S9jue6p+ehrOS7tueuoeeQhg0KPiA+ICs9PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PQ0KPiA+ICsNCj4gPiAr57yT5a2Y566h55CG77yMQ1BV54Ot5o+S5ouU566h55CG
-562J44CCDQo+ID4gKw0KPiA+ICtUb2RvbGlzdDoNCj4gPiArDQo+ID4gKyAgIGNhY2hldGxiDQo+
-ID4gKyAgIGNwdV9ob3RwbHVnDQo+ID4gKyAgIG1lbW9yeS1ob3RwbHVnDQo+ID4gKyAgIGdlbmVy
-aWNpcnENCj4gPiArICAgcHJvdGVjdGlvbi1rZXlzDQo+ID4gKw0KPiA+ICsNCj4gPiAr5YaF5a2Y
-566h55CGDQo+ID4gKz09PT09PT09PT09PT09PT09DQo+ID4gKw0KPiA+ICvlpoLkvZXlnKjlhoXm
-oLjkuK3liIbphY3lkozkvb/nlKjlhoXlrZjjgILor7fms6jmhI/vvIzlnKgNCj4gPiArOmRvYzpg
-L3ZtL2luZGV4YCDkuK3mnInmm7TlpJrnmoTlhoXlrZjnrqHnkIbmlofmoaPjgIINCj4NCj4gc28g
-YXMgYWJvdmUNCkkgaGF2ZSB0ZXN0ZWQgaXQgYmVmb3JlIGFuZCBldmVyeXRoaW5nIGlzIGZpbmXv
-vIENCj4NCj4gPiArDQo+ID4gK1RvZG9saXN0Og0KPiA+ICsNCj4gPiArICAgbWVtb3J5LWFsbG9j
-YXRpb24NCj4gPiArICAgdW5hbGlnbmVkLW1lbW9yeS1hY2Nlc3MNCj4gPiArICAgZG1hLWFwaQ0K
-PiA+ICsgICBkbWEtYXBpLWhvd3RvDQo+ID4gKyAgIGRtYS1hdHRyaWJ1dGVzDQo+ID4gKyAgIGRt
-YS1pc2EtbHBjDQo+ID4gKyAgIG1tLWFwaQ0KPiA+ICsgICBnZW5hbGxvYw0KPiA+ICsgICBwaW5f
-dXNlcl9wYWdlcw0KPiA+ICsgICBib290LXRpbWUtbW0NCj4gPiArICAgZ2ZwX21hc2stZnJvbS1m
-cy1pbw0KPiA+ICsNCj4gPiAr5YaF5qC46LCD6K+V55qE5o6l5Y+jDQo+ID4gKz09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT0NCj4gPiArDQo+ID4gK1RvZG9saXN0Og0KPiA+ICsNCj4gPiAr
-ICAgZGVidWctb2JqZWN0cw0KPiA+ICsgICB0cmFjZXBvaW50DQo+ID4gKyAgIGRlYnVnZ2luZy12
-aWEtb2hjaTEzOTQNCj4gPiArDQo+ID4gK+WFtuWug+S4gOWIh+aWh+ahow0KPg0KPiBtYXliZSBy
-ZW1vdmUg5LiA5YiHID8NCk9LIQ0KPg0KPiA+ICs9PT09PT09PT09PT09PT0NCj4gPiArDQo+ID4g
-K+S4jemAguWQiOaUvuWcqOWFtuWug+WcsOaWueaIluWwmuacquW9kuexu+eahOaWh+S7tu+8mw0K
-PiA+ICsNCj4gPiArVG9kb2xpc3Q6DQo+ID4gKw0KPiA+ICsgICBsaWJycw0KPiA+ICsNCj4gPiAr
-Li4gb25seTo6IHN1YnByb2plY3QgYW5kIGh0bWwNCj4gPiArDQo+ID4gKyAgIEluZGljZXMNCj4g
-PiArICAgPT09PT09PQ0KPiA+ICsNCj4gPiArICAgKiA6cmVmOmBnZW5pbmRleGANCj4gPiAtLQ0K
-PiA+IDIuMjcuMA0KPg0KVGhhbmtzDQoNCllhbnRlbmcNCg==
+On Wed, Apr 07, 2021 at 10:08:38AM +0800, yanteng si wrote:
+> Wu X.C. <bobwxc@email.cn> 于2021年4月6日周二 下午11:35写道：
+> >
+> > On Tue, Apr 06, 2021 at 09:02:01PM +0800, Yanteng Si wrote:
+> > > This patch translates Documentation/core-api/irq/irq-affinity.rst into Chinese.
+> > >
+> > > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> > > ---
+> > >  .../zh_CN/core-api/irq/irq-affinity.rst       | 73 +++++++++++++++++++
+> > >  1 file changed, 73 insertions(+)
+> > >  create mode 100644 Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst
+> > >
+> > > diff --git a/Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst b/Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst
+> > > new file mode 100644
+> > > index 000000000000..34aaf0d1ddc2
+> > > --- /dev/null
+> > > +++ b/Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst
+> > > @@ -0,0 +1,73 @@
+> > > +.. include:: ../../disclaimer-zh_CN.rst
+> > > +
+> > > +:Original: :doc:`../../../../core-api/irq/irq-affinity`
+> > > +:Translator: Yanteng Si <siyanteng@loongson.cn>
+> > > +
+> > > +.. _cn_irq-affinity.rst:
+> > > +
+> > > +
+> > > +================
+> > > +SMP IRQ 亲和性
+> > > +================
+> > > +
+> > > +变更记录:
+> > > +     - 作者：最初由Ingo Molnar <mingo@redhat.com>开始撰写
+> > > +     - 后期更新维护： Max Krasnyansky <maxk@qualcomm.com>
+> > > +
+> > > +
+> > > +/proc/irq/IRQ#/smp_affinity和/proc/irq/IRQ#/smp_affinity_list指明了给定IRQ源
+> > > +允许哪些目标CPU使用。它是被允许的CPU的位掩码(smp_affinity)或cpu列表(smp_affinity_list)。
+> > > +它不允许关闭所有的CPU，如果一个IRQ控制器不支持IRQ亲和性，那么所有cpu的默认值将不会发生
+> >
+> > 关闭 -> 禁止？
+> emmmmm……
+> I looked up the English-Chinese dictionary：turn off -> 关闭，关掉电器、水龙头……
+> maybe：不允许关闭 -> 禁止关闭？
+
+我是想着是不是要跟前面的“允许”目标CPU使用对应
+Both ok, choose the one you pefer
+
+Thanks!
+
+> >
+> > > +变化。
+> > > +
+> > > +/proc/irq/default_smp_affinity指明了适用于所有非激活IRQ的默认亲和性掩码。一旦IRQ被
+> > > +分配/激活，它的亲和位掩码将被设置为默认掩码。然后可以如上所述改变它。默认掩码是0xffffffffff。
+> >
+> > 0xffffffff
+> > eight f
+> >
+> OK!
+> > > +
+> > > +下面是一个先将IRQ44(eth1)限制在CPU0-3上，然后限制在CPU4-7上的例子(这是一个8CPU的SMP box)
+> > a empty line
+> OK!
+> > > +::
+> > > +
+> > > +     [root@moon 44]# cd /proc/irq/44
+> > > +     [root@moon 44]# cat smp_affinity
+> > > +     ffffffff
+> > > +
+> > > +     [root@moon 44]# echo 0f > smp_affinity
+> > > +     [root@moon 44]# cat smp_affinity
+> > > +     0000000f
+> > > +     [root@moon 44]# ping -f h
+> > > +     PING hell (195.4.7.3): 56 data bytes
+> > > +     ...
+> > > +     --- hell ping statistics ---
+> > > +     6029 packets transmitted, 6027 packets received, 0% packet loss
+> > > +     round-trip min/avg/max = 0.1/0.1/0.4 ms
+> > > +     [root@moon 44]# cat /proc/interrupts | grep 'CPU\|44:'
+> > > +             CPU0       CPU1       CPU2       CPU3      CPU4       CPU5        CPU6       CPU7
+> > > +     44:       1068       1785       1785       1783         0          0           0         0    IO-APIC-level  eth1
+> > > +
+> > > +从上面一行可以看出，IRQ44只传递给前四个处理器（0-3）。
+> > > +现在让我们把这个IRQ限制在CPU(4-7)。
+> > > +
+> > > +::
+> > > +
+> > > +     [root@moon 44]# echo f0 > smp_affinity
+> > > +     [root@moon 44]# cat smp_affinity
+> > > +     000000f0
+> > > +     [root@moon 44]# ping -f h
+> > > +     PING hell (195.4.7.3): 56 data bytes
+> > > +     ..
+> > > +     --- hell ping statistics ---
+> > > +     2779 packets transmitted, 2777 packets received, 0% packet loss
+> > > +     round-trip min/avg/max = 0.1/0.5/585.4 ms
+> > > +     [root@moon 44]# cat /proc/interrupts |  'CPU\|44:'
+> > > +             CPU0       CPU1       CPU2       CPU3      CPU4       CPU5        CPU6       CPU7
+> > > +     44:       1068       1785       1785       1783      1784       1069        1070       1069   IO-APIC-level  eth1
+> > > +
+> > > +这次IRQ44只传递给最后四个处理器。
+> > > +即CPU0-3的计数器没有变化。
+> > > +
+> > > +下面是一个将相同的irq(44)限制在cpus 1024到1031的例子：。
+> >                                                        ^^^
+> >                                              ： ->     ::
+> >
+> OK!
+> > > +
+> > > +     [root@moon 44]# echo 1024-1031 > smp_affinity_list
+> > > +     [root@moon 44]# cat smp_affinity_list
+> > > +     1024-1031
+> > > +
+> > > +需要注意的是，如果要用位掩码来做这件事，就需要32个为0的位掩码来追踪其相关的一个。
+> > > --
+> > > 2.27.0
+> >
+> 
+> Thanks!
+> 
+> Yanteng
+
