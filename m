@@ -2,121 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39799C43461
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 13:28:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CFD08C43460
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 13:51:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id EC472601FA
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 13:28:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id AF102613C0
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 13:51:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242680AbhDGN2K (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 09:28:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34366 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233670AbhDGN2J (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 09:28:09 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 095A9C061756;
-        Wed,  7 Apr 2021 06:27:59 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id ay2so9343905plb.3;
-        Wed, 07 Apr 2021 06:27:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=gPk0txwiQH41tkl6+Ko80XOzDT7sy08dTJ8kEynQ9CU=;
-        b=nYAHgMcQiiw77htOI1QpiWyBzhidrkQ6G/F/MbfbkXN0dZFZb6ZYWfuCB6iIcTiWs9
-         0uSxShhivoJZAh/okUk5qPjVNXwLoDH45RCT8tIfW1A9H0Bw6mV/AjcMSuLTjUe5KTs5
-         2FcILVsdH7wuD2/e7xivF2L1ril9u3T07mqi6iCGlZR7dOV7uKt8mEMReWpjFAt/IxBD
-         zx17dyOY9Pyttf13SAnQ8z3gOJy5NmiAUoad8owKvkWaVxq2oYmQMf5vUHdyJzcBoIhV
-         6nC56N3ajJkJZQ7hDNIlI2YRfcVHgmPnuv/anFMd+M0g09QYzZkiKT16hXM4vlZPX0eC
-         dCAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=gPk0txwiQH41tkl6+Ko80XOzDT7sy08dTJ8kEynQ9CU=;
-        b=W2H+Sld3oNqySvkL4CJKLijSzSUv3zPlpWB3kw31lAl4dNilJPoj74gljMUkY4haBy
-         DjnAosmN7fgfPNNXxy+yqUwMDB/deZ3nLl3fqwrI3sMV+sslnwv46FS34kqkumEMvCDE
-         rbVeyyoVBr0duzdCrRo4xQOK/PNc2FNVI99iA/PlmRRF68/JxU19Ke69NF+eDUGpTGV5
-         9XuDydKbtidhAZ96XL8vDNPr48bqX3mf1kSey6MHJX2GR1uDW29jfNw3pRu141jZEAnF
-         lfm+Nb/3WP8r63fT1n43W2rXiRamOnv67Jrkmwd5vw237qw/fh+QAghmlVXN6KkTODhN
-         5C+g==
-X-Gm-Message-State: AOAM530rRlLbj33qCQ353P1gsRbCB+yFcqPwdAa+fBX9rTaq4U26bpQv
-        TMBSrH1iNvn8KkVbV3IYoQ7c+ebISqxPYVt26mg=
-X-Google-Smtp-Source: ABdhPJxINTgdzGxgxpyx7J3bDDMYfqiVzgSvvr9cLG3u0qIDaQdOp29ZfGUSOS2zQVfphaDqdijzJ2sm00mrrmGaTqM=
-X-Received: by 2002:a17:90a:5407:: with SMTP id z7mr3379125pjh.228.1617802078532;
- Wed, 07 Apr 2021 06:27:58 -0700 (PDT)
+        id S1347983AbhDGNvZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 09:51:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35936 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1352713AbhDGNvR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 09:51:17 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4EE4D6139E;
+        Wed,  7 Apr 2021 13:51:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617803467;
+        bh=e29TQ2cEhJbQpfyiTO8OZU/hP09K/z5i+R0jIzk84Pw=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=Rm2Q2hv2fZ3oHQS+wnazO1aBGLWn28T4TGTlgeHHxUw2E4rvD3t687BjEf3EhjNgv
+         3hhBhL/4e7j/JB3KU1uWamHsHt1LIDgiPsf4ctY/UY4sE62k938DQav5ezBDXTD7s7
+         AXYc7psu7RM4nXfWVGyqvl44NVovMGyexx6h6YRvf9/JrXaACXjKJbvn7TqMoFINXU
+         IoUL2qUAe+4lLI+8pOXfggUMU9MiPzbA4le6QMBGA4QAElzSlTCNUdJQhaHIPqPGU2
+         0s7gLNzXHNCfB79huxdrrP2BhDcLUjoer+rW8ZINAMBLi7tvcWBQwh7KpQ+QTM2LCy
+         jCVN6tyM+H57A==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id EB3085C029A; Wed,  7 Apr 2021 06:51:06 -0700 (PDT)
+Date:   Wed, 7 Apr 2021 06:51:06 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2 15/19] docs: update rcu_dereference.rst reference
+Message-ID: <20210407135106.GC4510@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <cover.1617783062.git.mchehab+huawei@kernel.org>
+ <ea2236875b0f5159ab07853d78f1e3c2f565a5e7.1617783062.git.mchehab+huawei@kernel.org>
+ <5e171c69-4d76-9f7f-d0ee-1d4f31ad7e2c@gmail.com>
 MIME-Version: 1.0
-References: <20210402090542.131194-1-marcan@marcan.st> <20210402090542.131194-12-marcan@marcan.st>
-In-Reply-To: <20210402090542.131194-12-marcan@marcan.st>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 7 Apr 2021 16:27:42 +0300
-Message-ID: <CAHp75Vcghw6=05vbhX5J8sHoo78JMoq5z4w9__XcocrtRVjF3g@mail.gmail.com>
-Subject: Re: [PATCH v4 11/18] asm-generic/io.h: implement pci_remap_cfgspace
- using ioremap_np
-To:     Hector Martin <marcan@marcan.st>
-Cc:     linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Will Deacon <will@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5e171c69-4d76-9f7f-d0ee-1d4f31ad7e2c@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 2, 2021 at 12:07 PM Hector Martin <marcan@marcan.st> wrote:
->
-> Now that we have ioremap_np(), we can make pci_remap_cfgspace() default
-> to it, falling back to ioremap() on platforms where it is not available.
->
-> Remove the arm64 implementation, since that is now redundant. Future
-> cleanups should be able to do the same for other arches, and eventually
-> make the generic pci_remap_cfgspace() unconditional.
+On Wed, Apr 07, 2021 at 07:10:00PM +0900, Akira Yokosawa wrote:
+> Hello Mauro,
+> 
+> (Dropped most CC)
+> 
+> On Wed,  7 Apr 2021 10:20:54 +0200, Mauro Carvalho Chehab wrote:
+> > Changeset b00aedf978aa ("doc: Convert to rcu_dereference.txt to rcu_dereference.rst")
+> > renamed: Documentation/RCU/rcu_dereference.txt
+> > to: Documentation/RCU/rcu_dereference.rst.
+> > 
+> > Update its cross-reference accordingly.
+> > 
+> > Fixes: b00aedf978aa ("doc: Convert to rcu_dereference.txt to rcu_dereference.rst")
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> 
+> Paul has sent a pull request to mingo for v5.13 including v1 of
+> this patch.
+> 
+> > Mauro Carvalho Chehab (2):
+> >       rcu: Fix kfree_rcu() docbook errors
+> >       doc: Update rcu_dereference.rst reference   <---
+> 
+> See: https://lore.kernel.org/lkml/20210331192934.GA8127@paulmck-ThinkPad-P72/
+> 
+> Hmm, your email address is on the CC list...
 
-...
+My approach would be simply to take Mauro's patch into the -rcu dev
+branch.  If it affected kernel function in a bad way, I would submit it
+into v5.13, but as it is, I would just run it through my normal process.
+This would likely get it into v5.14.
 
-> +       void __iomem *ret = ioremap_np(offset, size);
-> +
-> +       if (!ret)
-> +               ret = ioremap(offset, size);
-> +
-> +       return ret;
+Seem reasonable?
 
-Usually negative conditions are worse for cognitive functions of human beings.
-(On top of that some patterns are applied)
+							Thanx, Paul
 
-I would rewrite above as
-
-void __iomem *ret;
-
-ret = ioremap_np(offset, size);
-if (ret)
-  return ret;
-
-return ioremap(offset, size);
-
--- 
-With Best Regards,
-Andy Shevchenko
+>         Thanks, Akira
+> 
+> >  tools/memory-model/Documentation/glossary.txt | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/tools/memory-model/Documentation/glossary.txt b/tools/memory-model/Documentation/glossary.txt
+> > index b2da6365be63..6f3d16dbf467 100644
+> > --- a/tools/memory-model/Documentation/glossary.txt
+> > +++ b/tools/memory-model/Documentation/glossary.txt
+> > @@ -19,7 +19,7 @@ Address Dependency:  When the address of a later memory access is computed
+> >  	 from the value returned by the rcu_dereference() on line 2, the
+> >  	 address dependency extends from that rcu_dereference() to that
+> >  	 "p->a".  In rare cases, optimizing compilers can destroy address
+> > -	 dependencies.	Please see Documentation/RCU/rcu_dereference.txt
+> > +	 dependencies.	Please see Documentation/RCU/rcu_dereference.rst
+> >  	 for more information.
+> >  
+> >  	 See also "Control Dependency" and "Data Dependency".
+> > 
