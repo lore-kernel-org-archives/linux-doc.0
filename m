@@ -2,107 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 814B2C433ED
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 17:35:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB7D3C433B4
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 17:42:47 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4F36161262
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 17:35:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A9F7F61262
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 17:42:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1354897AbhDGRfb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 13:35:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50656 "EHLO mail.kernel.org"
+        id S236142AbhDGRm4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 13:42:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51848 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232356AbhDGRfa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Apr 2021 13:35:30 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9EB7861359;
-        Wed,  7 Apr 2021 17:35:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1617816919;
-        bh=DJKF3mtl+EHxdpObT36wNiXsVe+AFPcJJOhQgKgWBRs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=WXyM+1WfBORK3yhGZkxvb6do5kfLE5WyjwfwjPtMqhcMyOMYq83GuHMK2WuTMEGly
-         JuorDZ1mEqFscvAzyD2rG9/8FL4tsGaaEMfmdQtxJ1eKh4cPhHYbnY7st+bab28dYE
-         8qiRpQQItTEU1+iX+/WmuyvtL0ph7gzms4puoy1k=
-Date:   Wed, 7 Apr 2021 19:35:16 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Cc:     "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH v2 1/2] Documentation: misc-devices: Fix indentation,
- formatting, and update outdated info
-Message-ID: <YG3tVEnjUEg5g7mz@kroah.com>
-References: <cover.1617743702.git.gustavo.pimentel@synopsys.com>
- <95bef5f98380bc91b4d321c2638d08da61ef6d6e.1617743702.git.gustavo.pimentel@synopsys.com>
- <YG1OaKU7slMHfweX@kroah.com>
- <DM5PR12MB183598B5F93D4DBC515F61B1DA759@DM5PR12MB1835.namprd12.prod.outlook.com>
+        id S229605AbhDGRmy (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 13:42:54 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A5C7061260;
+        Wed,  7 Apr 2021 17:42:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617817364;
+        bh=8OyesbjtgvR40I562DkDdzb4yZT0o0BY6OZNigtXsf4=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=UdA8Si6WQu0yOpDVLBl3sCcoWrQlIAu4skp4LuE6yjBAYK6ipR2ziV4aESMwf+h1J
+         JRYToPDAjH7K2QKw8QtvC+J4YDmIOTdAdhNrQQBYXy4II8SaoKxcJXfgCAbbNIWqEc
+         dugxGqKkkUrgpJ/AYB65UEKi6j/fO/Q9Zb0Th4vdxBmILndUmG7L1bc6qvh0AAkkE9
+         6FwltokEVGlI5U/ZADspoz6s4OAdRJ62AHXKxbHsolgbF95g1eQcgn5Y8+pbgp2Jx8
+         cJ7iIT5pMyneEeIAsYz9rneOsES4udb6PU+ogGeUpmNoYE7X59t8a9TovppqlXS0Jk
+         Z/bQDBHwF44PQ==
+Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
+        id 699C75C029A; Wed,  7 Apr 2021 10:42:44 -0700 (PDT)
+Date:   Wed, 7 Apr 2021 10:42:44 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Akira Yokosawa <akiyks@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v2 15/19] docs: update rcu_dereference.rst reference
+Message-ID: <20210407174244.GG4510@paulmck-ThinkPad-P17-Gen-1>
+Reply-To: paulmck@kernel.org
+References: <cover.1617783062.git.mchehab+huawei@kernel.org>
+ <ea2236875b0f5159ab07853d78f1e3c2f565a5e7.1617783062.git.mchehab+huawei@kernel.org>
+ <5e171c69-4d76-9f7f-d0ee-1d4f31ad7e2c@gmail.com>
+ <20210407135106.GC4510@paulmck-ThinkPad-P17-Gen-1>
+ <058f26dd-cc49-c58e-afde-58a565c3bba1@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <DM5PR12MB183598B5F93D4DBC515F61B1DA759@DM5PR12MB1835.namprd12.prod.outlook.com>
+In-Reply-To: <058f26dd-cc49-c58e-afde-58a565c3bba1@gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 07, 2021 at 03:57:31PM +0000, Gustavo Pimentel wrote:
-> On Wed, Apr 7, 2021 at 7:17:12, Greg Kroah-Hartman 
-> <gregkh@linuxfoundation.org> wrote:
-> 
-> > On Tue, Apr 06, 2021 at 11:17:48PM +0200, Gustavo Pimentel wrote:
-> > > Fixes indentation issues reported by doing *make htmldocs* as well some
-> > > text formatting.
-> > > 
-> > > Besides these fixes, there was some outdated information related to stop
-> > > file interface in sysfs.
+On Wed, Apr 07, 2021 at 11:44:00PM +0900, Akira Yokosawa wrote:
+> On Wed, 7 Apr 2021 06:51:06 -0700, Paul E. McKenney wrote:
+> > On Wed, Apr 07, 2021 at 07:10:00PM +0900, Akira Yokosawa wrote:
+> >> Hello Mauro,
+> >>
+> >> (Dropped most CC)
+> >>
+> >> On Wed,  7 Apr 2021 10:20:54 +0200, Mauro Carvalho Chehab wrote:
+> >>> Changeset b00aedf978aa ("doc: Convert to rcu_dereference.txt to rcu_dereference.rst")
+> >>> renamed: Documentation/RCU/rcu_dereference.txt
+> >>> to: Documentation/RCU/rcu_dereference.rst.
+> >>>
+> >>> Update its cross-reference accordingly.
+> >>>
+> >>> Fixes: b00aedf978aa ("doc: Convert to rcu_dereference.txt to rcu_dereference.rst")
+> >>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >>> ---
+> >>
+> >> Paul has sent a pull request to mingo for v5.13 including v1 of
+> >> this patch.
+> >>
+> >>> Mauro Carvalho Chehab (2):
+> >>>       rcu: Fix kfree_rcu() docbook errors
+> >>>       doc: Update rcu_dereference.rst reference   <---
+> >>
+> >> See: https://lore.kernel.org/lkml/20210331192934.GA8127@paulmck-ThinkPad-P72/
+> >>
+> >> Hmm, your email address is on the CC list...
 > > 
-> > You are not doing this for all "misc-devices", you are doing this only
-> > for one specific driver file.
-> > 
-> > Please look at the example I provided for how to name this and fix up.
+> > My approach would be simply to take Mauro's patch into the -rcu dev
+> > branch.  If it affected kernel function in a bad way, I would submit it
+> > into v5.13, but as it is, I would just run it through my normal process.
+> > This would likely get it into v5.14.
 > 
-> Sorry Greg, I didn't see an example provided. Perhaps you forgot it?
+> Paul, v1 and v2 has the identical diff.  Only difference is the added
+> Fixes: tag.
+> 
+> I don't think you can do anything further with regard to the v2 patch.
 
-Nope: https://lore.kernel.org/r/YGyl7OWHJm1NuaV2@kroah.com
+Ah, good point, thank you.
 
+							Thanx, Paul
+
+>         Thanks, Akira
 > 
 > > 
-> > > 
-> > > Fixes: e1181b5bbc3c ("Documentation: misc-devices: Add Documentation for dw-xdata-pcie driver")
-> > > Link: https://urldefense.com/v3/__https://lore.kernel.org/linux-next/20210406214615.40cf3493@canb.auug.org.au/__;!!A4F2R9G_pg!MeIXpmOYi4yJTBq19JEADll7-g6cYBmmwG92EWipqsBiPzeubfMGVllrpMt8FpwvW5ZemHY$ 
-> > > Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > Signed-off-by: Gustavo Pimentel <gustavo.pimentel@synopsys.com>
-> > > ---
-> > >  Documentation/misc-devices/dw-xdata-pcie.rst | 62 +++++++++++++++++++---------
-> > >  1 file changed, 43 insertions(+), 19 deletions(-)
+> > Seem reasonable?
 > > 
-> > What changed from v1?  Always put that below the --- line.
-> 
-> I've considered the V1 the 2 patches sent wrongly separately, based on 
-> your feedback I've generated a v2 to include the cover letter and the 
-> reported-by, link, and fixes tags.
-> Was this wrong?
-
-No, but you need to say that here, otherwise how do we know this?
-
-> I also placed the change list on the cover letter. Or do you prefer on 
-> each patch?
-
-Ah, if you put it in the cover letter, that's fine, but I almost never
-read them :)
-
-thanks,
-
-greg k-h
+> > 							Thanx, Paul
+> > 
+> >>         Thanks, Akira
+> >>
+> >>>  tools/memory-model/Documentation/glossary.txt | 2 +-
+> >>>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>
+> >>> diff --git a/tools/memory-model/Documentation/glossary.txt b/tools/memory-model/Documentation/glossary.txt
+> >>> index b2da6365be63..6f3d16dbf467 100644
+> >>> --- a/tools/memory-model/Documentation/glossary.txt
+> >>> +++ b/tools/memory-model/Documentation/glossary.txt
+> >>> @@ -19,7 +19,7 @@ Address Dependency:  When the address of a later memory access is computed
+> >>>  	 from the value returned by the rcu_dereference() on line 2, the
+> >>>  	 address dependency extends from that rcu_dereference() to that
+> >>>  	 "p->a".  In rare cases, optimizing compilers can destroy address
+> >>> -	 dependencies.	Please see Documentation/RCU/rcu_dereference.txt
+> >>> +	 dependencies.	Please see Documentation/RCU/rcu_dereference.rst
+> >>>  	 for more information.
+> >>>  
+> >>>  	 See also "Control Dependency" and "Data Dependency".
+> >>>
