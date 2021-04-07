@@ -7,55 +7,47 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_NONE,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBA47C43617
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:21:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 826DDC433B4
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:21:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7260A613CC
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:21:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5718561363
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:21:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347655AbhDGIVa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 04:21:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48626 "EHLO mail.kernel.org"
+        id S1346999AbhDGIVW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 04:21:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48622 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S244822AbhDGIVR (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Apr 2021 04:21:17 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F298561404;
+        id S238007AbhDGIVQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 04:21:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7741A613CD;
         Wed,  7 Apr 2021 08:21:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1617783663;
-        bh=njIc+20sXj+3VPI2zRcVud7gtlaSQFSwAA+rzuTprv4=;
+        s=k20201202; t=1617783662;
+        bh=FN9fIYc0xtc0WoRKgICBUgYOcktenG0goqi4S9V1/qQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fHVumoxZ9ldx7bpNpiJo8wRAn+KwA75NjUvMlIpCpN8VWh0YHfx6DB/4aDgrlHxDe
-         NlBvgHBH5zYPFM0D2dKo9pzFq/0PHKtFgewluwb2sj5YfVgArcfGsrv9MpV3UFEKok
-         c/nXVb7sOAPQ/ds6CizBU1MqV59S5lvUJJRA+EMfNuyCMowzkgqL6ogfLxNreSEDeO
-         xNiZ9Cxlx4yOE8OfS7USgZPUCtM2sST1d1gPorxEhYMj9IqCX1YxXyIQoCPm3ZIePX
-         N9mtYIKIfJIazP2aHylPpJLT2Iz36zboYaK3ty06EmV6Tlb7qHm2wocvo5Ha41kuz9
-         NzuxPW/P90TQQ==
+        b=ZzpyYrPtPrUdIqRancpV4Zj8Q/SAAt5LA1ZhWdWuoPFzFtm/Bz1lvZ9ySsAJ5jGAX
+         cdgVHgP+pdiBRiBIbZrJpbM7GcLFREp9+bSPAfytUMofNCSKTRynu7TiQ3Tj9hDccG
+         vwmsYekf7tGJsXAKP66+kMnTzWZD4d/WL5Yf+MGKja2LSm0Xzfqg2wa/RosyTiokie
+         eadV3spDUMNVvZe5rUHVMsVqPv/rKhPptjI0LhW/raUqqqP6Hy1ZErJst25Nkmyg1R
+         XAtxkpFPRlFNeaAlW5PuXYYR6WM2ppkRvv0AQhyI3VMiK9pqjsoSFxTmYs+JKmP/D5
+         CKojS5FdMuhPg==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lU3Qq-005i2e-Q7; Wed, 07 Apr 2021 10:21:00 +0200
+        id 1lU3Qq-005i2Q-IA; Wed, 07 Apr 2021 10:21:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Amol Grover <frextrite@gmail.com>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Will Deacon <will@kernel.org>, linux-arch@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH v2 15/19] docs: update rcu_dereference.rst reference
-Date:   Wed,  7 Apr 2021 10:20:54 +0200
-Message-Id: <ea2236875b0f5159ab07853d78f1e3c2f565a5e7.1617783062.git.mchehab+huawei@kernel.org>
+        =?UTF-8?q?Przemys=C5=82aw=20Gaj?= <pgaj@cadence.com>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Vitor Soares <vitor.soares@synopsys.com>,
+        devicetree@vger.kernel.org, linux-i3c@lists.infradead.org,
+        linux-kernel@vger.kernel.org, Rob Herring <robh@kernel.org>
+Subject: [PATCH v2 09/19] dt-bindings: i3c: update i3c.yaml references
+Date:   Wed,  7 Apr 2021 10:20:48 +0200
+Message-Id: <8bb8923b4d98b4e8a6336a4c0b548c714e01aef5.1617783062.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617783062.git.mchehab+huawei@kernel.org>
 References: <cover.1617783062.git.mchehab+huawei@kernel.org>
@@ -66,31 +58,74 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Changeset b00aedf978aa ("doc: Convert to rcu_dereference.txt to rcu_dereference.rst")
-renamed: Documentation/RCU/rcu_dereference.txt
-to: Documentation/RCU/rcu_dereference.rst.
+Changeset 5e4cdca887fd ("dt-bindings: i3c: Convert the bus description to yaml")
+renamed: Documentation/devicetree/bindings/i3c/i3c.txt
+to: Documentation/devicetree/bindings/i3c/i3c.yaml.
 
-Update its cross-reference accordingly.
+Update the cross-references accordingly.
 
-Fixes: b00aedf978aa ("doc: Convert to rcu_dereference.txt to rcu_dereference.rst")
+Fixes: 5e4cdca887fd ("dt-bindings: i3c: Convert the bus description to yaml")
+Acked-by: Rob Herring <robh@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/memory-model/Documentation/glossary.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt   | 6 +++---
+ .../devicetree/bindings/i3c/snps,dw-i3c-master.txt          | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/tools/memory-model/Documentation/glossary.txt b/tools/memory-model/Documentation/glossary.txt
-index b2da6365be63..6f3d16dbf467 100644
---- a/tools/memory-model/Documentation/glossary.txt
-+++ b/tools/memory-model/Documentation/glossary.txt
-@@ -19,7 +19,7 @@ Address Dependency:  When the address of a later memory access is computed
- 	 from the value returned by the rcu_dereference() on line 2, the
- 	 address dependency extends from that rcu_dereference() to that
- 	 "p->a".  In rare cases, optimizing compilers can destroy address
--	 dependencies.	Please see Documentation/RCU/rcu_dereference.txt
-+	 dependencies.	Please see Documentation/RCU/rcu_dereference.rst
- 	 for more information.
+diff --git a/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt b/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
+index 1cf6182f888c..3716589d6999 100644
+--- a/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
++++ b/Documentation/devicetree/bindings/i3c/cdns,i3c-master.txt
+@@ -10,19 +10,19 @@ Required properties:
+ - reg: I3C master registers
  
- 	 See also "Control Dependency" and "Data Dependency".
+ Mandatory properties defined by the generic binding (see
+-Documentation/devicetree/bindings/i3c/i3c.txt for more details):
++Documentation/devicetree/bindings/i3c/i3c.yaml for more details):
+ 
+ - #address-cells: shall be set to 1
+ - #size-cells: shall be set to 0
+ 
+ Optional properties defined by the generic binding (see
+-Documentation/devicetree/bindings/i3c/i3c.txt for more details):
++Documentation/devicetree/bindings/i3c/i3c.yaml for more details):
+ 
+ - i2c-scl-hz
+ - i3c-scl-hz
+ 
+ I3C device connected on the bus follow the generic description (see
+-Documentation/devicetree/bindings/i3c/i3c.txt for more details).
++Documentation/devicetree/bindings/i3c/i3c.yaml for more details).
+ 
+ Example:
+ 
+diff --git a/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt b/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+index 5020eb71eb8d..07f35f36085d 100644
+--- a/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
++++ b/Documentation/devicetree/bindings/i3c/snps,dw-i3c-master.txt
+@@ -9,19 +9,19 @@ Required properties:
+ - reg: Offset and length of I3C master registers
+ 
+ Mandatory properties defined by the generic binding (see
+-Documentation/devicetree/bindings/i3c/i3c.txt for more details):
++Documentation/devicetree/bindings/i3c/i3c.yaml for more details):
+ 
+ - #address-cells: shall be set to 3
+ - #size-cells: shall be set to 0
+ 
+ Optional properties defined by the generic binding (see
+-Documentation/devicetree/bindings/i3c/i3c.txt for more details):
++Documentation/devicetree/bindings/i3c/i3c.yaml for more details):
+ 
+ - i2c-scl-hz
+ - i3c-scl-hz
+ 
+ I3C device connected on the bus follow the generic description (see
+-Documentation/devicetree/bindings/i3c/i3c.txt for more details).
++Documentation/devicetree/bindings/i3c/i3c.yaml for more details).
+ 
+ Example:
+ 
 -- 
 2.30.2
 
