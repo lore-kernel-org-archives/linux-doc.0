@@ -2,39 +2,43 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDF7DC433B4
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 15:03:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACBBDC433ED
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 15:07:21 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A48C46136A
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 15:03:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7B4256138B
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 15:07:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353269AbhDGPD7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 11:03:59 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33200 "EHLO mx2.suse.de"
+        id S1353345AbhDGPHa (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 11:07:30 -0400
+Received: from mga11.intel.com ([192.55.52.93]:41706 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1353265AbhDGPD6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 7 Apr 2021 11:03:58 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1617807827; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=jWjtgwlc40LyIVjpijUdpIKHSVQDYdEuOTFd1/ekuL4=;
-        b=tSFVehHOHj7JPE5qsRkpLw2Bf68H8A5KWPjwYNx0J7NOka/Q0GZSBLVdyplH1DpbT7+Gsz
-        abYSx7yXvAVRjZ5YUi2VwxIG+kalFdhy85ch9IRDmY/3+DL9KaZHiojeN/R3YFkd6DzqK9
-        ltgihM5gyMXc8g2QKEfiAe9Btm+PJpk=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id AA0E4B166;
-        Wed,  7 Apr 2021 15:03:47 +0000 (UTC)
-Date:   Wed, 7 Apr 2021 17:03:47 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Stephen Boyd <swboyd@chromium.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        id S242586AbhDGPH3 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 11:07:29 -0400
+IronPort-SDR: uqt+0s0C/M44787dW2QEuIxYoYVBk4dz3nZf7R4RGvWk3jvb0AzmXbhwuLvD7WFOLwguR+XZCr
+ oU2b5i5pt/kA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9947"; a="190123293"
+X-IronPort-AV: E=Sophos;i="5.82,203,1613462400"; 
+   d="scan'208";a="190123293"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2021 08:07:19 -0700
+IronPort-SDR: DoDEm7SOJomqulRq1VRGRBl1KuHBQIu9o8e/pOc5LbOmC/NuW4+Qm41Cf9B8Z173F84x8bhkqz
+ qrl0Xe4m239Q==
+X-IronPort-AV: E=Sophos;i="5.82,203,1613462400"; 
+   d="scan'208";a="519469002"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2021 08:07:15 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1lU9lw-0022JS-AH; Wed, 07 Apr 2021 18:07:12 +0300
+Date:   Wed, 7 Apr 2021 18:07:12 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Stephen Boyd <swboyd@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
         linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
         Alexei Starovoitov <ast@kernel.org>,
         Jessica Yu <jeyu@kernel.org>,
@@ -42,82 +46,48 @@ Cc:     Andrew Morton <akpm@linux-foundation.org>,
         Hsin-Yi Wang <hsinyi@chromium.org>,
         Steven Rostedt <rostedt@goodmis.org>,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
 Subject: Re: [PATCH v3 04/12] module: Add printk format to add module build
  ID to stacktraces
-Message-ID: <YG3J03GY+QqtKMlu@alley>
+Message-ID: <YG3KoKbBeEQprLlp@smile.fi.intel.com>
 References: <20210331030520.3816265-1-swboyd@chromium.org>
  <20210331030520.3816265-5-swboyd@chromium.org>
+ <YG3HqcI173aPn0l+@alley>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210331030520.3816265-5-swboyd@chromium.org>
+In-Reply-To: <YG3HqcI173aPn0l+@alley>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue 2021-03-30 20:05:12, Stephen Boyd wrote:
-> Let's make kernel stacktraces easier to identify by including the build
-> ID[1] of a module if the stacktrace is printing a symbol from a module.
-> This makes it simpler for developers to locate a kernel module's full
-> debuginfo for a particular stacktrace. Combined with
-> scripts/decode_stracktrace.sh, a developer can download the matching
-> debuginfo from a debuginfod[2] server and find the exact file and line
-> number for the functions plus offsets in a stacktrace that match the
-> module. This is especially useful for pstore crash debugging where the
-> kernel crashes are recorded in something like console-ramoops and the
-> recovery kernel/modules are different or the debuginfo doesn't exist on
-> the device due to space concerns (the debuginfo can be too large for
-> space limited devices).
-> 
-> @@ -359,15 +369,17 @@ int lookup_symbol_attrs(unsigned long addr, unsigned long *size,
->  
->  /* Look up a kernel symbol and return it in a text buffer. */
->  static int __sprint_symbol(char *buffer, unsigned long address,
-> -			   int symbol_offset, int add_offset)
-> +			   int symbol_offset, int add_offset, int add_buildid)
->  {
->  	char *modname;
-> +	const unsigned char *buildid;
->  	const char *name;
->  	unsigned long offset, size;
->  	int len;
->  
->  	address += symbol_offset;
-> -	name = kallsyms_lookup(address, &size, &offset, &modname, buffer);
-> +	name = kallsyms_lookup_buildid(address, &size, &offset, &modname, &buildid,
-> +				       buffer);
->  	if (!name)
->  		return sprintf(buffer, "0x%lx", address - symbol_offset);
->  
-> @@ -379,8 +391,12 @@ static int __sprint_symbol(char *buffer, unsigned long address,
->  	if (add_offset)
->  		len += sprintf(buffer + len, "+%#lx/%#lx", offset, size);
+On Wed, Apr 07, 2021 at 04:54:33PM +0200, Petr Mladek wrote:
+> On Tue 2021-03-30 20:05:12, Stephen Boyd wrote:
+> > Let's make kernel stacktraces easier to identify by including the build
+> > ID[1] of a module if the stacktrace is printing a symbol from a module.
+> > This makes it simpler for developers to locate a kernel module's full
+> > debuginfo for a particular stacktrace. Combined with
+> > scripts/decode_stracktrace.sh, a developer can download the matching
+> > debuginfo from a debuginfod[2] server and find the exact file and line
+> > number for the functions plus offsets in a stacktrace that match the
+> > module. This is especially useful for pstore crash debugging where the
+> > kernel crashes are recorded in something like console-ramoops and the
+> > recovery kernel/modules are different or the debuginfo doesn't exist on
+> > the device due to space concerns (the debuginfo can be too large for
+> > space limited devices).
 
-Please add something like:
+...
 
-	/* Keep BUILD_ID_SIZE_MAX in sync with the below used %20phN */
-	BUILD_BUG_ON(BUILD_ID_SIZE_MAX != 20)
+> It shows wrong build id for vmlinux.
+> And it does not show the build if for the module at all.
 
-to make sure the the hard
+From your previous messages and this seems like virtualization breaks the
+access / use of build ID :-(
 
->  
-> -	if (modname)
-> -		len += sprintf(buffer + len, " [%s]", modname);
-> +	if (modname) {
-> +		len += sprintf(buffer + len, " [%s", modname);
-> +		if (IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID) && add_buildid && buildid)
-> +			len += sprintf(buffer + len, " %20phN", buildid);
-> +		len += sprintf(buffer + len, "]");
-> +	}
->  
->  	return len;
->  }
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Otherwise the approach looks fine to me. The main problem is that it
-does not work for me as described in the other reply ;-)
 
-Best Regards,
-Petr
