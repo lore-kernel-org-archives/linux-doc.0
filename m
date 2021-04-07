@@ -2,118 +2,71 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10299C433ED
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 11:21:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05659C433B4
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 11:24:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E09266136A
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 11:21:34 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CDB0B6102A
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 11:24:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242709AbhDGLVm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 07:21:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34766 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234024AbhDGLVk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 07:21:40 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB72FC061756;
-        Wed,  7 Apr 2021 04:21:30 -0700 (PDT)
-Received: from ip4d14bd53.dynamic.kabel-deutschland.de ([77.20.189.83] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1lU6FV-0005Vi-1f; Wed, 07 Apr 2021 13:21:29 +0200
-To:     Greg KH <gregkh@linuxfoundation.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <cover.1617786974.git.linux@leemhuis.info>
- <813fc7b082a4b47ec6d34542971e9bba74fd4a51.1617786974.git.linux@leemhuis.info>
- <YG2CztxS4jTia8wM@kroah.com>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [RFC PATCH v1 2/2] docs: reporting-issues: make everyone CC the
- regressions list
-Message-ID: <3df9566e-bb08-f1e2-7afb-a14a28d2d64f@leemhuis.info>
-Date:   Wed, 7 Apr 2021 13:21:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        id S235159AbhDGLYq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 07:24:46 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39542 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234598AbhDGLYp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 7 Apr 2021 07:24:45 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1617794674; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=EX89A7I8KJ0WNWHj7E773fhDOiKl0/iF1rrIuwsuKt4=;
+        b=ZI8eSMhy8X6aezbX0iS8SXUWNkXQWkt1ZcSe0w84MhW+MYGEq5g+OqX9FiKc23EgAbGyVS
+        Ze6J3MDvBgRBwLG1LGIVVTFZByyMTcoarCmc8BHW+bNoh1DibTHNcelwKUVQNR1GhUD5nV
+        gs5THGBftS/USBlpAp/F5MIQNeVbtJo=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 8482FB120;
+        Wed,  7 Apr 2021 11:24:34 +0000 (UTC)
+Date:   Wed, 7 Apr 2021 13:24:33 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Vlastimil Babka <vbabka@suse.cz>
+Cc:     Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Timur Tabi <timur@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Marco Elver <elver@google.com>,
+        Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH] printk: clarify the documentation for plain pointer
+ printing
+Message-ID: <YG2WcallnIMRBtvw@alley>
+References: <20210225164639.27212-1-vbabka@suse.cz>
 MIME-Version: 1.0
-In-Reply-To: <YG2CztxS4jTia8wM@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-BS
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1617794491;ee3826e7;
-X-HE-SMSGID: 1lU6FV-0005Vi-1f
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210225164639.27212-1-vbabka@suse.cz>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-
-On 07.04.21 12:00, Greg KH wrote:
-> On Wed, Apr 07, 2021 at 11:21:56AM +0200, Thorsten Leemhuis wrote:
->> Make people CC the recently created mailing list dedicated to Linux
->> kernel regressions when reporting one. Some paragraphs had to be
->> reshuffled and slightly rewritten during the process, as the text
->> otherwise would have gotten unnecessarily hard to follow.
->>
->> The new text also makes reporters include a line useful for automatic
->> regression tracking solution which does not exist yet, but is planned.
->> The term "#regzb" (short for regression bot) is inspired by the "#syz"
->> which can be used to communicate with syszbot (see
->> https://github.com/google/syzkaller/blob/master/docs/syzbot.md).
+On Thu 2021-02-25 17:46:39, Vlastimil Babka wrote:
+> We have several modifiers for plain pointers (%p, %px and %pK) and now also
+> the no_hash_pointers boot parameter. The documentation should help to choose
+> which variant to use. Importantly, we should discourage %px in favour of %p
+> (with the new boot parameter when debugging), and stress that %pK should be
+> only used for procfs and similar files, not dmesg buffer. This patch clarifies
+> the documentation in that regard.
 > 
-> While I understand the wish to automate things like this, the #syz
-> marking will actually cause something to go off and do some work, and is
-> only relevant for a very small number of developers, all of whom know to
-> look up the instructions before doing so.  But the #regzb marking will
-> be requested to be added by random users who never have submitted a
-> problem report before, OR from long-time kernel developers who are lucky
-> to ever remember to read the documentation as they "know" how to do
-> this.
-> 
-> So this increased workload by people on the two ends of experience is
-> going to be rough, I predict a very low rate of adoption :(
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
 
-Yup, I'm aware of that. And also well aware that I will need to keep an
-eye on things and jump in and reply with mails to add such tags every
-time they are missing.
-But I think that direction it the best shot, as tying putting all the
-burden on one person (me) is likely to fail, as our history with
-regression tracking showed. And I think such tags with some bot in the
-background
-(as outlined roughly in
-https://linux-regtracking.leemhuis.info/post/hello-world/ ) have at
-least the best chance, as things are not out-of-band like tracking them
-in bugzilla would be – or do you think that would be a better approach
-together with its email-interface?
+The patch has been committed into printk/linux.git, branch for-5.13.
 
-> What is the tag going to be good for?  The reports will need to be
-> handled by a person anyway and classified and tracked out-of-band from
-> the list somehow.  Will a tag do all that much here?
-
-I think is has, as then a good regression report will make the
-still-to-be-written regression-bot create and entry that links to the
-report and send a reply with a unique ID; then that ID needs to end up
-in the commit that fixes the regression later (similar to how the IDs
-for issues found by syzbot are mentioned there, which afaics works quite
-well for people) and the regression-bot can close the entry automatically.
-
-At least in this ideal scenario the regression tracker (me) wouldn't
-need to do a single thing.
-
-Obviously that ideal scenario will be rare, especially in the beginning.
-But with some hand-holding from my side (by mailing tags) I hope it will
-work at least sometimes (and over time more often).
-
-But I'm open for other approaches, as I didn't start to work on the bot
-yet(¹), so it's easy to go into a different direction if someone comes
-up with one that looks more promising.
-
-Ciao, Thorsten
-
-(¹) still unsure if I should take Go code from syzbot as a base or
-better go with python, as that's what the kernel.org admins iirc prefer
-(or am I wrong there? I wanted to ask Konstantin about this soon anyway)
+Best Regards,
+Petr
