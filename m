@@ -4,47 +4,47 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_NONE,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18C70C4361A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A820C4361B
 	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:21:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D2442613B3
-	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:21:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 53B99613B3
+	for <linux-doc@archiver.kernel.org>; Wed,  7 Apr 2021 08:21:16 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347043AbhDGIVX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 04:21:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48624 "EHLO mail.kernel.org"
+        id S1347082AbhDGIVY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 04:21:24 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48634 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237437AbhDGIVQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S239529AbhDGIVQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Wed, 7 Apr 2021 04:21:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4AB36613AF;
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 8F7D2613E2;
         Wed,  7 Apr 2021 08:21:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617783662;
-        bh=HqZSrqrVQjQBnEaZwEBF+W4ME4CRAsaa4WPPvehfjf8=;
+        bh=mzZg6w7IW+ulvjiLP2xr/SkHASNdM+Fj7l8VJI4S/wc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VVgHbIqfSKWwj+K9BWgOV2S3swU7uG5ymDGGShezc8muFxXZ39e0MEDyX96szqCAj
-         xoWiY7MjY/jDwC17JiCLxrkZdqJFMZB77AXjkTxigR3LZ8T/D3jvf3pvnTHxqymOIR
-         ft7psENiX56WuT8b+g4l+9eUZzt9qYDSH57BsD3IPZx1UFZCX5KOIloWyhs8jMUwKO
-         O24iy5kptW285tckEN0JR9SMK/PaE/jXBmeGuu8PDAbeg1IfuLEM4+VUYDKgvDXerA
-         cxfyZxz3OsjPqYvSFR9k67j3TB1hBVWB/L+Tze/XJt+/eWEYZ/SZWYrkiVuXJs5w5s
-         cVTEClyjHSxfg==
+        b=HU7Sjvg59J08gpghaaJJjtSam9wrvuZp53y5KntDT3FwVzlQfBxb+xT6EbmlzLEiu
+         hYAeZWOwMguMw4w71MZsfM+Z8XZbEMZ1Apo9+Ne7G/lpEeZ5C38pRhF+u3pSsodDFk
+         qfYeSp+kdJJ7PmdOWCPWw1OgCtegcVc2rV0/l8PwOaFpSXQ0vRkTw+ANxkFV+zyNSn
+         2cLZl1+/EhJKORkmLhSaNsEbmln8G4Yzv/k8xHJidCjMzZGrjs4fWE1oT1TLgce/t3
+         4wcoKlxV9GZcx81suipCniccnzV+Eflv8pqd6OJHIptdVT4pMrQe0yKng5vRaERi91
+         65B1yPBBBLwlw==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lU3Qq-005i2H-EA; Wed, 07 Apr 2021 10:21:00 +0200
+        id 1lU3Qq-005i2Y-Md; Wed, 07 Apr 2021 10:21:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Lee Jones <lee.jones@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 06/19] dt-bindings: don't use ../dir for doc references
-Date:   Wed,  7 Apr 2021 10:20:45 +0200
-Message-Id: <0b9d9190f20282ded3a8ea2695c1e4763e76cda6.1617783062.git.mchehab+huawei@kernel.org>
+        Rob Herring <robh+dt@kernel.org>,
+        Sebastian Reichel <sre@kernel.org>, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v2 12/19] dt-bindings: power: supply: da9150: update da9150-charger.txt reference
+Date:   Wed,  7 Apr 2021 10:20:51 +0200
+Message-Id: <77aa40c58600dfc1f047ce2d86ad1d1cd67d67e4.1617783062.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617783062.git.mchehab+huawei@kernel.org>
 References: <cover.1617783062.git.mchehab+huawei@kernel.org>
@@ -55,81 +55,31 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-As documents have been renamed and moved around, their
-references will break, but this will be unnoticed, as the
-script which checks for it won't handle "../" references.
+Changeset f3332532463f ("power/supply: unify DT documentation")
+renamed: Documentation/devicetree/bindings/power/da9150-charger.txt
+to: Documentation/devicetree/bindings/power/supply/da9150-charger.txt.
 
-So, replace them by the full patch.
+Update its cross-reference accordingly.
 
+Fixes: f3332532463f ("power/supply: unify DT documentation")
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../input/touchscreen/resistive-adc-touch.txt    |  2 +-
- Documentation/devicetree/bindings/mfd/da9150.txt |  8 ++++----
- .../devicetree/bindings/mfd/motorola-cpcap.txt   | 16 ++++++++--------
- 3 files changed, 13 insertions(+), 13 deletions(-)
+ Documentation/devicetree/bindings/mfd/da9150.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt b/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
-index 51456c0e9a27..fee0da12474e 100644
---- a/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
-+++ b/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
-@@ -5,7 +5,7 @@ Required properties:
-  - compatible: must be "resistive-adc-touch"
- The device must be connected to an ADC device that provides channels for
- position measurement and optional pressure.
--Refer to ../iio/iio-bindings.txt for details
-+Refer to Documentation/devicetree/bindings/iio/iio-bindings.txt for details
-  - iio-channels: must have at least two channels connected to an ADC device.
- These should correspond to the channels exposed by the ADC device and should
- have the right index as the ADC device registers them. These channels
 diff --git a/Documentation/devicetree/bindings/mfd/da9150.txt b/Documentation/devicetree/bindings/mfd/da9150.txt
-index f09b41fbdf47..763e0b639a82 100644
+index b7afa39d6260..f4db2b520327 100644
 --- a/Documentation/devicetree/bindings/mfd/da9150.txt
 +++ b/Documentation/devicetree/bindings/mfd/da9150.txt
-@@ -15,13 +15,13 @@ Required properties:
- - reg: Specifies the I2C slave address
- - interrupts: IRQ line info for da9150 chip.
- - interrupt-controller: da9150 has internal IRQs (own IRQ domain).
--  (See ../interrupt-controller/interrupts.txt for
-+  (See Documentation/devicetree/bindings/interrupt-controller/interrupts.txt for
-    further information relating to interrupt properties)
+@@ -20,7 +20,7 @@ Required properties:
  
  Sub-devices:
--- da9150-gpadc: See ../iio/adc/da9150-gpadc.txt
--- da9150-charger: See ../power/da9150-charger.txt
--- da9150-fg: See ../power/da9150-fg.txt
-+- da9150-gpadc: See Documentation/devicetree/bindings/iio/adc/da9150-gpadc.txt
-+- da9150-charger: See Documentation/devicetree/bindings/power/da9150-charger.txt
-+- da9150-fg: See Documentation/devicetree/bindings/power/da9150-fg.txt
+ - da9150-gpadc: See Documentation/devicetree/bindings/iio/adc/dlg,da9150-gpadc.yaml
+-- da9150-charger: See Documentation/devicetree/bindings/power/da9150-charger.txt
++- da9150-charger: See Documentation/devicetree/bindings/power/supply/da9150-charger.txt
+ - da9150-fg: See Documentation/devicetree/bindings/power/da9150-fg.txt
  
  Example:
- 
-diff --git a/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt b/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
-index 5ddcc8f4febc..ebdccfb600b9 100644
---- a/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
-+++ b/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
-@@ -16,14 +16,14 @@ Optional subnodes:
- The sub-functions of CPCAP get their own node with their own compatible values,
- which are described in the following files:
- 
--- ../power/supply/cpcap-battery.txt
--- ../power/supply/cpcap-charger.txt
--- ../regulator/cpcap-regulator.txt
--- ../phy/phy-cpcap-usb.txt
--- ../input/cpcap-pwrbutton.txt
--- ../rtc/cpcap-rtc.txt
--- ../leds/leds-cpcap.txt
--- ../iio/adc/cpcap-adc.txt
-+- Documentation/devicetree/bindings/power/supply/cpcap-battery.txt
-+- Documentation/devicetree/bindings/power/supply/cpcap-charger.txt
-+- Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
-+- Documentation/devicetree/bindings/phy/phy-cpcap-usb.txt
-+- Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
-+- Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
-+- Documentation/devicetree/bindings/leds/leds-cpcap.txt
-+- Documentation/devicetree/bindings/iio/adc/cpcap-adc.txt
- 
- The only exception is the audio codec. Instead of a compatible value its
- node must be named "audio-codec".
 -- 
 2.30.2
 
