@@ -2,169 +2,564 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MSGID_FROM_MTA_HEADER,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1F5AC433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 12:02:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27DE9C433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 13:23:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5593E610E7
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 12:02:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E5CE96113C
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 13:23:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230467AbhDHMCs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Apr 2021 08:02:48 -0400
-Received: from mail-dm6nam10on2123.outbound.protection.outlook.com ([40.107.93.123]:7712
-        "EHLO NAM10-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229837AbhDHMCs (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Apr 2021 08:02:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=J54UQYDTp1WbeoIUGfupkMWIFMsTHBTDMpu/onjMux5RyoqwYzbeiiuYdiyrlC2RIOgvy1UKblxcY8cQPgZeqn+tECqXBukpGVEOXO4Jwuwzv9SFkA3nnbl74prMhTB4XcCn2qrD14OvQT/YwuXTr3D2lTS91+/+9e5q1o1OPxAOx+jfHzBc2k49HP0Pjn4OwE9mdqGuhHrjToDjpKZU7cq/rEHN2/TSUXKbWuWIALcD8dopGYmZyZTSPxmHiV5qBOAYO2agPgb0ggmVCSfbB3IKj+ZeAltfQBHnYkOmD50/bPH6pbJGQ6fGd6YeDQJcrNRFmr8JVMlK4HccxwQP5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FMh9+u3Oy7cayqroERhmB2wi4ZXKPLCoVo3atCLBIH0=;
- b=iYMapnb/agMtMc3QjwroaIpN3KAohKcUUI0Faa2fuzdq5JBtkHLmGRMVhiK+nfJKUsH57Mha9bD14YL0rac6xVtlIQ5yPSonlekObttcAqM6c7QzmLehwsuzfPkBKOQJfaPQQbTs4yRE/M1jWCNv4jmsFEmGawMH8MBqvkxZ8p8jY41WMbkSX04BYUEUkTU+iwlUb+X/9aMqlf7DfjrkJKYXbDWquRC/000Dc/WY2VtA/fK6HW7G0xDvdVX7VjV07pOrAzsRAyUMVhHgOYYvtThPwqnKZ8gIp1Y2ykugcp9eHqQxXp02AXgKI4iVkqYY7oSzzNgDFIjbd21tZUnA8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
- header.from=os.amperecomputing.com; dkim=pass
- header.d=os.amperecomputing.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=os.amperecomputing.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FMh9+u3Oy7cayqroERhmB2wi4ZXKPLCoVo3atCLBIH0=;
- b=G/Z4X6HDywuIFwEyil5NjNjQOcjvTDeSkya170jjY0PvpYKsen3JoNdqLyMekw8L9Jy45fJPHVnw0isqRvE+6sByNg1Au0LeKKzSa8QJpzvV0pZSrFJqTHN3JXpmWhzUDZkFOAxE0h8/9605cAbMPihXZcFeu/QO6Ro/durFCi8=
-Authentication-Results: os.amperecomputing.com; dkim=none (message not signed)
- header.d=none;os.amperecomputing.com; dmarc=none action=none
- header.from=os.amperecomputing.com;
-Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
- MW4PR01MB6321.prod.exchangelabs.com (2603:10b6:303:7b::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4020.18; Thu, 8 Apr 2021 12:02:34 +0000
-Received: from MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::d840:7aa7:58d4:b503]) by MW2PR0102MB3482.prod.exchangelabs.com
- ([fe80::d840:7aa7:58d4:b503%5]) with mapi id 15.20.4020.016; Thu, 8 Apr 2021
- 12:02:34 +0000
-Subject: Re: [PATCH v2 3/4] hwmon: smpro: Add Ampere's Altra smpro-hwmon
+        id S230412AbhDHNXV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Apr 2021 09:23:21 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:16099 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229741AbhDHNXT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Apr 2021 09:23:19 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4FGMMl6dbnz19L8T;
+        Thu,  8 Apr 2021 21:20:51 +0800 (CST)
+Received: from [127.0.0.1] (10.69.38.196) by DGGEMS412-HUB.china.huawei.com
+ (10.3.19.212) with Microsoft SMTP Server id 14.3.498.0; Thu, 8 Apr 2021
+ 21:22:52 +0800
+Subject: Re: [PATCH 3/4] docs: Add documentation for HiSilicon PTT device
  driver
-To:     Guenter Roeck <linux@roeck-us.net>, Joel Stanley <joel@jms.id.au>,
-        Andrew Jeffery <andrew@aj.id.au>,
-        Jean Delvare <jdelvare@suse.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
-        openbmc@lists.ozlabs.org
-Cc:     Open Source Submission <patches@amperecomputing.com>,
-        Phong Vo <phong@os.amperecomputing.com>,
-        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
-References: <20210329015238.19474-1-quan@os.amperecomputing.com>
- <20210329015238.19474-4-quan@os.amperecomputing.com>
- <bac92db0-3ef6-1615-0e92-aabd54fd0580@roeck-us.net>
- <136d036c-1d10-cecd-abcb-d206a0c6fa51@os.amperecomputing.com>
- <d9ef40ea-e4ee-cea8-96df-90ffabdff53c@roeck-us.net>
-From:   Quan Nguyen <quan@os.amperecomputing.com>
-Message-ID: <8267ad09-26dc-7581-567e-7286f4d7435e@os.amperecomputing.com>
-Date:   Thu, 8 Apr 2021 19:02:09 +0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.9.0
-In-Reply-To: <d9ef40ea-e4ee-cea8-96df-90ffabdff53c@roeck-us.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [118.69.219.201]
-X-ClientProxiedBy: HK2PR04CA0087.apcprd04.prod.outlook.com
- (2603:1096:202:15::31) To MW2PR0102MB3482.prod.exchangelabs.com
- (2603:10b6:302:c::32)
+To:     Bjorn Helgaas <helgaas@kernel.org>
+CC:     <alexander.shishkin@linux.intel.com>,
+        <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <lorenzo.pieralisi@arm.com>, <gregkh@linuxfoundation.org>,
+        <jonathan.cameron@huawei.com>, <song.bao.hua@hisilicon.com>,
+        <prime.zeng@huawei.com>, <linux-doc@vger.kernel.org>,
+        <linuxarm@huawei.com>
+References: <20210407185541.GA1853071@bjorn-Precision-5520>
+From:   Yicong Yang <yangyicong@hisilicon.com>
+Message-ID: <9ecc2177-1c3d-9899-923d-9514f652bb4e@hisilicon.com>
+Date:   Thu, 8 Apr 2021 21:22:52 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.38.33.17] (118.69.219.201) by HK2PR04CA0087.apcprd04.prod.outlook.com (2603:1096:202:15::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.16 via Frontend Transport; Thu, 8 Apr 2021 12:02:29 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 72e787bf-bbd9-4835-5a5a-08d8fa86319d
-X-MS-TrafficTypeDiagnostic: MW4PR01MB6321:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MW4PR01MB6321587D8DF2C34FC4745A27F2749@MW4PR01MB6321.prod.exchangelabs.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: I8F4txeu2/p+wiIs2ngWRhV5dwYVIrktA8OC0NND9Sccfyos7wR/na69sZCZ87HWiplmOTuU6EBZv5cjhVffasTLevXrKFQaNUzHjGB4VdWyPdQjlFMGquClmVdA+282U6DaFW21QUCaV1iBq7nPYObx3xKVXdJAFnOBEwDTYlwkZhQ1r98Gh9aroAhDOvvkjzAzdMACO2EVsFTIFmb0TaDVMFCET92StF60TTd1Vq6uAjnwr9JfjDSslJEt/Bhk7n0FL/cG+Phe0LEFasTi1jZkzaGqzqHp9Tal1L5X5WVBM3iXt1Io/M6+ntM7Hje9BtDHbCrhlsQmTL8v+j+e+wWTW6HCtkif3ghtB1v0xyx5g6gxwDXHFlwrHzp0TGmCgLFGJb0NfG0nx8+jThfcYss1IsithEQVfl/pUf6/+C7UcKcx5auph2Y5Ln6waqGzNrdVWkIx9X19i/rUJ2mh4Tbiw+tiJWAUA5BEudAqgNIfoXh0jcIxXTYvA8d9egbe6qke6BUolAqbvPV7K/rE1ujzSoaFhRk2EkHxv1CKCOUJ5+mycV00H6Quek7Tgljcrs/0AxiyQ1IeFskj2iyI4cm8zBCpjB6lhcgZ8QobLoxYdcC1vD7PEfn3iu5RROaVkWmm/7OYSV20qDtlBCDxI50v/kQdV9OiwKv36mB6b0EKPlEYHbXr8cnaP0AG3qRdQ+aPFEo9TNWzlrmORKW7iw0dWMLjz5SKKo8Qty4Kh6HeNBB667Ybjjs6IqeaxmCYZP4VDnTgAryrbgP5Pb+Sfw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR0102MB3482.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(376002)(39850400004)(366004)(346002)(38350700001)(2616005)(956004)(2906002)(316002)(16576012)(110136005)(54906003)(6666004)(38100700001)(16526019)(26005)(6486002)(186003)(53546011)(5660300002)(8676002)(52116002)(8936002)(31686004)(7416002)(107886003)(478600001)(4326008)(66476007)(66946007)(66556008)(921005)(31696002)(86362001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UU5pZFJ4Y21lV1hVcDY0M0JFVFc2VEtHYzlTNi9GWmkyZ2hMcVFZR2RGZXdP?=
- =?utf-8?B?Qms4bTJ3RVpBbzRBNEhTZWh6U3VROHhpcTU2eTNWWTVIbkxFWklJSFpBNGFX?=
- =?utf-8?B?bG5tVFJYMzdQOTh5ejJ2M3o1aU9jY3lkcGxyYjdYS1BNYk9BSjVOQUNnWVJy?=
- =?utf-8?B?OXczZ1B0czJGRUVJTlowdFhNc3M3R1NCNitoV1ozSW9hNllLL2cvL3huVlkx?=
- =?utf-8?B?MXNLUERwMFdMU1ZLVzFKU0t0SGdVVmRScXhEQm5YdEFnc3BSb1UwUGxROUlC?=
- =?utf-8?B?QU5ZRVBTVkVaWE4zc3Z6ZGFpWENKdTRIT2NvSGN1aC84RXN3OStnWXR0em51?=
- =?utf-8?B?UjlRQTBHVlNMOTVHd3dCMFByeFNkb0VzeFpTS1daM1dkdlNvbkNRMnhOenBP?=
- =?utf-8?B?WDZ5bXljcDhpbUtKZTAzL3hrMUdGRVk1NjdnVkRpNFBweWhHd28rOURad2lD?=
- =?utf-8?B?citSWVpmNFJJZzV4dC9oSzlwUFFaQTE2dTJHVHE2RzFHaG9LYm80VjZPYk5J?=
- =?utf-8?B?aGoyYXJDdHpHNVk0bkJjaGV0UE5mM3lNT0IvelVURFhodHBzMzFPcUlOM3VF?=
- =?utf-8?B?cTBpS28wQmRnaXRGb3IrYUJ5RHNVZHAzVUgyRTd1d3FYRkFaQUVmdURnOFJE?=
- =?utf-8?B?dGh5dmVXNTZ3Qkw0YUdvOU5UZjQxcmdBSzRLRWVyTjNYK1hUUEdNMXIxeTFF?=
- =?utf-8?B?SmRPbXdoby9MNlFZN3FmTmlOcEM2UzluWEdFYWR4NWxoQXI4RXJKR2srQWxD?=
- =?utf-8?B?MDhsY0xpUmloYktJVjVnWnc5cjlndVRtRnhpNEY4OXB0UVZLSlZkN1BnL2g1?=
- =?utf-8?B?SktZL05nT0NCTEl2KysvT2l4NlczdUNpSXBreHJFS2pLb2oyYzliMzdWWm9y?=
- =?utf-8?B?T3lTcmE2dGVDN0lJdFFjOHlpMW0rSzdnZ3BvdGYzdkE4cS96NzBEbjJHMC9t?=
- =?utf-8?B?Vm4zU1VtWnZQb0E0TUhSVTNhUTZsVXVjTGx3TWR5dVNvLzg5Zm85L2k2Rm40?=
- =?utf-8?B?WDJoL0hIay9Ndm0rV2QwRFlrSjZqNjYxUG9lOCtWSDVYUUNFSEc2TnhuYWZl?=
- =?utf-8?B?UXZFVW9YV2xQVFE0bU0xaXc2Y2Z4ZmpZYnpGUm1sdWRSQXBDN21rRlNCSCtI?=
- =?utf-8?B?aFhuUnkwVnVHZUQxQnpvTHNaTExJai85RElwUThha3dPNjE1eHBTTVdqYUpS?=
- =?utf-8?B?R1k3QkRUbEtyeGF5bENIVmV2SmZrRzR2THlja3RWUGlSdDNkTXliYWhZcFJ2?=
- =?utf-8?B?U3hJUngzbFlUQmk3cmJKcldxdXBZbS9GRmxYQ05pWU9odFV6aWpRQkZvdEo2?=
- =?utf-8?B?OGJaRVczOVhocmcycUJEejNGajNwYUt1THlVd3Nxc1hxK28vK3RzUlBlS1dn?=
- =?utf-8?B?eFRvRzNKa20yZGN4QkZXU1d6TWc1K00zUGsyQk52bGlxbGI5aHZNTS8zR3hj?=
- =?utf-8?B?UGdsU0JHdXhPUHRVRFJjZU1NcjhDay9QU0hKQjBTMzRiZFBTNU5Vc2o2M0pt?=
- =?utf-8?B?MGdYUENuS0dRVDgvbUxJdVk5TFBsWlROenRNVzErQVA5R1BnOVRmQWtvV3ZJ?=
- =?utf-8?B?YnEvYStucFRTQnZMZlRxTUlHejJDSS9LMm5nZmRobCtFVmRqZ0VpUENBbnBy?=
- =?utf-8?B?ZWhVZ1lJKzJYY0JnSlBYTVVQdUg0Q2U3d1VTUmUxNFZaWERLdE5jQ3dUdDBi?=
- =?utf-8?B?a095TldxUEtpOEhSNHpoUlVyaHJTVDB4WXBFcjRzRnRoMndSTFVOaU5Cckdr?=
- =?utf-8?Q?40ZoLncC9mFubutEF7gLkDri/bz99IBy7E7mZsA?=
-X-OriginatorOrg: os.amperecomputing.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 72e787bf-bbd9-4835-5a5a-08d8fa86319d
-X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2021 12:02:34.3489
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rdl91M+t02iq/4s9I7Xyeq0U1t4sMXAg5y04tnqwKgZOqtBYUt9H1ZrvpsBt/5bipdW2RvGcU0xgFGavC7lHiL6hu6t4nMtw79CyeaVaK24=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR01MB6321
+In-Reply-To: <20210407185541.GA1853071@bjorn-Precision-5520>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.69.38.196]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 07/04/2021 19:11, Guenter Roeck wrote:
-> On 4/7/21 12:41 AM, Quan Nguyen wrote:
-> [ ... ]
->>>
->>> But then why don't you just use reg_ext to store SOC_VR_HOT_THRESHOLD_REG
->>> or MEM_HOT_THRESHOLD_REG ? It is already available, after all, and with it
->>> the code could be simplified to
->>>
->>>          ret = regmap_read(hwmon->regmap, temperature[channel].reg_ext, &value);
->>>          if (ret)
->>>              return ret;
->>>
->> Thank you for the comment.
->>
->> Will change code follow this suggestion, will include in next version
->>
->>> I don't have a datasheet, but I do wonder what is in bit 9..15. Any idea ?
->>> Main question is if there is a sign bit, as theoretic as it may be.
->>>
->> The original intention was to use this as 9-bit 2-complement value follow LM75, but the fact is that the operation temperature is 0-125 C degree, so we simply use it as-is.
->>
+On 2021/4/8 2:55, Bjorn Helgaas wrote:
+> Move important info in the subject earlier, e.g.,
 > 
-> The operational temperature is not the question here. The question is if the
-> chip _reports_ a sign. If it does, it should be handled, even if it is outside
-> the operational range. The reported range is relevant here, not the operational
-> range. After all, the chip won't really blow apart at -1 degrees C.
+>   docs: Add HiSilicon PTT device documentation
+> 
+> On Tue, Apr 06, 2021 at 08:45:53PM +0800, Yicong Yang wrote:
+>> Document the introduction and usage of HiSilicon PTT device driver.
+>>
+>> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+>> ---
+>>  Documentation/trace/hisi-ptt.rst | 316 +++++++++++++++++++++++++++++++++++++++
+>>  1 file changed, 316 insertions(+)
+>>  create mode 100644 Documentation/trace/hisi-ptt.rst
+>>
+>> diff --git a/Documentation/trace/hisi-ptt.rst b/Documentation/trace/hisi-ptt.rst
+>> new file mode 100644
+>> index 0000000..215676f
+>> --- /dev/null
+>> +++ b/Documentation/trace/hisi-ptt.rst
+>> @@ -0,0 +1,316 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +
+>> +======================================
+>> +HiSilicon PCIe Tune and Trace device
+>> +======================================
+>> +
+>> +Introduction
+>> +============
+>> +
+>> +HiSilicon PCIe tune and trace device (PTT) is a PCIe Root Complex
+>> +integrated Endpoint (RCiEP) device, providing the capability
+>> +to dynamically monitor and tune the PCIe link's events (tune),
+>> +and trace the TLP headers (trace). The two functions are independent,
+>> +but is recommended to use them together to analyze and enhance the
+>> +PCIe link's performance.
+> 
+>> +On Kunpeng 930 SoC, the PCIe root complex is composed of several
+>> +PCIe cores.
+>> +Each core is composed of several root ports, RCiEPs, and one
+>> +PTT device, like below. The PTT device is capable of tuning and
+>> +tracing the link of the PCIe core.
+> 
+> s/root complex/Root Complex/ to match spec, diagram, RCiEP above
+> s/root ports/Root Ports/ to match spec, etc (also below)
 > 
 
-I think I've got it, will handle the sign bit in next version.
+thanks. will fix here and below in this doc.
 
--Quan
+> Can you connect "Kunpeng 930" to something in the kernel tree?
+> "git grep -i kunpeng" shows nothing that's obviously relevant.
+> I assume there's a related driver in drivers/pci/controller/?
+> 
+
+Kunpeng 930 is the product name of Hip09 platform. The PCIe
+controller uses the generic PCIe driver based on ACPI.
+
+> Is this one paragraph or two?  If one, reflow.  If two, add blank line
+> between.
+> 
+
+will reflow here and below. it's one paragraph.
+
+> IIUC, the diagram below shows two PCIe cores, each with three Root
+> Ports and a PTT RCiEP.  Your text mentions "RCiEPs, and one PTT" which
+> suggests RCiEPs in addition to the PTT, but the diagram doesn't show
+> any, and if there are other RCiEPs, they don't seem relevant to this
+> doc.  Maybe something like this?
+> 
+>   Each PCIe core includes several Root Ports and a PTT RCiEP ...
+> 
+
+will fix.
+
+>> +::
+>> +          +--------------Core 0-------+
+>> +          |       |       [   PTT   ] |
+>> +          |       |       [Root Port]---[Endpoint]
+>> +          |       |       [Root Port]---[Endpoint]
+>> +          |       |       [Root Port]---[Endpoint]
+>> +    Root Complex  |------Core 1-------+
+>> +          |       |       [   PTT   ] |
+>> +          |       |       [Root Port]---[ Switch ]---[Endpoint]
+>> +          |       |       [Root Port]---[Endpoint] `-[Endpoint]
+>> +          |       |       [Root Port]---[Endpoint]
+>> +          +---------------------------+
+>> +
+>> +The PTT device driver cannot be loaded if debugfs is not mounted.
+>> +Each PTT device will be presented under /sys/kernel/debugfs/hisi_ptt
+>> +as its root directory, with name of its BDF number.
+>> +::
+>> +
+>> +    /sys/kernel/debug/hisi_ptt/<domain>:<bus>:<device>.<function>
+>> +
+>> +Tune
+>> +====
+>> +
+>> +PTT tune is designed for monitoring and adjusting PCIe link parameters(events).
+> 
+> Add a space before "(".
+> 
+
+will add here and below.
+
+>> +Currently we support events in 4 classes. The scope of the events
+>> +covers the PCIe core with which the PTT device belongs to.
+> 
+> ... the PCIe core to which the PTT device belongs.
+
+will fix.
+
+>> +
+>> +Each event is presented as a file under $(PTT root dir)/$(BDF)/tune, and
+>> +mostly a simple open/read/write/close cycle will be used to tune
+>> +the event.
+>> +::
+>> +    $ cd /sys/kernel/debug/hisi_ptt/$(BDF)/tune
+>> +    $ ls
+>> +    qos_tx_cpl    qos_tx_np    qos_tx_p
+>> +    tx_path_rx_req_alloc_buf_level
+>> +    tx_path_tx_req_alloc_buf_level
+>> +    $ cat qos_tx_dp
+>> +    1
+>> +    $ echo 2 > qos_tx_dp
+>> +    $ cat qos_tx_dp
+>> +    2
+>> +
+>> +Current value(numerical value) of the event can be simply read
+> 
+> Add space before "(".
+> 
+>> +from the file, and the desired value written to the file to tune.
+> 
+>> +Tuning multiple events at the same time is not permitted, which means
+>> +you cannot read or write more than one tune file at one time.
+> 
+> I think this is obvious from the model, so the sentence doesn't really
+> add anything.  Each event is a separate file, and it's obvious that
+> there's no way to write to multiple files simultaneously.
+> 
+
+from the usage we shown below this situation won't happen. I just worry
+that users may have a program to open multiple files at the same time and
+read/write simultaneously, so add this line here to mention the restriction.
+
+>> +1. Tx path QoS control
+>> +------------------------
+>> +
+>> +Following files are provided to tune the QoS of the tx path of the PCIe core.
+> 
+> "The following ..."
+> will fix.
+>> +- qos_tx_cpl: weight of tx completion TLPs
+>> +- qos_tx_np: weight of tx non-posted TLPs
+>> +- qos_tx_p: weight of tx posted TLPs
+>> +
+>> +The weight influences the proportion of certain packets on the PCIe link.
+>> +For example, for the storage scenario, increase the proportion
+>> +of the completion packets on the link to enhance the performance as
+>> +more completions are consumed.
+> 
+> I don't believe you can directly influence the *proportions* of packet
+> types.  The number and types of TLPs are determined by device driver
+> MMIO accesses and device DMAs.  Maybe you can influence the
+> *priority*?  I assume that regardless of these settings, the device
+> always respects the transaction ordering rules in PCIe r5.0, sec 2.4,
+> right?
+> 
+
+yes you're right. the word I used here is misleading and 'priority' is
+precise. what we achieved won't violate the PCIe spec. the ordering
+rules are always kept. When the ordering is kept, the packets with
+larger weight will have more priority to be posted.
+
+>> +The available tune data of these events is [0, 1, 2].
+>> +Writing a negative value will return an error, and out of range
+>> +values will be converted to 2. Note that the event value just
+>> +indicates a probable level, but is not precise.
+>> +
+>> +2. Tx path buffer control
+>> +-------------------------
+>> +
+>> +Following files are provided to tune the buffer of tx path of the PCIe core.
+>> +
+>> +- tx_path_rx_req_alloc_buf_level: watermark of RX requested
+>> +- tx_path_tx_req_alloc_buf_level: watermark of TX requested
+>> +
+>> +These events influence the watermark of the buffer allocated for each
+>> +type. RX means the inbound while Tx means outbound. For a busy
+>> +direction, you should increase the related buffer watermark to enhance
+>> +the performance.
+> 
+> Based on what you have written here, I would just write 2 to both
+> files to enhance the performance in both directions.  But obviously
+> there must be some tradeoff here, e.g., increasing Rx performance
+> comes at the cost of Tx performane.
+> 
+
+the Rx buffer and Tx buffer are separate, so they won't influence
+each other.
+
+> Use "Rx" or "RX" (and "Tx" or "TX") consistently.  So far we have
+> "tx", "TX", "Tx", as well as "RX" and "Tx" in the same sentence.
+> 
+
+will fix here and at other places in the doc.
+
+>> +The available tune data of above events is [0, 1, 2].
+>> +Writing a negative value will return an error, and out of range
+>> +values will be converted to 2. Note that the event value just
+>> +indicates a probable level, but is not precise.
+>> +
+>> +Trace
+>> +=====
+>> +
+>> +PTT trace is designed for dumping the TLP headers to the memory, which
+>> +can be used to analyze the transactions and usage condition of the PCIe
+>> +Link. You can chose to filter the traced headers by either requester ID,
+> 
+> s/chose/choose/
+> will fix.
+>> +or those downstream of a set of root ports on the same core of the PTT
+>> +device. It's also support to trace the headers of certain type and of
+>> +certain direction.
+> 
+> s/support/supported/
+> 
+will fix.
+>> +In order to start trace, you need to configure the parameters first.
+>> +The parameters files is provided under $(PTT root dir)/$(BDF)/trace.
+> 
+> s/files is/files are/
+> 
+will fix.
+>> +::
+>> +    $ cd /sys/kernel/debug/hisi_ptt/$(BDF)/trace
+>> +    $ ls
+>> +    free_buffer     filter      buflet_nums     buflet_size
+>> +    direction       type        data            trace_on
+>> +    data_format
+>> +
+>> +1. filter
+>> +---------
+>> +
+>> +You can configure the filter of TLP headers through the file. The filter
+>> +is provided as BDF numbers of either root port or subordinates, which
+>> +belong to the same PCIe core. You can get the filters available and
+>> +currently configured by read the file, and write the desired BDF to the
+>> +file to set the filters. There is no default filter, which means you
+>> +must specifiy at least one filter before start tracing.
+>> +Write invalid BDF(not in the available list) will return
+>> +a failure.
+> 
+> s/by read/by reading/
+> s/specifiy/specify/
+> s/before start/before starting/
+> s/Write invalid/Writing an invalid/
+> s/BDF(not/BDF (not/
+> 
+> Reflow or separate paragraphs with blank lines.
+> 
+will fix these and reflow here.
+>> +::
+>> +    $ echo 0000:80:04.0 > filter
+>> +    $ cat filter
+>> +    #### Root Ports ####
+>> +    0000:80:00.0
+>> +    [0000:80:04.0]
+>> +    #### Functions ####
+>> +    0000:81:00.0
+>> +    0000:81:00.1
+>> +    0000:82:00.0
+>> +
+>> +Note that multiple root ports can be specified at one time, but only
+>> +one Endpoint function can be specified in one trace.
+>> +Specifying both root port and function at the same time is not supported.
+>> +
+>> +If no filter is available, read the filter will get the hint.
+> 
+> s/read the/reading the/
+> 
+will fix.
+>> +::
+>> +    $ cat filter
+>> +    #### No available filter ####
+>> +
+>> +The filter can be dynamically updated, which means you can always
+>> +get correct filter information when hotplug events happens, or
+>> +manually remove/rescan the devices.
+> 
+> s/events happens/events happen/
+> s/or manually remove/or when you manually remove/
+> 
+will fix.
+>> +2. type
+>> +-------
+>> +
+>> +You can trace the TLP headers of certain types by configure the file.
+>> +Read the file will get available types and current setting, and write
+>> +the desired type to the file to configure. The default type is
+>> +`posted_request` and write types not in the available list will return
+>> +a failure.
+> 
+> s/by configure/by configuring/
+> s/Read the file/Reading the file/
+> s/, and write the/. Write the/
+> 
+will fix.
+>> +::
+>> +    $ echo completion > type
+>> +    $ cat type
+>> +    all  posted_request  non-posted_request  [completion]
+>> +
+>> +3. direction
+>> +------------
+>> +
+>> +You can trace the TLP headers from certain direction, which is relative
+>> +to the root port or the PCIe core. Read the file to get available
+>> +directions and current configurition, and write the desired direction
+>> +to configure. The default value is `rx` and any invalid direction will
+>> +return a failure. Note `rxtx_no_dma_p2p` means the headers of both
+>> +directions, but not include P2P DMA access.
+>> +::
+>> +    $ echo rxtx > direction
+>> +    $ cat direction
+>> +    rx  tx  [rxtx]  rxtx_no_dma_p2p
+>> +
+>> +4. buflet_size
+>> +--------------
+>> +
+>> +The traced TLP headers will be written to the memory allocated
+>> +by the driver. The hardware accept 4 DMA address with same size,
+>> +and write the buflet sequentially like below. If DMA addr 3 is
+>> +finished and the trace is still on, it will return to addr 0.
+>> +Driver will allocated each DMA buffer (we call it buflet).
+>> +The finished buflet will be replaced with a new one, so
+>> +a long time trace can be achieved.
+> 
+> s/hardware accept/hardware accepts/
+> s/and write the/and writes the/
+> s/will allocated/will allocate/
+> 
+will fix.
+>> +::
+>> +    +->[DMA addr 0]->[DMA addr 1]->[DMA addr 2]->[DMA addr 3]-+
+>> +    +---------------------------------------------------------+
+>> +
+>> +You should both configure the buflet_size and buflet_nums to
+>> +configure the `trace buffer` to receive the TLP headers. The
+>> +total trace buffer size is buflet_size * buflet_nums. Note
+>> +that the trace buffer will not be allocated immediately after you
+>> +configure the parameters, but will be allocated right before
+>> +the trace starts.
+>> +
+>> +This file configures the buflet size. Read the file will get
+>> +available buflet size and size set currently, write the desired
+>> +size to the file to configure. The default size is 2 MiB and any
+>> +invalid size written will return a failure.
+> 
+> s/Read the file/Reading the file/
+> s/currently, write the/currently; write the/
+> 
+will fix.
+>> +::
+>> +    $ cat buflet_size
+>> +    [2 MiB]     4 MiB
+>> +    $ echo 4 > buflet_size
+>> +    $ cat buflet_size
+>> +    2 MiB     [4 MiB]
+>> +
+>> +5. buflet_nums
+>> +--------------
+>> +
+>> +You can write the desired buflet count to the file to configure,
+>> +and read the file to get current buflet count. The default
+>> +value is 64. And any positive value is valid. Note that big value
+>> +may lead to DMA memory allocation failure, and you will not be
+>> +able to start tracing. If it happens, you should consider adjusting
+>> +buflet_nums or buflet_size.
+> 
+> s/And any positive/Any positive/
+> 
+will fix.
+>> +::
+>> +    $ cat buflet_nums
+>> +    64
+>> +    $ echo 128 > buflet_nums
+>> +    $ cat buflet_nums
+>> +    128
+>> +
+>> +6. data
+>> +-------
+>> +
+>> +The file to access the traced data. You can read the file to get the
+>> +binary blob of traced TLP headers. The format of the headers is
+>> +4 Dword length and is just as defined by the PCIe Spec r4.0,
+>> +Sec 2.2.4.1, or 8 Dword length with additional 4 Dword extra
+>> +information.
+>> +
+>> +echo "" > data will free all the trace buffers allocated as well as
+>> +the traced datas.
+>> +
+>> +7. trace_on
+>> +-----------
+>> +
+>> +Start or end the trace by simple writing to the file, and monitor the
+>> +trace status by reading the file.
+> 
+> s/by simple writing/by writing/
+> 
+will fix.
+>> +::
+>> +    $ echo 1 > trace_on     # start trace
+>> +    $ cat trace_on          # get the trace status
+>> +    1
+>> +    $ echo 0 > trace_on     # manually end trace
+>> +
+>> +The read value of the trace_on will be auto cleared if the buffer
+>> +allocated is full. 1 indicates the trace is running and 0 for
+>> +stopped. Write any non-zero value to the file can start trace.
+> 
+> "Writing any non-zero value to the file starts tracing."
+> 
+will fix.
+>> +8. free_buffer
+>> +--------------
+>> +
+>> +File to indicate the trace buffer status and to manually free the
+>> +trace buffer. The read value of 1 indicates the trace buffer has
+>> +been allocated and exists in the memory, while 0 indicates there
+>> +is no buffer allocated. Write 1 to the file to free the trace
+>> +buffer as well as the traced datas.
+> 
+> s/datas/data/
+> 
+will fix.
+>> +::
+>> +    $ cat free_buffer
+>> +    1                       # indicate the buffer exists
+>> +    $ echo 1 > free_buffer  # free the trace buffer
+>> +    $ cat free_buffer
+>> +    0
+>> +
+>> +9. data_format
+>> +--------------
+>> +
+>> +File to indicate the format of the traced TLP headers. User can also
+>> +specify the desired format of traced TLP headers. Available formats
+>> +are 4DW, 8DW which indicates the length of each TLP headers traced.
+>> +::
+>> +    $ cat data_format
+>> +    [4DW]    8DW
+>> +    $ echo 8 > data_format
+>> +    $ cat data_format
+>> +    4DW     [8DW]
+>> +
+>> +The traced TLP header format is different from the PCIe standard.
+> 
+> I'm confused.  Below you say the fields of the traced TLP header are
+> defined by the PCIe spec.  But here you say the format is *different*.
+> What exactly is different?
+> 
+
+For the Request Header Format for 64-bit addressing of Memory, defind in
+PCIe spec 4.0, Figure 2-15, the 1st DW is like:
+
+Byte 0 > [Fmt] [Type] [T9] [Tc] [T8] [Attr] [LN] [TH] ... [Length]
+
+some are recorded in our traced header like below, which some are not.
+that's what I mean the format of the header are different. But for a
+certain field like 'Fmt', the meaning keeps same with what Spec defined.
+that's what I mean the fields definition of our traced header keep same
+with the Spec.
+
+Seem what I described in the doc is a little ambigious.
+
+Thanks for the review.
+
+Thanks,
+Yicong
+
+>> +4DW format is like
+>> +::
+>> +    bits [31:30] [ 29:25 ][24][23][22][21][    20:11   ][    10:0    ]
+>> +         |-----|---------|---|---|---|---|-------------|-------------|
+>> +     DW0 [ Fmt ][  Type  ][T9][T8][TH][SO][   Length   ][    Time    ]
+>> +     DW1 [                     Header DW1                            ]
+>> +     DW2 [                     Header DW2                            ]
+>> +     DW3 [                     Header DW3                            ]
+>> +
+>> +For 8DW format, the bit[31:11] of DW0 is always 0x1fffff, which can be
+>> +used to distinguish the data format. 8DW format is like
+>> +::
+>> +    bits [                 31:11                 ][       10:0       ]
+>> +         |---------------------------------------|-------------------|
+>> +     DW0 [                0x1fffff               ][ Reserved (0x7ff) ]
+>> +     DW1 [                       Prefix                              ]
+>> +     DW2 [                     Header DW0                            ]
+>> +     DW3 [                     Header DW1                            ]
+>> +     DW4 [                     Header DW2                            ]
+>> +     DW5 [                     Header DW3                            ]
+>> +     DW6 [                   Reserved (0x0)                          ]
+>> +     DW7 [                        Time                               ]
+>> +
+>> +All the fields of the traced TLP header is defined by the PCIe Specification.
+>> +While 'Header DWx' means standard TLP header DWord x, and 'Time' is the
+>> +timestamp of the traced header.
+>> -- 
+>> 2.8.1
+>>
+> 
+> .
+> 
+
