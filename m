@@ -2,122 +2,163 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-	version=3.4.0
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81927C433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 19:57:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60744C43460
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 20:29:39 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3C8FF610E6
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 19:57:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3A0CD61159
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 20:29:39 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232438AbhDHT5Z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Apr 2021 15:57:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39706 "EHLO
+        id S232305AbhDHU3t (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Apr 2021 16:29:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46756 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232490AbhDHT5W (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Apr 2021 15:57:22 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3552C061764
-        for <linux-doc@vger.kernel.org>; Thu,  8 Apr 2021 12:57:10 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id mj7-20020a17090b3687b029014d162a65b6so3803845pjb.2
-        for <linux-doc@vger.kernel.org>; Thu, 08 Apr 2021 12:57:10 -0700 (PDT)
+        with ESMTP id S232292AbhDHU3s (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Apr 2021 16:29:48 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2C96C061761
+        for <linux-doc@vger.kernel.org>; Thu,  8 Apr 2021 13:29:36 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id b17so2209746pgh.7
+        for <linux-doc@vger.kernel.org>; Thu, 08 Apr 2021 13:29:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=SFjnCjujGEgtSC+ABQLNrqugqZ/9XaANTg42WzyEM+c=;
-        b=Wgh/cbKnfaPzqZefmKDOLkn79wXmeeaUQXbhkscPI2a05rTC9L4oeuVVAGS8tXOPS4
-         Rcl9YephQY6h/zRkFgEtL+sdoR35e/eQA0oabkjl/jrOSeLMjUra4EVzqL9fReZUB9mN
-         9MkSfuFoUKIjiC9NPna5S6xg85iI+u9tNn3o0=
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=B3epSKmnBT2lOgW+FtwpytJLhDI4YaPl1UXPH/kPrf4=;
+        b=us1xgYm47xcc2KkJazv7NQLjSD0QuHiKkWdX+z+HD48lTOnCTInYsWMsErucX36Ti8
+         bksjSUi2lpczo5OHiERN4OQBBdB66BHr6VJY41udy2iM+TDfzID13PjI/IVuOpHXOocZ
+         8TI6CTYeaGX6oGgv8rTKVz+LtOIzwLghc/tWDFxO48v1m3fMmojy2Q0s2Qx+veIUMeNt
+         cRrFKxQVpnRQZo6rFiV+XDthvsWG/PRlby2sKsY3wj4PnFk77CYXXMrpj4ypCydtGyCJ
+         tWnSRdlMB8YcyNu7NI40yMUCIsMwXFeRfyIWhAdYz2lZKEEggIa6L3nFAc1IL2L7cl65
+         ZL3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=SFjnCjujGEgtSC+ABQLNrqugqZ/9XaANTg42WzyEM+c=;
-        b=rjEJeR4w7xob1lruM0rIMV0+bXE3hlywG/M40Tx+qlfiGqjtl9etoChu1X8ip9462d
-         HtbSZUdRnotWy9bR2sr93qpG9RNpQULFiAPxbwS4awOaTCruvT7scl9O53sLs5aYkCvC
-         0f5a9JyqNWLemLxiVJuakqcqqNZj5a760Jj0KCpk0XzzhD6/tYT0sykfsY4OD9H0HKkM
-         cgqemssG2HO+QRt8XsNiYFcaAw5pnmJG4i8sMxrjJbfC/cS7RltZzT9I2cV6Tg/izot2
-         hpnMpuY1Q+Wuykvi+u7lHjz92g86PWMyS2CbaNmi/Ay6MwceNgyCj7nHT6lEE4pCnAfo
-         ltpg==
-X-Gm-Message-State: AOAM531e669GZUa59wXBpgiF4TRs3NtOzGRyexyXfNnnK9nZ6N0+cCvJ
-        iXuxBlyTq2yGP488fULuFB9WEQ==
-X-Google-Smtp-Source: ABdhPJza2HPcGn1bIxKNzHBGVf3omGhgZFg1zXshKLaBZaSsZcgPE8LCZTfrGp300dJ+o9tqAAc2kg==
-X-Received: by 2002:a17:902:d78a:b029:e6:e1f:f695 with SMTP id z10-20020a170902d78ab02900e60e1ff695mr9289653ply.82.1617911830394;
-        Thu, 08 Apr 2021 12:57:10 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:44c3:3248:e7f5:1bbd])
-        by smtp.gmail.com with ESMTPSA id c2sm246727pfb.121.2021.04.08.12.57.09
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=B3epSKmnBT2lOgW+FtwpytJLhDI4YaPl1UXPH/kPrf4=;
+        b=W4QV0pDVAcjpEqfTRo5T2Pe6b0Pcaghrq2YvgYlN6ez+sb22ZHuYkbalbVtc+PIkKv
+         mrDHcm+B/Ju3PdDnMjvaf9aAOetW/pBrHBcEEnDAZX3A5xBzqMIP2nDlRabr+g3+PhHT
+         4JEoBlPoMMOIc0g/7yBfPKdlaAdiJXFq4+xQ7MTNol7KoZqbIGcd1/k4lcSy7U85M7lN
+         jPebgEi2yCdMqZqKVKNaGftqWpk9Hsh0gx5eJnA2lgKh4PH7C/sbD9LW/1YFXtJp8JNL
+         2s8/XZpomITxLohAu0ruYf1AVkc0G5WkmdRGzBEJ9Ts7kETOCEQxvwwQHWvW5M1N90Bi
+         qV8Q==
+X-Gm-Message-State: AOAM532yCNDDyvNXFxn0uwVTy35yIecpHAM08gYo0hMWeXHkJ3ySON/N
+        3/QJuD3yocJEqNonvd31kgxJgg==
+X-Google-Smtp-Source: ABdhPJxqetogGDOm4gwvRxgpG4WBTGqlPTKUmpNQxLJoDE+CcSaW4t+AMq8hi5IHekhy3tleLwhh/w==
+X-Received: by 2002:a63:575b:: with SMTP id h27mr10057262pgm.180.1617913776017;
+        Thu, 08 Apr 2021 13:29:36 -0700 (PDT)
+Received: from google.com (240.111.247.35.bc.googleusercontent.com. [35.247.111.240])
+        by smtp.gmail.com with ESMTPSA id w15sm249019pja.18.2021.04.08.13.29.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 12:57:09 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        Thu, 08 Apr 2021 13:29:35 -0700 (PDT)
+Date:   Thu, 8 Apr 2021 20:29:31 +0000
+From:   Sean Christopherson <seanjc@google.com>
+To:     Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
+        Alexander Graf <graf@amazon.com>,
+        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] KVM: x86: Fix a spurious -E2BIG in
+ KVM_GET_EMULATED_CPUID
+Message-ID: <YG9nq6Y7GhFo9dUh@google.com>
+References: <20210408114303.30310-1-eesposit@redhat.com>
+ <20210408114303.30310-2-eesposit@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YG8NwgD3y/ydzVXI@smile.fi.intel.com>
-References: <20210331030520.3816265-1-swboyd@chromium.org> <20210331030520.3816265-5-swboyd@chromium.org> <YG8I2dQWkOIkypqO@gunter> <YG8NwgD3y/ydzVXI@smile.fi.intel.com>
-Subject: Re: [PATCH v3 04/12] module: Add printk format to add module build ID to stacktraces
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Jessica Yu <jeyu@kernel.org>
-Date:   Thu, 08 Apr 2021 12:57:08 -0700
-Message-ID: <161791182832.3790633.9176764008911708133@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210408114303.30310-2-eesposit@redhat.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Andy Shevchenko (2021-04-08 07:05:54)
-> On Thu, Apr 08, 2021 at 03:44:57PM +0200, Jessica Yu wrote:
-> > +++ Stephen Boyd [30/03/21 20:05 -0700]:
->=20
-> ...
->=20
-> > > +static void init_build_id(struct module *mod, const struct load_info=
- *info)
-> > > +{
-> > > +   const Elf_Shdr *sechdr;
-> > > +   unsigned int i;
-> > > +
-> > > +   for (i =3D 0; i < info->hdr->e_shnum; i++) {
-> > > +           sechdr =3D &info->sechdrs[i];
-> > > +           if (!sect_empty(sechdr) && sechdr->sh_type =3D=3D SHT_NOT=
-E &&
-> > > +               !build_id_parse_buf((void *)sechdr->sh_addr, mod->bui=
-ld_id,
-> > > +                                   sechdr->sh_size))
-> > > +                   break;
-> > > +   }
-> > > +}
-> >=20
-> > Why not just look for the .note.gnu.build-id section instead of trying
-> > to parse each note section? Doesn't it always contain the build id? At
-> > least the ld man page seems to suggest this section name should be
-> > consistent.
+On Thu, Apr 08, 2021, Emanuele Giuseppe Esposito wrote:
+> When retrieving emulated CPUID entries, check for an insufficient array
+> size if and only if KVM is actually inserting an entry.
+> If userspace has a priori knowledge of the exact array size,
+> KVM_GET_EMULATED_CPUID will incorrectly fail due to effectively requiring
+> an extra, unused entry.
+> 
+> Fixes: 433f4ba19041 ("KVM: x86: fix out-of-bounds write in KVM_GET_EMULATED_CPUID (CVE-2019-19332)")
+> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+> ---
+>  arch/x86/kvm/cpuid.c | 33 ++++++++++++++++-----------------
+>  1 file changed, 16 insertions(+), 17 deletions(-)
+> 
+> diff --git a/arch/x86/kvm/cpuid.c b/arch/x86/kvm/cpuid.c
+> index 6bd2f8b830e4..d30194081892 100644
+> --- a/arch/x86/kvm/cpuid.c
+> +++ b/arch/x86/kvm/cpuid.c
+> @@ -567,34 +567,33 @@ static struct kvm_cpuid_entry2 *do_host_cpuid(struct kvm_cpuid_array *array,
+>  
+>  static int __do_cpuid_func_emulated(struct kvm_cpuid_array *array, u32 func)
+>  {
+> -	struct kvm_cpuid_entry2 *entry;
+> -
+> -	if (array->nent >= array->maxnent)
+> -		return -E2BIG;
+> +	struct kvm_cpuid_entry2 entry;
+>  
+> -	entry = &array->entries[array->nent];
+> -	entry->function = func;
+> -	entry->index = 0;
+> -	entry->flags = 0;
+> +	memset(&entry, 0, sizeof(entry));
+>  
+>  	switch (func) {
+>  	case 0:
+> -		entry->eax = 7;
+> -		++array->nent;
+> +		entry.eax = 7;
+>  		break;
+>  	case 1:
+> -		entry->ecx = F(MOVBE);
+> -		++array->nent;
+> +		entry.ecx = F(MOVBE);
+>  		break;
+>  	case 7:
+> -		entry->flags |= KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
+> -		entry->eax = 0;
+> -		entry->ecx = F(RDPID);
+> -		++array->nent;
+> -	default:
+> +		entry.flags = KVM_CPUID_FLAG_SIGNIFCANT_INDEX;
+> +		entry.ecx = F(RDPID);
+>  		break;
+> +	default:
+> +		goto out;
+>  	}
+>  
+> +	/* This check is performed only when func is valid */
 
-That's basically what this code is doing. We're looking through all the
-section headers and finding the ones that are notes and then
-build_id_parse_buf() is checking to see if that note is a GNU type note
-(name =3D=3D "GNU") and is of the type NT_GNU_BUILD_ID (type =3D=3D 3). We =
-don't
-need to check for a section name of ".note.gnu.build-id", we can use the
-existing code in build_id_parse_buf() that looks for the name and type.
+Sorry to keep nitpicking and bikeshedding.  Funcs aren't really "invalid", KVM
+just doesn't have any features it emulates in other leafs.  Maybe be more literal
+in describing what triggers the check?
 
->=20
-> Interesting idea (in positive way!), I'm wondering what Clang does in such
-> case.
->=20
+	/* Check the array capacity iff the entry is being copied over. */
 
-Clang also inserts a GNU build ID and it works with these patches.
+Not a sticking point, so either way:
+
+Reviewed-by: Sean Christopherson <seanjc@google.com>
+
+> +	if (array->nent >= array->maxnent)
+> +		return -E2BIG;
+> +
+> +	entry.function = func;
+> +	memcpy(&array->entries[array->nent++], &entry, sizeof(entry));
+> +
+> +out:
+>  	return 0;
+>  }
+>  
+> -- 
+> 2.30.2
+> 
