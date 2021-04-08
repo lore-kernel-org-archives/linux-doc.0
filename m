@@ -2,117 +2,96 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 876A6C43460
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 11:25:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 012BDC433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 11:43:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5130861151
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 11:25:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BC65C61155
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 11:43:18 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231255AbhDHLZS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Apr 2021 07:25:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39422 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231145AbhDHLZR (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Apr 2021 07:25:17 -0400
-Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA604C061761;
-        Thu,  8 Apr 2021 04:25:06 -0700 (PDT)
-Received: by mail-pl1-x62a.google.com with SMTP id p10so896211pld.0;
-        Thu, 08 Apr 2021 04:25:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=FNlHOXPoa1AVSwT64tviQKrmRjIP6/dQq2uo/ujEyXg=;
-        b=qp0/Rap3zfkW7RSQHOmAvkMYTUBWY2+8Bgzvs/A9UQK+O/r/Viauo5Rl//pUypVAO6
-         s42eIVBlLZ9Req69nMeB27hCmZ3kJYLqgSZiM/Lwjsno4YP4wuaDIoV1lP5m0B6dn63Y
-         XM5nfhiXlBQ/n2U49Jycba8gJaXHVy7hpX4jGJ3SXaisjZ1WoXqQBG8MNB5vwXFGxgR7
-         tqD1xhiWSQCmbvXlddzNLD9yaV0OHzlwgboQM0jBCvDZP4qsAY+8Ra8OOM5x/N8QOA+H
-         wcKy5b4Tq48vPsym77APSy5tTXFS6ZDkogixZcZsqyC/mdw7N0zFcTxZcIE55NUN2hpk
-         +KsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=FNlHOXPoa1AVSwT64tviQKrmRjIP6/dQq2uo/ujEyXg=;
-        b=pISWp2rNcXOuBq/y4ln6CPMwKtLPVOrD72H+xDzSgVtc4FgQ0YEVmhD9KMXqFUi3A9
-         YarCJwXP2T17CwWyyeDDz0MjQvbJjXzjfsRApwYX2G4eKO86nVDl11BuXu0AxRjSJkza
-         Gw9maw8BlSkqa9Vn2QZjwsdfz8MKoSU9+JH76Gnp5eHHL+OkuGiksY1wXLWeFBlaFycX
-         5l4ygf/E7SJgRmHKkY3d5mW5hiqikraPAhMYUbCzw1jK44z7yGGPMSKA4G8uCtIsljIH
-         9LzAgVRCrr1heE8GMF6MVs1wFPQnkvPKKTQF9GiE53TlyCjvZ9hrUyjzqfFficfPkYKa
-         Ohcg==
-X-Gm-Message-State: AOAM531/nEiGW1f76feGwYAds/z9SRT2IsJp4Y6JXwtSY9oPGa3eyloI
-        vXHXF6oOL9H7TQi1WDqxVmrXuLgMZGC6/cQE/CVy3evo5MUgYfMW
-X-Google-Smtp-Source: ABdhPJzpmgt1Vn1p3ptTy+1Wh/v8DyxoLdx6FN8hIZR+wzDKv0ufwJ0Y3kqPjfzWUZqOGHy3WDJbZOZXTX9qGr9xsIs=
-X-Received: by 2002:a17:90a:156:: with SMTP id z22mr8250717pje.181.1617881106488;
- Thu, 08 Apr 2021 04:25:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210402090542.131194-1-marcan@marcan.st> <20210402090542.131194-12-marcan@marcan.st>
- <CAHp75Vcghw6=05vbhX5J8sHoo78JMoq5z4w9__XcocrtRVjF3g@mail.gmail.com>
- <20210407210317.GB16198@willie-the-truck> <a89af1a3-b065-fca3-19d8-b7fd5ca2f1ae@marcan.st>
-In-Reply-To: <a89af1a3-b065-fca3-19d8-b7fd5ca2f1ae@marcan.st>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 8 Apr 2021 14:24:50 +0300
-Message-ID: <CAHp75Vdyug5zbSpGSDEK9hUY+y+ZLDeAyLsc2HAjEzczCpDOSQ@mail.gmail.com>
-Subject: Re: [PATCH v4 11/18] asm-generic/io.h: implement pci_remap_cfgspace
- using ioremap_np
-To:     Hector Martin <marcan@marcan.st>
-Cc:     Will Deacon <will@kernel.org>,
-        linux-arm Mailing List <linux-arm-kernel@lists.infradead.org>,
-        Marc Zyngier <maz@kernel.org>, Rob Herring <robh@kernel.org>,
-        Arnd Bergmann <arnd@kernel.org>,
-        Olof Johansson <olof@lixom.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mark Kettenis <mark.kettenis@xs4all.nl>,
-        Tony Lindgren <tony@atomide.com>,
-        Mohamed Mediouni <mohamed.mediouni@caramail.com>,
-        Stan Skowronek <stan@corellium.com>,
-        Alexander Graf <graf@amazon.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        id S230503AbhDHLn2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Apr 2021 07:43:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:35138 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230443AbhDHLn0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Apr 2021 07:43:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617882195;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=TlJwbyVHILxzSJx1fvaYPc1QqoC+7GiXUwRC58bfvdQ=;
+        b=Gl/LwUlT1qQiSGn9Aj/ndNlOyh8ujI9R/qmlhl0TbqSmuQKvNcr44qpAvZvbkcZoW/s49U
+        qgetNWJ/EtnjtIMpgOXMlBuRtYMDtp+mJLW5xHRKG+osDMIln7uSCRAqA0WjffHgSB1Hn7
+        v22IV+2dt4u//eyRFSj/e+WCbrvwIE4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-h2uHmcYrO_GCbt-Sf0xvuw-1; Thu, 08 Apr 2021 07:43:13 -0400
+X-MC-Unique: h2uHmcYrO_GCbt-Sf0xvuw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4343E5B378;
+        Thu,  8 Apr 2021 11:43:12 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-113-155.ams2.redhat.com [10.36.113.155])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 5D56E18A60;
+        Thu,  8 Apr 2021 11:43:05 +0000 (UTC)
+From:   Emanuele Giuseppe Esposito <eesposit@redhat.com>
+To:     kvm@vger.kernel.org
+Cc:     Paolo Bonzini <pbonzini@redhat.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Sean Christopherson <seanjc@google.com>,
+        Vitaly Kuznetsov <vkuznets@redhat.com>,
+        Emanuele Giuseppe Esposito <eesposit@redhat.com>,
+        Jim Mattson <jmattson@google.com>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
+        Alexander Graf <graf@amazon.com>,
+        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: [PATCH v4 0/4] KVM: cpuid: fix KVM_GET_EMULATED_CPUID implementation
+Date:   Thu,  8 Apr 2021 13:42:59 +0200
+Message-Id: <20210408114303.30310-1-eesposit@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 8, 2021 at 2:01 PM Hector Martin <marcan@marcan.st> wrote:
-> On 08/04/2021 06.03, Will Deacon wrote:
-> >> I would rewrite above as
-> >>
-> >> void __iomem *ret;
-> >>
-> >> ret = ioremap_np(offset, size);
-> >> if (ret)
-> >>    return ret;
-> >>
-> >> return ioremap(offset, size);
-> >
-> > Looks like it might be one of those rare occasions where the GCC ternary if
-> > extension thingy comes in handy:
-> >
-> >       return ioremap_np(offset, size) ?: ioremap(offset, size);
->
-> Today I learned that this one is kosher in kernel code. Handy! Let's go
-> with that.
+This series aims to clarify the behavior of the KVM_GET_EMULATED_CPUID
+ioctl, and fix a corner case where -E2BIG is returned when
+the nent field of struct kvm_cpuid2 is matching the amount of
+emulated entries that kvm returns.
 
-It depends on the maintainer. Greg, for example, doesn't  like this. I
-have no strong opinion (I use both variants on case-by-case basis),
-though I think in headers better to spell out all conditionals
-clearly.
+Patch 1 proposes the nent field fix to cpuid.c,
+patch 2 updates the ioctl documentation accordingly and
+patches 3 and 4 extend the x86_64/get_cpuid_test.c selftest to check
+the intended behavior of KVM_GET_EMULATED_CPUID.
+
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
+---
+v4:
+- Address nitpicks given in the mailing list
+
+Emanuele Giuseppe Esposito (4):
+  KVM: x86: Fix a spurious -E2BIG in KVM_GET_EMULATED_CPUID
+  Documentation: KVM: update KVM_GET_EMULATED_CPUID ioctl description
+  selftests: add kvm_get_emulated_cpuid to processor.h
+  selftests: KVM: extend get_cpuid_test to include
+    KVM_GET_EMULATED_CPUID
+
+ Documentation/virt/kvm/api.rst                | 10 +--
+ arch/x86/kvm/cpuid.c                          | 33 ++++---
+ .../selftests/kvm/include/x86_64/processor.h  |  1 +
+ .../selftests/kvm/lib/x86_64/processor.c      | 33 +++++++
+ .../selftests/kvm/x86_64/get_cpuid_test.c     | 90 ++++++++++++++++++-
+ 5 files changed, 142 insertions(+), 25 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.30.2
+
