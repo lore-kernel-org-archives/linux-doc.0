@@ -2,86 +2,159 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A5A8C433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 15:58:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E603FC433ED
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 16:58:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DCBC460FF0
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 15:58:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDA9C610FC
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 16:58:01 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232196AbhDHP6Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Apr 2021 11:58:16 -0400
-Received: from ms.lwn.net ([45.79.88.28]:54470 "EHLO ms.lwn.net"
+        id S231566AbhDHQ6L (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Apr 2021 12:58:11 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43438 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231866AbhDHP6Q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Apr 2021 11:58:16 -0400
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id A24425ECF;
-        Thu,  8 Apr 2021 15:58:04 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A24425ECF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1617897484; bh=9cJkoMOLSQtZN4qcQxmfnd8lPSGU32bj2b9RIrnsh50=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=admfcPA7smtr4j5sImuuExI+C3qfQpIbQzVsHJ7AGEZsmos64LcmUgk9IV2YN24V2
-         XXic6EStNCDO397MzMwf/LcfJMddhPNub1urpF1pQSU2wQAQpj55chzmdb4yEQ8hoR
-         itF9Il/N00+AcTfmPlzFMnhOooa3kwjvGFlSDvSphAZ5Ty64qk/dsf2Hrp0i6wvFlo
-         /4FfwN1Gt+gpGesVgjyQBKIq/549VV32MPpP+cUUA1r96BevIye079VRP+gFzGp6Du
-         m2l628mP3KFmSLMhNZD05wMrZIZilbV/Q9RdkdfaHPQHJ+Uw+YYAeXSUVI5Pj7LOWG
-         b3icIsY/QGvOw==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        linux-kernel@vger.kernel.org
-Cc:     bristot@redhat.com, kcarcia@redhat.com,
-        Ingo Molnar <mingo@redhat.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Alexandre Chartre <alexandre.chartre@oracle.com>,
-        Clark Willaims <williams@redhat.com>,
-        John Kacur <jkacur@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 5/5] tracing: Add the osnoise tracer
-In-Reply-To: <3a69303b27bfc5d2274ab893b2cfbd0a8dbe31f7.1617889883.git.bristot@redhat.com>
-References: <cover.1617889883.git.bristot@redhat.com>
- <3a69303b27bfc5d2274ab893b2cfbd0a8dbe31f7.1617889883.git.bristot@redhat.com>
-Date:   Thu, 08 Apr 2021 09:58:04 -0600
-Message-ID: <87pmz422gj.fsf@meer.lwn.net>
+        id S230522AbhDHQ6L (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Apr 2021 12:58:11 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 77A23610A2;
+        Thu,  8 Apr 2021 16:57:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617901079;
+        bh=/ZNonnVvJf8TVEI5fHURSn+FdH/9H7lo0rxmwdxIEcw=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=cShOX9ZUA3azSBUoknrPAWWS0N37VHpG7doQjfy7+ItILHntTKF/JR1E5GLw93Mdx
+         5CUL1do84tp4UhfmDxDO1y5UMlMqJ2ADwOD60+kStRm3HJ7g6JWtvVnkahVdnju7Wb
+         UrUXQfkj82ZVoY9ou1M822gpvStntBqE+L7Jy5D7HTkoSfz8jAMTHPQJSvevJuc2F8
+         +sN/S0UiOYhDUWkCASC7I+6u/sj6XVAwLxrHMKRAmCrcl5HI1K0DQNicofx5yanooS
+         gAXpRd8WOJe8RHEUxCZ7Z4dhrs4xo8OmU91GlssiuZ5ukApcWOkNnthN8GbHBWNKUO
+         UctgcSHxb1Y4A==
+Date:   Thu, 8 Apr 2021 11:57:58 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Yicong Yang <yangyicong@hisilicon.com>
+Cc:     alexander.shishkin@linux.intel.com, linux-kernel@vger.kernel.org,
+        linux-pci@vger.kernel.org, lorenzo.pieralisi@arm.com,
+        gregkh@linuxfoundation.org, jonathan.cameron@huawei.com,
+        song.bao.hua@hisilicon.com, prime.zeng@huawei.com,
+        linux-doc@vger.kernel.org, linuxarm@huawei.com
+Subject: Re: [PATCH 3/4] docs: Add documentation for HiSilicon PTT device
+ driver
+Message-ID: <20210408165758.GA1935187@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9ecc2177-1c3d-9899-923d-9514f652bb4e@hisilicon.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Daniel Bristot de Oliveira <bristot@redhat.com> writes:
+On Thu, Apr 08, 2021 at 09:22:52PM +0800, Yicong Yang wrote:
+> On 2021/4/8 2:55, Bjorn Helgaas wrote:
+> > On Tue, Apr 06, 2021 at 08:45:53PM +0800, Yicong Yang wrote:
 
-A quick nit:
+> >> +On Kunpeng 930 SoC, the PCIe root complex is composed of several
+> >> +PCIe cores.
+> 
+> > Can you connect "Kunpeng 930" to something in the kernel tree?
+> > "git grep -i kunpeng" shows nothing that's obviously relevant.
+> > I assume there's a related driver in drivers/pci/controller/?
+> 
+> Kunpeng 930 is the product name of Hip09 platform. The PCIe
+> controller uses the generic PCIe driver based on ACPI.
 
->  Documentation/trace/osnoise_tracer.rst |  149 ++
->  include/linux/ftrace_irq.h             |   16 +
->  include/trace/events/osnoise.h         |  141 ++
->  kernel/trace/Kconfig                   |   34 +
->  kernel/trace/Makefile                  |    1 +
->  kernel/trace/trace.h                   |    9 +-
->  kernel/trace/trace_entries.h           |   27 +
->  kernel/trace/trace_osnoise.c           | 1714 ++++++++++++++++++++++++
->  kernel/trace/trace_output.c            |   72 +-
->  9 files changed, 2159 insertions(+), 4 deletions(-)
->  create mode 100644 Documentation/trace/osnoise_tracer.rst
->  create mode 100644 include/trace/events/osnoise.h
->  create mode 100644 kernel/trace/trace_osnoise.c
+I guess I'm just looking for a hint to help users know when to enable
+the Kconfig for this.  Maybe the "HiSilicon" in the Kconfig help is
+enough?  Maybe "Kunpeng 930" is not even necessary?  If "Kunpeng 930"
+*is* necessary, there should be some way to relate it to something
+else.
 
-When you create a new RST file, you need to add it to an index.rst (or
-similar) file so that it gets incorporated into the docs build.
+> >> +from the file, and the desired value written to the file to tune.
+> > 
+> >> +Tuning multiple events at the same time is not permitted, which means
+> >> +you cannot read or write more than one tune file at one time.
+> > 
+> > I think this is obvious from the model, so the sentence doesn't really
+> > add anything.  Each event is a separate file, and it's obvious that
+> > there's no way to write to multiple files simultaneously.
+> 
+> from the usage we shown below this situation won't happen. I just worry
+> that users may have a program to open multiple files at the same time and
+> read/write simultaneously, so add this line here to mention the restriction.
 
-The document itself looks good on a quick read.  If you're making
-another pass over it, you might consider reducing the ``markup noise`` a
-bit; we try to keep that to a minimum in the kernel docs.  But otherwise
-thanks for writing it!
+How is this possible?  I don't think "writing multiple files
+simultaneously" is even possible in the Linux syscall model.  I don't
+think a user will do anything differently after reading "you cannot
+read or write more than one tune file at one time."
 
-jon
+> >> +- tx_path_rx_req_alloc_buf_level: watermark of RX requested
+> >> +- tx_path_tx_req_alloc_buf_level: watermark of TX requested
+> >> +
+> >> +These events influence the watermark of the buffer allocated for each
+> >> +type. RX means the inbound while Tx means outbound. For a busy
+> >> +direction, you should increase the related buffer watermark to enhance
+> >> +the performance.
+> > 
+> > Based on what you have written here, I would just write 2 to both
+> > files to enhance the performance in both directions.  But obviously
+> > there must be some tradeoff here, e.g., increasing Rx performance
+> > comes at the cost of Tx performane.
+> 
+> the Rx buffer and Tx buffer are separate, so they won't influence
+> each other.
+
+Why would I write anything other than 2 to these files?  That's the
+question I think this paragraph should answer.
+
+> >> +9. data_format
+> >> +--------------
+> >> +
+> >> +File to indicate the format of the traced TLP headers. User can also
+> >> +specify the desired format of traced TLP headers. Available formats
+> >> +are 4DW, 8DW which indicates the length of each TLP headers traced.
+> >> +::
+> >> +    $ cat data_format
+> >> +    [4DW]    8DW
+> >> +    $ echo 8 > data_format
+> >> +    $ cat data_format
+> >> +    4DW     [8DW]
+> >> +
+> >> +The traced TLP header format is different from the PCIe standard.
+> > 
+> > I'm confused.  Below you say the fields of the traced TLP header are
+> > defined by the PCIe spec.  But here you say the format is *different*.
+> > What exactly is different?
+> 
+> For the Request Header Format for 64-bit addressing of Memory, defind in
+> PCIe spec 4.0, Figure 2-15, the 1st DW is like:
+> 
+> Byte 0 > [Fmt] [Type] [T9] [Tc] [T8] [Attr] [LN] [TH] ... [Length]
+> 
+> some are recorded in our traced header like below, which some are not.
+> that's what I mean the format of the header are different. But for a
+> certain field like 'Fmt', the meaning keeps same with what Spec defined.
+> that's what I mean the fields definition of our traced header keep same
+> with the Spec.
+
+Ah, that helps a lot, thank you.  Maybe you could say something along
+the lines of this:
+
+  When using the 8DW data format, the entire TLP header is logged.
+  For example, the TLP header for Memory Reads with 64-bit addresses
+  is shown in PCIe r5.0, Figure 2-17; the header for Configuration
+  Requests is shown in Figure 2.20, etc.
+
+  In addition, 8DW trace buffer entries contain a timestamp and
+  possibly a prefix, e.g., a PASID TLP prefix (see Figure 6-20).  TLPs
+  may include more than one prefix, but only one can be logged in
+  trace buffer entries.
+
+  When using the 4DW data format, DW0 of the trace buffer entry
+  contains selected fields of DW0 of the TLP, together with a
+  timestamp.  DW1-DW3 of the trace buffer entry contain DW1-DW3
+  directly from the TLP header.
+
+This looks like a really cool device.  I wish we had this for more
+platforms.
+
+Bjorn
