@@ -2,89 +2,165 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C157BC433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 15:14:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58894C433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 15:18:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 980D161103
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 15:14:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 353DE61108
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 15:18:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231863AbhDHPOu (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Apr 2021 11:14:50 -0400
-Received: from m32-153.88.com ([43.250.32.153]:33006 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231843AbhDHPOt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 8 Apr 2021 11:14:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=x8WJTVJudueR+q4gfp0Z8l1iJZ0FYhJI+b3KU
-        J0FE+s=; b=DMXFe+zVzUyWFQ+ahUssDRSqvfDYpkMifIuXpBiNCzEtVe+8v1F+0
-        hfpS+MuhWcyw5LmWu2fQiDtCMvVypkzy0szKS0gls+wVXNjVJZ5wEafC5QZrXb/Z
-        h4PlZnsoiqLpWZiKywv2+6IzDMIT/7pSd2S+G/CKHnC6V2H5NaYaiE=
-Received: from bobwxc.top (unknown [120.238.248.129])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAnsyPUHW9gJ71jAA--.36086S2;
-        Thu, 08 Apr 2021 23:14:30 +0800 (CST)
-Date:   Thu, 8 Apr 2021 23:14:27 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Alex Shi <alexs@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <seakeel@gmail.com>,
-        YanTeng Si <sterlingteng@gmail.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: sync reporting-issues.rst
-Message-ID: <20210408151427.GA10705@bobwxc.top>
-References: <20210408135659.GA6747@bobwxc.top>
+        id S232135AbhDHPSq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Apr 2021 11:18:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34758 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231863AbhDHPSq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Apr 2021 11:18:46 -0400
+Received: from mail-il1-x135.google.com (mail-il1-x135.google.com [IPv6:2607:f8b0:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 416D2C061760
+        for <linux-doc@vger.kernel.org>; Thu,  8 Apr 2021 08:18:35 -0700 (PDT)
+Received: by mail-il1-x135.google.com with SMTP id b17so2095926ilh.6
+        for <linux-doc@vger.kernel.org>; Thu, 08 Apr 2021 08:18:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=wa4Rq0oyuzzbvWhJ5vxtDxQvF9CaUKLkGwoDxcK+Ado=;
+        b=IVEsdDzoYqCHiVGtn7sXdVW38QdU8eFMY5aPniyoOKN1l4JG/hS6nkLcSfVa2X9VwC
+         u0CKutklt9Anxjur/0P3qWkM8SIKhqmXAnG+CEi1+jZtqdgkbYPZeOfr1WTf3Z1ApNoA
+         susOXU6IQgVRIwpNHOQPlw1kNjUghCPTfIiQw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=wa4Rq0oyuzzbvWhJ5vxtDxQvF9CaUKLkGwoDxcK+Ado=;
+        b=W8IC0KRuF4JKdnYwRo7ZZbikd7MHTQaodMGb9xzw1/+Ng/MltXqT2PdNrd/L+scPTt
+         g5iusMELj4t0IhmM37XGoLwv0W3HdOyml6IfJ084b+Zl5u2YqqusNdg0QbMbI2tSUkLb
+         ZrssnEVM0hfkKv/BcRqPmQY5hdzPMm0JR9VD7jlfZQjh930ZBlDI0rd99eRhrOBNA03c
+         DRXgFTtJi9vaK2gO5rV6WcqRr3SyyfBPRW4nJ0ZuXZ3bGZHJ4Or46uCesEy3NMLdkYap
+         Xwmyu9XQQpoq1QTxkcsh+jFdD9dxtdf4hVdAZvZJM956eC1pRwa7z842XUaTyJpuHuhO
+         42yA==
+X-Gm-Message-State: AOAM533w5cU46Jlr9qoo8YZVRYKpMdz2BGeCCfTGKhOJQVa/nomaeBXo
+        QZInVcbw+heZkkF84hezjVt1yw==
+X-Google-Smtp-Source: ABdhPJzobhFNzLW6pw4hRXu1IIcwwYwoQ9wvq/wgI4fLX3jHbe7EPYC8dwoXDznQu1mRBZNRjSfm+w==
+X-Received: by 2002:a92:d5cf:: with SMTP id d15mr7362060ilq.18.1617895114662;
+        Thu, 08 Apr 2021 08:18:34 -0700 (PDT)
+Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
+        by smtp.gmail.com with ESMTPSA id f18sm214693ile.40.2021.04.08.08.18.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Apr 2021 08:18:34 -0700 (PDT)
+Subject: Re: [PATCH v6] docs: usbip: Fix major fields and descriptions in
+ protocol
+To:     "Hongren Zheng (Zenithal)" <i@zenithal.me>,
+        Valentina Manea <valentina.manea.m@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        =?UTF-8?B?TcOhcnRvbiBOw6ltZXRo?= <nm127@freemail.hu>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Cc:     Alexandre Demers <alexandre.f.demers@gmail.com>,
+        linux-usb@vger.kernel.org, usbip-devel@lists.sourceforge.net,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Shuah Khan <skhan@linuxfoundation.org>
+References: <YGNZHfmAbHO6fyAr@Sun>
+From:   Shuah Khan <skhan@linuxfoundation.org>
+Message-ID: <650e47cb-379f-b48e-0bc0-c3453c249d80@linuxfoundation.org>
+Date:   Thu, 8 Apr 2021 09:18:33 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210408135659.GA6747@bobwxc.top>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgAnsyPUHW9gJ71jAA--.36086S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Jr4rJFWkur1fWry7Jr47Jwb_yoW3Wrc_ur
-        4kAw17AFWkur18Ka18AF9xKwnFkw4IkrW5uw15ta43Aa43Cws8X397Kan0vay3JrW7Cw1U
-        A3y7Wr48Kr13ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbYkYjsxI4VWkKwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-        8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E
-        87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
-        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
-        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY02Avz4vE14v_XrWl42xK82
-        IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8
-        JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
-        AFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
-        jxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
-        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU
-        0xZFpf9x07jC6wtUUUUU=
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+In-Reply-To: <YGNZHfmAbHO6fyAr@Sun>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 08, 2021 at 09:57:00PM +0800, Wu XiangCheng wrote:
-> Sync zh translation reporting-issues.rst to
-> commit 58c539453b71 ("docs: reporting-issues: reduce quoting and assorted
-> fixes")
+On 3/30/21 11:00 AM, Hongren Zheng (Zenithal) wrote:
+> The old document for usbip protocol is misleading and hard to read:
+>    * Some fields in header are incorrect
+>    * Explanation of some fields are unclear or even wrong
+>    * Padding of header (namely all headers have the same length) is
+>      not explicitly pointed out, which is crucial for stream protocol
+>      like TCP
 > 
-> Drop reporting-bug.rst
+> Major changes:
+>    * Document the correct field as described in the codebase.
+>    * Document the padding in usbip headers. This is crucial for TCP
+>      stream hence these padding should be explicitly point out.
+>      In code these padding are implemented by a union of all headers.
+>    * Fix two FIXME related to usbip unlink and Document the behavior
+>      of unlink in different situation.
+>    * Clarify some field with more accurate explanation, like those
+>      fields associated with URB. Some constraints are extracted from
+>      code.
+>    * Delete specific transfer_flag doc in usbip as it should be
+>      documented by the URB doc in Documentation/driver-api/usb/URB.rst
+>    * Add data captured from wire as example
 > 
-> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+> Version change:
+>      From "PRELIMINARY DRAFT, MAY CONTAIN MISTAKES, 28 Jun 2011"
+>      To "Version 1, 31 Mar 2021"
+> 
+> Co-developed-by: Alexandre Demers <alexandre.f.demers@gmail.com>
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Signed-off-by: Hongren Zheng <i@zenithal.me>
 > ---
-> Hoo, too many changes.
-> You may have to do a lot of checking.
+>   Documentation/usb/usbip_protocol.rst | 344 +++++++++++++++------------
+>   1 file changed, 193 insertions(+), 151 deletions(-)
 > 
-> Thanks!
+> PATCH v2:
+> Some changes suggested by a previous patch in
+> https://lore.kernel.org/linux-usb
+> /20180128071514.9107-1-alexandre.f.demers@gmail.com/
+> is adopted in this patch.
+>    * Fix Typo: duplicated 'the' in 'the following 4 field'
+>    * Fix incorrect field: in OP_REQ_DEVLIST, the second dev starts with
+>      field 'path', not 'busid'
+> 
+> PATCH v3:
+> Suggested by
+> https://lore.kernel.org/linux-doc/YE8Oan2BmSuKR4%2Fp@kroah.com/
+>    * Remove date and changelog in doc as these are tracked in git history
+>    * Remove 'mistake alert' as all data fields are documented properly
+>      now. However, docs on possible values for some field shall be added
+>      in the future
+> 
+> PATCH v4:
+> Suggested by https://lore.kernel.org/linux-doc
+> /40351ed6-2907-3966-e69a-a564173b3682@infradead.org/
+>    * Add punctuations for readability
+>    * Move patch changelog after the marker line
+>    * Remove nickname in signed-off-by line
+> 
+> PATCH v5:
+>    * Instead of co-developed-by, use reviewed-by
+>      for Randy Dunlap
+> 
+> PATCH v6:
+>    * Add reference to URB doc in changelog
+>    * Add version change in changelog
+>    * Add reference to URB doc for transfer_flag and other fields in
+>      USBIP_CMD_SUBMIT
+>    * Add reference to specific functions for UNLINK behavior
+>      and transfer_flag
+>    * Fix typo: "clients import", "connection to the server" and
+>      "USBIP_RET_UNLINK" to "USBIP_RET_SUBMIT" in UNLINK behavior part
+>    * Separate the flow of UNLINK for clarity
+>    * Extract the version number in message headers to one separate
+>      section for ease of maintainence
 > 
 
-To make review easier:
+Thank you for updating the document.
 
-* diff file of En version:
-  <http://fars.ee/3IQ2/diff>
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
 
-* zh reporting-issues.rst applied the patch
-  <https://www.bobwxc.top/cgit/linux/tree/Documentation/translations/zh_CN/admin-guide/reporting-issues.rst?h=zh-doc>
+Greg, please pick this up.
 
-* highlighted patch
-  <https://www.bobwxc.top/cgit/linux/commit/?h=zh-doc&id=d510474c31e3bd7d4fefacffd7f382112a05d548>
-
+thanks,
+-- Shuah
