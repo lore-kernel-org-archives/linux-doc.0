@@ -2,73 +2,94 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BABABC433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 17:20:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AC70C433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 17:31:16 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 928C9610D0
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 17:20:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EF953610D0
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 17:31:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231676AbhDHRUZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Apr 2021 13:20:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33606 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232641AbhDHRUX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Apr 2021 13:20:23 -0400
-Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E96DCC061760
-        for <linux-doc@vger.kernel.org>; Thu,  8 Apr 2021 10:20:09 -0700 (PDT)
+        id S231891AbhDHRb0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Apr 2021 13:31:26 -0400
+Received: from ms.lwn.net ([45.79.88.28]:56784 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231716AbhDHRb0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Apr 2021 13:31:26 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 983DD52B9;
-        Thu,  8 Apr 2021 17:20:09 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 983DD52B9
+        by ms.lwn.net (Postfix) with ESMTPSA id BE0D852BA;
+        Thu,  8 Apr 2021 17:31:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net BE0D852BA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1617902409; bh=0q3LAtYVLyUB8ByqrHCsd9CHBxCSbdHvTj6zejD8rfs=;
+        t=1617903074; bh=66Am5knCsMXAUCPM0lk6QauZKtVFb00wrB+5laBJ1U0=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=KXiQM0yEYFMaW4hUy9EZ1NsTAfiofSCXZXPNA8n3xxGf4qjXE56CUwrKJMsHxs38B
-         wEy5GH0QWIpGrz2ftZACk9xXILgJ/2KPcu6AyLwZS5TEzIIe7fwnYu+hFP0M44To2Z
-         wwf+OF4Ox7DqmYBTv+KJSK7Tcara2VaJVWaEJU/I+LPCkpWBXwaEaIwiEs9GNJe5Dn
-         q6J6VBhYwy+nd5oizwKJl+oA+qUYzEwOQf1q7BEA51ibitl8/9uawh0aM1U9lvsv02
-         YMk2buf0Y9o8ISr3Y72rqDGmhPVvawirDYrBSBS+BHmmVfloDCkRdy67pg/CG9RyAz
-         sRumgunSFW4qg==
+        b=WdVW59NmkBQ5ljvolEKj2hdKTzVbjsG/1OXko/YM/ujOp2T0r4692OXpPYQsskfZn
+         pkwtVm+7Lq0FpvBtlX+oIKAQFo/iW2xD+8M2k3+nsUTRqTSUx1ovbgnMMBrf5J7jD2
+         oWhyY8COcIsDLFZN/bvmbsyTOjM8FQFd1iXSzzsHsg1qsWBVppDr0fhfNius3S8AlA
+         wmENJWyzzIXrDwQrnZkVNm9B4hKcuWxgRaUfk6/Q4Sv7HxK7twN3HBNfkCMZVHZ8p4
+         Q0+KK19FKI7z9nhMONQdmsReoDeD4JzNEFH6Of+qv7gEiyednfbeT78Vr77amKJ1+F
+         DdFDmaTUbN+NQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Wu XiangCheng <bobwxc@email.cn>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/gcov: Convert two tags to ref in dev-tools/gov.rst
-In-Reply-To: <75131ef2-2c6f-3fc4-8a79-bab0d0f7b633@linux.ibm.com>
-References: <20210403113752.GA32236@mipc>
- <75131ef2-2c6f-3fc4-8a79-bab0d0f7b633@linux.ibm.com>
-Date:   Thu, 08 Apr 2021 11:20:08 -0600
-Message-ID: <87r1jkzoaf.fsf@meer.lwn.net>
+To:     Thorsten Leemhuis <linux@leemhuis.info>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v1 2/2] docs: reporting-issues: make everyone CC the
+ regressions list
+In-Reply-To: <813fc7b082a4b47ec6d34542971e9bba74fd4a51.1617786974.git.linux@leemhuis.info>
+References: <cover.1617786974.git.linux@leemhuis.info>
+ <813fc7b082a4b47ec6d34542971e9bba74fd4a51.1617786974.git.linux@leemhuis.info>
+Date:   Thu, 08 Apr 2021 11:31:14 -0600
+Message-ID: <87im4wznrx.fsf@meer.lwn.net>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Peter Oberparleiter <oberpar@linux.ibm.com> writes:
+Thorsten Leemhuis <linux@leemhuis.info> writes:
 
-> On 03.04.2021 13:37, Wu XiangCheng wrote:
->> Htmldocs does not display the chapter number, convert the two manual
->> chapter number tags to ref tags.
->> 
->> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
->
-> Looks sane to me.
->
-> Acked-by: Peter Oberparleiter <oberpar@linux.ibm.com>
->
-> Unfortunately I don't know how documentation updates such as this one
-> are typically handled...
+> +In case you performed a successful bisection, use the title of the chang=
+e that
+> +introduced the regression as the second part of your subject. Make the r=
+eport
+> +also mention the commit=C2=A0id of the culprit. For tracking purposes, a=
+dd a line
+> +like the following that contains both pieces of information, but with the
+> +commit=C2=A0id shortened to 12 characters::
+> +
+> +    #regzb introduced: 94a632d91ad1 ("usc: xhbi-foo: check bar_params ea=
+rlier")
+> +
+> +In case of an unsuccessful bisection, make your report mention the lates=
+t tested
+> +version that's working fine (say 5.7) and the oldest where the issue occ=
+urs (say
+> +5.8-rc1). For tracking purposes add a line expressing it like this::
+> +
+> +    #regzb introduced: v5.7..v5.8-rc1
 
-I've applied it.
+I kind of share Greg's concern that people aren't going to want to do
+this; it could even be seen as an impediment to reporting problems in
+general.  If you *really* want random users to input this sort of
+information, you may well end up creating some sort of web page to step
+them through it.
+
+Also, though, as I understand it the system that will interpret these
+lines does not yet exist.  Experience tells me that, as this system
+comes into existence, you will have a good chance of deciding that you
+want the syntax to look different anyway.  So I would personally hold
+off on telling people to include directives like this until you have
+something that works with them.
+
+But that's just me... if this is the way it's going to work then the
+docs should of course reflect that.
 
 Thanks,
 
