@@ -2,115 +2,383 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3308EC433ED
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 01:42:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E19B1C433B4
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 02:35:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 0033E61168
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 01:42:14 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B4F7461175
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 02:35:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229544AbhDHBmY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 7 Apr 2021 21:42:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54078 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbhDHBmX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 21:42:23 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D23EC061760
-        for <linux-doc@vger.kernel.org>; Wed,  7 Apr 2021 18:42:13 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id s21so247776eju.8
-        for <linux-doc@vger.kernel.org>; Wed, 07 Apr 2021 18:42:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6n231CBUghOAQxU3U/5l2AjQW4d7czM3DbowBIy9hCk=;
-        b=Gx+V6BccszFJts/TQT0IxiD3yfhAjhr8MpOw5IjbhV9mIt6sDvdCprCLx7JJNRCbFZ
-         DuYV3tNiefYhU+qg+KpEY82yAG9VFNOqTu7RzrWxWxvHJXUQpOFmTxZg9swTw+pBNkO/
-         s18niD5eG0pfwKV2AhZzYfMrWFJ5Pb8JFZzQAvg++Ub8t6nN+JddBpfe77lXL7/5kZon
-         9+mxHDarvYWylTUEtv0/PWrIeNG+XKy7uHXiOXh991pWH95jcLjWKxgyfZSZ+UC4+bhK
-         PBeLPrDxuscoKAGr/A3hWh7sBI3I4CwkOl4+HUI1tEa8NmSqtZ7/qhxlmsJHuUsycYUd
-         cgxw==
+        id S229523AbhDHCf6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 7 Apr 2021 22:35:58 -0400
+Received: from mail-wr1-f48.google.com ([209.85.221.48]:47020 "EHLO
+        mail-wr1-f48.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229505AbhDHCf6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 7 Apr 2021 22:35:58 -0400
+Received: by mail-wr1-f48.google.com with SMTP id a12so373514wrq.13;
+        Wed, 07 Apr 2021 19:35:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6n231CBUghOAQxU3U/5l2AjQW4d7czM3DbowBIy9hCk=;
-        b=bmk4O2KTN735ov5KoNEuO5UfmJE72JgUdnEN3oj3wzh/YB/+kBIYQDvwAfsM32sbYF
-         G6r+bKCDack2PROaPmbY5/vI1RFOP9N6chJZTWoHE8LTuVuB9P6XhgIVfgFNzT47t5/K
-         Cug8JTSss+kAppPK08jYVT9vzH5U3Dz4+a/M/7j+gEtCSj0SIkFxx7fcn/6pUbOOSnRi
-         4/A1VWOVyroy0qhrrC3SjnWOIZgkUQZxYyOwse90vKZCElJ3Om5dEnzZkB0JuMwAc+kF
-         Ni/Wuu6EcxeYPbwwNCQji4aggmfgaXpQgt/JQkuvDqQbXpHE1Vh7JF6z/ozFaqbV+6u0
-         b+8w==
-X-Gm-Message-State: AOAM530jlaSj7pCyQbs5XjAwRlqHxXq5eWRuZxLGRzoUT6XhoG0iY8U0
-        9WoOFgUvE2Qt6Nkz+VziBzfATTqsTxapvLmZq90O
-X-Google-Smtp-Source: ABdhPJwxlJ0FgA00wxWQd8bGRHYZNzEt5yMX1HTifk3A8syzAksdjyELkHpAg9I38oGAKIzjqGUm18fsSOfVckHUPAE=
-X-Received: by 2002:a17:906:b53:: with SMTP id v19mr7155607ejg.542.1617846132121;
- Wed, 07 Apr 2021 18:42:12 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=diAtKTDNhqJiH3/HVm2R5WPwEeu0Z2200Qio/KpR5PU=;
+        b=WN9+zDmMVrqr2ZcK4jeAtCE+Yjl2baKsryhve6Eu+/JjHRWCWP3MGHL+xA04G80oo1
+         nrrOQWSkBC+Aca/PENF5ixnWb07MjhwHYY0OfdqgaiNQaNXf1iuHtrfGwBO26lt/Mg6Z
+         AvC72gJZ51gIPASNbBaUZc+97ZYqwVIPR51Hx3GA/zrVHxDTz544bo/NMjzHnvmEqa1G
+         DHgQkL0G5pJxHHxr1huyRvSP8e0XzudeiKC8RwldvgHE1fSRDBaT3YfUJTd5zNcR6/e3
+         tI3pluaubLLhYLOqqT50GgX3jzmktXSnjtos4bgtYkf+xI0JQUZrocJOnksRUdpJPptK
+         FltQ==
+X-Gm-Message-State: AOAM532sOnokS2MdyyedZNyIQ5yooX2XNi+5jmSW5qK5hQgUvEHy95dJ
+        sVDfCsc/i+p7dFG+3rqZVnk=
+X-Google-Smtp-Source: ABdhPJyTOKEU3oy8+vV2D5KXYtnrIcWNtekcgkgsx825HXELvPl+8R4bZLL+4FzSznYIYF4r0EYCug==
+X-Received: by 2002:adf:edd2:: with SMTP id v18mr8002903wro.305.1617849346469;
+        Wed, 07 Apr 2021 19:35:46 -0700 (PDT)
+Received: from localhost ([2a02:8308:387:c900:a7b5:b859:9449:c07b])
+        by smtp.gmail.com with ESMTPSA id c16sm52345386wrs.81.2021.04.07.19.35.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Apr 2021 19:35:45 -0700 (PDT)
+From:   =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>
+Cc:     =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] hwmon: Add driver for fsp-3y PSUs and PDUs
+Date:   Thu,  8 Apr 2021 04:34:26 +0200
+Message-Id: <20210408023427.650428-1-kubernat@cesnet.cz>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210329143833.1047539-1-kubernat@cesnet.cz>
+References: <20210329143833.1047539-1-kubernat@cesnet.cz>
 MIME-Version: 1.0
-References: <20210309143953.142341-1-richard_c_haines@btinternet.com>
-In-Reply-To: <20210309143953.142341-1-richard_c_haines@btinternet.com>
-From:   Paul Moore <paul@paul-moore.com>
-Date:   Wed, 7 Apr 2021 21:42:01 -0400
-Message-ID: <CAHC9VhSHm-GrmjdZKPFf8Rr5JNzo7ieR+mSy7F3n-KjfD1OEaA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] LSM Documentation - Render lsm_hooks.h for kernel_docs
-To:     Richard Haines <richard_c_haines@btinternet.com>
-Cc:     linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-        corbet@lwn.net, James Morris <jmorris@namei.org>,
-        Serge Hallyn <serge@hallyn.com>, casey@schaufler-ca.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 9, 2021 at 9:40 AM Richard Haines
-<richard_c_haines@btinternet.com> wrote:
->
-> This patch series updates the LSM hook text defined in the comments
-> section of inlcude/linux/lsm_hooks.h. This enables the hook functions to
-> be rendered in kernel_docs html or pdf format.
->
-> Note that no text has been changed in lsm_hooks.h, only formatting
-> to render the text.
->
-> To get the correct rendering some lines have exceeded checkpatch limits and
-> therefore has a moan. The function statements seem to need being a
-> continuous line. The others can be split, but decided not to.
-> Any better ideas ??
->
-> The hook functions render in HTML ok, however in PDF format the only issue
-> is that the long function definitions do not wrap and therefore truncated.
-> Check the 'int sb_mount(const char *dev_name' entry in:
-> Documentation/output/pdf/security.pdf
->
-> For reference two hooks have been marked as deprecated: sb_copy_data() and
-> sb_parse_opts_str()
->
-> Tested using 'make pdfdocs' and 'make htmldocs'
->
-> Richard Haines (3):
->   Documentation/security: Update LSM security hook text
->   include/linux: Update LSM hook text part1
->   include/linux: Update LSM hook text part2
->
->  Documentation/security/lsm-development.rst |    5 +-
->  include/linux/lsm_hooks.h                  | 2365 +++++++++++---------
->  2 files changed, 1364 insertions(+), 1006 deletions(-)
+This patch adds support for these devices:
+- YH-5151E - the PDU
+- YM-2151E - the PSU
 
-I haven't yet pulled this patchset to generate the HTML/PDF docs, but
-just looking at the comments themselves it looks reasonable to me ...
-and I say this as being perhaps one of the stricter folks under
-security/ when it comes to 80 character line lengths :)  In my
-opinion, the benefit of being able to render the docs nicely outweigh
-the pain of scrolling horizontally in my editor.  Thanks for doing
-this Richard.
+The device datasheet says that the devices support PMBus 1.2, but in my
+testing, a lot of the commands aren't supported and if they are, they
+sometimes behave strangely or inconsistently. For example, writes to the
+PAGE command requires using PEC, otherwise the write won't work and the
+page won't switch, even though, the standard says that PEC is opiotnal.
+On the other hand, writes the SMBALERT don't require PEC. Because of
+this, the driver is mostly reverse engineered with the help of a tool
+called pmbus_peek written by David Brownell (and later adopted by my
+colleague Jan Kundrát).
 
-Does anyone else have any thoughts on these changes?
+The device also has some sort of a timing issue when switching pages,
+which is explained further in the code.
 
+Because of this, the driver support is limited. It exposes only the
+values, that have been tested to work correctly.
+
+Signed-off-by: Václav Kubernát <kubernat@cesnet.cz>
+---
+ Documentation/hwmon/fsp-3y.rst |  26 ++++
+ drivers/hwmon/pmbus/Kconfig    |  10 ++
+ drivers/hwmon/pmbus/Makefile   |   1 +
+ drivers/hwmon/pmbus/fsp-3y.c   | 217 +++++++++++++++++++++++++++++++++
+ 4 files changed, 254 insertions(+)
+ create mode 100644 Documentation/hwmon/fsp-3y.rst
+ create mode 100644 drivers/hwmon/pmbus/fsp-3y.c
+
+diff --git a/Documentation/hwmon/fsp-3y.rst b/Documentation/hwmon/fsp-3y.rst
+new file mode 100644
+index 000000000000..68a547021846
+--- /dev/null
++++ b/Documentation/hwmon/fsp-3y.rst
+@@ -0,0 +1,26 @@
++Kernel driver fsp3y
++======================
++Supported devices:
++  * 3Y POWER YH-5151E
++  * 3Y POWER YM-2151E
++
++Author: Václav Kubernát <kubernat@cesnet.cz>
++
++Description
++-----------
++This driver implements limited support for two 3Y POWER devices.
++
++Sysfs entries
++-------------
++in1_input            input voltage
++in2_input            12V output voltage
++in3_input            5V output voltage
++curr1_input          input current
++curr2_input          12V output current
++curr3_input          5V output current
++fan1_input           fan rpm
++temp1_input          temperature 1
++temp2_input          temperature 2
++temp3_input          temperature 3
++power1_input         input power
++power2_input         output power
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index 03606d4298a4..9d12d446396c 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -56,6 +56,16 @@ config SENSORS_BEL_PFE
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called bel-pfe.
+ 
++config SENSORS_FSP_3Y
++	tristate "FSP/3Y-Power power supplies"
++	help
++	  If you say yes here you get hardware monitoring support for
++	  FSP/3Y-Power hot-swap power supplies.
++	  Supported models: YH-5151E, YM-2151E
++
++	  This driver can also be built as a module. If so, the module will
++	  be called fsp-3y.
++
+ config SENSORS_IBM_CFFPS
+ 	tristate "IBM Common Form Factor Power Supply"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+index 6a4ba0fdc1db..bfe218ad898f 100644
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -8,6 +8,7 @@ obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
+ obj-$(CONFIG_SENSORS_ADM1266)	+= adm1266.o
+ obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
+ obj-$(CONFIG_SENSORS_BEL_PFE)	+= bel-pfe.o
++obj-$(CONFIG_SENSORS_FSP_3Y)	+= fsp-3y.o
+ obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
+ obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
+ obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+diff --git a/drivers/hwmon/pmbus/fsp-3y.c b/drivers/hwmon/pmbus/fsp-3y.c
+new file mode 100644
+index 000000000000..2c165e034fa8
+--- /dev/null
++++ b/drivers/hwmon/pmbus/fsp-3y.c
+@@ -0,0 +1,217 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Hardware monitoring driver for FSP 3Y-Power PSUs
++ *
++ * Copyright (c) 2021 Václav Kubernát, CESNET
++ */
++
++#include <linux/delay.h>
++#include <linux/i2c.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include "pmbus.h"
++
++#define YM2151_PAGE_12V_LOG	0x00
++#define YM2151_PAGE_12V_REAL	0x00
++#define YM2151_PAGE_5VSB_LOG	0x01
++#define YM2151_PAGE_5VSB_REAL	0x20
++#define YH5151E_PAGE_12V_LOG	0x00
++#define YH5151E_PAGE_12V_REAL	0x00
++#define YH5151E_PAGE_5V_LOG	0x01
++#define YH5151E_PAGE_5V_REAL	0x10
++#define YH5151E_PAGE_3V3_LOG	0x02
++#define YH5151E_PAGE_3V3_REAL	0x11
++
++enum chips {
++	ym2151e,
++	yh5151e
++};
++
++struct fsp3y_data {
++	struct pmbus_driver_info info;
++	enum chips chip;
++	int page;
++};
++
++#define to_fsp3y_data(x) container_of(x, struct fsp3y_data, info)
++
++static int page_log_to_page_real(int page_log, enum chips chip)
++{
++	switch (chip) {
++	case ym2151e:
++		switch (page_log) {
++		case YM2151_PAGE_12V_LOG:
++			return YM2151_PAGE_12V_REAL;
++		case YM2151_PAGE_5VSB_LOG:
++			return YM2151_PAGE_5VSB_REAL;
++		}
++		return -1;
++	case yh5151e:
++		switch (page_log) {
++		case YH5151E_PAGE_12V_LOG:
++			return YH5151E_PAGE_12V_REAL;
++		case YH5151E_PAGE_5V_LOG:
++			return YH5151E_PAGE_5V_LOG;
++		case YH5151E_PAGE_3V3_LOG:
++			return YH5151E_PAGE_3V3_REAL;
++		}
++		return -1;
++	}
++
++	return -1;
++}
++
++static int set_page(struct i2c_client *client, int page_log)
++{
++	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
++	struct fsp3y_data *data = to_fsp3y_data(info);
++	int rv;
++	int page_real = page_log_to_page_real(page_log, data->chip);
++
++	if (page_log < 0)
++		return 0;
++
++	if (data->page != page_real) {
++		rv = pmbus_set_page(client, page_real, 0xff);
++		if (rv < 0)
++			return rv;
++
++		data->page = page_real;
++
++		/* Testing showed that the device has a timing issue. After
++		 * setting a page, it takes a while, before the device actually
++		 * gives the correct values from the correct page. 20 ms was
++		 * tested to be enough to not give wrong values (15 ms wasn't
++		 * enough)
++		 */
++		usleep_range(20000, 30000);
++	}
++
++	return 0;
++}
++
++static int fsp3y_read_byte_data(struct i2c_client *client, int page, int reg)
++{
++	int rv;
++
++	rv = set_page(client, page);
++	if (rv < 0)
++		return rv;
++
++	return i2c_smbus_read_byte_data(client, reg);
++}
++
++static int fsp3y_read_word_data(struct i2c_client *client, int page, int phase, int reg)
++{
++	int rv;
++
++	switch (reg) {
++	case PMBUS_READ_FAN_SPEED_1:
++	case PMBUS_READ_IIN:
++	case PMBUS_READ_IOUT:
++	case PMBUS_READ_PIN:
++	case PMBUS_READ_POUT:
++	case PMBUS_READ_TEMPERATURE_1:
++	case PMBUS_READ_TEMPERATURE_2:
++	case PMBUS_READ_TEMPERATURE_3:
++	case PMBUS_READ_VIN:
++	case PMBUS_READ_VOUT:
++	case PMBUS_STATUS_WORD:
++		break;
++	default:
++		return -ENXIO;
++	}
++
++	rv = set_page(client, page);
++	if (rv < 0)
++		return rv;
++
++	return i2c_smbus_read_word_data(client, reg);
++}
++
++struct pmbus_driver_info fsp3y_info[] = {
++	[ym2151e] = {
++		.pages = 2,
++		.func[YM2151_PAGE_12V_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_PIN | PMBUS_HAVE_POUT  |
++			PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
++			PMBUS_HAVE_VIN | PMBUS_HAVE_IIN |
++			PMBUS_HAVE_FAN12,
++		.func[YM2151_PAGE_5VSB_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT,
++			PMBUS_HAVE_IIN,
++		.read_word_data = fsp3y_read_word_data,
++		.read_byte_data = fsp3y_read_byte_data,
++	},
++	[yh5151e] = {
++		.pages = 3,
++		.func[YH5151E_PAGE_12V_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_POUT  |
++			PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 | PMBUS_HAVE_TEMP3,
++		.func[YH5151E_PAGE_5V_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_POUT,
++		.func[YH5151E_PAGE_3V3_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_POUT,
++		.read_word_data = fsp3y_read_word_data,
++		.read_byte_data = fsp3y_read_byte_data,
++	}
++};
++
++static int fsp3y_probe(struct i2c_client *client)
++{
++	struct fsp3y_data *data;
++	int rv;
++	u8 buf[I2C_SMBUS_BLOCK_MAX];
++
++	data = devm_kzalloc(&client->dev, sizeof(struct fsp3y_data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	rv = i2c_smbus_read_byte_data(client, PMBUS_PAGE);
++	if (rv < 0)
++		return rv;
++	data->page = rv;
++
++	rv = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
++	if (rv < 0)
++		return rv;
++	if (rv != 8)
++		return -ENODEV;
++
++	if (!strncmp(buf, "YM-2151E", strlen("YM-2151E")))
++		data->chip = ym2151e;
++	else if (!strncmp(buf, "YH-5151E", strlen("YH-5151E")))
++		data->chip = yh5151e;
++	else
++		return -ENODEV;
++
++	data->info = fsp3y_info[data->chip];
++
++	return pmbus_do_probe(client, &data->info);
++}
++
++static const struct i2c_device_id pmbus_id[] = {
++	{"fsp3y", 0},
++	{}
++};
++
++MODULE_DEVICE_TABLE(i2c, pmbus_id);
++
++/* This is the driver that will be inserted */
++static struct i2c_driver fsp3y_driver = {
++	.driver = {
++		   .name = "fsp3y",
++		   },
++	.probe_new = fsp3y_probe,
++	.id_table = pmbus_id
++};
++
++module_i2c_driver(fsp3y_driver);
++
++MODULE_AUTHOR("Václav Kubernát");
++MODULE_DESCRIPTION("PMBus driver for FSP/3Y-Power power supplies");
++MODULE_LICENSE("GPL");
 -- 
-paul moore
-www.paul-moore.com
+2.31.1
+
