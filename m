@@ -8,53 +8,53 @@ X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61C34C433B4
-	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 13:49:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B723C43461
+	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 13:49:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 30FE861025
+	by mail.kernel.org (Postfix) with ESMTP id 002CC61182
 	for <linux-doc@archiver.kernel.org>; Thu,  8 Apr 2021 13:49:29 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231785AbhDHNti (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S231709AbhDHNti (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 8 Apr 2021 09:49:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43256 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231617AbhDHNt3 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Apr 2021 09:49:29 -0400
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2C16C061760;
-        Thu,  8 Apr 2021 06:49:17 -0700 (PDT)
-Received: by mail-qk1-x731.google.com with SMTP id q26so2183581qkm.6;
-        Thu, 08 Apr 2021 06:49:17 -0700 (PDT)
+        with ESMTP id S231758AbhDHNtb (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Apr 2021 09:49:31 -0400
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com [IPv6:2607:f8b0:4864:20::f33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A159C061763;
+        Thu,  8 Apr 2021 06:49:20 -0700 (PDT)
+Received: by mail-qv1-xf33.google.com with SMTP id x27so879977qvd.2;
+        Thu, 08 Apr 2021 06:49:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=kPY0GkE9S3FRLIHJStl59h2p5t9zcOUJ2P3qtKum3yg=;
-        b=WFZrXBwOtThwzUsNKrScxb497GWogo5z46RXzbgC/4V9DY6PS+0KSD3yqp46uKE51/
-         f6K9oTNtcS1NaIPL9S6s+fMkIxEyWgd0riDiDwC4cSRB13MBPoZrWod6cj7hqFl6YFQY
-         ihRD3hH/jg/RUCXfSCx66bncPc9WvC+C0XlH4qKHxuh3kZoQST20QiSEBVULwnpZnGCa
-         qBG/EBRXM3s4CEYKI3wrcxDnPHSnZ30zG0G8qcyGOMrN2bdKwvDe99gRshrHDqhWSMUx
-         HfCawx3cV28FsNitPb0DiS89XU5XVwhr17cCzIyzon2/9f7aHKDkOwH9AGhE230W1P84
-         91yQ==
+        bh=87PKWiZvQRIIAr841agmMMnwG7Sfs9WVfkUdue6O4oE=;
+        b=unzXDrKZVRVNgdOWvT69zBNx43Wdw6oIbVPgMz7IfDwKl3hTrM5u61AV6I+qRT71+q
+         ZxQhwb5Hw/Ae62zMpLYLyEmbU1bXVvE5qUT+LPbHTJsmR83P7wdQ8TSJ/e2O3DvLki+n
+         pk4UglKI+Ab49FJM6VFUO4aQO/mfMJ7BaMJ9q6DR8zRPcAerBS7puLo2xndKnJzO8lz3
+         J4eXquDTCsAPhdCICXbdoRbyqBJm46H0UWmItWxEFTv8640oJ/2VlHnv2U6OwWdg44bV
+         uGCevFD4Ytt/lmm/ttFYNxwRoDPHrec/zzPuwv6Zzf/Q2Ul8hTEnDtTYsNopwoopo9G2
+         zeow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=kPY0GkE9S3FRLIHJStl59h2p5t9zcOUJ2P3qtKum3yg=;
-        b=omBar3lQVoeUfZpoVbXQwx+SuJHCa8bghEIxembzLiy7Ixw4P0olksbHnQx9N8kQWq
-         q0gwJv3SSPxtwn/JnDHsuJbK+T3pxT0xzPMljaKcsfYtkuXCb21isgXstTXuY9jmLoBK
-         QxPzGUUv8J3sm6YhJmvdQCRNTiyB7zaKFZ8HnZrY0LwXVZsVK3M4h4Kr5gheBLhDwIrl
-         4n0Ofh/B/22IAI20AwegpY+lfazOvLCu2VxTy9ECPzYqDk0S+A+yQAdMRVs+7V7Na8JY
-         sgoDPMOyqgPCdqGPIqF+JJxw2nj+9y76n+nBXQrNz213U44/r2yKM+KObc2r+BLz46lv
-         qamA==
-X-Gm-Message-State: AOAM533I0sPoIFUE4ptDb/nhnWeImb/OrQ3RDcFmPXzCXuro0FHMYMhZ
-        HCKzRxAOm7WzPz8Zb3jiHWo=
-X-Google-Smtp-Source: ABdhPJybJSH2ATb9zCXe+sfdXaCE53vlsws5vn88XOgYn1PWyvztvaCnd4pdVEA+lAsTVjt8mnwMCg==
-X-Received: by 2002:a37:ef18:: with SMTP id j24mr8652910qkk.96.1617889757070;
-        Thu, 08 Apr 2021 06:49:17 -0700 (PDT)
+        bh=87PKWiZvQRIIAr841agmMMnwG7Sfs9WVfkUdue6O4oE=;
+        b=kld2MqfGnarLU+qN0KKHSQO/dO8koqnLkhg7bEZBVBrSVeZWe8gdlyCIRmbVLMGSz+
+         dmyysWGhWwgbQDBJg/+Lti2/96s6z9BTd3BIMrSInJOmINhfcilfxrsKged8h8iQFKKd
+         mArJ8ATimAnv54tTjqJu/MHmb7nwMEmHyp2iyeO/PDSjwm/iYv259CpuskntuQrXBFeA
+         yMlcnvqBugnpkpZpWxmx4yBHZqK4D0N01cQLal0YPEJC5yIAh0G+OHD1SlUiPz2VtVWW
+         U0Rc/wgS5xpu+vibXzJuVjt/FeLwBwQ3FNi4cHiOOnb+r3sa82eiYX6cG0bQmIUV2Vhe
+         dU1g==
+X-Gm-Message-State: AOAM531SKNx8QE6GxOjM1DYSety9F7Edo1V37Xj9whtJUTWdX1acSl3/
+        8By+BHCfLI5KN16W/Szb9qg=
+X-Google-Smtp-Source: ABdhPJwQDgy/Q1zKBl+DNpg4UOz7tbxgjlC3QKbl81+EGvaPKLnZRGLq/L3AJrNXz55M+7jZ9ypbiA==
+X-Received: by 2002:a0c:a0c6:: with SMTP id c64mr8689910qva.57.1617889759742;
+        Thu, 08 Apr 2021 06:49:19 -0700 (PDT)
 Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id h16sm506094qkh.18.2021.04.08.06.49.15
+        by smtp.gmail.com with ESMTPSA id h16sm506094qkh.18.2021.04.08.06.49.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 06:49:16 -0700 (PDT)
+        Thu, 08 Apr 2021 06:49:19 -0700 (PDT)
 From:   SeongJae Park <sj38.park@gmail.com>
 To:     akpm@linux-foundation.org
 Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
@@ -71,9 +71,9 @@ Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
         vdavydov.dev@gmail.com, zgf574564920@gmail.com,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v27 02/13] mm/damon/core: Implement region-based sampling
-Date:   Thu,  8 Apr 2021 13:48:43 +0000
-Message-Id: <20210408134854.31625-3-sj38.park@gmail.com>
+Subject: [PATCH v27 04/13] mm/idle_page_tracking: Make PG_idle reusable
+Date:   Thu,  8 Apr 2021 13:48:45 +0000
+Message-Id: <20210408134854.31625-5-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210408134854.31625-1-sj38.park@gmail.com>
 References: <20210408134854.31625-1-sj38.park@gmail.com>
@@ -83,355 +83,191 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-To avoid the unbounded increase of the overhead, DAMON groups adjacent
-pages that are assumed to have the same access frequencies into a
-region.  As long as the assumption (pages in a region have the same
-access frequencies) is kept, only one page in the region is required to
-be checked.  Thus, for each ``sampling interval``,
+PG_idle and PG_young allow the two PTE Accessed bit users, Idle Page
+Tracking and the reclaim logic concurrently work while don't interfere
+each other.  That is, when they need to clear the Accessed bit, they set
+PG_young to represent the previous state of the bit, respectively.  And
+when they need to read the bit, if the bit is cleared, they further read
+the PG_young to know whether the other has cleared the bit meanwhile or
+not.
 
- 1. the 'prepare_access_checks' primitive picks one page in each region,
- 2. waits for one ``sampling interval``,
- 3. checks whether the page is accessed meanwhile, and
- 4. increases the access count of the region if so.
+We could add another page flag and extend the mechanism to use the flag
+if we need to add another concurrent PTE Accessed bit user subsystem.
+However, the space is limited.  Meanwhile, if the new subsystem is
+mutually exclusive with IDLE_PAGE_TRACKING or interfering with it is not
+a real problem, it would be ok to simply reuse the PG_idle flag.
+However, it's impossible because the flags are dependent on
+IDLE_PAGE_TRACKING.
 
-Therefore, the monitoring overhead is controllable by adjusting the
-number of regions.  DAMON allows both the underlying primitives and user
-callbacks to adjust regions for the trade-off.  In other words, this
-commit makes DAMON to use not only time-based sampling but also
-space-based sampling.
+To allow such reuse of the flags, this commit separates the PG_young and
+PG_idle flag logic from IDLE_PAGE_TRACKING and introduces new kernel
+config, 'PAGE_IDLE_FLAG'.  Hence, a new subsystem would be able to reuse
+PG_idle without depending on IDLE_PAGE_TRACKING.
 
-This scheme, however, cannot preserve the quality of the output if the
-assumption is not guaranteed.  Next commit will address this problem.
+In the next commit, DAMON's reference implementation of the virtual
+memory address space monitoring primitives will use it.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
-Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+Reviewed-by: Shakeel Butt <shakeelb@google.com>
 ---
- include/linux/damon.h |  77 ++++++++++++++++++++++-
- mm/damon/core.c       | 143 ++++++++++++++++++++++++++++++++++++++++--
- 2 files changed, 213 insertions(+), 7 deletions(-)
+ include/linux/page-flags.h     |  4 ++--
+ include/linux/page_ext.h       |  2 +-
+ include/linux/page_idle.h      |  6 +++---
+ include/trace/events/mmflags.h |  2 +-
+ mm/Kconfig                     |  8 ++++++++
+ mm/page_ext.c                  | 12 +++++++++++-
+ mm/page_idle.c                 | 10 ----------
+ 7 files changed, 26 insertions(+), 18 deletions(-)
 
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index 2f652602b1ea..67db309ad61b 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -12,6 +12,48 @@
- #include <linux/time64.h>
- #include <linux/types.h>
+diff --git a/include/linux/page-flags.h b/include/linux/page-flags.h
+index 04a34c08e0a6..6be2c1e2fb48 100644
+--- a/include/linux/page-flags.h
++++ b/include/linux/page-flags.h
+@@ -131,7 +131,7 @@ enum pageflags {
+ #ifdef CONFIG_MEMORY_FAILURE
+ 	PG_hwpoison,		/* hardware poisoned page. Don't touch */
+ #endif
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
+ 	PG_young,
+ 	PG_idle,
+ #endif
+@@ -436,7 +436,7 @@ PAGEFLAG_FALSE(HWPoison)
+ #define __PG_HWPOISON 0
+ #endif
  
-+/**
-+ * struct damon_addr_range - Represents an address region of [@start, @end).
-+ * @start:	Start address of the region (inclusive).
-+ * @end:	End address of the region (exclusive).
-+ */
-+struct damon_addr_range {
-+	unsigned long start;
-+	unsigned long end;
-+};
-+
-+/**
-+ * struct damon_region - Represents a monitoring target region.
-+ * @ar:			The address range of the region.
-+ * @sampling_addr:	Address of the sample for the next access check.
-+ * @nr_accesses:	Access frequency of this region.
-+ * @list:		List head for siblings.
-+ */
-+struct damon_region {
-+	struct damon_addr_range ar;
-+	unsigned long sampling_addr;
-+	unsigned int nr_accesses;
-+	struct list_head list;
-+};
-+
-+/**
-+ * struct damon_target - Represents a monitoring target.
-+ * @id:			Unique identifier for this target.
-+ * @regions_list:	Head of the monitoring target regions of this target.
-+ * @list:		List head for siblings.
-+ *
-+ * Each monitoring context could have multiple targets.  For example, a context
-+ * for virtual memory address spaces could have multiple target processes.  The
-+ * @id of each target should be unique among the targets of the context.  For
-+ * example, in the virtual address monitoring context, it could be a pidfd or
-+ * an address of an mm_struct.
-+ */
-+struct damon_target {
-+	unsigned long id;
-+	struct list_head regions_list;
-+	struct list_head list;
-+};
-+
- struct damon_ctx;
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
+ TESTPAGEFLAG(Young, young, PF_ANY)
+ SETPAGEFLAG(Young, young, PF_ANY)
+ TESTCLEARFLAG(Young, young, PF_ANY)
+diff --git a/include/linux/page_ext.h b/include/linux/page_ext.h
+index aff81ba31bd8..fabb2e1e087f 100644
+--- a/include/linux/page_ext.h
++++ b/include/linux/page_ext.h
+@@ -19,7 +19,7 @@ struct page_ext_operations {
+ enum page_ext_flags {
+ 	PAGE_EXT_OWNER,
+ 	PAGE_EXT_OWNER_ALLOCATED,
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && !defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
+ 	PAGE_EXT_YOUNG,
+ 	PAGE_EXT_IDLE,
+ #endif
+diff --git a/include/linux/page_idle.h b/include/linux/page_idle.h
+index 1e894d34bdce..d8a6aecf99cb 100644
+--- a/include/linux/page_idle.h
++++ b/include/linux/page_idle.h
+@@ -6,7 +6,7 @@
+ #include <linux/page-flags.h>
+ #include <linux/page_ext.h>
  
- /**
-@@ -36,7 +78,7 @@ struct damon_ctx;
-  *
-  * @init should initialize primitive-internal data structures.  For example,
-  * this could be used to construct proper monitoring target regions and link
-- * those to @damon_ctx.target.
-+ * those to @damon_ctx.adaptive_targets.
-  * @update should update the primitive-internal data structures.  For example,
-  * this could be used to update monitoring target regions for current status.
-  * @prepare_access_checks should manipulate the monitoring regions to be
-@@ -130,7 +172,7 @@ struct damon_callback {
-  * @primitive:	Set of monitoring primitives for given use cases.
-  * @callback:	Set of callbacks for monitoring events notifications.
-  *
-- * @target:	Pointer to the user-defined monitoring target.
-+ * @region_targets:	Head of monitoring targets (&damon_target) list.
+-#ifdef CONFIG_IDLE_PAGE_TRACKING
++#ifdef CONFIG_PAGE_IDLE_FLAG
+ 
+ #ifdef CONFIG_64BIT
+ static inline bool page_is_young(struct page *page)
+@@ -106,7 +106,7 @@ static inline void clear_page_idle(struct page *page)
+ }
+ #endif /* CONFIG_64BIT */
+ 
+-#else /* !CONFIG_IDLE_PAGE_TRACKING */
++#else /* !CONFIG_PAGE_IDLE_FLAG */
+ 
+ static inline bool page_is_young(struct page *page)
+ {
+@@ -135,6 +135,6 @@ static inline void clear_page_idle(struct page *page)
+ {
+ }
+ 
+-#endif /* CONFIG_IDLE_PAGE_TRACKING */
++#endif /* CONFIG_PAGE_IDLE_FLAG */
+ 
+ #endif /* _LINUX_MM_PAGE_IDLE_H */
+diff --git a/include/trace/events/mmflags.h b/include/trace/events/mmflags.h
+index 629c7a0eaff2..ea434bbc2d2b 100644
+--- a/include/trace/events/mmflags.h
++++ b/include/trace/events/mmflags.h
+@@ -73,7 +73,7 @@
+ #define IF_HAVE_PG_HWPOISON(flag,string)
+ #endif
+ 
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && defined(CONFIG_64BIT)
+ #define IF_HAVE_PG_IDLE(flag,string) ,{1UL << flag, string}
+ #else
+ #define IF_HAVE_PG_IDLE(flag,string)
+diff --git a/mm/Kconfig b/mm/Kconfig
+index 56bec147bdff..0616a8b1ff0b 100644
+--- a/mm/Kconfig
++++ b/mm/Kconfig
+@@ -771,10 +771,18 @@ config DEFERRED_STRUCT_PAGE_INIT
+ 	  lifetime of the system until these kthreads finish the
+ 	  initialisation.
+ 
++config PAGE_IDLE_FLAG
++	bool "Add PG_idle and PG_young flags"
++	help
++	  This feature adds PG_idle and PG_young flags in 'struct page'.  PTE
++	  Accessed bit writers can set the state of the bit in the flags to let
++	  other PTE Accessed bit readers don't disturbed.
++
+ config IDLE_PAGE_TRACKING
+ 	bool "Enable idle page tracking"
+ 	depends on SYSFS && MMU
+ 	select PAGE_EXTENSION if !64BIT
++	select PAGE_IDLE_FLAG
+ 	help
+ 	  This feature allows to estimate the amount of user pages that have
+ 	  not been touched during a given period of time. This information can
+diff --git a/mm/page_ext.c b/mm/page_ext.c
+index df6f74aac8e1..8e59da0f4367 100644
+--- a/mm/page_ext.c
++++ b/mm/page_ext.c
+@@ -58,11 +58,21 @@
+  * can utilize this callback to initialize the state of it correctly.
   */
- struct damon_ctx {
- 	unsigned long sample_interval;
-@@ -149,11 +191,40 @@ struct damon_ctx {
- 	struct damon_primitive primitive;
- 	struct damon_callback callback;
  
--	void *target;
-+	struct list_head region_targets;
++#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
++static bool need_page_idle(void)
++{
++	return true;
++}
++struct page_ext_operations page_idle_ops = {
++	.need = need_page_idle,
++};
++#endif
++
+ static struct page_ext_operations *page_ext_ops[] = {
+ #ifdef CONFIG_PAGE_OWNER
+ 	&page_owner_ops,
+ #endif
+-#if defined(CONFIG_IDLE_PAGE_TRACKING) && !defined(CONFIG_64BIT)
++#if defined(CONFIG_PAGE_IDLE_FLAG) && !defined(CONFIG_64BIT)
+ 	&page_idle_ops,
+ #endif
+ };
+diff --git a/mm/page_idle.c b/mm/page_idle.c
+index 64e5344a992c..edead6a8a5f9 100644
+--- a/mm/page_idle.c
++++ b/mm/page_idle.c
+@@ -207,16 +207,6 @@ static const struct attribute_group page_idle_attr_group = {
+ 	.name = "page_idle",
  };
  
-+#define damon_next_region(r) \
-+	(container_of(r->list.next, struct damon_region, list))
-+
-+#define damon_prev_region(r) \
-+	(container_of(r->list.prev, struct damon_region, list))
-+
-+#define damon_for_each_region(r, t) \
-+	list_for_each_entry(r, &t->regions_list, list)
-+
-+#define damon_for_each_region_safe(r, next, t) \
-+	list_for_each_entry_safe(r, next, &t->regions_list, list)
-+
-+#define damon_for_each_target(t, ctx) \
-+	list_for_each_entry(t, &(ctx)->region_targets, list)
-+
-+#define damon_for_each_target_safe(t, next, ctx)	\
-+	list_for_each_entry_safe(t, next, &(ctx)->region_targets, list)
-+
- #ifdef CONFIG_DAMON
- 
-+struct damon_region *damon_new_region(unsigned long start, unsigned long end);
-+inline void damon_insert_region(struct damon_region *r,
-+		struct damon_region *prev, struct damon_region *next);
-+void damon_add_region(struct damon_region *r, struct damon_target *t);
-+void damon_destroy_region(struct damon_region *r);
-+
-+struct damon_target *damon_new_target(unsigned long id);
-+void damon_add_target(struct damon_ctx *ctx, struct damon_target *t);
-+void damon_free_target(struct damon_target *t);
-+void damon_destroy_target(struct damon_target *t);
-+
- struct damon_ctx *damon_new_ctx(void);
- void damon_destroy_ctx(struct damon_ctx *ctx);
- int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
-diff --git a/mm/damon/core.c b/mm/damon/core.c
-index 693e51ebc05a..94db494dcf70 100644
---- a/mm/damon/core.c
-+++ b/mm/damon/core.c
-@@ -15,6 +15,101 @@
- static DEFINE_MUTEX(damon_lock);
- static int nr_running_ctxs;
- 
-+/*
-+ * Construct a damon_region struct
-+ *
-+ * Returns the pointer to the new struct if success, or NULL otherwise
-+ */
-+struct damon_region *damon_new_region(unsigned long start, unsigned long end)
-+{
-+	struct damon_region *region;
-+
-+	region = kmalloc(sizeof(*region), GFP_KERNEL);
-+	if (!region)
-+		return NULL;
-+
-+	region->ar.start = start;
-+	region->ar.end = end;
-+	region->nr_accesses = 0;
-+	INIT_LIST_HEAD(&region->list);
-+
-+	return region;
-+}
-+
-+/*
-+ * Add a region between two other regions
-+ */
-+inline void damon_insert_region(struct damon_region *r,
-+		struct damon_region *prev, struct damon_region *next)
-+{
-+	__list_add(&r->list, &prev->list, &next->list);
-+}
-+
-+void damon_add_region(struct damon_region *r, struct damon_target *t)
-+{
-+	list_add_tail(&r->list, &t->regions_list);
-+}
-+
-+static void damon_del_region(struct damon_region *r)
-+{
-+	list_del(&r->list);
-+}
-+
-+static void damon_free_region(struct damon_region *r)
-+{
-+	kfree(r);
-+}
-+
-+void damon_destroy_region(struct damon_region *r)
-+{
-+	damon_del_region(r);
-+	damon_free_region(r);
-+}
-+
-+/*
-+ * Construct a damon_target struct
-+ *
-+ * Returns the pointer to the new struct if success, or NULL otherwise
-+ */
-+struct damon_target *damon_new_target(unsigned long id)
-+{
-+	struct damon_target *t;
-+
-+	t = kmalloc(sizeof(*t), GFP_KERNEL);
-+	if (!t)
-+		return NULL;
-+
-+	t->id = id;
-+	INIT_LIST_HEAD(&t->regions_list);
-+
-+	return t;
-+}
-+
-+void damon_add_target(struct damon_ctx *ctx, struct damon_target *t)
-+{
-+	list_add_tail(&t->list, &ctx->region_targets);
-+}
-+
-+static void damon_del_target(struct damon_target *t)
-+{
-+	list_del(&t->list);
-+}
-+
-+void damon_free_target(struct damon_target *t)
-+{
-+	struct damon_region *r, *next;
-+
-+	damon_for_each_region_safe(r, next, t)
-+		damon_free_region(r);
-+	kfree(t);
-+}
-+
-+void damon_destroy_target(struct damon_target *t)
-+{
-+	damon_del_target(t);
-+	damon_free_target(t);
-+}
-+
- struct damon_ctx *damon_new_ctx(void)
+-#ifndef CONFIG_64BIT
+-static bool need_page_idle(void)
+-{
+-	return true;
+-}
+-struct page_ext_operations page_idle_ops = {
+-	.need = need_page_idle,
+-};
+-#endif
+-
+ static int __init page_idle_init(void)
  {
- 	struct damon_ctx *ctx;
-@@ -32,15 +127,27 @@ struct damon_ctx *damon_new_ctx(void)
- 
- 	mutex_init(&ctx->kdamond_lock);
- 
--	ctx->target = NULL;
-+	INIT_LIST_HEAD(&ctx->region_targets);
- 
- 	return ctx;
- }
- 
--void damon_destroy_ctx(struct damon_ctx *ctx)
-+static void damon_destroy_targets(struct damon_ctx *ctx)
- {
--	if (ctx->primitive.cleanup)
-+	struct damon_target *t, *next_t;
-+
-+	if (ctx->primitive.cleanup) {
- 		ctx->primitive.cleanup(ctx);
-+		return;
-+	}
-+
-+	damon_for_each_target_safe(t, next_t, ctx)
-+		damon_destroy_target(t);
-+}
-+
-+void damon_destroy_ctx(struct damon_ctx *ctx)
-+{
-+	damon_destroy_targets(ctx);
- 	kfree(ctx);
- }
- 
-@@ -217,6 +324,21 @@ static bool kdamond_aggregate_interval_passed(struct damon_ctx *ctx)
- 			ctx->aggr_interval);
- }
- 
-+/*
-+ * Reset the aggregated monitoring results ('nr_accesses' of each region).
-+ */
-+static void kdamond_reset_aggregated(struct damon_ctx *c)
-+{
-+	struct damon_target *t;
-+
-+	damon_for_each_target(t, c) {
-+		struct damon_region *r;
-+
-+		damon_for_each_region(r, t)
-+			r->nr_accesses = 0;
-+	}
-+}
-+
- /*
-  * Check whether it is time to check and apply the target monitoring regions
-  *
-@@ -238,6 +360,7 @@ static bool kdamond_need_update_primitive(struct damon_ctx *ctx)
-  */
- static bool kdamond_need_stop(struct damon_ctx *ctx)
- {
-+	struct damon_target *t;
- 	bool stop;
- 
- 	mutex_lock(&ctx->kdamond_lock);
-@@ -249,7 +372,12 @@ static bool kdamond_need_stop(struct damon_ctx *ctx)
- 	if (!ctx->primitive.target_valid)
- 		return false;
- 
--	return !ctx->primitive.target_valid(ctx->target);
-+	damon_for_each_target(t, ctx) {
-+		if (ctx->primitive.target_valid(t))
-+			return false;
-+	}
-+
-+	return true;
- }
- 
- static void set_kdamond_stop(struct damon_ctx *ctx)
-@@ -265,6 +393,8 @@ static void set_kdamond_stop(struct damon_ctx *ctx)
- static int kdamond_fn(void *data)
- {
- 	struct damon_ctx *ctx = (struct damon_ctx *)data;
-+	struct damon_target *t;
-+	struct damon_region *r, *next;
- 
- 	pr_info("kdamond (%d) starts\n", ctx->kdamond->pid);
- 
-@@ -289,6 +419,7 @@ static int kdamond_fn(void *data)
- 			if (ctx->callback.after_aggregation &&
- 					ctx->callback.after_aggregation(ctx))
- 				set_kdamond_stop(ctx);
-+			kdamond_reset_aggregated(ctx);
- 			if (ctx->primitive.reset_aggregated)
- 				ctx->primitive.reset_aggregated(ctx);
- 		}
-@@ -298,6 +429,10 @@ static int kdamond_fn(void *data)
- 				ctx->primitive.update(ctx);
- 		}
- 	}
-+	damon_for_each_target(t, ctx) {
-+		damon_for_each_region_safe(r, next, t)
-+			damon_destroy_region(r);
-+	}
- 
- 	if (ctx->callback.before_terminate &&
- 			ctx->callback.before_terminate(ctx))
+ 	int err;
 -- 
 2.17.1
 
