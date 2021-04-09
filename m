@@ -2,115 +2,98 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 25795C433ED
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 20:43:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84E29C43462
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 22:04:15 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BE8DB61042
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 20:43:12 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 58334610A8
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 22:04:15 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234160AbhDIUnY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Apr 2021 16:43:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54348 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbhDIUnW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Apr 2021 16:43:22 -0400
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com [IPv6:2607:f8b0:4864:20::82f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B2C5C061762;
-        Fri,  9 Apr 2021 13:43:08 -0700 (PDT)
-Received: by mail-qt1-x82f.google.com with SMTP id y12so5230480qtx.11;
-        Fri, 09 Apr 2021 13:43:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5egM9nTAiSvtggnO3tpew7WNqYrN+YEXT3SXh6GmWSQ=;
-        b=QSlyGb/A95EP5OjqcyCBgyMj627hQfbwtpMM43gY6hAO0WVM7OD6Dz8FHHxaSyGSPn
-         4B4yU3R9/JSyZJbLXMO3CHmNvbwkrxVKbYWQYFoQUb4lVOW6rKgnZYqc6Z4RMHsm6byy
-         5ge7QOZ+Pl40Eb9dGhUU+Aap/BKAjppLON6gPgJ6N0eph5/lMCtn+xDLMawj9lQ6n/h4
-         TB4qXUYR2iv64+A9qh7bLDdGK37Vs3owEIbXEQDa4FHvajNdXGl56F+ww1N8TRXosYaf
-         Jqdxk73JKMhI0Mg3xRMXmKcKIVTOvWSH+UJ6xcxccszI/bgZtnJxCUHllm7qbuhgr/Kc
-         OUPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=5egM9nTAiSvtggnO3tpew7WNqYrN+YEXT3SXh6GmWSQ=;
-        b=m0Ur8Bo4F3ALR7QPK8Tty278Fsf1N5hlN1kSGRLkHlQ2RzIPjdh9Ksq+McIXo5Ozqc
-         xsy6VAa4MklEcA8FXbDgpmyaOqz6ERlasXu/8qITs1EUOdyO+Vg7hQ7WvYvp9LtLc5bA
-         EiCWd4gNTZJTOJ/yRxdpxeBVcxzHYW+2tTURRt2e3+wAtrRjMtqTGp63sgJIMrxIRlw3
-         ArDUw5i02ppAMZAYn+wgXVBbuVBe5dUCvb8XVV2sxapr3ymbxrjpZmao/uO4b1DQpeDq
-         eRKkBCZ9niQF3WRWD/DFN67C7S2a0hFcPkU8/FwF1dh3ejfuoZxgNf60ZM9/Ewk8AyiR
-         6nPQ==
-X-Gm-Message-State: AOAM533KCDd/UVye2rpuUvf8k7dI3XeiK0VqOvGbkVF51AP0wH7GT0CA
-        mHvllRD9tMAXTPgENxMMnovr/3V3oMU=
-X-Google-Smtp-Source: ABdhPJwa5EzdjbIaeJLeKTBSfSfYFmdyDre14QyeTvuHCxILOITvSijBpVGmAdgCeYJyWhICrtVLAQ==
-X-Received: by 2002:ac8:5a0d:: with SMTP id n13mr14500706qta.211.1618000987067;
-        Fri, 09 Apr 2021 13:43:07 -0700 (PDT)
-Received: from localhost ([2601:4c0:104:643a:1d89:8a12:ef21:87e0])
-        by smtp.gmail.com with ESMTPSA id 1sm2859528qtu.96.2021.04.09.13.43.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 13:43:06 -0700 (PDT)
-From:   Yury Norov <yury.norov@gmail.com>
-To:     linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Yury Norov <yury.norov@gmail.com>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        =?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@collabora.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: [PATCH] Documentation: syscalls: add a note about  ABI-agnostic types
-Date:   Fri,  9 Apr 2021 13:43:04 -0700
-Message-Id: <20210409204304.1273139-1-yury.norov@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S234937AbhDIWE2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Apr 2021 18:04:28 -0400
+Received: from mx.kolabnow.com ([95.128.36.40]:34494 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234932AbhDIWE0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Apr 2021 18:04:26 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTP id 4AF2D40B5D;
+        Sat, 10 Apr 2021 00:04:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        message-id:references:in-reply-to:subject:subject:from:from:date
+        :date:content-transfer-encoding:content-type:content-type
+        :mime-version:received:received:received; s=dkim20160331; t=
+        1618005849; x=1619820250; bh=FEZ8XfP/C/s3g8U/Ca+1kTURK7HIFQDsrey
+        PbmLxgvI=; b=KEvbED46Nzzg+zHqlRtDTjdqxabx8uUHB1oR4prVlCNid1pJZQ4
+        M3Q3nV8GVfxRdnPfqsnlrtpFvlKQ+Y2XWcuHJXcpb1srAAN/JpcTq1bRm0zLKFJC
+        ZggRnnnL6+NWHDG7o8b+xY9RqtwGrIl6XK+sZH3S70O8zZTO0Nkmq6vDGMOEdvAc
+        gn18yOHfF33gTfCmHrA5lGFz68ZW4PKqXP4NzawOcHEpdDsbFPSHm1O7UthKAFrS
+        ki0p6GmgH/608ut+QNnOphcaa0WWfGRLKcw+ks+193IqyIn3QrpiGYRmzT/bwsz4
+        TzhmqUvVWEsFyJCPdHA/biH1wTG9PbgB5oo2OLG/GNmqxFxhI0sgkHEWDjIYJ6hD
+        fu9gQLXIvTJwEVUgR/8prYsTbbnoGNE22GRHwbyBOCZjYMlnxzTLK6ztZ4BMwcUg
+        S3T0jG28kg5e/9Fis5N6yBC5ahFq0OIJuv32K/dHb4f832qCm9QkY8PzFb/rWg/u
+        fOMW0bAXxmA2+l9FPgtcFuBChCPDZmZcIllLWflfTyq5Q1NfcsxdS2l7EVg4CL0h
+        2rbDztY55nCeX8iChK5bOnMFXgX7UdM0ksKGT4Rn0AZDqUenyXayq6IVzO/e5L/5
+        EaKsDjyDa8amN3cyDqLMdlA3NltW2G3vtucsogxEazDcIhRGuZpYzAVc=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out003.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id yzb_qYtMbBFZ; Sat, 10 Apr 2021 00:04:09 +0200 (CEST)
+Received: from int-mx003.mykolab.com (unknown [10.9.13.3])
+        by ext-mx-out003.mykolab.com (Postfix) with ESMTPS id D5E1F403F1;
+        Sat, 10 Apr 2021 00:04:07 +0200 (CEST)
+Received: from int-subm002.mykolab.com (unknown [10.9.37.2])
+        by int-mx003.mykolab.com (Postfix) with ESMTPS id CA8D63162;
+        Sat, 10 Apr 2021 00:04:05 +0200 (CEST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Sat, 10 Apr 2021 00:04:03 +0200
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Alex Shi <alexs@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        Wu XiangCheng <bobwxc@email.cn>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 6/8] docs: replace transation references for
+ reporting-bugs.rst
+In-Reply-To: <3c7eb94992f7d85d75c8faf82c6a4690b2666951.1617972339.git.mchehab+huawei@kernel.org>
+References: <cover.1617972339.git.mchehab+huawei@kernel.org>
+ <3c7eb94992f7d85d75c8faf82c6a4690b2666951.1617972339.git.mchehab+huawei@kernel.org>
+Message-ID: <028fa780f186689cddfba701b87c4c87@vaga.pv.it>
+X-Sender: federico.vaga@vaga.pv.it
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Recently added memfd_secret() syscall had a flags parameter passed
-as unsigned long, which requires creation of compat entry for it.
-It was possible to change the type of flags to unsigned int and so
-avoid bothering with compat layer.
+On 2021-04-09 14:47, Mauro Carvalho Chehab wrote:
+> Changeset d2ce285378b0 ("docs: make reporting-issues.rst official and
+> delete reporting-bugs.rst")
+> dropped reporting-bugs.rst, in favor of reporting-issues.rst, but
+> translations still need to be updated, in order to point to the
+> new file.
+> 
+> Fixes: d2ce285378b0 ("docs: make reporting-issues.rst official and
+> delete reporting-bugs.rst")
+> Acked-by: Wu XiangCheng <bobwxc@email.cn>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/translations/it_IT/process/howto.rst            | 2 +-
 
-https://www.spinics.net/lists/linux-mm/msg251550.html
+Acked-by: Federico Vaga <federico.vaga@vaga.pv.it>
 
-Documentation/process/adding-syscalls.rst doesn't point clearly about
-preference of ABI-agnostic types. This patch adds such notification.
+>  Documentation/translations/ja_JP/howto.rst                    | 2 +-
+>  Documentation/translations/zh_CN/SecurityBugs                 | 2 +-
+>  .../translations/zh_CN/admin-guide/reporting-issues.rst       | 4 ++--
+>  Documentation/translations/zh_CN/process/howto.rst            | 2 +-
+>  5 files changed, 6 insertions(+), 6 deletions(-)
 
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
----
- Documentation/process/adding-syscalls.rst | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-index 9af35f4ec728..46add16edf14 100644
---- a/Documentation/process/adding-syscalls.rst
-+++ b/Documentation/process/adding-syscalls.rst
-@@ -172,6 +172,13 @@ arguments (i.e. parameter 1, 3, 5), to allow use of contiguous pairs of 32-bit
- registers.  (This concern does not apply if the arguments are part of a
- structure that's passed in by pointer.)
- 
-+Whenever possible, try to use ABI-agnostic types for passing parameters to
-+a syscall in order to avoid creating compat entry for it. Linux supports two
-+ABI models - ILP32 and LP64. The types like ``void *``, ``long``, ``size_t``,
-+``off_t`` have different size in those ABIs; types like ``char`` and  ``int``
-+have the same size and don't require a compat layer support. For flags, it's
-+always better to use ``unsigned int``.
-+
- 
- Proposing the API
- -----------------
 -- 
-2.25.1
-
+Federico Vaga
