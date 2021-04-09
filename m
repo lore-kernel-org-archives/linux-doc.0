@@ -2,334 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+X-Spam-Status: No, score=-12.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 163CAC433ED
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 07:09:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA9F7C433ED
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 07:19:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DF8BF61106
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 07:09:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9F8DF61177
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 07:19:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231679AbhDIHKE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Apr 2021 03:10:04 -0400
-Received: from mx2.suse.de ([195.135.220.15]:40682 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232086AbhDIHKA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Apr 2021 03:10:00 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 4F7DBB126;
-        Fri,  9 Apr 2021 07:09:41 +0000 (UTC)
-Subject: Re: [PATCH v2 03/10] drm/aperture: Move fbdev conflict helpers into
- drm_aperture.h
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     bluescreen_avenger@verizon.net, geert+renesas@glider.be,
-        corbet@lwn.net, airlied@linux.ie, emil.l.velikov@gmail.com,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        lgirdwood@gmail.com, virtualization@lists.linux-foundation.org,
-        hdegoede@redhat.com, broonie@kernel.org, kraxel@redhat.com,
-        sam@ravnborg.org
-References: <20210318102921.21536-1-tzimmermann@suse.de>
- <20210318102921.21536-4-tzimmermann@suse.de>
- <YG7R6ZkVNwrYaUWX@phenom.ffwll.local>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <133ad936-f080-f063-b056-3c11b4d9f8d4@suse.de>
-Date:   Fri, 9 Apr 2021 09:09:40 +0200
+        id S230183AbhDIHUC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Apr 2021 03:20:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56679 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229673AbhDIHUB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Apr 2021 03:20:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1617952789;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=IguW8kgGlzt9NZWLdeLXN2H9KrPyDih2gPl5AJIXHOs=;
+        b=NKS/wqgc4ATW707HOC0a+V/n9LFs/EMZSl3h1E4QUeBzLpSbWCsWVX3YM5V7mfzFZ4qXRd
+        RinL6nS8Bi6oOjm0wxFBlfodQlc8GJhi+E2E/Zub6qDoAl87fAsbolkILzUjagRgzDArz/
+        Iae1PzUT26n72PYPALS4cpw6KKJi+pY=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-527-RAs8S2sjNxeKMmZkdV_-nw-1; Fri, 09 Apr 2021 03:19:46 -0400
+X-MC-Unique: RAs8S2sjNxeKMmZkdV_-nw-1
+Received: by mail-ej1-f72.google.com with SMTP id a11so1593813ejg.7
+        for <linux-doc@vger.kernel.org>; Fri, 09 Apr 2021 00:19:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=IguW8kgGlzt9NZWLdeLXN2H9KrPyDih2gPl5AJIXHOs=;
+        b=GHQZVUfuT/8aOzhUYzzzUwZXqcREurH90SYD1tK80hEuADvh1uhfbakeY2FCfI/G3D
+         NE3lLdjGaFV3Agfr8ukitvADpSQM3fbqdYh20I0x2godJPOetGe0nLXwlJkys01lMTGP
+         sB069evCC3gOBkl74uQ91yQEX/as+uzIRcP4yWZnyibONZS8yOZPecr/aBC0+IUMt+Ek
+         7pON202p1yaNYSYJ0c81fb5Dg0Zjo4aXkjtSPhG/Xa+avIAR6flxB9bhH2/ZCuYLrxdx
+         hNQZikdl7Z9oUKBOpE7Jz+4zveRszsnyXVd5N9I4OHb26hsHENY9MdA055ddmz46L8gz
+         iBZg==
+X-Gm-Message-State: AOAM53379CBb4jyPR5xKh00nOcqbL8pZwx85038OjPEMyYnYhV6aVBUD
+        q8ym+Zb0xkKRserM+fl8Txts4Nfx7SkT16xV5ejjGwY8n9m4HJi7KQ211oDkALrG09JPqcsYJyb
+        fWoOSwnnailxaVWfDV/yDPOw4dyvZunqgS1UTpBHf++fIH2oYgj4b3xavYj8TvtRwWtIaMn0=
+X-Received: by 2002:a17:906:eb88:: with SMTP id mh8mr15162402ejb.74.1617952785092;
+        Fri, 09 Apr 2021 00:19:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwY41ap57CXKosvNll8nRWMmY6QVDsNdQ7fjAFZZMDSD1+l6HI7mJsboZvYJlWwIeVi4QOZ9g==
+X-Received: by 2002:a17:906:eb88:: with SMTP id mh8mr15162378ejb.74.1617952784854;
+        Fri, 09 Apr 2021 00:19:44 -0700 (PDT)
+Received: from x1.bristot.me (host-79-56-201-31.retail.telecomitalia.it. [79.56.201.31])
+        by smtp.gmail.com with ESMTPSA id x1sm791173eji.8.2021.04.09.00.19.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 Apr 2021 00:19:44 -0700 (PDT)
+Subject: Re: [RFC PATCH 5/5] tracing: Add the osnoise tracer
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        linux-kernel@vger.kernel.org
+Cc:     kcarcia@redhat.com, Ingo Molnar <mingo@redhat.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Alexandre Chartre <alexandre.chartre@oracle.com>,
+        Clark Willaims <williams@redhat.com>,
+        John Kacur <jkacur@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
+References: <cover.1617889883.git.bristot@redhat.com>
+ <3a69303b27bfc5d2274ab893b2cfbd0a8dbe31f7.1617889883.git.bristot@redhat.com>
+ <87pmz422gj.fsf@meer.lwn.net>
+From:   Daniel Bristot de Oliveira <bristot@redhat.com>
+Message-ID: <b64b560f-09ab-e801-52bf-42a73d26b9bf@redhat.com>
+Date:   Fri, 9 Apr 2021 09:19:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <YG7R6ZkVNwrYaUWX@phenom.ffwll.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="SfEooEkTlWBwU4yLXLYwo0Hwu4aYK44xI"
+In-Reply-To: <87pmz422gj.fsf@meer.lwn.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---SfEooEkTlWBwU4yLXLYwo0Hwu4aYK44xI
-Content-Type: multipart/mixed; boundary="GFAmzOHVvtb20soidyJaaOtS1Xcm0WKBk";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: bluescreen_avenger@verizon.net, geert+renesas@glider.be, corbet@lwn.net,
- airlied@linux.ie, emil.l.velikov@gmail.com, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, lgirdwood@gmail.com,
- virtualization@lists.linux-foundation.org, hdegoede@redhat.com,
- broonie@kernel.org, kraxel@redhat.com, sam@ravnborg.org
-Message-ID: <133ad936-f080-f063-b056-3c11b4d9f8d4@suse.de>
-Subject: Re: [PATCH v2 03/10] drm/aperture: Move fbdev conflict helpers into
- drm_aperture.h
-References: <20210318102921.21536-1-tzimmermann@suse.de>
- <20210318102921.21536-4-tzimmermann@suse.de>
- <YG7R6ZkVNwrYaUWX@phenom.ffwll.local>
-In-Reply-To: <YG7R6ZkVNwrYaUWX@phenom.ffwll.local>
-
---GFAmzOHVvtb20soidyJaaOtS1Xcm0WKBk
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 08.04.21 um 11:50 schrieb Daniel Vetter:
-> On Thu, Mar 18, 2021 at 11:29:14AM +0100, Thomas Zimmermann wrote:
->> Fbdev's helpers for handling conflicting framebuffers are related to
->> framebuffer apertures, not console emulation. Therefore move them into=
- a
->> drm_aperture.h, which will contain the interfaces for the new aperture=
-
->> helpers.
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->> Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
->> ---
->>   Documentation/gpu/drm-internals.rst |  6 +++
->>   include/drm/drm_aperture.h          | 60 +++++++++++++++++++++++++++=
-++
->>   include/drm/drm_fb_helper.h         | 56 ++-------------------------=
-
->>   3 files changed, 69 insertions(+), 53 deletions(-)
->>   create mode 100644 include/drm/drm_aperture.h
->>
->> diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/d=
-rm-internals.rst
->> index 12272b168580..4c7642d2ca34 100644
->> --- a/Documentation/gpu/drm-internals.rst
->> +++ b/Documentation/gpu/drm-internals.rst
->> @@ -75,6 +75,12 @@ update it, its value is mostly useless. The DRM cor=
-e prints it to the
->>   kernel log at initialization time and passes it to userspace through=
- the
->>   DRM_IOCTL_VERSION ioctl.
->>  =20
->> +Managing Ownership of the Framebuffer Aperture
->> +----------------------------------------------
->> +
->> +.. kernel-doc:: include/drm/drm_aperture.h
->> +   :internal:
->> +
->>   Device Instance and Driver Handling
->>   -----------------------------------
->>  =20
->> diff --git a/include/drm/drm_aperture.h b/include/drm/drm_aperture.h
->> new file mode 100644
->> index 000000000000..13766efe9517
->> --- /dev/null
->> +++ b/include/drm/drm_aperture.h
->> @@ -0,0 +1,60 @@
->> +/* SPDX-License-Identifier: MIT */
->> +
->> +#ifndef _DRM_APERTURE_H_
->> +#define _DRM_APERTURE_H_
->> +
->> +#include <linux/fb.h>
->> +#include <linux/vgaarb.h>
->> +
->> +/**
->> + * drm_fb_helper_remove_conflicting_framebuffers - remove firmware-co=
-nfigured framebuffers
->=20
-> Annoying bikeshed, but I'd give them drm_aperture_ prefixes, for ocd
-> consistency. Also make them real functions, they're quite big and will
-> grow more in the next patch.
->=20
-> I'm also not super happy about the naming here but oh well.
-
-The original name for this was platform helpers, which was worse. So=20
-it's not like we're not improving. :)
-
-I'll take this patch + some docs from patch 4 + your feedback and turn=20
-it into a separate patchset. It should be useful even without simpledrm.
-
-Best regards
-Thomas
-
->=20
-> Either way: Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->=20
->> + * @a: memory range, users of which are to be removed
->> + * @name: requesting driver name
->> + * @primary: also kick vga16fb if present
->> + *
->> + * This function removes framebuffer devices (initialized by firmware=
-/bootloader)
->> + * which use memory range described by @a. If @a is NULL all such dev=
-ices are
->> + * removed.
->> + */
->> +static inline int
->> +drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct=
- *a,
->> +					      const char *name, bool primary)
->> +{
->> +#if IS_REACHABLE(CONFIG_FB)
->> +	return remove_conflicting_framebuffers(a, name, primary);
->> +#else
->> +	return 0;
->> +#endif
->> +}
->> +
->> +/**
->> + * drm_fb_helper_remove_conflicting_pci_framebuffers - remove firmwar=
-e-configured
->> + *                                                     framebuffers f=
-or PCI devices
->> + * @pdev: PCI device
->> + * @name: requesting driver name
->> + *
->> + * This function removes framebuffer devices (eg. initialized by firm=
-ware)
->> + * using memory range configured for any of @pdev's memory bars.
->> + *
->> + * The function assumes that PCI device with shadowed ROM drives a pr=
-imary
->> + * display and so kicks out vga16fb.
->> + */
->> +static inline int
->> +drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pde=
-v,
->> +						  const char *name)
->> +{
->> +	int ret =3D 0;
->> +
->> +	/*
->> +	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
->> +	 * otherwise the vga fbdev driver falls over.
->> +	 */
->> +#if IS_REACHABLE(CONFIG_FB)
->> +	ret =3D remove_conflicting_pci_framebuffers(pdev, name);
->> +#endif
->> +	if (ret =3D=3D 0)
->> +		ret =3D vga_remove_vgacon(pdev);
->> +	return ret;
->> +}
->> +
->> +#endif
->> diff --git a/include/drm/drm_fb_helper.h b/include/drm/drm_fb_helper.h=
-
->> index 3b273f9ca39a..d06a3942fddb 100644
->> --- a/include/drm/drm_fb_helper.h
->> +++ b/include/drm/drm_fb_helper.h
->> @@ -30,13 +30,13 @@
->>   #ifndef DRM_FB_HELPER_H
->>   #define DRM_FB_HELPER_H
->>  =20
->> -struct drm_fb_helper;
->> -
->> +#include <drm/drm_aperture.h>
->>   #include <drm/drm_client.h>
->>   #include <drm/drm_crtc.h>
->>   #include <drm/drm_device.h>
->>   #include <linux/kgdb.h>
->> -#include <linux/vgaarb.h>
->> +
->> +struct drm_fb_helper;
->>  =20
->>   enum mode_set_atomic {
->>   	LEAVE_ATOMIC_MODE_SET,
->> @@ -451,54 +451,4 @@ drm_fbdev_generic_setup(struct drm_device *dev, u=
-nsigned int preferred_bpp)
->>  =20
->>   #endif
->>  =20
->> -/**
->> - * drm_fb_helper_remove_conflicting_framebuffers - remove firmware-co=
-nfigured framebuffers
->> - * @a: memory range, users of which are to be removed
->> - * @name: requesting driver name
->> - * @primary: also kick vga16fb if present
->> - *
->> - * This function removes framebuffer devices (initialized by firmware=
-/bootloader)
->> - * which use memory range described by @a. If @a is NULL all such dev=
-ices are
->> - * removed.
->> - */
->> -static inline int
->> -drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct=
- *a,
->> -					      const char *name, bool primary)
->> -{
->> -#if IS_REACHABLE(CONFIG_FB)
->> -	return remove_conflicting_framebuffers(a, name, primary);
->> -#else
->> -	return 0;
->> -#endif
->> -}
->> -
->> -/**
->> - * drm_fb_helper_remove_conflicting_pci_framebuffers - remove firmwar=
-e-configured framebuffers for PCI devices
->> - * @pdev: PCI device
->> - * @name: requesting driver name
->> - *
->> - * This function removes framebuffer devices (eg. initialized by firm=
-ware)
->> - * using memory range configured for any of @pdev's memory bars.
->> - *
->> - * The function assumes that PCI device with shadowed ROM drives a pr=
-imary
->> - * display and so kicks out vga16fb.
->> - */
->> -static inline int
->> -drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pde=
-v,
->> -						  const char *name)
->> -{
->> -	int ret =3D 0;
->> -
->> -	/*
->> -	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
->> -	 * otherwise the vga fbdev driver falls over.
->> -	 */
->> -#if IS_REACHABLE(CONFIG_FB)
->> -	ret =3D remove_conflicting_pci_framebuffers(pdev, name);
->> -#endif
->> -	if (ret =3D=3D 0)
->> -		ret =3D vga_remove_vgacon(pdev);
->> -	return ret;
->> -}
->> -
->>   #endif
->> --=20
->> 2.30.1
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+On 4/8/21 5:58 PM, Jonathan Corbet wrote:
+> Daniel Bristot de Oliveira <bristot@redhat.com> writes:
+> 
+> A quick nit:
+> 
+>>  Documentation/trace/osnoise_tracer.rst |  149 ++
+>>  include/linux/ftrace_irq.h             |   16 +
+>>  include/trace/events/osnoise.h         |  141 ++
+>>  kernel/trace/Kconfig                   |   34 +
+>>  kernel/trace/Makefile                  |    1 +
+>>  kernel/trace/trace.h                   |    9 +-
+>>  kernel/trace/trace_entries.h           |   27 +
+>>  kernel/trace/trace_osnoise.c           | 1714 ++++++++++++++++++++++++
+>>  kernel/trace/trace_output.c            |   72 +-
+>>  9 files changed, 2159 insertions(+), 4 deletions(-)
+>>  create mode 100644 Documentation/trace/osnoise_tracer.rst
+>>  create mode 100644 include/trace/events/osnoise.h
+>>  create mode 100644 kernel/trace/trace_osnoise.c
+> When you create a new RST file, you need to add it to an index.rst (or
+> similar) file so that it gets incorporated into the docs build.
 
 
---GFAmzOHVvtb20soidyJaaOtS1Xcm0WKBk--
+ack!
 
---SfEooEkTlWBwU4yLXLYwo0Hwu4aYK44xI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+> 
+> The document itself looks good on a quick read.  If you're making
+> another pass over it, you might consider reducing the ``markup noise`` a
+> bit; we try to keep that to a minimum in the kernel docs.  But otherwise
+> thanks for writing it!
 
------BEGIN PGP SIGNATURE-----
+Thanks for the review, Jon. I will reduce the `` markup (on this, and on some
+other docs that are about to come :-))
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBv/bQFAwAAAAAACgkQlh/E3EQov+BU
-8Q/+P2/+ZwUIPL7X7ikiT0UUY87D1b3yXqe+EjBSfApy0fg3MUqhLWE07DjJZmIDXfVJ/VN6envU
-iaVFA7WKuG78bILxbPdw5TCZtLNR3FI5gc+lKr4MjucLV9YebXvjfaiEk+pjFkYaRxABwuYIw1p6
-3LgWi9nqRBrZlUgDxT/UHLOmtwKOEUbAYIqQ39I+EZ2ZclC0pUatOo6cogc9caL+jOS5RX1HhL3g
-MJHQlMTHm6cyhAElhO0CdiY959B+X8b35gZGBMvxuXvib7PptejhY3I2YEJH79BB7/s88bhZBdsy
-swnVi4CasXgXxauztWIv4Ve9FWmNpMJEAPecMcMO/cbbgAIiv6IITShEXzC0zNxa6mb5tQwyPHup
-qaFab5+AFlbxpmk1xovViY8ereIbbzmbQFgVC3bQdr4NS5wtGZUZ/LPVUWiWgEQAyHGrRjhNf4vM
-aNrWaMhtoeDHsC6gdUvxgydCXoB0zwYWUSV+wvj1mwmRgqyVi5s3b9yIRe8EycG+rfrEl5EBghgN
-NTu8qSacVF4VUToXSnOC1UtDeq1g4NqbU7n/rNkW20kkCKX4G3HsfmRqSgkuSD6tpFUKXUNgnFJu
-JmTZKccPkz6a6s82sBuR1iWGt4m8sLejHphMA8DSeGsgyqTO2EoWGW+visBE3IQWRvV4moy/uMpt
-1Oc=
-=ADd+
------END PGP SIGNATURE-----
+-- Daniel
+> jon
+> 
 
---SfEooEkTlWBwU4yLXLYwo0Hwu4aYK44xI--
