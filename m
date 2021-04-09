@@ -7,83 +7,75 @@ X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3C4BC43619
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 12:48:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE4DC4361A
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 12:48:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BEADC6115C
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 12:48:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 375F961106
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 12:48:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233898AbhDIMsV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Apr 2021 08:48:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41874 "EHLO mail.kernel.org"
+        id S232615AbhDIMsS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Apr 2021 08:48:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41722 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233798AbhDIMsQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Apr 2021 08:48:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6854061181;
+        id S233777AbhDIMsO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Apr 2021 08:48:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A53161106;
         Fri,  9 Apr 2021 12:48:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617972481;
-        bh=5W48diRQfjKI0foEpRt8wZBVTd4UNElSu7U71oXyuGg=;
+        bh=Tj7z1zW72+qtHkoeI0ngIMPv3VOSrEkM37aHTlYijTs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=feNT5yuEfE7RD2acIneAvNKCu8XvzGN4Pmtz0J9Tm0JUzNljdRl7/QdQ+cP4Z2vGp
-         ydvkR97cNnVxp5NN+DVD21bDb8CZ8XfW1V7H/3EkP7guSzgWfN53g/naxO6ZhyTXdK
-         80KY8zH/hB9gXvLMvtya2GhMzw+psguzG4mm6kCzVp0S1YpfNnPF3iSqvb0l0nwU5D
-         4fz1ZdMD8+NA6RHa59Mh+bj3Erm+k+GdGQTRIw1Ls3ghYsbCc70bRqSA/KdwKLesnz
-         Tc7wdAmIVcALsavFLREYCg4Wa1LG5UXNAoWkS9JZDPef9ajy43PdDvv5PlW8aOnczK
-         gwrO2NgcSeXxQ==
+        b=mSc0TOB5iDQfrFZgdgZ2E3XeIICVG5Yc17Ydmmy21a0RasA6TdLWnI4W9tNUv4Pzb
+         B0c+TEc5zFY2pCeAguU6tsTkzbor0xRVTPjGrO1vF5aEqEd3OrrYd5H6YIZDpE7UZB
+         aOF9RVVxptcYSSnKk98BI4fvYnMzKrTV7sgNXdmTGfJ1YfdOKlez/28ceKRHfjFMtt
+         Ncw4ML6PpxP6jKCyhKKDOreupuUOpEei7gG1Tw9EXpNhk9ejGDsN/TUrVxCqNfVNDj
+         wJd6q20GMpwbHJaDAjNjWRKHj0gDi0HRSbsRy9ONpku1Fm9Mtljg03QaQacxPeUWrH
+         cC66t5NcwefLg==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lUqYE-001SLm-8q; Fri, 09 Apr 2021 14:47:54 +0200
+        id 1lUqYE-001SLs-DP; Fri, 09 Apr 2021 14:47:54 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        Alex Shi <alexs@kernel.org>, Wu XiangCheng <bobwxc@email.cn>,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/8] docs: update sysfs-platform_profile.rst reference
-Date:   Fri,  9 Apr 2021 14:47:48 +0200
-Message-Id: <b3df6893ff6b1eea433da89b3fc7c92d0cd9a932.1617972339.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 7/8] docs: translations/zh_CN: fix a typo at 8.Conclusion.rst
+Date:   Fri,  9 Apr 2021 14:47:51 +0200
+Message-Id: <febb930dc6c8679e9da9e451aa82d9243cf97b9e.1617972339.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617972339.git.mchehab+huawei@kernel.org>
 References: <cover.1617972339.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The file name: Documentation/ABI/testing/sysfs-platform_profile.rst
-should be, instead: Documentation/userspace-api/sysfs-platform_profile.rst.
+transaltions -> translations
 
-Update its cross-reference accordingly.
-
-Fixes: a2ff95e018f1 ("ACPI: platform: Add platform profile support")
-Fixes: 8e0cbf356377 ("Documentation: Add documentation for new platform_profile sysfs attribute")
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Mark Pearson <markpearson@lenovo.com>
+Acked-by: Wu XiangCheng <bobwxc@email.cn>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- include/linux/platform_profile.h | 2 +-
+ Documentation/translations/zh_CN/process/8.Conclusion.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/platform_profile.h b/include/linux/platform_profile.h
-index a6329003aee7..e5cbb6841f3a 100644
---- a/include/linux/platform_profile.h
-+++ b/include/linux/platform_profile.h
-@@ -2,7 +2,7 @@
- /*
-  * Platform profile sysfs interface
-  *
-- * See Documentation/ABI/testing/sysfs-platform_profile.rst for more
-+ * See Documentation/userspace-api/sysfs-platform_profile.rst for more
-  * information.
-  */
- 
+diff --git a/Documentation/translations/zh_CN/process/8.Conclusion.rst b/Documentation/translations/zh_CN/process/8.Conclusion.rst
+index 71c3e30efc6f..4707f0101964 100644
+--- a/Documentation/translations/zh_CN/process/8.Conclusion.rst
++++ b/Documentation/translations/zh_CN/process/8.Conclusion.rst
+@@ -19,7 +19,7 @@
+ :ref:`Documentation/translations/zh_CN/process/howto.rst <cn_process_howto>`
+ 文件是一个重要的起点；
+ :ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
+-和 :ref:`Documentation/transaltions/zh_CN/process/submitting-drivers.rst <cn_submittingdrivers>`
++和 :ref:`Documentation/translations/zh_CN/process/submitting-drivers.rst <cn_submittingdrivers>`
+ 也是所有内核开发人员都应该阅读的内容。许多内部内核API都是使用kerneldoc机制
+ 记录的；“make htmldocs”或“make pdfdocs”可用于以HTML或PDF格式生成这些文档
+ （尽管某些发行版提供的tex版本会遇到内部限制，无法正确处理文档）。
 -- 
 2.30.2
 
