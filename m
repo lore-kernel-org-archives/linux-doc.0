@@ -2,97 +2,198 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D445C433B4
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 11:54:49 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DE88C43462
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 12:08:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D5AE361178
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 11:54:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2F610610CF
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 12:08:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231638AbhDILzA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Apr 2021 07:55:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50948 "EHLO
+        id S231756AbhDIMI5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Apr 2021 08:08:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231599AbhDILzA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Apr 2021 07:55:00 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA4CC061760;
-        Fri,  9 Apr 2021 04:54:47 -0700 (PDT)
-Received: from ip4d14bd53.dynamic.kabel-deutschland.de ([77.20.189.83] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1lUpio-0006lL-0V; Fri, 09 Apr 2021 13:54:46 +0200
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <cover.1617786974.git.linux@leemhuis.info>
- <813fc7b082a4b47ec6d34542971e9bba74fd4a51.1617786974.git.linux@leemhuis.info>
- <87im4wznrx.fsf@meer.lwn.net>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: [RFC PATCH v1 2/2] docs: reporting-issues: make everyone CC the
- regressions list
-Message-ID: <0b0df0d0-b1fb-e6e9-8368-bbf1b59f887d@leemhuis.info>
-Date:   Fri, 9 Apr 2021 13:54:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+        with ESMTP id S231402AbhDIMI4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Apr 2021 08:08:56 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2114DC061760;
+        Fri,  9 Apr 2021 05:08:43 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id u17so8302060ejk.2;
+        Fri, 09 Apr 2021 05:08:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=cEi4dBMf1BkmuY14gGbElJbBTh//wd4dN7gILare5wE=;
+        b=pQ+ZrITvRJMq9gBKBD5zfu3ZTxMiQ0leTkBxsvGMVbkQw/+/nGowpbVKDkLnwkIvf1
+         rr4UDyF83OUFNyun0b/I8NlZzgYFhUWaSZsBn00AYCh/72n3ePyYZVlPB/Ma40c6mdsk
+         SOKXCjAuNMB5QXHfNXqBeE5RAcnyp3n0aG1Z/c5AVFW2SHNhN0P3e0RCLvosgCS85T1V
+         shoITnsV/MmRNuMOih8rWULq78meoIiVsqp7Ll+G9nHexsotUoPN0MZsF7cNCgU10CpJ
+         6URgdTD3ejvZc+FmgmuX49Rxa98bdXURDxEcTAzejG2L+vjnu0jzkWrXwhPBzD8cDx/t
+         68GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=cEi4dBMf1BkmuY14gGbElJbBTh//wd4dN7gILare5wE=;
+        b=C+lAc+fVS2nRJK9DIp2DuzuGnJlRvWFw8c36f2asbr/rfodaPS0lSKov04vxlhJh/f
+         6pNLjMuxu2AmgjN7c2n4w7vwGnx+pHJMBhb5X0IWWgqrlUsabaq0G4n//jUjcc5ssbE4
+         T/9Te/jeBQ7/U2ztdIRHYRk85abAeP3lt6kcH6L/w9N6A7tlva+d+7odu9tHAU9qWwxn
+         6SXe9tezDvT0MgIF0RS2/EkUrw/TQhN2lsEVd769szp/zgHfd10Gs+RyViwiOA3nZksw
+         ZYxU1sqrUhsmqOErqveBzckc//M8pHPQPcEiKxQt0Er27DYf9bNfNcg2umtVG2hKYcHJ
+         /G+A==
+X-Gm-Message-State: AOAM530/LYi8y9Wrl0N33U4WlpxrFu4l+6saX/R28oMd60YncWgUFV6X
+        ISrUM+p9H8w4Pd9RXI1cxLA=
+X-Google-Smtp-Source: ABdhPJx8h9Pc3BjF3vRa5o1sWGyI42O8E2SC22STz2KAQ0OfGsoMxl6LpxVlci6LyxYc8HpCRIYF8g==
+X-Received: by 2002:a17:906:1115:: with SMTP id h21mr16575768eja.352.1617970121833;
+        Fri, 09 Apr 2021 05:08:41 -0700 (PDT)
+Received: from localhost (pd9e51abe.dip0.t-ipconnect.de. [217.229.26.190])
+        by smtp.gmail.com with ESMTPSA id h13sm1345521edz.71.2021.04.09.05.08.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Apr 2021 05:08:40 -0700 (PDT)
+Date:   Fri, 9 Apr 2021 14:09:16 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        linux-doc@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        Michael Turquette <mturquette@baylibre.com>,
+        linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Ludovic Desroches <ludovic.desroches@microchip.com>,
+        linux-clk@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        Chen-Yu Tsai <wens@csie.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-input@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+        linux-pwm@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        intel-gfx@lists.freedesktop.org, Mark Brown <broonie@kernel.org>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        linux-arm-kernel@lists.infradead.org,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        linux-kernel@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>,
+        Claudiu Beznea <claudiu.beznea@microchip.com>
+Subject: Re: [PATCH] pwm: Rename pwm_get_state() to better reflect its
+ semantic
+Message-ID: <YHBD7AhOJGyELpVZ@orome.fritz.box>
+References: <20210406073036.26857-1-u.kleine-koenig@pengutronix.de>
+ <YGxDD4jVZx/H/Zdr@orome.fritz.box>
+ <20210406134356.dda74heeshkwdarw@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <87im4wznrx.fsf@meer.lwn.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-BS
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1617969287;b9395910;
-X-HE-SMSGID: 1lUpio-0006lL-0V
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="PvYVwmcUBFdXJjNu"
+Content-Disposition: inline
+In-Reply-To: <20210406134356.dda74heeshkwdarw@pengutronix.de>
+User-Agent: Mutt/2.0.6 (98f8cb83) (2021-03-06)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 08.04.21 19:31, Jonathan Corbet wrote:
-> Thorsten Leemhuis <linux@leemhuis.info> writes:
-> 
->> +In case you performed a successful bisection, use the title of the change that
->> +introduced the regression as the second part of your subject. Make the report
->> +also mention the commit id of the culprit. For tracking purposes, add a line
->> +like the following that contains both pieces of information, but with the
->> +commit id shortened to 12 characters::
->> +
->> +    #regzb introduced: 94a632d91ad1 ("usc: xhbi-foo: check bar_params earlier")
->> +
->> +In case of an unsuccessful bisection, make your report mention the latest tested
->> +version that's working fine (say 5.7) and the oldest where the issue occurs (say
->> +5.8-rc1). For tracking purposes add a line expressing it like this::
->> +
->> +    #regzb introduced: v5.7..v5.8-rc1
-> 
-> I kind of share Greg's concern that people aren't going to want to do
-> this; [...]
 
-Yeah, I might have done a little too far and should have written it a
-bit more relaxed (like "if you want to help, add a tag like this...").
-Looking back at it I got a bit bold and went farther then initially
-planned due to the ```Make it clear that the list is only for
-regressions that people can describe some way, rather than some general
-"I have issues with xyz".``` from Linus here:
-https://lore.kernel.org/ksummit/CAHk-=wgiYqqLzsb9-UpfH+=ktk7ra-2fOsdc_ZJ7WF47wS73CA@mail.gmail.com/
+--PvYVwmcUBFdXJjNu
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> [...]
-> Also, though, as I understand it the system that will interpret these
-> lines does not yet exist.  Experience tells me that, as this system
-> comes into existence, you will have a good chance of deciding that you
-> want the syntax to look different anyway.  So I would personally hold
-> off on telling people to include directives like this until you have
-> something that works with them.
-> 
-> But that's just me... if this is the way it's going to work then the
-> docs should of course reflect that.
+On Tue, Apr 06, 2021 at 03:43:56PM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> Hello Thierry,
+>=20
+> On Tue, Apr 06, 2021 at 01:16:31PM +0200, Thierry Reding wrote:
+> > On Tue, Apr 06, 2021 at 09:30:36AM +0200, Uwe Kleine-K=C3=B6nig wrote:
+> > > Given that lowlevel drivers usually cannot implement exactly what a
+> > > consumer requests with pwm_apply_state() there is some rounding invol=
+ved.
+> > >=20
+> > > pwm_get_state() traditionally returned the setting that was requested=
+ most
+> > > recently by the consumer (opposed to what was actually implemented in
+> > > hardware in reply to the last request). To make this semantic obvious
+> > > rename the function.
+> > >=20
+> > > Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@pengutronix.de>
+> > > ---
+> > >  Documentation/driver-api/pwm.rst           |  6 +++-
+> > >  drivers/clk/clk-pwm.c                      |  2 +-
+> > >  drivers/gpu/drm/i915/display/intel_panel.c |  4 +--
+> > >  drivers/input/misc/da7280.c                |  2 +-
+> > >  drivers/input/misc/pwm-beeper.c            |  2 +-
+> > >  drivers/input/misc/pwm-vibra.c             |  4 +--
+> > >  drivers/pwm/core.c                         |  4 +--
+> > >  drivers/pwm/pwm-atmel-hlcdc.c              |  2 +-
+> > >  drivers/pwm/pwm-atmel.c                    |  2 +-
+> > >  drivers/pwm/pwm-imx27.c                    |  2 +-
+> > >  drivers/pwm/pwm-rockchip.c                 |  2 +-
+> > >  drivers/pwm/pwm-stm32-lp.c                 |  4 +--
+> > >  drivers/pwm/pwm-sun4i.c                    |  2 +-
+> > >  drivers/pwm/sysfs.c                        | 18 ++++++------
+> > >  drivers/regulator/pwm-regulator.c          |  4 +--
+> > >  drivers/video/backlight/pwm_bl.c           | 10 +++----
+> > >  include/linux/pwm.h                        | 34 ++++++++++++++------=
+--
+> > >  17 files changed, 59 insertions(+), 45 deletions(-)
+> >=20
+> > Honestly, I don't think this is worth the churn. If you think people
+> > will easily get confused by this then a better solution might be to more
+> > explicitly document the pwm_get_state() function to say exactly what it
+> > returns.
+>=20
+> I'm not so optimistic that people become aware of the semantic just
+> because there is documentation describing it and I strongly believe that
+> a good name for functions is more important than accurate documentation.
+>=20
+> If you don't agree, what do you think about the updated wording in
+> Documentation/driver-api/pwm.rst?
 
-Yeah, but let's wait how things evolve before adding this then. :-D
+Yeah, that clarifies this a bit. I can apply that hunk of the patch
+separately.
 
-FWIW, just sent v2 with the problematic bits dropped and the MAINTAINERS
-entry Greg outlined.
+> > But there's no need to make life difficult for everyone by
+> > renaming this to something as cumbersome as this.
+>=20
+> I don't expect any merge conflicts (and if still a problem occurs
+> resolving should be trivial enough). So I obviously don't agree to your
+> weighing.
 
-Ciao, Thorsten
+I wasn't talking about merge conflicts but instead about the extra churn
+of changing all consumers and having to type all these extra characters
+for no benefit.
+
+Thierry
+
+--PvYVwmcUBFdXJjNu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmBwQ+wACgkQ3SOs138+
+s6FoaQ/9EG+snyNuisvtyU5qYi/2TVmPDZz6j1D/s1DAK1Op6AtOQksGAH7dqHgw
+bT+jTMJi5bTnc4RSeUNrVFcVtb5qVWZEvN3D4c1wcr3PLtM8O4XxRQaMULo2+3pN
+CCrHZKWyvB50hVFEs9CUSozlWk3HO/MNjef2MmwxBHiro1JBdAJivwFZEX8xQo2h
+/y0HVDlrH2A1soG/WaGEeR6s3TzquHZiOawgNu51xgxIaxrEBs/ca7gBCuEfvy7d
+Mu2yR+6VpjNWA0m3e53Nc4QkbQUDG89Thdf2i2HjVYsHX8wpVKWiA3OogCpVbTlQ
+BUqEvvRQ5krW5IcneASEEKMOJSkX6zf86kC3RoYSbKmydCc6BlYVePr25yoTMAPK
+XaYqd7i5ocueQZF5RdxrIXIoRgjU3Wu8v34N2mgaCCrHIwTHFJHAdim4h18Mbj+3
+hVgZ+cuQ8Kaz0YjF4nAGQTQLsAQb7u7CjH6BqRzKUveMfInqD5wij6bP+jN0IYZA
+4eUL5tfEdajQBvosPm4aQm0xULcg5jxq7rG/hpTa9y+J7s31IzXQ73dx2gse4kOt
+0QY36evBxZKnvM5LGwWOkHK3aB8T2RqQP4l0kA9fmiQYYBudAL3VSEyE4mWU2Iza
+P1UoRFFrCJ9K6dYBRX19nE+N1kAi2axBa0+KTMxQAUo0KzYGB0w=
+=aO1m
+-----END PGP SIGNATURE-----
+
+--PvYVwmcUBFdXJjNu--
