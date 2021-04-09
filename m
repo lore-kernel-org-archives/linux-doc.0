@@ -2,166 +2,481 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D155C433ED
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 06:27:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E41FAC433B4
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 07:07:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E06461185
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 06:27:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B019D61107
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 07:07:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233244AbhDIG1N (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Apr 2021 02:27:13 -0400
-Received: from mslow1.mail.gandi.net ([217.70.178.240]:34207 "EHLO
-        mslow1.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231515AbhDIG1M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Apr 2021 02:27:12 -0400
-Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
-        by mslow1.mail.gandi.net (Postfix) with ESMTP id 49471C6409;
-        Fri,  9 Apr 2021 06:18:55 +0000 (UTC)
-X-Originating-IP: 81.185.169.105
-Received: from localhost.localdomain (105.169.185.81.rev.sfr.net [81.185.169.105])
-        (Authenticated sender: alex@ghiti.fr)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id BFF84FF803;
-        Fri,  9 Apr 2021 06:18:28 +0000 (UTC)
-From:   Alexandre Ghiti <alex@ghiti.fr>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
-        linux-mm@kvack.org
-Cc:     Alexandre Ghiti <alex@ghiti.fr>, Anup Patel <anup@brainfault.org>
-Subject: [PATCH v4 3/3] riscv: Prepare ptdump for vm layout dynamic addresses
-Date:   Fri,  9 Apr 2021 02:15:00 -0400
-Message-Id: <20210409061500.14673-4-alex@ghiti.fr>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210409061500.14673-1-alex@ghiti.fr>
-References: <20210409061500.14673-1-alex@ghiti.fr>
+        id S232763AbhDIHHM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Apr 2021 03:07:12 -0400
+Received: from mx2.suse.de ([195.135.220.15]:39148 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230412AbhDIHHL (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Apr 2021 03:07:11 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id C8122AE56;
+        Fri,  9 Apr 2021 07:06:57 +0000 (UTC)
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, kraxel@redhat.com, corbet@lwn.net,
+        lgirdwood@gmail.com, broonie@kernel.org, sam@ravnborg.org,
+        robh@kernel.org, emil.l.velikov@gmail.com, geert+renesas@glider.be,
+        hdegoede@redhat.com, bluescreen_avenger@verizon.net,
+        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+References: <20210318102921.21536-1-tzimmermann@suse.de>
+ <20210318102921.21536-5-tzimmermann@suse.de>
+ <YG7RgQfj0yZHbL6L@phenom.ffwll.local>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 04/10] drm/aperture: Add infrastructure for aperture
+ ownership
+Message-ID: <a787dde9-70b0-cb38-f2bf-6e7b479525f9@suse.de>
+Date:   Fri, 9 Apr 2021 09:06:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.8.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YG7RgQfj0yZHbL6L@phenom.ffwll.local>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="xIChLMcBZOV9r9hXXdymtcyvHLRjJgVb2"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is a preparatory patch for sv48 support that will introduce
-dynamic PAGE_OFFSET.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--xIChLMcBZOV9r9hXXdymtcyvHLRjJgVb2
+Content-Type: multipart/mixed; boundary="uSY4ZNw8KzGrZZVq4oAdXrWlIdEO65R7b";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com, broonie@kernel.org,
+ sam@ravnborg.org, robh@kernel.org, emil.l.velikov@gmail.com,
+ geert+renesas@glider.be, hdegoede@redhat.com,
+ bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, virtualization@lists.linux-foundation.org
+Message-ID: <a787dde9-70b0-cb38-f2bf-6e7b479525f9@suse.de>
+Subject: Re: [PATCH v2 04/10] drm/aperture: Add infrastructure for aperture
+ ownership
+References: <20210318102921.21536-1-tzimmermann@suse.de>
+ <20210318102921.21536-5-tzimmermann@suse.de>
+ <YG7RgQfj0yZHbL6L@phenom.ffwll.local>
+In-Reply-To: <YG7RgQfj0yZHbL6L@phenom.ffwll.local>
 
-Dynamic PAGE_OFFSET implies that all zones (vmalloc, vmemmap, fixaddr...)
-whose addresses depend on PAGE_OFFSET become dynamic and can't be used
-to statically initialize the array used by ptdump to identify the
-different zones of the vm layout.
+--uSY4ZNw8KzGrZZVq4oAdXrWlIdEO65R7b
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
-Reviewed-by: Anup Patel <anup@brainfault.org>
----
- arch/riscv/mm/ptdump.c | 67 ++++++++++++++++++++++++++++++++++--------
- 1 file changed, 55 insertions(+), 12 deletions(-)
+Hi
 
-diff --git a/arch/riscv/mm/ptdump.c b/arch/riscv/mm/ptdump.c
-index ace74dec7492..aa1b3bce61ab 100644
---- a/arch/riscv/mm/ptdump.c
-+++ b/arch/riscv/mm/ptdump.c
-@@ -58,29 +58,52 @@ struct ptd_mm_info {
- 	unsigned long end;
- };
- 
-+enum address_markers_idx {
-+#ifdef CONFIG_KASAN
-+	KASAN_SHADOW_START_NR,
-+	KASAN_SHADOW_END_NR,
-+#endif
-+	FIXMAP_START_NR,
-+	FIXMAP_END_NR,
-+	PCI_IO_START_NR,
-+	PCI_IO_END_NR,
-+#ifdef CONFIG_SPARSEMEM_VMEMMAP
-+	VMEMMAP_START_NR,
-+	VMEMMAP_END_NR,
-+#endif
-+	VMALLOC_START_NR,
-+	VMALLOC_END_NR,
-+	PAGE_OFFSET_NR,
-+	MODULES_MAPPING_NR,
-+	KERNEL_MAPPING_NR,
-+	END_OF_SPACE_NR
-+};
-+
- static struct addr_marker address_markers[] = {
- #ifdef CONFIG_KASAN
--	{KASAN_SHADOW_START,	"Kasan shadow start"},
--	{KASAN_SHADOW_END,	"Kasan shadow end"},
-+	{0, "Kasan shadow start"},
-+	{0, "Kasan shadow end"},
- #endif
--	{FIXADDR_START,		"Fixmap start"},
--	{FIXADDR_TOP,		"Fixmap end"},
--	{PCI_IO_START,		"PCI I/O start"},
--	{PCI_IO_END,		"PCI I/O end"},
-+	{0, "Fixmap start"},
-+	{0, "Fixmap end"},
-+	{0, "PCI I/O start"},
-+	{0, "PCI I/O end"},
- #ifdef CONFIG_SPARSEMEM_VMEMMAP
--	{VMEMMAP_START,		"vmemmap start"},
--	{VMEMMAP_END,		"vmemmap end"},
-+	{0, "vmemmap start"},
-+	{0, "vmemmap end"},
- #endif
--	{VMALLOC_START,		"vmalloc() area"},
--	{VMALLOC_END,		"vmalloc() end"},
--	{PAGE_OFFSET,		"Linear mapping"},
-+	{0, "vmalloc() area"},
-+	{0, "vmalloc() end"},
-+	{0, "Linear mapping"},
-+	{0, "Modules mapping"},
-+	{0, "Kernel mapping (kernel, BPF)"},
- 	{-1, NULL},
- };
- 
- static struct ptd_mm_info kernel_ptd_info = {
- 	.mm		= &init_mm,
- 	.markers	= address_markers,
--	.base_addr	= KERN_VIRT_START,
-+	.base_addr	= 0,
- 	.end		= ULONG_MAX,
- };
- 
-@@ -335,6 +358,26 @@ static int ptdump_init(void)
- {
- 	unsigned int i, j;
- 
-+#ifdef CONFIG_KASAN
-+	address_markers[KASAN_SHADOW_START_NR].start_address = KASAN_SHADOW_START;
-+	address_markers[KASAN_SHADOW_END_NR].start_address = KASAN_SHADOW_END;
-+#endif
-+	address_markers[FIXMAP_START_NR].start_address = FIXADDR_START;
-+	address_markers[FIXMAP_END_NR].start_address = FIXADDR_TOP;
-+	address_markers[PCI_IO_START_NR].start_address = PCI_IO_START;
-+	address_markers[PCI_IO_END_NR].start_address = PCI_IO_END;
-+#ifdef CONFIG_SPARSEMEM_VMEMMAP
-+	address_markers[VMEMMAP_START_NR].start_address = VMEMMAP_START;
-+	address_markers[VMEMMAP_END_NR].start_address = VMEMMAP_END;
-+#endif
-+	address_markers[VMALLOC_START_NR].start_address = VMALLOC_START;
-+	address_markers[VMALLOC_END_NR].start_address = VMALLOC_END;
-+	address_markers[PAGE_OFFSET_NR].start_address = PAGE_OFFSET;
-+	address_markers[MODULES_MAPPING_NR].start_address = MODULES_VADDR;
-+	address_markers[KERNEL_MAPPING_NR].start_address = kernel_virt_addr;
-+
-+	kernel_ptd_info.base_addr = KERN_VIRT_START;
-+
- 	for (i = 0; i < ARRAY_SIZE(pg_level); i++)
- 		for (j = 0; j < ARRAY_SIZE(pte_bits); j++)
- 			pg_level[i].mask |= pte_bits[j].mask;
--- 
-2.20.1
+Am 08.04.21 um 11:48 schrieb Daniel Vetter:
+>=20
+> Maybe just me, but to avoid overstretching the attention spawn of doc
+> readers I'd avoid this example here. And maybe make the recommendation
+> stronger, e.g. "PCI device drivers can avoid open-coding
+> remove_conflicting_framebuffers() by calling
+> drm_fb_helper_remove_conflicting_pci_framebuffers()."
 
+It's a tutorial. In my expectation, everyone just copies the tutorial=20
+code and fills the gaps.
+
+>=20
+>> + *
+>> + * .. code-block:: c
+>> + *
+>> + *	static int probe(struct pci_dev *pdev)
+>> + *	{
+>> + *		int ret;
+>> + *
+>> + *		// Remove any generic drivers...
+>> + *		ret =3D drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "=
+example driver");
+>> + *		if (ret)
+>> + *			return ret;
+>> + *
+>> + *		// ... and initialize the hardware.
+>> + *		...
+>> + *
+>> + *		drm_dev_register();
+>> + *
+>> + *		return 0;
+>> + *	}
+>> + *
+>> + * Drivers that are susceptible to being removed be other drivers, su=
+ch as
+>> + * generic EFI or VESA drivers, have to register themselves as owners=
+ of their
+>> + * given framebuffer memory. Ownership of the framebuffer memory is a=
+chived
+>> + * by calling devm_aperture_acquire(). On success, the driver is the =
+owner
+>> + * of the framebuffer range. The function fails if the framebuffer is=
+ already
+>> + * by another driver. See below for an example.
+>> + *
+>> + * .. code-block:: c
+>> + *
+>> + *	static struct drm_aperture_funcs ap_funcs =3D {
+>> + *		.detach =3D ...
+>=20
+> Is there really value in allowing/forcing drivers to set up their own
+> detach ops? You already make this specific to struct drm_device, an
+> implementation that just calls drm_dev_unplug feels like the right thin=
+g
+> to do?
+
+Is it that easy? simepldrm's detach function has code to synchronize=20
+with concurrent hotplug removals. If we can use drm_dev_unplug() for=20
+everything, I'm all for it.
+
+Best regards
+Thomas
+
+>=20
+> Or maybe we should tie this more into the struct device mode and force =
+an
+> unload that way? That way devm cleanup would work as one expects, and
+> avoid the need for anything specific (hopefully) in this detach callbac=
+k.
+>=20
+> Just feels a bit like we're reinventing half of the driver model here,
+> badly.
+>=20
+>> + *	};
+>> + *
+>> + *	static int acquire_framebuffers(struct drm_device *dev, struct pci=
+_dev *pdev)
+>> + *	{
+>> + *		resource_size_t start, len;
+>> + *		struct drm_aperture *ap;
+>> + *
+>> + *		base =3D pci_resource_start(pdev, 0);
+>> + *		size =3D pci_resource_len(pdev, 0);
+>> + *
+>> + *		ap =3D devm_acquire_aperture(dev, base, size, &ap_funcs);
+>> + *		if (IS_ERR(ap))
+>> + *			return PTR_ERR(ap);
+>> + *
+>> + *		return 0;
+>> + *	}
+>> + *
+>> + *	static int probe(struct pci_dev *pdev)
+>> + *	{
+>> + *		struct drm_device *dev;
+>> + *		int ret;
+>> + *
+>> + *		// ... Initialize the device...
+>> + *		dev =3D devm_drm_dev_alloc();
+>> + *		...
+>> + *
+>> + *		// ... and acquire ownership of the framebuffer.
+>> + *		ret =3D acquire_framebuffers(dev, pdev);
+>> + *		if (ret)
+>> + *			return ret;
+>> + *
+>> + *		drm_dev_register();
+>> + *
+>> + *		return 0;
+>> + *	}
+>> + *
+>> + * The generic driver is now subject to forced removal by other drive=
+rs. This
+>> + * is when the detach function in struct &drm_aperture_funcs comes in=
+to play.
+>> + * When a driver calls drm_fb_helper_remove_conflicting_framebuffers(=
+) et al
+>> + * for the registered framebuffer range, the DRM core calls struct
+>> + * &drm_aperture_funcs.detach and the generic driver has to onload it=
+self. It
+>> + * may not access the device's registers, framebuffer memory, ROM, et=
+c after
+>> + * detach returned. If the driver supports hotplugging, detach can be=
+ treated
+>> + * like an unplug event.
+>> + *
+>> + * .. code-block:: c
+>> + *
+>> + *	static void detach_from_device(struct drm_device *dev,
+>> + *				       resource_size_t base,
+>> + *				       resource_size_t size)
+>> + *	{
+>> + *		// Signal unplug
+>> + *		drm_dev_unplug(dev);
+>> + *
+>> + *		// Maybe do other clean-up operations
+>> + *		...
+>> + *	}
+>> + *
+>> + *	static struct drm_aperture_funcs ap_funcs =3D {
+>> + *		.detach =3D detach_from_device,
+>> + *	};
+>> + */
+>> +
+>> +/**
+>> + * struct drm_aperture - Represents a DRM framebuffer aperture
+>> + *
+>> + * This structure has no public fields.
+>> + */
+>> +struct drm_aperture {
+>> +	struct drm_device *dev;
+>> +	resource_size_t base;
+>> +	resource_size_t size;
+>> +
+>> +	const struct drm_aperture_funcs *funcs;
+>> +
+>> +	struct list_head lh;
+>> +};
+>> +
+>> +static LIST_HEAD(drm_apertures);
+>> +
+>> +static DEFINE_MUTEX(drm_apertures_lock);
+>> +
+>> +static bool overlap(resource_size_t base1, resource_size_t end1,
+>> +		    resource_size_t base2, resource_size_t end2)
+>> +{
+>> +	return (base1 < end2) && (end1 > base2);
+>> +}
+>> +
+>> +static void devm_aperture_acquire_release(void *data)
+>> +{
+>> +	struct drm_aperture *ap =3D data;
+>> +	bool detached =3D !ap->dev;
+>> +
+>> +	if (!detached)
+>=20
+> Uh this needs a comment that if ap->dev is NULL then we're called from
+> drm_aperture_detach_drivers() and hence the lock is already held.
+>=20
+>> +		mutex_lock(&drm_apertures_lock);
+>=20
+> and an
+>=20
+> 	else
+> 		locdep_assert_held(&drm_apertures_lock);
+>=20
+> here to check that. I was scratching my head first quite a bit how you'=
+d
+> solve the deadlock, this is a neat solution (much simpler than anything=
+ I
+> came up with in my head). But needs comments.
+>=20
+>> +
+>> +	list_del(&ap->lh);
+>> +
+>> +	if (!detached)
+>> +		mutex_unlock(&drm_apertures_lock);
+>> +}
+>> +
+>> +/**
+>> + * devm_aperture_acquire - Acquires ownership of a framebuffer on beh=
+alf of a DRM driver.
+>> + * @dev:	the DRM device to own the framebuffer memory
+>> + * @base:	the framebuffer's byte offset in physical memory
+>> + * @size:	the framebuffer size in bytes
+>> + * @funcs:	callback functions
+>> + *
+>> + * Installs the given device as the new owner. The function fails if =
+the
+>> + * framebuffer range, or parts of it, is currently owned by another d=
+river.
+>> + * To evict current owners, callers should use
+>> + * drm_fb_helper_remove_conflicting_framebuffers() et al. before call=
+ing this
+>> + * function. Acquired apertures are released automatically if the und=
+erlying
+>> + * device goes away.
+>> + *
+>> + * Returns:
+>> + * An instance of struct &drm_aperture on success, or a pointer-encod=
+ed
+>> + * errno value otherwise.
+>> + */
+>> +struct drm_aperture *
+>> +devm_aperture_acquire(struct drm_device *dev,
+>> +		      resource_size_t base, resource_size_t size,
+>> +		      const struct drm_aperture_funcs *funcs)
+>> +{
+>> +	size_t end =3D base + size;
+>> +	struct list_head *pos;
+>> +	struct drm_aperture *ap;
+>> +	int ret;
+>> +
+>> +	mutex_lock(&drm_apertures_lock);
+>> +
+>> +	list_for_each(pos, &drm_apertures) {
+>> +		ap =3D container_of(pos, struct drm_aperture, lh);
+>> +		if (overlap(base, end, ap->base, ap->base + ap->size))
+>> +			return ERR_PTR(-EBUSY);
+>> +	}
+>> +
+>> +	ap =3D devm_kzalloc(dev->dev, sizeof(*ap), GFP_KERNEL);
+>> +	if (!ap)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	ap->dev =3D dev;
+>> +	ap->base =3D base;
+>> +	ap->size =3D size;
+>> +	ap->funcs =3D funcs;
+>> +	INIT_LIST_HEAD(&ap->lh);
+>> +
+>> +	list_add(&ap->lh, &drm_apertures);
+>> +
+>> +	mutex_unlock(&drm_apertures_lock);
+>> +
+>> +	ret =3D devm_add_action_or_reset(dev->dev, devm_aperture_acquire_rel=
+ease, ap);
+>> +	if (ret)
+>> +		return ERR_PTR(ret);
+>> +
+>> +	return ap;
+>> +}
+>> +EXPORT_SYMBOL(devm_aperture_acquire);
+>> +
+>> +void drm_aperture_detach_drivers(resource_size_t base, resource_size_=
+t size)
+>> +{
+>> +	resource_size_t end =3D base + size;
+>> +	struct list_head *pos, *n;
+>> +
+>> +	mutex_lock(&drm_apertures_lock);
+>> +
+>> +	list_for_each_safe(pos, n, &drm_apertures) {
+>> +		struct drm_aperture *ap =3D
+>> +			container_of(pos, struct drm_aperture, lh);
+>> +		struct drm_device *dev =3D ap->dev;
+>> +
+>> +		if (!overlap(base, end, ap->base, ap->base + ap->size))
+>> +			continue;
+>> +
+>> +		ap->dev =3D NULL; /* detach from device */
+>> +		if (drm_WARN_ON(dev, !ap->funcs->detach))
+>> +			continue;
+>> +		ap->funcs->detach(dev, ap->base, ap->size);
+>> +	}
+>> +
+>> +	mutex_unlock(&drm_apertures_lock);
+>> +}
+>> +EXPORT_SYMBOL(drm_aperture_detach_drivers);
+>=20
+> Is this just exported because of the inline functions in the headers? I=
+mo
+> better to make them proper functions (they're big after your patch&not
+> perf critical, so not good candidates for inlining anyway).
+>=20
+>> diff --git a/include/drm/drm_aperture.h b/include/drm/drm_aperture.h
+>> index 13766efe9517..696cec75ef78 100644
+>> --- a/include/drm/drm_aperture.h
+>> +++ b/include/drm/drm_aperture.h
+>> @@ -4,8 +4,30 @@
+>>   #define _DRM_APERTURE_H_
+>>  =20
+>>   #include <linux/fb.h>
+>> +#include <linux/pci.h>
+>>   #include <linux/vgaarb.h>
+>>  =20
+>> +struct drm_aperture;
+>> +struct drm_device;
+>> +
+>> +struct drm_aperture_funcs {
+>> +	void (*detach)(struct drm_device *dev, resource_size_t base, resourc=
+e_size_t size);
+>> +};
+>> +
+>> +struct drm_aperture *
+>> +devm_aperture_acquire(struct drm_device *dev,
+>> +		      resource_size_t base, resource_size_t size,
+>> +		      const struct drm_aperture_funcs *funcs);
+>> +
+>> +#if defined(CONFIG_DRM_APERTURE)
+>> +void drm_aperture_detach_drivers(resource_size_t base, resource_size_=
+t size);
+>> +#else
+>> +static inline void
+>> +drm_aperture_detach_drivers(resource_size_t base, resource_size_t siz=
+e)
+>> +{
+>> +}
+>> +#endif
+>> +
+>>   /**
+>>    * drm_fb_helper_remove_conflicting_framebuffers - remove firmware-c=
+onfigured framebuffers
+>>    * @a: memory range, users of which are to be removed
+>> @@ -20,6 +42,11 @@ static inline int
+>>   drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struc=
+t *a,
+>>   					      const char *name, bool primary)
+>>   {
+>> +	int i;
+>> +
+>> +	for (i =3D 0; i < a->count; ++i)
+>> +		drm_aperture_detach_drivers(a->ranges[i].base, a->ranges[i].size);
+>> +
+>>   #if IS_REACHABLE(CONFIG_FB)
+>>   	return remove_conflicting_framebuffers(a, name, primary);
+>>   #else
+>> @@ -43,7 +70,16 @@ static inline int
+>>   drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pd=
+ev,
+>>   						  const char *name)
+>>   {
+>> -	int ret =3D 0;
+>> +	resource_size_t base, size;
+>> +	int bar, ret =3D 0;
+>> +
+>> +	for (bar =3D 0; bar < PCI_STD_NUM_BARS; bar++) {
+>> +		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
+>> +			continue;
+>> +		base =3D pci_resource_start(pdev, bar);
+>> +		size =3D pci_resource_len(pdev, bar);
+>> +		drm_aperture_detach_drivers(base, size);
+>> +	}
+>>  =20
+>>   	/*
+>>   	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
+>> --=20
+>> 2.30.1
+>>
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--uSY4ZNw8KzGrZZVq4oAdXrWlIdEO65R7b--
+
+--xIChLMcBZOV9r9hXXdymtcyvHLRjJgVb2
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmBv/RAFAwAAAAAACgkQlh/E3EQov+Dd
+Sw/+NZBvdghrzPJYl6qcc9lsrdPODHnVq8EJg/k3QT9SQPOciXUjmpaAWHDOoIpI2sTQrgNcwoTl
+wCP/VGdCdg2vubgs7n6KNeOCReThTVC3SeauoaC1scBGhrnbciThy3t4yu0WNnIkM88Rt10slIZo
+lJ8Ei4+jYDRqBE+bSHvObGqA3UQJd2YGB63g2SeGjec/nbCiYcUBnWqtz/pqvUCKHjDn0hfh94W6
+3Z/OMj4K7XRzkPB0ChSBr3k73MRRXonXG8pfzKYS1cPGnCHXDkC4whRNYX+FB4wB/7kMT85VgJ6s
+t8EosOku17xp8fHLEJhD0o6mGmoQt3yc55l7EEJppNHri/NS4gLPauUopgUfalIXJcuXJaRACiG/
+wjmzX8+uiNEQOYPux6X+EibDugt5lGo4Fjx/X95ROUbg7R5pq6uIHlqOkiWoerK8dJPyNX6AobIk
+gkxeTfEZvsIzkxMucG9B8Nv38gmvSeuPB+qe92c/2K92RzjgmMBt1deMdT510ypiWU5TmkEvbF03
+q2mLaOB3O1TbJXYnQZVJ88O9lUR5OUiVDR0XD1lbYeMm7HQO6I94PW26XkjmbtE9qzZkAfO04+zr
+1RQsxCtbLy26xgGPpay0VqL86UiZaPbiBNetQRvAMAl1qerDcj6qJM6gbLQDRTli+c54H3aDL0UL
+y5I=
+=aEk5
+-----END PGP SIGNATURE-----
+
+--xIChLMcBZOV9r9hXXdymtcyvHLRjJgVb2--
