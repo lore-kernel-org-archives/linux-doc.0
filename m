@@ -2,88 +2,66 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B60A8C433B4
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 13:03:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30349C433ED
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 13:09:01 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 937FA610E7
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 13:03:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA7A26113A
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 13:09:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232990AbhDINDt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Apr 2021 09:03:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37834 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231621AbhDINDs (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Apr 2021 09:03:48 -0400
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E09BC061760;
-        Fri,  9 Apr 2021 06:03:35 -0700 (PDT)
-Received: from zn.tnic (p200300ec2f0be10087e272fb724c6f37.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:e100:87e2:72fb:724c:6f37])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 494F91EC04DE;
-        Fri,  9 Apr 2021 15:03:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
-        t=1617973409;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
-        bh=ew12c1cnmAkvuVqrlWjQtHBzOeLUg/EWXSU+IY8aHRs=;
-        b=Bk/5MmQtJyuIphXmGn6roxxNaL86fehI19pSHFxgsoCdrmaFvfoGSjojhQGDFhZEIw9V7K
-        h07nr6yOtp0mW+ue7jnHFHzsC+ifxyWZyzt9VZD6jwm0j9SL1X1usWhrYLf/ijD3T9edBE
-        PDQPyIMVEFOJtkYFEhf5ZkmvvE2P3e8=
-Date:   Fri, 9 Apr 2021 15:03:29 +0200
-From:   Borislav Petkov <bp@alien8.de>
-To:     Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Cc:     kvm@vger.kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Vitaly Kuznetsov <vkuznets@redhat.com>,
-        Jim Mattson <jmattson@google.com>,
-        Ingo Molnar <mingo@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>,
-        Alexander Graf <graf@amazon.com>,
-        Andrew Jones <drjones@redhat.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v5 0/4] KVM: cpuid: fix KVM_GET_EMULATED_CPUID
- implementation
-Message-ID: <20210409130329.GD15567@zn.tnic>
-References: <20210409125423.26288-1-eesposit@redhat.com>
+        id S233244AbhDINJM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Apr 2021 09:09:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52238 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231127AbhDINJH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Apr 2021 09:09:07 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 56563610FB;
+        Fri,  9 Apr 2021 13:08:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1617973734;
+        bh=nsBejBrFyBwV9jcEMxFU4mpMrBIx3bxEkyn8uVSUlT8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=QnavmgnzbtRuG5l8XeBHl8EuAhwFbEPeCINFU7dICW3PkB/paLc/fv1JQMRm45tcg
+         TorJtp7pytekpGuMRUU8sadgnUcR/vgdKPZr+lB7HONo9/pzRx/Hx9XsP2cQpAB7Th
+         fP6wuPxBGRI0EV/m2z/SB7+CM79B06FpBOD16iis=
+Date:   Fri, 9 Apr 2021 15:08:51 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Thorsten Leemhuis <linux@leemhuis.info>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] MAINTAINERS: add regressions mailing list
+Message-ID: <YHBR4xBO2ejkEnfI@kroah.com>
+References: <cover.1617967127.git.linux@leemhuis.info>
+ <ecf1f0125399c5242ff213b827eacc6f93af3172.1617967127.git.linux@leemhuis.info>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210409125423.26288-1-eesposit@redhat.com>
+In-Reply-To: <ecf1f0125399c5242ff213b827eacc6f93af3172.1617967127.git.linux@leemhuis.info>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 09, 2021 at 02:54:19PM +0200, Emanuele Giuseppe Esposito wrote:
-> This series aims to clarify the behavior of the KVM_GET_EMULATED_CPUID
-> ioctl, and fix a corner case where -E2BIG is returned when
-> the nent field of struct kvm_cpuid2 is matching the amount of
-> emulated entries that kvm returns.
+On Fri, Apr 09, 2021 at 01:47:23PM +0200, Thorsten Leemhuis wrote:
+> Add the newly created regression mailing list finally created after it
+> already had been agreed on during the maintainers summit 2017 (see
+> https://lwn.net/Articles/738216/ ). The topic was recently discussed
+> again, where an idea to create a broader list for all issues was
+> discussed, but Linus preferred a more targeted list:
+> https://lkml.kernel.org/r/CAHk-=wgiYqqLzsb9-UpfH+=ktk7ra-2fOsdc_ZJ7WF47wS73CA@mail.gmail.com/
 > 
-> Patch 1 proposes the nent field fix to cpuid.c,
-> patch 2 updates the ioctl documentation accordingly and
-> patches 3 and 4 extend the x86_64/get_cpuid_test.c selftest to check
-> the intended behavior of KVM_GET_EMULATED_CPUID.
+> Hence, the creation for that list was asked for and granted:
+> https://bugzilla.kernel.org/show_bug.cgi?id=212557
 > 
-> Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-> ---
-> v5:
-> - Better comment in cpuid.c (patch 1)
+> In the end it became regressions@lists.linux.dev instead of
+> linux-regressions@lists.linux.dev as 'Linux' would have been redundant
+> in the latter case.
+> 
+> Signed-off-by: Thorsten Leemhuis <linux@leemhuis.info>
 
-How about you wait a couple of days so people have a chance to look at
-your patches instead of sending a new revision every day?
-
-Thx.
-
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
