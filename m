@@ -2,219 +2,180 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7EA6C433B4
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 03:09:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC0BCC433ED
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 03:14:13 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B55C3610CC
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 03:09:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7BEC4610FC
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 03:14:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233244AbhDIDJ2 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 8 Apr 2021 23:09:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233238AbhDIDJZ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 8 Apr 2021 23:09:25 -0400
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F3C6C061760;
-        Thu,  8 Apr 2021 20:09:12 -0700 (PDT)
-Received: by mail-qt1-x831.google.com with SMTP id j7so3201634qtx.5;
-        Thu, 08 Apr 2021 20:09:12 -0700 (PDT)
+        id S232990AbhDIDOY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 8 Apr 2021 23:14:24 -0400
+Received: from mail-bn7nam10on2137.outbound.protection.outlook.com ([40.107.92.137]:46785
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S232937AbhDIDOX (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 8 Apr 2021 23:14:23 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dbV8/t45Tzb3SuY9UwwOlr8PlUDPNdMNobQigRm1rwiyu4W/gLQDC4ye5RvmKHxyhBMZQTxRH8OvKn35jzV2WqPNdl39lYpOYaiJx3rzLUEa9wJYgTo0mCD3WhBGXiesWZwnECzs8C8qyV7vrNuC5oGbFH9WdnPdcFUO7XFRiBbo/++frBuk4xsnD29J3YluRSlcQ55tltMfjlmAbQX7Z42EgWbB9A13dSyNA3rx5Ts72nkDSB4dDeI8lli+BWietJ8KJIK2/vMWO46NMA5rULwlMSKlNIf2I+WeA07r4nWjwIezeoV87BJdaR6n9ziv/aTON150NEM7o9czh2s/NA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IVhCOEEjyjK8hBErrPHRMrkFFG75goC/w2Dgrlmgxpc=;
+ b=P3+Kp/aMq4nlwbg0sAbWwmSnhPEklkQGR/2xzEBLD8zzClhuuUzSftEk5vew7zb4lsyyEbizws85mfZMqNpGB4AFHVGL5fIrAkz5BJxIw5IWz9yQ6cPETBzcZBgdgmxSOMkuU7+pg1WkIrodI9o3Hbpr1SHogZigJ7vbTumsFvMelHNSnCe2vkRH/oHodF13oWLhYdJZ4q0ALII37fiXthHVxtHZXL9zIt8gPZICZQL58yXGfDXujC6uWxz7ObIZDQBgG7QUklQAD0/20hYxatvDKIxv9I6SDJZpiRlO6amiI2GMdIunx62fpEyuV0xlmwP4mQuhn24j7qveee9LmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=N6Wc89M3j0umVbjEkf3mvJkNF2N7fCde5VZ2Drv+qCI=;
-        b=nBnWk2xi6gQu9OSzWyE75SRa8A+O7tCZOpcqWEKVIs6uqriPNlU7GBnVyI1zi1VUCI
-         04umE7aSvXhBpmjelSL4AgW8iMJeDNi6ooXdQ18OvH8mBSoE3eiihm0RDbK698MBggZc
-         7HC0KwYZQwDPpVCdSLdaBX5nzBUzMogoB+LBgf2ZrGchSxEsgu0RXv+LPhA0FjpKNEI/
-         1zfR1fz91gH8aESx35m+nhXbR6F+OYUfEbFQRIzvommcyI2yLxGXVsjbkgfCab4YmB4R
-         ywzhw/qvwXGAdnB3dIBkPEF/dHKNypLCkdyl/cA/ml+tR5u7Clce2WWoEKzGFMhhY7zE
-         2ZqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=N6Wc89M3j0umVbjEkf3mvJkNF2N7fCde5VZ2Drv+qCI=;
-        b=FzegYvedMEiHkHJtPJ7BUVH4uQWqpTLPB2XE4XYkjlGM+xo6lbiV0shcFOUP7qB8l/
-         C9x4JeeH39to4Ra4p6ozVNfm/9dWDinN6zt/Tmaaw0o8yM7+oc3Tw6PHy4SlCo5ei1C8
-         IuJs4gLufk2OPz4DJN5wGpoQSMwlczzWa7QxaSUKCR2qX31TOR9q8FoH6RM60RXwY9MH
-         DxOmNoChjl/z0Vd/aBJiKY4rdmdeLa0OK8/eHjp/DjMXBm+Q7OlCjPhMiG36hH0QcYPd
-         4+dNwNR8rn2ipnvdYRBDtZrHovARYNazzomd156MSDJ9FCRKHFIsWMwXYw8FmQ4Bnztw
-         uugg==
-X-Gm-Message-State: AOAM531o9FjAfjwypq1vmqb9rihZR9bwcjK3fcY4H6PJPWP7z6dCP1g/
-        GviHIG8kiy1w/7ywVKCPO4I=
-X-Google-Smtp-Source: ABdhPJwiCurRALTPU9K2pFrFESlQTzwa0OAYWrSd/KMsTDXm3BRbq0yn78iy16+sDBOZaesAdzZ84g==
-X-Received: by 2002:a05:622a:42:: with SMTP id y2mr10638707qtw.173.1617937751451;
-        Thu, 08 Apr 2021 20:09:11 -0700 (PDT)
-Received: from LuizSampaio-PC.localdomain ([2804:14d:5c21:af45:3b27:576c:7dde:37f1])
-        by smtp.gmail.com with ESMTPSA id c5sm925408qkl.21.2021.04.08.20.09.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Apr 2021 20:09:11 -0700 (PDT)
-From:   Luiz Sampaio <sampaio.ime@gmail.com>
-To:     zbr@ioremap.net
-Cc:     corbet@lwn.net, rikard.falkeborn@gmail.com,
-        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Luiz Sampaio <sampaio.ime@gmail.com>
-Subject: [PATCH v5 6/6] w1: ds2438: support for writing to offset register
-Date:   Fri,  9 Apr 2021 00:09:42 -0300
-Message-Id: <20210409030942.441830-7-sampaio.ime@gmail.com>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210409030942.441830-1-sampaio.ime@gmail.com>
-References: <20210405105009.420924-1-sampaio.ime@gmail.com>
- <20210409030942.441830-1-sampaio.ime@gmail.com>
-MIME-Version: 1.0
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IVhCOEEjyjK8hBErrPHRMrkFFG75goC/w2Dgrlmgxpc=;
+ b=j3yHDQPtKD3ORKTbpj2ZX3GAVbkmAI8Oopftl0BMJq73tU+ZWwpyLRxxu2p1g8yOaXkcNO1B58AkqhlJtwx/drdcXV80VroKddKymf+GZH0PP20H9GQn1N9leoC1bRl2RqEPb8s2ISQviP3kRijiMRY+cyNqn28T/ymql3wN/Z0=
+Authentication-Results: jms.id.au; dkim=none (message not signed)
+ header.d=none;jms.id.au; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from MW2PR0102MB3482.prod.exchangelabs.com (2603:10b6:302:c::32) by
+ MWHPR0101MB2991.prod.exchangelabs.com (2603:10b6:301:36::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3999.26; Fri, 9 Apr 2021 03:14:07 +0000
+Received: from MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503]) by MW2PR0102MB3482.prod.exchangelabs.com
+ ([fe80::d840:7aa7:58d4:b503%5]) with mapi id 15.20.4020.016; Fri, 9 Apr 2021
+ 03:14:01 +0000
+From:   Quan Nguyen <quan@os.amperecomputing.com>
+To:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Rob Herring <robh+dt@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        openbmc@lists.ozlabs.org
+Cc:     Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
+Subject: [PATCH v3 0/4] Add Ampere's Altra SMPro hwmon driver
+Date:   Fri,  9 Apr 2021 10:13:28 +0700
+Message-Id: <20210409031332.21919-1-quan@os.amperecomputing.com>
+X-Mailer: git-send-email 2.28.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [118.69.219.201]
+X-ClientProxiedBy: HK0PR01CA0054.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:a6::18) To MW2PR0102MB3482.prod.exchangelabs.com
+ (2603:10b6:302:c::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from hcm-sw-17.amperecomputing.com (118.69.219.201) by HK0PR01CA0054.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.17 via Frontend Transport; Fri, 9 Apr 2021 03:13:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5fc0438a-187b-473d-e7a7-08d8fb05855a
+X-MS-TrafficTypeDiagnostic: MWHPR0101MB2991:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR0101MB2991A7CADE494182AC3320DEF2739@MWHPR0101MB2991.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: U6+IIfpcEOncMy1qTQI8XKLHvSMsuyRm/4wFnPgLPe1n1TMaiYY7IKng+/4Pnvtl4Z2/ue098NWUJK5fMKrrjDy8CSiBeHgeQLgpFbZF6ILZIKwdXKWcJoGQpcpiXlbVqSE5uBXKETkaGsH3QdtRUJzKGKSWRl/kN6PpslyzUd+yj6LoDuDB/qhovmsiQHtlRSj8hFprlxnsdpy4c4fMOePZim9XYbRC8Jhtm5NRecFy8zWCWCpbDJJQNJ+CrQm/fkJd2pO0/QWfFuiq54AC8QP0Znfvs/kpYAt63qpVtrqUiEX6fXQok3Xi2aU0LKBRo6SWiST9fjtQsfmkZ6VQycaQD8Zzl2ZGgmbaX+h87qeXa7z5M2CwyZrOD/BLlXmnld6a3ASI9UrqJSBvMkM2O+0iQCmUZ1FqUQqeJrAVOZyaAovLhYhY3auli/PKNXK8B7cqvV/VUQWI2tXEb83uRq33hXG+y5bTNJ/p29hvbx8KJaquDoVPWm3JdSduF/XErrAnHRH94oakL1MQvJd02DlN/GO/QXzRhGWbSL7HMePzthCrvnTrcjQbkrORRNVbkL3DgeJhHoiKrVanG5uN+UlILV3hl83T1KH/W0E5s4NO+xirX2lxsvlC1IwSE1mBge8yNuW1hE4IEQ5dCe3ksU0VK07TLsStiKgcZUe4vd2C8VGn8T806NXu9JaONi5jH3DoEp1mBDx13ZyRyPgNfA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR0102MB3482.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(39850400004)(396003)(136003)(346002)(376002)(6512007)(478600001)(38350700001)(921005)(6666004)(26005)(316002)(6486002)(1076003)(83380400001)(2906002)(86362001)(7416002)(186003)(16526019)(6506007)(5660300002)(107886003)(38100700001)(4326008)(66946007)(956004)(8936002)(8676002)(2616005)(52116002)(66556008)(54906003)(110136005)(66476007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Gy6A3fKlCjs3rK6m/ON32FwJ0t15HtNHU78zoVjWLEhZAXbuWbnTzrFR5dyi?=
+ =?us-ascii?Q?YiI4eduMxNdflZrzfo7zH4f6waDa69s3haFnO1eSILm/zMWTirWFgfwEc79Z?=
+ =?us-ascii?Q?FSXzeulQU1+xwtOA3ejpGDdBaal/5Ar0988hTtecU3OmHRyEIVGnlbQEcq55?=
+ =?us-ascii?Q?XkKx6fhQC/zcwbd+0PTXoarVboe7Hw3XsWklQ1ZJEDcq2nVaD/1biUZLIifr?=
+ =?us-ascii?Q?uusSsZbipGh/+eQWkqzm5agfB92KA+Dh/J2mW1dtX98OXMwicySLhotTJaJb?=
+ =?us-ascii?Q?33VzMsTItGxDfP1SGgRnEHVWlKLr/K8e/HSw7T5k+irxmyIitp5qq+ZSc6o1?=
+ =?us-ascii?Q?MJ25t7Fg9k8W8QqJjVBQOlAqDIxvZDO9ypcgZcSZiLLbHaY670GsCruIMclS?=
+ =?us-ascii?Q?31eg13L5xrYUWmAgTNw7dGCwF0Yp9L5QdqrX3chdNA931FydzDBEg8UNtmIv?=
+ =?us-ascii?Q?kFKGt/lydsEiISb/cJvDduxQB9kYVFSmOiIf2zJtnEWjFc3XWuGvx+kGp4f7?=
+ =?us-ascii?Q?KOjQe+rRqRN6uHT2bdNmYT9H0lFzKDPh8t/Z3AJgZQ+Ksbgyth6Vo6O2J+Vn?=
+ =?us-ascii?Q?MsW5pdL/kN+B3EwqVVf2bKqfxCnoHvH4w5PUC9B6XpRtPbxwe2y2cd+NpLns?=
+ =?us-ascii?Q?TIWmzPisz3skDl0BV8yA7MBmbEqrTU1koivV7KIkrQY9be/bgoUusHptcWO4?=
+ =?us-ascii?Q?sY5IhHPataAPTVKPR/fCPtjrrBtKnTa3aolWdOHvmJvh69jJe9mT8DXZRcYd?=
+ =?us-ascii?Q?wYKpn5yKGw2lD6HtW11TKr7YDHiA0qEhtOj0IFBK8cCU8mHisRckY4PdJJAl?=
+ =?us-ascii?Q?jPHQje+p6WJFpvoOeGSOsSaEeXjmBtqj7qDIjwTcx/01vYG49SeWPQh1vYik?=
+ =?us-ascii?Q?jM+bN7lhDpOa7S5JIh0CLPEcgEhHOromolI8HVw8GuDolJgLZQ+DjV4PoU/1?=
+ =?us-ascii?Q?bWXMUlUcgR8ByRtDC8AD43WNxsWQSp2oyVrIKaX6G112H69I66rmMbqF4dKD?=
+ =?us-ascii?Q?SCceFbYfYwNNG398UQqNOf2skbeG6I7JWQoSqY0y9tNSWQ91n7QoDAfXbfey?=
+ =?us-ascii?Q?VUK2Gyi+aEjY+1kx/UofoFdO03DlyrbIyD6c7awOrQmBe/29RukdKNi5BHM4?=
+ =?us-ascii?Q?pQDnBeHS3cNR4cTjiDXscGd8ec9+1EXffzNVTVoa4i6yJK0ABQb3QR0a7RwL?=
+ =?us-ascii?Q?885usKtnckepA39owRpuAc4hOBTkf+CgCGEelBgzI1h00Gr5JnHVGPXmTBDx?=
+ =?us-ascii?Q?bQN8QtCYXwnovTgTHP4rCHSprl7nVYNPehclqqroXKZlh5FgzsrduMO5QZeX?=
+ =?us-ascii?Q?MjnS1KDQCRoUH8jY0P/Ebj1c?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5fc0438a-187b-473d-e7a7-08d8fb05855a
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR0102MB3482.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2021 03:14:01.0606
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zTlIWtiu9e2OIL4ilLdb2pXUE3FZdHd20gOmhSZ5LE+BsZKZkRshO/oGbhVHQ1oLHlCZpgeOEVcNkoWEXrdyk5I9hTV9jtArj+3JSOZFATM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR0101MB2991
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Added a sysfs entry to support writing to the offset register on page1.
-This register is used to calibrate the chip canceling offset errors in the
-current ADC. This means that, over time, reading the IAD register will not
-return the correct current measurement, it will have an offset. Writing to
-the offset register if the two's complement of the current register while
-passing zero current to the load will calibrate the measurements. This
-change was tested on real hardware and it was able to calibrate the chip
-correctly.
+This patch series adds support for Ampere SMpro hwmon driver. This
+driver supports accessing various CPU sensors provided by the SMpro
+co-processor including temperature, power, voltages, and current found
+on Ampere Altra processor family.
 
-Signed-off-by: Luiz Sampaio <sampaio.ime@gmail.com>
----
- .../ABI/stable/sysfs-driver-w1_ds2438         |  7 +++
- Documentation/w1/slaves/w1_ds2438.rst         | 11 ++++-
- drivers/w1/slaves/w1_ds2438.c                 | 49 +++++++++++++++++++
- 3 files changed, 66 insertions(+), 1 deletion(-)
+v3:
+  + Supported list of compatible string [Rob]
+  + Introduced reg property in DT to specify reg offset [Rob]
+  + Updated description and other minor changes in yaml file [Rob]
+  + Handled negative temperature value [Guenter]
+  + Returned -ENODEV if Manufacturer ID is wrong [Guenter]
+  + Refactored smpro_read_string() and smpro_temp_read() [Guenter]
+  + Removed smpro_write() function [Guenter]
+  + Added minor refactor changes [Quan]
 
-diff --git a/Documentation/ABI/stable/sysfs-driver-w1_ds2438 b/Documentation/ABI/stable/sysfs-driver-w1_ds2438
-index fa47437c11d9..d2e7681cc287 100644
---- a/Documentation/ABI/stable/sysfs-driver-w1_ds2438
-+++ b/Documentation/ABI/stable/sysfs-driver-w1_ds2438
-@@ -4,3 +4,10 @@ Contact:	Luiz Sampaio <sampaio.ime@gmail.com>
- Description:	read the contents of the page1 of the DS2438
- 		see Documentation/w1/slaves/w1_ds2438.rst for detailed information
- Users:		any user space application which wants to communicate with DS2438
-+
-+What:		/sys/bus/w1/devices/.../offset
-+Date:		April 2021
-+Contact:	Luiz Sampaio <sampaio.ime@gmail.com>
-+Description:	write the contents to the offset register of the DS2438
-+		see Documentation/w1/slaves/w1_ds2438.rst for detailed information
-+Users:		any user space application which wants to communicate with DS2438
-diff --git a/Documentation/w1/slaves/w1_ds2438.rst b/Documentation/w1/slaves/w1_ds2438.rst
-index ac8d0d4b0d0e..5c5573991351 100644
---- a/Documentation/w1/slaves/w1_ds2438.rst
-+++ b/Documentation/w1/slaves/w1_ds2438.rst
-@@ -22,7 +22,7 @@ is also often used in weather stations and applications such as: rain gauge,
- wind speed/direction measuring, humidity sensing, etc.
- 
- Current support is provided through the following sysfs files (all files
--except "iad" are readonly):
-+except "iad" and "offset" are readonly):
- 
- "iad"
- -----
-@@ -52,6 +52,15 @@ Internally when this file is read, the additional CRC byte is also obtained
- from the slave device. If it is correct, the 8 bytes page data are passed
- to userspace, otherwise an I/O error is returned.
- 
-+"offset"
-+-------
-+This file controls the 2-byte Offset Register of the chip.
-+Writing a 2-byte value will change the Offset Register, which changes the
-+current measurement done by the chip. Changing this register to the two's complement
-+of the current register while forcing zero current through the load will calibrate
-+the chip, canceling offset errors in the current ADC.
-+
-+
- "temperature"
- -------------
- Opening and reading this file initiates the CONVERT_T (temperature conversion)
-diff --git a/drivers/w1/slaves/w1_ds2438.c b/drivers/w1/slaves/w1_ds2438.c
-index 2cfdfedb584f..223a9aae6e2d 100644
---- a/drivers/w1/slaves/w1_ds2438.c
-+++ b/drivers/w1/slaves/w1_ds2438.c
-@@ -193,6 +193,34 @@ static int w1_ds2438_change_config_bit(struct w1_slave *sl, u8 mask, u8 value)
- 	return -1;
- }
- 
-+static int w1_ds2438_change_offset_register(struct w1_slave *sl, u8 *value)
-+{
-+	unsigned int retries = W1_DS2438_RETRIES;
-+	u8 w1_buf[9];
-+	u8 w1_page1_buf[DS2438_PAGE_SIZE + 1 /*for CRC*/];
-+
-+	if (w1_ds2438_get_page(sl, 1, w1_page1_buf) == 0) {
-+		memcpy(&w1_buf[2], w1_page1_buf, DS2438_PAGE_SIZE - 1); /* last register reserved */
-+		w1_buf[7] = value[0]; /* change only offset register */
-+		w1_buf[8] = value[1];
-+		while (retries--) {
-+			if (w1_reset_select_slave(sl))
-+				continue;
-+			w1_buf[0] = W1_DS2438_WRITE_SCRATCH;
-+			w1_buf[1] = 0x01; /* write to page 1 */
-+			w1_write_block(sl->master, w1_buf, 9);
-+
-+			if (w1_reset_select_slave(sl))
-+				continue;
-+			w1_buf[0] = W1_DS2438_COPY_SCRATCH;
-+			w1_buf[1] = 0x01;
-+			w1_write_block(sl->master, w1_buf, 2);
-+				return 0;
-+		}
-+	}
-+	return -1;
-+}
-+
- static int w1_ds2438_get_voltage(struct w1_slave *sl,
- 				 int adc_input, uint16_t *voltage)
- {
-@@ -364,6 +392,25 @@ static ssize_t page1_read(struct file *filp, struct kobject *kobj,
- 	return ret;
- }
- 
-+static ssize_t offset_write(struct file *filp, struct kobject *kobj,
-+			    struct bin_attribute *bin_attr, char *buf,
-+			    loff_t off, size_t count)
-+{
-+	struct w1_slave *sl = kobj_to_w1_slave(kobj);
-+	int ret;
-+
-+	mutex_lock(&sl->master->bus_mutex);
-+
-+	if (w1_ds2438_change_offset_register(sl, buf) == 0)
-+		ret = count;
-+	else
-+		ret = -EIO;
-+
-+	mutex_unlock(&sl->master->bus_mutex);
-+
-+	return ret;
-+}
-+
- static ssize_t temperature_read(struct file *filp, struct kobject *kobj,
- 				struct bin_attribute *bin_attr, char *buf,
- 				loff_t off, size_t count)
-@@ -430,6 +477,7 @@ static ssize_t vdd_read(struct file *filp, struct kobject *kobj,
- static BIN_ATTR(iad, 0664, iad_write, 0);
- static BIN_ATTR_RO(page0, DS2438_PAGE_SIZE);
- static BIN_ATTR_RO(page1, DS2438_PAGE_SIZE);
-+static BIN_ATTR_WO(offset, 2);
- static BIN_ATTR_RO(temperature, 0/* real length varies */);
- static BIN_ATTR_RO(vad, 0/* real length varies */);
- static BIN_ATTR_RO(vdd, 0/* real length varies */);
-@@ -438,6 +486,7 @@ static struct bin_attribute *w1_ds2438_bin_attrs[] = {
- 	&bin_attr_iad,
- 	&bin_attr_page0,
- 	&bin_attr_page1,
-+	&bin_attr_offset,
- 	&bin_attr_temperature,
- 	&bin_attr_vad,
- 	&bin_attr_vdd,
+v2:
+  + Used 'struct of_device_id's .data attribute [Lee Jones]
+  + Removed "virtual" sensors [Guenter]
+  + Fixed typo "mili" to "milli", "nanoWatt" to "microWatt" [Guenter]
+  + Reported SOC_TDP as "Socket TDP" using max attributes [Guenter]
+  + Clarified "highest" meaning in documentation [Guenter]
+  + Corrected return error code when host is turn off [Guenter]
+  + Reported MEM HOT Threshold for all DIMMs as temp*_crit [Guenter]
+  + Removed license info as SPDX-License-Identifier existed [Guenter]
+  + Added is_visible() support [Guenter]
+  + Used HWMON_CHANNEL_INFO() macro and LABEL attributes [Guenter]
+  + Made is_valid_id() return boolean [Guenter]
+  + Returned -EPROBE_DEFER when smpro reg inaccessible [Guenter]
+  + Removed unnecessary error message when dev register fail [Guenter]
+  + Removed Socket TDP sensor [Quan]
+  + Changed "ampere,ac01-smpro" to "ampere,smpro" [Quan]
+  + Included sensor type and channel in labels [Quan]
+  + Refactorized code to fix checkpatch.pl --strict complaint [Quan]
+
+Quan Nguyen (4):
+  dt-bindings: mfd: Add bindings for Ampere Altra SMPro drivers
+  mfd: simple-mfd-i2c: Adds Ampere's Altra SMpro support
+  hwmon: smpro: Add Ampere's Altra smpro-hwmon driver
+  docs: hwmon: (smpro-hwmon) Add documentation
+
+ .../bindings/hwmon/ampere,ac01-hwmon.yaml     |  28 +
+ .../devicetree/bindings/mfd/ampere,smpro.yaml | 105 ++++
+ Documentation/hwmon/index.rst                 |   1 +
+ Documentation/hwmon/smpro-hwmon.rst           | 101 ++++
+ drivers/hwmon/Kconfig                         |   8 +
+ drivers/hwmon/Makefile                        |   1 +
+ drivers/hwmon/smpro-hwmon.c                   | 491 ++++++++++++++++++
+ drivers/mfd/Kconfig                           |  10 +
+ drivers/mfd/simple-mfd-i2c.c                  |   6 +
+ 9 files changed, 751 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+ create mode 100644 Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
+ create mode 100644 Documentation/hwmon/smpro-hwmon.rst
+ create mode 100644 drivers/hwmon/smpro-hwmon.c
+
 -- 
-2.30.1
+2.28.0
 
