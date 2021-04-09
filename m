@@ -2,128 +2,152 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82C3AC433B4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A853EC43617
 	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 12:48:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4D4ED61106
+	by mail.kernel.org (Postfix) with ESMTP id 85F57610FB
 	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 12:48:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233664AbhDIMsU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Apr 2021 08:48:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41840 "EHLO mail.kernel.org"
+        id S233810AbhDIMsS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Apr 2021 08:48:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41730 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233712AbhDIMsP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Apr 2021 08:48:15 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5DEB26113A;
+        id S233781AbhDIMsO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Apr 2021 08:48:14 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6298A61177;
         Fri,  9 Apr 2021 12:48:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617972481;
-        bh=KVB99uveFfZEtOFS+rw6+GuSTG0eUAu7eT5aXgN+A2I=;
-        h=From:To:Cc:Subject:Date:From;
-        b=HVeqO0LTdb6P34NPuz+kcIo3Rf749nd/WbbdJGxFgX+jaSQh3ut1YKoPYl1MgyRxh
-         Q7kRjml+eMUN9cb6xXsqyy1LpRy94RSYcfiRD58M7/eXFD0KYEG5fV6LbU9gb6NNhs
-         OKJrR0HItZx9dkSG0Rw4RaD0KWq57c5q3+CPTWH2cN7XJpYHQhm2OdH9T1q1mdIFOS
-         qamXogV+8qqqQnkylXpoWSIOs+K54//txxScI0SkPXbR+BMNCVw9UukyZhMQi81Ybh
-         U+G/5ZiQeDykJPDsU7gNFXuoH2Hs/Mon3ZPlABh5XFVA3MUkHq3gld+lw+RHLfRuKm
-         yWvyZlhUcvMnA==
+        bh=lOVRhhI3sdxbepQz+6GNZ3ou0W529UWsSm4U1KahRac=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=CSbAqQH87k5HCz6+NZAdIRBkRcfmWZb846RlLzPuK3hLqmuL1AVsh/yhDlcfVxm6q
+         zUmQai+eK2Z1vbaO8cr8A1qfQyyh8o+cwjhTXHKZ6DFtpLY/lP6s1ZtMRaYp5u0kAA
+         lyUWQ0EzDOuJjx75Gu+uTd7nThryZr9iINTJHNKI1S51/HHZhuAn+gJ2svhOZ/VceA
+         mD32LwjGQ8ZFVzJ0owf0ZNQlT83+KrVQblzUPntFLbVGmdlnXHmbp0oj0sV2E8SfE3
+         sKlB//4+G+NQOgVdKsugHDyaZehmcV2kPDSGW0sGj7LOTX9E8e20nmBtXaEHhnL6b1
+         a3l7PYVpN/B3g==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lUqYE-001SLe-2j; Fri, 09 Apr 2021 14:47:54 +0200
+        id 1lUqYE-001SLq-C5; Fri, 09 Apr 2021 14:47:54 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org,
         "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
         Alex Shi <alexs@kernel.org>,
-        Artur Rojek <contact@artur-rojek.eu>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
         Federico Vaga <federico.vaga@vaga.pv.it>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Kir Kolyshkin <kolyshkin@gmail.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Lee Jones <lee.jones@linaro.org>,
-        Mark Pearson <markpearson@lenovo.com>,
-        Maximilian Luz <luzmaximilian@gmail.com>,
-        Paolo Bonzini <pbonzini@redhat.com>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Rob Herring <robh+dt@kernel.org>, Tejun Heo <tj@kernel.org>,
         Thorsten Leemhuis <linux@leemhuis.info>,
-        Wu XiangCheng <bobwxc@email.cn>, devicetree@vger.kernel.org,
-        kvm@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org
-Subject: [PATCH v3 0/8] Fix broken documentation file references
-Date:   Fri,  9 Apr 2021 14:47:44 +0200
-Message-Id: <cover.1617972339.git.mchehab+huawei@kernel.org>
+        Wu XiangCheng <bobwxc@email.cn>, linux-kernel@vger.kernel.org
+Subject: [PATCH v3 6/8] docs: replace transation references for reporting-bugs.rst
+Date:   Fri,  9 Apr 2021 14:47:50 +0200
+Message-Id: <3c7eb94992f7d85d75c8faf82c6a4690b2666951.1617972339.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <cover.1617972339.git.mchehab+huawei@kernel.org>
+References: <cover.1617972339.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Jon,
+Changeset d2ce285378b0 ("docs: make reporting-issues.rst official and delete reporting-bugs.rst")
+dropped reporting-bugs.rst, in favor of reporting-issues.rst, but
+translations still need to be updated, in order to point to the
+new file.
 
-As files keep being moved around and DT bindings are 
-converted and renamed to yaml, their doc references get 
-outdated, pointing to an invalid places.
+Fixes: d2ce285378b0 ("docs: make reporting-issues.rst official and delete reporting-bugs.rst")
+Acked-by: Wu XiangCheng <bobwxc@email.cn>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/translations/it_IT/process/howto.rst            | 2 +-
+ Documentation/translations/ja_JP/howto.rst                    | 2 +-
+ Documentation/translations/zh_CN/SecurityBugs                 | 2 +-
+ .../translations/zh_CN/admin-guide/reporting-issues.rst       | 4 ++--
+ Documentation/translations/zh_CN/process/howto.rst            | 2 +-
+ 5 files changed, 6 insertions(+), 6 deletions(-)
 
-This series address those. It is based on the top of docs-next tree,
-and most patches here are independent from the other ones.
-
-v3:
-  - Dropped patches already applied at next-20210409 and
-    changes that would cause conflicts there;
-  - Added received acks.
-
-v2:
-  - Dropped patches that were already applied, Most of those
-    will be following via Jonathan Cameron's iio tree;
-  - Dropped patches that don't apply on the top of docs next.
-  - Added some new patches fixing other breakages.
-
-Mauro Carvalho Chehab (8):
-  dt-bindings: don't use ../dir for doc references
-  dt-bindings: fix references for iio-bindings.txt
-  dt-bindings:iio:adc: update motorola,cpcap-adc.yaml reference
-  docs: update sysfs-platform_profile.rst reference
-  docs: vcpu-requests.rst: fix reference for atomic ops
-  docs: replace transation references for reporting-bugs.rst
-  docs: translations/zh_CN: fix a typo at 8.Conclusion.rst
-  docs: sched-bwc.rst: fix a typo on a doc name
-
- .../devicetree/bindings/hwmon/ntc_thermistor.txt |  2 +-
- .../devicetree/bindings/iio/adc/ingenic,adc.yaml |  5 +++--
- .../devicetree/bindings/input/adc-joystick.yaml  |  4 +++-
- .../input/touchscreen/resistive-adc-touch.txt    |  5 ++++-
- Documentation/devicetree/bindings/mfd/ab8500.txt |  4 +++-
- .../devicetree/bindings/mfd/motorola-cpcap.txt   | 16 ++++++++--------
- Documentation/scheduler/sched-bwc.rst            |  2 +-
- .../translations/it_IT/process/howto.rst         |  2 +-
- Documentation/translations/ja_JP/howto.rst       |  2 +-
- Documentation/translations/zh_CN/SecurityBugs    |  2 +-
- .../zh_CN/admin-guide/reporting-issues.rst       |  4 ++--
- .../translations/zh_CN/process/8.Conclusion.rst  |  2 +-
- .../translations/zh_CN/process/howto.rst         |  2 +-
- Documentation/virt/kvm/vcpu-requests.rst         |  2 +-
- include/linux/platform_profile.h                 |  2 +-
- 15 files changed, 32 insertions(+), 24 deletions(-)
-
+diff --git a/Documentation/translations/it_IT/process/howto.rst b/Documentation/translations/it_IT/process/howto.rst
+index 1db5a1082389..4962057f50fa 100644
+--- a/Documentation/translations/it_IT/process/howto.rst
++++ b/Documentation/translations/it_IT/process/howto.rst
+@@ -364,7 +364,7 @@ Per maggiori dettagli su come usare il bugzilla del kernel, guardare:
+ 
+ 	https://bugzilla.kernel.org/page.cgi?id=faq.html
+ 
+-Il file admin-guide/reporting-bugs.rst nella cartella principale del kernel
++Il file admin-guide/reporting-issues.rst nella cartella principale del kernel
+ fornisce un buon modello sul come segnalare un baco nel kernel, e spiega quali
+ informazioni sono necessarie agli sviluppatori per poter aiutare il
+ rintracciamento del problema.
+diff --git a/Documentation/translations/ja_JP/howto.rst b/Documentation/translations/ja_JP/howto.rst
+index 73ebdab4ced7..3051ff787e69 100644
+--- a/Documentation/translations/ja_JP/howto.rst
++++ b/Documentation/translations/ja_JP/howto.rst
+@@ -367,7 +367,7 @@ kernel bugzilla を使うかの詳細は、以下を参照してください -
+ 	https://bugzilla.kernel.org/page.cgi?id=faq.html
+ 
+ メインカーネルソースディレクトリにあるファイル
+-admin-guide/reporting-bugs.rstはカーネルバグらしいものについてどうレポー
++admin-guide/reporting-issues.rstはカーネルバグらしいものについてどうレポー
+ トするかの良いテンプレートであり、問題の追跡を助けるためにカーネル開発
+ 者にとってどんな情報が必要なのかの詳細が書かれています。
+ 
+diff --git a/Documentation/translations/zh_CN/SecurityBugs b/Documentation/translations/zh_CN/SecurityBugs
+index 2d0fffd122ce..980199d88eca 100644
+--- a/Documentation/translations/zh_CN/SecurityBugs
++++ b/Documentation/translations/zh_CN/SecurityBugs
+@@ -31,7 +31,7 @@ linux内核安全团队可以通过email<security@kernel.org>来联系。这是
+ 一组独立的安全工作人员，可以帮助改善漏洞报告并且公布和取消一个修复。安
+ 全团队有可能会从部分的维护者那里引进额外的帮助来了解并且修复安全漏洞。
+ 当遇到任何漏洞，所能提供的信息越多就越能诊断和修复。如果你不清楚什么
+-是有帮助的信息，那就请重温一下admin-guide/reporting-bugs.rst文件中的概述过程。任
++是有帮助的信息，那就请重温一下admin-guide/reporting-issues.rst文件中的概述过程。任
+ 何攻击性的代码都是非常有用的，未经报告者的同意不会被取消，除非它已经
+ 被公布于众。
+ 
+diff --git a/Documentation/translations/zh_CN/admin-guide/reporting-issues.rst b/Documentation/translations/zh_CN/admin-guide/reporting-issues.rst
+index 2805c1a03cd5..72c8e2db88c0 100644
+--- a/Documentation/translations/zh_CN/admin-guide/reporting-issues.rst
++++ b/Documentation/translations/zh_CN/admin-guide/reporting-issues.rst
+@@ -19,7 +19,7 @@
+ 
+ .. important::
+ 
+-   本文档将取代“Documentation/admin-guide/reporting-bugs.rst”。主要的工作
++   本文档将取代“Documentation/admin-guide/reporting-issues.rst”。主要的工作
+    已经完成，你可以自由地按照其指示来向Linux内核开发者报告问题。但请留意，
+    下面的文字还需要一些润色和校审。现阶段它被合并到Linux内核源代码中，以使
+    这个过程更容易，并增加文本的可见性。
+@@ -726,7 +726,7 @@ tar 存档包。
+ .. note::
+ 
+    FIXME: 本节文字暂时是占位符，与目前
+-   “Documentation/admin-guide/reporting-bugs.rst”中的旧文字非常相似。它和它
++   “Documentation/admin-guide/reporting-issues.rst”中的旧文字非常相似。它和它
+    所引用的文档已经过时，因此需要重新审视。因此，请将此说明视为一个求助：如
+    果你熟悉这个主题，请写几行适合这里的文字。或者只需向本文件的主要作者（见
+    导言）大致概述一下当前的情况，因为他们也许能写出一些东西来。
+diff --git a/Documentation/translations/zh_CN/process/howto.rst b/Documentation/translations/zh_CN/process/howto.rst
+index ee3dee476d57..c87cd529d769 100644
+--- a/Documentation/translations/zh_CN/process/howto.rst
++++ b/Documentation/translations/zh_CN/process/howto.rst
+@@ -280,7 +280,7 @@ bugzilla.kernel.org是Linux内核开发者们用来跟踪内核Bug的网站。
+ 
+ 	http://test.kernel.org/bugzilla/faq.html
+ 
+-内核源码主目录中的:ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
++内核源码主目录中的:ref:`admin-guide/reporting-issues.rst <reportingbugs>`
+ 文件里有一个很好的模板。它指导用户如何报告可能的内核bug以及需要提供哪些信息
+ 来帮助内核开发者们找到问题的根源。
+ 
 -- 
 2.30.2
-
 
