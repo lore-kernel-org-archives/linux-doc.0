@@ -2,116 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.4 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	UNWANTED_LANGUAGE_BODY,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
-	autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78D20C433ED
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 10:12:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FF5DC43600
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 10:15:35 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4E308611CA
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 10:12:04 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5053661263
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 10:15:35 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233627AbhDIKMO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Apr 2021 06:12:14 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:60393 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234234AbhDIKKb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Apr 2021 06:10:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=haVOTU1t0tTnKlS9TDN/FSY8IfsAZEK2CJ2Pd
-        f0IyH0=; b=REAj+zwFtiWv2ZR2eR3StFBpyEQDiX1zsFrYrN01cOr668qGlilgO
-        P1+3+E243EMpPPK2tbZ3QJXhwR6++RoQXUjKXrvnBdgxFdV5RgvgPxNCe9Ko8uSS
-        w9CMV3M5fhND40MxyVCq1bVdS8H4UyAydhYAjK9ymPxOcw9YxvhkyU=
-Received: from bobwxc.top (unknown [120.238.248.129])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgB36c_0J3BgNu9TAA--.57017S2;
-        Fri, 09 Apr 2021 18:09:58 +0800 (CST)
-Date:   Fri, 9 Apr 2021 18:09:55 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: Re: [PATCH v2 01/11] docs/zh_CN: add core-api irq concepts.rst
- translation
-Message-ID: <20210409100955.GA22786@bobwxc.top>
-References: <20210409091013.2493988-1-siyanteng@loongson.cn>
- <20210409091013.2493988-2-siyanteng@loongson.cn>
+        id S233845AbhDIKPm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Apr 2021 06:15:42 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:54986 "EHLO mail.skyhub.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233851AbhDIKMb (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Apr 2021 06:12:31 -0400
+Received: from zn.tnic (p200300ec2f0be10048f842a34b65c796.dip0.t-ipconnect.de [IPv6:2003:ec:2f0b:e100:48f8:42a3:4b65:c796])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 5143E1EC0345;
+        Fri,  9 Apr 2021 12:12:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1617963136;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=koEbuNDmdhGDu2ay8IpM2qYEJm21DVX8eeBWkuWqc2I=;
+        b=JOjOjGo6n8ctViJXkPL+UQEHtj5zYd8rpZrcP+sZezMa1SBathd+X2ZANVtH3ls4n/eoYb
+        VZP38BQpV+Qv7OU47u+1xlbjMsBo1L/PI+lytUBsoMo3U9GugzTZG2nnh/UGDRP3E+/YyZ
+        9N1soZxem3P3MhhtTg9MdzUnZ0kOe98=
+Date:   Fri, 9 Apr 2021 12:12:14 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v24 04/30] x86/cpufeatures: Introduce X86_FEATURE_CET and
+ setup functions
+Message-ID: <20210409101214.GC15567@zn.tnic>
+References: <20210401221104.31584-1-yu-cheng.yu@intel.com>
+ <20210401221104.31584-5-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210409091013.2493988-2-siyanteng@loongson.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgB36c_0J3BgNu9TAA--.57017S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CFyrur1xuw1xtF4kJFykAFb_yoW8ury8pF
-        WktF93J3WfZFy7CF97Gry2qr98Aay8WanFkws2vF1ftr1ktrWDtr4jkF98W3yfGryvyFy0
-        vF4YkFW8Cr1Yy3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUylb7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0x
-        vYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_
-        Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2
-        IY04v7MxkIecxEwVAFwVW8twCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4U
-        Jr1UMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7
-        xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xII
-        jxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw2
-        0EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x02
-        67AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUUl1vUUUUU
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+In-Reply-To: <20210401221104.31584-5-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 09, 2021 at 05:10:03PM +0800, Yanteng Si wrote:
-> This patch translates Documentation/core-api/irq/concepts.rst into Chinese.
+On Thu, Apr 01, 2021 at 03:10:38PM -0700, Yu-cheng Yu wrote:
+> Introduce a software-defined X86_FEATURE_CET, which indicates either Shadow
+> Stack or Indirect Branch Tracking (or both) is present.  Also introduce
+> related cpu init/setup functions.
 > 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
-
+> Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
+> Cc: Kees Cook <keescook@chromium.org>
 > ---
->  .../zh_CN/core-api/irq/concepts.rst           | 24 +++++++++++++++++++
->  1 file changed, 24 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/core-api/irq/concepts.rst
+> v24:
+> - Update #ifdef placement to reflect Kconfig changes of splitting shadow stack and ibt.
 > 
-> diff --git a/Documentation/translations/zh_CN/core-api/irq/concepts.rst b/Documentation/translations/zh_CN/core-api/irq/concepts.rst
-> new file mode 100644
-> index 000000000000..b8b98a196a5d
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/core-api/irq/concepts.rst
-> @@ -0,0 +1,24 @@
-> +.. include:: ../../disclaimer-zh_CN.rst
-> +
-> +:Original: :doc:`../../../../core-api/irq/concepts`
-> +:Translator: Yanteng Si <siyanteng@loongson.cn>
-> +
-> +.. _cn_concepts.rst:
-> +
-> +
-> +===============
-> +什么是IRQ？
-> +===============
-> +
-> +IRQ (Interrupt ReQuest) 指来自设备的中断请求。
-> +目前，它们可以通过一个引脚或通过一个数据包进入。
-> +多个设备可以连接到同一个引脚，从而共享一个IRQ。
-> +
-> +IRQ编号是用来描述硬件中断源的内核标识符。通常它是一个到全局irq_desc数组的索引，
-> +但是除了在linux/interrupt.h中实现的之外，其它细节是体系结构特征相关的。
-> +
-> +IRQ编号是对机器上可能的中断源的枚举。通常枚举的是系统中所有中断控制器的输入引脚
-> +编号。在ISA（工业标准体系结构）的情况下所枚举的是两个i8259中断控制器的16个输入引脚。
-> +
-> +体系结构可以给IRQ号赋予额外的含义，在涉及到硬件手动配置的情况下，我们鼓励这样做。
-> +ISA IRQ是赋予这种额外含义的一个典型例子。
-> -- 
-> 2.27.0
+>  arch/x86/include/asm/cpufeatures.h          |  2 +-
+>  arch/x86/include/asm/disabled-features.h    |  9 ++++++++-
+>  arch/x86/include/uapi/asm/processor-flags.h |  2 ++
+>  arch/x86/kernel/cpu/common.c                | 14 ++++++++++++++
+>  arch/x86/kernel/cpu/intel.c                 |  3 +++
+>  5 files changed, 28 insertions(+), 2 deletions(-)
+> 
+> diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+> index bf861fc89fef..d771e62677de 100644
+> --- a/arch/x86/include/asm/cpufeatures.h
+> +++ b/arch/x86/include/asm/cpufeatures.h
+> @@ -108,7 +108,7 @@
+>  #define X86_FEATURE_EXTD_APICID		( 3*32+26) /* Extended APICID (8 bits) */
+>  #define X86_FEATURE_AMD_DCM		( 3*32+27) /* AMD multi-node processor */
+>  #define X86_FEATURE_APERFMPERF		( 3*32+28) /* P-State hardware coordination feedback capability (APERF/MPERF MSRs) */
+> -/* free					( 3*32+29) */
+> +#define X86_FEATURE_CET			( 3*32+29) /* Control-flow enforcement */
 
+Right, I know we talked about having this synthetic flag but now that we
+are moving to CONFIG_X86_SHADOW_STACK and separate SHSTK and IBT feature
+bits, that synthetic flag is not needed anymore.
+
+For the cases where you wanna test whether any of the two are present,
+we're probably better off adding a x86_cet_enabled() helper which tests
+SHSTK and IBT bits.
+
+I haven't gone through the whole thing yet but depending on the context
+and the fact that AMD doesn't support IBT, that helper might need some
+tweaking too. I'll see.
+
+>  #define X86_FEATURE_NONSTOP_TSC_S3	( 3*32+30) /* TSC doesn't stop in S3 state */
+>  #define X86_FEATURE_TSC_KNOWN_FREQ	( 3*32+31) /* TSC has known frequency */
+>  
+> diff --git a/arch/x86/include/asm/disabled-features.h b/arch/x86/include/asm/disabled-features.h
+> index e5c6ed9373e8..018cd7acd3e9 100644
+> --- a/arch/x86/include/asm/disabled-features.h
+> +++ b/arch/x86/include/asm/disabled-features.h
+> @@ -74,13 +74,20 @@
+>  #define DISABLE_SHSTK	(1 << (X86_FEATURE_SHSTK & 31))
+>  #endif
+>  
+> +#ifdef CONFIG_X86_CET
+
+And you don't need that config item either - AFAICT, you can use
+CONFIG_X86_SHADOW_STACK everywhere.
+
+Which would simplify that config space.
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
