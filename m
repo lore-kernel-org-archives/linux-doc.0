@@ -7,57 +7,57 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31362C43460
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 15:31:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0887AC433B4
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 15:34:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 061A5610F9
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 15:31:52 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D1E2F61105
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 15:34:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233137AbhDIPcE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Apr 2021 11:32:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42116 "EHLO
+        id S233744AbhDIPej (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Apr 2021 11:34:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232395AbhDIPcD (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Apr 2021 11:32:03 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37C3CC061763
-        for <linux-doc@vger.kernel.org>; Fri,  9 Apr 2021 08:31:49 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id w8so1811958lfr.0
-        for <linux-doc@vger.kernel.org>; Fri, 09 Apr 2021 08:31:49 -0700 (PDT)
+        with ESMTP id S232395AbhDIPeh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Apr 2021 11:34:37 -0400
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 588C8C061762
+        for <linux-doc@vger.kernel.org>; Fri,  9 Apr 2021 08:34:23 -0700 (PDT)
+Received: by mail-lf1-x129.google.com with SMTP id h19so10349409lfu.9
+        for <linux-doc@vger.kernel.org>; Fri, 09 Apr 2021 08:34:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=shutemov-name.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=N/anldwvTE8JiwYoi+CFb0zDLJgVaul+of7NRgtf6uM=;
-        b=L/g+dUL3VxLisPEfWcvegwi75OSGO8+Y2ESkFHKHtdm/FJ3KwHf3WyBvNQuBQUe6rK
-         gmCszXDYq7J1ZtnXhsTfuZEwEIgDDO7ZIaqqN7x8SJZ+mKkxZV0a7YD856zUPVH4rC0f
-         ws0pP0X7wcOUy1pWWfUdYeSsuH0EG1b3K5SkFuD0SUcOXg3wOKJmopOi3jZqWAOVNeC7
-         3eJh1iLvmnlJPS6EDZe9uoFw8pCHYnYMAzmVg/ApXr/iLJJe0F6iS3GVGKtWo2i+PYEZ
-         vHuJ1D+eXoE46MtRGDezJVhqeUXXA/J/AuP4CvMG+vWWExbT8HwY/VYnAaqolfnmOInP
-         Bpow==
+        bh=U7W2zOO2xjLYVvabtgbkl9/yC/jywr+n7bzYgDZAEXM=;
+        b=GLSGHdRI9yh0cnabzROu7oCFA+D4zBD6sTCDKFyVNB6zILTCgxVqS9aD3XNoIlirKn
+         qBPHgUvbOuPFVfUnF4RB3dCehyGhNA81bOZ+fKoXWmU9lMDkwXyy3f14Kt6QvZbU1xQX
+         DGge9k2KVhgrdaHdCVDKaGFHTG2oS7jjKw+AElJKr21l/KD2vrlTBuBIUbX4ZoInDVSY
+         5qtdrQ/ZdZ8uc6JH3colccCctI58j638rVtdtTArNu3RwJ6dx51icuy5b4K5+oqzdqtq
+         opppDijvJX9YbZn2n2YjfPXbKxdTwNq5oB7FKd3YWfFx7nzfb+5Q8PQF9Wnta11BxMXg
+         nCnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=N/anldwvTE8JiwYoi+CFb0zDLJgVaul+of7NRgtf6uM=;
-        b=YlYnRVzYqI4DzZhwSHEPPG+EDHU0akeji3rkBplNHwUcBeZkU+f7PnEsRwyEoxXhKj
-         laoLgjC5Bis+0qD6hYs627LRs7H0eKAUBbnw0xvNoPCQdlgjLEL2cugD59ZPg8PhrVNz
-         OQYipsEXg6pZStfCeras37XGQs/GFvET6F/eO4qr8kVfcJO5wGwhGlmon/qlSeeoI61/
-         tL8qfU0bEgjqHLgsbrxuY6tQHz7wj3WEyxBZG6+lteecwgzQVv8spGuLo9Nnno1VYbT/
-         1hw0YbqWuO5ByHhGG8m7tOasOitxy0Aeow76++68aaNBKOBLrXAloEzsRR8rkqOotpCT
-         rICg==
-X-Gm-Message-State: AOAM530EGPreXyWujqg4Ozj9WyuqGVMVLvTUZA+GAkj8o7/i2CjPiO51
-        3w4x2J3LgvDsWpQQk344LEx/pw==
-X-Google-Smtp-Source: ABdhPJwYX6z9aGP1PXbuviqGTBPyv46KjTBYphTybXFc7ge+WtCz+ZQSUUKUTI90Zz3uE7HXZu0jww==
-X-Received: by 2002:ac2:53af:: with SMTP id j15mr3242187lfh.74.1617982307528;
-        Fri, 09 Apr 2021 08:31:47 -0700 (PDT)
+        bh=U7W2zOO2xjLYVvabtgbkl9/yC/jywr+n7bzYgDZAEXM=;
+        b=Q+tImBGavpr+V9J61cFRxA1zdX+fx0xGowX5NIUnDv9uCZtpqpPBwa86sUSiq4mad7
+         Z2qrZmqZNdxsM9vzSS4LGCGObF9liRUAXkewYYTwB8Fc9bXe41r40HLXj8okUNh6yRey
+         8k1zHnqgiKvfmLIzJ57Q+sCZKiyfJ3EHOstzICWwUodWMaWjTEolRjhiwviKvFJ5/kqZ
+         78b9XcvUbqKEeYxMty+ah0ZB/Rq3jKZQNX3RvMiIh5ZbYt1p+/OSgJsY88InZipTNAi6
+         PuZmTuQWXeVL4nFLrqWhjb4JLq+Qo5i/574l5yarM8JaxFR7V95c3nV1ZMSKH2Zjify3
+         BKXQ==
+X-Gm-Message-State: AOAM533Fd3vfm771DwWRM0QdqGahQyOFxVFI6jQr08oqZZnNsjHLibeL
+        sUQ26+ZhvdOSZWq0Qz2LU/kF1g==
+X-Google-Smtp-Source: ABdhPJyFm+ZMRTY3RQ+tIN+xhbECgPZpQWAhR2FzAkfeHi3To00sdzemqkeeTLDi9+YbF4tv9TmJBw==
+X-Received: by 2002:a05:6512:2343:: with SMTP id p3mr10321124lfu.538.1617982461808;
+        Fri, 09 Apr 2021 08:34:21 -0700 (PDT)
 Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id s23sm298175lfs.246.2021.04.09.08.31.46
+        by smtp.gmail.com with ESMTPSA id l15sm290367ljg.66.2021.04.09.08.34.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 08:31:47 -0700 (PDT)
+        Fri, 09 Apr 2021 08:34:21 -0700 (PDT)
 Received: by box.localdomain (Postfix, from userid 1000)
-        id 98ED8102498; Fri,  9 Apr 2021 18:31:46 +0300 (+03)
-Date:   Fri, 9 Apr 2021 18:31:46 +0300
+        id BAAF2102498; Fri,  9 Apr 2021 18:34:20 +0300 (+03)
+Date:   Fri, 9 Apr 2021 18:34:20 +0300
 From:   "Kirill A. Shutemov" <kirill@shutemov.name>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -88,70 +88,97 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v24 19/30] mm: Update can_follow_write_pte() for shadow
- stack
-Message-ID: <20210409153146.ib2xsn7n2q4ixpde@box.shutemov.name>
+Subject: Re: [PATCH v24 20/30] mm/mprotect: Exclude shadow stack from
+ preserve_write
+Message-ID: <20210409153420.h6ybujbz7jyhyurb@box.shutemov.name>
 References: <20210401221104.31584-1-yu-cheng.yu@intel.com>
- <20210401221104.31584-20-yu-cheng.yu@intel.com>
+ <20210401221104.31584-21-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210401221104.31584-20-yu-cheng.yu@intel.com>
+In-Reply-To: <20210401221104.31584-21-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 01, 2021 at 03:10:53PM -0700, Yu-cheng Yu wrote:
-> Can_follow_write_pte() ensures a read-only page is COWed by checking the
-> FOLL_COW flag, and uses pte_dirty() to validate the flag is still valid.
+On Thu, Apr 01, 2021 at 03:10:54PM -0700, Yu-cheng Yu wrote:
+> In change_pte_range(), when a PTE is changed for prot_numa, _PAGE_RW is
+> preserved to avoid the additional write fault after the NUMA hinting fault.
+> However, pte_write() now includes both normal writable and shadow stack
+> (RW=0, Dirty=1) PTEs, but the latter does not have _PAGE_RW and has no need
+> to preserve it.
 > 
-> Like a writable data page, a shadow stack page is writable, and becomes
-> read-only during copy-on-write, but it is always dirty.  Thus, in the
-> can_follow_write_pte() check, it belongs to the writable page case and
-> should be excluded from the read-only page pte_dirty() check.  Apply
-> the same changes to can_follow_write_pmd().
+> Exclude shadow stack from preserve_write test, and apply the same change to
+> change_huge_pmd().
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
 > Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 > ---
 > v24:
 > - Change arch_shadow_stack_mapping() to is_shadow_stack_mapping().
 > 
->  mm/gup.c         | 8 +++++---
->  mm/huge_memory.c | 8 +++++---
->  2 files changed, 10 insertions(+), 6 deletions(-)
+>  mm/huge_memory.c | 7 ++++++-
+>  mm/mprotect.c    | 9 ++++++++-
+>  2 files changed, 14 insertions(+), 2 deletions(-)
 > 
-> diff --git a/mm/gup.c b/mm/gup.c
-> index e40579624f10..c313cc988865 100644
-> --- a/mm/gup.c
-> +++ b/mm/gup.c
-> @@ -356,10 +356,12 @@ static int follow_pfn_pte(struct vm_area_struct *vma, unsigned long address,
->   * FOLL_FORCE can write to even unwritable pte's, but only
->   * after we've gone through a COW cycle and they are dirty.
->   */
-> -static inline bool can_follow_write_pte(pte_t pte, unsigned int flags)
-> +static inline bool can_follow_write_pte(pte_t pte, unsigned int flags,
-> +					struct vm_area_struct *vma)
->  {
->  	return pte_write(pte) ||
-> -		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_dirty(pte));
-> +		((flags & FOLL_FORCE) && (flags & FOLL_COW) && pte_dirty(pte) &&
-> +				  !is_shadow_stack_mapping(vma->vm_flags));
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 65fc0aedd577..1d41138c4f74 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -1812,12 +1812,17 @@ int change_huge_pmd(struct vm_area_struct *vma, pmd_t *pmd,
+>  	bool prot_numa = cp_flags & MM_CP_PROT_NUMA;
+>  	bool uffd_wp = cp_flags & MM_CP_UFFD_WP;
+>  	bool uffd_wp_resolve = cp_flags & MM_CP_UFFD_WP_RESOLVE;
+> +	bool shstk = is_shadow_stack_mapping(vma->vm_flags);
+>  
+>  	ptl = __pmd_trans_huge_lock(pmd, vma);
+>  	if (!ptl)
+>  		return 0;
+>  
+> -	preserve_write = prot_numa && pmd_write(*pmd);
+> +	/*
+> +	 * Preserve only normal writable huge PMD, but not shadow
+> +	 * stack (RW=0, Dirty=1).
+> +	 */
+> +	preserve_write = prot_numa && pmd_write(*pmd) && !shstk;
 
-It's getting too ugly. I think it deserve to be rewritten. What about:
+New variable seems unnecessary. What about just:
 
-	if (pte_write(pte))
-		return true;
-	if ((flags & (FOLL_FORCE | FOLL_COW)) != (FOLL_FORCE | FOLL_COW))
-		return false;
-	if (!pte_dirty(pte))
-		return false;
 	if (is_shadow_stack_mapping(vma->vm_flags))
-		return false;
-	return true;
+		preserve_write = false;
 
 ?
+
+>  	ret = 1;
+>  
+>  #ifdef CONFIG_ARCH_ENABLE_THP_MIGRATION
+> diff --git a/mm/mprotect.c b/mm/mprotect.c
+> index c1ce78d688b6..550448dc5ff1 100644
+> --- a/mm/mprotect.c
+> +++ b/mm/mprotect.c
+> @@ -75,7 +75,14 @@ static unsigned long change_pte_range(struct vm_area_struct *vma, pmd_t *pmd,
+>  		oldpte = *pte;
+>  		if (pte_present(oldpte)) {
+>  			pte_t ptent;
+> -			bool preserve_write = prot_numa && pte_write(oldpte);
+> +			bool shstk = is_shadow_stack_mapping(vma->vm_flags);
+> +			bool preserve_write;
+> +
+> +			/*
+> +			 * Preserve only normal writable PTE, but not shadow
+> +			 * stack (RW=0, Dirty=1).
+> +			 */
+> +			preserve_write = prot_numa && pte_write(oldpte) && !shstk;
+
+Ditto.
+
+>  
+>  			/*
+>  			 * Avoid trapping faults against the zero or KSM
+> -- 
+> 2.21.0
+> 
+> 
 
 -- 
  Kirill A. Shutemov
