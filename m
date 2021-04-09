@@ -2,62 +2,62 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1083C433B4
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 15:12:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38782C433ED
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 15:16:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A4D9B610A8
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 15:12:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 133E7610D1
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 15:16:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234122AbhDIPMl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Apr 2021 11:12:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37884 "EHLO
+        id S234076AbhDIPQn (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Apr 2021 11:16:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234113AbhDIPMk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Apr 2021 11:12:40 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4858C061764
-        for <linux-doc@vger.kernel.org>; Fri,  9 Apr 2021 08:12:27 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id g8so10206099lfv.12
-        for <linux-doc@vger.kernel.org>; Fri, 09 Apr 2021 08:12:27 -0700 (PDT)
+        with ESMTP id S234058AbhDIPQm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Apr 2021 11:16:42 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EEC9C061763
+        for <linux-doc@vger.kernel.org>; Fri,  9 Apr 2021 08:16:26 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id v140so10287812lfa.4
+        for <linux-doc@vger.kernel.org>; Fri, 09 Apr 2021 08:16:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=shutemov-name.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=PDyMSJJvLIMFC1KbCjmLHB5PTIgl8fLhsjpA7s8Yb6Q=;
-        b=WUE6Vxis/wkboifvaP4/0mKQH9ZqXTXg09FLow2NBClwREFinJQQ7Ym269+P2rGdYS
-         H8OWs7F1iSt6G0pM1qTUlLYbVDnQPeqAXBmP92LWmtN69zpGrjqmOrTUUlRTZHR8pogT
-         HSxBDs2fiYTfAa+HHPHzSFp+8beCoBX+rQifO+DG79+wglkVBUUlIFhyZuhQz4JHNwqk
-         kPJS1NjJ+V/xdMmrwNrtSJB7PzFZN5PhPjT2q6jGA2WKNNSR3+/AURsA2gkd01+BcMhd
-         0LXY1hEnpKIJdbbkNFmtfPJLm1ibRZPKLfbAtJRACzTh3QzzHpzbwLEb4YDGLWvW7amr
-         s2bA==
+        bh=2Z/yYSNAypvLdcknWdN0jFKSTVmGg2skM4f2irCe/+4=;
+        b=F6WCL+h0/tP9in+fDqwT0cY3mMu3UVsk7LgdOGzIIy+irtGR0w2X9fIQdkSR7xRD8r
+         qP/FA+1JIVvPJF8oaP10W0+t4M3RUjWjn9WFbABDNr8k5khi8T1y8jpPH9Uuuxp7jJQp
+         li5UhFx16sJQYASv+x53DDCGLFxBuKWm4ncrsUyJ+s9Rd/Jld4NbDsr+ZIb351AKQCDI
+         /Aw7CgUuxAfkKgkUgZEU/yBDqwNItOTV/h5C5u9vhJGK8p7SfQeWaob4fAnHSgxiwnTF
+         S7UH1hSKQdncOqaMF1+rDkbOh1HBu2G+1tsKM+xL9G+Hu0cc6rT74yo8tFIyU1xbLTiv
+         ZLnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=PDyMSJJvLIMFC1KbCjmLHB5PTIgl8fLhsjpA7s8Yb6Q=;
-        b=GSkQkptFnzDX2ypBF9mtovJAIiNr6ow11vwimnyA9BWOws7MKqOcD0N//iaLWBDjWE
-         QYPVdSovq0uZo6JHaC4/O+OPXhpSD+iS9smy9D5LTig1GIj26VcYGOjr23czS6xR7ntD
-         nRgsac9ZgyuZG/zQFAwEFzE+tWpxpgQ49aOuFc04Mn6AMb+6cjsDeDDd3XO75LtNjsJI
-         9stqhP6ouBC6lg75g45puY4DN5m6311tcf8Gfm5T+pYw9Z/GT5oMqmysmXJLZBiLcQhT
-         lLMaod7ECblpT9zcO4sQP3/SfxVDdQoWJv4/7w+hN1wspgYlZX9FGCQ/C5RMWIHRRi6Z
-         lWag==
-X-Gm-Message-State: AOAM533fCCFrc6q6l/Tw6EyHbEeMy246FdQED2plieawXRIzyoabTuV/
-        FyucorBVlkbUDVvU/ixGW9MoJA==
-X-Google-Smtp-Source: ABdhPJyAXO7XxweiGZ6jKD2WpLH/voQpq46hnsIJmUDXRxILxGzeLt3DBPtRLvbc6rthzzbO9px7xw==
-X-Received: by 2002:a19:8c0a:: with SMTP id o10mr10600843lfd.175.1617981146160;
-        Fri, 09 Apr 2021 08:12:26 -0700 (PDT)
+        bh=2Z/yYSNAypvLdcknWdN0jFKSTVmGg2skM4f2irCe/+4=;
+        b=Vlt1+4vD+pd92EiwSG52afSMt+82EEwn2YDV4rSHOqXuYosszE719E1BFwHMY7xoOu
+         7uCOJV8XgYBuBs8WKQ3ZWP80LL35jrO5Jm6WHYinFRIFUy5KMHjw1Cu1O4lFlNx3Nwm1
+         w2EmDcvMI6sl7UOMBPPaSysz8+d4SGNwTl01EV+5GxGideJsiSMIJcIgK4C3LClScC6d
+         Kh4/+WHpNsH4yTsEMOwiFextdpmsitTWHsnUipV0QAYCHfQFXcKDQdGCjfDhYoTSK/MP
+         r75P2isCUjBWrJjvpmwXKtzVok/f2E4gqndv49/bEBCJG/IFGySj80mxbtQuz7GUorw9
+         91aQ==
+X-Gm-Message-State: AOAM531ux90FM5sZpLQRinTXAawK+hdu3jA7Qv6vw0r3udXlgKdOmUy3
+        WN6+UONZwLADMnv9qNBN6S+6TA==
+X-Google-Smtp-Source: ABdhPJxZOdHJXf6KM2DKtMXusgwm4xwoirT3CFK/2cTbRJYimDigKyBqA3B926lUdKv5znBu6nRu7A==
+X-Received: by 2002:a05:6512:c27:: with SMTP id z39mr10687224lfu.244.1617981384391;
+        Fri, 09 Apr 2021 08:16:24 -0700 (PDT)
 Received: from box.localdomain ([86.57.175.117])
-        by smtp.gmail.com with ESMTPSA id k18sm295287lfg.32.2021.04.09.08.12.25
+        by smtp.gmail.com with ESMTPSA id e11sm299296ljj.59.2021.04.09.08.16.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 08:12:25 -0700 (PDT)
+        Fri, 09 Apr 2021 08:16:23 -0700 (PDT)
 Received: by box.localdomain (Postfix, from userid 1000)
-        id 05C1F102498; Fri,  9 Apr 2021 18:12:25 +0300 (+03)
-Date:   Fri, 9 Apr 2021 18:12:24 +0300
+        id 35536102498; Fri,  9 Apr 2021 18:16:23 +0300 (+03)
+Date:   Fri, 9 Apr 2021 18:16:23 +0300
 From:   "Kirill A. Shutemov" <kirill@shutemov.name>
 To:     Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
@@ -88,43 +88,66 @@ Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>,
         "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: Re: [PATCH v24 14/30] x86/mm: Shadow Stack page fault error checking
-Message-ID: <20210409151224.4tlklypbjpxcztpt@box.shutemov.name>
+Subject: Re: [PATCH v24 15/30] x86/mm: Update maybe_mkwrite() for shadow stack
+Message-ID: <20210409151623.ffydw3ckzbl7qboo@box.shutemov.name>
 References: <20210401221104.31584-1-yu-cheng.yu@intel.com>
- <20210401221104.31584-15-yu-cheng.yu@intel.com>
+ <20210401221104.31584-16-yu-cheng.yu@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210401221104.31584-15-yu-cheng.yu@intel.com>
+In-Reply-To: <20210401221104.31584-16-yu-cheng.yu@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 01, 2021 at 03:10:48PM -0700, Yu-cheng Yu wrote:
-> Shadow stack accesses are those that are performed by the CPU where it
-> expects to encounter a shadow stack mapping.  These accesses are performed
-> implicitly by CALL/RET at the site of the shadow stack pointer.  These
-> accesses are made explicitly by shadow stack management instructions like
-> WRUSSQ.
+On Thu, Apr 01, 2021 at 03:10:49PM -0700, Yu-cheng Yu wrote:
+> When serving a page fault, maybe_mkwrite() makes a PTE writable if its vma
+> has VM_WRITE.
 > 
-> Shadow stacks accesses to shadow-stack mapping can see faults in normal,
-> valid operation just like regular accesses to regular mappings.  Shadow
-> stacks need some of the same features like delayed allocation, swap and
-> copy-on-write.
+> A shadow stack vma has VM_SHADOW_STACK.  Its PTEs have _PAGE_DIRTY, but not
+> _PAGE_WRITE.  In fork(), _PAGE_DIRTY is cleared to cause copy-on-write,
+> and in the page fault handler, _PAGE_DIRTY is restored and the shadow stack
+> page is writable again.
 > 
-> Shadow stack accesses can also result in errors, such as when a shadow
-> stack overflows, or if a shadow stack access occurs to a non-shadow-stack
-> mapping.
+> Introduce an x86 version of maybe_mkwrite(), which sets proper PTE bits
+> according to VM flags.
 > 
-> In handling a shadow stack page fault, verify it occurs within a shadow
-> stack mapping.  It is always an error otherwise.  For valid shadow stack
-> accesses, set FAULT_FLAG_WRITE to effect copy-on-write.  Because clearing
-> _PAGE_DIRTY (vs. _PAGE_RW) is used to trigger the fault, shadow stack read
-> fault and shadow stack write fault are not differentiated and both are
-> handled as a write access.
+> Apply the same changes to maybe_pmd_mkwrite().
 > 
 > Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> ---
+> v24:
+> - Instead of doing arch_maybe_mkwrite(), overwrite maybe*_mkwrite() with x86
+>   versions.
+> - Change VM_SHSTK to VM_SHADOW_STACK.
+> 
+>  arch/x86/include/asm/pgtable.h |  8 ++++++++
+>  arch/x86/mm/pgtable.c          | 20 ++++++++++++++++++++
+>  include/linux/mm.h             |  2 ++
+>  mm/huge_memory.c               |  2 ++
+>  4 files changed, 32 insertions(+)
+> 
+> diff --git a/arch/x86/include/asm/pgtable.h b/arch/x86/include/asm/pgtable.h
+> index 46d9394b884f..51cdf14488b7 100644
+> --- a/arch/x86/include/asm/pgtable.h
+> +++ b/arch/x86/include/asm/pgtable.h
+> @@ -1686,6 +1686,14 @@ static inline bool arch_faults_on_old_pte(void)
+>  	return false;
+>  }
+>  
+> +#define maybe_mkwrite maybe_mkwrite
+> +extern pte_t maybe_mkwrite(pte_t pte, struct vm_area_struct *vma);
+> +
+> +#ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> +#define maybe_pmd_mkwrite maybe_pmd_mkwrite
+> +extern pmd_t maybe_pmd_mkwrite(pmd_t pmd, struct vm_area_struct *vma);
+> +#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
+
+Move it next to other THP-depended stuff.
+
+Otherwise looks good to me:
 
 Reviewed-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
 
