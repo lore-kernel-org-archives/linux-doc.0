@@ -5,77 +5,82 @@ X-Spam-Level:
 X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE4DC4361A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93202C4363E
 	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 12:48:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 375F961106
+	by mail.kernel.org (Postfix) with ESMTP id 67A5961106
 	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 12:48:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232615AbhDIMsS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Apr 2021 08:48:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41722 "EHLO mail.kernel.org"
+        id S231946AbhDIMsW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Apr 2021 08:48:22 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41872 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233777AbhDIMsO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 9 Apr 2021 08:48:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5A53161106;
+        id S233796AbhDIMsQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Apr 2021 08:48:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 602A66115C;
         Fri,  9 Apr 2021 12:48:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=k20201202; t=1617972481;
-        bh=Tj7z1zW72+qtHkoeI0ngIMPv3VOSrEkM37aHTlYijTs=;
+        bh=cE6X+3hK7sWHr7WvxY3GzjAZGna/QnNmym0dy1u9Dbk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mSc0TOB5iDQfrFZgdgZ2E3XeIICVG5Yc17Ydmmy21a0RasA6TdLWnI4W9tNUv4Pzb
-         B0c+TEc5zFY2pCeAguU6tsTkzbor0xRVTPjGrO1vF5aEqEd3OrrYd5H6YIZDpE7UZB
-         aOF9RVVxptcYSSnKk98BI4fvYnMzKrTV7sgNXdmTGfJ1YfdOKlez/28ceKRHfjFMtt
-         Ncw4ML6PpxP6jKCyhKKDOreupuUOpEei7gG1Tw9EXpNhk9ejGDsN/TUrVxCqNfVNDj
-         wJd6q20GMpwbHJaDAjNjWRKHj0gDi0HRSbsRy9ONpku1Fm9Mtljg03QaQacxPeUWrH
-         cC66t5NcwefLg==
+        b=lEXRXLtwZxxDDNeraC7fq+W2kfph6t0x9BmWg9IyGVb2OT/Re0jr6xbeyRF6OVqvl
+         ADo4oAVQJXjRgzd0YqP60N++2MGZC0ZoSQ+uUtPDuGkNHHpxweXcPlrIcMNVFI4q0s
+         meHwLWAMV7rXiQOKvoaA4OZ2MQNIqhtDgWtXK8ffJ+kDYXvwI6k2zgt5S/Cr+rtj1X
+         szxyZNKKRWQ10UUDszO+zHmHBNPd240Z0YAUjaBmOP8QR6zyqH+pRYCoTqRGvIwoFE
+         7qBSrlmsG4MlroFisbrwraYwhNnpV3Nnm9lYf7DI3vY379H/tcCpRkspnTbnkdYPUp
+         nLtj5WGzoQS9Q==
 Received: by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1lUqYE-001SLs-DP; Fri, 09 Apr 2021 14:47:54 +0200
+        id 1lUqYE-001SLk-78; Fri, 09 Apr 2021 14:47:54 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         "Jonathan Corbet" <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        Alex Shi <alexs@kernel.org>, Wu XiangCheng <bobwxc@email.cn>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v3 7/8] docs: translations/zh_CN: fix a typo at 8.Conclusion.rst
-Date:   Fri,  9 Apr 2021 14:47:51 +0200
-Message-Id: <febb930dc6c8679e9da9e451aa82d9243cf97b9e.1617972339.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 3/8] dt-bindings:iio:adc: update motorola,cpcap-adc.yaml reference
+Date:   Fri,  9 Apr 2021 14:47:47 +0200
+Message-Id: <3e205e5fa701e4bc15d39d6ac1f57717df2bb4c6.1617972339.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1617972339.git.mchehab+huawei@kernel.org>
 References: <cover.1617972339.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-transaltions -> translations
+Changeset 1ca9d1b1342d ("dt-bindings:iio:adc:motorola,cpcap-adc yaml conversion")
+renamed: Documentation/devicetree/bindings/iio/adc/cpcap-adc.txt
+to: Documentation/devicetree/bindings/iio/adc/motorola,cpcap-adc.yaml.
 
-Acked-by: Wu XiangCheng <bobwxc@email.cn>
+Update its cross-reference accordingly.
+
+Fixes: 1ca9d1b1342d ("dt-bindings:iio:adc:motorola,cpcap-adc yaml conversion")
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/translations/zh_CN/process/8.Conclusion.rst | 2 +-
+ Documentation/devicetree/bindings/mfd/motorola-cpcap.txt | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/translations/zh_CN/process/8.Conclusion.rst b/Documentation/translations/zh_CN/process/8.Conclusion.rst
-index 71c3e30efc6f..4707f0101964 100644
---- a/Documentation/translations/zh_CN/process/8.Conclusion.rst
-+++ b/Documentation/translations/zh_CN/process/8.Conclusion.rst
-@@ -19,7 +19,7 @@
- :ref:`Documentation/translations/zh_CN/process/howto.rst <cn_process_howto>`
- 文件是一个重要的起点；
- :ref:`Documentation/translations/zh_CN/process/submitting-patches.rst <cn_submittingpatches>`
--和 :ref:`Documentation/transaltions/zh_CN/process/submitting-drivers.rst <cn_submittingdrivers>`
-+和 :ref:`Documentation/translations/zh_CN/process/submitting-drivers.rst <cn_submittingdrivers>`
- 也是所有内核开发人员都应该阅读的内容。许多内部内核API都是使用kerneldoc机制
- 记录的；“make htmldocs”或“make pdfdocs”可用于以HTML或PDF格式生成这些文档
- （尽管某些发行版提供的tex版本会遇到内部限制，无法正确处理文档）。
+diff --git a/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt b/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
+index ebdccfb600b9..b52e7a33f0f9 100644
+--- a/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
++++ b/Documentation/devicetree/bindings/mfd/motorola-cpcap.txt
+@@ -23,7 +23,7 @@ which are described in the following files:
+ - Documentation/devicetree/bindings/input/cpcap-pwrbutton.txt
+ - Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+ - Documentation/devicetree/bindings/leds/leds-cpcap.txt
+-- Documentation/devicetree/bindings/iio/adc/cpcap-adc.txt
++- Documentation/devicetree/bindings/iio/adc/motorola,cpcap-adc.yaml
+ 
+ The only exception is the audio codec. Instead of a compatible value its
+ node must be named "audio-codec".
 -- 
 2.30.2
 
