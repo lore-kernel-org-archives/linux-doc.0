@@ -2,134 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+X-Spam-Status: No, score=-21.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C848C43461
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 16:04:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF44FC433B4
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 16:29:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 242BE6115C
-	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 16:04:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8F868610CA
+	for <linux-doc@archiver.kernel.org>; Fri,  9 Apr 2021 16:29:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233909AbhDIQFF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Apr 2021 12:05:05 -0400
-Received: from sonic310-30.consmr.mail.ne1.yahoo.com ([66.163.186.211]:33252
-        "EHLO sonic310-30.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S232796AbhDIQFF (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Apr 2021 12:05:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1617984290; bh=hx2AE2I6w9Qq9AGRy34zDwr9Uc4ea9n2GR6ByjcrG9s=; h=Subject:To:Cc:References:From:Date:In-Reply-To:From:Subject:Reply-To; b=B+QJZ07h2oNd52a1X5XcKgjVNBUkXJElSH7AUPTlJvC6WXDMLVBKGyN5viXJ1BP3XM7tWK3M+QGRdPxbmmJbn4R6oo48+8od68lMjbhXOiAyEGR2q7n9e2MUOZ07EkdqzMjvlLlSACQ286nRxTI++8P1ttGZADn7pY8ly9xxRoHna/zxv9AVHlEwLwjtpL+DnhAP2CC6nLc5DfhSF1QSkIlSlyvTUhNH7zHyRsSVqd1LYdWD3dbT68ysscnn2ERnApUr8wzshLaoUN/1XTGd/yTCZEnScu2jyCb4HzNHHnHg3zO1ypVVzKrcz5b692+MuIZXE8QOwxN2yDyUPa3MYQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1617984290; bh=Lcd3vERvJtsGZPqBzW+44fNU/kSVsstAYRF57V0GSZk=; h=X-Sonic-MF:Subject:To:From:Date:From:Subject; b=r5gfO0QwIux+UfoKei00oBCP4hBXjZ0FSLv3xJW/rv00R5m2MH3bCtqh1PwFbQAGIsfpawSmAGlJGtBeqJ58/UaeoV3AVbei4nqoqPQ7/YoHyA63PseFNcA349sE43X2NdHLcL1tK5hcqDmtKyouW8biVv5NMfQyUqVgJBnDbdLt3hzw9XttC8JMbXi2oyvIsH7ta8yYTD09c5wTK9IPj6TcnAJrzQ8lKKcPo2mkZVKLeeo8TKm9T+ya2HMBT+sQ3VxceONGtnZtJ4UZlNN+HKHEdYuiIsOoH8OTmiGJbKn8oC+aTqvHCpEFvZmePkB+vnn2VuDLPFBXbdNsXQFMOw==
-X-YMail-OSG: m9Hr8bwVM1l2uVBPYry5Cr3m7UXU5F1xrdNlNk3Xzu_MRCV1GKlNKyDAlKx6vjc
- 2tLuvOXfEDsv9lq8rCYKWqDbicn.iby98MEWriNsAoOsEcSQ6ztf5aQim_3o4xAB9KL0zZllAoGv
- HnFfOg7jLhnmF0wsLg3JELyxskmU6fBkxQGio1NZIRy.kBtDN3lyxWuJzeALGoDTdTxszfvH7mDD
- 1tBGc3h3S1HdvARMqanihmUx_qJaVEVdno6581AO.UrcTo4Uu1KmJbThMIN38ZU7vLLRtHTN2gxC
- aYsvU.UWFnotv66qLTH8Vlc2zXXJzG.PuPtyH2OwtLaMlxWdP60VP1Ux7FDov7p4eZqEog3xtqBY
- 2Nfr5vHJu5vb_NRwOpDHCVZBPO.1B3PDMiM0WDTCR7aGIC5h6QBVjSSjn8h2bKbmRWxmx1PkPA22
- G.oXq4nyEo9KGSCFBE_7UAH2eY8_qz0s0v9xJt50SnUwVeEuwqz0K2y._kM8ljhLe_QnszLlhj_4
- XchHKBRV8ZK54JpOvWzTC4TVc5b6t8s0FqfKG4PhdUAl9KdHOeznuQrerXsIB1A6AfuZEv_B_vwn
- nUD7JUGqujefLNSYIRR3CHzDQ4NAB7oPtc7_u3OdGbl5vKLH9KOxwP92Ra55BtyeheR.D5hPYvOr
- unbB8hAhc.7xigk4dphOMUwwMfEzMT9X7aw1VJtoWENVixigLA1hCCLvUUxBhkuEICst.sYeQjkf
- vMSqFG.A8HZ6pGsaE7fpQmZFpXyHGPK.pnbKkysVAqhn.JzlG2u2SXSE7i6DGwC9GLDuDtU11mhf
- bGdIGeoHR8x14tyvV3WWpGTwzMmI4JMw9axszFQuZ_hQnyeYg4BImSIPvEfyZqxZznL6KNQ8_GVI
- LXXgk2ZdjPG.vX4t62AurrHuzCvg6mq83fzFgrTFiK1Z64D2fTNAO5VCjqCzwMiHEa7MT8MACjX6
- qP1wlIwH3q2wanEJdAJT9cSgqTSqwrRxpN49JqFCHMKYxPc3RopKzFdAFCGlFl0M3d5fP0RjqOKB
- lyl.6QCkDir2mm_fVnjgwsEgm1GAS5sXaeyaT4lOuT641dtbTMOi5PhOf84FtY6MGsFwvvLBEX9Z
- fmmbLEt4fpxb_7LOQga2K7N6iFnP9s0Cm3CzAAY41.ppeoffr2syWeVaFX4hYyELKhjo_02sNqsV
- HkuiQ5Dh6zFU61UurgLmXMKC9olqi7eVc8HNIUybkonFCBo167dLtIUXmwQ5KTbYeHC3IHhdT5Tq
- yNErWuIHTozX.1iksdPnS6B7rJ5aKm_3PMU8Of1YqOl0oN6q5Ok48f4cMYiGJ2Pjma7QTEMLQzwE
- yPwh.KgbvvGfno_.wkFVpKS31gL8hK_LaMFJnvPyuVL8BFEvuv9kRNYS2jddLgem9lBx9aJ1.RZR
- YmZ8NcgnXg3H0FTxY1n7QMg8o9Xy0x4wzddFjSPLXCXV0ppNGITjKE25POWe3c3W.4CjIMcnoKdH
- DniuXlOmfJgxmAbK3US7R44yaNuX822wRPFbQh3JT4E1WLU11Wfo6mv_TSh_wjMvjYV6moBWWPkd
- zDYt.1Z7O8XssTRFjhfJy6irI2U4.d8p6mhw1xRKIAD5RQbwSgvmmVoV_5Gl3FniTRjAjUA8O1MZ
- L_..js.W_7v3BPJBhF9mUDUe7hNHWxiXQ2NH.kWlcxl8HY7LHyLG6Hf_MHFKhp8lw2vh_EkiR217
- JPLGI56CqEILkWdv5EL2a3fD4c3L6i5h2D95Hw8XlA3byle3DjWVJfiZ0efFOfOafeBKcDlZV8ps
- kzU7ygyKoKkLZy1o_lXzVtgnkebl23mfbPT3AcVaXgFnXL2jf74qlcH.DIEkdGn2CBvcjW62L4Kc
- 78l9FuB7Y_XYlU.K9mn7dmLqPsdxpQo_gwjYtxUIBUxP_dC8qk4I95POHt.vifsJUcA50gX8kf9d
- n.kWoeMJqwA5tAzYx6Lv.kp7N0Bop7EgnwkFLNDbg8hCOrPcUylrupYUUuFb8ELEyqicE.Gn6bfu
- S4Fo0b0plKOg3daZS43hEjyVhfeZ9HARdGetqUVe90AzZVWpNh3lCi5G6syamKGDoDnN92a_b5km
- P32R8T0Uc3BmEvuCc2aaE6GQ32XiGpdKX0Nd7ryxmS8OfiLC2e3t8LEtGIOa4ZFo0vc6o_bdMcZE
- Gaw6asjk3j7bc.5.owOvoIGn2b0LNE9w6mF8ESG5vSgMvJaDHZdazf_jJW6c6exhUoo6Gio3d..d
- 7Sm94CZ2S24AhOlQOOncuUtRESZD.GYBSRvNKBtqYUuilxC71Ffk0UU4sTvD5tdGt7y7jdkEVRhs
- vxq1R7cOG44dEya59lvowXptw37ZqH0F4XJTRW5gxo6MA7jY7KN4v8eWZ.QiHJ5n6PpIkRM.PVpX
- rbtZUgCbOMpFRbidIYjaH0ZaK791mENRJs5k0_J7eEVFSsIClQePQynvkJgV7AT5CkwAdfYrtdTf
- OTospNChy.FVFg3tgxZmmB9G91qiIBsV.pFeqR1WuAClAhbEVAMACIsz_ZN1KSd1BwISWlI78rvu
- vZiecj_3BolxUlaW5Ym5Xxxe1S3VO0Q_7VJTIapvJtQdt.uilhaEKpCQWEBdqRM8EziapzHxtfsP
- s8IXEZyOuHeU8e5NrZ0x_wzZ1W7TltPN3IlNcWBMT7_eHvCa5daDUl41DR0uuogiMTYfGrxDmUpY
- _PJMu95XuSzvA05l4rY2ZT6eYIg4C8vbH8DmrfDe0fPkaWhco4mXZAu60qZUKc70Wrk_fEJtFy3Z
- p6i6.96pNtaEiYwL4Ns_5IRhjgrkmLWUjHZDsXoSrk5gAxpQK4Akk23YP9XGuhjDOnPqQDbRSz3N
- 4aHut4Q5LZwdKCzgu2s4kG9SfSy5tAxVSpw6gtCXo43V46zZNXD2_EHLSgKididIAddhS8jX_4TW
- TySDmWEZnm3nq9ERhSslVnE66r1QQrs.EpisiZYeT6VRy4c6QwfN46rhy0.VTPlut5rqt7LLyKkm
- HjeIsuL31DvJQkXuFCxINP5gR5s8545d6IfsRatKVXo6WNt.hwQO39xEHiOzGdRB6NKPEXO7SNxk
- yFDBBIHVvtK7VluyBhn5nRyn4t4BdK3FpILSbdH3gEvAc7vnxOxy3QRwxsllYTSuG9KPl4g314b7
- Ae0caUN2nfM3Zp1kvhXdx3qYzCS_ioLeOSTp5dLI32FUuKou_07Qohie2ikgOqjmIBamGoMMcR7L
- Ikr2yuH7cB4NOJKqsytmww_mpt.N6YHEcbCA9bMcalPtrQfX8g0CThOf3K_2GpJF4HKnTyj.Jpxc
- L1IxhQPhkbxIS3p2AzzeUVyEyh7XzIcnumKCy0XDyLfFrw1gxecT.OSYYnO_PEHc052ArjgUl8oy
- P6IaucIknckoy90hKF5b_1E.L6LS_O04_KgoO9YueWpDaozd5fnYxdyuKo2Nsskcqq5G9wPiEndr
- kWFRiND.CJuIRXxkOSI32VtU7fTrFEn.jSh18GP1svvGQEHMH1dSWj7nTEWcWUUR0M4TXF03QcrZ
- fLie5JhOlDCO7UZsRNrS9Yur2e46BtwN1zXVKJau.gP.6kDq5ZgqiVJTkjyYfTiZmkR2wq2UNpMB
- luPCc469qvRTVlwedwthx9dm28Xxvupss2jG8aaykurWYYwI2CU88Dv8QFrvvIXMc.HQHyyDuKg1
- 0CqWQ3oVdbf6m_uMUYx3v0bhc4fkCY5TJSC5ib2RPV54ppAX_6ZAbr5ZS6DU75sUKKP8P0xB_Yoi
- HJSN24naPsejZhosPkjqqDZMEQ5WzKOe6guQwlgPr0VJWnKzEBeRt8KX6cLgETX6h5GVazu1wa2b
- VhYOAccwo0zLJ6Vu2Y5eARB8vq1QtCzX5bt9VQC81oJQTsVoNBabL44.E2d6wagI8mwpQpjjyzOp
- NgEDW3N4TiQyHa4R5KxH1FdLacqYydN4qeVsn6MH_7mf7oRL0PO.UhXo2QYg58E11LZvHtmdrwxa
- .BuYfYzBlIDPQ8tV_QjvU5KE4rJY3Gz4qrsvDxKyGsT.N727r1Soi4oHHu4KUPlxzT8zVJE6o1.H
- 9VhknZnN1UheYE9kwgiID120URjvsxKMPWIDF0mmvswejKej3Wsr.6aSJPyNCkzEF3UptWGgI99y
- 495tEdPVz5rsaMaVpBo9MvLMPCPIPpPtxl.H5Q_t7_PACsUnXqVLv8JezwNHqTnnGr1nYaBYS53Q
- VJ39_brtxVWjrzXYbdUczrJq7smS_L3QvU8UMOlj6JRy7IQHfhXz7oPAKBTWMTpr2Ka3z.jME_g.
- Z.wlAkyi.qUrCn5Byug3OmYt8.QL9F9nVibmiJDhr2UQvlNKvU.vyMm5XLPZ4pF_QEoQ-
-X-Sonic-MF: <casey@schaufler-ca.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic310.consmr.mail.ne1.yahoo.com with HTTP; Fri, 9 Apr 2021 16:04:50 +0000
-Received: by kubenode563.mail-prod1.omega.bf1.yahoo.com (VZM Hermes SMTP Server) with ESMTPA ID a2480e1f2493dc0ec318d730caad4606;
-          Fri, 09 Apr 2021 16:04:45 +0000 (UTC)
-Subject: Re: [PATCH v33 00/12] Landlock LSM
-To:     James Morris <jmorris@namei.org>,
-        =?UTF-8?Q?Micka=c3=abl_Sala=c3=bcn?= <mic@digikod.net>
-Cc:     Jann Horn <jannh@google.com>,
-        "Serge E . Hallyn" <serge@hallyn.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@amacapital.net>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Howells <dhowells@redhat.com>,
-        Jeff Dike <jdike@addtoit.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Michael Kerrisk <mtk.manpages@gmail.com>,
-        Richard Weinberger <richard@nod.at>,
-        Shuah Khan <shuah@kernel.org>,
-        Vincent Dagonneau <vincent.dagonneau@ssi.gouv.fr>,
-        kernel-hardening@lists.openwall.com, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        linux-security-module@vger.kernel.org, x86@kernel.org
-References: <20210407160726.542794-1-mic@digikod.net>
- <d7f25c43-8bea-2640-292b-df2fcceae428@namei.org>
-From:   Casey Schaufler <casey@schaufler-ca.com>
-Message-ID: <9e4e42a3-937e-710d-8ccb-9bcb0969c5cb@schaufler-ca.com>
-Date:   Fri, 9 Apr 2021 09:04:41 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        id S234071AbhDIQ3X (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 9 Apr 2021 12:29:23 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36076 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234011AbhDIQ3W (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 9 Apr 2021 12:29:22 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9001F611C9;
+        Fri,  9 Apr 2021 16:29:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1617985748;
+        bh=mq0DbNuduGKt/8Gq3KTibog9pvXQzaTafSLd7wSRyXo=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ke78XXtbGDCQOfT3ycd20AXCx4zA43fHe38EtpNwU2fWD1i2eU1F9xCiMdzUMdZr1
+         J3FgDDcLDj66CFmSVvVkjSTOwFHjDk2550bKsH3BDum9AFJir6Qn8Cv5h3ZYs9zAQP
+         kSLGFmpFoQTlwXydX47ZXpIUwUaCyJzhaaXCchY6xci5+gStCjv45lzBhBXVgEaUPc
+         Gd3QLkID+I9CSGFyE7LyZyWQrSl/w00G8TdmgIrKD0AfDAzsIjiRmra9EULwynLE06
+         5aGjReByQEHdGQydsZjWEdIb4N7fFfPIKsaRuiPl2eQt9PbZq+LAF0BJcXSXQ0PcnW
+         xjVeb/sJ/LNog==
+Received: by mail-ej1-f52.google.com with SMTP id g17so6831066ejp.8;
+        Fri, 09 Apr 2021 09:29:08 -0700 (PDT)
+X-Gm-Message-State: AOAM533x8R2F3/TE50AteIlTucbp6IckPyaHQiDirShubCnjFynBBRyT
+        I7awefvtB/yZcG6uWhiRRpHgVPSgDrdeYVV9wA==
+X-Google-Smtp-Source: ABdhPJz3miqJO0314G0q55AgoyXuziE/TVMKiWkXk5yBK5kg54Aev0phZN989BABn9u+cW21U6911tZvMEK926B7c9o=
+X-Received: by 2002:a17:907:217b:: with SMTP id rl27mr9172959ejb.359.1617985747111;
+ Fri, 09 Apr 2021 09:29:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d7f25c43-8bea-2640-292b-df2fcceae428@namei.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Mailer: WebService/1.1.18121 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo Apache-HttpAsyncClient/4.1.4 (Java/16)
+References: <cover.1617972339.git.mchehab+huawei@kernel.org> <4efd81eca266ca0875d3bf9d1672097444146c69.1617972339.git.mchehab+huawei@kernel.org>
+In-Reply-To: <4efd81eca266ca0875d3bf9d1672097444146c69.1617972339.git.mchehab+huawei@kernel.org>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Fri, 9 Apr 2021 11:28:55 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqK9TZ6v+YU1dhhD7AyVu1wM4ccmkt_bwCHnyH2_00HkZg@mail.gmail.com>
+Message-ID: <CAL_JsqK9TZ6v+YU1dhhD7AyVu1wM4ccmkt_bwCHnyH2_00HkZg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/8] dt-bindings: fix references for iio-bindings.txt
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Artur Rojek <contact@artur-rojek.eu>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jean Delvare <jdelvare@suse.com>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lee Jones <lee.jones@linaro.org>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        devicetree@vger.kernel.org,
+        Linux HWMON List <linux-hwmon@vger.kernel.org>,
+        "open list:IIO SUBSYSTEM AND DRIVERS" <linux-iio@vger.kernel.org>,
+        Linux Input <linux-input@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/8/2021 6:48 PM, James Morris wrote:
-> I've added this to my tree at:
+On Fri, Apr 9, 2021 at 7:48 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
 >
-> git://git.kernel.org/pub/scm/linux/kernel/git/jmorris/linux-security.git landlock_lsm_v33
+> The iio-bindings.txt was converted into two files and merged
+> at the dt-schema git tree at:
 >
-> and merged that into the next-testing branch which is pulled into Linux 
-> next.
+>         https://github.com/devicetree-org/dt-schema
+>
+> Yet, some documents still refer to the old file. Fix their
+> references, in order to point to the right URL.
+>
+> Fixes: dba91f82d580 ("dt-bindings:iio:iio-binding.txt Drop file as content now in dt-schema")
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Acked-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt   | 2 +-
+>  Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml   | 5 +++--
+>  Documentation/devicetree/bindings/input/adc-joystick.yaml    | 4 +++-
+>  .../bindings/input/touchscreen/resistive-adc-touch.txt       | 5 ++++-
+>  Documentation/devicetree/bindings/mfd/ab8500.txt             | 4 +++-
+>  5 files changed, 14 insertions(+), 6 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt b/Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt
+> index 37f18d684f6a..4c5c3712970e 100644
+> --- a/Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt
+> +++ b/Documentation/devicetree/bindings/hwmon/ntc_thermistor.txt
+> @@ -32,7 +32,7 @@ Optional node properties:
+>  - "#thermal-sensor-cells" Used to expose itself to thermal fw.
+>
+>  Read more about iio bindings at
+> -       Documentation/devicetree/bindings/iio/iio-bindings.txt
+> +       https://github.com/devicetree-org/dt-schema/blob/master/schemas/iio/
+>
+>  Example:
+>         ncp15wb473@0 {
+> diff --git a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
+> index 9f414dbdae86..433a3fb55a2e 100644
+> --- a/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
+> +++ b/Documentation/devicetree/bindings/iio/adc/ingenic,adc.yaml
+> @@ -14,8 +14,9 @@ description: >
+>    Industrial I/O subsystem bindings for ADC controller found in
+>    Ingenic JZ47xx SoCs.
+>
+> -  ADC clients must use the format described in iio-bindings.txt, giving
+> -  a phandle and IIO specifier pair ("io-channels") to the ADC controller.
+> +  ADC clients must use the format described in
+> +  https://github.com/devicetree-org/dt-schema/blob/master/schemas/iio/iio-consumer.yaml,
+> +  giving a phandle and IIO specifier pair ("io-channels") to the ADC controller.
+>
+>  properties:
+>    compatible:
+> diff --git a/Documentation/devicetree/bindings/input/adc-joystick.yaml b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> index 054406bbd22b..721878d5b7af 100644
+> --- a/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> +++ b/Documentation/devicetree/bindings/input/adc-joystick.yaml
+> @@ -24,7 +24,9 @@ properties:
+>      description: >
+>        List of phandle and IIO specifier pairs.
+>        Each pair defines one ADC channel to which a joystick axis is connected.
+> -      See Documentation/devicetree/bindings/iio/iio-bindings.txt for details.
+> +      See
+> +      https://github.com/devicetree-org/dt-schema/blob/master/schemas/iio/iio-consumer.yaml
+> +      for details.
 
-Thank you.
+Please just drop this one. We don't need every user of a common
+property to link to the common schema. If we do, then we should figure
+out how to generate that (there are some json-schema to docs projects
+I'd like to investigate some day).
 
+>
+>    '#address-cells':
+>      const: 1
+> diff --git a/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt b/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
+> index fee0da12474e..af5223bb5bdd 100644
+> --- a/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
+> +++ b/Documentation/devicetree/bindings/input/touchscreen/resistive-adc-touch.txt
+> @@ -5,7 +5,10 @@ Required properties:
+>   - compatible: must be "resistive-adc-touch"
+>  The device must be connected to an ADC device that provides channels for
+>  position measurement and optional pressure.
+> -Refer to Documentation/devicetree/bindings/iio/iio-bindings.txt for details
+> +Refer to
+> +https://github.com/devicetree-org/dt-schema/blob/master/schemas/iio/iio-consumer.yaml
+> +for details
+> +
+>   - iio-channels: must have at least two channels connected to an ADC device.
+>  These should correspond to the channels exposed by the ADC device and should
+>  have the right index as the ADC device registers them. These channels
+> diff --git a/Documentation/devicetree/bindings/mfd/ab8500.txt b/Documentation/devicetree/bindings/mfd/ab8500.txt
+> index d2a6e835c257..937b3e5505e0 100644
+> --- a/Documentation/devicetree/bindings/mfd/ab8500.txt
+> +++ b/Documentation/devicetree/bindings/mfd/ab8500.txt
+> @@ -72,7 +72,9 @@ Required child device properties:
+>                                                 pwm|regulator|rtc|sysctrl|usb]";
+>
+>    A few child devices require ADC channels from the GPADC node. Those follow the
+> -  standard bindings from iio/iio-bindings.txt and iio/adc/adc.txt
+> +  standard bindings from
+> +  https://github.com/devicetree-org/dt-schema/blob/master/schemas/iio/iio-consumer.yaml
+> +  and Documentation/devicetree/bindings/iio/adc/adc.yaml
+>
+>    abx500-temp           : io-channels "aux1" and "aux2" for measuring external
+>                            temperatures.
+> --
+> 2.30.2
+>
