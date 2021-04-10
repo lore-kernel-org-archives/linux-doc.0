@@ -2,89 +2,109 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A72E6C433ED
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Apr 2021 09:01:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07046C433B4
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Apr 2021 09:29:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 76C70610F9
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Apr 2021 09:01:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BAB1761008
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Apr 2021 09:29:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234296AbhDJJBO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 10 Apr 2021 05:01:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33296 "EHLO mail.kernel.org"
+        id S229992AbhDJJaI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Apr 2021 05:30:08 -0400
+Received: from mail.skyhub.de ([5.9.137.197]:37160 "EHLO mail.skyhub.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229591AbhDJJBO (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 10 Apr 2021 05:01:14 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 828CF610CF;
-        Sat, 10 Apr 2021 09:00:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1618045260;
-        bh=7mmCaNKlQoq2SsPWz8tNNebBdY4KFROg02VwRgfwieg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NNtxcV50PeEkecrUWLS/c3t6KHXOhn/P4vkDEtP/9TvuCb7DBhZV4WW7ZyQ96/8OM
-         QhvFA+irUPGq9ZOrmlD7jwS/2meufGVr+JQlZ+Y6V0CyveQUnF+lBY/mQUS9fUsG5A
-         ZzUaeHP9n/KGqLh/aLhIXgYm6kMPZUaV+n50sCJg=
-Date:   Sat, 10 Apr 2021 11:00:57 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Gustavo Pimentel <Gustavo.Pimentel@synopsys.com>
-Cc:     linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
+        id S229537AbhDJJaH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sat, 10 Apr 2021 05:30:07 -0400
+Received: from zn.tnic (p200300ec2f1aea004ff424aef8172112.dip0.t-ipconnect.de [IPv6:2003:ec:2f1a:ea00:4ff4:24ae:f817:2112])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 243AB1EC0409;
+        Sat, 10 Apr 2021 11:29:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+        t=1618046992;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+        bh=U4fOVgCu+Cc3JD0fk9iTK0StzoBFsYk6BLIrkX0M9Mk=;
+        b=DRP6H5Ya6IuI83rk+l8ifJgdtETmDKwOsMtW/uVOTSKMmoq2JlNAflXx9ngr3q1hYBwnKo
+        Otg746xtSkovC47rbD3PERQsxbGqzbsmyQ/zEdn+F8RrBZtspuxrsUYofvIb8SM6xRVtGJ
+        GvB0pOIrbUR/pw+mHGHW1CoVzKbqFO0=
+Date:   Sat, 10 Apr 2021 11:29:51 +0200
+From:   Borislav Petkov <bp@alien8.de>
+To:     "Yu, Yu-cheng" <yu-cheng.yu@intel.com>
+Cc:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
         Arnd Bergmann <arnd@arndb.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
         Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH v3 1/2] dw-xdata-pcie: Fix documentation build warns and
- update outdated info
-Message-ID: <YHFpSQOSYEWRuDoX@kroah.com>
-References: <cover.1617827290.git.gustavo.pimentel@synopsys.com>
- <5e1bc55d098322908ebdf1c32512acad5b65d4d7.1617827290.git.gustavo.pimentel@synopsys.com>
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Subject: Re: [PATCH v24 04/30] x86/cpufeatures: Introduce X86_FEATURE_CET and
+ setup functions
+Message-ID: <20210410092951.GA21691@zn.tnic>
+References: <20210401221104.31584-1-yu-cheng.yu@intel.com>
+ <20210401221104.31584-5-yu-cheng.yu@intel.com>
+ <20210409101214.GC15567@zn.tnic>
+ <c7cb0ed6-2725-ba0d-093e-393eab9918b2@intel.com>
+ <20210409171408.GG15567@zn.tnic>
+ <f7a1299a-916f-70fe-6881-0951fe4fe38a@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <5e1bc55d098322908ebdf1c32512acad5b65d4d7.1617827290.git.gustavo.pimentel@synopsys.com>
+In-Reply-To: <f7a1299a-916f-70fe-6881-0951fe4fe38a@intel.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 07, 2021 at 10:31:48PM +0200, Gustavo Pimentel wrote:
-> Fixes documentation build warnings related to indentation and text
-> formatting, such as:
+On Fri, Apr 09, 2021 at 04:14:09PM -0700, Yu, Yu-cheng wrote:
+> > @@ -53,6 +55,8 @@ static short xsave_cpuid_features[] __initdata = {
+> >   	X86_FEATURE_INTEL_PT,
+> >   	X86_FEATURE_PKU,
+> >   	X86_FEATURE_ENQCMD,
+> > +	X86_FEATURE_CET, /* XFEATURE_CET_USER */
+> > +	X86_FEATURE_CET, /* XFEATURE_CET_KERNEL */
+> > 
+> > or what is the piece which becomes simpler?
 > 
-> Documentation/misc-devices/dw-xdata-pcie.rst:20: WARNING: Unexpected
-> indentation.
-> Documentation/misc-devices/dw-xdata-pcie.rst:24: WARNING: Unexpected
-> indentation.
-> Documentation/misc-devices/dw-xdata-pcie.rst:25: WARNING: Block quote
-> ends without a blank line; unexpected unindent.
-> Documentation/misc-devices/dw-xdata-pcie.rst:30: WARNING: Unexpected
-> indentation.
-> Documentation/misc-devices/dw-xdata-pcie.rst:34: WARNING: Unexpected
-> indentation.
-> Documentation/misc-devices/dw-xdata-pcie.rst:35: WARNING: Block quote
-> ends without a blank line; unexpected unindent.
-> Documentation/misc-devices/dw-xdata-pcie.rst:40: WARNING: Unexpected
-> indentation.
+> Yes, this is it.
 
-In the future, there's no need to wrap error/warning lines like this in
-a changelog text.  Not a big deal, but the above is messy to read,
-right?
+Those should be X86_FEATURE_SHSTK no?
 
-> 
-> Also fixes some outdated information related to stop file interface in sysfs.
+> Signals, arch_prctl, and ELF header are three places that need to depend on
+> either shadow stack or IBT is configured.  To remain simple, we can make all
+> three depend on CONFIG_X86_SHADOW_STACK, and in Kconfig, make CONFIG_X86_IBT
+> depend on CONFIG_X86_SHADOW_STACK.  Without shadow stack, IBT itself is not
+> as useful anyway.
 
-When you say "also", that means you need a separate patch usually.  And
-for this patch, that is exactly what you need.  Please split this up
-into one patch that fixes the reported problem, and another one that
-adds the needed information.
+Makes sense to me.
 
-thanks,
+Thx.
 
-greg k-h
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
