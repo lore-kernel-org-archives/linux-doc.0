@@ -2,565 +2,256 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
 	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
+	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03C8DC43460
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Apr 2021 01:53:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F733C433B4
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Apr 2021 07:05:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C6D01611F0
-	for <linux-doc@archiver.kernel.org>; Sat, 10 Apr 2021 01:53:16 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0E7AE610A1
+	for <linux-doc@archiver.kernel.org>; Sat, 10 Apr 2021 07:05:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234229AbhDJBx3 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 9 Apr 2021 21:53:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36058 "EHLO
+        id S233527AbhDJHF7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 10 Apr 2021 03:05:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46282 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232796AbhDJBxY (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 9 Apr 2021 21:53:24 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93747C061765
-        for <linux-doc@vger.kernel.org>; Fri,  9 Apr 2021 18:53:06 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id u11so96499pjr.0
-        for <linux-doc@vger.kernel.org>; Fri, 09 Apr 2021 18:53:06 -0700 (PDT)
+        with ESMTP id S230235AbhDJHF6 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 10 Apr 2021 03:05:58 -0400
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4C14C061763
+        for <linux-doc@vger.kernel.org>; Sat, 10 Apr 2021 00:05:44 -0700 (PDT)
+Received: by mail-qk1-x749.google.com with SMTP id c7so4803524qka.6
+        for <linux-doc@vger.kernel.org>; Sat, 10 Apr 2021 00:05:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=mCs7pi1kCP7JMG5BdrWt9D5VumuUMzkevR6kbuugtqs=;
-        b=A7ocQWhwe7adh8UyhXMQEq+fzhy//vt3iDlhGw4bysJplsx9D+tWtSLqdBbuTBNatq
-         v/u9kp1uu/8+1/U/GhaI6v1CvYL7gTW7+3H05ydOiALC+O3o/mHgLf2PY7cl7mAx8Wzx
-         vT6Oi4VzTuB0LYUM8W8hOJ9qYGaZteCgUfxTA=
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=dg+DEOFhZoTD7YuipHSWP7rFu7usavK/AqGGNE1MsEo=;
+        b=CqrubxNWGOqMFlWtCDFuYRI6BwZUxMbSwCv7+PwHNBuiJMSHErQvNPKR/lmbVirnET
+         Cwj1Niebl2pa4buq50GDRQqm7XaAnw6CiLu4zm49mqzc6PBXcxA941EJNLm+ujvY71l/
+         NPMko1wQE7sL8lOmkGR3Bb1SUu35/50R6kWzOTW8dMgbUJYyBVBEv/YmUUvbBm7KQ9dL
+         Cl3L4ajgl9YYDbJdpXTm9sUgEboY36TW8WZU6tqF8G+dpYg4tAPH97G76P33PMI0g9IR
+         cHXAxQu1Gt2aWM1EhJHMhIiGXs/io/FaD9b7iEVw0lVuS0iLozSf7/x96C8vu26klQAf
+         BPhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mCs7pi1kCP7JMG5BdrWt9D5VumuUMzkevR6kbuugtqs=;
-        b=koxX1/s1tieXrN6ByB03pu4S5iatmjVGn7LlYb0ao6vmNGEjw6zIyRexA4WxW+POPC
-         xi+Z5gSEuiTj5DylGM0M/oeo01ftzwiWyGDWs0+dFtZFYjeisA0/LvD6rKTKc55ebHAh
-         gZetqXERx0cjdcFqqgLgwlPP7ZjqjSViwQEfrmRW4fYtH7rLMNdzJjw827QtALx72JEk
-         EY5sz2sAo5qPJHSndDwHI95jNQge3MMHmG0lc6c21G6W8DzhjKlf+y9gi5lIX4WfIlCK
-         Mdb3E8ugaj4dd6wYrNJcgHfCDiddEvLukW0ZfeTERSOY7oRkHuYozR52Q6PqzlW+bP8n
-         /kUw==
-X-Gm-Message-State: AOAM530B5faolr8u767F1K8r+hfEhRGhPZHyoRCHw4b1DIa9FXpxMKcW
-        K75es5ty+bk9wD4iG0/Jrl2GJA==
-X-Google-Smtp-Source: ABdhPJyzKV+RUjsfeyOyoEmXQu3Gz+15iBhrboxL47dZCUCiktDZE8ga3fNdRtavdIMGqMGxha8qLQ==
-X-Received: by 2002:a17:90a:c288:: with SMTP id f8mr4738398pjt.5.1618019586147;
-        Fri, 09 Apr 2021 18:53:06 -0700 (PDT)
-Received: from smtp.gmail.com ([2620:15c:202:201:5141:7881:7013:743b])
-        by smtp.gmail.com with ESMTPSA id n23sm3837962pgl.49.2021.04.09.18.53.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Apr 2021 18:53:05 -0700 (PDT)
-From:   Stephen Boyd <swboyd@chromium.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-Subject: [PATCH v4 05/13] module: Add printk formats to add module build ID to stacktraces
-Date:   Fri,  9 Apr 2021 18:52:52 -0700
-Message-Id: <20210410015300.3764485-6-swboyd@chromium.org>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
+         :content-transfer-encoding;
+        bh=dg+DEOFhZoTD7YuipHSWP7rFu7usavK/AqGGNE1MsEo=;
+        b=VgudvCSpjBSbzkAbVYSP5INQy2yIusnkUEVC9ucT2rY8+SDJMt6SSRyibHABG03IHl
+         XjKJWk6ZEuab1C4wIUS30dMeBr/bjIrmdVf1pcNPrGAwSj/Ungq15hW0rbuZyONsHrIT
+         o7A2MiMZj+Q94yE7sdzb0p5Z6mFWTi2QZrO/SdFxEL8vri7LeoAwvrlYEjQ/zFpLVOue
+         YQKUfi7er+Xktl9WxexqCk4etQpI5kmBw6SI8kBGIkyiUC6KEHs23AFpuKiZNRk06Ihw
+         pzDzq1ebwYny9O6ffjmwMNFSmOvCl+L5ccCmm3OCh7M1/iimQB2JFC/W22TR+kqjrWAo
+         wWrw==
+X-Gm-Message-State: AOAM533kv73Bf8gDjm5o8hyvrUkPpGw+E2WqIQkhyCGoTn62Qlt97ZST
+        wDlNb2cb6GnmiwhnIJaNT31pGuXcvzJAxQ==
+X-Google-Smtp-Source: ABdhPJyv/+jcJ6yI0cEvELtKheEfjqsjvXd0itiD/eULOlwWVf8f5xw+AYtcLhLzSmf9f6f6r4lhCc8eoQwJXQ==
+X-Received: from spirogrip.svl.corp.google.com ([2620:15c:2cb:201:f493:fef7:82d5:5e83])
+ (user=davidgow job=sendgmr) by 2002:a0c:f74d:: with SMTP id
+ e13mr18725327qvo.8.1618038343525; Sat, 10 Apr 2021 00:05:43 -0700 (PDT)
+Date:   Sat, 10 Apr 2021 00:05:30 -0700
+Message-Id: <20210410070529.4113432-1-davidgow@google.com>
+Mime-Version: 1.0
 X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
-In-Reply-To: <20210410015300.3764485-1-swboyd@chromium.org>
-References: <20210410015300.3764485-1-swboyd@chromium.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH] Documentation: dev-tools: Add Testing Overview
+From:   David Gow <davidgow@google.com>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Marco Elver <elver@google.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Daniel Latypov <dlatypov@google.com>
+Cc:     David Gow <davidgow@google.com>, linux-doc@vger.kernel.org,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Let's make kernel stacktraces easier to identify by including the build
-ID[1] of a module if the stacktrace is printing a symbol from a module.
-This makes it simpler for developers to locate a kernel module's full
-debuginfo for a particular stacktrace. Combined with
-scripts/decode_stracktrace.sh, a developer can download the matching
-debuginfo from a debuginfod[2] server and find the exact file and line
-number for the functions plus offsets in a stacktrace that match the
-module. This is especially useful for pstore crash debugging where the
-kernel crashes are recorded in something like console-ramoops and the
-recovery kernel/modules are different or the debuginfo doesn't exist on
-the device due to space concerns (the debuginfo can be too large for
-space limited devices).
+The kernel now has a number of testing and debugging tools, and we've
+seen a bit of confusion about what the differences between them are.
 
-Originally, I put this on the %pS format, but that was quickly rejected
-given that %pS is used in other places such as ftrace where build IDs
-aren't meaningful. There was some discussions on the list to put every
-module build ID into the "Modules linked in:" section of the stacktrace
-message but that quickly becomes very hard to read once you have more
-than three or four modules linked in. It also provides too much
-information when we don't expect each module to be traversed in a
-stacktrace. Having the build ID for modules that aren't important just
-makes things messy. Splitting it to multiple lines for each module
-quickly explodes the number of lines printed in an oops too, possibly
-wrapping the warning off the console. And finally, trying to stash away
-each module used in a callstack to provide the ID of each symbol printed
-is cumbersome and would require changes to each architecture to stash
-away modules and return their build IDs once unwinding has completed.
+Add a basic documentation outlining the testing tools, when to use each,
+and how they interact.
 
-Instead, we opt for the simpler approach of introducing new printk
-formats '%pS[R]b' for "pointer symbolic backtrace with module build ID"
-and '%pBb' for "pointer backtrace with module build ID" and then
-updating the few places in the architecture layer where the stacktrace
-is printed to use this new format.
+This is a pretty quick overview rather than the idealised "kernel
+testing guide" that'd probably be optimal, but given the number of times
+questions like "When do you use KUnit and when do you use Kselftest?"
+are being asked, it seemed worth at least having something. Hopefully
+this can form the basis for more detailed documentation later.
 
-Example:
-
- WARNING: CPU: 3 PID: 3373 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x28/0x30 [lkdtm]
- Modules linked in: lkdtm rfcomm algif_hash algif_skcipher af_alg xt_cgroup uinput xt_MASQUERADE hci_uart <modules trimmed>
- CPU: 3 PID: 3373 Comm: bash Not tainted 5.11 #12 a8c0d47f7051f3e6670ceaea724af66a39c6cec8
- Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
- pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=--)
- pc : lkdtm_WARNING+0x28/0x30 [lkdtm]
- lr : lkdtm_do_action+0x24/0x40 [lkdtm]
- sp : ffffffc013febca0
- x29: ffffffc013febca0 x28: ffffff88d9438040
- x27: 0000000000000000 x26: 0000000000000000
- x25: 0000000000000000 x24: ffffffdd0e9772c0
- x23: 0000000000000020 x22: ffffffdd0e975366
- x21: ffffffdd0e9772e0 x20: ffffffc013febde0
- x19: 0000000000000008 x18: 0000000000000000
- x17: 0000000000000000 x16: 0000000000000037
- x15: ffffffdd102ab174 x14: 0000000000000003
- x13: 0000000000000004 x12: 0000000000000000
- x11: 0000000000000000 x10: 0000000000000000
- x9 : 0000000000000001 x8 : ffffffdd0e979000
- x7 : 0000000000000000 x6 : ffffffdd10ff6b54
- x5 : 0000000000000000 x4 : 0000000000000000
- x3 : ffffffc013feb938 x2 : ffffff89fef05a70
- x1 : ffffff89feef5788 x0 : ffffffdd0e9772e0
- Call trace:
-  lkdtm_WARNING+0x28/0x30 [lkdtm 6c2215028606bda50de823490723dc4bc5bf46f9]
-  direct_entry+0x16c/0x1b4 [lkdtm 6c2215028606bda50de823490723dc4bc5bf46f9]
-  full_proxy_write+0x74/0xa4
-  vfs_write+0xec/0x2e8
-  ksys_write+0x84/0xf0
-  __arm64_sys_write+0x24/0x30
-  el0_svc_common+0xf4/0x1c0
-  do_el0_svc_compat+0x28/0x3c
-  el0_svc_compat+0x10/0x1c
-  el0_sync_compat_handler+0xa8/0xcc
-  el0_sync_compat+0x178/0x180
- ---[ end trace f89bc7f5417cbcc6 ]---
-
-Cc: Jiri Olsa <jolsa@kernel.org>
-Cc: Alexei Starovoitov <ast@kernel.org>
-Cc: Jessica Yu <jeyu@kernel.org>
-Cc: Evan Green <evgreen@chromium.org>
-Cc: Hsin-Yi Wang <hsinyi@chromium.org>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: <linux-doc@vger.kernel.org>
-Cc: Matthew Wilcox <willy@infradead.org>
-Link: https://fedoraproject.org/wiki/Releases/FeatureBuildId [1]
-Link: https://sourceware.org/elfutils/Debuginfod.html [2]
-Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: David Gow <davidgow@google.com>
 ---
- Documentation/core-api/printk-formats.rst | 11 +++
- include/linux/kallsyms.h                  | 20 ++++-
- include/linux/module.h                    |  6 +-
- kernel/kallsyms.c                         | 95 ++++++++++++++++++-----
- kernel/module.c                           | 24 +++++-
- lib/vsprintf.c                            |  8 +-
- 6 files changed, 139 insertions(+), 25 deletions(-)
+ Documentation/dev-tools/index.rst            |   3 +
+ Documentation/dev-tools/testing-overview.rst | 102 +++++++++++++++++++
+ 2 files changed, 105 insertions(+)
+ create mode 100644 Documentation/dev-tools/testing-overview.rst
 
-diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
-index 160e710d992f..5f60533f2a56 100644
---- a/Documentation/core-api/printk-formats.rst
-+++ b/Documentation/core-api/printk-formats.rst
-@@ -114,6 +114,17 @@ used when printing stack backtraces. The specifier takes into
- consideration the effect of compiler optimisations which may occur
- when tail-calls are used and marked with the noreturn GCC attribute.
- 
-+If the pointer is within a module, the module name and optionally build ID is
-+printed after the symbol name with an extra ``b`` appended to the end of the
-+specifier.
+diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/in=
+dex.rst
+index 1b1cf4f5c9d9..f590e5860794 100644
+--- a/Documentation/dev-tools/index.rst
++++ b/Documentation/dev-tools/index.rst
+@@ -7,6 +7,8 @@ be used to work on the kernel. For now, the documents have =
+been pulled
+ together without any significant effort to integrate them into a coherent
+ whole; patches welcome!
+=20
++A brief overview of testing-specific tools can be found in :doc:`testing-o=
+verview`.
 +
-+::
-+	%pS	versatile_init+0x0/0x110 [module_name]
-+	%pSb	versatile_init+0x0/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-+	%pSRb	versatile_init+0x9/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
-+		(with __builtin_extract_return_addr() translation)
-+	%pBb	prev_fn_of_versatile_init+0x88/0x88 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+ .. class:: toc-title
+=20
+ 	   Table of contents
+@@ -14,6 +16,7 @@ whole; patches welcome!
+ .. toctree::
+    :maxdepth: 2
+=20
++   testing-overview
+    coccinelle
+    sparse
+    kcov
+diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/d=
+ev-tools/testing-overview.rst
+new file mode 100644
+index 000000000000..8452adcb8608
+--- /dev/null
++++ b/Documentation/dev-tools/testing-overview.rst
+@@ -0,0 +1,102 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
- Probed Pointers from BPF / tracing
- ----------------------------------
- 
-diff --git a/include/linux/kallsyms.h b/include/linux/kallsyms.h
-index 465060acc981..f760cb839775 100644
---- a/include/linux/kallsyms.h
-+++ b/include/linux/kallsyms.h
-@@ -7,6 +7,7 @@
- #define _LINUX_KALLSYMS_H
- 
- #include <linux/errno.h>
-+#include <linux/buildid.h>
- #include <linux/kernel.h>
- #include <linux/stddef.h>
- #include <linux/mm.h>
-@@ -15,8 +16,9 @@
- #include <asm/sections.h>
- 
- #define KSYM_NAME_LEN 128
--#define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s]") + (KSYM_NAME_LEN - 1) + \
--			 2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + 1)
-+#define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s %s]") + (KSYM_NAME_LEN - 1) + \
-+			 2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + \
-+			 (BUILD_ID_SIZE_MAX * 2) + 1)
- 
- struct cred;
- struct module;
-@@ -91,8 +93,10 @@ const char *kallsyms_lookup(unsigned long addr,
- 
- /* Look up a kernel symbol and return it in a text buffer. */
- extern int sprint_symbol(char *buffer, unsigned long address);
-+extern int sprint_symbol_build_id(char *buffer, unsigned long address);
- extern int sprint_symbol_no_offset(char *buffer, unsigned long address);
- extern int sprint_backtrace(char *buffer, unsigned long address);
-+extern int sprint_backtrace_build_id(char *buffer, unsigned long address);
- 
- int lookup_symbol_name(unsigned long addr, char *symname);
- int lookup_symbol_attrs(unsigned long addr, unsigned long *size, unsigned long *offset, char *modname, char *name);
-@@ -128,6 +132,12 @@ static inline int sprint_symbol(char *buffer, unsigned long addr)
- 	return 0;
- }
- 
-+static inline int sprint_symbol_build_id(char *buffer, unsigned long address)
-+{
-+	*buffer = '\0';
-+	return 0;
-+}
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++Kernel Testing Guide
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
- static inline int sprint_symbol_no_offset(char *buffer, unsigned long addr)
- {
- 	*buffer = '\0';
-@@ -140,6 +150,12 @@ static inline int sprint_backtrace(char *buffer, unsigned long addr)
- 	return 0;
- }
- 
-+static inline int sprint_backtrace_build_id(char *buffer, unsigned long addr)
-+{
-+	*buffer = '\0';
-+	return 0;
-+}
 +
- static inline int lookup_symbol_name(unsigned long addr, char *symname)
- {
- 	return -ERANGE;
-diff --git a/include/linux/module.h b/include/linux/module.h
-index 59f094fa6f74..4bf869f6c944 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -11,6 +11,7 @@
- 
- #include <linux/list.h>
- #include <linux/stat.h>
-+#include <linux/buildid.h>
- #include <linux/compiler.h>
- #include <linux/cache.h>
- #include <linux/kmod.h>
-@@ -367,6 +368,9 @@ struct module {
- 	/* Unique handle for this module */
- 	char name[MODULE_NAME_LEN];
- 
-+	/* Module build ID */
-+	unsigned char build_id[BUILD_ID_SIZE_MAX];
++There are a number of different tools for testing the Linux kernel, so kno=
+wing
++when to use each of them can be a challenge. This document provides a roug=
+h
++overview of their differences, and how they fit together.
 +
- 	/* Sysfs stuff. */
- 	struct module_kobject mkobj;
- 	struct module_attribute *modinfo_attrs;
-@@ -630,7 +634,7 @@ void *dereference_module_function_descriptor(struct module *mod, void *ptr);
- const char *module_address_lookup(unsigned long addr,
- 			    unsigned long *symbolsize,
- 			    unsigned long *offset,
--			    char **modname,
-+			    char **modname, const unsigned char **modbuildid,
- 			    char *namebuf);
- int lookup_module_symbol_name(unsigned long addr, char *symname);
- int lookup_module_symbol_attrs(unsigned long addr, unsigned long *size, unsigned long *offset, char *modname, char *name);
-diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
-index 8043a90aa50e..b835992e76c2 100644
---- a/kernel/kallsyms.c
-+++ b/kernel/kallsyms.c
-@@ -273,21 +273,13 @@ int kallsyms_lookup_size_offset(unsigned long addr, unsigned long *symbolsize,
- 		get_symbol_pos(addr, symbolsize, offset);
- 		return 1;
- 	}
--	return !!module_address_lookup(addr, symbolsize, offset, NULL, namebuf) ||
-+	return !!module_address_lookup(addr, symbolsize, offset, NULL, NULL, namebuf) ||
- 	       !!__bpf_address_lookup(addr, symbolsize, offset, namebuf);
- }
- 
--/*
-- * Lookup an address
-- * - modname is set to NULL if it's in the kernel.
-- * - We guarantee that the returned name is valid until we reschedule even if.
-- *   It resides in a module.
-- * - We also guarantee that modname will be valid until rescheduled.
-- */
--const char *kallsyms_lookup(unsigned long addr,
--			    unsigned long *symbolsize,
--			    unsigned long *offset,
--			    char **modname, char *namebuf)
-+const char *kallsyms_lookup_buildid(unsigned long addr, unsigned long *symbolsize,
-+				    unsigned long *offset, char **modname,
-+				    const unsigned char **modbuildid, char *namebuf)
- {
- 	const char *ret;
- 
-@@ -303,12 +295,14 @@ const char *kallsyms_lookup(unsigned long addr,
- 				       namebuf, KSYM_NAME_LEN);
- 		if (modname)
- 			*modname = NULL;
-+		if (modbuildid)
-+			*modbuildid = NULL;
- 		return namebuf;
- 	}
- 
- 	/* See if it's in a module or a BPF JITed image. */
- 	ret = module_address_lookup(addr, symbolsize, offset,
--				    modname, namebuf);
-+				    modname, modbuildid, namebuf);
- 	if (!ret)
- 		ret = bpf_address_lookup(addr, symbolsize,
- 					 offset, modname, namebuf);
-@@ -319,6 +313,22 @@ const char *kallsyms_lookup(unsigned long addr,
- 	return ret;
- }
- 
-+/*
-+ * Lookup an address
-+ * - modname is set to NULL if it's in the kernel.
-+ * - We guarantee that the returned name is valid until we reschedule even if.
-+ *   It resides in a module.
-+ * - We also guarantee that modname will be valid until rescheduled.
-+ */
-+const char *kallsyms_lookup(unsigned long addr,
-+			    unsigned long *symbolsize,
-+			    unsigned long *offset,
-+			    char **modname, char *namebuf)
-+{
-+	return kallsyms_lookup_buildid(addr, symbolsize, offset, modname,
-+				       NULL, namebuf);
-+}
 +
- int lookup_symbol_name(unsigned long addr, char *symname)
- {
- 	symname[0] = '\0';
-@@ -359,15 +369,17 @@ int lookup_symbol_attrs(unsigned long addr, unsigned long *size,
- 
- /* Look up a kernel symbol and return it in a text buffer. */
- static int __sprint_symbol(char *buffer, unsigned long address,
--			   int symbol_offset, int add_offset)
-+			   int symbol_offset, int add_offset, int add_buildid)
- {
- 	char *modname;
-+	const unsigned char *buildid;
- 	const char *name;
- 	unsigned long offset, size;
- 	int len;
- 
- 	address += symbol_offset;
--	name = kallsyms_lookup(address, &size, &offset, &modname, buffer);
-+	name = kallsyms_lookup_buildid(address, &size, &offset, &modname, &buildid,
-+				       buffer);
- 	if (!name)
- 		return sprintf(buffer, "0x%lx", address - symbol_offset);
- 
-@@ -379,8 +391,14 @@ static int __sprint_symbol(char *buffer, unsigned long address,
- 	if (add_offset)
- 		len += sprintf(buffer + len, "+%#lx/%#lx", offset, size);
- 
--	if (modname)
--		len += sprintf(buffer + len, " [%s]", modname);
-+	if (modname) {
-+		len += sprintf(buffer + len, " [%s", modname);
-+		/* build ID should match length of sprintf below */
-+		BUILD_BUG_ON(BUILD_ID_SIZE_MAX != 20);
-+		if (IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID) && add_buildid && buildid)
-+			len += sprintf(buffer + len, " %20phN", buildid);
-+		len += sprintf(buffer + len, "]");
-+	}
- 
- 	return len;
- }
-@@ -398,10 +416,27 @@ static int __sprint_symbol(char *buffer, unsigned long address,
-  */
- int sprint_symbol(char *buffer, unsigned long address)
- {
--	return __sprint_symbol(buffer, address, 0, 1);
-+	return __sprint_symbol(buffer, address, 0, 1, 0);
- }
- EXPORT_SYMBOL_GPL(sprint_symbol);
- 
-+/**
-+ * sprint_symbol_build_id - Look up a kernel symbol and return it in a text buffer
-+ * @buffer: buffer to be stored
-+ * @address: address to lookup
-+ *
-+ * This function looks up a kernel symbol with @address and stores its name,
-+ * offset, size, module name and module build ID to @buffer if possible. If no
-+ * symbol was found, just saves its @address as is.
-+ *
-+ * This function returns the number of bytes stored in @buffer.
-+ */
-+int sprint_symbol_build_id(char *buffer, unsigned long address)
-+{
-+	return __sprint_symbol(buffer, address, 0, 1, 1);
-+}
-+EXPORT_SYMBOL_GPL(sprint_symbol_build_id);
++Writing and Running Tests
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
 +
- /**
-  * sprint_symbol_no_offset - Look up a kernel symbol and return it in a text buffer
-  * @buffer: buffer to be stored
-@@ -415,7 +450,7 @@ EXPORT_SYMBOL_GPL(sprint_symbol);
-  */
- int sprint_symbol_no_offset(char *buffer, unsigned long address)
- {
--	return __sprint_symbol(buffer, address, 0, 0);
-+	return __sprint_symbol(buffer, address, 0, 0, 0);
- }
- EXPORT_SYMBOL_GPL(sprint_symbol_no_offset);
- 
-@@ -435,7 +470,27 @@ EXPORT_SYMBOL_GPL(sprint_symbol_no_offset);
-  */
- int sprint_backtrace(char *buffer, unsigned long address)
- {
--	return __sprint_symbol(buffer, address, -1, 1);
-+	return __sprint_symbol(buffer, address, -1, 1, 0);
-+}
++The bulk of kernel tests are written using either the :doc:`kselftest
++<kselftest>` or :doc:`KUnit <kunit/index>` frameworks. These both provide
++infrastructure to help make running tests and groups of tests easier, as w=
+ell
++as providing helpers to aid in writing new tests.
 +
-+/**
-+ * sprint_backtrace_build_id - Look up a backtrace symbol and return it in a text buffer
-+ * @buffer: buffer to be stored
-+ * @address: address to lookup
-+ *
-+ * This function is for stack backtrace and does the same thing as
-+ * sprint_symbol() but with modified/decreased @address. If there is a
-+ * tail-call to the function marked "noreturn", gcc optimized out code after
-+ * the call so that the stack-saved return address could point outside of the
-+ * caller. This function ensures that kallsyms will find the original caller
-+ * by decreasing @address. This function also appends the module build ID to
-+ * the @buffer if @address is within a kernel module.
-+ *
-+ * This function returns the number of bytes stored in @buffer.
-+ */
-+int sprint_backtrace_build_id(char *buffer, unsigned long address)
-+{
-+	return __sprint_symbol(buffer, address, -1, 1, 1);
- }
- 
- /* To avoid using get_symbol_offset for every symbol, we carry prefix along. */
-diff --git a/kernel/module.c b/kernel/module.c
-index 30479355ab85..6f5bc1b046a5 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -13,6 +13,7 @@
- #include <linux/trace_events.h>
- #include <linux/init.h>
- #include <linux/kallsyms.h>
-+#include <linux/buildid.h>
- #include <linux/file.h>
- #include <linux/fs.h>
- #include <linux/sysfs.h>
-@@ -2770,6 +2771,20 @@ static void add_kallsyms(struct module *mod, const struct load_info *info)
- 	}
- 	mod->core_kallsyms.num_symtab = ndst;
- }
++If you're looking to verify the behaviour of the Kernel =E2=80=94 particul=
+arly specific
++parts of the kernel =E2=80=94 then you'll want to use `KUnit` or `kselftes=
+t`.
 +
-+static void init_build_id(struct module *mod, const struct load_info *info)
-+{
-+	const Elf_Shdr *sechdr;
-+	unsigned int i;
 +
-+	for (i = 0; i < info->hdr->e_shnum; i++) {
-+		sechdr = &info->sechdrs[i];
-+		if (!sect_empty(sechdr) && sechdr->sh_type == SHT_NOTE &&
-+		    !build_id_parse_buf((void *)sechdr->sh_addr, mod->build_id,
-+					sechdr->sh_size))
-+			break;
-+	}
-+}
- #else
- static inline void layout_symtab(struct module *mod, struct load_info *info)
- {
-@@ -2778,6 +2793,10 @@ static inline void layout_symtab(struct module *mod, struct load_info *info)
- static void add_kallsyms(struct module *mod, const struct load_info *info)
- {
- }
++The Difference Between KUnit and kselftest
++------------------------------------------
 +
-+static void init_build_id(struct module *mod, const struct load_info *info)
-+{
-+}
- #endif /* CONFIG_KALLSYMS */
- 
- static void dynamic_debug_setup(struct module *mod, struct _ddebug *debug, unsigned int num)
-@@ -4004,6 +4023,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
- 		goto free_arch_cleanup;
- 	}
- 
-+	init_build_id(mod, info);
- 	dynamic_debug_setup(mod, info->debug, info->num_debug);
- 
- 	/* Ftrace init must be called in the MODULE_STATE_UNFORMED state */
-@@ -4235,7 +4255,7 @@ void * __weak dereference_module_function_descriptor(struct module *mod,
- const char *module_address_lookup(unsigned long addr,
- 			    unsigned long *size,
- 			    unsigned long *offset,
--			    char **modname,
-+			    char **modname, const unsigned char **modbuildid,
- 			    char *namebuf)
- {
- 	const char *ret = NULL;
-@@ -4246,6 +4266,8 @@ const char *module_address_lookup(unsigned long addr,
- 	if (mod) {
- 		if (modname)
- 			*modname = mod->name;
-+		if (modbuildid)
-+			*modbuildid = mod->build_id;
- 
- 		ret = find_kallsyms_symbol(mod, addr, size, offset);
- 	}
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 41ddc353ebb8..fee5282ebb0a 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -966,8 +966,12 @@ char *symbol_string(char *buf, char *end, void *ptr,
- 	value = (unsigned long)ptr;
- 
- #ifdef CONFIG_KALLSYMS
--	if (*fmt == 'B')
-+	if (*fmt == 'B' && fmt[1] == 'b')
-+		sprint_backtrace_build_id(sym, value);
-+	else if (*fmt == 'B')
- 		sprint_backtrace(sym, value);
-+	else if (*fmt == 'S' && (fmt[1] == 'b' || (fmt[1] == 'R' && fmt[2] == 'b')))
-+		sprint_symbol_build_id(sym, value);
- 	else if (*fmt != 's')
- 		sprint_symbol(sym, value);
- 	else
-@@ -2129,9 +2133,11 @@ early_param("no_hash_pointers", no_hash_pointers_enable);
-  * - 'S' For symbolic direct pointers (or function descriptors) with offset
-  * - 's' For symbolic direct pointers (or function descriptors) without offset
-  * - '[Ss]R' as above with __builtin_extract_return_addr() translation
-+ * - 'S[R]b' as above with module build ID (for use in backtraces)
-  * - '[Ff]' %pf and %pF were obsoleted and later removed in favor of
-  *	    %ps and %pS. Be careful when re-using these specifiers.
-  * - 'B' For backtraced symbolic direct pointers with offset
-+ * - 'Bb' as above with module build ID (for use in backtraces)
-  * - 'R' For decoded struct resource, e.g., [mem 0x0-0x1f 64bit pref]
-  * - 'r' For raw struct resource, e.g., [mem 0x0-0x1f flags 0x201]
-  * - 'b[l]' For a bitmap, the number of bits is determined by the field
--- 
-https://chromeos.dev
++:doc:`KUnit <kunit/index>` is an entirely in-kernel system for "white box"
++testing: because test code is part of the kernel, it can access internal
++structures and functions which aren't exposed to userspace.
++
++`KUnit` tests therefore are best written against small, self-contained par=
+ts
++of the kernel, which can be tested in isolation. This aligns well with the
++concept of Unit testing.
++
++For example, a KUnit test might test an individual kernel function (or eve=
+n a
++single codepath through a function, such as an error handling case), rathe=
+r
++than a feature as a whole.
++
++There is a KUnit test style guide which may give further pointers
++
++
++:doc:`kselftest <kselftest>`, on the other hand, is largely implemented in
++userspace, and tests are normal userspace scripts or programs.
++
++This makes it easier to write more complicated tests, or tests which need =
+to
++manipulate the overall system state more (e.g., spawning processes, etc.).
++However, it's not possible to call kernel functions directly unless they'r=
+e
++exposed to userspace (by a syscall, device, filesystem, etc.) Some tests t=
+o
++also provide a kernel module which is loaded by the test, though for tests
++which run mostly or entirely within the kernel, `KUnit` may be the better =
+tool.
++
++`kselftest` is therefore suited well to tests of whole features, as these =
+will
++expose an interface to userspace, which can be tested, but not implementat=
+ion
++details. This aligns well with 'system' or 'end-to-end' testing.
++
++
++Code Coverage Tools
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++The Linux Kernel supports two different code coverage mesurement tools. Th=
+ese
++can be used to verify that a test is executing particular functions or lin=
+es
++of code. This is useful for determining how much of the kernel is being te=
+sted,
++and for finding corner-cases which are not covered by the appropriate test=
+.
++
++:doc:`kcov` is a feature which can be built in to the kernel to allow
++capturing coverage on a per-task level. It's therefore useful for fuzzing =
+and
++other situations where information about code executed during, for example=
+, a
++single syscall is useful.
++
++:doc:`gcov` is GCC's coverage testing tool, which can be used with the ker=
+nel
++to get global or per-module coverage. Unlike KCOV, it does not record per-=
+task
++coverage. Coverage data can be read from debugfs, and interpreted using th=
+e
++usual gcov tooling.
++
++
++Sanitizers
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++The kernel also supports a number of sanitizers, which attempt to detect
++classes of issues when the occur in a running kernel. These typically
++look for undefined behaviour of some kind, such as invalid memory accesses=
+,
++concurrency issues such as data races, or other undefined behaviour like
++integer overflows.
++
++* :doc:`kmemleak` (Kmemleak) detects possible memory leaks.
++* :doc:`kasan` detects invalid memory accesses such as out-of-bounds and
++  use-after-free errors.
++* :doc:`ubsan` detects behaviour that is undefined by the C standard, like
++  integer overflows.
++* :doc:`kcsan` detects data races.
++* :doc:`kfence` is a low-overhead detector of memory issues, which is much
++  faster than KASAN and can be used in production.
++
++These tools tend to test the kernel as a whole, and do not "pass" like
++kselftest or KUnit tests. They can be combined with KUnit or kselftest by
++running tests on a kernel with a sanitizer enabled: you can then be sure
++that none of these errors are occurring during the test.
++
++Some of these sanitizers integrate with KUnit or kselftest and will
++automatically fail tests if an issue is detected by a sanitizer.
++
+--=20
+2.31.1.295.g9ea45b61b8-goog
 
