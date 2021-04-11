@@ -2,126 +2,116 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0C50C433B4
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Apr 2021 16:04:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2865AC433B4
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Apr 2021 16:41:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 92C2960C3D
-	for <linux-doc@archiver.kernel.org>; Sun, 11 Apr 2021 16:04:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E7616610A6
+	for <linux-doc@archiver.kernel.org>; Sun, 11 Apr 2021 16:41:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235567AbhDKQFB (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 11 Apr 2021 12:05:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45980 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235499AbhDKQFA (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Apr 2021 12:05:00 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DED0C061574;
-        Sun, 11 Apr 2021 09:04:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
-        :Reply-To:Content-ID:Content-Description;
-        bh=OfYeXEbcZ2dQLXe32NAiMreYt7e+j2YilXYgYD7vcYM=; b=wJnQe9XDsqBi47Cv39rJhU6S8L
-        q3CvSKCWWgj/BFOQ1TuwfakZGrXuGlaH8VkKR0jtDZ18aqx/eGe3MGZ8IqS2NdU37GbQDkLu3KTj2
-        pi/annc4J68zHWeWKa+zkN1tkviKkW/THTKhpkQalt+4vr0sSoAhPUDyE/FjdrWlrg8/FBOY1zADi
-        gXp9BTnp58YalRmnZwApQTf8PvT1eqeyjRhKUF5n/0gpP7l458s96fJnIVtDUP0Sp8IatyhGof8Pe
-        84PgfgxcGbSxsA8Tu4RwnKz55gV03FmShQCOFZbzi3D9De9iXx1eRok1CwpKmUzpVWorDlQkUwD7v
-        YOxe3RHA==;
-Received: from [2601:1c0:6280:3f0::e0e1]
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lVcZk-0039xe-EG; Sun, 11 Apr 2021 16:04:42 +0000
-Subject: Re: [PATCH] PCI: endpoint: fix incorrect kernel-doc comment syntax
-To:     Aditya Srivastava <yashsri421@gmail.com>, bhelgaas@google.com
-Cc:     lukas.bulwahn@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20210411101508.11065-1-yashsri421@gmail.com>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <42f7fe6e-6f53-5572-f3e0-0dfd0e3d921b@infradead.org>
-Date:   Sun, 11 Apr 2021 09:04:35 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.0
+        id S235806AbhDKQmK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 11 Apr 2021 12:42:10 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:21491 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236406AbhDKQmJ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 11 Apr 2021 12:42:09 -0400
+X-Originating-IP: 2.7.49.219
+Received: from debian.home (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
+        (Authenticated sender: alex@ghiti.fr)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 4736C240012;
+        Sun, 11 Apr 2021 16:41:47 +0000 (UTC)
+From:   Alexandre Ghiti <alex@ghiti.fr>
+To:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org
+Cc:     Alexandre Ghiti <alex@ghiti.fr>
+Subject: [PATCH v5 0/3] Move kernel mapping outside the linear mapping
+Date:   Sun, 11 Apr 2021 12:41:43 -0400
+Message-Id: <20210411164146.20232-1-alex@ghiti.fr>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210411101508.11065-1-yashsri421@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/11/21 3:15 AM, Aditya Srivastava wrote:
-> The opening comment mark '/**' is used for highlighting the beginning of
-> kernel-doc comments.
-> There are certain files in include/linux/pci*, which follow this syntax,
-> but the content inside does not comply with kernel-doc.
-> Such lines were probably not meant for kernel-doc parsing, but are parsed
-> due to the presence of kernel-doc like comment syntax(i.e, '/**'), which
-> causes unexpected warnings from kernel-doc.
-> 
-> E.g., presence of kernel-doc like comment in include/linux/pci-ep-cfs.h at
-> header causes this warnings by kernel-doc:
-> "warning: expecting prototype for PCI Endpoint ConfigFS header file(). Prototype was for __LINUX_PCI_EP_CFS_H() instead"
-> 
-> Similarly for other files too.
-> 
-> Provide a simple fix by replacing such occurrences with general comment
-> format, i.e. '/*', to prevent kernel-doc from parsing it.
-> 
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
+I decided to split sv48 support in small series to ease the review.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+This patchset pushes the kernel mapping (modules and BPF too) to the last
+4GB of the 64bit address space, this allows to:
+- implement relocatable kernel (that will come later in another
+  patchset) that requires to move the kernel mapping out of the linear
+  mapping to avoid to copy the kernel at a different physical address.
+- have a single kernel that is not relocatable (and then that avoids the
+  performance penalty imposed by PIC kernel) for both sv39 and sv48.
 
-Thanks.
+The first patch implements this behaviour, the second patch introduces a
+documentation that describes the virtual address space layout of the 64bit
+kernel and the last patch is taken from my sv48 series where I simply added
+the dump of the modules/kernel/BPF mapping.
 
-> ---
->  include/linux/pci-ep-cfs.h | 2 +-
->  include/linux/pci-epc.h    | 2 +-
->  include/linux/pci-epf.h    | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/include/linux/pci-ep-cfs.h b/include/linux/pci-ep-cfs.h
-> index 662881335c7e..3e2140d7e31d 100644
-> --- a/include/linux/pci-ep-cfs.h
-> +++ b/include/linux/pci-ep-cfs.h
-> @@ -1,5 +1,5 @@
->  /* SPDX-License-Identifier: GPL-2.0+ */
-> -/**
-> +/*
->   * PCI Endpoint ConfigFS header file
->   *
->   * Copyright (C) 2017 Texas Instruments
-> diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-> index b82c9b100e97..80197a6df371 100644
-> --- a/include/linux/pci-epc.h
-> +++ b/include/linux/pci-epc.h
-> @@ -1,5 +1,5 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
-> -/**
-> +/*
->   * PCI Endpoint *Controller* (EPC) header file
->   *
->   * Copyright (C) 2017 Texas Instruments
-> diff --git a/include/linux/pci-epf.h b/include/linux/pci-epf.h
-> index 6833e2160ef1..c43912b1d2d0 100644
-> --- a/include/linux/pci-epf.h
-> +++ b/include/linux/pci-epf.h
-> @@ -1,5 +1,5 @@
->  /* SPDX-License-Identifier: GPL-2.0 */
-> -/**
-> +/*
->   * PCI Endpoint *Function* (EPF) header file
->   *
->   * Copyright (C) 2017 Texas Instruments
-> 
+I removed the Reviewed-by on the first patch since it changed enough from
+last time and deserves a second look.
 
+Changes in v5:
+- Fix 32BIT build that failed because MODULE_VADDR does not exist as
+  modules lie in the vmalloc zone in 32BIT, reported by kernel test
+  robot.
+
+Changes in v4:
+- Fix BUILTIN_DTB since we used __va to obtain the virtual address of the
+  builtin DTB which returns a linear mapping address, and then we use
+  this address before setup_vm_final installs the linear mapping: this
+  is not possible anymore since the kernel does not lie inside the
+  linear mapping anymore.
+
+Changes in v3:
+- Fix broken nommu build as reported by kernel test robot by protecting
+  the kernel mapping only in 64BIT and MMU configs, by reverting the
+  introduction of load_sz_pmd and by not exporting load_sz/load_pa anymore
+  since they were not initialized in nommu config. 
+
+Changes in v2:
+- Fix documentation about direct mapping size which is 124GB instead
+  of 126GB.
+- Fix SPDX missing header in documentation.
+- Fix another checkpatch warning about EXPORT_SYMBOL which was not
+  directly below variable declaration.
+ 
+Alexandre Ghiti (3):
+  riscv: Move kernel mapping outside of linear mapping
+  Documentation: riscv: Add documentation that describes the VM layout
+  riscv: Prepare ptdump for vm layout dynamic addresses
+
+ Documentation/riscv/index.rst       |  1 +
+ Documentation/riscv/vm-layout.rst   | 63 +++++++++++++++++++++
+ arch/riscv/boot/loader.lds.S        |  3 +-
+ arch/riscv/include/asm/page.h       | 17 +++++-
+ arch/riscv/include/asm/pgtable.h    | 37 ++++++++----
+ arch/riscv/include/asm/set_memory.h |  1 +
+ arch/riscv/kernel/head.S            |  3 +-
+ arch/riscv/kernel/module.c          |  6 +-
+ arch/riscv/kernel/setup.c           |  5 ++
+ arch/riscv/kernel/vmlinux.lds.S     |  3 +-
+ arch/riscv/mm/fault.c               | 13 +++++
+ arch/riscv/mm/init.c                | 87 ++++++++++++++++++++++-------
+ arch/riscv/mm/kasan_init.c          |  9 +++
+ arch/riscv/mm/physaddr.c            |  2 +-
+ arch/riscv/mm/ptdump.c              | 73 ++++++++++++++++++++----
+ 15 files changed, 271 insertions(+), 52 deletions(-)
+ create mode 100644 Documentation/riscv/vm-layout.rst
 
 -- 
-~Randy
+2.20.1
 
