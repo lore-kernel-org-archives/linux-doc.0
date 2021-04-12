@@ -2,128 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,
-	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19CC6C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 19:23:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51A0DC433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 19:29:09 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E637A61288
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 19:23:19 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 308F0611F2
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 19:29:09 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237054AbhDLTXh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Apr 2021 15:23:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34764 "EHLO
+        id S245381AbhDLT30 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Apr 2021 15:29:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237025AbhDLTXh (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Apr 2021 15:23:37 -0400
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B24EAC061574
-        for <linux-doc@vger.kernel.org>; Mon, 12 Apr 2021 12:23:18 -0700 (PDT)
-Received: by mail-ej1-x631.google.com with SMTP id u21so22109540ejo.13
-        for <linux-doc@vger.kernel.org>; Mon, 12 Apr 2021 12:23:18 -0700 (PDT)
+        with ESMTP id S237624AbhDLT30 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Apr 2021 15:29:26 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16492C06174A
+        for <linux-doc@vger.kernel.org>; Mon, 12 Apr 2021 12:29:08 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id y2so6927673plg.5
+        for <linux-doc@vger.kernel.org>; Mon, 12 Apr 2021 12:29:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mELRjVqp68r+toZVxtj/nROQLw+PqRw01stMy/JKAoI=;
-        b=RuXsPBJDF3pxAI6ljG05ZKqt8YUmS44gosy5CljDMisMK7z6FRDFFa42SQlfxTeZcm
-         pMmiFuREi/CsiEwh3n4f9myye40LULlH6dAutk4fRQm1YLoMfR/GWhHj3j8fvco171Qj
-         WVEHi6qmZRdbLgD9XmwL0IDXk3XH1cq1hK5hcjIn+f0FIAUa0DRmEFHP7g2GxPzv8hdk
-         kx1AbJe5MgMR8FvTP2jpZy9wdqlHQ7VB3+PRXr524woYvd0H0j+RLlzfJw4VtRrz/98Q
-         Pr42+gOxdhKEqRz6dM8XW2MhQA7TutftrfPsfvndRojle93KrK94IGNUc0GTCkm1vYu3
-         XQ+Q==
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=c84g+o0c3EP7qqY5y8zkTye7ebMVv6LO6TcZMlT8scg=;
+        b=MeWYUwQCJeqI+FE4nsXwN8sTAeHI2Bqa5FyQWBDZL3ZbmHLDgvG6fJGcBJyLdSDaX+
+         a7KZww/47gwlUKO+UMrbw8CxOLHGGmTGda2zTXmjvdDMxi1yEvgqU8SfA6LePhbg4S/i
+         M6FseQ3+8tGIzx/GAk+aeuIg76l7Pz2AwEk9M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mELRjVqp68r+toZVxtj/nROQLw+PqRw01stMy/JKAoI=;
-        b=Lr9ibAKi/SVrPY9FTgGT9RQRU0K9BS4Q5siRy7Paik/qYQZ77VRWukLIYZe912H5W+
-         gI63XnEArqXQSNjhqZnMxKmXKK01GJf18bZN8/9K4tBFpxK2PbcQ/6YiZ1/yIPlUH7WJ
-         ibIZzdq4FQLapvmYl3VNrkOjVVK7MPdHzyL5khMbYxfi78Dworlmf0YYR1Q/4W2EHU6x
-         829OSPtRTqWYoJRL5FJk4EszaFsQz6mCuA7JlzjKNUlDjCjDevEcyV720VJmITTzP5i6
-         eaoa0MBW9ZDXzKr71Y+hNWbYVYctcllq9p/7ekh/IJpfbN53lYPT9I7NDhOIr7m/TphA
-         eqVw==
-X-Gm-Message-State: AOAM5330e35rotSY6rVNhmL9KwSKJriMOY8sjpb2RBxmyvG9CBHeMsfb
-        XUQ9SG2BYsPuDHEcqtdzxJd0OsdxliAqtrEuZgvPgA==
-X-Google-Smtp-Source: ABdhPJwXphtNs2B1kAW+Ay203fgklD+JVIJDuKSEoScP5GErDcEj86IB5CIU+IcorY4kTj6jGjHvAx5XiZS9A93+OEk=
-X-Received: by 2002:a17:906:1313:: with SMTP id w19mr12522249ejb.64.1618255397479;
- Mon, 12 Apr 2021 12:23:17 -0700 (PDT)
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=c84g+o0c3EP7qqY5y8zkTye7ebMVv6LO6TcZMlT8scg=;
+        b=UhZg+2NGBn4mxvvlHakgRMmcD+XArhKk+iXtHwcU7dnBAtk0wHn1iJAkh+ot0f17gO
+         Xmn3QHYz64Tz30/srG/7ud5QmZwGsV6z1+M66OkinqhmJJ+15AVGe9aGGQIgAyO+yWu4
+         ExQYktdgSn4AfDxEx5o6qWemm6VC7YPu908mfIry5Hem2YCsLWJqSTyxCpKwNioMTHeD
+         f5S4BaxLpxj1XGeImc3Wb7XlkXbYTlxsBZaUnxvL7o/LS8M7vIO8mRuot3upCp4d/oGm
+         OupH1hjdCboI0g0icTRmvA1SPRPGwbRen6pfRIYA7D11ZeMy4Ex7cvHpeIqOmH0gMJyF
+         1VjQ==
+X-Gm-Message-State: AOAM533d059YnNwGza4+Pdgng2H5yBBjgEL0qVwMKUVasrgXa7BFKPMl
+        teACVmPnxdQs4BrQhcJOK9tIYA==
+X-Google-Smtp-Source: ABdhPJx+kuUumalzsg7BgWOoYJotP9yFE6IfASB994orfa/PZgh98lAHvb4kQyvnpeflAxCV+/IndQ==
+X-Received: by 2002:a17:90b:4a04:: with SMTP id kk4mr857303pjb.68.1618255747581;
+        Mon, 12 Apr 2021 12:29:07 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:201:1d18:a339:7993:e548])
+        by smtp.gmail.com with ESMTPSA id t18sm12277282pgg.33.2021.04.12.12.29.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Apr 2021 12:29:07 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <20200629065008.27620-1-brgl@bgdev.pl> <20200629065008.27620-5-brgl@bgdev.pl>
- <CAKdAkRRRyC3x39CDRq_3ur1=MWuUug6ov-NWmSBc3h+XyRcsgQ@mail.gmail.com>
-In-Reply-To: <CAKdAkRRRyC3x39CDRq_3ur1=MWuUug6ov-NWmSBc3h+XyRcsgQ@mail.gmail.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Mon, 12 Apr 2021 21:23:06 +0200
-Message-ID: <CAMRc=MfU8QFPWu_e6oQgtq0cBA34kCSi9=9-1iaFW4gW+yXN6A@mail.gmail.com>
-Subject: Re: [PATCH v2 4/6] devres: handle zero size in devm_kmalloc()
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Rafael J . Wysocki" <rafael@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jean Delvare <jdelvare@suse.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>, linux-hwmon@vger.kernel.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YHQ1yqVkweZeN5+1@smile.fi.intel.com>
+References: <20210410015300.3764485-1-swboyd@chromium.org> <20210410015300.3764485-6-swboyd@chromium.org> <YHQ1yqVkweZeN5+1@smile.fi.intel.com>
+Subject: Re: [PATCH v4 05/13] module: Add printk formats to add module build ID to stacktraces
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Date:   Mon, 12 Apr 2021 12:29:05 -0700
+Message-ID: <161825574550.3764895.4387100574176584209@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sun, Apr 11, 2021 at 5:21 AM Dmitry Torokhov
-<dmitry.torokhov@gmail.com> wrote:
->
-> Hi Bartosz,
->
-> On Mon, Jun 29, 2020 at 1:56 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> >
-> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> >
-> > Make devm_kmalloc() behave similarly to non-managed kmalloc(): return
-> > ZERO_SIZE_PTR when requested size is 0. Update devm_kfree() to handle
-> > this case.
->
-> This is wrong if you consider devm_krealloc API that you added. The
-> premise of devm_krealloc() is that it does not disturb devres "stack",
-> however in this case there is no entry in the stack. Consider:
->
->         ptr = devm_kzalloc(dev, 0, GFP_KERNEL);
->         ...
->         more devm API calls
->         ...
->
->         /* This allocation will be on top of devm stack, not bottom ! */
->         ptr = devm_krealloc(dev, ptr, 16, GFP_KERNEL);
->
-> And also:
->
->         ptr = devm_kzalloc(dev, 16, GFP_KERNEL);
->         ...
->         more devm API calls
->         ...
->         /* Here we lose out position */
->         ptr = devm_krealloc(dev, ptr, 0, GFP_KERNEL);
->         ...
->         /* and now our memory allocation will be released first */
->         ptr = devm_krealloc(dev, ptr, 16, GFP_KERNEL);
->
->
-> IMO special-casing 0-size allocations for managed memory allocations
-> should not be done.
->
-> Thanks.
->
-> --
-> Dmitry
+Quoting Andy Shevchenko (2021-04-12 04:58:02)
+> On Fri, Apr 09, 2021 at 06:52:52PM -0700, Stephen Boyd wrote:
+> > Let's make kernel stacktraces easier to identify by including the build
+> > ID[1] of a module if the stacktrace is printing a symbol from a module.
+> > This makes it simpler for developers to locate a kernel module's full
+> > debuginfo for a particular stacktrace. Combined with
+> > scripts/decode_stracktrace.sh, a developer can download the matching
+> > debuginfo from a debuginfod[2] server and find the exact file and line
+> > number for the functions plus offsets in a stacktrace that match the
+> > module. This is especially useful for pstore crash debugging where the
+> > kernel crashes are recorded in something like console-ramoops and the
+> > recovery kernel/modules are different or the debuginfo doesn't exist on
+> > the device due to space concerns (the debuginfo can be too large for
+> > space limited devices).
+> >=20
+> > Originally, I put this on the %pS format, but that was quickly rejected
+> > given that %pS is used in other places such as ftrace where build IDs
+> > aren't meaningful. There was some discussions on the list to put every
+> > module build ID into the "Modules linked in:" section of the stacktrace
+> > message but that quickly becomes very hard to read once you have more
+> > than three or four modules linked in. It also provides too much
+> > information when we don't expect each module to be traversed in a
+> > stacktrace. Having the build ID for modules that aren't important just
+> > makes things messy. Splitting it to multiple lines for each module
+> > quickly explodes the number of lines printed in an oops too, possibly
+> > wrapping the warning off the console. And finally, trying to stash away
+> > each module used in a callstack to provide the ID of each symbol printed
+> > is cumbersome and would require changes to each architecture to stash
+> > away modules and return their build IDs once unwinding has completed.
+> >=20
+> > Instead, we opt for the simpler approach of introducing new printk
+> > formats '%pS[R]b' for "pointer symbolic backtrace with module build ID"
+> > and '%pBb' for "pointer backtrace with module build ID" and then
+> > updating the few places in the architecture layer where the stacktrace
+> > is printed to use this new format.
+> >=20
+> > Example:
+>=20
+> Can you trim a bit the example, so we will see only important lines.
+> In such case you may provide "before" and "after" variants.
+>=20
+> ...
+>=20
+> > -     if (modname)
+> > -             len +=3D sprintf(buffer + len, " [%s]", modname);
+> > +     if (modname) {
+> > +             len +=3D sprintf(buffer + len, " [%s", modname);
+>=20
+> > +             /* build ID should match length of sprintf below */
+> > +             BUILD_BUG_ON(BUILD_ID_SIZE_MAX !=3D 20);
+>=20
+> First of all, why not static_assert() defined near to the actual macro?
 
-You're right about the ordering being lost. At the same time
-allocating 0 bytes is quite a special case and should result in
-returning ZERO_SIZE_PTR as the fault dump resulting from its
-dereference will indicate what the bug is.
+Which macro? BUILD_ID_SIZE_MAX? I tried static_assert() and it didn't
+work for me but maybe I missed something. Why is static_assert()
+preferred?
 
-I need to give it a thought because I'm not yet sure what the right
-solution would be. Let me get back to you.
+>=20
+> > +             if (IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID) && add_buildid=
+ && buildid)
+> > +                     len +=3D sprintf(buffer + len, " %20phN", buildid=
+);
+>=20
+>                         len +=3D sprintf(buffer + len, " %*phN", BUILD_ID=
+_SIZE_MAX, buildid);
+>=20
 
-Bartosz
+Are you suggesting to use sprintf format here so that the size is part
+of the printf? Sounds good to me. Thanks.
