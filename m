@@ -2,106 +2,101 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08AB8C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 12:28:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 186DAC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 13:10:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CFD0061288
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 12:28:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C1BFD61352
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 13:10:47 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238751AbhDLM3Q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Apr 2021 08:29:16 -0400
-Received: from m32-153.88.com ([43.250.32.153]:58450 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S240634AbhDLM3P (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Apr 2021 08:29:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=nY28if++H9NBXccKe3DJjfKmfb+eUPQl6tqv9
-        i927uo=; b=RuTYpswbgGXQHvM7r+OriOsOPRHvIHFyUZSkWOnGVJ7ul7uD1j1ul
-        mNWecflKMii2bIpBTuNMQUILkdcMtQCMrDBCEWRrojyFEPdBOswvuw05zHwICKbW
-        WuXd1Yqrrt3DsVoUaY4ux+i8XNqJhY/JNtZsb3WF7ayzWSx1TViPRY=
-Received: from bobwxc.top (unknown [120.238.248.129])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAHkyMEPXRgdKtrAA--.54811S2;
-        Mon, 12 Apr 2021 20:28:54 +0800 (CST)
-Date:   Mon, 12 Apr 2021 20:28:52 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 5/8] docs/zh_CN: Add translation
- zh_CN/doc-guide/contributing.rst
-Message-ID: <20210412122852.GB6861@bobwxc.top>
-References: <cover.1617699755.git.bobwxc@email.cn>
- <6b0eeced74f21696fd15edea9f24ef1f20736652.1617699755.git.bobwxc@email.cn>
- <20210408141024.GA8507@bobwxc.top>
- <874kgg1zls.fsf@meer.lwn.net>
+        id S241764AbhDLNLE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Apr 2021 09:11:04 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55700 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S241498AbhDLNLE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Apr 2021 09:11:04 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id E41B4AFEF;
+        Mon, 12 Apr 2021 13:10:45 +0000 (UTC)
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     airlied@linux.ie, daniel@ffwll.ch,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        corbet@lwn.net
+Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v2 0/3] drm: Add aperture helpers
+Date:   Mon, 12 Apr 2021 15:10:40 +0200
+Message-Id: <20210412131043.5787-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <874kgg1zls.fsf@meer.lwn.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgAHkyMEPXRgdKtrAA--.54811S2
-X-Coremail-Antispam: 1UD129KBjvdXoWruFW7Gr47uryrGry7GF15Jwb_yoWkuFg_Gw
-        4vyrykC3y3tF10kFWfWF1UJFya9F48Grn8KF1Dt34aqa48Kw48XFyvqrn3Xay5JFs3uFnx
-        Cr4DJr1fW343WjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbYAYjsxI4VWkKwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-        8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E
-        87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
-        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
-        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc2xSY4AK67AK6ryUMxAIw2
-        8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_
-        Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
-        CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
-        I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
-        8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73
-        UjIFyTuYvjxUf3C7UUUUU
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 08, 2021 at 10:59:43AM -0600, Jonathan Corbet wrote:
-> Wu XiangCheng <bobwxc@email.cn> writes:
-> 
-> > Add new translation
-> >   Documentation/translations/zh_CN/doc-guide/contributing.rst
-> >
-> > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-> > Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-> > ---
-> > v4 only changed some word in [Patch 5/8] under Yanteng Si's advices.
-> > Thanks!
-> >
-> >  .../zh_CN/doc-guide/contributing.rst          | 238 ++++++++++++++++++
-> >  1 file changed, 238 insertions(+)
-> >  create mode 100644 Documentation/translations/zh_CN/doc-guide/contributing.rst
-> 
-> It's generally best not to send a new version of just one patch in a
-> series; it makes things harder on the maintainer side.  If you could,
-> please, send me a new version of the entire series (as a new email
-> thread) with all the tags added; then this looks like it's about ready
-> to merge.
-> 
-> Thanks,
-> 
-> jon
+Adds helpers for maintaining aperture ownership. Currently wraps
+the infrastructure around fbdev's remove_conflicting_framebuffers().
 
-Hi Jonathan,
+For adding generic drivers to DRM, we need a hand-over mechanism
+that unloads the generic driver before loading the hardware's native
+driver. So far, this was supported for generic fbdev drivers, but
+not for DRM drivers.
 
-Sorry for making your work harder.
+As a first step, this patchset provides a DRM interface to release
+ownership of a framebuffer aperture. When called, all generic drivers
+for framebuffers in the range are being unloaded. At this point
+the functions wrap similar fbdev functionality. The old fbdev-based
+interface is being inlined into the new functionsa and drivers are
+converted.
 
-I'd like to send a new version. But there is a patch still on review, my
-reviewer said he need to determine something. So may need more time for
-the new version.
+The patchset is based on patches 3 and 4 of [1]. I incorporated the
+review comments and kept the acked-bys.
 
-When it ready, I'll send you in new thread.
+All converted drivers have been built at least once on either x86-64,
+aarch64 or arm.
 
-Thanks!
+[1] https://lore.kernel.org/dri-devel/20210318102921.21536-1-tzimmermann@suse.de/
 
-Wu X.C.
+v2:
+	* fix docs for drm_aperture_remove_framebuffers()
+
+Thomas Zimmermann (3):
+  drm/aperture: Add infrastructure for aperture ownership
+  drm/aperture: Convert drivers to aperture interfaces
+  drm/aperture: Inline fbdev conflict helpers into aperture helpers
+
+ Documentation/gpu/drm-internals.rst           |  12 ++
+ drivers/gpu/drm/Makefile                      |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |   3 +-
+ drivers/gpu/drm/armada/armada_drv.c           |   5 +-
+ drivers/gpu/drm/ast/ast_drv.c                 |  23 ++-
+ drivers/gpu/drm/bochs/bochs_drv.c             |   3 +-
+ drivers/gpu/drm/drm_aperture.c                | 131 ++++++++++++++++++
+ .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |   4 +-
+ drivers/gpu/drm/i915/i915_drv.c               |   3 +-
+ drivers/gpu/drm/meson/meson_drv.c             |  27 ++--
+ drivers/gpu/drm/mgag200/mgag200_drv.c         |   5 +-
+ drivers/gpu/drm/msm/msm_fbdev.c               |   5 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c         |   3 +-
+ drivers/gpu/drm/qxl/qxl_drv.c                 |   5 +-
+ drivers/gpu/drm/radeon/radeon_drv.c           |   3 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |   5 +-
+ drivers/gpu/drm/tegra/drm.c                   |   4 +-
+ drivers/gpu/drm/tiny/cirrus.c                 |   3 +-
+ drivers/gpu/drm/vboxvideo/vbox_drv.c          |   3 +-
+ drivers/gpu/drm/vc4/vc4_drv.c                 |   5 +-
+ drivers/gpu/drm/virtio/virtgpu_drv.c          |  10 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |   4 +-
+ include/drm/drm_aperture.h                    |  31 +++++
+ include/drm/drm_fb_helper.h                   |  51 -------
+ 24 files changed, 242 insertions(+), 108 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_aperture.c
+ create mode 100644 include/drm/drm_aperture.h
+
+--
+2.31.1
 
