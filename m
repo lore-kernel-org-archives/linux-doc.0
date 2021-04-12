@@ -2,571 +2,173 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4B04C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 13:10:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CEBAC43461
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 16:12:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A061361354
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 13:10:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D98E6601FD
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 16:12:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241727AbhDLNLF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Apr 2021 09:11:05 -0400
-Received: from mx2.suse.de ([195.135.220.15]:55752 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241728AbhDLNLF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Apr 2021 09:11:05 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 741CDB15B;
-        Mon, 12 Apr 2021 13:10:46 +0000 (UTC)
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     airlied@linux.ie, daniel@ffwll.ch,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        corbet@lwn.net
-Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH v2 2/3] drm/aperture: Convert drivers to aperture interfaces
-Date:   Mon, 12 Apr 2021 15:10:42 +0200
-Message-Id: <20210412131043.5787-3-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210412131043.5787-1-tzimmermann@suse.de>
-References: <20210412131043.5787-1-tzimmermann@suse.de>
+        id S243206AbhDLQNC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Apr 2021 12:13:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49404 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243217AbhDLQNB (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 12 Apr 2021 12:13:01 -0400
+Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A629DC06174A
+        for <linux-doc@vger.kernel.org>; Mon, 12 Apr 2021 09:12:43 -0700 (PDT)
+Received: by mail-pl1-x632.google.com with SMTP id j7so6630840plx.2
+        for <linux-doc@vger.kernel.org>; Mon, 12 Apr 2021 09:12:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=n39+03EjwPiEZYrXOC3fAk9qbAxqTpasn664X9nKglI=;
+        b=iTcG0ML6g3aokxkpnb8ILp4/Q0tcMWc8JNziPvWlpMbAXoAtb33Ln8FZeDO+W/Lb10
+         FjTs6mJE/x5FbzrhIqWCTw5JvjsWu8mlnEUmVCNA4m9qD5NX9t0HN4E5YixxCPBif9ZP
+         YjHgpnbqBitqAo6RQjbWA/3NT2jbhmM5++QImCwxSFj8OAJ8mMw8xu3MLExhOj2U1Yi7
+         NaDPfZABuunK5SIKcSNZMNs6dtZrTOwQbRABzl6DFCSbQHcGdRjss8e+5Qy/lkvzk9pG
+         mf1qp850SEmUsGAqGERdN7xTqA7IgWOsT5zDiV1OCXTTvqXhtoYWsNcOt/9kvB/vdXzu
+         82ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=n39+03EjwPiEZYrXOC3fAk9qbAxqTpasn664X9nKglI=;
+        b=p1UBHoITpoPxSgtNQQzRFj/RDz4lucpwOhUEGj5hgS3u9IXIugKsUMO+613jsz6/tN
+         Onf+bcwguIWKKkYrbqc4+OqswFBCqOHw/W30cRlW0tibwJ8JgNRW+ly5FORFDaJmIPOI
+         I3gRxoMEyseMfXwjRRg8ezjeuo89elzyfWXFPOVpqTxZ57oHPvSHNqt6pvKeTrakXtfV
+         8POK/DOFXpNyq4Qg/raW7IgIP7nNGVKTTaW2N7zuj59RhrqKT+FLu27t/yyy9MfH8FfL
+         7Xl8N92WwwfQJFtVSy0x9jncUdwlubNYxXOSg0pKe6zVY6QMYEp/RqTmXaKbaI50iSEX
+         szwg==
+X-Gm-Message-State: AOAM533ld+yc6SLLw+DK4LOFw4X4oT9rtAgV6A4mjBmobHwEsOLxmYL9
+        V7WZcnC7FiwLyz3fd6o6fG+yuZxeO7+guAKzy9U=
+X-Google-Smtp-Source: ABdhPJzZXM6VpybaCZGo+xJlAy35hSy8tOMUXJB+7jkxhZnsi0NAtS3Olz2xY5ZuLoRQKivZmZ1GXfPFNoT3ugYlI5I=
+X-Received: by 2002:a17:903:2490:b029:e6:faf5:86df with SMTP id
+ p16-20020a1709032490b02900e6faf586dfmr26646447plw.69.1618243963113; Mon, 12
+ Apr 2021 09:12:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1617699755.git.bobwxc@email.cn> <ebccf009f3cf77b3340e39e9675f26d8d75ca3f6.1617699755.git.bobwxc@email.cn>
+In-Reply-To: <ebccf009f3cf77b3340e39e9675f26d8d75ca3f6.1617699755.git.bobwxc@email.cn>
+From:   teng sterling <sterlingteng@gmail.com>
+Date:   Tue, 13 Apr 2021 00:12:32 +0800
+Message-ID: <CAMU9jJpeyNBMg4a0GcyBZfPLtP2JheTD-JZ3e197VweyYhv-jg@mail.gmail.com>
+Subject: Re: [PATCH v3 4/8] docs/zh_CN: Add translation zh_CN/doc-guide/parse-headers.rst
+To:     Wu XiangCheng <bobwxc@email.cn>
+Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <seakeel@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Mass-convert all drivers from FB helpers to aperture interfaces. No
-functional changes besides checking for returned errno codes.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Jani Nikula <jani.nikula@intel.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  3 ++-
- drivers/gpu/drm/armada/armada_drv.c           |  5 ++--
- drivers/gpu/drm/ast/ast_drv.c                 | 23 +++++++---------
- drivers/gpu/drm/bochs/bochs_drv.c             |  3 ++-
- .../gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c   |  4 +--
- drivers/gpu/drm/i915/i915_drv.c               |  3 ++-
- drivers/gpu/drm/meson/meson_drv.c             | 27 ++++++-------------
- drivers/gpu/drm/mgag200/mgag200_drv.c         |  5 +++-
- drivers/gpu/drm/msm/msm_fbdev.c               |  5 +++-
- drivers/gpu/drm/nouveau/nouveau_drm.c         |  3 ++-
- drivers/gpu/drm/qxl/qxl_drv.c                 |  5 +++-
- drivers/gpu/drm/radeon/radeon_drv.c           |  3 ++-
- drivers/gpu/drm/sun4i/sun4i_drv.c             |  5 +++-
- drivers/gpu/drm/tegra/drm.c                   |  4 +--
- drivers/gpu/drm/tiny/cirrus.c                 |  3 ++-
- drivers/gpu/drm/vboxvideo/vbox_drv.c          |  3 ++-
- drivers/gpu/drm/vc4/vc4_drv.c                 |  5 +++-
- drivers/gpu/drm/virtio/virtgpu_drv.c          | 10 ++++---
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           |  4 +--
- 19 files changed, 67 insertions(+), 56 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-index 76f48f79c70b..7b4d18d3c031 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-@@ -23,6 +23,7 @@
-  */
- 
- #include <drm/amdgpu_drm.h>
-+#include <drm/drm_aperture.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_gem.h>
- #include <drm/drm_vblank.h>
-@@ -1256,7 +1257,7 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
- #endif
- 
- 	/* Get rid of things like offb */
--	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "amdgpudrmfb");
-+	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "amdgpudrmfb");
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/armada/armada_drv.c b/drivers/gpu/drm/armada/armada_drv.c
-index 44fe9f994fc5..dab0a1f0983b 100644
---- a/drivers/gpu/drm/armada/armada_drv.c
-+++ b/drivers/gpu/drm/armada/armada_drv.c
-@@ -9,6 +9,7 @@
- #include <linux/of_graph.h>
- #include <linux/platform_device.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_ioctl.h>
-@@ -94,9 +95,7 @@ static int armada_drm_bind(struct device *dev)
- 	}
- 
- 	/* Remove early framebuffers */
--	ret = drm_fb_helper_remove_conflicting_framebuffers(NULL,
--							    "armada-drm-fb",
--							    false);
-+	ret = drm_aperture_remove_framebuffers(false, "armada-drm-fb");
- 	if (ret) {
- 		dev_err(dev, "[" DRM_NAME ":%s] can't kick out simple-fb: %d\n",
- 			__func__, ret);
-diff --git a/drivers/gpu/drm/ast/ast_drv.c b/drivers/gpu/drm/ast/ast_drv.c
-index 01837bea18c2..5aa452b4efe6 100644
---- a/drivers/gpu/drm/ast/ast_drv.c
-+++ b/drivers/gpu/drm/ast/ast_drv.c
-@@ -30,10 +30,10 @@
- #include <linux/module.h>
- #include <linux/pci.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_vram_helper.h>
- #include <drm/drm_probe_helper.h>
- 
-@@ -89,23 +89,18 @@ static const struct pci_device_id ast_pciidlist[] = {
- 
- MODULE_DEVICE_TABLE(pci, ast_pciidlist);
- 
--static void ast_kick_out_firmware_fb(struct pci_dev *pdev)
-+static int ast_remove_conflicting_framebuffers(struct pci_dev *pdev)
- {
--	struct apertures_struct *ap;
- 	bool primary = false;
-+	resource_size_t base, size;
- 
--	ap = alloc_apertures(1);
--	if (!ap)
--		return;
--
--	ap->ranges[0].base = pci_resource_start(pdev, 0);
--	ap->ranges[0].size = pci_resource_len(pdev, 0);
--
-+	base = pci_resource_start(pdev, 0);
-+	size = pci_resource_len(pdev, 0);
- #ifdef CONFIG_X86
- 	primary = pdev->resource[PCI_ROM_RESOURCE].flags & IORESOURCE_ROM_SHADOW;
- #endif
--	drm_fb_helper_remove_conflicting_framebuffers(ap, "astdrmfb", primary);
--	kfree(ap);
-+
-+	return drm_aperture_remove_conflicting_framebuffers(base, size, primary, "astdrmfb");
- }
- 
- static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-@@ -114,7 +109,9 @@ static int ast_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	struct drm_device *dev;
- 	int ret;
- 
--	ast_kick_out_firmware_fb(pdev);
-+	ret = ast_remove_conflicting_framebuffers(pdev);
-+	if (ret)
-+		return ret;
- 
- 	ret = pcim_enable_device(pdev);
- 	if (ret)
-diff --git a/drivers/gpu/drm/bochs/bochs_drv.c b/drivers/gpu/drm/bochs/bochs_drv.c
-index b469624fe40d..c828cadbabff 100644
---- a/drivers/gpu/drm/bochs/bochs_drv.c
-+++ b/drivers/gpu/drm/bochs/bochs_drv.c
-@@ -6,6 +6,7 @@
- #include <linux/pci.h>
- 
- #include <drm/drm_drv.h>
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_managed.h>
- 
-@@ -109,7 +110,7 @@ static int bochs_pci_probe(struct pci_dev *pdev,
- 		return -ENOMEM;
- 	}
- 
--	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "bochsdrmfb");
-+	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "bochsdrmfb");
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-index 89edc796deda..f4bc5386574a 100644
---- a/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-+++ b/drivers/gpu/drm/hisilicon/hibmc/hibmc_drm_drv.c
-@@ -14,6 +14,7 @@
- #include <linux/module.h>
- #include <linux/pci.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_gem_framebuffer_helper.h>
-@@ -313,8 +314,7 @@ static int hibmc_pci_probe(struct pci_dev *pdev,
- 	struct drm_device *dev;
- 	int ret;
- 
--	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev,
--								"hibmcdrmfb");
-+	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "hibmcdrmfb");
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-index 305557e1942a..51e24a81d793 100644
---- a/drivers/gpu/drm/i915/i915_drv.c
-+++ b/drivers/gpu/drm/i915/i915_drv.c
-@@ -39,6 +39,7 @@
- #include <linux/vga_switcheroo.h>
- #include <linux/vt.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_irq.h>
-@@ -553,7 +554,7 @@ static int i915_driver_hw_probe(struct drm_i915_private *dev_priv)
- 	if (ret)
- 		goto err_perf;
- 
--	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "inteldrmfb");
-+	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "inteldrmfb");
- 	if (ret)
- 		goto err_ggtt;
- 
-diff --git a/drivers/gpu/drm/meson/meson_drv.c b/drivers/gpu/drm/meson/meson_drv.c
-index 453d8b4c5763..66de3f4f7222 100644
---- a/drivers/gpu/drm/meson/meson_drv.c
-+++ b/drivers/gpu/drm/meson/meson_drv.c
-@@ -15,6 +15,7 @@
- #include <linux/platform_device.h>
- #include <linux/soc/amlogic/meson-canvas.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
-@@ -156,23 +157,6 @@ static void meson_vpu_init(struct meson_drm *priv)
- 	writel_relaxed(value, priv->io_base + _REG(VPU_WRARB_MODE_L2C1));
- }
- 
--static void meson_remove_framebuffers(void)
--{
--	struct apertures_struct *ap;
--
--	ap = alloc_apertures(1);
--	if (!ap)
--		return;
--
--	/* The framebuffer can be located anywhere in RAM */
--	ap->ranges[0].base = 0;
--	ap->ranges[0].size = ~0;
--
--	drm_fb_helper_remove_conflicting_framebuffers(ap, "meson-drm-fb",
--						      false);
--	kfree(ap);
--}
--
- struct meson_drm_soc_attr {
- 	struct meson_drm_soc_limits limits;
- 	const struct soc_device_attribute *attrs;
-@@ -297,8 +281,13 @@ static int meson_drv_bind_master(struct device *dev, bool has_components)
- 		}
- 	}
- 
--	/* Remove early framebuffers (ie. simplefb) */
--	meson_remove_framebuffers();
-+	/*
-+	 * Remove early framebuffers (ie. simplefb). The framebuffer can be
-+	 * located anywhere in RAM
-+	 */
-+	ret = drm_aperture_remove_framebuffers(false, "meson-drm-fb");
-+	if (ret)
-+		goto free_drm;
- 
- 	ret = drmm_mode_config_init(drm);
- 	if (ret)
-diff --git a/drivers/gpu/drm/mgag200/mgag200_drv.c b/drivers/gpu/drm/mgag200/mgag200_drv.c
-index 4e4c105f9a50..a701d9563257 100644
---- a/drivers/gpu/drm/mgag200/mgag200_drv.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.c
-@@ -11,6 +11,7 @@
- #include <linux/pci.h>
- #include <linux/vmalloc.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
- #include <drm/drm_ioctl.h>
-@@ -341,7 +342,9 @@ mgag200_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	struct drm_device *dev;
- 	int ret;
- 
--	drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "mgag200drmfb");
-+	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "mgag200drmfb");
-+	if (ret)
-+		return ret;
- 
- 	ret = pcim_enable_device(pdev);
- 	if (ret)
-diff --git a/drivers/gpu/drm/msm/msm_fbdev.c b/drivers/gpu/drm/msm/msm_fbdev.c
-index 678dba1725a6..227404077e39 100644
---- a/drivers/gpu/drm/msm/msm_fbdev.c
-+++ b/drivers/gpu/drm/msm/msm_fbdev.c
-@@ -4,6 +4,7 @@
-  * Author: Rob Clark <robdclark@gmail.com>
-  */
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_crtc.h>
- #include <drm/drm_fb_helper.h>
- #include <drm/drm_fourcc.h>
-@@ -168,7 +169,9 @@ struct drm_fb_helper *msm_fbdev_init(struct drm_device *dev)
- 	}
- 
- 	/* the fw fb could be anywhere in memory */
--	drm_fb_helper_remove_conflicting_framebuffers(NULL, "msm", false);
-+	ret = drm_aperture_remove_framebuffers(false, "msm");
-+	if (ret)
-+		goto fini;
- 
- 	ret = drm_fb_helper_initial_config(helper, 32);
- 	if (ret)
-diff --git a/drivers/gpu/drm/nouveau/nouveau_drm.c b/drivers/gpu/drm/nouveau/nouveau_drm.c
-index 9766218a99ca..3204fc0a90d2 100644
---- a/drivers/gpu/drm/nouveau/nouveau_drm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_drm.c
-@@ -30,6 +30,7 @@
- #include <linux/vga_switcheroo.h>
- #include <linux/mmu_notifier.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_gem_ttm_helper.h>
- #include <drm/drm_ioctl.h>
-@@ -737,7 +738,7 @@ static int nouveau_drm_probe(struct pci_dev *pdev,
- 	nvkm_device_del(&device);
- 
- 	/* Remove conflicting drivers (vesafb, efifb etc). */
--	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "nouveaufb");
-+	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "nouveaufb");
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/qxl/qxl_drv.c b/drivers/gpu/drm/qxl/qxl_drv.c
-index db92eec07d96..bba0fc39028c 100644
---- a/drivers/gpu/drm/qxl/qxl_drv.c
-+++ b/drivers/gpu/drm/qxl/qxl_drv.c
-@@ -29,11 +29,14 @@
-  */
- 
- #include "qxl_drv.h"
-+
- #include <linux/console.h>
- #include <linux/module.h>
- #include <linux/pci.h>
-+#include <linux/vgaarb.h>
- 
- #include <drm/drm.h>
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-@@ -93,7 +96,7 @@ qxl_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (ret)
- 		return ret;
- 
--	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "qxl");
-+	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "qxl");
- 	if (ret)
- 		goto disable_pci;
- 
-diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
-index efeb115ae70e..8885e849717d 100644
---- a/drivers/gpu/drm/radeon/radeon_drv.c
-+++ b/drivers/gpu/drm/radeon/radeon_drv.c
-@@ -38,6 +38,7 @@
- #include <linux/mmu_notifier.h>
- #include <linux/pci.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_agpsupport.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
-@@ -330,7 +331,7 @@ static int radeon_pci_probe(struct pci_dev *pdev,
- 		return -EPROBE_DEFER;
- 
- 	/* Get rid of things like offb */
--	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "radeondrmfb");
-+	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "radeondrmfb");
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_drv.c b/drivers/gpu/drm/sun4i/sun4i_drv.c
-index 91502937f26d..af335f58bdfc 100644
---- a/drivers/gpu/drm/sun4i/sun4i_drv.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_drv.c
-@@ -13,6 +13,7 @@
- #include <linux/of_reserved_mem.h>
- #include <linux/platform_device.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_cma_helper.h>
-@@ -99,7 +100,9 @@ static int sun4i_drv_bind(struct device *dev)
- 	drm->irq_enabled = true;
- 
- 	/* Remove early framebuffers (ie. simplefb) */
--	drm_fb_helper_remove_conflicting_framebuffers(NULL, "sun4i-drm-fb", false);
-+	ret = drm_aperture_remove_framebuffers(false, "sun4i-drm-fb");
-+	if (ret)
-+		goto cleanup_mode_config;
- 
- 	sun4i_framebuffer_init(drm);
- 
-diff --git a/drivers/gpu/drm/tegra/drm.c b/drivers/gpu/drm/tegra/drm.c
-index 90709c38c993..e32c0dcf2762 100644
---- a/drivers/gpu/drm/tegra/drm.c
-+++ b/drivers/gpu/drm/tegra/drm.c
-@@ -11,6 +11,7 @@
- #include <linux/module.h>
- #include <linux/platform_device.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_debugfs.h>
-@@ -1198,8 +1199,7 @@ static int host1x_drm_probe(struct host1x_device *dev)
- 
- 	drm_mode_config_reset(drm);
- 
--	err = drm_fb_helper_remove_conflicting_framebuffers(NULL, "tegradrmfb",
--							    false);
-+	err = drm_aperture_remove_framebuffers(false, "tegradrmfb");
- 	if (err < 0)
- 		goto hub;
- 
-diff --git a/drivers/gpu/drm/tiny/cirrus.c b/drivers/gpu/drm/tiny/cirrus.c
-index ad922c3ec681..e3afb45d9a5c 100644
---- a/drivers/gpu/drm/tiny/cirrus.c
-+++ b/drivers/gpu/drm/tiny/cirrus.c
-@@ -24,6 +24,7 @@
- #include <video/cirrus.h>
- #include <video/vga.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_connector.h>
-@@ -549,7 +550,7 @@ static int cirrus_pci_probe(struct pci_dev *pdev,
- 	struct cirrus_device *cirrus;
- 	int ret;
- 
--	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "cirrusdrmfb");
-+	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "cirrusdrmfb");
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-index e534896b6cfd..6d4b32da9866 100644
---- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
-+++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-@@ -12,6 +12,7 @@
- #include <linux/pci.h>
- #include <linux/vt_kern.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_crtc_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_helper.h>
-@@ -42,7 +43,7 @@ static int vbox_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	if (!vbox_check_supported(VBE_DISPI_ID_HGSMI))
- 		return -ENODEV;
- 
--	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "vboxvideodrmfb");
-+	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "vboxvideodrmfb");
- 	if (ret)
- 		return ret;
- 
-diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
-index 556ad0f02a0d..68ac0e7489a9 100644
---- a/drivers/gpu/drm/vc4/vc4_drv.c
-+++ b/drivers/gpu/drm/vc4/vc4_drv.c
-@@ -30,6 +30,7 @@
- #include <linux/platform_device.h>
- #include <linux/pm_runtime.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_fb_cma_helper.h>
-@@ -266,7 +267,9 @@ static int vc4_drm_bind(struct device *dev)
- 	if (ret)
- 		goto unbind_all;
- 
--	drm_fb_helper_remove_conflicting_framebuffers(NULL, "vc4drmfb", false);
-+	ret = drm_aperture_remove_framebuffers(false, "vc4drmfb");
-+	if (ret)
-+		goto unbind_all;
- 
- 	ret = vc4_kms_load(drm);
- 	if (ret < 0)
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index a21dc3ad6f88..33bf5f53ae31 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -31,6 +31,7 @@
- #include <linux/pci.h>
- 
- #include <drm/drm.h>
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
- #include <drm/drm_file.h>
-@@ -50,13 +51,16 @@ static int virtio_gpu_pci_quirk(struct drm_device *dev, struct virtio_device *vd
- 	const char *pname = dev_name(&pdev->dev);
- 	bool vga = (pdev->class >> 8) == PCI_CLASS_DISPLAY_VGA;
- 	char unique[20];
-+	int ret;
- 
- 	DRM_INFO("pci: %s detected at %s\n",
- 		 vga ? "virtio-vga" : "virtio-gpu-pci",
- 		 pname);
--	if (vga)
--		drm_fb_helper_remove_conflicting_pci_framebuffers(pdev,
--								  "virtiodrmfb");
-+	if (vga) {
-+		ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "virtiodrmfb");
-+		if (ret)
-+			return ret;
-+	}
- 
- 	/*
- 	 * Normally the drm_dev_set_unique() call is done by core DRM.
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 4e41d8221f06..997dadce3a73 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -31,8 +31,8 @@
- #include <linux/pci.h>
- #include <linux/mem_encrypt.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_drv.h>
--#include <drm/drm_fb_helper.h>
- #include <drm/drm_ioctl.h>
- #include <drm/drm_sysfs.h>
- #include <drm/ttm/ttm_bo_driver.h>
-@@ -1491,7 +1491,7 @@ static int vmw_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	struct vmw_private *vmw;
- 	int ret;
- 
--	ret = drm_fb_helper_remove_conflicting_pci_framebuffers(pdev, "svgadrmfb");
-+	ret = drm_aperture_remove_conflicting_pci_framebuffers(pdev, "svgadrmfb");
- 	if (ret)
- 		return ret;
- 
--- 
-2.31.1
-
+V3UgWGlhbmdDaGVuZyA8Ym9id3hjQGVtYWlsLmNuPiDkuo4yMDIx5bm0NOaciDfml6XlkajkuIkg
+5LiL5Y2IMzo1MeWGmemBk++8mg0KPg0KPiBBZGQgbmV3IHRyYW5zbGF0aW9uDQo+ICAgRG9jdW1l
+bnRhdGlvbi90cmFuc2xhdGlvbnMvemhfQ04vZG9jLWd1aWRlL3BhcnNlLWhlYWRlcnMucnN0DQo+
+DQo+IFNpZ25lZC1vZmYtYnk6IFd1IFhpYW5nQ2hlbmcgPGJvYnd4Y0BlbWFpbC5jbj4NCj4gLS0t
+DQo+ICAuLi4vemhfQ04vZG9jLWd1aWRlL3BhcnNlLWhlYWRlcnMucnN0ICAgICAgICAgfCAxODIg
+KysrKysrKysrKysrKysrKysrDQo+ICAxIGZpbGUgY2hhbmdlZCwgMTgyIGluc2VydGlvbnMoKykN
+Cj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBEb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9k
+b2MtZ3VpZGUvcGFyc2UtaGVhZGVycy5yc3QNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRp
+b24vdHJhbnNsYXRpb25zL3poX0NOL2RvYy1ndWlkZS9wYXJzZS1oZWFkZXJzLnJzdCBiL0RvY3Vt
+ZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2RvYy1ndWlkZS9wYXJzZS1oZWFkZXJzLnJzdA0K
+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwMDAuLjRmNmZhMDgzYTNj
+NQ0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL0RvY3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3po
+X0NOL2RvYy1ndWlkZS9wYXJzZS1oZWFkZXJzLnJzdA0KPiBAQCAtMCwwICsxLDE4MiBAQA0KPiAr
+Li4gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjANCj4gKw0KPiArPT09PT09PT09PT09
+PT09PT09PT09PT09PT09DQo+ICvljIXlkKvnlKjmiLfnqbrpl7RBUEnlpLTmlofku7YNCj4gKz09
+PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiArDQo+ICvmnInml7bvvIzkuLrkuobmj4/ov7Dn
+lKjmiLfnqbrpl7RBUEnlubblnKjku6PnoIHlkozmlofmoaPkuYvpl7TnlJ/miJDkuqTlj4nlvJXn
+lKjvvIzpnIDopoHljIXlkKvlpLTmlofku7blkoznpLrkvosNCj4gK0Pku6PnoIHjgILkuLrnlKjm
+iLfnqbrpl7RBUEnmlofku7bmt7vliqDkuqTlj4nlvJXnlKjov5jmnInkuIDkuKrlpb3lpITvvJrl
+poLmnpzlnKjmlofmoaPkuK3mib7kuI3liLDnm7jlupTnrKblj7fvvIwNCj4gK1NwaGlueOWwhueU
+n+aIkOitpuWRiuOAgui/meacieWKqeS6juS/neaMgeeUqOaIt+epuumXtEFQSeaWh+aho+S4juWG
+heaguOabtOaUueWQjOatpeOAgg0KPiArOnJlZjpgcGFyc2VfaGVhZGVycy5wbCA8cGFyc2VfaGVh
+ZGVyc196aD5gIOaPkOS+m+S6hueUn+aIkOatpOexu+S6pOWPieW8leeUqOeahOS4gOenjeaWueaz
+leOAgg0KPiAr5Zyo5p6E5bu65paH5qGj5pe277yM5b+F6aG76YCa6L+HTWFrZWZpbGXosIPnlKjl
+roPjgILmnInlhbPlpoLkvZXlnKjlhoXmoLjmoJHkuK3kvb/nlKjlroPnmoTnpLrkvovvvIzor7fl
+j4LpmIUNCj4gK2BgRG9jdW1lbnRhdGlvbi91c2Vyc3BhY2UtYXBpL21lZGlhL01ha2VmaWxlYGAg
+44CCDQo+ICsNCj4gKy4uIF9wYXJzZV9oZWFkZXJzX3poOg0KPiArDQo+ICtwYXJzZV9oZWFkZXJz
+LnBsDQo+ICstLS0tLS0tLS0tLS0tLS0tLQ0KPiArDQo+ICvohJrmnKzlkI3np7ANCj4gK35+fn5+
+fn5+fg0KPiArDQo+ICsNCj4gK3BhcnNlX2hlYWRlcnMucGzigJTigJTop6PmnpDkuIDkuKpD5paH
+5Lu277yM6K+G5Yir5Ye95pWw44CB57uT5p6E5L2T44CB5p6a5Li+44CB5a6a5LmJ5bm25a+5U3Bo
+aW545paH5qGjDQo+ICvliJvlu7rkuqTlj4nlvJXnlKjjgIINCj4gKw0KPiArDQo+ICvnlKjms5Xm
+poLopoENCj4gK35+fn5+fn5+fg0KPiArDQo+ICsNCj4gK1wgKipwYXJzZV9oZWFkZXJzLnBsKipc
+ICBbPOmAiemhuT5dIDxD5paH5Lu2PiA86L6T5Ye65paH5Lu2PiBbPOS+i+WkluaWh+S7tj5dDQo+
+ICsNCj4gKzzpgInpobk+IOWPr+S7peaYr++8miAtLWRlYnVnLCAtLWhlbHAg5oiWIC0tdXNhZ2Ug
+44CCDQo+ICsNCj4gKw0KPiAr6YCJ6aG5DQo+ICt+fn5+fg0KPiArDQo+ICsNCj4gKw0KPiArXCAq
+Ki0tZGVidWcqKlwNCj4gKw0KPiArIOW8gOWQr+iEmuacrOivpue7huaooeW8j++8jOWcqOiwg+iv
+leaXtuW+iOacieeUqOOAgg0KPiArDQo+ICsNCj4gK1wgKiotLXVzYWdlKipcDQo+ICsNCj4gKyDm
+iZPljbDnroDnn63nmoTluK7liqnkv6Hmga/lubbpgIDlh7rjgIINCj4gKw0KPiArDQo+ICsNCj4g
+K1wgKiotLWhlbHAqKlwNCj4gKw0KPiArIOaJk+WNsOabtOivpue7hueahOW4ruWKqeS/oeaBr+W5
+tumAgOWHuuOAgg0KPiArDQo+ICsNCj4gK+ivtOaYjg0KPiArfn5+fn4NCj4gKw0KPiArDQo+ICvp
+gJrov4fmj4/ov7BBUEnnmoTmlofmoaPkuK3nmoTmnInkuqTlj4nlvJXnlKjnmoTop6PmnpDlkI7m
+lofmnKzlnZfvvIzlsIZD5aS05paH5Lu25oiW5rqQ5paH5Lu277yIPEPmlofku7Y+77yJDQpUaGlz
+IGxpbmUgaXMgZGlmZmljdWx0IGZvciBtZSB0byB1bmRlcnN0YW5kLCBhbmQgaXQgc2VlbXMgdG8g
+c2F5Og0K6YCa6L+H6Kej5p6QQ+WktOaWh+S7tuaIlkPmlofku7bkuK3lr7lBUEnvvIjkuIDkuKrl
+h73mlbDljp/lnovvvInmj4/ov7DnmoTmlofmnKzlnZfvvIjku6XkuIDlrprmoLzlvI/nuqblrprl
+hpnnmoTms6jph4rvvInigKbigKbliLBSZVN0cnVjdHVyZVRleHTjgIINCkknbSBub3Qgc3VyZS4g
+ICDvvJrvvIkNCg0KPiAr6L2s5o2i6L+bUmVTdHJ1Y3R1cmVUZXh044CC5a6D5o6l5Y+X5LiA5Liq
+5Y+v6YCJ55qEPOS+i+WkluaWh+S7tj7vvIzlhbbkuK3mj4/ov7Dkuoblk6rkupvlhYPntKDlsIbo
+oqvlv73nlaUNCj4gK+aIluaMh+WQkemdnum7mOiupOW8leeUqOOAgg0KPiArDQo+ICvovpPlh7ro
+oqvlhpnlhaXliLA86L6T5Ye65paH5Lu2PuOAgg0KPiArDQo+ICvlroPog73lpJ/or4bliKvlrprk
+uYnjgIHlh73mlbDjgIHnu5PmnoTkvZPjgIF0eXBlZGVm44CB5p6a5Li+5ZKM5p6a5Li+56ym5Y+3
+77yM5bm25Li65a6D5Lus5Yib5bu65Lqk5Y+J5byV55So44CCDQo+ICvlroPov5jog73lpJ/ljLrl
+iIbnlKjkuo7mjIflrppMaW51eCBpb2N0bOeahCBgYCNkZWZpbmVgYCDjgIINCj4gKw0KPiArPOS+
+i+WkluaWh+S7tj4g5YyF5ZCr5Lik56eN57G75Z6L55qE6K+t5Y+l77yaIFwgKippZ25vcmUqKlwg
+IOaIliBcICoqcmVwbGFjZSoqXCAuDQo+ICsNCj4gK2lnbm9yZeagh+iusOeahOivreazleS4uu+8
+mg0KPiArDQo+ICsNCj4gK2lnbm9yZSBcICoqdHlwZSoqXCAgXCAqKm5hbWUqKlwNCj4gKw0KPiAr
+VGhlIFwgKippZ25vcmUqKlwgIOaEj+WRs+edgOWug+S4jeS8muS4uuexu+Wei+S4uiBcICoqdHlw
+ZSoqXCDnmoQgXCAqKm5hbWUqKlwg56ym5Y+355Sf5oiQDQo+ICvkuqTlj4nlvJXnlKjjgIINCj4g
+Kw0KPiArDQo+ICtyZXBsYWNl5qCH6K6w55qE6K+t5rOV5Li677yaDQo+ICsNCj4gKw0KPiArcmVw
+bGFjZSBcICoqdHlwZSoqXCAgXCAqKm5hbWUqKlwgIFwgKipuZXdfdmFsdWUqKlwNCj4gKw0KPiAr
+VGhlIFwgKipyZXBsYWNlKipcICDlkbPnnYDlroPlsIbkuLogXCAqKnR5cGUqKlwg57G75Z6L55qE
+IFwgKipuYW1lKipcIOespuWPt+eUn+aIkOS6pOWPieW8lQ0KPiAr55So77yM5L2G5piv5a6D5bCG
+5L2/55SoIFwgKipuZXdfdmFsdWUqKlwg5p2l5Y+W5Luj6buY6K6k55qE5pu/5o2i6KeE5YiZ44CC
+DQo+ICsNCj4gKw0KPiAr6L+Z5Lik56eN6K+t5Y+l5Lit77yMIFwgKip0eXBlKipcIOWPr+S7peaY
+r+S7peS4i+S7u+S4gOmhue+8mg0KPiArDQo+ICsNCj4gK1wgKippb2N0bCoqXA0KPiArDQo+ICsg
+aWdub3JlIOaIliByZXBsYWNlIOivreWPpeW6lOeUqOS6jmlvY3Rs5a6a5LmJ77yM5aaC77yaDQo+
+ICsNCj4gKyAjZGVmaW5lICAgICAgIFZJRElPQ19EQkdfU19SRUdJU1RFUiAgICBfSU9XKCdWJywg
+NzksIHN0cnVjdCB2NGwyX2RiZ19yZWdpc3RlcikNCj4gKw0KPiArDQo+ICsNCj4gK1wgKipkZWZp
+bmUqKlwNCj4gKw0KPiArIGlnbm9yZSDmiJYgcmVwbGFjZSDor63lj6XlupTnlKjkuo7lnKg8Q+aW
+h+S7tj7kuK3mib7liLDnmoTku7vkvZXlhbbku5YgYGAjZGVmaW5lYGAg44CCDQo+ICsNCj4gKw0K
+PiArDQo+ICtcICoqdHlwZWRlZioqXA0KPiArDQo+ICsgaWdub3JlIOWSjCByZXBsYWNlIOivreWP
+peW6lOeUqOS6jjxD5paH5Lu2PuS4reeahHR5cGVkZWbor63lj6XjgIINCj4gKw0KPiArDQo+ICsN
+Cj4gK1wgKipzdHJ1Y3QqKlwNCj4gKw0KPiArIGlnbm9yZSDlkowgcmVwbGFjZSDor63lj6XlupTn
+lKjkuo48Q+aWh+S7tj7kuK3nmoTnu5PmnoTkvZPlkI3np7Dor63lj6XjgIINCj4gKw0KPiArDQo+
+ICsNCj4gK1wgKiplbnVtKipcDQo+ICsNCj4gKyBpZ25vcmUg5ZKMIHJlcGxhY2Ug6K+t5Y+l5bqU
+55So5LqOPEPmlofku7Y+5Lit55qE5p6a5Li+5ZCN56ew6K+t5Y+l44CCDQo+ICsNCj4gKw0KPiAr
+DQo+ICtcICoqc3ltYm9sKipcDQo+ICsNCj4gKyBpZ25vcmUg5ZKMIHJlcGxhY2Ug6K+t5Y+l5bqU
+55So5LqOPEPmlofku7Y+5Lit55qE5p6a5Li+5YC85ZCN56ew6K+t5Y+l44CCDQo+ICsNCj4gKyBy
+ZXBsYWNl6K+t5Y+l5Lit77yMIFwgKipuZXdfdmFsdWUqKlwgIOS8muiHquWKqOS9v+eUqCBcICoq
+dHlwZWRlZioqXCAsIFwgKiplbnVtKipcDQo+ICsg5ZKMIFwgKipzdHJ1Y3QqKlwg57G75Z6L55qE
+IDpjOnR5cGU6IOW8leeUqO+8m+S7peWPiiBcICoqaW9jdGwqKlwgLCBcICoqZGVmaW5lKipcICDl
+kowNCj4gKyBcICoqc3ltYm9sKipcIOexu+Wei+eahCAgOnJlZjog44CC5byV55So55qE57G75Z6L
+5Lmf5Y+v5Lul5ZyocmVwbGFjZeivreWPpeS4reaYvuW8j+WumuS5ieOAgg0KPiArDQo+ICsNCj4g
+K+ekuuS+iw0KPiArfn5+fn4NCj4gKw0KPiArDQo+ICtpZ25vcmUgZGVmaW5lIF9WSURFT0RFVjJf
+SA0KPiArDQo+ICsNCj4gK+W/veeVpTxD5paH5Lu2PuS4reeahCAjZGVmaW5lIF9WSURFT0RFVjJf
+SCDjgIINCj4gKw0KPiAraWdub3JlIHN5bWJvbCBQUklWQVRFDQo+ICsNCj4gKw0KPiAr5aaC5LiL
+57uT5p6E5L2T77yaDQo+ICsNCj4gK2VudW0gZm9vIHsgQkFSMSwgQkFSMiwgUFJJVkFURSB9Ow0K
+PiArDQo+ICvkuI3kvJrkuLogXCAqKlBSSVZBVEUqKlwg55Sf5oiQ5Lqk5Y+J5byV55So44CCDQo+
+ICsNCj4gK3JlcGxhY2Ugc3ltYm9sIEJBUjEgOmM6dHlwZTpcYGZvb1xgDQo+ICtyZXBsYWNlIHN5
+bWJvbCBCQVIyIDpjOnR5cGU6XGBmb29cYA0KPiArDQo+ICsNCj4gK+WmguS4i+e7k+aehOS9k++8
+mg0KPiArDQo+ICtlbnVtIGZvbyB7IEJBUjEsIEJBUjIsIFBSSVZBVEUgfTsNCj4gKw0KPiAr5a6D
+5Lya6K6pQkFSMeWSjEJBUjLmnprkuL7nrKblj7fkuqTlj4nlvJXnlKhD5Z+f5Lit55qEZm9v56ym
+5Y+344CCDQo+ICsNCj4gKw0KPiArDQo+ICvnvLrpmbcNCj4gK35+fn5+DQo+ICsNCj4gKw0KPiAr
+6K+35ZCRTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIDxtY2hlaGFiQGtlcm5lbC5vcmc+5oql5ZGK5pyJ
+5YWz57y66Zm344CCDQo+ICsNCj4gK+S4reaWh+e/u+ivkemXrumimOivt+aJvuS4reaWh+e/u+iv
+kee7tOaKpOiAheOAgg0KPiArDQo+ICsNCj4gK+eJiOadgw0KPiArfn5+fn4NCj4gKw0KPiArDQo+
+ICvniYjmnYPmiYDmnIkgKGMpIDIwMTYgTWF1cm8gQ2FydmFsaG8gQ2hlaGFiIDxtY2hlaGFiK3Nh
+bXN1bmdAa2VybmVsLm9yZz4NCj4gKw0KPiAr6K645Y+v6K+BIEdQTHYy77yaR05VIEdQTCB2ZXJz
+aW9uIDIgPGh0dHBzOi8vZ251Lm9yZy9saWNlbnNlcy9ncGwuaHRtbD4NCj4gKw0KPiAr6L+Z5piv
+6Ieq55Sx6L2v5Lu277ya5L2g5Y+v5Lul6Ieq55Sx5Zyw5L+u5pS55ZKM6YeN5paw5Y+R5biD5a6D
+44CCDQo+ICvlnKjms5XlvovlhYHorrjnmoTojIPlm7TlhoXvvIwqKuayoeacieS7u+S9leS/neiv
+gSoq44CCDQo+IC0tDQo+IDIuMjAuMQ0KPg0KDQpUaGFua3PvvIENCg0KWWFuIHRlbmcNCg==
