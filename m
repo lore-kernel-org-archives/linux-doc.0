@@ -2,108 +2,303 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 280EBC433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 09:45:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3405AC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 10:28:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E6A646127A
-	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 09:45:07 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1351E6109E
+	for <linux-doc@archiver.kernel.org>; Mon, 12 Apr 2021 10:28:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237532AbhDLJpV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 12 Apr 2021 05:45:21 -0400
-Received: from mga18.intel.com ([134.134.136.126]:19008 "EHLO mga18.intel.com"
+        id S239102AbhDLK2k (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 12 Apr 2021 06:28:40 -0400
+Received: from foss.arm.com ([217.140.110.172]:45736 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S241188AbhDLJhP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 12 Apr 2021 05:37:15 -0400
-IronPort-SDR: B1ftWdqansXOm5tSRSMvKo9Dj41eQVyvaLCrycbBs7pZ3dVFjTKztDinXnDa235kJ8RudSOuC2
- AoZCVyhhbHxQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9951"; a="181670669"
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
-   d="scan'208";a="181670669"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:36:51 -0700
-IronPort-SDR: BBCOyapemeK9QZkDPBZxXvoR2i98nYdREezj2tp28wTBkgLtXJB+Xt78hIAApuRKeB+lVe58sq
- BSfQQBkcXE7g==
-X-IronPort-AV: E=Sophos;i="5.82,216,1613462400"; 
-   d="scan'208";a="417310215"
-Received: from cyeni-mobl.ger.corp.intel.com (HELO localhost) ([10.252.62.41])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2021 02:36:47 -0700
-From:   Jani Nikula <jani.nikula@linux.intel.com>
-To:     Thomas Zimmermann <tzimmermann@suse.de>, airlied@linux.ie,
-        daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, corbet@lwn.net
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/3] drm/aperture: Add infrastructure for aperture ownership
-In-Reply-To: <20210412090021.23054-2-tzimmermann@suse.de>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210412090021.23054-1-tzimmermann@suse.de> <20210412090021.23054-2-tzimmermann@suse.de>
-Date:   Mon, 12 Apr 2021 12:36:44 +0300
-Message-ID: <87mtu3kfo3.fsf@intel.com>
+        id S238293AbhDLK2j (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Mon, 12 Apr 2021 06:28:39 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 39C3D1FB;
+        Mon, 12 Apr 2021 03:28:21 -0700 (PDT)
+Received: from [10.57.28.63] (unknown [10.57.28.63])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 69B3A3F694;
+        Mon, 12 Apr 2021 03:28:19 -0700 (PDT)
+Subject: Re: [PATCH v6 07/10] coresight: etm4x: Add complex configuration
+ handlers to etmv4
+To:     Mike Leach <mike.leach@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        mathieu.poirier@linaro.org, linux-doc@vger.kernel.org
+Cc:     yabinc@google.com, leo.yan@linaro.org,
+        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
+References: <20210409103722.26290-1-mike.leach@linaro.org>
+ <20210409103722.26290-8-mike.leach@linaro.org>
+From:   Suzuki K Poulose <suzuki.poulose@arm.com>
+Message-ID: <97d53224-0749-086b-b2b4-12c91ec8ad5a@arm.com>
+Date:   Mon, 12 Apr 2021 11:28:18 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.9.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20210409103722.26290-8-mike.leach@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, 12 Apr 2021, Thomas Zimmermann <tzimmermann@suse.de> wrote:
-> + * DRM drivers should call drm_aperture_remove_conflicting_framebuffers()
-> + * at the top of their probe function. The function removes any generic
-> + * driver that is currently associated with the given framebuffer memory.
-> + * If the framebuffer is located at PCI BAR 0, the rsp code looks as in the
-> + * example given below.
-> + *
-> + * .. code-block:: c
-> + *
-> + *	static int remove_conflicting_framebuffers(struct pci_dev *pdev)
-> + *	{
-> + *		bool primary = false;
-> + *		resource_size_t base, size;
-> + *		int ret;
-> + *
-> + *		base = pci_resource_start(pdev, 0);
-> + *		size = pci_resource_len(pdev, 0);
-> + *	#ifdef CONFIG_X86
-> + *		primary = pdev->resource[PCI_ROM_RESOURCE].flags & IORESOURCE_ROM_SHADOW;
-> + *	#endif
-> + *
-> + *		return drm_aperture_remove_conflicting_framebuffers(base, size, primary,
-> + *		                                                    "example driver");
-> + *	}
-> + *
-> + *	static int probe(struct pci_dev *pdev)
-> + *	{
-> + *		int ret;
-> + *
-> + *		// Remove any generic drivers...
-> + *		ret = remove_conflicting_framebuffers(pdev);
-> + *		if (ret)
-> + *			return ret;
-> + *
-> + *		// ... and initialize the hardware.
-> + *		...
-> + *
-> + *		drm_dev_register();
-> + *
-> + *		return 0;
-> + *	}
+On 09/04/2021 11:37, Mike Leach wrote:
+> Adds in handlers to allow the ETMv4 to use the complex configuration
+> support. Features and configurations can be loaded and selected in the
+> device.
+> 
+> Signed-off-by: Mike Leach <mike.leach@linaro.org>
+> Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+> ---
+>   drivers/hwtracing/coresight/Makefile          |   3 +-
+>   .../hwtracing/coresight/coresight-etm4x-cfg.c | 182 ++++++++++++++++++
+>   .../hwtracing/coresight/coresight-etm4x-cfg.h |  15 ++
+>   .../coresight/coresight-etm4x-core.c          |  38 +++-
+>   .../coresight/coresight-etm4x-sysfs.c         |   3 +
+>   5 files changed, 238 insertions(+), 3 deletions(-)
+>   create mode 100644 drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+>   create mode 100644 drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+> 
+> diff --git a/drivers/hwtracing/coresight/Makefile b/drivers/hwtracing/coresight/Makefile
+> index 63ecfc3cf66d..9420d33b23ac 100644
+> --- a/drivers/hwtracing/coresight/Makefile
+> +++ b/drivers/hwtracing/coresight/Makefile
+> @@ -16,7 +16,8 @@ obj-$(CONFIG_CORESIGHT_SOURCE_ETM3X) += coresight-etm3x.o
+>   coresight-etm3x-y := coresight-etm3x-core.o coresight-etm-cp14.o \
+>   		     coresight-etm3x-sysfs.o
+>   obj-$(CONFIG_CORESIGHT_SOURCE_ETM4X) += coresight-etm4x.o
+> -coresight-etm4x-y := coresight-etm4x-core.o coresight-etm4x-sysfs.o
+> +coresight-etm4x-y := coresight-etm4x-core.o coresight-etm4x-sysfs.o \
+> +			coresight-etm4x-cfg.o
+>   obj-$(CONFIG_CORESIGHT_STM) += coresight-stm.o
+>   obj-$(CONFIG_CORESIGHT_CPU_DEBUG) += coresight-cpu-debug.o
+>   obj-$(CONFIG_CORESIGHT_CATU) += coresight-catu.o
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> new file mode 100644
+> index 000000000000..d2ea903231b2
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> @@ -0,0 +1,182 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright(C) 2020 Linaro Limited. All rights reserved.
+> + * Author: Mike Leach <mike.leach@linaro.org>
+> + */
+> +
 
-I'm guessing you can't use tabs for the first indentation level
-here. IIRC kernel-doc removes the leading comment marker and one
-whitespace whether it's space or tab, resulting in rst where the
-code-block contents are only partially indented.
+> +#include "coresight-etm4x.h"
+> +#include "coresight-etm4x-cfg.h"
+> +#include "coresight-priv.h"
+> +#include "coresight-syscfg.h"
+> +
+> +/* defines to associate register IDs with driver data locations */
+> +#define CHECKREG(cval, elem) \
+> +	{ \
+> +		if (offset == cval) { \
+> +			reg_csdev->driver_regval = &drvcfg->elem; \
+> +			err = 0; \
+> +			break; \
+> +		} \
+> +	}
+> +
+> +#define CHECKREGIDX(cval, elem, off_idx, mask)	\
+> +	{ \
+> +		if (mask == cval) { \
+> +			reg_csdev->driver_regval = &drvcfg->elem[off_idx]; \
+> +			err = 0; \
+> +			break; \
+> +		} \
+> +	}
+> +
+> +/**
+> + * etm4_cfg_map_reg_offset - validate and map the register offset into a
+> + *			     location in the driver config struct.
+> + *
+> + * Limits the number of registers that can be accessed and programmed in
+> + * features, to those which are used to control the trace capture parameters.
+> + *
+> + * Omits or limits access to those which the driver must use exclusively.
+> + *
+> + * Invalid offsets will result in fail code return and feature load failure.
+> + *
+> + * @drvdata:	driver data to map into.
+> + * @reg:	register to map.
+> + * @offset:	device offset for the register
+> + */
+> +static int etm4_cfg_map_reg_offset(struct etmv4_drvdata *drvdata,
+> +				   struct cscfg_regval_csdev *reg_csdev, u32 offset)
+> +{
+> +	int err = -EINVAL, idx;
+> +	struct etmv4_config *drvcfg = &drvdata->config;
+> +	u32 off_mask;
+> +
+> +	if (((offset >= TRCEVENTCTL0R) && (offset <= TRCVIPCSSCTLR)) ||
+> +	    ((offset >= TRCSEQRSTEVR) && (offset <= TRCEXTINSELR)) ||
+> +	    ((offset >= TRCCIDCCTLR0) && (offset <= TRCVMIDCCTLR1))) {
+> +		do {
+> +			CHECKREG(TRCEVENTCTL0R, eventctrl0);
+> +			CHECKREG(TRCEVENTCTL1R, eventctrl1);
+> +			CHECKREG(TRCSTALLCTLR, stall_ctrl);
+> +			CHECKREG(TRCTSCTLR, ts_ctrl);
+> +			CHECKREG(TRCSYNCPR, syncfreq);
+> +			CHECKREG(TRCCCCTLR, ccctlr);
+> +			CHECKREG(TRCBBCTLR, bb_ctrl);
+> +			CHECKREG(TRCVICTLR, vinst_ctrl);
+> +			CHECKREG(TRCVIIECTLR, viiectlr);
+> +			CHECKREG(TRCVISSCTLR, vissctlr);
+> +			CHECKREG(TRCVIPCSSCTLR, vipcssctlr);
+> +			CHECKREG(TRCSEQRSTEVR, seq_rst);
+> +			CHECKREG(TRCSEQSTR, seq_state);
+> +			CHECKREG(TRCEXTINSELR, ext_inp);
+> +			CHECKREG(TRCCIDCCTLR0, ctxid_mask0);
+> +			CHECKREG(TRCCIDCCTLR1, ctxid_mask1);
+> +			CHECKREG(TRCVMIDCCTLR0, vmid_mask0);
+> +			CHECKREG(TRCVMIDCCTLR1, vmid_mask1);
+> +		} while (0);
+> +	} else if ((offset & GENMASK(11, 4)) == TRCSEQEVRn(0)) {
+> +		/* sequencer state control registers */
+> +		idx = (offset & GENMASK(3, 0)) / 4;
+> +		if (idx < ETM_MAX_SEQ_STATES) {
+> +			reg_csdev->driver_regval = &drvcfg->seq_ctrl[idx];
+> +			err = 0;
+> +		}
+> +	} else if ((offset >= TRCSSCCRn(0)) && (offset <= TRCSSPCICRn(7))) {
+> +		/* 32 bit, 8 off indexed register sets */
+> +		idx = (offset & GENMASK(4, 0)) / 4;
+> +		off_mask =  (offset & GENMASK(11, 5));
+> +		do {
+> +			CHECKREGIDX(TRCSSCCRn(0), ss_ctrl, idx, off_mask);
+> +			CHECKREGIDX(TRCSSCSRn(0), ss_status, idx, off_mask);
+> +			CHECKREGIDX(TRCSSPCICRn(0), ss_pe_cmp, idx, off_mask);
+> +		} while (0);
+> +	} else if ((offset >= TRCCIDCVRn(0)) && (offset <= TRCVMIDCVRn(7))) {
+> +		/* 64 bit, 8 off indexed register sets */
+> +		idx = (offset & GENMASK(5, 0)) / 8;
+> +		off_mask = (offset & GENMASK(11, 6));
+> +		do {
+> +			CHECKREGIDX(TRCCIDCVRn(0), ctxid_pid, idx, off_mask);
+> +			CHECKREGIDX(TRCVMIDCVRn(0), vmid_val, idx, off_mask);
+> +		} while (0);
+> +	} else if ((offset >= TRCRSCTLRn(2)) &&
+> +		   (offset <= TRCRSCTLRn((ETM_MAX_RES_SEL - 1)))) {
+> +		/* 32 bit resource selection regs, 32 off, skip fixed 0,1 */
+> +		idx = (offset & GENMASK(6, 0)) / 4;
+> +		if (idx < ETM_MAX_RES_SEL) {
+> +			reg_csdev->driver_regval = &drvcfg->res_ctrl[idx];
+> +			err = 0;
+> +		}
+> +	} else if ((offset >= TRCACVRn(0)) &&
+> +		   (offset <= TRCACATRn((ETM_MAX_SINGLE_ADDR_CMP - 1)))) {
+> +		/* 64 bit addr cmp regs, 16 off */
+> +		idx = (offset & GENMASK(6, 0)) / 8;
+> +		off_mask = offset & GENMASK(11, 7);
+> +		do {
+> +			CHECKREGIDX(TRCACVRn(0), addr_val, idx, off_mask);
+> +			CHECKREGIDX(TRCACATRn(0), addr_acc, idx, off_mask);
+> +		} while (0);
+> +	} else if ((offset >= TRCCNTRLDVRn(0)) &&
+> +		   (offset <= TRCCNTVRn((ETMv4_MAX_CNTR - 1)))) {
+> +		/* 32 bit counter regs, 4 off (ETMv4_MAX_CNTR - 1) */
+> +		idx = (offset &  GENMASK(3, 0)) / 4;
+> +		off_mask = offset &  GENMASK(11, 4);
+> +		do {
+> +			CHECKREGIDX(TRCCNTRLDVRn(0), cntrldvr, idx, off_mask);
+> +			CHECKREGIDX(TRCCNTCTLRn(0), cntr_ctrl, idx, off_mask);
+> +			CHECKREGIDX(TRCCNTVRn(0), cntr_val, idx, off_mask);
+> +		} while (0);
+> +	}
+> +	return err;
+> +}
+> +
+> +/**
+> + * etm4_cfg_load_feature - load a feature into a device instance.
+> + *
+> + * @csdev:	An ETMv4 CoreSight device.
+> + * @feat:	The feature to be loaded.
+> + *
+> + * The function will load a feature instance into the device, checking that
+> + * the register definitions are valid for the device.
+> + *
+> + * Parameter and register definitions will be converted into internal
+> + * structures that are used to set the values in the driver when the
+> + * feature is enabled for the device.
+> + *
+> + * The feature spinlock pointer is initialised to the same spinlock
+> + * that the driver uses to protect the internal register values.
+> + */
+> +static int etm4_cfg_load_feature(struct coresight_device *csdev,
+> +				 struct cscfg_feature_csdev *feat_csdev)
+> +{
+> +	struct device *dev = csdev->dev.parent;
+> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(dev);
+> +	const struct cscfg_feature_desc *feat_desc = feat_csdev->feat_desc;
+> +	u32 offset;
+> +	int i = 0, err = 0;
+> +
+> +	/*
+> +	 * essential we set the device spinlock - this is used in the generic
+> +	 * programming routines when copying values into the drvdata structures
+> +	 * via the pointers setup in etm4_cfg_map_reg_offset().
+> +	 */
+> +	feat_csdev->drv_spinlock = &drvdata->spinlock;
+> +
+> +	/* process the register descriptions */
+> +	for (i = 0; i < feat_csdev->nr_regs && !err; i++) {
+> +		offset = feat_desc->regs_desc[i].offset;
+> +		err = etm4_cfg_map_reg_offset(drvdata, &feat_csdev->regs_csdev[i], offset);
+> +	}
+> +	return err;
+> +}
+> +
+> +/* match information when loading configurations */
+> +#define CS_CFG_ETM4_MATCH_FLAGS	(CS_CFG_MATCH_CLASS_SRC_ALL | \
+> +				 CS_CFG_MATCH_CLASS_SRC_ETM4)
+> +
+> +int etm4_cscfg_register(struct coresight_device *csdev)
+> +{
+> +	struct cscfg_csdev_feat_ops ops;
+> +
+> +	ops.load_feat = &etm4_cfg_load_feature;
+> +
+> +	return cscfg_register_csdev(csdev, CS_CFG_ETM4_MATCH_FLAGS, &ops);
+> +}
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.h b/drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+> new file mode 100644
+> index 000000000000..a204ad9a4792
+> --- /dev/null
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+> @@ -0,0 +1,15 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2014-2020, The Linux Foundation. All rights reserved.
+> + */
+> +
+> +#ifndef _CORESIGHT_ETM4X_CFG_H
+> +#define _CORESIGHT_ETM4X_CFG_H
 
-Please test the documentation build before applying.
 
-Otherwise, the series seems like a nice cleanup.
+Looks like this must be guarded by the CONFIG_CORESIGHT_SOURCE_ETM4X to 
+prevent the build failures on arm, as reported by the test robot.
 
-Acked-by: Jani Nikula <jani.nikula@intel.com>
+#ifdef CONFIG_CORESIGHT_SOURCE_ETM4X
 
+> +
+> +#include "coresight-config.h"
+> +#include "coresight-etm4x.h"
+> +
+> +/* ETMv4 specific config functions */
+> +int etm4_cscfg_register(struct coresight_device *csdev);
+> +
 
+endif /* ETM4X */
 
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Cheers
+Suzuki
+
