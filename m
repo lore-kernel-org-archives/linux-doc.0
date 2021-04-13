@@ -2,142 +2,250 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6578BC43460
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 22:53:27 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72069C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 22:57:53 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 45190613B6
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 22:53:27 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 51DF361249
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 22:57:53 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348697AbhDMWxq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 18:53:46 -0400
-Received: from mail-bn7nam10on2043.outbound.protection.outlook.com ([40.107.92.43]:50208
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1346222AbhDMWxp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Apr 2021 18:53:45 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Wonl0Ny4OwIUwe7KrNUa0sKWNdjiuYrfhkDq/2miAtDId6iXhY0YNUM+6AqA3Kyy29O2FWrofAy+7+T9Av2fxmrSQeW9kkxRUznMpEJHdXoRHO6HVqvZDK6TI+2Zv0R8zl3OeXS6JkQF9kdx7m4PiDN1zWY6gzAafoO7Z0hxoIukQnRd0LwMVPr9MaFkUo6QXuo6W8J8gh8/eU+t596yMR18hcRDXCFTq22mNZ4wGZaexBWAdhaqOL8d/LwDxUmsMIysGjQGxXp3BLeiD3x2v3lAj8kpZhuYOZnlcxneYi9CksYzl0WqNYfPUAciURZQBLOmVLwtBuNUQ/c2aTR9cg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oRFOzNI7NLkoTzV6wLlkBzBM6NvioCAQc8hkVGW43Y4=;
- b=YGus1afsSgSHz04ckXNgxvsbdE5Cy3DgfMsDM76PdjPM4UboNoARZs+7//VrK4MSLdLwfV7/5UbVrzUdj7/bC0IHetRyY3FA/IQgrwD2PEwsNjQ9v3QgEOUBLlds25lhdSQ08sFJm9wKQC005V4wvuX1u43hXQ8BN9AON5M014BYDpCN7JpqOtEvWCHoSl0qEiz+W/cb1yOSZbOIrrAQ5toZVy+IRLlgK2ocYr9H5/hX/F4YdBDvPPkJj1Ytg/xUzpQ5ZG83YQ+LjNRl53qJ+gtOUgfPuMylKyI6n5NIQmTSah4vG+PgHZSgGhJlcBnl5bp1uSnHU6y9cWwFPltBbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oRFOzNI7NLkoTzV6wLlkBzBM6NvioCAQc8hkVGW43Y4=;
- b=XCoQc7QMcBsk72TcuvACnoyjz5RwiFPRF3tJJyjoVVMfUC2Ecj6R6XevUHNas1hHYYCguSJFs5P4aT3wTNXnMEJ6vzA5LEoTlMcO5lfOry4Batkd8lZyL4VnENlUx+T2HnqHMVh7/awvPO0Wdjo69Fl4sI6i1/OqBmexw+9FDITcSooaSLorIvrK7DdQ3xguW8XKB2PcqlWQmeChZQH6fDxt9Y2nnKhycpWH3x2U16J5DVhP3rl1yaeVq7aJvJ7HFKYZR2gkQBLVl6g+ZYYmaj1DWuEzteYbJBpi1O0LaHzXvaTd/pUH37zRmQ7ilyUpHsC3QfSE2qjZsgpduyE3dA==
-Authentication-Results: ionos.com; dkim=none (message not signed)
- header.d=none;ionos.com; dmarc=none action=none header.from=nvidia.com;
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (10.255.76.76) by
- DM5PR12MB1659.namprd12.prod.outlook.com (10.172.40.140) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4020.18; Tue, 13 Apr 2021 22:53:23 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.4020.022; Tue, 13 Apr 2021
- 22:53:23 +0000
-Date:   Tue, 13 Apr 2021 19:53:21 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Gioh Kim <gi-oh.kim@ionos.com>
-Cc:     linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org,
-        bvanassche@acm.org, leon@kernel.org, dledford@redhat.com,
-        haris.iqbal@ionos.com, jinpu.wang@ionos.com,
-        akinobu.mita@gmail.com, corbet@lwn.net
-Subject: Re: [PATCH 0/4] Enable Fault Injection for RTRS
-Message-ID: <20210413225321.GA1376340@nvidia.com>
-References: <20210406115049.196527-1-gi-oh.kim@ionos.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210406115049.196527-1-gi-oh.kim@ionos.com>
-X-Originating-IP: [142.162.115.133]
-X-ClientProxiedBy: BL0PR1501CA0019.namprd15.prod.outlook.com
- (2603:10b6:207:17::32) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+        id S1347659AbhDMW6M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 18:58:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57186 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232798AbhDMW6M (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 18:58:12 -0400
+Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D6FAC061574
+        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 15:57:52 -0700 (PDT)
+Received: by mail-pf1-x42b.google.com with SMTP id a12so12420746pfc.7
+        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 15:57:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=6sqdcuryxsdrCZB//EKTroEdj394HnrdQW5wO/Kusf8=;
+        b=P+qx3+ElK9fqp8beAocKGE8SgPJiXuTLPTr0aQ/xz1k4vh4+2yrHlHR7vpi9Q0cznk
+         kQknvUC6WpvMK5/2n5iH/WUhLNWpB+j8fOvoUK+tmPQbz3KX/QHsVO0gZXT+h1IJWHg8
+         fTnwZwS0XsYxm7MI5ujdnoGA6ZIdEAS01Fb0s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=6sqdcuryxsdrCZB//EKTroEdj394HnrdQW5wO/Kusf8=;
+        b=TtkF1xFK9xN/PFQjL9jMJzNTnpN2orMQYA0jyUs+gnmzvf6+5NCjBkkbzGlz8aCK41
+         BKUfdrLJ01ytwgGdpEA4m9B7FXvCFUhh23IJCzMpvf1hPh2JsJGV4xyIsLAVUNzaRExf
+         Nx7ybiaFGK5oTAljGdtvb3ornRUKKHPQGQoTaAD0hrGHCdCE/oCFn31ZxIf/X098QWwb
+         khY6Q8DXr2WXTQKYNLs7UyMhwn+GmyH37gKY6PLpz4BeGaXVPJh8+qOl73HXmFLm9gVR
+         Mps1/8S4ecMTRFTCsEUnGo8btVMZuueLFe3P/y7Ap3a9M8C8RqSNgI1zouy+RjsFjX0Z
+         SLxg==
+X-Gm-Message-State: AOAM532FzdJzSJU/4HP2GmHG80lH3lOE4i0yQEFxQXS6Zt2Z1TKkUYA2
+        SZG/SGWcrQiAQMLs54dU1UUVFQ==
+X-Google-Smtp-Source: ABdhPJz3Cupzqfs4XSmtfJO/mdGNl79Euq/LKJdkMxPcHsb/vAL8g/5JiXAiwb/MWOcm9tkJbS9jJw==
+X-Received: by 2002:a63:d70f:: with SMTP id d15mr35400288pgg.397.1618354671737;
+        Tue, 13 Apr 2021 15:57:51 -0700 (PDT)
+Received: from chromium.org ([2620:15c:202:201:1d18:a339:7993:e548])
+        by smtp.gmail.com with ESMTPSA id r10sm3378727pjf.5.2021.04.13.15.57.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Apr 2021 15:57:51 -0700 (PDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (142.162.115.133) by BL0PR1501CA0019.namprd15.prod.outlook.com (2603:10b6:207:17::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.16 via Frontend Transport; Tue, 13 Apr 2021 22:53:23 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lWRuL-005m43-Qm; Tue, 13 Apr 2021 19:53:21 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5215e2d7-cfd8-4071-c5d5-08d8fecef0fa
-X-MS-TrafficTypeDiagnostic: DM5PR12MB1659:
-X-Microsoft-Antispam-PRVS: <DM5PR12MB1659664A9260FD043252DA01C24F9@DM5PR12MB1659.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ly2E6uSzjf1QH7uWQAuzLAe5/JtbNRijoTPfjE62rSVAJmTBh9J0D+Uk2Xrv3PlHK9P/ZKfSKaeSnJg2ho+qCw862N6XGN4vOVhRfiJo+9VWTYDz41iVY9UE8+H/xjIg21+F3uoAde/8XhzGQBOyBmOCevsoQm2IBSnV96UH84t6KeXABzd/pJ6SfVmTxMBfVmj4omdZYn3AkAiAnrAdA+EyIgKdUxDer5Bc5qERbo1vsNkZrkAWWceeUYv8V7TlPMVVhihIghooEQaWjoNDhFflwfryth6pv8+impO+eaYKD/DUvEnEyctMVtKlh6ryIDInfU8TIA8nmEQeSZ2KFqTsF4KQHausRHwUoZpNw4Xp79NF8M18x6m0c7aB8h0ACXDjte25tNUU4VNcg3fBgl1wZc3+yjamI8L36MBzev9tLEJhoAkyNiNP3KXgwg1in10E41W5c3Vm0wUSRjMxMMBorimzUVRqyoZO+RfxEbza1bt5OLkal3fNDpVYkPTCpwIQ7nIsVNhk9YFxniF6S4CSKRDrZIfITSNpzkeZntvOZNfgtt8tdkABPZo6BZNyg4BD6bfv9B7efzkOun7F4F+GGAs1QShmin6WslNiyXc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(396003)(376002)(136003)(39860400002)(36756003)(66556008)(2616005)(2906002)(6916009)(478600001)(9746002)(316002)(426003)(8936002)(7416002)(9786002)(66476007)(38100700002)(86362001)(8676002)(4326008)(83380400001)(33656002)(186003)(1076003)(66946007)(5660300002)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?7MUd6OxccVNM4MikZ+lzsF+3M01mGgEZlbY+iH/gNdeDBWQAhxxcUYyimzqM?=
- =?us-ascii?Q?aK8h5f8CcIhOySLRyBOrgSF69VMh4r3j6p31QKaDsng78ewIZFPxURXuYRCz?=
- =?us-ascii?Q?aItMTMemvrcmsyvrRU6IW/eR+Q+j9iooSP/l4ipeUdeFTmtmiSBFhKE+Ix0L?=
- =?us-ascii?Q?wtJCVObvhIcB3ZoMyUrWAMW8+jZv3hVGjDylHuTgMzkEPVCgDXmm4wTF4DJf?=
- =?us-ascii?Q?o5CWvXBOr6HuU+tNWbUqnxegve2AeUFdU8yzxydynXWLCMzwokAUMvRyvLQH?=
- =?us-ascii?Q?bK/E542hCWbBPvAiNQBiiTlqIConA3JsEQZ2BFYpzpALw+4L0xRGlJ15EmZ1?=
- =?us-ascii?Q?xEFTZdNVCsRw+li/zr8f9ctqNHnykhVJn40nab+tvSKEHf6A+xGd4OMbGl1r?=
- =?us-ascii?Q?hUZA6L4mSnacUODYc66s6yYu/foHeTRVyGk2g+oQIIzU9o2G5qdYwkWQcRJj?=
- =?us-ascii?Q?oKAJ4rktdgJuV1viAUgWYHa9MT2HE9oonUrvA7X+BXMQzRJ0JxKF2df+pIjL?=
- =?us-ascii?Q?rueLKCB1vh765bUHec89SRdRSsLo09cjrPfocpBZZvqCotCieGQwmrQEaz7o?=
- =?us-ascii?Q?TJq14Zn6plzg1skdUssYPPuLeF+jRVoT78bBQ4eO4enid/QpWsMLXxyDSeyL?=
- =?us-ascii?Q?1idcRXCNEXJ7Jgnjs6CSb2ks2Rgw51BKpfsyTI68v5R7VjZly/IWic2VOh3D?=
- =?us-ascii?Q?7IezVO1nX31od6XknZVuGJVoA7Zuz8ocWdY1SVZR9xaHn+ZPIwSCathFGAyE?=
- =?us-ascii?Q?izE//FCk55N7e1ezZJRg3ilQHhOK+g4LePuQN/1nGqecNKuxIfzmcSInfmkU?=
- =?us-ascii?Q?xoHytbfTy2sEVQvgy1XczeoKRbXYFBWyoA1X7i9QevkUs562l2SVVv9alxMo?=
- =?us-ascii?Q?XpP8+hRGyJP1qZAH+0GjtXLvtURD6p48XQO5dpTMHxv+ujdIMVML/CUE50yr?=
- =?us-ascii?Q?PcT8kcafUEswF1lR4I6Jig8vADhJ1v64QuajTQ1U5iW1y1VBVUHmTLeIE54A?=
- =?us-ascii?Q?bEu6n2VstxE79uaj/NOLZ5kugebbu5ACzwlrWVmiqosQzcGKwP8T7a6r+yzi?=
- =?us-ascii?Q?HZ4j00d4vqz/rBhyTGtZXpsDx2b8KMHtpeiH7U51kHRUUO/4ucI2TI/0iju9?=
- =?us-ascii?Q?0OQHTG/qJKBgSZZp1NA5SGxlaw5dTJd1+EEXBagnL3VzKvn8OjT0btyVdRTw?=
- =?us-ascii?Q?fnjvfqnEhIzRa+crsx9xbOhTnFbVwtOKK7HEoRjUPhEb/YGpHYRjo0TcaPHU?=
- =?us-ascii?Q?dEsVGMMZeDz2waodGPKwY1E7Qpm4HvrOkmQVdqoF5icSC8M+jdbcjTUl2Rfq?=
- =?us-ascii?Q?0RSKiR1f22YBQNbSI9uBZ1j6le4k2qSrd/H5/qeJEou9bQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5215e2d7-cfd8-4071-c5d5-08d8fecef0fa
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2021 22:53:23.5168
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UpiD7X82D6fepYgJ/oN5biHSq6vQG2kV1w9wa82QA2oGrkLnissZj1GKAUYH6pAR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1659
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YHWyOhYZuLsbt2gB@alley>
+References: <20210410015300.3764485-1-swboyd@chromium.org> <20210410015300.3764485-6-swboyd@chromium.org> <YHWyOhYZuLsbt2gB@alley>
+Subject: Re: [PATCH v4 05/13] module: Add printk formats to add module build ID to stacktraces
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Jessica Yu <jeyu@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+To:     Petr Mladek <pmladek@suse.com>
+Date:   Tue, 13 Apr 2021 15:57:49 -0700
+Message-ID: <161835466995.3764895.13268854960596303989@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 06, 2021 at 01:50:45PM +0200, Gioh Kim wrote:
-> My colleagues and I would like to apply the fault injection
-> of the Linux to test error handling of RTRS module. RTRS module
-> consists of client and server modules that are connected via
-> Infiniband network. So it is important for the client to receive
-> the error of the server and handle it smoothly.
-> 
-> When debugfs is enabled, RTRS is able to export interfaces
-> to fail RTRS client and server.
-> Following fault injection points are enabled:
-> - fail a request processing on RTRS client side
-> - fail a heart-beat transferation on RTRS server side
-> 
-> This patch set is just a starting point. We will enable various
-> faults and test as many error cases as possible.
-> 
-> Best regards
-> 
-> Gioh Kim (4):
->   RDMA/rtrs: Enable the fault-injection
->   RDMA/rtrs-clt: Inject a fault at request processing
->   RDMA/rtrs-srv: Inject a fault at heart-beat sending
->   docs: fault-injection: Add fault-injection manual of RTRS
+Quoting Petr Mladek (2021-04-13 08:01:14)
+> On Fri 2021-04-09 18:52:52, Stephen Boyd wrote:
+> > Let's make kernel stacktraces easier to identify by including the build
+> > ID[1] of a module if the stacktrace is printing a symbol from a module.
+> > This makes it simpler for developers to locate a kernel module's full
+> > debuginfo for a particular stacktrace. Combined with
+> > scripts/decode_stracktrace.sh, a developer can download the matching
+> > debuginfo from a debuginfod[2] server and find the exact file and line
+> > number for the functions plus offsets in a stacktrace that match the
+> > module. This is especially useful for pstore crash debugging where the
+> > kernel crashes are recorded in something like console-ramoops and the
+> > recovery kernel/modules are different or the debuginfo doesn't exist on
+> > the device due to space concerns (the debuginfo can be too large for
+> > space limited devices).
+> >=20
+> > diff --git a/include/linux/module.h b/include/linux/module.h
+> > index 59f094fa6f74..4bf869f6c944 100644
+> > --- a/include/linux/module.h
+> > +++ b/include/linux/module.h
+> > @@ -11,6 +11,7 @@
+> > =20
+> >  #include <linux/list.h>
+> >  #include <linux/stat.h>
+> > +#include <linux/buildid.h>
+> >  #include <linux/compiler.h>
+> >  #include <linux/cache.h>
+> >  #include <linux/kmod.h>
+> > @@ -367,6 +368,9 @@ struct module {
+> >       /* Unique handle for this module */
+> >       char name[MODULE_NAME_LEN];
+> > =20
+> > +     /* Module build ID */
+> > +     unsigned char build_id[BUILD_ID_SIZE_MAX];
+>=20
+> Do we want to initialize/store the ID even when
+> CONFIG_STACKTRACE_BUILD_ID is disabled and nobody would
+> use it?
+>=20
+> Most struct module members are added only when the related feature
+> is enabled.
+>=20
+> I am not sure how it would complicate the code. It is possible
+> that it is not worth it. Well, I could imagine that the API
+> will always pass the buildid parameter and
+> module_address_lookup() might do something like
+>=20
+> #ifndef CONFIG_STACKTRACE_BUILD_ID
+> static char empty_build_id[BUILD_ID_SIZE_MAX];
+> #endif
+>=20
+>                 if (modbuildid) {
+>                         if (IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID))
+>                                 *modbuildid =3D mod->build_id;
+>                         else
+>                                 *modbuildid =3D empty_build_id;
+>=20
+> IMHO, this is primary a call for Jessica as the module code maintainer.
+>=20
+> Otherwise, I am fine with this patch. And it works as expected.
+>=20
 
-I'm going to drop this until you can look into ebpf kprobes, it does
-seem the more modern way
+Does declaring mod->build_id as zero length work well enough?
 
-Jason
+----8<----
+diff --git a/include/linux/module.h b/include/linux/module.h
+index 4bf869f6c944..03b2f6af093a 100644
+--- a/include/linux/module.h
++++ b/include/linux/module.h
+@@ -359,6 +359,12 @@ struct klp_modinfo {
+ };
+ #endif
+=20
++#if IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID)
++#define MODULE_BUILD_ID_LEN BUILD_ID_SIZE_MAX
++#else
++#define MODULE_BUILD_ID_LEN 0
++#endif
++
+ struct module {
+ 	enum module_state state;
+=20
+@@ -369,7 +375,7 @@ struct module {
+ 	char name[MODULE_NAME_LEN];
+=20
+ 	/* Module build ID */
+-	unsigned char build_id[BUILD_ID_SIZE_MAX];
++	unsigned char build_id[MODULE_BUILD_ID_LEN];
+=20
+ 	/* Sysfs stuff. */
+ 	struct module_kobject mkobj;
+diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+index b835992e76c2..ebd5b30c3039 100644
+--- a/kernel/kallsyms.c
++++ b/kernel/kallsyms.c
+@@ -25,7 +25,10 @@
+ #include <linux/filter.h>
+ #include <linux/ftrace.h>
+ #include <linux/kprobes.h>
++#include <linux/build_bug.h>
+ #include <linux/compiler.h>
++#include <linux/module.h>
++#include <linux/kernel.h>
+=20
+ /*
+  * These will be re-linked against their real values
+@@ -393,10 +396,13 @@ static int __sprint_symbol(char *buffer, unsigned lon=
+g address,
+=20
+ 	if (modname) {
+ 		len +=3D sprintf(buffer + len, " [%s", modname);
+-		/* build ID should match length of sprintf below */
+-		BUILD_BUG_ON(BUILD_ID_SIZE_MAX !=3D 20);
+-		if (IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID) && add_buildid && buildid)
++#if IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID)
++		if (add_buildid && buildid) {
++			/* build ID should match length of sprintf */
++			static_assert(MODULE_BUILD_ID_LEN =3D=3D 20);
+ 			len +=3D sprintf(buffer + len, " %20phN", buildid);
++		}
++#endif
+ 		len +=3D sprintf(buffer + len, "]");
+ 	}
+=20
+diff --git a/kernel/module.c b/kernel/module.c
+index 6f5bc1b046a5..a0d222fbd281 100644
+--- a/kernel/module.c
++++ b/kernel/module.c
+@@ -2771,7 +2771,17 @@ static void add_kallsyms(struct module *mod, const s=
+truct load_info *info)
+ 	}
+ 	mod->core_kallsyms.num_symtab =3D ndst;
+ }
++#else
++static inline void layout_symtab(struct module *mod, struct load_info *inf=
+o)
++{
++}
++
++static void add_kallsyms(struct module *mod, const struct load_info *info)
++{
++}
++#endif /* CONFIG_KALLSYMS */
+=20
++#if IS_ENABLED(CONFIG_KALLSYMS) && IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID)
+ static void init_build_id(struct module *mod, const struct load_info *info)
+ {
+ 	const Elf_Shdr *sechdr;
+@@ -2786,18 +2796,10 @@ static void init_build_id(struct module *mod, const=
+ struct load_info *info)
+ 	}
+ }
+ #else
+-static inline void layout_symtab(struct module *mod, struct load_info *inf=
+o)
+-{
+-}
+-
+-static void add_kallsyms(struct module *mod, const struct load_info *info)
+-{
+-}
+-
+ static void init_build_id(struct module *mod, const struct load_info *info)
+ {
+ }
+-#endif /* CONFIG_KALLSYMS */
++#endif
+=20
+ static void dynamic_debug_setup(struct module *mod, struct _ddebug *debug,=
+ unsigned int num)
+ {
