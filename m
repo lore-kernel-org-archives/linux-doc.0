@@ -2,98 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7438CC433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 05:23:09 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EB6DC433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 05:34:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 471A86117A
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 05:23:09 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA2DE613B2
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 05:34:13 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243667AbhDMFX1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 01:23:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52058 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243324AbhDMFX0 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 01:23:26 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F9B0C061574
-        for <linux-doc@vger.kernel.org>; Mon, 12 Apr 2021 22:23:07 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id t23so7855208pjy.3
-        for <linux-doc@vger.kernel.org>; Mon, 12 Apr 2021 22:23:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=lgpLizWnsLBjChgV/o4F9mWhs4sloF+1QbtHySkN3l0=;
-        b=ENXi8AC2MRztd5TUpOikxB6Wp2V759ZvUNrE+6BoO28gBJAeWwNw/RzIAGv2QTiArG
-         4FZmttWocnfPqvNjif9BlkgWuSt29YutXOMNX6b2qegDSzF4Rog6OG2XUWoEY1Ug43qa
-         c/XcSA3Bp8R1MvyVLE65PASVbal9yZYQ2Bgm7jYhh08O8s0dsVTtGTD5yrdJEFR3Uy+5
-         /E5LF3rVgctGYhWF9gUIfNVEpJ7eQOkefMH4ARv30ahVmv64/AKWV1fQnbeafHjjIX4U
-         FfFKaiyMI0NYq0vk3kqQDOrWK/GbBMIaoGesOrr6sqjJZxOy9yT35lD0jGPpFZyKMnUL
-         rvOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=lgpLizWnsLBjChgV/o4F9mWhs4sloF+1QbtHySkN3l0=;
-        b=p7UJEjq0Ld/Nqk13Go81u67nzC4+hjoFWFEluFKBxAXASafBe3ZHmNnpDZzMBj/XOw
-         OUTlGFxzhB91VFnYAUBr4/R86SGB80ZVn4gMf+W48AmX04HBZYcItXRULfIFGg0Djn2M
-         kvvEGo4+3ck6YLn+M6WOY6dXjoK9Bc02d8qiGSsVaZ5T9vWaonoE/lInSSrsEDzlWd2m
-         tmmZwm4PhwYL03TCfJ8/nowhyKLlSwKA8fYhihYM5IbqiuqAk28GiqRUBQyycXlXtija
-         6lQQxM4NMZld9xQr54IWApLpGlkSAlbljLlHZen/hvextUgqAR5+FKHOp3Z0k45APnwx
-         1MUA==
-X-Gm-Message-State: AOAM531j7rXX8MTnPZSBE21HmtNVal56SUuiYfqY/XYoXn0idLZP7FpX
-        +skNlUirFX0AX7HNod5yhZ9AbmWP0W4DsQ==
-X-Google-Smtp-Source: ABdhPJzoe7G2Gg6g1GwlO7if+x73P7uk91cOp6z2D5Ew0RdWIYA3iD1cB2AIGIr68jI7V87onmKX5Q==
-X-Received: by 2002:a17:90a:5b0b:: with SMTP id o11mr2878885pji.150.1618291386853;
-        Mon, 12 Apr 2021 22:23:06 -0700 (PDT)
-Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id j30sm13423540pgm.59.2021.04.12.22.23.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Apr 2021 22:23:06 -0700 (PDT)
-Subject: Re: [PATCH v2 03/11] docs/zh_CN: add core-api/irq/irq-domain.rst
- translation
-To:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com,
-        Wu XiangCheng <bobwxc@email.cn>
-References: <20210409091013.2493988-1-siyanteng@loongson.cn>
- <20210409091013.2493988-4-siyanteng@loongson.cn>
-From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <01468459-2057-c361-6afc-c0d12efd40c2@gmail.com>
-Date:   Tue, 13 Apr 2021 13:23:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S244253AbhDMFec (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 01:34:32 -0400
+Received: from m32-153.88.com ([43.250.32.153]:32332 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229705AbhDMFec (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Apr 2021 01:34:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=vUYvv/UVntUpsdkn0cd0Shhom2Hrk4u8WnHiF
+        D0Iihg=; b=G6O+GQQbZ2Goj8BLyRoyG3Cl+Hj0AsYbjavDjvtEL5cUuSNKQdeWn
+        zD597dHZFgYDipkX6e9QMgwHJxfgoVaDKnBxMxbRl0sJABUi4fszDglatIJDeTDK
+        h45d4sMIdlUhnvY2Xgh+bCGoN4m6dQxAYDBW+xlW0PUkOqkeXIqIjs=
+Received: from bobwxc.top (unknown [120.238.248.129])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAHkyNPLXVglgltAA--.58494S2;
+        Tue, 13 Apr 2021 13:34:09 +0800 (CST)
+Date:   Tue, 13 Apr 2021 13:34:07 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     teng sterling <sterlingteng@gmail.com>
+Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <seakeel@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 4/8] docs/zh_CN: Add translation
+ zh_CN/doc-guide/parse-headers.rst
+Message-ID: <20210413053407.GA19607@bobwxc.top>
+References: <cover.1617699755.git.bobwxc@email.cn>
+ <ebccf009f3cf77b3340e39e9675f26d8d75ca3f6.1617699755.git.bobwxc@email.cn>
+ <CAMU9jJpeyNBMg4a0GcyBZfPLtP2JheTD-JZ3e197VweyYhv-jg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210409091013.2493988-4-siyanteng@loongson.cn>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMU9jJpeyNBMg4a0GcyBZfPLtP2JheTD-JZ3e197VweyYhv-jg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgAHkyNPLXVglgltAA--.58494S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxJr4kKryDtF1fKr1ftrWfAFb_yoW8ArWrpw
+        1kKrZ3Ganrtr1akrWSgrW7AF15AFWfua1jg3Wxtw1fKrWvqFW5JrsIkry3Wr9xXFW8AFy8
+        uFWYgr1UCr13AFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgIb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
+        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
+        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY02Avz4vE14v_GrWl42xK82
+        IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8
+        JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
+        AFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
+        jxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
+        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU
+        0xZFpf9x07UbBMNUUUUU=
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+On Tue, Apr 13, 2021 at 12:12:32AM +0800, teng sterling wrote:
+> Wu XiangCheng <bobwxc@email.cn> 于2021年4月7日周三 下午3:51写道：
+> >
+> > Add new translation
+> >   Documentation/translations/zh_CN/doc-guide/parse-headers.rst
+> >
+> > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+> > ---
+> >  .../zh_CN/doc-guide/parse-headers.rst         | 182 ++++++++++++++++++
+> >  1 file changed, 182 insertions(+)
+> >  create mode 100644 Documentation/translations/zh_CN/doc-guide/parse-headers.rst
+> >
+> > diff --git a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
+> > new file mode 100644
+> > index 000000000000..4f6fa083a3c5
+> > --- /dev/null
+> > +++ b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
+> > @@ -0,0 +1,182 @@
+[...]
+> > +
+> > +
+> > +说明
+> > +~~~~~
+> > +
+> > +
+> > +通过描述API的文档中的有交叉引用的解析后文本块，将C头文件或源文件（<C文件>）
+
+> This line is difficult for me to understand, and it seems to say:
+> 通过解析C头文件或C文件中对API（一个函数原型）描述的文本块（以一定格式约定写的注释）……到ReStructureText。
+> I'm not sure.   ：）
+> 
+
+I thought again, maybe
+
+通过C头文件或源文件（<C文件>）中为描述API文档编写的
+带交叉引用的 ..预格式化文本 块将其转换成ReStructureText。
 
 
-On 2021/4/9 下午5:10, Yanteng Si wrote:
-> +树状映射
-> +----------
+> > +转换进ReStructureText。它接受一个可选的<例外文件>，其中描述了哪些元素将被忽略
+> > +或指向非默认引用。
+> > +
+[...]
+> > --
+> > 2.20.1
+> >
+> 
+> Thanks！
+> 
+> Yan teng
 
-Ops, please keep the signs number equal to the title char, like
-here the '-' should be 8 for 4 Chinese chars, since a Chinese char
-takes 2 times width as English char.
-
-And check for all similar signs in your patches.
-
-Thanks
-Alex
-> +
