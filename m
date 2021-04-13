@@ -2,250 +2,161 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72069C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 22:57:53 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D81C5C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 23:27:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 51DF361249
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 22:57:53 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A1A1361163
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 23:27:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347659AbhDMW6M (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 18:58:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57186 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232798AbhDMW6M (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 18:58:12 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D6FAC061574
-        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 15:57:52 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id a12so12420746pfc.7
-        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 15:57:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=6sqdcuryxsdrCZB//EKTroEdj394HnrdQW5wO/Kusf8=;
-        b=P+qx3+ElK9fqp8beAocKGE8SgPJiXuTLPTr0aQ/xz1k4vh4+2yrHlHR7vpi9Q0cznk
-         kQknvUC6WpvMK5/2n5iH/WUhLNWpB+j8fOvoUK+tmPQbz3KX/QHsVO0gZXT+h1IJWHg8
-         fTnwZwS0XsYxm7MI5ujdnoGA6ZIdEAS01Fb0s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=6sqdcuryxsdrCZB//EKTroEdj394HnrdQW5wO/Kusf8=;
-        b=TtkF1xFK9xN/PFQjL9jMJzNTnpN2orMQYA0jyUs+gnmzvf6+5NCjBkkbzGlz8aCK41
-         BKUfdrLJ01ytwgGdpEA4m9B7FXvCFUhh23IJCzMpvf1hPh2JsJGV4xyIsLAVUNzaRExf
-         Nx7ybiaFGK5oTAljGdtvb3ornRUKKHPQGQoTaAD0hrGHCdCE/oCFn31ZxIf/X098QWwb
-         khY6Q8DXr2WXTQKYNLs7UyMhwn+GmyH37gKY6PLpz4BeGaXVPJh8+qOl73HXmFLm9gVR
-         Mps1/8S4ecMTRFTCsEUnGo8btVMZuueLFe3P/y7Ap3a9M8C8RqSNgI1zouy+RjsFjX0Z
-         SLxg==
-X-Gm-Message-State: AOAM532FzdJzSJU/4HP2GmHG80lH3lOE4i0yQEFxQXS6Zt2Z1TKkUYA2
-        SZG/SGWcrQiAQMLs54dU1UUVFQ==
-X-Google-Smtp-Source: ABdhPJz3Cupzqfs4XSmtfJO/mdGNl79Euq/LKJdkMxPcHsb/vAL8g/5JiXAiwb/MWOcm9tkJbS9jJw==
-X-Received: by 2002:a63:d70f:: with SMTP id d15mr35400288pgg.397.1618354671737;
-        Tue, 13 Apr 2021 15:57:51 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:1d18:a339:7993:e548])
-        by smtp.gmail.com with ESMTPSA id r10sm3378727pjf.5.2021.04.13.15.57.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 15:57:51 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        id S1346454AbhDMX1x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 19:27:53 -0400
+Received: from mx.kolabnow.com ([95.128.36.41]:26246 "EHLO mx.kolabnow.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230123AbhDMX1w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Apr 2021 19:27:52 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 13C0AA38;
+        Wed, 14 Apr 2021 01:27:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        in-reply-to:content-disposition:content-type:content-type
+        :mime-version:references:message-id:subject:subject:from:from
+        :date:date:received:received:received; s=dkim20160331; t=
+        1618356449; x=1620170850; bh=eLf25vYXZExxa3WxKUbXJtp107ajvzcDXk7
+        MFsei6WA=; b=GXej5pwiOJWUlAVJdzyozEUA9KG9vtCTd9UsQllETSSB86xJ14Q
+        tFmDWQAtYng9P/dc6wiR/g5bm/6gwCMZNdreT5al9iHcE2c82aADojuNQjB2Bewo
+        mblJ8sjGAOif6iuo3th7Ji2aTpoVsXzIMvPcv5/zWOZTefrswT2YT10IAZtqpjjd
+        a8nO1U6/VMbTcsrEzD1IxBkOMFgYHWIy71RPZW3nG20nknOROH/rUca4c9c/VJn8
+        9ey2FpQgb5KvBw/++fK45uZTLIArzj+vbMhJOlyYfBpD0I/Iv3DYN3nZo9Y5sCNz
+        Rn6xnF3hKLiypo8BWA3TpaOmmXGatnFeWlUH7llohPYmItmgO0ctcv0zKq/p55aH
+        wSI1QnMwEOiB/sEtmVAlUDFltdhJ4k4cwVcvg2YFEa7o70ghjPMG3bcrAzY9qNa0
+        7tTsGdWlxPPYuFlmox9aUWyjRVS3sbE/3zM+AcOMgstTG+5V5F7KiO53EYndnTD/
+        04oKBnPedUaL2ouXBd8cbTdLJj6WCmNeP6ctSp2N4icnxK3Ja/LB49FZi7GD5UfL
+        GnicBqofz76LASlS1id3qoLnFiYiOaC6rJzNM4NDpJKMq7Bkw0oX4vuSLGCGqeqS
+        f8EKZiVgFGU6Gc83abBU8Zpx+1XYOMIUmk0mgCMcuWbxGVCkt15l/oOo=
+X-Virus-Scanned: amavisd-new at mykolab.com
+Received: from mx.kolabnow.com ([127.0.0.1])
+        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id RwaDGGNmyOLk; Wed, 14 Apr 2021 01:27:29 +0200 (CEST)
+Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
+        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 203FD891;
+        Wed, 14 Apr 2021 01:27:28 +0200 (CEST)
+Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
+        by int-mx001.mykolab.com (Postfix) with ESMTPS id 30BBE351;
+        Wed, 14 Apr 2021 01:27:26 +0200 (CEST)
+Date:   Wed, 14 Apr 2021 01:27:23 +0200
+From:   Federico Vaga <federico.vaga@vaga.pv.it>
+To:     Wu XiangCheng <bobwxc@email.cn>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Tsugikazu Shibata <tshibata@ab.jp.nec.com>,
+        SeongJae Park <sjpark@amazon.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC 0/2] Add a new translation tool scripts/trslt.py
+Message-ID: <20210413232722.lzbex2cwifdd5cm2@numero86.vaga.pv.it>
+References: <cover.1618208899.git.bobwxc@email.cn>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <YHWyOhYZuLsbt2gB@alley>
-References: <20210410015300.3764485-1-swboyd@chromium.org> <20210410015300.3764485-6-swboyd@chromium.org> <YHWyOhYZuLsbt2gB@alley>
-Subject: Re: [PATCH v4 05/13] module: Add printk formats to add module build ID to stacktraces
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-To:     Petr Mladek <pmladek@suse.com>
-Date:   Tue, 13 Apr 2021 15:57:49 -0700
-Message-ID: <161835466995.3764895.13268854960596303989@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <cover.1618208899.git.bobwxc@email.cn>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Petr Mladek (2021-04-13 08:01:14)
-> On Fri 2021-04-09 18:52:52, Stephen Boyd wrote:
-> > Let's make kernel stacktraces easier to identify by including the build
-> > ID[1] of a module if the stacktrace is printing a symbol from a module.
-> > This makes it simpler for developers to locate a kernel module's full
-> > debuginfo for a particular stacktrace. Combined with
-> > scripts/decode_stracktrace.sh, a developer can download the matching
-> > debuginfo from a debuginfod[2] server and find the exact file and line
-> > number for the functions plus offsets in a stacktrace that match the
-> > module. This is especially useful for pstore crash debugging where the
-> > kernel crashes are recorded in something like console-ramoops and the
-> > recovery kernel/modules are different or the debuginfo doesn't exist on
-> > the device due to space concerns (the debuginfo can be too large for
-> > space limited devices).
-> >=20
-> > diff --git a/include/linux/module.h b/include/linux/module.h
-> > index 59f094fa6f74..4bf869f6c944 100644
-> > --- a/include/linux/module.h
-> > +++ b/include/linux/module.h
-> > @@ -11,6 +11,7 @@
-> > =20
-> >  #include <linux/list.h>
-> >  #include <linux/stat.h>
-> > +#include <linux/buildid.h>
-> >  #include <linux/compiler.h>
-> >  #include <linux/cache.h>
-> >  #include <linux/kmod.h>
-> > @@ -367,6 +368,9 @@ struct module {
-> >       /* Unique handle for this module */
-> >       char name[MODULE_NAME_LEN];
-> > =20
-> > +     /* Module build ID */
-> > +     unsigned char build_id[BUILD_ID_SIZE_MAX];
->=20
-> Do we want to initialize/store the ID even when
-> CONFIG_STACKTRACE_BUILD_ID is disabled and nobody would
-> use it?
->=20
-> Most struct module members are added only when the related feature
-> is enabled.
->=20
-> I am not sure how it would complicate the code. It is possible
-> that it is not worth it. Well, I could imagine that the API
-> will always pass the buildid parameter and
-> module_address_lookup() might do something like
->=20
-> #ifndef CONFIG_STACKTRACE_BUILD_ID
-> static char empty_build_id[BUILD_ID_SIZE_MAX];
-> #endif
->=20
->                 if (modbuildid) {
->                         if (IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID))
->                                 *modbuildid =3D mod->build_id;
->                         else
->                                 *modbuildid =3D empty_build_id;
->=20
-> IMHO, this is primary a call for Jessica as the module code maintainer.
->=20
-> Otherwise, I am fine with this patch. And it works as expected.
->=20
+Hi,
 
-Does declaring mod->build_id as zero length work well enough?
+Yes, you are touching a good point where things can be improved. I admit that I
+did not have a look at the code yet, if not very quickly. Perhaps I'm missing
+somethin. However, let me give you my two cents based on what I usually do.
 
-----8<----
-diff --git a/include/linux/module.h b/include/linux/module.h
-index 4bf869f6c944..03b2f6af093a 100644
---- a/include/linux/module.h
-+++ b/include/linux/module.h
-@@ -359,6 +359,12 @@ struct klp_modinfo {
- };
- #endif
-=20
-+#if IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID)
-+#define MODULE_BUILD_ID_LEN BUILD_ID_SIZE_MAX
-+#else
-+#define MODULE_BUILD_ID_LEN 0
-+#endif
-+
- struct module {
- 	enum module_state state;
-=20
-@@ -369,7 +375,7 @@ struct module {
- 	char name[MODULE_NAME_LEN];
-=20
- 	/* Module build ID */
--	unsigned char build_id[BUILD_ID_SIZE_MAX];
-+	unsigned char build_id[MODULE_BUILD_ID_LEN];
-=20
- 	/* Sysfs stuff. */
- 	struct module_kobject mkobj;
-diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
-index b835992e76c2..ebd5b30c3039 100644
---- a/kernel/kallsyms.c
-+++ b/kernel/kallsyms.c
-@@ -25,7 +25,10 @@
- #include <linux/filter.h>
- #include <linux/ftrace.h>
- #include <linux/kprobes.h>
-+#include <linux/build_bug.h>
- #include <linux/compiler.h>
-+#include <linux/module.h>
-+#include <linux/kernel.h>
-=20
- /*
-  * These will be re-linked against their real values
-@@ -393,10 +396,13 @@ static int __sprint_symbol(char *buffer, unsigned lon=
-g address,
-=20
- 	if (modname) {
- 		len +=3D sprintf(buffer + len, " [%s", modname);
--		/* build ID should match length of sprintf below */
--		BUILD_BUG_ON(BUILD_ID_SIZE_MAX !=3D 20);
--		if (IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID) && add_buildid && buildid)
-+#if IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID)
-+		if (add_buildid && buildid) {
-+			/* build ID should match length of sprintf */
-+			static_assert(MODULE_BUILD_ID_LEN =3D=3D 20);
- 			len +=3D sprintf(buffer + len, " %20phN", buildid);
-+		}
-+#endif
- 		len +=3D sprintf(buffer + len, "]");
- 	}
-=20
-diff --git a/kernel/module.c b/kernel/module.c
-index 6f5bc1b046a5..a0d222fbd281 100644
---- a/kernel/module.c
-+++ b/kernel/module.c
-@@ -2771,7 +2771,17 @@ static void add_kallsyms(struct module *mod, const s=
-truct load_info *info)
- 	}
- 	mod->core_kallsyms.num_symtab =3D ndst;
- }
-+#else
-+static inline void layout_symtab(struct module *mod, struct load_info *inf=
-o)
-+{
-+}
-+
-+static void add_kallsyms(struct module *mod, const struct load_info *info)
-+{
-+}
-+#endif /* CONFIG_KALLSYMS */
-=20
-+#if IS_ENABLED(CONFIG_KALLSYMS) && IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID)
- static void init_build_id(struct module *mod, const struct load_info *info)
- {
- 	const Elf_Shdr *sechdr;
-@@ -2786,18 +2796,10 @@ static void init_build_id(struct module *mod, const=
- struct load_info *info)
- 	}
- }
- #else
--static inline void layout_symtab(struct module *mod, struct load_info *inf=
-o)
--{
--}
--
--static void add_kallsyms(struct module *mod, const struct load_info *info)
--{
--}
--
- static void init_build_id(struct module *mod, const struct load_info *info)
- {
- }
--#endif /* CONFIG_KALLSYMS */
-+#endif
-=20
- static void dynamic_debug_setup(struct module *mod, struct _ddebug *debug,=
- unsigned int num)
- {
+I do not like the idea of adding tags to the file and having tools to modify it.
+I would prefer to keep the text as clean as possible.
+
+Instead, what can be done without touching manipulating the text file is to do
+something like this:
+
+# Take the commit ID of the last time a document has translated
+LAST_TRANS=$(git log -n 1 --oneline Documentation/translations/<lang>/<path-to-file> | cut -d " " -f 1)
+
+# Take the history of the same file in the main Documentation tree
+git log --oneline $LAST_TRANS..doc/docs-next Documentation/<path-to-file>
+
+This will give you the list of commits that changed <path-to-file>, and that
+probably need to be translated. The problem of this approach is that by the time
+you submit a translation, other people may change the very same files. The
+correctness of this approach depends on patch order in docs-next, and this can't
+be guaranteed.
+
+So, instead of reling on LAST_DIR, I rely on a special git branch that acts as
+marker. But this works only for me and not for other translator of the same
+languages, so you can get troubles also in this case.
+
+What we can actually do is to exploit the git commit message to store the tag
+you mentioned. Hence, we can get the last Id with something like this:
+
+LAST_ID=$(git log -n 1 Documentation/translations/<lang>/<path-to-file> | grep -E "Translated-on-top-of: commit [0-9a-f]{12}")
+
+The ID we store in the tag does not need to be the commit ID of the last change
+to <path-to-file>, but just the commit on which you were when you did the
+translation. This because it will simplify the management of this tag when
+translating multiple files/patches in a single patch (to avoid to spam the
+mailing list with dozens of small patches).
+
+On Mon, Apr 12, 2021 at 03:04:03PM +0800, Wu XiangCheng wrote:
+>Hi all,
+>
+>This set of patches aim to add a new translation tool - trslt.py, which
+>can control the transltions version corresponding to source files.
+>
+>For a long time, kernel documentation translations lacks a way to control the
+>version corresponding to the source files. If you translate a file and then
+>someone updates the source file, there will be a problem. It's hard to know
+>which version the existing translation corresponds to, and even harder to sync
+>them.
+>
+>The common way now is to check the date, but this is not exactly accurate,
+>especially for documents that are often updated. And some translators write
+>corresponding commit ID in the commit log for reference, it is a good way,
+>but still a little troublesome.
+>
+>Thus, the purpose of ``trslt.py`` is to add a new annotating tag to the file
+>to indicate corresponding version of the source file::
+>
+>.. translation_origin_commit: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+>
+>The script will automatically copy file and generate tag when creating new
+>translation, and give update suggestions based on those tags when updating
+>translations.
+>
+>More details please read doc in [Patch 2/2].
+>
+>Still need working:
+>- improve verbose mode
+>- test on more python 3.x version
+>- only support linux now, need test on Mac OS, nonsupport Windows
+>  due to '\'
+>
+>Any suggestion is welcome!
+>
+>Thanks!
+>
+>Wu XiangCheng (2):
+>  scripts: Add new translation tool trslt.py
+>  docs: doc-guide: Add document for scripts/trslt.py
+>
+> Documentation/doc-guide/index.rst |   1 +
+> Documentation/doc-guide/trslt.rst | 233 ++++++++++++++++++++++++++
+> scripts/trslt.py                  | 267 ++++++++++++++++++++++++++++++
+> 3 files changed, 501 insertions(+)
+> create mode 100644 Documentation/doc-guide/trslt.rst
+> create mode 100755 scripts/trslt.py
+>
+>-- 
+>2.20.1
+>
+
+
