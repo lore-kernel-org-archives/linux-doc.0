@@ -2,90 +2,72 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 571C6C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 21:04:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBF70C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 21:06:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2D66961176
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 21:04:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 8D6496121E
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 21:06:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245510AbhDMVFK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 17:05:10 -0400
-Received: from ms.lwn.net ([45.79.88.28]:46358 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231990AbhDMVFK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Apr 2021 17:05:10 -0400
+        id S231136AbhDMVHQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 17:07:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33036 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229610AbhDMVHP (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 17:07:15 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D656C061574
+        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 14:06:55 -0700 (PDT)
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id AF5B2823;
-        Tue, 13 Apr 2021 21:04:49 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AF5B2823
+        by ms.lwn.net (Postfix) with ESMTPSA id ED13C823;
+        Tue, 13 Apr 2021 21:06:54 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net ED13C823
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1618347889; bh=EUZwWZR+pFx9Tm2hVSqRTk5GJpsIZqyM13LU1XzuSU4=;
+        t=1618348015; bh=Yjgpv8KXv+Ddl0mEFiMDKraAgNnsJAbqaob6CC17Bds=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=GwdE6Q4ACMa/wvbydWDaWYkPctOlxt3AyWinOnFX1gSzoBs5SgukhhH8Bw2KosvVp
-         om8Xqvn8qFmcxWsSwre5Ydc0pKVXGuzWKxXei4i1wJZM+K5CLhUXZRUk6B/gFrwS10
-         ekzqgzxrHfe2XMCqzWTwD+qMhp2QYgW2zA2nKRprxdd53bFsZurxIpfLEq+tp8IBBp
-         YiRSo3zhWUMC1pU31xeGlWTTNPAgw9brDCvxXelifHcpIOTL7gcdklL27httUPBGf2
-         TM9bTR1upL5MmFTkdWI3BgBMNBLO2CiKDtrJSTMwmC0tE2yRelium1GAdFvDhMnTKx
-         RZXLTtjm8JqQg==
+        b=kRlF02dYDgqXUryxdv/J9Y1jmc6v53udaK/wAsajwde2kvSz810v+7RpnkZF/3faH
+         qdYBYMbv0UO9ZM7p3VoKjeGYQBHpbrdsV9Sw56x7dd6S8yC5QRNwHCJ4d2vDI3JSto
+         EdzTRg0/n/5he302WowK514w0bhUzUjQZ6P+kt0tZyfjIMGRNG16VmpAb73uQkcF8R
+         5wkXG7iUCtHcOYoGfHitMRXINuuA/tQzpS8nmMOSQuk8Un5YUIwCO7tG1Jxcpspiw6
+         KMyfspsdHPjC714Jc/W2YRSbC7d23uWQQdvHD7FGNN7vNKIV2lREkPCGyE3X5TlSdv
+         Cf6/rh8h40qWQ==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com,
-        Wu XiangCheng <bobwxc@email.cn>,
-        Yanteng Si <siyanteng@loongson.cn>
-Subject: Re: [PATCH v3 00/11] docs/zh_CN: add core api and openrisc translation
-In-Reply-To: <20210413131237.2253955-1-siyanteng@loongson.cn>
-References: <20210413131237.2253955-1-siyanteng@loongson.cn>
-Date:   Tue, 13 Apr 2021 15:04:49 -0600
-Message-ID: <87lf9lsxou.fsf@meer.lwn.net>
+To:     Wu XiangCheng <bobwxc@email.cn>, Alex Shi <alexs@kernel.org>
+Cc:     Alex Shi <seakeel@gmail.com>, YanTeng Si <sterlingteng@gmail.com>,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 0/7] docs/zh_CN: Add translations in zh_CN/doc-guide/
+In-Reply-To: <cover.1618295149.git.bobwxc@email.cn>
+References: <cover.1618295149.git.bobwxc@email.cn>
+Date:   Tue, 13 Apr 2021 15:06:54 -0600
+Message-ID: <87h7k9sxld.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Yanteng Si <siyanteng@loongson.cn> writes:
+Wu XiangCheng <bobwxc@email.cn> writes:
 
-> This series of patches translates core-api/irq/* and openrisc/* into
-> Chinese
+> Hi all,
 >
-> v1 -> v2:
+> This set of patches add some translations in zh_CN/doc-guide/ .
 >
-> Modify some words under Xiangcheng Wu's suggestion. Thanks for his rewiew!
->
-> v2 -> v3:
->
-> keep the signs number equal to the title char under Alex's suggestion. 
-> Thanks for his rewiew!
->
->
-> Yanteng Si(11):
-> docs/zh_CN: add core-api irq concepts.rst translation
-> docs/zh_CN: add core-api irq irq-affinity.rst translation
-> docs/zh_CN: add core-api irq irq-domain.rst translation
-> docs/zh_CN: add core-api irq irqflags-tracing.rst
-> docs/zh_CN: add core-api irq index.rst translation
-> docs/zh_CN: add core-api index.rst translation
-> docs/zh_CN: add translation to zh_CN index
-> docs/zh_CN: add openrisc openrisc_port.rst translation
-> docs/zh_CN: add openrisc todo.rst translation
-> docs/zh_CN: add openrisc index.rst translation
-> docs/zh_CN: add translation to zh_CN index
->
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+> V5:
+> * Modified some words under YanTeng Si and Alex Shi's suggestions.
+>   Thanks for theirs rewiew!
+> * Make title signs number equal to the title chars
+> * Drop [PATCH v3 2/8] docs/zh_CN: Add two image example files, use original
+>   images
+> * Pick YanTeng Si's Review-by tag for [Patch 5/7]
 
-This looks like it's about ready to go in, but I seem to be missing
-patch 11...?
+I've applied this set, thanks.  If you want to adopt Alex's suggestion
+on patch 3, please send a separate update containing just that.
 
 Thanks,
 
