@@ -2,145 +2,142 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+	MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,SPF_HELO_NONE,SPF_PASS autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A019C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 22:37:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6578BC43460
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 22:53:27 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 01667611CE
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 22:37:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 45190613B6
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 22:53:27 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347448AbhDMWhV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 18:37:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52664 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230223AbhDMWhU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 18:37:20 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8902AC061574
-        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 15:37:00 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id m18so6813524plc.13
-        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 15:37:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:content-transfer-encoding:in-reply-to:references
-         :subject:from:cc:to:date:message-id:user-agent;
-        bh=Z8LMkVFdC3qnq2dD8BfKPmtkUYkpr1QRCTd0fnRzxxI=;
-        b=KStbKjAzb6vdr/sBL0HSB39SMn4gVlGAgmmlC2FTK88ze+zyBYlLPlno47J42f+b5N
-         85pOJjA/9l9W0ZOmZSAi4tH0EpPuTGlVSauT3Y+Rmx2DuZnhwrn/Ti+Bd9gjjjfS7ddf
-         2Z6kDhda9hfJdVJ9rZGG4mL1d7K3G8NDjO0Lg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:content-transfer-encoding
-         :in-reply-to:references:subject:from:cc:to:date:message-id
-         :user-agent;
-        bh=Z8LMkVFdC3qnq2dD8BfKPmtkUYkpr1QRCTd0fnRzxxI=;
-        b=ZiRVnBeAfvk0TetE9kws5KWUVBZxGqPEfymTYPF+zWJ85uyB1xRRXIIConq3HEs0pm
-         QuyUiNQ+P+A5SfSg63clUSSoS7ZAASpW8Wd4E22CCoWyDGRgqDLyoNYNEGwXe6IV5uFK
-         9jDSTOOmBA0US6Yu5gw3aPH16MrAGuAuCOsKUoZME4tquHlRmPAIPNQifwWh+UHwzEK+
-         ER0KN2t1mGnzYa4j80s+y8LewDHu6cODtBsyF8Z3EcjwsLKHtk5aL7ZHkBHAs/2y5xJI
-         THijTGhiqgn6n4Y2fojy1C5DaLRZYFhF8FiL+p4r521IBlkMLBICPEatyawrYB7QSIEk
-         wEcA==
-X-Gm-Message-State: AOAM530TxSgi7P0ENoBLXfKnOAk7w86vIF9JbVYgZUqPfmk4C3TorRB0
-        +nxGsFkbmWweObkyuLVToqR/Hw==
-X-Google-Smtp-Source: ABdhPJxKMRmRcunkUsRcrSC97ypk9VSR1U5pI4iIvlJwEaSKwnBQgIs3iflhoQTlZw55U4FVR3R2aw==
-X-Received: by 2002:a17:903:208d:b029:e9:9214:432e with SMTP id d13-20020a170903208db02900e99214432emr29350932plc.59.1618353420100;
-        Tue, 13 Apr 2021 15:37:00 -0700 (PDT)
-Received: from chromium.org ([2620:15c:202:201:1d18:a339:7993:e548])
-        by smtp.gmail.com with ESMTPSA id w18sm3052080pjh.19.2021.04.13.15.36.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 15:36:59 -0700 (PDT)
-Content-Type: text/plain; charset="utf-8"
+        id S1348697AbhDMWxq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 18:53:46 -0400
+Received: from mail-bn7nam10on2043.outbound.protection.outlook.com ([40.107.92.43]:50208
+        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1346222AbhDMWxp (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Apr 2021 18:53:45 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Wonl0Ny4OwIUwe7KrNUa0sKWNdjiuYrfhkDq/2miAtDId6iXhY0YNUM+6AqA3Kyy29O2FWrofAy+7+T9Av2fxmrSQeW9kkxRUznMpEJHdXoRHO6HVqvZDK6TI+2Zv0R8zl3OeXS6JkQF9kdx7m4PiDN1zWY6gzAafoO7Z0hxoIukQnRd0LwMVPr9MaFkUo6QXuo6W8J8gh8/eU+t596yMR18hcRDXCFTq22mNZ4wGZaexBWAdhaqOL8d/LwDxUmsMIysGjQGxXp3BLeiD3x2v3lAj8kpZhuYOZnlcxneYi9CksYzl0WqNYfPUAciURZQBLOmVLwtBuNUQ/c2aTR9cg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oRFOzNI7NLkoTzV6wLlkBzBM6NvioCAQc8hkVGW43Y4=;
+ b=YGus1afsSgSHz04ckXNgxvsbdE5Cy3DgfMsDM76PdjPM4UboNoARZs+7//VrK4MSLdLwfV7/5UbVrzUdj7/bC0IHetRyY3FA/IQgrwD2PEwsNjQ9v3QgEOUBLlds25lhdSQ08sFJm9wKQC005V4wvuX1u43hXQ8BN9AON5M014BYDpCN7JpqOtEvWCHoSl0qEiz+W/cb1yOSZbOIrrAQ5toZVy+IRLlgK2ocYr9H5/hX/F4YdBDvPPkJj1Ytg/xUzpQ5ZG83YQ+LjNRl53qJ+gtOUgfPuMylKyI6n5NIQmTSah4vG+PgHZSgGhJlcBnl5bp1uSnHU6y9cWwFPltBbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oRFOzNI7NLkoTzV6wLlkBzBM6NvioCAQc8hkVGW43Y4=;
+ b=XCoQc7QMcBsk72TcuvACnoyjz5RwiFPRF3tJJyjoVVMfUC2Ecj6R6XevUHNas1hHYYCguSJFs5P4aT3wTNXnMEJ6vzA5LEoTlMcO5lfOry4Batkd8lZyL4VnENlUx+T2HnqHMVh7/awvPO0Wdjo69Fl4sI6i1/OqBmexw+9FDITcSooaSLorIvrK7DdQ3xguW8XKB2PcqlWQmeChZQH6fDxt9Y2nnKhycpWH3x2U16J5DVhP3rl1yaeVq7aJvJ7HFKYZR2gkQBLVl6g+ZYYmaj1DWuEzteYbJBpi1O0LaHzXvaTd/pUH37zRmQ7ilyUpHsC3QfSE2qjZsgpduyE3dA==
+Authentication-Results: ionos.com; dkim=none (message not signed)
+ header.d=none;ionos.com; dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (10.255.76.76) by
+ DM5PR12MB1659.namprd12.prod.outlook.com (10.172.40.140) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4020.18; Tue, 13 Apr 2021 22:53:23 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::1c62:7fa3:617b:ab87%6]) with mapi id 15.20.4020.022; Tue, 13 Apr 2021
+ 22:53:23 +0000
+Date:   Tue, 13 Apr 2021 19:53:21 -0300
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     Gioh Kim <gi-oh.kim@ionos.com>
+Cc:     linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org,
+        bvanassche@acm.org, leon@kernel.org, dledford@redhat.com,
+        haris.iqbal@ionos.com, jinpu.wang@ionos.com,
+        akinobu.mita@gmail.com, corbet@lwn.net
+Subject: Re: [PATCH 0/4] Enable Fault Injection for RTRS
+Message-ID: <20210413225321.GA1376340@nvidia.com>
+References: <20210406115049.196527-1-gi-oh.kim@ionos.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210406115049.196527-1-gi-oh.kim@ionos.com>
+X-Originating-IP: [142.162.115.133]
+X-ClientProxiedBy: BL0PR1501CA0019.namprd15.prod.outlook.com
+ (2603:10b6:207:17::32) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <161834460576.3764895.758141455860109099@swboyd.mtv.corp.google.com>
-References: <20210410015300.3764485-1-swboyd@chromium.org> <20210410015300.3764485-6-swboyd@chromium.org> <YHQ1yqVkweZeN5+1@smile.fi.intel.com> <161825574550.3764895.4387100574176584209@swboyd.mtv.corp.google.com> <YHV4369VJAGpfW/c@smile.fi.intel.com> <YHW1xBvOeHrAHWkK@alley> <161834460576.3764895.758141455860109099@swboyd.mtv.corp.google.com>
-Subject: Re: [PATCH v4 05/13] module: Add printk formats to add module build ID to stacktraces
-From:   Stephen Boyd <swboyd@chromium.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Jessica Yu <jeyu@kernel.org>,
-        Evan Green <evgreen@chromium.org>,
-        Hsin-Yi Wang <hsinyi@chromium.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Petr Mladek <pmladek@suse.com>
-Date:   Tue, 13 Apr 2021 15:36:57 -0700
-Message-ID: <161835341789.3764895.11018828620037960038@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (142.162.115.133) by BL0PR1501CA0019.namprd15.prod.outlook.com (2603:10b6:207:17::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4020.16 via Frontend Transport; Tue, 13 Apr 2021 22:53:23 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1lWRuL-005m43-Qm; Tue, 13 Apr 2021 19:53:21 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5215e2d7-cfd8-4071-c5d5-08d8fecef0fa
+X-MS-TrafficTypeDiagnostic: DM5PR12MB1659:
+X-Microsoft-Antispam-PRVS: <DM5PR12MB1659664A9260FD043252DA01C24F9@DM5PR12MB1659.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: ly2E6uSzjf1QH7uWQAuzLAe5/JtbNRijoTPfjE62rSVAJmTBh9J0D+Uk2Xrv3PlHK9P/ZKfSKaeSnJg2ho+qCw862N6XGN4vOVhRfiJo+9VWTYDz41iVY9UE8+H/xjIg21+F3uoAde/8XhzGQBOyBmOCevsoQm2IBSnV96UH84t6KeXABzd/pJ6SfVmTxMBfVmj4omdZYn3AkAiAnrAdA+EyIgKdUxDer5Bc5qERbo1vsNkZrkAWWceeUYv8V7TlPMVVhihIghooEQaWjoNDhFflwfryth6pv8+impO+eaYKD/DUvEnEyctMVtKlh6ryIDInfU8TIA8nmEQeSZ2KFqTsF4KQHausRHwUoZpNw4Xp79NF8M18x6m0c7aB8h0ACXDjte25tNUU4VNcg3fBgl1wZc3+yjamI8L36MBzev9tLEJhoAkyNiNP3KXgwg1in10E41W5c3Vm0wUSRjMxMMBorimzUVRqyoZO+RfxEbza1bt5OLkal3fNDpVYkPTCpwIQ7nIsVNhk9YFxniF6S4CSKRDrZIfITSNpzkeZntvOZNfgtt8tdkABPZo6BZNyg4BD6bfv9B7efzkOun7F4F+GGAs1QShmin6WslNiyXc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB3834.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(346002)(396003)(376002)(136003)(39860400002)(36756003)(66556008)(2616005)(2906002)(6916009)(478600001)(9746002)(316002)(426003)(8936002)(7416002)(9786002)(66476007)(38100700002)(86362001)(8676002)(4326008)(83380400001)(33656002)(186003)(1076003)(66946007)(5660300002)(26005);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?7MUd6OxccVNM4MikZ+lzsF+3M01mGgEZlbY+iH/gNdeDBWQAhxxcUYyimzqM?=
+ =?us-ascii?Q?aK8h5f8CcIhOySLRyBOrgSF69VMh4r3j6p31QKaDsng78ewIZFPxURXuYRCz?=
+ =?us-ascii?Q?aItMTMemvrcmsyvrRU6IW/eR+Q+j9iooSP/l4ipeUdeFTmtmiSBFhKE+Ix0L?=
+ =?us-ascii?Q?wtJCVObvhIcB3ZoMyUrWAMW8+jZv3hVGjDylHuTgMzkEPVCgDXmm4wTF4DJf?=
+ =?us-ascii?Q?o5CWvXBOr6HuU+tNWbUqnxegve2AeUFdU8yzxydynXWLCMzwokAUMvRyvLQH?=
+ =?us-ascii?Q?bK/E542hCWbBPvAiNQBiiTlqIConA3JsEQZ2BFYpzpALw+4L0xRGlJ15EmZ1?=
+ =?us-ascii?Q?xEFTZdNVCsRw+li/zr8f9ctqNHnykhVJn40nab+tvSKEHf6A+xGd4OMbGl1r?=
+ =?us-ascii?Q?hUZA6L4mSnacUODYc66s6yYu/foHeTRVyGk2g+oQIIzU9o2G5qdYwkWQcRJj?=
+ =?us-ascii?Q?oKAJ4rktdgJuV1viAUgWYHa9MT2HE9oonUrvA7X+BXMQzRJ0JxKF2df+pIjL?=
+ =?us-ascii?Q?rueLKCB1vh765bUHec89SRdRSsLo09cjrPfocpBZZvqCotCieGQwmrQEaz7o?=
+ =?us-ascii?Q?TJq14Zn6plzg1skdUssYPPuLeF+jRVoT78bBQ4eO4enid/QpWsMLXxyDSeyL?=
+ =?us-ascii?Q?1idcRXCNEXJ7Jgnjs6CSb2ks2Rgw51BKpfsyTI68v5R7VjZly/IWic2VOh3D?=
+ =?us-ascii?Q?7IezVO1nX31od6XknZVuGJVoA7Zuz8ocWdY1SVZR9xaHn+ZPIwSCathFGAyE?=
+ =?us-ascii?Q?izE//FCk55N7e1ezZJRg3ilQHhOK+g4LePuQN/1nGqecNKuxIfzmcSInfmkU?=
+ =?us-ascii?Q?xoHytbfTy2sEVQvgy1XczeoKRbXYFBWyoA1X7i9QevkUs562l2SVVv9alxMo?=
+ =?us-ascii?Q?XpP8+hRGyJP1qZAH+0GjtXLvtURD6p48XQO5dpTMHxv+ujdIMVML/CUE50yr?=
+ =?us-ascii?Q?PcT8kcafUEswF1lR4I6Jig8vADhJ1v64QuajTQ1U5iW1y1VBVUHmTLeIE54A?=
+ =?us-ascii?Q?bEu6n2VstxE79uaj/NOLZ5kugebbu5ACzwlrWVmiqosQzcGKwP8T7a6r+yzi?=
+ =?us-ascii?Q?HZ4j00d4vqz/rBhyTGtZXpsDx2b8KMHtpeiH7U51kHRUUO/4ucI2TI/0iju9?=
+ =?us-ascii?Q?0OQHTG/qJKBgSZZp1NA5SGxlaw5dTJd1+EEXBagnL3VzKvn8OjT0btyVdRTw?=
+ =?us-ascii?Q?fnjvfqnEhIzRa+crsx9xbOhTnFbVwtOKK7HEoRjUPhEb/YGpHYRjo0TcaPHU?=
+ =?us-ascii?Q?dEsVGMMZeDz2waodGPKwY1E7Qpm4HvrOkmQVdqoF5icSC8M+jdbcjTUl2Rfq?=
+ =?us-ascii?Q?0RSKiR1f22YBQNbSI9uBZ1j6le4k2qSrd/H5/qeJEou9bQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5215e2d7-cfd8-4071-c5d5-08d8fecef0fa
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB3834.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2021 22:53:23.5168
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UpiD7X82D6fepYgJ/oN5biHSq6vQG2kV1w9wa82QA2oGrkLnissZj1GKAUYH6pAR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB1659
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Quoting Stephen Boyd (2021-04-13 13:10:05)
-> Quoting Petr Mladek (2021-04-13 08:16:20)
-> > On Tue 2021-04-13 13:56:31, Andy Shevchenko wrote:
-> > > On Mon, Apr 12, 2021 at 12:29:05PM -0700, Stephen Boyd wrote:
-> > > > Quoting Andy Shevchenko (2021-04-12 04:58:02)
-> > > > >=20
-> > > > > First of all, why not static_assert() defined near to the actual =
-macro?
-> > > >=20
-> > > > Which macro? BUILD_ID_SIZE_MAX?
-> > >=20
-> > > Yes.
-> > >=20
-> > > > I tried static_assert() and it didn't
-> > > > work for me but maybe I missed something.
-> >=20
-> > I guess that you wanted to use it inside macro definition:
-> >=20
-> > #define VMCOREINFO_BUILD_ID(value) \
-> >         static_assert(ARRAY_SIZE(value) =3D=3D BUILD_ID_SIZE_MAX); \
-> >         vmcoreinfo_append_str("BUILD-ID=3D%20phN\n", value)
-> >=20
-> > Instead, you should do it outside the macro:
-> >=20
-> > static_assert(ARRAY_SIZE(value) =3D=3D BUILD_ID_SIZE_MAX);
-> > #define VMCOREINFO_BUILD_ID(value) \
-> >         vmcoreinfo_append_str("BUILD-ID=3D%20phN\n", value)
->=20
-> In this example "value" is not defined because it's an argument to the
-> macro. How can this work?
->=20
-> From what I can tell static_assert() is for the case that you want to
-> assert something at the global scope level. BUILD_BUG_ON() can't be used
-> at global scope. I see the usage is usually to assert struct members and
-> alignment of those members. In turn, static_assert() can't be used at
-> function level scope. Each has a use and in this case I want to assert
-> at function level scope to be as close as possible to the place that
-> would need to change.
->=20
+On Tue, Apr 06, 2021 at 01:50:45PM +0200, Gioh Kim wrote:
+> My colleagues and I would like to apply the fault injection
+> of the Linux to test error handling of RTRS module. RTRS module
+> consists of client and server modules that are connected via
+> Infiniband network. So it is important for the client to receive
+> the error of the server and handle it smoothly.
+> 
+> When debugfs is enabled, RTRS is able to export interfaces
+> to fail RTRS client and server.
+> Following fault injection points are enabled:
+> - fail a request processing on RTRS client side
+> - fail a heart-beat transferation on RTRS server side
+> 
+> This patch set is just a starting point. We will enable various
+> faults and test as many error cases as possible.
+> 
+> Best regards
+> 
+> Gioh Kim (4):
+>   RDMA/rtrs: Enable the fault-injection
+>   RDMA/rtrs-clt: Inject a fault at request processing
+>   RDMA/rtrs-srv: Inject a fault at heart-beat sending
+>   docs: fault-injection: Add fault-injection manual of RTRS
 
-Good news. I can do this to force a basic block and then GCC doesn't compla=
-in.
+I'm going to drop this until you can look into ebpf kprobes, it does
+seem the more modern way
 
----8<---
-diff --git a/include/linux/crash_core.h b/include/linux/crash_core.h
-index 2174dab16ba9..de62a722431e 100644
---- a/include/linux/crash_core.h
-+++ b/include/linux/crash_core.h
-@@ -38,9 +38,12 @@ phys_addr_t paddr_vmcoreinfo_note(void);
-
- #define VMCOREINFO_OSRELEASE(value) \
-        vmcoreinfo_append_str("OSRELEASE=3D%s\n", value)
--#define VMCOREINFO_BUILD_ID(value) \
--       BUILD_BUG_ON(ARRAY_SIZE(value) !=3D BUILD_ID_SIZE_MAX); \
--       vmcoreinfo_append_str("BUILD-ID=3D%20phN\n", value)
-+#define VMCOREINFO_BUILD_ID()                                          \
-+       ({                                                              \
-+               static_assert(sizeof(vmlinux_build_id) =3D=3D 20);         =
- \
-+               vmcoreinfo_append_str("BUILD-ID=3D%20phN\n", vmlinux_build_=
-id); \
-+       })
-+
- #define VMCOREINFO_PAGESIZE(value) \
-        vmcoreinfo_append_str("PAGESIZE=3D%ld\n", value)
+Jason
