@@ -2,248 +2,612 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
+	MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0C85C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 14:14:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33072C43461
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 14:29:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B02E661246
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 14:14:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ECADC6124B
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 14:29:21 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236723AbhDMOOC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 10:14:02 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53574 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S236711AbhDMONx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 10:13:53 -0400
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13DE3o7c078206;
-        Tue, 13 Apr 2021 10:13:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : in-reply-to : references : date : message-id : content-type :
- mime-version; s=pp1; bh=qCwho+zdQA1woetDtcnmM2qFn9qA1gliGD7C5XR1INs=;
- b=ceq1lmjzu2g35WAnL+b3f6bch1tQj0cciGALzNuG4CqmPyuW3DOgbV5zzxilqeNzKHuz
- yugsSl+mBdQSTSeIkiS/geXI9RdMQOeGaP2j3xzUaSFQWlhhBPGBx6w3W0VgtYsCbryG
- SnAwydzMWrHHzgOfv0/D+WdhhdA3zPw8zz9oc7nW0aAIryv+O0vNKypdoE99/6Exdi+7
- WMuUnWyyhimIhkpIFeush4XdPs+DHWURSV4TgKqDuskMQhdlkqhdoS2RdGA3KYoy++WU
- SWYSYJEj2Inf2ygI392gv8Jb2AA4w21Hkg/SYAVgXahHkOto7c587fMEGXfoLCGf/R7J GA== 
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 37wc8cheu4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Apr 2021 10:13:27 -0400
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
-        by ppma04fra.de.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13DECjoI020242;
-        Tue, 13 Apr 2021 14:13:24 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
-        by ppma04fra.de.ibm.com with ESMTP id 37u3n89ep3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Apr 2021 14:13:24 +0000
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 13DEDLs833227062
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 13 Apr 2021 14:13:21 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 9E80A4C05E;
-        Tue, 13 Apr 2021 14:13:21 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id E42EF4C058;
-        Tue, 13 Apr 2021 14:13:18 +0000 (GMT)
-Received: from vajain21.in.ibm.com (unknown [9.85.68.204])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with SMTP;
-        Tue, 13 Apr 2021 14:13:18 +0000 (GMT)
-Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Tue, 13 Apr 2021 19:43:18 +0530
-From:   Vaibhav Jain <vaibhav@linux.ibm.com>
-To:     Shivaprasad G Bhat <sbhat@linux.ibm.com>, sbhat@linux.vnet.ibm.com,
-        linuxppc-dev@lists.ozlabs.org, kvm-ppc@vger.kernel.org,
-        linux-nvdimm@lists.01.org, aneesh.kumar@linux.ibm.com,
-        ellerman@au1.ibm.com
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] powerpc/papr_scm: Implement support for H_SCM_FLUSH
- hcall
-In-Reply-To: <161703936121.36.7260632399582101498.stgit@e1fbed493c87>
-References: <161703936121.36.7260632399582101498.stgit@e1fbed493c87>
-Date:   Tue, 13 Apr 2021 19:43:17 +0530
-Message-ID: <87sg3ujmrm.fsf@vajain21.in.ibm.com>
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: YM85nM1gEjg_CuM1FOyY8xt9qk5V9MQy
-X-Proofpoint-ORIG-GUID: YM85nM1gEjg_CuM1FOyY8xt9qk5V9MQy
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
-MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-04-13_07:2021-04-13,2021-04-13 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- lowpriorityscore=0 malwarescore=0 bulkscore=0 clxscore=1015 adultscore=0
- mlxscore=0 mlxlogscore=999 spamscore=0 phishscore=0 impostorscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104130100
+        id S231796AbhDMO3j (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 10:29:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59408 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229835AbhDMO3g (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 10:29:36 -0400
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6D47C061756;
+        Tue, 13 Apr 2021 07:29:15 -0700 (PDT)
+Received: by mail-qv1-xf30.google.com with SMTP id o11so8108834qvh.11;
+        Tue, 13 Apr 2021 07:29:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=ILA3vCgxcVuGcvQ45QeVezhBHKverlQWWMfHKxetQH0=;
+        b=USeSm3OcGPJs1L/RhdX+qniQpqFuV2J8IkkjDtDdmhP7pp5fdKh5U3dJvbqbwUdcdg
+         L9eGRqjldMPt+ei2DPdEm+0ypLhKDXdM6P9NAQi+0lE5X/iRnFEf8jrypg8YbPXCzECO
+         6cDLEalcG5RtJnLQSKirNGfAPZ4azSOh3rigeh7Hkx4k+xwtRtI+eD6fmMfeyqz2kSg5
+         mhSBrNAiXjcd112wuEQkP2xtAxoRgSgXB7a0nw4wyOlwYHBxldu7NigJ0KW76Bn/Jnzv
+         TR9ZAWasIgEMXY8VzG2z1GlUAIncqMxGkoGzpK1c+juBAw06YYC2OXt+iibuxG6SfCba
+         dr5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=ILA3vCgxcVuGcvQ45QeVezhBHKverlQWWMfHKxetQH0=;
+        b=B2bStPqC2+bZtQgLa1yKpEWPj4tverC0GOvgGEmBPmUGGB9iGIPpBd1G5NeLLJrzFx
+         UNLEMbwqRpmHiejscj/8N+wAEk8VvAt9eSX6usyTz5mmQqcSAot4K8eOq69G3wIa3gVt
+         ngybbfYp/VU8T1cO4VtgQi4vjK4nbDnbZ8PVQwrOmi3HnUhjFkHdRPeexpkNKVwqOntx
+         paoZZkqz5YX0DRqPi58LTbemJBCvKmeHA3ZA6eQMxkDdPkL0dbHbSBRpgmIAPoVDjDGw
+         Mk2Zwqzt5Ih1fQuOzSaRouLpd63dUkPwiy/3PtYa4E29p2NEl2lhcjw0ZrefkC7gHi0s
+         Hkcw==
+X-Gm-Message-State: AOAM533yoMI9cN309WCV98yXxOKu4nXXizLtk9B5oCcOX+Zat4/Uo3OW
+        oJwBHiW9LB9gVv9SygODzFA=
+X-Google-Smtp-Source: ABdhPJzeuurTlRbabzzRlikiSGqNYVBOwdaULXk8ZjWL56MNumYLBHgW42oVWBLqnS79zYNcUitzOQ==
+X-Received: by 2002:a0c:f04a:: with SMTP id b10mr6891809qvl.59.1618324154636;
+        Tue, 13 Apr 2021 07:29:14 -0700 (PDT)
+Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
+        by smtp.gmail.com with ESMTPSA id 2sm6160911qko.134.2021.04.13.07.29.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 Apr 2021 07:29:14 -0700 (PDT)
+From:   SeongJae Park <sj38.park@gmail.com>
+To:     akpm@linux-foundation.org
+Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
+        acme@kernel.org, alexander.shishkin@linux.intel.com,
+        amit@kernel.org, benh@kernel.crashing.org,
+        brendanhiggins@google.com, corbet@lwn.net, david@redhat.com,
+        dwmw@amazon.com, elver@google.com, fan.du@intel.com,
+        foersleo@amazon.de, greg@kroah.com, gthelen@google.com,
+        guoju.fgj@alibaba-inc.com, mgorman@suse.de, minchan@kernel.org,
+        mingo@redhat.com, namhyung@kernel.org, peterz@infradead.org,
+        riel@surriel.com, rientjes@google.com, rostedt@goodmis.org,
+        rppt@kernel.org, shakeelb@google.com, shuah@kernel.org,
+        sj38.park@gmail.com, snu@amazon.de, vbabka@suse.cz,
+        vdavydov.dev@gmail.com, zgf574564920@gmail.com,
+        linux-damon@amazon.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v28 00/13] Introduce Data Access MONitor (DAMON)
+Date:   Tue, 13 Apr 2021 14:28:51 +0000
+Message-Id: <20210413142904.556-1-sj38.park@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Shiva,
+From: SeongJae Park <sjpark@amazon.de>
 
-Apologies for a late review but something just caught my eye while
-working on a different patch.
+Changes from Previous Version (v27)
+===================================
 
-Shivaprasad G Bhat <sbhat@linux.ibm.com> writes:
+- Rebase on latest -mm tree (v5.12-rc7-mmots-2021-04-11-20-49)
+- dbgfs: Fix wrong failure handlings (Stefan Nuernberger)
+- dbgfs: Change return type of 'dbgfs_fill_ctx_dir()' to void (Greg KH)
 
-> Add support for ND_REGION_ASYNC capability if the device tree
-> indicates 'ibm,hcall-flush-required' property in the NVDIMM node.
-> Flush is done by issuing H_SCM_FLUSH hcall to the hypervisor.
->
-> If the flush request failed, the hypervisor is expected to
-> to reflect the problem in the subsequent nvdimm H_SCM_HEALTH call.
->
-> This patch prevents mmap of namespaces with MAP_SYNC flag if the
-> nvdimm requires an explicit flush[1].
->
-> References:
-> [1] https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c
->
-> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
-> ---
-> v2 - https://www.spinics.net/lists/kvm-ppc/msg18799.html
-> Changes from v2:
->        - Fixed the commit message.
->        - Add dev_dbg before the H_SCM_FLUSH hcall
->
-> v1 - https://www.spinics.net/lists/kvm-ppc/msg18272.html
-> Changes from v1:
->        - Hcall semantics finalized, all changes are to accomodate them.
->
->  Documentation/powerpc/papr_hcalls.rst     |   14 ++++++++++
->  arch/powerpc/include/asm/hvcall.h         |    3 +-
->  arch/powerpc/platforms/pseries/papr_scm.c |   40 +++++++++++++++++++++++++++++
->  3 files changed, 56 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
-> index 48fcf1255a33..648f278eea8f 100644
-> --- a/Documentation/powerpc/papr_hcalls.rst
-> +++ b/Documentation/powerpc/papr_hcalls.rst
-> @@ -275,6 +275,20 @@ Health Bitmap Flags:
->  Given a DRC Index collect the performance statistics for NVDIMM and copy them
->  to the resultBuffer.
->  
-> +**H_SCM_FLUSH**
-> +
-> +| Input: *drcIndex, continue-token*
-> +| Out: *continue-token*
-> +| Return Value: *H_SUCCESS, H_Parameter, H_P2, H_BUSY*
-> +
-> +Given a DRC Index Flush the data to backend NVDIMM device.
-> +
-> +The hcall returns H_BUSY when the flush takes longer time and the hcall needs
-> +to be issued multiple times in order to be completely serviced. The
-> +*continue-token* from the output to be passed in the argument list of
-> +subsequent hcalls to the hypervisor until the hcall is completely serviced
-> +at which point H_SUCCESS or other error is returned by the hypervisor.
-> +
-Does the hcall semantic also include measures to trigger a barrier/fence
-(like pm_wmb()) so that all the stores before the hcall are gauranteed
-to have hit the pmem controller ?
+Introduction
+============
 
-If not then the papr_scm_pmem_flush() introduced below should issue a
-fence like pm_wmb() before issuing the flush hcall.
+DAMON is a data access monitoring framework for the Linux kernel.  The core
+mechanisms of DAMON called 'region based sampling' and 'adaptive regions
+adjustment' (refer to 'mechanisms.rst' in the 11th patch of this patchset for
+the detail) make it
 
-If yes then this behaviour should also be documented with the hcall
-semantics above.
+ - accurate (The monitored information is useful for DRAM level memory
+   management. It might not appropriate for Cache-level accuracy, though.),
+ - light-weight (The monitoring overhead is low enough to be applied online
+   while making no impact on the performance of the target workloads.), and
+ - scalable (the upper-bound of the instrumentation overhead is controllable
+   regardless of the size of target workloads.).
 
->  References
->  ==========
->  .. [1] "Power Architecture Platform Reference"
-> diff --git a/arch/powerpc/include/asm/hvcall.h b/arch/powerpc/include/asm/hvcall.h
-> index ed6086d57b22..9f7729a97ebd 100644
-> --- a/arch/powerpc/include/asm/hvcall.h
-> +++ b/arch/powerpc/include/asm/hvcall.h
-> @@ -315,7 +315,8 @@
->  #define H_SCM_HEALTH            0x400
->  #define H_SCM_PERFORMANCE_STATS 0x418
->  #define H_RPT_INVALIDATE	0x448
-> -#define MAX_HCALL_OPCODE	H_RPT_INVALIDATE
-> +#define H_SCM_FLUSH		0x44C
-> +#define MAX_HCALL_OPCODE	H_SCM_FLUSH
->  
->  /* Scope args for H_SCM_UNBIND_ALL */
->  #define H_UNBIND_SCOPE_ALL (0x1)
-> diff --git a/arch/powerpc/platforms/pseries/papr_scm.c b/arch/powerpc/platforms/pseries/papr_scm.c
-> index 835163f54244..b7a47fcc5aa5 100644
-> --- a/arch/powerpc/platforms/pseries/papr_scm.c
-> +++ b/arch/powerpc/platforms/pseries/papr_scm.c
-> @@ -93,6 +93,7 @@ struct papr_scm_priv {
->  	uint64_t block_size;
->  	int metadata_size;
->  	bool is_volatile;
-> +	bool hcall_flush_required;
->  
->  	uint64_t bound_addr;
->  
-> @@ -117,6 +118,39 @@ struct papr_scm_priv {
->  	size_t stat_buffer_len;
->  };
->  
-> +static int papr_scm_pmem_flush(struct nd_region *nd_region,
-> +			       struct bio *bio __maybe_unused)
-> +{
-> +	struct papr_scm_priv *p = nd_region_provider_data(nd_region);
-> +	unsigned long ret_buf[PLPAR_HCALL_BUFSIZE];
-> +	uint64_t token = 0;
-> +	int64_t rc;
-> +
-> +	dev_dbg(&p->pdev->dev, "flush drc 0x%x", p->drc_index);
-> +
-> +	do {
-> +		rc = plpar_hcall(H_SCM_FLUSH, ret_buf, p->drc_index, token);
-> +		token = ret_buf[0];
-> +
-> +		/* Check if we are stalled for some time */
-> +		if (H_IS_LONG_BUSY(rc)) {
-> +			msleep(get_longbusy_msecs(rc));
-> +			rc = H_BUSY;
-> +		} else if (rc == H_BUSY) {
-> +			cond_resched();
-> +		}
-> +	} while (rc == H_BUSY);
-> +
-> +	if (rc) {
-> +		dev_err(&p->pdev->dev, "flush error: %lld", rc);
-> +		rc = -EIO;
-> +	} else {
-> +		dev_dbg(&p->pdev->dev, "flush drc 0x%x complete", p->drc_index);
-> +	}
-> +
-> +	return rc;
-> +}
-> +
->  static LIST_HEAD(papr_nd_regions);
->  static DEFINE_MUTEX(papr_ndr_lock);
->  
-> @@ -943,6 +977,11 @@ static int papr_scm_nvdimm_init(struct papr_scm_priv *p)
->  	ndr_desc.num_mappings = 1;
->  	ndr_desc.nd_set = &p->nd_set;
->  
-> +	if (p->hcall_flush_required) {
-> +		set_bit(ND_REGION_ASYNC, &ndr_desc.flags);
-> +		ndr_desc.flush = papr_scm_pmem_flush;
-> +	}
-> +
->  	if (p->is_volatile)
->  		p->region = nvdimm_volatile_region_create(p->bus, &ndr_desc);
->  	else {
-> @@ -1088,6 +1127,7 @@ static int papr_scm_probe(struct platform_device *pdev)
->  	p->block_size = block_size;
->  	p->blocks = blocks;
->  	p->is_volatile = !of_property_read_bool(dn, "ibm,cache-flush-required");
-> +	p->hcall_flush_required = of_property_read_bool(dn, "ibm,hcall-flush-required");
->  
->  	/* We just need to ensure that set cookies are unique across */
->  	uuid_parse(uuid_str, (uuid_t *) uuid);
->
->
+Using this framework, therefore, several memory management mechanisms such as
+reclamation and THP can be optimized to aware real data access patterns.
+Experimental access pattern aware memory management optimization works that
+incurring high instrumentation overhead will be able to have another try.
+
+Though DAMON is for kernel subsystems, it can be easily exposed to the user
+space by writing a DAMON-wrapper kernel subsystem.  Then, user space users who
+have some special workloads will be able to write personalized tools or
+applications for deeper understanding and specialized optimizations of their
+systems.
+
+Long-term Plan
+--------------
+
+DAMON is a part of a project called Data Access-aware Operating System (DAOS).
+As the name implies, I want to improve the performance and efficiency of
+systems using fine-grained data access patterns.  The optimizations are for
+both kernel and user spaces.  I will therefore modify or create kernel
+subsystems, export some of those to user space and implement user space library
+/ tools.  Below shows the layers and components for the project.
+
+    ---------------------------------------------------------------------------
+    Primitives:     PTE Accessed bit, PG_idle, rmap, (Intel CMT), ...
+    Framework:      DAMON
+    Features:       DAMOS, virtual addr, physical addr, ...
+    Applications:   DAMON-debugfs, (DARC), ...
+    ^^^^^^^^^^^^^^^^^^^^^^^    KERNEL SPACE    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    Raw Interface:  debugfs, (sysfs), (damonfs), tracepoints, (sys_damon), ...
+
+    vvvvvvvvvvvvvvvvvvvvvvv    USER SPACE      vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    Library:        (libdamon), ...
+    Tools:          DAMO, (perf), ...
+    ---------------------------------------------------------------------------
+
+The components in parentheses or marked as '...' are not implemented yet but in
+the future plan.  IOW, those are the TODO tasks of DAOS project.  For more
+detail, please refer to the plans:
+https://lore.kernel.org/linux-mm/20201202082731.24828-1-sjpark@amazon.com/
+
+Evaluations
+===========
+
+We evaluated DAMON's overhead, monitoring quality and usefulness using 24
+realistic workloads on my QEMU/KVM based virtual machine running a kernel that
+v24 DAMON patchset is applied.
+
+DAMON is lightweight.  It increases system memory usage by 0.39% and slows
+target workloads down by 1.16%.
+
+DAMON is accurate and useful for memory management optimizations.  An
+experimental DAMON-based operation scheme for THP, namely 'ethp', removes
+76.15% of THP memory overheads while preserving 51.25% of THP speedup.  Another
+experimental DAMON-based 'proactive reclamation' implementation, 'prcl',
+reduces 93.38% of residential sets and 23.63% of system memory footprint while
+incurring only 1.22% runtime overhead in the best case (parsec3/freqmine).
+
+NOTE that the experimental THP optimization and proactive reclamation are not
+for production but only for proof of concepts.
+
+Please refer to the official document[1] or "Documentation/admin-guide/mm: Add
+a document for DAMON" patch in this patchset for detailed evaluation setup and
+results.
+
+[1] https://damonitor.github.io/doc/html/latest-damon/admin-guide/mm/damon/eval.html
+
+Real-world User Story
+=====================
+
+In summary, DAMON has used on production systems and proved its usefulness.
+
+DAMON as a profiler
+-------------------
+
+We analyzed characteristics of a large scale production systems of our
+customers using DAMON.  The systems utilize 70GB DRAM and 36 CPUs.  From this,
+we were able to find interesting things below.
+
+There were obviously different access pattern under idle workload and active
+workload.  Under the idle workload, it accessed large memory regions with low
+frequency, while the active workload accessed small memory regions with high
+freuqnecy.
+
+DAMON found a 7GB memory region that showing obviously high access frequency
+under the active workload.  We believe this is the performance-effective
+working set and need to be protected.
+
+There was a 4KB memory region that showing highest access frequency under not
+only active but also idle workloads.  We think this must be a hottest code
+section like thing that should never be paged out.
+
+For this analysis, DAMON used only 0.3-1% of single CPU time.  Because we used
+recording-based analysis, it consumed about 3-12 MB of disk space per 20
+minutes.  This is only small amount of disk space, but we can further reduce
+the disk usage by using non-recording-based DAMON features.  I'd like to argue
+that only DAMON can do such detailed analysis (finding 4KB highest region in
+70GB memory) with the light overhead.
+
+DAMON as a system optimization tool
+-----------------------------------
+
+We also found below potential performance problems on the systems and made
+DAMON-based solutions.
+
+The system doesn't want to make the workload suffer from the page reclamation
+and thus it utilizes enough DRAM but no swap device.  However, we found the
+system is actively reclaiming file-backed pages, because the system has
+intensive file IO.  The file IO turned out to be not performance critical for
+the workload, but the customer wanted to ensure performance critical
+file-backed pages like code section to not mistakenly be evicted.
+
+Using direct IO should or `mlock()` would be a straightforward solution, but
+modifying the user space code is not easy for the customer.  Alternatively, we
+could use DAMON-based operation scheme[1].  By using it, we can ask DAMON to
+track access frequency of each region and make
+'process_madvise(MADV_WILLNEED)[2]' call for regions having specific size and
+access frequency for a time interval.
+
+We also found the system is having high number of TLB misses.  We tried
+'always' THP enabled policy and it greatly reduced TLB misses, but the page
+reclamation also been more frequent due to the THP internal fragmentation
+caused memory bloat.  We could try another DAMON-based operation scheme that
+applies 'MADV_HUGEPAGE' to memory regions having >=2MB size and high access
+frequency, while applying 'MADV_NOHUGEPAGE' to regions having <2MB size and low
+access frequency.
+
+We do not own the systems so we only reported the analysis results and possible
+optimization solutions to the customers.  The customers satisfied about the
+analysis results and promised to try the optimization guides.
+
+[1] https://lore.kernel.org/linux-mm/20201006123931.5847-1-sjpark@amazon.com/
+[2] https://lore.kernel.org/linux-api/20200622192900.22757-4-minchan@kernel.org/
+
+Comparison with Idle Page Tracking
+==================================
+
+Idle Page Tracking allows users to set and read idleness of pages using a
+bitmap file which represents each page with each bit of the file.  One
+recommended usage of it is working set size detection.  Users can do that by
+
+    1. find PFN of each page for workloads in interest,
+    2. set all the pages as idle by doing writes to the bitmap file,
+    3. wait until the workload accesses its working set, and
+    4. read the idleness of the pages again and count pages became not idle.
+
+NOTE: While Idle Page Tracking is for user space users, DAMON is primarily
+designed for kernel subsystems though it can easily exposed to the user space.
+Hence, this section only assumes such user space use of DAMON.
+
+For what use cases Idle Page Tracking would be better?
+------------------------------------------------------
+
+1. Flexible usecases other than hotness monitoring.
+
+Because Idle Page Tracking allows users to control the primitive (Page
+idleness) by themselves, Idle Page Tracking users can do anything they want.
+Meanwhile, DAMON is primarily designed to monitor the hotness of each memory
+region.  For this, DAMON asks users to provide sampling interval and
+aggregation interval.  For the reason, there could be some use case that using
+Idle Page Tracking is simpler.
+
+2. Physical memory monitoring.
+
+Idle Page Tracking receives PFN range as input, so natively supports physical
+memory monitoring.
+
+DAMON is designed to be extensible for multiple address spaces and use cases by
+implementing and using primitives for the given use case.  Therefore, by
+theory, DAMON has no limitation in the type of target address space as long as
+primitives for the given address space exists.  However, the default primitives
+introduced by this patchset supports only virtual address spaces.
+
+Therefore, for physical memory monitoring, you should implement your own
+primitives and use it, or simply use Idle Page Tracking.
+
+Nonetheless, RFC patchsets[1] for the physical memory address space primitives
+is already available.  It also supports user memory same to Idle Page Tracking.
+
+[1] https://lore.kernel.org/linux-mm/20200831104730.28970-1-sjpark@amazon.com/
+
+For what use cases DAMON is better?
+-----------------------------------
+
+1. Hotness Monitoring.
+
+Idle Page Tracking let users know only if a page frame is accessed or not.  For
+hotness check, the user should write more code and use more memory.  DAMON do
+that by itself.
+
+2. Low Monitoring Overhead
+
+DAMON receives user's monitoring request with one step and then provide the
+results.  So, roughly speaking, DAMON require only O(1) user/kernel context
+switches.
+
+In case of Idle Page Tracking, however, because the interface receives
+contiguous page frames, the number of user/kernel context switches increases as
+the monitoring target becomes complex and huge.  As a result, the context
+switch overhead could be not negligible.
+
+Moreover, DAMON is born to handle with the monitoring overhead.  Because the
+core mechanism is pure logical, Idle Page Tracking users might be able to
+implement the mechanism on thier own, but it would be time consuming and the
+user/kernel context switching will still more frequent than that of DAMON.
+Also, the kernel subsystems cannot use the logic in this case.
+
+3. Page granularity working set size detection.
+
+Until v22 of this patchset, this was categorized as the thing Idle Page
+Tracking could do better, because DAMON basically maintains additional metadata
+for each of the monitoring target regions.  So, in the page granularity working
+set size detection use case, DAMON would incur (number of monitoring target
+pages * size of metadata) memory overhead.  Size of the single metadata item is
+about 54 bytes, so assuming 4KB pages, about 1.3% of monitoring target pages
+will be additionally used.
+
+All essential metadata for Idle Page Tracking are embedded in 'struct page' and
+page table entries.  Therefore, in this use case, only one counter variable for
+working set size accounting is required if Idle Page Tracking is used.
+
+There are more details to consider, but roughly speaking, this is true in most
+cases.
+
+However, the situation changed from v23.  Now DAMON supports arbitrary types of
+monitoring targets, which don't use the metadata.  Using that, DAMON can do the
+working set size detection with no additional space overhead but less
+user-kernel context switch.  A first draft for the implementation of monitoring
+primitives for this usage is available in a DAMON development tree[1].  An RFC
+patchset for it based on this patchset will also be available soon.
+
+From v24, the arbitrary type support is dropped from this patchset because this
+patchset doesn't introduce real use of the type.  You can still get it from the
+DAMON development tree[2], though.
+
+[1] https://github.com/sjp38/linux/tree/damon/pgidle_hack
+[2] https://github.com/sjp38/linux/tree/damon/master
+
+4. More future usecases
+
+While Idle Page Tracking has tight coupling with base primitives (PG_Idle and
+page table Accessed bits), DAMON is designed to be extensible for many use
+cases and address spaces.  If you need some special address type or want to use
+special h/w access check primitives, you can write your own primitives for that
+and configure DAMON to use those.  Therefore, if your use case could be changed
+a lot in future, using DAMON could be better.
+
+Can I use both Idle Page Tracking and DAMON?
+--------------------------------------------
+
+Yes, though using them concurrently for overlapping memory regions could result
+in interference to each other.  Nevertheless, such use case would be rare or
+makes no sense at all.  Even in the case, the noise would bot be really
+significant.  So, you can choose whatever you want depending on the
+characteristics of your use cases.
+
+More Information
+================
+
+We prepared a showcase web site[1] that you can get more information.  There
+are
+
+- the official documentations[2],
+- the heatmap format dynamic access pattern of various realistic workloads for
+  heap area[3], mmap()-ed area[4], and stack[5] area,
+- the dynamic working set size distribution[6] and chronological working set
+  size changes[7], and
+- the latest performance test results[8].
+
+[1] https://damonitor.github.io/_index
+[2] https://damonitor.github.io/doc/html/latest-damon
+[3] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.0.png.html
+[4] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.1.png.html
+[5] https://damonitor.github.io/test/result/visual/latest/rec.heatmap.2.png.html
+[6] https://damonitor.github.io/test/result/visual/latest/rec.wss_sz.png.html
+[7] https://damonitor.github.io/test/result/visual/latest/rec.wss_time.png.html
+[8] https://damonitor.github.io/test/result/perf/latest/html/index.html
+
+Baseline and Complete Git Trees
+===============================
+
+The patches are based on the -mm tree.  More specifically,
+v5.12-rc7-mmots-2021-04-11-20-49 of https://github.com/hnaz/linux-mm.  You can
+also clone the complete git tree:
+
+    $ git clone git://github.com/sjp38/linux -b damon/patches/v28
+
+The web is also available:
+https://github.com/sjp38/linux/releases/tag/damon/patches/v28
+
+Development Trees
+-----------------
+
+There are a couple of trees for entire DAMON patchset series and
+features for future release.
+
+- For latest release: https://github.com/sjp38/linux/tree/damon/master
+- For next release: https://github.com/sjp38/linux/tree/damon/next
+
+Long-term Support Trees
+-----------------------
+
+For people who want to test DAMON but using LTS kernels, there are another
+couple of trees based on two latest LTS kernels respectively and containing the
+'damon/master' backports.
+
+- For v5.4.y: https://github.com/sjp38/linux/tree/damon/for-v5.4.y
+- For v5.10.y: https://github.com/sjp38/linux/tree/damon/for-v5.10.y
+
+Sequence Of Patches
+===================
+
+First three patches implement the core logics of DAMON.  The 1st patch
+introduces basic sampling based hotness monitoring for arbitrary types of
+targets.  Following two patches implement the core mechanisms for control of
+overhead and accuracy, namely regions based sampling (patch 2) and adaptive
+regions adjustment (patch 3).
+
+Now the essential parts of DAMON is complete, but it cannot work unless someone
+provides monitoring primitives for a specific use case.  The following two
+patches make it just work for virtual address spaces monitoring.  The 4th patch
+makes 'PG_idle' can be used by DAMON and the 5th patch implements the virtual
+memory address space specific monitoring primitives using page table Accessed
+bits and the 'PG_idle' page flag.
+
+Now DAMON just works for virtual address space monitoring via the kernel space
+api.  To let the user space users can use DAMON, following four patches add
+interfaces for them.  The 6th patch adds a tracepoint for monitoring results.
+The 7th patch implements a DAMON application kernel module, namely damon-dbgfs,
+that simply wraps DAMON and exposes DAMON interface to the user space via the
+debugfs interface.  The 8th patch further exports pid of monitoring thread
+(kdamond) to user space for easier cpu usage accounting, and the 9th patch
+makes the debugfs interface to support multiple contexts.
+
+Three patches for maintainability follows.  The 10th patch adds documentations
+for both the user space and the kernel space.  The 11th patch provides unit
+tests (based on the kunit) while the 12th patch adds user space tests (based on
+the kselftest).
+
+Finally, the last patch (13th) updates the MAINTAINERS file.
+
+Patch History
+=============
+
+Changes from v27
+(https://lore.kernel.org/linux-mm/20210408134854.31625-1-sj38.park@gmail.com/)
+- Rebase on latest -mm tree (v5.12-rc7-mmots-2021-04-11-20-49)
+- dbgfs: Fix wrong failure handlings (Stefan Nuernberger)
+- dbgfs: Change return type of 'dbgfs_fill_ctx_dir()' to void (Greg KH)
+
+Changes from v26
+(https://lore.kernel.org/linux-mm/20210330090537.12143-1-sj38.park@gmail.com/)
+- Rebase on latest -mm tree (v5.12-rc6-mmots-2021-04-06-22-33)
+- Check kmalloc() failures in dbgfs init (Greg KH)
+- Fix a typo: s/stollen/stolen/ (Stefan Nuernberger)
+- Update document for updated user space tool path
+
+Changes from v25
+(https://lore.kernel.org/linux-mm/20210318100856.34715-1-sj38.park@gmail.com/)
+- Rebase on latest -mm tree (v5.12-rc4-mmots-2021-03-28-16-40)
+- Remove unnecessary test code that dependent on record feature
+- Handle special mappings having no corresponding 'struct page' (Guoju Fang)
+
+Changes from v24
+(https://lore.kernel.org/linux-mm/20210204153150.15948-1-sjpark@amazon.com/)
+- Rebase on latest -mm tree (v5.12-rc3-mmots-2021-03-17-22-26)
+- Ignore 'debugfs_create_{file|dir}()' return values (Greg KH)
+- Remove 'recording' feature (Shakeel Butt)
+- Remove user space tool and recording description in the documentation
+
+Changes from v23
+(https://lore.kernel.org/linux-mm/20201215115448.25633-1-sjpark@amazon.com/)
+- Wordsmith commit messages (Shakeel Butt)
+- Call missed mmu_notifier_test_young() (Shakeel Butt)
+- Add one 'Reviewed-by' tag for PG_Idle reuse patch (Shakeel Butt)
+- Rename core code to be region-neutral (Shakeel Butt)
+- Add missed null check of 'damon_new_region()' return value (Coverity SAST)
+- Put pids in dbgfs error cases (Shakeel Butt)
+- Move arbitrary target type support out of DAMON patchset series (Shakeel Butt)
+- Move user space tool patch out of DAMON patchset series
+- Update evaluation result with DAMOOS-tuned prcl schemes
+
+Changes from v22
+(https://lore.kernel.org/linux-mm/20201020085940.13875-1-sjpark@amazon.com/)
+- Support arbitrary targets; now DAMON incurs only zero space overhead for page
+  granularity idleness monitoring
+- Reorder patches for easier review (Shakeel Butt)
+  - Introduce arbitrary targets with sampling first, then the overhead-accuracy
+    control logic
+  - Introduce data structure manipulation functions when it really used.
+- Call callbacks explicitly, without macro (Shakeel Butt)
+- Rename DAMON_PRIMITIVES to DAMON_VADDR (Shakeel Butt)
+- Remove 'page_idle_lock' patch (Shakeel Butt)
+- Drop pidfd support in debugfs (Shakeel Butt)
+
+Changes from v21
+(https://lore.kernel.org/linux-doc/20201005105522.23841-1-sjpark@amazon.com/)
+- Fix build warnings and errors (kernel test robot)
+- Fix a memory leak (kmemleak)
+- Respect KUNIT_ALL_TESTS
+- Rebase on v5.9
+- Update the evaluation results
+
+Changes from v20
+(https://lore.kernel.org/linux-mm/20200817105137.19296-1-sjpark@amazon.com/)
+- s/snprintf()/scnprintf() (Marco Elver)
+- Support multiple contexts for user space users (Shakeel Butt)
+- Export pid of monitoring thread to user space (Shakeel Butt)
+- Let coexistable with Idle Page Tracking
+- Place three parts of DAMON (core, primitives, and dbgfs) in different files
+
+Changes from v19
+(https://lore.kernel.org/linux-mm/20200804091416.31039-1-sjpark@amazon.com/)
+- Place 'CREATE_TRACE_POINTS' after '#include' statements (Steven Rostedt)
+- Support large record file (Alkaid)
+- Place 'put_pid()' of virtual monitoring targets in 'cleanup' callback
+- Avoid conflict between concurrent DAMON users
+- Update evaluation result document
+
+Changes from v18
+(https://lore.kernel.org/linux-mm/20200713084144.4430-1-sjpark@amazon.com/)
+- Drop loadable module support (Mike Rapoport)
+- Select PAGE_EXTENSION if !64BIT for 'set_page_young()'
+- Take care of the MMU notification subscribers (Shakeel Butt)
+- Substitute 'struct damon_task' with 'struct damon_target' for better abstract
+- Use 'struct pid' instead of 'pid_t' as the target (Shakeel Butt)
+- Support pidfd from the debugfs interface (Shakeel Butt)
+- Fix typos (Greg Thelen)
+- Properly isolate DAMON from other pmd/pte Accessed bit users (Greg Thelen)
+- Rebase on v5.8
+
+Please refer to the v18 patchset to get older history.
+
+SeongJae Park (13):
+  mm: Introduce Data Access MONitor (DAMON)
+  mm/damon/core: Implement region-based sampling
+  mm/damon: Adaptively adjust regions
+  mm/idle_page_tracking: Make PG_idle reusable
+  mm/damon: Implement primitives for the virtual memory address spaces
+  mm/damon: Add a tracepoint
+  mm/damon: Implement a debugfs-based user space interface
+  mm/damon/dbgfs: Export kdamond pid to the user space
+  mm/damon/dbgfs: Support multiple contexts
+  Documentation: Add documents for DAMON
+  mm/damon: Add kunit tests
+  mm/damon: Add user space selftests
+  MAINTAINERS: Update for DAMON
+
+ Documentation/admin-guide/mm/damon/guide.rst  | 158 ++++
+ Documentation/admin-guide/mm/damon/index.rst  |  15 +
+ Documentation/admin-guide/mm/damon/plans.rst  |  29 +
+ Documentation/admin-guide/mm/damon/start.rst  | 114 +++
+ Documentation/admin-guide/mm/damon/usage.rst  | 112 +++
+ Documentation/admin-guide/mm/index.rst        |   1 +
+ Documentation/vm/damon/api.rst                |  20 +
+ Documentation/vm/damon/design.rst             | 166 ++++
+ Documentation/vm/damon/eval.rst               | 232 ++++++
+ Documentation/vm/damon/faq.rst                |  58 ++
+ Documentation/vm/damon/index.rst              |  31 +
+ Documentation/vm/index.rst                    |   1 +
+ MAINTAINERS                                   |  12 +
+ include/linux/damon.h                         | 265 +++++++
+ include/linux/page-flags.h                    |   4 +-
+ include/linux/page_ext.h                      |   2 +-
+ include/linux/page_idle.h                     |   6 +-
+ include/trace/events/damon.h                  |  43 ++
+ include/trace/events/mmflags.h                |   2 +-
+ mm/Kconfig                                    |  11 +
+ mm/Makefile                                   |   1 +
+ mm/damon/Kconfig                              |  69 ++
+ mm/damon/Makefile                             |   5 +
+ mm/damon/core-test.h                          | 253 ++++++
+ mm/damon/core.c                               | 718 ++++++++++++++++++
+ mm/damon/dbgfs-test.h                         | 126 +++
+ mm/damon/dbgfs.c                              | 615 +++++++++++++++
+ mm/damon/vaddr-test.h                         | 328 ++++++++
+ mm/damon/vaddr.c                              | 623 +++++++++++++++
+ mm/page_ext.c                                 |  12 +-
+ mm/page_idle.c                                |  10 -
+ tools/testing/selftests/damon/Makefile        |   7 +
+ .../selftests/damon/_chk_dependency.sh        |  28 +
+ .../testing/selftests/damon/debugfs_attrs.sh  |  98 +++
+ 34 files changed, 4157 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/admin-guide/mm/damon/guide.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/index.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/plans.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/start.rst
+ create mode 100644 Documentation/admin-guide/mm/damon/usage.rst
+ create mode 100644 Documentation/vm/damon/api.rst
+ create mode 100644 Documentation/vm/damon/design.rst
+ create mode 100644 Documentation/vm/damon/eval.rst
+ create mode 100644 Documentation/vm/damon/faq.rst
+ create mode 100644 Documentation/vm/damon/index.rst
+ create mode 100644 include/linux/damon.h
+ create mode 100644 include/trace/events/damon.h
+ create mode 100644 mm/damon/Kconfig
+ create mode 100644 mm/damon/Makefile
+ create mode 100644 mm/damon/core-test.h
+ create mode 100644 mm/damon/core.c
+ create mode 100644 mm/damon/dbgfs-test.h
+ create mode 100644 mm/damon/dbgfs.c
+ create mode 100644 mm/damon/vaddr-test.h
+ create mode 100644 mm/damon/vaddr.c
+ create mode 100644 tools/testing/selftests/damon/Makefile
+ create mode 100644 tools/testing/selftests/damon/_chk_dependency.sh
+ create mode 100755 tools/testing/selftests/damon/debugfs_attrs.sh
 
 -- 
-Cheers
-~ Vaibhav
+2.17.1
+
