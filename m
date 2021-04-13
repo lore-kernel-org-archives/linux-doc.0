@@ -8,69 +8,69 @@ X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
 	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EFAD6C43460
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 08:48:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 22568C433ED
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 08:49:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BD977613B8
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 08:48:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id ED0F8610CB
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 08:49:04 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243680AbhDMIsy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 04:48:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40346 "EHLO
+        id S243506AbhDMItX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 04:49:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40474 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243617AbhDMIsy (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 04:48:54 -0400
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45019C061574
-        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 01:48:30 -0700 (PDT)
-Received: by mail-pl1-x636.google.com with SMTP id y2so7840092plg.5
-        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 01:48:30 -0700 (PDT)
+        with ESMTP id S243324AbhDMItW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 04:49:22 -0400
+Received: from mail-pg1-x530.google.com (mail-pg1-x530.google.com [IPv6:2607:f8b0:4864:20::530])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02855C061574
+        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 01:49:03 -0700 (PDT)
+Received: by mail-pg1-x530.google.com with SMTP id k8so11438368pgf.4
+        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 01:49:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=f6mIdi8Xo50QaAJkce/MHlykF4OrXgED3w5f266sVEU=;
-        b=aTqPCyVAPNF2hX25io8liyan7aLy0+mnI6f4XXtJTII0CSQ/ae9gNtNGgNp1/HsqZy
-         y50agBa9KfXP9Meujtv21nl968HU1vqCATE+5ms1y+SevIemCsN7xUOAoH97aBZDYlHX
-         OAE94gtwv+FsBUz+W5scdfgkM9vt5Kd6df3ZPq3fsFePm7O/RQ3bN7LTbehoaHPbrBTV
-         Cw8MMUX6pvlLGfbbO6SVAkAGIGmZDWcCKHQmXGCLN8quOjRxWCHjt9hkTt9VQ6zEb+fo
-         rbAhHFepjYo2Op3euzKgypWVTkd9kBBBMj4lnZvz6VLWhYpMYjUmpTUUGCTErNMDDCJ3
-         1hKg==
+        bh=EGB4JhaqPMgp2ZrK8YO3ILcdKWDOaeWac8FjKxSUa9c=;
+        b=WbWnNYzMK64L52teByM+w7m2tnDhMnkvL+3xG/79CHym2/uQO24atUpZwi7rFdrDpp
+         aqytpR02b3VZLzs1LnxPMhbGcklKMyokgL5wryYNqaYp+HB8QkaTiFLpd81hbAM/3yTO
+         koHK2jeOLAbu/5txBQkMrw1yZto3aVGI1ye08jsSnRbFhleLPOtTM9j78aj7J+7C6m7L
+         +Cuv6+Z6F0CAEsQ/NDe4NOLOOW6uNPV9+7aG1sMz4cSMH+AxENHLSlrOw9aSTyTn5B79
+         Mpd5hTW7jxzSjbgNCzk0CMOqPfgphJtTlot4ietuBZcMlStjfI6g4+GhylxP4s42xjXo
+         Ylag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=f6mIdi8Xo50QaAJkce/MHlykF4OrXgED3w5f266sVEU=;
-        b=VrOVbvNqvHy+REyq915CXtKDVhRBKIJZAYl3oruQjq+XWkrPGfunbfaCH+ntWdBl0G
-         wl1NfC/HtP7vXJM/fkvXptkX3mi2JJQaIZR3FH3IUi3g9YKYQ8ae75c7ioXsgJ2xPoSa
-         KJ+4YY2OcZBwzwNLPMfOP1zTA8z5ua50BpvwLvHn2M1ZMDGZ05pFLYL3fDoPokq1NAVX
-         xJnHn/ftnFS1jxyHAz+TZev6+vD0lE6h4PUWkTMyZi7VD6Jiy+WEFYeQllzwj4asEtba
-         JaQ1cWVE+89pDK+/DsWswxxfwnwfLdT+ShfcV6Vf9c3LVRZ9L3Yls1mkxTPmZQnntwoN
-         /XHA==
-X-Gm-Message-State: AOAM532gGCkYOMfU/01i9KhFJR8LYBby3pryrXErXBNHr6lwa3mOOw+s
-        xGVCQx9o0RUj5ZsRIm/za0sh4d6tdxl5Tg==
-X-Google-Smtp-Source: ABdhPJzfGL+UXW1sG7r5kAev4yLLxGRndM9FyXWCSnZFxAImN+Ik2YjVQzoNfGxi4ue/+TAcGaxu6A==
-X-Received: by 2002:a17:902:ac89:b029:e6:d199:29ac with SMTP id h9-20020a170902ac89b02900e6d19929acmr30774090plr.46.1618303709341;
-        Tue, 13 Apr 2021 01:48:29 -0700 (PDT)
+        bh=EGB4JhaqPMgp2ZrK8YO3ILcdKWDOaeWac8FjKxSUa9c=;
+        b=N93jwkKbPov4wG9BHjO7DRoy3V4Imy2Q+HzbMC3v45Vf2nGPxQef5/pyV6lbVTlafk
+         VULfppecobzcSYdZs3VuePpRR/0zYxy9y4sltsnmHM/+4WM8vxwCnLqTz7LEiYqs2r0H
+         gi3UP/UXwbG1cvrgo2/UBMsPQNo8MupSEFJnJc7qGW/F7P/xJBxp/QlU8Fu8J0qxnQj1
+         tkucLKK/X0ChsyJkVEGghInIQkwYW27ZBqBWJ6jV6kBYE6lSgwA/x++slmtDR4i4qYaX
+         qJsNcgYaD5nUtlzsriMw6QPsHjDEU6BCxfL3CHzH/GlEyQAM/WSExh2MAtqBq6LDDs2x
+         CDDw==
+X-Gm-Message-State: AOAM530+MDkrtu8SOYWpzbnFlfOiQpGL/YvQLhVeaSmIDJrPi87VbIls
+        JbgodWw8o7RXVdOtu2cQYbac3kJZRUXkuA==
+X-Google-Smtp-Source: ABdhPJwMvmpATXTz4fwg+UbBGKsiZ74HopyR8DthTiqBNtUzAI2pRy3R3mOO3kn3mhWAE6ErKTZqjQ==
+X-Received: by 2002:a63:6cc:: with SMTP id 195mr32292683pgg.153.1618303742238;
+        Tue, 13 Apr 2021 01:49:02 -0700 (PDT)
 Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id g6sm10375468pfj.139.2021.04.13.01.48.26
+        by smtp.gmail.com with ESMTPSA id v8sm11453162pfm.128.2021.04.13.01.48.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Apr 2021 01:48:29 -0700 (PDT)
-Subject: Re: [PATCH v5 2/7] docs/zh_CN: Add translation
- zh_CN/doc-guide/kernel-doc.rst
+        Tue, 13 Apr 2021 01:49:01 -0700 (PDT)
+Subject: Re: [PATCH v5 3/7] docs/zh_CN: Add translation
+ zh_CN/doc-guide/parse-headers.rst
 To:     Wu XiangCheng <bobwxc@email.cn>, Alex Shi <alexs@kernel.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         YanTeng Si <sterlingteng@gmail.com>, linux-doc@vger.kernel.org
 References: <cover.1618295149.git.bobwxc@email.cn>
- <783d134b1dd18f580f2c0511c2330382a86e79b5.1618295149.git.bobwxc@email.cn>
+ <81d98cf80325ff3b1c4145965bc7d05ddb2b3c49.1618295149.git.bobwxc@email.cn>
 From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <268a5e01-157d-14cf-7fab-da0a41218756@gmail.com>
-Date:   Tue, 13 Apr 2021 16:48:25 +0800
+Message-ID: <c9106202-37c7-e0d7-d61c-7bb0d056c1d8@gmail.com>
+Date:   Tue, 13 Apr 2021 16:48:57 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <783d134b1dd18f580f2c0511c2330382a86e79b5.1618295149.git.bobwxc@email.cn>
+In-Reply-To: <81d98cf80325ff3b1c4145965bc7d05ddb2b3c49.1618295149.git.bobwxc@email.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -82,519 +82,205 @@ Reviewed-by: Alex Shi <alexs@kernel.org>
 
 On 2021/4/13 下午3:12, Wu XiangCheng wrote:
 > Add new translation
->   Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
+>   Documentation/translations/zh_CN/doc-guide/parse-headers.rst
 > 
 > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-> Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 > ---
->  .../zh_CN/doc-guide/kernel-doc.rst            | 500 ++++++++++++++++++
->  1 file changed, 500 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
+>  .../zh_CN/doc-guide/parse-headers.rst         | 187 ++++++++++++++++++
+>  1 file changed, 187 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/doc-guide/parse-headers.rst
 > 
-> diff --git a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
+> diff --git a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
 > new file mode 100644
-> index 000000000000..b0427944f8f0
+> index 000000000000..3c6612a3e47e
 > --- /dev/null
-> +++ b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> @@ -0,0 +1,500 @@
+> +++ b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
+> @@ -0,0 +1,187 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
 > +.. include:: ../disclaimer-zh_CN.rst
 > +
-> +:Original: Documentation/doc-guide/kernel-doc.rst
+> +:Original: Documentation/doc-guide/parse-headers.rst
 > +
 > +:译者: 吴想成 Wu XiangCheng <bobwxc@email.cn>
 > +
-> +编写kernel-doc注释
-> +==================
+> +=====================
+> +包含用户空间API头文件
+> +=====================
 > +
-> +Linux内核源文件可以包含kernel-doc格式的结构化文档注释，用以描述代码的函数、
-> +类型和设计。将文档嵌入源文件更容易保持文档最新。
+> +有时，为了描述用户空间API并在代码和文档之间生成交叉引用，需要包含头文件和示例
+> +C代码。为用户空间API文件添加交叉引用还有一个好处：如果在文档中找不到相应符号，
+> +Sphinx将生成警告。这有助于保持用户空间API文档与内核更改同步。
+> +:ref:`parse_headers.pl <parse_headers_zh>` 提供了生成此类交叉引用的一种方法。
+> +在构建文档时，必须通过Makefile调用它。有关如何在内核树中使用它的示例，请参阅
+> +``Documentation/userspace-api/media/Makefile`` 。
 > +
-> +.. note:: 内核文档格式与javadoc、gtk-doc或Doxygen看似很相似，但由于历史原因，
-> +          实际有着明显的不同。内核源包含成千上万个kernel-doc注释。请坚持遵循
-> +          此处描述的风格。
+> +.. _parse_headers_zh:
 > +
-> +.. note:: kernel-doc无法包含Rust代码：请参考
-> +          :ref:`Documentation/rust/docs.rst <rust_docs>`。
+> +parse_headers.pl
+> +----------------
 > +
-> +从注释中提取kernel-doc结构，并从中生成适当的 `Sphinx C 域`_ 函数和带有锚点的
-> +类型描述。这些注释将被过滤以生成特殊kernel-doc高亮和交叉引用。详见下文。
-> +
-> +.. _Sphinx C 域: http://www.sphinx-doc.org/en/stable/domains.html
-> +
-> +使用 ``EXPORT_SYMBOL`` 或 ``EXPORT_SYMBOL_GPL`` 导出到可加载模块的每个函数都
-> +应该有一个kernel-doc注释。模块使用的头文件中的函数和数据结构也应该有
-> +kernel-doc注释。
-> +
-> +对于其他内核文件（未标记为 ``static`` ）中外部可见的函数，提供kernel-doc格式
-> +的文档是一个很好的实践。我们也建议为私有（文件 ``static`` ）程序提供kernel-doc
-> +格式的文档，以确保内核源代码布局的一致性。此建议优先级较低，由内核源文件的
-> +维护者自行决定。
-> +
-> +如何格式化kernel-doc注释
-> +------------------------
-> +
-> +kernel-doc注释用 ``/**`` 作为开始标记。 ``kernel-doc`` 工具将提取以这种方式
-> +标记的注释。注释其余部分的格式类似于一个普通的多行注释，左侧有一列星号，以
-> +``*/`` 行结束。
-> +
-> +函数和类型的kernel-doc注释应该放在所描述的函数或类型之前，以便最大限度地提高
-> +更改代码的人同时更改文档的可能性。概述kernel-doc注释可以放在最顶部的任何地方。
-> +
-> +用详细模式和不生成实际输出来运行 ``kernel-doc`` 工具，可以验证文档注释的格式
-> +是否正确。例如::
-> +
-> +	scripts/kernel-doc -v -none drivers/foo/bar.c
-> +
-> +当请求执行额外的gcc检查时，内核构建将验证文档格式::
-> +
-> +	make W=n
-> +
-> +函数文档
-> +--------
-> +
-> +函数和函数式宏的kernel-doc注释的一般格式是::
-> +
-> +  /**
-> +   * 函数名() - 函数简要说明.
-> +   * @参数1: 描述第一个参数.
-> +   * @参数2: 描述第二个参数.
-> +   *        可以为参数提供一段
-> +   *        多行描述.
-> +   *
-> +   * 更详细的描述，进一步讨论函数 函数名(), 这可能对使用或修改它的人有用.
-> +   * 以空注释行开始, 内部可以包含空注释行.
-> +   *
-> +   * 详细描述可以有多个段落.
-> +   *
-> +   * Context: 描述函数是否可以休眠, 它需要、释放或期望持有什么锁.
-> +   *          可以写多行.
-> +   * Return: 描述函数返回值.
-> +   *
-> +   * 返回值描述也可以有多个段落,
-> +   * 并且应该放在注释块的末尾.
-> +   */
-> +
-> +函数名后面的简短描述可以跨多行，并以参数描述、空注释行或注释块结尾结束。
-> +
-> +函数参数
+> +脚本名称
 > +~~~~~~~~
 > +
-> +每个函数参数都应该按照顺序描述，紧跟在函数简要说明之后。不要在函数描述和参数
-> +之间，也不要在参数之间留空。
 > +
-> +每个 ``@参数:`` 描述可以跨多行。
+> +parse_headers.pl——解析一个C文件，识别函数、结构体、枚举、定义并对Sphinx文档
+> +创建交叉引用。
 > +
-> +.. note::
 > +
-> +   如果 ``@参数`` 描述有多行，则说明的续行应该从上一行的同一列开始::
+> +用法概要
+> +~~~~~~~~
 > +
-> +      * @参数: 较长说明
-> +      *        的续行
 > +
-> +   或::
+> +\ **parse_headers.pl**\  [<选项>] <C文件> <输出文件> [<例外文件>]
 > +
-> +      * @参数:
-> +      *		较长说明
-> +      *         的续行
+> +<选项> 可以是： --debug, --help 或 --usage 。
 > +
-> +如果函数的参数数目可变，则需用kernel-doc格式对其进行描述::
 > +
-> +      * @...: 描述
-> +
-> +函数上下文
-> +~~~~~~~~~~
-> +
-> +可调用函数的上下文应该在 ``Context`` 节中描述。此节应该包括函数是休眠的还是
-> +可以从中断上下文调用的，以及它需要什么锁、释放什么锁和期望它的调用者持有什么
-> +锁。
-> +
-> +例如::
-> +
-> +  * Context: Any context.
-> +  * Context: Any context. Takes and releases the RCU lock.
-> +  * Context: Any context. Expects <lock> to be held by caller.
-> +  * Context: Process context. May sleep if @gfp flags permit.
-> +  * Context: Process context. Takes and releases <mutex>.
-> +  * Context: Softirq or process context. Takes and releases <lock>, BH-safe.
-> +  * Context: Interrupt context.
-> +
-> +返回值
-> +~~~~~~
-> +
-> +如有返回值，应在 ``Return`` 节中描述。
-> +
-> +.. note::
-> +
-> +  #) 您提供的多行描述文本 *不会* 识别换行符，因此如果您想将某些文本预格式化，
-> +     如::
-> +
-> +	* Return:
-> +	* 0 - OK
-> +	* -EINVAL - invalid argument
-> +	* -ENOMEM - out of memory
-> +
-> +     它们在最终文档中变成一行::
-> +
-> +	Return: 0 - OK -EINVAL - invalid argument -ENOMEM - out of memory
-> +
-> +     因此，为了在需要的地方换行，您需要使用ReST列表，例如::
-> +
-> +      * Return:
-> +      * * 0		- OK to runtime suspend the device
-> +      * * -EBUSY	- Device should not be runtime suspended
-> +
-> +  #) 如果您提供的描述性文本中的行以某个后跟冒号的短语开头，则每一个这种短语
-> +     都将被视为新的节标题，可能会产生意料不到的效果。
-> +
-> +结构体、共用体、枚举类型文档
-> +----------------------------
-> +
-> +结构体（struct）、共用体（union）、枚举（enum）类型kernel-doc注释的一般格式为::
-> +
-> +  /**
-> +   * struct 结构体名 - 简要描述.
-> +   * @成员1: 成员1描述.
-> +   * @成员2: 成员2描述.
-> +   *           可以为成员提供
-> +   *           多行描述.
-> +   *
-> +   * 结构体的描述.
-> +   */
-> +
-> +可以用 ``union`` 或 ``enum`` 替换上面示例中的 ``struct`` ，以描述共用体或枚举。
-> +``成员`` 用于表示枚举中的元素或共用体成员。
-> +
-> +结构体名称后面的简要说明可以跨多行，并以成员说明、空白注释行或注释块结尾结束。
-> +
-> +成员
+> +选项
 > +~~~~
 > +
-> +结构体、共用体和枚举的成员应以与函数参数相同的方式记录；它们后紧跟简短的描述，
-> +并且为多行。
-> +
-> +在结构体或共用体描述中，可以使用 ``private:`` 和 ``public:`` 注释标签。
-> +``private:`` 域内的字段不会列在生成的文档中。
-> +
-> +``private:`` 和 ``public:`` 标签必须紧跟在 ``/*`` 注释标记之后。可以选择是否
-> +在 ``:`` 和 ``*/`` 结束标记之间包含注释。
-> +
-> +例子::
-> +
-> +  /**
-> +   * struct 张三 - 简短描述
-> +   * @a: 第一个成员
-> +   * @b: 第二个成员
-> +   * @d: 第三个成员
-> +   *
-> +   * 详细描述
-> +   */
-> +  struct 张三 {
-> +      int a;
-> +      int b;
-> +  /* private: 仅内部使用 */
-> +      int c;
-> +  /* public: 下一个是公有的 */
-> +      int d;
-> +  };
-> +
-> +嵌套的结构体/共用体
-> +~~~~~~~~~~~~~~~~~~~
-> +
-> +嵌套的结构体/共用体可像这样记录::
-> +
-> +      /**
-> +       * struct nested_foobar - a struct with nested unions and structs
-> +       * @memb1: first member of anonymous union/anonymous struct
-> +       * @memb2: second member of anonymous union/anonymous struct
-> +       * @memb3: third member of anonymous union/anonymous struct
-> +       * @memb4: fourth member of anonymous union/anonymous struct
-> +       * @bar: non-anonymous union
-> +       * @bar.st1: struct st1 inside @bar
-> +       * @bar.st2: struct st2 inside @bar
-> +       * @bar.st1.memb1: first member of struct st1 on union bar
-> +       * @bar.st1.memb2: second member of struct st1 on union bar
-> +       * @bar.st2.memb1: first member of struct st2 on union bar
-> +       * @bar.st2.memb2: second member of struct st2 on union bar
-> +       */
-> +      struct nested_foobar {
-> +        /* Anonymous union/struct*/
-> +        union {
-> +          struct {
-> +            int memb1;
-> +            int memb2;
-> +          };
-> +          struct {
-> +            void *memb3;
-> +            int memb4;
-> +          };
-> +        };
-> +        union {
-> +          struct {
-> +            int memb1;
-> +            int memb2;
-> +          } st1;
-> +          struct {
-> +            void *memb1;
-> +            int memb2;
-> +          } st2;
-> +        } bar;
-> +      };
-> +
-> +.. note::
-> +
-> +   #) 在记录嵌套结构体或共用体时，如果结构体/共用体 ``张三`` 已命名，则其中
-> +      的成员 ``李四`` 应记录为 ``@张三.李四:``
-> +
-> +   #) 当嵌套结构体/共用体是匿名的时，其中的成员 ``李四`` 应记录为 ``@李四:``
-> +
-> +行间注释文档
-> +~~~~~~~~~~~~
-> +
-> +结构成员也可在定义时以行间注释形式记录。有两种样式，一种是单行注释，其中开始
-> +``/**`` 和结束 ``*/`` 位于同一行；另一种是多行注释，开头结尾各自位于一行，就
-> +像所有其他核心文档注释一样::
-> +
-> +  /**
-> +   * struct 张三 - 简短描述.
-> +   * @张三: 成员张三.
-> +   */
-> +  struct 张三 {
-> +        int 张三;
-> +        /**
-> +         * @李四: 成员李四.
-> +         */
-> +        int 李四;
-> +        /**
-> +         * @王五: 成员王五.
-> +         *
-> +         * 此处，成员描述可以为好几段.
-> +         */
-> +        int 王五;
-> +        union {
-> +                /** @儿子: 单行描述. */
-> +                int 儿子;
-> +        };
-> +        /** @赵六: 描述@张三里面的结构体@赵六 */
-> +        struct {
-> +                /**
-> +                 * @赵六.女儿: 描述@张三.赵六里面的@女儿
-> +                 */
-> +                int 女儿;
-> +        } 赵六;
-> +  };
 > +
-> +Typedef文档
-> +-----------
 > +
-> +Typedef的kernel-doc文档注释的一般格式为::
+> +\ **--debug**\
 > +
-> +  /**
-> +   * typedef 类型名称 - 简短描述.
-> +   *
-> +   * 类型描述.
-> +   */
+> + 开启脚本详细模式，在调试时很有用。
 > +
-> +还可以记录带有函数原型的typedef::
-> +
-> +  /**
-> +   * typedef 类型名称 - 简短描述.
-> +   * @参数1: 参数1的描述
-> +   * @参数2: 参数2的描述
-> +   *
-> +   * 类型描述.
-> +   *
-> +   * Context: 锁（Locking）上下文.
-> +   * Return: 返回值的意义.
-> +   */
-> +   typedef void (*类型名称)(struct v4l2_ctrl *参数1, void *参数2);
 > +
-> +高亮与交叉引用
-> +--------------
+> +\ **--usage**\
 > +
-> +在kernel-doc注释的描述文本中可以识别以下特殊模式，并将其转换为正确的
-> +reStructuredText标记和 `Sphinx C 域`_ 引用。
+> + 打印简短的帮助信息并退出。
 > +
-> +.. attention:: 以下内容 **仅** 在kernel-doc注释中识别， **不会** 在普通的
-> +               reStructuredText文档中识别。
 > +
-> +``funcname()``
-> +  函数引用。
 > +
-> +``@parameter``
-> +  函数参数的名称（未交叉引用，仅格式化）。
+> +\ **--help**\
 > +
-> +``%CONST``
-> +  常量的名称（未交叉引用，仅格式化）。
+> + 打印更详细的帮助信息并退出。
 > +
-> +````literal````
-> +  预格式化文本块。输出将使用等距字体。
 > +
-> +  若你需要使用在kernel-doc脚本或reStructuredText中有特殊含义的字符，则此功能
-> +  非常有用。
+> +说明
+> +~~~~
 > +
-> +  若你需要在函数描述中使用类似于 ``%ph`` 的东西，这特别有用。
+> +通过C头文件或源文件（<C文件>）中为描述API的文档编写的带交叉引用的 ..预格式化
+> +文本 块将文件转换成重构文本（RST）。它接受一个可选的<例外文件>，其中描述了
+> +哪些元素将被忽略或指向非默认引用。
 > +
-> +``$ENVVAR``
-> +  环境变量名称（未交叉引用，仅格式化）。
+> +输出被写入到<输出文件>。
 > +
-> +``&struct name``
-> +  结构体引用。
+> +它能够识别定义、函数、结构体、typedef、枚举和枚举符号，并为它们创建交叉引用。
+> +它还能够区分用于指定Linux ioctl的 ``#define`` 。
 > +
-> +``&enum name``
-> +  枚举引用。
+> +<例外文件> 包含两种类型的语句： \ **ignore**\  或 \ **replace**\ .
 > +
-> +``&typedef name``
-> +  Typedef引用。
+> +ignore标记的语法为：
 > +
-> +``&struct_name->member`` or ``&struct_name.member``
-> +  结构体或共用体成员引用。交叉引用将链接到结构体或共用体定义，而不是直接到成员。
 > +
-> +``&name``
-> +  泛类型引用。请首选上面描述的完整引用方式。此法主要是为了可能未描述的注释。
+> +ignore \ **type**\  \ **name**\
 > +
-> +从reStructuredText交叉引用
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +The \ **ignore**\  意味着它不会为类型为 \ **type**\ 的 \ **name**\ 符号生成
+> +交叉引用。
 > +
-> +无需额外的语法来从reStructuredText文档交叉引用kernel-do注释中定义的函数和类型。
-> +只需以 ``()`` 结束函数名，并在类型之前写上 ``struct`` ， ``union`` ， ``enum``
-> +或 ``typedef`` 。
-> +例如::
 > +
-> +  See foo().
-> +  See struct foo.
-> +  See union bar.
-> +  See enum baz.
-> +  See typedef meh.
+> +replace标记的语法为：
 > +
-> +若要在交叉引用链接中使用自定义文本，可以通过以下语法进行::
 > +
-> +  See :c:func:`my custom link text for function foo <foo>`.
-> +  See :c:type:`my custom link text for struct bar <bar>`.
+> +replace \ **type**\  \ **name**\  \ **new_value**\
 > +
-> +有关更多详细信息，请参阅 `Sphinx C 域`_ 文档。
+> +The \ **replace**\  味着它将为 \ **type**\ 类型的 \ **name**\ 符号生成交叉引
+> +用，但是它将使用 \ **new_value**\ 来取代默认的替换规则。
 > +
-> +总述性文档注释
-> +--------------
 > +
-> +为了促进源代码和注释紧密联合，可以将kernel-doc文档块作为自由形式的注释，而
-> +不是函数、结构、联合、枚举或typedef的绑定kernel-doc。例如，这可以用于解释
-> +驱动程序或库代码的操作理论。
+> +这两种语句中， \ **type**\ 可以是以下任一项：
 > +
-> +这是通过使用带有节标题的 ``DOC:`` 节关键字来实现的。
 > +
-> +总述或高层级文档注释的一般格式为::
+> +\ **ioctl**\
 > +
-> +  /**
-> +   * DOC: Theory of Operation
-> +   *
-> +   * The whizbang foobar is a dilly of a gizmo. It can do whatever you
-> +   * want it to do, at any time. It reads your mind. Here's how it works.
-> +   *
-> +   * foo bar splat
-> +   *
-> +   * The only drawback to this gizmo is that is can sometimes damage
-> +   * hardware, software, or its subject(s).
-> +   */
+> + ignore 或 replace 语句应用于ioctl定义，如：
 > +
-> +``DOC:`` 后面的标题用作源文件中的标题，但也用作提取文档注释的标识符。因此，
-> +文件中的标题必须是唯一的。
+> + #define	VIDIOC_DBG_S_REGISTER 	 _IOW('V', 79, struct v4l2_dbg_register)
 > +
-> +包含kernel-doc注释
-> +==================
 > +
-> +文档注释可以被包含在任何使用专用kernel-doc Sphinx指令扩展的reStructuredText
-> +文档中。
 > +
-> +kernel-doc指令的格式如下::
+> +\ **define**\
 > +
-> +  .. kernel-doc:: source
-> +     :option:
+> + ignore 或 replace 语句应用于在<C文件>中找到的任何其他 ``#define`` 。
 > +
-> +*source* 是相对于内核源代码树的源文件路径。
-> +支持以下指令选项：
 > +
-> +export: *[source-pattern ...]*
-> +  包括 *source* 中使用 ``EXPORT_SYMBOL`` 或 ``EXPORT_SYMBOL_GPL`` 导出的所有
-> +  函数的文档，无论是在 *source* 中还是在 *source-pattern* 指定的任何文件中。
 > +
-> +  当kernel-doc注释被放置在头文件中，而 ``EXPORT_SYMBOL`` 和 ``EXPORT_SYMBOL_GPL``
-> +  位于函数定义旁边时， *source-pattern* 非常有用。
+> +\ **typedef**\
 > +
-> +  例子::
+> + ignore 和 replace 语句应用于<C文件>中的typedef语句。
 > +
-> +    .. kernel-doc:: lib/bitmap.c
-> +       :export:
 > +
-> +    .. kernel-doc:: include/net/mac80211.h
-> +       :export: net/mac80211/*.c
 > +
-> +internal: *[source-pattern ...]*
-> +  包括 *source* 中所有在 *source* 或 *source-pattern* 的任何文件中都没有使用
-> +  ``EXPORT_SYMBOL`` 或 ``EXPORT_SYMBOL_GPL`` 导出的函数和类型的文档。
+> +\ **struct**\
 > +
-> +  例子::
+> + ignore 和 replace 语句应用于<C文件>中的结构体名称语句。
 > +
-> +    .. kernel-doc:: drivers/gpu/drm/i915/intel_audio.c
-> +       :internal:
 > +
-> +identifiers: *[ function/type ...]*
-> +  在 *source* 中包含每个 *function* 和 *type* 的文档。如果没有指定 *function* ，
-> +  则 *source* 中所有函数和类型的文档都将包含在内。
 > +
-> +  例子::
+> +\ **enum**\
 > +
-> +    .. kernel-doc:: lib/bitmap.c
-> +       :identifiers: bitmap_parselist bitmap_parselist_user
+> + ignore 和 replace 语句应用于<C文件>中的枚举名称语句。
 > +
-> +    .. kernel-doc:: lib/idr.c
-> +       :identifiers:
 > +
-> +no-identifiers: *[ function/type ...]*
-> +  排除 *source* 中所有 *function* 和 *type* 的文档。
 > +
-> +  例子::
+> +\ **symbol**\
 > +
-> +    .. kernel-doc:: lib/bitmap.c
-> +       :no-identifiers: bitmap_parselist
+> + ignore 和 replace 语句应用于<C文件>中的枚举值名称语句。
 > +
-> +functions: *[ function/type ...]*
-> +  这是“identifiers”指令的别名，已弃用。
+> + replace语句中， \ **new_value**\  会自动使用 \ **typedef**\ , \ **enum**\
+> + 和 \ **struct**\ 类型的 :c:type: 引用；以及 \ **ioctl**\ , \ **define**\  和
+> + \ **symbol**\ 类型的  :ref: 。引用的类型也可以在replace语句中显式定义。
 > +
-> +doc: *title*
-> +  包含 *source* 中由 *title*  标题标识的 ``DOC:`` 文档段落。 *title* 中允许
-> +  空格；不要在 *title* 上加引号。 *title*  仅用作段落的标识符，不包含在输出中。
-> +  请确保在所附的reStructuredText文档中有适当的标题。
 > +
-> +  例子::
+> +示例
+> +~~~~
 > +
-> +    .. kernel-doc:: drivers/gpu/drm/i915/intel_audio.c
-> +       :doc: High Definition Audio over HDMI and Display Port
 > +
-> +如果没有选项，kernel-doc指令将包含源文件中的所有文档注释。
+> +ignore define _VIDEODEV2_H
 > +
-> +kernel-doc扩展包含在内核源代码树中，位于 ``Documentation/sphinx/kerneldoc.py`` 。
-> +在内部，它使用 ``scripts/kernel-doc`` 脚本从源代码中提取文档注释。
 > +
-> +.. _kernel_doc_zh:
+> +忽略<C文件>中的 #define _VIDEODEV2_H 。
 > +
-> +如何使用kernel-doc生成手册（man）页
-> +-----------------------------------
+> +ignore symbol PRIVATE
 > +
-> +如果您只想使用kernel-doc生成手册页，可以从内核git树这样做::
 > +
-> +  $ scripts/kernel-doc -man \
-> +    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
-> +    | scripts/split-man.pl /tmp/man
+> +如下结构体：
 > +
-> +一些旧版本的git不支持路径排除语法的某些变体。
-> +以下命令之一可能适用于这些版本::
+> +enum foo { BAR1, BAR2, PRIVATE };
 > +
-> +  $ scripts/kernel-doc -man \
-> +    $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
-> +    | scripts/split-man.pl /tmp/man
+> +不会为 \ **PRIVATE**\ 生成交叉引用。
 > +
-> +  $ scripts/kernel-doc -man \
-> +    $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
-> +    | scripts/split-man.pl /tmp/man
+> +replace symbol BAR1 :c:type:\`foo\`
+> +replace symbol BAR2 :c:type:\`foo\`
 > +
+> +
+> +如下结构体：
+> +
+> +enum foo { BAR1, BAR2, PRIVATE };
+> +
+> +它会让BAR1和BAR2枚举符号交叉引用C域中的foo符号。
+> +
+> +
+> +
+> +缺陷
+> +~~~~
+> +
+> +
+> +请向Mauro Carvalho Chehab <mchehab@kernel.org>报告有关缺陷。
+> +
+> +中文翻译问题请找中文翻译维护者。
+> +
+> +
+> +版权
+> +~~~~
+> +
+> +
+> +版权所有 (c) 2016 Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+> +
+> +许可证 GPLv2：GNU GPL version 2 <https://gnu.org/licenses/gpl.html>
+> +
+> +这是自由软件：你可以自由地修改和重新发布它。
+> +在法律允许的范围内，**没有任何保证**。
 > 
