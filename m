@@ -6,71 +6,71 @@ X-Spam-Status: No, score=-14.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1,WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E45FDC433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 08:48:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFAD6C43460
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 08:48:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id AF163610FC
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 08:48:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BD977613B8
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 08:48:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229677AbhDMIsl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 04:48:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40310 "EHLO
+        id S243680AbhDMIsy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 04:48:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229698AbhDMIsj (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 04:48:39 -0400
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 603B0C061574
-        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 01:48:19 -0700 (PDT)
-Received: by mail-pf1-x42a.google.com with SMTP id m11so10989258pfc.11
-        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 01:48:19 -0700 (PDT)
+        with ESMTP id S243617AbhDMIsy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 04:48:54 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45019C061574
+        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 01:48:30 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id y2so7840092plg.5
+        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 01:48:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=sGU+CyUlhlynoqRhSYnB52ryxxVwh9oeu3DkVQemCls=;
-        b=l3upbgpNsJYFLKIKYZLZmIgeemtwzeFDL4KXOe2BU5ZDHteb2X6mupgiZFIVOGvV+J
-         +IoxRtyr7+YAk52R0fVTNeRUJOQOzFtsC7Ms7MnVH3JEt5+I7Hph1lVKSpD2Vb0MvhNb
-         0QZ9KwZ7W5YStiaqpvtn9EPd7SUJYRLWruxiWCqkvjLVSkLkBxdBWu22tC4pdMvjBYvv
-         a/J+NOobmhdh7r2UPiuxc8rRTz/ORRqHYC1cJjgEMb1LDUXAKV0kb1SzcV0K5JXLZr0/
-         n8vafDT8N5DEjRp8hxIZxtgqu9gdWN9+0C77Kl2fmhO7HHirGvlPxM1Jr/5s+EahT74G
-         yAkQ==
+        bh=f6mIdi8Xo50QaAJkce/MHlykF4OrXgED3w5f266sVEU=;
+        b=aTqPCyVAPNF2hX25io8liyan7aLy0+mnI6f4XXtJTII0CSQ/ae9gNtNGgNp1/HsqZy
+         y50agBa9KfXP9Meujtv21nl968HU1vqCATE+5ms1y+SevIemCsN7xUOAoH97aBZDYlHX
+         OAE94gtwv+FsBUz+W5scdfgkM9vt5Kd6df3ZPq3fsFePm7O/RQ3bN7LTbehoaHPbrBTV
+         Cw8MMUX6pvlLGfbbO6SVAkAGIGmZDWcCKHQmXGCLN8quOjRxWCHjt9hkTt9VQ6zEb+fo
+         rbAhHFepjYo2Op3euzKgypWVTkd9kBBBMj4lnZvz6VLWhYpMYjUmpTUUGCTErNMDDCJ3
+         1hKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=sGU+CyUlhlynoqRhSYnB52ryxxVwh9oeu3DkVQemCls=;
-        b=EBgls0we/+4FeTeybrMMd8TKCWOKE+23d4744X1E18kL7xW6tH8jiozn3jG3PeyMbz
-         Jh95RXqrXRmM9LuxtHWvE90Ci3o6NUCwIMDTx3IjeazmQYMti706vT1sJwlrDBkS+pbX
-         3/GmPh728Itl2Gh+TcK32oefra4p1tjot6ItqG/zipkVQnzI/d5tB2akkQP4h9X2jQQN
-         E1yaX6NPOGLrQgheFLyd5WgmUg+HQEjPX7yzfj80S+vtW0odmibVgFmCrgYgL83fihWZ
-         nke4IbuQN61lDyi0jLO9kFMICagigybyui+twMwSG/1NiOqeZxewoyVaNCG30WS6SG98
-         cTpw==
-X-Gm-Message-State: AOAM532krm3U7tpKhEEwWQyrKC6y7yz93Njtc10jPd4KqBXOmyqoM5ll
-        STbL7vGkxU338I3Y6j/jaEnffCXwdb9rgA==
-X-Google-Smtp-Source: ABdhPJzfXdO3pUufaAJcHt9DvG4TJUqF5FdmGybjRisSISStQLTU9fN0xqPm9tTm5+O4/D9sXbcflA==
-X-Received: by 2002:a63:e541:: with SMTP id z1mr32331518pgj.59.1618303698236;
-        Tue, 13 Apr 2021 01:48:18 -0700 (PDT)
+        bh=f6mIdi8Xo50QaAJkce/MHlykF4OrXgED3w5f266sVEU=;
+        b=VrOVbvNqvHy+REyq915CXtKDVhRBKIJZAYl3oruQjq+XWkrPGfunbfaCH+ntWdBl0G
+         wl1NfC/HtP7vXJM/fkvXptkX3mi2JJQaIZR3FH3IUi3g9YKYQ8ae75c7ioXsgJ2xPoSa
+         KJ+4YY2OcZBwzwNLPMfOP1zTA8z5ua50BpvwLvHn2M1ZMDGZ05pFLYL3fDoPokq1NAVX
+         xJnHn/ftnFS1jxyHAz+TZev6+vD0lE6h4PUWkTMyZi7VD6Jiy+WEFYeQllzwj4asEtba
+         JaQ1cWVE+89pDK+/DsWswxxfwnwfLdT+ShfcV6Vf9c3LVRZ9L3Yls1mkxTPmZQnntwoN
+         /XHA==
+X-Gm-Message-State: AOAM532gGCkYOMfU/01i9KhFJR8LYBby3pryrXErXBNHr6lwa3mOOw+s
+        xGVCQx9o0RUj5ZsRIm/za0sh4d6tdxl5Tg==
+X-Google-Smtp-Source: ABdhPJzfGL+UXW1sG7r5kAev4yLLxGRndM9FyXWCSnZFxAImN+Ik2YjVQzoNfGxi4ue/+TAcGaxu6A==
+X-Received: by 2002:a17:902:ac89:b029:e6:d199:29ac with SMTP id h9-20020a170902ac89b02900e6d19929acmr30774090plr.46.1618303709341;
+        Tue, 13 Apr 2021 01:48:29 -0700 (PDT)
 Received: from [192.168.2.225] (93.179.119.173.16clouds.com. [93.179.119.173])
-        by smtp.gmail.com with ESMTPSA id n4sm12132365pfu.45.2021.04.13.01.48.15
+        by smtp.gmail.com with ESMTPSA id g6sm10375468pfj.139.2021.04.13.01.48.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Apr 2021 01:48:17 -0700 (PDT)
-Subject: Re: [PATCH v5 1/7] docs/zh_CN: Add translation
- zh_CN/doc-guide/sphinx.rst
+        Tue, 13 Apr 2021 01:48:29 -0700 (PDT)
+Subject: Re: [PATCH v5 2/7] docs/zh_CN: Add translation
+ zh_CN/doc-guide/kernel-doc.rst
 To:     Wu XiangCheng <bobwxc@email.cn>, Alex Shi <alexs@kernel.org>
 Cc:     Jonathan Corbet <corbet@lwn.net>,
         YanTeng Si <sterlingteng@gmail.com>, linux-doc@vger.kernel.org
 References: <cover.1618295149.git.bobwxc@email.cn>
- <7c8c2eeb6c0b73410fbdb66cf702dc0e58b02a3e.1618295149.git.bobwxc@email.cn>
+ <783d134b1dd18f580f2c0511c2330382a86e79b5.1618295149.git.bobwxc@email.cn>
 From:   Alex Shi <seakeel@gmail.com>
-Message-ID: <a5c2afa5-96bf-6922-ae02-ad11d5ea409e@gmail.com>
-Date:   Tue, 13 Apr 2021 16:48:14 +0800
+Message-ID: <268a5e01-157d-14cf-7fab-da0a41218756@gmail.com>
+Date:   Tue, 13 Apr 2021 16:48:25 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <7c8c2eeb6c0b73410fbdb66cf702dc0e58b02a3e.1618295149.git.bobwxc@email.cn>
+In-Reply-To: <783d134b1dd18f580f2c0511c2330382a86e79b5.1618295149.git.bobwxc@email.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -80,436 +80,521 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Reviewed-by: Alex Shi <alexs@kernel.org>
 
-On 2021/4/13 下午3:11, Wu XiangCheng wrote:
+On 2021/4/13 下午3:12, Wu XiangCheng wrote:
 > Add new translation
->   Documentation/translations/zh_CN/doc-guide/sphinx.rst
+>   Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
 > 
 > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
 > Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 > ---
->  .../translations/zh_CN/doc-guide/sphinx.rst   | 415 ++++++++++++++++++
->  1 file changed, 415 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/doc-guide/sphinx.rst
+>  .../zh_CN/doc-guide/kernel-doc.rst            | 500 ++++++++++++++++++
+>  1 file changed, 500 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
 > 
-> diff --git a/Documentation/translations/zh_CN/doc-guide/sphinx.rst b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
+> diff --git a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
 > new file mode 100644
-> index 000000000000..951595c7d599
+> index 000000000000..b0427944f8f0
 > --- /dev/null
-> +++ b/Documentation/translations/zh_CN/doc-guide/sphinx.rst
-> @@ -0,0 +1,415 @@
+> +++ b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
+> @@ -0,0 +1,500 @@
 > +.. include:: ../disclaimer-zh_CN.rst
 > +
-> +:Original: Documentation/doc-guide/sphinx.rst
+> +:Original: Documentation/doc-guide/kernel-doc.rst
 > +
 > +:译者: 吴想成 Wu XiangCheng <bobwxc@email.cn>
 > +
-> +.. _sphinxdoc_zh:
+> +编写kernel-doc注释
+> +==================
 > +
-> +简介
-> +====
+> +Linux内核源文件可以包含kernel-doc格式的结构化文档注释，用以描述代码的函数、
+> +类型和设计。将文档嵌入源文件更容易保持文档最新。
 > +
-> +Linux内核使用 `Sphinx <http://www.sphinx-doc.org/>`_ 来把 ``Documentation``
-> +下的 `reStructuredText <http://docutils.sourceforge.net/rst.html>`_ 文件转
-> +换成漂亮的文档。使用 ``make htmldocs`` 或 ``make pdfdocs`` 命令即可构建HTML
-> +或PDF格式的文档。生成的文档放在 ``Documentation/output`` 文件夹中。
+> +.. note:: 内核文档格式与javadoc、gtk-doc或Doxygen看似很相似，但由于历史原因，
+> +          实际有着明显的不同。内核源包含成千上万个kernel-doc注释。请坚持遵循
+> +          此处描述的风格。
 > +
-> +reStructuredText文件可能包含包含来自源文件的结构化文档注释或kernel-doc注释。
-> +通常它们用于描述代码的功能、类型和设计。kernel-doc注释有一些特殊的结构和
-> +格式，但除此之外，它们还被作为reStructuredText处理。
+> +.. note:: kernel-doc无法包含Rust代码：请参考
+> +          :ref:`Documentation/rust/docs.rst <rust_docs>`。
 > +
-> +最后，有成千上万的纯文本文档文件散布在 ``Documentation`` 里。随着时间推移，
-> +其中一些可能会转换为reStructuredText，但其中大部分仍保持纯文本。
+> +从注释中提取kernel-doc结构，并从中生成适当的 `Sphinx C 域`_ 函数和带有锚点的
+> +类型描述。这些注释将被过滤以生成特殊kernel-doc高亮和交叉引用。详见下文。
 > +
-> +.. _sphinx_install_zh:
+> +.. _Sphinx C 域: http://www.sphinx-doc.org/en/stable/domains.html
 > +
-> +安装Sphinx
-> +==========
+> +使用 ``EXPORT_SYMBOL`` 或 ``EXPORT_SYMBOL_GPL`` 导出到可加载模块的每个函数都
+> +应该有一个kernel-doc注释。模块使用的头文件中的函数和数据结构也应该有
+> +kernel-doc注释。
 > +
-> +Documentation/ 下的ReST文件现在使用sphinx1.3或更高版本构建。
+> +对于其他内核文件（未标记为 ``static`` ）中外部可见的函数，提供kernel-doc格式
+> +的文档是一个很好的实践。我们也建议为私有（文件 ``static`` ）程序提供kernel-doc
+> +格式的文档，以确保内核源代码布局的一致性。此建议优先级较低，由内核源文件的
+> +维护者自行决定。
 > +
-> +这有一个脚本可以检查Sphinx的依赖项。更多详细信息见
-> +:ref:`sphinx-pre-install_zh` 。
+> +如何格式化kernel-doc注释
+> +------------------------
 > +
-> +大多数发行版都附带了Sphinx，但是它的工具链比较脆弱，而且在您的机器上升级它
-> +或其他一些Python包导致文档构建中断的情况并不少见。
+> +kernel-doc注释用 ``/**`` 作为开始标记。 ``kernel-doc`` 工具将提取以这种方式
+> +标记的注释。注释其余部分的格式类似于一个普通的多行注释，左侧有一列星号，以
+> +``*/`` 行结束。
 > +
-> +避免此情况的一种方法是使用与发行版附带的不同的版本。因此，建议使用
-> +``virtualenv-3`` 或 ``virtualenv`` 在虚拟环境中安装Sphinx，具体取决于发行版
-> +如何打包Python3。
+> +函数和类型的kernel-doc注释应该放在所描述的函数或类型之前，以便最大限度地提高
+> +更改代码的人同时更改文档的可能性。概述kernel-doc注释可以放在最顶部的任何地方。
+> +
+> +用详细模式和不生成实际输出来运行 ``kernel-doc`` 工具，可以验证文档注释的格式
+> +是否正确。例如::
+> +
+> +	scripts/kernel-doc -v -none drivers/foo/bar.c
+> +
+> +当请求执行额外的gcc检查时，内核构建将验证文档格式::
+> +
+> +	make W=n
+> +
+> +函数文档
+> +--------
+> +
+> +函数和函数式宏的kernel-doc注释的一般格式是::
+> +
+> +  /**
+> +   * 函数名() - 函数简要说明.
+> +   * @参数1: 描述第一个参数.
+> +   * @参数2: 描述第二个参数.
+> +   *        可以为参数提供一段
+> +   *        多行描述.
+> +   *
+> +   * 更详细的描述，进一步讨论函数 函数名(), 这可能对使用或修改它的人有用.
+> +   * 以空注释行开始, 内部可以包含空注释行.
+> +   *
+> +   * 详细描述可以有多个段落.
+> +   *
+> +   * Context: 描述函数是否可以休眠, 它需要、释放或期望持有什么锁.
+> +   *          可以写多行.
+> +   * Return: 描述函数返回值.
+> +   *
+> +   * 返回值描述也可以有多个段落,
+> +   * 并且应该放在注释块的末尾.
+> +   */
+> +
+> +函数名后面的简短描述可以跨多行，并以参数描述、空注释行或注释块结尾结束。
+> +
+> +函数参数
+> +~~~~~~~~
+> +
+> +每个函数参数都应该按照顺序描述，紧跟在函数简要说明之后。不要在函数描述和参数
+> +之间，也不要在参数之间留空。
+> +
+> +每个 ``@参数:`` 描述可以跨多行。
 > +
 > +.. note::
 > +
-> +   #) 低于1.5版本的Sphinx无法与Python的0.13.1或更高版本docutils一起正常工作。
-> +      如果您想使用这些版本，那么应该运行 ``pip install 'docutils==0.12'`` 。
+> +   如果 ``@参数`` 描述有多行，则说明的续行应该从上一行的同一列开始::
 > +
-> +   #) html输出建议使用RTD主题。根据Sphinx版本的不同，它应该用
-> +      ``pip install sphinx_rtd_theme`` 单独安装。
+> +      * @参数: 较长说明
+> +      *        的续行
 > +
-> +   #) 一些ReST页面包含数学表达式。由于Sphinx的工作方式，这些表达式是使用 LaTeX
-> +      编写的。它需要安装amsfonts和amsmath宏包，以便显示。
+> +   或::
 > +
-> +总之，如您要安装Sphinx 1.7.9版本，应执行::
+> +      * @参数:
+> +      *		较长说明
+> +      *         的续行
 > +
-> +       $ virtualenv sphinx_1.7.9
-> +       $ . sphinx_1.7.9/bin/activate
-> +       (sphinx_1.7.9) $ pip install -r Documentation/sphinx/requirements.txt
+> +如果函数的参数数目可变，则需用kernel-doc格式对其进行描述::
 > +
-> +在运行 ``. sphinx_1.7.9/bin/activate`` 之后，提示符将变化，以指示您正在使用新
-> +环境。如果您打开了一个新的shell，那么在构建文档之前，您需要重新运行此命令以再
-> +次进入虚拟环境中。
+> +      * @...: 描述
 > +
-> +图片输出
-> +--------
+> +函数上下文
+> +~~~~~~~~~~
 > +
-> +内核文档构建系统包含一个扩展，可以处理GraphViz和SVG格式的图像（参见
-> +:ref:`sphinx_kfigure_zh` ）。
+> +可调用函数的上下文应该在 ``Context`` 节中描述。此节应该包括函数是休眠的还是
+> +可以从中断上下文调用的，以及它需要什么锁、释放什么锁和期望它的调用者持有什么
+> +锁。
 > +
-> +为了让它工作，您需要同时安装GraphViz和ImageMagick包。如果没有安装这些软件包，
-> +构建系统仍将构建文档，但不会在输出中包含任何图像。
+> +例如::
 > +
-> +PDF和LaTeX构建
+> +  * Context: Any context.
+> +  * Context: Any context. Takes and releases the RCU lock.
+> +  * Context: Any context. Expects <lock> to be held by caller.
+> +  * Context: Process context. May sleep if @gfp flags permit.
+> +  * Context: Process context. Takes and releases <mutex>.
+> +  * Context: Softirq or process context. Takes and releases <lock>, BH-safe.
+> +  * Context: Interrupt context.
+> +
+> +返回值
+> +~~~~~~
+> +
+> +如有返回值，应在 ``Return`` 节中描述。
+> +
+> +.. note::
+> +
+> +  #) 您提供的多行描述文本 *不会* 识别换行符，因此如果您想将某些文本预格式化，
+> +     如::
+> +
+> +	* Return:
+> +	* 0 - OK
+> +	* -EINVAL - invalid argument
+> +	* -ENOMEM - out of memory
+> +
+> +     它们在最终文档中变成一行::
+> +
+> +	Return: 0 - OK -EINVAL - invalid argument -ENOMEM - out of memory
+> +
+> +     因此，为了在需要的地方换行，您需要使用ReST列表，例如::
+> +
+> +      * Return:
+> +      * * 0		- OK to runtime suspend the device
+> +      * * -EBUSY	- Device should not be runtime suspended
+> +
+> +  #) 如果您提供的描述性文本中的行以某个后跟冒号的短语开头，则每一个这种短语
+> +     都将被视为新的节标题，可能会产生意料不到的效果。
+> +
+> +结构体、共用体、枚举类型文档
+> +----------------------------
+> +
+> +结构体（struct）、共用体（union）、枚举（enum）类型kernel-doc注释的一般格式为::
+> +
+> +  /**
+> +   * struct 结构体名 - 简要描述.
+> +   * @成员1: 成员1描述.
+> +   * @成员2: 成员2描述.
+> +   *           可以为成员提供
+> +   *           多行描述.
+> +   *
+> +   * 结构体的描述.
+> +   */
+> +
+> +可以用 ``union`` 或 ``enum`` 替换上面示例中的 ``struct`` ，以描述共用体或枚举。
+> +``成员`` 用于表示枚举中的元素或共用体成员。
+> +
+> +结构体名称后面的简要说明可以跨多行，并以成员说明、空白注释行或注释块结尾结束。
+> +
+> +成员
+> +~~~~
+> +
+> +结构体、共用体和枚举的成员应以与函数参数相同的方式记录；它们后紧跟简短的描述，
+> +并且为多行。
+> +
+> +在结构体或共用体描述中，可以使用 ``private:`` 和 ``public:`` 注释标签。
+> +``private:`` 域内的字段不会列在生成的文档中。
+> +
+> +``private:`` 和 ``public:`` 标签必须紧跟在 ``/*`` 注释标记之后。可以选择是否
+> +在 ``:`` 和 ``*/`` 结束标记之间包含注释。
+> +
+> +例子::
+> +
+> +  /**
+> +   * struct 张三 - 简短描述
+> +   * @a: 第一个成员
+> +   * @b: 第二个成员
+> +   * @d: 第三个成员
+> +   *
+> +   * 详细描述
+> +   */
+> +  struct 张三 {
+> +      int a;
+> +      int b;
+> +  /* private: 仅内部使用 */
+> +      int c;
+> +  /* public: 下一个是公有的 */
+> +      int d;
+> +  };
+> +
+> +嵌套的结构体/共用体
+> +~~~~~~~~~~~~~~~~~~~
+> +
+> +嵌套的结构体/共用体可像这样记录::
+> +
+> +      /**
+> +       * struct nested_foobar - a struct with nested unions and structs
+> +       * @memb1: first member of anonymous union/anonymous struct
+> +       * @memb2: second member of anonymous union/anonymous struct
+> +       * @memb3: third member of anonymous union/anonymous struct
+> +       * @memb4: fourth member of anonymous union/anonymous struct
+> +       * @bar: non-anonymous union
+> +       * @bar.st1: struct st1 inside @bar
+> +       * @bar.st2: struct st2 inside @bar
+> +       * @bar.st1.memb1: first member of struct st1 on union bar
+> +       * @bar.st1.memb2: second member of struct st1 on union bar
+> +       * @bar.st2.memb1: first member of struct st2 on union bar
+> +       * @bar.st2.memb2: second member of struct st2 on union bar
+> +       */
+> +      struct nested_foobar {
+> +        /* Anonymous union/struct*/
+> +        union {
+> +          struct {
+> +            int memb1;
+> +            int memb2;
+> +          };
+> +          struct {
+> +            void *memb3;
+> +            int memb4;
+> +          };
+> +        };
+> +        union {
+> +          struct {
+> +            int memb1;
+> +            int memb2;
+> +          } st1;
+> +          struct {
+> +            void *memb1;
+> +            int memb2;
+> +          } st2;
+> +        } bar;
+> +      };
+> +
+> +.. note::
+> +
+> +   #) 在记录嵌套结构体或共用体时，如果结构体/共用体 ``张三`` 已命名，则其中
+> +      的成员 ``李四`` 应记录为 ``@张三.李四:``
+> +
+> +   #) 当嵌套结构体/共用体是匿名的时，其中的成员 ``李四`` 应记录为 ``@李四:``
+> +
+> +行间注释文档
+> +~~~~~~~~~~~~
+> +
+> +结构成员也可在定义时以行间注释形式记录。有两种样式，一种是单行注释，其中开始
+> +``/**`` 和结束 ``*/`` 位于同一行；另一种是多行注释，开头结尾各自位于一行，就
+> +像所有其他核心文档注释一样::
+> +
+> +  /**
+> +   * struct 张三 - 简短描述.
+> +   * @张三: 成员张三.
+> +   */
+> +  struct 张三 {
+> +        int 张三;
+> +        /**
+> +         * @李四: 成员李四.
+> +         */
+> +        int 李四;
+> +        /**
+> +         * @王五: 成员王五.
+> +         *
+> +         * 此处，成员描述可以为好几段.
+> +         */
+> +        int 王五;
+> +        union {
+> +                /** @儿子: 单行描述. */
+> +                int 儿子;
+> +        };
+> +        /** @赵六: 描述@张三里面的结构体@赵六 */
+> +        struct {
+> +                /**
+> +                 * @赵六.女儿: 描述@张三.赵六里面的@女儿
+> +                 */
+> +                int 女儿;
+> +        } 赵六;
+> +  };
+> +
+> +Typedef文档
+> +-----------
+> +
+> +Typedef的kernel-doc文档注释的一般格式为::
+> +
+> +  /**
+> +   * typedef 类型名称 - 简短描述.
+> +   *
+> +   * 类型描述.
+> +   */
+> +
+> +还可以记录带有函数原型的typedef::
+> +
+> +  /**
+> +   * typedef 类型名称 - 简短描述.
+> +   * @参数1: 参数1的描述
+> +   * @参数2: 参数2的描述
+> +   *
+> +   * 类型描述.
+> +   *
+> +   * Context: 锁（Locking）上下文.
+> +   * Return: 返回值的意义.
+> +   */
+> +   typedef void (*类型名称)(struct v4l2_ctrl *参数1, void *参数2);
+> +
+> +高亮与交叉引用
 > +--------------
 > +
-> +目前只有Sphinx 1.4及更高版本才支持这种构建。
+> +在kernel-doc注释的描述文本中可以识别以下特殊模式，并将其转换为正确的
+> +reStructuredText标记和 `Sphinx C 域`_ 引用。
 > +
-> +对于PDF和LaTeX输出，还需要 ``XeLaTeX`` 3.14159265版本。（译注：此版本号真实
-> +存在）
+> +.. attention:: 以下内容 **仅** 在kernel-doc注释中识别， **不会** 在普通的
+> +               reStructuredText文档中识别。
 > +
-> +根据发行版的不同，您可能还需要安装一系列 ``texlive`` 软件包，这些软件包提供了
-> +``XeLaTeX`` 工作所需的最小功能集。
+> +``funcname()``
+> +  函数引用。
 > +
-> +.. _sphinx-pre-install_zh:
+> +``@parameter``
+> +  函数参数的名称（未交叉引用，仅格式化）。
 > +
-> +检查Sphinx依赖项
-> +----------------
+> +``%CONST``
+> +  常量的名称（未交叉引用，仅格式化）。
 > +
-> +这有一个脚本可以自动检查Sphinx依赖项。如果它认得您的发行版，还会提示您所用发行
-> +版的安装命令::
+> +````literal````
+> +  预格式化文本块。输出将使用等距字体。
 > +
-> +	$ ./scripts/sphinx-pre-install
-> +	Checking if the needed tools for Fedora release 26 (Twenty Six) are available
-> +	Warning: better to also install "texlive-luatex85".
-> +	You should run:
+> +  若你需要使用在kernel-doc脚本或reStructuredText中有特殊含义的字符，则此功能
+> +  非常有用。
 > +
-> +		sudo dnf install -y texlive-luatex85
-> +		/usr/bin/virtualenv sphinx_1.7.9
-> +		. sphinx_1.7.9/bin/activate
-> +		pip install -r Documentation/sphinx/requirements.txt
+> +  若你需要在函数描述中使用类似于 ``%ph`` 的东西，这特别有用。
 > +
-> +	Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 468.
+> +``$ENVVAR``
+> +  环境变量名称（未交叉引用，仅格式化）。
 > +
-> +默认情况下，它会检查html和PDF的所有依赖项，包括图像、数学表达式和LaTeX构建的
-> +需求，并假设将使用虚拟Python环境。html构建所需的依赖项被认为是必需的，其他依
-> +赖项则是可选的。
+> +``&struct name``
+> +  结构体引用。
 > +
-> +它支持两个可选参数：
+> +``&enum name``
+> +  枚举引用。
 > +
-> +``--no-pdf``
+> +``&typedef name``
+> +  Typedef引用。
 > +
-> +	禁用PDF检查；
+> +``&struct_name->member`` or ``&struct_name.member``
+> +  结构体或共用体成员引用。交叉引用将链接到结构体或共用体定义，而不是直接到成员。
 > +
-> +``--no-virtualenv``
+> +``&name``
+> +  泛类型引用。请首选上面描述的完整引用方式。此法主要是为了可能未描述的注释。
 > +
-> +	使用Sphinx的系统打包，而不是Python虚拟环境。
+> +从reStructuredText交叉引用
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~
 > +
-> +Sphinx构建
-> +==========
+> +无需额外的语法来从reStructuredText文档交叉引用kernel-do注释中定义的函数和类型。
+> +只需以 ``()`` 结束函数名，并在类型之前写上 ``struct`` ， ``union`` ， ``enum``
+> +或 ``typedef`` 。
+> +例如::
 > +
-> +生成文档的常用方法是运行 ``make htmldocs`` 或 ``make pdfdocs`` 。还有其它可用
-> +的格式：请参阅 ``make help`` 的文档部分。生成的文档放在 ``Documentation/output``
-> +下相应格式的子目录中。
+> +  See foo().
+> +  See struct foo.
+> +  See union bar.
+> +  See enum baz.
+> +  See typedef meh.
 > +
-> +要生成文档，显然必须安装Sphinx（ ``sphinx-build`` ）。要让HTML输出更漂亮，可以
-> +使用Read the Docs Sphinx主题（ ``sphinx_rtd_theme`` ）。对于PDF输出，您还需要
-> +``XeLaTeX`` 和来自ImageMagick（https://www.imagemagick.org）的 ``convert(1)`` 。
-> +所有这些软件在大多发行版中都可用或已打包。
+> +若要在交叉引用链接中使用自定义文本，可以通过以下语法进行::
 > +
-> +要传递额外的选项给Sphinx，可以使用make变量 ``SPHINXOPTS`` 。例如，使用
-> +``make SPHINXOPTS=-v htmldocs`` 获得更详细的输出。
+> +  See :c:func:`my custom link text for function foo <foo>`.
+> +  See :c:type:`my custom link text for struct bar <bar>`.
 > +
+> +有关更多详细信息，请参阅 `Sphinx C 域`_ 文档。
 > +
-> +要删除生成的文档，请运行 ``make cleandocs`` 。
+> +总述性文档注释
+> +--------------
 > +
-> +编写文档
-> +========
+> +为了促进源代码和注释紧密联合，可以将kernel-doc文档块作为自由形式的注释，而
+> +不是函数、结构、联合、枚举或typedef的绑定kernel-doc。例如，这可以用于解释
+> +驱动程序或库代码的操作理论。
 > +
-> +添加新文档很容易，只需：
+> +这是通过使用带有节标题的 ``DOC:`` 节关键字来实现的。
 > +
-> +1. 在 ``Documentation`` 下某处添加一个新的 ``.rst`` 文件。
-> +2. 从 ``Documentation/index.rst`` 中的Sphinx `主目录树`_ 链接到它。
+> +总述或高层级文档注释的一般格式为::
 > +
-> +.. _主目录树: http://www.sphinx-doc.org/en/stable/markup/toctree.html
+> +  /**
+> +   * DOC: Theory of Operation
+> +   *
+> +   * The whizbang foobar is a dilly of a gizmo. It can do whatever you
+> +   * want it to do, at any time. It reads your mind. Here's how it works.
+> +   *
+> +   * foo bar splat
+> +   *
+> +   * The only drawback to this gizmo is that is can sometimes damage
+> +   * hardware, software, or its subject(s).
+> +   */
 > +
-> +对于简单的文档（比如您现在正在阅读的文档），这通常已经足够好了，但是对于较大
-> +的文档，最好创建一个子目录（或者使用现有的子目录）。例如，图形子系统文档位于
-> +``Documentation/gpu`` 下，拆分为多个 ``.rst`` 文件，并具有从主目录链接来的单
-> +独索引 ``index.rst`` （有自己的目录树 ``toctree`` ）。
+> +``DOC:`` 后面的标题用作源文件中的标题，但也用作提取文档注释的标识符。因此，
+> +文件中的标题必须是唯一的。
 > +
-> +请参阅 `Sphinx <http://www.sphinx-doc.org/>`_ 和 `reStructuredText
-> +<http://docutils.sourceforge.net/rst.html>`_ 的文档，以了解如何使用它们。
-> +特别是Sphinx `reStructuredText 基础`_ 这是开始学习使用reStructuredText的
-> +好地方。还有一些 `Sphinx 特殊标记结构`_ 。
+> +包含kernel-doc注释
+> +==================
 > +
-> +.. _reStructuredText 基础: http://www.sphinx-doc.org/en/stable/rest.html
-> +.. _Sphinx 特殊标记结构: http://www.sphinx-doc.org/en/stable/markup/index.html
+> +文档注释可以被包含在任何使用专用kernel-doc Sphinx指令扩展的reStructuredText
+> +文档中。
 > +
-> +内核文档的具体指南
-> +------------------
+> +kernel-doc指令的格式如下::
 > +
-> +这是一些内核文档的具体指南：
+> +  .. kernel-doc:: source
+> +     :option:
 > +
-> +* 请不要过于痴迷转换格式到reStructuredText。保持简单。在大多数情况下，文档
-> +  应该是纯文本，格式应足够一致，以便可以转换为其他格式。
+> +*source* 是相对于内核源代码树的源文件路径。
+> +支持以下指令选项：
 > +
-> +* 将现有文档转换为reStructuredText时，请尽量减少格式更改。
+> +export: *[source-pattern ...]*
+> +  包括 *source* 中使用 ``EXPORT_SYMBOL`` 或 ``EXPORT_SYMBOL_GPL`` 导出的所有
+> +  函数的文档，无论是在 *source* 中还是在 *source-pattern* 指定的任何文件中。
 > +
-> +* 在转换文档时，还要更新内容，而不仅仅是格式。
+> +  当kernel-doc注释被放置在头文件中，而 ``EXPORT_SYMBOL`` 和 ``EXPORT_SYMBOL_GPL``
+> +  位于函数定义旁边时， *source-pattern* 非常有用。
 > +
-> +* 请遵循标题修饰符的顺序：
+> +  例子::
 > +
-> +  1. ``=`` 文档标题，要有上线::
+> +    .. kernel-doc:: lib/bitmap.c
+> +       :export:
 > +
-> +       ========
-> +       文档标题
-> +       ========
+> +    .. kernel-doc:: include/net/mac80211.h
+> +       :export: net/mac80211/*.c
 > +
-> +  2. ``=`` 章::
+> +internal: *[source-pattern ...]*
+> +  包括 *source* 中所有在 *source* 或 *source-pattern* 的任何文件中都没有使用
+> +  ``EXPORT_SYMBOL`` 或 ``EXPORT_SYMBOL_GPL`` 导出的函数和类型的文档。
 > +
-> +       章标题
-> +       ======
+> +  例子::
 > +
-> +  3. ``-`` 节::
+> +    .. kernel-doc:: drivers/gpu/drm/i915/intel_audio.c
+> +       :internal:
 > +
-> +       节标题
-> +       ------
+> +identifiers: *[ function/type ...]*
+> +  在 *source* 中包含每个 *function* 和 *type* 的文档。如果没有指定 *function* ，
+> +  则 *source* 中所有函数和类型的文档都将包含在内。
 > +
-> +  4. ``~`` 小节::
+> +  例子::
 > +
-> +       小节标题
-> +       ~~~~~~~~
+> +    .. kernel-doc:: lib/bitmap.c
+> +       :identifiers: bitmap_parselist bitmap_parselist_user
 > +
-> +  尽管RST没有规定具体的顺序（“没有强加一个固定数量和顺序的节标题装饰风格，最终
-> +  按照的顺序将是实际遇到的顺序。”），但是拥有一个通用级别的文档更容易遵循。
+> +    .. kernel-doc:: lib/idr.c
+> +       :identifiers:
 > +
-> +* 对于插入固定宽度的文本块（用于代码样例、用例等）： ``::`` 用于语法高亮意义不
-> +  大的内容，尤其是短代码段； ``.. code-block:: <language>`` 用于需要语法高亮的
-> +  较长代码块。对于嵌入到文本中的简短代码片段，请使用 \`\` 。
+> +no-identifiers: *[ function/type ...]*
+> +  排除 *source* 中所有 *function* 和 *type* 的文档。
 > +
+> +  例子::
 > +
-> +C域
-> +---
+> +    .. kernel-doc:: lib/bitmap.c
+> +       :no-identifiers: bitmap_parselist
 > +
-> +**Sphinx C域（Domain）** （name c）适用于C API文档。例如，函数原型：
+> +functions: *[ function/type ...]*
+> +  这是“identifiers”指令的别名，已弃用。
 > +
-> +.. code-block:: rst
+> +doc: *title*
+> +  包含 *source* 中由 *title*  标题标识的 ``DOC:`` 文档段落。 *title* 中允许
+> +  空格；不要在 *title* 上加引号。 *title*  仅用作段落的标识符，不包含在输出中。
+> +  请确保在所附的reStructuredText文档中有适当的标题。
 > +
-> +    .. c:function:: int ioctl( int fd, int request )
+> +  例子::
 > +
-> +内核文档的C域有一些附加特性。例如，您可以使用诸如 ``open`` 或 ``ioctl`` 这样的
-> +通用名称重命名函数的引用名称：
+> +    .. kernel-doc:: drivers/gpu/drm/i915/intel_audio.c
+> +       :doc: High Definition Audio over HDMI and Display Port
 > +
-> +.. code-block:: rst
+> +如果没有选项，kernel-doc指令将包含源文件中的所有文档注释。
 > +
-> +     .. c:function:: int ioctl( int fd, int request )
-> +        :name: VIDIOC_LOG_STATUS
+> +kernel-doc扩展包含在内核源代码树中，位于 ``Documentation/sphinx/kerneldoc.py`` 。
+> +在内部，它使用 ``scripts/kernel-doc`` 脚本从源代码中提取文档注释。
 > +
-> +函数名称（例如ioctl）仍保留在输出中，但引用名称从 ``ioctl`` 变为
-> +``VIDIOC_LOG_STATUS`` 。此函数的索引项也变为 ``VIDIOC_LOG_STATUS`` 。
+> +.. _kernel_doc_zh:
 > +
-> +请注意，不需要使用 ``c:func:`` 生成函数文档的交叉引用。由于一些Sphinx扩展的
-> +神奇力量，如果给定函数名的索引项存在，文档构建系统会自动将对 ``function()``
-> +的引用转换为交叉引用。如果在内核文档中看到 ``c:func:`` 的用法，请删除它。
+> +如何使用kernel-doc生成手册（man）页
+> +-----------------------------------
 > +
+> +如果您只想使用kernel-doc生成手册页，可以从内核git树这样做::
 > +
-> +列表
-> +----
+> +  $ scripts/kernel-doc -man \
+> +    $(git grep -l '/\*\*' -- :^Documentation :^tools) \
+> +    | scripts/split-man.pl /tmp/man
 > +
-> +我们建议使用 *列式表* 格式。 *列式表* 格式是二级列表。与ASCII艺术相比，它们对
-> +文本文件的读者来说可能没有那么舒适。但其优点是易于创建或修改，而且修改的差异
-> +（diff）更有意义，因为差异仅限于修改的内容。
+> +一些旧版本的git不支持路径排除语法的某些变体。
+> +以下命令之一可能适用于这些版本::
 > +
-> +*平铺表* 也是一个二级列表，类似于 *列式表* ，但具有一些额外特性：
+> +  $ scripts/kernel-doc -man \
+> +    $(git grep -l '/\*\*' -- . ':!Documentation' ':!tools') \
+> +    | scripts/split-man.pl /tmp/man
 > +
-> +* 列范围：使用 ``cspan`` 修饰，可以通过其他列扩展单元格
-> +
-> +* 行范围：使用 ``rspan`` 修饰，可以通过其他行扩展单元格
-> +
-> +* 自动将表格行最右边的单元格扩展到该行右侧空缺的单元格上。若使用
-> +  ``:fill-cells:`` 选项，此行为可以从 *自动合并* 更改为 *自动插入* ，自动
-> +  插入（空）单元格，而不是扩展合并到最后一个单元格。
-> +
-> +选项：
-> +
-> +* ``:header-rows:``   [int] 标题行计数
-> +* ``:stub-columns:``  [int] 标题列计数
-> +* ``:widths:``        [[int] [int] ... ] 列宽
-> +* ``:fill-cells:``    插入缺少的单元格，而不是自动合并缺少的单元格
-> +
-> +修饰：
-> +
-> +* ``:cspan:`` [int] 扩展列
-> +* ``:rspan:`` [int] 扩展行
-> +
-> +下面的例子演示了如何使用这些标记。分级列表的第一级是 *表格行* 。 *表格行* 中
-> +只允许一个标记，即该 *表格行* 中的单元格列表。 *comments* （ ``..`` ）和
-> +*targets* 例外（例如引用 ``:ref:`最后一行 <last row_zh>``` / :ref:`最后一行
-> +<last row_zh>` ）。
-> +
-> +.. code-block:: rst
-> +
-> +   .. flat-table:: 表格标题
-> +      :widths: 2 1 1 3
-> +
-> +      * - 表头 列1
-> +        - 表头 列2
-> +        - 表头 列3
-> +        - 表头 列4
-> +
-> +      * - 行1
-> +        - 字段1.1
-> +        - 字段1.2（自动扩展）
-> +
-> +      * - 行2
-> +        - 字段2.1
-> +        - :rspan:`1` :cspan:`1` 字段2.2~3.3
-> +
-> +      * .. _`last row_zh`:
-> +
-> +        - 行3
-> +
-> +渲染效果：
-> +
-> +   .. flat-table:: 表格标题
-> +      :widths: 2 1 1 3
-> +
-> +      * - 表头 列1
-> +        - 表头 列2
-> +        - 表头 列3
-> +        - 表头 列4
-> +
-> +      * - 行1
-> +        - 字段1.1
-> +        - 字段1.2（自动扩展）
-> +
-> +      * - 行2
-> +        - 字段2.1
-> +        - :rspan:`1` :cspan:`1` 字段2.2~3.3
-> +
-> +      * .. _`last row_zh`:
-> +
-> +        - 行3
-> +
-> +交叉引用
-> +--------
-> +
-> +从一页文档到另一页文档的交叉引用可以通过简单地写出文件路径来完成，无特殊格式
-> +要求。路径可以是绝对路径或相对路径。绝对路径从“Documentation/”开始。例如，要
-> +交叉引用此页，以下写法皆可，取决于具体的文档目录（注意 ``.rst`` 扩展名是可选
-> +的）::
-> +
-> +    参见 Documentation/doc-guide/sphinx.rst 。此法始终可用。
-> +    请查看 sphinx.rst ，仅在同级目录中有效。
-> +    请阅读 ../sphinx.rst ，上级目录中的文件。
-> +
-> +如果要使用相对路径，则需要使用Sphinx的 ``doc`` 修饰。例如，从同一目录引用此页
-> +的操作如下::
-> +
-> +    参见 :doc:`sphinx文档的自定义链接文本 <sphinx>`.
-> +
-> +对于大多数用例，前者是首选，因为它更干净，更适合阅读源文件的人。如果您遇到一
-> +个没有任何特殊作用的 ``:doc:`` 用法，请将其转换为文档路径。
-> +
-> +有关交叉引用kernel-doc函数或类型的信息，请参阅
-> +Documentation/doc-guide/kernel-doc.rst 。
-> +
-> +.. _sphinx_kfigure_zh:
-> +
-> +图形图片
-> +========
-> +
-> +如果要添加图片，应该使用 ``kernel-figure`` 和 ``kernel-image`` 指令。例如，
-> +要插入具有可缩放图像格式的图形，请使用SVG（:ref:`svg_image_example_zh` ）::
-> +
-> +    .. kernel-figure::  ../../../doc-guide/svg_image.svg
-> +       :alt:    简易 SVG 图片
-> +
-> +       SVG 图片示例
-> +
-> +.. _svg_image_example_zh:
-> +
-> +.. kernel-figure::  ../../../doc-guide/svg_image.svg
-> +   :alt:    简易 SVG 图片
-> +
-> +   SVG 图片示例
-> +
-> +内核figure（和image）指令支持 DOT 格式文件，请参阅
-> +
-> +* DOT：http://graphviz.org/pdf/dotguide.pdf
-> +* Graphviz：http://www.graphviz.org/content/dot-language
-> +
-> +一个简单的例子（:ref:`hello_dot_file_zh` ）::
-> +
-> +  .. kernel-figure::  ../../../doc-guide/hello.dot
-> +     :alt:    你好，世界
-> +
-> +     DOT 示例
-> +
-> +.. _hello_dot_file_zh:
-> +
-> +.. kernel-figure::  ../../../doc-guide/hello.dot
-> +   :alt:    你好，世界
-> +
-> +   DOT 示例
-> +
-> +嵌入的渲染标记（或语言），如Graphviz的 **DOT** 由 ``kernel-render`` 指令提供::
-> +
-> +  .. kernel-render:: DOT
-> +     :alt: 有向图
-> +     :caption: 嵌入式 **DOT** (Graphviz) 代码
-> +
-> +     digraph foo {
-> +      "五棵松" -> "国贸";
-> +     }
-> +
-> +如何渲染取决于安装的工具。如果安装了Graphviz，您将看到一个矢量图像。否则，原始
-> +标记将作为 *文字块* 插入（:ref:`hello_dot_render_zh` ）。
-> +
-> +.. _hello_dot_render_zh:
-> +
-> +.. kernel-render:: DOT
-> +   :alt: 有向图
-> +   :caption: 嵌入式 **DOT** (Graphviz) 代码
-> +
-> +   digraph foo {
-> +      "五棵松" -> "国贸";
-> +   }
-> +
-> +*render* 指令包含 *figure* 指令中已知的所有选项，以及选项 ``caption`` 。如果
-> +``caption`` 有值，则插入一个 *figure* 节点，若无，则插入一个 *image* 节点。
-> +如果您想引用它，还需要一个 ``caption`` （:ref:`hello_svg_render_zh` ）。
-> +
-> +嵌入式 **SVG**::
-> +
-> +  .. kernel-render:: SVG
-> +     :caption: 嵌入式 **SVG** 标记
-> +     :alt: 右上箭头
-> +
-> +     <?xml version="1.0" encoding="UTF-8"?>
-> +     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" ...>
-> +        ...
-> +     </svg>
-> +
-> +.. _hello_svg_render_zh:
-> +
-> +.. kernel-render:: SVG
-> +   :caption: 嵌入式 **SVG** 标记
-> +   :alt: 右上箭头
-> +
-> +   <?xml version="1.0" encoding="UTF-8"?>
-> +   <svg xmlns="http://www.w3.org/2000/svg"
-> +     version="1.1" baseProfile="full" width="70px" height="40px" viewBox="0 0 700 400">
-> +   <line x1="180" y1="370" x2="500" y2="50" stroke="black" stroke-width="15px"/>
-> +   <polygon points="585 0 525 25 585 50" transform="rotate(135 525 25)"/>
-> +   </svg>
+> +  $ scripts/kernel-doc -man \
+> +    $(git grep -l '/\*\*' -- . ":(exclude)Documentation" ":(exclude)tools") \
+> +    | scripts/split-man.pl /tmp/man
 > +
 > 
