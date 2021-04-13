@@ -5,56 +5,56 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6509C43603
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 14:29:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F995C43600
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 14:29:41 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B294613AB
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 14:29:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EA8966135C
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 14:29:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238975AbhDMO35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 10:29:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59468 "EHLO
+        id S240104AbhDMO36 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 10:29:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238905AbhDMO3w (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 10:29:52 -0400
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95C77C061574;
-        Tue, 13 Apr 2021 07:29:31 -0700 (PDT)
-Received: by mail-qv1-xf31.google.com with SMTP id 30so8118286qva.9;
-        Tue, 13 Apr 2021 07:29:31 -0700 (PDT)
+        with ESMTP id S239201AbhDMO34 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 10:29:56 -0400
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C927C06138D;
+        Tue, 13 Apr 2021 07:29:34 -0700 (PDT)
+Received: by mail-qt1-x82b.google.com with SMTP id y12so12843323qtx.11;
+        Tue, 13 Apr 2021 07:29:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=vMPl9ab5DqIlKz37op7zo+FzcN2H8/CdzHWu4mPIcJs=;
-        b=l0zLE24wl6kvGhpVxsqrvv83QMboQWxCkbsvAPLcZ9RhRVViyR3iOeud5mlWrDmGJ4
-         UiQ6x0IOF6DUSgZCkxKYikiH+9JIrfL6gRahwqZMxErrLvNDwf+WROmvtRriclfrremx
-         fMZtdUHPCZEHTXNgPYBgo1EB6qtpz9gw24nAGk9wSXfIoqJ0pW98qqxDVrs+lRop8E9+
-         a26mn7av1OcZZ5yUEbXDZkyK3v+wxg//BeUMeqrXIZcib2HGOX6p/KN4TMoKAuZGa6km
-         aEWBZ9wOvgS2ievE37MlF+irfMrIx8qokiMmQ/QfRH0Vo8t/iYwM6DNqAQQJIVxUQb8x
-         1XEA==
+        bh=QFPOC99pjOvRt10+t6xkXJJGTUZkVkE957/QNxcHoxo=;
+        b=Y87d7NUr3L7Zk5m+v2LquH2B8HEJNrDGQUpUV98tEcaaPCy14bHv9XK4IMnu7fnjVp
+         PIbKp96/lLrED+gngdClLG0sLMkg7tggVAredugSzoxDIBNMcN0WrqJ/t/WmesYED5+A
+         FQeK6Zd7LC86n1qs+5RaVDNgQwHLz/2PEGu0iXCouiiG7sfCxTke2RYs20aOdwlRpqdN
+         nSBCIxsI4rym8gjrNQmoyLkmKFZL2OpcQ/OUCO1LyE0uZdH2PLeYDIFPyGECwN8B8DO+
+         gVlKZcxa5h2fG/RMcIpRiDhnZTI0WdFIa745RSTuQXWN/7brpgkamE/Cxuneflldrf/m
+         rDcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=vMPl9ab5DqIlKz37op7zo+FzcN2H8/CdzHWu4mPIcJs=;
-        b=NQc6AmyTnqDUn/qn42wEywBTk/8xqdDTfLpg3I9fwraNgiW92Ghbd2CMQsJSUtgbFV
-         28GQvhHjYuGrUurUZ+hLl01Abiwqsv/EuOqVTScD9Aj8KylAdjYog4HSRiPq/+WE7FyV
-         Y6YmsEsMkzRbuspEHZlen4ymDcL8U8w1PCyM/ny1boVYDL/T/0ez3eZ9oD7WdhidIrRu
-         CZkW3DaoK3RbFnnrZricPnLQEpIJ9FjWQo8+1ltZtAIRLsnIRvH3HTiK9eRW21C6hYsQ
-         HYDlVyZ6rHVKWlJVYCXatZcQc/rVPIUhY7k8xXm0t4lpTEh6ww4LrUpeMYXdIcDLkLyQ
-         on0A==
-X-Gm-Message-State: AOAM5312D1vdqvP9fyKKN8FRTmZ9Ku6iiwCoABMfhr9Ar/PMeDxhJp/S
-        ayxBdpnryHRRs4oXcKKKqng=
-X-Google-Smtp-Source: ABdhPJw3YmccQNBIRa2H6TupB8aLZNU2utViT0SOtJwqyEXgdsB11om2oZdP4zrh8VUidPCw5JRupg==
-X-Received: by 2002:a05:6214:d65:: with SMTP id 5mr33596842qvs.56.1618324170758;
-        Tue, 13 Apr 2021 07:29:30 -0700 (PDT)
+        bh=QFPOC99pjOvRt10+t6xkXJJGTUZkVkE957/QNxcHoxo=;
+        b=jrqy+GupqKxdPOHFq0+fhMCGWCp2zKZPuB8i9HQ77nY3Vs+7qxqN3so5Fo+y6uXQ2z
+         88pWdlts97jrH7IPs/i15mk71nGcZuX5Y3ZMTxdTcGT/qkpeJAbZOZ1EvmHJD5MHPzFC
+         HlkZsyeDtrVWKrlBz/0yNlp8cAx6N6aZwBEbqNlpe7itqDpT//HHPg9N4cACtiH9nqOY
+         lSsBR6xsMYqtZNclro270aRyEKJzkp5yTTQeL3ZkMeZrSJuqQZDUNKDiRxcZjtI/rme/
+         n1vgtPP+vKkk1wFtlliiLfvW22+zwaqBpDk8kLdIMoRA3HsmbpxphJdymy6De5dTH6dn
+         ZPCQ==
+X-Gm-Message-State: AOAM533Uht4jVmpya1cNeGj2u2FuPZQ54kekxAqcFXNPjUj7GQKSm/ub
+        7GMfv0DVgJYW/KBndL1SeiI=
+X-Google-Smtp-Source: ABdhPJz1BDriG7rB+4Cv1CaNASvHeFBznMEyYb1crOU6lbEmuP/26tdBzWE1OsZ4KIw/fetNJxotkg==
+X-Received: by 2002:ac8:5745:: with SMTP id 5mr30560000qtx.252.1618324173124;
+        Tue, 13 Apr 2021 07:29:33 -0700 (PDT)
 Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id 2sm6160911qko.134.2021.04.13.07.29.29
+        by smtp.gmail.com with ESMTPSA id 2sm6160911qko.134.2021.04.13.07.29.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 07:29:30 -0700 (PDT)
+        Tue, 13 Apr 2021 07:29:32 -0700 (PDT)
 From:   SeongJae Park <sj38.park@gmail.com>
 To:     akpm@linux-foundation.org
 Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
@@ -71,9 +71,9 @@ Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
         vdavydov.dev@gmail.com, zgf574564920@gmail.com,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v28 05/13] mm/damon: Implement primitives for the virtual memory address spaces
-Date:   Tue, 13 Apr 2021 14:28:56 +0000
-Message-Id: <20210413142904.556-6-sj38.park@gmail.com>
+Subject: [PATCH v28 07/13] mm/damon: Implement a debugfs-based user space interface
+Date:   Tue, 13 Apr 2021 14:28:58 +0000
+Message-Id: <20210413142904.556-8-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210413142904.556-1-sj38.park@gmail.com>
 References: <20210413142904.556-1-sj38.park@gmail.com>
@@ -83,742 +83,587 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-This commit introduces a reference implementation of the address space
-specific low level primitives for the virtual address space, so that
-users of DAMON can easily monitor the data accesses on virtual address
-spaces of specific processes by simply configuring the implementation to
-be used by DAMON.
+DAMON is designed to be used by kernel space code such as the memory
+management subsystems, and therefore it provides only kernel space API.
+That said, letting the user space control DAMON could provide some
+benefits to them.  For example, it will allow user space to analyze
+their specific workloads and make their own special optimizations.
 
-The low level primitives for the fundamental access monitoring are
-defined in two parts:
+For such cases, this commit implements a simple DAMON application kernel
+module, namely 'damon-dbgfs', which merely wraps the DAMON api and
+exports those to the user space via the debugfs.
 
-1. Identification of the monitoring target address range for the address
-   space.
-2. Access check of specific address range in the target space.
+'damon-dbgfs' exports three files, ``attrs``, ``target_ids``, and
+``monitor_on`` under its debugfs directory, ``<debugfs>/damon/``.
 
-The reference implementation for the virtual address space does the
-works as below.
+Attributes
+----------
 
-PTE Accessed-bit Based Access Check
------------------------------------
+Users can read and write the ``sampling interval``, ``aggregation
+interval``, ``regions update interval``, and min/max number of
+monitoring target regions by reading from and writing to the ``attrs``
+file.  For example, below commands set those values to 5 ms, 100 ms,
+1,000 ms, 10, 1000 and check it again::
 
-The implementation uses PTE Accessed-bit for basic access checks.  That
-is, it clears the bit for the next sampling target page and checks
-whether it is set again after one sampling period.  This could disturb
-the reclaim logic.  DAMON uses ``PG_idle`` and ``PG_young`` page flags
-to solve the conflict, as Idle page tracking does.
+    # cd <debugfs>/damon
+    # echo 5000 100000 1000000 10 1000 > attrs
+    # cat attrs
+    5000 100000 1000000 10 1000
 
-VMA-based Target Address Range Construction
--------------------------------------------
+Target IDs
+----------
 
-Only small parts in the super-huge virtual address space of the
-processes are mapped to physical memory and accessed.  Thus, tracking
-the unmapped address regions is just wasteful.  However, because DAMON
-can deal with some level of noise using the adaptive regions adjustment
-mechanism, tracking every mapping is not strictly required but could
-even incur a high overhead in some cases.  That said, too huge unmapped
-areas inside the monitoring target should be removed to not take the
-time for the adaptive mechanism.
+Some types of address spaces supports multiple monitoring target.  For
+example, the virtual memory address spaces monitoring can have multiple
+processes as the monitoring targets.  Users can set the targets by
+writing relevant id values of the targets to, and get the ids of the
+current targets by reading from the ``target_ids`` file.  In case of the
+virtual address spaces monitoring, the values should be pids of the
+monitoring target processes.  For example, below commands set processes
+having pids 42 and 4242 as the monitoring targets and check it again::
 
-For the reason, this implementation converts the complex mappings to
-three distinct regions that cover every mapped area of the address
-space.  Also, the two gaps between the three regions are the two biggest
-unmapped areas in the given address space.  The two biggest unmapped
-areas would be the gap between the heap and the uppermost mmap()-ed
-region, and the gap between the lowermost mmap()-ed region and the stack
-in most of the cases.  Because these gaps are exceptionally huge in
-usual address spaces, excluding these will be sufficient to make a
-reasonable trade-off.  Below shows this in detail::
+    # cd <debugfs>/damon
+    # echo 42 4242 > target_ids
+    # cat target_ids
+    42 4242
 
-    <heap>
-    <BIG UNMAPPED REGION 1>
-    <uppermost mmap()-ed region>
-    (small mmap()-ed regions and munmap()-ed regions)
-    <lowermost mmap()-ed region>
-    <BIG UNMAPPED REGION 2>
-    <stack>
+Note that setting the target ids doesn't start the monitoring.
+
+Turning On/Off
+--------------
+
+Setting the files as described above doesn't incur effect unless you
+explicitly start the monitoring.  You can start, stop, and check the
+current status of the monitoring by writing to and reading from the
+``monitor_on`` file.  Writing ``on`` to the file starts the monitoring
+of the targets with the attributes.  Writing ``off`` to the file stops
+those.  DAMON also stops if every targets are invalidated (in case of
+the virtual memory monitoring, target processes are invalidated when
+terminated).  Below example commands turn on, off, and check the status
+of DAMON::
+
+    # cd <debugfs>/damon
+    # echo on > monitor_on
+    # echo off > monitor_on
+    # cat monitor_on
+    off
+
+Please note that you cannot write to the above-mentioned debugfs files
+while the monitoring is turned on.  If you write to the files while
+DAMON is running, an error code such as ``-EBUSY`` will be returned.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
 Reviewed-by: Leonard Foerster <foersleo@amazon.de>
 ---
- include/linux/damon.h |  13 +
+ include/linux/damon.h |   3 +
  mm/damon/Kconfig      |   9 +
  mm/damon/Makefile     |   1 +
- mm/damon/vaddr.c      | 616 ++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 639 insertions(+)
- create mode 100644 mm/damon/vaddr.c
+ mm/damon/core.c       |  47 +++++
+ mm/damon/dbgfs.c      | 386 ++++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 446 insertions(+)
+ create mode 100644 mm/damon/dbgfs.c
 
 diff --git a/include/linux/damon.h b/include/linux/damon.h
-index 0bd5d6913a6c..72cf5ebd35fe 100644
+index 72cf5ebd35fe..b17e808a9cae 100644
 --- a/include/linux/damon.h
 +++ b/include/linux/damon.h
-@@ -246,4 +246,17 @@ int damon_stop(struct damon_ctx **ctxs, int nr_ctxs);
+@@ -237,9 +237,12 @@ unsigned int damon_nr_regions(struct damon_target *t);
  
- #endif	/* CONFIG_DAMON */
+ struct damon_ctx *damon_new_ctx(void);
+ void damon_destroy_ctx(struct damon_ctx *ctx);
++int damon_set_targets(struct damon_ctx *ctx,
++		unsigned long *ids, ssize_t nr_ids);
+ int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
+ 		unsigned long aggr_int, unsigned long primitive_upd_int,
+ 		unsigned long min_nr_reg, unsigned long max_nr_reg);
++int damon_nr_running_ctxs(void);
  
-+#ifdef CONFIG_DAMON_VADDR
-+
-+/* Monitoring primitives for virtual memory address spaces */
-+void damon_va_init(struct damon_ctx *ctx);
-+void damon_va_update(struct damon_ctx *ctx);
-+void damon_va_prepare_access_checks(struct damon_ctx *ctx);
-+unsigned int damon_va_check_accesses(struct damon_ctx *ctx);
-+bool damon_va_target_valid(void *t);
-+void damon_va_cleanup(struct damon_ctx *ctx);
-+void damon_va_set_primitives(struct damon_ctx *ctx);
-+
-+#endif	/* CONFIG_DAMON_VADDR */
-+
- #endif	/* _DAMON_H */
+ int damon_start(struct damon_ctx **ctxs, int nr_ctxs);
+ int damon_stop(struct damon_ctx **ctxs, int nr_ctxs);
 diff --git a/mm/damon/Kconfig b/mm/damon/Kconfig
-index d00e99ac1a15..8ae080c52950 100644
+index 8ae080c52950..72f1683ba0ee 100644
 --- a/mm/damon/Kconfig
 +++ b/mm/damon/Kconfig
-@@ -12,4 +12,13 @@ config DAMON
- 	  See https://damonitor.github.io/doc/html/latest-damon/index.html for
- 	  more information.
+@@ -21,4 +21,13 @@ config DAMON_VADDR
+ 	  This builds the default data access monitoring primitives for DAMON
+ 	  that works for virtual address spaces.
  
-+config DAMON_VADDR
-+	bool "Data access monitoring primitives for virtual address spaces"
-+	depends on DAMON && MMU
-+	select PAGE_EXTENSION if !64BIT
-+	select PAGE_IDLE_FLAG
++config DAMON_DBGFS
++	bool "DAMON debugfs interface"
++	depends on DAMON_VADDR && DEBUG_FS
 +	help
-+	  This builds the default data access monitoring primitives for DAMON
-+	  that works for virtual address spaces.
++	  This builds the debugfs interface for DAMON.  The user space admins
++	  can use the interface for arbitrary data access monitoring.
++
++	  If unsure, say N.
 +
  endmenu
 diff --git a/mm/damon/Makefile b/mm/damon/Makefile
-index 4fd2edb4becf..6ebbd08aed67 100644
+index 6ebbd08aed67..fed4be3bace3 100644
 --- a/mm/damon/Makefile
 +++ b/mm/damon/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
+@@ -2,3 +2,4 @@
  
  obj-$(CONFIG_DAMON)		:= core.o
-+obj-$(CONFIG_DAMON_VADDR)	+= vaddr.o
-diff --git a/mm/damon/vaddr.c b/mm/damon/vaddr.c
+ obj-$(CONFIG_DAMON_VADDR)	+= vaddr.o
++obj-$(CONFIG_DAMON_DBGFS)	+= dbgfs.o
+diff --git a/mm/damon/core.c b/mm/damon/core.c
+index 912112662d0c..cad2b4cee39d 100644
+--- a/mm/damon/core.c
++++ b/mm/damon/core.c
+@@ -172,6 +172,39 @@ void damon_destroy_ctx(struct damon_ctx *ctx)
+ 	kfree(ctx);
+ }
+ 
++/**
++ * damon_set_targets() - Set monitoring targets.
++ * @ctx:	monitoring context
++ * @ids:	array of target ids
++ * @nr_ids:	number of entries in @ids
++ *
++ * This function should not be called while the kdamond is running.
++ *
++ * Return: 0 on success, negative error code otherwise.
++ */
++int damon_set_targets(struct damon_ctx *ctx,
++		      unsigned long *ids, ssize_t nr_ids)
++{
++	ssize_t i;
++	struct damon_target *t, *next;
++
++	damon_destroy_targets(ctx);
++
++	for (i = 0; i < nr_ids; i++) {
++		t = damon_new_target(ids[i]);
++		if (!t) {
++			pr_err("Failed to alloc damon_target\n");
++			/* The caller should do cleanup of the ids itself */
++			damon_for_each_target_safe(t, next, ctx)
++				damon_destroy_target(t);
++			return -ENOMEM;
++		}
++		damon_add_target(ctx, t);
++	}
++
++	return 0;
++}
++
+ /**
+  * damon_set_attrs() - Set attributes for the monitoring.
+  * @ctx:		monitoring context
+@@ -210,6 +243,20 @@ int damon_set_attrs(struct damon_ctx *ctx, unsigned long sample_int,
+ 	return 0;
+ }
+ 
++/**
++ * damon_nr_running_ctxs() - Return number of currently running contexts.
++ */
++int damon_nr_running_ctxs(void)
++{
++	int nr_ctxs;
++
++	mutex_lock(&damon_lock);
++	nr_ctxs = nr_running_ctxs;
++	mutex_unlock(&damon_lock);
++
++	return nr_ctxs;
++}
++
+ /* Returns the size upper limit for each monitoring region */
+ static unsigned long damon_region_sz_limit(struct damon_ctx *ctx)
+ {
+diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
 new file mode 100644
-index 000000000000..3bc9dc9f0656
+index 000000000000..17c7878cfcb8
 --- /dev/null
-+++ b/mm/damon/vaddr.c
-@@ -0,0 +1,616 @@
++++ b/mm/damon/dbgfs.c
+@@ -0,0 +1,386 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * DAMON Primitives for Virtual Address Spaces
++ * DAMON Debugfs Interface
 + *
 + * Author: SeongJae Park <sjpark@amazon.de>
 + */
 +
-+#define pr_fmt(fmt) "damon-va: " fmt
++#define pr_fmt(fmt) "damon-dbgfs: " fmt
 +
 +#include <linux/damon.h>
++#include <linux/debugfs.h>
++#include <linux/file.h>
 +#include <linux/mm.h>
-+#include <linux/mmu_notifier.h>
++#include <linux/module.h>
 +#include <linux/page_idle.h>
-+#include <linux/random.h>
-+#include <linux/sched/mm.h>
 +#include <linux/slab.h>
 +
-+/* Get a random number in [l, r) */
-+#define damon_rand(l, r) (l + prandom_u32_max(r - l))
++static struct damon_ctx **dbgfs_ctxs;
++static int dbgfs_nr_ctxs;
++static struct dentry **dbgfs_dirs;
 +
 +/*
-+ * 't->id' should be the pointer to the relevant 'struct pid' having reference
-+ * count.  Caller must put the returned task, unless it is NULL.
++ * Returns non-empty string on success, negarive error code otherwise.
 + */
-+#define damon_get_task_struct(t) \
-+	(get_pid_task((struct pid *)t->id, PIDTYPE_PID))
-+
-+/*
-+ * Get the mm_struct of the given target
-+ *
-+ * Caller _must_ put the mm_struct after use, unless it is NULL.
-+ *
-+ * Returns the mm_struct of the target on success, NULL on failure
-+ */
-+static struct mm_struct *damon_get_mm(struct damon_target *t)
++static char *user_input_str(const char __user *buf, size_t count, loff_t *ppos)
 +{
-+	struct task_struct *task;
-+	struct mm_struct *mm;
++	char *kbuf;
++	ssize_t ret;
 +
-+	task = damon_get_task_struct(t);
-+	if (!task)
-+		return NULL;
++	/* We do not accept continuous write */
++	if (*ppos)
++		return ERR_PTR(-EINVAL);
 +
-+	mm = get_task_mm(task);
-+	put_task_struct(task);
-+	return mm;
-+}
++	kbuf = kmalloc(count + 1, GFP_KERNEL);
++	if (!kbuf)
++		return ERR_PTR(-ENOMEM);
 +
-+/*
-+ * Functions for the initial monitoring target regions construction
-+ */
-+
-+/*
-+ * Size-evenly split a region into 'nr_pieces' small regions
-+ *
-+ * Returns 0 on success, or negative error code otherwise.
-+ */
-+static int damon_va_evenly_split_region(struct damon_ctx *ctx,
-+		struct damon_region *r, unsigned int nr_pieces)
-+{
-+	unsigned long sz_orig, sz_piece, orig_end;
-+	struct damon_region *n = NULL, *next;
-+	unsigned long start;
-+
-+	if (!r || !nr_pieces)
-+		return -EINVAL;
-+
-+	orig_end = r->ar.end;
-+	sz_orig = r->ar.end - r->ar.start;
-+	sz_piece = ALIGN_DOWN(sz_orig / nr_pieces, DAMON_MIN_REGION);
-+
-+	if (!sz_piece)
-+		return -EINVAL;
-+
-+	r->ar.end = r->ar.start + sz_piece;
-+	next = damon_next_region(r);
-+	for (start = r->ar.end; start + sz_piece <= orig_end;
-+			start += sz_piece) {
-+		n = damon_new_region(start, start + sz_piece);
-+		if (!n)
-+			return -ENOMEM;
-+		damon_insert_region(n, r, next);
-+		r = n;
++	ret = simple_write_to_buffer(kbuf, count + 1, ppos, buf, count);
++	if (ret != count) {
++		kfree(kbuf);
++		return ERR_PTR(-EIO);
 +	}
-+	/* complement last region for possible rounding error */
-+	if (n)
-+		n->ar.end = orig_end;
++	kbuf[ret] = '\0';
 +
-+	return 0;
++	return kbuf;
 +}
 +
-+static unsigned long sz_range(struct damon_addr_range *r)
++static ssize_t dbgfs_attrs_read(struct file *file,
++		char __user *buf, size_t count, loff_t *ppos)
 +{
-+	return r->end - r->start;
++	struct damon_ctx *ctx = file->private_data;
++	char kbuf[128];
++	int ret;
++
++	mutex_lock(&ctx->kdamond_lock);
++	ret = scnprintf(kbuf, ARRAY_SIZE(kbuf), "%lu %lu %lu %lu %lu\n",
++			ctx->sample_interval, ctx->aggr_interval,
++			ctx->primitive_update_interval, ctx->min_nr_regions,
++			ctx->max_nr_regions);
++	mutex_unlock(&ctx->kdamond_lock);
++
++	return simple_read_from_buffer(buf, count, ppos, kbuf, ret);
 +}
 +
-+static void swap_ranges(struct damon_addr_range *r1,
-+			struct damon_addr_range *r2)
++static ssize_t dbgfs_attrs_write(struct file *file,
++		const char __user *buf, size_t count, loff_t *ppos)
 +{
-+	struct damon_addr_range tmp;
++	struct damon_ctx *ctx = file->private_data;
++	unsigned long s, a, r, minr, maxr;
++	char *kbuf;
++	ssize_t ret = count;
++	int err;
 +
-+	tmp = *r1;
-+	*r1 = *r2;
-+	*r2 = tmp;
-+}
++	kbuf = user_input_str(buf, count, ppos);
++	if (IS_ERR(kbuf))
++		return PTR_ERR(kbuf);
 +
-+/*
-+ * Find three regions separated by two biggest unmapped regions
-+ *
-+ * vma		the head vma of the target address space
-+ * regions	an array of three address ranges that results will be saved
-+ *
-+ * This function receives an address space and finds three regions in it which
-+ * separated by the two biggest unmapped regions in the space.  Please refer to
-+ * below comments of '__damon_va_init_regions()' function to know why this is
-+ * necessary.
-+ *
-+ * Returns 0 if success, or negative error code otherwise.
-+ */
-+static int __damon_va_three_regions(struct vm_area_struct *vma,
-+				       struct damon_addr_range regions[3])
-+{
-+	struct damon_addr_range gap = {0}, first_gap = {0}, second_gap = {0};
-+	struct vm_area_struct *last_vma = NULL;
-+	unsigned long start = 0;
-+	struct rb_root rbroot;
-+
-+	/* Find two biggest gaps so that first_gap > second_gap > others */
-+	for (; vma; vma = vma->vm_next) {
-+		if (!last_vma) {
-+			start = vma->vm_start;
-+			goto next;
-+		}
-+
-+		if (vma->rb_subtree_gap <= sz_range(&second_gap)) {
-+			rbroot.rb_node = &vma->vm_rb;
-+			vma = rb_entry(rb_last(&rbroot),
-+					struct vm_area_struct, vm_rb);
-+			goto next;
-+		}
-+
-+		gap.start = last_vma->vm_end;
-+		gap.end = vma->vm_start;
-+		if (sz_range(&gap) > sz_range(&second_gap)) {
-+			swap_ranges(&gap, &second_gap);
-+			if (sz_range(&second_gap) > sz_range(&first_gap))
-+				swap_ranges(&second_gap, &first_gap);
-+		}
-+next:
-+		last_vma = vma;
++	if (sscanf(kbuf, "%lu %lu %lu %lu %lu",
++				&s, &a, &r, &minr, &maxr) != 5) {
++		ret = -EINVAL;
++		goto out;
 +	}
 +
-+	if (!sz_range(&second_gap) || !sz_range(&first_gap))
-+		return -EINVAL;
++	mutex_lock(&ctx->kdamond_lock);
++	if (ctx->kdamond) {
++		ret = -EBUSY;
++		goto unlock_out;
++	}
 +
-+	/* Sort the two biggest gaps by address */
-+	if (first_gap.start > second_gap.start)
-+		swap_ranges(&first_gap, &second_gap);
-+
-+	/* Store the result */
-+	regions[0].start = ALIGN(start, DAMON_MIN_REGION);
-+	regions[0].end = ALIGN(first_gap.start, DAMON_MIN_REGION);
-+	regions[1].start = ALIGN(first_gap.end, DAMON_MIN_REGION);
-+	regions[1].end = ALIGN(second_gap.start, DAMON_MIN_REGION);
-+	regions[2].start = ALIGN(second_gap.end, DAMON_MIN_REGION);
-+	regions[2].end = ALIGN(last_vma->vm_end, DAMON_MIN_REGION);
-+
-+	return 0;
++	err = damon_set_attrs(ctx, s, a, r, minr, maxr);
++	if (err)
++		ret = err;
++unlock_out:
++	mutex_unlock(&ctx->kdamond_lock);
++out:
++	kfree(kbuf);
++	return ret;
 +}
 +
-+/*
-+ * Get the three regions in the given target (task)
-+ *
-+ * Returns 0 on success, negative error code otherwise.
-+ */
-+static int damon_va_three_regions(struct damon_target *t,
-+				struct damon_addr_range regions[3])
++#define targetid_is_pid(ctx)	\
++	(ctx->primitive.target_valid == damon_va_target_valid)
++
++static ssize_t sprint_target_ids(struct damon_ctx *ctx, char *buf, ssize_t len)
 +{
-+	struct mm_struct *mm;
++	struct damon_target *t;
++	unsigned long id;
++	int written = 0;
 +	int rc;
 +
-+	mm = damon_get_mm(t);
-+	if (!mm)
++	damon_for_each_target(t, ctx) {
++		id = t->id;
++		if (targetid_is_pid(ctx))
++			/* Show pid numbers to debugfs users */
++			id = (unsigned long)pid_vnr((struct pid *)id);
++
++		rc = scnprintf(&buf[written], len - written, "%lu ", id);
++		if (!rc)
++			return -ENOMEM;
++		written += rc;
++	}
++	if (written)
++		written -= 1;
++	written += scnprintf(&buf[written], len - written, "\n");
++	return written;
++}
++
++static ssize_t dbgfs_target_ids_read(struct file *file,
++		char __user *buf, size_t count, loff_t *ppos)
++{
++	struct damon_ctx *ctx = file->private_data;
++	ssize_t len;
++	char ids_buf[320];
++
++	mutex_lock(&ctx->kdamond_lock);
++	len = sprint_target_ids(ctx, ids_buf, 320);
++	mutex_unlock(&ctx->kdamond_lock);
++	if (len < 0)
++		return len;
++
++	return simple_read_from_buffer(buf, count, ppos, ids_buf, len);
++}
++
++/*
++ * Converts a string into an array of unsigned long integers
++ *
++ * Returns an array of unsigned long integers if the conversion success, or
++ * NULL otherwise.
++ */
++static unsigned long *str_to_target_ids(const char *str, ssize_t len,
++					ssize_t *nr_ids)
++{
++	unsigned long *ids;
++	const int max_nr_ids = 32;
++	unsigned long id;
++	int pos = 0, parsed, ret;
++
++	*nr_ids = 0;
++	ids = kmalloc_array(max_nr_ids, sizeof(id), GFP_KERNEL);
++	if (!ids)
++		return NULL;
++	while (*nr_ids < max_nr_ids && pos < len) {
++		ret = sscanf(&str[pos], "%lu%n", &id, &parsed);
++		pos += parsed;
++		if (ret != 1)
++			break;
++		ids[*nr_ids] = id;
++		*nr_ids += 1;
++	}
++
++	return ids;
++}
++
++static void dbgfs_put_pids(unsigned long *ids, int nr_ids)
++{
++	int i;
++
++	for (i = 0; i < nr_ids; i++)
++		put_pid((struct pid *)ids[i]);
++}
++
++static ssize_t dbgfs_target_ids_write(struct file *file,
++		const char __user *buf, size_t count, loff_t *ppos)
++{
++	struct damon_ctx *ctx = file->private_data;
++	char *kbuf, *nrs;
++	unsigned long *targets;
++	ssize_t nr_targets;
++	ssize_t ret = count;
++	int i;
++	int err;
++
++	kbuf = user_input_str(buf, count, ppos);
++	if (IS_ERR(kbuf))
++		return PTR_ERR(kbuf);
++
++	nrs = kbuf;
++
++	targets = str_to_target_ids(nrs, ret, &nr_targets);
++	if (!targets) {
++		ret = -ENOMEM;
++		goto out;
++	}
++
++	if (targetid_is_pid(ctx)) {
++		for (i = 0; i < nr_targets; i++) {
++			targets[i] = (unsigned long)find_get_pid(
++					(int)targets[i]);
++			if (!targets[i]) {
++				dbgfs_put_pids(targets, i);
++				ret = -EINVAL;
++				goto free_targets_out;
++			}
++		}
++	}
++
++	mutex_lock(&ctx->kdamond_lock);
++	if (ctx->kdamond) {
++		if (targetid_is_pid(ctx))
++			dbgfs_put_pids(targets, nr_targets);
++		ret = -EBUSY;
++		goto unlock_out;
++	}
++
++	err = damon_set_targets(ctx, targets, nr_targets);
++	if (err) {
++		if (targetid_is_pid(ctx))
++			dbgfs_put_pids(targets, nr_targets);
++		ret = err;
++	}
++
++unlock_out:
++	mutex_unlock(&ctx->kdamond_lock);
++free_targets_out:
++	kfree(targets);
++out:
++	kfree(kbuf);
++	return ret;
++}
++
++static int damon_dbgfs_open(struct inode *inode, struct file *file)
++{
++	file->private_data = inode->i_private;
++
++	return nonseekable_open(inode, file);
++}
++
++static const struct file_operations attrs_fops = {
++	.owner = THIS_MODULE,
++	.open = damon_dbgfs_open,
++	.read = dbgfs_attrs_read,
++	.write = dbgfs_attrs_write,
++};
++
++static const struct file_operations target_ids_fops = {
++	.owner = THIS_MODULE,
++	.open = damon_dbgfs_open,
++	.read = dbgfs_target_ids_read,
++	.write = dbgfs_target_ids_write,
++};
++
++static void dbgfs_fill_ctx_dir(struct dentry *dir, struct damon_ctx *ctx)
++{
++	const char * const file_names[] = {"attrs", "target_ids"};
++	const struct file_operations *fops[] = {&attrs_fops, &target_ids_fops};
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(file_names); i++)
++		debugfs_create_file(file_names[i], 0600, dir, ctx, fops[i]);
++}
++
++static struct damon_ctx *dbgfs_new_ctx(void)
++{
++	struct damon_ctx *ctx;
++
++	ctx = damon_new_ctx();
++	if (!ctx)
++		return NULL;
++
++	damon_va_set_primitives(ctx);
++	return ctx;
++}
++
++static ssize_t dbgfs_monitor_on_read(struct file *file,
++		char __user *buf, size_t count, loff_t *ppos)
++{
++	char monitor_on_buf[5];
++	bool monitor_on = damon_nr_running_ctxs() != 0;
++	int len;
++
++	len = scnprintf(monitor_on_buf, 5, monitor_on ? "on\n" : "off\n");
++
++	return simple_read_from_buffer(buf, count, ppos, monitor_on_buf, len);
++}
++
++static ssize_t dbgfs_monitor_on_write(struct file *file,
++		const char __user *buf, size_t count, loff_t *ppos)
++{
++	ssize_t ret = count;
++	char *kbuf;
++	int err;
++
++	kbuf = user_input_str(buf, count, ppos);
++	if (IS_ERR(kbuf))
++		return PTR_ERR(kbuf);
++
++	/* Remove white space */
++	if (sscanf(kbuf, "%s", kbuf) != 1) {
++		kfree(kbuf);
 +		return -EINVAL;
++	}
 +
-+	mmap_read_lock(mm);
-+	rc = __damon_va_three_regions(mm->mmap, regions);
-+	mmap_read_unlock(mm);
++	if (!strncmp(kbuf, "on", count))
++		err = damon_start(dbgfs_ctxs, dbgfs_nr_ctxs);
++	else if (!strncmp(kbuf, "off", count))
++		err = damon_stop(dbgfs_ctxs, dbgfs_nr_ctxs);
++	else
++		err = -EINVAL;
 +
-+	mmput(mm);
++	if (err)
++		ret = err;
++	kfree(kbuf);
++	return ret;
++}
++
++static const struct file_operations monitor_on_fops = {
++	.owner = THIS_MODULE,
++	.read = dbgfs_monitor_on_read,
++	.write = dbgfs_monitor_on_write,
++};
++
++static int __init __damon_dbgfs_init(void)
++{
++	struct dentry *dbgfs_root;
++	const char * const file_names[] = {"monitor_on"};
++	const struct file_operations *fops[] = {&monitor_on_fops};
++	int i;
++
++	dbgfs_root = debugfs_create_dir("damon", NULL);
++
++	for (i = 0; i < ARRAY_SIZE(file_names); i++)
++		debugfs_create_file(file_names[i], 0600, dbgfs_root, NULL,
++				fops[i]);
++	dbgfs_fill_ctx_dir(dbgfs_root, dbgfs_ctxs[0]);
++
++	dbgfs_dirs = kmalloc_array(1, sizeof(dbgfs_root), GFP_KERNEL);
++	if (!dbgfs_dirs) {
++		debugfs_remove(dbgfs_root);
++		return -ENOMEM;
++	}
++	dbgfs_dirs[0] = dbgfs_root;
++
++	return 0;
++}
++
++/*
++ * Functions for the initialization
++ */
++
++static int __init damon_dbgfs_init(void)
++{
++	int rc;
++
++	dbgfs_ctxs = kmalloc(sizeof(*dbgfs_ctxs), GFP_KERNEL);
++	if (!dbgfs_ctxs) {
++		pr_err("%s: dbgfs ctxs alloc failed\n", __func__);
++		return -ENOMEM;
++	}
++	dbgfs_ctxs[0] = dbgfs_new_ctx();
++	if (!dbgfs_ctxs[0]) {
++		kfree(dbgfs_ctxs);
++		pr_err("%s: dbgfs ctx alloc failed\n", __func__);
++		return -ENOMEM;
++	}
++	dbgfs_nr_ctxs = 1;
++
++	rc = __damon_dbgfs_init();
++	if (rc) {
++		kfree(dbgfs_ctxs[0]);
++		kfree(dbgfs_ctxs);
++		pr_err("%s: dbgfs init failed\n", __func__);
++	}
++
 +	return rc;
 +}
 +
-+/*
-+ * Initialize the monitoring target regions for the given target (task)
-+ *
-+ * t	the given target
-+ *
-+ * Because only a number of small portions of the entire address space
-+ * is actually mapped to the memory and accessed, monitoring the unmapped
-+ * regions is wasteful.  That said, because we can deal with small noises,
-+ * tracking every mapping is not strictly required but could even incur a high
-+ * overhead if the mapping frequently changes or the number of mappings is
-+ * high.  The adaptive regions adjustment mechanism will further help to deal
-+ * with the noise by simply identifying the unmapped areas as a region that
-+ * has no access.  Moreover, applying the real mappings that would have many
-+ * unmapped areas inside will make the adaptive mechanism quite complex.  That
-+ * said, too huge unmapped areas inside the monitoring target should be removed
-+ * to not take the time for the adaptive mechanism.
-+ *
-+ * For the reason, we convert the complex mappings to three distinct regions
-+ * that cover every mapped area of the address space.  Also the two gaps
-+ * between the three regions are the two biggest unmapped areas in the given
-+ * address space.  In detail, this function first identifies the start and the
-+ * end of the mappings and the two biggest unmapped areas of the address space.
-+ * Then, it constructs the three regions as below:
-+ *
-+ *     [mappings[0]->start, big_two_unmapped_areas[0]->start)
-+ *     [big_two_unmapped_areas[0]->end, big_two_unmapped_areas[1]->start)
-+ *     [big_two_unmapped_areas[1]->end, mappings[nr_mappings - 1]->end)
-+ *
-+ * As usual memory map of processes is as below, the gap between the heap and
-+ * the uppermost mmap()-ed region, and the gap between the lowermost mmap()-ed
-+ * region and the stack will be two biggest unmapped regions.  Because these
-+ * gaps are exceptionally huge areas in usual address space, excluding these
-+ * two biggest unmapped regions will be sufficient to make a trade-off.
-+ *
-+ *   <heap>
-+ *   <BIG UNMAPPED REGION 1>
-+ *   <uppermost mmap()-ed region>
-+ *   (other mmap()-ed regions and small unmapped regions)
-+ *   <lowermost mmap()-ed region>
-+ *   <BIG UNMAPPED REGION 2>
-+ *   <stack>
-+ */
-+static void __damon_va_init_regions(struct damon_ctx *c,
-+				     struct damon_target *t)
-+{
-+	struct damon_region *r;
-+	struct damon_addr_range regions[3];
-+	unsigned long sz = 0, nr_pieces;
-+	int i;
-+
-+	if (damon_va_three_regions(t, regions)) {
-+		pr_err("Failed to get three regions of target %lu\n", t->id);
-+		return;
-+	}
-+
-+	for (i = 0; i < 3; i++)
-+		sz += regions[i].end - regions[i].start;
-+	if (c->min_nr_regions)
-+		sz /= c->min_nr_regions;
-+	if (sz < DAMON_MIN_REGION)
-+		sz = DAMON_MIN_REGION;
-+
-+	/* Set the initial three regions of the target */
-+	for (i = 0; i < 3; i++) {
-+		r = damon_new_region(regions[i].start, regions[i].end);
-+		if (!r) {
-+			pr_err("%d'th init region creation failed\n", i);
-+			return;
-+		}
-+		damon_add_region(r, t);
-+
-+		nr_pieces = (regions[i].end - regions[i].start) / sz;
-+		damon_va_evenly_split_region(c, r, nr_pieces);
-+	}
-+}
-+
-+/* Initialize '->regions_list' of every target (task) */
-+void damon_va_init(struct damon_ctx *ctx)
-+{
-+	struct damon_target *t;
-+
-+	damon_for_each_target(t, ctx) {
-+		/* the user may set the target regions as they want */
-+		if (!damon_nr_regions(t))
-+			__damon_va_init_regions(ctx, t);
-+	}
-+}
-+
-+/*
-+ * Functions for the dynamic monitoring target regions update
-+ */
-+
-+/*
-+ * Check whether a region is intersecting an address range
-+ *
-+ * Returns true if it is.
-+ */
-+static bool damon_intersect(struct damon_region *r, struct damon_addr_range *re)
-+{
-+	return !(r->ar.end <= re->start || re->end <= r->ar.start);
-+}
-+
-+/*
-+ * Update damon regions for the three big regions of the given target
-+ *
-+ * t		the given target
-+ * bregions	the three big regions of the target
-+ */
-+static void damon_va_apply_three_regions(struct damon_ctx *ctx,
-+		struct damon_target *t, struct damon_addr_range bregions[3])
-+{
-+	struct damon_region *r, *next;
-+	unsigned int i = 0;
-+
-+	/* Remove regions which are not in the three big regions now */
-+	damon_for_each_region_safe(r, next, t) {
-+		for (i = 0; i < 3; i++) {
-+			if (damon_intersect(r, &bregions[i]))
-+				break;
-+		}
-+		if (i == 3)
-+			damon_destroy_region(r);
-+	}
-+
-+	/* Adjust intersecting regions to fit with the three big regions */
-+	for (i = 0; i < 3; i++) {
-+		struct damon_region *first = NULL, *last;
-+		struct damon_region *newr;
-+		struct damon_addr_range *br;
-+
-+		br = &bregions[i];
-+		/* Get the first and last regions which intersects with br */
-+		damon_for_each_region(r, t) {
-+			if (damon_intersect(r, br)) {
-+				if (!first)
-+					first = r;
-+				last = r;
-+			}
-+			if (r->ar.start >= br->end)
-+				break;
-+		}
-+		if (!first) {
-+			/* no damon_region intersects with this big region */
-+			newr = damon_new_region(
-+					ALIGN_DOWN(br->start,
-+						DAMON_MIN_REGION),
-+					ALIGN(br->end, DAMON_MIN_REGION));
-+			if (!newr)
-+				continue;
-+			damon_insert_region(newr, damon_prev_region(r), r);
-+		} else {
-+			first->ar.start = ALIGN_DOWN(br->start,
-+					DAMON_MIN_REGION);
-+			last->ar.end = ALIGN(br->end, DAMON_MIN_REGION);
-+		}
-+	}
-+}
-+
-+/*
-+ * Update regions for current memory mappings
-+ */
-+void damon_va_update(struct damon_ctx *ctx)
-+{
-+	struct damon_addr_range three_regions[3];
-+	struct damon_target *t;
-+
-+	damon_for_each_target(t, ctx) {
-+		if (damon_va_three_regions(t, three_regions))
-+			continue;
-+		damon_va_apply_three_regions(ctx, t, three_regions);
-+	}
-+}
-+
-+/*
-+ * Get an online page for a pfn if it's in the LRU list.  Otherwise, returns
-+ * NULL.
-+ *
-+ * The body of this function is stolen from the 'page_idle_get_page()'.  We
-+ * steal rather than reuse it because the code is quite simple.
-+ */
-+static struct page *damon_get_page(unsigned long pfn)
-+{
-+	struct page *page = pfn_to_online_page(pfn);
-+
-+	if (!page || !PageLRU(page) || !get_page_unless_zero(page))
-+		return NULL;
-+
-+	if (unlikely(!PageLRU(page))) {
-+		put_page(page);
-+		page = NULL;
-+	}
-+	return page;
-+}
-+
-+static void damon_ptep_mkold(pte_t *pte, struct mm_struct *mm,
-+			     unsigned long addr)
-+{
-+	bool referenced = false;
-+	struct page *page = damon_get_page(pte_pfn(*pte));
-+
-+	if (!page)
-+		return;
-+
-+	if (pte_young(*pte)) {
-+		referenced = true;
-+		*pte = pte_mkold(*pte);
-+	}
-+
-+#ifdef CONFIG_MMU_NOTIFIER
-+	if (mmu_notifier_clear_young(mm, addr, addr + PAGE_SIZE))
-+		referenced = true;
-+#endif /* CONFIG_MMU_NOTIFIER */
-+
-+	if (referenced)
-+		set_page_young(page);
-+
-+	set_page_idle(page);
-+	put_page(page);
-+}
-+
-+static void damon_pmdp_mkold(pmd_t *pmd, struct mm_struct *mm,
-+			     unsigned long addr)
-+{
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	bool referenced = false;
-+	struct page *page = damon_get_page(pmd_pfn(*pmd));
-+
-+	if (!page)
-+		return;
-+
-+	if (pmd_young(*pmd)) {
-+		referenced = true;
-+		*pmd = pmd_mkold(*pmd);
-+	}
-+
-+#ifdef CONFIG_MMU_NOTIFIER
-+	if (mmu_notifier_clear_young(mm, addr,
-+				addr + ((1UL) << HPAGE_PMD_SHIFT)))
-+		referenced = true;
-+#endif /* CONFIG_MMU_NOTIFIER */
-+
-+	if (referenced)
-+		set_page_young(page);
-+
-+	set_page_idle(page);
-+	put_page(page);
-+#endif /* CONFIG_TRANSPARENT_HUGEPAGE */
-+}
-+
-+static void damon_va_mkold(struct mm_struct *mm, unsigned long addr)
-+{
-+	pte_t *pte = NULL;
-+	pmd_t *pmd = NULL;
-+	spinlock_t *ptl;
-+
-+	if (follow_invalidate_pte(mm, addr, NULL, &pte, &pmd, &ptl))
-+		return;
-+
-+	if (pte) {
-+		damon_ptep_mkold(pte, mm, addr);
-+		pte_unmap_unlock(pte, ptl);
-+	} else {
-+		damon_pmdp_mkold(pmd, mm, addr);
-+		spin_unlock(ptl);
-+	}
-+}
-+
-+/*
-+ * Functions for the access checking of the regions
-+ */
-+
-+static void damon_va_prepare_access_check(struct damon_ctx *ctx,
-+			struct mm_struct *mm, struct damon_region *r)
-+{
-+	r->sampling_addr = damon_rand(r->ar.start, r->ar.end);
-+
-+	damon_va_mkold(mm, r->sampling_addr);
-+}
-+
-+void damon_va_prepare_access_checks(struct damon_ctx *ctx)
-+{
-+	struct damon_target *t;
-+	struct mm_struct *mm;
-+	struct damon_region *r;
-+
-+	damon_for_each_target(t, ctx) {
-+		mm = damon_get_mm(t);
-+		if (!mm)
-+			continue;
-+		damon_for_each_region(r, t)
-+			damon_va_prepare_access_check(ctx, mm, r);
-+		mmput(mm);
-+	}
-+}
-+
-+static bool damon_va_young(struct mm_struct *mm, unsigned long addr,
-+			unsigned long *page_sz)
-+{
-+	pte_t *pte = NULL;
-+	pmd_t *pmd = NULL;
-+	spinlock_t *ptl;
-+	struct page *page;
-+	bool young = false;
-+
-+	if (follow_invalidate_pte(mm, addr, NULL, &pte, &pmd, &ptl))
-+		return false;
-+
-+	*page_sz = PAGE_SIZE;
-+	if (pte) {
-+		page = damon_get_page(pte_pfn(*pte));
-+		if (page && (pte_young(*pte) || !page_is_idle(page) ||
-+					mmu_notifier_test_young(mm, addr)))
-+			young = true;
-+		if (page)
-+			put_page(page);
-+		pte_unmap_unlock(pte, ptl);
-+		return young;
-+	}
-+
-+#ifdef CONFIG_TRANSPARENT_HUGEPAGE
-+	page = damon_get_page(pmd_pfn(*pmd));
-+	if (page && (pmd_young(*pmd) || !page_is_idle(page) ||
-+			mmu_notifier_test_young(mm, addr)))
-+		young = true;
-+	if (page)
-+		put_page(page);
-+
-+	spin_unlock(ptl);
-+	*page_sz = ((1UL) << HPAGE_PMD_SHIFT);
-+#endif	/* CONFIG_TRANSPARENT_HUGEPAGE */
-+
-+	return young;
-+}
-+
-+/*
-+ * Check whether the region was accessed after the last preparation
-+ *
-+ * mm	'mm_struct' for the given virtual address space
-+ * r	the region to be checked
-+ */
-+static void damon_va_check_access(struct damon_ctx *ctx,
-+			       struct mm_struct *mm, struct damon_region *r)
-+{
-+	static struct mm_struct *last_mm;
-+	static unsigned long last_addr;
-+	static unsigned long last_page_sz = PAGE_SIZE;
-+	static bool last_accessed;
-+
-+	/* If the region is in the last checked page, reuse the result */
-+	if (mm == last_mm && (ALIGN_DOWN(last_addr, last_page_sz) ==
-+				ALIGN_DOWN(r->sampling_addr, last_page_sz))) {
-+		if (last_accessed)
-+			r->nr_accesses++;
-+		return;
-+	}
-+
-+	last_accessed = damon_va_young(mm, r->sampling_addr, &last_page_sz);
-+	if (last_accessed)
-+		r->nr_accesses++;
-+
-+	last_mm = mm;
-+	last_addr = r->sampling_addr;
-+}
-+
-+unsigned int damon_va_check_accesses(struct damon_ctx *ctx)
-+{
-+	struct damon_target *t;
-+	struct mm_struct *mm;
-+	struct damon_region *r;
-+	unsigned int max_nr_accesses = 0;
-+
-+	damon_for_each_target(t, ctx) {
-+		mm = damon_get_mm(t);
-+		if (!mm)
-+			continue;
-+		damon_for_each_region(r, t) {
-+			damon_va_check_access(ctx, mm, r);
-+			max_nr_accesses = max(r->nr_accesses, max_nr_accesses);
-+		}
-+		mmput(mm);
-+	}
-+
-+	return max_nr_accesses;
-+}
-+
-+/*
-+ * Functions for the target validity check and cleanup
-+ */
-+
-+bool damon_va_target_valid(void *target)
-+{
-+	struct damon_target *t = target;
-+	struct task_struct *task;
-+
-+	task = damon_get_task_struct(t);
-+	if (task) {
-+		put_task_struct(task);
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
-+void damon_va_cleanup(struct damon_ctx *ctx)
-+{
-+	struct damon_target *t, *next;
-+
-+	damon_for_each_target_safe(t, next, ctx) {
-+		put_pid((struct pid *)t->id);
-+		damon_destroy_target(t);
-+	}
-+}
-+
-+void damon_va_set_primitives(struct damon_ctx *ctx)
-+{
-+	ctx->primitive.init = damon_va_init;
-+	ctx->primitive.update = damon_va_update;
-+	ctx->primitive.prepare_access_checks = damon_va_prepare_access_checks;
-+	ctx->primitive.check_accesses = damon_va_check_accesses;
-+	ctx->primitive.reset_aggregated = NULL;
-+	ctx->primitive.target_valid = damon_va_target_valid;
-+	ctx->primitive.cleanup = damon_va_cleanup;
-+}
++module_init(damon_dbgfs_init);
 -- 
 2.17.1
 
