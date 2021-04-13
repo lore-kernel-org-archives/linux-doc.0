@@ -5,56 +5,56 @@ X-Spam-Level:
 X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A09CC43462
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 14:29:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B940C43460
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 14:29:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3121B613B3
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 14:29:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 07F3B613BB
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 14:29:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242406AbhDMOaE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 10:30:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59468 "EHLO
+        id S239946AbhDMO35 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 10:29:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239290AbhDMO34 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 10:29:56 -0400
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96AD2C06138E;
-        Tue, 13 Apr 2021 07:29:36 -0700 (PDT)
-Received: by mail-qk1-x72b.google.com with SMTP id b139so12595287qkc.10;
-        Tue, 13 Apr 2021 07:29:36 -0700 (PDT)
+        with ESMTP id S239007AbhDMO3x (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 10:29:53 -0400
+Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com [IPv6:2607:f8b0:4864:20::729])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B379C061756;
+        Tue, 13 Apr 2021 07:29:32 -0700 (PDT)
+Received: by mail-qk1-x729.google.com with SMTP id o17so9525437qkl.13;
+        Tue, 13 Apr 2021 07:29:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=oBcikesh7GyPN9E8SBJMMuqucOH5hp7CfWnrE8VKzJQ=;
-        b=D9tLB6RYox8ns/lsPJYUqwxUpGU5fnGkCMxegPL45GhzdDJAbRzf+bK1ruWyEqD1tU
-         FKSphZCE4bnvQL3o1+txFQopryplzChGMf/hd1WhPWk7PkJY8YmmGBIzwwZZCiU1qspP
-         u7vbjq4HAV1PGE2SCvMWTiwJ+x65PwJTWkmgfDIzU6/kygAVJyOOLq0shM7+guisNGRu
-         y69yIePEUFBVgU0PfLV8FYKtqn5VMLM9EzUQT7nsvMMFqNUEb29HpsLQQ6GNlKQVUiW1
-         2PA4xIRo/OTFJiF+2pUKol7HK1gQxm8Mu6vco3WUpmgUmS1q4+MrH2Xapoy5o/DrH91a
-         RgxQ==
+        bh=CvzI94r9LiC7RH+dtcaRZqda/Y720VadPnKc/47pvNM=;
+        b=lNFCtbmP/CnDET2v2guZgcKJRaTNEq4G67+XiFXJOjgF49bgYTbEIre+zvMl4k7eaW
+         a/SfDQ2UDfuLnMeHUW43yrpZ/juHoli5EZbEmJC725yS5pOLMRA8OPAJTO8GfzJWKf08
+         PBiMn7NfTvD+IO0uMetkP27WSv/Vf8fh14noTzRMzd7tTczsVqYzlJYm/xvJNO20movC
+         mpSI5NFE0NvFLaEn0jBUWTwTwyewxHyG4X+LgGBYqI1LT2Ggejdpjw9ObXuRHZvBXfHH
+         gJrbz/d9NgIV44Po6odVlPSUC1YXV57uzmDiY48U4wVtqx89VRPfp4oknMwYb3oHmFIv
+         1loA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=oBcikesh7GyPN9E8SBJMMuqucOH5hp7CfWnrE8VKzJQ=;
-        b=M8tWg5S0u4lR9MNVbsCZK37mqw4Qe1Ho14PiLObnycAXoC8TL88zbcJLaWY9j8Ve3w
-         J+i6UiUO1bsaK0VTR38ndEgp9jcIBQo6eVoy23EKqrrMLD9ZNkPkEUuAJns4Hf4++kD9
-         e4YSCIRN9gED9OYAB5amnulP2ekSAXVIe2lxRHR0c71YAl+U8oMrozLUlF6rpj8guwCS
-         uQsXyekDPEAcclOWq6NSQ+4oB2f7lIfRLeDBsjavReO2wxQqsDWCcbbnuikQsraNRIgx
-         qsvFB5tPYHvFKkQaUxdA5tD9fjpXPAez58w15D0kV1628gqUCfeTFerQlXBP3V1DYh7z
-         5TjQ==
-X-Gm-Message-State: AOAM533SfpnEq2YkIDGT+ZaMKRWbkaPDRj5xWrFFQQAijvoctOcnR+wE
-        4b/1XvBQy8muw7lHEG93Bmg=
-X-Google-Smtp-Source: ABdhPJzbuqDQla1YkoJh0M7IslZyHKk4J1z4ctjPaM7pinCVHgMGz2Z/zKjygrWuEGGZEm2IDSw3YA==
-X-Received: by 2002:a37:b007:: with SMTP id z7mr24294473qke.215.1618324175800;
-        Tue, 13 Apr 2021 07:29:35 -0700 (PDT)
+        bh=CvzI94r9LiC7RH+dtcaRZqda/Y720VadPnKc/47pvNM=;
+        b=mPvHrguSPwZ2lngyu3CXZGxyzRRZ7pEhrRvSCMOiWiaE+AgXhRERCBjZ/F4GOxh5VY
+         nPXHEoD7WSuq2ZNLOmT5Nifr1C4LT7ruh2PE8S+vkKP3fBIi1Ve0VxoFIZsLVZKgRJLg
+         wnotkjuGtr4VntwE4EFjBq57FRNMW5TMxI3W39qPSKHAryyzLimYbmgZ3iCmJ6qfOSwV
+         MrTq+rvt0iaopqJ3f0Ne1FKf5Mh+y/ks0+rfx0+1Du4xGPizd5Kb6GUxRoUf8jnueef/
+         zEiiJ/e0UPY2C2FuBIxDQEW0zfjySJ34xuSNlsTw06zV3h4rEM/DsKc3QrHdFTDQ1Vm+
+         KxIw==
+X-Gm-Message-State: AOAM531Nh2eQz2bbdiWht5nqXZwZXhBRy6y7sXudksCEKG3fIBHfYYl7
+        E25vcjjNs7yxK++WrTcQymc=
+X-Google-Smtp-Source: ABdhPJzccyOnDNaZgMGNz7xVZJSfUtrGlCIXSWzJVLNsP8tXGwS6gEZSER8XN67iXwC+82/azbX5yQ==
+X-Received: by 2002:ae9:eb57:: with SMTP id b84mr1340348qkg.378.1618324171818;
+        Tue, 13 Apr 2021 07:29:31 -0700 (PDT)
 Received: from localhost.localdomain (ec2-35-169-212-159.compute-1.amazonaws.com. [35.169.212.159])
-        by smtp.gmail.com with ESMTPSA id 2sm6160911qko.134.2021.04.13.07.29.34
+        by smtp.gmail.com with ESMTPSA id 2sm6160911qko.134.2021.04.13.07.29.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 07:29:35 -0700 (PDT)
+        Tue, 13 Apr 2021 07:29:31 -0700 (PDT)
 From:   SeongJae Park <sj38.park@gmail.com>
 To:     akpm@linux-foundation.org
 Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
@@ -71,9 +71,9 @@ Cc:     SeongJae Park <sjpark@amazon.de>, Jonathan.Cameron@Huawei.com,
         vdavydov.dev@gmail.com, zgf574564920@gmail.com,
         linux-damon@amazon.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v28 09/13] mm/damon/dbgfs: Support multiple contexts
-Date:   Tue, 13 Apr 2021 14:29:00 +0000
-Message-Id: <20210413142904.556-10-sj38.park@gmail.com>
+Subject: [PATCH v28 06/13] mm/damon: Add a tracepoint
+Date:   Tue, 13 Apr 2021 14:28:57 +0000
+Message-Id: <20210413142904.556-7-sj38.park@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210413142904.556-1-sj38.park@gmail.com>
 References: <20210413142904.556-1-sj38.park@gmail.com>
@@ -83,261 +83,94 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: SeongJae Park <sjpark@amazon.de>
 
-In some use cases, users would want to run multiple monitoring context.
-For example, if a user wants a high precision monitoring and dedicating
-multiple CPUs for the job is ok, because DAMON creates one monitoring
-thread per one context, the user can split the monitoring target regions
-into multiple small regions and create one context for each region.  Or,
-someone might want to simultaneously monitor different address spaces,
-e.g., both virtual address space and physical address space.
-
-The DAMON's API allows such usage, but 'damon-dbgfs' does not.
-Therefore, only kernel space DAMON users can do multiple contexts
-monitoring.
-
-This commit allows the user space DAMON users to use multiple contexts
-monitoring by introducing two new 'damon-dbgfs' debugfs files,
-'mk_context' and 'rm_context'.  Users can create a new monitoring
-context by writing the desired name of the new context to 'mk_context'.
-Then, a new directory with the name and having the files for setting of
-the context ('attrs', 'target_ids' and 'record') will be created under
-the debugfs directory.  Writing the name of the context to remove to
-'rm_context' will remove the related context and directory.
+This commit adds a tracepoint for DAMON.  It traces the monitoring
+results of each region for each aggregation interval.  Using this, DAMON
+can easily integrated with tracepoints supporting tools such as perf.
 
 Signed-off-by: SeongJae Park <sjpark@amazon.de>
+Reviewed-by: Leonard Foerster <foersleo@amazon.de>
+Reviewed-by: Steven Rostedt (VMware) <rostedt@goodmis.org>
 ---
- mm/damon/dbgfs.c | 197 ++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 195 insertions(+), 2 deletions(-)
+ include/trace/events/damon.h | 43 ++++++++++++++++++++++++++++++++++++
+ mm/damon/core.c              |  7 +++++-
+ 2 files changed, 49 insertions(+), 1 deletion(-)
+ create mode 100644 include/trace/events/damon.h
 
-diff --git a/mm/damon/dbgfs.c b/mm/damon/dbgfs.c
-index 67b273472c0b..734bc14f0100 100644
---- a/mm/damon/dbgfs.c
-+++ b/mm/damon/dbgfs.c
-@@ -18,6 +18,7 @@
- static struct damon_ctx **dbgfs_ctxs;
- static int dbgfs_nr_ctxs;
- static struct dentry **dbgfs_dirs;
-+static DEFINE_MUTEX(damon_dbgfs_lock);
+diff --git a/include/trace/events/damon.h b/include/trace/events/damon.h
+new file mode 100644
+index 000000000000..2f422f4f1fb9
+--- /dev/null
++++ b/include/trace/events/damon.h
+@@ -0,0 +1,43 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#undef TRACE_SYSTEM
++#define TRACE_SYSTEM damon
++
++#if !defined(_TRACE_DAMON_H) || defined(TRACE_HEADER_MULTI_READ)
++#define _TRACE_DAMON_H
++
++#include <linux/damon.h>
++#include <linux/types.h>
++#include <linux/tracepoint.h>
++
++TRACE_EVENT(damon_aggregated,
++
++	TP_PROTO(struct damon_target *t, struct damon_region *r,
++		unsigned int nr_regions),
++
++	TP_ARGS(t, r, nr_regions),
++
++	TP_STRUCT__entry(
++		__field(unsigned long, target_id)
++		__field(unsigned int, nr_regions)
++		__field(unsigned long, start)
++		__field(unsigned long, end)
++		__field(unsigned int, nr_accesses)
++	),
++
++	TP_fast_assign(
++		__entry->target_id = t->id;
++		__entry->nr_regions = nr_regions;
++		__entry->start = r->ar.start;
++		__entry->end = r->ar.end;
++		__entry->nr_accesses = r->nr_accesses;
++	),
++
++	TP_printk("target_id=%lu nr_regions=%u %lu-%lu: %u",
++			__entry->target_id, __entry->nr_regions,
++			__entry->start, __entry->end, __entry->nr_accesses)
++);
++
++#endif /* _TRACE_DAMON_H */
++
++/* This part must be outside protection */
++#include <trace/define_trace.h>
+diff --git a/mm/damon/core.c b/mm/damon/core.c
+index b36b6bdd94e2..912112662d0c 100644
+--- a/mm/damon/core.c
++++ b/mm/damon/core.c
+@@ -13,6 +13,9 @@
+ #include <linux/random.h>
+ #include <linux/slab.h>
  
- /*
-  * Returns non-empty string on success, negarive error code otherwise.
-@@ -314,6 +315,186 @@ static struct damon_ctx *dbgfs_new_ctx(void)
- 	return ctx;
- }
++#define CREATE_TRACE_POINTS
++#include <trace/events/damon.h>
++
+ /* Get a random number in [l, r) */
+ #define damon_rand(l, r) (l + prandom_u32_max(r - l))
  
-+static void dbgfs_destroy_ctx(struct damon_ctx *ctx)
-+{
-+	damon_destroy_ctx(ctx);
-+}
-+
-+/*
-+ * Make a context of @name and create a debugfs directory for it.
-+ *
-+ * This function should be called while holding damon_dbgfs_lock.
-+ *
-+ * Returns 0 on success, negative error code otherwise.
-+ */
-+static int dbgfs_mk_context(char *name)
-+{
-+	struct dentry *root, **new_dirs, *new_dir;
-+	struct damon_ctx **new_ctxs, *new_ctx;
-+
-+	if (damon_nr_running_ctxs())
-+		return -EBUSY;
-+
-+	new_ctxs = krealloc(dbgfs_ctxs, sizeof(*dbgfs_ctxs) *
-+			(dbgfs_nr_ctxs + 1), GFP_KERNEL);
-+	if (!new_ctxs)
-+		return -ENOMEM;
-+	dbgfs_ctxs = new_ctxs;
-+
-+	new_dirs = krealloc(dbgfs_dirs, sizeof(*dbgfs_dirs) *
-+			(dbgfs_nr_ctxs + 1), GFP_KERNEL);
-+	if (!new_dirs)
-+		return -ENOMEM;
-+	dbgfs_dirs = new_dirs;
-+
-+	root = dbgfs_dirs[0];
-+	if (!root)
-+		return -ENOENT;
-+
-+	new_dir = debugfs_create_dir(name, root);
-+	dbgfs_dirs[dbgfs_nr_ctxs] = new_dir;
-+
-+	new_ctx = dbgfs_new_ctx();
-+	if (!new_ctx) {
-+		debugfs_remove(new_dir);
-+		dbgfs_dirs[dbgfs_nr_ctxs] = NULL;
-+		return -ENOMEM;
-+	}
-+
-+	dbgfs_ctxs[dbgfs_nr_ctxs] = new_ctx;
-+	dbgfs_fill_ctx_dir(dbgfs_dirs[dbgfs_nr_ctxs],
-+			dbgfs_ctxs[dbgfs_nr_ctxs]);
-+	dbgfs_nr_ctxs++;
-+
-+	return 0;
-+}
-+
-+static ssize_t dbgfs_mk_context_write(struct file *file,
-+		const char __user *buf, size_t count, loff_t *ppos)
-+{
-+	char *kbuf;
-+	char *ctx_name;
-+	ssize_t ret = count;
-+	int err;
-+
-+	kbuf = user_input_str(buf, count, ppos);
-+	if (IS_ERR(kbuf))
-+		return PTR_ERR(kbuf);
-+	ctx_name = kmalloc(count + 1, GFP_KERNEL);
-+	if (!ctx_name) {
-+		kfree(kbuf);
-+		return -ENOMEM;
-+	}
-+
-+	/* Trim white space */
-+	if (sscanf(kbuf, "%s", ctx_name) != 1) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	mutex_lock(&damon_dbgfs_lock);
-+	err = dbgfs_mk_context(ctx_name);
-+	if (err)
-+		ret = err;
-+	mutex_unlock(&damon_dbgfs_lock);
-+
-+out:
-+	kfree(kbuf);
-+	kfree(ctx_name);
-+	return ret;
-+}
-+
-+/*
-+ * Remove a context of @name and its debugfs directory.
-+ *
-+ * This function should be called while holding damon_dbgfs_lock.
-+ *
-+ * Return 0 on success, negative error code otherwise.
-+ */
-+static int dbgfs_rm_context(char *name)
-+{
-+	struct dentry *root, *dir, **new_dirs;
-+	struct damon_ctx **new_ctxs;
-+	int i, j;
-+
-+	if (damon_nr_running_ctxs())
-+		return -EBUSY;
-+
-+	root = dbgfs_dirs[0];
-+	if (!root)
-+		return -ENOENT;
-+
-+	dir = debugfs_lookup(name, root);
-+	if (!dir)
-+		return -ENOENT;
-+
-+	new_dirs = kmalloc_array(dbgfs_nr_ctxs - 1, sizeof(*dbgfs_dirs),
-+			GFP_KERNEL);
-+	if (!new_dirs)
-+		return -ENOMEM;
-+
-+	new_ctxs = kmalloc_array(dbgfs_nr_ctxs - 1, sizeof(*dbgfs_ctxs),
-+			GFP_KERNEL);
-+	if (!new_ctxs) {
-+		kfree(new_dirs);
-+		return -ENOMEM;
-+	}
-+
-+	for (i = 0, j = 0; i < dbgfs_nr_ctxs; i++) {
-+		if (dbgfs_dirs[i] == dir) {
-+			debugfs_remove(dbgfs_dirs[i]);
-+			dbgfs_destroy_ctx(dbgfs_ctxs[i]);
-+			continue;
+@@ -388,8 +391,10 @@ static void kdamond_reset_aggregated(struct damon_ctx *c)
+ 	damon_for_each_target(t, c) {
+ 		struct damon_region *r;
+ 
+-		damon_for_each_region(r, t)
++		damon_for_each_region(r, t) {
++			trace_damon_aggregated(t, r, damon_nr_regions(t));
+ 			r->nr_accesses = 0;
 +		}
-+		new_dirs[j] = dbgfs_dirs[i];
-+		new_ctxs[j++] = dbgfs_ctxs[i];
-+	}
-+
-+	kfree(dbgfs_dirs);
-+	kfree(dbgfs_ctxs);
-+
-+	dbgfs_dirs = new_dirs;
-+	dbgfs_ctxs = new_ctxs;
-+	dbgfs_nr_ctxs--;
-+
-+	return 0;
-+}
-+
-+static ssize_t dbgfs_rm_context_write(struct file *file,
-+		const char __user *buf, size_t count, loff_t *ppos)
-+{
-+	char *kbuf;
-+	ssize_t ret = count;
-+	int err;
-+	char *ctx_name;
-+
-+	kbuf = user_input_str(buf, count, ppos);
-+	if (IS_ERR(kbuf))
-+		return PTR_ERR(kbuf);
-+	ctx_name = kmalloc(count + 1, GFP_KERNEL);
-+	if (!ctx_name) {
-+		kfree(kbuf);
-+		return -ENOMEM;
-+	}
-+
-+	/* Trim white space */
-+	if (sscanf(kbuf, "%s", ctx_name) != 1) {
-+		ret = -EINVAL;
-+		goto out;
-+	}
-+
-+	mutex_lock(&damon_dbgfs_lock);
-+	err = dbgfs_rm_context(ctx_name);
-+	if (err)
-+		ret = err;
-+	mutex_unlock(&damon_dbgfs_lock);
-+
-+out:
-+	kfree(kbuf);
-+	kfree(ctx_name);
-+	return ret;
-+}
-+
- static ssize_t dbgfs_monitor_on_read(struct file *file,
- 		char __user *buf, size_t count, loff_t *ppos)
- {
-@@ -356,6 +537,16 @@ static ssize_t dbgfs_monitor_on_write(struct file *file,
- 	return ret;
+ 	}
  }
  
-+static const struct file_operations mk_contexts_fops = {
-+	.owner = THIS_MODULE,
-+	.write = dbgfs_mk_context_write,
-+};
-+
-+static const struct file_operations rm_contexts_fops = {
-+	.owner = THIS_MODULE,
-+	.write = dbgfs_rm_context_write,
-+};
-+
- static const struct file_operations monitor_on_fops = {
- 	.owner = THIS_MODULE,
- 	.read = dbgfs_monitor_on_read,
-@@ -365,8 +556,10 @@ static const struct file_operations monitor_on_fops = {
- static int __init __damon_dbgfs_init(void)
- {
- 	struct dentry *dbgfs_root;
--	const char * const file_names[] = {"monitor_on"};
--	const struct file_operations *fops[] = {&monitor_on_fops};
-+	const char * const file_names[] = {"mk_contexts", "rm_contexts",
-+		"monitor_on"};
-+	const struct file_operations *fops[] = {&mk_contexts_fops,
-+		&rm_contexts_fops, &monitor_on_fops};
- 	int i;
- 
- 	dbgfs_root = debugfs_create_dir("damon", NULL);
 -- 
 2.17.1
 
