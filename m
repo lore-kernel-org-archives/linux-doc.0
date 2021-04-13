@@ -2,154 +2,99 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1537C433B4
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 11:13:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C4B9C433B4
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 11:19:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8384161249
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 11:13:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DFC2361249
+	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 11:19:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237196AbhDMLOO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 07:14:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44220 "EHLO
+        id S237181AbhDMLUA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 07:20:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244167AbhDMLOO (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 07:14:14 -0400
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EB97C06175F
-        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 04:13:54 -0700 (PDT)
-Received: by mail-wr1-x42c.google.com with SMTP id r7so4031997wrm.1
-        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 04:13:54 -0700 (PDT)
+        with ESMTP id S237455AbhDMLT4 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 07:19:56 -0400
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com [IPv6:2607:f8b0:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E612EC061574
+        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 04:19:34 -0700 (PDT)
+Received: by mail-ot1-x335.google.com with SMTP id i16-20020a9d68d00000b0290286edfdfe9eso5112508oto.3
+        for <linux-doc@vger.kernel.org>; Tue, 13 Apr 2021 04:19:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=references:user-agent:from:to:cc:subject:date:in-reply-to
-         :message-id:mime-version:content-transfer-encoding;
-        bh=Cu3neruluoSCQXicI1kgn+ehmqNJHkuNyetxZuBFmfY=;
-        b=hfiiqOLquAbv0Zo8WwVW2P07q1yK3rArOdZiB3bFdqqgKEY4lhM+0k9N7CEc6B7dmD
-         //pm3E0tK9HCL2QxUb6/PVLhUGdQc10kea72DZarCyaqCO0WxxJqcCLQmwn7hJEkjfoH
-         2Iiqt6IqBtzKI9PfTgrsHx2BGKb2PpShkXb0fjnkpqqjDf78j39yJlk3ZbEDkvgPa93c
-         2/cJipB4xQ+mHSaKtRMPfX/Lxs8cPxa8S+O7QT1OJ0UHk1/ZbjFuQ8awzP/0P8bG1Q6w
-         hzU5VD/Pn9vta+7UKZmMtV44h1AS9WC2Ii173EYi71sMGuGasWPvDVwjcwUHvycImZde
-         gRSQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=qrHN9bDiB3urHGMyv9EW2Gwtr8iC5SrSKh2ZyOmD3lA=;
+        b=QXRxiWB8riLt1YslfIn4Hav8heuxPFc/V0ITxpEWmK86dwrg5T1Aaf3uOsqsQAOl58
+         5st2yCgiUvc1g/o0w1gL1YC0ybLM+GIlETZvhg1N36MK01RKzxoVfMxXmgWBTvI0BSPz
+         ceTpgub8R0rFqBOr67MfAbt7fj2mhELFTI1Fodz8zIRYf9Xkcwnjl1hidBbSCCF+tR0X
+         dTCBlpfYQEA3ZirrtZmWZi6bahoPnGMybo9ohcDRTHcZ2OsKpxWF63oLpeOGEMHL6NF5
+         wzD1k4Lm6qVxxjgBLk32tGfKdmWoLClW5O5FcQUkDuY0H5CUM9tHCzT1U1kzIkLNTHFd
+         JhXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
-         :in-reply-to:message-id:mime-version:content-transfer-encoding;
-        bh=Cu3neruluoSCQXicI1kgn+ehmqNJHkuNyetxZuBFmfY=;
-        b=DSZkgt+dtHTTmk2sdKoGYAdKPxaig8sg+vzFeoqVCLA+5fp2BCbs2Oq2zgZQrr5FRs
-         ltoUmJpXFdKLlUtZw6HUbQ1jO9ZaEQEYEpH7G/kEkF9RL17+DD+txDs9p9opD3lVqURV
-         aMdnoxmhB7C5vTIySNWRZ4YAHq5Tf42ROuNqiasqVS82g5/ARlN6eAMpt3AF+dmeioJm
-         VCd20yRtm8vVJFV04Rtvk5ZPEny+VPjQ6FvnXaChe5AzQADUewkjqgwejamQMUZvlhOY
-         5yj876/esUYJ3V6mdw4KHYSF2KXuZb86Cqmk8JostUgwvsTolbjnXFDGvkOqqOC07z4a
-         /cOA==
-X-Gm-Message-State: AOAM5320cw2L5eFYyumIzX7xEYWlSMDOHYw4kclt0ImNbcZ4kY5EH6/5
-        fgXztldEaE9nYP2qfXG80jORgg==
-X-Google-Smtp-Source: ABdhPJzY9shCczKjSRW6Y2rpwOvSTMSuxueUgRqhkgPrE9aInqm3+aebb0vYVhHDuo9TmXBtfSBYUQ==
-X-Received: by 2002:a5d:43c1:: with SMTP id v1mr11267064wrr.419.1618312432810;
-        Tue, 13 Apr 2021 04:13:52 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
-        by smtp.gmail.com with ESMTPSA id j6sm2130276wmq.16.2021.04.13.04.13.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 04:13:51 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-        by zen.linaroharston (Postfix) with ESMTP id 012321FF7E;
-        Tue, 13 Apr 2021 12:13:50 +0100 (BST)
-References: <20201203191135.21576-1-info@metux.net>
- <20201203191135.21576-2-info@metux.net>
- <8209ce55-a4aa-f256-b9b9-f7eb3cac877b@redhat.com>
- <43f1ee89-89f3-95a3-58f1-7a0a12c2b92f@metux.net>
-User-agent: mu4e 1.5.11; emacs 28.0.50
-From:   Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
-Cc:     Jason Wang <jasowang@redhat.com>, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, mst@redhat.com,
-        linux-doc@vger.kernel.org, linux-gpio@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-riscv@lists.infradead.org,
-        Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v2 2/2] drivers: gpio: add virtio-gpio guest driver
-Date:   Tue, 13 Apr 2021 12:07:58 +0100
-In-reply-to: <43f1ee89-89f3-95a3-58f1-7a0a12c2b92f@metux.net>
-Message-ID: <87lf9mmo7l.fsf@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=qrHN9bDiB3urHGMyv9EW2Gwtr8iC5SrSKh2ZyOmD3lA=;
+        b=pZRGfs/52ILnjooYxB2RZgV3nje/ddPEf+Der/9rSwDACnCGAm4Kvs7kDNUFfHznPv
+         r7x5G16X0XB5rr2oCYMUJ/YLYS8YGOzUL/Tko5ekASh/3snL5Yz+QK8sWRRBpokY7BoL
+         hVgZx6m2p3B+FwQMKi12ic+XXgqfw0BU4HUbI9IjTzdW0thl7P4AJ1b4KQihK6fjhR4L
+         X4+5dwXb7m3t64aOtI5va13C5ANHzoyNE2cBx2L+gu9na3yMcJTyGC2k2WOTsHX/8LmD
+         YvVvp8c+FK1DoIIP9k00UKX4ACzVOU8FCCxDNN4DsRMXC+LQi5kwBRiHXP1cIIV71Clf
+         AJ5w==
+X-Gm-Message-State: AOAM531BW362FeA/HyKkE/9gpiOtXsQ128XRQ+pnEkEsTqu+nVf2zZUl
+        X91IfT2rGCkeqTgfkyfWAMtrVgJOwPmIFUZfIBc=
+X-Google-Smtp-Source: ABdhPJyMnD6fMgA8gpmtuTKtIraf5daNHpaAs+cyxrixhocQ3ueBtgcwoxgQNKUL6fiJV96uQVF01rfmqYLxwfzCxJg=
+X-Received: by 2002:a9d:24c7:: with SMTP id z65mr28826970ota.243.1618312774410;
+ Tue, 13 Apr 2021 04:19:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210409091013.2493988-1-siyanteng@loongson.cn>
+ <20210409091013.2493988-4-siyanteng@loongson.cn> <01468459-2057-c361-6afc-c0d12efd40c2@gmail.com>
+In-Reply-To: <01468459-2057-c361-6afc-c0d12efd40c2@gmail.com>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Tue, 13 Apr 2021 19:19:24 +0800
+Message-ID: <CAEensMzquBZg9zq50MV8YkyfARaeu_AwsKk_4=2CG3oYZbUB6g@mail.gmail.com>
+Subject: Re: [PATCH v2 03/11] docs/zh_CN: add core-api/irq/irq-domain.rst translation
+To:     Alex Shi <seakeel@gmail.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        Puyu Wang <realpuyuwang@gmail.com>,
+        Wu XiangCheng <bobwxc@email.cn>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
+OK! :-)
 
-"Enrico Weigelt, metux IT consult" <info@metux.net> writes:
 
-> On 04.12.20 04:35, Jason Wang wrote:
->
-> Hi,
->
->> Is the plan to keep this doc synced with the one in the virtio
->> specification?
->
-> Yes, of course. I'm still in progress of doing the beaurocratic stuff w/
-> virtio-tc folks (ID registration, ...) - yet have to see whether they
-> wanna add it to their spec documents ...
->
-> BTW: if you feel, sometings not good w/ the current spec, please raise
-> your voice now.
->
->> I think it's better to use u8 ot uint8_t here.Git grep told me the
->> former is more popular under Documentation/.
->
-> thx, I'll fix that
->
->>> +- for version field currently only value 1 supported.
->>> +- the line names block holds a stream of zero-terminated strings,
->>> +=C2=A0 holding the individual line names.
->>=20
->> I'm not sure but does this mean we don't have a fixed length of config
->> space? Need to check whether it can bring any trouble to
->> migration(compatibility).
->
-> Yes, it depends on how many gpio lines are present and how much space
-> their names take up.
->
-> A fixed size would either put unpleasent limits on the max number of
-> lines or waste a lot space when only few lines present.
->
-> Not that virtio-gpio is also meant for small embedded workloads running
-> under some hypervisor.
->
->>> +- unspecified fields are reserved for future use and should be zero.
->>> +
->>> +------------------------
->>> +Virtqueues and messages:
->>> +------------------------
->>> +
->>> +- Queue #0: transmission from host to guest
->>> +- Queue #1: transmission from guest to host
->>=20
->>=20
->> Virtio became more a popular in the area without virtualization. So I
->> think it's better to use "device/driver" instead of "host/guest" here.
->
-> Good point. But I'd prefer "cpu" instead of "driver" in that case.
+Thanks
+Yan teng
 
-I think you are going to tie yourself up in knots if you don't move this
-to the OASIS spec. The reason being the VirtIO spec has definitions for
-what a "Device" and a "Driver" is that are clear and unambiguous. The
-upstream spec should be considered the canonical source of truth for any
-implementation (Linux or otherwise).
-
-By all means have the distilled documentation for the driver in the
-kernel source tree but trying to upstream an implementation before
-starting the definition in the standard is a little back to front IMHO*.
-
-* that's not to say these things can't be done in parallel as the spec
-  is reviewed and worked on and the kinks worked out but you want the
-  final order of upstreaming to start with the spec.
-
---=20
-Alex Benn=C3=A9e
+Alex Shi <seakeel@gmail.com> =E4=BA=8E2021=E5=B9=B44=E6=9C=8813=E6=97=A5=E5=
+=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=881:23=E5=86=99=E9=81=93=EF=BC=9A
+>
+>
+>
+> On 2021/4/9 =E4=B8=8B=E5=8D=885:10, Yanteng Si wrote:
+> > +=E6=A0=91=E7=8A=B6=E6=98=A0=E5=B0=84
+> > +----------
+>
+> Ops, please keep the signs number equal to the title char, like
+> here the '-' should be 8 for 4 Chinese chars, since a Chinese char
+> takes 2 times width as English char.
+>
+> And check for all similar signs in your patches.
+>
+> Thanks
+> Alex
+> > +
