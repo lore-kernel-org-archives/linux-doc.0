@@ -2,315 +2,392 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-26.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	USER_AGENT_GIT,USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,WEIRD_QUOTING
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F5DAC43460
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 08:15:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8591C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 08:23:36 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 543C8613C7
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 08:15:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C2FDF613C4
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 08:23:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349992AbhDNIPs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Apr 2021 04:15:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36408 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349976AbhDNIPr (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 04:15:47 -0400
-Received: from mail-qv1-xf4a.google.com (mail-qv1-xf4a.google.com [IPv6:2607:f8b0:4864:20::f4a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6D16C061574
-        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 01:15:26 -0700 (PDT)
-Received: by mail-qv1-xf4a.google.com with SMTP id g9so580647qvz.20
-        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 01:15:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=AgMaVIscO++7auf6j4FLvgrPACtR9LdIw5C1d+MACFs=;
-        b=ff4pFRJqwVZW8nsKGLkvzB4oHNxsMvh2embvkpElPGEOJsCCU0wEgWoXEB2JDRD765
-         z8e4cjzxAZbqFC3i8wgnv8tbqXqIZYmF8vD301f1coqJvpCKb8eFbktRg1+WrJHW3Ouc
-         qWy/rWB2HjxCrG/+MTRBfJ2yCXdr3fB98p8nX6kRNAO69qTwIgcYivzwKO7FgxCURqny
-         ti/tshk++i15GDO99bWrLNvt/HcJONBRJwIqUZ7oWw+oTaUFPBR1qYdHUleqyXTDoY2V
-         xTn7B8htI+2KdumXaWrbNIBRXkNTUtvigLefukSXUigsSqwydJ50kx110u3IJAXWyTFk
-         SV2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc
-         :content-transfer-encoding;
-        bh=AgMaVIscO++7auf6j4FLvgrPACtR9LdIw5C1d+MACFs=;
-        b=hN4x+HX3knpA/D2TBp7sDvw9iXLGIhzqVzSBs6SNkxBXgNGbwzNy3Ka0ZtWAAIhzm/
-         qq3IhfaVv8b6KoWPJKw8n3O0lQL2nAQHASu5lyo3fX8KnOT6Bhbt3BhvVBxAeorSccZ0
-         CgIOAhftH2UaGLA1TrQs6/nf79LvHQoVrO0Tag/6F+DjSOsfd5EXYHzWr7n28rmbdCjl
-         4PR/nRvt50Uj6ofiFbg+BjUvSODXRuQqJhMRt/YccsHa6zNOrypNvqbMArHDpHq9+VU/
-         wjDmUFbty/zFWgQMKUAAuO5ftlWhJlfsWup2I7S+rPIBdc1Nqr6QPa0+UOkPODgXz3aq
-         UB6w==
-X-Gm-Message-State: AOAM531xsGv69bDVmC1atWLQgGWTS63qZCU2kH1azKlE5YZvsXjQ2RIR
-        uSbxypAMQupE+bFk7TCC3oprKiXHBj9TAQ==
-X-Google-Smtp-Source: ABdhPJyabAs4UuXw1jcjxpjLl3apM8l1LDZJ7sbIT+HdhZzAVluRCmTDonUBQFOw/YrIdzycEi12sUgV0yKYmA==
-X-Received: from spirogrip.svl.corp.google.com ([2620:15c:2cb:201:d6a:902e:c89c:e274])
- (user=davidgow job=sendgmr) by 2002:a05:6214:252d:: with SMTP id
- gg13mr19433456qvb.24.1618388125955; Wed, 14 Apr 2021 01:15:25 -0700 (PDT)
-Date:   Wed, 14 Apr 2021 01:14:29 -0700
-Message-Id: <20210414081428.337494-1-davidgow@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.31.1.295.g9ea45b61b8-goog
-Subject: [PATCH v2] Documentation: dev-tools: Add Testing Overview
-From:   David Gow <davidgow@google.com>
-To:     Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Marco Elver <elver@google.com>,
-        Brendan Higgins <brendanhiggins@google.com>,
-        Daniel Latypov <dlatypov@google.com>
-Cc:     David Gow <davidgow@google.com>, linux-doc@vger.kernel.org,
-        KUnit Development <kunit-dev@googlegroups.com>,
-        linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S1350027AbhDNIX4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Apr 2021 04:23:56 -0400
+Received: from mail-m121143.qiye.163.com ([115.236.121.143]:21514 "EHLO
+        mail-m121143.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242479AbhDNIXv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 04:23:51 -0400
+Received: from ubuntu.localdomain (unknown [36.152.145.181])
+        by mail-m121143.qiye.163.com (Hmail) with ESMTPA id 7EC36540372;
+        Wed, 14 Apr 2021 16:23:24 +0800 (CST)
+From:   Bernard Zhao <bernard@vivo.com>
+To:     Harry Wei <harryxiyou@gmail.com>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Bernard Zhao <bernard@vivo.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: [patch v3] translations/zh_CN: add translations to dev-tools gcov
+Date:   Wed, 14 Apr 2021 01:23:01 -0700
+Message-Id: <20210414082316.15160-1-bernard@vivo.com>
+X-Mailer: git-send-email 2.31.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=n
+Content-Transfer-Encoding: 8bit
+X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
+        oVCBIfWUFZGklITVZOS05CSE8aGUwdTR5VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
+        hKTFVLWQY+
+X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mjo6Nyo5KD8UQxwZD1YMOEgY
+        IRVPCgxVSlVKTUpDSENDTUtOSEhDVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlITVVK
+        TklVSk9OVUpDSllXWQgBWUFKSUhLSjcG
+X-HM-Tid: 0a78cf7a5774b038kuuu7ec36540372
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The kernel now has a number of testing and debugging tools, and we've
-seen a bit of confusion about what the differences between them are.
+Add translations to dev-tools gcov
 
-Add a basic documentation outlining the testing tools, when to use each,
-and how they interact.
+Signed-off-by: Bernard Zhao <bernard@vivo.com>
 
-This is a pretty quick overview rather than the idealised "kernel
-testing guide" that'd probably be optimal, but given the number of times
-questions like "When do you use KUnit and when do you use Kselftest?"
-are being asked, it seemed worth at least having something. Hopefully
-this can form the basis for more detailed documentation later.
-
-Signed-off-by: David Gow <davidgow@google.com>
 ---
-Thanks, everyone, for the comments on the doc. I've made a few of the
-suggested changes. Please let me know what you think!
 
--- David
+Changes since V2:
+* fix some inaccurate translation
 
-Changes since v1:
-https://lore.kernel.org/linux-kselftest/20210410070529.4113432-1-davidgow@g=
-oogle.com/
-- Note KUnit's speed and that one should provide selftests for syscalls
-- Mention lockdep as a Dynamic Analysis Tool
-- Refer to "Dynamic Analysis Tools" instead of "Sanitizers"
-- A number of minor formatting tweaks and rewordings for clarity.
+Changes since V1:
+* add index.rst in dev-tools and link to to zh_CN/index.rst
+* fix some inaccurate translation
+---
+ .../translations/zh_CN/dev-tools/gcov.rst     | 261 ++++++++++++++++++
+ .../translations/zh_CN/dev-tools/index.rst    |  35 +++
+ Documentation/translations/zh_CN/index.rst    |   1 +
+ 3 files changed, 297 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/dev-tools/gcov.rst
+ create mode 100644 Documentation/translations/zh_CN/dev-tools/index.rst
 
-Not changed:
-- I haven't included an exhaustive list of differences, advantages, etc,
-  between KUnit and kselftest: for now, the doc continues to focus on
-  the difference between 'in-kernel' and 'userspace' testing here.
-- Similarly, I'm not linking out to docs defining and describing "Unit"
-  tests versus "End-to-end" tests. None of the existing documentation
-  elsewhere quite matches what we do in the kernel perfectly, so it
-  seems less confusing to focus on the 'in-kernel'/'userspace'
-  distinction, and leave other definitions as a passing mention for
-  those who are already familiar with the concepts.
-- I haven't linked to any talk videos here: a few of them are linked on
-  (e.g.) the KUnit webpage, but I wanted to keep the Kernel documentation
-  more self-contained for now. No objection to adding them in a follow-up
-  patch if people feel strongly about it, though.
-- The link from index.rst to this doc is unchanged. I personally think
-  that the link is prominent enough there: it's the first link, and
-  shows up a few times. One possibility if people disagreed would be to
-  merge this page with the index, but given not all dev-tools are going
-  to be testing-related, it seemed a bit arrogant. :-)
-
- Documentation/dev-tools/index.rst            |   3 +
- Documentation/dev-tools/testing-overview.rst | 117 +++++++++++++++++++
- 2 files changed, 120 insertions(+)
- create mode 100644 Documentation/dev-tools/testing-overview.rst
-
-diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/in=
-dex.rst
-index 1b1cf4f5c9d9..f590e5860794 100644
---- a/Documentation/dev-tools/index.rst
-+++ b/Documentation/dev-tools/index.rst
-@@ -7,6 +7,8 @@ be used to work on the kernel. For now, the documents have =
-been pulled
- together without any significant effort to integrate them into a coherent
- whole; patches welcome!
-=20
-+A brief overview of testing-specific tools can be found in :doc:`testing-o=
-verview`.
-+
- .. class:: toc-title
-=20
- 	   Table of contents
-@@ -14,6 +16,7 @@ whole; patches welcome!
- .. toctree::
-    :maxdepth: 2
-=20
-+   testing-overview
-    coccinelle
-    sparse
-    kcov
-diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation/d=
-ev-tools/testing-overview.rst
+diff --git a/Documentation/translations/zh_CN/dev-tools/gcov.rst b/Documentation/translations/zh_CN/dev-tools/gcov.rst
 new file mode 100644
-index 000000000000..ce36a8cdf6b5
+index 000000000000..882eee4c75c5
 --- /dev/null
-+++ b/Documentation/dev-tools/testing-overview.rst
-@@ -0,0 +1,117 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/translations/zh_CN/dev-tools/gcov.rst
+@@ -0,0 +1,261 @@
++.. include:: ../disclaimer-zh_CN.rst
 +
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-+Kernel Testing Guide
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++:Original: Documentation/dev-tools/gcov.rst
++:Translator: 赵军奎 Bernard Zhao <bernard@vivo.com>
 +
++在Linux内核里使用gcov做代码覆盖率检查
++=========================================
 +
-+There are a number of different tools for testing the Linux kernel, so kno=
-wing
-+when to use each of them can be a challenge. This document provides a roug=
-h
-+overview of their differences, and how they fit together.
++gcov是linux中已经集成的一个分析模块，该模块在内核中对GCC的代码覆盖率统
++计提供了支持。
++linux内核运行时的代码覆盖率数据会以gcov兼容的格式存储在debug-fs中，可
++以通过gcov的``-o``选项（如下示例）获得指定文件的代码运行覆盖率统计数据
++（需要跳转到内核编译路径下并且要有root权限）::
 +
++    # cd /tmp/linux-out
++    # gcov -o /sys/kernel/debug/gcov/tmp/linux-out/kernel spinlock.c
 +
-+Writing and Running Tests
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
++这将在当前目录中创建带有执行计数注释的源代码文件。
++在获得这些统计文件后，可以使用图形化的gcov_前端工具（比如lcov_），来实现
++自动化处理linux 内核的覆盖率运行数据，同时生成易于阅读的HTML格式文件。
 +
-+The bulk of kernel tests are written using either the kselftest or KUnit
-+frameworks. These both provide infrastructure to help make running tests a=
-nd
-+groups of tests easier, as well as providing helpers to aid in writing new
-+tests.
++可能的用途:
 +
-+If you're looking to verify the behaviour of the Kernel =E2=80=94 particul=
-arly specific
-+parts of the kernel =E2=80=94 then you'll want to use KUnit or kselftest.
++* 调试（用来判断每一行的代码是否已经运行过）
++* 测试改进（如何修改测试代码，尽可能地覆盖到没有运行过的代码）
++* 内核配置优化（对于某一个选项配置，如果关联的代码从来没有运行过，是
++否还需要这个配置）
 +
-+
-+The Difference Between KUnit and kselftest
-+------------------------------------------
-+
-+KUnit (Documentation/dev-tools/kunit/index.rst) is an entirely in-kernel s=
-ystem
-+for "white box" testing: because test code is part of the kernel, it can a=
-ccess
-+internal structures and functions which aren't exposed to userspace.
-+
-+KUnit tests therefore are best written against small, self-contained parts
-+of the kernel, which can be tested in isolation. This aligns well with the
-+concept of 'unit' testing.
-+
-+For example, a KUnit test might test an individual kernel function (or eve=
-n a
-+single codepath through a function, such as an error handling case), rathe=
-r
-+than a feature as a whole.
-+
-+This also makes KUnit tests very fast to build and run, allowing them to b=
-e
-+run frequently as part of the development process.
-+
-+There is a KUnit test style guide which may give further pointers in
-+Documentation/dev-tools/kunit/style.rst
++_gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
++_lcov: http://ltp.sourceforge.net/coverage/lcov.php
 +
 +
-+kselftest (Documentation/dev-tools/kselftest.rst), on the other hand, is
-+largely implemented in userspace, and tests are normal userspace scripts o=
-r
-+programs.
++准备
++-----------
 +
-+This makes it easier to write more complicated tests, or tests which need =
-to
-+manipulate the overall system state more (e.g., spawning processes, etc.).
-+However, it's not possible to call kernel functions directly from kselftes=
-t.
-+This means that only kernel functionality which is exposed to userspace so=
-mhow
-+(e.g. by a syscall, device, filesystem, etc.) can be tested with kselftest=
-.  To
-+work around this, some tests include a companion kernel module which expos=
-es
-+more information or functionality. If a test runs mostly or entirely withi=
-n the
-+kernel, however,  KUnit may be the more appropriate tool.
++内核打开如下配置::
 +
-+kselftest is therefore suited well to tests of whole features, as these wi=
-ll
-+expose an interface to userspace, which can be tested, but not implementat=
-ion
-+details. This aligns well with 'system' or 'end-to-end' testing.
++        CONFIG_DEBUG_FS=y
++        CONFIG_GCOV_KERNEL=y
 +
-+For example, all new system calls should be accompanied by kselftest tests=
-.
++获取整个内核的覆盖率数据，还需要打开::
 +
-+Code Coverage Tools
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++        CONFIG_GCOV_PROFILE_ALL=y
 +
-+The Linux Kernel supports two different code coverage measurement tools. T=
-hese
-+can be used to verify that a test is executing particular functions or lin=
-es
-+of code. This is useful for determining how much of the kernel is being te=
-sted,
-+and for finding corner-cases which are not covered by the appropriate test=
-.
++需要注意的是，整个内核开启覆盖率统计会造成内核镜像文件尺寸的增大，
++同时内核运行的也会变慢一些。
++另外，并不是所有的架构都支持整个内核开启覆盖率统计。
 +
-+:doc:`gcov` is GCC's coverage testing tool, which can be used with the ker=
-nel
-+to get global or per-module coverage. Unlike KCOV, it does not record per-=
-task
-+coverage. Coverage data can be read from debugfs, and interpreted using th=
-e
-+usual gcov tooling.
++代码运行覆盖率数据只在debugfs挂载完成后才可以访问::
 +
-+:doc:`kcov` is a feature which can be built in to the kernel to allow
-+capturing coverage on a per-task level. It's therefore useful for fuzzing =
-and
-+other situations where information about code executed during, for example=
-, a
-+single syscall is useful.
++        mount -t debugfs none /sys/kernel/debug
 +
 +
-+Dynamic Analysis Tools
-+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++客制化
++-------------
 +
-+The kernel also supports a number of dynamic analysis tools, which attempt=
- to
-+detect classes of issues when the occur in a running kernel. These typical=
-ly
-+look for undefined behaviour of some kind, such as invalid memory accesses=
-,
-+concurrency issues such as data races, or other undefined behaviour like
-+integer overflows.
++如果要单独针对某一个路径或者文件进行代码覆盖率统计，可以在内核相应路
++径的Makefile中增加如下的配置:
 +
-+Some of these tools are listed below:
++- 单独统计单个文件（例如main.o）::
 +
-+* kmemleak detects possible memory leaks. See
-+  Documentation/dev-tools/kmemleak.rst
-+* KASAN detects invalid memory accesses such as out-of-bounds and
-+  use-after-free errors. See Documentation/dev-tools/kasan.rst
-+* UBSAN detects behaviour that is undefined by the C standard, like intege=
-r
-+  overflows. See Documentation/dev-tools/ubsan.rst
-+* KCSAN detects data races. See Documentation/dev-tools/kcsan.rst
-+* KFENCE is a low-overhead detector of memory issues, which is much faster=
- than
-+  KASAN and can be used in production. See Documentation/dev-tools/kfence.=
-rst
-+* lockdep is a locking correctness validator. See
-+  Documentation/locking/lockdep-design.rst
-+* There are several other pieces of debug instrumentation in the kernel, m=
-any
-+  of which can be found in lib/Kconfig.debug
++    GCOV_PROFILE_main.o := y
 +
-+These tools tend to test the kernel as a whole, and do not "pass" like
-+kselftest or KUnit tests. They can be combined with KUnit or kselftest by
-+running tests on a kernel with a sanitizer enabled: you can then be sure
-+that none of these errors are occurring during the test.
++- 单独统计某一个路径::
 +
-+Some of these tools integrate with KUnit or kselftest and will
-+automatically fail tests if an issue is detected.
++    GCOV_PROFILE := y
 +
---=20
-2.31.1.295.g9ea45b61b8-goog
++如果要在整个内核的覆盖率统计（开启CONFIG_GCOV_PROFILE_ALL）中单独排除
++某一个文件或者路径，可以使用如下的方法::
++
++    GCOV_PROFILE_main.o := n
++
++和::
++
++    GCOV_PROFILE := n
++
++此机制仅支持链接到内核镜像或编译为内核模块的文件。
++
++
++相关文件
++-------------
++
++gcov功能需要在debugfs中创建如下文件:
++
++``/sys/kernel/debug/gcov``
++    gcov相关功能的根路径
++
++``/sys/kernel/debug/gcov/reset``
++    全局复位文件:向该文件写入数据后会将所有的gcov统计数据清0
++
++``/sys/kernel/debug/gcov/path/to/compile/dir/file.gcda``
++    gcov工具可以识别的覆盖率统计数据文件，向该文件写入数据后
++	会将本文件的gcov统计数据清0
++
++``/sys/kernel/debug/gcov/path/to/compile/dir/file.gcno``
++    gcov工具需要的软连接文件（指向编译时生成的信息统计文件），这个文件是
++    在gcc编译时如果配置了选项``-ftest-coverage``时生成的。
++
++
++针对模块的统计
++---------------
++
++内核中的模块会动态的加载和卸载，模块卸载时对应的数据会被清除掉。
++gcov提供了一种机制，通过保留相关数据的副本来收集这部分卸载模块的覆盖率数据。
++模块卸载后这些备份数据在debugfs中会继续存在。
++一旦这个模块重新加载，模块关联的运行统计会被初始化成debugfs中备份的数据。
++
++可以通过对内核参数gcov_persist的修改来停用gcov对模块的备份机制::
++
++        gcov_persist = 0
++
++在运行时，用户还可以通过写入模块的数据文件或者写入gcov复位文件来丢弃已卸
++载模块的数据。
++
++
++分离的编译和运行设备
++---------------------
++
++gcov的内核分析架构支持内核的编译和分析是在同一台设备上，也可以编译和运
++行是在不同的设备上。
++如果内核编译和运行是不同的设备，那么需要额外的准备工作，这取决于gcov工具
++是在哪里使用的:
++
++a) 若gcov运行在测试设备上
++
++    测试设备上面gcov工具的版本必须要跟设备内核编译使用的gcc版本相兼容，
++    同时下面的文件要从编译设备拷贝到测试设备上:
++
++    从源代码中:
++      - 所有的C文件和头文件
++
++    从编译目录中:
++      - 所有的C文件和头文件
++      - 所有的.gcda文件和.gcno文件
++      - 所有目录的链接
++
++    特别需要注意，测试机器上面的目录结构跟编译机器上面的目录机构必须
++    完全一致。
++    如果文件是软链接，需要替换成真正的目录文件（这是由make的当前工作
++    目录变量CURDIR引起的）。
++
++b) 若gcov运行在编译设备上
++
++    测试用例运行结束后，如下的文件需要从测试设备中拷贝到编译设备上:
++
++    从sysfs中的gcov目录中:
++      - 所有的.gcda文件
++      - 所有的.gcno文件软链接
++
++    这些文件可以拷贝到编译设备的任意目录下，gcov使用-o选项指定拷贝的
++    目录。
++
++    比如一个是示例的目录结构如下::
++
++      /tmp/linux:    内核源码目录
++      /tmp/out:      内核编译文件路径（make O=指定）
++      /tmp/coverage: 从测试机器上面拷贝的数据文件路径
++
++      [user@build] cd /tmp/out
++      [user@build] gcov -o /tmp/coverage/tmp/out/init main.c
++
++
++关于编译器的注意事项
++----------------------
++
++GCC和LLVM gcov工具不一定兼容。
++如果编译器是GCC，使用gcov_来处理.gcno和.gcda文件，如果是Clang编译器，
++则使用llvm-cov_。
++
++_gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
++_llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
++
++GCC和Clang gcov之间的版本差异由Kconfig处理的。
++kconfig会根据编译工具链的检查自动选择合适的gcov格式。
++
++问题定位
++---------------
++
++可能出现的问题1
++    编译到链接阶段报错终止
++
++问题原因
++    分析标志指定在了源文件但是没有链接到主内核，或者客制化了链接程序
++
++解决方法
++    通过在相应的Makefile中使用``GCOV_PROFILE := n``
++    或者``GCOV_PROFILE_basename.o := n``来将链接报错的文件排除掉
++
++可能出现的问题2
++    从sysfs复制的文件显示为空或不完整
++
++问题原因
++    由于seq_file的工作方式，某些工具（例如cp或tar）可能无法正确地从
++    sysfs复制文件。
++
++解决方法
++    使用``cat``读取``.gcda``文件，使用``cp -d``复制链接，或者使用附录B中所示的
++    机制。
++
++
++附录A::collect_on_build.sh
++------------------------------
++
++用于在编译设备上收集覆盖率编译中间数据文件的示例脚本.
++（如下6a示例）
++
++.. code-block:: sh
++
++    #!/bin/bash
++
++    KSRC=$1
++    KOBJ=$2
++    DEST=$3
++
++    if [ -z "$KSRC" ] || [ -z "$KOBJ" ] || [ -z "$DEST" ]; then
++      echo "Usage: $0 <ksrc directory> <kobj directory> <output.tar.gz>" >&2
++      exit 1
++    fi
++
++    KSRC=$(cd $KSRC; printf "all:\n\t@echo \${CURDIR}\n" | make -f -)
++    KOBJ=$(cd $KOBJ; printf "all:\n\t@echo \${CURDIR}\n" | make -f -)
++
++    find $KSRC $KOBJ \( -name '*.gcno' -o -name '*.[ch]' -o -type l \) -a \
++                     -perm /u+r,g+r | tar cfz $DEST -P -T -
++
++    if [ $? -eq 0 ] ; then
++      echo "$DEST successfully created, copy to test system and unpack with:"
++      echo "  tar xfz $DEST -P"
++    else
++      echo "Could not create file $DEST"
++    fi
++
++
++附录B::collect_on_test.sh
++-----------------------------
++
++用于在测试设备上收集覆盖里统计数据数据文件的示例脚本
++（如下6b示例）
++
++.. code-block:: sh
++
++    #!/bin/bash -e
++
++    DEST=$1
++    GCDA=/sys/kernel/debug/gcov
++
++    if [ -z "$DEST" ] ; then
++      echo "Usage: $0 <output.tar.gz>" >&2
++      exit 1
++    fi
++
++    TEMPDIR=$(mktemp -d)
++    echo Collecting data..
++    find $GCDA -type d -exec mkdir -p $TEMPDIR/\{\} \;
++    find $GCDA -name '*.gcda' -exec sh -c 'cat < $0 > '$TEMPDIR'/$0' {} \;
++    find $GCDA -name '*.gcno' -exec sh -c 'cp -d $0 '$TEMPDIR'/$0' {} \;
++    tar czf $DEST -C $TEMPDIR sys
++    rm -rf $TEMPDIR
++
++    echo "$DEST successfully created, copy to build system and unpack with:"
++    echo "  tar xfz $DEST"
+diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
+new file mode 100644
+index 000000000000..28b256ad4257
+--- /dev/null
++++ b/Documentation/translations/zh_CN/dev-tools/index.rst
+@@ -0,0 +1,35 @@
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/dev-tools/index.rst
++:Translator: 赵军奎 Bernard Zhao <bernard@vivo.com>
++
++================================
++内核开发工具
++================================
++
++本文档是有关内核开发工具文档的合集。
++目前这些文档已经整理在一起，不需要再花费额外的精力。
++欢迎任何补丁。
++
++.. class:: toc-title
++
++	   目录
++
++.. toctree::
++   :maxdepth: 2
++
++   gcov
++
++Todolist:
++
++   coccinelle
++   sparse
++   kcov
++   kasan
++   ubsan
++   kmemleak
++   kcsan
++   gdb-kernel-debugging
++   kgdb
++   kselftest
++   kunit/index
+diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
+index be6f11176200..a5e483b0c7f2 100644
+--- a/Documentation/translations/zh_CN/index.rst
++++ b/Documentation/translations/zh_CN/index.rst
+@@ -20,6 +20,7 @@
+    process/index
+    filesystems/index
+    arm64/index
++   dev-tools/index
+ 
+ 目录和表格
+ ----------
+-- 
+2.31.0
 
