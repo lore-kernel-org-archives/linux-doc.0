@@ -2,501 +2,191 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7B4CBC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 08:46:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F021C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 09:21:50 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 43657613CD
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 08:46:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6F8B4613C8
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 09:21:50 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345636AbhDNIqe (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Apr 2021 04:46:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54778 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229766AbhDNIqd (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Apr 2021 04:46:33 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4BFE5613C3;
-        Wed, 14 Apr 2021 08:46:08 +0000 (UTC)
-Date:   Wed, 14 Apr 2021 10:46:05 +0200
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Yury Norov <yury.norov@gmail.com>, linux-api@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Rapoport <rppt@kernel.org>,
-        Aleksa Sarai <cyphar@cyphar.com>
-Subject: Re: [PATCH] Documentation: syscalls: add a note about  ABI-agnostic
- types
-Message-ID: <20210414084605.pdlnjkwa3h47jxno@wittgenstein>
-References: <20210409204304.1273139-1-yury.norov@gmail.com>
- <20210414044020.GA44464@yury-ThinkPad>
- <20210414081422.5a9d0c4b@coco.lan>
+        id S1347352AbhDNJWK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Apr 2021 05:22:10 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55404 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230247AbhDNJWK (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 05:22:10 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13E9ItNg044547;
+        Wed, 14 Apr 2021 05:21:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : content-type :
+ mime-version; s=pp1; bh=EPNGEDtpOfcUlGXIeH34u9IMk2OhUx9OVMDjhXgSY6E=;
+ b=Mw1BLnbOyIU2sHatRI2SBZNld0yBRYHVaQ67Kbjq+5lSA97SjjEuPd+aRZAMZ1JajftM
+ JlCJi+4z/r8ao9qVXNc27E2jqGsU7SYzky+HT0DqQW29nt80AJ9PoXT5AEBY6xyfBAqT
+ JPuVwwpH6qgHA/PVlxSyixN6kAnFZirDu62aFib2lYZz8vRYoXBBSjbBrEq903/ZiXDG
+ WBtmwkyW3Cx8T3KldFxBUzle5njvCvPF3Mgoc9Yg6fPIxj8pCmigjTX795xQfSl7Mhe0
+ Eysm6koq6IxHae/KqJ50Wr9b758FdQGijQSIvNodNWHdOLYb2iRyw5BUrV8Byhg7bJXf ew== 
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 37wwn601fa-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 14 Apr 2021 05:21:45 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+        by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13E9IOl5014673;
+        Wed, 14 Apr 2021 09:21:43 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma03ams.nl.ibm.com with ESMTP id 37u3n8b688-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 14 Apr 2021 09:21:43 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 13E9LIJB28442968
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Apr 2021 09:21:18 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 7B430A4064;
+        Wed, 14 Apr 2021 09:21:40 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BE1AFA4054;
+        Wed, 14 Apr 2021 09:21:37 +0000 (GMT)
+Received: from vajain21.in.ibm.com (unknown [9.85.72.167])
+        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+        Wed, 14 Apr 2021 09:21:37 +0000 (GMT)
+Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Wed, 14 Apr 2021 14:51:36 +0530
+From:   Vaibhav Jain <vaibhav@linux.ibm.com>
+To:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
+        Shivaprasad G Bhat <sbhat@linux.ibm.com>,
+        sbhat@linux.vnet.ibm.com, linuxppc-dev@lists.ozlabs.org,
+        kvm-ppc@vger.kernel.org, linux-nvdimm@lists.01.org,
+        ellerman@au1.ibm.com
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3] powerpc/papr_scm: Implement support for H_SCM_FLUSH
+ hcall
+In-Reply-To: <877dl530id.fsf@linux.ibm.com>
+References: <161703936121.36.7260632399582101498.stgit@e1fbed493c87>
+ <87sg3ujmrm.fsf@vajain21.in.ibm.com> <877dl530id.fsf@linux.ibm.com>
+Date:   Wed, 14 Apr 2021 14:51:36 +0530
+Message-ID: <87o8ehjk67.fsf@vajain21.in.ibm.com>
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: QU2-Dpz_DZFHz8o9MVMVVZ18AoGIeW2Y
+X-Proofpoint-ORIG-GUID: QU2-Dpz_DZFHz8o9MVMVVZ18AoGIeW2Y
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210414081422.5a9d0c4b@coco.lan>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
+ definitions=2021-04-14_06:2021-04-14,2021-04-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ malwarescore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
+ clxscore=1015 priorityscore=1501 impostorscore=0 bulkscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2104060000 definitions=main-2104140060
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 08:14:22AM +0200, Mauro Carvalho Chehab wrote:
-> Em Tue, 13 Apr 2021 21:40:20 -0700
-> Yury Norov <yury.norov@gmail.com> escreveu:
-> 
-> > Ping?
-> > 
-> > On Fri, Apr 09, 2021 at 01:43:04PM -0700, Yury Norov wrote:
-> > > Recently added memfd_secret() syscall had a flags parameter passed
-> > > as unsigned long, which requires creation of compat entry for it.
-> > > It was possible to change the type of flags to unsigned int and so
-> > > avoid bothering with compat layer.
-> > > 
-> > > https://www.spinics.net/lists/linux-mm/msg251550.html
-> > > 
-> > > Documentation/process/adding-syscalls.rst doesn't point clearly about
-> > > preference of ABI-agnostic types. This patch adds such notification.
-> > > 
-> > > Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> > > ---
-> > >  Documentation/process/adding-syscalls.rst | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > > 
-> > > diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-> > > index 9af35f4ec728..46add16edf14 100644
-> > > --- a/Documentation/process/adding-syscalls.rst
-> > > +++ b/Documentation/process/adding-syscalls.rst
-> > > @@ -172,6 +172,13 @@ arguments (i.e. parameter 1, 3, 5), to allow use of contiguous pairs of 32-bit
-> > >  registers.  (This concern does not apply if the arguments are part of a
-> > >  structure that's passed in by pointer.)
-> > >  
-> > > +Whenever possible, try to use ABI-agnostic types for passing parameters to
-> > > +a syscall in order to avoid creating compat entry for it. Linux supports two
-> > > +ABI models - ILP32 and LP64. 
-> 
-> > > + The types like ``void *``, ``long``, ``size_t``,
-> > > +``off_t`` have different size in those ABIs;
-> 
-> In the case of pointers, the best is to use __u64. The pointer can then
-> be read on Kernelspace with something like this:
-> 
-> 	static inline void __user *media_get_uptr(__u64 arg)
-> 	{
-> 		return (void __user *)(uintptr_t)arg;
-> 	}
-> 
-> 
-> > > types like ``char`` and  ``int``
-> > > +have the same size and don't require a compat layer support. For flags, it's
-> > > +always better to use ``unsigned int``.
-> > > +
-> 
-> I don't think this is true for all compilers on userspace, as the C
-> standard doesn't define how many bits an int/unsigned int has. 
-> So, even if this is today's reality, things may change in the future.
-> 
-> For instance, I remember we had to replace "int" and "enum" by "__u32" 
-> and "long" by "__u64" at the media uAPI in the past, when we start
-> seeing x86_64 Kernels with 32-bits userspace and when cameras started 
-> being supported on arm32.
-> 
-> We did have some real bugs with "enum", as, on that time, some
-> compilers (gcc, I guess) were optimizing them to have less than
-> 32 bits on certain architectures, when it fits.
+"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com> writes:
 
-Fwiw, Aleksa and I have written extended syscall documentation
-documenting the agreement that we came to in a dedicated session with a
-wide range of kernel folks during Linux Plumbers last year. We simply
-never had time to actually send this series but fwiw here it is. It also
-mentions the use of correct types. If people feel it's worth it I can
-send as a proper series:
+> Vaibhav Jain <vaibhav@linux.ibm.com> writes:
+>
+>> Hi Shiva,
+>>
+>> Apologies for a late review but something just caught my eye while
+>> working on a different patch.
+>>
+>> Shivaprasad G Bhat <sbhat@linux.ibm.com> writes:
+>>
+>>> Add support for ND_REGION_ASYNC capability if the device tree
+>>> indicates 'ibm,hcall-flush-required' property in the NVDIMM node.
+>>> Flush is done by issuing H_SCM_FLUSH hcall to the hypervisor.
+>>>
+>>> If the flush request failed, the hypervisor is expected to
+>>> to reflect the problem in the subsequent nvdimm H_SCM_HEALTH call.
+>>>
+>>> This patch prevents mmap of namespaces with MAP_SYNC flag if the
+>>> nvdimm requires an explicit flush[1].
+>>>
+>>> References:
+>>> [1] https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c
+>>>
+>>> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+>>> ---
+>>> v2 - https://www.spinics.net/lists/kvm-ppc/msg18799.html
+>>> Changes from v2:
+>>>        - Fixed the commit message.
+>>>        - Add dev_dbg before the H_SCM_FLUSH hcall
+>>>
+>>> v1 - https://www.spinics.net/lists/kvm-ppc/msg18272.html
+>>> Changes from v1:
+>>>        - Hcall semantics finalized, all changes are to accomodate them.
+>>>
+>>>  Documentation/powerpc/papr_hcalls.rst     |   14 ++++++++++
+>>>  arch/powerpc/include/asm/hvcall.h         |    3 +-
+>>>  arch/powerpc/platforms/pseries/papr_scm.c |   40 +++++++++++++++++++++++++++++
+>>>  3 files changed, 56 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
+>>> index 48fcf1255a33..648f278eea8f 100644
+>>> --- a/Documentation/powerpc/papr_hcalls.rst
+>>> +++ b/Documentation/powerpc/papr_hcalls.rst
+>>> @@ -275,6 +275,20 @@ Health Bitmap Flags:
+>>>  Given a DRC Index collect the performance statistics for NVDIMM and copy them
+>>>  to the resultBuffer.
+>>>  
+>>> +**H_SCM_FLUSH**
+>>> +
+>>> +| Input: *drcIndex, continue-token*
+>>> +| Out: *continue-token*
+>>> +| Return Value: *H_SUCCESS, H_Parameter, H_P2, H_BUSY*
+>>> +
+>>> +Given a DRC Index Flush the data to backend NVDIMM device.
+>>> +
+>>> +The hcall returns H_BUSY when the flush takes longer time and the hcall needs
+>>> +to be issued multiple times in order to be completely serviced. The
+>>> +*continue-token* from the output to be passed in the argument list of
+>>> +subsequent hcalls to the hypervisor until the hcall is completely serviced
+>>> +at which point H_SUCCESS or other error is returned by the hypervisor.
+>>> +
+>> Does the hcall semantic also include measures to trigger a barrier/fence
+>> (like pm_wmb()) so that all the stores before the hcall are gauranteed
+>> to have hit the pmem controller ?
+>
+> It is upto the hypervisor to implement the right sequence to ensure the
+> guarantee. The hcall doesn't expect the store to reach the platform
+> buffers.
 
-From 9035258aaa23c5e1bb5bc2242f97221a3e5b9a87 Mon Sep 17 00:00:00 2001
-From: Christian Brauner <christian.brauner@ubuntu.com>
-Date: Fri, 4 Sep 2020 14:27:47 +0200
-Subject: [PATCH 1/6] docs: split extensibility section into two subsections
+Since the asyc_flush function is also called for performing
+deep_flush from libnvdimm and as the hcall doesnt gaurantee stores to
+reach the platform buffers, hence papr_scm_pmem_flush() should issue
+pm_wmb() before the hcall.
 
-The section already explains two different formats that are available to
-extend a syscall. Move each into its own subsection. This clarifies the
-structure and will be useful when we extend each section in follow-up
-patches.
+This would ensure papr_scm_pmem_flush() semantics are consistent that to
+generic_nvdimm_flush().
 
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-Co-developed-by: Aleksa Sarai <cyphar@cyphar.com>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- Documentation/process/adding-syscalls.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+Also, adding the statement "The hcall doesn't expect the store to reach
+the platform buffers" to the hcall documentation would be good to have.
 
-diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-index 906c47f1a9e5..3853ce57e757 100644
---- a/Documentation/process/adding-syscalls.rst
-+++ b/Documentation/process/adding-syscalls.rst
-@@ -65,6 +65,9 @@ together with the corresponding follow-up system calls --
- ``pipe``/``pipe2``, ``renameat``/``renameat2`` -- so
- learn from the history of the kernel and plan for extensions from the start.)
- 
-+Baseline extensibility: adding a flag argument
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
- For simpler system calls that only take a couple of arguments, the preferred
- way to allow for future extensibility is to include a flags argument to the
- system call.  To make sure that userspace programs can safely use flags
-@@ -76,6 +79,9 @@ flags, and reject the system call (with ``EINVAL``) if it does::
- 
- (If no flags values are used yet, check that the flags argument is zero.)
- 
-+Advanced extensibility: extensible structs
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
- For more sophisticated system calls that involve a larger number of arguments,
- it's preferred to encapsulate the majority of the arguments into a structure
- that is passed in by pointer.  Such a structure can cope with future extension
+>
+>
+>>
+>> If not then the papr_scm_pmem_flush() introduced below should issue a
+>> fence like pm_wmb() before issuing the flush hcall.
+>>
+>> If yes then this behaviour should also be documented with the hcall
+>> semantics above.
+>>
+>
+> IIUC fdatasync on the backend file is enough to ensure the
+> guaraantee. Such a request will have REQ_PREFLUSH and REQ_FUA which will
+> do the necessary barrier on the backing device holding the backend file.
+>
+Right, but thats assuming nvdimm is backed by a regular file in
+hypervisor which may not always be the case.
 
-base-commit: e49d033bddf5b565044e2abe4241353959bc9120
+
+> -aneesh
+
 -- 
-2.27.0
-
-From de1b27a0d29ac8edfb19226e3ad0547831f12a97 Mon Sep 17 00:00:00 2001
-From: Christian Brauner <christian.brauner@ubuntu.com>
-Date: Fri, 4 Sep 2020 14:37:53 +0200
-Subject: [PATCH 2/6] docs: require unsigned int as type for flag arguments
-
-This has been an undocumented requirement for quite a long time but people
-still get confused and add system calls that use e.g. unsigned long as flag
-argument. Document the unsigned int requirement for flag arguments.
-
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-Co-developed-by: Aleksa Sarai <cyphar@cyphar.com>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- Documentation/process/adding-syscalls.rst | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-index 3853ce57e757..c08c3a6e7979 100644
---- a/Documentation/process/adding-syscalls.rst
-+++ b/Documentation/process/adding-syscalls.rst
-@@ -70,9 +70,16 @@ Baseline extensibility: adding a flag argument
- 
- For simpler system calls that only take a couple of arguments, the preferred
- way to allow for future extensibility is to include a flags argument to the
--system call.  To make sure that userspace programs can safely use flags
--between kernel versions, check whether the flags value holds any unknown
--flags, and reject the system call (with ``EINVAL``) if it does::
-+system call.  As such, flag arguments function as a baseline for extensibility.
-+
-+Different types such as ``int`` or ``unsigned long`` have been used for flag
-+arguments.  Since this is not just inconsistent but can also lead to issues
-+with sign- and zero extension all new system calls are expected to use
-+``unsigned int`` as type for flag arguments.
-+
-+To make sure that userspace programs can safely use flags between kernel
-+versions, check whether the flags value holds any unknown flags, and reject the
-+system call (with ``EINVAL``) if it does::
- 
-     if (flags & ~(THING_FLAG1 | THING_FLAG2 | THING_FLAG3))
-         return -EINVAL;
--- 
-2.27.0
-
-From 08bc20493242d93c187b8cdcf9c2353e385a2565 Mon Sep 17 00:00:00 2001
-From: Christian Brauner <christian.brauner@ubuntu.com>
-Date: Fri, 4 Sep 2020 14:52:56 +0200
-Subject: [PATCH 3/6] docs: clarify flag value checking a little
-
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-Co-developed-by: Aleksa Sarai <cyphar@cyphar.com>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- Documentation/process/adding-syscalls.rst | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-index c08c3a6e7979..faea347c0ecb 100644
---- a/Documentation/process/adding-syscalls.rst
-+++ b/Documentation/process/adding-syscalls.rst
-@@ -77,14 +77,18 @@ arguments.  Since this is not just inconsistent but can also lead to issues
- with sign- and zero extension all new system calls are expected to use
- ``unsigned int`` as type for flag arguments.
- 
--To make sure that userspace programs can safely use flags between kernel
--versions, check whether the flags value holds any unknown flags, and reject the
--system call (with ``EINVAL``) if it does::
-+A system call doesn't need to support any flags right away to justify adding
-+a flag argument.  If no flags are supported yet, the new system call needs
-+to check that the flag argument is zero and to return ``EINVAL`` if it is not::
- 
--    if (flags & ~(THING_FLAG1 | THING_FLAG2 | THING_FLAG3))
-+    if (flags)
-         return -EINVAL;
- 
--(If no flags values are used yet, check that the flags argument is zero.)
-+Similarly, if flags are supported the system call needs to check that no
-+unknown flag values are present and return ``EINVAL`` if there are::
-+
-+    if (flags & ~(THING_FLAG1 | THING_FLAG2 | THING_FLAG3))
-+        return -EINVAL;
- 
- Advanced extensibility: extensible structs
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- 
-2.27.0
-
-From 35745a05b7d7350f2039b7d868e52f6c306f7c8e Mon Sep 17 00:00:00 2001
-From: Christian Brauner <christian.brauner@ubuntu.com>
-Date: Fri, 4 Sep 2020 15:39:38 +0200
-Subject: [PATCH 4/6] docs: extend section about extensible structs
-
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-Co-developed-by: Aleksa Sarai <cyphar@cyphar.com>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- Documentation/process/adding-syscalls.rst | 88 +++++++++++++++++------
- 1 file changed, 68 insertions(+), 20 deletions(-)
-
-diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-index faea347c0ecb..875e32bbabac 100644
---- a/Documentation/process/adding-syscalls.rst
-+++ b/Documentation/process/adding-syscalls.rst
-@@ -65,6 +65,7 @@ together with the corresponding follow-up system calls --
- ``pipe``/``pipe2``, ``renameat``/``renameat2`` -- so
- learn from the history of the kernel and plan for extensions from the start.)
- 
-+
- Baseline extensibility: adding a flag argument
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
-@@ -90,34 +91,81 @@ unknown flag values are present and return ``EINVAL`` if there are::
-     if (flags & ~(THING_FLAG1 | THING_FLAG2 | THING_FLAG3))
-         return -EINVAL;
- 
-+
- Advanced extensibility: extensible structs
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- For more sophisticated system calls that involve a larger number of arguments,
--it's preferred to encapsulate the majority of the arguments into a structure
--that is passed in by pointer.  Such a structure can cope with future extension
--by including a size argument in the structure::
--
--    struct xyzzy_params {
--        u32 size; /* userspace sets p->size = sizeof(struct xyzzy_params) */
--        u32 param_1;
--        u64 param_2;
--        u64 param_3;
-+it's preferred to encapsulate the majority of the arguments into an extensible
-+structure that is passed in by pointer.
-+
-+Extensible structs are versioned by their size.  For any new non-flag based
-+extension a new field has to be added to the end of the extensible struct.  The
-+zero value of the new field must not have any meaning so the system call can
-+continue to display the old behavior.
-+
-+Extensible struct system calls can and should use the dedicated
-+``copy_struct_from_user`` API which enforces the following behavior:
-+
-+ - The kernel will reject any size that is smaller than the initially supported
-+   size of the extensible struct.
-+ - If the extensible struct size the kernel knows about is equal to the size
-+   passed in from userspace then ``copy_struct_from_user`` will copy the struct
-+   verbatim.
-+ - If the extensible struct size the kernel knows about is larger than the size
-+   passed in from userspace the kernel will copy the size userspace indicated
-+   and treat all additional extensions it knows about as zero.
-+ - If the extensible struct size the kernel knows about is smaller than the
-+   size passed in from userspace the kernel will copy the number of bytes it
-+   knows about and verify that all trailing bytes are zero.  If non-zero bytes
-+   are present the kernel returns ``E2BIG``.  While not an intuitive error code
-+   at first, ``E2BIG`` means that the argument list is too long.
-+
-+Early examples for extensible struct system calls include
-+:manpage:`perf_event_open(2)` and :manpage:`sched_setattr(2)`.  These system
-+calls implement mostly similar behavior even before the introduction of
-+``copy_struct_from_user`` but have since been switched over to it.  Newer
-+examples include :manpage:`clone3(2)` and :manpage:`openat2(2)`.
-+
-+The size associated with an extensible struct can either be passed as
-+a separate argument in the system call as is e.g. done for :manpage:`clone3(2)`
-+and :manpage:`openat2(2)`.  Alternatively, the size can be passed as the first
-+field in the extensible struct as is e.g. done for :manpage:`sched_setattr(2)`.
-+
-+Any struct passed from userspace to the kernel and especially extensible
-+structs must ensure that they are correctly padded.  This ensures that no data
-+can be leaked on accident or on purpose by an attacker from the kernel.  The
-+easiest way to ensure that a struct is correctly padded is to always use 64 bit
-+fields::
-+
-+    struct sys_foo_args {
-+        __aligned_u64 arg1;
-+        __aligned_u64 arg2;
-+        __aligned_u64 arg3;
-+        __aligned_u64 arg4;
-+        __aligned_u64 arg5;
-     };
- 
--As long as any subsequently added field, say ``param_4``, is designed so that a
--zero value gives the previous behaviour, then this allows both directions of
--version mismatch:
-+System calls that need to worry about the size of their extensible structs or
-+need fields to be of a specific size can rely on careful manual struct
-+packing::
-+
-+    struct sys_foo_args {
-+        __u32 arg1;
-+        __u16 arg2;
-+        __u16 arg3;
-+        __u32 arg4;
-+        __u32 arg5;
-+        __u64 arg6;
-+    };
- 
-- - To cope with a later userspace program calling an older kernel, the kernel
--   code should check that any memory beyond the size of the structure that it
--   expects is zero (effectively checking that ``param_4 == 0``).
-- - To cope with an older userspace program calling a newer kernel, the kernel
--   code can zero-extend a smaller instance of the structure (effectively
--   setting ``param_4 = 0``).
-+(There are tools such as ``pahole`` available that allow to check whether
-+a struct is correctly padded!)
- 
--See :manpage:`perf_event_open(2)` and the ``perf_copy_attr()`` function (in
--``kernel/events/core.c``) for an example of this approach.
-+Note that in contrast to flag arguments passed as register arguments flag
-+arguments in extensible structures can be 64 bit wide.  As with simple
-+flag-only system calls, the system call needs to verify any unknown values for
-+flag-like fields in the passed struct are zeroed.
- 
- 
- Designing the API: Other Considerations
--- 
-2.27.0
-
-From 92d48ab239e28f56d1d685ca1f1618aef08e7fe6 Mon Sep 17 00:00:00 2001
-From: Christian Brauner <christian.brauner@ubuntu.com>
-Date: Fri, 4 Sep 2020 15:57:36 +0200
-Subject: [PATCH 5/6] docs: document how to name revised syscalls
-
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-Co-developed-by: Aleksa Sarai <cyphar@cyphar.com>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- Documentation/process/adding-syscalls.rst | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
-
-diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-index 875e32bbabac..663d1b768121 100644
---- a/Documentation/process/adding-syscalls.rst
-+++ b/Documentation/process/adding-syscalls.rst
-@@ -168,6 +168,28 @@ flag-only system calls, the system call needs to verify any unknown values for
- flag-like fields in the passed struct are zeroed.
- 
- 
-+Designing the API: Revisions of syscalls
-+-----------------------------------------------
-+
-+System calls that were not designed to be extensible or system calls that use
-+a flag argument for extensions running out of bits (e.g. :manpage:`clone(2)`)
-+sometimes need to be replaced.
-+
-+If the revised system call provides a superset (or a reasonably large subset,
-+such as when a feature that turned out to be a design mistake is dropped) of
-+the features of the old system call, it is common practice to give it the same
-+name with a number appended.  Examples for this include ``dup2``/``dup3``,
-+``epoll_create``/``epoll_create1`` and others.
-+
-+For some syscalls the appended number indicates the number of arguments
-+(``accept``/``accept4``) for others the number of the revision
-+(``clone``/``clone3``, ``epoll_create``/``epoll_create1``).  New system calls
-+that are a revision of an earlier system call should treat the appended number
-+as the number of the revision.  For example, if you were to add a revised
-+version of ``readlinkat`` with an additional flag argument it should be named
-+``readlinkat2``.
-+
-+
- Designing the API: Other Considerations
- ---------------------------------------
- 
--- 
-2.27.0
-
-From 0f61fcb2949170532283048e8ac0d8e3c16305db Mon Sep 17 00:00:00 2001
-From: Christian Brauner <christian.brauner@ubuntu.com>
-Date: Fri, 4 Sep 2020 17:06:05 +0200
-Subject: [PATCH 6/6] docs: add section about multiplexers
-
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-Signed-off-by: Aleksa Sarai <cyphar@cyphar.com>
-Co-developed-by: Aleksa Sarai <cyphar@cyphar.com>
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- Documentation/process/adding-syscalls.rst | 39 +++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
-
-diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-index 663d1b768121..ef1fa5fb223d 100644
---- a/Documentation/process/adding-syscalls.rst
-+++ b/Documentation/process/adding-syscalls.rst
-@@ -51,6 +51,45 @@ interface.
-    getting/setting a simple flag related to a process.
- 
- 
-+Designing the API: No more multiplexers
-+---------------------------------------
-+
-+New system calls are not allowed to be multiplexers.  The kernel strongly
-+encourages simple system call designs.
-+
-+The kernel has historically supported multiplexing system calls but both the
-+kernel and userspace have learned the hard way that this is usually
-+a significant design mistake.  The list of actively supported multiplexing
-+system calls ranges from domain specific multiplexers such as
-+:manpage:`seccomp(2)` or :manpage:`keyctl(2)` to more generic multiplexers such
-+as :manpage:`prctl(2)` and :manpage:`ptrace(2)`, up to ``ioctl``, a generic
-+multiplexer not bound to any specific API or functionality.  In essence,
-+a multiplexing system call often implements the functionality of multiple
-+simple system calls.
-+
-+Multiplexers are especially problematic when they are type-polymorph. This
-+includes all multiplexers that pass different types through a void pointer,
-+a ``long``, or a union using a specific argument to differentiate the type or
-+the member of the union to look at.  The ``ioctl`` multiplexer is a prime
-+example of a type-polymorph multiplexer.  Depending on the second argument
-+passed to ``ioctl`` different types can be passed as the third argument.  Some
-+multiplexers, including ``ioctl``, :manpage:`prctl(2)`, or :manpage:`fcntl(2)`
-+even pass a different number of arguments depending on the command that is
-+executed.
-+
-+Multiplexers also pose significant problems for userspace libraries:
-+
-+ - Type safety is lost for the most part.
-+ - There are no real advantages in terms of useability.  In fact, userspace
-+   libraries do consider exposing the commands implemented by a system call as
-+   separate library calls.
-+ - Multiplexers provide problems for 32 bit systems on 64 bit kernels.  They
-+   can for example cause breakage with ILP32 (i.e. I-ntegers, L-ongs, and
-+   P-ointers are 32 bit wide) targets when types are not promoted correctly for
-+   use with the kernel/userspace ABI.  Getting this wrong is easier than
-+   getting it right.
-+
-+
- Designing the API: Planning for Extension
- -----------------------------------------
- 
--- 
-2.27.0
-
+Cheers
+~ Vaibhav
