@@ -2,161 +2,430 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D81C5C433ED
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 23:27:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0221C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 00:22:48 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A1A1361163
-	for <linux-doc@archiver.kernel.org>; Tue, 13 Apr 2021 23:27:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B821061249
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 00:22:48 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346454AbhDMX1x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 19:27:53 -0400
-Received: from mx.kolabnow.com ([95.128.36.41]:26246 "EHLO mx.kolabnow.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230123AbhDMX1w (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Apr 2021 19:27:52 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTP id 13C0AA38;
-        Wed, 14 Apr 2021 01:27:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        in-reply-to:content-disposition:content-type:content-type
-        :mime-version:references:message-id:subject:subject:from:from
-        :date:date:received:received:received; s=dkim20160331; t=
-        1618356449; x=1620170850; bh=eLf25vYXZExxa3WxKUbXJtp107ajvzcDXk7
-        MFsei6WA=; b=GXej5pwiOJWUlAVJdzyozEUA9KG9vtCTd9UsQllETSSB86xJ14Q
-        tFmDWQAtYng9P/dc6wiR/g5bm/6gwCMZNdreT5al9iHcE2c82aADojuNQjB2Bewo
-        mblJ8sjGAOif6iuo3th7Ji2aTpoVsXzIMvPcv5/zWOZTefrswT2YT10IAZtqpjjd
-        a8nO1U6/VMbTcsrEzD1IxBkOMFgYHWIy71RPZW3nG20nknOROH/rUca4c9c/VJn8
-        9ey2FpQgb5KvBw/++fK45uZTLIArzj+vbMhJOlyYfBpD0I/Iv3DYN3nZo9Y5sCNz
-        Rn6xnF3hKLiypo8BWA3TpaOmmXGatnFeWlUH7llohPYmItmgO0ctcv0zKq/p55aH
-        wSI1QnMwEOiB/sEtmVAlUDFltdhJ4k4cwVcvg2YFEa7o70ghjPMG3bcrAzY9qNa0
-        7tTsGdWlxPPYuFlmox9aUWyjRVS3sbE/3zM+AcOMgstTG+5V5F7KiO53EYndnTD/
-        04oKBnPedUaL2ouXBd8cbTdLJj6WCmNeP6ctSp2N4icnxK3Ja/LB49FZi7GD5UfL
-        GnicBqofz76LASlS1id3qoLnFiYiOaC6rJzNM4NDpJKMq7Bkw0oX4vuSLGCGqeqS
-        f8EKZiVgFGU6Gc83abBU8Zpx+1XYOMIUmk0mgCMcuWbxGVCkt15l/oOo=
-X-Virus-Scanned: amavisd-new at mykolab.com
-Received: from mx.kolabnow.com ([127.0.0.1])
-        by localhost (ext-mx-out002.mykolab.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id RwaDGGNmyOLk; Wed, 14 Apr 2021 01:27:29 +0200 (CEST)
-Received: from int-mx001.mykolab.com (unknown [10.9.13.1])
-        by ext-mx-out002.mykolab.com (Postfix) with ESMTPS id 203FD891;
-        Wed, 14 Apr 2021 01:27:28 +0200 (CEST)
-Received: from ext-subm003.mykolab.com (unknown [10.9.6.3])
-        by int-mx001.mykolab.com (Postfix) with ESMTPS id 30BBE351;
-        Wed, 14 Apr 2021 01:27:26 +0200 (CEST)
-Date:   Wed, 14 Apr 2021 01:27:23 +0200
-From:   Federico Vaga <federico.vaga@vaga.pv.it>
-To:     Wu XiangCheng <bobwxc@email.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Tsugikazu Shibata <tshibata@ab.jp.nec.com>,
-        SeongJae Park <sjpark@amazon.de>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC 0/2] Add a new translation tool scripts/trslt.py
-Message-ID: <20210413232722.lzbex2cwifdd5cm2@numero86.vaga.pv.it>
-References: <cover.1618208899.git.bobwxc@email.cn>
+        id S230493AbhDNAXI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 20:23:08 -0400
+Received: from mail-wr1-f51.google.com ([209.85.221.51]:45812 "EHLO
+        mail-wr1-f51.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230209AbhDNAXH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 20:23:07 -0400
+Received: by mail-wr1-f51.google.com with SMTP id h4so9095213wrt.12;
+        Tue, 13 Apr 2021 17:22:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=DVltrcx0HkNnOWTWTK7Ne88KoI5nuymfgBWzr5ijDWc=;
+        b=GwZn/OoM6u7XtYBh7fkLr0aZXH12DM1VsbuLaHSUTKk0+hA25TQAEGN4a5Ld8JZSll
+         oyd+cXJlMTI+LzNjeUaHeWgEKG+JXgfej1COY3IqdUcQarN8EKoitWp1iyaHrwCEg9V6
+         sL35ND3pYwJKBKR4afgB08bMQwU5mkR5Vn9Gr91pwI9+0NzmzRpZY4YCT7yl84hOiV5c
+         Q1C8BiOUjvAIXFmH4zBh6IwKi/ffXpOYki7UE+6KY5YzF+453BgTdNjBm1bxgQ/SrvyV
+         I1JQJYaGum2CPVm8NgXMwtJ+NRjeIQ9zdWMAJR9saP+Q/K87GzVkP97Q8z9hjRGJ0vIS
+         F7gA==
+X-Gm-Message-State: AOAM530cj6VeRqU9uHEuQ42cYBM50K98SFQU6TFC7bKgjinj2f54q5wt
+        E+QzMczLWwQVzQ9IAn2QLMW12sa+MXHHwR7K
+X-Google-Smtp-Source: ABdhPJw7++jwlc0OdkA4YfNGmQS81Q5zDVG3/xLBHgDnWPcaH1wg5UQukue0ALzjZBAHLNQwsw1ZaQ==
+X-Received: by 2002:adf:a1cd:: with SMTP id v13mr6423055wrv.332.1618359766417;
+        Tue, 13 Apr 2021 17:22:46 -0700 (PDT)
+Received: from localhost ([2a02:8308:387:c900:a7b5:b859:9449:c07b])
+        by smtp.gmail.com with ESMTPSA id m26sm3735651wmg.17.2021.04.13.17.22.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Apr 2021 17:22:45 -0700 (PDT)
+From:   =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>
+Cc:     =?UTF-8?q?V=C3=A1clav=20Kubern=C3=A1t?= <kubernat@cesnet.cz>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v5] hwmon: Add driver for fsp-3y PSUs and PDUs
+Date:   Wed, 14 Apr 2021 02:13:06 +0200
+Message-Id: <20210414001308.3434548-1-kubernat@cesnet.cz>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210329143833.1047539-1-kubernat@cesnet.cz>
+References: <20210329143833.1047539-1-kubernat@cesnet.cz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <cover.1618208899.git.bobwxc@email.cn>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi,
+This patch adds support for these devices:
+- YH-5151E - the PDU
+- YM-2151E - the PSU
 
-Yes, you are touching a good point where things can be improved. I admit that I
-did not have a look at the code yet, if not very quickly. Perhaps I'm missing
-somethin. However, let me give you my two cents based on what I usually do.
+The device datasheet says that the devices support PMBus 1.2, but in my
+testing, a lot of the commands aren't supported and if they are, they
+sometimes behave strangely or inconsistently. For example, writes to the
+PAGE command requires using PEC, otherwise the write won't work and the
+page won't switch, even though, the standard says that PEC is optional.
+On the other hand, writes to SMBALERT don't require PEC. Because of
+this, the driver is mostly reverse engineered with the help of a tool
+called pmbus_peek written by David Brownell (and later adopted by my
+colleague Jan Kundrát).
 
-I do not like the idea of adding tags to the file and having tools to modify it.
-I would prefer to keep the text as clean as possible.
+The device also has some sort of a timing issue when switching pages,
+which is explained further in the code.
 
-Instead, what can be done without touching manipulating the text file is to do
-something like this:
+Because of this, the driver support is limited. It exposes only the
+values, that have been tested to work correctly.
 
-# Take the commit ID of the last time a document has translated
-LAST_TRANS=$(git log -n 1 --oneline Documentation/translations/<lang>/<path-to-file> | cut -d " " -f 1)
+Signed-off-by: Václav Kubernát <kubernat@cesnet.cz>
+---
+ Documentation/hwmon/fsp-3y.rst |  26 ++++
+ Documentation/hwmon/index.rst  |   1 +
+ drivers/hwmon/pmbus/Kconfig    |  10 ++
+ drivers/hwmon/pmbus/Makefile   |   1 +
+ drivers/hwmon/pmbus/fsp-3y.c   | 251 +++++++++++++++++++++++++++++++++
+ 5 files changed, 289 insertions(+)
+ create mode 100644 Documentation/hwmon/fsp-3y.rst
+ create mode 100644 drivers/hwmon/pmbus/fsp-3y.c
 
-# Take the history of the same file in the main Documentation tree
-git log --oneline $LAST_TRANS..doc/docs-next Documentation/<path-to-file>
-
-This will give you the list of commits that changed <path-to-file>, and that
-probably need to be translated. The problem of this approach is that by the time
-you submit a translation, other people may change the very same files. The
-correctness of this approach depends on patch order in docs-next, and this can't
-be guaranteed.
-
-So, instead of reling on LAST_DIR, I rely on a special git branch that acts as
-marker. But this works only for me and not for other translator of the same
-languages, so you can get troubles also in this case.
-
-What we can actually do is to exploit the git commit message to store the tag
-you mentioned. Hence, we can get the last Id with something like this:
-
-LAST_ID=$(git log -n 1 Documentation/translations/<lang>/<path-to-file> | grep -E "Translated-on-top-of: commit [0-9a-f]{12}")
-
-The ID we store in the tag does not need to be the commit ID of the last change
-to <path-to-file>, but just the commit on which you were when you did the
-translation. This because it will simplify the management of this tag when
-translating multiple files/patches in a single patch (to avoid to spam the
-mailing list with dozens of small patches).
-
-On Mon, Apr 12, 2021 at 03:04:03PM +0800, Wu XiangCheng wrote:
->Hi all,
->
->This set of patches aim to add a new translation tool - trslt.py, which
->can control the transltions version corresponding to source files.
->
->For a long time, kernel documentation translations lacks a way to control the
->version corresponding to the source files. If you translate a file and then
->someone updates the source file, there will be a problem. It's hard to know
->which version the existing translation corresponds to, and even harder to sync
->them.
->
->The common way now is to check the date, but this is not exactly accurate,
->especially for documents that are often updated. And some translators write
->corresponding commit ID in the commit log for reference, it is a good way,
->but still a little troublesome.
->
->Thus, the purpose of ``trslt.py`` is to add a new annotating tag to the file
->to indicate corresponding version of the source file::
->
->.. translation_origin_commit: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
->
->The script will automatically copy file and generate tag when creating new
->translation, and give update suggestions based on those tags when updating
->translations.
->
->More details please read doc in [Patch 2/2].
->
->Still need working:
->- improve verbose mode
->- test on more python 3.x version
->- only support linux now, need test on Mac OS, nonsupport Windows
->  due to '\'
->
->Any suggestion is welcome!
->
->Thanks!
->
->Wu XiangCheng (2):
->  scripts: Add new translation tool trslt.py
->  docs: doc-guide: Add document for scripts/trslt.py
->
-> Documentation/doc-guide/index.rst |   1 +
-> Documentation/doc-guide/trslt.rst | 233 ++++++++++++++++++++++++++
-> scripts/trslt.py                  | 267 ++++++++++++++++++++++++++++++
-> 3 files changed, 501 insertions(+)
-> create mode 100644 Documentation/doc-guide/trslt.rst
-> create mode 100755 scripts/trslt.py
->
->-- 
->2.20.1
->
-
+diff --git a/Documentation/hwmon/fsp-3y.rst b/Documentation/hwmon/fsp-3y.rst
+new file mode 100644
+index 000000000000..fc87d4686032
+--- /dev/null
++++ b/Documentation/hwmon/fsp-3y.rst
+@@ -0,0 +1,26 @@
++Kernel driver fsp3y
++======================
++Supported devices:
++  * 3Y POWER YH-5151E
++  * 3Y POWER YM-2151E
++
++Author: Václav Kubernát <kubernat@cesnet.cz>
++
++Description
++-----------
++This driver implements limited support for two 3Y POWER devices.
++
++Sysfs entries
++-------------
++  * in1_input            input voltage
++  * in2_input            12V output voltage
++  * in3_input            5V output voltage
++  * curr1_input          input current
++  * curr2_input          12V output current
++  * curr3_input          5V output current
++  * fan1_input           fan rpm
++  * temp1_input          temperature 1
++  * temp2_input          temperature 2
++  * temp3_input          temperature 3
++  * power1_input         input power
++  * power2_input         output power
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index fcb870ce6286..55c9f014c248 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -63,6 +63,7 @@ Hardware Monitoring Kernel Drivers
+    f71805f
+    f71882fg
+    fam15h_power
++   fsp-3y
+    ftsteutates
+    g760a
+    g762
+diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+index 03606d4298a4..9d12d446396c 100644
+--- a/drivers/hwmon/pmbus/Kconfig
++++ b/drivers/hwmon/pmbus/Kconfig
+@@ -56,6 +56,16 @@ config SENSORS_BEL_PFE
+ 	  This driver can also be built as a module. If so, the module will
+ 	  be called bel-pfe.
+ 
++config SENSORS_FSP_3Y
++	tristate "FSP/3Y-Power power supplies"
++	help
++	  If you say yes here you get hardware monitoring support for
++	  FSP/3Y-Power hot-swap power supplies.
++	  Supported models: YH-5151E, YM-2151E
++
++	  This driver can also be built as a module. If so, the module will
++	  be called fsp-3y.
++
+ config SENSORS_IBM_CFFPS
+ 	tristate "IBM Common Form Factor Power Supply"
+ 	depends on LEDS_CLASS
+diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+index 6a4ba0fdc1db..bfe218ad898f 100644
+--- a/drivers/hwmon/pmbus/Makefile
++++ b/drivers/hwmon/pmbus/Makefile
+@@ -8,6 +8,7 @@ obj-$(CONFIG_SENSORS_PMBUS)	+= pmbus.o
+ obj-$(CONFIG_SENSORS_ADM1266)	+= adm1266.o
+ obj-$(CONFIG_SENSORS_ADM1275)	+= adm1275.o
+ obj-$(CONFIG_SENSORS_BEL_PFE)	+= bel-pfe.o
++obj-$(CONFIG_SENSORS_FSP_3Y)	+= fsp-3y.o
+ obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
+ obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
+ obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+diff --git a/drivers/hwmon/pmbus/fsp-3y.c b/drivers/hwmon/pmbus/fsp-3y.c
+new file mode 100644
+index 000000000000..af58f9950f3d
+--- /dev/null
++++ b/drivers/hwmon/pmbus/fsp-3y.c
+@@ -0,0 +1,251 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Hardware monitoring driver for FSP 3Y-Power PSUs
++ *
++ * Copyright (c) 2021 Václav Kubernát, CESNET
++ *
++ * This driver is mostly reverse engineered with the help of a tool called pmbus_peek written by
++ * David Brownell (and later adopted by Jan Kundrát). The device has some sort of a timing issue
++ * when switching pages, details are explained in the code. The driver support is limited. It
++ * exposes only the values, that have been tested to work correctly. Unsupported values either
++ * aren't supported by the devices or their encondings are unknown.
++ */
++
++#include <linux/delay.h>
++#include <linux/i2c.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include "pmbus.h"
++
++#define YM2151_PAGE_12V_LOG	0x00
++#define YM2151_PAGE_12V_REAL	0x00
++#define YM2151_PAGE_5VSB_LOG	0x01
++#define YM2151_PAGE_5VSB_REAL	0x20
++#define YH5151E_PAGE_12V_LOG	0x00
++#define YH5151E_PAGE_12V_REAL	0x00
++#define YH5151E_PAGE_5V_LOG	0x01
++#define YH5151E_PAGE_5V_REAL	0x10
++#define YH5151E_PAGE_3V3_LOG	0x02
++#define YH5151E_PAGE_3V3_REAL	0x11
++
++enum chips {
++	ym2151e,
++	yh5151e
++};
++
++struct fsp3y_data {
++	struct pmbus_driver_info info;
++	int chip;
++	int page;
++};
++
++#define to_fsp3y_data(x) container_of(x, struct fsp3y_data, info)
++
++static int page_log_to_page_real(int page_log, enum chips chip)
++{
++	switch (chip) {
++	case ym2151e:
++		switch (page_log) {
++		case YM2151_PAGE_12V_LOG:
++			return YM2151_PAGE_12V_REAL;
++		case YM2151_PAGE_5VSB_LOG:
++			return YM2151_PAGE_5VSB_REAL;
++		}
++		return -EINVAL;
++	case yh5151e:
++		switch (page_log) {
++		case YH5151E_PAGE_12V_LOG:
++			return YH5151E_PAGE_12V_REAL;
++		case YH5151E_PAGE_5V_LOG:
++			return YH5151E_PAGE_5V_LOG;
++		case YH5151E_PAGE_3V3_LOG:
++			return YH5151E_PAGE_3V3_REAL;
++		}
++		return -EINVAL;
++	}
++
++	return -EINVAL;
++}
++
++static int set_page(struct i2c_client *client, int page_log)
++{
++	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
++	struct fsp3y_data *data = to_fsp3y_data(info);
++	int rv;
++	int page_real;
++
++	if (page_log < 0)
++		return 0;
++
++	page_real = page_log_to_page_real(page_log, data->chip);
++	if (page_real < 0)
++		return page_real;
++
++	if (data->page != page_real) {
++		rv = i2c_smbus_write_byte_data(client, PMBUS_PAGE, page_real);
++		if (rv < 0)
++			return rv;
++
++		data->page = page_real;
++
++		/*
++		 * Testing showed that the device has a timing issue. After
++		 * setting a page, it takes a while, before the device actually
++		 * gives the correct values from the correct page. 20 ms was
++		 * tested to be enough to not give wrong values (15 ms wasn't
++		 * enough).
++		 */
++		usleep_range(20000, 30000);
++	}
++
++	return 0;
++}
++
++static int fsp3y_read_byte_data(struct i2c_client *client, int page, int reg)
++{
++	int rv;
++
++	rv = set_page(client, page);
++	if (rv < 0)
++		return rv;
++
++	return i2c_smbus_read_byte_data(client, reg);
++}
++
++static int fsp3y_read_word_data(struct i2c_client *client, int page, int phase, int reg)
++{
++	int rv;
++
++	/*
++	 * This masks commands which weren't tested to work correctly. Some of
++	 * the masked commands return 0xFFFF. These would probably get tagged as
++	 * invalid by pmbus_core. Other ones do return values which might be
++	 * useful (that is, they are not 0xFFFF), but their encoding is unknown,
++	 * and so they are unsupported.
++	 */
++	switch (reg) {
++	case PMBUS_READ_FAN_SPEED_1:
++	case PMBUS_READ_IIN:
++	case PMBUS_READ_IOUT:
++	case PMBUS_READ_PIN:
++	case PMBUS_READ_POUT:
++	case PMBUS_READ_TEMPERATURE_1:
++	case PMBUS_READ_TEMPERATURE_2:
++	case PMBUS_READ_TEMPERATURE_3:
++	case PMBUS_READ_VIN:
++	case PMBUS_READ_VOUT:
++	case PMBUS_STATUS_WORD:
++		break;
++	default:
++		return -ENXIO;
++	}
++
++	rv = set_page(client, page);
++	if (rv < 0)
++		return rv;
++
++	return i2c_smbus_read_word_data(client, reg);
++}
++
++struct pmbus_driver_info fsp3y_info[] = {
++	[ym2151e] = {
++		.pages = 2,
++		.func[YM2151_PAGE_12V_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_PIN | PMBUS_HAVE_POUT  |
++			PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
++			PMBUS_HAVE_VIN | PMBUS_HAVE_IIN |
++			PMBUS_HAVE_FAN12,
++		.func[YM2151_PAGE_5VSB_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT,
++			PMBUS_HAVE_IIN,
++		.read_word_data = fsp3y_read_word_data,
++		.read_byte_data = fsp3y_read_byte_data,
++	},
++	[yh5151e] = {
++		.pages = 3,
++		.func[YH5151E_PAGE_12V_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_POUT  |
++			PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 | PMBUS_HAVE_TEMP3,
++		.func[YH5151E_PAGE_5V_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_POUT,
++		.func[YH5151E_PAGE_3V3_LOG] =
++			PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
++			PMBUS_HAVE_POUT,
++		.read_word_data = fsp3y_read_word_data,
++		.read_byte_data = fsp3y_read_byte_data,
++	}
++};
++
++static int fsp3y_detect(struct i2c_client *client)
++{
++	int rv;
++	u8 buf[I2C_SMBUS_BLOCK_MAX + 1];
++
++	rv = i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
++	if (rv < 0)
++		return rv;
++
++	buf[rv] = '\0';
++
++	if (rv == 8) {
++		if (!strcmp(buf, "YM-2151E"))
++			return ym2151e;
++		else if (!strcmp(buf, "YH-5151E"))
++			return yh5151e;
++	}
++
++	dev_err(&client->dev, "Unsupported model %.*s\n", rv, buf);
++	return -ENODEV;
++}
++
++static const struct i2c_device_id fsp3y_id[] = {
++	{"ym2151e", ym2151e},
++	{"yh5151e", yh5151e}
++};
++
++static int fsp3y_probe(struct i2c_client *client)
++{
++	struct fsp3y_data *data;
++	const struct i2c_device_id *id;
++	int rv;
++
++	data = devm_kzalloc(&client->dev, sizeof(struct fsp3y_data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	data->chip = fsp3y_detect(client);
++	if (data->chip < 0)
++		return data->chip;
++
++	id = i2c_match_id(fsp3y_id, client);
++	if (data->chip != id->driver_data)
++		dev_warn(&client->dev, "Device mismatch: Configured %s (%d), detected %d\n", id->name, (int)id->driver_data, data->chip);
++
++	rv = i2c_smbus_read_byte_data(client, PMBUS_PAGE);
++	if (rv < 0)
++		return rv;
++	data->page = rv;
++
++	data->info = fsp3y_info[data->chip];
++
++	return pmbus_do_probe(client, &data->info);
++}
++
++MODULE_DEVICE_TABLE(i2c, fsp3y_id);
++
++static struct i2c_driver fsp3y_driver = {
++	.driver = {
++		   .name = "fsp3y",
++		   },
++	.probe_new = fsp3y_probe,
++	.id_table = fsp3y_id
++};
++
++module_i2c_driver(fsp3y_driver);
++
++MODULE_AUTHOR("Václav Kubernát");
++MODULE_DESCRIPTION("PMBus driver for FSP/3Y-Power power supplies");
++MODULE_LICENSE("GPL");
+-- 
+2.31.1
 
