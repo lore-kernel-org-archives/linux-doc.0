@@ -2,169 +2,123 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-17.5 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_2
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 559AAC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 05:21:05 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8567FC43462
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 06:14:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 31E036120E
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 05:21:05 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 64C7360FD8
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 06:14:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237952AbhDNFVY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Apr 2021 01:21:24 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43594 "EHLO
-        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1347126AbhDNFVX (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 01:21:23 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13E53Gq6095394;
-        Wed, 14 Apr 2021 01:20:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : in-reply-to : references : date : message-id : content-type :
- mime-version; s=pp1; bh=+vwG3u3iIJPG/PKR7v/p3EeHOl8MGusq6Iepzq3DwWU=;
- b=d4TX/QcPMfADRL9KVfaRYfODhn4FsZ2yB3WSPGXXB4nFc2beLvn30zwl+oklMmtt6mSR
- 11PYEgFTpFXqkKHLdAmMT6sGMvv0r6cBTkKZLGiuQ0hlWW+F2mDckPnt6ik1OCre3grF
- Dhl5T5mJZIkXhBtXEthFFupbPwX1pm7jRsat1gWC9dvlQgkOUup5NFynLRMmeVRNfd0i
- OIkKrihKI54UV8F0kuneP75CzFcyK+e8Gi01DNj5RyWGiyGET4ZWDXZ5ew2PobLD9wjK
- 39gnGHtqQd/iGeVLbG4yt4ya73Z5Ze0m3DKpPXzHM6fcyXyPDVSk3Ks8D9HvQmzosQCe SA== 
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 37vjtuxtu3-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 14 Apr 2021 01:20:49 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-        by ppma01dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13E5HuEY003027;
-        Wed, 14 Apr 2021 05:20:48 GMT
-Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com [9.57.198.28])
-        by ppma01dal.us.ibm.com with ESMTP id 37u3n9p3yu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 14 Apr 2021 05:20:48 +0000
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com [9.57.199.109])
-        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 13E5KlWw19595690
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 14 Apr 2021 05:20:48 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C688D112063;
-        Wed, 14 Apr 2021 05:20:47 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id C2749112061;
-        Wed, 14 Apr 2021 05:20:44 +0000 (GMT)
-Received: from skywalker.linux.ibm.com (unknown [9.77.205.193])
-        by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
-        Wed, 14 Apr 2021 05:20:44 +0000 (GMT)
-X-Mailer: emacs 27.2 (via feedmail 11-beta-1 I)
-From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
-To:     Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Shivaprasad G Bhat <sbhat@linux.ibm.com>,
-        sbhat@linux.vnet.ibm.com, linuxppc-dev@lists.ozlabs.org,
-        kvm-ppc@vger.kernel.org, linux-nvdimm@lists.01.org,
-        ellerman@au1.ibm.com
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] powerpc/papr_scm: Implement support for H_SCM_FLUSH
- hcall
-In-Reply-To: <87sg3ujmrm.fsf@vajain21.in.ibm.com>
-References: <161703936121.36.7260632399582101498.stgit@e1fbed493c87>
- <87sg3ujmrm.fsf@vajain21.in.ibm.com>
-Date:   Wed, 14 Apr 2021 10:50:42 +0530
-Message-ID: <877dl530id.fsf@linux.ibm.com>
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: 8ZQICP9aX4lphGsoIi4A2MSJqLUmlzWR
-X-Proofpoint-ORIG-GUID: 8ZQICP9aX4lphGsoIi4A2MSJqLUmlzWR
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S1349131AbhDNGO5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Apr 2021 02:14:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36270 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1349130AbhDNGOv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Apr 2021 02:14:51 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 87A0B60FD8;
+        Wed, 14 Apr 2021 06:14:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618380870;
+        bh=QUwhG1aEuYUYzpTX5r+cTxe2OtqIgKW7ZzBKXbUv0qE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=thusl7s/bxHLGdsAmgh+pH+X9REzuDPhBdzVl1RfGWSvGH0esOhhO4XNPANmqOQLX
+         xamcSotJXglVS6YhmGa8nLoVDcdUwC9bE7FdYX4hue7yEiFXhVHGvqenqDq4roJ6Sc
+         A/YaT/EFd2fN8q12udBhBJFgvTs2S7aVxIb5BWB7OGt4h3U1q/VY9pjyQP+55c0wM0
+         cb76MI26cMoEf8s1YmbLXaz2CzB5NnsRRPIUJdvCYB/GoxzXCFkwc2Sz28M9a/PWXq
+         EBIy9On512F83Z+NtuJzgkiz0e+LXrm9oQqDMTxYRYQNG3ppWwoONaNrqKxXlfs+ph
+         bmu4zyqOrQALQ==
+Date:   Wed, 14 Apr 2021 08:14:22 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Yury Norov <yury.norov@gmail.com>
+Cc:     linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
+        Joe Perches <joe@perches.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH] Documentation: syscalls: add a note about  ABI-agnostic
+ types
+Message-ID: <20210414081422.5a9d0c4b@coco.lan>
+In-Reply-To: <20210414044020.GA44464@yury-ThinkPad>
+References: <20210409204304.1273139-1-yury.norov@gmail.com>
+        <20210414044020.GA44464@yury-ThinkPad>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-04-14_01:2021-04-13,2021-04-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
- priorityscore=1501 impostorscore=0 suspectscore=0 bulkscore=0 adultscore=0
- mlxscore=0 mlxlogscore=999 clxscore=1015 phishscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
- definitions=main-2104140034
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Vaibhav Jain <vaibhav@linux.ibm.com> writes:
+Em Tue, 13 Apr 2021 21:40:20 -0700
+Yury Norov <yury.norov@gmail.com> escreveu:
 
-> Hi Shiva,
->
-> Apologies for a late review but something just caught my eye while
-> working on a different patch.
->
-> Shivaprasad G Bhat <sbhat@linux.ibm.com> writes:
->
->> Add support for ND_REGION_ASYNC capability if the device tree
->> indicates 'ibm,hcall-flush-required' property in the NVDIMM node.
->> Flush is done by issuing H_SCM_FLUSH hcall to the hypervisor.
->>
->> If the flush request failed, the hypervisor is expected to
->> to reflect the problem in the subsequent nvdimm H_SCM_HEALTH call.
->>
->> This patch prevents mmap of namespaces with MAP_SYNC flag if the
->> nvdimm requires an explicit flush[1].
->>
->> References:
->> [1] https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c
->>
->> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
->> ---
->> v2 - https://www.spinics.net/lists/kvm-ppc/msg18799.html
->> Changes from v2:
->>        - Fixed the commit message.
->>        - Add dev_dbg before the H_SCM_FLUSH hcall
->>
->> v1 - https://www.spinics.net/lists/kvm-ppc/msg18272.html
->> Changes from v1:
->>        - Hcall semantics finalized, all changes are to accomodate them.
->>
->>  Documentation/powerpc/papr_hcalls.rst     |   14 ++++++++++
->>  arch/powerpc/include/asm/hvcall.h         |    3 +-
->>  arch/powerpc/platforms/pseries/papr_scm.c |   40 +++++++++++++++++++++++++++++
->>  3 files changed, 56 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
->> index 48fcf1255a33..648f278eea8f 100644
->> --- a/Documentation/powerpc/papr_hcalls.rst
->> +++ b/Documentation/powerpc/papr_hcalls.rst
->> @@ -275,6 +275,20 @@ Health Bitmap Flags:
->>  Given a DRC Index collect the performance statistics for NVDIMM and copy them
->>  to the resultBuffer.
->>  
->> +**H_SCM_FLUSH**
->> +
->> +| Input: *drcIndex, continue-token*
->> +| Out: *continue-token*
->> +| Return Value: *H_SUCCESS, H_Parameter, H_P2, H_BUSY*
->> +
->> +Given a DRC Index Flush the data to backend NVDIMM device.
->> +
->> +The hcall returns H_BUSY when the flush takes longer time and the hcall needs
->> +to be issued multiple times in order to be completely serviced. The
->> +*continue-token* from the output to be passed in the argument list of
->> +subsequent hcalls to the hypervisor until the hcall is completely serviced
->> +at which point H_SUCCESS or other error is returned by the hypervisor.
->> +
-> Does the hcall semantic also include measures to trigger a barrier/fence
-> (like pm_wmb()) so that all the stores before the hcall are gauranteed
-> to have hit the pmem controller ?
+> Ping?
+> 
+> On Fri, Apr 09, 2021 at 01:43:04PM -0700, Yury Norov wrote:
+> > Recently added memfd_secret() syscall had a flags parameter passed
+> > as unsigned long, which requires creation of compat entry for it.
+> > It was possible to change the type of flags to unsigned int and so
+> > avoid bothering with compat layer.
+> > 
+> > https://www.spinics.net/lists/linux-mm/msg251550.html
+> > 
+> > Documentation/process/adding-syscalls.rst doesn't point clearly about
+> > preference of ABI-agnostic types. This patch adds such notification.
+> > 
+> > Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> > ---
+> >  Documentation/process/adding-syscalls.rst | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> > 
+> > diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
+> > index 9af35f4ec728..46add16edf14 100644
+> > --- a/Documentation/process/adding-syscalls.rst
+> > +++ b/Documentation/process/adding-syscalls.rst
+> > @@ -172,6 +172,13 @@ arguments (i.e. parameter 1, 3, 5), to allow use of contiguous pairs of 32-bit
+> >  registers.  (This concern does not apply if the arguments are part of a
+> >  structure that's passed in by pointer.)
+> >  
+> > +Whenever possible, try to use ABI-agnostic types for passing parameters to
+> > +a syscall in order to avoid creating compat entry for it. Linux supports two
+> > +ABI models - ILP32 and LP64. 
 
-It is upto the hypervisor to implement the right sequence to ensure the
-guarantee. The hcall doesn't expect the store to reach the platform
-buffers.
+> > + The types like ``void *``, ``long``, ``size_t``,
+> > +``off_t`` have different size in those ABIs;
+
+In the case of pointers, the best is to use __u64. The pointer can then
+be read on Kernelspace with something like this:
+
+	static inline void __user *media_get_uptr(__u64 arg)
+	{
+		return (void __user *)(uintptr_t)arg;
+	}
 
 
->
-> If not then the papr_scm_pmem_flush() introduced below should issue a
-> fence like pm_wmb() before issuing the flush hcall.
->
-> If yes then this behaviour should also be documented with the hcall
-> semantics above.
->
+> > types like ``char`` and  ``int``
+> > +have the same size and don't require a compat layer support. For flags, it's
+> > +always better to use ``unsigned int``.
+> > +
 
-IIUC fdatasync on the backend file is enough to ensure the
-guaraantee. Such a request will have REQ_PREFLUSH and REQ_FUA which will
-do the necessary barrier on the backing device holding the backend file.
+I don't think this is true for all compilers on userspace, as the C
+standard doesn't define how many bits an int/unsigned int has. 
+So, even if this is today's reality, things may change in the future.
 
--aneesh
+For instance, I remember we had to replace "int" and "enum" by "__u32" 
+and "long" by "__u64" at the media uAPI in the past, when we start
+seeing x86_64 Kernels with 32-bits userspace and when cameras started 
+being supported on arm32.
+
+We did have some real bugs with "enum", as, on that time, some
+compilers (gcc, I guess) were optimizing them to have less than
+32 bits on certain architectures, when it fits.
+
+Thanks,
+Mauro
