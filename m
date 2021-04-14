@@ -2,120 +2,176 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5700DC433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 15:59:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B77A5C43460
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 16:06:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 35CDA61249
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 15:59:47 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9CADA61222
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 16:06:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352757AbhDNQAH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Apr 2021 12:00:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54324 "EHLO
+        id S1352577AbhDNQG6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Apr 2021 12:06:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351276AbhDNQAH (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 12:00:07 -0400
-Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com [IPv6:2607:f8b0:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEBF2C061574
-        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 08:59:45 -0700 (PDT)
-Received: by mail-oi1-x235.google.com with SMTP id a21so8015236oib.10
-        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 08:59:45 -0700 (PDT)
+        with ESMTP id S1346877AbhDNQG5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 12:06:57 -0400
+Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3750C061574;
+        Wed, 14 Apr 2021 09:06:35 -0700 (PDT)
+Received: by mail-qt1-x82d.google.com with SMTP id i6so6205837qti.10;
+        Wed, 14 Apr 2021 09:06:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=gJjfNud5QYZyiTwL4ISAsMq6h+dsj4rD2s8JUXPYqx0=;
-        b=E26vdto+7+v0DCRl2a5wNEiyvbac+RGqfSuPJpTrWOBDPHN+KbGPmqXTQGMyUYI2zi
-         m6dIjJ1zK7jhQWYB7T1lbBVWarFVcacnu4k2lOaFD8RWVK/Id3U41p+6XdU0GjoFg8oo
-         5w+n7HoUJQZpnkF5lRmsECxpj/JIjRHXyeqlsBsL/PH1w9J6m+0TDE/EG6yKKWdB7RtK
-         02TS+vM8kAbaA6KOoZEPdjZ/oLwtHAApcWlljx73UES4NFABywsuvAqVzcW2trN7Wk7+
-         w/pW2r/GBOYVLrsCnOvUm+FLpU7r25k5UORsKlBOj2YkQpH9VoWb2+I5vISgChjUgw+p
-         eMSw==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/bkJOUEIhQpaarHf9evA1zVpo47yxddsd+vPYgjh8gQ=;
+        b=Re9GDJgTKoI18hI072yRMhVtwekN2NXDhFVkYTu2pBUQzR3HVCVRy9GgUDyVQCfKlV
+         K/vk1uZ/1ARlT9hP8Ez7OeVG8guK+m5A5uEvYS2TEEVapMZEdPj7oGwAVXHOCYLUahiS
+         StKzIgqOL9152HKJYXHdvIKj5IDMGaxXbEbwPrQwiHT5QXNA9dC6ZMS3P1etmf/jYCE9
+         Gdiyv1RGeUoG7ZZW07r50rSyhBI0juVuBfB3yAF+DkHnz4Kn23siCv8gZ3XMHv6yoJJN
+         UBJjMu5nuRcv+ykZDlk/jluNyL/irO79Hy01l/38KWVXxLbRP9jvxuHcjGn5PMHMM9FQ
+         3g6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=gJjfNud5QYZyiTwL4ISAsMq6h+dsj4rD2s8JUXPYqx0=;
-        b=l4pcGiLvsXZH6Np//LMBu5DyOYxg23AEE+DOaiC/W13d5RnemGz56Ln3u2mdtm6TyK
-         A8Q++u7wuSRaDCcQr2O/Xpx0JgY83RhAq6ae0ZaqlA7ffiY+i8AQTEpn/4/+i/mL9h1P
-         PIPf5yd3L/ncpWo8J6K7hJSD/DIV/RzGFz4UdHFjNzOnoJkVCi6NULV+yguA8HEDwmlw
-         192Z9caH2Da+MvnCRFtK+/I1VovJgpCB2vDjeP/rmlO+CuqjaGioyxnCZ8ioGCYEcDvM
-         m8Wtd+0lQ57BPOMHE5YiEfc74w+lOTo9bP3tI24a2mDHr2ZkFN79sjLbeU/d3JQH0Zgb
-         pwBg==
-X-Gm-Message-State: AOAM533ZBAPXidi1pMclNb9dPkzievFSMxijdi/ujo3CE+TXpUMGmvOJ
-        4M10klBU/Y+Tj8F83ZEi7rtZI1+h7/uQcLDd06U=
-X-Google-Smtp-Source: ABdhPJxKlo/uBww6P8TAdWzSoM9QKPi+vlHA0XSrYWBef6CXF+6LErnZC3UoPQ89GjiPpuJNRl+GxabYjQZSroObVJw=
-X-Received: by 2002:aca:3b85:: with SMTP id i127mr2827498oia.103.1618415985186;
- Wed, 14 Apr 2021 08:59:45 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/bkJOUEIhQpaarHf9evA1zVpo47yxddsd+vPYgjh8gQ=;
+        b=E9xK86VP+oIHkCGiIzxfqELvQh+zixlsZP201s/9MME69xIxXLsnAVNuuT/i6lXxxH
+         bIHS6dD9Fv8k+OJXZXhrqZzL8wOa1jj6mrJN4HCUlusVmGtWnhTSc0nltapKhbXOg6E1
+         xAlUAvMLUt8LBQL23zoeR3l4knuyOK7u1X+JsWT5HRnxENLu67n+k0RhJzy3SuElG1w7
+         x90M2nebLHGjSdaPisUJawyRTReVLFF0hEJNnRiuqPpHP17MQ++PeDq5qri/LktIIcV0
+         93JKJ/xAfFtIc8+2FeKzx7FDpA5b3b0y6HAssBGLnkVJ6NWqZTh548pmYrxmnGpfcgbX
+         GYag==
+X-Gm-Message-State: AOAM531ei5S6uPUdMfsA7Rmm6l9WKMYE8A9HAAldbeHtsKO/Sf7CRi+g
+        wfd9tcoNQLYnas+GGd0E6hkKSOdRN9I=
+X-Google-Smtp-Source: ABdhPJxMn73FiGp2dKadUY6T5xb9A1JuWbR/CayZ2UJMBRaXuEfiza2/+6issl1cDKJJ83CLDF7zTA==
+X-Received: by 2002:a05:622a:446:: with SMTP id o6mr35757819qtx.257.1618416395016;
+        Wed, 14 Apr 2021 09:06:35 -0700 (PDT)
+Received: from localhost ([207.98.216.60])
+        by smtp.gmail.com with ESMTPSA id j6sm12648789qkl.84.2021.04.14.09.06.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Apr 2021 09:06:34 -0700 (PDT)
+Date:   Wed, 14 Apr 2021 09:06:30 -0700
+From:   Yury Norov <yury.norov@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
+        Joe Perches <joe@perches.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mike Rapoport <rppt@kernel.org>
+Subject: Re: [PATCH] Documentation: syscalls: add a note about  ABI-agnostic
+ types
+Message-ID: <20210414160630.GA61176@yury-ThinkPad>
+References: <20210409204304.1273139-1-yury.norov@gmail.com>
+ <20210414044020.GA44464@yury-ThinkPad>
+ <20210414081422.5a9d0c4b@coco.lan>
 MIME-Version: 1.0
-References: <20210413131237.2253955-1-siyanteng@loongson.cn> <87lf9lsxou.fsf@meer.lwn.net>
-In-Reply-To: <87lf9lsxou.fsf@meer.lwn.net>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Wed, 14 Apr 2021 23:59:33 +0800
-Message-ID: <CAEensMynerPf7T_Lpgks-yHqA4znx3B5-tqy=QHiMq-hK+-Mtw@mail.gmail.com>
-Subject: Re: [PATCH v3 00/11] docs/zh_CN: add core api and openrisc translation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        Puyu Wang <realpuyuwang@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210414081422.5a9d0c4b@coco.lan>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-I guess it's because I didn't sit down when I sent it. ~>_<~
-I'll find out why, and tomorrow I'll try sending again.
+On Wed, Apr 14, 2021 at 08:14:22AM +0200, Mauro Carvalho Chehab wrote:
+> Em Tue, 13 Apr 2021 21:40:20 -0700
+> Yury Norov <yury.norov@gmail.com> escreveu:
+> 
+> > Ping?
+> > 
+> > On Fri, Apr 09, 2021 at 01:43:04PM -0700, Yury Norov wrote:
+> > > Recently added memfd_secret() syscall had a flags parameter passed
+> > > as unsigned long, which requires creation of compat entry for it.
+> > > It was possible to change the type of flags to unsigned int and so
+> > > avoid bothering with compat layer.
+> > > 
+> > > https://www.spinics.net/lists/linux-mm/msg251550.html
+> > > 
+> > > Documentation/process/adding-syscalls.rst doesn't point clearly about
+> > > preference of ABI-agnostic types. This patch adds such notification.
+> > > 
+> > > Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> > > ---
+> > >  Documentation/process/adding-syscalls.rst | 7 +++++++
+> > >  1 file changed, 7 insertions(+)
+> > > 
+> > > diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
+> > > index 9af35f4ec728..46add16edf14 100644
+> > > --- a/Documentation/process/adding-syscalls.rst
+> > > +++ b/Documentation/process/adding-syscalls.rst
+> > > @@ -172,6 +172,13 @@ arguments (i.e. parameter 1, 3, 5), to allow use of contiguous pairs of 32-bit
+> > >  registers.  (This concern does not apply if the arguments are part of a
+> > >  structure that's passed in by pointer.)
+> > >  
+> > > +Whenever possible, try to use ABI-agnostic types for passing parameters to
+> > > +a syscall in order to avoid creating compat entry for it. Linux supports two
+> > > +ABI models - ILP32 and LP64. 
+> 
+> > > + The types like ``void *``, ``long``, ``size_t``,
+> > > +``off_t`` have different size in those ABIs;
+> 
+> In the case of pointers, the best is to use __u64. The pointer can then
+> be read on Kernelspace with something like this:
+> 
+> 	static inline void __user *media_get_uptr(__u64 arg)
+> 	{
+> 		return (void __user *)(uintptr_t)arg;
+> 	}
+ 
+For 32-bit userspace reserving 64-bit type for pointers looks
+excessive, isn't? And anyways, how could this help to prevent
+malicious/broken compat userspace from passing pointers with
+dirty top 32 bits?
+
+From what I can see, in case of compat ABI, the 'void *' args
+are cast to compat_uptr_t in the compat layer, and then passed
+to native handlers. Bypassing compat layer in the example above
+would break consistency for a syscall.
+ 
+> > > types like ``char`` and  ``int``
+> > > +have the same size and don't require a compat layer support. For flags, it's
+> > > +always better to use ``unsigned int``.
+> > > +
+> 
+> I don't think this is true for all compilers on userspace, as the C
+> standard doesn't define how many bits an int/unsigned int has. 
+> So, even if this is today's reality, things may change in the future.
+
+Agree, it's not a standard in C, but this is pretty much a standard in
+Linux. Introducing a new ABI nor ILP32, neither LP64 would require huge
+amount of work, especially on a maintenance level, and I bet it will be
+blocked by Arnd. :) In practice it's correct to recommend using unsigned
+int for flags now, and if in future someone will introduce new ABI, it
+will be his responsibility to explain us how to design syscalls in a
+compatible and unified way.
+
+> For instance, I remember we had to replace "int" and "enum" by "__u32" 
+> and "long" by "__u64" at the media uAPI in the past, when we start
+> seeing x86_64 Kernels with 32-bits userspace and when cameras started 
+> being supported on arm32.
+> 
+> We did have some real bugs with "enum", as, on that time, some
+> compilers (gcc, I guess) were optimizing them to have less than
+> 32 bits on certain architectures, when it fits.
+
+I think this example agrees with what I said - if userspace has
+nonstandard ABI, it has to use kernel types to communicate with
+kernel, which are exposed as __u32-style typedefs. For me, it's
+a compatibility layer implemented in userspace.
+
+This patch is about good practices for standard 32, 64 and compat 
+ABIs supported by kernel.
+
+(Or if I missed you point, can you please explain in more details?)
 
 Thanks,
-
-Yan teng
-
-Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B44=E6=9C=8814=E6=97=
-=A5=E5=91=A8=E4=B8=89 =E4=B8=8A=E5=8D=885:04=E5=86=99=E9=81=93=EF=BC=9A
->
-> Yanteng Si <siyanteng@loongson.cn> writes:
->
-> > This series of patches translates core-api/irq/* and openrisc/* into
-> > Chinese
-> >
-> > v1 -> v2:
-> >
-> > Modify some words under Xiangcheng Wu's suggestion. Thanks for his rewi=
-ew!
-> >
-> > v2 -> v3:
-> >
-> > keep the signs number equal to the title char under Alex's suggestion.
-> > Thanks for his rewiew!
-> >
-> >
-> > Yanteng Si(11):
-> > docs/zh_CN: add core-api irq concepts.rst translation
-> > docs/zh_CN: add core-api irq irq-affinity.rst translation
-> > docs/zh_CN: add core-api irq irq-domain.rst translation
-> > docs/zh_CN: add core-api irq irqflags-tracing.rst
-> > docs/zh_CN: add core-api irq index.rst translation
-> > docs/zh_CN: add core-api index.rst translation
-> > docs/zh_CN: add translation to zh_CN index
-> > docs/zh_CN: add openrisc openrisc_port.rst translation
-> > docs/zh_CN: add openrisc todo.rst translation
-> > docs/zh_CN: add openrisc index.rst translation
-> > docs/zh_CN: add translation to zh_CN index
-> >
-> > Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
->
-> This looks like it's about ready to go in, but I seem to be missing
-> patch 11...?
->
-> Thanks,
->
-> jon
+Yury
