@@ -2,103 +2,358 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-19.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83435C433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 03:34:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77E93C433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 03:45:06 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 639AC613C0
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 03:34:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 613FF613BB
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 03:45:06 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233266AbhDNDfG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 23:35:06 -0400
-Received: from m32-153.88.com ([43.250.32.153]:37316 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233239AbhDNDfE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Apr 2021 23:35:04 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=fJ0WMmE+mZltptxq4JKt4yEmPP0nnjAWbggIc
-        7kfrt0=; b=c8tLO6HYRh6lTZoAGSuTrZ6PRZWUjcHREhXwk16AkHdCxcQFWizCP
-        1fwLKrVV7vZ68gS9HGQVsSyzzScM7WbG8oJsxyMblJplGy3H/5OGK6F2OBcWv30R
-        ALg/WuqSMapDUoBiK7UPcmoKUXPdT9YUVu6sAUg0YfrT2UCfm0a1O0=
-Received: from bobwxc.top (unknown [120.238.248.129])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgCHEyTNYnZg3rpuAA--.63185S2;
-        Wed, 14 Apr 2021 11:34:38 +0800 (CST)
-Date:   Wed, 14 Apr 2021 11:34:37 +0800
-From:   Wu XiangCheng <bobwxc@email.cn>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Alex Shi <alexs@kernel.org>, linux-doc@vger.kernel.org
-Subject: [docs-next PATCH] docs/zh_CN: two minor fixes in zh_CN/doc-guide/
-Message-ID: <20210414033435.GA27907@bobwxc.top>
+        id S1346968AbhDNDpZ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 23:45:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34382 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1346946AbhDNDpY (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Apr 2021 23:45:24 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 474AB613BB;
+        Wed, 14 Apr 2021 03:45:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618371903;
+        bh=G49DKkVvePWoxHXqa2yb3SOlMqRn9RGXLwG4idAm+94=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=crCN4B/gkVhjSgsLojSd4WA1wTev/NNqaA69Hrih/7/4JfMooFi9T0RSpmho52diW
+         ia3nKQJdN3ZFw7oc1pfJHcEmwt2aPwcH4RzlErwolcaqgBynDJlhOnjurVjqgNXzA6
+         c4nGkngkeTz9tRrqVHR9umGiSaf1iFzMuwurgdrwO3Y99QDjxPARyy2xcB86K9G9Ku
+         LXS/Y4l8qhl+Ligcx4r7DjJ3/Wid/kPMN116KJ2m35z6NMQuIVYjs9DOgl2btiRbKK
+         DW1TTCchNq15yEdhJ0bY4EIN0nChClynMf9pkhEJtWcRVqlRpGhYTn7lP6d7U63kQy
+         61Y0FTxcP09Eg==
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     davem@davemloft.net
+Cc:     netdev@vger.kernel.org, michael.chan@broadcom.com,
+        saeedm@nvidia.com, leon@kernel.org, ecree.xilinx@gmail.com,
+        habetsm.xilinx@gmail.com, f.fainelli@gmail.com, andrew@lunn.ch,
+        mkubecek@suse.cz, ariela@nvidia.com,
+        Jakub Kicinski <kuba@kernel.org>, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Subject: [PATCH net-next 3/6] ethtool: add FEC statistics
+Date:   Tue, 13 Apr 2021 20:44:51 -0700
+Message-Id: <20210414034454.1970967-4-kuba@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210414034454.1970967-1-kuba@kernel.org>
+References: <20210414034454.1970967-1-kuba@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgCHEyTNYnZg3rpuAA--.63185S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tw4kZry3Xw13Cw1rXrWfGrg_yoW8tw13pr
-        W0kryxG3ZxAr15C34UGryxCr4xCFWxua15KF4kJ34Sqrs5Kr4vqrWUK342kF92qrW0yFW5
-        uF4avFWj9w4ayFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgab7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
-        z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0x
-        vYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_
-        Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkIecxEwVAFwVW8GwCF04
-        k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j
-        6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
-        AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
-        2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
-        C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73
-        UjIFyTuYvjxUSYiRUUUUU
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-zh_CN/doc-guide/kernel-doc.rst
-  replace a ref tag to solve docs-next warning
+Similarly to pause statistics add stats for FEC.
 
-zh_CN/doc-guide/parse-headers.rst
-  fix an unperfect word
+The IEEE standard mandates two sets of counters:
+ - 30.5.1.1.17 aFECCorrectedBlocks
+ - 30.5.1.1.18 aFECUncorrectableBlocks
+where block is a block of bits FEC operates on.
+Each of these counters is defined per lane (PCS instance).
 
-Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+Multiple vendors provide number of corrected _bits_ rather
+than/as well as blocks.
+
+This set adds the 2 standard-based block counters and a extra
+one for corrected bits.
+
+Counters are exposed to user space via netlink in new attributes.
+Each attribute carries an array of u64s, first element is
+the total count, and the following ones are a per-lane break down.
+
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 ---
-Rust part in doc-guide/kernel-doc.rst is from rust-next, I'll solve that 
-tag there.
+CC: corbet@lwn.net
+CC: linux-doc@vger.kernel.org
+---
+ Documentation/networking/ethtool-netlink.rst | 21 ++++++
+ Documentation/networking/statistics.rst      |  2 +
+ include/linux/ethtool.h                      | 40 +++++++++++
+ include/uapi/linux/ethtool_netlink.h         | 14 ++++
+ net/ethtool/fec.c                            | 73 +++++++++++++++++++-
+ 5 files changed, 149 insertions(+), 1 deletion(-)
 
- Documentation/translations/zh_CN/doc-guide/kernel-doc.rst    | 3 +--
- Documentation/translations/zh_CN/doc-guide/parse-headers.rst | 2 +-
- 2 files changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-index b0427944f8f0..82ec84470c0b 100644
---- a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-@@ -14,8 +14,7 @@ Linux内核源文件可以包含kernel-doc格式的结构化文档注释，用
-           实际有着明显的不同。内核源包含成千上万个kernel-doc注释。请坚持遵循
-           此处描述的风格。
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index bbecffc7b11a..f8219e2f489e 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -1302,6 +1302,7 @@ Gets FEC configuration and state like ``ETHTOOL_GFECPARAM`` ioctl request.
+   ``ETHTOOL_A_FEC_MODES``                bitset  configured modes
+   ``ETHTOOL_A_FEC_AUTO``                 bool    FEC mode auto selection
+   ``ETHTOOL_A_FEC_ACTIVE``               u32     index of active FEC mode
++  ``ETHTOOL_A_FEC_STATS``                nested  FEC statistics
+   =====================================  ======  ==========================
  
--.. note:: kernel-doc无法包含Rust代码：请参考
--          :ref:`Documentation/rust/docs.rst <rust_docs>`。
-+.. note:: kernel-doc无法包含Rust代码：请参考 Documentation/rust/docs.rst 。
+ ``ETHTOOL_A_FEC_ACTIVE`` is the bit index of the FEC link mode currently
+@@ -1315,6 +1316,26 @@ This is equivalent to the ``ETHTOOL_FEC_AUTO`` bit of the ioctl interface.
+ ``ETHTOOL_A_FEC_MODES`` carry the current FEC configuration using link mode
+ bits (rather than old ``ETHTOOL_FEC_*`` bits).
  
- 从注释中提取kernel-doc结构，并从中生成适当的 `Sphinx C 域`_ 函数和带有锚点的
- 类型描述。这些注释将被过滤以生成特殊kernel-doc高亮和交叉引用。详见下文。
-diff --git a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
-index 3c6612a3e47e..a6f9d052979e 100644
---- a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
-@@ -184,4 +184,4 @@ enum foo { BAR1, BAR2, PRIVATE };
- 许可证 GPLv2：GNU GPL version 2 <https://gnu.org/licenses/gpl.html>
++``ETHTOOL_A_FEC_STATS`` are reported if ``ETHTOOL_FLAG_STATS`` was set in
++``ETHTOOL_A_HEADER_FLAGS``.
++Each attribute carries an array of 64bit statistics. First entry in the array
++contains the total number of events on the port, while the following entries
++are counters corresponding to lanes/PCS instances. The number of entries in
++the array will be:
++
+++--------------+---------------------------------------------+
++| `0`          | device does not support FEC statistics      |
+++--------------+---------------------------------------------+
++| `1`          | device does not support per-lane break down |
+++--------------+---------------------------------------------+
++| `1 + #lanes` | device has full support for FEC stats       |
+++--------------+---------------------------------------------+
++
++Drivers fill in the statistics in the following structure:
++
++.. kernel-doc:: include/linux/ethtool.h
++    :identifiers: ethtool_fec_stats
++
+ FEC_SET
+ =======
  
- 这是自由软件：你可以自由地修改和重新发布它。
--在法律允许的范围内，**没有任何保证**。
-+在法律允许的范围内，**不提供任何保证**。
+diff --git a/Documentation/networking/statistics.rst b/Documentation/networking/statistics.rst
+index 234abedc29b2..b748fe44ee02 100644
+--- a/Documentation/networking/statistics.rst
++++ b/Documentation/networking/statistics.rst
+@@ -130,6 +130,7 @@ the `ETHTOOL_FLAG_STATS` flag in `ETHTOOL_A_HEADER_FLAGS`. Currently
+ statistics are supported in the following commands:
+ 
+   - `ETHTOOL_MSG_PAUSE_GET`
++  - `ETHTOOL_MSG_FEC_GET`
+ 
+ debugfs
+ -------
+@@ -176,3 +177,4 @@ translated to netlink attributes when dumped. Drivers must not overwrite
+ the statistics they don't report with 0.
+ 
+ - ethtool_pause_stats()
++- ethtool_fec_stats()
+diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
+index 069100b252bd..112a85b57f1f 100644
+--- a/include/linux/ethtool.h
++++ b/include/linux/ethtool.h
+@@ -269,6 +269,39 @@ struct ethtool_pause_stats {
+ 	u64 rx_pause_frames;
+ };
+ 
++#define ETHTOOL_MAX_LANES	8
++
++/**
++ * struct ethtool_fec_stats - statistics for IEEE 802.3 FEC
++ * @corrected_blocks: number of received blocks corrected by FEC
++ *	Reported to user space as %ETHTOOL_A_FEC_STAT_CORRECTED.
++ *
++ *	Equivalent to `30.5.1.1.17 aFECCorrectedBlocks` from the standard.
++ *
++ * @uncorrectable_blocks: number of received blocks FEC was not able to correct
++ *	Reported to user space as %ETHTOOL_A_FEC_STAT_UNCORR.
++ *
++ *	Equivalent to `30.5.1.1.18 aFECUncorrectableBlocks` from the standard.
++ *
++ * @corrected_bits: number of bits corrected by FEC
++ *	Similar to @corrected_blocks but counts individual bit changes,
++ *	not entire FEC data blocks. This is a non-standard statistic.
++ *	Reported to user space as %ETHTOOL_A_FEC_STAT_CORR_BITS.
++ *
++ * @lane: per-lane/PCS-instance counts as defined by the standard
++ * @total: error counts for the entire port, for drivers incapable of reporting
++ *	per-lane stats
++ *
++ * Drivers should fill in either only total or per-lane statistics, core
++ * will take care of adding lane values up to produce the total.
++ */
++struct ethtool_fec_stats {
++	struct ethtool_fec_stat {
++		u64 total;
++		u64 lanes[ETHTOOL_MAX_LANES];
++	} corrected_blocks, uncorrectable_blocks, corrected_bits;
++};
++
+ #define ETH_MODULE_EEPROM_PAGE_LEN	128
+ #define ETH_MODULE_MAX_I2C_ADDRESS	0x7f
+ 
+@@ -439,6 +472,11 @@ struct ethtool_module_eeprom {
+  *	ignored (use %__ETHTOOL_LINK_MODE_MASK_NBITS instead of the latter),
+  *	any change to them will be overwritten by kernel. Returns a negative
+  *	error code or zero.
++ * @get_fec_stats: Report FEC statistics.
++ *	Core will sum up per-lane stats to get the total.
++ *	Drivers must not zero statistics which they don't report. The stats
++ *	structure is initialized to ETHTOOL_STAT_NOT_SET indicating driver does
++ *	not report statistics.
+  * @get_fecparam: Get the network device Forward Error Correction parameters.
+  * @set_fecparam: Set the network device Forward Error Correction parameters.
+  * @get_ethtool_phy_stats: Return extended statistics about the PHY device.
+@@ -544,6 +582,8 @@ struct ethtool_ops {
+ 				      struct ethtool_link_ksettings *);
+ 	int	(*set_link_ksettings)(struct net_device *,
+ 				      const struct ethtool_link_ksettings *);
++	void	(*get_fec_stats)(struct net_device *dev,
++				 struct ethtool_fec_stats *fec_stats);
+ 	int	(*get_fecparam)(struct net_device *,
+ 				      struct ethtool_fecparam *);
+ 	int	(*set_fecparam)(struct net_device *,
+diff --git a/include/uapi/linux/ethtool_netlink.h b/include/uapi/linux/ethtool_netlink.h
+index 9612dcd48a6a..3a2b31ccbc5b 100644
+--- a/include/uapi/linux/ethtool_netlink.h
++++ b/include/uapi/linux/ethtool_netlink.h
+@@ -643,11 +643,25 @@ enum {
+ 	ETHTOOL_A_FEC_MODES,				/* bitset */
+ 	ETHTOOL_A_FEC_AUTO,				/* u8 */
+ 	ETHTOOL_A_FEC_ACTIVE,				/* u32 */
++	ETHTOOL_A_FEC_STATS,				/* nest - _A_FEC_STAT */
+ 
+ 	__ETHTOOL_A_FEC_CNT,
+ 	ETHTOOL_A_FEC_MAX = (__ETHTOOL_A_FEC_CNT - 1)
+ };
+ 
++enum {
++	ETHTOOL_A_FEC_STAT_UNSPEC,
++	ETHTOOL_A_FEC_STAT_PAD,
++
++	ETHTOOL_A_FEC_STAT_CORRECTED,			/* array, u64 */
++	ETHTOOL_A_FEC_STAT_UNCORR,			/* array, u64 */
++	ETHTOOL_A_FEC_STAT_CORR_BITS,			/* array, u64 */
++
++	/* add new constants above here */
++	__ETHTOOL_A_FEC_STAT_CNT,
++	ETHTOOL_A_FEC_STAT_MAX = (__ETHTOOL_A_FEC_STAT_CNT - 1)
++};
++
+ /* MODULE EEPROM */
+ 
+ enum {
+diff --git a/net/ethtool/fec.c b/net/ethtool/fec.c
+index 3e7d091ee7aa..8738dafd5417 100644
+--- a/net/ethtool/fec.c
++++ b/net/ethtool/fec.c
+@@ -13,6 +13,10 @@ struct fec_reply_data {
+ 	__ETHTOOL_DECLARE_LINK_MODE_MASK(fec_link_modes);
+ 	u32 active_fec;
+ 	u8 fec_auto;
++	struct fec_stat_grp {
++		u64 stats[1 + ETHTOOL_MAX_LANES];
++		u8 cnt;
++	} corr, uncorr, corr_bits;
+ };
+ 
+ #define FEC_REPDATA(__reply_base) \
+@@ -21,7 +25,7 @@ struct fec_reply_data {
+ #define ETHTOOL_FEC_MASK	((ETHTOOL_FEC_LLRS << 1) - 1)
+ 
+ const struct nla_policy ethnl_fec_get_policy[ETHTOOL_A_FEC_HEADER + 1] = {
+-	[ETHTOOL_A_FEC_HEADER]	= NLA_POLICY_NESTED(ethnl_header_policy),
++	[ETHTOOL_A_FEC_HEADER]	= NLA_POLICY_NESTED(ethnl_header_policy_stats),
+ };
+ 
+ static void
+@@ -64,6 +68,28 @@ ethtool_link_modes_to_fecparam(struct ethtool_fecparam *fec,
+ 	return 0;
+ }
+ 
++static void
++fec_stats_recalc(struct fec_stat_grp *grp, struct ethtool_fec_stat *stats)
++{
++	int i;
++
++	if (stats->lanes[0] == ETHTOOL_STAT_NOT_SET) {
++		grp->stats[0] = stats->total;
++		grp->cnt = stats->total != ETHTOOL_STAT_NOT_SET;
++		return;
++	}
++
++	grp->cnt = 1;
++	grp->stats[0] = 0;
++	for (i = 0; i < ETHTOOL_MAX_LANES; i++) {
++		if (stats->lanes[i] == ETHTOOL_STAT_NOT_SET)
++			break;
++
++		grp->stats[0] += stats->lanes[i];
++		grp->stats[grp->cnt++] = stats->lanes[i];
++	}
++}
++
+ static int fec_prepare_data(const struct ethnl_req_info *req_base,
+ 			    struct ethnl_reply_data *reply_base,
+ 			    struct genl_info *info)
+@@ -82,6 +108,17 @@ static int fec_prepare_data(const struct ethnl_req_info *req_base,
+ 	ret = dev->ethtool_ops->get_fecparam(dev, &fec);
+ 	if (ret)
+ 		goto out_complete;
++	if (req_base->flags & ETHTOOL_FLAG_STATS &&
++	    dev->ethtool_ops->get_fec_stats) {
++		struct ethtool_fec_stats stats;
++
++		ethtool_stats_init((u64 *)&stats, sizeof(stats) / 8);
++		dev->ethtool_ops->get_fec_stats(dev, &stats);
++
++		fec_stats_recalc(&data->corr, &stats.corrected_blocks);
++		fec_stats_recalc(&data->uncorr, &stats.uncorrectable_blocks);
++		fec_stats_recalc(&data->corr_bits, &stats.corrected_bits);
++	}
+ 
+ 	WARN_ON_ONCE(fec.reserved);
+ 
+@@ -120,9 +157,40 @@ static int fec_reply_size(const struct ethnl_req_info *req_base,
+ 	len += nla_total_size(sizeof(u8)) +	/* _FEC_AUTO */
+ 	       nla_total_size(sizeof(u32));	/* _FEC_ACTIVE */
+ 
++	if (req_base->flags & ETHTOOL_FLAG_STATS)
++		len += 3 * nla_total_size_64bit(sizeof(u64) *
++						(1 + ETHTOOL_MAX_LANES));
++
+ 	return len;
+ }
+ 
++static int fec_put_stats(struct sk_buff *skb, const struct fec_reply_data *data)
++{
++	struct nlattr *nest;
++
++	nest = nla_nest_start(skb, ETHTOOL_A_FEC_STATS);
++	if (!nest)
++		return -EMSGSIZE;
++
++	if (nla_put_64bit(skb, ETHTOOL_A_FEC_STAT_CORRECTED,
++			  sizeof(u64) * data->corr.cnt,
++			  data->corr.stats, ETHTOOL_A_FEC_STAT_PAD) ||
++	    nla_put_64bit(skb, ETHTOOL_A_FEC_STAT_UNCORR,
++			  sizeof(u64) * data->uncorr.cnt,
++			  data->uncorr.stats, ETHTOOL_A_FEC_STAT_PAD) ||
++	    nla_put_64bit(skb, ETHTOOL_A_FEC_STAT_CORR_BITS,
++			  sizeof(u64) * data->corr_bits.cnt,
++			  data->corr_bits.stats, ETHTOOL_A_FEC_STAT_PAD))
++		goto err_cancel;
++
++	nla_nest_end(skb, nest);
++	return 0;
++
++err_cancel:
++	nla_nest_cancel(skb, nest);
++	return -EMSGSIZE;
++}
++
+ static int fec_fill_reply(struct sk_buff *skb,
+ 			  const struct ethnl_req_info *req_base,
+ 			  const struct ethnl_reply_data *reply_base)
+@@ -143,6 +211,9 @@ static int fec_fill_reply(struct sk_buff *skb,
+ 	     nla_put_u32(skb, ETHTOOL_A_FEC_ACTIVE, data->active_fec)))
+ 		return -EMSGSIZE;
+ 
++	if (req_base->flags & ETHTOOL_FLAG_STATS && fec_put_stats(skb, data))
++		return -EMSGSIZE;
++
+ 	return 0;
+ }
+ 
 -- 
-2.20.1
+2.30.2
 
