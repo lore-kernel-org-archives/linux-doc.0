@@ -7,127 +7,98 @@ X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A574DC433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 02:38:22 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83435C433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 03:34:46 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 83BEC613C7
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 02:38:22 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 639AC613C0
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 03:34:46 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239586AbhDNCim (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 22:38:42 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:44531 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S230303AbhDNCik (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Tue, 13 Apr 2021 22:38:40 -0400
+        id S233266AbhDNDfG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 23:35:06 -0400
+Received: from m32-153.88.com ([43.250.32.153]:37316 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233239AbhDNDfE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Apr 2021 23:35:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=Zlxu2Whbo1dgvERGvsjAB1kDZCG5u5iTjuDlt
-        pdhbQo=; b=ZLDUl1Yr6SY1vGONh15+M5mBUvHiIKtpHBe1p5JuO1p7Ib1U93wCS
-        CcWKDWBMkrpjSBPu0ViE5qMJ5wREgJ8pCuQE5SCSp0slQXdKPrRBHXere6mw0iT3
-        lU3fZ5CUuG8+gJaeaOkU8TjpHZjgBTRhYKXJ3N5oACV3R5ARHDiHHQ=
+        s=dkim; h=Date:From:To; bh=fJ0WMmE+mZltptxq4JKt4yEmPP0nnjAWbggIc
+        7kfrt0=; b=c8tLO6HYRh6lTZoAGSuTrZ6PRZWUjcHREhXwk16AkHdCxcQFWizCP
+        1fwLKrVV7vZ68gS9HGQVsSyzzScM7WbG8oJsxyMblJplGy3H/5OGK6F2OBcWv30R
+        ALg/WuqSMapDUoBiK7UPcmoKUXPdT9YUVu6sAUg0YfrT2UCfm0a1O0=
 Received: from bobwxc.top (unknown [120.238.248.129])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDHOdCWVXZg0M5bAA--.11991S2;
-        Wed, 14 Apr 2021 10:38:16 +0800 (CST)
-Date:   Wed, 14 Apr 2021 10:38:14 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgCHEyTNYnZg3rpuAA--.63185S2;
+        Wed, 14 Apr 2021 11:34:38 +0800 (CST)
+Date:   Wed, 14 Apr 2021 11:34:37 +0800
+From:   Wu XiangCheng <bobwxc@email.cn>
 To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <seakeel@gmail.com>,
-        YanTeng Si <sterlingteng@gmail.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 2/7] docs/zh_CN: Add translation
- zh_CN/doc-guide/kernel-doc.rst
-Message-ID: <20210414023814.GA23966@bobwxc.top>
-References: <cover.1618295149.git.bobwxc@email.cn>
- <783d134b1dd18f580f2c0511c2330382a86e79b5.1618295149.git.bobwxc@email.cn>
- <87lf9lrgp3.fsf@meer.lwn.net>
+Cc:     Alex Shi <alexs@kernel.org>, linux-doc@vger.kernel.org
+Subject: [docs-next PATCH] docs/zh_CN: two minor fixes in zh_CN/doc-guide/
+Message-ID: <20210414033435.GA27907@bobwxc.top>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87lf9lrgp3.fsf@meer.lwn.net>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgDHOdCWVXZg0M5bAA--.11991S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7tF1kCF18WryDtFWUArb_yoW5Jr17pF
-        4vkayfGan3Ar17G3W3Wr1xCFW3AFWxua15Kr4xtw1rJrnIyrWktr47Kryj934xurW0yFW5
-        ZF12vFyj93y7ZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+X-CM-TRANSID: GiKnCgCHEyTNYnZg3rpuAA--.63185S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tw4kZry3Xw13Cw1rXrWfGrg_yoW8tw13pr
+        W0kryxG3ZxAr15C34UGryxCr4xCFWxua15KF4kJ34Sqrs5Kr4vqrWUK342kF92qrW0yFW5
+        uF4avFWj9w4ayFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
         9KBjDU0xBIdaVrnRJUUUgab7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
         cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
         v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
         z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0x
         vYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_
-        Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkIecxEwVAFwVW8JwCF04
+        Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkIecxEwVAFwVW8GwCF04
         k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j
         6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
-        AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
+        AF67AKxVWUXVWUAwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
         2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
         C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73
-        UjIFyTuYvjxUTUGOUUUUU
+        UjIFyTuYvjxUSYiRUUUUU
 X-Originating-IP: [120.238.248.129]
 X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Apr 13, 2021 at 03:57:12PM -0600, Jonathan Corbet wrote:
-> Wu XiangCheng <bobwxc@email.cn> writes:
-> 
-> > Add new translation
-> >   Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> >
-> > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-> > Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
-> > ---
-> >  .../zh_CN/doc-guide/kernel-doc.rst            | 500 ++++++++++++++++++
-> >  1 file changed, 500 insertions(+)
-> >  create mode 100644 Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> >
-> > diff --git a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> > new file mode 100644
-> > index 000000000000..b0427944f8f0
-> > --- /dev/null
-> > +++ b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
-> > @@ -0,0 +1,500 @@
-> > +.. include:: ../disclaimer-zh_CN.rst
-> > +
-> > +:Original: Documentation/doc-guide/kernel-doc.rst
-> > +
-> > +:译者: 吴想成 Wu XiangCheng <bobwxc@email.cn>
-> > +
-> > +编写kernel-doc注释
-> > +==================
-> > +
-> > +Linux内核源文件可以包含kernel-doc格式的结构化文档注释，用以描述代码的函数、
-> > +类型和设计。将文档嵌入源文件更容易保持文档最新。
-> > +
-> > +.. note:: 内核文档格式与javadoc、gtk-doc或Doxygen看似很相似，但由于历史原因，
-> > +          实际有着明显的不同。内核源包含成千上万个kernel-doc注释。请坚持遵循
-> > +          此处描述的风格。
-> > +
-> > +.. note:: kernel-doc无法包含Rust代码：请参考
-> > +          :ref:`Documentation/rust/docs.rst <rust_docs>`。
+zh_CN/doc-guide/kernel-doc.rst
+  replace a ref tag to solve docs-next warning
 
-Hi Jonathan,
+zh_CN/doc-guide/parse-headers.rst
+  fix an unperfect word
 
-> 
-> Note that this reference adds a warning to the docs-next build - this
-> translation is evidently against linux-next instead.  The warning will
-> eventually go away, but it would be better not to do this if possible.
+Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+---
+Rust part in doc-guide/kernel-doc.rst is from rust-next, I'll solve that 
+tag there.
 
-Yeah, seems rust doc do not merge into docs-next yet. It's quite new.
+ Documentation/translations/zh_CN/doc-guide/kernel-doc.rst    | 3 +--
+ Documentation/translations/zh_CN/doc-guide/parse-headers.rst | 2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-BTW, I'd like to ask does "git.lwn.net" has a web access like git-web or
-cgit... ?
-
-> 
-> Also, there is no need for a :ref: here; just say
-> "Documentation/rust/docs.rst" and the automarkup code will do the right
-> thing.  Yes, that should be changed in the original as well.
-> 
-
-I'll send another patch to replace the two refs.
-
-And use "Documentation/rust/docs.rst" will also fix the warning.
-
-
-Thanks,
-
-Wu X.C.
+diff --git a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
+index b0427944f8f0..82ec84470c0b 100644
+--- a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
++++ b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
+@@ -14,8 +14,7 @@ Linux内核源文件可以包含kernel-doc格式的结构化文档注释，用
+           实际有着明显的不同。内核源包含成千上万个kernel-doc注释。请坚持遵循
+           此处描述的风格。
+ 
+-.. note:: kernel-doc无法包含Rust代码：请参考
+-          :ref:`Documentation/rust/docs.rst <rust_docs>`。
++.. note:: kernel-doc无法包含Rust代码：请参考 Documentation/rust/docs.rst 。
+ 
+ 从注释中提取kernel-doc结构，并从中生成适当的 `Sphinx C 域`_ 函数和带有锚点的
+ 类型描述。这些注释将被过滤以生成特殊kernel-doc高亮和交叉引用。详见下文。
+diff --git a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
+index 3c6612a3e47e..a6f9d052979e 100644
+--- a/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
++++ b/Documentation/translations/zh_CN/doc-guide/parse-headers.rst
+@@ -184,4 +184,4 @@ enum foo { BAR1, BAR2, PRIVATE };
+ 许可证 GPLv2：GNU GPL version 2 <https://gnu.org/licenses/gpl.html>
+ 
+ 这是自由软件：你可以自由地修改和重新发布它。
+-在法律允许的范围内，**没有任何保证**。
++在法律允许的范围内，**不提供任何保证**。
+-- 
+2.20.1
 
