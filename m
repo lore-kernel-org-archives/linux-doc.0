@@ -2,392 +2,326 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT,WEIRD_QUOTING
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,MSGID_FROM_MTA_HEADER,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8591C433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 08:23:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 970EEC433ED
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 08:29:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C2FDF613C4
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 08:23:36 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 75798613C4
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 08:29:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1350027AbhDNIX4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Apr 2021 04:23:56 -0400
-Received: from mail-m121143.qiye.163.com ([115.236.121.143]:21514 "EHLO
-        mail-m121143.qiye.163.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242479AbhDNIXv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 04:23:51 -0400
-Received: from ubuntu.localdomain (unknown [36.152.145.181])
-        by mail-m121143.qiye.163.com (Hmail) with ESMTPA id 7EC36540372;
-        Wed, 14 Apr 2021 16:23:24 +0800 (CST)
-From:   Bernard Zhao <bernard@vivo.com>
-To:     Harry Wei <harryxiyou@gmail.com>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Bernard Zhao <bernard@vivo.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
-Subject: [patch v3] translations/zh_CN: add translations to dev-tools gcov
-Date:   Wed, 14 Apr 2021 01:23:01 -0700
-Message-Id: <20210414082316.15160-1-bernard@vivo.com>
-X-Mailer: git-send-email 2.31.0
+        id S232853AbhDNI3v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Apr 2021 04:29:51 -0400
+Received: from mail-bn8nam11on2138.outbound.protection.outlook.com ([40.107.236.138]:17632
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1348344AbhDNI3O (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Apr 2021 04:29:14 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=FLpRIxYiqQHWdhSyGjQ/wdWgKKoXI1VJzVWNqY+jR2EQWteypGTvHdgja22ryE9NXFYmAsMzPN3T34mwMBF8DZLLsblqsFT/FGFQNzPpdcbnnHLPAvzaWOCuj5b3aklXY8pZ7h3sGjlOhjAmfj2PoDmTcREkwNDoWb/lxMugXfw+O7f8hsAzXZDFzHnEU6nkqWixoc+pylAmA6pxAwocGZ5aIGASZx8FetZUvRGsVlmqQhPFoIv6tlci4c119cYzR0ABPB7hBW4GII1FTLWreNk0y9tx/BsZ61Zl2Iawqz7ZfHkOV9ep6p9rv09PiM+u94jT5Rag2XXRojBb7HJ9uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EQ1xUe+/qyS1ekWew3O16ybPDaCkY1k8XdnKj7opipw=;
+ b=geAoLsW+NatBjMtm7NC+rNb5rA1J57KC1SHUwF3k+w3QB3RM8TEs6ZwxrI8MZ7XRJmHwRgbAfqWUl4iD1BucqTM4xUz1dQFz6oDsVEjFd7g7lWRSFVcEjYiv9iY7Sc7mW0+4sOcU8qUVj4xySbR3KU6ZOLM9TSUqiSeGsuX+y83fYoTh7hWpJknge5wt5fLXwckGM+HMKE4Ou5p4uFvQRqICcODFh1llDa7OKpXKN6mwZur6sNpvyGxYnuc0qN/ro2bKLKwN/4IJEdbwdXDZ8BZMJTCtakAo+lyxUYyDEsJZ1rxz0zRZKUaVj+RIq4t96kkhg743KQoQNW/6J85J+A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EQ1xUe+/qyS1ekWew3O16ybPDaCkY1k8XdnKj7opipw=;
+ b=I7XIConqzUO47wUal2wcyOvheAV8/Z03ROeHKU5rPy2fljJKBEwSdLG7+f6ouDMaNX30NDNixlhijNmPJxt+SQOOHO5abx3rKv6ZrnIRymN/oy3oAx/2uSNiMKY1p8V9nJTxdsw9CDKRodGvzHvCjphsw5Nbu9Iu9bqFkHtHXwU=
+Authentication-Results: os.amperecomputing.com; dkim=none (message not signed)
+ header.d=none;os.amperecomputing.com; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from SN6PR0102MB3487.prod.exchangelabs.com (2603:10b6:805:3::28) by
+ SN6PR01MB4142.prod.exchangelabs.com (2603:10b6:805:a6::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4042.16; Wed, 14 Apr 2021 08:28:44 +0000
+Received: from SN6PR0102MB3487.prod.exchangelabs.com
+ ([fe80::44b4:b87d:da2:a555]) by SN6PR0102MB3487.prod.exchangelabs.com
+ ([fe80::44b4:b87d:da2:a555%7]) with mapi id 15.20.4020.022; Wed, 14 Apr 2021
+ 08:28:43 +0000
+Subject: Re: [PATCH v3 1/4] dt-bindings: mfd: Add bindings for Ampere Altra
+ SMPro drivers
+To:     Rob Herring <robh@kernel.org>
+Cc:     Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Lee Jones <lee.jones@linaro.org>,
+        Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-aspeed@lists.ozlabs.org,
+        openbmc@lists.ozlabs.org,
+        Open Source Submission <patches@amperecomputing.com>,
+        Phong Vo <phong@os.amperecomputing.com>,
+        "Thang Q . Nguyen" <thang@os.amperecomputing.com>
+References: <20210409031332.21919-1-quan@os.amperecomputing.com>
+ <20210409031332.21919-2-quan@os.amperecomputing.com>
+ <20210413134906.GA1538655@robh.at.kernel.org>
+From:   Quan Nguyen <quan@os.amperecomputing.com>
+Message-ID: <8eb27308-03e3-1a90-28a3-d8b3ad720cc4@os.amperecomputing.com>
+Date:   Wed, 14 Apr 2021 15:28:25 +0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
+ Gecko/20100101 Thunderbird/78.9.0
+In-Reply-To: <20210413134906.GA1538655@robh.at.kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [118.69.219.201]
+X-ClientProxiedBy: SG2PR06CA0162.apcprd06.prod.outlook.com
+ (2603:1096:1:1e::16) To SN6PR0102MB3487.prod.exchangelabs.com
+ (2603:10b6:805:3::28)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=n
-Content-Transfer-Encoding: 8bit
-X-HM-Spam-Status: e1kfGhgUHx5ZQUtXWQgYFAkeWUFZS1VLWVdZKFlBSE83V1ktWUFJV1kPCR
-        oVCBIfWUFZGklITVZOS05CSE8aGUwdTR5VEwETFhoSFyQUDg9ZV1kWGg8SFR0UWUFZT0tIVUpKS0
-        hKTFVLWQY+
-X-HM-Sender-Digest: e1kMHhlZQR0aFwgeV1kSHx4VD1lBWUc6Mjo6Nyo5KD8UQxwZD1YMOEgY
-        IRVPCgxVSlVKTUpDSENDTUtOSEhDVTMWGhIXVRkeCRUaCR87DRINFFUYFBZFWVdZEgtZQVlITVVK
-        TklVSk9OVUpDSllXWQgBWUFKSUhLSjcG
-X-HM-Tid: 0a78cf7a5774b038kuuu7ec36540372
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.38.32.245] (118.69.219.201) by SG2PR06CA0162.apcprd06.prod.outlook.com (2603:1096:1:1e::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4042.16 via Frontend Transport; Wed, 14 Apr 2021 08:28:37 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: e23ac0dc-31d7-4cfa-08d7-08d8ff1f5083
+X-MS-TrafficTypeDiagnostic: SN6PR01MB4142:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR01MB4142679E1CF323C17B367EFAF24E9@SN6PR01MB4142.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: piPjTqGYVPau1164/MB7WpS9fFkTutilCmEufP8tslOhHDqflK6JhQ/IlzF/HNxeWQi3YuzaarR09z2kp4wKYMcKWLHnr1NbOr8uAE06UxJbgCOFl62ayAzxCZssPETmJLw5YE0ZX1aGt+MUcpPxemIRVdaG2WdVClCkECmCeWp0+3eoc6aLEhEGd4ciYd+AHTEhxsyQP+I5phsZtXHi3K+a+rC+T6JXvh0SlkTDkV/wsnRwMy7whirvjdQPyjLBvUZk2NvhfWOu2yfkdAIhQj7/B5GutGC1HXrkARYyIb0oETaFegZLdmH7sW0MzbWLIdh1i49vBD0v28HY+TehtjY7bzQz0SXpJAPrGZNAuT0D7L2KAN8YkwvxDcr58IV4CF7ordLbuFQA3rEx1tCunG163Z5+kpCFOYphjpKua9+Xtn10UbmA6ekkZNhYNZ1joBRqq9+fz7LPoZLMoYO/DNFzBFSPhjpCHvr+2pt4W/E/dAq8DppxYlEvzR+HpiPhm5+LU0OFATZzrmodKK38d6JHodLv3TfFc3BQx91Mq/hfa0AHwtizR3PBcR2M7J9VAq+DkN63jXfJwxr0eDKVmd50cYkllrNP+FWoPqJ6zw8PESWXUWlz/OL+vg4fLuzi3RkC3V+endjJoHW4NEAqOQJbnZ+WiEG3lN+y6MH6OTaIlBkDoS8RCB18OI8wm3FzvJKYgb90fVU3NLj0je7oOXZIToMOEGf0pZWdEofTJkFqt9kZoVpX0qWoUfLWukmvhYdm/+su7OGvJzIE/FCF05H2SBg43fnJbKJo700hcG8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR0102MB3487.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(376002)(136003)(396003)(346002)(39840400004)(8936002)(6666004)(966005)(2906002)(4326008)(6916009)(38350700002)(7416002)(16576012)(38100700002)(6486002)(478600001)(66556008)(66476007)(66946007)(86362001)(16526019)(186003)(31686004)(2616005)(52116002)(8676002)(5660300002)(107886003)(53546011)(316002)(26005)(31696002)(54906003)(956004)(83380400001)(45980500001)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Wm5wNHUzMmFOdnBZSDJxOU5BVUY2dmRoSFdON2wvRnAySEZ4aFRnb1AxeXhY?=
+ =?utf-8?B?VWFLUVJyTG14WHpnTmpxS1Z5ajM5M3VJUHl6dFRQMFdhWUluMDcwdVVzaFNH?=
+ =?utf-8?B?Z3h5MzVvaVBOR29RWXNKL3BVbjYwN2xFRS8vSVpSTFlMWkZUNURaMFRHN3lR?=
+ =?utf-8?B?TnlwR3JVa2taTU1hNjFUbnRPam85dWk1a0VJQ3FYM2tKbEZvVEtVbXNkbkN4?=
+ =?utf-8?B?N1pyWUVvOUdGcmx2U0YzZ0F5TittRHpwcUl6SW5rOEs1YWs1RExhSlV0Wmx6?=
+ =?utf-8?B?NVpMT1hZYksyajFLYVR1K2YwbWdzVXdtZFlCYk1Iek96YThrbWI4dFIyVXl3?=
+ =?utf-8?B?NTZ5cjBENGVEY0JrYUF2Sm1MQ0VtcXQwRExnOTYyR3J1Z292MnR5WHp2ZG1q?=
+ =?utf-8?B?cjFQdHFVVFhGSjVhekx2eU9VcjA5YlJjN0NiMmQ3bEowM3ZPM1FBVGI4TnU5?=
+ =?utf-8?B?cmlSZmI1MGE3ZXhRemZDY3MwckY2cHcvTjBSR3ZpUlJWTkMzMGJNVnFza0Vs?=
+ =?utf-8?B?L2EyTEtSWFBBaXRtTU92OGZoYlVWUGNFdXpCTWFNeU5QODBCbUZPaHpFSXdT?=
+ =?utf-8?B?VVlmUDMvWFdVcHJkN1RTYWtuQlZoQkgxcU8rdWhEQkd3KzJSZWh6NjJuSk54?=
+ =?utf-8?B?WWpyNURiSjNsaWRUZWlQZStmWTcxL0E0UkNaUXVYUDBDY3dvSFpYL0g5emdQ?=
+ =?utf-8?B?VHR3OFN5d0Q3T1ZkYzE2OVdZRmtoQzFVbjF6QVk5SkszOVlMcytoamY1T0tt?=
+ =?utf-8?B?d2Q3QlJDbDl0cUQzbDl2dUFRSmxzY2dFTGozQTRxU0FONjlTZzI4TStGZWd3?=
+ =?utf-8?B?N1NVcnVhaVMxWU5UVVpqSUlXOGQ4QTNwNDI1Y3YvTGJiSE5xSGVkWStGWC9s?=
+ =?utf-8?B?dUlxaHB1eWVJdjd4TTM0dld6NzBXNlhVQXpybnV3bUVENUFubklvT1d4M0xk?=
+ =?utf-8?B?c0d4ZFEwekJ4eFRHSnZUVG1yQU93UVVacSs5ZGFxSW4zZTV6ZzdCYkZpUGsx?=
+ =?utf-8?B?N2xqRWVMNzAwVHgrQ2d5ekJSQVBLTEpFcEtvZVBaaFhvVlc2NHFMOWc2L0do?=
+ =?utf-8?B?V2NDc29tZldocEdNQ041YVI3SCtWMitKTEhmckVnOVY2U0ZDRzh3czk0ekRJ?=
+ =?utf-8?B?K3E4R0JlWlh2YnQvS2IrMEkwWFNqdkw2akpQSnhaZjB1dmpEdVBQSnlnbzBM?=
+ =?utf-8?B?ZGExUXBseEgva1lrUzZGOUJjSXJQaGN0RjNCMUVGWE9Qdmk1MENoVjRCL0JC?=
+ =?utf-8?B?TUdJUkViK3B4ZE5IWlR0UnZPQXMxSi9ESDViT3pMbUo1VEJPaUkyWVkwTjFm?=
+ =?utf-8?B?b3Q0RjcrQndhNURMalFxdUEra0FlN3FNNTI1N1N6ZDg2amIvQ1FPVnRTYzhX?=
+ =?utf-8?B?TjVSR0FvTWVYTzUzUThBYTJnOTk2d2FqZ1lnZFRDYXJDbnRzdmMxam5JWjFB?=
+ =?utf-8?B?TnRoNEwzL1ZyUEZ4ckw3UXR2dTZsYjE1Vy9QbUhSYUJ3cFdneUJPWnNGcnV5?=
+ =?utf-8?B?bVhGMFRocEhSb0dITmhIVWZpY0FrT0dwaERqQmNZTDNYU3BMVlFRaXFmbHdW?=
+ =?utf-8?B?U3JyY0VXTnRuVkhOczNPa2ZyZjNkcm9ZSWRhU1RCNHVSM3RhYnh4OXlpejdl?=
+ =?utf-8?B?bDdKbzJSN2ExMTg3K2ZFeDY3NUJZWEFwV2I0Qm9wSmJrd25vTUx1aW1xZW14?=
+ =?utf-8?B?bE13WlNYbE5obkZoU1JtSHFyZkNIdlRkbVV2STJmalVHaGJmVDdyU0ZHczRV?=
+ =?utf-8?Q?8fDfJ1ki3I5gpOEuCkk/nhc2NCZz/TlJsaYVtWv?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e23ac0dc-31d7-4cfa-08d7-08d8ff1f5083
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR0102MB3487.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2021 08:28:43.8066
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mA5wHi5oz0oa3thOnFcmkZ4kkkcwLwGBZU2eUWKvIASpIUlOL23ZJ/ZSPh0oSVXiHB+3hfrr5OeTBM1b+5fpckMugf7I5C+IIWmyorqlBQY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR01MB4142
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add translations to dev-tools gcov
+On 13/04/2021 20:49, Rob Herring wrote:
+> On Fri, Apr 09, 2021 at 10:13:29AM +0700, Quan Nguyen wrote:
+>> Adds device tree bindings for SMPro drivers found on the Mt.Jade hardware
+>> reference platform with Ampere's Altra Processor family.
+>>
+>> Signed-off-by: Quan Nguyen <quan@os.amperecomputing.com>
+>> ---
+>>   .../bindings/hwmon/ampere,ac01-hwmon.yaml     |  28 +++++
+>>   .../devicetree/bindings/mfd/ampere,smpro.yaml | 105 ++++++++++++++++++
+>>   2 files changed, 133 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+>>   create mode 100644 Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml b/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+>> new file mode 100644
+>> index 000000000000..fbf7ec754160
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/hwmon/ampere,ac01-hwmon.yaml
+>> @@ -0,0 +1,28 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/hwmon/ampere,ac01-hwmon.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Hardware monitoring driver for the Ampere Altra SMPro
+>> +
+>> +maintainers:
+>> +  - Quan Nguyen <quan@os.amperecomputing.com>
+>> +
+>> +description: |
+>> +  This module is part of the Ampere Altra SMPro multi-function device. For more
+>> +  details see ../mfd/ampere,smpro.yaml.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - ampere,ac01-hwmon
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +
+>> +additionalProperties: false
+>> diff --git a/Documentation/devicetree/bindings/mfd/ampere,smpro.yaml b/Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
+>> new file mode 100644
+>> index 000000000000..5613c420869e
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/mfd/ampere,smpro.yaml
+>> @@ -0,0 +1,105 @@
+>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/mfd/ampere,smpro.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Ampere Altra SMPro firmware driver
+>> +
+>> +maintainers:
+>> +  - Quan Nguyen <quan@os.amperecomputing.com>
+>> +
+>> +description: |
+>> +  Ampere Altra SMPro firmware may contain different blocks like hardware
+>> +  monitoring, error monitoring and other miscellaneous features.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    enum:
+>> +      - ampere,smpro
+> 
+> Again, not very specific. There's only 1 version of 'smpro' h/w or
+> firmware? Are the firmware version and features discoverable? If not,
+> you need to be more specific (or better yet, make them discoverable).
+> 
+Hi Rob,
 
-Signed-off-by: Bernard Zhao <bernard@vivo.com>
+So far, there's nothing to guarantee this is the only version of SMPro 
+and neither firmware version nor features that are discoverable.
 
----
+In fact, it was "ampere,ac01-smpro" specifically in my v1. But this is 
+the "ampere,smpro" in arch/arm/boot/dts/nuvoton-npcm730-kudo.dts, that 
+is why it got changed to "ampere,smpro" to avoid changes in that dts file.
 
-Changes since V2:
-* fix some inaccurate translation
+I'm thinking about change it back to "ampere,ac01-smpro" in next version 
+to make this compatible string more specific.
 
-Changes since V1:
-* add index.rst in dev-tools and link to to zh_CN/index.rst
-* fix some inaccurate translation
----
- .../translations/zh_CN/dev-tools/gcov.rst     | 261 ++++++++++++++++++
- .../translations/zh_CN/dev-tools/index.rst    |  35 +++
- Documentation/translations/zh_CN/index.rst    |   1 +
- 3 files changed, 297 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/dev-tools/gcov.rst
- create mode 100644 Documentation/translations/zh_CN/dev-tools/index.rst
+>> +
+>> +  reg:
+>> +    description:
+>> +      I2C device address.
+>> +    maxItems: 1
+>> +
+>> +  "#address-cells":
+>> +    const: 1
+>> +
+>> +  "#size-cells":
+>> +    const: 0
+>> +
+>> +patternProperties:
+>> +  "^hwmon(@[0-9a-f]+)?$":
+>> +    $ref: ../hwmon/ampere,ac01-hwmon.yaml
+>> +
+>> +  "^misc(@[0-9a-f]+)?$":
+> 
+> You don't need these child nodes in DT if there are no resources
+> associated with them. The parent driver can instantiate all the
+> sub-functions.
+> 
 
-diff --git a/Documentation/translations/zh_CN/dev-tools/gcov.rst b/Documentation/translations/zh_CN/dev-tools/gcov.rst
-new file mode 100644
-index 000000000000..882eee4c75c5
---- /dev/null
-+++ b/Documentation/translations/zh_CN/dev-tools/gcov.rst
-@@ -0,0 +1,261 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/dev-tools/gcov.rst
-+:Translator: 赵军奎 Bernard Zhao <bernard@vivo.com>
-+
-+在Linux内核里使用gcov做代码覆盖率检查
-+=========================================
-+
-+gcov是linux中已经集成的一个分析模块，该模块在内核中对GCC的代码覆盖率统
-+计提供了支持。
-+linux内核运行时的代码覆盖率数据会以gcov兼容的格式存储在debug-fs中，可
-+以通过gcov的``-o``选项（如下示例）获得指定文件的代码运行覆盖率统计数据
-+（需要跳转到内核编译路径下并且要有root权限）::
-+
-+    # cd /tmp/linux-out
-+    # gcov -o /sys/kernel/debug/gcov/tmp/linux-out/kernel spinlock.c
-+
-+这将在当前目录中创建带有执行计数注释的源代码文件。
-+在获得这些统计文件后，可以使用图形化的gcov_前端工具（比如lcov_），来实现
-+自动化处理linux 内核的覆盖率运行数据，同时生成易于阅读的HTML格式文件。
-+
-+可能的用途:
-+
-+* 调试（用来判断每一行的代码是否已经运行过）
-+* 测试改进（如何修改测试代码，尽可能地覆盖到没有运行过的代码）
-+* 内核配置优化（对于某一个选项配置，如果关联的代码从来没有运行过，是
-+否还需要这个配置）
-+
-+_gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
-+_lcov: http://ltp.sourceforge.net/coverage/lcov.php
-+
-+
-+准备
-+-----------
-+
-+内核打开如下配置::
-+
-+        CONFIG_DEBUG_FS=y
-+        CONFIG_GCOV_KERNEL=y
-+
-+获取整个内核的覆盖率数据，还需要打开::
-+
-+        CONFIG_GCOV_PROFILE_ALL=y
-+
-+需要注意的是，整个内核开启覆盖率统计会造成内核镜像文件尺寸的增大，
-+同时内核运行的也会变慢一些。
-+另外，并不是所有的架构都支持整个内核开启覆盖率统计。
-+
-+代码运行覆盖率数据只在debugfs挂载完成后才可以访问::
-+
-+        mount -t debugfs none /sys/kernel/debug
-+
-+
-+客制化
-+-------------
-+
-+如果要单独针对某一个路径或者文件进行代码覆盖率统计，可以在内核相应路
-+径的Makefile中增加如下的配置:
-+
-+- 单独统计单个文件（例如main.o）::
-+
-+    GCOV_PROFILE_main.o := y
-+
-+- 单独统计某一个路径::
-+
-+    GCOV_PROFILE := y
-+
-+如果要在整个内核的覆盖率统计（开启CONFIG_GCOV_PROFILE_ALL）中单独排除
-+某一个文件或者路径，可以使用如下的方法::
-+
-+    GCOV_PROFILE_main.o := n
-+
-+和::
-+
-+    GCOV_PROFILE := n
-+
-+此机制仅支持链接到内核镜像或编译为内核模块的文件。
-+
-+
-+相关文件
-+-------------
-+
-+gcov功能需要在debugfs中创建如下文件:
-+
-+``/sys/kernel/debug/gcov``
-+    gcov相关功能的根路径
-+
-+``/sys/kernel/debug/gcov/reset``
-+    全局复位文件:向该文件写入数据后会将所有的gcov统计数据清0
-+
-+``/sys/kernel/debug/gcov/path/to/compile/dir/file.gcda``
-+    gcov工具可以识别的覆盖率统计数据文件，向该文件写入数据后
-+	会将本文件的gcov统计数据清0
-+
-+``/sys/kernel/debug/gcov/path/to/compile/dir/file.gcno``
-+    gcov工具需要的软连接文件（指向编译时生成的信息统计文件），这个文件是
-+    在gcc编译时如果配置了选项``-ftest-coverage``时生成的。
-+
-+
-+针对模块的统计
-+---------------
-+
-+内核中的模块会动态的加载和卸载，模块卸载时对应的数据会被清除掉。
-+gcov提供了一种机制，通过保留相关数据的副本来收集这部分卸载模块的覆盖率数据。
-+模块卸载后这些备份数据在debugfs中会继续存在。
-+一旦这个模块重新加载，模块关联的运行统计会被初始化成debugfs中备份的数据。
-+
-+可以通过对内核参数gcov_persist的修改来停用gcov对模块的备份机制::
-+
-+        gcov_persist = 0
-+
-+在运行时，用户还可以通过写入模块的数据文件或者写入gcov复位文件来丢弃已卸
-+载模块的数据。
-+
-+
-+分离的编译和运行设备
-+---------------------
-+
-+gcov的内核分析架构支持内核的编译和分析是在同一台设备上，也可以编译和运
-+行是在不同的设备上。
-+如果内核编译和运行是不同的设备，那么需要额外的准备工作，这取决于gcov工具
-+是在哪里使用的:
-+
-+a) 若gcov运行在测试设备上
-+
-+    测试设备上面gcov工具的版本必须要跟设备内核编译使用的gcc版本相兼容，
-+    同时下面的文件要从编译设备拷贝到测试设备上:
-+
-+    从源代码中:
-+      - 所有的C文件和头文件
-+
-+    从编译目录中:
-+      - 所有的C文件和头文件
-+      - 所有的.gcda文件和.gcno文件
-+      - 所有目录的链接
-+
-+    特别需要注意，测试机器上面的目录结构跟编译机器上面的目录机构必须
-+    完全一致。
-+    如果文件是软链接，需要替换成真正的目录文件（这是由make的当前工作
-+    目录变量CURDIR引起的）。
-+
-+b) 若gcov运行在编译设备上
-+
-+    测试用例运行结束后，如下的文件需要从测试设备中拷贝到编译设备上:
-+
-+    从sysfs中的gcov目录中:
-+      - 所有的.gcda文件
-+      - 所有的.gcno文件软链接
-+
-+    这些文件可以拷贝到编译设备的任意目录下，gcov使用-o选项指定拷贝的
-+    目录。
-+
-+    比如一个是示例的目录结构如下::
-+
-+      /tmp/linux:    内核源码目录
-+      /tmp/out:      内核编译文件路径（make O=指定）
-+      /tmp/coverage: 从测试机器上面拷贝的数据文件路径
-+
-+      [user@build] cd /tmp/out
-+      [user@build] gcov -o /tmp/coverage/tmp/out/init main.c
-+
-+
-+关于编译器的注意事项
-+----------------------
-+
-+GCC和LLVM gcov工具不一定兼容。
-+如果编译器是GCC，使用gcov_来处理.gcno和.gcda文件，如果是Clang编译器，
-+则使用llvm-cov_。
-+
-+_gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
-+_llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
-+
-+GCC和Clang gcov之间的版本差异由Kconfig处理的。
-+kconfig会根据编译工具链的检查自动选择合适的gcov格式。
-+
-+问题定位
-+---------------
-+
-+可能出现的问题1
-+    编译到链接阶段报错终止
-+
-+问题原因
-+    分析标志指定在了源文件但是没有链接到主内核，或者客制化了链接程序
-+
-+解决方法
-+    通过在相应的Makefile中使用``GCOV_PROFILE := n``
-+    或者``GCOV_PROFILE_basename.o := n``来将链接报错的文件排除掉
-+
-+可能出现的问题2
-+    从sysfs复制的文件显示为空或不完整
-+
-+问题原因
-+    由于seq_file的工作方式，某些工具（例如cp或tar）可能无法正确地从
-+    sysfs复制文件。
-+
-+解决方法
-+    使用``cat``读取``.gcda``文件，使用``cp -d``复制链接，或者使用附录B中所示的
-+    机制。
-+
-+
-+附录A::collect_on_build.sh
-+------------------------------
-+
-+用于在编译设备上收集覆盖率编译中间数据文件的示例脚本.
-+（如下6a示例）
-+
-+.. code-block:: sh
-+
-+    #!/bin/bash
-+
-+    KSRC=$1
-+    KOBJ=$2
-+    DEST=$3
-+
-+    if [ -z "$KSRC" ] || [ -z "$KOBJ" ] || [ -z "$DEST" ]; then
-+      echo "Usage: $0 <ksrc directory> <kobj directory> <output.tar.gz>" >&2
-+      exit 1
-+    fi
-+
-+    KSRC=$(cd $KSRC; printf "all:\n\t@echo \${CURDIR}\n" | make -f -)
-+    KOBJ=$(cd $KOBJ; printf "all:\n\t@echo \${CURDIR}\n" | make -f -)
-+
-+    find $KSRC $KOBJ \( -name '*.gcno' -o -name '*.[ch]' -o -type l \) -a \
-+                     -perm /u+r,g+r | tar cfz $DEST -P -T -
-+
-+    if [ $? -eq 0 ] ; then
-+      echo "$DEST successfully created, copy to test system and unpack with:"
-+      echo "  tar xfz $DEST -P"
-+    else
-+      echo "Could not create file $DEST"
-+    fi
-+
-+
-+附录B::collect_on_test.sh
-+-----------------------------
-+
-+用于在测试设备上收集覆盖里统计数据数据文件的示例脚本
-+（如下6b示例）
-+
-+.. code-block:: sh
-+
-+    #!/bin/bash -e
-+
-+    DEST=$1
-+    GCDA=/sys/kernel/debug/gcov
-+
-+    if [ -z "$DEST" ] ; then
-+      echo "Usage: $0 <output.tar.gz>" >&2
-+      exit 1
-+    fi
-+
-+    TEMPDIR=$(mktemp -d)
-+    echo Collecting data..
-+    find $GCDA -type d -exec mkdir -p $TEMPDIR/\{\} \;
-+    find $GCDA -name '*.gcda' -exec sh -c 'cat < $0 > '$TEMPDIR'/$0' {} \;
-+    find $GCDA -name '*.gcno' -exec sh -c 'cp -d $0 '$TEMPDIR'/$0' {} \;
-+    tar czf $DEST -C $TEMPDIR sys
-+    rm -rf $TEMPDIR
-+
-+    echo "$DEST successfully created, copy to build system and unpack with:"
-+    echo "  tar xfz $DEST"
-diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
-new file mode 100644
-index 000000000000..28b256ad4257
---- /dev/null
-+++ b/Documentation/translations/zh_CN/dev-tools/index.rst
-@@ -0,0 +1,35 @@
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:Original: Documentation/dev-tools/index.rst
-+:Translator: 赵军奎 Bernard Zhao <bernard@vivo.com>
-+
-+================================
-+内核开发工具
-+================================
-+
-+本文档是有关内核开发工具文档的合集。
-+目前这些文档已经整理在一起，不需要再花费额外的精力。
-+欢迎任何补丁。
-+
-+.. class:: toc-title
-+
-+	   目录
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   gcov
-+
-+Todolist:
-+
-+   coccinelle
-+   sparse
-+   kcov
-+   kasan
-+   ubsan
-+   kmemleak
-+   kcsan
-+   gdb-kernel-debugging
-+   kgdb
-+   kselftest
-+   kunit/index
-diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-index be6f11176200..a5e483b0c7f2 100644
---- a/Documentation/translations/zh_CN/index.rst
-+++ b/Documentation/translations/zh_CN/index.rst
-@@ -20,6 +20,7 @@
-    process/index
-    filesystems/index
-    arm64/index
-+   dev-tools/index
- 
- 目录和表格
- ----------
--- 
-2.31.0
+ From v3, there is a "reg" property introduced for the child driver, 
+especially for the misc driver. This is unavoidable because other 
+properties might be introduced in future for other misc features.
+
+>> +    type: object
+>> +    description: |
+>> +      This module is part of the Ampere Altra SMPro multi-function device
+>> +      to support miscellaneous features
+>> +    properties:
+>> +      compatible:
+>> +        enum:
+>> +          - ampere,ac01-misc
+>> +      reg:
+>> +        maxItems: 1
+>> +
+>> +    required:
+>> +      - compatible
+>> +      - reg
+>> +
+>> +  "^errmon(@[0-9a-f]+)?$":
+>> +    type: object
+>> +    description: |
+>> +      This module is part of the Ampere Altra SMPro multi-function device
+>> +      that supports error monitoring feature.
+>> +
+>> +    properties:
+>> +      compatible:
+>> +        enum:
+>> +          - ampere,ac01-errmon
+>> +      reg:
+>> +        maxItems: 1
+>> +
+>> +    required:
+>> +      - compatible
+>> +      - reg
+>> +
+>> +required:
+>> +  - "#address-cells"
+>> +  - "#size-cells"
+>> +  - compatible
+>> +  - reg
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    i2c {
+>> +        #address-cells = <1>;
+>> +        #size-cells = <0>;
+>> +
+>> +        smpro@4f {
+>> +            compatible = "ampere,smpro";
+>> +            reg = <0x4f>;
+>> +            #address-cells = <1>;
+>> +            #size-cells = <0>;
+>> +
+>> +            hwmon@10 {
+>> +                compatible = "ampere,ac01-hwmon";
+>> +                reg = <0x10>;
+>> +            };
+>> +
+>> +            misc@b0 {
+>> +                compatible = "ampere,ac01-misc";
+>> +                reg = <0xb0>;
+>> +            };
+>> +
+>> +            errmon@80 {
+>> +                compatible = "ampere,ac01-errmon";
+>> +                reg = <0x80>;
+>> +            };
+>> +
+>> +        };
+>> +    };
+>> -- 
+>> 2.28.0
+>>
 
