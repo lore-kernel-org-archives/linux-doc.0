@@ -2,119 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23477C43600
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 04:40:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 559AAC433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 05:21:05 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F20AC613B1
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 04:40:24 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 31E036120E
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 05:21:05 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231582AbhDNEko (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Apr 2021 00:40:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45940 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230496AbhDNEkn (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 00:40:43 -0400
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9974BC061574;
-        Tue, 13 Apr 2021 21:40:22 -0700 (PDT)
-Received: by mail-qt1-x830.google.com with SMTP id h7so14578974qtx.3;
-        Tue, 13 Apr 2021 21:40:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9BCnDgTYwbVMwDnN4eWFAK2W985VQMQVft27SbY4QTY=;
-        b=GGMyP8RVsvdwPgOFd1CrPyPEqN8Nm/Hz9bJ4al7HNqaQHbwGpUoldGFL4rgCniwC++
-         R54j6hEUgTW6g40XFYedO4bqHV5aYZkeWjEoZKfmy+1aquWz9eZ0UKAjUghSlqAdaDko
-         Zm4GvFZxi9uFixVDbsGLnI+skx91HjzGru6b4ExfM8lZyL/qZetVX1Nwt6ndwgtCNC67
-         /v8FQEMkejGT28tvRZSbWG23VmkO6/exbjz/4IjXytXtoFeUntk8G7v//sOjoGojl7Qb
-         YXp2KcaVl6JmiJvExO/QVXHeoqGcR3KCp7DNr7h2fXRLjPgRk+y5YAd24mQAtCutMMqh
-         TY4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9BCnDgTYwbVMwDnN4eWFAK2W985VQMQVft27SbY4QTY=;
-        b=by9gwWuNENQ9De9iDw7mPPYrlqUohv0YCE781holozKHhLT4ADcKB+Zu4Dqd3WfobN
-         5Afjjm9aMNv2DgDrUSIzuGTqLNc5MO6GZVhrgYtp9b1AIMGrt9iTEO9qOM+FMgrhhbeJ
-         21Filqp1TWzzkUeXrLAxdj0aXrCtdXAwDehrKlPI/dWzDbE0aL2vf3x/tHZbXKu3iWn1
-         x7AXx2ycE0mdP+0LOlkd7nreocK2Q/KfZlVsxp536FWrJ2B4G3D2K0I2LZ+JfkkZOrkh
-         DVKtxyqsitsxfknGUainXd2w5XXb4hiuj4Rg05Kp289vzthi4i028iuDoowcOVqsc2Zj
-         WWfQ==
-X-Gm-Message-State: AOAM530JLX1bjOeNj3R6Xg0U0vtcFQV4FQaBHUoMWkti+vmoAdJVZczI
-        9XaNokKkBS3id8BeZzKJuaBZ9hfhguE=
-X-Google-Smtp-Source: ABdhPJzXKIUj0I/LTjOOZ9Q3r/ZvWXA4butRYDA48FJpRVe3BL+JVdYczzYZf8GtnewuKU+2251ylA==
-X-Received: by 2002:ac8:59c9:: with SMTP id f9mr33576466qtf.234.1618375221607;
-        Tue, 13 Apr 2021 21:40:21 -0700 (PDT)
-Received: from localhost ([207.98.216.60])
-        by smtp.gmail.com with ESMTPSA id l24sm2625079qtp.18.2021.04.13.21.40.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Apr 2021 21:40:21 -0700 (PDT)
-Date:   Tue, 13 Apr 2021 21:40:20 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH] Documentation: syscalls: add a note about  ABI-agnostic
- types
-Message-ID: <20210414044020.GA44464@yury-ThinkPad>
-References: <20210409204304.1273139-1-yury.norov@gmail.com>
+        id S237952AbhDNFVY (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Apr 2021 01:21:24 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43594 "EHLO
+        mx0b-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1347126AbhDNFVX (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 01:21:23 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13E53Gq6095394;
+        Wed, 14 Apr 2021 01:20:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : content-type :
+ mime-version; s=pp1; bh=+vwG3u3iIJPG/PKR7v/p3EeHOl8MGusq6Iepzq3DwWU=;
+ b=d4TX/QcPMfADRL9KVfaRYfODhn4FsZ2yB3WSPGXXB4nFc2beLvn30zwl+oklMmtt6mSR
+ 11PYEgFTpFXqkKHLdAmMT6sGMvv0r6cBTkKZLGiuQ0hlWW+F2mDckPnt6ik1OCre3grF
+ Dhl5T5mJZIkXhBtXEthFFupbPwX1pm7jRsat1gWC9dvlQgkOUup5NFynLRMmeVRNfd0i
+ OIkKrihKI54UV8F0kuneP75CzFcyK+e8Gi01DNj5RyWGiyGET4ZWDXZ5ew2PobLD9wjK
+ 39gnGHtqQd/iGeVLbG4yt4ya73Z5Ze0m3DKpPXzHM6fcyXyPDVSk3Ks8D9HvQmzosQCe SA== 
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com [169.63.214.131])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 37vjtuxtu3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 14 Apr 2021 01:20:49 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+        by ppma01dal.us.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13E5HuEY003027;
+        Wed, 14 Apr 2021 05:20:48 GMT
+Received: from b01cxnp23033.gho.pok.ibm.com (b01cxnp23033.gho.pok.ibm.com [9.57.198.28])
+        by ppma01dal.us.ibm.com with ESMTP id 37u3n9p3yu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 14 Apr 2021 05:20:48 +0000
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com [9.57.199.109])
+        by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 13E5KlWw19595690
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 14 Apr 2021 05:20:48 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C688D112063;
+        Wed, 14 Apr 2021 05:20:47 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id C2749112061;
+        Wed, 14 Apr 2021 05:20:44 +0000 (GMT)
+Received: from skywalker.linux.ibm.com (unknown [9.77.205.193])
+        by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+        Wed, 14 Apr 2021 05:20:44 +0000 (GMT)
+X-Mailer: emacs 27.2 (via feedmail 11-beta-1 I)
+From:   "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>
+To:     Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Shivaprasad G Bhat <sbhat@linux.ibm.com>,
+        sbhat@linux.vnet.ibm.com, linuxppc-dev@lists.ozlabs.org,
+        kvm-ppc@vger.kernel.org, linux-nvdimm@lists.01.org,
+        ellerman@au1.ibm.com
+Cc:     linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3] powerpc/papr_scm: Implement support for H_SCM_FLUSH
+ hcall
+In-Reply-To: <87sg3ujmrm.fsf@vajain21.in.ibm.com>
+References: <161703936121.36.7260632399582101498.stgit@e1fbed493c87>
+ <87sg3ujmrm.fsf@vajain21.in.ibm.com>
+Date:   Wed, 14 Apr 2021 10:50:42 +0530
+Message-ID: <877dl530id.fsf@linux.ibm.com>
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: 8ZQICP9aX4lphGsoIi4A2MSJqLUmlzWR
+X-Proofpoint-ORIG-GUID: 8ZQICP9aX4lphGsoIi4A2MSJqLUmlzWR
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210409204304.1273139-1-yury.norov@gmail.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
+ definitions=2021-04-14_01:2021-04-13,2021-04-14 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 suspectscore=0 bulkscore=0 adultscore=0
+ mlxscore=0 mlxlogscore=999 clxscore=1015 phishscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2104060000
+ definitions=main-2104140034
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Ping?
+Vaibhav Jain <vaibhav@linux.ibm.com> writes:
 
-On Fri, Apr 09, 2021 at 01:43:04PM -0700, Yury Norov wrote:
-> Recently added memfd_secret() syscall had a flags parameter passed
-> as unsigned long, which requires creation of compat entry for it.
-> It was possible to change the type of flags to unsigned int and so
-> avoid bothering with compat layer.
-> 
-> https://www.spinics.net/lists/linux-mm/msg251550.html
-> 
-> Documentation/process/adding-syscalls.rst doesn't point clearly about
-> preference of ABI-agnostic types. This patch adds such notification.
-> 
-> Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> ---
->  Documentation/process/adding-syscalls.rst | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-> index 9af35f4ec728..46add16edf14 100644
-> --- a/Documentation/process/adding-syscalls.rst
-> +++ b/Documentation/process/adding-syscalls.rst
-> @@ -172,6 +172,13 @@ arguments (i.e. parameter 1, 3, 5), to allow use of contiguous pairs of 32-bit
->  registers.  (This concern does not apply if the arguments are part of a
->  structure that's passed in by pointer.)
->  
-> +Whenever possible, try to use ABI-agnostic types for passing parameters to
-> +a syscall in order to avoid creating compat entry for it. Linux supports two
-> +ABI models - ILP32 and LP64. The types like ``void *``, ``long``, ``size_t``,
-> +``off_t`` have different size in those ABIs; types like ``char`` and  ``int``
-> +have the same size and don't require a compat layer support. For flags, it's
-> +always better to use ``unsigned int``.
-> +
->  
->  Proposing the API
->  -----------------
-> -- 
-> 2.25.1
+> Hi Shiva,
+>
+> Apologies for a late review but something just caught my eye while
+> working on a different patch.
+>
+> Shivaprasad G Bhat <sbhat@linux.ibm.com> writes:
+>
+>> Add support for ND_REGION_ASYNC capability if the device tree
+>> indicates 'ibm,hcall-flush-required' property in the NVDIMM node.
+>> Flush is done by issuing H_SCM_FLUSH hcall to the hypervisor.
+>>
+>> If the flush request failed, the hypervisor is expected to
+>> to reflect the problem in the subsequent nvdimm H_SCM_HEALTH call.
+>>
+>> This patch prevents mmap of namespaces with MAP_SYNC flag if the
+>> nvdimm requires an explicit flush[1].
+>>
+>> References:
+>> [1] https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c
+>>
+>> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+>> ---
+>> v2 - https://www.spinics.net/lists/kvm-ppc/msg18799.html
+>> Changes from v2:
+>>        - Fixed the commit message.
+>>        - Add dev_dbg before the H_SCM_FLUSH hcall
+>>
+>> v1 - https://www.spinics.net/lists/kvm-ppc/msg18272.html
+>> Changes from v1:
+>>        - Hcall semantics finalized, all changes are to accomodate them.
+>>
+>>  Documentation/powerpc/papr_hcalls.rst     |   14 ++++++++++
+>>  arch/powerpc/include/asm/hvcall.h         |    3 +-
+>>  arch/powerpc/platforms/pseries/papr_scm.c |   40 +++++++++++++++++++++++++++++
+>>  3 files changed, 56 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
+>> index 48fcf1255a33..648f278eea8f 100644
+>> --- a/Documentation/powerpc/papr_hcalls.rst
+>> +++ b/Documentation/powerpc/papr_hcalls.rst
+>> @@ -275,6 +275,20 @@ Health Bitmap Flags:
+>>  Given a DRC Index collect the performance statistics for NVDIMM and copy them
+>>  to the resultBuffer.
+>>  
+>> +**H_SCM_FLUSH**
+>> +
+>> +| Input: *drcIndex, continue-token*
+>> +| Out: *continue-token*
+>> +| Return Value: *H_SUCCESS, H_Parameter, H_P2, H_BUSY*
+>> +
+>> +Given a DRC Index Flush the data to backend NVDIMM device.
+>> +
+>> +The hcall returns H_BUSY when the flush takes longer time and the hcall needs
+>> +to be issued multiple times in order to be completely serviced. The
+>> +*continue-token* from the output to be passed in the argument list of
+>> +subsequent hcalls to the hypervisor until the hcall is completely serviced
+>> +at which point H_SUCCESS or other error is returned by the hypervisor.
+>> +
+> Does the hcall semantic also include measures to trigger a barrier/fence
+> (like pm_wmb()) so that all the stores before the hcall are gauranteed
+> to have hit the pmem controller ?
+
+It is upto the hypervisor to implement the right sequence to ensure the
+guarantee. The hcall doesn't expect the store to reach the platform
+buffers.
+
+
+>
+> If not then the papr_scm_pmem_flush() introduced below should issue a
+> fence like pm_wmb() before issuing the flush hcall.
+>
+> If yes then this behaviour should also be documented with the hcall
+> semantics above.
+>
+
+IIUC fdatasync on the backend file is enough to ensure the
+guaraantee. Such a request will have REQ_PREFLUSH and REQ_FUA which will
+do the necessary barrier on the backing device holding the backend file.
+
+-aneesh
