@@ -2,159 +2,242 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46EACC43460
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 18:59:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E72EC433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 19:19:11 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 25CF5613C0
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 18:59:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E1FE610FC
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 19:19:11 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231718AbhDNTAQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Apr 2021 15:00:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55774 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231152AbhDNTAQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Apr 2021 15:00:16 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 47D9B61222;
-        Wed, 14 Apr 2021 18:59:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618426794;
-        bh=LYYO4HZeiyflbXu22XRjrSqjKF1aopb6IFR/toz6BrE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=FY4OSukw42A9w7mugJGLbvz/lUKmexZF/yWDTt2BWAbYW83VLNwWl0kylYrgH2skv
-         fzEq1f8xFrKkCmep36ljW9SZr7v/N8bcUw8FBFCmSQLoJO5e5o4Sq+qBwEkdHcTOIs
-         izaI3KuImeeCevmPFysG6ltEyNIZSkaEvmqRUW2WYHXXoyUweNGV5jUz2uNBTbqLQ2
-         JMoTP/zW++fruQbMxXh2pOH5E2tnZYreKPVfwUDQPQjdoSw0r33bWOgA/RBM293BgP
-         si6IhZObIvHGAMj1LCO3cIXqzWGWmWCvatDVrTlCeIp6yTMT6HY7f153kJ9uwh+ocd
-         P0/+CF6HuvFgw==
-Date:   Wed, 14 Apr 2021 11:59:48 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     ojeda@kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michal Suchanek <msuchanek@suse.de>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 03/13] Makefile: Generate CLANG_FLAGS even in GCC builds
-Message-ID: <YHc7pHjwmDJrkXqZ@archlinux-ax161>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <20210414184604.23473-4-ojeda@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210414184604.23473-4-ojeda@kernel.org>
+        id S245197AbhDNTTc (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Apr 2021 15:19:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41422 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233187AbhDNTTa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 15:19:30 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA607C061756
+        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 12:19:07 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id x7so20908961wrw.10
+        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 12:19:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=wzQ7aFO9CmJbwruZGwwKMP0v5PNaSPnUfL07kSjFRnI=;
+        b=Ty3NJe00pdywQtlTyJEvOG+lpEoLTptNksf/9Onjjl7peYr3aJzhFiYS8zUD3fUrCy
+         U3sRaKcREHls68bagHfwj+TfE9ymF2TJqcHoqKcTeTczPovw+rYQrh3QjfYxWaWHWDFt
+         njsXmFvzVksLSoEKzMEdDvzls6TeZ4KtFkxkGG15bBUWl0qQYU7pyZ29n2fSsoPJmqrX
+         z28npFvNtYugDmNiSlNy06Y6dZHlhetN1+5eLhErFoHqUlHsb5Dv+mJMj0fpUE+U6U6D
+         1fs54yEAgP6G00+v2hHs3YyploPv1d2sg5xiu0YYk9iQV3GC4pkvBtxWCAvxSA7axZUc
+         oTQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=wzQ7aFO9CmJbwruZGwwKMP0v5PNaSPnUfL07kSjFRnI=;
+        b=WthArQs2hGaefM0HwI8+DYO9l6LcpkZj3qYCzG4Pj5igXbeWz0iTkw07eEf69pouMy
+         43ZDTDE6zaTxULQ2hNVpvUgpd3ShhKRXAdada4Oz4CD6RVnVCYnX0tVUUqjTSsfUIiI7
+         Gxo2YuYc/fDGih3MuR1MTfmIZwjeDVsRbduT+X1rVfPon570nS+q4MEgyF53DjIKB05W
+         T8yKJQ55n3XBOrrRFdRMcyixKPfPpQ1Vcv72ZTmVzI1V3URJOQnXSY3UibESH3jYQ+4k
+         lJ5dgrNexvz8wp6Iqf+A/ieaqt239pfGPooE8OcSeU9agQlj2zawYZBRPedqHLl1qDmw
+         ++Eg==
+X-Gm-Message-State: AOAM533gWdnWtpR6iZKAr1Lu2n21w6UOXQWvvLkHRWR1WKnegvlI0DQ6
+        /Zn1MhA3UV+91eUOUv7A4XgCpg==
+X-Google-Smtp-Source: ABdhPJzgSr4zwbtVyKZ32bAwF4lvZHEctQExxHQ+mgDF5xV8hJP+DSemdFhjOSDW9n1/H2MOYUCbQw==
+X-Received: by 2002:adf:f04d:: with SMTP id t13mr19455695wro.52.1618427946396;
+        Wed, 14 Apr 2021 12:19:06 -0700 (PDT)
+Received: from linaro.org ([2a00:23c5:6809:2201:546d:7d59:1703:bf96])
+        by smtp.gmail.com with ESMTPSA id a3sm327073wru.40.2021.04.14.12.19.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Apr 2021 12:19:05 -0700 (PDT)
+From:   Mike Leach <mike.leach@linaro.org>
+To:     linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+        mathieu.poirier@linaro.org, linux-doc@vger.kernel.org,
+        suzuki.poulose@arm.com
+Cc:     yabinc@google.com, corbet@lwn.net, leo.yan@linaro.org,
+        alexander.shishkin@linux.intel.com, tingwei@codeaurora.org,
+        gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+        Mike Leach <mike.leach@linaro.org>
+Subject: [PATCH v7 00/10] CoreSight configuration management; ETM strobing
+Date:   Wed, 14 Apr 2021 20:18:53 +0100
+Message-Id: <20210414191903.18349-1-mike.leach@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Miguel,
+This patchset introduces initial concepts in CoreSight system
+configuration management support. to allow more detailed and complex
+programming to be applied to CoreSight systems during trace capture.
 
-On Wed, Apr 14, 2021 at 08:45:54PM +0200, ojeda@kernel.org wrote:
-> From: Miguel Ojeda <ojeda@kernel.org>
-> 
-> To support Rust under GCC-built kernels, we need to save the flags that
-> would have been passed if the kernel was being compiled with Clang.
-> 
-> The reason is that bindgen -- the tool we use to generate Rust bindings
-> to the C side of the kernel -- relies on libclang to parse C. Ideally:
-> 
->   - bindgen would support a GCC backend (requested at [1]),
-> 
->   - or the Clang driver would be perfectly compatible with GCC,
->     including plugins. Unlikely, of course, but perhaps a big
->     subset of configs may be possible to guarantee to be kept
->     compatible nevertheless.
-> 
-> This is also the reason why GCC builds are very experimental and some
-> configurations may not work (e.g. GCC_PLUGIN_RANDSTRUCT). However,
-> we keep GCC builds working (for some example configs) in the CI
-> to avoid diverging/regressing further, so that we are better prepared
-> for the future when a solution might become available.
-> 
-> [1] https://github.com/rust-lang/rust-bindgen/issues/1949
-> 
-> Link: https://github.com/Rust-for-Linux/linux/issues/167
-> 
-> Co-developed-by: Alex Gaynor <alex.gaynor@gmail.com>
-> Signed-off-by: Alex Gaynor <alex.gaynor@gmail.com>
-> Co-developed-by: Geoffrey Thomas <geofft@ldpreload.com>
-> Signed-off-by: Geoffrey Thomas <geofft@ldpreload.com>
-> Co-developed-by: Finn Behrens <me@kloenk.de>
-> Signed-off-by: Finn Behrens <me@kloenk.de>
-> Co-developed-by: Adam Bratschi-Kaye <ark.email@gmail.com>
-> Signed-off-by: Adam Bratschi-Kaye <ark.email@gmail.com>
-> Co-developed-by: Wedson Almeida Filho <wedsonaf@google.com>
-> Signed-off-by: Wedson Almeida Filho <wedsonaf@google.com>
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
->  Makefile | 27 ++++++++++++++++-----------
->  1 file changed, 16 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Makefile b/Makefile
-> index d4784d181123..9c75354324ed 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -559,26 +559,31 @@ ifdef building_out_of_srctree
->  	{ echo "# this is build directory, ignore it"; echo "*"; } > .gitignore
->  endif
->  
-> -# The expansion should be delayed until arch/$(SRCARCH)/Makefile is included.
-> -# Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
-> -# CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
-> -# and from include/config/auto.conf.cmd to detect the compiler upgrade.
-> -CC_VERSION_TEXT = $(shell $(CC) --version 2>/dev/null | head -n 1 | sed 's/\#//g')
-> +TENTATIVE_CLANG_FLAGS := -Werror=unknown-warning-option
->  
-> -ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
->  ifneq ($(CROSS_COMPILE),)
-> -CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
-> +TENTATIVE_CLANG_FLAGS	+= --target=$(notdir $(CROSS_COMPILE:%-=%))
->  GCC_TOOLCHAIN_DIR := $(dir $(shell which $(CROSS_COMPILE)elfedit))
+Configurations consist of 2 elements:-
+1) Features - programming combinations for devices, applied to a class of
+device on the system (all ETMv4), or individual devices.
+2) Configurations - a set of programmed features used when the named
+configuration is selected.
 
-Shuffling this around will cause this issue (I never saw you CC'd on the
-thread).
+Features and configurations are declared as a data table, a set of register,
+resource and parameter requirements. Features and configurations are loaded
+into the system by the virtual cs_syscfg device. This then matches features
+to any registered devices and loads the feature into them.
 
-https://lore.kernel.org/r/f6218ac526a04fa4d4406f935bcc4eb4a7df65c4.1617917438.git.msuchanek@suse.de/
+Individual device classes that support feature and configuration register
+with cs_syscfg.
 
-Perhaps that patch should be added to this series?
+Once loaded a configuration can be enabled for a specific trace run.
+Configurations are registered with the perf cs_etm event as entries in
+cs_etm/events. These can be selected on the perf command line as follows:-
 
-> -CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
-> +TENTATIVE_CLANG_FLAGS	+= --prefix=$(GCC_TOOLCHAIN_DIR)$(notdir $(CROSS_COMPILE))
->  GCC_TOOLCHAIN	:= $(realpath $(GCC_TOOLCHAIN_DIR)/..)
->  endif
->  ifneq ($(GCC_TOOLCHAIN),)
-> -CLANG_FLAGS	+= --gcc-toolchain=$(GCC_TOOLCHAIN)
-> +TENTATIVE_CLANG_FLAGS	+= --gcc-toolchain=$(GCC_TOOLCHAIN)
->  endif
->  ifneq ($(LLVM_IAS),1)
-> -CLANG_FLAGS	+= -no-integrated-as
-> +TENTATIVE_CLANG_FLAGS	+= -no-integrated-as
->  endif
-> -CLANG_FLAGS	+= -Werror=unknown-warning-option
-> +
-> +export TENTATIVE_CLANG_FLAGS
-> +
-> +# The expansion should be delayed until arch/$(SRCARCH)/Makefile is included.
-> +# Some architectures define CROSS_COMPILE in arch/$(SRCARCH)/Makefile.
-> +# CC_VERSION_TEXT is referenced from Kconfig (so it needs export),
-> +# and from include/config/auto.conf.cmd to detect the compiler upgrade.
-> +CC_VERSION_TEXT = $(shell $(CC) --version 2>/dev/null | head -n 1 | sed 's/\#//g')
-> +
-> +ifneq ($(findstring clang,$(CC_VERSION_TEXT)),)
-> +CLANG_FLAGS	+= $(TENTATIVE_CLANG_FLAGS)
->  KBUILD_CFLAGS	+= $(CLANG_FLAGS)
->  KBUILD_AFLAGS	+= $(CLANG_FLAGS)
->  export CLANG_FLAGS
-> -- 
-> 2.17.1
-> 
+perf record -e cs_etm/<config_name>/ ...
+
+This patch set has one pre-loaded configuration and feature.
+A named "strobing" feature is provided for ETMv4.
+A named "autofdo" configuration is provided. This configuration enables
+strobing on any ETM in used.
+
+Thus the command:
+perf record -e cs_etm/autofdo/ ...
+
+will trace the supplied application while enabling the "autofdo" configuation
+on each ETM as it is enabled by perf. This in turn will enable strobing for
+the ETM - with default parameters. Parameters can be adjusted using configfs.
+
+The sink used in the trace run will be automatically selected.
+
+A configuration can supply up to 15 of preset parameter values, which will
+subsitute in parameter values for any feature used in the configuration.
+
+Selection of preset values as follows
+perf record -e cs_etm/autofdo,preset=1/ ...
+
+(valid presets 1-N, where N is the number supplied in the configuration, not
+exceeding 15. preset=0 is the same as not selecting a preset.)
+
+Applies to & tested against coresight/next-ETE-TRBE (5.12-rc3 base)
+
+Changes since v6:
+Fixed kernel test robot issues-
+Reported-by: kernel test robot <lkp@intel.com>
+
+Changes since v5:
+
+1) Fix code style issues from auto-build reports, as
+Reported-by: kernel test robot <lkp@intel.com>
+2) Update comments to get consistent docs for API functions.
+3) remove unused #define from autofdo example.
+4) fix perf code style issues from patch 4 (Mathieu)
+5) fix configfs code style issues from patch 9. (Mathieu)
+
+Changes since v4: (based on comments from Matthieu and Suzuki).
+No large functional changes - primarily code improvements and naming schema.
+1) Updated entire set to ensure a consistent naming scheme was used for
+variables and struct members that refer to the key objects in the system.
+Suffixes _desc used for all references to feature and configuraion descriptors,
+suffix _csdev used for all references to load feature and configs in the csdev
+instances. (Mathieu & Suzuki).
+2) Dropped the 'configurations' sub dir in cs_etm perf directories as superfluous
+with the configfs containing the same information. (Mathieu).
+3) Simplified perf handling code (suzuki)
+4) Multiple simplifications and improvements for code readability (Matthieu
+and Suzuki)
+
+Changes since v3: (Primarily based on comments from Matthieu)
+1) Locking mechanisms simplified.
+2) Removed the possibility to enable features independently from
+configurations.Only configurations can be enabled now. Simplifies programming
+logic.
+3) Configuration now uses an activate->enable mechanism. This means that perf
+will activate a selected configuration at the start of a session (during
+setup_aux), and disable at the end of a session (around free_aux)
+The active configuration and associated features will be programmed into the
+CoreSight device instances when they are enabled. This locks the configuration
+into the system while in use. Parameters cannot be altered while this is
+in place. This mechanism will be extended in future for dynamic load / unload
+of configurations to prevent removal while in use.
+4) Removed the custom bus / driver as un-necessary. A single device is
+registered to own perf fs elements and configfs.
+5) Various other minor issues addressed.
+
+Changes since v2:
+1) Added documentation file.
+2) Altered cs_syscfg driver to no longer be coresight_device based, and moved
+to its own custom bus to remove it from the main coresight bus. (Mathieu)
+3) Added configfs support to inspect and control loaded configurations and
+features. Allows listing of preset values (Yabin Cui)
+4) Dropped sysfs support for adjusting feature parameters on the per device
+basis, in favour of a single point adjustment in configfs that is pushed to all
+device instances.
+5) Altered how the config and preset command line options are handled in perf
+and the drivers. (Mathieu and Suzuki).
+6) Fixes for various issues and technical points (Mathieu, Yabin)
+
+Changes since v1:
+1) Moved preloaded configurations and features out of individual drivers.
+2) Added cs_syscfg driver to manage configurations and features. Individual
+drivers register with cs_syscfg indicating support for config, and provide
+matching information that the system uses to load features into the drivers.
+This allows individual drivers to be updated on an as needed basis - and
+removes the need to consider devices that cannot benefit from configuration -
+static replicators, funnels, tpiu.
+3) Added perf selection of configuarations.
+4) Rebased onto the coresight module loading set. 
+
+To follow in future revisions / sets:-
+a) load of additional config and features by loadable module.
+b) load of additional config and features by configfs
+c) enhanced resource management for ETMv4 and checking features have sufficient
+resources to be enabled.
+d) ECT and CTI support for configuration and features.
+
+Mike Leach (10):
+  coresight: syscfg: Initial coresight system configuration
+  coresight: syscfg: Add registration and feature loading for cs devices
+  coresight: config: Add configuration and feature generic functions
+  coresight: etm-perf: update to handle configuration selection
+  coresight: syscfg: Add API to activate and enable configurations
+  coresight: etm-perf: Update to activate selected configuration
+  coresight: etm4x: Add complex configuration handlers to etmv4
+  coresight: config: Add preloaded configurations
+  coresight: syscfg: Add initial configfs support
+  Documentation: coresight: Add documentation for CoreSight config
+
+ .../trace/coresight/coresight-config.rst      | 244 ++++++
+ Documentation/trace/coresight/coresight.rst   |  16 +
+ drivers/hwtracing/coresight/Makefile          |   7 +-
+ .../hwtracing/coresight/coresight-cfg-afdo.c  | 153 ++++
+ .../coresight/coresight-cfg-preload.c         |  31 +
+ .../coresight/coresight-cfg-preload.h         |  13 +
+ .../hwtracing/coresight/coresight-config.c    | 275 ++++++
+ .../hwtracing/coresight/coresight-config.h    | 253 ++++++
+ drivers/hwtracing/coresight/coresight-core.c  |  12 +-
+ .../hwtracing/coresight/coresight-etm-perf.c  | 150 +++-
+ .../hwtracing/coresight/coresight-etm-perf.h  |  12 +-
+ .../hwtracing/coresight/coresight-etm4x-cfg.c | 182 ++++
+ .../hwtracing/coresight/coresight-etm4x-cfg.h |  30 +
+ .../coresight/coresight-etm4x-core.c          |  38 +-
+ .../coresight/coresight-etm4x-sysfs.c         |   3 +
+ .../coresight/coresight-syscfg-configfs.c     | 396 +++++++++
+ .../coresight/coresight-syscfg-configfs.h     |  45 +
+ .../hwtracing/coresight/coresight-syscfg.c    | 804 ++++++++++++++++++
+ .../hwtracing/coresight/coresight-syscfg.h    |  81 ++
+ include/linux/coresight.h                     |   7 +
+ 20 files changed, 2716 insertions(+), 36 deletions(-)
+ create mode 100644 Documentation/trace/coresight/coresight-config.rst
+ create mode 100644 drivers/hwtracing/coresight/coresight-cfg-afdo.c
+ create mode 100644 drivers/hwtracing/coresight/coresight-cfg-preload.c
+ create mode 100644 drivers/hwtracing/coresight/coresight-cfg-preload.h
+ create mode 100644 drivers/hwtracing/coresight/coresight-config.c
+ create mode 100644 drivers/hwtracing/coresight/coresight-config.h
+ create mode 100644 drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+ create mode 100644 drivers/hwtracing/coresight/coresight-etm4x-cfg.h
+ create mode 100644 drivers/hwtracing/coresight/coresight-syscfg-configfs.c
+ create mode 100644 drivers/hwtracing/coresight/coresight-syscfg-configfs.h
+ create mode 100644 drivers/hwtracing/coresight/coresight-syscfg.c
+ create mode 100644 drivers/hwtracing/coresight/coresight-syscfg.h
+
+-- 
+2.17.1
+
