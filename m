@@ -2,135 +2,121 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04B09C433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 19:25:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4123FC43461
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 19:31:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D73B86113B
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 19:25:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 15CDB60FF0
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 19:31:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234885AbhDNT0C (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Apr 2021 15:26:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42890 "EHLO
+        id S232277AbhDNTbx (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Apr 2021 15:31:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230318AbhDNT0C (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 15:26:02 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A01C8C061574;
-        Wed, 14 Apr 2021 12:25:40 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id 20so6747542pll.7;
-        Wed, 14 Apr 2021 12:25:40 -0700 (PDT)
+        with ESMTP id S1353394AbhDNTbv (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 15:31:51 -0400
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87B22C061760
+        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 12:31:29 -0700 (PDT)
+Received: by mail-lf1-x12f.google.com with SMTP id g8so35124828lfv.12
+        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 12:31:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=KpLOFoYfcHiJCEdbxKTdXhAPH70ztnzVmclf6+HcyKc=;
-        b=Q2rpGYCZu6fcLua1Gy3C3msvUvuIABOekDOGgskk2jj3PWoMrSQ/wVOESzgeP6FpXP
-         w+lzkE2D0nBfdTtaYca32OIUfKpPd2/SAXa7vYogp6T+4X7Njs+oAXrgXRG94TgM/LgN
-         hzFa4EvNsw9TZMY8bsHXQ8s0aUO5082L5hjPYjDCw2v90EpSojmcKGuSRE+el+c3MUKF
-         kKHIOB3KMTIjP2cr/KwXf2UZjO/lAgq60cfSq11kRn4X6qwhoSUnLC58f06rL29RCpQo
-         FjVVAIL9JfP3oXdr8Jm9Hsj8T2P/w02qu1owpqIVIuF2koJwX58wB15mUxGFb8fNoTsk
-         C0XA==
+        d=linux-foundation.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8tmkl21nBTrgg+zi0wiLnvNOnvLGFNGElqoYB3gSO4k=;
+        b=fcsPK/9hZwnNtEOdCgJlxw05JK+JnScQC6KTDZz/6X9MVaflY6Jqqe4mj4BbDYGIn6
+         D5cRaqLVGf110aJOYDRuUskjfvklEd0pqbbD6FIOHNNLHu3Y3CC1Te8apRSktxKYlGWX
+         ozpACYQ9P5BsjDg3WbdRsGj5aS6Iw1MmwYSsk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=KpLOFoYfcHiJCEdbxKTdXhAPH70ztnzVmclf6+HcyKc=;
-        b=n5qAtXPw5rlqPS2QtMwPHwuZEMVVwunAxYJfXDIJbApPFe62ZCkmOa0w9eevFdcesd
-         kFwyk1g8/xD24i/8kuOX4IlJZtxhYXBZsHayv577RqidMePAYayjldCNG1N45HQCc9XD
-         VIj1oPBMJ1t5zc2Zd9e67I/GpisbUjIha8E4/1sdzZ8/12t7jaajzsHrN1+p1vKaQtpx
-         jOHDXkExVzTRjjHCwYqfnR66YY3BSGh1b4Rq//hmE7RVXIcJ91W1jIibBLmHsl3+nQXD
-         yUUTniDYZ56wQ+s+jXKGE7zjZYNvwy2eM1CbtixbZ6ZkmEtUcX1+vcb+AC/nqyfxv/fZ
-         Er0g==
-X-Gm-Message-State: AOAM530jr2dN6xkeAhhZ0yu6Q5rmQxWx4bA7Hh49TsaKi6JCxHfhoCTG
-        9pzeGrif8lBW8dVJlGiXnbqgsQ7QIiFimw==
-X-Google-Smtp-Source: ABdhPJz93KXn1rbP+KYjOKNWk+IK6exmdiFZYY5gf+skoogwzYMgSlMGcsdXvXs4SEjivvX24nDuOw==
-X-Received: by 2002:a17:90b:302:: with SMTP id ay2mr5216317pjb.84.1618428339999;
-        Wed, 14 Apr 2021 12:25:39 -0700 (PDT)
-Received: from localhost.localdomain ([2405:201:600d:a089:d8d9:c36b:b907:6d78])
-        by smtp.googlemail.com with ESMTPSA id d26sm188652pfo.162.2021.04.14.12.25.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 12:25:39 -0700 (PDT)
-From:   Aditya Srivastava <yashsri421@gmail.com>
-To:     corbet@lwn.net
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [RFC] scripts: kernel-doc: improve parsing for kernel-doc comments syntax
-Date:   Thu, 15 Apr 2021 00:55:29 +0530
-Message-Id: <20210414192529.9080-1-yashsri421@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8tmkl21nBTrgg+zi0wiLnvNOnvLGFNGElqoYB3gSO4k=;
+        b=G4h3EqAxfTYXoGPhOqZeFx3WDHrEZA45ke1GRngf+xxz87/bFOSa+NNNPClQh3BG6o
+         lcmYXGiPWGF7y8x/jLEBXzFJoCIdxpipa9D6K4IJH/BdQSzIAgM8bOITkZpL21BTASt1
+         TPiKqbZ2v9v/omMVBHHzC0OeaqAAd3Q4pNHgq6Y3/vvzunvv0IO6tVlY51/i0I7AKxta
+         WI2Xda/IPmOpBCR69qk8hDDz8xwFt9we7NXhRIgIpDPx+A5+QEgPL5uUb7IsNXR3hNG3
+         EB8liJQdQQIp2YS5SdtvGWpzol0crL4a1tN1cKKIf0/Cf33Dt0OO+5eKaMSZwxo1BOYQ
+         LL7A==
+X-Gm-Message-State: AOAM531H551G/3gJ5VrITpFG8Xl2vypBH0d36oFei4DkdmeOsVY7Du+z
+        2smz+dSuIfRs1pNuOYn8y6zJMG/cgJYxPZsw
+X-Google-Smtp-Source: ABdhPJyUJpF6E4uAeMh1BNaGndxAKyzm+BijDrmZgPcFO+q5Amq3NX9aucXQLx/owDNL7SPs1t2xkw==
+X-Received: by 2002:ac2:43bc:: with SMTP id t28mr6733262lfl.318.1618428687666;
+        Wed, 14 Apr 2021 12:31:27 -0700 (PDT)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com. [209.85.208.175])
+        by smtp.gmail.com with ESMTPSA id a20sm156436lfl.211.2021.04.14.12.31.26
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Apr 2021 12:31:26 -0700 (PDT)
+Received: by mail-lj1-f175.google.com with SMTP id z8so24485302ljm.12
+        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 12:31:26 -0700 (PDT)
+X-Received: by 2002:a2e:8893:: with SMTP id k19mr9184503lji.465.1618428685906;
+ Wed, 14 Apr 2021 12:31:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-8-ojeda@kernel.org>
+In-Reply-To: <20210414184604.23473-8-ojeda@kernel.org>
+From:   Linus Torvalds <torvalds@linux-foundation.org>
+Date:   Wed, 14 Apr 2021 12:31:10 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiVY56LzwV_G075NEFwsdf-p7GOTy_cB7-UU9b=49rB1g@mail.gmail.com>
+Message-ID: <CAHk-=wiVY56LzwV_G075NEFwsdf-p7GOTy_cB7-UU9b=49rB1g@mail.gmail.com>
+Subject: Re: [PATCH 07/13] Rust: Kernel crate
+To:     ojeda@kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Currently kernel-doc does not identify some cases of probable kernel
-doc comments, for e.g. pointer used as declaration type for identifier,
-space separated identifier, etc.
+On Wed, Apr 14, 2021 at 11:47 AM <ojeda@kernel.org> wrote:
+>
+> +#[alloc_error_handler]
+> +fn oom(_layout: Layout) -> ! {
+> +    panic!("Out of memory!");
+> +}
+> +
+> +#[no_mangle]
+> +pub fn __rust_alloc_error_handler(_size: usize, _align: usize) -> ! {
+> +    panic!("Out of memory!");
+> +}
 
-Some example of these cases in files can be:
-i)" *  journal_t * jbd2_journal_init_dev() - creates and initialises a journal structure"
-in fs/jbd2/journal.c
+Again, excuse my lack of internal Rust knowledge, but when do these
+end up being an issue?
 
-ii) "*      dget, dget_dlock -      get a reference to a dentry" in
-include/linux/dcache.h
+If the Rust compiler ends up doing hidden allocations, and they then
+cause panics, then one of the main *points* of Rustification is
+entirely broken. That's 100% the opposite of being memory-safe at
+build time.
 
-iii) "  * DEFINE_SEQLOCK(sl) - Define a statically allocated seqlock_t"
-in include/linux/seqlock.h
+An allocation failure in some random driver must never ever be
+something that the compiler just turns into a panic. It must be
+something that is caught and handled synchronously and results in an
+ENOMEM error return.
 
-Also improve identification for non-kerneldoc comments. For e.g.,
+So the fact that the core patches have these kinds of
 
-i) " *	The following functions allow us to read data using a swap map"
-in kernel/power/swap.c does follow the kernel-doc like syntax, but the
-content inside does not adheres to the expected format.
+    panic!("Out of memory!");
 
-Improve parsing by adding support for these probable attempts to write
-kernel-doc comment.
+things in them as part of just the support infrastructure makes me go
+"Yeah, that's fundamentally wrong".
 
-Suggested-by: Jonathan Corbet <corbet@lwn.net>
-Link: https://lore.kernel.org/lkml/87mtujktl2.fsf@meer.lwn.net
-Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
----
- scripts/kernel-doc | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+And if this is some default that is called only when the Rust code
+doesn't have error handling, then once again - I think it needs to be
+a *build-time* failure, not a runtime one. Because having unsafe code
+that will cause a panic only under very special situations that are
+hard to trigger is about the worst possible case.
 
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 888913528185..37665aa41e6b 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -2110,17 +2110,25 @@ sub process_name($$) {
-     } elsif (/$doc_decl/o) {
- 	$identifier = $1;
- 	my $is_kernel_comment = 0;
--	if (/^\s*\*\s*([\w\s]+?)(\(\))?\s*([-:].*)?$/) {
-+	my $decl_start = qr{\s*\*};
-+	my $fn_type = qr{\w+\s*\*\s*}; # i.e. pointer declaration type, foo * bar() - desc
-+	my $parenthesis = qr{\(\w*\)};
-+	my $decl_end = qr{[-:].*};
-+	if (/^$decl_start\s*([\w\s]+?)$parenthesis?\s*$decl_end?$/) {
- 	    $identifier = $1;
--	    $decl_type = 'function';
--	    $identifier =~ s/^define\s+//;
--	    $is_kernel_comment = 1;
- 	}
- 	if ($identifier =~ m/^(struct|union|enum|typedef)\b\s*(\S*)/) {
- 	    $decl_type = $1;
- 	    $identifier = $2;
- 	    $is_kernel_comment = 1;
- 	}
-+	elsif (/^$decl_start\s*$fn_type?(\w+)\s*$parenthesis?\s*$decl_end?$/ ||	# i.e. foo()
-+	    /^$decl_start\s*$fn_type?(\w+.*)$parenthesis?\s*$decl_end$/) {	# i.e. static void foo() - description; or misspelt identifier
-+	    $identifier = $1;
-+	    $decl_type = 'function';
-+	    $identifier =~ s/^define\s+//;
-+	    $is_kernel_comment = 1;
-+	}
- 	$identifier =~ s/\s+$//;
- 
- 	$state = STATE_BODY;
--- 
-2.17.1
-
+             Linus
