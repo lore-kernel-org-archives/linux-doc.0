@@ -2,191 +2,332 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F021C433ED
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 09:21:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 412EDC433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 09:39:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6F8B4613C8
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 09:21:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 24B2F61242
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 09:39:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347352AbhDNJWK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Apr 2021 05:22:10 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55404 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230247AbhDNJWK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 05:22:10 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id 13E9ItNg044547;
-        Wed, 14 Apr 2021 05:21:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
- : in-reply-to : references : date : message-id : content-type :
- mime-version; s=pp1; bh=EPNGEDtpOfcUlGXIeH34u9IMk2OhUx9OVMDjhXgSY6E=;
- b=Mw1BLnbOyIU2sHatRI2SBZNld0yBRYHVaQ67Kbjq+5lSA97SjjEuPd+aRZAMZ1JajftM
- JlCJi+4z/r8ao9qVXNc27E2jqGsU7SYzky+HT0DqQW29nt80AJ9PoXT5AEBY6xyfBAqT
- JPuVwwpH6qgHA/PVlxSyixN6kAnFZirDu62aFib2lYZz8vRYoXBBSjbBrEq903/ZiXDG
- WBtmwkyW3Cx8T3KldFxBUzle5njvCvPF3Mgoc9Yg6fPIxj8pCmigjTX795xQfSl7Mhe0
- Eysm6koq6IxHae/KqJ50Wr9b758FdQGijQSIvNodNWHdOLYb2iRyw5BUrV8Byhg7bJXf ew== 
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 37wwn601fa-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 14 Apr 2021 05:21:45 -0400
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
-        by ppma03ams.nl.ibm.com (8.16.0.43/8.16.0.43) with SMTP id 13E9IOl5014673;
-        Wed, 14 Apr 2021 09:21:43 GMT
-Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
-        by ppma03ams.nl.ibm.com with ESMTP id 37u3n8b688-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 14 Apr 2021 09:21:43 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 13E9LIJB28442968
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 14 Apr 2021 09:21:18 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 7B430A4064;
-        Wed, 14 Apr 2021 09:21:40 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id BE1AFA4054;
-        Wed, 14 Apr 2021 09:21:37 +0000 (GMT)
-Received: from vajain21.in.ibm.com (unknown [9.85.72.167])
-        by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
-        Wed, 14 Apr 2021 09:21:37 +0000 (GMT)
-Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Wed, 14 Apr 2021 14:51:36 +0530
-From:   Vaibhav Jain <vaibhav@linux.ibm.com>
-To:     "Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com>,
-        Shivaprasad G Bhat <sbhat@linux.ibm.com>,
-        sbhat@linux.vnet.ibm.com, linuxppc-dev@lists.ozlabs.org,
-        kvm-ppc@vger.kernel.org, linux-nvdimm@lists.01.org,
-        ellerman@au1.ibm.com
-Cc:     linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3] powerpc/papr_scm: Implement support for H_SCM_FLUSH
- hcall
-In-Reply-To: <877dl530id.fsf@linux.ibm.com>
-References: <161703936121.36.7260632399582101498.stgit@e1fbed493c87>
- <87sg3ujmrm.fsf@vajain21.in.ibm.com> <877dl530id.fsf@linux.ibm.com>
-Date:   Wed, 14 Apr 2021 14:51:36 +0530
-Message-ID: <87o8ehjk67.fsf@vajain21.in.ibm.com>
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: QU2-Dpz_DZFHz8o9MVMVVZ18AoGIeW2Y
-X-Proofpoint-ORIG-GUID: QU2-Dpz_DZFHz8o9MVMVVZ18AoGIeW2Y
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S232532AbhDNJkP (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Apr 2021 05:40:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55584 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232470AbhDNJkO (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 05:40:14 -0400
+Received: from mail-oo1-xc2b.google.com (mail-oo1-xc2b.google.com [IPv6:2607:f8b0:4864:20::c2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8126EC06175F
+        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 02:39:53 -0700 (PDT)
+Received: by mail-oo1-xc2b.google.com with SMTP id t14-20020a4ad0ae0000b02901e65c173a4bso1039658oor.11
+        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 02:39:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=h6merFAI8nWuQUtaPMgNZzm0Zs+GfD/helzkO3aNm6M=;
+        b=Gpi0MuCR1W1QhfNJMyeuLEMzdGv2u9cUgcQKDLr2A2Z7SlRIk59djZP/Zf2H2SyFPx
+         3VEVmAZd++akAu43BavcVWFhv9+DDOwmy/w75/C8gJu84rvaeDKX3u8PRUDObn13vjsQ
+         EH0FugmPO04mpdbLrUyBhZezJXw8AmazdE4oNGrziKL2NBpWqW6axbhhveuM8DG10Z5w
+         HvxLjD53Swn9y2BGDbZ20Ln0jlLgm+eV5Jyyiq6JMc7yimjZlApDjq2kQY+nRW4ZrP9J
+         WYCO3nUgu1Fa/EVFWIVYKC3JXOSWIFw6Sbd5W3br/yYvm/xOc2xatsMsVkwwKp2sZ2yR
+         z5XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=h6merFAI8nWuQUtaPMgNZzm0Zs+GfD/helzkO3aNm6M=;
+        b=CqwmafYKeMHBFFmoytFWkFnECd7a4xhbfkch38JMclzFFzttpqrougU7q1h+rG9VGN
+         9vem/L4CF6z8NT+5g61ay80CvCv1CUY8qF91PCBUeqZMKRIcZAexKtyyt/8J/N0jMZzV
+         fk6X//SSZLUMvHPtlH17TygQ5GQd1G/VVZnmPocNVklnk6ZpOzOGZcOOe/SmIhoqcCFE
+         AyqmEe1YKORAH8Q6jszkC5GI9pliKJknv0J9OQxJOZfi3glUKDQTI2SrvDHYnv6Np+Hh
+         +PLhYo0wzwVE5nYzjKOCfxSAcgM+dQkVgWc4/It+v87imZ26G5IKhVkd1yMoUxeS/xN4
+         89WA==
+X-Gm-Message-State: AOAM532IqFCXwa/klwVQAvuhLoW9EaB2PAw1Ottr6Y1iz/kf1BdT8lx/
+        BxG5sxHigt2bxx0vXsz7RXTc0RRU3ekU/IkRQtZhgg==
+X-Google-Smtp-Source: ABdhPJwP+m7PQ2KqWNLVMQtbp6TPlsLhusBZ0RCccTszTcZThlUiM1pmE6bpAXBBzKEcpDp9Xu+2/Ec/7YpA8CYjwrY=
+X-Received: by 2002:a4a:d0ce:: with SMTP id u14mr30250246oor.36.1618393192568;
+ Wed, 14 Apr 2021 02:39:52 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.391,18.0.761
- definitions=2021-04-14_06:2021-04-14,2021-04-14 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
- malwarescore=0 mlxscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
- clxscore=1015 priorityscore=1501 impostorscore=0 bulkscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2104060000 definitions=main-2104140060
+References: <20210414081428.337494-1-davidgow@google.com>
+In-Reply-To: <20210414081428.337494-1-davidgow@google.com>
+From:   Marco Elver <elver@google.com>
+Date:   Wed, 14 Apr 2021 11:39:39 +0200
+Message-ID: <CANpmjNNWQZGOCiNQaTWr5ebh7jp7TMzTp0OXnss_5xpRP9GvSw@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: dev-tools: Add Testing Overview
+To:     David Gow <davidgow@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        Daniel Latypov <dlatypov@google.com>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-"Aneesh Kumar K.V" <aneesh.kumar@linux.ibm.com> writes:
-
-> Vaibhav Jain <vaibhav@linux.ibm.com> writes:
+On Wed, 14 Apr 2021 at 10:15, David Gow <davidgow@google.com> wrote:
 >
->> Hi Shiva,
->>
->> Apologies for a late review but something just caught my eye while
->> working on a different patch.
->>
->> Shivaprasad G Bhat <sbhat@linux.ibm.com> writes:
->>
->>> Add support for ND_REGION_ASYNC capability if the device tree
->>> indicates 'ibm,hcall-flush-required' property in the NVDIMM node.
->>> Flush is done by issuing H_SCM_FLUSH hcall to the hypervisor.
->>>
->>> If the flush request failed, the hypervisor is expected to
->>> to reflect the problem in the subsequent nvdimm H_SCM_HEALTH call.
->>>
->>> This patch prevents mmap of namespaces with MAP_SYNC flag if the
->>> nvdimm requires an explicit flush[1].
->>>
->>> References:
->>> [1] https://github.com/avocado-framework-tests/avocado-misc-tests/blob/master/memory/ndctl.py.data/map_sync.c
->>>
->>> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
->>> ---
->>> v2 - https://www.spinics.net/lists/kvm-ppc/msg18799.html
->>> Changes from v2:
->>>        - Fixed the commit message.
->>>        - Add dev_dbg before the H_SCM_FLUSH hcall
->>>
->>> v1 - https://www.spinics.net/lists/kvm-ppc/msg18272.html
->>> Changes from v1:
->>>        - Hcall semantics finalized, all changes are to accomodate them.
->>>
->>>  Documentation/powerpc/papr_hcalls.rst     |   14 ++++++++++
->>>  arch/powerpc/include/asm/hvcall.h         |    3 +-
->>>  arch/powerpc/platforms/pseries/papr_scm.c |   40 +++++++++++++++++++++++++++++
->>>  3 files changed, 56 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/powerpc/papr_hcalls.rst b/Documentation/powerpc/papr_hcalls.rst
->>> index 48fcf1255a33..648f278eea8f 100644
->>> --- a/Documentation/powerpc/papr_hcalls.rst
->>> +++ b/Documentation/powerpc/papr_hcalls.rst
->>> @@ -275,6 +275,20 @@ Health Bitmap Flags:
->>>  Given a DRC Index collect the performance statistics for NVDIMM and copy them
->>>  to the resultBuffer.
->>>  
->>> +**H_SCM_FLUSH**
->>> +
->>> +| Input: *drcIndex, continue-token*
->>> +| Out: *continue-token*
->>> +| Return Value: *H_SUCCESS, H_Parameter, H_P2, H_BUSY*
->>> +
->>> +Given a DRC Index Flush the data to backend NVDIMM device.
->>> +
->>> +The hcall returns H_BUSY when the flush takes longer time and the hcall needs
->>> +to be issued multiple times in order to be completely serviced. The
->>> +*continue-token* from the output to be passed in the argument list of
->>> +subsequent hcalls to the hypervisor until the hcall is completely serviced
->>> +at which point H_SUCCESS or other error is returned by the hypervisor.
->>> +
->> Does the hcall semantic also include measures to trigger a barrier/fence
->> (like pm_wmb()) so that all the stores before the hcall are gauranteed
->> to have hit the pmem controller ?
+> The kernel now has a number of testing and debugging tools, and we've
+> seen a bit of confusion about what the differences between them are.
 >
-> It is upto the hypervisor to implement the right sequence to ensure the
-> guarantee. The hcall doesn't expect the store to reach the platform
-> buffers.
-
-Since the asyc_flush function is also called for performing
-deep_flush from libnvdimm and as the hcall doesnt gaurantee stores to
-reach the platform buffers, hence papr_scm_pmem_flush() should issue
-pm_wmb() before the hcall.
-
-This would ensure papr_scm_pmem_flush() semantics are consistent that to
-generic_nvdimm_flush().
-
-Also, adding the statement "The hcall doesn't expect the store to reach
-the platform buffers" to the hcall documentation would be good to have.
-
+> Add a basic documentation outlining the testing tools, when to use each,
+> and how they interact.
 >
+> This is a pretty quick overview rather than the idealised "kernel
+> testing guide" that'd probably be optimal, but given the number of times
+> questions like "When do you use KUnit and when do you use Kselftest?"
+> are being asked, it seemed worth at least having something. Hopefully
+> this can form the basis for more detailed documentation later.
 >
->>
->> If not then the papr_scm_pmem_flush() introduced below should issue a
->> fence like pm_wmb() before issuing the flush hcall.
->>
->> If yes then this behaviour should also be documented with the hcall
->> semantics above.
->>
+> Signed-off-by: David Gow <davidgow@google.com>
+
+Reviewed-by: Marco Elver <elver@google.com>
+
+Looks good to me, thanks. I think one can write whole articles (or
+even books) about this topic, so it's easy to forget this is a quick
+overview, and keep on adding.
+
+> ---
+> Thanks, everyone, for the comments on the doc. I've made a few of the
+> suggested changes. Please let me know what you think!
 >
-> IIUC fdatasync on the backend file is enough to ensure the
-> guaraantee. Such a request will have REQ_PREFLUSH and REQ_FUA which will
-> do the necessary barrier on the backing device holding the backend file.
+> -- David
 >
-Right, but thats assuming nvdimm is backed by a regular file in
-hypervisor which may not always be the case.
-
-
-> -aneesh
-
--- 
-Cheers
-~ Vaibhav
+> Changes since v1:
+> https://lore.kernel.org/linux-kselftest/20210410070529.4113432-1-davidgow=
+@google.com/
+> - Note KUnit's speed and that one should provide selftests for syscalls
+> - Mention lockdep as a Dynamic Analysis Tool
+> - Refer to "Dynamic Analysis Tools" instead of "Sanitizers"
+> - A number of minor formatting tweaks and rewordings for clarity.
+>
+> Not changed:
+> - I haven't included an exhaustive list of differences, advantages, etc,
+>   between KUnit and kselftest: for now, the doc continues to focus on
+>   the difference between 'in-kernel' and 'userspace' testing here.
+> - Similarly, I'm not linking out to docs defining and describing "Unit"
+>   tests versus "End-to-end" tests. None of the existing documentation
+>   elsewhere quite matches what we do in the kernel perfectly, so it
+>   seems less confusing to focus on the 'in-kernel'/'userspace'
+>   distinction, and leave other definitions as a passing mention for
+>   those who are already familiar with the concepts.
+> - I haven't linked to any talk videos here: a few of them are linked on
+>   (e.g.) the KUnit webpage, but I wanted to keep the Kernel documentation
+>   more self-contained for now. No objection to adding them in a follow-up
+>   patch if people feel strongly about it, though.
+> - The link from index.rst to this doc is unchanged. I personally think
+>   that the link is prominent enough there: it's the first link, and
+>   shows up a few times. One possibility if people disagreed would be to
+>   merge this page with the index, but given not all dev-tools are going
+>   to be testing-related, it seemed a bit arrogant. :-)
+>
+>  Documentation/dev-tools/index.rst            |   3 +
+>  Documentation/dev-tools/testing-overview.rst | 117 +++++++++++++++++++
+>  2 files changed, 120 insertions(+)
+>  create mode 100644 Documentation/dev-tools/testing-overview.rst
+>
+> diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/=
+index.rst
+> index 1b1cf4f5c9d9..f590e5860794 100644
+> --- a/Documentation/dev-tools/index.rst
+> +++ b/Documentation/dev-tools/index.rst
+> @@ -7,6 +7,8 @@ be used to work on the kernel. For now, the documents hav=
+e been pulled
+>  together without any significant effort to integrate them into a coheren=
+t
+>  whole; patches welcome!
+>
+> +A brief overview of testing-specific tools can be found in :doc:`testing=
+-overview`.
+> +
+>  .. class:: toc-title
+>
+>            Table of contents
+> @@ -14,6 +16,7 @@ whole; patches welcome!
+>  .. toctree::
+>     :maxdepth: 2
+>
+> +   testing-overview
+>     coccinelle
+>     sparse
+>     kcov
+> diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation=
+/dev-tools/testing-overview.rst
+> new file mode 100644
+> index 000000000000..ce36a8cdf6b5
+> --- /dev/null
+> +++ b/Documentation/dev-tools/testing-overview.rst
+> @@ -0,0 +1,117 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Kernel Testing Guide
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +
+> +There are a number of different tools for testing the Linux kernel, so k=
+nowing
+> +when to use each of them can be a challenge. This document provides a ro=
+ugh
+> +overview of their differences, and how they fit together.
+> +
+> +
+> +Writing and Running Tests
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> +
+> +The bulk of kernel tests are written using either the kselftest or KUnit
+> +frameworks. These both provide infrastructure to help make running tests=
+ and
+> +groups of tests easier, as well as providing helpers to aid in writing n=
+ew
+> +tests.
+> +
+> +If you're looking to verify the behaviour of the Kernel =E2=80=94 partic=
+ularly specific
+> +parts of the kernel =E2=80=94 then you'll want to use KUnit or kselftest=
+.
+> +
+> +
+> +The Difference Between KUnit and kselftest
+> +------------------------------------------
+> +
+> +KUnit (Documentation/dev-tools/kunit/index.rst) is an entirely in-kernel=
+ system
+> +for "white box" testing: because test code is part of the kernel, it can=
+ access
+> +internal structures and functions which aren't exposed to userspace.
+> +
+> +KUnit tests therefore are best written against small, self-contained par=
+ts
+> +of the kernel, which can be tested in isolation. This aligns well with t=
+he
+> +concept of 'unit' testing.
+> +
+> +For example, a KUnit test might test an individual kernel function (or e=
+ven a
+> +single codepath through a function, such as an error handling case), rat=
+her
+> +than a feature as a whole.
+> +
+> +This also makes KUnit tests very fast to build and run, allowing them to=
+ be
+> +run frequently as part of the development process.
+> +
+> +There is a KUnit test style guide which may give further pointers in
+> +Documentation/dev-tools/kunit/style.rst
+> +
+> +
+> +kselftest (Documentation/dev-tools/kselftest.rst), on the other hand, is
+> +largely implemented in userspace, and tests are normal userspace scripts=
+ or
+> +programs.
+> +
+> +This makes it easier to write more complicated tests, or tests which nee=
+d to
+> +manipulate the overall system state more (e.g., spawning processes, etc.=
+).
+> +However, it's not possible to call kernel functions directly from kselft=
+est.
+> +This means that only kernel functionality which is exposed to userspace =
+somhow
+> +(e.g. by a syscall, device, filesystem, etc.) can be tested with kselfte=
+st.  To
+> +work around this, some tests include a companion kernel module which exp=
+oses
+> +more information or functionality. If a test runs mostly or entirely wit=
+hin the
+> +kernel, however,  KUnit may be the more appropriate tool.
+> +
+> +kselftest is therefore suited well to tests of whole features, as these =
+will
+> +expose an interface to userspace, which can be tested, but not implement=
+ation
+> +details. This aligns well with 'system' or 'end-to-end' testing.
+> +
+> +For example, all new system calls should be accompanied by kselftest tes=
+ts.
+> +
+> +Code Coverage Tools
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The Linux Kernel supports two different code coverage measurement tools.=
+ These
+> +can be used to verify that a test is executing particular functions or l=
+ines
+> +of code. This is useful for determining how much of the kernel is being =
+tested,
+> +and for finding corner-cases which are not covered by the appropriate te=
+st.
+> +
+> +:doc:`gcov` is GCC's coverage testing tool, which can be used with the k=
+ernel
+> +to get global or per-module coverage. Unlike KCOV, it does not record pe=
+r-task
+> +coverage. Coverage data can be read from debugfs, and interpreted using =
+the
+> +usual gcov tooling.
+> +
+> +:doc:`kcov` is a feature which can be built in to the kernel to allow
+> +capturing coverage on a per-task level. It's therefore useful for fuzzin=
+g and
+> +other situations where information about code executed during, for examp=
+le, a
+> +single syscall is useful.
+> +
+> +
+> +Dynamic Analysis Tools
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The kernel also supports a number of dynamic analysis tools, which attem=
+pt to
+> +detect classes of issues when the occur in a running kernel. These typic=
+ally
+> +look for undefined behaviour of some kind, such as invalid memory access=
+es,
+> +concurrency issues such as data races, or other undefined behaviour like
+> +integer overflows.
+> +
+> +Some of these tools are listed below:
+> +
+> +* kmemleak detects possible memory leaks. See
+> +  Documentation/dev-tools/kmemleak.rst
+> +* KASAN detects invalid memory accesses such as out-of-bounds and
+> +  use-after-free errors. See Documentation/dev-tools/kasan.rst
+> +* UBSAN detects behaviour that is undefined by the C standard, like inte=
+ger
+> +  overflows. See Documentation/dev-tools/ubsan.rst
+> +* KCSAN detects data races. See Documentation/dev-tools/kcsan.rst
+> +* KFENCE is a low-overhead detector of memory issues, which is much fast=
+er than
+> +  KASAN and can be used in production. See Documentation/dev-tools/kfenc=
+e.rst
+> +* lockdep is a locking correctness validator. See
+> +  Documentation/locking/lockdep-design.rst
+> +* There are several other pieces of debug instrumentation in the kernel,=
+ many
+> +  of which can be found in lib/Kconfig.debug
+> +
+> +These tools tend to test the kernel as a whole, and do not "pass" like
+> +kselftest or KUnit tests. They can be combined with KUnit or kselftest b=
+y
+> +running tests on a kernel with a sanitizer enabled: you can then be sure
+> +that none of these errors are occurring during the test.
+> +
+> +Some of these tools integrate with KUnit or kselftest and will
+> +automatically fail tests if an issue is detected.
+> +
+> --
+> 2.31.1.295.g9ea45b61b8-goog
+>
