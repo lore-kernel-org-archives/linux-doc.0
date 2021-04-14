@@ -2,506 +2,132 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=unavailable autolearn_force=no version=3.4.0
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22585C433B4
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 00:27:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A574DC433B4
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 02:38:22 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 026DF6128E
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 00:27:33 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 83BEC613C7
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 02:38:22 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241931AbhDNA1x (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Tue, 13 Apr 2021 20:27:53 -0400
-Received: from office2.cesnet.cz ([195.113.144.244]:41778 "EHLO
-        office2.cesnet.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237029AbhDNA1x (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Tue, 13 Apr 2021 20:27:53 -0400
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by office2.cesnet.cz (Postfix) with ESMTPSA id 6385B40006E;
-        Wed, 14 Apr 2021 02:27:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cesnet.cz;
-        s=office2-2020; t=1618360051;
-        bh=Xrh8tKS8gZtzAOSsjKlOd3hjoTP0aCfzPM2EcdNfRrc=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc;
-        b=NfzDAmAyELPinqXtXdlnADiDJuGvdiRtnYKlHMa0bvDGbzJ531McanNyvzNZiuKON
-         ObhF+MiUl8hEFE6VuXTfCXjh5PvevXKwAVCFRssq/msci2tojMtsm/f9pomiWipyKX
-         fHTSAFgCIaQSMMuowW0Su3EY0+GYoRdLiP3Yj4rRZ0iue3GpSxznp/ndn6M35cfh3u
-         aaLtpBPRIHKDsAhnwBPEJ7QSSMBEzwPxV48CrHNZuPaRAu+1hPQX5HGzYfAjOwXMTO
-         FTW7EiBzfByBDJdhjo+C9pSUMtw3w/PSnGIHVk7Z12gxoij5dWmqnhUhCEz2SvAq82
-         BCHBfe2ZGClpg==
-Received: by mail-pj1-f44.google.com with SMTP id k23-20020a17090a5917b02901043e35ad4aso11556957pji.3;
-        Tue, 13 Apr 2021 17:27:31 -0700 (PDT)
-X-Gm-Message-State: AOAM530D6LbXZrI/tIcThgo0mgF5L7BraKTo2bL/6u29J5ttyOIXqgje
-        0fDa1DUiC9qyYQrwsF9vfmRsAPsPl6+3khlUM1Q=
-X-Google-Smtp-Source: ABdhPJwLhBMeg9FXEUOjirSBOK8uvB4H7N+/vrwvt9vDufiJbH90SXNW+qgOglDHRN1V33K+GYpKwggbLpp4UsWHIxE=
-X-Received: by 2002:a17:90a:318d:: with SMTP id j13mr456020pjb.174.1618360049620;
- Tue, 13 Apr 2021 17:27:29 -0700 (PDT)
+        id S239586AbhDNCim (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Tue, 13 Apr 2021 22:38:42 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:44531 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S230303AbhDNCik (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Tue, 13 Apr 2021 22:38:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=Zlxu2Whbo1dgvERGvsjAB1kDZCG5u5iTjuDlt
+        pdhbQo=; b=ZLDUl1Yr6SY1vGONh15+M5mBUvHiIKtpHBe1p5JuO1p7Ib1U93wCS
+        CcWKDWBMkrpjSBPu0ViE5qMJ5wREgJ8pCuQE5SCSp0slQXdKPrRBHXere6mw0iT3
+        lU3fZ5CUuG8+gJaeaOkU8TjpHZjgBTRhYKXJ3N5oACV3R5ARHDiHHQ=
+Received: from bobwxc.top (unknown [120.238.248.129])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDHOdCWVXZg0M5bAA--.11991S2;
+        Wed, 14 Apr 2021 10:38:16 +0800 (CST)
+Date:   Wed, 14 Apr 2021 10:38:14 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <seakeel@gmail.com>,
+        YanTeng Si <sterlingteng@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v5 2/7] docs/zh_CN: Add translation
+ zh_CN/doc-guide/kernel-doc.rst
+Message-ID: <20210414023814.GA23966@bobwxc.top>
+References: <cover.1618295149.git.bobwxc@email.cn>
+ <783d134b1dd18f580f2c0511c2330382a86e79b5.1618295149.git.bobwxc@email.cn>
+ <87lf9lrgp3.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20210329143833.1047539-1-kubernat@cesnet.cz> <20210413104233.1857736-1-kubernat@cesnet.cz>
- <43c5cc02-d2ad-ceee-7709-190681b81ae7@roeck-us.net>
-In-Reply-To: <43c5cc02-d2ad-ceee-7709-190681b81ae7@roeck-us.net>
-From:   =?UTF-8?B?VsOhY2xhdiBLdWJlcm7DoXQ=?= <kubernat@cesnet.cz>
-Date:   Wed, 14 Apr 2021 02:27:18 +0200
-X-Gmail-Original-Message-ID: <CABKa3no8r6iSe_yCDnzG6yDuHGR5=UOGL26FGUmbGox-4hEntA@mail.gmail.com>
-Message-ID: <CABKa3no8r6iSe_yCDnzG6yDuHGR5=UOGL26FGUmbGox-4hEntA@mail.gmail.com>
-Subject: Re: [PATCH v4] hwmon: Add driver for fsp-3y PSUs and PDUs
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <87lf9lrgp3.fsf@meer.lwn.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgDHOdCWVXZg0M5bAA--.11991S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFy7tF1kCF18WryDtFWUArb_yoW5Jr17pF
+        4vkayfGan3Ar17G3W3Wr1xCFW3AFWxua15Kr4xtw1rJrnIyrWktr47Kryj934xurW0yFW5
+        ZF12vFyj93y7ZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgab7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
+        z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0x
+        vYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_
+        Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkIecxEwVAFwVW8JwCF04
+        k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j
+        6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7
+        AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE
+        2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
+        C2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73
+        UjIFyTuYvjxUTUGOUUUUU
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-=C3=BAt 13. 4. 2021 v 16:59 odes=C3=ADlatel Guenter Roeck <linux@roeck-us.n=
-et> napsal:
->
-> On 4/13/21 3:42 AM, V=C3=A1clav Kubern=C3=A1t wrote:
-> > This patch adds support for these devices:
-> > - YH-5151E - the PDU
-> > - YM-2151E - the PSU
+On Tue, Apr 13, 2021 at 03:57:12PM -0600, Jonathan Corbet wrote:
+> Wu XiangCheng <bobwxc@email.cn> writes:
+> 
+> > Add new translation
+> >   Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
 > >
-> > The device datasheet says that the devices support PMBus 1.2, but in my
-> > testing, a lot of the commands aren't supported and if they are, they
-> > sometimes behave strangely or inconsistently. For example, writes to th=
-e
-> > PAGE command requires using PEC, otherwise the write won't work and the
-> > page won't switch, even though, the standard says that PEC is opiotnal.
->
-> optional
-
-Done.
-
->
-> > On the other hand, writes the SMBALERT don't require PEC. Because of
->
-> s/writes the/writes to/ ?
-
-Done.
-
->
-> > this, the driver is mostly reverse engineered with the help of a tool
-> > called pmbus_peek written by David Brownell (and later adopted by my
-> > colleague Jan Kundr=C3=A1t).
-> >
-> > The device also has some sort of a timing issue when switching pages,
-> > which is explained further in the code.
-> >
-> > Because of this, the driver support is limited. It exposes only the
-> > values, that have been tested to work correctly.
-> >
->
-> You might want to add those details into the driver code, below the
-> copyright line. It would be more valuable there than in the commit log.
->
-
-Done.
-
-> > Signed-off-by: V=C3=A1clav Kubern=C3=A1t <kubernat@cesnet.cz>
+> > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+> > Reviewed-by: Yanteng Si <siyanteng@loongson.cn>
 > > ---
-> >  Documentation/hwmon/fsp-3y.rst |  26 ++++
->
-> Needs to be added to index.rst.
-
-Done.
-
->
-> >  drivers/hwmon/pmbus/Kconfig    |  10 ++
-> >  drivers/hwmon/pmbus/Makefile   |   1 +
-> >  drivers/hwmon/pmbus/fsp-3y.c   | 239 +++++++++++++++++++++++++++++++++
-> >  4 files changed, 276 insertions(+)
-> >  create mode 100644 Documentation/hwmon/fsp-3y.rst
-> >  create mode 100644 drivers/hwmon/pmbus/fsp-3y.c
+> >  .../zh_CN/doc-guide/kernel-doc.rst            | 500 ++++++++++++++++++
+> >  1 file changed, 500 insertions(+)
+> >  create mode 100644 Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
 > >
-> > diff --git a/Documentation/hwmon/fsp-3y.rst b/Documentation/hwmon/fsp-3=
-y.rst
+> > diff --git a/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
 > > new file mode 100644
-> > index 000000000000..68a547021846
+> > index 000000000000..b0427944f8f0
 > > --- /dev/null
-> > +++ b/Documentation/hwmon/fsp-3y.rst
-> > @@ -0,0 +1,26 @@
-> > +Kernel driver fsp3y
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +Supported devices:
-> > +  * 3Y POWER YH-5151E
-> > +  * 3Y POWER YM-2151E
+> > +++ b/Documentation/translations/zh_CN/doc-guide/kernel-doc.rst
+> > @@ -0,0 +1,500 @@
+> > +.. include:: ../disclaimer-zh_CN.rst
 > > +
-> > +Author: V=C3=A1clav Kubern=C3=A1t <kubernat@cesnet.cz>
+> > +:Original: Documentation/doc-guide/kernel-doc.rst
 > > +
-> > +Description
-> > +-----------
-> > +This driver implements limited support for two 3Y POWER devices.
+> > +:译者: 吴想成 Wu XiangCheng <bobwxc@email.cn>
 > > +
-> > +Sysfs entries
-> > +-------------
-> > +in1_input            input voltage
-> > +in2_input            12V output voltage
-> > +in3_input            5V output voltage
-> > +curr1_input          input current
-> > +curr2_input          12V output current
-> > +curr3_input          5V output current
-> > +fan1_input           fan rpm
-> > +temp1_input          temperature 1
-> > +temp2_input          temperature 2
-> > +temp3_input          temperature 3
-> > +power1_input         input power
-> > +power2_input         output power
-> > diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-> > index 03606d4298a4..9d12d446396c 100644
-> > --- a/drivers/hwmon/pmbus/Kconfig
-> > +++ b/drivers/hwmon/pmbus/Kconfig
-> > @@ -56,6 +56,16 @@ config SENSORS_BEL_PFE
-> >         This driver can also be built as a module. If so, the module wi=
-ll
-> >         be called bel-pfe.
-> >
-> > +config SENSORS_FSP_3Y
-> > +     tristate "FSP/3Y-Power power supplies"
-> > +     help
-> > +       If you say yes here you get hardware monitoring support for
-> > +       FSP/3Y-Power hot-swap power supplies.
-> > +       Supported models: YH-5151E, YM-2151E
+> > +编写kernel-doc注释
+> > +==================
 > > +
-> > +       This driver can also be built as a module. If so, the module wi=
-ll
-> > +       be called fsp-3y.
+> > +Linux内核源文件可以包含kernel-doc格式的结构化文档注释，用以描述代码的函数、
+> > +类型和设计。将文档嵌入源文件更容易保持文档最新。
 > > +
-> >  config SENSORS_IBM_CFFPS
-> >       tristate "IBM Common Form Factor Power Supply"
-> >       depends on LEDS_CLASS
-> > diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefil=
-e
-> > index 6a4ba0fdc1db..bfe218ad898f 100644
-> > --- a/drivers/hwmon/pmbus/Makefile
-> > +++ b/drivers/hwmon/pmbus/Makefile
-> > @@ -8,6 +8,7 @@ obj-$(CONFIG_SENSORS_PMBUS)   +=3D pmbus.o
-> >  obj-$(CONFIG_SENSORS_ADM1266)        +=3D adm1266.o
-> >  obj-$(CONFIG_SENSORS_ADM1275)        +=3D adm1275.o
-> >  obj-$(CONFIG_SENSORS_BEL_PFE)        +=3D bel-pfe.o
-> > +obj-$(CONFIG_SENSORS_FSP_3Y) +=3D fsp-3y.o
-> >  obj-$(CONFIG_SENSORS_IBM_CFFPS)      +=3D ibm-cffps.o
-> >  obj-$(CONFIG_SENSORS_INSPUR_IPSPS) +=3D inspur-ipsps.o
-> >  obj-$(CONFIG_SENSORS_IR35221)        +=3D ir35221.o
-> > diff --git a/drivers/hwmon/pmbus/fsp-3y.c b/drivers/hwmon/pmbus/fsp-3y.=
-c
-> > new file mode 100644
-> > index 000000000000..2185ab119fd2
-> > --- /dev/null
-> > +++ b/drivers/hwmon/pmbus/fsp-3y.c
-> > @@ -0,0 +1,239 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/*
-> > + * Hardware monitoring driver for FSP 3Y-Power PSUs
-> > + *
-> > + * Copyright (c) 2021 V=C3=A1clav Kubern=C3=A1t, CESNET
-> > + */
+> > +.. note:: 内核文档格式与javadoc、gtk-doc或Doxygen看似很相似，但由于历史原因，
+> > +          实际有着明显的不同。内核源包含成千上万个kernel-doc注释。请坚持遵循
+> > +          此处描述的风格。
 > > +
-> > +#include <linux/delay.h>
-> > +#include <linux/i2c.h>
-> > +#include <linux/kernel.h>
-> > +#include <linux/module.h>
-> > +#include "pmbus.h"
-> > +
-> > +#define YM2151_PAGE_12V_LOG  0x00
-> > +#define YM2151_PAGE_12V_REAL 0x00
-> > +#define YM2151_PAGE_5VSB_LOG 0x01
-> > +#define YM2151_PAGE_5VSB_REAL        0x20
-> > +#define YH5151E_PAGE_12V_LOG 0x00
-> > +#define YH5151E_PAGE_12V_REAL        0x00
-> > +#define YH5151E_PAGE_5V_LOG  0x01
-> > +#define YH5151E_PAGE_5V_REAL 0x10
-> > +#define YH5151E_PAGE_3V3_LOG 0x02
-> > +#define YH5151E_PAGE_3V3_REAL        0x11
-> > +
-> > +enum chips {
-> > +     ym2151e,
-> > +     yh5151e
-> > +};
-> > +
-> > +struct fsp3y_data {
-> > +     struct pmbus_driver_info info;
-> > +     int chip;
-> > +     int page;
-> > +};
-> > +
-> > +#define to_fsp3y_data(x) container_of(x, struct fsp3y_data, info)
-> > +
-> > +static int page_log_to_page_real(int page_log, enum chips chip)
-> > +{
-> > +     switch (chip) {
-> > +     case ym2151e:
-> > +             switch (page_log) {
-> > +             case YM2151_PAGE_12V_LOG:
-> > +                     return YM2151_PAGE_12V_REAL;
-> > +             case YM2151_PAGE_5VSB_LOG:
-> > +                     return YM2151_PAGE_5VSB_REAL;
-> > +             }
-> > +             return -EINVAL;
-> > +     case yh5151e:
-> > +             switch (page_log) {
-> > +             case YH5151E_PAGE_12V_LOG:
-> > +                     return YH5151E_PAGE_12V_REAL;
-> > +             case YH5151E_PAGE_5V_LOG:
-> > +                     return YH5151E_PAGE_5V_LOG;
-> > +             case YH5151E_PAGE_3V3_LOG:
-> > +                     return YH5151E_PAGE_3V3_REAL;
-> > +             }
-> > +             return -EINVAL;
-> > +     }
-> > +
-> > +     return -EINVAL;
-> > +}
-> > +
-> > +static int set_page(struct i2c_client *client, int page_log)
-> > +{
-> > +     const struct pmbus_driver_info *info =3D pmbus_get_driver_info(cl=
-ient);
-> > +     struct fsp3y_data *data =3D to_fsp3y_data(info);
-> > +     int rv;
-> > +     int page_real;
-> > +
-> > +     if (page_log < 0)
-> > +             return 0;
-> > +
-> > +     page_real =3D page_log_to_page_real(page_log, data->chip);
-> > +     if (page_real < 0)
-> > +             return page_real;
-> > +
-> > +     if (data->page !=3D page_real) {
-> > +             rv =3D i2c_smbus_write_byte_data(client, PMBUS_PAGE, page=
-_real);
-> > +             if (rv < 0)
-> > +                     return rv;
-> > +
-> > +             data->page =3D page_real;
-> > +
-> > +             /* Testing showed that the device has a timing issue. Aft=
-er
->
-> Somehow network subsystem multi-line alignments slipped in.
-> Not in hwmon, please. I cringe at those; it makes my brain focus on the
-> comment (because it is asynchronous) instead of the code.
->
+> > +.. note:: kernel-doc无法包含Rust代码：请参考
+> > +          :ref:`Documentation/rust/docs.rst <rust_docs>`。
 
-Done.
+Hi Jonathan,
 
-> > +              * setting a page, it takes a while, before the device ac=
-tually
-> > +              * gives the correct values from the correct page. 20 ms =
-was
-> > +              * tested to be enough to not give wrong values (15 ms wa=
-sn't
-> > +              * enough)
-> > +              */
-> > +             usleep_range(20000, 30000);
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int fsp3y_read_byte_data(struct i2c_client *client, int page, i=
-nt reg)
-> > +{
-> > +     int rv;
-> > +
-> > +     rv =3D set_page(client, page);
-> > +     if (rv < 0)
-> > +             return rv;
-> > +
-> > +     return i2c_smbus_read_byte_data(client, reg);
-> > +}
-> > +
-> > +static int fsp3y_read_word_data(struct i2c_client *client, int page, i=
-nt phase, int reg)
-> > +{
-> > +     int rv;
-> > +
-> > +     /* This masks commands which weren't tested to work correctly. So=
-me of the masked commands
-> > +      * return either 0xFFFF. These would probably get tagged as inval=
-id by pmbus_core. Other
->
-> s/either// ?
+> 
+> Note that this reference adds a warning to the docs-next build - this
+> translation is evidently against linux-next instead.  The warning will
+> eventually go away, but it would be better not to do this if possible.
 
-Done.
+Yeah, seems rust doc do not merge into docs-next yet. It's quite new.
 
->
-> > +      * ones do return values, which might be useful (that is, they ar=
-e not 0xFFFF), but their
->
-> s/values,/values/
+BTW, I'd like to ask does "git.lwn.net" has a web access like git-web or
+cgit... ?
 
-Done.
+> 
+> Also, there is no need for a :ref: here; just say
+> "Documentation/rust/docs.rst" and the automarkup code will do the right
+> thing.  Yes, that should be changed in the original as well.
+> 
 
->
-> > +      * encoding is unknown, and so they are unsupported.
-> > +      */
-> > +     switch (reg) {
-> > +     case PMBUS_READ_FAN_SPEED_1:
-> > +     case PMBUS_READ_IIN:
-> > +     case PMBUS_READ_IOUT:
-> > +     case PMBUS_READ_PIN:
-> > +     case PMBUS_READ_POUT:
-> > +     case PMBUS_READ_TEMPERATURE_1:
-> > +     case PMBUS_READ_TEMPERATURE_2:
-> > +     case PMBUS_READ_TEMPERATURE_3:
-> > +     case PMBUS_READ_VIN:
-> > +     case PMBUS_READ_VOUT:
-> > +     case PMBUS_STATUS_WORD:
-> > +             break;
-> > +     default:
-> > +             return -ENXIO;
-> > +     }
-> > +
-> > +     rv =3D set_page(client, page);
-> > +     if (rv < 0)
-> > +             return rv;
-> > +
-> > +     return i2c_smbus_read_word_data(client, reg);
-> > +}
-> > +
-> > +struct pmbus_driver_info fsp3y_info[] =3D {
-> > +     [ym2151e] =3D {
-> > +             .pages =3D 2,
-> > +             .func[YM2151_PAGE_12V_LOG] =3D
-> > +                     PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-> > +                     PMBUS_HAVE_PIN | PMBUS_HAVE_POUT  |
-> > +                     PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 |
-> > +                     PMBUS_HAVE_VIN | PMBUS_HAVE_IIN |
-> > +                     PMBUS_HAVE_FAN12,
-> > +             .func[YM2151_PAGE_5VSB_LOG] =3D
-> > +                     PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT,
-> > +                     PMBUS_HAVE_IIN,
-> > +             .read_word_data =3D fsp3y_read_word_data,
-> > +             .read_byte_data =3D fsp3y_read_byte_data,
-> > +     },
-> > +     [yh5151e] =3D {
-> > +             .pages =3D 3,
-> > +             .func[YH5151E_PAGE_12V_LOG] =3D
-> > +                     PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-> > +                     PMBUS_HAVE_POUT  |
-> > +                     PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2 | PMBUS_HAVE_T=
-EMP3,
-> > +             .func[YH5151E_PAGE_5V_LOG] =3D
-> > +                     PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-> > +                     PMBUS_HAVE_POUT,
-> > +             .func[YH5151E_PAGE_3V3_LOG] =3D
-> > +                     PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-> > +                     PMBUS_HAVE_POUT,
-> > +             .read_word_data =3D fsp3y_read_word_data,
-> > +             .read_byte_data =3D fsp3y_read_byte_data,
-> > +     }
-> > +};
-> > +
-> > +static int fsp3y_detect(struct i2c_client *client)
-> > +{
-> > +     int rv;
-> > +     u8 buf[I2C_SMBUS_BLOCK_MAX];
-> > +
-> > +     rv =3D i2c_smbus_read_block_data(client, PMBUS_MFR_MODEL, buf);
-> > +     if (rv < 0)
-> > +             return rv;
-> > +
-> > +     if (rv =3D=3D 8 && !strncmp(buf, "YM-2151E", strlen("YM-2151E")))
-> > +             return ym2151e;
-> > +     else if (rv =3D=3D 8 && !strncmp(buf, "YH-5151E", strlen("YH-5151=
-E")))
-> > +             return yh5151e;
->
-> better
->         if (rv =3D=3D 8) {
->                 /* rest of check */
->         }
->
+I'll send another patch to replace the two refs.
 
-Done.
+And use "Documentation/rust/docs.rst" will also fix the warning.
 
-> > +
-> > +     dev_err(&client->dev, "Unsupported model %.*s\n", rv, buf);
->
-> Sorry I didn't notice before. This assumes that the buffer is zero-termin=
-ated,
-> which may not be the case. For this to work, add another byte to the buff=
-er
-> (u8 buf[I2C_SMBUS_BLOCK_MAX + 1];), and add
->         buf[rv] =3D '\0';
->
-> You could actually do that before checking the returned strings and then =
-just
-> use strcmp() for the model comparisons, without bothering about the retur=
-n
-> length.
->
 
-Done.
+Thanks,
 
-> > +     return -ENODEV;
-> > +}
-> > +
-> > +static const struct i2c_device_id fsp3y_id[] =3D {
-> > +     {"ym2151e", ym2151e},
-> > +     {"yh5151e", yh5151e}
-> > +};
-> > +
-> > +static int fsp3y_probe(struct i2c_client *client)
-> > +{
-> > +     struct fsp3y_data *data;
-> > +     const struct i2c_device_id *id;
-> > +     int rv;
-> > +
-> > +     data =3D devm_kzalloc(&client->dev, sizeof(struct fsp3y_data), GF=
-P_KERNEL);
-> > +     if (!data)
-> > +             return -ENOMEM;
-> > +
-> > +     data->chip =3D fsp3y_detect(client);
-> > +     if (data->chip < 0)
-> > +             return data->chip;
-> > +
-> > +     id =3D i2c_match_id(fsp3y_id, client);
-> > +     if (data->chip !=3D id->driver_data)
-> > +             dev_warn(&client->dev, "Device mismatch: Configured %s (%=
-d), detected %d\n", id->name, (int)id->driver_data, data->chip);
-> > +
-> > +     rv =3D i2c_smbus_read_byte_data(client, PMBUS_PAGE);
-> > +     if (rv < 0)
-> > +             return rv;
-> > +     data->page =3D rv;
-> > +
-> > +     data->info =3D fsp3y_info[data->chip];
-> > +
-> > +     return pmbus_do_probe(client, &data->info);
-> > +}
-> > +
-> > +MODULE_DEVICE_TABLE(i2c, pmbus_id);
-> > +
-> > +/* This is the driver that will be inserted */
->
-> Nit: Useless comment
->
+Wu X.C.
 
-Done.
-
-> > +static struct i2c_driver fsp3y_driver =3D {
-> > +     .driver =3D {
-> > +                .name =3D "fsp3y",
-> > +                },
-> > +     .probe_new =3D fsp3y_probe,
-> > +     .id_table =3D fsp3y_id
-> > +};
-> > +
-> > +module_i2c_driver(fsp3y_driver);
-> > +
-> > +MODULE_AUTHOR("V=C3=A1clav Kubern=C3=A1t");
-> > +MODULE_DESCRIPTION("PMBus driver for FSP/3Y-Power power supplies");
-> > +MODULE_LICENSE("GPL");
-> >
->
