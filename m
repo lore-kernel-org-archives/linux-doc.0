@@ -2,176 +2,355 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-23.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B77A5C43460
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 16:06:38 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0970C43460
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 16:30:10 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 9CADA61222
-	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 16:06:38 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id BDA586120E
+	for <linux-doc@archiver.kernel.org>; Wed, 14 Apr 2021 16:30:10 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352577AbhDNQG6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Apr 2021 12:06:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55808 "EHLO
+        id S1351723AbhDNQab (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Apr 2021 12:30:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346877AbhDNQG5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 12:06:57 -0400
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com [IPv6:2607:f8b0:4864:20::82d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3750C061574;
-        Wed, 14 Apr 2021 09:06:35 -0700 (PDT)
-Received: by mail-qt1-x82d.google.com with SMTP id i6so6205837qti.10;
-        Wed, 14 Apr 2021 09:06:35 -0700 (PDT)
+        with ESMTP id S1351639AbhDNQaa (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 12:30:30 -0400
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D68C06175F
+        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 09:30:09 -0700 (PDT)
+Received: by mail-io1-xd30.google.com with SMTP id v26so21252346iox.11
+        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 09:30:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=/bkJOUEIhQpaarHf9evA1zVpo47yxddsd+vPYgjh8gQ=;
-        b=Re9GDJgTKoI18hI072yRMhVtwekN2NXDhFVkYTu2pBUQzR3HVCVRy9GgUDyVQCfKlV
-         K/vk1uZ/1ARlT9hP8Ez7OeVG8guK+m5A5uEvYS2TEEVapMZEdPj7oGwAVXHOCYLUahiS
-         StKzIgqOL9152HKJYXHdvIKj5IDMGaxXbEbwPrQwiHT5QXNA9dC6ZMS3P1etmf/jYCE9
-         Gdiyv1RGeUoG7ZZW07r50rSyhBI0juVuBfB3yAF+DkHnz4Kn23siCv8gZ3XMHv6yoJJN
-         UBJjMu5nuRcv+ykZDlk/jluNyL/irO79Hy01l/38KWVXxLbRP9jvxuHcjGn5PMHMM9FQ
-         3g6Q==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Ky8WjahUCjRIuhExK/xZvUryo/aleQ7oFfWueFWPLGA=;
+        b=FHR9Ov6YiB5/FLeBtCUoTTPdcK1wp0TldbDFyFijloNQv1KL6ycVGLburcy+ZXUTHk
+         F5l0aJDfQul/A4ys8XqOB7bqOOwzqq58+Wy9BceQCC4rr3cgdvYYkAXYUZjYixAO/tdv
+         6imNFd4AWJSShn2YZkQMmxii3UZ0qZgmuwdjoCPQHkREJcXI81Grp3JISTOqxk4FcOvz
+         BuV6pW59Fvg1Hz62jWh7qz//6LfMVlhlqnhT8bxHAgUe4rzk2tzcIlPt45iDXJxsO+ZP
+         VSFux6u2G5jzRYV9k7hybvEbAPut/6kcIeX782iGJ8tOkt0efo3dSofM6FwIgtwpPg13
+         dmpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=/bkJOUEIhQpaarHf9evA1zVpo47yxddsd+vPYgjh8gQ=;
-        b=E9xK86VP+oIHkCGiIzxfqELvQh+zixlsZP201s/9MME69xIxXLsnAVNuuT/i6lXxxH
-         bIHS6dD9Fv8k+OJXZXhrqZzL8wOa1jj6mrJN4HCUlusVmGtWnhTSc0nltapKhbXOg6E1
-         xAlUAvMLUt8LBQL23zoeR3l4knuyOK7u1X+JsWT5HRnxENLu67n+k0RhJzy3SuElG1w7
-         x90M2nebLHGjSdaPisUJawyRTReVLFF0hEJNnRiuqPpHP17MQ++PeDq5qri/LktIIcV0
-         93JKJ/xAfFtIc8+2FeKzx7FDpA5b3b0y6HAssBGLnkVJ6NWqZTh548pmYrxmnGpfcgbX
-         GYag==
-X-Gm-Message-State: AOAM531ei5S6uPUdMfsA7Rmm6l9WKMYE8A9HAAldbeHtsKO/Sf7CRi+g
-        wfd9tcoNQLYnas+GGd0E6hkKSOdRN9I=
-X-Google-Smtp-Source: ABdhPJxMn73FiGp2dKadUY6T5xb9A1JuWbR/CayZ2UJMBRaXuEfiza2/+6issl1cDKJJ83CLDF7zTA==
-X-Received: by 2002:a05:622a:446:: with SMTP id o6mr35757819qtx.257.1618416395016;
-        Wed, 14 Apr 2021 09:06:35 -0700 (PDT)
-Received: from localhost ([207.98.216.60])
-        by smtp.gmail.com with ESMTPSA id j6sm12648789qkl.84.2021.04.14.09.06.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 09:06:34 -0700 (PDT)
-Date:   Wed, 14 Apr 2021 09:06:30 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-api@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
-        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Arnd Bergmann <arnd@arndb.de>, David Sterba <dsterba@suse.com>,
-        Joe Perches <joe@perches.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH] Documentation: syscalls: add a note about  ABI-agnostic
- types
-Message-ID: <20210414160630.GA61176@yury-ThinkPad>
-References: <20210409204304.1273139-1-yury.norov@gmail.com>
- <20210414044020.GA44464@yury-ThinkPad>
- <20210414081422.5a9d0c4b@coco.lan>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Ky8WjahUCjRIuhExK/xZvUryo/aleQ7oFfWueFWPLGA=;
+        b=K5YnZg7+QoHUgrXXvF+ebF9hK5FsCN0P3Ixz8z1asGe+HKqdcZSkKdVGeJrk/0HJqG
+         pvf2LzDM9vpp8Z8ICx+0o/n1brtYEqhQ59PIxE5uZxwzIn6Ua1s0dhZ6or8QpkidK6GW
+         FEoyRTMCDJ0FLEPlzN0gEq90GaTjS815mrjKqlcPiyXbWMWuSPwlXN3zOpbr/lR+WGvH
+         Ql1NFm1LZ6WSrDoulDWXkuih2fkXU+ydZRMKFpGuQucZefh3XjXr09X4irGpn5y3Nfnv
+         G4LG0gqNU6X/ol6jkZDhjKRQ3U5Dt0xSzQ0fpIxrkvmzpoYRvaeRcpG65tEsYCFYKs3h
+         rQSw==
+X-Gm-Message-State: AOAM531YjUK8T7iIlCsu/Url4DtKNjXH2+4TaQqlDdBeqBMg1Yj7k3hb
+        uhtVgWguXznqwGYsKjxj1DHCf7REUHMo83jw1c0D4g==
+X-Google-Smtp-Source: ABdhPJyaJLhuX+duILX4Qq2IW8YSDP9Uy+pmtix0AocXALijfpi4IY6PrjHey73aKpbmIZ+wzki35tLSLV/P9nBiRPM=
+X-Received: by 2002:a05:6638:204f:: with SMTP id t15mr15049389jaj.75.1618417808103;
+ Wed, 14 Apr 2021 09:30:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210414081422.5a9d0c4b@coco.lan>
+References: <20210414081428.337494-1-davidgow@google.com>
+In-Reply-To: <20210414081428.337494-1-davidgow@google.com>
+From:   Daniel Latypov <dlatypov@google.com>
+Date:   Wed, 14 Apr 2021 09:29:56 -0700
+Message-ID: <CAGS_qxryjASsRy9Ozox8UXx1=9PittUs=WmkO7=QpWt9HrLj7A@mail.gmail.com>
+Subject: Re: [PATCH v2] Documentation: dev-tools: Add Testing Overview
+To:     David Gow <davidgow@google.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Marco Elver <elver@google.com>,
+        Brendan Higgins <brendanhiggins@google.com>,
+        linux-doc@vger.kernel.org,
+        KUnit Development <kunit-dev@googlegroups.com>,
+        "open list:KERNEL SELFTEST FRAMEWORK" 
+        <linux-kselftest@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 08:14:22AM +0200, Mauro Carvalho Chehab wrote:
-> Em Tue, 13 Apr 2021 21:40:20 -0700
-> Yury Norov <yury.norov@gmail.com> escreveu:
-> 
-> > Ping?
-> > 
-> > On Fri, Apr 09, 2021 at 01:43:04PM -0700, Yury Norov wrote:
-> > > Recently added memfd_secret() syscall had a flags parameter passed
-> > > as unsigned long, which requires creation of compat entry for it.
-> > > It was possible to change the type of flags to unsigned int and so
-> > > avoid bothering with compat layer.
-> > > 
-> > > https://www.spinics.net/lists/linux-mm/msg251550.html
-> > > 
-> > > Documentation/process/adding-syscalls.rst doesn't point clearly about
-> > > preference of ABI-agnostic types. This patch adds such notification.
-> > > 
-> > > Signed-off-by: Yury Norov <yury.norov@gmail.com>
-> > > ---
-> > >  Documentation/process/adding-syscalls.rst | 7 +++++++
-> > >  1 file changed, 7 insertions(+)
-> > > 
-> > > diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-> > > index 9af35f4ec728..46add16edf14 100644
-> > > --- a/Documentation/process/adding-syscalls.rst
-> > > +++ b/Documentation/process/adding-syscalls.rst
-> > > @@ -172,6 +172,13 @@ arguments (i.e. parameter 1, 3, 5), to allow use of contiguous pairs of 32-bit
-> > >  registers.  (This concern does not apply if the arguments are part of a
-> > >  structure that's passed in by pointer.)
-> > >  
-> > > +Whenever possible, try to use ABI-agnostic types for passing parameters to
-> > > +a syscall in order to avoid creating compat entry for it. Linux supports two
-> > > +ABI models - ILP32 and LP64. 
-> 
-> > > + The types like ``void *``, ``long``, ``size_t``,
-> > > +``off_t`` have different size in those ABIs;
-> 
-> In the case of pointers, the best is to use __u64. The pointer can then
-> be read on Kernelspace with something like this:
-> 
-> 	static inline void __user *media_get_uptr(__u64 arg)
-> 	{
-> 		return (void __user *)(uintptr_t)arg;
-> 	}
- 
-For 32-bit userspace reserving 64-bit type for pointers looks
-excessive, isn't? And anyways, how could this help to prevent
-malicious/broken compat userspace from passing pointers with
-dirty top 32 bits?
+On Wed, Apr 14, 2021 at 1:15 AM David Gow <davidgow@google.com> wrote:
+>
+> The kernel now has a number of testing and debugging tools, and we've
+> seen a bit of confusion about what the differences between them are.
+>
+> Add a basic documentation outlining the testing tools, when to use each,
+> and how they interact.
+>
+> This is a pretty quick overview rather than the idealised "kernel
+> testing guide" that'd probably be optimal, but given the number of times
+> questions like "When do you use KUnit and when do you use Kselftest?"
+> are being asked, it seemed worth at least having something. Hopefully
+> this can form the basis for more detailed documentation later.
+>
+> Signed-off-by: David Gow <davidgow@google.com>
 
-From what I can see, in case of compat ABI, the 'void *' args
-are cast to compat_uptr_t in the compat layer, and then passed
-to native handlers. Bypassing compat layer in the example above
-would break consistency for a syscall.
- 
-> > > types like ``char`` and  ``int``
-> > > +have the same size and don't require a compat layer support. For flags, it's
-> > > +always better to use ``unsigned int``.
-> > > +
-> 
-> I don't think this is true for all compilers on userspace, as the C
-> standard doesn't define how many bits an int/unsigned int has. 
-> So, even if this is today's reality, things may change in the future.
+Reviewed-by: Daniel Latypov <dlatypov@google.com>
 
-Agree, it's not a standard in C, but this is pretty much a standard in
-Linux. Introducing a new ABI nor ILP32, neither LP64 would require huge
-amount of work, especially on a maintenance level, and I bet it will be
-blocked by Arnd. :) In practice it's correct to recommend using unsigned
-int for flags now, and if in future someone will introduce new ABI, it
-will be his responsibility to explain us how to design syscalls in a
-compatible and unified way.
+Looks good to me. Some minor typos and nits about wording here and there.
 
-> For instance, I remember we had to replace "int" and "enum" by "__u32" 
-> and "long" by "__u64" at the media uAPI in the past, when we start
-> seeing x86_64 Kernels with 32-bits userspace and when cameras started 
-> being supported on arm32.
-> 
-> We did have some real bugs with "enum", as, on that time, some
-> compilers (gcc, I guess) were optimizing them to have less than
-> 32 bits on certain architectures, when it fits.
+> ---
+> Thanks, everyone, for the comments on the doc. I've made a few of the
+> suggested changes. Please let me know what you think!
+>
+> -- David
+>
+> Changes since v1:
+> https://lore.kernel.org/linux-kselftest/20210410070529.4113432-1-davidgow=
+@google.com/
+> - Note KUnit's speed and that one should provide selftests for syscalls
+> - Mention lockdep as a Dynamic Analysis Tool
+> - Refer to "Dynamic Analysis Tools" instead of "Sanitizers"
+> - A number of minor formatting tweaks and rewordings for clarity.
+>
+> Not changed:
+> - I haven't included an exhaustive list of differences, advantages, etc,
+>   between KUnit and kselftest: for now, the doc continues to focus on
+>   the difference between 'in-kernel' and 'userspace' testing here.
+> - Similarly, I'm not linking out to docs defining and describing "Unit"
+>   tests versus "End-to-end" tests. None of the existing documentation
+>   elsewhere quite matches what we do in the kernel perfectly, so it
+>   seems less confusing to focus on the 'in-kernel'/'userspace'
+>   distinction, and leave other definitions as a passing mention for
+>   those who are already familiar with the concepts.
+> - I haven't linked to any talk videos here: a few of them are linked on
+>   (e.g.) the KUnit webpage, but I wanted to keep the Kernel documentation
+>   more self-contained for now. No objection to adding them in a follow-up
+>   patch if people feel strongly about it, though.
+> - The link from index.rst to this doc is unchanged. I personally think
+>   that the link is prominent enough there: it's the first link, and
+>   shows up a few times. One possibility if people disagreed would be to
+>   merge this page with the index, but given not all dev-tools are going
+>   to be testing-related, it seemed a bit arrogant. :-)
+>
+>  Documentation/dev-tools/index.rst            |   3 +
+>  Documentation/dev-tools/testing-overview.rst | 117 +++++++++++++++++++
+>  2 files changed, 120 insertions(+)
+>  create mode 100644 Documentation/dev-tools/testing-overview.rst
+>
+> diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/=
+index.rst
+> index 1b1cf4f5c9d9..f590e5860794 100644
+> --- a/Documentation/dev-tools/index.rst
+> +++ b/Documentation/dev-tools/index.rst
+> @@ -7,6 +7,8 @@ be used to work on the kernel. For now, the documents hav=
+e been pulled
+>  together without any significant effort to integrate them into a coheren=
+t
+>  whole; patches welcome!
+>
+> +A brief overview of testing-specific tools can be found in :doc:`testing=
+-overview`.
+> +
+>  .. class:: toc-title
+>
+>            Table of contents
+> @@ -14,6 +16,7 @@ whole; patches welcome!
+>  .. toctree::
+>     :maxdepth: 2
+>
+> +   testing-overview
+>     coccinelle
+>     sparse
+>     kcov
+> diff --git a/Documentation/dev-tools/testing-overview.rst b/Documentation=
+/dev-tools/testing-overview.rst
+> new file mode 100644
+> index 000000000000..ce36a8cdf6b5
+> --- /dev/null
+> +++ b/Documentation/dev-tools/testing-overview.rst
+> @@ -0,0 +1,117 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Kernel Testing Guide
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +
+> +There are a number of different tools for testing the Linux kernel, so k=
+nowing
+> +when to use each of them can be a challenge. This document provides a ro=
+ugh
+> +overview of their differences, and how they fit together.
+> +
+> +
+> +Writing and Running Tests
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+> +
+> +The bulk of kernel tests are written using either the kselftest or KUnit
+> +frameworks. These both provide infrastructure to help make running tests=
+ and
+> +groups of tests easier, as well as providing helpers to aid in writing n=
+ew
+> +tests.
+> +
+> +If you're looking to verify the behaviour of the Kernel =E2=80=94 partic=
+ularly specific
+> +parts of the kernel =E2=80=94 then you'll want to use KUnit or kselftest=
+.
+> +
+> +
+> +The Difference Between KUnit and kselftest
+> +------------------------------------------
+> +
+> +KUnit (Documentation/dev-tools/kunit/index.rst) is an entirely in-kernel=
+ system
+> +for "white box" testing: because test code is part of the kernel, it can=
+ access
+> +internal structures and functions which aren't exposed to userspace.
+> +
+> +KUnit tests therefore are best written against small, self-contained par=
+ts
+> +of the kernel, which can be tested in isolation. This aligns well with t=
+he
+> +concept of 'unit' testing.
+> +
+> +For example, a KUnit test might test an individual kernel function (or e=
+ven a
+> +single codepath through a function, such as an error handling case), rat=
+her
+> +than a feature as a whole.
+> +
+> +This also makes KUnit tests very fast to build and run, allowing them to=
+ be
+> +run frequently as part of the development process.
+> +
+> +There is a KUnit test style guide which may give further pointers in
+> +Documentation/dev-tools/kunit/style.rst
+> +
+> +
+> +kselftest (Documentation/dev-tools/kselftest.rst), on the other hand, is
+> +largely implemented in userspace, and tests are normal userspace scripts=
+ or
+> +programs.
+> +
+> +This makes it easier to write more complicated tests, or tests which nee=
+d to
+> +manipulate the overall system state more (e.g., spawning processes, etc.=
+).
+> +However, it's not possible to call kernel functions directly from kselft=
+est.
+> +This means that only kernel functionality which is exposed to userspace =
+somhow
 
-I think this example agrees with what I said - if userspace has
-nonstandard ABI, it has to use kernel types to communicate with
-kernel, which are exposed as __u32-style typedefs. For me, it's
-a compatibility layer implemented in userspace.
+*s/somhow/somehow
 
-This patch is about good practices for standard 32, 64 and compat 
-ABIs supported by kernel.
+> +(e.g. by a syscall, device, filesystem, etc.) can be tested with kselfte=
+st.  To
+> +work around this, some tests include a companion kernel module which exp=
+oses
+> +more information or functionality. If a test runs mostly or entirely wit=
+hin the
+> +kernel, however,  KUnit may be the more appropriate tool.
 
-(Or if I missed you point, can you please explain in more details?)
+I like this slightly tweaked wording better, thanks.
+Still might be a bit confusing for a reader to see "it's not possible"
+=3D> "it's possible if you have a companion module," but I'm happy
+enough with it as-is.
 
-Thanks,
-Yury
+> +
+> +kselftest is therefore suited well to tests of whole features, as these =
+will
+> +expose an interface to userspace, which can be tested, but not implement=
+ation
+> +details. This aligns well with 'system' or 'end-to-end' testing.
+> +
+> +For example, all new system calls should be accompanied by kselftest tes=
+ts.
+> +
+> +Code Coverage Tools
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The Linux Kernel supports two different code coverage measurement tools.=
+ These
+> +can be used to verify that a test is executing particular functions or l=
+ines
+> +of code. This is useful for determining how much of the kernel is being =
+tested,
+> +and for finding corner-cases which are not covered by the appropriate te=
+st.
+> +
+> +:doc:`gcov` is GCC's coverage testing tool, which can be used with the k=
+ernel
+> +to get global or per-module coverage. Unlike KCOV, it does not record pe=
+r-task
+> +coverage. Coverage data can be read from debugfs, and interpreted using =
+the
+> +usual gcov tooling.
+> +
+> +:doc:`kcov` is a feature which can be built in to the kernel to allow
+> +capturing coverage on a per-task level. It's therefore useful for fuzzin=
+g and
+> +other situations where information about code executed during, for examp=
+le, a
+> +single syscall is useful.
+> +
+> +
+> +Dynamic Analysis Tools
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The kernel also supports a number of dynamic analysis tools, which attem=
+pt to
+> +detect classes of issues when the occur in a running kernel. These typic=
+ally
+
+*s/the occur/they occur
+
+> +look for undefined behaviour of some kind, such as invalid memory access=
+es,
+
+nit: "look for undefined behaviour of some kind"
+Given that I think most readers will interpret UB in the sense that C
+uses it, this might be a bit misleading. E.g. lockdep errors aren't UB
+in that sense.
+
+Perhaps we can reword this to "look for invalid behaviour" or even
+just "look for bugs"
+
+> +concurrency issues such as data races, or other undefined behaviour like
+> +integer overflows.
+> +
+> +Some of these tools are listed below:
+> +
+> +* kmemleak detects possible memory leaks. See
+> +  Documentation/dev-tools/kmemleak.rst
+> +* KASAN detects invalid memory accesses such as out-of-bounds and
+> +  use-after-free errors. See Documentation/dev-tools/kasan.rst
+> +* UBSAN detects behaviour that is undefined by the C standard, like inte=
+ger
+> +  overflows. See Documentation/dev-tools/ubsan.rst
+> +* KCSAN detects data races. See Documentation/dev-tools/kcsan.rst
+> +* KFENCE is a low-overhead detector of memory issues, which is much fast=
+er than
+> +  KASAN and can be used in production. See Documentation/dev-tools/kfenc=
+e.rst
+> +* lockdep is a locking correctness validator. See
+> +  Documentation/locking/lockdep-design.rst
+> +* There are several other pieces of debug instrumentation in the kernel,=
+ many
+> +  of which can be found in lib/Kconfig.debug
+> +
+> +These tools tend to test the kernel as a whole, and do not "pass" like
+> +kselftest or KUnit tests. They can be combined with KUnit or kselftest b=
+y
+> +running tests on a kernel with a sanitizer enabled: you can then be sure
+
+nit: we refer to "sanitizers" again, I assume this needs to be updated as w=
+ell?
+
+> +that none of these errors are occurring during the test.
+> +
+> +Some of these tools integrate with KUnit or kselftest and will
+> +automatically fail tests if an issue is detected.
+> +
+> --
+> 2.31.1.295.g9ea45b61b8-goog
+>
