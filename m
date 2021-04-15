@@ -2,186 +2,149 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8633BC43611
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 08:53:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D7B8C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 09:30:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6910E611CD
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 08:53:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5513A61222
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 09:30:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231840AbhDOIyC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 04:54:02 -0400
-Received: from mx2.suse.de ([195.135.220.15]:60146 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231855AbhDOIx6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Apr 2021 04:53:58 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 2A513B1EC;
-        Thu, 15 Apr 2021 08:53:35 +0000 (UTC)
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     daniel@ffwll.ch, airlied@linux.ie,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com,
-        broonie@kernel.org, sam@ravnborg.org, robh@kernel.org,
-        emil.l.velikov@gmail.com, geert+renesas@glider.be,
-        hdegoede@redhat.com, bluescreen_avenger@verizon.net,
-        gregkh@linuxfoundation.org
-Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v3 9/9] drm/simpledrm: Acquire memory aperture for framebuffer
-Date:   Thu, 15 Apr 2021 10:53:26 +0200
-Message-Id: <20210415085326.8824-10-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210415085326.8824-1-tzimmermann@suse.de>
-References: <20210415085326.8824-1-tzimmermann@suse.de>
+        id S230290AbhDOJbS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 05:31:18 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:58139 "EHLO
+        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S230056AbhDOJbR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 05:31:17 -0400
+X-Greylist: delayed 566 seconds by postgrey-1.27 at vger.kernel.org; Thu, 15 Apr 2021 05:31:17 EDT
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.west.internal (Postfix) with ESMTP id 6FC38153A;
+        Thu, 15 Apr 2021 05:21:27 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Thu, 15 Apr 2021 05:21:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=zfj0rQaRKmMatrAglIvbM4mltoL
+        UjF1OY8QTK/o+Ygs=; b=VvPT0bI72y0hK4xK7mXV/woFz4I767UjXKTfBbhvm9D
+        QI6NOakfUTIPHriMD5eTgDJcWK0V2nLoDG9IQ+XP2xAl6BRCeKDplTZzH7OZ1Epq
+        R/osEMTd3j2nAXsYPNUzOw3VTr/59egO/0yZrLYyp0mHBI09BfnzEKh7mlwTP35e
+        2xLzYy170oGXveATrd4UsHGWwMvWE65Wuqk6ncVILDdW9PeVqEnTOhmb3PNmYyqk
+        OqdezfzQcoDln+bWXdIKEqTKqEANVA6ldKnZlXtxYFm3VUFr3LBblOPQUalnwdql
+        J87IRED81hnkSjpnT1swvizewerqtPkUdT70F2JLVGA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=zfj0rQ
+        aRKmMatrAglIvbM4mltoLUjF1OY8QTK/o+Ygs=; b=BGADAo8PFmCgCfLPPBFW8t
+        L/NTny2mQA0vNebmJUnMXryJUfOS2ze2UxdwD6yA4wMJtsQKE7OwCbUZ7EUuIdMZ
+        +4y50x9miQ0MuB6R1BOzhyf61CE1pae9q7QA+zHjpqR7vENcR2C6FGQwR1Ut67AG
+        PnA0wYuAOpQNXlwbWkR/1CmFRB6BTATBj1WTSeMjUqs7BTdTqAjqDBMaqrC4JtwT
+        buKHOU0DrpEPTV/HInXuuUrO5YxVoBEjeoRoU6T7HSbVEJoMqL1tiYwEHbdrd4i5
+        NYxA2v7ED6C++BN6V2eot6RKqlPJCphjqAx+MBqJdtnOPM8Brj5YOJABvXK3Wh1g
+        ==
+X-ME-Sender: <xms:lQV4YChUCP8iVpkABjYxrzPRMKejcQguuvyEo4VigwgTZm5ExAGoFg>
+    <xme:lQV4YDDh_Z6yzxFxgeBFZUAUyqXkxModz9c4NMEXHY8Jj0WXFdTSEkNI9FU115o5A
+    y5yU-KWFg8VO-BMbfE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrudelfedgudehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:lQV4YKFZCvqEvlMgpVezhT8P9fXOXmBFIr9UZ8cdAx8KtdONCT6myw>
+    <xmx:lQV4YLQ7PkZ4onLzUP_N9UoLzRSfGoebL2AFqvE9Sr052amGDCuW3g>
+    <xmx:lQV4YPznVjDFJtd_gKakJw3373la0KC5ILlWHEXdWy-JMZHGpXWqLA>
+    <xmx:lgV4YEKf41X3D_3aoWu24lPOXieSiJwWeXDNkEKssHFIfNhJk95M90UCjds>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id DBE3024005B;
+        Thu, 15 Apr 2021 05:21:24 -0400 (EDT)
+Date:   Thu, 15 Apr 2021 11:21:23 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     daniel@ffwll.ch, airlied@linux.ie,
+        maarten.lankhorst@linux.intel.com, kraxel@redhat.com,
+        corbet@lwn.net, lgirdwood@gmail.com, broonie@kernel.org,
+        sam@ravnborg.org, robh@kernel.org, emil.l.velikov@gmail.com,
+        geert+renesas@glider.be, hdegoede@redhat.com,
+        bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+Subject: Re: [PATCH v2 08/10] drm/simpledrm: Acquire clocks from DT device
+ node
+Message-ID: <20210415092123.7zn6fbnkuqlajord@gilmour>
+References: <20210318102921.21536-1-tzimmermann@suse.de>
+ <20210318102921.21536-9-tzimmermann@suse.de>
+ <20210408081353.ojt2kgnnbh6kp6gp@gilmour>
+ <3c7bacd1-e40e-0953-9ad9-9f79274106d5@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="dssjutuvfuyn2y2e"
+Content-Disposition: inline
+In-Reply-To: <3c7bacd1-e40e-0953-9ad9-9f79274106d5@suse.de>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-We register the simplekms device with the DRM platform helpers. A
-native driver for the graphics hardware will kick-out the simpledrm
-driver before taking over the device.
 
-The original generic platform device from the simple-framebuffer boot
-code will be unregistered. The native driver will use whatever native
-hardware device it received.
+--dssjutuvfuyn2y2e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-v3:
-	* use platform_device_unregister() and handle detachment
-	  like hot-unplug event (Daniel)
-v2:
-	* adapt to aperture changes
-	* use drm_dev_unplug() and drm_dev_enter/exit()
-	* don't split error string
+Hi,
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
----
- drivers/gpu/drm/tiny/simpledrm.c | 49 +++++++++++++++++++++++++++++++-
- 1 file changed, 48 insertions(+), 1 deletion(-)
+On Thu, Apr 15, 2021 at 09:31:01AM +0200, Thomas Zimmermann wrote:
+> Am 08.04.21 um 10:13 schrieb Maxime Ripard:
+> > Hi,
+> >=20
+> > On Thu, Mar 18, 2021 at 11:29:19AM +0100, Thomas Zimmermann wrote:
+> > > Make sure required hardware clocks are enabled while the firmware
+> > > framebuffer is in use.
+> > >=20
+> > > The basic code has been taken from the simplefb driver and adapted
+> > > to DRM. Clocks are released automatically via devres helpers.
+> > >=20
+> > > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > > Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
+> >=20
+> > Even though it's definitely simpler to review, merging the driver first
+> > and then the clocks and regulators will break bisection on the platforms
+> > that rely on them
+>=20
+> I'd like to keep the patches separate for now, but can squash patches 6 t=
+o 8
+> them into one before pushing them. OK?
 
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-index 9d522473cd7c..14473e1bccab 100644
---- a/drivers/gpu/drm/tiny/simpledrm.c
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -6,6 +6,7 @@
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
- 
-+#include <drm/drm_aperture.h>
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_damage_helper.h>
-@@ -515,16 +516,49 @@ static int simpledrm_device_init_fb(struct simpledrm_device *sdev)
-  * Memory management
-  */
- 
-+static void simpledrm_aperture_detach(struct drm_device *dev, resource_size_t base,
-+				      resource_size_t size)
-+{
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(dev);
-+	struct platform_device *pdev = sdev->pdev;
-+
-+	/*
-+	 * Remove the device from the bus itself. This is the right thing to
-+	 * do for the generic DRM drivers, such as EFI, VESA or VGA. When the
-+	 * new driver takes over the hardware, the generic device's state will
-+	 * be lost.
-+	 *
-+	 * If the aperture helpers need to handle native drivers, this call
-+	 * would only have to unplug the DRM device, so that the hardware device
-+	 * stays around after detachment.
-+	 */
-+	platform_device_unregister(pdev);
-+}
-+
-+static const struct drm_aperture_funcs simpledrm_aperture_funcs = {
-+	.detach = simpledrm_aperture_detach,
-+};
-+
- static int simpledrm_device_init_mm(struct simpledrm_device *sdev)
- {
-+	struct drm_device *dev = &sdev->dev;
- 	struct platform_device *pdev = sdev->pdev;
- 	struct resource *mem;
- 	void __iomem *screen_base;
-+	int ret;
- 
- 	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
- 	if (!mem)
- 		return -EINVAL;
- 
-+	ret = devm_aperture_acquire(dev, mem->start, resource_size(mem),
-+				    &simpledrm_aperture_funcs);
-+	if (ret) {
-+		drm_err(dev, "could not acquire memory range [0x%llx:0x%llx]: error %d\n",
-+			mem->start, mem->end, ret);
-+		return ret;
-+	}
-+
- 	screen_base = devm_ioremap_wc(&pdev->dev, mem->start,
- 				      resource_size(mem));
- 	if (!screen_base)
-@@ -625,12 +659,18 @@ simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 	struct drm_framebuffer *fb = plane_state->fb;
- 	void *vmap = shadow_plane_state->map[0].vaddr; /* TODO: Use mapping abstraction properly */
-+	struct drm_device *dev = &sdev->dev;
-+	int idx;
- 
- 	if (!fb)
- 		return;
- 
-+	if (!drm_dev_enter(dev, &idx))
-+		return;
-+
- 	drm_fb_blit_dstclip(sdev->screen_base, sdev->pitch,
- 			    sdev->format->format, vmap, fb);
-+	drm_dev_exit(idx);
- }
- 
- static void
-@@ -658,7 +698,9 @@ simpledrm_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
- 	void *vmap = shadow_plane_state->map[0].vaddr; /* TODO: Use mapping abstraction properly */
- 	struct drm_framebuffer *fb = plane_state->fb;
-+	struct drm_device *dev = &sdev->dev;
- 	struct drm_rect clip;
-+	int idx;
- 
- 	if (!fb)
- 		return;
-@@ -666,8 +708,13 @@ simpledrm_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
- 	if (!drm_atomic_helper_damage_merged(old_plane_state, plane_state, &clip))
- 		return;
- 
-+	if (!drm_dev_enter(dev, &idx))
-+		return;
-+
- 	drm_fb_blit_rect_dstclip(sdev->screen_base, sdev->pitch,
- 				 sdev->format->format, vmap, fb, &clip);
-+
-+	drm_dev_exit(idx);
- }
- 
- static const struct drm_simple_display_pipe_funcs
-@@ -847,7 +894,7 @@ static int simpledrm_remove(struct platform_device *pdev)
- 	struct simpledrm_device *sdev = platform_get_drvdata(pdev);
- 	struct drm_device *dev = &sdev->dev;
- 
--	drm_dev_unregister(dev);
-+	drm_dev_unplug(dev);
- 
- 	return 0;
- }
--- 
-2.31.1
+Yep, that works for me :)
 
+> >=20
+> > Another thing worth considering is also that both drivers will probe if
+> > they are enabled (which is pretty likely), which is not great :)
+> >=20
+> > I guess we should make them mutually exclusive through Kconfig
+>=20
+> We already have several drivers in fbdev and DRM that handle the same
+> hardware. We don't do this for any other pair, why bother now?
+
+Yeah, but simplefb/simpledrm are going to be enabled pretty much
+everywhere, as opposed to the other drivers that are more specialized.
+
+Maxime
+
+--dssjutuvfuyn2y2e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYHgFkwAKCRDj7w1vZxhR
+xR7dAQDUsmxPNGS+rGoOg3pCp+4FevDlu8TAon1nvnQGWW17mAEA63okZYIc1T4q
+tN/8/1My3nzjODBcoNImgljOJPz94AY=
+=QTs0
+-----END PGP SIGNATURE-----
+
+--dssjutuvfuyn2y2e--
