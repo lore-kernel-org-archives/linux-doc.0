@@ -2,166 +2,91 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-6.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CF55C43460
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:20:37 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 176EBC433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:33:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 142DD61153
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:20:37 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E217C60C41
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:33:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235173AbhDOWUy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 18:20:54 -0400
-Received: from mga14.intel.com ([192.55.52.115]:22384 "EHLO mga14.intel.com"
+        id S234829AbhDOWdq (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 18:33:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34150 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237026AbhDOWSW (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Apr 2021 18:18:22 -0400
-IronPort-SDR: jjw4xVsXSZ7+6UPbxn9LC4z5+sAoOXaM0oGENlIK56sK9O/BhD6uV3VopK3EtKu7S38NahOJ3v
- ry6Uv9tbJKlg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9955"; a="194513398"
-X-IronPort-AV: E=Sophos;i="5.82,225,1613462400"; 
-   d="scan'208";a="194513398"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2021 15:15:41 -0700
-IronPort-SDR: tfqI8ZqkLdWgkO5CqWxX4t4sTzCKsF9NHc+PbAGSBkiO5L6gRhPaSGQvX9zQhF0M4rQZwFdXvx
- /PDXGJ/D238w==
-X-IronPort-AV: E=Sophos;i="5.82,225,1613462400"; 
-   d="scan'208";a="451270959"
-Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2021 15:15:41 -0700
-From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
-To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andy Lutomirski <luto@kernel.org>,
-        Balbir Singh <bsingharora@gmail.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Cyrill Gorcunov <gorcunov@gmail.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Eugene Syromiatnikov <esyr@redhat.com>,
-        Florian Weimer <fweimer@redhat.com>,
-        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook <keescook@chromium.org>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Nadav Amit <nadav.amit@gmail.com>,
-        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
-        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
-        Dave Martin <Dave.Martin@arm.com>,
-        Weijiang Yang <weijiang.yang@intel.com>,
-        Pengfei Xu <pengfei.xu@intel.com>,
-        Haitao Huang <haitao.huang@intel.com>
-Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>,
-        "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>
-Subject: [PATCH v25 28/30] mm: Move arch_calc_vm_prot_bits() to arch/x86/include/asm/mman.h
-Date:   Thu, 15 Apr 2021 15:14:17 -0700
-Message-Id: <20210415221419.31835-29-yu-cheng.yu@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20210415221419.31835-1-yu-cheng.yu@intel.com>
-References: <20210415221419.31835-1-yu-cheng.yu@intel.com>
+        id S234764AbhDOWdq (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Apr 2021 18:33:46 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1F3A7610FB;
+        Thu, 15 Apr 2021 22:33:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618526002;
+        bh=/gOqZg+Pg164K/IJSTPjixvLEaBlytjs/HR6s1fHt/o=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=cY+KIXFb3pQGfPiWc8RJ/iL+gVCdRdQ6WgsByRIy8C3p+IM2dxdoCn9cMEGTKeOyN
+         ep+Qp3xPkIbmqf3t24rTlhidZYai+2eJ3Xtk+DQNN6VZHkFEwf3oMrvHQZMuW9j7x+
+         oDd/sNENqzbeVQ5LmnYvowjoU2+Rf/H3tNE/LW1H8Caf+u4PiqDYUGqrvFMJKZwwSz
+         yuDOsoT7ki/r5FFsdJqs+n5OEAYy1kZ12QDibcQkjNOxTp/H80Qez2ZeJUK8eJTvKK
+         kce8CCFijDREtqy8IZzmEULEx9aAbFEf7wE75zUYa5Ya1rwSbsMM9NcyhZm281OY8D
+         dkW1r/sPGPUlA==
+Message-ID: <1652e284aea7ff3240d28a22d0dd09c50aed405a.camel@kernel.org>
+Subject: Re: [PATCH net-next 3/6] ethtool: add FEC statistics
+From:   Saeed Mahameed <saeed@kernel.org>
+To:     Jakub Kicinski <kuba@kernel.org>
+Cc:     davem@davemloft.net, netdev@vger.kernel.org,
+        michael.chan@broadcom.com, leon@kernel.org, ecree.xilinx@gmail.com,
+        habetsm.xilinx@gmail.com, f.fainelli@gmail.com, andrew@lunn.ch,
+        mkubecek@suse.cz, ariela@nvidia.com, corbet@lwn.net,
+        linux-doc@vger.kernel.org
+Date:   Thu, 15 Apr 2021 15:33:21 -0700
+In-Reply-To: <20210415082144.260cf3ce@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+References: <20210414034454.1970967-1-kuba@kernel.org>
+         <20210414034454.1970967-4-kuba@kernel.org>
+         <723b2858c61898df02e57bb2aaa4c4b4b3c30c50.camel@kernel.org>
+         <20210415082144.260cf3ce@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.4 (3.38.4-1.fc33) 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-To prepare the introduction of PROT_SHSTK and be consistent with other
-architectures, move arch_vm_get_page_prot() and arch_calc_vm_prot_bits() to
-arch/x86/include/asm/mman.h.
+On Thu, 2021-04-15 at 08:21 -0700, Jakub Kicinski wrote:
+> On Wed, 14 Apr 2021 23:25:43 -0700 Saeed Mahameed wrote:
+> > On Tue, 2021-04-13 at 20:44 -0700, Jakub Kicinski wrote:
+> > > ethtool_link_ksettings *);
+> > > +       void    (*get_fec_stats)(struct net_device *dev,
+> > > +                                struct ethtool_fec_stats
+> > > *fec_stats);  
+> > 
+> > why void ? some drivers need to access the FW and it could be an
+> > old
+> > FW/device where the fec stats are not supported.
+> 
+> When stats are not supported just returning is fine. Stats are
+> initialized to -1, core will not dump them into the netlink message 
+> if driver didn't assign anything.
+> 
+> > and sometimes e.g. in mlx5 case FW can fail for FW related
+> > businesses
+> > :)..
+> 
+> Can do. I was wondering if the entity reading the stats (from user
+> space) can do anything useful with the error, and didn't really come 
+> up with anything other than printing an error. Which the kernel can 
+> do as well. OTOH if there are multiple stats to read and one of them
+> fails its probably better to return partial results than fail 
+> the entire op. Therefore I went for no error - if something fails - 
+> the stats will be missing.
+> 
+> Does that make any sense? Or do you think errors are rare enough that
+> it's okay if they are fatal? (with the caveat that -EOPNOTSUPP should
+> be ignored).
 
-Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
----
- arch/x86/include/asm/mman.h      | 30 ++++++++++++++++++++++++++++++
- arch/x86/include/uapi/asm/mman.h | 27 +++------------------------
- 2 files changed, 33 insertions(+), 24 deletions(-)
- create mode 100644 arch/x86/include/asm/mman.h
-
-diff --git a/arch/x86/include/asm/mman.h b/arch/x86/include/asm/mman.h
-new file mode 100644
-index 000000000000..629f6c81263a
---- /dev/null
-+++ b/arch/x86/include/asm/mman.h
-@@ -0,0 +1,30 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef _ASM_X86_MMAN_H
-+#define _ASM_X86_MMAN_H
-+
-+#include <linux/mm.h>
-+#include <uapi/asm/mman.h>
-+
-+#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
-+/*
-+ * Take the 4 protection key bits out of the vma->vm_flags
-+ * value and turn them in to the bits that we can put in
-+ * to a pte.
-+ *
-+ * Only override these if Protection Keys are available
-+ * (which is only on 64-bit).
-+ */
-+#define arch_vm_get_page_prot(vm_flags)	__pgprot(	\
-+		((vm_flags) & VM_PKEY_BIT0 ? _PAGE_PKEY_BIT0 : 0) |	\
-+		((vm_flags) & VM_PKEY_BIT1 ? _PAGE_PKEY_BIT1 : 0) |	\
-+		((vm_flags) & VM_PKEY_BIT2 ? _PAGE_PKEY_BIT2 : 0) |	\
-+		((vm_flags) & VM_PKEY_BIT3 ? _PAGE_PKEY_BIT3 : 0))
-+
-+#define arch_calc_vm_prot_bits(prot, key) (		\
-+		((key) & 0x1 ? VM_PKEY_BIT0 : 0) |      \
-+		((key) & 0x2 ? VM_PKEY_BIT1 : 0) |      \
-+		((key) & 0x4 ? VM_PKEY_BIT2 : 0) |      \
-+		((key) & 0x8 ? VM_PKEY_BIT3 : 0))
-+#endif
-+
-+#endif /* _ASM_X86_MMAN_H */
-diff --git a/arch/x86/include/uapi/asm/mman.h b/arch/x86/include/uapi/asm/mman.h
-index d4a8d0424bfb..3ce1923e6ed9 100644
---- a/arch/x86/include/uapi/asm/mman.h
-+++ b/arch/x86/include/uapi/asm/mman.h
-@@ -1,31 +1,10 @@
- /* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
--#ifndef _ASM_X86_MMAN_H
--#define _ASM_X86_MMAN_H
-+#ifndef _UAPI_ASM_X86_MMAN_H
-+#define _UAPI_ASM_X86_MMAN_H
- 
- #define MAP_32BIT	0x40		/* only give out 32bit addresses */
- 
--#ifdef CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS
--/*
-- * Take the 4 protection key bits out of the vma->vm_flags
-- * value and turn them in to the bits that we can put in
-- * to a pte.
-- *
-- * Only override these if Protection Keys are available
-- * (which is only on 64-bit).
-- */
--#define arch_vm_get_page_prot(vm_flags)	__pgprot(	\
--		((vm_flags) & VM_PKEY_BIT0 ? _PAGE_PKEY_BIT0 : 0) |	\
--		((vm_flags) & VM_PKEY_BIT1 ? _PAGE_PKEY_BIT1 : 0) |	\
--		((vm_flags) & VM_PKEY_BIT2 ? _PAGE_PKEY_BIT2 : 0) |	\
--		((vm_flags) & VM_PKEY_BIT3 ? _PAGE_PKEY_BIT3 : 0))
--
--#define arch_calc_vm_prot_bits(prot, key) (		\
--		((key) & 0x1 ? VM_PKEY_BIT0 : 0) |      \
--		((key) & 0x2 ? VM_PKEY_BIT1 : 0) |      \
--		((key) & 0x4 ? VM_PKEY_BIT2 : 0) |      \
--		((key) & 0x8 ? VM_PKEY_BIT3 : 0))
--#endif
- 
- #include <asm-generic/mman.h>
- 
--#endif /* _ASM_X86_MMAN_H */
-+#endif /* _UAPI_ASM_X86_MMAN_H */
--- 
-2.21.0
+Agreed, Thanks for the explanation
+but you still need to handle the error internally in the driver,
+otherwise the command returns garbage or 0 if you didn't check return
+status. 
 
