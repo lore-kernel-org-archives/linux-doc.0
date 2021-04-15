@@ -2,468 +2,535 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+X-Spam-Status: No, score=-16.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C414C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 12:58:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 622DCC43461
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 13:04:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id DD922613B0
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 12:58:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3C0D9613C0
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 13:04:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231137AbhDOM6Y (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 08:58:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46668 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230056AbhDOM6X (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 08:58:23 -0400
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C991EC061574
-        for <linux-doc@vger.kernel.org>; Thu, 15 Apr 2021 05:58:00 -0700 (PDT)
-Received: by mail-wm1-x336.google.com with SMTP id u20so7879646wmj.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 Apr 2021 05:58:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=r9SO9imqyb1CVP7A7bROSSf70gc+rLBmkml2AZi7GU4=;
-        b=lf+HGX0rX0w/Unqp0DjsyYGCV1lkhReavuzS+8F6Uwk+wavNhlvRCfjSI99oILIVdR
-         q+yrf8pw1bOGwOHIQPwUoo5WcLxUKY0iFpbSk20wK2lIrRZZvBafs2ebItGe8AVct9Ea
-         gDB3cF6z5SetqiRzdULuNHLoBOm3J3HXL8oj8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=r9SO9imqyb1CVP7A7bROSSf70gc+rLBmkml2AZi7GU4=;
-        b=uO9kM5jELFEt0uuGNNC1Ija/3GTiRPlYgZsr2t4tgxdnpLFGGWUlSPMgq5tZcrEJVd
-         BxaIzjAxTJJkuGfo3OCMxnJyuTa/N+hrdMYoMPzp0wvty5Y4zurlUwJEtnFCokue/XdQ
-         V6sP032HAb2rGNzinShU4EbO7b59ceX4IdX7xwHzKQdtU2YXFi3YhqkiAedxOBZvPdRh
-         BO6l1NU9gck49jOAOeIxHDxJj/Kwexc5snIt9tr4dWxqP2s77qVHroBoneEs4oRTyBGq
-         TQZAbOdDFHGdCNYf5Mb49UT630859gRqwoFyZuixTOcMfAdQ1DyYw2Pkq4WA5QkVOJn3
-         +Kkg==
-X-Gm-Message-State: AOAM5325KL1fXpVCEh7c0edp3zw3/j3CjN8RJYM6Jqxb9SxQqin62mi5
-        REXiKzUq4qRVwP3ENb0v4f7YWQ==
-X-Google-Smtp-Source: ABdhPJxVfEsaV7SriaiRNYIDv40oDlz6f2NtWDDFdlY0wsNNb1lD+k7kMrEchG6I6hQWHLlz+y6U8Q==
-X-Received: by 2002:a1c:c246:: with SMTP id s67mr2993882wmf.86.1618491478646;
-        Thu, 15 Apr 2021 05:57:58 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id 2sm886599wmi.19.2021.04.15.05.57.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Apr 2021 05:57:57 -0700 (PDT)
-Date:   Thu, 15 Apr 2021 14:57:55 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     Daniel Vetter <daniel@ffwll.ch>, airlied@linux.ie,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com,
-        broonie@kernel.org, sam@ravnborg.org, robh@kernel.org,
-        emil.l.velikov@gmail.com, geert+renesas@glider.be,
-        hdegoede@redhat.com, bluescreen_avenger@verizon.net,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-Subject: Re: [PATCH v2 04/10] drm/aperture: Add infrastructure for aperture
- ownership
-Message-ID: <YHg4Ux7L3FTV45ST@phenom.ffwll.local>
-References: <20210318102921.21536-1-tzimmermann@suse.de>
- <20210318102921.21536-5-tzimmermann@suse.de>
- <YG7RgQfj0yZHbL6L@phenom.ffwll.local>
- <a787dde9-70b0-cb38-f2bf-6e7b479525f9@suse.de>
- <YHAc3vdstgJzIAEL@phenom.ffwll.local>
- <0996ac00-9f7f-27ca-8b14-b551feff8ce4@suse.de>
+        id S233019AbhDONFF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 09:05:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55848 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233018AbhDONFE (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Apr 2021 09:05:04 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D601D610C8;
+        Thu, 15 Apr 2021 13:04:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1618491881;
+        bh=ejI+LxWlJlgBu4tFx9Aoj2QRmzPkYIKbY8+Q/3mjL94=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=XVFoQjn6lG+EieUfqSrs2aTLh+O8/zgP56Qis1i7u9PWLj5/7gj2YQyRklHBPPNj3
+         SJZSg5YQYx9pG17aXsm5SZbhVKt9bzg5CujDmTmeq/oCjBx+osAKindgouFAB6Whs/
+         MambqJ9KHY9Nbt3S7Rq1o/aFhjD60uyyZ5qgDKcAFmN6PdLE/1AsPbbyW3ESoNsC10
+         XkzjyxcRfClDpwRGqEra2A9FG8FEm6rQ2cZkwfVBMTQ4FNmv/nYUhlnllubNOFkwaP
+         3Ialm/rw5Gy3Z8SqVzUCXFpBj+BF5YcPivio8/p5jVgVEMCHQRyg+fFLz9ADalSgyC
+         CLyfxXFbIff/w==
+Date:   Thu, 15 Apr 2021 15:04:35 +0200
+From:   Jessica Yu <jeyu@kernel.org>
+To:     Stephen Boyd <swboyd@chromium.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-kernel@vger.kernel.org, Jiri Olsa <jolsa@kernel.org>,
+        Alexei Starovoitov <ast@kernel.org>,
+        Evan Green <evgreen@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        linux-doc@vger.kernel.org, Matthew Wilcox <willy@infradead.org>
+Subject: Re: [PATCH v4 05/13] module: Add printk formats to add module build
+ ID to stacktraces
+Message-ID: <YHg541E24iy5nddg@gunter>
+References: <20210410015300.3764485-1-swboyd@chromium.org>
+ <20210410015300.3764485-6-swboyd@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0996ac00-9f7f-27ca-8b14-b551feff8ce4@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20210410015300.3764485-6-swboyd@chromium.org>
+X-OS:   Linux gunter 5.11.6-1-default x86_64
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 08:56:20AM +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 09.04.21 um 11:22 schrieb Daniel Vetter:
-> > > Is it that easy? simepldrm's detach function has code to synchronize with
-> > > concurrent hotplug removals. If we can use drm_dev_unplug() for everything,
-> > > I'm all for it.
-> > 
-> > Uh, I should have looked at the code instead of just asking silly
-> > questions :-)
-> > 
-> > Now I'm even more scared, and also more convinced that we're recreating
-> a
-> > bad version of some of the core driver model concepts.
-> > 
-> > I think the ideal option here would be if drm_aperture could unload
-> > (unbind really) the platform driver for us, through the driver model. Then
-> > there's only one place that keeps track whether the driver is unbound or
-> > not. I'm not sure whether this can be done fully generic on a struct
-> > device, or whether we need special code for each type. Since atm we only
-> > have simpledrm we can just specialize on platform_device and it's good
-> > enough.
-> 
-> I meanwhile found that calling platform_device_unregister() is the right
-> thing to do. It is like a hot-unplug event. It's simple to implement and
-> removes the generic device as well. Any memory ranges for the generic device
-> are gone as well. Only the native driver's native device will remain. That's
-> better than the existing simplefb driver.
++++ Stephen Boyd [09/04/21 18:52 -0700]:
+>Let's make kernel stacktraces easier to identify by including the build
+>ID[1] of a module if the stacktrace is printing a symbol from a module.
+>This makes it simpler for developers to locate a kernel module's full
+>debuginfo for a particular stacktrace. Combined with
+>scripts/decode_stracktrace.sh, a developer can download the matching
+>debuginfo from a debuginfod[2] server and find the exact file and line
+>number for the functions plus offsets in a stacktrace that match the
+>module. This is especially useful for pstore crash debugging where the
+>kernel crashes are recorded in something like console-ramoops and the
+>recovery kernel/modules are different or the debuginfo doesn't exist on
+>the device due to space concerns (the debuginfo can be too large for
+>space limited devices).
+>
+>Originally, I put this on the %pS format, but that was quickly rejected
+>given that %pS is used in other places such as ftrace where build IDs
+>aren't meaningful. There was some discussions on the list to put every
+>module build ID into the "Modules linked in:" section of the stacktrace
+>message but that quickly becomes very hard to read once you have more
+>than three or four modules linked in. It also provides too much
+>information when we don't expect each module to be traversed in a
+>stacktrace. Having the build ID for modules that aren't important just
+>makes things messy. Splitting it to multiple lines for each module
+>quickly explodes the number of lines printed in an oops too, possibly
+>wrapping the warning off the console. And finally, trying to stash away
+>each module used in a callstack to provide the ID of each symbol printed
+>is cumbersome and would require changes to each architecture to stash
+>away modules and return their build IDs once unwinding has completed.
+>
+>Instead, we opt for the simpler approach of introducing new printk
+>formats '%pS[R]b' for "pointer symbolic backtrace with module build ID"
+>and '%pBb' for "pointer backtrace with module build ID" and then
+>updating the few places in the architecture layer where the stacktrace
+>is printed to use this new format.
+>
+>Example:
+>
+> WARNING: CPU: 3 PID: 3373 at drivers/misc/lkdtm/bugs.c:83 lkdtm_WARNING+0x28/0x30 [lkdtm]
+> Modules linked in: lkdtm rfcomm algif_hash algif_skcipher af_alg xt_cgroup uinput xt_MASQUERADE hci_uart <modules trimmed>
+> CPU: 3 PID: 3373 Comm: bash Not tainted 5.11 #12 a8c0d47f7051f3e6670ceaea724af66a39c6cec8
+> Hardware name: Google Lazor (rev3+) with KB Backlight (DT)
+> pstate: 00400009 (nzcv daif +PAN -UAO -TCO BTYPE=--)
+> pc : lkdtm_WARNING+0x28/0x30 [lkdtm]
+> lr : lkdtm_do_action+0x24/0x40 [lkdtm]
+> sp : ffffffc013febca0
+> x29: ffffffc013febca0 x28: ffffff88d9438040
+> x27: 0000000000000000 x26: 0000000000000000
+> x25: 0000000000000000 x24: ffffffdd0e9772c0
+> x23: 0000000000000020 x22: ffffffdd0e975366
+> x21: ffffffdd0e9772e0 x20: ffffffc013febde0
+> x19: 0000000000000008 x18: 0000000000000000
+> x17: 0000000000000000 x16: 0000000000000037
+> x15: ffffffdd102ab174 x14: 0000000000000003
+> x13: 0000000000000004 x12: 0000000000000000
+> x11: 0000000000000000 x10: 0000000000000000
+> x9 : 0000000000000001 x8 : ffffffdd0e979000
+> x7 : 0000000000000000 x6 : ffffffdd10ff6b54
+> x5 : 0000000000000000 x4 : 0000000000000000
+> x3 : ffffffc013feb938 x2 : ffffff89fef05a70
+> x1 : ffffff89feef5788 x0 : ffffffdd0e9772e0
+> Call trace:
+>  lkdtm_WARNING+0x28/0x30 [lkdtm 6c2215028606bda50de823490723dc4bc5bf46f9]
+>  direct_entry+0x16c/0x1b4 [lkdtm 6c2215028606bda50de823490723dc4bc5bf46f9]
+>  full_proxy_write+0x74/0xa4
+>  vfs_write+0xec/0x2e8
+>  ksys_write+0x84/0xf0
+>  __arm64_sys_write+0x24/0x30
+>  el0_svc_common+0xf4/0x1c0
+>  do_el0_svc_compat+0x28/0x3c
+>  el0_svc_compat+0x10/0x1c
+>  el0_sync_compat_handler+0xa8/0xcc
+>  el0_sync_compat+0x178/0x180
+> ---[ end trace f89bc7f5417cbcc6 ]---
+>
+>Cc: Jiri Olsa <jolsa@kernel.org>
+>Cc: Alexei Starovoitov <ast@kernel.org>
+>Cc: Jessica Yu <jeyu@kernel.org>
+>Cc: Evan Green <evgreen@chromium.org>
+>Cc: Hsin-Yi Wang <hsinyi@chromium.org>
+>Cc: Petr Mladek <pmladek@suse.com>
+>Cc: Steven Rostedt <rostedt@goodmis.org>
+>Cc: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+>Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+>Cc: <linux-doc@vger.kernel.org>
+>Cc: Matthew Wilcox <willy@infradead.org>
+>Link: https://fedoraproject.org/wiki/Releases/FeatureBuildId [1]
+>Link: https://sourceware.org/elfutils/Debuginfod.html [2]
+>Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+>---
+> Documentation/core-api/printk-formats.rst | 11 +++
+> include/linux/kallsyms.h                  | 20 ++++-
+> include/linux/module.h                    |  6 +-
+> kernel/kallsyms.c                         | 95 ++++++++++++++++++-----
+> kernel/module.c                           | 24 +++++-
+> lib/vsprintf.c                            |  8 +-
+> 6 files changed, 139 insertions(+), 25 deletions(-)
+>
+>diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+>index 160e710d992f..5f60533f2a56 100644
+>--- a/Documentation/core-api/printk-formats.rst
+>+++ b/Documentation/core-api/printk-formats.rst
+>@@ -114,6 +114,17 @@ used when printing stack backtraces. The specifier takes into
+> consideration the effect of compiler optimisations which may occur
+> when tail-calls are used and marked with the noreturn GCC attribute.
+>
+>+If the pointer is within a module, the module name and optionally build ID is
+>+printed after the symbol name with an extra ``b`` appended to the end of the
+>+specifier.
+>+
+>+::
+>+	%pS	versatile_init+0x0/0x110 [module_name]
+>+	%pSb	versatile_init+0x0/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+>+	%pSRb	versatile_init+0x9/0x110 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+>+		(with __builtin_extract_return_addr() translation)
+>+	%pBb	prev_fn_of_versatile_init+0x88/0x88 [module_name ed5019fdf5e53be37cb1ba7899292d7e143b259e]
+>+
+> Probed Pointers from BPF / tracing
+> ----------------------------------
+>
+>diff --git a/include/linux/kallsyms.h b/include/linux/kallsyms.h
+>index 465060acc981..f760cb839775 100644
+>--- a/include/linux/kallsyms.h
+>+++ b/include/linux/kallsyms.h
+>@@ -7,6 +7,7 @@
+> #define _LINUX_KALLSYMS_H
+>
+> #include <linux/errno.h>
+>+#include <linux/buildid.h>
+> #include <linux/kernel.h>
+> #include <linux/stddef.h>
+> #include <linux/mm.h>
+>@@ -15,8 +16,9 @@
+> #include <asm/sections.h>
+>
+> #define KSYM_NAME_LEN 128
+>-#define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s]") + (KSYM_NAME_LEN - 1) + \
+>-			 2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + 1)
+>+#define KSYM_SYMBOL_LEN (sizeof("%s+%#lx/%#lx [%s %s]") + (KSYM_NAME_LEN - 1) + \
+>+			 2*(BITS_PER_LONG*3/10) + (MODULE_NAME_LEN - 1) + \
+>+			 (BUILD_ID_SIZE_MAX * 2) + 1)
+>
+> struct cred;
+> struct module;
+>@@ -91,8 +93,10 @@ const char *kallsyms_lookup(unsigned long addr,
+>
+> /* Look up a kernel symbol and return it in a text buffer. */
+> extern int sprint_symbol(char *buffer, unsigned long address);
+>+extern int sprint_symbol_build_id(char *buffer, unsigned long address);
+> extern int sprint_symbol_no_offset(char *buffer, unsigned long address);
+> extern int sprint_backtrace(char *buffer, unsigned long address);
+>+extern int sprint_backtrace_build_id(char *buffer, unsigned long address);
+>
+> int lookup_symbol_name(unsigned long addr, char *symname);
+> int lookup_symbol_attrs(unsigned long addr, unsigned long *size, unsigned long *offset, char *modname, char *name);
+>@@ -128,6 +132,12 @@ static inline int sprint_symbol(char *buffer, unsigned long addr)
+> 	return 0;
+> }
+>
+>+static inline int sprint_symbol_build_id(char *buffer, unsigned long address)
+>+{
+>+	*buffer = '\0';
+>+	return 0;
+>+}
+>+
+> static inline int sprint_symbol_no_offset(char *buffer, unsigned long addr)
+> {
+> 	*buffer = '\0';
+>@@ -140,6 +150,12 @@ static inline int sprint_backtrace(char *buffer, unsigned long addr)
+> 	return 0;
+> }
+>
+>+static inline int sprint_backtrace_build_id(char *buffer, unsigned long addr)
+>+{
+>+	*buffer = '\0';
+>+	return 0;
+>+}
+>+
+> static inline int lookup_symbol_name(unsigned long addr, char *symname)
+> {
+> 	return -ERANGE;
+>diff --git a/include/linux/module.h b/include/linux/module.h
+>index 59f094fa6f74..4bf869f6c944 100644
+>--- a/include/linux/module.h
+>+++ b/include/linux/module.h
+>@@ -11,6 +11,7 @@
+>
+> #include <linux/list.h>
+> #include <linux/stat.h>
+>+#include <linux/buildid.h>
+> #include <linux/compiler.h>
+> #include <linux/cache.h>
+> #include <linux/kmod.h>
+>@@ -367,6 +368,9 @@ struct module {
+> 	/* Unique handle for this module */
+> 	char name[MODULE_NAME_LEN];
+>
+>+	/* Module build ID */
+>+	unsigned char build_id[BUILD_ID_SIZE_MAX];
 
-That sounds great.
+Hi Stephen,
 
-> Which unregister function to call still driver-specific, so I kept the
-> callback.
+Since this field is not used when !CONFIG_STACKTRACE_BUILD_ID, I
+would prefer to wrap this in an ifdef, similar to the other
+CONFIG-dependent fields in struct module. This makes it explicit under
+what conditions (i.e. config) the field is meant to be used.
 
-Could we have the callback in core code, and you do something like
-drm_aperture_acquire_platform (and later on drm_aperture_acquire_pci or
-whatever, although tbh I'm not sure we ever get anything else than
-platform). That function can do a runtime check that drm_device->dev is
-actually a platform dev.
+>+
+> 	/* Sysfs stuff. */
+> 	struct module_kobject mkobj;
+> 	struct module_attribute *modinfo_attrs;
+>@@ -630,7 +634,7 @@ void *dereference_module_function_descriptor(struct module *mod, void *ptr);
+> const char *module_address_lookup(unsigned long addr,
+> 			    unsigned long *symbolsize,
+> 			    unsigned long *offset,
+>-			    char **modname,
+>+			    char **modname, const unsigned char **modbuildid,
+> 			    char *namebuf);
+> int lookup_module_symbol_name(unsigned long addr, char *symname);
+> int lookup_module_symbol_attrs(unsigned long addr, unsigned long *size, unsigned long *offset, char *modname, char *name);
+>diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+>index 8043a90aa50e..b835992e76c2 100644
+>--- a/kernel/kallsyms.c
+>+++ b/kernel/kallsyms.c
+>@@ -273,21 +273,13 @@ int kallsyms_lookup_size_offset(unsigned long addr, unsigned long *symbolsize,
+> 		get_symbol_pos(addr, symbolsize, offset);
+> 		return 1;
+> 	}
+>-	return !!module_address_lookup(addr, symbolsize, offset, NULL, namebuf) ||
+>+	return !!module_address_lookup(addr, symbolsize, offset, NULL, NULL, namebuf) ||
+> 	       !!__bpf_address_lookup(addr, symbolsize, offset, namebuf);
+> }
+>
+>-/*
+>- * Lookup an address
+>- * - modname is set to NULL if it's in the kernel.
+>- * - We guarantee that the returned name is valid until we reschedule even if.
+>- *   It resides in a module.
+>- * - We also guarantee that modname will be valid until rescheduled.
+>- */
+>-const char *kallsyms_lookup(unsigned long addr,
+>-			    unsigned long *symbolsize,
+>-			    unsigned long *offset,
+>-			    char **modname, char *namebuf)
+>+const char *kallsyms_lookup_buildid(unsigned long addr, unsigned long *symbolsize,
+>+				    unsigned long *offset, char **modname,
+>+				    const unsigned char **modbuildid, char *namebuf)
+> {
+> 	const char *ret;
+>
+>@@ -303,12 +295,14 @@ const char *kallsyms_lookup(unsigned long addr,
+> 				       namebuf, KSYM_NAME_LEN);
+> 		if (modname)
+> 			*modname = NULL;
+>+		if (modbuildid)
+>+			*modbuildid = NULL;
+> 		return namebuf;
+> 	}
+>
+> 	/* See if it's in a module or a BPF JITed image. */
+> 	ret = module_address_lookup(addr, symbolsize, offset,
+>-				    modname, namebuf);
+>+				    modname, modbuildid, namebuf);
+> 	if (!ret)
+> 		ret = bpf_address_lookup(addr, symbolsize,
+> 					 offset, modname, namebuf);
+>@@ -319,6 +313,22 @@ const char *kallsyms_lookup(unsigned long addr,
+> 	return ret;
+> }
+>
+>+/*
+>+ * Lookup an address
+>+ * - modname is set to NULL if it's in the kernel.
+>+ * - We guarantee that the returned name is valid until we reschedule even if.
+>+ *   It resides in a module.
+>+ * - We also guarantee that modname will be valid until rescheduled.
+>+ */
+>+const char *kallsyms_lookup(unsigned long addr,
+>+			    unsigned long *symbolsize,
+>+			    unsigned long *offset,
+>+			    char **modname, char *namebuf)
+>+{
+>+	return kallsyms_lookup_buildid(addr, symbolsize, offset, modname,
+>+				       NULL, namebuf);
+>+}
+>+
+> int lookup_symbol_name(unsigned long addr, char *symname)
+> {
+> 	symname[0] = '\0';
+>@@ -359,15 +369,17 @@ int lookup_symbol_attrs(unsigned long addr, unsigned long *size,
+>
+> /* Look up a kernel symbol and return it in a text buffer. */
+> static int __sprint_symbol(char *buffer, unsigned long address,
+>-			   int symbol_offset, int add_offset)
+>+			   int symbol_offset, int add_offset, int add_buildid)
+> {
+> 	char *modname;
+>+	const unsigned char *buildid;
+> 	const char *name;
+> 	unsigned long offset, size;
+> 	int len;
+>
+> 	address += symbol_offset;
+>-	name = kallsyms_lookup(address, &size, &offset, &modname, buffer);
+>+	name = kallsyms_lookup_buildid(address, &size, &offset, &modname, &buildid,
+>+				       buffer);
+> 	if (!name)
+> 		return sprintf(buffer, "0x%lx", address - symbol_offset);
+>
+>@@ -379,8 +391,14 @@ static int __sprint_symbol(char *buffer, unsigned long address,
+> 	if (add_offset)
+> 		len += sprintf(buffer + len, "+%#lx/%#lx", offset, size);
+>
+>-	if (modname)
+>-		len += sprintf(buffer + len, " [%s]", modname);
+>+	if (modname) {
+>+		len += sprintf(buffer + len, " [%s", modname);
+>+		/* build ID should match length of sprintf below */
+>+		BUILD_BUG_ON(BUILD_ID_SIZE_MAX != 20);
+>+		if (IS_ENABLED(CONFIG_STACKTRACE_BUILD_ID) && add_buildid && buildid)
+>+			len += sprintf(buffer + len, " %20phN", buildid);
+>+		len += sprintf(buffer + len, "]");
+>+	}
+>
+> 	return len;
+> }
+>@@ -398,10 +416,27 @@ static int __sprint_symbol(char *buffer, unsigned long address,
+>  */
+> int sprint_symbol(char *buffer, unsigned long address)
+> {
+>-	return __sprint_symbol(buffer, address, 0, 1);
+>+	return __sprint_symbol(buffer, address, 0, 1, 0);
+> }
+> EXPORT_SYMBOL_GPL(sprint_symbol);
+>
+>+/**
+>+ * sprint_symbol_build_id - Look up a kernel symbol and return it in a text buffer
+>+ * @buffer: buffer to be stored
+>+ * @address: address to lookup
+>+ *
+>+ * This function looks up a kernel symbol with @address and stores its name,
+>+ * offset, size, module name and module build ID to @buffer if possible. If no
+>+ * symbol was found, just saves its @address as is.
+>+ *
+>+ * This function returns the number of bytes stored in @buffer.
+>+ */
+>+int sprint_symbol_build_id(char *buffer, unsigned long address)
+>+{
+>+	return __sprint_symbol(buffer, address, 0, 1, 1);
+>+}
+>+EXPORT_SYMBOL_GPL(sprint_symbol_build_id);
+>+
+> /**
+>  * sprint_symbol_no_offset - Look up a kernel symbol and return it in a text buffer
+>  * @buffer: buffer to be stored
+>@@ -415,7 +450,7 @@ EXPORT_SYMBOL_GPL(sprint_symbol);
+>  */
+> int sprint_symbol_no_offset(char *buffer, unsigned long address)
+> {
+>-	return __sprint_symbol(buffer, address, 0, 0);
+>+	return __sprint_symbol(buffer, address, 0, 0, 0);
+> }
+> EXPORT_SYMBOL_GPL(sprint_symbol_no_offset);
+>
+>@@ -435,7 +470,27 @@ EXPORT_SYMBOL_GPL(sprint_symbol_no_offset);
+>  */
+> int sprint_backtrace(char *buffer, unsigned long address)
+> {
+>-	return __sprint_symbol(buffer, address, -1, 1);
+>+	return __sprint_symbol(buffer, address, -1, 1, 0);
+>+}
+>+
+>+/**
+>+ * sprint_backtrace_build_id - Look up a backtrace symbol and return it in a text buffer
+>+ * @buffer: buffer to be stored
+>+ * @address: address to lookup
+>+ *
+>+ * This function is for stack backtrace and does the same thing as
+>+ * sprint_symbol() but with modified/decreased @address. If there is a
+>+ * tail-call to the function marked "noreturn", gcc optimized out code after
+>+ * the call so that the stack-saved return address could point outside of the
+>+ * caller. This function ensures that kallsyms will find the original caller
+>+ * by decreasing @address. This function also appends the module build ID to
+>+ * the @buffer if @address is within a kernel module.
+>+ *
+>+ * This function returns the number of bytes stored in @buffer.
+>+ */
+>+int sprint_backtrace_build_id(char *buffer, unsigned long address)
+>+{
+>+	return __sprint_symbol(buffer, address, -1, 1, 1);
+> }
+>
+> /* To avoid using get_symbol_offset for every symbol, we carry prefix along. */
+>diff --git a/kernel/module.c b/kernel/module.c
+>index 30479355ab85..6f5bc1b046a5 100644
+>--- a/kernel/module.c
+>+++ b/kernel/module.c
+>@@ -13,6 +13,7 @@
+> #include <linux/trace_events.h>
+> #include <linux/init.h>
+> #include <linux/kallsyms.h>
+>+#include <linux/buildid.h>
+> #include <linux/file.h>
+> #include <linux/fs.h>
+> #include <linux/sysfs.h>
+>@@ -2770,6 +2771,20 @@ static void add_kallsyms(struct module *mod, const struct load_info *info)
+> 	}
+> 	mod->core_kallsyms.num_symtab = ndst;
+> }
+>+
+>+static void init_build_id(struct module *mod, const struct load_info *info)
+>+{
+>+	const Elf_Shdr *sechdr;
+>+	unsigned int i;
+>+
+>+	for (i = 0; i < info->hdr->e_shnum; i++) {
+>+		sechdr = &info->sechdrs[i];
+>+		if (!sect_empty(sechdr) && sechdr->sh_type == SHT_NOTE &&
+>+		    !build_id_parse_buf((void *)sechdr->sh_addr, mod->build_id,
+>+					sechdr->sh_size))
+>+			break;
+>+	}
 
-Another idea: Do the runtime casting in the core without anything? Atm we
-have platform that needs support, maybe pci device, so we could easily
-extend this and just let it do the right thing. Then no callback is
-needed. I.e.
+If mod->build_id is not used when !CONFIG_STACKTRACE_BUILD_ID, then we
+don't need to look for it. I would be fine with wrapping the function
+body in an ifdef (similar to what we currently do in
+del_usage_links() and do_mod_ctors()).
 
-	if (is_platform_dev(drm_device->dev))
-		platform_device_unregister(drm_device->dev);
-	else
-		WARN(1, "not yet implemented\n");
+>+}
+> #else
+> static inline void layout_symtab(struct module *mod, struct load_info *info)
+> {
+>@@ -2778,6 +2793,10 @@ static inline void layout_symtab(struct module *mod, struct load_info *info)
+> static void add_kallsyms(struct module *mod, const struct load_info *info)
+> {
+> }
+>+
+>+static void init_build_id(struct module *mod, const struct load_info *info)
+>+{
+>+}
+> #endif /* CONFIG_KALLSYMS */
+>
+> static void dynamic_debug_setup(struct module *mod, struct _ddebug *debug, unsigned int num)
+>@@ -4004,6 +4023,7 @@ static int load_module(struct load_info *info, const char __user *uargs,
+> 		goto free_arch_cleanup;
+> 	}
+>
+>+	init_build_id(mod, info);
+> 	dynamic_debug_setup(mod, info->debug, info->num_debug);
+>
+> 	/* Ftrace init must be called in the MODULE_STATE_UNFORMED state */
+>@@ -4235,7 +4255,7 @@ void * __weak dereference_module_function_descriptor(struct module *mod,
+> const char *module_address_lookup(unsigned long addr,
+> 			    unsigned long *size,
+> 			    unsigned long *offset,
+>-			    char **modname,
+>+			    char **modname, const unsigned char **modbuildid,
+> 			    char *namebuf)
+> {
+> 	const char *ret = NULL;
+>@@ -4246,6 +4266,8 @@ const char *module_address_lookup(unsigned long addr,
+> 	if (mod) {
+> 		if (modname)
+> 			*modname = mod->name;
+>+		if (modbuildid)
+>+			*modbuildid = mod->build_id;
 
-or something like that.
-
-I just find the callback to essentially unregister a device a bit
-redundant.
--Daniel
-
-> 
-> Best regards
-> Thomas
-> 
-> > 
-> > I think best here would be to Cc: gregkh on this patch and the simpledrm
-> > ->detach implementatation, and ask for his feedback as driver model
-> > maintainer. Maybe if you could hack together the platform_device unbind
-> > path as proof of concept would be even better.
-> > 
-> > Either way, this is really tricky.
-> > -Daniel
-> > 
-> > > 
-> > > Best regards
-> > > Thomas
-> > > 
-> > > > 
-> > > > Or maybe we should tie this more into the struct device mode and force an
-> > > > unload that way? That way devm cleanup would work as one expects, and
-> > > > avoid the need for anything specific (hopefully) in this detach callback.
-> > > > 
-> > > > Just feels a bit like we're reinventing half of the driver model here,
-> > > > badly.
-> > > > 
-> > > > > + *	};
-> > > > > + *
-> > > > > + *	static int acquire_framebuffers(struct drm_device *dev, struct pci_dev *pdev)
-> > > > > + *	{
-> > > > > + *		resource_size_t start, len;
-> > > > > + *		struct drm_aperture *ap;
-> > > > > + *
-> > > > > + *		base = pci_resource_start(pdev, 0);
-> > > > > + *		size = pci_resource_len(pdev, 0);
-> > > > > + *
-> > > > > + *		ap = devm_acquire_aperture(dev, base, size, &ap_funcs);
-> > > > > + *		if (IS_ERR(ap))
-> > > > > + *			return PTR_ERR(ap);
-> > > > > + *
-> > > > > + *		return 0;
-> > > > > + *	}
-> > > > > + *
-> > > > > + *	static int probe(struct pci_dev *pdev)
-> > > > > + *	{
-> > > > > + *		struct drm_device *dev;
-> > > > > + *		int ret;
-> > > > > + *
-> > > > > + *		// ... Initialize the device...
-> > > > > + *		dev = devm_drm_dev_alloc();
-> > > > > + *		...
-> > > > > + *
-> > > > > + *		// ... and acquire ownership of the framebuffer.
-> > > > > + *		ret = acquire_framebuffers(dev, pdev);
-> > > > > + *		if (ret)
-> > > > > + *			return ret;
-> > > > > + *
-> > > > > + *		drm_dev_register();
-> > > > > + *
-> > > > > + *		return 0;
-> > > > > + *	}
-> > > > > + *
-> > > > > + * The generic driver is now subject to forced removal by other drivers. This
-> > > > > + * is when the detach function in struct &drm_aperture_funcs comes into play.
-> > > > > + * When a driver calls drm_fb_helper_remove_conflicting_framebuffers() et al
-> > > > > + * for the registered framebuffer range, the DRM core calls struct
-> > > > > + * &drm_aperture_funcs.detach and the generic driver has to onload itself. It
-> > > > > + * may not access the device's registers, framebuffer memory, ROM, etc after
-> > > > > + * detach returned. If the driver supports hotplugging, detach can be treated
-> > > > > + * like an unplug event.
-> > > > > + *
-> > > > > + * .. code-block:: c
-> > > > > + *
-> > > > > + *	static void detach_from_device(struct drm_device *dev,
-> > > > > + *				       resource_size_t base,
-> > > > > + *				       resource_size_t size)
-> > > > > + *	{
-> > > > > + *		// Signal unplug
-> > > > > + *		drm_dev_unplug(dev);
-> > > > > + *
-> > > > > + *		// Maybe do other clean-up operations
-> > > > > + *		...
-> > > > > + *	}
-> > > > > + *
-> > > > > + *	static struct drm_aperture_funcs ap_funcs = {
-> > > > > + *		.detach = detach_from_device,
-> > > > > + *	};
-> > > > > + */
-> > > > > +
-> > > > > +/**
-> > > > > + * struct drm_aperture - Represents a DRM framebuffer aperture
-> > > > > + *
-> > > > > + * This structure has no public fields.
-> > > > > + */
-> > > > > +struct drm_aperture {
-> > > > > +	struct drm_device *dev;
-> > > > > +	resource_size_t base;
-> > > > > +	resource_size_t size;
-> > > > > +
-> > > > > +	const struct drm_aperture_funcs *funcs;
-> > > > > +
-> > > > > +	struct list_head lh;
-> > > > > +};
-> > > > > +
-> > > > > +static LIST_HEAD(drm_apertures);
-> > > > > +
-> > > > > +static DEFINE_MUTEX(drm_apertures_lock);
-> > > > > +
-> > > > > +static bool overlap(resource_size_t base1, resource_size_t end1,
-> > > > > +		    resource_size_t base2, resource_size_t end2)
-> > > > > +{
-> > > > > +	return (base1 < end2) && (end1 > base2);
-> > > > > +}
-> > > > > +
-> > > > > +static void devm_aperture_acquire_release(void *data)
-> > > > > +{
-> > > > > +	struct drm_aperture *ap = data;
-> > > > > +	bool detached = !ap->dev;
-> > > > > +
-> > > > > +	if (!detached)
-> > > > 
-> > > > Uh this needs a comment that if ap->dev is NULL then we're called from
-> > > > drm_aperture_detach_drivers() and hence the lock is already held.
-> > > > 
-> > > > > +		mutex_lock(&drm_apertures_lock);
-> > > > 
-> > > > and an
-> > > > 
-> > > > 	else
-> > > > 		locdep_assert_held(&drm_apertures_lock);
-> > > > 
-> > > > here to check that. I was scratching my head first quite a bit how you'd
-> > > > solve the deadlock, this is a neat solution (much simpler than anything I
-> > > > came up with in my head). But needs comments.
-> > > > 
-> > > > > +
-> > > > > +	list_del(&ap->lh);
-> > > > > +
-> > > > > +	if (!detached)
-> > > > > +		mutex_unlock(&drm_apertures_lock);
-> > > > > +}
-> > > > > +
-> > > > > +/**
-> > > > > + * devm_aperture_acquire - Acquires ownership of a framebuffer on behalf of a DRM driver.
-> > > > > + * @dev:	the DRM device to own the framebuffer memory
-> > > > > + * @base:	the framebuffer's byte offset in physical memory
-> > > > > + * @size:	the framebuffer size in bytes
-> > > > > + * @funcs:	callback functions
-> > > > > + *
-> > > > > + * Installs the given device as the new owner. The function fails if the
-> > > > > + * framebuffer range, or parts of it, is currently owned by
-> > > > > another
-> driver.
-> > > > > + * To evict current owners, callers should use
-> > > > > + * drm_fb_helper_remove_conflicting_framebuffers() et al. before calling this
-> > > > > + * function. Acquired apertures are released automatically if the underlying
-> > > > > + * device goes away.
-> > > > > + *
-> > > > > + * Returns:
-> > > > > + * An instance of struct &drm_aperture on success, or a pointer-encoded
-> > > > > + * errno value otherwise.
-> > > > > + */
-> > > > > +struct drm_aperture *
-> > > > > +devm_aperture_acquire(struct drm_device *dev,
-> > > > > +		      resource_size_t base, resource_size_t size,
-> > > > > +		      const struct drm_aperture_funcs *funcs)
-> > > > > +{
-> > > > > +	size_t end = base + size;
-> > > > > +	struct list_head *pos;
-> > > > > +	struct drm_aperture *ap;
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	mutex_lock(&drm_apertures_lock);
-> > > > > +
-> > > > > +	list_for_each(pos, &drm_apertures) {
-> > > > > +		ap = container_of(pos, struct drm_aperture, lh);
-> > > > > +		if (overlap(base, end, ap->base, ap->base + ap->size))
-> > > > > +			return ERR_PTR(-EBUSY);
-> > > > > +	}
-> > > > > +
-> > > > > +	ap = devm_kzalloc(dev->dev, sizeof(*ap), GFP_KERNEL);
-> > > > > +	if (!ap)
-> > > > > +		return ERR_PTR(-ENOMEM);
-> > > > > +
-> > > > > +	ap->dev = dev;
-> > > > > +	ap->base = base;
-> > > > > +	ap->size = size;
-> > > > > +	ap->funcs = funcs;
-> > > > > +	INIT_LIST_HEAD(&ap->lh);
-> > > > > +
-> > > > > +	list_add(&ap->lh, &drm_apertures);
-> > > > > +
-> > > > > +	mutex_unlock(&drm_apertures_lock);
-> > > > > +
-> > > > > +	ret = devm_add_action_or_reset(dev->dev, devm_aperture_acquire_release, ap);
-> > > > > +	if (ret)
-> > > > > +		return ERR_PTR(ret);
-> > > > > +
-> > > > > +	return ap;
-> > > > > +}
-> > > > > +EXPORT_SYMBOL(devm_aperture_acquire);
-> > > > > +
-> > > > > +void drm_aperture_detach_drivers(resource_size_t base, resource_size_t size)
-> > > > > +{
-> > > > > +	resource_size_t end = base + size;
-> > > > > +	struct list_head *pos, *n;
-> > > > > +
-> > > > > +	mutex_lock(&drm_apertures_lock);
-> > > > > +
-> > > > > +	list_for_each_safe(pos, n, &drm_apertures) {
-> > > > > +		struct drm_aperture *ap =
-> > > > > +			container_of(pos, struct drm_aperture, lh);
-> > > > > +		struct drm_device *dev = ap->dev;
-> > > > > +
-> > > > > +		if (!overlap(base, end, ap->base, ap->base + ap->size))
-> > > > > +			continue;
-> > > > > +
-> > > > > +		ap->dev = NULL; /* detach from device */
-> > > > > +		if (drm_WARN_ON(dev, !ap->funcs->detach))
-> > > > > +			continue;
-> > > > > +		ap->funcs->detach(dev, ap->base, ap->size);
-> > > > > +	}
-> > > > > +
-> > > > > +	mutex_unlock(&drm_apertures_lock);
-> > > > > +}
-> > > > > +EXPORT_SYMBOL(drm_aperture_detach_drivers);
-> > > > 
-> > > > Is this just exported because of the inline functions in the
-> > > > headers?
-> Imo
-> > > > better to make them proper functions (they're big after your patch&not
-> > > > perf critical, so not good candidates for inlining anyway).
-> > > > 
-> > > > > diff --git a/include/drm/drm_aperture.h b/include/drm/drm_aperture.h
-> > > > > index 13766efe9517..696cec75ef78 100644
-> > > > > --- a/include/drm/drm_aperture.h
-> > > > > +++ b/include/drm/drm_aperture.h
-> > > > > @@ -4,8 +4,30 @@
-> > > > >    #define _DRM_APERTURE_H_
-> > > > >    #include <linux/fb.h>
-> > > > > +#include <linux/pci.h>
-> > > > >    #include <linux/vgaarb.h>
-> > > > > +struct drm_aperture;
-> > > > > +struct drm_device;
-> > > > > +
-> > > > > +struct drm_aperture_funcs {
-> > > > > +	void (*detach)(struct drm_device *dev, resource_size_t base, resource_size_t size);
-> > > > > +};
-> > > > > +
-> > > > > +struct drm_aperture *
-> > > > > +devm_aperture_acquire(struct drm_device *dev,
-> > > > > +		      resource_size_t base, resource_size_t size,
-> > > > > +		      const struct drm_aperture_funcs *funcs);
-> > > > > +
-> > > > > +#if defined(CONFIG_DRM_APERTURE)
-> > > > > +void drm_aperture_detach_drivers(resource_size_t base, resource_size_t size);
-> > > > > +#else
-> > > > > +static inline void
-> > > > > +drm_aperture_detach_drivers(resource_size_t base, resource_size_t size)
-> > > > > +{
-> > > > > +}
-> > > > > +#endif
-> > > > > +
-> > > > >    /**
-> > > > >     * drm_fb_helper_remove_conflicting_framebuffers - remove firmware-configured framebuffers
-> > > > >     * @a: memory range, users of which are to be removed
-> > > > > @@ -20,6 +42,11 @@ static inline int
-> > > > >    drm_fb_helper_remove_conflicting_framebuffers(struct apertures_struct *a,
-> > > > >    					      const char *name, bool primary)
-> > > > >    {
-> > > > > +	int i;
-> > > > > +
-> > > > > +	for (i = 0; i < a->count; ++i)
-> > > > > +		drm_aperture_detach_drivers(a->ranges[i].base, a->ranges[i].size);
-> > > > > +
-> > > > >    #if IS_REACHABLE(CONFIG_FB)
-> > > > >    	return remove_conflicting_framebuffers(a, name, primary);
-> > > > >    #else
-> > > > > @@ -43,7 +70,16 @@ static inline int
-> > > > >    drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev *pdev,
-> > > > >    						  const char *name)
-> > > > >    {
-> > > > > -	int ret = 0;
-> > > > > +	resource_size_t base, size;
-> > > > > +	int bar, ret = 0;
-> > > > > +
-> > > > > +	for (bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
-> > > > > +		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
-> > > > > +			continue;
-> > > > > +		base = pci_resource_start(pdev, bar);
-> > > > > +		size = pci_resource_len(pdev, bar);
-> > > > > +		drm_aperture_detach_drivers(base, size);
-> > > > > +	}
-> > > > >    	/*
-> > > > >    	 * WARNING: Apparently we must kick fbdev drivers before vgacon,
-> > > > > -- 
-> > > > > 2.30.1
-> > > > > 
-> > > > 
-> > > 
-> > > -- 
-> > > Thomas Zimmermann
-> > > Graphics Driver Developer
-> > > SUSE Software Solutions Germany GmbH
-> > > Maxfeldstr. 5, 90409 Nürnberg, Germany
-> > > (HRB 36809, AG Nürnberg)
-> > > Geschäftsführer: Felix Imendörffer
-> > > 
-> > 
-> > 
-> > 
-> > 
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> (HRB 36809, AG Nürnberg)
-> Geschäftsführer: Felix Imendörffer
-> 
+Then maybe we can set *modbuildid = NULL in the case of
+!CONFIG_STACKTRACE_BUILD_ID, similar to the kernel case in
+kallsyms_lookup_buildid().
 
 
+Thanks!
 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Jessica
