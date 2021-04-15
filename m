@@ -2,121 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A6B2C43460
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 15:41:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F377CC433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 16:08:30 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4C0E36115B
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 15:41:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D1E0C61152
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 16:08:30 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233747AbhDOPlw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 11:41:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54456 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233059AbhDOPlv (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 11:41:51 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6C60C061763
-        for <linux-doc@vger.kernel.org>; Thu, 15 Apr 2021 08:41:27 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id p6so17048323wrn.9
-        for <linux-doc@vger.kernel.org>; Thu, 15 Apr 2021 08:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isovalent-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qzCmIc5xh7d+ubWNy7gZo3UPfbkyUvg8kMmWmppBNes=;
-        b=BEj/1/8XPncnjRfRK8mLiZ1SoZ2+BwrE+a39LxPwB/MsIFJnzBAICQLZ2jiwGGbQov
-         4zqh7un0jhEP1iNaKM1PurWOo4uOYi/n2gtxwCVm76y8egSWq0m6KnadRWC5DH8hi34C
-         K41+UsN0jCiClEebcR9kPZsL0Lx6/VJV5Li9dNkP8mG/+bW6Uxqyyarpphfbe13+sVlb
-         FizX/3RV1YXqCKanusixVoY8OxsNOXFXCWpfkOB2NeLmRvAHXodqwMYxxCYasGQZQftV
-         OsBicx1g9iYrnNMRoDBiJ4p9GtlEji++P0zPJAhhkeDvxObWb1E6q5IO+XBq+ah9VkM2
-         b8CQ==
+        id S234046AbhDOQIs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 12:08:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:50007 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S233682AbhDOQIq (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 12:08:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1618502902;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=GPWTOZkuVV9uKxyAib9OOYGzA4pl+7XPQzG6f3iPsNE=;
+        b=VlAlpaK+xy2VtCmAopdRM3jQo+uBZWOk1mRzs0pG0LA4gjx5HVQLtM/GDbasdn+z5/uG1v
+        N0Jepxhj3GvM0rOrUVMeu7vJfFh1gme9epsE7AoFML6vZoFz2c+ihrknPfw+teA4Gv9+kP
+        EAJWynSGa4K4u0D23HeDJTURjj5uJc4=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-LvNWs0u3ONG6aPLtz8E_hg-1; Thu, 15 Apr 2021 12:08:19 -0400
+X-MC-Unique: LvNWs0u3ONG6aPLtz8E_hg-1
+Received: by mail-ej1-f71.google.com with SMTP id 16-20020a1709063010b029037417ca2d43so1116246ejz.5
+        for <linux-doc@vger.kernel.org>; Thu, 15 Apr 2021 09:08:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=qzCmIc5xh7d+ubWNy7gZo3UPfbkyUvg8kMmWmppBNes=;
-        b=FvVIjCgA9NEo6lahu/EnOCdSfTGoZL9N+D/MpuoG6R5Mhk7QuNOaULV4RnbtZxg4Pg
-         Xhx9cGvhaxloQhGaXfp/1PvLSyPa90riqra3peTTwbCcKF9Gmn7Ed+awtsjradFdaVVN
-         bdPClV6CN9wknKxADMZGx4FflrectgN5irzU+8GAmKGHgkgVyJsjLDqmUJNYZ9HF325Q
-         NgyGGIFiq/5TvuBsRQygsEeyxOYIt/qzy9vmyak2dFsi6ryfXmX+E3fxiy41zhxfspDr
-         ikWv2JyzeQT6/HTKp0U4M184mY7ANwbx1qO4lHzuHZBkx0Iy5s2NkyiN8QxF42GIOrzm
-         6ziQ==
-X-Gm-Message-State: AOAM531lH/q22UJmuaYAxeltiw0U2W7DZ46J5akKGAVNcMmvN0k0k4+K
-        uotgn7vKGEMHoOqqN/5SB3BA8w==
-X-Google-Smtp-Source: ABdhPJyLNMOWPYjLpplPAmINNkz2Fou+qVJXho8kWclmtHcejA/NRHvG9yzn7ifRTNHYBMXjICP1Nw==
-X-Received: by 2002:a05:6000:ca:: with SMTP id q10mr4272021wrx.104.1618501286182;
-        Thu, 15 Apr 2021 08:41:26 -0700 (PDT)
-Received: from [192.168.1.8] ([149.86.87.196])
-        by smtp.gmail.com with ESMTPSA id l14sm1920076wmq.4.2021.04.15.08.41.24
+        bh=GPWTOZkuVV9uKxyAib9OOYGzA4pl+7XPQzG6f3iPsNE=;
+        b=t2IQcB+JWFffba6WY1gPozJRVGyuSr0Ij9NF4AOo3slLsnO/YbSMl6ODx+ivu8sJDc
+         na/xkUlE8urZpcsWqm3ovzWbFpHNw6aG/2R12nzgQmeKKNib1qfxRBcNgaOP9NZSvuQJ
+         IqW6JWQP+SvIj/bnZssrKE0czFFuLG2EFPR1kryOBa7MANFFeSlld68a36vnWaSwS4MY
+         E58WJx5E5zXfiAePAe1pZaI/vVQ9Wfb59Fb+gj9tvJ8pOE02aSZ72GcSSDaDMC45cFbA
+         ++ilqWbF2IyA5dG134979FtQeZbN8D2IZGxcstdnwFyDyHpr9+hbM+5QPClf1pYyhBfe
+         AAZQ==
+X-Gm-Message-State: AOAM53075TowJinWkjMUTtfi79ZCCOlrr4CYTXmUc4s+RVQFZxJ7OQrb
+        AMQfiqHVBpGkZCDUuwNie3wpWRC73UdpYd614X+wCb+j4R3z777R+r9iXM8iLi6x1e1mFAlWM9U
+        GIsVGtofpjyMjsWZvvfRP
+X-Received: by 2002:a17:906:7f01:: with SMTP id d1mr4338507ejr.136.1618502898583;
+        Thu, 15 Apr 2021 09:08:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz7WrvK1l6FVJlJKF6M6McOJ8gnW3B/2pPeOqGw+FE6kSlfaUMAJeNxJh1gTw4wVr2vncSDmA==
+X-Received: by 2002:a17:906:7f01:: with SMTP id d1mr4338497ejr.136.1618502898384;
+        Thu, 15 Apr 2021 09:08:18 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e? ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+        by smtp.gmail.com with ESMTPSA id la24sm2393268ejb.71.2021.04.15.09.08.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Apr 2021 08:41:25 -0700 (PDT)
-Subject: Re: [PATCH bpf-next 1/2] bpf: Remove bpf_jit_enable=2 debugging mode
-To:     Daniel Borkmann <daniel@iogearbox.net>,
-        Jianlin Lv <Jianlin.Lv@arm.com>, bpf@vger.kernel.org
-Cc:     corbet@lwn.net, ast@kernel.org, andrii@kernel.org, kafai@fb.com,
-        songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com,
-        kpsingh@kernel.org, davem@davemloft.net, kuba@kernel.org,
-        illusionist.neo@gmail.com, linux@armlinux.org.uk,
-        zlim.lnx@gmail.com, catalin.marinas@arm.com, will@kernel.org,
-        paulburton@kernel.org, tsbogend@alpha.franken.de,
-        naveen.n.rao@linux.ibm.com, sandipan@linux.ibm.com,
-        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        luke.r.nels@gmail.com, xi.wang@gmail.com, bjorn@kernel.org,
-        paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, iii@linux.ibm.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, borntraeger@de.ibm.com, yoshfuji@linux-ipv6.org,
-        dsahern@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com, udknight@gmail.com,
-        mchehab+huawei@kernel.org, dvyukov@google.com, maheshb@google.com,
-        horms@verge.net.au, nicolas.dichtel@6wind.com,
-        viro@zeniv.linux.org.uk, masahiroy@kernel.org,
-        keescook@chromium.org, tklauser@distanz.ch, grantseltzer@gmail.com,
-        irogers@google.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
-        iecedge@gmail.com
-References: <20210415093250.3391257-1-Jianlin.Lv@arm.com>
- <9c4a78d2-f73c-832a-e6e2-4b4daa729e07@iogearbox.net>
-From:   Quentin Monnet <quentin@isovalent.com>
-Message-ID: <d3949501-8f7d-57c4-b3fe-bcc3b24c09d8@isovalent.com>
-Date:   Thu, 15 Apr 2021 16:41:23 +0100
+        Thu, 15 Apr 2021 09:08:17 -0700 (PDT)
+Subject: Re: [PATCH v3 5/8] docs: vcpu-requests.rst: fix reference for atomic
+ ops
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc:     Peter Zijlstra <peterz@infradead.org>, kvm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <cover.1617972339.git.mchehab+huawei@kernel.org>
+ <fc194806772325d60b7406368ba726f07990b968.1617972339.git.mchehab+huawei@kernel.org>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <e72a06e6-d027-74f6-14da-31666187b893@redhat.com>
+Date:   Thu, 15 Apr 2021 18:08:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <9c4a78d2-f73c-832a-e6e2-4b4daa729e07@iogearbox.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+In-Reply-To: <fc194806772325d60b7406368ba726f07990b968.1617972339.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-2021-04-15 16:37 UTC+0200 ~ Daniel Borkmann <daniel@iogearbox.net>
-> On 4/15/21 11:32 AM, Jianlin Lv wrote:
->> For debugging JITs, dumping the JITed image to kernel log is discouraged,
->> "bpftool prog dump jited" is much better way to examine JITed dumps.
->> This patch get rid of the code related to bpf_jit_enable=2 mode and
->> update the proc handler of bpf_jit_enable, also added auxiliary
->> information to explain how to use bpf_jit_disasm tool after this change.
->>
->> Signed-off-by: Jianlin Lv <Jianlin.Lv@arm.com>
+On 09/04/21 14:47, Mauro Carvalho Chehab wrote:
+> Changeset f0400a77ebdc ("atomic: Delete obsolete documentation")
+> got rid of atomic_ops.rst, pointing that this was superseded by
+> Documentation/atomic_*.txt.
+> 
+> Update its reference accordingly.
+> 
+> Fixes: f0400a77ebdc ("atomic: Delete obsolete documentation")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>   Documentation/virt/kvm/vcpu-requests.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/virt/kvm/vcpu-requests.rst b/Documentation/virt/kvm/vcpu-requests.rst
+> index 5feb3706a7ae..5f8798e7fdf8 100644
+> --- a/Documentation/virt/kvm/vcpu-requests.rst
+> +++ b/Documentation/virt/kvm/vcpu-requests.rst
+> @@ -302,6 +302,6 @@ VCPU returns from the call.
+>   References
+>   ==========
+>   
+> -.. [atomic-ops] Documentation/core-api/atomic_ops.rst
+> +.. [atomic-ops] Documentation/atomic_bitops.txt and Documentation/atomic_t.txt
+>   .. [memory-barriers] Documentation/memory-barriers.txt
+>   .. [lwn-mb] https://lwn.net/Articles/573436/
+> 
 
-Hello,
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
-For what it's worth, I have already seen people dump the JIT image in
-kernel logs in Qemu VMs running with just a busybox, not for kernel
-development, but in a context where buiding/using bpftool was not
-possible. Maybe not a common case, but still, removing the debugging
-mode will make that impossible. Is there a particular incentive to
-remove the feature?
-
-Best regards,
-Quentin
