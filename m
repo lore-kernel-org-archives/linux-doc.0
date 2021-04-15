@@ -2,65 +2,36 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-23.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_CR_TRAILER,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_IN_DEF_DKIM_WL,WEIRD_QUOTING autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1,
+	WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 837C6C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 05:08:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08A00C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 05:38:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 51125611AB
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 05:08:01 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id CB64D6115C
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 05:38:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229757AbhDOFIX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 01:08:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55990 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229489AbhDOFIW (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 01:08:22 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FE40C061756
-        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 22:08:00 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id b26so10127737pfr.3
-        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 22:08:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=3XIYg5l84OVx1tllXKOQUOMmoZTxJxg64s9zjLyop0A=;
-        b=jfyrGm3EB0jS6IZq7HzcMt+J5GaaDLjPXQWUVviBZAJou53HLlr5RGYkCcOEZu9Y+i
-         SzhC4vIm1Cjcc4rYt5BhswMa+tj/GEnGN3PfAE866hBU9H9POTWzaNWfgDgUhlMuT20B
-         1rDBwEp6IBOPqap1rn4aIyG6d++tzdfZ6WcO3iv6hJPMYVLvcita4CLcu1vHpgoHx64g
-         PuAhFWBgIrntT738AUIqtO0wGBJfdz1/XCjAjxMq7/gDLR33Mm/XE3Q4HUr5paxXPB3n
-         vhnsQJrcd4S09vtkuDUcIhTeUVlEw8iK/SnErhi/kvnTk9nNCPAXM8+moX/2Zxt54LI4
-         ONjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=3XIYg5l84OVx1tllXKOQUOMmoZTxJxg64s9zjLyop0A=;
-        b=iKkKn+RiVQ1sfxNZxEQInnElYNASB4MqwhXL1FAvqQv4pYNl6JLwvmmJl45X9ijwGN
-         OiG4oWOj9jgvWwJsMLnTRsmPvBwKCbuJADvC2asc0Tv/rP8YGPAXGqU2r7NmvdtNu52z
-         QdxWsuyoz0Uoft4sPzl8FIyy0OwkH/bE5P3IIgf+hUWlia/PpZtC2nhulaly3EvJ8Glo
-         ReR1j8yQuLnCyU1NSW4soOBzbAm0C2nWWyCcWvL58grSsoY2imnPRcA+NJ2MxK+6OSLg
-         DCGXRV8QDrfw1iL7AraxU84GMdxE8i+wAlns9Ouj9lrgAumKKq1GO48fZ81RTJudWUnE
-         pXQg==
-X-Gm-Message-State: AOAM5318nbaL8gI13FNpry7JaXEgRvqpEZG5cP0U4bAnlW8nAIJ7NkDM
-        vO34fNhUhGLUMLukdt8GSjWyT0wwMVSGtA==
-X-Google-Smtp-Source: ABdhPJyx9MeIDKpBUmv5gL4mCbrpg5/zhSEWKYo5fDXlgIzHxK/tJtLUABtxZNpk3V9SXDAHD3DkPw==
-X-Received: by 2002:a63:1203:: with SMTP id h3mr1832734pgl.223.1618463279514;
-        Wed, 14 Apr 2021 22:07:59 -0700 (PDT)
-Received: from google.com ([2620:15c:2ce:0:4140:c2cc:9c14:6efc])
-        by smtp.gmail.com with ESMTPSA id c129sm887891pfb.141.2021.04.14.22.07.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Apr 2021 22:07:58 -0700 (PDT)
-Date:   Wed, 14 Apr 2021 22:07:55 -0700
-From:   Fangrui Song <maskray@google.com>
-To:     Wu XiangCheng <bobwxc@email.cn>, Alex Shi <seakeel@gmail.com>
-Cc:     Alex Shi <alexs@kernel.org>, Bernard Zhao <bernard@vivo.com>,
+        id S229658AbhDOFjE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 01:39:04 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:13616 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229560AbhDOFjD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Apr 2021 01:39:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=e+5AxPE7Oi4vd2SZdO2Iljr7Knf4PsxLD9AgT
+        ERDiCw=; b=fF7pniN7Gn4b8I03X2lhuT8y9qpz+0FCA7iFix2gp5U5s1ofExTMG
+        bqLNIpqnB0n+CwOYgRA6s2L6c6sIq4iSF3tpS6UZvRGCg7KQjnjTsG05SgPAB13y
+        blYG2mWiNZLB5eQ9t/JQFzL7P+KeL9tDuKsjHRpzoG8CECFuEzQ6Gw=
+Received: from bobwxc.top (unknown [120.238.248.129])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgB36tBM0XdgHZddAA--.16109S2;
+        Thu, 15 Apr 2021 13:38:23 +0800 (CST)
+Date:   Thu, 15 Apr 2021 13:38:20 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Fangrui Song <maskray@google.com>
+Cc:     Alex Shi <seakeel@gmail.com>, Alex Shi <alexs@kernel.org>,
+        Bernard Zhao <bernard@vivo.com>,
         Jonathan Corbet <corbet@lwn.net>,
         YanTeng Si <sterlingteng@gmail.com>,
         Nathan Chancellor <nathan@kernel.org>,
@@ -68,405 +39,231 @@ Cc:     Alex Shi <alexs@kernel.org>, Bernard Zhao <bernard@vivo.com>,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         clang-built-linux@googlegroups.com
 Subject: Re: [PATCH v5] docs/zh_CN: add translations in zh_CN/dev-tools/gcov
-Message-ID: <20210415050755.onbtp7ftzawftrud@google.com>
+Message-ID: <20210415053820.GA26262@bobwxc.top>
 References: <20210414082316.15160-1-bernard@vivo.com>
  <20210414132127.GA13306@bobwxc.top>
  <69e5d111-a439-7000-ad5e-4e0f4dabe29f@gmail.com>
+ <20210415050755.onbtp7ftzawftrud@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="x+6KMIRAuhnl3hBn"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <69e5d111-a439-7000-ad5e-4e0f4dabe29f@gmail.com>
+In-Reply-To: <20210415050755.onbtp7ftzawftrud@google.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgB36tBM0XdgHZddAA--.16109S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxuF1xKw15uryxJr4DXFyxZrb_yoW5tFy3pF
+        srGayxKF48KrWUCryI9w10q39Fyay5K3W2qFy8Jryjqrs09F4Skr12gr18Wasxu34DAryq
+        y3W7AFnakw15AFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUyKb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1I6r4UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0x
+        vYzxvE52x082IY62kv0487M2AExVA0xI801c8C04v7Mc02F40EFcxC0VAKzVAqx4xG6I80
+        ewAv7VCjz48v1sIEY20_Cr1UJr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4
+        IIrI8v6xkF7I0E8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_
+        Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x
+        8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE
+        2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42
+        xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF
+        7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj4RRbyZUUUUU
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Reviewed-by: Fangrui Song <maskray@google.com>
 
-Inlined some suggestions.
+--x+6KMIRAuhnl3hBn
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2021-04-14, Alex Shi wrote:
->Reviewed-by: Alex Shi <alexs@kernel.org>
->
->On 2021/4/14 下午9:21, Wu XiangCheng wrote:
->> From: Bernard Zhao <bernard@vivo.com>
->>
->> Add new zh translations
->> * zh_CN/dev-tools/gcov.rst
->> * zh_CN/dev-tools/index.rst
->> and link them to zh_CN/index.rst
->>
->> Signed-off-by: Bernard Zhao <bernard@vivo.com>
->> Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
->> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
->> ---
->> base: linux-next
->> commit 269dd42f4776 ("docs/zh_CN: add riscv to zh_CN index")
->>
->> Changes since V4:
->> * modified some words under Alex Shi's advices
->>
->> Changes since V3:
->> * update to newest linux-next
->> * fix ``
->> * fix tags
->> * fix list indent
->>
->> Changes since V2:
->> * fix some inaccurate translation
->>
->> Changes since V1:
->> * add index.rst in dev-tools and link to to zh_CN/index.rst
->> * fix some inaccurate translation
->>
->>  .../translations/zh_CN/dev-tools/gcov.rst     | 265 ++++++++++++++++++
->>  .../translations/zh_CN/dev-tools/index.rst    |  35 +++
->>  Documentation/translations/zh_CN/index.rst    |   1 +
->>  3 files changed, 301 insertions(+)
->>  create mode 100644 Documentation/translations/zh_CN/dev-tools/gcov.rst
->>  create mode 100644 Documentation/translations/zh_CN/dev-tools/index.rst
->>
->> diff --git a/Documentation/translations/zh_CN/dev-tools/gcov.rst b/Documentation/translations/zh_CN/dev-tools/gcov.rst
->> new file mode 100644
->> index 000000000000..7515b488bc4e
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/dev-tools/gcov.rst
->> @@ -0,0 +1,265 @@
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/dev-tools/gcov.rst
->> +:Translator: 赵军奎 Bernard Zhao <bernard@vivo.com>
->> +
->> +在Linux内核里使用gcov做代码覆盖率检查
->> +=====================================
->> +
->> +gcov是linux中已经集成的一个分析模块，该模块在内核中对GCC的代码覆盖率统
+On Wed, Apr 14, 2021 at 10:07:55PM -0700, Fangrui Song wrote:
+> Reviewed-by: Fangrui Song <maskray@google.com>
+>=20
+> Inlined some suggestions.
 
-instrumentation 一般译作 插桩，而非 分析。
+Thanks for your review!
 
->> +计提供了支持。
->> +linux内核运行时的代码覆盖率数据会以gcov兼容的格式存储在debug-fs中，可
+>=20
+> On 2021-04-14, Alex Shi wrote:
+> > Reviewed-by: Alex Shi <alexs@kernel.org>
+> >=20
+> > On 2021/4/14 =E4=B8=8B=E5=8D=889:21, Wu XiangCheng wrote:
+> > > From: Bernard Zhao <bernard@vivo.com>
+> > >=20
+> > > Add new zh translations
+> > > * zh_CN/dev-tools/gcov.rst
+> > > * zh_CN/dev-tools/index.rst
+> > > and link them to zh_CN/index.rst
+> > >=20
+> > > Signed-off-by: Bernard Zhao <bernard@vivo.com>
+> > > Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+> > > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
+> > > ---
+> > > +
+[...]
+> > > +=E5=9C=A8Linux=E5=86=85=E6=A0=B8=E9=87=8C=E4=BD=BF=E7=94=A8gcov=E5=
+=81=9A=E4=BB=A3=E7=A0=81=E8=A6=86=E7=9B=96=E7=8E=87=E6=A3=80=E6=9F=A5
+> > > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > +
+> > > +gcov=E6=98=AFlinux=E4=B8=AD=E5=B7=B2=E7=BB=8F=E9=9B=86=E6=88=90=E7=
+=9A=84=E4=B8=80=E4=B8=AA=E5=88=86=E6=9E=90=E6=A8=A1=E5=9D=97=EF=BC=8C=E8=AF=
+=A5=E6=A8=A1=E5=9D=97=E5=9C=A8=E5=86=85=E6=A0=B8=E4=B8=AD=E5=AF=B9GCC=E7=9A=
+=84=E4=BB=A3=E7=A0=81=E8=A6=86=E7=9B=96=E7=8E=87=E7=BB=9F
+>=20
+> instrumentation =E4=B8=80=E8=88=AC=E8=AF=91=E4=BD=9C =E6=8F=92=E6=A1=A9=
+=EF=BC=8C=E8=80=8C=E9=9D=9E =E5=88=86=E6=9E=90=E3=80=82
 
-专有名词 Linux 应大写。
+Have rewrited this paragraph.
+Here is "gcov profiling kernel"=EF=BC=8Cgcov=E5=88=86=E6=9E=90=E6=A0=B8=E5=
+=BF=83
 
->> +以通过gcov的 ``-o`` 选项（如下示例）获得指定文件的代码运行覆盖率统计数据
->> +（需要跳转到内核编译路径下并且要有root权限）::
->> +
->> +    # cd /tmp/linux-out
->> +    # gcov -o /sys/kernel/debug/gcov/tmp/linux-out/kernel spinlock.c
->> +
->> +这将在当前目录中创建带有执行计数注释的源代码文件。
->> +在获得这些统计文件后，可以使用图形化的 gcov_ 前端工具（比如 lcov_ ），来实现
->> +自动化处理linux内核的覆盖率运行数据，同时生成易于阅读的HTML格式文件。
->> +
->> +可能的用途:
->> +
->> +* 调试（用来判断每一行的代码是否已经运行过）
->> +* 测试改进（如何修改测试代码，尽可能地覆盖到没有运行过的代码）
->> +* 内核配置优化（对于某一个选项配置，如果关联的代码从来没有运行过，是
->> +  否还需要这个配置）
+>=20
+> > > +=E8=AE=A1=E6=8F=90=E4=BE=9B=E4=BA=86=E6=94=AF=E6=8C=81=E3=80=82
+> > > +linux=E5=86=85=E6=A0=B8=E8=BF=90=E8=A1=8C=E6=97=B6=E7=9A=84=E4=BB=A3=
+=E7=A0=81=E8=A6=86=E7=9B=96=E7=8E=87=E6=95=B0=E6=8D=AE=E4=BC=9A=E4=BB=A5gco=
+v=E5=85=BC=E5=AE=B9=E7=9A=84=E6=A0=BC=E5=BC=8F=E5=AD=98=E5=82=A8=E5=9C=A8de=
+bug-fs=E4=B8=AD=EF=BC=8C=E5=8F=AF
+>=20
+> =E4=B8=93=E6=9C=89=E5=90=8D=E8=AF=8D Linux =E5=BA=94=E5=A4=A7=E5=86=99=E3=
+=80=82
 
-minimizing: 优化 -> 最小化/简化
+Done.
 
->> +.. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
->> +.. _lcov: http://ltp.sourceforge.net/coverage/lcov.php
->> +
->> +
->> +准备
->> +----
->> +
->> +内核打开如下配置::
->> +
->> +        CONFIG_DEBUG_FS=y
->> +        CONFIG_GCOV_KERNEL=y
->> +
->> +获取整个内核的覆盖率数据，还需要打开::
->> +
->> +        CONFIG_GCOV_PROFILE_ALL=y
->> +
->> +需要注意的是，整个内核开启覆盖率统计会造成内核镜像文件尺寸的增大，
->> +同时内核运行的也会变慢一些。
+>=20
+> > > +=E4=BB=A5=E9=80=9A=E8=BF=87gcov=E7=9A=84 ``-o`` =E9=80=89=E9=A1=B9=
+=EF=BC=88=E5=A6=82=E4=B8=8B=E7=A4=BA=E4=BE=8B=EF=BC=89=E8=8E=B7=E5=BE=97=E6=
+=8C=87=E5=AE=9A=E6=96=87=E4=BB=B6=E7=9A=84=E4=BB=A3=E7=A0=81=E8=BF=90=E8=A1=
+=8C=E8=A6=86=E7=9B=96=E7=8E=87=E7=BB=9F=E8=AE=A1=E6=95=B0=E6=8D=AE
+> > > +=EF=BC=88=E9=9C=80=E8=A6=81=E8=B7=B3=E8=BD=AC=E5=88=B0=E5=86=85=E6=
+=A0=B8=E7=BC=96=E8=AF=91=E8=B7=AF=E5=BE=84=E4=B8=8B=E5=B9=B6=E4=B8=94=E8=A6=
+=81=E6=9C=89root=E6=9D=83=E9=99=90=EF=BC=89::
+> > > +
+> > > +    # cd /tmp/linux-out
+> > > +    # gcov -o /sys/kernel/debug/gcov/tmp/linux-out/kernel spinlock.c
+> > > +
+> > > +=E8=BF=99=E5=B0=86=E5=9C=A8=E5=BD=93=E5=89=8D=E7=9B=AE=E5=BD=95=E4=
+=B8=AD=E5=88=9B=E5=BB=BA=E5=B8=A6=E6=9C=89=E6=89=A7=E8=A1=8C=E8=AE=A1=E6=95=
+=B0=E6=B3=A8=E9=87=8A=E7=9A=84=E6=BA=90=E4=BB=A3=E7=A0=81=E6=96=87=E4=BB=B6=
+=E3=80=82
+> > > +=E5=9C=A8=E8=8E=B7=E5=BE=97=E8=BF=99=E4=BA=9B=E7=BB=9F=E8=AE=A1=E6=
+=96=87=E4=BB=B6=E5=90=8E=EF=BC=8C=E5=8F=AF=E4=BB=A5=E4=BD=BF=E7=94=A8=E5=9B=
+=BE=E5=BD=A2=E5=8C=96=E7=9A=84 gcov_ =E5=89=8D=E7=AB=AF=E5=B7=A5=E5=85=B7=
+=EF=BC=88=E6=AF=94=E5=A6=82 lcov_ =EF=BC=89=EF=BC=8C=E6=9D=A5=E5=AE=9E=E7=
+=8E=B0
+> > > +=E8=87=AA=E5=8A=A8=E5=8C=96=E5=A4=84=E7=90=86linux=E5=86=85=E6=A0=B8=
+=E7=9A=84=E8=A6=86=E7=9B=96=E7=8E=87=E8=BF=90=E8=A1=8C=E6=95=B0=E6=8D=AE=EF=
+=BC=8C=E5=90=8C=E6=97=B6=E7=94=9F=E6=88=90=E6=98=93=E4=BA=8E=E9=98=85=E8=AF=
+=BB=E7=9A=84HTML=E6=A0=BC=E5=BC=8F=E6=96=87=E4=BB=B6=E3=80=82
+> > > +
+> > > +=E5=8F=AF=E8=83=BD=E7=9A=84=E7=94=A8=E9=80=94:
+> > > +
+> > > +* =E8=B0=83=E8=AF=95=EF=BC=88=E7=94=A8=E6=9D=A5=E5=88=A4=E6=96=AD=E6=
+=AF=8F=E4=B8=80=E8=A1=8C=E7=9A=84=E4=BB=A3=E7=A0=81=E6=98=AF=E5=90=A6=E5=B7=
+=B2=E7=BB=8F=E8=BF=90=E8=A1=8C=E8=BF=87=EF=BC=89
+> > > +* =E6=B5=8B=E8=AF=95=E6=94=B9=E8=BF=9B=EF=BC=88=E5=A6=82=E4=BD=95=E4=
+=BF=AE=E6=94=B9=E6=B5=8B=E8=AF=95=E4=BB=A3=E7=A0=81=EF=BC=8C=E5=B0=BD=E5=8F=
+=AF=E8=83=BD=E5=9C=B0=E8=A6=86=E7=9B=96=E5=88=B0=E6=B2=A1=E6=9C=89=E8=BF=90=
+=E8=A1=8C=E8=BF=87=E7=9A=84=E4=BB=A3=E7=A0=81=EF=BC=89
+> > > +* =E5=86=85=E6=A0=B8=E9=85=8D=E7=BD=AE=E4=BC=98=E5=8C=96=EF=BC=88=E5=
+=AF=B9=E4=BA=8E=E6=9F=90=E4=B8=80=E4=B8=AA=E9=80=89=E9=A1=B9=E9=85=8D=E7=BD=
+=AE=EF=BC=8C=E5=A6=82=E6=9E=9C=E5=85=B3=E8=81=94=E7=9A=84=E4=BB=A3=E7=A0=81=
+=E4=BB=8E=E6=9D=A5=E6=B2=A1=E6=9C=89=E8=BF=90=E8=A1=8C=E8=BF=87=EF=BC=8C=E6=
+=98=AF
+> > > +  =E5=90=A6=E8=BF=98=E9=9C=80=E8=A6=81=E8=BF=99=E4=B8=AA=E9=85=8D=E7=
+=BD=AE=EF=BC=89
+>=20
+> minimizing: =E4=BC=98=E5=8C=96 -> =E6=9C=80=E5=B0=8F=E5=8C=96/=E7=AE=80=
+=E5=8C=96
 
-s/的//
+Done.
 
->> +另外，并不是所有的架构都支持整个内核开启覆盖率统计。
->> +
->> +代码运行覆盖率数据只在debugfs挂载完成后才可以访问::
->> +
->> +        mount -t debugfs none /sys/kernel/debug
->> +
->> +
->> +定制化
->> +------
->> +
->> +如果要单独针对某一个路径或者文件进行代码覆盖率统计，可以在内核相应路
->> +径的Makefile中增加如下的配置:
->> +
->> +- 单独统计单个文件（例如main.o）::
->> +
->> +    GCOV_PROFILE_main.o := y
->> +
->> +- 单独统计某一个路径::
->> +
->> +    GCOV_PROFILE := y
->> +
->> +如果要在整个内核的覆盖率统计（开启CONFIG_GCOV_PROFILE_ALL）中单独排除
->> +某一个文件或者路径，可以使用如下的方法::
->> +
->> +    GCOV_PROFILE_main.o := n
->> +
->> +和::
->> +
->> +    GCOV_PROFILE := n
->> +
->> +此机制仅支持链接到内核镜像或编译为内核模块的文件。
->> +
->> +
->> +相关文件
->> +--------
->> +
->> +gcov功能需要在debugfs中创建如下文件:
->> +
->> +``/sys/kernel/debug/gcov``
->> +    gcov相关功能的根路径
->> +
->> +``/sys/kernel/debug/gcov/reset``
->> +    全局复位文件:向该文件写入数据后会将所有的gcov统计数据清0
->> +
->> +``/sys/kernel/debug/gcov/path/to/compile/dir/file.gcda``
->> +    gcov工具可以识别的覆盖率统计数据文件，向该文件写入数据后
->> +	  会将本文件的gcov统计数据清0
->> +
->> +``/sys/kernel/debug/gcov/path/to/compile/dir/file.gcno``
->> +    gcov工具需要的软连接文件（指向编译时生成的信息统计文件），这个文件是
->> +    在gcc编译时如果配置了选项 ``-ftest-coverage`` 时生成的。
->> +
->> +
->> +针对模块的统计
->> +--------------
->> +
->> +内核中的模块会动态的加载和卸载，模块卸载时对应的数据会被清除掉。
->> +gcov提供了一种机制，通过保留相关数据的副本来收集这部分卸载模块的覆盖率数据。
->> +模块卸载后这些备份数据在debugfs中会继续存在。
->> +一旦这个模块重新加载，模块关联的运行统计会被初始化成debugfs中备份的数据。
->> +
->> +可以通过对内核参数gcov_persist的修改来停用gcov对模块的备份机制::
->> +
->> +        gcov_persist = 0
->> +
->> +在运行时，用户还可以通过写入模块的数据文件或者写入gcov复位文件来丢弃已卸
->> +载模块的数据。
->> +
->> +
->> +编译机和测试机分离
->> +------------------
->> +
->> +gcov的内核分析架构支持内核的编译和运行是在同一台机器上，也可以编译和运
+>=20
+> > > +.. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
+> > > +.. _lcov: http://ltp.sourceforge.net/coverage/lcov.php
+> > > +
+> > > +
+> > > +=E5=87=86=E5=A4=87
+> > > +----
+> > > +
+> > > +=E5=86=85=E6=A0=B8=E6=89=93=E5=BC=80=E5=A6=82=E4=B8=8B=E9=85=8D=E7=
+=BD=AE::
+> > > +
+> > > +        CONFIG_DEBUG_FS=3Dy
+> > > +        CONFIG_GCOV_KERNEL=3Dy
+> > > +
+> > > +=E8=8E=B7=E5=8F=96=E6=95=B4=E4=B8=AA=E5=86=85=E6=A0=B8=E7=9A=84=E8=
+=A6=86=E7=9B=96=E7=8E=87=E6=95=B0=E6=8D=AE=EF=BC=8C=E8=BF=98=E9=9C=80=E8=A6=
+=81=E6=89=93=E5=BC=80::
+> > > +
+> > > +        CONFIG_GCOV_PROFILE_ALL=3Dy
+> > > +
+> > > +=E9=9C=80=E8=A6=81=E6=B3=A8=E6=84=8F=E7=9A=84=E6=98=AF=EF=BC=8C=E6=
+=95=B4=E4=B8=AA=E5=86=85=E6=A0=B8=E5=BC=80=E5=90=AF=E8=A6=86=E7=9B=96=E7=8E=
+=87=E7=BB=9F=E8=AE=A1=E4=BC=9A=E9=80=A0=E6=88=90=E5=86=85=E6=A0=B8=E9=95=9C=
+=E5=83=8F=E6=96=87=E4=BB=B6=E5=B0=BA=E5=AF=B8=E7=9A=84=E5=A2=9E=E5=A4=A7=EF=
+=BC=8C
+> > > +=E5=90=8C=E6=97=B6=E5=86=85=E6=A0=B8=E8=BF=90=E8=A1=8C=E7=9A=84=E4=
+=B9=9F=E4=BC=9A=E5=8F=98=E6=85=A2=E4=B8=80=E4=BA=9B=E3=80=82
+>=20
+> s/=E7=9A=84//
 
-分析 -> 插桩
+Done.
 
->> +行是在不同的机器上。
->> +如果内核编译和运行是不同的机器，那么需要额外的准备工作，这取决于gcov工具
->> +是在哪里使用的:
->> +
->> +.. _gcov-test_zh:
->> +
->> +a) 若gcov运行在测试机上
->> +
->> +    测试机上面gcov工具的版本必须要跟内核编译机器使用的gcc版本相兼容，
->> +    同时下面的文件要从编译机拷贝到测试机上:
->> +
->> +    从源代码中:
->> +      - 所有的C文件和头文件
->> +
->> +    从编译目录中:
->> +      - 所有的C文件和头文件
->> +      - 所有的.gcda文件和.gcno文件
->> +      - 所有目录的链接
->> +
->> +    特别需要注意，测试机器上面的目录结构跟编译机器上面的目录机构必须
->> +    完全一致。
->> +    如果文件是软链接，需要替换成真正的目录文件（这是由make的当前工作
->> +    目录变量CURDIR引起的）。
->> +
->> +.. _gcov-build_zh:
->> +
->> +b) 若gcov运行在编译机上
->> +
->> +    测试用例运行结束后，如下的文件需要从测试机中拷贝到编译机上:
->> +
->> +    从sysfs中的gcov目录中:
->> +      - 所有的.gcda文件
->> +      - 所有的.gcno文件软链接
->> +
->> +    这些文件可以拷贝到编译机的任意目录下，gcov使用-o选项指定拷贝的
->> +    目录。
->> +
->> +    比如一个是示例的目录结构如下::
->> +
->> +      /tmp/linux:    内核源码目录
->> +      /tmp/out:      内核编译文件路径（make O=指定）
->> +      /tmp/coverage: 从测试机器上面拷贝的数据文件路径
->> +
->> +      [user@build] cd /tmp/out
->> +      [user@build] gcov -o /tmp/coverage/tmp/out/init main.c
->> +
->> +
->> +关于编译器的注意事项
->> +--------------------
->> +
->> +GCC和LLVM gcov工具不一定兼容。
->> +如果编译器是GCC，使用 gcov_ 来处理.gcno和.gcda文件，如果是Clang编译器，
->> +则使用 llvm-cov_ 。
->> +
->> +.. _gcov: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
->> +.. _llvm-cov: https://llvm.org/docs/CommandGuide/llvm-cov.html
->> +
->> +GCC和Clang gcov之间的版本差异由Kconfig处理的。
->> +kconfig会根据编译工具链的检查自动选择合适的gcov格式。
->> +
->> +问题定位
->> +--------
->> +
->> +可能出现的问题1
->> +    编译到链接阶段报错终止
->> +
->> +问题原因
->> +    分析标志指定在了源文件但是没有链接到主内核，或者客制化了链接程序
->> +
->> +解决方法
->> +    通过在相应的Makefile中使用 ``GCOV_PROFILE := n``
->> +    或者 ``GCOV_PROFILE_basename.o := n`` 来将链接报错的文件排除掉
->> +
->> +可能出现的问题2
->> +    从sysfs复制的文件显示为空或不完整
->> +
->> +问题原因
->> +    由于seq_file的工作方式，某些工具（例如cp或tar）可能无法正确地从
->> +    sysfs复制文件。
->> +
->> +解决方法
->> +    使用 ``cat`` 读取 ``.gcda`` 文件，使用 ``cp -d`` 复制链接，或者使用附录B
->> +    中所示的机制。
->> +
->> +
->> +附录A：collect_on_build.sh
->> +--------------------------
->> +
->> +用于在编译机上收集覆盖率元文件的示例脚本
->> +（见 :ref:`编译机和测试机分离 a. <gcov-test_zh>` ）
->> +
->> +.. code-block:: sh
->> +
->> +    #!/bin/bash
->> +
->> +    KSRC=$1
->> +    KOBJ=$2
->> +    DEST=$3
->> +
->> +    if [ -z "$KSRC" ] || [ -z "$KOBJ" ] || [ -z "$DEST" ]; then
->> +      echo "Usage: $0 <ksrc directory> <kobj directory> <output.tar.gz>" >&2
->> +      exit 1
->> +    fi
->> +
->> +    KSRC=$(cd $KSRC; printf "all:\n\t@echo \${CURDIR}\n" | make -f -)
->> +    KOBJ=$(cd $KOBJ; printf "all:\n\t@echo \${CURDIR}\n" | make -f -)
->> +
->> +    find $KSRC $KOBJ \( -name '*.gcno' -o -name '*.[ch]' -o -type l \) -a \
->> +                     -perm /u+r,g+r | tar cfz $DEST -P -T -
->> +
->> +    if [ $? -eq 0 ] ; then
->> +      echo "$DEST successfully created, copy to test system and unpack with:"
->> +      echo "  tar xfz $DEST -P"
->> +    else
->> +      echo "Could not create file $DEST"
->> +    fi
->> +
->> +
->> +附录B：collect_on_test.sh
->> +-------------------------
->> +
->> +用于在测试机上收集覆盖率数据文件的示例脚本
->> +（见 :ref:`编译机和测试机分离 b. <gcov-build_zh>` ）
->> +
->> +.. code-block:: sh
->> +
->> +    #!/bin/bash -e
->> +
->> +    DEST=$1
->> +    GCDA=/sys/kernel/debug/gcov
->> +
->> +    if [ -z "$DEST" ] ; then
->> +      echo "Usage: $0 <output.tar.gz>" >&2
->> +      exit 1
->> +    fi
->> +
->> +    TEMPDIR=$(mktemp -d)
->> +    echo Collecting data..
->> +    find $GCDA -type d -exec mkdir -p $TEMPDIR/\{\} \;
->> +    find $GCDA -name '*.gcda' -exec sh -c 'cat < $0 > '$TEMPDIR'/$0' {} \;
->> +    find $GCDA -name '*.gcno' -exec sh -c 'cp -d $0 '$TEMPDIR'/$0' {} \;
->> +    tar czf $DEST -C $TEMPDIR sys
->> +    rm -rf $TEMPDIR
->> +
->> +    echo "$DEST successfully created, copy to build system and unpack with:"
->> +    echo "  tar xfz $DEST"
->> diff --git a/Documentation/translations/zh_CN/dev-tools/index.rst b/Documentation/translations/zh_CN/dev-tools/index.rst
->> new file mode 100644
->> index 000000000000..53e57a170440
->> --- /dev/null
->> +++ b/Documentation/translations/zh_CN/dev-tools/index.rst
->> @@ -0,0 +1,35 @@
->> +.. include:: ../disclaimer-zh_CN.rst
->> +
->> +:Original: Documentation/dev-tools/index.rst
->> +:Translator: 赵军奎 Bernard Zhao <bernard@vivo.com>
->> +
->> +============
->> +内核开发工具
->> +============
->> +
->> +本文档是有关内核开发工具文档的合集。
->> +目前这些文档已经整理在一起，不需要再花费额外的精力。
->> +欢迎任何补丁。
->> +
->> +.. class:: toc-title
->> +
->> +	   目录
->> +
->> +.. toctree::
->> +   :maxdepth: 2
->> +
->> +   gcov
->> +
->> +Todolist:
->> +
->> + - coccinelle
->> + - sparse
->> + - kcov
->> + - kasan
->> + - ubsan
->> + - kmemleak
->> + - kcsan
->> + - gdb-kernel-debugging
->> + - kgdb
->> + - kselftest
->> + - kunit/index
->> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
->> index bc23f6171eca..fdc51aba9a73 100644
->> --- a/Documentation/translations/zh_CN/index.rst
->> +++ b/Documentation/translations/zh_CN/index.rst
->> @@ -18,6 +18,7 @@
->>
->>     admin-guide/index
->>     process/index
->> +   dev-tools/index
->>     kernel-hacking/index
->>     filesystems/index
->>     arm64/index
->>
->
->-- 
->You received this message because you are subscribed to the Google Groups "Clang Built Linux" group.
->To unsubscribe from this group and stop receiving emails from it, send an email to clang-built-linux+unsubscribe@googlegroups.com.
->To view this discussion on the web visit https://groups.google.com/d/msgid/clang-built-linux/69e5d111-a439-7000-ad5e-4e0f4dabe29f%40gmail.com.
+>=20
+> > > +=E5=8F=A6=E5=A4=96=EF=BC=8C=E5=B9=B6=E4=B8=8D=E6=98=AF=E6=89=80=E6=
+=9C=89=E7=9A=84=E6=9E=B6=E6=9E=84=E9=83=BD=E6=94=AF=E6=8C=81=E6=95=B4=E4=B8=
+=AA=E5=86=85=E6=A0=B8=E5=BC=80=E5=90=AF=E8=A6=86=E7=9B=96=E7=8E=87=E7=BB=9F=
+=E8=AE=A1=E3=80=82
+> > > +
+> > > +=E4=BB=A3=E7=A0=81=E8=BF=90=E8=A1=8C=E8=A6=86=E7=9B=96=E7=8E=87=E6=
+=95=B0=E6=8D=AE=E5=8F=AA=E5=9C=A8debugfs=E6=8C=82=E8=BD=BD=E5=AE=8C=E6=88=
+=90=E5=90=8E=E6=89=8D=E5=8F=AF=E4=BB=A5=E8=AE=BF=E9=97=AE::
+> > > +
+[...]
+> > > +
+> > > +=E7=BC=96=E8=AF=91=E6=9C=BA=E5=92=8C=E6=B5=8B=E8=AF=95=E6=9C=BA=E5=
+=88=86=E7=A6=BB
+> > > +------------------
+> > > +
+> > > +gcov=E7=9A=84=E5=86=85=E6=A0=B8=E5=88=86=E6=9E=90=E6=9E=B6=E6=9E=84=
+=E6=94=AF=E6=8C=81=E5=86=85=E6=A0=B8=E7=9A=84=E7=BC=96=E8=AF=91=E5=92=8C=E8=
+=BF=90=E8=A1=8C=E6=98=AF=E5=9C=A8=E5=90=8C=E4=B8=80=E5=8F=B0=E6=9C=BA=E5=99=
+=A8=E4=B8=8A=EF=BC=8C=E4=B9=9F=E5=8F=AF=E4=BB=A5=E7=BC=96=E8=AF=91=E5=92=8C=
+=E8=BF=90
+>=20
+> =E5=88=86=E6=9E=90 -> =E6=8F=92=E6=A1=A9
+
+Done.
+
+>=20
+> > > +=E8=A1=8C=E6=98=AF=E5=9C=A8=E4=B8=8D=E5=90=8C=E7=9A=84=E6=9C=BA=E5=
+=99=A8=E4=B8=8A=E3=80=82
+[...]
+
+Thanks!
+
+Wu
+
+--x+6KMIRAuhnl3hBn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAABCgAdFiEERbo3U5kJpaCtFl1PtlsoEiKCsIUFAmB30UgACgkQtlsoEiKC
+sIUQuAv/WQclSGZzklGXZclzUOK0rZT4FLVV9ds2zT2mpWoOvvBihx5QUBBXSvPT
+xaAkW3mJGNXqIYjr3jGxOWthdRrFD1HWFUaMoyW8mkg5qORscCZxU+lihMmlVp6B
+GKWmW6q3QF9eujSntudA8fpjrUVb0/jJOie0w+nV2fEcH1xjrNn3+vfZ1PnFSHyl
+7JE7bhy1Fsb4mBo1IIJ3G6eJvh7aHAKVLhDMW8vFW7IKiLmVtHkJ5v9osATwAMvo
+bLyFA3+u0CHqV3jaMv4GoSwcvfQMDLXlSaj9z4hfA7+3B04BPrj4yCc8sCi0rElX
+7OAs45RYMpArTXqxQhC2MnPmVqeHLIlOelveq6iyFx62otjdAMwckcQ+OoLJF8fF
+f4Y6Pccly1Y/PcqvJs8cKRFyHJ3R6+AqHvdwxKBOEd7/Tjuny82yEwOvd/aP1/0r
+kqpmZ/KCodPYYQtnnyDvrOTd5sXcpXReymmxXAoU7bbanUI3/UWIos/nutSJFXbt
+jvTOqams
+=FIbD
+-----END PGP SIGNATURE-----
+
+--x+6KMIRAuhnl3hBn--
+
