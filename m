@@ -6,24 +6,24 @@ X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
 	USER_AGENT_SANE_2 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8A64C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 13:49:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0A9DC433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 13:50:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 85DA0613C1
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 13:49:31 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 9AF78613C7
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 13:50:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231391AbhDONtw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 09:49:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50754 "EHLO mail.kernel.org"
+        id S233034AbhDONu7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 09:50:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51064 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232004AbhDONtt (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Apr 2021 09:49:49 -0400
+        id S231549AbhDONu7 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Apr 2021 09:50:59 -0400
 Received: from gandalf.local.home (cpe-66-24-58-225.stny.res.rr.com [66.24.58.225])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B71FF613BA;
-        Thu, 15 Apr 2021 13:49:25 +0000 (UTC)
-Date:   Thu, 15 Apr 2021 09:49:24 -0400
+        by mail.kernel.org (Postfix) with ESMTPSA id A4BB9613C0;
+        Thu, 15 Apr 2021 13:50:33 +0000 (UTC)
+Date:   Thu, 15 Apr 2021 09:50:32 -0400
 From:   Steven Rostedt <rostedt@goodmis.org>
 To:     Daniel Bristot de Oliveira <bristot@redhat.com>
 Cc:     linux-kernel@vger.kernel.org, kcarcia@redhat.com,
@@ -35,14 +35,13 @@ Cc:     linux-kernel@vger.kernel.org, kcarcia@redhat.com,
         Clark Willaims <williams@redhat.com>,
         John Kacur <jkacur@redhat.com>,
         Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 1/5] tracing/hwlat: Add a cpus file specific for
- hwlat_detector
-Message-ID: <20210415094924.473a98df@gandalf.local.home>
-In-Reply-To: <e5547e9a-d3d8-2cd1-7cb9-e567c798e78d@redhat.com>
+Subject: Re: [RFC PATCH 2/5] tracing/hwlat: Implement the mode config option
+Message-ID: <20210415095032.7d98d474@gandalf.local.home>
+In-Reply-To: <882d85c1-5bd9-f68d-3861-f7bdf0cc0992@redhat.com>
 References: <cover.1617889883.git.bristot@redhat.com>
-        <94bbcd0e0f06b79aeb775e8dbf3a301f6679bb4c.1617889883.git.bristot@redhat.com>
-        <20210414101019.7c5a66f6@gandalf.local.home>
-        <e5547e9a-d3d8-2cd1-7cb9-e567c798e78d@redhat.com>
+        <c6b6ac9274e417b650c7aa9494bcf4f6ca0a1097.1617889883.git.bristot@redhat.com>
+        <20210414103029.7c48b76e@gandalf.local.home>
+        <882d85c1-5bd9-f68d-3861-f7bdf0cc0992@redhat.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -51,50 +50,15 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, 15 Apr 2021 15:09:50 +0200
+On Thu, 15 Apr 2021 15:16:04 +0200
 Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
 
-> But for the osnoise tracer the cpus file is really useful. For instance, on a 
-> system with the CPU 7 isolated:
-> 
-> ----- %< -----
->  # echo 7 > osnoise/cpus
->  # echo target_cpu == 7 > events/sched/sched_wakeup/filter 
->  # echo stacktrace if target_cpu == 7 > events/sched/sched_wakeup/trigger
->  # echo 1 > events/sched/sched_wakeup/enable
->  # echo osnoise:thread_noise > set_event 
->  # echo osnoise > current_tracer
->  # cat trace 
->     [find...]
->      kworker/0:1-7       [000] d..5  1820.717780: <stack trace>
->  => trace_event_raw_event_sched_wakeup_template
->  => __traceiter_sched_wakeup
->  => ttwu_do_wakeup
->  => try_to_wake_up
->  => __queue_work
->  => queue_delayed_work_on
->  => vmstat_shepherd
->  => process_one_work
->  => worker_thread
->  => kthread
->  => ret_from_fork  
->      kworker/7:1-410     [007] d..3  1820.717790: thread_noise: kworker/7:1:410 start 1820.717786519 duration 3626 ns
->        osnoise/7-1000    [007] ....  1821.582340: 1000000         90  99.99100      15      1      0     12      6      1
-> ----- >% -----  
-> 
-> It was possible to easily find that the '1' thread noise was a kworker,
-> dispatched from CPU 0, and that it was dispatched by "vmstat_shepherd".
-> 
-> Also, the osnoise dir is not added to a new instance... so, it only
-> costs "one" file...
+> That was my initial intention with the NONE mode, but I feared breaking
+> something by removing the "migrate_disable" logic. If you do not think it is
+> a problem, I will remove the migrate disable and just change the mode.
 
-Every file counts. ;-)
+Yes, just change it.
 
-What you did not articulate well, is that you want the other trace points
-to be traced on all CPUs (maybe) when the osnoise threads are on a few (or
-vice versa).
-
-OK, for osnoise, I can see how it is useful. But as you said above, for
-hwlat tracer, it's not as useful.
+Thanks,
 
 -- Steve
