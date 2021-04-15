@@ -2,75 +2,233 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-11.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC70C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:06:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEB20C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:15:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B6FC0610FB
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:06:42 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 95DBE61139
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:15:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234735AbhDOWHF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 18:07:05 -0400
-Received: from ms.lwn.net ([45.79.88.28]:59254 "EHLO ms.lwn.net"
+        id S235173AbhDOWP5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 18:15:57 -0400
+Received: from mga14.intel.com ([192.55.52.115]:22365 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234654AbhDOWHF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Apr 2021 18:07:05 -0400
-Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id 83C94304D;
-        Thu, 15 Apr 2021 22:06:41 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 83C94304D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1618524401; bh=WuuucvL2Pttw87eRa95FTdaE2LiUVf/8Gkb0QPKl3AY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=TxeW11wiAYrtabRfjYxNS15XCTEaJ+VTOhQyBs4rCeE0jQzuIOxiaaMXpVe/MjNsA
-         ZubY7YfvH04UioRuugh+voOIbCTDGEmp+oCS1o12IfwO9EJJYnMTTeyHOw0JBrKJNp
-         c1MzFGAtvxFBUeE22DH8hnvxDnt4YgF+H/3foE6J4KsGlb5Mkau9uMB827pyMj3XDH
-         TETh9eAfhlh0tfy4QvoU3lioa7aVDNX6guTnKwe9ucCneSoIBUObEEmkiI3evBvKBf
-         zvtGJgYEGge4AdweSzDnk7IvSUES3FyOtcS4Pjwlrz6BLZvHzXT7rjxqz50AFSBk7v
-         tYDL+8lh4H1tg==
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     linux-doc@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@s-opensource.com>
-Subject: [PATCH] docs: sphinx-pre-install: don't barf on beta Sphinx releases
-Date:   Thu, 15 Apr 2021 16:06:41 -0600
-Message-ID: <87tuo7gq32.fsf@meer.lwn.net>
+        id S235086AbhDOWP4 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Apr 2021 18:15:56 -0400
+IronPort-SDR: JELECdd0dOmfPWb2j/CNSvlxTaIcp2KG8iclu4R6OniUqS4OTGRSqFsAHtuj40yOM9I38sleTl
+ sDpgemVxO1+A==
+X-IronPort-AV: E=McAfee;i="6200,9189,9955"; a="194513314"
+X-IronPort-AV: E=Sophos;i="5.82,225,1613462400"; 
+   d="scan'208";a="194513314"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2021 15:15:33 -0700
+IronPort-SDR: z23KPKPERcNC+yqUJvMYuFwzn/9eHC9Dk3KllVv2jej2nSsk8IZGYsjqjd/ltt1Yh3ec5+6CbV
+ w6H80P+sxNKA==
+X-IronPort-AV: E=Sophos;i="5.82,225,1613462400"; 
+   d="scan'208";a="451270856"
+Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2021 15:15:32 -0700
+From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
+To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-arch@vger.kernel.org, linux-api@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Balbir Singh <bsingharora@gmail.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Cyrill Gorcunov <gorcunov@gmail.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Eugene Syromiatnikov <esyr@redhat.com>,
+        Florian Weimer <fweimer@redhat.com>,
+        "H.J. Lu" <hjl.tools@gmail.com>, Jann Horn <jannh@google.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kees Cook <keescook@chromium.org>,
+        Mike Kravetz <mike.kravetz@oracle.com>,
+        Nadav Amit <nadav.amit@gmail.com>,
+        Oleg Nesterov <oleg@redhat.com>, Pavel Machek <pavel@ucw.cz>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        "Ravi V. Shankar" <ravi.v.shankar@intel.com>,
+        Vedvyas Shanbhogue <vedvyas.shanbhogue@intel.com>,
+        Dave Martin <Dave.Martin@arm.com>,
+        Weijiang Yang <weijiang.yang@intel.com>,
+        Pengfei Xu <pengfei.xu@intel.com>,
+        Haitao Huang <haitao.huang@intel.com>
+Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
+Subject: [PATCH v25 00/30] Control-flow Enforcement: Shadow Stack
+Date:   Thu, 15 Apr 2021 15:13:49 -0700
+Message-Id: <20210415221419.31835-1-yu-cheng.yu@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-sphinx-pre-install is picky when it comes to parsing sphinx versions; it
-fails, killing the docs build, when run with sphinx 4.0.0b1.  Tweak the
-regex to tolerate a trailing "bN" on the version number.
+Control-flow Enforcement (CET) is a new Intel processor feature that blocks
+return/jump-oriented programming attacks.  Details are in "Intel 64 and
+IA-32 Architectures Software Developer's Manual" [1].
 
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
----
-The good news is that this appears to be the only thing that explodes
-with Sphinx 4.0...
+CET can protect applications and the kernel.  This series enables only
+application-level protection, and has three parts:
 
- scripts/sphinx-pre-install | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  - Shadow stack [2],
+  - Indirect branch tracking [3], and
+  - Selftests [4].
 
-diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-index b5f9fd5b2880..fe92020d67e3 100755
---- a/scripts/sphinx-pre-install
-+++ b/scripts/sphinx-pre-install
-@@ -259,7 +259,7 @@ sub get_sphinx_version($)
- 
- 	open IN, "$cmd --version 2>&1 |";
- 	while (<IN>) {
--		if (m/^\s*sphinx-build\s+([\d\.]+)(\+\/[\da-f]+)?$/) {
-+		if (m/^\s*sphinx-build\s+([\d\.]+)((\+\/[\da-f]+)|(b\d+))?$/) {
- 			$ver=$1;
- 			last;
- 		}
+I have run tests on these patches for quite some time, and they have been
+very stable.  Linux distributions with CET are available now, and Intel
+processors with CET are already on the market.  It would be nice if CET
+support can be accepted into the kernel.  I will be working to address any
+issues should they come up.
+
+Changes in v25:
+- Remove Kconfig X86_CET and software-defined feature flag X86_FEATURE_CET.
+  Use X86_SHADOW_STACK and X86_FEATURE_SHSTK directly.  Update related
+  areas accordingly.
+- Patch #16: Make same changes to do_huge_pmd_numa_page() as to
+  do_numa_page().
+- Patch #25: Update signal handling, use restorer address already
+  retrieved, update MSR restoring code.
+- Smaller changes are called out in each patch.
+- Rebase to Linus tree v5.12-rc7.
+
+[1] Intel 64 and IA-32 Architectures Software Developer's Manual:
+
+    https://software.intel.com/en-us/download/intel-64-and-ia-32-
+    architectures-sdm-combined-volumes-1-2a-2b-2c-2d-3a-3b-3c-3d-and-4
+
+[2] Shadow Stack patches v24:
+
+    https://lore.kernel.org/r/20210401221104.31584-1-yu-cheng.yu@intel.com/
+
+[3] Indirect Branch Tracking patches v24
+
+    https://lore.kernel.org/r/20210401221403.32253-1-yu-cheng.yu@intel.com/
+
+[4] I am holding off the selftests changes and working to get Reviewed-by's.
+    The earlier version of the selftests patches:
+
+    https://lkml.kernel.org/r/20200521211720.20236-1-yu-cheng.yu@intel.com/
+
+[5] The kernel ptrace patch is tested with an Intel-internal updated GDB.
+    I am holding off the kernel ptrace patch to re-test it with my earlier
+    patch for fixing regset holes.
+
+Yu-cheng Yu (30):
+  Documentation/x86: Add CET description
+  x86/cet/shstk: Add Kconfig option for Shadow Stack
+  x86/cpufeatures: Add CET CPU feature flags for Control-flow
+    Enforcement Technology (CET)
+  x86/cpufeatures: Introduce CPU setup and option parsing for CET
+  x86/fpu/xstate: Introduce CET MSR and XSAVES supervisor states
+  x86/cet: Add control-protection fault handler
+  x86/mm: Remove _PAGE_DIRTY from kernel RO pages
+  x86/mm: Move pmd_write(), pud_write() up in the file
+  x86/mm: Introduce _PAGE_COW
+  drm/i915/gvt: Change _PAGE_DIRTY to _PAGE_DIRTY_BITS
+  x86/mm: Update pte_modify for _PAGE_COW
+  x86/mm: Update ptep_set_wrprotect() and pmdp_set_wrprotect() for
+    transition from _PAGE_DIRTY to _PAGE_COW
+  mm: Introduce VM_SHADOW_STACK for shadow stack memory
+  x86/mm: Shadow Stack page fault error checking
+  x86/mm: Update maybe_mkwrite() for shadow stack
+  mm: Fixup places that call pte_mkwrite() directly
+  mm: Add guard pages around a shadow stack.
+  mm/mmap: Add shadow stack pages to memory accounting
+  mm: Update can_follow_write_pte() for shadow stack
+  mm/mprotect: Exclude shadow stack from preserve_write
+  mm: Re-introduce vm_flags to do_mmap()
+  x86/cet/shstk: Add user-mode shadow stack support
+  x86/cet/shstk: Handle thread shadow stack
+  x86/cet/shstk: Introduce shadow stack token setup/verify routines
+  x86/cet/shstk: Handle signals for shadow stack
+  ELF: Introduce arch_setup_elf_property()
+  x86/cet/shstk: Add arch_prctl functions for shadow stack
+  mm: Move arch_calc_vm_prot_bits() to arch/x86/include/asm/mman.h
+  mm: Update arch_validate_flags() to include vma anonymous
+  mm: Introduce PROT_SHSTK for shadow stack
+
+ .../admin-guide/kernel-parameters.txt         |   6 +
+ Documentation/filesystems/proc.rst            |   1 +
+ Documentation/x86/index.rst                   |   1 +
+ Documentation/x86/intel_cet.rst               | 136 ++++++++
+ arch/arm64/include/asm/elf.h                  |   5 +
+ arch/arm64/include/asm/mman.h                 |   4 +-
+ arch/sparc/include/asm/mman.h                 |   4 +-
+ arch/x86/Kconfig                              |  24 ++
+ arch/x86/Kconfig.assembler                    |   5 +
+ arch/x86/ia32/ia32_signal.c                   |  24 +-
+ arch/x86/include/asm/cet.h                    |  52 +++
+ arch/x86/include/asm/cpufeatures.h            |   2 +
+ arch/x86/include/asm/disabled-features.h      |   8 +-
+ arch/x86/include/asm/elf.h                    |  13 +
+ arch/x86/include/asm/fpu/internal.h           |   2 +
+ arch/x86/include/asm/fpu/types.h              |  23 +-
+ arch/x86/include/asm/fpu/xstate.h             |   6 +-
+ arch/x86/include/asm/idtentry.h               |   4 +
+ arch/x86/include/asm/mman.h                   |  87 +++++
+ arch/x86/include/asm/mmu_context.h            |   3 +
+ arch/x86/include/asm/msr-index.h              |  19 ++
+ arch/x86/include/asm/page_types.h             |   7 +
+ arch/x86/include/asm/pgtable.h                | 299 +++++++++++++++--
+ arch/x86/include/asm/pgtable_types.h          |  48 ++-
+ arch/x86/include/asm/processor.h              |   5 +
+ arch/x86/include/asm/special_insns.h          |  32 ++
+ arch/x86/include/asm/trap_pf.h                |   2 +
+ arch/x86/include/uapi/asm/mman.h              |  28 +-
+ arch/x86/include/uapi/asm/prctl.h             |   4 +
+ arch/x86/include/uapi/asm/processor-flags.h   |   2 +
+ arch/x86/include/uapi/asm/sigcontext.h        |   9 +
+ arch/x86/kernel/Makefile                      |   2 +
+ arch/x86/kernel/cet_prctl.c                   |  60 ++++
+ arch/x86/kernel/cpu/common.c                  |  14 +
+ arch/x86/kernel/cpu/cpuid-deps.c              |   2 +
+ arch/x86/kernel/fpu/signal.c                  | 137 +++++++-
+ arch/x86/kernel/fpu/xstate.c                  |  10 +-
+ arch/x86/kernel/idt.c                         |   4 +
+ arch/x86/kernel/process.c                     |  21 +-
+ arch/x86/kernel/process_64.c                  |  32 ++
+ arch/x86/kernel/shstk.c                       | 304 ++++++++++++++++++
+ arch/x86/kernel/signal.c                      |   9 +
+ arch/x86/kernel/signal_compat.c               |   2 +-
+ arch/x86/kernel/traps.c                       |  63 ++++
+ arch/x86/mm/fault.c                           |  19 ++
+ arch/x86/mm/mmap.c                            |  47 +++
+ arch/x86/mm/pat/set_memory.c                  |   2 +-
+ arch/x86/mm/pgtable.c                         |  25 ++
+ drivers/gpu/drm/i915/gvt/gtt.c                |   2 +-
+ fs/aio.c                                      |   2 +-
+ fs/binfmt_elf.c                               |   4 +
+ fs/proc/task_mmu.c                            |   3 +
+ include/linux/elf.h                           |   6 +
+ include/linux/mm.h                            |  18 +-
+ include/linux/mman.h                          |   2 +-
+ include/linux/pgtable.h                       |   9 +
+ include/uapi/asm-generic/siginfo.h            |   3 +-
+ include/uapi/linux/elf.h                      |   9 +
+ ipc/shm.c                                     |   2 +-
+ mm/gup.c                                      |  16 +-
+ mm/huge_memory.c                              |  27 +-
+ mm/memory.c                                   |   5 +-
+ mm/migrate.c                                  |   3 +-
+ mm/mmap.c                                     |  17 +-
+ mm/mprotect.c                                 |  11 +-
+ mm/nommu.c                                    |   4 +-
+ mm/util.c                                     |   2 +-
+ 67 files changed, 1644 insertions(+), 119 deletions(-)
+ create mode 100644 Documentation/x86/intel_cet.rst
+ create mode 100644 arch/x86/include/asm/cet.h
+ create mode 100644 arch/x86/include/asm/mman.h
+ create mode 100644 arch/x86/kernel/cet_prctl.c
+ create mode 100644 arch/x86/kernel/shstk.c
+
 -- 
-2.30.2
+2.21.0
 
