@@ -7,111 +7,70 @@ X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96982C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 21:29:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DDC70C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:06:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D0F060FDB
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 21:29:50 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B6FC0610FB
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:06:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235892AbhDOVaN (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 17:30:13 -0400
-Received: from ms.lwn.net ([45.79.88.28]:58784 "EHLO ms.lwn.net"
+        id S234735AbhDOWHF (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 18:07:05 -0400
+Received: from ms.lwn.net ([45.79.88.28]:59254 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S235835AbhDOVaM (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Apr 2021 17:30:12 -0400
+        id S234654AbhDOWHF (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Apr 2021 18:07:05 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id AE58180F;
-        Thu, 15 Apr 2021 21:29:48 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AE58180F
+        by ms.lwn.net (Postfix) with ESMTPSA id 83C94304D;
+        Thu, 15 Apr 2021 22:06:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 83C94304D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1618522188; bh=t67+k546gBIsT9XMy+RiKFoHmpRAnf+zrnYpN23A658=;
-        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=qCgLddaaKzlYEgUW7CqQ/6SBb65eOp9XNBTVKE1iVE6xxFvFni03RbE4P4n3TiuRy
-         QUTdLo0nyU0cJaI7G+VZy29Io1laPGte88fA/Zr+D3fSV9er440lMD5plm3R0riP0L
-         5LFCzft7q0Ww86FmO+nEGUdo8aEdbWZ/rE/JcanuIlAhVvmcBn6/HS4sfzp96jOB6B
-         H9RFGNFcmPwO7OFeZVb5s5ULsc9eZ3wDpqdabjIr6V4/J4K+sC7uMyxrC/2QMtm1xZ
-         +CR4tNzlZgsfoaLKrGmM6xVj3cX9m5TOUxqGd7QL7Xtbhd81cMSitd4OFuH+hmco5n
-         307Z1ytvm8BHQ==
+        t=1618524401; bh=WuuucvL2Pttw87eRa95FTdaE2LiUVf/8Gkb0QPKl3AY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=TxeW11wiAYrtabRfjYxNS15XCTEaJ+VTOhQyBs4rCeE0jQzuIOxiaaMXpVe/MjNsA
+         ZubY7YfvH04UioRuugh+voOIbCTDGEmp+oCS1o12IfwO9EJJYnMTTeyHOw0JBrKJNp
+         c1MzFGAtvxFBUeE22DH8hnvxDnt4YgF+H/3foE6J4KsGlb5Mkau9uMB827pyMj3XDH
+         TETh9eAfhlh0tfy4QvoU3lioa7aVDNX6guTnKwe9ucCneSoIBUObEEmkiI3evBvKBf
+         zvtGJgYEGge4AdweSzDnk7IvSUES3FyOtcS4Pjwlrz6BLZvHzXT7rjxqz50AFSBk7v
+         tYDL+8lh4H1tg==
 From:   Jonathan Corbet <corbet@lwn.net>
-To:     Aditya Srivastava <yashsri421@gmail.com>
-Cc:     yashsri421@gmail.com, lukas.bulwahn@gmail.com,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC] scripts: kernel-doc: improve parsing for kernel-doc
- comments syntax
-In-Reply-To: <20210414192529.9080-1-yashsri421@gmail.com>
-References: <20210414192529.9080-1-yashsri421@gmail.com>
-Date:   Thu, 15 Apr 2021 15:29:47 -0600
-Message-ID: <87y2djgrsk.fsf@meer.lwn.net>
+To:     linux-doc@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@s-opensource.com>
+Subject: [PATCH] docs: sphinx-pre-install: don't barf on beta Sphinx releases
+Date:   Thu, 15 Apr 2021 16:06:41 -0600
+Message-ID: <87tuo7gq32.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Aditya Srivastava <yashsri421@gmail.com> writes:
+sphinx-pre-install is picky when it comes to parsing sphinx versions; it
+fails, killing the docs build, when run with sphinx 4.0.0b1.  Tweak the
+regex to tolerate a trailing "bN" on the version number.
 
-> Currently kernel-doc does not identify some cases of probable kernel
-> doc comments, for e.g. pointer used as declaration type for identifier,
-> space separated identifier, etc.
->
-> Some example of these cases in files can be:
-> i)" *  journal_t * jbd2_journal_init_dev() - creates and initialises a journal structure"
-> in fs/jbd2/journal.c
->
-> ii) "*      dget, dget_dlock -      get a reference to a dentry" in
-> include/linux/dcache.h
->
-> iii) "  * DEFINE_SEQLOCK(sl) - Define a statically allocated seqlock_t"
-> in include/linux/seqlock.h
->
-> Also improve identification for non-kerneldoc comments. For e.g.,
->
-> i) " *	The following functions allow us to read data using a swap map"
-> in kernel/power/swap.c does follow the kernel-doc like syntax, but the
-> content inside does not adheres to the expected format.
->
-> Improve parsing by adding support for these probable attempts to write
-> kernel-doc comment.
->
-> Suggested-by: Jonathan Corbet <corbet@lwn.net>
-> Link: https://lore.kernel.org/lkml/87mtujktl2.fsf@meer.lwn.net
-> Signed-off-by: Aditya Srivastava <yashsri421@gmail.com>
-> ---
->  scripts/kernel-doc | 16 ++++++++++++----
->  1 file changed, 12 insertions(+), 4 deletions(-)
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+The good news is that this appears to be the only thing that explodes
+with Sphinx 4.0...
 
-OK, I've applied this, but I have a couple of comments...
+ scripts/sphinx-pre-install | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-> index 888913528185..37665aa41e6b 100755
-> --- a/scripts/kernel-doc
-> +++ b/scripts/kernel-doc
-> @@ -2110,17 +2110,25 @@ sub process_name($$) {
->      } elsif (/$doc_decl/o) {
->  	$identifier = $1;
->  	my $is_kernel_comment = 0;
-> -	if (/^\s*\*\s*([\w\s]+?)(\(\))?\s*([-:].*)?$/) {
-> +	my $decl_start = qr{\s*\*};
-
-I appreciate the attempt to make the regexes a bit more comprehensible,
-but we can do better yet, methinks.  This $decl_start is very much like
-$doc_com defined globally.
-
-It would really help a lot if we could at least take the incredible mass
-of regexes in this program and boil them down to a smaller, unique set
-that is used throughout.  kernel-doc might still make brains explode,
-but perhaps the blast radius would be a bit smaller.
-
-> +	my $fn_type = qr{\w+\s*\*\s*}; # i.e. pointer declaration type, foo * bar() - desc
-
-Some of the lines in this change go waaaaay beyond the 80-character
-limit; please try not to do that.  I fixed up the offending comments
-this time around.
-
-Thanks,
-
-jon
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index b5f9fd5b2880..fe92020d67e3 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -259,7 +259,7 @@ sub get_sphinx_version($)
+ 
+ 	open IN, "$cmd --version 2>&1 |";
+ 	while (<IN>) {
+-		if (m/^\s*sphinx-build\s+([\d\.]+)(\+\/[\da-f]+)?$/) {
++		if (m/^\s*sphinx-build\s+([\d\.]+)((\+\/[\da-f]+)|(b\d+))?$/) {
+ 			$ver=$1;
+ 			last;
+ 		}
+-- 
+2.30.2
 
