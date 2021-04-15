@@ -2,26 +2,26 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
+X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT,
-	WEIRD_QUOTING autolearn=ham autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FCFBC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 06:35:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3375BC433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 06:35:31 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 4367B610E6
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 06:35:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 176D561132
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 06:35:31 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230095AbhDOGfw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S230124AbhDOGfw (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 15 Apr 2021 02:35:52 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:57730 "EHLO loongson.cn"
+Received: from mail.loongson.cn ([114.242.206.163]:57742 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229731AbhDOGfv (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Apr 2021 02:35:51 -0400
+        id S230153AbhDOGfw (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Apr 2021 02:35:52 -0400
 Received: from localhost.localdomain (unknown [223.106.57.161])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr++j3ndgUzIIAA--.1230S6;
-        Thu, 15 Apr 2021 14:35:22 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9Dxr++j3ndgUzIIAA--.1230S7;
+        Thu, 15 Apr 2021 14:35:24 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
@@ -31,98 +31,71 @@ Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
         realpuyuwang@gmail.com, siyanteng01@gmail.com,
         Wu XiangCheng <bobwxc@email.cn>,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v5 4/7] docs/zh_CN: add core-api irq irqflags-tracing.rst translation
-Date:   Thu, 15 Apr 2021 14:35:54 +0800
-Message-Id: <20210415063557.2341258-5-siyanteng@loongson.cn>
+Subject: [PATCH v5 5/7] docs/zh_CN: add core-api irq index.rst translation
+Date:   Thu, 15 Apr 2021 14:35:55 +0800
+Message-Id: <20210415063557.2341258-6-siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210415063557.2341258-1-siyanteng@loongson.cn>
 References: <20210415063557.2341258-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9Dxr++j3ndgUzIIAA--.1230S6
-X-Coremail-Antispam: 1UD129KBjvJXoWxury5Xr43JFy7Ary8Zw1rXrb_yoWrJryfpF
-        Wv9a4fWa1fArWUZrWxur48Aw4rGF18WFZ7Aan7J3Z3XF95Jayjyr48KFn0yF1fuFy8A3yU
-        tFs3ArWF9Fy5AFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUPI14x267AKxVWrJVCq3wAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_JF0E3s1l82xGYI
-        kIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2
-        z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F
-        4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE
-        3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2I
-        x0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8
-        JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2
-        ka0xkIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
-        67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
-        IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
-        14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr
-        0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQ
-        SdkUUUUU=
+X-CM-TRANSID: AQAAf9Dxr++j3ndgUzIIAA--.1230S7
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jw15CF4kJFWfurW8Gw15Jwb_yoWDWFb_CF
+        n3JFW0kr4jyF1xJFWrZF1UJr1I9F4Fkwn2kF15ta98u34YkrsrGryDXF93ZF4UWa9xursx
+        CFZrur1fXrnFgjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbqxFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+        6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI8067AKxVWUAVCq3wA2048vs2
+        IY020Ec7CjxVAFwI0_Xr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28E
+        F7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr
+        1UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq
+        3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7
+        IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4U
+        M4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2
+        kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+        14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+        kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAF
+        wI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JV
+        WxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa7VUbmZ
+        X7UUUUU==
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This patch translates Documentation/core-api/irq/irqflags-tracing.rst into Chinese.
+This patch translates Documentation/core-api/irq/index.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
 Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
 ---
- .../zh_CN/core-api/irq/irqflags-tracing.rst   | 45 +++++++++++++++++++
- 1 file changed, 45 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst
+ .../translations/zh_CN/core-api/irq/index.rst | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/core-api/irq/index.rst
 
-diff --git a/Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst b/Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst
+diff --git a/Documentation/translations/zh_CN/core-api/irq/index.rst b/Documentation/translations/zh_CN/core-api/irq/index.rst
 new file mode 100644
-index 000000000000..c889bd0f65d9
+index 000000000000..910ccabf041f
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst
-@@ -0,0 +1,45 @@
++++ b/Documentation/translations/zh_CN/core-api/irq/index.rst
+@@ -0,0 +1,19 @@
 +.. include:: ../../disclaimer-zh_CN.rst
 +
-+:Original: :doc:`../../../../core-api/irq/irqflags-tracing`
++:Original: :doc:`../../../../core-api/irq/index`
 +:Translator: Yanteng Si <siyanteng@loongson.cn>
 +
-+.. _cn_irqflags-tracing.rst:
++.. _cn_irq_index.rst:
 +
 +
-+=================
-+IRQ-flags状态追踪
-+=================
++====
++IRQs
++====
 +
-+:Author: 最初由Ingo Molnar <mingo@redhat.com>开始撰写
++.. toctree::
++   :maxdepth: 1
 +
-+“irq-flags tracing”（中断标志追踪）功能可以 “追踪” hardirq和softirq的状态，它让
-+感兴趣的子系统有机会了解到到内核中发生的每一个
-+hardirqs-off/hardirqs-on、softirqs-off/softirqs-on事件。
-+
-+CONFIG_TRACE_IRQFLAGS_SUPPORT是通用锁调试代码提供的CONFIG_PROVE_SPIN_LOCKING
-+和CONFIG_PROVE_RW_LOCKING所需要的。否则将只有CONFIG_PROVE_MUTEX_LOCKING和
-+CONFIG_PROVE_RWSEM_LOCKING在一个架构上被提供--这些都是不在IRQ上下文中使用的
-+锁API。（rwsems的一个异常是可以解决的）
-+
-+架构对这一点的支持当然不属于“微不足道”的范畴，因为很多低级的汇编代码都要处理irq-flags
-+的状态变化。但是一个架构可以以一种相当直接且无风险的方式启用irq-flags-tracing。
-+
-+架构如果想支持这个，需要先做一些代码组织上的改变:
-+
-+- 在他们的arch级Kconfig文件中添加并启用TRACE_IRQFLAGS_SUPPORT。
-+
-+然后还需要做一些功能上的改变来实现对irq-flags-tracing的支持:
-+
-+- 在低级入口代码中增加（构建条件）对trace_hardirqs_off()/trace_hardirqs_on()
-+  函数的调用。锁验证器会密切关注 “real”的irq-flags是否与 “virtual”的irq-flags
-+  状态相匹配，如果两者不匹配，则会发出警告（并关闭自己）。通常维护arch中
-+  irq-flags-track的大部分时间都是在这种状态下度过的：看看lockdep的警告，试着
-+  找出我们还没有搞定的汇编代码。修复并重复。一旦系统启动，并且在irq-flags跟踪功
-+  能中没有出现lockdep警告的情况下，arch支持就完成了。
-+
-+- 如果该架构有不可屏蔽的中断，那么需要通过lockdep_off()/lockdep_on()将这些中
-+  断从irq跟踪[和锁验证]机制中排除。
-+
-+ 一般来说，在一个架构中，不完整的irq-flags-tracing实现是没有风险的：lockdep
-+ 会检测到这一点，并将自己关闭。即锁验证器仍然可靠。应该不会因为irq-tracing的错
-+ 误而崩溃。（除非通过修改不该修改的条件来更改汇编或寄存器而破坏其他代码）
++   concepts
++   irq-affinity
++   irq-domain
++   irqflags-tracing
 -- 
 2.27.0
 
