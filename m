@@ -7,31 +7,31 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_GIT
 	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E398C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:19:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C18AC43600
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:19:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 15A2D610FB
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:19:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 72A8261139
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 22:19:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236939AbhDOWTv (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 18:19:51 -0400
-Received: from mga07.intel.com ([134.134.136.100]:58096 "EHLO mga07.intel.com"
+        id S237387AbhDOWUA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 18:20:00 -0400
+Received: from mga07.intel.com ([134.134.136.100]:58105 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237002AbhDOWTQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Apr 2021 18:19:16 -0400
-IronPort-SDR: aBNOtxMQ7cAB4yCE90svZMQp3r6Ywb2mA6eeulcbyFk8usy2Tqtgdf1Fz2khbbDPnRK9gIX3hP
- Fuj7YnIyeDRg==
-X-IronPort-AV: E=McAfee;i="6200,9189,9955"; a="258913083"
+        id S237465AbhDOWTV (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Apr 2021 18:19:21 -0400
+IronPort-SDR: Ij9Wqj5WqliQrmkyvRbsLsscbjb4DJdieaKZHz9qIhrM1KnHHA5byZK29uczRVqliiKN7aIFOs
+ X6tsSVML1HWw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9955"; a="258913090"
 X-IronPort-AV: E=Sophos;i="5.82,225,1613462400"; 
-   d="scan'208";a="258913083"
+   d="scan'208";a="258913090"
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2021 15:17:48 -0700
-IronPort-SDR: sxRUauhQwWKdUbVVbKjBmG1y1kmiooVzuXabxVkyUG7KgTUg7obu1AQVslzgFc1QUe3+AdqvF3
- eEEPAdmtkP0w==
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2021 15:17:50 -0700
+IronPort-SDR: 3Dy8CfCb3Af3VPSu4C8zupswQPc5tBfhVEegbrJ3OzPYmVWUKAckWO+3E9rXuv2A8chZy73pyJ
+ lV7S2lARV/lw==
 X-IronPort-AV: E=Sophos;i="5.82,225,1613462400"; 
-   d="scan'208";a="399720980"
+   d="scan'208";a="399720991"
 Received: from yyu32-desk.sc.intel.com ([143.183.136.146])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2021 15:17:48 -0700
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2021 15:17:49 -0700
 From:   Yu-cheng Yu <yu-cheng.yu@intel.com>
 To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Thomas Gleixner <tglx@linutronix.de>,
@@ -61,9 +61,9 @@ To:     x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
         Pengfei Xu <pengfei.xu@intel.com>,
         Haitao Huang <haitao.huang@intel.com>
 Cc:     Yu-cheng Yu <yu-cheng.yu@intel.com>
-Subject: [PATCH v25 6/9] x86/vdso: Insert endbr32/endbr64 to vDSO
-Date:   Thu, 15 Apr 2021 15:17:31 -0700
-Message-Id: <20210415221734.32628-7-yu-cheng.yu@intel.com>
+Subject: [PATCH v25 8/9] x86/vdso/32: Add ENDBR to __kernel_vsyscall entry point
+Date:   Thu, 15 Apr 2021 15:17:33 -0700
+Message-Id: <20210415221734.32628-9-yu-cheng.yu@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20210415221734.32628-1-yu-cheng.yu@intel.com>
 References: <20210415221734.32628-1-yu-cheng.yu@intel.com>
@@ -75,38 +75,45 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 From: "H.J. Lu" <hjl.tools@gmail.com>
 
-When Indirect Branch Tracking (IBT) is enabled, vDSO functions may be
-called indirectly, and must have ENDBR32 or ENDBR64 as the first
-instruction.  The compiler must support -fcf-protection=branch so that it
-can be used to compile vDSO.
+ENDBR is a special new instruction for the Indirect Branch Tracking (IBT)
+component of CET.  IBT prevents attacks by ensuring that (most) indirect
+branches and function calls may only land at ENDBR instructions.  Branches
+that don't follow the rules will result in control flow (#CF) exceptions.
+
+ENDBR is a noop when IBT is unsupported or disabled.  Most ENDBR
+instructions are inserted automatically by the compiler, but branch
+targets written in assembly must have ENDBR added manually.
+
+Add that to __kernel_vsyscall entry point.
 
 Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
 Signed-off-by: Yu-cheng Yu <yu-cheng.yu@intel.com>
 Cc: Andy Lutomirski <luto@kernel.org>
 Cc: Kees Cook <keescook@chromium.org>
 ---
-v24:
-- Replace CONFIG_X86_CET with CONFIG_X86_IBT to reflect splitting of shadow
-  stack and ibt.
+ arch/x86/entry/vdso/vdso32/system_call.S | 2 ++
+ 1 file changed, 2 insertions(+)
 
- arch/x86/entry/vdso/Makefile | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/arch/x86/entry/vdso/Makefile b/arch/x86/entry/vdso/Makefile
-index 05c4abc2fdfd..a773a5f03b63 100644
---- a/arch/x86/entry/vdso/Makefile
-+++ b/arch/x86/entry/vdso/Makefile
-@@ -93,6 +93,10 @@ endif
+diff --git a/arch/x86/entry/vdso/vdso32/system_call.S b/arch/x86/entry/vdso/vdso32/system_call.S
+index de1fff7188aa..7793dc221726 100644
+--- a/arch/x86/entry/vdso/vdso32/system_call.S
++++ b/arch/x86/entry/vdso/vdso32/system_call.S
+@@ -7,6 +7,7 @@
+ #include <asm/dwarf2.h>
+ #include <asm/cpufeatures.h>
+ #include <asm/alternative-asm.h>
++#include <asm/vdso.h>
  
- $(vobjs): KBUILD_CFLAGS := $(filter-out $(CC_FLAGS_LTO) $(GCC_PLUGINS_CFLAGS) $(RETPOLINE_CFLAGS),$(KBUILD_CFLAGS)) $(CFL)
- 
-+ifdef CONFIG_X86_IBT
-+$(vobjs) $(vobjs32): KBUILD_CFLAGS += -fcf-protection=branch
-+endif
-+
- #
- # vDSO code runs in userspace and -pg doesn't help with profiling anyway.
- #
+ 	.text
+ 	.globl __kernel_vsyscall
+@@ -14,6 +15,7 @@
+ 	ALIGN
+ __kernel_vsyscall:
+ 	CFI_STARTPROC
++	ENDBR32
+ 	/*
+ 	 * Reshuffle regs so that all of any of the entry instructions
+ 	 * will preserve enough state.
 -- 
 2.21.0
 
