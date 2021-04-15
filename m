@@ -2,46 +2,51 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5DE9C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 20:54:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 535D7C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 21:00:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7271061166
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 20:54:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 10DF961153
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 21:00:38 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234894AbhDOUzD (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 16:55:03 -0400
-Received: from ms.lwn.net ([45.79.88.28]:58432 "EHLO ms.lwn.net"
+        id S235539AbhDOVBA (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 17:01:00 -0400
+Received: from ms.lwn.net ([45.79.88.28]:58512 "EHLO ms.lwn.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234879AbhDOUzD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Apr 2021 16:55:03 -0400
+        id S235150AbhDOVBA (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Apr 2021 17:01:00 -0400
 Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id D0F0680F;
-        Thu, 15 Apr 2021 20:54:39 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D0F0680F
+        by ms.lwn.net (Postfix) with ESMTPSA id DE32580F;
+        Thu, 15 Apr 2021 21:00:36 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DE32580F
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1618520080; bh=Hb6qdecxJk4fd7tCiWQ1NkAwMFtoKzrHaK/EvhBRwvI=;
+        t=1618520437; bh=2+CbRqv7ZlMu8naopkm6fMmoTFHR31mRq856qSvT7ZU=;
         h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-        b=QnMra4IMFdqDevemikE7OQswJ+jsIoE0/ulmmYMDIWSrl4H3OxnwF9LfQ54xdf6yX
-         mvABMbkc0xbhv8Emi4/4imFV68IsMor61MdxkCtXWQX3w3YSqscCbLqbC5bSRaPSgI
-         yIQAg+KO7L6+6GPnuW3JPaCcMlE7HneAm4jer1FOUthvWTubf0pEZpe3x6HixITILF
-         Vckc26D3qU4QCFnwXZmw6oznntegKPwj8mHwseWH5n05VlH9ud+AKYQQxBfbiJQEGy
-         w32IYSkB84GL0oGtXpgFy0P9aZfzzqGog0KoArbCIfaxRhaMgartzP0hfxNp79WaLs
-         d/9L8ff3yr2dQ==
+        b=RclVygl+v6fqaVf6vYW9hHwIBsFBdMBsvx3vPHTqEk9Lx05Ra9EWYrh0oO35Crk9c
+         82BCWpa163fU3ShVC1sf/sbA6d2wLn+o0Zi/amPDIBoYVctNX5zWzYcy7lTyZT1VZE
+         +UZu9AowboURV8/QinqKc9ZNQmWWA/FtRvjJzMXfiMbCYZQe+EmsrHmM/g3oC06Y0d
+         huVVEwtwYdEU1g/jua4PXXWPQYdXcJqY0IkhhRtJ1LoUWbM5Nv74kLhr76Jfz30OZM
+         Cpt6Bt3ZouvB9zUkS+Nky+sDX2ljCLRa5CUPCR07bC0IdJ89OBNnOivRepEe4K4d8i
+         O/6XEgYg2fVOw==
 From:   Jonathan Corbet <corbet@lwn.net>
 To:     Wu XiangCheng <bobwxc@email.cn>
-Cc:     Alex Shi <alexs@kernel.org>, linux-doc@vger.kernel.org
-Subject: Re: [docs-next PATCH] docs/zh_CN: two minor fixes in zh_CN/doc-guide/
-In-Reply-To: <20210414033435.GA27907@bobwxc.top>
-References: <20210414033435.GA27907@bobwxc.top>
-Date:   Thu, 15 Apr 2021 14:54:39 -0600
-Message-ID: <874kg7i7zk.fsf@meer.lwn.net>
+Cc:     Alex Shi <alexs@kernel.org>,
+        Federico Vaga <federico.vaga@vaga.pv.it>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Tsugikazu Shibata <tshibata@ab.jp.nec.com>,
+        SeongJae Park <sjpark@amazon.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC 0/2] Add a new translation tool scripts/trslt.py
+In-Reply-To: <cover.1618208899.git.bobwxc@email.cn>
+References: <cover.1618208899.git.bobwxc@email.cn>
+Date:   Thu, 15 Apr 2021 15:00:36 -0600
+Message-ID: <871rbbi7pn.fsf@meer.lwn.net>
 MIME-Version: 1.0
 Content-Type: text/plain
 Precedence: bulk
@@ -50,21 +55,47 @@ X-Mailing-List: linux-doc@vger.kernel.org
 
 Wu XiangCheng <bobwxc@email.cn> writes:
 
-> zh_CN/doc-guide/kernel-doc.rst
->   replace a ref tag to solve docs-next warning
+> Hi all,
 >
-> zh_CN/doc-guide/parse-headers.rst
->   fix an unperfect word
+> This set of patches aim to add a new translation tool - trslt.py, which
+> can control the transltions version corresponding to source files.
 >
-> Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-> ---
-> Rust part in doc-guide/kernel-doc.rst is from rust-next, I'll solve that 
-> tag there.
+> For a long time, kernel documentation translations lacks a way to control the
+> version corresponding to the source files. If you translate a file and then
+> someone updates the source file, there will be a problem. It's hard to know
+> which version the existing translation corresponds to, and even harder to sync
+> them. 
 >
->  Documentation/translations/zh_CN/doc-guide/kernel-doc.rst    | 3 +--
->  Documentation/translations/zh_CN/doc-guide/parse-headers.rst | 2 +-
->  2 files changed, 2 insertions(+), 3 deletions(-)
+> The common way now is to check the date, but this is not exactly accurate,
+> especially for documents that are often updated. And some translators write 
+> corresponding commit ID in the commit log for reference, it is a good way, 
+> but still a little troublesome.
+>
+> Thus, the purpose of ``trslt.py`` is to add a new annotating tag to the file
+> to indicate corresponding version of the source file::
+>
+> .. translation_origin_commit: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+>
+> The script will automatically copy file and generate tag when creating new
+> translation, and give update suggestions based on those tags when updating
+> translations.
+>
+> More details please read doc in [Patch 2/2].
 
-Applied, thanks.
+So, like Federico, I'm unconvinced about putting this into the
+translated text itself.  This is metadata, and I'd put it with the rest
+of the metadata.  My own suggestion would be a tag like:
+
+  Translates: 6161a4b18a66 ("docs: reporting-issues: make people CC the regressions list")
+
+It would be an analogue to the Fixes tag in this regard; you could have
+more than one of them if need be.
+
+I'm not sure we really need a script in the kernel tree for this; it
+seems like what you really want is some sort of git commit hook.  That
+said, if you come up with something useful, we can certainly find a
+place for it.
+
+Thanks,
 
 jon
