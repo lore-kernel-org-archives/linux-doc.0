@@ -2,144 +2,95 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8AD5C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 01:58:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DC02C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 02:29:28 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id C0639611B0
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 01:58:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1DCA6611B0
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 02:29:28 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229450AbhDOB6r (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Apr 2021 21:58:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43236 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbhDOB6q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Wed, 14 Apr 2021 21:58:46 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49DC2C061574
-        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 18:58:23 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id m9so8918093wrx.3
-        for <linux-doc@vger.kernel.org>; Wed, 14 Apr 2021 18:58:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=qGp4HS6MFLyo7obrUsQoLI+ur/Yjjo7asltLzUbmbDU=;
-        b=jsUSTtbPOz33tafFgw5WUAqz6ro3Fc+HpK+j1owCdtY/3NXOxtTHk+U6FLzsp3uMfT
-         XX1dlcarvqqAo/P5fb4XnqSfJ8MMygbcmWt6TDBEe++Edi6WD9a2u0WqFjCtNH1jfwqH
-         BnnPQyHijC8/aIQXI/OYYTOaqYAVlBjbmsqZNrZa493KQRYIKrNedws5b1wFLGQBCzbG
-         PLqTnPShVtjO77Qv2G9sp5gVZ71ceClFDQ57kU5CP4vE/lOgOxO/wW9Q8OhgZGvGs6Wp
-         ZQf7choBt5z63goT5M9C3sdwnSqigQtiSklmkKdXURQEp2eMszwDaiVbObSVcdwRnPGH
-         m0HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=qGp4HS6MFLyo7obrUsQoLI+ur/Yjjo7asltLzUbmbDU=;
-        b=Ko+eeXoeaRsjpcVYN7JTD+RRpn3KcMuBPgK61gjxy42Ih0tfM52qQJBTe5YlbfBhi7
-         Ti4jlO0comz5EJNdNCVVmuWTlnQwQiMQwORQBKz/G8KUesrOBDFuGekUCIw5BoB+V5et
-         tft1GMFCGT+DNxs1FI3dzwqo3Dx7ZhcqMQQO3J3l0TxTJgpEyNo4OTyrylR+3FRK+Fy5
-         5GRypfryymC56VGmsjz6bX6nPameBMEwVJErKkAeoAKOR4pZ/t2F/PF3c91TZ8mq0p2p
-         fBCD9eIlBj3AcqRbgttslJfG6GZ2WdEUCHRctz+NLxQhdTMZozkI2z2mtPLvpODF622K
-         EhUw==
-X-Gm-Message-State: AOAM533wv3VTiSI2DXsBw7eNueYeqAPJbwL5C/zQ7dPghpKCs84hw0WZ
-        RfC/c4OB8vIEpPVcLKP5kt7+/Xj8kQoqXBeS24j1BtUlnzAtkits
-X-Google-Smtp-Source: ABdhPJzOYQSdpMFjiD7KgmBeSUzeOoZ6EZZ8dT4qkbjwVnDQ6bx6OKUzrM9vlJTgYyRE8pcqaF8hVIBHjjwefih5M0U=
-X-Received: by 2002:a5d:4707:: with SMTP id y7mr777556wrq.396.1618451902083;
- Wed, 14 Apr 2021 18:58:22 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210415013124.2256416-1-siyanteng@loongson.cn>
-In-Reply-To: <20210415013124.2256416-1-siyanteng@loongson.cn>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Thu, 15 Apr 2021 09:58:11 +0800
-Message-ID: <CAEensMysF7Cmq6Tzcu8n1Xw2ctdpaEpGhZ8jyvY4sEZtyToAPw@mail.gmail.com>
-Subject: Re: [PATCH v4 00/11] docs/zh_CN: add core api and openrisc translation
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        id S229598AbhDOC3s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Wed, 14 Apr 2021 22:29:48 -0400
+Received: from m32-153.88.com ([43.250.32.153]:49704 "EHLO email.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S229481AbhDOC3s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Wed, 14 Apr 2021 22:29:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=7Oisvm9Fjzv7BBR0o4Cvrz0X7hR3HmbFcdYyr
+        oCLuWM=; b=C5xcdBS/MPBh5C115QyfDIUBxVvwdHx9mplRfX2ErXfKT3Z7GorZf
+        OpK7DAeQdGKmsQvK0N9VLaH/8uyQTjiJiaQFYXYHfKaN98wT2EqRRJoKjGXivVWt
+        Ykk3gNEIPrSIAWEVq4E4TupnySkTZbuVUfb09Q/D0H85STc7pCE9Ek=
+Received: from bobwxc.top (unknown [120.238.248.129])
+        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgBX4iL5pHdgIIhwAA--.2363S2;
+        Thu, 15 Apr 2021 10:29:15 +0800 (CST)
+Date:   Thu, 15 Apr 2021 10:29:13 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     yanteng si <siyanteng01@gmail.com>
+Cc:     Yanteng Si <siyanteng@loongson.cn>,
+        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
         Alex Shi <alex.shi@linux.alibaba.com>,
         Huacai Chen <chenhuacai@kernel.org>,
         Jiaxun Yang <jiaxun.yang@flygoat.com>,
         Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        Puyu Wang <realpuyuwang@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Puyu Wang <realpuyuwang@gmail.com>
+Subject: Re: [PATCH v4 00/11] docs/zh_CN: add core api and openrisc
+ translation
+Message-ID: <20210415022913.GA19308@bobwxc.top>
+References: <20210415013124.2256416-1-siyanteng@loongson.cn>
+ <CAEensMysF7Cmq6Tzcu8n1Xw2ctdpaEpGhZ8jyvY4sEZtyToAPw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAEensMysF7Cmq6Tzcu8n1Xw2ctdpaEpGhZ8jyvY4sEZtyToAPw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: GiKnCgBX4iL5pHdgIIhwAA--.2363S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrWr4kWryxGF1rCw4DArWUurg_yoWxWrgEga
+        1vvryvkr47KanrCa12kr4vy3ZI9wsa9ry5AryUXws7Xws3JFWDJFZ5tr93Zry0yFy8JF13
+        uF4UXr48Zr1UZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbo8YjsxI4VW3JwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+        8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E
+        87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzx
+        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
+        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04
+        v7MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Y
+        z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
+        AF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4l
+        IxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
+        CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVF
+        xhVjvjDU0xZFpf9x07Un189UUUUU=
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi all,
+On Thu, Apr 15, 2021 at 09:58:11AM +0800, yanteng si wrote:
+> Hi all,
+> 
+> I did a lot of tests with my mailbox last night and couldn't find the
+> reason. Now that I've found it, patch 7 and patch 11 names are
+> repeated; I should split into two series to send; and finally, I'm
 
-I did a lot of tests with my mailbox last night and couldn't find the
-reason. Now that I've found it, patch 7 and patch 11 names are
-repeated; I should split into two series to send; and finally, I'm
-really sorry for wasting mailing list resources to test. T_T
+Emmm, that's interesting, so it is a bug of git format-patch?
+The created patches should have a number prefix, thus seems impossible
+to mix them up.
+
+Actually you could add two mail header "In-Reply-To:" and "References:"
+by hand, then patch 11 will appeared in same thread.
+
 
 Thanks,
+Wu X.C.
 
-Yanteng
+> really sorry for wasting mailing list resources to test. T_T
+> 
+> Thanks,
+> 
+> Yanteng
+> 
 
-Yanteng Si <siyanteng@loongson.cn> =E4=BA=8E2021=E5=B9=B44=E6=9C=8815=E6=97=
-=A5=E5=91=A8=E5=9B=9B =E4=B8=8A=E5=8D=889:30=E5=86=99=E9=81=93=EF=BC=9A
->
-> This series of patches translates core-api/irq/* and openrisc/* into
-> Chinese
->
-> v1 -> v2:
->
-> Modify some words under Xiangcheng Wu's suggestion. Thanks for his rewiew=
-!
->
-> v2 -> v3:
->
-> keep the signs number equal to the title char under Alex's suggestion.
-> Thanks for his rewiew!
->
-> v3 -> v4:
->
-> Add Xiangcheng Wu's review sign to 0002=E3=80=810003 and 0008; Thanks for=
- his rewiew!
->
->
-> Yanteng Si(11):
-> docs/zh_CN: add core-api irq concepts.rst translation
-> docs/zh_CN: add core-api irq irq-affinity.rst translation
-> docs/zh_CN: add core-api irq irq-domain.rst translation
-> docs/zh_CN: add core-api irq irqflags-tracing.rst
-> docs/zh_CN: add core-api irq index.rst translation
-> docs/zh_CN: add core-api index.rst translation
-> docs/zh_CN: add translation to zh_CN index
-> docs/zh_CN: add openrisc openrisc_port.rst translation
-> docs/zh_CN: add openrisc todo.rst translation
-> docs/zh_CN: add openrisc index.rst translation
-> docs/zh_CN: add translation to zh_CN index
->
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
-> ---
-> Documentation/translations/zh_CN/core-api/index.rst                     |=
- 126 ++++++++++++++
-> Documentation/translations/zh_CN/core-api/irq/concepts.rst              |=
- 24  ++++++++++++++
-> Documentation/translations/zh_CN/core-api/irq/index.rst                 |=
- 19  ++++++++++++++
-> Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst          |=
- 76  ++++++++++++++
-> Documentation/translations/zh_CN/core-api/irq/irq-domain.rst            |=
- 228 ++++++++++++++
-> Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst      |=
- 45  ++++++++++++++
-> Documentation/translations/zh_CN/index.rst                              |=
- 2   ++++++++++++++
-> Documentation/translations/zh_CN/openrisc/index.rst                     |=
- 27  ++++++++++++++
-> Documentation/translations/zh_CN/openrisc/openrisc_port.rst             |=
- 124 ++++++++++++++
-> Documentation/translations/zh_CN/openrisc/todo.rst                      |=
- 20  ++++++++++++++
-> 10 files changed, 691 insertions(+)
->
