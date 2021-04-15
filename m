@@ -8,59 +8,59 @@ X-Spam-Status: No, score=-17.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
 	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF770C433ED
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 13:22:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85E80C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 13:43:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id CF7A3611AC
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 13:22:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4BFC2611AD
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 13:43:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233131AbhDONXU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 09:23:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54640 "EHLO
+        id S233369AbhDONoT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 09:44:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49155 "EHLO
         us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S230056AbhDONXU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 09:23:20 -0400
+        by vger.kernel.org with ESMTP id S233363AbhDONoR (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 09:44:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1618492976;
+        s=mimecast20190719; t=1618494233;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=pGV51z/usrS1hQ4D2fvkw4t5pvqiVsDoLlcb6+T8FmE=;
-        b=jRxrXVmKemO0GtCw1IrXHwvA9ESAKFaCXcY6LO5XUxgpHqyGSK/zoxriT38k1Lc6G6O3vP
-        bTtSHzgpWiLuY97sMUd+5FzedeP1quPf+KrFO9kpVhv3EqkLnSAlPqiChCBpDzV4gRn/hH
-        ITNxKlQl33zAp6j10lthokj5VjP9iQU=
+        bh=DpNKF7tYIma/A015g27QHa5Y8uvp6cu7V7Zo6pelFWY=;
+        b=EW5hF28OuK4KgKMXU1Bqg5zomDT5TKu4SYJEsU1dSpZ+EKEMAnGtXgOpMQGE1/aJ5F2Ij/
+        ZtDM6rPCbQtVQ1YZZkaIc/3ZtT/BCzz+EqyIqhekgjlP0g0YYW+jZl4zmjk39seiEqYPrx
+        GTU1Pawr2i4ieO/EGwPU6JEdCvYeJQA=
 Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
  [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-aoSmHNixOYeP2hi0V8MqHg-1; Thu, 15 Apr 2021 09:22:55 -0400
-X-MC-Unique: aoSmHNixOYeP2hi0V8MqHg-1
-Received: by mail-ej1-f71.google.com with SMTP id o25-20020a1709061d59b029037c94676df5so921885ejh.7
-        for <linux-doc@vger.kernel.org>; Thu, 15 Apr 2021 06:22:55 -0700 (PDT)
+ us-mta-149-vTyNJvK1NCum-ERu2MLXlQ-1; Thu, 15 Apr 2021 09:43:51 -0400
+X-MC-Unique: vTyNJvK1NCum-ERu2MLXlQ-1
+Received: by mail-ej1-f71.google.com with SMTP id i10-20020a1709067a4ab029037c5dba8400so950339ejo.8
+        for <linux-doc@vger.kernel.org>; Thu, 15 Apr 2021 06:43:51 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=pGV51z/usrS1hQ4D2fvkw4t5pvqiVsDoLlcb6+T8FmE=;
-        b=okm0T14DQkybQiyCI+9fHReb56y1gtw7wiK2bLgd60Gkbc1nbp/O64CJJraCADUORw
-         o2bAJXW6Xqh9rUmYzumbiz+61sFvjB1FVga0H2MpdD6SE7KN35wMYddnzn0GTmv0Z6zh
-         NUwUFoRED4A/5tGKXpNYP1MVqFqvdOaAG8OOO9dK593mEMu9xRQucH4NTqATuS9bfIYx
-         ztNJjkR18x4/4fBMBz1wZYuDFEVvBQ48IvmVP5yYQrcGFHziO9pYbcNZZaA+ccCEBZye
-         66JuuRFp14lVub9yjZJ14BYHW611wt4x5UDORi5dFiuRAfGVYb1iuX8MM5Sycm1YhCCw
-         83DQ==
-X-Gm-Message-State: AOAM532XMKjEz447cqSxpHbm8xl259f84RfNNHfGzMg5zi21dQDpBSBm
-        Q+HCZliHYPq6BuPgvVQsV7L9p6DDVNbf1PLXLX8xIcKMTO5DdzCMXVz+++8PzVCQTJOLwCmlO/6
-        zs5Esafw4ujYt42B1MmVGeTP6VXiFknpQ3jOx9pGGAaXfoqnqd0yt14njGPMjMGNx5ZC3quU=
-X-Received: by 2002:a17:906:c9d8:: with SMTP id hk24mr3460580ejb.480.1618492974035;
-        Thu, 15 Apr 2021 06:22:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyAL5WmKiee4K1Rey26vkRplVgrgGt4D2DFy+mWeFf8XGvsxY+pfdobIz8/jHYwKuBtBeDwdg==
-X-Received: by 2002:a17:906:c9d8:: with SMTP id hk24mr3460550ejb.480.1618492973777;
-        Thu, 15 Apr 2021 06:22:53 -0700 (PDT)
+        bh=DpNKF7tYIma/A015g27QHa5Y8uvp6cu7V7Zo6pelFWY=;
+        b=rTKI8fN9tpRkpQGqXW3Wd8KczV07uMUBI2zUzdzeW3Z5mGYNihFIEUeLz8As6BDQXb
+         kp6BnlUNHWNZln04+6gXXfIr1reNe273X4yMjaD7RJZIAzomy8ZbRP/Ash4n+gp9wGYy
+         8LUHR69Xzl329eaGYmWzxeCIRYqGNE7+LqkQyWkL0oSpusWys5UYRV/dRj3I1o2s7RlX
+         tvqDtj5nKaoPYmtkrQXLD20nRE+UmjL2b9BSKZiELVv99ORrIoPRlefwXXuk4JKCCUs8
+         5heufj4k8vsJbqIr/m6ebb8bGvC8+9/Xpx5FguGTj3IJihg2/GhQcAK2JAOvLhbFjveF
+         qphQ==
+X-Gm-Message-State: AOAM532mIDjKq8/j2IfCvBLjlm6DdIAX8CYi1cMaK6qxIVhHvMGuR8kN
+        f+xJj4FHGGokiX/7SCECKudQsu60eQkhNSamxj/Ht/FQrTzyW4GdaqMQiqIvFO7rrpA2iAz5hAM
+        N/cdjQPY9KLC2yvTGeSdbnxwPO17aW7aw2u8j/WmToGaD6tMF/amLWRU/s8KmTvWhzQtdw6k=
+X-Received: by 2002:a17:907:3f08:: with SMTP id hq8mr3601919ejc.90.1618494230262;
+        Thu, 15 Apr 2021 06:43:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyqdjl1gYnSl3cS6fKuUW/wcpkvtTQF231XCRROyIeskVbvOMrKm1Ep1OzpvtDTVQAWp5usKg==
+X-Received: by 2002:a17:907:3f08:: with SMTP id hq8mr3601880ejc.90.1618494229866;
+        Thu, 15 Apr 2021 06:43:49 -0700 (PDT)
 Received: from x1.bristot.me (host-79-56-201-31.retail.telecomitalia.it. [79.56.201.31])
-        by smtp.gmail.com with ESMTPSA id o20sm2531764eds.65.2021.04.15.06.22.52
+        by smtp.gmail.com with ESMTPSA id i10sm2575658edt.3.2021.04.15.06.43.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 Apr 2021 06:22:53 -0700 (PDT)
-Subject: Re: [RFC PATCH 3/5] tracing/hwlat: Implement the per-cpu mode
+        Thu, 15 Apr 2021 06:43:49 -0700 (PDT)
+Subject: Re: [RFC PATCH 5/5] tracing: Add the osnoise tracer
 To:     Steven Rostedt <rostedt@goodmis.org>
 Cc:     linux-kernel@vger.kernel.org, kcarcia@redhat.com,
         Jonathan Corbet <corbet@lwn.net>,
@@ -72,15 +72,15 @@ Cc:     linux-kernel@vger.kernel.org, kcarcia@redhat.com,
         John Kacur <jkacur@redhat.com>,
         Juri Lelli <juri.lelli@redhat.com>, linux-doc@vger.kernel.org
 References: <cover.1617889883.git.bristot@redhat.com>
- <1c99ca2d7403474508aa7b025869c0673238400a.1617889883.git.bristot@redhat.com>
- <20210414104102.7589626c@gandalf.local.home>
+ <3a69303b27bfc5d2274ab893b2cfbd0a8dbe31f7.1617889883.git.bristot@redhat.com>
+ <20210414131402.2bd448ee@gandalf.local.home>
 From:   Daniel Bristot de Oliveira <bristot@redhat.com>
-Message-ID: <bce142fc-4b1d-9924-e0d7-c02b0bd38405@redhat.com>
-Date:   Thu, 15 Apr 2021 15:22:52 +0200
+Message-ID: <ef6f08f1-a798-c99e-4bd6-7b323ab29b87@redhat.com>
+Date:   Thu, 15 Apr 2021 15:43:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.8.1
 MIME-Version: 1.0
-In-Reply-To: <20210414104102.7589626c@gandalf.local.home>
+In-Reply-To: <20210414131402.2bd448ee@gandalf.local.home>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -88,19 +88,180 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/14/21 4:41 PM, Steven Rostedt wrote:
-> On Thu,  8 Apr 2021 16:13:21 +0200
+On 4/14/21 7:14 PM, Steven Rostedt wrote:
+> On Thu,  8 Apr 2021 16:13:23 +0200
 > Daniel Bristot de Oliveira <bristot@redhat.com> wrote:
 > 
->> Implements the per-cpu mode in which a sampling thread is created for
->> each cpu in the "cpus" (and tracing_mask).
+>> In the context of high-performance computing (HPC), the Operating System
+>> Noise (osnoise) refers to the interference experienced by an application
+>> due to activities inside the operating system. In the context of Linux,
+>> NMIs, IRQs, SoftIRQs, and any other system thread can cause noise to the
+>> system. Moreover, hardware-related jobs can also cause noise, for example,
+>> via SMIs.
 >>
->> The per-cpu mode has the potention to speed up the hwlat detection by
->> running on multiple CPUs at the same time.
+>> hwlat_detector is one of the tools used to identify the most complex
+>> source of noise: hardware noise.
+>>
+>> In a nutshell, the hwlat_detector creates a thread that runs
+>> periodically for a given period. At the beginning of a period, the thread
+>> disables interrupt and starts sampling. While running, the hwlatd
+>> thread reads the time in a loop. As interrupts are disabled, threads,
+>> IRQs, and SoftIRQs cannot interfere with the hwlatd thread. Hence, the
+>> cause of any gap between two different reads of the time roots either on
+>> NMI or in the hardware itself. At the end of the period, hwlatd enables
+>> interrupts and reports the max observed gap between the reads. It also
+>> prints an NMI occurrence counter. If the output does not report NMI
+>> executions, the user can conclude that the hardware is the culprit for
+>> the latency. The hwlat detects the NMI execution by observing
+>> the entry and exit of an NMI.
+>>
+>> The osnoise tracer leverages the hwlat_detector by running a
+>> similar loop with preemption, SoftIRQs and IRQs enabled, thus allowing
+>> all the sources of osnoise during its execution. Using the same approach
+>> of hwlat, osnoise takes note of the entry and exit point of any
+>> source of interferences, increasing a per-cpu interference counter. The
+>> osnoise tracer also saves an interference counter for each source of
+>> interference. The interference counter for NMI, IRQs, SoftIRQs, and
+>> threads is increased anytime the tool observes these interferences' entry
+>> events. When a noise happens without any interference from the operating
+>> system level, the hardware noise counter increases, pointing to a
+>> hardware-related noise. In this way, osnoise can account for any
+>> source of interference. At the end of the period, the osnoise tracer
+>> prints the sum of all noise, the max single noise, the percentage of CPU
+>> available for the thread, and the counters for the noise sources.
+>>
+>> Usage
+>>
+>> Write the ASCII text osnoise into the current_tracer file of the
+>> tracing system (generally mounted at /sys/kernel/tracing or
+>> /sys/kernel/debug/tracing).
+>>
+>> For example::
+>>
+>>         [root@f32 ~]# cd /sys/kernel/tracing/
+>>         [root@f32 tracing]# echo osnoise > current_tracer
+>>
+>> It is possible to follow the trace by reading the trace trace file::
+>>
+>>         [root@f32 tracing]# cat trace
+>>         # tracer: osnoise
+>>         #
+>>         #                                _-----=> irqs-off
+>>         #                               / _----=> need-resched
+>>         #                              | / _---=> hardirq/softirq
+>>         #                              || / _--=> preempt-depth                            MAX
+>>         #                              || /                                             SINGLE     Interference counters:
+>>         #                              ||||               RUNTIME      NOISE   % OF CPU  NOISE    +-----------------------------+
+>>         #           TASK-PID      CPU# ||||   TIMESTAMP    IN US       IN US  AVAILABLE  IN US     HW    NMI    IRQ   SIRQ THREAD
+>>         #              | |         |   ||||      |           |             |    |            |      |      |      |      |      |
+>>                    <...>-859     [000] ....    81.637220: 1000000        190  99.98100       9     18      0   1007     18      1
+>>                    <...>-860     [001] ....    81.638154: 1000000        656  99.93440      74     23      0   1006     16      3
+>>                    <...>-861     [002] ....    81.638193: 1000000       5675  99.43250     202      6      0   1013     25     21
+>>                    <...>-862     [003] ....    81.638242: 1000000        125  99.98750      45      1      0   1011     23      0
+>>                    <...>-863     [004] ....    81.638260: 1000000       1721  99.82790     168      7      0   1002     49     41
+>>                    <...>-864     [005] ....    81.638286: 1000000        263  99.97370      57      6      0   1006     26      2
+>>                    <...>-865     [006] ....    81.638302: 1000000        109  99.98910      21      3      0   1006     18      1
+>>                    <...>-866     [007] ....    81.638326: 1000000       7816  99.21840     107      8      0   1016     39     19
+>>
+>> In addition to the regular trace fields (from TASK-PID to TIMESTAMP), the
+>> tracer prints a message at the end of each period for each CPU that is
+>> running an osnoise/ thread. The osnoise specific fields report:
+>>
+>>  - The RUNTIME IN USE reports the amount of time in microseconds that
+>>    the osnoise thread kept looping reading the time.
+>>  - The NOISE IN US reports the sum of noise in microseconds observed
+>>    by the osnoise tracer during the associated runtime.
+>>  - The % OF CPU AVAILABLE reports the percentage of CPU available for
+>>    the osnoise thread during the runtime window.
+>>  - The MAX SINGLE NOISE IN US reports the maximum single noise observed
+>>    during the runtime window.
+>>  - The Interference counters display how many each of the respective
+>>    interference happened during the runtime window.
+>>
+>> Note that the example above shows a high number of HW noise samples.
+>> The reason being is that this sample was taken on a virtual machine,
+>> and the host interference is detected as a hardware interference.
+>>
+>> Tracer options
+>>
+>> The tracer has a set of options inside the osnoise directory, they are:
+>>
+>>  - cpus: CPUs at which a osnoise thread will execute.
 > 
-> And totally slow down the entire system in the process ;-)
+> Again, I think we can reuse the tracing_cpumask.
+> 
+>>  - period_us: the period of the osnoise thread.
+>>  - runtime_us: how long an osnoise thread will look for noise.
+> 
+> These seem the same as window and width. At a minimum should probably share
+> the same code.
 
-Too :-) But this is not the default config... So it should be an intentional change.
+how about creating a generic handler for all the "to long" writes, that receives
+a structure containing a pointer to where to save the value, a min and a max
+acceptable value?
+
+If so, where to place this function? trace.c?
+
+>>  - stop_tracing_single_us: stop the system tracing of a single noise
+>>    higher than the configured value is happens. Writing 0 disables this
+>>    option.
+>>  - stop_tracing_total_us: stop the system tracing of a NOISE IN USE
+>>    higher than the configured value is happens. Writing 0 disables this
+>>    option.
+>>  - tolerance_ns: the minimum delta between two time() reads to be
+>>    considered as noise.
+> 
+> You can use tracing_threshold for the tolerance. Do you really need it in
+> ns?
+
+Yes, I can. I placed it in ns to serve as a fine tune that one might need. But,
+I can use the tracing_threshold in us as well.
+
+>>
+>> Additional Tracing
+>>
+>> In addition to the tracer, a set of tracepoints were added to
+>> facilitate the identification of the osnoise source.
+>>
+>>  - osnoise:sample_threshold: printed anytime a noise is higher than
+>>    the configurable tolerance_ns.
+>>  - osnoise:nmi_noise: noise from NMI, including the duration.
+>>  - osnoise:irq_noise: noise from an IRQ, including the duration.
+>>  - osnoise:softirq_noise: noise from a SoftIRQ, including the
+>>    duration.
+>>  - osnoise:thread_noise: noise from a thread, including the duration.
+>>
+>> Note that a all the values are net values. This means that a thread
+>> duration will not contain the duration of the IRQs that happened during
+>> its execution, for example. The same is valid for all duration values.
+>>
+>> Here is one example of the usage of these tracepoints::
+>>
+>>        osnoise/8-961     [008] d.h.  5789.857532: irq_noise: local_timer:236 start 5789.857529929 duration 1845 ns
+>>        osnoise/8-961     [008] dNh.  5789.858408: irq_noise: local_timer:236 start 5789.858404871 duration 2848 ns
+>>      migration/8-54      [008] d...  5789.858413: thread_noise: migration/8:54 start 5789.858409300 duration 3068 ns
+>>        osnoise/8-961     [008] ....  5789.858413: sample_threshold: start 5789.858404555 duration 8 us interferences 2
+>>
+>> In this example, a noise sample of 8 microseconds was reported in the last
+>> fine, pointing to two interferences. Looking backward in the trace, the
+>> two previous entries were about the migration thread running after
+>> a timer IRQ execution. The first event is not part of the noise because
+>> it took place one millisecond before.
+>>
+>> It is worth noticing that the sum of the duration reported in the
+>> tracepoints is smaller than eight us reported in the
+>> sample_threshold. The reason roots in the tracing overhead and in
+>> the overhead of the entry and exit code that happens before and after
+>> any interference execution. This justifies the dual approach: measuring
+>> thread and tracing.
+> 
+> I'm not sure the tracing overhead had much to do with it as did the
+> overhead of entering the interrupt itself. events are rather fast (usually
+> less than 200ns depending on the system). You can always enable the
+> benchmark_event to see what trace event overhead is. Then again, cold cache
+> can play into it as well.
+
+I agree, I will remove the tracing overhead part.
 
 >>
 >> Cc: Jonathan Corbet <corbet@lwn.net>
@@ -117,375 +278,699 @@ Too :-) But this is not the default config... So it should be an intentional cha
 >> Signed-off-by: Daniel Bristot de Oliveira <bristot@redhat.com>
 >>
 >> ---
->>  Documentation/trace/hwlat_detector.rst |   6 +-
->>  kernel/trace/trace_hwlat.c             | 171 +++++++++++++++++++------
->>  2 files changed, 137 insertions(+), 40 deletions(-)
+>>  Documentation/trace/osnoise_tracer.rst |  149 ++
+>>  include/linux/ftrace_irq.h             |   16 +
+>>  include/trace/events/osnoise.h         |  141 ++
+>>  kernel/trace/Kconfig                   |   34 +
+>>  kernel/trace/Makefile                  |    1 +
+>>  kernel/trace/trace.h                   |    9 +-
+>>  kernel/trace/trace_entries.h           |   27 +
+>>  kernel/trace/trace_osnoise.c           | 1714 ++++++++++++++++++++++++
+>>  kernel/trace/trace_output.c            |   72 +-
+>>  9 files changed, 2159 insertions(+), 4 deletions(-)
+>>  create mode 100644 Documentation/trace/osnoise_tracer.rst
+>>  create mode 100644 include/trace/events/osnoise.h
+>>  create mode 100644 kernel/trace/trace_osnoise.c
 >>
->> diff --git a/Documentation/trace/hwlat_detector.rst b/Documentation/trace/hwlat_detector.rst
->> index f63fdd867598..7a6fab105b29 100644
->> --- a/Documentation/trace/hwlat_detector.rst
->> +++ b/Documentation/trace/hwlat_detector.rst
->> @@ -85,10 +85,12 @@ the available options are:
->>  
->>   - none:        do not force migration
->>   - round-robin: migrate across each CPU specified in cpus between each window
->> + - per-cpu:     create a per-cpu thread for each cpu in cpus
->>  
->>  By default, hwlat detector will also obey the tracing_cpumask, so the thread
->>  will be placed only in the set of cpus that is both on the hwlat detector's
->>  cpus and in the global tracing_cpumask file. The user can overwrite the
->>  cpumask by setting it manually. Changing the hwlatd affinity externally,
->> -e.g., via taskset tool, will disable the round-robin migration.
->> -
->> +e.g., via taskset tool, will disable the round-robin migration. In the
->> +per-cpu mode, the per-cpu thread (hwlatd/CPU) will be pinned to its relative
->> +cpu, and its affinity cannot be changed.
->> diff --git a/kernel/trace/trace_hwlat.c b/kernel/trace/trace_hwlat.c
->> index 3818200c9e24..52968ea312df 100644
->> --- a/kernel/trace/trace_hwlat.c
->> +++ b/kernel/trace/trace_hwlat.c
->> @@ -34,7 +34,7 @@
->>   * Copyright (C) 2008-2009 Jon Masters, Red Hat, Inc. <jcm@redhat.com>
->>   * Copyright (C) 2013-2016 Steven Rostedt, Red Hat, Inc. <srostedt@redhat.com>
->>   *
->> - * Includes useful feedback from Clark Williams <clark@redhat.com>
->> + * Includes useful feedback from Clark Williams <williams@redhat.com>
+>> diff --git a/Documentation/trace/osnoise_tracer.rst b/Documentation/trace/osnoise_tracer.rst
+>> new file mode 100644
+>> index 000000000000..9a97f557317b
+>> --- /dev/null
+>> +++ b/Documentation/trace/osnoise_tracer.rst
+>> @@ -0,0 +1,149 @@
+>> +==============
+>> +OSNOISE Tracer
+>> +==============
+>> +
+>> +In the context of high-performance computing (HPC), the Operating System
+>> +Noise (*osnoise*) refers to the interference experienced by an application
+>> +due to activities inside the operating system. In the context of Linux,
+>> +NMIs, IRQs, SoftIRQs, and any other system thread can cause noise to the
+>> +system. Moreover, hardware-related jobs can also cause noise, for example,
+>> +via SMIs.
+>> +
+>> +``hwlat_detector`` is one of the tools used to identify the most complex
+>> +source of noise: *hardware noise*.
+>> +
+>> +In a nutshell, the ``hwlat_detector`` creates a thread that runs
+>> +periodically for a given period. At the beginning of a period, the thread
+>> +disables interrupt and starts sampling. While running, the ``hwlatd``
+>> +thread reads the time in a loop. As interrupts are disabled, threads,
+>> +IRQs, and SoftIRQs cannot interfere with the ``hwlatd`` thread. Hence, the
+>> +cause of any gap between two different reads of the time roots either on
+>> +NMI or in the hardware itself. At the end of the period, ``hwlatd`` enables
+>> +interrupts and reports the max observed gap between the reads. It also
+>> +prints a NMI occurrence counter. If the output does not report NMI
+>> +executions, the user can conclude that the hardware is the culprit for
+>> +the latency. The ``hwlat`` detects the NMI execution by observing
+>> +the entry and exit of a NMI.
+>> +
+>> +The ``osnoise`` tracer leverages the ``hwlat_detector`` by running a
+>> +similar loop with preemption, SoftIRQs and IRQs enabled, thus allowing
+>> +all the sources of *osnoise* during its execution. Using the same approach
+>> +of ``hwlat``, ``osnoise`` takes note of the entry and exit point of any
+>> +source of interferences, increasing a per-cpu interference counter. The
+>> +``osnoise`` tracer also saves an interference counter for each source of
+>> +interference. The interference counter for NMI, IRQs, SoftIRQs, and
+>> +threads is increased anytime the tool observes these interferences' entry
+>> +events. When a noise happens without any interference from the operating
+>> +system level, the hardware noise counter increases, pointing to a
+>> +hardware-related noise. In this way, ``osnoise`` can account for any
+>> +source of interference. At the end of the period, the ``osnoise`` tracer
+>> +prints the sum of all noise, the max single noise, the percentage of CPU
+>> +available for the thread, and the counters for the noise sources.
+>> +
+>> +Usage
+>> +-----
+>> +
+>> +Write the ASCII text ``osnoise`` into the ``current_tracer`` file of the
+>> +tracing system (generally mounted at ``/sys/kernel/tracing`` or
+>> +``/sys/kernel/debug/tracing``).
 > 
-> Interesting update ;-)
+> I wouldn't even mention the /sys/kernel/debug/tracing path, I'm trying to
+> deprecated that.
 
-Should I make it a separated patch? :-)
+I mention it because that is the path (still) used on Fedora...
 
->>   *
->>   */
->>  #include <linux/kthread.h>
->> @@ -54,9 +54,6 @@ static struct trace_array	*hwlat_trace;
->>  #define DEFAULT_SAMPLE_WIDTH	500000			/* 0.5s */
->>  #define DEFAULT_LAT_THRESHOLD	10			/* 10us */
->>  
->> -/* sampling thread*/
->> -static struct task_struct *hwlat_kthread;
->> -
->>  static struct dentry *hwlat_sample_width;	/* sample width us */
->>  static struct dentry *hwlat_sample_window;	/* sample window us */
->>  static struct dentry *hwlat_cpumask_dentry;	/* hwlat cpus allowed */
->> @@ -65,19 +62,27 @@ static struct dentry *hwlat_thread_mode;	/* hwlat thread mode */
->>  enum {
->>  	MODE_NONE = 0,
->>  	MODE_ROUND_ROBIN,
->> +	MODE_PER_CPU,
->>  	MODE_MAX
->>  };
->>  
->> -static char *thread_mode_str[] = { "none", "round-robin" };
->> +static char *thread_mode_str[] = { "none", "round-robin", "per-cpu" };
->>  
->>  /* Save the previous tracing_thresh value */
->>  static unsigned long save_tracing_thresh;
->>  
->> -/* NMI timestamp counters */
->> -static u64 nmi_ts_start;
->> -static u64 nmi_total_ts;
->> -static int nmi_count;
->> -static int nmi_cpu;
->> +/* runtime kthread data */
->> +struct hwlat_kthread_data {
->> +	struct task_struct *kthread;
->> +	/* NMI timestamp counters */
->> +	u64 nmi_ts_start;
->> +	u64 nmi_total_ts;
->> +	int nmi_count;
->> +	int nmi_cpu;
->> +};
 >> +
->> +struct hwlat_kthread_data hwlat_single_cpu_data;
->> +DEFINE_PER_CPU(struct hwlat_kthread_data, hwlat_per_cpu_data);
->>  
->>  /* Tells NMIs to call back to the hwlat tracer to record timestamps */
->>  bool trace_hwlat_callback_enabled;
->> @@ -114,6 +119,14 @@ static struct hwlat_data {
->>  	.thread_mode		= MODE_ROUND_ROBIN
->>  };
->>  
->> +struct hwlat_kthread_data *get_cpu_data(void)
->> +{
->> +	if (hwlat_data.thread_mode == MODE_PER_CPU)
->> +		return this_cpu_ptr(&hwlat_per_cpu_data);
->> +	else
->> +		return &hwlat_single_cpu_data;
->> +}
+>> +For example::
 >> +
->>  static bool hwlat_busy;
->>  
->>  static void trace_hwlat_sample(struct hwlat_sample *sample)
->> @@ -151,7 +164,9 @@ static void trace_hwlat_sample(struct hwlat_sample *sample)
->>  
->>  void trace_hwlat_callback(bool enter)
->>  {
->> -	if (smp_processor_id() != nmi_cpu)
->> +	struct hwlat_kthread_data *kdata = get_cpu_data();
+>> +        [root@f32 ~]# cd /sys/kernel/tracing/
+>> +        [root@f32 tracing]# echo osnoise > current_tracer
 >> +
->> +	if (kdata->kthread)
->>  		return;
+>> +It is possible to follow the trace by reading the ``trace`` trace file::
+>> +
+>> +        [root@f32 tracing]# cat trace
+>> +        # tracer: osnoise
+>> +        #
+>> +        #                                _-----=> irqs-off
+>> +        #                               / _----=> need-resched
+>> +        #                              | / _---=> hardirq/softirq
+>> +        #                              || / _--=> preempt-depth                            MAX
+>> +        #                              || /                                             SINGLE     Interference counters:
+>> +        #                              ||||               RUNTIME      NOISE   % OF CPU  NOISE    +-----------------------------+
+>> +        #           TASK-PID      CPU# ||||   TIMESTAMP    IN US       IN US  AVAILABLE  IN US     HW    NMI    IRQ   SIRQ THREAD
+>> +        #              | |         |   ||||      |           |             |    |            |      |      |      |      |      |
+>> +                   <...>-859     [000] ....    81.637220: 1000000        190  99.98100       9     18      0   1007     18      1
+>> +                   <...>-860     [001] ....    81.638154: 1000000        656  99.93440      74     23      0   1006     16      3
+>> +                   <...>-861     [002] ....    81.638193: 1000000       5675  99.43250     202      6      0   1013     25     21
+>> +                   <...>-862     [003] ....    81.638242: 1000000        125  99.98750      45      1      0   1011     23      0
+>> +                   <...>-863     [004] ....    81.638260: 1000000       1721  99.82790     168      7      0   1002     49     41
+>> +                   <...>-864     [005] ....    81.638286: 1000000        263  99.97370      57      6      0   1006     26      2
+>> +                   <...>-865     [006] ....    81.638302: 1000000        109  99.98910      21      3      0   1006     18      1
+>> +                   <...>-866     [007] ....    81.638326: 1000000       7816  99.21840     107      8      0   1016     39     19
+>> +
+>> +In addition to the regular trace fields (from TASK-PID to TIMESTAMP), the
+>> +tracer prints a message at the end of each period for each CPU that is
+>> +running an ``osnoise/`` thread. The osnoise specific fields report:
+>> +
+>> + - The ``RUNTIME IN USE`` reports the amount of time in microseconds that
+>> +   the ``osnoise`` thread kept looping reading the time.
+>> + - The ``NOISE IN US`` reports the sum of noise in microseconds observed
+>> +   by the osnoise tracer during the associated runtime.
+>> + - The ``% OF CPU AVAILABLE`` reports the percentage of CPU available for
+>> +   the ``osnoise`` thread during the ``runtime`` window.
+>> + - The ``MAX SINGLE NOISE IN US`` reports the maximum single noise observed
+>> +   during the ``runtime`` window.
+>> + - The ``Interference counters`` display how many each of the respective
+>> +   interference happened during the ``runtime`` window.
+>> +
+>> +Note that the example above shows a high number of ``HW noise`` samples.
+>> +The reason being is that this sample was taken on a virtual machine,
+>> +and the host interference is detected as a hardware interference.
+>> +
+>> +Tracer options
+>> +---------------------
+>> +
+>> +The tracer has a set of options inside the ``osnoise`` directory, they are:
+>> +
+>> + - ``cpus``: CPUs at which a ``osnoise`` thread will execute.
+>> + - ``period_us``: the period of the ``osnoise`` thread.
+>> + - ``runtime_us``: how long an ``osnoise`` thread will look for noise.
+>> + - ``stop_tracing_single_us``: stop the system tracing of a single noise
+>> +   higher than the configured value is happens. Writing ``0`` disables this
+>> +   option.
+>> + - ``stop_tracing_total_us``: stop the system tracing of a ``NOISE IN USE``
+>> +   higher than the configured value is happens. Writing ``0`` disables this
+>> +   option.
+>> + - ``tolerance_ns``: the minimum delta between two time() reads to be
+>> +   considered as noise.
+>> +
+>> +Additional Tracing
+>> +------------------
+>> +
+>> +In addition to the tracer, a set of ``tracepoints`` were added to
+>> +facilitate the identification of the osnoise source.
+>> +
+>> + - ``osnoise:sample_threshold``: printed anytime a noise is higher than
+>> +   the configurable ``tolerance_ns``.
+>> + - ``osnoise:nmi_noise``: noise from NMI, including the duration.
+>> + - ``osnoise:irq_noise``: noise from an IRQ, including the duration.
+>> + - ``osnoise:softirq_noise``: noise from a SoftIRQ, including the
+>> +   duration.
+>> + - ``osnoise:thread_noise``: noise from a thread, including the duration.
+>> +
+>> +Note that a all the values are *net values*. This means that a *thread*
+> 
+>    "a all"?
+
+Oops, I will fix that.
+
+>> +duration will not contain the duration of the *IRQs* that happened during
+>> +its execution, for example. The same is valid for all duration values.
+> 
+> The above is hard to understand. Do you mean individual instances of noise
+> is not recorded, and only the sum is?
+
+I need to rephrase that.... I meant that when we have two or more "noise"
+stacked, e.g., a thread noise happening, and then an IRQ noise happens on top of
+it, the noise from the TOP will be discounted, e.g., the IRQ noise added to the
+thread noise will be discounted. Like...
+
+osnoise_running
+	--------> thread noise in
+                       run 5 us
+                  ----------------> IRQ noise
+                                    run 3 us
+		  <---------------- print duration 3 us
+                       run 1 us
+        <--------- print duration 6 us (not 9 us).
+
+Making this computation in kernel reduces the amount of events printed in the
+buffer.
+
+>> +
+>> +Here is one example of the usage of these ``tracepoints``::
+>> +
+>> +       osnoise/8-961     [008] d.h.  5789.857532: irq_noise: local_timer:236 start 5789.857529929 duration 1845 ns
+>> +       osnoise/8-961     [008] dNh.  5789.858408: irq_noise: local_timer:236 start 5789.858404871 duration 2848 ns
+>> +     migration/8-54      [008] d...  5789.858413: thread_noise: migration/8:54 start 5789.858409300 duration 3068 ns
+>> +       osnoise/8-961     [008] ....  5789.858413: sample_threshold: start 5789.858404555 duration 8 us interferences 2
+>> +
+>> +In this example, a noise sample of 8 microseconds was reported in the last
+>> +fine, pointing to two interferences. Looking backward in the trace, the
+> 
+>   "fine"?
+
+Ops, "line" :-). Will fix.
+
+>> +two previous entries were about the ``migration`` thread running after
+>> +a timer IRQ execution. The first event is not part of the noise because
+>> +it took place one millisecond before.
+>> +
+>> +It is worth noticing that the sum of the duration reported in the
+>> +``tracepoints`` is smaller than eight us reported in the
+>> +``sample_threshold``. The reason roots in the tracing overhead and in
+>> +the overhead of the entry and exit code that happens before and after
+>> +any interference execution. This justifies the dual approach: measuring
+>> +thread and tracing.
+>> diff --git a/include/linux/ftrace_irq.h b/include/linux/ftrace_irq.h
+>> index 0abd9a1d2852..fd54045980ce 100644
+>> --- a/include/linux/ftrace_irq.h
+>> +++ b/include/linux/ftrace_irq.h
+>> @@ -7,12 +7,24 @@ extern bool trace_hwlat_callback_enabled;
+>>  extern void trace_hwlat_callback(bool enter);
+>>  #endif
 >>  
->>  	/*
->> @@ -160,13 +175,13 @@ void trace_hwlat_callback(bool enter)
->>  	 */
->>  	if (!IS_ENABLED(CONFIG_GENERIC_SCHED_CLOCK)) {
->>  		if (enter)
->> -			nmi_ts_start = time_get();
->> +			kdata->nmi_ts_start = time_get();
->>  		else
->> -			nmi_total_ts += time_get() - nmi_ts_start;
->> +			kdata->nmi_total_ts += time_get() - kdata->nmi_ts_start;
->>  	}
->>  
->>  	if (enter)
->> -		nmi_count++;
->> +		kdata->nmi_count++;
->>  }
->>  
->>  /**
->> @@ -178,6 +193,7 @@ void trace_hwlat_callback(bool enter)
->>   */
->>  static int get_sample(void)
->>  {
->> +	struct hwlat_kthread_data *kdata = get_cpu_data();
->>  	struct trace_array *tr = hwlat_trace;
->>  	struct hwlat_sample s;
->>  	time_type start, t1, t2, last_t2;
->> @@ -190,9 +206,8 @@ static int get_sample(void)
->>  
->>  	do_div(thresh, NSEC_PER_USEC); /* modifies interval value */
->>  
->> -	nmi_cpu = smp_processor_id();
->> -	nmi_total_ts = 0;
->> -	nmi_count = 0;
->> +	kdata->nmi_total_ts = 0;
->> +	kdata->nmi_count = 0;
->>  	/* Make sure NMIs see this first */
->>  	barrier();
->>  
->> @@ -262,15 +277,15 @@ static int get_sample(void)
->>  		ret = 1;
->>  
->>  		/* We read in microseconds */
->> -		if (nmi_total_ts)
->> -			do_div(nmi_total_ts, NSEC_PER_USEC);
->> +		if (kdata->nmi_total_ts)
->> +			do_div(kdata->nmi_total_ts, NSEC_PER_USEC);
->>  
->>  		hwlat_data.count++;
->>  		s.seqnum = hwlat_data.count;
->>  		s.duration = sample;
->>  		s.outer_duration = outer_sample;
->> -		s.nmi_total_ts = nmi_total_ts;
->> -		s.nmi_count = nmi_count;
->> +		s.nmi_total_ts = kdata->nmi_total_ts;
->> +		s.nmi_count = kdata->nmi_count;
->>  		s.count = count;
->>  		trace_hwlat_sample(&s);
->>  
->> @@ -376,23 +391,43 @@ static int kthread_fn(void *data)
->>  }
->>  
->>  /**
->> - * start_kthread - Kick off the hardware latency sampling/detector kthread
->> + * stop_stop_kthread - Inform the hardware latency samping/detector kthread to stop
->> + *
->> + * This kicks the running hardware latency sampling/detector kernel thread and
->> + * tells it to stop sampling now. Use this on unload and at system shutdown.
+>> +/*
+>> + * XXX: Make it generic
+> 
+> Yes, this should be the same for both the hwlat detector and for
+> osnoise.
+
+Where should I place it? On hwlat, making osnoise to select it? On trace.c?
+
 >> + */
->> +static void stop_single_kthread(void)
->> +{
->> +	struct hwlat_kthread_data *kdata = get_cpu_data();
->> +	struct task_struct *kthread = kdata->kthread;
+>> +#ifdef CONFIG_OSNOISE_TRACER
+>> +extern bool trace_osnoise_callback_enabled;
+>> +extern void trace_osnoise_callback(bool enter);
+>> +#endif
 >> +
->> +	if (!kthread)
->> +
->> +		return;
->> +	kthread_stop(kthread);
->> +
->> +	kdata->kthread = NULL;
->> +}
->> +
->> +
->> +/**
->> + * start_single_kthread - Kick off the hardware latency sampling/detector kthread
->>   *
->>   * This starts the kernel thread that will sit and sample the CPU timestamp
->>   * counter (TSC or similar) and look for potential hardware latencies.
->>   */
->> -static int start_kthread(struct trace_array *tr)
->> +static int start_single_kthread(struct trace_array *tr)
+>>  static inline void ftrace_nmi_enter(void)
 >>  {
->> +	struct hwlat_kthread_data *kdata = get_cpu_data();
->>  	struct cpumask *current_mask = &save_cpumask;
->>  	struct task_struct *kthread;
->>  	int next_cpu;
->>  
->> -	if (hwlat_kthread)
->> +	if (kdata->kthread)
->>  		return 0;
->>  
->> -
->>  	kthread = kthread_create(kthread_fn, NULL, "hwlatd");
->> -	if (IS_ERR(kthread)) {
->> +	if (IS_ERR(kdata->kthread)) {
->>  		pr_err(BANNER "could not start sampling thread\n");
->>  		return -ENOMEM;
->>  	}
->> @@ -419,24 +454,77 @@ static int start_kthread(struct trace_array *tr)
->>  
->>  	sched_setaffinity(kthread->pid, current_mask);
->>  
->> -	hwlat_kthread = kthread;
->> +	kdata->kthread = kthread;
->>  	wake_up_process(kthread);
->>  
->>  	return 0;
+>>  #ifdef CONFIG_HWLAT_TRACER
+>>  	if (trace_hwlat_callback_enabled)
+>>  		trace_hwlat_callback(true);
+>>  #endif
+>> +#ifdef CONFIG_OSNOISE_TRACER
+>> +	if (trace_osnoise_callback_enabled)
+>> +		trace_osnoise_callback(true);
+>> +#endif
 >>  }
 >>  
->>  /**
->> - * stop_kthread - Inform the hardware latency samping/detector kthread to stop
->> + * stop_per_cpu_kthread - Inform the hardware latency samping/detector kthread to stop
->>   *
->> - * This kicks the running hardware latency sampling/detector kernel thread and
->> + * This kicks the running hardware latency sampling/detector kernel threads and
->>   * tells it to stop sampling now. Use this on unload and at system shutdown.
->>   */
->> -static void stop_kthread(void)
->> +static void stop_per_cpu_kthreads(void)
->>  {
->> -	if (!hwlat_kthread)
->> -		return;
->> -	kthread_stop(hwlat_kthread);
->> -	hwlat_kthread = NULL;
->> +	struct task_struct *kthread;
->> +	int cpu;
+>>  static inline void ftrace_nmi_exit(void)
+>> @@ -21,6 +33,10 @@ static inline void ftrace_nmi_exit(void)
+>>  	if (trace_hwlat_callback_enabled)
+>>  		trace_hwlat_callback(false);
+>>  #endif
+>> +#ifdef CONFIG_OSNOISE_TRACER
+>> +	if (trace_osnoise_callback_enabled)
+>> +		trace_osnoise_callback(false);
+>> +#endif
+>>  }
+>>  
+>>  #endif /* _LINUX_FTRACE_IRQ_H */
+>> diff --git a/include/trace/events/osnoise.h b/include/trace/events/osnoise.h
+>> new file mode 100644
+>> index 000000000000..81939234814b
+>> --- /dev/null
+>> +++ b/include/trace/events/osnoise.h
+>> @@ -0,0 +1,141 @@
+>> +/* SPDX-License-Identifier: GPL-2.0 */
+>> +#undef TRACE_SYSTEM
+>> +#define TRACE_SYSTEM osnoise
 >> +
->> +	for_each_online_cpu(cpu) {
->> +		kthread = per_cpu(hwlat_per_cpu_data, cpu).kthread;
->> +		if (kthread)
->> +			kthread_stop(kthread);
+>> +#if !defined(_OSNOISE_TRACE_H) || defined(TRACE_HEADER_MULTI_READ)
+>> +#define _OSNOISE_TRACE_H
+>> +
+>> +#include <linux/tracepoint.h>
+>> +TRACE_EVENT(thread_noise,
+>> +
+>> +	TP_PROTO(struct task_struct *t, u64 start, u64 duration),
+>> +
+>> +	TP_ARGS(t, start, duration),
+>> +
+>> +	TP_STRUCT__entry(
+>> +		__array(	char,		comm,	TASK_COMM_LEN)
+>> +		__field(	pid_t,		pid	)
 > 
-> Probably want:
+> I would place the start and duration first. As pid is 4 bytes, you have a 4
+> byte "hole" in the structure:
 > 
-> 		per_cpu(hwlat_per_cpu_data, cpu).kthread = NULL;
+> system: osnoise
+> name: thread_noise
+> ID: 442
+> format:
+> 	field:unsigned short common_type;	offset:0;	size:2;	signed:0;
+> 	field:unsigned char common_flags;	offset:2;	size:1;	signed:0;
+> 	field:unsigned char common_preempt_count;	offset:3;	size:1;	signed:0;
+> 	field:int common_pid;	offset:4;	size:4;	signed:1;
 > 
-> Just to be safe. I don't like to rely on the start doing the job, as things
-> can change in the future. Having the clearing here as well makes the code
-> more robust.
+> 	field:char comm[16];	offset:8;	size:16;	signed:1;
+> 	field:pid_t pid;	offset:24;	size:4;	signed:1;
+> 
+> [ 4 bytes of nothing here ]
+> 
+> 	field:u64 start;	offset:32;	size:8;	signed:0;
+> 	field:u64 duration;	offset:40;	size:8;	signed:0;
+> 
+
+Ack, will fix that.
+
+>> +		__field(	u64,		start	)
+>> +		__field(	u64,		duration)
+>> +	),
+>> +
+>> +	TP_fast_assign(
+>> +		memcpy(__entry->comm, t->comm, TASK_COMM_LEN);
+>> +		__entry->pid = t->pid;
+>> +		__entry->start = start;
+>> +		__entry->duration = duration;
+>> +	),
+>> +
+>> +	TP_printk("%8s:%d start %llu.%09u duration %llu ns",
+>> +		__entry->comm,
+>> +		__entry->pid,
+>> +		__print_ns_to_secs(__entry->start),
+>> +		__print_ns_without_secs(__entry->start),
+>> +		__entry->duration)
+>> +);
+>> +
+>> +TRACE_EVENT(softirq_noise,
+>> +
+>> +	TP_PROTO(int vector, u64 start, u64 duration),
+>> +
+>> +	TP_ARGS(vector, start, duration),
+>> +
+>> +	TP_STRUCT__entry(
+>> +		__field(	int,		vector	)
+>> +		__field(	u64,		start	)
+>> +		__field(	u64,		duration)
+> 
+> Same here.
+> 
+> name: softirq_noise
+> ID: 441
+> format:
+> 	field:unsigned short common_type;	offset:0;	size:2;	signed:0;
+> 	field:unsigned char common_flags;	offset:2;	size:1;	signed:0;
+> 	field:unsigned char common_preempt_count;	offset:3;	size:1;	signed:0;
+> 	field:int common_pid;	offset:4;	size:4;	signed:1;
+> 
+> 	field:int vector;	offset:8;	size:4;	signed:1;
+> 
+> [ 4 bytes of nothing here]
+> 
+> 	field:u64 start;	offset:16;	size:8;	signed:0;
+> 	field:u64 duration;	offset:24;	size:8;	signed:0;
+
+ack!
+
+>> +	),
+>> +
+>> +	TP_fast_assign(
+>> +		__entry->vector = vector;
+>> +		__entry->start = start;
+>> +		__entry->duration = duration;
+>> +	),
+>> +
+>> +	TP_printk("%8s:%d start %llu.%09u duration %llu ns",
+>> +		show_softirq_name(__entry->vector),
+>> +		__entry->vector,
+>> +		__print_ns_to_secs(__entry->start),
+>> +		__print_ns_without_secs(__entry->start),
+>> +		__entry->duration)
+>> +);
+>> +
+>> +TRACE_EVENT(irq_noise,
+>> +
+>> +	TP_PROTO(int vector, const char *desc, u64 start, u64 duration),
+>> +
+>> +	TP_ARGS(vector, desc, start, duration),
+>> +
+>> +	TP_STRUCT__entry(
+>> +		__string(	desc,		desc    )
+>> +		__field(	int,		vector	)
+> 
+> This doesn't have a hole, but I think it should still switch to be
+> consistent.
 
 Ack!
 
 > 
->> +	}
+>> +		__field(	u64,		start	)
+>> +		__field(	u64,		duration)
+>> +	),
+>> +
+>> +	TP_fast_assign(
+>> +		__assign_str(desc, desc);
+>> +		__entry->vector = vector;
+>> +		__entry->start = start;
+>> +		__entry->duration = duration;
+>> +	),
+>> +
+>> +	TP_printk("%s:%d start %llu.%09u duration %llu ns",
+>> +		__get_str(desc),
+>> +		__entry->vector,
+>> +		__print_ns_to_secs(__entry->start),
+>> +		__print_ns_without_secs(__entry->start),
+>> +		__entry->duration)
+>> +);
+>> +
+>> +TRACE_EVENT(nmi_noise,
+>> +
+>> +	TP_PROTO(u64 start, u64 duration),
+>> +
+>> +	TP_ARGS(start, duration),
+>> +
+>> +	TP_STRUCT__entry(
+>> +		__field(	u64,		start	)
+>> +		__field(	u64,		duration)
+>> +	),
+>> +
+>> +	TP_fast_assign(
+>> +		__entry->start = start;
+>> +		__entry->duration = duration;
+>> +	),
+>> +
+>> +	TP_printk("start %llu.%09u duration %llu ns",
+>> +		__print_ns_to_secs(__entry->start),
+>> +		__print_ns_without_secs(__entry->start),
+>> +		__entry->duration)
+>> +);
+>> +
+>> +TRACE_EVENT(sample_threshold,
+>> +
+>> +	TP_PROTO(u64 start, u64 duration, u64 interference),
+>> +
+>> +	TP_ARGS(start, duration, interference),
+>> +
+>> +	TP_STRUCT__entry(
+>> +		__field(	u64,		start	)
+>> +		__field(	u64,		duration)
+>> +		__field(	u64,		interference)
+>> +	),
+>> +
+>> +	TP_fast_assign(
+>> +		__entry->start = start;
+>> +		__entry->duration = duration;
+>> +		__entry->interference = interference;
+>> +	),
+>> +
+>> +	TP_printk("start %llu.%09u duration %llu us interferences %llu",
+>> +		__print_ns_to_secs(__entry->start),
+>> +		__print_ns_without_secs(__entry->start),
+>> +		__entry->duration,
+>> +		__entry->interference)
+>> +);
+>> +
+>> +#endif /* _TRACE_OSNOISE_H */
+>> +
+> 
+> 
+> [..]
+> 
+>> +static void osnoise_tracer_start(struct trace_array *tr)
+>> +{
+>> +	int retval;
+>> +
+>> +	/* Only allow one instance to enable this */
+>> +	if (osnoise_busy)
+>> +		return;
+> 
+> I found that I couldn't start this with:
+> 
+> 	trace-cmd start -B foo -p osnoise
+
+ok, I will debug that.
+
+>> +
+>> +	/*
+>> +	 * Trace is already hooked, we are re-enabling from
+>> +	 * a stop_tracing_*.
+>> +	 */
+>> +	if (trace_osnoise_callback_enabled)
+>> +		return;
+>> +
+>> +	osn_var_reset_all();
+>> +
+>> +	retval = hook_irq_events();
+>> +	if (retval)
+>> +		goto err;
+>> +
+>> +	retval = hook_softirq_events();
+>> +	if (retval)
+>> +		goto out_unhook_irq;
+>> +
+>> +	retval = hook_thread_events();
+>> +
+>> +	if (retval)
+>> +		goto out_unrook_softirq;
+>> +
+>> +	/*
+>> +	 * Make sure NMIs see reseted values.
+>> +	 */
+>> +	barrier();
+>> +	trace_osnoise_callback_enabled = true;
+>> +
+>> +	retval = start_per_cpu_kthreads(tr);
+>> +	/*
+>> +	 * all fine!
+>> +	 */
+>> +	if (!retval)
+>> +		return;
+>> +
+>> +	unhook_thread_events();
+>> +out_unrook_softirq:
+>> +	unhook_softirq_events();
+>> +out_unhook_irq:
+>> +	unhook_irq_events();
+>> +err:
+>> +	pr_err(BANNER "Error starting osnoise tracer\n");
 >> +}
 >> +
->> +/**
->> + * start_per_cpu_kthread - Kick off the hardware latency sampling/detector kthreads
->> + *
->> + * This starts the kernel threads that will sit on potentially all cpus and
->> + * sample the CPU timestamp counter (TSC or similar) and look for potential
->> + * hardware latencies.
->> + */
->> +static int start_per_cpu_kthreads(struct trace_array *tr)
+>> +static void osnoise_tracer_stop(struct trace_array *tr)
 >> +{
->> +	struct cpumask *current_mask = &save_cpumask;
->> +	struct cpumask *this_cpumask;
->> +	struct task_struct *kthread;
->> +	char comm[24];
->> +	int cpu;
+>> +	/* Only allow one instance to enable this */
+>> +	if (!osnoise_busy)
+>> +		return;
 >> +
->> +	if (!alloc_cpumask_var(&this_cpumask, GFP_KERNEL))
->> +		return -ENOMEM;
+>> +	trace_osnoise_callback_enabled = false;
+>> +	barrier();
 >> +
->> +	get_online_cpus();
->> +	/*
->> +	 * Run only on CPUs in which trace and hwlat are allowed to run.
->> +	 */
->> +	cpumask_and(current_mask, tr->tracing_cpumask, &hwlat_cpumask);
->> +	/*
->> +	 * And the CPU is online.
->> +	 */
->> +	cpumask_and(current_mask, cpu_online_mask, current_mask);
->> +	put_online_cpus();
+>> +	stop_per_cpu_kthreads();
 >> +
->> +	for_each_online_cpu(cpu)
->> +		per_cpu(hwlat_per_cpu_data, cpu).kthread = NULL;
+>> +	unhook_irq_events();
+>> +	unhook_softirq_events();
+>> +	unhook_thread_events();
+>> +}
 >> +
->> +	for_each_cpu(cpu, current_mask) {
->> +		snprintf(comm, 24, "hwlatd/%d", cpu);
+>> +static int osnoise_tracer_init(struct trace_array *tr)
+>> +{
+>> +	/* Only allow one instance to enable this */
+>> +	if (osnoise_busy)
+>> +		return -EBUSY;
 >> +
->> +		kthread = kthread_create_on_cpu(kthread_fn, NULL, cpu, comm);
->> +		if (IS_ERR(kthread)) {
->> +			pr_err(BANNER "could not start sampling thread\n");
->> +			stop_per_cpu_kthreads();
->> +			return -ENOMEM;
->> +		}
+>> +	osnoise_trace = tr;
 >> +
->> +		per_cpu(hwlat_per_cpu_data, cpu).kthread = kthread;
->> +		wake_up_process(kthread);
->> +	}
+>> +	tr->max_latency = 0;
 >> +
->> +	return 0;
->>  }
->>  
->>  /*
->> @@ -701,7 +789,8 @@ static int hwlat_mode_open(struct inode *inode, struct file *file)
->>   * The "none" sets the allowed cpumask for a single hwlatd thread at the
->>   * startup and lets the scheduler handle the migration. The default mode is
->>   * the "round-robin" one, in which a single hwlatd thread runs, migrating
->> - * among the allowed CPUs in a round-robin fashion.
->> + * among the allowed CPUs in a round-robin fashion. The "per-cpu" mode
->> + * creates one hwlatd thread per allowed CPU.
->>   */
->>  static ssize_t hwlat_mode_write(struct file *filp, const char __user *ubuf,
->>  				 size_t cnt, loff_t *ppos)
->> @@ -827,14 +916,20 @@ static void hwlat_tracer_start(struct trace_array *tr)
->>  {
->>  	int err;
->>  
->> -	err = start_kthread(tr);
->> +	if (hwlat_data.thread_mode == MODE_PER_CPU)
->> +		err = start_per_cpu_kthreads(tr);
->> +	else
->> +		err = start_single_kthread(tr);
->>  	if (err)
->>  		pr_err(BANNER "Cannot start hwlat kthread\n");
->>  }
->>  
->>  static void hwlat_tracer_stop(struct trace_array *tr)
->>  {
->> -	stop_kthread();
->> +	if (hwlat_data.thread_mode == MODE_PER_CPU)
->> +		stop_per_cpu_kthreads();
->> +	else
->> +		stop_single_kthread();
+>> +	if (tracer_tracing_is_on(tr))
+>> +		osnoise_tracer_start(tr);
 > 
-> This explains why you have the "busy" check in the changing of the modes.
-> But really, I don't see why you cant change the mode. Just stop the
-> previous mode, and start the new one.
+> That's because trace-cmd will disable tracing when it enables a tracer. And
+> the above "osnoise_trace_start() is not called.
+> 
+>> +
+>> +	osnoise_busy = true;
+> 
+> Once this is set, when we enable tracing, the start wont start.
 
-I will try it!
+Ok, I will try to understand this better.
 
-Thanks!
+Thanks
 -- Daniel
 
 > -- Steve
 > 
 > 
+>> +
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static void osnoise_tracer_reset(struct trace_array *tr)
+>> +{
+>> +	osnoise_tracer_stop(tr);
+>> +
+>> +	osnoise_busy = false;
+>> +}
+>> +
+>> +static struct tracer osnoise_tracer __read_mostly = {
+>> +	.name		= "osnoise",
+>> +	.init		= osnoise_tracer_init,
+>> +	.reset		= osnoise_tracer_reset,
+>> +	.start		= osnoise_tracer_start,
+>> +	.stop		= osnoise_tracer_stop,
+>> +	.print_header	= print_osnoise_headers,
+>> +	.allow_instances = true,
+>> +};
+>> +
+>> +__init static int init_osnoise_tracer(void)
+>> +{
+>> +	int ret;
+>> +
+>> +	mutex_init(&osnoise_data.lock);
+>> +
+>> +	ret = register_tracer(&osnoise_tracer);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	cpumask_copy(&osnoise_cpumask, cpu_all_mask);
+>> +
+>> +	init_tracefs();
+>> +
+>> +	return 0;
+>> +}
+>> +late_initcall(init_osnoise_tracer);
+>> diff --git a/kernel/trace/trace_output.c b/kernel/trace/trace_output.c
+>> index 61255bad7e01..edeb127fcdea 100644
+>> --- a/kernel/trace/trace_output.c
+>> +++ b/kernel/trace/trace_output.c
+>> @@ -1189,7 +1189,6 @@ trace_hwlat_print(struct trace_iterator *iter, int flags,
+>>  	return trace_handle_return(s);
 >>  }
 >>  
->>  static int hwlat_tracer_init(struct trace_array *tr)
->> @@ -864,7 +959,7 @@ static int hwlat_tracer_init(struct trace_array *tr)
+>> -
+>>  static enum print_line_t
+>>  trace_hwlat_raw(struct trace_iterator *iter, int flags,
+>>  		struct trace_event *event)
+>> @@ -1219,6 +1218,76 @@ static struct trace_event trace_hwlat_event = {
+>>  	.funcs		= &trace_hwlat_funcs,
+>>  };
 >>  
->>  static void hwlat_tracer_reset(struct trace_array *tr)
->>  {
->> -	stop_kthread();
->> +	hwlat_tracer_stop(tr);
->>  
->>  	/* the tracing threshold is static between runs */
->>  	last_tracing_thresh = tracing_thresh;
+>> +/* TRACE_OSNOISE */
+>> +static enum print_line_t
+>> +trace_osnoise_print(struct trace_iterator *iter, int flags,
+>> +		    struct trace_event *event)
+>> +{
+>> +	struct trace_entry *entry = iter->ent;
+>> +	struct trace_seq *s = &iter->seq;
+>> +	struct osnoise_entry *field;
+>> +	u64 ratio, ratio_dec;
+>> +	u64 net_runtime;
+>> +
+>> +	trace_assign_type(field, entry);
+>> +
+>> +	/*
+>> +	 * compute the available % of cpu time.
+>> +	 */
+>> +	net_runtime = field->runtime - field->noise;
+>> +	ratio = net_runtime * 10000000;
+>> +	do_div(ratio, field->runtime);
+>> +	ratio_dec = do_div(ratio, 100000);
+>> +
+>> +	trace_seq_printf(s, "%llu %10llu %3llu.%05llu %7llu",
+>> +			 field->runtime,
+>> +			 field->noise,
+>> +			 ratio, ratio_dec,
+>> +			 field->max_sample);
+>> +
+>> +	trace_seq_printf(s, " %6u", field->hw_count);
+>> +	trace_seq_printf(s, " %6u", field->nmi_count);
+>> +	trace_seq_printf(s, " %6u", field->irq_count);
+>> +	trace_seq_printf(s, " %6u", field->softirq_count);
+>> +	trace_seq_printf(s, " %6u", field->thread_count);
+>> +
+>> +	trace_seq_putc(s, '\n');
+>> +
+>> +	return trace_handle_return(s);
+>> +}
+>> +
+>> +static enum print_line_t
+>> +trace_osnoise_raw(struct trace_iterator *iter, int flags,
+>> +		  struct trace_event *event)
+>> +{
+>> +	struct osnoise_entry *field;
+>> +	struct trace_seq *s = &iter->seq;
+>> +
+>> +	trace_assign_type(field, iter->ent);
+>> +
+>> +	trace_seq_printf(s, "%lld %llu %llu %u %u %u %u %u\n",
+>> +			 field->runtime,
+>> +			 field->noise,
+>> +			 field->max_sample,
+>> +			 field->hw_count,
+>> +			 field->nmi_count,
+>> +			 field->irq_count,
+>> +			 field->softirq_count,
+>> +			 field->thread_count);
+>> +
+>> +	return trace_handle_return(s);
+>> +}
+>> +
+>> +static struct trace_event_functions trace_osnoise_funcs = {
+>> +	.trace		= trace_osnoise_print,
+>> +	.raw		= trace_osnoise_raw,
+>> +};
+>> +
+>> +static struct trace_event trace_osnoise_event = {
+>> +	.type		= TRACE_OSNOISE,
+>> +	.funcs		= &trace_osnoise_funcs,
+>> +};
+>> +
+>>  /* TRACE_BPUTS */
+>>  static enum print_line_t
+>>  trace_bputs_print(struct trace_iterator *iter, int flags,
+>> @@ -1384,6 +1453,7 @@ static struct trace_event *events[] __initdata = {
+>>  	&trace_bprint_event,
+>>  	&trace_print_event,
+>>  	&trace_hwlat_event,
+>> +	&trace_osnoise_event,
+>>  	&trace_raw_data_event,
+>>  	NULL
+>>  };
+> 
+> 	
 > 
 
