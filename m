@@ -2,93 +2,169 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,
-	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
+	NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A2F45C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 10:32:35 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 502D1C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 11:02:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E8EB61152
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 10:32:35 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2DEE661249
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 11:02:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229481AbhDOKc5 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 06:32:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42680 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230056AbhDOKc5 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 06:32:57 -0400
-Received: from wp530.webpack.hosteurope.de (wp530.webpack.hosteurope.de [IPv6:2a01:488:42:1000:50ed:8234::])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA7B3C061574;
-        Thu, 15 Apr 2021 03:32:32 -0700 (PDT)
-Received: from ip4d14bd53.dynamic.kabel-deutschland.de ([77.20.189.83] helo=[192.168.66.200]); authenticated
-        by wp530.webpack.hosteurope.de running ExIM with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        id 1lWzIU-0003GZ-AA; Thu, 15 Apr 2021 12:32:30 +0200
-To:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        w4v3 <vv4v3@protonmail.com>
-Cc:     "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <vaWPnw1Txo_MD5Sf-BnMmq3pBTkITza0W5p_jAi8JIy3hBAbCsKPXZ5g5IHKYGqK6zLjzUNgJ59xMCHvhREBUq6Vc1105b8yCIVDgaPABqE=@protonmail.com>
- <dff6badf-58f5-98c8-871c-94d901ac6919@leemhuis.info>
- <wqM80O49houE3ZJHpxjcrNxijZ_h9pMjxZU2OCL-ZpsdwMhIVFcGXZb9qe93r2AY0qd0dB-94ZVQaF-Xb-i-zqX5DIO5S4C6UTBpVkxvszA=@protonmail.com>
- <CAJZ5v0hX2StQVttAciHYH-urUH+Hi92z9z2ZbcNgQPt0E2Jpwg@mail.gmail.com>
-From:   Thorsten Leemhuis <linux@leemhuis.info>
-Subject: Re: "Reporting issues" document feedback
-Message-ID: <b1cbdc62-85a8-93f6-0158-1a905f3986da@leemhuis.info>
-Date:   Thu, 15 Apr 2021 12:32:29 +0200
+        id S232513AbhDOLDM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 07:03:12 -0400
+Received: from mx2.suse.de ([195.135.220.15]:56906 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S231771AbhDOLDK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Apr 2021 07:03:10 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 3334FAE5C;
+        Thu, 15 Apr 2021 11:02:46 +0000 (UTC)
+Subject: Re: [PATCH v2 08/10] drm/simpledrm: Acquire clocks from DT device
+ node
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     daniel@ffwll.ch, airlied@linux.ie,
+        maarten.lankhorst@linux.intel.com, kraxel@redhat.com,
+        corbet@lwn.net, lgirdwood@gmail.com, broonie@kernel.org,
+        sam@ravnborg.org, robh@kernel.org, emil.l.velikov@gmail.com,
+        geert+renesas@glider.be, hdegoede@redhat.com,
+        bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
+        linux-doc@vger.kernel.org,
+        virtualization@lists.linux-foundation.org
+References: <20210318102921.21536-1-tzimmermann@suse.de>
+ <20210318102921.21536-9-tzimmermann@suse.de>
+ <20210408081353.ojt2kgnnbh6kp6gp@gilmour>
+ <3c7bacd1-e40e-0953-9ad9-9f79274106d5@suse.de>
+ <20210415092123.7zn6fbnkuqlajord@gilmour>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <9b21042c-9908-3847-702a-cb891d1769e0@suse.de>
+Date:   Thu, 15 Apr 2021 13:02:44 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.8.1
+ Thunderbird/78.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAJZ5v0hX2StQVttAciHYH-urUH+Hi92z9z2ZbcNgQPt0E2Jpwg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-BS
-Content-Transfer-Encoding: 8bit
-X-bounce-key: webpack.hosteurope.de;linux@leemhuis.info;1618482754;2913ccfc;
-X-HE-SMSGID: 1lWzIU-0003GZ-AA
+In-Reply-To: <20210415092123.7zn6fbnkuqlajord@gilmour>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="pv9oRcu0brx3qp43qMsIO2M2HlTYKSgAh"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 14.04.21 15:42, Rafael J. Wysocki wrote:
-> On Wed, Apr 14, 2021 at 3:22 PM w4v3 <vv4v3@protonmail.com> wrote:
->>> Links to your bug report and the thread on the mailing list would have
->>> helped here to understand better what's going on, but whatever, they are
->>> not that important.
->> Here you go: https://bugzilla.kernel.org/show_bug.cgi?id=212643
->> https://marc.info/?l=linux-acpi&m=161824910030600&w=2
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--pv9oRcu0brx3qp43qMsIO2M2HlTYKSgAh
+Content-Type: multipart/mixed; boundary="CcQrpjqdj87PdBCsgqbGS58fbpaH1Wc0B";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: daniel@ffwll.ch, airlied@linux.ie, maarten.lankhorst@linux.intel.com,
+ kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com, broonie@kernel.org,
+ sam@ravnborg.org, robh@kernel.org, emil.l.velikov@gmail.com,
+ geert+renesas@glider.be, hdegoede@redhat.com,
+ bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, virtualization@lists.linux-foundation.org
+Message-ID: <9b21042c-9908-3847-702a-cb891d1769e0@suse.de>
+Subject: Re: [PATCH v2 08/10] drm/simpledrm: Acquire clocks from DT device
+ node
+References: <20210318102921.21536-1-tzimmermann@suse.de>
+ <20210318102921.21536-9-tzimmermann@suse.de>
+ <20210408081353.ojt2kgnnbh6kp6gp@gilmour>
+ <3c7bacd1-e40e-0953-9ad9-9f79274106d5@suse.de>
+ <20210415092123.7zn6fbnkuqlajord@gilmour>
+In-Reply-To: <20210415092123.7zn6fbnkuqlajord@gilmour>
 
-BTW: thx!
+--CcQrpjqdj87PdBCsgqbGS58fbpaH1Wc0B
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
->>> But it should, otherwise the subsystem should remove the line starting
->>> with B: ("bugs:" in the webview).
+Hi
+
+Am 15.04.21 um 11:21 schrieb Maxime Ripard:
+> Hi,
+>=20
+> On Thu, Apr 15, 2021 at 09:31:01AM +0200, Thomas Zimmermann wrote:
+>> Am 08.04.21 um 10:13 schrieb Maxime Ripard:
+>>> Hi,
 >>>
->>> Rafael might be able to clarify things.
+>>> On Thu, Mar 18, 2021 at 11:29:19AM +0100, Thomas Zimmermann wrote:
+>>>> Make sure required hardware clocks are enabled while the firmware
+>>>> framebuffer is in use.
+>>>>
+>>>> The basic code has been taken from the simplefb driver and adapted
+>>>> to DRM. Clocks are released automatically via devres helpers.
+>>>>
+>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
+>>>
+>>> Even though it's definitely simpler to review, merging the driver fir=
+st
+>>> and then the clocks and regulators will break bisection on the platfo=
+rms
+>>> that rely on them
 >>
->>> But afais it's appropriate there is a B: line: just a few weeks ago I
->>> took a quick look at bugzilla and ACPI bugs in particular, and back then
->>> most of the bug reports there got handled by the maintainers. That's why
->>> I assume you were just unlucky and your report fall through the cracks
->>> (but obviously I might be wrong here). And maybe your report even did
->>> help: the developer that fixed the issue might have seen both the bug
->>> entry and the mailed report, but simply forget to close the former.
+>> I'd like to keep the patches separate for now, but can squash patches =
+6 to 8
+>> them into one before pushing them. OK?
+>=20
+> Yep, that works for me :)
+>=20
+>>>
+>>> Another thing worth considering is also that both drivers will probe =
+if
+>>> they are enabled (which is pretty likely), which is not great :)
+>>>
+>>> I guess we should make them mutually exclusive through Kconfig
 >>
->> Good to know. It does seem like many recent ACPI bug reports on bugzilla
->> have been processed by maintainers. Maybe it is the ACPI-subcomponent I
->> chose for the bug: in Config-Tables, only two other bugs were submitted
->> and they did not attract comments. Anyways, I understand now that it's
->> not an issue with the document so thanks for forwarding it to Rafael.
-> 
-> As a rule, ACPI bugs submitted through the BZ are processed by the
-> ACPI team (not necessarily by me in person, though), but the response
-> time may vary, so it's better to report urgent issues by sending
-> e-mail to linux-acpi@vger.kernel.org.
+>> We already have several drivers in fbdev and DRM that handle the same
+>> hardware. We don't do this for any other pair, why bother now?
+>=20
+> Yeah, but simplefb/simpledrm are going to be enabled pretty much
+> everywhere, as opposed to the other drivers that are more specialized.
 
-Rafael, thx for clarifying. And what you wrote is likely the case for
-subsystems as well, so I submitted a patch to mentioned that in
-reporting-issues.rst:
+Well, OK. But I'd like to give simpledrm preference over simplefb. There =
 
-https://lore.kernel.org/linux-doc/dd13f10c30e79e550215e53a8103406daec4e593.1618482489.git.linux@leemhuis.info/
+should be an incentive to switch to DRM.
 
-Thx everyone! Ciao, Thorsten
+Best regards
+Thomas
+
+>=20
+> Maxime
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=FCrnberg, Germany
+(HRB 36809, AG N=FCrnberg)
+Gesch=E4ftsf=FChrer: Felix Imend=F6rffer
+
+
+--CcQrpjqdj87PdBCsgqbGS58fbpaH1Wc0B--
+
+--pv9oRcu0brx3qp43qMsIO2M2HlTYKSgAh
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB4HVQFAwAAAAAACgkQlh/E3EQov+AF
+pxAAozROWie7dTxAtiRfgzQSS03XukbT+QHR6seC98Xrm+SH2tiSpSBZNZ/L857rVnPWBGaXcmPu
+u4XvB6rJZ8n87m10g1nQjODoeAdRInWOXn9pRwLbcEmMcQBNPx224OCjtijEtDvmnnX/efsJJ9mX
+/+f2/n4T5+FlCfQgGF9MDLmZEjCxNYwlU63zwS3Ben6WZYtS0aYPKUjctDRAJAyGtO7u4mbu1P+b
+OIqvx/bezvuuEQbvxLIr61VOg1fDkRWBMgyx6aKcr6wJHOcGFyGTw2KTWl0TKN0CmQpRyA+dnDZM
+jfv7WUxsIvJc3+3UNqfM46BXKVMG2bx0df5K9dWcNfJMYThnUaqooXXvu2Ea+SqjtCPBwoa6TyHT
+qTceXK3/h/UNOjIZh/I69CYkeJeWgYzOvyf3AlCWAZUPZml2zomzHRRH+anK8QDZ+nEjX7+f73FG
+qWQVp2Zzv6pfVAUhQtpqYwNh22RmUgmWgDweT1bK4U2636HpEeAOAzO4/zMYPpm6Dkp3Cl3LpwHI
++jtGcIruoG98psJcBdiwELvIH22Rs3VxukqSROaRuWqVtYkgwaP7LZPZ8Vg+4hXkfb0d5vqK95G9
+makNHChC9A14HgJ+uRXZXbl21H2fhrqV2uJNwOe35P7JjSgedWFoJLlyb1Hoz1O2iRTGdrzGGKPw
+hRM=
+=tU5/
+-----END PGP SIGNATURE-----
+
+--pv9oRcu0brx3qp43qMsIO2M2HlTYKSgAh--
