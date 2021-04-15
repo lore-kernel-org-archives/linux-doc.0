@@ -2,95 +2,113 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
 	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DC02C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 02:29:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 866EFC433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 04:02:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1DCA6611B0
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 02:29:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6666C6113B
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 04:02:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229598AbhDOC3s (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Wed, 14 Apr 2021 22:29:48 -0400
-Received: from m32-153.88.com ([43.250.32.153]:49704 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229481AbhDOC3s (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Wed, 14 Apr 2021 22:29:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=7Oisvm9Fjzv7BBR0o4Cvrz0X7hR3HmbFcdYyr
-        oCLuWM=; b=C5xcdBS/MPBh5C115QyfDIUBxVvwdHx9mplRfX2ErXfKT3Z7GorZf
-        OpK7DAeQdGKmsQvK0N9VLaH/8uyQTjiJiaQFYXYHfKaN98wT2EqRRJoKjGXivVWt
-        Ykk3gNEIPrSIAWEVq4E4TupnySkTZbuVUfb09Q/D0H85STc7pCE9Ek=
-Received: from bobwxc.top (unknown [120.238.248.129])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgBX4iL5pHdgIIhwAA--.2363S2;
-        Thu, 15 Apr 2021 10:29:15 +0800 (CST)
-Date:   Thu, 15 Apr 2021 10:29:13 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     yanteng si <siyanteng01@gmail.com>
-Cc:     Yanteng Si <siyanteng@loongson.cn>,
-        Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        Puyu Wang <realpuyuwang@gmail.com>
-Subject: Re: [PATCH v4 00/11] docs/zh_CN: add core api and openrisc
- translation
-Message-ID: <20210415022913.GA19308@bobwxc.top>
-References: <20210415013124.2256416-1-siyanteng@loongson.cn>
- <CAEensMysF7Cmq6Tzcu8n1Xw2ctdpaEpGhZ8jyvY4sEZtyToAPw@mail.gmail.com>
+        id S229450AbhDOECV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 00:02:21 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:5133 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229531AbhDOECV (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 00:02:21 -0400
+Received: from DGGEML404-HUB.china.huawei.com (unknown [172.30.72.56])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4FLQb91wnczYWTs;
+        Thu, 15 Apr 2021 11:59:49 +0800 (CST)
+Received: from dggpemm000002.china.huawei.com (7.185.36.174) by
+ DGGEML404-HUB.china.huawei.com (10.3.17.39) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Thu, 15 Apr 2021 12:01:55 +0800
+Received: from dggpemm000003.china.huawei.com (7.185.36.128) by
+ dggpemm000002.china.huawei.com (7.185.36.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 15 Apr 2021 12:01:55 +0800
+Received: from dggpemm000003.china.huawei.com ([7.185.36.128]) by
+ dggpemm000003.china.huawei.com ([7.185.36.128]) with mapi id 15.01.2106.013;
+ Thu, 15 Apr 2021 12:01:55 +0800
+From:   "Zengtao (B)" <prime.zeng@hisilicon.com>
+To:     Wu XiangCheng <bobwxc@email.cn>, Alex Shi <alexs@kernel.org>,
+        Bernard Zhao <bernard@vivo.com>
+CC:     Jonathan Corbet <corbet@lwn.net>,
+        YanTeng Si <sterlingteng@gmail.com>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "clang-built-linux@googlegroups.com" 
+        <clang-built-linux@googlegroups.com>
+Subject: =?utf-8?B?562U5aSNOiBbUEFUQ0ggdjVdIGRvY3MvemhfQ046IGFkZCB0cmFuc2xhdGlv?=
+ =?utf-8?Q?ns_in_zh=5FCN/dev-tools/gcov?=
+Thread-Topic: [PATCH v5] docs/zh_CN: add translations in zh_CN/dev-tools/gcov
+Thread-Index: AQHXMTFxHEf5zlvY0UeIFVspcBfxVKq08UpQ
+Date:   Thu, 15 Apr 2021 04:01:55 +0000
+Message-ID: <e26cc66e2a2745f994eb8ede9a783563@hisilicon.com>
+References: <20210414082316.15160-1-bernard@vivo.com>
+ <20210414132127.GA13306@bobwxc.top>
+In-Reply-To: <20210414132127.GA13306@bobwxc.top>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.69.38.183]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAEensMysF7Cmq6Tzcu8n1Xw2ctdpaEpGhZ8jyvY4sEZtyToAPw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgBX4iL5pHdgIIhwAA--.2363S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrWr4kWryxGF1rCw4DArWUurg_yoWxWrgEga
-        1vvryvkr47KanrCa12kr4vy3ZI9wsa9ry5AryUXws7Xws3JFWDJFZ5tr93Zry0yFy8JF13
-        uF4UXr48Zr1UZjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbo8YjsxI4VW3JwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-        8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E
-        87Iv67AKxVWxJVW8Jr1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4j6r4UJwAS0I0E0xvYzx
-        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
-        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04
-        v7MxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Y
-        z7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zV
-        AF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4l
-        IxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCw
-        CI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVF
-        xhVjvjDU0xZFpf9x07Un189UUUUU=
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 09:58:11AM +0800, yanteng si wrote:
-> Hi all,
-> 
-> I did a lot of tests with my mailbox last night and couldn't find the
-> reason. Now that I've found it, patch 7 and patch 11 names are
-> repeated; I should split into two series to send; and finally, I'm
-
-Emmm, that's interesting, so it is a bug of git format-patch?
-The created patches should have a number prefix, thus seems impossible
-to mix them up.
-
-Actually you could add two mail header "In-Reply-To:" and "References:"
-by hand, then patch 11 will appeared in same thread.
-
-
-Thanks,
-Wu X.C.
-
-> really sorry for wasting mailing list resources to test. T_T
-> 
-> Thanks,
-> 
-> Yanteng
-> 
-
+PiAtLS0tLemCruS7tuWOn+S7ti0tLS0tDQo+IOWPkeS7tuS6ujogV3UgWGlhbmdDaGVuZyBbbWFp
+bHRvOmJvYnd4Y0BlbWFpbC5jbl0NCj4g5Y+R6YCB5pe26Ze0OiAyMDIx5bm0NOaciDE05pelIDIx
+OjIxDQo+IOaUtuS7tuS6ujogQWxleCBTaGkgPGFsZXhzQGtlcm5lbC5vcmc+OyBCZXJuYXJkIFpo
+YW8gPGJlcm5hcmRAdml2by5jb20+DQo+IOaKhOmAgTogSm9uYXRoYW4gQ29yYmV0IDxjb3JiZXRA
+bHduLm5ldD47IFlhblRlbmcgU2kNCj4gPHN0ZXJsaW5ndGVuZ0BnbWFpbC5jb20+OyBOYXRoYW4g
+Q2hhbmNlbGxvciA8bmF0aGFuQGtlcm5lbC5vcmc+OyBOaWNrDQo+IERlc2F1bG5pZXJzIDxuZGVz
+YXVsbmllcnNAZ29vZ2xlLmNvbT47IGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc7DQo+IGxpbnV4
+LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGNsYW5nLWJ1aWx0LWxpbnV4QGdvb2dsZWdyb3Vwcy5j
+b20NCj4g5Li76aKYOiBbUEFUQ0ggdjVdIGRvY3MvemhfQ046IGFkZCB0cmFuc2xhdGlvbnMgaW4g
+emhfQ04vZGV2LXRvb2xzL2djb3YNCj4gDQo+IEZyb206IEJlcm5hcmQgWmhhbyA8YmVybmFyZEB2
+aXZvLmNvbT4NCj4gDQo+IEFkZCBuZXcgemggdHJhbnNsYXRpb25zDQo+ICogemhfQ04vZGV2LXRv
+b2xzL2djb3YucnN0DQo+ICogemhfQ04vZGV2LXRvb2xzL2luZGV4LnJzdA0KPiBhbmQgbGluayB0
+aGVtIHRvIHpoX0NOL2luZGV4LnJzdA0KPiANCj4gU2lnbmVkLW9mZi1ieTogQmVybmFyZCBaaGFv
+IDxiZXJuYXJkQHZpdm8uY29tPg0KPiBSZXZpZXdlZC1ieTogV3UgWGlhbmdDaGVuZyA8Ym9id3hj
+QGVtYWlsLmNuPg0KPiBTaWduZWQtb2ZmLWJ5OiBXdSBYaWFuZ0NoZW5nIDxib2J3eGNAZW1haWwu
+Y24+DQo+IC0tLQ0KPiBiYXNlOiBsaW51eC1uZXh0DQo+IGNvbW1pdCAyNjlkZDQyZjQ3NzYgKCJk
+b2NzL3poX0NOOiBhZGQgcmlzY3YgdG8gemhfQ04gaW5kZXgiKQ0KPiANCj4gQ2hhbmdlcyBzaW5j
+ZSBWNDoNCj4gKiBtb2RpZmllZCBzb21lIHdvcmRzIHVuZGVyIEFsZXggU2hpJ3MgYWR2aWNlcw0K
+PiANCj4gQ2hhbmdlcyBzaW5jZSBWMzoNCj4gKiB1cGRhdGUgdG8gbmV3ZXN0IGxpbnV4LW5leHQN
+Cj4gKiBmaXggYGANCj4gKiBmaXggdGFncw0KPiAqIGZpeCBsaXN0IGluZGVudA0KPiANCj4gQ2hh
+bmdlcyBzaW5jZSBWMjoNCj4gKiBmaXggc29tZSBpbmFjY3VyYXRlIHRyYW5zbGF0aW9uDQo+IA0K
+PiBDaGFuZ2VzIHNpbmNlIFYxOg0KPiAqIGFkZCBpbmRleC5yc3QgaW4gZGV2LXRvb2xzIGFuZCBs
+aW5rIHRvIHRvIHpoX0NOL2luZGV4LnJzdA0KPiAqIGZpeCBzb21lIGluYWNjdXJhdGUgdHJhbnNs
+YXRpb24NCj4gDQo+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL2Rldi10b29scy9nY292LnJzdCAg
+ICAgfCAyNjUgKysrKysrKysrKysrKysrKysrDQo+ICAuLi4vdHJhbnNsYXRpb25zL3poX0NOL2Rl
+di10b29scy9pbmRleC5yc3QgICAgfCAgMzUgKysrDQo+ICBEb2N1bWVudGF0aW9uL3RyYW5zbGF0
+aW9ucy96aF9DTi9pbmRleC5yc3QgICAgfCAgIDEgKw0KPiAgMyBmaWxlcyBjaGFuZ2VkLCAzMDEg
+aW5zZXJ0aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vdHJhbnNs
+YXRpb25zL3poX0NOL2Rldi10b29scy9nY292LnJzdA0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERv
+Y3VtZW50YXRpb24vdHJhbnNsYXRpb25zL3poX0NOL2Rldi10b29scy9pbmRleC5yc3QNCj4gDQo+
+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9kZXYtdG9vbHMv
+Z2Nvdi5yc3QNCj4gYi9Eb2N1bWVudGF0aW9uL3RyYW5zbGF0aW9ucy96aF9DTi9kZXYtdG9vbHMv
+Z2Nvdi5yc3QNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMDAwLi43
+NTE1YjQ4OGJjNGUNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9Eb2N1bWVudGF0aW9uL3RyYW5z
+bGF0aW9ucy96aF9DTi9kZXYtdG9vbHMvZ2Nvdi5yc3QNCj4gQEAgLTAsMCArMSwyNjUgQEANCj4g
+Ky4uIGluY2x1ZGU6OiAuLi9kaXNjbGFpbWVyLXpoX0NOLnJzdA0KPiArDQo+ICs6T3JpZ2luYWw6
+IERvY3VtZW50YXRpb24vZGV2LXRvb2xzL2djb3YucnN0DQo+ICs6VHJhbnNsYXRvcjog6LW15Yab
+5aWOIEJlcm5hcmQgWmhhbyA8YmVybmFyZEB2aXZvLmNvbT4NCj4gKw0KPiAr5ZyoTGludXjlhoXm
+oLjph4zkvb/nlKhnY2925YGa5Luj56CB6KaG55uW546H5qOA5p+lDQo+ICs9PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09DQo+ICsNCj4gK2djb3bmmK9saW51eOS4reW3sue7j+mb
+huaIkOeahOS4gOS4quWIhuaekOaooeWdl++8jOivpeaooeWdl+WcqOWGheaguOS4reWvuUdDQ+ea
+hOS7o+eggQ0KPiDopobnm5bnjofnu58NCg0KR2NvdiBpcyBhIHRvb2wvZnVuY3Rpb24sIG1pc2xl
+YWRpbmcgZm9yICIgZ2NvduaYr2xpbnV45Lit5bey57uP6ZuG5oiQ55qE5LiA5Liq5YiG5p6QDQrm
+qKHlnZciDQoNCkkgJ2Qgc3VnZ2VzdDoNCiJMaW51eOWGheaguOS4reW3sue7j+mbhuaIkOS4gOS4
+queJueaAp+aUr+aMgWdjb3blip/og73vvIzor6XnibnmgKforqnnlKjmiLflj6/ku6Xkvb/nlKhn
+Y292DQog5bel5YW35a+55YaF5qC45Luj56CB6KaG55uW546H6L+b6KGM57uf6K6hIg0KDQpUaGFu
+a3MuDQo=
