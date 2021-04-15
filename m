@@ -2,174 +2,88 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47C82C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 14:38:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C63C433B4
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 15:20:00 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 2CD00613B7
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 14:38:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6229561131
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 15:20:00 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233376AbhDOOiX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 10:38:23 -0400
-Received: from www62.your-server.de ([213.133.104.62]:41750 "EHLO
-        www62.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233363AbhDOOiV (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 10:38:21 -0400
-Received: from sslproxy03.your-server.de ([88.198.220.132])
-        by www62.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92.3)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1lX37j-000708-Ga; Thu, 15 Apr 2021 16:37:39 +0200
-Received: from [85.7.101.30] (helo=pc-6.home)
-        by sslproxy03.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <daniel@iogearbox.net>)
-        id 1lX37i-000EJ3-8n; Thu, 15 Apr 2021 16:37:38 +0200
-Subject: Re: [PATCH bpf-next 1/2] bpf: Remove bpf_jit_enable=2 debugging mode
-To:     Jianlin Lv <Jianlin.Lv@arm.com>, bpf@vger.kernel.org
-Cc:     corbet@lwn.net, ast@kernel.org, andrii@kernel.org, kafai@fb.com,
-        songliubraving@fb.com, yhs@fb.com, john.fastabend@gmail.com,
-        kpsingh@kernel.org, davem@davemloft.net, kuba@kernel.org,
-        illusionist.neo@gmail.com, linux@armlinux.org.uk,
-        zlim.lnx@gmail.com, catalin.marinas@arm.com, will@kernel.org,
-        paulburton@kernel.org, tsbogend@alpha.franken.de,
-        naveen.n.rao@linux.ibm.com, sandipan@linux.ibm.com,
-        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        luke.r.nels@gmail.com, xi.wang@gmail.com, bjorn@kernel.org,
-        paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, iii@linux.ibm.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, borntraeger@de.ibm.com, yoshfuji@linux-ipv6.org,
-        dsahern@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com, udknight@gmail.com,
-        mchehab+huawei@kernel.org, dvyukov@google.com, maheshb@google.com,
-        horms@verge.net.au, nicolas.dichtel@6wind.com,
-        viro@zeniv.linux.org.uk, masahiroy@kernel.org,
-        keescook@chromium.org, quentin@isovalent.com, tklauser@distanz.ch,
-        grantseltzer@gmail.com, irogers@google.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        sparclinux@vger.kernel.org, iecedge@gmail.com
-References: <20210415093250.3391257-1-Jianlin.Lv@arm.com>
-From:   Daniel Borkmann <daniel@iogearbox.net>
-Message-ID: <9c4a78d2-f73c-832a-e6e2-4b4daa729e07@iogearbox.net>
-Date:   Thu, 15 Apr 2021 16:37:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.2
+        id S233289AbhDOPUW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 11:20:22 -0400
+Received: from ms.lwn.net ([45.79.88.28]:52460 "EHLO ms.lwn.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233905AbhDOPSg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Apr 2021 11:18:36 -0400
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 19DAA24D7;
+        Thu, 15 Apr 2021 15:18:12 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 19DAA24D7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1618499892; bh=F2kvtD3Uizp+1hvWvIXdFcvuRVTsCbwGfd1WBc6FthU=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=L1+gXit7+dfkYP9jy2f6G7WhHH+x9sv6gq2jTBVLI9QKbWj5ZBg96ZdQraX49npYH
+         FEWSLilS9PcM8jdv7KMZgwv7OHo5YG7Y0zsH4FGl38T0tatBt+7KXvSD8sL/YBn7Nn
+         o7OQNcUvVmcvFT5FIb13PSn1MpiFHUR/dBz71x5csP+PuE6FPcgnj/nDURVEyO5e8h
+         9Bkp46oiO+Xb5iN5of3SyVuNyCewJ1l9o6S3BiT1m/tUcpRSmWkFQyWQUpyUTlvpLy
+         PF0iygKpI+9g/ds8JZ/8Yh8Bu+/xMTJ9I9Mmo1XlF3XtsXfWhALI65zS+6hodC6CX5
+         E2CjRJy22l3tA==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Yanteng Si <siyanteng@loongson.cn>
+Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        realpuyuwang@gmail.com, siyanteng01@gmail.com,
+        Wu XiangCheng <bobwxc@email.cn>,
+        Yanteng Si <siyanteng@loongson.cn>
+Subject: Re: [PATCH v5 0/4] docs/zh_CN: add core api and openrisc translation
+In-Reply-To: <20210415063838.2341827-1-siyanteng@loongson.cn>
+References: <20210415063838.2341827-1-siyanteng@loongson.cn>
+Date:   Thu, 15 Apr 2021 09:18:11 -0600
+Message-ID: <87y2dj4lvw.fsf@meer.lwn.net>
 MIME-Version: 1.0
-In-Reply-To: <20210415093250.3391257-1-Jianlin.Lv@arm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.102.4/26141/Thu Apr 15 13:13:26 2021)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/15/21 11:32 AM, Jianlin Lv wrote:
-> For debugging JITs, dumping the JITed image to kernel log is discouraged,
-> "bpftool prog dump jited" is much better way to examine JITed dumps.
-> This patch get rid of the code related to bpf_jit_enable=2 mode and
-> update the proc handler of bpf_jit_enable, also added auxiliary
-> information to explain how to use bpf_jit_disasm tool after this change.
-> 
-> Signed-off-by: Jianlin Lv <Jianlin.Lv@arm.com>
-[...]
-> diff --git a/arch/x86/net/bpf_jit_comp32.c b/arch/x86/net/bpf_jit_comp32.c
-> index 0a7a2870f111..8d36b4658076 100644
-> --- a/arch/x86/net/bpf_jit_comp32.c
-> +++ b/arch/x86/net/bpf_jit_comp32.c
-> @@ -2566,9 +2566,6 @@ struct bpf_prog *bpf_int_jit_compile(struct bpf_prog *prog)
->   		cond_resched();
->   	}
->   
-> -	if (bpf_jit_enable > 1)
-> -		bpf_jit_dump(prog->len, proglen, pass + 1, image);
-> -
->   	if (image) {
->   		bpf_jit_binary_lock_ro(header);
->   		prog->bpf_func = (void *)image;
-> diff --git a/net/core/sysctl_net_core.c b/net/core/sysctl_net_core.c
-> index c8496c1142c9..990b1720c7a4 100644
-> --- a/net/core/sysctl_net_core.c
-> +++ b/net/core/sysctl_net_core.c
-> @@ -273,16 +273,8 @@ static int proc_dointvec_minmax_bpf_enable(struct ctl_table *table, int write,
->   
->   	tmp.data = &jit_enable;
->   	ret = proc_dointvec_minmax(&tmp, write, buffer, lenp, ppos);
-> -	if (write && !ret) {
-> -		if (jit_enable < 2 ||
-> -		    (jit_enable == 2 && bpf_dump_raw_ok(current_cred()))) {
-> -			*(int *)table->data = jit_enable;
-> -			if (jit_enable == 2)
-> -				pr_warn("bpf_jit_enable = 2 was set! NEVER use this in production, only for JIT debugging!\n");
-> -		} else {
-> -			ret = -EPERM;
-> -		}
-> -	}
-> +	if (write && !ret)
-> +		*(int *)table->data = jit_enable;
->   	return ret;
->   }
->   
-> @@ -389,7 +381,7 @@ static struct ctl_table net_core_table[] = {
->   		.extra2		= SYSCTL_ONE,
->   # else
->   		.extra1		= SYSCTL_ZERO,
-> -		.extra2		= &two,
-> +		.extra2		= SYSCTL_ONE,
->   # endif
->   	},
->   # ifdef CONFIG_HAVE_EBPF_JIT
-> diff --git a/tools/bpf/bpf_jit_disasm.c b/tools/bpf/bpf_jit_disasm.c
-> index c8ae95804728..efa4b17ae016 100644
-> --- a/tools/bpf/bpf_jit_disasm.c
-> +++ b/tools/bpf/bpf_jit_disasm.c
-> @@ -7,7 +7,7 @@
->    *
->    * To get the disassembly of the JIT code, do the following:
->    *
-> - *  1) `echo 2 > /proc/sys/net/core/bpf_jit_enable`
-> + *  1) Insert bpf_jit_dump() and recompile the kernel to output JITed image into log
+Yanteng Si <siyanteng@loongson.cn> writes:
 
-Hmm, if we remove bpf_jit_dump(), the next drive-by cleanup patch will be thrown
-at bpf@vger stating that bpf_jit_dump() has no in-tree users and should be removed.
-Maybe we should be removing bpf_jit_disasm.c along with it as well as bpf_jit_dump()
-itself ... I guess if it's ever needed in those rare occasions for JIT debugging we
-can resurrect it from old kernels just locally. But yeah, bpftool's jit dump should
-suffice for vast majority of use cases.
+> This series of patches translates core-api/irq/* and openrisc/* into
+> Chinese
+>
+> v1 -> v2:
+>
+> Modify some words under Xiangcheng Wu's suggestion. Thanks for his rewiew!
+>
+> v2 -> v3:
+>
+> keep the signs number equal to the title char under Alex's suggestion.=20
+> Thanks for his rewiew!
+>
+> v3 -> v4:
+>
+> Add Xiangcheng Wu's review sign to 0002=E3=80=810003 and 0008; Thanks for=
+ his rewiew!
+>
+> v4 -> v5:
+>
+> Split 8-11 into a separate series
 
-There was a recent set for ppc32 jit which was merged into ppc tree which will create
-a merge conflict with this one [0]. So we would need a rebase and take it maybe during
-merge win once the ppc32 landed..
+So I am now totally confused.  I have two "v5" series with the same
+subject; they are evidently different but there's no explanation of why
+or which order I should put them in.
 
-   [0] https://lore.kernel.org/bpf/cover.1616430991.git.christophe.leroy@csgroup.eu/
+Please, why have you done this, and what do you expect me to do now?
 
->    *  2) Load a BPF filter (e.g. `tcpdump -p -n -s 0 -i eth1 host 192.168.20.0/24`)
->    *  3) Run e.g. `bpf_jit_disasm -o` to read out the last JIT code
->    *
-> diff --git a/tools/bpf/bpftool/feature.c b/tools/bpf/bpftool/feature.c
-> index 40a88df275f9..98c7eec2923f 100644
-> --- a/tools/bpf/bpftool/feature.c
-> +++ b/tools/bpf/bpftool/feature.c
-> @@ -203,9 +203,6 @@ static void probe_jit_enable(void)
->   		case 1:
->   			printf("JIT compiler is enabled\n");
->   			break;
-> -		case 2:
-> -			printf("JIT compiler is enabled with debugging traces in kernel logs\n");
-> -			break;
+Thanks,
 
-This would still need to be there for older kernels ...
-
->   		case -1:
->   			printf("Unable to retrieve JIT-compiler status\n");
->   			break;
-> 
-
+jon
