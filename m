@@ -2,124 +2,87 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,URIBL_BLOCKED,USER_AGENT_GIT
-	autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 930B7C43603
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 09:33:43 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7344C433ED
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 10:05:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6D98261249
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 09:33:43 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 85E41611AD
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 10:05:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232164AbhDOJeE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 05:34:04 -0400
-Received: from foss.arm.com ([217.140.110.172]:41266 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231960AbhDOJeD (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Apr 2021 05:34:03 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 58113106F;
-        Thu, 15 Apr 2021 02:33:40 -0700 (PDT)
-Received: from net-arm-thunderx2-02.shanghai.arm.com (net-arm-thunderx2-02.shanghai.arm.com [10.169.208.215])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 225E33F694;
-        Thu, 15 Apr 2021 02:33:22 -0700 (PDT)
-From:   Jianlin Lv <Jianlin.Lv@arm.com>
-To:     bpf@vger.kernel.org
-Cc:     corbet@lwn.net, ast@kernel.org, daniel@iogearbox.net,
-        andrii@kernel.org, kafai@fb.com, songliubraving@fb.com, yhs@fb.com,
-        john.fastabend@gmail.com, kpsingh@kernel.org, davem@davemloft.net,
-        kuba@kernel.org, illusionist.neo@gmail.com, linux@armlinux.org.uk,
-        zlim.lnx@gmail.com, catalin.marinas@arm.com, will@kernel.org,
-        paulburton@kernel.org, tsbogend@alpha.franken.de,
-        naveen.n.rao@linux.ibm.com, sandipan@linux.ibm.com,
-        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
-        luke.r.nels@gmail.com, xi.wang@gmail.com, bjorn@kernel.org,
-        paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, iii@linux.ibm.com, hca@linux.ibm.com,
-        gor@linux.ibm.com, borntraeger@de.ibm.com, yoshfuji@linux-ipv6.org,
-        dsahern@kernel.org, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, x86@kernel.org, hpa@zytor.com, udknight@gmail.com,
-        mchehab+huawei@kernel.org, dvyukov@google.com, maheshb@google.com,
-        horms@verge.net.au, nicolas.dichtel@6wind.com,
-        viro@zeniv.linux.org.uk, masahiroy@kernel.org,
-        keescook@chromium.org, quentin@isovalent.com, tklauser@distanz.ch,
-        grantseltzer@gmail.com, irogers@google.com,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        sparclinux@vger.kernel.org, Jianlin.Lv@arm.com, iecedge@gmail.com
-Subject: [PATCH bpf-next 2/2] docs: bpf: bpf_jit_enable mode changed
-Date:   Thu, 15 Apr 2021 17:32:50 +0800
-Message-Id: <20210415093250.3391257-2-Jianlin.Lv@arm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210415093250.3391257-1-Jianlin.Lv@arm.com>
-References: <20210415093250.3391257-1-Jianlin.Lv@arm.com>
+        id S229457AbhDOKFl (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 06:05:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36648 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231919AbhDOKFi (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 06:05:38 -0400
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2048C061574;
+        Thu, 15 Apr 2021 03:05:14 -0700 (PDT)
+Received: by mail-yb1-xb35.google.com with SMTP id v72so4783095ybe.11;
+        Thu, 15 Apr 2021 03:05:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6oeIFs7Ag00+enOPg/8U9CSlTyarnRdS/t7jZtMEknc=;
+        b=cQe+lD2xs9LqPIp0h34xkwPNKG5VP0FV8kgPnyqPsbxBPvbT7u9hNVwYeyFeACyCuJ
+         hq/WcLJuBM8uCBhVWaIurCV2BC/cklpaMWHUMY+Ox+RMS2tTJOvfx4J6eFAE0LzHdKxv
+         46RJ0UJwwoYz//bYLnxEPv7cK/hBU7Be91qKB/iDiFECylr2flES0UFsqu4mLP3rUJvJ
+         kAVl8L1PL5MHXbLJZ1XbDPe77RJMwnR26T02s0eRDIL7HjW35iUG9VMRFOBo5Kv6jaLM
+         A8Nfot/8TmXuR9ph8IyrJgrEGH0fiqgduXMjvYZ7/f7TuzGCFJb1/lwpsQSZau6+P+3n
+         AoRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6oeIFs7Ag00+enOPg/8U9CSlTyarnRdS/t7jZtMEknc=;
+        b=rupAi2SqoLX7JCNNJqiM2LaUJ1zlopX/0388LAsoYJUd5JZemtufBbAUpaEzErSxpw
+         bbdODBS8c8cEWZogbDJot/S4+rOzvUGwvDsCZvKDdmRNYX19VxKpEY3bKpbFR0f4/1wH
+         U386uBSs6I6GHSsz6f0Dly0hniE+3TR/ySHWwjOzoqTOhk2qoCCClxN5ZakrZQ8OV1gf
+         qW/TB1s1nWb6TaCfRxhjRf1JTVmPqZYTCof9QKZBDIpqIZIqO+QrSUNOvsTgAE4BR3cP
+         nedpJ4fhmmyDC6mXTiGan+HLxk46QDB/+hKGE+ieG35izrvw7kbBY6V7+8siVxDL8jXT
+         PgQg==
+X-Gm-Message-State: AOAM532Rv20tgS+MXHGSsuPlZwJzhf+ksjnv1gGPIT9oH//x7qgEdCvm
+        bIqylUQqkZpqvw0bOGZoXdpxIZftpFUfIhrJs06GDo1EmWBHzg==
+X-Google-Smtp-Source: ABdhPJxboetpX1Mmk/0DFs1Mo4sZybpbdkNJuiEPy+sitIoWrv9qaflK3e4jCMm+PMOGa/JD2jUmJVR1Cdr5b8WV1Zw=
+X-Received: by 2002:a25:c444:: with SMTP id u65mr3406193ybf.93.1618481114331;
+ Thu, 15 Apr 2021 03:05:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210414184604.23473-1-ojeda@kernel.org> <CAKwvOdm8s7Yp8e=8tpscY805-bjQWyoNVzhFZnH4KL-q9ZP4Hw@mail.gmail.com>
+In-Reply-To: <CAKwvOdm8s7Yp8e=8tpscY805-bjQWyoNVzhFZnH4KL-q9ZP4Hw@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 15 Apr 2021 12:05:03 +0200
+Message-ID: <CANiq72n-trsFMzzUTPw9qP+98auYk9uOO0NNMrJzq-=SkEo5BA@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Miguel Ojeda <ojeda@kernel.org>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Remove information about bpf_jit_enable=2 mode and added description for
-how to use the bpf_jit_disasm tool after get rid of =2 mode.
+On Thu, Apr 15, 2021 at 2:23 AM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> Looks like Wedson's writeup is now live. Nice job Wedson!
+> https://security.googleblog.com/2021/04/rust-in-linux-kernel.html
 
-Signed-off-by: Jianlin Lv <Jianlin.Lv@arm.com>
----
- Documentation/admin-guide/sysctl/net.rst |  1 -
- Documentation/networking/filter.rst      | 25 ++++++------------------
- 2 files changed, 6 insertions(+), 20 deletions(-)
++1 It is very nicely written and explains the semaphore samples
+(included in the RFC) he wrote, with nice tables comparing how
+different parts look like between C and Rust!
 
-diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
-index c941b214e0b7..a39f99deac38 100644
---- a/Documentation/admin-guide/sysctl/net.rst
-+++ b/Documentation/admin-guide/sysctl/net.rst
-@@ -86,7 +86,6 @@ Values:
- 
- 	- 0 - disable the JIT (default value)
- 	- 1 - enable the JIT
--	- 2 - enable the JIT and ask the compiler to emit traces on kernel log.
- 
- bpf_jit_harden
- --------------
-diff --git a/Documentation/networking/filter.rst b/Documentation/networking/filter.rst
-index 251c6bd73d15..86954f922168 100644
---- a/Documentation/networking/filter.rst
-+++ b/Documentation/networking/filter.rst
-@@ -504,25 +504,12 @@ been previously enabled by root::
- 
-   echo 1 > /proc/sys/net/core/bpf_jit_enable
- 
--For JIT developers, doing audits etc, each compile run can output the generated
--opcode image into the kernel log via::
--
--  echo 2 > /proc/sys/net/core/bpf_jit_enable
--
--Example output from dmesg::
--
--    [ 3389.935842] flen=6 proglen=70 pass=3 image=ffffffffa0069c8f
--    [ 3389.935847] JIT code: 00000000: 55 48 89 e5 48 83 ec 60 48 89 5d f8 44 8b 4f 68
--    [ 3389.935849] JIT code: 00000010: 44 2b 4f 6c 4c 8b 87 d8 00 00 00 be 0c 00 00 00
--    [ 3389.935850] JIT code: 00000020: e8 1d 94 ff e0 3d 00 08 00 00 75 16 be 17 00 00
--    [ 3389.935851] JIT code: 00000030: 00 e8 28 94 ff e0 83 f8 01 75 07 b8 ff ff 00 00
--    [ 3389.935852] JIT code: 00000040: eb 02 31 c0 c9 c3
--
--When CONFIG_BPF_JIT_ALWAYS_ON is enabled, bpf_jit_enable is permanently set to 1 and
--setting any other value than that will return in failure. This is even the case for
--setting bpf_jit_enable to 2, since dumping the final JIT image into the kernel log
--is discouraged and introspection through bpftool (under tools/bpf/bpftool/) is the
--generally recommended approach instead.
-+When CONFIG_BPF_JIT_ALWAYS_ON is enabled, bpf_jit_enable is permanently set
-+to 1 and setting any other value than that will return in failure.
-+For debugging JITs, the introspection through bpftool (tools/bpf/bpftool/)
-+is the generally recommended approach instead. For JIT developers, doing
-+audits etc, you can insert bpf_jit_dump() and recompile the kernel to
-+output the generated opcode image into the kernel log.
- 
- In the kernel source tree under tools/bpf/, there's bpf_jit_disasm for
- generating disassembly out of the kernel log's hexdump::
--- 
-2.25.1
+Anyone interested in this RFC, C or Rust, please take a look!
 
+Cheers,
+Miguel
