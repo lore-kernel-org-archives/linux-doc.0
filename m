@@ -2,493 +2,125 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.3 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C059FC433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 06:56:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F3B8C43460
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 07:10:55 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 8B9C8613B0
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 06:56:28 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id EFC8F611C0
+	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 07:10:54 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231222AbhDOG4u (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 02:56:50 -0400
-Received: from mx2.suse.de ([195.135.220.15]:34814 "EHLO mx2.suse.de"
+        id S230090AbhDOHLQ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 03:11:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42716 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231143AbhDOG4q (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Thu, 15 Apr 2021 02:56:46 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id E1639B035;
-        Thu, 15 Apr 2021 06:56:22 +0000 (UTC)
-Subject: Re: [PATCH v2 04/10] drm/aperture: Add infrastructure for aperture
- ownership
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     airlied@linux.ie, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, kraxel@redhat.com, corbet@lwn.net,
-        lgirdwood@gmail.com, broonie@kernel.org, sam@ravnborg.org,
-        robh@kernel.org, emil.l.velikov@gmail.com, geert+renesas@glider.be,
-        hdegoede@redhat.com, bluescreen_avenger@verizon.net,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org
-References: <20210318102921.21536-1-tzimmermann@suse.de>
- <20210318102921.21536-5-tzimmermann@suse.de>
- <YG7RgQfj0yZHbL6L@phenom.ffwll.local>
- <a787dde9-70b0-cb38-f2bf-6e7b479525f9@suse.de>
- <YHAc3vdstgJzIAEL@phenom.ffwll.local>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <0996ac00-9f7f-27ca-8b14-b551feff8ce4@suse.de>
-Date:   Thu, 15 Apr 2021 08:56:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        id S230118AbhDOHLQ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Thu, 15 Apr 2021 03:11:16 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BACD6611AD;
+        Thu, 15 Apr 2021 07:10:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1618470653;
+        bh=l10X+vv5dBXcCRCNYL3D6TNyby9Y/mbKe5evcjbSDSE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=fRu6Pltpvgw1T16C8/s7fBg1XzHMQN24KoKIRaCbHA1fe3Xo0Vl8m5zetxLdUei2P
+         Fq5k+6Pdi6WGffZkmhg1bwFLdtHLNImkUHzfyDLaae2P8BqEYlb9cvNyC1TlBi1EzN
+         Zv4m5f1Huyww/1N7oQTFjmOsWgxduiKgkZNYa05w=
+Date:   Thu, 15 Apr 2021 09:10:50 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        rust-for-linux@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>
+Subject: Re: [PATCH 09/13] Samples: Rust examples
+Message-ID: <YHfm+tCYp+I1C5I/@kroah.com>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <20210414184604.23473-10-ojeda@kernel.org>
+ <CAHk-=wjdZ1KksHHHuekeAx9kKFXEyt+rg0P=yRD1Bia_01wucg@mail.gmail.com>
+ <CAKwvOd=Vo3wwm-egc6fTa7gD4dsrc77OvBhUy8e+VM=LujRCfg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <YHAc3vdstgJzIAEL@phenom.ffwll.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="EdLMrFfd2iTxNEnPUZeSbSHRqch54MIOc"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKwvOd=Vo3wwm-egc6fTa7gD4dsrc77OvBhUy8e+VM=LujRCfg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---EdLMrFfd2iTxNEnPUZeSbSHRqch54MIOc
-Content-Type: multipart/mixed; boundary="RJ1gBV9Rlw7n79Ob1iRBnoaQcKY9t5gh5";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: airlied@linux.ie, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com, broonie@kernel.org,
- sam@ravnborg.org, robh@kernel.org, emil.l.velikov@gmail.com,
- geert+renesas@glider.be, hdegoede@redhat.com,
- bluescreen_avenger@verizon.net, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, virtualization@lists.linux-foundation.org
-Message-ID: <0996ac00-9f7f-27ca-8b14-b551feff8ce4@suse.de>
-Subject: Re: [PATCH v2 04/10] drm/aperture: Add infrastructure for aperture
- ownership
-References: <20210318102921.21536-1-tzimmermann@suse.de>
- <20210318102921.21536-5-tzimmermann@suse.de>
- <YG7RgQfj0yZHbL6L@phenom.ffwll.local>
- <a787dde9-70b0-cb38-f2bf-6e7b479525f9@suse.de>
- <YHAc3vdstgJzIAEL@phenom.ffwll.local>
-In-Reply-To: <YHAc3vdstgJzIAEL@phenom.ffwll.local>
+On Wed, Apr 14, 2021 at 04:24:45PM -0700, Nick Desaulniers wrote:
+> On Wed, Apr 14, 2021 at 12:35 PM Linus Torvalds
+> <torvalds@linux-foundation.org> wrote:
+> >
+> > On Wed, Apr 14, 2021 at 11:47 AM <ojeda@kernel.org> wrote:
+> > >
+> > > From: Miguel Ojeda <ojeda@kernel.org>
+> > >
+> > > A set of Rust modules that showcase how Rust modules look like
+> > > and how to use the abstracted kernel features.
+> >
+> > Honestly, I'd like to see a real example. This is fine for testing,
+> > but I'd like to see something a bit more real, and a bit less special
+> > than the Android "binder" WIP that comes a few patches later.
+> >
+> > Would there be some kind of real driver or something that people could
+> > use as a example of a real piece of code that actually does something
+> > meaningful?
+> 
+> Are you suggesting that they "rewrite it in Rust?" :^P *ducks*
 
---RJ1gBV9Rlw7n79Ob1iRBnoaQcKY9t5gh5
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Well, that's what they are doing here with the binder code :)
 
-Hi
+Seriously, binder is not a "normal" driver by any means, the only way
+you can squint at it and consider it a driver is that it has a char
+device node that it uses to talk to userspace with.  Other than that,
+it's very stand-alone and does crazy things to kernel internals, which
+makes it a good canidate for a rust rewrite in that it is easy to
+benchmark and no one outside of one ecosystem relies on it.
 
-Am 09.04.21 um 11:22 schrieb Daniel Vetter:
->> Is it that easy? simepldrm's detach function has code to synchronize w=
-ith
->> concurrent hotplug removals. If we can use drm_dev_unplug() for everyt=
-hing,
->> I'm all for it.
->=20
-> Uh, I should have looked at the code instead of just asking silly
-> questions :-)
->=20
-> Now I'm even more scared, and also more convinced that we're recreating=20
-a
-> bad version of some of the core driver model concepts.
->=20
-> I think the ideal option here would be if drm_aperture could unload
-> (unbind really) the platform driver for us, through the driver model. T=
-hen
-> there's only one place that keeps track whether the driver is unbound o=
-r
-> not. I'm not sure whether this can be done fully generic on a struct
-> device, or whether we need special code for each type. Since atm we onl=
-y
-> have simpledrm we can just specialize on platform_device and it's good
-> enough.
+The binder code also shows that there is a bunch of "frameworks" that
+need to be ported to rust to get it to work, I think the majority of the
+rust code for binder is just trying to implement core kernel things like
+linked lists and the like.  That will need to move into the rust kernel
+core eventually.
 
-I meanwhile found that calling platform_device_unregister() is the right =
+The binder rewrite here also is missing a number of features that the
+in-kernel binder code has gotten over the years, so it is not
+feature-complete by any means yet, it's still a "toy example".
 
-thing to do. It is like a hot-unplug event. It's simple to implement and =
+> (sorry, I couldn't help myself) Perhaps it would be a good exercise to
+> demonstrate some of the benefits of using Rust for driver work?
 
-removes the generic device as well. Any memory ranges for the generic=20
-device are gone as well. Only the native driver's native device will=20
-remain. That's better than the existing simplefb driver.
+I've been talking with the developers here about doing a "real" driver,
+as the interaction between the rust code which has one set of lifetime
+rules, and the driver core/model which has a different set of lifetime
+rules, is going to be what shows if this actually can be done or not.
+If the two can not successfully be "bridged" together, then there will
+be major issues.
 
-Which unregister function to call still driver-specific, so I kept the=20
-callback.
+Matthew points out that a nvme driver would be a good example, and I
+have a few other thoughts about what would be good to start with for
+some of the basics that driver authors deal with on a daily basis
+(platform driver, gpio driver, pcspkr driver, /dev/zero replacement), or
+that might be more suited for a "safety critical language use-case" like
+the HID parser or maybe the ACPI parser (but that falls into the rewrite
+category that we want to stay away from for now...)
 
-Best regards
-Thomas
+Let's see what happens here, this patchset is a great start that
+provides the core "here's how to build rust in the kernel build system",
+which was a non-trivial engineering effort.  Hats off to them that "all"
+I had to do was successfully install the proper rust compiler on my
+system (not these developers fault), and then building the kernel code
+here did "just work".  That's a major achievement.
 
->=20
-> I think best here would be to Cc: gregkh on this patch and the simpledr=
-m
-> ->detach implementatation, and ask for his feedback as driver model
-> maintainer. Maybe if you could hack together the platform_device unbind=
+thanks,
 
-> path as proof of concept would be even better.
->=20
-> Either way, this is really tricky.
-> -Daniel
->=20
->>
->> Best regards
->> Thomas
->>
->>>
->>> Or maybe we should tie this more into the struct device mode and forc=
-e an
->>> unload that way? That way devm cleanup would work as one expects, and=
-
->>> avoid the need for anything specific (hopefully) in this detach callb=
-ack.
->>>
->>> Just feels a bit like we're reinventing half of the driver model here=
-,
->>> badly.
->>>
->>>> + *	};
->>>> + *
->>>> + *	static int acquire_framebuffers(struct drm_device *dev, struct p=
-ci_dev *pdev)
->>>> + *	{
->>>> + *		resource_size_t start, len;
->>>> + *		struct drm_aperture *ap;
->>>> + *
->>>> + *		base =3D pci_resource_start(pdev, 0);
->>>> + *		size =3D pci_resource_len(pdev, 0);
->>>> + *
->>>> + *		ap =3D devm_acquire_aperture(dev, base, size, &ap_funcs);
->>>> + *		if (IS_ERR(ap))
->>>> + *			return PTR_ERR(ap);
->>>> + *
->>>> + *		return 0;
->>>> + *	}
->>>> + *
->>>> + *	static int probe(struct pci_dev *pdev)
->>>> + *	{
->>>> + *		struct drm_device *dev;
->>>> + *		int ret;
->>>> + *
->>>> + *		// ... Initialize the device...
->>>> + *		dev =3D devm_drm_dev_alloc();
->>>> + *		...
->>>> + *
->>>> + *		// ... and acquire ownership of the framebuffer.
->>>> + *		ret =3D acquire_framebuffers(dev, pdev);
->>>> + *		if (ret)
->>>> + *			return ret;
->>>> + *
->>>> + *		drm_dev_register();
->>>> + *
->>>> + *		return 0;
->>>> + *	}
->>>> + *
->>>> + * The generic driver is now subject to forced removal by other dri=
-vers. This
->>>> + * is when the detach function in struct &drm_aperture_funcs comes =
-into play.
->>>> + * When a driver calls drm_fb_helper_remove_conflicting_framebuffer=
-s() et al
->>>> + * for the registered framebuffer range, the DRM core calls struct
->>>> + * &drm_aperture_funcs.detach and the generic driver has to onload =
-itself. It
->>>> + * may not access the device's registers, framebuffer memory, ROM, =
-etc after
->>>> + * detach returned. If the driver supports hotplugging, detach can =
-be treated
->>>> + * like an unplug event.
->>>> + *
->>>> + * .. code-block:: c
->>>> + *
->>>> + *	static void detach_from_device(struct drm_device *dev,
->>>> + *				       resource_size_t base,
->>>> + *				       resource_size_t size)
->>>> + *	{
->>>> + *		// Signal unplug
->>>> + *		drm_dev_unplug(dev);
->>>> + *
->>>> + *		// Maybe do other clean-up operations
->>>> + *		...
->>>> + *	}
->>>> + *
->>>> + *	static struct drm_aperture_funcs ap_funcs =3D {
->>>> + *		.detach =3D detach_from_device,
->>>> + *	};
->>>> + */
->>>> +
->>>> +/**
->>>> + * struct drm_aperture - Represents a DRM framebuffer aperture
->>>> + *
->>>> + * This structure has no public fields.
->>>> + */
->>>> +struct drm_aperture {
->>>> +	struct drm_device *dev;
->>>> +	resource_size_t base;
->>>> +	resource_size_t size;
->>>> +
->>>> +	const struct drm_aperture_funcs *funcs;
->>>> +
->>>> +	struct list_head lh;
->>>> +};
->>>> +
->>>> +static LIST_HEAD(drm_apertures);
->>>> +
->>>> +static DEFINE_MUTEX(drm_apertures_lock);
->>>> +
->>>> +static bool overlap(resource_size_t base1, resource_size_t end1,
->>>> +		    resource_size_t base2, resource_size_t end2)
->>>> +{
->>>> +	return (base1 < end2) && (end1 > base2);
->>>> +}
->>>> +
->>>> +static void devm_aperture_acquire_release(void *data)
->>>> +{
->>>> +	struct drm_aperture *ap =3D data;
->>>> +	bool detached =3D !ap->dev;
->>>> +
->>>> +	if (!detached)
->>>
->>> Uh this needs a comment that if ap->dev is NULL then we're called fro=
-m
->>> drm_aperture_detach_drivers() and hence the lock is already held.
->>>
->>>> +		mutex_lock(&drm_apertures_lock);
->>>
->>> and an
->>>
->>> 	else
->>> 		locdep_assert_held(&drm_apertures_lock);
->>>
->>> here to check that. I was scratching my head first quite a bit how yo=
-u'd
->>> solve the deadlock, this is a neat solution (much simpler than anythi=
-ng I
->>> came up with in my head). But needs comments.
->>>
->>>> +
->>>> +	list_del(&ap->lh);
->>>> +
->>>> +	if (!detached)
->>>> +		mutex_unlock(&drm_apertures_lock);
->>>> +}
->>>> +
->>>> +/**
->>>> + * devm_aperture_acquire - Acquires ownership of a framebuffer on b=
-ehalf of a DRM driver.
->>>> + * @dev:	the DRM device to own the framebuffer memory
->>>> + * @base:	the framebuffer's byte offset in physical memory
->>>> + * @size:	the framebuffer size in bytes
->>>> + * @funcs:	callback functions
->>>> + *
->>>> + * Installs the given device as the new owner. The function fails i=
-f the
->>>> + * framebuffer range, or parts of it, is currently owned by another=20
-driver.
->>>> + * To evict current owners, callers should use
->>>> + * drm_fb_helper_remove_conflicting_framebuffers() et al. before ca=
-lling this
->>>> + * function. Acquired apertures are released automatically if the u=
-nderlying
->>>> + * device goes away.
->>>> + *
->>>> + * Returns:
->>>> + * An instance of struct &drm_aperture on success, or a pointer-enc=
-oded
->>>> + * errno value otherwise.
->>>> + */
->>>> +struct drm_aperture *
->>>> +devm_aperture_acquire(struct drm_device *dev,
->>>> +		      resource_size_t base, resource_size_t size,
->>>> +		      const struct drm_aperture_funcs *funcs)
->>>> +{
->>>> +	size_t end =3D base + size;
->>>> +	struct list_head *pos;
->>>> +	struct drm_aperture *ap;
->>>> +	int ret;
->>>> +
->>>> +	mutex_lock(&drm_apertures_lock);
->>>> +
->>>> +	list_for_each(pos, &drm_apertures) {
->>>> +		ap =3D container_of(pos, struct drm_aperture, lh);
->>>> +		if (overlap(base, end, ap->base, ap->base + ap->size))
->>>> +			return ERR_PTR(-EBUSY);
->>>> +	}
->>>> +
->>>> +	ap =3D devm_kzalloc(dev->dev, sizeof(*ap), GFP_KERNEL);
->>>> +	if (!ap)
->>>> +		return ERR_PTR(-ENOMEM);
->>>> +
->>>> +	ap->dev =3D dev;
->>>> +	ap->base =3D base;
->>>> +	ap->size =3D size;
->>>> +	ap->funcs =3D funcs;
->>>> +	INIT_LIST_HEAD(&ap->lh);
->>>> +
->>>> +	list_add(&ap->lh, &drm_apertures);
->>>> +
->>>> +	mutex_unlock(&drm_apertures_lock);
->>>> +
->>>> +	ret =3D devm_add_action_or_reset(dev->dev, devm_aperture_acquire_r=
-elease, ap);
->>>> +	if (ret)
->>>> +		return ERR_PTR(ret);
->>>> +
->>>> +	return ap;
->>>> +}
->>>> +EXPORT_SYMBOL(devm_aperture_acquire);
->>>> +
->>>> +void drm_aperture_detach_drivers(resource_size_t base, resource_siz=
-e_t size)
->>>> +{
->>>> +	resource_size_t end =3D base + size;
->>>> +	struct list_head *pos, *n;
->>>> +
->>>> +	mutex_lock(&drm_apertures_lock);
->>>> +
->>>> +	list_for_each_safe(pos, n, &drm_apertures) {
->>>> +		struct drm_aperture *ap =3D
->>>> +			container_of(pos, struct drm_aperture, lh);
->>>> +		struct drm_device *dev =3D ap->dev;
->>>> +
->>>> +		if (!overlap(base, end, ap->base, ap->base + ap->size))
->>>> +			continue;
->>>> +
->>>> +		ap->dev =3D NULL; /* detach from device */
->>>> +		if (drm_WARN_ON(dev, !ap->funcs->detach))
->>>> +			continue;
->>>> +		ap->funcs->detach(dev, ap->base, ap->size);
->>>> +	}
->>>> +
->>>> +	mutex_unlock(&drm_apertures_lock);
->>>> +}
->>>> +EXPORT_SYMBOL(drm_aperture_detach_drivers);
->>>
->>> Is this just exported because of the inline functions in the headers?=20
-Imo
->>> better to make them proper functions (they're big after your patch&no=
-t
->>> perf critical, so not good candidates for inlining anyway).
->>>
->>>> diff --git a/include/drm/drm_aperture.h b/include/drm/drm_aperture.h=
-
->>>> index 13766efe9517..696cec75ef78 100644
->>>> --- a/include/drm/drm_aperture.h
->>>> +++ b/include/drm/drm_aperture.h
->>>> @@ -4,8 +4,30 @@
->>>>    #define _DRM_APERTURE_H_
->>>>    #include <linux/fb.h>
->>>> +#include <linux/pci.h>
->>>>    #include <linux/vgaarb.h>
->>>> +struct drm_aperture;
->>>> +struct drm_device;
->>>> +
->>>> +struct drm_aperture_funcs {
->>>> +	void (*detach)(struct drm_device *dev, resource_size_t base, resou=
-rce_size_t size);
->>>> +};
->>>> +
->>>> +struct drm_aperture *
->>>> +devm_aperture_acquire(struct drm_device *dev,
->>>> +		      resource_size_t base, resource_size_t size,
->>>> +		      const struct drm_aperture_funcs *funcs);
->>>> +
->>>> +#if defined(CONFIG_DRM_APERTURE)
->>>> +void drm_aperture_detach_drivers(resource_size_t base, resource_siz=
-e_t size);
->>>> +#else
->>>> +static inline void
->>>> +drm_aperture_detach_drivers(resource_size_t base, resource_size_t s=
-ize)
->>>> +{
->>>> +}
->>>> +#endif
->>>> +
->>>>    /**
->>>>     * drm_fb_helper_remove_conflicting_framebuffers - remove firmwar=
-e-configured framebuffers
->>>>     * @a: memory range, users of which are to be removed
->>>> @@ -20,6 +42,11 @@ static inline int
->>>>    drm_fb_helper_remove_conflicting_framebuffers(struct apertures_st=
-ruct *a,
->>>>    					      const char *name, bool primary)
->>>>    {
->>>> +	int i;
->>>> +
->>>> +	for (i =3D 0; i < a->count; ++i)
->>>> +		drm_aperture_detach_drivers(a->ranges[i].base, a->ranges[i].size)=
-;
->>>> +
->>>>    #if IS_REACHABLE(CONFIG_FB)
->>>>    	return remove_conflicting_framebuffers(a, name, primary);
->>>>    #else
->>>> @@ -43,7 +70,16 @@ static inline int
->>>>    drm_fb_helper_remove_conflicting_pci_framebuffers(struct pci_dev =
-*pdev,
->>>>    						  const char *name)
->>>>    {
->>>> -	int ret =3D 0;
->>>> +	resource_size_t base, size;
->>>> +	int bar, ret =3D 0;
->>>> +
->>>> +	for (bar =3D 0; bar < PCI_STD_NUM_BARS; bar++) {
->>>> +		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
->>>> +			continue;
->>>> +		base =3D pci_resource_start(pdev, bar);
->>>> +		size =3D pci_resource_len(pdev, bar);
->>>> +		drm_aperture_detach_drivers(base, size);
->>>> +	}
->>>>    	/*
->>>>    	 * WARNING: Apparently we must kick fbdev drivers before vgacon,=
-
->>>> --=20
->>>> 2.30.1
->>>>
->>>
->>
->> --=20
->> Thomas Zimmermann
->> Graphics Driver Developer
->> SUSE Software Solutions Germany GmbH
->> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->> (HRB 36809, AG N=C3=BCrnberg)
->> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>
->=20
->=20
->=20
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---RJ1gBV9Rlw7n79Ob1iRBnoaQcKY9t5gh5--
-
---EdLMrFfd2iTxNEnPUZeSbSHRqch54MIOc
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmB345QFAwAAAAAACgkQlh/E3EQov+CV
-hxAAikvt8fzgXMGUr0QoEM+uYAsY+sS5h+wxzAbZ2ovPvaMKJjrFxIrqPukTUtxCkr2POgNVPUSV
-xkaYEm0cSxIcKZKDPYjNYn13OFM3rwpjyxn37w3NgwmjKg/NR/OQ4P+WeD0T78DLXqc4P2rKiMnJ
-rrM93p5cj4vzYz/4EW2dOvShcPxHDzyz0SXxFW04hF+uw/OMEMoDVDHHQUY59XiMZXJjonApMJaA
-6gyyZUFUlkpk4SX8mBs7DBAsEr4pgzopwcpamXZo7Mq80rLUNGYeFpG8mRBz12EA6w5oTsXYi5Fq
-tZkkyuTJuhqdWMp0njYyQ73+DzB65b+lBAknOn8Dkh9VxmEONDGP8r+xn2SVTwW0idmuEy0oDXNy
-+oCv5hUpKU0yosIsO7uvsJwnQmjRJQBYuDSqjkw2LG+EwiFD2TrMYU48XuiAvV2oaFeoBu2AlLd0
-v/k/kAkyNJVRb+tF9jDwmEK+00YnmHbSueFohxhofqH4AxFX3cYlaO4YO/70d88wKiVqPVTKUyoJ
-rIlZ4ezVqFJgkdFF9AXZSH5aqhIjAPQ9hwBGRf8pwxC2pajkKaHL9TkVSy0W8f+NHID2+cTMl87e
-PcPBVTStXkmWs5XKhKVJLemq0enjKZ5H9lbyyPMesTKkeGfkneS7wpv/WAXNJ41LfiKTkcvSz5Es
-2/0=
-=sv77
------END PGP SIGNATURE-----
-
---EdLMrFfd2iTxNEnPUZeSbSHRqch54MIOc--
+greg k-h
