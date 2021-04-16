@@ -2,93 +2,119 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60359C433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 11:58:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7F77C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 12:23:40 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 1EBA461184
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 11:58:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B558E6117A
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 12:23:40 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235329AbhDPL6l (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 07:58:41 -0400
-Received: from [43.250.32.171] ([43.250.32.171]:57900 "EHLO email.cn"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229706AbhDPL6k (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Apr 2021 07:58:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=PgkLrwMz2I5/Hi9Oof88otyNwxB3cmV+xjbgw
-        YKtoKo=; b=kpDI5Q2x2p3ovhODaic1Q31Us+xpWOrDuW328cUtXRLk97gJLju0C
-        Qvy7Di3SCr0x1vySQKtxLQI2DRavj6fXKOJokDgtPh8xc1WdCQZnW18waKgdB2l6
-        lyuu8GUGY+z/YoXipfLgsHI8rE0Xvn07p5XM5iQ/mI/o21IGDRfN/I=
-Received: from bobwxc.top (unknown [120.238.248.129])
-        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgDHOdDMe3lg_jRgAA--.22123S2;
-        Fri, 16 Apr 2021 19:58:06 +0800 (CST)
-Date:   Fri, 16 Apr 2021 19:58:04 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     corbet@lwn.net, alexs@kernel.org, chenhuacai@kernel.org,
-        jiaxun.yang@flygoat.com, linux-doc@vger.kernel.org,
-        realpuyuwang@gmail.com, siyanteng01@gmail.com
-Subject: Re: [PATCH v7 11/11] docs/zh_CN: add openrisc translation to zh_CN
- index
-Message-ID: <20210416115804.GA11313@bobwxc.top>
-References: <cover.1618568135.git.siyanteng@loongson.cn>
- <162fb50638028c9b0a92a0ce5c53e691be0cfec2.1618568135.git.siyanteng@loongson.cn>
+        id S243440AbhDPMYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 08:24:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43466 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S243404AbhDPMYC (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 08:24:02 -0400
+Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5821C061574;
+        Fri, 16 Apr 2021 05:23:37 -0700 (PDT)
+Received: by mail-yb1-xb2b.google.com with SMTP id z1so29863722ybf.6;
+        Fri, 16 Apr 2021 05:23:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=oJWOBU898RR64I5dUgBojnrKLrF+H0PdTgSU59Ph068=;
+        b=F88mPaWYARVjBdkYiXNxWNv06dZCNfEiE9bRYpt7hK7KKzw55VR34flKRflG+TlZky
+         ynS8EVLCuLTrn4YY0MRl4/3veqV67byO44Y1SUsL9OVIGvuZC/gSwmHg0hNvtp6jKNyc
+         NRFEw7z1UNPyuswTtwXFHmmBku37m5ofWkthnZz0pRbY53CPfx8YZ9mIwKNxbM9mdiI3
+         0Q/12eTlMPqvE8Z9sqhLPu8bjXNWwIrgOICYTBK1I2pBHFaoRvPco4PULKgon3U0+EY5
+         dbVbRQ7fwteo5CgoLswR7VWsxbHgbXZUCoBlEgbkohQTUJjCBALqU3duntCU+LvJvQli
+         xQAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=oJWOBU898RR64I5dUgBojnrKLrF+H0PdTgSU59Ph068=;
+        b=UPLMiB1k+O2fTmgyeYWq+/P0zWem1npT5o908V4pOyCGM7rf7jCPfG8v2UB3SraCeE
+         NgMDNkJBk9m5oVhWMpMdaJpad9SmiQiOfZ8bqLQX2h2AlptidRVonVaXkvlNpO2jTniX
+         qJ3wPvlCIt5/Mfr5VRre3ErmGBrH7HjJi9b4JwN4vi/dGMEdY2L78yRCVesI3UmGN/Y5
+         dua2xOxboW7c1ejt/pxxCQ/yXTax4YNHmXS9CsiJBqMNt2zg/prz/8pVgAjMybsbxaK9
+         KiqPe2V0pTyQJTsntKySFwdSrCJQXVxjD39DCc69iwMTTZ7D//CQMj9kIIm4f9hrgii4
+         1NOQ==
+X-Gm-Message-State: AOAM533sG0xdHF3ZveRTKBPrqb3qhcsk14pqnMcEwS+2qXfmIfm7GQEL
+        BYMOyS8KuLAOmmIx4n2PCsUdtthU+c6LLB8UUjU=
+X-Google-Smtp-Source: ABdhPJxQmILSd73jktfvCK8N1AvhaqwM43zyeMR4u8U2bCKGdASsI/jtNsPLqlByKcaOcHTssmfTv+/86lWTiZlLLnI=
+X-Received: by 2002:a25:cfc2:: with SMTP id f185mr12128491ybg.26.1618575817094;
+ Fri, 16 Apr 2021 05:23:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <162fb50638028c9b0a92a0ce5c53e691be0cfec2.1618568135.git.siyanteng@loongson.cn>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: LCKnCgDHOdDMe3lg_jRgAA--.22123S2
-X-Coremail-Antispam: 1UD129KBjvdXoWrZFy7Ary3AF13GrW5Kr1fCrg_yoWxKFc_Za
-        97XFWvyFW3JryIqF95Zr18Jr1FkF48Kr1v9rnYy398Gw17Wr98Gw1DXFn5Z3WDWFW3ursx
-        CrZ5Zr4fXrnrGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbYxYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-        s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-        8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJwAS0I0E0xvYzx
-        vE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VCjz48v1sIEY20_Cr1U
-        Jr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkIecxEwVAFwVW8KwCF04k20x
-        vY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26F4UJr1UMxC20s026xCaFVCjc4AY6r1j6r4U
-        MI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67
-        AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0
-        cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z2
-        80aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI
-        43ZEXa7IUUyv35UUUUU==
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-5-ojeda@kernel.org>
+ <CAKwvOdkjttdX83tL4pw+J5EnHM1MgEYDPp=YTpEagV4RrhdxwA@mail.gmail.com>
+ <CANiq72ksLeuL_uqoqbf3fhLP7M0j-7TdEvRDDmxThdmrEqD2Lw@mail.gmail.com> <CAKwvOdkyRkR0Jj5w5HWJ+o4YpOrLfTY1Vjho0bDn60fgRE-pkA@mail.gmail.com>
+In-Reply-To: <CAKwvOdkyRkR0Jj5w5HWJ+o4YpOrLfTY1Vjho0bDn60fgRE-pkA@mail.gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Fri, 16 Apr 2021 14:23:26 +0200
+Message-ID: <CANiq72=TDkRzZi7fN5y9QmtRbvoZTzxHXDg_ELjdD+YhmXzgPw@mail.gmail.com>
+Subject: Re: [PATCH 04/13] Kbuild: Rust support
+To:     Nick Desaulniers <ndesaulniers@google.com>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 06:32:34PM +0800, Yanteng Si wrote:
-> This patch add zh_CN/openrisc to zh_CN/index.
-> 
-> Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+On Thu, Apr 15, 2021 at 8:03 PM Nick Desaulniers
+<ndesaulniers@google.com> wrote:
+>
+> Until then, I don't see why we need to permit developers to express
+> such flexibility for just the Rust code, or have it differ from the
+> intent of the C code. Does it make sense to set RUST_OPT_LEVEL_3 and
+> CC_OPTIMIZE_FOR_SIZE? I doubt it. That doesn't seem like a development
+> feature, but a mistake.  YAGNI.  Instead developers should clarify
+> what they care about in terms of high level intent; if someone wants
+> to micromanage optimization level flags in their forks they don't need
+> a Kconfig to do it (they're either going to hack KBUILD_CFLAGS,
+> CFLAGS_*.o, or KCFLAGS), and there's probably better mechanisms for
+> fine-tooth precision of optimizing actually hot code or not via PGO
+> and AutoFDO.
 
-Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
+I completely agree when we are talking about higher level optimization
+levels. From a user perspective, it does not make much sense to want
+slightly different optimizations levels or different size/performance
+trade-offs between C and Rust. However, I am thinking from the
+debugging side, i.e. mostly low or no optimization; rather than about
+micromanaging optimizations for performance.
 
-> ---
->  Documentation/translations/zh_CN/index.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-> index 8bb15ee2cf6d..f86fd7d31035 100644
-> --- a/Documentation/translations/zh_CN/index.rst
-> +++ b/Documentation/translations/zh_CN/index.rst
-> @@ -28,6 +28,7 @@
->     iio/index
->     riscv/index
->     core-api/index
-> +   openrisc/index
->  
->  目录和表格
->  ----------
-> -- 
-> 2.27.0
+For instance, last year I used `RUST_OPT_LEVEL_0/1` to quickly rule
+out optimizer/codegen/etc. bugs on the Rust side when we had some
+memory corruption over Rust data
+(https://github.com/Rust-for-Linux/linux/pull/28), which is important
+when dealing with compiler nightly versions. It was also nice to be
+able to easily follow along when stepping, too.
 
+Having said that, I agree that in those cases one can simply tweak the
+flags manually -- so that's why I said it is fine dropping the the
+`Kconfig` options. There might be some advantages of having them, such
+as making developers aware that those builds should work, to keep them
+tested/working, etc.; but we can do that manually too in the CI/docs
+too.
+
+Cheers,
+Miguel
