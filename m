@@ -2,148 +2,118 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CACC8C433B4
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 23:49:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC2E4C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 01:56:23 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A5F5361158
-	for <linux-doc@archiver.kernel.org>; Thu, 15 Apr 2021 23:49:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A008461166
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 01:56:23 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235595AbhDOXuO (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 19:50:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48188 "EHLO
+        id S236677AbhDPB4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 21:56:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47114 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235576AbhDOXuN (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 19:50:13 -0400
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80220C061574;
-        Thu, 15 Apr 2021 16:49:49 -0700 (PDT)
-Received: by mail-lf1-x12f.google.com with SMTP id j4so2383135lfp.0;
-        Thu, 15 Apr 2021 16:49:49 -0700 (PDT)
+        with ESMTP id S235043AbhDPB4q (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 21:56:46 -0400
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE86C061574
+        for <linux-doc@vger.kernel.org>; Thu, 15 Apr 2021 18:56:22 -0700 (PDT)
+Received: by mail-oi1-x229.google.com with SMTP id n184so303181oia.12
+        for <linux-doc@vger.kernel.org>; Thu, 15 Apr 2021 18:56:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=93RaKIcPxj4ed/vj3/T6taZCo8gljqrXH2nCGhdkM1Q=;
-        b=aBCM67HeOS1RQpmZ9d1xkBbfZ9OjHVKizD6JMJntC1jztjXCaMAD4PxLVP6PE65ty3
-         cKPeKzgiEbgw3SQZ8eR83qtBjTP2OYUdbnqkzhUAbE0u+1hOdGsAn8xKem5MzABFlQgD
-         mRXyEbRdJWemOBA5ZL1H2F5rm/kMfg/eeqCccq1PGYnduzRrD+ZOmE6Jc8ZifznL8idv
-         FrDgLXsLKsMduLqpBFFg7xH0u5XmXHclHLbXV0TX9HDDr95c+SXlKyzlZoT5Ez5tEE8O
-         yL7SLoB/UGXylkkP0jVvQUti3azG7QIpldbt+d5lTdgqR0VqbJM4y+Fb3QAjnu0TlNPa
-         AWGw==
+         :cc:content-transfer-encoding;
+        bh=0PcfClE8y50mBhLd3XNHeLAfC7e1DJonn8WVmRE7DwY=;
+        b=m462GoVNUyS0HRzoVCIR8FdLgMdEJEuMFTw57evCx2ZHqAOR6iP6jB45Mxh5Tu/2TB
+         FHARMNLFvt3Pi3z0YWGYOh+brzuGIcRFcl3stefY0a/WYJwZ7wxUR7XFU6ZTDHj8CO6m
+         Bjx7RkXRQhU21hzChGxIxQZzCEArbNFyqHgcmA1CWOKNohMFMH0XgE9btDmHjgnKWom7
+         3K65e6CEoQ8tVn4PRuX5hl9aQb4bqF6iGhudZgF7gFhw+2QscNmgfuQ11MSyQZ9od3X8
+         UndFpp2gfFvStjj6yZ9BBRr7OpvmA5vG/Tq/GCBvbI8BKMfXIFPwzNmegHr/F2jlFGli
+         W7ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=93RaKIcPxj4ed/vj3/T6taZCo8gljqrXH2nCGhdkM1Q=;
-        b=NBeeKEl+SDqHxh0WzmN7s/knZGZEHz9+ow9jKXLEnCkg8ZCNlAK8VquipOILHOPasM
-         G6PX5iw5kJFSM/WWJQdJFnxhnGANHBNakvIkAgPKiC3eHVS65skz8zcNslTG/8GeJPeX
-         D+KY5lvbBuvNfEOUcMl6oTYR05yesWVw/iX2LbOj4YzVvuL7R+Wl0KayDpLfR4p1z/Cz
-         aF2TWgaOdOiKC5qW9nKluFNK77YYTM/OwywIEzkTlqXh3q6DO6WSShNGLpqEXkUfq+dW
-         o6cXoVD0x5kjaWeo0yMAI+B5q+XrSUbF1ONuX+O9VEtOY0xofyCkNZ3OxQ13ZtCK8gaG
-         Dgog==
-X-Gm-Message-State: AOAM533kX0OdH+H6rXq5RAVhK167nyX6Qf7HgnHu+iQQszdYyqGY76hQ
-        57otHoWt+UXRfpV77SDnzsBgyrpvEbjNSULikuk=
-X-Google-Smtp-Source: ABdhPJyNhOogFP8g+e8x1hnSTCcEzJfdpg/9ifXfqOKSgpR6Q7EyYPjeRQKWzaeLUb3+uY3vv8XYIkkzgMMMfdz4tQA=
-X-Received: by 2002:ac2:4d4d:: with SMTP id 13mr1106974lfp.540.1618530588068;
- Thu, 15 Apr 2021 16:49:48 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=0PcfClE8y50mBhLd3XNHeLAfC7e1DJonn8WVmRE7DwY=;
+        b=udEAwNrZjalJg6wglS064JkoBq3dCnDoREF8A4oNZK/cE1Nsica4CBf30Yl8Xa4b4f
+         wJVxNyBoeavNLnDJwyCxyDbOO4pIy4iC/gTWHGmHL9lq+57DTMSj2Z/fhjL2a8bWPwPT
+         27E3TWOXj8EpqEsdYoWnc390ZsiTUqbzCo+yhitaeSGrcQqhWoI+iWyxW3AmRKPXsV8i
+         7AZGHsymcsez7poH80NmbQTODqE3x15Lp8ejwGtnoomNLpPo2fFK+7jvIszjzIqxnHHe
+         IvpGwc6Ya4NxuUidXFmrwakNIFLTVlQqLAyskVfsKtK7W+q1Br4/W6LGzqotNYBimpEQ
+         PeQQ==
+X-Gm-Message-State: AOAM5309TljDJLE640OoPx1ks0m30KYOWdwbZVkcXd/ElbQ8rVJkAcyd
+        G4cmQnwPDXg4dQ4vsBXtt7A7IP6A3zg9Xuwv3XHonzNswdAU/lhJ
+X-Google-Smtp-Source: ABdhPJzwZDnQso12UuEC4T46wZsQrGGqY6AFoM6nQOJYH7HHhZScs3jA/8522OsTUY50++/unu9B+3bFekmEIeeSQjU=
+X-Received: by 2002:aca:482:: with SMTP id 124mr4705954oie.130.1618538181862;
+ Thu, 15 Apr 2021 18:56:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210415093250.3391257-1-Jianlin.Lv@arm.com> <9c4a78d2-f73c-832a-e6e2-4b4daa729e07@iogearbox.net>
- <d3949501-8f7d-57c4-b3fe-bcc3b24c09d8@isovalent.com>
-In-Reply-To: <d3949501-8f7d-57c4-b3fe-bcc3b24c09d8@isovalent.com>
-From:   Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date:   Thu, 15 Apr 2021 16:49:36 -0700
-Message-ID: <CAADnVQJ2oHbYfgY9jqM_JMxUsoZxaNrxKSVFYfgCXuHVpDehpQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 1/2] bpf: Remove bpf_jit_enable=2 debugging mode
-To:     Quentin Monnet <quentin@isovalent.com>
-Cc:     Daniel Borkmann <daniel@iogearbox.net>,
-        Jianlin Lv <Jianlin.Lv@arm.com>, bpf <bpf@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <kafai@fb.com>,
-        Song Liu <songliubraving@fb.com>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Shubham Bansal <illusionist.neo@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Zi Shen Lim <zlim.lnx@gmail.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, paulburton@kernel.org,
-        tsbogend@alpha.franken.de,
-        "Naveen N . Rao" <naveen.n.rao@linux.ibm.com>,
-        Sandipan Das <sandipan@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Luke Nelson <luke.r.nels@gmail.com>,
-        Xi Wang <xi.wang@gmail.com>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Ilya Leoshkevich <iii@linux.ibm.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>,
-        David Ahern <dsahern@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        X86 ML <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
-        Wang YanQing <udknight@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Dmitry Vyukov <dvyukov@google.com>,
-        Mahesh Bandewar <maheshb@google.com>,
-        Simon Horman <horms@verge.net.au>,
-        Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Tobias Klauser <tklauser@distanz.ch>, grantseltzer@gmail.com,
-        Ian Rogers <irogers@google.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-mips@vger.kernel.org,
-        ppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        sparclinux@vger.kernel.org, iecedge@gmail.com
+References: <20210415063838.2341827-1-siyanteng@loongson.cn> <87y2dj4lvw.fsf@meer.lwn.net>
+In-Reply-To: <87y2dj4lvw.fsf@meer.lwn.net>
+From:   yanteng si <siyanteng01@gmail.com>
+Date:   Fri, 16 Apr 2021 09:56:11 +0800
+Message-ID: <CAEensMyd=yeLaYwoLr6P3qnenj+DbcAqsmTamhAT=uy8nKHtOQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/4] docs/zh_CN: add core api and openrisc translation
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
+        Alex Shi <alex.shi@linux.alibaba.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Jiaxun Yang <jiaxun.yang@flygoat.com>,
+        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
+        Puyu Wang <realpuyuwang@gmail.com>,
+        Wu XiangCheng <bobwxc@email.cn>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 8:41 AM Quentin Monnet <quentin@isovalent.com> wrote:
+Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B44=E6=9C=8815=E6=97=
+=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=8811:18=E5=86=99=E9=81=93=EF=BC=9A
 >
-> 2021-04-15 16:37 UTC+0200 ~ Daniel Borkmann <daniel@iogearbox.net>
-> > On 4/15/21 11:32 AM, Jianlin Lv wrote:
-> >> For debugging JITs, dumping the JITed image to kernel log is discouraged,
-> >> "bpftool prog dump jited" is much better way to examine JITed dumps.
-> >> This patch get rid of the code related to bpf_jit_enable=2 mode and
-> >> update the proc handler of bpf_jit_enable, also added auxiliary
-> >> information to explain how to use bpf_jit_disasm tool after this change.
-> >>
-> >> Signed-off-by: Jianlin Lv <Jianlin.Lv@arm.com>
+> Yanteng Si <siyanteng@loongson.cn> writes:
 >
-> Hello,
+> > This series of patches translates core-api/irq/* and openrisc/* into
+> > Chinese
+> >
+> > v1 -> v2:
+> >
+> > Modify some words under Xiangcheng Wu's suggestion. Thanks for his rewi=
+ew!
+> >
+> > v2 -> v3:
+> >
+> > keep the signs number equal to the title char under Alex's suggestion.
+> > Thanks for his rewiew!
+> >
+> > v3 -> v4:
+> >
+> > Add Xiangcheng Wu's review sign to 0002=E3=80=810003 and 0008; Thanks f=
+or his rewiew!
+> >
+> > v4 -> v5:
+> >
+> > Split 8-11 into a separate series
 >
-> For what it's worth, I have already seen people dump the JIT image in
-> kernel logs in Qemu VMs running with just a busybox, not for kernel
-> development, but in a context where buiding/using bpftool was not
-> possible.
+> So I am now totally confused.  I have two "v5" series with the same
+> subject; they are evidently different but there's no explanation of why
+> or which order I should put them in.
+>
+> Please, why have you done this, and what do you expect me to do now?
+>
+I'm sorry.
 
-If building/using bpftool is not possible then majority of selftests won't
-be exercised. I don't think such environment is suitable for any kind
-of bpf development. Much so for JIT debugging.
-While bpf_jit_enable=2 is nothing but the debugging tool for JIT developers.
-I'd rather nuke that code instead of carrying it from kernel to kernel.
+I'm making things worse and worse. I just want to split into two
+separate series,
+the first series is 7 patches for core-api and the second series is 4
+patches for
+openrisc. However, I didn't change the subject of the cover letter,
+I'm really stupid.
+
+Thanks,
+
+Yan teng
