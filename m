@@ -2,107 +2,104 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+X-Spam-Status: No, score=-13.2 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_IN_DEF_DKIM_WL
 	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79E67C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 21:21:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05159C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 21:33:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 5C7886023F
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 21:21:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id DEA51610A6
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 21:33:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344297AbhDPVWE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 17:22:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50558 "EHLO
+        id S1344479AbhDPVeI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 17:34:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344236AbhDPVV6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 17:21:58 -0400
-Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44FF8C061344;
-        Fri, 16 Apr 2021 14:19:29 -0700 (PDT)
-Received: by mail-yb1-xb2a.google.com with SMTP id n12so31607189ybf.8;
-        Fri, 16 Apr 2021 14:19:29 -0700 (PDT)
+        with ESMTP id S1344426AbhDPVeF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 17:34:05 -0400
+Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E345C06175F
+        for <linux-doc@vger.kernel.org>; Fri, 16 Apr 2021 14:33:40 -0700 (PDT)
+Received: by mail-qk1-x72c.google.com with SMTP id d23so18328901qko.12
+        for <linux-doc@vger.kernel.org>; Fri, 16 Apr 2021 14:33:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=udsjYFmKZpzpPEZQ/S94m1J5JpuvU1EmGzVJfAa7Om8=;
-        b=EosPrWTw2GhguQ2HMV+cpFl/54oW1S4zmr0H6Z19xIAq8cU8Ub7uO0q4nQJtoyDVvK
-         BNqH90kAcYN+mw5cr4HGgxGG+iJGmV4cALQryNtFoHePwef1ZBT3WZigxR2u2XzyID7Y
-         FtENA/IG+gQ+zeJ6zH2YdrU+qKGAPR0s8lhip+Vpw4vNuMV+2D2wdts7ehDxz0UES6H4
-         l4fvpS8suXEog7ap3jlfQ0Xh4KOLjFaYu3p7hSp7QcjjOsG8VFx8Qr4mwG/NZitsEk7L
-         pRcdqgY1Iw0tQF5BDyjGmlQw08P9lXHmjJ5Q0dPeFAD9IEr3E316XmQ10pJ36U1McKEH
-         ToRQ==
+        bh=7eH2Lv11SZ0QBm3f11PM1lGjnhy8yPppQrMbgJ4vk1A=;
+        b=CjG3ocYg4/RhZbq+qnSzPhtDOmM6lnB2H5LmOYWVYyV4v+5chxBLzcyjQyNzNABrac
+         K9RjzvaXZuaLdblD+tEGfTwMp7aqoEvVgv5WuR3WcHBBnzDRCKb9hRq9H5jX5zQpc7I8
+         BwggiJGbF9JOAnp8dlpLOWwQYfpSJD3+uOZxh7CnwZ71y5bARvVwWoALxzS1WrbUSeR7
+         vjEQa9eG7N2E1/AKNv2bgKS6WYuJM2UXXRicS5BujvF4iOG6kaEHk+eUiWH+hLF5oCHY
+         JypL9smg65qPHQQbHo+JDapbrWoYHANZ/oG+87k9TYSrLWaeBgpJcXKoFuZU4iPPs0L6
+         CfHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=udsjYFmKZpzpPEZQ/S94m1J5JpuvU1EmGzVJfAa7Om8=;
-        b=WdpT+jFBsWQRQ819ZrHvu+RIVCQZ6P3/aI4uXeNhips7Orx0XP5xfsJw0s2WikOY0L
-         LVzK/8ZOWcvKvm6dYnxXTsEduDbbDjceYc3JVFya+lQ9P5dd4/zwIQXvnQJWqc3IQng/
-         OPd03p0iJMEf1Lhs3lA8OZIoFfnMr9MivkaoBKNT8taHb3ENJ0MJtrmXjEq1lDBy1huI
-         VlOgAD6P65sennUFm8Ut5WPB5k3wOqcTGfqf1xR/uEO6k42Urw0xzCV4sTL+vZ06qjez
-         s6b0sadOrmxHIjE2Vt5J9rItfnGUkUtXxgWQtFyRcnu6CkziQkC8WIoQsYsrhQVjnaeX
-         XrDA==
-X-Gm-Message-State: AOAM533mtfUVJMZUwgqIIoU1Vx3iohlS4kTf7VzgddxIYqhF2Do51FT9
-        0ALxOPUr3WEk2I15QmHL8DV+Fra6pcb9JpH3+5M=
-X-Google-Smtp-Source: ABdhPJyNClVV1yCAjhal7QcWJILaE+DVzQrq0w+nHD/4P9l19UMiv/gcRcnPaNvszVrGtWxPIoOZxPQaGFw3tBNsX4U=
-X-Received: by 2002:a25:7909:: with SMTP id u9mr1528074ybc.22.1618607969202;
- Fri, 16 Apr 2021 14:19:29 -0700 (PDT)
+        bh=7eH2Lv11SZ0QBm3f11PM1lGjnhy8yPppQrMbgJ4vk1A=;
+        b=dhFNKA7xTsg+dP3XxRIahCtYxTbjRYr1fDVZgamxnZud54RfdTEDuaV5aEehw+7qRc
+         jrPoo6JnAn8VIGx2IkYwd67rDJmBYBjdQpLp9H8xttP9fP6zhr+KRArSxhtTSlADtbn+
+         03muc7EvnZ7vbK8d/0hT1E2ry9R4QAVAecViOwlkLJTI53wdTiUIw8NQOZOMXPabOwHt
+         9pqThMapkK/hj9B/clOrlFBIjMFaFP9acRs0xZ8X33TR8okxhrewhSzfw+orlOE+poYC
+         iR9f8TIHTuWRVsTRCLnSvVgNKCriCXy/mYSOk+RKTMsoCCZyDuVa2q7Ufdcfed7j0ALv
+         ZiSw==
+X-Gm-Message-State: AOAM530ozlCU1VR4r1PLHyepYBWM0rUl6UhbMbEaN2DplH8xPOXEDmmT
+        kaAytne2h5pX5uVlboLSaTPjHJpNy3Ad/YUS/uXX2Q==
+X-Google-Smtp-Source: ABdhPJxbMSKARCZNdKn5pHyebLlyAwpT4vc/GvCWbXhP052KTAGt0UbyHBni48pbhubDGSq38b8E4Qr2i6r4+C3XHWI=
+X-Received: by 2002:a37:a7c7:: with SMTP id q190mr1308734qke.146.1618608819213;
+ Fri, 16 Apr 2021 14:33:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-5-ojeda@kernel.org>
- <YHmTWEAS/QjX++w4@hirez.programming.kicks-ass.net> <CAHk-=wh_zb=K1B-N8mgHmSZDqTLgOm711NRXbTX_OwFAzDYg0Q@mail.gmail.com>
- <CANiq72nx7ngazsH7sZgc=HeU0cNj45F9+-rwQb7AkdYsRCmRbQ@mail.gmail.com>
- <YHnS92ZKZ4tRWTiA@zeniv-ca.linux.org.uk> <CANiq72=RLf0FiuLVL-ZeLFp9P2LxTymbzhXoyQGG=tvUY_J-Sg@mail.gmail.com>
- <20210416202215.GA11236@1wt.eu>
-In-Reply-To: <20210416202215.GA11236@1wt.eu>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 16 Apr 2021 23:19:18 +0200
-Message-ID: <CANiq72=3zZvdEsp-AH2Xj1nuvfGOQQ1WGmav6i4nFTz-3-_c_w@mail.gmail.com>
-Subject: Re: [PATCH 04/13] Kbuild: Rust support
-To:     Willy Tarreau <w@1wt.eu>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>
+References: <20210323035706.572953-1-joshdon@google.com> <20210324112739.GO15768@suse.de>
+ <CABk29Nv7qwWcn4nUe_cxH-pJnppUVjHan+f-iHc8hEyPJ37jxA@mail.gmail.com>
+ <CABk29NsQ21F3A6EPmCf+pJG7ojDFog9zD-ri8LO8OVW6sXeusQ@mail.gmail.com> <YHmnbngrDGJkduFD@hirez.programming.kicks-ass.net>
+In-Reply-To: <YHmnbngrDGJkduFD@hirez.programming.kicks-ass.net>
+From:   Josh Don <joshdon@google.com>
+Date:   Fri, 16 Apr 2021 14:33:27 -0700
+Message-ID: <CABk29Nvkx6wyDfUWsv5oUCR9GKW3qU=HTLdMKpwL+_HcymVFJA@mail.gmail.com>
+Subject: Re: [PATCH v2] sched: Warn on long periods of pending need_resched
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Mel Gorman <mgorman@suse.de>, Ingo Molnar <mingo@redhat.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Ben Segall <bsegall@google.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Kees Cook <keescook@chromium.org>,
+        Iurii Zaikin <yzaikin@google.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-fsdevel@vger.kernel.org,
+        David Rientjes <rientjes@google.com>,
+        Oleg Rombakh <olegrom@google.com>, linux-doc@vger.kernel.org,
+        Paul Turner <pjt@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 10:22 PM Willy Tarreau <w@1wt.eu> wrote:
+On Fri, Apr 16, 2021 at 8:05 AM Peter Zijlstra <peterz@infradead.org> wrote:
 >
-> So it simply does the equivalent of:
+> On Tue, Mar 30, 2021 at 03:44:12PM -0700, Josh Don wrote:
+> > Peter,
+> >
+> > Since you've already pulled the need_resched warning patch into your
+> > tree, I'm including just the diff based on that patch (in response to
+> > Mel's comments) below. This should be squashed into the original
+> > patch.
+> >
 >
->   struct result {
->      int status;
->      int error;
->   };
+> Sorry, I seem to have missed this. The patch is completely whitespace
+> mangled through.
+>
+> I've attached my latest copy of the patch and held it back for now,
+> please resubmit.
 
-Not exactly, it is more like a tagged union, as Connor mentioned.
+Yikes, sorry about that. I've squashed the fixup and sent the updated
+patch (with trimmed cc list): https://lkml.org/lkml/2021/4/16/1125
 
-However, and this is the critical bit: it is a compile-time error to
-access the inactive variants (in safe code). In C, it is on you to
-keep track which one is the current one.
-
->      kill_foo();   // only for rust, C doesn't need it
-
-Please note that `kill_foo()` is not needed in Rust -- it was an
-example of possible cleanup (since Al mentioned resources/cleanup)
-using RAII.
-
-Cheers,
-Miguel
+Thanks,
+Josh
