@@ -2,330 +2,145 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBBEEC433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 15:06:48 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59873C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 15:33:59 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 97E9361001
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 15:06:48 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 3FEEA611C2
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 15:33:59 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S245407AbhDPPHM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 11:07:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52182 "EHLO
+        id S241584AbhDPPeX (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 11:34:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245035AbhDPPHK (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 11:07:10 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41B52C061574;
-        Fri, 16 Apr 2021 08:06:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=LNTP+tqteLOVl0P7a6EIZF+pGV+xBsbp2GZ7Ozcocnc=; b=J3eHdAjwAaSUHYsN4VTMi2FqzW
-        ggj/fIYMMmyDQktxISUzuk+NLV67n7nAOs61q2jHENIupe5BeNrW0TFqJ3Aq0UlF1pyKhiT+PEYc2
-        +0MMSidZqlGslWJYujs/SeiskbnirV06wWeTL96raqd3wDMLwOLkmSIbNw/KEJH6GE59/b6tMpMLh
-        bdQ8bkNw+vvY6Vt3nXisKnR/BlilX1K9g3B2qlgr/zvhOfav4YH9nkXujTud1gIc3bax7PWklW3bo
-        cloMyxUXtVl9zlzOzH20M7jbJggcqNMgEVTFbsJzj/hBxdsoClzuwmlem44lkOiz2iaoZPef8/Pgn
-        5O6iDr3w==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lXQ13-00A5yW-7J; Fri, 16 Apr 2021 15:04:22 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 487A2300222;
-        Fri, 16 Apr 2021 17:04:15 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 095622C1AB5E3; Fri, 16 Apr 2021 17:04:15 +0200 (CEST)
-Date:   Fri, 16 Apr 2021 17:04:14 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Josh Don <joshdon@google.com>
-Cc:     Mel Gorman <mgorman@suse.de>, Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Ben Segall <bsegall@google.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Kees Cook <keescook@chromium.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-fsdevel@vger.kernel.org,
-        David Rientjes <rientjes@google.com>,
-        Oleg Rombakh <olegrom@google.com>, linux-doc@vger.kernel.org,
-        Paul Turner <pjt@google.com>
-Subject: Re: [PATCH v2] sched: Warn on long periods of pending need_resched
-Message-ID: <YHmnbngrDGJkduFD@hirez.programming.kicks-ass.net>
-References: <20210323035706.572953-1-joshdon@google.com>
- <20210324112739.GO15768@suse.de>
- <CABk29Nv7qwWcn4nUe_cxH-pJnppUVjHan+f-iHc8hEyPJ37jxA@mail.gmail.com>
- <CABk29NsQ21F3A6EPmCf+pJG7ojDFog9zD-ri8LO8OVW6sXeusQ@mail.gmail.com>
+        with ESMTP id S235167AbhDPPeW (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 11:34:22 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBB91C06175F
+        for <linux-doc@vger.kernel.org>; Fri, 16 Apr 2021 08:33:57 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id t14-20020a05600c198eb029012eeb3edfaeso4444043wmq.2
+        for <linux-doc@vger.kernel.org>; Fri, 16 Apr 2021 08:33:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ytm6x2vLN84smHgW7vb9p/KsJj33G3R6bvIaflLv16E=;
+        b=hJXWLfp4f8CDzTqfIgdSOObQIM1FLOSrZ2p0XRVjGVtTQi4L+zsddWxRrhd4kWa7n5
+         X3ydnDUq9ENQeqWuhpQ390B65NX0dxsqk6MoVuNK6IeWQF4VkNmJu5a8gd9aHQosmUs6
+         nWtcutBvfOyzxz9QkWvxlEJXnplGbhvOLECd7FYnvdJZX5h/Z+uHG/BaXbS7yCJPnodK
+         Dz1jB/kk7PsZZ3I0jmXb3sx5LkoXoLCIKAmb6JdAl+DBvXK0XW7zQ7+maLVlgz3K/H4e
+         aEYAoCCpW1z6qx9z0St9cTzk6VsvofHR9i5pU84J7acECE0VRI6BCXYPFAcCGgbrFNa4
+         oRIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ytm6x2vLN84smHgW7vb9p/KsJj33G3R6bvIaflLv16E=;
+        b=Q2GFQozF1gVTfuTEL0R0UYpTJ6BPCGxhwzEX1BQ9vtI02pk9O2XZP4uh+x0bf5mFg+
+         MeIrw99FcrzE3yajFBQ/J/Jx1Ds5gRNFwoSb9X/d7d9A8lBUmH6GXNxRp1UF6fwACPqu
+         rLD9Viwe6RC8ginl9W7b7mCK2o0CzNelEzta1vUDVobs9ncPVzg1uJ1sizWUi15E0MJd
+         hof+I8V1RUUgNcMNxRQ1esf9yVZdGCY9F10hdoSAjZ6WmLSwfQxq5dp/v8hUmu+L3gGa
+         HmbQaenoFM7Z6lISqr1SaRb5F7tpJ8oA5UJtxSv2DV/jwgP5NN0zOtsSoT95G40VgnHS
+         0AFg==
+X-Gm-Message-State: AOAM5315pgJy1FGcgYwQTgSdeMbNSEKP5TZNuzCXEShfEvAjKCDx+hb6
+        NejZlST++UYy/Lpdbvuxqf8G
+X-Google-Smtp-Source: ABdhPJwdoLg+1ErpoqLIywM8fzr1a2vNVP9e9Ue/4v+FeKMWMF2/CbGEFdt4Cf7AmMquJc5zsiXF/w==
+X-Received: by 2002:a1c:6646:: with SMTP id a67mr8967894wmc.86.1618587236337;
+        Fri, 16 Apr 2021 08:33:56 -0700 (PDT)
+Received: from google.com ([2a00:79e0:d:209:51db:fb7a:d252:e3c1])
+        by smtp.gmail.com with ESMTPSA id h17sm11209854wru.67.2021.04.16.08.33.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Apr 2021 08:33:56 -0700 (PDT)
+Date:   Fri, 16 Apr 2021 16:33:51 +0100
+From:   Wedson Almeida Filho <wedsonaf@google.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     ojeda@kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <YHmuX1NA5RF7C7XS@google.com>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
+ <YHmMJWmzz2vZ3qQH@google.com>
+ <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CABk29NsQ21F3A6EPmCf+pJG7ojDFog9zD-ri8LO8OVW6sXeusQ@mail.gmail.com>
+In-Reply-To: <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Tue, Mar 30, 2021 at 03:44:12PM -0700, Josh Don wrote:
-> Peter,
+On Fri, Apr 16, 2021 at 04:19:07PM +0200, Peter Zijlstra wrote:
+> Does this also not prohibit constructs where modification must be done
+> while holding two locks, but reading can be done while holding either
+> lock?
+
+I don't believe it does. Remember that we have full control of the abstractions,
+so we can (and will when the need arises) build an abstraction that provides the
+functionality you describe. For the read path, we can have functions that return
+a read-only guard (which is the gateway to the data in Rust) when locking either
+of the locks, or when showing evidence that either lock is already locked (i.e.,
+by temporarily transferring ownership of another guard). Note that this is
+another area where Rust offers advantages: read-only guards (in C, if you take a
+read lock, nothing prevents you from making changes to fields you should only be
+allowed to read); and the ability to take temporary ownership, giving it back
+even within the same function.
+
+Similarly, to access a mutable guard, you'd have to show evidence that both
+locks are held.
+
+> That's a semi common scheme in the kernel, but not something that's
+> expressible by, for example, the Java sync keyword.
 > 
-> Since you've already pulled the need_resched warning patch into your
-> tree, I'm including just the diff based on that patch (in response to
-> Mel's comments) below. This should be squashed into the original
-> patch.
+> It also very much doesn't work for RCU, where modification must be done
+> under a lock, but access is done essentially lockless.
+
+Why not? RCU is a lock -- it may have zero cost in most (all?) architectures on
+the read path, but it is a lock. We can model access to variables/fields
+protected by it just like any other lock, with the implementation of lock/unlock
+optimizing to no-ops on the read path where possible.
+
+In fact, this is also an advantage of Rust. It would *force* developers to
+lock/unlock the RCU lock before they can access the protected data.
+
+> I would much rather have a language extention where we can associate
+> custom assertions with variable access, sorta like a sanitizer:
 > 
+> static inline void assert_foo_bar(struct foo *f)
+> {
+> 	lockdep_assert_held(&f->lock);
+> }
+> 
+> struct foo {
+> 	spinlock_t lock;
+> 	int bar __assert__(assert_foo_bar);
+> };
+> 
+> Such things can be optional and only enabled for debug builds on new
+> compilers.
 
-Sorry, I seem to have missed this. The patch is completely whitespace
-mangled through.
+These would be great, but would still fall short of the compile-time guaranteed
+safety that Rust offers in these cases.
 
-I've attached my latest copy of the patch and held it back for now,
-please resubmit.
+> C does indeed not have the concept of ownership, unlike modern C++ I
+> think. But I would much rather see a C language extention for that than
+> go Rust.
+> 
+> This would mean a far more agressive push for newer C compilers than
+> we've ever done before, but at least it would all still be a single
+> language. Convertion to the new stuff can be done gradually and where
+> it makes sense and new extentions can be evaluated on performance impact
+> etc.
 
----
-Subject: sched: Warn on long periods of pending need_resched
-From: Paul Turner <pjt@google.com>
-Date: Mon, 22 Mar 2021 20:57:06 -0700
+I encourage you to pursue this. We'd all benefit from better C. I'd be happy to
+review and provide feedback on proposed extensions that are deemed
+equivalent/better than what Rust offers.
 
-From: Paul Turner <pjt@google.com>
-
-CPU scheduler marks need_resched flag to signal a schedule() on a
-particular CPU. But, schedule() may not happen immediately in cases
-where the current task is executing in the kernel mode (no
-preemption state) for extended periods of time.
-
-This patch adds a warn_on if need_resched is pending for more than the
-time specified in sysctl resched_latency_warn_ms. If it goes off, it is
-likely that there is a missing cond_resched() somewhere. Monitoring is
-done via the tick and the accuracy is hence limited to jiffy scale. This
-also means that we won't trigger the warning if the tick is disabled.
-
-This feature is default disabled. It can be toggled on using sysctl
-resched_latency_warn_enabled.
-
-Signed-off-by: Paul Turner <pjt@google.com>
-Signed-off-by: Josh Don <joshdon@google.com>
-Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Link: https://lkml.kernel.org/r/20210323035706.572953-1-joshdon@google.com
----
-
- include/linux/sched/sysctl.h |    3 +
- kernel/sched/core.c          |   75 ++++++++++++++++++++++++++++++++++++++++++-
- kernel/sched/debug.c         |   13 +++++++
- kernel/sched/features.h      |    2 +
- kernel/sched/sched.h         |   10 +++++
- 5 files changed, 102 insertions(+), 1 deletion(-)
-
---- a/include/linux/sched/sysctl.h
-+++ b/include/linux/sched/sysctl.h
-@@ -48,6 +48,9 @@ extern unsigned int sysctl_numa_balancin
- #ifdef CONFIG_SCHED_DEBUG
- extern __read_mostly unsigned int sysctl_sched_migration_cost;
- extern __read_mostly unsigned int sysctl_sched_nr_migrate;
-+
-+extern int sysctl_resched_latency_warn_ms;
-+extern int sysctl_resched_latency_warn_once;
- #endif
- 
- /*
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -58,7 +58,21 @@ const_debug unsigned int sysctl_sched_fe
- #include "features.h"
- 	0;
- #undef SCHED_FEAT
--#endif
-+
-+/*
-+ * Print a warning if need_resched is set for the given duration (if
-+ * resched_latency_warn_enabled is set).
-+ *
-+ * If sysctl_resched_latency_warn_once is set, only one warning will be shown
-+ * per boot.
-+ *
-+ * Resched latency will be ignored for the first resched_boot_quiet_sec, to
-+ * reduce false alarms.
-+ */
-+int sysctl_resched_latency_warn_ms = 100;
-+int sysctl_resched_latency_warn_once = 1;
-+static const long resched_boot_quiet_sec = 600;
-+#endif /* CONFIG_SCHED_DEBUG */
- 
- /*
-  * Number of tasks to iterate in a single balance run.
-@@ -4527,6 +4541,56 @@ unsigned long long task_sched_runtime(st
- 	return ns;
- }
- 
-+#ifdef CONFIG_SCHED_DEBUG
-+static u64 resched_latency_check(struct rq *rq)
-+{
-+	int latency_warn_ms = READ_ONCE(sysctl_resched_latency_warn_ms);
-+	u64 need_resched_latency, now = rq_clock(rq);
-+	static bool warned_once;
-+
-+	if (sysctl_resched_latency_warn_once && warned_once)
-+		return 0;
-+
-+	if (!need_resched() || WARN_ON_ONCE(latency_warn_ms < 2))
-+		return 0;
-+
-+	/* Disable this warning for the first few mins after boot */
-+	if (now < resched_boot_quiet_sec * NSEC_PER_SEC)
-+		return 0;
-+
-+	if (!rq->last_seen_need_resched_ns) {
-+		rq->last_seen_need_resched_ns = now;
-+		rq->ticks_without_resched = 0;
-+		return 0;
-+	}
-+
-+	rq->ticks_without_resched++;
-+	need_resched_latency = now - rq->last_seen_need_resched_ns;
-+	if (need_resched_latency <= latency_warn_ms * NSEC_PER_MSEC)
-+		return 0;
-+
-+	warned_once = true;
-+
-+	return need_resched_latency;
-+}
-+
-+static int __init setup_resched_latency_warn_ms(char *str)
-+{
-+	long val;
-+
-+	if ((kstrtol(str, 0, &val))) {
-+		pr_warn("Unable to set resched_latency_warn_ms\n");
-+		return 1;
-+	}
-+
-+	sysctl_resched_latency_warn_ms = val;
-+	return 1;
-+}
-+__setup("resched_latency_warn_ms=", setup_resched_latency_warn_ms);
-+#else
-+static inline u64 resched_latency_check(struct rq *rq) { return 0; }
-+#endif /* CONFIG_SCHED_DEBUG */
-+
- /*
-  * This function gets called by the timer code, with HZ frequency.
-  * We call it with interrupts disabled.
-@@ -4538,6 +4602,7 @@ void scheduler_tick(void)
- 	struct task_struct *curr = rq->curr;
- 	struct rq_flags rf;
- 	unsigned long thermal_pressure;
-+	u64 resched_latency;
- 
- 	arch_scale_freq_tick();
- 	sched_clock_tick();
-@@ -4548,10 +4613,15 @@ void scheduler_tick(void)
- 	thermal_pressure = arch_scale_thermal_pressure(cpu_of(rq));
- 	update_thermal_load_avg(rq_clock_thermal(rq), rq, thermal_pressure);
- 	curr->sched_class->task_tick(rq, curr, 0);
-+	if (sched_feat(LATENCY_WARN))
-+		resched_latency = resched_latency_check(rq);
- 	calc_global_load_tick(rq);
- 
- 	rq_unlock(rq, &rf);
- 
-+	if (sched_feat(LATENCY_WARN) && resched_latency)
-+		resched_latency_warn(cpu, resched_latency);
-+
- 	perf_event_task_tick();
- 
- #ifdef CONFIG_SMP
-@@ -5046,6 +5116,9 @@ static void __sched notrace __schedule(b
- 	next = pick_next_task(rq, prev, &rf);
- 	clear_tsk_need_resched(prev);
- 	clear_preempt_need_resched();
-+#ifdef CONFIG_SCHED_DEBUG
-+	rq->last_seen_need_resched_ns = 0;
-+#endif
- 
- 	if (likely(prev != next)) {
- 		rq->nr_switches++;
---- a/kernel/sched/debug.c
-+++ b/kernel/sched/debug.c
-@@ -297,6 +297,9 @@ static __init int sched_init_debug(void)
- 	debugfs_create_u32("min_granularity_ns", 0644, debugfs_sched, &sysctl_sched_min_granularity);
- 	debugfs_create_u32("wakeup_granularity_ns", 0644, debugfs_sched, &sysctl_sched_wakeup_granularity);
- 
-+	debugfs_create_u32("latency_warn_ms", 0644, debugfs_sched, &sysctl_resched_latency_warn_ms);
-+	debugfs_create_u32("latency_warn_once", 0644, debugfs_sched, &sysctl_resched_latency_warn_once);
-+
- #ifdef CONFIG_SMP
- 	debugfs_create_file("tunable_scaling", 0644, debugfs_sched, NULL, &sched_scaling_fops);
- 	debugfs_create_u32("migration_cost_ns", 0644, debugfs_sched, &sysctl_sched_migration_cost);
-@@ -1027,3 +1030,13 @@ void proc_sched_set_task(struct task_str
- 	memset(&p->se.statistics, 0, sizeof(p->se.statistics));
- #endif
- }
-+
-+void resched_latency_warn(int cpu, u64 latency)
-+{
-+	static DEFINE_RATELIMIT_STATE(latency_check_ratelimit, 60 * 60 * HZ, 1);
-+
-+	WARN(__ratelimit(&latency_check_ratelimit),
-+	     "sched: CPU %d need_resched set for > %llu ns (%d ticks) "
-+	     "without schedule\n",
-+	     cpu, latency, cpu_rq(cpu)->ticks_without_resched);
-+}
---- a/kernel/sched/features.h
-+++ b/kernel/sched/features.h
-@@ -91,5 +91,7 @@ SCHED_FEAT(WA_BIAS, true)
- SCHED_FEAT(UTIL_EST, true)
- SCHED_FEAT(UTIL_EST_FASTUP, true)
- 
-+SCHED_FEAT(LATENCY_WARN, false)
-+
- SCHED_FEAT(ALT_PERIOD, true)
- SCHED_FEAT(BASE_SLICE, true)
---- a/kernel/sched/sched.h
-+++ b/kernel/sched/sched.h
-@@ -58,6 +58,7 @@
- #include <linux/prefetch.h>
- #include <linux/profile.h>
- #include <linux/psi.h>
-+#include <linux/ratelimit.h>
- #include <linux/rcupdate_wait.h>
- #include <linux/security.h>
- #include <linux/stop_machine.h>
-@@ -971,6 +972,11 @@ struct rq {
- 
- 	atomic_t		nr_iowait;
- 
-+#ifdef CONFIG_SCHED_DEBUG
-+	u64 last_seen_need_resched_ns;
-+	int ticks_without_resched;
-+#endif
-+
- #ifdef CONFIG_MEMBARRIER
- 	int membarrier_state;
- #endif
-@@ -2362,6 +2368,8 @@ extern void print_dl_stats(struct seq_fi
- extern void print_cfs_rq(struct seq_file *m, int cpu, struct cfs_rq *cfs_rq);
- extern void print_rt_rq(struct seq_file *m, int cpu, struct rt_rq *rt_rq);
- extern void print_dl_rq(struct seq_file *m, int cpu, struct dl_rq *dl_rq);
-+
-+extern void resched_latency_warn(int cpu, u64 latency);
- #ifdef CONFIG_NUMA_BALANCING
- extern void
- show_numa_stats(struct task_struct *p, struct seq_file *m);
-@@ -2369,6 +2377,8 @@ extern void
- print_numa_stats(struct seq_file *m, int node, unsigned long tsf,
- 	unsigned long tpf, unsigned long gsf, unsigned long gpf);
- #endif /* CONFIG_NUMA_BALANCING */
-+#else
-+static inline void resched_latency_warn(int cpu, u64 latency) {}
- #endif /* CONFIG_SCHED_DEBUG */
- 
- extern void init_cfs_rq(struct cfs_rq *cfs_rq);
-
+My background is also in C. I'm no Rust fanboy, I'm just taking what I think is
+a pragmatic view of the available options.
