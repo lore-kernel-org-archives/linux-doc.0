@@ -2,300 +2,103 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-16.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,USER_AGENT_GIT autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-8.7 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C549C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 12:30:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 832A5C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 13:01:45 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3030F611AF
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 12:30:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4451061166
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 13:01:45 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243513AbhDPMbT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 08:31:19 -0400
-Received: from inva020.nxp.com ([92.121.34.13]:57044 "EHLO inva020.nxp.com"
+        id S235074AbhDPNCI (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 09:02:08 -0400
+Received: from foss.arm.com ([217.140.110.172]:41002 "EHLO foss.arm.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S243487AbhDPMbP (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Apr 2021 08:31:15 -0400
-Received: from inva020.nxp.com (localhost [127.0.0.1])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id B80FE1A061A;
-        Fri, 16 Apr 2021 14:30:49 +0200 (CEST)
-Received: from invc005.ap-rdc01.nxp.com (invc005.ap-rdc01.nxp.com [165.114.16.14])
-        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 683F71A3AB1;
-        Fri, 16 Apr 2021 14:30:43 +0200 (CEST)
-Received: from localhost.localdomain (mega.ap.freescale.net [10.192.208.232])
-        by invc005.ap-rdc01.nxp.com (Postfix) with ESMTP id EBA8040309;
-        Fri, 16 Apr 2021 14:30:34 +0200 (CEST)
-From:   Yangbo Lu <yangbo.lu@nxp.com>
-To:     netdev@vger.kernel.org
-Cc:     Yangbo Lu <yangbo.lu@nxp.com>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Vladimir Oltean <vladimir.oltean@nxp.com>,
-        "David S . Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kurt Kanzenbach <kurt@linutronix.de>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Claudiu Manoil <claudiu.manoil@nxp.com>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        UNGLinuxDriver@microchip.com, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [net-next 3/3] net: mscc: ocelot: support PTP Sync one-step timestamping
-Date:   Fri, 16 Apr 2021 20:36:55 +0800
-Message-Id: <20210416123655.42783-4-yangbo.lu@nxp.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210416123655.42783-1-yangbo.lu@nxp.com>
-References: <20210416123655.42783-1-yangbo.lu@nxp.com>
-X-Virus-Scanned: ClamAV using ClamSMTP
+        id S233259AbhDPNCH (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Apr 2021 09:02:07 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3358C11B3;
+        Fri, 16 Apr 2021 06:01:42 -0700 (PDT)
+Received: from e113131-lin.cambridge.arm.com (e113131-lin.cambridge.arm.com [10.1.195.76])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id EF0823F85F;
+        Fri, 16 Apr 2021 06:01:40 -0700 (PDT)
+From:   Beata Michalska <beata.michalska@arm.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     peterz@infradead.org, mingo@redhat.com, juri.lelli@redhat.com,
+        vincent.guittot@linaro.org, valentin.schneider@arm.com,
+        dietmar.eggemann@arm.com, corbet@lwn.net, linux-doc@vger.kernel.org
+Subject: [RFC PATCH 0/3] Rework CPU capacity asymmetry detection
+Date:   Fri, 16 Apr 2021 14:01:22 +0100
+Message-Id: <1618578085-29584-1-git-send-email-beata.michalska@arm.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Although HWTSTAMP_TX_ONESTEP_SYNC existed in ioctl for hardware timestamp
-configuration, the PTP Sync one-step timestamping had never been supported.
+As of now, the asym_cpu_capacity_level will try to locate the lowest
+topology level where the highest available CPU capacity is being
+visible to all CPUs. This works perfectly fine for most of existing
+asymmetric designs out there, though for some possible and completely
+valid setups, combining different cpu microarchitectures within
+clusters, this might not be the best approach, resulting in pointing
+at a level, at which some of the domains might not see any asymmetry
+at all. This could be problematic for misfit migration and/or energy
+aware placement. And as such, for affected platforms it might result
+in custom changes to wake-up and CPU selection paths.
 
-This patch is to truely support it. The hardware timestamp request type is
-stored in DSA_SKB_CB_PRIV first byte per skb, so that corresponding
-configuration could be done during transmitting. Non-onestep-Sync packet
-with one-step timestamp request should fall back to use two-step timestamp.
+The following patches rework how the asymmetric detection is being
+carried out, pinning the asymmetric topology level to the lowest one,
+where full range of CPU capacities is visible to all CPUs within given
+sched domain. The asym_cpu_capacity_level will also keep track of those
+levels where any scope of asymmetry is being observed, to denote
+corresponding sched domains with the SD_ASYM_CPUCAPACITY flag
+and to enable misfit migration for those.
 
-Signed-off-by: Yangbo Lu <yangbo.lu@nxp.com>
----
- drivers/net/ethernet/mscc/ocelot.c     | 57 ++++++++++++++++++++++++++
- drivers/net/ethernet/mscc/ocelot_net.c |  5 +--
- include/soc/mscc/ocelot.h              |  1 +
- net/dsa/tag_ocelot.c                   | 25 ++---------
- net/dsa/tag_ocelot_8021q.c             | 39 +++++-------------
- 5 files changed, 72 insertions(+), 55 deletions(-)
+In order to distinguish the sched domains with partial vs full range
+of CPU capacity asymmetry, new sched domain flag has been introduced:
+SD_ASYM_CPUCAPACITY_FULL.
 
-diff --git a/drivers/net/ethernet/mscc/ocelot.c b/drivers/net/ethernet/mscc/ocelot.c
-index 541d3b4076be..69d36b6241ff 100644
---- a/drivers/net/ethernet/mscc/ocelot.c
-+++ b/drivers/net/ethernet/mscc/ocelot.c
-@@ -6,6 +6,7 @@
-  */
- #include <linux/dsa/ocelot.h>
- #include <linux/if_bridge.h>
-+#include <linux/ptp_classify.h>
- #include <soc/mscc/ocelot_vcap.h>
- #include "ocelot.h"
- #include "ocelot_vcap.h"
-@@ -546,6 +547,50 @@ static void ocelot_port_add_txtstamp_skb(struct ocelot *ocelot, int port,
- 	spin_unlock(&ocelot_port->ts_id_lock);
- }
- 
-+bool ocelot_ptp_rew_op(struct sk_buff *skb, struct sk_buff *clone, u32 *rew_op)
-+{
-+	/* For two-step timestamp, retrieve ptp_cmd in DSA_SKB_CB_PRIV
-+	 * and timestamp ID in clone->cb[0].
-+	 * For one-step timestamp, retrieve ptp_cmd in DSA_SKB_CB_PRIV.
-+	 */
-+	u8 *ptp_cmd = DSA_SKB_CB_PRIV(skb);
-+
-+	if (clone) {
-+		*rew_op = *ptp_cmd;
-+		*rew_op |= clone->cb[0] << 3;
-+	} else if (*ptp_cmd) {
-+		*rew_op = *ptp_cmd;
-+	} else {
-+		return false;
-+	}
-+
-+	return true;
-+}
-+EXPORT_SYMBOL(ocelot_ptp_rew_op);
-+
-+static bool ocelot_ptp_is_onestep_sync(struct sk_buff *skb)
-+{
-+	struct ptp_header *hdr;
-+	unsigned int ptp_class;
-+	u8 msgtype, twostep;
-+
-+	ptp_class = ptp_classify_raw(skb);
-+	if (ptp_class == PTP_CLASS_NONE)
-+		return false;
-+
-+	hdr = ptp_parse_header(skb, ptp_class);
-+	if (!hdr)
-+		return false;
-+
-+	msgtype = ptp_get_msgtype(hdr, ptp_class);
-+	twostep = hdr->flag_field[0] & 0x2;
-+
-+	if (msgtype == PTP_MSGTYPE_SYNC && twostep == 0)
-+		return true;
-+
-+	return false;
-+}
-+
- int ocelot_port_txtstamp_request(struct ocelot *ocelot, int port,
- 				 struct sk_buff *skb,
- 				 struct sk_buff **clone)
-@@ -553,12 +598,24 @@ int ocelot_port_txtstamp_request(struct ocelot *ocelot, int port,
- 	struct ocelot_port *ocelot_port = ocelot->ports[port];
- 	u8 ptp_cmd = ocelot_port->ptp_cmd;
- 
-+	/* Store ptp_cmd in first byte of DSA_SKB_CB_PRIV per skb */
-+	if (ptp_cmd == IFH_REW_OP_ORIGIN_PTP) {
-+		if (ocelot_ptp_is_onestep_sync(skb)) {
-+			*(u8 *)DSA_SKB_CB_PRIV(skb) = ptp_cmd;
-+			return 0;
-+		}
-+
-+		/* Fall back to two-step timestamping */
-+		ptp_cmd = IFH_REW_OP_TWO_STEP_PTP;
-+	}
-+
- 	if (ptp_cmd == IFH_REW_OP_TWO_STEP_PTP) {
- 		*clone = skb_clone_sk(skb);
- 		if (!(*clone))
- 			return -ENOMEM;
- 
- 		ocelot_port_add_txtstamp_skb(ocelot, port, *clone);
-+		*(u8 *)DSA_SKB_CB_PRIV(skb) = ptp_cmd;
- 	}
- 
- 	return 0;
-diff --git a/drivers/net/ethernet/mscc/ocelot_net.c b/drivers/net/ethernet/mscc/ocelot_net.c
-index 8293152a6dc1..eb3d525731da 100644
---- a/drivers/net/ethernet/mscc/ocelot_net.c
-+++ b/drivers/net/ethernet/mscc/ocelot_net.c
-@@ -514,10 +514,7 @@ static netdev_tx_t ocelot_port_xmit(struct sk_buff *skb, struct net_device *dev)
- 			return NETDEV_TX_OK;
- 		}
- 
--		if (ocelot_port->ptp_cmd == IFH_REW_OP_TWO_STEP_PTP) {
--			rew_op = ocelot_port->ptp_cmd;
--			rew_op |= clone->cb[0] << 3;
--		}
-+		ocelot_ptp_rew_op(skb, clone, &rew_op);
- 	}
- 
- 	ocelot_port_inject_frame(ocelot, port, 0, rew_op, skb);
-diff --git a/include/soc/mscc/ocelot.h b/include/soc/mscc/ocelot.h
-index 9cdaf1d9199f..19413532db0b 100644
---- a/include/soc/mscc/ocelot.h
-+++ b/include/soc/mscc/ocelot.h
-@@ -820,6 +820,7 @@ int ocelot_vlan_add(struct ocelot *ocelot, int port, u16 vid, bool pvid,
- int ocelot_vlan_del(struct ocelot *ocelot, int port, u16 vid);
- int ocelot_hwstamp_get(struct ocelot *ocelot, int port, struct ifreq *ifr);
- int ocelot_hwstamp_set(struct ocelot *ocelot, int port, struct ifreq *ifr);
-+bool ocelot_ptp_rew_op(struct sk_buff *skb, struct sk_buff *clone, u32 *rew_op);
- int ocelot_port_txtstamp_request(struct ocelot *ocelot, int port,
- 				 struct sk_buff *skb,
- 				 struct sk_buff **clone);
-diff --git a/net/dsa/tag_ocelot.c b/net/dsa/tag_ocelot.c
-index f9df9cac81c5..d5c73b36f0c1 100644
---- a/net/dsa/tag_ocelot.c
-+++ b/net/dsa/tag_ocelot.c
-@@ -5,25 +5,6 @@
- #include <soc/mscc/ocelot.h>
- #include "dsa_priv.h"
- 
--static void ocelot_xmit_ptp(struct dsa_port *dp, void *injection,
--			    struct sk_buff *clone)
--{
--	struct ocelot *ocelot = dp->ds->priv;
--	struct ocelot_port *ocelot_port;
--	u64 rew_op;
--
--	ocelot_port = ocelot->ports[dp->index];
--	rew_op = ocelot_port->ptp_cmd;
--
--	/* Retrieve timestamp ID populated inside skb->cb[0] of the
--	 * clone by ocelot_port_add_txtstamp_skb
--	 */
--	if (ocelot_port->ptp_cmd == IFH_REW_OP_TWO_STEP_PTP)
--		rew_op |= clone->cb[0] << 3;
--
--	ocelot_ifh_set_rew_op(injection, rew_op);
--}
--
- static void ocelot_xmit_common(struct sk_buff *skb, struct net_device *netdev,
- 			       __be32 ifh_prefix, void **ifh)
- {
-@@ -32,6 +13,7 @@ static void ocelot_xmit_common(struct sk_buff *skb, struct net_device *netdev,
- 	struct dsa_switch *ds = dp->ds;
- 	void *injection;
- 	__be32 *prefix;
-+	u32 rew_op = 0;
- 
- 	injection = skb_push(skb, OCELOT_TAG_LEN);
- 	prefix = skb_push(skb, OCELOT_SHORT_PREFIX_LEN);
-@@ -42,9 +24,8 @@ static void ocelot_xmit_common(struct sk_buff *skb, struct net_device *netdev,
- 	ocelot_ifh_set_src(injection, ds->num_ports);
- 	ocelot_ifh_set_qos_class(injection, skb->priority);
- 
--	/* TX timestamping was requested */
--	if (clone)
--		ocelot_xmit_ptp(dp, injection, clone);
-+	if (ocelot_ptp_rew_op(skb, clone, &rew_op))
-+		ocelot_ifh_set_rew_op(injection, rew_op);
- 
- 	*ifh = injection;
- }
-diff --git a/net/dsa/tag_ocelot_8021q.c b/net/dsa/tag_ocelot_8021q.c
-index 5f3e8e124a82..bf32649a5a7b 100644
---- a/net/dsa/tag_ocelot_8021q.c
-+++ b/net/dsa/tag_ocelot_8021q.c
-@@ -13,32 +13,6 @@
- #include <soc/mscc/ocelot_ptp.h>
- #include "dsa_priv.h"
- 
--static struct sk_buff *ocelot_xmit_ptp(struct dsa_port *dp,
--				       struct sk_buff *skb,
--				       struct sk_buff *clone)
--{
--	struct ocelot *ocelot = dp->ds->priv;
--	struct ocelot_port *ocelot_port;
--	int port = dp->index;
--	u32 rew_op;
--
--	if (!ocelot_can_inject(ocelot, 0))
--		return NULL;
--
--	ocelot_port = ocelot->ports[port];
--	rew_op = ocelot_port->ptp_cmd;
--
--	/* Retrieve timestamp ID populated inside skb->cb[0] of the
--	 * clone by ocelot_port_add_txtstamp_skb
--	 */
--	if (ocelot_port->ptp_cmd == IFH_REW_OP_TWO_STEP_PTP)
--		rew_op |= clone->cb[0] << 3;
--
--	ocelot_port_inject_frame(ocelot, port, 0, rew_op, skb);
--
--	return NULL;
--}
--
- static struct sk_buff *ocelot_xmit(struct sk_buff *skb,
- 				   struct net_device *netdev)
- {
-@@ -47,10 +21,17 @@ static struct sk_buff *ocelot_xmit(struct sk_buff *skb,
- 	u16 queue_mapping = skb_get_queue_mapping(skb);
- 	u8 pcp = netdev_txq_to_tc(netdev, queue_mapping);
- 	struct sk_buff *clone = DSA_SKB_CB(skb)->clone;
-+	struct ocelot *ocelot = dp->ds->priv;
-+	int port = dp->index;
-+	u32 rew_op = 0;
-+
-+	if (ocelot_ptp_rew_op(skb, clone, &rew_op)) {
-+		if (!ocelot_can_inject(ocelot, 0))
-+			return NULL;
- 
--	/* TX timestamping was requested, so inject through MMIO */
--	if (clone)
--		return ocelot_xmit_ptp(dp, skb, clone);
-+		ocelot_port_inject_frame(ocelot, port, 0, rew_op, skb);
-+		return NULL;
-+	}
- 
- 	return dsa_8021q_xmit(skb, netdev, ETH_P_8021Q,
- 			      ((pcp << VLAN_PRIO_SHIFT) | tx_vid));
+The overall idea of changing the asymmetry detection has been suggested
+earlier by Valentin Schneider <valentin.schneider@arm.com>
+
+Verified on (mostly):
+    - QEMU (version 4.2.1) with variants of possible asymmetric topologies
+	- machine: virt
+	- modifying the device-tree 'cpus' node for virt machine:
+
+	qemu-system-aarch64 -kernel $KERNEL_IMG
+	    -drive format=qcow2,file=$IMAGE
+	    -append 'root=/dev/vda earlycon console=ttyAMA0 sched_debug
+	     loglevel=15 kmemleak=on' -m 2G  --nographic  -cpu cortex-a57
+	    -machine virt -smp cores=6 -machine dumpdtb=$CUSTOM_DTB.dtb
+
+	$KERNEL_PATH/scripts/dtc/dtc -I dtb -O dts $CUSTOM_DTB.dts >
+	$CUSTOM_DTB.dtb
+
+	(modify the dts)
+
+	$KERNEL_PATH/scripts/dtc/dtc -I dts -O dtb $CUSTOM_DTB.dts >
+	$CUSTOM_DTB.dtb
+
+	qemu-system-aarch64 -kernel $KERNEL_IMG
+	    -drive format=qcow2,file=$IMAGE
+	    -append 'root=/dev/vda earlycon console=ttyAMA0 sched_debug
+	     loglevel=15 kmemleak=on' -m 2G  --nographic  -cpu cortex-a57
+	    -machine virt -smp cores=6 -machine dtb=$CUSTOM_DTB.dtb
+
+
+Beata Michalska (3):
+  sched/core: Introduce SD_ASYM_CPUCAPACITY_FULL sched_domain flag
+  sched/topology: Rework CPU capacity asymmetry detection
+  sched/doc: Update the CPU capacity asymmetry bits
+
+ Documentation/scheduler/sched-capacity.rst |   6 +-
+ Documentation/scheduler/sched-energy.rst   |   2 +-
+ include/linux/sched/sd_flags.h             |  10 +
+ kernel/sched/topology.c                    | 339 +++++++++++++++++++++++++----
+ 4 files changed, 314 insertions(+), 43 deletions(-)
+
 -- 
-2.25.1
+2.7.4
 
