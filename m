@@ -2,118 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC2E4C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 01:56:23 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DB16C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 02:22:25 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A008461166
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 01:56:23 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 729156113B
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 02:22:25 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236677AbhDPB4q (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Thu, 15 Apr 2021 21:56:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47114 "EHLO
+        id S238206AbhDPCWs (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Thu, 15 Apr 2021 22:22:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235043AbhDPB4q (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 21:56:46 -0400
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com [IPv6:2607:f8b0:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EE86C061574
-        for <linux-doc@vger.kernel.org>; Thu, 15 Apr 2021 18:56:22 -0700 (PDT)
-Received: by mail-oi1-x229.google.com with SMTP id n184so303181oia.12
-        for <linux-doc@vger.kernel.org>; Thu, 15 Apr 2021 18:56:22 -0700 (PDT)
+        with ESMTP id S235046AbhDPCWr (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Thu, 15 Apr 2021 22:22:47 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDC8DC061574
+        for <linux-doc@vger.kernel.org>; Thu, 15 Apr 2021 19:22:22 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id w7-20020a1cdf070000b0290125f388fb34so13165090wmg.0
+        for <linux-doc@vger.kernel.org>; Thu, 15 Apr 2021 19:22:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=0PcfClE8y50mBhLd3XNHeLAfC7e1DJonn8WVmRE7DwY=;
-        b=m462GoVNUyS0HRzoVCIR8FdLgMdEJEuMFTw57evCx2ZHqAOR6iP6jB45Mxh5Tu/2TB
-         FHARMNLFvt3Pi3z0YWGYOh+brzuGIcRFcl3stefY0a/WYJwZ7wxUR7XFU6ZTDHj8CO6m
-         Bjx7RkXRQhU21hzChGxIxQZzCEArbNFyqHgcmA1CWOKNohMFMH0XgE9btDmHjgnKWom7
-         3K65e6CEoQ8tVn4PRuX5hl9aQb4bqF6iGhudZgF7gFhw+2QscNmgfuQ11MSyQZ9od3X8
-         UndFpp2gfFvStjj6yZ9BBRr7OpvmA5vG/Tq/GCBvbI8BKMfXIFPwzNmegHr/F2jlFGli
-         W7ww==
+        d=google.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=RDRWGt7xOekmwUKUE2JEVIaFGKRBsEO59DpsTnWgs/0=;
+        b=ZfOxa43AWeSHjHBGW3m2xxgRn0MKBaCittzuqp5UzO77kBOKY+usslGnGnAr/bGr9r
+         Y/FlasLuieWL3Lhp+NU27g3OBnXe07L7YygtbptzZRtIj+cm6dx2dOyRfgtMiScUNN3W
+         Qm0cSyWf8oYh8NRjHjanPlsTr3KlqE2xCblcaA7wbs5sauhyiW6t8wqTVxa8/bdxETOj
+         DJFHBnwCjdVHdB7lQFpVM/1+0fwY/FFQGmF6ec7cG08xt6EQkbgRa0ZDbgvWCY3AZa01
+         t/eax8nlE9M8mgTwNUtBaHqr4JuErCH+9oM60bW2CZrMcCT/7nlOiovQwH3V7tGcuk6w
+         A+Kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=0PcfClE8y50mBhLd3XNHeLAfC7e1DJonn8WVmRE7DwY=;
-        b=udEAwNrZjalJg6wglS064JkoBq3dCnDoREF8A4oNZK/cE1Nsica4CBf30Yl8Xa4b4f
-         wJVxNyBoeavNLnDJwyCxyDbOO4pIy4iC/gTWHGmHL9lq+57DTMSj2Z/fhjL2a8bWPwPT
-         27E3TWOXj8EpqEsdYoWnc390ZsiTUqbzCo+yhitaeSGrcQqhWoI+iWyxW3AmRKPXsV8i
-         7AZGHsymcsez7poH80NmbQTODqE3x15Lp8ejwGtnoomNLpPo2fFK+7jvIszjzIqxnHHe
-         IvpGwc6Ya4NxuUidXFmrwakNIFLTVlQqLAyskVfsKtK7W+q1Br4/W6LGzqotNYBimpEQ
-         PeQQ==
-X-Gm-Message-State: AOAM5309TljDJLE640OoPx1ks0m30KYOWdwbZVkcXd/ElbQ8rVJkAcyd
-        G4cmQnwPDXg4dQ4vsBXtt7A7IP6A3zg9Xuwv3XHonzNswdAU/lhJ
-X-Google-Smtp-Source: ABdhPJzwZDnQso12UuEC4T46wZsQrGGqY6AFoM6nQOJYH7HHhZScs3jA/8522OsTUY50++/unu9B+3bFekmEIeeSQjU=
-X-Received: by 2002:aca:482:: with SMTP id 124mr4705954oie.130.1618538181862;
- Thu, 15 Apr 2021 18:56:21 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=RDRWGt7xOekmwUKUE2JEVIaFGKRBsEO59DpsTnWgs/0=;
+        b=SoYhml4v+ZbODJbJIEHdCBlb/Tl30RAW4GygYXy/fk6/RXjIxLv3MS77C63gJV5ahC
+         L2Znt68SoFtxvaoIEEWvAOUf1Bl959abrWwb4SwOEStNWJhAV5p0vR34UZKXujpMKknf
+         GEoB7l/OeJL2UFZab7x1pCxdsmtjCSeTx+M1ZxLNnvTUae9FA/xyQclzMmhrJe+7chxX
+         U6TrqJ5O9qmMz8gMae9oYIvSFu8/GpOmYlo+Vw6HVTZ8NDqS6bLDbo6qgopnDxGG+0bh
+         x4mXRPKb8b/gymEC8kXi1Nt0ZiFB7z7YDTd76v7wcOWUfXkoPHN6Rh1wpdpUnEceMu/c
+         MPCA==
+X-Gm-Message-State: AOAM530JnMBsYbOFlzz4YbAliwL2SgUHeHGDVwc/pM4CTsTPnqWynm9p
+        rOWvJ3Icl1vTALbiJT+BvQJB
+X-Google-Smtp-Source: ABdhPJxQj64FHzBBkB1XlDKKfuP/omZD2DU9RupOiJ3vBjtuXY1JXoOhozJ3FC0KYuffL3O4FaGA8Q==
+X-Received: by 2002:a7b:c5c8:: with SMTP id n8mr5790600wmk.63.1618539741456;
+        Thu, 15 Apr 2021 19:22:21 -0700 (PDT)
+Received: from google.com ([2a00:79e0:d:209:9d22:ab98:31ab:7a9d])
+        by smtp.gmail.com with ESMTPSA id f7sm3679602wrp.48.2021.04.15.19.22.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Apr 2021 19:22:21 -0700 (PDT)
+Date:   Fri, 16 Apr 2021 03:22:16 +0100
+From:   Wedson Almeida Filho <wedsonaf@google.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     ojeda@kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <YHj02M3jMSweoP4l@google.com>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-References: <20210415063838.2341827-1-siyanteng@loongson.cn> <87y2dj4lvw.fsf@meer.lwn.net>
-In-Reply-To: <87y2dj4lvw.fsf@meer.lwn.net>
-From:   yanteng si <siyanteng01@gmail.com>
-Date:   Fri, 16 Apr 2021 09:56:11 +0800
-Message-ID: <CAEensMyd=yeLaYwoLr6P3qnenj+DbcAqsmTamhAT=uy8nKHtOQ@mail.gmail.com>
-Subject: Re: [PATCH v5 0/4] docs/zh_CN: add core api and openrisc translation
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Yanteng Si <siyanteng@loongson.cn>, Alex Shi <alexs@kernel.org>,
-        Alex Shi <alex.shi@linux.alibaba.com>,
-        Huacai Chen <chenhuacai@kernel.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        Harry Wei <harryxiyou@gmail.com>, linux-doc@vger.kernel.org,
-        Puyu Wang <realpuyuwang@gmail.com>,
-        Wu XiangCheng <bobwxc@email.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Jonathan Corbet <corbet@lwn.net> =E4=BA=8E2021=E5=B9=B44=E6=9C=8815=E6=97=
-=A5=E5=91=A8=E5=9B=9B =E4=B8=8B=E5=8D=8811:18=E5=86=99=E9=81=93=EF=BC=9A
->
-> Yanteng Si <siyanteng@loongson.cn> writes:
->
-> > This series of patches translates core-api/irq/* and openrisc/* into
-> > Chinese
-> >
-> > v1 -> v2:
-> >
-> > Modify some words under Xiangcheng Wu's suggestion. Thanks for his rewi=
-ew!
-> >
-> > v2 -> v3:
-> >
-> > keep the signs number equal to the title char under Alex's suggestion.
-> > Thanks for his rewiew!
-> >
-> > v3 -> v4:
-> >
-> > Add Xiangcheng Wu's review sign to 0002=E3=80=810003 and 0008; Thanks f=
-or his rewiew!
-> >
-> > v4 -> v5:
-> >
-> > Split 8-11 into a separate series
->
-> So I am now totally confused.  I have two "v5" series with the same
-> subject; they are evidently different but there's no explanation of why
-> or which order I should put them in.
->
-> Please, why have you done this, and what do you expect me to do now?
->
-I'm sorry.
+On Thu, Apr 15, 2021 at 08:58:16PM +0200, Peter Zijlstra wrote:
+> On Wed, Apr 14, 2021 at 08:45:51PM +0200, ojeda@kernel.org wrote:
+> 
+> > Rust is a systems programming language that brings several key
+> > advantages over C in the context of the Linux kernel:
+> > 
+> >   - No undefined behavior in the safe subset (when unsafe code is
+> >     sound), including memory safety and the absence of data races.
+> 
+> And yet I see not a single mention of the Rust Memory Model and how it
+> aligns (or not) with the LKMM. The C11 memory model for example is a
+> really poor fit for LKMM.
 
-I'm making things worse and worse. I just want to split into two
-separate series,
-the first series is 7 patches for core-api and the second series is 4
-patches for
-openrisc. However, I didn't change the subject of the cover letter,
-I'm really stupid.
+We don't intend to directly expose C data structures to Rust code (outside the
+kernel crate). Instead, we intend to provide wrappers that expose safe
+interfaces even though the implementation may use unsafe blocks. So we expect
+the vast majority of Rust code to just care about the Rust memory model.
 
-Thanks,
+We admittedly don't have a huge number of wrappers yet, but we do have enough to
+implement most of Binder and so far it's been ok. We do intend to eventually
+cover other classes of drivers that may unveil unforeseen difficulties, we'll
+see.
 
-Yan teng
+If you have concerns that we might have overlooked, we'd be happy to hear about
+them from you (or anyone else).
+
+> HTML is not a valid documentation format. Heck, markdown itself is
+> barely readable.
+
+Are you stating [what you perceive as] a fact or just venting? If the former,
+would you mind enlightening us with some evidence?
+
+> It is really *really* hard to read. It has all sorts of weird things,
+> like operators at the beginning after a line break:
+> 
+> 	if (foo
+> 	    || bar)
+> 
+> which is just wrong. And it suffers from CamelCase, which is just about
+> the worst thing ever. Not even the C++ std libs have that (or had, back
+> when I still did knew C++).
+> 
+> I also see:
+> 
+> 	if (foo) {
+> 		...
+> 	}
+> 
+> and
+> 
+> 	if foo {
+> 	}
+> 
+> the latter, ofcourse, being complete rubbish.
+
+There are advantages to adopting the preferred style of a language (when one
+exists). We, of course, are not required to adopt it but I am of the opinion
+that we should have good reasons to diverge if that's our choice in the end.
+
+"Not having parentheses around the if-clause expression is complete rubbish"
+doesn't sound like a good reason to me.
