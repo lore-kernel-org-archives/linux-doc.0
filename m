@@ -2,136 +2,130 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1ECC433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 14:12:17 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDC52C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 14:19:14 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 63161611AC
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 14:12:17 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 97BC861057
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 14:19:14 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244348AbhDPOMk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 10:12:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39548 "EHLO
+        id S235617AbhDPOTh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 10:19:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244150AbhDPOMk (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 10:12:40 -0400
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25D0BC061756
-        for <linux-doc@vger.kernel.org>; Fri, 16 Apr 2021 07:12:15 -0700 (PDT)
-Received: by mail-lf1-x135.google.com with SMTP id f41so21623697lfv.8
-        for <linux-doc@vger.kernel.org>; Fri, 16 Apr 2021 07:12:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=uged.al; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Qvg0+ynFQWDqQCIO8KNqZL3+z/lrvuKdEEgfI7FsQlo=;
-        b=ELyLsiUaExhjw8YySJFA347NWUPn9j1onQtEB8PIFFgCd0rSH4RHWYCfpnKhEl3/w8
-         r2tqpsvCLvbZ5ufl2YzrkABtOqLiXfpc0s8WWpP3j3liXDtL+8fKYh5E9BtuYP9NUBBX
-         F2RVbdj+Qd8QICZ7cK0S2WsPyy+wtkXbj1aPNXuRK2WCHEYbL77Bn4+S2Y1AJKqvIjF2
-         zfQDxWkt6S7yWSrOahYG/p9o44w/TMzabmP+cykZtFiKvJ1q2vp/jai2lvCYV6KhH8Cc
-         KVKs/iOKDIlgT+3z6ih24LIhHDsL0lZHPBf+YFFqElurjSyFM4D6fHiUcnCmVZS5dKlR
-         e/VA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=Qvg0+ynFQWDqQCIO8KNqZL3+z/lrvuKdEEgfI7FsQlo=;
-        b=tN0n7q4Jux3OC1DBSOlYAhTst4JGzy6bwd67apt+JXgfkpyLjZoR0h3HXL4C2yMPCc
-         vHR5s8txbO1hBI7iec3++d558ABF5cW5c+QZzS4cHp9MHvMtjux6ri4k/h381T+sO8PM
-         YK6TYVzZ/8wT3/Lnqq/wL0mIlZKzaUUVP9t5V1PC4ILgmGnBkLHwbLkE12MpWGBTqv+M
-         +7PPMWOogbcIUVMIKdXgYxhB8oTjp90IQ6PfjdFixxTFY7bTKejLKG+UTNsMRyMTz0zC
-         xwB+LXiBk19Nny8jsMcd98tSJCmk5wPCTKursxACmbhHic5pt94gq1Q9qoSn5fQJMitI
-         QwkQ==
-X-Gm-Message-State: AOAM5337jNY1EqG+1XfqJn6wDmmg0qV4f28RbUk0hFnSqNM5okZMNRAf
-        m/7aiTbZf5JJITtE4doOaFshQQ==
-X-Google-Smtp-Source: ABdhPJwTjyGxYJE7A0Jj+kJ11xfEOUPdFWMRr2xcguCnlM0OZmlE10G3ooWjvAE+htQ9wke4A55Atg==
-X-Received: by 2002:ac2:515e:: with SMTP id q30mr3379202lfd.514.1618582332576;
-        Fri, 16 Apr 2021 07:12:12 -0700 (PDT)
-Received: from xps.home ([2001:4647:9b4f:0:2992:a57:479e:be30])
-        by smtp.gmail.com with ESMTPSA id 130sm1001746lfg.263.2021.04.16.07.12.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Apr 2021 07:12:11 -0700 (PDT)
-From:   Odin Ugedal <odin@uged.al>
-To:     corbet@lwn.net
-Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
-        Odin Ugedal <odin@uged.al>
-Subject: [RFC] docs/admin-guide/cgroup-v2: Add hugetlb rsvd files
-Date:   Fri, 16 Apr 2021 16:11:46 +0200
-Message-Id: <20210416141146.542786-1-odin@uged.al>
-X-Mailer: git-send-email 2.31.1
+        with ESMTP id S235593AbhDPOTh (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 10:19:37 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60F1EC061574;
+        Fri, 16 Apr 2021 07:19:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=SeU+uqvVi1fmEW1Z95Wp1qwWAFy1Vp389yWgFiKUAeA=; b=GeJtVe5y3hVLo4XVhBu95Ze+TF
+        fz/5WZHm3RpxQCMAevsOLZQsDACizUJ1W9gnWK2C4dhB8x4Cbkh+ghITeColIxFHZ8DrGAxBAtJ1W
+        NR5CYBOGg6hXdldrzjyFvJWBgny0AVKrgmBCGBu3e5BeTDVUi8WkQJSNkyEFHHAOx8t+IA3y2Tg8y
+        vF+wGL56zLnN5AJn7C5QIeCr9j9WkRC8OE/jC7vrnw6zkV4mRyacVc47beAORsDErvcOTvI+7SDLu
+        tAxTscURR9iDxHqNxNnGg8c4mlYIuA/l+nIEs9tpg6a9zmLmCod66+seZM8ahmbs9DIznjm8Hm3yr
+        MAakXBZg==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lXPJM-002NAa-4U; Fri, 16 Apr 2021 14:19:08 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id A28F33001FF;
+        Fri, 16 Apr 2021 16:19:07 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 88E6B2BE61367; Fri, 16 Apr 2021 16:19:07 +0200 (CEST)
+Date:   Fri, 16 Apr 2021 16:19:07 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Wedson Almeida Filho <wedsonaf@google.com>
+Cc:     ojeda@kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
+ <YHmMJWmzz2vZ3qQH@google.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YHmMJWmzz2vZ3qQH@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Add missing docs about reservation accounting for hugetlb in cgroup v2.
+On Fri, Apr 16, 2021 at 02:07:49PM +0100, Wedson Almeida Filho wrote:
+> On Fri, Apr 16, 2021 at 01:24:23PM +0200, Peter Zijlstra wrote:
 
-Signed-off-by: Odin Ugedal <odin@uged.al>
----
-RFC: This is linking from cgroup-v1 docs, and that is probably not
-optimal. The information about the difference between reservation
-accounting and page fault accounting is pretty hard to make short.
+> >  int perf_event_task_enable(void)
+> >  {
+> > +	DEFINE_MUTEX_GUARD(event_mutex, &current->perf_event_mutex);
+> 
+> There is nothing in C forcing developers to actually use DEFINE_MUTEX_GUARD. So
+> someone may simply forget (or not know that they need) to lock
+> current->perf_event_mutex and directly access some field protected by it. This
+> is unlikely to happen when one first writes the code, but over time as different
+> people modify the code and invariants change, it is possible for this to happen.
+> 
+> In Rust, this isn't possible: the data protected by a lock is only accessible
+> when the lock is locked. So developers cannot accidentally make mistakes of this
+> kind. And since the enforcement happens at compile time, there is no runtime
+> cost.
+> 
+> This, we believe, is fundamental to the discussion: we agree that many of these
+> idioms can be implemented in C (albeit in this case with a compiler extension),
+> but their use is optional, people can (and do) still make mistakes that lead to
+> vulnerabilities; Rust disallows classes of  mistakes by construction.
 
-I think we have four ways to do it, but I don't know what is
-most optimal:
+Does this also not prohibit constructs where modification must be done
+while holding two locks, but reading can be done while holding either
+lock?
 
-- Link from cgroup-v2 to cgroup-v1 (this patch)
-- Have a separate description for both v1 and v2
-- Move description from cgroup-v1 to cgroup-v2, and link from v1 to
-  v2.
-- Move info from cgroup-v1 to admin-guide/mm/hugetlbpage or
-  vm/hugetlbfs_reserv, and link from cgroup to them.
+That's a semi common scheme in the kernel, but not something that's
+expressible by, for example, the Java sync keyword.
 
-admin-guide/cgroup-v1/hugetlb need some formatting anyhow also, will fix
-that in the same patchset as this. Together with describing
-<hugepagesize> in cgroup-v2.
+It also very much doesn't work for RCU, where modification must be done
+under a lock, but access is done essentially lockless.
 
- Documentation/admin-guide/cgroup-v2.rst | 23 +++++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+I would much rather have a language extention where we can associate
+custom assertions with variable access, sorta like a sanitizer:
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 64c62b979f2f..0a29cd46b1ab 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2143,12 +2143,31 @@ RDMA Interface Files
- HugeTLB
- -------
- 
--The HugeTLB controller allows to limit the HugeTLB usage per control group and
--enforces the controller limit during page fault.
-+The "HugeTLB" controller regulates usage of huge pages. The controller
-+supports two forms of accounting: page fault accounting and reservation
-+accounting. See
-+:ref:`Documentation/admin-guide/cgroup-v1/hugetlb.rst <cgroup-v1-hugetlb>`
-+for more details.
-+
- 
- HugeTLB Interface Files
- ~~~~~~~~~~~~~~~~~~~~~~~
- 
-+  hugetlb.<hugepagesize>.rsvd.current
-+	Show current reservations and no-reserve faults for "hugepagesize"
-+	hugetlb.  It exists for all the cgroup except root.
-+
-+  hugetlb.<hugepagesize>.rsvd.max
-+	Set/show the hard limit of reservations and no-reserve faults for
-+	"hugepagesize" hugetlb. The default value is "max".
-+	It exists for all the cgroup except root.
-+
-+  hugetlb.<hugepagesize>.rsvd.events
-+	A read-only flat-keyed file which exists on non-root cgroups.
-+
-+	  max
-+		The number of allocation failure due to HugeTLB reservation limit
-+
-   hugetlb.<hugepagesize>.current
- 	Show current usage for "hugepagesize" hugetlb.  It exists for all
- 	the cgroup except root.
--- 
-2.31.1
+static inline void assert_foo_bar(struct foo *f)
+{
+	lockdep_assert_held(&f->lock);
+}
+
+struct foo {
+	spinlock_t lock;
+	int bar __assert__(assert_foo_bar);
+};
+
+Such things can be optional and only enabled for debug builds on new
+compilers.
+
+> Another scenario: suppose within perf_event_task_enable you need to call a
+> function that requires the mutex to be locked and that will unlock it for you on
+> error (or unconditionally, doesn't matter). How would you do that in C? In Rust,
+> there is a clean idiomatic way of transferring ownership of a guard (or any
+> other object) such that the previous owner cannot continue to use it after
+> ownership is transferred. Again, this is enforced at compile time. I'm happy to
+> provide a small example if that would help.
+
+C does indeed not have the concept of ownership, unlike modern C++ I
+think. But I would much rather see a C language extention for that than
+go Rust.
+
+This would mean a far more agressive push for newer C compilers than
+we've ever done before, but at least it would all still be a single
+language. Convertion to the new stuff can be done gradually and where
+it makes sense and new extentions can be evaluated on performance impact
+etc.
 
