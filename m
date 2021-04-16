@@ -2,118 +2,209 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.8 required=3.0 tests=BAYES_00,FAKE_REPLY_C,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,
+	SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE410C43460
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 22:04:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F922C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 22:15:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D055C610F7
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 22:04:45 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 2D751613D4
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 22:15:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235877AbhDPWFJ (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 18:05:09 -0400
-Received: from wtarreau.pck.nerim.net ([62.212.114.60]:51766 "EHLO 1wt.eu"
+        id S233514AbhDPWP0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 18:15:26 -0400
+Received: from mga06.intel.com ([134.134.136.31]:50456 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234898AbhDPWFJ (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Apr 2021 18:05:09 -0400
-Received: (from willy@localhost)
-        by pcw.home.local (8.15.2/8.15.2/Submit) id 13GM4GQh011937;
-        Sat, 17 Apr 2021 00:04:16 +0200
-Date:   Sat, 17 Apr 2021 00:04:16 +0200
-From:   Willy Tarreau <w@1wt.eu>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc:     Connor Kuehl <ckuehl@redhat.com>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Subject: Re: [PATCH 04/13] Kbuild: Rust support
-Message-ID: <20210416220416.GA11872@1wt.eu>
+        id S232618AbhDPWP0 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Apr 2021 18:15:26 -0400
+IronPort-SDR: C48M1iKeuQV0RIEgXcfUqcfeLeE5Eh7o3VFWnGIkLFinszD6G2HL35z/z1XYUfdTWpxfoeHeh6
+ UPTtanm5xI0Q==
+X-IronPort-AV: E=McAfee;i="6200,9189,9956"; a="256436124"
+X-IronPort-AV: E=Sophos;i="5.82,228,1613462400"; 
+   d="scan'208";a="256436124"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2021 15:14:57 -0700
+IronPort-SDR: /+GCyxQt3pjtMCM8P9E6cHbfH37hm/aB5hO0UTt+OVbgSQRSJ+waHBjGCC/Ie+PTiaTacUirLx
+ zpzaRoGfcCaQ==
+X-IronPort-AV: E=Sophos;i="5.82,228,1613462400"; 
+   d="scan'208";a="616077041"
+Received: from iweiny-desk2.sc.intel.com (HELO localhost) ([10.3.52.147])
+  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2021 15:14:56 -0700
+Date:   Fri, 16 Apr 2021 15:14:56 -0700
+From:   Ira Weiny <ira.weiny@intel.com>
+To:     Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Andy Lutomirski <luto@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Dave Hansen <dave.hansen@linux.intel.com>,
+        Dan Williams <dan.j.williams@intel.com>, x86@kernel.org,
+        linux-kernel@vger.kernel.org, Fenghua Yu <fenghua.yu@intel.com>,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH V6 00/10] PKS: Add Protection Key Supervisor support
+Message-ID: <20210416220950.GE1904484@iweiny-DESK2.sc.intel.com>
+References: <20210401225833.566238-1-ira.weiny@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANiq72=3zZvdEsp-AH2Xj1nuvfGOQQ1WGmav6i4nFTz-3-_c_w@mail.gmail.com>
- <CANiq72=5pMzSS5V7h-QcQvYgyZUwdE=T705KtBWrNYZPjMYK3Q@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20210401225833.566238-1-ira.weiny@intel.com>
+User-Agent: Mutt/1.11.1 (2018-12-01)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 11:39:00PM +0200, Miguel Ojeda wrote:
-> On Fri, Apr 16, 2021 at 10:58 PM Willy Tarreau <w@1wt.eu> wrote:
-> >
-> > No, two:
-> >   - ok in %rax (seems like it's "!ok" technically speaking since it
-> >     returns 1 on !ok and 0 on ok)
-> >   - foo_or_err in %rdx
+On Thu, Apr 01, 2021 at 03:58:23PM -0700, 'Ira Weiny' wrote:
+> From: Ira Weiny <ira.weiny@intel.com>
 > 
-> Yes, but that is the implementation -- conceptually you only have one
-> or the other, and Rust won't allow you to use the wrong one.
+> Introduce a new page protection mechanism for supervisor pages, Protection Key
+> Supervisor (PKS).
 
-OK so for unions you always pass two values along the whole chain, a
-selector and the value itself.
+Is there any feedback on this series?
 
-But my point remains that the point of extreme care is at the interface
-with the rest of the kernel because there is a change of semantics
-there.
+Perhaps I should ping for specific feedback or an ack?  Maybe an ack from
+x86/mm?
 
-> > However then I'm bothered because Miguel's example showed that regardless
-> > of OK, EINVAL was always returned in foo_or_err, so maybe it's just
-> > because his example was not well chosen but it wasn't very visible from
-> > the source:
+Ira
+
 > 
-> That is the optimizer being fancy since the error can be put
-> unconditionally in `rdx`.
-
-Yes that's what I understood as well. I just didn't know that it had
-to be seen as a union.
-
-On Fri, Apr 16, 2021 at 11:19:18PM +0200, Miguel Ojeda wrote:
-> On Fri, Apr 16, 2021 at 10:22 PM Willy Tarreau <w@1wt.eu> wrote:
-> >
-> > So it simply does the equivalent of:
-> >
-> >   struct result {
-> >      int status;
-> >      int error;
-> >   };
+> Generally PKS enables protections on 'domains' of supervisor pages to limit
+> supervisor mode access to pages beyond the normal paging protections.  PKS
+> works in a similar fashion to user space pkeys, PKU.  As with PKU, supervisor
+> pkeys are checked in addition to normal paging protections and Access or Writes
+> can be disabled via a MSR update without TLB flushes when permissions change.
 > 
-> Not exactly, it is more like a tagged union, as Connor mentioned.
+> Also like PKU, a page mapping is assigned to a domain by setting pkey bits in
+> the page table entry for that mapping.
 > 
-> However, and this is the critical bit: it is a compile-time error to
-> access the inactive variants (in safe code). In C, it is on you to
-> keep track which one is the current one.
-
-Sure but as I said most often (due to API or ABI inheritance), both
-are already exclusive and stored as ranges. Returning 1..4095 for
-errno or a pointer including NULL for a success doesn't shock me at
-all.
-
-Along thes lines I hardly see how you'd tag pointers by manipulating
-their lower unused bits. That's something important both for memory
-usage and performance (supports atomic opts).
-
-> >      kill_foo();   // only for rust, C doesn't need it
+> Access is controlled through a PKRS register which is updated via WRMSR/RDMSR.
 > 
-> Please note that `kill_foo()` is not needed in Rust -- it was an
-> example of possible cleanup (since Al mentioned resources/cleanup)
-> using RAII.
-
-Yep but I kept it just to have comparable output code since in C
-you'd simply use "goto leave" and not have this function call to
-do the cleanup.
-
-Willy
+> XSAVE is not supported for the PKRS MSR.  Therefore the implementation
+> saves/restores the MSR across context switches and during exceptions.  Nested
+> exceptions are supported by each exception getting a new PKS state.
+> 
+> For consistent behavior with current paging protections, pkey 0 is reserved and
+> configured to allow full access via the pkey mechanism, thus preserving the
+> default paging protections on mappings with the default pkey value of 0.
+> 
+> Other keys, (1-15) are allocated by an allocator which prepares us for key
+> contention from day one.  Kernel users should be prepared for the allocator to
+> fail either because of key exhaustion or due to PKS not being supported on the
+> CPU instance.
+> 
+> The following are key attributes of PKS.
+> 
+> 	1) Fast switching of permissions
+> 		1a) Prevents access without page table manipulations
+> 		1b) No TLB flushes required
+> 	2) Works on a per thread basis
+> 
+> PKS is available with 4 and 5 level paging.  Like PKRU it consumes 4 bits from
+> the PTE to store the pkey within the entry.
+> 
+> All code to support PKS is configured via ARCH_ENABLE_SUPERVISOR_PKEYS which
+> is designed to only be turned on when a user is configured on in the kernel.
+> Those users must depend on ARCH_HAS_SUPERVISOR_PKEYS to properly work with
+> other architectures which do not yet support PKS.
+> 
+> Originally this series was submitted as part of a large patch set which
+> converted the kmap call sites.[1]
+> 
+> Many follow on discussions revealed a few problems.  The first of which was
+> that some callers leak a kmap mapping across threads rather than containing it
+> to a critical section.  Attempts were made to see if these 'global kmaps' could
+> be supported.[2]  However, supporting global kmaps had many problems.  Work is
+> being done in parallel on converting as many kmap calls to the new
+> kmap_local_page().[3]
+> 
+> 
+> Changes from V5 [6]
+> 	From Dave Hansen
+> 		Remove 'we' from comments
+> 
+> Changes from V4 [5]
+> 	From kernel test robot <lkp@intel.com>
+> 		Fix i386 build: pks_init_task not found
+> 	Move MSR_IA32_PKRS and INIT_PKRS_VALUE into patch 5 where they are
+> 		first 'used'.  (Technically nothing is 'used' until the final
+> 		test patch.  But review wise this is much cleaner.)
+> 	From Sean Christoperson
+> 		Add documentation details on what happens if the pkey is violated
+> 		Change cpu_feature_enabled to be in WARN_ON check
+> 		Clean up commit message of patch 6
+> 
+> 
+> [1] https://lore.kernel.org/lkml/20201009195033.3208459-1-ira.weiny@intel.com/
+> 
+> [2] https://lore.kernel.org/lkml/87mtycqcjf.fsf@nanos.tec.linutronix.de/
+> 
+> [3] https://lore.kernel.org/lkml/20210128061503.1496847-1-ira.weiny@intel.com/
+>     https://lore.kernel.org/lkml/20210210062221.3023586-1-ira.weiny@intel.com/
+>     https://lore.kernel.org/lkml/20210205170030.856723-1-ira.weiny@intel.com/
+>     https://lore.kernel.org/lkml/20210217024826.3466046-1-ira.weiny@intel.com/
+> 
+> [4] https://lore.kernel.org/lkml/20201106232908.364581-1-ira.weiny@intel.com/
+> 
+> [5] https://lore.kernel.org/lkml/20210322053020.2287058-1-ira.weiny@intel.com/
+> 
+> [6] https://lore.kernel.org/lkml/20210331191405.341999-1-ira.weiny@intel.com/
+> 
+> 
+> Fenghua Yu (1):
+>   x86/pks: Add PKS kernel API
+> 
+> Ira Weiny (9):
+>   x86/pkeys: Create pkeys_common.h
+>   x86/fpu: Refactor arch_set_user_pkey_access() for PKS support
+>   x86/pks: Add additional PKEY helper macros
+>   x86/pks: Add PKS defines and Kconfig options
+>   x86/pks: Add PKS setup code
+>   x86/fault: Adjust WARN_ON for PKey fault
+>   x86/pks: Preserve the PKRS MSR on context switch
+>   x86/entry: Preserve PKRS MSR across exceptions
+>   x86/pks: Add PKS test code
+> 
+>  Documentation/core-api/protection-keys.rst  | 112 +++-
+>  arch/x86/Kconfig                            |   1 +
+>  arch/x86/entry/calling.h                    |  26 +
+>  arch/x86/entry/common.c                     |  57 ++
+>  arch/x86/entry/entry_64.S                   |  22 +-
+>  arch/x86/entry/entry_64_compat.S            |   6 +-
+>  arch/x86/include/asm/cpufeatures.h          |   1 +
+>  arch/x86/include/asm/disabled-features.h    |   8 +-
+>  arch/x86/include/asm/msr-index.h            |   1 +
+>  arch/x86/include/asm/pgtable.h              |  15 +-
+>  arch/x86/include/asm/pgtable_types.h        |  12 +
+>  arch/x86/include/asm/pkeys.h                |   4 +
+>  arch/x86/include/asm/pkeys_common.h         |  34 +
+>  arch/x86/include/asm/pks.h                  |  54 ++
+>  arch/x86/include/asm/processor-flags.h      |   2 +
+>  arch/x86/include/asm/processor.h            |  47 +-
+>  arch/x86/include/uapi/asm/processor-flags.h |   2 +
+>  arch/x86/kernel/cpu/common.c                |   2 +
+>  arch/x86/kernel/fpu/xstate.c                |  22 +-
+>  arch/x86/kernel/head_64.S                   |   7 +-
+>  arch/x86/kernel/process.c                   |   3 +
+>  arch/x86/kernel/process_64.c                |   2 +
+>  arch/x86/mm/fault.c                         |  30 +-
+>  arch/x86/mm/pkeys.c                         | 218 +++++-
+>  include/linux/pgtable.h                     |   4 +
+>  include/linux/pkeys.h                       |  34 +
+>  kernel/entry/common.c                       |  14 +-
+>  lib/Kconfig.debug                           |  11 +
+>  lib/Makefile                                |   3 +
+>  lib/pks/Makefile                            |   3 +
+>  lib/pks/pks_test.c                          | 694 ++++++++++++++++++++
+>  mm/Kconfig                                  |   5 +
+>  tools/testing/selftests/x86/Makefile        |   3 +-
+>  tools/testing/selftests/x86/test_pks.c      | 149 +++++
+>  34 files changed, 1527 insertions(+), 81 deletions(-)
+>  create mode 100644 arch/x86/include/asm/pkeys_common.h
+>  create mode 100644 arch/x86/include/asm/pks.h
+>  create mode 100644 lib/pks/Makefile
+>  create mode 100644 lib/pks/pks_test.c
+>  create mode 100644 tools/testing/selftests/x86/test_pks.c
+> 
+> -- 
+> 2.28.0.rc0.12.gb6a658bd00c9
+> 
