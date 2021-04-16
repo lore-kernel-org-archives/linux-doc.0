@@ -2,117 +2,136 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-18.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71666C43603
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 13:38:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D1ECC433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 14:12:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 49F23610FA
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 13:38:56 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 63161611AC
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 14:12:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244133AbhDPNjT (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 09:39:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60286 "EHLO
+        id S244348AbhDPOMk (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 10:12:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S244120AbhDPNjS (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 09:39:18 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64C2EC061574;
-        Fri, 16 Apr 2021 06:38:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Oj/fWAhs31bJWwFY86CV59sd9Zza6E359cV1eJHfuf8=; b=YvswR+OJUHyRCNkqXe+cj7OE/x
-        moZv4q23OFJExA8D9F7fO4a1wuLpujs1DV1tr/G+hp/+oaG4ibrZuel2zUse16Uetw94gutySbxNF
-        CygLbNlxkkYS2ro7ptyMy+hw94RkunBsMdN+NPKbsq7K1mBrK97ERS/OYPTOzG1wrtQ/CAJxYPXfG
-        V5vQtNXOSVZ2YaXWpDyAOQCvAHHJvZ3ki7TJBRBB5ndnhdHx6jmCM7inL2z2aBTcoYR7IrFVrA7dn
-        F1EH2QZNfCa2hqiMszrLp0ycBQ4uFGovqD8ZSShiNJHjU7hKCl0n1ZWpOWvK3xExHYO+urcJghj1R
-        gBjisRUA==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
-        id 1lXOg5-002GOp-Ce; Fri, 16 Apr 2021 13:38:36 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 85CD5300222;
-        Fri, 16 Apr 2021 15:38:32 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 281262C067030; Fri, 16 Apr 2021 15:38:32 +0200 (CEST)
-Date:   Fri, 16 Apr 2021 15:38:32 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     ojeda@kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Subject: Re: [PATCH 04/13] Kbuild: Rust support
-Message-ID: <YHmTWEAS/QjX++w4@hirez.programming.kicks-ass.net>
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <20210414184604.23473-5-ojeda@kernel.org>
+        with ESMTP id S244150AbhDPOMk (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 10:12:40 -0400
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com [IPv6:2a00:1450:4864:20::135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25D0BC061756
+        for <linux-doc@vger.kernel.org>; Fri, 16 Apr 2021 07:12:15 -0700 (PDT)
+Received: by mail-lf1-x135.google.com with SMTP id f41so21623697lfv.8
+        for <linux-doc@vger.kernel.org>; Fri, 16 Apr 2021 07:12:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=uged.al; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qvg0+ynFQWDqQCIO8KNqZL3+z/lrvuKdEEgfI7FsQlo=;
+        b=ELyLsiUaExhjw8YySJFA347NWUPn9j1onQtEB8PIFFgCd0rSH4RHWYCfpnKhEl3/w8
+         r2tqpsvCLvbZ5ufl2YzrkABtOqLiXfpc0s8WWpP3j3liXDtL+8fKYh5E9BtuYP9NUBBX
+         F2RVbdj+Qd8QICZ7cK0S2WsPyy+wtkXbj1aPNXuRK2WCHEYbL77Bn4+S2Y1AJKqvIjF2
+         zfQDxWkt6S7yWSrOahYG/p9o44w/TMzabmP+cykZtFiKvJ1q2vp/jai2lvCYV6KhH8Cc
+         KVKs/iOKDIlgT+3z6ih24LIhHDsL0lZHPBf+YFFqElurjSyFM4D6fHiUcnCmVZS5dKlR
+         e/VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Qvg0+ynFQWDqQCIO8KNqZL3+z/lrvuKdEEgfI7FsQlo=;
+        b=tN0n7q4Jux3OC1DBSOlYAhTst4JGzy6bwd67apt+JXgfkpyLjZoR0h3HXL4C2yMPCc
+         vHR5s8txbO1hBI7iec3++d558ABF5cW5c+QZzS4cHp9MHvMtjux6ri4k/h381T+sO8PM
+         YK6TYVzZ/8wT3/Lnqq/wL0mIlZKzaUUVP9t5V1PC4ILgmGnBkLHwbLkE12MpWGBTqv+M
+         +7PPMWOogbcIUVMIKdXgYxhB8oTjp90IQ6PfjdFixxTFY7bTKejLKG+UTNsMRyMTz0zC
+         xwB+LXiBk19Nny8jsMcd98tSJCmk5wPCTKursxACmbhHic5pt94gq1Q9qoSn5fQJMitI
+         QwkQ==
+X-Gm-Message-State: AOAM5337jNY1EqG+1XfqJn6wDmmg0qV4f28RbUk0hFnSqNM5okZMNRAf
+        m/7aiTbZf5JJITtE4doOaFshQQ==
+X-Google-Smtp-Source: ABdhPJwTjyGxYJE7A0Jj+kJ11xfEOUPdFWMRr2xcguCnlM0OZmlE10G3ooWjvAE+htQ9wke4A55Atg==
+X-Received: by 2002:ac2:515e:: with SMTP id q30mr3379202lfd.514.1618582332576;
+        Fri, 16 Apr 2021 07:12:12 -0700 (PDT)
+Received: from xps.home ([2001:4647:9b4f:0:2992:a57:479e:be30])
+        by smtp.gmail.com with ESMTPSA id 130sm1001746lfg.263.2021.04.16.07.12.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Apr 2021 07:12:11 -0700 (PDT)
+From:   Odin Ugedal <odin@uged.al>
+To:     corbet@lwn.net
+Cc:     cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Odin Ugedal <odin@uged.al>
+Subject: [RFC] docs/admin-guide/cgroup-v2: Add hugetlb rsvd files
+Date:   Fri, 16 Apr 2021 16:11:46 +0200
+Message-Id: <20210416141146.542786-1-odin@uged.al>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210414184604.23473-5-ojeda@kernel.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 08:45:55PM +0200, ojeda@kernel.org wrote:
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 1b6094a13034..3665c49c4dcf 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -26,6 +26,7 @@ EXTRA_CPPFLAGS :=
->  EXTRA_LDFLAGS  :=
->  asflags-y  :=
->  ccflags-y  :=
-> +rustcflags-y :=
->  cppflags-y :=
->  ldflags-y  :=
->  
-> @@ -287,6 +288,24 @@ quiet_cmd_cc_lst_c = MKLST   $@
->  $(obj)/%.lst: $(src)/%.c FORCE
->  	$(call if_changed_dep,cc_lst_c)
->  
-> +# Compile Rust sources (.rs)
-> +# ---------------------------------------------------------------------------
-> +
-> +rustc_cross_flags := --target=$(srctree)/arch/$(SRCARCH)/rust/target.json
-> +
-> +quiet_cmd_rustc_o_rs = $(RUSTC_OR_CLIPPY_QUIET) $(quiet_modtag) $@
-> +      cmd_rustc_o_rs = \
-> +	RUST_MODFILE=$(modfile) \
-> +	$(RUSTC_OR_CLIPPY) $(rustc_flags) $(rustc_cross_flags) \
-> +		--extern alloc --extern kernel \
-> +		--crate-type rlib --out-dir $(obj) -L $(objtree)/rust/ \
-> +		--crate-name $(patsubst %.o,%,$(notdir $@)) $<; \
-> +	mv $(obj)/$(subst .o,,$(notdir $@)).d $(depfile); \
-> +	sed -i '/^\#/d' $(depfile)
-> +
-> +$(obj)/%.o: $(src)/%.rs FORCE
-> +	$(call if_changed_dep,rustc_o_rs)
-> +
->  # Compile assembler sources (.S)
->  # ---------------------------------------------------------------------------
->  
+Add missing docs about reservation accounting for hugetlb in cgroup v2.
 
-So if I read all this right, rust compiles to .o and, like any other .o
-file is then fed into objtool (for x86_64). Did you have any problems
-with objtool? Does it generate correct ORC unwind information?
+Signed-off-by: Odin Ugedal <odin@uged.al>
+---
+RFC: This is linking from cgroup-v1 docs, and that is probably not
+optimal. The information about the difference between reservation
+accounting and page fault accounting is pretty hard to make short.
 
-AFAICT rust has try/throw/catch exception handling (like
-C++/Java/others) which is typically implemented with stack unwinding of
-its own.
+I think we have four ways to do it, but I don't know what is
+most optimal:
 
-Does all that interact sanely?
+- Link from cgroup-v2 to cgroup-v1 (this patch)
+- Have a separate description for both v1 and v2
+- Move description from cgroup-v1 to cgroup-v2, and link from v1 to
+  v2.
+- Move info from cgroup-v1 to admin-guide/mm/hugetlbpage or
+  vm/hugetlbfs_reserv, and link from cgroup to them.
+
+admin-guide/cgroup-v1/hugetlb need some formatting anyhow also, will fix
+that in the same patchset as this. Together with describing
+<hugepagesize> in cgroup-v2.
+
+ Documentation/admin-guide/cgroup-v2.rst | 23 +++++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+index 64c62b979f2f..0a29cd46b1ab 100644
+--- a/Documentation/admin-guide/cgroup-v2.rst
++++ b/Documentation/admin-guide/cgroup-v2.rst
+@@ -2143,12 +2143,31 @@ RDMA Interface Files
+ HugeTLB
+ -------
+ 
+-The HugeTLB controller allows to limit the HugeTLB usage per control group and
+-enforces the controller limit during page fault.
++The "HugeTLB" controller regulates usage of huge pages. The controller
++supports two forms of accounting: page fault accounting and reservation
++accounting. See
++:ref:`Documentation/admin-guide/cgroup-v1/hugetlb.rst <cgroup-v1-hugetlb>`
++for more details.
++
+ 
+ HugeTLB Interface Files
+ ~~~~~~~~~~~~~~~~~~~~~~~
+ 
++  hugetlb.<hugepagesize>.rsvd.current
++	Show current reservations and no-reserve faults for "hugepagesize"
++	hugetlb.  It exists for all the cgroup except root.
++
++  hugetlb.<hugepagesize>.rsvd.max
++	Set/show the hard limit of reservations and no-reserve faults for
++	"hugepagesize" hugetlb. The default value is "max".
++	It exists for all the cgroup except root.
++
++  hugetlb.<hugepagesize>.rsvd.events
++	A read-only flat-keyed file which exists on non-root cgroups.
++
++	  max
++		The number of allocation failure due to HugeTLB reservation limit
++
+   hugetlb.<hugepagesize>.current
+ 	Show current usage for "hugepagesize" hugetlb.  It exists for all
+ 	the cgroup except root.
+-- 
+2.31.1
+
