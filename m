@@ -2,120 +2,122 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 029A2C433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 10:47:26 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4821C43470
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 11:24:33 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B752C61184
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 10:47:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id A4BCA610F7
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 11:24:33 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241769AbhDPKrt (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 06:47:49 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:36217 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235225AbhDPKrt (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 06:47:49 -0400
-X-Originating-IP: 81.185.167.252
-Received: from [192.168.43.237] (252.167.185.81.rev.sfr.net [81.185.167.252])
-        (Authenticated sender: alex@ghiti.fr)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 62B3840011;
-        Fri, 16 Apr 2021 10:47:18 +0000 (UTC)
-Subject: Re: [PATCH] riscv: Protect kernel linear mapping only if
- CONFIG_STRICT_KERNEL_RWX is set
-To:     Anup Patel <anup@brainfault.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Andrey Ryabinin <aryabinin@virtuozzo.com>,
-        Alexander Potapenko <glider@google.com>,
-        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org List" <linux-kernel@vger.kernel.org>,
-        kasan-dev@googlegroups.com,
-        linux-arch <linux-arch@vger.kernel.org>,
-        Linux Memory Management List <linux-mm@kvack.org>
-References: <20210415110426.2238-1-alex@ghiti.fr>
- <CAAhSdy2pD2q99-g3QSSHbpqw1ZD402fStFmbKNFzht2m=MS8mQ@mail.gmail.com>
-From:   Alex Ghiti <alex@ghiti.fr>
-Message-ID: <f659c498-a273-f249-a81b-cab1ed1ba2bb@ghiti.fr>
-Date:   Fri, 16 Apr 2021 06:47:19 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+        id S242481AbhDPLY4 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 07:24:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58252 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S242414AbhDPLYy (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 07:24:54 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 812C0C061756;
+        Fri, 16 Apr 2021 04:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=sb+Ugjsd0tAaDPpJs5cCihgu8wnXOCRedQVd+/pDZMc=; b=oTQOxnF8z6GepfXYmcNaITTJ8J
+        BQKqIXFBNrrj+WsWUsizw7P/Mm/aFxwvDFsxUZBf+4IUVINWC4ikel759t8pZXuRRoEC8unOKqGEj
+        PSG73vXSMMgdAE4lX2eWR0s4MrAOeVd0Tc5/4RxWkqyVBqAphGNu7ozOJ/4uM2gei2v2wQKlyrLAg
+        NNjzoxj29MsAzohIPJ92Rjv+lfx4ZCpOFGcTMg8qmRKuQ5Cs5N7EuTgPtJ32/GgvpZgbS2BZHO9To
+        +atJUR8B2KtZ3ryXu1knNaY1+Cngp9xhf2hLF8Jq3OS6cuwRB4+j0gQo5L0gtLILdKzAfQbtLoKfM
+        PQNltwoA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lXMaG-001uWR-Eu; Fri, 16 Apr 2021 11:24:25 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 0507C300212;
+        Fri, 16 Apr 2021 13:24:24 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id E762C2C30CA77; Fri, 16 Apr 2021 13:24:23 +0200 (CEST)
+Date:   Fri, 16 Apr 2021 13:24:23 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     ojeda@kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
+References: <20210414184604.23473-1-ojeda@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAAhSdy2pD2q99-g3QSSHbpqw1ZD402fStFmbKNFzht2m=MS8mQ@mail.gmail.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210414184604.23473-1-ojeda@kernel.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Anup,
+On Wed, Apr 14, 2021 at 08:45:51PM +0200, ojeda@kernel.org wrote:
+>   - Featureful language: sum types, pattern matching, generics,
+>     RAII, lifetimes, shared & exclusive references, modules &
+>     visibility, powerful hygienic and procedural macros...
 
-Le 4/16/21 à 6:41 AM, Anup Patel a écrit :
-> On Thu, Apr 15, 2021 at 4:34 PM Alexandre Ghiti <alex@ghiti.fr> wrote:
->>
->> If CONFIG_STRICT_KERNEL_RWX is not set, we cannot set different permissions
->> to the kernel data and text sections, so make sure it is defined before
->> trying to protect the kernel linear mapping.
->>
->> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
-> 
-> Maybe you should add "Fixes:" tag in commit tag ?
+IMO RAII is over-valued, but just in case you care, the below seems to
+work just fine. No fancy new language needed, works today. Similarly you
+can create refcount_t guards, or with a little more work full blown
+smart_ptr crud.
 
-Yes you're right I should have done that. Maybe Palmer will squash it as 
-it just entered for-next?
-
-> 
-> Otherwise it looks good.
-> 
-> Reviewed-by: Anup Patel <anup@brainfault.org>
-
-Thank you!
-
-Alex
-
-> 
-> Regards,
-> Anup
-> 
->> ---
->>   arch/riscv/kernel/setup.c | 8 ++++----
->>   1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
->> index 626003bb5fca..ab394d173cd4 100644
->> --- a/arch/riscv/kernel/setup.c
->> +++ b/arch/riscv/kernel/setup.c
->> @@ -264,12 +264,12 @@ void __init setup_arch(char **cmdline_p)
->>
->>          sbi_init();
->>
->> -       if (IS_ENABLED(CONFIG_STRICT_KERNEL_RWX))
->> +       if (IS_ENABLED(CONFIG_STRICT_KERNEL_RWX)) {
->>                  protect_kernel_text_data();
->> -
->> -#if defined(CONFIG_64BIT) && defined(CONFIG_MMU)
->> -       protect_kernel_linear_mapping_text_rodata();
->> +#ifdef CONFIG_64BIT
->> +               protect_kernel_linear_mapping_text_rodata();
->>   #endif
->> +       }
->>
->>   #ifdef CONFIG_SWIOTLB
->>          swiotlb_init(1);
->> --
->> 2.20.1
->>
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
-> 
+---
+diff --git a/include/linux/mutex.h b/include/linux/mutex.h
+index e19323521f9c..f03a72dd8cea 100644
+--- a/include/linux/mutex.h
++++ b/include/linux/mutex.h
+@@ -197,4 +197,22 @@ extern void mutex_unlock(struct mutex *lock);
+ 
+ extern int atomic_dec_and_mutex_lock(atomic_t *cnt, struct mutex *lock);
+ 
++struct mutex_guard {
++	struct mutex *mutex;
++};
++
++static inline struct mutex_guard mutex_guard_lock(struct mutex *mutex)
++{
++	mutex_lock(mutex);
++	return (struct mutex_guard){ .mutex = mutex, };
++}
++
++static inline void mutex_guard_unlock(struct mutex_guard *guard)
++{
++	mutex_unlock(guard->mutex);
++}
++
++#define DEFINE_MUTEX_GUARD(name, lock)			\
++	struct mutex_guard __attribute__((__cleanup__(mutex_guard_unlock))) name = mutex_guard_lock(lock)
++
+ #endif /* __LINUX_MUTEX_H */
+diff --git a/kernel/events/core.c b/kernel/events/core.c
+index 8ee3249de2f0..603d197a83b8 100644
+--- a/kernel/events/core.c
++++ b/kernel/events/core.c
+@@ -5715,16 +5715,15 @@ static long perf_compat_ioctl(struct file *file, unsigned int cmd,
+ 
+ int perf_event_task_enable(void)
+ {
++	DEFINE_MUTEX_GUARD(event_mutex, &current->perf_event_mutex);
+ 	struct perf_event_context *ctx;
+ 	struct perf_event *event;
+ 
+-	mutex_lock(&current->perf_event_mutex);
+ 	list_for_each_entry(event, &current->perf_event_list, owner_entry) {
+ 		ctx = perf_event_ctx_lock(event);
+ 		perf_event_for_each_child(event, _perf_event_enable);
+ 		perf_event_ctx_unlock(event, ctx);
+ 	}
+-	mutex_unlock(&current->perf_event_mutex);
+ 
+ 	return 0;
+ }
