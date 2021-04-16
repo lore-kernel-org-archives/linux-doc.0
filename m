@@ -2,94 +2,157 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EBCFC433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 16:21:44 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 492F5C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 16:34:02 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7C26E6101D
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 16:21:44 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 28D4061002
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 16:34:02 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235259AbhDPQWC (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 12:22:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41024 "EHLO
+        id S235985AbhDPQe0 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 12:34:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235239AbhDPQV7 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 12:21:59 -0400
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 011B1C061756;
-        Fri, 16 Apr 2021 09:21:34 -0700 (PDT)
-Received: by mail-yb1-xb2d.google.com with SMTP id y2so28633687ybq.13;
-        Fri, 16 Apr 2021 09:21:33 -0700 (PDT)
+        with ESMTP id S235890AbhDPQeZ (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 12:34:25 -0400
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4708C061756
+        for <linux-doc@vger.kernel.org>; Fri, 16 Apr 2021 09:33:59 -0700 (PDT)
+Received: by mail-pf1-x42e.google.com with SMTP id h15so1001479pfv.2
+        for <linux-doc@vger.kernel.org>; Fri, 16 Apr 2021 09:33:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nCFii6aJURTER/vfLe/clZtaLhbRcW3ObBSmtuLHRng=;
-        b=G34k3IkIwnzBMEEu+9qUraK5dQ02qIeP5EpIR1F/LZJEN7swi+5OcAJv3OIdzCWHkT
-         ajBsfK5XFuDbxtX19Dx1EwRQMQNVmLF0P68KANot3JYXO56KT7S6pQjIKSK9tFffc7Uv
-         TRVqxZKBtxwAFbj7rdPjyF4x5os+/RPhiR8IAEB/oUxs70Qj6IRMgy6nv/LKbCta+rGt
-         tYwSYq8WYQNXjtyNbJ3FJhBu6vIPyZrIK/M+Rv7PO9A8gksEDp6aVeOYaB3vtX0LQtc3
-         NWxQRdgMLI39DABjOaaPFlZjRyqx0+Da8mXle8uyvCgJjsj5dNyiU0o5YRCxgrt9FDHQ
-         z/Yg==
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=z2OC1cEMuhrClU6NrKEbwSpdwK0Wyx5ycssXYh5zYaY=;
+        b=maRGpOFYp6s48tNdoBVkOiMrziCDdLhM4rOR4KgB9GJvXiT8JjXZsphgurWw2bPWv7
+         T5PmtSkO23D/cTi94/mAgEq4NUhHpgQtZl19zHHCiq5UAZ0xovLHauhJ8RBh5WBs/Bcn
+         3Oe01YPXH7SHcAyhK4SJQicy/x5bRnFEmUsJGjT5Suly3fBl+LJ6ZF1wLUy5qI/r0bPK
+         N63cln/k0URTbRZY6VJSuHOl6icLs8DZYwyIyqXF9BwDODSg5nSZq9fHAu4+SGL/jyO/
+         JwceGbPavk6Y5mwG5AwJRUe3/DV0/1d402Q0hzRBACqRXaMGQgsQARzbY8IkYSIuaNZp
+         bZIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nCFii6aJURTER/vfLe/clZtaLhbRcW3ObBSmtuLHRng=;
-        b=SpyjijjlSAmP+XcS6EkJwA3KZ1ii7S3s4y7ABXHIx3IQEe1N7UIX0MHtRFYtdV2Teh
-         28uP0eemiq7z0toE9TSiMOPuwenWPl3T1ct/usPY+vZlcUH7RZJLBz6b5uJtifVhCxN6
-         i8P9sTEelaujoIMnkv4tA8xbHq9dklOKZYTjVbBEAaufFV1C0mU8GD2x2wZSla5SXY11
-         q3L5iZMn8l5yGosgxgB7rV7GTYcan2jtKwdS0EYVQzErlS8mhxg8YGdg9zTx9HO77s5q
-         Hk9wmroolx7LS2aKzQqIrUBbRzBcQI8Pz3KHz5ya62BQgpkHXNAyM7BKzBb9aG/rxROy
-         j3ow==
-X-Gm-Message-State: AOAM531F0Qeo4vGiEUoCoRJ/rcGqeCLdNuH2HvJG4EunQiERMxHl8ka+
-        7PRsVuaAojYWmP2SY2QsNPv4EhJ4bD/Uq2FjbNo=
-X-Google-Smtp-Source: ABdhPJy0Kixp3R8ObQCt6v/sL9MlswTFyXDE0CI1Ld7MwO5Tg0SWFJ801+kzVKHbmrATrM0JCfiFa59z/M50dEcsepg=
-X-Received: by 2002:a25:7909:: with SMTP id u9mr12483269ybc.22.1618590093378;
- Fri, 16 Apr 2021 09:21:33 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
- <YHmMJWmzz2vZ3qQH@google.com> <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
- <CANiq72n9ocqaFQnOjUO95_7Xd3wpWShtzMKrBQE2gN8jOyrW5g@mail.gmail.com> <YHmwoe8+mNPBFm1R@hirez.programming.kicks-ass.net>
-In-Reply-To: <YHmwoe8+mNPBFm1R@hirez.programming.kicks-ass.net>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 16 Apr 2021 18:21:22 +0200
-Message-ID: <CANiq72=2g3nrbT9r-9=vW0toHgByLmzh2vYfWPGs6tUGLB9Y4g@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     Wedson Almeida Filho <wedsonaf@google.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=z2OC1cEMuhrClU6NrKEbwSpdwK0Wyx5ycssXYh5zYaY=;
+        b=eSk94yKVKDlHSGUqWRggHSO9j85+BB8JJfEu5AX1BYX8O2EI4hPO4i5Qt8A9ogTLwG
+         TfAZCEb4MMX9QE5NbWH8ieDEKpy+GOSJ67313qzdmRxqQ1BaYvKfi7gskhVZJmFhff9C
+         ts96PwVHZLjwg/JpsK6fCAPvT5h3k/lpd23f/RPlEOZCBFLqUbdHWfOL5p3Iw0dzFPrM
+         mDLk3QLvP3eXWU9Yl8dACK2nNGEx0gYmAcejUWH/BxDGRuQs3ll+D57H33w0F6z+oond
+         aSnWtZUCRUnMEJyVMS45xZ58G4See/RYwzXMOMJLIfZ+8lo7AslEB8o4eA0I5PlDBHOs
+         CoAQ==
+X-Gm-Message-State: AOAM530Qbk4V8xRdp0aVDnxn45FborZa0GGdugqWePwfddT62HyFTALv
+        IYh6Py4NROi4MSnZ1b6pzaPt/A==
+X-Google-Smtp-Source: ABdhPJzdY9tt29/kSdPIjvZ8m8hDMZjPk11Or4POyQbLXVYX/vFpzeXAjr2YcYHuaICJvA4Pcb3ljw==
+X-Received: by 2002:a63:570e:: with SMTP id l14mr8746668pgb.159.1618590839027;
+        Fri, 16 Apr 2021 09:33:59 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
+        by smtp.gmail.com with ESMTPSA id b7sm5760468pgs.62.2021.04.16.09.33.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Apr 2021 09:33:58 -0700 (PDT)
+Date:   Fri, 16 Apr 2021 09:33:58 -0700 (PDT)
+X-Google-Original-Date: Fri, 16 Apr 2021 09:33:56 PDT (-0700)
+Subject:     Re: [PATCH] riscv: Protect kernel linear mapping only if CONFIG_STRICT_KERNEL_RWX is set
+In-Reply-To: <f659c498-a273-f249-a81b-cab1ed1ba2bb@ghiti.fr>
+CC:     anup@brainfault.org, corbet@lwn.net,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        aou@eecs.berkeley.edu, Arnd Bergmann <arnd@arndb.de>,
+        aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
+        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     alex@ghiti.fr
+Message-ID: <mhng-9ab3280b-4523-4892-9f9a-338f55df8108@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 5:43 PM Peter Zijlstra <peterz@infradead.org> wrote:
+On Fri, 16 Apr 2021 03:47:19 PDT (-0700), alex@ghiti.fr wrote:
+> Hi Anup,
 >
-> http://www.open-std.org/jtc1/sc22/wg14/www/docs/n2659.htm
+> Le 4/16/21 à 6:41 AM, Anup Patel a écrit :
+>> On Thu, Apr 15, 2021 at 4:34 PM Alexandre Ghiti <alex@ghiti.fr> wrote:
+>>>
+>>> If CONFIG_STRICT_KERNEL_RWX is not set, we cannot set different permissions
+>>> to the kernel data and text sections, so make sure it is defined before
+>>> trying to protect the kernel linear mapping.
+>>>
+>>> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
+>>
+>> Maybe you should add "Fixes:" tag in commit tag ?
 >
-> That's just not making any damn sense what so ever. That seems to be
-> about sprinkling abort() all over the place, which is just total
-> rubbish.
+> Yes you're right I should have done that. Maybe Palmer will squash it as
+> it just entered for-next?
 
-No, it is not about that. It is semantically a no-op: N2659 is not
-about a safe subset of C -- it just triggered discussions about it in
-the reflector.
+Ya, I'll do it.  My testing box was just tied up last night for the rc8 
+PR, so I threw this on for-next to get the buildbots to take a look.  
+It's a bit too late to take something for this week, as I try to be 
+pretty conservative this late in the cycle.  There's another kprobes fix 
+on the list so if we end up with an rc8 I might send this along with 
+that, otherwise this'll just go onto for-next before the linear map 
+changes that exercise the bug.
 
-The point is that we think it is important to improve C for the kernel
-too. We are not working on bringing Rust to the kernel "just because
-we want Rust", but because we believe it has a sizable amount of
-advantages that outweigh the costs.
+You're more than welcome to just dig up the fixes tag and reply, my 
+scripts pull all tags from replies (just like Revieweb-by).  Otherwise 
+I'll do it myself, most people don't really post Fixes tags that 
+accurately so I go through it for pretty much everything anyway.
 
-Cheers,
-Miguel
+Thanks for sorting this out so quickly!
+
+>
+>>
+>> Otherwise it looks good.
+>>
+>> Reviewed-by: Anup Patel <anup@brainfault.org>
+>
+> Thank you!
+>
+> Alex
+>
+>>
+>> Regards,
+>> Anup
+>>
+>>> ---
+>>>   arch/riscv/kernel/setup.c | 8 ++++----
+>>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
+>>> index 626003bb5fca..ab394d173cd4 100644
+>>> --- a/arch/riscv/kernel/setup.c
+>>> +++ b/arch/riscv/kernel/setup.c
+>>> @@ -264,12 +264,12 @@ void __init setup_arch(char **cmdline_p)
+>>>
+>>>          sbi_init();
+>>>
+>>> -       if (IS_ENABLED(CONFIG_STRICT_KERNEL_RWX))
+>>> +       if (IS_ENABLED(CONFIG_STRICT_KERNEL_RWX)) {
+>>>                  protect_kernel_text_data();
+>>> -
+>>> -#if defined(CONFIG_64BIT) && defined(CONFIG_MMU)
+>>> -       protect_kernel_linear_mapping_text_rodata();
+>>> +#ifdef CONFIG_64BIT
+>>> +               protect_kernel_linear_mapping_text_rodata();
+>>>   #endif
+>>> +       }
+>>>
+>>>   #ifdef CONFIG_SWIOTLB
+>>>          swiotlb_init(1);
+>>> --
+>>> 2.20.1
+>>>
+>>
+>> _______________________________________________
+>> linux-riscv mailing list
+>> linux-riscv@lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-riscv
+>>
