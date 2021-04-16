@@ -2,167 +2,134 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-11.0 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-10.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FDA9C433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 18:47:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 471A2C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 18:51:44 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 28A76613B7
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 18:47:15 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1623A61019
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 18:51:44 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244991AbhDPSrj (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 14:47:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52644 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S237334AbhDPSri (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Apr 2021 14:47:38 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A45B9611AF;
-        Fri, 16 Apr 2021 18:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1618598833;
-        bh=N2KsTvifrgq/rqC0brjMwrMhFZQCdz7M8vStss5BFQ4=;
-        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-        b=nF79sJC+RtSJr3mZhq6eKVwcK2vI4svdbyPBTB1AzQLNEiMlRni8RI27NgWXdzf6y
-         I0JHjhzeALc13hBv4Vo9eQyGBjhBMV6nWpw4oV1MYx/oZceej+bRdHgm2sn6JkZDdI
-         LHo9/LvhS1n/mvqsMi7zLf9MSLPYUUjFP6UwKmzdrm6V6SCAJV9ERCDLfha0Pr/3MM
-         kvDDhaFYGE2Y018D0hYf7FV84CwMIXgJaDcXMIqopcThsCUAU4HWyxfbRKEna3enTR
-         tYGj0dPcXtFDdD1u1VY7/vWwQWo1yPq4j/edRIoPhXgFV/qX8Xs0gjGVmcMA1iusgB
-         C3vWXnP4RqpQw==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-        id 70DB95C0253; Fri, 16 Apr 2021 11:47:13 -0700 (PDT)
-Date:   Fri, 16 Apr 2021 11:47:13 -0700
-From:   "Paul E. McKenney" <paulmck@kernel.org>
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Boqun Feng <boqun.feng@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <20210416184713.GI4212@paulmck-ThinkPad-P17-Gen-1>
-Reply-To: paulmck@kernel.org
-References: <20210414184604.23473-1-ojeda@kernel.org>
- <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHkSO3TUktyPs4Nz@boqun-archlinux>
- <CAKwvOdnRx+8LhOAnH24CeZz2a2-MwF03oB7Um_pKBq8WAoLNxw@mail.gmail.com>
+        id S233976AbhDPSwH (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 14:52:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45794 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231510AbhDPSwH (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 14:52:07 -0400
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BE02C061574;
+        Fri, 16 Apr 2021 11:51:42 -0700 (PDT)
+Received: by mail-oi1-x22e.google.com with SMTP id k18so23916148oik.1;
+        Fri, 16 Apr 2021 11:51:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=2r2vkwG9UCNB7xrSeMaXDYuTdlG3jHjzPkkxswC7vmg=;
+        b=lcF00QwLC8PK7GTMRhPSub3JPTJ1qNCRqaoSkaih+zPeslAq7Ez+xOVPJCaYARn/9h
+         XHrGmLWD6OZrRMoi2WQSve0KlJyB3BPniNNxHPTudpnkvj9c8UJf2GW6Y2GEvyKBSsgc
+         JltwUxOpXH0FK0i0q2ScMVocYe4sBtWOoQYapC/U67iphGwTEv/lZwF2tbIKuRPVWoC3
+         hvc+SY8EFbsgAB9LWqY2WsfVhP03OYzL5pp+/QNiKegArHNkr0szL90g59fR0iHETA4R
+         r9Q0+Tbcvb8uePaTFUgeOpsPJRrijUVhHveDagf9Vf/F7DAHV98Xkows9dL4YF8DBixd
+         qDzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=2r2vkwG9UCNB7xrSeMaXDYuTdlG3jHjzPkkxswC7vmg=;
+        b=EaFFflHJFuaHhowENhC5n9S0C7pOGmhBOrIh0SeTc4cbd/bWNn62bUfeIdowOWwGVW
+         eQq9eDY2tlCM9OnMOPBha0PoqB2pB4f5c01yV1t06ctTHJ8S2QNr2LYF2MX1VpQ89+ny
+         cemydgmVowdhyupPjtfG2QCG0/vAhR7xnB2M97VB3x4G9wIfgbWSU73uW6bco0tFTzPm
+         XYUkPTl+J9H2lUyoffqqPZD8a0/we+W4g+tg4tvVBwq0cui8taIMTFB9Ps0x18vBrvuI
+         8zIYvhTIEINED8FrR8WOAvw1BN0I1BT7/GXj+hIGBNrfs6TARhnDvMR4J32T1VADHAlG
+         pkuA==
+X-Gm-Message-State: AOAM533opCDH4Sylrq0js5i+1clhy46HDjf7HT2Q9fjQgBHsEfGDd03W
+        VSX/RK6AiA05JMKkFuJrKBor7RNdjZc=
+X-Google-Smtp-Source: ABdhPJz9hVqfsgFcDqumj8Y7g+QmwdbvvK8f4T/Tz19SDlxLNY4HtR0EBBFy/mHjKN7ulNYRmXaO0Q==
+X-Received: by 2002:a05:6808:1444:: with SMTP id x4mr7654073oiv.142.1618599101889;
+        Fri, 16 Apr 2021 11:51:41 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id y25sm1608634otj.64.2021.04.16.11.51.40
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 16 Apr 2021 11:51:40 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Fri, 16 Apr 2021 11:51:39 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Alexandre Ghiti <alex@ghiti.fr>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrey Ryabinin <aryabinin@virtuozzo.com>,
+        Alexander Potapenko <glider@google.com>,
+        Dmitry Vyukov <dvyukov@google.com>, linux-doc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kasan-dev@googlegroups.com, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v4 1/3] riscv: Move kernel mapping outside of linear
+ mapping
+Message-ID: <20210416185139.GA42339@roeck-us.net>
+References: <20210409061500.14673-1-alex@ghiti.fr>
+ <20210409061500.14673-2-alex@ghiti.fr>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKwvOdnRx+8LhOAnH24CeZz2a2-MwF03oB7Um_pKBq8WAoLNxw@mail.gmail.com>
+In-Reply-To: <20210409061500.14673-2-alex@ghiti.fr>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 11:04:37PM -0700, Nick Desaulniers wrote:
-> On Thu, Apr 15, 2021 at 9:27 PM Boqun Feng <boqun.feng@gmail.com> wrote:
-> >
-> > [Copy LKMM people, Josh, Nick and Wedson]
-> >
-> > On Thu, Apr 15, 2021 at 08:58:16PM +0200, Peter Zijlstra wrote:
-> > > On Wed, Apr 14, 2021 at 08:45:51PM +0200, ojeda@kernel.org wrote:
-> > >
-> > > > Rust is a systems programming language that brings several key
-> > > > advantages over C in the context of the Linux kernel:
-> > > >
-> > > >   - No undefined behavior in the safe subset (when unsafe code is
-> > > >     sound), including memory safety and the absence of data races.
-> > >
-> > > And yet I see not a single mention of the Rust Memory Model and how it
-> > > aligns (or not) with the LKMM. The C11 memory model for example is a
-> > > really poor fit for LKMM.
-> > >
-> >
-> > I think Rust currently uses C11 memory model as per:
-> >
-> >         https://doc.rust-lang.org/nomicon/atomics.html
-> >
-> > , also I guess another reason that they pick C11 memory model is because
-> > LLVM has the support by default.
-> >
-> > But I think the Rust Community still wants to have a good memory model,
-> > and they are open to any kind of suggestion and input. I think we (LKMM
-> > people) should really get involved, because the recent discussion on
-> > RISC-V's atomics shows that if we didn't people might get a "broken"
-> > design because they thought C11 memory model is good enough:
-> >
-> >         https://lore.kernel.org/lkml/YGyZPCxJYGOvqYZQ@boqun-archlinux/
-> >
-> > And the benefits are mutual: a) Linux Kernel Memory Model (LKMM) is
-> > defined by combining the requirements of developers and the behavior of
-> > hardwares, it's pratical and can be a very good input for memory model
-> > designing in Rust; b) Once Rust has a better memory model, the compiler
-> > technologies whatever Rust compilers use to suppor the memory model can
-> > be adopted to C compilers and we can get that part for free.
+On Fri, Apr 09, 2021 at 02:14:58AM -0400, Alexandre Ghiti wrote:
+> This is a preparatory patch for relocatable kernel and sv48 support.
 > 
-> Yes, I agree; I think that's a very good approach.  Avoiding the ISO
-> WG14 is interesting; at least the merits could be debated in the
-> public and not behind closed doors.
+> The kernel used to be linked at PAGE_OFFSET address therefore we could use
+> the linear mapping for the kernel mapping. But the relocated kernel base
+> address will be different from PAGE_OFFSET and since in the linear mapping,
+> two different virtual addresses cannot point to the same physical address,
+> the kernel mapping needs to lie outside the linear mapping so that we don't
+> have to copy it at the same physical offset.
+> 
+> The kernel mapping is moved to the last 2GB of the address space, BPF
+> is now always after the kernel and modules use the 2GB memory range right
+> before the kernel, so BPF and modules regions do not overlap. KASLR
+> implementation will simply have to move the kernel in the last 2GB range
+> and just take care of leaving enough space for BPF.
+> 
+> In addition, by moving the kernel to the end of the address space, both
+> sv39 and sv48 kernels will be exactly the same without needing to be
+> relocated at runtime.
+> 
+> Suggested-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
 
-WG14 (C) and WG21 (C++) are at least somewhat open.  Here are some of
-the proposals a few of us have in flight:
+In next-20210416, when booting a riscv32 image in qemu, this patch results in:
 
-P2055R0 A Relaxed Guide to memory_order_relaxed
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p2055r0.pdf
-P0124R7 Linux-Kernel Memory Model (vs. that of C/C++)
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p0124r7.html
-P1726R4 Pointer lifetime-end zap
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2020/p1726r4.pdf
-	https://docs.google.com/document/d/1MfagxTa6H0rTxtq9Oxyh4X53NzKqOt7y3hZBVzO_LMk/edit?usp=sharing
-P1121R2 Hazard Pointers: Proposed Interface and Wording for Concurrency TS 2
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2021/p1121r2.pdf
-P1382R1 volatile_load<T> and volatile_store<T>
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2019/p1382r1.pdf
-P1122R2 Proposed Wording for Concurrent Data Structures: Read-Copy-Update (RCU)
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p1122r2.pdf
-	https://docs.google.com/document/d/1MfagxTa6H0rTxtq9Oxyh4X53NzKqOt7y3hZBVzO_LMk/edit?usp=sharing
-P0190R4 Proposal for New memory order consume Definition
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0190r4.pdf
-P0750R1 Consume
-	http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2018/p0750r1.html
+[    0.000000] Linux version 5.12.0-rc7-next-20210416 (groeck@desktop) (riscv32-linux-gcc (GCC) 10.3.0, GNU ld (GNU Binutils) 2.36.1) #1 SMP Fri Apr 16 10:38:09 PDT 2021
+[    0.000000] OF: fdt: Ignoring memory block 0x80000000 - 0xa0000000
+[    0.000000] Machine model: riscv-virtio,qemu
+[    0.000000] earlycon: uart8250 at MMIO 0x10000000 (options '115200')
+[    0.000000] printk: bootconsole [uart8250] enabled
+[    0.000000] efi: UEFI not found.
+[    0.000000] Kernel panic - not syncing: init_resources: Failed to allocate 160 bytes
+[    0.000000] CPU: 0 PID: 0 Comm: swapper Not tainted 5.12.0-rc7-next-20210416 #1
+[    0.000000] Hardware name: riscv-virtio,qemu (DT)
+[    0.000000] Call Trace:
+[    0.000000] [<80005292>] walk_stackframe+0x0/0xce
+[    0.000000] [<809f4db8>] dump_backtrace+0x38/0x46
+[    0.000000] [<809f4dd4>] show_stack+0xe/0x16
+[    0.000000] [<809ff1d0>] dump_stack+0x92/0xc6
+[    0.000000] [<809f4fee>] panic+0x10a/0x2d8
+[    0.000000] [<80c02b24>] setup_arch+0x2a0/0x4ea
+[    0.000000] [<80c006b0>] start_kernel+0x90/0x628
+[    0.000000] ---[ end Kernel panic - not syncing: init_resources: Failed to allocate 160 bytes ]---
 
-P1726R4 is of particular concern, along with consume.
+Reverting it fixes the problem. I understand that the version in -next is
+different to this version of the patch, but I also tried v4 and it still
+crashes with the same error message.
 
-> > At least I personally is very intereted to help Rust on a complete and
-> > pratical memory model ;-)
-> >
-> > Josh, I think it's good if we can connect to the people working on Rust
-> > memoryg model, I think the right person is Ralf Jung and the right place
-> > is https://github.com/rust-lang/unsafe-code-guidelines, but you
-> > cerntainly know better than me ;-) Or maybe we can use Rust-for-Linux or
-> > linux-toolchains list to discuss.
-> >
-> > [...]
-> > > >   - Boqun Feng is working hard on the different options for
-> > > >     threading abstractions and has reviewed most of the `sync` PRs.
-> > >
-> > > Boqun, I know you're familiar with LKMM, can you please talk about how
-> > > Rust does things and how it interacts?
-> >
-> > As Wedson said in the other email, currently there is no code requiring
-> > synchronization between C side and Rust side, so we are currently fine.
-> > But in the longer term, we need to teach Rust memory model about the
-> > "design patterns" used in Linux kernel for parallel programming.
-> >
-> > What I have been doing so far is reviewing patches which have memory
-> > orderings in Rust-for-Linux project, try to make sure we don't include
-> > memory ordering bugs for the beginning.
-
-I believe that compatibility with both C/C++ and the Linux kernel are
-important.
-
-							Thanx, Paul
+Guenter
