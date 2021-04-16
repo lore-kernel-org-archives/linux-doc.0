@@ -2,139 +2,85 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
-	autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A566DC43461
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 18:57:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A971C433ED
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 19:04:04 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 82769613B7
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 18:57:20 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 08429613B7
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 19:04:03 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236360AbhDPS5o (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 14:57:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47066 "EHLO
+        id S236282AbhDPTE1 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 15:04:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235957AbhDPS5o (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 14:57:44 -0400
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16BA6C061574;
-        Fri, 16 Apr 2021 11:57:19 -0700 (PDT)
-Received: by mail-yb1-xb2f.google.com with SMTP id c195so31207566ybf.9;
-        Fri, 16 Apr 2021 11:57:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IuXR4s76KW2g16KgmTJ3s1NR8NxaS0rBglhD+4wC2bA=;
-        b=t6Eh6V9OMwi659Ak0KE8pRM5p87Dz7/7Ty3eBJkJHR3jxgYIRk0vixc1KxYDXStbk3
-         0xvaAqI02zC6EBd3wRdbUwS3/Z/BenDWtD6tLgUY2gwjWBt+8SHdws8AwkQZcTMCn7kl
-         Sp3dnKOM/qyPCfBCJ40L2kHBWxeAhGPHPN4AjRdjoXVllD5DZC/L4Wl2n0WmZDCEsFkM
-         J6Qc9+HPOeE5f+JvWQTM/3gHA99pYJs2U5IS1IiXXhX8jaOCQOY7X19eZOG14hIgMPWg
-         O1+7MnPo2thZERtolLuOH8vVpWQgb18ZVviCi3wdpOcMF7nxQ4o2D5qfJ4G5oRDOrgUh
-         2p3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IuXR4s76KW2g16KgmTJ3s1NR8NxaS0rBglhD+4wC2bA=;
-        b=NYIjMm4lEkPwIcMaUDyDT5xaKKD2U+yilwnWNNlNTT0yL5dBBkzR58BLM+F2F0f0Vz
-         Hfwc/exKTRDJYkiGFLxg+82FDOcAwaiaCELMW8jWjk41YDH6sH65lOl0JtYbmz2dYgH9
-         ATzlSpZAxMB48F1b0yanH60GxDQxyETKwFg0k+f7yntuKSHVKp24aZnXQW15ArCgdOrf
-         aXjQYPPClvmE3QTzZpQOQohHrb5+V35NE1UMXkCQZte4Gpy1i8XN+WyKSfTgIN5dukRd
-         quksGae5h3qn8rw/ZRZXODe2a8VT+nh8jhdoEsN6DCYbCdEdqLPOSd6em8rgm0XulNz0
-         ac2w==
-X-Gm-Message-State: AOAM530n34tK4h6tsiWP/rwK4NU7jOQpH1dbWd0jTCXehiLmdTS6k46f
-        3Yy3t6/Rpk7MS3DTX4T++U795QSCYyqTaoFZcFA=
-X-Google-Smtp-Source: ABdhPJx/Sef28+ab/jqRThJjs0GBqd35mSjtjTNKxxnwr7wkjUsSlz3TUt4YQ3eQatBFCI53ILW6au7VDYWbxBsQHvQ=
-X-Received: by 2002:a25:7909:: with SMTP id u9mr796140ybc.22.1618599438460;
- Fri, 16 Apr 2021 11:57:18 -0700 (PDT)
+        with ESMTP id S235998AbhDPTE0 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 15:04:26 -0400
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19C22C061574
+        for <linux-doc@vger.kernel.org>; Fri, 16 Apr 2021 12:04:02 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:281:8300:104d::5f6])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 7C9EA491;
+        Fri, 16 Apr 2021 19:04:01 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7C9EA491
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1618599841; bh=ANcJnljUldBfsxwsJejbZ737Ohmx9wXvzi8Qa6QBl98=;
+        h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+        b=Xf0bamRDwfDUT5VKqoL3n5oG7fN6htj2nmVM3f7KJIQgSjV61DH4/Q+en10rlpbeU
+         iIw+m9Ba21xBcMRswRfp7+R8JuJ9bWLGZOx2qcfu1ltVj2b9/+IwyKff5tte9IFmyL
+         4U33Lkn3wTtz5jr9rpvXMa96BI2y+3OPDqe3lNSo7ZJuDpPP52+NkI3LWHbfQxsmkp
+         Ltajrvx1E8EVAGNJlYLwor1fXey2AMsKUQT1zbG3waoiVl9foFqja+9YbHfiQhyTEq
+         FhOBaoIXDiiOOe2Y23AmOhwPhUscEf5425BTugVpPvcRSC6OBcjCFCzAHOEtVi2mta
+         ul4BR67Khqujg==
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Daniel Vetter <daniel@ffwll.ch>,
+        Ian Romanick <idr@freedesktop.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Matthew Auld <matthew.auld@intel.com>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        Mesa Dev <mesa-dev@lists.freedesktop.org>,
+        Kenneth Graunke <kenneth@whitecape.org>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: Re: [Mesa-dev] [PATCH v3 3/4] drm/i915/uapi: convert i915_query and
+ friend to kernel doc
+In-Reply-To: <CAKMK7uH-K=CmMtwi3FcVsGdTGRwYtxDXhAgohz1_WWQL-RQzEw@mail.gmail.com>
+References: <20210415155958.391624-1-matthew.auld@intel.com>
+ <20210415155958.391624-3-matthew.auld@intel.com>
+ <5de63e24-51f0-71eb-b992-484da998e65f@freedesktop.org>
+ <CAKMK7uH-K=CmMtwi3FcVsGdTGRwYtxDXhAgohz1_WWQL-RQzEw@mail.gmail.com>
+Date:   Fri, 16 Apr 2021 13:04:01 -0600
+Message-ID: <87zgxyf3vi.fsf@meer.lwn.net>
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-5-ojeda@kernel.org>
- <YHmTWEAS/QjX++w4@hirez.programming.kicks-ass.net> <CAHk-=wh_zb=K1B-N8mgHmSZDqTLgOm711NRXbTX_OwFAzDYg0Q@mail.gmail.com>
- <CANiq72nx7ngazsH7sZgc=HeU0cNj45F9+-rwQb7AkdYsRCmRbQ@mail.gmail.com> <YHnS92ZKZ4tRWTiA@zeniv-ca.linux.org.uk>
-In-Reply-To: <YHnS92ZKZ4tRWTiA@zeniv-ca.linux.org.uk>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 16 Apr 2021 20:57:07 +0200
-Message-ID: <CANiq72=RLf0FiuLVL-ZeLFp9P2LxTymbzhXoyQGG=tvUY_J-Sg@mail.gmail.com>
-Subject: Re: [PATCH 04/13] Kbuild: Rust support
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 8:10 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+Daniel Vetter <daniel@ffwll.ch> writes:
+
+> On Fri, Apr 16, 2021 at 12:25 AM Ian Romanick <idr@freedesktop.org> wrote:
+>> Since we just had a big discussion about this on mesa-dev w.r.t. Mesa
+>> code and documentation... does the kernel have a policy about which
+>> flavor (pun intended) of English should be used?
 >
-> How well would ? operator fit that pattern?  _If_ it's just a syntax sugar
-> along the lines of "if argument matches Err(_), return Err(_)", the types
-> shouldn't be an issue, but that might need some fun with releasing resources,
-> etc.  If it's something more elaborate... details, please.
+> I'm not finding it documented in
+> https://dri.freedesktop.org/docs/drm/doc-guide/sphinx.html but I
+> thought we've discussed it. Adding linux-doc and Jon Corbet.
 
-Yes, it is just syntax sugar -- it doesn't introduce any power to the language.
+It's in Documentation/doc-guide/contributing.rst:
 
-It was introduced because it is a very common pattern when using the
-`Result` and `Option` enums. In fact, before it existed, it was just a
-simple macro that you could also implement yourself.
+> Please note that some things are *not* typos and should not be "fixed":
+> 
+>  - Both American and British English spellings are allowed within the
+>    kernel documentation.  There is no need to fix one by replacing it with
+>    the other.
 
-For instance, given `Foo` and `Bar` types that need RAII cleanup of
-some kind (let's say `kill_foo()` and `kill_bar()`):
+Thanks,
 
-    fn foo() -> KernelResult<Foo> {
-        if black_box() {
-            return Err(EINVAL);
-        }
-
-        // something that gets you a `Foo`
-        let foo = ...;
-
-        Ok(foo)
-    }
-
-    fn bar() -> KernelResult<Bar> {
-        let p = foo()?;
-
-        // something that gets you a `Bar`, possibly using the `p`
-        let bar = ...;
-
-        Ok(bar)
-    }
-
-This reduces to (full example at https://godbolt.org/z/hjTxd3oP1):
-
-    bar:
-            push    rbx
-            mov     ebx, 1
-            call    qword ptr [rip + black_box@GOTPCREL]
-            test    al, al
-            jne     .LBB2_2
-            call    qword ptr [rip + kill_foo@GOTPCREL]
-            xor     ebx, ebx
-    .LBB2_2:
-            mov     eax, ebx
-            mov     edx, -1234
-            pop     rbx
-            ret
-
-You can see `bar()` calls `black_box()`. If it failed, it returns the
-EINVAL. Otherwise, it cleans up the `foo` automatically and returns
-the successful `bar`.
-
-Cheers,
-Miguel
+jon
