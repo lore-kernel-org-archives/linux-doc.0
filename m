@@ -7,21 +7,21 @@ X-Spam-Status: No, score=-16.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85701C433ED
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB94BC433B4
 	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 03:20:08 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 6285361184
+	by mail.kernel.org (Postfix) with ESMTP id 8716661244
 	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 03:20:08 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238026AbhDPDUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        id S234992AbhDPDUb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
         Thu, 15 Apr 2021 23:20:31 -0400
-Received: from mail.loongson.cn ([114.242.206.163]:47250 "EHLO loongson.cn"
+Received: from mail.loongson.cn ([114.242.206.163]:47248 "EHLO loongson.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S234992AbhDPDUa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        id S237482AbhDPDUa (ORCPT <rfc822;linux-doc@vger.kernel.org>);
         Thu, 15 Apr 2021 23:20:30 -0400
 Received: from localhost.localdomain (unknown [223.106.57.161])
-        by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxycldAnlg648IAA--.15727S2;
-        Fri, 16 Apr 2021 11:19:59 +0800 (CST)
+        by mail.loongson.cn (Coremail) with SMTP id AQAAf9CxycldAnlg648IAA--.15727S3;
+        Fri, 16 Apr 2021 11:20:00 +0800 (CST)
 From:   Yanteng Si <siyanteng@loongson.cn>
 To:     Jonathan Corbet <corbet@lwn.net>
 Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
@@ -31,86 +31,77 @@ Cc:     Alex Shi <alexs@kernel.org>, Alex Shi <alex.shi@linux.alibaba.com>,
         realpuyuwang@gmail.com, siyanteng01@gmail.com,
         Wu XiangCheng <bobwxc@email.cn>,
         Yanteng Si <siyanteng@loongson.cn>
-Subject: [PATCH v6 00/11] docs/zh_CN: add core api and openrisc translation
-Date:   Fri, 16 Apr 2021 11:20:36 +0800
-Message-Id: <20210416032047.2752858-1-siyanteng@loongson.cn>
+Subject: [PATCH v6 01/11] docs/zh_CN: add core-api irq concepts.rst translation
+Date:   Fri, 16 Apr 2021 11:20:37 +0800
+Message-Id: <20210416032047.2752858-2-siyanteng@loongson.cn>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210416032047.2752858-1-siyanteng@loongson.cn>
+References: <20210416032047.2752858-1-siyanteng@loongson.cn>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: AQAAf9CxycldAnlg648IAA--.15727S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7Aw48tr1rtrW8XF1fJF4UXFb_yoW8uw1xpF
-        47Kr93X3WxAF12kw1fWr47Jr15Ga4xWa98tan2qwn5tFs8tr4Utr1UKr9Igas7Jr10vFyF
-        vw4akrWDur1jyrUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUv214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-        1l84ACjcxK6xIIjxv20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
-        JVWxJr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26r
-        xl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj
-        6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr
-        0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E
-        8cxan2IY04v7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-        8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
-        ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-        0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAF
-        wI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
-        7VUbXdbUUUUUU==
+X-CM-TRANSID: AQAAf9CxycldAnlg648IAA--.15727S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7CFyrur1rurWfCFykuFW8Crg_yoW8Zry7pF
+        Z2yas3G3WxZF9xCr92kFy2qryUAay8WanFkws7ZF1ftr1ktr4Dtr4jkF98u3yxGryvyFy0
+        9F4SkrW8uryYy3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUPj14x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+        x26xkF7I0E14v26r4j6ryUM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+        Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
+        A2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1l
+        e2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI
+        8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwAC
+        jcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0x
+        kIwI1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AK
+        xVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrx
+        kI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v2
+        6r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJw
+        CI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU86wZUUUU
+        U
 X-CM-SenderInfo: pvl1t0pwhqwqxorr0wxvrqhubq/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-This series of patches translates core-api/irq/* and openrisc/* into Chinese.
-
-v1 -> v2:
-
-Modify some words under Xiangcheng Wu's suggestion. Thanks for his rewiew!
-
-v2 -> v3:
-
-keep the signs number equal to the title char under Alex's suggestion. 
-Thanks for his rewiew!
-
-v3 -> v4:
-
-Add Xiangcheng Wu's review sign to 0002、0003 and 0008; Thanks for his rewiew!
-
-v4 -> v5:
-
-Split 1-7 into a separate series.
-
-v5 -> v6:
-
-Modify the Subject of patches 07 and 11.
-Patch 11 will not be sent if not modified. (name repeat)
-
-Revert to one series because there is no need to split into two series.
-
-
-Yanteng Si(11):
-docs/zh_CN: add core-api irq concepts.rst translation
-docs/zh_CN: add core-api irq irq-affinity.rst translation
-docs/zh_CN: add core-api irq irq-domain.rst translation
-docs/zh_CN: add core-api irq irqflags-tracing.rst
-docs/zh_CN: add core-api irq index.rst translation
-docs/zh_CN: add core-api index.rst translation
-docs/zh_CN: add core-api translation to zh_CN index
-docs/zh_CN: add openrisc openrisc_port.rst translation
-docs/zh_CN: add openrisc todo.rst translation
-docs/zh_CN: add openrisc index.rst translation
-docs/zh_CN: add openrisc translation to zh_CN index
+This patch translates Documentation/core-api/irq/concepts.rst into Chinese.
 
 Signed-off-by: Yanteng Si <siyanteng@loongson.cn>
+Reviewed-by: Wu XiangCheng <bobwxc@email.cn>
 ---
- Documentation/translations/zh_CN/core-api/index.rst                | 126 ++++++++++++++++++++++
- Documentation/translations/zh_CN/core-api/irq/concepts.rst         |  24 +++++
- Documentation/translations/zh_CN/core-api/irq/index.rst            |  19 ++++
- Documentation/translations/zh_CN/core-api/irq/irq-affinity.rst     |  76 +++++++++++++
- Documentation/translations/zh_CN/core-api/irq/irq-domain.rst       | 227 +++++++++++++++++++++++++++++++++++++++
- Documentation/translations/zh_CN/core-api/irq/irqflags-tracing.rst |  45 ++++++++
- Documentation/translations/zh_CN/index.rst                         |   2 +
- Documentation/translations/zh_CN/openrisc/index.rst                |  30 ++++++
- Documentation/translations/zh_CN/openrisc/openrisc_port.rst        | 124 +++++++++++++++++++++
- Documentation/translations/zh_CN/openrisc/todo.rst                 |  20 ++++
- 10 files changed, 693 insertions(+)
+ .../zh_CN/core-api/irq/concepts.rst           | 24 +++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/core-api/irq/concepts.rst
+
+diff --git a/Documentation/translations/zh_CN/core-api/irq/concepts.rst b/Documentation/translations/zh_CN/core-api/irq/concepts.rst
+new file mode 100644
+index 000000000000..41455bf0f783
+--- /dev/null
++++ b/Documentation/translations/zh_CN/core-api/irq/concepts.rst
+@@ -0,0 +1,24 @@
++.. include:: ../../disclaimer-zh_CN.rst
++
++:Original: :doc:`../../../../core-api/irq/concepts`
++:Translator: Yanteng Si <siyanteng@loongson.cn>
++
++.. _cn_concepts.rst:
++
++
++===========
++什么是IRQ？
++===========
++
++IRQ (Interrupt ReQuest) 指来自设备的中断请求。
++目前，它们可以通过一个引脚或通过一个数据包进入。
++多个设备可以连接到同一个引脚，从而共享一个IRQ。
++
++IRQ编号是用来描述硬件中断源的内核标识符。通常它是一个到全局irq_desc数组的索引，
++但是除了在linux/interrupt.h中实现的之外，其它细节是体系结构特征相关的。
++
++IRQ编号是对机器上可能的中断源的枚举。通常枚举的是系统中所有中断控制器的输入引脚
++编号。在ISA（工业标准体系结构）的情况下所枚举的是两个i8259中断控制器的16个输入引脚。
++
++体系结构可以给IRQ号赋予额外的含义，在涉及到硬件手动配置的情况下，我们鼓励这样做。
++ISA IRQ是赋予这种额外含义的一个典型例子。
+-- 
+2.27.0
 
