@@ -2,119 +2,83 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_GIT
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7F77C433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 12:23:40 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74730C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 12:28:56 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B558E6117A
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 12:23:40 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 48142610E6
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 12:28:56 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243440AbhDPMYE (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 08:24:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43466 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243404AbhDPMYC (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 08:24:02 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5821C061574;
-        Fri, 16 Apr 2021 05:23:37 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id z1so29863722ybf.6;
-        Fri, 16 Apr 2021 05:23:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oJWOBU898RR64I5dUgBojnrKLrF+H0PdTgSU59Ph068=;
-        b=F88mPaWYARVjBdkYiXNxWNv06dZCNfEiE9bRYpt7hK7KKzw55VR34flKRflG+TlZky
-         ynS8EVLCuLTrn4YY0MRl4/3veqV67byO44Y1SUsL9OVIGvuZC/gSwmHg0hNvtp6jKNyc
-         NRFEw7z1UNPyuswTtwXFHmmBku37m5ofWkthnZz0pRbY53CPfx8YZ9mIwKNxbM9mdiI3
-         0Q/12eTlMPqvE8Z9sqhLPu8bjXNWwIrgOICYTBK1I2pBHFaoRvPco4PULKgon3U0+EY5
-         dbVbRQ7fwteo5CgoLswR7VWsxbHgbXZUCoBlEgbkohQTUJjCBALqU3duntCU+LvJvQli
-         xQAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oJWOBU898RR64I5dUgBojnrKLrF+H0PdTgSU59Ph068=;
-        b=UPLMiB1k+O2fTmgyeYWq+/P0zWem1npT5o908V4pOyCGM7rf7jCPfG8v2UB3SraCeE
-         NgMDNkJBk9m5oVhWMpMdaJpad9SmiQiOfZ8bqLQX2h2AlptidRVonVaXkvlNpO2jTniX
-         qJ3wPvlCIt5/Mfr5VRre3ErmGBrH7HjJi9b4JwN4vi/dGMEdY2L78yRCVesI3UmGN/Y5
-         dua2xOxboW7c1ejt/pxxCQ/yXTax4YNHmXS9CsiJBqMNt2zg/prz/8pVgAjMybsbxaK9
-         KiqPe2V0pTyQJTsntKySFwdSrCJQXVxjD39DCc69iwMTTZ7D//CQMj9kIIm4f9hrgii4
-         1NOQ==
-X-Gm-Message-State: AOAM533sG0xdHF3ZveRTKBPrqb3qhcsk14pqnMcEwS+2qXfmIfm7GQEL
-        BYMOyS8KuLAOmmIx4n2PCsUdtthU+c6LLB8UUjU=
-X-Google-Smtp-Source: ABdhPJxQmILSd73jktfvCK8N1AvhaqwM43zyeMR4u8U2bCKGdASsI/jtNsPLqlByKcaOcHTssmfTv+/86lWTiZlLLnI=
-X-Received: by 2002:a25:cfc2:: with SMTP id f185mr12128491ybg.26.1618575817094;
- Fri, 16 Apr 2021 05:23:37 -0700 (PDT)
+        id S243532AbhDPM3U (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 08:29:20 -0400
+Received: from mailomta23-re.btinternet.com ([213.120.69.116]:38907 "EHLO
+        re-prd-fep-047.btinternet.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S243485AbhDPM3R (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 08:29:17 -0400
+Received: from re-prd-rgout-002.btmx-prd.synchronoss.net ([10.2.54.5])
+          by re-prd-fep-047.btinternet.com with ESMTP
+          id <20210416122851.PEFJ28099.re-prd-fep-047.btinternet.com@re-prd-rgout-002.btmx-prd.synchronoss.net>;
+          Fri, 16 Apr 2021 13:28:51 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=btinternet.com; s=btmx201904; t=1618576131; 
+        bh=UKwPGuS6hHKi/vOoUL4sIZTkf0ALcnjL8Vg71k+LWYA=;
+        h=From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version;
+        b=QR4c9TjvjzuRDSE/qTwvtZ7Ss9Xdo70TFGZgj0Ru5M+79hQAm3OqRyRUHUPG6/iF+ou2R2MwVLnnLFBM4+Cwp5ByELKRCYi2lCqk3/VqtIFr8AfjKfgO+SHB5ZXGFgGeVeIfj7xm8QEK743ikyFxKVLOMG1oyM5lPt6EVkiiFg8mi4IvY9SsgzT3c/IQKRaLE0T7ptd+NbQpOdo5nMZv40PzdxeYRasG/eHOlK5se/rwZSlougw37SXSIYuwhPh/Prbr2H4iKr3FvriyYIqi8VsLFyr+j6NzrL2EgCtqFEOqa/eQOlGkBufDTrKw8fFMgHDPB4n0D2l5egsBh2FFHA==
+Authentication-Results: btinternet.com;
+    auth=pass (PLAIN) smtp.auth=richard_c_haines@btinternet.com
+X-SNCR-Rigid: 5ED9C0CC2F248680
+X-Originating-IP: [86.184.99.58]
+X-OWM-Source-IP: 86.184.99.58 (GB)
+X-OWM-Env-Sender: richard_c_haines@btinternet.com
+X-VadeSecure-score: verdict=clean score=0/300, class=clean
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgeduledrudelhedgheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuueftkffvkffujffvgffngfevqffopdfqfgfvnecuuegrihhlohhuthemuceftddunecunecujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeftihgthhgrrhguucfjrghinhgvshcuoehrihgthhgrrhgupggtpghhrghinhgvshessghtihhnthgvrhhnvghtrdgtohhmqeenucggtffrrghtthgvrhhnpeelteffgeevveejheevhfetgfeuveduteetuddtffdvjeekieetgeehveefjedtfeenucfkphepkeeirddukeegrdelledrheeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehhvghloheplhhotggrlhhhohhsthdrlhhotggrlhguohhmrghinhdpihhnvghtpeekiedrudekgedrleelrdehkedpmhgrihhlfhhrohhmpeeorhhitghhrghruggptggphhgrihhnvghssegsthhinhhtvghrnhgvthdrtghomheqpdhrtghpthhtohepoegtrghsvgihsehstghhrghufhhlvghrqdgtrgdrtghomheqpdhrtghpthhtohepoegtohhrsggvtheslhifnhdrnhgvtheqpdhrtghpthhtohepoehjmhhorhhrihhssehnrghmvghirdhorhhgqedprhgtphhtthhopeeolhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgheqpdhrtghpthhtohepoehlihhnuhigqdhsvggtuhhrihhthidqmhhoughulhgvsehvghgvrhdrkhgvrhhnvghlrdho
+        rhhgqedprhgtphhtthhopeeophgruhhlsehprghulhdqmhhoohhrvgdrtghomheqpdhrtghpthhtohepoehrihgthhgrrhgupggtpghhrghinhgvshessghtihhnthgvrhhnvghtrdgtohhmqecuqfftvefrvfeprhhftgekvddvnehrihgthhgrrhgupggtpghhrghinhgvshessghtihhnthgvrhhnvghtrdgtohhmpdhrtghpthhtohepoehsvghrghgvsehhrghllhihnhdrtghomheq
+X-RazorGate-Vade-Verdict: clean 0
+X-RazorGate-Vade-Classification: clean
+X-SNCR-hdrdom: btinternet.com
+Received: from localhost.localdomain (86.184.99.58) by re-prd-rgout-002.btmx-prd.synchronoss.net (5.8.340) (authenticated as richard_c_haines@btinternet.com)
+        id 5ED9C0CC2F248680; Fri, 16 Apr 2021 13:28:51 +0100
+From:   Richard Haines <richard_c_haines@btinternet.com>
+To:     linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org
+Cc:     corbet@lwn.net, paul@paul-moore.com, jmorris@namei.org,
+        serge@hallyn.com, casey@schaufler-ca.com,
+        Richard Haines <richard_c_haines@btinternet.com>
+Subject: [PATCH 0/3] LSM Documentation - Render lsm_hooks.h for kernel_docs
+Date:   Fri, 16 Apr 2021 13:28:40 +0100
+Message-Id: <20210416122843.4752-1-richard_c_haines@btinternet.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-5-ojeda@kernel.org>
- <CAKwvOdkjttdX83tL4pw+J5EnHM1MgEYDPp=YTpEagV4RrhdxwA@mail.gmail.com>
- <CANiq72ksLeuL_uqoqbf3fhLP7M0j-7TdEvRDDmxThdmrEqD2Lw@mail.gmail.com> <CAKwvOdkyRkR0Jj5w5HWJ+o4YpOrLfTY1Vjho0bDn60fgRE-pkA@mail.gmail.com>
-In-Reply-To: <CAKwvOdkyRkR0Jj5w5HWJ+o4YpOrLfTY1Vjho0bDn60fgRE-pkA@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Fri, 16 Apr 2021 14:23:26 +0200
-Message-ID: <CANiq72=TDkRzZi7fN5y9QmtRbvoZTzxHXDg_ELjdD+YhmXzgPw@mail.gmail.com>
-Subject: Re: [PATCH 04/13] Kbuild: Rust support
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     Masahiro Yamada <masahiroy@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux@vger.kernel.org,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Alex Gaynor <alex.gaynor@gmail.com>,
-        Geoffrey Thomas <geofft@ldpreload.com>,
-        Finn Behrens <me@kloenk.de>,
-        Adam Bratschi-Kaye <ark.email@gmail.com>,
-        Wedson Almeida Filho <wedsonaf@google.com>,
-        Michael Ellerman <mpe@ellerman.id.au>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Thu, Apr 15, 2021 at 8:03 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> Until then, I don't see why we need to permit developers to express
-> such flexibility for just the Rust code, or have it differ from the
-> intent of the C code. Does it make sense to set RUST_OPT_LEVEL_3 and
-> CC_OPTIMIZE_FOR_SIZE? I doubt it. That doesn't seem like a development
-> feature, but a mistake.  YAGNI.  Instead developers should clarify
-> what they care about in terms of high level intent; if someone wants
-> to micromanage optimization level flags in their forks they don't need
-> a Kconfig to do it (they're either going to hack KBUILD_CFLAGS,
-> CFLAGS_*.o, or KCFLAGS), and there's probably better mechanisms for
-> fine-tooth precision of optimizing actually hot code or not via PGO
-> and AutoFDO.
+This patch series updates the LSM hook text defined in the comments
+section of inlcude/linux/lsm_hooks.h. This enables the hook functions to
+be rendered in kernel_docs html or pdf format.
 
-I completely agree when we are talking about higher level optimization
-levels. From a user perspective, it does not make much sense to want
-slightly different optimizations levels or different size/performance
-trade-offs between C and Rust. However, I am thinking from the
-debugging side, i.e. mostly low or no optimization; rather than about
-micromanaging optimizations for performance.
+Note that no text has been changed in lsm_hooks.h, only formatting
+to render the text.
 
-For instance, last year I used `RUST_OPT_LEVEL_0/1` to quickly rule
-out optimizer/codegen/etc. bugs on the Rust side when we had some
-memory corruption over Rust data
-(https://github.com/Rust-for-Linux/linux/pull/28), which is important
-when dealing with compiler nightly versions. It was also nice to be
-able to easily follow along when stepping, too.
+For reference two hooks have been marked as deprecated: sb_copy_data() and
+sb_parse_opts_str()
 
-Having said that, I agree that in those cases one can simply tweak the
-flags manually -- so that's why I said it is fine dropping the the
-`Kconfig` options. There might be some advantages of having them, such
-as making developers aware that those builds should work, to keep them
-tested/working, etc.; but we can do that manually too in the CI/docs
-too.
+Tested using 'make pdfdocs' and 'make htmldocs'
 
-Cheers,
-Miguel
+Change from RFC patch: Rebased on 5.12-rc7
+
+Richard Haines (3):
+  Documentation/security: Update LSM security hook text
+  include/linux: Update LSM hook text part1
+  include/linux: Update LSM hook text part2
+
+ Documentation/security/lsm-development.rst |    5 +-
+ include/linux/lsm_hooks.h                  | 2365 +++++++++++---------
+ 2 files changed, 1364 insertions(+), 1006 deletions(-)
+
+-- 
+2.30.2
+
