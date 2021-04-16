@@ -2,264 +2,190 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-18.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL
+X-Spam-Status: No, score=-12.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
 	autolearn=ham autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A598CC433B4
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 08:42:46 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E827C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 08:45:20 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E68261152
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 08:42:46 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 1C66961152
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 08:45:20 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239256AbhDPInK (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 04:43:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50836 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232618AbhDPInJ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 04:43:09 -0400
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BE27C061574
-        for <linux-doc@vger.kernel.org>; Fri, 16 Apr 2021 01:42:45 -0700 (PDT)
-Received: by mail-qk1-x734.google.com with SMTP id 18so11214538qkl.3
-        for <linux-doc@vger.kernel.org>; Fri, 16 Apr 2021 01:42:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DNspso6eu8FyK0S12pp5SaJi4n/DElqZlTW5QhLtIS8=;
-        b=VAqp67dfhwx8s/WSkwWTf9LvjkcrrlqkmI3hV2LbByh9zEEJfriAcOu1Prfsg/KaO6
-         UiMKEodXxBWoCt279cCoyChMbZ+keT1a+bxpL6COqcs7dYA8OyezXk0c1QCaPjQTXzBI
-         aQuZqjm2cx6s7j65Em3Qw734HqutSW0OpViAGnS75rqMezulhaphF+B9HO6iF7tOPohT
-         OfzZzsR78EFYFcMd0FgQ/DkjeqouPnP/rCva0szIVKNm/w7wa8OvOeWPYjNRuaV+CkzQ
-         HQZ0SXkb+4oQuIssZ1WdCmbRKobqQBz3m+FC2Sm84I9HpKH70ZObPToDo8mtYeSMBigg
-         qpmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DNspso6eu8FyK0S12pp5SaJi4n/DElqZlTW5QhLtIS8=;
-        b=XwiInkJD8GqXmnhwSWZelGDSuDwhgKEnNsbP0heMtSOKv4/GVo/Y8cAMgHEamgk8Dc
-         DovFXg+gD+TVTnlQZ/ebtA36mkgD0guVw6hoSgbYzEciIDCMtYVzD1CiYT7yPAYJDG0b
-         H8aE2kkYNiGZWPKNoxckazqUkd4GcY4MzQ4sj0HHG/IXIl0QSs4bqh9R5NgFyE0d+uq5
-         CSU17vKSXsSesgsBHETI9B/VHK9NbNeziY026Ft/JbvRxwXDTBEbFlpQ0gloQhnsjcGC
-         AFCOx3bhQ8pgD086LNOgyr6YTByJwTjWruZremRfcxn6AGHGdoPIpGz6n0nwmwYNP8mA
-         D4mA==
-X-Gm-Message-State: AOAM531lkk5HsYpTjHp1t1KFBRWXyj5txdRFROTQxKNfsJAr7Ox3WCDG
-        FD2A+856aPn169wdycJ43hDqj06FzkEY+TKrgX43Dg==
-X-Google-Smtp-Source: ABdhPJzWKUSYQsBa458mK9ecB0lIGGQOq468BWuE66zGj/IFPSWxEb4Q/2QVAnKhRLAI4JmMh0QSz+UuwnxahszI85g=
-X-Received: by 2002:a37:a9c1:: with SMTP id s184mr537104qke.231.1618562564151;
- Fri, 16 Apr 2021 01:42:44 -0700 (PDT)
+        id S240294AbhDPIpm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 04:45:42 -0400
+Received: from [43.250.32.171] ([43.250.32.171]:40256 "EHLO email.cn"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S237554AbhDPIpk (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Apr 2021 04:45:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
+        s=dkim; h=Date:From:To; bh=uFVmYyJsv7zFrvijHof2lvoAkPiFvLiawcXwY
+        AI6kAA=; b=FUeeWTdU7/CWn3Kona9Ud3LcyZSK4rlMp2MEkU89LecEPLuT2wlsY
+        DuK1HO8ifshLCdqk2QK6nWt1gt/Q7g70KYM7MyLg5fZohxdGfAs8eNik43t80wTz
+        naoC111K7InzUi4HbHmP4InMloR2dh/U09Nq6Vxsv/RPmSlx+TzfBA=
+Received: from bobwxc.top (unknown [120.238.248.129])
+        by v_coremail2-frontend-1 (Coremail) with SMTP id LCKnCgC3KtGNTnlgDu9fAA--.22101S2;
+        Fri, 16 Apr 2021 16:45:02 +0800 (CST)
+Date:   Fri, 16 Apr 2021 16:45:00 +0800
+From:   "Wu X.C." <bobwxc@email.cn>
+To:     Federico Vaga <federico.vaga@vaga.pv.it>
+Cc:     Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Tsugikazu Shibata <tshibata@ab.jp.nec.com>,
+        SeongJae Park <sjpark@amazon.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC 0/2] Add a new translation tool scripts/trslt.py
+Message-ID: <20210416084500.GA7344@bobwxc.top>
+References: <cover.1618208899.git.bobwxc@email.cn>
+ <20210413232722.lzbex2cwifdd5cm2@numero86.vaga.pv.it>
 MIME-Version: 1.0
-References: <20210326205135.6098-1-info@alexander-lochmann.de> <CA+fCnZcTi=QLGC_LCdhs+fMrxkqX66kXEuM5ewOmjVjifKzUrw@mail.gmail.com>
-In-Reply-To: <CA+fCnZcTi=QLGC_LCdhs+fMrxkqX66kXEuM5ewOmjVjifKzUrw@mail.gmail.com>
-From:   Dmitry Vyukov <dvyukov@google.com>
-Date:   Fri, 16 Apr 2021 10:42:32 +0200
-Message-ID: <CACT4Y+Y_PfAhjV26xYf8wcEv0MYygC14c_92hBN8gqOACK7Oow@mail.gmail.com>
-Subject: Re: [PATCHv3] Introduced new tracing mode KCOV_MODE_UNIQUE.
-To:     Andrey Konovalov <andreyknvl@gmail.com>
-Cc:     Alexander Lochmann <info@alexander-lochmann.de>,
-        Andrey Konovalov <andreyknvl@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Aleksandr Nogikh <nogikh@google.com>,
-        Wei Yongjun <weiyongjun1@huawei.com>,
-        Maciej Grochowski <maciej.grochowski@pm.me>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210413232722.lzbex2cwifdd5cm2@numero86.vaga.pv.it>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CM-TRANSID: LCKnCgC3KtGNTnlgDu9fAA--.22101S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxWrWxtrWUXry8GF4UKFWUtwb_yoW7Jw45pF
+        WUG3ZxKF4Dtr12yr1fCr4UWF1Fy3Z7Kr45JFy2qrn3ArZ8tr92qFW3K3yY9F9rJryvva4j
+        vr4jkrWUuFs8ZaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUgIb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
+        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
+        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY02Avz4vE14v_GFyl42xK82
+        IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8
+        JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
+        AFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
+        jxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
+        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU
+        0xZFpf9x07jX9N3UUUUU=
+X-Originating-IP: [120.238.248.129]
+X-CM-SenderInfo: pere453f6hztlloou0/
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Sat, Mar 27, 2021 at 3:56 PM Andrey Konovalov <andreyknvl@gmail.com> wrote:
->
-> On Fri, Mar 26, 2021 at 9:52 PM Alexander Lochmann
-> <info@alexander-lochmann.de> wrote:
-> >
->
-> Hi Alexander,
->
-> > It simply stores the executed PCs.
-> > The execution order is discarded.
-> > Each bit in the shared buffer represents every fourth
-> > byte of the text segment.
-> > Since a call instruction on every supported
-> > architecture is at least four bytes, it is safe
-> > to just store every fourth byte of the text segment.
->
-> What about jumps?
+Hi Federico,
 
-KCOV adds call __sanitizer_cov_trace_pc per coverage point. So besides
-the instructions in the original code, we also always have this call.
+On Wed, Apr 14, 2021 at 01:27:23AM +0200, Federico Vaga wrote:
+> Hi,
+> 
+> Yes, you are touching a good point where things can be improved. I admit that I
+> did not have a look at the code yet, if not very quickly. Perhaps I'm missing
+> something. However, let me give you my two cents based on what I usually do.
+> 
+> I do not like the idea of adding tags to the file and having tools to modify it.
+> I would prefer to keep the text as clean as possible.
 
+Yeah, I also consider about that, so let this tag be one line and a comment 
+at design time, hope make text clean.
 
-> [...]
->
-> > -#define KCOV_IN_CTXSW  (1 << 30)
-> > +#define KCOV_IN_CTXSW  (1 << 31)
->
-> This change needs to be mentioned and explained in the changelog.
->
-> > -static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_struct *t)
-> > +static __always_inline notrace bool check_kcov_mode(enum kcov_mode needed_mode,
-> > +                                                   struct task_struct *t,
-> > +                                                   unsigned int *mode)
-> >  {
-> > -       unsigned int mode;
-> > -
-> >         /*
-> >          * We are interested in code coverage as a function of a syscall inputs,
-> >          * so we ignore code executed in interrupts, unless we are in a remote
-> > @@ -162,7 +163,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
-> >          */
-> >         if (!in_task() && !(in_serving_softirq() && t->kcov_softirq))
-> >                 return false;
-> > -       mode = READ_ONCE(t->kcov_mode);
-> > +       *mode = READ_ONCE(t->kcov_mode);
-> >         /*
-> >          * There is some code that runs in interrupts but for which
-> >          * in_interrupt() returns false (e.g. preempt_schedule_irq()).
-> > @@ -171,7 +172,7 @@ static notrace bool check_kcov_mode(enum kcov_mode needed_mode, struct task_stru
-> >          * kcov_start().
-> >          */
-> >         barrier();
-> > -       return mode == needed_mode;
-> > +       return ((int)(*mode & (KCOV_IN_CTXSW | needed_mode))) > 0;
->
-> This change needs to be mentioned and explained in the changelog.
->
-> [...]
->
-> >  static notrace unsigned long canonicalize_ip(unsigned long ip)
-> > @@ -191,18 +192,27 @@ void notrace __sanitizer_cov_trace_pc(void)
-> >         struct task_struct *t;
-> >         unsigned long *area;
-> >         unsigned long ip = canonicalize_ip(_RET_IP_);
-> > -       unsigned long pos;
-> > +       unsigned long pos, idx;
-> > +       unsigned int mode;
-> >
-> >         t = current;
-> > -       if (!check_kcov_mode(KCOV_MODE_TRACE_PC, t))
-> > +       if (!check_kcov_mode(KCOV_MODE_TRACE_PC | KCOV_MODE_UNIQUE_PC, t, &mode))
-> >                 return;
-> >
-> >         area = t->kcov_area;
-> > -       /* The first 64-bit word is the number of subsequent PCs. */
-> > -       pos = READ_ONCE(area[0]) + 1;
-> > -       if (likely(pos < t->kcov_size)) {
-> > -               area[pos] = ip;
-> > -               WRITE_ONCE(area[0], pos);
-> > +       if (likely(mode == KCOV_MODE_TRACE_PC)) {
-> > +               /* The first 64-bit word is the number of subsequent PCs. */
-> > +               pos = READ_ONCE(area[0]) + 1;
-> > +               if (likely(pos < t->kcov_size)) {
-> > +                       area[pos] = ip;
-> > +                       WRITE_ONCE(area[0], pos);
-> > +               }
-> > +       } else {
-> > +               idx = (ip - canonicalize_ip((unsigned long)&_stext)) / 4;
-> > +               pos = idx % BITS_PER_LONG;
-> > +               idx /= BITS_PER_LONG;
-> > +               if (likely(idx < t->kcov_size))
-> > +                       WRITE_ONCE(area[idx], READ_ONCE(area[idx]) | 1L << pos);
->
-> This is confusing: for KCOV_MODE_TRACE_PC, pos is used to index area,
-> and for else, idx is used to index area. You should swap idx and pos.
->
-> [...]
->
-> > @@ -213,9 +223,10 @@ static void notrace write_comp_data(u64 type, u64 arg1, u64 arg2, u64 ip)
-> >         struct task_struct *t;
-> >         u64 *area;
-> >         u64 count, start_index, end_pos, max_pos;
-> > +       unsigned int mode;
-> >
-> >         t = current;
-> > -       if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t))
-> > +       if (!check_kcov_mode(KCOV_MODE_TRACE_CMP, t, &mode))
-> >                 return;
->
-> mode isn't used here, right? No need for it then.
->
-> > @@ -562,12 +576,14 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
-> >  {
-> >         struct task_struct *t;
-> >         unsigned long size, unused;
-> > -       int mode, i;
-> > +       int mode, i, text_size, ret = 0;
-> >         struct kcov_remote_arg *remote_arg;
-> >         struct kcov_remote *remote;
-> >         unsigned long flags;
-> >
-> >         switch (cmd) {
-> > +       case KCOV_INIT_UNIQUE:
-> > +               fallthrough;
-> >         case KCOV_INIT_TRACE:
-> >                 /*
-> >                  * Enable kcov in trace mode and setup buffer size.
-> > @@ -581,11 +597,42 @@ static int kcov_ioctl_locked(struct kcov *kcov, unsigned int cmd,
-> >                  * that must not overflow.
-> >                  */
-> >                 size = arg;
-> > -               if (size < 2 || size > INT_MAX / sizeof(unsigned long))
-> > -                       return -EINVAL;
-> > -               kcov->size = size;
-> > -               kcov->mode = KCOV_MODE_INIT;
-> > -               return 0;
-> > +               if (cmd == KCOV_INIT_UNIQUE) {
->
-> Let's put this code under KCOV_INIT_UNIQUE in the switch. This
-> internal if only saves duplicating two lines of code, which isn't
-> worth it.
->
-> > +                       if (size != 0)
-> > +                               return -EINVAL;
-> > +                       text_size = (canonicalize_ip((unsigned long)&_etext)
-> > +                                    - canonicalize_ip((unsigned long)&_stext));
-> > +                       /**
-> > +                        * A call instr is at least four bytes on every supported architecture.
-> > +                        * Hence, just every fourth instruction can potentially be a call.
-> > +                        */
-> > +                       text_size = roundup(text_size, 4);
-> > +                       text_size /= 4;
-> > +                       /*
-> > +                        * Round up size of text segment to multiple of BITS_PER_LONG.
-> > +                        * Otherwise, we cannot track
-> > +                        * the last (text_size % BITS_PER_LONG) addresses.
-> > +                        */
-> > +                       text_size = roundup(text_size, BITS_PER_LONG);
-> > +                       /* Get the amount of bytes needed */
-> > +                       text_size = text_size / 8;
-> > +                       /* mmap() requires size to be a multiple of PAGE_SIZE */
-> > +                       text_size = roundup(text_size, PAGE_SIZE);
-> > +                       /* Get the cover size (= amount of bytes stored) */
-> > +                       ret = text_size;
-> > +                       kcov->size = text_size / sizeof(unsigned long);
-> > +                       kcov_debug("text size = 0x%lx, roundup = 0x%x, kcov->size = 0x%x\n",
-> > +                                       ((unsigned long)&_etext) - ((unsigned long)&_stext),
-> > +                                       text_size,
-> > +                                       kcov->size);
-> > +                       kcov->mode = KCOV_MODE_INIT_UNIQUE;
-> > +               } else {
-> > +                       if (size < 2 || size > INT_MAX / sizeof(unsigned long))
-> > +                               return -EINVAL;
-> > +                       kcov->size = size;
-> > +                       kcov->mode = KCOV_MODE_INIT_TRACE;
-> > +               }
-> > +               return ret;
->
-> Thanks!
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/CA%2BfCnZcTi%3DQLGC_LCdhs%2BfMrxkqX66kXEuM5ewOmjVjifKzUrw%40mail.gmail.com.
+> 
+> Instead, what can be done without touching manipulating the text file is to do
+> something like this:
+> 
+> # Take the commit ID of the last time a document has translated
+> LAST_TRANS=$(git log -n 1 --oneline Documentation/translations/<lang>/<path-to-file> | cut -d " " -f 1)
+> 
+> # Take the history of the same file in the main Documentation tree
+> git log --oneline $LAST_TRANS..doc/docs-next Documentation/<path-to-file>
+> 
+> This will give you the list of commits that changed <path-to-file>, and that
+> probably need to be translated. The problem of this approach is that by the time
+> you submit a translation, other people may change the very same files. The
+> correctness of this approach depends on patch order in docs-next, and this can't
+> be guaranteed.
+
+Thanks for sharing your experiences!
+
+Yes, the order is why I think about this translation version control.
+It's really messy especially when file be updated frequently.
+And some old files are also hard to maintain.
+
+> 
+> So, instead of relying on LAST_DIR, I rely on a special git branch that acts as
+> marker. But this works only for me and not for other translator of the same
+> languages, so you can get troubles also in this case.
+> 
+> What we can actually do is to exploit the git commit message to store the tag
+> you mentioned. Hence, we can get the last Id with something like this:
+> 
+> LAST_ID=$(git log -n 1 Documentation/translations/<lang>/<path-to-file> | grep -E "Translated-on-top-of: commit [0-9a-f]{12}")
+> 
+> The ID we store in the tag does not need to be the commit ID of the last change
+> to <path-to-file>, but just the commit on which you were when you did the
+> translation. This because it will simplify the management of this tag when
+> translating multiple files/patches in a single patch (to avoid to spam the
+> mailing list with dozens of small patches).
+
+Yes, I also think about store the relative commit-id in commit message.
+Being a git-hook is easy for now, but if we'd like to add something in
+the future, it would may need add another script. Or just a tool which
+show the relative information and let translator add it by themselves?
+
+But to be honest, I'd like to make the tool could have more functions in
+the future. Like auto start worlflow etc. More and more people will
+join the translation work and some new developers also start their way
+from here. There is a clear need to make the work more standardized and
+easier.
+
+Thanks!
+
+Wu X.C.
+
+> 
+> On Mon, Apr 12, 2021 at 03:04:03PM +0800, Wu XiangCheng wrote:
+> > Hi all,
+> > 
+> > This set of patches aim to add a new translation tool - trslt.py, which
+> > can control the transltions version corresponding to source files.
+> > 
+> > For a long time, kernel documentation translations lacks a way to control the
+> > version corresponding to the source files. If you translate a file and then
+> > someone updates the source file, there will be a problem. It's hard to know
+> > which version the existing translation corresponds to, and even harder to sync
+> > them.
+> > 
+> > The common way now is to check the date, but this is not exactly accurate,
+> > especially for documents that are often updated. And some translators write
+> > corresponding commit ID in the commit log for reference, it is a good way,
+> > but still a little troublesome.
+> > 
+> > Thus, the purpose of ``trslt.py`` is to add a new annotating tag to the file
+> > to indicate corresponding version of the source file::
+> > 
+> > .. translation_origin_commit: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+> > 
+> > The script will automatically copy file and generate tag when creating new
+> > translation, and give update suggestions based on those tags when updating
+> > translations.
+> > 
+> > More details please read doc in [Patch 2/2].
+> > 
+> > Still need working:
+> > - improve verbose mode
+> > - test on more python 3.x version
+> > - only support linux now, need test on Mac OS, nonsupport Windows
+> >  due to '\'
+> > 
+> > Any suggestion is welcome!
+> > 
+> > Thanks!
+> > 
+> > Wu XiangCheng (2):
+> >  scripts: Add new translation tool trslt.py
+> >  docs: doc-guide: Add document for scripts/trslt.py
+> > 
+> > Documentation/doc-guide/index.rst |   1 +
+> > Documentation/doc-guide/trslt.rst | 233 ++++++++++++++++++++++++++
+> > scripts/trslt.py                  | 267 ++++++++++++++++++++++++++++++
+> > 3 files changed, 501 insertions(+)
+> > create mode 100644 Documentation/doc-guide/trslt.rst
+> > create mode 100755 scripts/trslt.py
+> > 
+> > -- 
+> > 2.20.1
+> > 
+> 
+
