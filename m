@@ -2,119 +2,111 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-17.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
-	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 803BFC433ED
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 14:38:54 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FBA7C43460
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 15:04:34 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 56A186121E
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 14:38:54 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6E3956121F
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 15:04:34 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S244834AbhDPOjR (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 10:39:17 -0400
-Received: from m32-153.88.com ([43.250.32.153]:10286 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S240378AbhDPOix (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Apr 2021 10:38:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=c/yQLifQIDVULsXihE6+DEJvltSZOV9WEaiwI
-        Y2UMxA=; b=JCa4OmzrcIreHZBGCoe/d3B4leZL+gbC06c3JWjCpIIE75Wt8utBN
-        TOCiZGXNIg0VkD1mBgSVXp/2xT8sB2kO867+2y5ayQzQQ7ffQ+1cEgkEP049ExWb
-        dsaNM2P2AS+CZ8TzQVyxuavD6VpR8qdChA34/12TYxpyil1Di7ZRTQ=
-Received: from bobwxc.top (unknown [120.238.248.129])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgAXoiJaoXlg4OpzAA--.63836S2;
-        Fri, 16 Apr 2021 22:38:22 +0800 (CST)
-Date:   Fri, 16 Apr 2021 22:38:18 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     teng sterling <sterlingteng@gmail.com>
-Cc:     Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Yanteng Si <siyanteng@loongson.cn>,
-        Huang JiangHui <huangjianghui@uniontech.com>,
-        Bailu Lin <bailu.lin@vivo.com>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/zh_CN: Adjust order and content of zh_CN/index.rst
-Message-ID: <20210416143818.GA16963@bobwxc.top>
-References: <20210416074652.GA6138@bobwxc.top>
- <CAMU9jJpH6Tat8f+R=+WF02mFGP2ggL95Vs_Lk3cOuEmLTmTeyw@mail.gmail.com>
+        id S243051AbhDPPE6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 11:04:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51602 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233916AbhDPPE5 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Fri, 16 Apr 2021 11:04:57 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9A7AC061574;
+        Fri, 16 Apr 2021 08:04:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=25hrGU9VZ2QV0c5Hbqrxi9yE5aGpd22JKZJ3w+lQJU8=; b=hyDSOZjdKvkPuQFyX/T/VJ+RAY
+        JmxcWLT61fI68EtDrTVEbvD9gyEHmqmR0wPScYyqUJK21c90XaKL5tz0pckVtWtmXspROR1d2d/hH
+        rKLmRBvPOSaQsaZmUbnNFYOmjxwT6abcBWOgjjNU3cEBpliOCmBgP93NV2Jwwr/waAIIfjgNOUHVI
+        ejz3P+H//G5rqwyl0cN8rNOSX1zqhML0z9hyPzwA4YGrKEIjQSklN3YTSxZQI8rWoSWHgREChCD59
+        ZmDqCAx2pn2RR0ytLxo8lVpgKeXl7EwYh92v4LOtLL0LeDr15+BoZNpavY4CBerRZXEju/y9TIun4
+        J2ssLwuQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lXPzv-00A5sI-KB; Fri, 16 Apr 2021 15:03:37 +0000
+Date:   Fri, 16 Apr 2021 16:03:07 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Wedson Almeida Filho <wedsonaf@google.com>
+Cc:     Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <20210416150307.GJ2531743@casper.infradead.org>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
+ <YHmMJWmzz2vZ3qQH@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMU9jJpH6Tat8f+R=+WF02mFGP2ggL95Vs_Lk3cOuEmLTmTeyw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgAXoiJaoXlg4OpzAA--.63836S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7uFWDGryUtF13urWDuFy5XFb_yoW8Jw43pF
-        93GF9YkF1fXr17K39IqF12qF1YkayxJw48XF42qwnYqryDAr1vyr4Utr1YgF9aqrWxZFW8
-        ZF15GFnrCw47AFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgIb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j6r4UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26r4UJVWxJr1le2I262IYc4
-        CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E74AGY7Cv6cx26F4U
-        Jr1UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY02Avz4vE14v_Xryl42xK82
-        IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VWxJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8
-        JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1V
-        AFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xII
-        jxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4
-        A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU
-        0xZFpf9x07UjD7-UUUUU=
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+In-Reply-To: <YHmMJWmzz2vZ3qQH@google.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 10:24:00PM +0800, teng sterling wrote:
-> Wu XiangCheng <bobwxc@email.cn> 于2021年4月16日周五 下午4:06写道：
-> >
-> > Adjust order and content of zh_CN/index.rst to make it clear,
-> > Complete introductions and TODOLists.
-> >
-> > Signed-off-by: Wu XiangCheng <bobwxc@email.cn>
-> > ---
-> > docs-next tree
-> > base-commit: f9bbc12ccb35ac8b3fa01cec1a19cb523a7707c7
-> >
-> >  Documentation/translations/zh_CN/index.rst | 168 +++++++++++++++++++++++++++--
-> >  1 file changed, 159 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/Documentation/translations/zh_CN/index.rst b/Documentation/translations/zh_CN/index.rst
-> > index 2c154e18b37d..868efe11bb9d 100644
-[...]
-> > +其他文档
-> > +--------
-> > +
-> > +有几份未排序的文档似乎不适合放在文档的其他部分，或者可能需要进行一些调整和/或
-
-> 和/或？
-> emmm…… can you remove one? Or split into two sentences？:)
-
-or may require some adjustments and/or conversion to ReStructured Text format
-                                ^^^^^^
-So as it, it's OK.
-
-Thanks,
-
-Wu X.C.
-
-> > +转换为reStructureText格式，也有可能太旧。
-> > +
-> > +TODOList:
-> > +
-> > +* staging/index
-> > +* watch_queue
-> > +
-> >  目录和表格
-> >  ----------
-> >
-> >
-> > --
-> > 2.11.0
-> >
+On Fri, Apr 16, 2021 at 02:07:49PM +0100, Wedson Almeida Filho wrote:
+> There is nothing in C forcing developers to actually use DEFINE_MUTEX_GUARD. So
+> someone may simply forget (or not know that they need) to lock
+> current->perf_event_mutex and directly access some field protected by it. This
+> is unlikely to happen when one first writes the code, but over time as different
+> people modify the code and invariants change, it is possible for this to happen.
 > 
-> Thanks,
-> 
-> Yanteng
+> In Rust, this isn't possible: the data protected by a lock is only accessible
+> when the lock is locked. So developers cannot accidentally make mistakes of this
+> kind. And since the enforcement happens at compile time, there is no runtime
+> cost.
+
+Well, we could do that in C too.
+
+struct unlocked_inode {
+	spinlock_t i_lock;
+};
+
+struct locked_inode {
+	spinlock_t i_lock;
+	unsigned short i_bytes;
+	blkcnt_t i_blocks;
+};
+
+struct locked_inode *lock_inode(struct unlocked_inode *inode)
+{
+	spin_lock(&inode->i_lock);
+	return (struct locked_inode *)inode;
+}
+
+There's a combinatoric explosion when you have multiple locks in a data
+structure that protect different things in it (and things in a data
+structure that are protected by locks outside that data structure),
+but I'm not sufficiently familiar with Rust to know if/how it solves
+that problem.
+
+Anyway, my point is that if we believe this is a sufficiently useful
+feature to have, and we're willing to churn the kernel, it's less churn
+to do this than it is to rewrite in Rust.
+
+> Another scenario: suppose within perf_event_task_enable you need to call a
+> function that requires the mutex to be locked and that will unlock it for you on
+> error (or unconditionally, doesn't matter). How would you do that in C? In Rust,
+> there is a clean idiomatic way of transferring ownership of a guard (or any
+> other object) such that the previous owner cannot continue to use it after
+> ownership is transferred. Again, this is enforced at compile time. I'm happy to
+> provide a small example if that would help.
+
+I think we could do that too with an __attribute__((free)).  It isn't,
+of course, actually freeing the pointer to the locked_inode, but it will
+make the compiler think the pointer is invalid after the function returns.
+
+(hm, looks like gcc doesn't actually have __attribute__((free)) yet.
+that's unfortunate.  there's a potential solution in gcc-11 that might
+do what we need)
 
