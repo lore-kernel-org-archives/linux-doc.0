@@ -2,708 +2,147 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-21.7 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.2 required=3.0 tests=BAYES_00,
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD1F4C43470
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 09:00:58 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3B00C433B4
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 09:30:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A8FC461166
-	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 09:00:58 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id C93366115B
+	for <linux-doc@archiver.kernel.org>; Fri, 16 Apr 2021 09:30:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240734AbhDPJBW (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Fri, 16 Apr 2021 05:01:22 -0400
-Received: from mx2.suse.de ([195.135.220.15]:33844 "EHLO mx2.suse.de"
+        id S241785AbhDPJas (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Fri, 16 Apr 2021 05:30:48 -0400
+Received: from wtarreau.pck.nerim.net ([62.212.114.60]:51712 "EHLO 1wt.eu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S240753AbhDPJBS (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Fri, 16 Apr 2021 05:01:18 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 1EEBAAF03;
-        Fri, 16 Apr 2021 09:00:53 +0000 (UTC)
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     daniel@ffwll.ch, airlied@linux.ie,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        kraxel@redhat.com, corbet@lwn.net, lgirdwood@gmail.com,
-        broonie@kernel.org, sam@ravnborg.org, robh@kernel.org,
-        emil.l.velikov@gmail.com, geert+renesas@glider.be,
-        hdegoede@redhat.com, bluescreen_avenger@verizon.net,
-        gregkh@linuxfoundation.org
-Cc:     dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v4 4/9] drm: Add simpledrm driver
-Date:   Fri, 16 Apr 2021 11:00:43 +0200
-Message-Id: <20210416090048.11492-5-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210416090048.11492-1-tzimmermann@suse.de>
-References: <20210416090048.11492-1-tzimmermann@suse.de>
+        id S229706AbhDPJar (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Fri, 16 Apr 2021 05:30:47 -0400
+Received: (from willy@localhost)
+        by pcw.home.local (8.15.2/8.15.2/Submit) id 13G9TiNs009046;
+        Fri, 16 Apr 2021 11:29:44 +0200
+Date:   Fri, 16 Apr 2021 11:29:44 +0200
+From:   Willy Tarreau <w@1wt.eu>
+To:     Michal Kubecek <mkubecek@suse.cz>
+Cc:     linux-kernel@vger.kernel.org,
+        Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
+        linux-doc@vger.kernel.org
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <20210416092944.GB8790@1wt.eu>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
+ <20210416081605.3m4apyornouf5p5s@lion.mk-sys.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210416081605.3m4apyornouf5p5s@lion.mk-sys.cz>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-The simpledrm driver is a DRM driver for simple-framebuffer framebuffers
-as provided by the kernel's boot code. This driver enables basic
-graphical output on many different graphics devices that are provided
-by the platform (e.g., EFI, VESA, embedded framebuffers).
+On Fri, Apr 16, 2021 at 10:16:05AM +0200, Michal Kubecek wrote:
+> And I don't see how the two languages might coexist peacefully without
+> rust toolchain being necessary for building any kernel useful in
+> practice and anyone seriously involved in kernel development having to
+> be proficient in both languages.
 
-With the kernel's simple-framebuffer infrastructure, the kernel receives
-a pre-configured framebuffer from the system (i.e., firmware, boot
-loader). It creates a platform device to which simpledrm attaches.
-The system's framebuffer consists of a memory range, size and format.
-Based on these values, simpledrm creates a DRM devices. No actual
-modesetting is possible.
+Two languages ? No, one is specified and multiple-implemented, the other
+one is the defined as what its only compiler understands at the moment,
+so it's not a language, it's a compiler's reference manual at best. I'm
+waiting for the day you're force to write things which look wrong with a
+big comment around saying "it's not a bug it's a workaround for a bug in
+the unique compiler, waiting to be retrofitted into the spec to solve the
+problem for every user". Already seen for at least another "language"
+implemented by a single vendor 22 years ago.
 
-v4:
-	* disable simplefb if simpledrm has been selected (Maxime)
-v3:
-	* add disable function that clears screen to black (Daniel)
-	* set shadow buffering only for fbdev emulation
-	* set platform-driver data during device creation
-v2:
-	* rename driver to simpledrm
-	* add dri-devel to MAINTAINERS entry
-	* put native format first in primary-plane format list (Daniel)
-	* inline simplekms_device_cleanup() (Daniel)
-	* use helpers for shadow-buffered planes
-	* fix whitespace errors
+> Neither of these looks appealing to me.
+> 
+> The dependency on rust toolchain was exactly what made me give up on
+> building Firefox from mercurial snapshots few years ago. To be able to
+> build them, one needed bleeding edge snapshots of rust toolchain which
+> my distribution couldn't possibly provide and building them myself
+> required way too much effort. This very discussion already revealed that
+> rust kernel code would provide similar experience. I also have my doubts
+> about the "optional" part; once there are some interesting drivers
+> written in rust, even if only in the form of out of tree modules, there
+> will be an enormous pressure on distributions, both community and
+> enterprise, to enable rust support.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Tested-by: nerdopolis <bluescreen_avenger@verizon.net>
----
- MAINTAINERS                      |   7 +
- drivers/gpu/drm/tiny/Kconfig     |  16 +
- drivers/gpu/drm/tiny/Makefile    |   1 +
- drivers/gpu/drm/tiny/simpledrm.c | 545 +++++++++++++++++++++++++++++++
- drivers/video/fbdev/Kconfig      |   2 +-
- 5 files changed, 570 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/tiny/simpledrm.c
+Yes this scarily looks like the usual "embrace and extend... and abandon
+the corpse once it doesn't move anymore".
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7c45120759e6..4935776250e4 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -5765,6 +5765,13 @@ S:	Orphan / Obsolete
- F:	drivers/gpu/drm/savage/
- F:	include/uapi/drm/savage_drm.h
- 
-+DRM DRIVER FOR SIMPLE FRAMEBUFFERS
-+M:	Thomas Zimmermann <tzimmermann@suse.de>
-+L:	dri-devel@lists.freedesktop.org
-+S:	Maintained
-+T:	git git://anongit.freedesktop.org/drm/drm-misc
-+F:	drivers/gpu/drm/tiny/simplekms.c
-+
- DRM DRIVER FOR SIS VIDEO CARDS
- S:	Orphan / Obsolete
- F:	drivers/gpu/drm/sis/
-diff --git a/drivers/gpu/drm/tiny/Kconfig b/drivers/gpu/drm/tiny/Kconfig
-index 9bbaa1a69050..d46f95d9196d 100644
---- a/drivers/gpu/drm/tiny/Kconfig
-+++ b/drivers/gpu/drm/tiny/Kconfig
-@@ -38,6 +38,22 @@ config DRM_GM12U320
- 	 This is a KMS driver for projectors which use the GM12U320 chipset
- 	 for video transfer over USB2/3, such as the Acer C120 mini projector.
- 
-+config DRM_SIMPLEDRM
-+	tristate "Simple framebuffer driver"
-+	depends on DRM
-+	select DRM_GEM_SHMEM_HELPER
-+	select DRM_KMS_HELPER
-+	help
-+	  DRM driver for simple platform-provided framebuffers.
-+
-+	  This driver assumes that the display hardware has been initialized
-+	  by the firmware or bootloader before the kernel boots. Scanout
-+	  buffer, size, and display format must be provided via device tree,
-+	  UEFI, VESA, etc.
-+
-+	  On x86 and compatible, you should also select CONFIG_X86_SYSFB to
-+	  use UEFI and VESA framebuffers.
-+
- config TINYDRM_HX8357D
- 	tristate "DRM support for HX8357D display panels"
- 	depends on DRM && SPI
-diff --git a/drivers/gpu/drm/tiny/Makefile b/drivers/gpu/drm/tiny/Makefile
-index bef6780bdd6f..9cc847e756da 100644
---- a/drivers/gpu/drm/tiny/Makefile
-+++ b/drivers/gpu/drm/tiny/Makefile
-@@ -3,6 +3,7 @@
- obj-$(CONFIG_DRM_ARCPGU)		+= arcpgu.o
- obj-$(CONFIG_DRM_CIRRUS_QEMU)		+= cirrus.o
- obj-$(CONFIG_DRM_GM12U320)		+= gm12u320.o
-+obj-$(CONFIG_DRM_SIMPLEDRM)		+= simpledrm.o
- obj-$(CONFIG_TINYDRM_HX8357D)		+= hx8357d.o
- obj-$(CONFIG_TINYDRM_ILI9225)		+= ili9225.o
- obj-$(CONFIG_TINYDRM_ILI9341)		+= ili9341.o
-diff --git a/drivers/gpu/drm/tiny/simpledrm.c b/drivers/gpu/drm/tiny/simpledrm.c
-new file mode 100644
-index 000000000000..0473a90a4024
---- /dev/null
-+++ b/drivers/gpu/drm/tiny/simpledrm.c
-@@ -0,0 +1,545 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+
-+#include <linux/platform_data/simplefb.h>
-+#include <linux/platform_device.h>
-+
-+#include <drm/drm_atomic_state_helper.h>
-+#include <drm/drm_connector.h>
-+#include <drm/drm_damage_helper.h>
-+#include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_format_helper.h>
-+#include <drm/drm_gem_atomic_helper.h>
-+#include <drm/drm_gem_framebuffer_helper.h>
-+#include <drm/drm_gem_shmem_helper.h>
-+#include <drm/drm_managed.h>
-+#include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_probe_helper.h>
-+#include <drm/drm_simple_kms_helper.h>
-+
-+#define DRIVER_NAME	"simpledrm"
-+#define DRIVER_DESC	"DRM driver for simple-framebuffer platform devices"
-+#define DRIVER_DATE	"20200625"
-+#define DRIVER_MAJOR	1
-+#define DRIVER_MINOR	0
-+
-+/*
-+ * Assume a monitor resolution of 96 dpi to
-+ * get a somewhat reasonable screen size.
-+ */
-+#define RES_MM(d)	\
-+	(((d) * 254ul) / (96ul * 10ul))
-+
-+#define SIMPLEDRM_MODE(hd, vd)	\
-+	DRM_SIMPLE_MODE(hd, vd, RES_MM(hd), RES_MM(vd))
-+
-+/*
-+ * Helpers for simplefb
-+ */
-+
-+static int
-+simplefb_get_validated_int(struct drm_device *dev, const char *name,
-+			   uint32_t value)
-+{
-+	if (value > INT_MAX) {
-+		drm_err(dev, "simplefb: invalid framebuffer %s of %u\n",
-+			name, value);
-+		return -EINVAL;
-+	}
-+	return (int)value;
-+}
-+
-+static int
-+simplefb_get_validated_int0(struct drm_device *dev, const char *name,
-+			    uint32_t value)
-+{
-+	if (!value) {
-+		drm_err(dev, "simplefb: invalid framebuffer %s of %u\n",
-+			name, value);
-+		return -EINVAL;
-+	}
-+	return simplefb_get_validated_int(dev, name, value);
-+}
-+
-+static const struct drm_format_info *
-+simplefb_get_validated_format(struct drm_device *dev, const char *format_name)
-+{
-+	static const struct simplefb_format formats[] = SIMPLEFB_FORMATS;
-+	const struct simplefb_format *fmt = formats;
-+	const struct simplefb_format *end = fmt + ARRAY_SIZE(formats);
-+
-+	if (!format_name) {
-+		drm_err(dev, "simplefb: missing framebuffer format\n");
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	while (fmt < end) {
-+		if (!strcmp(format_name, fmt->name))
-+			return drm_format_info(fmt->fourcc);
-+		++fmt;
-+	}
-+
-+	drm_err(dev, "simplefb: unknown framebuffer format %s\n",
-+		format_name);
-+
-+	return ERR_PTR(-EINVAL);
-+}
-+
-+static int
-+simplefb_get_width_pd(struct drm_device *dev,
-+		      const struct simplefb_platform_data *pd)
-+{
-+	return simplefb_get_validated_int0(dev, "width", pd->width);
-+}
-+
-+static int
-+simplefb_get_height_pd(struct drm_device *dev,
-+		       const struct simplefb_platform_data *pd)
-+{
-+	return simplefb_get_validated_int0(dev, "height", pd->height);
-+}
-+
-+static int
-+simplefb_get_stride_pd(struct drm_device *dev,
-+		       const struct simplefb_platform_data *pd)
-+{
-+	return simplefb_get_validated_int(dev, "stride", pd->stride);
-+}
-+
-+static const struct drm_format_info *
-+simplefb_get_format_pd(struct drm_device *dev,
-+		       const struct simplefb_platform_data *pd)
-+{
-+	return simplefb_get_validated_format(dev, pd->format);
-+}
-+
-+/*
-+ * Simple Framebuffer device
-+ */
-+
-+struct simpledrm_device {
-+	struct drm_device dev;
-+	struct platform_device *pdev;
-+
-+	/* simplefb settings */
-+	struct drm_display_mode mode;
-+	const struct drm_format_info *format;
-+	unsigned int pitch;
-+
-+	/* memory management */
-+	struct resource *mem;
-+	void __iomem *screen_base;
-+
-+	/* modesetting */
-+	uint32_t formats[8];
-+	size_t nformats;
-+	struct drm_connector connector;
-+	struct drm_simple_display_pipe pipe;
-+};
-+
-+static struct simpledrm_device *simpledrm_device_of_dev(struct drm_device *dev)
-+{
-+	return container_of(dev, struct simpledrm_device, dev);
-+}
-+
-+/*
-+ *  Simplefb settings
-+ */
-+
-+static struct drm_display_mode simpledrm_mode(unsigned int width,
-+					      unsigned int height)
-+{
-+	struct drm_display_mode mode = { SIMPLEDRM_MODE(width, height) };
-+
-+	mode.clock = 60 /* Hz */ * mode.hdisplay * mode.vdisplay;
-+	drm_mode_set_name(&mode);
-+
-+	return mode;
-+}
-+
-+static int simpledrm_device_init_fb(struct simpledrm_device *sdev)
-+{
-+	int width, height, stride;
-+	const struct drm_format_info *format;
-+	struct drm_format_name_buf buf;
-+	struct drm_device *dev = &sdev->dev;
-+	struct platform_device *pdev = sdev->pdev;
-+	const struct simplefb_platform_data *pd = dev_get_platdata(&pdev->dev);
-+
-+	if (pd) {
-+		width = simplefb_get_width_pd(dev, pd);
-+		if (width < 0)
-+			return width;
-+		height = simplefb_get_height_pd(dev, pd);
-+		if (height < 0)
-+			return height;
-+		stride = simplefb_get_stride_pd(dev, pd);
-+		if (stride < 0)
-+			return stride;
-+		format = simplefb_get_format_pd(dev, pd);
-+		if (IS_ERR(format))
-+			return PTR_ERR(format);
-+	} else {
-+		drm_err(dev, "no simplefb configuration found\n");
-+		return -ENODEV;
-+	}
-+
-+	sdev->mode = simpledrm_mode(width, height);
-+	sdev->format = format;
-+	sdev->pitch = stride;
-+
-+	drm_dbg_kms(dev, "display mode={" DRM_MODE_FMT "}\n",
-+		    DRM_MODE_ARG(&sdev->mode));
-+	drm_dbg_kms(dev,
-+		    "framebuffer format=\"%s\", size=%dx%d, stride=%d byte\n",
-+		    drm_get_format_name(format->format, &buf), width,
-+		    height, stride);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Memory management
-+ */
-+
-+static int simpledrm_device_init_mm(struct simpledrm_device *sdev)
-+{
-+	struct platform_device *pdev = sdev->pdev;
-+	struct resource *mem;
-+	void __iomem *screen_base;
-+
-+	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-+	if (!mem)
-+		return -EINVAL;
-+
-+	screen_base = devm_ioremap_wc(&pdev->dev, mem->start,
-+				      resource_size(mem));
-+	if (!screen_base)
-+		return -ENOMEM;
-+
-+	sdev->mem = mem;
-+	sdev->screen_base = screen_base;
-+
-+	return 0;
-+}
-+
-+/*
-+ * Modesetting
-+ */
-+
-+/*
-+ * Support all formats of simplefb and maybe more; in order
-+ * of preference. The display's update function will do any
-+ * conversion necessary.
-+ *
-+ * TODO: Add blit helpers for remaining formats and uncomment
-+ *       constants.
-+ */
-+static const uint32_t simpledrm_default_formats[] = {
-+	DRM_FORMAT_XRGB8888,
-+	DRM_FORMAT_ARGB8888,
-+	DRM_FORMAT_RGB565,
-+	//DRM_FORMAT_XRGB1555,
-+	//DRM_FORMAT_ARGB1555,
-+	DRM_FORMAT_RGB888,
-+	//DRM_FORMAT_XRGB2101010,
-+	//DRM_FORMAT_ARGB2101010,
-+};
-+
-+static const uint64_t simpledrm_format_modifiers[] = {
-+	DRM_FORMAT_MOD_LINEAR,
-+	DRM_FORMAT_MOD_INVALID
-+};
-+
-+static int simpledrm_connector_helper_get_modes(struct drm_connector *connector)
-+{
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(connector->dev);
-+	struct drm_display_mode *mode;
-+
-+	mode = drm_mode_duplicate(connector->dev, &sdev->mode);
-+	if (!mode)
-+		return 0;
-+
-+	if (mode->name[0] == '\0')
-+		drm_mode_set_name(mode);
-+
-+	mode->type |= DRM_MODE_TYPE_PREFERRED;
-+	drm_mode_probed_add(connector, mode);
-+
-+	if (mode->width_mm)
-+		connector->display_info.width_mm = mode->width_mm;
-+	if (mode->height_mm)
-+		connector->display_info.height_mm = mode->height_mm;
-+
-+	return 1;
-+}
-+
-+static const struct drm_connector_helper_funcs simpledrm_connector_helper_funcs = {
-+	.get_modes = simpledrm_connector_helper_get_modes,
-+};
-+
-+static const struct drm_connector_funcs simpledrm_connector_funcs = {
-+	.reset = drm_atomic_helper_connector_reset,
-+	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.destroy = drm_connector_cleanup,
-+	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
-+};
-+
-+static int
-+simpledrm_simple_display_pipe_mode_valid(struct drm_simple_display_pipe *pipe,
-+				    const struct drm_display_mode *mode)
-+{
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(pipe->crtc.dev);
-+
-+	if (mode->hdisplay != sdev->mode.hdisplay &&
-+	    mode->vdisplay != sdev->mode.vdisplay)
-+		return MODE_ONE_SIZE;
-+	else if (mode->hdisplay != sdev->mode.hdisplay)
-+		return MODE_ONE_WIDTH;
-+	else if (mode->vdisplay != sdev->mode.vdisplay)
-+		return MODE_ONE_HEIGHT;
-+
-+	return MODE_OK;
-+}
-+
-+static void
-+simpledrm_simple_display_pipe_enable(struct drm_simple_display_pipe *pipe,
-+				     struct drm_crtc_state *crtc_state,
-+				     struct drm_plane_state *plane_state)
-+{
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(pipe->crtc.dev);
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-+	struct drm_framebuffer *fb = plane_state->fb;
-+	void *vmap = shadow_plane_state->map[0].vaddr; /* TODO: Use mapping abstraction properly */
-+
-+	if (!fb)
-+		return;
-+
-+	drm_fb_blit_dstclip(sdev->screen_base, sdev->pitch,
-+			    sdev->format->format, vmap, fb);
-+}
-+
-+static void
-+simpledrm_simple_display_pipe_disable(struct drm_simple_display_pipe *pipe)
-+{
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(pipe->crtc.dev);
-+	struct drm_device *dev = &sdev->dev;
-+	int idx;
-+
-+	if (!drm_dev_enter(dev, &idx))
-+		return;
-+
-+	/* Clear screen to black if disabled */
-+	memset_io(sdev->screen_base, 0, sdev->pitch * sdev->mode.vdisplay);
-+
-+	drm_dev_exit(idx);
-+}
-+
-+static void
-+simpledrm_simple_display_pipe_update(struct drm_simple_display_pipe *pipe,
-+				     struct drm_plane_state *old_plane_state)
-+{
-+	struct simpledrm_device *sdev = simpledrm_device_of_dev(pipe->crtc.dev);
-+	struct drm_plane_state *plane_state = pipe->plane.state;
-+	struct drm_shadow_plane_state *shadow_plane_state = to_drm_shadow_plane_state(plane_state);
-+	void *vmap = shadow_plane_state->map[0].vaddr; /* TODO: Use mapping abstraction properly */
-+	struct drm_framebuffer *fb = plane_state->fb;
-+	struct drm_rect clip;
-+
-+	if (!fb)
-+		return;
-+
-+	if (!drm_atomic_helper_damage_merged(old_plane_state, plane_state, &clip))
-+		return;
-+
-+	drm_fb_blit_rect_dstclip(sdev->screen_base, sdev->pitch,
-+				 sdev->format->format, vmap, fb, &clip);
-+}
-+
-+static const struct drm_simple_display_pipe_funcs
-+simpledrm_simple_display_pipe_funcs = {
-+	.mode_valid = simpledrm_simple_display_pipe_mode_valid,
-+	.enable = simpledrm_simple_display_pipe_enable,
-+	.disable = simpledrm_simple_display_pipe_disable,
-+	.update = simpledrm_simple_display_pipe_update,
-+	DRM_GEM_SIMPLE_DISPLAY_PIPE_SHADOW_PLANE_FUNCS,
-+};
-+
-+static const struct drm_mode_config_funcs simpledrm_mode_config_funcs = {
-+	.fb_create = drm_gem_fb_create_with_dirty,
-+	.atomic_check = drm_atomic_helper_check,
-+	.atomic_commit = drm_atomic_helper_commit,
-+};
-+
-+static const uint32_t *simpledrm_device_formats(struct simpledrm_device *sdev,
-+						size_t *nformats_out)
-+{
-+	struct drm_device *dev = &sdev->dev;
-+	size_t i;
-+
-+	if (sdev->nformats)
-+		goto out; /* don't rebuild list on recurring calls */
-+
-+	/* native format goes first */
-+	sdev->formats[0] = sdev->format->format;
-+	sdev->nformats = 1;
-+
-+	/* default formats go second */
-+	for (i = 0; i < ARRAY_SIZE(simpledrm_default_formats); ++i) {
-+		if (simpledrm_default_formats[i] == sdev->format->format)
-+			continue; /* native format already went first */
-+		sdev->formats[sdev->nformats] = simpledrm_default_formats[i];
-+		sdev->nformats++;
-+	}
-+
-+	/*
-+	 * TODO: The simpledrm driver converts framebuffers to the native
-+	 * format when copying them to device memory. If there are more
-+	 * formats listed than supported by the driver, the native format
-+	 * is not supported by the conversion helpers. Therefore *only*
-+	 * support the native format and add a conversion helper ASAP.
-+	 */
-+	if (drm_WARN_ONCE(dev, i != sdev->nformats,
-+			  "format conversion helpers required for %p4cc",
-+			  &sdev->format->format)) {
-+		sdev->nformats = 1;
-+	}
-+
-+out:
-+	*nformats_out = sdev->nformats;
-+	return sdev->formats;
-+}
-+
-+static int simpledrm_device_init_modeset(struct simpledrm_device *sdev)
-+{
-+	struct drm_device *dev = &sdev->dev;
-+	struct drm_display_mode *mode = &sdev->mode;
-+	struct drm_connector *connector = &sdev->connector;
-+	struct drm_simple_display_pipe *pipe = &sdev->pipe;
-+	const uint32_t *formats;
-+	size_t nformats;
-+	int ret;
-+
-+	ret = drmm_mode_config_init(dev);
-+	if (ret)
-+		return ret;
-+
-+	dev->mode_config.min_width = mode->hdisplay;
-+	dev->mode_config.max_width = mode->hdisplay;
-+	dev->mode_config.min_height = mode->vdisplay;
-+	dev->mode_config.max_height = mode->vdisplay;
-+	dev->mode_config.prefer_shadow_fbdev = true;
-+	dev->mode_config.preferred_depth = sdev->format->cpp[0] * 8;
-+	dev->mode_config.funcs = &simpledrm_mode_config_funcs;
-+
-+	ret = drm_connector_init(dev, connector, &simpledrm_connector_funcs,
-+				 DRM_MODE_CONNECTOR_Unknown);
-+	if (ret)
-+		return ret;
-+	drm_connector_helper_add(connector, &simpledrm_connector_helper_funcs);
-+
-+	formats = simpledrm_device_formats(sdev, &nformats);
-+
-+	ret = drm_simple_display_pipe_init(dev, pipe, &simpledrm_simple_display_pipe_funcs,
-+					   formats, nformats, simpledrm_format_modifiers,
-+					   connector);
-+	if (ret)
-+		return ret;
-+
-+	drm_mode_config_reset(dev);
-+
-+	return 0;
-+}
-+
-+/*
-+ * Init / Cleanup
-+ */
-+
-+static struct simpledrm_device *
-+simpledrm_device_create(struct drm_driver *drv, struct platform_device *pdev)
-+{
-+	struct simpledrm_device *sdev;
-+	int ret;
-+
-+	sdev = devm_drm_dev_alloc(&pdev->dev, drv, struct simpledrm_device,
-+				  dev);
-+	if (IS_ERR(sdev))
-+		return ERR_CAST(sdev);
-+	sdev->pdev = pdev;
-+	platform_set_drvdata(pdev, sdev);
-+
-+	ret = simpledrm_device_init_fb(sdev);
-+	if (ret)
-+		return ERR_PTR(ret);
-+	ret = simpledrm_device_init_mm(sdev);
-+	if (ret)
-+		return ERR_PTR(ret);
-+	ret = simpledrm_device_init_modeset(sdev);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	return sdev;
-+}
-+
-+/*
-+ * DRM driver
-+ */
-+
-+DEFINE_DRM_GEM_FOPS(simpledrm_fops);
-+
-+static struct drm_driver simpledrm_driver = {
-+	DRM_GEM_SHMEM_DRIVER_OPS,
-+	.name			= DRIVER_NAME,
-+	.desc			= DRIVER_DESC,
-+	.date			= DRIVER_DATE,
-+	.major			= DRIVER_MAJOR,
-+	.minor			= DRIVER_MINOR,
-+	.driver_features	= DRIVER_ATOMIC | DRIVER_GEM | DRIVER_MODESET,
-+	.fops			= &simpledrm_fops,
-+};
-+
-+/*
-+ * Platform driver
-+ */
-+
-+static int simpledrm_probe(struct platform_device *pdev)
-+{
-+	struct simpledrm_device *sdev;
-+	struct drm_device *dev;
-+	int ret;
-+
-+	sdev = simpledrm_device_create(&simpledrm_driver, pdev);
-+	if (IS_ERR(sdev))
-+		return PTR_ERR(sdev);
-+	dev = &sdev->dev;
-+
-+	ret = drm_dev_register(dev, 0);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+
-+static int simpledrm_remove(struct platform_device *pdev)
-+{
-+	struct simpledrm_device *sdev = platform_get_drvdata(pdev);
-+	struct drm_device *dev = &sdev->dev;
-+
-+	drm_dev_unregister(dev);
-+
-+	return 0;
-+}
-+
-+static struct platform_driver simpledrm_platform_driver = {
-+	.driver = {
-+		.name = "simple-framebuffer", /* connect to sysfb */
-+	},
-+	.probe = simpledrm_probe,
-+	.remove = simpledrm_remove,
-+};
-+
-+module_platform_driver(simpledrm_platform_driver);
-+
-+MODULE_DESCRIPTION(DRIVER_DESC);
-+MODULE_LICENSE("GPL v2");
-diff --git a/drivers/video/fbdev/Kconfig b/drivers/video/fbdev/Kconfig
-index 4f02db65dede..5e1ad0c92bfc 100644
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -2192,7 +2192,7 @@ config FB_HYPERV
- 
- config FB_SIMPLE
- 	bool "Simple framebuffer support"
--	depends on (FB = y)
-+	depends on (FB = y) && !DRM_SIMPLEDRM
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
--- 
-2.31.1
+I've already faced situations where I couldn't compile a recent 5.x kernel
+using my previous gcc-4.7 compiler and this really really really pissed me
+off because I'd had it in a build farm for many architectures and I had to
+give up. But I also know that updating to a newer version will take time,
+will be durable and will be worth it for the long term (except for the fact
+that gcc doubles the build time every two versions). But here having to use
+*the* compiler of the day and being prepared to keep a collection of them
+to work with different stable kernels, no!
 
+Also, I'm a bit worried about long-term survival of the new
+language-of-the-day-that-makes-you-look-cool-at-beer-events. I was once
+told perl would replace C everywhere. Does someone use it outside of
+checkpatch.pl anymore ? Then I was told that C was dead because PHP was
+appearing everywhere. I've even seen (slow) log processors written with
+it. Now PHP seems to only be a WAF-selling argument. Then Ruby was "safe"
+and would rule them all. Safe as its tab[-1] which crashed the interpreter.
+Anyone heard of it recently ? Then Python, whose 2.7 is still present on
+a lot of systems because the forced transition to 3 broke tons of code.
+Will there ever be a 4 after this sore experience ? Then JS, Rust, Go,
+Zig and I don't know what. What I'm noting is that such languages appear,
+serve a purpose well, have their moment of fame, last a decade and
+disappear except at a few enthousiasts. C has been there for 50 years
+and served as the basis of many newer languages so it's still well
+understood. I'm sure about one thing, the C bugs we have today will be
+fixable in 20 years. I'm not even sure the Rust code we'll merge today
+will still be compilable in 10 years nor will support the relevant
+architectures available by then, and probably this code will have to
+be rewritten in C to become maintained again.
+
+> The other problem is even worse. Once we have non-trivial amount of rust
+> code around the tree, even if it's "just some drivers", you cannot
+> completely ignore it. One example would be internal API changes. Today,
+> if I want to touch e.g. ethtool_ops, I need to adjust all in tree NIC
+> drivers providing the affected callback and adjust them. Usually most of
+> the patch is generated by spatch but manual tweaks are often needed here
+> and there. In the world of bilingual kernel with nontrivial number of
+> NIC drivers written in rust, I don't see how I could do that without
+> also being proficient in rust.
+
+You'll simply change the code you're able to change and those in charge
+of their driver will use your commit message as instruction to fix the
+build on theirs. How do you want it to be otherwise ?
+
+> Rust enthusiasts tell us they want to
+> open kernel development to more people but the result could as well be
+> exactly the opposite: it could restrict kernel development to people
+> proficient in _both_ languages.
+
+This has been my understanding from the very beginning. Language prophets
+always want to conquier very visible targets as a gauge of their baby's
+popularity.
+
+> As Peter said, it's not an imminent problem but as it's obvious this is
+> just the first step, we should have a clear idea what the plan is and
+> what we can and should expect.
+
+I think the experience could be... interesting. However, I do note that
+I've read quite a few claims about better security yada yada due to a
+stricter memory model. Except that I seem to have understood that a lot
+of code will have to run in unsafe mode (which partially voids some of
+the benefits), that we'll be at the mercy of the unique compiler's bugs,
+and that in addition code auditing will be very hard and reviews of the
+boundaries between the two languages almost inexistent. This is precisely
+what will become the new playground of attackers, and I predict a
+significant increase of vulnerabilities past this point. Time will tell,
+hoping it's never too late to rollback if it gets crazy. As long as the
+code remains readable, it could be rewritten in C to regain control...
+
+> Michal
+
+Willy
