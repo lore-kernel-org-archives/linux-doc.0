@@ -2,130 +2,114 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.1 required=3.0 tests=BAYES_00,DKIM_INVALID,
-	DKIM_SIGNED,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_PATCH,MAILING_LIST_MULTI,
-	MENTIONS_GIT_HOSTING,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1
-	autolearn=ham autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42459C433ED
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Apr 2021 09:51:18 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DED11C433B4
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Apr 2021 11:17:51 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 184D0613B0
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Apr 2021 09:51:18 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id B658B611AB
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Apr 2021 11:17:51 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235928AbhDQJvm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Apr 2021 05:51:42 -0400
-Received: from cable.insite.cz ([84.242.75.189]:50272 "EHLO cable.insite.cz"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231387AbhDQJvm (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sat, 17 Apr 2021 05:51:42 -0400
-X-Greylist: delayed 466 seconds by postgrey-1.27 at vger.kernel.org; Sat, 17 Apr 2021 05:51:42 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by cable.insite.cz (Postfix) with ESMTP id 637E3A1A3D401;
-        Sat, 17 Apr 2021 11:43:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1618652606; bh=ZWpJY/HjT8t8Njrqdqjjue1gioq82r4lxM1RGXN8Flw=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=GmzKoCcPHrYNDbynyt2lTVBSVgD55CRFzHkFlMAT6Hc56zrnm2U8PQRffr+d87Y8a
-         wNjY1XK6vEgLY4LX1z50S3hqBV1UQAWArgYXTkwLB6LGkcz6k61LokNaiEOkoaHI/h
-         58i9AJkIZTbWSBAZ1MgHAFY4shui2Z9VRl5O757c=
-Received: from cable.insite.cz ([84.242.75.189])
-        by localhost (server.insite.cz [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id IUa4vBq-Qe0l; Sat, 17 Apr 2021 11:43:20 +0200 (CEST)
-Received: from [192.168.105.22] (ip28.insite.cz [81.0.237.28])
-        (Authenticated sender: pavel)
-        by cable.insite.cz (Postfix) with ESMTPSA id 18EEBA1A3D400;
-        Sat, 17 Apr 2021 11:43:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=ivitera.com; s=mail;
-        t=1618652600; bh=ZWpJY/HjT8t8Njrqdqjjue1gioq82r4lxM1RGXN8Flw=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=S++3gDgjjyPJPBdDsWj6j8lMbUKMhOv3goECWHx8xklM4loqtb2WFD2Is0/xC9w2j
-         588nsHbMyPAqJs1sWkMms49qHmrtNVZeoYXgBvW7eyhl751wjsK+yD148oGICNui4m
-         o7FCkBcSE6pxAeHQ0NjaeIhyhcUuxa3Y1edY0rKo=
-Subject: Re: [PATCH 2/8] usb: gadget: f_uac2/u_audio: add feedback endpoint
- support
-To:     Ruslan Bilovol <ruslan.bilovol@gmail.com>,
-        Felipe Balbi <balbi@kernel.org>,
+        id S231387AbhDQLSM (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Apr 2021 07:18:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33714 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230510AbhDQLSM (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Apr 2021 07:18:12 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 056EDC061574;
+        Sat, 17 Apr 2021 04:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=NjKxWGj3vPhTJLRefNHSHvLhmRXXbBek4jvZ7L/aBIM=; b=jqkwPDnE8+sG8eUx7PRNgg8rhz
+        b6dupqkk+RqZeuiA91FqbIQcbYQ345pr+za4cJpL/aCuNpjWmbRdiOYbpIW5r3KEsZHFxjMC1SPNy
+        bZdOJWUnh2VWDo+XEt3Y1xG1NO9J1/NWXGwUyhiHh66ONil25O6jRS8vG8HNmQLG8aYxv1aGK+KbP
+        HDIIafJl9gZk8rfEXONbHGSbl5EaqG/7oXDhOizCQJaORXmatyEzsE/UnjUjrP5pTgh8Ak5Y+nF32
+        j9uNaQ1bN9vNmjivvClNf09WAcmTdblfefLg5mXYi9fqtvcf94JyKutvzJnQXIoYL9KEgiCtc66Ug
+        mFxS/0jA==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1lXix2-00BBeq-Fg; Sat, 17 Apr 2021 11:17:27 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 3B140300212;
+        Sat, 17 Apr 2021 13:17:21 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+        id 77A972023C200; Sat, 17 Apr 2021 13:17:21 +0200 (CEST)
+Date:   Sat, 17 Apr 2021 13:17:21 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     Matthew Wilcox <willy@infradead.org>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Willy Tarreau <w@1wt.eu>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jonathan Corbet <corbet@lwn.net>
-Cc:     gschmottlach@gmail.com, linux-usb@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1614603943-11668-1-git-send-email-ruslan.bilovol@gmail.com>
- <1614603943-11668-3-git-send-email-ruslan.bilovol@gmail.com>
-From:   Pavel Hofman <pavel.hofman@ivitera.com>
-Message-ID: <be928b87-9ebe-43da-216d-40904b7ef8e0@ivitera.com>
-Date:   Sat, 17 Apr 2021 11:43:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+        rust-for-linux@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <YHrDwdQwEk2mSQWa@hirez.programming.kicks-ass.net>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
+ <YHmMJWmzz2vZ3qQH@google.com>
+ <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
+ <YHmuX1NA5RF7C7XS@google.com>
+ <20210416161444.GA10484@1wt.eu>
+ <CANiq72nbkJFPmiJXX=L8PmkouKgKG1k-CxhZYpL1hcncYwa8JA@mail.gmail.com>
+ <YHnG+GRwiMqgHGs5@hirez.programming.kicks-ass.net>
+ <20210416180829.GO2531743@casper.infradead.org>
 MIME-Version: 1.0
-In-Reply-To: <1614603943-11668-3-git-send-email-ruslan.bilovol@gmail.com>
-Content-Type: text/plain; charset=iso-8859-2
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210416180829.GO2531743@casper.infradead.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Dne 01. 03. 21 v 14:05 Ruslan Bilovol napsal(a):
-> +static void u_audio_set_fback_frequency(enum usb_device_speed speed,
-> +					unsigned int freq, void *buf)
-> +{
-> +	u32 ff = 0;
-> +
-> +	if (speed == USB_SPEED_FULL) {
-> +		/*
-> +		 * Full-speed feedback endpoints report frequency
-> +		 * in samples/microframe
-> +		 * Format is encoded in Q10.10 left-justified in the 24 bits,
-> +		 * so that it has a Q10.14 format.
-> +		 */
-> +		ff = DIV_ROUND_UP((freq << 14), 1000);
-> +	} else {
-> +		/*
-> +		 * High-speed feedback endpoints report frequency
-> +		 * in samples/microframe.
-> +		 * Format is encoded in Q12.13 fitted into four bytes so that
-> +		 * the binary point is located between the second and the third
-> +		 * byte format (that is Q16.16)
-> +		 *
-> +		 * Prevent integer overflow by calculating in Q12.13 format and
-> +		 * then shifting to Q16.16
-> +		 */
-> +		ff = DIV_ROUND_UP((freq << 13), (8*1000)) << 3;
-> +	}
+On Fri, Apr 16, 2021 at 07:08:29PM +0100, Matthew Wilcox wrote:
+> On Fri, Apr 16, 2021 at 07:18:48PM +0200, Peter Zijlstra wrote:
+> > On Fri, Apr 16, 2021 at 07:10:17PM +0200, Miguel Ojeda wrote:
+> > 
+> > > Of course, UB is only a subset of errors, but it is a major one, and
+> > > particularly critical for privileged code.
+> > 
+> > I've seen relatively few UBSAN warnings that weren't due to UBSAN being
+> > broken.
+> 
+> Lucky you.
+> 
+> 84c34df158cf215b0cd1475ab3b8e6f212f81f23
+> 
+> (i'd argue this is C being broken; promoting only as far as int, when
+> assigning to an unsigned long is Bad, but until/unless either GCC fixes
+> that or the language committee realises that being stuck in the 1970s
+> is Bad, people are going to keep making this kind of mistake)
 
-Hi Ruslan,
+Well, I think the rules actually make sense, at the point in the syntax
+tree where + happens, we have 'unsigned char' and 'int', so at that
+point we promote to 'int'. Subsequently 'int' gets shifted and bad
+things happen.
 
-Thanks a lot for your patch. The HS calculation of Q16.16 feedback value
-overflows at some 524kHz, disallowing use of larger samplerates (e.g.
-768kHz or higher).
+The 'unsigned long' doesn't happen until quite a bit later.
 
-I tested the formula used in alsa USB driver
-https://github.com/torvalds/linux/blob/d99676af540c2dc829999928fb81c58c80a1dce4/sound/usb/endpoint.c#L80
-which uses only 10bit shift. The feedback control in UAC2 gadget now
-works up to 4M samplerate with 1Hz precision (tested on RPi4 with
-bInterval = 1, checked in stream0 proc file on linux host).
+Anyway, the rules are imo fairly clear and logical, but yes they can be
+annoying. The really silly thing here is that << and >> have UB at all,
+and I would love a -fwrapv style flag that simply defines it. Yes it
+will generate worse code in some cases, but having the UB there is just
+stupid.
 
---- a/drivers/usb/gadget/function/u_audio.c
-+++ b/drivers/usb/gadget/function/u_audio.c
-@@ -118,7 +119,8 @@ static void u_audio_set_fback_frequency(enum
-usb_device_speed speed,
-                 * Prevent integer overflow by calculating in Q12.13
-format and
-                 * then shifting to Q16.16
-                 */
--               ff = DIV_ROUND_UP((freq << 13), (8*1000)) << 3;
-+               //ff = DIV_ROUND_UP((freq << 13), (8*1000)) << 3;
-+               ff = ((freq << 10) + 62) / 125;
-        }
-        *(__le32 *)buf = cpu_to_le32(ff);
- }
+That of course doesn't help your case here, it would simply misbehave
+and not be UB.
 
-
-Best regards,
-
-Pavel.
-
-
-
-
+Another thing the C rules cannot really express is a 32x32->64
+multiplication, some (older) versions of GCC can be tricked into it, but
+mostly it just doesn't want to do that sanely and the C rules are
+absolutely no help there.
