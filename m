@@ -2,144 +2,131 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_SANE_1 autolearn=unavailable autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-4.0 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=no
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11867C433ED
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Apr 2021 17:26:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A645DC433ED
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Apr 2021 19:36:17 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id D92436109F
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Apr 2021 17:26:41 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 7640261354
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Apr 2021 19:36:17 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236665AbhDQR1H (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Apr 2021 13:27:07 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:55863 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236820AbhDQR1H (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Apr 2021 13:27:07 -0400
-X-Originating-IP: 2.7.49.219
-Received: from [192.168.1.12] (lfbn-lyo-1-457-219.w2-7.abo.wanadoo.fr [2.7.49.219])
-        (Authenticated sender: alex@ghiti.fr)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 39881E0003;
-        Sat, 17 Apr 2021 17:26:37 +0000 (UTC)
-Subject: Re: [PATCH] riscv: Protect kernel linear mapping only if
- CONFIG_STRICT_KERNEL_RWX is set
-To:     Palmer Dabbelt <palmer@dabbelt.com>
-Cc:     anup@brainfault.org, corbet@lwn.net,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        aou@eecs.berkeley.edu, Arnd Bergmann <arnd@arndb.de>,
-        aryabinin@virtuozzo.com, glider@google.com, dvyukov@google.com,
-        linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org
-References: <mhng-9ab3280b-4523-4892-9f9a-338f55df8108@palmerdabbelt-glaptop>
-From:   Alex Ghiti <alex@ghiti.fr>
-Message-ID: <72130961-0419-9b1f-e88e-aa1e933f2942@ghiti.fr>
-Date:   Sat, 17 Apr 2021 13:26:36 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.1
+        id S236755AbhDQTgm (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Apr 2021 15:36:42 -0400
+Received: from conssluserg-02.nifty.com ([210.131.2.81]:24947 "EHLO
+        conssluserg-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236212AbhDQTgm (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Apr 2021 15:36:42 -0400
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43]) (authenticated)
+        by conssluserg-02.nifty.com with ESMTP id 13HJZqmc013042;
+        Sun, 18 Apr 2021 04:35:52 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-02.nifty.com 13HJZqmc013042
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1618688153;
+        bh=hkh5YwuJBIOBjPiu6hBZE5+OCCrOzZnlnU6cXAwLvTY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=ZK3XIqNT/fCa8ImCuvX+cDcQTtmH4rQ6sXxD0QhdjI25bmRu04tR4OVAc2CdfXoLp
+         99YVsJ97jUfNaIdFiYrOAEFpaicKwL8uaDTpjraqcAdATICBoKKKzMgSbxDlWKYeRZ
+         kMxLeGMHd1jUSAusYNcS7YdgGX1MwqQY1bPiOO84tOwwGAFkRSgAmzPtOReD5Vmzy2
+         YQApshMt9mKZxriuipk1nQCa6f+94TVRZYDORtb1iIWaZKZwV4co3hNVX7Pp5+QheH
+         P/uBSjooCqTmifCZUTC1cwtHjTjeG02fVk/fgva+K4VtrAQoG/GFJxwNaf8zIOXLN+
+         wlCOiZZ7QqYAg==
+X-Nifty-SrcIP: [209.85.216.43]
+Received: by mail-pj1-f43.google.com with SMTP id f2-20020a17090a4a82b02900c67bf8dc69so18196308pjh.1;
+        Sat, 17 Apr 2021 12:35:52 -0700 (PDT)
+X-Gm-Message-State: AOAM530kXdrOvGw6ylR/jxCph0fN9fsHTD1Yx7YmjCuz+DSeTReO62Bd
+        YR4CyGkb3gu2jAtjBYL6S/SfomziXD3XEsyWGww=
+X-Google-Smtp-Source: ABdhPJyiH91xXT+6zU7vn+mvPE0jUTNiMhDdgt0LZHv/4PQBIi/IYiCHtOLaUUe6kYHvSR01SInIGyrud/tn7vU1GTQ=
+X-Received: by 2002:a17:90a:1056:: with SMTP id y22mr15383723pjd.153.1618688151869;
+ Sat, 17 Apr 2021 12:35:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <mhng-9ab3280b-4523-4892-9f9a-338f55df8108@palmerdabbelt-glaptop>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+References: <20210414184604.23473-1-ojeda@kernel.org> <20210414184604.23473-5-ojeda@kernel.org>
+ <CAKwvOdkjttdX83tL4pw+J5EnHM1MgEYDPp=YTpEagV4RrhdxwA@mail.gmail.com> <CANiq72ksLeuL_uqoqbf3fhLP7M0j-7TdEvRDDmxThdmrEqD2Lw@mail.gmail.com>
+In-Reply-To: <CANiq72ksLeuL_uqoqbf3fhLP7M0j-7TdEvRDDmxThdmrEqD2Lw@mail.gmail.com>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Sun, 18 Apr 2021 04:35:15 +0900
+X-Gmail-Original-Message-ID: <CAK7LNASpjUP+MvnUed68a074H2EPVeD5+KLzecAuFxxi_72eZw@mail.gmail.com>
+Message-ID: <CAK7LNASpjUP+MvnUed68a074H2EPVeD5+KLzecAuFxxi_72eZw@mail.gmail.com>
+Subject: Re: [PATCH 04/13] Kbuild: Rust support
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Cc:     Nick Desaulniers <ndesaulniers@google.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Alex Gaynor <alex.gaynor@gmail.com>,
+        Geoffrey Thomas <geofft@ldpreload.com>,
+        Finn Behrens <me@kloenk.de>,
+        Adam Bratschi-Kaye <ark.email@gmail.com>,
+        Wedson Almeida Filho <wedsonaf@google.com>,
+        Michael Ellerman <mpe@ellerman.id.au>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Le 4/16/21 à 12:33 PM, Palmer Dabbelt a écrit :
-> On Fri, 16 Apr 2021 03:47:19 PDT (-0700), alex@ghiti.fr wrote:
->> Hi Anup,
->>
->> Le 4/16/21 à 6:41 AM, Anup Patel a écrit :
->>> On Thu, Apr 15, 2021 at 4:34 PM Alexandre Ghiti <alex@ghiti.fr> wrote:
->>>>
->>>> If CONFIG_STRICT_KERNEL_RWX is not set, we cannot set different 
->>>> permissions
->>>> to the kernel data and text sections, so make sure it is defined before
->>>> trying to protect the kernel linear mapping.
->>>>
->>>> Signed-off-by: Alexandre Ghiti <alex@ghiti.fr>
->>>
->>> Maybe you should add "Fixes:" tag in commit tag ?
->>
->> Yes you're right I should have done that. Maybe Palmer will squash it as
->> it just entered for-next?
-> 
-> Ya, I'll do it.  My testing box was just tied up last night for the rc8 
-> PR, so I threw this on for-next to get the buildbots to take a look. 
-> It's a bit too late to take something for this week, as I try to be 
-> pretty conservative this late in the cycle.  There's another kprobes fix 
-> on the list so if we end up with an rc8 I might send this along with 
-> that, otherwise this'll just go onto for-next before the linear map 
-> changes that exercise the bug.
-> 
-> You're more than welcome to just dig up the fixes tag and reply, my 
-> scripts pull all tags from replies (just like Revieweb-by).  Otherwise 
-> I'll do it myself, most people don't really post Fixes tags that 
-> accurately so I go through it for pretty much everything anyway.
+On Thu, Apr 15, 2021 at 9:43 AM Miguel Ojeda
+<miguel.ojeda.sandonis@gmail.com> wrote:
+>
+> On Thu, Apr 15, 2021 at 1:19 AM Nick Desaulniers
+> <ndesaulniers@google.com> wrote:
+> >
+> > Rather than check the origin (yikes, are we intentionally avoiding env
+> > vars?), can this simply be
+> > ifneq ($(CLIPPY),)
+> >   KBUILD_CLIPPY := $(CLIPPY)
+> > endif
+> >
+> > Then you can specify whatever value you want, support command line or
+> > env vars, etc.?
+>
+> I was following the other existing cases like `V`. Masahiro can
+> probably answer why they are done like this.
 
-Here it is:
+You are asking about this code:
 
-Fixes: 4b67f48da707 ("riscv: Move kernel mapping outside of linear mapping")
+ifeq ("$(origin V)", "command line")
+  KBUILD_VERBOSE = $(V)
+endif
 
-Thanks,
 
-> 
-> Thanks for sorting this out so quickly!
-> 
->>
->>>
->>> Otherwise it looks good.
->>>
->>> Reviewed-by: Anup Patel <anup@brainfault.org>
->>
->> Thank you!
->>
->> Alex
->>
->>>
->>> Regards,
->>> Anup
->>>
->>>> ---
->>>>   arch/riscv/kernel/setup.c | 8 ++++----
->>>>   1 file changed, 4 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/arch/riscv/kernel/setup.c b/arch/riscv/kernel/setup.c
->>>> index 626003bb5fca..ab394d173cd4 100644
->>>> --- a/arch/riscv/kernel/setup.c
->>>> +++ b/arch/riscv/kernel/setup.c
->>>> @@ -264,12 +264,12 @@ void __init setup_arch(char **cmdline_p)
->>>>
->>>>          sbi_init();
->>>>
->>>> -       if (IS_ENABLED(CONFIG_STRICT_KERNEL_RWX))
->>>> +       if (IS_ENABLED(CONFIG_STRICT_KERNEL_RWX)) {
->>>>                  protect_kernel_text_data();
->>>> -
->>>> -#if defined(CONFIG_64BIT) && defined(CONFIG_MMU)
->>>> -       protect_kernel_linear_mapping_text_rodata();
->>>> +#ifdef CONFIG_64BIT
->>>> +               protect_kernel_linear_mapping_text_rodata();
->>>>   #endif
->>>> +       }
->>>>
->>>>   #ifdef CONFIG_SWIOTLB
->>>>          swiotlb_init(1);
->>>> -- 
->>>> 2.20.1
->>>>
->>>
->>> _______________________________________________
->>> linux-riscv mailing list
->>> linux-riscv@lists.infradead.org
->>> http://lists.infradead.org/mailman/listinfo/linux-riscv
->>>
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+You can pass V=1 from the Make command line,
+but not from the environment.
+
+
+KBUILD_VERBOSE is intended as an environment variable,
+but you can use it from the Make command line.
+
+
+Work:
+ - make V=1
+ - make KBUILD_VERBOSE=1
+ - KBUILD_VERBOSE=1 make
+
+Not work:
+ - V=1 make
+
+
+
+The behavior is like that before I became the maintainer.
+In my best guess, the reason is,
+V=1 is a useful shorthand of KBUILD_VERBOSE=1,
+but it is too short. It should not accidentally
+pick up an unintended environment variable.
+
+
+
+
+
+
+
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
