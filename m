@@ -4,109 +4,92 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,
-	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS
+	autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B766C433ED
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Apr 2021 19:46:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9289AC43460
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Apr 2021 20:42:19 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id E29AB60FEF
-	for <linux-doc@archiver.kernel.org>; Sat, 17 Apr 2021 19:46:32 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5EA3B61241
+	for <linux-doc@archiver.kernel.org>; Sat, 17 Apr 2021 20:42:19 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237034AbhDQTq6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sat, 17 Apr 2021 15:46:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59128 "EHLO
+        id S236772AbhDQUmp (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sat, 17 Apr 2021 16:42:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42844 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236779AbhDQTq6 (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Apr 2021 15:46:58 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03255C061574;
-        Sat, 17 Apr 2021 12:46:30 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id i3so10465398edt.1;
-        Sat, 17 Apr 2021 12:46:29 -0700 (PDT)
+        with ESMTP id S235701AbhDQUmp (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sat, 17 Apr 2021 16:42:45 -0400
+Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com [IPv6:2607:f8b0:4864:20::731])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F5DEC061574;
+        Sat, 17 Apr 2021 13:42:18 -0700 (PDT)
+Received: by mail-qk1-x731.google.com with SMTP id x11so32326844qkp.11;
+        Sat, 17 Apr 2021 13:42:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=eSOJMwvIJkQU2JYaT7cb2vTqKYf6iPw1ySzK9GIZ1mE=;
-        b=sfo1ZL4IgQFU2a/GIYfPYPNoASv/hTC8EXtSdm5D8WaqKRLhRkrGTSIlZ26izkLwi7
-         w8x8K1vXttMQP13GzODDnpCdBVZuLTzQShERLxCHX6TLEXSIpAd3rAL3lbQ0PADABVsH
-         YA5oOOEDjpHvzT/dP4RT/ZiRiEy034kX0JZxZk4o0Y5UBO6syzwfb+agbs+R2SEAW/+k
-         +OjJ/dxGqwRhv1jXxskU7kAj61la0qlDD05y6GXTjp+TAgYASdkoyH5u01sTyuaRKWoj
-         tEEDftgbbEIZuZs1B9ITJFiDDo60JnR6r8JW3YxgECy43nvTm9y7MT2PKG5r1+fyzNsl
-         yBOg==
+        bh=OZCtjiq+TtU/bYufAUJ9Epcxe9a/rj8c4fRa7cPGESQ=;
+        b=sRIJWUQJCJHm1AgfHoVzpSm2+ctHS3onk4geU5ZUT4Wp4KAj/7G8E1vOgdksPWJ81C
+         x52RqNX6MMn/m3FYxxEB6W2Bf39Ac8hfTwoz1/UWitwXStiX9IZ82ZTmWGiBQc1zjoCm
+         s/824dSaxocpj4j+A6VW7KUmR8O5rXhrLAkxxGQhIYwxV0EJb24Xc8XJMeTSmb0flKJv
+         fhulQcXETgkQD5qLqRsklUDpIbmNJ6AlfyPRBbweimybi4xT6TME/CE6lVr1f1N/Im3z
+         euPHbQrKvbY33BHboJs0KPmOrb/SKdHhrf1smSUhIbEjbd1SgVKQwxqBV21GI3cp3HzI
+         i7kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=eSOJMwvIJkQU2JYaT7cb2vTqKYf6iPw1ySzK9GIZ1mE=;
-        b=S3rc71BOQgEA2eFV3JQrfibVYUGyS2EW8a9/HgceCBbIaGMBJDs0A/XiD9cOLnYxMg
-         GTyHCEtuMoKsO7fIDDXTdmB9c/HaGADjyuqOTy4NCLd/v5dCt998Iy6UpuhVK/cOlxqV
-         LrpSSAFjfNTYTFrAEytyc5IqdCBjcC6a+RP2GNzvyhj4JJJ6sjMiAvMusTPZzMkYcN+e
-         KPKIVDJJwXbz23iXn7WSdBrJ966arLu1tPuYg3pCV21egQRfIEHqoFAxPRqVn737DikJ
-         ZDAZwPQ/xN0TglXxRxDkz6cNjP60JYJNv9R+pDxn/kXfHntIpSY8c17Hc8xXzyvk7fko
-         yu1g==
-X-Gm-Message-State: AOAM531WZhtpFqbrdf8GdJLmTW1/RI7+cZ3QDtqp0d7x9b53aeMSqQzg
-        p8kzRsJaOdWFMc5F7L9qIxO2bL6IwhSlxYKGbSw=
-X-Google-Smtp-Source: ABdhPJwupn1AHPWkgNX5S4iHwJNtNuew20GI+CF5/KvqzL8rItIj/uzGeoXQIWZUulBDltLD4HWNwDeHrrCts+tPxAQ=
-X-Received: by 2002:a05:6402:4415:: with SMTP id y21mr16888070eda.70.1618688788715;
- Sat, 17 Apr 2021 12:46:28 -0700 (PDT)
+        bh=OZCtjiq+TtU/bYufAUJ9Epcxe9a/rj8c4fRa7cPGESQ=;
+        b=IbB36w/S/f1anwz/ZZ+1U8byhGS8MuMBL6H9x4spsPbXSp7n+LG92bPstfuj0swIrB
+         xa7lOQdHiJ9cgZzCWxNw4sEzJKIwE7GyNXRANOusdhBKn5+pgCCv90Ma4pl8DkyaYWPl
+         wdtjms5r9lQKRZ12kbdanXtIVydYRG5rIsZWpxluu+pyPo/ubFjwfQwobR15uQLv4U7J
+         p2hb0fjlEMZ4qnMYWz5SZLTap62ebU4G7Uo8/zk6vhIfKdV194uKuqti2M4anWlXROuw
+         H/Vu5R+77i7d9m3DKxddosPnovGBxigmsKWo5i8HbMv9aIRnFK0H1a9BiykMMggzF0fO
+         8RqQ==
+X-Gm-Message-State: AOAM5332UXEldwlTDivZ0s9KAy09RZrAGjgH/QGeJJpon/hP631g9MVk
+        gBCthJcwNU0xR7lCseZ26FICeroCdM4+JzykCSeB/KzuKGM=
+X-Google-Smtp-Source: ABdhPJxj8ZqgeeFDnsLsol2Yd3RPg4w95egRHZO8Mm8mIcbSu6V7oOyioYQwldxWWQ8xgWJFjyW2sdevdr6SNCh3F4M=
+X-Received: by 2002:a37:9c4b:: with SMTP id f72mr5310531qke.237.1618692137593;
+ Sat, 17 Apr 2021 13:42:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210326205135.6098-1-info@alexander-lochmann.de>
- <CA+fCnZcTi=QLGC_LCdhs+fMrxkqX66kXEuM5ewOmjVjifKzUrw@mail.gmail.com> <CACT4Y+Y_PfAhjV26xYf8wcEv0MYygC14c_92hBN8gqOACK7Oow@mail.gmail.com>
-In-Reply-To: <CACT4Y+Y_PfAhjV26xYf8wcEv0MYygC14c_92hBN8gqOACK7Oow@mail.gmail.com>
-From:   Andrey Konovalov <andreyknvl@gmail.com>
-Date:   Sat, 17 Apr 2021 21:46:18 +0200
-Message-ID: <CA+fCnZczmfDROOLbQ-7w7a+-YXM-D4z+Jo-_7FZF+3G0yKYc4A@mail.gmail.com>
-Subject: Re: [PATCHv3] Introduced new tracing mode KCOV_MODE_UNIQUE.
-To:     Dmitry Vyukov <dvyukov@google.com>,
-        Alexander Lochmann <info@alexander-lochmann.de>
-Cc:     Andrey Konovalov <andreyknvl@google.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Andrew Klychkov <andrew.a.klychkov@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>,
+References: <20210414184604.23473-1-ojeda@kernel.org>
+In-Reply-To: <20210414184604.23473-1-ojeda@kernel.org>
+From:   Richard Weinberger <richard.weinberger@gmail.com>
+Date:   Sat, 17 Apr 2021 22:42:06 +0200
+Message-ID: <CAFLxGvzzmytRewN+tnepyKDY6f1yYUUtXVtnV+ozDzdfOwVN6g@mail.gmail.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+To:     ojeda@kernel.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Aleksandr Nogikh <nogikh@google.com>,
-        Wei Yongjun <weiyongjun1@huawei.com>,
-        Maciej Grochowski <maciej.grochowski@pm.me>,
-        kasan-dev <kasan-dev@googlegroups.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
+        rust-for-linux@vger.kernel.org,
+        linux-kbuild <linux-kbuild@vger.kernel.org>,
+        linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Fri, Apr 16, 2021 at 10:42 AM Dmitry Vyukov <dvyukov@google.com> wrote:
->
-> On Sat, Mar 27, 2021 at 3:56 PM Andrey Konovalov <andreyknvl@gmail.com> wrote:
-> >
-> > On Fri, Mar 26, 2021 at 9:52 PM Alexander Lochmann
-> > <info@alexander-lochmann.de> wrote:
-> > >
-> >
-> > Hi Alexander,
-> >
-> > > It simply stores the executed PCs.
-> > > The execution order is discarded.
-> > > Each bit in the shared buffer represents every fourth
-> > > byte of the text segment.
-> > > Since a call instruction on every supported
-> > > architecture is at least four bytes, it is safe
-> > > to just store every fourth byte of the text segment.
-> >
-> > What about jumps?
->
-> KCOV adds call __sanitizer_cov_trace_pc per coverage point. So besides
-> the instructions in the original code, we also always have this call.
+On Thu, Apr 15, 2021 at 2:41 AM <ojeda@kernel.org> wrote:
+> Regarding compilers, we support Clang-built kernels as well as
+> `LLVM=1` builds where possible (i.e. as long as supported by
+> the ClangBuiltLinux project). We also maintain some configurations
+> of GCC-built kernels working, but they are not intended to be used
+> at the present time. Having a `bindgen` backend for GCC would be
+> ideal to improve support for those builds.
 
-Ah, I see. This should be explained in the changelog.
+Sp this effectively means gcc is a second class citizen and even if
+gcc is supported
+at some point one needs a super recent gcc *and* rust toolchain to build
+a rust-enabeled kernel?
+I understand that this is right now not a big deal, but as soon a
+non-trival subsystem
+is rust-only people are forced to upgrade.
 
-This means that a KCOV user will need the kernel binary to recover the
-actual PCs that were covered, as the information about the lower two
-bits is lost, right? This needs to be explained as well.
+Don't get me wrong, I'm all for having rust support in Linux.
+But I'm a bit worried about new dependencies on compiler toolchains.
+As someone who works a lot with long supported embedded systems I learned that
+as soon an application gains a hard dependency on clang or rust I'm in trouble.
 
-Thanks!
+-- 
+Thanks,
+//richard
