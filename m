@@ -7,81 +7,109 @@ X-Spam-Status: No, score=-13.3 required=3.0 tests=BAYES_00,DKIMWL_WL_MED,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,USER_IN_DEF_DKIM_WL autolearn=no
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1F374C43461
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Apr 2021 15:31:52 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25C38C433B4
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Apr 2021 15:51:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id F31FD610EA
-	for <linux-doc@archiver.kernel.org>; Sun, 18 Apr 2021 15:31:51 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id E4918610CD
+	for <linux-doc@archiver.kernel.org>; Sun, 18 Apr 2021 15:51:36 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230028AbhDRPcS (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Apr 2021 11:32:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58040 "EHLO
+        id S231310AbhDRPv7 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Apr 2021 11:51:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230038AbhDRPcQ (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Apr 2021 11:32:16 -0400
-Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66803C061763
-        for <linux-doc@vger.kernel.org>; Sun, 18 Apr 2021 08:31:48 -0700 (PDT)
-Received: by mail-wm1-x331.google.com with SMTP id o21-20020a1c4d150000b029012e52898006so7077789wmh.0
-        for <linux-doc@vger.kernel.org>; Sun, 18 Apr 2021 08:31:48 -0700 (PDT)
+        with ESMTP id S229986AbhDRPv7 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Apr 2021 11:51:59 -0400
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8565CC06174A
+        for <linux-doc@vger.kernel.org>; Sun, 18 Apr 2021 08:51:30 -0700 (PDT)
+Received: by mail-wm1-x32d.google.com with SMTP id t14-20020a05600c198eb029012eeb3edfaeso6813195wmq.2
+        for <linux-doc@vger.kernel.org>; Sun, 18 Apr 2021 08:51:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=wCoaBkNa3VJWit/u5WP0EddXypbcFUqAfWjortYHCcM=;
-        b=Y1Uj7r+xHMqa41sYVOuKKU5nYCStTz9MBwULDS3Ah6rg4j1l8jyLV2oIaoCfJkAix+
-         I6no53l/Zo6OZPeE4eNR4ROV4wYCENUrOtqHgkoHdfvXl7PfoPCssSSfcZq41nbmPaMH
-         FHCosovF4CR0dg/JPuIkDPXBNr7k1rV3XktBzdTRhBFZkmKD9TprJIdxq5RBC+/FPCwy
-         EakXt1fMSMZWWwWi6auAB0P0zHTZtdjxG+U/5R4wVvMn3qBvsDRjUjAaE6hhZlvkD1tK
-         msCA+xl8kcrJzdPEcRAUrsArtd9oNPvoSw44y6zM9yVrpDnEA6oRcKtg/W2sJBMwKvbh
-         PLMw==
+        bh=OtKw10qEvbW4vVJ7LgDYq6Lw3KkFyEL4NmBJkuZOV+o=;
+        b=wI9ZYZdipjoG+WBfdtD11eqltuXuPkKeZePxTrK9r0jW3SdtouH8LNr/gS3aR6hZ/W
+         vJULJ27nh78HN6MqOBeYYf1R2m7CgNWF1PirBl7FpzcmFBpFjMDs4L55JeFMHITFXVn/
+         ztlV8Up0gMBG7mNZcGy/cms2aMgZD/tYaCpuQJuBFGK8PYc0TlanBX8FCjWUp959Vs5c
+         NNkRTyzNt9wsn6+DH6KQvzSyH+7NIB8KPBorzwQUpWVVALfJwi8fYl7K48ceFbLO63ut
+         /193s5Rkr2cYSWlDg48jjKb3zjodyB+zYGNu0B9YXUWRWnNd7dvI2eQbC8NycfF8y1WV
+         tg3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=wCoaBkNa3VJWit/u5WP0EddXypbcFUqAfWjortYHCcM=;
-        b=mX/WpoDNpb6+By0GiWpLUT16aCiC6IB98E7xiLFRCXzvaYVzrCfA6Id/MTu0Ua3B+b
-         V5xu0U0+45fIspzURDVC16aAyfxcwpuHULOOmfc9GlJaSbgUI0xGxdf/ej2HVsE2z9OM
-         VWKTGNKrL62bkoHZay+lW8xiYw26oFjYxV8MVy7fuJSrOG9iPTFkBr/fbpfyS7sW3BG9
-         NQY2vY4oJZn23DV+q1wwIo8wHqrWW+DZzrkNqlv8BZMNco5GZvfJu+NJJIlmC19AoZ36
-         wllmM/XJTmtNCd1lcUSK3Nheu5DjU1f2ILHpL8kecCpaLqsagJ4UjRKL8TG46Puy/L92
-         18tw==
-X-Gm-Message-State: AOAM531XB889UDCf7gOSFG3wjACmHbXexFTw2Vasu7+lLYjpcFHV2ZCH
-        jmx4KUjV2CSqWDtjPADrsHKU
-X-Google-Smtp-Source: ABdhPJyAf5toSH3Pw9LDZ5XIZFh3Mje2jLFdSflkbGRQMjyPmfxF9W17lC21uzzXnb0HZvh1Rn3Khg==
-X-Received: by 2002:a7b:c8ce:: with SMTP id f14mr17053522wml.113.1618759906604;
-        Sun, 18 Apr 2021 08:31:46 -0700 (PDT)
+        bh=OtKw10qEvbW4vVJ7LgDYq6Lw3KkFyEL4NmBJkuZOV+o=;
+        b=bpagJI949dB4o3Z6HpVdXvdCRIHO68WlqTM37eivkwY5l6iXto2ZncVjqha04iXh0R
+         oDnP0JpF/TandEmkEtKwcw8eul+BbROF65zpavPZndIyV5/T8peKRxvzwG+N13yI7Rod
+         gozHV6xGKWDIxT7unEYrU8jgtAtWzWg6pf0sKyhGonrSIeXAyQTIRit7o81d3o/ZGydt
+         EYGlGq9P8J077UBaxctaK2d/JoDpMmDmIotzQxEsc6DLoiPHLEXT4E++P6FCGsNhRhiq
+         87EBSPFUw6vK2raAoy9SAAPCwlH3twbxGeVVvpNg0CyMDAYO/Akee/hxTc+BqFJTv6rw
+         QNdQ==
+X-Gm-Message-State: AOAM530n+9oiXkB322cupJznbn7X/pX8q4VtMNBEW6SHeVUwTO2JiOqh
+        n4aE8N8SPW1I25sf9p85/k69
+X-Google-Smtp-Source: ABdhPJyrkMnxGIkLrosVJLsRh5oNdjvpEKR9/be+0/gpccSgpInNrF8k8+QX7jRgxsO2uET3pdoziw==
+X-Received: by 2002:a05:600c:3548:: with SMTP id i8mr14715981wmq.110.1618761089071;
+        Sun, 18 Apr 2021 08:51:29 -0700 (PDT)
 Received: from google.com ([2a00:79e0:d:209:b40b:f0d6:b292:d186])
-        by smtp.gmail.com with ESMTPSA id p18sm18578718wrs.68.2021.04.18.08.31.45
+        by smtp.gmail.com with ESMTPSA id v4sm20768292wrf.36.2021.04.18.08.51.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Apr 2021 08:31:46 -0700 (PDT)
-Date:   Sun, 18 Apr 2021 16:31:42 +0100
+        Sun, 18 Apr 2021 08:51:28 -0700 (PDT)
+Date:   Sun, 18 Apr 2021 16:51:24 +0100
 From:   Wedson Almeida Filho <wedsonaf@google.com>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     ojeda@kernel.org, Linus Torvalds <torvalds@linux-foundation.org>,
+To:     Willy Tarreau <w@1wt.eu>
+Cc:     Peter Zijlstra <peterz@infradead.org>, ojeda@kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         rust-for-linux@vger.kernel.org, linux-kbuild@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 00/13] [RFC] Rust support
-Message-ID: <YHxQ3hd+23qQUnTr@google.com>
+Message-ID: <YHxVfOS9vU7riv+Y@google.com>
 References: <20210414184604.23473-1-ojeda@kernel.org>
- <20210414200953.GX2531743@casper.infradead.org>
+ <YHlz54rd1YQHsOA/@hirez.programming.kicks-ass.net>
+ <YHmMJWmzz2vZ3qQH@google.com>
+ <YHmc2+bKQJ/XAATF@hirez.programming.kicks-ass.net>
+ <YHmuX1NA5RF7C7XS@google.com>
+ <20210416161444.GA10484@1wt.eu>
+ <YHroRuI7lYDABWJR@google.com>
+ <20210417142126.GA15678@1wt.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210414200953.GX2531743@casper.infradead.org>
+In-Reply-To: <20210417142126.GA15678@1wt.eu>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Wed, Apr 14, 2021 at 09:09:53PM +0100, Matthew Wilcox wrote:
-> By the way, I don't think that Rust necessarily has to conform to the
-> current way that Linux works.  If this prompted us to track the current
-> context (inside spinlock, handling interrupt, performing writeback, etc)
-> and do away with (some) GFP flags, that's not the end of the world.
-> We're already moving in that direction to a certain extent with the
-> scoped memory allocation APIs to replace GFP_NOFS / GFP_NOIO.
+On Sat, Apr 17, 2021 at 04:21:27PM +0200, Willy Tarreau wrote:
+> Well, I can't express how much I hate abstractions because I constantly
+> need to know what it's doing under the hood, and I spend my time reading
+> the output asm code because I always want to confirm my assumptions about
+> the compiler not cheating on me (and not hitting one of its bugs),
+> especially after C compilers have become so smart that they completely
+> replace your code with what they think is better for you, (including
+> nothing),
 
-I hadn't myself considered this option but it looks enticing to me. Do you have
-a sense of which GFP flags we wouldn't be able to obviate even if we did track
-state?
+I understand the feeling. One thing I can say about the abstractions we've been
+talking about is that they're zero-cost. So you'd still have the ability to
+inspect generated code and relate that to source, although it would still be
+subject to optimisations like C (or perhaps more optimisations as the compiler
+knows more about the code).
+
+> so I guess all of this is really not for someone like me.
+
+This may indeed be the case. But I'd invite you to try it out for yourself
+anyway before discounting it. I used to hate destructors in C++ because they
+were called implicitly: C was king because I had full control. Now I find myself
+publicly backing Rust. I feel the advantages outweigh the cost.
+
+> However while I'm pretty sure that based on our respective experiences
+> we'd probably disagree forever on a wide number of approaches when it
+> comes to deciding whether the developer or the compiler should have the
+> last say, I sincerely appreciate that you take the time to calmly explain
+> your differing views and the rationale behind, so many thanks for this!
+
+Thank you. I also appreciate your willingness to engage with us.
+
+Cheers,
+-Wedson
