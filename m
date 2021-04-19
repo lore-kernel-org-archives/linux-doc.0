@@ -2,165 +2,449 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,MENTIONS_GIT_HOSTING,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-15.2 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1
+	autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA1F4C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 22:04:06 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73AECC433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 22:28:57 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id BB9416127C
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 22:04:06 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 4B17960FDC
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 22:28:57 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231145AbhDSWEf (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 18:04:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33746 "EHLO
+        id S229597AbhDSW30 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 18:29:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229714AbhDSWEf (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 18:04:35 -0400
-Received: from mail-yb1-xb2b.google.com (mail-yb1-xb2b.google.com [IPv6:2607:f8b0:4864:20::b2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A463C06174A;
-        Mon, 19 Apr 2021 15:04:05 -0700 (PDT)
-Received: by mail-yb1-xb2b.google.com with SMTP id z1so40590400ybf.6;
-        Mon, 19 Apr 2021 15:04:05 -0700 (PDT)
+        with ESMTP id S229537AbhDSW30 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 18:29:26 -0400
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E390C06174A;
+        Mon, 19 Apr 2021 15:28:54 -0700 (PDT)
+Received: by mail-oo1-xc34.google.com with SMTP id i3-20020a4ad3830000b02901ef20f8cae8so783353oos.11;
+        Mon, 19 Apr 2021 15:28:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lAsDnsyzYN4x8dN8mbR7x0mBnkheSZKpDi2Mjbobv/w=;
-        b=JHTXGtXOWhUCpWAsPO3Qzz9691Wh+U57BXKUJYTH2tnwdgHc7JF1jVKrsrgyG+xAlU
-         KMZ8V0zcrp714P+CzjRmmSAD1jueMBF3MsLRssB8YkeRnBq0jKH7VwJAfaZhBfSYmhoF
-         XCz7/6pHABQHEJIo9qiIkuJSyfJlSC86U6khgnavGy/AcqiYMzhG1ll5ENnUpSJdGcBq
-         fkgHwwvJnv1WaRnb333FpdU9zROF65VlMg65Fh7WhAhwYqrHVhyN3ggqG7cTbmWuotUJ
-         8+bc3Hs2OMNb68u95MXJ86mAVaBldFNUVeU6l6W6pTcO6TgM1xT8rnZe+ejsHI23HtXH
-         cGTA==
+        h=sender:date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=B5rDePvRaj5NS7N94Zu08Mt3EJMdzkxJrQGLwb882Mg=;
+        b=qSd39FxZ7/QvUAMYsUj6L54OoSP8MLbS8n8wvmjWQaYhjWD/jDOU0YkDF5URCcq/nu
+         hGhrUl9A4m9zYps34zvKaVYf7xunx/3eD1BjiflUpOpopRsW8sGTwWAwaVLsPewUlBr+
+         GHbEJO2eAakwL162R5+WRnIsiFpZ+wChGwojrqgwszuBuqNlhe8AT/T3VNOm5mDVAOja
+         9yVpkkNF2aDSSRETdKFsR4KY3z7a/g6uEcM4aGmojegdLgdb1Ed44EHqPpCzRg3XbjnK
+         T9dJJQ88a9IUMe6GKO0X7z4VcdWpjVSmErhRttgKhQjaEyeUAVRF14Mvb7gRZ1iD3KTH
+         mW9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lAsDnsyzYN4x8dN8mbR7x0mBnkheSZKpDi2Mjbobv/w=;
-        b=M2zN1tXLfEKDLwyVbaKxHSm1xEDPgANhs1uZQb+Nh7DlwOGYsKfzWNrxFkXnGjvePK
-         UuxHSEaWWbkHR9QLm9lxu5P5qwescl+wsFcbf+ecwdQNjJle1ehfuo8Jdqr4H0KkFBKI
-         hNNkrhoDvEMO8e0zAFklA8UupPypwzyZhxJ55aUeoTMOo7cBalQAhQtzFmO6I7WsQxbu
-         XuoycSG5yX964kZCLwY4k9UFpu7PCWyXf6u8iseDLOaUSOZoq2Js11ojdyblE6MRigVy
-         RwMEN8QInA0PJWqrh9akxdeoNHMV6u3NG306Jos8mpttXm3gqYSFjC3SY30w79MViLYC
-         5eWQ==
-X-Gm-Message-State: AOAM532h7A1ntWJ8H+70NlQf4TIlrt6TVstOT2i8by/G38sTj2R6b+x+
-        smdgG1MtRL8z0q/r+Os/TRBSBgjDxG+8ISuYbBM=
-X-Google-Smtp-Source: ABdhPJyYnpH7oC2HKKNP0R/ypH05z1EhKrhnAeCoxnukfQ6sw8/KYKYRo46D/fkETEIokm+1oj0fZCpJ4sUfcperIX4=
-X-Received: by 2002:a25:818f:: with SMTP id p15mr18066266ybk.135.1618869844259;
- Mon, 19 Apr 2021 15:04:04 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=B5rDePvRaj5NS7N94Zu08Mt3EJMdzkxJrQGLwb882Mg=;
+        b=j1N4CUpMI0F799QRbyWoh+RGZBz0guS35pKMZcwb5LO4dfxxlGsAesvv1ChU2mFhV8
+         MJ2bkZvBnXwlibPfeOdVeYRpClZZzwVGmokqjGgPx6/rvneDdtDYVkm8fizodq2OOajL
+         RTEXvakccECkyEO9DwYfK+9r0DM0WwxVMJ1gGh+30qQ1Qn2A7+mCfzGvlCVRs+5ANDRa
+         CrdskSSta48DqpznSXqTuKxcIWxyqcRnTKD1q8YAZrjS+mFgR7SPk0YXAxqmBFo54faC
+         CePXKdKI492+NC3gtRAL0Tm1EY+Ji84jBCdWTvTejhis62y8yQHsvsAYAK/GCrwPqLI6
+         vCLw==
+X-Gm-Message-State: AOAM533VgRuA5iPndtuhCNAOyYcjQY5fTKCuWTMgCP/ocokojzb+u9dy
+        53UNB9UVbyVsl9xRToyMcDHpl+ZYHPY=
+X-Google-Smtp-Source: ABdhPJwyJswY+nOjQlxMWz6YdQBoKDRgKJB0VyIQ9dcVQ2Yzf9wuS7NoSlOxir8am2DxE2LUY8gE5g==
+X-Received: by 2002:a4a:9f45:: with SMTP id d5mr11344395ool.91.1618871333487;
+        Mon, 19 Apr 2021 15:28:53 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id d2sm3787243otl.48.2021.04.19.15.28.50
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 19 Apr 2021 15:28:51 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date:   Mon, 19 Apr 2021 15:28:49 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Erik Rosen <erik.rosen@metormote.com>
+Cc:     Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+        linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (pmbus/max15301) Add pmbus driver for MAX15301
+Message-ID: <20210419222849.GA229037@roeck-us.net>
+References: <20210419101251.24840-1-erik.rosen@metormote.com>
 MIME-Version: 1.0
-References: <20210414184604.23473-1-ojeda@kernel.org> <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
- <YHkSO3TUktyPs4Nz@boqun-archlinux> <CAKwvOdnRx+8LhOAnH24CeZz2a2-MwF03oB7Um_pKBq8WAoLNxw@mail.gmail.com>
- <20210416184713.GI4212@paulmck-ThinkPad-P17-Gen-1> <CAKwvOdkpOZk-FXJ0iOLvhyQr7wVcWwzgc0gk_8KTtOfF_Q8Q3g@mail.gmail.com>
-In-Reply-To: <CAKwvOdkpOZk-FXJ0iOLvhyQr7wVcWwzgc0gk_8KTtOfF_Q8Q3g@mail.gmail.com>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Tue, 20 Apr 2021 00:03:52 +0200
-Message-ID: <CANiq72kTynUAJdFa60p1BEZCAJmb5tANZNzTwFdzcdeNAzMiiw@mail.gmail.com>
-Subject: Re: [PATCH 00/13] [RFC] Rust support
-To:     Nick Desaulniers <ndesaulniers@google.com>
-Cc:     "Paul E. McKenney" <paulmck@kernel.org>,
-        Miguel Ojeda <ojeda@kernel.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        rust-for-linux <rust-for-linux@vger.kernel.org>,
-        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Josh Triplett <josh@joshtriplett.org>,
-        Wedson Almeida Filho <wedsonaf@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210419101251.24840-1-erik.rosen@metormote.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-Hi Nick,
+On Mon, Apr 19, 2021 at 12:12:51PM +0200, Erik Rosen wrote:
+> Add pmbus driver support for Maxim MAX15301 InTune Automatically
+> Compensated Digital PoL Controller with Driver and PMBus Telemetry
+> 
+> Even though the specification does not specifically mention it,
+> extensive empirical testing has revealed that auto-detection of
+> limit-registers will fail in a random fashion unless the delay
+> parameter is set to above about 80us. The default delay is set
+> to 100us to include some safety margin.
+> 
+> This patch is tested on a Flex BMR461 converter module.
+> 
+> Signed-off-by: Erik Rosen <erik.rosen@metormote.com>
 
-On Mon, Apr 19, 2021 at 10:36 PM Nick Desaulniers
-<ndesaulniers@google.com> wrote:
->
-> This is a much different process than drafts thrown over the wall.
-> What hope do any kernel contributors have to participate in the ISO
-> WGs, other than hoping their contributions to a draft foresee/address
-> any concerns members of the committee might have?  How do members of
-> the ISO WG communicate with folks interested in the outcomes of their
-> decisions?
+Applied. Note that I added above rationale to the driver header.
 
-For WG21, several folks write trip reports of each meeting, and you
-can check the status of papers in GitHub at
-https://github.com/cplusplus/papers/issues.
-
-For WG14, there are way less papers going on. It is more or  less easy
-to follow by reading the list of latest additions in the first pages
-of the draft, as well as the Editor's Report.
-
-> The two processes are quite different; one doesn't require "joining a
-> national body" (which I assume involves some monetary transaction, if
-> not for the individual participant, for their employer) for instance.
-> (http://www.open-std.org/jtc1/sc22/wg14/www/contributing which links
-> to https://www.iso.org/members.html; I wonder if we have kernel
-> contributors in those grayed out countries?)
-
-They are indeed very different processes. Being an ISO standard has
-advantages and disadvantages.
-
-In any case, I should note that not everyone that goes to the meetings
-pays, e.g. some go as guests, some are funded by their country (or the
-EU or other organizations), etc.
-
-In fact, the bigger costs, in my experience, are the time commitment
-(a week several times a year) and the costs of traveling (before the
-pandemic, that is).
-
-Furthermore, contributing proposals does not actually require
-attending the meetings nor joining the committee -- some people
-contribute to the standards via proxy, i.e. somebody else presents
-their proposals in the committee.
-
-> It was always very ironic to me that the most important body of free
-> software was subject to decisions made by ISO, for better or for
-> worse.  I would think Rust's RFC process would be more accessible to
-> kernel developers, modulo the anti-github crowd, but with the Rust's
-> community's values in inclusion I'm sure they'd be happy to accomodate
-> folks for the RFC process without requiring github.  I'm not sure ISO
-> can be as flexible for non-members.
-
-Well, the kernel already ignores the C standard here and there. ;-) In
-the end, it is "just" a standard -- the kernel and compilers can do
-something else when they need.
-
-> Either way, I think Rust's RFC process is something worth adding to
-> the list of benefits under the heading "Why Rust?" in this proposed
-> RFC.
-
-The Rust RFC process has indeed upsides. It is very dynamic and easy
-to participate, and allows for anybody to easily comment on proposals,
-even anonymously. But, for better or worse, does not lead to an ISO
-standard (which some people & companies really value, e.g. as
-requirements in contracts etc.).
-
-In the end, writing an RFC is similar to writing a paper for ISO. The
-bigger differences, as mentioned above, are on the requirements if you
-actually want to go there and present the paper yourself and/or if you
-want to have voting rights etc.
-
-Personally, I think some ISO policies could be improved for some types
-of standards (or at least let WGs relax them to some degree), but...
-
-Cheers,
-Miguel
+> ---
+>  Documentation/hwmon/index.rst    |   1 +
+>  Documentation/hwmon/max15301.rst |  87 +++++++++++++++
+>  MAINTAINERS                      |   7 ++
+>  drivers/hwmon/pmbus/Kconfig      |   9 ++
+>  drivers/hwmon/pmbus/Makefile     |   1 +
+>  drivers/hwmon/pmbus/max15301.c   | 183 +++++++++++++++++++++++++++++++
+>  6 files changed, 288 insertions(+)
+>  create mode 100644 Documentation/hwmon/max15301.rst
+>  create mode 100644 drivers/hwmon/pmbus/max15301.c
+> 
+> 
+> base-commit: 1e28eed17697bcf343c6743f0028cc3b5dd88bf0
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 8d5a2df1ecb6..6583a1ea76cb 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -112,6 +112,7 @@ Hardware Monitoring Kernel Drivers
+>     ltc4260
+>     ltc4261
+>     max127
+> +   max15301
+>     max16064
+>     max16065
+>     max1619
+> diff --git a/Documentation/hwmon/max15301.rst b/Documentation/hwmon/max15301.rst
+> new file mode 100644
+> index 000000000000..e3dc22fe1c6d
+> --- /dev/null
+> +++ b/Documentation/hwmon/max15301.rst
+> @@ -0,0 +1,87 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Kernel driver max15301
+> +======================
+> +
+> +Supported chips:
+> +
+> +  * Maxim MAX15301
+> +
+> +    Prefix: 'max15301', 'bmr461'
+> +
+> +    Addresses scanned: -
+> +
+> +    Datasheet: https://datasheets.maximintegrated.com/en/ds/MAX15301.pdf
+> +
+> +Author: Erik Rosen <erik.rosen@metormote.com>
+> +
+> +
+> +Description
+> +-----------
+> +
+> +This driver supports hardware monitoring for Maxim MAX15301 controller chip and
+> +compatible modules.
+> +
+> +The driver is a client driver to the core PMBus driver. Please see
+> +Documentation/hwmon/pmbus.rst and Documentation.hwmon/pmbus-core for details
+> +on PMBus client drivers.
+> +
+> +
+> +Usage Notes
+> +-----------
+> +
+> +This driver does not auto-detect devices. You will have to instantiate the
+> +devices explicitly. Please see Documentation/i2c/instantiating-devices.rst for
+> +details.
+> +
+> +
+> +Platform data support
+> +---------------------
+> +
+> +The driver supports standard PMBus driver platform data.
+> +
+> +
+> +Module parameters
+> +-----------------
+> +
+> +delay
+> +-----
+> +
+> +The controller requires a minimum interval between I2C bus accesses.
+> +The default interval is set to 100 us. For manual override, the driver
+> +provides a writeable module parameter, 'delay', which can be used to
+> +set the interval to a value between 0 and 65,535 microseconds.
+> +
+> +
+> +Sysfs entries
+> +-------------
+> +
+> +The following attributes are supported. Limits are read-write; all other
+> +attributes are read-only.
+> +
+> +======================= ========================================================
+> +in1_label		"vin"
+> +in1_input		Measured input voltage.
+> +in1_lcrit		Critical minimum input voltage.
+> +in1_crit		Critical maximum input voltage.
+> +in1_lcrit_alarm		Input voltage critical low alarm.
+> +in1_crit_alarm		Input voltage critical high alarm.
+> +
+> +in2_label		"vout1"
+> +in2_input		Measured output voltage.
+> +in2_lcrit		Critical minimum output Voltage.
+> +in2_crit		Critical maximum output voltage.
+> +in2_lcrit_alarm		Critical output voltage critical low alarm.
+> +in2_crit_alarm		Critical output voltage critical high alarm.
+> +
+> +curr1_label		"iout1"
+> +curr1_input		Measured output current.
+> +curr1_crit		Critical maximum output current.
+> +curr1_crit_alarm	Output current critical high alarm.
+> +
+> +temp1_input		Measured maximum temperature of all phases.
+> +temp1_max		Maximum temperature limit.
+> +temp1_max_alarm		High temperature alarm.
+> +temp1_crit		Critical maximum temperature limit.
+> +temp1_crit_alarm	Critical maximum temperature alarm.
+> +======================= ========================================================
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index aa84121c5611..de2ad7223055 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10790,6 +10790,13 @@ S:	Orphan
+>  F:	drivers/video/fbdev/matrox/matroxfb_*
+>  F:	include/uapi/linux/matroxfb.h
+>  
+> +MAX15301 DRIVER
+> +M:	Daniel Nilsson <daniel.nilsson@flex.com>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/hwmon/max15301.rst
+> +F:	drivers/hwmon/pmbus/max15301.c
+> +
+>  MAX16065 HARDWARE MONITOR DRIVER
+>  M:	Guenter Roeck <linux@roeck-us.net>
+>  L:	linux-hwmon@vger.kernel.org
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 32d2fc850621..5c9fb1a88cec 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -148,6 +148,15 @@ config SENSORS_LTC3815
+>  	  This driver can also be built as a module. If so, the module will
+>  	  be called ltc3815.
+>  
+> +config SENSORS_MAX15301
+> +	tristate "Maxim MAX15301"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for Maxim
+> +	  MAX15301, as well as for Flex BMR461.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called max15301.
+> +
+>  config SENSORS_MAX16064
+>  	tristate "Maxim MAX16064"
+>  	help
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index 6a4ba0fdc1db..6040bc8718e9 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -17,6 +17,7 @@ obj-$(CONFIG_SENSORS_ISL68137)	+= isl68137.o
+>  obj-$(CONFIG_SENSORS_LM25066)	+= lm25066.o
+>  obj-$(CONFIG_SENSORS_LTC2978)	+= ltc2978.o
+>  obj-$(CONFIG_SENSORS_LTC3815)	+= ltc3815.o
+> +obj-$(CONFIG_SENSORS_MAX15301)	+= max15301.o
+>  obj-$(CONFIG_SENSORS_MAX16064)	+= max16064.o
+>  obj-$(CONFIG_SENSORS_MAX16601)	+= max16601.o
+>  obj-$(CONFIG_SENSORS_MAX20730)	+= max20730.o
+> diff --git a/drivers/hwmon/pmbus/max15301.c b/drivers/hwmon/pmbus/max15301.c
+> new file mode 100644
+> index 000000000000..eb9b7a5ef052
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/max15301.c
+> @@ -0,0 +1,183 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Hardware monitoring driver for Maxim MAX15301
+> + *
+> + * Copyright (c) 2021 Flextronics International Sweden AB
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/module.h>
+> +#include <linux/init.h>
+> +#include <linux/err.h>
+> +#include <linux/slab.h>
+> +#include <linux/i2c.h>
+> +#include <linux/ktime.h>
+> +#include <linux/delay.h>
+> +#include <linux/pmbus.h>
+> +#include "pmbus.h"
+> +
+> +static const struct i2c_device_id max15301_id[] = {
+> +	{"bmr461", 0},
+> +	{"max15301", 0},
+> +	{}
+> +};
+> +MODULE_DEVICE_TABLE(i2c, max15301_id);
+> +
+> +struct max15301_data {
+> +	int id;
+> +	ktime_t access;		/* Chip access time */
+> +	int delay;		/* Delay between chip accesses in us */
+> +	struct pmbus_driver_info info;
+> +};
+> +
+> +#define to_max15301_data(x)  container_of(x, struct max15301_data, info)
+> +
+> +#define MAX15301_WAIT_TIME		100	/* us	*/
+> +
+> +static ushort delay = MAX15301_WAIT_TIME;
+> +module_param(delay, ushort, 0644);
+> +MODULE_PARM_DESC(delay, "Delay between chip accesses in us");
+> +
+> +static struct max15301_data max15301_data = {
+> +	.info = {
+> +		.pages = 1,
+> +		.func[0] = PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
+> +			| PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT
+> +			| PMBUS_HAVE_TEMP | PMBUS_HAVE_TEMP2
+> +			| PMBUS_HAVE_STATUS_TEMP
+> +			| PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT,
+> +	}
+> +};
+> +
+> +/* This chip needs a delay between accesses */
+> +static inline void max15301_wait(const struct max15301_data *data)
+> +{
+> +	if (data->delay) {
+> +		s64 delta = ktime_us_delta(ktime_get(), data->access);
+> +
+> +		if (delta < data->delay)
+> +			udelay(data->delay - delta);
+> +	}
+> +}
+> +
+> +static int max15301_read_word_data(struct i2c_client *client, int page,
+> +				   int phase, int reg)
+> +{
+> +	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
+> +	struct max15301_data *data = to_max15301_data(info);
+> +	int ret;
+> +
+> +	if (page > 0)
+> +		return -ENXIO;
+> +
+> +	if (reg >= PMBUS_VIRT_BASE)
+> +		return -ENXIO;
+> +
+> +	max15301_wait(data);
+> +	ret = pmbus_read_word_data(client, page, phase, reg);
+> +	data->access = ktime_get();
+> +
+> +	return ret;
+> +}
+> +
+> +static int max15301_read_byte_data(struct i2c_client *client, int page, int reg)
+> +{
+> +	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
+> +	struct max15301_data *data = to_max15301_data(info);
+> +	int ret;
+> +
+> +	if (page > 0)
+> +		return -ENXIO;
+> +
+> +	max15301_wait(data);
+> +	ret = pmbus_read_byte_data(client, page, reg);
+> +	data->access = ktime_get();
+> +
+> +	return ret;
+> +}
+> +
+> +static int max15301_write_word_data(struct i2c_client *client, int page, int reg,
+> +				    u16 word)
+> +{
+> +	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
+> +	struct max15301_data *data = to_max15301_data(info);
+> +	int ret;
+> +
+> +	if (page > 0)
+> +		return -ENXIO;
+> +
+> +	if (reg >= PMBUS_VIRT_BASE)
+> +		return -ENXIO;
+> +
+> +	max15301_wait(data);
+> +	ret = pmbus_write_word_data(client, page, reg, word);
+> +	data->access = ktime_get();
+> +
+> +	return ret;
+> +}
+> +
+> +static int max15301_write_byte(struct i2c_client *client, int page, u8 value)
+> +{
+> +	const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
+> +	struct max15301_data *data = to_max15301_data(info);
+> +	int ret;
+> +
+> +	if (page > 0)
+> +		return -ENXIO;
+> +
+> +	max15301_wait(data);
+> +	ret = pmbus_write_byte(client, page, value);
+> +	data->access = ktime_get();
+> +
+> +	return ret;
+> +}
+> +
+> +static int max15301_probe(struct i2c_client *client)
+> +{
+> +	int status;
+> +	u8 device_id[I2C_SMBUS_BLOCK_MAX + 1];
+> +	const struct i2c_device_id *mid;
+> +	struct pmbus_driver_info *info = &max15301_data.info;
+> +
+> +	if (!i2c_check_functionality(client->adapter,
+> +				     I2C_FUNC_SMBUS_READ_BYTE_DATA
+> +				     | I2C_FUNC_SMBUS_BLOCK_DATA))
+> +		return -ENODEV;
+> +
+> +	status = i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, device_id);
+> +	if (status < 0) {
+> +		dev_err(&client->dev, "Failed to read Device Id\n");
+> +		return status;
+> +	}
+> +	for (mid = max15301_id; mid->name[0]; mid++) {
+> +		if (!strncasecmp(mid->name, device_id, strlen(mid->name)))
+> +			break;
+> +	}
+> +	if (!mid->name[0]) {
+> +		dev_err(&client->dev, "Unsupported device\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	max15301_data.delay = delay;
+> +
+> +	info->read_byte_data = max15301_read_byte_data;
+> +	info->read_word_data = max15301_read_word_data;
+> +	info->write_byte = max15301_write_byte;
+> +	info->write_word_data = max15301_write_word_data;
+> +
+> +	return pmbus_do_probe(client, info);
+> +}
+> +
+> +static struct i2c_driver max15301_driver = {
+> +	.driver = {
+> +		   .name = "max15301",
+> +		   },
+> +	.probe_new = max15301_probe,
+> +	.id_table = max15301_id,
+> +};
+> +
+> +module_i2c_driver(max15301_driver);
+> +
+> +MODULE_AUTHOR("Erik Rosen <erik.rosen@metormote.com>");
+> +MODULE_DESCRIPTION("PMBus driver for Maxim MAX15301");
+> +MODULE_LICENSE("GPL");
