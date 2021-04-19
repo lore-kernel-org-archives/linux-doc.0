@@ -5,66 +5,68 @@ X-Spam-Level:
 X-Spam-Status: No, score=-18.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
 	INCLUDES_PATCH,MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
-	USER_AGENT_GIT autolearn=ham autolearn_force=no version=3.4.0
+	USER_AGENT_GIT autolearn=unavailable autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7BB4C43461
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E565C43460
 	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:37:52 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id B1A6961166
+	by mail.kernel.org (Postfix) with ESMTP id 49972610CC
 	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 07:37:52 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237832AbhDSHiV (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 03:38:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39516 "EHLO
+        id S237811AbhDSHiU (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 03:38:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233438AbhDSHiU (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 03:38:20 -0400
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com [IPv6:2a00:1450:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE9AFC061761
-        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 00:37:50 -0700 (PDT)
-Received: by mail-ed1-x52e.google.com with SMTP id z5so2937857edr.11
-        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 00:37:50 -0700 (PDT)
+        with ESMTP id S237838AbhDSHiT (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 03:38:19 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDB03C06174A
+        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 00:37:49 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id d21so19332024edv.9
+        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 00:37:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ionos.com; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Kipd4FaBQ5PXB3dpojcZn5niu7bqNibIYxBeruWL79Q=;
-        b=HgY0j0ha4IQEbIMeD9Jl48Vj45hJ4hoD/OU1s1L/4qjVu40ZRRM+j/PhoOkDT72RGh
-         nipew/w97g5MPmGHjZiCi0WqU893BLWIXQIv2wi8yfScayy8jYkf54Pr5rvKYbTu1H6a
-         P+1X3W5hiXxKlCiLRsN1CG0vrQfaaNaMGiYd3RwK0yx0+y8i8DS5onooeNmV+aIEGnTr
-         d6Yb0iUBCD1E7seTllm2S4LdrHnfP4Q5nMRQREO3tRUNEiyaV14wnYVScgFd+0tUMMLz
-         ZVSccZMvl3008dKEpojweGcCdWfRCOibARopscS/p+W1CgCLMuAWYpU66O18WW4Lf6Yw
-         FODA==
+        bh=F4UM9nmnedCsNvLF6PWr9uH8F58/UWSesStUgueFg/I=;
+        b=OfbsbqZS7Il7HiyLxwoJh45Pd3DvchCW37i1aAKsH5LnCberjo2Z297kp2AE59rSBZ
+         uGQ0OGp8lV2Z1kuhOhcLz4AQjGRMCpO4bclfx2z/Xa2YgyqGl+3BFNIhyab7eQE29bPy
+         vrjk95PBOHEjMepVd9aj2/cFOLAV4G1O0dlfKgH+GxQ93mz1rYpecwObxA60SJfvDbTk
+         8wZ1jKUfdcvpb1h46wF8oZMklBr9sypLy7/yY0yNBiyxgYcRYNRUaHkv8dzXMpZiUgDy
+         0YMvG5E2Wbn/jvTQnRvsW85bA8IaHH9/lxGxLowSz4L9MZWAEjuvBNI+BIrhG5CkKYf5
+         nswg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Kipd4FaBQ5PXB3dpojcZn5niu7bqNibIYxBeruWL79Q=;
-        b=Ti91IyCMw7ECHd1NvdeD5Mw5Iqy7uQzOWB0Oxsegz/2dzRuuBRdzqS+ghajDVFPT0w
-         6+/vOm35uDDNVT7rktTE65EUvvX3P6Owa/T2X5wS18y/+CZsNBL/hCLD6BtVydobtFiC
-         Mx96IPaL1e5eOVAeXRvHYxL6/2k5I4iJqb/eZc0FHQroo2tTxx+yP5paM8es0qC9OBm6
-         S6hyalDaGJJLlTbZnS3sqVgYmLdfYLlWXpbJoLC7sCZPQZzvT0Auvj0YWn0y4MppdqYQ
-         BTt1lgvhbIHajS2LXdeppofKeDAll9rY2kmJytGRuDGDI/LTCxu6he64lazHqoGX/cEU
-         cJ6Q==
-X-Gm-Message-State: AOAM5309J6MVjE8IhVzmdj7tKuYFE66OtmSwken9Xi7DrQ0ThJC018hV
-        /FhId3g9YVTiTnqosi8Mhv/UEA==
-X-Google-Smtp-Source: ABdhPJwio9uJB3Uc4HMRjvrjpbjH/azmfAkxVmWp1DsH7TlNNfhzbFcIKbUImJGSbhTYOUnhUi0ldQ==
-X-Received: by 2002:a05:6402:440d:: with SMTP id y13mr24222456eda.316.1618817869619;
-        Mon, 19 Apr 2021 00:37:49 -0700 (PDT)
+        bh=F4UM9nmnedCsNvLF6PWr9uH8F58/UWSesStUgueFg/I=;
+        b=Cbauu/fXit4BldkLzkB9bbOEOKO/DS8m8b5BVp3I/5Upezyi69DsSm2m6QxcrvRkiS
+         vLu/2AjhsC+mQBkNswI/1rp8Y+hc1TqTmUeKZLSdh/ecHyDao6L/lBhiZoUxllqsuSxE
+         FAav2hschHmQb2sjyUKel5eWbtiaYLL6yZQesjvQADIc58vwVNAWXoO5v9mqoZv6Jfjy
+         bGOTSbQz6YiNrRgFPKkgO9ul22oEvnqaRSs/2Ncd9uVS5UneiRTlcMOhRg6oGsEioUGF
+         k0edjj5WQIbN1yGQkJEXGJ4u90Cl75F5gDyKLroiTGyQYZLnOOgiCYa4iX+mVtGZS0iI
+         mLQA==
+X-Gm-Message-State: AOAM531x4mI5pXssscYRrTFgnkjjBu3C3LLPrrsdBeBb/DXzYzF1lxbT
+        xx3QfpqAFDVaXfGJfvDfPBd4KA==
+X-Google-Smtp-Source: ABdhPJz4Gu/lJVVq+o55nf6hAxkrdBhd6ai1pNvefHrF0R/2cActSp4BEgeSroyqW8Z66R14kwK8WA==
+X-Received: by 2002:a05:6402:350:: with SMTP id r16mr16482943edw.227.1618817868709;
+        Mon, 19 Apr 2021 00:37:48 -0700 (PDT)
 Received: from localhost.localdomain (ip5f5aeee5.dynamic.kabel-deutschland.de. [95.90.238.229])
         by smtp.googlemail.com with ESMTPSA id g22sm8701833ejz.46.2021.04.19.00.37.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Apr 2021 00:37:49 -0700 (PDT)
+        Mon, 19 Apr 2021 00:37:48 -0700 (PDT)
 From:   Gioh Kim <gi-oh.kim@ionos.com>
 To:     linux-block@vger.kernel.org, linux-doc@vger.kernel.org
 Cc:     axboe@kernel.dk, akinobu.mita@gmail.com, corbet@lwn.net,
         hch@infradead.org, sagi@grimberg.me, bvanassche@acm.org,
         haris.iqbal@ionos.com, jinpu.wang@ionos.com,
-        Gioh Kim <gi-oh.kim@cloud.ionos.com>,
-        Jack Wang <jinpu.wang@cloud.ionos.com>
-Subject: [PATCHv5 for-next 02/19] Documentation/sysfs-block-rnbd: Add descriptions for remap_device and resize
-Date:   Mon, 19 Apr 2021 09:37:05 +0200
-Message-Id: <20210419073722.15351-3-gi-oh.kim@ionos.com>
+        Danil Kipnis <danil.kipnis@cloud.ionos.com>,
+        Md Haris Iqbal <haris.iqbal@cloud.ionos.com>,
+        Jack Wang <jinpu.wang@cloud.ionos.com>,
+        Gioh Kim <gi-oh.kim@cloud.ionos.com>
+Subject: [PATCHv5 for-next 01/19] MAINTAINERS: Change maintainer for rnbd module
+Date:   Mon, 19 Apr 2021 09:37:04 +0200
+Message-Id: <20210419073722.15351-2-gi-oh.kim@ionos.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210419073722.15351-1-gi-oh.kim@ionos.com>
 References: <20210419073722.15351-1-gi-oh.kim@ionos.com>
@@ -74,36 +76,35 @@ Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-From: Gioh Kim <gi-oh.kim@cloud.ionos.com>
+From: Danil Kipnis <danil.kipnis@cloud.ionos.com>
 
-Two sysfs entries, remap_device and resize, are missing.
+Danil steps down, Haris will take over.
+Also update email address to ionos.com, the old
+cloud.ionos.com will still work for some time.
 
-Signed-off-by: Gioh Kim <gi-oh.kim@cloud.ionos.com>
+Signed-off-by: Danil Kipnis <danil.kipnis@cloud.ionos.com>
+Acked-by: Md Haris Iqbal <haris.iqbal@cloud.ionos.com>
 Signed-off-by: Jack Wang <jinpu.wang@cloud.ionos.com>
+Signed-off-by: Gioh Kim <gi-oh.kim@cloud.ionos.com>
 ---
- Documentation/ABI/testing/sysfs-block-rnbd | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ MAINTAINERS | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-block-rnbd b/Documentation/ABI/testing/sysfs-block-rnbd
-index 14a6fe9422b3..ec716e1c31a8 100644
---- a/Documentation/ABI/testing/sysfs-block-rnbd
-+++ b/Documentation/ABI/testing/sysfs-block-rnbd
-@@ -44,3 +44,15 @@ Date:		Feb 2020
- KernelVersion:	5.7
- Contact:	Jack Wang <jinpu.wang@cloud.ionos.com> Danil Kipnis <danil.kipnis@cloud.ionos.com>
- Description:	Contains the device access mode: ro, rw or migration.
-+
-+What:		/sys/block/rnbd<N>/rnbd/resize
-+Date:		Feb 2020
-+KernelVersion:	5.7
-+Contact:	Jack Wang <jinpu.wang@cloud.ionos.com> Danil Kipnis <danil.kipnis@cloud.ionos.com>
-+Description:	Write the number of sectors to change the size of the disk.
-+
-+What:		/sys/block/rnbd<N>/rnbd/remap_device
-+Date:		Feb 2020
-+KernelVersion:	5.7
-+Contact:	Jack Wang <jinpu.wang@cloud.ionos.com> Danil Kipnis <danil.kipnis@cloud.ionos.com>
-+Description:	Remap the disconnected device if the session is not destroyed yet.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index bf947775390c..723ba354dce6 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15358,8 +15358,8 @@ N:	riscv
+ K:	riscv
+ 
+ RNBD BLOCK DRIVERS
+-M:	Danil Kipnis <danil.kipnis@cloud.ionos.com>
+-M:	Jack Wang <jinpu.wang@cloud.ionos.com>
++M:	Md. Haris Iqbal <haris.iqbal@ionos.com>
++M:	Jack Wang <jinpu.wang@ionos.com>
+ L:	linux-block@vger.kernel.org
+ S:	Maintained
+ F:	drivers/block/rnbd/
 -- 
 2.25.1
 
