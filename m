@@ -2,93 +2,135 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-5.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,NICE_REPLY_A,
-	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,USER_AGENT_SANE_1 autolearn=no
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
+	MAILING_LIST_MULTI,NICE_REPLY_A,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+	USER_AGENT_SANE_1 autolearn=no autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE8E9C433B4
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 17:54:25 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44112C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 18:38:42 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 7E1776113C
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 17:54:25 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 0F97861246
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 18:38:42 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233440AbhDSRyy (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 13:54:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35384 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233434AbhDSRyx (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 13:54:53 -0400
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com [IPv6:2607:f8b0:4864:20::d29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3443C06174A
-        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 10:54:23 -0700 (PDT)
-Received: by mail-io1-xd29.google.com with SMTP id a9so24905757ioc.8
-        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 10:54:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2kDM0fgGyB9RRtlgo+0xmmMadRCicE3KFp34CZHihIk=;
-        b=W1WwIjE10PGf3qOUnKeXZycFQ84a5JgvUry4zLG7RnxoaCkJdkwzMmsYonIVUHea31
-         EbHN9/l/HExOv5DypJd5eNmW+dfOhK4eaN2TfSPNQXCDW2STxpCp33opk70YyiNDK0NS
-         Lr+BfAnalyscv8VbQ32AhfPZtWh4tscVSIr2jT7ZaKAEH1TZsCAR506N9EkFvCsvUKGZ
-         xcFz3x1mi7gP/6gRMMNsFXgHhohoW14l5tvrIZ8WWPkWZQWKekJd6Wu1o8eN7MQOlpWg
-         uW9uNdhwlIQiOD1L2N5QfUlqctrczxM2vawYMeZfdPoWa91pg4rhlI7gktV4MC2PahkV
-         17sA==
+        id S238008AbhDSSjL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 14:39:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:38648 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S234421AbhDSSjL (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 14:39:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1618857520;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=PmMpoqajN3kYFits3mKGuMX/Gpaj/8aNNG+P1JlM6wc=;
+        b=eyCBe+4OeOGBIAbrcA34EBvprX+XnJgQ2E909+gcehr/XoLoji2gT4iPQg/hW2rBRXAS1a
+        Vv9mZgeqMRNhMe5avczMMsQrPz7pRyQOr53BNOKhvP8swLl7oeo2+BRHYUJ6Zf7PLmPsb6
+        DMIZ421/zb+zkm7dQp9/XNKLBKEzQ0g=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-318-EqceK3pQPXGks7IzEb74yQ-1; Mon, 19 Apr 2021 14:38:38 -0400
+X-MC-Unique: EqceK3pQPXGks7IzEb74yQ-1
+Received: by mail-ej1-f72.google.com with SMTP id 16-20020a1709063010b029037417ca2d43so3978535ejz.5
+        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 11:38:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+        h=x-gm-message-state:to:cc:references:from:subject:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=2kDM0fgGyB9RRtlgo+0xmmMadRCicE3KFp34CZHihIk=;
-        b=fJ92WALVr4yJePC+kUsyPicxq+++75KPXgNJ+F1mEsSaWlFB9NusJiao9K0N0FrppJ
-         OLVBw1KVqQzuvrzScR3YQr0jQlFxSbS4OGcdDAOi8UHL7CNGZsG4NySW7is0kTB32aSA
-         7SUcNSGFasfKuInZXVQtjoJjsfmGmTL92omcaIZojsL9E8QR8gMwTKIVKc4MNRWFqT5+
-         JruG7NM44jttRje4la1kwxfe7LJ3W+h2pKsTKNsZ/LjAOZQnDCpInaWfOjvo/K7+x+J3
-         u3y4F9B5sfVTAs/LNXQqWMFCatmSzC8rXnc67pddhnEBb1UoCFySlOY3sRLwBSm2Sicm
-         hNPg==
-X-Gm-Message-State: AOAM532XSwl2c4ixMc0vEeawysYmAypfhmx4XKHVLrBTLbj9CSAAOrqX
-        vHTS7F0LKy4JUMwVTSGdclf81w==
-X-Google-Smtp-Source: ABdhPJxGv4JukYDk79e+4TCFMwG9GTaZhgpPQ7ZC37gQVIlHNaSq5lFGX52mILl2W33gHp6VwImXCA==
-X-Received: by 2002:a5d:9659:: with SMTP id d25mr15863944ios.146.1618854863408;
-        Mon, 19 Apr 2021 10:54:23 -0700 (PDT)
-Received: from [192.168.1.30] ([65.144.74.34])
-        by smtp.gmail.com with ESMTPSA id v13sm79291iol.41.2021.04.19.10.54.22
+        bh=PmMpoqajN3kYFits3mKGuMX/Gpaj/8aNNG+P1JlM6wc=;
+        b=F5WICrh0w9HTwBSN6zgm1twLt4YlQUv4rg2CYTXpvm6a4UjIDlHLHtiSwNGO2/tGT7
+         216PF3Phty8V2OGlzZ6MsKJdRHp8s8WnkNn6sjpIAmLIC5OZ+QIEwSKyR2RTcXXhpArb
+         i0PzVcLhCctg4sI6R8EH/Eg+N2+/ATxKhzpN4O9aV/n7acCO8SnTrndgf73khI3wTF3v
+         D2AlSQlZKsIqsmqjrz2TurpXX7k2F84eUqwy8QZVv1gDV1H+LyuQTNeSykf9HAcY0AjM
+         8GOuCHkcTX6gNgMvYFV5w4fF3PeDKXkpzl1tDxsjYysysc/l/Hsz9MkeQlyCQaUjigbO
+         fHBQ==
+X-Gm-Message-State: AOAM533cLxxzh3ePNr3hG/IeJeRVLil0nhzmXiSgyIDzPyh01tOt9hBx
+        OzSTXnmdUJa1rG6TP9TfVVwp1Uwo5mUT3c5FlRZMb3twozhot/mIErmvG/1UWGmFHUwnm1O2Lrm
+        z+gbRR9ME9Dw6g+7xVVT0
+X-Received: by 2002:aa7:db87:: with SMTP id u7mr26555991edt.16.1618857517782;
+        Mon, 19 Apr 2021 11:38:37 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzSoLXrPSs39zJEB+7+9uQJX6oXOARN/G69LiGquMuawAqQDZEfWVnHA83Lq8KX68XzCPInWg==
+X-Received: by 2002:aa7:db87:: with SMTP id u7mr26555985edt.16.1618857517581;
+        Mon, 19 Apr 2021 11:38:37 -0700 (PDT)
+Received: from [192.168.10.118] ([93.56.169.140])
+        by smtp.gmail.com with ESMTPSA id kx3sm10981044ejc.44.2021.04.19.11.38.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Apr 2021 10:54:22 -0700 (PDT)
-Subject: Re: [PATCHv5 for-next 00/19] Misc update for rnbd
-To:     Gioh Kim <gi-oh.kim@ionos.com>, linux-block@vger.kernel.org,
-        linux-doc@vger.kernel.org
-Cc:     akinobu.mita@gmail.com, corbet@lwn.net, hch@infradead.org,
-        sagi@grimberg.me, bvanassche@acm.org, haris.iqbal@ionos.com,
-        jinpu.wang@ionos.com
-References: <20210419073722.15351-1-gi-oh.kim@ionos.com>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <cffb1b7d-9ebd-ea79-dbbc-07b9a5a1e392@kernel.dk>
-Date:   Mon, 19 Apr 2021 11:54:22 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 19 Apr 2021 11:38:36 -0700 (PDT)
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>
+Cc:     Wedson Almeida Filho <wedsonaf@google.com>, ojeda@kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rust-for-linux@vger.kernel.org,
+        Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
+        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Will Deacon <will@kernel.org>
+References: <20210414184604.23473-1-ojeda@kernel.org>
+ <YHiMyE4E1ViDcVPi@hirez.programming.kicks-ass.net>
+ <YHj02M3jMSweoP4l@google.com>
+ <YHk4DZE1ZWTiBB1f@hirez.programming.kicks-ass.net>
+ <aa6e44ab-e223-73aa-279e-8103732460ac@redhat.com>
+ <YH0yCTgL0raKrmYg@hirez.programming.kicks-ass.net>
+ <7287eac3-f492-bab1-9ea8-b89ceceed560@redhat.com>
+ <YH0+0VQ1XC8+rv20@hirez.programming.kicks-ass.net>
+ <3a874b15-5c21-9ed9-e5c3-995f915cba79@redhat.com>
+ <YH1PGfC1qSjKB6Ho@hirez.programming.kicks-ass.net>
+ <CAHk-=wjSrOcA0567rpn1PbYkGEgnw_sOmZ13JX87isrMq1dL-Q@mail.gmail.com>
+From:   Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 00/13] [RFC] Rust support
+Message-ID: <ae079b78-1c26-ddb9-fb8f-83d27ba0c5a9@redhat.com>
+Date:   Mon, 19 Apr 2021 20:38:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210419073722.15351-1-gi-oh.kim@ionos.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAHk-=wjSrOcA0567rpn1PbYkGEgnw_sOmZ13JX87isrMq1dL-Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On 4/19/21 1:37 AM, Gioh Kim wrote:
-> Hi,
+On 19/04/21 19:14, Linus Torvalds wrote:
+> On Mon, Apr 19, 2021 at 2:36 AM Peter Zijlstra <peterz@infradead.org> wrote:
+>>
+>> I also don't see how this is better than seq_cst.
+>>
+>> But yes, not broken, but also very much not optimal.
 > 
-> This is the misc update for rnbd. It inlcudes:
-> - Change maintainer
-> - Change domain address of maintainers' email: from cloud.ionos.com to ionos.com
-> - Add polling IO mode and document update
-> - Fix memory leak and some bug detected by static code analysis tools
-> - Code refactoring
+> I continue to feel like kernel people should just entirely ignore the
+> C++ memory ordering standard.
+> 
+> It's inferior to what we already have, and simply not helpful. It
+> doesn't actually solve any problems as far as the kernel is concerned,
+> and it generates its own set of issues (ie assuming that the compiler
+> supports it, and assuming the compiler gets it right).
+> 
+> The really subtle cases that it could have been helpful for (eg RCU,
+> or the load-store control dependencies) were _too_ subtle for the
+> standard.
+> 
+> And I do not believe Rust changes _any_ of that.
 
-Applied, thanks.
+It changes it for the worse, in that access to fields that are shared 
+across threads *must* either use atomic types (which boil down to the 
+same compiler intrinsics as the C/C++ memory model) or synchronization 
+primitives.  LKMM operates in the grey area between the C standard and 
+what gcc/clang actually implement, but there's no such grey area in Rust 
+unless somebody wants to rewrite arch/*/asm atomic access primitives and 
+memory barriers in Rust.
 
--- 
-Jens Axboe
+Of course it's possible to say Rust code just uses the C/C++/Rust model 
+and C code follows the LKMM, but that really only delays the inevitable 
+until a driver is written part in C part in Rust, and needs to perform 
+accesses outside synchronization primitives.
+
+Paolo
+
+> Any kernel Rust code will simply have to follow the LKMM rules, and
+> use the kernel model for the interfaces. Things like the C++ memory
+> model is simply not _relevant_ to the kernel.
 
