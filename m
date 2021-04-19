@@ -2,113 +2,126 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.3 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
-	SPF_HELO_NONE,SPF_PASS,USER_AGENT_SANE_1 autolearn=no autolearn_force=no
-	version=3.4.0
+X-Spam-Status: No, score=-8.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
+	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84F7BC433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 14:34:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90F1FC433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 14:51:37 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 66F68611CE
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 14:34:02 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 5E4C460FDB
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 14:51:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239837AbhDSOeb (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Mon, 19 Apr 2021 10:34:31 -0400
-Received: from m32-153.88.com ([43.250.32.153]:32480 "EHLO email.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232302AbhDSOea (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Mon, 19 Apr 2021 10:34:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=email.cn;
-        s=dkim; h=Date:From:To; bh=RE/Mcg2eEwFamrAjsbrQ8SW4dl1EtKqvhGDsb
-        Fbh+a8=; b=HVpWlKMWqxmrirWUMwQHPv5NjHDNtG1/An34/9hY9VrtaNh5tml0X
-        ljpoqz4LsfkMYjqiKrK/lYKja+Nb8FOjvi9tKPqHaRuuaAv3yH833bb2hvvbcCqQ
-        z5TUWWLnWsp3URkBKfwQtuJvyan8Jg8J2V5N/Cf5NWQUM/VRPhSq/s=
-Received: from bobwxc.top (unknown [120.238.248.129])
-        by v_coremail2-frontend-2 (Coremail) with SMTP id GiKnCgA3wyPOlH1g8L15AA--.25201S2;
-        Mon, 19 Apr 2021 22:33:51 +0800 (CST)
-Date:   Mon, 19 Apr 2021 22:33:48 +0800
-From:   "Wu X.C." <bobwxc@email.cn>
-To:     Yanteng Si <siyanteng@loongson.cn>
-Cc:     Yanteng Si <siyanteng@loongson.cn>, corbet@lwn.net,
-        alexs@kernel.org, chenhuacai@kernel.org, jiaxun.yang@flygoat.com,
-        linux-doc@vger.kernel.org, realpuyuwang@gmail.com,
-        siyanteng01@gmail.com
-Subject: Re: [PATCH 1/3] docs/zh_CN: add core-api kernel-api.rst translation
-Message-ID: <20210419143347.GA24340@bobwxc.top>
-References: <cover.1618836460.git.siyanteng@loongson.cn>
- <301caca03324dd367830a50ff84e250882b91957.1618836460.git.siyanteng@loongson.cn>
- <20210419133526.GB2531743@casper.infradead.org>
+        id S233014AbhDSOwG (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Mon, 19 Apr 2021 10:52:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51388 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232184AbhDSOwF (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Mon, 19 Apr 2021 10:52:05 -0400
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCBA4C06174A
+        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 07:51:34 -0700 (PDT)
+Received: by mail-qt1-x82e.google.com with SMTP id f12so26257187qtf.2
+        for <linux-doc@vger.kernel.org>; Mon, 19 Apr 2021 07:51:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cmpxchg-org.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=YrZItNxcyVF3pVVkQf+v9BtikCFL0HmoCNCAuzegmSI=;
+        b=OeaV6gvLZnnSgBj2hQod5raZF9ZCVqc92fxLKd1/xMoNPJ8BuhLxwWUWh8+peK+69U
+         kI1zU+Mkv29pcKw8ycTns/9U9WSYJ5S0lLXBtik78Ge8J89sTvfInSRg7zaz2ionBo4n
+         4/ZbXtklCKgJQsGKLDrpcG0VEV2Pn/ruArOnhvry0sjLSYDw6YJ4daItO8OQKpLcHcVF
+         Gkx5U9d3BhiKjRxwCBT+XpjpBRWfajJm/aJMQ0cpLWChEy9HUks3monRWvAG7z8qog1B
+         K+tc+tUPSqi9pwkYjzaOVkx0g0o0HyoxeFbTLiTANdgI7pnRZ2wdsg0zn1wIUNs5I7Rm
+         PPeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=YrZItNxcyVF3pVVkQf+v9BtikCFL0HmoCNCAuzegmSI=;
+        b=CmelE13wQlzxfVVsDQo2/z2YYmrJ0bXn/yJ6f8obb95ZxJUMWCYaWuiv+tyUjyIFKC
+         LF/nIwNafypHOYC6oMIvEk12eu/NExzBLHIoikgq/00XslFukbc2/bAW8VBhgEOjXpIO
+         zwnzXxOyvgi93FbDFhDD7RXFXRhOeJVUMpiJufATrBurxUp8kngni5Z9Wy27kgK2QHM0
+         yaf6lfwIBR7QuIBrCbrG8k5qxdeGmUJItaWF1QNK66uVRoBCXT8DKDKVo+0Iqy24fYzv
+         k8OawQlm4cfsrd9DhttuWVEJYoRzObCeIIfUuq0Z+LzYWyZoevqOieoXFC3VpenFDU3F
+         Dnzw==
+X-Gm-Message-State: AOAM532WNGZxKMdG3H9vdmoUYzCZIM4TtwP7PqUZ0hcO7RNPSw8WLHW9
+        8E+J3/kI+Wea7msBDO5ETEy2mA==
+X-Google-Smtp-Source: ABdhPJwgTtqjUODSsoN7NX5ycISGuptiWvpYG+cMmXmb3M9KNeN2Q10N0BGx/COKRyqsOZNYDEBAGA==
+X-Received: by 2002:a05:622a:8c:: with SMTP id o12mr8561257qtw.367.1618843894148;
+        Mon, 19 Apr 2021 07:51:34 -0700 (PDT)
+Received: from localhost (70.44.39.90.res-cmts.bus.ptd.net. [70.44.39.90])
+        by smtp.gmail.com with ESMTPSA id y26sm6570901qtf.66.2021.04.19.07.51.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Apr 2021 07:51:33 -0700 (PDT)
+Date:   Mon, 19 Apr 2021 10:51:32 -0400
+From:   Johannes Weiner <hannes@cmpxchg.org>
+To:     Tejun Heo <tj@kernel.org>
+Cc:     Odin Ugedal <odin@uged.al>, corbet@lwn.net,
+        cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+        Michal Hocko <mhocko@kernel.org>,
+        Vladimir Davydov <vdavydov.dev@gmail.com>
+Subject: Re: [RFC] docs/admin-guide/cgroup-v2: Add hugetlb rsvd files
+Message-ID: <YH2Y9FucBW2GLLLQ@cmpxchg.org>
+References: <20210416141146.542786-1-odin@uged.al>
+ <YHn3cifQv1FUOqfU@slm.duckdns.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210419133526.GB2531743@casper.infradead.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-CM-TRANSID: GiKnCgA3wyPOlH1g8L15AA--.25201S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7CFyrKF1UWF47ZrW3Gw4DArb_yoW8JFWxpF
-        WDKryxJr40y3y7J3Z7Za18ur4UJa1fGrWUGwn5tryrAFZ8t3Za9r4jga1a9F9F9w4q934j
-        qFy2vrZIkay5ZrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUgab7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-        cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-        v20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j6F4UM28EF7xvwVC2
-        z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2AIxVAIcx
-        kEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6x8ErcxFaVAv8VWx
-        Jr1UJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc2xSY4AK67AK6ry5MxAIw2
-        8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_Cr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_
-        Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
-        CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0
-        I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I
-        8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73
-        UjIFyTuYvjxUTIztUUUUU
-X-Originating-IP: [120.238.248.129]
-X-CM-SenderInfo: pere453f6hztlloou0/
+In-Reply-To: <YHn3cifQv1FUOqfU@slm.duckdns.org>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 19, 2021 at 02:35:26PM +0100, Matthew Wilcox wrote:
-> On Mon, Apr 19, 2021 at 09:10:55PM +0800, Yanteng Si wrote:
-> > This patch translates Documentation/core-api/kernel-api.rst into Chinese.
+On Fri, Apr 16, 2021 at 04:45:38PM -0400, Tejun Heo wrote:
+> (cc'ing memcg maintainers)
 > 
-> I don't speak one word of Chinese, but this can't be right?
+> On Fri, Apr 16, 2021 at 04:11:46PM +0200, Odin Ugedal wrote:
+> > Add missing docs about reservation accounting for hugetlb in cgroup v2.
+> > 
+> > Signed-off-by: Odin Ugedal <odin@uged.al>
+> > ---
+> > RFC: This is linking from cgroup-v1 docs, and that is probably not
+> > optimal. The information about the difference between reservation
+> > accounting and page fault accounting is pretty hard to make short.
+> > 
+> > I think we have four ways to do it, but I don't know what is
+> > most optimal:
+> > 
+> > - Link from cgroup-v2 to cgroup-v1 (this patch)
+> > - Have a separate description for both v1 and v2
+> > - Move description from cgroup-v1 to cgroup-v2, and link from v1 to
+> >   v2.
 > 
-> > +列表管理函数
-> > +============
-> > +
-> > +Todolist:
-> > +
-> > +   :internal:
-> 
-> The corresponding section in English is:
-> 
-> List Management Functions
-> =========================
-> 
-> .. kernel-doc:: include/linux/list.h
->    :internal:
-> 
-> and surely you need a '.. kernel-doc' to have the ':internal:' make sense?
+> This would be my preference but I don't really mind the other way around
+> that much.
 
-Yes, Matthew is right. 
-You need to call kernel-doc to generate related docs.
+v1/hugetlb.rst is quite verbose, and some things are implementation
+details. I'm not sure we want all that in the cgroup2 documentation.
 
-> 
-> Then, I wonder how useful it is to bring kernel-doc written in English
-> into a Chinese document?  Wouldn't we be better off admitting that we
-> don't provide Chinese documentation for kernel APIs and referring to
-> the English documents?
-> 
-> (I would love nothing more than to provide Chinese documentation for
-> kernel APIs, but we don't have any kind of system for providing that
-> today)
+My preference would be to first try to write a version of the doc in
+cgroup2's briefer style, and then, depending on how that works out,
+see whether we can delete (replace with link) the cgroup1 text, or
+keep it for archiving purposes.
 
-Emm, I think, for the completeness of translation, it is worth.
+v1/hugetlb doc items that seem unnecesary to keep in v2:
 
-But I want to know if the extra call to kernel-doc will significant
-increase docs build time? If yes, I support add links to En rather than
-simply put ..kernel-doc.
+- how to mount the cgroupfs, create cgroups, and move tasks into it
 
-Thanks,
-Wu.
+- the page fault accounting description could be compressed a
+  bit. maybe drop the part about it being the admin's job to avoid
+  sigbus by being careful with the allocations. that's obvious imo
+  when you simply describe the sigbus semantics.
 
+- likewise, reservation accounting can be briefer too. there is quite
+  a bit of opinion in there that could probably be cut short. maybe a
+  one-liner that says "mmap-time accounting gives userspace easier
+  error handling - if in doubt, use reservation accounting" or so.
+
+- caveats with shared memory: not sure this is needed at all, but if
+  so, it can be a one liner saying "hugetlb uses the same first-hit
+  semantics as the memory controller (see Memory Ownership)"
+
+- Caveats with HugeTLB cgroup offline: this is an implementation
+  detail that i don't think is actionable information for users
