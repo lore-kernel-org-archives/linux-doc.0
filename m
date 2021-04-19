@@ -2,152 +2,80 @@ Return-Path: <linux-doc-owner@kernel.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-12.7 required=3.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+X-Spam-Status: No, score=-5.8 required=3.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,MAILING_LIST_MULTI,
+	SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC31CC433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 02:35:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02531C43460
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 03:26:38 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id A87C4610CD
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 02:35:08 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id D740861027
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 03:26:37 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233146AbhDSCfg (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Apr 2021 22:35:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58662 "EHLO
+        id S232317AbhDSD0z (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Apr 2021 23:26:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233122AbhDSCff (ORCPT
-        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Apr 2021 22:35:35 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF6ACC06174A;
-        Sun, 18 Apr 2021 19:35:06 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id m7so26764005ljp.10;
-        Sun, 18 Apr 2021 19:35:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TffcU7lYyg8IkgSpttLQB1q4lz0f/EHk5Dwj6/ZuyBQ=;
-        b=VJ3zCupy+zbnCzFn7yTb6Ht9u6BBJxWosmf8PdP1hHhl+K+8IMuRCCzYOvpjVqz3e2
-         kAvAh5WD2rzpkIA2qWGxEzF2lnkNtw4HYD+oUMLPIzQHn4YqrD4zz2P+yO9yxnMoqdSy
-         sgdi6klWg5rULNWFrsK2zO1v0yWDN5jR/l2GTuaricB7Z5XARDRj3fjWRle8tXGedhix
-         A9NFc2bEMghW67w8iRRaAvvUMAfgHfOrlRV6cIftQqrOL+GtOe7fpud7/D32DKi1qz70
-         FdVRKIkDGjfLma3E0yuT9uq3tq/AOlVojhWzPulOcbWMqfJ+NL+RFqw2QBv9+pvl1kCA
-         xBCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TffcU7lYyg8IkgSpttLQB1q4lz0f/EHk5Dwj6/ZuyBQ=;
-        b=Hq9YCuUMpOe+Xb11s+SN2o8AYAblQon8KkuTvKCOp6ZXCEYwIU4IdDfvSpVJ3xO5YQ
-         UvD3dAoY8/svX3bfnUHhOa9+IFhltGuUk0t8bB/pYU15ioWmbEptoI7sbKIedWuAfKiZ
-         pbWPpwsDKF0X0dGqsx3hkDkPM0sqPuxTaRd34JD/O4sVMPcfvOBvMCV54XzV7mbXTaVJ
-         ve/ymdXLTD2dxGGsazydqeCejmIJdRNfbB39FsBukqaD37UDT7MvioJNslP5/pDuTBe6
-         7DHqm+R8KafiiEkFNo96bSC1LqQwvUtKcWYAatETQq/Kda5ONqBqkTBBhZuCs+ZReHQq
-         Rt+A==
-X-Gm-Message-State: AOAM533wzELqe7aotSCndPdXCzpowNwD9lLdHAiB6OY659hrgZNsMqbD
-        99zNt1gW5yGyp5Pks7wU9zr399n/URoy72lsDdM=
-X-Google-Smtp-Source: ABdhPJxIrTYCbftjU2oRa0zYTFqNKD6CalXZZkAitvkpxVJUpODmWAwlWSCxqZSxDaOdYm9aZKO0diC5x8kzvuyklpI=
-X-Received: by 2002:a05:651c:50b:: with SMTP id o11mr9714166ljp.323.1618799705338;
- Sun, 18 Apr 2021 19:35:05 -0700 (PDT)
+        with ESMTP id S237377AbhDSD03 (ORCPT
+        <rfc822;linux-doc@vger.kernel.org>); Sun, 18 Apr 2021 23:26:29 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E115DC06174A;
+        Sun, 18 Apr 2021 20:25:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=wF5Ti3p6ukxFBbnOErN0GEWkYJORujrGl5v+prvaUz0=; b=dYIGAGcYlNbN2NQppzgNkikKhg
+        PnPCMz45ytddxiSTkgLS7zacFZxpmcMQC3jAp+uN4QTTlXXGK2aUbuvkAgjfWG1ASsMxc/2mnVU7j
+        pUvoft2tkI1gm6TtpVV16Ard9CweevBNvpMYqIleos42dDFi23wYZ8gslx4fyK2oBC9sQOzqgFosX
+        STUB7UudxPMxRJ8yVnRb6yJaSDOhjeoZPr3i/M8tLPIXryTVaj42PgmXRyGB3P5Wk1Ug30gRFuMe9
+        1MrYPpYOb1lEUzD+XC8/sKDgdrYNKFS+ij1sfSfn/uS+u//uHP3U4PSg+SSV05Ek5y6ejifOQXDTI
+        y/SwOkcw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94 #2 (Red Hat Linux))
+        id 1lYKXB-00D9dR-5t; Mon, 19 Apr 2021 03:25:18 +0000
+Date:   Mon, 19 Apr 2021 04:25:13 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Fox Chen <foxhlchen@gmail.com>
+Cc:     Neil Brown <neilb@suse.de>, Jonathan Corbet <corbet@lwn.net>,
+        vegard.nossum@oracle.com, Al Viro <viro@zeniv.linux.org.uk>,
+        rdunlap@infradead.org, grandmaster@al2klimov.de,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2 01/12] docs: path-lookup: update follow_managed() part
+Message-ID: <20210419032513.GW2531743@casper.infradead.org>
+References: <20210316054727.25655-1-foxhlchen@gmail.com>
+ <20210316054727.25655-2-foxhlchen@gmail.com>
+ <20210419021730.GV2531743@casper.infradead.org>
+ <CAC2o3D+kq+U9vSp_9DNM3UGA=UGhS84Y+mwm=9S6eMPpf2-ogQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210316054727.25655-1-foxhlchen@gmail.com> <20210316054727.25655-13-foxhlchen@gmail.com>
- <87mttv11bd.fsf@notabene.neil.brown.name>
-In-Reply-To: <87mttv11bd.fsf@notabene.neil.brown.name>
-From:   Fox Chen <foxhlchen@gmail.com>
-Date:   Mon, 19 Apr 2021 10:34:54 +0800
-Message-ID: <CAC2o3DJ6o6w9WO=QwsZjTG7TU+Jvr_My9Mxp+WR5y3EeTLmdDQ@mail.gmail.com>
-Subject: Re: [PATCH v2 12/12] docs: path-lookup: update symlink description
-To:     NeilBrown <neilb@suse.de>
-Cc:     Jonathan Corbet <corbet@lwn.net>, vegard.nossum@oracle.com,
-        Al Viro <viro@zeniv.linux.org.uk>, rdunlap@infradead.org,
-        grandmaster@al2klimov.de, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAC2o3D+kq+U9vSp_9DNM3UGA=UGhS84Y+mwm=9S6eMPpf2-ogQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-doc.vger.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 
-On Mon, Apr 19, 2021 at 9:59 AM NeilBrown <neilb@suse.de> wrote:
->
-> On Tue, Mar 16 2021, Fox Chen wrote:
->
-> > instead of lookup_real()/vfs_create(), i_op->lookup() and
-> > i_op->create() will be called directly.
+On Mon, Apr 19, 2021 at 10:33:00AM +0800, Fox Chen wrote:
+> On Mon, Apr 19, 2021 at 10:17 AM Matthew Wilcox <willy@infradead.org> wrote:
 > >
-> > update vfs_open() logic
+> > On Tue, Mar 16, 2021 at 01:47:16PM +0800, Fox Chen wrote:
+> > > -In the absence of symbolic links, ``walk_component()`` creates a new
+> > > +As the last step of ``walk_component()``, ``step_into()`` will be called either
 > >
-> > should_follow_link is merged into lookup_last() or open_last_lookup()
-> > which returns symlink name instead of an integer.
+> > You can drop ``..`` from around function named which are followed with
+> > ().  d74b0d31ddde ("Docs: An initial automarkup extension for sphinx")
+> > marks them up automatically.
 > >
-> > Signed-off-by: Fox Chen <foxhlchen@gmail.com>
-> > ---
-> >  Documentation/filesystems/path-lookup.rst | 13 ++++++-------
-> >  1 file changed, 6 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/filesystems/path-lookup.rst
-> > index eef6e9f68fba..adbc714740c2 100644
-> > --- a/Documentation/filesystems/path-lookup.rst
-> > +++ b/Documentation/filesystems/path-lookup.rst
-> > @@ -1202,16 +1202,15 @@ the code.
-> >     it.  If the file was found in the dcache, then ``vfs_open()`` is used for
-> >     this.  If not, then ``lookup_open()`` will either call ``atomic_open()`` (if
-> >     the filesystem provides it) to combine the final lookup with the open, or
-> > -   will perform the separate ``lookup_real()`` and ``vfs_create()`` steps
-> > +   will perform the separate ``i_op->lookup()`` and ``i_op->create()`` steps
-> >     directly.  In the later case the actual "open" of this newly found or
-> >     created file will be performed by ``vfs_open()``, just as if the name
-> >     were found in the dcache.
-> >
-> >  2. ``vfs_open()`` can fail with ``-EOPENSTALE`` if the cached information
-> > -   wasn't quite current enough.  Rather than restarting the lookup from
-> > -   the top with ``LOOKUP_REVAL`` set, ``lookup_open()`` is called instead,
-> > -   giving the filesystem a chance to resolve small inconsistencies.
-> > -   If that doesn't work, only then is the lookup restarted from the top.
-> > +   wasn't quite current enough.  If it's in RCU-walk -ECHILD will be returned
-> > +   otherwise will return -ESTALE.  When -ESTALE is returned, the caller may
->
-> "otherwise -ESTALE is returned".
-> If you don't like repeating "is returned", then maybe:
->   "... -ECHILD will be returned, otherwise the result is -ESTALE".
->
->
-> > +   retry with LOOKUP_REVAL flag set.
-> >
-> >  3. An open with O_CREAT **does** follow a symlink in the final component,
-> >     unlike other creation system calls (like ``mkdir``).  So the sequence::
-> > @@ -1221,8 +1220,8 @@ the code.
-> >
-> >     will create a file called ``/tmp/bar``.  This is not permitted if
-> >     ``O_EXCL`` is set but otherwise is handled for an O_CREAT open much
-> > -   like for a non-creating open: ``should_follow_link()`` returns ``1``, and
-> > -   so does ``do_last()`` so that ``trailing_symlink()`` gets called and the
-> > +   like for a non-creating open: ``lookup_last()`` or ``open_last_lookup()``
-> > +   returns a non ``Null`` value, and ``link_path_walk()`` gets called and the
->
-> "NULL", not "Null".
->
-> This those changes,
->  Reviewed-by: NeilBrown <neilb@suse.de>
->
-> Thanks for a lot of all these improvements!! and apologies for the delay
-> in the review.
+> 
+> Got it, thanks for letting me know. But I will still use them in this
+> patch series to keep consistency with the remaining parts of the
+> document.
 
-Thanks for the review, I will fix them and send the next version back.
+Well, you weren't.  For example:
 
++As the last step of ``walk_component()``, ``step_into()`` will be called either
++directly from walk_component() or from handle_dots().  It calls
++``handle_mount()``, to check and handle mount points, in which a new
 
-> Thanks,
-> NeilBrown
->
->
-> >     open process continues on the symlink that was found.
-> >
-> >  Updating the access time
-> > --
-> > 2.30.2
-
-
-thanks,
-fox
+Neither of the functions on the second line were using ``.
