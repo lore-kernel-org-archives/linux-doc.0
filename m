@@ -4,38 +4,38 @@ X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 X-Spam-Level: 
 X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	HEADER_FROM_DIFFERENT_DOMAINS,INCLUDES_CR_TRAILER,INCLUDES_PATCH,
-	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
-	autolearn_force=no version=3.4.0
+	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no
+	version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FE6CC433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:41:10 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7ACA1C433ED
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:47:43 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 3BE1761001
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:41:10 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 573906109F
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:47:43 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232155AbhDSBlh (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Apr 2021 21:41:37 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56946 "EHLO mx2.suse.de"
+        id S233117AbhDSBsL (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Apr 2021 21:48:11 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58452 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232013AbhDSBlg (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 18 Apr 2021 21:41:36 -0400
+        id S232013AbhDSBsK (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 18 Apr 2021 21:48:10 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 812E8AC87;
-        Mon, 19 Apr 2021 01:41:06 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id ED7E8AEFF;
+        Mon, 19 Apr 2021 01:47:40 +0000 (UTC)
 From:   NeilBrown <neilb@suse.de>
 To:     Fox Chen <foxhlchen@gmail.com>
-Date:   Mon, 19 Apr 2021 11:41:00 +1000
+Date:   Mon, 19 Apr 2021 11:47:34 +1000
 Cc:     Fox Chen <foxhlchen@gmail.com>, corbet@lwn.net,
         vegard.nossum@oracle.com, viro@zeniv.linux.org.uk,
         rdunlap@infradead.org, grandmaster@al2klimov.de,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2 09/12] docs: path-lookup: no get_link()
-In-Reply-To: <20210316054727.25655-10-foxhlchen@gmail.com>
+Subject: Re: [PATCH v2 10/12] docs: path-lookup: update WALK_GET, WALK_PUT desc
+In-Reply-To: <20210316054727.25655-11-foxhlchen@gmail.com>
 References: <20210316054727.25655-1-foxhlchen@gmail.com>
- <20210316054727.25655-10-foxhlchen@gmail.com>
-Message-ID: <87v98j126r.fsf@notabene.neil.brown.name>
+ <20210316054727.25655-11-foxhlchen@gmail.com>
+Message-ID: <87sg3n11vt.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -49,57 +49,67 @@ Content-Transfer-Encoding: quoted-printable
 
 On Tue, Mar 16 2021, Fox Chen wrote:
 
-> no get_link() anymore. we have step_into() and pick_link().
+> WALK_GET is changed to WALK_TRAILING with a different meaning.
+> Here it should be WALK_NOFOLLOW. WALK_PUT dosn't exist, we have
+> WALK_MORE.
 >
-> walk_component() will call step_into(), in turn call pick_link,
-> and return symlink name.
+> WALK_PUT =3D=3D !WALK_MORE
+>
+> And there is not should_follow_link().
+>
+> Related commits:
+> commit 8c4efe22e7c4 ("namei: invert the meaning of WALK_FOLLOW")
+> commit 1c4ff1a87e46 ("namei: invert WALK_PUT logics")
 >
 > Signed-off-by: Fox Chen <foxhlchen@gmail.com>
 > ---
->  Documentation/filesystems/path-lookup.rst | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
+>  Documentation/filesystems/path-lookup.rst | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
 >
 > diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/fi=
 lesystems/path-lookup.rst
-> index 8ab95dd9046e..0d41c61f7e4f 100644
+> index 0d41c61f7e4f..abd0153e2415 100644
 > --- a/Documentation/filesystems/path-lookup.rst
 > +++ b/Documentation/filesystems/path-lookup.rst
-> @@ -1103,12 +1103,10 @@ doesn't need to notice.  Getting this ``name`` va=
-riable on and off the
->  stack is very straightforward; pushing and popping the references is
->  a little more complex.
->=20=20
-> -When a symlink is found, ``walk_component()`` returns the value ``1``
-> -(``0`` is returned for any other sort of success, and a negative number
-> -is, as usual, an error indicator).  This causes ``get_link()`` to be
-> -called; it then gets the link from the filesystem.  Providing that
-> -operation is successful, the old path ``name`` is placed on the stack,
-> -and the new value is used as the ``name`` for a while.  When the end of
-> +When a symlink is found, ``walk_component()`` calls ``pick_link()``,
+> @@ -1123,13 +1123,11 @@ stack in ``walk_component()`` immediately when th=
+e symlink is found;
+>  old symlink as it walks that last component.  So it is quite
+>  convenient for ``walk_component()`` to release the old symlink and pop
+>  the references just before pushing the reference information for the
+> -new symlink.  It is guided in this by two flags; ``WALK_GET``, which
+> -gives it permission to follow a symlink if it finds one, and
+> -``WALK_PUT``, which tells it to release the current symlink after it has=
+ been
+> -followed.  ``WALK_PUT`` is tested first, leading to a call to
+> -``put_link()``.  ``WALK_GET`` is tested subsequently (by
+> -``should_follow_link()``) leading to a call to ``pick_link()`` which sets
+> -up the stack frame.
+> +new symlink.  It is guided in this by two flags; ``WALK_NOFOLLOW``, which
 
-walk_component() calls pick_link() via step_into()
-??
+There are 3 flags now.  You haven't documented WALK_TRAIlING.
 
-> +it then gets the link from the filesystem returning new path ``name``.
 
-"which returns the link from the filesystem."
+> +suggests whether to follow a symlink if it finds one, and
 
-With those changes (assuming you agree with them)
+I don't think it is a suggestion.
 
- Reviewed-by: NeilBrown <neilb@suse.de>
+.. which forbits it from following a symlink if it finds one, and
+WALK_MORE which indicates that it is yet too early to release the
+current symlink.
+
+> +``WALK_MORE``, which tells whether to release the current symlink after =
+it has
+> +been followed.  ``WALK_MORE`` is tested first, leading to a call to
+> +``put_link()``.
+
+I don't think that "tested first" sentence is relevant any more.
 
 Thanks,
 NeilBrown
 
-
-> +Providing that operation is successful, the old path ``name`` is placed =
-on the
-> +stack, and the new value is used as the ``name`` for a while.  When the =
-end of
->  the path is found (i.e. ``*name`` is ``'\0'``) the old ``name`` is resto=
-red
->  off the stack and path walking continues.
 >=20=20
+>  Symlinks with no final component
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 > --=20
 > 2.30.2
 
@@ -108,19 +118,19 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmB836wOHG5laWxiQHN1
-c2UuZGUACgkQOeye3VZigbkhlQ/+KEDT1Qg5sJP/HbvSh+uqKcRG74YFfZp64srx
-RGr3aAOIGIxL860sROvxmUl7QvYjNVnYBN6w4tEGIU4WEr7rpRAHGup3OQ11sH6D
-8PolYl8ZtdrOFz9x1KDH09xFHdBYlufOgWY8/7Mh+0v/Kw+yKDmwavXGxyUkmOmD
-nEQBAdfyYHeqKcm6eG0A2J2T+NYoSwcONBXycWk2+1qDSlr1A3iC+fTYPpH/lpWZ
-9zb/d5kMvBFozSXSsCnUEgNX3rxpEiISaLgpDv41e4/k/pk08weFR54i/F7aE6JJ
-JsAiLTjFPcsw9v2Zov0YUJIsH8yJAatZXvM5mxXI0gKas/FIIRyrxqYmBjdpzGKI
-8XadNQfeHwh+GmMqCuyRphd6hDsbYHgZbb+rEtIAslvn4cXGFHzOQt6tuosl52Nz
-UhVe64R1TQFU+nkqLK45W0eNTGn3Bd/SVHN4srmzOxb/RxAjM8UR78WFglI2AsbX
-YpkpRA+1V5yXVEHA7VOYXTz6rZgYhIVyO57mWoSCFIk8Oq9KGgOjUT+cNBr1Ncwa
-d4xSx9Rg223PEz3Jrz4pYGLa+0LQfkd6Xm/2TWgSH9bdJKLzHfk8GPHCg35L1Wg9
-2fMD1zRGRv+W0y+lv/sA8VHIufPne3mw7NV6b9VN9rtijt1sHizvZKY2YT5qZso0
-MRWiNRo=
-=qvPS
+iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmB84TYOHG5laWxiQHN1
+c2UuZGUACgkQOeye3VZigblJwg//XFPq5YDJo4/GIPlHyRw7y6SO7XK2UjDJNeYG
+VE5dYZvQgwJw5p1G/GYvMDwCAv7wVpayYfyfC0pImwhz30MUzdmjG9obioi3L03g
+aCqlxCKG/4Q7Vnh02r/8ehc4uC+eGPlM2nZA/CbxVQWE0hLML6J6Qu/F4kyczxP/
+9fTuBGDtMl4rrqjdnc+erUCwEw9syFY039MCBshkc2rla/7UpevLiyHNcVnaz/tr
+RnuaauFCm6asyPjf8a3iOSmkk96byMHDTFlxZSeNsBpzUHLVducZYng01kG5q0zG
+f4snDhqb2TZzYWO11ykPIZbBDD+HW/6ZfgJSKFiMDO23v5RysZ3v0JNV46gU84Wm
+m+7TnvSTMg3OyOXmswHWJauwbC3LxySF+/ay78iah41PfKk3XQIAAJBafJyJPziV
+VVJKxK4EdIUmbG4BmQFEar7aP20iYhvd1UVY845/km/bJrQkjTx/JllqeAATur/p
+xpzc4ZcX/DgK+Wv6eZN/GNjiPyvei//wgmasuHdKC01tH0TZS0lAdQdCOFe+MdhP
+7AVGsNT6EuSWNVDE4c9BawJvqMf3CETsUtKM9T3We2UtoQYRlaLiywziI84hpQmE
+tJzA20U5cHwGUdYWfF8fLKOpBoAaZaqcldI+u+Ge5XUSJpP801m3BDAlabVIqRKo
+upOEzWw=
+=B3Jb
 -----END PGP SIGNATURE-----
 --=-=-=--
