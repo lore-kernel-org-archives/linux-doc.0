@@ -7,36 +7,36 @@ X-Spam-Status: No, score=-13.8 required=3.0 tests=BAYES_00,
 	MAILING_LIST_MULTI,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham
 	autolearn_force=no version=3.4.0
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0BF3C433ED
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:22:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1A16C433B4
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:28:24 +0000 (UTC)
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.kernel.org (Postfix) with ESMTP id 866DA601FE
-	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:22:30 +0000 (UTC)
+	by mail.kernel.org (Postfix) with ESMTP id 6EBD860FEA
+	for <linux-doc@archiver.kernel.org>; Mon, 19 Apr 2021 01:28:24 +0000 (UTC)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235958AbhDSBW6 (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
-        Sun, 18 Apr 2021 21:22:58 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52870 "EHLO mx2.suse.de"
+        id S233104AbhDSB2v (ORCPT <rfc822;linux-doc@archiver.kernel.org>);
+        Sun, 18 Apr 2021 21:28:51 -0400
+Received: from mx2.suse.de ([195.135.220.15]:55420 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233117AbhDSBW6 (ORCPT <rfc822;linux-doc@vger.kernel.org>);
-        Sun, 18 Apr 2021 21:22:58 -0400
+        id S232133AbhDSB2u (ORCPT <rfc822;linux-doc@vger.kernel.org>);
+        Sun, 18 Apr 2021 21:28:50 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 7221BAC79;
-        Mon, 19 Apr 2021 01:22:28 +0000 (UTC)
+        by mx2.suse.de (Postfix) with ESMTP id 904FDAEFF;
+        Mon, 19 Apr 2021 01:28:20 +0000 (UTC)
 From:   NeilBrown <neilb@suse.de>
 To:     Fox Chen <foxhlchen@gmail.com>
-Date:   Mon, 19 Apr 2021 11:22:22 +1000
+Date:   Mon, 19 Apr 2021 11:28:14 +1000
 Cc:     Fox Chen <foxhlchen@gmail.com>, corbet@lwn.net,
         vegard.nossum@oracle.com, viro@zeniv.linux.org.uk,
         rdunlap@infradead.org, grandmaster@al2klimov.de,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
         gregkh@linuxfoundation.org
-Subject: Re: [PATCH v2 06/12] docs: path-lookup: Add macro name to symlink
- limit description
-In-Reply-To: <20210316054727.25655-7-foxhlchen@gmail.com>
+Subject: Re: [PATCH v2 07/12] docs: path-lookup: i_op->follow_link replaced
+ with i_op->get_link
+In-Reply-To: <20210316054727.25655-8-foxhlchen@gmail.com>
 References: <20210316054727.25655-1-foxhlchen@gmail.com>
- <20210316054727.25655-7-foxhlchen@gmail.com>
-Message-ID: <875z0j2hm9.fsf@notabene.neil.brown.name>
+ <20210316054727.25655-8-foxhlchen@gmail.com>
+Message-ID: <871rb72hch.fsf@notabene.neil.brown.name>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
         micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -50,38 +50,51 @@ Content-Transfer-Encoding: quoted-printable
 
 On Tue, Mar 16 2021, Fox Chen wrote:
 
-> Add macro name MAXSYMLINKS to the symlink limit description, so
-> that it is consistent with path name length description above.
+> follow_link has been replaced by get_link() which can be
+> called in RCU mode.
+>
+> see commit: commit 6b2553918d8b ("replace ->follow_link() with
+> new method that could stay in RCU mode")
 >
 > Signed-off-by: Fox Chen <foxhlchen@gmail.com>
 
-Reviewed-by: NeilBrown <neilb@suse.de>
+Reviewed-By: NeilBrown <neilb@suse.de>
 
 Thanks,
 NeilBrown
 
+
 > ---
->  Documentation/filesystems/path-lookup.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  Documentation/filesystems/path-lookup.rst | 12 +++++-------
+>  1 file changed, 5 insertions(+), 7 deletions(-)
 >
 > diff --git a/Documentation/filesystems/path-lookup.rst b/Documentation/fi=
 lesystems/path-lookup.rst
-> index 66697db74955..af5c20fecfef 100644
+> index af5c20fecfef..e6b6c43ff0f6 100644
 > --- a/Documentation/filesystems/path-lookup.rst
 > +++ b/Documentation/filesystems/path-lookup.rst
-> @@ -992,8 +992,8 @@ is 4096.  There are a number of reasons for this limi=
-t; not letting the
->  kernel spend too much time on just one path is one of them.  With
->  symbolic links you can effectively generate much longer paths so some
->  sort of limit is needed for the same reason.  Linux imposes a limit of
-> -at most 40 symlinks in any one path lookup.  It previously imposed a
-> -further limit of eight on the maximum depth of recursion, but that was
-> +at most 40 (MAXSYMLINKS) symlinks in any one path lookup.  It previously=
- imposed
-> +a further limit of eight on the maximum depth of recursion, but that was
->  raised to 40 when a separate stack was implemented, so there is now
->  just the one limit.
+> @@ -1060,13 +1060,11 @@ filesystem cannot successfully get a reference in=
+ RCU-walk mode, it
+>  must return ``-ECHILD`` and ``unlazy_walk()`` will be called to return to
+>  REF-walk mode in which the filesystem is allowed to sleep.
 >=20=20
+> -The place for all this to happen is the ``i_op->follow_link()`` inode
+> -method.  In the present mainline code this is never actually called in
+> -RCU-walk mode as the rewrite is not quite complete.  It is likely that
+> -in a future release this method will be passed an ``inode`` pointer when
+> -called in RCU-walk mode so it both (1) knows to be careful, and (2) has =
+the
+> -validated pointer.  Much like the ``i_op->permission()`` method we
+> -looked at previously, ``->follow_link()`` would need to be careful that
+> +The place for all this to happen is the ``i_op->get_link()`` inode
+> +method. This is called both in RCU-walk and REF-walk. In RCU-walk the
+> +``dentry*`` argument is NULL, ``->get_link()`` can return -ECHILD to dro=
+p out of
+> +RCU-walk.  Much like the ``i_op->permission()`` method we
+> +looked at previously, ``->get_link()`` would need to be careful that
+>  all the data structures it references are safe to be accessed while
+>  holding no counted reference, only the RCU lock.  Though getting a
+>  reference with ``->follow_link()`` is not yet done in RCU-walk mode, the
 > --=20
 > 2.30.2
 
@@ -90,19 +103,19 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmB8204OHG5laWxiQHN1
-c2UuZGUACgkQOeye3VZigbll0BAAxAkcuSwygyC2EySl49TyLBmXGhClYhXtIvG+
-eSaFOOJLsn4d0t/F+lfrTCDrMYdJFvtrONYqrhXuuAmqvRktHVVr6aT7ptGJhLRm
-wD4D7NhtbZc+sywj2ov53BgvMewqRJACR/4yIJn//HO7I/QoLvlnDAy/5LpvowPy
-0dZg1vId27wJ+iXoejR6c//4ebo2KwKDO5XFdHfmvfFuUnN2NVqo93FexquJSx1k
-DhMoem4xS9m9Q0neCeG9ne8/AxwGXBOJamKzo//YLBvIAGCnvN0KD0YJvq7EShm1
-DQBs5aRXGbpzBhuqnTFJ5c/ZegWZL8JZpil4CgKsLnrkCtxF6NLIbG6XLp7Mjezt
-56rfTuVawkQQbKX+HVNU6p7+J0BJJ1yVHkiaQdd6jhAvlGVwazl3b3iMj6q5+l6m
-SiCsdzH2beBrDB3gjd1j7SBnP7NxhW8+SZ9oty73XpjfiN5LnywJXb//mDRaOazy
-u6NGDSg4NnE9TzFnk+EQuMB9Qqfze7854YywyJU0XxJBBDb4DdbY0GcEuHOWvahp
-CrnpMmjmhwy/JB0G0US/tR4IXtlD+Y0frM+WuaL9NOnenI7MoP+XezGXRxoBuBDT
-11o4LIuZxLWwY/tPzBK+/UpUffsZBwlx2mMxsaBvsEaqBYDeS+hnWjUwc6UcOhGH
-0BSf04o=
-=u3T4
+iQJCBAEBCAAsFiEEG8Yp69OQ2HB7X0l6Oeye3VZigbkFAmB83K4OHG5laWxiQHN1
+c2UuZGUACgkQOeye3VZigbksiQ//XnE5L+ary/pEvObxJRRgjdGapcR/B9d+4A6U
+GQOrZ+ZGWVlSA3w1bopmuJyN1SFhoXNzTEo5nL2LaDisyymiVU9tfebfzdCAnuee
+IQa1GxW80h95c44BoAbdVaIdhf2Q9/XPnUNUIRxmOXB/NXSr+NRIo+0B2TTWtxdR
+He4bD4VoU6a0VO0OR0ZBpmrhX21KTo3m0sRiA3mjUZ4MR6qxEnrim9+YP7WH5p5W
+LsoHsQ+F5LAMA6cI6sXazCIhviVR6ebSmP9p6A+Ra1r05g+2fRtZafWnN1pZf8ok
+13dSoI+Sd0Ayv0eqeZ0Fg/OhEOb1z22TJaNYxD7z+m/5IW4TBhKnXGLv2pItuJZF
+sKyCrkuec3wuSXCm67qUheU30SCekvHSge/bY4FZKUAes5Z7+OiADJvvREm/J9as
+ykY+NDob/GOJWZryfwzHM88nc6du/J1U/b3HaItOJHvt6hoIqo0H5O+2MS8RaMM9
+xmmoquiyJ87uiiBZJKkAldrjPW9rgPPz+5rDhNFwvTPXA/TJqj/ntGQ0ZY1J2JdU
+LgmBLZRYOfD6zdBA9xot1Epua3qBC2gCpUJsmMjyvyVGZ9nLl3xqdDLAtphCvYE5
+xREZngB8qFS1NScGh0fyFhnRq+1kGXoxYWRZF14jDpHOVJULxnIPid6Aq4Dtd6BW
+RRscibg=
+=IY0x
 -----END PGP SIGNATURE-----
 --=-=-=--
